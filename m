@@ -1,54 +1,47 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F76A72
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 11:56:24 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id k8so4245175wrn.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 04:56:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0D72FAE
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 12:59:41 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id h9so31625292ejs.4
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 05:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0LDHqraIzKirlInTJIoYLrVEJlKeEnnboAcXd2DM5Mk=;
-        b=Wmd/GeQ+or/Of9GRotn0c+zCzNzddZ6F7OOLzoOmL+kkWsUGe0BBRkM87pklcrqE4n
-         WKIXldpqjyMd/m7ET/YYeLRtVTPIIJ/eNbn5+maOMmGna6Hb9bEEDvmwj+IHJwOWlF6G
-         7Qdepv6jh3sLAcBtj4KFQ58iziDtHeRie6/bjCy2AjwqiTvMV3Knir+CIMX0DLWNEMpC
-         HloHtRk/5t7Nu2VLZr4B3yzUFip4uobOJkVNnT5bRJ1nMuh9WaB0nba0ZtTntuqx4FvU
-         95RrNVlXVFivFncKXTIth9LH7h3WkVfQ0NvA0E7lBBsaowyaOcMOJckwisKj2lTsM88I
-         LWUQ==
+        bh=Y5uIXz2XwcikVYRQRK52KMA+VCLoXzka5XfwEtISp/M=;
+        b=GJ3L2NH27/dAvkZV6A5+K504tWxrUGqV5s7zAnFXMZjVUO0FDrUnUf3LCxnRWFUd/n
+         DhB9xWZKlU6fcaF48eIFxUM5AKeBMug339+Wn7FmshdLI0S5iKsaj1tutyYrAutaBYTc
+         J7t74Ji7f/81u3DkVckf0J0EJU5zUjYVxakzO43BEzAE3sBmnyUk21WDnliEQVytacwo
+         +l6Ig8L6EwpO1709Zzigmwv7RQ8GcX1eYf1EzsdZY/RnbkzFFzCsS+dTxmTmTy32bFla
+         JsJDbUtlSRVOcXYdVY9AUZvTl84VQixATzugsa4QTJK/0K7hqoBazQxavwfDUCHuSrtC
+         v99A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0LDHqraIzKirlInTJIoYLrVEJlKeEnnboAcXd2DM5Mk=;
-        b=uNdG6uPrgPISSmOxmPZPstmKITi8jkoENcPLoytUIJ6tmDEH9HkTb75WemAdbhB3QV
-         mXNViQxtK3WAgzJwHlJsXWCd0sutEk5Vsm8GV7Zm+Kp4g9UKWtRlvycJ9RbG3c+QUNCu
-         RLWQcXFVsJZsqiTAhg2vTfneriarU97UlPKzBjWvDsJmHtm6vWkpm3Ih02gvcFMmywLE
-         VYzh/liKuYYAUdsBUAURinlp2oe1x6IRtKV6DC0cnBRFmtov9o9CHfSbwYU8D5M8/naa
-         amvenX+jTnggYlXeB8xW13MU+oh/yLqe0JeAZIY4Rl1GoIJiIVGpoHPodpJR5y/ePgsH
-         51ng==
-X-Gm-Message-State: AOAM532nrtf4QIvT/VOm83JuePD+kHEzYQckaK3tahbUL4kzkZ1qYZUS
-	qk1pkuVptZPBTXZYTrASCFU=
-X-Google-Smtp-Source: ABdhPJzUTX/0J/uYBt0TOUWJ9RKMBfqvDFf/RjLt/VMyKzppiasp2pkKnJs+Qtywbv08EZ0zaxIINQ==
-X-Received: by 2002:adf:e28a:: with SMTP id v10mr17580163wri.289.1629114983152;
-        Mon, 16 Aug 2021 04:56:23 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id i8sm8397107wrv.70.2021.08.16.04.56.21
+        bh=Y5uIXz2XwcikVYRQRK52KMA+VCLoXzka5XfwEtISp/M=;
+        b=Je5hEzqOKV2Xkq4W7TlMdEn6zWp13o6d6SaAN942cbvuwARwyjPHM113YgchDCVsu0
+         oGhyiB8u5Xecwo5T8+9AHshPRvMBdlbM5mJDhBfZGwxT6pT2mfRHEpzfQS/rxIHLw9b7
+         Cd/8R7qDLBBQAbaRYvS0ykVmtnf824Fpx96BkbHTbU3QljuyizBYP6y/WQWn/ub61zER
+         zbbc3Oki1bH0rzLQdwJDjnOAhG30mfr89wVaGFN5kjJXu2rJiLGz03fGms1zDahsQDkI
+         CT7I0vUKhYWpJUxy6UvjbRBO0dkFI26Bwl4ndjsw39Xml2La+T6Yq9BlwAmOk6iXcFZX
+         ZpEw==
+X-Gm-Message-State: AOAM530zuwdtZfzVm9tT1zDJQqamQNieyUCmQdpcXsz8jDaLWRcZkLzM
+	TSWpAA4br7JfeyliP1VM6+M=
+X-Google-Smtp-Source: ABdhPJyi4cfLr8DIlO5bhLbKfRk8kxFUUe5CZbOmV6p/pFSTv0v8Klbhj4Bylf3qfAPOJrGKUFqA6g==
+X-Received: by 2002:a17:906:6847:: with SMTP id a7mr7525988ejs.288.1629118779976;
+        Mon, 16 Aug 2021 05:59:39 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id l16sm3682542eje.67.2021.08.16.05.59.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 04:56:22 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 4/4] staging: r8188eu: convert rtw_is_cckratesonly_included() to bool
-Date: Mon, 16 Aug 2021 13:54:30 +0200
-Message-Id: <20210816115430.28264-4-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        Mon, 16 Aug 2021 05:59:39 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: gregkh@linuxfoundation.org, Michael Straube <straube.linux@gmail.com>, Joe Perches <joe@perches.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] staging: r8188eu: refactor rtw_is_cckrates_included()
+Date: Mon, 16 Aug 2021 14:59:37 +0200
+Message-ID: <22319347.s0ZA6q4zN9@localhost.localdomain>
 In-Reply-To: <20210816115430.28264-1-straube.linux@gmail.com>
 References: <20210816115430.28264-1-straube.linux@gmail.com>
 Precedence: bulk
@@ -57,47 +50,66 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Function rtw_is_cckratesonly_included() returns boolean values.
-Change the return type to bool to reflect this.
+On Monday, August 16, 2021 1:54:27 PM CEST Michael Straube wrote:
+> Refactor function rtw_is_cckrates_included(). Improves readability
+> and slightly reduces object file size.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+> v1 -> v2
+> Refactored to more compact code as suggested by Joe Perches.
+> 
+>  drivers/staging/r8188eu/core/rtw_ieee80211.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-v1 -> v2
-Rewritten to apply with v2 of patch 3/4.
+Thanks for redoing the series as suggested by Joe Perches.
+This is a perfect case where conciseness and readability don't clash and 
+instead the former enhances the latter. 
 
- drivers/staging/r8188eu/core/rtw_ieee80211.c | 2 +-
- drivers/staging/r8188eu/include/ieee80211.h  | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+Nice work, although you chose to not take Joe's suggestion about making a 
+helper inline function. That would have been perfect, but I think it is a 
+minor issue. So...
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-index b1427e70cdf7..a91c8d52a123 100644
---- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
-+++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-@@ -80,7 +80,7 @@ bool rtw_is_cckrates_included(u8 *rate)
- 	return false;
- }
- 
--uint	rtw_is_cckratesonly_included(u8 *rate)
-+bool rtw_is_cckratesonly_included(u8 *rate)
- {
- 	u8 r;
- 
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index cbefd7af1d4f..1205d13171b2 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -1207,8 +1207,7 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv);
- int rtw_get_bit_value_from_ieee_value(u8 val);
- 
- bool rtw_is_cckrates_included(u8 *rate);
--
--uint	rtw_is_cckratesonly_included(u8 *rate);
-+bool rtw_is_cckratesonly_included(u8 *rate);
- 
- int rtw_check_network_type(unsigned char *rate, int ratelen, int channel);
- 
--- 
-2.32.0
+Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+Regards,
+
+Fabio
+
+P.S.: If I were you, I'd have provided a cover letter that would have helped 
+the readers to immediately understand the purpose of the entire series. I'm 
+not sure whether or not the above-mentioned cover is a strict requirement.
+
+> diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c
+> b/drivers/staging/r8188eu/core/rtw_ieee80211.c index 0c7231cefdda..
+964255a8c778 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+> @@ -70,14 +70,13 @@ int rtw_get_bit_value_from_ieee_value(u8 val)
+> 
+>  uint	rtw_is_cckrates_included(u8 *rate)
+>  {
+> -	u32	i = 0;
+> +	u8 r;
+> 
+> -	while (rate[i] != 0) {
+> -		if  ((((rate[i]) & 0x7f) == 2) || (((rate[i]) & 0x7f) 
+== 4) ||
+> -		     (((rate[i]) & 0x7f) == 11)  || (((rate[i]) & 0x7f) 
+== 22))
+> +	while ((r = *rate++ & 0x7f)) {
+> +		if (r == 2 || r == 4 || r == 11 || r == 22)
+>  			return true;
+> -		i++;
+>  	}
+> +
+>  	return false;
+>  }
+
+
+
 
