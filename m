@@ -1,81 +1,95 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F6872
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 20:09:37 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id bo19so28199480edb.9
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 13:09:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AB92FAD
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 20:56:10 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id by4so28533948edb.0
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 13:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eoqcCHvcgFjYOwCf/rRzWn/RIeAjZ2LdPjbgucACr2k=;
-        b=l4fkPsSkbvhdAWPUaxEovtAuFsvKk8qqwIS1BRiysxH1Bj0yc9D+pNJNd4f8rRDSJL
-         rIJ5RAlV1mw90U3WVwRBIGDDXz4Z7DGZQyTZzXGPw6gjrjlJQLAvnLRMMYRXSd9o+3mw
-         1lA5USWdCSvMZcaGxALf5/tfOpY22LtECnpTQ4xMI1fApK6DGjD0nVMVXlnvoo0ea1pe
-         ARRu+qfg6F8ZUZvKVYl/MPdl3Jp00KzirpORqJ7ZUM+sBXEiaCRAY2BqDjGZ6PrVW37d
-         SROq16Wrn/bCQa8R2GfbSI+l2ipJ0hEK+RUJBLW/lenEhAP77eA9FxoEaEOx09H+0Q+Y
-         MjHA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aoItqzXOHntzCchNL5rIsd8p+kh/W+iiqjyy5NjMfJA=;
+        b=EDES33c8tZEwiq4s1gNTxOvGc9nSuJ0NdqPO+To/3fG5YOY+tbFJk0cnXg+H+FIYa5
+         cdlu0+TIVwFf7sRo1EuoBxZVyowE3w0mGKWTfOWq54OBwuBCm2reiaCP91C9i5ODVqbE
+         /L2dzhYDsknei+rjPa7kjDxZ08e9Zg6zeMrBM4VWNG9AenXwd42rpzk3bXpQ2GY2oJKF
+         BaUeNLXgXzDU07YlFGkwebzeZOfRrEKsSHY16SKgroPCPNoT5e2PgK/0gVk1Oz+L4xhw
+         sjK3uwydl4OWx/Gm8ur30s1qiRBarWJuignFTiH1m7scsubNtRcLsE2rkp93ATpKytyx
+         l1nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eoqcCHvcgFjYOwCf/rRzWn/RIeAjZ2LdPjbgucACr2k=;
-        b=qdx1we9Y/DdnoFbgUcIH7uw7aapRs2X304gAEFKzIFguBotGuYsSCnjEUJ4hN4UfJD
-         47kn4fMdInnTEGsPp6f20FCsovJoX/GygjTnAyzc6WowM37LD9bikdmIq6j92G4Lq/0D
-         2ncJjQkMWb0jkMFrbkWauKSScmLtHcihNJDZmQynMdOzqbjDg12BT4mH4woyjtNpqnpT
-         3PAF3vE7Y3afnCP0SzlqDmNRP7TReSBOhS7PzkU+gDO6v/pT1SkI47TYZ5QP/GdOMdao
-         7eSbuhcrvwNWRnCo61LMH6eLWQrJOqv1cpocuNjnn7sFiJtFK6TKKNMy9PERJ3HtI3pj
-         2TtA==
-X-Gm-Message-State: AOAM531WGdDAVFMmp43YxXA2iG45ZVXLzQuydJk5KXRMdJr4hs3RAzte
-	JvbyECx8tYH3Sd3KsncfDXg=
-X-Google-Smtp-Source: ABdhPJyi0eg88s7YYQlUZB20e5s7OeQLsiLpWO9toBIT/tHKeoGWYR1pxwxb6+4WmWIbjZah7n1Mbw==
-X-Received: by 2002:a50:ef11:: with SMTP id m17mr330830eds.233.1629144575808;
-        Mon, 16 Aug 2021 13:09:35 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
-        by smtp.gmail.com with ESMTPSA id i6sm90106ejd.57.2021.08.16.13.09.34
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aoItqzXOHntzCchNL5rIsd8p+kh/W+iiqjyy5NjMfJA=;
+        b=KWpxSGOvhvuH+9JqFJMFQ3f21UkQ23EhgLLajYnWS1cAWiDGncYMIy34TVBXQ3cIdh
+         Pc54RZ6LRNdjo90imDCGzhsyt7bGflk3YmV42kQso8gzbwRJvRBvfFIMS7p/U5h11zxU
+         2AnOv2j+dPAkE1X3km86rkMZOPC9Bl6xS9Onz1vu1dvq2fYYoUwKyWFsgIinLXlBvPbj
+         ysdXm971c4cf04sQazIfKo/vDMpEqnD3ZxdsNERkK/lBFy6/pVk9ZrgIhOXTaM1TPhzs
+         OVYgIcoKJ7PYjIzAzYC85/pXWVMQr08zq4cLDID8tgDNzrJCnuz469ZICtQtEXInmJTZ
+         A80Q==
+X-Gm-Message-State: AOAM533cxkHiNLG00sNfTVOzgaWsoV+b8/J3YAonhXV92DxvzOMyhSNT
+	G3kX2WlxyfHyGsRlM+nHdaU=
+X-Google-Smtp-Source: ABdhPJzLWZa4CwGbYcc5OdSJcBncxavfel7BKlS+3cFTg+uXp3T/t4bwe+UX3FYUM1fyP+vFy3VVWw==
+X-Received: by 2002:aa7:db47:: with SMTP id n7mr71967edt.15.1629147369305;
+        Mon, 16 Aug 2021 13:56:09 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
+        by smtp.gmail.com with ESMTPSA id ck17sm36967edb.88.2021.08.16.13.56.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 13:09:35 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org, Michael Straube <straube.linux@gmail.com>, Joe Perches <joe@perches.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: refactor rtw_is_cckrates{only}_included()
-Date: Mon, 16 Aug 2021 22:09:33 +0200
-Message-ID: <1730270.0mlKN7IZV0@localhost.localdomain>
-In-Reply-To: <20210816193125.15700-1-straube.linux@gmail.com>
-References: <20210816193125.15700-1-straube.linux@gmail.com>
+        Mon, 16 Aug 2021 13:56:09 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: clean up spacing style issues in hal dir
+Date: Mon, 16 Aug 2021 22:55:08 +0200
+Message-Id: <20210816205511.20068-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Monday, August 16, 2021 9:31:25 PM CEST Michael Straube wrote:
-> Refactor functions rtw_is_cckrates_included() and
-> rtw_is_cckratesonly_included(). Add new helper function rtw_is_cckrate()
-> that allows to make the code more compact. Improves readability and
-> slightly reduces object file size. Change the return type to bool to
-> reflect that the functions return boolean values.
-> 
-> Suggested-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_ieee80211.c | 27 +++++++++++---------
->  drivers/staging/r8188eu/include/ieee80211.h  |  5 ++--
->  2 files changed, 17 insertions(+), 15 deletions(-)
+This series cleans up coding style issues in the hal directory
+reported by checkpatch --types SPACING.
 
-Now that you took into account also the second of the two suggestions by Joe 
-Perches (with a further enhancement he added later), I think that this is 
-really a good work. Since the first series is gone, here it is a new...
+Michael Straube (3):
+  staging: r8188eu: clean up spacing style issues in hal dir, part 1
+  staging: r8188eu: clean up spacing style issues in hal dir, part 2
+  staging: r8188eu: clean up spacing style issues in hal dir, part 3
 
-Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+ .../r8188eu/hal/Hal8188ERateAdaptive.c        |  48 ++--
+ .../staging/r8188eu/hal/HalHWImg8188E_BB.c    |  22 +-
+ .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |   6 +-
+ .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |   6 +-
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 138 +++++-----
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   2 +-
+ drivers/staging/r8188eu/hal/hal_com.c         |  36 +--
+ drivers/staging/r8188eu/hal/hal_intf.c        |   4 +-
+ drivers/staging/r8188eu/hal/odm.c             | 114 ++++-----
+ drivers/staging/r8188eu/hal/odm_HWConfig.c    |  84 +++----
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    |  70 +++---
+ .../staging/r8188eu/hal/odm_RegConfig8188E.c  |   8 +-
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  74 +++---
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 238 +++++++++---------
+ drivers/staging/r8188eu/hal/rtl8188e_mp.c     |  40 +--
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  60 ++---
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  66 ++---
+ drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |   2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  10 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |   2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  36 +--
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 162 ++++++------
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  20 +-
+ 23 files changed, 624 insertions(+), 624 deletions(-)
 
-Thanks,
-
-Fabio
-
-
+-- 
+2.32.0
 
