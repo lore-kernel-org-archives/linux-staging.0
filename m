@@ -1,39 +1,39 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05786D17
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 15:59:46 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id k4so11880395wms.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 08:59:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400996D17
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 15:59:48 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id u15so11883996wmj.1
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 08:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=iI9Of+nrqdFYRQxURrSca1NN7aev7XNUSsZZAhcpiA4=;
-        b=YJBkHvdyYcxV3bzbXTrDm2Na56juDdxf2MWdiTimb8hidhVxvWnr/635fRkmViiKF5
-         Z5xks7EV7N035hDXmX5wkXadHXb2cLArIsKRpxzaZ7mfYNjBf6BymavPvaejxylRB38D
-         UJFpLTcV8cPesPuGIMxNH0AQSZ8zwuIG6NC/GqZ2q59QC77sZwiA9NqoONA8wAxXOCU1
-         EmHcVU5E5lMwp2KMK5zQkmdw9FOhIqrVuIdKLeQphG4yDd5essH9JzULqLtVAqGHhpWH
-         Bk3wp+ZQOsvkyMNIKLHENPzHnucEXC3mDHX9iJOs+diG3gHE3fhwm5qZk5wcKkL2SuSt
-         e6WQ==
+        bh=oaDoZ9cd4wKyWA5vDeDwaFSYNxtnkQxllG5bYdjWghU=;
+        b=AsneMQsGmHDfLAmNdQZQnmMVitPkodXnBRlll2SrjwZMaXaCYcAiwGCO9U7xwHloCs
+         TEhBAslFZKnvF2sExqgXgFybvpxty8Yt8bmJGmMnvNM63kp+WYDKUNyBc/egfGwkSpFu
+         Bh3e09JsKMcYdPEPlCuNHlyLAOUKKpeZQO4Ds0ozgmBQKIPFA2YNKYmAfVSsHqTGKAQo
+         nhWyjGUa+gWSrIEUA2Cb79hkjpWmyrFt1kgBf+HBd8p+P8guy2L1ULg7Xsemf1CNY3Gg
+         ZUcqEwdH6P/4YjOU5mwI6jcq5UYhYUs0e+dfWaKXrDV4wqMHpmPf9hdWEp3u8+I9LPdp
+         nbUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iI9Of+nrqdFYRQxURrSca1NN7aev7XNUSsZZAhcpiA4=;
-        b=WkjwzmZnzG975yhNxvnBWcyk2llBas+Y4VAwj1JmLHvt1L+5puMpQVO2zY8lzLSwet
-         vhHJplU9PIpb1uJjCh4q4T2sLkQb+oiFXWHLSuc5oiwWAbtDtJJrM9WwEpedo8yYYOkP
-         0ijmijTl9bg3hTfpRqOyl/qUsYy2h6USgl3yuFwdUAsiTKz4avY/Z34RWAndz25eJ55n
-         ClxCYmwGLfslqrbwNuX3b82IEh1YaiVrws+ZibJ7Zlfz//FkMD98/30OSkCJuEPTxHYE
-         /VrPl6iJX1yK8SZbRCqOrI6fRDgDgQnJ6Lje4clZmpIQ5mYVgTHJyRNlVE2k9bCOYsmO
-         DWLA==
-X-Gm-Message-State: AOAM5305FXrYBUdcNpoh1HnjlaQuSQA+nPy12Yy/MX4JB/d8vOcybvU6
-	Lk3G4ZClanK0LJxwrokb9Hs=
-X-Google-Smtp-Source: ABdhPJx5iu/aYOqIl46Y9AEknTmkEyK0TxSRKNAxIppWK05pLN67xn3clwkJxGvkQY28qL9lQupw/Q==
-X-Received: by 2002:a1c:a743:: with SMTP id q64mr15752423wme.74.1629129585362;
-        Mon, 16 Aug 2021 08:59:45 -0700 (PDT)
+        bh=oaDoZ9cd4wKyWA5vDeDwaFSYNxtnkQxllG5bYdjWghU=;
+        b=MuofS08J9FIJ+X+QMqB6iHc+vX8ZRS40g3IYAwOhtoJ0JlIVwD2b59WHQRdEZ2nP/C
+         gRN8p9JcQnv0NlL16etnS8z7ErrD8+DLW4ACklZkig+t3zRQD5A3vxNh5fyFUQj10adH
+         /EdAR6rhTEu1RtoMOTzCvrJrw8WWisItwOL9xrubAm6qN+mBzn1ZsYFG4BV/fGz2z+2Q
+         5OwXu3wwOD3LNNyQYlzkP9rZsUK+7jfa09Ky9z8wBcakMzet60handykFd5s/ht+EJBM
+         ksGLz7JRU/R9wu4hEJsiu/8UDrG9l0oLUE44VeL2MthwSjBVpr0EKfPF/21BO8ZJjJhB
+         hmKw==
+X-Gm-Message-State: AOAM533mEqzNjA/bqGctXij6IzuvTNVOoJ0Y/p7uWuahQ2PjLLTFuiMn
+	6/2BV4Ux67T2kPvl05lTCTM=
+X-Google-Smtp-Source: ABdhPJyah9bWWxQlTez9zW0AGwpL++GMW2sgv/jRkL3j5QGYfl9SuSimUeFlEdkh8/NpAC8JrGUN1A==
+X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr16077324wmk.51.1629129586277;
+        Mon, 16 Aug 2021 08:59:46 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id a77sm11589597wmd.31.2021.08.16.08.59.44
+        by smtp.gmail.com with ESMTPSA id a77sm11589597wmd.31.2021.08.16.08.59.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 16 Aug 2021 08:59:45 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 22/23] staging: r8188eu: clean up spacing style issues in core/rtw_sta_mgt.c
-Date: Mon, 16 Aug 2021 17:58:17 +0200
-Message-Id: <20210816155818.24005-23-straube.linux@gmail.com>
+Subject: [PATCH 23/23] staging: r8188eu: add spaces around operators in core/rtw_br_ext.c
+Date: Mon, 16 Aug 2021 17:58:18 +0200
+Message-Id: <20210816155818.24005-24-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210816155818.24005-1-straube.linux@gmail.com>
 References: <20210816155818.24005-1-straube.linux@gmail.com>
@@ -59,49 +59,345 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clean up spacing style issues in core/rtw_sta_mgt.c reported by
-checkpatch.
-
-WARNING: space prohibited between function name and open parenthesis '('
-CHECK: spaces preferred around that '/' (ctx:VxV)
-WARNING: space prohibited before semicolon
+Add missing spaces around operators in core/rtw_br_ext.c reported by
+chackpatch.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_sta_mgt.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 104 +++++++++++-----------
+ 1 file changed, 52 insertions(+), 52 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-index b4568ec1c48a..9628d095a487 100644
---- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-@@ -13,7 +13,7 @@
- static void _rtw_init_stainfo(struct sta_info *psta)
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index 8be025992270..dffcad42a0d6 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -89,19 +89,19 @@ static int skb_pull_and_merge(struct sk_buff *skb, unsigned char *src, int len)
+ 	int tail_len;
+ 	unsigned long end, tail;
+ 
+-	if ((src+len) > skb_tail_pointer(skb) || skb->len < len)
++	if ((src + len) > skb_tail_pointer(skb) || skb->len < len)
+ 		return -1;
+ 
+ 	tail = (unsigned long)skb_tail_pointer(skb);
+-	end = (unsigned long)src+len;
++	end = (unsigned long)src + len;
+ 	if (tail < end)
+ 		return -1;
+ 
+-	tail_len = (int)(tail-end);
++	tail_len = (int)(tail - end);
+ 	if (tail_len > 0)
+-		memmove(src, src+len, tail_len);
++		memmove(src, src + len, tail_len);
+ 
+-	skb_trim(skb, skb->len-len);
++	skb_trim(skb, skb->len - len);
+ 	return 0;
+ }
+ 
+@@ -109,7 +109,7 @@ static unsigned long __nat25_timeout(struct adapter *priv)
  {
+ 	unsigned long timeout;
  
--	memset((u8 *)psta, 0, sizeof (struct sta_info));
-+	memset((u8 *)psta, 0, sizeof(struct sta_info));
+-	timeout = jiffies - NAT25_AGEING_TIME*HZ;
++	timeout = jiffies - NAT25_AGEING_TIME * HZ;
  
- 	spin_lock_init(&psta->lock);
- 	INIT_LIST_HEAD(&psta->list);
-@@ -111,7 +111,7 @@ u32	_rtw_init_sta_priv(struct	sta_priv *pstapriv)
+ 	return timeout;
+ }
+@@ -129,7 +129,7 @@ static void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr,
+ 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
  
- inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
+ 	networkAddr[0] = NAT25_IPV4;
+-	memcpy(networkAddr+7, (unsigned char *)ipAddr, 4);
++	memcpy(networkAddr + 7, (unsigned char *)ipAddr, 4);
+ }
+ 
+ static void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
+@@ -138,8 +138,8 @@ static void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
+ 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+ 
+ 	networkAddr[0] = NAT25_PPPOE;
+-	memcpy(networkAddr+1, (unsigned char *)sid, 2);
+-	memcpy(networkAddr+3, (unsigned char *)ac_mac, 6);
++	memcpy(networkAddr + 1, (unsigned char *)sid, 2);
++	memcpy(networkAddr + 3, (unsigned char *)ac_mac, 6);
+ }
+ 
+ static  void __nat25_generate_ipv6_network_addr(unsigned char *networkAddr,
+@@ -148,17 +148,17 @@ static  void __nat25_generate_ipv6_network_addr(unsigned char *networkAddr,
+ 	memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+ 
+ 	networkAddr[0] = NAT25_IPV6;
+-	memcpy(networkAddr+1, (unsigned char *)ipAddr, 16);
++	memcpy(networkAddr + 1, (unsigned char *)ipAddr, 16);
+ }
+ 
+ static unsigned char *scan_tlv(unsigned char *data, int len, unsigned char tag, unsigned char len8b)
  {
--	int offset = (((u8 *)sta) - stapriv->pstainfo_buf)/sizeof(struct sta_info);
-+	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
+ 	while (len > 0) {
+-		if (*data == tag && *(data+1) == len8b && len >= len8b*8)
+-			return data+2;
++		if (*data == tag && *(data + 1) == len8b && len >= len8b * 8)
++			return data + 2;
  
- 	if (!stainfo_offset_valid(offset))
- 		DBG_88E("%s invalid offset(%d), out of range!!!", __func__, offset);
-@@ -196,7 +196,7 @@ struct	sta_info *rtw_alloc_stainfo(struct sta_priv *pstapriv, u8 *hwaddr)
+-		len -= (*(data+1))*8;
+-		data += (*(data+1))*8;
++		len -= (*(data + 1)) * 8;
++		data += (*(data + 1)) * 8;
+ 	}
+ 	return NULL;
+ }
+@@ -170,7 +170,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
  
- 		list_add_tail(&psta->hash_list, phash_list);
+ 	if (icmphdr->icmp6_type == NDISC_ROUTER_SOLICITATION) {
+ 		if (len >= 8) {
+-			mac = scan_tlv(&data[8], len-8, 1, 1);
++			mac = scan_tlv(&data[8], len - 8, 1, 1);
+ 			if (mac) {
+ 				_DEBUG_INFO("Router Solicitation, replace MAC From: %02x:%02x:%02x:%02x:%02x:%02x, To: %02x:%02x:%02x:%02x:%02x:%02x\n",
+ 					mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+@@ -181,7 +181,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
+ 		}
+ 	} else if (icmphdr->icmp6_type == NDISC_ROUTER_ADVERTISEMENT) {
+ 		if (len >= 16) {
+-			mac = scan_tlv(&data[16], len-16, 1, 1);
++			mac = scan_tlv(&data[16], len - 16, 1, 1);
+ 			if (mac) {
+ 				_DEBUG_INFO("Router Advertisement, replace MAC From: %02x:%02x:%02x:%02x:%02x:%02x, To: %02x:%02x:%02x:%02x:%02x:%02x\n",
+ 					mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+@@ -192,7 +192,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
+ 		}
+ 	} else if (icmphdr->icmp6_type == NDISC_NEIGHBOUR_SOLICITATION) {
+ 		if (len >= 24) {
+-			mac = scan_tlv(&data[24], len-24, 1, 1);
++			mac = scan_tlv(&data[24], len - 24, 1, 1);
+ 			if (mac) {
+ 				_DEBUG_INFO("Neighbor Solicitation, replace MAC From: %02x:%02x:%02x:%02x:%02x:%02x, To: %02x:%02x:%02x:%02x:%02x:%02x\n",
+ 					mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+@@ -203,7 +203,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
+ 		}
+ 	} else if (icmphdr->icmp6_type == NDISC_NEIGHBOUR_ADVERTISEMENT) {
+ 		if (len >= 24) {
+-			mac = scan_tlv(&data[24], len-24, 2, 1);
++			mac = scan_tlv(&data[24], len - 24, 2, 1);
+ 			if (mac) {
+ 				_DEBUG_INFO("Neighbor Advertisement, replace MAC From: %02x:%02x:%02x:%02x:%02x:%02x, To: %02x:%02x:%02x:%02x:%02x:%02x\n",
+ 					mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+@@ -214,7 +214,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
+ 		}
+ 	} else if (icmphdr->icmp6_type == NDISC_REDIRECT) {
+ 		if (len >= 40) {
+-			mac = scan_tlv(&data[40], len-40, 2, 1);
++			mac = scan_tlv(&data[40], len - 40, 2, 1);
+ 			if (mac) {
+ 				_DEBUG_INFO("Redirect,  replace MAC From: %02x:%02x:%02x:%02x:%02x:%02x, To: %02x:%02x:%02x:%02x:%02x:%02x\n",
+ 					mac[0], mac[1], mac[2], mac[3], mac[4], mac[5],
+@@ -463,7 +463,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 	if (protocol == ETH_P_IP) {
+ 		struct iphdr *iph = (struct iphdr *)(skb->data + ETH_HLEN);
  
--		pstapriv->asoc_sta_count++ ;
-+		pstapriv->asoc_sta_count++;
+-		if (((unsigned char *)(iph) + (iph->ihl<<2)) >= (skb->data + ETH_HLEN + skb->len)) {
++		if (((unsigned char *)(iph) + (iph->ihl << 2)) >= (skb->data + ETH_HLEN + skb->len)) {
+ 			DEBUG_WARN("NAT25: malformed IP packet !\n");
+ 			return -1;
+ 		}
+@@ -480,7 +480,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 			DEBUG_INFO("NAT25: Insert IP, SA =%08x, DA =%08x\n", tmp, iph->daddr);
+ 			__nat25_generate_ipv4_network_addr(networkAddr, &tmp);
+ 			/* record source IP address and , source mac address into db */
+-			__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
++			__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
  
- 		spin_unlock_bh(&pstapriv->sta_hash_lock);
+ 			__nat25_db_print(priv);
+ 			return 0;
+@@ -497,7 +497,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 				} else {
+ 					/*  forward unknow IP packet to upper TCP/IP */
+ 					DEBUG_INFO("NAT25: Replace DA with BR's MAC\n");
+-					if ((*(u32 *)priv->br_mac) == 0 && (*(u16 *)(priv->br_mac+4)) == 0) {
++					if ((*(u32 *)priv->br_mac) == 0 && (*(u16 *)(priv->br_mac + 4)) == 0) {
+ 						printk("Re-init netdev_br_init() due to br_mac == 0!\n");
+ 						netdev_br_init(priv->pnetdev);
+ 					}
+@@ -533,7 +533,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 			arp_ptr += arp->ar_hln;
+ 			sender = (unsigned int *)arp_ptr;
+ 			__nat25_generate_ipv4_network_addr(networkAddr, sender);
+-			__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
++			__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
+ 			__nat25_db_print(priv);
+ 			return 0;
+ 		case NAT25_LOOKUP:
+@@ -578,28 +578,28 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 						pOldTag = (struct pppoe_tag *)__nat25_find_pppoe_tag(ph, ntohs(PTT_RELAY_SID));
+ 						if (pOldTag) { /*  if SID existed, copy old value and delete it */
+ 							old_tag_len = ntohs(pOldTag->tag_len);
+-							if (old_tag_len+TAG_HDR_LEN+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN > sizeof(tag_buf)) {
++							if (old_tag_len + TAG_HDR_LEN + MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN > sizeof(tag_buf)) {
+ 								DEBUG_ERR("SID tag length too long!\n");
+ 								return -1;
+ 							}
  
+-							memcpy(tag->tag_data+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN,
++							memcpy(tag->tag_data + MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN,
+ 								pOldTag->tag_data, old_tag_len);
+ 
+-							if (skb_pull_and_merge(skb, (unsigned char *)pOldTag, TAG_HDR_LEN+old_tag_len) < 0) {
++							if (skb_pull_and_merge(skb, (unsigned char *)pOldTag, TAG_HDR_LEN + old_tag_len) < 0) {
+ 								DEBUG_ERR("call skb_pull_and_merge() failed in PADI/R packet!\n");
+ 								return -1;
+ 							}
+-							ph->length = htons(ntohs(ph->length)-TAG_HDR_LEN-old_tag_len);
++							ph->length = htons(ntohs(ph->length) - TAG_HDR_LEN - old_tag_len);
+ 						}
+ 
+ 						tag->tag_type = PTT_RELAY_SID;
+-						tag->tag_len = htons(MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN+old_tag_len);
++						tag->tag_len = htons(MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN + old_tag_len);
+ 
+ 						/*  insert the magic_code+client mac in relay tag */
+ 						pMagic = (unsigned short *)tag->tag_data;
+ 						*pMagic = htons(MAGIC_CODE);
+-						memcpy(tag->tag_data+MAGIC_CODE_LEN, skb->data+ETH_ALEN, ETH_ALEN);
++						memcpy(tag->tag_data + MAGIC_CODE_LEN, skb->data + ETH_ALEN, ETH_ALEN);
+ 
+ 						/* Add relay tag */
+ 						if (__nat25_add_pppoe_tag(skb, tag) < 0)
+@@ -609,13 +609,13 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 										(ph->code == PADI_CODE ? "PADI" : "PADR"));
+ 					} else { /*  not add relay tag */
+ 						if (priv->pppoe_connection_in_progress &&
+-								memcmp(skb->data+ETH_ALEN, priv->pppoe_addr, ETH_ALEN))	 {
++								memcmp(skb->data + ETH_ALEN, priv->pppoe_addr, ETH_ALEN)) {
+ 							DEBUG_ERR("Discard PPPoE packet due to another PPPoE connection is in progress!\n");
+ 							return -2;
+ 						}
+ 
+ 						if (priv->pppoe_connection_in_progress == 0)
+-							memcpy(priv->pppoe_addr, skb->data+ETH_ALEN, ETH_ALEN);
++							memcpy(priv->pppoe_addr, skb->data + ETH_ALEN, ETH_ALEN);
+ 
+ 						priv->pppoe_connection_in_progress = WAIT_TIME_PPPOE;
+ 					}
+@@ -627,13 +627,13 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 
+ 				__nat25_generate_pppoe_network_addr(networkAddr, skb->data, &ph->sid);
+ 
+-				__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
++				__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
+ 
+ 				__nat25_db_print(priv);
+ 
+ 				if (!priv->ethBrExtInfo.addPPPoETag &&
+ 				    priv->pppoe_connection_in_progress &&
+-				    !memcmp(skb->data+ETH_ALEN, priv->pppoe_addr, ETH_ALEN))
++				    !memcmp(skb->data + ETH_ALEN, priv->pppoe_addr, ETH_ALEN))
+ 					priv->pppoe_connection_in_progress = 0;
+ 			}
+ 			return 0;
+@@ -655,7 +655,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 					tagType = (unsigned short)((ptr[0] << 8) + ptr[1]);
+ 					tagLen = (unsigned short)((ptr[2] << 8) + ptr[3]);
+ 
+-					if ((tagType != ntohs(PTT_RELAY_SID)) || (tagLen < (MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN))) {
++					if ((tagType != ntohs(PTT_RELAY_SID)) || (tagLen < (MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN))) {
+ 						DEBUG_ERR("Invalid PTT_RELAY_SID tag length [%d]!\n", tagLen);
+ 						return -1;
+ 					}
+@@ -667,18 +667,18 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 						return -1;
+ 					}
+ 
+-					memcpy(skb->data, tag->tag_data+MAGIC_CODE_LEN, ETH_ALEN);
++					memcpy(skb->data, tag->tag_data + MAGIC_CODE_LEN, ETH_ALEN);
+ 
+-					if (tagLen > MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN)
++					if (tagLen > MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN)
+ 						offset = TAG_HDR_LEN;
+ 
+-					if (skb_pull_and_merge(skb, ptr+offset, TAG_HDR_LEN+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN-offset) < 0) {
++					if (skb_pull_and_merge(skb, ptr + offset, TAG_HDR_LEN + MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN - offset) < 0) {
+ 						DEBUG_ERR("call skb_pull_and_merge() failed in PADO packet!\n");
+ 						return -1;
+ 					}
+-					ph->length = htons(ntohs(ph->length)-(TAG_HDR_LEN+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN-offset));
++					ph->length = htons(ntohs(ph->length) - (TAG_HDR_LEN + MAGIC_CODE_LEN + RTL_RELAY_TAG_LEN - offset));
+ 					if (offset > 0)
+-						tag->tag_len = htons(tagLen-MAGIC_CODE_LEN-RTL_RELAY_TAG_LEN);
++						tag->tag_len = htons(tagLen - MAGIC_CODE_LEN - RTL_RELAY_TAG_LEN);
+ 
+ 					DEBUG_INFO("NAT25: Lookup PPPoE, forward %s Packet from %s\n",
+ 						(ph->code == PADO_CODE ? "PADO" : "PADS"),	skb->dev->name);
+@@ -693,7 +693,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 			} else {
+ 				if (ph->sid != 0) {
+ 					DEBUG_INFO("NAT25: Lookup PPPoE, lookup session packet from %s\n", skb->dev->name);
+-					__nat25_generate_pppoe_network_addr(networkAddr, skb->data+ETH_ALEN, &ph->sid);
++					__nat25_generate_pppoe_network_addr(networkAddr, skb->data + ETH_ALEN, &ph->sid);
+ 					__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
+ 					__nat25_db_print(priv);
+ 				} else {
+@@ -758,7 +758,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 
+ 			if (memcmp(&iph->saddr, "\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0\x0", 16)) {
+ 				__nat25_generate_ipv6_network_addr(networkAddr, (unsigned int *)&iph->saddr);
+-				__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
++				__nat25_db_network_insert(priv, skb->data + ETH_ALEN, networkAddr);
+ 				__nat25_db_print(priv);
+ 
+ 				if (iph->nexthdr == IPPROTO_ICMPV6 &&
+@@ -801,9 +801,9 @@ int nat25_handle_frame(struct adapter *priv, struct sk_buff *skb)
+ 		protocol = be16_to_cpu(*((__be16 *)(skb->data + 2 * ETH_ALEN)));
+ 		if (protocol == ETH_P_8021Q) {
+ 			is_vlan_tag = 1;
+-			vlan_hdr = *((unsigned short *)(skb->data+ETH_ALEN*2+2));
++			vlan_hdr = *((unsigned short *)(skb->data + ETH_ALEN * 2 + 2));
+ 			for (i = 0; i < 6; i++)
+-				*((unsigned short *)(skb->data+ETH_ALEN*2+2-i*2)) = *((unsigned short *)(skb->data+ETH_ALEN*2-2-i*2));
++				*((unsigned short *)(skb->data + ETH_ALEN * 2 + 2 - i * 2)) = *((unsigned short *)(skb->data + ETH_ALEN * 2 - 2 - i * 2));
+ 			skb_pull(skb, 4);
+ 		}
+ 
+@@ -815,8 +815,8 @@ int nat25_handle_frame(struct adapter *priv, struct sk_buff *skb)
+ 			 *	corresponding network protocol is NOT support.
+ 			 */
+ 			if (!priv->ethBrExtInfo.nat25sc_disable &&
+-			    (be16_to_cpu(*((__be16 *)(skb->data+ETH_ALEN*2))) == ETH_P_IP) &&
+-			    !memcmp(priv->scdb_ip, skb->data+ETH_HLEN+16, 4)) {
++			    (be16_to_cpu(*((__be16 *)(skb->data + ETH_ALEN * 2))) == ETH_P_IP) &&
++			    !memcmp(priv->scdb_ip, skb->data + ETH_HLEN + 16, 4)) {
+ 				memcpy(skb->data, priv->scdb_mac, ETH_ALEN);
+ 
+ 				spin_unlock_bh(&priv->br_ext_lock);
+@@ -826,10 +826,10 @@ int nat25_handle_frame(struct adapter *priv, struct sk_buff *skb)
+ 				retval = nat25_db_handle(priv, skb, NAT25_LOOKUP);
+ 			}
+ 		} else {
+-			if (((be16_to_cpu(*((__be16 *)(skb->data+ETH_ALEN*2))) == ETH_P_IP) &&
+-			    !memcmp(priv->br_ip, skb->data+ETH_HLEN+16, 4)) ||
+-			    ((be16_to_cpu(*((__be16 *)(skb->data+ETH_ALEN*2))) == ETH_P_ARP) &&
+-			    !memcmp(priv->br_ip, skb->data+ETH_HLEN+24, 4))) {
++			if (((be16_to_cpu(*((__be16 *)(skb->data + ETH_ALEN * 2))) == ETH_P_IP) &&
++			    !memcmp(priv->br_ip, skb->data + ETH_HLEN + 16, 4)) ||
++			    ((be16_to_cpu(*((__be16 *)(skb->data + ETH_ALEN * 2))) == ETH_P_ARP) &&
++			    !memcmp(priv->br_ip, skb->data + ETH_HLEN + 24, 4))) {
+ 				/*  for traffic to upper TCP/IP */
+ 				retval = nat25_db_handle(priv, skb, NAT25_LOOKUP);
+ 			}
+@@ -838,9 +838,9 @@ int nat25_handle_frame(struct adapter *priv, struct sk_buff *skb)
+ 		if (is_vlan_tag) {
+ 			skb_push(skb, 4);
+ 			for (i = 0; i < 6; i++)
+-				*((unsigned short *)(skb->data+i*2)) = *((unsigned short *)(skb->data+4+i*2));
+-			*((__be16 *)(skb->data+ETH_ALEN*2)) = __constant_htons(ETH_P_8021Q);
+-			*((unsigned short *)(skb->data+ETH_ALEN*2+2)) = vlan_hdr;
++				*((unsigned short *)(skb->data + i * 2)) = *((unsigned short *)(skb->data + 4 + i * 2));
++			*((__be16 *)(skb->data + ETH_ALEN * 2)) = __constant_htons(ETH_P_8021Q);
++			*((unsigned short *)(skb->data + ETH_ALEN * 2 + 2)) = vlan_hdr;
+ 		}
+ 
+ 		if (retval == -1) {
 -- 
 2.32.0
 
