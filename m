@@ -1,149 +1,81 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E70E72
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 19:53:28 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id hs10so34002551ejc.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 12:53:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F6872
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 20:09:37 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id bo19so28199480edb.9
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 13:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=BUgCzb4vho0IWW5yOd/HOeeraEmZuXONPhZCDeDXp/c=;
-        b=utzq5M8VyrtAlfDzmdLwJL7n+TnidmEJw+qv2zaoUGTCAwCx57DOrbo84nQJDCKdSj
-         wduFZHOPBbIp/S/K8wnhWWoT7BYe0uhZDPM9NLuC1hWOP6zSRISm8mRQ9dABoLIyl+GY
-         Ku1N90YN5PqMJKzdK+D0+fGQRjGlSkApWosbFRr7p0pmFdv82pOJwYybcxWL49e2A0YR
-         tddA0AWh2bTtmCpv+synUycaQDMGnd4qq28sONbe3cwwOtOEsYdqlsp/eNarwS+9VxNv
-         KUg8gpHDLdfiuIOCT8IMfvYFjSabvW+GX2ESe6PmExNXq6xwKYUcoaPK3trdzw7HTRaj
-         1IQQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eoqcCHvcgFjYOwCf/rRzWn/RIeAjZ2LdPjbgucACr2k=;
+        b=l4fkPsSkbvhdAWPUaxEovtAuFsvKk8qqwIS1BRiysxH1Bj0yc9D+pNJNd4f8rRDSJL
+         rIJ5RAlV1mw90U3WVwRBIGDDXz4Z7DGZQyTZzXGPw6gjrjlJQLAvnLRMMYRXSd9o+3mw
+         1lA5USWdCSvMZcaGxALf5/tfOpY22LtECnpTQ4xMI1fApK6DGjD0nVMVXlnvoo0ea1pe
+         ARRu+qfg6F8ZUZvKVYl/MPdl3Jp00KzirpORqJ7ZUM+sBXEiaCRAY2BqDjGZ6PrVW37d
+         SROq16Wrn/bCQa8R2GfbSI+l2ipJ0hEK+RUJBLW/lenEhAP77eA9FxoEaEOx09H+0Q+Y
+         MjHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BUgCzb4vho0IWW5yOd/HOeeraEmZuXONPhZCDeDXp/c=;
-        b=Y1Uwv/QS6iJ0owQymx65oE/cJrUwscyRwbOEnEINH6QO0N8DQgS9GQmD5q6IiYsF8V
-         VVucVjkysrLzqW26zp2nt2jp8vID9aRjFXHd35mKmWrmNEsobeX5lQCqvDN3SbFKcCXi
-         fRk4mP7e/0reDoTNAQ+OPL+0V/OoJ9yYFWNV2abdLoxrbKNEYOjoVWQZp6LxPEuZ0P8p
-         FXmbB31ukYiiCOaW3fQvZTa+C6TA090lF4mkKwUAEZpYAtKA18m3TEIui7OdGi1vDNen
-         vOt+wNsFdCgDQisLqzu2zZYx+/mWYsDo0FsGHeRpXjL96JAhYqyWgdYL0QVotrG//XRL
-         IDfA==
-X-Gm-Message-State: AOAM531jveQhiJ1LAelT3puzwAiesaR5GGYAMQl31UBQ7I6MFzwAqwua
-	BfbdQ5Mvs6xuEE9TkhljbQM=
-X-Google-Smtp-Source: ABdhPJy4Tfyz4lmrTFInZ0OMQYPDASoRI/BS5xJuO+7Jmy/hxskbMK0ykNLnsNW56DHfrvi5H1rJhA==
-X-Received: by 2002:a17:907:3f0b:: with SMTP id hq11mr134294ejc.95.1629143606957;
-        Mon, 16 Aug 2021 12:53:26 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::4058? ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id k19sm79874ejq.42.2021.08.16.12.53.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Aug 2021 12:53:26 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] staging: r8188eu: Remove no more used variable and
- function
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210816180540.29734-1-fmdefrancesco@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <dd30721c-e83f-745e-38cd-251c06ed25c4@gmail.com>
-Date: Mon, 16 Aug 2021 21:52:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eoqcCHvcgFjYOwCf/rRzWn/RIeAjZ2LdPjbgucACr2k=;
+        b=qdx1we9Y/DdnoFbgUcIH7uw7aapRs2X304gAEFKzIFguBotGuYsSCnjEUJ4hN4UfJD
+         47kn4fMdInnTEGsPp6f20FCsovJoX/GygjTnAyzc6WowM37LD9bikdmIq6j92G4Lq/0D
+         2ncJjQkMWb0jkMFrbkWauKSScmLtHcihNJDZmQynMdOzqbjDg12BT4mH4woyjtNpqnpT
+         3PAF3vE7Y3afnCP0SzlqDmNRP7TReSBOhS7PzkU+gDO6v/pT1SkI47TYZ5QP/GdOMdao
+         7eSbuhcrvwNWRnCo61LMH6eLWQrJOqv1cpocuNjnn7sFiJtFK6TKKNMy9PERJ3HtI3pj
+         2TtA==
+X-Gm-Message-State: AOAM531WGdDAVFMmp43YxXA2iG45ZVXLzQuydJk5KXRMdJr4hs3RAzte
+	JvbyECx8tYH3Sd3KsncfDXg=
+X-Google-Smtp-Source: ABdhPJyi0eg88s7YYQlUZB20e5s7OeQLsiLpWO9toBIT/tHKeoGWYR1pxwxb6+4WmWIbjZah7n1Mbw==
+X-Received: by 2002:a50:ef11:: with SMTP id m17mr330830eds.233.1629144575808;
+        Mon, 16 Aug 2021 13:09:35 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id i6sm90106ejd.57.2021.08.16.13.09.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Aug 2021 13:09:35 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: gregkh@linuxfoundation.org, Michael Straube <straube.linux@gmail.com>, Joe Perches <joe@perches.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: refactor rtw_is_cckrates{only}_included()
+Date: Mon, 16 Aug 2021 22:09:33 +0200
+Message-ID: <1730270.0mlKN7IZV0@localhost.localdomain>
+In-Reply-To: <20210816193125.15700-1-straube.linux@gmail.com>
+References: <20210816193125.15700-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210816180540.29734-1-fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 8/16/21 8:05 PM, Fabio M. De Francesco wrote:
-> Remove the 'sender' pointer to integer. Remove
-> __nat25_db_network_lookup_and_replace(). Following the deletion of the
-> code related to the NAT25_LOOKUP method, they are no more needed.
+On Monday, August 16, 2021 9:31:25 PM CEST Michael Straube wrote:
+> Refactor functions rtw_is_cckrates_included() and
+> rtw_is_cckratesonly_included(). Add new helper function rtw_is_cckrate()
+> that allows to make the code more compact. Improves readability and
+> slightly reduces object file size. Change the return type to bool to
+> reflect that the functions return boolean values.
 > 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Suggested-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
-> 
-> v2: Rebased against latest version of Greg K-H's tree.
-> 
->   drivers/staging/r8188eu/core/rtw_br_ext.c | 52 +----------------------
->   1 file changed, 1 insertion(+), 51 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> index 0402f48319c4..ee52f28a1e56 100644
-> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> @@ -295,56 +295,6 @@ static void __network_hash_unlink(struct nat25_network_db_entry *ent)
->   	ent->pprev_hash = NULL;
->   }
->   
-> -static int __nat25_db_network_lookup_and_replace(struct adapter *priv,
-> -				struct sk_buff *skb, unsigned char *networkAddr)
-> -{
-> -	struct nat25_network_db_entry *db;
-> -
-> -	spin_lock_bh(&priv->br_ext_lock);
-> -
-> -	db = priv->nethash[__nat25_network_hash(networkAddr)];
-> -	while (db) {
-> -		if (!memcmp(db->networkAddr, networkAddr, MAX_NETWORK_ADDR_LEN)) {
-> -			if (!__nat25_has_expired(priv, db)) {
-> -				/*  replace the destination mac address */
-> -				memcpy(skb->data, db->macAddr, ETH_ALEN);
-> -				atomic_inc(&db->use_count);
-> -
-> -				DEBUG_INFO("NAT25: Lookup M:%02x%02x%02x%02x%02x%02x N:%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
-> -							"%02x%02x%02x%02x%02x%02x\n",
-> -					db->macAddr[0],
-> -					db->macAddr[1],
-> -					db->macAddr[2],
-> -					db->macAddr[3],
-> -					db->macAddr[4],
-> -					db->macAddr[5],
-> -					db->networkAddr[0],
-> -					db->networkAddr[1],
-> -					db->networkAddr[2],
-> -					db->networkAddr[3],
-> -					db->networkAddr[4],
-> -					db->networkAddr[5],
-> -					db->networkAddr[6],
-> -					db->networkAddr[7],
-> -					db->networkAddr[8],
-> -					db->networkAddr[9],
-> -					db->networkAddr[10],
-> -					db->networkAddr[11],
-> -					db->networkAddr[12],
-> -					db->networkAddr[13],
-> -					db->networkAddr[14],
-> -					db->networkAddr[15],
-> -					db->networkAddr[16]);
-> -			}
-> -			spin_unlock_bh(&priv->br_ext_lock);
-> -			return 1;
-> -		}
-> -		db = db->next_hash;
-> -	}
-> -	spin_unlock_bh(&priv->br_ext_lock);
-> -	return 0;
-> -}
-> -
->   static void __nat25_db_network_insert(struct adapter *priv,
->   				unsigned char *macAddr, unsigned char *networkAddr)
->   {
-> @@ -493,7 +443,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
->   		/*---------------------------------------------------*/
->   		struct arphdr *arp = (struct arphdr *)(skb->data + ETH_HLEN);
->   		unsigned char *arp_ptr = (unsigned char *)(arp + 1);
-> -		unsigned int *sender, *target;
-> +		unsigned int *sender;
->   
->   		if (arp->ar_pro != __constant_htons(ETH_P_IP)) {
->   			DEBUG_WARN("NAT25: arp protocol unknown (%4x)!\n", be16_to_cpu(arp->ar_pro));
-> 
+>  drivers/staging/r8188eu/core/rtw_ieee80211.c | 27 +++++++++++---------
+>  drivers/staging/r8188eu/include/ieee80211.h  |  5 ++--
+>  2 files changed, 17 insertions(+), 15 deletions(-)
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+Now that you took into account also the second of the two suggestions by Joe 
+Perches (with a further enhancement he added later), I think that this is 
+really a good work. Since the first series is gone, here it is a new...
+
+Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+Thanks,
+
+Fabio
+
+
+
