@@ -1,53 +1,54 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F426D17
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 17:35:39 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id qe12-20020a17090b4f8c00b00179321cbae7so1344826pjb.2
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 10:35:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33C92FB3
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 17:51:44 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id i6so27736597edu.1
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 10:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8SwTsPx4UYisguWy8Lsk5AZC9AKkSCySPlgNFqLhFrs=;
-        b=XhzPXa2/DuXnsWeMM+nj/dHlsE2F9IpphR/qnZL74arj5QR7aFtwzBkgnbqmnEuQab
-         wXc+J7WDhs8fhUNzEwTV/lFDkd/ewsnBLPRPpX1vK0tm/Rq33ZZBu1hjdkqwv0uxN34P
-         KcAaiB4mCP9gmmLCZ3zYd/rGleXHxsWztBTChXNlz4MbCYUDUZE86JPKdBCLLZGMDQ4M
-         qgeOfx+wubjoFoIF6MT0dnfgjwpZVDvbkB5QUscAYNaHg1WHv4gKg6xif40SqQwNgmTf
-         fuxKjSIWvJ+595wqKDuPzxe0Wkls16jGd24iK0hres5cBH3/x48TAv47rsQ2/cDzzvjp
-         Dz4Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eQoek14OE4uQnpIv9Staft1AveAvACmD1pzwivfSdt0=;
+        b=muXE14NSR2ajfttLttLt23nSwQdB/NjuGaDQDIGELGWI5dm5azHDDZ+MwxZSzSMTro
+         VuXk5+H3yk8DknKzfRUleI9CcvkkL9Y+c7hl0yfDFiwSPLvoxFDVEPRZ4spkuwu7pLJi
+         24NbedKuHD4FSohpnGwUgCYLp9j2WHZOD3RYtP4fPSZCjPT1m1FsYGD3ByvV/ZtcAO4F
+         U3H0/6lWRzGL+8iuHXLo4TPnfj97L0RdgQytQEsz57Aaay7ocSBNd044pkJfXO0LsDIt
+         jrcCaXrrfVc0+/vKPL/jAB7tRmkRHg4vS/io6F2lHtBilrJQN0TyZAF3nAAVXjarXGGx
+         VhLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8SwTsPx4UYisguWy8Lsk5AZC9AKkSCySPlgNFqLhFrs=;
-        b=CIRSxSLDU2eDucqkfNanlAHeYS8BHkNHJxnnPfuCHH2iOlGyYjwrmOJq0OuqHBGCqb
-         8W0R/cPW5ZYeBoaeRX2e7EZSRlHJCsIgGRzGYRbvrsrtymVgu16o7bUwwMxgx3w3N9By
-         KNAWsbfpF530L/uBoKBSvLE/UHL7ab5W0FOnanN4rr3SDPZnxIAcBaFqvUgUcUDsuugE
-         KP0Er6m1YXGGnn9697AP/A+LDcO5AP8FM51Ur8evn+O4XFfUQpm8U/7paTrAGPXe6QUC
-         uDzEUJ6GKKn8oDAL7WI+g6HMw6TdNRpzgXgAVYObbDYt3WquM9wNhj2bFKnJ/dO7Dmko
-         VFJg==
-X-Gm-Message-State: AOAM531FUb8NnOO76errk3as8RUyJiDRNErW2SEvbXEIRk9r4ho9HIOH
-	aaRnTsFQ6HPOdbamlp5u3+8=
-X-Google-Smtp-Source: ABdhPJx/YiLxJeq0cMJZXttVox/qN9kvq0gqEd++DqW+xgu/P2njP+jG6ErKbdxx1Mr7cDXxVhJA2Q==
-X-Received: by 2002:a63:f656:: with SMTP id u22mr6324635pgj.392.1629135339309;
-        Mon, 16 Aug 2021 10:35:39 -0700 (PDT)
-Received: from xps.yggdrasil ([49.207.137.16])
-        by smtp.gmail.com with ESMTPSA id u10sm14030pgj.48.2021.08.16.10.35.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eQoek14OE4uQnpIv9Staft1AveAvACmD1pzwivfSdt0=;
+        b=o+8GvcwJi5Opj3sBckEg8+V3VveeWR0CxSfNaVZ0rqwXRH/jBaFKoch5n5+H4HUB3d
+         0OdfL3ngProa1ppOFGFLzBG+ueQKjvECmZEe4urjpbOdY3XAn8OdrPgBdhNT4ffwlSSC
+         hfx0Fdnu0K2Ia2Z93y7U4WUm3ebsemaBGEOyOOdu4WllylBgESgHQGRHlkVGVHfqitKz
+         rbjW7WBR90C7Af4Efr9y24pQfevMO25e2IZlKTFQDNn0ASWZeZnZR+ueVzNe5sjB1XbN
+         +1snWd3NCujAX7lbstmSM8hlPp1II+fNaXxE/YlWOsN+LNa2louZOr5h9T2vpc50UjxX
+         lM4Q==
+X-Gm-Message-State: AOAM532zzlnyJMe46gIJtKPPJBsQMAh24z4/A3eQChe87WFEBSttd2Je
+	r42hF9yFGU48gCcntiHgYs9b3ogXg3I=
+X-Google-Smtp-Source: ABdhPJw+y4UCCl9Qy2EGsLwyz3bQonhm12710XsPLFFcjV/6GBfwS5lIKqoZh+2xRfcPAj4vKNB+PA==
+X-Received: by 2002:a05:6402:518f:: with SMTP id q15mr21709998edd.226.1629136303114;
+        Mon, 16 Aug 2021 10:51:43 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id w13sm5319361ede.24.2021.08.16.10.51.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 10:35:38 -0700 (PDT)
-From: Aakash Hemadri <aakashhemadri123@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Bjorn Helgaas <bjorn@helgaas.com>,
+        Mon, 16 Aug 2021 10:51:42 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8723bs: fix cast to restricted __le32
-Date: Mon, 16 Aug 2021 23:05:07 +0530
-Message-Id: <1be80f0196bed681bf55bfe3155f564b4ebf3b76.1629135143.git.aakashhemadri123@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2 2/3] staging: r8188eu: Remove code depending on NAT25_LOOKUP
+Date: Mon, 16 Aug 2021 19:51:38 +0200
+Message-Id: <20210816175138.21633-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1629135143.git.aakashhemadri123@gmail.com>
-References: <cover.1629135143.git.aakashhemadri123@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,36 +57,191 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix sparse warning:
-warning: cast to restricted __le32
+Remove all the code related to the management of the NAT25_LOOKUP
+method in nat25_db_handle(). The only function that used that method was
+the now deleted nat25_handle_frame(). Remove the NAT25_LOOKUP entry from
+the NAT25_METHOD enum because it is not anymore used everywhere else in
+the code of the driver.
 
-Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 381deeea99d0..5320b1a46dfb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -122,7 +122,7 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 		arc4_crypt(ctx, payload, payload,  length);
+v2: Patch rebased against the latest Greg K-H's tree.
+
+ drivers/staging/r8188eu/core/rtw_br_ext.c    | 112 -------------------
+ drivers/staging/r8188eu/include/rtw_br_ext.h |   1 -
+ 2 files changed, 113 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index e8eea95a52e3..0402f48319c4 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -484,27 +484,6 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
  
- 		/* calculate icv and compare the icv */
--		*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+		*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
- 
- 	}
- }
-@@ -621,7 +621,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 			arc4_setkey(ctx, rc4key, 16);
- 			arc4_crypt(ctx, payload, payload, length);
- 
--			*((u32 *)crc) = le32_to_cpu(~crc32_le(~0, payload, length - 4));
-+			*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
- 
- 			if (crc[3] != payload[length - 1] || crc[2] != payload[length - 2] ||
- 			    crc[1] != payload[length - 3] || crc[0] != payload[length - 4])
+ 			__nat25_db_print(priv);
+ 			return 0;
+-		case NAT25_LOOKUP:
+-			DEBUG_INFO("NAT25: Lookup IP, SA =%08x, DA =%08x\n", iph->saddr, iph->daddr);
+-			tmp = be32_to_cpu(iph->daddr);
+-			__nat25_generate_ipv4_network_addr(networkAddr, &tmp);
+-
+-			if (!__nat25_db_network_lookup_and_replace(priv, skb, networkAddr)) {
+-				if (*((unsigned char *)&iph->daddr + 3) == 0xff) {
+-					/*  L2 is unicast but L3 is broadcast, make L2 bacome broadcast */
+-					DEBUG_INFO("NAT25: Set DA as boardcast\n");
+-					memset(skb->data, 0xff, ETH_ALEN);
+-				} else {
+-					/*  forward unknow IP packet to upper TCP/IP */
+-					DEBUG_INFO("NAT25: Replace DA with BR's MAC\n");
+-					if ((*(u32 *)priv->br_mac) == 0 && (*(u16 *)(priv->br_mac+4)) == 0) {
+-						printk("Re-init netdev_br_init() due to br_mac == 0!\n");
+-						netdev_br_init(priv->pnetdev);
+-					}
+-					memcpy(skb->data, priv->br_mac, ETH_ALEN);
+-				}
+-			}
+-			return 0;
+ 		default:
+ 			return -1;
+ 		}
+@@ -536,20 +515,6 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 			__nat25_db_network_insert(priv, skb->data+ETH_ALEN, networkAddr);
+ 			__nat25_db_print(priv);
+ 			return 0;
+-		case NAT25_LOOKUP:
+-			DEBUG_INFO("NAT25: Lookup ARP\n");
+-
+-			arp_ptr += arp->ar_hln;
+-			sender = (unsigned int *)arp_ptr;
+-			arp_ptr += (arp->ar_hln + arp->ar_pln);
+-			target = (unsigned int *)arp_ptr;
+-			__nat25_generate_ipv4_network_addr(networkAddr, target);
+-			__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
+-			/*  change to ARP target mac address to Lookup result */
+-			arp_ptr = (unsigned char *)(arp + 1);
+-			arp_ptr += (arp->ar_hln + arp->ar_pln);
+-			memcpy(arp_ptr, skb->data, ETH_ALEN);
+-			return 0;
+ 		default:
+ 			return -1;
+ 		}
+@@ -637,70 +602,6 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 					priv->pppoe_connection_in_progress = 0;
+ 			}
+ 			return 0;
+-		case NAT25_LOOKUP:
+-			if (ph->code == PADO_CODE || ph->code == PADS_CODE) {
+-				if (priv->ethBrExtInfo.addPPPoETag) {
+-					struct pppoe_tag *tag;
+-					unsigned char *ptr;
+-					unsigned short tagType, tagLen;
+-					int offset = 0;
+-
+-					ptr = __nat25_find_pppoe_tag(ph, ntohs(PTT_RELAY_SID));
+-					if (!ptr) {
+-						DEBUG_ERR("Fail to find PTT_RELAY_SID in FADO!\n");
+-						return -1;
+-					}
+-
+-					tag = (struct pppoe_tag *)ptr;
+-					tagType = (unsigned short)((ptr[0] << 8) + ptr[1]);
+-					tagLen = (unsigned short)((ptr[2] << 8) + ptr[3]);
+-
+-					if ((tagType != ntohs(PTT_RELAY_SID)) || (tagLen < (MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN))) {
+-						DEBUG_ERR("Invalid PTT_RELAY_SID tag length [%d]!\n", tagLen);
+-						return -1;
+-					}
+-
+-					pMagic = (unsigned short *)tag->tag_data;
+-					if (ntohs(*pMagic) != MAGIC_CODE) {
+-						DEBUG_ERR("Can't find MAGIC_CODE in %s packet!\n",
+-							(ph->code == PADO_CODE ? "PADO" : "PADS"));
+-						return -1;
+-					}
+-
+-					memcpy(skb->data, tag->tag_data+MAGIC_CODE_LEN, ETH_ALEN);
+-
+-					if (tagLen > MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN)
+-						offset = TAG_HDR_LEN;
+-
+-					if (skb_pull_and_merge(skb, ptr+offset, TAG_HDR_LEN+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN-offset) < 0) {
+-						DEBUG_ERR("call skb_pull_and_merge() failed in PADO packet!\n");
+-						return -1;
+-					}
+-					ph->length = htons(ntohs(ph->length)-(TAG_HDR_LEN+MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN-offset));
+-					if (offset > 0)
+-						tag->tag_len = htons(tagLen-MAGIC_CODE_LEN-RTL_RELAY_TAG_LEN);
+-
+-					DEBUG_INFO("NAT25: Lookup PPPoE, forward %s Packet from %s\n",
+-						(ph->code == PADO_CODE ? "PADO" : "PADS"),	skb->dev->name);
+-				} else { /*  not add relay tag */
+-					if (!priv->pppoe_connection_in_progress) {
+-						DEBUG_ERR("Discard PPPoE packet due to no connection in progresss!\n");
+-						return -1;
+-					}
+-					memcpy(skb->data, priv->pppoe_addr, ETH_ALEN);
+-					priv->pppoe_connection_in_progress = WAIT_TIME_PPPOE;
+-				}
+-			} else {
+-				if (ph->sid != 0) {
+-					DEBUG_INFO("NAT25: Lookup PPPoE, lookup session packet from %s\n", skb->dev->name);
+-					__nat25_generate_pppoe_network_addr(networkAddr, skb->data+ETH_ALEN, &ph->sid);
+-					__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
+-					__nat25_db_print(priv);
+-				} else {
+-					return -1;
+-				}
+-			}
+-			return 0;
+ 		default:
+ 			return -1;
+ 		}
+@@ -713,8 +614,6 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 			return -1;
+ 		case NAT25_INSERT:
+ 			return 0;
+-		case NAT25_LOOKUP:
+-			return 0;
+ 		default:
+ 			return -1;
+ 		}
+@@ -727,8 +626,6 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 			return -1;
+ 		case NAT25_INSERT:
+ 			return 0;
+-		case NAT25_LOOKUP:
+-			return 0;
+ 		default:
+ 			return -1;
+ 		}
+@@ -775,15 +672,6 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 				}
+ 			}
+ 			return 0;
+-		case NAT25_LOOKUP:
+-			DEBUG_INFO("NAT25: Lookup IP, SA =%4x:%4x:%4x:%4x:%4x:%4x:%4x:%4x, DA =%4x:%4x:%4x:%4x:%4x:%4x:%4x:%4x\n",
+-				   iph->saddr.s6_addr16[0], iph->saddr.s6_addr16[1], iph->saddr.s6_addr16[2], iph->saddr.s6_addr16[3],
+-				   iph->saddr.s6_addr16[4], iph->saddr.s6_addr16[5], iph->saddr.s6_addr16[6], iph->saddr.s6_addr16[7],
+-				   iph->daddr.s6_addr16[0], iph->daddr.s6_addr16[1], iph->daddr.s6_addr16[2], iph->daddr.s6_addr16[3],
+-				   iph->daddr.s6_addr16[4], iph->daddr.s6_addr16[5], iph->daddr.s6_addr16[6], iph->daddr.s6_addr16[7]);
+-			__nat25_generate_ipv6_network_addr(networkAddr, (unsigned int *)&iph->daddr);
+-			__nat25_db_network_lookup_and_replace(priv, skb, networkAddr);
+-			return 0;
+ 		default:
+ 			return -1;
+ 		}
+diff --git a/drivers/staging/r8188eu/include/rtw_br_ext.h b/drivers/staging/r8188eu/include/rtw_br_ext.h
+index 00d461c4c6fa..69905d30c191 100644
+--- a/drivers/staging/r8188eu/include/rtw_br_ext.h
++++ b/drivers/staging/r8188eu/include/rtw_br_ext.h
+@@ -31,7 +31,6 @@ enum NAT25_METHOD {
+ 	NAT25_MIN,
+ 	NAT25_CHECK,
+ 	NAT25_INSERT,
+-	NAT25_LOOKUP,
+ 	NAT25_PARSE,
+ 	NAT25_MAX
+ };
 -- 
 2.32.0
 
