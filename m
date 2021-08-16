@@ -1,81 +1,101 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0069.hostedemail.com [216.40.44.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2F92FB3
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 02:26:41 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id bo18so29625247pjb.0
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 19:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=FWNnDIf7lR/tz2VZKV6IB/1yvEwFpEjUtpbKurshWbk=;
-        b=ASqMWxEKgXs1bymmIIZU51IAFsCKQaUQRblmjypHS3OWUnJb6FBLFQbAHMQ0ERCei3
-         SQRCkIbVH2H526xT+bV27fciVbykdeliBporLf9DiVCTCwzX2zO5k33oWviHxeAS5ED5
-         ulWpP20UPmlUd2cibBn6yqi5Fp+8vgfZP7wQlR6snfurHqgFCDMN5v12LKlzxZNn6Nra
-         29Q652TgfYkCXVJ2aIYMvwQVxHkgiweARBoWbt0T7exeZqBXOmWZCbAPJ/fR2MPHLBFC
-         pJa1WzYXZ8ee6dTGqjfcF2CM6Qp1ounbybw30loPmnjL0RE/EFLyW7LxMPMOeIVxYSL3
-         0IQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=FWNnDIf7lR/tz2VZKV6IB/1yvEwFpEjUtpbKurshWbk=;
-        b=ihw/TillTo2ssDuNa5KKBL/SS2CfKhx2wbFRSboOLSXoRYnQV4STH3h6yiPqB1kusC
-         FnxMbemJOBA4z+JVio/b4a7/UA7g0cPurPSmMAvyxa+9EzRYP0mSjK9hCQQh7kPrU1o1
-         El14qY183N6+CvV05RqNLJyyJWaebV62Yj07MvXkeayo/O80lSQJpMrj6iqLMmVixLmr
-         aieN0xRURHmyphwUJ/oZGYTOcDhAo7L1AutLmsOeW1pfR2CDwHpQ/tT9Gs9TwcgY5KuG
-         6rNrQte78hfmi7j/NnIYjfzHaAfoUdvmRQy+HH8WSpA1q2TVebR0//pz1Y3ODRQQXrWk
-         ojiw==
-X-Gm-Message-State: AOAM532yqtr721bXJHrwUmoV9+eBkEBbEgMYFjGDAkDNY8Cbffen+Q6Q
-	Gn2JloH5pKF0gMiD/wagMII=
-X-Google-Smtp-Source: ABdhPJxmu+4ykKpn6leZGqXVL7tzI6yNh973tz7VdUisKjXeWR6Gj1z8Zd7fL4/WHtiHTJTbCY2fkg==
-X-Received: by 2002:a17:90a:1616:: with SMTP id n22mr1111887pja.141.1629167200979;
-        Mon, 16 Aug 2021 19:26:40 -0700 (PDT)
-Received: from abhishek-Lenovo-ideapad-110-15AST ([103.58.155.246])
-        by smtp.gmail.com with ESMTPSA id q13sm391431pjq.10.2021.08.16.19.26.40
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Mon, 16 Aug 2021 19:26:40 -0700 (PDT)
-From: Abhishek Anand Kulkarni <kulkarniabhishekanand@gmail.com>
-X-Google-Original-From: Abhishek Anand Kulkarni <kulkaraniabhishekanand@gmail.com>
-Date: Tue, 17 Aug 2021 07:56:38 +0530
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kulkarniabhishekanand@gmail.com
-Subject: [PATCH] staging: r8188eu: Add spaces before and after logical '&'
-Message-ID: <20210817022628.GA6595@abhishek-Lenovo-ideapad-110-15AST>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9433C173
+	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 02:31:14 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave04.hostedemail.com (Postfix) with ESMTP id D6EF518003F16
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 11:14:40 +0000 (UTC)
+Received: from omf07.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay02.hostedemail.com (Postfix) with ESMTP id A08A6204BB;
+	Mon, 16 Aug 2021 11:14:33 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id 64611315D7A;
+	Mon, 16 Aug 2021 11:14:32 +0000 (UTC)
+Message-ID: <5ec326711eaf178754a02816f20510a7d860b378.camel@perches.com>
+Subject: Re: [PATCH 1/4] staging: r8188eu: refactor
+ rtw_is_cckrates_included()
+From: Joe Perches <joe@perches.com>
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, 
+	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 16 Aug 2021 04:14:31 -0700
+In-Reply-To: <20210816095840.24259-1-straube.linux@gmail.com>
+References: <20210816095840.24259-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.60
+X-Stat-Signature: 9n77txsehf73xemcak6m3t9stehd8pqc
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 64611315D7A
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19csrqDwimCnRbpgGA5vCtdn7wIwrapD00=
+X-HE-Tag: 1629112472-559648
 
-Fix Checkpatch.pl warning to add space before and after logical '&'
-operator
+On Mon, 2021-08-16 at 11:58 +0200, Michael Straube wrote:
+> Refactor function rtw_is_cckrates_included(). Improves readability
+> and slightly reduces object file size.
+[]
+> diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+[]
+> @@ -70,13 +70,12 @@ int rtw_get_bit_value_from_ieee_value(u8 val)
+>  
+> 
+>  uint	rtw_is_cckrates_included(u8 *rate)
+>  {
+> -	u32	i = 0;
+> +	while (*rate) {
+> +		u8 r = *rate & 0x7f;
+> 
+> -	while (rate[i] != 0) {
+> -		if  ((((rate[i]) & 0x7f) == 2) || (((rate[i]) & 0x7f) == 4) ||
+> -		     (((rate[i]) & 0x7f) == 11)  || (((rate[i]) & 0x7f) == 22))
+> +		if (r == 2 || r == 4 || r == 11 || r == 22)
+>  			return true;
+> -		i++;
+> +		rate++;
+>  	}
+>  	return false;
+>  }
 
-Signed-off-by: Abhishek Anand Kulkarni <kulkaraniabhishekanand@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_ioctl_set.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Bikeshed:
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-index a7f966a..570f25f 100644
---- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-+++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-@@ -630,7 +630,7 @@ u8 rtw_set_802_11_add_key(struct adapter *padapter, struct ndis_802_11_key *key)
- 		struct ndis_802_11_wep *wep = &padapter->securitypriv.ndiswep;
- 
- 		wep->Length = len;
--		keyindex = key->KeyIndex&0x7fffffff;
-+		keyindex = key->KeyIndex & 0x7fffffff;
- 		wep->KeyIndex = keyindex ;
- 		wep->KeyLength = key->KeyLength;
- 
--- 
-2.7.4
+More compact code with only 1 reference of rate not 3 is more
+readable to at least me.
+
+	u8 r;
+
+	while ((r = *rate++ & 0x7f)) {
+		if (r == 2 || r == 4 || r == 11 || r == 22)
+			return true;
+	}
+
+	return false;
+
+And you might make a static inline for the test of r so it could
+be reused in the rtw_is_cckratesonly_included function
+
+static inline bool is_cckrate(u8 rate)
+{
+	return rate == 2 || rate == 4 || rate == 11 || rate == 22;
+}
+
+so this could be:
+
+	u8 r;
+
+	while ((r = *rate++ & 0x7f)) {
+		if (is_cckrate(r))
+			return true;
+	}
+
+	return false;
+
 
