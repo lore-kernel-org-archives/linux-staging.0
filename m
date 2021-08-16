@@ -1,41 +1,41 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421482FAD
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 20:56:12 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id bt14so18416484ejb.3
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 13:56:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945982FB0
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 20:56:14 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id h9so34226976ejs.4
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 13:56:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lKoHHsr/k9W94qeGZTn0Be9hjJ7LbIYy3nRp9HlzboM=;
-        b=PuT0Ygkhr2RCrafiees6MWP1YN6dmf+gcIYxL5ILzvACFuVsVMMLpvOitWeJ0qjA7G
-         6mXlmFIOzeowutqZgLtfEjjay7xVB+o26cjC/o7/rqWEWxv21fBDODERGj6jNOw9GhTW
-         WHc3k2949NmLkeYCt/A5YCFRJzNVhxg91uSXIAM+8PcsT87NHA38TIrvZA+lBatjEYKY
-         HPtZ8oET6sBTsAk1hpAdURh6y9Vj2IktBO6F63vPTkF0IUcA4bhSrSoY0soad4k6fzDs
-         70SFBPwPZ84DE3UQynC/Ycr29fL3S1wfE+/1Yofh/pKtOl0mZG+HcLIFj0HY0XsWqkfz
-         xx3g==
+        bh=PhW+Yk3Dr+oVDKHJj69msiNe2yZZt/8UwwJJhFUJ7ng=;
+        b=bxARJ4t3VRrCA8HEnC/l8Njr75JCymQWQXE3YZg/oyqsWMZJ2gAyuaWTSxAy4+htRo
+         BzNqJDcwDMz7D3+QRtAKBAGbHYQa2ji3tc5ko3EQ6s+/6FXpb3i3++odPmZHNu1JohT4
+         0JVhAX7qVfsBxe+fKq8rKWYTOXApLXPxTX7FrcnRDjo5JO4aQu3YRN3LC/e2knrG/iXz
+         Ntr/3mLMEii89FJ5AMYT1uyTNSGwa5a25qqMjKqS30zfzyMFvj2232NwwrC8gOM+NaOZ
+         9bXPII15N7LfOsUdRMEGWyczlGFn2YJPmZ9m5DuBquqtndljGEsjrMPg3W0vVrLKQRBc
+         VwKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lKoHHsr/k9W94qeGZTn0Be9hjJ7LbIYy3nRp9HlzboM=;
-        b=as1oNk4OvqzhxrEgy8jyRZpduCA+2I2iBuaKXJo1lNau2FEfClRo7eZvThbu7/hwSq
-         Yra3lk17/mwcE1mSEfqbEtwXOsHOuJwHyDfDmKhP5j6SfMTtzBvwR6jjKI05PeuCOzp7
-         LFjG6Qlwop+k6vkpnW8jlxpTbKWyu20EgBD23kGKfyWMWbULKh/mmCeqYqOu2CYgVZwm
-         NnxlplG19v3dYJJqeNoixk7Z4N+9EPSUWFLo+LUnK8dF622eB+nVPXJr39MfbxbaCqlx
-         kjBI51t2IvfErv4hTFTW9pkSmZcTYZeY9fapiycQeiA50EnMYDoY6//d0CwWWcj5ptc1
-         iBAA==
-X-Gm-Message-State: AOAM530wsXPrRdxPNToMu7MakPmeS9aJlELzH0hDdnq7A/NxAMql+IeL
-	Uc01sMcLMdAmrSg7GJhv2Q5q5CjLiqA=
-X-Google-Smtp-Source: ABdhPJxweBcDCouVjr0AVbdK2ZUd41E8hI0Twx0iHqKadofrg2+tNQIehPdlcOYzS/t9t6D9KLKcUA==
-X-Received: by 2002:a17:906:3a98:: with SMTP id y24mr46377ejd.198.1629147370350;
-        Mon, 16 Aug 2021 13:56:10 -0700 (PDT)
+        bh=PhW+Yk3Dr+oVDKHJj69msiNe2yZZt/8UwwJJhFUJ7ng=;
+        b=V8EFJz2ESe2yYwbNkThKTzqE5j99KOETUFsZfzMALtRCPzo12H+oG4MLORunWtP6Gi
+         6QGMcjR5RedEU0shoTV9q+zzujwv3XjTRcVo5ju0jBB2e/tcXz3aWSY/tNQC4aCysyV7
+         wVKXywIsPyZNmz2lbc2+yLxBlBAayjNx1QlEeSD+8+i4KnZsNQdmnvUUUarnyaibrs2/
+         2BhXt8w4cscCbhiSQ6IhHpkt3bRSpkNnzeAuVR7O9yQ8qU0zWdpmaYY1YZ4CGHbnylkU
+         F5ff4XsxQOzjvWlP6GlWbq7x6ri+I8xXwMDKxx8OKeTG4zYdeBVov06xGIBFHvGWEHqq
+         7Q2g==
+X-Gm-Message-State: AOAM533ksgCpasaw9yOpGH3g3RLMqYbwL9xW/65AxbqSvcgSiUP9aoT1
+	650k0Ez2CW9qL6cBYA8QqSM=
+X-Google-Smtp-Source: ABdhPJy5qSB+GFxxl59kLIJ6I9Qi8ZPIEmkwVu8Oh/CVD43tz6/hqOeKWtzjFb87Ue/IbvErXjr7Rw==
+X-Received: by 2002:a17:907:9604:: with SMTP id gb4mr49724ejc.142.1629147372652;
+        Mon, 16 Aug 2021 13:56:12 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
-        by smtp.gmail.com with ESMTPSA id ck17sm36967edb.88.2021.08.16.13.56.09
+        by smtp.gmail.com with ESMTPSA id ck17sm36967edb.88.2021.08.16.13.56.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 13:56:10 -0700 (PDT)
+        Mon, 16 Aug 2021 13:56:12 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/3] staging: r8188eu: clean up spacing style issues in hal dir, part 1
-Date: Mon, 16 Aug 2021 22:55:09 +0200
-Message-Id: <20210816205511.20068-2-straube.linux@gmail.com>
+Subject: [PATCH 3/3] staging: r8188eu: clean up spacing style issues in hal dir, part 3
+Date: Mon, 16 Aug 2021 22:55:11 +0200
+Message-Id: <20210816205511.20068-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210816205511.20068-1-straube.linux@gmail.com>
 References: <20210816205511.20068-1-straube.linux@gmail.com>
@@ -59,1142 +59,1029 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clean up spacing style issues reported by checkpatch in the first 10
+Clean up spacing style issues reported by checkpatch in the remaining
 files in the hal directory.
 
 CHECK: spaces preferred around that ...
-CHECK: No space is necessary after a cast
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- .../r8188eu/hal/Hal8188ERateAdaptive.c        |  48 +++---
- .../staging/r8188eu/hal/HalHWImg8188E_BB.c    |  22 +--
- .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |   6 +-
- .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |   6 +-
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  | 138 +++++++++---------
- drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   2 +-
- drivers/staging/r8188eu/hal/hal_com.c         |  36 ++---
- drivers/staging/r8188eu/hal/hal_intf.c        |   4 +-
- drivers/staging/r8188eu/hal/odm.c             | 114 +++++++--------
- 9 files changed, 188 insertions(+), 188 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  66 +++----
+ drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c |   2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  10 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c  |   2 +-
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  36 ++--
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 162 +++++++++---------
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   |  20 +--
+ 7 files changed, 149 insertions(+), 149 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c b/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
-index 1f1ce5f36f83..d873672feb27 100644
---- a/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
-+++ b/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
-@@ -16,7 +16,7 @@ Major Change History:
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+index 60fa7e4f5f2c..ad0782259654 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+@@ -147,8 +147,8 @@ rtl8188e_PHY_RF6052SetCckTxPower(
+ 		if (TurboScanOff) {
+ 			for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
+ 				TxAGC[idx1] =
+-					pPowerlevel[idx1] | (pPowerlevel[idx1]<<8) |
+-					(pPowerlevel[idx1]<<16) | (pPowerlevel[idx1]<<24);
++					pPowerlevel[idx1] | (pPowerlevel[idx1] << 8) |
++					(pPowerlevel[idx1] << 16) | (pPowerlevel[idx1] << 24);
+ 				/*  2010/10/18 MH For external PA module. We need to limit power index to be less than 0x20. */
+ 				if (TxAGC[idx1] > 0x20 && pHalData->ExternalPA)
+ 					TxAGC[idx1] = 0x20;
+@@ -171,16 +171,16 @@ i		 *  Currently, we cannot fully disable driver dynamic
+ 		} else {
+ 			for (idx1 = RF_PATH_A; idx1 <= RF_PATH_B; idx1++) {
+ 				TxAGC[idx1] =
+-					pPowerlevel[idx1] | (pPowerlevel[idx1]<<8) |
+-					(pPowerlevel[idx1]<<16) | (pPowerlevel[idx1]<<24);
++					pPowerlevel[idx1] | (pPowerlevel[idx1] << 8) |
++					(pPowerlevel[idx1] << 16) | (pPowerlevel[idx1] << 24);
+ 			}
+ 			if (pHalData->EEPROMRegulatory == 0) {
+ 				tmpval = (pHalData->MCSTxPowerLevelOriginalOffset[0][6]) +
+-						(pHalData->MCSTxPowerLevelOriginalOffset[0][7]<<8);
++						(pHalData->MCSTxPowerLevelOriginalOffset[0][7] << 8);
+ 				TxAGC[RF_PATH_A] += tmpval;
  
- /*  Rate adaptive parameters */
- 
--static u8 RETRY_PENALTY[PERENTRY][RETRYSIZE+1] = {
-+static u8 RETRY_PENALTY[PERENTRY][RETRYSIZE + 1] = {
- 		{5, 4, 3, 2, 0, 3},      /* 92 , idx = 0 */
- 		{6, 5, 4, 3, 0, 4},      /* 86 , idx = 1 */
- 		{6, 5, 4, 2, 0, 4},      /* 81 , idx = 2 */
-@@ -42,7 +42,7 @@ static u8 RETRY_PENALTY[PERENTRY][RETRYSIZE+1] = {
- 		{49, 16, 16, 0, 0, 48}
- 	}; /* 3, idx = 0x16 */
- 
--static u8 PT_PENALTY[RETRYSIZE+1] = {34, 31, 30, 24, 0, 32};
-+static u8 PT_PENALTY[RETRYSIZE + 1] = {34, 31, 30, 24, 0, 32};
- 
- /*  wilson modify */
- static u8 RETRY_PENALTY_IDX[2][RATESIZE] = {
-@@ -132,7 +132,7 @@ static int odm_RateDown_8188E(struct odm_dm_struct *dm_odm, struct odm_ra_info *
- 		pRaInfo->RateSGI = 0;
- 	} else if (RateID > LowestRate) {
- 		if (RateID > 0) {
--			for (i = RateID-1; i > LowestRate; i--) {
-+			for (i = RateID - 1; i > LowestRate; i--) {
- 				if (pRaInfo->RAUseRate & BIT(i)) {
- 					RateID = i;
- 					goto RateDownFinish;
-@@ -183,7 +183,7 @@ static int odm_RateUp_8188E(
- 	odm_SetTxRPTTiming_8188E(dm_odm, pRaInfo, 0);
- 
- 	if (RateID < HighestRate) {
--		for (i = RateID+1; i <= HighestRate; i++) {
-+		for (i = RateID + 1; i <= HighestRate; i++) {
- 			if (pRaInfo->RAUseRate & BIT(i)) {
- 				RateID = i;
- 				goto RateUpfinish;
-@@ -198,7 +198,7 @@ static int odm_RateUp_8188E(
- 		RateID = HighestRate;
+ 				tmpval = (pHalData->MCSTxPowerLevelOriginalOffset[0][14]) +
+-						(pHalData->MCSTxPowerLevelOriginalOffset[0][15]<<24);
++						(pHalData->MCSTxPowerLevelOriginalOffset[0][15] << 24);
+ 				TxAGC[RF_PATH_B] += tmpval;
+ 			}
+ 		}
+@@ -206,15 +206,15 @@ i		 *  Currently, we cannot fully disable driver dynamic
  	}
- RateUpfinish:
--	if (pRaInfo->RAWaitingCounter == (4+PendingForRateUpFail[pRaInfo->RAPendingCounter]))
-+	if (pRaInfo->RAWaitingCounter == (4 + PendingForRateUpFail[pRaInfo->RAPendingCounter]))
- 		pRaInfo->RAWaitingCounter = 0;
- 	else
- 		pRaInfo->RAWaitingCounter++;
-@@ -212,8 +212,8 @@ static void odm_ResetRaCounter_8188E(struct odm_ra_info *pRaInfo)
- 	u8 RateID;
  
- 	RateID = pRaInfo->DecisionRate;
--	pRaInfo->NscUp = (N_THRESHOLD_HIGH[RateID]+N_THRESHOLD_LOW[RateID])>>1;
--	pRaInfo->NscDown = (N_THRESHOLD_HIGH[RateID]+N_THRESHOLD_LOW[RateID])>>1;
-+	pRaInfo->NscUp = (N_THRESHOLD_HIGH[RateID] + N_THRESHOLD_LOW[RateID]) >> 1;
-+	pRaInfo->NscDown = (N_THRESHOLD_HIGH[RateID] + N_THRESHOLD_LOW[RateID]) >> 1;
+ 	/*  rf-A cck tx power */
+-	tmpval = TxAGC[RF_PATH_A]&0xff;
++	tmpval = TxAGC[RF_PATH_A] & 0xff;
+ 	PHY_SetBBReg(Adapter, rTxAGC_A_CCK1_Mcs32, bMaskByte1, tmpval);
+-	tmpval = TxAGC[RF_PATH_A]>>8;
++	tmpval = TxAGC[RF_PATH_A] >> 8;
+ 	PHY_SetBBReg(Adapter, rTxAGC_B_CCK11_A_CCK2_11, 0xffffff00, tmpval);
+ 
+ 	/*  rf-B cck tx power */
+-	tmpval = TxAGC[RF_PATH_B]>>24;
++	tmpval = TxAGC[RF_PATH_B] >> 24;
+ 	PHY_SetBBReg(Adapter, rTxAGC_B_CCK11_A_CCK2_11, bMaskByte0, tmpval);
+-	tmpval = TxAGC[RF_PATH_B]&0x00ffffff;
++	tmpval = TxAGC[RF_PATH_B] & 0x00ffffff;
+ 	PHY_SetBBReg(Adapter, rTxAGC_B_CCK1_55_Mcs32, 0xffffff00, tmpval);
+ }	/* PHY_RF6052SetCckTxPower */
+ 
+@@ -232,8 +232,8 @@ static void getpowerbase88e(struct adapter *Adapter, u8 *pPowerLevelOFDM,
+ 	for (i = 0; i < 2; i++) {
+ 		powerBase0 = pPowerLevelOFDM[i];
+ 
+-		powerBase0 = (powerBase0<<24) | (powerBase0<<16) | (powerBase0<<8) | powerBase0;
+-		*(OfdmBase+i) = powerBase0;
++		powerBase0 = (powerBase0 << 24) | (powerBase0 << 16) | (powerBase0 << 8) | powerBase0;
++		*(OfdmBase + i) = powerBase0;
+ 	}
+ 	for (i = 0; i < pHalData->NumTotalRFPath; i++) {
+ 		/* Check HT20 to HT40 diff */
+@@ -242,8 +242,8 @@ static void getpowerbase88e(struct adapter *Adapter, u8 *pPowerLevelOFDM,
+ 		else
+ 			powerlevel[i] = pPowerLevelBW40[i];
+ 		powerBase1 = powerlevel[i];
+-		powerBase1 = (powerBase1<<24) | (powerBase1<<16) | (powerBase1<<8) | powerBase1;
+-		*(MCSBase+i) = powerBase1;
++		powerBase1 = (powerBase1 << 24) | (powerBase1 << 16) | (powerBase1 << 8) | powerBase1;
++		*(MCSBase + i) = powerBase1;
+ 	}
  }
+ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+@@ -264,7 +264,7 @@ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+ 		case 0:	/*  Realtek better performance */
+ 				/*  increase power diff defined by Realtek for large power */
+ 			chnlGroup = 0;
+-			writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index+(rf ? 8 : 0)] +
++			writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index + (rf ? 8 : 0)] +
+ 				((index < 2) ? powerBase0[rf] : powerBase1[rf]);
+ 			break;
+ 		case 1:	/*  Realtek regulatory */
+@@ -285,7 +285,7 @@ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+ 				else if (Channel == 14)		/*  Channel 14 */
+ 					chnlGroup = 5;
+ 			}
+-			writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index+(rf ? 8 : 0)] +
++			writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index + (rf ? 8 : 0)] +
+ 					((index < 2) ? powerBase0[rf] : powerBase1[rf]);
+ 			break;
+ 		case 2:	/*  Better regulatory */
+@@ -297,14 +297,14 @@ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+ 			chnlGroup = 0;
  
- static void odm_RateDecision_8188E(struct odm_dm_struct *dm_odm,
-@@ -295,41 +295,41 @@ static int odm_ARFBRefresh_8188E(struct odm_dm_struct *dm_odm, struct odm_ra_inf
+ 			if (index < 2)
+-				pwr_diff = pHalData->TxPwrLegacyHtDiff[rf][Channel-1];
++				pwr_diff = pHalData->TxPwrLegacyHtDiff[rf][Channel - 1];
+ 			else if (pHalData->CurrentChannelBW == HT_CHANNEL_WIDTH_20)
+-				pwr_diff = pHalData->TxPwrHt20Diff[rf][Channel-1];
++				pwr_diff = pHalData->TxPwrHt20Diff[rf][Channel - 1];
  
- 	switch (pRaInfo->RateID) {
- 	case RATR_INX_WIRELESS_NGB:
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&0x0f8ff015;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & 0x0f8ff015;
+ 			if (pHalData->CurrentChannelBW == HT_CHANNEL_WIDTH_40)
+-				customer_pwr_limit = pHalData->PwrGroupHT40[rf][Channel-1];
++				customer_pwr_limit = pHalData->PwrGroupHT40[rf][Channel - 1];
+ 			else
+-				customer_pwr_limit = pHalData->PwrGroupHT20[rf][Channel-1];
++				customer_pwr_limit = pHalData->PwrGroupHT20[rf][Channel - 1];
+ 
+ 			if (pwr_diff >= customer_pwr_limit)
+ 				pwr_diff = 0;
+@@ -312,18 +312,18 @@ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+ 				pwr_diff = customer_pwr_limit - pwr_diff;
+ 
+ 			for (i = 0; i < 4; i++) {
+-				pwr_diff_limit[i] = (u8)((pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index+(rf ? 8 : 0)]&(0x7f<<(i*8)))>>(i*8));
++				pwr_diff_limit[i] = (u8)((pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index + (rf ? 8 : 0)] & (0x7f << (i * 8))) >> (i * 8));
+ 
+ 				if (pwr_diff_limit[i] > pwr_diff)
+ 					pwr_diff_limit[i] = pwr_diff;
+ 			}
+-			customer_limit = (pwr_diff_limit[3]<<24) | (pwr_diff_limit[2]<<16) |
+-					 (pwr_diff_limit[1]<<8) | (pwr_diff_limit[0]);
++			customer_limit = (pwr_diff_limit[3] << 24) | (pwr_diff_limit[2] << 16) |
++					 (pwr_diff_limit[1] << 8) | (pwr_diff_limit[0]);
+ 			writeVal = customer_limit + ((index < 2) ? powerBase0[rf] : powerBase1[rf]);
+ 			break;
+ 		default:
+ 			chnlGroup = 0;
+-			writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index+(rf ? 8 : 0)] +
++			writeVal = pHalData->MCSTxPowerLevelOriginalOffset[chnlGroup][index + (rf ? 8 : 0)] +
+ 					((index < 2) ? powerBase0[rf] : powerBase1[rf]);
+ 			break;
+ 		}
+@@ -340,7 +340,7 @@ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+ 		/*  This mechanism is only applied when Driver-Highpower-Mechanism is OFF. */
+ 		if (pdmpriv->DynamicTxHighPowerLvl == TxHighPwrLevel_BT1)
+ 			writeVal = writeVal - 0x06060606;
+-		*(pOutWriteVal+rf) = writeVal;
++		*(pOutWriteVal + rf) = writeVal;
+ 	}
+ }
+ static void writeOFDMPowerReg88E(struct adapter *Adapter, u8 index, u32 *pValue)
+@@ -361,11 +361,11 @@ static void writeOFDMPowerReg88E(struct adapter *Adapter, u8 index, u32 *pValue)
+ 	for (rf = 0; rf < 2; rf++) {
+ 		writeVal = pValue[rf];
+ 		for (i = 0; i < 4; i++) {
+-			pwr_val[i] = (u8)((writeVal & (0x7f<<(i*8)))>>(i*8));
++			pwr_val[i] = (u8)((writeVal & (0x7f << (i * 8))) >> (i * 8));
+ 			if (pwr_val[i]  > RF6052_MAX_TX_PWR)
+ 				pwr_val[i]  = RF6052_MAX_TX_PWR;
+ 		}
+-		writeVal = (pwr_val[3]<<24) | (pwr_val[2]<<16) | (pwr_val[1]<<8) | pwr_val[0];
++		writeVal = (pwr_val[3] << 24) | (pwr_val[2] << 16) | (pwr_val[1] << 8) | pwr_val[0];
+ 
+ 		if (rf == 0)
+ 			regoffset = regoffset_a[index];
+@@ -386,10 +386,10 @@ static void writeOFDMPowerReg88E(struct adapter *Adapter, u8 index, u32 *pValue)
+ 				regoffset = 0xc98;
+ 			for (i = 0; i < 3; i++) {
+ 				if (i != 2)
+-					writeVal = (writeVal > 8) ? (writeVal-8) : 0;
++					writeVal = (writeVal > 8) ? (writeVal - 8) : 0;
+ 				else
+-					writeVal = (writeVal > 6) ? (writeVal-6) : 0;
+-				rtw_write8(Adapter, (u32)(regoffset+i), (u8)writeVal);
++					writeVal = (writeVal > 6) ? (writeVal - 6) : 0;
++				rtw_write8(Adapter, (u32)(regoffset + i), (u8)writeVal);
+ 			}
+ 		}
+ 	}
+@@ -475,11 +475,11 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
+ 			break;
+ 		case RF_PATH_B:
+ 		case RF_PATH_D:
+-			u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV<<16);
++			u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV << 16);
+ 			break;
+ 		}
+ 		/*----Set RF_ENV enable----*/
+-		PHY_SetBBReg(Adapter, pPhyReg->rfintfe, bRFSI_RFENV<<16, 0x1);
++		PHY_SetBBReg(Adapter, pPhyReg->rfintfe, bRFSI_RFENV << 16, 0x1);
+ 		udelay(1);/* PlatformStallExecution(1); */
+ 
+ 		/*----Set RF_ENV output high----*/
+@@ -516,7 +516,7 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
+ 			break;
+ 		case RF_PATH_B:
+ 		case RF_PATH_D:
+-			PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV<<16, u4RegValue);
++			PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV << 16, u4RegValue);
+ 			break;
+ 		}
+ 		if (rtStatus != _SUCCESS)
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
+index 8a668e96b764..b4b3c02cb13c 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
+@@ -177,7 +177,7 @@ void update_recvframe_phyinfo_88e(struct recv_frame *precvframe, struct phy_stat
+ 			rtl8188e_process_phy_info(padapter, precvframe);
+ 		}
+ 	} else if (pkt_info.bPacketToSelf || pkt_info.bPacketBeacon) {
+-		if (check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE)) {
++		if (check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE)) {
+ 			if (psta)
+ 				precvframe->psta = psta;
+ 		}
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_led.c b/drivers/staging/r8188eu/hal/rtl8188eu_led.c
+index 75ec97107add..452d4bb87aba 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_led.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_led.c
+@@ -20,10 +20,10 @@ void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
+ 	LedCfg = rtw_read8(padapter, REG_LEDCFG2);
+ 	switch (pLed->LedPin) {
+ 	case LED_PIN_LED0:
+-		rtw_write8(padapter, REG_LEDCFG2, (LedCfg&0xf0)|BIT(5)|BIT(6)); /*  SW control led0 on. */
++		rtw_write8(padapter, REG_LEDCFG2, (LedCfg & 0xf0) | BIT(5) | BIT(6)); /*  SW control led0 on. */
  		break;
- 	case RATR_INX_WIRELESS_NG:
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&0x0f8ff010;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & 0x0f8ff010;
- 		break;
- 	case RATR_INX_WIRELESS_NB:
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&0x0f8ff005;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & 0x0f8ff005;
- 		break;
- 	case RATR_INX_WIRELESS_N:
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&0x0f8ff000;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & 0x0f8ff000;
- 		break;
- 	case RATR_INX_WIRELESS_GB:
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&0x00000ff5;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & 0x00000ff5;
- 		break;
- 	case RATR_INX_WIRELESS_G:
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&0x00000ff0;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & 0x00000ff0;
- 		break;
- 	case RATR_INX_WIRELESS_B:
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&0x0000000d;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & 0x0000000d;
- 		break;
- 	case 12:
- 		MaskFromReg = ODM_Read4Byte(dm_odm, REG_ARFR0);
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&MaskFromReg;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & MaskFromReg;
- 		break;
- 	case 13:
- 		MaskFromReg = ODM_Read4Byte(dm_odm, REG_ARFR1);
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&MaskFromReg;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & MaskFromReg;
- 		break;
- 	case 14:
- 		MaskFromReg = ODM_Read4Byte(dm_odm, REG_ARFR2);
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&MaskFromReg;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & MaskFromReg;
- 		break;
- 	case 15:
- 		MaskFromReg = ODM_Read4Byte(dm_odm, REG_ARFR3);
--		pRaInfo->RAUseRate = (pRaInfo->RateMask)&MaskFromReg;
-+		pRaInfo->RAUseRate = (pRaInfo->RateMask) & MaskFromReg;
+ 	case LED_PIN_LED1:
+-		rtw_write8(padapter, REG_LEDCFG2, (LedCfg&0x0f)|BIT(5)); /*  SW control led1 on. */
++		rtw_write8(padapter, REG_LEDCFG2, (LedCfg & 0x0f) | BIT(5)); /*  SW control led1 on. */
  		break;
  	default:
- 		pRaInfo->RAUseRate = (pRaInfo->RateMask);
-@@ -338,7 +338,7 @@ static int odm_ARFBRefresh_8188E(struct odm_dm_struct *dm_odm, struct odm_ra_inf
- 	/*  Highest rate */
- 	if (pRaInfo->RAUseRate) {
- 		for (i = RATESIZE; i >= 0; i--) {
--			if ((pRaInfo->RAUseRate)&BIT(i)) {
-+			if ((pRaInfo->RAUseRate) & BIT(i)) {
- 				pRaInfo->HighestRate = i;
- 				break;
- 			}
-@@ -443,15 +443,15 @@ static void odm_PTDecision_8188E(struct odm_ra_info *pRaInfo)
- 	j = j >> 1;
- 	temp_stage = (pRaInfo->PTStage + 1) >> 1;
- 	if (temp_stage > j)
--		stage_id = temp_stage-j;
-+		stage_id = temp_stage - j;
- 	else
- 		stage_id = 0;
- 
--	pRaInfo->PTSmoothFactor = (pRaInfo->PTSmoothFactor>>1) + (pRaInfo->PTSmoothFactor>>2) + stage_id*16+2;
-+	pRaInfo->PTSmoothFactor = (pRaInfo->PTSmoothFactor >> 1) + (pRaInfo->PTSmoothFactor >> 2) + stage_id * 16 + 2;
- 	if (pRaInfo->PTSmoothFactor > 192)
- 		pRaInfo->PTSmoothFactor = 192;
- 	stage_id = pRaInfo->PTSmoothFactor >> 6;
--	temp_stage = stage_id*2;
-+	temp_stage = stage_id * 2;
- 	if (temp_stage != 0)
- 		temp_stage -= 1;
- 	if (pRaInfo->DROP > 3)
-@@ -508,8 +508,8 @@ int ODM_RAInfo_Init(struct odm_dm_struct *dm_odm, u8 macid)
- 	pRaInfo->PreRssiStaRA = 0;
- 	pRaInfo->SGIEnable = 0;
- 	pRaInfo->RAUseRate = 0xffffffff;
--	pRaInfo->NscDown = (N_THRESHOLD_HIGH[0x13]+N_THRESHOLD_LOW[0x13])/2;
--	pRaInfo->NscUp = (N_THRESHOLD_HIGH[0x13]+N_THRESHOLD_LOW[0x13])/2;
-+	pRaInfo->NscDown = (N_THRESHOLD_HIGH[0x13] + N_THRESHOLD_LOW[0x13]) / 2;
-+	pRaInfo->NscUp = (N_THRESHOLD_HIGH[0x13] + N_THRESHOLD_LOW[0x13]) / 2;
- 	pRaInfo->RateSGI = 0;
- 	pRaInfo->Active = 1;	/* Active is not used at present. by page, 110819 */
- 	pRaInfo->RptTime = 0x927c;
-diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-index 2fbac01dd969..55aa20a30342 100644
---- a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-+++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-@@ -8,7 +8,7 @@
- 	 do {						\
- 		 i += 2;				\
- 		 v1 = array[i];				\
--		 v2 = array[i+1];			\
-+		 v2 = array[i + 1];			\
- 	 } while (0)
- 
- static bool CheckCondition(const u32  condition, const u32  hex)
-@@ -179,7 +179,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
- 	u8     platform    = dm_odm->SupportPlatform;
- 	u8     interfaceValue   = dm_odm->SupportInterface;
- 	u8     board       = dm_odm->BoardType;
--	u32     arraylen    = sizeof(array_agc_tab_1t_8188e)/sizeof(u32);
-+	u32     arraylen    = sizeof(array_agc_tab_1t_8188e) / sizeof(u32);
- 	u32    *array       = array_agc_tab_1t_8188e;
- 	bool		biol = false;
- 	struct adapter *adapter =  dm_odm->Adapter;
-@@ -203,7 +203,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
- 
- 	for (i = 0; i < arraylen; i += 2) {
- 		u32 v1 = array[i];
--		u32 v2 = array[i+1];
-+		u32 v2 = array[i + 1];
- 
- 		/*  This (offset, data) pair meets the condition. */
- 		if (v1 < 0xCDCDCDCD) {
-@@ -459,7 +459,7 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
- 	u8     platform    = dm_odm->SupportPlatform;
- 	u8     interfaceValue   = dm_odm->SupportInterface;
- 	u8     board       = dm_odm->BoardType;
--	u32     arraylen    = sizeof(array_phy_reg_1t_8188e)/sizeof(u32);
-+	u32     arraylen    = sizeof(array_phy_reg_1t_8188e) / sizeof(u32);
- 	u32    *array       = array_phy_reg_1t_8188e;
- 	bool	biol = false;
- 	struct adapter *adapter =  dm_odm->Adapter;
-@@ -482,7 +482,7 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
- 
- 	for (i = 0; i < arraylen; i += 2) {
- 		u32 v1 = array[i];
--		u32 v2 = array[i+1];
-+		u32 v2 = array[i + 1];
- 
- 		/*  This (offset, data) pair meets the condition. */
- 		if (v1 < 0xCDCDCDCD) {
-@@ -676,8 +676,8 @@ void ODM_ReadAndConfig_PHY_REG_PG_8188E(struct odm_dm_struct *dm_odm)
- 
- 	for (i = 0; i < arraylen; i += 3) {
- 		u32 v1 = array[i];
--		u32 v2 = array[i+1];
--		u32 v3 = array[i+2];
-+		u32 v2 = array[i + 1];
-+		u32 v3 = array[i + 2];
- 
- 		/*  this line is a line of pure_body */
- 		if (v1 < 0xCDCDCDCD) {
-@@ -688,13 +688,13 @@ void ODM_ReadAndConfig_PHY_REG_PG_8188E(struct odm_dm_struct *dm_odm)
- 				/*  don't need the hw_body */
- 				i += 2; /*  skip the pair of expression */
- 				v1 = array[i];
--				v2 = array[i+1];
--				v3 = array[i+2];
-+				v2 = array[i + 1];
-+				v3 = array[i + 2];
- 				while (v2 != 0xDEAD) {
- 					i += 3;
- 					v1 = array[i];
--					v2 = array[i+1];
--					v3 = array[i+1];
-+					v2 = array[i + 1];
-+					v3 = array[i + 1];
- 				}
- 			}
+ 		break;
+@@ -48,17 +48,17 @@ void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
+ 		if (pHalData->bLedOpenDrain) {
+ 			/*  Open-drain arrangement for controlling the LED) */
+ 			LedCfg &= 0x90; /*  Set to software control. */
+-			rtw_write8(padapter, REG_LEDCFG2, (LedCfg|BIT(3)));
++			rtw_write8(padapter, REG_LEDCFG2, (LedCfg | BIT(3)));
+ 			LedCfg = rtw_read8(padapter, REG_MAC_PINMUX_CFG);
+ 			LedCfg &= 0xFE;
+ 			rtw_write8(padapter, REG_MAC_PINMUX_CFG, LedCfg);
+ 		} else {
+-			rtw_write8(padapter, REG_LEDCFG2, (LedCfg|BIT(3)|BIT(5)|BIT(6)));
++			rtw_write8(padapter, REG_LEDCFG2, (LedCfg | BIT(3) | BIT(5) | BIT(6)));
  		}
-diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-index 56b5d7c0bb9c..0ff2609c26bb 100644
---- a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-+++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-@@ -129,14 +129,14 @@ static u32 array_MAC_REG_8188E[] = {
+ 		break;
+ 	case LED_PIN_LED1:
+ 		LedCfg &= 0x0f; /*  Set to software control. */
+-		rtw_write8(padapter, REG_LEDCFG2, (LedCfg|BIT(3)));
++		rtw_write8(padapter, REG_LEDCFG2, (LedCfg | BIT(3)));
+ 		break;
+ 	default:
+ 		break;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+index 3a169392d183..a44c9598186c 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+@@ -82,7 +82,7 @@ int	rtl8188eu_init_recv_priv(struct adapter *padapter)
+ 			if (pskb) {
+ 				pskb->dev = padapter->pnetdev;
+ 				tmpaddr = (size_t)pskb->data;
+-				alignment = tmpaddr & (RECVBUFF_ALIGN_SZ-1);
++				alignment = tmpaddr & (RECVBUFF_ALIGN_SZ - 1);
+ 				skb_reserve(pskb, (RECVBUFF_ALIGN_SZ - alignment));
  
- enum HAL_STATUS ODM_ReadAndConfig_MAC_REG_8188E(struct odm_dm_struct *dm_odm)
- {
--	#define READ_NEXT_PAIR(v1, v2, i) do { i += 2; v1 = array[i]; v2 = array[i+1]; } while (0)
-+	#define READ_NEXT_PAIR(v1, v2, i) do { i += 2; v1 = array[i]; v2 = array[i + 1]; } while (0)
+ 				skb_queue_tail(&precvpriv->free_recv_skb_queue, pskb);
+diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+index a38e10b16233..8c9a651d4f44 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
++++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
+@@ -61,12 +61,12 @@ void rtl8188e_fill_fake_txdesc(struct adapter *adapt, u8 *desc, u32 BufferLen, u
+ 	/* offset 0 */
+ 	ptxdesc->txdw0 |= cpu_to_le32(OWN | FSG | LSG); /* own, bFirstSeg, bLastSeg; */
  
- 	u32     hex         = 0;
- 	u32     i;
- 	u8     platform    = dm_odm->SupportPlatform;
- 	u8     interface_val   = dm_odm->SupportInterface;
- 	u8     board       = dm_odm->BoardType;
--	u32     array_len    = sizeof(array_MAC_REG_8188E)/sizeof(u32);
-+	u32     array_len    = sizeof(array_MAC_REG_8188E) / sizeof(u32);
- 	u32    *array       = array_MAC_REG_8188E;
- 	bool	biol = false;
+-	ptxdesc->txdw0 |= cpu_to_le32(((TXDESC_SIZE+OFFSET_SZ)<<OFFSET_SHT)&0x00ff0000); /* 32 bytes for TX Desc */
++	ptxdesc->txdw0 |= cpu_to_le32(((TXDESC_SIZE + OFFSET_SZ) << OFFSET_SHT) & 0x00ff0000); /* 32 bytes for TX Desc */
  
-@@ -161,7 +161,7 @@ enum HAL_STATUS ODM_ReadAndConfig_MAC_REG_8188E(struct odm_dm_struct *dm_odm)
+-	ptxdesc->txdw0 |= cpu_to_le32(BufferLen&0x0000ffff); /*  Buffer size + command header */
++	ptxdesc->txdw0 |= cpu_to_le32(BufferLen & 0x0000ffff); /*  Buffer size + command header */
  
- 	for (i = 0; i < array_len; i += 2) {
- 		u32 v1 = array[i];
--		u32 v2 = array[i+1];
-+		u32 v2 = array[i + 1];
+ 	/* offset 4 */
+-	ptxdesc->txdw1 |= cpu_to_le32((QSLT_MGNT<<QSEL_SHT)&0x00001f00); /*  Fixed queue of Mgnt queue */
++	ptxdesc->txdw1 |= cpu_to_le32((QSLT_MGNT << QSEL_SHT) & 0x00001f00); /*  Fixed queue of Mgnt queue */
  
- 		/*  This (offset, data) pair meets the condition. */
- 		if (v1 < 0xCDCDCDCD) {
-diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
-index c5895e0c798b..55e4b4a877a4 100644
---- a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
-+++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
-@@ -140,14 +140,14 @@ enum HAL_STATUS ODM_ReadAndConfig_RadioA_1T_8188E(struct odm_dm_struct *pDM_Odm)
- {
- 	#define READ_NEXT_PAIR(v1, v2, i) do	\
- 		 { i += 2; v1 = Array[i];	\
--		 v2 = Array[i+1]; } while (0)
-+		 v2 = Array[i + 1]; } while (0)
- 
- 	u32     hex         = 0;
- 	u32     i           = 0;
- 	u8     platform    = pDM_Odm->SupportPlatform;
- 	u8     interfaceValue   = pDM_Odm->SupportInterface;
- 	u8     board       = pDM_Odm->BoardType;
--	u32     ArrayLen    = sizeof(Array_RadioA_1T_8188E)/sizeof(u32);
-+	u32     ArrayLen    = sizeof(Array_RadioA_1T_8188E) / sizeof(u32);
- 	u32    *Array       = Array_RadioA_1T_8188E;
- 	bool		biol = false;
- 	struct adapter *Adapter =  pDM_Odm->Adapter;
-@@ -171,7 +171,7 @@ enum HAL_STATUS ODM_ReadAndConfig_RadioA_1T_8188E(struct odm_dm_struct *pDM_Odm)
- 
- 	for (i = 0; i < ArrayLen; i += 2) {
- 		u32 v1 = Array[i];
--		u32 v2 = Array[i+1];
-+		u32 v2 = Array[i + 1];
- 
- 		/*  This (offset, data) pair meets the condition. */
- 		if (v1 < 0xCDCDCDCD) {
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index c92a76aebc11..356885e27edd 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -63,7 +63,7 @@ void ODM_TxPwrTrackAdjust88E(struct odm_dm_struct *dm_odm, u8 Type,/*  0 = OFDM,
- 	if (pwr_value >= ODM_TXPWRTRACK_MAX_IDX_88E && *pDirection == 1)
- 		pwr_value = ODM_TXPWRTRACK_MAX_IDX_88E;
- 
--	*pOutWriteVal = pwr_value | (pwr_value<<8) | (pwr_value<<16) | (pwr_value<<24);
-+	*pOutWriteVal = pwr_value | (pwr_value << 8) | (pwr_value << 16) | (pwr_value << 24);
- }	/*  ODM_TxPwrTrackAdjust88E */
- 
- /*-----------------------------------------------------------------------------
-@@ -147,9 +147,9 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 
- 	if (ThermalValue) {
- 		/* Query OFDM path A default setting */
--		ele_D = ODM_GetBBReg(dm_odm, rOFDM0_XATxIQImbalance, bMaskDWord)&bMaskOFDM_D;
-+		ele_D = ODM_GetBBReg(dm_odm, rOFDM0_XATxIQImbalance, bMaskDWord) & bMaskOFDM_D;
- 		for (i = 0; i < OFDM_TABLE_SIZE_92D; i++) {	/* find the index */
--			if (ele_D == (OFDMSwingTable[i]&bMaskOFDM_D)) {
-+			if (ele_D == (OFDMSwingTable[i] & bMaskOFDM_D)) {
- 				OFDM_index_old[0] = (u8)i;
- 				dm_odm->BbSwingIdxOfdmBase = (u8)i;
- 				break;
-@@ -158,9 +158,9 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 
- 		/* Query OFDM path B default setting */
- 		if (is2t) {
--			ele_D = ODM_GetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, bMaskDWord)&bMaskOFDM_D;
-+			ele_D = ODM_GetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, bMaskDWord) & bMaskOFDM_D;
- 			for (i = 0; i < OFDM_TABLE_SIZE_92D; i++) {	/* find the index */
--				if (ele_D == (OFDMSwingTable[i]&bMaskOFDM_D)) {
-+				if (ele_D == (OFDMSwingTable[i] & bMaskOFDM_D)) {
- 					OFDM_index_old[1] = (u8)i;
- 					break;
- 				}
-@@ -256,20 +256,20 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 				}
- 			}
- 			if (offset >= index_mapping_NUM_88E)
--				offset = index_mapping_NUM_88E-1;
-+				offset = index_mapping_NUM_88E - 1;
- 			for (i = 0; i < rf; i++)
- 				OFDM_index[i] = dm_odm->RFCalibrateInfo.OFDM_index[i] + OFDM_index_mapping[j][offset];
- 			CCK_index = dm_odm->RFCalibrateInfo.CCK_index + OFDM_index_mapping[j][offset];
- 
- 			for (i = 0; i < rf; i++) {
--				if (OFDM_index[i] > OFDM_TABLE_SIZE_92D-1)
--					OFDM_index[i] = OFDM_TABLE_SIZE_92D-1;
-+				if (OFDM_index[i] > OFDM_TABLE_SIZE_92D - 1)
-+					OFDM_index[i] = OFDM_TABLE_SIZE_92D - 1;
- 				else if (OFDM_index[i] < OFDM_min_index)
- 					OFDM_index[i] = OFDM_min_index;
- 			}
- 
--			if (CCK_index > CCK_TABLE_SIZE-1)
--				CCK_index = CCK_TABLE_SIZE-1;
-+			if (CCK_index > CCK_TABLE_SIZE - 1)
-+				CCK_index = CCK_TABLE_SIZE - 1;
- 			else if (CCK_index < 0)
- 				CCK_index = 0;
- 
-@@ -279,7 +279,7 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 				dm_odm->RFCalibrateInfo.bDoneTxpower = true;
- 
- 				/* Adujst OFDM Ant_A according to IQK result */
--				ele_D = (OFDMSwingTable[(u8)OFDM_index[0]] & 0xFFC00000)>>22;
-+				ele_D = (OFDMSwingTable[(u8)OFDM_index[0]] & 0xFFC00000) >> 22;
- 				X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][0];
- 				Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][1];
- 
-@@ -300,19 +300,19 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 				if (X != 0) {
- 					if ((X & 0x00000200) != 0)
- 						X = X | 0xFFFFFC00;
--					ele_A = ((X * ele_D)>>8)&0x000003FF;
-+					ele_A = ((X * ele_D) >> 8) & 0x000003FF;
- 
- 					/* new element C = element D x Y */
- 					if ((Y & 0x00000200) != 0)
- 						Y = Y | 0xFFFFFC00;
--					ele_C = ((Y * ele_D)>>8)&0x000003FF;
-+					ele_C = ((Y * ele_D) >> 8) & 0x000003FF;
- 
- 					/*  2012/04/23 MH According to Luke's suggestion, we can not write BB digital */
- 					/*  to increase TX power. Otherwise, EVM will be bad. */
- 				}
- 
- 				if (is2t) {
--					ele_D = (OFDMSwingTable[(u8)OFDM_index[1]] & 0xFFC00000)>>22;
-+					ele_D = (OFDMSwingTable[(u8)OFDM_index[1]] & 0xFFC00000) >> 22;
- 
- 					/* new element A = element D x X */
- 					X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][4];
-@@ -321,21 +321,21 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 					if ((X != 0) && (*dm_odm->pBandType == ODM_BAND_2_4G)) {
- 						if ((X & 0x00000200) != 0)	/* consider minus */
- 							X = X | 0xFFFFFC00;
--						ele_A = ((X * ele_D)>>8)&0x000003FF;
-+						ele_A = ((X * ele_D) >> 8) & 0x000003FF;
- 
- 						/* new element C = element D x Y */
- 						if ((Y & 0x00000200) != 0)
- 							Y = Y | 0xFFFFFC00;
--						ele_C = ((Y * ele_D)>>8)&0x00003FF;
-+						ele_C = ((Y * ele_D) >> 8) & 0x00003FF;
- 
- 						/* wtite new elements A, C, D to regC88 and regC9C, element B is always 0 */
--						value32 = (ele_D<<22) | ((ele_C&0x3F)<<16) | ele_A;
-+						value32 = (ele_D << 22) | ((ele_C & 0x3F) << 16) | ele_A;
- 						ODM_SetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, bMaskDWord, value32);
- 
--						value32 = (ele_C&0x000003C0)>>6;
-+						value32 = (ele_C & 0x000003C0) >> 6;
- 						ODM_SetBBReg(dm_odm, rOFDM0_XDTxAFE, bMaskH4Bits, value32);
- 
--						value32 = ((X * ele_D)>>7)&0x01;
-+						value32 = ((X * ele_D) >> 7) & 0x01;
- 						ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(28), value32);
- 					} else {
- 						ODM_SetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, bMaskDWord, OFDMSwingTable[(u8)OFDM_index[1]]);
-@@ -393,8 +393,8 @@ phy_PathA_IQK_8188E(struct adapter *adapt, bool configPathB)
- 	regE9C = ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord);
- 
- 	if (!(regeac & BIT(28)) &&
--	    (((regE94 & 0x03FF0000)>>16) != 0x142) &&
--	    (((regE9C & 0x03FF0000)>>16) != 0x42))
-+	    (((regE94 & 0x03FF0000) >> 16) != 0x142) &&
-+	    (((regE9C & 0x03FF0000) >> 16) != 0x42))
- 		result |= 0x01;
- 	return result;
- }
-@@ -447,13 +447,13 @@ phy_PathA_RxIQK(struct adapter *adapt, bool configPathB)
- 	regE9C = ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord);
- 
- 	if (!(regeac & BIT(28)) &&
--	    (((regE94 & 0x03FF0000)>>16) != 0x142) &&
--	    (((regE9C & 0x03FF0000)>>16) != 0x42))
-+	    (((regE94 & 0x03FF0000) >> 16) != 0x142) &&
-+	    (((regE9C & 0x03FF0000) >> 16) != 0x42))
- 		result |= 0x01;
- 	else							/* if Tx not OK, ignore Rx */
- 		return result;
- 
--	u4tmp = 0x80007C00 | (regE94&0x3FF0000)  | ((regE9C&0x3FF0000) >> 16);
-+	u4tmp = 0x80007C00 | (regE94 & 0x3FF0000)  | ((regE9C & 0x3FF0000) >> 16);
- 	ODM_SetBBReg(dm_odm, rTx_IQK, bMaskDWord, u4tmp);
- 
- 	/* 1 RX IQK */
-@@ -496,8 +496,8 @@ phy_PathA_RxIQK(struct adapter *adapt, bool configPathB)
- 	ODM_SetRFReg(dm_odm, RF_PATH_A, 0xdf, bRFRegOffsetMask, 0x180);
- 
- 	if (!(regeac & BIT(27)) &&		/* if Tx is OK, check whether Rx is OK */
--	    (((regEA4 & 0x03FF0000)>>16) != 0x132) &&
--	    (((regeac & 0x03FF0000)>>16) != 0x36))
-+	    (((regEA4 & 0x03FF0000) >> 16) != 0x132) &&
-+	    (((regeac & 0x03FF0000) >> 16) != 0x36))
- 		result |= 0x02;
- 
- 	return result;
-@@ -526,15 +526,15 @@ phy_PathB_IQK_8188E(struct adapter *adapt)
- 	regecc = ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_B_2, bMaskDWord);
- 
- 	if (!(regeac & BIT(31)) &&
--	    (((regeb4 & 0x03FF0000)>>16) != 0x142) &&
--	    (((regebc & 0x03FF0000)>>16) != 0x42))
-+	    (((regeb4 & 0x03FF0000) >> 16) != 0x142) &&
-+	    (((regebc & 0x03FF0000) >> 16) != 0x42))
- 		result |= 0x01;
- 	else
- 		return result;
- 
- 	if (!(regeac & BIT(30)) &&
--	    (((regec4 & 0x03FF0000)>>16) != 0x132) &&
--	    (((regecc & 0x03FF0000)>>16) != 0x36))
-+	    (((regec4 & 0x03FF0000) >> 16) != 0x132) &&
-+	    (((regecc & 0x03FF0000) >> 16) != 0x36))
- 		result |= 0x02;
- 
- 	return result;
-@@ -558,17 +558,17 @@ static void patha_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8], u
- 		TX0_A = (X * Oldval_0) >> 8;
- 		ODM_SetBBReg(dm_odm, rOFDM0_XATxIQImbalance, 0x3FF, TX0_A);
- 
--		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(31), ((X * Oldval_0>>7) & 0x1));
-+		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(31), ((X * Oldval_0 >> 7) & 0x1));
- 
- 		Y = result[final_candidate][1];
- 		if ((Y & 0x00000200) != 0)
- 			Y = Y | 0xFFFFFC00;
- 
- 		TX0_C = (Y * Oldval_0) >> 8;
--		ODM_SetBBReg(dm_odm, rOFDM0_XCTxAFE, 0xF0000000, ((TX0_C&0x3C0)>>6));
--		ODM_SetBBReg(dm_odm, rOFDM0_XATxIQImbalance, 0x003F0000, (TX0_C&0x3F));
-+		ODM_SetBBReg(dm_odm, rOFDM0_XCTxAFE, 0xF0000000, ((TX0_C & 0x3C0) >> 6));
-+		ODM_SetBBReg(dm_odm, rOFDM0_XATxIQImbalance, 0x003F0000, (TX0_C & 0x3F));
- 
--		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(29), ((Y * Oldval_0>>7) & 0x1));
-+		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(29), ((Y * Oldval_0 >> 7) & 0x1));
- 
- 		if (txonly)
- 			return;
-@@ -602,17 +602,17 @@ static void pathb_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8], u
- 		TX1_A = (X * Oldval_1) >> 8;
- 		ODM_SetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, 0x3FF, TX1_A);
- 
--		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(27), ((X * Oldval_1>>7) & 0x1));
-+		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(27), ((X * Oldval_1 >> 7) & 0x1));
- 
- 		Y = result[final_candidate][5];
- 		if ((Y & 0x00000200) != 0)
- 			Y = Y | 0xFFFFFC00;
- 
- 		TX1_C = (Y * Oldval_1) >> 8;
--		ODM_SetBBReg(dm_odm, rOFDM0_XDTxAFE, 0xF0000000, ((TX1_C&0x3C0)>>6));
--		ODM_SetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, 0x003F0000, (TX1_C&0x3F));
-+		ODM_SetBBReg(dm_odm, rOFDM0_XDTxAFE, 0xF0000000, ((TX1_C & 0x3C0) >> 6));
-+		ODM_SetBBReg(dm_odm, rOFDM0_XBTxIQImbalance, 0x003F0000, (TX1_C & 0x3F));
- 
--		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(25), ((Y * Oldval_1>>7) & 0x1));
-+		ODM_SetBBReg(dm_odm, rOFDM0_ECCAThreshold, BIT(25), ((Y * Oldval_1 >> 7) & 0x1));
- 
- 		if (txonly)
- 			return;
-@@ -732,9 +732,9 @@ _PHY_MACSettingCalibration(
- 	ODM_Write1Byte(dm_odm, MACReg[i], 0x3F);
- 
- 	for (i = 1; i < (IQK_MAC_REG_NUM - 1); i++) {
--		ODM_Write1Byte(dm_odm, MACReg[i], (u8)(MACBackup[i]&(~BIT(3))));
-+		ODM_Write1Byte(dm_odm, MACReg[i], (u8)(MACBackup[i] & (~BIT(3))));
- 	}
--	ODM_Write1Byte(dm_odm, MACReg[i], (u8)(MACBackup[i]&(~BIT(5))));
-+	ODM_Write1Byte(dm_odm, MACReg[i], (u8)(MACBackup[i] & (~BIT(5))));
- }
- 
- void
-@@ -811,22 +811,22 @@ static bool phy_SimularityCompare_8188E(
- 
- 		if (diff > MAX_TOLERANCE) {
- 			if ((i == 2 || i == 6) && !sim_bitmap) {
--				if (resulta[c1][i] + resulta[c1][i+1] == 0)
--					final_candidate[(i/4)] = c2;
--				else if (resulta[c2][i] + resulta[c2][i+1] == 0)
--					final_candidate[(i/4)] = c1;
-+				if (resulta[c1][i] + resulta[c1][i + 1] == 0)
-+					final_candidate[(i / 4)] = c2;
-+				else if (resulta[c2][i] + resulta[c2][i + 1] == 0)
-+					final_candidate[(i / 4)] = c1;
- 				else
--					sim_bitmap = sim_bitmap | (1<<i);
-+					sim_bitmap = sim_bitmap | (1 << i);
- 			} else {
--				sim_bitmap = sim_bitmap | (1<<i);
-+				sim_bitmap = sim_bitmap | (1 << i);
- 			}
- 		}
- 	}
- 
- 	if (sim_bitmap == 0) {
--		for (i = 0; i < (bound/4); i++) {
-+		for (i = 0; i < (bound / 4); i++) {
- 			if (final_candidate[i] != 0xFF) {
--				for (j = i*4; j < (i+1)*4-2; j++)
-+				for (j = i * 4; j < (i + 1) * 4 - 2; j++)
- 					resulta[3][j] = resulta[final_candidate[i]][j];
- 				result = false;
- 			}
-@@ -940,8 +940,8 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t,
- 	for (i = 0; i < retryCount; i++) {
- 		PathAOK = phy_PathA_IQK_8188E(adapt, is2t);
- 		if (PathAOK == 0x01) {
--			result[t][0] = (ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_A, bMaskDWord)&0x3FF0000)>>16;
--			result[t][1] = (ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord)&0x3FF0000)>>16;
-+			result[t][0] = (ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_A, bMaskDWord) & 0x3FF0000) >> 16;
-+			result[t][1] = (ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_A, bMaskDWord) & 0x3FF0000) >> 16;
+ 	/* Set NAVUSEHDR to prevent Ps-poll AId filed to be changed to error vlaue by Hw. */
+ 	if (ispspoll) {
+@@ -94,16 +94,16 @@ static void fill_txdesc_sectype(struct pkt_attrib *pattrib, struct tx_desc *ptxd
+ 		/* SEC_TYPE : 0:NO_ENC,1:WEP40/TKIP,2:WAPI,3:AES */
+ 		case _WEP40_:
+ 		case _WEP104_:
+-			ptxdesc->txdw1 |= cpu_to_le32((0x01<<SEC_TYPE_SHT)&0x00c00000);
++			ptxdesc->txdw1 |= cpu_to_le32((0x01 << SEC_TYPE_SHT) & 0x00c00000);
+ 			ptxdesc->txdw2 |= cpu_to_le32(0x7 << AMPDU_DENSITY_SHT);
  			break;
- 		}
- 	}
-@@ -949,8 +949,8 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t,
- 	for (i = 0; i < retryCount; i++) {
- 		PathAOK = phy_PathA_RxIQK(adapt, is2t);
- 		if (PathAOK == 0x03) {
--			result[t][2] = (ODM_GetBBReg(dm_odm, rRx_Power_Before_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
--			result[t][3] = (ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_A_2, bMaskDWord)&0x3FF0000)>>16;
-+			result[t][2] = (ODM_GetBBReg(dm_odm, rRx_Power_Before_IQK_A_2, bMaskDWord) & 0x3FF0000) >> 16;
-+			result[t][3] = (ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_A_2, bMaskDWord) & 0x3FF0000) >> 16;
+ 		case _TKIP_:
+ 		case _TKIP_WTMIC_:
+-			ptxdesc->txdw1 |= cpu_to_le32((0x01<<SEC_TYPE_SHT)&0x00c00000);
++			ptxdesc->txdw1 |= cpu_to_le32((0x01 << SEC_TYPE_SHT) & 0x00c00000);
+ 			ptxdesc->txdw2 |= cpu_to_le32(0x7 << AMPDU_DENSITY_SHT);
  			break;
- 		}
- 	}
-@@ -964,14 +964,14 @@ static void phy_IQCalibrate_8188E(struct adapter *adapt, s32 result[][8], u8 t,
- 		for (i = 0; i < retryCount; i++) {
- 			PathBOK = phy_PathB_IQK_8188E(adapt);
- 			if (PathBOK == 0x03) {
--				result[t][4] = (ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_B, bMaskDWord)&0x3FF0000)>>16;
--				result[t][5] = (ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_B, bMaskDWord)&0x3FF0000)>>16;
--				result[t][6] = (ODM_GetBBReg(dm_odm, rRx_Power_Before_IQK_B_2, bMaskDWord)&0x3FF0000)>>16;
--				result[t][7] = (ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_B_2, bMaskDWord)&0x3FF0000)>>16;
-+				result[t][4] = (ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_B, bMaskDWord) & 0x3FF0000) >> 16;
-+				result[t][5] = (ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_B, bMaskDWord) & 0x3FF0000) >> 16;
-+				result[t][6] = (ODM_GetBBReg(dm_odm, rRx_Power_Before_IQK_B_2, bMaskDWord) & 0x3FF0000) >> 16;
-+				result[t][7] = (ODM_GetBBReg(dm_odm, rRx_Power_After_IQK_B_2, bMaskDWord) & 0x3FF0000) >> 16;
- 				break;
- 			} else if (i == (retryCount - 1) && PathBOK == 0x01) {	/* Tx IQK OK */
--				result[t][4] = (ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_B, bMaskDWord)&0x3FF0000)>>16;
--				result[t][5] = (ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_B, bMaskDWord)&0x3FF0000)>>16;
-+				result[t][4] = (ODM_GetBBReg(dm_odm, rTx_Power_Before_IQK_B, bMaskDWord) & 0x3FF0000) >> 16;
-+				result[t][5] = (ODM_GetBBReg(dm_odm, rTx_Power_After_IQK_B, bMaskDWord) & 0x3FF0000) >> 16;
- 			}
- 		}
- 	}
-@@ -1014,12 +1014,12 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt, bool is2t)
- 	/* Check continuous TX and Packet TX */
- 	tmpreg = ODM_Read1Byte(dm_odm, 0xd03);
+ 		case _AES_:
+-			ptxdesc->txdw1 |= cpu_to_le32((0x03<<SEC_TYPE_SHT)&0x00c00000);
++			ptxdesc->txdw1 |= cpu_to_le32((0x03 << SEC_TYPE_SHT) & 0x00c00000);
+ 			ptxdesc->txdw2 |= cpu_to_le32(0x7 << AMPDU_DENSITY_SHT);
+ 			break;
+ 		case _NO_PRIVACY_:
+@@ -130,7 +130,7 @@ static void fill_txdesc_vcs(struct pkt_attrib *pattrib, __le32 *pdw)
+ 		*pdw |= cpu_to_le32(HW_RTS_EN);
+ 		/*  Set RTS BW */
+ 		if (pattrib->ht_en) {
+-			*pdw |= (pattrib->bwmode&HT_CHANNEL_WIDTH_40) ?	cpu_to_le32(BIT(27)) : 0;
++			*pdw |= (pattrib->bwmode & HT_CHANNEL_WIDTH_40) ? cpu_to_le32(BIT(27)) : 0;
  
--	if ((tmpreg&0x70) != 0)			/* Deal with contisuous TX case */
--		ODM_Write1Byte(dm_odm, 0xd03, tmpreg&0x8F);	/* disable all continuous TX */
-+	if ((tmpreg & 0x70) != 0)			/* Deal with contisuous TX case */
-+		ODM_Write1Byte(dm_odm, 0xd03, tmpreg & 0x8F);	/* disable all continuous TX */
- 	else							/*  Deal with Packet TX case */
- 		ODM_Write1Byte(dm_odm, REG_TXPAUSE, 0xFF);			/*  block all queues */
- 
--	if ((tmpreg&0x70) != 0) {
-+	if ((tmpreg & 0x70) != 0) {
- 		/* 1. Read original RF mode */
- 		/* Path-A */
- 		RF_Amode = PHY_QueryRFReg(adapt, RF_PATH_A, RF_AC, bMask12Bits);
-@@ -1030,23 +1030,23 @@ static void phy_LCCalibrate_8188E(struct adapter *adapt, bool is2t)
- 
- 		/* 2. Set RF mode = standby mode */
- 		/* Path-A */
--		ODM_SetRFReg(dm_odm, RF_PATH_A, RF_AC, bMask12Bits, (RF_Amode&0x8FFFF)|0x10000);
-+		ODM_SetRFReg(dm_odm, RF_PATH_A, RF_AC, bMask12Bits, (RF_Amode & 0x8FFFF) | 0x10000);
- 
- 		/* Path-B */
- 		if (is2t)
--			ODM_SetRFReg(dm_odm, RF_PATH_B, RF_AC, bMask12Bits, (RF_Bmode&0x8FFFF)|0x10000);
-+			ODM_SetRFReg(dm_odm, RF_PATH_B, RF_AC, bMask12Bits, (RF_Bmode & 0x8FFFF) | 0x10000);
- 	}
- 
- 	/* 3. Read RF reg18 */
- 	LC_Cal = PHY_QueryRFReg(adapt, RF_PATH_A, RF_CHNLBW, bMask12Bits);
- 
- 	/* 4. Set LC calibration begin	bit15 */
--	ODM_SetRFReg(dm_odm, RF_PATH_A, RF_CHNLBW, bMask12Bits, LC_Cal|0x08000);
-+	ODM_SetRFReg(dm_odm, RF_PATH_A, RF_CHNLBW, bMask12Bits, LC_Cal | 0x08000);
- 
- 	ODM_sleep_ms(100);
- 
- 	/* Restore original situation */
--	if ((tmpreg&0x70) != 0) {
-+	if ((tmpreg & 0x70) != 0) {
- 		/* Deal with continuous TX case */
- 		/* Path-A */
- 		ODM_Write1Byte(dm_odm, 0xd03, tmpreg);
-@@ -1239,14 +1239,14 @@ static void phy_setrfpathswitch_8188e(struct adapter *adapt, bool main, bool is2
- 
- 	if (is2t) {	/* 92C */
- 		if (main)
--			ODM_SetBBReg(dm_odm, rFPGA0_XB_RFInterfaceOE, BIT(5)|BIT(6), 0x1);	/* 92C_Path_A */
-+			ODM_SetBBReg(dm_odm, rFPGA0_XB_RFInterfaceOE, BIT(5) | BIT(6), 0x1);	/* 92C_Path_A */
- 		else
--			ODM_SetBBReg(dm_odm, rFPGA0_XB_RFInterfaceOE, BIT(5)|BIT(6), 0x2);	/* BT */
-+			ODM_SetBBReg(dm_odm, rFPGA0_XB_RFInterfaceOE, BIT(5) | BIT(6), 0x2);	/* BT */
- 	} else {			/* 88C */
- 		if (main)
--			ODM_SetBBReg(dm_odm, rFPGA0_XA_RFInterfaceOE, BIT(8)|BIT(9), 0x2);	/* Main */
-+			ODM_SetBBReg(dm_odm, rFPGA0_XA_RFInterfaceOE, BIT(8) | BIT(9), 0x2);	/* Main */
- 		else
--			ODM_SetBBReg(dm_odm, rFPGA0_XA_RFInterfaceOE, BIT(8)|BIT(9), 0x1);	/* Aux */
-+			ODM_SetBBReg(dm_odm, rFPGA0_XA_RFInterfaceOE, BIT(8) | BIT(9), 0x1);	/* Aux */
- 	}
- }
- 
-diff --git a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-index 15386d42b0da..0fd11aca7ac7 100644
---- a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-+++ b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-@@ -78,7 +78,7 @@ u8 HalPwrSeqCmdParsing(struct adapter *padapter, u8 cut_vers, u8 fab_vers,
- 				if (GET_PWR_CFG_VALUE(pwrcfgcmd) == PWRSEQ_DELAY_US)
- 					udelay(GET_PWR_CFG_OFFSET(pwrcfgcmd));
- 				else
--					udelay(GET_PWR_CFG_OFFSET(pwrcfgcmd)*1000);
-+					udelay(GET_PWR_CFG_OFFSET(pwrcfgcmd) * 1000);
- 				break;
- 			case PWR_CMD_END:
- 				/*  When this command is parsed, end the process */
-diff --git a/drivers/staging/r8188eu/hal/hal_com.c b/drivers/staging/r8188eu/hal/hal_com.c
-index c3c76a37e52f..f09d4d49b159 100644
---- a/drivers/staging/r8188eu/hal/hal_com.c
-+++ b/drivers/staging/r8188eu/hal/hal_com.c
-@@ -16,46 +16,46 @@ void dump_chip_info(struct HAL_VERSION	chip_vers)
- 	char buf[128];
- 
- 	if (IS_81XXC(chip_vers)) {
--		cnt += sprintf((buf+cnt), "Chip Version Info: %s_",
-+		cnt += sprintf((buf + cnt), "Chip Version Info: %s_",
- 			       IS_92C_SERIAL(chip_vers) ?
- 			       "CHIP_8192C" : "CHIP_8188C");
- 	} else if (IS_92D(chip_vers)) {
--		cnt += sprintf((buf+cnt), "Chip Version Info: CHIP_8192D_");
-+		cnt += sprintf((buf + cnt), "Chip Version Info: CHIP_8192D_");
- 	} else if (IS_8723_SERIES(chip_vers)) {
--		cnt += sprintf((buf+cnt), "Chip Version Info: CHIP_8723A_");
-+		cnt += sprintf((buf + cnt), "Chip Version Info: CHIP_8723A_");
- 	} else if (IS_8188E(chip_vers)) {
--		cnt += sprintf((buf+cnt), "Chip Version Info: CHIP_8188E_");
-+		cnt += sprintf((buf + cnt), "Chip Version Info: CHIP_8188E_");
- 	}
- 
--	cnt += sprintf((buf+cnt), "%s_", IS_NORMAL_CHIP(chip_vers) ?
-+	cnt += sprintf((buf + cnt), "%s_", IS_NORMAL_CHIP(chip_vers) ?
- 		       "Normal_Chip" : "Test_Chip");
--	cnt += sprintf((buf+cnt), "%s_", IS_CHIP_VENDOR_TSMC(chip_vers) ?
-+	cnt += sprintf((buf + cnt), "%s_", IS_CHIP_VENDOR_TSMC(chip_vers) ?
- 		       "TSMC" : "UMC");
- 	if (IS_A_CUT(chip_vers))
--		cnt += sprintf((buf+cnt), "A_CUT_");
-+		cnt += sprintf((buf + cnt), "A_CUT_");
- 	else if (IS_B_CUT(chip_vers))
--		cnt += sprintf((buf+cnt), "B_CUT_");
-+		cnt += sprintf((buf + cnt), "B_CUT_");
- 	else if (IS_C_CUT(chip_vers))
--		cnt += sprintf((buf+cnt), "C_CUT_");
-+		cnt += sprintf((buf + cnt), "C_CUT_");
- 	else if (IS_D_CUT(chip_vers))
--		cnt += sprintf((buf+cnt), "D_CUT_");
-+		cnt += sprintf((buf + cnt), "D_CUT_");
- 	else if (IS_E_CUT(chip_vers))
--		cnt += sprintf((buf+cnt), "E_CUT_");
-+		cnt += sprintf((buf + cnt), "E_CUT_");
- 	else
--		cnt += sprintf((buf+cnt), "UNKNOWN_CUT(%d)_",
-+		cnt += sprintf((buf + cnt), "UNKNOWN_CUT(%d)_",
- 			       chip_vers.CUTVersion);
- 
- 	if (IS_1T1R(chip_vers))
--		cnt += sprintf((buf+cnt), "1T1R_");
-+		cnt += sprintf((buf + cnt), "1T1R_");
- 	else if (IS_1T2R(chip_vers))
--		cnt += sprintf((buf+cnt), "1T2R_");
-+		cnt += sprintf((buf + cnt), "1T2R_");
- 	else if (IS_2T2R(chip_vers))
--		cnt += sprintf((buf+cnt), "2T2R_");
-+		cnt += sprintf((buf + cnt), "2T2R_");
- 	else
--		cnt += sprintf((buf+cnt), "UNKNOWN_RFTYPE(%d)_",
-+		cnt += sprintf((buf + cnt), "UNKNOWN_RFTYPE(%d)_",
- 			       chip_vers.RFType);
- 
--	cnt += sprintf((buf+cnt), "RomVer(%d)\n", chip_vers.ROMVer);
-+	cnt += sprintf((buf + cnt), "RomVer(%d)\n", chip_vers.ROMVer);
- 
- 	pr_info("%s", buf);
- }
-@@ -337,7 +337,7 @@ s32 c2h_evt_read(struct adapter *adapter, u8 *buf)
- 	memset(c2h_evt, 0, 16);
- 
- 	*buf = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL);
--	*(buf+1) = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL + 1);
-+	*(buf + 1) = rtw_read8(adapter, REG_C2HEVT_MSG_NORMAL + 1);
- 
- 	/* Read the content */
- 	for (i = 0; i < c2h_evt->plen; i++)
-diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index 87c3bd58b63b..3937b65db5cc 100644
---- a/drivers/staging/r8188eu/hal/hal_intf.c
-+++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -254,8 +254,8 @@ void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
- #ifdef CONFIG_88EU_AP_MODE
- 		struct sta_info *psta = NULL;
- 		struct sta_priv *pstapriv = &adapt->stapriv;
--		if ((mac_id-1) > 0)
--			psta = pstapriv->sta_aid[(mac_id-1) - 1];
-+		if ((mac_id - 1) > 0)
-+			psta = pstapriv->sta_aid[(mac_id - 1) - 1];
- 		if (psta)
- 			add_RATid(adapt, psta, 0);/* todo: based on rssi_level*/
- #endif
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 8a56b1a2516b..babe37e4be8b 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -426,9 +426,9 @@ void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value)
- 
- void odm_CommonInfoSelfInit(struct odm_dm_struct *pDM_Odm)
+ 			if (pattrib->ch_offset == HAL_PRIME_CHNL_OFFSET_LOWER)
+ 				*pdw |= cpu_to_le32((0x01 << 28) & 0x30000000);
+@@ -147,7 +147,7 @@ static void fill_txdesc_vcs(struct pkt_attrib *pattrib, __le32 *pdw)
+ static void fill_txdesc_phy(struct pkt_attrib *pattrib, __le32 *pdw)
  {
--	pDM_Odm->bCckHighPower = (bool) ODM_GetBBReg(pDM_Odm, 0x824, BIT(9));
--	pDM_Odm->RFPathRxEnable = (u8) ODM_GetBBReg(pDM_Odm, 0xc04, 0x0F);
--	if (pDM_Odm->SupportICType & (ODM_RTL8192C|ODM_RTL8192D))
-+	pDM_Odm->bCckHighPower = (bool)ODM_GetBBReg(pDM_Odm, 0x824, BIT(9));
-+	pDM_Odm->RFPathRxEnable = (u8)ODM_GetBBReg(pDM_Odm, 0xc04, 0x0F);
-+	if (pDM_Odm->SupportICType & (ODM_RTL8192C | ODM_RTL8192D))
- 		pDM_Odm->AntDivType = CG_TRX_HW_ANTDIV;
- 	if (pDM_Odm->SupportICType & (ODM_RTL8723A))
- 		pDM_Odm->AntDivType = CGCS_RX_SW_ANTDIV;
-@@ -480,11 +480,11 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
+ 	if (pattrib->ht_en) {
+-		*pdw |= (pattrib->bwmode&HT_CHANNEL_WIDTH_40) ?	cpu_to_le32(BIT(25)) : 0;
++		*pdw |= (pattrib->bwmode & HT_CHANNEL_WIDTH_40) ? cpu_to_le32(BIT(25)) : 0;
  
- 	if (pDM_DigTable->CurIGValue != CurrentIGI) {
--		if (pDM_Odm->SupportPlatform & (ODM_CE|ODM_MP)) {
-+		if (pDM_Odm->SupportPlatform & (ODM_CE | ODM_MP)) {
- 			ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
- 			if (pDM_Odm->SupportICType != ODM_RTL8188E)
- 				ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
--		} else if (pDM_Odm->SupportPlatform & (ODM_AP|ODM_ADSL)) {
-+		} else if (pDM_Odm->SupportPlatform & (ODM_AP | ODM_ADSL)) {
- 			switch (*pDM_Odm->pOnePathCCA) {
- 			case ODM_CCA_2R:
- 				ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
-@@ -530,11 +530,11 @@ void odm_DIGbyRSSI_LPS(struct odm_dm_struct *pDM_Odm)
- 	if (bFwCurrentInPSMode) {
- 		/* Adjust by  FA in LPS MODE */
- 		if (pFalseAlmCnt->Cnt_all > DM_DIG_FA_TH2_LPS)
--			CurrentIGI = CurrentIGI+2;
-+			CurrentIGI = CurrentIGI + 2;
- 		else if (pFalseAlmCnt->Cnt_all > DM_DIG_FA_TH1_LPS)
--			CurrentIGI = CurrentIGI+1;
-+			CurrentIGI = CurrentIGI + 1;
- 		else if (pFalseAlmCnt->Cnt_all < DM_DIG_FA_TH0_LPS)
--			CurrentIGI = CurrentIGI-1;
-+			CurrentIGI = CurrentIGI - 1;
+ 		if (pattrib->ch_offset == HAL_PRIME_CHNL_OFFSET_LOWER)
+ 			*pdw |= cpu_to_le32((0x01 << DATA_SC_SHT) & 0x003f0000);
+@@ -175,7 +175,7 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
+ 
+ 	if (adapt->registrypriv.mp_mode == 0) {
+ 		if ((!bagg_pkt) && (urb_zero_packet_chk(adapt, sz) == 0)) {
+-			ptxdesc = (struct tx_desc *)(pmem+PACKET_OFFSET_SZ);
++			ptxdesc = (struct tx_desc *)(pmem + PACKET_OFFSET_SZ);
+ 			pull = 1;
+ 		}
+ 	}
+@@ -267,11 +267,11 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
+ 				ptxdesc->txdw4 |= cpu_to_le32(BIT(24));/*  DATA_SHORT */
+ 			ptxdesc->txdw5 |= cpu_to_le32(MRateToHwRate(pmlmeext->tx_rate));
+ 		}
+-	} else if ((pxmitframe->frame_tag&0x0f) == MGNT_FRAMETAG) {
++	} else if ((pxmitframe->frame_tag & 0x0f) == MGNT_FRAMETAG) {
+ 		/* offset 4 */
+ 		ptxdesc->txdw1 |= cpu_to_le32(pattrib->mac_id & 0x3f);
+ 
+-		qsel = (uint)(pattrib->qsel&0x0000001f);
++		qsel = (uint)(pattrib->qsel & 0x0000001f);
+ 		ptxdesc->txdw1 |= cpu_to_le32((qsel << QSEL_SHT) & 0x00001f00);
+ 
+ 		ptxdesc->txdw1 |= cpu_to_le32((pattrib->raid << RATE_ID_SHT) & 0x000f0000);
+@@ -282,7 +282,7 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
+ 			ptxdesc->txdw2 |= cpu_to_le32(BIT(19));
+ 
+ 		/* offset 12 */
+-		ptxdesc->txdw3 |= cpu_to_le32((pattrib->seqnum<<SEQ_SHT)&0x0FFF0000);
++		ptxdesc->txdw3 |= cpu_to_le32((pattrib->seqnum << SEQ_SHT) & 0x0FFF0000);
+ 
+ 		/* offset 20 */
+ 		ptxdesc->txdw5 |= cpu_to_le32(RTY_LMT_EN);/* retry limit enable */
+@@ -292,9 +292,9 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
+ 			ptxdesc->txdw5 |= cpu_to_le32(0x00300000);/* retry limit = 12 */
+ 
+ 		ptxdesc->txdw5 |= cpu_to_le32(MRateToHwRate(pmlmeext->tx_rate));
+-	} else if ((pxmitframe->frame_tag&0x0f) == TXAGG_FRAMETAG) {
++	} else if ((pxmitframe->frame_tag & 0x0f) == TXAGG_FRAMETAG) {
+ 		DBG_88E("pxmitframe->frame_tag == TXAGG_FRAMETAG\n");
+-	} else if (((pxmitframe->frame_tag&0x0f) == MP_FRAMETAG) &&
++	} else if (((pxmitframe->frame_tag & 0x0f) == MP_FRAMETAG) &&
+ 		   (adapt->registrypriv.mp_mode == 1)) {
+ 		fill_txdesc_for_mp(adapt, ptxdesc);
  	} else {
- 		CurrentIGI = RSSI_Lower;
- 	}
-@@ -542,8 +542,8 @@ void odm_DIGbyRSSI_LPS(struct odm_dm_struct *pDM_Odm)
- 	/* Lower bound checking */
+@@ -308,7 +308,7 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
+ 		/* offset 8 */
  
- 	/* RSSI Lower bound check */
--	if ((pDM_Odm->RSSI_Min-10) > DM_DIG_MIN_NIC)
--		RSSI_Lower = (pDM_Odm->RSSI_Min-10);
-+	if ((pDM_Odm->RSSI_Min - 10) > DM_DIG_MIN_NIC)
-+		RSSI_Lower = (pDM_Odm->RSSI_Min - 10);
- 	else
- 		RSSI_Lower = DM_DIG_MIN_NIC;
+ 		/* offset 12 */
+-		ptxdesc->txdw3 |= cpu_to_le32((pattrib->seqnum<<SEQ_SHT)&0x0fff0000);
++		ptxdesc->txdw3 |= cpu_to_le32((pattrib->seqnum << SEQ_SHT) & 0x0fff0000);
  
-@@ -560,7 +560,7 @@ void odm_DIGInit(struct odm_dm_struct *pDM_Odm)
+ 		/* offset 20 */
+ 		ptxdesc->txdw5 |= cpu_to_le32(MRateToHwRate(pmlmeext->tx_rate));
+@@ -470,7 +470,7 @@ s32 rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmitp
+ 
+ 	/* 3 2. aggregate same priority and same DA(AP or STA) frames */
+ 	pfirstframe = pxmitframe;
+-	len = xmitframe_need_length(pfirstframe) + TXDESC_SIZE + (pfirstframe->pkt_offset*PACKET_OFFSET_SZ);
++	len = xmitframe_need_length(pfirstframe) + TXDESC_SIZE + (pfirstframe->pkt_offset * PACKET_OFFSET_SZ);
+ 	pbuf_tail = len;
+ 	pbuf = _RND8(pbuf_tail);
+ 
+@@ -521,7 +521,7 @@ s32 rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmitp
+ 		pxmitframe->agg_num = 0; /*  not first frame of aggregation */
+ 		pxmitframe->pkt_offset = 0; /*  not first frame of aggregation, no need to reserve offset */
+ 
+-		len = xmitframe_need_length(pxmitframe) + TXDESC_SIZE + (pxmitframe->pkt_offset*PACKET_OFFSET_SZ);
++		len = xmitframe_need_length(pxmitframe) + TXDESC_SIZE + (pxmitframe->pkt_offset * PACKET_OFFSET_SZ);
+ 
+ 		if (_RND8(pbuf + len) > MAX_XMITBUF_SZ) {
+ 			pxmitframe->agg_num = 1;
+@@ -626,7 +626,7 @@ static s32 pre_xmitframe(struct adapter *adapt, struct xmit_frame *pxmitframe)
+ 	if (rtw_txframes_sta_ac_pending(adapt, pattrib) > 0)
+ 		goto enqueue;
+ 
+-	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY|_FW_UNDER_LINKING) == true)
++	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY | _FW_UNDER_LINKING) == true)
+ 		goto enqueue;
+ 
+ 	pxmitbuf = rtw_alloc_xmitbuf(pxmitpriv);
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 8948c429afd7..2e0af691310a 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -188,14 +188,14 @@ static void _InitTxBufferBoundary(struct adapter *Adapter, u8 txpktbuf_bndy)
+ 	rtw_write8(Adapter, REG_TXPKTBUF_MGQ_BDNY, txpktbuf_bndy);
+ 	rtw_write8(Adapter, REG_TXPKTBUF_WMAC_LBK_BF_HD, txpktbuf_bndy);
+ 	rtw_write8(Adapter, REG_TRXFF_BNDY, txpktbuf_bndy);
+-	rtw_write8(Adapter, REG_TDECTRL+1, txpktbuf_bndy);
++	rtw_write8(Adapter, REG_TDECTRL + 1, txpktbuf_bndy);
+ }
+ 
+ static void _InitPageBoundary(struct adapter *Adapter)
  {
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
+ 	/*  RX Page Boundary */
+ 	/*  */
+-	u16 rxff_bndy = MAX_RX_DMA_BUFFER_SIZE_88E-1;
++	u16 rxff_bndy = MAX_RX_DMA_BUFFER_SIZE_88E - 1;
  
--	pDM_DigTable->CurIGValue = (u8) ODM_GetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm));
-+	pDM_DigTable->CurIGValue = (u8)ODM_GetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm));
- 	pDM_DigTable->RssiLowThresh	= DM_DIG_THRESH_LOW;
- 	pDM_DigTable->RssiHighThresh	= DM_DIG_THRESH_HIGH;
- 	pDM_DigTable->FALowThresh	= DM_false_ALARM_THRESH_LOW;
-@@ -599,7 +599,7 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 	u8 dm_dig_max, dm_dig_min;
- 	u8 CurrentIGI = pDM_DigTable->CurIGValue;
+ 	rtw_write16(Adapter, (REG_TRXFF_BNDY + 2), rxff_bndy);
+ }
+@@ -529,7 +529,7 @@ usb_AggSettingRxUpdate(
+ 	switch (haldata->UsbRxAggMode) {
+ 	case USB_RX_AGG_DMA:
+ 		rtw_write8(Adapter, REG_RXDMA_AGG_PG_TH, haldata->UsbRxAggPageCount);
+-		rtw_write8(Adapter, REG_RXDMA_AGG_PG_TH+1, haldata->UsbRxAggPageTimeout);
++		rtw_write8(Adapter, REG_RXDMA_AGG_PG_TH + 1, haldata->UsbRxAggPageTimeout);
+ 		break;
+ 	case USB_RX_AGG_USB:
+ 		rtw_write8(Adapter, REG_USB_AGG_TH, haldata->UsbRxAggBlockCount);
+@@ -537,7 +537,7 @@ usb_AggSettingRxUpdate(
+ 		break;
+ 	case USB_RX_AGG_MIX:
+ 		rtw_write8(Adapter, REG_RXDMA_AGG_PG_TH, haldata->UsbRxAggPageCount);
+-		rtw_write8(Adapter, REG_RXDMA_AGG_PG_TH+1, (haldata->UsbRxAggPageTimeout & 0x1F));/* 0x280[12:8] */
++		rtw_write8(Adapter, REG_RXDMA_AGG_PG_TH + 1, (haldata->UsbRxAggPageTimeout & 0x1F));/* 0x280[12:8] */
+ 		rtw_write8(Adapter, REG_USB_AGG_TH, haldata->UsbRxAggBlockCount);
+ 		rtw_write8(Adapter, REG_USB_AGG_TO, haldata->UsbRxAggBlockTimeout);
+ 		break;
+@@ -603,9 +603,9 @@ static void _InitBeaconParameters(struct adapter *Adapter)
  
--	if ((!(pDM_Odm->SupportAbility&ODM_BB_DIG)) || (!(pDM_Odm->SupportAbility&ODM_BB_FA_CNT)))
-+	if ((!(pDM_Odm->SupportAbility & ODM_BB_DIG)) || (!(pDM_Odm->SupportAbility & ODM_BB_FA_CNT)))
+ 	haldata->RegBcnCtrlVal = rtw_read8(Adapter, REG_BCN_CTRL);
+ 	haldata->RegTxPause = rtw_read8(Adapter, REG_TXPAUSE);
+-	haldata->RegFwHwTxQCtrl = rtw_read8(Adapter, REG_FWHW_TXQ_CTRL+2);
+-	haldata->RegReg542 = rtw_read8(Adapter, REG_TBTT_PROHIBIT+2);
+-	haldata->RegCR_1 = rtw_read8(Adapter, REG_CR+1);
++	haldata->RegFwHwTxQCtrl = rtw_read8(Adapter, REG_FWHW_TXQ_CTRL + 2);
++	haldata->RegReg542 = rtw_read8(Adapter, REG_TBTT_PROHIBIT + 2);
++	haldata->RegCR_1 = rtw_read8(Adapter, REG_CR + 1);
+ }
+ 
+ static void _BeaconFunctionEnable(struct adapter *Adapter,
+@@ -613,7 +613,7 @@ static void _BeaconFunctionEnable(struct adapter *Adapter,
+ {
+ 	rtw_write8(Adapter, REG_BCN_CTRL, (BIT(4) | BIT(3) | BIT(1)));
+ 
+-	rtw_write8(Adapter, REG_RD_CTRL+1, 0x6F);
++	rtw_write8(Adapter, REG_RD_CTRL + 1, 0x6F);
+ }
+ 
+ /*  Set CCK and OFDM Block "ON" */
+@@ -636,7 +636,7 @@ static void _InitAntenna_Selection(struct adapter *Adapter)
  		return;
+ 	DBG_88E("==>  %s ....\n", __func__);
  
- 	if (*pDM_Odm->pbScanInProcess)
-@@ -632,9 +632,9 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
+-	rtw_write32(Adapter, REG_LEDCFG0, rtw_read32(Adapter, REG_LEDCFG0)|BIT(23));
++	rtw_write32(Adapter, REG_LEDCFG0, rtw_read32(Adapter, REG_LEDCFG0) | BIT(23));
+ 	PHY_SetBBReg(Adapter, rFPGA0_XAB_RFParameter, BIT(13), 0x01);
+ 
+ 	if (PHY_QueryBBReg(Adapter, rFPGA0_XA_RFInterfaceOE, 0x300) == Antenna_A)
+@@ -671,7 +671,7 @@ enum rt_rf_power_state RfOnOffDetect(struct adapter *adapt)
+ 		DBG_88E("pwrdown, 0x5c(BIT(7))=%02x\n", val8);
+ 		rfpowerstate = (val8 & BIT(7)) ? rf_off : rf_on;
+ 	} else { /*  rf on/off */
+-		rtw_write8(adapt, REG_MAC_PINMUX_CFG, rtw_read8(adapt, REG_MAC_PINMUX_CFG)&~(BIT(3)));
++		rtw_write8(adapt, REG_MAC_PINMUX_CFG, rtw_read8(adapt, REG_MAC_PINMUX_CFG) & ~(BIT(3)));
+ 		val8 = rtw_read8(adapt, REG_GPIO_IO_SEL);
+ 		DBG_88E("GPIO_IN=%02x\n", val8);
+ 		rfpowerstate = (val8 & BIT(3)) ? rf_on : rf_off;
+@@ -836,9 +836,9 @@ static u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	/* Enable TX Report */
+ 	/* Enable Tx Report Timer */
+ 	value8 = rtw_read8(Adapter, REG_TX_RPT_CTRL);
+-	rtw_write8(Adapter,  REG_TX_RPT_CTRL, (value8|BIT(1)|BIT(0)));
++	rtw_write8(Adapter,  REG_TX_RPT_CTRL, (value8 | BIT(1) | BIT(0)));
+ 	/* Set MAX RPT MACID */
+-	rtw_write8(Adapter,  REG_TX_RPT_CTRL+1, 2);/* FOR sta mode ,0: bc/mc ,1:AP */
++	rtw_write8(Adapter,  REG_TX_RPT_CTRL + 1, 2);/* FOR sta mode ,0: bc/mc ,1:AP */
+ 	/* Tx RPT Timer. Unit: 32us */
+ 	rtw_write16(Adapter, REG_TX_RPT_TIME, 0xCdf0);
+ 
+@@ -901,10 +901,10 @@ static u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 		pwrctrlpriv->rf_pwrstate = rf_on;
+ 
+ 		/*  enable Tx report. */
+-		rtw_write8(Adapter,  REG_FWHW_TXQ_CTRL+1, 0x0F);
++		rtw_write8(Adapter,  REG_FWHW_TXQ_CTRL + 1, 0x0F);
+ 
+ 		/*  Suggested by SD1 pisa. Added by tynli. 2011.10.21. */
+-		rtw_write8(Adapter, REG_EARLY_MODE_CONTROL+3, 0x01);/* Pretx_en, for WEP/TKIP SEC */
++		rtw_write8(Adapter, REG_EARLY_MODE_CONTROL + 3, 0x01);/* Pretx_en, for WEP/TKIP SEC */
+ 
+ 		/* tynli_test_tx_report. */
+ 		rtw_write16(Adapter, REG_TX_RPT_TIME, 0x3DF0);
+@@ -936,7 +936,7 @@ static u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	rtw_write8(Adapter, REG_USB_HRPWM, 0);
+ 
+ 	/* ack for xmit mgmt frames. */
+-	rtw_write32(Adapter, REG_FWHW_TXQ_CTRL, rtw_read32(Adapter, REG_FWHW_TXQ_CTRL)|BIT(12));
++	rtw_write32(Adapter, REG_FWHW_TXQ_CTRL, rtw_read32(Adapter, REG_FWHW_TXQ_CTRL) | BIT(12));
+ 
+ exit:
+ 	HAL_INIT_PROFILE_TAG(HAL_INIT_STAGES_END);
+@@ -965,7 +965,7 @@ static void CardDisableRTL8188EU(struct adapter *Adapter)
+ 
+ 	/* Stop Tx Report Timer. 0x4EC[Bit1]=b'0 */
+ 	val8 = rtw_read8(Adapter, REG_TX_RPT_CTRL);
+-	rtw_write8(Adapter, REG_TX_RPT_CTRL, val8&(~BIT(1)));
++	rtw_write8(Adapter, REG_TX_RPT_CTRL, val8 & (~BIT(1)));
+ 
+ 	/*  stop rx */
+ 	rtw_write8(Adapter, REG_CR, 0x0);
+@@ -978,9 +978,9 @@ static void CardDisableRTL8188EU(struct adapter *Adapter)
+ 	val8 = rtw_read8(Adapter, REG_MCUFWDL);
+ 	if ((val8 & RAM_DL_SEL) && Adapter->bFWReady) { /* 8051 RAM code */
+ 		/*  Reset MCU 0x2[10]=0. */
+-		val8 = rtw_read8(Adapter, REG_SYS_FUNC_EN+1);
++		val8 = rtw_read8(Adapter, REG_SYS_FUNC_EN + 1);
+ 		val8 &= ~BIT(2);	/*  0x2[10], FEN_CPUEN */
+-		rtw_write8(Adapter, REG_SYS_FUNC_EN+1, val8);
++		rtw_write8(Adapter, REG_SYS_FUNC_EN + 1, val8);
  	}
  
- 	/* 1 Boundary Decision */
--	if ((pDM_Odm->SupportICType & (ODM_RTL8192C|ODM_RTL8723A)) &&
-+	if ((pDM_Odm->SupportICType & (ODM_RTL8192C | ODM_RTL8723A)) &&
- 	    ((pDM_Odm->BoardType == ODM_BOARD_HIGHPWR) || pDM_Odm->ExtLNA)) {
--		if (pDM_Odm->SupportPlatform & (ODM_AP|ODM_ADSL)) {
-+		if (pDM_Odm->SupportPlatform & (ODM_AP | ODM_ADSL)) {
- 			dm_dig_max = DM_DIG_MAX_AP_HP;
- 			dm_dig_min = DM_DIG_MIN_AP_HP;
- 		} else {
-@@ -643,7 +643,7 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 		}
- 		DIG_MaxOfMin = DM_DIG_MAX_AP_HP;
- 	} else {
--		if (pDM_Odm->SupportPlatform & (ODM_AP|ODM_ADSL)) {
-+		if (pDM_Odm->SupportPlatform & (ODM_AP | ODM_ADSL)) {
- 			dm_dig_max = DM_DIG_MAX_AP;
- 			dm_dig_min = DM_DIG_MIN_AP;
- 			DIG_MaxOfMin = dm_dig_max;
-@@ -685,7 +685,7 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 				   (pDM_Odm->SupportAbility & ODM_BB_ANT_DIV)) {
- 				/* 1 Lower Bound for 88E AntDiv */
- 				if (pDM_Odm->AntDivType == CG_TRX_HW_ANTDIV)
--					DIG_Dynamic_MIN = (u8) pDM_DigTable->AntDiv_RSSI_max;
-+					DIG_Dynamic_MIN = (u8)pDM_DigTable->AntDiv_RSSI_max;
- 			} else {
- 				DIG_Dynamic_MIN = dm_dig_min;
- 			}
-@@ -705,7 +705,7 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 		}
+ 	/*  reset MCU ready status */
+@@ -989,16 +989,16 @@ static void CardDisableRTL8188EU(struct adapter *Adapter)
+ 	/* YJ,add,111212 */
+ 	/* Disable 32k */
+ 	val8 = rtw_read8(Adapter, REG_32K_CTRL);
+-	rtw_write8(Adapter, REG_32K_CTRL, val8&(~BIT(0)));
++	rtw_write8(Adapter, REG_32K_CTRL, val8 & (~BIT(0)));
  
- 		if (pDM_DigTable->LargeFAHit >= 3) {
--			if ((pDM_DigTable->ForbiddenIGI+1) > pDM_DigTable->rx_gain_range_max)
-+			if ((pDM_DigTable->ForbiddenIGI + 1) > pDM_DigTable->rx_gain_range_max)
- 				pDM_DigTable->rx_gain_range_min = pDM_DigTable->rx_gain_range_max;
- 			else
- 				pDM_DigTable->rx_gain_range_min = (pDM_DigTable->ForbiddenIGI + 1);
-@@ -718,7 +718,7 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
- 			pDM_DigTable->Recover_cnt--;
+ 	/*  Card disable power action flow */
+ 	HalPwrSeqCmdParsing(Adapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8188E_NIC_DISABLE_FLOW);
+ 
+ 	/*  Reset MCU IO Wrapper */
+-	val8 = rtw_read8(Adapter, REG_RSV_CTRL+1);
+-	rtw_write8(Adapter, REG_RSV_CTRL+1, (val8&(~BIT(3))));
+-	val8 = rtw_read8(Adapter, REG_RSV_CTRL+1);
+-	rtw_write8(Adapter, REG_RSV_CTRL+1, val8|BIT(3));
++	val8 = rtw_read8(Adapter, REG_RSV_CTRL + 1);
++	rtw_write8(Adapter, REG_RSV_CTRL + 1, (val8 & (~BIT(3))));
++	val8 = rtw_read8(Adapter, REG_RSV_CTRL + 1);
++	rtw_write8(Adapter, REG_RSV_CTRL + 1, val8 | BIT(3));
+ 
+ 	/* YJ,test add, 111207. For Power Consumption. */
+ 	val8 = rtw_read8(Adapter, GPIO_IN);
+@@ -1006,9 +1006,9 @@ static void CardDisableRTL8188EU(struct adapter *Adapter)
+ 	rtw_write8(Adapter, GPIO_IO_SEL, 0xFF);/* Reg0x46 */
+ 
+ 	val8 = rtw_read8(Adapter, REG_GPIO_IO_SEL);
+-	rtw_write8(Adapter, REG_GPIO_IO_SEL, (val8<<4));
+-	val8 = rtw_read8(Adapter, REG_GPIO_IO_SEL+1);
+-	rtw_write8(Adapter, REG_GPIO_IO_SEL+1, val8|0x0F);/* Reg0x43 */
++	rtw_write8(Adapter, REG_GPIO_IO_SEL, (val8 << 4));
++	val8 = rtw_read8(Adapter, REG_GPIO_IO_SEL + 1);
++	rtw_write8(Adapter, REG_GPIO_IO_SEL + 1, val8 | 0x0F);/* Reg0x43 */
+ 	rtw_write32(Adapter, REG_BB_PAD_CTRL, 0x00080808);/* set LNA ,TRSW,EX_PA Pin to output mode */
+ 	haldata->bMacPwrCtrlOn = false;
+ 	Adapter->bFWReady = false;
+@@ -1235,11 +1235,11 @@ static void ResumeTxBeacon(struct adapter *adapt)
+ 	/*  2010.03.01. Marked by tynli. No need to call workitem beacause we record the value */
+ 	/*  which should be read from register to a global variable. */
+ 
+-	rtw_write8(adapt, REG_FWHW_TXQ_CTRL+2, (haldata->RegFwHwTxQCtrl) | BIT(6));
++	rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl) | BIT(6));
+ 	haldata->RegFwHwTxQCtrl |= BIT(6);
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT+1, 0xff);
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 1, 0xff);
+ 	haldata->RegReg542 |= BIT(0);
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT+2, haldata->RegReg542);
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 2, haldata->RegReg542);
+ }
+ 
+ static void StopTxBeacon(struct adapter *adapt)
+@@ -1249,11 +1249,11 @@ static void StopTxBeacon(struct adapter *adapt)
+ 	/*  2010.03.01. Marked by tynli. No need to call workitem beacause we record the value */
+ 	/*  which should be read from register to a global variable. */
+ 
+-	rtw_write8(adapt, REG_FWHW_TXQ_CTRL+2, (haldata->RegFwHwTxQCtrl) & (~BIT(6)));
++	rtw_write8(adapt, REG_FWHW_TXQ_CTRL + 2, (haldata->RegFwHwTxQCtrl) & (~BIT(6)));
+ 	haldata->RegFwHwTxQCtrl &= (~BIT(6));
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT+1, 0x64);
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 1, 0x64);
+ 	haldata->RegReg542 &= ~(BIT(0));
+-	rtw_write8(adapt, REG_TBTT_PROHIBIT+2, haldata->RegReg542);
++	rtw_write8(adapt, REG_TBTT_PROHIBIT + 2, haldata->RegReg542);
+ 
+ 	 /* todo: CheckFwRsvdPageContent(Adapter);  2010.06.23. Added by tynli. */
+ }
+@@ -1264,10 +1264,10 @@ static void hw_var_set_opmode(struct adapter *Adapter, u8 variable, u8 *val)
+ 	u8 mode = *((u8 *)val);
+ 
+ 	/*  disable Port0 TSF update */
+-	rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)|BIT(4));
++	rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) | BIT(4));
+ 
+ 	/*  set net_type */
+-	val8 = rtw_read8(Adapter, MSR)&0x0c;
++	val8 = rtw_read8(Adapter, MSR) & 0x0c;
+ 	val8 |= mode;
+ 	rtw_write8(Adapter, MSR, val8);
+ 
+@@ -1308,7 +1308,7 @@ static void hw_var_set_opmode(struct adapter *Adapter, u8 variable, u8 *val)
+ 
+ 		/* enable BCN0 Function for if1 */
+ 		/* don't enable update TSF0 for if1 (due to TSF update when beacon/probe rsp are received) */
+-		rtw_write8(Adapter, REG_BCN_CTRL, (DIS_TSF_UDT0_NORMAL_CHIP|EN_BCN_FUNCTION | BIT(1)));
++		rtw_write8(Adapter, REG_BCN_CTRL, (DIS_TSF_UDT0_NORMAL_CHIP | EN_BCN_FUNCTION | BIT(1)));
+ 
+ 		/* dis BCN1 ATIM  WND if if2 is station */
+ 		rtw_write8(Adapter, REG_BCN_CTRL_1, rtw_read8(Adapter, REG_BCN_CTRL_1) | BIT(0));
+@@ -1323,7 +1323,7 @@ static void hw_var_set_macaddr(struct adapter *Adapter, u8 variable, u8 *val)
+ 	reg_macid = REG_MACID;
+ 
+ 	for (idx = 0; idx < 6; idx++)
+-		rtw_write8(Adapter, (reg_macid+idx), val[idx]);
++		rtw_write8(Adapter, (reg_macid + idx), val[idx]);
+ }
+ 
+ static void hw_var_set_bssid(struct adapter *Adapter, u8 variable, u8 *val)
+@@ -1334,7 +1334,7 @@ static void hw_var_set_bssid(struct adapter *Adapter, u8 variable, u8 *val)
+ 	reg_bssid = REG_BSSID;
+ 
+ 	for (idx = 0; idx < 6; idx++)
+-		rtw_write8(Adapter, (reg_bssid+idx), val[idx]);
++		rtw_write8(Adapter, (reg_bssid + idx), val[idx]);
+ }
+ 
+ static void hw_var_set_bcn_func(struct adapter *Adapter, u8 variable, u8 *val)
+@@ -1346,7 +1346,7 @@ static void hw_var_set_bcn_func(struct adapter *Adapter, u8 variable, u8 *val)
+ 	if (*((u8 *)val))
+ 		rtw_write8(Adapter, bcn_ctrl_reg, (EN_BCN_FUNCTION | EN_TXBCN_RPT));
+ 	else
+-		rtw_write8(Adapter, bcn_ctrl_reg, rtw_read8(Adapter, bcn_ctrl_reg)&(~(EN_BCN_FUNCTION | EN_TXBCN_RPT)));
++		rtw_write8(Adapter, bcn_ctrl_reg, rtw_read8(Adapter, bcn_ctrl_reg) & (~(EN_BCN_FUNCTION | EN_TXBCN_RPT)));
+ }
+ 
+ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+@@ -1360,7 +1360,7 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		{
+ 			u8 val8;
+ 
+-			val8 = rtw_read8(Adapter, MSR)&0x0c;
++			val8 = rtw_read8(Adapter, MSR) & 0x0c;
+ 			val8 |= *((u8 *)val);
+ 			rtw_write8(Adapter, MSR, val8);
+ 		}
+@@ -1406,8 +1406,8 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			BrateCfg |= 0x01; /*  default enable 1M ACK rate */
+ 			/*  Set RRSR rate table. */
+ 			rtw_write8(Adapter, REG_RRSR, BrateCfg & 0xff);
+-			rtw_write8(Adapter, REG_RRSR+1, (BrateCfg >> 8) & 0xff);
+-			rtw_write8(Adapter, REG_RRSR+2, rtw_read8(Adapter, REG_RRSR+2)&0xf0);
++			rtw_write8(Adapter, REG_RRSR + 1, (BrateCfg >> 8) & 0xff);
++			rtw_write8(Adapter, REG_RRSR + 2, rtw_read8(Adapter, REG_RRSR + 2) & 0xf0);
+ 
+ 			/*  Set RTS initial rate */
+ 			while (BrateCfg > 0x1) {
+@@ -1433,25 +1433,25 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			tsf = pmlmeext->TSFValue - do_div(pmlmeext->TSFValue,
+ 							  pmlmeinfo->bcn_interval * 1024) - 1024; /* us */
+ 
+-			if (((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE))
++			if (((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE))
+ 				StopTxBeacon(Adapter);
+ 
+ 			/* disable related TSF function */
+-			rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)&(~BIT(3)));
++			rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) & (~BIT(3)));
+ 
+ 			rtw_write32(Adapter, REG_TSFTR, tsf);
+-			rtw_write32(Adapter, REG_TSFTR+4, tsf>>32);
++			rtw_write32(Adapter, REG_TSFTR + 4, tsf >> 32);
+ 
+ 			/* enable related TSF function */
+-			rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)|BIT(3));
++			rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) | BIT(3));
+ 
+-			if (((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE))
++			if (((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE))
+ 				ResumeTxBeacon(Adapter);
+ 		}
+ 		break;
+ 	case HW_VAR_CHECK_BSSID:
+ 		if (*((u8 *)val)) {
+-			rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR)|RCR_CBSSID_DATA|RCR_CBSSID_BCN);
++			rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR) | RCR_CBSSID_DATA | RCR_CBSSID_BCN);
  		} else {
- 			if (pDM_DigTable->LargeFAHit < 3) {
--				if ((pDM_DigTable->ForbiddenIGI-1) < DIG_Dynamic_MIN) { /* DM_DIG_MIN) */
-+				if ((pDM_DigTable->ForbiddenIGI - 1) < DIG_Dynamic_MIN) { /* DM_DIG_MIN) */
- 					pDM_DigTable->ForbiddenIGI = DIG_Dynamic_MIN; /* DM_DIG_MIN; */
- 					pDM_DigTable->rx_gain_range_min = DIG_Dynamic_MIN; /* DM_DIG_MIN; */
+ 			u32 val32;
+ 
+@@ -1468,10 +1468,10 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		rtw_write16(Adapter, REG_RXFLTMAP2, 0x00);
+ 
+ 		/* reset TSF */
+-		rtw_write8(Adapter, REG_DUAL_TSF_RST, (BIT(0)|BIT(1)));
++		rtw_write8(Adapter, REG_DUAL_TSF_RST, (BIT(0) | BIT(1)));
+ 
+ 		/* disable update TSF */
+-		rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)|BIT(4));
++		rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) | BIT(4));
+ 		break;
+ 	case HW_VAR_MLME_SITESURVEY:
+ 		if (*((u8 *)val)) { /* under sitesurvey */
+@@ -1483,32 +1483,32 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			rtw_write16(Adapter, REG_RXFLTMAP2, 0x00);
+ 
+ 			/* disable update TSF */
+-			rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)|BIT(4));
++			rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) | BIT(4));
+ 		} else { /* sitesurvey done */
+ 			struct mlme_ext_priv	*pmlmeext = &Adapter->mlmeextpriv;
+ 			struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 			if ((is_client_associated_to_ap(Adapter)) ||
+-			    ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE)) {
++			    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)) {
+ 				/* enable to rx data frame */
+ 				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
+ 
+ 				/* enable update TSF */
+-				rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)&(~BIT(4)));
+-			} else if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE) {
++				rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) & (~BIT(4)));
++			} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
+ 				rtw_write16(Adapter, REG_RXFLTMAP2, 0xFFFF);
+ 				/* enable update TSF */
+-				rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)&(~BIT(4)));
++				rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) & (~BIT(4)));
+ 			}
+-			if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE) {
+-				rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR)|RCR_CBSSID_BCN);
++			if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
++				rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR) | RCR_CBSSID_BCN);
+ 			} else {
+ 				if (Adapter->in_cta_test) {
+ 					u32 v = rtw_read32(Adapter, REG_RCR);
+ 					v &= ~(RCR_CBSSID_DATA | RCR_CBSSID_BCN);/*  RCR_ADF */
+ 					rtw_write32(Adapter, REG_RCR, v);
  				} else {
-@@ -796,16 +796,16 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(31), 1); /* hold page D counter */
- 
- 		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE1_11N, bMaskDWord);
--		FalseAlmCnt->Cnt_Fast_Fsync = (ret_value&0xffff);
--		FalseAlmCnt->Cnt_SB_Search_fail = ((ret_value&0xffff0000)>>16);
-+		FalseAlmCnt->Cnt_Fast_Fsync = (ret_value & 0xffff);
-+		FalseAlmCnt->Cnt_SB_Search_fail = ((ret_value & 0xffff0000) >> 16);
- 		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE2_11N, bMaskDWord);
--		FalseAlmCnt->Cnt_OFDM_CCA = (ret_value&0xffff);
--		FalseAlmCnt->Cnt_Parity_Fail = ((ret_value&0xffff0000)>>16);
-+		FalseAlmCnt->Cnt_OFDM_CCA = (ret_value & 0xffff);
-+		FalseAlmCnt->Cnt_Parity_Fail = ((ret_value & 0xffff0000) >> 16);
- 		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE3_11N, bMaskDWord);
--		FalseAlmCnt->Cnt_Rate_Illegal = (ret_value&0xffff);
--		FalseAlmCnt->Cnt_Crc8_fail = ((ret_value&0xffff0000)>>16);
-+		FalseAlmCnt->Cnt_Rate_Illegal = (ret_value & 0xffff);
-+		FalseAlmCnt->Cnt_Crc8_fail = ((ret_value & 0xffff0000) >> 16);
- 		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE4_11N, bMaskDWord);
--		FalseAlmCnt->Cnt_Mcs_fail = (ret_value&0xffff);
-+		FalseAlmCnt->Cnt_Mcs_fail = (ret_value & 0xffff);
- 
- 		FalseAlmCnt->Cnt_Ofdm_fail = FalseAlmCnt->Cnt_Parity_Fail + FalseAlmCnt->Cnt_Rate_Illegal +
- 					     FalseAlmCnt->Cnt_Crc8_fail + FalseAlmCnt->Cnt_Mcs_fail +
-@@ -813,8 +813,8 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 
- 		if (pDM_Odm->SupportICType == ODM_RTL8188E) {
- 			ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_SC_CNT_11N, bMaskDWord);
--			FalseAlmCnt->Cnt_BW_LSC = (ret_value&0xffff);
--			FalseAlmCnt->Cnt_BW_USC = ((ret_value&0xffff0000)>>16);
-+			FalseAlmCnt->Cnt_BW_LSC = (ret_value & 0xffff);
-+			FalseAlmCnt->Cnt_BW_USC = ((ret_value & 0xffff0000) >> 16);
- 		}
- 
- 		/* hold cck counter */
-@@ -824,10 +824,10 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_LSB_11N, bMaskByte0);
- 		FalseAlmCnt->Cnt_Cck_fail = ret_value;
- 		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_MSB_11N, bMaskByte3);
--		FalseAlmCnt->Cnt_Cck_fail +=  (ret_value & 0xff)<<8;
-+		FalseAlmCnt->Cnt_Cck_fail +=  (ret_value & 0xff) << 8;
- 
- 		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_CCA_CNT_11N, bMaskDWord);
--		FalseAlmCnt->Cnt_CCK_CCA = ((ret_value&0xFF)<<8) | ((ret_value&0xFF00)>>8);
-+		FalseAlmCnt->Cnt_CCK_CCA = ((ret_value & 0xFF) << 8) | ((ret_value & 0xFF00) >> 8);
- 
- 		FalseAlmCnt->Cnt_all = (FalseAlmCnt->Cnt_Fast_Fsync +
- 					FalseAlmCnt->Cnt_SB_Search_fail +
-@@ -850,11 +850,11 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
- 			ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(31), 0); /* update page D counter */
- 
- 			/* reset CCK CCA counter */
--			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13)|BIT(12), 0);
--			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13)|BIT(12), 2);
-+			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13) | BIT(12), 0);
-+			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13) | BIT(12), 2);
- 			/* reset CCK FA counter */
--			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15)|BIT(14), 0);
--			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15)|BIT(14), 2);
-+			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15) | BIT(14), 0);
-+			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15) | BIT(14), 2);
- 		}
- 	} else { /* FOR ODM_IC_11AC_SERIES */
- 		/* read OFDM FA counter */
-@@ -880,7 +880,7 @@ void odm_CCKPacketDetectionThresh(struct odm_dm_struct *pDM_Odm)
- 	u8 CurCCK_CCAThres;
- 	struct false_alarm_stats *FalseAlmCnt = &pDM_Odm->FalseAlmCnt;
- 
--	if (!(pDM_Odm->SupportAbility & (ODM_BB_CCK_PD|ODM_BB_FA_CNT)))
-+	if (!(pDM_Odm->SupportAbility & (ODM_BB_CCK_PD | ODM_BB_FA_CNT)))
- 		return;
- 	if (pDM_Odm->ExtLNA)
- 		return;
-@@ -935,7 +935,7 @@ void odm_DynamicBBPowerSaving(struct odm_dm_struct *pDM_Odm)
- 		return;
- 	if (!(pDM_Odm->SupportAbility & ODM_BB_PWR_SAVE))
- 		return;
--	if (!(pDM_Odm->SupportPlatform & (ODM_MP|ODM_CE)))
-+	if (!(pDM_Odm->SupportPlatform & (ODM_MP | ODM_CE)))
- 		return;
- 
- 	/* 1 2.Power Saving for 92C */
-@@ -993,10 +993,10 @@ void ODM_RF_Saving(struct odm_dm_struct *pDM_Odm, u8 bForceInNormal)
- 		Rssi_Low_bound = 45;
- 	}
- 	if (pDM_PSTable->initialize == 0) {
--		pDM_PSTable->Reg874 = (ODM_GetBBReg(pDM_Odm, 0x874, bMaskDWord)&0x1CC000)>>14;
--		pDM_PSTable->RegC70 = (ODM_GetBBReg(pDM_Odm, 0xc70, bMaskDWord)&BIT(3))>>3;
--		pDM_PSTable->Reg85C = (ODM_GetBBReg(pDM_Odm, 0x85c, bMaskDWord)&0xFF000000)>>24;
--		pDM_PSTable->RegA74 = (ODM_GetBBReg(pDM_Odm, 0xa74, bMaskDWord)&0xF000)>>12;
-+		pDM_PSTable->Reg874 = (ODM_GetBBReg(pDM_Odm, 0x874, bMaskDWord) & 0x1CC000) >> 14;
-+		pDM_PSTable->RegC70 = (ODM_GetBBReg(pDM_Odm, 0xc70, bMaskDWord) & BIT(3)) >> 3;
-+		pDM_PSTable->Reg85C = (ODM_GetBBReg(pDM_Odm, 0x85c, bMaskDWord) & 0xFF000000) >> 24;
-+		pDM_PSTable->RegA74 = (ODM_GetBBReg(pDM_Odm, 0xa74, bMaskDWord) & 0xF000) >> 12;
- 		pDM_PSTable->initialize = 1;
- 	}
- 
-@@ -1088,7 +1088,7 @@ u32 ODM_Get_Rate_Bitmap(struct odm_dm_struct *pDM_Odm, u32 macid, u32 ra_mask, u
- 		else
- 			rate_bitmap = 0x0000000f;
- 		break;
--	case (ODM_WM_B|ODM_WM_G):
-+	case (ODM_WM_B | ODM_WM_G):
- 		if (rssi_level == DM_RATR_STA_HIGH)
- 			rate_bitmap = 0x00000f00;
- 		else if (rssi_level == DM_RATR_STA_MIDDLE)
-@@ -1096,7 +1096,7 @@ u32 ODM_Get_Rate_Bitmap(struct odm_dm_struct *pDM_Odm, u32 macid, u32 ra_mask, u
- 		else
- 			rate_bitmap = 0x00000ff5;
- 		break;
--	case (ODM_WM_B|ODM_WM_G|ODM_WM_N24G):
-+	case (ODM_WM_B | ODM_WM_G | ODM_WM_N24G):
- 		if (pDM_Odm->RFType == ODM_1T2R || pDM_Odm->RFType == ODM_1T1R) {
- 			if (rssi_level == DM_RATR_STA_HIGH) {
- 				rate_bitmap = 0x000f0000;
-@@ -1378,7 +1378,7 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
- 			if (psta->rssi_stat.UndecoratedSmoothedPWDB > tmpEntryMaxPWDB)
- 				tmpEntryMaxPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
- 			if (psta->rssi_stat.UndecoratedSmoothedPWDB != (-1))
--				PWDB_rssi[sta_cnt++] = (psta->mac_id | (psta->rssi_stat.UndecoratedSmoothedPWDB<<16));
-+				PWDB_rssi[sta_cnt++] = (psta->mac_id | (psta->rssi_stat.UndecoratedSmoothedPWDB << 16));
- 		}
- 	}
- 
-@@ -1388,7 +1388,7 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
- 				/*  Report every sta's RSSI to FW */
- 			} else {
- 				ODM_RA_SetRSSI_8188E(
--				&pHalData->odmpriv, (PWDB_rssi[i]&0xFF), (u8)((PWDB_rssi[i]>>16) & 0xFF));
-+				&pHalData->odmpriv, (PWDB_rssi[i] & 0xFF), (u8)((PWDB_rssi[i] >> 16) & 0xFF));
+-					rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR)|RCR_CBSSID_BCN);
++					rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR) | RCR_CBSSID_BCN);
+ 				}
  			}
  		}
- 	}
-@@ -1693,7 +1693,7 @@ u32 GetPSDData(struct odm_dm_struct *pDM_Odm, unsigned int point, u8 initial_gai
- 	/* Read PSD report, Reg8B4[15:0] */
- 	psd_report = ODM_GetBBReg(pDM_Odm, 0x8B4, bMaskDWord) & 0x0000FFFF;
+@@ -1528,7 +1528,7 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 					v &= ~(RCR_CBSSID_DATA | RCR_CBSSID_BCN);/*  RCR_ADF */
+ 					rtw_write32(Adapter, REG_RCR, v);
+ 				} else {
+-					rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR)|RCR_CBSSID_DATA|RCR_CBSSID_BCN);
++					rtw_write32(Adapter, REG_RCR, rtw_read32(Adapter, REG_RCR) | RCR_CBSSID_DATA | RCR_CBSSID_BCN);
+ 				}
  
--	psd_report = (u32) (ConvertTo_dB(psd_report))+(u32)(initial_gain_psd-0x1c);
-+	psd_report = (u32)(ConvertTo_dB(psd_report)) + (u32)(initial_gain_psd - 0x1c);
+ 				if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
+@@ -1541,9 +1541,9 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			} else if (type == 2) {
+ 				/* sta add event call back */
+ 				/* enable update TSF */
+-				rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL)&(~BIT(4)));
++				rtw_write8(Adapter, REG_BCN_CTRL, rtw_read8(Adapter, REG_BCN_CTRL) & (~BIT(4)));
  
- 	return psd_report;
- }
-@@ -1718,7 +1718,7 @@ u32 ConvertTo_dB(u32 Value)
- 			break;
- 	}
- 
--	dB = i*12 + j + 1;
-+	dB = i * 12 + j + 1;
- 
- 	return dB;
- }
-@@ -1783,19 +1783,19 @@ bool ODM_SingleDualAntennaDetection(struct odm_dm_struct *pDM_Odm, u8 mode)
- 		rSleep, rPMPD_ANAEN,
- 		rFPGA0_XCD_SwitchControl, rBlue_Tooth};
- 
--	if (!(pDM_Odm->SupportICType & (ODM_RTL8723A|ODM_RTL8192C)))
-+	if (!(pDM_Odm->SupportICType & (ODM_RTL8723A | ODM_RTL8192C)))
- 		return bResult;
- 
--	if (!(pDM_Odm->SupportAbility&ODM_BB_ANT_DIV))
-+	if (!(pDM_Odm->SupportAbility & ODM_BB_ANT_DIV))
- 		return bResult;
- 
- 	if (pDM_Odm->SupportICType == ODM_RTL8192C) {
- 		/* Which path in ADC/DAC is turnned on for PSD: both I/Q */
--		ODM_SetBBReg(pDM_Odm, 0x808, BIT(10)|BIT(11), 0x3);
-+		ODM_SetBBReg(pDM_Odm, 0x808, BIT(10) | BIT(11), 0x3);
- 		/* Ageraged number: 8 */
--		ODM_SetBBReg(pDM_Odm, 0x808, BIT(12)|BIT(13), 0x1);
-+		ODM_SetBBReg(pDM_Odm, 0x808, BIT(12) | BIT(13), 0x1);
- 		/* pts = 128; */
--		ODM_SetBBReg(pDM_Odm, 0x808, BIT(14)|BIT(15), 0x0);
-+		ODM_SetBBReg(pDM_Odm, 0x808, BIT(14) | BIT(15), 0x0);
- 	}
- 
- 	/* 1 Backup Current RF/BB Settings */
-@@ -1817,7 +1817,7 @@ bool ODM_SingleDualAntennaDetection(struct odm_dm_struct *pDM_Odm, u8 mode)
- 	odm_PHY_SaveAFERegisters(pDM_Odm, AFE_REG_8723A, AFE_Backup, 16);
- 
- 	/* Set PSD 128 pts */
--	ODM_SetBBReg(pDM_Odm, rFPGA0_PSDFunction, BIT(14)|BIT(15), 0x0);  /* 128 pts */
-+	ODM_SetBBReg(pDM_Odm, rFPGA0_PSDFunction, BIT(14) | BIT(15), 0x0);  /* 128 pts */
- 
- 	/*  To SET CH1 to do */
- 	ODM_SetRFReg(pDM_Odm, RF_PATH_A, ODM_CHANNEL, bRFRegOffsetMask, 0x01);     /* Channel 1 */
-@@ -1917,7 +1917,7 @@ bool ODM_SingleDualAntennaDetection(struct odm_dm_struct *pDM_Odm, u8 mode)
- 	/* 2 Test Ant B based on Ant A is ON */
- 		if (mode == ANTTESTB) {
- 			if (AntA_report >= 100) {
--				if (AntB_report > (AntA_report+1))
-+				if (AntB_report > (AntA_report + 1))
- 					pDM_SWAT_Table->ANTB_ON = false;
- 				else
- 					pDM_SWAT_Table->ANTB_ON = true;
-@@ -1927,13 +1927,13 @@ bool ODM_SingleDualAntennaDetection(struct odm_dm_struct *pDM_Odm, u8 mode)
+-				if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE))
++				if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE))
+ 					RetryLimit = 0x7;
  			}
- 		} else if (mode == ANTTESTALL) {
- 			/* 2 Test Ant A and B based on DPDT Open */
--			if ((AntO_report >= 100)&(AntO_report < 118)) {
--				if (AntA_report > (AntO_report+1))
-+			if ((AntO_report >= 100) & (AntO_report < 118)) {
-+				if (AntA_report > (AntO_report + 1))
- 					pDM_SWAT_Table->ANTA_ON = false;
- 				else
- 					pDM_SWAT_Table->ANTA_ON = true;
+ 			rtw_write16(Adapter, REG_RL, RetryLimit << RETRY_LIMIT_SHORT_SHIFT | RetryLimit << RETRY_LIMIT_LONG_SHIFT);
+@@ -1579,21 +1579,21 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 	case HW_VAR_RESP_SIFS:
+ 		/* RESP_SIFS for CCK */
+ 		rtw_write8(Adapter, REG_R2T_SIFS, val[0]); /*  SIFS_T2T_CCK (0x08) */
+-		rtw_write8(Adapter, REG_R2T_SIFS+1, val[1]); /* SIFS_R2T_CCK(0x08) */
++		rtw_write8(Adapter, REG_R2T_SIFS + 1, val[1]); /* SIFS_R2T_CCK(0x08) */
+ 		/* RESP_SIFS for OFDM */
+ 		rtw_write8(Adapter, REG_T2T_SIFS, val[2]); /* SIFS_T2T_OFDM (0x0a) */
+-		rtw_write8(Adapter, REG_T2T_SIFS+1, val[3]); /* SIFS_R2T_OFDM(0x0a) */
++		rtw_write8(Adapter, REG_T2T_SIFS + 1, val[3]); /* SIFS_R2T_OFDM(0x0a) */
+ 		break;
+ 	case HW_VAR_ACK_PREAMBLE:
+ 		{
+ 			u8 regTmp;
+ 			u8 bShortPreamble = *((bool *)val);
+ 			/*  Joseph marked out for Netgear 3500 TKIP channel 7 issue.(Temporarily) */
+-			regTmp = (haldata->nCur40MhzPrimeSC)<<5;
++			regTmp = (haldata->nCur40MhzPrimeSC) << 5;
+ 			if (bShortPreamble)
+ 				regTmp |= 0x80;
  
--				if (AntB_report > (AntO_report+2))
-+				if (AntB_report > (AntO_report + 2))
- 					pDM_SWAT_Table->ANTB_ON = false;
- 				else
- 					pDM_SWAT_Table->ANTB_ON = true;
-@@ -1941,11 +1941,11 @@ bool ODM_SingleDualAntennaDetection(struct odm_dm_struct *pDM_Odm, u8 mode)
+-			rtw_write8(Adapter, REG_RRSR+2, regTmp);
++			rtw_write8(Adapter, REG_RRSR + 2, regTmp);
  		}
- 	} else if (pDM_Odm->SupportICType == ODM_RTL8192C) {
- 		if (AntA_report >= 100) {
--			if (AntB_report > (AntA_report+2)) {
-+			if (AntB_report > (AntA_report + 2)) {
- 				pDM_SWAT_Table->ANTA_ON = false;
- 				pDM_SWAT_Table->ANTB_ON = true;
- 				ODM_SetBBReg(pDM_Odm,  rFPGA0_XA_RFInterfaceOE, 0x300, Antenna_B);
--			} else if (AntA_report > (AntB_report+2)) {
-+			} else if (AntA_report > (AntB_report + 2)) {
- 				pDM_SWAT_Table->ANTA_ON = true;
- 				pDM_SWAT_Table->ANTB_ON = false;
- 				ODM_SetBBReg(pDM_Odm,  rFPGA0_XA_RFInterfaceOE, 0x300, Antenna_A);
+ 		break;
+ 	case HW_VAR_SEC_CFG:
+@@ -1630,12 +1630,12 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			for (i = 0; i < CAM_CONTENT_COUNT; i++) {
+ 				/*  filled id in CAM config 2 byte */
+ 				if (i == 0)
+-					ulContent |= (ucIndex & 0x03) | ((u16)(ulEncAlgo)<<2);
++					ulContent |= (ucIndex & 0x03) | ((u16)(ulEncAlgo) << 2);
+ 				else
+ 					ulContent = 0;
+ 				/*  polling bit, and No Write enable, and address */
+-				ulCommand = CAM_CONTENT_COUNT*ucIndex+i;
+-				ulCommand = ulCommand | CAM_POLLINIG|CAM_WRITE;
++				ulCommand = CAM_CONTENT_COUNT * ucIndex + i;
++				ulCommand = ulCommand | CAM_POLLINIG | CAM_WRITE;
+ 				/*  write content 0 is equall to mark invalid */
+ 				rtw_write32(Adapter, WCAMI, ulContent);  /* delay_ms(40); */
+ 				rtw_write32(Adapter, RWCAM, ulCommand);  /* delay_ms(40); */
+@@ -1643,7 +1643,7 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		}
+ 		break;
+ 	case HW_VAR_CAM_INVALID_ALL:
+-		rtw_write32(Adapter, RWCAM, BIT(31)|BIT(30));
++		rtw_write32(Adapter, RWCAM, BIT(31) | BIT(30));
+ 		break;
+ 	case HW_VAR_CAM_WRITE:
+ 		{
+@@ -1733,18 +1733,18 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 			pRegToSet = RegToSet_Normal; /*  0xb972a841; */
+ 			FactorToSet = *((u8 *)val);
+ 			if (FactorToSet <= 3) {
+-				FactorToSet = (1<<(FactorToSet + 2));
++				FactorToSet = (1 << (FactorToSet + 2));
+ 				if (FactorToSet > 0xf)
+ 					FactorToSet = 0xf;
+ 
+ 				for (index = 0; index < 4; index++) {
+-					if ((pRegToSet[index] & 0xf0) > (FactorToSet<<4))
+-						pRegToSet[index] = (pRegToSet[index] & 0x0f) | (FactorToSet<<4);
++					if ((pRegToSet[index] & 0xf0) > (FactorToSet << 4))
++						pRegToSet[index] = (pRegToSet[index] & 0x0f) | (FactorToSet << 4);
+ 
+ 					if ((pRegToSet[index] & 0x0f) > FactorToSet)
+ 						pRegToSet[index] = (pRegToSet[index] & 0xf0) | (FactorToSet);
+ 
+-					rtw_write8(Adapter, (REG_AGGLEN_LMT+index), pRegToSet[index]);
++					rtw_write8(Adapter, (REG_AGGLEN_LMT + index), pRegToSet[index]);
+ 				}
+ 			}
+ 		}
+@@ -1835,9 +1835,9 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 
+ 			if (!pwrpriv->bkeepfwalive) {
+ 				/* RX DMA stop */
+-				rtw_write32(Adapter, REG_RXPKT_NUM, (rtw_read32(Adapter, REG_RXPKT_NUM)|RW_RELEASE_EN));
++				rtw_write32(Adapter, REG_RXPKT_NUM, (rtw_read32(Adapter, REG_RXPKT_NUM) | RW_RELEASE_EN));
+ 				do {
+-					if (!(rtw_read32(Adapter, REG_RXPKT_NUM)&RXDMA_IDLE))
++					if (!(rtw_read32(Adapter, REG_RXPKT_NUM) & RXDMA_IDLE))
+ 						break;
+ 				} while (trycnt--);
+ 				if (trycnt == 0)
+@@ -1859,8 +1859,8 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 	case HW_VAR_TX_RPT_MAX_MACID:
+ 		{
+ 			u8 maxMacid = *val;
+-			DBG_88E("### MacID(%d),Set Max Tx RPT MID(%d)\n", maxMacid, maxMacid+1);
+-			rtw_write8(Adapter, REG_TX_RPT_CTRL+1, maxMacid+1);
++			DBG_88E("### MacID(%d),Set Max Tx RPT MID(%d)\n", maxMacid, maxMacid + 1);
++			rtw_write8(Adapter, REG_TX_RPT_CTRL + 1, maxMacid + 1);
+ 		}
+ 		break;
+ 	case HW_VAR_H2C_MEDIA_STATUS_RPT:
+@@ -1868,7 +1868,7 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		break;
+ 	case HW_VAR_BCN_VALID:
+ 		/* BCN_VALID, BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2, write 1 to clear, Clear by sw */
+-		rtw_write8(Adapter, REG_TDECTRL+2, rtw_read8(Adapter, REG_TDECTRL+2) | BIT(0));
++		rtw_write8(Adapter, REG_TDECTRL + 2, rtw_read8(Adapter, REG_TDECTRL + 2) | BIT(0));
+ 		break;
+ 	default:
+ 		break;
+@@ -1890,7 +1890,7 @@ static void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		break;
+ 	case HW_VAR_BCN_VALID:
+ 		/* BCN_VALID, BIT(16) of REG_TDECTRL = BIT(0) of REG_TDECTRL+2 */
+-		val[0] = (BIT(0) & rtw_read8(Adapter, REG_TDECTRL+2)) ? true : false;
++		val[0] = (BIT(0) & rtw_read8(Adapter, REG_TDECTRL + 2)) ? true : false;
+ 		break;
+ 	case HW_VAR_DM_FLAG:
+ 		val[0] = podmpriv->SupportAbility;
+@@ -1926,7 +1926,7 @@ static void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		*val = haldata->bMacPwrCtrlOn;
+ 		break;
+ 	case HW_VAR_CHK_HI_QUEUE_EMPTY:
+-		*val = ((rtw_read32(Adapter, REG_HGQ_INFORMATION)&0x0000ff00) == 0) ? true : false;
++		*val = ((rtw_read32(Adapter, REG_HGQ_INFORMATION) & 0x0000ff00) == 0) ? true : false;
+ 		break;
+ 	default:
+ 		break;
+@@ -2133,7 +2133,7 @@ static void UpdateHalRAMask8188EUsb(struct adapter *adapt, u32 mac_id, u8 rssi_l
+ 
+ 	mask &= rate_bitmap;
+ 
+-	init_rate = get_highest_rate_idx(mask)&0x3f;
++	init_rate = get_highest_rate_idx(mask) & 0x3f;
+ 
+ 	if (haldata->fw_ractrl) {
+ 		u8 arg;
+@@ -2193,7 +2193,7 @@ static void SetBeaconRelatedRegisters8188EUsb(struct adapter *adapt)
+ 
+ 	ResumeTxBeacon(adapt);
+ 
+-	rtw_write8(adapt, bcn_ctrl_reg, rtw_read8(adapt, bcn_ctrl_reg)|BIT(1));
++	rtw_write8(adapt, bcn_ctrl_reg, rtw_read8(adapt, bcn_ctrl_reg) | BIT(1));
+ }
+ 
+ static void rtl8188eu_init_default_value(struct adapter *adapt)
+diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+index 8fcfe73cf5b3..b4edbfda9a18 100644
+--- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+@@ -114,7 +114,7 @@ static u8 usb_read8(struct intf_hdl *pintfhdl, u32 addr)
+ 	requesttype = 0x01;/* read_in */
+ 	index = 0;/* n/a */
+ 
+-	wvalue = (u16)(addr&0x0000ffff);
++	wvalue = (u16)(addr & 0x0000ffff);
+ 	len = 1;
+ 
+ 	usbctrl_vendorreq(pintfhdl, request, wvalue, index, &data, len, requesttype);
+@@ -137,11 +137,11 @@ static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
+ 	request = 0x05;
+ 	requesttype = 0x01;/* read_in */
+ 	index = 0;/* n/a */
+-	wvalue = (u16)(addr&0x0000ffff);
++	wvalue = (u16)(addr & 0x0000ffff);
+ 	len = 2;
+ 	usbctrl_vendorreq(pintfhdl, request, wvalue, index, &data, len, requesttype);
+ 
+-	return (u16)(le32_to_cpu(data)&0xffff);
++	return (u16)(le32_to_cpu(data) & 0xffff);
+ }
+ 
+ static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
+@@ -157,7 +157,7 @@ static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
+ 	requesttype = 0x01;/* read_in */
+ 	index = 0;/* n/a */
+ 
+-	wvalue = (u16)(addr&0x0000ffff);
++	wvalue = (u16)(addr & 0x0000ffff);
+ 	len = 4;
+ 
+ 	usbctrl_vendorreq(pintfhdl, request, wvalue, index, &data, len, requesttype);
+@@ -179,7 +179,7 @@ static int usb_write8(struct intf_hdl *pintfhdl, u32 addr, u8 val)
+ 	request = 0x05;
+ 	requesttype = 0x00;/* write_out */
+ 	index = 0;/* n/a */
+-	wvalue = (u16)(addr&0x0000ffff);
++	wvalue = (u16)(addr & 0x0000ffff);
+ 	len = 1;
+ 	data = val;
+ 	ret = usbctrl_vendorreq(pintfhdl, request, wvalue, index, &data, len, requesttype);
+@@ -203,7 +203,7 @@ static int usb_write16(struct intf_hdl *pintfhdl, u32 addr, u16 val)
+ 	requesttype = 0x00;/* write_out */
+ 	index = 0;/* n/a */
+ 
+-	wvalue = (u16)(addr&0x0000ffff);
++	wvalue = (u16)(addr & 0x0000ffff);
+ 	len = 2;
+ 
+ 	data = cpu_to_le32(val & 0x0000ffff);
+@@ -231,7 +231,7 @@ static int usb_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
+ 	requesttype = 0x00;/* write_out */
+ 	index = 0;/* n/a */
+ 
+-	wvalue = (u16)(addr&0x0000ffff);
++	wvalue = (u16)(addr & 0x0000ffff);
+ 	len = 4;
+ 	data = cpu_to_le32(val);
+ 
+@@ -258,7 +258,7 @@ static int usb_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata
+ 	requesttype = 0x00;/* write_out */
+ 	index = 0;/* n/a */
+ 
+-	wvalue = (u16)(addr&0x0000ffff);
++	wvalue = (u16)(addr & 0x0000ffff);
+ 	len = length;
+ 	memcpy(buf, pdata, len);
+ 
+@@ -438,7 +438,7 @@ static int recvbuf2recvframe(struct adapter *adapt, struct sk_buff *pskb)
+ 		pkt_copy = NULL;
+ 
+ 		if (transfer_len > 0 && pkt_cnt == 0)
+-			pkt_cnt = (le32_to_cpu(prxstat->rxdw2)>>16) & 0xff;
++			pkt_cnt = (le32_to_cpu(prxstat->rxdw2) >> 16) & 0xff;
+ 
+ 	} while ((transfer_len > 0) && (pkt_cnt > 0));
+ 
+@@ -573,7 +573,7 @@ static u32 usb_read_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *rmem)
+ 		}
+ 
+ 		tmpaddr = (size_t)precvbuf->pskb->data;
+-		alignment = tmpaddr & (RECVBUFF_ALIGN_SZ-1);
++		alignment = tmpaddr & (RECVBUFF_ALIGN_SZ - 1);
+ 		skb_reserve(precvbuf->pskb, (RECVBUFF_ALIGN_SZ - alignment));
+ 
+ 		precvbuf->phead = precvbuf->pskb->head;
 -- 
 2.32.0
 
