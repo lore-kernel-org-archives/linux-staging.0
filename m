@@ -1,124 +1,187 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CB62F80
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 07:38:23 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id a5so19800392plh.5
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 00:38:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F272F80
+	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 08:02:19 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id u1so2732577plr.1
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 01:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5VrJu85JawDJ3CQf26LwvcJItsb64t/VJnjpVpHgnxk=;
-        b=B1k94xNLEn4C2LuwESfZzOpmqfs3i0/4PQUQEn/2H7HzV2sLehF7kpyB+1JauVOQg5
-         c9ykrXyuMd2p4edU/fIdbayrnTil50b1pNU+0gQ6HyQR/Ldsw1syEQYXDZBsAsEAGi0W
-         AiRafNwAQAitm20W80EDQ6lxfst9Cdc/8vy/Fh/nTrd5z/Fiz/cilg90rkmuINT6UBju
-         iWJHd9nq4rv3MyJB8KP6quvbvMZJ59witkuqTBQLAbGpd+dFhBqfI3yQjiERYzyw0OWk
-         erF9cdepqq3kywhmE911Vao6P6CzVLjsxxxriwI05+4fu02QUgbSZjUMtcTkrNSVb8p/
-         sQVg==
+        bh=E8DpRg7Ud9YdGb86UPnW5LGAv3FPr8UyIr8GCda7roA=;
+        b=fZ6DqZ25fjbsUnd2ufGNd6+1QzBB5bp6mTtrYWW4eXN10DnhKgAZM7AS75BoS80yl0
+         DWzvmbzRnejMuHxRD3c1Tl/0jGLmXVuSMcd/v0vXrrZ6U91lzSop94aWSazqspfgnyqo
+         yDN0B1fhQzAcMqAD/kajcNYdG4HlTDbWd2eUN74Zg7RsSQy+my/c56Uk2n/KI0Z8zwtw
+         Vmh+GsRK1ZU+v2LtoENANUM5e3p5msEKALx6TW3KPEPk+mplmkbt0RGAc56HI4JTnUe1
+         ochSEAqPwEs4YJSK06JwyMADs1iLeNyHPjvgaHb5JYfKWQYCgbokOPMzgQGufH3/Qiyx
+         0jQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5VrJu85JawDJ3CQf26LwvcJItsb64t/VJnjpVpHgnxk=;
-        b=tKAqouDNtYmm7jU3J79ZwmNWPpBhQEJAAijFNWMjQd2CcXB1tiOqRJg55291hCUezw
-         0NrjJBXoXpMlMgKwUGFcfPEZPjq41zB79NaQPJO69WE+sTY11RvvJSD4ORq9huN5Vs/J
-         EpWvh1JgAmNjjnckrOe5pvm6XDU61CkIsV0D8H2rGvDjcK3DJRvcZ2Kq/2Tm5VQSlatX
-         mYgT4pp13sx9kBptN1rD9DeRDLA6t65cPnFIPXJPf80lYuBkLCq6gefP659iO6ueNTEY
-         wnvDoaWWk40GTttDn0dW5jkwxhJ8FFUQHpYPipc6yIJyhYHZ8eiUsxhdEaWMxMfHUyxe
-         qidg==
-X-Gm-Message-State: AOAM531jSQexeWLww0kMVzxhOUnB1pvk2JA5da/84YZh8KC49xo8Qruc
-	vogfNDADApaVbNGV0dmtwWKKKhEArzx+c3wgpo19rg==
-X-Google-Smtp-Source: ABdhPJxFAGi2odbOaRgI0K2SQLqyth4cpZO53gpPBvUZNU3F9bPY8RlTxM6oX+DdW3DxJBxlLSKKBB2c0/05WyF9hP0=
-X-Received: by 2002:a65:6a0a:: with SMTP id m10mr14833760pgu.82.1629099503333;
- Mon, 16 Aug 2021 00:38:23 -0700 (PDT)
+        bh=E8DpRg7Ud9YdGb86UPnW5LGAv3FPr8UyIr8GCda7roA=;
+        b=XiMOmFoVZJrD+W1/T17jDxx/oT3YFb7qbjpFdGkk8f4plvrW7VpzqiB1tyYMGR+uQs
+         oMIfsc7JG7zSSM8lBJnjPKsa7PZAUe/TMmKi1LsNmeIB68/yX5loy3etsm0FbfjUxI0w
+         uEObcttKfPJ4U0B43NHOe8TKBiccvr5izz4mv+fTZio5pSBglZEgj13rbxBKEV7Vo0WS
+         VPkRZ0IQt4PQb42z85ypFa9Q33Pr5ijJhP1aqb2HtUk9d8oxX1LSpnQE5XxzrIw/H0Lz
+         DQ3P19tJtSdRncjID/aQlgHyGgSvIbw3x7onGeEKplleuCi5GnKFFWpM1rEX1vKMRMdg
+         7fdQ==
+X-Gm-Message-State: AOAM5327YjDWEpkgwqp+1LyHzxm+nS4pGHVvudtl+IseGVtb34N5sP6h
+	Z/jYAnEXWRYARlIHSRiG+EM5n7I8x7oRCcu8Z0hSTg==
+X-Google-Smtp-Source: ABdhPJzzTAf5c5KyTUHHE1oLnVn5LVVauM//ggb5igIHstiHUIWtFmYR2SGzidAypQwN1IzwCYrul3ROdi+J1wAR1f0=
+X-Received: by 2002:a17:90a:6906:: with SMTP id r6mr15898466pjj.162.1629100939364;
+ Mon, 16 Aug 2021 01:02:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210815230518.91656-1-phil@philpotter.co.uk> <11475165.p2zfeMNkXv@localhost.localdomain>
- <325822103.EpFXLVovdo@localhost.localdomain>
-In-Reply-To: <325822103.EpFXLVovdo@localhost.localdomain>
+References: <20210816073450.668993-1-gregkh@linuxfoundation.org>
+In-Reply-To: <20210816073450.668993-1-gregkh@linuxfoundation.org>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 16 Aug 2021 08:38:12 +0100
-Message-ID: <CAA=Fs0m4sGcGfWcaV3mVkNigaZZ9gxxEhOZAhXESsHMscRxgWw@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: remove unused variable and DBG_88E in hal/rtl8188e_cmd.c
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date: Mon, 16 Aug 2021 09:02:08 +0100
+Message-ID: <CAA=Fs0=C6fX0AhJ5J3=GsxJoB3YqxgRg3PXsKK8puJ9FOLGkyQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: r8188eu: remove inline markings from
+ functions in rtw_br_ext.c
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, 
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>, Michael Straube <straube.linux@gmail.com>, 
+	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 16 Aug 2021 at 08:01, Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
+On Mon, 16 Aug 2021 at 08:35, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> On Monday, August 16, 2021 8:55:06 AM CEST Fabio M. De Francesco wrote:
-> > On Monday, August 16, 2021 1:05:18 AM CEST Phillip Potter wrote:
-> > > Remove set but unused variable init_rate from rtl8188e_Add_RateATid
-> > > function in hal/rtl8188e_cmd.c, as it fixes a kernel test robot warning.
-> > > Removing the call to get_highest_rate_idx has no side effects here so is
-> > > safe.
-> > >
-> > > Also remove the DBG_88E macro call in this function, as it is not
-> > > particularly clear in my opinion. Additionally, rename variable
-> > > shortGIrate to short_gi_rate to conform to kernel camel case rules,
-> > > and improve general spacing around operators, some of which triggers
-> > > checkpatch 'CHECK' messages. These are not related to the test robot
-> > > warning.
-> > >
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > > ---
-> > >
-> > >  drivers/staging/r8188eu/hal/rtl8188e_cmd.c | 22 +++++++---------------
-> > >  1 file changed, 7 insertions(+), 15 deletions(-)
-> >
-> > Dear Philip,
-> >
-> > I'm sorry but, although every change here is fine, I cannot ack your patch
-> as-
-> > is. It shouldn't address so many different issues all at once, according to
-> > the best practices in patching and the kernel development rules.
-> >
-> > I understand that you think that, while you are at the removal of
-> "init_rate",
-> > why shouldn't I address all other trivial issues at once?
-> >
-> > Even if the patch is short and it probably doesn't require particular hard
-> > effort to review it, that mix-up of different works shouldn't be done,
-> mainly
-> > because this attitude could potentially lead you to add more and more
-> > different work in future patches. Where is the limit? Why not add some more
-> > different works next time you find some more problems into the same file/
-> > directory?
-> >
-> > If I were you I'd, at least, prepare a series of two or three patches:
-> >
-> > 1/3 - Remove init_rate as reported by KTR;
-> > 2/3 - Remove unneeded DBG_88E macro;
-> > 3/3 - Do some clean-up of rtl8188e_cmd.c;
-> >
-> > Perhaps patches 2/3 and 3/3 could be merged into one, but I'm not really
-> sure.
-> >
-> > Thanks,
-> >
-> > Fabio
+> The compiler is free to ignore, or follow, "inline" markings so they
+> really have no use in .c files, so just remove them.
 >
-> Furthermore, I forgot to say that the "Subject" should summarize with few
-> words the whole work you do and in this case it is not what it does.
+> This allows functions to properly show up as being unused when all
+> callers to them are removed, otherwise gcc does not warn you about this.
 >
-> Fabio
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 24 +++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
 >
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index 22737cd0fe44..fb2bb36f9e2c 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -49,7 +49,7 @@
+>  -----------------------------------------------------------------*/
 >
+>  /* Find a tag in pppoe frame and return the pointer */
+> -static inline unsigned char *__nat25_find_pppoe_tag(struct pppoe_hdr *ph, unsigned short type)
+> +static unsigned char *__nat25_find_pppoe_tag(struct pppoe_hdr *ph, unsigned short type)
+>  {
+>         unsigned char *cur_ptr, *start_ptr;
+>         unsigned short tagLen, tagType;
+> @@ -66,7 +66,7 @@ static inline unsigned char *__nat25_find_pppoe_tag(struct pppoe_hdr *ph, unsign
+>         return NULL;
+>  }
+>
+> -static inline int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+> +static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+>  {
+>         struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+>         int data_len;
+> @@ -106,7 +106,7 @@ static int skb_pull_and_merge(struct sk_buff *skb, unsigned char *src, int len)
+>         return 0;
+>  }
+>
+> -static inline unsigned long __nat25_timeout(struct adapter *priv)
+> +static unsigned long __nat25_timeout(struct adapter *priv)
+>  {
+>         unsigned long timeout;
+>
+> @@ -115,7 +115,7 @@ static inline unsigned long __nat25_timeout(struct adapter *priv)
+>         return timeout;
+>  }
+>
+> -static inline int  __nat25_has_expired(struct adapter *priv,
+> +static int  __nat25_has_expired(struct adapter *priv,
+>                                 struct nat25_network_db_entry *fdb)
+>  {
+>         if (time_before_eq(fdb->ageing_timer, __nat25_timeout(priv)))
+> @@ -124,7 +124,7 @@ static inline int  __nat25_has_expired(struct adapter *priv,
+>         return 0;
+>  }
+>
+> -static inline void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr,
+> +static void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr,
+>                                 unsigned int *ipAddr)
+>  {
+>         memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+> @@ -133,7 +133,7 @@ static inline void __nat25_generate_ipv4_network_addr(unsigned char *networkAddr
+>         memcpy(networkAddr+7, (unsigned char *)ipAddr, 4);
+>  }
+>
+> -static inline void __nat25_generate_ipx_network_addr_with_node(unsigned char *networkAddr,
+> +static void __nat25_generate_ipx_network_addr_with_node(unsigned char *networkAddr,
+>                                 __be32 *ipxNetAddr, unsigned char *ipxNodeAddr)
+>  {
+>         memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+> @@ -143,7 +143,7 @@ static inline void __nat25_generate_ipx_network_addr_with_node(unsigned char *ne
+>         memcpy(networkAddr+5, ipxNodeAddr, 6);
+>  }
+>
+> -static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned char *networkAddr,
+> +static void __nat25_generate_ipx_network_addr_with_socket(unsigned char *networkAddr,
+>                                 __be32 *ipxNetAddr, __be16 *ipxSocketAddr)
+>  {
+>         memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+> @@ -153,7 +153,7 @@ static inline void __nat25_generate_ipx_network_addr_with_socket(unsigned char *
+>         memcpy(networkAddr+5, ipxSocketAddr, 2);
+>  }
+>
+> -static inline void __nat25_generate_apple_network_addr(unsigned char *networkAddr,
+> +static void __nat25_generate_apple_network_addr(unsigned char *networkAddr,
+>                                 __be16 *network, unsigned char *node)
+>  {
+>         memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+> @@ -163,7 +163,7 @@ static inline void __nat25_generate_apple_network_addr(unsigned char *networkAdd
+>         networkAddr[3] = *node;
+>  }
+>
+> -static inline void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
+> +static void __nat25_generate_pppoe_network_addr(unsigned char *networkAddr,
+>                                 unsigned char *ac_mac, __be16 *sid)
+>  {
+>         memset(networkAddr, 0, MAX_NETWORK_ADDR_LEN);
+> @@ -258,7 +258,7 @@ static int update_nd_link_layer_addr(unsigned char *data, int len, unsigned char
+>         return 0;
+>  }
+>
+> -static inline int __nat25_network_hash(unsigned char *networkAddr)
+> +static int __nat25_network_hash(unsigned char *networkAddr)
+>  {
+>         if (networkAddr[0] == NAT25_IPV4) {
+>                 unsigned long x;
+> @@ -305,7 +305,7 @@ static inline int __nat25_network_hash(unsigned char *networkAddr)
+>         }
+>  }
+>
+> -static inline void __network_hash_link(struct adapter *priv,
+> +static void __network_hash_link(struct adapter *priv,
+>                                 struct nat25_network_db_entry *ent, int hash)
+>  {
+>         /*  Caller must spin_lock already! */
+> @@ -316,7 +316,7 @@ static inline void __network_hash_link(struct adapter *priv,
+>         ent->pprev_hash = &priv->nethash[hash];
+>  }
+>
+> -static inline void __network_hash_unlink(struct nat25_network_db_entry *ent)
+> +static void __network_hash_unlink(struct nat25_network_db_entry *ent)
+>  {
+>         /*  Caller must spin_lock already! */
+>         *ent->pprev_hash = ent->next_hash;
+> --
+> 2.32.0
 >
 
-Dear Fabio,
-
-Thank you for your feedback, I shall prepare a v2 series.
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
 Regards,
 Phil
