@@ -1,27 +1,29 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEC92FB0
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 17:58:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 87DBB60FD7;
-	Tue, 17 Aug 2021 17:58:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2282FB0
+	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 18:02:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D5B3260F11;
+	Tue, 17 Aug 2021 18:02:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1629223081;
-	bh=FXkhtOsU1DhgucCkfqBGz2M/mv9RZyXJ4JNhnZSuQF8=;
+	s=korg; t=1629223356;
+	bh=p/KrINRe2L2s1MrUVSOIU9Et1ymMM6absnQq9OHDTfo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KgV/UCrxSe0y4S7duXpl7GS6AvasTEmtA0zGqfV7G7QK+z28kOFa6Aodon+7b1nS3
-	 cwV1pOfMIQ32MmtUpnKKdYktV3BmW5baYaBWC1yhCmGuyOcmSOp6kuEh+fFAf9oGhb
-	 0Nbetaza/mO6Y8ieEFpDCMXmxbNlEyMwqub92u80=
-Date: Tue, 17 Aug 2021 19:57:58 +0200
+	b=nQwVGDh5zdlAUDqmzesTek/bF/OjT6rcNfG6weuPOned8usXETgsBB2ro0R8i3afP
+	 w+KcQpiZKj0mFdXGX3JV7RASfx5TtbQOzqpXBMaLhQ6WuN5KjxNMKxdfsjjYsAVFXi
+	 LsjN1Yt0pgYAlSb8iZDmhinrsxQ90KGT2gdkDrz8=
+Date: Tue, 17 Aug 2021 20:02:34 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Michael Straube <straube.linux@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
-	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Joe Perches <joe@perches.com>
-Subject: Re: [PATCH] staging: r8188eu: refactor
- rtw_is_cckrates{only}_included()
-Message-ID: <YRv4po3sLcH9VLuo@kroah.com>
-References: <20210816193125.15700-1-straube.linux@gmail.com>
+Cc: Phillip Potter <phil@philpotter.co.uk>, Larry.Finger@lwfinger.net,
+	martin@kaiser.cx, fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] staging: r8188eu: perform cleanup in
+ rtl8188e_Add_RateATid
+Message-ID: <YRv5uk84xcu78WKl@kroah.com>
+References: <20210816234459.132239-1-phil@philpotter.co.uk>
+ <20210816234459.132239-4-phil@philpotter.co.uk>
+ <d9a12b30-07bf-0c73-4a32-b2f4703998f3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,75 +32,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210816193125.15700-1-straube.linux@gmail.com>
+In-Reply-To: <d9a12b30-07bf-0c73-4a32-b2f4703998f3@gmail.com>
 
-On Mon, Aug 16, 2021 at 09:31:25PM +0200, Michael Straube wrote:
-> Refactor functions rtw_is_cckrates_included() and
-> rtw_is_cckratesonly_included(). Add new helper function rtw_is_cckrate()
-> that allows to make the code more compact. Improves readability and
-> slightly reduces object file size. Change the return type to bool to
-> reflect that the functions return boolean values.
+On Tue, Aug 17, 2021 at 09:05:43AM +0200, Michael Straube wrote:
+> On 8/17/21 1:44 AM, Phillip Potter wrote:
+> > Perform some cleanup items in the rtl8188e_Add_RateATid function:
+> > (1) Rename variable shortGIrate to short_gi_rate to comply with kernel
+> >      camel case rules.
+> > (2) Introduce additional whitespace around certain operators in the
+> >      function, to make it clearer what is happening.
+> > 
+> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> > ---
+> >   drivers/staging/r8188eu/hal/rtl8188e_cmd.c | 14 +++++++-------
+> >   1 file changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+> > index 77c057e276a5..8d03b24dc5af 100644
+> > --- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+> > +++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+> > @@ -155,25 +155,25 @@ void rtl8188e_Add_RateATid(struct adapter *pAdapter, u32 bitmap, u8 arg, u8 rssi
+> >   {
+> >   	struct hal_data_8188e *haldata = GET_HAL_DATA(pAdapter);
+> > -	u8 macid, raid, shortGIrate = false;
+> > +	u8 macid, raid, short_gi_rate = false;
+> > -	macid = arg&0x1f;
+> > +	macid = arg & 0x1f;
+> > -	raid = (bitmap>>28) & 0x0f;
+> > +	raid = (bitmap >> 28) & 0x0f;
+> >   	bitmap &= 0x0fffffff;
+> >   	if (rssi_level != DM_RATR_STA_INIT)
+> >   		bitmap = ODM_Get_Rate_Bitmap(&haldata->odmpriv, macid, bitmap, rssi_level);
+> > -	bitmap |= ((raid<<28)&0xf0000000);
+> > +	bitmap |= ((raid << 28) & 0xf0000000);
+> > -	shortGIrate = (arg&BIT(5)) ? true : false;
+> > +	short_gi_rate = (arg & BIT(5)) ? true : false;
+> > -	raid = (bitmap>>28) & 0x0f;
+> > +	raid = (bitmap >> 28) & 0x0f;
+> >   	bitmap &= 0x0fffffff;
+> > -	ODM_RA_UpdateRateInfo_8188E(&haldata->odmpriv, macid, raid, bitmap, shortGIrate);
+> > +	ODM_RA_UpdateRateInfo_8188E(&haldata->odmpriv, macid, raid, bitmap, short_gi_rate);
+> >   }
+> >   void rtl8188e_set_FwPwrMode_cmd(struct adapter *adapt, u8 Mode)
+> > 
 > 
-> Suggested-by: Joe Perches <joe@perches.com>
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_ieee80211.c | 27 +++++++++++---------
->  drivers/staging/r8188eu/include/ieee80211.h  |  5 ++--
->  2 files changed, 17 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-> index 0c7231cefdda..892ffcd92cc7 100644
-> --- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
-> +++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-> @@ -68,28 +68,31 @@ int rtw_get_bit_value_from_ieee_value(u8 val)
->  	return 0;
->  }
->  
-> -uint	rtw_is_cckrates_included(u8 *rate)
-> +static bool rtw_is_cckrate(u8 rate)
->  {
-> -	u32	i = 0;
-> +	rate &= 0x7f;
-> +	return rate == 2 || rate == 4 || rate == 11 || rate == 22;
-> +}
-> +
-> +bool rtw_is_cckrates_included(u8 *rate)
-> +{
-> +	u8 r;
->  
-> -	while (rate[i] != 0) {
-> -		if  ((((rate[i]) & 0x7f) == 2) || (((rate[i]) & 0x7f) == 4) ||
-> -		     (((rate[i]) & 0x7f) == 11)  || (((rate[i]) & 0x7f) == 22))
-> +	while ((r = *rate++)) {
-> +		if (rtw_is_cckrate(r))
->  			return true;
-> -		i++;
->  	}
-> +
->  	return false;
->  }
->  
-> -uint	rtw_is_cckratesonly_included(u8 *rate)
-> +bool rtw_is_cckratesonly_included(u8 *rate)
->  {
-> -	u32 i = 0;
-> +	u8 r;
->  
-> -	while (rate[i] != 0) {
-> -		if  ((((rate[i]) & 0x7f) != 2) && (((rate[i]) & 0x7f) != 4) &&
-> -		     (((rate[i]) & 0x7f) != 11)  && (((rate[i]) & 0x7f) != 22))
-> +	while ((r = *rate++)) {
+> Perhaps the added spaces around operators could conflict with
+> pending patch sets that address spacing style issues, otherwise...
 
-Ick, no.
+Yeah, it conflicted too much, so I couldn't apply this one.
 
-While it might be fun to play with pointers like this, trying to
-determine the precidence issues involved with reading from, and then
-incrementing the pointer like this is crazy.
-
-The original was obvious as to how it was walking through the array.
-Keep that here.
-
-Remember, we write code for humans first, compliers second.
+Phillip, can you rebase and resend this one patch, your first 2 worked
+just fine and are now in my tree.
 
 thanks,
 
