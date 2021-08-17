@@ -1,101 +1,105 @@
-Received: from smtprelay.hostedemail.com (smtprelay0069.hostedemail.com [216.40.44.69])
+Received: from challenge-bot.com (ozzloy.lifeafterking.org [208.85.243.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9433C173
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 02:31:14 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave04.hostedemail.com (Postfix) with ESMTP id D6EF518003F16
-	for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 11:14:40 +0000 (UTC)
-Received: from omf07.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay02.hostedemail.com (Postfix) with ESMTP id A08A6204BB;
-	Mon, 16 Aug 2021 11:14:33 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id 64611315D7A;
-	Mon, 16 Aug 2021 11:14:32 +0000 (UTC)
-Message-ID: <5ec326711eaf178754a02816f20510a7d860b378.camel@perches.com>
-Subject: Re: [PATCH 1/4] staging: r8188eu: refactor
- rtw_is_cckrates_included()
-From: Joe Perches <joe@perches.com>
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, 
-	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 16 Aug 2021 04:14:31 -0700
-In-Reply-To: <20210816095840.24259-1-straube.linux@gmail.com>
-References: <20210816095840.24259-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0D46D19
+	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 04:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=challenge-bot.com; s=20180430; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	 bh=80wuYmqec+tkN81Ry5/hAJbtjz7ZSJszLbUYJbgNwnc=; b=RMLTzz8heejfvkbtBduZvmdqg
+	S9yiMzEJiTPyJW7XTmDP8mzwAl6/i99oxuw5iDkQw5udghxROT+R3DANsuX4z+AtiYFt6YF/7RJc4
+	S6rTHDZdRo2xCYMCjxOQsYfmkX9ipcDO2TpadfNQXveV+GQA35NPchXc1VcB0lQ6C9EDQ=;
+Received: from ozzloy by challenge-bot.com with local (Exim 4.92)
+	(envelope-from <ozzloy@challenge-bot.com>)
+	id 1mFqkI-0004Om-NX; Mon, 16 Aug 2021 21:30:38 -0700
+Date: Mon, 16 Aug 2021 21:30:38 -0700
+From: daniel watson <ozzloy@challenge-bot.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging:iio:ade7854 surround complex defines in
+ parentheses
+Message-ID: <20210817043038.GA9492@challenge-bot.com>
+References: <20210815023115.13016-1-ozzloy@challenge-bot.com>
+ <YRizb/FGfYpGbpJy@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.60
-X-Stat-Signature: 9n77txsehf73xemcak6m3t9stehd8pqc
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 64611315D7A
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19csrqDwimCnRbpgGA5vCtdn7wIwrapD00=
-X-HE-Tag: 1629112472-559648
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YRizb/FGfYpGbpJy@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, 2021-08-16 at 11:58 +0200, Michael Straube wrote:
-> Refactor function rtw_is_cckrates_included(). Improves readability
-> and slightly reduces object file size.
-[]
-> diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-[]
-> @@ -70,13 +70,12 @@ int rtw_get_bit_value_from_ieee_value(u8 val)
->  
+
+If this is a false positive from checkpatch, I can submit it as an
+example to the checkpatch maintainers.  Do you think I should?
+
+On Sun, Aug 15, 2021 at 08:25:51AM +0200, Greg Kroah-Hartman wrote:
+> On Sat, Aug 14, 2021 at 07:31:15PM -0700, daniel watson wrote:
+> > Error found by checkpatch.pl
 > 
->  uint	rtw_is_cckrates_included(u8 *rate)
->  {
-> -	u32	i = 0;
-> +	while (*rate) {
-> +		u8 r = *rate & 0x7f;
+> What error?
+
+$ git checkout 36a21d5172 drivers/staging/iio/meter/ade7854.h # before
+Updated 1 path from 638ccd1543654
+
+$ ./scripts/checkpatch.pl --terse --types COMPLEX_MACRO \
+drivers/staging/iio/meter/ade7854.h
+drivers/staging/iio/meter/ade7854.h:142: ERROR: Macros with complex
+values should be enclosed in parentheses
+drivers/staging/iio/meter/ade7854.h:143: ERROR: Macros with complex
+values should be enclosed in parentheses
+drivers/staging/iio/meter/ade7854.h:144: ERROR: Macros with complex
+values should be enclosed in parentheses
+total: 3 errors, 0 warnings, 0 checks, 173 lines checked
+
+$ git checkout 143b51a80978 drivers/staging/iio/meter/ade7854.h # after
+Updated 1 path from 21c208a36476a
+
+$ ./scripts/checkpatch.pl --terse --types COMPLEX_MACRO \
+drivers/staging/iio/meter/ade7854.h
+
+$
+
+
+> > Signed-off-by: daniel watson <ozzloy@challenge-bot.com>
 > 
-> -	while (rate[i] != 0) {
-> -		if  ((((rate[i]) & 0x7f) == 2) || (((rate[i]) & 0x7f) == 4) ||
-> -		     (((rate[i]) & 0x7f) == 11)  || (((rate[i]) & 0x7f) == 22))
-> +		if (r == 2 || r == 4 || r == 11 || r == 22)
->  			return true;
-> -		i++;
-> +		rate++;
->  	}
->  	return false;
->  }
+> Capitalize your name?
 
-Bikeshed:
+I can remake this patch with my name capitalized if the patch is worth
+remaking.  I'll be sure to capitalize in future sign-off lines for
+Linux.
 
-More compact code with only 1 reference of rate not 3 is more
-readable to at least me.
 
-	u8 r;
+> This is not a real change that is needed, just look at the code to
+> verify that.
 
-	while ((r = *rate++ & 0x7f)) {
-		if (r == 2 || r == 4 || r == 11 || r == 22)
-			return true;
-	}
+Agreed, this is not a huge change.
 
-	return false;
+I thought small changes were acceptable, if they get rid of errors from
+checkpatch.  I got that impression from this video
 
-And you might make a static inline for the test of r so it could
-be reused in the rtw_is_cckratesonly_included function
+Write and Submit your first Linux kernel Patch
+https://youtu.be/LLBrBBImJt4
 
-static inline bool is_cckrate(u8 rate)
-{
-	return rate == 2 || rate == 4 || rate == 11 || rate == 22;
-}
+At around 15 minutes, you create a patch which removes curly braces
+from an if-else.  That seemed comparable to the change in this
+patch.  That video was posted over a decade ago, so I would understand
+if things are different now.
 
-so this could be:
+> 
+> thanks,
+> 
+> greg k-h
 
-	u8 r;
-
-	while ((r = *rate++ & 0x7f)) {
-		if (is_cckrate(r))
-			return true;
-	}
-
-	return false;
-
+You're welcome!  Thank you too, that was a super fast response!  I am
+happy to get a direct response from you!
 
