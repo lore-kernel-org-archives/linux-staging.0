@@ -1,41 +1,41 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B116D18
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 01:30:09 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id c12so17168246ljr.5
-        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 18:30:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CF76D18
+	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 01:30:10 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id z2so38240858lft.1
+        for <linux-staging@lists.linux.dev>; Mon, 16 Aug 2021 18:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=whXbmpiV9uZrIWQEZSp5RRTDQ3TFfbRun1N2tfG7MWk=;
-        b=qVuy6Otl0UWSQ+/nZMjDzykD2sSUZDst3NL/JVapiLI3z3yUfsGAUcncelhMR38Lym
-         1xjVPKDNQoeHSdojhaD4CNMJ2Dgxsx7ya2LEvfAdSM6jyMIhg0fAggQvAzFKMqqVOL9O
-         IPbH29DcWGT56C4Udgprd2zRCBzNWyrc1+xqzNB9hh3j27fQeaGpUX2Jl9g2CjR6dsJE
-         H3f4BOVlgw85yDYhZPvxDoAPPZKXld5HwD4iSdkylVBs+x8a7x/zUr2T15/KjxPp7TBo
-         OcMaTgNBzyb8Gi7/p8ZpOcNZ09XNRqw/14qoRIg6z6RvIG29dGNOEq13dllv4PGdI+NN
-         gRvg==
+        bh=1rOuTQcx9Elf9jGsA5Ck42tuk06UuZfodHaWyKuopa4=;
+        b=nLg7hn8A5q/Vx/CDPzbsu0UZcMhezzX4poGP9+aJl2GMGcJhQYqkUnj5Qjl2cn36JS
+         TRG8tU87zTvHq5zgQXHaUfSGmd+O/0lOIjEqYc1BrK9zX8G0pOagT0C0wooOsAF5RN7B
+         yK/7WuO8b06VawvO6kBp681V6kBFyVQi0S6F6onYaebnZX8T/ICfdcFvXSYrhsgVKUYL
+         K9LhVT6ka2mjmSQGZXodX88ijX4Dp4wQUWAkjBdKY6Y5GWYluTSb3kBlJweMyYfHhACG
+         IxdIRBbwpMCTUUHhK75ttkWtdcgq0pw9a09WmdFz57TCTIW/Tn8SPuEy+khxI9rWUJ9M
+         eM2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=whXbmpiV9uZrIWQEZSp5RRTDQ3TFfbRun1N2tfG7MWk=;
-        b=fvrVu7yzvziWHLPEIW117coUUCFndYIHoN1FbhzIYmnrKhwvOmQvbbx4HLsmxwScmH
-         BDkeYJ/WdQmYHhw9FIMk3F1M5XfnhQ5Z1/xJZg6DQlTx5lFhFxHvufDXSEoC79sdepup
-         O5N34L3Ve3bVjHmhTe6pnQlDN1qKbiMHxrmFKXPQZ+GTcWQM26rAwUeV37TIYrQ9qLGF
-         BDd9G2dtXpv0pt+A1Tc3xaqcCdziDeP8YnE7tBwsViK1e+qW1+W5gtd/zb5tMguAjdoc
-         Sk+JVGq4u0whqxzZV8GQNt4P+Z+CcgwiDvMaBeKYFHQl7itaYcRktigwHHFWm2DOgNih
-         X0zA==
-X-Gm-Message-State: AOAM530NvPdZw5jJw2bTvoUGDfQa5Ga3YVrMUCBVxaSvbVGWpqW1O+oU
-	NN3XbcmbPYzmoTcqIdfagJo=
-X-Google-Smtp-Source: ABdhPJx0BGOHbSZlE+uingQVCD7QPlpfvESjI/6O9+jCEZkAPokxg6m3XSjkH1CoIjJ45grVv1YxFQ==
-X-Received: by 2002:a2e:5758:: with SMTP id r24mr870243ljd.432.1629163807370;
-        Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
+        bh=1rOuTQcx9Elf9jGsA5Ck42tuk06UuZfodHaWyKuopa4=;
+        b=fd6zWAUd716/yT9P+DEzIPuieaIN36evOICuKCnox01h1IJK5MSxXExJo9j8vJ9pcZ
+         cdhw0bMHq3A2z0/Od5wsawJSvQvhnbVPwICrT5H/FTzOQW0xjEbp6hHmrVolumsrvDZs
+         N80+0LuogLN0b+o2m9IB5v0yQZaBL2gMRPQKddnWPlNERmft+PbdFNk3c+oXXp0bE/zd
+         csdNiC7kWvmOQ60Ae7PIg/AmrUgKMZMRMq/ukl/e19qvEUiU7y6txYlnQTh/c0rKavJo
+         NURxpdB3e/rwL6DYiJSa6+FvtuxYQm7TDb21SBRW5BkpjnakGk2h/fl4P0Rgamk5sFxN
+         t6zQ==
+X-Gm-Message-State: AOAM531aJ15Pjg6GPciuOx9WtjN5JkV6n2oeq+raY1kJQED2bGFK33zI
+	ufl95tG4wUOLLjTbHKeW8n4=
+X-Google-Smtp-Source: ABdhPJwYUUWzqvmh2TbyZ8slt93fpku6uQ4CmSmfQ4fl39kgqkYGTl90+c9np45vo/m/xAMOfWGCEg==
+X-Received: by 2002:ac2:43c4:: with SMTP id u4mr476965lfl.357.1629163808543;
+        Mon, 16 Aug 2021 18:30:08 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.06
+        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
+        Mon, 16 Aug 2021 18:30:08 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -71,9 +71,9 @@ Cc: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	devicetree@vger.kernel.org,
 	linux-clk@vger.kernel.org
-Subject: [PATCH v8 05/34] soc/tegra: Use dev_pm_opp_sync()
-Date: Tue, 17 Aug 2021 04:27:25 +0300
-Message-Id: <20210817012754.8710-6-digetx@gmail.com>
+Subject: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new tegra-clocks sub-node
+Date: Tue, 17 Aug 2021 04:27:26 +0300
+Message-Id: <20210817012754.8710-7-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
 References: <20210817012754.8710-1-digetx@gmail.com>
@@ -85,62 +85,88 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use new generic dev_pm_opp_sync() helper which initializes voltage vote
-based on clock rate.
+Document tegra-clocks sub-node which describes Tegra SoC clocks that
+require a higher voltage of the core power domain in order to operate
+properly on a higher clock rates.  Each node contains a phandle to OPP
+table and power domain.
+
+The root PLLs and system clocks don't have any specific device dedicated
+to them, clock controller is in charge of managing power for them.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/common.c | 30 +-----------------------------
- 1 file changed, 1 insertion(+), 29 deletions(-)
+ .../bindings/clock/nvidia,tegra20-car.yaml    | 51 +++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
-index a42d4f98c078..dab1bacb41ab 100644
---- a/drivers/soc/tegra/common.c
-+++ b/drivers/soc/tegra/common.c
-@@ -39,34 +39,6 @@ bool soc_is_tegra(void)
- 	return match != NULL;
- }
+diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+index 459d2a525393..7f5cd27e4ce0 100644
+--- a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
++++ b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+@@ -42,6 +42,48 @@ properties:
+   "#reset-cells":
+     const: 1
  
--static int tegra_core_dev_init_opp_state(struct device *dev)
--{
--	unsigned long rate;
--	struct clk *clk;
--	int err;
--
--	clk = devm_clk_get(dev, NULL);
--	if (IS_ERR(clk)) {
--		dev_err(dev, "failed to get clk: %pe\n", clk);
--		return PTR_ERR(clk);
--	}
--
--	rate = clk_get_rate(clk);
--	if (!rate) {
--		dev_err(dev, "failed to get clk rate\n");
--		return -EINVAL;
--	}
--
--	/* first dummy rate-setting initializes voltage vote */
--	err = dev_pm_opp_set_rate(dev, rate);
--	if (err) {
--		dev_err(dev, "failed to initialize OPP clock: %d\n", err);
--		return err;
--	}
--
--	return 0;
--}
--
- /**
-  * devm_tegra_core_dev_init_opp_table() - initialize OPP table
-  * @dev: device for which OPP table is initialized
-@@ -118,7 +90,7 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
- 	}
++  tegra-clocks:
++    description: child nodes are the output clocks from the CAR
++    type: object
++
++    patternProperties:
++      "^[a-z]+[0-9]+$":
++        type: object
++        properties:
++          compatible:
++            allOf:
++              - items:
++                  - enum:
++                      - nvidia,tegra20-sclk
++                      - nvidia,tegra30-sclk
++                      - nvidia,tegra30-pllc
++                      - nvidia,tegra30-plle
++                      - nvidia,tegra30-pllm
++              - const: nvidia,tegra-clock
++
++          operating-points-v2:
++            $ref: /schemas/types.yaml#/definitions/phandle
++            description:
++              Phandle to OPP table that contains frequencies, voltages and
++              opp-supported-hw property, which is a bitfield indicating
++              SoC process or speedo ID mask.
++
++          clocks:
++            items:
++              - description: node's clock
++
++          power-domains:
++            maxItems: 1
++            description: phandle to the core SoC power domain
++
++        required:
++          - compatible
++          - operating-points-v2
++          - clocks
++          - power-domains
++
++        additionalProperties: false
++
+ required:
+   - compatible
+   - reg
+@@ -59,6 +101,15 @@ examples:
+         reg = <0x60006000 0x1000>;
+         #clock-cells = <1>;
+         #reset-cells = <1>;
++
++        tegra-clocks {
++            sclk {
++                compatible = "nvidia,tegra20-sclk", "nvidia,tegra-clock";
++                operating-points-v2 = <&opp_table>;
++                clocks = <&tegra_car TEGRA20_CLK_SCLK>;
++                power-domains = <&domain>;
++            };
++        };
+     };
  
- 	if (params->init_state) {
--		err = tegra_core_dev_init_opp_state(dev);
-+		err = dev_pm_opp_sync(dev);
- 		if (err)
- 			return err;
- 	}
+     usb-controller@c5004000 {
 -- 
 2.32.0
 
