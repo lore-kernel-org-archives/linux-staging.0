@@ -1,91 +1,104 @@
-Received: from smtprelay.hostedemail.com (smtprelay0008.hostedemail.com [216.40.44.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BE772
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 19:09:02 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave05.hostedemail.com (Postfix) with ESMTP id E09191839B993
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 18:59:16 +0000 (UTC)
-Received: from omf10.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay07.hostedemail.com (Postfix) with ESMTP id 2AF69183F91F9;
-	Tue, 17 Aug 2021 18:59:10 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id D81DD2351F7;
-	Tue, 17 Aug 2021 18:59:08 +0000 (UTC)
-Message-ID: <ccad90a4a9fa881ecf042e748aeccf9f81070b2f.camel@perches.com>
-Subject: Re: [PATCH] staging: r8188eu: refactor
- rtw_is_cckrates{only}_included()
-From: Joe Perches <joe@perches.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Michael Straube <straube.linux@gmail.com>, Larry.Finger@lwfinger.net, 
-	phil@philpotter.co.uk, martin@kaiser.cx, fmdefrancesco@gmail.com, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Tue, 17 Aug 2021 11:59:07 -0700
-In-Reply-To: <YRwEyrSLTPl/KY9t@kroah.com>
-References: <20210816193125.15700-1-straube.linux@gmail.com>
-	 <YRv4po3sLcH9VLuo@kroah.com>
-	 <11a09af791c5453175a6bdac1c51bd9fcb0685bd.camel@perches.com>
-	 <YRwEyrSLTPl/KY9t@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F3872
+	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 20:21:50 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id q3so29146245edt.5
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 13:21:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=aElaQY59KXNPtiLMXlPfttrGWOlXzIX0OonVI0K93CQ=;
+        b=Vat3cvxN0e9+MaFZvF7B+FaV2NKJFQuMbMXn8KQ8MPAjcakztpp5gb9rEJoA4hZIRF
+         TfxDNA3kE5Vd1hFPKYG+JFR9scuQxfeymknlhKo89/SziVd7cnovFAPzR4t8n1u3CVN0
+         VEYjHbhqBBzPgJJK1ExSyHC8s5Ijl5N3e11BDgZlL/8GsHsbj6tXmPc5eMyvLroQuUZw
+         LQmJwpltP3glVvoMIkvwV48skmc+AuC2zxYTbz9nA+a5AZheRhLPoyfSJO5uha2e+La5
+         1AuzrqTNv+Pdzoz5kOi5HjMaq2Ha3bYqt3jJebrbn2kAtqJ3EvtJDnoFOYJWcjLGgza0
+         lYlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=aElaQY59KXNPtiLMXlPfttrGWOlXzIX0OonVI0K93CQ=;
+        b=sQ5Bq9A3wIwiwM33oH/Ae7S1Xl3zz64pl1ToNv4iWBtwzNRWtm5Lm6Fp25wT36c6pX
+         CdUNJq1caNDp9vocKRonC+DuDQRyfsoN2ROUgcWZrHk9vWlNDO1V6kNLqs5/glo/IeAA
+         nDq4S8THGIMCuXf9tonOp1sFd+RhD9K4lWnNb4u4jaMeN3FCXxu43/ZxJSFbZLbP4brM
+         GLL02Qzc70TcmvF0UY4Ybxp6OKQx31Zx4G6wDTvjiYOMg8Zve5q/5d8XXi8XDKq2yVfk
+         kMEEd8t/Afg9PM9N8OXCK74VR1n9PhF3buUJpbnoP/j94qXbEv3crDt9Nxq7HaDA3yJq
+         Ee3Q==
+X-Gm-Message-State: AOAM532oVdzI/56CiuL+KNQCnS6gcLsQQLrELoWLRXIE+75qjKjk0PUD
+	Nb16sUvAhhCrPwYOh1xqGII=
+X-Google-Smtp-Source: ABdhPJzwjn9F8+5ManWa8VXN7eBp5yaOnUO8gvrfNaPb1wO23hszNQBUUXG/V0aZAYIajfvkj52e+Q==
+X-Received: by 2002:aa7:dcd1:: with SMTP id w17mr5827652edu.322.1629231709244;
+        Tue, 17 Aug 2021 13:21:49 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id z6sm1434472edc.52.2021.08.17.13.21.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 13:21:48 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] staging: r8188eu: Remove code depending on NAT25_LOOKUP
+Date: Tue, 17 Aug 2021 22:21:47 +0200
+Message-ID: <1873149.OoslLVuAm5@localhost.localdomain>
+In-Reply-To: <YRv4GLL0BsMm/lf3@kroah.com>
+References: <20210816175138.21633-1-fmdefrancesco@gmail.com> <YRv4GLL0BsMm/lf3@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: D81DD2351F7
-X-Stat-Signature: dtmxqupo3kd6uaq5fx1nnh11tgkrscxa
-X-Spam-Status: No, score=1.27
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/FEtOuC4ogtIQZhRbE4/jDcq40+mrUwkM=
-X-HE-Tag: 1629226748-383559
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2021-08-17 at 20:49 +0200, Greg KH wrote:
-> On Tue, Aug 17, 2021 at 11:36:09AM -0700, Joe Perches wrote:
-> > On Tue, 2021-08-17 at 19:57 +0200, Greg KH wrote:
-> > > On Mon, Aug 16, 2021 at 09:31:25PM +0200, Michael Straube wrote:
-> > > > Refactor functions rtw_is_cckrates_included() and
-> > > > rtw_is_cckratesonly_included(). Add new helper function rtw_is_cckrate()
-> > > > that allows to make the code more compact. Improves readability and
-> > > > slightly reduces object file size. Change the return type to bool to
-> > > > reflect that the functions return boolean values.
-> > []
-> > > > diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-> > []
-> > > > +bool rtw_is_cckratesonly_included(u8 *rate)
-> > > >  {
-> > > > -	u32 i = 0;
-> > > > +	u8 r;
-> > > >  
-> > > > 
-> > > > -	while (rate[i] != 0) {
-> > > > -		if  ((((rate[i]) & 0x7f) != 2) && (((rate[i]) & 0x7f) != 4) &&
-> > > > -		     (((rate[i]) & 0x7f) != 11)  && (((rate[i]) & 0x7f) != 22))
-> > > > +	while ((r = *rate++)) {
-> > > 
-> > > Ick, no.
-> > > 
-> > > While it might be fun to play with pointers like this, trying to
-> > > determine the precidence issues involved with reading from, and then
-> > > incrementing the pointer like this is crazy.
-> > > 
-> > > The original was obvious as to how it was walking through the array.
+On Tuesday, August 17, 2021 7:55:36 PM CEST Greg Kroah-Hartman wrote:
+> On Mon, Aug 16, 2021 at 07:51:38PM +0200, Fabio M. De Francesco wrote:
+> > Remove all the code related to the management of the NAT25_LOOKUP
+> > method in nat25_db_handle(). The only function that used that method was
+> > the now deleted nat25_handle_frame(). Remove the NAT25_LOOKUP entry from
+> > the NAT25_METHOD enum because it is not anymore used everywhere else in
+> > the code of the driver.
 > > 
-> > It's sad to believe *ptr++ is not obvious to you as it's very commonly
-> > used in the kernel sources (over 10,000 instances).
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> > 
+> > v2: Patch rebased against the latest Greg K-H's tree.
+> > 
+> >  drivers/staging/r8188eu/core/rtw_br_ext.c    | 112 -------------------
+> >  drivers/staging/r8188eu/include/rtw_br_ext.h |   1 -
+> >  2 files changed, 113 deletions(-)
 > 
-> There's lots of sad things in life :(
+> This change adds a build warning, which is not allowed.
+> 
+> Please merge this, and the 3/3 patch into a single change, so that it
+> all is removed together, causing no build warnings at any point in time.
 
-Your difficulty reading very standard c is relatively low on my list.
+Sorry, I didn't know that, within a series, no patch is allowed to add build warning
+that are then fixed by the following ones. I did it for the purpose of splitting
+different logical changes into different patches and the removal of code
+related to NAT25_LOOKUP (2/3) introduced some warnings about a function
+and a variable that were not anymore used. Patch 3/3 had the changes that
+removed the above-mentioned no more used objects. 
 
-Still, it's you not this particular patch to the realtek staging code.
+According to your request, now I've merged 2/3 and 3/3 into a single v3 patch. 
+I had to drop the numbering of the patch because neither 2/3 or 2/2 seemed 
+appropriate to me after the merge. I hope it was the right thing to do. If not,
+let me know, please.
 
-What's really poor about this code is using a 0 terminated list rather
-than passing the array size.
+Please see:
+https://lore.kernel.org/lkml/20210817185723.15192-1-fmdefrancesco@gmail.com
 
-But then again, almost all of the realtek code in staging is really poor.
+Thanks,
 
-cheers, Joe
+Fabio
+
+> thanks,
+> 
+> greg k-h
+> 
+
+
+
 
