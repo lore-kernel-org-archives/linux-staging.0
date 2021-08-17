@@ -1,93 +1,98 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B0C6D19
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 12:23:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B1CB760FA0;
-	Tue, 17 Aug 2021 12:23:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1629202987;
-	bh=c/PlC/W6yjxlV+Z7ZbF/hxgaIiNXDZlZo9QTekHzzto=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nmskkW06SeXdvESPFwWJP4iQi/AfZfa0vEFy+cuAqLmy+f4I2uJuGlWiIG3+qOPHv
-	 xnda4sK3SpsR15EDLFwOPVpUWOowLkNLIk9ImApHVFPfJnKz/lhdsh+HFZYj/NbRHm
-	 eXuH3smkHCoqx0QNay+eOr+RUqsGi1/LD/ASV8gvs921fqWRRcXPMo3BLK5Ue/LMAY
-	 E7aHmfxbASTmbJ0PGpnfzkpkFQY6yMi66OmBVe1qXWlxHCeHepAgYCfKYqlUOjbUyt
-	 lxKqpcb5n/55Qq2tzaqx1B4Vg1bUnEx45zv+Fl9rzaJm69xqekfjJ82brq5dSoJIe+
-	 WqipDMJt6MCZg==
-Date: Tue, 17 Aug 2021 13:22:44 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 22/34] spi: tegra20-slink: Add OPP support
-Message-ID: <20210817122244.GA4290@sirena.org.uk>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-23-digetx@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A786D19
+	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 12:25:41 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id w5so38257446ejq.2
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 05:25:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ehYfeCKaZsQiuL6rOGdqMuEfjMSHQFgZSBwxefedO90=;
+        b=uOi0pVyKP8I+9XLD80J6lRFU/URewMGwoILyautsas/7KScjvsQ/U24ZZeS/IZe6mE
+         bB+xh+CzSBYsE9jtPcONi6dhkOwV52vljKiPZtWrdNkv7SqSMP1FVHnR8eRMwDJLCLGJ
+         p/v54ufwgiOe49rYEHXbp5bS5C6PdLTqUvMiCgT2jbZcwrZlMnR9cWTziTlG/Xk7VkfR
+         IlsgeO0GJNYgK/pR3/SfGmAwYwJ+0lRGvH5ikwVpf0+5IhT1eZp86KxZYEnIDMv46UvU
+         WfMz8DRRKfwdPCt0LsyOqWLjT4EgLnxO42HuP/WAjOJpw9dy5rQGQYdx5e7dxnUlxt2Q
+         9ubQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ehYfeCKaZsQiuL6rOGdqMuEfjMSHQFgZSBwxefedO90=;
+        b=Sumksu1jDTFEv9yEqLLw0qVTr7IYmwo6CnWG9jr2mNnwHulbJjm8EVn29vzbsbu4G1
+         Y4ceUkUHWcnZNbgf8bBc0yQiFdAoKF+9R7w0BYYRUpvH0bMv+rRlFKpmDfPmXkOPX5i/
+         EdUEAB6VE8ohi3KOFCv7JdWb6KxlQCLnUMnK/hiG15bk0sJAagJ5pSGL1rzKiNiOmENi
+         +HKH/k5nOa33YbMi6XrkWd6zW8b3wG6iz6MT+oQrwWKac5B4mAr6eD+zsY1csay4dnd0
+         mACTqj+KT5XghTIqDKVFmiO2DPebQkzHlJQeF5OzB3Z6PIz3bogrkypvnEeAAhf/K/r5
+         PakQ==
+X-Gm-Message-State: AOAM531s6vyWLUMeseXbdD3qqnCm4j4HfaMa+H6IUredmp9IQ2SRmwaT
+	Qv7vQp5qRNfDiSAuTNVDFJ4=
+X-Google-Smtp-Source: ABdhPJz2jR99RTYzwyYyOWmwz/pDZkm5zDnz/Dr62exWVt/yY0MzHyzp/wlvaHHQ/vjLMc+OZFs4jg==
+X-Received: by 2002:a17:906:6d11:: with SMTP id m17mr3719942ejr.325.1629203139609;
+        Tue, 17 Aug 2021 05:25:39 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
+        by smtp.gmail.com with ESMTPSA id q18sm702041ejc.84.2021.08.17.05.25.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Aug 2021 05:25:39 -0700 (PDT)
+Subject: Re: [PATCH] staging: r8188eu: Remove LINUX_VERSION_CODE check
+To: Cai Huoqing <caihuoqing@baidu.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org, martin@kaiser.cx,
+ insafonov@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210817081204.2232-1-caihuoqing@baidu.com>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <20992337-fac8-64c8-887f-ee4cd79bf391@gmail.com>
+Date: Tue, 17 Aug 2021 14:24:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mP3DRpeJDSE+ciuQ"
-Content-Disposition: inline
-In-Reply-To: <20210817012754.8710-23-digetx@gmail.com>
-X-Cookie: Custer committed Siouxicide.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210817081204.2232-1-caihuoqing@baidu.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
+On 8/17/21 10:12 AM, Cai Huoqing wrote:
+> no need to check linux version, depending on the latest version
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_mlme.c      |  5 ----
+>   drivers/staging/r8188eu/os_dep/os_intfs.c    | 26 ++------------------
+>   drivers/staging/r8188eu/os_dep/rtw_android.c |  6 -----
+>   drivers/staging/r8188eu/os_dep/xmit_linux.c  |  6 -----
+>   4 files changed, 2 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> index 5088b555f55d..ef9d5ad17632 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> @@ -3,7 +3,6 @@
+>   
+>   #define _RTW_MLME_C_
+>   
+> -#include <linux/version.h>
+>   #include "../include/osdep_service.h"
+>   #include "../include/drv_types.h"
+>   #include "../include/recv_osdep.h"
+> @@ -1499,11 +1498,7 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
+>   
 
---mP3DRpeJDSE+ciuQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Cai,
 
-On Tue, Aug 17, 2021 at 04:27:42AM +0300, Dmitry Osipenko wrote:
-> The SPI on Tegra belongs to the core power domain and we're going to
-> enable GENPD support for the core domain. Now SPI driver must use OPP
-> API for driving the controller's clock rate because OPP API takes care
-> of reconfiguring the domain's performance state in accordance to the
-> rate. Add OPP support to the driver.
+the LINUX_VERSION_CODE checks already have been removed in commit
 
-Acked-by: Mark Brown <broonie@kernel.org>
+027ed956b526 ("staging: r8188eu: remove kernel version depended code paths")
 
-Is there a concrete dependency here or can I merge this separately?
+But I forgot to remove the <linux/version.h> includes, nicely spotted.
+You can send a patch that removes them. :)
 
---mP3DRpeJDSE+ciuQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmEbqhMACgkQJNaLcl1U
-h9Buggf/d4C5+YzSeq0C2NHs0zamK8fHfoeCb5Qf7DbvwC4xNpUEoKAl6kFe6XlO
-ngiyDsMKDiDDirVRL6usRQkhxcB9hYlR9qZPZwTumcSB8omPU2d8ibg0bZlq6+EW
-bQf4R3TRA5YOFtGXxUejMSdK0+MO4I0QbuU6o4zLT3dzFtq+nK1Oct7FNyhjNrK/
-ELy4bDfbSewMfEPDjMsi05Qg7I6ftQiO3ZAqdTAj+0bLpHvsChKGv474uEXEw6vv
-FICFNW+bUCUC/oS3NykjRlVmWPr6eACJDT33krIuaX8/G0mN5kVjAfVPnOK1OzG+
-Y+z6bEN/Dr6UAjhZRQbizQRM04sR+w==
-=JJo7
------END PGP SIGNATURE-----
-
---mP3DRpeJDSE+ciuQ--
+Thanks,
+Michael
