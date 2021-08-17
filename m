@@ -1,163 +1,190 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6696C2FB6
-	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 07:55:19 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id j1so30829604pjv.3
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 00:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=6syxEk4ci6YIB/Nq5OYMmva/mb8yTCwuOVtI6kBv8o4=;
-        b=ACQXwBJ7OYjyZRVhhS/c9nneyhB/7GFHh3dEptJSMrZINFg36aQMQ7Gt7s7mEUBpCw
-         zQlnh/X4OgBYC+KUUJhyCLfP1qSGXkpJPWAGfJpM/INHjdAZ8/L1JkEYsFztN3Yjcf8Y
-         CLx5rb8MRnnLnlOw941FjpRCL/gP5pp6YSMCeI+89Jy/Rd1+N1g4DWNkDQt5p2lrVfbf
-         /2f4gxbIqWPYLcL72Mw6S4MUH55MP9SVIVTvv1bjke3ugxDHQALvD0J7WbGxZqFUjEZx
-         7P1AM3kpvDdhJRiWVIeigZKSst/k+rzUIj9Law8crvuO6T67AGjOgt6Tme7gr0jaocjL
-         3BQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=6syxEk4ci6YIB/Nq5OYMmva/mb8yTCwuOVtI6kBv8o4=;
-        b=ADo7SYPb36owS5gaCTdLXx+pn/IYDtT44Dc5Bpg/Szb9eYC97vWl9NDXnwRvjfLxG8
-         gJU9Xx6qyDQW968g0JshYrB+c4snn26E3eas+S42PeylCYeswwaOwVha/AjAuVqVaIZd
-         jevfm5LNc/VD9GbMxiKMsFL1EHLBpf+iSOu6KWyMOLtO2zWXCUanBIptzlLVwdZ5KGYE
-         qJiAgklwROtR3Td2IdQT9A9a6y5gQtjW+34LLW5tTehWUBMhsIIdmwYSkl7uT+b3F4aP
-         W3F8yCuiqU0Kj4dooCD/vjsjebiNMzAJXuKOBcnGwXb74t10/dZLgGvgI3EzIKF0T6ln
-         EjOQ==
-X-Gm-Message-State: AOAM531b2EIBTnugI8XLvQ7WQZfDlrRblV81pi2K7PqftzCFaDF5UMKn
-	JRcXAMnMd7d4313fT8TDu/b7wg==
-X-Google-Smtp-Source: ABdhPJy9z80wO3ZS4ZOBoRu271xrntCgw/Td4lOHD9BJvY7rOCcDAdlvae5dCy1DGcWdIK214rqywQ==
-X-Received: by 2002:a17:90b:4a09:: with SMTP id kk9mr2300035pjb.163.1629186918789;
-        Tue, 17 Aug 2021 00:55:18 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id c12sm1471425pfl.56.2021.08.17.00.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 00:55:18 -0700 (PDT)
-Date: Tue, 17 Aug 2021 13:25:15 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-2-digetx@gmail.com>
+Received: from baidu.com (mx21.baidu.com [220.181.3.85])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6421C2FB6
+	for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 08:12:21 +0000 (UTC)
+Received: from BC-Mail-Ex14.internal.baidu.com (unknown [172.31.51.54])
+	by Forcepoint Email with ESMTPS id CDB4AD3F9AE67A2C1B08;
+	Tue, 17 Aug 2021 16:12:11 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex14.internal.baidu.com (172.31.51.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Tue, 17 Aug 2021 16:12:11 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Tue, 17 Aug 2021 16:12:11 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
+	<gregkh@linuxfoundation.org>, <martin@kaiser.cx>, <insafonov@gmail.com>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Cai
+ Huoqing" <caihuoqing@baidu.com>
+Subject: [PATCH] staging: r8188eu: Remove LINUX_VERSION_CODE check
+Date: Tue, 17 Aug 2021 16:12:04 +0800
+Message-ID: <20210817081204.2232-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210817012754.8710-2-digetx@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex15.internal.baidu.com (172.31.51.55) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 
-On 17-08-21, 04:27, Dmitry Osipenko wrote:
-> Add dev_pm_opp_sync() helper which syncs OPP table with hardware state
-> and vice versa.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/opp/core.c     | 42 +++++++++++++++++++++++++++++++++++++++---
->  include/linux/pm_opp.h |  6 ++++++
->  2 files changed, 45 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 5543c54dacc5..18016e49605f 100644
-> --- a/drivers/opp/core.c
-> +++ b/drivers/opp/core.c
-> @@ -939,7 +939,8 @@ static int _set_required_opps(struct device *dev,
->  	return ret;
->  }
->  
-> -static void _find_current_opp(struct device *dev, struct opp_table *opp_table)
-> +static struct dev_pm_opp *
-> +_find_current_opp(struct device *dev, struct opp_table *opp_table)
->  {
->  	struct dev_pm_opp *opp = ERR_PTR(-ENODEV);
->  	unsigned long freq;
-> @@ -961,7 +962,7 @@ static void _find_current_opp(struct device *dev, struct opp_table *opp_table)
->  		mutex_unlock(&opp_table->lock);
->  	}
->  
-> -	opp_table->current_opp = opp;
-> +	return opp;
->  }
->  
->  static int _disable_opp_table(struct device *dev, struct opp_table *opp_table)
-> @@ -1003,7 +1004,7 @@ static int _set_opp(struct device *dev, struct opp_table *opp_table,
->  
->  	/* Find the currently set OPP if we don't know already */
->  	if (unlikely(!opp_table->current_opp))
-> -		_find_current_opp(dev, opp_table);
-> +		opp_table->current_opp = _find_current_opp(dev, opp_table);
->  
->  	old_opp = opp_table->current_opp;
->  
-> @@ -2931,3 +2932,38 @@ int dev_pm_opp_sync_regulators(struct device *dev)
->  	return ret;
->  }
->  EXPORT_SYMBOL_GPL(dev_pm_opp_sync_regulators);
-> +
-> +/**
-> + * dev_pm_opp_sync() - Sync OPP state
-> + * @dev:	device for which we do this operation
-> + *
-> + * Initialize OPP table accordingly to current clock rate or
-> + * first available OPP if clock not available for this device.
-> + *
-> + * Return: 0 on success or a negative error value.
-> + */
-> +int dev_pm_opp_sync(struct device *dev)
-> +{
-> +	struct opp_table *opp_table;
-> +	struct dev_pm_opp *opp;
-> +	int ret = 0;
-> +
-> +	/* Device may not have OPP table */
-> +	opp_table = _find_opp_table(dev);
-> +	if (IS_ERR(opp_table))
-> +		return 0;
-> +
-> +	if (!_get_opp_count(opp_table))
-> +		goto put_table;
-> +
-> +	opp = _find_current_opp(dev, opp_table);
-> +	ret = _set_opp(dev, opp_table, opp, opp->rate);
+no need to check linux version, depending on the latest version
 
-And I am not sure how this will end up working, since new OPP will be
-equal to old one. Since I see you call this from resume() at many
-places.
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme.c      |  5 ----
+ drivers/staging/r8188eu/os_dep/os_intfs.c    | 26 ++------------------
+ drivers/staging/r8188eu/os_dep/rtw_android.c |  6 -----
+ drivers/staging/r8188eu/os_dep/xmit_linux.c  |  6 -----
+ 4 files changed, 2 insertions(+), 41 deletions(-)
 
-what exactly are you trying to do here ? Those details would be good
-to have in commit log as well, I haven't really followed V7 of your
-series.
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 5088b555f55d..ef9d5ad17632 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -3,7 +3,6 @@
+ 
+ #define _RTW_MLME_C_
+ 
+-#include <linux/version.h>
+ #include "../include/osdep_service.h"
+ #include "../include/drv_types.h"
+ #include "../include/recv_osdep.h"
+@@ -1499,11 +1498,7 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
+ 
+ 	rcu_read_lock();
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,36)
+ 	if (rcu_dereference(adapter->pnetdev->rx_handler_data) &&
+-#else
+-	if (rcu_dereference(adapter->pnetdev->br_port) &&
+-#endif
+ 	    (check_fwstate(pmlmepriv, WIFI_STATION_STATE|WIFI_ADHOC_STATE) == true)) {
+ 		/*  expire NAT2.5 entry */
+ 		nat25_db_expire(adapter);
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index cc7e54170948..a4e62cff97fa 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -12,7 +12,6 @@
+ 
+ #include "../include/usb_osintf.h"
+ #include "../include/rtw_br_ext.h"
+-#include <linux/version.h>
+ 
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
+@@ -637,19 +636,8 @@ static unsigned int rtw_classify8021d(struct sk_buff *skb)
+ 	return dscp >> 5;
+ }
+ 
+-static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 2, 0))
+-			    ,struct net_device *sb_dev
+-#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 19, 0))
+-			    ,struct net_device *sb_dev
+-                            ,select_queue_fallback_t fallback
+-#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0))
+-			    ,void *unused
+-                            ,select_queue_fallback_t fallback
+-#elif (LINUX_VERSION_CODE == KERNEL_VERSION(3, 13, 0))
+-			    , void *accel
+-#endif
+-)
++static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb,
++			    struct net_device *sb_dev)
+ {
+ 	struct adapter	*padapter = rtw_netdev_priv(dev);
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+@@ -706,15 +694,9 @@ int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname)
+ 	return 0;
+ }
+ 
+-#if LINUX_VERSION_CODE > KERNEL_VERSION(2,6,39)
+ static const struct device_type wlan_type = {
+ 	.name = "wlan",
+ };
+-#else
+-static struct device_type wlan_type = {
+-	.name = "wlan",
+-};
+-#endif
+ 
+ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
+ {
+@@ -992,11 +974,7 @@ void netdev_br_init(struct net_device *netdev)
+ 
+ 	rcu_read_lock();
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,36)
+ 	if (rcu_dereference(adapter->pnetdev->rx_handler_data)) {
+-#else
+-	if (rcu_dereference(adapter->pnetdev->br_port)) {
+-#endif
+ 		struct net_device *br_netdev;
+ 		struct net *devnet = NULL;
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
+index 414645d8121d..b222a085a322 100644
+--- a/drivers/staging/r8188eu/os_dep/rtw_android.c
++++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
+@@ -4,7 +4,6 @@
+ #include <linux/compat.h>
+ #include <linux/module.h>
+ #include <linux/netdevice.h>
+-#include <linux/version.h>
+ #include "../include/rtw_android.h"
+ #include "../include/osdep_service.h"
+ #include "../include/rtw_debug.h"
+@@ -64,13 +63,8 @@ int rtw_android_cmdstr_to_num(char *cmdstr)
+ {
+ 	int cmd_num;
+ 	for (cmd_num=0; cmd_num < ANDROID_WIFI_CMD_MAX; cmd_num++)
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 0, 0))
+ 		if (!strncasecmp(cmdstr, android_wifi_cmd_str[cmd_num],
+ 		    strlen(android_wifi_cmd_str[cmd_num])))
+-#else
+-		if (0 == strnicmp(cmdstr, android_wifi_cmd_str[cmd_num],
+-		   strlen(android_wifi_cmd_str[cmd_num])))
+-#endif
+ 			break;
+ 	return cmd_num;
+ }
+diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+index 3a1b9d8988f2..69966c696130 100644
+--- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
++++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+@@ -3,7 +3,6 @@
+ 
+ #define _XMIT_OSDEP_C_
+ 
+-#include <linux/version.h>
+ #include "../include/osdep_service.h"
+ #include "../include/drv_types.h"
+ #include "../include/if_ether.h"
+@@ -108,7 +107,6 @@ void rtw_os_xmit_resource_free(struct adapter *padapter,
+ 
+ void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt)
+ {
+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 35))
+ 	u16	queue;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 
+@@ -121,10 +119,6 @@ void rtw_os_pkt_complete(struct adapter *padapter, struct sk_buff *pkt)
+ 		if (__netif_subqueue_stopped(padapter->pnetdev, queue))
+ 			netif_wake_subqueue(padapter->pnetdev, queue);
+ 	}
+-#else
+-	if (netif_queue_stopped(padapter->pnetdev))
+-		netif_wake_queue(padapter->pnetdev);
+-#endif
+ 
+ 	dev_kfree_skb_any(pkt);
+ }
 -- 
-viresh
+2.25.1
+
