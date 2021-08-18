@@ -1,119 +1,199 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3B72FAD
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:05:25 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id n7so5786655ljq.0
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:05:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DB12FAD
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:11:35 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id u15so1949061plg.13
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=aGlCEyRQuTJeUoFwcMyBmvkG6HpGwGhkMF7tidyqkMk=;
-        b=M87kjRAMcB8Ej6Q47lM0GYR3alWgY77tCbHd5VPt6/26s7KfdIel+RPo8tLBJ6OQC2
-         kr0n4etJEbLpDf9MoZDAFN0QTsHd+9gPEMCmWM5ksKOEgb0AKvQNx3IO3PGUQ/dcG7JN
-         O4q2B857vNsGgJAGFJfaf6qa2P3p02g7vMkro/0jkPEf80W+ZLE1qQc8dd9G7bfj3v+G
-         QFGCPxYHx/jnAv8b2MO3kLO+ZhZTQeVsJrlw097wwbOioFBgVb4eF6Y3P5jrwoLdljs1
-         UUf2sDSOV8KkpdFpAiT6PQOqUxxHhBCgd+5wUmfl+PSKIJaF6Ar2cNQGwh8AeZy87Vkj
-         1qkg==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
+        b=nKyY7H15ZclPASn0mrCWStoJsQEVzP5/BmW4V3jtYB1HxVdnZRQQ4l+PtPCRG/dTV6
+         xfDqZKumuBc2DNoifQ7E+k+2RHNCKiMDNP3onIJnlrl5OiL/2iza72Z9iX+5k4rKwpSO
+         /m3Ffp/F03wd5BcOk1ihua3YxRddIsYpot1qTBRf+xRtenjeQ4qFFoOSIN66Jft6TSfW
+         c2t4wMFRzHKGD7LvgQQ/GVhG8mAh1vCDNxP/Inly9yMM79tpqdyKRQdjifrNITzwA6c7
+         yGxl1c2NhdVpvxPZ2G3/l6okDceS2O7mIXsDYuviCR6t29nOh+UDrTcg3BH0FRZEUvzE
+         zLIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aGlCEyRQuTJeUoFwcMyBmvkG6HpGwGhkMF7tidyqkMk=;
-        b=eXFY6e25Cfy4VA9huUDfRAEJOWnAyhIdbZCWxIjn6dAAo4ASXCXunBBqpVUPPn46tr
-         OP5gyWxg9wh88LoRBwEH3hDdrTC3JtP5JKq8oWr/+E7V4cve5tw5yiB57OV5uoDtDxJU
-         O/IKyQJKIxty9kFC7fpIPlu3/4RGEWfjgKpy+MhVG3LNajjawmCTCB7UJTdCAYZU8euK
-         TCRUflE3H5EdeMVzEBXP67q4LKE07a4g9yXXsVd6DFn6K6p2su6GIbPmCGteMpwiSFqz
-         EiPCagFp0TsE3F89dHv0PXT4ZpxIgQgbF2r8W5wNDsUk+GbCydKriXsSMozJ1f7B7RbL
-         0CFg==
-X-Gm-Message-State: AOAM530Shr0n18nUuFtxR1MFIedVhq88MtASjAQaMTdMvEa5o1ebFr65
-	D8l8l57BjAaSdQgDeOpgUq8=
-X-Google-Smtp-Source: ABdhPJzgPx8keOi8/DQzO3f7iOHun/vyL+e/2XSDlGREgL/XxAZF1WVrIsIMO5qrsaQBfPOBnrljWQ==
-X-Received: by 2002:a2e:87d0:: with SMTP id v16mr8420209ljj.30.1629299123582;
-        Wed, 18 Aug 2021 08:05:23 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.googlemail.com with ESMTPSA id h22sm11140ljk.133.2021.08.18.08.05.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Aug 2021 08:05:23 -0700 (PDT)
-Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-8-digetx@gmail.com> <YR0UBi/ejy+oF4Hm@orome.fritz.box>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
-Date: Wed, 18 Aug 2021 18:05:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
+        b=W+nfkZyXjR6BsdJmi5FsCKxRE3Ag155dALxnaASSkLu2d0lxT9t2oGyASEUDrq+hAH
+         QUO8VlRjcOuQxt4scSioROSGV4gCTCq3H5ZlfwDnh/gfzvdnnjpeEvxpt10nRtSAQm/8
+         tyhoipD/QcYGa0GC7KrJuWi+RJYUrxzomrvdMUkWShebuNnMNE3J9Ay9+cF6QvX6j69g
+         tv7/0j+4GsRxqdRMPVXR5a4i3ExIJyuNp5mRrqf8Cisj4mOiq8j+ppFsSE3vYKAbPfL7
+         ngWFsx4ewipo6XuW3QQYLSQJKm6bGBioiCl/93VfdqsPFcEu1jMjc4L6qxWnebUJAUNa
+         W3Gw==
+X-Gm-Message-State: AOAM533mvaaqkq6r89Y85F+QEkcdMKPyOGpS9IxNJlavlZA9NgaVK5UB
+	VtHsYcYdIFAQskpPB2VLrsM1Bg==
+X-Google-Smtp-Source: ABdhPJyb9v3aI2ukGkg+KeS46DSybL7HwTNvsJIGANZduqIYX0SVbX0PrpsQIc/aOBu7eADDQMvgoA==
+X-Received: by 2002:a17:90b:1e03:: with SMTP id pg3mr9751970pjb.203.1629299494765;
+        Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id m7sm28291pfc.212.2021.08.18.08.11.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
+Date: Wed, 18 Aug 2021 15:11:28 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Wanpeng Li <wanpengli@tencent.com>,
+	Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode
+ cache
+Message-ID: <YR0jIEzEcUom/7rd@google.com>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-54-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YR0UBi/ejy+oF4Hm@orome.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818060533.3569517-54-keescook@chromium.org>
 
-18.08.2021 17:07, Thierry Reding пишет:
-> On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
-> [...]
->> +struct clk *tegra_clk_register(struct clk_hw *hw)
->> +{
->> +	struct platform_device *pdev;
->> +	struct device *dev = NULL;
->> +	struct device_node *np;
->> +	const char *dev_name;
->> +
->> +	np = tegra_clk_get_of_node(hw);
->> +
->> +	if (!of_device_is_available(np))
->> +		goto put_node;
->> +
->> +	dev_name = kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
->> +	if (!dev_name)
->> +		goto put_node;
->> +
->> +	pdev = of_platform_device_create(np, dev_name, NULL);
->> +	if (!pdev) {
->> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
->> +		kfree(dev_name);
->> +		goto put_node;
->> +	}
->> +
->> +	dev = &pdev->dev;
->> +	pm_runtime_enable(dev);
->> +put_node:
->> +	of_node_put(np);
->> +
->> +	return clk_register(dev, hw);
->> +}
+On Tue, Aug 17, 2021, Kees Cook wrote:
+>  arch/x86/kvm/emulate.c     |  3 +--
+>  arch/x86/kvm/kvm_emulate.h | 19 +++++++++++--------
+>  2 files changed, 12 insertions(+), 10 deletions(-)
 > 
-> This looks wrong. Why do we need struct platform_device objects for each
-> of these clocks? That's going to be a massive amount of platform devices
-> and they will completely mess up sysfs.
+> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+> index 2837110e66ed..2608a047e769 100644
+> --- a/arch/x86/kvm/emulate.c
+> +++ b/arch/x86/kvm/emulate.c
+> @@ -5377,8 +5377,7 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+>  
+>  void init_decode_cache(struct x86_emulate_ctxt *ctxt)
+>  {
+> -	memset(&ctxt->rip_relative, 0,
+> -	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
+> +	memset(&ctxt->decode_cache, 0, sizeof(ctxt->decode_cache));
+>  
+>  	ctxt->io_read.pos = 0;
+>  	ctxt->io_read.end = 0;
+> diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+> index 68b420289d7e..9b8afcb8ad39 100644
+> --- a/arch/x86/kvm/kvm_emulate.h
+> +++ b/arch/x86/kvm/kvm_emulate.h
+> @@ -341,14 +341,17 @@ struct x86_emulate_ctxt {
+>  	 * the rest are initialized unconditionally in x86_decode_insn
+>  	 * or elsewhere
+>  	 */
+> -	bool rip_relative;
+> -	u8 rex_prefix;
+> -	u8 lock_prefix;
+> -	u8 rep_prefix;
+> -	/* bitmaps of registers in _regs[] that can be read */
+> -	u32 regs_valid;
+> -	/* bitmaps of registers in _regs[] that have been written */
+> -	u32 regs_dirty;
+> +	struct_group(decode_cache,
 
-RPM works with a device. It's not a massive amount of devices, it's one
-device for T20 and four devices for T30.
+This is somewhat misleading because half of this struct is the so called "decode
+cache", not just these six fields.
+
+KVM's "optimization" is quite ridiculous as this has never been such a hot path
+that saving a few mov instructions would be noticeable.  And hilariously, the
+"optimization" is completely unnecessary because both gcc and clang are clever
+enough to batch the first five into a movq even when zeroing the fields individually.
+
+So, I would much prefer to go with the following:
+
+From dbdca1f4cd01fee418c252e54c360d518b2b1ad6 Mon Sep 17 00:00:00 2001
+From: Sean Christopherson <seanjc@google.com>
+Date: Wed, 18 Aug 2021 08:03:08 -0700
+Subject: [PATCH] KVM: x86: Replace memset() "optimization" with normal
+ per-field writes
+
+Explicitly zero select fields in the emulator's decode cache instead of
+zeroing the fields via a gross memset() that spans six fields.  gcc and
+clang are both clever enough to batch the first five fields into a single
+quadword MOV, i.e. memset() and individually zeroing generate identical
+code.
+
+Removing the wart also prepares KVM for FORTIFY_SOURCE performing
+compile-time and run-time field bounds checking for memset().
+
+No functional change intended.
+
+Reported-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+---
+ arch/x86/kvm/emulate.c     | 9 +++++++--
+ arch/x86/kvm/kvm_emulate.h | 6 +-----
+ 2 files changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+index 2837110e66ed..bf81fd017e7f 100644
+--- a/arch/x86/kvm/emulate.c
++++ b/arch/x86/kvm/emulate.c
+@@ -5377,8 +5377,13 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+
+ void init_decode_cache(struct x86_emulate_ctxt *ctxt)
+ {
+-	memset(&ctxt->rip_relative, 0,
+-	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
++	/* Clear fields that are set conditionally but read without a guard. */
++	ctxt->rip_relative = false;
++	ctxt->rex_prefix = 0;
++	ctxt->lock_prefix = 0;
++	ctxt->rep_prefix = 0;
++	ctxt->regs_valid = 0;
++	ctxt->regs_dirty = 0;
+
+ 	ctxt->io_read.pos = 0;
+ 	ctxt->io_read.end = 0;
+diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
+index 68b420289d7e..bc1fecacccd4 100644
+--- a/arch/x86/kvm/kvm_emulate.h
++++ b/arch/x86/kvm/kvm_emulate.h
+@@ -336,11 +336,7 @@ struct x86_emulate_ctxt {
+ 		fastop_t fop;
+ 	};
+ 	int (*check_perm)(struct x86_emulate_ctxt *ctxt);
+-	/*
+-	 * The following six fields are cleared together,
+-	 * the rest are initialized unconditionally in x86_decode_insn
+-	 * or elsewhere
+-	 */
++
+ 	bool rip_relative;
+ 	u8 rex_prefix;
+ 	u8 lock_prefix;
+--
+2.33.0.rc1.237.g0d66db33f3-goog
+
+> +		bool rip_relative;
+> +		u8 rex_prefix;
+> +		u8 lock_prefix;
+> +		u8 rep_prefix;
+> +		/* bitmaps of registers in _regs[] that can be read */
+> +		u32 regs_valid;
+> +		/* bitmaps of registers in _regs[] that have been written */
+> +		u32 regs_dirty;
+> +	);
+> +
+>  	/* modrm */
+>  	u8 modrm;
+>  	u8 modrm_mod;
+> -- 
+> 2.30.2
+> 
