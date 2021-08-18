@@ -1,55 +1,50 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C526D13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBDD6D19
 	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:05:57 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id c17so1146849pgc.0
+Received: by mail-pg1-f179.google.com with SMTP id n18so1138630pgm.12
         for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Df3M08ozQZ/wuG86+AN6C9MACPf6Ua4LnPIl1VqdGkQ=;
-        b=fqfWH5xzacAnh0+miJhptMLYGLpJ+mJNVIq3l+0GgQRuX61t6lEOMMLw784SzCT4EH
-         hqDzbMAVICROLXLXmTGWMOQDusnO33cZRylV/ECZsYPBru2294Qof+d9A7QOozMwfiYT
-         FGCoqMsz/DE0l3g+EcW0C9GSHhIAPMlL8tEp4=
+        bh=LapL5yxDWiBgMKBil8lhP+Lg9k+myZeJSwfalBUcUx8=;
+        b=EyV8N+h5/qyo62GfblZWCLiKR4eLvkF2lwBdydMvJLd79rKTZu8UshzV8ihU7RNjv0
+         rctTsHty3W+9m8LDSzHijAG+TC/Ts7wu5ImOI6E+4Ga8+rVEP+XxnN8jyVallKHpp5vX
+         +sqLYz4PaKZ6WvHaqEZR3B1UL1j8EZKOZFXvk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Df3M08ozQZ/wuG86+AN6C9MACPf6Ua4LnPIl1VqdGkQ=;
-        b=K3S1uaqqRv54wKxdLyGFE3ipawobWyaLi2OraMzrEuNPOkZzHZYkQF+fvlVibui8Ih
-         Hsv/fLnzybogdVcVu8yjRHWoCrC3zDOZZiI/J2Ao9JdO/ur0N+OD8DiDMT57DtEN4S4J
-         rdMZxXZSAwkEJj93S+HyAHqcyQosaUVHvpslu+aqnKTFIg1AkskK4zLahxKshv1nE8JG
-         nh4ePMACyve2YCBknQWxKaNK0U+Ez7ytwcau8e2YutDJ+WLcWUMgqGCnOyi2iNqYbxxQ
-         KdFHu5o+v9bAaniyAPxP3wq3fPewLjuYVU81CU7+6au1SZMqZmoVBdMzByiBhaCAJFjz
-         vAig==
-X-Gm-Message-State: AOAM532VXPNa0Y60ZlK72wzkBsGfWfmsVVFYAeZ8m/PgraFPlwbzOAGJ
-	tcOcS3NR1mMejmv+O0HLZa2ZGw==
-X-Google-Smtp-Source: ABdhPJzquXvqSXBuTCbj2eYrNtxehh2HuV6fs3AsulpduqmyMEsRD3xhPeevj3JhK8nYO8NCjxVrfQ==
-X-Received: by 2002:aa7:8116:0:b029:346:8678:ce26 with SMTP id b22-20020aa781160000b02903468678ce26mr7642769pfi.15.1629266756663;
-        Tue, 17 Aug 2021 23:05:56 -0700 (PDT)
+        bh=LapL5yxDWiBgMKBil8lhP+Lg9k+myZeJSwfalBUcUx8=;
+        b=txKRkVrV5vddGe4nX0rQD5F88mHP7DIl/fPNoVZ7H+Z9Tzz6rVGVegLIMm6+YQ45YV
+         D+nswNSyUT9KNqf6GApR64u/nZtFmZ22iP3WxhxXnnGtOKMMdKhWc19juaP67xbUDAHG
+         8Zl+W/1IT/CjISDjFidm3RfH9tBgAsC6pcHxKsgtaeY4O9qEzv546eCWzrTcIIgswf7I
+         svA7V0jP7/aJV2PGmaj5k55p0jR9emstck3ODykWg5+C9k04jdSjp/aHmuMinyglyEyW
+         A1oHZpoyybLAbFxw9FHDUwu2aJFTVPeykQzkZKhZd9X3Iz4FY1ct6gnepY05cxKOuooX
+         5Mkw==
+X-Gm-Message-State: AOAM533ipfnv3j7rrdXSqNhX6oZgg9HW8saUB3RRi0V9inZa2q/wagPH
+	t4Y7GjkIf5nA8nIUzHaGs8GSag==
+X-Google-Smtp-Source: ABdhPJzjIn36vE/ZNxQmXbOkL9OlqazGYoiVh/BsuZoov9E3aMeRGON42rz5oMitHJsTT64wX9Kjyg==
+X-Received: by 2002:a65:6a09:: with SMTP id m9mr7183122pgu.269.1629266757255;
+        Tue, 17 Aug 2021 23:05:57 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id fh2sm3751402pjb.12.2021.08.17.23.05.52
+        by smtp.gmail.com with ESMTPSA id x12sm4588648pfu.21.2021.08.17.23.05.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:05:53 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Kalle Valo <kvalo@codeaurora.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Alexander Lobakin <alobakin@pm.me>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	Marco Elver <elver@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	wireguard@lists.zx2c4.com,
+	libertas-dev@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
 	netdev@vger.kernel.org,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	linux-wireless@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
@@ -57,9 +52,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 07/63] skbuff: Switch structure bounds to struct_group()
-Date: Tue, 17 Aug 2021 23:04:37 -0700
-Message-Id: <20210818060533.3569517-8-keescook@chromium.org>
+Subject: [PATCH v2 10/63] libertas: Use struct_group() for memcpy() region
+Date: Tue, 17 Aug 2021 23:04:40 -0700
+Message-Id: <20210818060533.3569517-11-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -69,7 +64,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4396; h=from:subject; bh=vIFaehJlmgaacelmPKMYZbSRddYmlAVC4AJuX8jcTLo=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMfC5Mwg8GEVNb5CXtGiGtsK4FwOhKAw15TLI67 rTMBsEGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjHwAKCRCJcvTf3G3AJlkpD/ 9IW7rDFPZH4dI/1/P/uo+5nWHunuZP3664cpMwhwx+rHENSDLF5R/LmHEenMiL1vnoQ8J1iVu3EVgo 1xzQfV/jxCj8E9GdkDHFUogUHVaPjRb9CTVM6DHcTZ2/xkvhVi8nwdgd1lDfJe9XrMTuBkF8eEj6BO YWNUoNQdRGh2+IXaTCDDWCvkG5ZTfO0sXT/bDh9DMGodRIG/luglNHHLvts3knlgR8QM0WIzhsColC AHHcXV2gUexGt/UBGejzG1NRGAXDmkHZAIsMu7BsFDpweoRW6XGmOMOpo9rtP10ar9yPYp2+GFlioL 9tghS58ciKMcV1+v+6jX6Do4ybmYeDfU2rB6/Gpct6yVAs3pYpuFpRIew7WZItwzf2nCMt0ZEYduDJ Drj4jLrZUyIs6ixwydVuLC8Owg9cb/J4qXw4vk0tJ9evOSP/mJOQqUcFcIUdExIArnAVtXlgdzArhu 7hXpCD3qNAEHF+aWjVKGh8gTmrdYqhSN97k0I7jKrRx2kLtSrpcBS4ZQwjSaSERANnuDAk2of2H6Zb bUqvY5heKLllEOQg8ihTwR1efnbUnFXFFV5cpEUmN1YuS3na93hd4TS0rCXMIPIDmYPqG4ut0gh4rf LCZqI3HgwkGyN6BoC0cGob6w/hrvkXWGKt0s1vU5y2KdKmA62+teOpZ0qiVg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2964; h=from:subject; bh=G7UVOub35WzvknmEHL7Jl7Jxuvzi8CX0QzWk7fVBrqQ=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMgWGY2S69iC9ODdZ0M8ZsaWVpql5uriqr4eine F4MboIKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIAAKCRCJcvTf3G3AJteQD/ 4r/L3852/rievd/HCtjIVJUoMOZz6SUoEoguqPYoCiczPpPpeKpJMB8uDD+k8S+pjXMuj6JicBICkI f2K0BDnJV4RbCkdpX2ThRmuC56nyfipIvGvFDigW3cXSGgwsbz+sMvZSBqlf3A1pleXAcEQPpEUoyC RaID84Ddzy1AYdiBi9pz6CgTIdaBUM1LkjP4wcrm0FoXf/cEt0LD4tmk4nHyV6lwvqed6AmtCyY9rU dkA6Dt54qMzRZnzJqBiq7ljl7L68N1be8kdp5LUpxq2Yyn0BE0ppZwnBgQtsTuzQfHJUcpTCLehjQ3 Danq5E5Wyx2wmZ7Dv35hsZ6+k0amIxW5DOQmts0adAHyTFUL3anYRSSQE/rKeQnfiedqVGfcZYGtUG U+uc+d0Zvs3Fa+Fx2t0fK0QcbvU90pwzNkIOW+T5Ohsw9d9Dq/azQaih3qPlTLdjjD8tLTboKMAaq0 hBeX108f8oS+tPAyr9Si5SDMTQ53AQcZXq5mYhf1zvsBBwERro7eooHHOnz7tjbQ/qKu4Si4UdGOjY 2oczS0+eITr2B5b9x+s3d/Ajm+ddM80FRaxskj0xOZ4KqteU578zDbWR6ZKyyOCWHiGHtWU56VNIpE IUv57AbMXBi9rAtXby90zuCBN5nHMWxPrySRevP8u1bKfuHgTRdHaYeaYxZg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -77,114 +72,73 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memcpy(), memmove(), and memset(), avoid
 intentionally writing across neighboring fields.
 
-Replace the existing empty member position markers "headers_start" and
-"headers_end" with a struct_group(). This will allow memcpy() and sizeof()
-to more easily reason about sizes, and improve readability.
+Use struct_group() in struct txpd around members tx_dest_addr_high
+and tx_dest_addr_low so they can be referenced together. This will
+allow memcpy() and sizeof() to more easily reason about sizes, improve
+readability, and avoid future warnings about writing beyond the end
+of queue_id.
 
-"pahole" shows no size nor member offset changes to struct sk_buff.
-"objdump -d" shows no object code changes (outside of WARNs affected by
-source line number changes).
+"pahole" shows no size nor member offset changes to struct txpd.
+"objdump -d" shows no object code changes.
 
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Kalle Valo <kvalo@codeaurora.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Jonathan Lemon <jonathan.lemon@gmail.com>
-Cc: Alexander Lobakin <alobakin@pm.me>
-Cc: Jakub Sitnicki <jakub@cloudflare.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Willem de Bruijn <willemb@google.com>
-Cc: wireguard@lists.zx2c4.com
+Cc: libertas-dev@lists.infradead.org
+Cc: linux-wireless@vger.kernel.org
 Cc: netdev@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Link: https://lore.kernel.org/lkml/20210728035006.GD35706@embeddedor
 ---
- drivers/net/wireguard/queueing.h |  4 +---
- include/linux/skbuff.h           |  9 ++++-----
- net/core/skbuff.c                | 14 +++++---------
- 3 files changed, 10 insertions(+), 17 deletions(-)
+ drivers/net/wireless/marvell/libertas/host.h | 10 ++++++----
+ drivers/net/wireless/marvell/libertas/tx.c   |  5 +++--
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/wireguard/queueing.h b/drivers/net/wireguard/queueing.h
-index 4ef2944a68bc..52da5e963003 100644
---- a/drivers/net/wireguard/queueing.h
-+++ b/drivers/net/wireguard/queueing.h
-@@ -79,9 +79,7 @@ static inline void wg_reset_packet(struct sk_buff *skb, bool encapsulating)
- 	u8 sw_hash = skb->sw_hash;
- 	u32 hash = skb->hash;
- 	skb_scrub_packet(skb, true);
--	memset(&skb->headers_start, 0,
--	       offsetof(struct sk_buff, headers_end) -
--		       offsetof(struct sk_buff, headers_start));
-+	memset(&skb->headers, 0, sizeof(skb->headers));
- 	if (encapsulating) {
- 		skb->l4_hash = l4_hash;
- 		skb->sw_hash = sw_hash;
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 6bdb0db3e825..fee9041aa402 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -801,11 +801,10 @@ struct sk_buff {
- 	__u8			active_extensions;
- #endif
+diff --git a/drivers/net/wireless/marvell/libertas/host.h b/drivers/net/wireless/marvell/libertas/host.h
+index dfa22468b14a..af96bdba3b2b 100644
+--- a/drivers/net/wireless/marvell/libertas/host.h
++++ b/drivers/net/wireless/marvell/libertas/host.h
+@@ -308,10 +308,12 @@ struct txpd {
+ 	__le32 tx_packet_location;
+ 	/* Tx packet length */
+ 	__le16 tx_packet_length;
+-	/* First 2 byte of destination MAC address */
+-	u8 tx_dest_addr_high[2];
+-	/* Last 4 byte of destination MAC address */
+-	u8 tx_dest_addr_low[4];
++	struct_group(tx_dest_addr,
++		/* First 2 byte of destination MAC address */
++		u8 tx_dest_addr_high[2];
++		/* Last 4 byte of destination MAC address */
++		u8 tx_dest_addr_low[4];
++	);
+ 	/* Pkt Priority */
+ 	u8 priority;
+ 	/* Pkt Trasnit Power control */
+diff --git a/drivers/net/wireless/marvell/libertas/tx.c b/drivers/net/wireless/marvell/libertas/tx.c
+index aeb481740df6..27304a98787d 100644
+--- a/drivers/net/wireless/marvell/libertas/tx.c
++++ b/drivers/net/wireless/marvell/libertas/tx.c
+@@ -113,6 +113,7 @@ netdev_tx_t lbs_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 	p802x_hdr = skb->data;
+ 	pkt_len = skb->len;
  
--	/* fields enclosed in headers_start/headers_end are copied
-+	/* Fields enclosed in headers group are copied
- 	 * using a single memcpy() in __copy_skb_header()
- 	 */
--	/* private: */
--	__u32			headers_start[0];
-+	struct_group(headers,
- 	/* public: */
++	BUILD_BUG_ON(sizeof(txpd->tx_dest_addr) != ETH_ALEN);
+ 	if (priv->wdev->iftype == NL80211_IFTYPE_MONITOR) {
+ 		struct tx_radiotap_hdr *rtap_hdr = (void *)skb->data;
  
- /* if you move pkt_type around you also must adapt those constants */
-@@ -922,8 +921,8 @@ struct sk_buff {
- 	u64			kcov_handle;
- #endif
+@@ -124,10 +125,10 @@ netdev_tx_t lbs_hard_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 		pkt_len -= sizeof(*rtap_hdr);
  
--	/* private: */
--	__u32			headers_end[0];
-+	); /* end headers group */
-+
- 	/* public: */
+ 		/* copy destination address from 802.11 header */
+-		memcpy(txpd->tx_dest_addr_high, p802x_hdr + 4, ETH_ALEN);
++		memcpy(&txpd->tx_dest_addr, p802x_hdr + 4, ETH_ALEN);
+ 	} else {
+ 		/* copy destination address from 802.3 header */
+-		memcpy(txpd->tx_dest_addr_high, p802x_hdr, ETH_ALEN);
++		memcpy(&txpd->tx_dest_addr, p802x_hdr, ETH_ALEN);
+ 	}
  
- 	/* These elements must be at the end, see alloc_skb() for details.  */
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index f9311762cc47..fd5ce57ccce6 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -991,12 +991,10 @@ void napi_consume_skb(struct sk_buff *skb, int budget)
- }
- EXPORT_SYMBOL(napi_consume_skb);
- 
--/* Make sure a field is enclosed inside headers_start/headers_end section */
-+/* Make sure a field is contained by headers group */
- #define CHECK_SKB_FIELD(field) \
--	BUILD_BUG_ON(offsetof(struct sk_buff, field) <		\
--		     offsetof(struct sk_buff, headers_start));	\
--	BUILD_BUG_ON(offsetof(struct sk_buff, field) >		\
--		     offsetof(struct sk_buff, headers_end));	\
-+	BUILD_BUG_ON(offsetof(struct sk_buff, field) !=		\
-+		     offsetof(struct sk_buff, headers.field));	\
- 
- static void __copy_skb_header(struct sk_buff *new, const struct sk_buff *old)
- {
-@@ -1008,14 +1006,12 @@ static void __copy_skb_header(struct sk_buff *new, const struct sk_buff *old)
- 	__skb_ext_copy(new, old);
- 	__nf_copy(new, old, false);
- 
--	/* Note : this field could be in headers_start/headers_end section
-+	/* Note : this field could be in the headers group.
- 	 * It is not yet because we do not want to have a 16 bit hole
- 	 */
- 	new->queue_mapping = old->queue_mapping;
- 
--	memcpy(&new->headers_start, &old->headers_start,
--	       offsetof(struct sk_buff, headers_end) -
--	       offsetof(struct sk_buff, headers_start));
-+	memcpy(&new->headers, &old->headers, sizeof(new->headers));
- 	CHECK_SKB_FIELD(protocol);
- 	CHECK_SKB_FIELD(csum);
- 	CHECK_SKB_FIELD(hash);
+ 	txpd->tx_packet_length = cpu_to_le16(pkt_len);
 -- 
 2.30.2
 
