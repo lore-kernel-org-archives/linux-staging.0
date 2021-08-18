@@ -1,130 +1,119 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166C42FAD
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:55:26 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id w4so4470777ljh.13
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:55:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678AF2FAD
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 16:21:31 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id o2so2781992pgr.9
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 09:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FDEHOwK/tV+p4BwibJ2eZxjOpc4MiqVcjf+8RCPnl/I=;
-        b=H0RQfIKG86hjucXIS4WiNewr/HEa0soca6FW/SoC/rnEEopBHfFKy8EBd0pGQounk/
-         Oq9/0nUk373C3fZI609KQfoxLIlCX33VL4jD/UoSCTP1jNz94LT73hGlRg0OGe2pZPMl
-         Oibirrv4BUfG5Z6A9XvafJxus+f47S5hMtsDMR0PfSid8tbadkJELX8svkntbABSkpcD
-         RimCcpLAmvdux+9g7Wlco/fYko0MP+hTZL/CMoVJHvmpnxNhBGRdHEtQ4ME9XbOrtsOg
-         Ou9Bf0Prbo4kHm9SvJmQDHot8vFIRpjN5c2/oXbQGbbtlY4/TvTgQHm5WSs8SXzEzrL/
-         q0pw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OH0HDKV+n0nyhzkCexO3gFPelNIO9Yru8xPdeMKzgNE=;
+        b=goFTNk2pOD39Gup5sODHofjJbZ0OzQuKLSJ5szOEafXDzHz5Z0wBqdtJClNs/rE/tW
+         7PwbLmjnxHXjbhh0BzN3LG9dJqur3Mqs90yPp/cr//BR623UGy0jJs6TaanH9hFZouYo
+         ucc1EoD4M9EZXQgtNDGs+me/sXAkgiKlFyKrQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FDEHOwK/tV+p4BwibJ2eZxjOpc4MiqVcjf+8RCPnl/I=;
-        b=KDnIJiizsCpXOavkpUDwsMQcqRHpbAG+Eei28faz+bV2lFIHYW11t8BvRHsVQWX+G8
-         voTArBJqJ15vDfKf8xpURPCJoxI9qfl+COzCTeD48dNR4gkdpCMrTx4QC2PBy4XidM6T
-         MrAAQzpI+aU3rn51ltwwVRZ9ysKiML9cAMFvfLuUkaJLHb9RUg4dcFOpK2/mMFnV5758
-         GM2yI3nFf5YyEGL+vxjXEX6AqKUZukWEmsLasW4ouEZFHw4HNflN3mAO1w+3pyYwYbOz
-         Kl22FBdoUWjZ0g0VkhA/jvDZCr8J3FxxZc/8l0VmpBiqBIOxlGv7IEs3ZvugR+i6D3il
-         EzaQ==
-X-Gm-Message-State: AOAM530su89Wm8VqjO25i6ys0OPHvRTOFld9ID2bjp+dcCNw9162qeMK
-	39Yuz1rLN/+b3jBx2mBc94A=
-X-Google-Smtp-Source: ABdhPJwH2B3VgRzJIvI+pIkKDsVXz6Nb3IHX68qBDgW7hPMqkLurd3vlILu0yEDQld58r5qYiUr6VQ==
-X-Received: by 2002:a2e:300a:: with SMTP id w10mr8608460ljw.510.1629302124200;
-        Wed, 18 Aug 2021 08:55:24 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.googlemail.com with ESMTPSA id y8sm7917lfh.249.2021.08.18.08.55.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Aug 2021 08:55:23 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
- <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
-Date: Wed, 18 Aug 2021 18:55:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OH0HDKV+n0nyhzkCexO3gFPelNIO9Yru8xPdeMKzgNE=;
+        b=c+HiBxicmptnEpqgVI0Nm817dXQa8QqwAV5+sK35dfdMu1b2t5K9G97vQBp0yPuxbm
+         hXMWJLdi9yiGCoo1Pq2PBoJzmtmrI5a8JWF6o1HwwYs3FoOtiGbP7Gm1leaRx2SLVyQn
+         MW8UP3ardwwrvpO+YXTHnF/H7jjOTyon4hugKOpD5cjdk2QqENhO830qDgomle1I8EDU
+         ToabXIPI9zl6oL9K4cIor9eKxaHuoD/kbPOHmmlBuhIJRQAnpyUfQf1CRUOWu1mxbBHn
+         4b5+xGd7mhQSb08Q/jWBe8Vc/2QF57UTerKq44sd5ynDeU63L34RoA+fxEm39GjKwMfx
+         bfmQ==
+X-Gm-Message-State: AOAM533VOD00LOoy9+h9qT3+It1NhnKaG4jQYyv93y4ffycUZDnzbyLW
+	OSmRSJT3lucpjLtLJ926Wb+ZTA==
+X-Google-Smtp-Source: ABdhPJysjR7p2Aks52eVXwNTLErN8CgrnMCpOcHbZLHJn8/HoaaFASj8USZBM3cqcWkjecc88CSxDQ==
+X-Received: by 2002:a05:6a00:10cf:b0:3e2:139b:6d6c with SMTP id d15-20020a056a0010cf00b003e2139b6d6cmr10295546pfu.3.1629303691009;
+        Wed, 18 Aug 2021 09:21:31 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q29sm220062pfl.142.2021.08.18.09.21.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 09:21:30 -0700 (PDT)
+Date: Wed, 18 Aug 2021 09:21:29 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 50/63] tracing: Use memset_startat() to zero struct
+ trace_iterator
+Message-ID: <202108180918.E239CE0@keescook>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-51-keescook@chromium.org>
+ <20210818093349.3144276b@oasis.local.home>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818093349.3144276b@oasis.local.home>
 
-18.08.2021 12:41, Ulf Hansson пишет:
-> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>
->> On 18-08-21, 10:29, Ulf Hansson wrote:
->>> Me and Dmitry discussed adding a new genpd callback for this. I agreed
->>> that it seems like a reasonable thing to add, if he insists.
-
-Either way gives the equal result. The new callback allows to remove the
-boilerplate dev_pm_opp_set_rate(clk_get_rate() code from the rpm-resume
-of consumer devices, that's it.
-
->>> The intent was to invoke the new callback from __genpd_dev_pm_attach()
->>> when the device has been attached to its genpd. This allows the
->>> callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
->>> update the vote according to the current state of the HW.
->>
->> I wouldn't call dev_pm_opp_set_rate() from there, since it means
->> configure and enable (both) for different resources, clk, regulator,
->> genpd, etc..
+On Wed, Aug 18, 2021 at 09:33:49AM -0400, Steven Rostedt wrote:
+> On Tue, 17 Aug 2021 23:05:20 -0700
+> Kees Cook <keescook@chromium.org> wrote:
 > 
-> Right, good point!
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memset(), avoid intentionally writing across
+> > neighboring fields.
+> > 
+> > Use memset_startat() to avoid confusing memset() about writing beyond
+> > the target struct member.
+> > 
+> > Cc: Steven Rostedt <rostedt@goodmis.org>
+> > Cc: Ingo Molnar <mingo@redhat.com>
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  kernel/trace/trace.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> > index 13587e771567..9ff8c31975cd 100644
+> > --- a/kernel/trace/trace.c
+> > +++ b/kernel/trace/trace.c
+> > @@ -6691,9 +6691,7 @@ tracing_read_pipe(struct file *filp, char __user *ubuf,
+> >  		cnt = PAGE_SIZE - 1;
+> >  
+> >  	/* reset all but tr, trace, and overruns */
+> > -	memset(&iter->seq, 0,
+> > -	       sizeof(struct trace_iterator) -
+> > -	       offsetof(struct trace_iterator, seq));
+> > +	memset_startat(iter, 0, seq);
 > 
-> dev_pm_opp_set_rate() is best called from consumer drivers, as they
-> need to be in control.
->> What we need here is just configure. So something like this then:
-The intent wasn't to use dev_pm_opp_set_rate() from
-__genpd_dev_pm_attach(), but to set genpd->rpm_pstate in accordance to
-the h/w configuration.
+> I can't find memset_startat() in mainline nor linux-next. I don't see it
+> in this thread either, but since this has 63 patches, I could have
+> easily missed it.
 
-On Tegra we have a chain of PDs and it's not trivial to convert the
-device's OPP into pstate because only the parent domain can translate
-the required OPP.
+Sorry, it isn't called out in the Subject, but it's part of this patch:
+https://lore.kernel.org/lkml/20210818060533.3569517-38-keescook@chromium.org/
 
-Viresh, please take a look at what I did in [1]. Maybe it could be done
-in another way.
+> This change really should belong to a patch set that just introduces
+> memset_startat() (and perhaps memset_after()) and then updates all the
+> places that should use it. That way I can give it a proper review. In
+> other words, you should break this patch set up into smaller, more
+> digestible portions for the reviewers.
 
-[1]
-https://patchwork.ozlabs.org/project/linux-tegra/patch/20210701232728.23591-3-digetx@gmail.com/
+I will split memset_after() and memset_startat() introduction patches. I
+already split up each use into individual cases, so that those changes
+could be checked one step at a time for differences in pahole struct
+layout and object code.
+
+Thanks for taking a look!
+
+-Kees
+
+-- 
+Kees Cook
