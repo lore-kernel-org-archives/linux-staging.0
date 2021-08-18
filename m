@@ -1,81 +1,134 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4246D18
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:44:03 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id EA5175C0259;
-	Wed, 18 Aug 2021 02:44:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 18 Aug 2021 02:44:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=zzoOCl2YreUt7MfN2Ool90MUXMU
-	XImkpZjNooyEe0Ac=; b=qGyZU/e5mtYaTVwX0UHaEohjjaNINhPX+/hEggeB4Ed
-	6t9xQ0PVlusJV2vv/yQXEAFBLFt8EOutsCmZo+4dPyOB2mA5uTho0w9KqlNc7E3b
-	xUbukQFxgv+ETvU+XhqYsXWcun5+obn7tixApT3CqWT8yINgxTEjrxWuT5Qzl5Im
-	ZTEwwIqaLVszK3b5ZEEK3J3XVXfJoDI081YA48xqhXlSGLkJjAja3wR/1KoPmlwI
-	Jr4EkAb1sV847nRFhYofNoxEJlVxnQ6rI7AJlb+Av6ysLkNJXv+Ix0+IT6Ysr5sV
-	7s5vSPqMiM2/1v9nd4BufHkFmImLxx1IIXzX39v0MbA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=zzoOCl
-	2YreUt7MfN2Ool90MUXMUXImkpZjNooyEe0Ac=; b=rPRElJXU3AILQ5wm18OW7G
-	9phavvnnMqDtV/bKmofjzcay6EJkxWt80+jBwEPS6CpyN+CcEvXb5Niy4hGbGY07
-	lMZwlnv+b3v80adhb/LhIBi0h9L8KbaDJpIXP8b0PN889ZoAmdOXN6Ffp1izApmj
-	yxHgOX0K+X6aQ6Mf5Y15rLofTMjwCUz5nJVPYQxh4Ajogm1Fb6epwfkbQC6h1jA3
-	cdntNYeAV3DmNzByZ3A6zYywKXMnS1cIdGkmweVdkJiRG4p4KjJHTbDB7pscGFG8
-	2/zspNHd+ihkuLSJCp7FGzaKK6SJZTB3OpOskj6OFq6qFnfPcsHmEg5cLrmuyLlg
-	==
-X-ME-Sender: <xms:MqwcYfeIxDHEaLZsgOaI76wOfG6ZypfEqGgq0RO43cIfuFVx4GJV4w>
-    <xme:MqwcYVNXZoE3EqaKeHzago-wY_dHeDZD5DvTCyYF-JOF7hc9aD-2TqG-Y_9a-6z8z
-    RspGfIcxOivVw>
-X-ME-Received: <xmr:MqwcYYgY7HzeiiZaQucD6mundeoYeQkSiVDbGBWZoCNZxfBQUM0hvz605h1UyVzLoXbUVSbjBq3h8xWDfNzreQo34VBPDVMf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleeggddutdejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
-    drtghomh
-X-ME-Proxy: <xmx:MqwcYQ8O1CB0LaescJ3AaPo3W-hcT1P_V4VDMiKYoquAfg3WR7qBJw>
-    <xmx:MqwcYbs6A7OqsNptxLB5WMCQsokLeY-IJl-qu-SkrUfIXbwbaQJhdg>
-    <xmx:MqwcYfGfbu5LbHF45H_DB9x8fh_fJ15es219_qP6QF5McihVSAuucg>
-    <xmx:MqwcYRAzcuWCKSoKsCDDGxowcuG728y1C8YLVsdexeDcDSZDv2xTpw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Aug 2021 02:44:01 -0400 (EDT)
-Date: Wed, 18 Aug 2021 08:43:58 +0200
-From: Greg KH <greg@kroah.com>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: dan.carpenter@oracle.com, yangyingliang@huawei.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: r8188eu: Remove unused including
- <linux/version.h>
-Message-ID: <YRysLl5Yu/ngNOl3@kroah.com>
-References: <20210818063653.2851-1-caihuoqing@baidu.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF272FAF
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:45:20 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1mGF2W-0007Xm-Bs; Wed, 18 Aug 2021 08:27:04 +0200
+Received: from pengutronix.de (unknown [IPv6:2a02:810a:8940:aa0:ed04:8488:5061:54d4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 7335C66975A;
+	Wed, 18 Aug 2021 06:26:59 +0000 (UTC)
+Date: Wed, 18 Aug 2021 08:26:57 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 59/63] can: flexcan: Use struct_group() to zero struct
+ flexcan_regs regions
+Message-ID: <20210818062657.6hvn75kf5o5cgey2@pengutronix.de>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-60-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kduqcl3tf4g5uel5"
 Content-Disposition: inline
-In-Reply-To: <20210818063653.2851-1-caihuoqing@baidu.com>
+In-Reply-To: <20210818060533.3569517-60-keescook@chromium.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-On Wed, Aug 18, 2021 at 02:36:53PM +0800, Cai Huoqing wrote:
-> Remove including <linux/version.h> that don't need it
-> 
-> v1->v2: remove "based on staging-next" from commit message
-> v2->v3: add changelog to commit message
 
-As the documentation states, these lines need to go below the --- line,
-right?
+--kduqcl3tf4g5uel5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please fix up and send a v4.
+On 17.08.2021 23:05:29, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+>=20
+> Add struct_group() to mark both regions of struct flexcan_regs that get
+> initialized to zero. Avoid the future warnings:
+>=20
+> In function 'fortify_memset_chk',
+>     inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
+>     inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1403:2:
+> ./include/linux/fortify-string.h:199:4: warning: call to '__write_overflo=
+w_field' declared with attribute warning: detected write beyond size of fie=
+ld (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+>   199 |    __write_overflow_field(p_size_field, size);
+>       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> In function 'fortify_memset_chk',
+>     inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
+>     inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1408:3:
+> ./include/linux/fortify-string.h:199:4: warning: call to '__write_overflo=
+w_field' declared with attribute warning: detected write beyond size of fie=
+ld (1st parameter); maybe use struct_group()? [-Wattribute-warning]
+>   199 |    __write_overflow_field(p_size_field, size);
+>       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>=20
+> Cc: Wolfgang Grandegger <wg@grandegger.com>
+> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: linux-can@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-thanks,
+Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
 
-greg k-h
+> -	memset_io(&regs->mb[0][0], 0,
+> -		  offsetof(struct flexcan_regs, rx_smb1[3]) -
+> -		  offsetof(struct flexcan_regs, mb[0][0]) + 0x4);
+> +	memset_io(&regs->init, 0, sizeof(regs->init));
+
+This even makes the code more readable! \o/
+
+>  	if (priv->can.ctrlmode & CAN_CTRLMODE_FD)
+> -		memset_io(&regs->tx_smb_fd[0], 0,
+> -			  offsetof(struct flexcan_regs, rx_smb1_fd[17]) -
+> -			  offsetof(struct flexcan_regs, tx_smb_fd[0]) + 0x4);
+> +		memset_io(&regs->init_fd, 0, sizeof(regs->init_fd));
+> =20
+>  	reg_ctrl2 &=3D ~FLEXCAN_CTRL2_WRMFRZ;
+>  	priv->write(reg_ctrl2, &regs->ctrl2);
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--kduqcl3tf4g5uel5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmEcqC4ACgkQqclaivrt
+76lMtAf+PLTf+69ONg9/KGwncoo4yvZ5m8bSKHLYfYYuCITf4oOnHWQIBFT3P8Fn
+GMKihDcISmFKjqSbFu8aJSqtNFhYzGB0uIUjuhW+15TJRH7SUTZCuT/U6VPXrEWi
+qWCGvkl3szxqSpDVrbCW5ChnnsAZ3Nj2pXV+gkB62mvtcwTdqFBczMfbKHNhLHgv
+BYjF2uWTN51iadHR3Kese6EccsTaIoCrqZjnGrlJSBVLtt66BT101RY0pE9890e+
++p/LRFYivNeT0DnAObs8TDghwzxWlqfE3nR1QLSvENRbMBSzhEbipc7oz3DQJC4v
+WM/41iCaZScHUFfgxPrBqtGtM1p9RA==
+=LXIZ
+-----END PGP SIGNATURE-----
+
+--kduqcl3tf4g5uel5--
