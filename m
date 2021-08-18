@@ -1,115 +1,111 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A00173
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 23:06:41 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id e7so3958351pgk.2
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 16:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6LXlTnktuLXOSEatHkAd9iidtx/DlqNXw6t+P+U3BQc=;
-        b=QDNt5PHgo+7rFQ5/N15pMYx2nigmnDuCuJ+bOuvXfS72zqVl8vZRlj8bX+wFTjLeE1
-         +cWdQw4DYXF54Bu3mpVNecT17rymK4/4HID0NO8YPAsOH71eiDyu8sN6XAFVcXLqPAMH
-         GiSiCnGqiMI57DyQ0LAdNhljzGxXXxsfxTLco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6LXlTnktuLXOSEatHkAd9iidtx/DlqNXw6t+P+U3BQc=;
-        b=WGJYLpRymHUl19AciSfhsvPL5VMzfUXO+ye85jb+8S7NIvuVyx4XwwLL+7lcIjCXsc
-         E61eQy6TUiZK8PSFumip/Xx3fjk/SBl+EKOhrS/VojuY60fKVTwAjQoMmO/XruaMBLm4
-         +wdQ9dYoLUCRGaHh20caY8galf4e4rzWkRv6lTDjEIC9QHkjIvt7+QOCPZsJUrL0djN1
-         ZTZkR9eN//DqwJp1BHCu+oFoVexeWvhoJV1RwIADUkyDDmsuVMobFjneMQGP62junWIA
-         XmOrsVxL5ADcAFvJAthmkoV7jc0R1093JiugMs8PlfViIr0X005dPdOte5hV+ZA8ghk7
-         08Og==
-X-Gm-Message-State: AOAM5338TtOci3/PVCT8As+Zja5u2HyZtikm3gNI4fpE1VZZ/hbWLd3N
-	MljrQefPupqPeAm3BIytG7sP7Q==
-X-Google-Smtp-Source: ABdhPJyUYId4jZehTEC5dWKrbyuUEowd9b0WCT527H1rHej12/Bkc/D16VHqxCGKKKhtIhB0IMVa/w==
-X-Received: by 2002:aa7:8242:0:b0:3e2:97eb:d6e8 with SMTP id e2-20020aa78242000000b003e297ebd6e8mr9677080pfn.66.1629328001407;
-        Wed, 18 Aug 2021 16:06:41 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 143sm916287pfz.13.2021.08.18.16.06.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 16:06:40 -0700 (PDT)
-Date: Wed, 18 Aug 2021 16:06:39 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	clang-built-linux@googlegroups.com,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode
- cache
-Message-ID: <202108181605.44C504C@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-54-keescook@chromium.org>
- <YR0jIEzEcUom/7rd@google.com>
- <202108180922.6C9E385A1@keescook>
- <YR2PhlO3njPcFOkg@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60E9173
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 23:32:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB84D610D2;
+	Wed, 18 Aug 2021 23:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1629329524;
+	bh=92kdq27t3ep5Hl3CuE79QJIJv2tMQV5f2MwnOw6G9JA=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=Zcii3h2FvPs7aZiU5Yl8FCf9QQ15f1cbmEqGhphc5VGNoAaNUg4JDqO8DkAXVlo4b
+	 rkOqTpRVTZQvVqxHvfncXdWIv7hHKtPyKwiTX4Sm2dTucGGck1odMUA73zyW/rViXF
+	 KdM3rRTroNWX44eFpcWiHJ/uCaoqimTc585TZz39UExVtHVXyYAJkyhbQzpfA05x02
+	 ADa2bjnUqYRA+JyG2Ohzanfe6yMIOI9oMUqLxU0Qt0itWTdrzQxSJphZsc+JovndrP
+	 5x7Hg3ers9jwZ5Iv14bgfKOu6UQLhwLIBlAtOimypL7dhY9PoJLgOyfdjYEXmqpHAN
+	 GPhUo8/1CKw0g==
+Subject: Re: [PATCH][next] staging: r8188eu: Fix fall-through warnings for
+ Clang
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <20210818221418.GA311735@embeddedor>
+From: Nathan Chancellor <nathan@kernel.org>
+Message-ID: <b5136c4b-5fe3-43e6-e893-fe74b2ba913f@kernel.org>
+Date: Wed, 18 Aug 2021 16:32:03 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YR2PhlO3njPcFOkg@google.com>
+In-Reply-To: <20210818221418.GA311735@embeddedor>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 18, 2021 at 10:53:58PM +0000, Sean Christopherson wrote:
-> On Wed, Aug 18, 2021, Kees Cook wrote:
-> > On Wed, Aug 18, 2021 at 03:11:28PM +0000, Sean Christopherson wrote:
-> > > From dbdca1f4cd01fee418c252e54c360d518b2b1ad6 Mon Sep 17 00:00:00 2001
-> > > From: Sean Christopherson <seanjc@google.com>
-> > > Date: Wed, 18 Aug 2021 08:03:08 -0700
-> > > Subject: [PATCH] KVM: x86: Replace memset() "optimization" with normal
-> > >  per-field writes
-> > > 
-> > > Explicitly zero select fields in the emulator's decode cache instead of
-> > > zeroing the fields via a gross memset() that spans six fields.  gcc and
-> > > clang are both clever enough to batch the first five fields into a single
-> > > quadword MOV, i.e. memset() and individually zeroing generate identical
-> > > code.
-> > > 
-> > > Removing the wart also prepares KVM for FORTIFY_SOURCE performing
-> > > compile-time and run-time field bounds checking for memset().
-> > > 
-> > > No functional change intended.
-> > > 
-> > > Reported-by: Kees Cook <keescook@chromium.org>
-> > > Signed-off-by: Sean Christopherson <seanjc@google.com>
-> > 
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > 
-> > Do you want me to take this patch into my tree, or do you want to carry
-> > it for KVM directly?
+On 8/18/2021 3:14 PM, Gustavo A. R. Silva wrote:
+> Fix the following fallthrough warnings:
 > 
-> That's a Paolo question :-)
+> drivers/staging/r8188eu/core/rtw_mlme_ext.c:1498:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+> drivers/staging/r8188eu/core/rtw_wlan_util.c:1113:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+> drivers/staging/r8188eu/core/rtw_wlan_util.c:1147:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+> drivers/staging/r8188eu/core/rtw_wlan_util.c:1405:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
 > 
-> What's the expected timeframe for landing stricter bounds checking?  If it's
-> 5.16 or later, the easiest thing would be to squeak this into 5.15.
+> This helps with the ongoing efforts to globally enable
+> -Wimplicit-fallthrough for Clang.
+> 
+> Link: https://github.com/KSPP/linux/issues/115
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-I'm hoping to land all the "compile time" stuff for 5.15, but
-realistically, some portions may not get there. I'll just carry this
-patch for now and if we need to swap trees we can do that. :)
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Thanks!
+One small comment below.
 
--Kees
+> ---
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 1 +
+>   drivers/staging/r8188eu/core/rtw_wlan_util.c | 3 +++
+>   2 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 61b239651e1a..590a4572c23f 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -1495,6 +1495,7 @@ unsigned int OnAssocRsp(struct adapter *padapter, struct recv_frame *precv_frame
+>   			break;
+>   		case _ERPINFO_IE_:
+>   			ERP_IE_handler(padapter, pIE);
+> +			break;
+>   		default:
+>   			break;
+>   		}
+> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> index cddacf023fa6..e0ce2b796abe 100644
+> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+> @@ -1110,6 +1110,7 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
+>   			case _RSN_IE_2_:
+>   				if (!memcmp((pIE->data + 8), RSN_TKIP_CIPHER, 4))
+>   					return true;
+> +				break;
+>   			default:
+>   				break;
+>   			}
+> @@ -1144,6 +1145,7 @@ unsigned int should_forbid_n_rate(struct adapter *padapter)
+>   				if  ((!memcmp((pIE->data + 8), RSN_CIPHER_SUITE_CCMP, 4))  ||
+>   				     (!memcmp((pIE->data + 12), RSN_CIPHER_SUITE_CCMP, 4)))
+>   					return false;
+> +				break;
+>   			default:
+>   				break;
+>   			}
+> @@ -1401,6 +1403,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
+>   			} else {
+>   				break;
+>   			}
+> +			break;
 
--- 
-Kees Cook
+Would it be better to just remove the else branch at the same time? As 
+far as I can tell, there is no reason to have it.
+
+>   
+>   		default:
+>   			break;
+> 
+
