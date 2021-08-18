@@ -1,84 +1,67 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83085168
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 09:14:20 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id u1so1436815plr.1
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 02:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=tDuCq4cpa/FhfVLg3d4eOXI0t92SH+lRUdr1ZBj+304=;
-        b=quAhTr+R/08xh/ignvyvF/El1dD/NQftWfiNTcAu87cJhuBhgI+As0zoEiydqeW6PP
-         Ex/zHp4EDoA27CiqypV1XRJjyjppnIr9cuHPeEqT4Jz0u4Gd7rGoODV0vOYF2r+fXVrC
-         O9YNeAY5lMNde/fcVIInzFs4EQNgUzhxxcNX6YMHjHSIPhU1rXEQOl9Aq3E25JLQ/9fv
-         VxP/TlWw72/n6skEH8miH2qbrmh27V7jR6dmqc1oF+jbwQP/bhXkGIrzGuJgVHwfQUpg
-         jLxJj1fuqBdXtzbuG0/ZFv6pjltmBS+1GsQZASCe+7q/ocD5Ye+29smqIZ7DN+BRR4O7
-         VT3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tDuCq4cpa/FhfVLg3d4eOXI0t92SH+lRUdr1ZBj+304=;
-        b=q4hKJg1bvCfylHBONgc7npF1paK6cm5X8gEA1RZY9lFdhD445CQU/9XA0oGgjLlfSs
-         LNKICwYa6WaNWjlqQGZ46AdXhkzyFpRd+8C3bls9y/NdInpYItxCYr8rzKc/nY2zbacK
-         +x3yh3Wqxkw501GmXkgAiUc1/2B6pblYrSga65HN2BTDVT12kZEN3x65hyQj92sdFMce
-         gLF3jHiYlKiYyzfozz/1aISCzH6ZA2fY6qbe0gVwrjHBHyNXrueAXKV+0jDJ5k8X4RrJ
-         lIQ13KqU6oMmEGHn/AWHy9mf1wPvzCHPOBqV4LJVaSMnNV6iQfLzHt/n3yYP4v29L4Xd
-         jrtg==
-X-Gm-Message-State: AOAM532Ak9QnfEdyvuuLqmSKGq5r9tebz7/GmH6ERe1awSKKPqZzdB2X
-	fOij+li+Nhu2ELNejPythts2qg==
-X-Google-Smtp-Source: ABdhPJz4yEie/eMLpBAmymSzx5jt3Od7muuoKSX0aK0QfqCy9SYA7S2Wvgljmd2wM1mkIsijUEW0lQ==
-X-Received: by 2002:a17:90a:d791:: with SMTP id z17mr8231461pju.203.1629278059957;
-        Wed, 18 Aug 2021 02:14:19 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id a8sm1540816pfo.79.2021.08.18.02.14.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 02:14:19 -0700 (PDT)
-Date: Wed, 18 Aug 2021 14:44:17 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-tegra <linux-tegra@vger.kernel.org>,
-	Linux PM <linux-pm@vger.kernel.org>,
-	Linux USB List <linux-usb@vger.kernel.org>,
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-mmc <linux-mmc@vger.kernel.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	DTML <devicetree@vger.kernel.org>,
-	linux-clk <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
-References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
- <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA58F168
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 09:31:31 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 6BDC422065;
+	Wed, 18 Aug 2021 09:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1629279084;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjEVLCKBlTSswofPN1pNmxlP19qpFPg2jUD4se0XdyA=;
+	b=Vce+IAwmUDcfv2b7QGyi2Dv7EKo/Co6jwhdkPnVadZs3PhYLf7tUr6B9fRUUxtOcBZk6+N
+	B9XQg+cRWkemeBBWnWGk1wfHVQuq5Xnz4OC/hrrv7YBobuFDHB3iZwPRwWeZB5fMRC+UY8
+	0ZVGoxSYWv4akI4SI4AnM5BUhMcP4k4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1629279084;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjEVLCKBlTSswofPN1pNmxlP19qpFPg2jUD4se0XdyA=;
+	b=SFOFKtThDem3M1F/rOZMlyJlFmdOZ4+c7ISuV48nRhjMQ1VbfvtT61ULNqlr3zoJHsVSVM
+	ACnXbdzsW0b8HLBQ==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+	by relay2.suse.de (Postfix) with ESMTP id 4E36EA3B94;
+	Wed, 18 Aug 2021 09:31:24 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+	id B0437DA72C; Wed, 18 Aug 2021 11:28:27 +0200 (CEST)
+Date: Wed, 18 Aug 2021 11:28:27 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	linux-btrfs@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 49/63] btrfs: Use memset_startat() to clear end of
+ struct
+Message-ID: <20210818092827.GO5047@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Kees Cook <keescook@chromium.org>,
+	linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	linux-btrfs@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-hardening@vger.kernel.org
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-50-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -87,39 +70,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20210818060533.3569517-50-keescook@chromium.org>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 
-On 18-08-21, 10:29, Ulf Hansson wrote:
-> Me and Dmitry discussed adding a new genpd callback for this. I agreed
-> that it seems like a reasonable thing to add, if he insists.
+On Tue, Aug 17, 2021 at 11:05:19PM -0700, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
 > 
-> The intent was to invoke the new callback from __genpd_dev_pm_attach()
-> when the device has been attached to its genpd. This allows the
-> callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
-> update the vote according to the current state of the HW.
-
-I wouldn't call dev_pm_opp_set_rate() from there, since it means
-configure and enable (both) for different resources, clk, regulator,
-genpd, etc..
-
-What we need here is just configure. So something like this then:
-
-- genpd->get_performance_state()
-  -> dev_pm_opp_get_current_opp() //New API
-  -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
-
-This can be done just once from probe() then.
-
-> I am not sure if/why that approach seemed insufficient?
+> Use memset_startat() so memset() doesn't get confused about writing
+> beyond the destination member that is intended to be the starting point
+> of zeroing through the end of the struct.
 > 
-> Another option to solve the problem, I think, is simply to patch
-> drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
-> should synchronize the HW state too.
+> Cc: Chris Mason <clm@fb.com>
+> Cc: Josef Bacik <josef@toxicpanda.com>
+> Cc: David Sterba <dsterba@suse.com>
+> Cc: linux-btrfs@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Dmitry already mentioned that this will make the device start
-consuming power, and he doesn't want that, else we need an explicit
-disble call as well.
-
--- 
-viresh
+Acked-by: David Sterba <dsterba@suse.com>
