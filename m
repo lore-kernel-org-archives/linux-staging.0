@@ -1,48 +1,48 @@
 Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5FF6D18
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 14:13:00 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id k14so2369333pga.13
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 07:13:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440976D19
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 14:13:07 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id 17so2364432pgp.4
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 07:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pathpartnertech.com; s=google;
         h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=UoF9oRxuVpMIWSpsGcPIgXiGbwmC+9kSQcoHcV3Th5Q=;
-        b=J1xQfVauAUNOMThVPdt/pBnVf3Jx7H/CADw3j/9sNi6283S6/69wCQCsTfOEkf0KLx
-         aWFNWv6oVpVoLfiPFeB/v2zdLweqD8VmLrHu0nye0NiXdF9R2sLKXyIksT4bbquoqgSh
-         kbg7uln4j5Is6EC8ia/a+kb38/yO4TE/xGuGFsUUm2/4fS86kViCzEOHXDURPWqJe866
-         9ammYaAyS/GhryvmEyKUoSpHzmWRez9dToMGJ9hH5lgimELEHz3uwZ7iXqXLH2R/XBAw
-         Z5KhZaqeveFk4FMhvRd2Ncb1daNYTD9xM9G/tWpMzl2nYEG9GKYsUdi8dfOe9HEWpiMH
-         fC5Q==
+        bh=1Ky0pXaoNC1bDAfJs8xctanHGSxEgykxzzVenTSVJgk=;
+        b=U+bebj76JeK/wR+HCEi3iT/Z5pcsrUvogq7vi14OMmYpGMH6X81Txcton/Rf8keg8x
+         IoJnQTkXlwBeACJ0pAuN9l1yDNhULG86VGf7KVbw+lsJKdoj099re0IALqBkZvLBuyfw
+         khtzVM1n7CU6HFmlERd2Iv0icnQR+sv1s38OBoTlT6etuAzU6YoE6ir4aPtJBchJMiye
+         xHS+ewkcxwy0CbsLaoiviRGaR55e2cE5yoKCB7kKZQhMMCnITF7eZRJqS1XWROJEaxfi
+         /LkuPjhe96S4d6wyTd8uKqzz3uZTlODrojYCWhzX8vKtwHRiuYMTDjfq9erzYCDr+NyJ
+         ly/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :in-reply-to:references;
-        bh=UoF9oRxuVpMIWSpsGcPIgXiGbwmC+9kSQcoHcV3Th5Q=;
-        b=ef7qiqfoZZl6JQwFPxdfaJvCYFO40nF6JyXf67gleyo1gUQhcncPVQoKjAHGcOSFph
-         syAi0qREDfCvY+cc0yQNYOcgsypp9uvL+y35LP9DXlHDgFZ2X5U7MhkI0NOFTKJj0BO9
-         hsVzsQfWUumA6LYm7KuBZXasc60ANMxJQquhax+viFxVSYiUSzHbmaS0QuW/2gSJhJ7s
-         xA4f4x5Pl9pM3u8b3tf1DnK0ff1QeY+N9HjTjBU+uKMubk5+wU1DrNRGxXHPTCHky2aZ
-         7exQ2YMBP0gS1p2i73O5HhzuiZcJKtezSEOd+DVUt3aV4RWSrbhlLY5/M3pRp+CpHgU4
-         Zf9g==
+        bh=1Ky0pXaoNC1bDAfJs8xctanHGSxEgykxzzVenTSVJgk=;
+        b=Re2I6eRw+ZB5gw1LAu0p2ZnPZbrg4ScDky8jxO3V56o9tys3xaUdFYl7LzuHp4iSrX
+         syVpdXdCB9TE+zIxJex5Y1xJBPrHixoftGsQFZAA38KGe8Mhylui4Gc3iL2n22qv8KOr
+         GAe2BTRuXB2qC29Mg8SHYFDZXYWG2dNhZdOTHXMR7OEN3fkw0AVC9Z+we89dIGQA7Rfq
+         /ZFlQ7l51TdPy7tQWSLroQt365kWy48u/XorSpboLDjhtzZAyZEokFUcjeequYz++gZO
+         17AZKtDA3EvhBuJic+1tK3xRopQCKIInVtHmXm0UlXvVGEeNOruPOXGxiZmXRPZMAnK5
+         Gn6g==
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Gm-Message-State: AOAM533NskbpspRONSmyjUcmbxVqgfyhRkX4N3Z9TW/C5hJGTtm9XL5I
-	AljUohaLWjP5Mm+8Lp+9Yvoo18i4ulRQXMjFNYG6SgdELFL2+ItxG5cl1juYfvK0f74NP+DYK9Z
-	4+5k3U1qs2BvDAG1emGpxbtxPFp8qvA==
-X-Google-Smtp-Source: ABdhPJzOry8fJBbwHrmWZv2ajXfOkcBvuyNbxx1MBTs0ObJLYvK5x4Wb/mI29tzjpXL/D8sVVdWX/g==
-X-Received: by 2002:a63:5f14:: with SMTP id t20mr5922172pgb.433.1629295980330;
-        Wed, 18 Aug 2021 07:13:00 -0700 (PDT)
+X-Gm-Message-State: AOAM532sm5cbtYylqHXNS4vEeEXpaNAOVGlbkG6wdl4SBcOATTB/q4W6
+	mmQXvfIiNMYF34EqIP4TS6YAyOqI8z25qOLerD8gCHx/oLTkA5Wl5UHtDQXCAD579fdYIddAUE3
+	bGyQFTvRflOYxYPjiCdA=
+X-Google-Smtp-Source: ABdhPJxKBlXqV+NPXK3wjR7CTe16DKH2YZ/E1P0kqBEJFLHxl/7bSovmpHkicKt3f6vcoVWk7LbHlw==
+X-Received: by 2002:a05:6a00:1784:b0:3e1:388:9ff9 with SMTP id s4-20020a056a00178400b003e103889ff9mr9629266pfg.40.1629295986894;
+        Wed, 18 Aug 2021 07:13:06 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.214.181])
-        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.12.57
+        by smtp.gmail.com with ESMTPSA id e8sm8084343pgg.31.2021.08.18.07.13.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 07:12:59 -0700 (PDT)
+        Wed, 18 Aug 2021 07:13:06 -0700 (PDT)
 From: sidraya.bj@pathpartnertech.com
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
@@ -53,9 +53,9 @@ Cc: prashanth.ka@pathpartnertech.com,
 	linux-media@vger.kernel.org,
 	praveen.ap@pathpartnertech.com,
 	Sidraya <sidraya.bj@pathpartnertech.com>
-Subject: [PATCH 20/30] v4l:vxd-dec:Decoder resource component
-Date: Wed, 18 Aug 2021 19:40:27 +0530
-Message-Id: <20210818141037.19990-21-sidraya.bj@pathpartnertech.com>
+Subject: [PATCH 22/30] v4l:vxd-dec:vdecdd headers added
+Date: Wed, 18 Aug 2021 19:40:29 +0530
+Message-Id: <20210818141037.19990-23-sidraya.bj@pathpartnertech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
@@ -63,42 +63,39 @@ Content-Type: text/plain; charset="US-ASCII"
 
 From: Sidraya <sidraya.bj@pathpartnertech.com>
 
-Decoder resource component is responsible for
-allocating all the internal, auxiliary resources
-required for decoder and maintain their life cycle.
+The header file define all the high level data structures required
+for decoder, hwcontrol, core and v4l2 decoder components.
 
 Signed-off-by: Sunita Nadampalli <sunitan@ti.com>
+
 Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
 ---
- MAINTAINERS                                   |   2 +
- .../staging/media/vxd/decoder/dec_resources.c | 554 ++++++++++++++++++
- .../staging/media/vxd/decoder/dec_resources.h |  46 ++
- 3 files changed, 602 insertions(+)
- create mode 100644 drivers/staging/media/vxd/decoder/dec_resources.c
- create mode 100644 drivers/staging/media/vxd/decoder/dec_resources.h
+ MAINTAINERS                                   |   1 +
+ .../staging/media/vxd/decoder/vdecdd_defs.h   | 446 ++++++++++++++++++
+ 2 files changed, 447 insertions(+)
+ create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_defs.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c7edc60f4d5b..6dadec058ab3 100644
+index 41716f2916d1..fa5c69d71c3e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -19569,6 +19569,8 @@ F:	drivers/staging/media/vxd/common/work_queue.h
- F:	drivers/staging/media/vxd/decoder/bspp.c
- F:	drivers/staging/media/vxd/decoder/bspp.h
- F:	drivers/staging/media/vxd/decoder/bspp_int.h
-+F:	drivers/staging/media/vxd/decoder/dec_resources.c
-+F:	drivers/staging/media/vxd/decoder/dec_resources.h
- F:	drivers/staging/media/vxd/decoder/fw_interface.h
- F:	drivers/staging/media/vxd/decoder/h264_idx.h
- F:	drivers/staging/media/vxd/decoder/h264_secure_parser.c
-diff --git a/drivers/staging/media/vxd/decoder/dec_resources.c b/drivers/staging/media/vxd/decoder/dec_resources.c
+@@ -19618,6 +19618,7 @@ F:	drivers/staging/media/vxd/decoder/translation_api.h
+ F:	drivers/staging/media/vxd/decoder/vdec_defs.h
+ F:	drivers/staging/media/vxd/decoder/vdec_mmu_wrapper.c
+ F:	drivers/staging/media/vxd/decoder/vdec_mmu_wrapper.h
++F:	drivers/staging/media/vxd/decoder/vdecdd_defs.h
+ F:	drivers/staging/media/vxd/decoder/vdecdd_utils.c
+ F:	drivers/staging/media/vxd/decoder/vdecdd_utils.h
+ F:	drivers/staging/media/vxd/decoder/vdecdd_utils_buf.c
+diff --git a/drivers/staging/media/vxd/decoder/vdecdd_defs.h b/drivers/staging/media/vxd/decoder/vdecdd_defs.h
 new file mode 100644
-index 000000000000..e993a45eb540
+index 000000000000..dc4c2695c390
 --- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/dec_resources.c
-@@ -0,0 +1,554 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/staging/media/vxd/decoder/vdecdd_defs.h
+@@ -0,0 +1,446 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * VXD Decoder resource allocation and tracking function implementations
++ * VXD Decoder device driver header definitions
 + *
 + * Copyright (c) Imagination Technologies Ltd.
 + * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
@@ -108,598 +105,438 @@ index 000000000000..e993a45eb540
 + *
 + * Re-written for upstream
 + *	Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-+ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com>
++ *	Prashanth Kumar Amai <prashanth.ka@pathpartnertech.com
 + */
 +
-+#include <linux/dma-mapping.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-mem2mem.h>
++#ifndef __VDECDD_DEFS_H__
++#define __VDECDD_DEFS_H__
 +
-+#include "decoder.h"
-+#include "dec_resources.h"
-+#include "hw_control.h"
-+#include "h264fw_data.h"
-+#include "h264_idx.h"
-+#include "h264_vlc.h"
-+#include "img_mem.h"
-+#include "pool_api.h"
-+#include "vdecdd_utils.h"
-+#include "vdec_mmu_wrapper.h"
++#include "bspp.h"
++#include "lst.h"
++#include "vdec_defs.h"
++#include "vdecfw_shared.h"
 +#include "vid_buf.h"
 +#include "vxd_mmu_defs.h"
 +
-+#define DECODER_END_BYTES_SIZE  40
++/* RMAN type for streams.          */
++#define VDECDD_STREAM_TYPE_ID   (0xB0B00001)
 +
-+#define BATCH_MSG_BUFFER_SIZE   (8 * 4096)
-+#define INTRA_BUF_SIZE          (1024 * 32)
-+#define AUX_LINE_BUFFER_SIZE    (512 * 1024)
++/* RMAN type for buffer mappings.  */
++#define VDECDD_BUFMAP_TYPE_ID   (0xB0B00002)
 +
-+static void decres_pack_vlc_tables(unsigned short *packed,
-+				   unsigned short *unpacked,
-+				   unsigned short size)
-+{
-+	unsigned short i, j;
-+
-+	for (i = 0; i < size; i++) {
-+		j = i * 3;
-+		/*
-+		 * opcode 14:12
-+		 * width 11:9
-+		 * symbol 8:0
-+		 */
-+		packed[i] = 0 | ((unpacked[j]) << 12) |
-+			((unpacked[j + 1]) << 9) | (unpacked[j + 2]);
-+	}
-+}
-+
-+struct dec_vlctable {
-+	void    *data;
-+	unsigned int num_entries;
-+	void    *index_table;
-+	unsigned int num_tables;
++/*
++ * This type contains core feature flags.
++ * @brief  Core Feature Flags
++ */
++enum vdecdd_core_feature_flags {
++	VDECDD_COREFEATURE_MPEG2       = (1 << 0),
++	VDECDD_COREFEATURE_MPEG4       = (1 << 1),
++	VDECDD_COREFEATURE_H264        = (1 << 2),
++	VDECDD_COREFEATURE_VC1         = (1 << 3),
++	VDECDD_COREFEATURE_AVS         = (1 << 4),
++	VDECDD_COREFEATURE_REAL        = (1 << 5),
++	VDECDD_COREFEATURE_JPEG        = (1 << 6),
++	VDECDD_COREFEATURE_VP6         = (1 << 7),
++	VDECDD_COREFEATURE_VP8         = (1 << 8),
++	VDECDD_COREFEATURE_HEVC        = (1 << 9),
++	VDECDD_COREFEATURE_HD_DECODE   = (1 << 10),
++	VDECDD_COREFEATURE_ROTATION    = (1 << 11),
++	VDECDD_COREFEATURE_SCALING     = (1 << 12),
++	VDECDD_COREFEATURE_FORCE32BITS = 0x7FFFFFFFU
 +};
 +
 +/*
-+ * Union with sizes of firmware parser header structure sizes. Dec_resources
-+ * uses the largest to allocate the header buffer.
++ * This structure contains configuration relating to a device.
++ * @brief  Device Configuration
 + */
-+union decres_fw_hdrs {
-+	struct h264fw_header_data h264_header;
++struct vdecdd_dd_devconfig {
++	unsigned int num_slots_per_pipe;
 +};
 +
 +/*
-+ * This array contains the size of each resource allocation.
-+ * @brief  Resource Allocation Sizes
-+ * NOTE: This should be kept in step with #DECODER_eResType.
++ * This structure contains the Decoder decoding picture status.
++ * @brief Decoder Decoding Picture Status
 + */
-+static const unsigned int res_size[DECODER_RESTYPE_MAX] = {
-+	sizeof(struct vdecfw_transaction),
-+	sizeof(union decres_fw_hdrs),
-+	BATCH_MSG_BUFFER_SIZE,
++struct vdecdd_dec_pict_status {
++	unsigned int transaction_id;
++	enum vdecfw_progresscheckpoint fw_cp;
++	enum vdecfw_progresscheckpoint fehw_cp;
++	enum vdecfw_progresscheckpoint behw_cp;
++	unsigned int dmac_status;
++	unsigned int fe_mb_x;
++	unsigned int fe_mb_y;
++	unsigned int be_mb_x;
++	unsigned int be_mb_y;
++	unsigned char fw_control_msg[VDECFW_MSGID_CONTROL_TYPES];
++	unsigned char fw_decode_msg[VDECFW_MSGID_DECODE_TYPES];
++	unsigned char fw_completion_msg[VDECFW_MSGID_COMPLETION_TYPES];
++	unsigned char host_control_msg[VDECFW_MSGID_CONTROL_TYPES];
++	unsigned char host_decode_msg[VDECFW_MSGID_DECODE_TYPES];
++	unsigned char host_completion_msg[VDECFW_MSGID_COMPLETION_TYPES];
++};
++
++/*
++ * This structure contains the Decoder decoding picture status.
++ * @brief  Core Status
++ */
++struct vdecdd_core_status {
++	unsigned int mtx_pc;
++	unsigned int mtx_pcx;
++	unsigned int mtx_enable;
++	unsigned int mtx_st_bits;
++	unsigned int mtx_fault0;
++	unsigned int mtx_a0_stack_ptr;
++	unsigned int mtx_a0_frame_ptr;
++	unsigned int dma_setup[3];
++	unsigned int dma_count[3];
++	unsigned int dma_peripheral_addr[3];
++};
++
++/*
++ * This structure contains the Decoder component stream status.
++ * @brief   Decoder Component Stream Status
++ */
++struct vdecdd_decstr_status {
++	unsigned int num_pict_decoding;
++	struct vdecdd_dec_pict_status dec_pict_st[VDECFW_MAX_NUM_PICTURES];
++	unsigned int num_pict_decoded;
++	unsigned int decoded_picts[VDECFW_MAX_NUM_PICTURES];
++	unsigned int features;
++	struct vdecdd_core_status core_st;
++	unsigned int display_pics;
++	unsigned int release_pics;
++	unsigned int next_display_items[VDECFW_MAX_NUM_PICTURES];
++	unsigned int next_display_item_parent[VDECFW_MAX_NUM_PICTURES];
++	unsigned int next_release_items[VDECFW_MAX_NUM_PICTURES];
++	unsigned int next_release_item_parent[VDECFW_MAX_NUM_PICTURES];
++	unsigned int flds_as_frm_decodes;
++	unsigned int total_pict_decoded;
++	unsigned int total_pict_displayed;
++	unsigned int total_pict_finished;
++};
++
++/*
++ * This structure contains the device context.
++ * @brief  VDECDD Device Context
++ */
++struct vdecdd_dddev_context {
++	void *dev_handle;
++	void *dec_context;
++	unsigned int internal_heap_id;
++	void *res_buck_handle;
++};
++
++/*
++ * This type defines the stream state.
++ * @brief  VDEDD Stream State
++ */
++enum vdecdd_ddstr_state {
++	VDECDD_STRSTATE_STOPPED     = 0x00,
++	VDECDD_STRSTATE_PLAYING,
++	VDECDD_STRSTATE_STOPPING,
++	VDECDD_STRSTATE_MAX,
++	VDECDD_STRSTATE_FORCE32BITS = 0x7FFFFFFFU
++};
++
++/*
++ * This structure contains the mapped output buffer configuration.
++ * @brief  VDECDD Mapped Output Buffer Configuration
++ */
++struct vdecdd_mapbuf_info {
++	unsigned int buf_size;
++	unsigned int num_buf;
++	unsigned char byte_interleave;
++};
++
++struct vdecdd_ddstr_ctx;
++
++/*
++ * This structure contains the map info.
++ * @brief  VDECDD Map Info
++ */
++struct vdecdd_ddbuf_mapinfo {
++	void **link;    /* to be part of single linked list */
++	void *res_handle;
++	unsigned int buf_id;
++	unsigned int buf_map_id;
++	struct vdecdd_ddstr_ctx *ddstr_context;
++	void *buf_cb_param;
++	enum vdec_buf_type buf_type;
++	enum mmu_eheap_id mmuheap_id;
++	struct vidio_ddbufinfo ddbuf_info;
++};
++
++/*
++ * This structure contains the information about the picture buffer
++ * and its structure.
++ * @brief  VDECDD Picture Buffer Info
++ */
++struct vdecdd_ddpict_buf {
++	struct vdecdd_ddbuf_mapinfo *pict_buf;
++	struct vdec_pict_rendinfo rend_info;
++	struct vdec_pict_bufconfig buf_config;
++};
++
++/*
++ * This structure contains the stream context.
++ * @brief  VDECDD Stream Context
++ */
++struct vdecdd_ddstr_ctx {
++	void **link;    /* to be part of single linked list */
++	unsigned int res_str_id;
++	unsigned int km_str_id;
++	void *res_buck_handle;
++	void *res_handle;
++	struct vdecdd_dddev_context *dd_dev_context;
++	struct vdec_str_configdata str_config_data;
++	unsigned char preempt;
++	enum vdecdd_ddstr_state dd_str_state;
++	void *mmu_str_handle;
++	void *dec_ctx;
++	enum vdec_play_mode play_mode;
++	struct vdec_comsequ_hdrinfo comseq_hdr_info;
++	struct vdecdd_ddpict_buf disp_pict_buf;
++	struct vdecdd_mapbuf_info map_buf_info;
++	struct vdec_str_opconfig opconfig;
++	unsigned char str_op_configured;
++	struct vdec_comsequ_hdrinfo prev_comseq_hdr_info;
++	struct bspp_pict_hdr_info prev_pict_hdr_info;
++};
++
++/*
++ * This type defines the stream unit type.
++ * @brief  Stream Unit Type
++ */
++enum vdecdd_str_unit_type {
++	VDECDD_STRUNIT_ANONYMOUS = 0,
++	VDECDD_STRUNIT_SEQUENCE_START,
++	VDECDD_STRUNIT_CLOSED_GOP,
++	VDECDD_STRUNIT_SEQUENCE_END,
++	VDECDD_STRUNIT_PICTURE_PORTENT,
++	VDECDD_STRUNIT_PICTURE_START,
++	VDECDD_STRUNIT_PICTURE_FRAGMENT,
++	VDECDD_STRUNIT_PICTURE_END,
++	VDECDD_STRUNIT_FENCE,
++	VDECDD_STRUNIT_STOP,
++	VDECDD_STRUNIT_MAX,
++	VDECDD_STRUNIT_FORCE32BITS = 0x7FFFFFFFU
++};
++
++/*
++ * This structure contains a front end stream unit.
++ * @brief   Front End Stream Unit
++ */
++struct vdecdd_str_unit {
++	void *lst_padding;
++	enum vdecdd_str_unit_type str_unit_type;
++	void *str_unit_handle;
++	unsigned int err_flags;
++	struct lst_t bstr_seg_list;
++	void *dd_data;
++	struct bspp_sequ_hdr_info *seq_hdr_info;
++	unsigned int seq_hdr_id;
++	unsigned char closed_gop;
++	unsigned char eop;
++	struct bspp_pict_hdr_info *pict_hdr_info;
++	void *dd_pict_data;
++	unsigned char last_pict_in_seq;
++	void *str_unit_tag;
++	unsigned char decode;
++	unsigned int features;
++	unsigned char eos;
++};
++
++/*
++ * This structure contains a set of picture resources required at all the
++ * interim stages of decoding it as it flows around the internals. It originates
++ * in the plant.
++ * @brief   Picture Resources (stream)
++ */
++struct vdecdd_pict_resint {
++	void **link;    /* to be part of single linked list */
++	struct vdecdd_ddbuf_mapinfo *mb_param_buf;
++	unsigned int ref_cnt;
++
 +#ifdef HAS_HEVC
-+	MEM_TO_REG_BUF_SIZE + SLICE_PARAMS_BUF_SIZE + ABOVE_PARAMS_BUF_SIZE,
++	/* GENC fragment buffer */
++	struct vdecdd_ddbuf_mapinfo *genc_fragment_buf;
++#endif
++#if defined(HAS_HEVC) || defined(ERROR_CONCEALMENT)
++	/* Sequence resources (GENC buffers) */
++	struct vdecdd_seq_resint *seq_resint;
 +#endif
 +};
 +
-+static const unsigned char start_code[] = {
-+	0x00, 0x00, 0x01, 0x00,
++/*
++ * This structure contains the supplementary information for decoded picture.
++ * @brief   Event Callback Information
++ */
++struct vdecdd_pict_sup_data {
++	void *raw_vui_data;
++	void *raw_sei_list_first_fld;
++	void *raw_sei_list_second_fld;
++	unsigned char merged_flds;
++	union {
++		struct vdecdd_h264_pict_supl_data {
++			unsigned char nal_ref_idc;
++			unsigned short frame_num;
++		} h264_pict_supl_data;
++#ifdef HAS_HEVC
++		struct vdecdd_hevc_pict_supl_data {
++			unsigned int pic_order_cnt;
++		} hevc_pict_supl_data;
++#endif
++	};
 +};
 +
-+static void decres_get_vlc_data(struct dec_vlctable *vlc_table,
-+				enum vdec_vid_std vid_std)
-+{
-+	switch (vid_std) {
-+	case VDEC_STD_H264:
-+		vlc_table->data = h264_vlc_table_data;
-+		vlc_table->num_entries = h264_vlc_table_size;
-+		vlc_table->index_table = h264_vlc_index_data;
-+		vlc_table->num_tables = h264_vlc_index_size;
-+		break;
++/*
++ * This structure contains a set of resources representing a picture
++ * at all the stages of processing it.
++ * @brief   Picture
++ */
++struct vdecdd_picture {
++	unsigned int pict_id;
++	unsigned char last_pict_in_seq;
++	struct vdecdd_pict_resint *pict_res_int;
++	struct vdecdd_ddpict_buf disp_pict_buf;
++	struct vdec_str_opconfig op_config;
++	struct vdec_dec_pict_info *dec_pict_info;
++	struct vdecdd_pict_sup_data dec_pict_sup_data;
++	struct vdec_dec_pict_auxinfo dec_pict_aux_info;
++};
 +
-+	default:
-+		memset(vlc_table, 0x0, sizeof(*vlc_table));
-+		break;
-+	}
-+}
++/*
++ * This structure contains the information required to check Decoder support
++ * Only pointers that are non-null will be used in validation.
++ * @brief  VDECDD Support Check Information
++ */
++struct vdecdd_supp_check {
++	/* Inputs */
++	const struct vdec_comsequ_hdrinfo *comseq_hdrinfo;
++	const struct vdec_str_opconfig *op_cfg;
++	const struct vdecdd_ddpict_buf *disp_pictbuf;
++	const struct bspp_pict_hdr_info *pict_hdrinfo;
++	unsigned char non_cfg_req;
 +
-+static void decres_fnbuf_info_destructor(void *param, void *cb_handle)
-+{
-+	struct vidio_ddbufinfo *dd_bufinfo = (struct vidio_ddbufinfo *)param;
-+	int ret;
-+	void *mmu_handle = cb_handle;
++	/* Outputs */
++	struct vdec_unsupp_flags unsupp_flags;
++	unsigned int features;
++};
 +
-+	VDEC_ASSERT(dd_bufinfo);
++/*
++ * This type defines unsupported stream configuration features.
++ * @brief  Unsupported Stream Configuration Flags
++ */
++enum vdec_unsupp_strcfg {
++	VDECDD_UNSUPPORTED_STRCONFIG_STD         = (1 << 0),
++	VDECDD_UNSUPPORTED_STRCONFIG_BSTRFORMAT  = (1 << 1),
++	VDECDD_UNSUPPORTED_STRCONFIG_FORCE32BITS = 0x7FFFFFFFU
++};
 +
-+	ret = mmu_free_mem(mmu_handle, dd_bufinfo);
-+	VDEC_ASSERT(ret == IMG_SUCCESS);
++/*
++ * This type defines unsupported output configuration features.
++ * @brief  Unsupported Output Configuration Flags
++ */
++enum vdec_unsupp_opcfg {
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_ROTATION                   = (1 << 0),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_ROTATION_WITH_FIELDS       = (1 << 1),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_ROTATION_WITH_SCALING      = (1 << 2),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_SCALING                    = (1 << 3),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_UP_DOWNSAMPLING            = (1 << 4),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_SCALING_WITH_OOLD          = (1 << 5),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_SCALING_MONOCHROME         = (1 << 6),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_SCALING_SIZE               = (1 << 7),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_X_WITH_JPEG                = (1 << 8),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_SCALESIZE                  = (1 << 9),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_PIXFORMAT                  = (1 << 10),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_ROTATION_WITH_HIGH_COLOUR  =
++		(1 << 11),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_DOWNSAMPLING_WITH_ROTATION =
++		(1 << 12),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_ROTATION_WITH_10BIT_PACKED =
++		(1 << 13),
++	VDECDD_UNSUPPORTED_OUTPUTCONFIG_FORCE32BITS                = 0x7FFFFFFFU
++};
 +
-+	kfree(dd_bufinfo);
-+	dd_bufinfo = NULL;
-+}
++/*
++ * This type defines unsupported output configuration features.
++ * @brief  Unsupported Output Configuration Flags
++ */
++enum vdec_unsupp_op_bufcfg {
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_EXTENDED_STRIDE = (1 << 0),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_64BYTE_STRIDE   = (1 << 1),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_FIXED_STRIDE    = (1 << 2),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_PICTURE_SIZE    = (1 << 3),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_BUFFER_SIZE     = (1 << 4),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_Y_SIZE          = (1 << 5),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_UV_SIZE         = (1 << 6),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_Y_STRIDE        = (1 << 7),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_UV_STRIDE       = (1 << 8),
++	VDECDD_UNSUPPORTED_OUTPUTBUFCONFIG_FORCE32BITS     = 0x7FFFFFFFU
++};
 +
-+int dec_res_picture_detach(void **res_ctx, struct dec_decpict *dec_pict)
-+{
-+	struct dec_res_ctx *local_res_ctx;
++/*
++ * This type defines unsupported sequence header features.
++ * @brief  Unsupported Sequence Header Flags
++ */
++enum vdec_unsupp_seqhdr {
++	VDECDD_UNSUPPORTED_SEQUHDR_PIXFORMAT_BIT_DEPTH = (1 << 0),
++	VDECDD_UNSUPPORTED_SEQUHDR_SCALING             = (1 << 1),
++	VDECDD_UNSUPPORTED_SEQUHDR_PIXEL_FORMAT        = (1 << 2),
++	VDECDD_UNSUPPORTED_SEQUHDR_NUM_OF_VIEWS        = (1 << 3),
++	VDECDD_UNSUPPORTED_SEQUHDR_CODED_HEIGHT        = (1 << 4),
++	VDECDD_UNSUPPORTED_SEQUHDR_SEP_COLOUR_PLANE    = (1 << 5),
++	VDECDD_UNSUPPORTED_SEQUHDR_SIZE                = (1 << 6),
++	VDECDD_UNSUPPORTED_SEQUHDR_FORCE32BITS         = 0x7FFFFFFFU
++};
 +
-+	VDEC_ASSERT(res_ctx);
-+	VDEC_ASSERT(res_ctx && *res_ctx);
-+	VDEC_ASSERT(dec_pict);
-+	VDEC_ASSERT(dec_pict && dec_pict->transaction_info);
++/*
++ * This type defines unsupported picture header features.
++ * @brief  Unsupported Picture Header Flags
++ */
++enum vdec_unsupp_picthdr {
++	VDECDD_UNSUPPORTED_PICTHDR_UPSCALING            = (1 << 0),
++	VDECDD_UNSUPPORTED_PICTHDR_OVERSIZED_SGM        = (1 << 1),
++	VDECDD_UNSUPPORTED_PICTHDR_DISCONTINUOUS_MBS    = (1 << 2),
++	VDECDD_UNSUPPORTED_PICTHDR_RESOLUTION           = (1 << 3),
++	VDECDD_UNSUPPORTED_PICTHDR_SCALING_ORIGINALSIZE = (1 << 4),
++	VDECDD_UNSUPPORTED_PICTHDR_SCALING_SIZE         = (1 << 5),
++	VDECDD_UNSUPPORTED_PICTHDR_HEVC_RANGE_EXT       = (1 << 6),
++	VDECDD_UNSUPPORTED_PICTHDR_FORCE32BITS          = 0x7FFFFFFFU
++};
 +
-+	if (!res_ctx || !(*res_ctx) || !dec_pict ||
-+	    !dec_pict->transaction_info) {
-+		pr_err("Invalid parameters\n");
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+	}
++/*
++ * This type defines the Bitstream Segment type.
++ * @brief  Bitstream segment type
++ */
++enum vdecdd_bstr_segtype {
++	VDECDD_BSSEG_LASTINBUFF         = (1 << 0),
++	VDECDD_BSSEG_SKIP               = (1 << 1),
++	VDECDD_BSSEG_INSERTSCP          = (1 << 2),
++	VDECDD_BSSEG_INSERT_STARTCODE   = (1 << 3) | VDECDD_BSSEG_INSERTSCP,
++	VDECDD_BSSEG_INSERT_FORCE32BITS = 0x7FFFFFFFU
++};
 +
-+	local_res_ctx = (struct dec_res_ctx *)*res_ctx;
-+
-+	/* return transaction buffer */
-+	lst_add(&local_res_ctx->pool_data_list[DECODER_RESTYPE_TRANSACTION],
-+		dec_pict->transaction_info);
-+	pool_resfree(dec_pict->transaction_info->res);
-+
-+	/* return picture header information buffer */
-+	lst_add(&local_res_ctx->pool_data_list[DECODER_RESTYPE_HDR],
-+		dec_pict->hdr_info);
-+	pool_resfree(dec_pict->hdr_info->res);
-+
-+	/* return batch message buffer */
-+	lst_add(&local_res_ctx->pool_data_list[DECODER_RESTYPE_BATCH_MSG],
-+		dec_pict->batch_msginfo);
-+	pool_resfree(dec_pict->batch_msginfo->res);
++struct vdecdd_seq_resint {
++	void **link;
 +
 +#ifdef HAS_HEVC
-+	if (dec_pict->pvdec_info) {
-+		lst_add(&local_res_ctx->pool_data_list[DECODER_RESTYPE_PVDEC_BUF],
-+			dec_pict->pvdec_info);
-+		pool_resfree(dec_pict->pvdec_info->res);
-+	}
++	unsigned short genc_buf_id;
++	struct vdecdd_ddbuf_mapinfo *genc_buffers[4]; /* GENC buffers */
++	struct vdecdd_ddbuf_mapinfo *intra_buffer;    /* GENC buffers */
++	struct vdecdd_ddbuf_mapinfo *aux_buffer;      /* GENC buffers */
 +#endif
-+
-+	return IMG_SUCCESS;
-+}
-+
-+static int decres_get_resource(struct dec_res_ctx *res_ctx,
-+			       enum dec_res_type res_type,
-+			       struct res_resinfo **res_info,
-+			       unsigned char fill_zeros)
-+{
-+	struct res_resinfo *local_res_info = NULL;
-+	unsigned int ret = IMG_SUCCESS;
-+
-+	VDEC_ASSERT(res_ctx);
-+	VDEC_ASSERT(res_info);
-+
-+	local_res_info = lst_removehead(&res_ctx->pool_data_list[res_type]);
-+	VDEC_ASSERT(local_res_info);
-+	if (local_res_info) {
-+		VDEC_ASSERT(local_res_info->ddbuf_info);
-+		if (local_res_info->ddbuf_info) {
-+			ret = pool_resalloc(res_ctx->res_pool[res_type], local_res_info->res);
-+			VDEC_ASSERT(ret == IMG_SUCCESS);
-+			if (ret != IMG_SUCCESS) {
-+				ret = IMG_ERROR_COULD_NOT_OBTAIN_RESOURCE;
-+				return ret;
-+			}
-+
-+			if (fill_zeros)
-+				memset(local_res_info->ddbuf_info->cpu_virt, 0,
-+				       local_res_info->ddbuf_info->buf_size);
-+
-+			*res_info = local_res_info;
-+		} else {
-+			ret = IMG_ERROR_FATAL;
-+			return ret;
-+		}
-+	} else {
-+		ret = IMG_ERROR_COULD_NOT_OBTAIN_RESOURCE;
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+int dec_res_picture_attach(void **res_ctx, enum vdec_vid_std vid_std,
-+			   struct dec_decpict *dec_pict)
-+{
-+	struct dec_res_ctx *local_res_ctx;
-+	int ret;
-+
-+	VDEC_ASSERT(res_ctx);
-+	VDEC_ASSERT(res_ctx && *res_ctx);
-+	VDEC_ASSERT(dec_pict);
-+	if (!res_ctx || !(*res_ctx) || !dec_pict) {
-+		pr_err("Invalid parameters");
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+	}
-+
-+	local_res_ctx = (struct dec_res_ctx *)*res_ctx;
-+
-+	/* Obtain transaction buffer. */
-+	ret = decres_get_resource(local_res_ctx, DECODER_RESTYPE_TRANSACTION,
-+				  &dec_pict->transaction_info, TRUE);
-+
-+	VDEC_ASSERT(ret == IMG_SUCCESS);
-+	if (ret != IMG_SUCCESS)
-+		return ret;
-+
-+	/* Obtain picture header information buffer */
-+	ret = decres_get_resource(local_res_ctx, DECODER_RESTYPE_HDR,
-+				  &dec_pict->hdr_info, TRUE);
-+	VDEC_ASSERT(ret == IMG_SUCCESS);
-+	if (ret != IMG_SUCCESS)
-+		return ret;
-+
-+#ifdef HAS_HEVC
-+	/* Obtain HEVC buffer */
-+	if (vid_std == VDEC_STD_HEVC) {
-+		ret = decres_get_resource(local_res_ctx, DECODER_RESTYPE_PVDEC_BUF,
-+					  &dec_pict->pvdec_info, TRUE);
-+
-+		VDEC_ASSERT(ret == IMG_SUCCESS);
-+		if (ret != IMG_SUCCESS)
-+			return ret;
-+	}
-+#endif
-+	/* Obtain picture batch message buffer */
-+	ret = decres_get_resource(local_res_ctx, DECODER_RESTYPE_BATCH_MSG,
-+				  &dec_pict->batch_msginfo, TRUE);
-+	VDEC_ASSERT(ret == IMG_SUCCESS);
-+	if (ret != IMG_SUCCESS)
-+		return ret;
-+
-+	dec_pict->intra_bufinfo = &local_res_ctx->intra_bufinfo;
-+	dec_pict->auxline_bufinfo = &local_res_ctx->auxline_bufinfo;
-+	dec_pict->vlc_tables_bufinfo =
-+		&local_res_ctx->vlc_tables_bufinfo[vid_std];
-+	dec_pict->vlc_idx_tables_bufinfo =
-+		&local_res_ctx->vlc_idxtables_bufinfo[vid_std];
-+	dec_pict->start_code_bufinfo = &local_res_ctx->start_code_bufinfo;
-+
-+	return IMG_SUCCESS;
-+}
-+
-+int dec_res_create(void *mmu_handle, struct vxd_coreprops *core_props,
-+		   unsigned int num_dec_slots,
-+		   unsigned int mem_heap_id, void **resources)
-+{
-+	struct dec_res_ctx *local_res_ctx;
-+	int ret;
-+	unsigned int i = 0;
-+	struct dec_vlctable vlc_table;
-+	enum sys_emem_attrib mem_attrib;
-+
-+	VDEC_ASSERT(core_props);
-+	VDEC_ASSERT(resources);
-+	if (!core_props || !resources) {
-+		pr_err("Invalid parameters");
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+	}
-+
-+	mem_attrib = (enum sys_emem_attrib)(SYS_MEMATTRIB_UNCACHED | SYS_MEMATTRIB_WRITECOMBINE);
-+	mem_attrib |= (enum sys_emem_attrib)SYS_MEMATTRIB_INTERNAL;
-+
-+	local_res_ctx = kzalloc(sizeof(*local_res_ctx), GFP_KERNEL);
-+	VDEC_ASSERT(local_res_ctx);
-+	if (!local_res_ctx)
-+		return IMG_ERROR_OUT_OF_MEMORY;
-+
-+	/* Allocate Intra buffer. */
-+#ifdef DEBUG_DECODER_DRIVER
-+	pr_info("%s:%d call MMU_StreamMalloc", __func__, __LINE__);
-+#endif
-+
-+	ret = mmu_stream_alloc(mmu_handle, MMU_HEAP_STREAM_BUFFERS, mem_heap_id,
-+			       mem_attrib,
-+			       core_props->num_pixel_pipes *
-+			       INTRA_BUF_SIZE * 3,
-+			       DEV_MMU_PAGE_ALIGNMENT,
-+			       &local_res_ctx->intra_bufinfo);
-+	VDEC_ASSERT(ret == IMG_SUCCESS);
-+	if (ret != IMG_SUCCESS)
-+		goto error;
-+
-+	/* Allocate aux line buffer. */
-+#ifdef DEBUG_DECODER_DRIVER
-+	pr_info("%s:%d call MMU_StreamMalloc", __func__, __LINE__);
-+#endif
-+	ret = mmu_stream_alloc(mmu_handle, MMU_HEAP_STREAM_BUFFERS, mem_heap_id,
-+			       mem_attrib,
-+			       AUX_LINE_BUFFER_SIZE * 3 *
-+			       core_props->num_pixel_pipes,
-+			       DEV_MMU_PAGE_ALIGNMENT,
-+			       &local_res_ctx->auxline_bufinfo);
-+	VDEC_ASSERT(ret == IMG_SUCCESS);
-+	if (ret != IMG_SUCCESS)
-+		goto error;
-+
-+	/* Allocate standard-specific buffers. */
-+	for (i = VDEC_STD_UNDEFINED + 1; i < VDEC_STD_MAX; i++) {
-+		decres_get_vlc_data(&vlc_table, (enum vdec_vid_std)i);
-+
-+		if (vlc_table.num_tables > 0) {
-+			/*
-+			 * Size of VLC IDX table in bytes. Has to be aligned
-+			 * to 4, so transfer to MTX succeeds.
-+			 * (VLC IDX is copied to local RAM of MTX)
-+			 */
-+			unsigned int vlc_idxtable_sz =
-+				ALIGN((sizeof(unsigned short) * vlc_table.num_tables * 3), 4);
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+			pr_info(" %s:%d calling MMU_StreamMalloc", __func__, __LINE__);
-+#endif
-+
-+			ret = mmu_stream_alloc(mmu_handle,
-+					       MMU_HEAP_STREAM_BUFFERS,
-+					       mem_heap_id, (enum sys_emem_attrib)(mem_attrib |
-+					       SYS_MEMATTRIB_CORE_READ_ONLY |
-+					       SYS_MEMATTRIB_CPU_WRITE),
-+					       sizeof(unsigned short) * vlc_table.num_entries,
-+					       DEV_MMU_PAGE_ALIGNMENT,
-+					       &local_res_ctx->vlc_tables_bufinfo[i]);
-+			VDEC_ASSERT(ret == IMG_SUCCESS);
-+			if (ret != IMG_SUCCESS)
-+				goto error;
-+
-+			if (vlc_table.data)
-+				decres_pack_vlc_tables
-+					(local_res_ctx->vlc_tables_bufinfo[i].cpu_virt,
-+					 vlc_table.data,
-+					 vlc_table.num_entries);
-+
-+			/* VLC index table */
-+#ifdef DEBUG_DECODER_DRIVER
-+			pr_info("%s:%d calling MMU_StreamMalloc",
-+				__func__, __LINE__);
-+#endif
-+			ret = mmu_stream_alloc(mmu_handle,
-+					       MMU_HEAP_STREAM_BUFFERS,
-+					       mem_heap_id, (enum sys_emem_attrib)(mem_attrib |
-+					       SYS_MEMATTRIB_CORE_READ_ONLY |
-+					       SYS_MEMATTRIB_CPU_WRITE),
-+					       vlc_idxtable_sz,
-+					       DEV_MMU_PAGE_ALIGNMENT,
-+					       &local_res_ctx->vlc_idxtables_bufinfo[i]);
-+			VDEC_ASSERT(ret == IMG_SUCCESS);
-+			if (ret != IMG_SUCCESS)
-+				goto error;
-+
-+			if (vlc_table.index_table)
-+				memcpy(local_res_ctx->vlc_idxtables_bufinfo[i].cpu_virt,
-+				       vlc_table.index_table,
-+				       local_res_ctx->vlc_idxtables_bufinfo[i].buf_size);
-+		}
-+	}
-+
-+	/* Start code */
-+#ifdef DEBUG_DECODER_DRIVER
-+	pr_info("%s:%d calling MMU_StreamMalloc", __func__, __LINE__);
-+#endif
-+	ret = mmu_stream_alloc(mmu_handle, MMU_HEAP_STREAM_BUFFERS, mem_heap_id,
-+			       (enum sys_emem_attrib)(mem_attrib |
-+			       SYS_MEMATTRIB_CORE_READ_ONLY |
-+			       SYS_MEMATTRIB_CPU_WRITE),
-+			       sizeof(start_code),
-+			       DEV_MMU_PAGE_ALIGNMENT,
-+			       &local_res_ctx->start_code_bufinfo);
-+	VDEC_ASSERT(ret == IMG_SUCCESS);
-+	if (ret != IMG_SUCCESS)
-+		goto error;
-+
-+	memcpy(local_res_ctx->start_code_bufinfo.cpu_virt, start_code, sizeof(start_code));
-+
-+	for (i = 0; i < DECODER_RESTYPE_MAX; i++) {
-+		unsigned int j;
-+
-+		ret = pool_api_create(&local_res_ctx->res_pool[i]);
-+		VDEC_ASSERT(ret == IMG_SUCCESS);
-+		if (ret != IMG_SUCCESS)
-+			goto error;
-+
-+		lst_init(&local_res_ctx->pool_data_list[i]);
-+
-+		for (j = 0; j < num_dec_slots; j++) {
-+			struct res_resinfo *local_res_info;
-+
-+			local_res_info = kzalloc(sizeof(*local_res_info), GFP_KERNEL);
-+
-+			VDEC_ASSERT(local_res_info);
-+			if (!local_res_info) {
-+				pr_err("Failed to allocate memory\n");
-+				ret = IMG_ERROR_OUT_OF_MEMORY;
-+				goto error_local_res_info_alloc;
-+			}
-+
-+			local_res_info->ddbuf_info = kzalloc(sizeof(*local_res_info->ddbuf_info),
-+							     GFP_KERNEL);
-+			VDEC_ASSERT(local_res_info->ddbuf_info);
-+			if (!local_res_info->ddbuf_info) {
-+				pr_err("Failed to allocate memory for resource buffer information structure");
-+				ret = IMG_ERROR_OUT_OF_MEMORY;
-+				goto error_local_dd_buf_alloc;
-+			}
-+
-+#ifdef DEBUG_DECODER_DRIVER
-+			pr_info("%s:%d calling MMU_StreamMalloc", __func__, __LINE__);
-+#endif
-+			ret = mmu_stream_alloc(mmu_handle, MMU_HEAP_STREAM_BUFFERS,
-+					       mem_heap_id, (enum sys_emem_attrib)(mem_attrib |
-+					       SYS_MEMATTRIB_CPU_READ |
-+					       SYS_MEMATTRIB_CPU_WRITE),
-+					       res_size[i],
-+					       DEV_MMU_PAGE_ALIGNMENT,
-+					       local_res_info->ddbuf_info);
-+			VDEC_ASSERT(ret == IMG_SUCCESS);
-+			if (ret != IMG_SUCCESS)
-+				goto error_local_res_alloc;
-+
-+			/* Register with the buffer pool */
-+			ret = pool_resreg(local_res_ctx->res_pool[i],
-+					  decres_fnbuf_info_destructor,
-+					  local_res_info->ddbuf_info,
-+					  sizeof(*local_res_info->ddbuf_info),
-+					  FALSE, NULL,
-+					  &local_res_info->res, mmu_handle);
-+			VDEC_ASSERT(ret == IMG_SUCCESS);
-+			if (ret != IMG_SUCCESS)
-+				goto error_local_res_register;
-+
-+			lst_add(&local_res_ctx->pool_data_list[i],
-+				local_res_info);
-+			continue;
-+
-+/* Roll back in case of local errors. */
-+error_local_res_register: mmu_free_mem(mmu_handle, local_res_info->ddbuf_info);
-+
-+error_local_res_alloc:  kfree(local_res_info->ddbuf_info);
-+
-+error_local_dd_buf_alloc: kfree(local_res_info);
-+
-+error_local_res_info_alloc: goto error;
-+		}
-+	}
-+
-+	*resources = (void *)local_res_ctx;
-+
-+	return IMG_SUCCESS;
-+
-+/* Roll back in case of errors. */
-+error:  dec_res_destroy(mmu_handle, (void *)local_res_ctx);
-+
-+	return ret;
-+}
-+
-+/*
-+ *@Function RESOURCES_Destroy
-+ *
-+ */
-+int dec_res_destroy(void *mmudev_handle, void *res_ctx)
-+{
-+	int ret = IMG_SUCCESS;
-+	int ret1 = IMG_SUCCESS;
-+	unsigned int i = 0;
-+	struct res_resinfo *local_res_info;
-+	struct res_resinfo *next_res_info;
-+
-+	struct dec_res_ctx *local_res_ctx = (struct dec_res_ctx *)res_ctx;
-+
-+	if (!local_res_ctx) {
-+		pr_err("Invalid parameters");
-+		return IMG_ERROR_INVALID_PARAMETERS;
-+	}
-+
-+	if (local_res_ctx->intra_bufinfo.hndl_memory) {
-+		ret1 = mmu_free_mem(mmudev_handle, &local_res_ctx->intra_bufinfo);
-+		VDEC_ASSERT(ret1 == IMG_SUCCESS);
-+		if (ret1 != IMG_SUCCESS)
-+			ret = ret1;
-+	}
-+
-+	if (local_res_ctx->auxline_bufinfo.hndl_memory) {
-+		ret1 = mmu_free_mem(mmudev_handle, &local_res_ctx->auxline_bufinfo);
-+		VDEC_ASSERT(ret1 == IMG_SUCCESS);
-+		if (ret1 != IMG_SUCCESS)
-+			ret = ret1;
-+	}
-+
-+	for (i = 0; i < VDEC_STD_MAX; i++) {
-+		if (local_res_ctx->vlc_tables_bufinfo[i].hndl_memory) {
-+			ret1 = mmu_free_mem(mmudev_handle, &local_res_ctx->vlc_tables_bufinfo[i]);
-+			VDEC_ASSERT(ret1 == IMG_SUCCESS);
-+			if (ret1 != IMG_SUCCESS)
-+				ret = ret1;
-+		}
-+
-+		if (local_res_ctx->vlc_idxtables_bufinfo[i].hndl_memory) {
-+			ret1 = mmu_free_mem(mmudev_handle,
-+					    &local_res_ctx->vlc_idxtables_bufinfo[i]);
-+			VDEC_ASSERT(ret1 == IMG_SUCCESS);
-+			if (ret1 != IMG_SUCCESS)
-+				ret = ret1;
-+		}
-+	}
-+
-+	if (local_res_ctx->start_code_bufinfo.hndl_memory) {
-+		ret1 = mmu_free_mem(mmudev_handle, &local_res_ctx->start_code_bufinfo);
-+		VDEC_ASSERT(ret1 == IMG_SUCCESS);
-+		if (ret1 != IMG_SUCCESS)
-+			ret = ret1;
-+	}
-+
-+	for (i = 0; i < DECODER_RESTYPE_MAX; i++) {
-+		if (local_res_ctx->res_pool[i]) {
-+			local_res_info =
-+				lst_first(&local_res_ctx->pool_data_list[i]);
-+			while (local_res_info) {
-+				next_res_info = lst_next(local_res_info);
-+				lst_remove(&local_res_ctx->pool_data_list[i], local_res_info);
-+				ret1 = pool_resdestroy(local_res_info->res, TRUE);
-+				VDEC_ASSERT(ret1 == IMG_SUCCESS);
-+				if (ret1 != IMG_SUCCESS)
-+					ret = ret1;
-+				kfree(local_res_info);
-+				local_res_info = next_res_info;
-+			}
-+			pool_destroy(local_res_ctx->res_pool[i]);
-+		}
-+	}
-+
-+	kfree(local_res_ctx);
-+	return ret;
-+}
-diff --git a/drivers/staging/media/vxd/decoder/dec_resources.h b/drivers/staging/media/vxd/decoder/dec_resources.h
-new file mode 100644
-index 000000000000..d068ca57d147
---- /dev/null
-+++ b/drivers/staging/media/vxd/decoder/dec_resources.h
-@@ -0,0 +1,46 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * VXD Decoder resource allocation and destroy Interface header
-+ *
-+ * Copyright (c) Imagination Technologies Ltd.
-+ * Copyright (c) 2021 Texas Instruments Incorporated - http://www.ti.com/
-+ *
-+ * Authors:
-+ *	Sunita Nadampalli <sunitan@ti.com>
-+ *
-+ * Re-written for upstream
-+ *      Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-+ */
-+
-+#ifndef _DEC_RESOURCES_H_
-+#define _DEC_RESOURCES_H_
-+
-+#include "decoder.h"
-+#include "lst.h"
-+
-+/*
-+ * This structure contains the core resources.
-+ * @brief  Decoder Core Resources
-+ */
-+struct dec_res_ctx {
-+	struct vidio_ddbufinfo intra_bufinfo;
-+	struct vidio_ddbufinfo auxline_bufinfo;
-+	struct vidio_ddbufinfo start_code_bufinfo;
-+	struct vidio_ddbufinfo vlc_tables_bufinfo[VDEC_STD_MAX];
-+	struct vidio_ddbufinfo vlc_idxtables_bufinfo[VDEC_STD_MAX];
-+	void *res_pool[DECODER_RESTYPE_MAX];
-+	struct lst_t pool_data_list[DECODER_RESTYPE_MAX];
++	struct vdecdd_ddbuf_mapinfo *err_pict_buf;    /* Pointer to "Error
++						       * Recovery Frame Store" buffer.
++						       */
++
++	/*
++	 * Ref. counter (number of users) of sequence resources
++	 * NOTE: Internal buffer reference counters are not used
++	 * for buffers allocated as sequence resources.
++	 */
++	unsigned int ref_count;
 +};
-+
-+int dec_res_picture_detach(void **res_ctx, struct dec_decpict *dec_pict);
-+
-+int dec_res_picture_attach(void **res_ctx, enum vdec_vid_std vid_std,
-+			   struct dec_decpict *dec_pict);
-+
-+int dec_res_create(void *mmudev_handle,
-+		   struct vxd_coreprops *core_props, unsigned int num_dec_slots,
-+		   unsigned int mem_heap_id, void **resources);
-+
-+int dec_res_destroy(void *mmudev_handle, void *res_ctx);
 +
 +#endif
 -- 
