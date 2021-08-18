@@ -1,96 +1,118 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CC072
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 22:11:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A61F2610D2;
-	Wed, 18 Aug 2021 22:11:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1629324674;
-	bh=5o0UqbvakauILVn4+9hHpTa5fsfopsPUcCG31EYkD2o=;
-	h=Date:From:To:Cc:Subject:From;
-	b=cmQsFyNWBn9CiXT/g6KTF8i37CvcvN3+XbdWjGJZTnV6I+n6p6ykj/gk0cbLT9Tu8
-	 EeRTiQXNsC8vgmCSQKfVoJSo6qXjURKMlBVk2k9F93FTnKQ1mc3hEWPopK0ZXG20sr
-	 bGZ6bUfJ2tbsvfCcZZqtAioJingRYXjFQQpuJDiDzBLuBkTj499lfTwrzRLK4oPY1+
-	 7zE+K/prm/FdAJ1v4mPyYvC4+mn0TVx+NtqoUrL5X/wrN0WqRJcpduU663tq5xquVR
-	 SkK2KZf4IG3zF/tnJIYOiNz7NWbpa/XwCm7RUAY0d5fFTe42c6iQB4g9zu882QXV/K
-	 YTVRJEDgrWmxA==
-Date: Wed, 18 Aug 2021 17:14:18 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863D4173
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 22:30:03 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id m24-20020a17090a7f98b0290178b1a81700so3398712pjl.4
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=DUTuMfsQqxqX+3pR2oz9dVJNWsHg80kq142ck8zdj0s=;
+        b=HXqi8rpNQlqRCRobulkOlcaA4+c6J/4aW1kHG07w5z+LW3VAsPY7L3ovHbYLAvr6BW
+         z8PYA40q5a4/E1aSSd1f0X7nRnd2FNDMsOqvNHCn+M7iSwPw+3HB842oCYFV1odUjD4+
+         aowm4n1LLC28ISLDG0efepefjXmirvRMkeWhE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=DUTuMfsQqxqX+3pR2oz9dVJNWsHg80kq142ck8zdj0s=;
+        b=D5bGJ6bg83ac+J0eHBZNVi54Y5EOErNdOnAfbNKG8AV0lybT1wroPm4+kP8anaZl1X
+         Oytrc3bdJ0iKQz9k/68hiDVuE6L5Ab5lE8WdVGkgW3QWtuWIxmWJ+kwKymH+jNd9iTNK
+         lHviyywk8UP1/nctEDnNCSrOlbd2kblZ25x0S6jiPIN/fo1DZ+SbosJCJowrotEL6gp/
+         YlapWNBaYbW4CB1YUb6dSDrHbwULOXf7GHKqMRRAGJKsIEV8xj7LMoEDrDf6sh6GyULm
+         GKlB7+Rauw7YwCzPyW/TqCCcz5f0dCHO1qH5D3UQ63aGb6tTWml0dBb0HxrbDTxtdGzd
+         egsQ==
+X-Gm-Message-State: AOAM531U40dJyuzpuxWIsFDYousJTujSuUFvxUYUl3OoYPL8soSjW+MV
+	msTHBTiGpOQc10NFDO68J+1Eeg==
+X-Google-Smtp-Source: ABdhPJwejqek+pQNgEJHoUL+LD8id8sswOa0BezZLWGyCwRRYJ3BmiAhJE1bgJAMyKte9lbr8NDHRw==
+X-Received: by 2002:a17:90a:a581:: with SMTP id b1mr1663300pjq.153.1629325803017;
+        Wed, 18 Aug 2021 15:30:03 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n185sm862325pfn.171.2021.08.18.15.30.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 15:30:02 -0700 (PDT)
+Date: Wed, 18 Aug 2021 15:30:01 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: linux-kernel@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wang Wensheng <wangwensheng4@huawei.com>,
+	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Qinglang Miao <miaoqinglang@huawei.com>,
+	linux-block@vger.kernel.org, Hulk Robot <hulkci@huawei.com>,
+	clang-built-linux@googlegroups.com, netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH][next] staging: r8188eu: Fix fall-through warnings for Clang
-Message-ID: <20210818221418.GA311735@embeddedor>
+Subject: Re: [PATCH v2 61/63] powerpc: Split memset() to avoid multi-field
+ overflow
+Message-ID: <202108181528.9CDB56FEC@keescook>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-62-keescook@chromium.org>
+ <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
 
-Fix the following fallthrough warnings:
+On Wed, Aug 18, 2021 at 08:42:18AM +0200, Christophe Leroy wrote:
+> 
+> 
+> Le 18/08/2021 à 08:05, Kees Cook a écrit :
+> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> > field bounds checking for memset(), avoid intentionally writing across
+> > neighboring fields.
+> > 
+> > Instead of writing across a field boundary with memset(), move the call
+> > to just the array, and an explicit zeroing of the prior field.
+> > 
+> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> > Cc: Qinglang Miao <miaoqinglang@huawei.com>
+> > Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> > Cc: Hulk Robot <hulkci@huawei.com>
+> > Cc: Wang Wensheng <wangwensheng4@huawei.com>
+> > Cc: linuxppc-dev@lists.ozlabs.org
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > Reviewed-by: Michael Ellerman <mpe@ellerman.id.au>
+> > Link: https://lore.kernel.org/lkml/87czqsnmw9.fsf@mpe.ellerman.id.au
+> > ---
+> >   drivers/macintosh/smu.c | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
+> > index 94fb63a7b357..59ce431da7ef 100644
+> > --- a/drivers/macintosh/smu.c
+> > +++ b/drivers/macintosh/smu.c
+> > @@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
+> >   	cmd->read = cmd->info.devaddr & 0x01;
+> >   	switch(cmd->info.type) {
+> >   	case SMU_I2C_TRANSFER_SIMPLE:
+> > -		memset(&cmd->info.sublen, 0, 4);
+> > +		cmd->info.sublen = 0;
+> > +		memset(&cmd->info.subaddr, 0, 3);
+> 
+> subaddr[] is a table, should the & be avoided ?
 
-drivers/staging/r8188eu/core/rtw_mlme_ext.c:1498:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-drivers/staging/r8188eu/core/rtw_wlan_util.c:1113:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-drivers/staging/r8188eu/core/rtw_wlan_util.c:1147:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-drivers/staging/r8188eu/core/rtw_wlan_util.c:1405:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+It results in the same thing, but it's better form to not have the &; I
+will fix this.
 
-This helps with the ongoing efforts to globally enable
--Wimplicit-fallthrough for Clang.
+> And while at it, why not use sizeof(subaddr) instead of 3 ?
 
-Link: https://github.com/KSPP/linux/issues/115 
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 1 +
- drivers/staging/r8188eu/core/rtw_wlan_util.c | 3 +++
- 2 files changed, 4 insertions(+)
+Agreed. :)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 61b239651e1a..590a4572c23f 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -1495,6 +1495,7 @@ unsigned int OnAssocRsp(struct adapter *padapter, struct recv_frame *precv_frame
- 			break;
- 		case _ERPINFO_IE_:
- 			ERP_IE_handler(padapter, pIE);
-+			break;
- 		default:
- 			break;
- 		}
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index cddacf023fa6..e0ce2b796abe 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -1110,6 +1110,7 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
- 			case _RSN_IE_2_:
- 				if (!memcmp((pIE->data + 8), RSN_TKIP_CIPHER, 4))
- 					return true;
-+				break;
- 			default:
- 				break;
- 			}
-@@ -1144,6 +1145,7 @@ unsigned int should_forbid_n_rate(struct adapter *padapter)
- 				if  ((!memcmp((pIE->data + 8), RSN_CIPHER_SUITE_CCMP, 4))  ||
- 				     (!memcmp((pIE->data + 12), RSN_CIPHER_SUITE_CCMP, 4)))
- 					return false;
-+				break;
- 			default:
- 				break;
- 			}
-@@ -1401,6 +1403,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- 			} else {
- 				break;
- 			}
-+			break;
- 
- 		default:
- 			break;
+Thanks!
+
 -- 
-2.27.0
-
+Kees Cook
