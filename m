@@ -1,39 +1,39 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102736D1B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4216D17
 	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 23:42:57 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id l11so6075630wrx.4
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 16:42:56 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id j12-20020a05600c1c0c00b002e6d80c902dso2876904wms.4
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 16:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=b/gpO+AdZjDxLFL9pl6PQ8PT9YMajy0ZJusmrr2xHJE=;
-        b=CiJzIl5iTqHZfVq1SOiChKp2Y4bVYoE0Z+67nk+YypbitzQyuieFkzd+OEVKfM17+u
-         RvHhg+4jzupQzzOukOrxXWtWuFhDbLuCqL4QELvtwxE4pTx2Qat+2g83D5XQ1qhzBaUl
-         O/4ZYKse0PSM6gKp0jSr3zS2o1gYIljDd8mkpiC3PRIiOr6egZpLb3UCPn6fjPv8fQD8
-         Z+RqJE0Brz0lBMW0UCmXhDKPsSuQdwzKQi5+mKLZeuSDEvhEiTwoYeezJ31zPgarln/X
-         cBEDUyXGo5hVqsfFdDdKjW+0ji5d4QYNc/34Ra32SJ8ZpQdzkcBOBJCoHTk1ICbWHaxG
-         JMmg==
+        bh=fS87NzQwLT8g66B7fskAIWcIr5+nFxmzUVQe97BcNMA=;
+        b=2LLT+ZN1EAetJhx8/FJo9T8oYwnVl3/ZAag7ZCfKAylDCaoQUXDJuyrbsP0oYO30xJ
+         q7n39aIn28mrkea0MZ60YVEuvGon9pyRg+WIhTUlqL0NwqgGyz+xa7guV94zrs3UECx4
+         kMyo7vZejteDT41CG3H0nwDYGQtD7XIdpUMkbRMYZpLd8lNuxY46DfXLq3uV2eivwcPz
+         8cqYuztRcpWshNeYLuD79aQWM9M2HQidZ2aH6RpfuKXkPCW89/E902w7D1qc9XgWci9Z
+         TMuPXjAUrLPfuk6DjPdKF1r+9Lvs31FKjoMpGh52vC65n3WKjxYz3oIjyHUCeapPCuwK
+         v0AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=b/gpO+AdZjDxLFL9pl6PQ8PT9YMajy0ZJusmrr2xHJE=;
-        b=kRszxhpZ2hx6k2ldci5HWW/k/kJn5giTB268TJga7G6Gc8kvU+1X6zqZJ/28Alglx5
-         buQv5F0cqzP6yTWF8xVC1QHOBsRM+nLAJ3m2k4K2CRR3S/EH8WjoFMP3vfQ+fcJqOPya
-         LadG7u2jdu1gUJwDs5VbAJHQuVXmAjQXVIT+1+gju+qEAweh8xnARniV9+BQpBbG0j/x
-         F3UTZY4gBzoeDcw9okCDYNIapI44781SZuYbQZ2uk80aNtcHA/+ougiNHySMfMWT+obe
-         liyeA548fSrzVoSkbebqH/jyWh/DMT8VCewkyCvvVaf6wknLJuPuHJ2krIxOwhs4dBDf
-         d5nQ==
-X-Gm-Message-State: AOAM533ZYkFWmqo3tNJuSbdVBbkep5aEDvQvML2QjlJtNwBBZ21Jahz4
-	NKPrTA7cx9nWwkfLQxcItLoAVA==
-X-Google-Smtp-Source: ABdhPJzkKt8KYCOjZCWOHKsOkrBYsXM+C4ychf0pY1QgalTLJdo5E2zLHBpx2QdBlpwBAKIjOyghJg==
-X-Received: by 2002:adf:feca:: with SMTP id q10mr54134wrs.420.1629330175389;
-        Wed, 18 Aug 2021 16:42:55 -0700 (PDT)
+        bh=fS87NzQwLT8g66B7fskAIWcIr5+nFxmzUVQe97BcNMA=;
+        b=ulV1vhd385N7WJ4tos5AsddiZvY4JGANiP6tWWxkNkZDwdOQVKC07hFRrNqClKqzw8
+         2h+HqpcouiyevQS5FBDpkZm+SYXToIDFFVCL5WD1rLJiSD4ZP2j9eC64qLwhewgzO3w+
+         5JB6iifTp5JUgXpmHiDCB0aC118irJiuSBPHarhDuhoSV39J+7xJ8O9i7B8Uc8w3o1Jr
+         iwagdkUKV3rNq+OHPvf27NPqB7uV3iUNeSvrAlRGjKJb9ItjO1b/6ZwHKUbQd44EiRQX
+         pJoF6HwNKkwK8rTAqu9H8CcQ67d6VhopoCL+qWoyWIVXnC/DJOO4eEb36jF/+AAsBeMW
+         Ky4A==
+X-Gm-Message-State: AOAM533ueE5QEaTkxtdAK/jPr4hjW0Yj7xvm6pIexzOmGask7Jl/XXhS
+	/VTRgIm4D/Ty9w9G3u/0C/TH/w==
+X-Google-Smtp-Source: ABdhPJy87p+QaMAhA3A9d7t6/3wJ21c0PEe/UwXDw1z5nhan2j7WVLu5bh/Kemv/Bjz/pJx+epFpTQ==
+X-Received: by 2002:a7b:ca45:: with SMTP id m5mr10750096wml.158.1629330176181;
+        Wed, 18 Aug 2021 16:42:56 -0700 (PDT)
 Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id z8sm1194926wrt.77.2021.08.18.16.42.54
+        by smtp.gmail.com with ESMTPSA id z8sm1194926wrt.77.2021.08.18.16.42.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 18 Aug 2021 16:42:55 -0700 (PDT)
 From: Phillip Potter <phil@philpotter.co.uk>
@@ -43,9 +43,9 @@ Cc: linux-staging@lists.linux.dev,
 	martin@kaiser.cx,
 	straube.linux@gmail.com,
 	Larry.Finger@lwfinger.net
-Subject: [PATCH 1/6] staging: r8188eu: remove _dbg_dump_tx_info function
-Date: Thu, 19 Aug 2021 00:42:48 +0100
-Message-Id: <20210818234253.208271-2-phil@philpotter.co.uk>
+Subject: [PATCH 2/6] staging: r8188eu: remove unused function dump_txrpt_ccx_88e
+Date: Thu, 19 Aug 2021 00:42:49 +0100
+Message-Id: <20210818234253.208271-3-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210818234253.208271-1-phil@philpotter.co.uk>
 References: <20210818234253.208271-1-phil@philpotter.co.uk>
@@ -57,81 +57,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove _dbg_dump_tx_info from hal/rtl8188e_xmit.c as it is just a
-dumping function that contains a lot of unclear DBG_88E calls, and has
-no other external effect, other than calling a function that ultimately
-determines whether or not to dump/trigger the DBG_88E calls. Also remove
-its declaration and single call site.
+Remove unused function dump_txrpt_ccx_88e from hal/rtl8188e_xmit.c and
+remove its declaration in include/rtl8188e_xmit.h, as this function is
+not called from anywhere, and is thus dead code.
 
 Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_xmit.c   | 31 -------------------
- drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  1 -
- .../staging/r8188eu/include/rtl8188e_xmit.h   |  3 --
- 3 files changed, 35 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_xmit.c   | 22 -------------------
+ .../staging/r8188eu/include/rtl8188e_xmit.h   |  1 -
+ 2 files changed, 23 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_xmit.c b/drivers/staging/r8188eu/hal/rtl8188e_xmit.c
-index 164ec6650dec..d2b55d581f95 100644
+index d2b55d581f95..46b871f3f631 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_xmit.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_xmit.c
-@@ -42,34 +42,3 @@ void handle_txrpt_ccx_88e(struct adapter *adapter, u8 *buf)
- 					RTW_SCTX_DONE_CCX_PKT_FAIL);
- 	}
- }
--
--void _dbg_dump_tx_info(struct adapter *padapter, int frame_tag,
--		       struct tx_desc *ptxdesc)
+@@ -7,28 +7,6 @@
+ #include "../include/drv_types.h"
+ #include "../include/rtl8188e_hal.h"
+ 
+-void dump_txrpt_ccx_88e(void *buf)
 -{
--	u8 dmp_txpkt;
--	bool dump_txdesc = false;
--	rtw_hal_get_def_var(padapter, HAL_DEF_DBG_DUMP_TXPKT, &(dmp_txpkt));
+-	struct txrpt_ccx_88e *txrpt_ccx = (struct txrpt_ccx_88e *)buf;
 -
--	if (dmp_txpkt == 1) {/* dump txdesc for data frame */
--		DBG_88E("dump tx_desc for data frame\n");
--		if ((frame_tag & 0x0f) == DATA_FRAMETAG)
--			dump_txdesc = true;
--	} else if (dmp_txpkt == 2) {/* dump txdesc for mgnt frame */
--		DBG_88E("dump tx_desc for mgnt frame\n");
--		if ((frame_tag & 0x0f) == MGNT_FRAMETAG)
--			dump_txdesc = true;
--	}
--
--	if (dump_txdesc) {
--		DBG_88E("=====================================\n");
--		DBG_88E("txdw0(0x%08x)\n", ptxdesc->txdw0);
--		DBG_88E("txdw1(0x%08x)\n", ptxdesc->txdw1);
--		DBG_88E("txdw2(0x%08x)\n", ptxdesc->txdw2);
--		DBG_88E("txdw3(0x%08x)\n", ptxdesc->txdw3);
--		DBG_88E("txdw4(0x%08x)\n", ptxdesc->txdw4);
--		DBG_88E("txdw5(0x%08x)\n", ptxdesc->txdw5);
--		DBG_88E("txdw6(0x%08x)\n", ptxdesc->txdw6);
--		DBG_88E("txdw7(0x%08x)\n", ptxdesc->txdw7);
--		DBG_88E("=====================================\n");
--	}
+-	DBG_88E("%s:\n"
+-		"tag1:%u, pkt_num:%u, txdma_underflow:%u, int_bt:%u, int_tri:%u, int_ccx:%u\n"
+-		"mac_id:%u, pkt_ok:%u, bmc:%u\n"
+-		"retry_cnt:%u, lifetime_over:%u, retry_over:%u\n"
+-		"ccx_qtime:%u\n"
+-		"final_data_rate:0x%02x\n"
+-		"qsel:%u, sw:0x%03x\n",
+-		__func__, txrpt_ccx->tag1, txrpt_ccx->pkt_num,
+-		txrpt_ccx->txdma_underflow, txrpt_ccx->int_bt,
+-		txrpt_ccx->int_tri, txrpt_ccx->int_ccx,
+-		txrpt_ccx->mac_id, txrpt_ccx->pkt_ok, txrpt_ccx->bmc,
+-		txrpt_ccx->retry_cnt, txrpt_ccx->lifetime_over,
+-		txrpt_ccx->retry_over, txrpt_ccx_qtime_88e(txrpt_ccx),
+-		txrpt_ccx->final_data_rate, txrpt_ccx->qsel,
+-		txrpt_ccx_sw_88e(txrpt_ccx)
+-	);
 -}
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-index 50c4b9382761..b279309405a2 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-@@ -330,7 +330,6 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
- 	ODM_SetTxAntByTxInfo_88E(&haldata->odmpriv, pmem, pattrib->mac_id);
- 
- 	rtl8188eu_cal_txdesc_chksum(ptxdesc);
--	_dbg_dump_tx_info(adapt, pxmitframe->frame_tag, ptxdesc);
- 	return pull;
- }
- 
+-
+ void handle_txrpt_ccx_88e(struct adapter *adapter, u8 *buf)
+ {
+ 	struct txrpt_ccx_88e *txrpt_ccx = (struct txrpt_ccx_88e *)buf;
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_xmit.h b/drivers/staging/r8188eu/include/rtl8188e_xmit.h
-index ff8b73441c52..d2099da1a41a 100644
+index d2099da1a41a..20b55e3850ba 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_xmit.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_xmit.h
-@@ -153,7 +153,4 @@ s32 rtl8188eu_xmitframe_complete(struct adapter *padapter,
- void dump_txrpt_ccx_88e(void *buf);
+@@ -150,7 +150,6 @@ s32 rtl8188eu_xmitframe_complete(struct adapter *padapter,
+ 				 struct xmit_priv *pxmitpriv,
+ 				 struct xmit_buf *pxmitbuf);
+ 
+-void dump_txrpt_ccx_88e(void *buf);
  void handle_txrpt_ccx_88e(struct adapter *adapter, u8 *buf);
  
--void _dbg_dump_tx_info(struct adapter *padapter, int frame_tag,
--		       struct tx_desc *ptxdesc);
--
  #endif /* __RTL8188E_XMIT_H__ */
 -- 
 2.31.1
