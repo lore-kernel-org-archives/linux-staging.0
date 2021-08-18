@@ -1,94 +1,81 @@
-Received: from baidu.com (mx21.baidu.com [220.181.3.85])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA1D82F80
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 05:49:55 +0000 (UTC)
-Received: from BC-Mail-HQEX01.internal.baidu.com (unknown [172.31.51.57])
-	by Forcepoint Email with ESMTPS id EACD441974EA0490C127;
-	Wed, 18 Aug 2021 13:49:53 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-HQEX01.internal.baidu.com (172.31.51.57) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Wed, 18 Aug 2021 13:49:53 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Wed, 18 Aug 2021 13:49:53 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <dan.carpenter@oracle.com>, <greg@kroah.com>, <yangyingliang@huawei.com>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Cai
- Huoqing" <caihuoqing@baidu.com>
-Subject: [PATCH v2] staging: r8188eu: Remove unused including <linux/version.h>
-Date: Wed, 18 Aug 2021 13:49:46 +0800
-Message-ID: <20210818054946.2751-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C527A2F80
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 05:58:16 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id i22so1269053edq.11
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 22:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+33Dw5Q2efUACOK/im6UMmJQhcP/Gv+10S0CqUotcBU=;
+        b=L8BDnQT8dSjC6pPMY2/gI8Jhl7qL76VLTYo/0QvFNVIV9VPzSIu8/jRZxL+zo9A7m8
+         C5NgGPCZUa3Iawy8NaBcC9H8xvZHnjIyPFZmK0kt7EeZKt2F6KvjbjHdNBJLbQJMbuuo
+         ML3VUTNLeLiM4ui2pDgoAXDJeAjrkkAQ0OKoHNXBEd4sBrH+63swSUajvHuMNG1z+M1J
+         zPj+bJ5QS5XH816OZ8/nuMJ70P/bwg3jjGO6SjzGEHuNjOaJckjUiuIXXL+mmcSu/aLn
+         kRc2UbzB4yuaD95qFCW/vfgvVhSn+zsGQckHXuP10wj5j5G9oAybQxtUg5g3bxgyi4K4
+         6Wbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+33Dw5Q2efUACOK/im6UMmJQhcP/Gv+10S0CqUotcBU=;
+        b=nGCEe/hZVeDtGUsto3pW92W0R7W2Gb6KbvLNetr9Ns67JtaWjvtc1gwHsm1LP4SKQZ
+         c0Y85g+4u7rhP/8Cg9i0y0lpNWQEO0+amxwbmeGwjEc/V0o+91lkim1RzP5QeukFSM72
+         Z08kBzG4uhHaUeIB3I3V2d9biVUUdlPSRaQrxSq6tr9bU8wGNgY3O4M5P45yx1Id/iI/
+         7mZRgPh7zsVx1JvIGTV2gvf/nRnS/kG9nMKpsB1ocn8KsfxX++WBuLgpG551C0yc1NRM
+         dNlp8bKO6aJvahP8xVbACcVXzAxT0X0IBeMYVz+9WH1vIR0EUxBhXNio9aUNKW6O/5f9
+         L9SQ==
+X-Gm-Message-State: AOAM533EMfFPIES5KgGT3pHlCHb6N0YsmTDYBq/7nJ9Va5l4MeGND1lU
+	BOyzrxAJSJw3BPe9y7aPQFY=
+X-Google-Smtp-Source: ABdhPJxzrUvtdM8TTbZsSRVUa5R10cl2QYnbxhaxsiUqRat7sQKbfrhTONE38HGIM8w0JGD9TM3i8g==
+X-Received: by 2002:aa7:d404:: with SMTP id z4mr8025699edq.255.1629266295133;
+        Tue, 17 Aug 2021 22:58:15 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
+        by smtp.gmail.com with ESMTPSA id nd14sm1515245ejc.113.2021.08.17.22.58.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 22:58:14 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Aakash Hemadri <aakashhemadri123@gmail.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas <bjorn@helgaas.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] staging: rtl8732bs: Fix sparse warnings
+Date: Wed, 18 Aug 2021 07:58:13 +0200
+Message-ID: <7025395.Gq2ipLbEtH@localhost.localdomain>
+In-Reply-To: <22319634.U67b3Ei0OZ@localhost.localdomain>
+References: <cover.1629135143.git.aakashhemadri123@gmail.com> <22319634.U67b3Ei0OZ@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex01.internal.baidu.com (10.127.64.11) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Remove including <linux/version.h> that don't need it
+On Monday, August 16, 2021 8:48:48 PM CEST Fabio M. De Francesco wrote:
+> On Monday, August 16, 2021 7:35:05 PM CEST Aakash Hemadri wrote:
+> > This patchset fixes the below sparse warnings
+> >
+> > [...]
+> >
+> This warnings have been fixed time ago against staging-testing:
+> please see commit aef1c966a364.
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c      | 1 -
- drivers/staging/r8188eu/os_dep/os_intfs.c    | 1 -
- drivers/staging/r8188eu/os_dep/rtw_android.c | 1 -
- drivers/staging/r8188eu/os_dep/xmit_linux.c  | 1 -
- 4 files changed, 4 deletions(-)
+Hi Aakash,
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index d5ef5783f4ad..82b74ebdaabd 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -3,7 +3,6 @@
- 
- #define _RTW_MLME_C_
- 
--#include <linux/version.h>
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index f4bf4732578a..aef978eef4d7 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -12,7 +12,6 @@
- 
- #include "../include/usb_osintf.h"
- #include "../include/rtw_br_ext.h"
--#include <linux/version.h>
- 
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
-diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
-index bdd381606ba6..af0072e2cb5f 100644
---- a/drivers/staging/r8188eu/os_dep/rtw_android.c
-+++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
-@@ -3,7 +3,6 @@
- 
- #include <linux/module.h>
- #include <linux/netdevice.h>
--#include <linux/version.h>
- #include "../include/rtw_android.h"
- #include "../include/osdep_service.h"
- #include "../include/rtw_debug.h"
-diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-index 4f1ce346b3a5..69966c696130 100644
---- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-@@ -3,7 +3,6 @@
- 
- #define _XMIT_OSDEP_C_
- 
--#include <linux/version.h>
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/if_ether.h"
--- 
-2.22.0
+I see at least two of your messages never made it to
+linux-staging list because the address is incorrect (you did not write in CC
+linux-staging@lists.linux.dev, instead you used the nonexistent
+linux-staging@vger.kernel.org):
+
+https://lore.kernel.org/lkml/20210818044200.tvpr4j5vcaimexsn@xps.yggdrasil/
+https://lore.kernel.org/lkml/20210818044049.yd7tnjvj3j4j3ddb@xps.yggdrasil/
+
+Please, send them again to the correct address.
+
+Thanks,
+
+Fabio
+
 
