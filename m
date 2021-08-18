@@ -1,247 +1,74 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90CD72
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 20:34:34 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id o2so3533461pgr.9
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 13:34:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eHAShe2ZZZIC3ikmSrmgq0PWvhk6AlENUGfgwID98ag=;
-        b=B1TY3A4EquqGKmOxkNxqpEF6Yau2sOmo2aGYv7IXhSz9vWWX1FzxEMc8L+MpzGVIS+
-         arpPiDciXMIMoR0edg6Xht1sbtNOQRgOdrOcYzXR6Fu28ogqvVG9cVvhH1OylS0FufmZ
-         DgUmmP6PplJKlLhVF7dKriY4e7APK5s5DImrLQff+BIr6BangBrCfnXnk/zrTMO9PH03
-         xdp92qeQqOtMy302qd2HGJ57VWaNXG/V0n7bdzjnHISCm8z210HUqcF+en8uzF9WC97X
-         cWvyI9VpCQrgeIn5AdxsOKIFBN7Bo2yCuxFNNDNcIBcQkob3z/POYo2CKV6iX42i4VpY
-         W3DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eHAShe2ZZZIC3ikmSrmgq0PWvhk6AlENUGfgwID98ag=;
-        b=d3+FH1JgA1Syj1obuEplKrzqkRTV3BeHaaAEzfSVeGFMwah+4ogoHNV1Vrd7TLrBxE
-         RHlws8nDGVm0kbX0PlCrdnj9ibN+nlMBo3PjQ+H/9HLsig0U+qIycmf7S0iPHVvTSxSL
-         OP3I1S257rMpi/xbny9TjNOI+C93F7HxyO/1uKkHvmlRw8hvEF+s/rQ9rml7m0M+vV0u
-         AxcTR4wwhoUL3YqEkN1Y+G5ueYeog3NLB+Y28gB4UoQ857sac615sXmWCVoARJ2jY+hD
-         JczbiMaI3TgvELbezjbOqnR234cUGPqQVSr3S6zPKsQ4ht5RARdayXVNlPNyliz+efho
-         DD5A==
-X-Gm-Message-State: AOAM530C3VDixCCIoGcANDdZIuXXCg/xIgmpRL3c6CTgQwEBEZZM8CW1
-	HNqDw/bM+DkTmTzWRFqX1OOMG726JNTvKpDJIemcKA==
-X-Google-Smtp-Source: ABdhPJyPILcJZiHXsIn184+numDWK81weiNXSDGmxRPp46df1Rw3UDh5ZF1UoM5GRC/X8NC+XYLgfaTWnOcmBa9+8sI=
-X-Received: by 2002:a63:aa43:: with SMTP id x3mr10665794pgo.208.1629318874433;
- Wed, 18 Aug 2021 13:34:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E7572
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 20:40:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F849610FE;
+	Wed, 18 Aug 2021 20:40:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1629319249;
+	bh=5tva/r9Oj0UN/sp05F4nzM/MGgwTGTX7IE9UMourYXU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VdcITPKrE0bBE3TiHA/Q3+5HDAfoqXbDQWtuid/rwPLd1IKqT+WWma5fdxulLtuJZ
+	 BM3LlBiCapRxMv2a01i2ll4V7JcuqC9KiK6ci4WTeigum3IyQdxQ0N+swNxxX06BgA
+	 obnZ9tDmC72NXvvcHvX6mvNg2rthYw7l5TthRoF8=
+Date: Wed, 18 Aug 2021 22:40:47 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Aakash Hemadri <aakashhemadri123@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <bjorn@helgaas.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] staging: r8188eu: clean up endianness issues
+Message-ID: <YR1wT0cLoiuXsIEM@kroah.com>
+References: <8a3fca82d9ec5dde9e42d40f0268a324cc87ebc6.1629301854.git.aakashhemadri123@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210818200041.10870-1-martin@kaiser.cx> <20210818200041.10870-2-martin@kaiser.cx>
-In-Reply-To: <20210818200041.10870-2-martin@kaiser.cx>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Wed, 18 Aug 2021 21:34:23 +0100
-Message-ID: <CAA=Fs0k5b1XzUJbHX=W9AZzaG+bm9K9rLshwRzcMRS=zE0=5rQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] staging: r8188eu: ctrl vendor req index is not used
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, Michael Straube <straube.linux@gmail.com>, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8a3fca82d9ec5dde9e42d40f0268a324cc87ebc6.1629301854.git.aakashhemadri123@gmail.com>
 
-On Wed, 18 Aug 2021 at 21:01, Martin Kaiser <martin@kaiser.cx> wrote:
->
-> The index for r8188eu's vendor-specific control requests is not used.
-> Remove the index parameter from usbctrl_vendorreq and pass index 0 to
-> usb_control_msg.
->
-> This patch is an adaptation of commit 3d0be94f62fd ("staging: rtl8188eu:
-> ctrl vendor req index is not used") for the new r8188eu driver.
->
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->  drivers/staging/r8188eu/hal/usb_ops_linux.c | 33 +++++++--------------
->  1 file changed, 10 insertions(+), 23 deletions(-)
->
-> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index 2583e3a941fd..953fa05dc30c 100644
-> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -10,7 +10,7 @@
->  #include "../include/recv_osdep.h"
->  #include "../include/rtl8188e_hal.h"
->
-> -static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, u16 index, void *pdata, u16 len, u8 requesttype)
-> +static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata, u16 len, u8 requesttype)
->  {
->         struct adapter  *adapt = pintfhdl->padapter;
->         struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
-> @@ -56,7 +56,8 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, u16 index, vo
->                 }
->
->                 status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
-> -                                        reqtype, value, index, pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
-> +                                        reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
-> +                                        pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
->
->                 if (status == len) {   /*  Success this control transfer. */
->                         rtw_reset_continual_urb_error(dvobjpriv);
-> @@ -104,19 +105,17 @@ static u8 usb_read8(struct intf_hdl *pintfhdl, u32 addr)
->  {
->         u8 requesttype;
->         u16 wvalue;
-> -       u16 index;
->         u16 len;
->         u8 data = 0;
->
->
->
->         requesttype = 0x01;/* read_in */
-> -       index = 0;/* n/a */
->
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = 1;
->
-> -       usbctrl_vendorreq(pintfhdl, wvalue, index, &data, len, requesttype);
-> +       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->
->
->
-> @@ -128,15 +127,13 @@ static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
->  {
->         u8 requesttype;
->         u16 wvalue;
-> -       u16 index;
->         u16 len;
->         __le32 data;
->
->         requesttype = 0x01;/* read_in */
-> -       index = 0;/* n/a */
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = 2;
-> -       usbctrl_vendorreq(pintfhdl, wvalue, index, &data, len, requesttype);
-> +       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->
->         return (u16)(le32_to_cpu(data) & 0xffff);
->  }
-> @@ -145,17 +142,15 @@ static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
->  {
->         u8 requesttype;
->         u16 wvalue;
-> -       u16 index;
->         u16 len;
->         __le32 data;
->
->         requesttype = 0x01;/* read_in */
-> -       index = 0;/* n/a */
->
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = 4;
->
-> -       usbctrl_vendorreq(pintfhdl, wvalue, index, &data, len, requesttype);
-> +       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->
->         return le32_to_cpu(data);
->  }
-> @@ -164,18 +159,16 @@ static int usb_write8(struct intf_hdl *pintfhdl, u32 addr, u8 val)
->  {
->         u8 requesttype;
->         u16 wvalue;
-> -       u16 index;
->         u16 len;
->         u8 data;
->         int ret;
->
->
->         requesttype = 0x00;/* write_out */
-> -       index = 0;/* n/a */
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = 1;
->         data = val;
-> -       ret = usbctrl_vendorreq(pintfhdl, wvalue, index, &data, len, requesttype);
-> +       ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->
->         return ret;
->  }
-> @@ -184,7 +177,6 @@ static int usb_write16(struct intf_hdl *pintfhdl, u32 addr, u16 val)
->  {
->         u8 requesttype;
->         u16 wvalue;
-> -       u16 index;
->         u16 len;
->         __le32 data;
->         int ret;
-> @@ -192,14 +184,13 @@ static int usb_write16(struct intf_hdl *pintfhdl, u32 addr, u16 val)
->
->
->         requesttype = 0x00;/* write_out */
-> -       index = 0;/* n/a */
->
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = 2;
->
->         data = cpu_to_le32(val & 0x0000ffff);
->
-> -       ret = usbctrl_vendorreq(pintfhdl, wvalue, index, &data, len, requesttype);
-> +       ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->
->
->
-> @@ -210,7 +201,6 @@ static int usb_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
->  {
->         u8 requesttype;
->         u16 wvalue;
-> -       u16 index;
->         u16 len;
->         __le32 data;
->         int ret;
-> @@ -218,13 +208,12 @@ static int usb_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
->
->
->         requesttype = 0x00;/* write_out */
-> -       index = 0;/* n/a */
->
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = 4;
->         data = cpu_to_le32(val);
->
-> -       ret = usbctrl_vendorreq(pintfhdl, wvalue, index, &data, len, requesttype);
-> +       ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->
->
->
-> @@ -235,7 +224,6 @@ static int usb_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata
->  {
->         u8 requesttype;
->         u16 wvalue;
-> -       u16 index;
->         u16 len;
->         u8 buf[VENDOR_CMD_MAX_DATA_LEN] = {0};
->         int ret;
-> @@ -243,13 +231,12 @@ static int usb_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata
->
->
->         requesttype = 0x00;/* write_out */
-> -       index = 0;/* n/a */
->
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = length;
->         memcpy(buf, pdata, len);
->
-> -       ret = usbctrl_vendorreq(pintfhdl, wvalue, index, buf, len, requesttype);
-> +       ret = usbctrl_vendorreq(pintfhdl, wvalue, buf, len, requesttype);
->
->         return ret;
->  }
-> --
-> 2.20.1
->
+On Wed, Aug 18, 2021 at 09:22:36PM +0530, Aakash Hemadri wrote:
+> Fix these sparse warnings:
+> 
+> > rtw_br_ext.c:73:23: warning: restricted __be16 degrades to integer
+> 
+> Here tag->tag_len is be16, use ntohs()
+> 
+> > rtw_br_ext.c:601:57: warning: incorrect type in assignment (different base types)
+> > rtw_br_ext.c:601:57:    expected unsigned short
+> > rtw_br_ext.c:601:57:    got restricted __be16 [usertype]
+> 
+> > rtw_br_ext.c:664:45: warning: cast to restricted __be16
+> > rtw_br_ext.c:771:84: warning: incorrect type in argument 3 (different base types)
+> > rtw_br_ext.c:771:84:    expected unsigned int [usertype] len
+> 
+> Cast MAGIC_CODE as unsigned short
+> 
+> > rtw_br_ext.c:771:84:    got restricted __be16 [usertype] payload_len
+> > rtw_br_ext.c:773:110: warning: incorrect type in argument 2 (different base types)
+> > rtw_br_ext.c:773:110:    expected int len
+> > rtw_br_ext.c:773:110:    got restricted __be16 [usertype] payload_len
+> 
+> > rtw_br_ext.c:836:54: warning: cast to restricted __be32
+> 
+> Unnecessary double cast?
+> 
+> > rtw_br_ext.c:839:70: warning: restricted __be16 degrades to integer
+> > rtw_br_ext.c:845:70: warning: invalid assignment: |=
+> > rtw_br_ext.c:845:70:    left side has type unsigned short
+> > rtw_br_ext.c:845:70:    right side has type restricted __be16
+> 
+> dhcp->flag is u16
 
-Looks good.
+That is a lot of different things all at once.  Please break this up
+into one-logical-change at a time and send a patch series.
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+thanks,
 
-Regards,
-Phil
+greg k-h
