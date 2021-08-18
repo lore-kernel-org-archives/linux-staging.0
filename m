@@ -1,146 +1,127 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A878B6D13
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:24:18 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id k19so1108429pfc.11
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:24:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5A86D13
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:27:26 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id x16so1110552pfh.2
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:27:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vvaO3IOaijbnIA6KqFSDgFo2qxgHnLpT3XyLd7qDOYY=;
-        b=kDXEIEitA/zilEeOzVZcblUGb+gd0VUzPPKPAZRekMacsTOzvDvGIy5nd+Plg3xGqF
-         ljL/5yphBqGZuftKhE1BcSTKZc0Q9ZAZtIBhK+w2XzKNzqFl0DOizZMClRh8F3cCrW6I
-         4nLShAKzqA0o+5ZrPzG62J+rwCOEUexcSDo3I=
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=ynpJGQ+aoMGoVR3/TzuLa6jhj83G7NCnezbFysKyDck=;
+        b=rkMxRzllxsu72p9VoE+F1Y2uNFqfHroY89seElO0F/IF9+njGBhH+JhTjiV6p10xBW
+         RZkVVmBoHTbmBO5qy0Cu5P7Yjfpn+Q0pDbpgd//DyVd9iIE8FToCC+snGEMZelh3paY/
+         +hPtSq0td+yzw80H6HXZomYGW6ujPphQgl+LDlsExLGmraR/J0ZHNe7yOVInyCFXmT/P
+         91wgqIKeFsyocJA7qECcUweDwMNTMng3I+m8yWPcUOWHp3ukJGcj7wwvK4fm1T2uIjDm
+         QM2rYu2cAoeXaM+8hLCXU5bhhQmCXVpZaudJg93f24DbqOKNah/15WaZUn/RqJ/MrtRh
+         mNtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vvaO3IOaijbnIA6KqFSDgFo2qxgHnLpT3XyLd7qDOYY=;
-        b=EvLZtqoJi7t1ghTb4qHK2YvEYN9kI2SROXnE6SKmncfgMW/kWFO7CFKvPZuGWdEjSS
-         3DtgXaz7Ce3v0a5Ke2zUWnFdgmeUv3CH7JYs2tRT0to7Vn0/m8NBP7wJOjkvJuF5ehiC
-         qjfd7ZGT91TFQYhrlhYOMKFgELsK6cNpZX5dU1oGK5GrnzP4zS6V6wLX6UKZSZVVixhX
-         nYBjodQnZVaEDakNPqxEag5OEzynWS91eg4652JG4GwFB92RTc8xaGYeDN7Y1NTutt3Z
-         ZTWTmoAwOhqrKxAQ0UrgQunzLDKFl08Ngz6bV5WZK/Vdtshm8JJTMRafFNUGpNzA05D6
-         WSRQ==
-X-Gm-Message-State: AOAM533XsJOIc8qayyQpsIiqj+P+qN9BRjnHY2DSnnvIiwRA8kbpulnT
-	yHe9fAruteMIGHvKdPrR2kKWYw==
-X-Google-Smtp-Source: ABdhPJxLnTYg2dyG52a8dlHZQo2KnsFk9IIV2ZT2c1iszf6YYPkQGA1eSgtlSotuJmQJc5qNxJ68Bw==
-X-Received: by 2002:aa7:87d1:0:b029:3e0:e44b:6429 with SMTP id i17-20020aa787d10000b02903e0e44b6429mr7687468pfo.81.1629267857946;
-        Tue, 17 Aug 2021 23:24:17 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l12sm4445453pff.182.2021.08.17.23.24.14
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=ynpJGQ+aoMGoVR3/TzuLa6jhj83G7NCnezbFysKyDck=;
+        b=VCUhJ1l4zDj5NLG/i5cYiSChH3FB2jB119DjWm59Ez49gYRRMVczBze+Rx0fRw5fZl
+         GT+mOL7lGtIHmF/zbBuKy1/5x1DGysTD6zmxKJQy9ixqQopXA07gx1GlOIakNdV9EDIs
+         IKVoAkspeN3aNtSt5cntN0/AUX5S2K6k8G9VGctvMJuDNgXUYMgbf4emjb1Kk4pfpVEx
+         WL00rIFv3YaxtUIrgYetAzIZMSqOA8+tOWn75zUPbwLio0Dv7IWSNeKgNKRfDhaiwVnS
+         KQ6vGPpO/RZ2w1aov5C+mWNK/37kTYWhQj+4v6+X4sVkb+yJdtwcN/w4tU9w0VVsJBF1
+         +mNA==
+X-Gm-Message-State: AOAM532ssXpAFH/w2wqKddI6eFac82fbR8mP6b/DS7eQ+uLvQ7j91Llg
+	rIZWMbQvnWpeThN2Yy1L94s+Ug==
+X-Google-Smtp-Source: ABdhPJyUhfdCbjMBESEOiqAS08eZgxAs7V5/0XRqW4UZTe3K4OmwyniXAPYZlVBrx4vmpFlW5lQzVA==
+X-Received: by 2002:a62:ea0f:0:b029:319:8eef:5ff1 with SMTP id t15-20020a62ea0f0000b02903198eef5ff1mr7706167pfh.74.1629268045601;
+        Tue, 17 Aug 2021 23:27:25 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id l12sm4457595pff.182.2021.08.17.23.27.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:24:15 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
-	Kalle Valo <kvalo@codeaurora.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	ath11k@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	clang-built-linux@googlegroups.com,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 45/63] ath11k: Use memset_startat() for clearing queue descriptors
-Date: Tue, 17 Aug 2021 23:05:15 -0700
-Message-Id: <20210818060533.3569517-46-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
-References: <20210818060533.3569517-1-keescook@chromium.org>
+        Tue, 17 Aug 2021 23:27:24 -0700 (PDT)
+Date: Wed, 18 Aug 2021 11:57:23 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+References: <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+ <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+ <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3372; h=from:subject; bh=NQT3fqVVXi8ODh6WoJGB8sg9K5wYYHx+7JpT5FAL4cU=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMopXDUfrKda33TUBFxN6HBO6TlnPSMDcCCdRDS 0aeVcWmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKAAKCRCJcvTf3G3AJhzGEA CY8p5TOKzJnk1TIbV+Hzc40bIrnKi3XB25slGqFlL9PC0EefG0LRY7a/kfnqj/FIFz17UsuycljRiL cACD/vfRToJ7yzKKAmxJEdfFC9iw7Xzoq9md8jDhbHG+5rEQLDA2Y8/KjGoyRoAVQUeCsHcJe+UAXU /C5fU4ck0d6s6EiIVlN7DyLPX1dt3uBgOwRyBODvNuiyvNXvhGO3XJv0FCDFCT5z75xj1tU14JGWyN PD0hj1XmCBY1e9AxpCMIlhi+/X5qb5jGTLXX/Md1KsTZvmbxvau9ABz55gWYFUQGS3X+k1Rlmv5T+v lQWqSK/nXQAlXtMjB9ywh5KsA5aVqsKNBUXndQA68SKCaNf/TyoXdI1m4yYbWg/BcAGWta/La0zhv8 6uPbEVUb8Vg2ZE5Iqlcs/ld7qL4G/K1NRERjZr+0R73esdLiYb9TgQFqKMWrJPe98lypwjAdWColpN I8cEBcItkU3uu4rF/5fh/NmOKClsPYi08PLRs5e03i6wu9s1aoaETYlf1CnhWQasVpVUQKL19q5EaQ 6mL+ds0GvKbFFnRg94o4s2GHh5vlbNIY8AZQMoUGgZ+Kclor6FXedzWgb33JBTE6JU4bg97H5xgdcx ZY2UZxJPJIziE2+vb6CbU1ZYgZ27bDV0FLUmziQd/krKAdEaAHnqHTqhCInw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memset(), avoid intentionally writing across
-neighboring fields.
+On 18-08-21, 09:22, Dmitry Osipenko wrote:
+> 18.08.2021 08:58, Viresh Kumar пишет:
+> > What about calling dev_pm_opp_set_rate(dev, clk_get_rate(dev)) here
+> > instead ? That will work, right ? The advantage is it works without
+> > any special routine to do so.
+> 
+> It will work, but a dedicated helper is nicer.
+> 
+> > I also wonder looking at your gr3d.c changes, you set a set-opp
+> > helper, but the driver doesn't call set_opp_rate at all. Who calls it
+> > ?
+> 
+> dev_pm_opp_sync() calls it from _set_opp().
 
-Use memset_startat() so memset() doesn't get confused about writing
-beyond the destination member that is intended to be the starting point
-of zeroing through the end of the struct. Additionally split up a later
-field-spanning memset() so that memset() can reason about the size.
+Okay, please use dev_pm_opp_set_rate() instead then. New helper just
+adds to the confusion and isn't doing anything special apart from
+doing clk_get_rate() for you.
 
-Cc: Kalle Valo <kvalo@codeaurora.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: ath11k@lists.infradead.org
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/net/wireless/ath/ath11k/hal_rx.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+> > And if it is all about just syncing the genpd core, then can the genpd
+> > core do something like what clk framework does? i.e. allow a new
+> > optional genpd callback, get_performance_state() (just like
+> > set_performance_state()), which can be called initially by the core to
+> > get the performance to something other than zero. opp-set-rate is
+> > there to set the performance state and enable the stuff as well.
+> > That's why it looks incorrect in your case, where the function was
+> > only required to be called once, and you are ending up calling it on
+> > each resume. Limiting that with another local variable is bad as well.
+> 
+> We discussed variant with get_performance_state() previously and Ulf
+> didn't like it either since it still requires to touch 'internals' of GENPD.
 
-diff --git a/drivers/net/wireless/ath/ath11k/hal_rx.c b/drivers/net/wireless/ath/ath11k/hal_rx.c
-index 325055ca41ab..0bab425f5dc9 100644
---- a/drivers/net/wireless/ath/ath11k/hal_rx.c
-+++ b/drivers/net/wireless/ath/ath11k/hal_rx.c
-@@ -29,8 +29,7 @@ static int ath11k_hal_reo_cmd_queue_stats(struct hal_tlv_hdr *tlv,
- 		  FIELD_PREP(HAL_TLV_HDR_LEN, sizeof(*desc));
- 
- 	desc = (struct hal_reo_get_queue_stats *)tlv->value;
--	memset(&desc->queue_addr_lo, 0,
--	       (sizeof(*desc) - sizeof(struct hal_reo_cmd_hdr)));
-+	memset_startat(desc, 0, queue_addr_lo);
- 
- 	desc->cmd.info0 &= ~HAL_REO_CMD_HDR_INFO0_STATUS_REQUIRED;
- 	if (cmd->flag & HAL_REO_CMD_FLG_NEED_STATUS)
-@@ -62,8 +61,7 @@ static int ath11k_hal_reo_cmd_flush_cache(struct ath11k_hal *hal, struct hal_tlv
- 		  FIELD_PREP(HAL_TLV_HDR_LEN, sizeof(*desc));
- 
- 	desc = (struct hal_reo_flush_cache *)tlv->value;
--	memset(&desc->cache_addr_lo, 0,
--	       (sizeof(*desc) - sizeof(struct hal_reo_cmd_hdr)));
-+	memset_startat(desc, 0, cache_addr_lo);
- 
- 	desc->cmd.info0 &= ~HAL_REO_CMD_HDR_INFO0_STATUS_REQUIRED;
- 	if (cmd->flag & HAL_REO_CMD_FLG_NEED_STATUS)
-@@ -101,8 +99,7 @@ static int ath11k_hal_reo_cmd_update_rx_queue(struct hal_tlv_hdr *tlv,
- 		  FIELD_PREP(HAL_TLV_HDR_LEN, sizeof(*desc));
- 
- 	desc = (struct hal_reo_update_rx_queue *)tlv->value;
--	memset(&desc->queue_addr_lo, 0,
--	       (sizeof(*desc) - sizeof(struct hal_reo_cmd_hdr)));
-+	memset_startat(desc, 0, queue_addr_lo);
- 
- 	desc->cmd.info0 &= ~HAL_REO_CMD_HDR_INFO0_STATUS_REQUIRED;
- 	if (cmd->flag & HAL_REO_CMD_FLG_NEED_STATUS)
-@@ -762,15 +759,17 @@ void ath11k_hal_reo_qdesc_setup(void *vaddr, int tid, u32 ba_window_size,
- 	 * size changes and also send WMI message to FW to change the REO
- 	 * queue descriptor in Rx peer entry as part of dp_rx_tid_update.
- 	 */
--	memset(ext_desc, 0, 3 * sizeof(*ext_desc));
-+	memset(ext_desc, 0, sizeof(*ext_desc));
- 	ath11k_hal_reo_set_desc_hdr(&ext_desc->desc_hdr, HAL_DESC_REO_OWNED,
- 				    HAL_DESC_REO_QUEUE_EXT_DESC,
- 				    REO_QUEUE_DESC_MAGIC_DEBUG_PATTERN_1);
- 	ext_desc++;
-+	memset(ext_desc, 0, sizeof(*ext_desc));
- 	ath11k_hal_reo_set_desc_hdr(&ext_desc->desc_hdr, HAL_DESC_REO_OWNED,
- 				    HAL_DESC_REO_QUEUE_EXT_DESC,
- 				    REO_QUEUE_DESC_MAGIC_DEBUG_PATTERN_2);
- 	ext_desc++;
-+	memset(ext_desc, 0, sizeof(*ext_desc));
- 	ath11k_hal_reo_set_desc_hdr(&ext_desc->desc_hdr, HAL_DESC_REO_OWNED,
- 				    HAL_DESC_REO_QUEUE_EXT_DESC,
- 				    REO_QUEUE_DESC_MAGIC_DEBUG_PATTERN_3);
+Hmm, I wonder if that would be a problem since only genpd core is
+going to call that routine anyway.
+
 -- 
-2.30.2
-
+viresh
