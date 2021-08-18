@@ -1,130 +1,129 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1C62FAF
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 16:44:17 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17IGiFwm094931;
-	Wed, 18 Aug 2021 11:44:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1629305055;
-	bh=s1fQOrd2AGCGmTDAq1P48wzKCCxRSu9avGN2pWSwF9k=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=S9Atjj2m+KY6N9xDp+HDV9bw/Vrz/lKDCeCcQudJAALKOr91gT4UzWLMU/JroPm9g
-	 092kQp9vr1tV9V+AmUBrnM0ISycxjY+xYRR+kbg407PEoKrwUfLRzFhHh+4NXyHUeY
-	 8XrRhhLKuxy9+uyUXGAKSCWD6/fWc3W0D4KHoBDE=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17IGiFdE075940
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 18 Aug 2021 11:44:15 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 18
- Aug 2021 11:44:15 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Wed, 18 Aug 2021 11:44:15 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-	by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17IGiFGv055811;
-	Wed, 18 Aug 2021 11:44:15 -0500
-Date: Wed, 18 Aug 2021 11:44:15 -0500
-From: Nishanth Menon <nm@ti.com>
-To: <sidraya.bj@pathpartnertech.com>
-CC: <gregkh@linuxfoundation.org>, <linux-staging@lists.linux.dev>,
-        <linux-kernel@vger.kernel.org>, <prashanth.ka@pathpartnertech.com>,
-        <praneeth@ti.com>, <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
-        <praveen.ap@pathpartnertech.com>
-Subject: Re: [PATCH 29/30] arm64: dts: dra82: Add v4l2 vxd_dec device node
-Message-ID: <20210818164415.2wizi43eidtngqca@siberian>
-References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
- <20210818141037.19990-30-sidraya.bj@pathpartnertech.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7CE2FAF
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 16:57:07 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id x27so6025524lfu.5
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 09:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9afXLHEiBRvQw+FqKQqGWY2brD9XGx9hPAmFRANM6E0=;
+        b=SkFjeie1BejmJMUfsJJa7cdKxHWnbIqV6yEx50leCh45/lOA2mtYHIhF2YuT+/qxMT
+         Kz4yDrQ39Ns52bpJRJ1nvYNdeOrbzSvGNVDSFXOIEZy/5g8lF1kLMJksTgXPJ8QmjHcg
+         iB+julVaTc7z/7axFMQXOnE7a569YrihqMFwkdkfwrYA1Olh6EVmg/hGR1JfF7Bo+IzT
+         5pn2hximEzVhmBcizH/3kj9vKvVTct62o0rKSGlLwd0/7BGb0XQ+by7ZLMa2P8L4PJg+
+         efMjguZzhJdMSLcJQv1Pv0yiP3TQGVx4otwdNVArVuo1hHYq6zxbh/irwSRReTHHDhIg
+         HoAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9afXLHEiBRvQw+FqKQqGWY2brD9XGx9hPAmFRANM6E0=;
+        b=PqQy/YKc+NilYZBkAVwnIxZ/4Xj2X3BhhqI8+0Ab7R3SNqeZ5WMQXWJQMQXKtW/nNM
+         0sJf07DcummPsXvv+Itak69TOL++DxRPojieMVDb3lxYNnEA2gn+qlpDhfuwkhp95VnK
+         J2oskHHo0dauhcLsN6wfof6FcSoO/c+s9CCJQ8XsTI//S0BOJuhEUaF9VUE4NekNIGKE
+         yy48FsI/ZPJakdyY/44UYKz7790OQkVfpYVpTXr9uunj/I5ezxbVKC6+BFPYMIj4LvHu
+         AZLF4JcBRcagzmxz5UpvUEEM7qWmfTajPJ636f/P3oa6n1ff6UJFG+yBpxU6LpDcR9IN
+         kgpw==
+X-Gm-Message-State: AOAM531IcWvWJ3KAN24r0u0adxYVacslPNqqfxAhxEGfaUSqHs8N5C3Y
+	TaVaXFAERTsZpIMUJT0mnlk=
+X-Google-Smtp-Source: ABdhPJwoN3TrpzatYdR/vf/doNTOb6j8sY8QLs5kbR7gHEbbr6h18EW7bx2EM9tVNh0BF01dlvfX6g==
+X-Received: by 2002:a19:701a:: with SMTP id h26mr6902287lfc.443.1629305825693;
+        Wed, 18 Aug 2021 09:57:05 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
+        by smtp.googlemail.com with ESMTPSA id f19sm24809lfu.100.2021.08.18.09.57.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 09:57:05 -0700 (PDT)
+Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
+ tegra-clocks sub-node
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-7-digetx@gmail.com> <YR0SSz7KMh7TwaFW@orome.fritz.box>
+ <eff5ef47-e6e0-3e03-cf1a-d931b0f2dc2a@gmail.com>
+ <YR033zuYWWLCeYpM@orome.fritz.box>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a5b942cb-1611-9ae1-6e89-4b68fdaf03e3@gmail.com>
+Date: Wed, 18 Aug 2021 19:57:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20210818141037.19990-30-sidraya.bj@pathpartnertech.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <YR033zuYWWLCeYpM@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-^^ $subject
-you might want to run:
-git log --oneline arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
+18.08.2021 19:39, Thierry Reding пишет:
+>> We don't have a platform device for CaR. I don't see how it's going to
+>> work. We need to create a platform device for each RPM-capable clock
+>> because that's how RPM works. The compatible string is required for
+>> instantiating OF-devices from a node, otherwise we will have to
+>> re-invent the OF core.
+> I think we do have a platform device for CAR. It's just not bound
+> against by the driver because these clock drivers are "special". But
+> from other parts of the series you're already trying to fix that, at
+> least partially.
+> 
+> But it doesn't seem right to create a platform device for each RPM-
+> capable clock. Why do they need to be devices? They aren't, so why
+> pretend? Is it that some API that we want to use here requires the
+> struct device?
 
-to see precedence of usage.
+The "device" representation is internal to the kernel. It's okay to me
+to have PLLs represented by a device, it's a distinct h/w by itself.
 
-On 19:40-20210818, sidraya.bj@pathpartnertech.com wrote:
-> From: Sidraya <sidraya.bj@pathpartnertech.com>
-> 
-> Enable v4l2 vxd_dec on dra82
+CCF supports managing of clock's RPM and it requires to have clock to be
+backed by a device. That's what we are using here.
 
-s/dra82/j721e
+Please see
+https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/clk/clk.c#L109
 
-> 
-> Signed-off-by: Angela Stegmaier <angelabaker@ti.com>
-> Signed-off-by: Sidraya <sidraya.bj@pathpartnertech.com>
-> ---
->  arch/arm64/boot/dts/ti/k3-j721e-main.dtsi | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
-> index cf3482376c1e..a10eb7bcce74 100644
-> --- a/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
-> +++ b/arch/arm64/boot/dts/ti/k3-j721e-main.dtsi
-> @@ -1242,6 +1242,15 @@
->  		power-domains = <&k3_pds 193 TI_SCI_PD_EXCLUSIVE>;
->  	};
->  
-> +	d5520: video-decoder@4300000 {
-> +	       /* IMG D5520 driver configuration */
-> +	       compatible = "img,d5500-vxd";
-> +	       reg = <0x00 0x04300000>,
-> +		     <0x00 0x100000>;
-> +	       power-domains = <&k3_pds 144 TI_SCI_PD_EXCLUSIVE>;
-> +	       interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>;
-> +	};
-> +
->  	ufs_wrapper: ufs-wrapper@4e80000 {
->  		compatible = "ti,j721e-ufs";
->  		reg = <0x0 0x4e80000 0x0 0x100>;
-> -- 
-> 2.17.1
-> 
-> 
-> -- 
-> 
-> 
-> 
-> 
-> 
-> 
-> This
-> message contains confidential information and is intended only 
-> for the
-> individual(s) named. If you are not the intended
-> recipient, you are 
+>>> Also, I don't think the tegra- prefix is necessary here. The parent node
+>>> is already identified as Tegra via the compatible string.
+>>>
+>>> In the case of CAR, I'd imagine something like:
+>>>
+>>> 	clocks {
+>>> 		sclk {
+>>> 			operating-points-v2 = <&opp_table>;
+>>> 			power-domains = <&domain>;
+>>> 		};
+>>> 	};
+>>>
+>>> Now you've only got the bare minimum in here that you actually add. All
+>>> the other data that you used to have is simply derived from the parent.
+>> 'clocks' is already a generic keyword in DT. It's probably not okay to
+>> redefine it.
+> "clocks" is not a generic keyword. It's the name of a property and given
+> that we're talking about the clock provider here, it doesn't need a
+> clocks property of its own, so it should be fine to use that for the
+> node.
 
-You might want to look up the MAINTAINER file to see who this patch
-and what list this should have been addressed to.
-
-Further I DONOT want to see a single bit of confidential information
-based patch in my tree. Please discuss with your legal department
-and since TI is mentioned in the patches, please discuss with TI's
-legal team as well.
-
-This patch, IMHO, series mis-represents TI's legal position and
-respect for upstream community and in no way represents the quality
-of patches we(TI) would like to contribute to upstream and DOES NOT
-represent the quality of contributions or collaboration expected of TI
-or representatives of TI.
-
-So, sorry NAK for the complete series.
-
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+I'm curious what Rob thinks about it. Rob, does this sound okay to you?
