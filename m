@@ -1,49 +1,48 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036866D28
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:24 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id x16so1083577pfh.2
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BCB6D22
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:25 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id w6so1125156plg.9
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yostY7DgtNEMxgC+z6nJc1wNrs0N6emskwhOe9bgfvc=;
-        b=AeeVJhrfSUwjNkJmHYssbuRGtvwH8MtYjEmQTdlM+zGDSxyBJ28HUKoShXRQriCQzc
-         fJG8YQplcuYQRtRQ2YMV0te2Q2U0QO6Xwj/zC20UVKGNd8srvQxwJqSouXymq5Dm9l9U
-         kg3aDet5N6dWH1hOI5Ptu5TDuJ7GU9hh7JwQs=
+        bh=Hcl1ccbFJs4ud/H3xoT9ZSR2o1n+o5k4Vuh9ApRTkZE=;
+        b=X+6d81/MvLfT3RwS/Jq3LliSZFdydCpZduBL+K5p5bTjFlP//w2o7lGFMk764ByK2j
+         4XbCrV8JHtasAStK7sUNoD/ilVbmVoDcq6+ER+OvyegySoWauDTXTIy6SbVa851KB7Q1
+         KUnRDP7SH/0Kg/x5GtujVKZ0O006edjI9Mme8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yostY7DgtNEMxgC+z6nJc1wNrs0N6emskwhOe9bgfvc=;
-        b=GlOBk34kI9AcyCRrVgkVXcvNZ0QS+nDPWtyvFN4vzi9QntbPHAlWKzTXEdIfIwroep
-         Dpg7BseSaRZJZcVcxePIwu3kaE9REjDz8n2ewFj27sRSXA7T/sqfmbY+Dkm7tdqNkdjg
-         5kLdVYLSuMdsBeZzopxX8QniFM6OWXrJxlYpP+aLgCL+b3jL8UOAnzYp8gXvK4bt5H6Q
-         HGsgegnLSIS1jVnptp03y52fiImmEPaOl3rkz/j7IqtCI3Gmaf6lRt9oRnctFHV+HOJt
-         tDyykcBfsxMe/UXlzIDR72tN4QJFYlY7Q1N4JspuVK5i1tLtrsZim4qtZSeFA7Iv3UAc
-         8I+A==
-X-Gm-Message-State: AOAM533gUUToMOp346o5YO6snlihARHuGq1rRfxTIYXYbBrws4mjgx2A
-	LrA6E6SHSCbS5nnmwdxPxrIB5w==
-X-Google-Smtp-Source: ABdhPJx1biBS3JeL8+/6G287ajSKc6EnHKozD5KJ2i1ni7/MspHuQbMRsOEesEpJ1k8lOCChLRw6ow==
-X-Received: by 2002:a63:a58:: with SMTP id z24mr7368490pgk.175.1629267264619;
-        Tue, 17 Aug 2021 23:14:24 -0700 (PDT)
+        bh=Hcl1ccbFJs4ud/H3xoT9ZSR2o1n+o5k4Vuh9ApRTkZE=;
+        b=PtRkicSUJLGywdg7vnpmvi1f67DaiqnhNTCwFvz4EktIpoRl39MVFLWIaTk5yE2RQQ
+         oGgq5AUWsDQtc0IH5Cxqs1//ICI+q+OUHckPWs1msuwAjOB/4rWbLd/q1Zei22f8MdPj
+         vh2eJllb+TfXf3G1Lzlz1lyDYidjaFGfrkp9fEux+VZaQqkMja8HG86Ta/dOQxVmYeKf
+         ZX6/FYM59lXAlXCRW3YOPuTkDtpv9AWH73uwGL3G0K70pNuqczm89Y3jzBGdsX2JoFGZ
+         oeLj3CPBo8eANQHbkzOCNhrzAAxYCLaeGB7I9tIQ2Bg2ySfKV204xOrPTYfSQbLM10sm
+         A/tQ==
+X-Gm-Message-State: AOAM5302akndCs3wvORzZm8fMEnbf6yMmaDqwmANJPsYjZcvLp0LqlLO
+	PWkRIjc9CfVcCih5AUMdVAUeNA==
+X-Google-Smtp-Source: ABdhPJyVdGO+k0ZXLSuBZU6Emb1T8tVPxMBOZys/2ngcwdzE26txO/yjwg2d2fDStsZ38dVCxGAyrA==
+X-Received: by 2002:a17:90b:2313:: with SMTP id mt19mr7827471pjb.230.1629267265564;
+        Tue, 17 Aug 2021 23:14:25 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j12sm4592066pfj.54.2021.08.17.23.14.19
+        by smtp.gmail.com with ESMTPSA id j23sm3858038pjn.12.2021.08.17.23.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:14:21 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Francis Laniel <laniel_francis@privacyrequired.com>,
-	Daniel Axtens <dja@axtens.net>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Doug Ledford <dledford@redhat.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-rdma@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	linux-wireless@vger.kernel.org,
 	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
@@ -53,9 +52,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 27/63] fortify: Move remaining fortify helpers into fortify-string.h
-Date: Tue, 17 Aug 2021 23:04:57 -0700
-Message-Id: <20210818060533.3569517-28-keescook@chromium.org>
+Subject: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct mlx5_ib_mr
+Date: Tue, 17 Aug 2021 23:05:26 -0700
+Message-Id: <20210818060533.3569517-57-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -65,84 +64,53 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3427; h=from:subject; bh=0VUkvjsb3JE/e2CXDissoloibGhlZ4bMl0ZngnkvP5A=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMjq105jppvlrAL+Uq+MQY6ED6Y9FMI8zm1hPrE ykvADZuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIwAKCRCJcvTf3G3AJgxoEA CHX4+YbgJVBHEw9Sn3IX5V504yG/NCxhHF4JykNAz36dr+RFRl0Kcyz2B7nwjZusR5Vmt/ef1uwVpD vUFACpJ9hm3dLxu/TOzjSDpY+dbijOGFsfmjsCnfpZ7Aw7arFR+dueXGHyuppqtxwjiei2VBv7NkLH fIaz4akk3zsm7p8PDUMHVqHTa5KJadN2q9rNGGe0+Vrymyn4W+SQwMoF1brOLKkMdDqC2uxEL+WomR ayeuwznYVE7clbnasPBBK+c0w94SjONDN0Ng+k+qk7s79GdMHv49Bdvc3qSjI4w82/rTLISttfrK8h 8crj7mVMeHx8pEPFSL6XYe9Hp6I0AMkhfaY5SXOS+yzS/kN0cyCbdH2Jz2S2OXNz8FG8XxB4b00ouF va0zZRAIbKaayow+9up5yQAZpQVL+Ck/qd/5shLDnS765J4ldO0QpW00Aqnsheh76nhHtTSkhARFnb nOrWU/S+u9e2w9TiYLMlKl2i29H9TKu/q898ZLUW4WvARATseAhjhoWIIDqDA0tNHartcKh2XPoZUM 6tsR542P5E0Jb+HyJZv13FvgiN/pmDXHx0d4dxAPEXFJ+pJ+KOmNqdeULjuvuwtcy6zKPpS+zTHIhL 71tIGGPwH5X3B5sHrfSSzU26nlZ4bBr+0WqJaLk5Kysl4udUeW+KXqBYHTcQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1421; h=from:subject; bh=VDjxwOfX2cjaEibL8dkCGTlxM9AleppD3q/+715fBPc=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMq8O5UKAKpb/rvp5Y2SurRHZONXPPy2R7JrBHQ 07WmcZaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKgAKCRCJcvTf3G3AJqH3D/ 4gNGySY8SCnjrDzEUM7CyrdchqF//a5m2rqxinozby7V9IS5+ycLOFfGvEx1AbtsgpvkKu6IjRZUA5 U67OxhqHOeDoB2W0JrzMD4ZiEf7aeNYRL/FcCw1nfsLjyJUn/7TFORuKQzen2TzINw05zF7xASgg/i xaqv+EuCKtewRoiXcWah1s7jrT1+hp4WtAkQzn/+YaIOVXblb9eHzxMGHhaGDiVNUWryg50fZiOvzo syChMqPaE84IoJx1X3nrdGMbSgJMU0FmsGXcNzY1ouOxqnAlCdt78oxn0N/v+Iddyi/oJlPfrrkCFW zTE3FtjwfhE243hFenyrDn/NEq85myRaQoC3GPPw9uiO1gSwK5OxTciBWBWEY9hT8f55X/K1hRf7Dx z/+mVftkYQIBCPASioBF7UrH+t8vHnUbHcJrYUXmmKNFE8Ki+9oeB0OLJaSo/Yw6PdoabOW4EplCRJ oGAyyzxgxgNTQUYlJOMczrc1z9W3IFlWitdqcPrmsHApkLxRvze0yN1bBp2+BP8kp5Sul0WwUPwAOF gCblqx3UOeJuqqaMUUha9/HfetNzO8oyaLg80znWlEWSXZcMWHgubHnQLVPMv7nqUCEbhdDoN09B46 k0l6F+LB0Ns/6YfKNGhM3NCkF2iuaqgxu0NW66r4tv309D5se4J8ucLMUhmQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-When commit a28a6e860c6c ("string.h: move fortified functions definitions
-in a dedicated header.") moved the fortify-specific code, some helpers
-were left behind. Moves the remaining fortify-specific helpers into
-fortify-string.h so they're together where they're used. This requires
-that any FORTIFY helper function prototypes be conditionally built to
-avoid "no prototype" warnings. Additionally removes unused helpers.
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memset(), avoid intentionally writing across
+neighboring fields.
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Francis Laniel <laniel_francis@privacyrequired.com>
-Cc: Daniel Axtens <dja@axtens.net>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Andrey Konovalov <andreyknvl@google.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
+Add struct_group() to mark region of struct mlx5_ib_mr that should be
+initialized to zero.
+
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Doug Ledford <dledford@redhat.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-rdma@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/fortify-string.h | 7 +++++++
- include/linux/string.h         | 9 ---------
- lib/string_helpers.c           | 2 ++
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-index c1be37437e77..7e67d02764db 100644
---- a/include/linux/fortify-string.h
-+++ b/include/linux/fortify-string.h
-@@ -2,6 +2,13 @@
- #ifndef _LINUX_FORTIFY_STRING_H_
- #define _LINUX_FORTIFY_STRING_H_
+diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+index bf20a388eabe..f63bf204a7a1 100644
+--- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
++++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
+@@ -644,6 +644,7 @@ struct mlx5_ib_mr {
+ 	struct ib_umem *umem;
  
-+#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
-+#define __RENAME(x) __asm__(#x)
-+
-+void fortify_panic(const char *name) __noreturn __cold;
-+void __read_overflow(void) __compiletime_error("detected read beyond size of object (1st parameter)");
-+void __read_overflow2(void) __compiletime_error("detected read beyond size of object (2nd parameter)");
-+void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
+ 	/* This is zero'd when the MR is allocated */
++	struct_group(cleared,
+ 	union {
+ 		/* Used only while the MR is in the cache */
+ 		struct {
+@@ -691,12 +692,13 @@ struct mlx5_ib_mr {
+ 			bool is_odp_implicit;
+ 		};
+ 	};
++	);
+ };
  
- #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
-diff --git a/include/linux/string.h b/include/linux/string.h
-index b48d2d28e0b1..9473f81b9db2 100644
---- a/include/linux/string.h
-+++ b/include/linux/string.h
-@@ -249,15 +249,6 @@ static inline const char *kbasename(const char *path)
- 	return tail ? tail + 1 : path;
- }
- 
--#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
--#define __RENAME(x) __asm__(#x)
--
--void fortify_panic(const char *name) __noreturn __cold;
--void __read_overflow(void) __compiletime_error("detected read beyond size of object passed as 1st parameter");
--void __read_overflow2(void) __compiletime_error("detected read beyond size of object passed as 2nd parameter");
--void __read_overflow3(void) __compiletime_error("detected read beyond size of object passed as 3rd parameter");
--void __write_overflow(void) __compiletime_error("detected write beyond size of object passed as 1st parameter");
--
- #if !defined(__NO_FORTIFY) && defined(__OPTIMIZE__) && defined(CONFIG_FORTIFY_SOURCE)
- #include <linux/fortify-string.h>
- #endif
-diff --git a/lib/string_helpers.c b/lib/string_helpers.c
-index bde13612c25d..faa9d8e4e2c5 100644
---- a/lib/string_helpers.c
-+++ b/lib/string_helpers.c
-@@ -883,9 +883,11 @@ char *strreplace(char *s, char old, char new)
- }
- EXPORT_SYMBOL(strreplace);
- 
-+#ifdef CONFIG_FORTIFY_SOURCE
- void fortify_panic(const char *name)
+ /* Zero the fields in the mr that are variant depending on usage */
+ static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
  {
- 	pr_emerg("detected buffer overflow in %s\n", name);
- 	BUG();
+-	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
++	memset(&mr->cleared, 0, sizeof(mr->cleared));
  }
- EXPORT_SYMBOL(fortify_panic);
-+#endif /* CONFIG_FORTIFY_SOURCE */
+ 
+ static inline bool is_odp_mr(struct mlx5_ib_mr *mr)
 -- 
 2.30.2
 
