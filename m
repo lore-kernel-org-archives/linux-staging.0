@@ -1,78 +1,97 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351192FAF
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:35:55 +0000 (UTC)
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C053F20057;
-	Wed, 18 Aug 2021 06:35:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1629268553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fij3l61/xOvY9xkA2rhC457DvUyZYyMCemEsKNJK46s=;
-	b=XDMzVDgBtDC7yRNArmQ0BKIinRgOWB+efdA1H0+ebgwjbfLCfF+8a2ZOEuT9+k91pkWHZX
-	BmACw4eGI7d81xSNmBOPJ+mDY3uSPw7vAnBindp03Pzs6up3gJDZfNwouf150wutf2oaY7
-	5H/lpDv28QMd/ycTaiXldfoYo0u4drE=
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id E40EA134B1;
-	Wed, 18 Aug 2021 06:35:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap1.suse-dmz.suse.de with ESMTPSA
-	id l0UZNUiqHGGPcwAAGKfGzw
-	(envelope-from <nborisov@suse.com>); Wed, 18 Aug 2021 06:35:52 +0000
-Subject: Re: [PATCH v2 49/63] btrfs: Use memset_startat() to clear end of
- struct
-To: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
-Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-50-keescook@chromium.org>
-From: Nikolay Borisov <nborisov@suse.com>
-Message-ID: <cf6282b6-2f8f-2441-d3b8-437ba44b95c6@suse.com>
-Date: Wed, 18 Aug 2021 09:35:52 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from baidu.com (mx21.baidu.com [220.181.3.85])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6225B2FAF
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:37:01 +0000 (UTC)
+Received: from BJHW-Mail-Ex02.internal.baidu.com (unknown [10.127.64.12])
+	by Forcepoint Email with ESMTPS id F2E347505D291C5A97C4;
+	Wed, 18 Aug 2021 14:36:59 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BJHW-Mail-Ex02.internal.baidu.com (10.127.64.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Wed, 18 Aug 2021 14:36:59 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Wed, 18 Aug 2021 14:36:59 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <dan.carpenter@oracle.com>, <greg@kroah.com>, <yangyingliang@huawei.com>
+CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Cai
+ Huoqing" <caihuoqing@baidu.com>
+Subject: [PATCH v3] staging: r8188eu: Remove unused including <linux/version.h>
+Date: Wed, 18 Aug 2021 14:36:53 +0800
+Message-ID: <20210818063653.2851-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210818060533.3569517-50-keescook@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex30.internal.baidu.com (172.31.51.24) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 
+Remove including <linux/version.h> that don't need it
 
+v1->v2: remove "based on staging-next" from commit message
+v2->v3: add changelog to commit message
 
-On 18.08.21 г. 9:05, Kees Cook wrote:
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
-> 
-> Use memset_startat() so memset() doesn't get confused about writing
-> beyond the destination member that is intended to be the starting point
-> of zeroing through the end of the struct.
-> 
-> Cc: Chris Mason <clm@fb.com>
-> Cc: Josef Bacik <josef@toxicpanda.com>
-> Cc: David Sterba <dsterba@suse.com>
-> Cc: linux-btrfs@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme.c      | 1 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c    | 1 -
+ drivers/staging/r8188eu/os_dep/rtw_android.c | 1 -
+ drivers/staging/r8188eu/os_dep/xmit_linux.c  | 1 -
+ 4 files changed, 4 deletions(-)
 
-Reviewed-by: Nikolay Borisov <nborisov@suse.com>
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index d5ef5783f4ad..82b74ebdaabd 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -3,7 +3,6 @@
+ 
+ #define _RTW_MLME_C_
+ 
+-#include <linux/version.h>
+ #include "../include/osdep_service.h"
+ #include "../include/drv_types.h"
+ #include "../include/recv_osdep.h"
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index f4bf4732578a..aef978eef4d7 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -12,7 +12,6 @@
+ 
+ #include "../include/usb_osintf.h"
+ #include "../include/rtw_br_ext.h"
+-#include <linux/version.h>
+ 
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
+diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
+index bdd381606ba6..af0072e2cb5f 100644
+--- a/drivers/staging/r8188eu/os_dep/rtw_android.c
++++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
+@@ -3,7 +3,6 @@
+ 
+ #include <linux/module.h>
+ #include <linux/netdevice.h>
+-#include <linux/version.h>
+ #include "../include/rtw_android.h"
+ #include "../include/osdep_service.h"
+ #include "../include/rtw_debug.h"
+diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+index 4f1ce346b3a5..69966c696130 100644
+--- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
++++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+@@ -3,7 +3,6 @@
+ 
+ #define _XMIT_OSDEP_C_
+ 
+-#include <linux/version.h>
+ #include "../include/osdep_service.h"
+ #include "../include/drv_types.h"
+ #include "../include/if_ether.h"
+-- 
+2.22.0
+
