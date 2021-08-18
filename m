@@ -1,111 +1,81 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60E9173
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 23:32:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CB84D610D2;
-	Wed, 18 Aug 2021 23:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1629329524;
-	bh=92kdq27t3ep5Hl3CuE79QJIJv2tMQV5f2MwnOw6G9JA=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=Zcii3h2FvPs7aZiU5Yl8FCf9QQ15f1cbmEqGhphc5VGNoAaNUg4JDqO8DkAXVlo4b
-	 rkOqTpRVTZQvVqxHvfncXdWIv7hHKtPyKwiTX4Sm2dTucGGck1odMUA73zyW/rViXF
-	 KdM3rRTroNWX44eFpcWiHJ/uCaoqimTc585TZz39UExVtHVXyYAJkyhbQzpfA05x02
-	 ADa2bjnUqYRA+JyG2Ohzanfe6yMIOI9oMUqLxU0Qt0itWTdrzQxSJphZsc+JovndrP
-	 5x7Hg3ers9jwZ5Iv14bgfKOu6UQLhwLIBlAtOimypL7dhY9PoJLgOyfdjYEXmqpHAN
-	 GPhUo8/1CKw0g==
-Subject: Re: [PATCH][next] staging: r8188eu: Fix fall-through warnings for
- Clang
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20210818221418.GA311735@embeddedor>
-From: Nathan Chancellor <nathan@kernel.org>
-Message-ID: <b5136c4b-5fe3-43e6-e893-fe74b2ba913f@kernel.org>
-Date: Wed, 18 Aug 2021 16:32:03 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF976D17
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 23:42:56 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id w21-20020a7bc1150000b02902e69ba66ce6so2891818wmi.1
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 16:42:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AeNW5DL4/3VbSlgVXKYBeMDXXKxQSxKIYvKsB82ru7I=;
+        b=N8zNZEkhwZR8dq8CbaOVy2PGnejQZWfiehnBvT+o2+VaOeITtXV3hTTwW7fjm36CAP
+         VI/iayXUI2gHwTca4QNAFw+gdwZNZVHrgS3bh1eFz2M3SMFyBrH1Ju1BoQkrsmw1iW42
+         yd/+lwMeF9gZlO3UacU+1iaWL6gBT4lhoKZT7kLloAbuTQUNtLaOG2jXHbfyomtk4gbL
+         sRBqRXsE1NLv0A1tnXcZytdVmzraGBiv+fzBvhD2yGICt1cuTzDII4iPgFYKPaO1khsN
+         JogHSACTOZlR8pv2H6ndrpBGWfAJoviBCbqPgDTz19UGzi0l7SBjd9w+7yC60rYMeFi3
+         AwSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AeNW5DL4/3VbSlgVXKYBeMDXXKxQSxKIYvKsB82ru7I=;
+        b=LYsefj2AwaRLVnOsQd/5LiSA0a95/E+xQS3JfE3yjMTLwxv+sx8C2e3xtwYohtDBYs
+         f+UH6V0t8i6jMPiukUwrzHWFvn4z7H7MjfdTKtajroSrYCTIVlmULNBdspLgMdkIVtfR
+         nWQOpK4PxN8aM4JeCMbB1rU2lZ3IBZYu7PbK0nk3bM2DOq9/TI/7wlxB8bxoMeypaUyR
+         j+QziUFyoHS2ahL4oLxDAYLB1AMG3KUJ5KDcpfn82I/nKe0UNRJOuMiwMqbB5idm/frp
+         qCI8SZ0S1W9x+M6Lbnr9B6r8DuvW6fHsUgyukhDAEJgC1/32RZa+EokO7lw5auBcf9EV
+         oEew==
+X-Gm-Message-State: AOAM5300RjjH+HDSPkn9hDyyg4UiEFG5xXbfOu98Puhmr+cCEwHPak5g
+	w1bMEgovryiKUzR1k2dL2NAoyw==
+X-Google-Smtp-Source: ABdhPJznmV2FO3EfZOhEB6HIY/INZZuAsl/nxk8pr2DChtIFysgnaqSPxtJaQNlb/hwkzzeVu0UkkA==
+X-Received: by 2002:a1c:7506:: with SMTP id o6mr11217330wmc.112.1629330174665;
+        Wed, 18 Aug 2021 16:42:54 -0700 (PDT)
+Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
+        by smtp.gmail.com with ESMTPSA id z8sm1194926wrt.77.2021.08.18.16.42.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 16:42:54 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	martin@kaiser.cx,
+	straube.linux@gmail.com,
+	Larry.Finger@lwfinger.net
+Subject: [PATCH 0/6] staging: r8188eu: HAL related cleanups
+Date: Thu, 19 Aug 2021 00:42:47 +0100
+Message-Id: <20210818234253.208271-1-phil@philpotter.co.uk>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210818221418.GA311735@embeddedor>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/18/2021 3:14 PM, Gustavo A. R. Silva wrote:
-> Fix the following fallthrough warnings:
-> 
-> drivers/staging/r8188eu/core/rtw_mlme_ext.c:1498:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-> drivers/staging/r8188eu/core/rtw_wlan_util.c:1113:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-> drivers/staging/r8188eu/core/rtw_wlan_util.c:1147:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-> drivers/staging/r8188eu/core/rtw_wlan_util.c:1405:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-> 
-> This helps with the ongoing efforts to globally enable
-> -Wimplicit-fallthrough for Clang.
-> 
-> Link: https://github.com/KSPP/linux/issues/115
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+This series provides cleanups related to the driver's HAL layer, by
+removing certain code which is no longer necessary.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Phillip Potter (6):
+  staging: r8188eu: remove _dbg_dump_tx_info function
+  staging: r8188eu: remove unused function dump_txrpt_ccx_88e
+  staging: r8188eu: remove txrpt_ccx_sw_88e and txrpt_ccx_qtime_88e
+    macros
+  staging: r8188eu: remove empty function rtl8188eu_free_xmit_priv
+  staging: r8188eu: remove function rtw_hal_free_xmit_priv
+  staging: r8188eu: remove free_xmit_priv field from struct hal_ops
 
-One small comment below.
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  2 -
+ drivers/staging/r8188eu/hal/hal_intf.c        |  6 ---
+ drivers/staging/r8188eu/hal/rtl8188e_xmit.c   | 53 -------------------
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  |  5 --
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  1 -
+ drivers/staging/r8188eu/include/hal_intf.h    |  2 -
+ .../staging/r8188eu/include/rtl8188e_xmit.h   |  9 ----
+ 7 files changed, 78 deletions(-)
 
-> ---
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c  | 1 +
->   drivers/staging/r8188eu/core/rtw_wlan_util.c | 3 +++
->   2 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index 61b239651e1a..590a4572c23f 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -1495,6 +1495,7 @@ unsigned int OnAssocRsp(struct adapter *padapter, struct recv_frame *precv_frame
->   			break;
->   		case _ERPINFO_IE_:
->   			ERP_IE_handler(padapter, pIE);
-> +			break;
->   		default:
->   			break;
->   		}
-> diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> index cddacf023fa6..e0ce2b796abe 100644
-> --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-> @@ -1110,6 +1110,7 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
->   			case _RSN_IE_2_:
->   				if (!memcmp((pIE->data + 8), RSN_TKIP_CIPHER, 4))
->   					return true;
-> +				break;
->   			default:
->   				break;
->   			}
-> @@ -1144,6 +1145,7 @@ unsigned int should_forbid_n_rate(struct adapter *padapter)
->   				if  ((!memcmp((pIE->data + 8), RSN_CIPHER_SUITE_CCMP, 4))  ||
->   				     (!memcmp((pIE->data + 12), RSN_CIPHER_SUITE_CCMP, 4)))
->   					return false;
-> +				break;
->   			default:
->   				break;
->   			}
-> @@ -1401,6 +1403,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
->   			} else {
->   				break;
->   			}
-> +			break;
-
-Would it be better to just remove the else branch at the same time? As 
-far as I can tell, there is no reason to have it.
-
->   
->   		default:
->   			break;
-> 
+-- 
+2.31.1
 
