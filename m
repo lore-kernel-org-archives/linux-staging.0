@@ -1,45 +1,44 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A896D18
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:24:13 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id nt11so1978055pjb.2
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:24:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081956D19
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:24:14 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id 7so1098778pfl.10
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wNrSyu18+TQvxqozBk6dKmc83xjPuqXEkZM9+CZkQs8=;
-        b=hq0RZc8pvhUdG6LQCrGBNQbN7VTMq2CkOF4QQtsj4WrxV2UTBN34Md8Gi7LkipMBy6
-         xL7jSFJnNHOowLO3Jca2aK8bMlaJLC+laeAIEoH1LMm2sWoMULTrkMcKoRbBAsM8UOpd
-         ihsdkkeDmGTdleDP1YZNWHcSi4UiGfzn3DsyI=
+        bh=8+A9B+piI2a1pz1tZAhljlWwZX3AUujJJLfFoqwX48c=;
+        b=Q+q1h03VOWqVXzc4UWVq6BvyCUjGxNglcQsoPbOnB43uw1Jqc5Ed9uK4QDnveHGz1L
+         Kya8Q0vnWUuWLwq9hkYIWv7GxXRbMo2Cn56A77ympKTwr1zpeF0LpQAEZ7AZzIuS6Rai
+         ktv4XVcS4xzeG7T6YIHvPnWg9yZ74XkeQethw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wNrSyu18+TQvxqozBk6dKmc83xjPuqXEkZM9+CZkQs8=;
-        b=IpGFrxyRhbs/ETw+62Cu8IMObihDnmm7CZH+prh6IeHd+kfFtL79Uemizr//dl4XQc
-         UwTch1bTpGJNzGvwJSVu6znog3lee9wpNuENe3e83twS2+GoF5gdGFH/1isrI32IL/pE
-         OtsC7d2pJfXhI59dH+and/0Rv1jDgMn1+unONwUSOC0Zy4paJJhvdT+8YGoPIpiA4Opx
-         5nbF+0wYjQbmiU8bNge8ySFrvlNoI2DLOK3dzm339fpLPfU9HxC7JVXrZOk2L857jjHA
-         u7+w7HKQzOsg0AL5AF60XowopoAVGbJfro/hTnka0DO0tVzDJ27zQWlxaGNe8f8yqp0D
-         NYyg==
-X-Gm-Message-State: AOAM53387otjcRrGLkJMLqa7EKsidXkAOAVyaZSyrCExQ1USrp+J5KiB
-	Y8nr+gr8wC3mvpiXYNJv2Sb4RnXcvp77Kg==
-X-Google-Smtp-Source: ABdhPJxMkEdSe0VUFwn+z4vxkdsUFqJ2UwImPieDkAd2A7unXagJo2uR8zh40lbVDVJdC8iJXw8UiA==
-X-Received: by 2002:a17:902:cec3:b0:12d:92c4:1ea6 with SMTP id d3-20020a170902cec300b0012d92c41ea6mr5911733plg.36.1629267853392;
+        bh=8+A9B+piI2a1pz1tZAhljlWwZX3AUujJJLfFoqwX48c=;
+        b=NtgzdzChO5GBF7+0wbvY6xoucBtge9nKBZmCxYvKLXsnTP0QnGaeHfUhHM8zOegEWg
+         cwueoxqKnXnHbPY5nIRnF0hC4ifwR5ZF0Px8p6Wp14uNPwrzK9gmiAyBxG44dJm3Pewq
+         ucp+ZOGehtIxBcLg5x7DYvlpHQGxgtMnWkDz47vPmZj1c1uP14R2UkNEmiAtz4nzXmo0
+         XyfvTupYdawnJItB6jtXDW2zP2d9m6MJNd6F5ePK8EMd2u+MIMuf6G9B+nYJLqRHwSOY
+         NsV5A70rClyEJvVaBwhErGpXBpnMFS6FVRsgjH+DGMjoMVbDNnoBhAz3MzPXSv5/7F/d
+         EmkQ==
+X-Gm-Message-State: AOAM533Oun4+DOL5AvO6dbkB/nrwK3fFU0mK71P3X7aILUj/X+3E5Jk5
+	DYzCClowH716AwYHYtSYM9hB5A==
+X-Google-Smtp-Source: ABdhPJxCPUoUEoBjNrtfl0W88T/NpydxEyxEPAEFUx/gyRjyJ4MO5rFkm2cPoNcf30Dno8o0XcPo0w==
+X-Received: by 2002:a05:6a00:134e:b0:3e1:1ed:80ff with SMTP id k14-20020a056a00134e00b003e101ed80ffmr7575503pfu.34.1629267853688;
         Tue, 17 Aug 2021 23:24:13 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y13sm2710073pjr.50.2021.08.17.23.24.12
+        by smtp.gmail.com with ESMTPSA id p24sm4878901pff.161.2021.08.17.23.24.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:24:12 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Chris Mason <clm@fb.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	David Sterba <dsterba@suse.com>,
-	linux-btrfs@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@redhat.com>,
+	dm-devel@redhat.com,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -52,9 +51,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 49/63] btrfs: Use memset_startat() to clear end of struct
-Date: Tue, 17 Aug 2021 23:05:19 -0700
-Message-Id: <20210818060533.3569517-50-keescook@chromium.org>
+Subject: [PATCH v2 54/63] dm integrity: Use struct_group() to zero struct journal_sector
+Date: Tue, 17 Aug 2021 23:05:24 -0700
+Message-Id: <20210818060533.3569517-55-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -64,7 +63,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1202; h=from:subject; bh=j07ODF9kjbRRiHohObgJ1N/RHPZCTrQAmspnQvku4YA=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMpNf/1TOA8EHO13yPM2WoVQcddjcJSpXNg/q95 NGD5Kx+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKQAKCRCJcvTf3G3AJiFDD/ 43YRq8chsycAfEPzeH3ODP8oX8vzyejO0KZxGwB29jISLONkndclAADo87JB841bplfSqHF4g/N0Yr 9BPUFM/u9aD6MYInBsgRcfvidkMVdvLwJHJroTXouReKf+wENJpCE42XqDFb6/OHW+qszfq48l2ZsZ vlrJcOJH5B/7MGz2vGlPOqarS6QPhKxELyHgWma5US/BF+fmqXoGyLI96PzJHBVwD8Fv1vRW+FZyYX mS0c778XSYdo50TMLiLEeybc58/w6WbytsuOe2gDRaDra0L+tnQU3bUemlEwF/otdXngLgjznL3aHr 03wBbU/uuuYnsF2VxKSH3eTmyOXxM0Fc0gfhMAHlPYOx3FWaj25UujliZBiwYTeajzJsMlNaMxhyYC CNKnLKNfyeqkcnmjrNFG0fLVNoy2o0OR5zMuoedsu9e9ywbM82GfxRkHbOU9ZMZ5GgY2NMQXjzSHXm JS7ECNId/+w48q42Qz1RDDbkk71kX5clz/7ywEULnxcdaVF9VLida+SAjBnEmtDTTT5a3LFsbnweA7 31UgpReo5DWgV9+9dvXi/NGJgP+uufVyB7FGtNrTHKNpqkfmCVfC6YFh7uVwrtuLat1U/8LUy3Rdgf RT0NM3pRRzNQ/fI9ZSg5+8wsIv5qwbvYlgUlhc046qXy22//QbKOPQkqvAQQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1663; h=from:subject; bh=RPEjx0xOcNjHRBM+3EZ1vHtaj+TxiBoxNq+cj1Ac9bE=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMqKJz2SoJYeKtBFLmX4tcR3DHJFXvBbKzH4heh kSEkuyiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKgAKCRCJcvTf3G3AJuKGD/ 4n4SpuomtIZ+g22QufnnrQNKHA98zIHUxCFyPUWlldkaYq1yjxANA7kCeWzhMyhnDbNsMcPnBz0u8w gTumF2NUeGQx1DWnIYpoWchHj0biXBVmJ627d0qH4ZPJV0xVoCra7OxBNu9MzddxWpF6sdPcwkm6G6 KRyO9F4M4JhZ6wIx91tgVghgSzl5twheIhtA3njJ073Q8wNaDnBzfs/l9Ut/AzjfupZu1x3ki+jwpu WmD6nfcKbq0Iek6wuIdRHun0EOL5PBZd4fWR1bJEQePLiZZr/WzyrJktCcPBtbfNoxoh3Zd/RDOYxC Phqtb9d6KbfQDNPiqFq8A/FFx6Omeamuzt6AZrvZOtupVwaAqZxmTGL+T1t6dJrUD1sjtKDjGoNOLi 7dn6c/08XUE+My/kdCiaqMIMLvnXKeruIHQhrlJ6zoMYvFZ06D7/j39GezPIeXXaEJGwuF4EXX7UYn QzJ8yJKQqHgf3AnzSklDq7S2QgMQbMBg1H2HY21GsA89Wb8lyNm0RvImBjKDi+T7HWHtu01K2er3t2 O4+fb9meXQjoQXeBGEZ9RShjhKkgK9BaIxyiqfANsALqrrzQxMSMbRLvnALSRrEOGtrHi3ZBCAsQ/F uBwH2rx2bGKY/138CbdayzcXJ/PERuBisG0LhMFqbUDxYwVopHT1lxsnBtzA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -72,36 +71,44 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Use memset_startat() so memset() doesn't get confused about writing
-beyond the destination member that is intended to be the starting point
-of zeroing through the end of the struct.
+Add struct_group() to mark region of struct journal_sector that should be
+initialized to zero.
 
-Cc: Chris Mason <clm@fb.com>
-Cc: Josef Bacik <josef@toxicpanda.com>
-Cc: David Sterba <dsterba@suse.com>
-Cc: linux-btrfs@vger.kernel.org
+Cc: Alasdair Kergon <agk@redhat.com>
+Cc: Mike Snitzer <snitzer@redhat.com>
+Cc: dm-devel@redhat.com
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- fs/btrfs/root-tree.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/md/dm-integrity.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/fs/btrfs/root-tree.c b/fs/btrfs/root-tree.c
-index 702dc5441f03..12ceb14a1141 100644
---- a/fs/btrfs/root-tree.c
-+++ b/fs/btrfs/root-tree.c
-@@ -39,10 +39,8 @@ static void btrfs_read_root_item(struct extent_buffer *eb, int slot,
- 		need_reset = 1;
- 	}
- 	if (need_reset) {
--		memset(&item->generation_v2, 0,
--			sizeof(*item) - offsetof(struct btrfs_root_item,
--					generation_v2));
--
-+		/* Clear all members from generation_v2 onwards. */
-+		memset_startat(item, 0, generation_v2);
- 		generate_random_guid(item->uuid);
- 	}
- }
+diff --git a/drivers/md/dm-integrity.c b/drivers/md/dm-integrity.c
+index 40f8116c8e44..59deea0dd305 100644
+--- a/drivers/md/dm-integrity.c
++++ b/drivers/md/dm-integrity.c
+@@ -119,8 +119,10 @@ struct journal_entry {
+ #define JOURNAL_MAC_SIZE		(JOURNAL_MAC_PER_SECTOR * JOURNAL_BLOCK_SECTORS)
+ 
+ struct journal_sector {
+-	__u8 entries[JOURNAL_SECTOR_DATA - JOURNAL_MAC_PER_SECTOR];
+-	__u8 mac[JOURNAL_MAC_PER_SECTOR];
++	struct_group(sectors,
++		__u8 entries[JOURNAL_SECTOR_DATA - JOURNAL_MAC_PER_SECTOR];
++		__u8 mac[JOURNAL_MAC_PER_SECTOR];
++	);
+ 	commit_id_t commit_id;
+ };
+ 
+@@ -2856,7 +2858,8 @@ static void init_journal(struct dm_integrity_c *ic, unsigned start_section,
+ 		wraparound_section(ic, &i);
+ 		for (j = 0; j < ic->journal_section_sectors; j++) {
+ 			struct journal_sector *js = access_journal(ic, i, j);
+-			memset(&js->entries, 0, JOURNAL_SECTOR_DATA);
++			BUILD_BUG_ON(sizeof(js->sectors) != JOURNAL_SECTOR_DATA);
++			memset(&js->sectors, 0, sizeof(js->sectors));
+ 			js->commit_id = dm_integrity_commit_id(ic, i, j, commit_seq);
+ 		}
+ 		for (j = 0; j < ic->journal_section_entries; j++) {
 -- 
 2.30.2
 
