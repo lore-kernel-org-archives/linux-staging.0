@@ -1,80 +1,60 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B65F2F80
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:00:37 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id j12-20020a17090aeb0c00b00179530520b3so8274590pjz.0
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:00:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jSLfXbs59mtRstzo4Hk2BNosvMcxHU6QjHDYVbvhF94=;
-        b=IZiDZuRS1dgbax2OIM0qBL1zjf9wYlmKLTEfzJy5RuUwQu4eQ6Cqmnd2ZfQ9EnnS5E
-         Jr1fAcgL/JdFgkFZ89xjBuBPSORKqFiw+3e1WhRfjnkRI6XhhARyc2h+l5KPSXucToC1
-         5NtBgghBSCisOGicrsb9AX3gqpRGgB9wryJPh6wD220SUglcmvJcuJFjUggtI/Et9Qhq
-         yJL8iRXbbCgl4lZdUfxZejEJadW6CurxesAMbeYQ33LbfTu1KA1dNxOq6HMfw0FLGwDr
-         OcBg18AVZFD7ZTL3PphKIXIDGtjeF3qBwk12Pxl3ByoW3VLzL+hvaHjyLcAcizZ3cE8S
-         xzgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jSLfXbs59mtRstzo4Hk2BNosvMcxHU6QjHDYVbvhF94=;
-        b=s8sNa9Y/f7/pJVAYDsPYhOmIUBc5ic9NJWpUUXiW0ZUbSNHTrcEtICveGp8zjr5A+2
-         5fGrbLObFURPpHhzM8Obo8lU1LzPNIHWlzVW59c2xf9hWrjlzewhigbxKZWA9rtUbQuj
-         6lhIjEhm0VYuPexJ/vsLiqAlX0/i0MvdCK1Lx418dFKIKF8RC9uWmG6hyMxW19uWgv0j
-         GAn4JD56o6T7VPzcS2tQbpX5qcRt751RSyjbFEvGn6PACZZmFtW78z1cRJbZGEF4B3rY
-         QT9YWLobKeo9wnrjrJZHKa0aRR3mwRnDAUXluqBeF4cNoSID510IKcR5lq6mTuRygyJJ
-         QZpw==
-X-Gm-Message-State: AOAM5336oRMOcpILBLE3yzcoHeJ87QYJxzoTbO/clgkJMrfQgoQkLNVG
-	LjUaBXmj+s70RFPuvjABA8Idpg==
-X-Google-Smtp-Source: ABdhPJz6nHvt8tLhRUxNLQv5z93Dx/TL1iQrf7p3Xot0rNlhIhtJA6nFhb5bwd/3tPACvE5mJ3aZJA==
-X-Received: by 2002:a17:902:edc8:b029:12d:4a06:1c25 with SMTP id q8-20020a170902edc8b029012d4a061c25mr5874222plk.61.1629266436958;
-        Tue, 17 Aug 2021 23:00:36 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id 136sm6020660pge.77.2021.08.17.23.00.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:00:36 -0700 (PDT)
-Date: Wed, 18 Aug 2021 11:30:34 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210818060034.tdu3ocbqlnao336u@vireshk-i7>
-References: <20210817012754.8710-2-digetx@gmail.com>
- <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
- <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
- <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
- <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB142F80
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:03:55 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id B5B235C024B;
+	Wed, 18 Aug 2021 02:03:54 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 18 Aug 2021 02:03:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=Z4OBGGYHBzMUarRh5bKxj4waQXW
+	Q8+mOIcMWDFXb/SQ=; b=lls89CTvEz3WollTMyEC2xgtnB5ky7CzHnr2SxZN3Vp
+	iomR9cANbFNsojWbrc1CCOR85+G6JvbLFwFOaS4ldtWrDyQoCGnLdlqSgpY3INdL
+	JlUoc1bDmOJGGt2m5Vw97n9jBEAhH5BKy2n2anz5bnW2wDl9YUoPrsqy3/3Hqs1q
+	5kYK6XpBAAnfvf6YrBIFFOuMTnNol10CJwKtOu/1WW0N4HYNNMPB2uY+VZSb2R1n
+	Eap02Vg4aruTs4TuwgwyRGj9/YtMYlW7gEmLO7GDIiPV897QXCXUtkbT9ezZyGn/
+	PwA28W44JsUoh028Vtvn2ElPCVPSfPGTKqgSAW4b48g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Z4OBGG
+	YHBzMUarRh5bKxj4waQXWQ8+mOIcMWDFXb/SQ=; b=Nw/F3V5hxMAVO5B+aprBwm
+	WJpsIqcC9BXvyCkTff3KKiEETXWX31wSBcdOEZ9rdk6BJ0n4icvZU4dI07HILbz5
+	7ydGHpbX07kDqlLzINBtusssyj0NH9NO4I2alUp8eXtZfV15I2gaRgof6ZWMTShn
+	AsOTXQ+eFnEElWKu/tBFRih6ash2vP7xsuHJjEPrbFqXuXak4uEpkFOlpH5pz80C
+	ZM0afP0hC3fSpRrtwq36hIh/NurcKWM5tk3Dnn/o+ShroFMjxO49nS1GvWHs8QHg
+	kVqPLhPZ1W2FNMKoj1/aUD7I9uySPni/DsIoWOFNT+F/p/UjMgJklhjRKxab0Nbw
+	==
+X-ME-Sender: <xms:yaIcYSAXE-19QqNgdgL4Ndg0YHNL_rDPYTt_hGWLV2Vl7CXr4PUWeA>
+    <xme:yaIcYci0XXHqhKFSAQLuWqgNRtzTnOAhk2SZw4-frQm4AW3E84pdXGcrzbuJdxijr
+    c9pax-9Fqvx5w>
+X-ME-Received: <xmr:yaIcYVkBEoWj5wQ0TEOKVEbgxWz3YSALcd6iFVh4cl0QVW4fGtH0nWomeklzk10IvuhMRVjCTzUAeAdBVwZx5CV5d0UxLhwO>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleeggddutddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+    drtghomh
+X-ME-Proxy: <xmx:yaIcYQz1z4YkgjZCz-AlZ0rM80ir8cZcCCGnH_K2GmZmF2IaR2WVpQ>
+    <xmx:yaIcYXTiB8iYLIx3ketjEJu2q5T-0xYJpt6VyTN25Ez8nfXAnPr_CQ>
+    <xmx:yaIcYbY_phwDIWvMkv4amcjhzSN8FU4NUXJH8vsdpJANnyGGkdcbrw>
+    <xmx:yqIcYSHylyFcpTLAAMBNO4BteGREuTzsLVUEuws5oDdcOwUUZ15Ndw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Aug 2021 02:03:52 -0400 (EDT)
+Date: Wed, 18 Aug 2021 08:03:50 +0200
+From: Greg KH <greg@kroah.com>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: dan.carpenter@oracle.com, yangyingliang@huawei.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: Remove unused including
+ <linux/version.h>
+Message-ID: <YRyixigRy/XvccKs@kroah.com>
+References: <20210818054946.2751-1-caihuoqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,52 +63,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20210818054946.2751-1-caihuoqing@baidu.com>
 
-On 18-08-21, 11:28, Viresh Kumar wrote:
-> On 18-08-21, 08:21, Dmitry Osipenko wrote:
-> > Yes, GENPD will cache the perf state across suspend/resume and initially
-> > cached value is out of sync with h/w.
-> > 
-> > Nothing else. But let me clarify it all again.
+On Wed, Aug 18, 2021 at 01:49:46PM +0800, Cai Huoqing wrote:
+> Remove including <linux/version.h> that don't need it
 > 
-> Thanks for your explanation.
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_mlme.c      | 1 -
+>  drivers/staging/r8188eu/os_dep/os_intfs.c    | 1 -
+>  drivers/staging/r8188eu/os_dep/rtw_android.c | 1 -
+>  drivers/staging/r8188eu/os_dep/xmit_linux.c  | 1 -
+>  4 files changed, 4 deletions(-)
 > 
-> > Initially the performance state of all GENPDs is 0 for all devices.
-> > 
-> > The clock rate is preinitialized for all devices to a some default rate
-> > by clk driver, or by bootloader or by assigned-clocks in DT.
-> > 
-> > When device is rpm-resumed, the resume callback of a device driver
-> > enables the clock.
-> > 
-> > Before clock is enabled, the voltage needs to be configured in
-> > accordance to the clk rate.
-> > 
-> > So now we have a GENPD with pstate=0 on a first rpm-resume, which
-> > doesn't match the h/w configuration. Calling dev_pm_opp_sync() sets the
-> > pstate in accordance to the h/w config.
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+> index d5ef5783f4ad..82b74ebdaabd 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+> @@ -3,7 +3,6 @@
+>  
+>  #define _RTW_MLME_C_
+>  
+> -#include <linux/version.h>
+>  #include "../include/osdep_service.h"
+>  #include "../include/drv_types.h"
+>  #include "../include/recv_osdep.h"
+> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> index f4bf4732578a..aef978eef4d7 100644
+> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> @@ -12,7 +12,6 @@
+>  
+>  #include "../include/usb_osintf.h"
+>  #include "../include/rtw_br_ext.h"
+> -#include <linux/version.h>
+>  
+>  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
+> diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
+> index bdd381606ba6..af0072e2cb5f 100644
+> --- a/drivers/staging/r8188eu/os_dep/rtw_android.c
+> +++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
+> @@ -3,7 +3,6 @@
+>  
+>  #include <linux/module.h>
+>  #include <linux/netdevice.h>
+> -#include <linux/version.h>
+>  #include "../include/rtw_android.h"
+>  #include "../include/osdep_service.h"
+>  #include "../include/rtw_debug.h"
+> diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> index 4f1ce346b3a5..69966c696130 100644
+> --- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> @@ -3,7 +3,6 @@
+>  
+>  #define _XMIT_OSDEP_C_
+>  
+> -#include <linux/version.h>
+>  #include "../include/osdep_service.h"
+>  #include "../include/drv_types.h"
+>  #include "../include/if_ether.h"
+> -- 
+> 2.22.0
 > 
-> What about calling dev_pm_opp_set_rate(dev, clk_get_rate(dev)) here
-> instead ? That will work, right ? The advantage is it works without
-> any special routine to do so.
-> 
-> I also wonder looking at your gr3d.c changes, you set a set-opp
-> helper, but the driver doesn't call set_opp_rate at all. Who calls it
-> ?
-> 
-> And if it is all about just syncing the genpd core, then can the genpd
-> core do something like what clk framework does? i.e. allow a new
-> optional genpd callback, get_performance_state() (just like
-> set_performance_state()), which can be called initially by the core to
-> get the performance to something other than zero. opp-set-rate is
-> there to set the performance state and enable the stuff as well.
-> That's why it looks incorrect in your case, where the function was
-> only required to be called once, and you are ending up calling it on
-> each resume. Limiting that with another local variable is bad as well.
 
-Ulf, this last part is for you :)
+Hi,
 
--- 
-viresh
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
