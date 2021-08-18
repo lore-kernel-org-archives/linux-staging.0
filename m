@@ -1,46 +1,49 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0206D22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 036866D28
 	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:24 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id n12so1157059plf.4
+Received: by mail-pf1-f178.google.com with SMTP id x16so1083577pfh.2
         for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xqHRpTF29XKCvHESFQ890ZRLt8tV/z5c3XHhrLDSkrI=;
-        b=eDnWZw9KRm46hwXvZT4C7S5d+90hyINh4v1SZZHIktQhca39Kv5j4305RFuRZO4r+N
-         FpSZgAZO8EAZPKCqstt9sYRz4H1aNUG21Hkzfac89V2BS6o4rE2tpIfJtZvJgvvE0tGw
-         8wAP/HK8m8mUdps9C8RUZGGooYOTstKeYh1Yo=
+        bh=yostY7DgtNEMxgC+z6nJc1wNrs0N6emskwhOe9bgfvc=;
+        b=AeeVJhrfSUwjNkJmHYssbuRGtvwH8MtYjEmQTdlM+zGDSxyBJ28HUKoShXRQriCQzc
+         fJG8YQplcuYQRtRQ2YMV0te2Q2U0QO6Xwj/zC20UVKGNd8srvQxwJqSouXymq5Dm9l9U
+         kg3aDet5N6dWH1hOI5Ptu5TDuJ7GU9hh7JwQs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xqHRpTF29XKCvHESFQ890ZRLt8tV/z5c3XHhrLDSkrI=;
-        b=kQRttb9bu7X9gQeYlPAXSZR/SFOgTCvHtXEWJ4fyU8OPqi3Fxx0diphTTVjXHQ2lJr
-         oBvII1zeI8H5kDuYgkClay0dX4UY5AXtDJaAS9El1Wg2CespEoG62yN9H9DW9QsuqDtw
-         9nk+EqFnV6+sYvXvKu2fXR9Gi3iK3BtsanJ96ocSBZbjdfYrzUbstbcYPi4An5CjJcSn
-         0hKP99No4SZpcGs1KRV2/wO1sk4384EzZFz3R1qx927jdOMtsvicjWqNH0tusUWCjT7l
-         SwWgAJObzd6qE0sUWYfi4RcWV9/JwQ08LZb1OQBYF+pQzXI1NWPJ972nRS704+UyFzM1
-         yZpA==
-X-Gm-Message-State: AOAM532BSQjQe6wBi89prs4dwAaQxFSSkJ4ue5YVjH8WHD4nqIe2i4jb
-	oVUOBtFsbOKu5svIUdePYJwrgg==
-X-Google-Smtp-Source: ABdhPJzs0l6+96q5WrJaIq9sc6XvKb4+TMWLp34figTZCCyBwzySh6PWPIKNRtNT4xpSHHkkTwp3EA==
-X-Received: by 2002:a17:902:cec3:b0:12d:92c4:1ea6 with SMTP id d3-20020a170902cec300b0012d92c41ea6mr5883424plg.36.1629267264338;
+        bh=yostY7DgtNEMxgC+z6nJc1wNrs0N6emskwhOe9bgfvc=;
+        b=GlOBk34kI9AcyCRrVgkVXcvNZ0QS+nDPWtyvFN4vzi9QntbPHAlWKzTXEdIfIwroep
+         Dpg7BseSaRZJZcVcxePIwu3kaE9REjDz8n2ewFj27sRSXA7T/sqfmbY+Dkm7tdqNkdjg
+         5kLdVYLSuMdsBeZzopxX8QniFM6OWXrJxlYpP+aLgCL+b3jL8UOAnzYp8gXvK4bt5H6Q
+         HGsgegnLSIS1jVnptp03y52fiImmEPaOl3rkz/j7IqtCI3Gmaf6lRt9oRnctFHV+HOJt
+         tDyykcBfsxMe/UXlzIDR72tN4QJFYlY7Q1N4JspuVK5i1tLtrsZim4qtZSeFA7Iv3UAc
+         8I+A==
+X-Gm-Message-State: AOAM533gUUToMOp346o5YO6snlihARHuGq1rRfxTIYXYbBrws4mjgx2A
+	LrA6E6SHSCbS5nnmwdxPxrIB5w==
+X-Google-Smtp-Source: ABdhPJx1biBS3JeL8+/6G287ajSKc6EnHKozD5KJ2i1ni7/MspHuQbMRsOEesEpJ1k8lOCChLRw6ow==
+X-Received: by 2002:a63:a58:: with SMTP id z24mr7368490pgk.175.1629267264619;
         Tue, 17 Aug 2021 23:14:24 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u10sm5718071pgj.48.2021.08.17.23.14.19
+        by smtp.gmail.com with ESMTPSA id j12sm4592066pfj.54.2021.08.17.23.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:14:21 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Francis Laniel <laniel_francis@privacyrequired.com>,
+	Daniel Axtens <dja@axtens.net>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
 	linux-wireless@vger.kernel.org,
 	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
@@ -50,9 +53,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 50/63] tracing: Use memset_startat() to zero struct trace_iterator
-Date: Tue, 17 Aug 2021 23:05:20 -0700
-Message-Id: <20210818060533.3569517-51-keescook@chromium.org>
+Subject: [PATCH v2 27/63] fortify: Move remaining fortify helpers into fortify-string.h
+Date: Tue, 17 Aug 2021 23:04:57 -0700
+Message-Id: <20210818060533.3569517-28-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -62,39 +65,84 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1037; h=from:subject; bh=tJ+Y8mubd5vChiEdKyhrwIAPkGIRLmuKu7c5cVoFF8E=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMpD14ogHSXr5bFvuUHYu3T5qJe0zYALPCZMtZa BMo6QAuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKQAKCRCJcvTf3G3AJmAwD/ 0a3+zKByTlHW7da31ew04MLWM2GyDtX5IWTWqZsa8eYoXbBB5X7LZRQLJ1vlQZHRLhepR9ZpITXmne EiQC9Yi2RCSGHYXs1DT8c2kWev59MckO9Ru6PbJsXCCCEtTQ6DMpe/Jx5fGA8+6uai2MdlkbPr1hcJ pBSeJNFQs0Pv1vqmL283XNUPLYaVRRlPmA9Gp6u3cYUEC+MvJh//1ksZAZO4Nyg2WQnN8olRr3f3NE /FPwlpkC0jjYP6MOJqAsGXQsShWeRQihUK27+fSMl0qP0sQvOypGdnWB5Xt9pHnrb59B+NoIWV3usD tlUXL9PjYEJYMDWPQTUUNPBMZZKOHI+48wGm37V+dXOW7TWP6k1ZaORRpaSbK4ePyA4y/UOyFr9kg/ uCpCZQbVxO0XsyHwZnPxyR0ffSAr5pZsGQoIXVSdGOiCT/l0l3GHYuulIqOqhrbldUvZjy3etP7MiI hx1VUn4EjkhIMB8HWOeouTN9VqnOXsp0Uoh3nMHIAOMLkJS8l1ptPjxUjAbP1ZRctjIKVTGS6xk+Mc BWlhshbZH64vEGQ9HoKgHm6UlwyYt5R2mkzOSjk0VSY4jGO4wg5giXsw55wRe6w4igcWbd0lCpFOWG qRUJgP1YlRnTAtp59niaAQ2aRXBKcpue4WIdo6iOcrFKIwc2EolBb7yDoGAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3427; h=from:subject; bh=0VUkvjsb3JE/e2CXDissoloibGhlZ4bMl0ZngnkvP5A=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMjq105jppvlrAL+Uq+MQY6ED6Y9FMI8zm1hPrE ykvADZuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIwAKCRCJcvTf3G3AJgxoEA CHX4+YbgJVBHEw9Sn3IX5V504yG/NCxhHF4JykNAz36dr+RFRl0Kcyz2B7nwjZusR5Vmt/ef1uwVpD vUFACpJ9hm3dLxu/TOzjSDpY+dbijOGFsfmjsCnfpZ7Aw7arFR+dueXGHyuppqtxwjiei2VBv7NkLH fIaz4akk3zsm7p8PDUMHVqHTa5KJadN2q9rNGGe0+Vrymyn4W+SQwMoF1brOLKkMdDqC2uxEL+WomR ayeuwznYVE7clbnasPBBK+c0w94SjONDN0Ng+k+qk7s79GdMHv49Bdvc3qSjI4w82/rTLISttfrK8h 8crj7mVMeHx8pEPFSL6XYe9Hp6I0AMkhfaY5SXOS+yzS/kN0cyCbdH2Jz2S2OXNz8FG8XxB4b00ouF va0zZRAIbKaayow+9up5yQAZpQVL+Ck/qd/5shLDnS765J4ldO0QpW00Aqnsheh76nhHtTSkhARFnb nOrWU/S+u9e2w9TiYLMlKl2i29H9TKu/q898ZLUW4WvARATseAhjhoWIIDqDA0tNHartcKh2XPoZUM 6tsR542P5E0Jb+HyJZv13FvgiN/pmDXHx0d4dxAPEXFJ+pJ+KOmNqdeULjuvuwtcy6zKPpS+zTHIhL 71tIGGPwH5X3B5sHrfSSzU26nlZ4bBr+0WqJaLk5Kysl4udUeW+KXqBYHTcQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memset(), avoid intentionally writing across
-neighboring fields.
+When commit a28a6e860c6c ("string.h: move fortified functions definitions
+in a dedicated header.") moved the fortify-specific code, some helpers
+were left behind. Moves the remaining fortify-specific helpers into
+fortify-string.h so they're together where they're used. This requires
+that any FORTIFY helper function prototypes be conditionally built to
+avoid "no prototype" warnings. Additionally removes unused helpers.
 
-Use memset_startat() to avoid confusing memset() about writing beyond
-the target struct member.
-
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Francis Laniel <laniel_francis@privacyrequired.com>
+Cc: Daniel Axtens <dja@axtens.net>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Andrey Konovalov <andreyknvl@google.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- kernel/trace/trace.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ include/linux/fortify-string.h | 7 +++++++
+ include/linux/string.h         | 9 ---------
+ lib/string_helpers.c           | 2 ++
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 13587e771567..9ff8c31975cd 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -6691,9 +6691,7 @@ tracing_read_pipe(struct file *filp, char __user *ubuf,
- 		cnt = PAGE_SIZE - 1;
+diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+index c1be37437e77..7e67d02764db 100644
+--- a/include/linux/fortify-string.h
++++ b/include/linux/fortify-string.h
+@@ -2,6 +2,13 @@
+ #ifndef _LINUX_FORTIFY_STRING_H_
+ #define _LINUX_FORTIFY_STRING_H_
  
- 	/* reset all but tr, trace, and overruns */
--	memset(&iter->seq, 0,
--	       sizeof(struct trace_iterator) -
--	       offsetof(struct trace_iterator, seq));
-+	memset_startat(iter, 0, seq);
- 	cpumask_clear(iter->started);
- 	trace_seq_init(&iter->seq);
- 	iter->pos = -1;
++#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
++#define __RENAME(x) __asm__(#x)
++
++void fortify_panic(const char *name) __noreturn __cold;
++void __read_overflow(void) __compiletime_error("detected read beyond size of object (1st parameter)");
++void __read_overflow2(void) __compiletime_error("detected read beyond size of object (2nd parameter)");
++void __write_overflow(void) __compiletime_error("detected write beyond size of object (1st parameter)");
+ 
+ #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+ extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+diff --git a/include/linux/string.h b/include/linux/string.h
+index b48d2d28e0b1..9473f81b9db2 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -249,15 +249,6 @@ static inline const char *kbasename(const char *path)
+ 	return tail ? tail + 1 : path;
+ }
+ 
+-#define __FORTIFY_INLINE extern __always_inline __attribute__((gnu_inline))
+-#define __RENAME(x) __asm__(#x)
+-
+-void fortify_panic(const char *name) __noreturn __cold;
+-void __read_overflow(void) __compiletime_error("detected read beyond size of object passed as 1st parameter");
+-void __read_overflow2(void) __compiletime_error("detected read beyond size of object passed as 2nd parameter");
+-void __read_overflow3(void) __compiletime_error("detected read beyond size of object passed as 3rd parameter");
+-void __write_overflow(void) __compiletime_error("detected write beyond size of object passed as 1st parameter");
+-
+ #if !defined(__NO_FORTIFY) && defined(__OPTIMIZE__) && defined(CONFIG_FORTIFY_SOURCE)
+ #include <linux/fortify-string.h>
+ #endif
+diff --git a/lib/string_helpers.c b/lib/string_helpers.c
+index bde13612c25d..faa9d8e4e2c5 100644
+--- a/lib/string_helpers.c
++++ b/lib/string_helpers.c
+@@ -883,9 +883,11 @@ char *strreplace(char *s, char old, char new)
+ }
+ EXPORT_SYMBOL(strreplace);
+ 
++#ifdef CONFIG_FORTIFY_SOURCE
+ void fortify_panic(const char *name)
+ {
+ 	pr_emerg("detected buffer overflow in %s\n", name);
+ 	BUG();
+ }
+ EXPORT_SYMBOL(fortify_panic);
++#endif /* CONFIG_FORTIFY_SOURCE */
 -- 
 2.30.2
 
