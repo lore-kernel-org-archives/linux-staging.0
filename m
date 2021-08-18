@@ -1,105 +1,130 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457D02FAF
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:19:41 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id i133so1358979pfe.12
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:19:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65917168
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:30:18 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id a201so1281745vsd.3
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yWCs2vRunxYw/2LTzrenXx3FyLmYWTHbkmxW6S9lQ6o=;
-        b=Xbs1PlLLSpgp12XsSXiO9dHPBqg046u+axGYHh61zauRi4wHisoKZ7piU+aThX5HKw
-         S7Y0f8OZzYpNGPMlJr6OxgJYf+e1PUiUInGPJuunDc0zaX77q7DSeYJvr8QW262gPZ6l
-         wmMwpGYF4yFre3/oBCHlAprBCkbfUzTwbpJ8U=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IKqcflYMaSUyzwd/eHbHpOkvH7hAYsOOplnEzRxLbhU=;
+        b=R/YglmSTFalwgblF0J7z+xo4QD/viWueOMjtEA3qajPeKluQA8KyZlPIazxZCmQcOV
+         ypXroUN/dz8G8KIy2PndGeFR9trr2TXk1MLEpZYZHSdEPDIvmCIDK5BOf+7ryOnDMlAz
+         KKZOIcOvNnsfQADPruS78lcAX/NT/qxMC6OewVDoFYGt5hY5K9huXDQ6tsxV07Sxs/Du
+         uf/zCLpMusk1iMjpoom1MA3j5kIRz40ZYONDbw9Bk+/YXVmdr5o2bmiJpfJC1CERXXmo
+         E0BgAf1avWcJ6cYGmW6zCxZHRihbaxeLgDmifTSo359uCk7uScIh0CC8oShYygGDo0u/
+         CxTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yWCs2vRunxYw/2LTzrenXx3FyLmYWTHbkmxW6S9lQ6o=;
-        b=sesMiuvl7y2MHhfJX43XE2Hpp667s2J9FRz+VavWGbiAJYyqvSRKD24TCIcYgQ2qyK
-         Qw2ow/EKUVhZ78Q8tOWeUnA34HJ0DyqN2d2Mo7KjWQaL1HB74vY+OwtZ9Y2pFnfJ4Frs
-         4GhqQluqkiyhVZNXqknuKPcZD0BmTyiTUybzNGhxrx8Osn2jC9lGKeZmh6+HapAlVxXG
-         3CnQ3Qhym19DbRjpVrcwv6vBQxb9/De4UDqadpEJ+nXqfVqsR6/GIthRs9q8uu6R7eiA
-         KYLeQc75ebxrPIiTryCtVOXlhac5nVLt/KkXop7PCWtZPHObPDHXZAbWkoYmoaHWz8rP
-         m6Rw==
-X-Gm-Message-State: AOAM530HGf8WTutDKY5nJLpy26Kivy2eOmLtiG0zvUuiwM8DWJkq0WrP
-	f7SKGO0gIQNrUzfBCTfiVFVmNg==
-X-Google-Smtp-Source: ABdhPJyHMomXUUSsim9BNDKSfgWuXipYZG3PXU/QZcHRhPnPUWPnIYtsppjWSiGU4XA2AOeUZekwhg==
-X-Received: by 2002:a05:6a00:230e:b029:3c4:24ff:969d with SMTP id h14-20020a056a00230eb02903c424ff969dmr8103456pfh.44.1629274780870;
-        Wed, 18 Aug 2021 01:19:40 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r78sm5425224pfc.206.2021.08.18.01.19.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 01:19:40 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kees Cook <keescook@chromium.org>,
-	Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] staging: wlan-ng: Disable buggy MIB ioctl
-Date: Wed, 18 Aug 2021 01:19:37 -0700
-Message-Id: <20210818081937.1668775-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IKqcflYMaSUyzwd/eHbHpOkvH7hAYsOOplnEzRxLbhU=;
+        b=AVYgBfwlnxPe1zFfo51eVZ+odiPiFm7tARr/AbNgnWGV8nkGOJtBwEz31TCXEKs2ZX
+         n5w69nAOuteTmu2HcsEbEY4Kie03fnxHoSgIQP19vs0GtmDZFZzxP2BGBR0WbtSXbXck
+         DViJB3ZYd1oQKjktFCq4Y0zse29zr4K1m2WC1pDvukhDuw94U3NjV2DTnPHQZEbaxOzb
+         TcT0d/udpCZj3Jolqh+DX05TWd0EKzMyzCqH4lrEihYSZx0HqD/AfGsd7whD00dFbpwe
+         B+NOP3HVipbzz3KkbwuSS6tIfeACcNWXCX5vKRfaKZyQeQbh/ix/z984DHL6XHC9fJzX
+         yP0w==
+X-Gm-Message-State: AOAM531rWp1AZWDZxBJNzaYlfTEWmyQYvdOUw1z4F2HjkmHEdnPmcL6n
+	xOK/aG2iWQnze4lmhmk2IypDnfn4D/EvcmiDXJezLA==
+X-Google-Smtp-Source: ABdhPJwKrtdwLrtqnGeoY6XyZUUGVixFdE7Mg0poY1hljrcpole6+hd3NjZWSpGJ4mjLJUHBolVYDumnC7t4U+ynnmc=
+X-Received: by 2002:a67:3212:: with SMTP id y18mr6323760vsy.19.1629275417181;
+ Wed, 18 Aug 2021 01:30:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1567; h=from:subject; bh=Sgwjp53Pz70aIh4b/DDRu0OZ/4XXSmncmaDMLY4cqIw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHMKY2ZE8JgxxJFeCq1C/wwUCKAJPO2ye+nyaVoJF tdhC7VeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRzCmAAKCRCJcvTf3G3AJjprD/ kBbBNMPslIY0OVULW5j/PMahglxJ5BZqHi3SutRyz4d20V/aFKmPQdgacFaghGdiyQRWXeGP13uAuw vXEt8OjGNW8fFgpZglspaLB0ZLiXyZJV06AwQycNuo6nTv0cAtR9aqTiz/QNabg1u/X16l1fuu6ORw pr8Cp4CQ55HnUInyKG/wEC1Fg0u76cAl/dM/eYBcOppW2DGf2Z1zYe8R1frBgg+FJExpD4C1462W5b gGPrBOSuUG+1YA/3S5frN5BzLvbom/0jKzKh04ROSFKygNvPyX4n4wMpwzDK78xEyRHl7nr3lah4u7 oEjvEwEj0jZgkpwejrRof67vD6pldQjYfgKynzFlHVvndWajkfIcEvqmTcc2yUaAiZcID557G+EhlM nvMpLxhHBk0k34mIg77w7islWTrtAblsHJFjXCBp9LDJMkyzvYH3p73dDyYCiCloY/noIFn8HceyVR 8CNPEmLZY1NaOgedSQx7v4dBeFrY6XPY6Ov1sD+6F8oUwt6XUoPUgWK5FOA7VdPBZuW9shxai5fm1X +GmcSB++9XWXnyHJgNoSit0m9Fd9Q5le1I+cowp218iEVtBHqNa4ysn74BFwaK94RFnIh3cQTFMH2R U/5nn3X2DZ4GLxYjV8flPH1NBF7FXRRC7G8K5jI/NFPQrEXzs6OTULkn0lhw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7> <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+ <20210818035533.ieqkexltfvvf2p4n@vireshk-i7> <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <20210818043131.7klajx6drvvkftoc@vireshk-i7> <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7> <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7> <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+In-Reply-To: <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 18 Aug 2021 10:29:40 +0200
+Message-ID: <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Viresh Kumar <viresh.kumar@linaro.org>, Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
+	Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-mmc <linux-mmc@vger.kernel.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
+	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-struct hfa384x_wpa_data ends with a flexible array, but it is allocated
-on the stack. This means it can never hold any data. Disable the
-memcpy() calls in and out of the structure, since it must always be
-zero. This could never have worked.
+On Wed, 18 Aug 2021 at 08:27, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>
+> On 18-08-21, 09:22, Dmitry Osipenko wrote:
+> > 18.08.2021 08:58, Viresh Kumar =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > > What about calling dev_pm_opp_set_rate(dev, clk_get_rate(dev)) here
+> > > instead ? That will work, right ? The advantage is it works without
+> > > any special routine to do so.
+> >
+> > It will work, but a dedicated helper is nicer.
+> >
+> > > I also wonder looking at your gr3d.c changes, you set a set-opp
+> > > helper, but the driver doesn't call set_opp_rate at all. Who calls it
+> > > ?
+> >
+> > dev_pm_opp_sync() calls it from _set_opp().
+>
+> Okay, please use dev_pm_opp_set_rate() instead then. New helper just
+> adds to the confusion and isn't doing anything special apart from
+> doing clk_get_rate() for you.
+>
+> > > And if it is all about just syncing the genpd core, then can the genp=
+d
+> > > core do something like what clk framework does? i.e. allow a new
+> > > optional genpd callback, get_performance_state() (just like
+> > > set_performance_state()), which can be called initially by the core t=
+o
+> > > get the performance to something other than zero. opp-set-rate is
+> > > there to set the performance state and enable the stuff as well.
+> > > That's why it looks incorrect in your case, where the function was
+> > > only required to be called once, and you are ending up calling it on
+> > > each resume. Limiting that with another local variable is bad as well=
+.
+> >
+> > We discussed variant with get_performance_state() previously and Ulf
+> > didn't like it either since it still requires to touch 'internals' of G=
+ENPD.
+>
+> Hmm, I wonder if that would be a problem since only genpd core is
+> going to call that routine anyway.
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/staging/wlan-ng/prism2mib.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Me and Dmitry discussed adding a new genpd callback for this. I agreed
+that it seems like a reasonable thing to add, if he insists.
 
-diff --git a/drivers/staging/wlan-ng/prism2mib.c b/drivers/staging/wlan-ng/prism2mib.c
-index 875812a391c9..d14f032a7ed6 100644
---- a/drivers/staging/wlan-ng/prism2mib.c
-+++ b/drivers/staging/wlan-ng/prism2mib.c
-@@ -668,6 +668,10 @@ static int prism2mib_priv(struct mibrec *mib,
- 
- 	switch (mib->did) {
- 	case DIDMIB_LNX_CONFIGTABLE_RSNAIE: {
-+		/*
-+		 * This can never work: wpa is on the stack
-+		 * and has no bytes allocated in wpa.data.
-+		 */
- 		struct hfa384x_wpa_data wpa;
- 
- 		if (isget) {
-@@ -675,11 +679,17 @@ static int prism2mib_priv(struct mibrec *mib,
- 					       HFA384x_RID_CNFWPADATA,
- 					       (u8 *)&wpa,
- 					       sizeof(wpa));
-+			/*
- 			pstr->len = le16_to_cpu(wpa.datalen);
- 			memcpy(pstr->data, wpa.data, pstr->len);
-+			*/
-+			pstr->len = 0;
- 		} else {
-+			/*
- 			wpa.datalen = cpu_to_le16(pstr->len);
- 			memcpy(wpa.data, pstr->data, pstr->len);
-+			*/
-+			wpa.datalen = 0;
- 
- 			hfa384x_drvr_setconfig(hw,
- 					       HFA384x_RID_CNFWPADATA,
--- 
-2.30.2
+The intent was to invoke the new callback from __genpd_dev_pm_attach()
+when the device has been attached to its genpd. This allows the
+callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
+update the vote according to the current state of the HW.
 
+I am not sure if/why that approach seemed insufficient?
+
+Another option to solve the problem, I think, is simply to patch
+drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
+should synchronize the HW state too.
+
+Dmitry, can you please elaborate on this?
+
+Kind regards
+Uffe
