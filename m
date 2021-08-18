@@ -1,134 +1,99 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF272FAF
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:45:20 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mkl@pengutronix.de>)
-	id 1mGF2W-0007Xm-Bs; Wed, 18 Aug 2021 08:27:04 +0200
-Received: from pengutronix.de (unknown [IPv6:2a02:810a:8940:aa0:ed04:8488:5061:54d4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: mkl-all@blackshift.org)
-	by smtp.blackshift.org (Postfix) with ESMTPSA id 7335C66975A;
-	Wed, 18 Aug 2021 06:26:59 +0000 (UTC)
-Date: Wed, 18 Aug 2021 08:26:57 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, linux-can@vger.kernel.org,
-	netdev@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 59/63] can: flexcan: Use struct_group() to zero struct
- flexcan_regs regions
-Message-ID: <20210818062657.6hvn75kf5o5cgey2@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EB02FAF
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:50:17 +0000 (UTC)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4GqJH06ckGz9sVX;
+	Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BlboCUcmPLhC; Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4GqJH05SCXz9sVD;
+	Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 9988E8B7D3;
+	Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id KISUn5YdRZul; Wed, 18 Aug 2021 08:42:20 +0200 (CEST)
+Received: from [192.168.4.90] (unknown [192.168.4.90])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id B20628B766;
+	Wed, 18 Aug 2021 08:42:19 +0200 (CEST)
+Subject: Re: [PATCH v2 61/63] powerpc: Split memset() to avoid multi-field
+ overflow
+To: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Wang Wensheng <wangwensheng4@huawei.com>, linux-staging@lists.linux.dev,
+ linux-wireless@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Qinglang Miao <miaoqinglang@huawei.com>,
+ linux-block@vger.kernel.org, Hulk Robot <hulkci@huawei.com>,
+ clang-built-linux@googlegroups.com, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, linux-kbuild@vger.kernel.org,
+ linux-hardening@vger.kernel.org
 References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-60-keescook@chromium.org>
+ <20210818060533.3569517-62-keescook@chromium.org>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <7630b0bc-4389-6283-d8b9-c532df916d60@csgroup.eu>
+Date: Wed, 18 Aug 2021 08:42:18 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kduqcl3tf4g5uel5"
-Content-Disposition: inline
-In-Reply-To: <20210818060533.3569517-60-keescook@chromium.org>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <20210818060533.3569517-62-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 
 
---kduqcl3tf4g5uel5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On 17.08.2021 23:05:29, Kees Cook wrote:
+Le 18/08/2021 à 08:05, Kees Cook a écrit :
 > In preparation for FORTIFY_SOURCE performing compile-time and run-time
 > field bounds checking for memset(), avoid intentionally writing across
 > neighboring fields.
->=20
-> Add struct_group() to mark both regions of struct flexcan_regs that get
-> initialized to zero. Avoid the future warnings:
->=20
-> In function 'fortify_memset_chk',
->     inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
->     inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1403:2:
-> ./include/linux/fortify-string.h:199:4: warning: call to '__write_overflo=
-w_field' declared with attribute warning: detected write beyond size of fie=
-ld (1st parameter); maybe use struct_group()? [-Wattribute-warning]
->   199 |    __write_overflow_field(p_size_field, size);
->       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> In function 'fortify_memset_chk',
->     inlined from 'memset_io' at ./include/asm-generic/io.h:1169:2,
->     inlined from 'flexcan_ram_init' at drivers/net/can/flexcan.c:1408:3:
-> ./include/linux/fortify-string.h:199:4: warning: call to '__write_overflo=
-w_field' declared with attribute warning: detected write beyond size of fie=
-ld (1st parameter); maybe use struct_group()? [-Wattribute-warning]
->   199 |    __write_overflow_field(p_size_field, size);
->       |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->=20
-> Cc: Wolfgang Grandegger <wg@grandegger.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: linux-can@vger.kernel.org
-> Cc: netdev@vger.kernel.org
+> 
+> Instead of writing across a field boundary with memset(), move the call
+> to just the array, and an explicit zeroing of the prior field.
+> 
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Qinglang Miao <miaoqinglang@huawei.com>
+> Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+> Cc: Hulk Robot <hulkci@huawei.com>
+> Cc: Wang Wensheng <wangwensheng4@huawei.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
 > Signed-off-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Michael Ellerman <mpe@ellerman.id.au>
+> Link: https://lore.kernel.org/lkml/87czqsnmw9.fsf@mpe.ellerman.id.au
+> ---
+>   drivers/macintosh/smu.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/macintosh/smu.c b/drivers/macintosh/smu.c
+> index 94fb63a7b357..59ce431da7ef 100644
+> --- a/drivers/macintosh/smu.c
+> +++ b/drivers/macintosh/smu.c
+> @@ -848,7 +848,8 @@ int smu_queue_i2c(struct smu_i2c_cmd *cmd)
+>   	cmd->read = cmd->info.devaddr & 0x01;
+>   	switch(cmd->info.type) {
+>   	case SMU_I2C_TRANSFER_SIMPLE:
+> -		memset(&cmd->info.sublen, 0, 4);
+> +		cmd->info.sublen = 0;
+> +		memset(&cmd->info.subaddr, 0, 3);
 
-Acked-by: Marc Kleine-Budde <mkl@pengutronix.de>
+subaddr[] is a table, should the & be avoided ?
+And while at it, why not use sizeof(subaddr) instead of 3 ?
 
-> -	memset_io(&regs->mb[0][0], 0,
-> -		  offsetof(struct flexcan_regs, rx_smb1[3]) -
-> -		  offsetof(struct flexcan_regs, mb[0][0]) + 0x4);
-> +	memset_io(&regs->init, 0, sizeof(regs->init));
 
-This even makes the code more readable! \o/
-
->  	if (priv->can.ctrlmode & CAN_CTRLMODE_FD)
-> -		memset_io(&regs->tx_smb_fd[0], 0,
-> -			  offsetof(struct flexcan_regs, rx_smb1_fd[17]) -
-> -			  offsetof(struct flexcan_regs, tx_smb_fd[0]) + 0x4);
-> +		memset_io(&regs->init_fd, 0, sizeof(regs->init_fd));
-> =20
->  	reg_ctrl2 &=3D ~FLEXCAN_CTRL2_WRMFRZ;
->  	priv->write(reg_ctrl2, &regs->ctrl2);
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---kduqcl3tf4g5uel5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmEcqC4ACgkQqclaivrt
-76lMtAf+PLTf+69ONg9/KGwncoo4yvZ5m8bSKHLYfYYuCITf4oOnHWQIBFT3P8Fn
-GMKihDcISmFKjqSbFu8aJSqtNFhYzGB0uIUjuhW+15TJRH7SUTZCuT/U6VPXrEWi
-qWCGvkl3szxqSpDVrbCW5ChnnsAZ3Nj2pXV+gkB62mvtcwTdqFBczMfbKHNhLHgv
-BYjF2uWTN51iadHR3Kese6EccsTaIoCrqZjnGrlJSBVLtt66BT101RY0pE9890e+
-+p/LRFYivNeT0DnAObs8TDghwzxWlqfE3nR1QLSvENRbMBSzhEbipc7oz3DQJC4v
-WM/41iCaZScHUFfgxPrBqtGtM1p9RA==
-=LXIZ
------END PGP SIGNATURE-----
-
---kduqcl3tf4g5uel5--
+>   		break;
+>   	case SMU_I2C_TRANSFER_COMBINED:
+>   		cmd->info.devaddr &= 0xfe;
+> 
