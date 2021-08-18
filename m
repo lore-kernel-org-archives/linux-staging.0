@@ -1,46 +1,53 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451DA6D18
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:06:02 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id w68so1060034pfd.0
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:06:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848A86D2C
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:06:03 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id 7so1061488pfl.10
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6lG0U8bM2TUXGlj9bAHKfwVFEdBo2YZlvkgJ69Lo3ko=;
-        b=Y/DVgqUz//veWIPGInRHjxd8QhbyKfsy0kdugXO1nEyKRG4J+RATjtzLJoSS87jCco
-         VSjAoqrkaHNZh0+mHRdYJBCbqV9xxVXdwGu7uaa7PR+N6pyz9+QKjSd2/AWYtac6EKNc
-         sHLZn6ndy938GBH63DZ5ESf+mXsv8jS252ytM=
+        bh=yj6MSRHjUgDQQeVVOJJG7wsN0XYzp0WPRrxqPpzxE8c=;
+        b=CzXk1xRppwdRJolegZtv49GA2NFQ14/wBYjHzPVUV6FFSCAV81rN+Zkew6HAM1134z
+         9VMz6EAZM3OEiyOfJEz/43Jc+GeEg/kZ/l9C0CVoA8ABd/sj4sEJwPwqNtbgpylRBB0X
+         jSjlWs/gCENWo/7C7d9KpfTsqLvHYTfxkxT94=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6lG0U8bM2TUXGlj9bAHKfwVFEdBo2YZlvkgJ69Lo3ko=;
-        b=Rv8L0DkF1FSv5WYWC4owlmpQ1k2dODcz7fmSnA5qKC2rDUHtFt9DwaEs9TdS9YwwXO
-         O2QDeaH+0VkSRugmtJykPW3OcaN6z9vnWZcyQnTkFc566r9zZo8ypTRwuoAqRdBxfO6j
-         UXMGxHv2CaiXKNnLiGUcY4863EOerxUknRzaa3zzW+o2i8JZ+ir4dImcJTFok6Jv4hME
-         OWsYm0Ywc3ioQ7U7uGUxzt8Ga3RpqmqZ6sdLLI806Al59Yek1CF+F3sUghBKD/2FWHr2
-         xVMiYBqX+Ep7wjEf0HoOUc3vgQ7UpqvIAjIlqenv+SRadwY5/vsz+MbAibgGbvRfkcuR
-         KQ5A==
-X-Gm-Message-State: AOAM531WDdny383WCwL9UX+jzzC+74M7Pg/TkuuwhWZBS9uC9oMp1CSW
-	555GomjJivkCQOhRSwgFyAvulw==
-X-Google-Smtp-Source: ABdhPJx9i0gP/tEqucjw5t2MRNzXtgPICZZmJol3/cEVKCeeDWJ8qCew27BG46wra+MkbfYjKbKkfg==
-X-Received: by 2002:a05:6a00:cd0:b0:3e2:209e:4e30 with SMTP id b16-20020a056a000cd000b003e2209e4e30mr7598474pfv.59.1629266761883;
-        Tue, 17 Aug 2021 23:06:01 -0700 (PDT)
+        bh=yj6MSRHjUgDQQeVVOJJG7wsN0XYzp0WPRrxqPpzxE8c=;
+        b=akxyhUCo4Q8BCE5UkGemi5TgrU6r+CedT1YTIspbfK0QNl7U3FS5qUS+Vq/9vZc3xW
+         z3FSk1ZWQ/O+Rl4px+2kEzCilgjEyfYsb5FW7TdXQ1QtW0SMXcTm+MmwWqKaFNJ4hv8K
+         cU7yA4uw8cKq65TZfAgWF5lJ14gwz05cmY+Y76gfCuEezj6XUMKhw3pGV9Vvn0XEjAVu
+         r5gdsWQv3j+p8J+ehrlTQzi1+FP0+HqVfZ6bN1T//6oFZFRkqw5MVNQY39FEXqYmi9CT
+         Zg74MKG7mttQERrcw+G17SQ5JnSn0DoX2le4jHNJG2fdgJrNoHLy97K55pINXtI42ce0
+         Q9aA==
+X-Gm-Message-State: AOAM530+3JPpQWVn8/7FlqkIP6WjFprzGywTOyN6wvsf/jphJYtSHEaI
+	72oe7nQR0EaxYIh9VBhpyDeRpA==
+X-Google-Smtp-Source: ABdhPJxiDT7B9pY6vGyClkQcsM0XG6Kg+GcLSvpUD3c8DNni73mb9LN7FVhCwNs3jsvIZgdTk/kz/A==
+X-Received: by 2002:aa7:850c:0:b0:3e2:edf3:3d09 with SMTP id v12-20020aa7850c000000b003e2edf33d09mr806951pfn.42.1629266763221;
+        Tue, 17 Aug 2021 23:06:03 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id r10sm4624434pff.7.2021.08.17.23.05.57
+        by smtp.gmail.com with ESMTPSA id mr18sm3750578pjb.39.2021.08.17.23.05.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:05:58 -0700 (PDT)
+        Tue, 17 Aug 2021 23:06:02 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Francis Laniel <laniel_francis@privacyrequired.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Daniel Axtens <dja@axtens.net>,
+	netdev@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
 	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
@@ -48,9 +55,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 28/63] fortify: Explicitly disable Clang support
-Date: Tue, 17 Aug 2021 23:04:58 -0700
-Message-Id: <20210818060533.3569517-29-keescook@chromium.org>
+Subject: [PATCH v2 37/63] string.h: Introduce memset_after() for wiping trailing members/padding
+Date: Tue, 17 Aug 2021 23:05:07 -0700
+Message-Id: <20210818060533.3569517-38-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -60,46 +67,118 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1427; h=from:subject; bh=MScHo/g3fAm2U5yn8644/6JAGaRCvw+x4s3NMxUkYP4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMkDmaoP7/LrBvrUTwAq8PIwkOtE8yNEb1/iGaE eotqJxGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJAAKCRCJcvTf3G3AJvkeD/ wK2I9wXb6VkTqNx8ve7VdNSMmlz+1i164ClH9CGR/35x6hLdSQ8qayX0H9g6LrgzVflJDSu0VPqZq6 B60wT0GUsaN+NPYsGb2bVu1Rg3uumqZGiK90AHNJmSYkYU2G3Fqfi/WbeuSh9MygcOeGp/a9x/PQH5 e8dULezGq6dCpC7cs5Zl3okkhjEBCJNG2UsDzKuR/shPokEXvmczONNPE0wD9SGKoJlCrtTATmKvin 4tu2+3vQYizkssvftVjPL/zU+2R6x89hzrj96XdH+uAmeG5P820sWztifwnAHNcLVL5gq7wUOMrJ+f Z4XjIAC/G5EaSS4AhVIu9sD/iX8aeWmFJWF/Y21WLVPcvT0CbToC2WmKfl6Cf/5cmduks3BDmUc73D LWQ9JncTl44MKCvuBhARaFmlaFAJHnLG2EvjMIRi62WS27zMVn6Had7IAo/qffp70xB+LqBNwHlEFR 1DOf7RDGukFMS2YPB64C7srE0otlJasITjwoT2VlC8SUubfSWf2Xs29w2K9ID2LufJo4jW+DES/y1x In7sKpTi8O1ywlBFrMpRGpBZemeuMVX+n2a4KW0Dlmr8PJZVEczotW0P4mEO8JYhohZFLrpQR/oM0d v1l42WB3iKEQLRJlt/B8Os8r3w8Ad46AyHq8GE3PhyPABlRRPciSKq8TGApQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4092; h=from:subject; bh=ynt+tRmRAcx7nox2wqu1NNTkTOzsqx2+YTbDvMLTbxE=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMmwbMjodaindknTsBVe7537WHFelKIadd+u5e3 SxHIQdeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJgAKCRCJcvTf3G3AJnBLEA CdNu7o5W+92HzRi1fko57n/mLwv/f7ERDN9lR9c1k1ZpJRD294w1BBHne+86h1ErieaOKABkA1tR9Z RPuVXQx84Ll35fJ448mje10Vlj4xMIsIO7I2+pCjPpZeZUknIkUAfgL4BIt11O1QZKIXt5gv0ApWLk F0vG/OdP1EsH7UfN0sGFW3dUPcQnV365DGpsYsXEbfYPUtv7V0sIo4u2EqY+DWjZNXgimvh1QDuwFD ASW7FG+u7LV5vdhie6SOhQtFr9ccWj/RPLaI95ILtuhSn99zvuAmxmiV9Sq50joZ8BHWNBKRMezCGO 3/YVBD1ioQyCyuoiDxeL9UMcrdPSZQt6aLznsfSXoKOqLO+Ir7tMR4XrhkEg8MfM+mA6JudX+GjyI5 HhSyIFjb1vJpco5l2tSPxCz4ioyocE52DQfc0wA9/yfi2liO4gbBZCqBmTCsIZpwdwhQkDkVBK5ZvR HOtc2ADG105U1yBtwAKKBM1Kpn6jPowZCs5D1qDOHYz1gAWljX17P6SuxaG3G/dMeo5MT0LpM97ZfJ VauEeeQUKsZsz2LSYtk7JsMuq3dNZ28R5tJc/mwglhdLai09Fi/99TDZ2wV4u2YvpwKr9UaxVWIuT5 e3kxAxaDFTyXoo70DNH9x1G7c+SuCaUbgMUIaDh6BALQ3dZqhLv+3W2zODmg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Clang has never correctly compiled the FORTIFY_SOURCE defenses due to
-a couple bugs:
+A common idiom in kernel code is to wipe the contents of a structure
+after a given member. This is especially useful in places where there is
+trailing padding. These open-coded cases are usually difficult to read
+and very sensitive to struct layout changes. Introduce a new helper,
+memset_after() that takes the target struct instance, the byte to write,
+and the member name after which the zeroing should start.
 
-	Eliding inlines with matching __builtin_* names
-	https://bugs.llvm.org/show_bug.cgi?id=50322
+Additionally adds memset_startat() for wiping trailing members _starting_
+at a specific member instead of after a member, which is more readable
+in certain circumstances, but doesn't include any preceding padding.
 
-	Incorrect __builtin_constant_p() of some globals
-	https://bugs.llvm.org/show_bug.cgi?id=41459
-
-In the process of making improvements to the FORTIFY_SOURCE defenses, the
-first (silent) bug (coincidentally) becomes worked around, but exposes
-the latter which breaks the build. As such, Clang must not be used with
-CONFIG_FORTIFY_SOURCE until at least latter bug is fixed (in Clang 13),
-and the fortify routines have been rearranged.
-
-Update the Kconfig to reflect the reality of the current situation.
-
+Cc: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Francis Laniel <laniel_francis@privacyrequired.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Daniel Axtens <dja@axtens.net>
+Cc: netdev@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- security/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ include/linux/string.h | 29 +++++++++++++++++++++++++++++
+ lib/test_memcpy.c      | 24 ++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
-diff --git a/security/Kconfig b/security/Kconfig
-index 0ced7fd33e4d..fe6c0395fa02 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -191,6 +191,9 @@ config HARDENED_USERCOPY_PAGESPAN
- config FORTIFY_SOURCE
- 	bool "Harden common str/mem functions against buffer overflows"
- 	depends on ARCH_HAS_FORTIFY_SOURCE
-+	# https://bugs.llvm.org/show_bug.cgi?id=50322
-+	# https://bugs.llvm.org/show_bug.cgi?id=41459
-+	depends on !CC_IS_CLANG
- 	help
- 	  Detect overflows of buffers in common string and memory functions
- 	  where the compiler can determine and validate the buffer sizes.
+diff --git a/include/linux/string.h b/include/linux/string.h
+index cbe889e404e2..fe56a1774207 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -272,6 +272,35 @@ static __always_inline void memcpy_and_pad(void *dest, size_t dest_len,
+ 		memcpy(dest, src, dest_len);
+ }
+ 
++/**
++ * memset_after - Set a value after a struct member to the end of a struct
++ *
++ * @obj: Address of target struct instance
++ * @v: Byte value to repeatedly write
++ * @member: after which struct member to start writing bytes
++ *
++ * This is good for clearing padding following the given member.
++ */
++#define memset_after(obj, v, member) do {				\
++	memset((u8 *)(obj) + offsetofend(typeof(*(obj)), member), v,	\
++	       sizeof(*(obj)) - offsetofend(typeof(*(obj)), member));	\
++} while (0)
++
++/**
++ * memset_startat - Set a value starting at a member to the end of a struct
++ *
++ * @obj: Address of target struct instance
++ * @v: Byte value to repeatedly write
++ * @member: struct member to start writing at
++ *
++ * Note that if there is padding between the prior member and the target
++ * member, memset_after() should be used to clear the prior padding.
++ */
++#define memset_startat(obj, v, member) do {				\
++	memset((u8 *)(obj) + offsetof(typeof(*(obj)), member), v,	\
++	       sizeof(*(obj)) - offsetof(typeof(*(obj)), member));	\
++} while (0)
++
+ /**
+  * str_has_prefix - Test if a string has a given prefix
+  * @str: The string to test
+diff --git a/lib/test_memcpy.c b/lib/test_memcpy.c
+index be192b8e82b7..50bc99552a17 100644
+--- a/lib/test_memcpy.c
++++ b/lib/test_memcpy.c
+@@ -215,6 +215,20 @@ static void memset_test(struct kunit *test)
+ 			  0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30,
+ 			},
+ 	};
++	struct some_bytes after = {
++		.data = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x72,
++			  0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
++			  0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
++			  0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72, 0x72,
++			},
++	};
++	struct some_bytes startat = {
++		.data = { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30,
++			  0x79, 0x79, 0x79, 0x79, 0x79, 0x79, 0x79, 0x79,
++			  0x79, 0x79, 0x79, 0x79, 0x79, 0x79, 0x79, 0x79,
++			  0x79, 0x79, 0x79, 0x79, 0x79, 0x79, 0x79, 0x79,
++			},
++	};
+ 	struct some_bytes dest = { };
+ 	int count, value;
+ 	u8 *ptr;
+@@ -245,6 +259,16 @@ static void memset_test(struct kunit *test)
+ 	ptr += 8;
+ 	memset(ptr++, value++, count++);
+ 	compare("argument side-effects", dest, three);
++
++	/* Verify memset_after() */
++	dest = control;
++	memset_after(&dest, 0x72, three);
++	compare("memset_after()", dest, after);
++
++	/* Verify memset_startat() */
++	dest = control;
++	memset_startat(&dest, 0x79, four);
++	compare("memset_startat()", dest, startat);
+ #undef TEST_OP
+ }
+ 
 -- 
 2.30.2
 
