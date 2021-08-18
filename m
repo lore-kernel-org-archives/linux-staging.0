@@ -1,59 +1,65 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846876D22
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:05:55 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id n5so1920148pjt.4
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:05:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C526D13
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:05:57 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id c17so1146849pgc.0
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0+ejbkcqZbFXmITuXlL7CDyZypzmre+l3eRsA92DuBs=;
-        b=L0akKXK1kGy5WH++Js4ID4keOQyLjU4nvMwtS4cqGsjwS1xFU9Y8zURE3dmo5F8V05
-         KIsW1RPt4T0R/W281PDW0H0fLfSOQuYUBawn1F1dPLAhZ37UhSTyialAAe7HbhBBWbsu
-         f/DFvbhPjRGc+B3F90LL457312QDPssIXH+XM=
+        bh=Df3M08ozQZ/wuG86+AN6C9MACPf6Ua4LnPIl1VqdGkQ=;
+        b=fqfWH5xzacAnh0+miJhptMLYGLpJ+mJNVIq3l+0GgQRuX61t6lEOMMLw784SzCT4EH
+         hqDzbMAVICROLXLXmTGWMOQDusnO33cZRylV/ECZsYPBru2294Qof+d9A7QOozMwfiYT
+         FGCoqMsz/DE0l3g+EcW0C9GSHhIAPMlL8tEp4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0+ejbkcqZbFXmITuXlL7CDyZypzmre+l3eRsA92DuBs=;
-        b=bTcjSQD70STXn/P4cJv+E+c0WezynEu2isNoglzID4VgdVHYaa4iiuZmAcM1mkom69
-         03FQgdhZEPZiz1EMHWyokxQdtguVNawZgfzLV+7sZksfHKMn1xZP67QRWwoMeIKTYi5q
-         HeheHpedKUr22rxPZDENMX0+TBu27ua1icmFp/xKwtnsceY+wIoCFUgdGHFJgR9JfCUO
-         ANTgBsbxomNVaJU2+shB0XxwavbUZ76vTvohSD2Y9hZmKuIRvfmE86juLGBN6SWZk9vr
-         hYxuGAMZrpXTtdR0RKVmcN+BRYhv3GKumxXivPM9ni2v/a3jCkH3k6IemQlNPf45PzDX
-         Gavg==
-X-Gm-Message-State: AOAM5306Fr31SAg+X8NXnuF3SBuGrFgDJh0IABmydQibVfg4cDoheI60
-	tEbEWC2KmcSDERRoli0DiwdUxA==
-X-Google-Smtp-Source: ABdhPJygr1g/bi1zRYFaNXMg6waYnoKPl9E3e4Tfp/TWXQO+BinSpm8T001OPFMZUDUxgc42WizUMA==
-X-Received: by 2002:a17:90b:3442:: with SMTP id lj2mr7420058pjb.81.1629266755106;
-        Tue, 17 Aug 2021 23:05:55 -0700 (PDT)
+        bh=Df3M08ozQZ/wuG86+AN6C9MACPf6Ua4LnPIl1VqdGkQ=;
+        b=K3S1uaqqRv54wKxdLyGFE3ipawobWyaLi2OraMzrEuNPOkZzHZYkQF+fvlVibui8Ih
+         Hsv/fLnzybogdVcVu8yjRHWoCrC3zDOZZiI/J2Ao9JdO/ur0N+OD8DiDMT57DtEN4S4J
+         rdMZxXZSAwkEJj93S+HyAHqcyQosaUVHvpslu+aqnKTFIg1AkskK4zLahxKshv1nE8JG
+         nh4ePMACyve2YCBknQWxKaNK0U+Ez7ytwcau8e2YutDJ+WLcWUMgqGCnOyi2iNqYbxxQ
+         KdFHu5o+v9bAaniyAPxP3wq3fPewLjuYVU81CU7+6au1SZMqZmoVBdMzByiBhaCAJFjz
+         vAig==
+X-Gm-Message-State: AOAM532VXPNa0Y60ZlK72wzkBsGfWfmsVVFYAeZ8m/PgraFPlwbzOAGJ
+	tcOcS3NR1mMejmv+O0HLZa2ZGw==
+X-Google-Smtp-Source: ABdhPJzquXvqSXBuTCbj2eYrNtxehh2HuV6fs3AsulpduqmyMEsRD3xhPeevj3JhK8nYO8NCjxVrfQ==
+X-Received: by 2002:aa7:8116:0:b029:346:8678:ce26 with SMTP id b22-20020aa781160000b02903468678ce26mr7642769pfi.15.1629266756663;
+        Tue, 17 Aug 2021 23:05:56 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b20sm4633796pfl.9.2021.08.17.23.05.52
+        by smtp.gmail.com with ESMTPSA id fh2sm3751402pjb.12.2021.08.17.23.05.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:05:53 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Keith Packard <keithp@keithp.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Alexander Lobakin <alobakin@pm.me>,
+	Jakub Sitnicki <jakub@cloudflare.com>,
+	Marco Elver <elver@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	wireguard@lists.zx2c4.com,
+	netdev@vger.kernel.org,
 	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 05/63] stddef: Introduce struct_group() helper macro
-Date: Tue, 17 Aug 2021 23:04:35 -0700
-Message-Id: <20210818060533.3569517-6-keescook@chromium.org>
+Subject: [PATCH v2 07/63] skbuff: Switch structure bounds to struct_group()
+Date: Tue, 17 Aug 2021 23:04:37 -0700
+Message-Id: <20210818060533.3569517-8-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -63,234 +69,122 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8609; h=from:subject; bh=8Qg6O9rjkiwOKAeKIVGdgdvKDjqINmqyRAtZrlXXnIA=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMeD0CHW+uuEt76ResWyKF8pbMpqH18BMp8/Pj9 U4ZtvnmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjHgAKCRCJcvTf3G3AJqb/D/ 93GZOK8t0sjGW1TI4a1tTQBtjO+BfS5KTMQeA3a7Uce4PVwGGMi8plmIGq+Rfhww6bDSGUR3D5Tq8i C/Jxt4JuoLgnD9VoTjkw5H7tFIpQ44zNRI+8ZDaxmiu1VD47VHbY1vE6wOYdGHBrNCSHNYWUAi2vaS E4fN8LuFsXWsMK8sLlZGt8eIxJGzmRPQOsOb31OTMfNyRY6gvuiRFsc+CYTgT/2Rwwg8x5TnOqMHLR 8LQNRHT7vu6QbAeAziCQskZWLxnFAg1+Wjkn7rq24wRdar7ztcqG5+psYuIvRugHU+Igp+JYFpGAxS 512FKT2Yno2+cAIO9/aKyo48MArIW0R0nMBtN9AeeF3y6C5I1GEiDLvBoWZrcmpSmxR/UPgex5+W50 5YzAGHXmLPDsRHR0GuHHnxgbjUWdMHHwN9EmP/KnqmG7v9csbjgCpZm8dBQu9viUOpVGFWXfMFRoAQ umTD8Z//E8AM9XTfe490LNcpHh/WNq93DLwwP5q3HrUb3G113UWGJx+nuf91GKOllfV3S/sJrASX23 sEQ2nIoj+nqPPAU77dYdz6kJa/SnPmKWce5NU111vhOoPjmDoZYruwnsDc3WCGZAmidp5Naz1aYPpb qsNP1TeGqq2MhskDz580+XWS+9E9gVOtBY6COlRwGVpPKMX4dGct/QGB5r4A==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4396; h=from:subject; bh=vIFaehJlmgaacelmPKMYZbSRddYmlAVC4AJuX8jcTLo=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMfC5Mwg8GEVNb5CXtGiGtsK4FwOhKAw15TLI67 rTMBsEGJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjHwAKCRCJcvTf3G3AJlkpD/ 9IW7rDFPZH4dI/1/P/uo+5nWHunuZP3664cpMwhwx+rHENSDLF5R/LmHEenMiL1vnoQ8J1iVu3EVgo 1xzQfV/jxCj8E9GdkDHFUogUHVaPjRb9CTVM6DHcTZ2/xkvhVi8nwdgd1lDfJe9XrMTuBkF8eEj6BO YWNUoNQdRGh2+IXaTCDDWCvkG5ZTfO0sXT/bDh9DMGodRIG/luglNHHLvts3knlgR8QM0WIzhsColC AHHcXV2gUexGt/UBGejzG1NRGAXDmkHZAIsMu7BsFDpweoRW6XGmOMOpo9rtP10ar9yPYp2+GFlioL 9tghS58ciKMcV1+v+6jX6Do4ybmYeDfU2rB6/Gpct6yVAs3pYpuFpRIew7WZItwzf2nCMt0ZEYduDJ Drj4jLrZUyIs6ixwydVuLC8Owg9cb/J4qXw4vk0tJ9evOSP/mJOQqUcFcIUdExIArnAVtXlgdzArhu 7hXpCD3qNAEHF+aWjVKGh8gTmrdYqhSN97k0I7jKrRx2kLtSrpcBS4ZQwjSaSERANnuDAk2of2H6Zb bUqvY5heKLllEOQg8ihTwR1efnbUnFXFFV5cpEUmN1YuS3na93hd4TS0rCXMIPIDmYPqG4ut0gh4rf LCZqI3HgwkGyN6BoC0cGob6w/hrvkXWGKt0s1vU5y2KdKmA62+teOpZ0qiVg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Kernel code has a regular need to describe groups of members within a
-structure usually when they need to be copied or initialized separately
-from the rest of the surrounding structure. The generally accepted design
-pattern in C is to use a named sub-struct:
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-	struct foo {
-		int one;
-		struct {
-			int two;
-			int three, four;
-		} thing;
-		int five;
-	};
+Replace the existing empty member position markers "headers_start" and
+"headers_end" with a struct_group(). This will allow memcpy() and sizeof()
+to more easily reason about sizes, and improve readability.
 
-This would allow for traditional references and sizing:
+"pahole" shows no size nor member offset changes to struct sk_buff.
+"objdump -d" shows no object code changes (outside of WARNs affected by
+source line number changes).
 
-	memcpy(&dst.thing, &src.thing, sizeof(dst.thing));
-
-However, doing this would mean that referencing struct members enclosed
-by such named structs would always require including the sub-struct name
-in identifiers:
-
-	do_something(dst.thing.three);
-
-This has tended to be quite inflexible, especially when such groupings
-need to be added to established code which causes huge naming churn.
-Three workarounds exist in the kernel for this problem, and each have
-other negative properties.
-
-To avoid the naming churn, there is a design pattern of adding macro
-aliases for the named struct:
-
-	#define f_three thing.three
-
-This ends up polluting the global namespace, and makes it difficult to
-search for identifiers.
-
-Another common work-around in kernel code avoids the pollution by avoiding
-the named struct entirely, instead identifying the group's boundaries using
-either a pair of empty anonymous structs of a pair of zero-element arrays:
-
-	struct foo {
-		int one;
-		struct { } start;
-		int two;
-		int three, four;
-		struct { } finish;
-		int five;
-	};
-
-	struct foo {
-		int one;
-		int start[0];
-		int two;
-		int three, four;
-		int finish[0];
-		int five;
-	};
-
-This allows code to avoid needing to use a sub-struct named for member
-references within the surrounding structure, but loses the benefits of
-being able to actually use such a struct, making it rather fragile. Using
-these requires open-coded calculation of sizes and offsets. The efforts
-made to avoid common mistakes include lots of comments, or adding various
-BUILD_BUG_ON()s. Such code is left with no way for the compiler to reason
-about the boundaries (e.g. the "start" object looks like it's 0 bytes
-in length), making bounds checking depend on open-coded calculations:
-
-	if (length > offsetof(struct foo, finish) -
-		     offsetof(struct foo, start))
-		return -EINVAL;
-	memcpy(&dst.start, &src.start, offsetof(struct foo, finish) -
-				       offsetof(struct foo, start));
-
-However, the vast majority of places in the kernel that operate on
-groups of members do so without any identification of the grouping,
-relying either on comments or implicit knowledge of the struct contents,
-which is even harder for the compiler to reason about, and results in
-even more fragile manual sizing, usually depending on member locations
-outside of the region (e.g. to copy "two" and "three", use the start of
-"four" to find the size):
-
-	BUILD_BUG_ON((offsetof(struct foo, four) <
-		      offsetof(struct foo, two)) ||
-		     (offsetof(struct foo, four) <
-		      offsetof(struct foo, three));
-	if (length > offsetof(struct foo, four) -
-		     offsetof(struct foo, two))
-		return -EINVAL;
-	memcpy(&dst.two, &src.two, length);
-
-In order to have a regular programmatic way to describe a struct
-region that can be used for references and sizing, can be examined for
-bounds checking, avoids forcing the use of intermediate identifiers,
-and avoids polluting the global namespace, introduce the struct_group()
-macro. This macro wraps the member declarations to create an anonymous
-union of an anonymous struct (no intermediate name) and a named struct
-(for references and sizing):
-
-	struct foo {
-		int one;
-		struct_group(thing,
-			int two;
-			int three, four;
-		);
-		int five;
-	};
-
-	if (length > sizeof(src.thing))
-		return -EINVAL;
-	memcpy(&dst.thing, &src.thing, length);
-	do_something(dst.three);
-
-There are some rare cases where the resulting struct_group() needs
-attributes added, so struct_group_attr() is also introduced to allow
-for specifying struct attributes (e.g. __align(x) or __packed).
-Additionally, there are places where such declarations would like to
-have the struct be typed, so struct_group_typed() is added.
-
-Given there is a need for a handful of UAPI uses too, the underlying
-__struct_group() macro has been defined in UAPI so it can be used there
-too.
-
-Co-developed-by: Keith Packard <keithp@keithp.com>
-Signed-off-by: Keith Packard <keithp@keithp.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Jonathan Lemon <jonathan.lemon@gmail.com>
+Cc: Alexander Lobakin <alobakin@pm.me>
+Cc: Jakub Sitnicki <jakub@cloudflare.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Willem de Bruijn <willemb@google.com>
+Cc: wireguard@lists.zx2c4.com
+Cc: netdev@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
-Acked-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Link: https://lore.kernel.org/lkml/20210728023217.GC35706@embeddedor
-Enhanced-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Link: https://lore.kernel.org/lkml/41183a98-bdb9-4ad6-7eab-5a7292a6df84@rasmusvillemoes.dk
-Enhanced-by: Dan Williams <dan.j.williams@intel.com>
-Link: https://lore.kernel.org/lkml/1d9a2e6df2a9a35b2cdd50a9a68cac5991e7e5f0.camel@intel.com
-Enhanced-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://lore.kernel.org/lkml/YQKa76A6XuFqgM03@phenom.ffwll.local
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Link: https://lore.kernel.org/lkml/20210728035006.GD35706@embeddedor
 ---
- include/linux/stddef.h      | 47 +++++++++++++++++++++++++++++++++++++
- include/uapi/linux/stddef.h | 21 +++++++++++++++++
- 2 files changed, 68 insertions(+)
+ drivers/net/wireguard/queueing.h |  4 +---
+ include/linux/skbuff.h           |  9 ++++-----
+ net/core/skbuff.c                | 14 +++++---------
+ 3 files changed, 10 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/stddef.h b/include/linux/stddef.h
-index 998a4ba28eba..f2aefdb22d1d 100644
---- a/include/linux/stddef.h
-+++ b/include/linux/stddef.h
-@@ -36,4 +36,51 @@ enum {
- #define offsetofend(TYPE, MEMBER) \
- 	(offsetof(TYPE, MEMBER)	+ sizeof_field(TYPE, MEMBER))
+diff --git a/drivers/net/wireguard/queueing.h b/drivers/net/wireguard/queueing.h
+index 4ef2944a68bc..52da5e963003 100644
+--- a/drivers/net/wireguard/queueing.h
++++ b/drivers/net/wireguard/queueing.h
+@@ -79,9 +79,7 @@ static inline void wg_reset_packet(struct sk_buff *skb, bool encapsulating)
+ 	u8 sw_hash = skb->sw_hash;
+ 	u32 hash = skb->hash;
+ 	skb_scrub_packet(skb, true);
+-	memset(&skb->headers_start, 0,
+-	       offsetof(struct sk_buff, headers_end) -
+-		       offsetof(struct sk_buff, headers_start));
++	memset(&skb->headers, 0, sizeof(skb->headers));
+ 	if (encapsulating) {
+ 		skb->l4_hash = l4_hash;
+ 		skb->sw_hash = sw_hash;
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 6bdb0db3e825..fee9041aa402 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -801,11 +801,10 @@ struct sk_buff {
+ 	__u8			active_extensions;
+ #endif
  
-+/**
-+ * struct_group(NAME, MEMBERS)
-+ *
-+ * Used to create an anonymous union of two structs with identical
-+ * layout and size: one anonymous and one named. The former can be
-+ * used normally without sub-struct naming, and the latter can be
-+ * used to reason about the start, end, and size of the group of
-+ * struct members.
-+ *
-+ * @NAME: The identifier name of the mirrored sub-struct
-+ * @MEMBERS: The member declarations for the mirrored structs
-+ */
-+#define struct_group(NAME, MEMBERS...)	\
-+	__struct_group(/* no tag */, NAME, /* no attrs */, MEMBERS)
-+
-+/**
-+ * struct_group_attr(NAME, ATTRS, MEMBERS)
-+ *
-+ * Used to create an anonymous union of two structs with identical
-+ * layout and size: one anonymous and one named. The former can be
-+ * used normally without sub-struct naming, and the latter can be
-+ * used to reason about the start, end, and size of the group of
-+ * struct members. Includes structure attributes argument.
-+ *
-+ * @NAME: The identifier name of the mirrored sub-struct
-+ * @ATTRS: Any struct attributes
-+ * @MEMBERS: The member declarations for the mirrored structs
-+ */
-+#define struct_group_attr(NAME, ATTRS, MEMBERS...) \
-+	__struct_group(/* no tag */, NAME, ATTRS, MEMBERS)
-+
-+/**
-+ * struct_group_tagged(TAG, NAME, MEMBERS)
-+ *
-+ * Used to create an anonymous union of two structs with identical
-+ * layout and size: one anonymous and one named. The former can be
-+ * used normally without sub-struct naming, and the latter can be
-+ * used to reason about the start, end, and size of the group of
-+ * struct members. Includes struct tag argument for the named copy.
-+ *
-+ * @TAG: The tag name for the named sub-struct
-+ * @NAME: The identifier name of the mirrored sub-struct
-+ * @MEMBERS: The member declarations for the mirrored structs
-+ */
-+#define struct_group_tagged(TAG, NAME, MEMBERS...) \
-+	__struct_group(TAG, NAME, /* no attrs */, MEMBERS)
-+
+-	/* fields enclosed in headers_start/headers_end are copied
++	/* Fields enclosed in headers group are copied
+ 	 * using a single memcpy() in __copy_skb_header()
+ 	 */
+-	/* private: */
+-	__u32			headers_start[0];
++	struct_group(headers,
+ 	/* public: */
+ 
+ /* if you move pkt_type around you also must adapt those constants */
+@@ -922,8 +921,8 @@ struct sk_buff {
+ 	u64			kcov_handle;
  #endif
-diff --git a/include/uapi/linux/stddef.h b/include/uapi/linux/stddef.h
-index ee8220f8dcf5..0fbdf2f711aa 100644
---- a/include/uapi/linux/stddef.h
-+++ b/include/uapi/linux/stddef.h
-@@ -4,3 +4,24 @@
- #ifndef __always_inline
- #define __always_inline inline
- #endif
+ 
+-	/* private: */
+-	__u32			headers_end[0];
++	); /* end headers group */
 +
-+/**
-+ * __struct_group(TAG, NAME, ATTRS, MEMBERS)
-+ *
-+ * Used to create an anonymous union of two structs with identical layout
-+ * and size: one anonymous and one named. The former's members can be used
-+ * normally without sub-struct naming, and the latter can be used to
-+ * reason about the start, end, and size of the group of struct members.
-+ * The named struct can also be explicitly tagged, as well as both having
-+ * struct attributes.
-+ *
-+ * @TAG: The tag name for the named sub-struct (usually empty)
-+ * @NAME: The identifier name of the mirrored sub-struct
-+ * @ATTRS: Any struct attributes (usually empty)
-+ * @MEMBERS: The member declarations for the mirrored structs
-+ */
-+#define __struct_group(TAG, NAME, ATTRS, MEMBERS...) \
-+	union { \
-+		struct { MEMBERS } ATTRS; \
-+		struct TAG { MEMBERS } ATTRS NAME; \
-+	}
+ 	/* public: */
+ 
+ 	/* These elements must be at the end, see alloc_skb() for details.  */
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index f9311762cc47..fd5ce57ccce6 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -991,12 +991,10 @@ void napi_consume_skb(struct sk_buff *skb, int budget)
+ }
+ EXPORT_SYMBOL(napi_consume_skb);
+ 
+-/* Make sure a field is enclosed inside headers_start/headers_end section */
++/* Make sure a field is contained by headers group */
+ #define CHECK_SKB_FIELD(field) \
+-	BUILD_BUG_ON(offsetof(struct sk_buff, field) <		\
+-		     offsetof(struct sk_buff, headers_start));	\
+-	BUILD_BUG_ON(offsetof(struct sk_buff, field) >		\
+-		     offsetof(struct sk_buff, headers_end));	\
++	BUILD_BUG_ON(offsetof(struct sk_buff, field) !=		\
++		     offsetof(struct sk_buff, headers.field));	\
+ 
+ static void __copy_skb_header(struct sk_buff *new, const struct sk_buff *old)
+ {
+@@ -1008,14 +1006,12 @@ static void __copy_skb_header(struct sk_buff *new, const struct sk_buff *old)
+ 	__skb_ext_copy(new, old);
+ 	__nf_copy(new, old, false);
+ 
+-	/* Note : this field could be in headers_start/headers_end section
++	/* Note : this field could be in the headers group.
+ 	 * It is not yet because we do not want to have a 16 bit hole
+ 	 */
+ 	new->queue_mapping = old->queue_mapping;
+ 
+-	memcpy(&new->headers_start, &old->headers_start,
+-	       offsetof(struct sk_buff, headers_end) -
+-	       offsetof(struct sk_buff, headers_start));
++	memcpy(&new->headers, &old->headers, sizeof(new->headers));
+ 	CHECK_SKB_FIELD(protocol);
+ 	CHECK_SKB_FIELD(csum);
+ 	CHECK_SKB_FIELD(hash);
 -- 
 2.30.2
 
