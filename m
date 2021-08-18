@@ -1,127 +1,101 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5E22F80
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 04:42:56 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id a21so898782pfh.5
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 21:42:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664452F80
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 04:53:10 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id g14so916370pfm.1
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 21:53:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=n6kYv5qs2U5TDaRwVdsnZZRqO6Jb+ByXJ8zD1IUqO58=;
-        b=gLNXqYFJBgXda8AczoZgx2Ab7vX25Hiq7x5mv5VD7ys5VUnd/eDPkl2myWiX7IbJa8
-         XQ7spT+M7+Cty6i9haMBqVPbDoLsr518VyVZtB8u29NZwBYTa4+Q44I83og78TJL4SgL
-         c6ZcBo8Q52xDbF6xBv2Lr1pio1M7Qu0bi/y+U=
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kgo3ZwF8d7W983KtizalzC2ru/H2SpB8LzsDQMLtI5c=;
+        b=X1QQTCYEVSdpcv7LPo5DMu5ThQZHRIN1vUWMb/xPREu32xkehgWsrv/Uo6unkDbF4G
+         AoDyB6fSRBBNuzc/D7jqakJbtjjF5e+sVAqA9zK2BFKOLs/SwJUQpYjA0HGspNF0+msz
+         Uhn8+rb+9Ssd6W+bxIsn3Ox7Kh+/mgbFClTQ0gwAHdQ6KDjWDqoh4HodnaZ5OMyBTCce
+         SeZwC527t8OK35PgyHP2RAMN9FyTt5uTW9EgE8CEyWj3oORLtmuKDR7Uu54Exp/kDsIh
+         ZevMl3yzOgovs9Qq8xVzo0escEqP8KWDhHlK6OTdbyMg2H9X29vdHPjqwD56DIVdFe+l
+         SCcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=n6kYv5qs2U5TDaRwVdsnZZRqO6Jb+ByXJ8zD1IUqO58=;
-        b=GUZWB2mzFZO2WrHNRHshDcWxFLrQNUlCoHa7A1VoPDi+f51GEFKoi+i6FHyYLFUK4l
-         Vn7hwU0sB1ShoRFTr1Xy1Zs+GRidOIo4MBnGyUu72cVIzqB2dcX6EW7jjMVVIowawynp
-         F1ZcRXnPu3kbsFVCJdZ+KTE8MIxG8v5ibjUyJZ5ixEoEJDpitjvcs9b/SJLG/2JbZVMG
-         b68ASKotCn+od3fzQmRTzBa1SJrXcjNnAiNYWMnB4lwYa1RrLS9LuSAeMZC4smjF0CsP
-         QFe3WWNlukBIzstIYOS1QA4kfr5L+46sxAnjhuPnJfLvuwdfopzYs91PceDQJkHyB0wt
-         +GHA==
-X-Gm-Message-State: AOAM530ec5gZBmv8rIFA1ddNQDjUyiXjxbMrH32K1x5E6q9N2a4tBxYV
-	V33hhwapZQcE3PKbFplMHMrW3Q==
-X-Google-Smtp-Source: ABdhPJw2jYB9l0R7WFUhPJs3ENXjO+knhTs7u8+lFuGMKnsHlUZLfTf8F0CDoClzOrtMlJV9L//UDw==
-X-Received: by 2002:a05:6a00:704:b029:39e:3043:ec64 with SMTP id 4-20020a056a000704b029039e3043ec64mr7198884pfl.68.1629261776383;
-        Tue, 17 Aug 2021 21:42:56 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j68sm5109996pgc.44.2021.08.17.21.42.55
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kgo3ZwF8d7W983KtizalzC2ru/H2SpB8LzsDQMLtI5c=;
+        b=QpWUvDWFpvqIrbC5I5T5c/OnJOAz1vuuOkk0CbbreQv5FA74ozHjoU3Yoe7gCYLwt6
+         5dtFEsUAdC3a7ulfhIlzgM902ewztVqVSSEEXJNE9hk/praNWnZqQ4yU9fTcYvcIvOMA
+         IdYvydryAMqzrfDEEm4aq6gggV5pi67G9IN3zXqwlqQcJaiami2LywjyaPEGPZ4i1IaL
+         f8Mp00aXqy/P10nAayIoY9X0f8MjJI+RM64mjE5ahCPOngxfUKXe4Ta2J5ezJ/JYHFEE
+         +cLEwJnjAg/iHOWlyI6MQ9cXt8/ZCOjHlgVt2Woa2W/giteEfmmrzdchxZHNHzBaecEb
+         y10w==
+X-Gm-Message-State: AOAM531laMCniCy4g5KPHrBc5K3uXKMufsHvIpcI/KvHSM3CkhLnKdUi
+	8WCWsFk1SJqsF2VMscaPGWRN1A==
+X-Google-Smtp-Source: ABdhPJzwiLUKe1Kt++F6gvgGbPK1s/bs6166Bxm5seAYHtcHQUq24Xe4cVB15wUgeXiCsrvDZou4sg==
+X-Received: by 2002:aa7:8c14:0:b029:3e0:235a:5d58 with SMTP id c20-20020aa78c140000b02903e0235a5d58mr7255693pfd.57.1629262389909;
+        Tue, 17 Aug 2021 21:53:09 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id fu10sm3555274pjb.8.2021.08.17.21.53.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 21:42:55 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kees Cook <keescook@chromium.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] staging: rts5208: Fix get_ms_information() heap buffer size
-Date: Tue, 17 Aug 2021 21:42:52 -0700
-Message-Id: <20210818044252.1533634-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+        Tue, 17 Aug 2021 21:53:09 -0700 (PDT)
+Date: Wed, 18 Aug 2021 10:23:07 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-2-digetx@gmail.com>
+ <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+ <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+ <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2921; h=from:subject; bh=OPgWxfVbe6Ch3Gi360oeNmrGi1QocR4XlQyE7Vi1MFM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHI/LOnJmhqY91I+JO2LnJu8KltlU2ODOIHVqS4wU Oda8pwiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyPywAKCRCJcvTf3G3AJsxZD/ 4hbkFgS0HxFPsqLAP88lHEhEfKxOBwgDOo4YDSl2nrPzQpBOdvxPcA20FWPRoWUgZ5OanUZq7D/yGz AOXpB9YL508ueXW7GVYH//kd/2uM/gqNNOFeIRzHix5E0gtm+SkP92DpND8pSQfyQJgXjODLhsR9dC FaTNiALDs8vqsgwMS8eX2j8XtmKrGgZONuaHcmYlp4M6xwWbl9rOF/245Rddbc+4aHZGJv014xEv4E QaaaMI57tTuZwkn2bMW8Zdi8GmEyAPkheQpyW9G82xGaeIBi1ycmMLEQWTjxNilESoUKhSEiiqrunj ARVe3YFiMGd62ij25juUqW08Jpl3Nx0665isfyaXki7zkVzkE+8jg5H1spe0H2zConY/86feh5La1X gARw8gjDz6CmNxn9Cbtk4W6cFSwZT4D+6Ay4bTnbp4SkI1C90Ugk861AfBUi8uP/xziWL1RwV/y15v 9tyPee3+33v5pbHPmPbqT2TM0pdKGTQg8scwRxhaHpDQb9HOFM1w4V62zry7RPpubc5eKVZeQhK92K uMlk/VIp1i2/B05+u0uwomOBfgm+TbunYbtoVwwuQSn9gln8drnrSzkbrVv9QEL9m7TzocziFa6sC+ 2DY9ohayN2DVCHMeygsKncwtknrYJKI+BZDN4mdLTnxZiD1Uoqa3WcyWSyNw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 
-Fix buf allocation size (it needs to be 2 bytes larger). Found when
-__alloc_size() annotations were added to kmalloc() interfaces.
+On 18-08-21, 07:37, Dmitry Osipenko wrote:
+> This will set voltage level without having an actively used hardware.
+> Take a 3d driver for example, if you set the rate on probe and
+> rpm-resume will never be called, then the voltage will be set high,
+> while hardware is kept suspended if userspace will never wake it up by
+> executing a 3d job.
 
-In file included from ./include/linux/string.h:253,
-                 from ./include/linux/bitmap.h:10,
-                 from ./include/linux/cpumask.h:12,
-                 from ./arch/x86/include/asm/paravirt.h:17,
-                 from ./arch/x86/include/asm/irqflags.h:63,
-                 from ./include/linux/irqflags.h:16,
-                 from ./include/linux/rcupdate.h:26,
-                 from ./include/linux/rculist.h:11,
-                 from ./include/linux/pid.h:5,
-                 from ./include/linux/sched.h:14,
-                 from ./include/linux/blkdev.h:5,
-                 from drivers/staging/rts5208/rtsx_scsi.c:12:
-In function 'get_ms_information',
-    inlined from 'ms_sp_cmnd' at drivers/staging/rts5208/rtsx_scsi.c:2877:12,
-    inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3247:12:
-./include/linux/fortify-string.h:54:29: warning: '__builtin_memcpy' forming offset [106, 107] is out
- of the bounds [0, 106] [-Warray-bounds]
-   54 | #define __underlying_memcpy __builtin_memcpy
-      |                             ^
-./include/linux/fortify-string.h:417:2: note: in expansion of macro '__underlying_memcpy'
-  417 |  __underlying_##op(p, q, __fortify_size);   \
-      |  ^~~~~~~~~~~~~
-./include/linux/fortify-string.h:463:26: note: in expansion of macro '__fortify_memcpy_chk'
-  463 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
-      |                          ^~~~~~~~~~~~~~~~~~~~
-drivers/staging/rts5208/rtsx_scsi.c:2851:3: note: in expansion of macro 'memcpy'
- 2851 |   memcpy(buf + i, ms_card->raw_sys_info, 96);
-      |   ^~~~~~
+What exactly are we looking to achieve with this stuff ? Cache the
+current performance state with genpd (based on the state bootloader's
+has set) ?
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/staging/rts5208/rtsx_scsi.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Or anything else as well ?
 
-diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
-index 1deb74112ad4..11d9d9155eef 100644
---- a/drivers/staging/rts5208/rtsx_scsi.c
-+++ b/drivers/staging/rts5208/rtsx_scsi.c
-@@ -2802,10 +2802,10 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
- 	}
- 
- 	if (dev_info_id == 0x15) {
--		buf_len = 0x3A;
-+		buf_len = 0x3C;
- 		data_len = 0x3A;
- 	} else {
--		buf_len = 0x6A;
-+		buf_len = 0x6C;
- 		data_len = 0x6A;
- 	}
- 
-@@ -2855,11 +2855,7 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
- 	}
- 
- 	rtsx_stor_set_xfer_buf(buf, buf_len, srb);
--
--	if (dev_info_id == 0x15)
--		scsi_set_resid(srb, scsi_bufflen(srb) - 0x3C);
--	else
--		scsi_set_resid(srb, scsi_bufflen(srb) - 0x6C);
-+	scsi_set_resid(srb, scsi_bufflen(srb) - buf_len);
- 
- 	kfree(buf);
- 	return STATUS_SUCCESS;
 -- 
-2.30.2
-
+viresh
