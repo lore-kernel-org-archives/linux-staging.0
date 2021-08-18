@@ -1,58 +1,51 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1566D13
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:13 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id y190so1079136pfg.7
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352386D18
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:14 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id e15so1134136plh.8
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YsZhptKgT8RdO2UT2M60Q/NccyUdJGsE7yDhN1K90D8=;
-        b=AqV5GrGQ6APa9jCXTlZsEv0yNQBd1buoKBsvC1Patiai/MrqWa7b1XmHW51ubErKfR
-         FKiWQ3qq8B5Ew32gz8StW83bO7rlDl3YjixVsDHSJA4wz/kFX3VFE/RVvNNLh2rGw6uj
-         aLVD1eBZqiJktmYYzr55zSr1HRkW5dhGCex20=
+        bh=2xy8/Tts2Q0pCjtb48qnJm2SajC5SEAfbYkA07Au0YI=;
+        b=N1IWhHeIGBOPznpFmYcWRZnJUNwykvj7PFgOHlWYvKaPc+cPgY1O8yVwcgQcJCfF0O
+         1wIrsy0WvqMxKkjPp7ddmtLZ7u0JBo0fSPMSf4XEMdcOmOVzMLubsGfeG4F7+aLs4Anz
+         DBivjnb6cRK6FqL5VKQ3cy4DFeYHbbZmjbWPA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YsZhptKgT8RdO2UT2M60Q/NccyUdJGsE7yDhN1K90D8=;
-        b=LA0FXseydOSypahSo3if5BRh5ue3rCF2oxjo3iQFj4viiLHhPRmQXED1hLG3TF059O
-         QcrQdazHJvaQHYbKpz93YuUVq/6hXjIKFEQxZvPgWA0J3NYTsWlzpsBYVAf59qRSM1YN
-         70kWGJXYUgq1o3sbpmPqAMEBdje9OkRkZS2Kk/cAd56KJwGRwnojeWYg8OEVrpfmCy0Q
-         paNP4UMvSJxIumQLEwIz6wR5BhF/KTWusgWD98LRwSSg12+wRGDBviEZYwyQsbMumyzg
-         n8m4IV40+VFFwmJgnBkzpapJUL7/BeY0EwalaZ6JOylEe3jKG36oSRV+A2BB4Bx17y8w
-         N90g==
-X-Gm-Message-State: AOAM532WUv8myNHoyLnIPHLKKUmYGyTnX6DnXyRy3fg8kvr7jJZsxWK0
-	fBc3a3hxD2J6jJvjCg8YYyCnxA==
-X-Google-Smtp-Source: ABdhPJxPAH0mQ5JRMc8So+cEOoTT47AjgR2xcCPW7BD+067I11NQTK24J7A1TqH0vYvVkR9Q0mkDOA==
-X-Received: by 2002:a63:2242:: with SMTP id t2mr7083803pgm.111.1629267253551;
+        bh=2xy8/Tts2Q0pCjtb48qnJm2SajC5SEAfbYkA07Au0YI=;
+        b=oATDopGqkGdmbD2k/mnpB+bOTmjAGBNWDtL68Esc2JzFcm0Ti5hTi7Ey+sL4QZVQ+j
+         3vgX07rPocSZXgyjLQbbl36sIh5Zmx57adF3mmwCWJtASbJFdmi8tm9Fn+OpIMQrkZGE
+         IsJY7IgvoMS/c91ypZbUTJNm1u0XXnQrKD1TzM6JYeWBtW2WjuRf4wy3TcyIGXDNRiyw
+         GkEvXlKRUUMRynQpUFsV3vyfUxwIQxdEgCT2xo4OFdTG2zCE5DrbiPgPdSy4RkHAr64M
+         RJwKjteZPKU/+kucUR407ZCswFnDreaL+wlxBgsb0a6ZO4GO/GVG/hscf5b++SZPLPZs
+         pqRQ==
+X-Gm-Message-State: AOAM5328DJpYRSlB5o0dqLBSDLUlEeQAg/gYcybva1uA1TKQjxamWxEU
+	LjT7nqmYaRuwFbPwkhZWfMEuJg==
+X-Google-Smtp-Source: ABdhPJwZVI61yBxbgc94xcpC0vKFM8RdsF+Geat411+/6IprYSspNUgcCL5/LDmLoHHLCl5CFFI5+A==
+X-Received: by 2002:a17:903:41c2:b0:12d:a7aa:40a8 with SMTP id u2-20020a17090341c200b0012da7aa40a8mr6069996ple.61.1629267253835;
         Tue, 17 Aug 2021 23:14:13 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u20sm5380627pgm.4.2021.08.17.23.14.12
+        by smtp.gmail.com with ESMTPSA id p29sm4918970pfw.141.2021.08.17.23.14.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:14:12 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Jim Mattson <jmattson@google.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	kvm@vger.kernel.org,
+	Ariel Elior <aelior@marvell.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	GR-everest-linux-l2@marvell.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	netdev@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
@@ -60,9 +53,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode cache
-Date: Tue, 17 Aug 2021 23:05:23 -0700
-Message-Id: <20210818060533.3569517-54-keescook@chromium.org>
+Subject: [PATCH v2 17/63] bnx2x: Use struct_group() for memcpy() region
+Date: Tue, 17 Aug 2021 23:04:47 -0700
+Message-Id: <20210818060533.3569517-18-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -72,79 +65,105 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2338; h=from:subject; bh=Ox8odXNGawRcDoEtGWzS1ckYpMUjtDsTTZYtgzhZK3w=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMqj0+1jVnOnluvpSmjVC4NV24/mrWjdCYNGFB9 jwBTeKuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKgAKCRCJcvTf3G3AJvAxD/ 9iMuZIH7PHSmcbrF42uGoRIdS+nUfoKIZhbDR6xmtYDi0vxGbsdnyFZjSwy/XynEIH0Vdlrjpr81jC i9bK6rBJ6rF+TFv4HczlsySW3y3N1xIFaafTX6oJZJQC4gwj1WFe3QmoGDtyXKzIY3V9LTS+crmZ19 PKzynOfjnFyeQ88B1mbEeWil4T6EpIx+uc0Ly+QDT6NMxAjAahBFGnwpD01G5vsMAaUmvcocZEMyl7 7YIHmOz/j/dYDz4RvvjZx/Tcs75qRmaGJF5mD4G1uKSyBTSMrXFMz+xPji8ym/CQJOmxlJncwK1ZeJ 0q5RhAcBUU40d3SC6gNEwZxhqKp/+y9g5sTKSmizT6qqLhtju9XaLkFreo8BocUmC87/U8XumMROux H7hTx08E0OLINGfNct+Ilqcl/d8BtuufZvpRurcgDGLCiLVLOmp2EUpSW3/7zdBVa5/XtPcJMzTFjA lNxvtKUV7fsVvqiI/nL2V5pRPIqiN0Z49mX6zaB2ugX7c6zSuVN8n/lv7Vp7R7Z9ej1ZhByTkOtJJP THc7Uk079v0yMLps1P5flkXnDnRV6bEq0RtAKVLAUn5d/wqA8wB7KtIGzZ6iai9BxNsS1Z4r3pqD7h bI8Pa7iryL+NoaVDaYWVnzlhrUa4TSXPjODvqjZoZfkoykTseBzmuBsI+cpg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3830; h=from:subject; bh=GkN0LVVLNQH/53cAo4VYkKN66rn+11NBIFFE2ztC6YM=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMhRw9LfaYvUc+sf+L0uY8MlzrAk1ef7MCxvB9t k6OtDqOJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIQAKCRCJcvTf3G3AJifDD/ 9c0n+kvuNRhg8rqC3IlmdQj3GSvDZWsG+FKvThaAwsrcm5zgUTbPwQ6iL1wr4Jk3ViFO6PKwpuQs+W kYs8Ff8+E5QKNzTFYv9f3U+QrUgXZuliPkgx2C9OIEVvt2UEnDYPUhUqHBMLx0BXSCvr7kVoiYR8b2 iu457PTEfCQPJdDfKt78EEPnPsrqkubZweDgt/Gq/PsCcnEku9oGBRvz1KKVnO8QWy9TYdunjBP41s 792+Xj9Zh+GH4ISZfO3dP/vihbtHZcRxlUtqy2yT76MawS9BzD6PInHIpTeYQxnPOICMfQPusrHTT7 ndnKvr9GSg7peInc8FmZqYcs6y4mjJE/eklW07D6UJI9TtDjmKiqTTBOdNU43zM6qWjHal537hZmIe 9zFtdGwmUuRUgeltJDGJ4yXIugnOVn6G6DSwMAlT/S3hVGlxpguq6rEv6/0IWLa23jWt9JpGwJ1Jjj o+t/SbwzCJ0ClfKocBAik/2Za+ZKR9dJgOeM/G8xa98QQfHOvYYuIP//mv1JYcM1fvVbNymKySQfVs 8/HAgbbCc54arSAMkCFxkUT/fPiS/v1RbgtjVl9VmyC/p3ATw++a51ydTf5AAZxt2GMj+TS/xSz84B SiFL9TGxlTtdNqLwvPbVXHgt96CGuJjKFxAMufc9C7Zx6iAgBZyMu4MpCY0w==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memset(), avoid intentionally writing across
-neighboring fields.
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-Add struct_group() to mark region of struct x86_emulate_ctxt that should
-be initialized to zero.
+Use struct_group() in struct nig_stats around members egress_mac_pkt0_lo,
+egress_mac_pkt0_hi, egress_mac_pkt1_lo, and egress_mac_pkt1_hi (and the
+respective members in struct bnx2x_eth_stats), so they can be referenced
+together. This will allow memcpy() and sizeof() to more easily reason
+about sizes, improve readability, and avoid future warnings about writing
+beyond the end of struct bnx2x_eth_stats's rx_stat_ifhcinbadoctets_hi.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>
-Cc: Jim Mattson <jmattson@google.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: kvm@vger.kernel.org
+"pahole" shows no size nor member offset changes to either struct.
+"objdump -d" shows no meaningful object code changes (i.e. only source
+line number induced differences and optimizations).
+
+Additionally adds BUILD_BUG_ON() to compare the separate struct group
+sizes.
+
+Cc: Ariel Elior <aelior@marvell.com>
+Cc: Sudarsana Kalluru <skalluru@marvell.com>
+Cc: GR-everest-linux-l2@marvell.com
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/kvm/emulate.c     |  3 +--
- arch/x86/kvm/kvm_emulate.h | 19 +++++++++++--------
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.c |  7 ++++---
+ drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.h | 14 ++++++++++----
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-index 2837110e66ed..2608a047e769 100644
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -5377,8 +5377,7 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+diff --git a/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.c b/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.c
+index 0b193edb73b8..2bb133ae61c3 100644
+--- a/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.c
++++ b/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.c
+@@ -849,7 +849,8 @@ static int bnx2x_hw_stats_update(struct bnx2x *bp)
  
- void init_decode_cache(struct x86_emulate_ctxt *ctxt)
- {
--	memset(&ctxt->rip_relative, 0,
--	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
-+	memset(&ctxt->decode_cache, 0, sizeof(ctxt->decode_cache));
+ 	memcpy(old, new, sizeof(struct nig_stats));
  
- 	ctxt->io_read.pos = 0;
- 	ctxt->io_read.end = 0;
-diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
-index 68b420289d7e..9b8afcb8ad39 100644
---- a/arch/x86/kvm/kvm_emulate.h
-+++ b/arch/x86/kvm/kvm_emulate.h
-@@ -341,14 +341,17 @@ struct x86_emulate_ctxt {
- 	 * the rest are initialized unconditionally in x86_decode_insn
- 	 * or elsewhere
- 	 */
--	bool rip_relative;
--	u8 rex_prefix;
--	u8 lock_prefix;
--	u8 rep_prefix;
--	/* bitmaps of registers in _regs[] that can be read */
--	u32 regs_valid;
--	/* bitmaps of registers in _regs[] that have been written */
--	u32 regs_dirty;
-+	struct_group(decode_cache,
-+		bool rip_relative;
-+		u8 rex_prefix;
-+		u8 lock_prefix;
-+		u8 rep_prefix;
-+		/* bitmaps of registers in _regs[] that can be read */
-+		u32 regs_valid;
-+		/* bitmaps of registers in _regs[] that have been written */
-+		u32 regs_dirty;
+-	memcpy(&(estats->rx_stat_ifhcinbadoctets_hi), &(pstats->mac_stx[1]),
++	BUILD_BUG_ON(sizeof(estats->shared) != sizeof(pstats->mac_stx[1]));
++	memcpy(&(estats->shared), &(pstats->mac_stx[1]),
+ 	       sizeof(struct mac_stx));
+ 	estats->brb_drop_hi = pstats->brb_drop_hi;
+ 	estats->brb_drop_lo = pstats->brb_drop_lo;
+@@ -1634,9 +1635,9 @@ void bnx2x_stats_init(struct bnx2x *bp)
+ 			REG_RD(bp, NIG_REG_STAT0_BRB_TRUNCATE + port*0x38);
+ 	if (!CHIP_IS_E3(bp)) {
+ 		REG_RD_DMAE(bp, NIG_REG_STAT0_EGRESS_MAC_PKT0 + port*0x50,
+-			    &(bp->port.old_nig_stats.egress_mac_pkt0_lo), 2);
++			    &(bp->port.old_nig_stats.egress_mac_pkt0), 2);
+ 		REG_RD_DMAE(bp, NIG_REG_STAT0_EGRESS_MAC_PKT1 + port*0x50,
+-			    &(bp->port.old_nig_stats.egress_mac_pkt1_lo), 2);
++			    &(bp->port.old_nig_stats.egress_mac_pkt1), 2);
+ 	}
+ 
+ 	/* Prepare statistics ramrod data */
+diff --git a/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.h b/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.h
+index d55e63692cf3..ae93c078707b 100644
+--- a/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.h
++++ b/drivers/net/ethernet/broadcom/bnx2x/bnx2x_stats.h
+@@ -36,10 +36,14 @@ struct nig_stats {
+ 	u32 pbf_octets;
+ 	u32 pbf_packet;
+ 	u32 safc_inp;
+-	u32 egress_mac_pkt0_lo;
+-	u32 egress_mac_pkt0_hi;
+-	u32 egress_mac_pkt1_lo;
+-	u32 egress_mac_pkt1_hi;
++	struct_group(egress_mac_pkt0,
++		u32 egress_mac_pkt0_lo;
++		u32 egress_mac_pkt0_hi;
 +	);
-+
- 	/* modrm */
- 	u8 modrm;
- 	u8 modrm_mod;
++	struct_group(egress_mac_pkt1,
++		u32 egress_mac_pkt1_lo;
++		u32 egress_mac_pkt1_hi;
++	);
+ };
+ 
+ enum bnx2x_stats_event {
+@@ -83,6 +87,7 @@ struct bnx2x_eth_stats {
+ 	u32 no_buff_discard_hi;
+ 	u32 no_buff_discard_lo;
+ 
++	struct_group(shared,
+ 	u32 rx_stat_ifhcinbadoctets_hi;
+ 	u32 rx_stat_ifhcinbadoctets_lo;
+ 	u32 tx_stat_ifhcoutbadoctets_hi;
+@@ -159,6 +164,7 @@ struct bnx2x_eth_stats {
+ 	u32 tx_stat_dot3statsinternalmactransmiterrors_lo;
+ 	u32 tx_stat_bmac_ufl_hi;
+ 	u32 tx_stat_bmac_ufl_lo;
++	);
+ 
+ 	u32 pause_frames_received_hi;
+ 	u32 pause_frames_received_lo;
 -- 
 2.30.2
 
