@@ -1,49 +1,52 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214CE6D24
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:05:54 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id k19so1070182pfc.11
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:05:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34236D24
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:05:55 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id e15so1123608plh.8
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AY970ncUJAZ3XFO8vIsQqriyIPN/r8JHpDac7fWieeM=;
-        b=gbrUissyxbKZh6+i0ydJTqtK9dcNQZphsHveN5seaLCfNDXMIh3ilxLvzPdFIjcbS6
-         ddg41mxoHyF/8KJzOVxpCn2bKQHr17ZwagJLPbkX2GFQVMXp1x1p/FbwBHa8OZJGdGTB
-         alLj8ZdYgBfl1SXL2avtmcGtF15Znkwn+zGUA=
+        bh=AvplAjAyy7Xo+ijXhvo31OZi4yHKm9FY1a+n2JGpi4g=;
+        b=NeXzORZmOiduwjDAC0+j3ijPK837yd7AOHICtcf8M5fH8xvkQaB+Uf/aJua6kMoa7W
+         1vXTWMRBK40BOeZtiWp1NgAe4zigCd52vkBHJFcstCUi0JREIRyq+cWP2cxIfpt3Py5d
+         YQECpl2DUZNSwXCNLd5C5w9uHmFHklnzQCqEg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AY970ncUJAZ3XFO8vIsQqriyIPN/r8JHpDac7fWieeM=;
-        b=TcLB7BrVGM79i01s2qBE2LBqrN9UrtuV4r2FqwcLBYsvxvB9CdDsZmLBY5/0XakMRw
-         zrt467nm7sXVN70UHKUrypLY+029rivmiq2u+anmbNDXFY7MozbrnxHWk9TlmLbms9SZ
-         Cm3lAdzCiCPwW/jz/Bd5UII4PvuJHJD1QwKHfrbywHm0T6chG3Oucye99p7JbVbAPg4y
-         KqzeWLHA+hDMIP+ttioC+FRQN1lFcRITIP7/fZOjfPJkmfOI2q4Di9ERHBbCZK+9VEGy
-         s5xwb1ZJa3IDpMGlKYrqMWI28cScP4sEkUbkjK2PXY3D3OLs/Y76MdEZAh0gQiFO0hrq
-         2xXw==
-X-Gm-Message-State: AOAM531pUygY8SJmcui8+qSnZ5Tm3rVSulrou5XgU9jkNZ80fPVCEnAy
-	xS5/7053yqD2MIDwoccu7PSajA==
-X-Google-Smtp-Source: ABdhPJw+QAs+bUA8VMXSWCnpCQCxnqdBvH9bhTwAcH150K7mW9Y7PmVnff+kXCe01FlrLRXhBhq+/Q==
-X-Received: by 2002:a62:cf01:0:b029:3cd:ee82:2ee with SMTP id b1-20020a62cf010000b02903cdee8202eemr7462718pfg.78.1629266753732;
-        Tue, 17 Aug 2021 23:05:53 -0700 (PDT)
+        bh=AvplAjAyy7Xo+ijXhvo31OZi4yHKm9FY1a+n2JGpi4g=;
+        b=rI5c3jBkpz+QB5O/yCJq+8ut6BCDRvhI2goOUuUVDq+PlIUQJ3JwLobg9d6xAOK4sQ
+         sK7b6Q/tEGNJOUyWX4oUDouDwOYEmhBMHVYQ1gafKQUvGUM2bH32Z7YlvIZHQUj6VVvk
+         TFxHpgP2UZNDQV7Mqeh4tethIlZ7tuqk7GLkKzc4IcowlHciHHFd+Jmf/bngpIG1ug9p
+         dg1nRYg768mV0eCeSBIpWLvoh4jlAIz2gIOWpqff3iEn9dG7sStsIRAcojQnqgv7ga9f
+         z3o30AwmnZlQxLg0uKwB+GHxflbHHxmF1Cp66rEi9lsMUO273DPyX9HbG9UpTsEti6SL
+         vTSA==
+X-Gm-Message-State: AOAM530VNIamL0A+OKMX5UA+Ndr9uNlZ8R7kbGQ8n8+2ExJA2mAEgRtA
+	U7HJJ5m3i39mlV+/wHS9uf+TLQ==
+X-Google-Smtp-Source: ABdhPJxY62Rs0zD7LqgByaLcYUzxicRfdtBpOOnXndlcdy7gi8jpEy7wbHdOuHGHf2lbmjFtmXZneg==
+X-Received: by 2002:a17:902:e84f:b0:12d:c616:a402 with SMTP id t15-20020a170902e84f00b0012dc616a402mr5833254plg.77.1629266755373;
+        Tue, 17 Aug 2021 23:05:55 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id v7sm3785867pjk.37.2021.08.17.23.05.50
+        by smtp.gmail.com with ESMTPSA id y67sm4550662pfg.218.2021.08.17.23.05.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:05:51 -0700 (PDT)
+        Tue, 17 Aug 2021 23:05:53 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Kalle Valo <kvalo@codeaurora.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	linux-cxl@vger.kernel.org,
+	Dan Williams <dan.j.williams@intel.com>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
@@ -51,9 +54,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 04/63] pcmcia: ray_cs: Split memcpy() to avoid bounds check warning
-Date: Tue, 17 Aug 2021 23:04:34 -0700
-Message-Id: <20210818060533.3569517-5-keescook@chromium.org>
+Subject: [PATCH v2 06/63] cxl/core: Replace unions with struct_group()
+Date: Tue, 17 Aug 2021 23:04:36 -0700
+Message-Id: <20210818060533.3569517-7-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -63,49 +66,100 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1806; h=from:subject; bh=MoN9sZmmdDw0lR5vW36Fdr39zzqTtcOilmLJ144gA30=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMeeJZHHO3+hbAJbiz+YaA05/E7kfaAlhhB+qwX bgM8lUWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjHgAKCRCJcvTf3G3AJtxMEA CDE0x/VuR2ilrvgKGfyTDw1N7+A+OmcMMY6KEuirMzNaQoRp+CPej+AIOz4iZ4YR2w/YDSXsCBANOw K5b6FAZFcHd15dHuy0PHAu+t2wf8+a3LvZgMLeRVlO+k9h6oSr2WGMYO39iapHt3B4Hws0oVkh8NWy 0kI1PrCe5WRCiSu4x3jvUSNQhd6157DS2THCGpKJU2Ohcc4ZZzPKzDttnQBP825XysZzujJgtmp2W/ uwnApWbjaQlev0TzuwRYz5R/ARZ7MhuJYrMe2R9OENKkUQeMW93/Nfw5nTLnSsP/BdFZZcwqlamFTV tgJj36zb3bSbbWtFABkmCdVGvriei7S5s0Nzc2nLVfQb20sxUkWetJM+GmYMeGLfN4BhBeIHcKWVC0 Aj+LGMayAdp/W4t3nVbPAg/TlfR76sc/XwdjpXjNaJp/8GkyyVZkJOgAc9+8oheOZIccG3fCFmuAJf XWHNpEcmYrSvY9JP0CNQIsmgE/a9O437lSmu6bRy71Sex0/QvPbdpZBU0bMxAqgihbSllbeOeYytUg RbErVsVrqCl2m1h09j0e/PiZURm8UI4xWRcHupED1wTamnDG9QrcNHdTzFlM3/dYIU4ooyZySLeioj JNWySYCBKT6ERqzpI3hwtkiH0jo9acVRnX0ABbUt8WOMelIC2mwM5j7Div0g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2984; h=from:subject; bh=gH2l7MUrimYDJJHL5/kGu3UEiSd7agDYsUtnIqIDLGg=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMfFeE+SAeXV7TlGs5W5Dan0qJQ1dt63HKDzfHG juo8T9CJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjHwAKCRCJcvTf3G3AJlH/EA CnsBzSF5pyrctJZ6ieH+8X8zUFVzCAy3+BR6FX4EgEQJkJRkPWwnEynE2qGmzAQmsEHsp55I/GrJX4 JR1eEWAvgU7ZjlCsPIcv1hCYd1m27MgsvOjeZZPQo8r02lm4PTiaybJvP6THoSxUoZ7x7i+BLdqnLN CJ2Tai+1QWBg/z5BfgXsolu04ACMdQY4zZdNixxfxbVmz8EfwVyWUFyP3k0U0O43Mhc0n+Pi9sfLdY gqM7Y/4yJ/qOqjNqkAP2FR+u7pDMCwF5q6mugy3ReHQbJ3WUCsx/h6iW6XpvzpLtDmU4PnwCizNbDJ 65jHpkXZBwccb2yWZL3xbfcqAc4M9w9cYxNpLdtt8NZ+rde81+4KjY3RjmaYJ6kbOdG2jTQ2uB7QBR 8IB6Vp3VcelKvfe2D6gT91BL8IxzqodAw+yqwCP18Gg1nRBdVdzBLvr5+AFn9w0jjp98MtTKa6P7ii gkZ2UwvygAIG4rcijtB/7meDfJT0C/h40i2avmZ5bb1UndNmOtfoixIiUnumnomu9UUwzxEUdhNb57 KS5dfN7XmkBAwIOqhTGzOAtYHWmH1VyhVLJnBQ2VfGR39r5zOPfmnkT1aic2J3QdRCTgo2AZbLBI6F DcMPWmOtMJYmAJpqZMcje5nPsclSh7Hq7uJSZSzWOq0scZlLODKdzRVPuALg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
+Use the newly introduced struct_group_typed() macro to clean up the
+declaration of struct cxl_regs.
 
-Split memcpy() for each address range to help memcpy() correctly reason
-about the bounds checking. Avoids the future warning:
-
-In function 'fortify_memcpy_chk',
-    inlined from 'memcpy_toio' at ./include/asm-generic/io.h:1204:2,
-    inlined from 'ray_build_header.constprop' at drivers/net/wireless/ray_cs.c:984:3:
-./include/linux/fortify-string.h:285:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
-  285 |    __write_overflow_field(p_size_field, size);
-      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Cc: Kalle Valo <kvalo@codeaurora.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Cc: Alison Schofield <alison.schofield@intel.com>
+Cc: Vishal Verma <vishal.l.verma@intel.com>
+Cc: Ira Weiny <ira.weiny@intel.com>
+Cc: Ben Widawsky <ben.widawsky@intel.com>
+Cc: linux-cxl@vger.kernel.org
+Suggested-by: Dan Williams <dan.j.williams@intel.com>
+Link: https://lore.kernel.org/lkml/1d9a2e6df2a9a35b2cdd50a9a68cac5991e7e5f0.camel@intel.com
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/ray_cs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/cxl/cxl.h | 61 ++++++++++++++---------------------------------
+ 1 file changed, 18 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/net/wireless/ray_cs.c b/drivers/net/wireless/ray_cs.c
-index 590bd974d94f..d57bbe551630 100644
---- a/drivers/net/wireless/ray_cs.c
-+++ b/drivers/net/wireless/ray_cs.c
-@@ -982,7 +982,9 @@ AP to AP	1	1	dest AP		src AP		dest	source
- 	if (local->net_type == ADHOC) {
- 		writeb(0, &ptx->mac.frame_ctl_2);
- 		memcpy_toio(ptx->mac.addr_1, ((struct ethhdr *)data)->h_dest,
--			    2 * ADDRLEN);
-+			    ADDRLEN);
-+		memcpy_toio(ptx->mac.addr_2, ((struct ethhdr *)data)->h_source,
-+			    ADDRLEN);
- 		memcpy_toio(ptx->mac.addr_3, local->bss_id, ADDRLEN);
- 	} else { /* infrastructure */
+diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
+index 53927f9fa77e..9db0c402c9ce 100644
+--- a/drivers/cxl/cxl.h
++++ b/drivers/cxl/cxl.h
+@@ -75,52 +75,27 @@ static inline int cxl_hdm_decoder_count(u32 cap_hdr)
+ #define CXLDEV_MBOX_BG_CMD_STATUS_OFFSET 0x18
+ #define CXLDEV_MBOX_PAYLOAD_OFFSET 0x20
  
+-#define CXL_COMPONENT_REGS() \
+-	void __iomem *hdm_decoder
+-
+-#define CXL_DEVICE_REGS() \
+-	void __iomem *status; \
+-	void __iomem *mbox; \
+-	void __iomem *memdev
+-
+-/* See note for 'struct cxl_regs' for the rationale of this organization */
+-/*
+- * CXL_COMPONENT_REGS - Common set of CXL Component register block base pointers
+- * @hdm_decoder: CXL 2.0 8.2.5.12 CXL HDM Decoder Capability Structure
+- */
+-struct cxl_component_regs {
+-	CXL_COMPONENT_REGS();
+-};
+-
+-/* See note for 'struct cxl_regs' for the rationale of this organization */
+-/*
+- * CXL_DEVICE_REGS - Common set of CXL Device register block base pointers
+- * @status: CXL 2.0 8.2.8.3 Device Status Registers
+- * @mbox: CXL 2.0 8.2.8.4 Mailbox Registers
+- * @memdev: CXL 2.0 8.2.8.5 Memory Device Registers
+- */
+-struct cxl_device_regs {
+-	CXL_DEVICE_REGS();
+-};
+-
+ /*
+- * Note, the anonymous union organization allows for per
+- * register-block-type helper routines, without requiring block-type
+- * agnostic code to include the prefix.
++ * Using struct_group() allows for per register-block-type helper routines,
++ * without requiring block-type agnostic code to include the prefix.
+  */
+ struct cxl_regs {
+-	union {
+-		struct {
+-			CXL_COMPONENT_REGS();
+-		};
+-		struct cxl_component_regs component;
+-	};
+-	union {
+-		struct {
+-			CXL_DEVICE_REGS();
+-		};
+-		struct cxl_device_regs device_regs;
+-	};
++	/*
++	 * Common set of CXL Component register block base pointers
++	 * @hdm_decoder: CXL 2.0 8.2.5.12 CXL HDM Decoder Capability Structure
++	 */
++	struct_group_tagged(cxl_component_regs, component,
++		void __iomem *hdm_decoder;
++	);
++	/*
++	 * Common set of CXL Device register block base pointers
++	 * @status: CXL 2.0 8.2.8.3 Device Status Registers
++	 * @mbox: CXL 2.0 8.2.8.4 Mailbox Registers
++	 * @memdev: CXL 2.0 8.2.8.5 Memory Device Registers
++	 */
++	struct_group_tagged(cxl_device_regs, device_regs,
++		void __iomem *status, *mbox, *memdev;
++	);
+ };
+ 
+ struct cxl_reg_map {
 -- 
 2.30.2
 
