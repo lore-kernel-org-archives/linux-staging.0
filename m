@@ -1,45 +1,45 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1C56D24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FAC6D19
 	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:16 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id mq2-20020a17090b3802b0290178911d298bso1653813pjb.1
+Received: by mail-pl1-f178.google.com with SMTP id c17so1170886plz.2
         for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=m1lc/nY2hnA6HnQKSHDtLAeIlS0dmnOBqNYLAvTUlGA=;
-        b=FS+HfMzV5+fC3odMkVXrJwEqyh1+slSdNTkOPSLEnKpgB5aUu5pQ/txX3nZwmH9j9N
-         JpUNb1Ke8Nib613Cf+hSPfr5Treumucoekmun+SpdbNf+2vy/QfKVo4jA8B9b1nCNQor
-         TC8YvVHzeO23Q0aiI3WkjSxOlWzmH2+99jfiw=
+        bh=0i1or1K/1dFEzNVxMTz6RhSxVOT4OJeaz+0eeqAwhFA=;
+        b=Oe49+j/0UXJ7D4hLbrrauzW6DPsuwO4bSYSpu3MHYIR3JnaLRxc45VZexykTP0KNTs
+         TmDL4PviB0QbN/Io75LJ7Tfje5mipp/v9WFQqOm9o9gyYM1cBdhUbgEaldWedaWT60xS
+         qb7hM0nBEEpQtMj92w3cx9+esvngBsY/a4Otg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=m1lc/nY2hnA6HnQKSHDtLAeIlS0dmnOBqNYLAvTUlGA=;
-        b=KP8k9xd64HHqncxxPsGLunfXY88kAcBiJyktbCFOBnCMVfil1FzRMlvYyZ/cMIaMss
-         /u5eBbpTSkpzwyMlNRSboP6xxo5poAdtfj3o8W+kxYbvdnhX+lqERcck0JEDCJddiOdj
-         OlBiIJKXu7o29YjxSf2P9tL66Q1P7VupmmFq+JNErnxM2gfJeNMSVPKIB3Ap4rMu9BIW
-         x+ezSnI10HWjNukXP4TOCVseAvy9KXAox47N5/5Fo1XvoliRZqmLFjBTqgtHjx8SsHnZ
-         z+oyUtc0Vm7o6ZkHsyJhHrS2hS+8doHiUKPLq/pxHwzAp6fZc8A5SINpJ2FpLX36oRUf
-         M1+A==
-X-Gm-Message-State: AOAM530cbbjnSq33nnuzCJ+eUs3zNYJ6cWJkx0tf1pwJv1RBA1th7XsG
-	i6DM/dxp6xYGp5z+xyRE76lBgA==
-X-Google-Smtp-Source: ABdhPJwpjXTG6518NueOetV3W8JiXoD95XPqR41s/nyPvt6mMXPV0yaLuwDelBW15us2G4JddcQdZA==
-X-Received: by 2002:a17:90a:7848:: with SMTP id y8mr7473374pjl.223.1629267256351;
+        bh=0i1or1K/1dFEzNVxMTz6RhSxVOT4OJeaz+0eeqAwhFA=;
+        b=UX4Le2DzPAqP3z7/tvsPz2m7TpqfIabTBVk94V5pCk1iaAJ/G1dsP5KsTsgiUn+Rpv
+         fYNgbhrjjtaLIP/3aOimo1t2D5NAKB6JaoH61Br9GQ66BOwYkHIeGsGSGXNwA1lvGi+8
+         q6DuW7dDcQyR1AN07m4nNj2bBA7lBvS88dpB8Y6G/yZkZuTQd82+Uacv5iEmE0d10YJY
+         9y4WRVNYI3+z0M90r8pyvBaoFVcUgcTLUC2IfVjTCl8ElpkTceP08IqQeZ56+jsOzO75
+         hWi9t2Cwzr61zocNkPYdFmfdoK1ZXMnl8Vi+AhH0thpw6gYL3IteOfaX1l2P4TaxHIw1
+         eylw==
+X-Gm-Message-State: AOAM531tDkpIRu/SqfDRN0FBkHk4WDcKyuTo2S2AKD9kjNoQyZExuasl
+	KlC3VokeGEKIuiZAVO8GOx8W9DWSbBIpEg==
+X-Google-Smtp-Source: ABdhPJywwox1i7+sQwgOh5pOCbo+BOlEsPJIaFcHvRCzFKyYrKK09UqZit7+ggVQZGAHkMaYk9KLlg==
+X-Received: by 2002:a17:90a:17cc:: with SMTP id q70mr7609797pja.1.1629267256623;
         Tue, 17 Aug 2021 23:14:16 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c2sm4955669pfi.80.2021.08.17.23.14.14
+        by smtp.gmail.com with ESMTPSA id h17sm4603571pfh.192.2021.08.17.23.14.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:14:15 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Ariel Elior <aelior@marvell.com>,
-	GR-everest-linux-l2@marvell.com,
+	Jes Sorensen <jes@trained-monkey.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
+	linux-hippi@sunsite.dk,
 	netdev@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -52,9 +52,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 43/63] net: qede: Use memset_startat() for counters
-Date: Tue, 17 Aug 2021 23:05:13 -0700
-Message-Id: <20210818060533.3569517-44-keescook@chromium.org>
+Subject: [PATCH v2 41/63] net: 802: Use memset_startat() to clear struct fields
+Date: Tue, 17 Aug 2021 23:05:11 -0700
+Message-Id: <20210818060533.3569517-42-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -64,7 +64,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1815; h=from:subject; bh=jbnLApEqieW/++fy2QnZQqeijBkPN++4uUcql8IdpbU=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMnXjTo191/u7GxZ37Wuvyxz1yYXjk6kYYtU6NG Uk/+1reJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJwAKCRCJcvTf3G3AJkUKEA CP9QtdF99HOjstydZyty+TXWHCHvk+L8yaRJLfQw9Ij2yJtDUvVtXCUQSdzfwtxENfHB4LlV+pLMa0 qtp570ToxI9xdKB+Abev9OkcAH5UA98HTqhTsHmWJGnTyekyI18DDinSJIB0eLexCslyevedljP+I0 QwGGo7hbN2h4cNBdVfqf7XV3IlJQUfMOqisWo+S9yQprBKthAsTiNykj7Z4XkUt6ZjwQxHdovfcNxr y8X7Xi2L5LS5RUO5L2qMg49ufYnSh+87p3iZSePm58cBLa6PcS3TS+fgKFWq6rKeq7vfzHvCpl9c7m 0Pi2EHJcBRd8x9Bq+0tTmOFbFJj7lE8rPmNRx5iXfmxnplgxUINQjPc04CKf01oNBQ5V2tlOBzEhYh lZkFnyIwxJit2hdyIBpT+Q/x61E/7iEhBXoo2xHetZ1taACUz+5xMZQcqpmrQMWxuQgbwSwepHUAvL ZuGf6b7xvI0ywqYOA0nuNIJ8EVw6IByYxIAIEjfx0glGfIIeP/tLoIsgTV930k309/s9y6TBWRCz8o h5lLHubwZ57QjtbHRdw0A7frEqm19KSAvXwam0MAB43vm0TSt7vbCCiR0uj/9PR2prngJ9eQUl6K5U BuIjpDHq3lGaWV82neHsDnTIdWx4qjzZBWqMMF/rnI56q46Pfk7bv8/pmkfw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1181; h=from:subject; bh=C+6KD7t/6fG5hDgRQb4fosYJ4WHPortotbK235WcI2o=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMn5oDen6ROCRtoOkoprqxOZyis1cM1QgeAkzRs Z+Yu9WKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJwAKCRCJcvTf3G3AJoehD/ 9r6K6SUsL5lVEdFegLY8K/qjemzJ8Qx2dDCwnIGOnbcI770wVd2gUkq+8bMIiGTpuHm8KLfXED/VPo XEYrAiSzdYDynkSQ5uT93DAcDJecWMvkl5cUZenRJ9e335MwzPk46WbpMY5lsvDG4LBrEYQUe3GB15 fZ8nYwjw5Q+FqdH31kVwt/2NSANrGxWmVtnNghwDYLKm0CqhmEc4kK70cmiOpl45EDBUWHjcVcHhtk +PEcSI8yUja1AxKpyhVTXYsFHlVN/kEk65BL8+8npbvCk63MR9WStzKhTbrb23jLFEg5yu8WATqERe o8xICyKNkMqYX8hCFs5pnjdeEKWUc2/FYepf6KI7RGfKkvKyE2n/BKKsZFKeZ181uCBiO/JcP0Pipn OHApybTpw2p4YCgPfp4IRYVXIyQaygaAotgvJzqZQbLI8E7vsFhH+rcgXzUijzLTAFpUblDhEwLI6b cBzYe+DkWVZ6Glc4eJvXZCjr/W7SxC+nlNR+56QP4XtDM7sC1Yi5QeYqjWqQLKsSmiJ1twc3nx9dtJ qai0woqnGDGFUMcP9v95DEMFbrsh44dGCjOIVocZ3STFgPzYzmTzvVvmCwlMPH+NaZaZZI/NgHQYpw aSEEIjABnuJlCZR3/gTlppRk49XP0ANcu3hytZpYQh0SZTdqnExuxHJTAJ6g==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -76,48 +76,29 @@ Use memset_startat() so memset() doesn't get confused about writing
 beyond the destination member that is intended to be the starting point
 of zeroing through the end of the struct.
 
-The old code was doing the wrong thing: it starts from the second member
-and writes beyond int_info, clobbering qede_lock:
-
-struct qede_dev {
-	...
-        struct qed_int_info             int_info;
-
-        /* Smaller private variant of the RTNL lock */
-        struct mutex                    qede_lock;
-	...
-
-struct qed_int_info {
-        struct msix_entry       *msix;
-        u8                      msix_cnt;
-
-        /* This should be updated by the protocol driver */
-        u8                      used_cnt;
-};
-
-Cc: Ariel Elior <aelior@marvell.com>
-Cc: GR-everest-linux-l2@marvell.com
+Cc: Jes Sorensen <jes@trained-monkey.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-hippi@sunsite.dk
 Cc: netdev@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/ethernet/qlogic/qede/qede_main.c | 2 +-
+ net/802/hippi.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/qlogic/qede/qede_main.c b/drivers/net/ethernet/qlogic/qede/qede_main.c
-index d400e9b235bf..0ed9a0c8452c 100644
---- a/drivers/net/ethernet/qlogic/qede/qede_main.c
-+++ b/drivers/net/ethernet/qlogic/qede/qede_main.c
-@@ -2419,7 +2419,7 @@ static int qede_load(struct qede_dev *edev, enum qede_load_mode mode,
- 	goto out;
- err4:
- 	qede_sync_free_irqs(edev);
--	memset(&edev->int_info.msix_cnt, 0, sizeof(struct qed_int_info));
-+	memset_startat(&edev->int_info, 0, msix_cnt);
- err3:
- 	qede_napi_disable_remove(edev);
- err2:
+diff --git a/net/802/hippi.c b/net/802/hippi.c
+index f80b33a8f7e0..6f71ffc8bdd1 100644
+--- a/net/802/hippi.c
++++ b/net/802/hippi.c
+@@ -65,7 +65,7 @@ static int hippi_header(struct sk_buff *skb, struct net_device *dev,
+ 	hip->le.src_addr_type	= 2;	/* 12 bit SC address */
+ 
+ 	memcpy(hip->le.src_switch_addr, dev->dev_addr + 3, 3);
+-	memset(&hip->le.reserved, 0, 16);
++	memset_startat(&hip->le, 0, reserved);
+ 
+ 	hip->snap.dsap		= HIPPI_EXTENDED_SAP;
+ 	hip->snap.ssap		= HIPPI_EXTENDED_SAP;
 -- 
 2.30.2
 
