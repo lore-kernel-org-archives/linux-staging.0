@@ -1,75 +1,78 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B820F2FAF
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:33:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A39EA60720;
-	Wed, 18 Aug 2021 06:33:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1629268428;
-	bh=WDjreO9KjgVxhBZPJa6vuaWjorAkBuh+Zu8+NT8TZas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E11axgplfzmQ/N8EMvsAXDcK82JReE8/vQCZqCZy90xy0cf2yGcus8ntkrofeTomg
-	 WIaLLDnfrdlPNHLqrYXDZOoZmQWjqmMWcQjSeHZFAxFnbeW3Tu1tJa+othFznbZ92i
-	 PAJEuvbwOW8YbS1ltZYrlWJIA++3+KblZIv4vMJc=
-Date: Wed, 18 Aug 2021 08:33:45 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Joe Perches <joe@perches.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: refactor
- rtw_is_cckrates{only}_included()
-Message-ID: <YRypyev4Ku3eI9w8@kroah.com>
-References: <20210816193125.15700-1-straube.linux@gmail.com>
- <11a09af791c5453175a6bdac1c51bd9fcb0685bd.camel@perches.com>
- <YRwEyrSLTPl/KY9t@kroah.com>
- <2509261.CYLKgzzBkz@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351192FAF
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:35:55 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C053F20057;
+	Wed, 18 Aug 2021 06:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1629268553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fij3l61/xOvY9xkA2rhC457DvUyZYyMCemEsKNJK46s=;
+	b=XDMzVDgBtDC7yRNArmQ0BKIinRgOWB+efdA1H0+ebgwjbfLCfF+8a2ZOEuT9+k91pkWHZX
+	BmACw4eGI7d81xSNmBOPJ+mDY3uSPw7vAnBindp03Pzs6up3gJDZfNwouf150wutf2oaY7
+	5H/lpDv28QMd/ycTaiXldfoYo0u4drE=
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id E40EA134B1;
+	Wed, 18 Aug 2021 06:35:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap1.suse-dmz.suse.de with ESMTPSA
+	id l0UZNUiqHGGPcwAAGKfGzw
+	(envelope-from <nborisov@suse.com>); Wed, 18 Aug 2021 06:35:52 +0000
+Subject: Re: [PATCH v2 49/63] btrfs: Use memset_startat() to clear end of
+ struct
+To: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+ David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
+ netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-50-keescook@chromium.org>
+From: Nikolay Borisov <nborisov@suse.com>
+Message-ID: <cf6282b6-2f8f-2441-d3b8-437ba44b95c6@suse.com>
+Date: Wed, 18 Aug 2021 09:35:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2509261.CYLKgzzBkz@localhost.localdomain>
+In-Reply-To: <20210818060533.3569517-50-keescook@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 18, 2021 at 08:23:18AM +0200, Fabio M. De Francesco wrote:
-> Said that, since operator precedence is one of the first topic that every developer
-> learn in a course on C and that expressions like *ptr++ are used everywhere in
-> the kernel you are sending a dangerous message...
 
-Operator precedence is something that no one should have to memorize or
-remember.  Expressions like *ptr++ on it's own is fine, but combine it
-with an assignment and then you need to think about stuff like "did it
-increment before or after assigning" and the like.
 
-And really, why?  You are doing nothing to make the code easier to
-maintain by doing this.  The compiler isn't going to magically make
-better code because of this.  Be explicit and obvious about what you
-want the code to do, because in 10+ years when you have to look at it
-again to find where to fix a problem, you want it to be really obvious
-what is happening.
+On 18.08.21 г. 9:05, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+> 
+> Use memset_startat() so memset() doesn't get confused about writing
+> beyond the destination member that is intended to be the starting point
+> of zeroing through the end of the struct.
+> 
+> Cc: Chris Mason <clm@fb.com>
+> Cc: Josef Bacik <josef@toxicpanda.com>
+> Cc: David Sterba <dsterba@suse.com>
+> Cc: linux-btrfs@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-> It looks like you don't trust people here to be able to do anything more than 
-> trivial clean-ups. If someone here at linux-staging is not able to understand 
-> the precedence of operators, please stand up and speak!
-
-I want kernel code to be simple and obvious and easy to maintain.
-
-And yes, I do NOT remember the precedence of all C operators, and no one
-should be forced to either.  And I am someone who has read or written C
-code for almost every day for the past 30 years.
-
-So keep the code simple and obvious for everyone to read and understand.
-The original use of the array and then moving to the next one was just
-that, simple and obvious.
-
-Do not do unneeded optimizations just because you can, it will always
-come back to hurt you, or someone else, in the end.
-
-thanks,
-
-greg k-h
+Reviewed-by: Nikolay Borisov <nborisov@suse.com>
