@@ -1,204 +1,118 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728D0168
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:35:48 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id i1so1273047vsk.8
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:35:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D36D168
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:59:10 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id w5so3544881ejq.2
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xSrv+O3TCSW7cnAdJHoCzYxKAHMXFEbzmyCWpuUlKoA=;
-        b=RvY/jkXxbAxhbejbhMhOx5m5pFICa1DjcAOGeLJ7Wj4+NnrlQTP43TzpsRFep1JuC0
-         jjsEdR5Sfv4a46pjC5HeyNwlkFXs5ZoGbAdEHP8nbsLbwgDfxMA0VLsZ4sAxMJRV4mLW
-         dSespNFG/uvXR/ZW39JUOK9BLxf8mk1WID8zgZpuFGqAaQDzTQz38k7uJeJxmgAVAmpm
-         Z+x9YgOHPVn/vTMzWLFUUkw+FlGiQOiB5nzyvSzqnlo/nOvWO5fH93uQPcSphn3gJxjO
-         Ww6B2AEhe5tNZTMbYBxAuxTYbw1ul/ILTwXNwMEmv6K/9UW9Wx7QIc3Fi/3JmvUSGIAc
-         FWog==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yfblc24kClCAw2LhDZTuYVLpqQqgLMTKO9KyYtQMCqk=;
+        b=tl5YNpBUp05iRCyrDdprab20ldnnyf/gDQwVIfAeCrMJdFXwgIUn/gquGtTZX33xe5
+         qpVutf0208WhNrU8EDNaW52PRQhWqYkj7N/P2YB3CabfCzIrebxYBQM+p6LyqNLRc8UW
+         NIqYYN+gmc+hx/wfgFP1E/X8x350aF3cQPM5vxCBeek4iJ8WlMsheUhbXRYfwt+cevZR
+         lpxdx9YLqy9MFdmX2cxiY47nOMMF4VckvzDziDWzhlD7akVHCI1x8fOVTyshvaFlPisN
+         xYNlImUM9NSDjbQoxWzhYix8zTsmLBPe+li4TlcSVybbunNhHf1De6s/lPBYxxXRLzDy
+         gtoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xSrv+O3TCSW7cnAdJHoCzYxKAHMXFEbzmyCWpuUlKoA=;
-        b=H/XCPNX6WHzflydtR1BIcx9fd7JkVXMgIgL0MOUg3VDUjtU7OpwoWXP/yQLcEYWGTf
-         ywfqSI38Gmj0c4EwJooNVmA+3r+38YPTrCrEpM+dKWEPqAEkYNvOC4JcwfCHyUVBHEBs
-         rnJZ38UmeWD+1XE2tKknuaFSiT4mVlQnpjsCPZBP+QNRLrS2tXNcZB1mxFEJTV46ThPH
-         TMgVVwatLHBhN3sBBXqkU0XCH6gkbQ6BE5QD9CmTg/5BUNeWP2ZBUP59svSpGuYnPjDF
-         QHqS/xRfHEEt2ZsLhTwZGqJfYN1TwVb2YZTQFFBXXOPLV84S9qEzsqWop29DbN6SClb9
-         hnDA==
-X-Gm-Message-State: AOAM533DMdAmt+SUVLgt5Q6Ia5VPiN5j33nHZ4zj0h+JLamcJKIJvHby
-	2LN8c+XwvJRpSxUT9dHbT4+cvAyiS49FzH0C41d1dw==
-X-Google-Smtp-Source: ABdhPJxfVbNmo+y9lVXwMUpwV89/qvFiwVR66AUipk2ir89qZuIeawGetBYzPol3o/SxK7XiQzvipAWUl+UAJR794SQ=
-X-Received: by 2002:a67:f6d8:: with SMTP id v24mr6490718vso.48.1629275747436;
- Wed, 18 Aug 2021 01:35:47 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yfblc24kClCAw2LhDZTuYVLpqQqgLMTKO9KyYtQMCqk=;
+        b=rgTRlTlNXE3jjaBEP1WjuBcMCzH2ys2mN5Quaj/bCzcr6rw39DvQm9stCz9XAAoadv
+         WT/beq06JdOnvQRF1Us+ZEcqwiaYS9w8V2WHVkhVDJFsJuA/Xz0LVm8tlyq+VxLacxyS
+         1UStENTYwaaYkwShYPIGGVyncLlWMiYtb9sXBIy3W9/23qOjqjXkY0jYIXYW6WtjM2+h
+         /9v06EwrkykjH8hICaW6fhnF9kl2LWB3UJNppWkIXcilQ+DmdDCEbJUGyzsCOZA9D3XC
+         auDYQP6yLMle0EngiWIWtOWocp02j3khrDklBRwxypZ0IH/KUrz++wUGkzLQKXzP0V2b
+         IyuQ==
+X-Gm-Message-State: AOAM533EpZ+Z8C5qJbtfLf5SxOK71z54tW+TigK35HHUVOH6JSYkvGU8
+	JhyEFmtpm9Pqy2rZ3J9ETHSKfCh+mTE=
+X-Google-Smtp-Source: ABdhPJz355jA6On5POrVcxTspKdz16ID6vjfl+FwoVzmHvbXr1U91j2FvNyOPZEfcmmEIGrPqRWlwQ==
+X-Received: by 2002:a17:906:3aca:: with SMTP id z10mr8660105ejd.53.1629277148392;
+        Wed, 18 Aug 2021 01:59:08 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::687e])
+        by smtp.gmail.com with ESMTPSA id n16sm2248133edv.73.2021.08.18.01.59.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 01:59:07 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove null pointer checks before kfree
+Date: Wed, 18 Aug 2021 10:58:09 +0200
+Message-Id: <20210818085809.31451-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210817012754.8710-1-digetx@gmail.com> <20210817012754.8710-12-digetx@gmail.com>
- <CAPDyKFrax-EYtO03W5QWM2tcWLWeMM8hHZCRYFcsenuiP2zObQ@mail.gmail.com> <YRvBkyfFCqthBIBV@orome.fritz.box>
-In-Reply-To: <YRvBkyfFCqthBIBV@orome.fritz.box>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 18 Aug 2021 10:35:11 +0200
-Message-ID: <CAPDyKFp+9Bv3EVSnV683ixNXzukJtmG_QrS5C1ZQqLxv9QJ-bQ@mail.gmail.com>
-Subject: Re: [PATCH v8 11/34] gpu: host1x: Add runtime PM and OPP support
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-mmc <linux-mmc@vger.kernel.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Aug 2021 at 16:03, Thierry Reding <thierry.reding@gmail.com> wrote:
->
-> On Tue, Aug 17, 2021 at 02:04:38PM +0200, Ulf Hansson wrote:
-> > On Tue, 17 Aug 2021 at 03:30, Dmitry Osipenko <digetx@gmail.com> wrote:
-> > >
-> > > Add runtime PM and OPP support to the Host1x driver. It's required for
-> > > enabling system-wide DVFS and supporting dynamic power management using
-> > > a generic power domain. For the starter we will keep host1x always-on
-> > > because dynamic power management require a major refactoring of the driver
-> > > code since lot's of code paths will need the RPM handling and we're going
-> > > to remove some of these paths in the future. Host1x doesn't consume much
-> > > power so it is good enough, we at least need to resume Host1x in order
-> > > to initialize the power state.
-> > >
-> > > Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> > > Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> > > Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-> > > Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-> > > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > > ---
-> >
-> > [...]
-> >
-> > > +
-> > >  static int host1x_probe(struct platform_device *pdev)
-> > >  {
-> > >         struct host1x *host;
-> > > @@ -394,6 +423,10 @@ static int host1x_probe(struct platform_device *pdev)
-> > >         /* set common host1x device data */
-> > >         platform_set_drvdata(pdev, host);
-> > >
-> > > +       err = devm_tegra_core_dev_init_opp_table_simple(&pdev->dev);
-> > > +       if (err)
-> > > +               return err;
-> > > +
-> > >         host->regs = devm_ioremap_resource(&pdev->dev, regs);
-> > >         if (IS_ERR(host->regs))
-> > >                 return PTR_ERR(host->regs);
-> > > @@ -423,12 +456,9 @@ static int host1x_probe(struct platform_device *pdev)
-> > >                 return err;
-> > >         }
-> > >
-> > > -       host->rst = devm_reset_control_get(&pdev->dev, "host1x");
-> > > -       if (IS_ERR(host->rst)) {
-> > > -               err = PTR_ERR(host->rst);
-> > > -               dev_err(&pdev->dev, "failed to get reset: %d\n", err);
-> > > +       err = host1x_get_resets(host);
-> > > +       if (err)
-> > >                 return err;
-> > > -       }
-> > >
-> > >         err = host1x_iommu_init(host);
-> > >         if (err < 0) {
-> > > @@ -443,22 +473,10 @@ static int host1x_probe(struct platform_device *pdev)
-> > >                 goto iommu_exit;
-> > >         }
-> > >
-> > > -       err = clk_prepare_enable(host->clk);
-> > > -       if (err < 0) {
-> > > -               dev_err(&pdev->dev, "failed to enable clock\n");
-> > > -               goto free_channels;
-> > > -       }
-> > > -
-> > > -       err = reset_control_deassert(host->rst);
-> > > -       if (err < 0) {
-> > > -               dev_err(&pdev->dev, "failed to deassert reset: %d\n", err);
-> > > -               goto unprepare_disable;
-> > > -       }
-> > > -
-> >
-> > Removing the clk_prepare_enable() and reset_control_deassert() from
-> > host1x_probe(), might not be a good idea. See more about why, below.
-> >
-> > >         err = host1x_syncpt_init(host);
-> > >         if (err) {
-> > >                 dev_err(&pdev->dev, "failed to initialize syncpts\n");
-> > > -               goto reset_assert;
-> > > +               goto free_channels;
-> > >         }
-> > >
-> > >         err = host1x_intr_init(host, syncpt_irq);
-> > > @@ -467,10 +485,14 @@ static int host1x_probe(struct platform_device *pdev)
-> > >                 goto deinit_syncpt;
-> > >         }
-> > >
-> > > -       host1x_debug_init(host);
-> > > +       pm_runtime_enable(&pdev->dev);
-> > >
-> > > -       if (host->info->has_hypervisor)
-> > > -               host1x_setup_sid_table(host);
-> > > +       /* the driver's code isn't ready yet for the dynamic RPM */
-> > > +       err = pm_runtime_resume_and_get(&pdev->dev);
-> >
-> > If the driver is being built with the CONFIG_PM Kconfig option being
-> > unset, pm_runtime_resume_and_get() will return 0 to indicate success -
-> > and without calling the ->runtime_resume() callback.
-> > In other words, the clock will remain gated and the reset will not be
-> > deasserted, likely causing the driver to be malfunctioning.
-> >
-> > If the driver isn't ever being built with CONFIG_PM unset, feel free
-> > to ignore my above comments.
-> >
-> > Otherwise, if it needs to work both with and without CONFIG_PM being
-> > set, you may use the following pattern in host1x_probe() to deploy
-> > runtime PM support:
-> >
-> > "Enable the needed resources to probe the device"
-> > pm_runtime_get_noresume()
-> > pm_runtime_set_active()
-> > pm_runtime_enable()
-> >
-> > "Before successfully completing probe"
-> > pm_runtime_put()
->
-> We made a conscious decision a few years ago to have ARCH_TEGRA select
-> PM on both 32-bit and 64-bit ARM, specifically to avoid the need to do
-> this dance (though there are still a few drivers left that do this, I
-> think).
->
-> So I think this should be unnecessary. Unless perhaps if the sysfs PM
-> controls have any influence on this. As far as I know, as long as the
-> PM kconfig option is enabled, the sysfs control only influence the
-> runtime behaviour (i.e. setting the sysfs PM control to "on" is going
-> to force runtime PM to be resumed) but there's no way to disable
-> runtime PM altogether via sysfs that would make the above necessary.
+kfree(NULL) is safe, so remove unnecessary null pointer checks before
+calls to kfree. Reported by checkpatch.
 
-Thanks for clarifying! As I said, feel free to ignore my comments then.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c  |  3 +--
+ drivers/staging/r8188eu/core/rtw_cmd.c | 13 +++----------
+ 2 files changed, 4 insertions(+), 12 deletions(-)
 
-For this and the other patches in the series, I assume you only need
-to care about whether the driver is a cross SoC driver and used on
-other platforms than Tegra then.
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index 8ef0586b753f..1127e9a52458 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -1314,8 +1314,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
+ 		pnetwork->IELength = wps_offset + (wps_ielen + 2) + remainder_ielen;
+ 	}
+ 
+-	if (pbackup_remainder_ie)
+-		kfree(pbackup_remainder_ie);
++	kfree(pbackup_remainder_ie);
+ }
+ 
+ static void update_bcn_p2p_ie(struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index a68776f5e67b..955499eb608a 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -89,13 +89,9 @@ void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+ 
+ void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv)
+ {
+-
+ 	if (pcmdpriv) {
+-		if (pcmdpriv->cmd_allocated_buf)
+-			kfree(pcmdpriv->cmd_allocated_buf);
+-
+-		if (pcmdpriv->rsp_allocated_buf)
+-			kfree(pcmdpriv->rsp_allocated_buf);
++		kfree(pcmdpriv->cmd_allocated_buf);
++		kfree(pcmdpriv->rsp_allocated_buf);
+ 	}
+ }
+ 
+@@ -818,11 +814,8 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 
+ 	psecnetwork = (struct wlan_bssid_ex *)&psecuritypriv->sec_bss;
+ 	if (!psecnetwork) {
+-		if (pcmd)
+-			kfree(pcmd);
+-
++		kfree(pcmd);
+ 		res = _FAIL;
+-
+ 		goto exit;
+ 	}
+ 
+-- 
+2.32.0
 
->
-> Thierry
-
-Kind regards
-Uffe
