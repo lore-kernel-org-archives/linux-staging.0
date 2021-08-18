@@ -1,74 +1,110 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EAF72
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:17:37 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id w22-20020a056830411600b0048bcf4c6bd9so776648ott.8
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 18:17:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFF772
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:37:27 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id u22so988769lfq.13
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 18:37:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oqxDNn5HuSgDYxtU1DC9Dd6JFHUoPgcSzl8BngM0suw=;
+        b=tH07Ag8eiBTNGPOIyiICGem/XAlGbrx9wzA1AYXo5k0KS9zDRDkRtCVqSG5jFzW2VO
+         GjAu9tNgXKNtwAzjnF/jHaAKn3t9S2/BI/ubLCao4tYBfnPsNCQfKpg5NbRkjXPFfl89
+         o2AFA8APp2Hb5BZhl84unBgpnMCH8jZKxkejm1GjOdyNjXG4drZ4cuhx3rMCgcFD6NUP
+         PbFOcLMGACtfUZ2JeTEXxuvnXov1sCN/Toqiy/qwb8+yrYekuN1OEWngV0f+9HB2mVTI
+         IJdr97jZuur2MRVfVSk2iXaYSGLsNIixSiM5hkfvafyYXNZKmo6LxpEEX8DqogXnEx3D
+         VoRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eKtNQFzlTBGPaxfs2EmRb1riSIc24m2XgELeYM91Y4A=;
-        b=pcYqvVvV3xFOnnur8VoM5f7VvlXNszYheSDRnoU788jErt5WWYTwH7pKTtPTxfKVKW
-         3/4t9pwiiIkeNuzUXH0B4eJzdbj46/Y9QspS6qR5qR2kpEK5LJE9bG36BdqKfT0Uogiz
-         rAo7y2FgMP0+sjm5ApjRJyFoKnfpLJLxvbbfJgRwuVG/oTUaDPkgZ9WcAAD0TIXny5bN
-         NISyPDNtxXEdgyEKicBcwmI59Sk2lCZ5LgPfky5qW5GZrO+wK9Z70awR9ErGyJI0kaU9
-         2pqFiwpw84Um0YqBOpGBEHggQ9CmKvT6ecGA7K5iJS1h3iBwBqAUggOae9TZJURNXAfE
-         oPvQ==
-X-Gm-Message-State: AOAM531CgbdBzRJpxvUGO+3e+i9XnP6CxDwbGW0SvA22qAWMPEny+Mua
-	EMpyxM2dvRtFUL74LGyJQg==
-X-Google-Smtp-Source: ABdhPJwU/r4DfRsxBODbwZOAT7Fuj3KBuNK588MGjUDZF59lolTrMg3kNGSScZqTWBSlXRqF+y+4aw==
-X-Received: by 2002:a9d:a12:: with SMTP id 18mr4963065otg.252.1629249456779;
-        Tue, 17 Aug 2021 18:17:36 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id p26sm752775ota.71.2021.08.17.18.17.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 18:17:36 -0700 (PDT)
-Received: (nullmailer pid 1178148 invoked by uid 1000);
-	Wed, 18 Aug 2021 01:17:34 -0000
-Date: Tue, 17 Aug 2021 20:17:34 -0500
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	linux-mtd@lists.infradead.org, devicetree@vger.kernel.org, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Michael Turquette <mturquette@baylibre.com>, linux-spi@vger.kernel.org, 
-	Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org, 
-	Stefan Agner <stefan@agner.ch>, Nishanth Menon <nm@ti.com>, linux-staging@lists.linux.dev, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	linux-usb@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>, 
-	linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-media@vger.kernel.org, Peter Chen <peter.chen@kernel.org>, 
-	Lucas Stach <dev@lynxeye.de>, Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Lee Jones <lee.jones@linaro.org>, 
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Viresh Kumar <vireshk@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-pm@vger.kernel.org, 
-	Adrian Hunter <adrian.hunter@intel.com>, Rob Herring <robh+dt@kernel.org>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v8 24/34] media: dt: bindings: tegra-vde: Document OPP
- and power domain
-Message-ID: <YRxfrvd2sR5ALeuX@robh.at.kernel.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oqxDNn5HuSgDYxtU1DC9Dd6JFHUoPgcSzl8BngM0suw=;
+        b=eORkMpn14xmW2pqhPBK/aieIMAPMDQszqLJleEUDpxDM0qBoNxHtwbLc/sMua8an4k
+         vClZTLorv7oNNV8J/rxG/sgCx27yGGmp+kfIEuMOQ+7thIw0pqulRLfMY3GZL7y3NBG7
+         TodO7VFADJ6VWKuK+9VGVhIpell884tl0s/i3KYllr3oRomKqQEHMNeUQ5VmujF4rLTj
+         31ZtZBr+NRC0kSBZK5zd2v3HDkPr3ivOQcrIB6z0YgP01npodgEFZsRqZuw52yUY7bpy
+         zeRpVyO12pQC09vFbNrRvMbuFqIBylI+HUR4CTluB1pgtIsTU+B5KYp39CZekAlCUPAs
+         VcvA==
+X-Gm-Message-State: AOAM531gHB0zoflLq3/EvU+iV4sCB+A45kfwRB1O/vBxKCpeRZ6IptYI
+	ILMuoeen1uP/J36Uhn74uSM=
+X-Google-Smtp-Source: ABdhPJzO8yX4UrQj2zwLBNG/ezqRBlNp4JuMFF5+U48En2dYUq2KE3FpodsT/MFV5XUcHXk+BK/l0g==
+X-Received: by 2002:a05:6512:3441:: with SMTP id j1mr4537443lfr.388.1629250645475;
+        Tue, 17 Aug 2021 18:37:25 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
+        by smtp.googlemail.com with ESMTPSA id d25sm409518lja.31.2021.08.17.18.37.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Aug 2021 18:37:24 -0700 (PDT)
+Subject: Re: [PATCH v8 09/34] dt-bindings: host1x: Document Memory Client
+ resets of Host1x, GR2D and GR3D
+To: Rob Herring <robh@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
 References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-25-digetx@gmail.com>
+ <20210817012754.8710-10-digetx@gmail.com>
+ <YRxfWJJ6+1GgVs33@robh.at.kernel.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <fa9a1fb7-8a87-de1a-e40a-fdc4f4d05d57@gmail.com>
+Date: Wed, 18 Aug 2021 04:37:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210817012754.8710-25-digetx@gmail.com>
+In-Reply-To: <YRxfWJJ6+1GgVs33@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Aug 2021 04:27:44 +0300, Dmitry Osipenko wrote:
-> Document new OPP table and power domain properties of the video decoder
-> hardware.
+18.08.2021 04:16, Rob Herring пишет:
+> On Tue, Aug 17, 2021 at 04:27:29AM +0300, Dmitry Osipenko wrote:
+>> Memory Client should be blocked before hardware reset is asserted in order
+>> to prevent memory corruption and hanging of memory controller.
+>>
+>> Document Memory Client resets of Host1x, GR2D and GR3D hardware units.
+>>
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  .../bindings/display/tegra/nvidia,tegra20-host1x.txt          | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+>> index 62861a8fb5c6..07a08653798b 100644
+>> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+>> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
+>> @@ -18,6 +18,7 @@ Required properties:
+>>  - resets: Must contain an entry for each entry in reset-names.
+>>    See ../reset/reset.txt for details.
+>>  - reset-names: Must include the following entries:
+>> +  - mc
+>>    - host1x
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  .../devicetree/bindings/media/nvidia,tegra-vde.yaml  | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
+> New entries should be at the end. Order matters.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Indeed, order matters. In this case it matters by the hardware because
+memory reset must be asserted before the controller's reset. We rely on
+it in the code of the GENPD driver. Hence it's the intended order in
+this patch.
