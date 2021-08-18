@@ -1,167 +1,163 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85AD2FAD
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:46:13 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id d4so5538066lfk.9
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:46:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2FE2FAD
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:52:42 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id n18so2680594pgm.12
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JieIqWdhDDBOyoPQjj0L36XO6x8aJlMqSaMCMlfoZXA=;
-        b=djv3Y4pk3V9YUhEA2+Gp7+1puSGj/ScHPzkFaChXRMQ9M5OMmulU1OjrBl8G1QZ+Sd
-         u/OsC07L8kILBtvZw3VRSsYC2EFjSMQbF5wT+1yI9SCq0UfT2ra5mmwQLk71rDCt52ix
-         +WGFoDUc0+yAkAosChOb9CVwlpU8GOJOVGPb6vn+ghBMisK2B72C3WCnuVO1CY4z0SFW
-         dwbBRAzomUOkWquhEQgz6ZWmGjojVv1nYnUhIzdx0oQg23e6McWrhqImpDmmiXFwn1Ch
-         axdy3S2COKId/VAFRe/Vw3Og9nEzScvpEh5CqOIRp3SqzrgDxkvcVltSFp1kEPyMrI3N
-         dOrg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7joQz/hOZYHbWQ9qAx5++37t6jQRt6wCbSFQEQk4D+4=;
+        b=U4JNeZa2IJQ3lNZ25s0B9ssli4sJSz30z/iSzkApoIxvb0Ne3wwBiGh2rpE/QKtReZ
+         ByOzgP6uMZDSkO5k6TwR1IodurtURiC1IiYiC9zswcpBuxY4WxVqrYrNTYoRDpeXDZnX
+         KT76J6AXxrUaROmR8MUhVUvIWRSUOqSSXX4UBlCzkPYWyKHXP6TCC5cSvnuOA01nORNW
+         qPHExQTNoKYicBYK3ehzKnSLjrsqfPLzlcO8m7phKEmuLGB60nDhBPngSTMEO6bN8/nq
+         NcbKf1EmlsC3UdRP8D3JdXCTVydF9HZn0/zsybXf7fNLYgJWxl8dY4MI7YwQX2penW99
+         pwTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JieIqWdhDDBOyoPQjj0L36XO6x8aJlMqSaMCMlfoZXA=;
-        b=r+iFDNJv4hp9f6nXLY1aZSlbZx78N3oonjTqkhwGnGILFlmt55o/qqdZtUQRbFXLyx
-         azWEYZvxCvW3JI/8Ji0mgudr9uSRxWsDn3MNka2w/WlVTxrzAxuslXwF7+54P1H+YL4o
-         POLLZC8KWsd4S3N1BKW43Qr9+XC4evfdCH1WD7/cbUGtcnwMHZ4mwBsdm+pKtN++QOtQ
-         PQqZYGpBnXY2CaHIM7l7/DvCeqFZ2XGK/KZzkW1XTxz8rc/nAxxYxwj1vrOHpAynh9Bh
-         incVn5nMx9orNQhVkfmxpNLYzMvHe4uhpA8xDrBZAJbqxq7CDcyJSISMRvXuh+s0WLTE
-         k+jQ==
-X-Gm-Message-State: AOAM532bFgS0QczcUgXpOuoX58nJeHrxUJzhOIS8KIx4HS7t+CEjOBU0
-	zUV+A1+VnT5FNUBl31D8k1c=
-X-Google-Smtp-Source: ABdhPJyz6htisvp+J6/IItkzMKPUV9WFPIMTTkHzWeWJzG1OYk6xq6Q2Gi45+ssTCXzSje0g7I6JOg==
-X-Received: by 2002:a05:6512:45b:: with SMTP id y27mr6749279lfk.619.1629301571851;
-        Wed, 18 Aug 2021 08:46:11 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.googlemail.com with ESMTPSA id g27sm6017lfh.300.2021.08.18.08.46.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Aug 2021 08:46:11 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-References: <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
- <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
- <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
-Message-ID: <fd791644-e295-a56a-459e-82a4de2691bb@gmail.com>
-Date: Wed, 18 Aug 2021 18:46:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        bh=7joQz/hOZYHbWQ9qAx5++37t6jQRt6wCbSFQEQk4D+4=;
+        b=HigcbhDtUnkwsIV5SppYj8Gtn67s+JgpF3NGnoWU22k/bz2+ZNRSWmgi0FLPr9jPwy
+         j5DNAvcjMfn7bzxk+0uumgL0RSz4zZT3yEC12+IfLsaaAurqdKRuDItEnjQ/tLWHwI2N
+         U3bWbUK9L7Nh2JPxskoktFiU3uRJ1M0JyxMPdCHTZ9W90dt3Po7ddas4lHBLChZ8mgmy
+         4mbpSphHGp4d0SF+y7Il/cBDxq4oyL5jol5q2WLhi8QEkPmeGanQZaFC3op3xQZW9SB5
+         zW+gkBBD7Jkio9bv5+nZ0t1MoIbC94FM9HCuPgLJqf7HDV2Cp7hs7SEtwN2CbHXmG+7m
+         MEfw==
+X-Gm-Message-State: AOAM53244nGwsTXPavOuzpmaxqEr+iQPQZEb+5l3yttcVkt/s1u8UwcI
+	FVnUcrFE50jAHq3/4xXUMVM=
+X-Google-Smtp-Source: ABdhPJzZ4nccoyG4Ic1nRVbpyrH2juSNM44U7HNyj4JeHDQfXwFXgte8i4EmtUTRRmozJVBYpsQj4Q==
+X-Received: by 2002:a63:100e:: with SMTP id f14mr9671256pgl.188.1629301961761;
+        Wed, 18 Aug 2021 08:52:41 -0700 (PDT)
+Received: from xps.yggdrasil ([49.207.137.16])
+        by smtp.gmail.com with ESMTPSA id e26sm159272pfj.46.2021.08.18.08.52.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 08:52:41 -0700 (PDT)
+From: Aakash Hemadri <aakashhemadri123@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Bjorn Helgaas <bjorn@helgaas.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH] staging: r8188eu: clean up endianness issues
+Date: Wed, 18 Aug 2021 21:22:36 +0530
+Message-Id: <8a3fca82d9ec5dde9e42d40f0268a324cc87ebc6.1629301854.git.aakashhemadri123@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-18.08.2021 18:43, Dmitry Osipenko пишет:
-> 18.08.2021 13:08, Ulf Hansson пишет:
->> On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>>
->>> On 18-08-21, 11:41, Ulf Hansson wrote:
->>>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>>>> What we need here is just configure. So something like this then:
->>>>>
->>>>> - genpd->get_performance_state()
->>>>>   -> dev_pm_opp_get_current_opp() //New API
->>>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
->>>>>
->>>>> This can be done just once from probe() then.
->>>>
->>>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
->>>
->>> The opp core already has a way of finding current OPP, that's what
->>> Dmitry is trying to use here. It finds it using clk_get_rate(), if
->>> that is zero, it picks the lowest freq possible.
->>>
->>>> I am sure I understand the problem. When a device is getting probed,
->>>> it needs to consume power, how else can the corresponding driver
->>>> successfully probe it?
->>>
->>> Dmitry can answer that better, but a device doesn't necessarily need
->>> to consume energy in probe. It can consume bus clock, like APB we
->>> have, but the more energy consuming stuff can be left disabled until
->>> the time a user comes up. Probe will just end up registering the
->>> driver and initializing it.
->>
->> That's perfectly fine, as then it's likely that it won't vote for an
->> OPP, but can postpone that as well.
->>
->> Perhaps the problem is rather that the HW may already carry a non-zero
->> vote made from a bootloader. If the consumer driver tries to clear
->> that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
->> still not lead to any updates of the performance state in genpd,
->> because genpd internally has initialized the performance-state to
->> zero.
-> 
-> We don't need to discover internal SoC devices because we use
-> device-tree on ARM. For most devices power isn't required at a probe
-> time because probe function doesn't touch h/w at all, thus devices are
-> left in suspended state after probe.
-> 
-> We have three components comprising PM on Tegra:
-> 
-> 1. Power gate
-> 2. Clock state
-> 3. Voltage state
-> 
-> GENPD on/off represents the 'power gate'.
-> 
-> Clock and reset are controlled by device drivers using clk and rst APIs.
-> 
-> Voltage state is represented by GENPD's performance level.
+Fix these sparse warnings:
 
-OPP framework couples the performance level with the clock rate.
+> rtw_br_ext.c:73:23: warning: restricted __be16 degrades to integer
 
-> GENPD core assumes that at a first rpm-resume of a consumer device, its
-> genpd_performance=0. Not true for Tegra because h/w of the device is
-> preconfigured to a non-zero perf level initially, h/w may not support
-> zero level at all.
-> 
-> GENPD core assumes that consumer devices can work at any performance
-> level. Not true for Tegra because voltage needs to be set in accordance
-> to the clock rate before clock is enabled, otherwise h/w won't work
-> properly, perhaps clock may be unstable or h/w won't be latching.
-> 
-> Performance level should be set to 0 while device is suspended.
-> Performance level needs to be bumped on rpm-resume of a device in
-> accordance to h/w state before hardware is enabled.
-> 
+Here tag->tag_len is be16, use ntohs()
+
+> rtw_br_ext.c:601:57: warning: incorrect type in assignment (different base types)
+> rtw_br_ext.c:601:57:    expected unsigned short
+> rtw_br_ext.c:601:57:    got restricted __be16 [usertype]
+
+> rtw_br_ext.c:664:45: warning: cast to restricted __be16
+> rtw_br_ext.c:771:84: warning: incorrect type in argument 3 (different base types)
+> rtw_br_ext.c:771:84:    expected unsigned int [usertype] len
+
+Cast MAGIC_CODE as unsigned short
+
+> rtw_br_ext.c:771:84:    got restricted __be16 [usertype] payload_len
+> rtw_br_ext.c:773:110: warning: incorrect type in argument 2 (different base types)
+> rtw_br_ext.c:773:110:    expected int len
+> rtw_br_ext.c:773:110:    got restricted __be16 [usertype] payload_len
+
+> rtw_br_ext.c:836:54: warning: cast to restricted __be32
+
+Unnecessary double cast?
+
+> rtw_br_ext.c:839:70: warning: restricted __be16 degrades to integer
+> rtw_br_ext.c:845:70: warning: invalid assignment: |=
+> rtw_br_ext.c:845:70:    left side has type unsigned short
+> rtw_br_ext.c:845:70:    right side has type restricted __be16
+
+dhcp->flag is u16
+
+Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index e8eea95a52e3..8eb7475726e1 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+ 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+ 	int data_len;
+ 
+-	data_len = tag->tag_len + TAG_HDR_LEN;
++	data_len = ntohs(tag->tag_len) + TAG_HDR_LEN;
+ 	if (skb_tailroom(skb) < data_len) {
+ 		_DEBUG_ERR("skb_tailroom() failed in add SID tag!\n");
+ 		return -1;
+@@ -598,7 +598,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 
+ 						/*  insert the magic_code+client mac in relay tag */
+ 						pMagic = (unsigned short *)tag->tag_data;
+-						*pMagic = htons(MAGIC_CODE);
++						*pMagic = (unsigned short)MAGIC_CODE;
+ 						memcpy(tag->tag_data+MAGIC_CODE_LEN, skb->data+ETH_ALEN, ETH_ALEN);
+ 
+ 						/* Add relay tag */
+@@ -661,7 +661,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 					}
+ 
+ 					pMagic = (unsigned short *)tag->tag_data;
+-					if (ntohs(*pMagic) != MAGIC_CODE) {
++					if (*pMagic != (unsigned short)MAGIC_CODE) {
+ 						DEBUG_ERR("Can't find MAGIC_CODE in %s packet!\n",
+ 							(ph->code == PADO_CODE ? "PADO" : "PADS"));
+ 						return -1;
+@@ -768,9 +768,9 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+ 						struct icmp6hdr  *hdr = (struct icmp6hdr *)(skb->data + ETH_HLEN + sizeof(*iph));
+ 						hdr->icmp6_cksum = 0;
+ 						hdr->icmp6_cksum = csum_ipv6_magic(&iph->saddr, &iph->daddr,
+-										iph->payload_len,
++										ntohs(iph->payload_len),
+ 										IPPROTO_ICMPV6,
+-										csum_partial((__u8 *)hdr, iph->payload_len, 0));
++										csum_partial((__u8 *)hdr, ntohs(iph->payload_len), 0));
+ 					}
+ 				}
+ 			}
+@@ -833,16 +833,16 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+ 				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
+ 					struct dhcpMessage *dhcph =
+ 						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
+-					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
++					u32 cookie = dhcph->cookie;
+ 
+ 					if (cookie == DHCP_MAGIC) { /*  match magic word */
+-						if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
++						if (!(dhcph->flags & BROADCAST_FLAG)) {
+ 							/*  if not broadcast */
+ 							register int sum = 0;
+ 
+ 							DEBUG_INFO("DHCP: change flag of DHCP request to broadcast.\n");
+ 							/*  or BROADCAST flag */
+-							dhcph->flags |= htons(BROADCAST_FLAG);
++							dhcph->flags |= BROADCAST_FLAG;
+ 							/*  recalculate checksum */
+ 							sum = ~(udph->check) & 0xffff;
+ 							sum += be16_to_cpu(dhcph->flags);
+
+base-commit: cbfa6f33e3a685c329d78e06b0cf1dcb23c9d849
+-- 
+2.32.0
 
