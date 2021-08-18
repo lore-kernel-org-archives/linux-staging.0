@@ -1,51 +1,47 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B03C6D22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CD76D19
 	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:06:06 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id a21so1069975pfh.5
+Received: by mail-pf1-f172.google.com with SMTP id x16so1067088pfh.2
         for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:06:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Bf2aGZjkA9ZdJwTs2unG/S+9qMUhCrqY/7iHdHkH31E=;
-        b=A5I0FSkL7KTi0It4kgEm27RXwjzTjYiZalV5qb+BVbRkycsgZ6clnB+HMIO88/Lahs
-         zUfCqQaTXkbN7vGog/kgYObDuP3sM9ypsYZBTKoYz0zdY2laHeTI6MGbyFuVzp/UhIbz
-         SA33K0vtCtLYBcIuPH619Gf/JvwDe9tUUYn/U=
+        bh=PTBKkWGSJ4jeq48Lif1HjorGsj7JNkZaLkD8D5Mis7A=;
+        b=lcRiLN/pxXroa+z0dIVjwpE6juQ/WSj9kN1DJHiXQOxPdexqsXsummW+QGZRKJMuKE
+         goKTAqxz4pwd1w10URarcs5dopjzXmwolbK+77hwkcGaxXJAK302qu5FzsGr1WTfWGGB
+         ymGtBiAAT9XPK+AD9AOkBT52goGiThLInSsB8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Bf2aGZjkA9ZdJwTs2unG/S+9qMUhCrqY/7iHdHkH31E=;
-        b=fr49UAX6PSFDZkJfmcYYN4urtfA36wdg8xIXWg1C/2PPvDwfqMVFkg58qHf4uPITvz
-         zyDmxSRPvclE/FAuo63dBdUwZy/pjA64tJ7l91cfoyjfNEFtIoDCRfbV31ZdJ01II9h0
-         2+TAjG9TQPc5+XIC9I1I+uvRXuKBsLXJn41qJgkN7xqae/5po8T1uBv7IAosoJgOF6j1
-         Jj5Xo4hBPYyiYb4Cup16PObqp1Uv/VBPgtWYaT9MC8yPI1O4bwymlv+JTR01Jq8QK7vR
-         +2c1fGbVVSIjRb1keAg09bIVtQj5bIZ8u051Js0mE1k4v5SG9nfQlk7vMUuONFJmreEr
-         568g==
-X-Gm-Message-State: AOAM531s/FbPB/bB1qt4p+6Rgb5x9CoeZ6bDJPbh3Ch0kQaq2gbxx+aM
-	M7KwNLIHiRQ/JQ/ae+H/jgKOWQ==
-X-Google-Smtp-Source: ABdhPJzIwbxoplLwgyMwAYMY+AYzEbGav9ejSeaA2oSrg/gnLSdaifU6G3gvCszWYv19xo6NLd4rnA==
-X-Received: by 2002:a63:101c:: with SMTP id f28mr7267532pgl.330.1629266766044;
+        bh=PTBKkWGSJ4jeq48Lif1HjorGsj7JNkZaLkD8D5Mis7A=;
+        b=s2qX2yqrn5gxTh2wbScalYQiUZstOr5HswQiMJr49VyztOn9K97oSB3Vayk46fy/aO
+         vESVdf57KClGnB75ePsWhBvjCtqqiU5lCh0muuUaoNNAQSHg3VaAhvdN+EOo3Ugdmd6N
+         YOOd6Y3oxkL7e/IfWz+1JqEzOn9HkFFljj1bH+nBDifNP02qEneP6qYea2TSUIeeAm6p
+         CBDixrpyUaPkMbQq+dW//wE3WFPyGCl+GBEhvIGfPG+rbKmZyE9mVwz+P0GIWN3rYYar
+         5ne8/a1wxRGiVJaViPm0SKRMBKZimwH6v+GBG3WXNOuDWxB2yVzLV1CtOfRWjcaJgA3J
+         qICg==
+X-Gm-Message-State: AOAM530FQW+BMRZazIafbOtDzgTTIkq3pah0yosbkaDOqy6Dy0PmcRlC
+	ZBVcgKWNPtQ53kwFOmZmIhCExQ==
+X-Google-Smtp-Source: ABdhPJzCiookpb9ebYshndEgzHCX93ly5catWbwmyFE6JV+ARL2uHnLBYxH38LP6l1lYGAvgKe5gsQ==
+X-Received: by 2002:a62:d085:0:b0:3e0:f21a:8030 with SMTP id p127-20020a62d085000000b003e0f21a8030mr7615770pfg.70.1629266766375;
         Tue, 17 Aug 2021 23:06:06 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c9sm5531358pgq.58.2021.08.17.23.06.01
+        by smtp.gmail.com with ESMTPSA id j17sm4782687pfn.148.2021.08.17.23.06.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:06:02 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Julian Wiedmann <jwi@linux.ibm.com>,
-	Karsten Graul <kgraul@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
@@ -53,9 +49,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 60/63] net/af_iucv: Use struct_group() to zero struct iucv_sock region
-Date: Tue, 17 Aug 2021 23:05:30 -0700
-Message-Id: <20210818060533.3569517-61-keescook@chromium.org>
+Subject: [PATCH v2 47/63] intel_th: msu: Use memset_startat() for clearing hw header
+Date: Tue, 17 Aug 2021 23:05:17 -0700
+Message-Id: <20210818060533.3569517-48-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -65,7 +61,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2231; h=from:subject; bh=bmKbsRP16CnR5PXdPB4ZiDx9DBCysB2r4z9hIIKiJic=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMrUiy3wzC2Tbpf2LUdDadDtk7FYIB+hFtnsIrW fkTfIlqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKwAKCRCJcvTf3G3AJkYyD/ 9ucWeKdq8Xqqc/QXVsAWFOW9NzYhLInbMDw4OW5CozZyRbnOPk352gq63xaqMFMsclZFLEMQ9TTO33 7OYOFG7yKLJH7xWiqIvXwLztLuZw+JXSioGcmPOGOtg8hAXa8jiQ1KixmMPPGspos7hxqSuEzt31Y0 tNY4L/eDOvurxWrZsBGWm1b1k5PsAc+g8zMvnFzCBDhHj7YU0n+DSqAqBOzdrAc/BDQ6WwCtZWZgHn VVMCXM0qPf/ljXYEYnUK+ZZnl/WfbDvNoDPpsLQ0zZXhIhNtT3BKEfer/GfabdgopxSGXxTV+7JLfW 4zvjCOjHDppWfw99ppMZmvMvDN3k26ttKsLH7cVJ+kxEk9IZohT1lAGOfHEd7n+qAs4B4SrYMGb0uM wnIP+9JGQlViNQCZz8651n9z1vC3LX6PQlO5oS2pjadtH/dqxOhmIw392G3ODhOfboU0ZOnPR3pfTA vv8hjA/ukE5Dt/9T5+e3XaDNef7XzWGuEJy//3iyWc+lV/f+ruPwosN4rWo7gnyIbF2CgCgdasK6ZN PvgpQFRdA0UU/KoP4B9xx0S3rtUne33iTi/VsaHcMSUoisF52ghW2rt/M1apXDnx8RSFOroKKUUTSX 3+F+WfyISvDRWznlKXQ44kQRHNtJUEKNW8cFL9JBRk7SYT4Mh7lRv9p5s4KQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1239; h=from:subject; bh=uh3kPqi+1X1lyfKJytqHpZ67tA8Si7LB8pUN1izBRBI=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMokuhXR2p74Acuej4eCBPYM2cMZOT8THgQZzGV rdQKEmSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKAAKCRCJcvTf3G3AJvm1D/ 9kF/338CaDSDtZdoqV6TgTFjJO7GhbNkoBmaGibpVP14xbup3OFbl/8EWjfIgiZ5HEL4MqjjTWMyQD GVmRXMyIy+vWRh/NnndkDGceRW6qt3HsyulsPKChA7zxUB+DgshZpdqVp8ftqxAtnr7XjoSLpPjA6Q jd9iNmeK/83BSvOrCXzfw3QnVp7S/8MJgCGvFbdrnET8gv1IOUMB8G7m3XGNLUryv8ZV2DS5g85EQ0 9P28dpGxmAVMsi9vVqMViPQNC/BVKoo+Ax89vzH5K3aMn1bfmCCfXRiU1R1z687xeHxmN0mNjUu943 YG2huUBJz+HFlahhX/8DegqUfH3Roc81OdU4xQrSWUIynliECUj+/rLG3nUrqetH+63wRgHXzOS30A dNLHiD+cCMIYAMXAhvA/kiRl2zfl4bvvXGqwytmyz0E8wMCPXFx5NF0Kx2GmTm0w6DvHzyRwqGzrVe o+OGGog3VcigZZFQfBTpYUYJZ91yw92GJvsWxlN1Jlkk3oLo6ax2gSSw1Kw+wlUL5JUYGviliS2BrP Gjo9a6pi+N90GCV9dZw+rMpbHm49R3IBpe72LrTBqKtVtcEAuFolJR7jQHnLfVqdCTdUjl7xRKSpdJ L25TTHWjDtgY5E6pp3BASup3QhcHbz4WiGqQCnvgdUgeX69GFYXmzp9CuwAg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -73,61 +69,35 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Add struct_group() to mark the region of struct iucv_sock that gets
-initialized to zero. Avoid the future warning:
+Use memset_startat() so memset() doesn't get confused about writing
+beyond the destination member that is intended to be the starting point
+of zeroing through the end of the struct.
 
-In function 'fortify_memset_chk',
-    inlined from 'iucv_sock_alloc' at net/iucv/af_iucv.c:476:2:
-./include/linux/fortify-string.h:199:4: warning: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Wattribute-warning]
-  199 |    __write_overflow_field(p_size_field, size);
-      |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Cc: Julian Wiedmann <jwi@linux.ibm.com>
-Cc: Karsten Graul <kgraul@linux.ibm.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-s390@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/net/iucv/af_iucv.h | 10 ++++++----
- net/iucv/af_iucv.c         |  2 +-
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ drivers/hwtracing/intel_th/msu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/include/net/iucv/af_iucv.h b/include/net/iucv/af_iucv.h
-index ff06246dbbb9..df85d19fbf84 100644
---- a/include/net/iucv/af_iucv.h
-+++ b/include/net/iucv/af_iucv.h
-@@ -112,10 +112,12 @@ enum iucv_tx_notify {
+diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
+index 432ade0842f6..70a07b4e9967 100644
+--- a/drivers/hwtracing/intel_th/msu.c
++++ b/drivers/hwtracing/intel_th/msu.c
+@@ -658,13 +658,11 @@ static void msc_buffer_clear_hw_header(struct msc *msc)
  
- struct iucv_sock {
- 	struct sock		sk;
--	char			src_user_id[8];
--	char			src_name[8];
--	char			dst_user_id[8];
--	char			dst_name[8];
-+	struct_group(init,
-+		char		src_user_id[8];
-+		char		src_name[8];
-+		char		dst_user_id[8];
-+		char		dst_name[8];
-+	);
- 	struct list_head	accept_q;
- 	spinlock_t		accept_q_lock;
- 	struct sock		*parent;
-diff --git a/net/iucv/af_iucv.c b/net/iucv/af_iucv.c
-index 18316ee3c692..9446e2771d31 100644
---- a/net/iucv/af_iucv.c
-+++ b/net/iucv/af_iucv.c
-@@ -473,7 +473,7 @@ static struct sock *iucv_sock_alloc(struct socket *sock, int proto, gfp_t prio,
- 	atomic_set(&iucv->msg_recv, 0);
- 	iucv->path = NULL;
- 	iucv->sk_txnotify = afiucv_hs_callback_txnotify;
--	memset(&iucv->src_user_id , 0, 32);
-+	memset(&iucv->init, 0, sizeof(iucv->init));
- 	if (pr_iucv)
- 		iucv->transport = AF_IUCV_TRANS_IUCV;
- 	else
+ 	list_for_each_entry(win, &msc->win_list, entry) {
+ 		unsigned int blk;
+-		size_t hw_sz = sizeof(struct msc_block_desc) -
+-			offsetof(struct msc_block_desc, hw_tag);
+ 
+ 		for_each_sg(win->sgt->sgl, sg, win->nr_segs, blk) {
+ 			struct msc_block_desc *bdesc = sg_virt(sg);
+ 
+-			memset(&bdesc->hw_tag, 0, hw_sz);
++			memset_startat(bdesc, 0, hw_tag);
+ 		}
+ 	}
+ }
 -- 
 2.30.2
 
