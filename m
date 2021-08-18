@@ -1,157 +1,204 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB142F80
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:03:55 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id B5B235C024B;
-	Wed, 18 Aug 2021 02:03:54 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 18 Aug 2021 02:03:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=Z4OBGGYHBzMUarRh5bKxj4waQXW
-	Q8+mOIcMWDFXb/SQ=; b=lls89CTvEz3WollTMyEC2xgtnB5ky7CzHnr2SxZN3Vp
-	iomR9cANbFNsojWbrc1CCOR85+G6JvbLFwFOaS4ldtWrDyQoCGnLdlqSgpY3INdL
-	JlUoc1bDmOJGGt2m5Vw97n9jBEAhH5BKy2n2anz5bnW2wDl9YUoPrsqy3/3Hqs1q
-	5kYK6XpBAAnfvf6YrBIFFOuMTnNol10CJwKtOu/1WW0N4HYNNMPB2uY+VZSb2R1n
-	Eap02Vg4aruTs4TuwgwyRGj9/YtMYlW7gEmLO7GDIiPV897QXCXUtkbT9ezZyGn/
-	PwA28W44JsUoh028Vtvn2ElPCVPSfPGTKqgSAW4b48g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Z4OBGG
-	YHBzMUarRh5bKxj4waQXWQ8+mOIcMWDFXb/SQ=; b=Nw/F3V5hxMAVO5B+aprBwm
-	WJpsIqcC9BXvyCkTff3KKiEETXWX31wSBcdOEZ9rdk6BJ0n4icvZU4dI07HILbz5
-	7ydGHpbX07kDqlLzINBtusssyj0NH9NO4I2alUp8eXtZfV15I2gaRgof6ZWMTShn
-	AsOTXQ+eFnEElWKu/tBFRih6ash2vP7xsuHJjEPrbFqXuXak4uEpkFOlpH5pz80C
-	ZM0afP0hC3fSpRrtwq36hIh/NurcKWM5tk3Dnn/o+ShroFMjxO49nS1GvWHs8QHg
-	kVqPLhPZ1W2FNMKoj1/aUD7I9uySPni/DsIoWOFNT+F/p/UjMgJklhjRKxab0Nbw
-	==
-X-ME-Sender: <xms:yaIcYSAXE-19QqNgdgL4Ndg0YHNL_rDPYTt_hGWLV2Vl7CXr4PUWeA>
-    <xme:yaIcYci0XXHqhKFSAQLuWqgNRtzTnOAhk2SZw4-frQm4AW3E84pdXGcrzbuJdxijr
-    c9pax-9Fqvx5w>
-X-ME-Received: <xmr:yaIcYVkBEoWj5wQ0TEOKVEbgxWz3YSALcd6iFVh4cl0QVW4fGtH0nWomeklzk10IvuhMRVjCTzUAeAdBVwZx5CV5d0UxLhwO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleeggddutddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
-    drtghomh
-X-ME-Proxy: <xmx:yaIcYQz1z4YkgjZCz-AlZ0rM80ir8cZcCCGnH_K2GmZmF2IaR2WVpQ>
-    <xmx:yaIcYXTiB8iYLIx3ketjEJu2q5T-0xYJpt6VyTN25Ez8nfXAnPr_CQ>
-    <xmx:yaIcYbY_phwDIWvMkv4amcjhzSN8FU4NUXJH8vsdpJANnyGGkdcbrw>
-    <xmx:yqIcYSHylyFcpTLAAMBNO4BteGREuTzsLVUEuws5oDdcOwUUZ15Ndw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Aug 2021 02:03:52 -0400 (EDT)
-Date: Wed, 18 Aug 2021 08:03:50 +0200
-From: Greg KH <greg@kroah.com>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: dan.carpenter@oracle.com, yangyingliang@huawei.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: Remove unused including
- <linux/version.h>
-Message-ID: <YRyixigRy/XvccKs@kroah.com>
-References: <20210818054946.2751-1-caihuoqing@baidu.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060FD2F80
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:05:51 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id k24so1139803pgh.8
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=23NqigPoreurbrTRI3DzstnCrCz1u9qo8AUicrCllIQ=;
+        b=UbvCFEyRrZ9eZIo3hC/X1djDK0zyKbZ+dpC5E+yFQ4NxlkNH9dIRozkfEuSe7qJjsQ
+         cxD/56o5spuj40J0Wg3fR6Wyk3fwk8hV9DWgzhqsRRVRBgGzTqUDfya1TW7GvmKLZ6wo
+         D9xixUQS4qz6M4i5bzbYYLvrORORYZfKr8WPc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=23NqigPoreurbrTRI3DzstnCrCz1u9qo8AUicrCllIQ=;
+        b=ViD6jLFvV+3wN0TXhC6fQ8iPU7ZymBGsISiWdmqC/i/wZOt56TKIPh06o25sNKLyt0
+         2xDrTi1HiMUkE6xHNgoUV0oMBqLicMB2bVnK5Z2LeHJFbWJFR1mzMHCq+cgnNQmD4ZTL
+         kbiBtQ+hEZkmyfh58Jxl19BVvtzWYoNRDl60i+qLdmkSBzBiKa9F2CNi7ILXMUPs4I/q
+         7QQr3151GMmg2Ud6eB0dMVQSKarqFkTVPSWEicBiEldk4MPHp/9x6FXC+w54jzCgY4S/
+         nEOqLaRIgAR199BhxpmwQs98OA+YooinOWqk6hndB9lNhS7WQ+HmNQqMlmbu05xK7zmO
+         HEEA==
+X-Gm-Message-State: AOAM5304v1xLxkWav7MxDRiy/FOIofpYfYUmvdAfZZQKQiOZay7IHIT+
+	tAlkinbr+R8/CenvEPr3miy2Eg==
+X-Google-Smtp-Source: ABdhPJylu+fvLjWopDWFH3olkAdKgN4Z9FIPk8JyyTRG5xBoS/mN6Ano8pbp8qiJIYenr0R5MuEjMA==
+X-Received: by 2002:a05:6a00:16d2:b029:300:200b:6572 with SMTP id l18-20020a056a0016d2b0290300200b6572mr7570097pfc.62.1629266751598;
+        Tue, 17 Aug 2021 23:05:51 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id l6sm4585677pff.74.2021.08.17.23.05.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 23:05:51 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: linux-kernel@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>,
+	Stanislav Yakovlev <stas.yakovlev@gmail.com>,
+	Kalle Valo <kvalo@codeaurora.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v2 01/63] ipw2x00: Avoid field-overflowing memcpy()
+Date: Tue, 17 Aug 2021 23:04:31 -0700
+Message-Id: <20210818060533.3569517-2-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
+References: <20210818060533.3569517-1-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818054946.2751-1-caihuoqing@baidu.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4716; h=from:subject; bh=3b5t4fLR/wEetR2E8Hwk2j3VzU8yz2BgAEsleqg3XAU=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMd3RE3VXLm1V4wHPPpY4uHLTNlH2i9cpT7/zcX 6bMNqjOJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjHQAKCRCJcvTf3G3AJhpED/ 9b4pyd/DG5mv5Tblws3aMWZNDSeCRn3/s9TjbgOMXM4o11x/1+ZleM6Vk2EDLRI/StjZkH7suUShf9 pz8qPCLJYcMOnhXplowR65ecymaR26AWdAh+maUgxLzeDfaqIYCYeE1R/AQ0WwLm+5Exoa4ZI5WS0f rqmhbs0ehQFD4CZMRmfHfUrVstRDcMCvaGy4vJOILTRKBHVmbSZT9t4ZS26+G0Gn3/MfEpQl02c5VG giy+jakP/HC0SaKYh6fz0PynTwGctBrg0Jtrm+P5sBZ5LrYnPR4gQcC+zRGDLNvr9SJfvI3/F80g1h nBOlSrzvmz1/1UBqHvztStqbaaBG+fsJReRuAfOS4pPpyfoSreYc0FSty2WowsZKIQG4KRrFpPJq8y oyVcu4SpPwu0e+hpIT5XJ/ZlUJ3z+GSZyrMGUWADhlMLpd7MuTx1T01Z2DheK2fn7PAfCsewxY48vA klRgq5EmEm78Ws6wLDcon05s0EfYr4KarT1JdG+fV2JuY2Ks6lWjaiGXCMr3QOUuFt3P5lmt4vhwnj EdC/X6leqQSQ89oEFJBzrtCAV0vFOs8DxlHiDaWhg8+sGBq2zvBRy+rxcDyNI36k1pUC1aChW0369A Gf5WfOMa8Bm/SsspWmkkegUh+h5Z0fYmtTzn/GA0ekK/0u14dQxgyN2mEtFg==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 18, 2021 at 01:49:46PM +0800, Cai Huoqing wrote:
-> Remove including <linux/version.h> that don't need it
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_mlme.c      | 1 -
->  drivers/staging/r8188eu/os_dep/os_intfs.c    | 1 -
->  drivers/staging/r8188eu/os_dep/rtw_android.c | 1 -
->  drivers/staging/r8188eu/os_dep/xmit_linux.c  | 1 -
->  4 files changed, 4 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-> index d5ef5783f4ad..82b74ebdaabd 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-> @@ -3,7 +3,6 @@
->  
->  #define _RTW_MLME_C_
->  
-> -#include <linux/version.h>
->  #include "../include/osdep_service.h"
->  #include "../include/drv_types.h"
->  #include "../include/recv_osdep.h"
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index f4bf4732578a..aef978eef4d7 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -12,7 +12,6 @@
->  
->  #include "../include/usb_osintf.h"
->  #include "../include/rtw_br_ext.h"
-> -#include <linux/version.h>
->  
->  MODULE_LICENSE("GPL");
->  MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
-> diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
-> index bdd381606ba6..af0072e2cb5f 100644
-> --- a/drivers/staging/r8188eu/os_dep/rtw_android.c
-> +++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
-> @@ -3,7 +3,6 @@
->  
->  #include <linux/module.h>
->  #include <linux/netdevice.h>
-> -#include <linux/version.h>
->  #include "../include/rtw_android.h"
->  #include "../include/osdep_service.h"
->  #include "../include/rtw_debug.h"
-> diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> index 4f1ce346b3a5..69966c696130 100644
-> --- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> @@ -3,7 +3,6 @@
->  
->  #define _XMIT_OSDEP_C_
->  
-> -#include <linux/version.h>
->  #include "../include/osdep_service.h"
->  #include "../include/drv_types.h"
->  #include "../include/if_ether.h"
-> -- 
-> 2.22.0
-> 
+In preparation for FORTIFY_SOURCE performing compile-time and run-time
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-Hi,
+libipw_read_qos_param_element() copies a struct libipw_info_element
+into a struct libipw_qos_information_element, but is actually wanting to
+copy into the larger struct libipw_qos_parameter_info (the contents of
+ac_params_record[] is later examined). Refactor the routine to perform
+centralized checks, and copy the entire contents directly (since the id
+and len members match the elementID and length members):
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+struct libipw_info_element {
+        u8 id;
+        u8 len;
+        u8 data[];
+} __packed;
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+struct libipw_qos_information_element {
+        u8 elementID;
+        u8 length;
+        u8 qui[QOS_OUI_LEN];
+        u8 qui_type;
+        u8 qui_subtype;
+        u8 version;
+        u8 ac_info;
+} __packed;
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+struct libipw_qos_parameter_info {
+        struct libipw_qos_information_element info_element;
+        u8 reserved;
+        struct libipw_qos_ac_parameter ac_params_record[QOS_QUEUE_NUM];
+} __packed;
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Cc: Stanislav Yakovlev <stas.yakovlev@gmail.com>
+Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: linux-wireless@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ .../net/wireless/intel/ipw2x00/libipw_rx.c    | 56 ++++++-------------
+ 1 file changed, 17 insertions(+), 39 deletions(-)
 
-thanks,
+diff --git a/drivers/net/wireless/intel/ipw2x00/libipw_rx.c b/drivers/net/wireless/intel/ipw2x00/libipw_rx.c
+index 5a2a723e480b..7a684b76f39b 100644
+--- a/drivers/net/wireless/intel/ipw2x00/libipw_rx.c
++++ b/drivers/net/wireless/intel/ipw2x00/libipw_rx.c
+@@ -927,7 +927,8 @@ static u8 qos_oui[QOS_OUI_LEN] = { 0x00, 0x50, 0xF2 };
+ static int libipw_verify_qos_info(struct libipw_qos_information_element
+ 				     *info_element, int sub_type)
+ {
+-
++	if (info_element->elementID != QOS_ELEMENT_ID)
++		return -1;
+ 	if (info_element->qui_subtype != sub_type)
+ 		return -1;
+ 	if (memcmp(info_element->qui, qos_oui, QOS_OUI_LEN))
+@@ -943,57 +944,34 @@ static int libipw_verify_qos_info(struct libipw_qos_information_element
+ /*
+  * Parse a QoS parameter element
+  */
+-static int libipw_read_qos_param_element(struct libipw_qos_parameter_info
+-					    *element_param, struct libipw_info_element
+-					    *info_element)
++static int libipw_read_qos_param_element(
++			struct libipw_qos_parameter_info *element_param,
++			struct libipw_info_element *info_element)
+ {
+-	int ret = 0;
+-	u16 size = sizeof(struct libipw_qos_parameter_info) - 2;
++	size_t size = sizeof(*element_param);
+ 
+-	if ((info_element == NULL) || (element_param == NULL))
++	if (!element_param || !info_element || info_element->len != size - 2)
+ 		return -1;
+ 
+-	if (info_element->id == QOS_ELEMENT_ID && info_element->len == size) {
+-		memcpy(element_param->info_element.qui, info_element->data,
+-		       info_element->len);
+-		element_param->info_element.elementID = info_element->id;
+-		element_param->info_element.length = info_element->len;
+-	} else
+-		ret = -1;
+-	if (ret == 0)
+-		ret = libipw_verify_qos_info(&element_param->info_element,
+-						QOS_OUI_PARAM_SUB_TYPE);
+-	return ret;
++	memcpy(element_param, info_element, size);
++	return libipw_verify_qos_info(&element_param->info_element,
++				      QOS_OUI_PARAM_SUB_TYPE);
+ }
+ 
+ /*
+  * Parse a QoS information element
+  */
+-static int libipw_read_qos_info_element(struct
+-					   libipw_qos_information_element
+-					   *element_info, struct libipw_info_element
+-					   *info_element)
++static int libipw_read_qos_info_element(
++			struct libipw_qos_information_element *element_info,
++			struct libipw_info_element *info_element)
+ {
+-	int ret = 0;
+-	u16 size = sizeof(struct libipw_qos_information_element) - 2;
++	size_t size = sizeof(struct libipw_qos_information_element) - 2;
+ 
+-	if (element_info == NULL)
++	if (!element_info || !info_element || info_element->len != size - 2)
+ 		return -1;
+-	if (info_element == NULL)
+-		return -1;
+-
+-	if ((info_element->id == QOS_ELEMENT_ID) && (info_element->len == size)) {
+-		memcpy(element_info->qui, info_element->data,
+-		       info_element->len);
+-		element_info->elementID = info_element->id;
+-		element_info->length = info_element->len;
+-	} else
+-		ret = -1;
+ 
+-	if (ret == 0)
+-		ret = libipw_verify_qos_info(element_info,
+-						QOS_OUI_INFO_SUB_TYPE);
+-	return ret;
++	memcpy(element_info, info_element, size);
++	return libipw_verify_qos_info(element_info, QOS_OUI_INFO_SUB_TYPE);
+ }
+ 
+ /*
+-- 
+2.30.2
 
-greg k-h's patch email bot
