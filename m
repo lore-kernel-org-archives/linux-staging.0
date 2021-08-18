@@ -1,38 +1,38 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FE96D22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D229E6D13
 	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:06:07 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id j187so1064287pfg.4
+Received: by mail-pg1-f174.google.com with SMTP id k24so1140402pgh.8
         for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0bRXcGnjUc7NVLeCTdRJyE4ge8RgoyPp9mDS2KzOq8s=;
-        b=WQqdtls/I5KQTun/hms341YldczQzpNKS3BfKfWY/GwZZ0hWoG9we6ibSjWW7lx/A3
-         n6thS6+Nyek/C9pXuosZvP3ZzBi7YorfMd8mKDm8qDfvHb0EJADzUaECrtRMe9FIa9KN
-         qz2Nc4X0B0W57jPUBjUc42oG7dCdby25RRrX0=
+        bh=WJrpMRxjlck/EUZE2DWpbaWpfbq9vwWWxHEHR5bnD5E=;
+        b=Y4RaduW1rzoHa2IpujBCd5gie/q9/2hiLeyjeu9ex0Lvtmxof39Ph82c32u/wEVwec
+         BeorvJNM0QtxRwnxngByb5MimEYl+Js8IDKmdRfuXrPFuDqHj3Cmg2kZQWZ0j6OqZuGi
+         4aE9yiwILQW91Q1hmTVcwZmAEbqQUR+FHPZhQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0bRXcGnjUc7NVLeCTdRJyE4ge8RgoyPp9mDS2KzOq8s=;
-        b=Y05dif9KGOT1MrXNlceXwhmmVDWRDrQgzuPRmL4u5OsZ+Sr5HjdCsDYmuyPh/NR6M9
-         ulqVw0eRQy2+j94cpJAjtwZOLE6NoZs+1BSwvEVtaNYMjdx8/AFlQz1LNYI6TsU6hAEM
-         p+CePLGv5SgZT8wCtS66hYTcyaNQ+FHkuJh7nU5RVJM7W8Yq55Rag8qEfaAAL8UELOV8
-         4aJWWQpoYFI8zEnISw7IF0u/+Lm8mpAUtcxedNkfaBaiKlVSUWT6NuaoaQqnFiNnWnp0
-         LlnqO2/CJPOcvHXBgKaRLpqQxjlSNiWPtF5MNOgXWOmFUNp34lEYoKItMeAO7zyNNoTn
-         dGeg==
-X-Gm-Message-State: AOAM531C1mt/+sPSMIqRP9baMmzstLy7rarVgeRKaUr9l9Rccr8/JeeA
-	eoe4c7QcivyGUIC5XhyyZO4pKA==
-X-Google-Smtp-Source: ABdhPJzf07hn4/UJFD8k9v/PFTouOU2hjIEruQiURQ/GtTe5NoEQV+QNXrPpXGYcUZ9Mijvig6sL0A==
-X-Received: by 2002:aa7:8206:0:b029:3c6:2846:3f9f with SMTP id k6-20020aa782060000b02903c628463f9fmr7834685pfi.30.1629266766977;
-        Tue, 17 Aug 2021 23:06:06 -0700 (PDT)
+        bh=WJrpMRxjlck/EUZE2DWpbaWpfbq9vwWWxHEHR5bnD5E=;
+        b=PsKd/Kaq3wdTSEcqooDIcbV7hpb9SruVOlmMSP6NLTiqZShcnLVhAoFAeGpZxlaCpm
+         zsMRMmqrUmK8Ddsutp4iOVcFCsY+nz6JPrEkFuV03jRGnqn9QM9jUE1Gz2o9oI25xWz3
+         Kjw3rh1gQ1LJI6gtHmhSL9Bbxo+oa1PlnkfwCtDr52D5R3ZIS7ef+1Xmo4qEkSinnLA0
+         YIkPu80CuchXE32AIQ3EJn0RBhWG0CML31n9R0L2uzo/7qET6afV5o9Bm8ZkTcCNgKLu
+         6fPD0tH2ok584izSmklEDXymLMTaB6SDuCvgtXfl+sHK+u1QGs27IyOg6t8cs5etkg24
+         EbRg==
+X-Gm-Message-State: AOAM531EDyLK88wGJAP8XDYfYZ+27VJcBsU+2K53Vp8qc6cPPez//FFL
+	zIjeV91UxzDsnSP6uKAGd/+I5A==
+X-Google-Smtp-Source: ABdhPJw+fxDkXxOl4PBdv0otPn1lIDXevnmHeNda+XtjMx2DvEazLyVTOr/SWrLlENk4ZB/InQEloQ==
+X-Received: by 2002:a62:dbc3:0:b029:3e0:ec4a:6e60 with SMTP id f186-20020a62dbc30000b02903e0ec4a6e60mr7438793pfg.25.1629266767474;
+        Tue, 17 Aug 2021 23:06:07 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l18sm4571594pff.24.2021.08.17.23.06.02
+        by smtp.gmail.com with ESMTPSA id s5sm5498942pgp.81.2021.08.17.23.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 23:06:04 -0700 (PDT)
+        Tue, 17 Aug 2021 23:06:05 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
@@ -48,9 +48,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 63/63] fortify: Work around Clang inlining bugs
-Date: Tue, 17 Aug 2021 23:05:33 -0700
-Message-Id: <20210818060533.3569517-64-keescook@chromium.org>
+Subject: [PATCH v2 62/63] fortify: Detect struct member overflows in memset() at compile-time
+Date: Tue, 17 Aug 2021 23:05:32 -0700
+Message-Id: <20210818060533.3569517-63-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -60,185 +60,107 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7591; h=from:subject; bh=Hec0xxMOh0cK4yBYBOcb5aqhxRAjnc34rm5FBOgOGD0=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMs6ml8yWGswBEn8BNaWTcv46iAfG0OJbmF8YMg oAEj0wmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjLAAKCRCJcvTf3G3AJmy1EA Cxa4AsWTCF8/uDP8AV7JotgjiK7+Wd6hTmjaB2izxSIO3ujFU7lf++q7Flx4Rk0Khk2tYC5yFzkf1q KsVqRI+lR033mk6KdPSJ9FrfNzNJz8wPKrUcmvO1yC5Ew7NsSbVcFG9rAJTpUGSp6PB33hEZa7ao6X g00L0SWHv3JrcPqQxfPVH40XS0edTmHg2xsJ5mtz/NsFH7sjkVvbomQwzPWIWneWOUFnBoNs+gvf6t vSf2XOihAR71V0F5AszPaupkbs6G5njj1px9/ENBv3HIa208Q3y8DpqsvqamaITfm+fmWG8CrO/7OT jWWUwcLUoiPAzcKaa+OKE5ii0xStgjRPNhoJKsOJU0dDqt0/5/X37hzygJ+A+cggmAIfMoTzmE9a8f appSBcljh4nYutCtxDKnbc2yqCBtKYTAlZ+vqGGAe35wFrXKhNNsQK7c8ciBk7F+G4tdWcsfmTfE+h Z4gxHVqy2JU4v0EWPwh/KVUbbHw6edMeAslLgW8TyhklAWJSFhjGecLkyTpx66usdMKTWdYMmrbu8O PytqhJuULFGtFs5i5jkysrms3SGobkhoweDZHzjT82RPdfsZchVOG0LZfHsmuh54DBoXEf/9bw4Zgm QQ4sjZ4Ski2g83oskEkT+N7EABOdA+mCeKE78rnk61IM+xXh4/vRHiEA0ipw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3657; h=from:subject; bh=x4SNp17MkJsMDii5dKL06SU0zDLItyjvjIE8yvAGOLw=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMsuEVllcthHvVoZOOtiNzdZSQL+MVxm5lZYC08 cYuVeeiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjLAAKCRCJcvTf3G3AJhFJD/ 0YywcHnMj1c/NexxJTDTdAYqmtmTUD8x82Ns/wjrQAyODC3hv/6fd7/lXy7KLnBf3O7mSQRPo1siWq mi4sD6BTm3hIo3GuFOJ8CTfGgnxxwdN6j/TkfuxlpJSHWlG8CdQJaYNCYJgI7QT0k7mcvIcU0Yiu5/ YaVOOC0zQ85PA//3PbzguuPv50kBbxQ5bQSD5XS5ptljehOSJcCJ66K/cFUtnJoZrfF5m7naOzclM+ YSn8wlMr9aQqL6DEc6etgSVI2n22I9gcsWaObJAPYCut15PH0LnKu3TXUtF2oQy91xDTCZ0kCAuzqt 5poO59eUPNtjb6apuyTyI2sng4UXAVOqnFeKce+zQIoGAdIb5GjE13ffC5AAon3CmAbxRE5FUufUrx zUIYqjgohnwHn6YDtth4aIZB/W2kLG2W2q4TWuZjMxEaw0SVrnd4P2jJSHU8B8d1a6PkAs8epAq0gc D69QvVpSd/j5KuzMZUdDpOKxgIKUXFGXliJiDsu+4vuCdioBLapgoOTvVDBi1LirQl6lP45HoxFQ0b S64cenON/jFuSH9ZmumaJj1QScmPVkoNRRs09YB5f0juMR7C0bopH+EEmaqk++upwBm1nP/e/Dtxew r7vE625A/r6FGg4xIb9flyd3LdIf3HsRkH/Bt6+5XCnDvRxE/u5ev7V+yD8w==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-To enable FORTIFY_SOURCE support for Clang, the kernel must work around
-a pair of bugs, related to Clang's inlining.
-
-Change all the fortified APIs into macros with different inline names to
-bypass Clang's broken inline-of-a-builtin detection:
-https://bugs.llvm.org/show_bug.cgi?id=50322
-
-Lift all misbehaving __builtin_object_size() calls into the macros to
-bypass Clang's broken __builtin_object_size() arguments-of-an-inline
-visibility:
-https://github.com/ClangBuiltLinux/linux/issues/1401
-
-Thankfully, due to how the inlining already behaves in GCC, this change
-has no effect on GCC builds, but allows Clang to finally gain full
-FORTIFY coverage.
-
-However, because of a third bug which had no work-arounds, FORTIFY_SOURCE
-will only work with Clang version 13 and later. Update the Kconfig to
-reflect the new requirements.
+As done for memcpy(), also update memset() to use the same tightened
+compile-time bounds checking under CONFIG_FORTIFY_SOURCE.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/fortify-string.h | 55 +++++++++++++++++++++-------------
- security/Kconfig               |  2 +-
- 2 files changed, 36 insertions(+), 21 deletions(-)
+ include/linux/fortify-string.h                | 54 ++++++++++++++++---
+ .../write_overflow_field-memset.c             |  5 ++
+ 2 files changed, 51 insertions(+), 8 deletions(-)
+ create mode 100644 lib/test_fortify/write_overflow_field-memset.c
 
 diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
-index 7de4673dfe2c..e62d3633a329 100644
+index 0120d463ba33..7de4673dfe2c 100644
 --- a/include/linux/fortify-string.h
 +++ b/include/linux/fortify-string.h
-@@ -48,10 +48,10 @@ extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size)
- #define __underlying_strncpy	__builtin_strncpy
- #endif
- 
--__FORTIFY_INLINE char *strncpy(char *p, const char *q, __kernel_size_t size)
-+#define strncpy(p, q, s) __fortify_strncpy(p, q, s, __builtin_object_size(p, 1))
-+__FORTIFY_INLINE char *__fortify_strncpy(char *p, const char *q,
-+					 __kernel_size_t size, size_t p_size)
- {
--	size_t p_size = __builtin_object_size(p, 1);
--
- 	if (__builtin_constant_p(size) && p_size < size)
- 		__write_overflow();
- 	if (p_size < size)
-@@ -71,9 +71,10 @@ __FORTIFY_INLINE char *strcat(char *p, const char *q)
+@@ -198,17 +198,56 @@ __FORTIFY_INLINE char *strncat(char *p, const char *q, __kernel_size_t count)
+ 	return p;
  }
  
- extern __kernel_size_t __real_strnlen(const char *, __kernel_size_t) __RENAME(strnlen);
--__FORTIFY_INLINE __kernel_size_t strnlen(const char *p, __kernel_size_t maxlen)
-+#define strnlen(p, s) __fortify_strnlen(p, s, __builtin_object_size(p, 1))
-+__FORTIFY_INLINE __kernel_size_t __fortify_strnlen(const char *p, size_t maxlen,
-+						   size_t p_size)
+-__FORTIFY_INLINE void *memset(void *p, int c, __kernel_size_t size)
++__FORTIFY_INLINE void fortify_memset_chk(__kernel_size_t size,
++					 const size_t p_size,
++					 const size_t p_size_field)
  {
--	size_t p_size = __builtin_object_size(p, 1);
- 	size_t p_len = __compiletime_strlen(p);
- 	size_t ret;
+-	size_t p_size = __builtin_object_size(p, 0);
++	if (__builtin_constant_p(size)) {
++		/*
++		 * Length argument is a constant expression, so we
++		 * can perform compile-time bounds checking where
++		 * buffer sizes are known.
++		 */
  
-@@ -108,10 +109,14 @@ __FORTIFY_INLINE __kernel_size_t strlen(const char *p)
- 
- /* defined after fortified strlen to reuse it */
- extern size_t __real_strlcpy(char *, const char *, size_t) __RENAME(strlcpy);
--__FORTIFY_INLINE size_t strlcpy(char *p, const char *q, size_t size)
-+#define strlcpy(p, q, s) __fortify_strlcpy(p, q, s,			\
-+					   __builtin_object_size(p, 1),	\
-+					   __builtin_object_size(q, 1))
-+__FORTIFY_INLINE size_t __fortify_strlcpy(char *p, const char *q,
-+					  size_t size,
-+					  const size_t p_size,
-+					  const size_t q_size)
- {
--	size_t p_size = __builtin_object_size(p, 1);
--	size_t q_size = __builtin_object_size(q, 1);
- 	size_t q_len;	/* Full count of source string length. */
- 	size_t len;	/* Count of characters going into destination. */
- 
-@@ -135,12 +140,15 @@ __FORTIFY_INLINE size_t strlcpy(char *p, const char *q, size_t size)
- 
- /* defined after fortified strnlen to reuse it */
- extern ssize_t __real_strscpy(char *, const char *, size_t) __RENAME(strscpy);
--__FORTIFY_INLINE ssize_t strscpy(char *p, const char *q, size_t size)
-+#define strscpy(p, q, s) __fortify_strscpy(p, q, s,			\
-+					   __builtin_object_size(p, 1),	\
-+					   __builtin_object_size(q, 1))
-+__FORTIFY_INLINE ssize_t __fortify_strscpy(char *p, const char *q,
-+					   size_t size,
-+					   const size_t p_size,
-+					   const size_t q_size)
- {
- 	size_t len;
--	/* Use string size rather than possible enclosing struct size. */
--	size_t p_size = __builtin_object_size(p, 1);
--	size_t q_size = __builtin_object_size(q, 1);
- 
- 	/* If we cannot get size of p and q default to call strscpy. */
- 	if (p_size == (size_t) -1 && q_size == (size_t) -1)
-@@ -181,11 +189,13 @@ __FORTIFY_INLINE ssize_t strscpy(char *p, const char *q, size_t size)
+-	if (__builtin_constant_p(size) && p_size < size)
+-		__write_overflow();
+-	if (p_size < size)
+-		fortify_panic(__func__);
+-	return __underlying_memset(p, c, size);
++		/* Error when size is larger than enclosing struct. */
++		if (p_size > p_size_field && p_size < size)
++			__write_overflow();
++
++		/* Warn when write size is larger than dest field. */
++		if (p_size_field < size)
++			__write_overflow_field(p_size_field, size);
++	}
++	/*
++	 * At this point, length argument may not be a constant expression,
++	 * so run-time bounds checking can be done where buffer sizes are
++	 * known. (This is not an "else" because the above checks may only
++	 * be compile-time warnings, and we want to still warn for run-time
++	 * overflows.)
++	 */
++
++	/*
++	 * Always stop accesses beyond the struct that contains the
++	 * field, when the buffer's remaining size is known.
++	 * (The -1 test is to optimize away checks where the buffer
++	 * lengths are unknown.)
++	 */
++	if (p_size != (size_t)(-1) && p_size < size)
++		fortify_panic("memset");
  }
  
- /* defined after fortified strlen and strnlen to reuse them */
--__FORTIFY_INLINE char *strncat(char *p, const char *q, __kernel_size_t count)
-+#define strncat(p, q, count)	__fortify_strncat(p, q, count, \
-+						  __builtin_object_size(p, 1), \
-+						  __builtin_object_size(q, 1))
-+__FORTIFY_INLINE char *__fortify_strncat(char *p, const char *q, size_t count,
-+					 size_t p_size, size_t q_size)
- {
- 	size_t p_len, copy_len;
--	size_t p_size = __builtin_object_size(p, 1);
--	size_t q_size = __builtin_object_size(q, 1);
- 
- 	if (p_size == (size_t)-1 && q_size == (size_t)-1)
- 		return __underlying_strncat(p, q, count);
-@@ -352,7 +362,8 @@ __FORTIFY_INLINE void fortify_memcpy_chk(__kernel_size_t size,
- 		memmove)
- 
- extern void *__real_memscan(void *, int, __kernel_size_t) __RENAME(memscan);
--__FORTIFY_INLINE void *memscan(void *p, int c, __kernel_size_t size)
-+#define memscan(p, c, s) __fortify_memscan(p, c, s)
-+__FORTIFY_INLINE void *__fortify_memscan(void *p, int c, __kernel_size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 
-@@ -363,7 +374,8 @@ __FORTIFY_INLINE void *memscan(void *p, int c, __kernel_size_t size)
- 	return __real_memscan(p, c, size);
- }
- 
--__FORTIFY_INLINE int memcmp(const void *p, const void *q, __kernel_size_t size)
-+#define memcmp(p, q, s) __fortify_memcmp(p, q, s)
-+__FORTIFY_INLINE int __fortify_memcmp(const void *p, const void *q, __kernel_size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 	size_t q_size = __builtin_object_size(q, 0);
-@@ -379,7 +391,8 @@ __FORTIFY_INLINE int memcmp(const void *p, const void *q, __kernel_size_t size)
- 	return __underlying_memcmp(p, q, size);
- }
- 
--__FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
-+#define memchr(p, c, s) __fortify_memchr(p, c, s)
-+__FORTIFY_INLINE void *__fortify_memchr(const void *p, int c, __kernel_size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 
-@@ -391,7 +404,8 @@ __FORTIFY_INLINE void *memchr(const void *p, int c, __kernel_size_t size)
- }
- 
- void *__real_memchr_inv(const void *s, int c, size_t n) __RENAME(memchr_inv);
--__FORTIFY_INLINE void *memchr_inv(const void *p, int c, size_t size)
-+#define memchr_inv(p, c, s) __fortify_memchr_inv(p, c, s)
-+__FORTIFY_INLINE void *__fortify_memchr_inv(const void *p, int c, size_t size)
- {
- 	size_t p_size = __builtin_object_size(p, 0);
- 
-@@ -415,7 +429,8 @@ __FORTIFY_INLINE void *kmemdup(const void *p, size_t size, gfp_t gfp)
- }
- 
- /* Defined after fortified strlen to reuse it. */
--__FORTIFY_INLINE char *strcpy(char *p, const char *q)
-+#define strcpy(p, q) __fortify_strcpy(p, q)
-+__FORTIFY_INLINE char *__fortify_strcpy(char *p, const char *q)
- {
- 	size_t p_size = __builtin_object_size(p, 1);
- 	size_t q_size = __builtin_object_size(q, 1);
-diff --git a/security/Kconfig b/security/Kconfig
-index fe6c0395fa02..530a15566b1d 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -193,7 +193,7 @@ config FORTIFY_SOURCE
- 	depends on ARCH_HAS_FORTIFY_SOURCE
- 	# https://bugs.llvm.org/show_bug.cgi?id=50322
- 	# https://bugs.llvm.org/show_bug.cgi?id=41459
--	depends on !CC_IS_CLANG
-+	depends on !CC_IS_CLANG || CLANG_VERSION >= 130000
- 	help
- 	  Detect overflows of buffers in common string and memory functions
- 	  where the compiler can determine and validate the buffer sizes.
++#define __fortify_memset_chk(p, c, size, p_size, p_size_field) ({	\
++	size_t __fortify_size = (size_t)(size);				\
++	fortify_memset_chk(__fortify_size, p_size, p_size_field),	\
++	__underlying_memset(p, c, __fortify_size);			\
++})
++
++/*
++ * __builtin_object_size() must be captured here to avoid evaluating argument
++ * side-effects further into the macro layers.
++ */
++#define memset(p, c, s) __fortify_memset_chk(p, c, s,			\
++		__builtin_object_size(p, 0), __builtin_object_size(p, 1))
++
+ /*
+  * To make sure the compiler can enforce protection against buffer overflows,
+  * memcpy(), memmove(), and memset() must not be used beyond individual
+@@ -399,7 +438,6 @@ __FORTIFY_INLINE char *strcpy(char *p, const char *q)
+ /* Don't use these outside the FORITFY_SOURCE implementation */
+ #undef __underlying_memchr
+ #undef __underlying_memcmp
+-#undef __underlying_memset
+ #undef __underlying_strcat
+ #undef __underlying_strcpy
+ #undef __underlying_strlen
+diff --git a/lib/test_fortify/write_overflow_field-memset.c b/lib/test_fortify/write_overflow_field-memset.c
+new file mode 100644
+index 000000000000..2331da26909e
+--- /dev/null
++++ b/lib/test_fortify/write_overflow_field-memset.c
+@@ -0,0 +1,5 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#define TEST	\
++	memset(instance.buf, 0x42, sizeof(instance.buf) + 1)
++
++#include "test_fortify.h"
 -- 
 2.30.2
 
