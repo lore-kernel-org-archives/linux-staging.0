@@ -1,118 +1,56 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7572E168
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 10:09:26 +0000 (UTC)
-Received: by mail-vs1-f41.google.com with SMTP id a201so1420988vsd.3
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 03:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oSMbBaxj5kYnNMOz3HCW8c2GlUKNZpl4G8kt8vaDvcU=;
-        b=NUh5EB/TshJuP06sY5queTXRGXqZEcl6UMqE3f6o4C7Yia1aQ7YYVwjSqato7REGKR
-         ytMlzGxdm1dXPtaK5whOZ0H7rSbvF5peR2wviaOGrorE6BcPYImZyUzulxDwUsFPuWLL
-         5meVhpkcaBkJDevWoxCSWZsvC5nJ7ZnpAY2bGN7+nkDxVClk3HURgKAukKwevldHPSBd
-         uKsOCzfFz4fP/YbEiE46NuL+3ooaMnSQgmklXAz6fLHlvgEGNgwEPm1JpSu0mHG8iX+S
-         G1rewHtqg4EDw2hrAD1fMBl1z5/lSpUx+/rIUDOZ+tcCTRi6DZjOeA44wsHIAFoqgBbV
-         KNmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oSMbBaxj5kYnNMOz3HCW8c2GlUKNZpl4G8kt8vaDvcU=;
-        b=DJ9j2T+Wy268LkzyuwLBg4gnLIkTBp34eVc6yS4cjA92iyOITnvK4Lz9WdvDkWN3t/
-         LUIun1E44SOaCgY0DwuWZkHF9kyPNf9jLxPAF+mrhGYxUNgKlbKUZcOqI559TZ1Wto6l
-         ktToKlTlGvbfwSbDkWk1RuNbOORlLsR/xu5TGgX8IBtfM/ajV6zEYRnpPGZ9pQ4AOh5Y
-         rcsZsneCYQm6+Rl1c/mdMdU/B9jzXLFgvDQckc718253pKOeNDJhZ6Z8FX/0gf9k8/vv
-         TojPf5SBiWFRivZLOH8x3MjIrd2FlAKNrcIAbEpUlTSrbKeUXyuJeqzXNaO/ZEes+2Mb
-         FUlQ==
-X-Gm-Message-State: AOAM531u48C0uS1YUq809Eb9Ab84lmW2SYOxcks6kON4rlGNfUs+uEvn
-	tJDUfPQTPWQNFsy+XntTFuf64LImoKPcYyrP1nMG+Q==
-X-Google-Smtp-Source: ABdhPJxX5vUHiF4S9rKI8AwIyB37h/2agUjbKLWH1bKK7BdK0tRX0vp1siQiAlDeJWpHDBxGhS/HHDjvQsTJxQC3MTQ=
-X-Received: by 2002:a05:6102:5f4:: with SMTP id w20mr6416911vsf.34.1629281364036;
- Wed, 18 Aug 2021 03:09:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B663173
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 11:42:28 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+	id 759B924A; Wed, 18 Aug 2021 13:34:24 +0200 (CEST)
+Date: Wed, 18 Aug 2021 13:34:23 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+	iommu@lists.linux-foundation.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	clang-built-linux@googlegroups.com,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 13/63] iommu/amd: Use struct_group() for memcpy()
+ region
+Message-ID: <YRzwP4cuyONqm9CH@8bytes.org>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-14-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210818043131.7klajx6drvvkftoc@vireshk-i7> <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7> <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7> <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7> <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7> <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
-In-Reply-To: <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 18 Aug 2021 12:08:47 +0200
-Message-ID: <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-mmc <linux-mmc@vger.kernel.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818060533.3569517-14-keescook@chromium.org>
 
-On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> On 18-08-21, 11:41, Ulf Hansson wrote:
-> > On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > > What we need here is just configure. So something like this then:
-> > >
-> > > - genpd->get_performance_state()
-> > >   -> dev_pm_opp_get_current_opp() //New API
-> > >   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
-> > >
-> > > This can be done just once from probe() then.
-> >
-> > How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
->
-> The opp core already has a way of finding current OPP, that's what
-> Dmitry is trying to use here. It finds it using clk_get_rate(), if
-> that is zero, it picks the lowest freq possible.
->
-> > I am sure I understand the problem. When a device is getting probed,
-> > it needs to consume power, how else can the corresponding driver
-> > successfully probe it?
->
-> Dmitry can answer that better, but a device doesn't necessarily need
-> to consume energy in probe. It can consume bus clock, like APB we
-> have, but the more energy consuming stuff can be left disabled until
-> the time a user comes up. Probe will just end up registering the
-> driver and initializing it.
+On Tue, Aug 17, 2021 at 11:04:43PM -0700, Kees Cook wrote:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), memmove(), and memset(), avoid
+> intentionally writing across neighboring fields.
+> 
+> Use struct_group() in struct ivhd_entry around members ext and hidh, so
+> they can be referenced together. This will allow memcpy() and sizeof()
+> to more easily reason about sizes, improve readability, and avoid future
+> warnings about writing beyond the end of ext.
+> 
+> "pahole" shows no size nor member offset changes to struct ivhd_entry.
+> "objdump -d" shows no object code changes.
+> 
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: iommu@lists.linux-foundation.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-That's perfectly fine, as then it's likely that it won't vote for an
-OPP, but can postpone that as well.
+Acked-by: Joerg Roedel <jroedel@suse.de>
 
-Perhaps the problem is rather that the HW may already carry a non-zero
-vote made from a bootloader. If the consumer driver tries to clear
-that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
-still not lead to any updates of the performance state in genpd,
-because genpd internally has initialized the performance-state to
-zero.
-
-Dmitry?
-
->
-> --
-> viresh
-
-Kind regards
-Uffe
