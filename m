@@ -1,49 +1,50 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1466D19
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:22 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id n5so1930673pjt.4
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309696D13
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:23 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id i21so1082738pfd.8
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1LbbD/YHfDVHNeuHjhgxvKcBP+1WtTwantiuN7hQzxQ=;
-        b=R/1OtHvoHrsgMZo2li12wNTYlU4PYGAodCOD+bIgq6ChwHsHKH49ggQITGRp9klOcT
-         hhN+gn1T653COGeLJn51yUwjbH33XbTplN3tsZd0bxePCyRVYpIOaD3v9sb70h6Hkjpp
-         /6QSomg4XXw8M4XDn0+BhJ3006b/HlyORx8ko=
+        bh=hsGHodQW7BgMepqmaGaetFXuKMTT3ZW1whu3YzYCf8E=;
+        b=chkB2Egl3g4Hj/WoopucGSp8JEGrZQBb17iw+f5FZVJ88kmKbQgr9VmudEIjafNmTE
+         FU+5/DnwuxN2T0PQuBqDKLSVlxbWgQNmuDbo93m2QOjwn8S/Nmj1KRmXQbdeWCM95LZY
+         12niQpi/k6iQ3pEmgTEwMOYCV0dGWkKcHe2PI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1LbbD/YHfDVHNeuHjhgxvKcBP+1WtTwantiuN7hQzxQ=;
-        b=NGMhiLqTYqtq5NVGExBDqYu7pKT5/zkO1NMSEQVxRcD7Db7LRr8awAXS176/DxEGSh
-         jy+29xi4LZFiMrW9Cv98mKCMGbh7r04XktBJkNmkAnQAvvinxdI9Xiyk0O3DAontOmN9
-         Sroao08R4eCAUHHNOrC/3fFc7ajhDgffHQQTAXqJsTu5Jr2squmgzWwAwu35VugYqQ6b
-         LscnORjaECUqyYsDHmFLw42vyqH/XdMD0EcJ2vMKocVDsQVhZ3kYb8HAiZlpxvBpWxpK
-         V1HYQ1+5K7kfH4NbhhkMwkXKLgaInJ/m6oMOB6qSCEZ17cJP3avYZaCC6aVVID9Kq7wl
-         roiw==
-X-Gm-Message-State: AOAM532K11rtnlQ6FaIWYVNzOG7xvbfpS5FELoHheFP8EwV1NRJAf96W
-	0TX5+Fo4H7b4N3WS4SNP1IGzjA==
-X-Google-Smtp-Source: ABdhPJyKMEAVPHsuvTX9JdA/U10JiK4He7DVLG9xhnHdmIIqBLdqt2XQeH2Vwwj2NzeOu2ek31vsog==
-X-Received: by 2002:a17:90b:360a:: with SMTP id ml10mr7562259pjb.134.1629267262532;
+        bh=hsGHodQW7BgMepqmaGaetFXuKMTT3ZW1whu3YzYCf8E=;
+        b=Dfei+uDJ/1QzpOcDlXfM6NhAMFzihiwBY6mcicJrTb8kH63crhdGCkFKCw/Fz3vdtO
+         bpg4vL8KZsYhBr/CyS8n1+k7UX0pOtJDj2+lR/2PnqJtsZv8lT1nVXdLUeBXFbxFtjRA
+         hnEn29HV0I4OgrIeq1L3+tv73AixtZRdgspNhLBUatKu9xj6/oMK6hY6Qc97mv97yyNe
+         qt6n14bq76xXQko0uhQRgkh/aC1OeyYvgGv+4QfwK7XKzVHWjnZhQdl9UHemNYdYy77E
+         hW627cYpweGPkAOJDJcJrOBT/lGASd4nJd+LqyslxafWctyXyOBg/PKxfgmp/KYaZysg
+         KIiQ==
+X-Gm-Message-State: AOAM532nMLBYqe6lOXCDhiQX2CdG9aRrZb7labc61G3TcvVfR9g+Qd79
+	JjnAOsxu/NcfyA80wZjFNds+CQ==
+X-Google-Smtp-Source: ABdhPJzyxDStzvV0SEJOZX6pzOD1ZhMBNkc4S43QSApxA2j4lcyMvoA5D5UGsMDwrMeS2qx+i1yP6w==
+X-Received: by 2002:a63:5902:: with SMTP id n2mr7166965pgb.305.1629267262822;
         Tue, 17 Aug 2021 23:14:22 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id m2sm4664262pfo.45.2021.08.17.23.14.19
+        by smtp.gmail.com with ESMTPSA id q26sm4699734pff.174.2021.08.17.23.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:14:21 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
+	Doug Ledford <dledford@redhat.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Max Gurtovoy <maxg@mellanox.com>,
+	linux-rdma@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
@@ -51,9 +52,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 44/63] mac80211: Use memset_after() to clear tx status
-Date: Tue, 17 Aug 2021 23:05:14 -0700
-Message-Id: <20210818060533.3569517-45-keescook@chromium.org>
+Subject: [PATCH v2 48/63] IB/mthca: Use memset_startat() for clearing mpt_entry
+Date: Tue, 17 Aug 2021 23:05:18 -0700
+Message-Id: <20210818060533.3569517-49-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -63,7 +64,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3555; h=from:subject; bh=jIEORg6wH0RDOzc/SbRhmDjozuh0HKi5XMaIwXi52DY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMn1+XywUWgPufzSUanBKkFtpljUhjVl6XdrCJz 43V0wceJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJwAKCRCJcvTf3G3AJh5OD/ 9VdGJw1yYkd3gefk4A5UR8RKWnRGhCsbm09zznQ7YsRWg1t+N+YFLA4AFq3FqxFeqDG3jzMNoOsdTO L6w9PUmC/a9IT1z+It5L++wcgxo3uVfAxiDShSCXzCwqbKDVcSrgSTJgJPulz8y1znwvAOPKF64eH0 pSX5zFI6NJwx/mf9nIe+nz9g6VrdmWmHR7mcVM4AIklt7/5RSv325yrDnFLwAyB9rv4exDMh6Egpxj 8sF1D3Pa6Be8GmmXNM7DKo1oqmwnfhplZxkHPfRIFSXVTYwQNGJUx7dCkZsOWVIcy3w6u50Y0mU9DG A+XMuV8TDHlOIEIwtbJKGnvgGkIhTldX5Wd95E/0PKvT9wVgxcTgJUCXhO6V/PfeIWGU6PnZ849Td8 U6ZP5aiyGS6/WCMJuj0tczg2lozZzkge3SUEkNnYtQCKUr1vHrynm7rYVjMrIIvJG275gaGz60NbGE 67lI4Kcj/LGkuEZPVVCVwWeIwkVBaqWNe+W2D/Gs/U7WC+8+e2X7y7YmCXoJhak0Jjoz1KHL2NKG3c 7CTZmKih3SVwYKmzxvKgHmp8I/RljMKmk4PyeSMncOwCjk5UYHvkRAslkthRz0xs54C82JmN6NSLCC Y8i9yUKlOEZkCSxm3fC3nvo3ctL36pHA5wrQEu1m/IneouARaiIxI65dilNg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1273; h=from:subject; bh=6zw6bd38jtlUGiQNcgA+7Vj02RWEpIKH1rjaE20U52M=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMoltYN7PTWawkHd68VShtA89JYpvOPT9nwsL7B vMD1Gn+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKAAKCRCJcvTf3G3AJgWLEA CA0G8Um7L9QM3tAuk76gzDtGgj6wfZwbHC3gmdPYC4fe5ViwFuFPhPDIlMHnL5Oaft4DZAwvc4TUnI oTxi1AdRfYTfE3lw4LW1em7VDzoYiVdw68YpBJ6do2fEl9ZGK/0mX3zcOafcrAhiHBuet2CjOfPy6t Tq/8ys2f8EU1h6DXTZ5tCPSIi63+7bfI5g0u1GpcBNVQxt4gUaxR4O//oIO5lDG9qKBGuDeUG4v6MF sHcWe6CfAarnlC0ya+ORhjNk8xnbf+b/imo8zl4s0q9DrLXdZ7MNrxO3aI+5yaF2he2ea/hR5kliNG YKO8GWAbKimKYTi8SSFhhsLXFP/6Cks+GGfoihg9Z61PjIiHMhORoWY/P5pTQd90wKeXB9yySfHyeZ isD2ZFnlRhy403y1grxuLe0zaAw5SJXbwyy8thi3DDo7KeX4P92gmWueLuIvjcNP5Kj+GbCcV6vLSm nxByMIRVJuZ4ixj94olxP7vKtNZVvUPh4Ov/qwOFpG7f9rOHf1gXBcckiuBMeL+pZcSr/txM5+0jYN bYjM3KyxyB1TZMYtX1+WjrDISwqn5Gx8m/HAuDxJZ1l4CvotvblNbCStzkY4CxA2N1gZ+rSUQBe+yU YuRbJ6v7hrWUPvepMgl5M8bAqRbVyqW4hTUVa18TP98a9UAYJi8u4E2DpSiQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -71,87 +72,33 @@ In preparation for FORTIFY_SOURCE performing compile-time and run-time
 field bounds checking for memset(), avoid intentionally writing across
 neighboring fields.
 
-Use memset_after() so memset() doesn't get confused about writing
+Use memset_startat() so memset() doesn't get confused about writing
 beyond the destination member that is intended to be the starting point
 of zeroing through the end of the struct.
 
-Additionally fix the common helper, ieee80211_tx_info_clear_status(),
-which was not clearing ack_signal, but the open-coded versions
-did. Johannes Berg points out this bug was introduced by commit
-e3e1a0bcb3f1 ("mac80211: reduce IEEE80211_TX_MAX_RATES") but was harmless.
-
-Also drops the associated unneeded BUILD_BUG_ON()s, and adds a note to
-carl9170 about usage.
-
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Cc: Doug Ledford <dledford@redhat.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Max Gurtovoy <maxg@mellanox.com>
+Cc: linux-rdma@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/ath/carl9170/tx.c   | 11 +++++------
- drivers/net/wireless/intersil/p54/txrx.c |  6 +-----
- include/net/mac80211.h                   |  7 +------
- 3 files changed, 7 insertions(+), 17 deletions(-)
+ drivers/infiniband/hw/mthca/mthca_mr.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/net/wireless/ath/carl9170/tx.c b/drivers/net/wireless/ath/carl9170/tx.c
-index 88444fe6d1c6..aa95d1a65882 100644
---- a/drivers/net/wireless/ath/carl9170/tx.c
-+++ b/drivers/net/wireless/ath/carl9170/tx.c
-@@ -275,12 +275,11 @@ static void carl9170_tx_release(struct kref *ref)
- 	if (WARN_ON_ONCE(!ar))
- 		return;
+diff --git a/drivers/infiniband/hw/mthca/mthca_mr.c b/drivers/infiniband/hw/mthca/mthca_mr.c
+index ce0e0867e488..1208e92ca3d3 100644
+--- a/drivers/infiniband/hw/mthca/mthca_mr.c
++++ b/drivers/infiniband/hw/mthca/mthca_mr.c
+@@ -469,8 +469,7 @@ int mthca_mr_alloc(struct mthca_dev *dev, u32 pd, int buffer_size_shift,
+ 	mpt_entry->start     = cpu_to_be64(iova);
+ 	mpt_entry->length    = cpu_to_be64(total_size);
  
--	BUILD_BUG_ON(
--	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
--
--	memset(&txinfo->status.ack_signal, 0,
--	       sizeof(struct ieee80211_tx_info) -
--	       offsetof(struct ieee80211_tx_info, status.ack_signal));
-+	/*
-+	 * Should this call ieee80211_tx_info_clear_status() instead of clearing
-+	 * manually? txinfo->status.rates do not seem to be used here.
-+	 */
-+	memset_after(&txinfo->status, 0, rates);
+-	memset(&mpt_entry->lkey, 0,
+-	       sizeof *mpt_entry - offsetof(struct mthca_mpt_entry, lkey));
++	memset_startat(mpt_entry, 0, lkey);
  
- 	if (atomic_read(&ar->tx_total_queued))
- 		ar->tx_schedule = true;
-diff --git a/drivers/net/wireless/intersil/p54/txrx.c b/drivers/net/wireless/intersil/p54/txrx.c
-index 873fea59894f..8414aa208655 100644
---- a/drivers/net/wireless/intersil/p54/txrx.c
-+++ b/drivers/net/wireless/intersil/p54/txrx.c
-@@ -431,11 +431,7 @@ static void p54_rx_frame_sent(struct p54_common *priv, struct sk_buff *skb)
- 	 * Clear manually, ieee80211_tx_info_clear_status would
- 	 * clear the counts too and we need them.
- 	 */
--	memset(&info->status.ack_signal, 0,
--	       sizeof(struct ieee80211_tx_info) -
--	       offsetof(struct ieee80211_tx_info, status.ack_signal));
--	BUILD_BUG_ON(offsetof(struct ieee80211_tx_info,
--			      status.ack_signal) != 20);
-+	memset_after(&info->status, 0, rates);
- 
- 	if (entry_hdr->flags & cpu_to_le16(P54_HDR_FLAG_DATA_ALIGN))
- 		pad = entry_data->align[0];
-diff --git a/include/net/mac80211.h b/include/net/mac80211.h
-index d8a1d09a2141..4c469b04de37 100644
---- a/include/net/mac80211.h
-+++ b/include/net/mac80211.h
-@@ -1197,12 +1197,7 @@ ieee80211_tx_info_clear_status(struct ieee80211_tx_info *info)
- 	/* clear the rate counts */
- 	for (i = 0; i < IEEE80211_TX_MAX_RATES; i++)
- 		info->status.rates[i].count = 0;
--
--	BUILD_BUG_ON(
--	    offsetof(struct ieee80211_tx_info, status.ack_signal) != 20);
--	memset(&info->status.ampdu_ack_len, 0,
--	       sizeof(struct ieee80211_tx_info) -
--	       offsetof(struct ieee80211_tx_info, status.ampdu_ack_len));
-+	memset_after(&info->status, 0, rates);
- }
- 
- 
+ 	if (mr->mtt)
+ 		mpt_entry->mtt_seg =
 -- 
 2.30.2
 
