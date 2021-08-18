@@ -1,57 +1,56 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9B472
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:16:12 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id 61-20020a9d0d430000b02903eabfc221a9so850529oti.0
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 18:16:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDE172
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 01:17:11 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id n1-20020a9d1e810000b0290514da4485e4so797586otn.4
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 18:17:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=pZhI8s0bq6Q/ufRFM0cKz5GDmu8z9ddT9tyGnPEkEkA=;
-        b=TaGb/qmuQ2TLj/x7hfVh0Gm00mqxpKM5oE7bEdLVITLTfQcudeJBsJ+5XZV9NJYQqJ
-         J6lGUVeRDbDkvI+qGw+21tzVuuGe8ur7nwE9mjd2xxLcyr6GNNQdjxf8L6mdBxymXNhi
-         DFiQAR7WOWka5ldmTDI8L3pxkDuJaNoQl3LZUL6rRaORH3WqAlx9O7KMfaRgsHd8c0dv
-         ojFC1K6TqdA5gF+XnKB9MTUhnKQs6plXRQ9sRk/6g4trvlHG99tvSqVoHycIvBqMvrzs
-         SVVslbZ7Si6lYjthC68Swb+Q78gm26ZnvR6AVg2TvZ/IVPbkluAkflkXVU3ytHWb3J4j
-         x/ig==
-X-Gm-Message-State: AOAM531EKER9KmaKM1DKayqnb7oyfwgDNMu2KHm+YSqueEMUPuwYG4Yl
-	ATZ5dKt8N3kVa/6AiYTTqQ==
-X-Google-Smtp-Source: ABdhPJygYnXFnxnEh28gqMyYF6NthIHBysWjBhU7p2cYyKWsqAlZXR7MMNfgasUuDyAVpFFwk0mEQg==
-X-Received: by 2002:a9d:ecc:: with SMTP id 70mr4970700otj.96.1629249371372;
-        Tue, 17 Aug 2021 18:16:11 -0700 (PDT)
+        bh=XEHzbtXC9SGv3p+rZWW31lZL4W4bCoeIEjmW3iiT8EM=;
+        b=EE7fYg//QmOgErAu4q3KDYU4EHl+1UwpciqA6YQNaJ7aFVpyVJ0eLJdY/FkUpiPId7
+         AdM3LQqk57pdra1bMHUPEkCqNzLDmSPrFy3NKAOAwrIpJ7vObtMEKX2cLYtiXL4ixuVS
+         oeoePxQQ0r5DxICDVxMl+GQlVqv1B11FbxB62R+54a5SRGG0ajlNVPtDWHLkiTTFFZ0Z
+         WZTErmzB+zxvfGq8ye8h9fFdoqWnqb8DizhFEKBHwl5W2HJ4g/6Gvjqmds/N/5RApTWC
+         kJKIGyl8k93NyJ8M3FZ5rDUW8eKwF2kezOt+oax4VUIUhgonAMuDGt7fWG/Kww8QaWtZ
+         DBhg==
+X-Gm-Message-State: AOAM530/v842lL6gdyzdI/38Dr3C126EoK+zeVy8jNCMjd/IBmz0Blfm
+	rlux3ZZSzB/ycXg/ab5qMg==
+X-Google-Smtp-Source: ABdhPJzvnfsw5vj8+qJCFSRdy3z+gWAr1zQdU+wI2EZ0149D+ruRFQnz03+14sCvIKuRUTBry0K2dQ==
+X-Received: by 2002:a05:6830:418b:: with SMTP id r11mr4821586otu.204.1629249430269;
+        Tue, 17 Aug 2021 18:17:10 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l7sm747356ooq.28.2021.08.17.18.16.09
+        by smtp.gmail.com with ESMTPSA id j70sm760918otj.38.2021.08.17.18.17.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 18:16:10 -0700 (PDT)
-Received: (nullmailer pid 1176067 invoked by uid 1000);
-	Wed, 18 Aug 2021 01:16:08 -0000
-Date: Tue, 17 Aug 2021 20:16:08 -0500
+        Tue, 17 Aug 2021 18:17:09 -0700 (PDT)
+Received: (nullmailer pid 1177455 invoked by uid 1000);
+	Wed, 18 Aug 2021 01:17:08 -0000
+Date: Tue, 17 Aug 2021 20:17:08 -0500
 From: Rob Herring <robh@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+Cc: Vignesh Raghavendra <vigneshr@ti.com>, Mark Brown <broonie@kernel.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, devicetree@vger.kernel.org, 
+	Thierry Reding <thierry.reding@gmail.com>, linux-media@vger.kernel.org, 
+	Stephen Boyd <sboyd@kernel.org>, Lucas Stach <dev@lynxeye.de>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	linux-spi@vger.kernel.org, Richard Weinberger <richard@nod.at>, linux-mmc@vger.kernel.org, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Nishanth Menon <nm@ti.com>, linux-kernel@vger.kernel.org, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Rob Herring <robh+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Lee Jones <lee.jones@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Stefan Agner <stefan@agner.ch>, linux-mtd@lists.infradead.org, 
+	Peter Chen <peter.chen@kernel.org>, linux-tegra@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
 	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v8 09/34] dt-bindings: host1x: Document Memory Client
- resets of Host1x, GR2D and GR3D
-Message-ID: <YRxfWJJ6+1GgVs33@robh.at.kernel.org>
+	Adrian Hunter <adrian.hunter@intel.com>, linux-staging@lists.linux.dev, 
+	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-pwm@vger.kernel.org, 
+	Viresh Kumar <vireshk@kernel.org>
+Subject: Re: [PATCH v8 23/34] media: dt: bindings: tegra-vde: Convert to
+ schema
+Message-ID: <YRxflCWb9ovs9d7H@robh.at.kernel.org>
 References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-10-digetx@gmail.com>
+ <20210817012754.8710-24-digetx@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,52 +59,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210817012754.8710-10-digetx@gmail.com>
+In-Reply-To: <20210817012754.8710-24-digetx@gmail.com>
 
-On Tue, Aug 17, 2021 at 04:27:29AM +0300, Dmitry Osipenko wrote:
-> Memory Client should be blocked before hardware reset is asserted in order
-> to prevent memory corruption and hanging of memory controller.
-> 
-> Document Memory Client resets of Host1x, GR2D and GR3D hardware units.
+On Tue, 17 Aug 2021 04:27:43 +0300, Dmitry Osipenko wrote:
+> Convert NVIDIA Tegra video decoder binding to schema.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  .../bindings/display/tegra/nvidia,tegra20-host1x.txt          | 4 ++++
->  1 file changed, 4 insertions(+)
+>  .../bindings/media/nvidia,tegra-vde.txt       |  64 -----------
+>  .../bindings/media/nvidia,tegra-vde.yaml      | 107 ++++++++++++++++++
+>  2 files changed, 107 insertions(+), 64 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> index 62861a8fb5c6..07a08653798b 100644
-> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> @@ -18,6 +18,7 @@ Required properties:
->  - resets: Must contain an entry for each entry in reset-names.
->    See ../reset/reset.txt for details.
->  - reset-names: Must include the following entries:
-> +  - mc
->    - host1x
 
-New entries should be at the end. Order matters.
-
->  
->  Optional properties:
-> @@ -197,6 +198,7 @@ of the following host1x client modules:
->    - resets: Must contain an entry for each entry in reset-names.
->      See ../reset/reset.txt for details.
->    - reset-names: Must include the following entries:
-> +    - mc
->      - 2d
->  
->    Optional properties:
-> @@ -222,6 +224,8 @@ of the following host1x client modules:
->    - resets: Must contain an entry for each entry in reset-names.
->      See ../reset/reset.txt for details.
->    - reset-names: Must include the following entries:
-> +    - mc
-> +    - mc2 (Only required on SoCs with two 3D clocks)
->      - 3d
->      - 3d2 (Only required on SoCs with two 3D clocks)
->  
-> -- 
-> 2.32.0
-> 
-> 
+Reviewed-by: Rob Herring <robh@kernel.org>
