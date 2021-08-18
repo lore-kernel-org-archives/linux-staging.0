@@ -1,37 +1,37 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1693F168
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 09:42:04 +0000 (UTC)
-Received: by mail-vs1-f44.google.com with SMTP id f13so1347976vsl.13
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 02:42:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8526D19
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 09:43:12 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id e9so1371881vst.6
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 02:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kbdSCU3Rw09uivyYf1YKzhrdNkwTtywFq3z2eNcAoHU=;
-        b=kqUWzgUl/yiaXMoS2k9dhVzmvWVdRfo7Fo2KXwGPP2K5ZKcbfq4mKKs9fLOs8fk96x
-         ptk/PW2l+MORjgDTGKf9YKJffdNc1pkzifnQ3yMMmSj3Id6or6s1mOH4RD5LiDbhWJRI
-         ol1Z3YbHIv6bhJb7wFU0bti68QvEuV9zCxn5x80BVxIEcknLkLqXu0njTtyUvhPQ0gSW
-         KzGkOvTBoLGzarTvJDvnT+M4FVW2tzG1L1lXroB9VMemhLKPlypoT4WgQlmDdyLEkHoL
-         avQ5B2EbRBekdWSQILEJHijb8G0nZOKWFmqrMWiR04qbuKkEn8DBAAYOVrTAxrrtgcGi
-         fUDA==
+        bh=FWBxn1z3ekg3JNnkDjY46sh+PpWR/RlGELWeBu4tA3E=;
+        b=FFftuENs27XO7ikAVlt9sNRrRCsBTJZ805lZ/o142pXQXR8nF52pmq8IvezPLEiFO+
+         Gjq2WoPiQzk8jZ4uYInc1khmBed8qd46T4LWYngy8i354Jfy5RYYZeNPcPQwV7Hi+puI
+         QZhCeWMwHzHrHaXIuivtbzApdiybJQ4pVhpGU7feoyKgCWA/npF/0W2iJeG8VztzaEt+
+         ZJsxwI7r8+xAuOc7l8/VyUsTvFlBfoIdxOUMdDlAHZYFe7MoAJNwUSTgdHCwo6ucQZJA
+         BERjK6oUxjMO7UroxyK/oZD8pD+R5orBQwvbmOc6wkXjZrFZ4z5k2EAhTN/3qtONaHMN
+         ycCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kbdSCU3Rw09uivyYf1YKzhrdNkwTtywFq3z2eNcAoHU=;
-        b=fZkKpx2h5C5VhSF4wTutf6w+lG/uTh6cfQ41EEqEMNZpI6vzqCctRT1nPyPBlWFqlB
-         s1XGhpIzi5utTVd0geNHeahkRFXjYORM11pTDNAa66Dtl0BFevU5KrstErmMArgt/1HY
-         Xj7ULwQxNrTUzgHdSrO61tz4aiqGCifViDRBAzoCasp20sIZDbf99UCdsVJa7Z99w4zy
-         1Q5E8+rl59aOdaLJ0uoxusrbCPkVseJvrVX1YCd3wPvWkc/ZyzWdTVcddXrYNUQsSE4w
-         TfSMFbSnz0jsZlVtNG4yBvCUdbyHzKMh5chaUGzHU7g0WkcSdUHqc9YfZetL4OVxrMo+
-         DkNg==
-X-Gm-Message-State: AOAM533k2bL6GfenXpktd3n/9KT/8to+Lulmb34i11OjSNNd9G381Ijc
-	26Fm5ZVtmwXEpVvjwuGo4+YCPwvmS1U9rxBNOCtoGg==
-X-Google-Smtp-Source: ABdhPJz8iEC0DtBNEl/b/C36HfmefejpZ6mYBF4J4rSAfO4RoK/etFf85MFbc+601w1EL4Uj4rk9xHbR9GbyCxpBsGg=
-X-Received: by 2002:a67:f6d8:: with SMTP id v24mr6581141vso.48.1629279723051;
- Wed, 18 Aug 2021 02:42:03 -0700 (PDT)
+        bh=FWBxn1z3ekg3JNnkDjY46sh+PpWR/RlGELWeBu4tA3E=;
+        b=MTSofBdbgLaeP28F9NZjnu27bqpe/dydKEuHeFKrKvfPFpP/1KkT3hseeu61wr5SqD
+         YlrftHj4bOokxujfKukB3IDy1yZkZpr4Ff7D+qWWwsQVL9CllAgQZvX5IxZwuRw+dPw/
+         wYW3wAKI1o5ccFNoGfN0ylsiYCzhOmQUpzHVuIfvdc6JKYj6jt9Y/aAR2t0UZV2C+dML
+         3Zsvs0IWuEgMgjZgEYgB1Lu6oiHpCmMgIY36Bz85BmREl77mBmDeHN7F72W8XQoquUfq
+         M47/pSpW2yc1otxzFemhY55BLYrBQX4pqcm88DK9fZ/qzaiuC90B84nD7V+SqbZjzd2/
+         7J9A==
+X-Gm-Message-State: AOAM532wMYeFpKZBji0Fik6IKsheU/xDn1OQTATFBDdyN5gOCfhlb4Cd
+	tkl7ql3I90Tusyn34jeECIHVvKssjHlrbhF2T3V+og==
+X-Google-Smtp-Source: ABdhPJy9niDJz5mgkUvErbKV42Yn+Ms0EJBjGcIKiTYQBlrHgHjEZyzYRmP0dMsZPekoMsC63913LnT1iekm3nfsXZM=
+X-Received: by 2002:a67:7949:: with SMTP id u70mr6382807vsc.55.1629279791962;
+ Wed, 18 Aug 2021 02:43:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,11 +43,11 @@ References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7> <5b2a80c1-9743-e633-625
  <20210818045307.4brb6cafkh3adjth@vireshk-i7> <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
  <20210818055849.ybfajzu75ecpdrbn@vireshk-i7> <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
  <20210818062723.dqamssfkf7lf7cf7@vireshk-i7> <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
-In-Reply-To: <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7> <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+In-Reply-To: <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 18 Aug 2021 11:41:26 +0200
-Message-ID: <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+Date: Wed, 18 Aug 2021 11:42:35 +0200
+Message-ID: <CAPDyKFrgGEOEFsqah3sQfPbjeRySPfFxokpO-BcMcPmEMrv-kg@mail.gmail.com>
 Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
 To: Viresh Kumar <viresh.kumar@linaro.org>
 Cc: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
@@ -70,55 +70,60 @@ Cc: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding <thierry.reding@gmail.com
 	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+On Wed, 18 Aug 2021 at 11:41, Ulf Hansson <ulf.hansson@linaro.org> wrote:
 >
-> On 18-08-21, 10:29, Ulf Hansson wrote:
-> > Me and Dmitry discussed adding a new genpd callback for this. I agreed
-> > that it seems like a reasonable thing to add, if he insists.
+> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
 > >
-> > The intent was to invoke the new callback from __genpd_dev_pm_attach()
-> > when the device has been attached to its genpd. This allows the
-> > callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
-> > update the vote according to the current state of the HW.
->
-> I wouldn't call dev_pm_opp_set_rate() from there, since it means
-> configure and enable (both) for different resources, clk, regulator,
-> genpd, etc..
-
-Right, good point!
-
-dev_pm_opp_set_rate() is best called from consumer drivers, as they
-need to be in control.
-
->
-> What we need here is just configure. So something like this then:
->
-> - genpd->get_performance_state()
->   -> dev_pm_opp_get_current_opp() //New API
->   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
->
-> This can be done just once from probe() then.
-
-How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
-
->
-> > I am not sure if/why that approach seemed insufficient?
+> > On 18-08-21, 10:29, Ulf Hansson wrote:
+> > > Me and Dmitry discussed adding a new genpd callback for this. I agreed
+> > > that it seems like a reasonable thing to add, if he insists.
+> > >
+> > > The intent was to invoke the new callback from __genpd_dev_pm_attach()
+> > > when the device has been attached to its genpd. This allows the
+> > > callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
+> > > update the vote according to the current state of the HW.
 > >
-> > Another option to solve the problem, I think, is simply to patch
-> > drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
-> > should synchronize the HW state too.
+> > I wouldn't call dev_pm_opp_set_rate() from there, since it means
+> > configure and enable (both) for different resources, clk, regulator,
+> > genpd, etc..
 >
-> Dmitry already mentioned that this will make the device start
-> consuming power, and he doesn't want that, else we need an explicit
-> disble call as well.
-
-I am sure I understand the problem. When a device is getting probed,
-it needs to consume power, how else can the corresponding driver
-successfully probe it?
-
+> Right, good point!
 >
-> --
-> viresh
+> dev_pm_opp_set_rate() is best called from consumer drivers, as they
+> need to be in control.
+>
+> >
+> > What we need here is just configure. So something like this then:
+> >
+> > - genpd->get_performance_state()
+> >   -> dev_pm_opp_get_current_opp() //New API
+> >   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
+> >
+> > This can be done just once from probe() then.
+>
+> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
+>
+> >
+> > > I am not sure if/why that approach seemed insufficient?
+> > >
+> > > Another option to solve the problem, I think, is simply to patch
+> > > drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
+> > > should synchronize the HW state too.
+> >
+> > Dmitry already mentioned that this will make the device start
+> > consuming power, and he doesn't want that, else we need an explicit
+> > disble call as well.
+>
+> I am sure I understand the problem. When a device is getting probed,
 
-Kind regards
-Uffe
+/s/I am sure/I am not sure
+
+> it needs to consume power, how else can the corresponding driver
+> successfully probe it?
+>
+> >
+> > --
+> > viresh
+>
+> Kind regards
+> Uffe
