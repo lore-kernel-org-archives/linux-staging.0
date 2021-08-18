@@ -1,60 +1,59 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FAC6D19
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:16 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id c17so1170886plz.2
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E0A6D2B
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:14:17 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id om1-20020a17090b3a8100b0017941c44ce4so8203631pjb.3
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0i1or1K/1dFEzNVxMTz6RhSxVOT4OJeaz+0eeqAwhFA=;
-        b=Oe49+j/0UXJ7D4hLbrrauzW6DPsuwO4bSYSpu3MHYIR3JnaLRxc45VZexykTP0KNTs
-         TmDL4PviB0QbN/Io75LJ7Tfje5mipp/v9WFQqOm9o9gyYM1cBdhUbgEaldWedaWT60xS
-         qb7hM0nBEEpQtMj92w3cx9+esvngBsY/a4Otg=
+        bh=0MMWsXNyPTiNeiAP5gS1SC+QG9nXJlmhwzZVB05s6vU=;
+        b=lFnsOWBb7INVqCBC7qdAJtdwm7/YI/zQgCoP3x3m0bM+t5LwRECJJtnUsDrlQxjrhX
+         QHqsidPkWI4X7e2ihavui/Ywcxlnw/aFhClReU+sv9f1EOAIRk2xMvoRioWP+UFLSFBK
+         RCfXzgJGwfpUuLe9H9dmyKkDNrcpU89QSc2mo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0i1or1K/1dFEzNVxMTz6RhSxVOT4OJeaz+0eeqAwhFA=;
-        b=UX4Le2DzPAqP3z7/tvsPz2m7TpqfIabTBVk94V5pCk1iaAJ/G1dsP5KsTsgiUn+Rpv
-         fYNgbhrjjtaLIP/3aOimo1t2D5NAKB6JaoH61Br9GQ66BOwYkHIeGsGSGXNwA1lvGi+8
-         q6DuW7dDcQyR1AN07m4nNj2bBA7lBvS88dpB8Y6G/yZkZuTQd82+Uacv5iEmE0d10YJY
-         9y4WRVNYI3+z0M90r8pyvBaoFVcUgcTLUC2IfVjTCl8ElpkTceP08IqQeZ56+jsOzO75
-         hWi9t2Cwzr61zocNkPYdFmfdoK1ZXMnl8Vi+AhH0thpw6gYL3IteOfaX1l2P4TaxHIw1
-         eylw==
-X-Gm-Message-State: AOAM531tDkpIRu/SqfDRN0FBkHk4WDcKyuTo2S2AKD9kjNoQyZExuasl
-	KlC3VokeGEKIuiZAVO8GOx8W9DWSbBIpEg==
-X-Google-Smtp-Source: ABdhPJywwox1i7+sQwgOh5pOCbo+BOlEsPJIaFcHvRCzFKyYrKK09UqZit7+ggVQZGAHkMaYk9KLlg==
-X-Received: by 2002:a17:90a:17cc:: with SMTP id q70mr7609797pja.1.1629267256623;
+        bh=0MMWsXNyPTiNeiAP5gS1SC+QG9nXJlmhwzZVB05s6vU=;
+        b=aL5Ak4mW66BMn9a1tYMxks/ujNxCNS8uwCklGRixccalgZ+Uci4lq5r3BmeubSLY+X
+         Z5cG4xtBxIKog+TEIFn5PZUF6wZSkzvnEGjqOlfJ/xbtQmLWyymnDUuG8VldbAbk24o/
+         fBlqMZD8okO+73DcMJlvARAy+jyGywm7dTiVGnjEr5t9Extgcf6v4bhLYBMXOLOJ0641
+         pQ5q4hSoIe1FFh34V1uPGaRXpoxZ8p357D9HCK/sCznDobU6HwACkglcg3IOTE/g9xcX
+         UM1QHyHHcy83j77tTQ/U738SMMIo5FcaUmu/QoFTp2Iml4tZiPYpc5/So2NUWL0f1xKM
+         /S/Q==
+X-Gm-Message-State: AOAM532F4g+Bv0EzsWYh2rqLK7vrLDmQxwV2T7mmO/O7M00r1hjkPZTJ
+	m0xLUrByQQp3/VTswE1vnhnVjg==
+X-Google-Smtp-Source: ABdhPJzuLn/Q432TdsC9Yx7ftRK4PSNzWyeMnAwx3i8tWLw6BmbXc/OzOJqqzYHaCmof15Jus1chGA==
+X-Received: by 2002:a17:90a:f3d2:: with SMTP id ha18mr7684231pjb.232.1629267256892;
         Tue, 17 Aug 2021 23:14:16 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h17sm4603571pfh.192.2021.08.17.23.14.14
+        by smtp.gmail.com with ESMTPSA id y64sm5430806pgy.32.2021.08.17.23.14.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:14:15 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Jes Sorensen <jes@trained-monkey.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-hippi@sunsite.dk,
-	netdev@vger.kernel.org,
+	David Airlie <airlied@linux.ie>,
+	Lee Jones <lee.jones@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	Daniel Vetter <daniel@ffwll.ch>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-wireless@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
+	netdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 41/63] net: 802: Use memset_startat() to clear struct fields
-Date: Tue, 17 Aug 2021 23:05:11 -0700
-Message-Id: <20210818060533.3569517-42-keescook@chromium.org>
+Subject: [PATCH v2 20/63] drm/mga/mga_ioc32: Use struct_group() for memcpy() region
+Date: Tue, 17 Aug 2021 23:04:50 -0700
+Message-Id: <20210818060533.3569517-21-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -64,41 +63,121 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1181; h=from:subject; bh=C+6KD7t/6fG5hDgRQb4fosYJ4WHPortotbK235WcI2o=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMn5oDen6ROCRtoOkoprqxOZyis1cM1QgeAkzRs Z+Yu9WKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjJwAKCRCJcvTf3G3AJoehD/ 9r6K6SUsL5lVEdFegLY8K/qjemzJ8Qx2dDCwnIGOnbcI770wVd2gUkq+8bMIiGTpuHm8KLfXED/VPo XEYrAiSzdYDynkSQ5uT93DAcDJecWMvkl5cUZenRJ9e335MwzPk46WbpMY5lsvDG4LBrEYQUe3GB15 fZ8nYwjw5Q+FqdH31kVwt/2NSANrGxWmVtnNghwDYLKm0CqhmEc4kK70cmiOpl45EDBUWHjcVcHhtk +PEcSI8yUja1AxKpyhVTXYsFHlVN/kEk65BL8+8npbvCk63MR9WStzKhTbrb23jLFEg5yu8WATqERe o8xICyKNkMqYX8hCFs5pnjdeEKWUc2/FYepf6KI7RGfKkvKyE2n/BKKsZFKeZ181uCBiO/JcP0Pipn OHApybTpw2p4YCgPfp4IRYVXIyQaygaAotgvJzqZQbLI8E7vsFhH+rcgXzUijzLTAFpUblDhEwLI6b cBzYe+DkWVZ6Glc4eJvXZCjr/W7SxC+nlNR+56QP4XtDM7sC1Yi5QeYqjWqQLKsSmiJ1twc3nx9dtJ qai0woqnGDGFUMcP9v95DEMFbrsh44dGCjOIVocZ3STFgPzYzmTzvVvmCwlMPH+NaZaZZI/NgHQYpw aSEEIjABnuJlCZR3/gTlppRk49XP0ANcu3hytZpYQh0SZTdqnExuxHJTAJ6g==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4026; h=from:subject; bh=qstupb1mRvuiCQ1RTR6k6oV2NxQS+tS8y2enFqRpd68=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMiDAfxk4XGgNDwyOny5QMoIdZacepKSLc24F9z Lo7XG+GJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIgAKCRCJcvTf3G3AJh6oD/ 9Ovp0Ql0AYVAVX1IIx8UFncQNMHylWbLYYu/pPeuq//n2vP3YxPODUvUsOhKeGvOP827UQo0zYW5iy tgiG1WBc8ebgh5QPmWb88QrAINPUhtbBp+Ot3NMw60te7sqbHEXsxkZV30DmTsosmCxyISKjyVvCWu k9+q0dosQewqL6/+1hWYp1uFW9SNaxLwoQPTdmTeeACtkvBcffo8L6czjWkLiNyOMCTdoqoQssvvRu zHaZ9swQIAAFRlHyaIwcnYCD8acVZhrpgLkn3SFlhEWx/CsFsuWCNm8ykKqoemb7waZs2mfagTLdNd j9c/hMpmgkGT5eBVZm8ZZc0VIpiQDZFHDrAdet4mxrXfRctgoALoLZZXdvZ6hovyaCJEmAL4dpEmzB SfbVedU11Uqk4gqtVGAPiExd0oEsgw9aH5Yi6f5Kq0NHSdjbUKSXAMoY/rdvqf/QkxZBOmr8Wsmgyh uaHkoAimq3GMz0bp3wb+4kSgsFxg4xCu45/FPrJc/fxu4K2kRpOUDG1wDjMc1G1trTeP21//dqz/DY dcmxUTtVuVe2fPww119RF2WXn3/GxtNi5RK7uTtxCgWr96J2MocjYw5//xWdXRfEEWLjXFK52hcX2N rEw10lDXzkEK6IQwMathNTugVFdbD4ID3UeC/FzYInnBnFPluTRksv4HTSmA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memset(), avoid intentionally writing across
-neighboring fields.
+field bounds checking for memcpy(), memmove(), and memset(), avoid
+intentionally writing across neighboring fields.
 
-Use memset_startat() so memset() doesn't get confused about writing
-beyond the destination member that is intended to be the starting point
-of zeroing through the end of the struct.
+Use struct_group() in struct drm32_mga_init around members chipset, sgram,
+maccess, fb_cpp, front_offset, front_pitch, back_offset, back_pitch,
+depth_cpp, depth_offset, depth_pitch, texture_offset, and texture_size,
+so they can be referenced together. This will allow memcpy() and sizeof()
+to more easily reason about sizes, improve readability, and avoid future
+warnings about writing beyond the end of chipset.
 
-Cc: Jes Sorensen <jes@trained-monkey.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-hippi@sunsite.dk
-Cc: netdev@vger.kernel.org
+"pahole" shows no size nor member offset changes to struct drm32_mga_init.
+"objdump -d" shows no meaningful object code changes (i.e. only source
+line number induced differences and optimizations).
+
+Note that since this is a UAPI header, __struct_group() is used
+directly.
+
+Cc: David Airlie <airlied@linux.ie>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
+Acked-by: Daniel Vetter <daniel@ffwll.ch>
+Link: https://lore.kernel.org/lkml/YQKa76A6XuFqgM03@phenom.ffwll.local
 ---
- net/802/hippi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/mga/mga_ioc32.c | 27 ++++++++++++++-------------
+ include/uapi/drm/mga_drm.h      | 22 ++++++++++++----------
+ 2 files changed, 26 insertions(+), 23 deletions(-)
 
-diff --git a/net/802/hippi.c b/net/802/hippi.c
-index f80b33a8f7e0..6f71ffc8bdd1 100644
---- a/net/802/hippi.c
-+++ b/net/802/hippi.c
-@@ -65,7 +65,7 @@ static int hippi_header(struct sk_buff *skb, struct net_device *dev,
- 	hip->le.src_addr_type	= 2;	/* 12 bit SC address */
+diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_ioc32.c
+index 4fd4de16cd32..894472921c30 100644
+--- a/drivers/gpu/drm/mga/mga_ioc32.c
++++ b/drivers/gpu/drm/mga/mga_ioc32.c
+@@ -38,16 +38,18 @@
+ typedef struct drm32_mga_init {
+ 	int func;
+ 	u32 sarea_priv_offset;
+-	int chipset;
+-	int sgram;
+-	unsigned int maccess;
+-	unsigned int fb_cpp;
+-	unsigned int front_offset, front_pitch;
+-	unsigned int back_offset, back_pitch;
+-	unsigned int depth_cpp;
+-	unsigned int depth_offset, depth_pitch;
+-	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+-	unsigned int texture_size[MGA_NR_TEX_HEAPS];
++	struct_group(always32bit,
++		int chipset;
++		int sgram;
++		unsigned int maccess;
++		unsigned int fb_cpp;
++		unsigned int front_offset, front_pitch;
++		unsigned int back_offset, back_pitch;
++		unsigned int depth_cpp;
++		unsigned int depth_offset, depth_pitch;
++		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
++		unsigned int texture_size[MGA_NR_TEX_HEAPS];
++	);
+ 	u32 fb_offset;
+ 	u32 mmio_offset;
+ 	u32 status_offset;
+@@ -67,9 +69,8 @@ static int compat_mga_init(struct file *file, unsigned int cmd,
  
- 	memcpy(hip->le.src_switch_addr, dev->dev_addr + 3, 3);
--	memset(&hip->le.reserved, 0, 16);
-+	memset_startat(&hip->le, 0, reserved);
+ 	init.func = init32.func;
+ 	init.sarea_priv_offset = init32.sarea_priv_offset;
+-	memcpy(&init.chipset, &init32.chipset,
+-		offsetof(drm_mga_init_t, fb_offset) -
+-		offsetof(drm_mga_init_t, chipset));
++	memcpy(&init.always32bit, &init32.always32bit,
++	       sizeof(init32.always32bit));
+ 	init.fb_offset = init32.fb_offset;
+ 	init.mmio_offset = init32.mmio_offset;
+ 	init.status_offset = init32.status_offset;
+diff --git a/include/uapi/drm/mga_drm.h b/include/uapi/drm/mga_drm.h
+index 8c4337548ab5..2978a435dff9 100644
+--- a/include/uapi/drm/mga_drm.h
++++ b/include/uapi/drm/mga_drm.h
+@@ -279,20 +279,22 @@ typedef struct drm_mga_init {
  
- 	hip->snap.dsap		= HIPPI_EXTENDED_SAP;
- 	hip->snap.ssap		= HIPPI_EXTENDED_SAP;
+ 	unsigned long sarea_priv_offset;
+ 
+-	int chipset;
+-	int sgram;
++	__struct_group(/* no tye */, always32bit, /* no attrs */,
++		int chipset;
++		int sgram;
+ 
+-	unsigned int maccess;
++		unsigned int maccess;
+ 
+-	unsigned int fb_cpp;
+-	unsigned int front_offset, front_pitch;
+-	unsigned int back_offset, back_pitch;
++		unsigned int fb_cpp;
++		unsigned int front_offset, front_pitch;
++		unsigned int back_offset, back_pitch;
+ 
+-	unsigned int depth_cpp;
+-	unsigned int depth_offset, depth_pitch;
++		unsigned int depth_cpp;
++		unsigned int depth_offset, depth_pitch;
+ 
+-	unsigned int texture_offset[MGA_NR_TEX_HEAPS];
+-	unsigned int texture_size[MGA_NR_TEX_HEAPS];
++		unsigned int texture_offset[MGA_NR_TEX_HEAPS];
++		unsigned int texture_size[MGA_NR_TEX_HEAPS];
++	);
+ 
+ 	unsigned long fb_offset;
+ 	unsigned long mmio_offset;
 -- 
 2.30.2
 
