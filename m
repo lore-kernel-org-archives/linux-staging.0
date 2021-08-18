@@ -1,47 +1,45 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910D56D19
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:24:18 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id t13so1096885pfl.6
-        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:24:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C0A56D22
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:24:17 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id 18so1102283pfh.9
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 23:24:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cNmalVG+pbxPr3mreA9zKEEd2H4tBC2vGc39RgbA9Tk=;
-        b=T0mB0uwkd+Bwr8IQl/3YD/ORZ/h6GcZHHAfw4qTPS7nphYkQehERGSWj59cSMbAgzk
-         KKR0vMG5a88SolHec9ej2zYoy9ZdaOnCLwqfmIhA/oS2OWR89diIyEBz4j3SQO5zhg8O
-         FN6UWEuMg4e4CXhSW8Hsl565xQ91qeHwCgvM4=
+        bh=pfheq8ucotkU63pWQCdudkbxUtaK+5E7fGdpUnnohcE=;
+        b=bOn7B1lcs0RvnQ+JyDcBrrDHbtMIszKBFbMg36dEvOm/cxiVZauZR1pM19AHYwcUKV
+         a8y/SA1b4oZfyx+I7fB2xkZ8xjkLsTtpEq4EMNm3JkMacp3b4/IpDUQxMVbVY4g6nEfW
+         zLrHVXNFumWsW5ybM/sxAkeypdIu2sT+eqT4k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cNmalVG+pbxPr3mreA9zKEEd2H4tBC2vGc39RgbA9Tk=;
-        b=n5QHJTJPAa4MMTK9yxPJwr39YDICxVJY72Xgzj7F4Rqh47hzYkwz+tghXXhOd3BYcY
-         I0xgX1CAcrtH7IG8YKGjcnUaYEcx208lXQ4JpiTBBjuX3oxEs6JOnaUisr8HJKen/Zoa
-         I9Q8eLD02P6Y5s+Onr7v6B6f5gIu5gTYHG0qR7wGEgIKgXJp01XZJso/uFcduIO7BqTV
-         /mTPS52e+UaptzKa1wnWrJOl53JRFvZUnQkZkqwD+xL0t9PnCX7Oxg+Y9yt/g67hAR8r
-         +zBd8KjiKzHAphSzBpdVAaln50EB4bfEkmMZGvDg7vw4ICF0acfYz1SQMWh6X7KxtL2H
-         k4qQ==
-X-Gm-Message-State: AOAM5319sGuK50Nnz9+Y/j21qa/zCeuNe7P5j5mcYlCO4yIGXOxWnXLm
-	Z+vsbwSw+mLuX8EPoUOLY+YJmg==
-X-Google-Smtp-Source: ABdhPJzoElJdRbLlcznm9p1v4fqVMxPQQbVFbTyyeunVo+q1c4LPSW+dleh3870/C7uQRKu+J9kAIA==
-X-Received: by 2002:aa7:82cf:0:b029:3c4:4daa:fd68 with SMTP id f15-20020aa782cf0000b02903c44daafd68mr7700665pfn.66.1629267858224;
-        Tue, 17 Aug 2021 23:24:18 -0700 (PDT)
+        bh=pfheq8ucotkU63pWQCdudkbxUtaK+5E7fGdpUnnohcE=;
+        b=ciT0YY1qy7oht2GYBy5bul1kn0Vq/EWmZpbFdT304LO3tXcbR3jV608gCr1wpVbW1a
+         ftAfNPall7HwNPy84SqrIn2HRf3OzG46doFf1XjPR0e7v7bmDpOz7gyTce+e6IivkcRQ
+         191zF4Y3YhFqH3tOGzVCBQjdeocLNQS/QbEu4Jh5lIEdLC9X+hJWrWT8H6GoxgYIF8LQ
+         zqqxcV2+mrXf4NT3I4+4KKCGyhyY6jxr58EDAd25FXQbTRvEHvwRVHXNMiBDEKKJ2hSk
+         f51DzDXB4eUA/hjR0QdyLCP6wLStBRdS88IptV/CEY7iujORFFawvsGA4qQCgsJleKmt
+         XLYQ==
+X-Gm-Message-State: AOAM532hEpAD+2/mjeSvc2BXWHFLWcLpoX29AMuQaWMfpKdwPkvjBI1y
+	fkCfHt2BSqVJP4h6jBIRZ6HX7Q==
+X-Google-Smtp-Source: ABdhPJydUsyn5VnHkzaXMydTCOu45RwPjXJEVv8iarwYsWIPkrbqfwKhMSfmnkkd0A09rXVQCYKrpA==
+X-Received: by 2002:a62:6242:0:b029:3c6:5a66:c8f2 with SMTP id w63-20020a6262420000b02903c65a66c8f2mr7615518pfb.59.1629267856691;
+        Tue, 17 Aug 2021 23:24:16 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 64sm4749129pfy.114.2021.08.17.23.24.14
+        by smtp.gmail.com with ESMTPSA id s16sm1923432pfd.95.2021.08.17.23.24.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 17 Aug 2021 23:24:15 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: linux-kernel@vger.kernel.org
 Cc: Kees Cook <keescook@chromium.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
 	netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -53,9 +51,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 21/63] net/mlx5e: Use struct_group() for memcpy() region
-Date: Tue, 17 Aug 2021 23:04:51 -0700
-Message-Id: <20210818060533.3569517-22-keescook@chromium.org>
+Subject: [PATCH v2 58/63] ethtool: stats: Use struct_group() to clear all stats at once
+Date: Tue, 17 Aug 2021 23:05:28 -0700
+Message-Id: <20210818060533.3569517-59-keescook@chromium.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210818060533.3569517-1-keescook@chromium.org>
 References: <20210818060533.3569517-1-keescook@chromium.org>
@@ -65,64 +63,59 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2287; h=from:subject; bh=H1NJrCbG/+gkFDDOH1HKv+jRsuxCwz9I+sItTuJPxig=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMie0CZ8QknrFWsSjQNv2Z5IJELFExqf7lN7Wwc 5aQQO+qJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjIgAKCRCJcvTf3G3AJhJRD/ 96K2w+o05X7hhRITOYKyJKbH37CP3Ty7ALSuqaRioqi5222xg1OlnDlOmTcxm36KPLSYb9gNOPa98l 7az22zZD/h+540iMnPR/nKUQpztke9KGCWfI6q0E264noieiOeBk645rAPlBm4GwcsyT0YYPKqC1ZQ UTpt6I53LSvfaDvqvAqf+r8OlgAEKrvseNyt6qPuA13XUHguBBpovSDddi8OEqv/t5Q2wj7UEMmW9J IV+m0C3UpQKXOeOhTy23oZX7PjawKd6/ah6FLBqp6AKcedGBTDdkEtjHbu8o9trfR1W1JUsvMCcv9S 8dO2gsGyuF0n5SykLaKxqeSKyvE8fjXBmALhef7xIECWwU3oMeXXcDnEKC00an8WKoTI/p3sdBuwGx hjBgHLa6fYkRSNX07ZrUHUpURPOef9SB6ijFamo9WBDRCJqk7AaNFp4cIkmEoupJpZdmr/Cm7s7jzG oQUq+6Tbv7TkwMP3GX9S0UgzY5hbFKCx8+nqIQ8qQxp/nmFHZZ9/B1u/uzYcV0mZ0Z2HD8SsYnTNtT +36VQ5kEs/5D+CCjDnJyxpY0zbiwB11VKD/JrZ8xY1p1Y4YjDHvtOjkykedRvOU0ltxWDBDoGf26q8 mtK38NkfvvezjBrpRzYDrxRYSxWAIcOs6jVAkBvNvKCrsZueeLXchKsyUi4w==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1971; h=from:subject; bh=E0TNBYZqVPbRitBJ5Zh/gLEgPeByfWBcEVfphcdRPN4=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHKMrF3QPyVB5GMFoBwvbiS+bGesf32/XaWgZh6rV XXUSuGeJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyjKwAKCRCJcvTf3G3AJuI/EA ChJAduV9dwQnlnG3wxAW9hWJ1q1jYsNmAAW03oHPyyyn4KhoNewX3nohRktZszGSOaJbWUuapbs0QS zhzLmfVfKhD7+DDfnZKD0XnlGiqH7Qvf5Q5ntMO0/ssU3MUgRP1gtdtb5NMHkByui7zpX/5x9W/2YW raKvA1KIXU6CdJePHvujGsZ5QP8biHCDP1thhwyJfUA4XwPHO3b8i6IC1kMBzBKINuCjLSkeqN3uWD PwoL5hyTqy4UKJN0gW6vj/hdXoIY6bLL/pGtAASCMDf1ZqU/p4Jgph8esB5nghJM4B5K/afkMfJgB+ vA/vxaYQSYgK9DPmx0RcanTPpspjeL27cp7jQyYi0izLRnpEiExj2zheTEAvmAN6nqq/leBQk6MTwN uE7XQ8NliZBAE0y+b+xl4TZEDKqaf3ZQLquskbjy9INmiSPSDGgnZODLH9BjIy5eLOJ0nYrc8QLN5B D18Vfd3FY3RNXbQkdqHx6rRPcX8ywj2ipEby99d78Sf6C421sRvINJCco18C7ckUJ5KbK307TNNlzA niH2xNat1pGZwKiztnfUGK9vkqebtbw9PjWgnoloa26nxruikmIBNbDpX17yxNTtNblkMvaAIxgqlv ZbPLstx3DpgFgVYefzNXWqrNibdM/9iNuS0mCC0zQsf6ZcpjwRIHZD0WHkXA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 In preparation for FORTIFY_SOURCE performing compile-time and run-time
-field bounds checking for memcpy(), memmove(), and memset(), avoid
-intentionally writing across neighboring fields.
+field bounds checking for memset(), avoid intentionally writing across
+neighboring fields.
 
-Use struct_group() in struct vlan_ethhdr around members h_dest and
-h_source, so they can be referenced together. This will allow memcpy()
-and sizeof() to more easily reason about sizes, improve readability,
-and avoid future warnings about writing beyond the end of h_dest.
+Add struct_group() to mark region of struct stats_reply_data that should
+be initialized, which can now be done in a single memset() call.
 
-"pahole" shows no size nor member offset changes to struct vlan_ethhdr.
-"objdump -d" shows no object code changes.
-
-Cc: Saeed Mahameed <saeedm@nvidia.com>
-Cc: Leon Romanovsky <leon@kernel.org>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Ido Schimmel <idosch@nvidia.com>
 Cc: netdev@vger.kernel.org
-Cc: linux-rdma@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/ethernet/mellanox/mlx5/core/en_tx.c | 2 +-
- include/linux/if_vlan.h                         | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ net/ethtool/stats.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c
-index c63d78eda606..39942a952736 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_tx.c
-@@ -207,7 +207,7 @@ static inline void mlx5e_insert_vlan(void *start, struct sk_buff *skb, u16 ihs)
- 	int cpy1_sz = 2 * ETH_ALEN;
- 	int cpy2_sz = ihs - cpy1_sz;
+diff --git a/net/ethtool/stats.c b/net/ethtool/stats.c
+index ec07f5765e03..a20e0a24ff61 100644
+--- a/net/ethtool/stats.c
++++ b/net/ethtool/stats.c
+@@ -14,10 +14,12 @@ struct stats_req_info {
  
--	memcpy(vhdr, skb->data, cpy1_sz);
-+	memcpy(&vhdr->addrs, skb->data, cpy1_sz);
- 	vhdr->h_vlan_proto = skb->vlan_proto;
- 	vhdr->h_vlan_TCI = cpu_to_be16(skb_vlan_tag_get(skb));
- 	memcpy(&vhdr->h_vlan_encapsulated_proto, skb->data + cpy1_sz, cpy2_sz);
-diff --git a/include/linux/if_vlan.h b/include/linux/if_vlan.h
-index 41a518336673..45aad461aa34 100644
---- a/include/linux/if_vlan.h
-+++ b/include/linux/if_vlan.h
-@@ -46,8 +46,10 @@ struct vlan_hdr {
-  *	@h_vlan_encapsulated_proto: packet type ID or len
-  */
- struct vlan_ethhdr {
--	unsigned char	h_dest[ETH_ALEN];
--	unsigned char	h_source[ETH_ALEN];
-+	struct_group(addrs,
-+		unsigned char	h_dest[ETH_ALEN];
-+		unsigned char	h_source[ETH_ALEN];
+ struct stats_reply_data {
+ 	struct ethnl_reply_data		base;
+-	struct ethtool_eth_phy_stats	phy_stats;
+-	struct ethtool_eth_mac_stats	mac_stats;
+-	struct ethtool_eth_ctrl_stats	ctrl_stats;
+-	struct ethtool_rmon_stats	rmon_stats;
++	struct_group(stats,
++		struct ethtool_eth_phy_stats	phy_stats;
++		struct ethtool_eth_mac_stats	mac_stats;
++		struct ethtool_eth_ctrl_stats	ctrl_stats;
++		struct ethtool_rmon_stats	rmon_stats;
 +	);
- 	__be16		h_vlan_proto;
- 	__be16		h_vlan_TCI;
- 	__be16		h_vlan_encapsulated_proto;
+ 	const struct ethtool_rmon_hist_range	*rmon_ranges;
+ };
+ 
+@@ -117,10 +119,7 @@ static int stats_prepare_data(const struct ethnl_req_info *req_base,
+ 	/* Mark all stats as unset (see ETHTOOL_STAT_NOT_SET) to prevent them
+ 	 * from being reported to user space in case driver did not set them.
+ 	 */
+-	memset(&data->phy_stats, 0xff, sizeof(data->phy_stats));
+-	memset(&data->mac_stats, 0xff, sizeof(data->mac_stats));
+-	memset(&data->ctrl_stats, 0xff, sizeof(data->ctrl_stats));
+-	memset(&data->rmon_stats, 0xff, sizeof(data->rmon_stats));
++	memset(&data->stats, 0xff, sizeof(data->stats));
+ 
+ 	if (test_bit(ETHTOOL_STATS_ETH_PHY, req_info->stat_mask) &&
+ 	    dev->ethtool_ops->get_eth_phy_stats)
 -- 
 2.30.2
 
