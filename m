@@ -1,96 +1,120 @@
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 795EC2FB0
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 02:39:22 +0000 (UTC)
-Received: from BC-Mail-Ex30.internal.baidu.com (unknown [172.31.51.24])
-	by Forcepoint Email with ESMTPS id 52F56337AEB4FC5E2F52;
-	Wed, 18 Aug 2021 10:23:29 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex30.internal.baidu.com (172.31.51.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Wed, 18 Aug 2021 10:23:28 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Wed, 18 Aug 2021 10:23:28 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <straube.linux@gmail.com>, <dan.carpenter@oracle.com>, <greg@kroah.com>,
-	<yangyingliang@huawei.com>
-CC: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Cai
- Huoqing" <caihuoqing@baidu.com>
-Subject: [PATCH] staging: r8188eu: Remove unused including <linux/version.h>
-Date: Wed, 18 Aug 2021 10:23:21 +0800
-Message-ID: <20210818022321.2395-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FCB2FB0
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 03:55:36 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id k14so865252pga.13
+        for <linux-staging@lists.linux.dev>; Tue, 17 Aug 2021 20:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=VGIhwyovjc9cLTorbY5F7s7VUrCyo5ROsIE6mKdF2i8=;
+        b=rsLZ+5+cs34CeKm8FdeypOasGszO5Z+LGg/gURNdpo/BaltaeBSvKidQFxg+U/P7vq
+         S/zusxLUtdDoCDzHAq+gTq22WAB40n4Qkk0Ku4cXOc+uTEyaQRKWv/b52rLV4JZHB+rE
+         GpTGxz7vZkIm7Ms92t/jEfqzxajkgCcDGx/hfYVqqHH+Ja2QK6EJtgOjTFD7Mons7/7z
+         jRQRosrCR9tYeU2COXGJUOTnQsHGWC5eYAYHYZf+lDoWMOvzM0YqaRI8vzA1Q6qR94h5
+         JdL36SX2xj7RIzuN9CFefrR3429SFDWAFHYvDz+a1OiNH/4h5wRF/0Uqw9a4yTL9NaQb
+         DX8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=VGIhwyovjc9cLTorbY5F7s7VUrCyo5ROsIE6mKdF2i8=;
+        b=SRy+XGQd1G3sJcDWekGpRwijFHneHQUuvotD3/T3raZyLACLVQr5ih2ShzQidg/A/Q
+         65yTHKepUWuRD7RrbFL3S7bgDvu0b5zPR20Es3gPz0ctKhhZsuAWx+CaoGilBubOnXce
+         /laYEZvJKPcQc/rQyU8iWdGl0zdjNZTEkVKwMwHvP11EEM5AYewSn/hlQ5DeVK2wfZjh
+         Fzl+PrMW0gQt6zt0o0B8hnd27PN90PhpxfWNPyTHEK7K+l4Ko6oZ9oz5nsbnFiqSRn0Y
+         4bAIlz5Y825tMzrv2qqGhM93xb2U+bUaQPJAFHPEWYeCiPlAZZd7XxqSdjybmcTp3JD7
+         rumQ==
+X-Gm-Message-State: AOAM533Vofd06P8QXQEh7HbXLe+UPYVXjAv6Pnoi+PFZKztD2AX0IYzV
+	OhKsQeKlZ8xQVmDpY/2yG1Ii+A==
+X-Google-Smtp-Source: ABdhPJxZ0gvNmqzlYvzU9rK9OQ8NNCMq9wCIZZhKFhU5FN4x6UJRSgCEgSUhRZIdfilYavV9v+XkrA==
+X-Received: by 2002:a62:a20d:0:b029:35b:73da:dc8d with SMTP id m13-20020a62a20d0000b029035b73dadc8dmr7200457pff.54.1629258935761;
+        Tue, 17 Aug 2021 20:55:35 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id u21sm4880194pgk.57.2021.08.17.20.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 20:55:35 -0700 (PDT)
+Date: Wed, 18 Aug 2021 09:25:33 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-2-digetx@gmail.com>
+ <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex10.internal.baidu.com (172.31.51.50) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 
-Remove including <linux/version.h> that don't need it
-based on staging-next
+On 17-08-21, 18:49, Dmitry Osipenko wrote:
+> 17.08.2021 10:55, Viresh Kumar пишет:
+> ...
+> >> +int dev_pm_opp_sync(struct device *dev)
+> >> +{
+> >> +	struct opp_table *opp_table;
+> >> +	struct dev_pm_opp *opp;
+> >> +	int ret = 0;
+> >> +
+> >> +	/* Device may not have OPP table */
+> >> +	opp_table = _find_opp_table(dev);
+> >> +	if (IS_ERR(opp_table))
+> >> +		return 0;
+> >> +
+> >> +	if (!_get_opp_count(opp_table))
+> >> +		goto put_table;
+> >> +
+> >> +	opp = _find_current_opp(dev, opp_table);
+> >> +	ret = _set_opp(dev, opp_table, opp, opp->rate);
+> > 
+> > And I am not sure how this will end up working, since new OPP will be
+> > equal to old one. Since I see you call this from resume() at many
+> > places.
+> 
+> Initially OPP table is "uninitialized" and opp_table->enabled=false,
+> hence the first sync always works even if OPP is equal to old one. Once
+> OPP has been synced, all further syncs are NO-OPs, hence it doesn't
+> matter how many times syncing is called.
+> 
+> https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/opp/core.c#L1012
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c      | 1 -
- drivers/staging/r8188eu/os_dep/os_intfs.c    | 1 -
- drivers/staging/r8188eu/os_dep/rtw_android.c | 1 -
- drivers/staging/r8188eu/os_dep/xmit_linux.c  | 1 -
- 4 files changed, 4 deletions(-)
+Right, but how will this work from Resume ? Won't that be a no-op ?
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index d5ef5783f4ad..82b74ebdaabd 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -3,7 +3,6 @@
- 
- #define _RTW_MLME_C_
- 
--#include <linux/version.h>
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index f4bf4732578a..aef978eef4d7 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -12,7 +12,6 @@
- 
- #include "../include/usb_osintf.h"
- #include "../include/rtw_br_ext.h"
--#include <linux/version.h>
- 
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
-diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
-index bdd381606ba6..af0072e2cb5f 100644
---- a/drivers/staging/r8188eu/os_dep/rtw_android.c
-+++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
-@@ -3,7 +3,6 @@
- 
- #include <linux/module.h>
- #include <linux/netdevice.h>
--#include <linux/version.h>
- #include "../include/rtw_android.h"
- #include "../include/osdep_service.h"
- #include "../include/rtw_debug.h"
-diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-index 4f1ce346b3a5..69966c696130 100644
---- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-@@ -3,7 +3,6 @@
- 
- #define _XMIT_OSDEP_C_
- 
--#include <linux/version.h>
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/if_ether.h"
 -- 
-2.22.0
-
+viresh
