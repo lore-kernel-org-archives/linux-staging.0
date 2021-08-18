@@ -1,199 +1,161 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DB12FAD
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:11:35 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id u15so1949061plg.13
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:11:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49742FAD
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 15:43:12 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id d16so5906410ljq.4
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 08:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
-        b=nKyY7H15ZclPASn0mrCWStoJsQEVzP5/BmW4V3jtYB1HxVdnZRQQ4l+PtPCRG/dTV6
-         xfDqZKumuBc2DNoifQ7E+k+2RHNCKiMDNP3onIJnlrl5OiL/2iza72Z9iX+5k4rKwpSO
-         /m3Ffp/F03wd5BcOk1ihua3YxRddIsYpot1qTBRf+xRtenjeQ4qFFoOSIN66Jft6TSfW
-         c2t4wMFRzHKGD7LvgQQ/GVhG8mAh1vCDNxP/Inly9yMM79tpqdyKRQdjifrNITzwA6c7
-         yGxl1c2NhdVpvxPZ2G3/l6okDceS2O7mIXsDYuviCR6t29nOh+UDrTcg3BH0FRZEUvzE
-         zLIw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lIuMFp8lfdAxjvsE4KV5hsgygseTRFOfUkeg317UTqw=;
+        b=dtxLX4b5qLF8zJg4U/tH1i5TLkCJQlLRGlM2ztQHxAxkEicBA3GgWrdEZtc+2qzQQ0
+         6a8pb1OUyJBXSSUlTK4EwMpTqT1ojblCSfASZ95zK5PrbpQsC7mdRTU1//Ez3cWcrBRe
+         Iq/odKvRlhN3wJQDN8V8dZOm8Clfju/bJu1hebRScB6VdPRLcb8AsNEhaoe5Nz2Fcb7V
+         xDRyCCAdBrHHixEpfT3gLjONzBy264Yfv49IIXx4JnjGiqPrqldsrBs6YegkW2URPTvj
+         GDyCPXiG3rcBxKDlskFp0j+TcRhfWoCzYU6QHjIUcKA7TczgiZtN0vnVaED8i1VKeTlS
+         ny2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BATSV86SaK5afBXIFxzdzZX4j4EhGdui2K0OHBJGQcw=;
-        b=W+nfkZyXjR6BsdJmi5FsCKxRE3Ag155dALxnaASSkLu2d0lxT9t2oGyASEUDrq+hAH
-         QUO8VlRjcOuQxt4scSioROSGV4gCTCq3H5ZlfwDnh/gfzvdnnjpeEvxpt10nRtSAQm/8
-         tyhoipD/QcYGa0GC7KrJuWi+RJYUrxzomrvdMUkWShebuNnMNE3J9Ay9+cF6QvX6j69g
-         tv7/0j+4GsRxqdRMPVXR5a4i3ExIJyuNp5mRrqf8Cisj4mOiq8j+ppFsSE3vYKAbPfL7
-         ngWFsx4ewipo6XuW3QQYLSQJKm6bGBioiCl/93VfdqsPFcEu1jMjc4L6qxWnebUJAUNa
-         W3Gw==
-X-Gm-Message-State: AOAM533mvaaqkq6r89Y85F+QEkcdMKPyOGpS9IxNJlavlZA9NgaVK5UB
-	VtHsYcYdIFAQskpPB2VLrsM1Bg==
-X-Google-Smtp-Source: ABdhPJyb9v3aI2ukGkg+KeS46DSybL7HwTNvsJIGANZduqIYX0SVbX0PrpsQIc/aOBu7eADDQMvgoA==
-X-Received: by 2002:a17:90b:1e03:: with SMTP id pg3mr9751970pjb.203.1629299494765;
-        Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
-        by smtp.gmail.com with ESMTPSA id m7sm28291pfc.212.2021.08.18.08.11.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 08:11:34 -0700 (PDT)
-Date: Wed, 18 Aug 2021 15:11:28 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	kvm@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	clang-built-linux@googlegroups.com,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 53/63] KVM: x86: Use struct_group() to zero decode
- cache
-Message-ID: <YR0jIEzEcUom/7rd@google.com>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-54-keescook@chromium.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lIuMFp8lfdAxjvsE4KV5hsgygseTRFOfUkeg317UTqw=;
+        b=TBDhoDD6+9v3tjJB5/JEZRIAwrQE+LctZ1lEm+791agSIb1P4r7+PAujx0ITF1LbMo
+         d0RFTjVKfRjY6dfqzKhXxfK79LrCW7imCdGwTShrwYsAmDFsRliCV3WsndQ45qPtOTUt
+         KNm0e7jtZHCJ6DnotwkrRiKJxgbCFehUfmbO11IIYbjEGsZLeS/GDXM/8tmCiY0HYVO5
+         CbW3sm+SR9cynXD0GBYuhhDmIK4C8LWX7coSYuKQeS6pxXRXFeEyo5Ta8IZOmShb9r7Y
+         mNWZCFgnt4o7nUWf0obTPzTqybHrS1NpzunCCFxWmWN9j2eJncUW7Cmmi20OSsD9zmMX
+         mCbA==
+X-Gm-Message-State: AOAM530JvfyyGiQQK79uwlE4zv6d3i+vBj5vdbRKlZuPUJYhlthcZEse
+	/lPueCYq8MmkUAcpfIN3Ct0=
+X-Google-Smtp-Source: ABdhPJxHinOU9QfMFxcyBQEWGYvz/BOpXsNrwiitYcP2iJAqNtbW+KnNJW82u2bMuO8HNcWCppaSuQ==
+X-Received: by 2002:a2e:8008:: with SMTP id j8mr8242690ljg.233.1629301390791;
+        Wed, 18 Aug 2021 08:43:10 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
+        by smtp.googlemail.com with ESMTPSA id d20sm6145lfs.155.2021.08.18.08.43.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 08:43:10 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+References: <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
+ <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
+Date: Wed, 18 Aug 2021 18:43:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210818060533.3569517-54-keescook@chromium.org>
+In-Reply-To: <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 17, 2021, Kees Cook wrote:
->  arch/x86/kvm/emulate.c     |  3 +--
->  arch/x86/kvm/kvm_emulate.h | 19 +++++++++++--------
->  2 files changed, 12 insertions(+), 10 deletions(-)
+18.08.2021 13:08, Ulf Hansson пишет:
+> On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>
+>> On 18-08-21, 11:41, Ulf Hansson wrote:
+>>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
+>>>> What we need here is just configure. So something like this then:
+>>>>
+>>>> - genpd->get_performance_state()
+>>>>   -> dev_pm_opp_get_current_opp() //New API
+>>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
+>>>>
+>>>> This can be done just once from probe() then.
+>>>
+>>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
+>>
+>> The opp core already has a way of finding current OPP, that's what
+>> Dmitry is trying to use here. It finds it using clk_get_rate(), if
+>> that is zero, it picks the lowest freq possible.
+>>
+>>> I am sure I understand the problem. When a device is getting probed,
+>>> it needs to consume power, how else can the corresponding driver
+>>> successfully probe it?
+>>
+>> Dmitry can answer that better, but a device doesn't necessarily need
+>> to consume energy in probe. It can consume bus clock, like APB we
+>> have, but the more energy consuming stuff can be left disabled until
+>> the time a user comes up. Probe will just end up registering the
+>> driver and initializing it.
 > 
-> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-> index 2837110e66ed..2608a047e769 100644
-> --- a/arch/x86/kvm/emulate.c
-> +++ b/arch/x86/kvm/emulate.c
-> @@ -5377,8 +5377,7 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
->  
->  void init_decode_cache(struct x86_emulate_ctxt *ctxt)
->  {
-> -	memset(&ctxt->rip_relative, 0,
-> -	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
-> +	memset(&ctxt->decode_cache, 0, sizeof(ctxt->decode_cache));
->  
->  	ctxt->io_read.pos = 0;
->  	ctxt->io_read.end = 0;
-> diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
-> index 68b420289d7e..9b8afcb8ad39 100644
-> --- a/arch/x86/kvm/kvm_emulate.h
-> +++ b/arch/x86/kvm/kvm_emulate.h
-> @@ -341,14 +341,17 @@ struct x86_emulate_ctxt {
->  	 * the rest are initialized unconditionally in x86_decode_insn
->  	 * or elsewhere
->  	 */
-> -	bool rip_relative;
-> -	u8 rex_prefix;
-> -	u8 lock_prefix;
-> -	u8 rep_prefix;
-> -	/* bitmaps of registers in _regs[] that can be read */
-> -	u32 regs_valid;
-> -	/* bitmaps of registers in _regs[] that have been written */
-> -	u32 regs_dirty;
-> +	struct_group(decode_cache,
-
-This is somewhat misleading because half of this struct is the so called "decode
-cache", not just these six fields.
-
-KVM's "optimization" is quite ridiculous as this has never been such a hot path
-that saving a few mov instructions would be noticeable.  And hilariously, the
-"optimization" is completely unnecessary because both gcc and clang are clever
-enough to batch the first five into a movq even when zeroing the fields individually.
-
-So, I would much prefer to go with the following:
-
-From dbdca1f4cd01fee418c252e54c360d518b2b1ad6 Mon Sep 17 00:00:00 2001
-From: Sean Christopherson <seanjc@google.com>
-Date: Wed, 18 Aug 2021 08:03:08 -0700
-Subject: [PATCH] KVM: x86: Replace memset() "optimization" with normal
- per-field writes
-
-Explicitly zero select fields in the emulator's decode cache instead of
-zeroing the fields via a gross memset() that spans six fields.  gcc and
-clang are both clever enough to batch the first five fields into a single
-quadword MOV, i.e. memset() and individually zeroing generate identical
-code.
-
-Removing the wart also prepares KVM for FORTIFY_SOURCE performing
-compile-time and run-time field bounds checking for memset().
-
-No functional change intended.
-
-Reported-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- arch/x86/kvm/emulate.c     | 9 +++++++--
- arch/x86/kvm/kvm_emulate.h | 6 +-----
- 2 files changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-index 2837110e66ed..bf81fd017e7f 100644
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -5377,8 +5377,13 @@ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
-
- void init_decode_cache(struct x86_emulate_ctxt *ctxt)
- {
--	memset(&ctxt->rip_relative, 0,
--	       (void *)&ctxt->modrm - (void *)&ctxt->rip_relative);
-+	/* Clear fields that are set conditionally but read without a guard. */
-+	ctxt->rip_relative = false;
-+	ctxt->rex_prefix = 0;
-+	ctxt->lock_prefix = 0;
-+	ctxt->rep_prefix = 0;
-+	ctxt->regs_valid = 0;
-+	ctxt->regs_dirty = 0;
-
- 	ctxt->io_read.pos = 0;
- 	ctxt->io_read.end = 0;
-diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
-index 68b420289d7e..bc1fecacccd4 100644
---- a/arch/x86/kvm/kvm_emulate.h
-+++ b/arch/x86/kvm/kvm_emulate.h
-@@ -336,11 +336,7 @@ struct x86_emulate_ctxt {
- 		fastop_t fop;
- 	};
- 	int (*check_perm)(struct x86_emulate_ctxt *ctxt);
--	/*
--	 * The following six fields are cleared together,
--	 * the rest are initialized unconditionally in x86_decode_insn
--	 * or elsewhere
--	 */
-+
- 	bool rip_relative;
- 	u8 rex_prefix;
- 	u8 lock_prefix;
---
-2.33.0.rc1.237.g0d66db33f3-goog
-
-> +		bool rip_relative;
-> +		u8 rex_prefix;
-> +		u8 lock_prefix;
-> +		u8 rep_prefix;
-> +		/* bitmaps of registers in _regs[] that can be read */
-> +		u32 regs_valid;
-> +		/* bitmaps of registers in _regs[] that have been written */
-> +		u32 regs_dirty;
-> +	);
-> +
->  	/* modrm */
->  	u8 modrm;
->  	u8 modrm_mod;
-> -- 
-> 2.30.2
+> That's perfectly fine, as then it's likely that it won't vote for an
+> OPP, but can postpone that as well.
 > 
+> Perhaps the problem is rather that the HW may already carry a non-zero
+> vote made from a bootloader. If the consumer driver tries to clear
+> that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
+> still not lead to any updates of the performance state in genpd,
+> because genpd internally has initialized the performance-state to
+> zero.
+
+We don't need to discover internal SoC devices because we use
+device-tree on ARM. For most devices power isn't required at a probe
+time because probe function doesn't touch h/w at all, thus devices are
+left in suspended state after probe.
+
+We have three components comprising PM on Tegra:
+
+1. Power gate
+2. Clock state
+3. Voltage state
+
+GENPD on/off represents the 'power gate'.
+
+Clock and reset are controlled by device drivers using clk and rst APIs.
+
+Voltage state is represented by GENPD's performance level.
+
+GENPD core assumes that at a first rpm-resume of a consumer device, its
+genpd_performance=0. Not true for Tegra because h/w of the device is
+preconfigured to a non-zero perf level initially, h/w may not support
+zero level at all.
+
+GENPD core assumes that consumer devices can work at any performance
+level. Not true for Tegra because voltage needs to be set in accordance
+to the clock rate before clock is enabled, otherwise h/w won't work
+properly, perhaps clock may be unstable or h/w won't be latching.
+
+Performance level should be set to 0 while device is suspended.
+Performance level needs to be bumped on rpm-resume of a device in
+accordance to h/w state before hardware is enabled.
