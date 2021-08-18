@@ -1,77 +1,87 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983CD2FAE
-	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 13:02:29 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id u7so2117495ilk.7
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 06:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MkYUY8hRWwEu70DXUFF8siW38IO889EQpcP0JG9olHM=;
-        b=p816tpeNXiyVNrHjM3CLMARaTaQ9Q1DNkBPMF5S/QiTyS8TtyNuS4uSDtOvWYkZ9DD
-         KQs/VrSCx51qbgHOlhlqY+ZKamKhLS30a7nBa0Wn0WLKywG5EDsLvKzBc8Q5yqbovwVx
-         JjTa60sLtZoqpUSmCE3n0/wVzWzMxMTWIHpNstWexLoJOQJ+OxMi+XyB3QXEwvmEN+f/
-         wXa6Legda4Ugp7uCGvf3V1ZSw2wJsDe8AJmzt4yb1ib7Fzm5YmC5TfAcZFARVI54/XV+
-         DmeEiBYBUtdGwSDq+flIDrO71sP+aqrSrFvrxjsUFvpe0gY8Pan4eGGNA/tuXNtoplKZ
-         TcWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MkYUY8hRWwEu70DXUFF8siW38IO889EQpcP0JG9olHM=;
-        b=R+zbOwVmNIc2Udtwh2ZhGKvcTZCQAb/cXb8VI77NORCYNbeRbfVslyrlmq/UmJS5LF
-         bGdTeKyidm3VAGdS9W/CSeYxenhXdH1w3tu+nM5D/zykpTCiTkHfXghyZe9nX1J4vr4L
-         HXoICbLTO5GPnJI4IaXBQptYkrTbQOMld8wXnt3hr/z0zi8FYume2rFsGej+BA63V48/
-         kky8tPXRuTDeERieZtH7OqEIM8ITWuTAn6ne7Yqio83TJHyjZ1InaHCVtb+GEVNYgxwV
-         bQJE5HivBBIiMQgnp9fyhY0mapfRjs7+YUwaasPxPgajS9elNNHf7lGTR1ak5klbI7Qw
-         l0vA==
-X-Gm-Message-State: AOAM531DpVQLva9NXfaHcEJQaZSgFWSsIbNTkF3imz+3+8xIqanDUstV
-	sGiRD3to1etnGzCEsXlelRlAICKH7csWxZ89EjI=
-X-Google-Smtp-Source: ABdhPJzz3GCPM+tS9a6+M7GfZUygskgS+S/HcxGkyNlHvv5PJSFF8ixpr8ONuLYhcpUTCbKIGIlu3ps94hS6aZMTaMM=
-X-Received: by 2002:a92:b711:: with SMTP id k17mr6012067ili.247.1629291748768;
- Wed, 18 Aug 2021 06:02:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111132FAE
+	for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 13:33:52 +0000 (UTC)
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 5C0CE6109E;
+	Wed, 18 Aug 2021 13:33:51 +0000 (UTC)
+Date: Wed, 18 Aug 2021 09:33:49 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>, "Gustavo
+ A. R. Silva" <gustavoars@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 50/63] tracing: Use memset_startat() to zero struct
+ trace_iterator
+Message-ID: <20210818093349.3144276b@oasis.local.home>
+In-Reply-To: <20210818060533.3569517-51-keescook@chromium.org>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+	<20210818060533.3569517-51-keescook@chromium.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-26-keescook@chromium.org>
-In-Reply-To: <20210818060533.3569517-26-keescook@chromium.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 18 Aug 2021 15:02:17 +0200
-Message-ID: <CANiq72mQQuwfpFdxeJQoKnfpUFSPuakHRm8RC+eH-xECBjwDkw@mail.gmail.com>
-Subject: Re: [PATCH v2 25/63] compiler_types.h: Remove __compiletime_object_size()
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Sedat Dilek <sedat.dilek@gmail.com>, Will Deacon <will@kernel.org>, 
-	Marco Elver <elver@google.com>, Arvind Sankar <nivedita@alum.mit.edu>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Gabriel Krisman Bertazi <krisman@collabora.com>, 
-	Andy Lutomirski <luto@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-wireless <linux-wireless@vger.kernel.org>, 
-	Network Development <netdev@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	linux-staging@lists.linux.dev, linux-block@vger.kernel.org, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	clang-built-linux <clang-built-linux@googlegroups.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 18, 2021 at 8:14 AM Kees Cook <keescook@chromium.org> wrote:
->
-> Since all compilers support __builtin_object_size(), and there is only
-> one user of __compiletime_object_size, remove it to avoid the needless
-> indirection. This lets Clang reason about check_copy_size() correctly.
+On Tue, 17 Aug 2021 23:05:20 -0700
+Kees Cook <keescook@chromium.org> wrote:
 
-Sounds good to me, the indirection is making things more complex than
-they need to be.
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+> 
+> Use memset_startat() to avoid confusing memset() about writing beyond
+> the target struct member.
+> 
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  kernel/trace/trace.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index 13587e771567..9ff8c31975cd 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -6691,9 +6691,7 @@ tracing_read_pipe(struct file *filp, char __user *ubuf,
+>  		cnt = PAGE_SIZE - 1;
+>  
+>  	/* reset all but tr, trace, and overruns */
+> -	memset(&iter->seq, 0,
+> -	       sizeof(struct trace_iterator) -
+> -	       offsetof(struct trace_iterator, seq));
+> +	memset_startat(iter, 0, seq);
 
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+I can't find memset_startat() in mainline nor linux-next. I don't see it
+in this thread either, but since this has 63 patches, I could have
+easily missed it.
 
-Cheers,
-Miguel
+This change really should belong to a patch set that just introduces
+memset_startat() (and perhaps memset_after()) and then updates all the
+places that should use it. That way I can give it a proper review. In
+other words, you should break this patch set up into smaller, more
+digestible portions for the reviewers.
+
+Thanks,
+
+-- Steve
+
+
+
+>  	cpumask_clear(iter->started);
+>  	trace_seq_init(&iter->seq);
+>  	iter->pos = -1;
+
