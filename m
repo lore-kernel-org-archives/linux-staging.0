@@ -1,95 +1,83 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CE86D38
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 14:05:27 +0000 (UTC)
-Received: by mail-ua1-f43.google.com with SMTP id x19so2672503uat.2
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 07:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
-        b=pf8lMOnxg/R18hy9RmRXn53gTyaSPBEYPRXidYbCWDeGyj1Q84GnstXRTsE70HIZwL
-         rOZaYQbJ0JsuexxwGKTbxTnmUkIeE3lCIDKi4y5M7EdG4KOJ33bce1Ym5TIJ8eyXrlgP
-         dbE7l+Rznz9FT+hME0DQqhK7lxhDgOPmbvRDcLaquo7wS/EVnyYYfbE9J5SpPQV1WnQ8
-         fXPIAlBPmH1/Wbcsr6ERwHJaV/U7LQTY8nCTXj0WtrNaCQEnZqZy2yVRdVBh7ZdPgr+l
-         lQknd5LJKpfGihHNxJOG9NmGE/fM0gVDzrjpqFwZqJoFyhmk+xoMBA6IKCATwNl/L1GC
-         MrVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
-        b=UMfMm+3XQrr7sJmZN8FTh/6VgGX/D8i/ygYPvgdHVwP/bvxGbfE+t8H1M0mPdIprhP
-         1yp4+Mgq5MqsCN1f2oxMTtKNkkIWua/yzF1UuXfcHIdySYztY05JRanzp9TeUgryveRg
-         yWN1QyZfVu0M8UqmxOZG1jlhrj8OmfchHQfVoM8Nmeyy+l1LeEAqdRccvtG8UonqCXlZ
-         4KYNfOLoxrb/zE9sjYpuObWaK9FudEI1ewTpi82WL0Trcr/EhoYy0pwT7sIAt2CHUULm
-         GavpL38Uin4JYauSSlPUZ16ZZYZQ45Zi8Xxp5qxh8AFy/n9CfZPgQ+PsIP9VKvBaAm3l
-         QySg==
-X-Gm-Message-State: AOAM532qt/t+OYr8wOwLmRjt7i3dvoGzmLpdy2/ua3wTXueX8qlbB5ji
-	ANypS+tZEmHt1g1yedpX7bvK+1k3APYK596qpyKgEA==
-X-Google-Smtp-Source: ABdhPJy/9RKTdWSvjYHKQ+0uBbarqxq9rsGLaiJcPg/kihysGVgUWTFM+D2WJBPDbj8B50jGA4KtwzpHd41jDaJSEK8=
-X-Received: by 2002:a9f:25a7:: with SMTP id 36mr11206760uaf.129.1629381926495;
- Thu, 19 Aug 2021 07:05:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9387D173
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 14:54:04 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5FAC9610A1;
+	Thu, 19 Aug 2021 14:54:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1629384844;
+	bh=NVt73+uhyzycuJMSmssj+lxbw6moSbp+k7jA2dLxJX8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0Xb0fhDgt4ezDWxhSKMQAZ7YukIXUtqenZ3/6mMryM+rU8t4Srzqbyz/Vui42QO7N
+	 wk2i7ObTpXk6hZnt3J/sRKvURV261jclrUus853dwcSZdjb+WUaBYnApaKTgw1gu7h
+	 E3Yo87xlWNx7PGMQ99Cpc+3CLYcWfHlahIPGVoSs=
+Date: Thu, 19 Aug 2021 16:54:00 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+Message-ID: <YR5wiOgWXXFqVDH+@kroah.com>
+References: <20210819124955.25540-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210817012754.8710-1-digetx@gmail.com> <20210817012754.8710-20-digetx@gmail.com>
- <YR5ay6+r0hJsUbhy@orome.fritz.box>
-In-Reply-To: <YR5ay6+r0hJsUbhy@orome.fritz.box>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 19 Aug 2021 16:04:50 +0200
-Message-ID: <CAPDyKFqr6NYO89io+6EfwrtELhTMps-tpGcAVbmuQ1_NnOD7Ew@mail.gmail.com>
-Subject: Re: [PATCH v8 19/34] pwm: tegra: Add runtime PM and OPP support
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-mmc <linux-mmc@vger.kernel.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210819124955.25540-1-fmdefrancesco@gmail.com>
 
-On Thu, 19 Aug 2021 at 15:21, Thierry Reding <thierry.reding@gmail.com> wrote:
->
-> On Tue, Aug 17, 2021 at 04:27:39AM +0300, Dmitry Osipenko wrote:
-> > The PWM on Tegra belongs to the core power domain and we're going to
-> > enable GENPD support for the core domain. Now PWM must be resumed using
-> > runtime PM API in order to initialize the PWM power state. The PWM clock
-> > rate must be changed using OPP API that will reconfigure the power domain
-> > performance state in accordance to the rate. Add runtime PM and OPP
-> > support to the PWM driver.
-> >
-> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > ---
-> >  drivers/pwm/pwm-tegra.c | 104 ++++++++++++++++++++++++++++++++--------
-> >  1 file changed, 85 insertions(+), 19 deletions(-)
->
-> Can this be safely applied independently of the rest of the series, or
-> are there any dependencies on earlier patches?
+On Thu, Aug 19, 2021 at 02:49:55PM +0200, Fabio M. De Francesco wrote:
+> Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
+> unnecessary wrappers, respectively to mutex_lock_interruptible() and
+> to mutex_unlock(). They also have an odd interface that takes an
+> unused argument named pirqL of type unsigned long.
+> Replace them with the in-kernel API. Ignore return values as it was
+> in the old code.
+> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+> 
+> v2: Ignore return values from Mutexes API.
+> 
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c     |  5 +++--
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c     |  5 +++--
+>  drivers/staging/r8188eu/include/osdep_service.h | 13 -------------
+>  drivers/staging/r8188eu/os_dep/os_intfs.c       |  5 +++--
+>  4 files changed, 9 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 5325fe41fbee..9f53cab33333 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -4359,7 +4359,8 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
+>  	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
+>  		return -1;
+>  
+> -	_enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
+> +	if (mutex_lock_interruptible(&pxmitpriv->ack_tx_mutex))
+> +		;	/*ignore return value */
 
-Just to make sure we don't rush something in, I would rather withhold
-all runtime PM related patches in the series, until we have agreed on
-how to fix the in genpd/opp core parts. Simply, because those may very
-well affect the deployments in the drivers.
+Ick, no.  (not to mention the wrong comment style...)
 
->
-> Thierry
+If this really is "criticial", why can it be interrupted?
 
-Kind regards
-Uffe
+The existing code is such that the code can be interrupted, but if it
+fails, the lock is not gotten, and the CODE CONTINUES AS IF IT IS OK!
+
+So either this is never interruptable (my guess, one almost never needs
+interruptable locks in a driver) and should just do a normal mutex lock,
+or the code is totally broken and the locking should be revisited
+entirely.
+
+But a "blind" change like this is not good, let's get it right...
+
+thanks,
+
+greg k-h
