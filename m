@@ -1,126 +1,214 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B896572
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 16:47:59 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id y144so7827306qkb.6
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 09:47:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A841B72
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 16:54:26 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id a201-20020a1c7fd2000000b002e6d33447f9so5716410wmd.0
+        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 09:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PRHyIH4ijXf+mY+7Vzztn6Pqcrl1CNKx+frAJCQ2Has=;
-        b=dvp/j6HxEOhxjJeYtRuITNLUFUiXaR12Gjf8/ktdKok1mdPSqBAuwZQe5cZNMP2mDW
-         3XfbKhK5yP5sXbvvgiRAJLySLRNXDSdWgdpIlJ+p1nb8B/xTAZATOdWzyKh3+ivgYCqx
-         8oZP3fpWWL1vXVtmf+rKQ6CTdO5XEJdXVeXt2fAqXtYhfo9t+pN17guOHmzXCrch0SjV
-         BbcNWpQeXixu5hFl3i4TO87exvR7v19wOfyomnTLv0qVBV8dT8wAG8LfOqoP7y+u3kYd
-         /SnsOmmjTd5AIZnCCCKduJeONImiY/HiZFdLHTFk9UNfDVqiBBtPTkZAeJw6idovNHIn
-         m6lA==
+         :content-disposition:in-reply-to:user-agent;
+        bh=aclyfjuOk/wnLMaKEbd24lKs07wjNB8D8fDVONKvAwc=;
+        b=c/lGCsN6DJxg4dVOdYAwVArnnLXSoiqLPRg86sjtaNd0rST/SL2r1zNT12Xza98M67
+         p2WAFotge+9e0orCQo5xhADJ8m/1ZrJ0HeuG/9nGkbZkRpyn9HaJRQVSE8gkPQbk+N3T
+         OEaFriJPzFDSPWLGrR5VRrwqHEHyrGBK9GkfSMmx3z+D9ZOaoKKVOV06OsAvv7gRkm/P
+         WUL8kbCGm+MEEbF+hPvUaIT3TkwAW/nc7+YlaL/q4ggf1Tc9zedWbhIiPQok6QN3kiqx
+         qpIL3yKJbcA6oas7ZQsTa9V4fEuv+yMkFHCqh4H2uy+07RVCGu5Lk1eTIyRGjmTNRShE
+         2aZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PRHyIH4ijXf+mY+7Vzztn6Pqcrl1CNKx+frAJCQ2Has=;
-        b=jj40kqI2X5uMX0yL/jzjGgWDtDnlSa7cPmBsQDB/dcBlY6kPbPEsDLgCmVi8kLeMEf
-         qPOtQ68oSREvA9JEnOQWuxYapiDMa4iZQjim4fZXHnPn/czj34tguxTD4WSdvv9bPVih
-         TcJbNkx48w5pBGKwIcKFpwWduTbd6JaI/4Ve8TOhkYSMJIhou5aAlNoHQBFBm9D/U7cG
-         7Oq0zm5H0o6oUQw6eGjVl4rMMqS88bBLYGFg3o3L7QdwTpijjDzhjkw36B1mVDGfh4pp
-         L8sytbKUTPWhkIyd6OyA6TLPvbhwL61sJ+S4N/dbmLloG3pvXKr9ONY2/WKWmHw5lkbV
-         tWnw==
-X-Gm-Message-State: AOAM530+Tc6rJwaS2FlR83pqMwVI4ODf7gYL1wWg8oZFyjHs7mCzjNKF
-	t5QmCEXp05cgkRr4L1kYafUApg==
-X-Google-Smtp-Source: ABdhPJwj157bJQx4yOUhNfsxgTN1x3aSuRlBknKFgP45+xvMm65JsiwY8VNQc1a5fM1ZgYeoBo5u0g==
-X-Received: by 2002:a05:620a:1221:: with SMTP id v1mr4584134qkj.357.1629391678741;
-        Thu, 19 Aug 2021 09:47:58 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id c67sm1770032qke.113.2021.08.19.09.47.58
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aclyfjuOk/wnLMaKEbd24lKs07wjNB8D8fDVONKvAwc=;
+        b=X0QZ+Topz3JA0cKyUdMDf8kcYwBEAZq7EhNZcoJmbY1LWSrD4V/lHHbQHH2DebgBsa
+         yqpD2Q8otpFRF4CVXC58EEbTrjFswMSpskXSXy2oUy7Y2M/jbE41tucTBhzDze21c32G
+         tLFPZP16fgAWSK6pdHplRhClYB7xcBy3Yi5yaroC2ag5SYC65VYwPx7ep861NxTnW8H2
+         BHjmRhd0wyyG1xhN2OEXYNGe9HAYK4l++k/3RSmwGBZUnW2Kb4BcRFvZ5MSI5oYREKIG
+         uhHLvltxTufRio0ROfyDILA9YjOb8J2jhTY9n86nAX5REPR0goTxkJf3ffOYpqRxsGSA
+         cyiA==
+X-Gm-Message-State: AOAM532BwrXTnHylwY3V2AEV9lz7JuIl1IiZHQTUrsnNwDWrcFdKaP/P
+	Yvasz7nQCwxcTAQPbxPFPYk=
+X-Google-Smtp-Source: ABdhPJyPJZuwXxLb6NwJ92Oy1eMbywPQn7wLJyIL+A4Q9LtkgBIuov/1upvaj/jx6Oywu1gSJikUIg==
+X-Received: by 2002:a1c:4c06:: with SMTP id z6mr14316666wmf.53.1629392065061;
+        Thu, 19 Aug 2021 09:54:25 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id a11sm3459358wrw.67.2021.08.19.09.54.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 09:47:58 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1mGlCv-001See-95; Thu, 19 Aug 2021 13:47:57 -0300
-Date: Thu, 19 Aug 2021 13:47:57 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	clang-built-linux@googlegroups.com,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
- mlx5_ib_mr
-Message-ID: <20210819164757.GS543798@ziepe.ca>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-57-keescook@chromium.org>
- <20210819122716.GP543798@ziepe.ca>
- <202108190916.7CC455DA@keescook>
+        Thu, 19 Aug 2021 09:54:23 -0700 (PDT)
+Date: Thu, 19 Aug 2021 18:54:22 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
+Message-ID: <YR6Mvips3HAntDy0@orome.fritz.box>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-8-digetx@gmail.com>
+ <YR0UBi/ejy+oF4Hm@orome.fritz.box>
+ <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
+ <YR04YHGEluqLIZeo@orome.fritz.box>
+ <ad99db08-4696-1636-5829-5260f93dc681@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="fB7tjCoYfoEt7dJy"
 Content-Disposition: inline
-In-Reply-To: <202108190916.7CC455DA@keescook>
+In-Reply-To: <ad99db08-4696-1636-5829-5260f93dc681@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 
-On Thu, Aug 19, 2021 at 09:19:08AM -0700, Kees Cook wrote:
-> On Thu, Aug 19, 2021 at 09:27:16AM -0300, Jason Gunthorpe wrote:
-> > On Tue, Aug 17, 2021 at 11:05:26PM -0700, Kees Cook wrote:
-> > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > field bounds checking for memset(), avoid intentionally writing across
-> > > neighboring fields.
-> > > 
-> > > Add struct_group() to mark region of struct mlx5_ib_mr that should be
-> > > initialized to zero.
-> > > 
-> > > Cc: Leon Romanovsky <leon@kernel.org>
-> > > Cc: Doug Ledford <dledford@redhat.com>
-> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > Cc: linux-rdma@vger.kernel.org
-> > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > >  drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > > index bf20a388eabe..f63bf204a7a1 100644
-> > > +++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > > @@ -644,6 +644,7 @@ struct mlx5_ib_mr {
-> > >  	struct ib_umem *umem;
-> > >  
-> > >  	/* This is zero'd when the MR is allocated */
-> > > +	struct_group(cleared,
-> > >  	union {
-> > >  		/* Used only while the MR is in the cache */
-> > >  		struct {
-> > > @@ -691,12 +692,13 @@ struct mlx5_ib_mr {
-> > >  			bool is_odp_implicit;
-> > >  		};
-> > >  	};
-> > > +	);
-> > >  };
-> > >  
-> > >  /* Zero the fields in the mr that are variant depending on usage */
-> > >  static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
-> > >  {
-> > > -	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
-> > > +	memset(&mr->cleared, 0, sizeof(mr->cleared));
-> > >  }
-> > 
-> > Why not use the memset_after(mr->umem) here?
-> 
-> I can certainly do that instead. In this series I've tended to opt
-> for groupings so the position of future struct member additions are
-> explicitly chosen. (i.e. reducing the chance that a zeroing of the new
-> member be a surprise.)
 
-I saw the earlier RDMA patches where using other memset techniques
-though? Were there flex arrays or something that made groups infeasible?
+--fB7tjCoYfoEt7dJy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Jason
+On Wed, Aug 18, 2021 at 08:11:03PM +0300, Dmitry Osipenko wrote:
+> 18.08.2021 19:42, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Wed, Aug 18, 2021 at 06:05:21PM +0300, Dmitry Osipenko wrote:
+> >> 18.08.2021 17:07, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
+> >>> [...]
+> >>>> +struct clk *tegra_clk_register(struct clk_hw *hw)
+> >>>> +{
+> >>>> +	struct platform_device *pdev;
+> >>>> +	struct device *dev =3D NULL;
+> >>>> +	struct device_node *np;
+> >>>> +	const char *dev_name;
+> >>>> +
+> >>>> +	np =3D tegra_clk_get_of_node(hw);
+> >>>> +
+> >>>> +	if (!of_device_is_available(np))
+> >>>> +		goto put_node;
+> >>>> +
+> >>>> +	dev_name =3D kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
+> >>>> +	if (!dev_name)
+> >>>> +		goto put_node;
+> >>>> +
+> >>>> +	pdev =3D of_platform_device_create(np, dev_name, NULL);
+> >>>> +	if (!pdev) {
+> >>>> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
+> >>>> +		kfree(dev_name);
+> >>>> +		goto put_node;
+> >>>> +	}
+> >>>> +
+> >>>> +	dev =3D &pdev->dev;
+> >>>> +	pm_runtime_enable(dev);
+> >>>> +put_node:
+> >>>> +	of_node_put(np);
+> >>>> +
+> >>>> +	return clk_register(dev, hw);
+> >>>> +}
+> >>>
+> >>> This looks wrong. Why do we need struct platform_device objects for e=
+ach
+> >>> of these clocks? That's going to be a massive amount of platform devi=
+ces
+> >>> and they will completely mess up sysfs.
+> >>
+> >> RPM works with a device. It's not a massive amount of devices, it's one
+> >> device for T20 and four devices for T30.
+> >=20
+> > I'm still not sure I understand why we need to call RPM functions on a
+> > clock. And even if they are few, it seems wrong to make these platform
+> > devices.
+>=20
+> Before clock is enabled, we need to raise core voltage. After clock is
+> disabled, the voltage should be dropped. CCF+RPM takes care of handling
+> this for us.
+
+That's the part that I do understand. What I don't understand is why a
+clock needs to be runtime suspend/resumed. Typically we suspend/resume
+devices, and doing so typically involves disabling/enabling clocks. So
+I don't understand why the clocks themselves now need to be runtime
+suspended/resumed.
+
+> > Perhaps they can be simple struct device:s instead? Ideally they would
+> > also be parented to the CAR so that they appear in the right place in
+> > the sysfs hierarchy.
+>=20
+> Could you please clarify what do you mean by 'simple struct device:s'?
+> These clock devices should be OF devices with a of_node and etc,
+> otherwise we can't use OPP framework.
+
+Perhaps I misunderstand the goal of the OPP framework. My understanding
+was that this was to attach a table of operating points with a device so
+that appropriate operating points could be selected and switched to when
+the workload changes.
+
+Typically these operating points would be roughly a clock rate and a
+corresponding voltage for a regulator, so that when a certain clock rate
+is requested, the regulator can be set to the matching voltage.
+
+Hm... so is it that each of these clocks that you want to create a
+platform device for has its own regulator? Because the patch series only
+mentions the CORE domain, so I assumed that we would accumulate all the
+clock rates for the clocks that are part of that CORE domain and then
+derive a voltage to be supplied to that CORE domain.
+
+But perhaps I just don't understand correctly how this is tied together.
+
+> We don't have driver for CAR to bind. I guess we could try to add a
+> 'dummy' CAR driver that will create sub-devices for the rpm-clocks, is
+> this what you're wanting?
+
+I got confused by the "tegra-clock" driver that this series was adding.
+This is actually a driver that will bind to the virtual clocks rather
+than the CAR device itself.
+
+For some reason I had assumed that you wanted to create a CAR driver in
+order to get at the struct device embedded in the CAR's platform device
+and use that as the parent for all these clocks.
+
+So even if we absolutely need some struct device for these clocks, maybe
+adding that CAR driver and making the clock struct device:s children of
+the CAR device will help keep a bit of a proper hierarchy in sysfs.
+
+Thierry
+
+--fB7tjCoYfoEt7dJy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEejLwACgkQ3SOs138+
+s6G0uxAAi5HF3oKaz4joxnoDx59LBEnAU5X2o38DOhm+0Z+W0SvoY4JXaYc4shzR
+0HHeqltwuk4WFjAIHLPs+oZdeRBnN7FonvifFOkVCnm+RmlLCXGjfmeaWnkC1+6t
+bAA7Mo+uxVCv07j+l63GFmVs7xbG8pGDdPM4ba6bsokC27Zx2ppqkU6oFhXyR1yu
+kFnZvcZo6HcXczUzizEVMpbaI0HpPY+lWjwZsdm+iCHXea/btjo7xepzOKYlzpj8
+X0C/T2wod6brm9HBkTooHyU4cvX8jJ97hDQ0yi1XrVeIAgPwQ0OvU8fVqM5TtVPl
+T6cNXpUm+2rxC+Q/L9gXCXNevTm6q1czeBqGG0VxHzA5dNpyug9quy61UlDXNkok
+o0I1hGuWXuK81vHCAqYSGCKOMZSqAxco3c83XeLLNxOZarf9/L1TCCSnnvFdmfEq
+/glJcesV2wEMofuIje+RAg5jRQO8pqMzHN+Lw1KmfnBJrQ9K+MKBfyH0aTbKHAnN
+kFM66N+AgjUgwB/sCOv0Vi3xkTstm5aGIVjF46FP9AgZpgronYTi0JNscEGOi1KG
++VbRfi/SuJHYWlkDjJjsd7I26exe4/v7WH/ZyjUgQ/8/j8TRi+oNik3O0X9gSSYj
+W9DvFcJHSbCCNPKCjsPgtQivHwW/8gnMS6zgzIvKklHiq7YnNlE=
+=fm7o
+-----END PGP SIGNATURE-----
+
+--fB7tjCoYfoEt7dJy--
