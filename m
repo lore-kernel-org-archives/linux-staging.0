@@ -1,129 +1,108 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D143172
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 18:14:39 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id t1so6663583pgv.3
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 11:14:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773B83FC2
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 19:22:33 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id s3so13212138ljp.11
+        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 12:22:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0SKhC3J984Bt9tebQiICdzNOkpC2IvMStmeSDq7Umio=;
-        b=In5/RKkUZeagC+WlIH/+8GTOktolnZ2nOKo/ztLU4GKb3NQ2UesMx/voDRhitxJ3Il
-         Q2uEJaKnZB0rqUTrZLiZbUCfzdLqI7geEfIgXgDtZHgFhj1sOKCCt2M8fUxAPIE6qxF6
-         nu5ZOvlpp/fCUnN2gB4IzsojUCiPv2CC5f3DY=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qc9LqY40K8VPn4cy7lXDOl3TOv1El5e3Y/gxS7m5eME=;
+        b=hC3osBVkhAHFY6ijA6tj/ZVEXj4mm8C8qiJBBDxHLLcT8QIpLtIjIOV0ap391G013K
+         Pjvm6isGfE0IwRoha96eBGZuTwmRw4EOxaLITdwGu2CUqodUm/0fMoZX69Su6rXdoPSW
+         KnDAT230jzPPA8v82CDwpuoPIo5oBWYWJzZkYFS/HL0nhlyxsH4zHNuNtoW7kXTbaXpx
+         vmDG0d2QEfSeroRj3esvk6VhJ3en5OZG7TJpillXmaTV1uzg1fxdILl41+2vBhKeGvTN
+         sI9RbhAEyZcsvBl3VGjBYKDs4Xn17+HgZ2dGbyF21vXJQjPXVuh1/A31kB/W87moKGGV
+         /6KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0SKhC3J984Bt9tebQiICdzNOkpC2IvMStmeSDq7Umio=;
-        b=Nx19Xkbd6onn5OfL7BEdDO7Fue/+kHiveOpd8NdqetSdocBfiXbZhsfbM4d4RyiQyE
-         WUZXlVAmK8GD/V81+IqbxZv5ZkrAfcXextq2mNKI+dLKl1Xy7c/DX/H0CuwZiD4uIqAw
-         2g0+rkqZNDD+Ky+BQK6p/KkykgYTVraAHk7pxrtTDg0g8ZtR0VbGFox0mCIOKlEuVPGA
-         IXvcLLIdZSr5yuKaSRQ9BlH2RA9Pq8DYcIruNy0B8l1Hdi+vygIJPGp/dl1GwnGuPhU5
-         CjppZwfqfm8sjEVclGTEZ5QR2wCp24s/9CzEpRc3vx8Lm4eguxbm1cYNwU8S8Gw+E9m7
-         Ai+Q==
-X-Gm-Message-State: AOAM530OBkFT/rxo7U3vd9VCRx+8u9BrNq86BnRVEaVEPbBjTyqrX1W7
-	qPUEEHt1a9yqtZsbratObHhqYw==
-X-Google-Smtp-Source: ABdhPJx7rLPAWK8oaW08eAcy09Z+Kng7KwwXX57sH1FQGYMOZHVX7jnlFFhny+ti3ng6ls1qiNUl+A==
-X-Received: by 2002:a62:8603:0:b029:3c8:3fdb:4aea with SMTP id x3-20020a6286030000b02903c83fdb4aeamr15702539pfd.6.1629396879394;
-        Thu, 19 Aug 2021 11:14:39 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y16sm4202007pfn.42.2021.08.19.11.14.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 11:14:38 -0700 (PDT)
-Date: Thu, 19 Aug 2021 11:14:37 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
-	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	clang-built-linux@googlegroups.com,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
- mlx5_ib_mr
-Message-ID: <202108191106.1956C05A@keescook>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-57-keescook@chromium.org>
- <20210819122716.GP543798@ziepe.ca>
- <202108190916.7CC455DA@keescook>
- <20210819164757.GS543798@ziepe.ca>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qc9LqY40K8VPn4cy7lXDOl3TOv1El5e3Y/gxS7m5eME=;
+        b=OBFG+weq4PhoxYSP21q7Io1hzcVho/dSHVc+MGY9uGdQlVXUfpVhtedV8oyPUCNBdY
+         d6NIy1z6MxzjeDg3N/MBIQT00Rcmm2dUFSqPR5oNu5n61jdBG7y1Yu4Ko7r84uObzsMZ
+         cuD2oEE4GD6xt/3/7Kjo1tpOVIA/gSp/f8HfD5CVAM9c6FAfhy8+q6pBA218koKMTsr/
+         rEvA9h0eOY4TNYBsDlPOE+lKXMA0McFa27vmsSwXkvfMhyN7tMcMUXZv/ULdhOqsmZA8
+         tREKwZa4aHJIduwAWAeiD4eFSMVfg9FGhsifIiewqlEwUEzDyQXf/TkeTelZPKfcdmxW
+         SpSw==
+X-Gm-Message-State: AOAM530EUmV2BImxOLmlDDs5OMrsGNwgQH6YaYMktptx2bAvCU6EEfZ/
+	+gK02sL8NOa5pPZp4/MEDuc=
+X-Google-Smtp-Source: ABdhPJwGLyngUILRxgRSJY+hMei4hEmtobUYEQW7BIvBHy1De95gmZgtLzSC6rTVlej1TL9zNmWJCQ==
+X-Received: by 2002:a05:651c:11c7:: with SMTP id z7mr8404563ljo.464.1629400951459;
+        Thu, 19 Aug 2021 12:22:31 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id y16sm435130lfl.50.2021.08.19.12.22.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Aug 2021 12:22:31 -0700 (PDT)
+Subject: Re: [PATCH] media: atomisp: restore missing 'return' statement
+To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+ Kees Cook <keescook@chromium.org>
+Cc: Arnd Bergmann <arnd@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210802143820.1150099-1-arnd@kernel.org>
+ <202108130937.7848F6B318@keescook>
+ <CAHp75VdkAO+fiiCVs=dyc2C83mZuLCQCvqs9C+6PF6JnhKDxCA@mail.gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <49b53061-f04a-3ed8-e957-5d40a0413a63@gmail.com>
+Date: Thu, 19 Aug 2021 22:22:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210819164757.GS543798@ziepe.ca>
+In-Reply-To: <CAHp75VdkAO+fiiCVs=dyc2C83mZuLCQCvqs9C+6PF6JnhKDxCA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 19, 2021 at 01:47:57PM -0300, Jason Gunthorpe wrote:
-> On Thu, Aug 19, 2021 at 09:19:08AM -0700, Kees Cook wrote:
-> > On Thu, Aug 19, 2021 at 09:27:16AM -0300, Jason Gunthorpe wrote:
-> > > On Tue, Aug 17, 2021 at 11:05:26PM -0700, Kees Cook wrote:
-> > > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> > > > field bounds checking for memset(), avoid intentionally writing across
-> > > > neighboring fields.
-> > > > 
-> > > > Add struct_group() to mark region of struct mlx5_ib_mr that should be
-> > > > initialized to zero.
-> > > > 
-> > > > Cc: Leon Romanovsky <leon@kernel.org>
-> > > > Cc: Doug Ledford <dledford@redhat.com>
-> > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > > Cc: linux-rdma@vger.kernel.org
-> > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > >  drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
-> > > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > > > index bf20a388eabe..f63bf204a7a1 100644
-> > > > +++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > > > @@ -644,6 +644,7 @@ struct mlx5_ib_mr {
-> > > >  	struct ib_umem *umem;
-> > > >  
-> > > >  	/* This is zero'd when the MR is allocated */
-> > > > +	struct_group(cleared,
-> > > >  	union {
-> > > >  		/* Used only while the MR is in the cache */
-> > > >  		struct {
-> > > > @@ -691,12 +692,13 @@ struct mlx5_ib_mr {
-> > > >  			bool is_odp_implicit;
-> > > >  		};
-> > > >  	};
-> > > > +	);
-> > > >  };
-> > > >  
-> > > >  /* Zero the fields in the mr that are variant depending on usage */
-> > > >  static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
-> > > >  {
-> > > > -	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
-> > > > +	memset(&mr->cleared, 0, sizeof(mr->cleared));
-> > > >  }
-> > > 
-> > > Why not use the memset_after(mr->umem) here?
-> > 
-> > I can certainly do that instead. In this series I've tended to opt
-> > for groupings so the position of future struct member additions are
-> > explicitly chosen. (i.e. reducing the chance that a zeroing of the new
-> > member be a surprise.)
+On 8/19/21 8:24 PM, Andy Shevchenko wrote:
+> On Fri, Aug 13, 2021 at 7:39 PM Kees Cook <keescook@chromium.org> wrote:
+>>
+>> On Mon, Aug 02, 2021 at 04:38:14PM +0200, Arnd Bergmann wrote:
+>> > From: Arnd Bergmann <arnd@arndb.de>
+>> >
+>> > The input_system_configure_channel_sensor() function lost its final
+>> > return code in a previous patch:
+>> >
+>> > drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
+>> > drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+>> >
+>> > Restore what was there originally.
+>> >
+>> > Fixes: 728a5c64ae5f ("media: atomisp: remove dublicate code")
+>> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>>
+>> I hit this too. Thanks!
+>>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
 > 
-> I saw the earlier RDMA patches where using other memset techniques
-> though? Were there flex arrays or something that made groups infeasible?
+> Me too,
+> Tested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> 
+> Pavel, how have you tested it?
+> 
 
-Which do you mean? When doing the conversions I tended to opt for
-struct_group() since it provides more robust "intentionality". Strictly
-speaking, the new memset helpers are doing field-spanning writes, but the
-"clear to the end" pattern was so common it made sense to add the helpers,
-as they're a bit less disruptive. It's totally up to you! :)
+To he honest, I didn't test it at all. It was part of application 
+processes to LFX mentoship. I really don't like style changes. Anyway, I 
+have to do it to pass the task, so, yeah, I messed up with this one ;(
 
--- 
-Kees Cook
+Also, I didn't notice when patch was applied, because I was like 2 month 
+after v3 posted. I am so sorry for this situation. Nowadays I always 
+test my patches.
+
+I was young and foolish :)
+
+
+With regards,
+Pavel Skripkin
