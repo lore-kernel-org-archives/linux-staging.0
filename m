@@ -1,49 +1,49 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99D32FAF
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 02:08:25 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id b10so9245457eju.9
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 19:08:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F592F80
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 03:14:20 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id d11so9554584eja.8
+        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 20:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ykAJKci/Ufpr9vdJPp2MKR5L112cjDKYK64qjGt7RFM=;
-        b=QpmgD5+6dl44V7U+a2cgGKaBiufDL2vuOuEZMspqZ2hNP4fc8LPaYjs88srSM8SmRW
-         01lAF4RCAf1SWOTf7SFGtUNuRi/lImrIkiyeG8ksexESiy/hmg4vehaJpfQnCM3CxFGc
-         fAUQ2KVHSLXTTDXJjJz9whLBHw3ADjV6ZD7myny668cFA1HpAkYplUTlw9ZORYq0T4I/
-         w7xKJdXTRI6GbaOjX1+my+UKnq8J1/vJYcIJv4GOxqVr3ILjB3waFtbn+dpYgWLJSnZC
-         AZYlOCVVSNJaeuSifMFQIJ2FOlR2rmiiuQ/3y2AeUXazk+nqBXEsGR97eQff3V12ELtX
-         1ZTg==
+        bh=Al99W6tKyxYHjbJ2Qjp5kd15/Fm62/1U7Do8PSyEWXg=;
+        b=EO2bvA+kQXMWrCqWzca5o/U+vXXRSESK+ih0tu4JNs2dn3wf0+N+mNdrzYw3KEQUYf
+         a8jY988/KdWqnHhpi/BVgsn3FazvDXe4ylOo++mPGrc9XA9XHDLIM8bZDiBZrLBQH55I
+         6HfacOnxvuM0tfRHdC5dGQ/hqOhSrW2Ymoj9R7bDT5W/frf5Gls55bbDbCdIIgcDkc0k
+         2iwfUKX0SN2arIFJjA7Av0CzamYqNTSjYUZYZK8J1j/LFL6sQoc5yfj2kMnQDwM8FAYS
+         arrbw295YuvpxVaUuXNXJMB5G1SP0ynvsr3Rcj6XuFFfO9FzACJcqH9bLt98hF/KrPLg
+         rDFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ykAJKci/Ufpr9vdJPp2MKR5L112cjDKYK64qjGt7RFM=;
-        b=Qrsv72qlLKC1+b9nOZ+slFhmDrct/REKwL5cnZ7MC/QHdpWDwiEzTTBreeNVzxMpmI
-         KcaQwYdyuuGhiEKcQMNeTTi3HAR/23+ycPtoaaRVSyB/UuHYEHAHh3DZ5r5Mi4rDLh9N
-         8y09JwlmhvBoTthB7RFiOQRJ57Gy3rhypDpoZe+4002zL1a/Cj6RhYyNFShucOpCiJDa
-         /5KAgm157dkMIxFCV9TzQFwKNhEUpcgvBY3GNFGXp1IzsQVjGgAD16Sx72ceynOXxqBz
-         xQlEYS5ECx+OicEOt4XPbgimVGD85PI7j2mFH6U87yctQGCxujgwK5p2DX7K000qLXxH
-         GFzA==
-X-Gm-Message-State: AOAM531XUC4s048iPUpN4RX595ms2pQH+m9ZDGBdODgMuecoqJEVBrRJ
-	jDDZGkr+BKQE8L6faAqIMTk=
-X-Google-Smtp-Source: ABdhPJxxMPQ+Guy8yPOnGxOUTKb+QAbUFpCqFVriswiJC31+367k7CtB1FJ7Hs3s5CgrWYqtFc/9Ow==
-X-Received: by 2002:a17:906:5045:: with SMTP id e5mr13212652ejk.239.1629338904218;
-        Wed, 18 Aug 2021 19:08:24 -0700 (PDT)
+        bh=Al99W6tKyxYHjbJ2Qjp5kd15/Fm62/1U7Do8PSyEWXg=;
+        b=f9IHQtHistyaDRaNzUp+JRsGJ0JhkkNPWYoQlmp/p5dn86Q7irKCaDMMsX7cebCvvB
+         x33S0nveQVs0UFj6oyoae+J7+mHMfoimoypsBxT97KuXt5dSkWJsBRi5zeXfUzdoOvYI
+         151FbVfrbyKpleDprrOd/ZSYR823z1G2sq76a5bvxs+9lfGAoYNZhR4LKvFeICy88bJi
+         mBqO1FKrEK1i8Zek6guKYcX9Q4HutlcjquGAIXnIGXpks4d0rQHoYS4gI/BWT+lpRnKm
+         J7u2+9KfAzj+4uA1MPY5129hM29pPEmd0x4fTya1yjWbwOTYYEabZai5srTqMi8MNSE9
+         fKKg==
+X-Gm-Message-State: AOAM531fTh8V6ZXyMMZYaaWrBXXgRP5XssgYzW9H0CellgUF2bjiExDE
+	CzzstPsv6ERnZz4A2xCcKqQ=
+X-Google-Smtp-Source: ABdhPJz495JBMb4ph6mVEuwYysnbQqtbSvnEwWe2aT/rYtAmQiyFG3mVOol2uLUwSb0536EHwwiHMw==
+X-Received: by 2002:a17:906:eb53:: with SMTP id mc19mr13270707ejb.22.1629342859257;
+        Wed, 18 Aug 2021 20:14:19 -0700 (PDT)
 Received: from localhost.localdomain (host-79-22-109-211.retail.telecomitalia.it. [79.22.109.211])
-        by smtp.gmail.com with ESMTPSA id b5sm584925ejq.56.2021.08.18.19.08.22
+        by smtp.gmail.com with ESMTPSA id g10sm630356ejj.44.2021.08.18.20.14.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 19:08:23 -0700 (PDT)
+        Wed, 18 Aug 2021 20:14:18 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: gregkh@linuxfoundation.org, Phillip Potter <phil@philpotter.co.uk>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, martin@kaiser.cx, straube.linux@gmail.com, Larry.Finger@lwfinger.net
-Subject: Re: [PATCH 5/6] staging: r8188eu: remove function rtw_hal_free_xmit_priv
-Date: Thu, 19 Aug 2021 04:08:22 +0200
-Message-ID: <3499069.ykxA73u1ES@localhost.localdomain>
-In-Reply-To: <20210818234253.208271-6-phil@philpotter.co.uk>
-References: <20210818234253.208271-1-phil@philpotter.co.uk> <20210818234253.208271-6-phil@philpotter.co.uk>
+Subject: Re: [PATCH 6/6] staging: r8188eu: remove free_xmit_priv field from struct hal_ops
+Date: Thu, 19 Aug 2021 05:14:17 +0200
+Message-ID: <3280989.scCUJ3VkD9@localhost.localdomain>
+In-Reply-To: <20210818234253.208271-7-phil@philpotter.co.uk>
+References: <20210818234253.208271-1-phil@philpotter.co.uk> <20210818234253.208271-7-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,30 +53,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Thursday, August 19, 2021 1:42:52 AM CEST Phillip Potter wrote:
-> Remove function rtw_hal_free_xmit_priv in hal/hal_intf.c and its
-> declaration in include/hal_intf.h, as well as the single call line in
-> core/rtw_xmit.c. This function now essentially checks a function
-> pointer which will always be NULL (due to previous patches) and
-> therefore will never be called.
+On Thursday, August 19, 2021 1:42:53 AM CEST Phillip Potter wrote:
+> Remove free_xmit_priv function pointer field from struct hal_ops definition
+> in include/hal_intf.h, as it is now no longer used anywhere in the driver.
 > 
 > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 > ---
->  drivers/staging/r8188eu/core/rtw_xmit.c    | 2 --
->  drivers/staging/r8188eu/hal/hal_intf.c     | 6 ------
 >  drivers/staging/r8188eu/include/hal_intf.h | 1 -
->  3 files changed, 9 deletions(-)
+>  1 file changed, 1 deletion(-)
 
-It looks good. 
+This entry could have been removed in patch 4/6 or 5/6, but I guess 
+it's okay to do that here as well. Perhaps the three patches from 4/6 
+to 6/6 could have been merged into one (because since 4/6 was 
+immediately clear that this operation has no use at all).
 
-Built with "make C=2 -j8 drivers/staging/r8188eu/ W=1"
-on x86-64, it does not introduce errors or new warnings, so...
+Aside from the above considerations, it looks good. So...
 
-Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Acked by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
 Thanks,
 
 Fabio
+
 
 
 
