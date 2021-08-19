@@ -1,136 +1,157 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21B972
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 10:16:06 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id u3so11839681ejz.1
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 03:16:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0956C6D1B
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 11:23:04 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id v2so8291824edq.10
+        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 04:23:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OObiD9tfxs+s0iJrcszx/14HnrEBww2v71TAAgjIBnY=;
-        b=fbehOLG3kvr6qqkot/u6Oufc9xBr2WwKQBpnfDVd5gxR8ORjn65b1Gqp5D70M2QZzB
-         h9uh8M5WI5+3QrbtBjb1WGeSj0EMKzHNyx4dh4AnvdmKicPclg7wXUXOQrfWmKt5iqva
-         ghmf8o4qzk15CBvOS4mJVGc+g0bcqyH2rd4xL3epMqsZm/CPYbAk9l09ORkJ8NJBdpmy
-         20pd8UJSyxTs12vYtfqAOcfPQKtBhSf9bAiz/E99zqf6FA/qgiLDCvbro4YPhx7IBBiw
-         z2PlwC18ub9u7XUjGR/0iXCqgaPWcRzaeQeeiBMVxCJyZ8WoADYMxSQxj6+1pG+lT9Wo
-         /FMA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=buu5/LlT/wY8R2dObdowDUNyc0UUwmBR3hVh0l4eAaY=;
+        b=dWlPrs/iV+Sfjk+sXEPdm9O+hxfCpx2tf/7j18yjciuWVYIRq9PoehDuQzPCKgSBQ9
+         fbEHh1Aut1qAoW9/M6BscFkKwvcT1869EWioEvws+YGQwpEpENFNoXg9gfDbON/Gtdfr
+         iJzq97aYg8jKzdBOObly/zli1nkN7JtQGUaxxyclMTVRKSKFSlYff/crjmGZi00Y4P/t
+         0N1o/KxX/pF2ZaoX2lperFL1AaZU8au63cSazLgZ8fWQdYFShry6tPRifD5z+gcZ5+H1
+         MoKapsOwwtjGDCgQsRnes+C06ZIno04376ZxcEW4rSi/ZhjZC1GPKKuPvHiMOf8Pm7eD
+         x0vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OObiD9tfxs+s0iJrcszx/14HnrEBww2v71TAAgjIBnY=;
-        b=dzVk8dUPfm5YjAHCVvaVixst2GUTe3x42axH5HxX0QICZNikRV5LKJhwcvaEBm9OSK
-         zIPhX+19x47hRJf/SZQYr9OOurw1lTtkFoiWCz1E6mfbOGJrLMsX7xa9ON/rJqi8+zyp
-         DZVKCI5OXPEZDZyzuBj1IwS+x51Q12hIUIvOC7w6SLtJIa0XqBm12ExgdailRPFrOkpa
-         OELdoWmUFN5eUWafybK5pWMYfQpU8RT+wXmDmV8OYR/p5ctBzTH4RTIufu3yP2/uuWeM
-         Uc4EKl6IvpgaoTixImMUE7lu13zO7b6p5R7j6tlOsOUmbzYiEYrETOTabvtTv8cdxIbr
-         a6Vg==
-X-Gm-Message-State: AOAM530tQ1qOmET4qagbvrOz353MoOtzFIN9LXXO19CE/zOyau6/+KHv
-	q51X35nFxg+CWnuBV4NhQ8U=
-X-Google-Smtp-Source: ABdhPJwqFE3r/g7wpG5lgxYD34pDQhp9o+vfOXzd8BR7z69QZ8n26RhlItY/M+EBM4ObnLuO4p/2Hw==
-X-Received: by 2002:a17:907:3f14:: with SMTP id hq20mr14847440ejc.370.1629368165250;
-        Thu, 19 Aug 2021 03:16:05 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id br16sm1068789ejb.34.2021.08.19.03.16.04
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=buu5/LlT/wY8R2dObdowDUNyc0UUwmBR3hVh0l4eAaY=;
+        b=JnPd1AzG2/oCIn/VGHsU3A8XeNBMt0yifVZQ8U1vuHDdsPneC0NaAtD9Rqyc6Wg5Q9
+         0aZQIDmtm8+wFFRp0dwz8wkdUsmhtrcgodjLEK25j4kkLC4sJo1vEymiLYWoZvTkL3+c
+         eHYsiZTyZ2UGsIwvUzH1wAyyjLUIHPdjAnlXxGM3YYozKlSiI+YJsCb+neLLcvV4/mAw
+         dR9lIOiOcTZ45ww4ppkQZgR1gJb54N0HTYs1VxkxaxVSRQD7mc8hx0n2bCVSeuSGrpOA
+         y4N8ddaTHsQ1oLkjlzEFfGt5554ZnNKVG2clnSyjFs6/CL2qGrXGU+uN5pMGvopKAUck
+         f5dQ==
+X-Gm-Message-State: AOAM530QG6SucuET4HfxkKpjMtNvw4p/leqkbhJB/0dHccvZiSjMAYLY
+	vvzwWKUgNOpdHh02PQbV23I=
+X-Google-Smtp-Source: ABdhPJx6LwVW66OMnQDje5jQ/X2gCu4rPMjTB1PlokMMKVXBaToJn5ZUBMPPXwoB7wyoockaiT0K3g==
+X-Received: by 2002:aa7:d147:: with SMTP id r7mr15701438edo.148.1629372183426;
+        Thu, 19 Aug 2021 04:23:03 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::4058])
+        by smtp.gmail.com with ESMTPSA id d23sm1563046edt.39.2021.08.19.04.23.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 03:16:04 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Remove _enter/_exit_critical_mutex()
-Date: Thu, 19 Aug 2021 12:16:03 +0200
-Message-ID: <2072985.qfodHclbUl@localhost.localdomain>
-In-Reply-To: <4394431.3q0Da8apZE@localhost.localdomain>
-References: <20210819060837.23983-1-fmdefrancesco@gmail.com> <YR36fT6bpiVoo2lM@kroah.com> <4394431.3q0Da8apZE@localhost.localdomain>
+        Thu, 19 Aug 2021 04:23:03 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove unused function rtw_add_bcn_ie()
+Date: Thu, 19 Aug 2021 13:21:59 +0200
+Message-Id: <20210819112200.32030-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Thursday, August 19, 2021 9:07:20 AM CEST Fabio M. De Francesco wrote:
-> On Thursday, August 19, 2021 8:30:21 AM CEST Greg Kroah-Hartman wrote:
-> > On Thu, Aug 19, 2021 at 08:08:37AM +0200, Fabio M. De Francesco wrote:
-> > > Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
-> > > unnecessary wrappers, respectively to mutex_lock_interruptible and to
-> > > mutex_unlock(). They also have an odd interface that takes an unused
-> > > second parameter "unsigned long *pirqL".
-> > > 
-> > > Use directly the in-kernel API; check and manage the return value of
-> > > mutex_lock_interruptible().
-> > > 
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > >  drivers/staging/r8188eu/core/rtw_mlme_ext.c     |  5 +++--
-> > >  drivers/staging/r8188eu/hal/usb_ops_linux.c     |  7 +++++--
-> > >  drivers/staging/r8188eu/include/osdep_service.h | 13 -------------
-> > >  drivers/staging/r8188eu/os_dep/os_intfs.c       |  5 +++--
-> > >  4 files changed, 11 insertions(+), 19 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> > > index f6ee72d5af09..484083468ebb 100644
-> > > --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> > > +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> > > @@ -4358,7 +4358,8 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
-> > >  	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
-> > >  		return -1;
-> > >  
-> > > -	_enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
-> > > +	if (mutex_lock_interruptible(&pxmitpriv->ack_tx_mutex))
-> > > +		return -EINTR;
-> > 
-> > But the code never would return this value if the lock function returned
-> > an error.  Why do that here now?
+Function rtw_add_bcn_ie() is not used anywhere, remove it.
 
-Ah, now I think I understand what you asked me ... sorry for not having 
-immediately grasped the meaning of your objection. :(
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c    | 63 ------------------------
+ drivers/staging/r8188eu/include/rtw_ap.h |  2 -
+ 2 files changed, 65 deletions(-)
 
-I guess you wanted to know why I decided to check and handle the 
-return values of mutex_lock_interruptible (), as the original code didn't. 
-Did I understand the correct meaning of your question?
-
-If so, now I can explain why I did it ...
-
-A few months ago I did the conversion of the visorhba (Unisys) driver from 
-IDR to XArray. Since the old code did not check IDR API return values, I had 
-decided not to check for XArray API return values as well.
-
-Then Dan C. asked me to implement the checks that were missing in the 
-original code. So, today I decided to implement them before I was asked 
-to do it. Now it's clear that in this case they are not needed.
-
-That's all. :-)
-
-I'm about to send a v2 without those unnecessary checks.
-
-Thanks,
-
-Fabio
-
-> I read from the documentation that "[mutex_lock_interruptible()] Return: 0 if 
-> the lock was successfully acquired or -EINTR if a signal arrived.". 
-> 
-> After reading that, I thought that if I got -EINTR I should return it. Shouldn't I?
-> 
-> Now I've just checked its usage pattern in another file where we have exactly 12
-> times the same management of the error (the example I'm talking about is in
-> drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c):
-> 
-> "if (mutex_lock_interruptible(&instance->vchiq_mutex))
->                 return -EINTR;".
-> 
-> Unless you mean that I should return the "ret" variable, which is already set to 
-> "_FAIL", I am really confused. Please, can you further elaborate what I'm doing 
-> wrong?
-> 
-> Thanks,
-> 
-> Fabio
-
-
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index 1127e9a52458..0237b7f8e42f 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -139,69 +139,6 @@ static void update_BCNTIM(struct adapter *padapter)
+ 	set_tx_beacon_cmd(padapter);
+ }
+ 
+-void rtw_add_bcn_ie(struct adapter *padapter, struct wlan_bssid_ex *pnetwork, u8 index, u8 *data, u8 len)
+-{
+-	struct ndis_802_11_var_ie *pIE;
+-	u8 bmatch = false;
+-	u8 *pie = pnetwork->IEs;
+-	u8 *p = NULL, *dst_ie = NULL, *premainder_ie = NULL;
+-	u8 *pbackup_remainder_ie = NULL;
+-	u32 i, offset, ielen = 0, ie_offset, remainder_ielen = 0;
+-
+-	for (i = sizeof(struct ndis_802_11_fixed_ie); i < pnetwork->IELength;) {
+-		pIE = (struct ndis_802_11_var_ie *)(pnetwork->IEs + i);
+-
+-		if (pIE->ElementID > index) {
+-			break;
+-		} else if (pIE->ElementID == index) { /*  already exist the same IE */
+-			p = (u8 *)pIE;
+-			ielen = pIE->Length;
+-			bmatch = true;
+-			break;
+-		}
+-		p = (u8 *)pIE;
+-		ielen = pIE->Length;
+-		i += (pIE->Length + 2);
+-	}
+-
+-	if (p && ielen > 0) {
+-		ielen += 2;
+-
+-		premainder_ie = p + ielen;
+-
+-		ie_offset = (int)(p - pie);
+-
+-		remainder_ielen = pnetwork->IELength - ie_offset - ielen;
+-
+-		if (bmatch)
+-			dst_ie = p;
+-		else
+-			dst_ie = (p + ielen);
+-	}
+-
+-	if (remainder_ielen > 0) {
+-		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
+-		if (pbackup_remainder_ie && premainder_ie)
+-			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
+-	}
+-
+-	*dst_ie++ = index;
+-	*dst_ie++ = len;
+-
+-	memcpy(dst_ie, data, len);
+-	dst_ie += len;
+-
+-	/* copy remainder IE */
+-	if (pbackup_remainder_ie) {
+-		memcpy(dst_ie, pbackup_remainder_ie, remainder_ielen);
+-
+-		kfree(pbackup_remainder_ie);
+-	}
+-
+-	offset =  (uint)(dst_ie - pie);
+-	pnetwork->IELength = offset + remainder_ielen;
+-}
+-
+ void rtw_remove_bcn_ie(struct adapter *padapter, struct wlan_bssid_ex *pnetwork, u8 index)
+ {
+ 	u8 *p, *dst_ie = NULL, *premainder_ie = NULL;
+diff --git a/drivers/staging/r8188eu/include/rtw_ap.h b/drivers/staging/r8188eu/include/rtw_ap.h
+index b20edab3bb00..fffb6794b1ce 100644
+--- a/drivers/staging/r8188eu/include/rtw_ap.h
++++ b/drivers/staging/r8188eu/include/rtw_ap.h
+@@ -16,8 +16,6 @@ void rtw_indicate_sta_disassoc_event(struct adapter *padapter,
+ 				     struct sta_info *psta);
+ void init_mlme_ap_info(struct adapter *padapter);
+ void free_mlme_ap_info(struct adapter *padapter);
+-void rtw_add_bcn_ie(struct adapter *padapter, struct wlan_bssid_ex *pnetwork,
+-		    u8 index, u8 *data, u8 len);
+ void rtw_remove_bcn_ie(struct adapter *padapter,
+ 		       struct wlan_bssid_ex *pnetwork, u8 index);
+ void update_beacon(struct adapter *padapter, u8 ie_id,
+-- 
+2.32.0
 
