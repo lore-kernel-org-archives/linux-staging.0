@@ -1,283 +1,152 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198463FC2
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 19:36:01 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id i28so15303105lfl.2
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 12:36:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5C33FC2
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 19:54:49 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id by4so10614317edb.0
+        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 12:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DULWQbyXgQID8PNJR65q3ui7SrWpcCN+90FL5qtDGW4=;
-        b=pavH6Or3hHtiPfMvi8hlpl/tg+4iNkFsKU223QQBDdOUdi6iU/UGWUvtDPrwHRvATY
-         T93cP1HXuc5W/zHN7xvpRXKJW7BinJL9sVNA6qZxjeijHdmFtCqxrxnpd+WkEHRtVU0B
-         Iyqua5rSNmWSDpSD3gZsArfjTWgs81iBNdQYXU+kNJ+OumOnoCaZh+LP24EMz52MwP27
-         4AWCJslbtOmcFHBYAOMwZEDrmTB/tzURM30c4z+24S3Lj2lVdIHxSFuPOnhXpzmvotQF
-         wvsrbFpOMxH2mR1ZpXZ7XMAP/i3UFW88iZgByQUfkdB9/YhjC/JuWWWMJqO4edcr+32D
-         1LbA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LdPJqUzTL2bla6o5m8emr68PiRiwMbtm4VxJ8aYSnJI=;
+        b=Go0zo6OpZx6zkBFoWqRkkGqGLYF1z+tpF+Yjoi3qfLlP7b0p5QlEWCUlRAWX7UACZ+
+         oKX+CFTioduno/XaVrFXAWBmnHDIetZa1ZfEt/aucUP8R2F09+MHPNhhD9sJQCpMovfR
+         Ckzo5dIOEcuQjvfjMCKRD6CuPhigfbLjlp3tJLwLZ1seNDOuPuzDocIbNDL0CvsJtpKj
+         tvlWU6XWu3uL/VNGAMJXzsFUjGhWjGW5hOX58r/LZ05UGsPiZHDfQe/pL99f8AAmJVP5
+         Hag6s15f83tcPawCNh8TCfMGcJ16ZUL3KKQUMFGJNzVfbWknHNtr1Qg+w3Jd2KIa2JqQ
+         ln7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DULWQbyXgQID8PNJR65q3ui7SrWpcCN+90FL5qtDGW4=;
-        b=cFF89ozwSbz5AIXh91aplufvBdWz7+Bl/Kx+vXnVP0tWoCsZN67EsIPgSU3PXlIPYg
-         Fz7X1PwL1tsh6KA7zkMW3WrFsvg8Q9ZmxRSUnkG6emKdTnQ2ZIZheAe1YfkkfKuYyAsA
-         Z+aO25ZamNbbt5RA8ovJQj6HjL9gGTQXWm7AF2b9kM9eIZasc9QV0a/pfMFDR62fv9uE
-         iv7pEzzwHzzw4BfZpiFINjbBvNVbd3CJodEKlzo+yA75Sn/KIXsyUep7g5PCFkqEruDE
-         1JZaJyUMuqBMJ0EXLHHOXEH8nRH5DFYOG/9EAprKgnhPlWTOBMOBQwh2//REJo1WaS19
-         7Gcw==
-X-Gm-Message-State: AOAM532NGxyK3/bX++JYY+nkLtyFYoL0FThLeN3IjCLEjEUwqWZP6FTx
-	/vo4zLMCKRmMdAdpthkAvOo=
-X-Google-Smtp-Source: ABdhPJz8kaZlUqWZzmjPF+roXrLNhHc7Bu21Y9J69HyMCnrDHOaQ6jNYy2BIrPwa/yg8Go50EqboLQ==
-X-Received: by 2002:a05:6512:23aa:: with SMTP id c42mr11397932lfv.55.1629401759119;
-        Thu, 19 Aug 2021 12:35:59 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
-        by smtp.googlemail.com with ESMTPSA id l24sm396141lfe.272.2021.08.19.12.35.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Aug 2021 12:35:58 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-References: <20210818043131.7klajx6drvvkftoc@vireshk-i7>
- <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <20210818095044.e2ntsm45h5cddk7s@vireshk-i7>
- <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
- <0354acbe-d856-4040-f453-8e8164102045@gmail.com>
- <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <87073fc2-d7b3-98f4-0067-29430ea2adef@gmail.com>
-Date: Thu, 19 Aug 2021 22:35:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LdPJqUzTL2bla6o5m8emr68PiRiwMbtm4VxJ8aYSnJI=;
+        b=DpLX82Q/ebYAUVvobWnUZXHPOISj9jXcYbDG7JxBsLB30wZN4P85cPv08ezmCiJkhW
+         dAW4WT/s+3R0G/lzysPr+XqTwcTpYt5nOUUURpIGb/Ngb7qCXqD5QAM4QphANgHLrhs/
+         wxKSBej1CjSwVa5O1lEicf+6qmdcuJOuwUWbMm3KCKjmdYI6YSz9cRtKcwoU5ymsBkcB
+         6DUnNLs9YwVebOT959sm1pURVrhcSMumZ7nSblWtLoPGT2hPa3v4y0CJibHF51jhK2tx
+         cPoPs1yhVvSFLmUjLzItnoOuAKFdximSNFcDHsxbLBWa3V4RXKvbWwv4ME+GpvnjBFMp
+         U2XQ==
+X-Gm-Message-State: AOAM530dxUUrvJNsqzwLa2E5QwCyWmIyu7CRwqY4J1vyDCoCtX+xBQq5
+	XNdr73baItJE69TNheNCQkQ=
+X-Google-Smtp-Source: ABdhPJzZUVQuabzx+Km5OlD9feqJ0uV9LNd7LSIqp3kU4U/7m7B8ur7iwnPhsWq/18VGP7RJ8JCbIw==
+X-Received: by 2002:a05:6402:1515:: with SMTP id f21mr18559310edw.45.1629402888214;
+        Thu, 19 Aug 2021 12:54:48 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id z6sm2283930edc.52.2021.08.19.12.54.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Aug 2021 12:54:47 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+Date: Thu, 19 Aug 2021 21:54:46 +0200
+Message-ID: <2580811.joLFa7Ctqg@localhost.localdomain>
+In-Reply-To: <YR5wiOgWXXFqVDH+@kroah.com>
+References: <20210819124955.25540-1-fmdefrancesco@gmail.com> <YR5wiOgWXXFqVDH+@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-19.08.2021 16:07, Ulf Hansson пишет:
-> On Wed, 18 Aug 2021 at 17:43, Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 18.08.2021 13:08, Ulf Hansson пишет:
->>> On Wed, 18 Aug 2021 at 11:50, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>>>
->>>> On 18-08-21, 11:41, Ulf Hansson wrote:
->>>>> On Wed, 18 Aug 2021 at 11:14, Viresh Kumar <viresh.kumar@linaro.org> wrote:
->>>>>> What we need here is just configure. So something like this then:
->>>>>>
->>>>>> - genpd->get_performance_state()
->>>>>>   -> dev_pm_opp_get_current_opp() //New API
->>>>>>   -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
->>>>>>
->>>>>> This can be done just once from probe() then.
->>>>>
->>>>> How would dev_pm_opp_get_current_opp() work? Do you have a suggestion?
->>>>
->>>> The opp core already has a way of finding current OPP, that's what
->>>> Dmitry is trying to use here. It finds it using clk_get_rate(), if
->>>> that is zero, it picks the lowest freq possible.
->>>>
->>>>> I am sure I understand the problem. When a device is getting probed,
->>>>> it needs to consume power, how else can the corresponding driver
->>>>> successfully probe it?
->>>>
->>>> Dmitry can answer that better, but a device doesn't necessarily need
->>>> to consume energy in probe. It can consume bus clock, like APB we
->>>> have, but the more energy consuming stuff can be left disabled until
->>>> the time a user comes up. Probe will just end up registering the
->>>> driver and initializing it.
->>>
->>> That's perfectly fine, as then it's likely that it won't vote for an
->>> OPP, but can postpone that as well.
->>>
->>> Perhaps the problem is rather that the HW may already carry a non-zero
->>> vote made from a bootloader. If the consumer driver tries to clear
->>> that vote (calling dev_pm_opp_set_rate(dev, 0), for example), it would
->>> still not lead to any updates of the performance state in genpd,
->>> because genpd internally has initialized the performance-state to
->>> zero.
->>
->> We don't need to discover internal SoC devices because we use
->> device-tree on ARM. For most devices power isn't required at a probe
->> time because probe function doesn't touch h/w at all, thus devices are
->> left in suspended state after probe.
->>
->> We have three components comprising PM on Tegra:
->>
->> 1. Power gate
->> 2. Clock state
->> 3. Voltage state
->>
->> GENPD on/off represents the 'power gate'.
->>
->> Clock and reset are controlled by device drivers using clk and rst APIs.
->>
->> Voltage state is represented by GENPD's performance level.
->>
->> GENPD core assumes that at a first rpm-resume of a consumer device, its
->> genpd_performance=0. Not true for Tegra because h/w of the device is
->> preconfigured to a non-zero perf level initially, h/w may not support
->> zero level at all.
+On Thursday, August 19, 2021 4:54:00 PM CEST Greg Kroah-Hartman wrote:
+> On Thu, Aug 19, 2021 at 02:49:55PM +0200, Fabio M. De Francesco wrote:
+> > Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
+> > unnecessary wrappers, respectively to mutex_lock_interruptible() and
+> > to mutex_unlock(). They also have an odd interface that takes an
+> > unused argument named pirqL of type unsigned long.
+> > Replace them with the in-kernel API. Ignore return values as it was
+> > in the old code.
+> > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> > 
+> > v2: Ignore return values from Mutexes API.
+> > 
+> >  drivers/staging/r8188eu/core/rtw_mlme_ext.c     |  5 +++--
+> >  drivers/staging/r8188eu/hal/usb_ops_linux.c     |  5 +++--
+> >  drivers/staging/r8188eu/include/osdep_service.h | 13 -------------
+> >  drivers/staging/r8188eu/os_dep/os_intfs.c       |  5 +++--
+> >  4 files changed, 9 insertions(+), 19 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> > index 5325fe41fbee..9f53cab33333 100644
+> > --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> > +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> > @@ -4359,7 +4359,8 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
+> >  	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
+> >  		return -1;
+> >  
+> > -	_enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
+> > +	if (mutex_lock_interruptible(&pxmitpriv->ack_tx_mutex))
+> > +		;	/*ignore return value */
 > 
-> I think you may be misunderstanding genpd's behaviour around this, but
-> let me elaborate.
+> Ick, no.  (not to mention the wrong comment style...)
 > 
-> In genpd_runtime_resume(), we try to restore the performance state for
-> the device that genpd_runtime_suspend() *may* have dropped earlier.
-> That means, if genpd_runtime_resume() is called prior
-> genpd_runtime_suspend() for the first time, it means that
-> genpd_runtime_resume() will *not* restore a performance state, but
-> instead just leave the performance state as is for the device (see
-> genpd_restore_performance_state()).
+> If this really is "criticial", why can it be interrupted?
 > 
-> In other words, a consumer driver may use the following sequence to
-> set an initial performance state for the device during ->probe():
+> The existing code is such that the code can be interrupted, but if it
+> fails, the lock is not gotten, and the CODE CONTINUES AS IF IT IS OK!
+
+This was perfectly clear. The old code ignored -EINTR and, in case when
+blocking to wait for the lock to become available is interrupted (although
+I really don't know how - a signal to a driver? I guess it cannot happen) it
+continues to execute in the critical region so leading to potential race 
+conditions.
+
+This is what I get and I guess I'm not too far from the truth... Did I get it
+right?
+ 
+> So either this is never interruptable (my guess, one almost never needs
+> interruptable locks in a driver) 
+
+This is what I think, why interruptible locks in a driver? I suppose that they
+should only be used when the kernel executes on behalf of a process. 
+
+> and should just do a normal mutex lock,
+> or the code is totally broken and the locking should be revisited
+> entirely.
+
+My guess is that the code that is waiting to acquire a lock could *really*
+be interrupted should manage that interruption without falling blindly
+in the critical region and we have two ways to do that:
+
+1) return -EINTR to the caller which should manage that error by retrying
+the acquisition, or
+
+2) retry in a loop inside the callee, avoiding to proceed to the critical section
+without an acquired mutex.
+
+A third option is using mutex_lock() (uninterruptible), which I would prefer
+if I were absolutely sure that nothing could interrupt waiting for acquiring
+the lock. 
+
+I have to look at how other drivers manage similar cases, although I'm 
+pretty convinced that a simple mutex_lock() should be fine here.
+
+Thanks,
+
+Fabio
+
+> But a "blind" change like this is not good, let's get it right...
+
+I agree, let me take some time to investigate what are the best practices 
+that the kernel implements in cases like this. What I'm sure at the moment is 
+that the old code, as-is, is broken.
+
+Thanks,
+
+Fabio
+ 
+> thanks,
 > 
-> ...
-> rate = clk_get_rate()
-> dev_pm_opp_set_rate(rate)
+> greg k-h
 > 
-> pm_runtime_enable()
-> pm_runtime_resume_and_get()
-> ...
-> 
-> Note that, it's the consumer driver's responsibility to manage device
-> specific resources, in its ->runtime_suspend|resume() callbacks.
-> Typically that means dealing with clock gating/ungating, for example.
-> 
-> In the other scenario where a consumer driver prefers to *not* call
-> pm_runtime_resume_and_get() in its ->probe(), because it doesn't need
-> to power on the device to complete probing, then we don't want to vote
-> for an OPP at all - and we also want the performance state for the
-> device in genpd to be set to zero. Correct?
 
-Yes
 
-> Is this the main problem you are trying to solve, because I think this
-> doesn't work out of the box as of today?
-
-The main problem is that the restored performance state is zero for the
-first genpd_runtime_resume(), while it's not zero from the h/w perspective.
-
-> There is another concern though, but perhaps it's not a problem after
-> all. Viresh told us that dev_pm_opp_set_rate() may turn on resources
-> like clock/regulators. That could certainly be problematic, in
-> particular if the device and its genpd have OPP tables associated with
-> it and the consumer driver wants to follow the above sequence in
-> probe.
-
-dev_pm_opp_set_rate() won't enable clocks and regulators, but it may
-change the clock rate and voltage. This is also platform/driver specific
-because it's up to OPP user how to configure OPP table. On Tegra we only
-assign clock to OPP table, regulators are unused.
-
-> Viresh, can you please chime in here and elaborate on some of the
-> magic happening behind dev_pm_opp_set_rate() API - is there a problem
-> here or not?
-> 
->>
->> GENPD core assumes that consumer devices can work at any performance
->> level. Not true for Tegra because voltage needs to be set in accordance
->> to the clock rate before clock is enabled, otherwise h/w won't work
->> properly, perhaps clock may be unstable or h/w won't be latching.
-> 
-> Correct. Genpd relies on the callers to use the OPP framework if there
-> are constraints like you describe above.
-> 
-> That said, it's not forbidden for a consumer driver to call
-> dev_pm_genpd_set_performance_state() directly, but then it better
-> knows exactly what it's doing.
-> 
->>
->> Performance level should be set to 0 while device is suspended.
-> 
-> Do you mean system suspend or runtime suspend? Or both?
-
-Runtime suspend.
-
->> Performance level needs to be bumped on rpm-resume of a device in
->> accordance to h/w state before hardware is enabled.
-> 
-> Assuming there was a performance state set for the device when
-> genpd_runtime_suspend() was called, genpd_runtime_resume() will
-> restore that state according to the sequence you described.
-
-What do you think about adding API that will allow drivers to explicitly
-set the restored performance state of a power domain?
-
-Another option could be to change the GENPD core, making it to set the
-rpm_pstate when dev_pm_genpd_set_performance_state(dev) is invoked and
-device is rpm-suspended, instead of calling the
-genpd->set_performance_state callback.
-
-Then drivers will be able to sync the perf state at a probe time.
-
-What do you think?
-
-diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
-index a934c679e6ce..cc15ab9eacc9 100644
---- a/drivers/base/power/domain.c
-+++ b/drivers/base/power/domain.c
-@@ -435,7 +435,7 @@ static void genpd_restore_performance_state(struct
-device *dev,
- int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int
-state)
- {
- 	struct generic_pm_domain *genpd;
--	int ret;
-+	int ret = 0;
-
- 	genpd = dev_to_genpd_safe(dev);
- 	if (!genpd)
-@@ -446,7 +446,10 @@ int dev_pm_genpd_set_performance_state(struct
-device *dev, unsigned int state)
- 		return -EINVAL;
-
- 	genpd_lock(genpd);
--	ret = genpd_set_performance_state(dev, state);
-+	if (pm_runtime_suspended(dev))
-+		dev_gpd_data(dev)->rpm_pstate = state;
-+	else
-+		ret = genpd_set_performance_state(dev, state);
- 	genpd_unlock(genpd);
-
- 	return ret;
 
 
