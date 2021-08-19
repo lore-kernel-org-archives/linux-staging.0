@@ -1,144 +1,70 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E1C168
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 06:17:29 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id j1so4231787pjv.3
-        for <linux-staging@lists.linux.dev>; Wed, 18 Aug 2021 23:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Z7TQEkkTOfvT3y1VcK9cbeGmLxLBDuWce4oY9e31CIQ=;
-        b=n8Z7pceL3Q1hHrYhRGbE2Ft6ysYoV2T29GwsgsIk5zym7iZcje0CXVg1jI36aNnFP1
-         wEt31EiA2dUBQwlv5rK6Pb4jBRjUZnVnX9lq3yYWlZnsAiqoC84b2+sIg5qRcoOEikt2
-         Bl5OLXFHBLycojOK68FIhPW3b2fskqhF3vr/eyYOYKdL7QspG0UOJAgIVnJ/rUe4LZFr
-         9Mx+8O2v0d2rHrH3yazUPQGMQQQiYdzhDIVBgB1HMOdlKqueyQlS0Pa++oE7KDNseaKY
-         ZqQcskpZ4qIHBPun+Nz8BNcPrFRsCGUIgrdD9AWMNWaoX41LuxEow35zOBfD0rRFPHfn
-         o2nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Z7TQEkkTOfvT3y1VcK9cbeGmLxLBDuWce4oY9e31CIQ=;
-        b=N9D5KMOlkdIFuQ1fay6Zu8Vukrla/PyX6/lAairzJqOBLrSbOIzsSaYnSSkqNNNgbL
-         Ucz+2iw4IM6KK01hSHVTRCGo+upMJLh6tdTRER2Xhg32VAHw5Q82T9OSruCSWaGb20Cg
-         JC9YL9FIrtIwtdtPViDWgisiJA7N4o21P7EWAPCY8zc/nFUZur6JWuYSNRtp1zn1E5JY
-         5bQnFbMLQdDStoQWA1Wd3wCNv8p9TNag6X9YacnohQMafwK9NsTy0iNFnfgGPvSeFlkc
-         h2xqENpPWlzqGhllQI9rUNmU6potsK8U59nrmeDSM6pDADjhCwZ7dM1wV9/VVyYnSRT+
-         H+QA==
-X-Gm-Message-State: AOAM530agzw6CxdA010+b0cIzk+8JkYuJLXLckyfcqTTgiIJCpTYvO4Z
-	W/IKvKYUbnTunzY2NUD79QgcIA==
-X-Google-Smtp-Source: ABdhPJwi8ECnFjz7ftlBUkQP1U01xvcbaFwYmCvSxRCVadF/ZCBCreA9Xq0KVJGpteNV1tSqbtF8Eg==
-X-Received: by 2002:a17:90a:ce88:: with SMTP id g8mr13456163pju.116.1629353849006;
-        Wed, 18 Aug 2021 23:17:29 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id r18sm2222724pgk.54.2021.08.18.23.16.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Aug 2021 23:16:53 -0700 (PDT)
-Date: Thu, 19 Aug 2021 11:46:17 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-tegra <linux-tegra@vger.kernel.org>,
-	Linux PM <linux-pm@vger.kernel.org>,
-	Linux USB List <linux-usb@vger.kernel.org>,
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-mmc <linux-mmc@vger.kernel.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	DTML <devicetree@vger.kernel.org>,
-	linux-clk <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
-References: <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7>
- <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9CF2FAE
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 06:30:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C8758610CF;
+	Thu, 19 Aug 2021 06:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1629354624;
+	bh=wMcwRJ+VeaAoovRMBNZdxYLqsLLAmilV2Xm+nRdadcs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VQOxuJ77ddvGoPvGYkzmD8nUgRlJRs4u8vEgq+qI8/9NY+ni/U2WeM21fjz1bzP1G
+	 QwwudoaOhEPh/2CG3Kbg2MHWHJ//ecHzdeW0zuJqpVyUdW1ICskfs8WSFFbuLp8yXd
+	 +CcZZeyjZsg87LwCUi2vV4W5bLZfxxw0vZeExGa4=
+Date: Thu, 19 Aug 2021 08:30:21 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+Message-ID: <YR36fT6bpiVoo2lM@kroah.com>
+References: <20210819060837.23983-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20210819060837.23983-1-fmdefrancesco@gmail.com>
 
-On 18-08-21, 18:55, Dmitry Osipenko wrote:
-> 18.08.2021 12:41, Ulf Hansson пишет:
+On Thu, Aug 19, 2021 at 08:08:37AM +0200, Fabio M. De Francesco wrote:
+> Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
+> unnecessary wrappers, respectively to mutex_lock_interruptible and to
+> mutex_unlock(). They also have an odd interface that takes an unused
+> second parameter "unsigned long *pirqL".
 > 
-> Either way gives the equal result. The new callback allows to remove the
-> boilerplate dev_pm_opp_set_rate(clk_get_rate() code from the rpm-resume
-> of consumer devices, that's it.
+> Use directly the in-kernel API; check and manage the return value of
+> mutex_lock_interruptible().
+> 
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c     |  5 +++--
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c     |  7 +++++--
+>  drivers/staging/r8188eu/include/osdep_service.h | 13 -------------
+>  drivers/staging/r8188eu/os_dep/os_intfs.c       |  5 +++--
+>  4 files changed, 11 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index f6ee72d5af09..484083468ebb 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -4358,7 +4358,8 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
+>  	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
+>  		return -1;
+>  
+> -	_enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
+> +	if (mutex_lock_interruptible(&pxmitpriv->ack_tx_mutex))
+> +		return -EINTR;
 
-It may not be equal, as dev_pm_opp_set_rate() may do additional stuff,
-now or in a later implementation. Currently it only does
-regulator_enable() as a special case, but it can be clk_enable() as
-well. Also, this tries to solve the problem in a tricky/hacky way,
-while all you wanted was to make the genpd aware of what the
-performance state should be.
+But the code never would return this value if the lock function returned
+an error.  Why do that here now?
 
-Your driver can break tomorrow if we started to do more stuff from
-this API at another time.
+thanks,
 
-> > dev_pm_opp_set_rate() is best called from consumer drivers, as they
-> > need to be in control.
-> >> What we need here is just configure. So something like this then:
-> The intent wasn't to use dev_pm_opp_set_rate() from
-> __genpd_dev_pm_attach(), but to set genpd->rpm_pstate in accordance to
-> the h/w configuration.
-
-Right.
-
-> On Tegra we have a chain of PDs and it's not trivial to convert the
-> device's OPP into pstate because only the parent domain can translate
-> the required OPP.
-
-The driver should just be required to make a call, and OPP/genpd core
-should return it a value. This is already done today while setting the
-pstate for a device. The same frameworks must be able to supply a
-value to be used for the device.
-
-> Viresh, please take a look at what I did in [1]. Maybe it could be done
-> in another way.
-
-I looked into this and looked like too much trouble. The
-implementation needs to be simple. I am not sure I understand all the
-problems you faced while doing that, would be better to start with a
-simpler implementation of get_performance_state() kind of API for
-genpd, after the domain is attached and its OPP table is initialized.
-
-Note, that the OPP table isn't required to be fully initialized for
-the device at this point, we can parse the DT as well if needed be.
-
--- 
-viresh
+greg k-h
