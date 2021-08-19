@@ -1,58 +1,58 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5FC173
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 16:19:10 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id y11so5955546pfl.13
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 09:19:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E919173
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 16:25:03 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id u15so4176853plg.13
+        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 09:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=n2oL4Tx9YBEJZiltx3dyyG7cK1iW2U3lPZG+XFyhvas=;
-        b=XcvTQsHIqAMvz+OHaEsqApoAMj9xFz4KXlaVtsPGT2F+luagoLzdXIebPHS4j6pFee
-         IJW4Vxvn87dQMza107p/hLmHsT8aJn/AJga6hh91EOE0PYesVez/KzjBmcCzRbB43LwI
-         H4TFo9uhc7IGBXaXQosGymgHxkkIqv0Mxbo5E=
+        bh=UyAqbe771W+Lff6kTHtxqnAb6wyR4jVkJwEdQgLmwXM=;
+        b=RCXKCYv9ln5LbhRxVsZkAgrsxHMHPqdffVncbCoP8zHTR2s05PTRSMgK+hG8fnm1xI
+         VE6KocOflCQf5XUe9L88OiJ4Gd0AvGpF0XcmTinZR6J2WFjWLqXyGYbTjTqdNZrTLIee
+         af/RfWFTDj7DmtJmZJTbT1bZunbQVpzZBc1ts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=n2oL4Tx9YBEJZiltx3dyyG7cK1iW2U3lPZG+XFyhvas=;
-        b=NxprjnFkYojoEXmuwvNXREb8cgKBRgO2sSw8dvoF5v2nWampae9tUkI7RevV5nR4K/
-         /NGmWXNItK/bfXwQ3qSrQSF/n7+E/Tt+gFSQi7tNeckZVTKpjrVW7pwnRs3P7uj1yrdk
-         ooHgli6rUtTV7jBw8GL36e9Zw8h9ygXzur+z5W2B2MmMP9+LQ0L6PfzY7BHn91tUKUKw
-         Lm3Oh67q+ykmImmbxulWbizbu2qqTA8ZNuBCSxYFcEZHVDziXSYq5L+xEZtGZMmaauxo
-         rtR7xVaSgIZvUz6lyvk7FHdhhcZeSt4+GZ+Ba+iF6X2wxz6NxYJzW7cmeRMALpaUfAQB
-         Liew==
-X-Gm-Message-State: AOAM533UbPYcFKfrl49SCjPUoMR7v/5INVthC4LgppBXiuviY+nD4Wjn
-	8qgrd6HSNfC2dxiZ2hHJVxvzAw==
-X-Google-Smtp-Source: ABdhPJyZRMTxNLvnP3ZI2pCtW5KRkxw1jg2bC0ZQQ8R3fVO/fGTe1UBVRpNWar80Ru5tv+2px3ZDyw==
-X-Received: by 2002:a62:78d0:0:b029:3dd:8fc1:2797 with SMTP id t199-20020a6278d00000b02903dd8fc12797mr15227415pfc.65.1629389949876;
-        Thu, 19 Aug 2021 09:19:09 -0700 (PDT)
+        bh=UyAqbe771W+Lff6kTHtxqnAb6wyR4jVkJwEdQgLmwXM=;
+        b=Cx+UddL53uJuN2QZRNuHhtvBoi/Q2RuUEyUy9+rl1lwzYrLIj2sYKbDDIedOVuaaBy
+         jW9moZGjjOvWbhl20w+zzmqvZS5oSpgVBrSvO38lWoqGzZubh4yB2nsWSVPIbXyhlLwq
+         8kg9hjoEXTvuZXVkGxUuLT/vTmLGT+dv1CcVNOzpCGhn5y5P9jRzz8GKjlY4i74YSZ/R
+         orwtx8wnT4rbutKanfVQgAjGA1XZzQj/FgmQsrGRzt/t9h2gHYlK/8h0ncqvCCUo0Ou9
+         MAqcYRS2By6PoPPTEbUtvph33pWa1S3tuM/c80P37kscPFSgQd9pb65T7OInNiNDVBmd
+         07zw==
+X-Gm-Message-State: AOAM532atc8Liy2/uohox0YiaabXUpKy6rTBKjXmfD3p6H48zghcLHk0
+	5wu4HNSX8d2tLgRoWRMCA9VF9Q==
+X-Google-Smtp-Source: ABdhPJyq4LOVatvfadz65o72x/gkprpZlPk/8y+Qcd235dkYfx++eKkOf6dJ+KUNEdEavgccQRbFxg==
+X-Received: by 2002:a17:90a:4894:: with SMTP id b20mr16180176pjh.13.1629390302929;
+        Thu, 19 Aug 2021 09:25:02 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id g26sm4675777pgb.45.2021.08.19.09.19.09
+        by smtp.gmail.com with ESMTPSA id nn18sm8165841pjb.21.2021.08.19.09.25.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 09:19:09 -0700 (PDT)
-Date: Thu, 19 Aug 2021 09:19:08 -0700
+        Thu, 19 Aug 2021 09:25:02 -0700 (PDT)
+Date: Thu, 19 Aug 2021 09:25:01 -0700
 From: Kees Cook <keescook@chromium.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Doug Ledford <dledford@redhat.com>, linux-rdma@vger.kernel.org,
+To: Kalle Valo <kvalo@codeaurora.org>
+Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, ath11k@lists.infradead.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
 	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	clang-built-linux@googlegroups.com,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 56/63] RDMA/mlx5: Use struct_group() to zero struct
- mlx5_ib_mr
-Message-ID: <202108190916.7CC455DA@keescook>
+Subject: Re: [PATCH v2 45/63] ath11k: Use memset_startat() for clearing queue
+ descriptors
+Message-ID: <202108190923.30FD4FC6E@keescook>
 References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-57-keescook@chromium.org>
- <20210819122716.GP543798@ziepe.ca>
+ <20210818060533.3569517-46-keescook@chromium.org>
+ <87eeapbmhi.fsf@tynnyri.adurom.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,58 +61,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210819122716.GP543798@ziepe.ca>
+In-Reply-To: <87eeapbmhi.fsf@tynnyri.adurom.net>
 
-On Thu, Aug 19, 2021 at 09:27:16AM -0300, Jason Gunthorpe wrote:
-> On Tue, Aug 17, 2021 at 11:05:26PM -0700, Kees Cook wrote:
+On Thu, Aug 19, 2021 at 04:19:37PM +0300, Kalle Valo wrote:
+> Kees Cook <keescook@chromium.org> writes:
+> 
 > > In preparation for FORTIFY_SOURCE performing compile-time and run-time
 > > field bounds checking for memset(), avoid intentionally writing across
 > > neighboring fields.
-> > 
-> > Add struct_group() to mark region of struct mlx5_ib_mr that should be
-> > initialized to zero.
-> > 
-> > Cc: Leon Romanovsky <leon@kernel.org>
-> > Cc: Doug Ledford <dledford@redhat.com>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: linux-rdma@vger.kernel.org
+> >
+> > Use memset_startat() so memset() doesn't get confused about writing
+> > beyond the destination member that is intended to be the starting point
+> > of zeroing through the end of the struct. Additionally split up a later
+> > field-spanning memset() so that memset() can reason about the size.
+> >
+> > Cc: Kalle Valo <kvalo@codeaurora.org>
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: Jakub Kicinski <kuba@kernel.org>
+> > Cc: ath11k@lists.infradead.org
+> > Cc: linux-wireless@vger.kernel.org
+> > Cc: netdev@vger.kernel.org
 > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  drivers/infiniband/hw/mlx5/mlx5_ib.h | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > index bf20a388eabe..f63bf204a7a1 100644
-> > --- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > +++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-> > @@ -644,6 +644,7 @@ struct mlx5_ib_mr {
-> >  	struct ib_umem *umem;
-> >  
-> >  	/* This is zero'd when the MR is allocated */
-> > +	struct_group(cleared,
-> >  	union {
-> >  		/* Used only while the MR is in the cache */
-> >  		struct {
-> > @@ -691,12 +692,13 @@ struct mlx5_ib_mr {
-> >  			bool is_odp_implicit;
-> >  		};
-> >  	};
-> > +	);
-> >  };
-> >  
-> >  /* Zero the fields in the mr that are variant depending on usage */
-> >  static inline void mlx5_clear_mr(struct mlx5_ib_mr *mr)
-> >  {
-> > -	memset(mr->out, 0, sizeof(*mr) - offsetof(struct mlx5_ib_mr, out));
-> > +	memset(&mr->cleared, 0, sizeof(mr->cleared));
-> >  }
 > 
-> Why not use the memset_after(mr->umem) here?
+> To avoid conflicts I prefer taking this via my ath tree.
 
-I can certainly do that instead. In this series I've tended to opt
-for groupings so the position of future struct member additions are
-explicitly chosen. (i.e. reducing the chance that a zeroing of the new
-member be a surprise.)
+The memset helpers are introduced as part of this series, so that makes
+things more difficult. Do you want me to create a branch with the
+helpers that you can merge?
 
 -Kees
 
