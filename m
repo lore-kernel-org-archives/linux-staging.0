@@ -1,88 +1,95 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE66173
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 15:30:17 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id z20so13738661ejf.5
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 08:30:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CE86D38
+	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 14:05:27 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id x19so2672503uat.2
+        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 07:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XaGQNjoFDqClYFNGQw17hG3Sx6lRDKqVTcPsNKf9+H8=;
-        b=j0ySqt6FojZ9+3ONUFQ9SqyXGH9+BPy2DoBRXKxyLkXadoUE1hn+9ajGqg3acb5sBg
-         J47h3ELWE+MfMQ4obhd163Oq7CQ3CZpJGfzClNZZ6UR59+HPpMHKro/rZI2sI/l/A62v
-         NdDZ46RUbe29w8gzfqvuESJpdY3M6ZuuT/Qq8Bn4ykt9WaSI0G+E1HVKMB3EviJEVzga
-         WyH+vJRX1ku0McgDzJjmIgiDAoWrOfyv3VB22YEyotDN6fEDu4ykQz5EV67hmUyQuFWH
-         taljKh8lkx5r9T9zf8TaPjRPW1dEov/40ObTcic1zz68xsinvEizIxi9MljMntoGAoDw
-         51hg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
+        b=pf8lMOnxg/R18hy9RmRXn53gTyaSPBEYPRXidYbCWDeGyj1Q84GnstXRTsE70HIZwL
+         rOZaYQbJ0JsuexxwGKTbxTnmUkIeE3lCIDKi4y5M7EdG4KOJ33bce1Ym5TIJ8eyXrlgP
+         dbE7l+Rznz9FT+hME0DQqhK7lxhDgOPmbvRDcLaquo7wS/EVnyYYfbE9J5SpPQV1WnQ8
+         fXPIAlBPmH1/Wbcsr6ERwHJaV/U7LQTY8nCTXj0WtrNaCQEnZqZy2yVRdVBh7ZdPgr+l
+         lQknd5LJKpfGihHNxJOG9NmGE/fM0gVDzrjpqFwZqJoFyhmk+xoMBA6IKCATwNl/L1GC
+         MrVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XaGQNjoFDqClYFNGQw17hG3Sx6lRDKqVTcPsNKf9+H8=;
-        b=DzL8ksONY6XNclnTDU/nVD1DfoAOaz+mvPXrsOW3u1daaRQgzjtbzYy7Z7Chafe5K0
-         Z3CUELKHVSuu+6UhBX5dlaD3XZteba/YNu9nHC0l4UJO2vNApLSkpvWKAznO5Ke/I5HT
-         yH0GUKStQKw1qcyL4tqVFO8JltxL4y1gjGPcyaElqDY3mlWIgg1c+IWE/lyx7URoZEf7
-         VES55593USjGFyYZoG33srM3V+lfdbkaK4sMM8W1I9ocTMwWMQcaKbrtXPziiqe24K6R
-         B0ytmKz6a2wphTwNGghIpmEM8KYM0LnUgSamW/6gCpOmom62hd+NkbG4mcJ/MLrJYdNX
-         FciQ==
-X-Gm-Message-State: AOAM5323N2ZpSco42vSWW2xyUlPoyWPOsQmc/7HP8kz1i9sLVxpBCbLc
-	w2guLHCfkAIWJnCIRcYjr8wCw6VQBcM=
-X-Google-Smtp-Source: ABdhPJzpYgp+/flMjF241aQ9cCXe2tbGEsvGFt5hyAVQxypvqlM74H3TMEBe/x5CQ0kBFYbAnC7hiQ==
-X-Received: by 2002:a17:906:c251:: with SMTP id bl17mr16314325ejb.219.1629387015517;
-        Thu, 19 Aug 2021 08:30:15 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id m18sm1958658edr.18.2021.08.19.08.30.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Aug 2021 08:30:15 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: use GFP_ATOMIC under spinlock
-Date: Thu, 19 Aug 2021 17:29:14 +0200
-Message-Id: <20210819152914.17482-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=z8ppYolHk+6MAlg/iRV3TOW64DDORViSUFtjVS4tPfU=;
+        b=UMfMm+3XQrr7sJmZN8FTh/6VgGX/D8i/ygYPvgdHVwP/bvxGbfE+t8H1M0mPdIprhP
+         1yp4+Mgq5MqsCN1f2oxMTtKNkkIWua/yzF1UuXfcHIdySYztY05JRanzp9TeUgryveRg
+         yWN1QyZfVu0M8UqmxOZG1jlhrj8OmfchHQfVoM8Nmeyy+l1LeEAqdRccvtG8UonqCXlZ
+         4KYNfOLoxrb/zE9sjYpuObWaK9FudEI1ewTpi82WL0Trcr/EhoYy0pwT7sIAt2CHUULm
+         GavpL38Uin4JYauSSlPUZ16ZZYZQ45Zi8Xxp5qxh8AFy/n9CfZPgQ+PsIP9VKvBaAm3l
+         QySg==
+X-Gm-Message-State: AOAM532qt/t+OYr8wOwLmRjt7i3dvoGzmLpdy2/ua3wTXueX8qlbB5ji
+	ANypS+tZEmHt1g1yedpX7bvK+1k3APYK596qpyKgEA==
+X-Google-Smtp-Source: ABdhPJy/9RKTdWSvjYHKQ+0uBbarqxq9rsGLaiJcPg/kihysGVgUWTFM+D2WJBPDbj8B50jGA4KtwzpHd41jDaJSEK8=
+X-Received: by 2002:a9f:25a7:: with SMTP id 36mr11206760uaf.129.1629381926495;
+ Thu, 19 Aug 2021 07:05:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210817012754.8710-1-digetx@gmail.com> <20210817012754.8710-20-digetx@gmail.com>
+ <YR5ay6+r0hJsUbhy@orome.fritz.box>
+In-Reply-To: <YR5ay6+r0hJsUbhy@orome.fritz.box>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 19 Aug 2021 16:04:50 +0200
+Message-ID: <CAPDyKFqr6NYO89io+6EfwrtELhTMps-tpGcAVbmuQ1_NnOD7Ew@mail.gmail.com>
+Subject: Re: [PATCH v8 19/34] pwm: tegra: Add runtime PM and OPP support
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
+	Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-mmc <linux-mmc@vger.kernel.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
+	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-kmalloc() in function update_bcn_wps_ie() is called under a spinlock
-so the allocation have to be atomic.
+On Thu, 19 Aug 2021 at 15:21, Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Tue, Aug 17, 2021 at 04:27:39AM +0300, Dmitry Osipenko wrote:
+> > The PWM on Tegra belongs to the core power domain and we're going to
+> > enable GENPD support for the core domain. Now PWM must be resumed using
+> > runtime PM API in order to initialize the PWM power state. The PWM clock
+> > rate must be changed using OPP API that will reconfigure the power domain
+> > performance state in accordance to the rate. Add runtime PM and OPP
+> > support to the PWM driver.
+> >
+> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> > ---
+> >  drivers/pwm/pwm-tegra.c | 104 ++++++++++++++++++++++++++++++++--------
+> >  1 file changed, 85 insertions(+), 19 deletions(-)
+>
+> Can this be safely applied independently of the rest of the series, or
+> are there any dependencies on earlier patches?
 
--> update_beacon() <- takes a spinlock
-   -> update_bcn_vendor_spec_ie()
-      -> update_bcn_wps_ie()
+Just to make sure we don't rush something in, I would rather withhold
+all runtime PM related patches in the series, until we have agreed on
+how to fix the in genpd/opp core parts. Simply, because those may very
+well affect the deployments in the drivers.
 
-Fixes: 79f712ea994de ("staging: r8188eu: Remove wrappers for kalloc() and kzalloc()")
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_ap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Thierry
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 1f3aa0092ef9..41b5668d080b 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -1192,7 +1192,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 	remainder_ielen = ielen - wps_offset - wps_ielen;
- 
- 	if (remainder_ielen > 0) {
--		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_KERNEL);
-+		pbackup_remainder_ie = kmalloc(remainder_ielen, GFP_ATOMIC);
- 		if (pbackup_remainder_ie)
- 			memcpy(pbackup_remainder_ie, premainder_ie, remainder_ielen);
- 	}
--- 
-2.32.0
-
+Kind regards
+Uffe
