@@ -1,53 +1,53 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A60A3FC1
-	for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 23:18:03 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id q11so16337521wrr.9
-        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 16:18:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFD03FC1
+	for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 23:41:34 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id z9so16337744wrh.10
+        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 16:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=ndVrv9LlDSJtPxdQ7srGUgMyCM4NsNR8S4LYvnghJTg=;
-        b=XF5zPQpKbCu9pv7P7tqvIpvMlZoq3FvUjlwVcpmfs9wHHTkyNu6D5G8TNGFcuu/t42
-         vYt6Uc/eP2y+7YKJ6G5oo1X1FZ/ElQ6c6l+jLwV4z6NXXGiw3yNd9FLXAB36zr8uHe5m
-         Q6l4+bvMtlqQVlBVHcQu6sG3Hd98k8uxvFqIwaEAfnIAPF64Yc4UqJ9f9gBtAHFCskjL
-         isMCRoA5eaLT4S64vbfOpl8mRd6V6Z0oaG7aDxdUzEhByaDOYqK3Y8ARzflLek7u7P8Z
-         wC/4UuRWInhvZBsrEXt22QeZpH+Ni7vwizt3iMpw44EYVmzDEW/SHZyfUP5tcBh9tJz1
-         LjFg==
+        bh=3QUhhNIF90MtvR0aGkoL0e8SFaiI6LpJhm/aC61b+xI=;
+        b=O2/d2Bm0Sb6mxF7NtpDLzD4bJraBroenpCI7MagbZrJDJjzJ8sRegibpfTt8PB/b7Z
+         H2ipwKlG6rxYHkbnrpsZyuAE0Th4JO2GnX8Fpf4xKUHyp8HipRRqViR0ortbYj7GxjIt
+         pDyx8RPhfzMbkmW5z65fdU+bcrEvpE3u43MB75mGhdj+rzdd+sWiuRt2QRlWVNJ3s+rP
+         79326koagRoNk6Garge6qJJUoFXcZuw/ORE7RViSzpAGVRW4bGWRFLSgzhDPlx6drkyK
+         sollbYkDWuxTj3P64x4QHIpzZxt4QXtWh1vMygwkoW8LvOHepD3R39TW+fqmp1eOTp9n
+         XLuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ndVrv9LlDSJtPxdQ7srGUgMyCM4NsNR8S4LYvnghJTg=;
-        b=jgTgt01J3MrmzF6FVh6CRFb7l4hicaT/bM8X8CYVk5kBVbT1sI76kdQRNcuB0TqTYm
-         bOcaHeHXuiWFbQANL6WbWSxTIKY3dbYw2ZJy0lVXvbr8NZGR39N9Ky+wsXIBCN+kGJf/
-         3BjAhxxkx5UzTz9Qs08Uyu5crgl0zLsAq96yPe5+0UAciyEhyD+iyGEpqgHZK8QuILiU
-         t6qO3NsqXu9hj6GxACLJJQi3uy8W/apjxewbgSpkXnk4p0IAMF4MyOqmKxj+zVUDh0Aq
-         S3+rgMLX8rfPgJp1KynzYAptABDuBs+KH4uoLQjgKNNDIzAJ+afLE5reHeGPhukuzmT/
-         1xQg==
-X-Gm-Message-State: AOAM531r098RDK1Pb47i2s57Er4sAZDCXqjQsn2fFtAIM67EFvn/bhh8
-	SLpQFJkx1D8eH+F40NvQpXsx8A==
-X-Google-Smtp-Source: ABdhPJz2F89Mt5pKkgsy0sbPI9dqRbklsMqgiIt7JIP7QWqkNW3HhlgSKFjuBKw/yP8WdqmrMC6p0w==
-X-Received: by 2002:adf:db83:: with SMTP id u3mr1140912wri.363.1629501481925;
-        Fri, 20 Aug 2021 16:18:01 -0700 (PDT)
+        bh=3QUhhNIF90MtvR0aGkoL0e8SFaiI6LpJhm/aC61b+xI=;
+        b=L4I0YcvdNLnPlaReTcCxvD9/zkqhu/GHEid14ZgRRowRoFbV45Ug8gQWEhzxvolLkW
+         dNDFwQUd6VCjssnZ3nwKhrmiMG9NwOIaoOXhdX45qQTb5TWN1AnbB4QLUlNhXZECSfPb
+         NIGNk+lby2jAdsgSHUrdtwKHvsg0yMcvJ6QEdbggtChZct+xKXa69IabwgyqNsGubsNA
+         F5lAKFuuMu8oUCQuqcPkM8fhWrpwuTgUU4Lhm+KdP4XuSeW8FoTFivBsI2dbDdxYaBPD
+         kQMRB/7D40ULNmzrSb/PMD9s5/7GS9Rune9tt/QjtpLS/+zrIi27lYtLjmUhd+LpcZ/r
+         Vw2w==
+X-Gm-Message-State: AOAM530xBd2QAkYrFHMwLhChJeF8Hoii6lOE0Lo+13wBn0a32yaSGmQS
+	USuzhixdzVFOBmDRfSfswfVZsg==
+X-Google-Smtp-Source: ABdhPJz0GKLEvCLCboXeYmIsOLKdBpuB04trY9PXQ1BEmidLK8miU2EAyXVE40C3EJJ6H/Xegl7btw==
+X-Received: by 2002:adf:f552:: with SMTP id j18mr1145763wrp.273.1629502892599;
+        Fri, 20 Aug 2021 16:41:32 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:dfde:e1a0::2? (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id j16sm7321552wrr.78.2021.08.20.16.18.01
+        by smtp.gmail.com with ESMTPSA id c8sm7285216wrx.53.2021.08.20.16.41.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 16:18:01 -0700 (PDT)
-Message-ID: <1590e1abf3991c4b9023173bddee5b9e912d2c47.camel@philpotter.co.uk>
-Subject: Re: [PATCH RFC 3/3] staging: r8188eu: add error argument to
- read_macreg
+        Fri, 20 Aug 2021 16:41:32 -0700 (PDT)
+Message-ID: <7a83e221a017e292bea8862191e48c6c95bb77da.camel@philpotter.co.uk>
+Subject: Re: [PATCH RFC 1/3] staging: r8188eu: add proper rtw_read* error
+ handling
 From: Phillip Potter <phil@philpotter.co.uk>
 To: Pavel Skripkin <paskripkin@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org,
  straube.linux@gmail.com,  fmdefrancesco@gmail.com
-Date: Sat, 21 Aug 2021 00:18:00 +0100
-In-Reply-To: <44a5a4ab2eae8e0deb969028a5488ea892008c8d.1629479152.git.paskripkin@gmail.com>
+Date: Sat, 21 Aug 2021 00:41:31 +0100
+In-Reply-To: <f4fb967c992c29c8d2e8f67e78835b52a60d2e52.1629479152.git.paskripkin@gmail.com>
 References: <cover.1629479152.git.paskripkin@gmail.com>
-	 <44a5a4ab2eae8e0deb969028a5488ea892008c8d.1629479152.git.paskripkin@gmail.com>
+	 <f4fb967c992c29c8d2e8f67e78835b52a60d2e52.1629479152.git.paskripkin@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 Precedence: bulk
@@ -59,37 +59,123 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 On Fri, 2021-08-20 at 20:07 +0300, Pavel Skripkin wrote:
-> Since read_macreg() calls rtw_read*() internally we should tell
-> callers about an error on the read side.
+> rtw_read*() functions call usb_read* inside. These functions could
+> fail
+> in some cases; for example: failed to receive control message. These
+> cases should be handled to prevent uninit value bugs, since usb_read*
+> functions blindly return stack variable without checking if this
+> value
+> _actualy_ initialized.
+> 
+> To achive it, all usb_read* and rtw_read*() argument list is expanded
+> with pointer to error and added error usbctrl_vendorreq() error
+> checking.
+> If transfer is successful error will be initialized to 0 otherwise to
+> error returned from usb_control_msg().
+> 
+> To not break the build, added error checking for rtw_read*() call all
+> across the driver.
 > 
 > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 > ---
->  drivers/staging/r8188eu/core/rtw_mp.c    | 9 ++++-----
->  drivers/staging/r8188eu/include/rtw_mp.h | 2 +-
->  2 files changed, 5 insertions(+), 6 deletions(-)
+>  drivers/staging/r8188eu/core/rtw_debug.c      |  79 +++-
+>  drivers/staging/r8188eu/core/rtw_efuse.c      |  83 +++-
+>  drivers/staging/r8188eu/core/rtw_io.c         |  18 +-
+>  drivers/staging/r8188eu/core/rtw_mp.c         |  37 +-
+>  drivers/staging/r8188eu/core/rtw_mp_ioctl.c   |  20 +-
+>  drivers/staging/r8188eu/core/rtw_pwrctrl.c    |   6 +-
+>  drivers/staging/r8188eu/core/rtw_sreset.c     |   7 +-
+>  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   9 +-
+>  drivers/staging/r8188eu/hal/hal_com.c         |  22 +-
+>  drivers/staging/r8188eu/hal/odm_interface.c   |  12 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  37 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   6 +-
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 198 +++++++--
+>  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  26 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_sreset.c |  20 +-
+>  drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  17 +-
+>  drivers/staging/r8188eu/hal/usb_halinit.c     | 394 ++++++++++++++--
+> --
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c   |  16 +-
+>  drivers/staging/r8188eu/include/rtw_io.h      |  18 +-
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 168 +++++---
+>  20 files changed, 941 insertions(+), 252 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mp.c
-> b/drivers/staging/r8188eu/core/rtw_mp.c
-> index 601a1fd5d4e7..6bbea1cc364a 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mp.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mp.c
-> @@ -7,20 +7,19 @@
->  #include "../include/odm_precomp.h"
->  #include "../include/rtl8188e_hal.h"
+...
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index 953fa05dc30c..980af6c02be5 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -101,29 +101,31 @@ static int usbctrl_vendorreq(struct intf_hdl
+> *pintfhdl, u16 value, void *pdata,
+>         return status;
+>  }
 >  
-> -u32 read_macreg(struct adapter *padapter, u32 addr, u32 sz)
-> +u32 read_macreg(struct adapter *padapter, u32 addr, u32 sz, int
+> -static u8 usb_read8(struct intf_hdl *pintfhdl, u32 addr)
+> +static u8 usb_read8(struct intf_hdl *pintfhdl, u32 addr, int *error)
+>  {
+>         u8 requesttype;
+>         u16 wvalue;
+>         u16 len;
+>         u8 data = 0;
+> +       int res;
+>  
+> -
+> +       if (unlikely(!error))
+> +               WARN_ON_ONCE("r8188eu: Reading w/o error checking is
+> bad idea\n");
+>  
+>         requesttype = 0x01;/* read_in */
+>  
+>         wvalue = (u16)(addr & 0x0000ffff);
+>         len = 1;
+>  
+> -       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
+> -
+> -
+> +       res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len,
+> requesttype);
+> +       if (likely(error))
+> +               *error = res < 0? res: 0;
+>  
+>         return data;
+>  
+>  }
+>  
+> -static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
+> +static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr, int
 > *error)
+>  {
+>         u8 requesttype;
+>         u16 wvalue;
+> @@ -138,7 +140,7 @@ static u16 usb_read16(struct intf_hdl *pintfhdl,
+> u32 addr)
+>         return (u16)(le32_to_cpu(data) & 0xffff);
+>  }
+>  
+> -static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
+> +static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr, int
+> *error)
+>  {
+>         u8 requesttype;
+>         u16 wvalue;
 
 Dear Pavel,
 
-Correct me if I'm wrong, but this read_macreg function seems to be
-completely unused by the rest of the driver. Rather than changing the
-signature to do error handling, maybe it would be better to just remove
-it?
+For this patch, you modify the signature of the usb_read*() functions,
+but only introduce the usbctrl_vendorreq checks for usb_read8.
 
-That is just my view though, would be interested to see what others
-think - perhaps it could come in handy at some point.
+I can see from the following patch that you have done the others too
+later on, but really I would say for changes like this, they should be
+grouped in the same patch. Also, just me nitpicking probably, but the
+patch is rather large - sometimes unavoidable I know, but perhaps
+better to group logically into areas (files or types of change) in
+order to get the patches smaller and thus more easily reviewable. Many
+thanks.
+
+In terms of what we do with the errors, I would invite comments from
+others on this too due to my inexperience, but I like your thinking.
 
 Regards,
 Phil
