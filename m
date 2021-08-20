@@ -1,93 +1,132 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7C53FC1
-	for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 07:12:23 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17IEPm8b040529;
-	Wed, 18 Aug 2021 09:25:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1629296748;
-	bh=8N1EpZZqBz/COqdF/VtwF0s5dhZjZS1YH9WJZTrwiys=;
-	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=J0IjhelrNAFLlWEErMS54G4vyyBY5qy0qKWcQgIsQRCrdIlB/8kZfpE9WUD+AOuMA
-	 O8oahCUVdty8BD3+SqkadOO9flHW5Cu0SLWTz+zbSZ8RMusvS4gv+qDfJbd1i3+OtI
-	 s92ueX3t45C9GTZE7rdbMbbvwN3dH9TYEaON9XoU=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17IEPmWs015964
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 18 Aug 2021 09:25:48 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 18
- Aug 2021 09:25:48 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Wed, 18 Aug 2021 09:25:48 -0500
-Received: from [10.247.25.23] (ileax41-snat.itg.ti.com [10.172.224.153])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17IEPmHB029124;
-	Wed, 18 Aug 2021 09:25:48 -0500
-Subject: Re: [PATCH 30/30] ARM64: ti_sdk_arm64_release_defconfig: Enable d5520
- video decoder driver
-To: <sidraya.bj@pathpartnertech.com>, <gregkh@linuxfoundation.org>,
-        <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: <prashanth.ka@pathpartnertech.com>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <praveen.ap@pathpartnertech.com>
-References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
- <20210818141037.19990-31-sidraya.bj@pathpartnertech.com>
-From: "Bajjuri, Praneeth" <praneeth@ti.com>
-Message-ID: <064e296f-878a-c16f-3734-c124db392886@ti.com>
-Date: Wed, 18 Aug 2021 09:25:48 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AC13FC1
+	for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 07:49:53 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4GrYgn1dHhz9sW5;
+	Fri, 20 Aug 2021 17:49:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1629445784;
+	bh=J88K3uaWPTCJyDGiM5or1YoD8rBCAEgZEcryK0u/Zo8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Z88hVJChPLNbFu7va+/1tqYNPa130kSyesJQV170fqBHtyrBHgsoYQ2vG7jWAFenK
+	 UnM2Xa2WgoEuieSkc1ZLVVCug9f3+zRWbhv+8Kwz9lJ0T0OnirC7rGiJCfhmiQugbk
+	 Gsb7MIcErTNH7IqyHIXf4NSUrbbL24pfQhAXgxRcFTJzWh3imrJnTVx0viKKp/yGsL
+	 l2OmzlfcafH3m4gmgvP4ByLj0MCm/9nnxFrtr8KESxwRDR7p6qbKr/nDLbVfTi5zPT
+	 FKKzWNEL1TGEoS3kCLjjXXVT5+f+vjk1mCNrPw4HFdJEtcPLwmj4uEVdYODVh2zgGX
+	 +3YZnoSC4+cKQ==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Christophe
+ Leroy <christophe.leroy@csgroup.eu>, Sudeep Holla <sudeep.holla@arm.com>,
+ linuxppc-dev@lists.ozlabs.org, kernel test robot <lkp@intel.com>, "Gustavo
+ A. R. Silva" <gustavoars@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 57/63] powerpc/signal32: Use struct_group() to zero
+ spe regs
+In-Reply-To: <20210818060533.3569517-58-keescook@chromium.org>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-58-keescook@chromium.org>
+Date: Fri, 20 Aug 2021 17:49:35 +1000
+Message-ID: <877dggeesw.fsf@mpe.ellerman.id.au>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210818141037.19990-31-sidraya.bj@pathpartnertech.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain
 
-
-
-On 8/18/2021 9:10 AM, sidraya.bj@pathpartnertech.com wrote:
-> From: Sidraya<sidraya.bj@pathpartnertech.com>
-> 
-> This patch enables d5520 video decoder driver as module
-> on J721e board.
-
-Nack
-
-> 
-> Signed-off-by: Sidraya<sidraya.bj@pathpartnertech.com>
+Kees Cook <keescook@chromium.org> writes:
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memset(), avoid intentionally writing across
+> neighboring fields.
+>
+> Add a struct_group() for the spe registers so that memset() can correctly reason
+> about the size:
+>
+>    In function 'fortify_memset_chk',
+>        inlined from 'restore_user_regs.part.0' at arch/powerpc/kernel/signal_32.c:539:3:
+>>> include/linux/fortify-string.h:195:4: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
+>      195 |    __write_overflow_field();
+>          |    ^~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: Sudeep Holla <sudeep.holla@arm.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
->   MAINTAINERS                                   |    1 +
->   .../configs/ti_sdk_arm64_release_defconfig    | 7407 +++++++++++++++++
+>  arch/powerpc/include/asm/processor.h | 6 ++++--
+>  arch/powerpc/kernel/signal_32.c      | 6 +++---
+>  2 files changed, 7 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/powerpc/include/asm/processor.h b/arch/powerpc/include/asm/processor.h
+> index f348e564f7dd..05dc567cb9a8 100644
+> --- a/arch/powerpc/include/asm/processor.h
+> +++ b/arch/powerpc/include/asm/processor.h
+> @@ -191,8 +191,10 @@ struct thread_struct {
+>  	int		used_vsr;	/* set if process has used VSX */
+>  #endif /* CONFIG_VSX */
+>  #ifdef CONFIG_SPE
+> -	unsigned long	evr[32];	/* upper 32-bits of SPE regs */
+> -	u64		acc;		/* Accumulator */
+> +	struct_group(spe,
+> +		unsigned long	evr[32];	/* upper 32-bits of SPE regs */
+> +		u64		acc;		/* Accumulator */
+> +	);
+>  	unsigned long	spefscr;	/* SPE & eFP status */
+>  	unsigned long	spefscr_last;	/* SPEFSCR value on last prctl
+>  					   call or trap return */
+> diff --git a/arch/powerpc/kernel/signal_32.c b/arch/powerpc/kernel/signal_32.c
+> index 0608581967f0..77b86caf5c51 100644
+> --- a/arch/powerpc/kernel/signal_32.c
+> +++ b/arch/powerpc/kernel/signal_32.c
+> @@ -532,11 +532,11 @@ static long restore_user_regs(struct pt_regs *regs,
+>  	regs_set_return_msr(regs, regs->msr & ~MSR_SPE);
+>  	if (msr & MSR_SPE) {
+>  		/* restore spe registers from the stack */
+> -		unsafe_copy_from_user(current->thread.evr, &sr->mc_vregs,
+> -				      ELF_NEVRREG * sizeof(u32), failed);
+> +		unsafe_copy_from_user(&current->thread.spe, &sr->mc_vregs,
+> +				      sizeof(current->thread.spe), failed);
 
-This defconfig doesnt belong in mainline.
+This makes me nervous, because the ABI is that we copy ELF_NEVRREG *
+sizeof(u32) bytes, not whatever sizeof(current->thread.spe) happens to
+be.
 
->   2 files changed, 7408 insertions(+)
->   create mode 100644 arch/arm64/configs/ti_sdk_arm64_release_defconfig
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c7b4c860f8a7..db47fcafbcfc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19537,6 +19537,7 @@ M:	Sidraya Jayagond<sidraya.bj@pathpartnertech.com>
->   L:	linux-media@vger.kernel.org
->   S:	Maintained
->   F:	Documentation/devicetree/bindings/media/img,d5520-vxd.yaml
-> +F:	arch/arm64/configs/tisdk_j7-evm_defconfig
+ie. if we use sizeof an inadvertent change to the fields in
+thread_struct could change how many bytes we copy out to userspace,
+which would be an ABI break.
 
-This is wrong.
+And that's not that hard to do, because it's not at all obvious that the
+size and layout of fields in thread_struct affects the user ABI.
 
->   F:	drivers/staging/media/vxd/common/addr_alloc.c
->   F:	drivers/staging/media/vxd/common/addr_alloc.h
->   F:	drivers/staging/media/vxd/common/dq.c
-> diff --git a/arch/arm64/configs/ti_sdk_arm64_release_defconfig b/arch/arm64/configs/ti_sdk_arm64_release_defconfig
-> new file mode 100644
+At the same time we don't want to copy the right number of bytes but
+the wrong content, so from that point of view using sizeof is good :)
+
+The way we handle it in ptrace is to have BUILD_BUG_ON()s to verify that
+things match up, so maybe we should do that here too.
+
+ie. add:
+
+	BUILD_BUG_ON(sizeof(current->thread.spe) == ELF_NEVRREG * sizeof(u32));
+
+
+Not sure if you are happy doing that as part of this patch. I can always
+do it later if not.
+
+cheers
