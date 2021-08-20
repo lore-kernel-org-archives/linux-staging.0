@@ -1,45 +1,46 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98554168
-	for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 22:37:16 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id g13so16141735lfj.12
-        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 15:37:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2D272
+	for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 02:51:38 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id o10so17254421lfr.11
+        for <linux-staging@lists.linux.dev>; Thu, 19 Aug 2021 19:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=nAS9qcnivKqgeAIIut8h1WFAVA13oxF52QRobcHq7Xc=;
-        b=a4XV4VjRWxo1kHnGEwcEOxFKRCM6deOw4lOM9Uon818SGJgn0YPFw4DdKti64wBV9H
-         ZocBdzpcFtuEYqk3Wa8+HUMj2ko6agOMxjv09whIIThddMbYROGGAAS4Plcpv1Z18cgY
-         5sKTsW0BmphWVrS/Tiinzv52JEwYHnlvjz/kC/ONQmk2H2QZrW0O70369IiptcK6UmEd
-         XneH4My93CRKDRkqsBmuCdSoAuWcBI3J8xEuCJKQTSLx7Jnn2Qku3bl3B0b4iwQ7W5+X
-         bMdlKDDR1RyjIOyTN2oZCz5u+iQg+iw/06K9i+IzAB7AjGsFZejlDhk+M4jSdmwerMgk
-         ecRA==
+        bh=zboB1Q6i9oYgbkK+DWfMo5HokGy8eox3TcOGLTI8/TQ=;
+        b=MSPObL9gtIfvXhGm8vmuM1WlsX8S9aqUcJKehk6hQXt2kTc0FpmAMpCNdosprR8DEi
+         /yWFr3UlXiFd2ptrMNopWEd4mvb/K8eNekkIVvnlp6AKdEAvU+jGXH5uVDxvGcdGZoGg
+         7d0zSU30Fr03L6Jyi08Us+ikNmam6soR3xc9TnEUbHxYKYK/+DxyeuIlb2H/R67utUeG
+         f8Hx0eRqtRpuLlOkbbDR3VqVNtgKs+C8IJnFlLq0D7i7HgCycFYmI+7YKNlKYZOsIZqi
+         M8cceb7ZJ2VG2spCfJmWhEcSNn6fxBgRnLJwFtl+p9dAcHXGqIRgt1IqsRHAMWfqn/Mz
+         6mnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=nAS9qcnivKqgeAIIut8h1WFAVA13oxF52QRobcHq7Xc=;
-        b=TfCVB6J0ECQyjiebew7L2cROpj9fiFKtGXPUd2Kd6ywpb+m/4DQKllKso1rRa9I6uk
-         ZhSdNOfmtzwyzqv4XfTZSa/D+O6T1grsWNVyrWyk/6BNVWAfoLbQy9GjIWdfsxxylPHm
-         TZy2rtYFeBAjmeZny8CXz/jrYQqaVdV62S9V6IvsyvwWWSCQAp5f+Fg7zOMM8+EnHfLp
-         5IMbFtaCUeGZbfbTXT9Wx8NQnjQDUCN/V4HSrZ3hqecBnPlW3DChyiIvheob89Z9t70c
-         SUUv6207vhEsfoN8neIWOf0+fSOGbucCZxyJtlr7mBYonMephsB4RxyOjseDYHR7Pgto
-         5IfQ==
-X-Gm-Message-State: AOAM53213ir0b0U7o6BS0c2RISnBjC4rGYHaI2B6+/mHmfxGrRh27Z59
-	VHL9Liu3jRFfKp1nJGU8pkQ=
-X-Google-Smtp-Source: ABdhPJwuMIWgok5xoSqa52pUigQi/FuENEcCid7QFl2xNGsNEC360zffkjPyNHa+eJldf8U6/MOiRQ==
-X-Received: by 2002:a05:6512:b8e:: with SMTP id b14mr12930460lfv.449.1629412634809;
-        Thu, 19 Aug 2021 15:37:14 -0700 (PDT)
+        bh=zboB1Q6i9oYgbkK+DWfMo5HokGy8eox3TcOGLTI8/TQ=;
+        b=Hc9keYIfu+l7X8MLQbPnPbGyCb1V9N5+15i0TsUjozLCMDwCtDsW80m//D9j3pwWCS
+         D8Ma8JIC9IuhwvQhA/L2HasYPhCVPfBMjya8OAF1xnBIvMA+A+t4Hef/jTL0voSjLmKt
+         nC9JfNe7x4djTf4ex0U9mnCK/1hw/lW3a1uziO7/lBuzM8Z4jR8FuOuQ1Sr/JWimxoI7
+         BT0GkfYvkGl07EwEaL9vGWZ5lZKRzDcEXDzy9xpmJUKkDUAKv8LYm8y/KHeGOR3Mqbop
+         0PbOXFiYAzF34elnC0GcEk4daYwe22HijQgpWLrgLOv0HbjpM6LoKSrLXpHucshy/fzZ
+         bTOQ==
+X-Gm-Message-State: AOAM532jJfXOcNZVBaaP1Njq+pOeRDj4ONOeCroqpOi178EdHVHyy2PU
+	wCR9+kgNQJhgb7rf+i4Y60Y=
+X-Google-Smtp-Source: ABdhPJxyaLUy3vFiucIY3S77FtdQqbUhTA2/WSHmXMHR7V1HqPjJvW4kwuD0WLGfg5N30COber68xA==
+X-Received: by 2002:ac2:4c94:: with SMTP id d20mr12622519lfl.640.1629427896895;
+        Thu, 19 Aug 2021 19:51:36 -0700 (PDT)
 Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
-        by smtp.googlemail.com with ESMTPSA id b19sm437171lff.121.2021.08.19.15.37.13
+        by smtp.googlemail.com with ESMTPSA id w9sm2965ljo.36.2021.08.19.19.51.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Aug 2021 15:37:14 -0700 (PDT)
-Subject: Re: [PATCH v8 20/34] mmc: sdhci-tegra: Add runtime PM and OPP support
+        Thu, 19 Aug 2021 19:51:36 -0700 (PDT)
+Subject: Re: [PATCH v8 06/34] dt-bindings: clock: tegra-car: Document new
+ tegra-clocks sub-node
 To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+Cc: Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
  Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
  Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
  <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
@@ -50,20 +51,23 @@ Cc: Jonathan Hunter <jonathanh@nvidia.com>,
  Richard Weinberger <richard@nod.at>,
  Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
  Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
 References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-21-digetx@gmail.com> <YR6O9Om+HzMMG8AR@orome.fritz.box>
+ <20210817012754.8710-7-digetx@gmail.com> <YR0SSz7KMh7TwaFW@orome.fritz.box>
+ <eff5ef47-e6e0-3e03-cf1a-d931b0f2dc2a@gmail.com>
+ <YR033zuYWWLCeYpM@orome.fritz.box>
+ <a5b942cb-1611-9ae1-6e89-4b68fdaf03e3@gmail.com>
+ <YR6HWMuYcF6NIepi@orome.fritz.box>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <05b7ff28-4c01-fb56-deeb-595a5797394b@gmail.com>
-Date: Fri, 20 Aug 2021 01:37:13 +0300
+Message-ID: <cad7c578-f533-12f8-3dc0-d2854344148c@gmail.com>
+Date: Fri, 20 Aug 2021 05:51:35 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 Precedence: bulk
@@ -72,73 +76,47 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YR6O9Om+HzMMG8AR@orome.fritz.box>
+In-Reply-To: <YR6HWMuYcF6NIepi@orome.fritz.box>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-19.08.2021 20:03, Thierry Reding пишет:
-> On Tue, Aug 17, 2021 at 04:27:40AM +0300, Dmitry Osipenko wrote:
->> The SDHCI on Tegra belongs to the core power domain and we're going to
->> enable GENPD support for the core domain. Now SDHCI must be resumed using
->> runtime PM API in order to initialize the SDHCI power state. The SDHCI
->> clock rate must be changed using OPP API that will reconfigure the power
->> domain performance state in accordance to the rate. Add runtime PM and OPP
->> support to the SDHCI driver.
+19.08.2021 19:31, Thierry Reding пишет:
+>> The "device" representation is internal to the kernel. It's okay to me
+>> to have PLLs represented by a device, it's a distinct h/w by itself.
 >>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/mmc/host/sdhci-tegra.c | 146 ++++++++++++++++++++++++---------
->>  1 file changed, 105 insertions(+), 41 deletions(-)
+>> CCF supports managing of clock's RPM and it requires to have clock to be
+>> backed by a device. That's what we are using here.
 >>
->> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
->> index 387ce9cdbd7c..a3583359c972 100644
->> --- a/drivers/mmc/host/sdhci-tegra.c
->> +++ b/drivers/mmc/host/sdhci-tegra.c
->> @@ -15,6 +15,8 @@
->>  #include <linux/of.h>
->>  #include <linux/of_device.h>
->>  #include <linux/pinctrl/consumer.h>
->> +#include <linux/pm_opp.h>
->> +#include <linux/pm_runtime.h>
->>  #include <linux/regulator/consumer.h>
->>  #include <linux/reset.h>
->>  #include <linux/mmc/card.h>
->> @@ -24,6 +26,8 @@
->>  #include <linux/gpio/consumer.h>
->>  #include <linux/ktime.h>
->>  
->> +#include <soc/tegra/common.h>
->> +
->>  #include "sdhci-pltfm.h"
->>  #include "cqhci.h"
->>  
->> @@ -123,6 +127,12 @@
->>  					 SDHCI_TRNS_BLK_CNT_EN | \
->>  					 SDHCI_TRNS_DMA)
->>  
->> +enum {
->> +	TEGRA_CLK_BULK_SDHCI,
->> +	TEGRA_CLK_BULK_TMCLK,
->> +	TEGRA_CLK_BULK_NUM,
->> +};
->> +
->>  struct sdhci_tegra_soc_data {
->>  	const struct sdhci_pltfm_data *pdata;
->>  	u64 dma_mask;
->> @@ -171,6 +181,8 @@ struct sdhci_tegra {
->>  	bool enable_hwcq;
->>  	unsigned long curr_clk_rate;
->>  	u8 tuned_tap_delay;
->> +
->> +	struct clk_bulk_data clocks[TEGRA_CLK_BULK_NUM];
+>> Please see
+>> https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/clk/clk.c#L109
+> Looking at the implementation of __clk_register() and where that device
+> pointer typically comes from, I don't think the way this is used here is
+> what was intended. The way I interpret the code is that a clock is
+> registered with a parent device (i.e. its provider) and
+> clk_pm_runtime_get() is then used internally as a way to make sure that
+> when a clock is prepared, it's parent device is runtime resumed. This is
+> presumably to ensure that any registers that the driver might need to
+> access in order to prepare and enable the clock are accessible (i.e. the
+> CAR is not powered off or in reset).
 > 
-> This doesn't seem worth it to me. There's a lot of churn in this driver
-> that's only needed to convert this to the clk_bulk API and it makes the
-> code a lot more difficult to read, in my opinion.
+> So the struct device that is passed to __clk_register() (or its callers)
+> should be that of the CAR rather than virtual struct devices created by
+> the CAR.
 > 
-> It looks like the only benefit that this gives us is that runtime
-> suspend and resume become a few lines shorter.
+> And it's a bit debatable whether or not PLLs represent distinct
+> hardware. Ultimately every transistor on a chip could be considered
+> distinct hardware. But a platform device is a device on a platform bus,
+> which is really just another way of saying it's a hardware block that's
+> accessible from the CPU via a memory-mapped address. A PLL (just like
+> other clocks) is merely a resource exposed by means of access to these
+> registers. So I don't think they should be platform devices. Even making
+> them struct device:s seems a bit of a stretch.
+> 
+> Is there any reason why struct clk can't be used for this? I mean, the
+> whole purpose of that structure is to represent clocks. Why do we need
+> to make them special?
 
-The driver probe code looks cleaner with that. You should be looking at
-the final result and not at the patch to see it.
+Because we need to perform DVFS for PLLs. The only way to do it without
+having to reinvent existing frameworks is to use these frameworks and
+they require a device.
