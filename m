@@ -1,51 +1,53 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49D83FC1
-	for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 23:12:53 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id f13-20020a1c6a0d000000b002e6fd0b0b3fso8392314wmc.3
-        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 16:12:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A60A3FC1
+	for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 23:18:03 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id q11so16337521wrr.9
+        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 16:18:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=rvmI5YBR34qN0ROkIaRHGTH6QrA+tMHVJqy89xkEWS4=;
-        b=MI+J011fpEKavw1UCz+UVIcioE9BCI91bJ5XBwoj3cQPbvf7bQTo6Z/rLfJ/1ZxowU
-         nJUD2L7k7aEcxUCdZIXMQUoUua3DHHGSDzacfY+OigWdcv3XxGTvvrFmZNvgeh41P80R
-         nZ4/c0b3gQcWHqco3IvDBLyrCb9dcaiGNqwV2glDfbTDWe4peYe8NpwIbqVpHurb715K
-         RaTkfaKIRBDYrdihitEsjMUICYf4i6VzqfT0ZijkZxtcbZYsstm45uXRZ4M9GYKL5wwd
-         GLp9HILhkxHcPvs1WD3DvdbQBHcrV3Xc7QFI5vxsNUUllutWGA/JtGE3bKeCgeMo2U66
-         T2tQ==
+        bh=ndVrv9LlDSJtPxdQ7srGUgMyCM4NsNR8S4LYvnghJTg=;
+        b=XF5zPQpKbCu9pv7P7tqvIpvMlZoq3FvUjlwVcpmfs9wHHTkyNu6D5G8TNGFcuu/t42
+         vYt6Uc/eP2y+7YKJ6G5oo1X1FZ/ElQ6c6l+jLwV4z6NXXGiw3yNd9FLXAB36zr8uHe5m
+         Q6l4+bvMtlqQVlBVHcQu6sG3Hd98k8uxvFqIwaEAfnIAPF64Yc4UqJ9f9gBtAHFCskjL
+         isMCRoA5eaLT4S64vbfOpl8mRd6V6Z0oaG7aDxdUzEhByaDOYqK3Y8ARzflLek7u7P8Z
+         wC/4UuRWInhvZBsrEXt22QeZpH+Ni7vwizt3iMpw44EYVmzDEW/SHZyfUP5tcBh9tJz1
+         LjFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=rvmI5YBR34qN0ROkIaRHGTH6QrA+tMHVJqy89xkEWS4=;
-        b=QGXs3keqN5LCr3O2wA2YYrrUzSddvcewGsU8ZT65qTxYZUxsnNtVG9UilQwnWxxelT
-         /UL58JNpb82ZiSXmDR0TIpdRMB1DpJh1PvAmRPAcXP5zzgAsfyNL2J1eUTK2uB34TUNv
-         BucB3Dh4d057Pm/Yw1KlcUTDfOXgLPYg/2gyoTtByx3rMezQmw77tBO6a5nHq5jJuBnL
-         +7KoiRi1btKrP/6BhrKrcB3TzbBxQS5X40GM9wQHxodrAtprz8H62u7sRDxXpL6Qng0q
-         banrjsDW2yMbrWwMy2nQXa17+bm0QbYR+3GaHB44k7wsiUayHHIq/d9Qbq3qF7kGYl+j
-         Ae2w==
-X-Gm-Message-State: AOAM530fYRP5LADgQqKBfK55DWrXHT8qgpGXR+SIp8zTLJbOqkKJjrBd
-	5DaflRlN4YSiGO07JUsFjxYJLA==
-X-Google-Smtp-Source: ABdhPJxSsq1HoGOpshbJpzHgvLtwSE77CY+IfQFEM9eJG5z+10aZf+SHMi7cAaYOcNIc2pmDO8p8wA==
-X-Received: by 2002:a05:600c:21ce:: with SMTP id x14mr6055876wmj.187.1629501172077;
-        Fri, 20 Aug 2021 16:12:52 -0700 (PDT)
+        bh=ndVrv9LlDSJtPxdQ7srGUgMyCM4NsNR8S4LYvnghJTg=;
+        b=jgTgt01J3MrmzF6FVh6CRFb7l4hicaT/bM8X8CYVk5kBVbT1sI76kdQRNcuB0TqTYm
+         bOcaHeHXuiWFbQANL6WbWSxTIKY3dbYw2ZJy0lVXvbr8NZGR39N9Ky+wsXIBCN+kGJf/
+         3BjAhxxkx5UzTz9Qs08Uyu5crgl0zLsAq96yPe5+0UAciyEhyD+iyGEpqgHZK8QuILiU
+         t6qO3NsqXu9hj6GxACLJJQi3uy8W/apjxewbgSpkXnk4p0IAMF4MyOqmKxj+zVUDh0Aq
+         S3+rgMLX8rfPgJp1KynzYAptABDuBs+KH4uoLQjgKNNDIzAJ+afLE5reHeGPhukuzmT/
+         1xQg==
+X-Gm-Message-State: AOAM531r098RDK1Pb47i2s57Er4sAZDCXqjQsn2fFtAIM67EFvn/bhh8
+	SLpQFJkx1D8eH+F40NvQpXsx8A==
+X-Google-Smtp-Source: ABdhPJz2F89Mt5pKkgsy0sbPI9dqRbklsMqgiIt7JIP7QWqkNW3HhlgSKFjuBKw/yP8WdqmrMC6p0w==
+X-Received: by 2002:adf:db83:: with SMTP id u3mr1140912wri.363.1629501481925;
+        Fri, 20 Aug 2021 16:18:01 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:dfde:e1a0::2? (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id m62sm3426712wmm.48.2021.08.20.16.12.50
+        by smtp.gmail.com with ESMTPSA id j16sm7321552wrr.78.2021.08.20.16.18.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 16:12:50 -0700 (PDT)
-Message-ID: <df71ec12574f546edc0620dc5624c09e921a8f23.camel@philpotter.co.uk>
-Subject: Re: [PATCH RFC 0/3] staging: r8188eu: avoid uninit value bugs
+        Fri, 20 Aug 2021 16:18:01 -0700 (PDT)
+Message-ID: <1590e1abf3991c4b9023173bddee5b9e912d2c47.camel@philpotter.co.uk>
+Subject: Re: [PATCH RFC 3/3] staging: r8188eu: add error argument to
+ read_macreg
 From: Phillip Potter <phil@philpotter.co.uk>
 To: Pavel Skripkin <paskripkin@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Larry.Finger@lwfinger.net, gregkh@linuxfoundation.org,
  straube.linux@gmail.com,  fmdefrancesco@gmail.com
-Date: Sat, 21 Aug 2021 00:12:49 +0100
-In-Reply-To: <cover.1629479152.git.paskripkin@gmail.com>
+Date: Sat, 21 Aug 2021 00:18:00 +0100
+In-Reply-To: <44a5a4ab2eae8e0deb969028a5488ea892008c8d.1629479152.git.paskripkin@gmail.com>
 References: <cover.1629479152.git.paskripkin@gmail.com>
+	 <44a5a4ab2eae8e0deb969028a5488ea892008c8d.1629479152.git.paskripkin@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.3 (3.40.3-1.fc34) 
 Precedence: bulk
@@ -57,86 +59,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 On Fri, 2021-08-20 at 20:07 +0300, Pavel Skripkin wrote:
-> Hi, Greg, Larry and Phillip!
+> Since read_macreg() calls rtw_read*() internally we should tell
+> callers about an error on the read side.
 > 
-> I noticed, that new staging driver was added like 3 weeks ago and I
-> decided
-> to look at the code, because drivers in staging directory are always
-> buggy.
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_mp.c    | 9 ++++-----
+>  drivers/staging/r8188eu/include/rtw_mp.h | 2 +-
+>  2 files changed, 5 insertions(+), 6 deletions(-)
 > 
-> The first thing I noticed is *no one* was checking read operations
-> result, but
-> it can fail and driver may start writing random stack values into
-> registers. It
-> can cause driver misbehavior or device misbehavior.
-> 
-> To avoid this type of bugs, i've expanded read() API with error
-> parametr,
-> which will be initialized to error if read fails. It helps callers to
-> break/return earlier and don't write random values to registers or to
-> rely
-> on random values.
-> 
-> Why is this pacth series RFC?
->   1. I don't have this device and I cannot test these changes.
->   2. I don't know how to handle errors in each particular case. For
-> now, function
->      just returns or returns an error. That's all. I hope, driver
-> maintainers will
->      help with these bits.
->   3. I guess, I handled not all uninit value bugs here. I hope, I
-> fixed
->      at least half of them
-> 
-> This series was build-tested and made on top of staging-testing
-> branch
-> 
-> 
-> With regards,
-> Pavel Skripkin
-> 
-> Pavel Skripkin (3):
->   staging: r8188eu: add proper rtw_read* error handling
->   staging: r8188eu: add error handling to ReadFuse
->   staging: r8188eu: add error argument to read_macreg
-> 
->  drivers/staging/r8188eu/core/rtw_debug.c      |  79 +++-
->  drivers/staging/r8188eu/core/rtw_efuse.c      | 119 +++--
->  drivers/staging/r8188eu/core/rtw_io.c         |  18 +-
->  drivers/staging/r8188eu/core/rtw_mp.c         |  38 +-
->  drivers/staging/r8188eu/core/rtw_mp_ioctl.c   |  20 +-
->  drivers/staging/r8188eu/core/rtw_pwrctrl.c    |   6 +-
->  drivers/staging/r8188eu/core/rtw_sreset.c     |   7 +-
->  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   9 +-
->  drivers/staging/r8188eu/hal/hal_com.c         |  22 +-
->  drivers/staging/r8188eu/hal/hal_intf.c        |   6 +-
->  drivers/staging/r8188eu/hal/odm_interface.c   |  12 +-
->  drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  37 +-
->  drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   6 +-
->  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 260 ++++++++---
->  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  26 +-
->  drivers/staging/r8188eu/hal/rtl8188e_sreset.c |  20 +-
->  drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  17 +-
->  drivers/staging/r8188eu/hal/usb_halinit.c     | 412 ++++++++++++++--
-> --
->  drivers/staging/r8188eu/hal/usb_ops_linux.c   |  55 ++-
->  drivers/staging/r8188eu/include/hal_intf.h    |   6 +-
->  .../staging/r8188eu/include/rtl8188e_hal.h    |   2 +-
->  drivers/staging/r8188eu/include/rtw_efuse.h   |   4 +-
->  drivers/staging/r8188eu/include/rtw_io.h      |  18 +-
->  drivers/staging/r8188eu/include/rtw_mp.h      |   2 +-
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 168 +++++--
->  drivers/staging/r8188eu/os_dep/usb_intf.c     |   4 +-
->  26 files changed, 1072 insertions(+), 301 deletions(-)
-> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_mp.c
+> b/drivers/staging/r8188eu/core/rtw_mp.c
+> index 601a1fd5d4e7..6bbea1cc364a 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mp.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mp.c
+> @@ -7,20 +7,19 @@
+>  #include "../include/odm_precomp.h"
+>  #include "../include/rtl8188e_hal.h"
+>  
+> -u32 read_macreg(struct adapter *padapter, u32 addr, u32 sz)
+> +u32 read_macreg(struct adapter *padapter, u32 addr, u32 sz, int
+> *error)
 
 Dear Pavel,
 
-Firstly, thank you for this contribution, it is much appreciated.
-Whilst I'm still learning myself when it comes to this driver and to
-kernel code in general, I can certainly say the code looks pretty good
-in general so far. I will try and offer individual comments on each
-patch.
+Correct me if I'm wrong, but this read_macreg function seems to be
+completely unused by the rest of the driver. Rather than changing the
+signature to do error handling, maybe it would be better to just remove
+it?
+
+That is just my view though, would be interested to see what others
+think - perhaps it could come in handy at some point.
 
 Regards,
 Phil
