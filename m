@@ -1,25 +1,25 @@
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F05B2F80
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 23:56:01 +0000 (UTC)
-Date: Sat, 21 Aug 2021 23:55:48 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC193FC3
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 23:56:21 +0000 (UTC)
+Date: Sat, 21 Aug 2021 23:56:06 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1629590151;
-	bh=SUiCKsss0Pm46QMs/QwJ5GIDOv4aQQwQjeJWav2xWiM=;
+	s=protonmail; t=1629590172;
+	bh=CnGDwMCmb3wl+up2ny2MnsRvSz1XHCXVpk2rgvjWGyc=;
 	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=kdaTdGPxrWAM46/nGIFqp7rhsl2B2U9UUZ/2dA0xVJyns8jICoB3Yo1HWC8BhKlbB
-	 cY6r9NEiVvnzNE4tmgB2CfDhMF8DIcKt+TdZLCpnMOXNI5ahJbaEkp7o8gltx9j6Vh
-	 9ejqY34ETxumN7X+RNUz6OGcStxxWEYnOm+h4eOoM4gnpbY09KCuf2KcpNYk/oMF4y
-	 L2BKmIrnODHJUxsqLE0SpA2wb9ywikKLAyirwnNMNJlUMuz4rSqGv8Tt1gdY6XNK/3
-	 NSCrklk55kHaSj3zC8C2HbvNU55Uig0zd55EMINAsb5M/L5/HNBuxG5u3JJ/UMycTO
-	 FVpD4NV13AM9g==
+	b=NIdzkbR5sHFp9aMLXGURYmVlcIXlhE1sDYj9xr7fTIlO0EpoFcb6lXO+WRWidfJLX
+	 fDFhSU55Y4oNWJ0j2l3RnZ5KAw/NKvoQjTDjqJfC3O731Ws0rApsa1as0mSM84tKBU
+	 sDy3fuZdLdoj0bYN7/E0tvJXY7sHQ0KF5SmkAAAW5zM5GM8OQRSWL4juSZqP+NYBRm
+	 8G1XDUGrTvJlrjGKHPdNx7zQaV4EW0H2NZOSuDbTKNSbbzyt9i4gdrFeg89aLGPkdB
+	 31MOieeUHoQBm7prQZPYYQzqtMF8QDQQKZXiH4y3e3rxID2LXJFsV9ItwIkBgInej7
+	 nGFdVM69WeSmA==
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
 Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH 2/6] staging: rtl8723bs: remove sdio_writeN()
-Message-ID: <20210821235456.2502681-2-hello@bryanbrattlof.com>
+Subject: [PATCH 6/6] staging: rtl8723bs: remove _read_port from _io_ops structure
+Message-ID: <20210821235456.2502681-6-hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,98 +34,44 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
 
-The sdio_writeN() function is unused. We can remove it.
+The function pointer, '_read_port' inside _io_ops is unused.
+We can remove it.
 
 Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
 ---
- drivers/staging/rtl8723bs/hal/sdio_ops.c   | 48 ----------------------
- drivers/staging/rtl8723bs/include/rtw_io.h |  1 -
- 2 files changed, 49 deletions(-)
+ drivers/staging/rtl8723bs/hal/sdio_ops.c   | 1 -
+ drivers/staging/rtl8723bs/include/rtw_io.h | 1 -
+ 2 files changed, 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
 8723bs/hal/sdio_ops.c
-index b784a390c8e1..6bd662928ab6 100644
+index 928fa109565e..768a4e553c77 100644
 --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
 +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -299,53 +299,6 @@ static s32 sdio_write32(struct intf_hdl *intfhdl, u32 =
-addr, u32 val)
- =09return err;
- }
-
--static s32 sdio_writeN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *bu=
-f)
--{
--=09struct adapter *adapter;
--=09u8 mac_pwr_ctrl_on;
--=09u8 device_id;
--=09u16 offset;
--=09u32 ftaddr;
--=09u8 shift;
--=09s32 err;
--
--=09adapter =3D intfhdl->padapter;
--=09err =3D 0;
--
--=09ftaddr =3D _cvrt2ftaddr(addr, &device_id, &offset);
--
--=09rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
--=09if (
--=09=09((device_id =3D=3D WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
--=09=09(!mac_pwr_ctrl_on) ||
--=09=09(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
--=09)
--=09=09return sd_cmd52_write(intfhdl, ftaddr, cnt, buf);
--
--=09shift =3D ftaddr & 0x3;
--=09if (shift =3D=3D 0) {
--=09=09err =3D sd_write(intfhdl, ftaddr, cnt, buf);
--=09} else {
--=09=09u8 *tmpbuf;
--=09=09u32 n;
--
--=09=09ftaddr &=3D ~(u16)0x3;
--=09=09n =3D cnt + shift;
--=09=09tmpbuf =3D rtw_malloc(n);
--=09=09if (!tmpbuf)
--=09=09=09return -1;
--=09=09err =3D sd_read(intfhdl, ftaddr, 4, tmpbuf);
--=09=09if (err) {
--=09=09=09kfree(tmpbuf);
--=09=09=09return err;
--=09=09}
--=09=09memcpy(tmpbuf + shift, buf, cnt);
--=09=09err =3D sd_write(intfhdl, ftaddr, n, tmpbuf);
--=09=09kfree(tmpbuf);
--=09}
--=09return err;
--}
--
- static void sdio_read_mem(
- =09struct intf_hdl *intfhdl,
- =09u32 addr,
-@@ -463,7 +416,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
+@@ -355,7 +355,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
 _io_ops *ops)
+ =09ops->_read8 =3D &sdio_read8;
+ =09ops->_read16 =3D &sdio_read16;
+ =09ops->_read32 =3D &sdio_read32;
+-=09ops->_read_port =3D &sdio_read_port;
+
  =09ops->_write8 =3D &sdio_write8;
  =09ops->_write16 =3D &sdio_write16;
- =09ops->_write32 =3D &sdio_write32;
--=09ops->_writeN =3D &sdio_writeN;
- =09ops->_write_port =3D &sdio_write_port;
- }
-
 diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
 tl8723bs/include/rtw_io.h
-index 87f36b7e880f..0753e20cfaa2 100644
+index fa0cedadaa79..4e0a9f71ce1f 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_io.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -84,7 +84,6 @@ struct _io_ops {
- =09=09int (*_write8)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
+@@ -83,7 +83,6 @@ struct _io_ops {
  =09=09int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
  =09=09int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
--=09=09int (*_writeN)(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *=
-pdata);
 
- =09=09int (*_write8_async)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
- =09=09int (*_write16_async)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
+-=09=09u32 (*_read_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *=
+pmem);
+ =09=09u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 =
+*pmem);
+ };
+
 --
 2.30.2
 
