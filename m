@@ -1,84 +1,101 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DDC3FC1
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 14:21:18 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id x1so5031562plg.10
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 07:21:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AB73FC2
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 14:45:40 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id g66-20020a9d12c8000000b0051aeba607f1so13636425otg.11
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 07:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9Vyw9fxWTiOhTDxiqjbBhpUmVvKmdQD+9QSsMdHpwzQ=;
-        b=pDPb/x/7SdEBSQQKtRXScgHNOnUCFON7ozJGBQCEcUMmHNf6LB5zV2FofBIie25kZx
-         mMBYkBrEGEBaS/qyryNIFOWkyxQZRTVPA1jlkKNT1FlkKkCBpXAYM6+XCraLW3VSO2Bl
-         7v7YIXYSARnHjmKN1YyOQfAhY+I1LYagAnWRQgX9C75q6xsEBfB3F+BsFjH1K4WMOFdl
-         y3gnxvKsSOy5dcsPg2BPQpQxemNjARQgAH+HsovBmtIGb3MHeB/g/GkJKGFPgH35kwnz
-         sE7je0je6ZzS4ThdI+Zurn+Je53Tba3ndqCpFxUoDc5kwvlhxSDSA1T8I4z8Ba5sUGsg
-         iCZw==
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=seOiZCj4hVVjWxrbxl6hqZpUw4GOWVp72vSNdyBOoLQ=;
+        b=i0TMWCd4aPkJFrJ/hQK1dtztJRvrcDKtXs64adu7ftX/RSQWKNo6jyWeVN28cLQoxR
+         UjzLKXFricQ4rRMyRWWOCoZ9/fPUyz6+E6XPnzwKQdl5nTLB8nbNTz4VtQopf/XI8lq7
+         38s7VJcaMuf88SacBaXC5WfcLg5h6L2FPOmIT00kGatLQmcog0EsRPVT4pW2TeEcm2Ig
+         g69TWLU4Ew63QftZrrtVfSSA6GaH3DPQN0FOYO0IslsNpqItfkb6Y+yH1e7YI31bEGJu
+         i99POLa4V84gllAxucSNAPcjM03BH8uJwABKBVb4a2CCMr2dAy34zMFsxGrbjCDTtKQx
+         s1yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9Vyw9fxWTiOhTDxiqjbBhpUmVvKmdQD+9QSsMdHpwzQ=;
-        b=YYU8YjORnmUEefO5Tu9O60/YXCcneeGFLYqg4WYyXUdDXeOhI9o2jRpPAjvjOhASnB
-         RE7LN0PGczQqDUff/vmJXFg4rL0LfTZ5Rp/HG6cZ1VE8kCNgMk5epeIuUkC3kMus9r1J
-         If4ABWzCHtuQMMKCS+x3QHqaV27dm+qThp+0ZygKcm6PdYTjIoim8p9bFGQsm9j+dx9D
-         lSOucDLtJmaVvpZBh5NXxfhk9/CbxdYJUUat/f5id344MSCNdFsY5GletKmiwSliV049
-         iVoSfRTQu7Gwj9EbIwXwHvS0bmC7M7WaVH+pZBM0W2+4/iSn4MeDmS/OSjzvu0F/MZ3I
-         J/XQ==
-X-Gm-Message-State: AOAM531VRAs3WpfBZzAyhgPVus6xxoJ4xphDTSCPovXI0QM5GqTi2kzZ
-	buZqi4YzVGgRGO6u8dikRtU=
-X-Google-Smtp-Source: ABdhPJwsmFy69f4DXdF1WOgto05mLEITK96V++62xAMrycMA90htD8PRNXJZWkEhXb/+AKj9TsDKFg==
-X-Received: by 2002:a17:90a:4549:: with SMTP id r9mr10229611pjm.147.1629555678527;
-        Sat, 21 Aug 2021 07:21:18 -0700 (PDT)
-Received: from localhost ([49.207.137.16])
-        by smtp.gmail.com with ESMTPSA id d13sm10314666pfn.136.2021.08.21.07.21.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Aug 2021 07:21:18 -0700 (PDT)
-Date: Sat, 21 Aug 2021 19:51:16 +0530
-From: Aakash Hemadri <aakashhemadri123@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] staging: r8188eu: cast to restricted __be32
-Message-ID: <20210821142116.4febwhcnx4wjyprw@xps.yggdrasil>
-References: <cover.1629360917.git.aakashhemadri123@gmail.com>
- <602aefc30b0d979dc6e402d52da2f096ea5c67cf.1629360917.git.aakashhemadri123@gmail.com>
- <4be5c5fa-c3fd-8c86-e904-8e2e60173380@lwfinger.net>
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=seOiZCj4hVVjWxrbxl6hqZpUw4GOWVp72vSNdyBOoLQ=;
+        b=QHQEeCGxmTdp0P62P3kTDO7dX/yHbdPvn2UcisdAYzOsh0YmdM0laNlIItJPpHTb4/
+         UTAKL6SqW/lcsEh5X0Iu36lSHshxDoEx1RAqLTF/Gz0aYDzb02PlpkjzuN4wCAz0BYA+
+         bjMMF9goKNruVei9VjjwFWcyYR9DvTcP4q3vcLaCrYwXN6PCnWeqKaJCgGlW+qNVjInP
+         6n5qv8Hjjsc/O1l5vwYk1JMPmFKqIrhHLHx+PjPO1a87gutYfM3hcUzl9EGWGTHfGfas
+         ijaQ6hG63bMkjeFoeIpkfkPx9XXOYPYxQ9hKePst193+fTH7WEQXdqx+YRp1ToBDUFrD
+         MhgQ==
+X-Gm-Message-State: AOAM533saAPRa7Ym9mrit7+Y9X1SSKmz/KLkT5xUgVN3slDHZUICj8iA
+	PZyO2nihGenjlZQNqCvnAUA=
+X-Google-Smtp-Source: ABdhPJzbSYJyfMoiDDta8lSR4MWJveHmEwBOFW1zZr+vo3bqHaniyGSWUjJ1ikOgaDV/NmBLpjc62g==
+X-Received: by 2002:a05:6830:1db3:: with SMTP id z19mr2008366oti.369.1629557139608;
+        Sat, 21 Aug 2021 07:45:39 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com. [2603:8090:2005:39b3::1023])
+        by smtp.gmail.com with ESMTPSA id u14sm2389634oth.73.2021.08.21.07.45.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Aug 2021 07:45:39 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: remove forward declaration of
+ Efuse_Read1ByteFromFakeContent
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ martin@kaiser.cx, straube.linux@gmail.com
+References: <20210821000508.79422-1-phil@philpotter.co.uk>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <ac672cfe-038d-2fe9-0ac6-904ad7761b54@lwfinger.net>
+Date: Sat, 21 Aug 2021 09:45:37 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4be5c5fa-c3fd-8c86-e904-8e2e60173380@lwfinger.net>
+In-Reply-To: <20210821000508.79422-1-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On 21/08/20 04:44PM, Larry Finger wrote:
-> This patch is wrong. All the documentation I could find tells me that the
-> multi-byte entries in dhcph are big-endian, thus the new line should read:
+On 8/20/21 7:05 PM, Phillip Potter wrote:
+> Remove forward declaration of Efuse_Read1ByteFromFakeContent function
+> from core/rtw_efuse.c, as the function is defined in full directly
+> after this and therefore this forward declaration is redundant.
 > 
-> 					u32 cookie = be32_to_cpu(dhcph->cookie);
-> combined with:
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+>   drivers/staging/r8188eu/core/rtw_efuse.c | 6 ------
+>   1 file changed, 6 deletions(-)
 > 
-> @@ -649,7 +650,7 @@ struct dhcpMessage {
->         u_int8_t chaddr[16];
->         u_int8_t sname[64];
->         u_int8_t file[128];
-> -       u_int32_t cookie;
-> +       __be32 cookie;
->         u_int8_t options[308]; /* 312 - cookie */
->  };
+> diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+> index decccf7622f0..45b757ab64e1 100644
+> --- a/drivers/staging/r8188eu/core/rtw_efuse.c
+> +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+> @@ -29,12 +29,6 @@ u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+>   #define REG_EFUSE_CTRL		0x0030
+>   #define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
+>   /*  */
+> -
+> -bool
+> -Efuse_Read1ByteFromFakeContent(
+> -			struct adapter *pAdapter,
+> -			u16 Offset,
+> -		u8 *Value);
+>   bool
+>   Efuse_Read1ByteFromFakeContent(
+>   			struct adapter *pAdapter,
 > 
-> The old code was, in fact, correct, but not in a way that satisfied Sparse.
-> 
-> Larry
 
-Thanks for the review Larry. I understand now, will rework and send it
-through
+Phil,
 
-Thanks,
-Aakash Hemadri
+There a number of such forward references immediately followed by the actual 
+routine. I removed some of these when the driver was in the GitHub repo, but I 
+missed a few.
+
+Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
+
+Larry
+
