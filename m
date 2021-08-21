@@ -1,86 +1,116 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E68172
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:45:16 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id y23so12440278pgi.7
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:45:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FEE72
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:45:59 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id i9so27688468lfg.10
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kF6aHsrAj7KUVldSv2hRrmUYmHo9pqAIsV/DNdAO92I=;
-        b=w5MLn0PH0pocM4tRhMdT6Jp21GHTHt3O05eDb6/VtoU3KlJ5rDDMkk1HfFu8ap0QJx
-         QFZAWKuMnI0lksoN19rfZN/TaeazW6B0aCFmDdA3Apj30+0wvb2De4cdhTzgVLrGvPHh
-         1aY0Dl41hPouBDKxHDy0846SrM2qWmBNPxULtSJMlNUtyrkCrqB2GhGSuhb5Tm6v8mZ8
-         OxtjRIwHOxOfazg8I/o1pVJrRbLcjqwql5Fl8m70IeiEOKSHx5u1NFK1mSn8khQJfl2J
-         H/RwlOvpIoDJ2I0AlntVsicY6JKUFhSx0Btn+w2z8inh9SXVj4iioXiht9YTN2neNxq9
-         CA7w==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=IUNZGcwEvLiT98uruvqOHnHGgaNyFWtPLETI2dPthCw=;
+        b=p08OD/GPPXR4tm7RkNA9toKvQsVUl8L8J4oVZmC67OE0wZNQVqTaUco2HrwrnDiQ5w
+         YuB7XIX+XHBkQHFFdAzLyF2BxZCm+jSnFq4FsCUAM2T1sDn/9oxf4t2nPY94dg8ZOy02
+         4ifXdf59PODf4caGN1F1ErdH+dIo7YXjnB5cY+HfdftEYqOCt2+nTokc6UD388Ko2qxo
+         MvhYOSvGDT1/FsQM/l16oRX1i1OGSNP7dXhT5bdzGaUHSnydnyQWWVAxmDtcpnGU6hl9
+         akWPj9WfjbxtYLM0nKZbQdHyelXHGLCzov3c1u9xeUbYJI6bez6nJO7fiBHU51tlE3bJ
+         Ui+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kF6aHsrAj7KUVldSv2hRrmUYmHo9pqAIsV/DNdAO92I=;
-        b=ZwMVVdZIkqicGfmE625midQk+YpKiIQ6cAeepB7G4lzY5J9RsnNM2Yvt1KLfky5ad9
-         0gh4tjRBmmcNAjH9rxA6UghlJ7La7zFvbPh1YxpzLLmhXHEpKwTp1FvEZQc/MNBLLQYc
-         YEzVAX7uuSLC8RJoBQu31/HVOE2e+LWQ+nPdF1Ts5vYGVHSIO9hiIWAdCC+WRvKwo4go
-         IlvIpWjS2MJV0iSQAz5QRjZ2pjH8ugGF+2+BGOORvzK/EaTZ3ruIIsd83JDC9+VGljgv
-         9CLwA+pM9QxDU5lETSyqHAwPJidgCRicBK84xpPyxrEjVyZBlVou5rg5Ebi0PgL7uJ0h
-         rWHA==
-X-Gm-Message-State: AOAM533T3SSbFhDUxX82QBI7zdYl4k2+ez8lsTbpRo719DmpegVglkZR
-	yby1VwCD9DpSyvgC1aqOeYqILtR4cZ78bS4o2mtlD0hWCrOSHIViY2Q=
-X-Google-Smtp-Source: ABdhPJzgeb4c2OgI2VGn1CCT3EcAui9DerXhEPu7Rr1rFXmPt9mUs1zz0sMMQ8EVCkXkgh7BtSZl1hZBqTtuvY8m4Ak=
-X-Received: by 2002:a63:aa43:: with SMTP id x3mr24547403pgo.208.1629567916187;
- Sat, 21 Aug 2021 10:45:16 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=IUNZGcwEvLiT98uruvqOHnHGgaNyFWtPLETI2dPthCw=;
+        b=sL9GpMVopzWOfeoLbWbYkoc5eo2mkFvG6dd1/YbQPNdqdPJ5hOj2u23hohSnUfuR8N
+         rHxccoxBTi1rt1+XpveYid73PutHZPLVrzS0nzgcfu5VuD+sIIOZX4gy/+1DD3xkMi4L
+         lF9523lvBPvnsm1r7O883IQ7u2pE6GqkuUjqP0rc4JrgtzfK9wky04wX2UaXRT2OmckV
+         FcAForC7+QhwaCuK/eUXKzSW+hhbjMXb0b/Re3aTbOKEX2X4aLgV46f4jrSnSIpcZsJJ
+         EsQIPMII1y9NaYdGCEhlBGDVM7524bn8UriXjgpf5YhOQo+jzlFaox05UTw2Oxs200dc
+         7H1g==
+X-Gm-Message-State: AOAM531cKK581E2g9eVbIhwuNuX1bb8Ulwho+cyvbGl1NajEerIysZfQ
+	i2pOAYEPoTNasyrfAHQNHgA=
+X-Google-Smtp-Source: ABdhPJwQTUwfeBc8x+Qc/XgoFvNgZwRj7DA1ImLYu2aN3NoNJ/vJapVfLwS/Dwin1R3kajnXi5wLGA==
+X-Received: by 2002:ac2:4839:: with SMTP id 25mr19053893lft.455.1629567957530;
+        Sat, 21 Aug 2021 10:45:57 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
+        by smtp.googlemail.com with ESMTPSA id e19sm868158ljj.28.2021.08.21.10.45.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Aug 2021 10:45:56 -0700 (PDT)
+Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar
+ <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-8-digetx@gmail.com> <YR0UBi/ejy+oF4Hm@orome.fritz.box>
+ <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
+ <YR04YHGEluqLIZeo@orome.fritz.box>
+ <ad99db08-4696-1636-5829-5260f93dc681@gmail.com>
+ <YR6Mvips3HAntDy0@orome.fritz.box>
+ <e17bbe8d-7c0f-fc3d-03c7-d75c54c24a43@gmail.com>
+ <YR+VDZzTihmpENp6@orome.fritz.box>
+ <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <89ea1694-be9e-7654-abeb-22de0ca5255a@gmail.com>
+Date: Sat, 21 Aug 2021 20:45:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210821164859.4351-1-martin@kaiser.cx> <20210821164859.4351-4-martin@kaiser.cx>
-In-Reply-To: <20210821164859.4351-4-martin@kaiser.cx>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sat, 21 Aug 2021 18:45:05 +0100
-Message-ID: <CAA=Fs0mETti1k5=m0yzE+zwN6etRyGeRGAGBKtWy-9d3oDix1Q@mail.gmail.com>
-Subject: Re: [PATCH 04/10] staging: r8188eu: rewrite usb vendor request defines
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, Michael Straube <straube.linux@gmail.com>, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Sat, 21 Aug 2021 at 17:49, Martin Kaiser <martin@kaiser.cx> wrote:
->
-> Replace the numeric values with USB constants to make their
-> meaning clearer.
->
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->  drivers/staging/r8188eu/include/usb_ops.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/r8188eu/include/usb_ops.h b/drivers/staging/r8188eu/include/usb_ops.h
-> index 5d290199e37c..b6a1cd536adf 100644
-> --- a/drivers/staging/r8188eu/include/usb_ops.h
-> +++ b/drivers/staging/r8188eu/include/usb_ops.h
-> @@ -8,8 +8,8 @@
->  #include "drv_types.h"
->  #include "osdep_intf.h"
->
-> -#define REALTEK_USB_VENQT_READ         0xC0
-> -#define REALTEK_USB_VENQT_WRITE                0x40
-> +#define REALTEK_USB_VENQT_READ         (USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE)
-> +#define REALTEK_USB_VENQT_WRITE                (USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE)
->  #define REALTEK_USB_VENQT_CMD_REQ      0x05
->  #define REALTEK_USB_VENQT_CMD_IDX      0x00
->
-> --
-> 2.20.1
->
+20.08.2021 16:08, Ulf Hansson пишет:
+...
+>> I suppose if there's really no good way of doing this other than
+>> providing a struct device, then so be it. I think the cleaned up sysfs
+>> shown in the summary above looks much better than what the original
+>> would've looked like.
+>>
+>> Perhaps an additional tweak to that would be to not create platform
+>> devices. Instead, just create struct device. Those really have
+>> everything you need (.of_node, and can be used with RPM and GENPD). As I
+>> mentioned earlier, platform device implies a CPU-memory-mapped bus,
+>> which this clearly isn't. It's kind of a separate "bus" if you want, so
+>> just using struct device directly seems more appropriate.
+> 
+> Just a heads up. If you don't use a platform device or have a driver
+> associated with it for probing, you need to manage the attachment to
+> genpd yourself. That means calling one of the dev_pm_domain_attach*()
+> APIs, but that's perfectly fine, ofcourse.
+> 
+>>
+>> We did something similar for XUSB pads, see drivers/phy/tegra/xusb.[ch]
+>> for an example of how that was done. I think you can do something
+>> similar here.
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
-
-Regards,
-Phil
+We need a platform device because we have a platform device driver that
+must be bound to the device, otherwise PMC driver state won't be synced
+since it it's synced after all drivers of devices that reference PMC
+node in DT are probed.
