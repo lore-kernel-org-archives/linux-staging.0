@@ -1,89 +1,96 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD2D3FC2
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 08:18:30 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id q2so11567664pgt.6
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 01:18:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B476172
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 08:31:18 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id q11-20020a7bce8b0000b02902e6880d0accso10553023wmj.0
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 01:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RJAC/f07BpsuUiR9wwzNtLb3iU9MWyJ5HfzOTPegqZA=;
-        b=Qymu3qti9HvPD6olebVf3QwWfgX7tqoAtvo+fiNBoVq/jnCPaBG1NSrQQ8T8KZaS94
-         N2k/WhlmnTj8XDw/qD0i4fFmTvMi0GTazJTFFZrc58/LlJBsN/tD+qL9OJ7eBWiOeUal
-         Far2W5nnFNVO/W7tAMnRZd4Egzl50gA6utOzsKMVAxhFmzVlJlU70p+ntm2fLFVwz7Mu
-         I6T5k2ISpRYWK/F9sigQisKIQinVBcczpZUEN6hSY0cAbw4A3wNHddQvIU0gQeX8lBiH
-         64G2du0pTuNiweoer+hpd5Nj+1Rf5VrXxFEXTZdwnVITZ+suazbNUWVKQgKQHpsWn8vM
-         xX3A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=r7pMHJHEpzcWJsiIgozc5/rwwa0w5oIqSH99Gp1LvZc=;
+        b=uPCKWc8K8AKx5H4A21P2GNS3AbV/2CMVbHGyoHRDLOhZPkfYmDbe2dn7DhykZSwiNu
+         uzH+PTrsrK1UQeCUMbU+ZMO8KzEqmoML2lkzF4hByVNnnhHTPpN9Sujxe1csS9X3DeOd
+         1bJcx2ERWwrQVjhlO+NwXPiRcKFzqL1w1q51Uz43vAROVPuXXOcLMxgTOpsHFuf3kjTw
+         YGRlnPXApvJnQg+tQU9Iw7RpH2l31pxrIKNlSBljO4WB3icMr8SbOc4s3unTkLKB7DLB
+         jncwp4mbC4p42kCOyAvV9P5JZ1FvXmzPwZh50uKjEasMldBMhqGncittlmjn2c1nEbWq
+         i1xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=RJAC/f07BpsuUiR9wwzNtLb3iU9MWyJ5HfzOTPegqZA=;
-        b=pHoIHpD6MUV8rrQffbuRnP4g1PAcymo02aGJKuX3WhxLbEpO3NJePQwkhIBJagyaUi
-         vr9ZhixagvPHzY8l96GD9nVECnreb2JbQMn0ORXXOF8bF9K43HXtOlP24Qca++QEnvPL
-         Hzj5j8nxYw5b5eVJEhF+tSqzFO1BdIrBGKuq694AKdv1czQGmQvswpwHv8Z7ocaTIBg9
-         SXQfzXvofnSBWKEolFOnGI+VZ9Ppt3wDugR+Y455babaoKfqWcszKXUSrutFeiNdxO1n
-         tuwZWxWmFYLCIU753aFvCHQJp340GEPkQM656x0SlVc+JvXFalsDevO7H0ZQyOq2hq/B
-         kjVw==
-X-Gm-Message-State: AOAM5321SlFUbo5bqi6AEfjWcyj8lKZ+AijnJicPSw7kbXuMdU8hcYMa
-	5rPfg6zoRP8GZyE+j80RbEM=
-X-Google-Smtp-Source: ABdhPJxzipel1SxX8sboBYvkUiTP+xSip/Yj3F9h8DRpn7dFGrHF6KW/f67RUv1KYhOwEuidv20vnA==
-X-Received: by 2002:a62:1ad2:0:b029:3e0:7eb7:a6bd with SMTP id a201-20020a621ad20000b02903e07eb7a6bdmr23968580pfa.51.1629533909800;
-        Sat, 21 Aug 2021 01:18:29 -0700 (PDT)
-Received: from localhost ([203.205.141.70])
-        by smtp.gmail.com with ESMTPSA id e4sm10803463pgt.22.2021.08.21.01.18.29
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 21 Aug 2021 01:18:29 -0700 (PDT)
-From: Xiangyang Zhang <xyz.sun.ok@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	xyz.sun.ok@gmail.com
-Subject: [PATCH] staging: r8188eu: Fix a resource leak in update_bcn_wps_ie
-Date: Sat, 21 Aug 2021 16:18:24 +0800
-Message-Id: <20210821081824.14745-1-xyz.sun.ok@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        bh=r7pMHJHEpzcWJsiIgozc5/rwwa0w5oIqSH99Gp1LvZc=;
+        b=kyKaHtVdAqJyUP7WuE92YcrIhy17O9kaD9OGG7fTptGTxTpuR662o5hMqHHobMnID8
+         h+OH1JrsSvNrYKmx2P6o4Vqlf/UeL5TXbOqLJDrmNEMUU2Ub2MShTSVO8X9a7vlX22Ac
+         mc+nnh7LilZdQazUaAl+Q0ZVDdTDB9Pcj3AQB56nzrHjd4O7So1Fz7w5rPsPYc152YX9
+         T0IH2IIQCBF6PsR9oRtdjZTDAB+FDPfo0bJdtJgc/AvWDWeKHzhJpdAx4g0IN8rbeRPz
+         TnNYNs0PpzUctH32VepJj5OQ6YqFMvqZAIRc4oQlOv80NMRgC8BEz0mmrmQwK6B+/8e+
+         +ciw==
+X-Gm-Message-State: AOAM532REB290XlbbxEp/6QkFwqxpe2paup8s4dYDO9rgjbKaGqfijKz
+	wlHkMwddG5QLvTIeBG40Uqk=
+X-Google-Smtp-Source: ABdhPJx7NgH1Z2cNI0g3ADakQrP0PNMiBePXzpV5ILN0HSt72FliKqv8qda4/OSzKlG/TVvhxlTSTQ==
+X-Received: by 2002:a1c:cc03:: with SMTP id h3mr6687171wmb.73.1629534677135;
+        Sat, 21 Aug 2021 01:31:17 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::2744? ([2a02:8108:96c0:3b88::2744])
+        by smtp.gmail.com with ESMTPSA id y13sm6991025wmj.27.2021.08.21.01.31.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Aug 2021 01:31:16 -0700 (PDT)
+Subject: Re: [PATCH] staging: r8188eu: remove forward declaration of
+ Efuse_Read1ByteFromFakeContent
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ gregkh@linuxfoundation.org, Phillip Potter <phil@philpotter.co.uk>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ martin@kaiser.cx, Larry.Finger@lwfinger.net
+References: <20210821000508.79422-1-phil@philpotter.co.uk>
+ <5110838.kRcMR4ARJC@localhost.localdomain>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <b0819fe2-e7cf-b6bc-5930-a31e10da811d@gmail.com>
+Date: Sat, 21 Aug 2021 10:30:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <5110838.kRcMR4ARJC@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The "pbackup_remainder_ie" variable is not freed when "pwps_ie_src" is null
 
-Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-Signed-off-by: Xiangyang Zhang <xyz.sun.ok@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_ap.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 1127e9a52458..2ce982390c7b 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -1300,7 +1300,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 
- 	pwps_ie_src = pmlmepriv->wps_beacon_ie;
- 	if (!pwps_ie_src)
--		return;
-+		goto exit;
- 
- 	wps_ielen = (uint)pwps_ie_src[1];/* to get ie data len */
- 	if ((wps_offset + wps_ielen + 2 + remainder_ielen) <= MAX_IE_SZ) {
-@@ -1314,6 +1314,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 		pnetwork->IELength = wps_offset + (wps_ielen + 2) + remainder_ielen;
- 	}
- 
-+exit:
- 	kfree(pbackup_remainder_ie);
- }
- 
--- 
-2.19.1
+On 8/21/21 5:17 AM, Fabio M. De Francesco wrote:
+> On Saturday, August 21, 2021 2:05:08 AM CEST Phillip Potter wrote:
+>> Remove forward declaration of Efuse_Read1ByteFromFakeContent function
+>> from core/rtw_efuse.c, as the function is defined in full directly
+>> after this and therefore this forward declaration is redundant.
+>>
+>> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+>> ---
+>>   drivers/staging/r8188eu/core/rtw_efuse.c | 6 ------
+>>   1 file changed, 6 deletions(-)
+> 
+> Philip,
+> 
+> It's pretty clear that this function has only a translation unit visibility.
+> Why don't you make it clear by defining it with storage class "static"?
+> 
+> Thanks,
+> 
+> Fabio
+> 
+> 
 
+Hi Phillip,
+
+I agree with Fabio, making the function static avoids the 
+[-Wmissing-prototypes] warning and makes it clear that it is only used 
+in this file.
+
+Thanks,
+
+Michael
