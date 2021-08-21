@@ -1,105 +1,116 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF4F3FC0
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:56:18 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id q11so17993446wrr.9
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 03:56:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF6B3FC0
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 11:03:44 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id k5-20020a05600c1c85b02902e699a4d20cso7561998wms.2
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 04:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=f8308s6LzNzwxOqQwJQBOWsN8iyKJJAOplsgCOJjsWo=;
-        b=lEw5huwNwg814rRpxPoc6pPmJPScyh50FIR+/CmNlAcmamXnTyaIApzjV5ygCDRYpK
-         UkA8PBQPSj6UuFZwCourYxMc/2AEmk2AVAzzU4kJoSfhOgRBBi5DAVioA2Dz6fWi+a7T
-         /O1dPhyKnyk7lfNNj5yAERrCwiMv9/+A3y8xuF/HJHsUDUt7fiBBkDp7aiDPOEbeGC8T
-         QNcTGXvgdYauywqC0CxoKesKT+H5AwdyA9Ykz0lYOuY2VHQo3zNE/l06JOTyhaCGWKtV
-         ckU3mmcc/yrDrnT/AUIq+sSQv0Viw70GcUiIwPEDa9XdA4e/rqKVbZO9mM6HAVc3nTVb
-         Hbuw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+oBfSTls/jelXZfAiR3pNRnb9JU1CX2FyMD8hziKDQ0=;
+        b=eYRMnopUXoYrlOmkuwqRXuHSrTRE+iwUJe3ofMMk/ZHeKJmbNCQNIDdoGD38IBvVPH
+         9ulrJAjsZ6TgSQ/JVXcmkfsBeXEbVlgxJ+Fqu+zXNzUAo8nfupq0ys8fU0rP4zM4/von
+         Jsxjlsp9hnwJ/jVCoHP71uZinidjHwCqPnxHbAhMV/ib58JpxX8Da1z/9gEo+bXSsHvh
+         fL8Fy2hD8ZC9OXFHgWth0+FcZceisy4NEUfv2CZQW3UXm7PlgepGeHlwKWqAiyHq9aDz
+         rP0nN7pAabTPOKTwUdzMQNdAv8XRUmBxefkjBkFb/gLDx/8nIcWq3SZfScL0TRjKI2f0
+         rU3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=f8308s6LzNzwxOqQwJQBOWsN8iyKJJAOplsgCOJjsWo=;
-        b=IwOa1YtztMoNI2yj0XIHoMI4yhBFvZDWNptcE0yLYN1JQT8CYD7MncOLClp0eKNPaD
-         IgVtMYNJTNJAy1gboDWUg9c1vmhK+Uh29IT73jtUlgyZZYnqY7oAMCkEPJhtG/FH21Lq
-         3o0egwOG3BFcCjeAWuBEx+4cABXKdAO0YE3SpIKiY0AwXHGyjy1acOYwQtpqWkokdtN4
-         gT2qIkqmBLvDE8OEARvrdk+kycdVxXexiHAVCCUZCLXHEuqdvwZhZhhVsYg3zd+rYGuw
-         upQNyvuZ9/as1BAdL/J0Q7faH2XlxLfTisIbqhfmUroKKj3EaCd2cRWHKDO18zXRetHK
-         XEog==
-X-Gm-Message-State: AOAM533t6dL8jOAwGAadA3aBgbQG0MS9lsY2AKG2YTkQMnYhBHaLwvvc
-	WDDeqXKhI3+bWteOxYGbKHqHNQ==
-X-Google-Smtp-Source: ABdhPJzna+c9+x4htAGBrT5mumu6CIlLz5PfTkQMTHR4+dHYFRX+yiZBkpB2McR3aZBohfbE9Ua53w==
-X-Received: by 2002:adf:e5c7:: with SMTP id a7mr3405087wrn.312.1629543376806;
-        Sat, 21 Aug 2021 03:56:16 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id z126sm8012969wmc.11.2021.08.21.03.56.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Aug 2021 03:56:16 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	martin@kaiser.cx,
-	straube.linux@gmail.com,
-	Larry.Finger@lwfinger.net,
-	fmdefrancesco@gmail.com
-Subject: [PATCH v2] staging: r8188eu: change declaration of Efuse_Read1ByteFromFakeContent
-Date: Sat, 21 Aug 2021 11:56:15 +0100
-Message-Id: <20210821105615.6307-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
+        bh=+oBfSTls/jelXZfAiR3pNRnb9JU1CX2FyMD8hziKDQ0=;
+        b=adSdcLzje6DB7CaMCyTIaq5CvhCyzL3NfkNw9b3CuSOIMSspHKTGgSCqmJBTdRHjVO
+         0NUV2mBYR6EOKME8DeXB7VaVJdik5/GuHdWVkLv5wS+tfg6WvwtwLIqLVYSrBESFMb7V
+         TBzbiHCHCcw/RMqP+O3vcT8Llc2ciIy0YgiuS1ou/t7+vIm7zuiky8lYxY/k+YbBL926
+         Qsqb7Ac0gKRf6jjUC7JkWfjDTiuDbkoVT3aO+4PKHAd8Q/nDyf4iT2MTykA8UmXmhVUL
+         TIr4dPXklRQNqBtAUVK2/waNk22Z8E5kk9WMHiMcutVhx0105591gGRsn9JJ7qFKzDfJ
+         7PyQ==
+X-Gm-Message-State: AOAM532q3pwY9qFNex3mf/88Iht93JN/+/umhEMA7c24CG58/NplDNQF
+	ksqv1/CA/MEz1BJxow1yt7XIRXbYawc=
+X-Google-Smtp-Source: ABdhPJy2xXAhK3JwFgr+FxlHKupWZkKRxvUDlPEVUIrIJksHQ1Bq0E2IeeN5MeScrbJLV4ddgQLXTA==
+X-Received: by 2002:a05:600c:2f0f:: with SMTP id r15mr8044964wmn.29.1629543822429;
+        Sat, 21 Aug 2021 04:03:42 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::3c39? ([2a02:8108:96c0:3b88::3c39])
+        by smtp.gmail.com with ESMTPSA id d4sm9152919wrc.34.2021.08.21.04.03.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Aug 2021 04:03:42 -0700 (PDT)
+Subject: Re: [PATCH v2] staging: r8188eu: change declaration of
+ Efuse_Read1ByteFromFakeContent
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ martin@kaiser.cx, Larry.Finger@lwfinger.net, fmdefrancesco@gmail.com
+References: <20210821105615.6307-1-phil@philpotter.co.uk>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <f151ef3c-d625-a937-2096-afae4fee20f1@gmail.com>
+Date: Sat, 21 Aug 2021 13:02:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210821105615.6307-1-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Remove forward declaration of Efuse_Read1ByteFromFakeContent function
-from core/rtw_efuse.c, as the function is defined in full directly
-after this and therefore this forward declaration is redundant.
+On 8/21/21 12:56 PM, Phillip Potter wrote:
+> Remove forward declaration of Efuse_Read1ByteFromFakeContent function
+> from core/rtw_efuse.c, as the function is defined in full directly
+> after this and therefore this forward declaration is redundant.
+> 
+> In addition, convert the storage class of the function to static, as the
+> function is only used with rtw_efuse.c, and tidy up the signature
+> alignment.
+> 
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+> 
+> V1: Removed forward declaration.
+> V2: Takes account of feedback from Michael Straube and Fabio M. De
+>      Francesco to make storage class of the function static.
+> 
+> ---
+>   drivers/staging/r8188eu/core/rtw_efuse.c | 14 +++-----------
+>   1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+> index decccf7622f0..c1c70648f5bc 100644
+> --- a/drivers/staging/r8188eu/core/rtw_efuse.c
+> +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+> @@ -29,17 +29,9 @@ u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+>   #define REG_EFUSE_CTRL		0x0030
+>   #define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
+>   /*  */
+> -
+> -bool
+> -Efuse_Read1ByteFromFakeContent(
+> -			struct adapter *pAdapter,
+> -			u16 Offset,
+> -		u8 *Value);
+> -bool
+> -Efuse_Read1ByteFromFakeContent(
+> -			struct adapter *pAdapter,
+> -			u16 Offset,
+> -		u8 *Value)
+> +static bool Efuse_Read1ByteFromFakeContent(struct adapter *pAdapter,
+> +					   u16 Offset,
+> +					   u8 *Value)
+>   {
+>   	if (Offset >= EFUSE_MAX_HW_SIZE)
+>   		return false;
+> 
 
-In addition, convert the storage class of the function to static, as the
-function is only used with rtw_efuse.c, and tidy up the signature
-alignment.
+Looks good to me.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
+Acked-by: Michael Straube<straube.linux@gmail.com>
 
-V1: Removed forward declaration.
-V2: Takes account of feedback from Michael Straube and Fabio M. De
-    Francesco to make storage class of the function static.
 
----
- drivers/staging/r8188eu/core/rtw_efuse.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+Thanks,
 
-diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index decccf7622f0..c1c70648f5bc 100644
---- a/drivers/staging/r8188eu/core/rtw_efuse.c
-+++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -29,17 +29,9 @@ u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
- #define REG_EFUSE_CTRL		0x0030
- #define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
- /*  */
--
--bool
--Efuse_Read1ByteFromFakeContent(
--			struct adapter *pAdapter,
--			u16 Offset,
--		u8 *Value);
--bool
--Efuse_Read1ByteFromFakeContent(
--			struct adapter *pAdapter,
--			u16 Offset,
--		u8 *Value)
-+static bool Efuse_Read1ByteFromFakeContent(struct adapter *pAdapter,
-+					   u16 Offset,
-+					   u8 *Value)
- {
- 	if (Offset >= EFUSE_MAX_HW_SIZE)
- 		return false;
--- 
-2.31.1
-
+Michael
