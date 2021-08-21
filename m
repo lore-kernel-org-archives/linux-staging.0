@@ -1,55 +1,53 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C983FC1
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 14:18:49 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id oc2-20020a17090b1c0200b00179e56772d6so5861094pjb.4
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 07:18:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20A43FC1
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 14:19:51 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id a21so11255043pfh.5
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 07:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=jehk/SAV88QAcVymj6qobcNZQrFrGYFZzagP5r8Z4ns=;
-        b=XaAaRGcVxjGBSRqOemxoFACYeDiCmZN3SZvnOemXvEmg9sQ5VQWlhMF27tCLPIJTZZ
-         +OAFXQfeNPQ7Ysb5FBSHxyDssrxhUkaWMN+w/Sx7j/g27foaednkAWtSVAuob28/FN+u
-         HZBGrOe/ibyB011Mgbf3kdwMPSV8aD0GgTUJKPEo1vGFRr4tES3L7aCpDaF/G69HoCHn
-         T4hB4iWFii2/WFX+qZD5TLM4f8oVopRRvJHbAA+/e0LpE/4Fk4UnUcfqjL8Yc2Qp2Jim
-         tLBEzUiia6SoMexqThhOKHlWMJfULJGSCFHKL4+0lOJW3YBgxBUpLCYzw5BDy+F5wF4/
-         MFNA==
+        bh=4BEOSYks7kKTIJey8qCXq/FjaQ8h7AUNhWZJcjwIWNU=;
+        b=s3mgcInIvBRJt3ELH3xZBXGzK/FWLP0b1agTD5IFB07W2zkrGVSwD6+s5KGtPPCcAH
+         wfQ2XlLNwOp1AoD/FyOaGmxG2N/Vf/LyiQgFvFBKfm5SPcRbtK+5ItneaG1qMy0j1VIU
+         yGK1xHngjTzKWUI09kNloMPdT0jA2QhwpGDsFlA89ciQJTMAcX9boHGWdfVKeTtlQ9ab
+         iJObsOQw0woXiyVXDi+WMCAixC/6bItB/sizFmTeLsgkuTVqmf8Rbef3EmlEIXDgTtAZ
+         g+NIkB1yPcxAHWJ4mz+nxNGI6tLmg9G+npu7SFaFc/WmOLFZjuvutELn849ztvd6vjIX
+         lNpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=jehk/SAV88QAcVymj6qobcNZQrFrGYFZzagP5r8Z4ns=;
-        b=OekTsXRab6SBZI65yOetucOUH3iXObS5Dp1cy/l1Ow4IoLMVdc+tyFh+XTz/CZHVgz
-         DVJyDxUPCkVDlsAqd3PJh1tsNu+//k/EfXWHYEN0IJ3ipdZFLq1YjZ/rYXLBo1vKexjF
-         ub4KDtTmcMaSXaxFCkROCNZceAu7pj2thQD0P/Dv6E0pRjA3t6rqm+4pRcCsDxel8ScZ
-         weySW+nhq/NhUKDeO3yHKhtMUulb8LQx72k+6niC5XrrdkD7uvo9P+LDV92ShwaFuezS
-         //aLFA31f/CpZrnMMAcHq7zziit9PxLpXbMs0NdJQiphn5x91YLuSuWfBfmJcFtXVoT5
-         YsRQ==
-X-Gm-Message-State: AOAM531pKqnnP0/grsGS0gTm5kNa1zo7CFRpsBVXk/b47wvTlYBVQCV/
-	uZkkwX7UXQtvs7t3ZVYZObg=
-X-Google-Smtp-Source: ABdhPJwe+puIbYiIzF4CRnOsxRLWtBJjm/5UJ3Kul6PNDqEOpZRNwxK/Qudhi6k3EHXJS1uEdxlhQA==
-X-Received: by 2002:a17:902:ab53:b029:12c:57a6:13ae with SMTP id ij19-20020a170902ab53b029012c57a613aemr20741714plb.53.1629555528697;
-        Sat, 21 Aug 2021 07:18:48 -0700 (PDT)
+        bh=4BEOSYks7kKTIJey8qCXq/FjaQ8h7AUNhWZJcjwIWNU=;
+        b=g7b/AXu3rHZZllFhROYcu5v0+Ts/f8ctxZ7n+dONzGhupx8FjuDfri4R9segQXnlff
+         E0atZCD5ABle3goMeq+kNtk2XJUelZjY0JMp5j//arM2ZfZIDFPIGoVpLaCQ2/jmNkms
+         XbID8w6ZOcIE5iORGjcFCV0j7cu42i77d2GaeVrYfO0mP/Bbj9LGJpWFe6d0+oRIMyGw
+         BpJiKqSN1vkJyI2hOU7mKErt0o495MdB+c7DwpFEJLCmRMWbf80UgNXUa0sgVvWkT8gs
+         kwRMDlHA1Fon2DMP1hbbY0+Wjz5a57n1eebwLQMtdiotcF/gFNo+/PNR33UPOkGW9Zgl
+         IcEA==
+X-Gm-Message-State: AOAM530VAZ+IsZ33KgMwIBrdA+tznvKFMlb5FGidDUyqS1zl1rXQO9E7
+	bc05//oXRK9yiUFO8i/bYCpjfsPrh8Q1i5/Z
+X-Google-Smtp-Source: ABdhPJwjuaXP2lPOjBb/KDrb1Toq+PIpVlVKfOj2NxKzLN7RwywoHZDi30NsZBUBx8fzGGLmXqxQzQ==
+X-Received: by 2002:a63:496:: with SMTP id 144mr23544336pge.353.1629555591510;
+        Sat, 21 Aug 2021 07:19:51 -0700 (PDT)
 Received: from localhost ([49.207.137.16])
-        by smtp.gmail.com with ESMTPSA id j11sm10816718pfa.10.2021.08.21.07.18.47
+        by smtp.gmail.com with ESMTPSA id r17sm12992641pgu.8.2021.08.21.07.19.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Aug 2021 07:18:48 -0700 (PDT)
-Date: Sat, 21 Aug 2021 19:48:46 +0530
+        Sat, 21 Aug 2021 07:19:51 -0700 (PDT)
+Date: Sat, 21 Aug 2021 19:49:49 +0530
 From: Aakash Hemadri <aakashhemadri123@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] staging: r8188eu: restricted __be16 degrades to
- int
-Message-ID: <20210821141846.k4n4eorn4ifk5lfj@xps.yggdrasil>
+Subject: Re: [PATCH v2 3/5] staging: r8188eu: incorrect type in
+ csum_ipv6_magic
+Message-ID: <20210821141949.55l7zcjifbxv6pao@xps.yggdrasil>
 References: <cover.1629360917.git.aakashhemadri123@gmail.com>
- <bd63137c645ecc20dc446a6cfa7f7d3461a642d7.1629360917.git.aakashhemadri123@gmail.com>
- <YR6S7MfxpXpQFl9d@kroah.com>
- <1777630.LqDDHREl4S@localhost.localdomain>
+ <8bc15e51751c26fd19428f3b4976b7495feecd34.1629360917.git.aakashhemadri123@gmail.com>
+ <58069e38-a457-9fcc-0a9a-6bfe8723a178@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,39 +56,13 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1777630.LqDDHREl4S@localhost.localdomain>
+In-Reply-To: <58069e38-a457-9fcc-0a9a-6bfe8723a178@lwfinger.net>
 
-On 21/08/20 05:10PM, Fabio M. De Francesco wrote:
-> Building on the objections you had from Greg I suggest that, before attempting 
-> anew to address problems like these, you get a better understanding of the topics of 
-> native and network endianness and of the API that (conditionally) swap bytes 
-> in a variable between little endian and big endian representation.
-> 
-> To start with, please note that the following code leads to tests for "v.vub[0] == 0xDD" 
-> which is true on little endian architectures while "v.vub[0] == 0xAA" is true on big 
-> endian ones...
-> 
-> union {
->         u32 vud;
->         u8 vub[4];
-> } v;
-> 
-> v.vud = 0xAABBCCDD;
-> 
-> Also note that API like cpu_to_be32(), htonl(), be32_to_cpu(), ntohl, and the likes are 
-> used to (conditionally) swap bytes (i.e., change the arrangement of the bytes in a 
-> multi-bytes variable).
-> 
-> Casts have very different purposes and usage patterns and, above all, they cannot 
-> magically change the endianness of a variable.
-> 
-> Regards,
-> 
-> Fabio
-> 
+On 21/08/20 04:38PM, Larry Finger wrote:
+> This patch is correct, but I prefer that you use be16_to_cpu() rather than
+> ntohs(). I think it makes the code easier to read.
 
-Thanks for the explanation Fabio!
-Will rework and send it through!
+Sure Larry, Will use be16_to_cpu()
 
 Thanks,
 Aakash Hemadri
