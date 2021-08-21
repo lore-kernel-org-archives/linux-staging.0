@@ -1,81 +1,94 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22D83FC0
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 20:23:15 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id w6so7881648plg.9
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 13:23:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=PQ0kuL9gkx8s1jZqXYLC1xp9qFGx+ag16bv9EFtZWZg=;
-        b=R0iXxfxeaWOuIMXxBqJgwpmEs+YrrkoGLezGgjHac7erBTBCmHznlnD8ScyHR7amLv
-         GrZhBkuLP+oWanthAX/AAbWk1EEqcImQr7xwrYXDUfC++qZAisGMgAGNgmkx63OnURDY
-         knEAqu4eKhxPaYJJ/Wx2eVQVA7r6zhdKf0HTGk5E2NuNN/uHMNPviQmRnzczYZWoHRAt
-         lfV3fgDf/r8pJbRipGHsU6Wrhdkf8bxBTwQfLIsBm3v4hvc3YE2xFhAgUrOpkv1dk5cZ
-         kPByeWfzkPZM/HKfSZd0EPvIsDXFon0IC2VtOQcd3zjkddMqflyZzimzjnPVinETlyRm
-         PxFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=PQ0kuL9gkx8s1jZqXYLC1xp9qFGx+ag16bv9EFtZWZg=;
-        b=A7VnReU7C6PQEQ0tTWSZyoznHOaU83iuA3Tdrv4nhkiDcVbGpYox4yhqA0sRVNS4Dw
-         aEufRrPMVL0TlnMK45dCMu3BLYDZ1IyYR4XrETbL4+RWjHe+ujNgUJ3DMThK7JXq8mAm
-         Ch9E1VRybCMcH5kV5KaRs2KctHX9Wphl96Cyhu6qFM5YHXLSWssEC/kREusvSHowgKK7
-         dW2x7b3e8XcKGeDQKAO5Yet/uGIFZzuxj8hlMwnAztaLbUV4fkWJz0wbd1cRqeMc7TF8
-         gVNMTebvka1+JKCayH6gk6QBLv6ttHTCFOYK50/A2yETEayZDBD07YlVLMV02ZfXs5k3
-         1mug==
-X-Gm-Message-State: AOAM532c+/VA6lNPl8njT2EeJmSDTwZy7Fj3jWYzfvxrHmtOKX4NIQmS
-	WNhkkxz0/KPip8ZkB44n1yU=
-X-Google-Smtp-Source: ABdhPJzzCAc5LCMMermGlZjmy6uhYlmlp/zQj/7BLosZaU2KEqRItb8/yapd4m2Ge6Nkc1MAyX8aRQ==
-X-Received: by 2002:a17:902:7897:b0:132:580a:90b4 with SMTP id q23-20020a170902789700b00132580a90b4mr3627046pll.7.1629577395400;
-        Sat, 21 Aug 2021 13:23:15 -0700 (PDT)
-Received: from user ([106.212.234.168])
-        by smtp.gmail.com with ESMTPSA id z4sm70841pjl.53.2021.08.21.13.23.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Aug 2021 13:23:14 -0700 (PDT)
-Date: Sun, 22 Aug 2021 01:53:08 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, saurav.girepunje@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: core: remove condition with no effect
-Message-ID: <YSFgrLUfXzgcT6k4@user>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814343FC3
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 23:55:38 +0000 (UTC)
+Date: Sat, 21 Aug 2021 23:55:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail; t=1629590117;
+	bh=XynyHm48qxpiEu1n5TctT5wC6O1IqPXoy0obJpg/WPI=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=NLQ/gA5qWK5723aKXeieZZDCo01NYml/PnBLTpzqH98r2Cl/u36PW0wTZVEBiAL+a
+	 wEnInF9rVaXtLNdKDmoKRkJj3Rqiu1FEWDhn8JBr/PaYoGQFiP0zSEg81rK/mRmYYH
+	 4DqeDMQgl1g3K9xXIxd8sifZz8NGsfx+hWh3YHK+s0FW+FntVuk05qSvbKPusCzYG/
+	 8ku8WwyAQ183H2fKLDnQw7cG/AUAPqE+usubmHZiFH7N/7+mVnQ2FjV76KQ60tJkg6
+	 z0ch/0WtPNiUCXBr4ogPnQ0PxpfHugKwKxI0Ru6bKxIghrGL+Qw4cQ12cijeO2Bk0X
+	 Oc9QPSwrnMONA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH 1/6] staging: rtl8723bs: remove sdio_write_mem()
+Message-ID: <20210821235456.2502681-1-hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-Remove the condition with no effect (if == else) in rtw_led.c
-file.
+The sdio_write_mem() function is unused in the driver. We can remove it.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
 ---
- drivers/staging/r8188eu/core/rtw_led.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/hal/sdio_ops.c   | 11 -----------
+ drivers/staging/rtl8723bs/include/rtw_io.h |  1 -
+ 2 files changed, 12 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index 22d4df9c92a5..76cbd5f19f90 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -148,10 +148,7 @@ static void SwLedBlink(struct LED_871x *pLed)
- 			_set_timer(&(pLed->BlinkTimer), LED_BLINK_SLOWLY_INTERVAL);
- 			break;
- 		case LED_BLINK_WPS:
--			if (pLed->BlinkingLedState == RTW_LED_ON)
--				_set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
--			else
--				_set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
-+			_set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
- 			break;
- 		default:
- 			_set_timer(&(pLed->BlinkTimer), LED_BLINK_SLOWLY_INTERVAL);
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
+8723bs/hal/sdio_ops.c
+index a545832a468e..b784a390c8e1 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -356,16 +356,6 @@ static void sdio_read_mem(
+ =09sdio_readN(intfhdl, addr, cnt, rmem);
+ }
+
+-static void sdio_write_mem(
+-=09struct intf_hdl *intfhdl,
+-=09u32 addr,
+-=09u32 cnt,
+-=09u8 *wmem
+-)
+-{
+-=09sdio_writeN(intfhdl, addr, cnt, wmem);
+-}
+-
+ /*
+  * Description:
+  *Read from RX FIFO
+@@ -474,7 +464,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
+_io_ops *ops)
+ =09ops->_write16 =3D &sdio_write16;
+ =09ops->_write32 =3D &sdio_write32;
+ =09ops->_writeN =3D &sdio_writeN;
+-=09ops->_write_mem =3D &sdio_write_mem;
+ =09ops->_write_port =3D &sdio_write_port;
+ }
+
+diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
+tl8723bs/include/rtw_io.h
+index e98083a07a66..87f36b7e880f 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_io.h
++++ b/drivers/staging/rtl8723bs/include/rtw_io.h
+@@ -91,7 +91,6 @@ struct _io_ops {
+ =09=09int (*_write32_async)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
+
+ =09=09void (*_read_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *=
+pmem);
+-=09=09void (*_write_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 =
+*pmem);
+
+ =09=09void (*_sync_irp_protocol_rw)(struct io_queue *pio_q);
+
 --
 2.30.2
+
 
