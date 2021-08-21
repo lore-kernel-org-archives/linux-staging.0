@@ -1,50 +1,49 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E0772
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:47:15 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id x1so5206293plg.10
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:47:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FA872
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:47:39 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id g14so11546173pfm.1
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dp139urNDxO4JTlPsXpj0kyL07J5UAiGj94dEKj6njg=;
-        b=gYP3msuCsJfbPlYUKun+IfeDkptAAhdgN9OaIizYT0MZ3LV4l6g29qvogUOKmtO8+k
-         koODEopMSx0JERsR18i8WFduTgbPTk6mkDnl59y9lbf43eSOrqUA2AzNfA74xehNqwx0
-         NiRZ+t5YA18yHKBIcZ3H4PVKRImO1vPHwLkb72KEB4sLvkQjC6cfMh1l8TyymaRoCTUv
-         /oWptnjpCr5Tn+L7W8n/kj3oHGjk0YzzDlJ2RnMQxCggo5JkpDRnz7gq7FwgUYGGEeLk
-         b6LWnXrpW7JxmrS/8gAS+xFvSU1jiUuDA+iWTdQq7Qsg7X3gkR0EG+vtXdfksZJEqqXi
-         SYPw==
+        bh=weI7dEBVDoKQ1ZWV63hBImrE6uK/njMI0Jn4Use0aPk=;
+        b=lJ9TbWcy2L0UP7e4OsNstGjZ+H124xT39Rs/HnWh8Bxcm3mEQDfdLn0CFdY2JwVGLA
+         LHkIonRmmdXTUdyamI6V2MrEm4T4spCXQfDt8liYl+xDy4KIrAdEgvzVTQV8q0xpoANa
+         b0+y+LuLyXp/7CXFE1zFNhIPue9ILwrZ87SXSZd/yO9JtOiFiggHwr8csRmgK9zO2XoI
+         +Uk3+JjvZtmui2Yv5El1j/g6yJlSfa8vBkgyvyUmlWIIx1TOhYdD+Y1kvmedCgsS7Xwg
+         rjLtS1TawSz1sE3M1xD8PX7ibMcCm/syaiMs4JxizvtwgDPihFMlJKuSW414/XWn+66p
+         9ibQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dp139urNDxO4JTlPsXpj0kyL07J5UAiGj94dEKj6njg=;
-        b=QrQFja4aUzgQzBfKkbKr/+tONkRhGSfh30jP0zit9TU91RvMbUwgpKMrbsQuCBpo0t
-         UODu+0IG4XLZPGfdHFihVNkyA/tYlSkUiSJNm6h7uA+qiFxUzvnjt0+JOOHIozNjIPRj
-         e1rB2/mRwvEQ7umx3k25R47Mi9s4LhQ5vO7YD5i4+eQtVDDR2dxwcUOHVF/Xcrffb/Wx
-         /moR+Eytu9f/8kS5dczGxSivmK3kbA+989rswjikNLu02vBJB9Qjn9ww9fcLC06LmF0Y
-         4PblqpYQ6uQmbLNGBFM/Nd/GJ/k0SUcJBh59pr3yhQvSHVhYXDzrAc4KnVbkf8r1U0dT
-         I5Lw==
-X-Gm-Message-State: AOAM5308tataxNPtiyOR8TrgxdF/lTVz+UV8/jB8BZmHLWo/dcVDRu2x
-	0z/l9X7NXWRdNUQKdl8H+SMmIBD7GvzPshr/9YJHMA==
-X-Google-Smtp-Source: ABdhPJw1nUSZoC4Fgk6EAnr9TD8XGUM4E2iez0dfvw9SB3n+JzfIrzRr2uVctHs1MYga5xfnT0XYA0JLgFGvdk+rYzQ=
-X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id
- h4-20020a170902f704b029011acdee0490mr21546731plo.37.1629568035580; Sat, 21
- Aug 2021 10:47:15 -0700 (PDT)
+        bh=weI7dEBVDoKQ1ZWV63hBImrE6uK/njMI0Jn4Use0aPk=;
+        b=cq5t/1qlky/Cwq0UlZPR+ISoOsXgOaEwqcdSwF+LGDPu99Absm6YL00jxJWOM384qy
+         F7GidGdCQqmHMGVMy1H0Ffo94eMYp3oPLZSvqq9CcYnS+gmJPoBlw9aMyvpyfr9z9+WH
+         i5Eqn5AZybGNzLoqy/fRy3/HbJc217r5Ko/Q7xxC91B5/yphORE3lkIU1e+NuzuZLIV8
+         H7PKp8ud/vRmbSIFHtq+TxUqbed1KqE7n8ySN41QItJvjrcoCTi2UBEu8TY3csJ0iHDt
+         EbOxfPZhvGk8790xvlfHbjshrPR1jrcaAlHblHXKiY+Erxi/uw58EEtkllG8WfKOb0Cd
+         GGJg==
+X-Gm-Message-State: AOAM533chdAD9OllVW+WMLSF1KKRHS35Ty57/5ijd1zvqED1HCLP+58n
+	q/bGZjud5aMr7aQhEWbWTt4LNeLz9Eu2A/+TEX4iqA==
+X-Google-Smtp-Source: ABdhPJykbxCkleRKKJlkecwiPdRxh2fNo6umihTj294KDTorcNY1IrVQQCcmJdlXlHhrVqcnn+5jG0NFlH5Im/5uyMQ=
+X-Received: by 2002:a63:d910:: with SMTP id r16mr24184591pgg.318.1629568059462;
+ Sat, 21 Aug 2021 10:47:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210821164859.4351-1-martin@kaiser.cx> <20210821164859.4351-8-martin@kaiser.cx>
-In-Reply-To: <20210821164859.4351-8-martin@kaiser.cx>
+References: <20210821164859.4351-1-martin@kaiser.cx> <20210821164859.4351-10-martin@kaiser.cx>
+In-Reply-To: <20210821164859.4351-10-martin@kaiser.cx>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sat, 21 Aug 2021 18:47:04 +0100
-Message-ID: <CAA=Fs0nuut-+dqCMOB-QU0j7ecUV8y5b42cmsj36H9FAN5Y4xg@mail.gmail.com>
-Subject: Re: [PATCH 08/10] staging: r8188eu: clean up the usb_writeN
+Date: Sat, 21 Aug 2021 18:47:28 +0100
+Message-ID: <CAA=Fs0mm3=nNkBGbbodSZFcz7hT2NuV6Z_c6a+9qFMr8Vjg+_A@mail.gmail.com>
+Subject: Re: [PATCH 10/10] staging: r8188eu: set pipe only once
 To: Martin Kaiser <martin@kaiser.cx>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
 	Dan Carpenter <dan.carpenter@oracle.com>, Michael Straube <straube.linux@gmail.com>, 
@@ -54,43 +53,45 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Sat, 21 Aug 2021 at 17:50, Martin Kaiser <martin@kaiser.cx> wrote:
 >
-> Remove unnecessary variables, check the length.
+> Set the pipe for reading or writing in usbctrl_vendorreq only once.
+> There's no need to set it again for every retry.
+>
+> This patch is an adaptation of commit 889ed8b5e374 ("staging: rtl8188eu:
+> set pipe only once") for the new r8188eu driver.
 >
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->  drivers/staging/r8188eu/hal/usb_ops_linux.c | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
 >
 > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index e01f1ac19596..5408383ccec3 100644
+> index 5408383ccec3..5a55ee38d7b8 100644
 > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -151,20 +151,15 @@ static int usb_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
+> @@ -40,15 +40,16 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>                 goto release_mutex;
+>         }
 >
->  static int usb_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata)
->  {
-> -       u16 wvalue;
-> -       u16 len;
-> +       u16 wvalue = (u16)(addr & 0x0000ffff);
->         u8 buf[VENDOR_CMD_MAX_DATA_LEN] = {0};
-> -       int ret;
-> -
+> -       while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> -               memset(pIo_buf, 0, len);
+> +       if (requesttype == REALTEK_USB_VENQT_READ)
+> +               pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> +       else
+> +               pipe = usb_sndctrlpipe(udev, 0);/* write_out */
 >
-> +       if (length > VENDOR_CMD_MAX_DATA_LEN)
-> +               return -EINVAL;
+> -               if (requesttype == REALTEK_USB_VENQT_READ) {
+> -                       pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> -               } else {
+> -                       pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+> +       while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> +               if (requesttype == REALTEK_USB_VENQT_READ)
+> +                       memset(pIo_buf, 0, len);
+> +               else
+>                         memcpy(pIo_buf, pdata, len);
+> -               }
 >
-> -       wvalue = (u16)(addr & 0x0000ffff);
-> -       len = length;
-> -       memcpy(buf, pdata, len);
-> +       memcpy(buf, pdata, length);
->
-> -       ret = usbctrl_vendorreq(pintfhdl, wvalue, buf, len, REALTEK_USB_VENQT_WRITE);
-> -
-> -       return ret;
-> +       return usbctrl_vendorreq(pintfhdl, wvalue, buf, (length & 0xffff), REALTEK_USB_VENQT_WRITE);
->  }
->
->  static void interrupt_handler_8188eu(struct adapter *adapt, u16 pkt_len, u8 *pbuf)
+>                 status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+>                                          requesttype, value, REALTEK_USB_VENQT_CMD_IDX,
 > --
 > 2.20.1
 >
