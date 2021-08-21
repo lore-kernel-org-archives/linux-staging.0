@@ -1,90 +1,114 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C21C3FC3
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 23:58:21 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id 17so13005064pgp.4
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 16:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ze576013se8gTETJRjtdN0zpKGBJhk+U/2xWctJQRKI=;
-        b=bhEJ0rA28D8RxCMKQwAzZlwDOVlv3/Gn9NXMukx4btG5s4GTBms8IynaLMusHs16E3
-         dZXPvFwTUUgEZ+/WdmXyIHpi1jJ0EBZInIBIyKqspSlG8+43VKZ0jGrg2Q8ny/ZOFi5E
-         RAsu/WoYzres5Pw/XQyzjaOz6IYDyBRR7p28VL7p87/IlsKtIyTr24v3p8k67GQqGMa+
-         mISQV18GQ/3yLbJOI0frMQjUMKXBogudyN2KaMWDSkdrtGuhb7ahPNNBxZkdnSspEpgG
-         rC+I1JNQBq1198IMVNV8Wgy1pjdJ50MbDFiSsi4/qEHBcLEelb71SfSsV8fsEDYgaooy
-         UadA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ze576013se8gTETJRjtdN0zpKGBJhk+U/2xWctJQRKI=;
-        b=OVkFl0QqSC0llp5SkBWwTbhVZeis9B+pBaddsmULH5/+Yatz2K3hN0/3E7AQGLr4UN
-         W4z9QcdDysiX122QDvAs/bs1qd4+pFwXnYZal8Q2C67rDVPjl4W8AqJ7QblPD6eiifnf
-         H/v3fPs4vMA14M1uSXNpz0qCpwY6Xqbh5DcXyUiTj8UweM/URYsP3UesxcZrEnEpNyhL
-         EPcryjm43o9rVBDtEx50ZNTgw3QGCeKiz/RwJ/PANQDQ0MZGaPXAvQgMJu/xNwCbN2xh
-         BuKs0w6RJXUS/Z3J1dyrOKzIXR9g9vWyKQUoMvKZzN+vQ70evWUbonCWVRTJ+v3/WipM
-         vazA==
-X-Gm-Message-State: AOAM533Jv3bxkewUoDaGvQagSo9/7HpV15rG/FmhqxHdUpjYz6A37WGr
-	rw/+88uII+Si3a9W0ed03IPimvULXL8Sg8z0fRafhw==
-X-Google-Smtp-Source: ABdhPJzWFJqq4vBBZ9oSiF99YbB7JP00V60CNeHb6sB3dmOCLQR5hIoOab/IOKpTDkysdkG1owqZozY04cVvTxkcmwU=
-X-Received: by 2002:a62:5c6:0:b029:341:e0b1:a72c with SMTP id
- 189-20020a6205c60000b0290341e0b1a72cmr26837102pff.71.1629590300709; Sat, 21
- Aug 2021 16:58:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398A53FC3
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 00:03:56 +0000 (UTC)
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4Gsb4f5Zrlz4x9pn
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 23:56:18 +0000 (UTC)
+Authentication-Results: mail-41103.protonmail.ch;
+	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="Xc7xoQZD"
+Date: Sat, 21 Aug 2021 23:55:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail; t=1629590163;
+	bh=wdAPJNqRs4L8i+w4JFiTHyTQcUOb9MfykknwRLa1lNU=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=Xc7xoQZD1wqgiJzRzFaCzU0yBlNYCVXFXwnR0ko+Kf/avpgcOtMly1/uGlRQN1jc/
+	 tvXER4FNaA5lZtTINDCi25AnToRyFnbuLOatsi3/Hm4cZvZHp4d+tMc6O3PuFfUyto
+	 huYPuTyz5mNwO6FSL1BehaFzns8nTOLZjXYuveT4uhLQuIm1/Q+qDHCv2nepDCjCaW
+	 E3ekV4+QpTmX2cwHsuUljazmURN4LU28VI04Z+GLUVXGGnAOONx60B/jt+3znHfKsI
+	 pkPeuIHPWWoyorKnx4AwdLic46/FYOSRvCVyhOEftb21f5mAhbZ00kKkgmeh5Ly+WV
+	 Vqc50tKsHEKkQ==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH 4/6] staging: rtl8723bs: remove sdio_readN()
+Message-ID: <20210821235456.2502681-4-hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YSFgrLUfXzgcT6k4@user>
-In-Reply-To: <YSFgrLUfXzgcT6k4@user>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sun, 22 Aug 2021 00:58:10 +0100
-Message-ID: <CAA=Fs0kByg1NztU+Nf__RUzTHuVh_q2hvcyh+3JqXiVgn+_VeQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, saurav.girepunje@hotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Sat, 21 Aug 2021 at 21:23, Saurav Girepunje
-<saurav.girepunje@gmail.com> wrote:
->
-> Remove the condition with no effect (if == else) in rtw_led.c
-> file.
->
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_led.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-> index 22d4df9c92a5..76cbd5f19f90 100644
-> --- a/drivers/staging/r8188eu/core/rtw_led.c
-> +++ b/drivers/staging/r8188eu/core/rtw_led.c
-> @@ -148,10 +148,7 @@ static void SwLedBlink(struct LED_871x *pLed)
->                         _set_timer(&(pLed->BlinkTimer), LED_BLINK_SLOWLY_INTERVAL);
->                         break;
->                 case LED_BLINK_WPS:
-> -                       if (pLed->BlinkingLedState == RTW_LED_ON)
-> -                               _set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
-> -                       else
-> -                               _set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
-> +                       _set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
->                         break;
->                 default:
->                         _set_timer(&(pLed->BlinkTimer), LED_BLINK_SLOWLY_INTERVAL);
-> --
-> 2.30.2
->
+The sdio_readN() function is unused. We can remove it.
 
-Thanks for this, looks good.
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+ drivers/staging/rtl8723bs/hal/sdio_ops.c | 45 ------------------------
+ 1 file changed, 45 deletions(-)
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
+8723bs/hal/sdio_ops.c
+index 019ace4b8564..928fa109565e 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -195,51 +195,6 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 a=
+ddr)
+ =09return val;
+ }
 
-Regards,
-Phil
+-static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf=
+)
+-{
+-=09struct adapter *adapter;
+-=09u8 mac_pwr_ctrl_on;
+-=09u8 device_id;
+-=09u16 offset;
+-=09u32 ftaddr;
+-=09u8 shift;
+-=09s32 err;
+-
+-=09adapter =3D intfhdl->padapter;
+-=09err =3D 0;
+-
+-=09ftaddr =3D _cvrt2ftaddr(addr, &device_id, &offset);
+-
+-=09rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
+-=09if (
+-=09=09((device_id =3D=3D WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
+-=09=09(!mac_pwr_ctrl_on) ||
+-=09=09(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+-=09)
+-=09=09return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
+-
+-=09/*  4 bytes alignment */
+-=09shift =3D ftaddr & 0x3;
+-=09if (shift =3D=3D 0) {
+-=09=09err =3D sd_read(intfhdl, ftaddr, cnt, buf);
+-=09} else {
+-=09=09u8 *tmpbuf;
+-=09=09u32 n;
+-
+-=09=09ftaddr &=3D ~(u16)0x3;
+-=09=09n =3D cnt + shift;
+-=09=09tmpbuf =3D rtw_malloc(n);
+-=09=09if (!tmpbuf)
+-=09=09=09return -1;
+-
+-=09=09err =3D sd_read(intfhdl, ftaddr, n, tmpbuf);
+-=09=09if (!err)
+-=09=09=09memcpy(buf, tmpbuf + shift, cnt);
+-=09=09kfree(tmpbuf);
+-=09}
+-=09return err;
+-}
+-
+ static s32 sdio_write8(struct intf_hdl *intfhdl, u32 addr, u8 val)
+ {
+ =09u32 ftaddr;
+--
+2.30.2
+
+
