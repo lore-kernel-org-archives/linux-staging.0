@@ -1,92 +1,117 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D307B3FC0
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 03:47:17 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id ay33so1513563qkb.10
-        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 20:47:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B0F3FC0
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 03:59:23 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id b7so16876261edu.3
+        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 20:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RhNvjC5FbjNYONwOawMoFPjO3QiHvU6DiO/UBhQ5dKA=;
-        b=IaobpgR+fgGfoE4JtceBoeSJVKme2DRf/ab1fwPCBbyifezuYtetDYNa3HL0vwxUeT
-         FPsjRYBvXPNq0OqunTCkIPxlzpcx4OVErwM9X79z7QjhOV75eNrk9N3WltQOq5FxgD4w
-         H4X22k4Yj/3JZ1I+unrG6NSKaxys361+Nej7o9jaIe2/wJB4QwkePFKHJRdB2g+66miW
-         HTzTHcZjDxmqE6o3n2EeCBlW2kd0c3CCBfChNe+1lrn4h8g0/X49wwJ28l+2wjok2UT3
-         OQuoBHXVzwsKHZQhzVcIPJsSQ7jUaGMUVn59Z6DBJ0wOrNIjVu40TSwxjelWldarIJlu
-         cQYg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=R3FWEQvkULZpp+ElEzfqW3d4QazWh4E5WETIUUYvJeY=;
+        b=OAFGT/cJF/l/cM8yYl0R7fRuUoMapU9L6+Xzx2eeiz8cE+ZpZQabmYz6Kj2VpB5+r6
+         bmo1TYLRIu6kj8e2BdC0UI0PolOy/S8DkWaPCa30hzFvk3p6rCDylh1FsVZ1q1L+5uiJ
+         /DdXrRFuMRdeq/7MN1DcgOzzZAfuEev1+bEIXPMUJCZbbinQTqA3fQrfYfEZt7tCcgVi
+         zJDzK8qeYg2KwTRXk5lHFXeDiKmp8W22wvQyDC/IaHyiygfY2j/7pVd/TelPvLeEkeBv
+         0byoD5dtm/B8ji2zQ+oeCmnPWEEUmhIgYrxLLvL5UoGvdt4rTkguvrpjjIt1vg47UI0z
+         AOvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RhNvjC5FbjNYONwOawMoFPjO3QiHvU6DiO/UBhQ5dKA=;
-        b=kToItu3v8ezreuGGTlaukm0HtTDCBOymlEGwryFeKmn3b7KOh9+cPkeUq0aTJu6ZeY
-         +3wjUNeigvZEbPrQSmFTHNH/mLSsYyKmhb805A2vfhMfYmhbkzmnrDUzm3dgNJbfBmXp
-         kPsBxKkIlrxfP0lVDRAbTOmOrFBJyQ/04OZwL7sneJbdoOnAQvGpevcSFNlg+1drM9Cv
-         Da2VhABOdFUNH5+YiSagCh8YkmAuZC5z1IbgdmAW5UVHrYD1RJMoAS3vNedbW1YTk33q
-         waRQIRSncDQJayupz5MZB4UxJmtLvxNF/KpBhKu+HYEbnM9qeQVtCkdkbYSdia+GNEaj
-         0JZg==
-X-Gm-Message-State: AOAM5334RbNbw8VEmok1AAoW3q+JiQ6uZvc2KFch5hjgoa93/Ur9XIGO
-	Pu3LbkSZm0ReueNh9PUwNjg=
-X-Google-Smtp-Source: ABdhPJwTc5lmnPDsB/8XGFL2k+dfYCuGkf+alRAXrKme1xV5LgukTboJwN2oBoworvB9t1l+EKyYqg==
-X-Received: by 2002:a37:681:: with SMTP id 123mr11901233qkg.53.1629517636953;
-        Fri, 20 Aug 2021 20:47:16 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id h4sm4072652qkp.86.2021.08.20.20.47.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=R3FWEQvkULZpp+ElEzfqW3d4QazWh4E5WETIUUYvJeY=;
+        b=Wj7TjxNTC+13pfDeICfptKb/G5QJvSGq174vA4u0ctAv1X1oPziBBUZtHq/Y9mmWq/
+         qYAp7IRCL4N+befD6pvh4lZyQHA6Mjyq21B5TzMV2VdOTAlxschIP34O5b+ka5oHr9qh
+         NMANGZw8mffimrJLINxTHTpiJ6bBeqhGnYv3iSbsNf2eoBObAwQ1xszW/h6Z28juqFyy
+         FD5mYUSA6nDUF1MRiJ0MvTV4pAo8ArqGNfMOpB6Bdytb59wqCs0Gz5TDEmBL1QKIGar3
+         ShhR2ZTPBJZM0Mb7/zTPDhn4b3QK9Wx1Fn8HIjKwwIcDNrMTI7yk3ixWJpanPEknYUnx
+         PLIQ==
+X-Gm-Message-State: AOAM531ttnjABPehPcTNjuaCW+Y675jsSnMEGI2hvFh4eGOLNQNOmmxU
+	RGdb11+mnTCYsgd0qFZPUPs=
+X-Google-Smtp-Source: ABdhPJwwzuTR+xcSC1RtQ5rsDP1/mV06Chr44FkedEtPsFNV3/1leiqsNpZIRgcUBRaHivPl9AgGtg==
+X-Received: by 2002:a50:fe07:: with SMTP id f7mr26019721edt.11.1629518362101;
+        Fri, 20 Aug 2021 20:59:22 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id u23sm4606039edr.42.2021.08.20.20.59.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 20:47:16 -0700 (PDT)
-From: CGEL <cgel.zte@gmail.com>
-X-Google-Original-From: CGEL <jing.yangyang@zte.com.cn>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jing yangyang <jing.yangyang@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] ipu3: use flexible-array member instead of zero-length array
-Date: Fri, 20 Aug 2021 20:47:09 -0700
-Message-Id: <20210821034709.28061-1-jing.yangyang@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        Fri, 20 Aug 2021 20:59:21 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Pavel Skripkin <paskripkin@gmail.com>, Phillip Potter <phil@philpotter.co.uk>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFC 2/3] staging: r8188eu: add error handling to ReadFuse
+Date: Sat, 21 Aug 2021 05:59:20 +0200
+Message-ID: <3977072.uyyoESeOv6@localhost.localdomain>
+In-Reply-To: <CAA=Fs0=xVqe=QqRwyNGzR7y03na+GF0ktrE3GNhOiD-oObse8A@mail.gmail.com>
+References: <cover.1629479152.git.paskripkin@gmail.com> <0e2df1ac9e1031824a1cdb7b24594d2d1b99e382.1629479152.git.paskripkin@gmail.com> <CAA=Fs0=xVqe=QqRwyNGzR7y03na+GF0ktrE3GNhOiD-oObse8A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-From: jing yangyang <jing.yangyang@zte.com.cn>
+Dear Pavel
 
-Fix the following coccicheck warning:
-./drivers/staging/media/ipu3/ipu3-css-fw.h:174:21-34:i
-WARNING: use flexible-array member instead
+On Saturday, August 21, 2021 1:51:57 AM CEST Phillip Potter wrote:
+> On Fri, 20 Aug 2021 at 18:07, Pavel Skripkin <paskripkin@gmail.com> wrote:
+> >
+> > ReadEFuseByte() internally calls rtw_read8() which can fail. To avoid
+> > uninit value bugs we should properly handle error sutiation and deliver
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
----
- drivers/staging/media/ipu3/ipu3-css-fw.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+sutiation --> situation.
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css-fw.h b/drivers/staging/media/ipu3/ipu3-css-fw.h
-index 3c078f1..c0bc57f 100644
---- a/drivers/staging/media/ipu3/ipu3-css-fw.h
-+++ b/drivers/staging/media/ipu3/ipu3-css-fw.h
-@@ -171,7 +171,7 @@ struct imgu_fw_bi_file_h {
- 
- struct imgu_fw_header {
- 	struct imgu_fw_bi_file_h file_header;
--	struct imgu_fw_info binary_header[1];	/* binary_nr items */
-+	struct imgu_fw_info binary_header[];	/* binary_nr items */
- };
- 
- /******************* Firmware functions *******************/
--- 
-1.8.3.1
+> > the error to caller.
+> >
+> > To achieve it, some functions now return an int, and the error
+> > which could occur in ReadEFuseByte() is handled on the top level.
+> >
+> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> > ---
+> >  drivers/staging/r8188eu/core/rtw_efuse.c      | 46 +++++++++-----
+> >  drivers/staging/r8188eu/hal/hal_intf.c        |  6 +-
+> >  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 62 +++++++++++++------
+> >  drivers/staging/r8188eu/hal/usb_halinit.c     | 20 ++++--
+> >  drivers/staging/r8188eu/hal/usb_ops_linux.c   | 43 +++++++++++--
+> >  drivers/staging/r8188eu/include/hal_intf.h    |  6 +-
+> >  .../staging/r8188eu/include/rtl8188e_hal.h    |  2 +-
+> >  drivers/staging/r8188eu/include/rtw_efuse.h   |  4 +-
+> >  drivers/staging/r8188eu/os_dep/usb_intf.c     |  4 +-
+> >  9 files changed, 138 insertions(+), 55 deletions(-)
+> >
+
+Please change the Subject: ReadFuse --> ReadEFuse() or 
+ReadFuse --> ReadEFuseByte().
+
+> 
+> Dear Pavel,
+> 
+> I like the code, just a few things though:
+> (1) the comments I made in the previous e-mail r.e. what we actually
+> do with the errors, and grouping logically related changes (the rest
+> of the usb_read*() changes being in this patch for example).
+
+I agree with Philip on splitting 1/3 into more patches, perhaps one for each
+of the three rtw_read*(), but I disagree on merging the usb_read*() changes 
+into this. They should go to another patch because they are not strictly
+related to "add[ing] error handling to ReadFuse".
+
+Regards,
+
+Fabio
+
+> (2) I got trailing whitespace errors from this patch and the last one.
+> For a v2 I would say stripping the whitespace is a good idea too - I
+> have submitted many patches myself to this driver that had whitespace
+> in - indeed, the original version of my patch series to import the
+> driver still had a load as well :-)
+> 
+> Regards,
+> Phil
+> 
+
+
 
 
