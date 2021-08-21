@@ -1,101 +1,92 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA04972
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 08:42:22 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id v20-20020a1cf714000000b002e71f4d2026so2444647wmh.1
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 01:42:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Qucvdp5Gyww15sMosC3nYP8B70DNCNLtvx4YiBDHnTg=;
-        b=tvxGmn2Cm9RpNqy9ty1Lfo4RxBHbj1e3B3A+aOVoegb0lHpGBBo7WRAPJgaLFSD5Kd
-         fmksHpldW28Kl7bRBtfoanmMINzOi8wVRfzu2TnQTpdw/JpaxDpekPwlbIOFatviuC8s
-         OjTGOtzPEF1GjqAv1iYMa/9e7giTuCbbfxNXOFRoCQ+2tGDOrAFOsMkbT8ovVXt6WMuy
-         ZXbiyDpGPvndkW9oKYHdI80KbeJUeTnSQSGkuULhv4xQAoERD3Hv8hdKKtiMIvgS6FPx
-         CmrgIN0aSPd/AsMAYRZ3hJ3VicuCuYlqNF7bNCnCW6SRODx7Lrr7Jhaq0Pc2mNrekbei
-         PgbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Qucvdp5Gyww15sMosC3nYP8B70DNCNLtvx4YiBDHnTg=;
-        b=N2ssP3F+uJxz+FpiyRfklaCwHTKqB7VA/CDE86wSUDytnmvmpwovsNrResWK5lHGiX
-         tHbdDu0hFRAmSmQUXkpin2NiWlbWAayDeRPaanLkQm/Wxc9kRP0e0vnofvpwhdh2nW5J
-         2TAQ1I6wxAGcbCtrf3ZU7HXhBCre1CKmUH2TwZ2gidrPHB9wp3dwIfgtbWNzlj3ZuZ2I
-         afcR9vMwNEv4cvdGfmP7Tr26p265li80Ok4eeTBHRLRUjQ5buomijsup0FB3z+VRIaLA
-         KfoWTei+ZSVlVozLkKiuYfDlHeKPFWusTE2eO0Iu+MHUKDbAiLa13hK3kJ2WmCszjpRW
-         cldw==
-X-Gm-Message-State: AOAM531FRJXA50c+QehpXJcQJK7cZ2KNo7EYhP4um2g8/YghWfmBHEnv
-	kq63qRTD108faMVg/EvfpD4z5D5EhVk=
-X-Google-Smtp-Source: ABdhPJx65d+HnQI7DSBGIWmbqq6fqsZ+3uUqb2H8wgHO7lQHGe93ndzFg5vYs6i+8LtdTtm667a+eg==
-X-Received: by 2002:a05:600c:414f:: with SMTP id h15mr7553831wmm.66.1629535341275;
-        Sat, 21 Aug 2021 01:42:21 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::2744? ([2a02:8108:96c0:3b88::2744])
-        by smtp.gmail.com with ESMTPSA id d8sm8219600wrx.12.2021.08.21.01.42.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Aug 2021 01:42:20 -0700 (PDT)
-Subject: Re: [PATCH] staging: r8188eu: Fix a resource leak in
- update_bcn_wps_ie
-To: Xiangyang Zhang <xyz.sun.ok@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210821081824.14745-1-xyz.sun.ok@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <f10217f8-d93d-1a9c-9746-6788cc1b8026@gmail.com>
-Date: Sat, 21 Aug 2021 10:41:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A1472
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:17:46 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1629541066; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=UpM1DyTEkig259V+pL57ps65feNkTSUqUFyxt1prq3Y=; b=d8oBoIusj2ATrBfdsK4gdZ2TyQD1+GTuxeeR1G5BJtv+mT7MDblUI6q2N+uftPhj9IuTo8X3
+ MhAtjc0duJfYP2kL7eurS0mKy/Qr5Q2sh6mgkPy5oczXnKJA40wpFyDNJ9RxjpR68izjSjwm
+ wEFPOppHxDArZCoarBCb+ZHnceE=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI5NGRkNiIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 6120d2ca89fbdf3ffed17016 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 21 Aug 2021 10:17:46
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 339C5C43618; Sat, 21 Aug 2021 10:17:45 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
+	autolearn=no autolearn_force=no version=3.4.0
+Received: from tykki (tynnyri.adurom.net [51.15.11.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: kvalo)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 1ED37C4338F;
+	Sat, 21 Aug 2021 10:17:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 1ED37C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+From: Kalle Valo <kvalo@codeaurora.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org,  "David S. Miller" <davem@davemloft.net>,  Jakub Kicinski <kuba@kernel.org>,  ath11k@lists.infradead.org,  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,  "Gustavo A. R. Silva" <gustavoars@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Andrew Morton <akpm@linux-foundation.org>,  dri-devel@lists.freedesktop.org,  linux-staging@lists.linux.dev,  linux-block@vger.kernel.org,  linux-kbuild@vger.kernel.org,  clang-built-linux@googlegroups.com,  Rasmus Villemoes <linux@rasmusvillemoes.dk>,  linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 45/63] ath11k: Use memset_startat() for clearing queue descriptors
+References: <20210818060533.3569517-1-keescook@chromium.org>
+	<20210818060533.3569517-46-keescook@chromium.org>
+	<87eeapbmhi.fsf@tynnyri.adurom.net> <202108190923.30FD4FC6E@keescook>
+Date: Sat, 21 Aug 2021 13:17:36 +0300
+In-Reply-To: <202108190923.30FD4FC6E@keescook> (Kees Cook's message of "Thu,
+	19 Aug 2021 09:25:01 -0700")
+Message-ID: <87pmu7t83j.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210821081824.14745-1-xyz.sun.ok@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 8/21/21 10:18 AM, Xiangyang Zhang wrote:
-> The "pbackup_remainder_ie" variable is not freed when "pwps_ie_src" is null
-> 
-> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-> Signed-off-by: Xiangyang Zhang <xyz.sun.ok@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_ap.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-> index 1127e9a52458..2ce982390c7b 100644
-> --- a/drivers/staging/r8188eu/core/rtw_ap.c
-> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
-> @@ -1300,7 +1300,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
->   
->   	pwps_ie_src = pmlmepriv->wps_beacon_ie;
->   	if (!pwps_ie_src)
-> -		return;
-> +		goto exit;
->   
->   	wps_ielen = (uint)pwps_ie_src[1];/* to get ie data len */
->   	if ((wps_offset + wps_ielen + 2 + remainder_ielen) <= MAX_IE_SZ) {
-> @@ -1314,6 +1314,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
->   		pnetwork->IELength = wps_offset + (wps_ielen + 2) + remainder_ielen;
->   	}
->   
-> +exit:
->   	kfree(pbackup_remainder_ie);
->   }
->   
-> 
+Kees Cook <keescook@chromium.org> writes:
 
-Looks good to me.
+> On Thu, Aug 19, 2021 at 04:19:37PM +0300, Kalle Valo wrote:
+>> Kees Cook <keescook@chromium.org> writes:
+>> 
+>> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+>> > field bounds checking for memset(), avoid intentionally writing across
+>> > neighboring fields.
+>> >
+>> > Use memset_startat() so memset() doesn't get confused about writing
+>> > beyond the destination member that is intended to be the starting point
+>> > of zeroing through the end of the struct. Additionally split up a later
+>> > field-spanning memset() so that memset() can reason about the size.
+>> >
+>> > Cc: Kalle Valo <kvalo@codeaurora.org>
+>> > Cc: "David S. Miller" <davem@davemloft.net>
+>> > Cc: Jakub Kicinski <kuba@kernel.org>
+>> > Cc: ath11k@lists.infradead.org
+>> > Cc: linux-wireless@vger.kernel.org
+>> > Cc: netdev@vger.kernel.org
+>> > Signed-off-by: Kees Cook <keescook@chromium.org>
+>> 
+>> To avoid conflicts I prefer taking this via my ath tree.
+>
+> The memset helpers are introduced as part of this series, so that makes
+> things more difficult. Do you want me to create a branch with the
+> helpers that you can merge?
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+Is this patch really worth the extra complexity? Why can't I apply this
+ath11k patch after the helpers have landed Linus' tree? That would be
+very simple.
 
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
 
-Thanks,
-
-Michael
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
