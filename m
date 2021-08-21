@@ -1,116 +1,128 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FEE72
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:45:59 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id i9so27688468lfg.10
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:45:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7B172
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:46:05 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id g14so11544172pfm.1
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IUNZGcwEvLiT98uruvqOHnHGgaNyFWtPLETI2dPthCw=;
-        b=p08OD/GPPXR4tm7RkNA9toKvQsVUl8L8J4oVZmC67OE0wZNQVqTaUco2HrwrnDiQ5w
-         YuB7XIX+XHBkQHFFdAzLyF2BxZCm+jSnFq4FsCUAM2T1sDn/9oxf4t2nPY94dg8ZOy02
-         4ifXdf59PODf4caGN1F1ErdH+dIo7YXjnB5cY+HfdftEYqOCt2+nTokc6UD388Ko2qxo
-         MvhYOSvGDT1/FsQM/l16oRX1i1OGSNP7dXhT5bdzGaUHSnydnyQWWVAxmDtcpnGU6hl9
-         akWPj9WfjbxtYLM0nKZbQdHyelXHGLCzov3c1u9xeUbYJI6bez6nJO7fiBHU51tlE3bJ
-         Ui+g==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e643qqBpZbVsYxKj5JDyFUKhkri+Obgg4OYZAYu/gYo=;
+        b=dB6oKr6272zP2J0nsocz3sbh4JD/sTQUm64Irx4HVYVJ+htD5Ii3GmO1psnQ5KJjtb
+         FHpTmIXEEI3KGhpmCuETVT4RCxQZiiE2az3U2ZGjGHe159h9tT2R9L+aYxGGQSZmjdmQ
+         U3W2z3N7XYbps7vkjU2MvE08dOxREVlvidr7ei7zZlc4JCGj03e4uHFznCDiDnS3eiDQ
+         s29DyQ+I4oN0/Ay71fpo3SnY3eoV/DmP/4E5eoCiqiqWOiJ995nGvfhhgw4xwEDdlpJD
+         eZ8JWNeyBMT5+zlpzhMe+4JAKgQSFrbuVsulMvx1502KTGTn+dvRsV6kT5yhgq4+02RF
+         dV9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=IUNZGcwEvLiT98uruvqOHnHGgaNyFWtPLETI2dPthCw=;
-        b=sL9GpMVopzWOfeoLbWbYkoc5eo2mkFvG6dd1/YbQPNdqdPJ5hOj2u23hohSnUfuR8N
-         rHxccoxBTi1rt1+XpveYid73PutHZPLVrzS0nzgcfu5VuD+sIIOZX4gy/+1DD3xkMi4L
-         lF9523lvBPvnsm1r7O883IQ7u2pE6GqkuUjqP0rc4JrgtzfK9wky04wX2UaXRT2OmckV
-         FcAForC7+QhwaCuK/eUXKzSW+hhbjMXb0b/Re3aTbOKEX2X4aLgV46f4jrSnSIpcZsJJ
-         EsQIPMII1y9NaYdGCEhlBGDVM7524bn8UriXjgpf5YhOQo+jzlFaox05UTw2Oxs200dc
-         7H1g==
-X-Gm-Message-State: AOAM531cKK581E2g9eVbIhwuNuX1bb8Ulwho+cyvbGl1NajEerIysZfQ
-	i2pOAYEPoTNasyrfAHQNHgA=
-X-Google-Smtp-Source: ABdhPJwQTUwfeBc8x+Qc/XgoFvNgZwRj7DA1ImLYu2aN3NoNJ/vJapVfLwS/Dwin1R3kajnXi5wLGA==
-X-Received: by 2002:ac2:4839:: with SMTP id 25mr19053893lft.455.1629567957530;
-        Sat, 21 Aug 2021 10:45:57 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
-        by smtp.googlemail.com with ESMTPSA id e19sm868158ljj.28.2021.08.21.10.45.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Aug 2021 10:45:56 -0700 (PDT)
-Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar
- <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>,
- Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-8-digetx@gmail.com> <YR0UBi/ejy+oF4Hm@orome.fritz.box>
- <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
- <YR04YHGEluqLIZeo@orome.fritz.box>
- <ad99db08-4696-1636-5829-5260f93dc681@gmail.com>
- <YR6Mvips3HAntDy0@orome.fritz.box>
- <e17bbe8d-7c0f-fc3d-03c7-d75c54c24a43@gmail.com>
- <YR+VDZzTihmpENp6@orome.fritz.box>
- <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <89ea1694-be9e-7654-abeb-22de0ca5255a@gmail.com>
-Date: Sat, 21 Aug 2021 20:45:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e643qqBpZbVsYxKj5JDyFUKhkri+Obgg4OYZAYu/gYo=;
+        b=S7X7SKFA2WqBHnWBiryo5Vq7cWl7y0DlIsqmqWuUlps/gZKvGKXLkizk7A6k7l/XG8
+         dL6PluktNFW3VuEMxUlNcE/I62z9ipuvPupG6RP1ow7Ep8qSSf+1yzumSsPJYFc6FzH6
+         KEXYA9MNHqC2uXTAmsg7v2UPAuo6XSiMz6edBIguOVZzRDWaPEnDzp4nFk8fjxRjGoZn
+         4v51lrsJeyD84qChI6HDWpUNoFVIgOt4sHGa6avlFSQhCxhPAZbwimFJvKWHWxduvwpk
+         nCd1vX18msyUvkHmK1eePoybrq0Y8pm0+L6+oTPrZVth5Y2AZv9jojVbMtzAL/ApLliC
+         VU/Q==
+X-Gm-Message-State: AOAM530MBnhcwWBSVh+c2TpBsiHKD89r2p9kBzO/ve/I6ed45ph9SlYg
+	MUfRjd41W5VMGtX2sAjp5BxNXsHAFogaCToElsMVTA==
+X-Google-Smtp-Source: ABdhPJwL58zI4l4ayQVs4fPyY/3JBK9jVnPC9GHrGu7JQhBAWTCpfcYcrnEJK+QQcuM/Cz12RXl/7159ebiRSYn2paY=
+X-Received: by 2002:a63:d910:: with SMTP id r16mr24179672pgg.318.1629567965414;
+ Sat, 21 Aug 2021 10:46:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210821164859.4351-1-martin@kaiser.cx> <20210821164859.4351-6-martin@kaiser.cx>
+In-Reply-To: <20210821164859.4351-6-martin@kaiser.cx>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Sat, 21 Aug 2021 18:45:54 +0100
+Message-ID: <CAA=Fs0=PHibU5SbfvEyepdzgdbxpFtX0zCnS72JnyOSLBHPKCg@mail.gmail.com>
+Subject: Re: [PATCH 06/10] staging: r8188eu: clean up the usb_readXY functions
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Dan Carpenter <dan.carpenter@oracle.com>, Michael Straube <straube.linux@gmail.com>, 
+	linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-20.08.2021 16:08, Ulf Hansson пишет:
-...
->> I suppose if there's really no good way of doing this other than
->> providing a struct device, then so be it. I think the cleaned up sysfs
->> shown in the summary above looks much better than what the original
->> would've looked like.
->>
->> Perhaps an additional tweak to that would be to not create platform
->> devices. Instead, just create struct device. Those really have
->> everything you need (.of_node, and can be used with RPM and GENPD). As I
->> mentioned earlier, platform device implies a CPU-memory-mapped bus,
->> which this clearly isn't. It's kind of a separate "bus" if you want, so
->> just using struct device directly seems more appropriate.
-> 
-> Just a heads up. If you don't use a platform device or have a driver
-> associated with it for probing, you need to manage the attachment to
-> genpd yourself. That means calling one of the dev_pm_domain_attach*()
-> APIs, but that's perfectly fine, ofcourse.
-> 
->>
->> We did something similar for XUSB pads, see drivers/phy/tegra/xusb.[ch]
->> for an example of how that was done. I think you can do something
->> similar here.
+On Sat, 21 Aug 2021 at 17:49, Martin Kaiser <martin@kaiser.cx> wrote:
+>
+> Remove unnecessary variables, summarize declarations and assignments.
+>
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c | 30 +++++----------------
+>  1 file changed, 7 insertions(+), 23 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index dccb9fd34777..cb969a200681 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -98,46 +98,30 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>
+>  static u8 usb_read8(struct intf_hdl *pintfhdl, u32 addr)
+>  {
+> -       u16 wvalue;
+> -       u16 len;
+> -       u8 data = 0;
+> -
+> -
+> -
+> -       wvalue = (u16)(addr & 0x0000ffff);
+> -       len = 1;
+> -
+> -       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_READ);
+> -
+> +       u16 wvalue = (u16)(addr & 0x0000ffff);
+> +       u8 data;
+>
+> +       usbctrl_vendorreq(pintfhdl, wvalue, &data, 1, REALTEK_USB_VENQT_READ);
+>
+>         return data;
+> -
+>  }
+>
+>  static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
+>  {
+> -       u16 wvalue;
+> -       u16 len;
+> +       u16 wvalue = (u16)(addr & 0x0000ffff);
+>         __le32 data;
+>
+> -       wvalue = (u16)(addr & 0x0000ffff);
+> -       len = 2;
+> -       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_READ);
+> +       usbctrl_vendorreq(pintfhdl, wvalue, &data, 2, REALTEK_USB_VENQT_READ);
+>
+>         return (u16)(le32_to_cpu(data) & 0xffff);
+>  }
+>
+>  static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
+>  {
+> -       u16 wvalue;
+> -       u16 len;
+> +       u16 wvalue = (u16)(addr & 0x0000ffff);
+>         __le32 data;
+>
+> -       wvalue = (u16)(addr & 0x0000ffff);
+> -       len = 4;
+> -
+> -       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_READ);
+> +       usbctrl_vendorreq(pintfhdl, wvalue, &data, 4, REALTEK_USB_VENQT_READ);
+>
+>         return le32_to_cpu(data);
+>  }
+> --
+> 2.20.1
+>
 
-We need a platform device because we have a platform device driver that
-must be bound to the device, otherwise PMC driver state won't be synced
-since it it's synced after all drivers of devices that reference PMC
-node in DT are probed.
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
+
+Regards,
+Phil
