@@ -1,117 +1,91 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B0F3FC0
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 03:59:23 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id b7so16876261edu.3
-        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 20:59:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FB03FC3
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 05:53:39 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id 17so11353843pgp.4
+        for <linux-staging@lists.linux.dev>; Fri, 20 Aug 2021 22:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=R3FWEQvkULZpp+ElEzfqW3d4QazWh4E5WETIUUYvJeY=;
-        b=OAFGT/cJF/l/cM8yYl0R7fRuUoMapU9L6+Xzx2eeiz8cE+ZpZQabmYz6Kj2VpB5+r6
-         bmo1TYLRIu6kj8e2BdC0UI0PolOy/S8DkWaPCa30hzFvk3p6rCDylh1FsVZ1q1L+5uiJ
-         /DdXrRFuMRdeq/7MN1DcgOzzZAfuEev1+bEIXPMUJCZbbinQTqA3fQrfYfEZt7tCcgVi
-         zJDzK8qeYg2KwTRXk5lHFXeDiKmp8W22wvQyDC/IaHyiygfY2j/7pVd/TelPvLeEkeBv
-         0byoD5dtm/B8ji2zQ+oeCmnPWEEUmhIgYrxLLvL5UoGvdt4rTkguvrpjjIt1vg47UI0z
-         AOvg==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=n5/Fdihjp+sDSxDi7gnmgBq3lW7NxjDo15wwIp1cvr8=;
+        b=jxnHy9tw+uPx9gLCPBuo2eIbIpbfLs5GKdg+q+UXapZoMdQphbEG7j/tREfxRG73OB
+         SMWtJ0ITPEg4cOqbhT2q65n0qQve0xXezqIsrltEEXfOUnSEA0/gmXbVVP9eYrgf2etD
+         RVl0Q81t1zmKq8SW7wDArG67dNTELuMQoqXrs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=R3FWEQvkULZpp+ElEzfqW3d4QazWh4E5WETIUUYvJeY=;
-        b=Wj7TjxNTC+13pfDeICfptKb/G5QJvSGq174vA4u0ctAv1X1oPziBBUZtHq/Y9mmWq/
-         qYAp7IRCL4N+befD6pvh4lZyQHA6Mjyq21B5TzMV2VdOTAlxschIP34O5b+ka5oHr9qh
-         NMANGZw8mffimrJLINxTHTpiJ6bBeqhGnYv3iSbsNf2eoBObAwQ1xszW/h6Z28juqFyy
-         FD5mYUSA6nDUF1MRiJ0MvTV4pAo8ArqGNfMOpB6Bdytb59wqCs0Gz5TDEmBL1QKIGar3
-         ShhR2ZTPBJZM0Mb7/zTPDhn4b3QK9Wx1Fn8HIjKwwIcDNrMTI7yk3ixWJpanPEknYUnx
-         PLIQ==
-X-Gm-Message-State: AOAM531ttnjABPehPcTNjuaCW+Y675jsSnMEGI2hvFh4eGOLNQNOmmxU
-	RGdb11+mnTCYsgd0qFZPUPs=
-X-Google-Smtp-Source: ABdhPJwwzuTR+xcSC1RtQ5rsDP1/mV06Chr44FkedEtPsFNV3/1leiqsNpZIRgcUBRaHivPl9AgGtg==
-X-Received: by 2002:a50:fe07:: with SMTP id f7mr26019721edt.11.1629518362101;
-        Fri, 20 Aug 2021 20:59:22 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id u23sm4606039edr.42.2021.08.20.20.59.20
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=n5/Fdihjp+sDSxDi7gnmgBq3lW7NxjDo15wwIp1cvr8=;
+        b=YNMl/z9uKlQvwucoMBhRaWEYp2l4SktwnRxiIuddgmAlajsEPdT4E6iQI3naOgnpPU
+         gAA+CH31W5BK680V+SR4d8UyAHsbcVxks7GhroH2Zyzfep2ITO/nZP7KFdZpJMbdcglO
+         pQJ8Ru4rRqn4yuCnF8vsebVoaHchijYxwEPDUbdLfh3pd0Q/ggW8WWPE1uFeglSKC4di
+         VlCoBJcunbKTNeupc+wKhM0uHEOBURtY0aIa84OHK7EtD6heM2iuj0H9yiD65b5VoKKA
+         uSi9iKPVMVhtardaG5tOWz94u2yz6Mws5fCv+9iA/RT6m75y8sjWkrF09NXGZXPz+QTW
+         a8wQ==
+X-Gm-Message-State: AOAM533UxvQ+ZuDliKtrWv8aJU3cbGve/2zjv9x3bBC2n5wMs7TDAp6j
+	4mEpOdSPF0iRPsk14m8CfSUs8g==
+X-Google-Smtp-Source: ABdhPJyskjxZyotgOIKyGsFoHq5YHJFwfaG3QKD/1U0ag0cbf6kv2IpN7RrgEwlMDFLSbey+tudoeA==
+X-Received: by 2002:a65:6701:: with SMTP id u1mr21890145pgf.138.1629525219086;
+        Fri, 20 Aug 2021 22:53:39 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d13sm8666004pfn.136.2021.08.20.22.53.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 20:59:21 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Pavel Skripkin <paskripkin@gmail.com>, Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC 2/3] staging: r8188eu: add error handling to ReadFuse
-Date: Sat, 21 Aug 2021 05:59:20 +0200
-Message-ID: <3977072.uyyoESeOv6@localhost.localdomain>
-In-Reply-To: <CAA=Fs0=xVqe=QqRwyNGzR7y03na+GF0ktrE3GNhOiD-oObse8A@mail.gmail.com>
-References: <cover.1629479152.git.paskripkin@gmail.com> <0e2df1ac9e1031824a1cdb7b24594d2d1b99e382.1629479152.git.paskripkin@gmail.com> <CAA=Fs0=xVqe=QqRwyNGzR7y03na+GF0ktrE3GNhOiD-oObse8A@mail.gmail.com>
+        Fri, 20 Aug 2021 22:53:38 -0700 (PDT)
+Date: Fri, 20 Aug 2021 22:53:37 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@kernel.org>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: restore missing 'return' statement
+Message-ID: <202108202251.F3033355C@keescook>
+References: <20210802143820.1150099-1-arnd@kernel.org>
+ <202108130937.7848F6B318@keescook>
+ <CAHp75VdkAO+fiiCVs=dyc2C83mZuLCQCvqs9C+6PF6JnhKDxCA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdkAO+fiiCVs=dyc2C83mZuLCQCvqs9C+6PF6JnhKDxCA@mail.gmail.com>
 
-Dear Pavel
-
-On Saturday, August 21, 2021 1:51:57 AM CEST Phillip Potter wrote:
-> On Fri, 20 Aug 2021 at 18:07, Pavel Skripkin <paskripkin@gmail.com> wrote:
+On Thu, Aug 19, 2021 at 08:24:11PM +0300, Andy Shevchenko wrote:
+> On Fri, Aug 13, 2021 at 7:39 PM Kees Cook <keescook@chromium.org> wrote:
 > >
-> > ReadEFuseByte() internally calls rtw_read8() which can fail. To avoid
-> > uninit value bugs we should properly handle error sutiation and deliver
-
-sutiation --> situation.
-
-> > the error to caller.
+> > On Mon, Aug 02, 2021 at 04:38:14PM +0200, Arnd Bergmann wrote:
+> > > From: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > The input_system_configure_channel_sensor() function lost its final
+> > > return code in a previous patch:
+> > >
+> > > drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
+> > > drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+> > >
+> > > Restore what was there originally.
+> > >
+> > > Fixes: 728a5c64ae5f ("media: atomisp: remove dublicate code")
+> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > >
-> > To achieve it, some functions now return an int, and the error
-> > which could occur in ReadEFuseByte() is handled on the top level.
+> > I hit this too. Thanks!
 > >
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> > ---
-> >  drivers/staging/r8188eu/core/rtw_efuse.c      | 46 +++++++++-----
-> >  drivers/staging/r8188eu/hal/hal_intf.c        |  6 +-
-> >  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 62 +++++++++++++------
-> >  drivers/staging/r8188eu/hal/usb_halinit.c     | 20 ++++--
-> >  drivers/staging/r8188eu/hal/usb_ops_linux.c   | 43 +++++++++++--
-> >  drivers/staging/r8188eu/include/hal_intf.h    |  6 +-
-> >  .../staging/r8188eu/include/rtl8188e_hal.h    |  2 +-
-> >  drivers/staging/r8188eu/include/rtw_efuse.h   |  4 +-
-> >  drivers/staging/r8188eu/os_dep/usb_intf.c     |  4 +-
-> >  9 files changed, 138 insertions(+), 55 deletions(-)
-> >
-
-Please change the Subject: ReadFuse --> ReadEFuse() or 
-ReadFuse --> ReadEFuseByte().
-
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
 > 
-> Dear Pavel,
-> 
-> I like the code, just a few things though:
-> (1) the comments I made in the previous e-mail r.e. what we actually
-> do with the errors, and grouping logically related changes (the rest
-> of the usb_read*() changes being in this patch for example).
+> Me too,
+> Tested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-I agree with Philip on splitting 1/3 into more patches, perhaps one for each
-of the three rtw_read*(), but I disagree on merging the usb_read*() changes 
-into this. They should go to another patch because they are not strictly
-related to "add[ing] error handling to ReadFuse".
+Mauro, are you able to get this into your tree, please? Or Greg? It's in
+staging. :) This is breaking the build.
 
-Regards,
-
-Fabio
-
-> (2) I got trailing whitespace errors from this patch and the last one.
-> For a v2 I would say stripping the whitespace is a good idea too - I
-> have submitted many patches myself to this driver that had whitespace
-> in - indeed, the original version of my patch series to import the
-> driver still had a load as well :-)
-> 
-> Regards,
-> Phil
-> 
-
-
-
-
+-- 
+Kees Cook
