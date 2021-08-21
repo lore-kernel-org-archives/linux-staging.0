@@ -1,101 +1,101 @@
 Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AB73FC2
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 14:45:40 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id g66-20020a9d12c8000000b0051aeba607f1so13636425otg.11
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 07:45:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A6C3FC2
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 15:15:05 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id r17-20020a0568302371b0290504f3f418fbso22195303oth.12
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 08:15:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=seOiZCj4hVVjWxrbxl6hqZpUw4GOWVp72vSNdyBOoLQ=;
-        b=i0TMWCd4aPkJFrJ/hQK1dtztJRvrcDKtXs64adu7ftX/RSQWKNo6jyWeVN28cLQoxR
-         UjzLKXFricQ4rRMyRWWOCoZ9/fPUyz6+E6XPnzwKQdl5nTLB8nbNTz4VtQopf/XI8lq7
-         38s7VJcaMuf88SacBaXC5WfcLg5h6L2FPOmIT00kGatLQmcog0EsRPVT4pW2TeEcm2Ig
-         g69TWLU4Ew63QftZrrtVfSSA6GaH3DPQN0FOYO0IslsNpqItfkb6Y+yH1e7YI31bEGJu
-         i99POLa4V84gllAxucSNAPcjM03BH8uJwABKBVb4a2CCMr2dAy34zMFsxGrbjCDTtKQx
-         s1yQ==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BkGMZ34uMM076CqdGEC8S8YY15+qTIP2Tw/OLNLYTmg=;
+        b=mcKvIw9yRGBgXT5GXZOPFt2skeigfvum9BkdU3kIKKPgqfCfWX19WZd7sJ+rmTUimw
+         5jRmhN06NVSEi8DN3GDJFaR//YwBFOvRaao4HeZicSeZCFiUMcmPiN6wtkaHRfcK+cRI
+         Vtrb9yGPzIBy4aSZ0BeePZqEN1yEL4U9o+8j2U+uhxNxsTIocMUTS/KQirkgVOf3OJe+
+         j7V4TiZOt8zCoE+YSXlzz8oATGoCnm7orTJuw8DsSauUROWY4eII7VdCmDQerFrQsguY
+         F9aC9/Zh7rSKqOCGS0TFSMX/KU2tg4pkUKKSP0KXaNHGwju1PRFO+syvW2HvM7f9riJS
+         xJxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=seOiZCj4hVVjWxrbxl6hqZpUw4GOWVp72vSNdyBOoLQ=;
-        b=QHQEeCGxmTdp0P62P3kTDO7dX/yHbdPvn2UcisdAYzOsh0YmdM0laNlIItJPpHTb4/
-         UTAKL6SqW/lcsEh5X0Iu36lSHshxDoEx1RAqLTF/Gz0aYDzb02PlpkjzuN4wCAz0BYA+
-         bjMMF9goKNruVei9VjjwFWcyYR9DvTcP4q3vcLaCrYwXN6PCnWeqKaJCgGlW+qNVjInP
-         6n5qv8Hjjsc/O1l5vwYk1JMPmFKqIrhHLHx+PjPO1a87gutYfM3hcUzl9EGWGTHfGfas
-         ijaQ6hG63bMkjeFoeIpkfkPx9XXOYPYxQ9hKePst193+fTH7WEQXdqx+YRp1ToBDUFrD
-         MhgQ==
-X-Gm-Message-State: AOAM533saAPRa7Ym9mrit7+Y9X1SSKmz/KLkT5xUgVN3slDHZUICj8iA
-	PZyO2nihGenjlZQNqCvnAUA=
-X-Google-Smtp-Source: ABdhPJzbSYJyfMoiDDta8lSR4MWJveHmEwBOFW1zZr+vo3bqHaniyGSWUjJ1ikOgaDV/NmBLpjc62g==
-X-Received: by 2002:a05:6830:1db3:: with SMTP id z19mr2008366oti.369.1629557139608;
-        Sat, 21 Aug 2021 07:45:39 -0700 (PDT)
-Received: from 2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com. [2603:8090:2005:39b3::1023])
-        by smtp.gmail.com with ESMTPSA id u14sm2389634oth.73.2021.08.21.07.45.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Aug 2021 07:45:39 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=BkGMZ34uMM076CqdGEC8S8YY15+qTIP2Tw/OLNLYTmg=;
+        b=oKJweTO8i38MTB+FE8eUDJ1uTWE8C2Xul8MaIZN0q6JiztophGDvSIUv6fBA1QfIl4
+         mLHbSI0jdzerwUGRkugaOaa7Jljv4rG+B22aaILSolOVld/zntARKBBM5/4SdLaAK+U6
+         Z9xGCs9psMpLIroL3m/k7H5N5Tsszv9okpK9yVv1N2TwYP0v/xo+uROM0zoKyP0AyTWv
+         Mkl7sFgC3tFcmLWruQda6gXhDlPhtozahZneAzD6a/pXeICrMkqbxZWrqtA0nHMTLvHs
+         irzBxjsmFeUdlbVXxyVIyLNu1ffiq4KXADNXkESDeycqstMUVN0ZS56g+mD0SO6VmK0y
+         fZnw==
+X-Gm-Message-State: AOAM533rALUKJDaa0sPsqCi3zWBJpKNGiI4esFu5lBRFbav9TbY2oTAo
+	WvjoA5ewUIe5Bge4SHPv4Mn8PACXKN8=
+X-Google-Smtp-Source: ABdhPJyggAEmiw3FC6imvIiDWMlqQhavkFEGcST1kyML3a6WN60sILSwH9g8rc7qcFitKivh8BqxfQ==
+X-Received: by 2002:a9d:1b5:: with SMTP id e50mr21789096ote.76.1629558905296;
+        Sat, 21 Aug 2021 08:15:05 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com. [2603:8090:2005:39b3::1023])
+        by smtp.gmail.com with ESMTPSA id c14sm2326897otd.62.2021.08.21.08.15.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Aug 2021 08:15:04 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: remove forward declaration of
- Efuse_Read1ByteFromFakeContent
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- martin@kaiser.cx, straube.linux@gmail.com
-References: <20210821000508.79422-1-phil@philpotter.co.uk>
 From: Larry Finger <Larry.Finger@lwfinger.net>
-Message-ID: <ac672cfe-038d-2fe9-0ac6-904ad7761b54@lwfinger.net>
-Date: Sat, 21 Aug 2021 09:45:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+To: gregkh@linuxfoundation.org
+Cc: phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Larry Finger <Larry.Finger@lwfinger.net>
+Subject: [PATCH] staging: r8188eu: Make mult-byte entities in dhcp header be big endian
+Date: Sat, 21 Aug 2021 10:14:59 -0500
+Message-Id: <20210821151459.26078-1-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210821000508.79422-1-phil@philpotter.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/20/21 7:05 PM, Phillip Potter wrote:
-> Remove forward declaration of Efuse_Read1ByteFromFakeContent function
-> from core/rtw_efuse.c, as the function is defined in full directly
-> after this and therefore this forward declaration is redundant.
-> 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->   drivers/staging/r8188eu/core/rtw_efuse.c | 6 ------
->   1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-> index decccf7622f0..45b757ab64e1 100644
-> --- a/drivers/staging/r8188eu/core/rtw_efuse.c
-> +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-> @@ -29,12 +29,6 @@ u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
->   #define REG_EFUSE_CTRL		0x0030
->   #define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
->   /*  */
-> -
-> -bool
-> -Efuse_Read1ByteFromFakeContent(
-> -			struct adapter *pAdapter,
-> -			u16 Offset,
-> -		u8 *Value);
->   bool
->   Efuse_Read1ByteFromFakeContent(
->   			struct adapter *pAdapter,
-> 
+The 16- and 32-bit quantities in the dhcp message definition must be
+big endian.
 
-Phil,
-
-There a number of such forward references immediately followed by the actual 
-routine. I removed some of these when the driver was in the GitHub repo, but I 
-missed a few.
-
-Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+---
+This patch will set up all the reset of the endian warnings,
 
 Larry
+---
+
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index ee52f28a1e56..62a672243696 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -640,16 +640,16 @@ struct dhcpMessage {
+ 	u_int8_t hlen;
+ 	u_int8_t hops;
+ 	u_int32_t xid;
+-	u_int16_t secs;
+-	u_int16_t flags;
+-	u_int32_t ciaddr;
+-	u_int32_t yiaddr;
+-	u_int32_t siaddr;
+-	u_int32_t giaddr;
++	__be16 secs;
++	__be16 flags;
++	__be32 ciaddr;
++	__be32 yiaddr;
++	__be32 siaddr;
++	__be32 giaddr;
+ 	u_int8_t chaddr[16];
+ 	u_int8_t sname[64];
+ 	u_int8_t file[128];
+-	u_int32_t cookie;
++	__be32 cookie;
+ 	u_int8_t options[308]; /* 312 - cookie */
+ };
+ 
+-- 
+2.32.0
 
