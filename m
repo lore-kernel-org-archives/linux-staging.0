@@ -1,53 +1,50 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DB63FC2
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 15:52:53 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so7855221wml.3
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 08:52:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AD83FC2
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 16:18:38 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id j10-20020a17090a94ca00b00181f17b7ef7so3019601pjw.2
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 09:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JDjoRrO86i0x0pgh7O1gS7MImh2qtoWDpf+3Wu7hPlY=;
-        b=JJeYDUTgItIzLNg9PuiizMppcQhRh/gbLbe+EaJS9DLLsSVvOVlbOmEXdOBoxA8y/K
-         aJ+f7P+7aRiJqV/kRbN5wyU6KFsv2ZbNTMcG6ZJhhiDPK68HhS8iIP5vQNfSev3dnsEq
-         hWNajYlmu4WGqF+Ae6d/36Z0Z0n44yp9IQQw24/5fqbtiyiDMr5+e46rRlm5DHNIhu24
-         GQmIYolmtabssvwdZXNoSpVa/zy9qwhU8/o6160TRqlt4GZNimrgU5UGaI7RszH4KzPX
-         ylAKG77A9Us8aaifrV4g32N0m46J9+qrdKOmlR0wGvlV/pElF4AePjA+n5+NVlKJssGr
-         Dt5Q==
+        bh=ujqwGhoXkAIsKqOBu+5AHyJrM+q7QtaKNKGeGWtsMP4=;
+        b=b1DgIoDWfW00uQUDRWRZKNU3L0Ror2LLbFSuinu622OLVn5J53SU6MpUwO6xr6Epk+
+         1xWa2xFfRhSa0Zh59p39aSmQrV/vUXySzE9WcSfAivb8zly7QyTM5HPG8EIjtKJeh3nT
+         5EBElk2nMFah2h6/LbadWTL0vRcve6Iq7U6RzgKQcUmivlmPuzcPTTTBoXwkl2JW9bwq
+         vg9Iq95MgLe+JmN5KrkPGOJ6TWW5nfSphH5bj9g/wXbdV+i8KIZ8A1z6MmasDd0td96d
+         wDnCfvm16BccBBkICqV+noCtr1mKupsC+wIN9sAdAIbRlHHAdYUKGz7iVGFvtI9U3d58
+         BsEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=JDjoRrO86i0x0pgh7O1gS7MImh2qtoWDpf+3Wu7hPlY=;
-        b=EAQ91juvEbhQKVUQtWLzoeLEeWx8m3Og73KTQYHLcltWbi4lf7OF9p3JfwqX1GlYxj
-         4MsTImqF6KcYvtTE7fAOalSnpD6qCQASZDwH5E3rsaR45DbnMbw5fpuZlGWptTzXM87j
-         CKIkhYLtWdL81uWLF6WncOx4Jlnet0qUyVcQXFAlbhFPOYK0GWsZelJGEz16EiZ1PLlp
-         zqaSNO/mIQS36UbTdmPBJvQOLws0nrY3Ap/WPrp+ZMY8o9IPi5aBLRYurLXO7wsWzOqM
-         b/PgNiFSUimvludF696SpFvLfb4pqE5TcGBjwqybU1l256OPA96z/Yifc8KzXCkpzjQX
-         m5PQ==
-X-Gm-Message-State: AOAM530E3nLa7M+q8RU/IRnGoEd789gNScHOQDxDo+SzM68lG6/AsFX/
-	NoXzLHyHRpXaAOl2aOC9pHM=
-X-Google-Smtp-Source: ABdhPJx8+or3o3DbhJZf1pgDRL7OYdmZ0Pw3RNoIwQqFU1HUv+O95gyChd9PpvJR7W64dW423RjTAQ==
-X-Received: by 2002:a05:600c:252:: with SMTP id 18mr9159673wmj.61.1629561172059;
-        Sat, 21 Aug 2021 08:52:52 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id k18sm1875032wmi.25.2021.08.21.08.52.51
+        bh=ujqwGhoXkAIsKqOBu+5AHyJrM+q7QtaKNKGeGWtsMP4=;
+        b=e334IuYUKaf5GJlGEQWReN1MYnivgSzvvTNBF96/f5vS+/wZ0dpMS7bH6HQDodsUi2
+         3M88HJWtpQiZISUUSu5jSI68jDc+pVuCROY50w1gt1gPS16Fe3BodxzcKfhHaEWHw9pC
+         HBnlIyqDFr4ynG8sudYUci4ITdFVVR0X4RcaGKSeOORO4PMAZJD9DJBgukFaZVBNrODB
+         GdA4w4deYKcmmZRAfGuAvkM0+bSwGkvUAB4mzLojCzW80v3NMHaUiBJnIICOxg0G/k1x
+         T31HCiSIPS2siew+LF6MMvCkdlwKaE4P5+RsF2I2hORmzIAU8IeveMW6yzDul8804a6w
+         mQSA==
+X-Gm-Message-State: AOAM531CBFnv6PB5mDBlrDJlr3tMHbX7a3tyGNu6zVB6KDdyRzc4kx1T
+	s+37S3N232VxOeYdJxOoBnE=
+X-Google-Smtp-Source: ABdhPJxRYFbfpkYRMA48a8AJFfKOOWjC/TSKs76S7gRP5rYRq6aWSOFSkL3TumD6KBYM51meilrFSg==
+X-Received: by 2002:a17:90a:a791:: with SMTP id f17mr4188714pjq.225.1629562718477;
+        Sat, 21 Aug 2021 09:18:38 -0700 (PDT)
+Received: from xps.yggdrasil ([49.207.137.16])
+        by smtp.gmail.com with ESMTPSA id y27sm4227011pfa.29.2021.08.21.09.18.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Aug 2021 08:52:51 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove cmd_osdep.h header file
-Date: Sat, 21 Aug 2021 17:51:51 +0200
-Message-Id: <20210821155151.25822-1-straube.linux@gmail.com>
+        Sat, 21 Aug 2021 09:18:38 -0700 (PDT)
+From: Aakash Hemadri <aakashhemadri123@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] staging: r8188eu: fix sparse warnings
+Date: Sat, 21 Aug 2021 21:48:27 +0530
+Message-Id: <cover.1629562355.git.aakashhemadri123@gmail.com>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -57,109 +54,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All functions declared in the cmd_osdep.h header file are only used in
-a single c source file. Make the functions static and remove the header
-file and its includes.
+Hi,
+	This patch series fixes some sparse warnings in rtw_br_ext.c
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_cmd.c      | 11 +++++------
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c  |  1 -
- drivers/staging/r8188eu/include/cmd_osdep.h | 16 ----------------
- 3 files changed, 5 insertions(+), 23 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/cmd_osdep.h
+Thanks,
+Aakash Hemadri
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 955499eb608a..ce73ac7cf973 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -6,7 +6,6 @@
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
--#include "../include/cmd_osdep.h"
- #include "../include/mlme_osdep.h"
- #include "../include/rtw_br_ext.h"
- #include "../include/rtw_mlme_ext.h"
-@@ -16,7 +15,7 @@ Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
- No irqsave is necessary.
- */
- 
--int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
-+static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- {
- 	int res = _SUCCESS;
- 
-@@ -59,7 +58,7 @@ int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- 
- static void c2h_wk_callback(struct work_struct *work);
- 
--int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
-+static int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
- {
- 	int res = _SUCCESS;
- 
-@@ -87,7 +86,7 @@ void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
- 	}
- }
- 
--void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv)
-+static void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv)
- {
- 	if (pcmdpriv) {
- 		kfree(pcmdpriv->cmd_allocated_buf);
-@@ -105,7 +104,7 @@ ISR/Call-Back functions can't call this sub-function.
- 
- */
- 
--int	_rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
-+static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
- {
- 	unsigned long flags;
- 
-@@ -123,7 +122,7 @@ int	_rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
- 	return _SUCCESS;
- }
- 
--struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue)
-+static struct cmd_obj *_rtw_dequeue_cmd(struct __queue *queue)
- {
- 	struct cmd_obj *obj;
- 	unsigned long flags;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-index 3e1a45030bc8..7d50d64cf34d 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-@@ -6,7 +6,6 @@
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
--#include "../include/cmd_osdep.h"
- #include "../include/mlme_osdep.h"
- #include "../include/rtw_ioctl_set.h"
- 
-diff --git a/drivers/staging/r8188eu/include/cmd_osdep.h b/drivers/staging/r8188eu/include/cmd_osdep.h
-deleted file mode 100644
-index 3954d6350cc6..000000000000
---- a/drivers/staging/r8188eu/include/cmd_osdep.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef __CMD_OSDEP_H_
--#define __CMD_OSDEP_H_
--
--#include "osdep_service.h"
--#include "drv_types.h"
--
--extern int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv);
--extern int _rtw_init_evt_priv(struct evt_priv *pevtpriv);
--extern void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv);
--extern int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj);
--extern struct cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue);
--
--#endif
+Aakash Hemadri (5):
+  staging: r8188eu: restricted __be16 degrades to int
+  staging: r8188eu: cast to restricted __be32
+  staging: r8188eu: incorrect type in csum_ipv6_magic
+  staging: r8188eu: restricted __be16 degrades to int
+  staging: r8188eu: incorrect type in assignment
+
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+
+base-commit: 093991aaadf0fbb34184fa37a46e7a157da3f386
 -- 
 2.32.0
 
