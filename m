@@ -1,167 +1,85 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D843072
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:20:52 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id w6so7740855plg.9
-        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:20:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0955F72
+	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 17:23:19 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id oa17so9335911pjb.1
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 10:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5eh/YHDzWLhkmryQ9StQxG/PNPAnNUl2yaG+z0zg56s=;
-        b=V5CEXRff6307CC8lQ93T3IBpuLz5w3O2KxCqsfhYlEpx8p/EbJnWe1MLk5f8fJ4rbA
-         MOPa5hQT2ow8PzVgstjS+U1UprImGZ/WqPz5bWyuBytbGdbKdiJolPY5YCV6bAUJTb8T
-         FFlLP2KZzTni2cNmbDNXlOim1QZyYOvABusvtgtjvicYFZVFeugy0PKNdnm6/ppNZHnB
-         cldf9XdBeMOsrcq0B7wofAFUv1dp6JQ9AN4ktNVH81LB+cNEnUYUTNZnwYwh3d0ipsqs
-         Te7vx28Is9Sj2xyMZpORgW/+ITQ1DrhQB0GPp3VlAhDqn2fV8P1yjpvc3KOPlb/0veDR
-         e86w==
+        bh=AgSKf2nq4ZeNmXzm2HLOaXRnUpP2wevjMWH3/GY16uM=;
+        b=Rn29nY7MAE884Ua/QgTZmO+tx9rci1wbOk7FuiieNr54B+2mPbssg94R5/7PIcCZJC
+         +XFG688G+qHaq96dsJciv+9QYr1UegUpd8zEfB8oN+pzI73k1Ew1eyi1/JI/EJ7C3+Wz
+         1pE9GRBEjdllgLyNW7ReOy/8kqe/uxKRDFJC1TjxwPBjOhH5y5LLV2aoja9xYPLAf03P
+         7SNGxYXIdAYT2eU37QLrs8owmsaJTm9k1Nm1uF1PlfJcatT9AUw6tz//E1opTU8eMyuQ
+         N7K/EmUSwmjJyZ7NNj5qaMn4EWoaulPx0y7SC5IhO8H4+bxn8MN1YBI5HMYEHXHwgyY/
+         MO5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5eh/YHDzWLhkmryQ9StQxG/PNPAnNUl2yaG+z0zg56s=;
-        b=ETk2VFOiGkiQ3rNkzNSQag/GXREUk1mUvuW9YkELC52awzwux8gawWKO1g6YmgvPMu
-         SnR6t6Cn1g5tR80ytQJI1xgWulYGcHtBD8NlEeVELCWXell/QdV+Hz/fpkU6qYbmxYZ7
-         Js45n0c3cKnwkydXkkFuNmZmxfPNSXbYKAUL2fpXHbcFwgb0LPwebsMrZpETFHyl4wox
-         gwgnDALfvY5q+v7J4SskJM7/Xbk5+vVew3RpDagci6UifFSOh13DIqvT2/1AL6JDuvuF
-         3QhBaN22wfSowHhhSj4o4zpmxUU+ZbxWdh4YZ4nQ99uZ2aayWqPpq1Z2MhIBMYEk023B
-         idbg==
-X-Gm-Message-State: AOAM530Y1WaIcnu5J80dgbTMS6Yd4ZGX4VLpMdC4MJJnMXKvO8IJ3LuD
-	kjNqFDujGdO5gKBQAQ32APU7M5mHDgMQuvJ3b3X6xQ==
-X-Google-Smtp-Source: ABdhPJzhQq3XaPbroqdsZU21990BR9Ig+QpTPtXz8WNELOIgdI3dxRGfzB8H3g4yoCHwNskk1LQNbr8A3cZwVH3anyY=
-X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id
- h4-20020a170902f704b029011acdee0490mr21478121plo.37.1629566452451; Sat, 21
- Aug 2021 10:20:52 -0700 (PDT)
+        bh=AgSKf2nq4ZeNmXzm2HLOaXRnUpP2wevjMWH3/GY16uM=;
+        b=YSOykRMwgKCXKEH3AQ/+zpU9tEK+E7/kPT4kjWKMlTlldQ9nyRMdbtU2J7Xpvmmxh9
+         8rWpNAJ4UTZbPC1b/Vgkc68XO5O4HhHLinEz/xE9AGV5BuhSa1XuBuvrzWI7fTD2fHOl
+         kCHLHxSriSiYqs32SgggiLsQ6PgEsehLmCAEh68yJkdGPI+cCUZBEGExhNp3fOjn4nbk
+         KLGtJMfHGs1xPcOsbeVGx1dkE9eQp/YRUYB84lMTt2VaLicAr1oUZKQybQrJzc1fUX2o
+         FHZgM67HpGALL8l9K1d2exFtk9wG6SxjJZvUmXrYc5zLW+Q7lEJ4rKPDlSAgZuMzayOl
+         yDGw==
+X-Gm-Message-State: AOAM530S3C4EQFDWe66Fogcfqk/YP3EIulmFb01oKwdZmC3PI1IJtgAL
+	RLZCNin6YO/i0QidyLX4UZLgJOLCbaia0mDEVFZQ3A==
+X-Google-Smtp-Source: ABdhPJx0A+af2++jJHfLsdlb6E3H2MXjYcN1tlRw8aIhDheoxarpNlOZMKj5/0sYK9BEDTDt/vgmn598jvxpcCwzIwY=
+X-Received: by 2002:a17:90a:1f49:: with SMTP id y9mr10801337pjy.225.1629566599590;
+ Sat, 21 Aug 2021 10:23:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210821155151.25822-1-straube.linux@gmail.com>
-In-Reply-To: <20210821155151.25822-1-straube.linux@gmail.com>
+References: <cover.1629562355.git.aakashhemadri123@gmail.com> <7572c80d90b499df7e9feb4781c07967fa31bf88.1629562355.git.aakashhemadri123@gmail.com>
+In-Reply-To: <7572c80d90b499df7e9feb4781c07967fa31bf88.1629562355.git.aakashhemadri123@gmail.com>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sat, 21 Aug 2021 18:20:41 +0100
-Message-ID: <CAA=Fs0kzfra7UwkSU86-8vpdk=FLRSAG_w=YmZcyLUhmf3wv2g@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: remove cmd_osdep.h header file
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
+Date: Sat, 21 Aug 2021 18:23:08 +0100
+Message-ID: <CAA=Fs0=jkOB25NM=7fbaguco-WqV_emKsEkk6UXasn=wc9ndcQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] staging: r8188eu: restricted __be16 degrades to int
+To: Aakash Hemadri <aakashhemadri123@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
 	linux-staging@lists.linux.dev, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 21 Aug 2021 at 16:52, Michael Straube <straube.linux@gmail.com> wrote:
+On Sat, 21 Aug 2021 at 17:18, Aakash Hemadri <aakashhemadri123@gmail.com> wrote:
 >
-> All functions declared in the cmd_osdep.h header file are only used in
-> a single c source file. Make the functions static and remove the header
-> file and its includes.
+> Fix sparse warning:
+> > rtw_br_ext.c:73:23: warning: restricted __be16 degrades to integer
 >
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> Here tag->tag_len is be16, use be16_to_cpu()
+>
+> Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
 > ---
->  drivers/staging/r8188eu/core/rtw_cmd.c      | 11 +++++------
->  drivers/staging/r8188eu/hal/rtl8188e_cmd.c  |  1 -
->  drivers/staging/r8188eu/include/cmd_osdep.h | 16 ----------------
->  3 files changed, 5 insertions(+), 23 deletions(-)
->  delete mode 100644 drivers/staging/r8188eu/include/cmd_osdep.h
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-> index 955499eb608a..ce73ac7cf973 100644
-> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> @@ -6,7 +6,6 @@
->  #include "../include/osdep_service.h"
->  #include "../include/drv_types.h"
->  #include "../include/recv_osdep.h"
-> -#include "../include/cmd_osdep.h"
->  #include "../include/mlme_osdep.h"
->  #include "../include/rtw_br_ext.h"
->  #include "../include/rtw_mlme_ext.h"
-> @@ -16,7 +15,7 @@ Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
->  No irqsave is necessary.
->  */
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index ee52f28a1e56..f6d1f6029ec3 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+>         struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+>         int data_len;
 >
-> -int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
-> +static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
->  {
->         int res = _SUCCESS;
->
-> @@ -59,7 +58,7 @@ int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
->
->  static void c2h_wk_callback(struct work_struct *work);
->
-> -int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
-> +static int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
->  {
->         int res = _SUCCESS;
->
-> @@ -87,7 +86,7 @@ void rtw_free_evt_priv(struct evt_priv *pevtpriv)
->         }
->  }
->
-> -void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv)
-> +static void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv)
->  {
->         if (pcmdpriv) {
->                 kfree(pcmdpriv->cmd_allocated_buf);
-> @@ -105,7 +104,7 @@ ISR/Call-Back functions can't call this sub-function.
->
->  */
->
-> -int    _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
-> +static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
->  {
->         unsigned long flags;
->
-> @@ -123,7 +122,7 @@ int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
->         return _SUCCESS;
->  }
->
-> -struct cmd_obj *_rtw_dequeue_cmd(struct __queue *queue)
-> +static struct cmd_obj *_rtw_dequeue_cmd(struct __queue *queue)
->  {
->         struct cmd_obj *obj;
->         unsigned long flags;
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-> index 3e1a45030bc8..7d50d64cf34d 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-> @@ -6,7 +6,6 @@
->  #include "../include/osdep_service.h"
->  #include "../include/drv_types.h"
->  #include "../include/recv_osdep.h"
-> -#include "../include/cmd_osdep.h"
->  #include "../include/mlme_osdep.h"
->  #include "../include/rtw_ioctl_set.h"
->
-> diff --git a/drivers/staging/r8188eu/include/cmd_osdep.h b/drivers/staging/r8188eu/include/cmd_osdep.h
-> deleted file mode 100644
-> index 3954d6350cc6..000000000000
-> --- a/drivers/staging/r8188eu/include/cmd_osdep.h
-> +++ /dev/null
-> @@ -1,16 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-> -/* Copyright(c) 2007 - 2011 Realtek Corporation. */
-> -
-> -#ifndef __CMD_OSDEP_H_
-> -#define __CMD_OSDEP_H_
-> -
-> -#include "osdep_service.h"
-> -#include "drv_types.h"
-> -
-> -extern int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv);
-> -extern int _rtw_init_evt_priv(struct evt_priv *pevtpriv);
-> -extern void _rtw_free_cmd_priv(struct cmd_priv *pcmdpriv);
-> -extern int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj);
-> -extern struct cmd_obj  *_rtw_dequeue_cmd(struct __queue *queue);
-> -
-> -#endif
+> -       data_len = tag->tag_len + TAG_HDR_LEN;
+> +       data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
+>         if (skb_tailroom(skb) < data_len) {
+>                 _DEBUG_ERR("skb_tailroom() failed in add SID tag!\n");
+>                 return -1;
 > --
 > 2.32.0
 >
 
-Looks good to me, thanks.
+Thanks for this - looks good from what I can see.
 
 Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
