@@ -1,88 +1,131 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E592F80
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 16:10:11 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id f13-20020a1c6a0d000000b002e6fd0b0b3fso10720482wmc.3
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 09:10:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA633FC3
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 16:13:50 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id x11so31617849ejv.0
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 09:13:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=R7ftxM96YAq/VWL5+bWMfsnR3bh1EBHc546zzPpFbiU=;
-        b=LGP4ALA/JTlwPIgsdrrLU6uI7R7+r40480lxGGI68rxhMYGHzVLJcOkmkb8m9SDvDh
-         PtJbcdWv3EQappKQ8ntAoV1csSxQAQY7zkpz/afZeuAl6PI1kNVQd04tAevto7uBrxXR
-         UYCtQoo2GHWPN/mol+ljL8DTJ+aurnCiGtw98z8idB1aCbCIOuQHmcUd5Hr+6s2Hg/HS
-         xdJzH6fmpqau0aUmU/PbfnPZtiVtuz4nyXk1Esxy2sFMoVioqPf0Nb0bvvrQas+xwSKk
-         k9+qOFpKXa/Nx2RU9qX7CWpTocoNvIddeSpv42UW6gU3C1rZa7XS+b7AEtq8ZjH6p9iJ
-         zUfg==
+        bh=2SclzWe/a+WHkI1+v9aVDE2qt3aD/Uh5+eAnEPqlEbs=;
+        b=Qow3Ok83b3Bry6lK3StPcchMLgt9renc1q+k7fPDsgvv4a2E/yskrCZkCwdn269C7N
+         DUBh1N7mH7X4wfNBaUqV/Kaqb2kgDuu5Un1ODEuRgIpZrkGBSrZbdBZlg+vSnaqvN8dg
+         ogNE5Hfi0UQ3krDC0xZyM7iR42orCWW4VryvI7x2+7IVG0oQMgxJ4a7wqQo5aEHVVe7J
+         BEAZsl59fDluy71KTKVY8WLUkl5jW1RR1hyfuZEbp+m1uzu1wZODt9pjsQ0V9KRIBGbI
+         f+TqP4yUi9NMYdB6lZDpWIFB67Q20diJ+DX+0dAG+N5smr0jT7Vm42DgzPDYSvnk2C9Q
+         0SPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=R7ftxM96YAq/VWL5+bWMfsnR3bh1EBHc546zzPpFbiU=;
-        b=BLLtu49CB+9yYscWIbpvEdwjf31KdnH90IoLh9gKf5UX9nLX1FTSO7ZIJfEVxxUYTy
-         1rjq3Aq5Bx51LHMFDz7Pmq1PyRLmDBWSI8vMQpK8JpaT8b4uCxWwI0jX93wxI1L41fXo
-         E5yybZFBSr2hTTVrP+T2Om3KTUsgcTEp+SQd4eTc4r3QEPVR0ANbJYsnmrB7erCVIlJg
-         /QxFc9qh86AqjYmXPXXq8QegsJJ1yEt7yz26rgHhecrfyIhyOfEfdSZWHbaPVeKBJgTF
-         WlvviRmUqYQs2G/KFAblyQZC8sGTS5iTIcqYd8+WaklGcddw/KTrt5v2PQNwQBMbTDrc
-         yKUg==
-X-Gm-Message-State: AOAM531gM+L/CXRy5iVCxSxfyI8iQ5OY85eAsnlzisqtqdQSsBUqrKK/
-	k8UV+Cknlw+YJ+SiD45SOgdX8onNwFpl+A==
-X-Google-Smtp-Source: ABdhPJz0Ifgs694Lr7lE65X7ZFHXH3p5AcKAwElxNzWF/0oSucA9XkoQjob8X7gM/LL5A3TtuEDUxA==
-X-Received: by 2002:a1c:27c5:: with SMTP id n188mr12575469wmn.126.1629648610344;
-        Sun, 22 Aug 2021 09:10:10 -0700 (PDT)
-Received: from localhost.localdomain (10.red-83-57-27.dynamicip.rima-tde.net. [83.57.27.10])
-        by smtp.gmail.com with ESMTPSA id y11sm14861976wru.0.2021.08.22.09.10.09
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 22 Aug 2021 09:10:09 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: tsbogend@alpha.franken.de
-Cc: bhelgaas@google.com,
-	matthias.bgg@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-mips@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	neil@brown.name,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] staging: mt7621-pci: set end limit for 'ioport_resource'
-Date: Sun, 22 Aug 2021 18:10:05 +0200
-Message-Id: <20210822161005.22467-4-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210822161005.22467-1-sergio.paracuellos@gmail.com>
-References: <20210822161005.22467-1-sergio.paracuellos@gmail.com>
+        bh=2SclzWe/a+WHkI1+v9aVDE2qt3aD/Uh5+eAnEPqlEbs=;
+        b=V71EN6iBN6QmtLTbockCi7e3uEs1P0nmHpDUh2OIQuV1OJhkeZhAXOd5doKkesoFA4
+         FSnanR16CferfQZH838HtP5QJVz/DyeryAUop/GWRCeLIk4aJb+ycfMLdMaduKB9OWyV
+         IvgPfGgFmu6A0V85yA+OtDgcHE3l6tQNdia9dvjMA3l5E6E2sNJh6rGj0E0o8c+pk5M2
+         FVHT12jL1mM8+kPWu/4rEXp1sPDK2Y/CAFdk8z3iQeWChWF0WXRYPxkJgiHcAZmwpGe+
+         k6ea4+dd9479zgyUqvfcRSQeBHjb6NmIT2ZguS/GHV+cNb3cBY8Bqg5Cc4Xwmxo31+Nj
+         CIMw==
+X-Gm-Message-State: AOAM532uma5kfJRJtN6C+u4T/h4lJ0SOC0gRS5HuJuHlBVQS2S639Iwk
+	j1ZlkpCEzjTjN8+0dlMN6sM=
+X-Google-Smtp-Source: ABdhPJzoSyc7f19QewE/rEJBkxA/iBhxjuOrTs4J7MWU0qD+0RQaGG1zSqJcq/TSHIJ0SQItdqK/dg==
+X-Received: by 2002:a17:906:af4f:: with SMTP id ly15mr31842423ejb.175.1629648828905;
+        Sun, 22 Aug 2021 09:13:48 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id i6sm5925824ejd.57.2021.08.22.09.13.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Aug 2021 09:13:48 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>
+Subject: Re: TODO list for staging/r8188eu
+Date: Sun, 22 Aug 2021 18:13:47 +0200
+Message-ID: <2244233.5Ao9Nzikjg@localhost.localdomain>
+In-Reply-To: <CAA=Fs0n9pJSRuC=LQ1WsSziaup8XsSax8cQAySb8jMHBQa4X0A@mail.gmail.com>
+References: <1897566.d8lQ4HMSh1@localhost.localdomain> <2099975.VbY6Rib6K3@localhost.localdomain> <CAA=Fs0n9pJSRuC=LQ1WsSziaup8XsSax8cQAySb8jMHBQa4X0A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-We have increase IO_SPACE_LIMIT for ralink platform to get PCI IO resources
-properly handled using PCI core APIs. To align those changes with driver
-code we have to set 'ioport_resource' end limit to IO_SPACE_LIMIT to avoid
-errors.
+On Sunday, August 22, 2021 5:09:47 PM CEST Phillip Potter wrote:
+> On Sun, 22 Aug 2021 at 14:50, Fabio M. De Francesco
+> <fmdefrancesco@gmail.com> wrote:
+> >
+> > On Sunday, August 22, 2021 2:36:57 PM CEST Greg Kroah-Hartman wrote:
+> > > On Sun, Aug 22, 2021 at 09:41:20AM +0200, Fabio M. De Francesco wrote:
+> > > > Dear Larry, Philip,
+> > > >
+> > > > >From what I understand how the development process works, drivers in
+> > staging
+> > > >
+> > > > should have a to-do list in the TODO file. Please read https://
+> > www.kernel.org/
+> > > > doc/html/latest/process/2.Process.html?highlight=todo#staging-trees.
+> > > >
+> > > > Could you (as the maintainers of the r8188eu driver) please compile and
+> > > > provide the above mentioned list?
+> > >
+> > > Why don't you provide an initial list for people to work off of if you
+> > > feel it is needed here?
+> > >
+> > > thanks,
+> > >
+> > > greg k-h
+> >
+> > Unfortunately I'm not able to tell what is needed to do to have a driver
+> > improved so that it can be moved off staging. This work should be better
+> > addressed by someone who is much more experienced.
+> >
+> > For example, I read from other drivers TODO lists that cfg80211 and lib80211
+> > are required but I don't know what they are.
+> >
+> > Regards,
+> >
+> > Fabio
+> 
+> Dear Fabio,
+> 
+> I believe Larry is working on hooking up CFG80211 again (he mentioned
+> going quite for a few days to work on it). As for other stuff that
+> needs doing, a few things come to mind:
+> 
+> * Removal of dead code (whether or not this includes the
+> debugging/printing macros is a matter of opinion, I would say yes
+> personally) such as unused functions, struct fields, etc.
+> * Correction of code styling in the kernel (e.g. there is a lot of camel case).
+> * Use of in-kernel functionality and removal of unnecessary wrappers
+> where possible.
+> * Removal of the HAL layer and migration of its functionality into the
+> driver as a whole - this is an important one I would argue.
+> 
+> There is likely to be lots of other items not on that list, but that
+> would seem to be the basis of a TODO list if we need one?
+> 
+> Regards,
+> Phil
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-pci/pci-mt7621.c | 2 ++
- 1 file changed, 2 insertions(+)
+Dear Philip,
 
-diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
-index 691030e1a5ed..6301397c3987 100644
---- a/drivers/staging/mt7621-pci/pci-mt7621.c
-+++ b/drivers/staging/mt7621-pci/pci-mt7621.c
-@@ -522,6 +522,8 @@ static int mt7621_pci_probe(struct platform_device *pdev)
- 	if (!dev->of_node)
- 		return -ENODEV;
- 
-+	ioport_resource.end = IO_SPACE_LIMIT;
-+
- 	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*pcie));
- 	if (!bridge)
- 		return -ENOMEM;
--- 
-2.25.1
+Thanks for this initial list. I suppose that every driver in staging should have it.
+If you like I could send a patch with the list you prepared, unless you prefer to
+make it yourself (since you wrote it). Please let me know what you prefer.
+
+We shouldn't forget that from time to time new people decide to enter kernel 
+hacking through staging. I think that a list could help all future newcomers.
+
+Thanks,
+
+Fabio
+
+
+
+
+
+
 
