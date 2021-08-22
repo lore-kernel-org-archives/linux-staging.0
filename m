@@ -1,103 +1,111 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3603FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 13:21:34 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id bo19so21717584edb.9
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 06:21:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EDF23FC1
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 13:25:36 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id f10so8822576wml.2
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 06:25:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zqTECFuRJLYarOpHoCCGqs8juSsxGgWk5yRR8uFe8PQ=;
-        b=B0zxd0DrjaauXCH+xSyRZj73jq8+b3uylHtP4zqqDF4bCYYG5qLbEYqOom/Z/x1Xnl
-         KDqKU8vv5PqjsHIBs2imIBvph+BPJHQE2wPBvnZtE2U6qsQ15UkUtmKktLRHU6fRSBhC
-         z5McxyJM1eqccfMarsX7TYICT7JidPetxYzW2sSzB+RyjYzQjR97V1waKYbrABfsS9Rt
-         AmsSBUtZmttjq77ny6qqOk4UIjjLfKw33Dv4nPKpl4/GULkfPgwBmygStXX9dvZuLv4o
-         /M0Uu4gkA4Jy+XytmbCR1OOF7nHecmEKxFiBLmjulcNheI7lfOzjJ6rLQp76GAPzibzv
-         Pynw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=kZw4V2Zva7YZ4ZIBobOrnt2elWvFQ0nGG2fMiXvkreg=;
+        b=e9MHF138iOszSWiu/z/oFHbPB0n6q7aUnWysxNFTpiW0GA0/SR5eQIt5KlXXoiQPhT
+         6KGTYbb6npHFiiMCwjjA2sNzdOBvnrDPEIFQTG+jyH7eKuFUKBUXE2zaBC1sbiOzMJ23
+         UtcrQckzLt0P19mZbYZWm9iMqZ/e/1xp/DhhyifO/nKfeiX0OK5YCcVnMaoxr+fkhtMI
+         LJ9M7a03BVa2wkn0sY9ppjg7HYJNiZCSKzaUpyiZAOVA3HaRiZTHwZ2Ej2Q2TEtWDptZ
+         2lmgarcnDev9X3cuhI+hpBuDIOATfmW101pBYpk59vjwcdbZda0hbRTatIVxczdRwcxk
+         Sq5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zqTECFuRJLYarOpHoCCGqs8juSsxGgWk5yRR8uFe8PQ=;
-        b=NGlsZYOEKGxlz6YygsiLC+5UsYz/Yf6liBIT/kSvwqvcrZxeKtLDDi7OIOPzi/DET9
-         guMRVjaXPP2mrnfqgPLOM/8XRoiH7tZAgE8OW2nqtYx0ex+LogsBo0TQyUXCnOAjpoFP
-         yfTLdMX1XNF/uh12FTKTeV0OfyVVO4WWA41uLq4rW1SOCgXQIhfVFwuiKHK8afoJFwhy
-         XIWDT2mFIcN3pEDo+IyR05vvM/M38DYwcj8k5aIlNBZNdux7wMea5ANVbCq+FKZWP9Op
-         lGg34RGrzykN8s1p6yFK+yceV45FU8UjtFH5eC7g079UF8K3rGjqPy4kn0bjpbi87Toy
-         958g==
-X-Gm-Message-State: AOAM530AcOpFfD++F0QQJ1LdoY9sG5sVrA8ajIA5qCfdGWUrjQslF19p
-	JogZrD/+iIz6lyGezHcCd9E=
-X-Google-Smtp-Source: ABdhPJyVzQOLujp1q7XgHum80sFZZy2mfkNtS+ZQOQ8CQhKepPE7wo0EkLi53Kv1t72zSn9O6U2zlQ==
-X-Received: by 2002:a05:6402:2302:: with SMTP id l2mr14428895eda.13.1629638492669;
-        Sun, 22 Aug 2021 06:21:32 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id v13sm5727689ejh.62.2021.08.22.06.21.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 06:21:32 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Pavel Skripkin <paskripkin@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, straube.linux@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Martin Kaiser <martin@kaiser.cx>
-Subject: Re: [PATCH RFC 0/3] staging: r8188eu: avoid uninit value bugs
-Date: Sun, 22 Aug 2021 15:21:30 +0200
-Message-ID: <2244219.zNr1yEsLHP@localhost.localdomain>
-In-Reply-To: <YSJFhmTs74PUyo8b@kroah.com>
-References: <cover.1629479152.git.paskripkin@gmail.com> <435eea22-da31-1ebc-840c-ee9e42b27265@gmail.com> <YSJFhmTs74PUyo8b@kroah.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=kZw4V2Zva7YZ4ZIBobOrnt2elWvFQ0nGG2fMiXvkreg=;
+        b=et4W7RMig1gT43aq15JZI/6OGY6WURSTUJjw4VBtarA24KtfSZuAXjAuxdmJJJ63I5
+         yrsQobZvO6EDDkBtGjI7xZpZrIiAyaXb+6O0NicF1uBviZH3GkbDgyWo6Hg/vIWIPqde
+         lh40CkLP0T2ZEL2O3zkIT6tRlbXXVCvmOuWyxUIyzLk9jhViDWKPhIU4tmlPTQNLSrwQ
+         mhb4CNj2G6+Le5MSrR1ypuTYyxsMYbYyAQhpvAaD7xFikhH6c/7p5otgZ4kxlEOIlkU7
+         HmYLmXp4Nw8XeNQjxh6L6eskKA02u2YIkf96QHQrX1+kYMJFxARJkLTbvTzkzwlwoC1x
+         Mukg==
+X-Gm-Message-State: AOAM530MpTo9n5j94dhlbGWEMY+itxBAcJqqtaGVQKKwimdoi7B3szhg
+	vFheDIw5aEgGEd7CsPsg0rM=
+X-Google-Smtp-Source: ABdhPJzJD/D5Vd4j8FYUKzHj6M0sF8kJAvRDQicS2NBxK4KpfLL6TCNaByg7u9S+h/wHX8gE29pLWA==
+X-Received: by 2002:a05:600c:4656:: with SMTP id n22mr8006302wmo.74.1629638734921;
+        Sun, 22 Aug 2021 06:25:34 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
+        by smtp.gmail.com with ESMTPSA id q11sm3747298wrx.85.2021.08.22.06.25.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Aug 2021 06:25:34 -0700 (PDT)
+Subject: Re: [PATCH 08/10] staging: r8188eu: clean up the usb_writeN
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210821164859.4351-1-martin@kaiser.cx>
+ <20210821164859.4351-8-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <6593f24b-8986-df5f-e2ba-5358360939df@gmail.com>
+Date: Sun, 22 Aug 2021 15:24:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20210821164859.4351-8-martin@kaiser.cx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sunday, August 22, 2021 2:39:34 PM CEST Greg KH wrote:
-> On Sun, Aug 22, 2021 at 03:10:56PM +0300, Pavel Skripkin wrote:
-> > On 8/22/21 1:59 PM, Fabio M. De Francesco wrote:
-> > > On Sunday, August 22, 2021 12:09:29 PM CEST Pavel Skripkin wrote:
-[...]
-> > > So, it's up to the callers to test if (!_rtw_read*()) and then act
-> > > accordingly. If they get 0 they should know how to handle the errors.
-> > 
-> > Yes, but _rtw_read*() == 0 indicates 2 states:
-> > 	1. Error on transfer side
-> > 	2. Actual register value is 0
+On 8/21/21 6:48 PM, Martin Kaiser wrote:
+> Remove unnecessary variables, check the length.
 > 
-> That's not a good design, it should be fixed.  Note there is the new
-> usb_control_msg_recv() function which should probably be used instead
-> here, to prevent this problem from happening.
-
-I think that no functions should return 0 for signaling FAILURE. If I'm not 
-wrong, the kernel quite always prefers to return 0 on SUCCESS and <0 on 
-FAILURE. Why don't you just fix this?
-
-> > > In summation. if anything should be changed, it is the code of the 
-callers of
-> > > _rtw_read*() if you find out they they don't properly handle the 
-returning
-> > > values of this function. You should find every place where _rtw_read*() 
-are
-> > > called and figure out if the returns are properly checked and handled; 
-if not,
-> > > make some change only there.
-> > > 
-> > > Larry, Philip, where are you? Am I missing something?
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>   drivers/staging/r8188eu/hal/usb_ops_linux.c | 15 +++++----------
+>   1 file changed, 5 insertions(+), 10 deletions(-)
 > 
-> Relax, there is no need to get jumpy, people do not have to respond
-> instantly to emails here.  Especially when it is not their job to do so.
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index e01f1ac19596..5408383ccec3 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -151,20 +151,15 @@ static int usb_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
+>   
+>   static int usb_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata)
+>   {
+> -	u16 wvalue;
+> -	u16 len;
+> +	u16 wvalue = (u16)(addr & 0x0000ffff);
+>   	u8 buf[VENDOR_CMD_MAX_DATA_LEN] = {0};
+> -	int ret;
+> -
+>   
+> +	if (length > VENDOR_CMD_MAX_DATA_LEN)
+> +		return -EINVAL;
+>   
+> -	wvalue = (u16)(addr & 0x0000ffff);
+> -	len = length;
+> -	memcpy(buf, pdata, len);
+> +	memcpy(buf, pdata, length);
 
-I should have placed a big smile at the end of the phrase. I was just kidding 
-while trying to get their attention. I know there is no hurry and that no one 
-has any obligation of this kind. Again, just kidding :)
+Hi Martin, shouldn't this be
 
-Thanks,
+memcpy(buf, pdata, (length & 0xffff));
 
-Fabio
+>   
+> -	ret = usbctrl_vendorreq(pintfhdl, wvalue, buf, len, REALTEK_USB_VENQT_WRITE);
+> -
+> -	return ret;
+> +	return usbctrl_vendorreq(pintfhdl, wvalue, buf, (length & 0xffff), REALTEK_USB_VENQT_WRITE);
+>   }
+>   
+>   static void interrupt_handler_8188eu(struct adapter *adapt, u16 pkt_len, u8 *pbuf)
+> 
 
-> greg k-h
-
-
-
-
+Regards,
+Michael
