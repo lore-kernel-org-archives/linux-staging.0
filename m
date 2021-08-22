@@ -1,111 +1,110 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDF03FC3
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 15:09:58 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id q2so14189436pgt.6
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 08:09:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F043FC3
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 15:30:12 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id c12so26596085ljr.5
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 08:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YOgOYoU/WJQDwpDThJRPMILCnbZWWqtiYHz7s6Kk7mc=;
-        b=Wpqh136HlhTcg+2T1nVxZ607SGpMeb2Ip34pDKsYx2gHU5C1RA7RUx1n6umM75Wvu+
-         UAWwRWcBfYtarC7wPE8htsYVlFCjC6bsCOkVBDZYl//9kamCfZQcKnI9K2sCvZ4JYW2n
-         A2NhAF3FMHW30uUFWDi24XV4nJWseQR9erNf1Uzsv6U4OWreY41kusi8l3zAwjKwvYCB
-         /tY4sdKmOkHtiQuuMC2wh7g8locaXwC6SJHFfeiy3QjByHuK3NzpwMmH14q7ZMiLRPaE
-         zUnSGBr/nQRNHpdw/AnAW54y8i/AtJCJqxvB4WJI50XmYEbfZNFQ8Kn1WAsDYYtrlmAe
-         7wAw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UUbd05FldiIoBAm96I7gNRChHATg0GhZfAiC5EXuLrA=;
+        b=TDxe6Pr+2JgQIav8J1lASsQ2sQ5sNJ3gUFRzgjvzbgdD+IR8rEXPHn53p8EkgO99t1
+         eQGS3TE6OaygCfGxNPPaDhQYJZHgHuC17R5eAqNLuSkEVclYS/o2gBYyvqe1yI8QEXkR
+         UKULvCp9s9/sEz4i5BcZ5+s1yF/vfv2W5VCGQaTOKhhXiFWqCcGwWFl4u+LRhtxTt+Yp
+         SWG0qUvbS0qD90RNYl/kNRugcs3hVYNhuJYIp+igABrADYQIwPzXnWaF2/18h1HqyXgq
+         NmMzbC9JkGwHHk2wJVjmWkYAuMbSgp2C6+iCObrVfPPhCf2UdmZTeBhtLDNglKBUsny/
+         P2Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YOgOYoU/WJQDwpDThJRPMILCnbZWWqtiYHz7s6Kk7mc=;
-        b=S5TK7JD7OIckVrnyhqvpN1IMuLCkPz0BUmZ9C43qKjh3MIakMoNrV9PKDLWeRmo0kL
-         HBo9Vu9TG7CluYvxosRFRbtOKf4kwA+ut/kYCFECouraLKhbth0ONlz2vLVVed8ar9Pd
-         1prg8iriA2ceIBRAuu/mraTNU0QqhxzaYuEYm93s+i1+jYzNdawTIVvBlMueBZkNCi58
-         7bF7RFdVhuj1UKHHtdrmLxnPGxKEBGV4wel6+gf+VkoVkKzDn3mPjyzOdqDSww/WtyXe
-         08iTBWhJGCqJp8rxOiUfLqkqXpyXOX1VoNFJZsqsRcWevJnn8uUNJDvsWLnvHnmhIZ2X
-         3LHA==
-X-Gm-Message-State: AOAM5307KIX1L2uP2pQHMq4m4UISubrRE9QSe80PsE4asjRxv6hosU4Q
-	iYOCWIX22d+S5zcK9UfucnYyzsYIJG4eWXcnwR8hRj7FzyfblQ==
-X-Google-Smtp-Source: ABdhPJx0M1X24GznjRzWwRakyQly5Svp5D4WEOPA7CfMn501vymtkwDC6XGxKiXqI0F+A4Bf3gUCb/vl3pjczQHYSUw=
-X-Received: by 2002:a63:aa43:: with SMTP id x3mr28172377pgo.208.1629644997993;
- Sun, 22 Aug 2021 08:09:57 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UUbd05FldiIoBAm96I7gNRChHATg0GhZfAiC5EXuLrA=;
+        b=bHpt3Hmi+GxcEo+MgeDs6jF/XithzpUETE7lDJjb5oxI5cGXrXi46SE3d9oxIcCaoC
+         3reeYK/470yUaFwLOaO7puCpkL0FoYa33UKcCJ8xKYXTV1YOvPOsqcZ5YNxz9HhM8+Si
+         H1eN85JEaAM0L4JFKSj/MPrOtMGQIMLlBQas4CySOzgu5xsHWp5oRc5y9Fdoh0v0Nlxo
+         mZrAiD90rGjyJOFWbqTRO2NhQKV7gh4Bmc2JcGULPODRFM4rHuUERUxduzfIqvBkudM1
+         BGrNkt1jsFI06Nn9Pk7pMKcpdVWcoQ7rSPHym70D7634zKhx3cR6qn8lF3VIPehAx5kg
+         OYLA==
+X-Gm-Message-State: AOAM533N0xp+p4nUV61nH+qBUDArAjQra4wY0ffpKkaoejfwh0rCC3LG
+	MqgdFylKc03dCCCEgRDl4e4=
+X-Google-Smtp-Source: ABdhPJx8sDEPnIXalJagpmfAMZRPgoYxbLiwPl2oRJ2mNqbBrSnc4p9uSU4JLR9R3Ot4hSsPYkNUeA==
+X-Received: by 2002:a2e:534c:: with SMTP id t12mr23231914ljd.133.1629646210630;
+        Sun, 22 Aug 2021 08:30:10 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id u1sm1219570lfk.96.2021.08.22.08.30.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Aug 2021 08:30:10 -0700 (PDT)
+Subject: Re: [PATCH RFC v2 0/6] staging: r8188eu: avoid uninit value bugs
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ gregkh@linuxfoundation.org, straube.linux@gmail.com, fmdefrancesco@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <6182ed46-d79d-7f66-c7c0-096486410b4d@gmail.com>
+ <cover.1629642658.git.paskripkin@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <44fc34ec-6bbe-9cd0-0c51-78836bad7e0c@gmail.com>
+Date: Sun, 22 Aug 2021 18:30:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1897566.d8lQ4HMSh1@localhost.localdomain> <YSJE6aoH96kh777R@kroah.com>
- <2099975.VbY6Rib6K3@localhost.localdomain>
-In-Reply-To: <2099975.VbY6Rib6K3@localhost.localdomain>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sun, 22 Aug 2021 16:09:47 +0100
-Message-ID: <CAA=Fs0n9pJSRuC=LQ1WsSziaup8XsSax8cQAySb8jMHBQa4X0A@mail.gmail.com>
-Subject: Re: TODO list for staging/r8188eu
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <cover.1629642658.git.paskripkin@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sun, 22 Aug 2021 at 14:50, Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
->
-> On Sunday, August 22, 2021 2:36:57 PM CEST Greg Kroah-Hartman wrote:
-> > On Sun, Aug 22, 2021 at 09:41:20AM +0200, Fabio M. De Francesco wrote:
-> > > Dear Larry, Philip,
-> > >
-> > > >From what I understand how the development process works, drivers in
-> staging
-> > >
-> > > should have a to-do list in the TODO file. Please read https://
-> www.kernel.org/
-> > > doc/html/latest/process/2.Process.html?highlight=todo#staging-trees.
-> > >
-> > > Could you (as the maintainers of the r8188eu driver) please compile and
-> > > provide the above mentioned list?
-> >
-> > Why don't you provide an initial list for people to work off of if you
-> > feel it is needed here?
-> >
-> > thanks,
-> >
-> > greg k-h
->
-> Unfortunately I'm not able to tell what is needed to do to have a driver
-> improved so that it can be moved off staging. This work should be better
-> addressed by someone who is much more experienced.
->
-> For example, I read from other drivers TODO lists that cfg80211 and lib80211
-> are required but I don't know what they are.
->
-> Regards,
->
-> Fabio
->
->
->
+On 8/22/21 5:35 PM, Pavel Skripkin wrote:
+> Hi, Greg, Larry and Phillip!
+> 
+> I noticed, that new staging driver was added like 3 weeks ago and I decided
+> to look at the code, because drivers in staging directory are always buggy.
+> 
+> The first thing I noticed is *no one* was checking read operations result, but
+> it can fail and driver may start writing random stack values into registers. It
+> can cause driver misbehavior or device misbehavior.
+> 
+> To avoid this type of bugs, i've changed rtw_read* API. Now all rtw_read
+> funtions return an error, when something went wrong with usb transfer.
+> 
+> It helps callers to break/return earlier and don't write random values to
+> registers or to rely on random values.
+> 
+> Why is this pacth series RFC?
+>    1. I don't have this device and I cannot test these changes.
+>    2. I don't know how to handle errors in each particular case. For now, function
+>       just returns or returns an error. That's all. I hope, driver maintainers will
+>       help with these bits.
+>    3. I guess, I handled not all uninit value bugs here. I hope, I fixed
+>       at least half of them
+> 
+> 
+> v1 -> v2:
+>    1. Make rtw_read*() return an error instead of initializing pointer to error
+>    2. Split one huge patch to smaller ones for each rtw_read{8,16,32} function
+>       changes
+>    3. Add new macro for printing register values (It helps to not copy-paste error
+>       handling)
+>    4. Removed {read,write}_macreg (Suggested by Phillip)
+>    5. Rebased on top of staging-next
+>    6. Cleaned checkpatch errors and warnings
+> 
+> Only build-tested, since I don't have device with r8118eu chip
+> 
 
-Dear Fabio,
+BTW, can you recommend any devices with this chip except for ASUS 
+USB-N10 Nano? I didn't find any of them with delivery/reasonable 
+delivery price to Russia.
 
-I believe Larry is working on hooking up CFG80211 again (he mentioned
-going quite for a few days to work on it). As for other stuff that
-needs doing, a few things come to mind:
+I want to help with testing and moving this driver out of staging 
+directory :)
 
-* Removal of dead code (whether or not this includes the
-debugging/printing macros is a matter of opinion, I would say yes
-personally) such as unusued functions, struct fields, etc.
-* Correction of code styling in the kernel (e.g. there is a lot of camel case).
-* Use of in-kernel functionality and removal of unnecessary wrappers
-where possible.
-* Removal of the HAL layer and migration of its functionality into the
-driver as a whole - this is an important one I would argue.
 
-There is likely to be lots of other items not on that list, but that
-would seem to be the basis of a TODO list if we need one?
 
-Regards,
-Phil
+With regards,
+Pavel Skripkin
