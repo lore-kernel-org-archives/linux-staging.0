@@ -1,113 +1,120 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D323FC3
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 14:58:22 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id t42so10530063pfg.12
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 07:58:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB173FC3
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 14:59:53 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id y190so13131032pfg.7
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 07:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZrJiEr09vjMy6mI2+ykFgIl7I69Q/36IiW2OvUK4i3M=;
-        b=JV2eL7bMtmTEu9p+NkW2Y+dtmfBXQSZN/f6twwLfwEuZ0awNYucAku/VdQ0BeA55ZC
-         LXUk4YnujCrbS7A3SYzgnTzECEgp6cPurpOQ9gBFsUrvV3m9+ujV+ACYAciQxch3l1mf
-         E4BI94IO5Xc2BMJwgWJ81JYKRaEsanTlP3kTxSmEmX5+Ixv+Q2DSsIHE3L9gsuwgZ/hp
-         blTOeRR9Vxt/QL9PllYE2+chNVI0ZmGdg5SfrE6fxv2EvQ//2nHx7MSRhMzyXs/AfpYQ
-         SmR0FTE1phpqfnXSypN8upNPdtJpTKHKyc5O6T/pp04Y0uFxqpzDNNKT7Ui62rktHb8v
-         oXiA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KtofH/4/jYATs6D3O66/kVjkwIShCI9KUHIKJ5lCCCQ=;
+        b=FppxUShmrv1HQlTx8QZBDRPqLPtReo25tMpskXxjbrkbA4X1jxuCaO4f6Jneu1lUsJ
+         IdYXunWAD0daSap4XsBjkgT8GoEdcyeMjXonPXUCMkqLZSMPeXhVWatiGgJuHPEPX8P9
+         7uxra4LgX1SoqkAwok8hnkAnjgVqNbQocISMg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZrJiEr09vjMy6mI2+ykFgIl7I69Q/36IiW2OvUK4i3M=;
-        b=lk/16rQUsuyWi7SHekG8T1noU7yBu+LSiZhWDWxokVizeFQQnXnjRdIvgWih+yCcZA
-         PuwJB3Zt6dgyy0kqcsEdnpegyV6c2jfhiU3fxbkmK8oOWpCUKdy8AR0P+4GV0ED5hu7D
-         sGu+Nq2Su6WfPpjaiml12uJmjI7jP4YR6MVxl8mudFqb0fyYoz5MP/mU88S6Ef298hxU
-         AR1yljDV4WitvJUiUT2AiDA6bi90N+5SngpVieY7WJfgXjAnZKId52vVS60r4flcwU1M
-         uL5yzYaqj6fVKhpCW8xzCxohvxwI4/smV1i11Qv3X7H7OXZK+rh7BROgAQQrubdPiv1K
-         I/tQ==
-X-Gm-Message-State: AOAM533EP47nMvpN1r54rjVQaBVklDgNBZ0xmwZ3ErxmVgVi4AFH74Oj
-	LkM1weQW4U8Q684SeIe+B009BXnUgSjlne2HoxxIoQ==
-X-Google-Smtp-Source: ABdhPJyXKWs7oBUytsfLTRz6W7adqsBqkpsdGnWsMugoiyviBLbLvjl60mL4kUzkCah9Kgx0vmR09o3NwN1E05IQBOs=
-X-Received: by 2002:a62:5c6:0:b029:341:e0b1:a72c with SMTP id
- 189-20020a6205c60000b0290341e0b1a72cmr29600516pff.71.1629644301902; Sun, 22
- Aug 2021 07:58:21 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KtofH/4/jYATs6D3O66/kVjkwIShCI9KUHIKJ5lCCCQ=;
+        b=learKW+Tn8fzM8TPhjrR2Fy0Lpx79QfcaxatDOzJZ1iqrZl5Qv8OElnpTb9vZmt9xm
+         n+RkjlJcqHAtz/GQEC1k2qmSWIp5FVwdmtdkx6bCvQbzEnbMsPBPMl87jLM9Ugf4hsHG
+         zzpTTdFp+MkhEfY7KE9tvOHNT10A4+Vz7sVsGCymGzsliUzLERvmG1mA1TlFFK3PEHhD
+         Hj+Aqk1nLCBWz2G7KRlE1zeyT3KBl3t/9X5KfTRG9glIbFrDVZX0dnWkj8hLKdudmzoA
+         Fd9pWBIcV0h59wNnP8VHjqEGZpY4+kedrosM7vvWyXHlsQYavwHywDMc5rodZNSAh8+b
+         n+jA==
+X-Gm-Message-State: AOAM530gxud4ihH6ePPwUCeD0+R10jiwL3trshVAMrx3xV3Q5ByXHlXJ
+	VlnNRhzLbTATEGGtY+s8sPTuqw==
+X-Google-Smtp-Source: ABdhPJz24gydAFeYUmKy99MGb+xa3/haHNHNvNWd9CFYlv2OtlpJDxbQgxEgWQfqFeiqxwGK01QHjA==
+X-Received: by 2002:a63:1247:: with SMTP id 7mr27588364pgs.366.1629644393320;
+        Sun, 22 Aug 2021 07:59:53 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t18sm12779320pfg.111.2021.08.22.07.59.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Aug 2021 07:59:52 -0700 (PDT)
+Date: Sun, 22 Aug 2021 07:59:51 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Len Baker <len.baker@gmx.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging/rtl8192u: Prefer kcalloc over open coded
+ arithmetic
+Message-ID: <202108220751.4E6ADBA@keescook>
+References: <20210822142820.5109-1-len.baker@gmx.com>
+ <20210822142820.5109-3-len.baker@gmx.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YSFgrLUfXzgcT6k4@user> <CAA=Fs0kByg1NztU+Nf__RUzTHuVh_q2hvcyh+3JqXiVgn+_VeQ@mail.gmail.com>
- <1821445.fzUCeO1EU3@localhost.localdomain>
-In-Reply-To: <1821445.fzUCeO1EU3@localhost.localdomain>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sun, 22 Aug 2021 15:58:10 +0100
-Message-ID: <CAA=Fs0mu4m04_Be4-f=W+=_hhGn5oJ2q=KOmZdRrMyGhMgqc-Q@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, saurav.girepunje@hotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210822142820.5109-3-len.baker@gmx.com>
 
-On Sun, 22 Aug 2021 at 12:06, Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
->
-> On Sunday, August 22, 2021 1:58:10 AM CEST Phillip Potter wrote:
-> > On Sat, 21 Aug 2021 at 21:23, Saurav Girepunje
-> >
-> > <saurav.girepunje@gmail.com> wrote:
-> > > Remove the condition with no effect (if == else) in rtw_led.c
-> > > file.
-> > >
-> > > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> > > ---
-> > >
-> > >  drivers/staging/r8188eu/core/rtw_led.c | 5 +----
-> > >  1 file changed, 1 insertion(+), 4 deletions(-)
-> >
-> > Thanks for this, looks good.
-> >
-> > Acked-by: Phillip Potter <phil@philpotter.co.uk>
-> >
-> > Regards,
-> > Phil
->
-> Dear Philip,
->
-> Before acking, please check at least if it applies to the current version of
-> the tree and check if it compiles without adding warnings and / or errors. :-)
->
-> Thanks,
->
-> Fabio
->
->
->
->
+On Sun, Aug 22, 2021 at 04:28:20PM +0200, Len Baker wrote:
+> Dynamic size calculations (especially multiplication) should not be
+> performed in memory allocator (or similar) function arguments due to the
+> risk of them overflowing. This could lead to values wrapping around and
+> a smaller allocation being made than the caller was expecting. Using
+> those allocations could lead to linear overflows of heap memory and
+> other misbehaviors.
+> 
+> So, use the purpose specific kcalloc() function instead of the argument
+> size * count in the kzalloc() function.
 
-Dear Fabio,
+It might be useful to reference the documentation on why this change is
+desired:
+https://www.kernel.org/doc/html/latest/process/deprecated.html#open-coded-arithmetic-in-allocator-arguments
 
-An Acked-by merely signals acknowledgement of the patch, and that is
-looks OK to the person offering the tag. Please see the following
-quote from the kernel.org documentation:
-"Acked-by: is not as formal as Signed-off-by:. It is a record that the
-acker has at least reviewed the patch and has indicated acceptance."
-It is not, to my knowledge, a commitment from the reviewer that the
-patch applies to the given tree at that precise moment in time.
+Here and in the docs, though, it's probably worth noting that these
+aren't actually dynamic sizes: both sides of the multiplication are
+constant values. I still think it's best to refactor these anyway, just
+to keep the open-coded math idiom out of code, though.
 
-I reviewed the patch, and indicated my acceptance - the content of the
-patch is fine. Whilst I will often make an effort to merge + build
-test many patches, I will not do this with all of them, I simply don't
-have the time due to other commitments. You can be assured that if I
-have offered this tag I have at least read the patch and it looks
-correct to me.
+Also, have you looked at Coccinelle at all? I have a hideous pile of
+rules that try to find these instances, but it really needs improvement:
+https://github.com/kees/coccinelle-linux-allocator-overflow/tree/trunk/array_size
 
-Particularly with a driver as in flux as this one, there are going to
-be many merge conflicts. Advice such as this to me is not particularly
-helpful, as I can promise you I'm trying :-)
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Regards,
-Phil
+> 
+> Signed-off-by: Len Baker <len.baker@gmx.com>
+> ---
+>  drivers/staging/rtl8192u/r819xU_phy.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192u/r819xU_phy.c b/drivers/staging/rtl8192u/r819xU_phy.c
+> index ff6fe2ee3349..97f4d89500ae 100644
+> --- a/drivers/staging/rtl8192u/r819xU_phy.c
+> +++ b/drivers/staging/rtl8192u/r819xU_phy.c
+> @@ -1195,17 +1195,17 @@ static u8 rtl8192_phy_SwChnlStepByStep(struct net_device *dev, u8 channel,
+>  	u8 e_rfpath;
+>  	bool ret;
+> 
+> -	pre_cmd = kzalloc(sizeof(*pre_cmd) * MAX_PRECMD_CNT, GFP_KERNEL);
+> +	pre_cmd = kcalloc(MAX_PRECMD_CNT, sizeof(*pre_cmd), GFP_KERNEL);
+>  	if (!pre_cmd)
+>  		return false;
+> 
+> -	post_cmd = kzalloc(sizeof(*post_cmd) * MAX_POSTCMD_CNT, GFP_KERNEL);
+> +	post_cmd = kcalloc(MAX_POSTCMD_CNT, sizeof(*post_cmd), GFP_KERNEL);
+>  	if (!post_cmd) {
+>  		kfree(pre_cmd);
+>  		return false;
+>  	}
+> 
+> -	rf_cmd = kzalloc(sizeof(*rf_cmd) * MAX_RFDEPENDCMD_CNT, GFP_KERNEL);
+> +	rf_cmd = kcalloc(MAX_RFDEPENDCMD_CNT, sizeof(*rf_cmd), GFP_KERNEL);
+>  	if (!rf_cmd) {
+>  		kfree(pre_cmd);
+>  		kfree(post_cmd);
+> --
+> 2.25.1
+> 
+
+-- 
+Kees Cook
