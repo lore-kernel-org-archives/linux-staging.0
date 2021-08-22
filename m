@@ -1,121 +1,364 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F74F72
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 17:38:14 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id p38so32889442lfa.0
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 10:38:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1563FC0
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 18:35:40 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id v19so7747704lfo.7
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 11:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6NIIlmrM1M/Zn9wE/qIDg3xKfQE8bmnDl6vhZrmG6N4=;
-        b=JXaxLoghO3b7+2JCIuQpT1pIgRtQScjru3C3dMhUl5ZPjFzppUgerFbPTLOI2PPOPU
-         tCEHyDZ/HLyRKwjIUghpo5JKujhyzD1kW/xwU/g3EK+JSjfyY8Pv4ch8TslMhRiXsqBI
-         kZTEX3nZc9G8EOfbJDGAlWsckm1NJKkhzyx2zNnFNB3YT1oFpYq0QFa7XDN14iG/A4xl
-         ZfslMrpOBbCylHFlTQ3bKBas9O+HL7ZOn1daACWbqkQDGAmVvEJlUw5CEeMyMKJZy/tN
-         hefIoGqlHilPhSIinsFNrTrNJG6mgcd67Y12MFnmz7M/2h+Xxf9kMXQWAejcMn8hiVYf
-         HiYA==
+        bh=llXGzOlVfQ1z+fZShplnuKhCoBoaDlqiYpJmC9GU0+A=;
+        b=pUd9pFzrQoz3MNBZyhe492j7Qpwx+o85iQRD6cvmN/8plmaCSQzruh0RLDBLu8kjbl
+         TH2YjBmZbqDFv62c43rrm+RSWCswEPx259Y0lUalUz7YpM8zV3SoOyvmYKqbVGEh6DVy
+         rniJPhXV2GJnOp3rJirXiqPIfyPVSXebHcrNvf4rhd1A6hnKj1F21t4SULzx78RQFoSZ
+         4NCdZ2we55lY8RlkJy5ZNHKATACU0drXFlBD/8zAouMBw5X7N8H5OzPaiNUpTvt7Ps7a
+         dj4vDtsop6JYSgrAGC0sGSlmLTOoLXQ2XsB7rZBKZmLc5jalVGskLtiCPRnUqfBevgil
+         IVLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=6NIIlmrM1M/Zn9wE/qIDg3xKfQE8bmnDl6vhZrmG6N4=;
-        b=XKbOvRVOtiHAVVE5FVXEq5JnzNR9ttZmG8hF7ETdiakksa4SE4ywvu1ftTJ8P3mche
-         z88LcfwuddNrGAPUpX2Yerm+MfGP/kCXSIFc7ju5KDcf05hq07WI7QUvQVtqTSwC99Xo
-         xFXUoYRuzbFY/dIRwtKOLK6UFutL0dUkBSzqk1IE3Lzx0yePhh4flxEJPClEt4hIe8zP
-         iK+1CXf3F2dol/dU0ggWrmbZTkzgqwTrrukoc0Sam1hSBrUEFxYVxt3972cfhDHdeuGu
-         L2IPWcTa0JlayUyJPtzIcN88qqEX92CeTdEmXtnsC0WL7F9FE2ZFBvdabhm8th1f0InW
-         2kkQ==
-X-Gm-Message-State: AOAM531Kk8kGSqBVs3MEJC3LCTEndvraQB9/HJqEiKjhAuU8moDbOrpl
-	5VLOEjPDIYxnDFI99HXx9Kw=
-X-Google-Smtp-Source: ABdhPJwyn55tpdIlP3Wuh4/orBl8zAbtg4zIUe2BTyREjvt3PFONlS2w1Ax9wu3y+FLkSIHd0UpXvg==
-X-Received: by 2002:a05:6512:b93:: with SMTP id b19mr18346549lfv.453.1629653892645;
-        Sun, 22 Aug 2021 10:38:12 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id g18sm586317lfb.23.2021.08.22.10.38.11
+        bh=llXGzOlVfQ1z+fZShplnuKhCoBoaDlqiYpJmC9GU0+A=;
+        b=PlEenYP86dto5yUjqfmC9Zl3edEZ3+R+D9bKFg7fmjE4DrS7NzyZmPspRKViX3BZR5
+         r7EYZl1gHPUlUq/oLJTCID6MTxP4jQD8UQkrkbj8GaigkqDYNr/O3yGJKSF4e3558QHS
+         0F9mgfDxmBUQZqjoHfOk4BJCton6IvPLj65pB7fDNMj4AdhX1WYXdYUnu/XKQ6Zj0J08
+         f+hF/LRZBOOIIYoF63ubGZzHW02CCwgAQXORf64vKn3SWbw1OkbECDr3qGM1jkbjOlLJ
+         lsXsJP81W56Qh+tGhpCSveunAp5QYi8Q47FsOMSDVd+YGrqvHtlRQZFzTM+7RvC+MSXZ
+         E2WQ==
+X-Gm-Message-State: AOAM532pdtxNoD6aKlbKzgvTdFMtJs55TM5hqiJcZsnrwoMy4uu/ywXR
+	7vaRygadUMFbVU7Me3fv/jM=
+X-Google-Smtp-Source: ABdhPJxSIOhcKe6yMzphYPwAYvHArYXqPo3XV3R2pB+pvoKJx2vc7UTHUQczHFEp2jjlznO4dsdqvg==
+X-Received: by 2002:ac2:5fa8:: with SMTP id s8mr23353475lfe.514.1629657338302;
+        Sun, 22 Aug 2021 11:35:38 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
+        by smtp.googlemail.com with ESMTPSA id i12sm226942ljm.116.2021.08.22.11.35.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 10:38:12 -0700 (PDT)
-Subject: Re: [PATCH RFC v2 0/6] staging: r8188eu: avoid uninit value bugs
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <6182ed46-d79d-7f66-c7c0-096486410b4d@gmail.com>
- <cover.1629642658.git.paskripkin@gmail.com>
- <15979623.JslXr83I74@localhost.localdomain>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <9ef4cd9f-4f0c-bc6a-76d2-b9e30f6744a4@gmail.com>
-Date: Sun, 22 Aug 2021 20:38:11 +0300
+        Sun, 22 Aug 2021 11:35:37 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+To: Viresh Kumar <viresh.kumar@linaro.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
+References: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
+ <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
+ <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
+ <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b887de8c-a40b-a62e-8abf-698e67cdb70c@gmail.com>
+Date: Sun, 22 Aug 2021 21:35:36 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <15979623.JslXr83I74@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/22/21 8:36 PM, Fabio M. De Francesco wrote:
-> On Sunday, August 22, 2021 4:35:05 PM CEST Pavel Skripkin wrote:
->> Hi, Greg, Larry and Phillip!
->> 
->> I noticed, that new staging driver was added like 3 weeks ago and I decided
->> to look at the code, because drivers in staging directory are always buggy.
->> 
->> The first thing I noticed is *no one* was checking read operations result, but
->> it can fail and driver may start writing random stack values into registers. It
->> can cause driver misbehavior or device misbehavior.
->> 
->> To avoid this type of bugs, I've changed rtw_read* API. Now all rtw_read
->> funtions return an error, when something went wrong with usb transfer.
->> 
->> It helps callers to break/return earlier and don't write random values to
->> registers or to rely on random values.
->> 
->> Why is this pacth series RFC?
->>   1. I don't have this device and I cannot test these changes.
->>   2. I don't know how to handle errors in each particular case. For now, function
->>      just returns or returns an error. That's all. I hope, driver maintainers will
->>      help with these bits.
->>   3. I guess, I handled not all uninit value bugs here. I hope, I fixed
->>      at least half of them
->> 
->> v1 -> v2:
->>   1. Make rtw_read*() return an error instead of initializing pointer to error
->>   2. Split one huge patch to smaller ones for each rtw_read{8,16,32} function
->>      changes
->>   3. Add new macro for printing register values (It helps to not copy-paste error
->>      handling)
->>   4. Removed {read,write}_macreg (Suggested by Phillip)
->>   5. Rebased on top of staging-next
->>   6. Cleaned checkpatch errors and warnings
->> 
->> Only build-tested, since I don't have device with r8118eu chip
->> 
->> Pavel Skripkin (6):
->>   staging: r8188eu: remove {read,write}_macreg
->>   staging: r8188eu: add helper macro for printing registers
->>   staging: r8188eu: add error handling of rtw_read8
->>   staging: r8188eu: add error handling of rtw_read16
->>   staging: r8188eu: add error handling of rtw_read32
->>   staging: r8188eu: make ReadEFuse return an int
+20.08.2021 08:18, Viresh Kumar пишет:
+> On 19-08-21, 16:55, Ulf Hansson wrote:
+>> Right, that sounds reasonable.
+>>
+>> We already have pm_genpd_opp_to_performance_state() which translates
+>> an OPP to a performance state. This function invokes the
+>> ->opp_to_performance_state() for a genpd. Maybe we need to allow a
+>> genpd to not have ->opp_to_performance_state() callback assigned
+>> though, but continue up in the hierarchy to see if the parent has the
+>> callback assigned, to make this work for Tegra?
+>>
+>> Perhaps we should add an API dev_pm_genpd_opp_to_performance_state(),
+>> allowing us to pass the device instead of the genpd. But that's a
+>> minor thing.
 > 
-> Hi Pavel,
+> I am not concerned a lot about how it gets implemented, and am not
+> sure as well, as I haven't looked into these details since sometime.
+> Any reasonable thing will be accepted, as simple as that.
 > 
-> I've just read your v2 of the series. I had no time to read each and every line,
-> however, I suppose that I saw enough to say that I think they are a huge
-> improvement over v1. I really like your patches and if I were you, I'd drop
-> that RFC tag.
+>> Finally, the precondition to use the above, is to first get a handle
+>> to an OPP table. This is where I am struggling to find a generic
+>> solution, because I guess that would be platform or even consumer
+>> driver specific for how to do this. And at what point should we do
+>> this?
+
+GENPD core can't get OPP table handle, setting up OPP table is a platform/driver specific operation.
+
+> Hmm, I am not very clear with the whole picture at this point of time.
 > 
+> Dmitry, can you try to frame a sequence of events/calls/etc that will
+> define what kind of devices we are looking at here, and how this can
+> be made to work ?
 
-Thank you, Fabio! I appreciate it :)
+Could you please clarify what do you mean by a "kind of devices"?
 
+I made hack based on the recent discussions and it partially works. Getting clock rate involves resuming device which backs the clock and it also may use GENPD, so lockings are becoming complicated. It doesn't work at all if device uses multiple domains because virtual domain device doesn't have OPP table.
 
-With regards,
-Pavel Skripkin
+Setting up the performance state from a consumer driver is a cleaner variant so far. 
+
+diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
+index e1c8994ae225..faa0bbe99c98 100644
+--- a/drivers/base/power/domain.c
++++ b/drivers/base/power/domain.c
+@@ -410,11 +410,16 @@ static int genpd_drop_performance_state(struct device *dev)
+ 	return 0;
+ }
+ 
+-static void genpd_restore_performance_state(struct device *dev,
+-					    unsigned int state)
++static int genpd_restore_performance_state(struct generic_pm_domain *genpd,
++					   struct device *dev,
++					   unsigned int state)
+ {
++	int ret = 0;
++
+ 	if (state)
+-		genpd_set_performance_state(dev, state);
++		ret = genpd_set_performance_state(dev, state);
++
++	return ret;
+ }
+ 
+ /**
+@@ -435,7 +440,7 @@ static void genpd_restore_performance_state(struct device *dev,
+ int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int state)
+ {
+ 	struct generic_pm_domain *genpd;
+-	int ret;
++	int ret = 0;
+ 
+ 	genpd = dev_to_genpd_safe(dev);
+ 	if (!genpd)
+@@ -446,7 +451,10 @@ int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int state)
+ 		return -EINVAL;
+ 
+ 	genpd_lock(genpd);
+-	ret = genpd_set_performance_state(dev, state);
++	if (pm_runtime_suspended(dev))
++		dev_gpd_data(dev)->rpm_pstate = state;
++	else
++		ret = genpd_set_performance_state(dev, state);
+ 	genpd_unlock(genpd);
+ 
+ 	return ret;
+@@ -959,10 +967,25 @@ static int genpd_runtime_resume(struct device *dev)
+ 		goto out;
+ 	}
+ 
++	if (genpd->get_performance_state) {
++		ret = genpd->get_performance_state(genpd, dev);
++		if (ret < 0)
++			return ret;
++
++		if (ret > 0)
++			gpd_data->rpm_pstate = ret;
++	}
++
+ 	genpd_lock(genpd);
+ 	ret = genpd_power_on(genpd, 0);
+-	if (!ret)
+-		genpd_restore_performance_state(dev, gpd_data->rpm_pstate);
++	if (!ret) {
++		ret = genpd_restore_performance_state(genpd, dev,
++						      gpd_data->rpm_pstate);
++		if (ret)
++			genpd_power_off(genpd, true, 0);
++		else
++			gpd_data->rpm_pstate = 0;
++	}
+ 	genpd_unlock(genpd);
+ 
+ 	if (ret)
+diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+index 18016e49605f..982be2dba21e 100644
+--- a/drivers/opp/core.c
++++ b/drivers/opp/core.c
+@@ -2967,3 +2967,33 @@ int dev_pm_opp_sync(struct device *dev)
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dev_pm_opp_sync);
++
++/**
++ * dev_pm_opp_from_clk_rate() - Get OPP from current clock rate
++ * @dev:	device for which we do this operation
++ *
++ * Get OPP which corresponds to the current clock rate of a device.
++ *
++ * Return: pointer to 'struct dev_pm_opp' on success and errorno otherwise.
++ */
++struct dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev)
++{
++	struct dev_pm_opp *opp = ERR_PTR(-ENODEV);
++	struct opp_table *opp_table;
++	unsigned long freq;
++
++	opp_table = _find_opp_table(dev);
++	if (IS_ERR(opp_table))
++		return ERR_CAST(opp_table);
++
++	if (!IS_ERR(opp_table->clk)) {
++		freq = clk_get_rate(opp_table->clk);
++		opp = _find_freq_ceil(opp_table, &freq);
++	}
++
++	/* Drop reference taken by _find_opp_table() */
++	dev_pm_opp_put_opp_table(opp_table);
++
++	return opp;
++}
++EXPORT_SYMBOL_GPL(dev_pm_opp_from_clk_rate);
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 7c9bc93147f1..03bad16e5318 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -506,6 +506,63 @@ static void tegra_pmc_scratch_writel(struct tegra_pmc *pmc, u32 value,
+ 		writel(value, pmc->scratch + offset);
+ }
+ 
++static const char * const tegra_skip_compats[] = {
++	"nvidia,tegra20-sclk",
++	"nvidia,tegra30-sclk",
++	"nvidia,tegra30-pllc",
++	"nvidia,tegra30-plle",
++	"nvidia,tegra30-pllm",
++	"nvidia,tegra20-dc",
++	"nvidia,tegra30-dc",
++	"nvidia,tegra20-emc",
++	"nvidia,tegra30-emc",
++	NULL,
++};
++
++static int tegra_pmc_pd_get_performance_state(struct generic_pm_domain *genpd,
++					      struct device *dev)
++{
++	struct dev_pm_opp *opp;
++	int ret;
++
++	/*
++	 * Tegra114+ SocS don't support OPP yet.  But if they will get OPP
++	 * support, then we want to skip OPP for older kernels to preserve
++	 * compatibility of newer DTBs with older kernels.
++	 */
++	if (!pmc->soc->supports_core_domain)
++		return 0;
++
++	/*
++	 * The EMC devices are a special case because we have a protection
++	 * from non-EMC drivers getting clock handle before EMC driver is
++	 * fully initialized.  The goal of the protection is to prevent
++	 * devfreq driver from getting failures if it will try to change
++	 * EMC clock rate until clock is fully initialized.  The EMC drivers
++	 * will initialize the performance state by themselves.
++	 *
++	 * Display controller also is a special case because only controller
++	 * driver could get the clock rate based on configuration of internal
++	 * divider.
++	 *
++	 * Clock driver uses its own state syncing.
++	 */
++	if (of_device_compatible_match(dev->of_node, tegra_skip_compats))
++		return 0;
++
++	opp = dev_pm_opp_from_clk_rate(dev);
++	if (IS_ERR(opp)) {
++		dev_err(&genpd->dev, "failed to get current OPP for %s: %pe\n",
++			dev_name(dev), opp);
++		ret = PTR_ERR(opp);
++	} else {
++		ret = dev_pm_opp_get_required_pstate(opp, 0);
++		dev_pm_opp_put(opp);
++	}
++
++	return ret;
++}
++
+ /*
+  * TODO Figure out a way to call this with the struct tegra_pmc * passed in.
+  * This currently doesn't work because readx_poll_timeout() can only operate
+@@ -1238,6 +1295,7 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
+ 
+ 	pg->id = id;
+ 	pg->genpd.name = np->name;
++	pg->genpd.get_performance_state = tegra_pmc_pd_get_performance_state;
+ 	pg->genpd.power_off = tegra_genpd_power_off;
+ 	pg->genpd.power_on = tegra_genpd_power_on;
+ 	pg->pmc = pmc;
+@@ -1354,6 +1412,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
+ 		return -ENOMEM;
+ 
+ 	genpd->name = "core";
++	genpd->get_performance_state = tegra_pmc_pd_get_performance_state;
+ 	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
+ 	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
+ 
+diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
+index 67017c9390c8..abe33be9828f 100644
+--- a/include/linux/pm_domain.h
++++ b/include/linux/pm_domain.h
+@@ -133,6 +133,8 @@ struct generic_pm_domain {
+ 						 struct dev_pm_opp *opp);
+ 	int (*set_performance_state)(struct generic_pm_domain *genpd,
+ 				     unsigned int state);
++	int (*get_performance_state)(struct generic_pm_domain *genpd,
++				     struct device *dev);
+ 	struct gpd_dev_ops dev_ops;
+ 	s64 max_off_time_ns;	/* Maximum allowed "suspended" time. */
+ 	ktime_t next_wakeup;	/* Maintained by the domain governor */
+diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
+index 686122b59935..e7fd0dd493ca 100644
+--- a/include/linux/pm_opp.h
++++ b/include/linux/pm_opp.h
+@@ -169,6 +169,7 @@ void dev_pm_opp_remove_table(struct device *dev);
+ void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask);
+ int dev_pm_opp_sync_regulators(struct device *dev);
+ int dev_pm_opp_sync(struct device *dev);
++struct dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev);
+ #else
+ static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
+ {
+@@ -440,6 +441,11 @@ static inline int dev_pm_opp_sync(struct device *dev)
+ 	return -EOPNOTSUPP;
+ }
+ 
++static struct inline dev_pm_opp *dev_pm_opp_from_clk_rate(struct device *dev)
++{
++	return ERR_PTR(-EOPNOTSUPP);
++}
++
+ #endif		/* CONFIG_PM_OPP */
+ 
+ #if defined(CONFIG_PM_OPP) && defined(CONFIG_OF)
+-- 
+
