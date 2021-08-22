@@ -1,174 +1,90 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF463FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 12:39:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E1B3361354;
-	Sun, 22 Aug 2021 12:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1629635977;
-	bh=SAo5Nti0tp5MhCcr04KkCXfnusqunVy+W0Vlz/U2A0w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2by95Ad3M5umDNoXNPmwp6YjKH/qUE76NYzN1QH1Ij238Fcn8Y1KGhTJAMLxjG0qy
-	 dB0UC3aa969OCe4GeShMtJy0WmRGWWllvUkhIt+WLpP78AHSlFQ9oKqH+hirTbR/XQ
-	 76b3kc93fWyOUZcQUposO1A+X+UaFbgCxqOTXuMM=
-Date: Sun, 22 Aug 2021 14:39:34 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Martin Kaiser <martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A8D3FC1
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 12:50:39 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id s3so26050518ljp.11
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 05:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rxmlNdlUfU1P9x2yEO9RufRY6ZMTXEHbwKbvIeBfIWg=;
+        b=QOXny0/osgqA6UzlB1dRo/nj4oBlLuQxkEwHkmznxMXNCBaWVuAjtiWRGbn5epQ3q+
+         vjNZ2vV9Ml3MFux+avJmWxIR8aiVl7+jL8K8Xq+YrbVlP40bmydtjikMhemhLa9LmrLm
+         Q+HRmjfJyALVIYzDjEWx4dbB6rT0UT2r9X65jM7gzdN4b74lhmbpPH3WJGhw+VR3aveO
+         C7U63WMcXmzLDIbzIq9UPS85fCd91X3YV3Tarq+nQDuQlPOKoqhHcrb7jOmnQUXjKOli
+         ymMnOWUi4Y5Je/gnpZV3Awb7/29Qbcad71QN3YKuNx4l9J25ANCr7ktOynDWZ7KVU58g
+         SSfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rxmlNdlUfU1P9x2yEO9RufRY6ZMTXEHbwKbvIeBfIWg=;
+        b=ssFRj8Mv784jvyHEOqpjly/eKChWlNrjD3L+qtAQDs2KL/uA+xKbVbhW9m19GldbgU
+         tWb0NbuB1mTXjKDRe6mB7R5lBcqA1aE/Pc+IJq04UJ27elqfypb7vMVWgeEi3ICcd/2Y
+         OQVOzekFIC2SKPLXUCku9nUamG21IHZF3TdNn5pFdyMRiUZOxQoj0HOymW7PI5QF/mTz
+         MYNhM3+el3liVXEaC1nQsF2F5Goj7UsHBssmYX4ma0umyTS0QlGx9C4Y0xuqM2U2P3Fv
+         qck2NNKEVnqoqbKPIcYonlKCWXp2RhOM5gACWbKtL+zoIh3aqq2rs0jjUjMOo+Se/RM5
+         m5Aw==
+X-Gm-Message-State: AOAM532ekGgX9hlYbWhCuUrCiLyG/L8o3W73ELBMRo11hIAtkBvZRl6y
+	MNtX1gjEV2jdmnAjZA52S+I=
+X-Google-Smtp-Source: ABdhPJwEMmgrzP4gk9QRJw9/Lxj83pvzB66lS/NYtqpAsAqHbk/OwI0irZYb1eiVs9S4hgqnORV6cQ==
+X-Received: by 2002:a2e:a5c6:: with SMTP id n6mr23634756ljp.204.1629636637250;
+        Sun, 22 Aug 2021 05:50:37 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id l2sm1192534lfk.84.2021.08.22.05.50.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Aug 2021 05:50:36 -0700 (PDT)
 Subject: Re: [PATCH RFC 0/3] staging: r8188eu: avoid uninit value bugs
-Message-ID: <YSJFhmTs74PUyo8b@kroah.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry.Finger@lwfinger.net, phil@philpotter.co.uk, straube.linux@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Martin Kaiser <martin@kaiser.cx>
 References: <cover.1629479152.git.paskripkin@gmail.com>
  <10584649.zhyk0TxWeL@localhost.localdomain>
  <ae27d6a0-dc00-459f-7b36-acf7f4c08d72@gmail.com>
  <2327383.5TodInGmHT@localhost.localdomain>
- <435eea22-da31-1ebc-840c-ee9e42b27265@gmail.com>
+ <435eea22-da31-1ebc-840c-ee9e42b27265@gmail.com> <YSJFhmTs74PUyo8b@kroah.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <e5d189b7-15b2-8cc3-1e84-021dc5ab51af@gmail.com>
+Date: Sun, 22 Aug 2021 15:50:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <435eea22-da31-1ebc-840c-ee9e42b27265@gmail.com>
+In-Reply-To: <YSJFhmTs74PUyo8b@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 22, 2021 at 03:10:56PM +0300, Pavel Skripkin wrote:
-> On 8/22/21 1:59 PM, Fabio M. De Francesco wrote:
-> > On Sunday, August 22, 2021 12:09:29 PM CEST Pavel Skripkin wrote:
-> > > On 8/22/21 12:53 PM, Fabio M. De Francesco wrote:
-> > > > On Friday, August 20, 2021 7:07:28 PM CEST Pavel Skripkin wrote:
-> > > >> Hi, Greg, Larry and Phillip!
-> > > >> >> I noticed, that new staging driver was added like 3 weeks ago
-> > > and I
-> > decided
-> > > >> to look at the code, because drivers in staging directory are
-> > > always
-> > buggy.
-> > > >> >> The first thing I noticed is *no one* was checking read
-> > > operations
-> > result,
-> > > > > but
-> > > > >> it can fail and driver may start writing random stack values
-> > > into
-> > registers.
-> > > > > It
-> > > > >> can cause driver misbehavior or device misbehavior.
-> > > > > After the messages I wrote yesterday, I had some minutes to look
-> > > deeper at
-> > the
-> > > > code that would be changed by these patches.
-> > > > > I think that it does not look like that the driver could return
-> > > "random
-> > stack
-> > > > values into registers" and I think this entire series in unnecessary.
-> > > > > As far as I understand this driver (though I must admit that I
-> > > really
-> > don't
-> > > > know how to write drivers, and I'm not interested in understanding
-> > > - at
-> > the
-> > > > moment, at least), all the usb_read*() call usbctrl_vendorreq()
-> > > and the
-> > latter
-> > > > *does* proper error checking before returning to the callers the
-> > > read
-> > data.
-> > > > > Please, look at the code copied from usbctrl_vendorreq() and
-> > > pasted here
-> > (some
-> > > > comments are mine):
-> > > > > /* start of code */
-> > > > static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void
-> > > > *pdata, u16 len, u8 requesttype)
-> > > > {
-> > > > > /* test if everything is OK for transfers and setup the
-> > > necessary
-> > variables */
-> > > > [...]
-> > > > > status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
-> > > > >                                           reqtype, value,
-> > > > > REALTEK_USB_VENQT_CMD_IDX,
-> > > > >                                           pIo_buf, len,
-> > > > > RTW_USB_CONTROL_MSG_TIMEOUT);
-> > > > >                  if (status == len) {   /*  Success this control
-> > > transfer.
-> > */
-> > > >                  >
-> > > rtw_reset_continual_urb_error(dvobjpriv);
-> > > >                          if (requesttype == 0x01)
-> > > >                          >
-> > > memcpy(pdata, pIo_buf,  len); /* pdata
-> > > > > receives the read data */
-> > > > > 	} else { /*  error cases */
-> > > > > [...]
-> > > > > }
-> > > > /* end of code */
-> > > > > So, *I cannot ack this RFC*, unless maintainers say I'm missing
-> > > something.
-> > > > > Larry, Philip, since you have much more knowledge than me about
-> > > r8188eu
-> > (and,
-> > > > more in general, on device drivers) may you please say what you
-> > > think
-> > about my
-> > > > arguments against this series?
-> > > 
-> > > Hi, Fabio!
-> > > 
-> > > Thank you for looking into this, but I still can see the case when pdata
-> > > won't be initialized:
-> > > 
-> > > 
-> > > pdata is initialized only in case of successful transfer, i.e len > 0.
-> > > It means some data was received (maybe not full length, but anyway). In
-> > > case of usb_control_msg() error (for example -ENOMEM) code only does
-> > > this code block:
-> > > 
-> > > if (status < 0) {
-> > > 	if (status == (-ESHUTDOWN) || status == -ENODEV) {
-> > > 		adapt->bSurpriseRemoved = true;
-> > > 	} else {
-> > > 		struct hal_data_8188e	*haldata = GET_HAL_DATA(adapt);
-> > > 		haldata->srestpriv.Wifi_Error_Status =
-> > USB_VEN_REQ_CMD_FAIL;
-> > > 	}
-> > > }
-> > 
-> > It's up to the callers of _rtw_usb*() to check return values and then act
-> > accordingly.
-> > 
-> > It doesn't matter whether or not *pdata is initialized because usb_read*()
-> > returns data = 0 if usb_control_msg() has not initialized/changed  its third
-> > parameter. Then _rtw_read*() receive 0 or initialized data depending on errors
-> > or no errors. Finally _rtw_read*() returns that same value to the callers (via
-> > r_val).
-> > 
-> > So, it's up to the callers to test if (!_rtw_read*()) and then act
-> > accordingly. If they get 0 they should know how to handle the errors.
-> > 
+On 8/22/21 3:39 PM, Greg KH wrote:
+>> 
+>> Yes, but _rtw_read*() == 0 indicates 2 states:
+>> 
+>> 	1. Error on transfer side
+>> 	2. Actual register value is 0
 > 
-> Yes, but _rtw_read*() == 0 indicates 2 states:
+> That's not a good design, it should be fixed.  Note there is the new
+> usb_control_msg_recv() function which should probably be used instead
+> here, to prevent this problem from happening.
 > 
-> 	1. Error on transfer side
-> 	2. Actual register value is 0
 
-That's not a good design, it should be fixed.  Note there is the new
-usb_control_msg_recv() function which should probably be used instead
-here, to prevent this problem from happening.
+Thank you, Greg, for confirmation. That's was the point why I started to 
+write this series :)
 
-> > In summation. if anything should be changed, it is the code of the callers of
-> > _rtw_read*() if you find out they they don't properly handle the returning
-> > values of this function. You should find every place where _rtw_read*() are
-> > called and figure out if the returns are properly checked and handled; if not,
-> > make some change only there.
-> > 
-> > Larry, Philip, where are you? Am I missing something?
+I think, usb_control_msg_recv() won't help us with this problem, since 
+all rtw_read*() functions return an unsigned value now. In future, when 
+driver code will be fixed (ex: a lot of void function, which can fail 
+and leave passed pointer uninitialized) we can move to new usb API and 
+then move driver out of staging :)
 
-Relax, there is no need to get jumpy, people do not have to respond
-instantly to emails here.  Especially when it is not their job to do so.
 
-greg k-h
+With regards,
+Pavel Skripkin
