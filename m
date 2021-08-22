@@ -1,107 +1,86 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA19F3FC2
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 23:50:09 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id mw10-20020a17090b4d0a00b0017b59213831so5626700pjb.0
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 16:50:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849063FC2
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 23:52:46 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id j4-20020a17090a734400b0018f6dd1ec97so136502pjs.3
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 16:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hW+MyZ0ZhseMioQm3TJnaAAxpMc4z/kDYHdzPefnuLA=;
-        b=LDrWH0/91yTsHyv3UOjNih8imjQ2zDPDWHLsEqZW4ozDdBhkJ19ctpnQ77XwisKuse
-         XpzyYWM4H5oPJmzKlHfMAd+T9LSZmJD4Mw78dmJdFHYyih9AhfDwGdPnBSN74tGr9zTp
-         2M0mWpZWSnoTJ14sjIhMxucRcD2r72XiVkPQp4eZTX6V8cdQ9Gbkvdb5+LCoFOEg/Pnu
-         PWwqn81BfgghjJPQ+VnVrsTKMm4ZEAO0reKlA5345YPnn/uIOgINDnZFlM5iu7BiB9A9
-         3v5XzaxtacORwlOpmOF8ZsFs+JN8d9/nSq+ff1iiH3CNpiD/RItpS3fVBoH1DBx15pKR
-         hzyw==
+        bh=FG/pYWFsSA3T+3BAA+Wi6BNUREpJHMlJfeblR+ZnRZM=;
+        b=zWvc1RTFuWYM96/bFVx2WLla7i/6r7p88rCrraKkRFBBcqIbc5m3jBbOZznEQHX6Ut
+         jWQFMbDrwflZxka36wa3Tq7QkkYrKfDo6LWsyuR/yIMT7whCq9jajlqo6vWPmAGCkHJ+
+         rC1SIrzXeA9GWARGx2wNLhlaKymPAdJquRnbsjFMt01nyR882rcdpO0UXRCXpq7HktNF
+         DXVrkjd6mpC+OWGQ3QWcUJWDYi6GmRKlqIjBnhldB8+S8rvqVCH8YYgwoxaIDVDHB40U
+         qtdRk9vGu7GiCnnNKwsDIsRpFVfEUlUULq6f5naT8AB2qogWTTjA5f+RvD+FvgsIWSJB
+         wlJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hW+MyZ0ZhseMioQm3TJnaAAxpMc4z/kDYHdzPefnuLA=;
-        b=RkdW9eS9nff8dIEYBy0pkHVfKosUcnOueRInUOc1j7gzn8X4SvEOL0MrxcZrDMXXkx
-         RzNgq0Mp5Gc9VmJiVKjHPeIwkZF18eZP5TDVpEG5IAvI3jNEVDZS5HD73xoURc+Bg1TQ
-         wS8UCWMJf/4+FwuLLjRdOqc7XvDWHTegAqZYezch8wDkFLiHD+TuVK485H9CKk94UwNi
-         8DrEIIMcSXp1v2zBOOtPAFLdewgohjo1B1tdYNGDbSji53f3Ep93bOswY+JnjsM9ruiH
-         Bwy/hUqJM/7yBCXGlUxUx5YReKXj2kP+qea16NpQI+oj8KSSpk6KYTVdwcTWgYFwEZnS
-         WT5Q==
-X-Gm-Message-State: AOAM5323/Vc/yjcQRV32LSuR8PJbzIIkFFoIk0AaaTEYOuQ3dBl8CYRU
-	PrzVejkrDsrirRg6wtXjHIw7q2HctLpDm+rThSmQJA==
-X-Google-Smtp-Source: ABdhPJwdpi411jgZny+g6LtxpMNySmm/2TW3G1QiD5BPg0Pa3Vf3cjKc1j3mA8iiATCSfuADaedCsza/3kut37yyktI=
+        bh=FG/pYWFsSA3T+3BAA+Wi6BNUREpJHMlJfeblR+ZnRZM=;
+        b=KToMxw/p1RjpWBMCNDuk7Q97PFGQSm/k+bfhmNHxloS+OoOW7F5bcNh7RZj8eiTGjt
+         JKDdd6KfOqBUwwgq761y6NmowI3uX1DlUOChSyO2HC+OEyMG7a4Qu+mLQeRLlsK3Mp4l
+         LEvV0ZHfARpq4PvRU0K5RawtKF5hqTKRv3lopu+OlKGBg1ZoQ6LuYcqgMcAgAU89NbL7
+         sveDNhl3pk4dv6YdHXLDirRYb9qVo14PPSBfzisLOlTJlm1J+FEEHx3XEm2SZC9efUNj
+         BY0lMJ+Y3M8S2WdInaemw9nxdkFDxcpFuiOSsAUdzZq7yi6ycQt7S0RasWHPpXLKUsVC
+         f34w==
+X-Gm-Message-State: AOAM530yXBLN2Hh1DzlCbc85zCjxiMdRzZFYGQseE7nfUybuQGOaT3ii
+	FzXATgaJyGb7E/V4IgozQ2VGSnlfew09WfBpG+pCbA==
+X-Google-Smtp-Source: ABdhPJywXbBUt7zvlfpA7+S6NUqcWiiUKoapfd/G7jUZCaCqb3Z4dq5QRQr8npJdhbsD0+MGGfUZzi60eydB81vrk2w=
 X-Received: by 2002:a17:902:6ac6:b0:133:230b:e8bc with SMTP id
- i6-20020a1709026ac600b00133230be8bcmr5455400plt.22.1629676209302; Sun, 22 Aug
- 2021 16:50:09 -0700 (PDT)
+ i6-20020a1709026ac600b00133230be8bcmr5461582plt.22.1629676366155; Sun, 22 Aug
+ 2021 16:52:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210821164859.4351-1-martin@kaiser.cx> <CAA=Fs0mU0bkXPY35fkuudoWfAps2jp1qc3ga53LXgg6d+0bVSg@mail.gmail.com>
- <20210822170435.ijsi7ep7rbdu4i3k@viti.kaiser.cx>
-In-Reply-To: <20210822170435.ijsi7ep7rbdu4i3k@viti.kaiser.cx>
+References: <6182ed46-d79d-7f66-c7c0-096486410b4d@gmail.com>
+ <cover.1629642658.git.paskripkin@gmail.com> <44fc34ec-6bbe-9cd0-0c51-78836bad7e0c@gmail.com>
+ <d479bf75-f031-136c-3967-16127ed26868@gmail.com> <9809a91e-c524-9c6b-67e3-8a9c9b91628e@gmail.com>
+In-Reply-To: <9809a91e-c524-9c6b-67e3-8a9c9b91628e@gmail.com>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 23 Aug 2021 00:49:58 +0100
-Message-ID: <CAA=Fs0=3T_0Ypnm8E-Eq9sxZw+VU9Y2k_Pgtk4dcR3msRqoUoA@mail.gmail.com>
-Subject: Re: [PATCH 01/10] staging: r8188eu: remove unnecessary cast
-To: Martin Kaiser <lists@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, Michael Straube <straube.linux@gmail.com>, 
+Date: Mon, 23 Aug 2021 00:52:35 +0100
+Message-ID: <CAA=Fs0kW3hU_O-fe6qjrWLTUsDFqs6TgWF8zEqZv2t7jPw0DYw@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 0/6] staging: r8188eu: avoid uninit value bugs
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Michael Straube <straube.linux@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Greg KH <gregkh@linuxfoundation.org>, 
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
 	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 22 Aug 2021 at 18:04, Martin Kaiser <lists@kaiser.cx> wrote:
+On Sun, 22 Aug 2021 at 17:26, Pavel Skripkin <paskripkin@gmail.com> wrote:
 >
-> Thus wrote Phillip Potter (phil@philpotter.co.uk):
+> On 8/22/21 7:05 PM, Michael Straube wrote:
 >
-> > On Sat, 21 Aug 2021 at 17:49, Martin Kaiser <martin@kaiser.cx> wrote:
+> > Hi Pavel,
+> >
+> > My one is a TP-LINK WN725N (not sure, but I guess v2).
 >
-> > > name is a const char * by default. This type should be ok for r8188eu.
+> Wow! I found this one in my city, thank you!
 >
-> > > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> > > ---
-> > >  drivers/staging/r8188eu/os_dep/usb_intf.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > You could also have a look at the device table in os_dep/usb_intf.c
+> >
 >
-> > > diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > > index e002070f7fba..72556ac10d7d 100644
-> > > --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > > +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > > @@ -61,7 +61,7 @@ struct rtw_usb_drv {
-> > >  };
+> Yep, but I wanted to hear from driver reviewers/maintainers about what
+> they use to test. I guess, some devices could be broken or not unwieldy
+> to use. Thank you for recommendation, will buy one in few days :)
 >
-> > >  static struct rtw_usb_drv rtl8188e_usb_drv = {
-> > > -       .usbdrv.name = (char *)"r8188eu",
-> > > +       .usbdrv.name = "r8188eu",
-> > >         .usbdrv.probe = rtw_drv_init,
-> > >         .usbdrv.disconnect = rtw_dev_remove,
-> > >         .usbdrv.id_table = rtw_usb_id_tbl,
-> > > --
-> > > 2.20.1
 >
-> Hi Phil,
 >
-> > Looks ok to me, thanks. I would consider using a cover letter style
-> > [PATCH 00/10] style approach as an addition in future though, just my
-> > personal opinion.
->
-> > Acked-by: Phillip Potter <phil@philpotter.co.uk>
->
-> Thanks.
->
-> This series is a mixed bag of things I found while poking around in the
-> code. So I didn't think there was anything useful to say in a cover
-> letter. Still, I see your point, it makes sense for a patch series to
-> have a cover letter, I'll add one for future patch series.
->
-> Best regards,
-> Martin
+> With regards,
+> Pavel Skripkin
 
-Reasonable point for sure - it is your call ultimately, I like your
-work in any case, so many thanks :-)
+Dear Pavel,
+
+Glad you found one :-) Mine is the N10-Nano as that was all I could
+find at the time.
 
 Regards,
 Phil
