@@ -1,89 +1,112 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551A3FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 13:50:17 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id mf2so12438489ejb.9
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 06:50:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37F93FC1
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 14:06:03 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id f5so21917182wrm.13
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 07:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=UQIUFuaVnDeSqO5NxIP0mR+YO1SRXJL+8IshgCg+5aI=;
-        b=TvnjKkmP8IaRHcpgeQ1T1hA7eRiZUfz23jqoMrjw2VX9wHqcdzxPC1V8lMu7onSv/s
-         JN0EoUEGmpDCHPDonPwYROz2zSc7MbeGMl4HtsZpUygEF6cElVBBl65UkrxUd9N6/56V
-         5BFEKi9n1+lhDHNU5DMKckfCGkmzzY2vB6djZUXgBIO6ZMFkjKSw8vwCDnciruiN/3Aq
-         nzPgH30jLWre3KPLW6DY/zZXtsla/XLp+mqieS/sji0oVQWaaWn4XwI3Y9JwIc9bxUVF
-         KTIQvqeW+6MKe6cNUcFZom2N7k0Tot7p7OFUXxD7plUR1pXsKiFDSndRD9ycI71vWx/2
-         74vw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=p7ph3WcOBLhIzLLXreA5sxLtbJ/7/kTwoO02MA088Jk=;
+        b=esvH4DB7Y0QbmDJBfJhGYqLk+7oDXzoCRsI/j0NfluAIVS17q9u56DM3wQAysgTQL+
+         5eJYqzEcBbNpvXRTN8lXm2/x9YlrXL0Dx0RZ1U7ezRdGgbdz2qOMz5ViaBThSa4MXy0V
+         56JyuufHqxaTF6KhJbeIhQySqpIaVax6Z4Giv22FrmxpznwHLXV4dTuxLYIFvKMKhwZu
+         ly1icmr2l0DMH7aFYzE82taNHSggZMRHQmbwmQPcOGZzOP1r8mV+LYw/NEBQGS2hQhbP
+         Ec88ezHiYlyi/FBefl4T5VfWFImeis4tu+4EBk8BdSaJWp/9/DtPTdH0OYiY5HKOoZgi
+         ircw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UQIUFuaVnDeSqO5NxIP0mR+YO1SRXJL+8IshgCg+5aI=;
-        b=L2tci3JUs1tL4zdfylEk1ukRWR54lOTirq2mhlAEeGQuwD83lq3cuLMrEbRl/QNbee
-         b+oeXXhwltq4sf0aW+oquc24HloWHvkdEx3QrwZVPxaU/2ncQABRSTc4ITDt2BtQOKko
-         m7gATQ/O2/Q0DQtZbTdPrnRxqML/G18zssSms+O7o89WB5F5X+R1TxZrEHzUWCHdbB0Y
-         TttKJJwnBJ79zBKNpxLmS1qPTX7Zt8b1wdFqXBOU2g3DjKKNxA3XDx6zQhapc+5DCfaF
-         G0WDLoBwffABh6Bcoj8c70U+9m9EWB2QoW/n0Vi9svDU1NZm0jejzKYfKGLoDwW4N22p
-         Zsmg==
-X-Gm-Message-State: AOAM533woly6r1GJtWbNRSlhFxQW04X/0MShUxE/apuQz9E49ZTfoTM6
-	zwZt6TEhm63LtoNs91xqIAk=
-X-Google-Smtp-Source: ABdhPJyizlZ8ZfPmcwFhcRXR0KO/lufiQd0oKfblYOYqFB8aFAWm/dbIQsEWRhBFvNgWAwwW4DtsYg==
-X-Received: by 2002:a17:906:70b:: with SMTP id y11mr8123986ejb.274.1629640215918;
-        Sun, 22 Aug 2021 06:50:15 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id n16sm7283360edv.73.2021.08.22.06.50.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 06:50:15 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>
-Subject: Re: TODO list for staging/r8188eu
-Date: Sun, 22 Aug 2021 15:50:14 +0200
-Message-ID: <2099975.VbY6Rib6K3@localhost.localdomain>
-In-Reply-To: <YSJE6aoH96kh777R@kroah.com>
-References: <1897566.d8lQ4HMSh1@localhost.localdomain> <YSJE6aoH96kh777R@kroah.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=p7ph3WcOBLhIzLLXreA5sxLtbJ/7/kTwoO02MA088Jk=;
+        b=P0yeJbK4vxoSQ/fIK9AHc+Kjo5c3i2zpYMDnfgPLEnoZKO0fDxkGsrM0rtvvji41s8
+         fDzF4ObAMhiE3DVc1NY5skCeTsKPkKuEruwKo0TqWczc3+cRntvWqaqeq54/+qBuGrx7
+         6/lCIOw6uAJ412/Dcc4PihpcV+PxuxNz4MPitIPOtreCqvrwqT71/2e9dHvM5hCTS7SQ
+         SNecOPeAv1P/hma0YPBEf4TdwXpjJiJve9WMthB8dkt6YBH2lt2UOyMPYtRCewb5tFAi
+         YRoaIyatpIRWhHNqG+g3ta5TFmwcYiNf78vzL8OPHwt3h2ioJx+pR2xjnz2punCKOlQD
+         B3dw==
+X-Gm-Message-State: AOAM532HmG4sd/HyNaJJPS3UrBVRdyUxGP/6i98tceQ6Wn6gXZlfjWUc
+	kPjYwTYqLZA02QpojoMfMCc=
+X-Google-Smtp-Source: ABdhPJypQdvMGuxBIT1Ij27zwny4+xrymYItqJ+7TKyqWeH5NyozhFwU/5Ou9E0HWtwugVEXWnX7OQ==
+X-Received: by 2002:a5d:456a:: with SMTP id a10mr8726291wrc.339.1629641162075;
+        Sun, 22 Aug 2021 07:06:02 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
+        by smtp.gmail.com with ESMTPSA id b15sm12363863wrq.5.2021.08.22.07.06.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Aug 2021 07:06:01 -0700 (PDT)
+Subject: Re: [PATCH 10/10] staging: r8188eu: set pipe only once
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210821164859.4351-1-martin@kaiser.cx>
+ <20210821164859.4351-10-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <088d6fbb-b231-e669-1f0d-5adea7ac4685@gmail.com>
+Date: Sun, 22 Aug 2021 16:05:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20210821164859.4351-10-martin@kaiser.cx>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sunday, August 22, 2021 2:36:57 PM CEST Greg Kroah-Hartman wrote:
-> On Sun, Aug 22, 2021 at 09:41:20AM +0200, Fabio M. De Francesco wrote:
-> > Dear Larry, Philip,
-> > 
-> > >From what I understand how the development process works, drivers in 
-staging
-> > 
-> > should have a to-do list in the TODO file. Please read https://
-www.kernel.org/
-> > doc/html/latest/process/2.Process.html?highlight=todo#staging-trees.
-> > 
-> > Could you (as the maintainers of the r8188eu driver) please compile and
-> > provide the above mentioned list?
+On 8/21/21 6:48 PM, Martin Kaiser wrote:
+> Set the pipe for reading or writing in usbctrl_vendorreq only once.
+> There's no need to set it again for every retry.
 > 
-> Why don't you provide an initial list for people to work off of if you
-> feel it is needed here?
+> This patch is an adaptation of commit 889ed8b5e374 ("staging: rtl8188eu:
+> set pipe only once") for the new r8188eu driver.
 > 
-> thanks,
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>   drivers/staging/r8188eu/hal/usb_ops_linux.c | 15 ++++++++-------
+>   1 file changed, 8 insertions(+), 7 deletions(-)
 > 
-> greg k-h
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index 5408383ccec3..5a55ee38d7b8 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -40,15 +40,16 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>   		goto release_mutex;
+>   	}
+>   
+> -	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> -		memset(pIo_buf, 0, len);
+> +	if (requesttype == REALTEK_USB_VENQT_READ)
+> +		pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> +	else
+> +		pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+>   
+> -		if (requesttype == REALTEK_USB_VENQT_READ) {
+> -			pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> -		} else {
+> -			pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+> +	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> +		if (requesttype == REALTEK_USB_VENQT_READ)
+> +			memset(pIo_buf, 0, len);
+> +		else
+>   			memcpy(pIo_buf, pdata, len);
+> -		}
+>   
+>   		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+>   					 requesttype, value, REALTEK_USB_VENQT_CMD_IDX,
+> 
 
-Unfortunately I'm not able to tell what is needed to do to have a driver 
-improved so that it can be moved off staging. This work should be better 
-addressed by someone who is much more experienced.
+Looks good to me.
 
-For example, I read from other drivers TODO lists that cfg80211 and lib80211 
-are required but I don't know what they are.
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
-Regards,
-
-Fabio
-
-
-
+Thanks,
+Michael
