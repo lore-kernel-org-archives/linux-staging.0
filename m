@@ -1,79 +1,129 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3116A3FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 21:30:49 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-127-MHgroe1XPKuE3JQrTB65_A-1; Sun, 22 Aug 2021 22:30:46 +0100
-X-MC-Unique: MHgroe1XPKuE3JQrTB65_A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Sun, 22 Aug 2021 22:30:45 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Sun, 22 Aug 2021 22:30:45 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Larry Finger' <Larry.Finger@lwfinger.net>, Aakash Hemadri
-	<aakashhemadri123@gmail.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>
-CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 2/5] staging: r8188eu: cast to restricted __be32
-Thread-Topic: [PATCH v2 2/5] staging: r8188eu: cast to restricted __be32
-Thread-Index: AQHXlgydrPam5lbK9UGqx5Eu5gVI9auADXtg
-Date: Sun, 22 Aug 2021 21:30:45 +0000
-Message-ID: <05aafb94be1b4e609250313709cd668d@AcuMS.aculab.com>
-References: <cover.1629360917.git.aakashhemadri123@gmail.com>
- <602aefc30b0d979dc6e402d52da2f096ea5c67cf.1629360917.git.aakashhemadri123@gmail.com>
- <4be5c5fa-c3fd-8c86-e904-8e2e60173380@lwfinger.net>
-In-Reply-To: <4be5c5fa-c3fd-8c86-e904-8e2e60173380@lwfinger.net>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9633FC2
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 23:02:41 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id bt14so33024184ejb.3
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 16:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qcmFYHyHdQbe2MpjDtDCFg4l/AD/ofCMkrpwmvBTkbM=;
+        b=c6V8uuGLQIAjUx85tmkbOdNlFWOtz4/nWFX5se86F0QNoOx7l4o9Y6caFbp00/t3FG
+         Z8EI6eTTfBQfVYbfsdUHrrSCIOjOcBAt1FpVWDTgi5ziiOuF2DT1VRbS5RLaat4AO8Tb
+         TwF7k0QOKuIgfmSj1f+m3Yk2KkpAQ9deMjQ73RpZbz5+yC/KXIEoe+aVmYglNouc4AFQ
+         Z7zTWpXA76737ZZa8TSEo1nWbSBUD28Om+g5W+qBxuWzMyrDZwgF2zrsV3kF8M0IF+/O
+         muGsGyMe5BlVTbZdnpIiwOENvGv0w5qnu4WeIGfM/BUmyzkpGoUON43yqASq5fN2eaAV
+         PRlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qcmFYHyHdQbe2MpjDtDCFg4l/AD/ofCMkrpwmvBTkbM=;
+        b=n3+epXW5QrqoYQP+aW72xAyjUycBfecZdhUxdr/rn2+UqbD68mtoyWJvh7QEuFBQU0
+         ecbhqkHv0z6tLDLtSyAFcDIS7LmVwD9Yia1wxTgALXmXfPC3XGJoMK07S31E+roPvFRM
+         qjQhJjtprBOaCmYppl4BUaYf9uV/RlSxQ39sdf2E4E0tVcwDuG9/YXIfcqUHk4IBhcln
+         KmT718QkC5pI6NUMP4sz3c5/SJNbm+aZ0dFgmjteEyBp8JguH6WCttCu2CTyagPhJxWt
+         7cl58Pw6RiTd6z4s75IsJSwKbR4cxtLqw9yNkkGDmV6olQjS607LhNNv+yTdY34GN4Le
+         ZLRw==
+X-Gm-Message-State: AOAM5322XhEx1V5bu/3VgTncZNcWv3HvjWJhrL4CY8wkbSYoufJbIOvj
+	wX1USC8yiePG7J6j1WgKAFo=
+X-Google-Smtp-Source: ABdhPJywK2uGfORh1Yk871iA1iLoDKfUDx1npShz2yLQVw0CEwV1+SVatwLa/LpiJcUSEtx6ImThxQ==
+X-Received: by 2002:a17:907:9546:: with SMTP id ex6mr11023382ejc.325.1629673359644;
+        Sun, 22 Aug 2021 16:02:39 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id z15sm1684461edr.80.2021.08.22.16.02.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Aug 2021 16:02:39 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list),
+	Pavel Skripkin <paskripkin@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH RFC] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
+Date: Mon, 23 Aug 2021 01:02:35 +0200
+Message-Id: <20210822230235.10953-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-RnJvbTogTGFycnkgRmluZ2VyDQo+IFNlbnQ6IDIwIEF1Z3VzdCAyMDIxIDIyOjQ1DQo+IA0KPiBP
-biA4LzE5LzIxIDM6MTcgQU0sIEFha2FzaCBIZW1hZHJpIHdyb3RlOg0KPiA+IEZpeCBzcGFyc2Ug
-d2FybmluZzoNCj4gPj4gcnR3X2JyX2V4dC5jOjgzNjo1NDogd2FybmluZzogY2FzdCB0byByZXN0
-cmljdGVkIF9fYmUzMg0KPiA+DQo+ID4gVW5uZWNlc3NhcnkgZG91YmxlIGNhc3QsIHJlbW92ZSB0
-aGVtLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQWFrYXNoIEhlbWFkcmkgPGFha2FzaGhlbWFk
-cmkxMjNAZ21haWwuY29tPg0KPiA+IC0tLQ0KPiA+ICAgZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUv
-Y29yZS9ydHdfYnJfZXh0LmMgfCAyICstDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdp
-bmcvcjgxODhldS9jb3JlL3J0d19icl9leHQuYyBiL2RyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2Nv
-cmUvcnR3X2JyX2V4dC5jDQo+ID4gaW5kZXggNDA0ZmE4OTA0ZTQ3Li42YTA0NjJjZTYyMzAgMTAw
-NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfYnJfZXh0LmMN
-Cj4gPiArKysgYi9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19icl9leHQuYw0KPiA+
-IEBAIC02NzEsNyArNjcxLDcgQEAgdm9pZCBkaGNwX2ZsYWdfYmNhc3Qoc3RydWN0IGFkYXB0ZXIg
-KnByaXYsIHN0cnVjdCBza19idWZmICpza2IpDQo+ID4gICAJCQkJICAgICh1ZHBoLT5kZXN0ID09
-IF9fY29uc3RhbnRfaHRvbnMoU0VSVkVSX1BPUlQpKSkgeyAvKiAgREhDUCByZXF1ZXN0ICovDQo+
-ID4gICAJCQkJCXN0cnVjdCBkaGNwTWVzc2FnZSAqZGhjcGggPQ0KPiA+ICAgCQkJCQkJKHN0cnVj
-dCBkaGNwTWVzc2FnZSAqKSgoc2l6ZV90KXVkcGggKyBzaXplb2Yoc3RydWN0IHVkcGhkcikpOw0K
-PiA+IC0JCQkJCXUzMiBjb29raWUgPSBiZTMyX3RvX2NwdSgoX19iZTMyKWRoY3BoLT5jb29raWUp
-Ow0KPiA+ICsJCQkJCXUzMiBjb29raWUgPSBkaGNwaC0+Y29va2llOw0KPiA+DQo+ID4gICAJCQkJ
-CWlmIChjb29raWUgPT0gREhDUF9NQUdJQykgeyAvKiAgbWF0Y2ggbWFnaWMgd29yZCAqLw0KPiA+
-ICAgCQkJCQkJaWYgKCEoZGhjcGgtPmZsYWdzICYgaHRvbnMoQlJPQURDQVNUX0ZMQUcpKSkgew0K
-PiA+DQo+IA0KPiBUaGlzIHBhdGNoIGlzIHdyb25nLiBBbGwgdGhlIGRvY3VtZW50YXRpb24gSSBj
-b3VsZCBmaW5kIHRlbGxzIG1lIHRoYXQgdGhlDQo+IG11bHRpLWJ5dGUgZW50cmllcyBpbiBkaGNw
-aCBhcmUgYmlnLWVuZGlhbiwgdGh1cyB0aGUgbmV3IGxpbmUgc2hvdWxkIHJlYWQ6DQo+IA0KPiAJ
-CQkJCXUzMiBjb29raWUgPSBiZTMyX3RvX2NwdShkaGNwaC0+Y29va2llKTsNCg0KTW9kdWxvIGFu
-eXRoaW5nIHRoYXQgcmVhbGx5IG1lYW5zIGl0IHNob3VsZCBnZXRfdW5hbGlnbmVkX2JlMzIoKS4N
-Cg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2Fk
-LCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5v
-OiAxMzk3Mzg2IChXYWxlcykNCg==
+Replace usb_control_msg() with the new usb_control_msg_recv() and
+usb_control_msg_send() API of USB Core.
+
+This patch is an RFC for different reasons:
+
+1) I'm not sure if it is needed: while Greg Kroah-Hartman suggested to 
+use the new API in a message to a thread that was about a series of patches
+submitted by Pavel Skripkin (who decided to not use it), I cannot explain 
+if and why the driver would benefit from this patch.
+2) I have doubts about the sematic of the API I use here, so I'd like to
+know whether or not I'm using them properly.
+3) At the moment I cannot test the driver because I don't have my device
+with me.
+4) This patch could probably lead to a slight change in some lines of
+Pavel's series (for sure in usb_read*()).
+
+I'd like to hear from the Maintainers and other interested people if this
+patch is worth to be considered and, in this case, if there are suggestions
+for the purpose to improve it. 
+
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+index 6a0a24acf292..9e290c1cc449 100644
+--- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+@@ -15,7 +15,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+ 	struct adapter	*adapt = pintfhdl->padapter;
+ 	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
+ 	struct usb_device *udev = dvobjpriv->pusbdev;
+-	unsigned int pipe;
++	u8 pipe;
+ 	int status = 0;
+ 	u8 reqtype;
+ 	u8 *pIo_buf;
+@@ -47,19 +47,20 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+ 		memset(pIo_buf, 0, len);
+ 
+ 		if (requesttype == 0x01) {
+-			pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+ 			reqtype =  REALTEK_USB_VENQT_READ;
++			status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
++						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
++						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
++						      GFP_KERNEL);
+ 		} else {
+-			pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+ 			reqtype =  REALTEK_USB_VENQT_WRITE;
+-			memcpy(pIo_buf, pdata, len);
++			status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
++						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
++						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
++						      GFP_KERNEL);
+ 		}
+ 
+-		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+-					 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+-					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
+-
+-		if (status == len) {   /*  Success this control transfer. */
++		if (!status) {   /*  Success this control transfer. */
+ 			rtw_reset_continual_urb_error(dvobjpriv);
+ 			if (requesttype == 0x01)
+ 				memcpy(pdata, pIo_buf,  len);
+-- 
+2.32.0
 
