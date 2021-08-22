@@ -1,43 +1,44 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD5D3FC0
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 12:26:01 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id v10so10483201wrd.4
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 05:26:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3823FC0
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 12:28:49 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id j12-20020a05600c1c0c00b002e6d80c902dso8916431wms.4
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 05:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=T7fSKli+UNhh3LDQln8Jkh3y6lz/VRyR8HfJLUjKlNA=;
-        b=FBK1FL8fNHSQq1gCBSj6Ap9Osp+vqwiW2nN/mJ7UHg0KhPNhgMpgOjTADqc8ZjZ5y/
-         aYiyt3HdzP++MSArOyajt5fIKzW3CPOCQOEbqweJB/+FtkmFe1JxZHcvLJsdYxhGr/Lx
-         3FmFIpJZzoTOSvH35pgae4Rrffu85OVgXgMRF7Fcm+O5EYWUrcAQvA4+pGqmeUwPaEnZ
-         iBmsSp3FugzE4PaEt8gylxyClQLcSnHMZSLLOT1clfwYIjpTBZlECEBRCaWcbouo0oJ2
-         /1V/VIh1gkBXLTgCfodAh8KXMLKk1280XBWoNb1ipDEDSNCQLEWLw86zarhw7b1SBNhf
-         ghUw==
+        bh=1jPp7QEaPt1Sw5YHA6F6IZfCBjiMiNjX+vQKALZJ4QI=;
+        b=eVg11WaVtYLB5ceZ8giZlV2tN6dioW/R3JazFuYxWaaNoCVeNxUnIeDAZ+VO4+AN6u
+         uz4ViYuelrrHtsvEtK2ICH59/xo1VIkmd7FWdK8LJk6/EsmvqeptAHb5hNHcenN869i0
+         g0we1hZpBpBa8BXy1gNpRdpU09ZaFGtvuRNAu1H0Yn28nHm8afXs05JDSL02e9vxCfm/
+         HOApYjzLF3J9sInBiEO6Umb3QWi+WCJt1jm1wx0uJ5urh8lir+f5uNm+QPegCTVJDfX1
+         kWbaD5BSdP/iecviZ9AyuLHtAK6Zu4z5ZF7gYWTGvDY//FvQhBSHLpxE1MJ0E+ufTGtF
+         mZNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=T7fSKli+UNhh3LDQln8Jkh3y6lz/VRyR8HfJLUjKlNA=;
-        b=ogNkjINmFxQCTc7lQN5svBGR+exZ53N8mmn4lcu1nv1B+T1obxrPsdTJDDakG1CVhu
-         rBupgHADHqt17Ww3zRQxSv2+H9/H33rtwkAHFsSn5G3j5ovI8zuhImSNwLRSY7I887Vc
-         lnXjajmVHry3xsYcIE1Cu280QeZGu3Qr90sv7Mn+GNsfVTQPNspa1q+h/vQN4Yriei1R
-         4JV7Ed0MCpZe4T1A2cIAtVpA2Zz2gwSKSKNMSgI0Sc5gwNVPnb9D+ABHtgSW0nMx82FM
-         5pceWbqAiOrKF7KsJk5Zibta8KTBvS1WD/whggG+Yt80lr8jGD5jSNZHo4X8JA8ern7v
-         Yp2w==
-X-Gm-Message-State: AOAM533a3ebV83E9pRhHFZi1Oz0+vs6w9TDZB+TedrG1lN28436EJjlW
-	h/EIaci/M4xnXKZ2KfBUTFw=
-X-Google-Smtp-Source: ABdhPJyaUoGaLCl96GnyolGyPnFrfkYmoWgVBeON8SM1TyUuJcwolju3RU7XbBckEzWk4XPWoM9rVA==
-X-Received: by 2002:a5d:49cd:: with SMTP id t13mr8396394wrs.217.1629635160105;
-        Sun, 22 Aug 2021 05:26:00 -0700 (PDT)
+        bh=1jPp7QEaPt1Sw5YHA6F6IZfCBjiMiNjX+vQKALZJ4QI=;
+        b=aY4FMt9s7ALXD8+pCFn0z9JV0tHZEWoFqNGMvwPyuDpa81efmflBh7jDISSxogo3eU
+         uRS9J/uYOttXYT/+qYSCL4aUMUNpkb0EqE5gxO/19j3LWjUBiahMPoGDKDMIsW/UGe4W
+         ED1uMUftzqSe57LniEc50eH6rm85njhJtc8CAj/X0gUXUHfqaJQobJiRkEXVp78R+Vv0
+         ZjQf9B3DsINlXewSQWPtJfntt7WlD70fssU/m6aiR1cS6CUG0qoPwgwRAoDCgmG1CwFN
+         Ljr2bQTDoYeZoBWgTsHAR8NrRdJDLv9HeYiv7ABBfMGYlvk0gVDWymZZDe1lcI0TkQvW
+         Gv1Q==
+X-Gm-Message-State: AOAM532qsoR8KGA2mY1UrlvnaJWi9eZBHzM09m9dBX8CPhsFAoNlKKu2
+	IYCZWvq/XQAXbEZvDaKGFyQ=
+X-Google-Smtp-Source: ABdhPJydQRA/FCE3APD0sPKHzXyd7WiVc/HpIAwqKQa110LOXauvfeiaclR8MLzayJAxdW/dLPH8dg==
+X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr12230151wmk.51.1629635327606;
+        Sun, 22 Aug 2021 05:28:47 -0700 (PDT)
 Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id x11sm4386842wro.83.2021.08.22.05.25.59
+        by smtp.gmail.com with ESMTPSA id n15sm500015wrv.48.2021.08.22.05.28.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 05:25:59 -0700 (PDT)
-Subject: Re: [PATCH 06/10] staging: r8188eu: clean up the usb_readXY functions
+        Sun, 22 Aug 2021 05:28:47 -0700 (PDT)
+Subject: Re: [PATCH 07/10] staging: r8188eu: clean up the usb_writeXY
+ functions
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -45,10 +46,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
  Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20210821164859.4351-1-martin@kaiser.cx>
- <20210821164859.4351-6-martin@kaiser.cx>
+ <20210821164859.4351-7-martin@kaiser.cx>
 From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <ada3cb7d-79a2-791e-1744-b6f8ab380486@gmail.com>
-Date: Sun, 22 Aug 2021 14:25:10 +0200
+Message-ID: <a146d415-3cd9-8ad1-4a20-06f304eb0487@gmail.com>
+Date: Sun, 22 Aug 2021 14:27:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -57,7 +58,7 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210821164859.4351-6-martin@kaiser.cx>
+In-Reply-To: <20210821164859.4351-7-martin@kaiser.cx>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -67,67 +68,81 @@ On 8/21/21 6:48 PM, Martin Kaiser wrote:
 > 
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->   drivers/staging/r8188eu/hal/usb_ops_linux.c | 30 +++++----------------
->   1 file changed, 7 insertions(+), 23 deletions(-)
+>   drivers/staging/r8188eu/hal/usb_ops_linux.c | 50 ++++-----------------
+>   1 file changed, 8 insertions(+), 42 deletions(-)
 > 
 > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index dccb9fd34777..cb969a200681 100644
+> index cb969a200681..e01f1ac19596 100644
 > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -98,46 +98,30 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+> @@ -128,59 +128,25 @@ static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
 >   
->   static u8 usb_read8(struct intf_hdl *pintfhdl, u32 addr)
+>   static int usb_write8(struct intf_hdl *pintfhdl, u32 addr, u8 val)
 >   {
 > -	u16 wvalue;
 > -	u16 len;
-> -	u8 data = 0;
-> -
+> -	u8 data;
+> -	int ret;
 > -
 > -
 > -	wvalue = (u16)(addr & 0x0000ffff);
 > -	len = 1;
-> -
-> -	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_READ);
-> -
+> -	data = val;
+> -	ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_WRITE);
 > +	u16 wvalue = (u16)(addr & 0x0000ffff);
-> +	u8 data;
 >   
-> +	usbctrl_vendorreq(pintfhdl, wvalue, &data, 1, REALTEK_USB_VENQT_READ);
->   
->   	return data;
-> -
+> -	return ret;
+> +	return usbctrl_vendorreq(pintfhdl, wvalue, &val, 1, REALTEK_USB_VENQT_WRITE);
 >   }
 >   
->   static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
+>   static int usb_write16(struct intf_hdl *pintfhdl, u32 addr, u16 val)
 >   {
 > -	u16 wvalue;
 > -	u16 len;
-> +	u16 wvalue = (u16)(addr & 0x0000ffff);
->   	__le32 data;
->   
+> -	__le32 data;
+> -	int ret;
+> -
+> -
+> -
 > -	wvalue = (u16)(addr & 0x0000ffff);
 > -	len = 2;
-> -	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_READ);
-> +	usbctrl_vendorreq(pintfhdl, wvalue, &data, 2, REALTEK_USB_VENQT_READ);
+> -
+> -	data = cpu_to_le32(val & 0x0000ffff);
+> -
+> -	ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_WRITE);
+> -
+> -
+> +	u16 wvalue = (u16)(addr & 0x0000ffff);
+> +	__le32 data = cpu_to_le32(val & 0x0000ffff);
 >   
->   	return (u16)(le32_to_cpu(data) & 0xffff);
+> -	return ret;
+> +	return usbctrl_vendorreq(pintfhdl, wvalue, &data, 2, REALTEK_USB_VENQT_WRITE);
 >   }
 >   
->   static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
+>   static int usb_write32(struct intf_hdl *pintfhdl, u32 addr, u32 val)
 >   {
 > -	u16 wvalue;
 > -	u16 len;
-> +	u16 wvalue = (u16)(addr & 0x0000ffff);
->   	__le32 data;
->   
+> -	__le32 data;
+> -	int ret;
+> -
+> -
+> -
 > -	wvalue = (u16)(addr & 0x0000ffff);
 > -	len = 4;
+> -	data = cpu_to_le32(val);
 > -
-> -	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_READ);
-> +	usbctrl_vendorreq(pintfhdl, wvalue, &data, 4, REALTEK_USB_VENQT_READ);
+> -	ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, REALTEK_USB_VENQT_WRITE);
+> -
+> -
+> +	u16 wvalue = (u16)(addr & 0x0000ffff);
+> +	__le32 data = cpu_to_le32(val);
 >   
->   	return le32_to_cpu(data);
+> -	return ret;
+> +	return usbctrl_vendorreq(pintfhdl, wvalue, &data, 4, REALTEK_USB_VENQT_WRITE);
 >   }
+>   
+>   static int usb_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata)
 > 
 
 Looks good to me.
