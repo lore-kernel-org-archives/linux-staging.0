@@ -1,78 +1,79 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2593FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 20:44:05 +0000 (UTC)
-Date: Sun, 22 Aug 2021 20:43:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1629665043;
-	bh=CnGDwMCmb3wl+up2ny2MnsRvSz1XHCXVpk2rgvjWGyc=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=bnLkQRhqoWCQ+tlryHk2CEqVwMK02+yXP5FtC/US212FM0R6LxVGXPXV/G15+YhYc
-	 tlzuWoXUPVkKSVio3Gmv20dLR4ze1UIYsH82iuh390Sog79Ht89ZKvC6vtzgYCTs0r
-	 b2PytW3DWj0MCiMkMvcS8ut2EPfFKAgWQqoumC9tw7Rx1WaD1Ps450M9MkQ2wesoI+
-	 IcrvrZga6VIIrCzu5Kr7lUnDVUzoUj+7qvw2vzZxzzCcs3U1ylKwhzDue/WJAKJ1IW
-	 8i23LyuUXLQW+IU5CBJthQgAAD7i5IvE2/CuToZzwNh65wsCpznjfBRccnEYodKaKo
-	 hc3C8H4Z7oa6g==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH v2 5/5] staging: rtl8723bs: remove _read_port from _io_ops structure
-Message-ID: <20210822204212.2832397-6-hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3116A3FC1
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 21:30:49 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-127-MHgroe1XPKuE3JQrTB65_A-1; Sun, 22 Aug 2021 22:30:46 +0100
+X-MC-Unique: MHgroe1XPKuE3JQrTB65_A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Sun, 22 Aug 2021 22:30:45 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Sun, 22 Aug 2021 22:30:45 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Larry Finger' <Larry.Finger@lwfinger.net>, Aakash Hemadri
+	<aakashhemadri123@gmail.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2 2/5] staging: r8188eu: cast to restricted __be32
+Thread-Topic: [PATCH v2 2/5] staging: r8188eu: cast to restricted __be32
+Thread-Index: AQHXlgydrPam5lbK9UGqx5Eu5gVI9auADXtg
+Date: Sun, 22 Aug 2021 21:30:45 +0000
+Message-ID: <05aafb94be1b4e609250313709cd668d@AcuMS.aculab.com>
+References: <cover.1629360917.git.aakashhemadri123@gmail.com>
+ <602aefc30b0d979dc6e402d52da2f096ea5c67cf.1629360917.git.aakashhemadri123@gmail.com>
+ <4be5c5fa-c3fd-8c86-e904-8e2e60173380@lwfinger.net>
+In-Reply-To: <4be5c5fa-c3fd-8c86-e904-8e2e60173380@lwfinger.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-The function pointer, '_read_port' inside _io_ops is unused.
-We can remove it.
-
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/hal/sdio_ops.c   | 1 -
- drivers/staging/rtl8723bs/include/rtw_io.h | 1 -
- 2 files changed, 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
-8723bs/hal/sdio_ops.c
-index 928fa109565e..768a4e553c77 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -355,7 +355,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
-_io_ops *ops)
- =09ops->_read8 =3D &sdio_read8;
- =09ops->_read16 =3D &sdio_read16;
- =09ops->_read32 =3D &sdio_read32;
--=09ops->_read_port =3D &sdio_read_port;
-
- =09ops->_write8 =3D &sdio_write8;
- =09ops->_write16 =3D &sdio_write16;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
-tl8723bs/include/rtw_io.h
-index fa0cedadaa79..4e0a9f71ce1f 100644
---- a/drivers/staging/rtl8723bs/include/rtw_io.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -83,7 +83,6 @@ struct _io_ops {
- =09=09int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
- =09=09int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
-
--=09=09u32 (*_read_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *=
-pmem);
- =09=09u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 =
-*pmem);
- };
-
---
-2.30.2
-
+RnJvbTogTGFycnkgRmluZ2VyDQo+IFNlbnQ6IDIwIEF1Z3VzdCAyMDIxIDIyOjQ1DQo+IA0KPiBP
+biA4LzE5LzIxIDM6MTcgQU0sIEFha2FzaCBIZW1hZHJpIHdyb3RlOg0KPiA+IEZpeCBzcGFyc2Ug
+d2FybmluZzoNCj4gPj4gcnR3X2JyX2V4dC5jOjgzNjo1NDogd2FybmluZzogY2FzdCB0byByZXN0
+cmljdGVkIF9fYmUzMg0KPiA+DQo+ID4gVW5uZWNlc3NhcnkgZG91YmxlIGNhc3QsIHJlbW92ZSB0
+aGVtLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQWFrYXNoIEhlbWFkcmkgPGFha2FzaGhlbWFk
+cmkxMjNAZ21haWwuY29tPg0KPiA+IC0tLQ0KPiA+ICAgZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUv
+Y29yZS9ydHdfYnJfZXh0LmMgfCAyICstDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdp
+bmcvcjgxODhldS9jb3JlL3J0d19icl9leHQuYyBiL2RyaXZlcnMvc3RhZ2luZy9yODE4OGV1L2Nv
+cmUvcnR3X2JyX2V4dC5jDQo+ID4gaW5kZXggNDA0ZmE4OTA0ZTQ3Li42YTA0NjJjZTYyMzAgMTAw
+NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfYnJfZXh0LmMN
+Cj4gPiArKysgYi9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19icl9leHQuYw0KPiA+
+IEBAIC02NzEsNyArNjcxLDcgQEAgdm9pZCBkaGNwX2ZsYWdfYmNhc3Qoc3RydWN0IGFkYXB0ZXIg
+KnByaXYsIHN0cnVjdCBza19idWZmICpza2IpDQo+ID4gICAJCQkJICAgICh1ZHBoLT5kZXN0ID09
+IF9fY29uc3RhbnRfaHRvbnMoU0VSVkVSX1BPUlQpKSkgeyAvKiAgREhDUCByZXF1ZXN0ICovDQo+
+ID4gICAJCQkJCXN0cnVjdCBkaGNwTWVzc2FnZSAqZGhjcGggPQ0KPiA+ICAgCQkJCQkJKHN0cnVj
+dCBkaGNwTWVzc2FnZSAqKSgoc2l6ZV90KXVkcGggKyBzaXplb2Yoc3RydWN0IHVkcGhkcikpOw0K
+PiA+IC0JCQkJCXUzMiBjb29raWUgPSBiZTMyX3RvX2NwdSgoX19iZTMyKWRoY3BoLT5jb29raWUp
+Ow0KPiA+ICsJCQkJCXUzMiBjb29raWUgPSBkaGNwaC0+Y29va2llOw0KPiA+DQo+ID4gICAJCQkJ
+CWlmIChjb29raWUgPT0gREhDUF9NQUdJQykgeyAvKiAgbWF0Y2ggbWFnaWMgd29yZCAqLw0KPiA+
+ICAgCQkJCQkJaWYgKCEoZGhjcGgtPmZsYWdzICYgaHRvbnMoQlJPQURDQVNUX0ZMQUcpKSkgew0K
+PiA+DQo+IA0KPiBUaGlzIHBhdGNoIGlzIHdyb25nLiBBbGwgdGhlIGRvY3VtZW50YXRpb24gSSBj
+b3VsZCBmaW5kIHRlbGxzIG1lIHRoYXQgdGhlDQo+IG11bHRpLWJ5dGUgZW50cmllcyBpbiBkaGNw
+aCBhcmUgYmlnLWVuZGlhbiwgdGh1cyB0aGUgbmV3IGxpbmUgc2hvdWxkIHJlYWQ6DQo+IA0KPiAJ
+CQkJCXUzMiBjb29raWUgPSBiZTMyX3RvX2NwdShkaGNwaC0+Y29va2llKTsNCg0KTW9kdWxvIGFu
+eXRoaW5nIHRoYXQgcmVhbGx5IG1lYW5zIGl0IHNob3VsZCBnZXRfdW5hbGlnbmVkX2JlMzIoKS4N
+Cg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2Fk
+LCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5v
+OiAxMzk3Mzg2IChXYWxlcykNCg==
 
