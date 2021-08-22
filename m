@@ -1,25 +1,27 @@
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879633FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 20:43:16 +0000 (UTC)
-Date: Sun, 22 Aug 2021 20:42:58 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DEB2FAF
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 20:43:22 +0000 (UTC)
+Date: Sun, 22 Aug 2021 20:43:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1629664986;
-	bh=Z00a/14XZVAcDNHQN5zQ4VLFtLawh/2LW/bA1LZ9MMw=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=BbbW7SyGll7cSK5KvnapcUyreXsnZWID314XP4VthouLzSR/gV1UskgvzRP0r/syo
-	 dFKG0mbRYyOlKn9iGh1DMmDlja2yteCVkw+T4ZoGh6mbOgmF51SvyU/DyrZfaz28XU
-	 b2l3EAj0+up0qht8y0hAdZvaIWA6vl+RoO4a1lB6Pqs5qXoj5JNDWhsaBVuDcDN3WF
-	 bPchy0BhcuugbhYSU4WCpXpJktFHLOuepwRVyMUHZO4eZaulGtU/fqn3fQShytIXQd
-	 gMedJ+4XHrWdkPoUPQcHN4g3brUtubvunFM5MMbiOw2n6uOWM/x5XCYNZI6W4g9j4K
-	 +jhIO7y117I+w==
+	s=protonmail; t=1629665000;
+	bh=XynyHm48qxpiEu1n5TctT5wC6O1IqPXoy0obJpg/WPI=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=m3t8qWnzve7woRzaiYYnEqLR+LfSdfLnxidTPTDnsyBt/9PR869B/ML/ii3W//tMq
+	 d4Yxc7am+NMKO+5oF6tNlwo5li3k2n5Lvej282KJnqmwZ+2b9eU4l9SQnEN+6FR4LV
+	 9QY8Tlt27kRAPHk6i1BCl9zWiTZ2xcZ3DLnh/8RTRODwCyOWyxtWXDrsmNl76uCyGK
+	 0jDRduGwbliEk57XcyVTBz5b/tyTILliK3ywfiuh4x+38kfOh8HXX2jC/fDm9PbaLt
+	 r8BTC4FVHUtM8yJH3e0gBoxo1KdF5r8dwHYxAp9GiGBvpih8ArmsIZFkxDyNk/DtII
+	 JyMt7ShH+8ZIw==
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
 Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH v2 0/5] staging: rtl8723bs: remove unused functions
-Message-ID: <20210822204212.2832397-1-hello@bryanbrattlof.com>
+Subject: [PATCH v2 1/5] staging: rtl8723bs: remove sdio_write_mem()
+Message-ID: <20210822204212.2832397-2-hello@bryanbrattlof.com>
+In-Reply-To: <20210822204212.2832397-1-hello@bryanbrattlof.com>
+References: <20210822204212.2832397-1-hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,28 +36,59 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
 
-Changes in v2:
- - Remove build warnings I introduced in the previous version.
+The sdio_write_mem() function is unused in the driver. We can remove it.
 
-***
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+ drivers/staging/rtl8723bs/hal/sdio_ops.c   | 11 -----------
+ drivers/staging/rtl8723bs/include/rtw_io.h |  1 -
+ 2 files changed, 12 deletions(-)
 
-There is a lot of un-used code and un-needed abstractions leftover
-in this driver from when (I assume) it could be compiled on more than
-one kernel.
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
+8723bs/hal/sdio_ops.c
+index a545832a468e..b784a390c8e1 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -356,16 +356,6 @@ static void sdio_read_mem(
+ =09sdio_readN(intfhdl, addr, cnt, rmem);
+ }
 
-This series removes dead code and is one small step toward
-refactoring how this driver interacts with the SDIO subsystem.
+-static void sdio_write_mem(
+-=09struct intf_hdl *intfhdl,
+-=09u32 addr,
+-=09u32 cnt,
+-=09u8 *wmem
+-)
+-{
+-=09sdio_writeN(intfhdl, addr, cnt, wmem);
+-}
+-
+ /*
+  * Description:
+  *Read from RX FIFO
+@@ -474,7 +464,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
+_io_ops *ops)
+ =09ops->_write16 =3D &sdio_write16;
+ =09ops->_write32 =3D &sdio_write32;
+ =09ops->_writeN =3D &sdio_writeN;
+-=09ops->_write_mem =3D &sdio_write_mem;
+ =09ops->_write_port =3D &sdio_write_port;
+ }
 
-Bryan Brattlof (5):
-  staging: rtl8723bs: remove sdio_write_mem()
-  staging: rtl8723bs: remove sdio_writeN()
-  staging: rtl8723bs: remove sdio_read_mem() and sdio_readN()
-  staging: rtl8723bs: remove unused definitions from rtw_io.h
-  staging: rtl8723bs: remove _read_port from _io_ops structure
+diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
+tl8723bs/include/rtw_io.h
+index e98083a07a66..87f36b7e880f 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_io.h
++++ b/drivers/staging/rtl8723bs/include/rtw_io.h
+@@ -91,7 +91,6 @@ struct _io_ops {
+ =09=09int (*_write32_async)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
 
- drivers/staging/rtl8723bs/hal/sdio_ops.c   | 116 ---------------------
- drivers/staging/rtl8723bs/include/rtw_io.h |  96 -----------------
- 2 files changed, 212 deletions(-)
+ =09=09void (*_read_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *=
+pmem);
+-=09=09void (*_write_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 =
+*pmem);
+
+ =09=09void (*_sync_irp_protocol_rw)(struct io_queue *pio_q);
 
 --
 2.30.2
