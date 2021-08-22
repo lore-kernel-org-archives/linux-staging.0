@@ -1,54 +1,53 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659303FC0
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 20:19:29 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id j12so13134935ljg.10
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 13:19:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86073FC0
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 20:25:07 +0000 (UTC)
+Received: by mail-oo1-f52.google.com with SMTP id l12-20020a4a94cc0000b02902618ad2ea55so4762436ooi.4
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 13:25:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FDptVy7iAjl9M+A0+p4e8e9LtNhAWaLr/wK/1r7PIo4=;
-        b=PoCsmbb2j1zVj8uHyL7/lFUn7CiRXyxgbxSHH1Jw8YUHhF5A0l4v1EONMfTWz9tpyl
-         0YJYn6U5cCkDVTcrG5n9y0m8wUE6DvHvrKZjUxcgckawCYjagxPxXY6rt3ZC3bSJ0gO9
-         /GqspqVhQPWcbaOR6rXCu0yQMQvZu7ZxQxt41yhaO7U2OK68fIU1ihWWialR84neUDDX
-         D7SEMo0ZAWt9BBjEQ+kyl9ZNy+iLkHutKPuMM1cu0dtR+wTGUFPd2a9010IGw9k/fWW3
-         kZgwV7utAwyt7TQND0aq/2KdBQPit7d82q8v58ejX+nVuwhUCOfP/1N0Lc0jDFe0M3Ol
-         5V3Q==
+        bh=bmqpliNkb/094MxV6QHJZFPABtXQSbh+VW+dL1e7K80=;
+        b=iEXXicu0IkA+WDA8cnmhaZ/9F4aueoVx4xzKHAUvUsEqe+V5Q6TO0S+zqkO+Vu1RIW
+         WZUvT4Ufh3nvOM/QRrB/hDzDTOVI794tsO/VOLjxxp+QFTpNc1rq00koFhXzXXNJ/L5c
+         4pxhr7y4sJDkZ40JgZMyt2Fqk1uooFx8izkEWA1dzHkGa9naeH8jT0MTLPCZ30jIoKap
+         IEBJCQwWZBO9nt17zJP20MZ1PsCi4aUt9KXPBnVbXnjrjWr1yEcCYVjn3YRiJhiTQOpo
+         elnb8OQP4xl8JcBFIU7YNMEYfYuLeKZ0u/UF4KffYu5qImwloUO69BY+cLHYIR514dHT
+         V4Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=FDptVy7iAjl9M+A0+p4e8e9LtNhAWaLr/wK/1r7PIo4=;
-        b=j83HijATmiN+AdvKyQcZn61bSiLEw71xsd4WhD0cHsNDlowFgWP605mQ8xojj8nqsO
-         WrzG26KJHHNPXh3n1uKrImkkJr0hMNz+0OWQXWqtVzEPLb7NvOCWEHpAtMm7fOsLGAzJ
-         mqmoxDrt9DK77pqFm+3KDrdDQLrdkXYwgN1fhpdHzOt+xj5Q4G/QFk3549VUVLQRqPJR
-         plz/FBOF9nPwsMEK02Z8Psp6erxblLdL98xZT2hRH0kdwW/VLRjVLgBaeonmmYndpAW3
-         r36JRyNOJHjGpuU+xsXM2VxX3suqR6uN5PgOgl1Ags4TwtJt6vnHhV6nt1DmzxhCM+Iv
-         S0kg==
-X-Gm-Message-State: AOAM532vf/bPsC/jAiS9v7rot9XqDVpl5fU25B9jteeqSOvD4MtLZUc5
-	k90WeJXbdZYZrDDib5bnXrA=
-X-Google-Smtp-Source: ABdhPJwEfAGC68KbmMAKbP58crb7BvAEFlwceuEHzm3H+SMyc3tSx7awvERj+GP/k2aolYSWgd3rXQ==
-X-Received: by 2002:a05:651c:3dd:: with SMTP id f29mr24931735ljp.69.1629663567364;
-        Sun, 22 Aug 2021 13:19:27 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id u24sm1266627lfc.162.2021.08.22.13.19.26
+        bh=bmqpliNkb/094MxV6QHJZFPABtXQSbh+VW+dL1e7K80=;
+        b=AHm33x3cSRbAOv4SktM63GJtFFI9rtMswNfZNtAbTosCZEpONENUSHUkK6+uA94rPs
+         +5AcjFEa2fbUvQsvSkvoBaRjo7GdbV+nRhR+picjvaRMunTXPGiVvnTS6l//BRRqk+0e
+         NcLdv31WvlGuODmgGGsPDuOdR/r0JKDnVqixarkY9F/g96ufweYeSodynQwQKW8MK1LB
+         Xbf8IwSOBLxHrFhArzY9tjhJbMdAVqxDPpNyrx55QofsjQFVuInCLY5oWoPOGtSNgy97
+         xe9ZUld94FMme/6d/jO96q6DG5WL8GcOYH8u+xTHydM/OBsk1S4vK73S9X5pOLAXcYFY
+         Luhg==
+X-Gm-Message-State: AOAM531upWgrK4jWHU00xOeZVygoUEzKmezyNNHlnUrvFMum3rcsYQEW
+	KAiWT2PFjmj46y3RN+NvKD8=
+X-Google-Smtp-Source: ABdhPJymDottKPNee2tDP8BQlzMP4zQzssgEtS0WYrLveWx1JxJxi5uP3rDx3ceMDGAjP0blYXWSQA==
+X-Received: by 2002:a4a:9f53:: with SMTP id d19mr9480242ool.8.1629663907073;
+        Sun, 22 Aug 2021 13:25:07 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com. [2603:8090:2005:39b3::1023])
+        by smtp.gmail.com with ESMTPSA id a6sm3235834oto.36.2021.08.22.13.25.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 13:19:27 -0700 (PDT)
-Subject: Re: [PATCH RFC v2 0/6] staging: r8188eu: avoid uninit value bugs
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com
+        Sun, 22 Aug 2021 13:25:06 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH v3 5/5] staging: r8188eu: incorrect type in assignment
+To: Aakash Hemadri <aakashhemadri123@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Phillip Potter <phil@philpotter.co.uk>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <6182ed46-d79d-7f66-c7c0-096486410b4d@gmail.com>
- <15979623.JslXr83I74@localhost.localdomain>
- <9ef4cd9f-4f0c-bc6a-76d2-b9e30f6744a4@gmail.com>
- <3600115.G8iuhHfNpT@localhost.localdomain>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <e9ad740e-d970-1a1e-fee9-b26d8c371506@gmail.com>
-Date: Sun, 22 Aug 2021 23:19:26 +0300
+References: <cover.1629562355.git.aakashhemadri123@gmail.com>
+ <876b83dad76a6f561879da0db1fbb25b251374d4.1629562355.git.aakashhemadri123@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <2188755e-33b1-bbe9-6f9b-e184830612ba@lwfinger.net>
+Date: Sun, 22 Aug 2021 15:25:05 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -57,100 +56,54 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3600115.G8iuhHfNpT@localhost.localdomain>
+In-Reply-To: <876b83dad76a6f561879da0db1fbb25b251374d4.1629562355.git.aakashhemadri123@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/22/21 11:06 PM, Fabio M. De Francesco wrote:
-> On Sunday, August 22, 2021 7:38:11 PM CEST Pavel Skripkin wrote:
->> On 8/22/21 8:36 PM, Fabio M. De Francesco wrote:
->> > On Sunday, August 22, 2021 4:35:05 PM CEST Pavel Skripkin wrote:
->> >> Hi, Greg, Larry and Phillip!
->> >> 
->> >> I noticed, that new staging driver was added like 3 weeks ago and I decided
->> >> to look at the code, because drivers in staging directory are always buggy.
->> >> 
->> >> The first thing I noticed is *no one* was checking read operations result, but
->> >> it can fail and driver may start writing random stack values into registers. It
->> >> can cause driver misbehavior or device misbehavior.
->> >> 
->> >> To avoid this type of bugs, I've changed rtw_read* API. Now all rtw_read
->> >> funtions return an error, when something went wrong with usb transfer.
->> >> 
->> >> It helps callers to break/return earlier and don't write random values to
->> >> registers or to rely on random values.
->> >> 
->> >> Why is this pacth series RFC?
->> >>   1. I don't have this device and I cannot test these changes.
->> >>   2. I don't know how to handle errors in each particular case. For now, function
->> >>      just returns or returns an error. That's all. I hope, driver maintainers will
->> >>      help with these bits.
->> >>   3. I guess, I handled not all uninit value bugs here. I hope, I fixed
->> >>      at least half of them
->> >> 
->> >> v1 -> v2:
->> >>   1. Make rtw_read*() return an error instead of initializing pointer to error
->> >>   2. Split one huge patch to smaller ones for each rtw_read{8,16,32} function
->> >>      changes
->> >>   3. Add new macro for printing register values (It helps to not copy-paste error
->> >>      handling)
->> >>   4. Removed {read,write}_macreg (Suggested by Phillip)
->> >>   5. Rebased on top of staging-next
->> >>   6. Cleaned checkpatch errors and warnings
->> >> 
->> >> Only build-tested, since I don't have device with r8118eu chip
->> >> 
->> >> Pavel Skripkin (6):
->> >>   staging: r8188eu: remove {read,write}_macreg
->> >>   staging: r8188eu: add helper macro for printing registers
->> >>   staging: r8188eu: add error handling of rtw_read8
->> >>   staging: r8188eu: add error handling of rtw_read16
->> >>   staging: r8188eu: add error handling of rtw_read32
->> >>   staging: r8188eu: make ReadEFuse return an int
->> > 
->> > Hi Pavel,
->> > 
->> > I've just read your v2 of the series. I had no time to read each and every line,
->> > however, I suppose that I saw enough to say that I think they are a huge
->> > improvement over v1. I really like your patches and if I were you, I'd drop
->> > that RFC tag.
->> > 
->> 
->> Thank you, Fabio! I appreciate it :)
->> 
->> 
->> With regards,
->> Pavel Skripkin
+On 8/21/21 11:18 AM, Aakash Hemadri wrote:
+> Fix sparse warning:
+>> rtw_br_ext.c:516:57: warning: incorrect type in assignment
+>      (different base types)
+>> rtw_br_ext.c:516:57:    expected unsigned short
+>> rtw_br_ext.c:516:57:    got restricted __be16 [usertype]
 > 
-> Hi Pavel,
+> *pMagic holds __be16 change it's type to __be16
 > 
-> I've read more code of your series and I'm ready to give a formal ack. However,
-> I'm not sure about the rules: can it be also given to RFC or only to "real" patches?
+> Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_br_ext.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> As I've already said, they look good and I like them. So, the entire series is...
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index 83a4594a4214..14cf13516d34 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -474,7 +474,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+>   		/*                Handle PPPoE frame                 */
+>   		/*---------------------------------------------------*/
+>   		struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+> -		unsigned short *pMagic;
+> +		__be16 *pMagic;
+>   
+>   		switch (method) {
+>   		case NAT25_CHECK:
+> @@ -512,7 +512,7 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+>   						tag->tag_len = htons(MAGIC_CODE_LEN+RTL_RELAY_TAG_LEN+old_tag_len);
+>   
+>   						/*  insert the magic_code+client mac in relay tag */
+> -						pMagic = (unsigned short *)tag->tag_data;
+> +						pMagic = (__be16 *)tag->tag_data;
+>   						*pMagic = htons(MAGIC_CODE);
+>   						memcpy(tag->tag_data+MAGIC_CODE_LEN, skb->data+ETH_ALEN, ETH_ALEN);
+>   
 > 
 
-AFAIK, RFC patches can be treated as normal patches, if 
-reviewers/maintainers don't have objections to code. I am not sure about 
-it, since it's my first experience with RFCs :)
+For all 5 patches,
 
-Anyway, thank you for ACKing. Let's see what Larry thinks about it. I 
-believe, he can find some bugs in my code since it's not tested at all 
-:) I hope, my r8118eu device will come soon and I will be able to test 
-this series...
+Ack by Larry Finger <Larry.finger#lwfinger.net>
 
-> Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> 
-> If the rules don't allow to formally ack RFC, I will be happy to ack again the final product.
-> 
-> I also want to say that I enjoyed discussing this work with you on this long thread. :-)
-> 
+Thanks,
 
-Me too, thank you. Technical discussions are the best part of linux 
-kernel development process, IMO :)
+Larry
 
-
-
-With regards,
-Pavel Skripkin
