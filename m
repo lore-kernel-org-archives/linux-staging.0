@@ -1,114 +1,75 @@
-Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398A53FC3
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 00:03:56 +0000 (UTC)
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4Gsb4f5Zrlz4x9pn
-	for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 23:56:18 +0000 (UTC)
-Authentication-Results: mail-41103.protonmail.ch;
-	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="Xc7xoQZD"
-Date: Sat, 21 Aug 2021 23:55:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1629590163;
-	bh=wdAPJNqRs4L8i+w4JFiTHyTQcUOb9MfykknwRLa1lNU=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=Xc7xoQZD1wqgiJzRzFaCzU0yBlNYCVXFXwnR0ko+Kf/avpgcOtMly1/uGlRQN1jc/
-	 tvXER4FNaA5lZtTINDCi25AnToRyFnbuLOatsi3/Hm4cZvZHp4d+tMc6O3PuFfUyto
-	 huYPuTyz5mNwO6FSL1BehaFzns8nTOLZjXYuveT4uhLQuIm1/Q+qDHCv2nepDCjCaW
-	 E3ekV4+QpTmX2cwHsuUljazmURN4LU28VI04Z+GLUVXGGnAOONx60B/jt+3znHfKsI
-	 pkPeuIHPWWoyorKnx4AwdLic46/FYOSRvCVyhOEftb21f5mAhbZ00kKkgmeh5Ly+WV
-	 Vqc50tKsHEKkQ==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27BA3FC1
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 06:25:09 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id b7so20783928edu.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Aug 2021 23:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mx/gZXnqeR0rM9Ir+nV0y5jx3IPjC/daeOqVGnYhRrY=;
+        b=c/DORD6bwzpQxHnRX/Oym75rlynRtl8ksnf3DfJu0SPXsh/Vk43beGVbmzBGThMrsh
+         BJ1yOm4ct1IWXq1mveqE1uG2nwYtB04YoYb+AuPYJ2Mj/qtcznqEXjxzWQu/x9YKaSj7
+         mdhlk8o9bYtKayShXaAc1G509Jep/OSpxDQbCkH4RzFaHrGJp6wTmP+3VhK067maKf8D
+         Vgq0voGB8xy0K+gAqEcgH/IGxUbWCig2YvqiF2KkSNsAIAReXr6Vsj2UCoGJmfsRpbNw
+         thJsRhL3U8WdDdFhtGZzDJpZQZZdLagIZFUvi8Ni6lK7e45/7okWb3QZtAVy4WoOM+SP
+         IgVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mx/gZXnqeR0rM9Ir+nV0y5jx3IPjC/daeOqVGnYhRrY=;
+        b=ZUsxoC7BjEaUmJxKlzbGxms1Fkvntsl1DVthTCkwPy7T2c/bhHoN2J7cTOv3hJ46Cr
+         VV6yPL8PMtGYK0ookOGFLSv8S0+MoZDxrc6aVkJN7VO0prxIK9mB2h1n+EYZj8IFPS0p
+         yTv5gDiLV2Zjq+03rRJZ375MO1xtZpUrIbAuAhjoT1Y3D9u+vvgYs/+5FEFODNDPU60w
+         XgjMkBU/uNH9bP+cN9jO+1X+/YQoIKn0pUGA5jh7JfHqCtYkWAnfIVKQCB/1gXbvawDw
+         UsYqWtuR5UDXXmw8rclvCdVtmKCO0rOEQ2Si7A5Bj7Bm6WvmebD4gTLbupc7I2cCydjo
+         4ftw==
+X-Gm-Message-State: AOAM530zKbJLDq4cRa2dlrvjA2HZxVwszjv6youERhnjeY5s10KeoSLm
+	/v5IS6Cglsz0SbKgQKEYoJY=
+X-Google-Smtp-Source: ABdhPJwu+SWeKv6ve36LjaS49PGof+FJMOUFdFWIjJ5rydi3ruY7H3Z6E84b1g4mV1HFZAgbzgNeag==
+X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr29786161eds.108.1629613508113;
+        Sat, 21 Aug 2021 23:25:08 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id rv4sm5319224ejb.23.2021.08.21.23.25.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Aug 2021 23:25:07 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bryan Brattlof <hello@bryanbrattlof.com>
 Cc: Bryan Brattlof <hello@bryanbrattlof.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH 4/6] staging: rtl8723bs: remove sdio_readN()
-Message-ID: <20210821235456.2502681-4-hello@bryanbrattlof.com>
+Subject: Re: [PATCH 3/6] staging: rtl8723bs: remove sdio_read_mem()
+Date: Sun, 22 Aug 2021 08:25:05 +0200
+Message-ID: <2537053.yL3VPc0Jk4@localhost.localdomain>
+In-Reply-To: <20210821235456.2502681-3-hello@bryanbrattlof.com>
+References: <20210821235456.2502681-3-hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-The sdio_readN() function is unused. We can remove it.
+On Sunday, August 22, 2021 1:55:29 AM CEST Bryan Brattlof wrote:
+> The sdio_read_mem() function is unused. We can remove it.
+> 
+> Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/sdio_ops.c   | 11 -----------
+>  drivers/staging/rtl8723bs/include/rtw_io.h |  2 --
+>  2 files changed, 13 deletions(-)
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/hal/sdio_ops.c | 45 ------------------------
- 1 file changed, 45 deletions(-)
+This change adds a build warning, which is not allowed.
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
-8723bs/hal/sdio_ops.c
-index 019ace4b8564..928fa109565e 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -195,51 +195,6 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 a=
-ddr)
- =09return val;
- }
+Please merge this, and the 4/6 patch into a single change, so that it
+all is removed together, causing no build warnings at any point in time.
 
--static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf=
-)
--{
--=09struct adapter *adapter;
--=09u8 mac_pwr_ctrl_on;
--=09u8 device_id;
--=09u16 offset;
--=09u32 ftaddr;
--=09u8 shift;
--=09s32 err;
--
--=09adapter =3D intfhdl->padapter;
--=09err =3D 0;
--
--=09ftaddr =3D _cvrt2ftaddr(addr, &device_id, &offset);
--
--=09rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
--=09if (
--=09=09((device_id =3D=3D WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
--=09=09(!mac_pwr_ctrl_on) ||
--=09=09(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
--=09)
--=09=09return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
--
--=09/*  4 bytes alignment */
--=09shift =3D ftaddr & 0x3;
--=09if (shift =3D=3D 0) {
--=09=09err =3D sd_read(intfhdl, ftaddr, cnt, buf);
--=09} else {
--=09=09u8 *tmpbuf;
--=09=09u32 n;
--
--=09=09ftaddr &=3D ~(u16)0x3;
--=09=09n =3D cnt + shift;
--=09=09tmpbuf =3D rtw_malloc(n);
--=09=09if (!tmpbuf)
--=09=09=09return -1;
--
--=09=09err =3D sd_read(intfhdl, ftaddr, n, tmpbuf);
--=09=09if (!err)
--=09=09=09memcpy(buf, tmpbuf + shift, cnt);
--=09=09kfree(tmpbuf);
--=09}
--=09return err;
--}
--
- static s32 sdio_write8(struct intf_hdl *intfhdl, u32 addr, u8 val)
- {
- =09u32 ftaddr;
---
-2.30.2
+thanks,
+
+Fabio
+
 
 
