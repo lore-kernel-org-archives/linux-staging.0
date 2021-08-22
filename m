@@ -1,70 +1,103 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD0C3FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 13:06:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F316B61206;
-	Sun, 22 Aug 2021 13:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1629637615;
-	bh=EQOmStsJmOqdUqnPphlHpXfj8gNo53ILHo1sVqpPmz0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B3IUzMTXP27vOPWqw/5sm00/EGje48cZMDLO92t/3N8bB3+oDIiqM1U+lYI1coRe0
-	 GODJJLVrPhCeV4tIPTrgRTjI0GFXwqf1HKPmcUx4Gyxd8XXBJiZ+gCHWRXRFsC0OAb
-	 Lvq8fh+/iSWXZoDJXZk1qRaWezjy7qrudU5qfysI=
-Date: Sun, 22 Aug 2021 15:06:52 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Martin Kaiser <martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3603FC1
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 13:21:34 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id bo19so21717584edb.9
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 06:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zqTECFuRJLYarOpHoCCGqs8juSsxGgWk5yRR8uFe8PQ=;
+        b=B0zxd0DrjaauXCH+xSyRZj73jq8+b3uylHtP4zqqDF4bCYYG5qLbEYqOom/Z/x1Xnl
+         KDqKU8vv5PqjsHIBs2imIBvph+BPJHQE2wPBvnZtE2U6qsQ15UkUtmKktLRHU6fRSBhC
+         z5McxyJM1eqccfMarsX7TYICT7JidPetxYzW2sSzB+RyjYzQjR97V1waKYbrABfsS9Rt
+         AmsSBUtZmttjq77ny6qqOk4UIjjLfKw33Dv4nPKpl4/GULkfPgwBmygStXX9dvZuLv4o
+         /M0Uu4gkA4Jy+XytmbCR1OOF7nHecmEKxFiBLmjulcNheI7lfOzjJ6rLQp76GAPzibzv
+         Pynw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=zqTECFuRJLYarOpHoCCGqs8juSsxGgWk5yRR8uFe8PQ=;
+        b=NGlsZYOEKGxlz6YygsiLC+5UsYz/Yf6liBIT/kSvwqvcrZxeKtLDDi7OIOPzi/DET9
+         guMRVjaXPP2mrnfqgPLOM/8XRoiH7tZAgE8OW2nqtYx0ex+LogsBo0TQyUXCnOAjpoFP
+         yfTLdMX1XNF/uh12FTKTeV0OfyVVO4WWA41uLq4rW1SOCgXQIhfVFwuiKHK8afoJFwhy
+         XIWDT2mFIcN3pEDo+IyR05vvM/M38DYwcj8k5aIlNBZNdux7wMea5ANVbCq+FKZWP9Op
+         lGg34RGrzykN8s1p6yFK+yceV45FU8UjtFH5eC7g079UF8K3rGjqPy4kn0bjpbi87Toy
+         958g==
+X-Gm-Message-State: AOAM530AcOpFfD++F0QQJ1LdoY9sG5sVrA8ajIA5qCfdGWUrjQslF19p
+	JogZrD/+iIz6lyGezHcCd9E=
+X-Google-Smtp-Source: ABdhPJyVzQOLujp1q7XgHum80sFZZy2mfkNtS+ZQOQ8CQhKepPE7wo0EkLi53Kv1t72zSn9O6U2zlQ==
+X-Received: by 2002:a05:6402:2302:: with SMTP id l2mr14428895eda.13.1629638492669;
+        Sun, 22 Aug 2021 06:21:32 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id v13sm5727689ejh.62.2021.08.22.06.21.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Aug 2021 06:21:32 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Pavel Skripkin <paskripkin@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, straube.linux@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Martin Kaiser <martin@kaiser.cx>
 Subject: Re: [PATCH RFC 0/3] staging: r8188eu: avoid uninit value bugs
-Message-ID: <YSJL7B9Sk6V6/VLw@kroah.com>
-References: <cover.1629479152.git.paskripkin@gmail.com>
- <10584649.zhyk0TxWeL@localhost.localdomain>
- <ae27d6a0-dc00-459f-7b36-acf7f4c08d72@gmail.com>
- <2327383.5TodInGmHT@localhost.localdomain>
- <435eea22-da31-1ebc-840c-ee9e42b27265@gmail.com>
- <YSJFhmTs74PUyo8b@kroah.com>
- <e5d189b7-15b2-8cc3-1e84-021dc5ab51af@gmail.com>
+Date: Sun, 22 Aug 2021 15:21:30 +0200
+Message-ID: <2244219.zNr1yEsLHP@localhost.localdomain>
+In-Reply-To: <YSJFhmTs74PUyo8b@kroah.com>
+References: <cover.1629479152.git.paskripkin@gmail.com> <435eea22-da31-1ebc-840c-ee9e42b27265@gmail.com> <YSJFhmTs74PUyo8b@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5d189b7-15b2-8cc3-1e84-021dc5ab51af@gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, Aug 22, 2021 at 03:50:35PM +0300, Pavel Skripkin wrote:
-> On 8/22/21 3:39 PM, Greg KH wrote:
-> > > 
-> > > Yes, but _rtw_read*() == 0 indicates 2 states:
-> > > 
-> > > 	1. Error on transfer side
-> > > 	2. Actual register value is 0
+On Sunday, August 22, 2021 2:39:34 PM CEST Greg KH wrote:
+> On Sun, Aug 22, 2021 at 03:10:56PM +0300, Pavel Skripkin wrote:
+> > On 8/22/21 1:59 PM, Fabio M. De Francesco wrote:
+> > > On Sunday, August 22, 2021 12:09:29 PM CEST Pavel Skripkin wrote:
+[...]
+> > > So, it's up to the callers to test if (!_rtw_read*()) and then act
+> > > accordingly. If they get 0 they should know how to handle the errors.
 > > 
-> > That's not a good design, it should be fixed.  Note there is the new
-> > usb_control_msg_recv() function which should probably be used instead
-> > here, to prevent this problem from happening.
-> > 
+> > Yes, but _rtw_read*() == 0 indicates 2 states:
+> > 	1. Error on transfer side
+> > 	2. Actual register value is 0
 > 
-> Thank you, Greg, for confirmation. That's was the point why I started to
-> write this series :)
+> That's not a good design, it should be fixed.  Note there is the new
+> usb_control_msg_recv() function which should probably be used instead
+> here, to prevent this problem from happening.
+
+I think that no functions should return 0 for signaling FAILURE. If I'm not 
+wrong, the kernel quite always prefers to return 0 on SUCCESS and <0 on 
+FAILURE. Why don't you just fix this?
+
+> > > In summation. if anything should be changed, it is the code of the 
+callers of
+> > > _rtw_read*() if you find out they they don't properly handle the 
+returning
+> > > values of this function. You should find every place where _rtw_read*() 
+are
+> > > called and figure out if the returns are properly checked and handled; 
+if not,
+> > > make some change only there.
+> > > 
+> > > Larry, Philip, where are you? Am I missing something?
 > 
-> I think, usb_control_msg_recv() won't help us with this problem, since all
-> rtw_read*() functions return an unsigned value now. In future, when driver
-> code will be fixed (ex: a lot of void function, which can fail and leave
-> passed pointer uninitialized) we can move to new usb API and then move
-> driver out of staging :)
+> Relax, there is no need to get jumpy, people do not have to respond
+> instantly to emails here.  Especially when it is not their job to do so.
 
-That function _should_ be used at the lower levels of this call chain.
-If you want to go from the top -> down or bottom -> up of fixing this is
-your choice, but as others have pointed out, this patch series as-is
-still needs some work.
+I should have placed a big smile at the end of the phrase. I was just kidding 
+while trying to get their attention. I know there is no hurry and that no one 
+has any obligation of this kind. Again, just kidding :)
 
-thanks,
+Thanks,
 
-greg k-h
+Fabio
+
+> greg k-h
+
+
+
+
