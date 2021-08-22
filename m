@@ -1,43 +1,43 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B9A3FC0
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 11:55:17 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so8887351wml.3
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 04:55:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE323FC0
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 11:57:14 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id e5so5083712wrp.8
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 04:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=O7ZwczbeMR/YAkYS1Itn/5ZToVV+8zRvhc01oQeZjrA=;
-        b=I2aowjRvamyDFJwmsALT6bFyPoB01MRLr/fP9dqbriQNTzaTmILnsf5ATt12A+1X0j
-         DH7lRR5YsW+5piWxbkdgjpoP6EwYLVF3Mkq4VlY2/czG7t9GubK8mYoV7PMxA+B8Exq+
-         fn+DIjOlYZulgr/YDqH8AMRpKqu31w7Y9bJQxaaBqpl/Owxxpt+ljWkPqqjq89rVAPE9
-         BoTmL7E3AIGr6Vh0WRXcrsGZKTdhheEq5JEMwr0BDVUK2bbSedm0CBds3wpxEc1/V8s5
-         omBqN9cwvcb6jd1nx3wvv0O8uE6fRqr84JA4ex6/uvny97WeZINRnIYewiMnxvSJfQHV
-         64bw==
+        bh=BujFUWKPfh9ULOTXul8Joza1GB05OuxtEo0gxSDLVLM=;
+        b=FtmtZedpdgN6q+hPxMXJytaLi1u2Z2CDN4DQrBN3DPuCB9lC3X91gtitUk5ottQHLu
+         RKJiQ2Kw4R1sYMLNqlRJCnBXBZTizpKyrd9jsOiSMjtlkbD18eEQJQ7EQOr7R5gTVcIa
+         0OO2dMWV5HGiK9RI/k2vN/8zqygU0jTBEzwyY0dXsCoZYuZIaA2OTTSoTrFreMNhdiov
+         w9i7Zhv7jWXdhMacZgHUS3FO2iKXv0QshrC4IV1JhVjkHgfFEvcnopcC4TlcPYPdlCgN
+         7fzUOuRyA4ix5/LHiUsC6TFB828Nm5RJSMgOMRjeSQLfx5XCj4G5loVQtdLFSdAZ98B/
+         2d5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=O7ZwczbeMR/YAkYS1Itn/5ZToVV+8zRvhc01oQeZjrA=;
-        b=GXhyDuKPeg9y1ULnri89ciEgqEzvjYBhHIpyI/UQ+68GfwM8dumfRjE4Ferw6S0X9B
-         p6pKEjkLIKKs1YRIdCd7YHPL/i3a4M0pi7xSDTzzTUbfjbSPxBhRSbSz24rV1FD39fZe
-         7s/gGuLYs3audSxBS5eYpZPJ6tAu4hn343qAROjUCwzqR3ivDksyVd/HnwCeOlnj4NQV
-         cO2TKSPlLXmqclx0B078xj+5gFSz2rSChYQIPT8g7al5JaIu57sMwEoOjBrXCrv1yb8o
-         8OOD7JwsfM8CEhk9kz8EebIZ7AJq0fb5dxfAlSHkERMxgquZy6RFEjLCp/WEDrQoipxL
-         OxSQ==
-X-Gm-Message-State: AOAM530Qsc40W8cCIv4XfSdlZPeKBr/yCBF1Ap15hU3NsxOqxv3tjEXO
-	9WBzor+7y90294M9HKwOoHqb5p1bSv0=
-X-Google-Smtp-Source: ABdhPJx+aKdGGcRzworMCbhoPyusUkyTrSKnZYepR4sNOtL8AphSHo4x9dkDEvRNoE+JzuVCovRbiA==
-X-Received: by 2002:a05:600c:350c:: with SMTP id h12mr11476611wmq.88.1629633316348;
-        Sun, 22 Aug 2021 04:55:16 -0700 (PDT)
+        bh=BujFUWKPfh9ULOTXul8Joza1GB05OuxtEo0gxSDLVLM=;
+        b=dpSiktFyLjWhDFHe3kqbdJvHnYDitPZv/6CUhOCs2WZbdB5ec5XRS1EU2ZpB4/endw
+         JD1vJ5JmAu9folwF7ZNHVKJ9xYSqNPpVtIGiOBYROQL+8jZcEonfUsJ1q13NFe0Q6Q8b
+         Mcp3c+W+kANcWyPvihrCeXlj/ZYN04DgEug3wxzvX9SXqMMs94w/0GmYuBMT24SZST9X
+         AEC5+qvAJZQxOEqN2WPA0BC3Z31xFxgg4qfkphQB+t2goYKdJqd9HmJdac++5N39F4oE
+         hTmihPl+I8/v846LehWKZuh9RqujHybNY6K/VhBw+lqlvZAp8V6mbGPz6Udfq2Ey46kD
+         IONw==
+X-Gm-Message-State: AOAM532NBfSwjLAAOhAPhrn4jmDREBc634rqeMqZQzoi3ikUDOr3nARG
+	bC6GCvTqJ68vlJiKVeh7DB4=
+X-Google-Smtp-Source: ABdhPJw1g7BaYLAWa8PRyoegeomT+1Axe5l+n1SMivYHtqnFrriE5wU8D32+wGZDebVAk8Oy1S1S1Q==
+X-Received: by 2002:adf:fa82:: with SMTP id h2mr8131900wrr.129.1629633433431;
+        Sun, 22 Aug 2021 04:57:13 -0700 (PDT)
 Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id l19sm10521393wmi.4.2021.08.22.04.55.15
+        by smtp.gmail.com with ESMTPSA id j17sm11690572wrt.69.2021.08.22.04.57.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 04:55:15 -0700 (PDT)
-Subject: Re: [PATCH 01/10] staging: r8188eu: remove unnecessary cast
+        Sun, 22 Aug 2021 04:57:13 -0700 (PDT)
+Subject: Re: [PATCH 02/10] staging: r8188eu: remove unused define
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -45,9 +45,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
  Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20210821164859.4351-1-martin@kaiser.cx>
+ <20210821164859.4351-2-martin@kaiser.cx>
 From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <7718dee6-e841-8e8b-8db1-210425ddba77@gmail.com>
-Date: Sun, 22 Aug 2021 13:54:26 +0200
+Message-ID: <f98161a4-2065-d915-1d1e-04fbcf202e2d@gmail.com>
+Date: Sun, 22 Aug 2021 13:56:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -56,32 +57,32 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210821164859.4351-1-martin@kaiser.cx>
+In-Reply-To: <20210821164859.4351-2-martin@kaiser.cx>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 On 8/21/21 6:48 PM, Martin Kaiser wrote:
-> name is a const char * by default. This type should be ok for r8188eu.
+> _HCI_OPS_OS_C_ is not used in the r8188eu driver. Remove it.
 > 
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->   drivers/staging/r8188eu/os_dep/usb_intf.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/staging/r8188eu/hal/usb_ops_linux.c | 2 --
+>   1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index e002070f7fba..72556ac10d7d 100644
-> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -61,7 +61,7 @@ struct rtw_usb_drv {
->   };
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index 953fa05dc30c..a11a0597e515 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -1,8 +1,6 @@
+>   // SPDX-License-Identifier: GPL-2.0
+>   /* Copyright(c) 2007 - 2011 Realtek Corporation. */
 >   
->   static struct rtw_usb_drv rtl8188e_usb_drv = {
-> -	.usbdrv.name = (char *)"r8188eu",
-> +	.usbdrv.name = "r8188eu",
->   	.usbdrv.probe = rtw_drv_init,
->   	.usbdrv.disconnect = rtw_dev_remove,
->   	.usbdrv.id_table = rtw_usb_id_tbl,
+> -#define _HCI_OPS_OS_C_
+> -
+>   #include "../include/osdep_service.h"
+>   #include "../include/drv_types.h"
+>   #include "../include/osdep_intf.h"
 > 
 
 Looks good to me.
