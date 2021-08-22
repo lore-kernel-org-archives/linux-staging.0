@@ -1,86 +1,90 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849063FC2
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 23:52:46 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id j4-20020a17090a734400b0018f6dd1ec97so136502pjs.3
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 16:52:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6623FC2
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 23:58:43 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id c17so15009728pgc.0
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 16:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=FG/pYWFsSA3T+3BAA+Wi6BNUREpJHMlJfeblR+ZnRZM=;
-        b=zWvc1RTFuWYM96/bFVx2WLla7i/6r7p88rCrraKkRFBBcqIbc5m3jBbOZznEQHX6Ut
-         jWQFMbDrwflZxka36wa3Tq7QkkYrKfDo6LWsyuR/yIMT7whCq9jajlqo6vWPmAGCkHJ+
-         rC1SIrzXeA9GWARGx2wNLhlaKymPAdJquRnbsjFMt01nyR882rcdpO0UXRCXpq7HktNF
-         DXVrkjd6mpC+OWGQ3QWcUJWDYi6GmRKlqIjBnhldB8+S8rvqVCH8YYgwoxaIDVDHB40U
-         qtdRk9vGu7GiCnnNKwsDIsRpFVfEUlUULq6f5naT8AB2qogWTTjA5f+RvD+FvgsIWSJB
-         wlJA==
+        bh=Y1QEzz8l10ItQyTj7R7UnaMBv4HzmAT0MuoYeWEko34=;
+        b=NVgAk9sX2H5XPJKqTjIeK3u/mKQNJ/yfRoAM5NCYBWJiRVOfDw6XtN25QrqN6viyO3
+         8a595bmdo0+4GEMKjEDdHmSuJbz1csuEpQUPITluIbx+NSsnUmUI/O8fhaxuoPqzyo/P
+         DdftZOOdz/8y8hLXmvCnUiRDjL+T1opKYISCulL//sfmO05EaAsJFDbMu+/ipAX2/sGP
+         6/QxAHNWqLQwTUbmVaqqgIjPdiR65Nao/4XPxg0tOIfUxP8/RTVsAVTdGexpCEkeG5K9
+         c0FJvtXbMr1Usc+H5eHU3HgFhHbXZk3IVRN3fOL42m4PTH8/J6vfbTvZCdBseHJTQ9NK
+         N/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FG/pYWFsSA3T+3BAA+Wi6BNUREpJHMlJfeblR+ZnRZM=;
-        b=KToMxw/p1RjpWBMCNDuk7Q97PFGQSm/k+bfhmNHxloS+OoOW7F5bcNh7RZj8eiTGjt
-         JKDdd6KfOqBUwwgq761y6NmowI3uX1DlUOChSyO2HC+OEyMG7a4Qu+mLQeRLlsK3Mp4l
-         LEvV0ZHfARpq4PvRU0K5RawtKF5hqTKRv3lopu+OlKGBg1ZoQ6LuYcqgMcAgAU89NbL7
-         sveDNhl3pk4dv6YdHXLDirRYb9qVo14PPSBfzisLOlTJlm1J+FEEHx3XEm2SZC9efUNj
-         BY0lMJ+Y3M8S2WdInaemw9nxdkFDxcpFuiOSsAUdzZq7yi6ycQt7S0RasWHPpXLKUsVC
-         f34w==
-X-Gm-Message-State: AOAM530yXBLN2Hh1DzlCbc85zCjxiMdRzZFYGQseE7nfUybuQGOaT3ii
-	FzXATgaJyGb7E/V4IgozQ2VGSnlfew09WfBpG+pCbA==
-X-Google-Smtp-Source: ABdhPJywXbBUt7zvlfpA7+S6NUqcWiiUKoapfd/G7jUZCaCqb3Z4dq5QRQr8npJdhbsD0+MGGfUZzi60eydB81vrk2w=
-X-Received: by 2002:a17:902:6ac6:b0:133:230b:e8bc with SMTP id
- i6-20020a1709026ac600b00133230be8bcmr5461582plt.22.1629676366155; Sun, 22 Aug
- 2021 16:52:46 -0700 (PDT)
+        bh=Y1QEzz8l10ItQyTj7R7UnaMBv4HzmAT0MuoYeWEko34=;
+        b=Hg0XDVf7yPPSfUoiUzkoslJiVyGhp3wF3tOFzrPyuaCMsDjvhu0XqdCmNa8kLwk72H
+         amZ//vWBXtZXjk12Nc+FAp2RWDiBMaDXYyrUhU42bGaSCqUJ6ezd637dXZLvWIZ9PIGL
+         2Q11wenixrEtA9GguxC46ItLoRunLUiiv30Qr6v4x4ELaEHR2iMFEbq2U1ZzLiup+5cy
+         FAGUWs2X0Qc8h1uk50fmqwfRAeshTlGPJccnzC1JJm1O0+Go0vdSPvtxKjUMTNzF+f6H
+         Vi80TyrfcdBJvquxrl8VePy2hL4c+LxOsHqaT9uG9X0Z05FYMBd+DFHhfAJcnQu2Cv5K
+         C1Sw==
+X-Gm-Message-State: AOAM533XXCKZvtY9Axl0/HXx52FKUuR9sLYxDO+K9qmhY0K3RjOCLziB
+	LmaMXs6U9vaT39XEkETrTPx8Ni/hktyRARsc1bbsDw==
+X-Google-Smtp-Source: ABdhPJwEoaX3sH59fomXWEOKyrjNhGQnlPM9ZNdL791GaE5sj8mEhORNycvvLERmMeeJCaW6msqclGYBlqJOaG4KoBw=
+X-Received: by 2002:a63:aa43:: with SMTP id x3mr29693865pgo.208.1629676722589;
+ Sun, 22 Aug 2021 16:58:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6182ed46-d79d-7f66-c7c0-096486410b4d@gmail.com>
- <cover.1629642658.git.paskripkin@gmail.com> <44fc34ec-6bbe-9cd0-0c51-78836bad7e0c@gmail.com>
- <d479bf75-f031-136c-3967-16127ed26868@gmail.com> <9809a91e-c524-9c6b-67e3-8a9c9b91628e@gmail.com>
-In-Reply-To: <9809a91e-c524-9c6b-67e3-8a9c9b91628e@gmail.com>
+References: <YSFgrLUfXzgcT6k4@user> <1821445.fzUCeO1EU3@localhost.localdomain>
+ <CAA=Fs0mu4m04_Be4-f=W+=_hhGn5oJ2q=KOmZdRrMyGhMgqc-Q@mail.gmail.com> <18734228.Nv2I6EOGHm@localhost.localdomain>
+In-Reply-To: <18734228.Nv2I6EOGHm@localhost.localdomain>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 23 Aug 2021 00:52:35 +0100
-Message-ID: <CAA=Fs0kW3hU_O-fe6qjrWLTUsDFqs6TgWF8zEqZv2t7jPw0DYw@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 0/6] staging: r8188eu: avoid uninit value bugs
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Michael Straube <straube.linux@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, 
+Date: Mon, 23 Aug 2021 00:58:31 +0100
+Message-ID: <CAA=Fs0kZvkSmf9vH_Z1rUbDMYYd5SWbQQXhGpMxDbfvWQs338A@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, 
 	Greg KH <gregkh@linuxfoundation.org>, 
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
 	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, saurav.girepunje@hotmail.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 22 Aug 2021 at 17:26, Pavel Skripkin <paskripkin@gmail.com> wrote:
->
-> On 8/22/21 7:05 PM, Michael Straube wrote:
->
-> > Hi Pavel,
-> >
-> > My one is a TP-LINK WN725N (not sure, but I guess v2).
->
-> Wow! I found this one in my city, thank you!
->
-> > You could also have a look at the device table in os_dep/usb_intf.c
-> >
->
-> Yep, but I wanted to hear from driver reviewers/maintainers about what
-> they use to test. I guess, some devices could be broken or not unwieldy
-> to use. Thank you for recommendation, will buy one in few days :)
+On Sun, 22 Aug 2021 at 17:24, Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
 >
 >
+> Dear Philip,
 >
-> With regards,
-> Pavel Skripkin
+> I didn't mean to be harsh with you, I apologize if this is the message
+> I conveyed. Really!
 
-Dear Pavel,
+Dear Fabio,
 
-Glad you found one :-) Mine is the N10-Nano as that was all I could
-find at the time.
+No apology necessary :-)
+
+>
+>
+> Now it is clearer to me what acking means. I've given only a handful of
+> acks because I thought I should also check if they applied and if they
+> build. It takes time. Now I understand it is not required. Thanks.
+>
+
+Yeah I try to ack as many as I can now, but couldn't possibly do as
+many as I do if I had to build test them all, especially with my own
+code to write and a family/full time non-kernel dev role. It is
+certainly desirable for the majority, but if the code looks
+good/correct and is a simple patch then in my mind an Acked-by is fine
+to give in any case. That said, I will no doubt make mistakes on that.
+
+>
+> Please, don't ever think I'm not more than sure that you give a lot
+> of your _unpaid_ time to the kernel and I thank you very much
+> I know what it means, because I too have other commitments :-)
+
+Thank you, and I appreciate your involvement so keep up the good work :-)
 
 Regards,
 Phil
