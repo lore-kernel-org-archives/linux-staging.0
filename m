@@ -1,592 +1,113 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E673FC3
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 14:36:11 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id i28so32116544lfl.2
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 07:36:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D323FC3
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 14:58:22 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id t42so10530063pfg.12
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 07:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Z6tiMzLqXRHliylxjh1LdW7tP5mNrZmd0cSyUDmZ/AM=;
-        b=WkzwMqgc0iUp8OZ3iezGdPYFsh7jOmuG52be6Oscx6G5K3oZOsPO73Eb2h9sqvDedm
-         n3lTUdebhOkCY6G+e7i7KczoJHKyju2m3uslfgcH+ffIh1KPRpaZSWJNVCpYF6xQxN+j
-         s5nWLXak9J7qpvzA44/iZFIjNuSo9z/WsdSWDsY1QBPaLfv7XEkORZazJazABCt+zOW/
-         XPVWzq3KhuyVch3LKHMig8AvnkXQCMyyOo9QTby7GntOmgSCph+hPcLOdNxli9g+cB2M
-         W0uPX//ARYJWwNQQ+HAu4XP2eZBxW7pyohqkwycTKSD0aGFtDTv5lRY6Mem+oR/lIiMq
-         fQ5A==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZrJiEr09vjMy6mI2+ykFgIl7I69Q/36IiW2OvUK4i3M=;
+        b=JV2eL7bMtmTEu9p+NkW2Y+dtmfBXQSZN/f6twwLfwEuZ0awNYucAku/VdQ0BeA55ZC
+         LXUk4YnujCrbS7A3SYzgnTzECEgp6cPurpOQ9gBFsUrvV3m9+ujV+ACYAciQxch3l1mf
+         E4BI94IO5Xc2BMJwgWJ81JYKRaEsanTlP3kTxSmEmX5+Ixv+Q2DSsIHE3L9gsuwgZ/hp
+         blTOeRR9Vxt/QL9PllYE2+chNVI0ZmGdg5SfrE6fxv2EvQ//2nHx7MSRhMzyXs/AfpYQ
+         SmR0FTE1phpqfnXSypN8upNPdtJpTKHKyc5O6T/pp04Y0uFxqpzDNNKT7Ui62rktHb8v
+         oXiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Z6tiMzLqXRHliylxjh1LdW7tP5mNrZmd0cSyUDmZ/AM=;
-        b=J0mo9nr4VNNGuX39hgCmvBwxiYioATBHCldE8N3/GMD/OMaY4/yBF3lXdsteVy1+gq
-         VjotzvxRwce5LoE59buvSohGvoEr9Cs2RRTgMxQusJY13lKZfdtcCIHdwK90eRPGovH3
-         co/4L/XCon9qKaHq9XPtV7x5QVTxLjNV395ZtfG48nIG6sfcfFRfdNuh+wpFIfd76OBb
-         /dVbTJX3c8ObZpunwQ2o5Ev5w/IO3hBE1IoHrUb20aT45FIVzNlesaiE0C8vnF+GQjM5
-         XEz2kODdVnmxIpHV92+q1yhn21LeXuF4Jj7DO2vnRJdpd3/RvnVew7CyxvHkKNO3gzIY
-         vRcQ==
-X-Gm-Message-State: AOAM532JZ59CI18wP0U/k9iknQMtOQmWXXaAUhtAdoqheWX4xYE2X/dR
-	rEo8d5fqyIAvBf8cTcmH+Jw=
-X-Google-Smtp-Source: ABdhPJwnDiEzEoIKcOcHZwNkoTsYnJe2FwaDDW03uLXxWmO46Hae5omRef36U4HYJLhT7yy7o6dc5g==
-X-Received: by 2002:a05:6512:1394:: with SMTP id p20mr21109641lfa.189.1629642970037;
-        Sun, 22 Aug 2021 07:36:10 -0700 (PDT)
-Received: from localhost.localdomain ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id f11sm1211624lfh.58.2021.08.22.07.36.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 07:36:09 -0700 (PDT)
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	straube.linux@gmail.com,
-	fmdefrancesco@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH RFC v2 6/6] staging: r8188eu: make ReadEFuse return an int
-Date: Sun, 22 Aug 2021 17:36:08 +0300
-Message-Id: <1ed3e785c6339b653b9321b485a3419a002dd3da.1629642658.git.paskripkin@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1629642658.git.paskripkin@gmail.com>
-References: <cover.1629642658.git.paskripkin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZrJiEr09vjMy6mI2+ykFgIl7I69Q/36IiW2OvUK4i3M=;
+        b=lk/16rQUsuyWi7SHekG8T1noU7yBu+LSiZhWDWxokVizeFQQnXnjRdIvgWih+yCcZA
+         PuwJB3Zt6dgyy0kqcsEdnpegyV6c2jfhiU3fxbkmK8oOWpCUKdy8AR0P+4GV0ED5hu7D
+         sGu+Nq2Su6WfPpjaiml12uJmjI7jP4YR6MVxl8mudFqb0fyYoz5MP/mU88S6Ef298hxU
+         AR1yljDV4WitvJUiUT2AiDA6bi90N+5SngpVieY7WJfgXjAnZKId52vVS60r4flcwU1M
+         uL5yzYaqj6fVKhpCW8xzCxohvxwI4/smV1i11Qv3X7H7OXZK+rh7BROgAQQrubdPiv1K
+         I/tQ==
+X-Gm-Message-State: AOAM533EP47nMvpN1r54rjVQaBVklDgNBZ0xmwZ3ErxmVgVi4AFH74Oj
+	LkM1weQW4U8Q684SeIe+B009BXnUgSjlne2HoxxIoQ==
+X-Google-Smtp-Source: ABdhPJyXKWs7oBUytsfLTRz6W7adqsBqkpsdGnWsMugoiyviBLbLvjl60mL4kUzkCah9Kgx0vmR09o3NwN1E05IQBOs=
+X-Received: by 2002:a62:5c6:0:b029:341:e0b1:a72c with SMTP id
+ 189-20020a6205c60000b0290341e0b1a72cmr29600516pff.71.1629644301902; Sun, 22
+ Aug 2021 07:58:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YSFgrLUfXzgcT6k4@user> <CAA=Fs0kByg1NztU+Nf__RUzTHuVh_q2hvcyh+3JqXiVgn+_VeQ@mail.gmail.com>
+ <1821445.fzUCeO1EU3@localhost.localdomain>
+In-Reply-To: <1821445.fzUCeO1EU3@localhost.localdomain>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Sun, 22 Aug 2021 15:58:10 +0100
+Message-ID: <CAA=Fs0mu4m04_Be4-f=W+=_hhGn5oJ2q=KOmZdRrMyGhMgqc-Q@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, saurav.girepunje@hotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-ReadEFuse can fail in case of _rtw_read() failure. Callers should
-handle this error to avoid uninit value bugs, since ReadEFuse
-won't initialized passed pbuf in case of usb transfer failure.
+On Sun, 22 Aug 2021 at 12:06, Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
+>
+> On Sunday, August 22, 2021 1:58:10 AM CEST Phillip Potter wrote:
+> > On Sat, 21 Aug 2021 at 21:23, Saurav Girepunje
+> >
+> > <saurav.girepunje@gmail.com> wrote:
+> > > Remove the condition with no effect (if == else) in rtw_led.c
+> > > file.
+> > >
+> > > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> > > ---
+> > >
+> > >  drivers/staging/r8188eu/core/rtw_led.c | 5 +----
+> > >  1 file changed, 1 insertion(+), 4 deletions(-)
+> >
+> > Thanks for this, looks good.
+> >
+> > Acked-by: Phillip Potter <phil@philpotter.co.uk>
+> >
+> > Regards,
+> > Phil
+>
+> Dear Philip,
+>
+> Before acking, please check at least if it applies to the current version of
+> the tree and check if it compiles without adding warnings and / or errors. :-)
+>
+> Thanks,
+>
+> Fabio
+>
+>
+>
+>
 
-To achieve it, ReadEFuseByte() now returns an int and all callers of
-ReadEFuseByte() passes error code up to calltrace to rtw_usb_if1_init(),
-which fails when reading regiters fails.
+Dear Fabio,
 
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_efuse.c      | 45 ++++++++-----
- drivers/staging/r8188eu/hal/hal_intf.c        |  6 +-
- .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 65 ++++++++++++-------
- drivers/staging/r8188eu/hal/usb_halinit.c     | 18 +++--
- drivers/staging/r8188eu/include/hal_intf.h    |  6 +-
- .../staging/r8188eu/include/rtl8188e_hal.h    |  2 +-
- drivers/staging/r8188eu/include/rtw_efuse.h   |  4 +-
- drivers/staging/r8188eu/os_dep/usb_intf.c     |  3 +-
- 8 files changed, 96 insertions(+), 53 deletions(-)
+An Acked-by merely signals acknowledgement of the patch, and that is
+looks OK to the person offering the tag. Please see the following
+quote from the kernel.org documentation:
+"Acked-by: is not as formal as Signed-off-by:. It is a record that the
+acker has at least reviewed the patch and has indicated acceptance."
+It is not, to my knowledge, a commitment from the reviewer that the
+patch applies to the given tree at that precise moment in time.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index dfe60bc6a547..5bfcf80b2678 100644
---- a/drivers/staging/r8188eu/core/rtw_efuse.c
-+++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -149,7 +149,7 @@ Efuse_CalculateWordCnts(u8 word_en)
- /*  */
- /* 	Created by Roger, 2008.10.21. */
- /*  */
--void
-+int
- ReadEFuseByte(
- 		struct adapter *Adapter,
- 		u16 _offset,
-@@ -163,21 +163,21 @@ ReadEFuseByte(
- 
- 	if (pseudo) {
- 		Efuse_Read1ByteFromFakeContent(Adapter, _offset, pbuf);
--		return;
-+		return 0;
- 	}
- 
- 	/* Write Address */
- 	rtw_write8(Adapter, EFUSE_CTRL + 1, (_offset & 0xff));
- 	error = rtw_read8(Adapter, EFUSE_CTRL + 2, &readbyte);
- 	if (error)
--		return;
-+		return error;
- 
- 	rtw_write8(Adapter, EFUSE_CTRL + 2, ((_offset >> 8) & 0x03) | (readbyte & 0xfc));
- 
- 	/* Write bit 32 0 */
- 	error = rtw_read8(Adapter, EFUSE_CTRL + 3, &readbyte);
- 	if (error)
--		return;
-+		return error;
- 
- 	rtw_write8(Adapter, EFUSE_CTRL + 3, (readbyte & 0x7f));
- 
-@@ -185,12 +185,12 @@ ReadEFuseByte(
- 	retry = 0;
- 	error = rtw_read32(Adapter, EFUSE_CTRL, &value32);
- 	if (error)
--		return;
-+		return error;
- 
- 	while (!(((value32 >> 24) & 0xff) & 0x80)  && (retry < 10000)) {
- 		error = rtw_read32(Adapter, EFUSE_CTRL, &value32);
- 		if (error)
--			return;
-+			return error;
- 
- 		retry++;
- 	}
-@@ -202,9 +202,11 @@ ReadEFuseByte(
- 	udelay(50);
- 	error = rtw_read32(Adapter, EFUSE_CTRL, &value32);
- 	if (error)
--		return;
-+		return error;
- 
- 	*pbuf = (u8)(value32 & 0xff);
-+
-+	return 0;
- }
- 
- /*  */
-@@ -225,9 +227,9 @@ ReadEFuseByte(
- /* 					write addr must be after sec5. */
- /*  */
- 
--static void efuse_ReadEFuse(struct adapter *Adapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool pseudo)
-+static int efuse_ReadEFuse(struct adapter *Adapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool pseudo)
- {
--	Adapter->HalFunc.ReadEFuse(Adapter, efuseType, _offset, _size_byte, pbuf, pseudo);
-+	return Adapter->HalFunc.ReadEFuse(Adapter, efuseType, _offset, _size_byte, pbuf, pseudo);
- }
- 
- void EFUSE_GetEfuseDefinition(struct adapter *pAdapter, u8 efuseType, u8 type, void *pOut, bool pseudo
-@@ -538,6 +540,7 @@ u8 efuse_GetCurrentSize(struct adapter *padapter, u16 *size)
- u8 rtw_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- {
- 	u16 mapLen = 0;
-+	int error;
- 
- 	EFUSE_GetEfuseDefinition(padapter, EFUSE_WIFI, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, false);
- 
-@@ -546,7 +549,9 @@ u8 rtw_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- 
- 	Efuse_PowerSwitch(padapter, false, true);
- 
--	efuse_ReadEFuse(padapter, EFUSE_WIFI, addr, cnts, data, false);
-+	error = efuse_ReadEFuse(padapter, EFUSE_WIFI, addr, cnts, data, false);
-+	if (error)
-+		return _FAIL;
- 
- 	Efuse_PowerSwitch(padapter, false, false);
- 
-@@ -556,6 +561,7 @@ u8 rtw_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- u8 rtw_BT_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- {
- 	u16 mapLen = 0;
-+	int error;
- 
- 	EFUSE_GetEfuseDefinition(padapter, EFUSE_BT, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, false);
- 
-@@ -564,7 +570,9 @@ u8 rtw_BT_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- 
- 	Efuse_PowerSwitch(padapter, false, true);
- 
--	efuse_ReadEFuse(padapter, EFUSE_BT, addr, cnts, data, false);
-+	error = efuse_ReadEFuse(padapter, EFUSE_BT, addr, cnts, data, false);
-+	if (error)
-+		return _FAIL;
- 
- 	Efuse_PowerSwitch(padapter, false, false);
- 
-@@ -835,17 +843,22 @@ efuse_ShadowRead4Byte(
-  * 11/11/2008	MHC		Create Version 0.
-  *
-  *---------------------------------------------------------------------------*/
--static void Efuse_ReadAllMap(struct adapter *pAdapter, u8 efuseType, u8 *Efuse, bool pseudo)
-+static int Efuse_ReadAllMap(struct adapter *pAdapter, u8 efuseType, u8 *Efuse, bool pseudo)
- {
- 	u16 mapLen = 0;
-+	int error;
- 
- 	Efuse_PowerSwitch(pAdapter, false, true);
- 
- 	EFUSE_GetEfuseDefinition(pAdapter, efuseType, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, pseudo);
- 
--	efuse_ReadEFuse(pAdapter, efuseType, 0, mapLen, Efuse, pseudo);
-+	error = efuse_ReadEFuse(pAdapter, efuseType, 0, mapLen, Efuse, pseudo);
-+	if (error)
-+		return error;
- 
- 	Efuse_PowerSwitch(pAdapter, false, false);
-+
-+	return 0;
- }
- 
- /*-----------------------------------------------------------------------------
-@@ -864,7 +877,7 @@ static void Efuse_ReadAllMap(struct adapter *pAdapter, u8 efuseType, u8 *Efuse,
-  * 11/13/2008	MHC		Create Version 0.
-  *
-  *---------------------------------------------------------------------------*/
--void EFUSE_ShadowMapUpdate(
-+int EFUSE_ShadowMapUpdate(
- 	struct adapter *pAdapter,
- 	u8 efuseType,
- 	bool pseudo)
-@@ -877,7 +890,9 @@ void EFUSE_ShadowMapUpdate(
- 	if (pEEPROM->bautoload_fail_flag)
- 		memset(pEEPROM->efuse_eeprom_data, 0xFF, mapLen);
- 	else
--		Efuse_ReadAllMap(pAdapter, efuseType, pEEPROM->efuse_eeprom_data, pseudo);
-+		return Efuse_ReadAllMap(pAdapter, efuseType, pEEPROM->efuse_eeprom_data, pseudo);
-+
-+	return 0;
- } /*  EFUSE_ShadowMapUpdate */
- 
- /*-----------------------------------------------------------------------------
-diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index a6d589e89aeb..dce9a58eaf6f 100644
---- a/drivers/staging/r8188eu/hal/hal_intf.c
-+++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -12,10 +12,12 @@ void rtw_hal_chip_configure(struct adapter *adapt)
- 		adapt->HalFunc.intf_chip_configure(adapt);
- }
- 
--void rtw_hal_read_chip_info(struct adapter *adapt)
-+int rtw_hal_read_chip_info(struct adapter *adapt)
- {
- 	if (adapt->HalFunc.read_adapter_info)
--		adapt->HalFunc.read_adapter_info(adapt);
-+		return adapt->HalFunc.read_adapter_info(adapt);
-+
-+	return _FAIL;
- }
- 
- void rtw_hal_read_chip_version(struct adapter *adapt)
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 69649a381727..41cf432398e2 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -871,7 +871,7 @@ rtl8188e_EfusePowerSwitch(
- 	hal_EfusePowerSwitch_RTL8188E(pAdapter, bWrite, PwrState);
- }
- 
--static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
-+static int Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- 	u16			_offset,
- 	u16			_size_byte,
- 	u8 *pbuf,
-@@ -886,24 +886,26 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- 	u16	**eFuseWord = NULL;
- 	u16	efuse_utilized = 0;
- 	u8 u1temp = 0;
-+	int error = 0;
- 
- 	/*  */
- 	/*  Do NOT excess total size of EFuse table. Added by Roger, 2008.11.10. */
- 	/*  */
- 	if ((_offset + _size_byte) > EFUSE_MAP_LEN_88E) {/*  total E-Fuse table is 512bytes */
- 		DBG_88E("Hal_EfuseReadEFuse88E(): Invalid offset(%#x) with read bytes(%#x)!!\n", _offset, _size_byte);
--		goto exit;
-+		return -EINVAL;
- 	}
- 
- 	efuseTbl = kzalloc(EFUSE_MAP_LEN_88E, GFP_KERNEL);
- 	if (!efuseTbl) {
- 		DBG_88E("%s: alloc efuseTbl fail!\n", __func__);
--		goto exit;
-+		return -ENOMEM;
- 	}
- 
- 	eFuseWord = rtw_malloc2d(EFUSE_MAX_SECTION_88E, EFUSE_MAX_WORD_UNIT, sizeof(u16));
- 	if (!eFuseWord) {
- 		DBG_88E("%s: alloc eFuseWord fail!\n", __func__);
-+		error = -ENOMEM;
- 		goto exit;
- 	}
- 
-@@ -916,12 +918,16 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- 	/*  1. Read the first byte to check if efuse is empty!!! */
- 	/*  */
- 	/*  */
--	ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+	error = ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+	if (error)
-+		goto exit;
-+
- 	if (*rtemp8 != 0xFF) {
- 		efuse_utilized++;
- 		eFuse_Addr++;
- 	} else {
- 		DBG_88E("EFUSE is empty efuse_Addr-%d efuse_data =%x\n", eFuse_Addr, *rtemp8);
-+		error = -EAGAIN;
- 		goto exit;
- 	}
- 
-@@ -933,11 +939,15 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- 		if ((*rtemp8 & 0x1F) == 0x0F) {		/* extended header */
- 			u1temp = ((*rtemp8 & 0xE0) >> 5);
- 
--			ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+			error = ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+			if (error)
-+				goto exit;
- 
- 			if ((*rtemp8 & 0x0F) == 0x0F) {
- 				eFuse_Addr++;
--				ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+				error = ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+				if (error)
-+					goto exit;
- 
- 				if (*rtemp8 != 0xFF && (eFuse_Addr < EFUSE_REAL_CONTENT_LEN_88E))
- 					eFuse_Addr++;
-@@ -958,13 +968,19 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- 			for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
- 				/*  Check word enable condition in the section */
- 				if (!(wren & 0x01)) {
--					ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+					error = ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+					if (error)
-+						goto exit;
-+
- 					eFuse_Addr++;
- 					efuse_utilized++;
- 					eFuseWord[offset][i] = (*rtemp8 & 0xff);
- 					if (eFuse_Addr >= EFUSE_REAL_CONTENT_LEN_88E)
- 						break;
--					ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+					error = ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+					if (error)
-+						goto exit;
-+
- 					eFuse_Addr++;
- 					efuse_utilized++;
- 					eFuseWord[offset][i] |= (((u16)*rtemp8 << 8) & 0xff00);
-@@ -976,7 +992,9 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- 		}
- 
- 		/*  Read next PG header */
--		ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+		error = ReadEFuseByte(Adapter, eFuse_Addr, rtemp8, bPseudoTest);
-+		if (error)
-+			goto exit;
- 
- 		if (*rtemp8 != 0xFF && (eFuse_Addr < EFUSE_REAL_CONTENT_LEN_88E)) {
- 			efuse_utilized++;
-@@ -1002,9 +1020,11 @@ static void Hal_EfuseReadEFuse88E(struct adapter *Adapter,
- exit:
- 	kfree(efuseTbl);
- 	kfree(eFuseWord);
-+
-+	return error;
- }
- 
--static void ReadEFuseByIC(struct adapter *Adapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool bPseudoTest)
-+static int ReadEFuseByIC(struct adapter *Adapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool bPseudoTest)
- {
- 	if (!bPseudoTest) {
- 		int ret = _FAIL;
-@@ -1016,28 +1036,25 @@ static void ReadEFuseByIC(struct adapter *Adapter, u8 efuseType, u16 _offset, u1
- 			iol_mode_enable(Adapter, 0);
- 
- 			if (_SUCCESS == ret)
--				goto exit;
-+				return 0;
- 		}
- 	}
--	Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
--
--exit:
--	return;
-+	return Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
- }
- 
--static void ReadEFuse_Pseudo(struct adapter *Adapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool bPseudoTest)
-+static int ReadEFuse_Pseudo(struct adapter *Adapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool bPseudoTest)
- {
--	Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
-+	return Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
- }
- 
--static void rtl8188e_ReadEFuse(struct adapter *Adapter, u8 efuseType,
-+static int rtl8188e_ReadEFuse(struct adapter *Adapter, u8 efuseType,
- 			       u16 _offset, u16 _size_byte, u8 *pbuf,
- 			       bool bPseudoTest)
- {
- 	if (bPseudoTest)
--		ReadEFuse_Pseudo(Adapter, efuseType, _offset, _size_byte, pbuf, bPseudoTest);
-+		return ReadEFuse_Pseudo(Adapter, efuseType, _offset, _size_byte, pbuf, bPseudoTest);
- 	else
--		ReadEFuseByIC(Adapter, efuseType, _offset, _size_byte, pbuf, bPseudoTest);
-+		return ReadEFuseByIC(Adapter, efuseType, _offset, _size_byte, pbuf, bPseudoTest);
- }
- 
- /* Do not support BT */
-@@ -2045,7 +2062,7 @@ s32 InitLLTTable(struct adapter *padapter, u8 txpktbuf_bndy)
- 	return status;
- }
- 
--void
-+int
- Hal_InitPGData88E(struct adapter *padapter)
- {
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-@@ -2053,13 +2070,15 @@ Hal_InitPGData88E(struct adapter *padapter)
- 	if (!pEEPROM->bautoload_fail_flag) { /*  autoload OK. */
- 		if (!is_boot_from_eeprom(padapter)) {
- 			/*  Read EFUSE real map to shadow. */
--			EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI, false);
-+			return EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI, false);
- 		}
- 	} else {/* autoload fail */
- 		/* update to default value 0xFF */
- 		if (!is_boot_from_eeprom(padapter))
--			EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI, false);
-+			return EFUSE_ShadowMapUpdate(padapter, EFUSE_WIFI, false);
- 	}
-+
-+	return 0;
- }
- 
- void
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 3826476e3396..687baf4d9d97 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1296,7 +1296,7 @@ readAdapterInfo_8188EU(
- 	_ReadLEDSetting(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
- }
- 
--static void _ReadPROMContent(
-+static int _ReadPROMContent(
- 	struct adapter *Adapter
- 	)
- {
-@@ -1307,7 +1307,7 @@ static void _ReadPROMContent(
- 	/* check system boot selection */
- 	error = rtw_read8(Adapter, REG_9346CR, &eeValue);
- 	if (error)
--		return;
-+		return error;
- 
- 	eeprom->EepromOrEfuse		= (eeValue & BOOT_FROM_EEPROM) ? true : false;
- 	eeprom->bautoload_fail_flag	= (eeValue & EEPROM_EN) ? false : true;
-@@ -1315,8 +1315,13 @@ static void _ReadPROMContent(
- 	DBG_88E("Boot from %s, Autoload %s !\n", (eeprom->EepromOrEfuse ? "EEPROM" : "EFUSE"),
- 		(eeprom->bautoload_fail_flag ? "Fail" : "OK"));
- 
--	Hal_InitPGData88E(Adapter);
-+	error = Hal_InitPGData88E(Adapter);
-+	if (error)
-+		return error;
-+
- 	readAdapterInfo_8188EU(Adapter);
-+
-+	return 0;
- }
- 
- static void _ReadRFType(struct adapter *Adapter)
-@@ -1333,19 +1338,20 @@ static int _ReadAdapterInfo8188EU(struct adapter *Adapter)
- 	MSG_88E("====> %s\n", __func__);
- 
- 	_ReadRFType(Adapter);/* rf_chip -> _InitRFType() */
--	_ReadPROMContent(Adapter);
-+	if (_ReadPROMContent(Adapter))
-+		return _FAIL;
- 
- 	MSG_88E("<==== %s in %d ms\n", __func__, rtw_get_passing_time_ms(start));
- 
- 	return _SUCCESS;
- }
- 
--static void ReadAdapterInfo8188EU(struct adapter *Adapter)
-+static int ReadAdapterInfo8188EU(struct adapter *Adapter)
- {
- 	/*  Read EEPROM size before call any EEPROM function */
- 	Adapter->EepromAddressSize = GetEEPROMSize8188E(Adapter);
- 
--	_ReadAdapterInfo8188EU(Adapter);
-+	return _ReadAdapterInfo8188EU(Adapter);
- }
- 
- #define GPIO_DEBUG_PORT_NUM 0
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index fa252540e596..9241af39e3a3 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -154,7 +154,7 @@ struct hal_ops {
- 
- 	void	(*intf_chip_configure)(struct adapter *padapter);
- 
--	void	(*read_adapter_info)(struct adapter *padapter);
-+	int	(*read_adapter_info)(struct adapter *padapter);
- 
- 	void	(*enable_interrupt)(struct adapter *padapter);
- 	void	(*disable_interrupt)(struct adapter *padapter);
-@@ -222,7 +222,7 @@ struct hal_ops {
- 
- 	void (*EfusePowerSwitch)(struct adapter *padapter, u8 bWrite,
- 				 u8 PwrState);
--	void (*ReadEFuse)(struct adapter *padapter, u8 efuseType, u16 _offset,
-+	int (*ReadEFuse)(struct adapter *padapter, u8 efuseType, u16 _offset,
- 			  u16 _size_byte, u8 *pbuf, bool bPseudoTest);
- 	void (*EFUSEGetEfuseDefinition)(struct adapter *padapter, u8 efuseType,
- 					u8 type, void *pOut, bool bPseudoTest);
-@@ -324,7 +324,7 @@ void rtw_hal_set_hwreg(struct adapter *padapter, u8 variable, u8 *val);
- void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val);
- 
- void rtw_hal_chip_configure(struct adapter *padapter);
--void rtw_hal_read_chip_info(struct adapter *padapter);
-+int rtw_hal_read_chip_info(struct adapter *padapter);
- void rtw_hal_read_chip_version(struct adapter *padapter);
- 
- u8 rtw_hal_set_def_var(struct adapter *padapter,
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 3939bf053de1..db9adbd0b024 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -410,7 +410,7 @@ s32 InitLLTTable(struct adapter *padapter, u8 txpktbuf_bndy);
- 
- /*  EFuse */
- u8 GetEEPROMSize8188E(struct adapter *padapter);
--void Hal_InitPGData88E(struct adapter *padapter);
-+int Hal_InitPGData88E(struct adapter *padapter);
- void Hal_EfuseParseIDCode88E(struct adapter *padapter, u8 *hwinfo);
- void Hal_ReadTxPowerInfo88E(struct adapter *padapter, u8 *hwinfo,
- 			    bool AutoLoadFail);
-diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
-index b3ff46db2091..9657b66679e3 100644
---- a/drivers/staging/r8188eu/include/rtw_efuse.h
-+++ b/drivers/staging/r8188eu/include/rtw_efuse.h
-@@ -113,7 +113,7 @@ u8 rtw_BT_efuse_map_write(struct adapter *adapter, u16 addr,
- 			  u16 cnts, u8 *data);
- u16 Efuse_GetCurrentSize(struct adapter *adapter, u8 efusetype, bool test);
- u8 Efuse_CalculateWordCnts(u8 word_en);
--void ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf, bool test);
-+int ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf, bool test);
- void EFUSE_GetEfuseDefinition(struct adapter *adapt, u8 type, u8 type1,
- 			      void *out, bool bPseudoTest);
- u8 efuse_OneByteRead(struct adapter *adapter, u16 addr, u8 *data, bool test);
-@@ -128,7 +128,7 @@ u8 Efuse_WordEnableDataWrite(struct adapter *adapter, u16 efuse_addr,
- 			     u8 word_en, u8 *data, bool test);
- 
- u8 EFUSE_Read1Byte(struct adapter *adapter, u16 address);
--void EFUSE_ShadowMapUpdate(struct adapter *adapter, u8 efusetype, bool test);
-+int EFUSE_ShadowMapUpdate(struct adapter *adapter, u8 efusetype, bool test);
- void EFUSE_ShadowRead(struct adapter *adapt, u8 type, u16 offset, u32 *val);
- 
- #endif
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index e002070f7fba..7a1a296f66b5 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -608,7 +608,8 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
- 	rtw_hal_chip_configure(padapter);
- 
- 	/* step read efuse/eeprom data and get mac_addr */
--	rtw_hal_read_chip_info(padapter);
-+	if (rtw_hal_read_chip_info(padapter) == _FAIL)
-+		goto free_hal_data;
- 
- 	/* step 5. */
- 	if (rtw_init_drv_sw(padapter) == _FAIL)
--- 
-2.32.0
+I reviewed the patch, and indicated my acceptance - the content of the
+patch is fine. Whilst I will often make an effort to merge + build
+test many patches, I will not do this with all of them, I simply don't
+have the time due to other commitments. You can be assured that if I
+have offered this tag I have at least read the patch and it looks
+correct to me.
 
+Particularly with a driver as in flux as this one, there are going to
+be many merge conflicts. Advice such as this to me is not particularly
+helpful, as I can promise you I'm trying :-)
+
+Regards,
+Phil
