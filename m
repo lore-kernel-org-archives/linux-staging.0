@@ -1,112 +1,79 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37F93FC1
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 14:06:03 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id f5so21917182wrm.13
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 07:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=p7ph3WcOBLhIzLLXreA5sxLtbJ/7/kTwoO02MA088Jk=;
-        b=esvH4DB7Y0QbmDJBfJhGYqLk+7oDXzoCRsI/j0NfluAIVS17q9u56DM3wQAysgTQL+
-         5eJYqzEcBbNpvXRTN8lXm2/x9YlrXL0Dx0RZ1U7ezRdGgbdz2qOMz5ViaBThSa4MXy0V
-         56JyuufHqxaTF6KhJbeIhQySqpIaVax6Z4Giv22FrmxpznwHLXV4dTuxLYIFvKMKhwZu
-         ly1icmr2l0DMH7aFYzE82taNHSggZMRHQmbwmQPcOGZzOP1r8mV+LYw/NEBQGS2hQhbP
-         Ec88ezHiYlyi/FBefl4T5VfWFImeis4tu+4EBk8BdSaJWp/9/DtPTdH0OYiY5HKOoZgi
-         ircw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=p7ph3WcOBLhIzLLXreA5sxLtbJ/7/kTwoO02MA088Jk=;
-        b=P0yeJbK4vxoSQ/fIK9AHc+Kjo5c3i2zpYMDnfgPLEnoZKO0fDxkGsrM0rtvvji41s8
-         fDzF4ObAMhiE3DVc1NY5skCeTsKPkKuEruwKo0TqWczc3+cRntvWqaqeq54/+qBuGrx7
-         6/lCIOw6uAJ412/Dcc4PihpcV+PxuxNz4MPitIPOtreCqvrwqT71/2e9dHvM5hCTS7SQ
-         SNecOPeAv1P/hma0YPBEf4TdwXpjJiJve9WMthB8dkt6YBH2lt2UOyMPYtRCewb5tFAi
-         YRoaIyatpIRWhHNqG+g3ta5TFmwcYiNf78vzL8OPHwt3h2ioJx+pR2xjnz2punCKOlQD
-         B3dw==
-X-Gm-Message-State: AOAM532HmG4sd/HyNaJJPS3UrBVRdyUxGP/6i98tceQ6Wn6gXZlfjWUc
-	kPjYwTYqLZA02QpojoMfMCc=
-X-Google-Smtp-Source: ABdhPJypQdvMGuxBIT1Ij27zwny4+xrymYItqJ+7TKyqWeH5NyozhFwU/5Ou9E0HWtwugVEXWnX7OQ==
-X-Received: by 2002:a5d:456a:: with SMTP id a10mr8726291wrc.339.1629641162075;
-        Sun, 22 Aug 2021 07:06:02 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id b15sm12363863wrq.5.2021.08.22.07.06.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 07:06:01 -0700 (PDT)
-Subject: Re: [PATCH 10/10] staging: r8188eu: set pipe only once
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210821164859.4351-1-martin@kaiser.cx>
- <20210821164859.4351-10-martin@kaiser.cx>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <088d6fbb-b231-e669-1f0d-5adea7ac4685@gmail.com>
-Date: Sun, 22 Aug 2021 16:05:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B9A3FC1
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 14:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1629642535;
+	bh=OHoPvHMVl7ov+1IrCEJJ//cRmzfbOo3c5AVsORYPEEM=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=OSHbHGWWTXRSroVGVp92KlmI/OCkdDPutmcELzdV8ELGo8XkP/ntB6DG34moM7n6h
+	 3pQDsmWsIKY5+42K5MLyZiBALYoU/DI6EAGP8g3XDYBYqTSdgijIj5SDmAi0rBVQ0H
+	 FbFwWnkRj7eOXzQTFa/yjaV4oS/tuGxdZ0Ml4d3Q=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
+ (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1N7R1J-1n7rDe097d-017jRD; Sun, 22 Aug 2021 16:28:55 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Len Baker <len.baker@gmx.com>,
+	Kees Cook <keescook@chromium.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 0/2] staging/rtl8192u: Prefer kcalloc over open coded arithmetic
+Date: Sun, 22 Aug 2021 16:28:18 +0200
+Message-Id: <20210822142820.5109-1-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210821164859.4351-10-martin@kaiser.cx>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:p0IOLND2I4j+neza+y2pDeupbRTGH7itS5NwcdIdmzAMgBzpoZa
+ 1L1WAy2w6dsSPIAxpglxWF60/GG34yMGkq46V4S8sW9sAR2jmHXcaECsIjxvC5u61wxyLQD
+ lDfNHACysNucr5Psu9Bl8I0rSwPSWqcc9xeIcnYthZKG6XkDuQpsd/1qZPGQmE2E/Nh4CJZ
+ QnP8LGfBfLSJOZIAFt1Iw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wlSf9zJTD58=:1TdS2kdpC92I63YFDzc43L
+ bP/QUbnw5IJs+BbYDJEPe8Eyk2R6JXOcBiWua+oLCbAxzHJxqn35ux4kiALYo5+JMuJSHZWzT
+ GrtrD6fAclOLsHLWm24iJEUV7GdCeZwMXkY29ktW2lhwbUrj4/oao5kR9yYppUlSnJmQ4Y15y
+ 3OOVogKn6rokoyUJuqvJbyNuQ5L9oFXpg9iTzBhs5834vMhoi2c/u+pH8dVvTcsB+2kvF7fOr
+ /IYYJtREPwJXiBi4hm7jXUOKDQL6w9aAzON4Yp3tGAJ5fReFAzBIOmv9rIDFA3TdT4fNWVwGP
+ Lfiypv1a8mQdgknhvJPcW806uDrZO/AyOY/c4i7Btx77rd6GeTrrXhKapfz+BoP8nX7DF/lpz
+ YAx0CzgljkA45i4qpJ0TdzEa4YKmx2/CvnnGDLt7oOzf/ZIYR6XEbT1Xc17l7ndIHAxt7BQfE
+ IPwK6EerC6Yo4XHKnDQlywOxhSXKdo8ild7Pm9SYw0DldGcDcC12HN7xrYjfVtHjXkG9OqWIF
+ ZlQsrcuZsIMNjy7r5YFx3KEsyAUPKHSg22qVFPmSSdT2cIZbhGZzC0VTs0YTaxXTKl2M2tkB3
+ RJ0TS3m0KawiHJcJE0/gF7RC4NyZ4LCCrerQBwcKZ27RpcUFzhqpuJkT4KWRYD394qcClWfiu
+ VpnD8cEum8YUTyoUPclwxUf7wcD/wjaVvHTwnCLfd2h4PnkkkHUxUAZdh68Ddi94s5TbjX0Xn
+ oXVkB+onZeR6h85hT4HY+jK/vK1AuaQyLi6RC1gUEpDrYCGgtuXhfqCW85hSMkFgsFkHmtWOq
+ MOSW2q7EqZeha49rHlJ/qOtD28/CDmQ/L/x7TMn1BrJaSDGuSlyLPBnoLFP4gQXAT4uttJTGm
+ Qon9tKpRfRGxtvljJWXM/e4sWejZTx7tEVeAeiZzv6YvBup42EFYOzxsq66PxO736rS3YH1R8
+ 21OvqP2EFfp3DBOdodJVII9WDO8odKYHCnYMWLziSIn9B8gaQwfqEIL0mVLoRcqESQ3gx4ChB
+ MmvTlLMFGEm1Old18S45B5SEQMYI2F7gQZ2+CUgxF23YmRY0rAYwjwQ2cm7ldcMk8HmAHZsfF
+ pV3GAFOhAzgeAZI8fQkz+GLbEHzpQc5ZDF4PWojV/UCQrsVJOZuWeENNA==
 
-On 8/21/21 6:48 PM, Martin Kaiser wrote:
-> Set the pipe for reading or writing in usbctrl_vendorreq only once.
-> There's no need to set it again for every retry.
-> 
-> This patch is an adaptation of commit 889ed8b5e374 ("staging: rtl8188eu:
-> set pipe only once") for the new r8188eu driver.
-> 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->   drivers/staging/r8188eu/hal/usb_ops_linux.c | 15 ++++++++-------
->   1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index 5408383ccec3..5a55ee38d7b8 100644
-> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -40,15 +40,16 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
->   		goto release_mutex;
->   	}
->   
-> -	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
-> -		memset(pIo_buf, 0, len);
-> +	if (requesttype == REALTEK_USB_VENQT_READ)
-> +		pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
-> +	else
-> +		pipe = usb_sndctrlpipe(udev, 0);/* write_out */
->   
-> -		if (requesttype == REALTEK_USB_VENQT_READ) {
-> -			pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
-> -		} else {
-> -			pipe = usb_sndctrlpipe(udev, 0);/* write_out */
-> +	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
-> +		if (requesttype == REALTEK_USB_VENQT_READ)
-> +			memset(pIo_buf, 0, len);
-> +		else
->   			memcpy(pIo_buf, pdata, len);
-> -		}
->   
->   		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
->   					 requesttype, value, REALTEK_USB_VENQT_CMD_IDX,
-> 
+The main reason of this patch serie is to avoid dynamic size
+calculations (especially multiplication) in memory allocator function
+arguments due to the risk of them overflowing. This could lead to values
+wrapping around and a smaller allocation being made than the caller was
+expecting. Using those allocations could lead to linear overflows of
+heap memory and other misbehaviors.
 
-Looks good to me.
+However, there is a previous patch to avoid CamelCase in the name of
+variables.
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+Len Baker (2):
+  staging/rtl8192u: Avoid CamelCase in names of variables
+  staging/rtl8192u: Prefer kcalloc over open coded arithmetic
 
-Thanks,
-Michael
+ drivers/staging/rtl8192u/r819xU_phy.c | 92 +++++++++++++--------------
+ 1 file changed, 44 insertions(+), 48 deletions(-)
+
+=2D-
+2.25.1
+
