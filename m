@@ -1,208 +1,99 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B25D3FC0
-	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 10:59:18 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id s3so9132993edd.11
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 03:59:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68E12F80
+	for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 10:59:30 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id o15so8665130wmr.3
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 03:59:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=B5El4UeIwytNtHF7+Wl/S50UjWu0HTthP81MaOtEjKg=;
-        b=dfIVHso8nGPuVzo65G6iLskiJb7h5rbbdkh5Vkgq4RC92bzhdPoh4dFggygHPDuMME
-         hW8bBij9RvKDdsT+sjmgcSah826YR+ZGLM77I5V/sPlgQd4NEfGaiK5TQC9o5Br/y2Dc
-         RXIw4H6FjNUgRxWqxdJI9BPRj4+5a/0HgOb/FJjBOPcEm7Gzs+NFWzsxVWvTiSYN/Dkr
-         GpP9vA08PJ/f4RHTNHBHJ81TFWgHXPHZzQXIPBwiqoLKXqaby5C2slSc4prAl95x6SOB
-         Ea5VbLuHP89QQ5IcjUSLtOrbTrPEkfnXFecTbQP+NdaBn7svCEXBMHPwvp8TPuFKnMxx
-         qSDQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=SS1H4Sg5i5wwLYNxXg4bnkUzl9S4j4w3w6dwzkqKszk=;
+        b=g5eycY1dhNrjokKkkf2EWdHw3ybiyWXqQ2s4e0NjzpfTTe8G2TVRnbNTyDJgk2YsFj
+         PeyNckiZLjwpNlahVt5yA5gboAo6Q+hEUyxZu/V4ECEgNAu9oesOOrBr5/X58obO3rs8
+         rfRNRFs7nG/XMhQmD9Zh40R5xfoznOtQjVVzpR0GtfbkE9VZn7K/T054aLThGWiCU0dH
+         9ggnZb/Gr7oiilA6lmPZ9CfmWh5j753Y3g0Dzz4gs3ejlAONI5rv2n15bSyWf4hI35hW
+         eqjeajkuLKRP8GyVhxJkKG4s+2oG0jblT8Qnx3tkFF/SkWMA/jrxs4NfP3crBaEKi/ln
+         Y9yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=B5El4UeIwytNtHF7+Wl/S50UjWu0HTthP81MaOtEjKg=;
-        b=CR4SmQaFA0YPMQBi+VSK3Zc0U+A9wABZ+umbJwTFPeUIa6YgnBSRx2oFOyUoSiLxhl
-         ipUwCr13OB6HKo2Po35XGURJBHIhUJLs2uoUDWL99s2m8ZLk7PVRD3VqqX9byvboXC0X
-         LXzglGacBdIT9Li66HT/nWMRn6647iOYXP/AN4KHFfkmaHjWZbwjldQUbOpWheEv8sv0
-         zlFnklBU7hC8cIKAY8sgxozeWhuc+hEZUzYwq1SG70AGyS5A86CMPRdynDAxa/LjL96k
-         Gj3J92yiCinTuTeMVTRIe5qdHAK4xq/XXyuVVyb88s4sX+yh3I+1hExmUOwiiw6wNUqz
-         hPLQ==
-X-Gm-Message-State: AOAM533ynGde9aN1z9Sy3jrH1vMEh2bzOqpsvaiTnhUjkD2MlazktiNN
-	+Bizn2nXquNGE5dHi8uzO/w=
-X-Google-Smtp-Source: ABdhPJzh3y0IZMIYYDZdqjk1bsxOv5Jg6pkc47CgvHjY2LL9HeCjUPnTQxh+WIKSPVVuMSQDudGy3A==
-X-Received: by 2002:a05:6402:34c7:: with SMTP id w7mr33410774edc.175.1629629956663;
-        Sun, 22 Aug 2021 03:59:16 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id o17sm6864502edc.58.2021.08.22.03.59.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 03:59:15 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com, Pavel Skripkin <paskripkin@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Martin Kaiser <martin@kaiser.cx>
-Subject: Re: [PATCH RFC 0/3] staging: r8188eu: avoid uninit value bugs
-Date: Sun, 22 Aug 2021 12:59:13 +0200
-Message-ID: <2327383.5TodInGmHT@localhost.localdomain>
-In-Reply-To: <ae27d6a0-dc00-459f-7b36-acf7f4c08d72@gmail.com>
-References: <cover.1629479152.git.paskripkin@gmail.com> <10584649.zhyk0TxWeL@localhost.localdomain> <ae27d6a0-dc00-459f-7b36-acf7f4c08d72@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SS1H4Sg5i5wwLYNxXg4bnkUzl9S4j4w3w6dwzkqKszk=;
+        b=Toe3YgDroAP6EozO13YYYZMTEK5yBNSObWQUBgquWRi8hhoP6+lnLxUzp3GkeGkF4T
+         LXDZuiSjk8f/0DDuFMOVwwywiOjDck7e3IljIKM6Xmo6Qu/TBvpwNtPQKSSUtdfxYR4F
+         jntRXas1Au8n47P9hjWy11klgQ4Yj3Wvgutx5iBUMFwXS2GtqjI1q0XddcjKyshjdRDr
+         Ic/P654ebRX5eVnNsvH5WyuT/NMnE+HJTMayQCG+0EG03JjdnVT1Th3Tlz1kktDIxeKs
+         UFGBEQYoI+wX6+Ve5cnNG5+2+L4+/lWRq/63RM7rZs2wT7S0bSwVM24Qhnq436DiZUhK
+         YjDw==
+X-Gm-Message-State: AOAM532U0w77AcByHVd3Nf4EZhowEVxitqMU6pDSzH8WfHMEeDP6N4N3
+	fJwXoCyVORh/vjPqzXvmoyM=
+X-Google-Smtp-Source: ABdhPJwlsCu/vR1NpQZge59EGn5yPWt14P8YEDeW4maURjaBSaVldCYrhAadvltZe2PTv2hvojBhJA==
+X-Received: by 2002:a1c:f706:: with SMTP id v6mr8227646wmh.167.1629629969315;
+        Sun, 22 Aug 2021 03:59:29 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
+        by smtp.gmail.com with ESMTPSA id a77sm16099579wmd.31.2021.08.22.03.59.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Aug 2021 03:59:29 -0700 (PDT)
+Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
+To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YSFgrLUfXzgcT6k4@user>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <5d56fa86-854f-4876-be3b-b0adc129da70@gmail.com>
+Date: Sun, 22 Aug 2021 12:58:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <YSFgrLUfXzgcT6k4@user>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sunday, August 22, 2021 12:09:29 PM CEST Pavel Skripkin wrote:
-> On 8/22/21 12:53 PM, Fabio M. De Francesco wrote:
-> > On Friday, August 20, 2021 7:07:28 PM CEST Pavel Skripkin wrote:
-> >> Hi, Greg, Larry and Phillip!
-> >> 
-> >> I noticed, that new staging driver was added like 3 weeks ago and I 
-decided
-> >> to look at the code, because drivers in staging directory are always 
-buggy.
-> >> 
-> >> The first thing I noticed is *no one* was checking read operations 
-result,
-> > 
-> > but
-> > 
-> >> it can fail and driver may start writing random stack values into 
-registers.
-> > 
-> > It
-> > 
-> >> can cause driver misbehavior or device misbehavior.
-> > 
-> > After the messages I wrote yesterday, I had some minutes to look deeper at 
-the
-> > code that would be changed by these patches.
-> > 
-> > I think that it does not look like that the driver could return "random 
-stack
-> > values into registers" and I think this entire series in unnecessary.
-> > 
-> > As far as I understand this driver (though I must admit that I really 
-don't
-> > know how to write drivers, and I'm not interested in understanding - at 
-the
-> > moment, at least), all the usb_read*() call usbctrl_vendorreq() and the 
-latter
-> > *does* proper error checking before returning to the callers the read 
-data.
-> > 
-> > Please, look at the code copied from usbctrl_vendorreq() and pasted here 
-(some
-> > comments are mine):
-> > 
-> > /* start of code */
-> > static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void
-> > *pdata, u16 len, u8 requesttype)
-> > {
-> > 
-> > /* test if everything is OK for transfers and setup the necessary 
-variables */
-> > [...]
-> > 
-> > status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
-> > 
-> >                                           reqtype, value,
-> > 
-> > REALTEK_USB_VENQT_CMD_IDX,
-> > 
-> >                                           pIo_buf, len,
-> > 
-> > RTW_USB_CONTROL_MSG_TIMEOUT);
-> > 
-> >                  if (status == len) {   /*  Success this control transfer. 
-*/
-> >                  
-> >                          rtw_reset_continual_urb_error(dvobjpriv);
-> >                          if (requesttype == 0x01)
-> >                          
-> >                                  memcpy(pdata, pIo_buf,  len); /* pdata
-> > 
-> > receives the read data */
-> > 
-> > 	} else { /*  error cases */
-> > 
-> > [...]
-> > 
-> > }
-> > /* end of code */
-> > 
-> > So, *I cannot ack this RFC*, unless maintainers say I'm missing something.
-> > 
-> > Larry, Philip, since you have much more knowledge than me about r8188eu 
-(and,
-> > more in general, on device drivers) may you please say what you think 
-about my
-> > arguments against this series?
+On 8/21/21 10:23 PM, Saurav Girepunje wrote:
+> Remove the condition with no effect (if == else) in rtw_led.c
+> file.
 > 
-> Hi, Fabio!
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_led.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> Thank you for looking into this, but I still can see the case when pdata
-> won't be initialized:
+> diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+> index 22d4df9c92a5..76cbd5f19f90 100644
+> --- a/drivers/staging/r8188eu/core/rtw_led.c
+> +++ b/drivers/staging/r8188eu/core/rtw_led.c
+> @@ -148,10 +148,7 @@ static void SwLedBlink(struct LED_871x *pLed)
+>   			_set_timer(&(pLed->BlinkTimer), LED_BLINK_SLOWLY_INTERVAL);
+>   			break;
+>   		case LED_BLINK_WPS:
+> -			if (pLed->BlinkingLedState == RTW_LED_ON)
+> -				_set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
+> -			else
+> -				_set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
+> +			_set_timer(&(pLed->BlinkTimer), LED_BLINK_LONG_INTERVAL);
+>   			break;
+>   		default:
+>   			_set_timer(&(pLed->BlinkTimer), LED_BLINK_SLOWLY_INTERVAL);
+> --
+> 2.30.2
 > 
 > 
-> pdata is initialized only in case of successful transfer, i.e len > 0.
-> It means some data was received (maybe not full length, but anyway). In
-> case of usb_control_msg() error (for example -ENOMEM) code only does
-> this code block:
-> 
-> if (status < 0) {
-> 	if (status == (-ESHUTDOWN) || status == -ENODEV) {
-> 		adapt->bSurpriseRemoved = true;
-> 	} else {
-> 		struct hal_data_8188e	*haldata = GET_HAL_DATA(adapt);
-> 		haldata->srestpriv.Wifi_Error_Status = 
-USB_VEN_REQ_CMD_FAIL;
-> 	}
-> }
 
-It's up to the callers of _rtw_usb*() to check return values and then act 
-accordingly. 
+Hi Saurav,
 
-It doesn't matter whether or not *pdata is initialized because usb_read*() 
-returns data = 0 if usb_control_msg() has not initialized/changed  its third 
-parameter. Then _rtw_read*() receive 0 or initialized data depending on errors 
-or no errors. Finally _rtw_read*() returns that same value to the callers (via 
-r_val). 
-
-So, it's up to the callers to test if (!_rtw_read*()) and then act 
-accordingly. If they get 0 they should know how to handle the errors.
-
-Furthermore, we have already either adapt->bSurpriseRemoved = true or haldata-
->srestpriv.Wifi_Error_Status = USB_VEN_REQ_CMD_FAIL. Depending on contexts 
-where _rtw_read*() are called, perhaps they could also check the two variables 
-above.
-
-In summation. if anything should be changed, it is the code of the callers of 
-_rtw_read*() if you find out they they don't properly handle the returning 
-values of this function. You should find every place where _rtw_read*() are 
-called and figure out if the returns are properly checked and handled; if not, 
-make some change only there.
-
-Larry, Philip, where are you? Am I missing something?
+this does not apply to staging-testing. Please rebase against
+staging-testing and send v2.
 
 Thanks,
 
-Fabio
-
-> 
-> And then just loops further. In case of 10 ENOMEM in a row,. passed
-> pdata won't be initialized at all and driver doesn't do anything about
-> it. I believe, it's not good approach to play with random values. We
-> should somehow handle transfer errors all across the driver.
-> 
-> If I am missing something, please, let me know :)
-> 
-> 
-> 
-> With regards,
-> Pavel Skripkin
-
-
-
-
+Michael
