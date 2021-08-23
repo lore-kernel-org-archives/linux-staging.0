@@ -1,115 +1,168 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667773FC4
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 14:24:21 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id c19-20020a9d6153000000b0051829acbfc7so36706043otk.9
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 07:24:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EE33FC3
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 14:33:06 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id d22-20020a1c1d16000000b002e7777970f0so486761wmd.3
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 07:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0GkLT6HMfRhAbPekloSJCZfvHcvKIje+CzM5kFXovwo=;
-        b=DTe/HJxE8iZ06wj7tEDBIoJ8IEym1Zk7w+BOrEaOkUxRCVuM34SW25e/RJmeoTrDoe
-         cvv9w+fLx+LBARTzMpiq9U4z3jHciuC1gyJA+STf1qDTVY7leEGbXrH0lmSl6uwFU5HR
-         OUkCQUow3T6U2uqHjYSpA0c+thEf7248GY3dibIU07ZZ2+zB0CD9AazTmmOtJA2WZT+X
-         R5cJJrAJ3Ii6by/IajJj9k3sGoKt5640QJV/OlcMm4q9+gnJu7NpKoBaUmOFQ9v2XdJL
-         KwQWRv07FX7g7y/VRy5KrWeeNaX5E7CW0sEzNPqxaaWfGGcWPM8kMbPwk0i2okBrncNO
-         pL5w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=kKNTgN3mFZPjHxMm9PJkyaGLg0UeM0w5/suyeTcMCds=;
+        b=Ez/HiDH3tFmVC4uKBvHgtFzVhf5NyUU42y+5Lk7iQk7CbnDkPYMGOlaMnc0A7HLBJw
+         eWugtLu8U4/9o5aEJf48iw+G6cKxrmqxzYQvyXaTFxF/VLYSaCfpeh/+AGmp8SBxu1lB
+         qm3zidvf28w2SRNDLu8OhnQzo5muVjjRhaIGvozxNPOQrjNBvXf8nq85yo6HQzlBKLmU
+         nzja6sHIhvGl2u+EqnRtgSQJl/7h2YONt5JGKSF2dBwOkwinufFPGqE+7KXbsWH7nTD8
+         XY3kngutJ1H7lJa8xJhpA6dHcDU3twBm/CLhiMZ/5aYAACW7FswYmospyPXglG3MHnPd
+         fAnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0GkLT6HMfRhAbPekloSJCZfvHcvKIje+CzM5kFXovwo=;
-        b=N+3xicm11akz5gqnc3M92vwqpv84+W3Xerxw0Esa2D2FZDrUUPHuAq285gumO5Q3Cd
-         iBNEzJZ6VOu0OeSSR10IYqm9LVU74gDMBWLCsTqhNEqsn5XCCw/fEf/q4fJbPI323yPM
-         mC+g/XFjZge0MhMFVGROd6TLJszrbF1qdCJrY3YW/kdpQFSN3spDFp1d/FdiFfazSDhv
-         7LhVlNA/M6/rwAcR6z3QHhwl8RWrVk18MmtMKP86LXOT4WrQEB/6iFKRQ4biqQE3C2m6
-         N69uoLaHd4VDPKcICcB5CVrV5npyML6dVucSjAZ2HAg3QxHlhFPZWeho76MruDt5kVht
-         efEA==
-X-Gm-Message-State: AOAM531eLmPsxl6YZAwzssNodVROjIXoPdp6P3efIk0sO33/l6+LdNpQ
-	KHYtWS3YwhfOGM+U/zF9urU=
-X-Google-Smtp-Source: ABdhPJxr+VuWvoULVTLeCGhFeOnYz52ScqC7ZuZCocnNSn1eq9B8v8zavn7AMSesxRcqMCEKvFSqDA==
-X-Received: by 2002:aca:a9c1:: with SMTP id s184mr11191586oie.145.1629728660572;
-        Mon, 23 Aug 2021 07:24:20 -0700 (PDT)
-Received: from 2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com. [2603:8090:2005:39b3::1023])
-        by smtp.gmail.com with ESMTPSA id l4sm2317016oth.4.2021.08.23.07.24.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 07:24:19 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Subject: Re: [PATCH v3 2/5] staging: r8188eu: cast to restricted __be32
-To: Aakash Hemadri <aakashhemadri123@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Phillip Potter <phil@philpotter.co.uk>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1629562355.git.aakashhemadri123@gmail.com>
- <50439a81aca7ce8c3c97ec1c7247f4cd03f645a5.1629562355.git.aakashhemadri123@gmail.com>
- <20210823084426.yo2mhgbyehkwwz3h@xps.yggdrasil>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-Message-ID: <25d336b5-8008-9b3b-7efe-a82afaea0e98@lwfinger.net>
-Date: Mon, 23 Aug 2021 09:24:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kKNTgN3mFZPjHxMm9PJkyaGLg0UeM0w5/suyeTcMCds=;
+        b=nJwJMZOcUwSqQlcnxDdOPamvgJZtdgzw4DRn/bV8vX8N15VuQfNRzXm9i7NdJoOWrI
+         mLQ/ndyigk1SnKtyB2zKlLKtOtFsYHC6kvGoyqtKbir5tvg310t69E1jV5LJ7ujb2r+N
+         kTJ71Y1HBQ6HjgKObWL3N1T7CV5RKmopJkrWdlcc7W01/l/pzzDqq/u+/Ne1K5qzbNze
+         d9/l9KwIxDmiWgO4b/izdZbHFwAGrT5qsBV+PT7OELGXFzal/eoOF1xOJrwUWFfWP4PL
+         PyicHIHyO8UFbWwsOKF9vWt13dcWRHpLKtuJ4E/192vPn+pMdUO9kjLfzr2p2hCRNF3w
+         bzvQ==
+X-Gm-Message-State: AOAM532pZUMCJrgsMMMMZvrhdoP7KGqpafXCjxBkLS9rEONemtrCq3KT
+	ntoMjvMaHGyIfMrS02yu+ug=
+X-Google-Smtp-Source: ABdhPJxBq4Nvsa0gnzzH4WFHk2SbkxyCPoHtvepGuqxwqRXVQN0QX9rC0+5h+ZD3D695iv58bgjotw==
+X-Received: by 2002:a05:600c:2189:: with SMTP id e9mr16739221wme.125.1629729185109;
+        Mon, 23 Aug 2021 07:33:05 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id w18sm16192391wrg.68.2021.08.23.07.33.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Aug 2021 07:33:03 -0700 (PDT)
+Date: Mon, 23 Aug 2021 16:33:02 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-tegra <linux-tegra@vger.kernel.org>,
+	Linux PM <linux-pm@vger.kernel.org>,
+	Linux USB List <linux-usb@vger.kernel.org>,
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-mmc <linux-mmc@vger.kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	DTML <devicetree@vger.kernel.org>,
+	linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
+Message-ID: <YSOxnqiia+FqfOX6@orome.fritz.box>
+References: <20210817012754.8710-8-digetx@gmail.com>
+ <YR0UBi/ejy+oF4Hm@orome.fritz.box>
+ <da7356cb-05ee-ba84-8a7c-6e69d853a805@gmail.com>
+ <YR04YHGEluqLIZeo@orome.fritz.box>
+ <ad99db08-4696-1636-5829-5260f93dc681@gmail.com>
+ <YR6Mvips3HAntDy0@orome.fritz.box>
+ <e17bbe8d-7c0f-fc3d-03c7-d75c54c24a43@gmail.com>
+ <YR+VDZzTihmpENp6@orome.fritz.box>
+ <CAPDyKFpJ+TK0w1GZEA7G=rtAjq5ipmVR4P0wy7uHiEGVWRk5yA@mail.gmail.com>
+ <89ea1694-be9e-7654-abeb-22de0ca5255a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210823084426.yo2mhgbyehkwwz3h@xps.yggdrasil>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="PvC9h3QplaOMl/PL"
+Content-Disposition: inline
+In-Reply-To: <89ea1694-be9e-7654-abeb-22de0ca5255a@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 
-On 8/23/21 3:44 AM, Aakash Hemadri wrote:
-> On 21/08/21 09:48PM, Aakash Hemadri wrote:
->> Fix sparse warning:
->>> rtw_br_ext.c:836:54: warning: cast to restricted __be32
->>
->> dhpch->cookie is be32, change it's type.
->>
->> Suggested-by: Larry Finger <Larry.Finger@lwfinger.net>
->> Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
->> ---
->>   drivers/staging/r8188eu/core/rtw_br_ext.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
->> index f6d1f6029ec3..f65d94bfa286 100644
->> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
->> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
->> @@ -649,7 +649,7 @@ struct dhcpMessage {
->>   	u_int8_t chaddr[16];
->>   	u_int8_t sname[64];
->>   	u_int8_t file[128];
->> -	u_int32_t cookie;
->> +	__be32 cookie;
->>   	u_int8_t options[308]; /* 312 - cookie */
->>   };
->>   
->> @@ -671,7 +671,7 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
->>   				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
->>   					struct dhcpMessage *dhcph =
->>   						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
->> -					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
->> +					u32 cookie = be32_to_cpu(dhcph->cookie);
->>   
->>   					if (cookie == DHCP_MAGIC) { /*  match magic word */
->>   						if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
->> -- 
->> 2.32.0
->>
-> 
-> David Laight suggested to use get_unaligned_be32, I am not sure if it's
-> the right thing to do because as far as I understand get_unaligned_be32
-> byteshifts the argument.
-> 
-> Can someone please confirm if this change is okay?
-> 
 
-It is not needed. variable dhcph->cookie is 4-byte aligned. Usind the unaligned 
-version would just add cpu cycles and arrivw at the same point!
+--PvC9h3QplaOMl/PL
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Larry
+On Sat, Aug 21, 2021 at 08:45:54PM +0300, Dmitry Osipenko wrote:
+> 20.08.2021 16:08, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+> >> I suppose if there's really no good way of doing this other than
+> >> providing a struct device, then so be it. I think the cleaned up sysfs
+> >> shown in the summary above looks much better than what the original
+> >> would've looked like.
+> >>
+> >> Perhaps an additional tweak to that would be to not create platform
+> >> devices. Instead, just create struct device. Those really have
+> >> everything you need (.of_node, and can be used with RPM and GENPD). As=
+ I
+> >> mentioned earlier, platform device implies a CPU-memory-mapped bus,
+> >> which this clearly isn't. It's kind of a separate "bus" if you want, so
+> >> just using struct device directly seems more appropriate.
+> >=20
+> > Just a heads up. If you don't use a platform device or have a driver
+> > associated with it for probing, you need to manage the attachment to
+> > genpd yourself. That means calling one of the dev_pm_domain_attach*()
+> > APIs, but that's perfectly fine, ofcourse.
+> >=20
+> >>
+> >> We did something similar for XUSB pads, see drivers/phy/tegra/xusb.[ch]
+> >> for an example of how that was done. I think you can do something
+> >> similar here.
+>=20
+> We need a platform device because we have a platform device driver that
+> must be bound to the device, otherwise PMC driver state won't be synced
+> since it it's synced after all drivers of devices that reference PMC
+> node in DT are probed.
 
+I think the causality is the wrong way around. It's more likely that you
+added the platform driver because you have a platform device that you
+want to bind against.
+
+You can have drivers bind to other types of devices, although it's a bit
+more work than abusing platform devices for it.
+
+There's the "auxiliary" bus that seems like it would be a somewhat
+better fit (see Documentation/driver-api/auxiliary_bus.rst), though it
+doesn't look like this fits the purpose exactly. I think a custom bus
+(or perhaps something that could be deployed more broadly across CCF)
+would be more appropriate.
+
+Looking around, it seems like clk/imx and clk/samsung abuse the platform
+bus in a similar way, so they would benefit from a "clk" bus as well.
+
+Thierry
+
+--PvC9h3QplaOMl/PL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEjsZsACgkQ3SOs138+
+s6HWKw//TNblAAi6ou9PE5WJAlqkp8eN3KFkESiKa0yzPJmK4PheTbR+7TxztdtD
+v78kTE37Wr/vLdqlIV3gfL9ZjFiYhBJinwopw7zGhYIru1NVclli3In+/nQdUoGe
+vqQOmq0yycyituaGXERlH9HrODsY9IG3DP4XqTd9bBz1JfexxnEVxHvXdzWmoQ/i
+pHg7547O5QhpmEMurZ+anNAFCw9J9QhltISWXBSZdl1HDXBF7u7yABLXLggp6RFm
+xJN7I3DdVVYkB091DX8wfW19TXaDcZ4eOtNQ1PdpfL1FgeRhLm48VYhB1CQhSWcs
++uyGzqS2dROvSyoUCXqUxYr4NdijJX17VOpO8BVWcpJMQo97EDNxa6Ga92TmXAV4
+o+NEivB2893mE0b268rDZ128qhimB7qfM9UT8XFuOWTHiwtGanWBQ/OQ0VYBDVvn
+qArreV+6jLdYLjqAiq6DYDoT3s9gVp/xvWfp9F+PW6YlUPldiEUx0eTDK31T4nx2
+xRnoASYIbUDfcHvOQWTmwFm1YLxDad/c+oNuCuFjNtG1P8EzRmmkwz4FU0J4uLGd
+kTxIyxpRrHp1A2gFthkPvtvrucMlVXW/pTMMCSZtPafWNdhQgCohiy0wnW6pI9sg
+v4qJ6n+ieKZRQw1RlSLliu81UJk/CcANuJDeI3CknDm79oVZQDA=
+=YrRu
+-----END PGP SIGNATURE-----
+
+--PvC9h3QplaOMl/PL--
