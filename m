@@ -1,50 +1,50 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6D072
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 17:00:44 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id h9so38431343ejs.4
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 10:00:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D69972
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 17:00:48 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id q17so5343248edv.2
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 10:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Yj1Ue2jMXvR7X0uHJnNJMhKnuo4YtIqgemMSiUhxv3Q=;
-        b=Vkn4HafvOIp/HWLPzqTFHfRKzeWas98kiWPTw58yRFaP+XCOAN3p4UOYXkjWVAFLQ9
-         dBH5zySk1ulGI+/CuKPt3rl7PUU8JQ4iJ8o+gWz5GBheqPxWxwSCBaHQUrbQkkPM7J0a
-         m1lssgE+31ZEpGptu+Nh1nbn8axUTstJCl6pIUz5+75o2YYU5EXEt6dgj3qBb50KENAp
-         WBLXua+HFgSG46ObDooRjaeeh4Uu1Kdu2HFVPmZTF6BXqmKUy7UE/RBal5bC9oE9Ghsb
-         RbEyVvB0LiBMk/Kj1AVdqitwBAAuNzgfrfES0+ODGPNviemBKp9rqkNHgkbyTDTsk1N8
-         8m7g==
+        bh=VrVKmrMNGmYrnLOt8MnaYQpufc6zYgpvwecmFAsExMo=;
+        b=RPHCxu+3v+zW1cMEza2jd7MbvinIgr5YZo0byGiWrZSwbEXeoQg2pleKosJt7ceO9t
+         cIn5+0RLOJYgVDN99uSrLzeFB0xJcsNN4gcMwjBlkx6YRZhXllaFAmIVsI4BCgN8Y08N
+         vbzj6Dc436GlWEoI+HBShoo9wxnsM/RHXiZ5nopyUVjQT5+dGYMWNk94O1BkrovzqfFp
+         kIzcVw0ww1fCQ92xcFO4/lkKUtngVn08S6UQLP6DKldVR3Y4dtedvYza8KoqcKitmYsO
+         uIOZMhKaUuUTYwjK2E9EL/mG4hp2jISXjglwBpdHZynv8o+Px4xt4WTusFSQkdyHGaFS
+         6KWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Yj1Ue2jMXvR7X0uHJnNJMhKnuo4YtIqgemMSiUhxv3Q=;
-        b=K4wp4fanhyn7UBSSAoqBRekb6vtoX7HHC89DiEqNJzNLrt01HFHQqwSpLhjJV+kRtn
-         KuYS9PIqFQriwcMWZW+/kLJS9RikUJdaxdbPKiiuoZdjB9/sF/PByuWlIk/Gh0l/xYO/
-         sLpdwJjnKldcb96Vy0hI702EuRlPKPBZEDxotimf351dnmXHgJnmL6syusHxF0ET4qk6
-         QfK9I5wT5+SQf3Jm0tksR39S9Qi+8wHItALw7dPPgcxtflFK1DPgveFQM1E/7Vq3haNp
-         SSOTppTG5/5m/9oQSea0BjEc7ZcLXmjSHUp4HnOl3egVq3arbFqRYIP6GXjJ/yDD0c5i
-         WoGg==
-X-Gm-Message-State: AOAM531vpGKwnPh/0LiStsbtYONCxHCRr1CVTeom/YT1F+OMu0LE1ygU
-	eTiZYZZKI4J6Zd3C4QUzcNs=
-X-Google-Smtp-Source: ABdhPJzINKvfz4RZjtwI+d/ez/Pc0GdF8yHiLStweP09PqhEOcdDjmP6xbmW2MZWSh+qgC6RG2mt3Q==
-X-Received: by 2002:a17:906:edc3:: with SMTP id sb3mr37395976ejb.114.1629738043326;
-        Mon, 23 Aug 2021 10:00:43 -0700 (PDT)
+        bh=VrVKmrMNGmYrnLOt8MnaYQpufc6zYgpvwecmFAsExMo=;
+        b=uiJtk80xp2IWsbLto8yiZq78PipiU+ysVI3iEXKJQM3mlKoYz+ylsGJzyYgUVFae4V
+         YylniIJ3LyGFXId4cpaPW2OJq54GU2el6fveXuo7kyzYm8NLXb5t2Q8lsehpFnuhLZo+
+         8/gxPvWznZeFItq5f7GA0/6CWkNP0HRziB4Mk+1Vht6AEXHrV9JGPCXL/L5OnLCvZD1y
+         CWjTtVzeldjt91VJUZfCc68vKwX8O6PMFSWuUgvAysBgbNKOPgFmpD1zdrmIiv44dtEn
+         XRybvxAdKiyQZ/tL4bfsp9/raZlRkBaxBrsy3FWnu3yeAw/hsnqroVRbCNUdTn4t/CAD
+         90Jw==
+X-Gm-Message-State: AOAM531HmBtk4Zw8X8AoLB3fjBhoDsoLlD24JrTcpe1aPAjjVxaxCka3
+	lu3slZou9LKkeXogE0vTxfE=
+X-Google-Smtp-Source: ABdhPJyIQCCUlf6o4J1leGtiYdyQX+qMZ9xUa9sAGVlNdl+Ur7XKnVPDUrlGshAQF4gJ9z35a0XV4w==
+X-Received: by 2002:a05:6402:51c7:: with SMTP id r7mr38085232edd.65.1629738047034;
+        Mon, 23 Aug 2021 10:00:47 -0700 (PDT)
 Received: from xps.yggdrasil ([49.207.137.16])
-        by smtp.gmail.com with ESMTPSA id b18sm1633188ejl.90.2021.08.23.10.00.40
+        by smtp.gmail.com with ESMTPSA id b18sm1633188ejl.90.2021.08.23.10.00.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 10:00:42 -0700 (PDT)
+        Mon, 23 Aug 2021 10:00:46 -0700 (PDT)
 From: Aakash Hemadri <aakashhemadri123@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/5] staging: r8188eu: restricted __be16 degrades to int
-Date: Mon, 23 Aug 2021 22:30:26 +0530
-Message-Id: <7572c80d90b499df7e9feb4781c07967fa31bf88.1629563318.git.aakashhemadri123@gmail.com>
+Subject: [PATCH v4 2/5] staging: r8188eu: cast to restricted __be32
+Date: Mon, 23 Aug 2021 22:30:27 +0530
+Message-Id: <50439a81aca7ce8c3c97ec1c7247f4cd03f645a5.1629563318.git.aakashhemadri123@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1629563318.git.aakashhemadri123@gmail.com>
 References: <cover.1629563318.git.aakashhemadri123@gmail.com>
@@ -57,31 +57,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Fix sparse warning:
-> rtw_br_ext.c:73:23: warning: restricted __be16 degrades to integer
+> rtw_br_ext.c:836:54: warning: cast to restricted __be32
 
-Here tag->tag_len is be16, use be16_to_cpu()
+dhpch->cookie is be32, change it's type.
 
+Suggested-by: Larry Finger <Larry.Finger@lwfinger.net>
 Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
 ---
 
-Prefer using be16_to_cpu() over ntohs()
+I had incorrectly removed bytsewapping without considering the hardware
+runs in big endian rather change type to __be32 as sugessted by Larry.
 
- drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-index ee52f28a1e56..f6d1f6029ec3 100644
+index f6d1f6029ec3..f65d94bfa286 100644
 --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-@@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
- 	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
- 	int data_len;
+@@ -649,7 +649,7 @@ struct dhcpMessage {
+ 	u_int8_t chaddr[16];
+ 	u_int8_t sname[64];
+ 	u_int8_t file[128];
+-	u_int32_t cookie;
++	__be32 cookie;
+ 	u_int8_t options[308]; /* 312 - cookie */
+ };
  
--	data_len = tag->tag_len + TAG_HDR_LEN;
-+	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
- 	if (skb_tailroom(skb) < data_len) {
- 		_DEBUG_ERR("skb_tailroom() failed in add SID tag!\n");
- 		return -1;
+@@ -671,7 +671,7 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+ 				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
+ 					struct dhcpMessage *dhcph =
+ 						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
+-					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
++					u32 cookie = be32_to_cpu(dhcph->cookie);
+ 
+ 					if (cookie == DHCP_MAGIC) { /*  match magic word */
+ 						if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
 -- 
 2.32.0
 
