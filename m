@@ -1,170 +1,104 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6881F72
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 08:30:58 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id q21so30005214ljj.6
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 01:30:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEFC72
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 08:44:33 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id r19so25001243eds.13
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 01:44:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=o8bRgpXLwrExM1LA3b3XAfafPz1Ks2zqsEsUrezojIA=;
-        b=gXIJ+EPXq6WquhFmcHLrHI5PtTC8hU3RxwDtgbMruOWE1uFSRg+ROFMgiG+L26sms1
-         u6BedvqKOr8mkZIBV3qgRaWfPMymLKM6TVBjmlzjcOthUv3WjVlwiZuADts8U6hUT/x0
-         EOVl1tmAWS+xpJQFaTt0bbPZI4ZLpo6QwrJrDaHp8fWaqGJRI31Gh/3tBQ35hke1qhgh
-         yf0cIsGSb1p019A4CIPzZ2uesg/S7JfziB2qzRoxK0PSZaZMyX4PTzeNFOTk6xiBkzOF
-         l2derMbvPHxfuybSogODoUtfFHfvhZAPOux7WDPhOab53WoIWMJFvV8YxaNaSeYLgOXA
-         njYg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OUE9OJKkP1QI+2yCSiJZEjjQO84qj2H/zJA5KUoRH1k=;
+        b=JakRxGtZy/y0fP4/Rc73Qh66wozPZY8cqRojRoCax28Q26tDizOEkWQGWP2Paim/if
+         YXkJ0U7XR5bGysagH61PZcWIsAjDUtFJGUxfh2wHdJZDpoAwab6IPRZNA1w8uexpRL8X
+         kJjdL31aIWmhO681NsZX6GC0xsyg/1pH9fPnG9YgQBT4csXMXMMGfq2F0QKJRDvxPcdy
+         3Jv/tPSwWxbTaDodMWurRl6FiQwbpglKvvbQQfZ8RHTx+tL2ql3Ju8aigBR6ticb8s/J
+         Z92e/dOr+feH9nC/GLIarXoQnA2ejC6vYNTVMO2Uw6imWZZLW2PNUuIhJiVqLmv/R2PM
+         ULWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=o8bRgpXLwrExM1LA3b3XAfafPz1Ks2zqsEsUrezojIA=;
-        b=Wp0vpV7hPu1PvGWrd95cgjb0MlTNeAq1iu7jf86q2W8nd2Rb8qThPF3LgmkWLSlb3N
-         WlQsbQxapUNe3NC3II7XZSV5hV3GfS5AsByzKbCkurSaFJyYvVxwRo/qJ6ghfZTm8dps
-         1laD+G23uHTrtW0YoRSh9VOPKftoIcjlEcsQubgaGPAyDrgUfiyojSu1SkLRDG1b/PiZ
-         DiGfx7pEm9+fLtNfJxzrnkPuTWTqSM3HueFoXg2ECbyAL+d0eB2FG0nqT44zaIXB6efT
-         lu5U/Hruo8vEYyWDRxQzON0BScZSWHl3g9qHTlQEJ4wYooSO3aBzJh5u74Ey+hajsY6M
-         J1Bg==
-X-Gm-Message-State: AOAM530kZJi4eZ2BBuQPjOpEdVn39+R6vf/Fgpcnn3UXblxVIhccEyWg
-	BwKevWy+0MlmzfBysjuvi6Y=
-X-Google-Smtp-Source: ABdhPJyK7vZ/p4uOhfEmj1AMw4UKN0GqBn9sjtjKLLGqZcDs5K0m7+oNOvrn2jpqEylmbqyB21P5og==
-X-Received: by 2002:a2e:a801:: with SMTP id l1mr19349361ljq.41.1629707455366;
-        Mon, 23 Aug 2021 01:30:55 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id g7sm1384551ljk.130.2021.08.23.01.30.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 01:30:54 -0700 (PDT)
-Subject: Re: [PATCH RFC] staging: r8188eu: Use usb_control_msg_recv/send() in
- usbctrl_vendorreq()
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>
-References: <20210822230235.10953-1-fmdefrancesco@gmail.com>
- <69bbb80c-2b30-28b9-ad8c-6862a6c3b911@gmail.com>
-Message-ID: <8d37d8e5-7ba5-d49b-f2c5-f7e8844ae8e1@gmail.com>
-Date: Mon, 23 Aug 2021 11:30:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OUE9OJKkP1QI+2yCSiJZEjjQO84qj2H/zJA5KUoRH1k=;
+        b=rmu2KJHl6Bp8kjWOcmpWotADzO3D3mXsAOaisRXtC8hAF+wDoePhCyAS4yar8+WWVI
+         lYDP8VZOCC3fWXEbsEn9ZV2SzmYBsIJjyjPlLkxCNEm6u1T85qepPUOhr/kpVQV8mVL+
+         8eXZXCHsaiuGVwSr6ykwX14pYne6buMr3tbQrT5RgJO5M8acdAFaNKNNbGyF0QOwKKRY
+         mrL0IQfFFJ/u8sDKmUzWW+3AY58OJSMuI0Vdjr0sp+1G7Mn0oNa7ok9XUzhcrLsJPXUS
+         AH5K0w9efZfL5Qt5TeLycO/ZY8m9UJ1C0HyzIUCLkiJRbbHE9eqOw3HPSZH/yZ8WMXf/
+         xyxg==
+X-Gm-Message-State: AOAM533AgXXXoXbRMnYgRk8+wJueTsdiqjMfo6OzhoYL12wq46nyjtpg
+	vLTC799HsWI736VZ8c077uw=
+X-Google-Smtp-Source: ABdhPJxBKK4cWjt69sE+zbI8RQCEjnmVzTDIEQwFz/b/TTJwzxr3ULHHkeqxXGufz2PMXpW88+UaMQ==
+X-Received: by 2002:a05:6402:384:: with SMTP id o4mr36864790edv.128.1629708271883;
+        Mon, 23 Aug 2021 01:44:31 -0700 (PDT)
+Received: from localhost ([49.207.137.16])
+        by smtp.gmail.com with ESMTPSA id x13sm7003546ejv.64.2021.08.23.01.44.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Aug 2021 01:44:31 -0700 (PDT)
+Date: Mon, 23 Aug 2021 14:14:26 +0530
+From: Aakash Hemadri <aakashhemadri123@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] staging: r8188eu: cast to restricted __be32
+Message-ID: <20210823084426.yo2mhgbyehkwwz3h@xps.yggdrasil>
+References: <cover.1629562355.git.aakashhemadri123@gmail.com>
+ <50439a81aca7ce8c3c97ec1c7247f4cd03f645a5.1629562355.git.aakashhemadri123@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <69bbb80c-2b30-28b9-ad8c-6862a6c3b911@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50439a81aca7ce8c3c97ec1c7247f4cd03f645a5.1629562355.git.aakashhemadri123@gmail.com>
 
-On 8/23/21 11:11 AM, Pavel Skripkin wrote:
-> On 8/23/21 2:02 AM, Fabio M. De Francesco wrote:
->> Replace usb_control_msg() with the new usb_control_msg_recv() and
->> usb_control_msg_send() API of USB Core.
->> 
->> This patch is an RFC for different reasons:
->> 
->> 1) I'm not sure if it is needed: while Greg Kroah-Hartman suggested to
->> use the new API in a message to a thread that was about a series of patches
->> submitted by Pavel Skripkin (who decided to not use it), I cannot explain
->> if and why the driver would benefit from this patch.
->> 2) I have doubts about the sematic of the API I use here, so I'd like to
->> know whether or not I'm using them properly.
->> 3) At the moment I cannot test the driver because I don't have my device
->> with me.
->> 4) This patch could probably lead to a slight change in some lines of
->> Pavel's series (for sure in usb_read*()).
->> 
->> I'd like to hear from the Maintainers and other interested people if this
->> patch is worth to be considered and, in this case, if there are suggestions
->> for the purpose to improve it.
->> 
->> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->> ---
->>   drivers/staging/r8188eu/hal/usb_ops_linux.c | 19 ++++++++++---------
->>   1 file changed, 10 insertions(+), 9 deletions(-)
->> 
->> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
->> index 6a0a24acf292..9e290c1cc449 100644
->> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
->> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
->> @@ -15,7 +15,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
->>   	struct adapter	*adapt = pintfhdl->padapter;
->>   	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
->>   	struct usb_device *udev = dvobjpriv->pusbdev;
->> -	unsigned int pipe;
->> +	u8 pipe;
->>   	int status = 0;
->>   	u8 reqtype;
+On 21/08/21 09:48PM, Aakash Hemadri wrote:
+> Fix sparse warning:
+> > rtw_br_ext.c:836:54: warning: cast to restricted __be32
 > 
-> I think, we can pass REALTEK_USB_VENQT_{READ,WRITE} directly as
-> requesttype argument and get rid of u8 reqtype. + we can define these
-> macros:
+> dhpch->cookie is be32, change it's type.
 > 
-> #define
-> usbctrl_vendor_read(...)   usbctrl_vendorreq(...,REALTEK_USB_VENQT_READ)
+> Suggested-by: Larry Finger <Larry.Finger@lwfinger.net>
+> Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> 
-> #define
-> usbctrl_vendor_write()    usbctrl_vendorreq(...,REALTEK_USB_VENQT_WRITE)
-> 
-> 
-> This will make code more nice, IMO  :)
-> 
-> 
-> (Sorry for this formatting, my email client disabled "paste without
-> formatting" option)
-> 
->>   	u8 *pIo_buf;
->> @@ -47,19 +47,20 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
->>   		memset(pIo_buf, 0, len);
->>   
-
-		^^^^^^^^^^^^^^^^^^^^^^^
-
-And this memset becomes useless, since usb_control_msg_recv cannot 
-receive only part of the message
-
->>   		if (requesttype == 0x01) {
->> -			pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
->>   			reqtype =  REALTEK_USB_VENQT_READ;
->> +			status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
->> +						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
->> +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
->> +						      GFP_KERNEL);
->>   		} else {
->> -			pipe = usb_sndctrlpipe(udev, 0);/* write_out */
->>   			reqtype =  REALTEK_USB_VENQT_WRITE;
->> -			memcpy(pIo_buf, pdata, len);
-> 
-> I guess, this memcpy is needed, since we want to send data from pdata
-> 
-> 
->> +			status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
->> +						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
->> +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
->> +						      GFP_KERNEL);
->>   		}
->>   
->> -		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
->> -					 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
->> -					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
->> -
->> -		if (status == len) {   /*  Success this control transfer. */
->> +		if (!status) {   /*  Success this control transfer. */
->>   			rtw_reset_continual_urb_error(dvobjpriv);
->>   			if (requesttype == 0x01)
->>   				memcpy(pdata, pIo_buf,  len);
->> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index f6d1f6029ec3..f65d94bfa286 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -649,7 +649,7 @@ struct dhcpMessage {
+>  	u_int8_t chaddr[16];
+>  	u_int8_t sname[64];
+>  	u_int8_t file[128];
+> -	u_int32_t cookie;
+> +	__be32 cookie;
+>  	u_int8_t options[308]; /* 312 - cookie */
+>  };
+>  
+> @@ -671,7 +671,7 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+>  				    (udph->dest == __constant_htons(SERVER_PORT))) { /*  DHCP request */
+>  					struct dhcpMessage *dhcph =
+>  						(struct dhcpMessage *)((size_t)udph + sizeof(struct udphdr));
+> -					u32 cookie = be32_to_cpu((__be32)dhcph->cookie);
+> +					u32 cookie = be32_to_cpu(dhcph->cookie);
+>  
+>  					if (cookie == DHCP_MAGIC) { /*  match magic word */
+>  						if (!(dhcph->flags & htons(BROADCAST_FLAG))) {
+> -- 
+> 2.32.0
 > 
 
+David Laight suggested to use get_unaligned_be32, I am not sure if it's
+the right thing to do because as far as I understand get_unaligned_be32
+byteshifts the argument.
 
-With regards,
-Pavel Skripkin
+Can someone please confirm if this change is okay?
+
+Thanks,
+Aakash Hemadri.
