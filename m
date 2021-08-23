@@ -1,152 +1,91 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80072FB2
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:38:06 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id n12so28549459edx.8
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 15:38:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D773FC6
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:38:13 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id x15so1626053plg.10
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 15:38:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2st0E622CO/ULYAGBtWwvM8gaAWdHnZHZnHosgqqovg=;
-        b=e0/hNkh14K8vDOFKOVGYrGGhGsN1gLbNp+ZSLhZL3sTEjTDQWyeLxUurFC2XMdb36m
-         qBbci/cMAgtxDSFIoDtpLF3FeASr284aiQIBTN3jTOhZaEbobJJaeNFf+/xiose3qRCs
-         /2gvzgAHlUgeBX/7rkXsbn1f/gk1yhdUmifFaAZDKf9ys9SbYt82Rx+FF0qKRQKsaLjo
-         cYaLSofNfi402fhxFxhbT72Y82ulHJdBHxL++knE6pWvX3vpqT30saQNKtB5ABS5YX/P
-         Xhf1/HUaes9Pdzu92XMlAxB1n/cdijgZhq4CcGDO4X0I2zTCRqdiLz6AyeN3VCX9Vy67
-         2kqw==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ls4wTzpAa/UZnJAhPpmUr+INHPkSHtnofBYbCYCTzyk=;
+        b=fAcusxJ6XKUL8t7FXM1y3WtR17cVaFSBv7ku7U1H3elmNv9mQmLf6UW+xn+5ctZtct
+         LLwdMyxTJPA+0X6O/ZuCscYfTqMVjM8zXDx2wuH/HcvRgq+rkEwSfFblL5CifR8j2xut
+         4Bg3g94NsO0U6DrrC9ygqqxqNtcuIcOHjCjrqSqMxbmy5iSm+UfHvYBMy3e8D3VXe92X
+         aUOc66Hk6Z9/SfCMiG8Cmln+D6I+JB9AVELDFmJD48B6K0oedQEJm/X9w4ABK44K3Md/
+         PpzHooRdNOisKiG66aeV8YdACBimlwIOFTY8JtMRjmphYFafQ4oiVZqmNqqXQ5FGVZhY
+         hOWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2st0E622CO/ULYAGBtWwvM8gaAWdHnZHZnHosgqqovg=;
-        b=L3LPK8tWyJIa5Dk5arhiHb3imd/+7S2hsPVWhS2apmzjbh01EXHWEZnYy+24f7M62/
-         jbdsZ2b4zbhcjjTEd1VTQpiC0yxHHw8AC9DBrKIboOR41xglzp5Biy6VYink9p0RPE3h
-         5/JS7wbwC0viGWJ/Andmq6hN0j8aC2gc47A9Ro5eTP4jM9ALL09caxPex98Ez9qKsHqI
-         7s5a9OHop+3GNKxmNCn4SoYo4jS8e7xe1Nq/Pen5Q/hYPpPZbPcKPtbR8ix3dCi4r11L
-         HOGRC0EZRlbimA5EEheX0iE3VA4q96mZes7gU1CEe8Z4r6urEDnGtnp169y8Pcle/OaF
-         FeWQ==
-X-Gm-Message-State: AOAM53196UHWZ0YdCyBiwYwzz7+FqH7DIlmayKFPvVzEfjh3DQ0yAzVE
-	/C7w03gsBhOPbyuzlyNcT0g=
-X-Google-Smtp-Source: ABdhPJyZZRHMlvkLxgL04X8fthsxBgX1NkkrzvfYwjf/avsw2PXxurlHQh3ENNXnJqxZ7gtukWvutw==
-X-Received: by 2002:a05:6402:2158:: with SMTP id bq24mr40190162edb.8.1629758285075;
-        Mon, 23 Aug 2021 15:38:05 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id p23sm10375326edw.94.2021.08.23.15.38.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 15:38:04 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pavel Skripkin <paskripkin@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: Make some clean-ups in usbctrl_vendorreq()
-Date: Tue, 24 Aug 2021 00:37:51 +0200
-Message-Id: <20210823223751.25104-3-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210823223751.25104-1-fmdefrancesco@gmail.com>
-References: <20210823223751.25104-1-fmdefrancesco@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ls4wTzpAa/UZnJAhPpmUr+INHPkSHtnofBYbCYCTzyk=;
+        b=gQck+29wu0WivQAfQakaWsQxFyzvsstnwQN7mptFVrxpNdNmzoI8J+2ih+2hJwAPFa
+         PxFdUGRl6hR/TN0MNlRv9/xuUA/n76F1FwtLXWD0DWpLuGZTY8z3VEWE0IzBx4diyGcP
+         q9fBAk3r5UkxYCqbBdOw302ljiLW5o6sS/k2LcVyPINVs069mVgelpnBCrngShHU4/u3
+         XCWlYOMvM0eE0Xf0cHx03cQwuJLsReAbC6NCnnOM1wddetRHoQc1LhXTP4QZeMEHqBAJ
+         btZnNIWK7XIU0lIX6wjmRCRK85vdyVyxb5XUL+/7agR97TJaY3ab6IPZqYkJSvnjpvf3
+         GNTQ==
+X-Gm-Message-State: AOAM53200VHuY/b0GEStcwQqZcRte5g0lh09arrLnW6OD13xWsGtT1l6
+	0GDsaxvxYVwxRBm1a4FpRGz9dOjTY69p8G6Xu167HQ==
+X-Google-Smtp-Source: ABdhPJx6KS3qbCu+cw6fRdySrJxukemk3ty6zIhIK0NSv6weZRL1AxHAmZk/2EyQBzJr1LpCBCypoUgZm+FjB0UPj/4=
+X-Received: by 2002:a17:90a:1b2e:: with SMTP id q43mr831589pjq.217.1629758292730;
+ Mon, 23 Aug 2021 15:38:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210823081820.9724-1-straube.linux@gmail.com>
+ <CAA=Fs0=6=ueb53iNhyjSE5B8CdQvrpijgihAaN9YVwdDgNGiFA@mail.gmail.com> <cb8d08f7-c27c-d6f3-1128-4047350d6871@gmail.com>
+In-Reply-To: <cb8d08f7-c27c-d6f3-1128-4047350d6871@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Mon, 23 Aug 2021 23:38:01 +0100
+Message-ID: <CAA=Fs0=46RNFVBphJb+yj8KRKsMfePRu21bAB+puTntSF7ayFA@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: remove ip.h header file
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-After replacing usb_control_msg() with the new usb_control_msg_recv() and
-usb_control_msg_send() API of USB Core, remove camelcase from the pIo_buf
-variable that is passed as argument to the new API and remove the initial
-'p' (that probably stands for "pointer") from the same pIo_buf and from
-the pintfhdl and pdata arguments of usbctrl_vendorreq().
+On Mon, 23 Aug 2021 at 23:32, Michael Straube <straube.linux@gmail.com> wrote:
+>
+> On 8/24/21 12:21 AM, Phillip Potter wrote:
+> > On Mon, 23 Aug 2021 at 09:19, Michael Straube <straube.linux@gmail.com> wrote:
+> >>
+> >> The struct ip_options declared in ip.h is only unsed in the optlength
+> >> macro which is also defined in ip.h. All other definitions/declarations
+> >> in ip.h are duplicated from <include/uapi/linux/ip.h>. Remove the ip.h
+> >> header file and its includes.
+> >>
+> >> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> >> ---
+>
+> >
+> > Dear Michael,
+> >
+> > Thanks for the patch. Sorry, but it seems to conflict with your
+> > earlier patch titled: "[PATCH] staging: r8188eu: remove if_ether.h
+> > header file". They apply fine individually, but not together - can you
+> > confirm this is the case for you as well and not just me?
+> >
+> > Regards,
+> > Phil
+> >
+>
+> Hi Phillip,
+>
+> yes I can confirm, sorry about that. I will rework and send both patches
+> in a series. Thank you for testing and pointing out this conflict.
+>
+> best regards,
+> Michael
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 26 ++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+No apology necessary, and thanks again for the patches.
 
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 6f51660b967a..5ce31ae18ed8 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -10,14 +10,14 @@
- #include "../include/recv_osdep.h"
- #include "../include/rtl8188e_hal.h"
- 
--static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata, u16 len, u8 requesttype)
-+static int usbctrl_vendorreq(struct intf_hdl *intfhdl, u16 value, void *data, u16 len, u8 requesttype)
- {
--	struct adapter	*adapt = pintfhdl->padapter;
-+	struct adapter	*adapt = intfhdl->padapter;
- 	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
- 	struct usb_device *udev = dvobjpriv->pusbdev;
- 	u8 pipe;
- 	int status = 0;
--	u8 *pIo_buf;
-+	u8 *io_buf;
- 	int vendorreq_times = 0;
- 
- 	if ((adapt->bSurpriseRemoved) || (adapt->pwrctrlpriv.pnp_bstop_trx)) {
-@@ -34,10 +34,10 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
- 
- 	/*  Acquire IO memory for vendorreq */
--	pIo_buf = dvobjpriv->usb_vendor_req_buf;
-+	io_buf = dvobjpriv->usb_vendor_req_buf;
- 
--	if (!pIo_buf) {
--		DBG_88E("[%s] pIo_buf == NULL\n", __func__);
-+	if (!io_buf) {
-+		DBG_88E("[%s] io_buf == NULL\n", __func__);
- 		status = -ENOMEM;
- 		goto release_mutex;
- 	}
-@@ -47,25 +47,25 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 			status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
- 						      REALTEK_USB_VENQT_READ, value,
- 						      REALTEK_USB_VENQT_CMD_IDX,
--						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
-+						      io_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
- 						      GFP_KERNEL);
- 		} else {
--			memcpy(pIo_buf, pdata, len);
-+			memcpy(io_buf, data, len);
- 			status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
- 						      REALTEK_USB_VENQT_WRITE, value,
- 						      REALTEK_USB_VENQT_CMD_IDX,
--						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
-+						      io_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
- 						      GFP_KERNEL);
- 		}
- 
- 		if (!status) {   /*  Success this control transfer. */
- 			rtw_reset_continual_urb_error(dvobjpriv);
- 			if (requesttype == 0x01)
--				memcpy(pdata, pIo_buf,  len);
-+				memcpy(data, io_buf,  len);
- 		} else { /*  error cases */
- 			DBG_88E("reg 0x%x, usb %s %u fail, status:%d value=0x%x, vendorreq_times:%d\n",
- 				value, (requesttype == 0x01) ? "read" : "write",
--				len, status, *(u32 *)pdata, vendorreq_times);
-+				len, status, *(u32 *)data, vendorreq_times);
- 
- 			if (status < 0) {
- 				if (status == (-ESHUTDOWN) || status == -ENODEV) {
-@@ -77,8 +77,8 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 			} else { /*  status != len && status >= 0 */
- 				if (status > 0) {
- 					if (requesttype == 0x01) {
--						/*  For Control read transfer, we have to copy the read data from pIo_buf to pdata. */
--						memcpy(pdata, pIo_buf,  len);
-+						/*  For Control read transfer, we have to copy the read data from io_buf to data. */
-+						memcpy(data, io_buf,  len);
- 					}
- 				}
- 			}
--- 
-2.32.0
-
+Regards,
+Phil
