@@ -1,51 +1,50 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC3C3FC0
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 19:34:57 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id p38so40266064lfa.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 12:34:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD713FC0
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 19:35:26 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id n5so15449487wro.12
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 12:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YTiAFWRRVrfUWa+NPdwyRjcdp95XfTThrmru59rQRP4=;
-        b=OtUskdn+tupVIKM8ffV12tMdPZ4qCFGKcesGm+494ZH84W0vP4aFHONpxc95eQ83J1
-         qDttJJM/5uaCUj58Auw3gYKkujLiH/i/iAxsQbZES/0K+BmwLod1u6DEF7pw3XK8k/K9
-         I3nn71XQ0y4qGDHVTBWlEW4ZbymhvVHLwTnG3Jixu4PO7zTSkEBGEcvnPc0BeFHkuhDp
-         491B4FZ8AfRfl7UjNOE8w1bSV7XiVfYpmBp5ML0LFS2hT17LypYOPckVv4x+SK9h7Kly
-         iokVcRx9xLDEbp12GfUwTYB/BofdVLbdLXk+TjyYZ0A5ZbjdIHuCBYqXKPayP4lyViOk
-         Gj5A==
+        bh=5aJIU45FbDH+4PMzPrOxxvTKWlGFVwAzGeiDLaD41k0=;
+        b=lAGhEoYZIl2Ie7hO48KDMvxIjOcn0/C4lr2t2yRDHqDKSjRqf37nU02YJ0kA3DLv7t
+         kLFybcA9GC6SMWIDTYWbqMCY0hbm89mU0uJyj5h9RMmnuqHT8kykedxirxLXqyeZQESZ
+         LbyClQcJU6ZGelz9gQtQy5X9iVanwKMzn4W+6pc3UqjafmyTEPdck69eRI4pcPjqLwVK
+         tTGJwaZV0PnK/v0OLNWyLkKW4t+3D/vwTJYJLyp3dG+HNlmbfvKdKXfn9NuXMV2k3VFX
+         o4tlHhu6KTKKB5eQ8Yl8Rg1FjMzZoffoLJGrqkOusYL/G/uvrBM6dGlu2vPS6CrTQCog
+         HM1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=YTiAFWRRVrfUWa+NPdwyRjcdp95XfTThrmru59rQRP4=;
-        b=VDuw+yMB8wZIYp++BJcMM8SyBl44OcpoFHWGeWNpoE91sHodDzBBDsCU39u4JY1O7m
-         wZ+WF/Y74RblE4LCxIZo3CC1JG+Jh8sQvOb0eu1BeLZAjG3aMCgs0HxS/eNfSTkr6y2s
-         QFOwvoqDcnEHCmkGkro7ug8LGWJ/EvFDluRF16qJerJbcifTujyuO3mGWnX7oet5Kqzf
-         xDmzrEz6QhCLLohpImAEoW0P7PzS3pWfp2JbcqotLejSEvYR9sSDH3y2b8vm/X8y/cu/
-         4v/Wo0XeBYCBwi/Bmsys40AuWdjlO38dd2dCMjl1/edIseMhrK5z8yzMfJjr9T2zMEIR
-         vgEw==
-X-Gm-Message-State: AOAM533fBFWr/gyY6hx4g7lmLc9G3PLbo7tAkWsf+tdmqAMj/Y2H4MyE
-	Rxuv6kN5rLdGRWMiRN5s/MA=
-X-Google-Smtp-Source: ABdhPJy58LdbAQzX7ZYi8R+IasnRGGxVInDUndIPI6tG/hZ581MPO1qy2qP0RYkvz6JN/lX3kG8KwQ==
-X-Received: by 2002:ac2:5dd7:: with SMTP id x23mr25117026lfq.142.1629747296067;
-        Mon, 23 Aug 2021 12:34:56 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id m17sm1554768ljp.80.2021.08.23.12.34.55
+        bh=5aJIU45FbDH+4PMzPrOxxvTKWlGFVwAzGeiDLaD41k0=;
+        b=PpSKhheYaLtZXNZGxAKRg+kYuHm3WdVTThJNvZ1FQ5TXR0lTVWKdIzVSK5ugyb0+f4
+         52GjH146518sgCEhRi2XH1nUG+klQp3HoS2RQcEL8+ZuTo1P/mOQFDg2YIgRYJvweQ4h
+         R0FWFf3GOHcZuJkUWkJyppHn6sfRdSSldAtBuL7dbySNC/KdvRgESK1MJy82snQq24g8
+         dbEznMxhpVOmbSgWbimEHt3qSj95RA2g4penj+XnKOVOmhxi3Vm8inTHQYNxf1OIr12U
+         6xEC/thJAT+Qj1db2O9NKfD7DE0SYKtvluo8XCZzGEYcFhpjnw0T2OVkN6Fy5W3C37CQ
+         Z4eQ==
+X-Gm-Message-State: AOAM531s2LtTNLlfFOTi6Na9rlq7Gn6MWR6hpqRux24wUsO1C1QwoMFH
+	q6kHvvzTkW2MpVWEKypIJkYUZO7t4Pg=
+X-Google-Smtp-Source: ABdhPJywIJYbxkHiK7gragRF97lVPMSpwj9XblpvzAikHbFSFGDRdVqiCQqu4idcJvzdNYrGC1m7uA==
+X-Received: by 2002:a05:6000:120d:: with SMTP id e13mr15488253wrx.6.1629747324915;
+        Mon, 23 Aug 2021 12:35:24 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::3c39? ([2a02:8108:96c0:3b88::3c39])
+        by smtp.gmail.com with ESMTPSA id n14sm5615292wrx.10.2021.08.23.12.35.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 12:34:55 -0700 (PDT)
-Subject: Re: [PATCH Linux-next] ioctl_linux: fix a potential NULL pointer
- dereference bug
-To: cgel.zte@gmail.com, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- xu xin <xu.xin16@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-References: <20210823030631.45517-1-xu.xin16@zte.com.cn>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <23609ad3-68bb-6df6-609d-5630597c7e0f@gmail.com>
-Date: Mon, 23 Aug 2021 22:34:54 +0300
+        Mon, 23 Aug 2021 12:35:24 -0700 (PDT)
+Subject: Re: [PATCH] staging: r8188eu: make rtw_deinit_intf_priv return void
+To: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210823184059.19742-1-paskripkin@gmail.com>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <e01ea557-b006-a5b9-884a-81670376fe6c@gmail.com>
+Date: Mon, 23 Aug 2021 21:34:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -54,75 +53,41 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210823030631.45517-1-xu.xin16@zte.com.cn>
+In-Reply-To: <20210823184059.19742-1-paskripkin@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/23/21 6:06 AM, cgel.zte@gmail.com wrote:
-> From: xu xin <xu.xin16@zte.com.cn>
+On 8/23/21 8:40 PM, Pavel Skripkin wrote:
+> rtw_deinit_intf_priv() always return success, so there is no need in
+> return value
 > 
-> The pointer might be NULL, but it is dereferenced.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 > ---
->   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+>   drivers/staging/r8188eu/os_dep/usb_intf.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index a3e6d761e748..ce4ce9190f5f 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -4389,7 +4389,8 @@ static int rtw_dbg_port(struct net_device *dev,
->   				pregpriv->rx_stbc = extra_arg;
->   				DBG_88E("set rx_stbc =%d\n", pregpriv->rx_stbc);
->   			} else {
-> -				DBG_88E("get rx_stbc =%d\n", pregpriv->rx_stbc);
-> +				if (pregpriv)
-> +					DBG_88E("get rx_stbc =%d\n", pregpriv->rx_stbc);
->   			}
->   		}
->   			break;
-> @@ -4401,7 +4402,8 @@ static int rtw_dbg_port(struct net_device *dev,
->   				pregpriv->ampdu_enable = extra_arg;
->   				DBG_88E("set ampdu_enable =%d\n", pregpriv->ampdu_enable);
->   			} else {
-> -				DBG_88E("get ampdu_enable =%d\n", pregpriv->ampdu_enable);
-> +				if (pregpriv)
-> +					DBG_88E("get ampdu_enable =%d\n", pregpriv->ampdu_enable);
->   			}
->   		}
->   			break;
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index e002070f7fba..37694aa96d13 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -129,13 +129,10 @@ static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
+>   	return rst;
+>   }
+>   
+> -static u8 rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
+> +static void rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
+>   {
+> -	u8 rst = _SUCCESS;
+> -
+>   	kfree(dvobj->usb_alloc_vendor_req_buf);
+>   	_rtw_mutex_free(&dvobj->usb_vendor_req_mutex);
+> -	return rst;
+>   }
+>   
+>   static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
 > 
 
+Looks good to me, thanks.
 
-Hi, Xu!
-
-I can't see how pregpriv can be NULL:
-
-	struct registry_priv *pregpriv = &padapter->registrypriv;
-
-It can be NULL in case of completely wrong padapter pointer, but I can't 
-see how it's possible. Do you have a calltrace?
-
-I guess, your robot reported this, because there is useless check in 
-same code block:
-
-	if (pregpriv &&
-		(extra_arg == 0 ||
-		 extra_arg == 1 ||
-		 extra_arg == 2 ||
-		 extra_arg == 3))
-
-
-So, I think, "pregpriv &&" part should be removed, instead of adding 2 
-branches.
-
-
-Also, subject line should be "staging: r8118eu: <subject>". Thank you!
-
-
-
-With regards,
-Pavel Skripkin
+Acked-by: Michael Straube <straube.linux@gmail.com>
