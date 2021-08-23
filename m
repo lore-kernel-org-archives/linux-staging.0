@@ -1,147 +1,95 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4100D3FC0
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 20:24:06 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id h1so5405487ljl.9
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 13:24:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8583FC2
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 21:20:44 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id k24so17827445pgh.8
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 14:20:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J41x529VlTspZMrpThFHJLBr2g65jbs1WO5P40LCen4=;
-        b=okYdM6r/OEM+GpVMmndUDSUnFuATe7k+UqV9Xd6SnEB6FCQnedxeMEPVsABonqs4N4
-         bW0CUVBYgP/wVgNhvKRjjJZHkQWqjAfdAXHaWOprlSkmDVUGTjWH0QHqHe/JDzPhBYMW
-         VS78dI9TbqWyfxbPdEd9M68PCp/85z5U4mMqUTiCNVQcQnpHeloJ5A8DDCAgG+UndNk2
-         4AMRro0QimKicKoXkXK7fx6Xlty7DPO0Rz/T7e7AYrMNjr1lsW8oLXtit6l5wdRItw9Y
-         0sCrelfgm2KgdesCrJhygLOJ6k4XDHAPdBtXpSk4O9XXGH416S+WsJAn5UMZlTogyo6e
-         LVmw==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YzvvjN55G6aH7L+WF3w6Ape9hLyYF6OiJZ3R0SJXV4M=;
+        b=HIGlLVOuF6Uc6lqaWgoCbOA+4PANea69PmWibk9pQ90E18OQtQ9NjdVtg4gr9BhRDl
+         Y8iGXjNXoBrM+ovH3DlRyzMTJf8WaBrLScu3e9bX0GJ/emLGpg1i/CliT2AWGLNrAo/2
+         Bj70SLb9mf50wF+wDyUHSHg8bUa+lWP4fJU3VgjjlWaYor453PplbCRkwIQFqbZCYgjt
+         YZ/Urtp/5dJ6vSl6sHYe56p7TVxmPJYTd1cJ0jSIem6JxoA1wkXvJzfqrhbbRpRXNxeA
+         vvq+CLtmnbhVXNl+UGRLrxYF3teghLQvhfrui4OMaZ74+DoIWS81UW2Spi92T7uCr473
+         kaTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=J41x529VlTspZMrpThFHJLBr2g65jbs1WO5P40LCen4=;
-        b=fk33QesvZbYPCzaR+nRM0QL4/TyvR46p73egdY/W45RMq92pu4wZDnboprk3CxGwEY
-         wvk7SpZRYgJL6q8OhwGdeoJ0kAFf5Z/t/daWkBann/KijlbAFbcU2zOpEjs4u8GB06NL
-         8VhT/maMQEFcfsDQRY6KKO0GftTP10hEAYUJrcg9TK9ZzKSnOeBRxwUD8xNE3daI4tNq
-         2/UIALgkMgB2PSqCGlufeRL1spRno+2/2MaLrev4q0Uy2LAST05KkHRenOihNEbEC49j
-         OsCHnavjC1sZ/0Q0Tgi21CjSa6LZgH+BDKmcJJ3BOpj0iPAPRjSdTdHxhTG3VdM7ULgD
-         7fIA==
-X-Gm-Message-State: AOAM533gr1pXDmHleR/JYIZie0/UJccbsAKarn3QV7DoBF2oTTC/irRx
-	uYYxeiIb1vxVijnVwhIYEJw=
-X-Google-Smtp-Source: ABdhPJwqnW4H12JkFByYZki5F25wX7CFl/4OxdrLQBKSJLK7Hp+HrjfGNLOpxwFObeZey6c6a7G84A==
-X-Received: by 2002:a2e:a4db:: with SMTP id p27mr29314648ljm.161.1629750244353;
-        Mon, 23 Aug 2021 13:24:04 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-120-72.dynamic.spd-mgts.ru. [46.138.120.72])
-        by smtp.googlemail.com with ESMTPSA id r2sm854722ljj.14.2021.08.23.13.24.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 13:24:03 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-spi@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-References: <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
- <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
- <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
- <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
- <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
- <CAPDyKFo0rzHT4AhueWjyz9k2ZqUy8N6Od5pbr8sL_m0Jf2AwUg@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <085d1a2e-57b0-222e-c569-12f3c6bc8161@gmail.com>
-Date: Mon, 23 Aug 2021 23:24:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YzvvjN55G6aH7L+WF3w6Ape9hLyYF6OiJZ3R0SJXV4M=;
+        b=tfzNg3dxxxB5qu1dUsSZ6dHRkORpEQOs/3rJHamnXXQfKyi0tXjNHVyTWNfk8nJxXV
+         DGtgOREYm+aWPKyyURObuH8wxZgs9cxBgHx3+igupBeqWkMt52I40r4EYfO/mfQGQ9ff
+         NvlLDOpthLnE4N6cAakqjnoQPkbU3o4kAGjPD8E5ChviJA2rfL8fOPuGkyY7kPTBM7Is
+         ZsznGtf5ZZ07gkZLR6h2Cir+aBKMVtPzNDLn8zgb2x69MVJ63JLGK5JB01IvEyzjex20
+         wu1L/csFRHBqqxN0Zed89NsYM8f43Cpc31h/bgvEZZZVkKj17XJL1NeSjm6WzWYYNgbm
+         htZA==
+X-Gm-Message-State: AOAM530dhyQY6mjHSPB190y73bmp4vvHwUnml9uYC3TZS4fD8of5dgRr
+	ckBYV+AER65HWnFkI7yN17z5i4TwSYq7MGSVxsiLzhRirgtxYgJG
+X-Google-Smtp-Source: ABdhPJxQV6KlBuY4Uu2+VpUA/lkXnBmb+TaFx3kE0sHNiLkcqjNr3ZG8Z+9MF38Cs+v83qMS731lraUA1+H+OC3X4zk=
+X-Received: by 2002:a62:5c6:0:b029:341:e0b1:a72c with SMTP id
+ 189-20020a6205c60000b0290341e0b1a72cmr35907806pff.71.1629753643794; Mon, 23
+ Aug 2021 14:20:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFo0rzHT4AhueWjyz9k2ZqUy8N6Od5pbr8sL_m0Jf2AwUg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210823184059.19742-1-paskripkin@gmail.com>
+In-Reply-To: <20210823184059.19742-1-paskripkin@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Mon, 23 Aug 2021 22:20:32 +0100
+Message-ID: <CAA=Fs0mW_4aVNYuLkZMS9ov0CPNKfPB7C=FS2z67Ui+hEvtaRA@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: make rtw_deinit_intf_priv return void
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, 
+	Michael Straube <straube.linux@gmail.com>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-20.08.2021 15:57, Ulf Hansson пишет:
-...
->> We already have similar APIs, so that won't be a problem. We also have
->> a mechanism inside the OPP core, frequency based, which is used to
->> guess the current OPP. Maybe we can enhance and use that directly
->> here.
-> 
-> After reading the last reply from Dmitry, I am starting to think that
-> the problem he is facing can be described and solved in a much easier
-> way.
-> 
-> If I am correct, it looks like we don't need to add APIs to get OPPs
-> for a clock rate or set initial performance state values according to
-> the HW in genpd.
-> 
-> See my other response to Dmitry, let's see where that leads us.
+On Mon, 23 Aug 2021 at 19:41, Pavel Skripkin <paskripkin@gmail.com> wrote:
+>
+> rtw_deinit_intf_priv() always return success, so there is no need in
+> return value
+>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> ---
+>  drivers/staging/r8188eu/os_dep/usb_intf.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index e002070f7fba..37694aa96d13 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -129,13 +129,10 @@ static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
+>         return rst;
+>  }
+>
+> -static u8 rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
+> +static void rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
+>  {
+> -       u8 rst = _SUCCESS;
+> -
+>         kfree(dvobj->usb_alloc_vendor_req_buf);
+>         _rtw_mutex_free(&dvobj->usb_vendor_req_mutex);
+> -       return rst;
+>  }
+>
+>  static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
+> --
+> 2.32.0
+>
 
-I'm going to start preparing v9 with GENPD performance state syncing moved into driver's probe where appropriate.
+Dear Pavel,
 
-It's not clear to me whether it will be okay to add a generic OPP syncing by clock rate or should it be a Tegra-specific helper. Viresh, what do you think about this generic OPP helper:
+Looks good - going to test your RFC series now btw.
 
-/**
- * dev_pm_opp_sync_with_clk_rate() - Sync OPP state with clock rate
- * @dev:	device for which we do this operation
- *
- * Sync OPP table state with the current clock rate of device.
- *
- * Return: 0 on success or a negative error value.
- */
-int dev_pm_opp_sync_with_clk_rate(struct device *dev)
-{
-	struct opp_table *opp_table;
-	int ret = 0;
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
-	/* Device may not have OPP table */
-	opp_table = _find_opp_table(dev);
-	if (IS_ERR(opp_table))
-		return 0;
-
-	/* Device may not use clock */
-	if (IS_ERR(opp_table->clk))
-		goto put_table;
-
-	/* Device may have empty OPP table */
-	if (!_get_opp_count(opp_table))
-		goto put_table;
-
-	ret = dev_pm_opp_set_rate(dev, clk_get_rate(opp_table->clk));
-put_table:
-	/* Drop reference taken by _find_opp_table() */
-	dev_pm_opp_put_opp_table(opp_table);
-
-	return ret;
-}
-EXPORT_SYMBOL_GPL(dev_pm_opp_sync_with_clk_rate);
+Regards,
+Phil
