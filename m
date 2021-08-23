@@ -1,188 +1,87 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch [185.70.40.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88383FC2
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 21:41:17 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id c4so10967645plh.7
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 14:41:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ku8EjWfpl64Nxby0uKN1wfJ3BBvZfw/S8z9qY6NZG/U=;
-        b=wdm+jDOnXCqJ48PwMQuU4n7c9CWYIXm2Kebvngg/88WVYGpbiwUbKAlxXkQ0sYXrxP
-         oiLcga02EQ7j3Jr5Rpovsk/tKrYAsZddH8rMrFKgl5zgxapwGhqDKRXdcg279itt4Djj
-         womrQAlggq9Qnz6AKlnSkBNfFSNgRO+LZ9xsAhKpoUQu8KpVcNH5fa7EySYh4OyTot46
-         hhHdoSBPdPv5FuegCQAFez8yJ+Rl3E6O0+YnkI+Un2t2cXXcuE86dg0b7SrgnHnVbMOo
-         pp9Sq3a0vrfsBqxIO90bkwhGV0XrWCwiJb++pWg/544+xyMDTjFR0R/TEDhdUAiTgZv7
-         oVIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ku8EjWfpl64Nxby0uKN1wfJ3BBvZfw/S8z9qY6NZG/U=;
-        b=mApZAsD2yQp+iFROwT/e7kVf+uyOe/mc4+HC08oqaduz6diF5PgOgcnPUlqXkdhkeJ
-         e2aiLrYCBYCvAL1VseuCFKEtMJ9Ovb44s2DOErqmSeJ3WMGYH7vjbaVwlLw+anfxqYIv
-         u9ixTj4X/5EutYEMGrlOlkymUlOiDHGplf0PA7J4G1utDuRR9mEj/ASJsgIAXWGTqYD0
-         Qax+iVC/mukiwPJEIvcbyElddz6WXyxA6kObF17b/nOZVf7EEn/nbDlrp0U63+7PvBRv
-         lLFkFeq3eoH3oZfE08TOF7VY8fLZ3oRq4pvtqWcSMgAeqt8ZFf2vtK4r8c/q3EGmpS55
-         jvZw==
-X-Gm-Message-State: AOAM531vYj5o3yzj1SBLscRl1TfzLz9YiE/cm+BOKYNEMVl0u9uWhtgh
-	KwlojrfcA22KKW5ui4GCjwrdiEupw6G2lIW81sVkUuXii02mxA==
-X-Google-Smtp-Source: ABdhPJwruXO4hf39WQC31EbNJk9Fm5Wi2YZelxc3kwHFSVm3b5ZPK1M57xiPcvCoDawGSJ1K4Rcv5c7N/NVQtRZKE0w=
-X-Received: by 2002:a17:902:6ac6:b0:133:230b:e8bc with SMTP id
- i6-20020a1709026ac600b00133230be8bcmr9605502plt.22.1629754877345; Mon, 23 Aug
- 2021 14:41:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96D83FC2
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:12:38 +0000 (UTC)
+Date: Mon, 23 Aug 2021 22:12:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail; t=1629756750;
+	bh=50FeX9ibMRexduiJPC7ZruLY3uInaCBLMCqmvNkS5U0=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=n87t4/uzOd24l/bpzoR+J5L318JBRkh11+3dYkaJUAjslnpOk0+WAZ0x/fyuDql8Y
+	 pxuJ4lu4uRfM/wJT2Xsb5EZsHGtjNuF4ZiOsHoMz94HGU8THrddZaLNtTCR2RsD8xw
+	 5oOee2H2JDOxYHdshb0G5z9EfGwUhZRxs9IJtpOxj+wt8QrZ0/tFSrEzc/pI/aN9ip
+	 OklGQuwZFnCb41mxkhlCOCUBRBW2OfuxiMzPCm9ntiHb9PCP1C4WGu/gZ6xS30aK0p
+	 QRR4k73im/ndLpvCCmj1JkxXz6MyJsOyJPblcymJDHR2vayID1IwMMsYtFlIzZgRmB
+	 z5gnWCBxU834g==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Bryan Brattlof <hello@bryanbrattlof.com>
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH] staging: rtl8723bs: remove sdio_osintf.h
+Message-ID: <20210823221156.3353972-1-hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210822230235.10953-1-fmdefrancesco@gmail.com>
- <69bbb80c-2b30-28b9-ad8c-6862a6c3b911@gmail.com> <8275282.m2tVFbhrJk@localhost.localdomain>
-In-Reply-To: <8275282.m2tVFbhrJk@localhost.localdomain>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 23 Aug 2021 22:41:06 +0100
-Message-ID: <CAA=Fs0n7zX0WrcsrBzPPxoo6GHGaCruwVb+3LEqwQYASsv34cw@mail.gmail.com>
-Subject: Re: [PATCH RFC] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	Pavel Skripkin <paskripkin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Mon, 23 Aug 2021 at 11:47, Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
->
-> On Monday, August 23, 2021 10:11:52 AM CEST Pavel Skripkin wrote:
-> > On 8/23/21 2:02 AM, Fabio M. De Francesco wrote:
-> > > Replace usb_control_msg() with the new usb_control_msg_recv() and
-> > > usb_control_msg_send() API of USB Core.
-> > >
-> > > This patch is an RFC for different reasons:
-> > >
-> > > 1) I'm not sure if it is needed: while Greg Kroah-Hartman suggested to
-> > > use the new API in a message to a thread that was about a series of patches
-> > > submitted by Pavel Skripkin (who decided to not use it), I cannot explain
-> > > if and why the driver would benefit from this patch.
-> > > 2) I have doubts about the semantic of the API I use here, so I'd like to
-> > > know whether or not I'm using them properly.
-> > > 3) At the moment I cannot test the driver because I don't have my device
-> > > with me.
-> > > 4) This patch could probably lead to a slight change in some lines of
-> > > Pavel's series (for sure in usb_read*()).
-> > >
-> > > I'd like to hear from the Maintainers and other interested people if this
-> > > patch is worth to be considered and, in this case, if there are suggestions
-> > > for the purpose to improve it.
-> > >
-> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > >   drivers/staging/r8188eu/hal/usb_ops_linux.c | 19 ++++++++++---------
-> > >   1 file changed, 10 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> > > index 6a0a24acf292..9e290c1cc449 100644
-> > > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> > > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> > > @@ -15,7 +15,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
-> > >     struct adapter  *adapt = pintfhdl->padapter;
-> > >     struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
-> > >     struct usb_device *udev = dvobjpriv->pusbdev;
-> > > -   unsigned int pipe;
-> > > +   u8 pipe;
-> > >     int status = 0;
-> > >     u8 reqtype;
-> >
-> > I think, we can pass REALTEK_USB_VENQT_{READ,WRITE} directly as
-> > requesttype argument and get rid of u8 reqtype. + we can define these
-> > macros:
-> >
-> > #define
-> > usbctrl_vendor_read(...)   usbctrl_vendorreq(...,REALTEK_USB_VENQT_READ)
-> >
-> >
-> > #define
-> > usbctrl_vendor_write()    usbctrl_vendorreq(...,REALTEK_USB_VENQT_WRITE)
-> >
-> >
-> > This will make code more nice, IMO  :)
->
-> Dear Pavel,
->
-> I agree in full: nicer and cleaner :)
->
-> I'll do that, but please notice that I will also need to change the code of the three
-> usb_read*() for calling usbctrl_vendor_read(). Furthermore, "else res = 0;" becomes
-> unnecessary. Please take these changes into account when you'll send them again
-> as "regular" patches.
->
-> > (Sorry for this formatting, my email client disabled "paste without
-> > formatting" option)
->
-> Actually I don't see any oddities in the format of your message :)
->
-> > >     u8 *pIo_buf;
-> > > @@ -47,19 +47,20 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
-> > >             memset(pIo_buf, 0, len);
-> > >
-> > >             if (requesttype == 0x01) {
-> > > -                   pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
-> > >                     reqtype =  REALTEK_USB_VENQT_READ;
-> > > +                   status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
-> > > +                                                 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
-> > > +                                                 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
-> > > +                                                 GFP_KERNEL);
-> > >             } else {
-> > > -                   pipe = usb_sndctrlpipe(udev, 0);/* write_out */
-> > >                     reqtype =  REALTEK_USB_VENQT_WRITE;
-> > > -                   memcpy(pIo_buf, pdata, len);
-> >
-> > I guess, this memcpy is needed, since we want to send data from pdata
->
-> Oh, dear! How could I have missed that? Two alternatives: either because of working
-> during bedtime, or I'm definitely losing my mind... :(
->
-> >
-> > > +                   status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
-> > > +                                                 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
-> > > +                                                 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
-> > > +                                                 GFP_KERNEL);
-> > >             }
-> > >
-> > > -           status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
-> > > -                                    reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
-> > > -                                    pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
-> > > -
-> > > -           if (status == len) {   /*  Success this control transfer. */
-> > > +           if (!status) {   /*  Success this control transfer. */
-> > >                     rtw_reset_continual_urb_error(dvobjpriv);
-> > >                     if (requesttype == 0x01)
-> > >                             memcpy(pdata, pIo_buf,  len);
-> > >
-> >
-> >
-> > With regards,
-> > Pavel Skripkin
->
-> Thanks for you review, I really appreciate it.
->
-> Regards,
->
-> Fabio
->
-> P.S.: As I wrote, I have not my ASUS N10 Nano with me and I won't have the opportunity
-> to test this as well as any other patch until the end of August. I hope to not break anything.
-> If somebody has time to test the final patch that I'm going to submit, I'd really appreciate it.
->
->
+All definitions inside sdio_osintf.h are unused. Remove it.
 
-Dear Fabio,
+Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+---
+ drivers/staging/rtl8723bs/include/drv_types.h   |  1 -
+ drivers/staging/rtl8723bs/include/sdio_osintf.h | 16 ----------------
+ 2 files changed, 17 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/include/sdio_osintf.h
 
-Code is looking good - happy to test the final patch here by all means.
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/stagin=
+g/rtl8723bs/include/drv_types.h
+index 580028d28c42..0e6741db95bf 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -489,7 +489,6 @@ static inline u8 *myid(struct eeprom_priv *peepriv)
+ }
 
-Regards,
-Phil
+ /*  HCI Related header file */
+-#include <sdio_osintf.h>
+ #include <sdio_ops.h>
+ #include <sdio_hal.h>
+
+diff --git a/drivers/staging/rtl8723bs/include/sdio_osintf.h b/drivers/stag=
+ing/rtl8723bs/include/sdio_osintf.h
+deleted file mode 100644
+index 146b44f95e29..000000000000
+--- a/drivers/staging/rtl8723bs/include/sdio_osintf.h
++++ /dev/null
+@@ -1,16 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*************************************************************************=
+*****
+- *
+- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+- *
+- *************************************************************************=
+*****/
+-#ifndef __SDIO_OSINTF_H__
+-#define __SDIO_OSINTF_H__
+-
+-
+-
+-u8 sd_hal_bus_init(struct adapter *padapter);
+-u8 sd_hal_bus_deinit(struct adapter *padapter);
+-void sd_c2h_hdl(struct adapter *padapter);
+-
+-#endif
+--
+2.30.2
+
+
