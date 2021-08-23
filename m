@@ -1,65 +1,161 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305103FC6
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 08:06:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="280777760"
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="280777760"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 01:06:31 -0700
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="454711699"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 01:06:28 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id E51D42051E;
-	Mon, 23 Aug 2021 11:06:25 +0300 (EEST)
-Date: Mon, 23 Aug 2021 11:06:25 +0300
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: CGEL <cgel.zte@gmail.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jing yangyang <jing.yangyang@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH linux-next] ipu3: use flexible-array member instead of
- zero-length array
-Message-ID: <20210823080625.GE3@paasikivi.fi.intel.com>
-References: <20210821034709.28061-1-jing.yangyang@zte.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B743FC6
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 08:11:56 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id j4so1329844lfg.9
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 01:11:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=xtNNbrnIdWTm4Ox+PMyyLnqf69vc/yL41Hm7T3btD5M=;
+        b=pU/OEV1dOdL7Z1sqPpHzjGjTLqNyZqvpFG+XJwysFHwdmlLU5z3CY1mRptZ7tKxfGi
+         Ic1wbIFejLHW3sF3GJt4+bWqGIUojmBtP2wkrNFveHJ0MDtLh7It86a8dX6N3e2XvR6u
+         xrmce79BJ1aiBc2+lgeOkYrBOnpMZmuhpEOy3CJn+fReehvhoLX7IzqW0vi5FmgXsVe+
+         HNytTdUdOFi9doEn/KYCfTbf3HHBHjNDDXewApe6DIZyvvdM48IqpgoQ/66p2Jnnu9QO
+         EZsG8j8O0bNIlmGHZgXrzYkdZv2U9/lJdMYpgxppsZizE2+5WjoxJv3l15+yG9Ozztl0
+         BM3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xtNNbrnIdWTm4Ox+PMyyLnqf69vc/yL41Hm7T3btD5M=;
+        b=GJKzbmj9MoO5Qcs3wDe/i2qVEbO2sqf6AB92Uxxe0rggoZlM1NS4To8kM9KQThOinV
+         BPz6vVpr8kTaWShxbnlLi0wTZOQGaPP4pTqQsFlq4f4iVGPQhqDC6nAtBQHiHESVS+R2
+         Bybvl8H4o7g3kIEHf2E9ZkKnxzjRZ3lgmrigC9nfTIcAv2uAtmhaRraeeFSVma2oozQa
+         KPdBoa+4UHGe0QlRr8gLteoiPOPJVGp4Cu+qjcc5xzqu21j6EsW40+4xCX/twIgMZ1Sy
+         dG8Eycl+Fu7DIK2oklZ2c9txtX1ztuk/E3d2o248b/cY73FXpbVrP1HdeRXGctl3IzAk
+         0Isg==
+X-Gm-Message-State: AOAM530IFYLkGRRD+6aBo8ZNpxlOV5PMHkdJpRrxInUegPEecfSmIEWX
+	lZWY9jBOvjcb3RfUwCBAlDQ=
+X-Google-Smtp-Source: ABdhPJxnPiaf1X+v78ldRW6xEQ9mun5LIqk3RYQGDKjoA9QUCo2oGElVIVYyds3KVV6np2NYBBw1RQ==
+X-Received: by 2002:a05:6512:3fa:: with SMTP id n26mr24047440lfq.13.1629706314586;
+        Mon, 23 Aug 2021 01:11:54 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id f9sm1284377lfg.143.2021.08.23.01.11.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Aug 2021 01:11:54 -0700 (PDT)
+Subject: Re: [PATCH RFC] staging: r8188eu: Use usb_control_msg_recv/send() in
+ usbctrl_vendorreq()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20210822230235.10953-1-fmdefrancesco@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <69bbb80c-2b30-28b9-ad8c-6862a6c3b911@gmail.com>
+Date: Mon, 23 Aug 2021 11:11:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210821034709.28061-1-jing.yangyang@zte.com.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210822230235.10953-1-fmdefrancesco@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Jing,
-
-On Fri, Aug 20, 2021 at 08:47:09PM -0700, CGEL wrote:
-> From: jing yangyang <jing.yangyang@zte.com.cn>
+On 8/23/21 2:02 AM, Fabio M. De Francesco wrote:
+> Replace usb_control_msg() with the new usb_control_msg_recv() and
+> usb_control_msg_send() API of USB Core.
 > 
-> Fix the following coccicheck warning:
-> ./drivers/staging/media/ipu3/ipu3-css-fw.h:174:21-34:i
-> WARNING: use flexible-array member instead
+> This patch is an RFC for different reasons:
 > 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: jing yangyang <jing.yangyang@zte.com.cn>
+> 1) I'm not sure if it is needed: while Greg Kroah-Hartman suggested to
+> use the new API in a message to a thread that was about a series of patches
+> submitted by Pavel Skripkin (who decided to not use it), I cannot explain
+> if and why the driver would benefit from this patch.
+> 2) I have doubts about the sematic of the API I use here, so I'd like to
+> know whether or not I'm using them properly.
+> 3) At the moment I cannot test the driver because I don't have my device
+> with me.
+> 4) This patch could probably lead to a slight change in some lines of
+> Pavel's series (for sure in usb_read*()).
+> 
+> I'd like to hear from the Maintainers and other interested people if this
+> patch is worth to be considered and, in this case, if there are suggestions
+> for the purpose to improve it.
+> 
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>   drivers/staging/r8188eu/hal/usb_ops_linux.c | 19 ++++++++++---------
+>   1 file changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index 6a0a24acf292..9e290c1cc449 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -15,7 +15,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>   	struct adapter	*adapt = pintfhdl->padapter;
+>   	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
+>   	struct usb_device *udev = dvobjpriv->pusbdev;
+> -	unsigned int pipe;
+> +	u8 pipe;
+>   	int status = 0;
+>   	u8 reqtype;
 
-Thanks for the patch.
+I think, we can pass REALTEK_USB_VENQT_{READ,WRITE} directly as 
+requesttype argument and get rid of u8 reqtype. + we can define these 
+macros:
 
-Gustavo Silva's patch "media: staging/intel-ipu3: css: Fix wrong size
-comparison imgu_css_fw_init" has addressed this, and fixed another problem
-as well. In other words, removing array entries from structs can have side
-effects.
+#define
+usbctrl_vendor_read(...)   usbctrl_vendorreq(...,REALTEK_USB_VENQT_READ)
 
--- 
-Kind regards,
 
-Sakari Ailus
+#define
+usbctrl_vendor_write()    usbctrl_vendorreq(...,REALTEK_USB_VENQT_WRITE)
+
+
+This will make code more nice, IMO  :)
+
+
+(Sorry for this formatting, my email client disabled "paste without 
+formatting" option)
+
+>   	u8 *pIo_buf;
+> @@ -47,19 +47,20 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>   		memset(pIo_buf, 0, len);
+>   
+>   		if (requesttype == 0x01) {
+> -			pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+>   			reqtype =  REALTEK_USB_VENQT_READ;
+> +			status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> +						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +						      GFP_KERNEL);
+>   		} else {
+> -			pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+>   			reqtype =  REALTEK_USB_VENQT_WRITE;
+> -			memcpy(pIo_buf, pdata, len);
+
+I guess, this memcpy is needed, since we want to send data from pdata
+
+
+> +			status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> +						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +						      GFP_KERNEL);
+>   		}
+>   
+> -		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> -					 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> -					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
+> -
+> -		if (status == len) {   /*  Success this control transfer. */
+> +		if (!status) {   /*  Success this control transfer. */
+>   			rtw_reset_continual_urb_error(dvobjpriv);
+>   			if (requesttype == 0x01)
+>   				memcpy(pdata, pIo_buf,  len);
+> 
+
+
+With regards,
+Pavel Skripkin
