@@ -1,41 +1,41 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2C03FC6
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 12:02:30 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id c129-20020a1c35870000b02902e6b6135279so10605172wma.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 05:02:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6C13FC6
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 12:02:31 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so13914693wme.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 05:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hmtc5bJ1VOtrjv9Nl+cOcRNE4MiTt6cvRbrnfn8s2tU=;
-        b=mRtp8u54MR2reqhTeDNjaFLpEjefgZY6I8+oWCDMTVcXbCOCc0AjnpRmxl6TNdaUpv
-         Rl4xOVr6VhdODxtf6Hf6+JkJdezM875KxBlhTVCIXndBl1oNAkkpN2xIcn1P/PsDAmEM
-         8T51SOY3/gqq7n0QEkn3DxmOR+wg3e1nZd/GRRo6gmbAjEJqJh9H2bQ9SFrV9llGA/ke
-         XKinT8f+CUe02lenhmSrSUpVs0FhEjw50oy9/7dltvXsq3WQl23TOy4wGsmXetf3e1ij
-         ie+uKCl+R94Z9cWd8AwqaS7zodmPwTYPEgAWVc5/T+pAyh8ZGX0OXHhkQN3pknIbVRAp
-         4x/A==
+        bh=6Ie2LUKLvJAhCwfhxzRAdWNjRl3Humfcq+0FcV7sa3Y=;
+        b=WzySwQycekqnCDlzSJwb1TqW7FIpgS3zAdjfyy9l/2QS36+VTiKFmSS9WLLDXl1+Qt
+         0alreyYG8aa5bMLogGQXqJFl76+C44B54fr7a9JR8e1MV7YfUG+s9NgOzRJZwT9W/yOu
+         FFx/vzCu9YF/5XPKhRhuMJazJdFA1xiqhDBZk7JIKhy8r6ErP/LYTANI0gjURwFZ6VDr
+         Ec0aQgY3bgHB5yWjGLK5Jlh8HyygnST9Hg+DdaQ7G2O4bcjXMcnWAfjAfevxr2sJG5+h
+         ArgbGJgPM9PypBk6ImpJicRmsh+awk0HH4LhqFpWjmOAe4GRDCN9swkkgnTLxZOR9uVj
+         SWBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hmtc5bJ1VOtrjv9Nl+cOcRNE4MiTt6cvRbrnfn8s2tU=;
-        b=VVzdBKd8cGS9agYA/PcBpGadaqVB2PGky07UMTPrkt+bIpwUvhlrFiIY/5OfrXRk9D
-         r5DovcMPkCQvTFE+75HRv8Wjw5r2ufvDoqeVyLE0lOd3PEPMhUToh7Vf2VLzbiViqWql
-         ajR6j85IrMgEzOxa8eq7zbQh6Kp+J4TV1hxh3lCV4nORUbD2wmyJAQaVsrvH8G2PCrqg
-         yRl9I7iqHFLwM4o/Hbi9/scyuMT/YPOLp6lviI6y/t9HAi9UWPlaoSvhehdjuVwNbj+B
-         OseqCnsrfmAty0KfAo2uOFOKCNESMkRQ+J1r7Q+u+0RCqLxiEuIt+ytg3v01IyIgaR4N
-         /qVg==
-X-Gm-Message-State: AOAM531o+GkXKZpxyGYdcTF8dJi8dFbLHLC6wsP1e3RULKX1TPu0D7jR
-	3pA0xA7bIXl9KAMVqqlmYZ4=
-X-Google-Smtp-Source: ABdhPJyTsYrcwTrZF0H7XKtvwgKssKj2T9C/9Wp5lH0exUTQQt7K7SB8sy5g/MjiOa47coagAA1kcQ==
-X-Received: by 2002:a05:600c:35d2:: with SMTP id r18mr15946644wmq.116.1629720148836;
-        Mon, 23 Aug 2021 05:02:28 -0700 (PDT)
+        bh=6Ie2LUKLvJAhCwfhxzRAdWNjRl3Humfcq+0FcV7sa3Y=;
+        b=bT9w4HFm4T1V7GlkQTXs3oJeyEgtvuQDsXlWDpBdW5EEBY/AaELn0DDilwSpBcHWoI
+         N0r1rXg8JWUYSNpDHa4L7EyotEy2ULJwB1LoIkxelRvC9Qifpus9aOE/zwKtlUdHPpXv
+         NKVV1rgk83M8klZ49guABjpHqXMjqQq6cMUBK6Tbf8crWKn9xD3+OlfohLxme82zVYdj
+         +IRP3gnNtExCNa+CfugaeKOYTHY2QikiqLac629k1moS01kKCHL+J7tOReheZtXnMe7v
+         GwYre+d9+fgIgOdKi7q/EdCO6t39C6e87XB22pi8kduxRYh1V+4BzfRoL479TmnPk6hz
+         r9PQ==
+X-Gm-Message-State: AOAM530sWe7keeMLKJvY8pw6xfvWhE9dTmwrqsWbH68s2UXFkgAN3gVQ
+	IfciPPtQoJDf9owQkaHF1T4=
+X-Google-Smtp-Source: ABdhPJyEf5urADYIU7VVIagTAr4fmlOdU1Jn2KdrvJvRPwx4PziGYIdDNhLJu6ArYKW/RGOw1t/idw==
+X-Received: by 2002:a1c:7e8a:: with SMTP id z132mr15791563wmc.75.1629720150218;
+        Mon, 23 Aug 2021 05:02:30 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::3c39])
-        by smtp.gmail.com with ESMTPSA id g5sm901332wrq.80.2021.08.23.05.02.27
+        by smtp.gmail.com with ESMTPSA id g5sm901332wrq.80.2021.08.23.05.02.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 05:02:28 -0700 (PDT)
+        Mon, 23 Aug 2021 05:02:29 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 7/8] staging: r8188eu: use is_multicast_ether_addr in hal/rtl8188eu_xmit.c
-Date: Mon, 23 Aug 2021 14:01:05 +0200
-Message-Id: <20210823120106.9633-8-straube.linux@gmail.com>
+Subject: [PATCH 8/8] staging: r8188eu: use is_multicast_ether_addr in os_dep/recv_linux.c
+Date: Mon, 23 Aug 2021 14:01:06 +0200
+Message-Id: <20210823120106.9633-9-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210823120106.9633-1-straube.linux@gmail.com>
 References: <20210823120106.9633-1-straube.linux@gmail.com>
@@ -64,30 +64,22 @@ buffer is properly aligned.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/r8188eu/os_dep/recv_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-index d22b16cc5a30..17be67ac5fae 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-@@ -167,7 +167,6 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
- 	struct tx_desc	*ptxdesc = (struct tx_desc *)pmem;
- 	struct mlme_ext_priv	*pmlmeext = &adapt->mlmeextpriv;
- 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
--	int	bmcst = IS_MCAST(pattrib->ra);
+diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
+index b4c5333bfff0..dd3113b6d4f3 100644
+--- a/drivers/staging/r8188eu/os_dep/recv_linux.c
++++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
+@@ -132,7 +132,7 @@ int rtw_recv_indicatepkt(struct adapter *padapter,
+ 		struct sta_info *psta = NULL;
+ 		struct sta_priv *pstapriv = &padapter->stapriv;
+ 		struct rx_pkt_attrib *pattrib = &precv_frame->attrib;
+-		int bmcast = IS_MCAST(pattrib->dst);
++		bool bmcast = is_multicast_ether_addr(pattrib->dst);
  
- 	if (adapt->registrypriv.mp_mode == 0) {
- 		if ((!bagg_pkt) && (urb_zero_packet_chk(adapt, sz) == 0)) {
-@@ -186,7 +185,7 @@ static s32 update_txdesc(struct xmit_frame *pxmitframe, u8 *pmem, s32 sz, u8 bag
- 
- 	ptxdesc->txdw0 |= cpu_to_le32(((offset) << OFFSET_SHT) & 0x00ff0000);/* 32 bytes for TX Desc */
- 
--	if (bmcst)
-+	if (is_multicast_ether_addr(pattrib->ra))
- 		ptxdesc->txdw0 |= cpu_to_le32(BMC);
- 
- 	if (adapt->registrypriv.mp_mode == 0) {
+ 		if (memcmp(pattrib->dst, myid(&padapter->eeprompriv),
+ 				 ETH_ALEN)) {
 -- 
 2.32.0
 
