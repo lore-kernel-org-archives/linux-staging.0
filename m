@@ -1,93 +1,118 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD713FC0
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 19:35:26 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id n5so15449487wro.12
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 12:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5aJIU45FbDH+4PMzPrOxxvTKWlGFVwAzGeiDLaD41k0=;
-        b=lAGhEoYZIl2Ie7hO48KDMvxIjOcn0/C4lr2t2yRDHqDKSjRqf37nU02YJ0kA3DLv7t
-         kLFybcA9GC6SMWIDTYWbqMCY0hbm89mU0uJyj5h9RMmnuqHT8kykedxirxLXqyeZQESZ
-         LbyClQcJU6ZGelz9gQtQy5X9iVanwKMzn4W+6pc3UqjafmyTEPdck69eRI4pcPjqLwVK
-         tTGJwaZV0PnK/v0OLNWyLkKW4t+3D/vwTJYJLyp3dG+HNlmbfvKdKXfn9NuXMV2k3VFX
-         o4tlHhu6KTKKB5eQ8Yl8Rg1FjMzZoffoLJGrqkOusYL/G/uvrBM6dGlu2vPS6CrTQCog
-         HM1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5aJIU45FbDH+4PMzPrOxxvTKWlGFVwAzGeiDLaD41k0=;
-        b=PpSKhheYaLtZXNZGxAKRg+kYuHm3WdVTThJNvZ1FQ5TXR0lTVWKdIzVSK5ugyb0+f4
-         52GjH146518sgCEhRi2XH1nUG+klQp3HoS2RQcEL8+ZuTo1P/mOQFDg2YIgRYJvweQ4h
-         R0FWFf3GOHcZuJkUWkJyppHn6sfRdSSldAtBuL7dbySNC/KdvRgESK1MJy82snQq24g8
-         dbEznMxhpVOmbSgWbimEHt3qSj95RA2g4penj+XnKOVOmhxi3Vm8inTHQYNxf1OIr12U
-         6xEC/thJAT+Qj1db2O9NKfD7DE0SYKtvluo8XCZzGEYcFhpjnw0T2OVkN6Fy5W3C37CQ
-         Z4eQ==
-X-Gm-Message-State: AOAM531s2LtTNLlfFOTi6Na9rlq7Gn6MWR6hpqRux24wUsO1C1QwoMFH
-	q6kHvvzTkW2MpVWEKypIJkYUZO7t4Pg=
-X-Google-Smtp-Source: ABdhPJywIJYbxkHiK7gragRF97lVPMSpwj9XblpvzAikHbFSFGDRdVqiCQqu4idcJvzdNYrGC1m7uA==
-X-Received: by 2002:a05:6000:120d:: with SMTP id e13mr15488253wrx.6.1629747324915;
-        Mon, 23 Aug 2021 12:35:24 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::3c39? ([2a02:8108:96c0:3b88::3c39])
-        by smtp.gmail.com with ESMTPSA id n14sm5615292wrx.10.2021.08.23.12.35.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 12:35:24 -0700 (PDT)
-Subject: Re: [PATCH] staging: r8188eu: make rtw_deinit_intf_priv return void
-To: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210823184059.19742-1-paskripkin@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <e01ea557-b006-a5b9-884a-81670376fe6c@gmail.com>
-Date: Mon, 23 Aug 2021 21:34:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E743FC0
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 19:50:50 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1mIFy3-0006Ia-8C; Mon, 23 Aug 2021 21:50:47 +0200
+Date: Mon, 23 Aug 2021 21:50:47 +0200
+From: Martin Kaiser <lists@kaiser.cx>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: remove 5 GHz code
+Message-ID: <20210823195047.xn4brfgrec726oew@viti.kaiser.cx>
+References: <20210823193028.12391-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210823184059.19742-1-paskripkin@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210823193028.12391-1-straube.linux@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-On 8/23/21 8:40 PM, Pavel Skripkin wrote:
-> rtw_deinit_intf_priv() always return success, so there is no need in
-> return value
-> 
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+Thus wrote Michael Straube (straube.linux@gmail.com):
+
+> The driver is for chips that do not operate in the 5 GHz band.
+> Remove some 5 GHz related code.
+
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->   drivers/staging/r8188eu/os_dep/usb_intf.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index e002070f7fba..37694aa96d13 100644
-> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -129,13 +129,10 @@ static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
->   	return rst;
->   }
->   
-> -static u8 rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
-> +static void rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
->   {
-> -	u8 rst = _SUCCESS;
-> -
->   	kfree(dvobj->usb_alloc_vendor_req_buf);
->   	_rtw_mutex_free(&dvobj->usb_vendor_req_mutex);
-> -	return rst;
->   }
->   
->   static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
-> 
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 30 ++++++--------------
+>  1 file changed, 8 insertions(+), 22 deletions(-)
 
-Looks good to me, thanks.
+> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> index ab4a9200f079..81d4255d1785 100644
+> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> @@ -208,17 +208,10 @@ static char *translate_scan(struct adapter *padapter,
+>  		else
+>  			snprintf(iwe.u.name, IFNAMSIZ, "IEEE 802.11bg");
+>  	} else {
+> -		if (pnetwork->network.Configuration.DSConfig > 14) {
+> -			if (ht_cap)
+> -				snprintf(iwe.u.name, IFNAMSIZ, "IEEE 802.11an");
+> -			else
+> -				snprintf(iwe.u.name, IFNAMSIZ, "IEEE 802.11a");
+> -		} else {
+> -			if (ht_cap)
+> -				snprintf(iwe.u.name, IFNAMSIZ, "IEEE 802.11gn");
+> -			else
+> -				snprintf(iwe.u.name, IFNAMSIZ, "IEEE 802.11g");
+> -		}
+> +		if (ht_cap)
+> +			snprintf(iwe.u.name, IFNAMSIZ, "IEEE 802.11gn");
+> +		else
+> +			snprintf(iwe.u.name, IFNAMSIZ, "IEEE 802.11g");
+>  	}
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+>  	start = iwe_stream_add_event(info, start, stop, &iwe, IW_EV_CHAR_LEN);
+> @@ -737,17 +730,10 @@ static int rtw_wx_get_name(struct net_device *dev,
+>  			else
+>  				snprintf(wrqu->name, IFNAMSIZ, "IEEE 802.11bg");
+>  		} else {
+> -			if (pcur_bss->Configuration.DSConfig > 14) {
+> -				if (ht_cap)
+> -					snprintf(wrqu->name, IFNAMSIZ, "IEEE 802.11an");
+> -				else
+> -					snprintf(wrqu->name, IFNAMSIZ, "IEEE 802.11a");
+> -			} else {
+> -				if (ht_cap)
+> -					snprintf(wrqu->name, IFNAMSIZ, "IEEE 802.11gn");
+> -				else
+> -					snprintf(wrqu->name, IFNAMSIZ, "IEEE 802.11g");
+> -			}
+> +			if (ht_cap)
+> +				snprintf(wrqu->name, IFNAMSIZ, "IEEE 802.11gn");
+> +			else
+> +				snprintf(wrqu->name, IFNAMSIZ, "IEEE 802.11g");
+>  		}
+>  	} else {
+>  		snprintf(wrqu->name, IFNAMSIZ, "unassociated");
+> -- 
+> 2.32.0
+
+
+Hi Michael and all,
+
+looks good.
+
+Acked-by: Martin Kaiser <martin@kaiser.cx>
+
+
+Two comments unrelated to your patch: I guess that DSConfig is the
+channel number, those two drivers have a misleading comment:
+
+  3 F   m    DSConfig
+    drivers/staging/r8188eu/include/wlan_bssdef.h
+               struct:ndis_802_11_config
+               u32           DSConfig;           /*  Frequency, units are kHz */
+  4 F   m    DSConfig          drivers/staging/rtl8712/wlan_bssdef.h
+               struct:NDIS_802_11_CONFIGURATION
+               u32 DSConfig;           /* Frequency, units are kHz */
+
+
+The rtw_wx_get_name function has a similar check
+if (pcur_bss->Configuration.DSConfig > 14).
+
+But when Larry adds cfg80211 support, I guess all IW_HANDLER()s will
+become obsolete...
+
+Best regards,
+Martin
