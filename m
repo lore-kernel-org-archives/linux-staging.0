@@ -1,290 +1,177 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C563FC0
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 10:46:57 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id s3so30644612ljp.11
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 03:46:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F31A3FC0
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 10:47:49 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id u3so36102644ejz.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 03:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UmkfXGaYCdqSsvCrogHGEUgWw+TJ4SlfmjU5MN/PEBE=;
-        b=cjqU7CIQQYnl3N9VSH9OdTpbfhx84HH/grPgOc+tCGAo2Yn2hAV0cMn3z8HTaVOuhA
-         8Brg4z73NnaY2Z/CE8IaG11T82l0gL1ZP2mAHcCMwXtNviOz1cwQ7atSvkRP33js82FC
-         tL3OJS+qxvVYzF3TYhi7jJG99T8jOBJM8RSwrLmSS6vtDNlXueNOFv50Q4BmfSf/V2kW
-         jpK8t4qSsEu0v76ajcR4UzKY9YBd/hRYx4cCU6l6AsBCSBWNe3JTai52Wv7UVRmBdbxJ
-         Pg+Ik2kyI7qbtIeypuO3uLwLKp7JZuw0yQNYCSOl6O3FaQojbcATlzG1xxwJABfP9fIQ
-         rH8g==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=vDFsfAzgg8pTYEtlapSW0caiBmfQljPcziSOHOjY7/8=;
+        b=l8EiydJYNtcZ5nx6fu/aA4H0DfERCiFxLFNgA/xyQx4LCFPYLRrh3cmB/RJHo/3Ri6
+         w98Ln+WoptdDy2d5YJNdlp3FZ3PR5/D2v0a/rwrpnsUtl2ogcQD7ocqNqBAe0wZum4b5
+         D+R5VNvc7nnN+BWRVoUTtW8KUBXFUTkzUhWByAl5GNvdVpgbIEL692+txN7W7nNxeQFq
+         SuTiN9b4Qj59lFWnbuLhYPRTdAgP2Ui5Nbl8ftogz1+txQrNXJ0IfhFp+wZML2zan0fw
+         +WksNkTob+t4Hs3Xxwf2PS1ipE/4rnRtRfPYSsnLAJn3sWQfL4Vwj0hh/ftzWWH2WQ1Z
+         G87A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UmkfXGaYCdqSsvCrogHGEUgWw+TJ4SlfmjU5MN/PEBE=;
-        b=OP/SXSb1qO12+9KSuwop6oOHjY+Ove94o5qXVPqkmSctsJJn77qUyNokyglY9Ws/R/
-         Ew4rYzORIEInVxaJJXbvyp6//VKS92F6W2UetOmjpS1c6Yp0cxTOuTfrJhccSYYoRBtA
-         RPvazXc8gU6jgHOrUp+V0D8AAYe8KeK0wn5JL4cXVR4C/wHKcl+cZfeUSD4S743K4mFW
-         g7r4rw/eQuvbCY7ul6CDjrmLl+VfPp+8bTMtipKBWQbbZlexF671J0QdfKlV8SlOWBcA
-         WUPtn6YN+iOkI88LIic2Trb2+figJbGHz9veMw5X8n8UI5taWqB6KGcM5e1lzJAYniZs
-         NzRw==
-X-Gm-Message-State: AOAM5305A9lFi5aVrMqRCCVlBPb2rSTdyAIbAeG68C6X36krMHIYcH4w
-	gh7T4OC9nbBtq+dbHgf8/fbX4c/IA6+1CxLlb2LntQ==
-X-Google-Smtp-Source: ABdhPJwROTbhLIghdJiFv3Mpx4km5TKucbukHEV5v0NDix1jHpH6ITt9xOVwuMgiEW0EE35GC/hK1ms310RYHiQipIA=
-X-Received: by 2002:a2e:a410:: with SMTP id p16mr25247179ljn.364.1629715615237;
- Mon, 23 Aug 2021 03:46:55 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vDFsfAzgg8pTYEtlapSW0caiBmfQljPcziSOHOjY7/8=;
+        b=qgwwIb4Kninm/qmCZapDTUnH+l3mOZNCfSHe5pkHV4IE/xw1wntnAbQm+pS1jQSDqj
+         7obQm1W9ctJpPFnPWfiRd1230AjEjyN6hpp30mR8GBbziXWNYumyq0Icqgd3dBw6naf+
+         lXNxTKtcB4us4KIVn4i44J9CDVD34rYcaU5QbMZ6DnpBDC9i/SzPf06wJKkVBQpmG2kv
+         0x25xTfom7doEwz++mmYS7xisKBCq3eQdVG0kOovjxDqWZH1DtIZrh1mLE4N34TXJNj8
+         6Jl6gRtPf5WHTHDY/HPQIko8tbjD9nbXADiFQwKV572No0j1OSZjymUdEays+sltecS6
+         gCqA==
+X-Gm-Message-State: AOAM532blqg+rU+yAtH/SsNtiHBJlYlywwe6anT4ZcG/Zc8qiNh4he1C
+	zdEL2Jrr/l+fGV37xb81HiM=
+X-Google-Smtp-Source: ABdhPJzUgAYUMV7ZimkvzfBCbrfAVY8nvXGQlD+IMyLoWuKhnE1jrRfWvrUcGJYbI5TBA/pslJ+lsA==
+X-Received: by 2002:a17:906:ad87:: with SMTP id la7mr8120604ejb.145.1629715667569;
+        Mon, 23 Aug 2021 03:47:47 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id bx14sm4506257edb.93.2021.08.23.03.47.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Aug 2021 03:47:47 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH RFC] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
+Date: Mon, 23 Aug 2021 12:47:45 +0200
+Message-ID: <8275282.m2tVFbhrJk@localhost.localdomain>
+In-Reply-To: <69bbb80c-2b30-28b9-ad8c-6862a6c3b911@gmail.com>
+References: <20210822230235.10953-1-fmdefrancesco@gmail.com> <69bbb80c-2b30-28b9-ad8c-6862a6c3b911@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210818043131.7klajx6drvvkftoc@vireshk-i7> <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
- <20210818045307.4brb6cafkh3adjth@vireshk-i7> <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
- <20210818055849.ybfajzu75ecpdrbn@vireshk-i7> <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
- <20210818062723.dqamssfkf7lf7cf7@vireshk-i7> <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7> <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <20210818095044.e2ntsm45h5cddk7s@vireshk-i7> <CAPDyKFrFF00xGDWPCQnPwF0_QkG4TB2UqggpuBpp8LY_CMKP-A@mail.gmail.com>
- <0354acbe-d856-4040-f453-8e8164102045@gmail.com> <CAPDyKFoQdn1rm91iFNJwZwpSYcKJBjDLqtJB4KZAkhgY1Grm-Q@mail.gmail.com>
- <87073fc2-d7b3-98f4-0067-29430ea2adef@gmail.com> <CAPDyKFqSsAk8a5CTNpRT2z4Wvf8BehJKDbVhUKfHc2Jzj7aTNA@mail.gmail.com>
- <9129a9f0-8c9b-d8e0-ddf5-c8820871fb7f@gmail.com>
-In-Reply-To: <9129a9f0-8c9b-d8e0-ddf5-c8820871fb7f@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 23 Aug 2021 12:46:19 +0200
-Message-ID: <CAPDyKFrWeQVNgxzmiLBXJ2gQW=iFf4aG16xvZ+ag1MkhXs9-BQ@mail.gmail.com>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-mmc <linux-mmc@vger.kernel.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-[...]
+On Monday, August 23, 2021 10:11:52 AM CEST Pavel Skripkin wrote:
+> On 8/23/21 2:02 AM, Fabio M. De Francesco wrote:
+> > Replace usb_control_msg() with the new usb_control_msg_recv() and
+> > usb_control_msg_send() API of USB Core.
+> > 
+> > This patch is an RFC for different reasons:
+> > 
+> > 1) I'm not sure if it is needed: while Greg Kroah-Hartman suggested to
+> > use the new API in a message to a thread that was about a series of patches
+> > submitted by Pavel Skripkin (who decided to not use it), I cannot explain
+> > if and why the driver would benefit from this patch.
+> > 2) I have doubts about the semantic of the API I use here, so I'd like to
+> > know whether or not I'm using them properly.
+> > 3) At the moment I cannot test the driver because I don't have my device
+> > with me.
+> > 4) This patch could probably lead to a slight change in some lines of
+> > Pavel's series (for sure in usb_read*()).
+> > 
+> > I'd like to hear from the Maintainers and other interested people if this
+> > patch is worth to be considered and, in this case, if there are suggestions
+> > for the purpose to improve it.
+> > 
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >   drivers/staging/r8188eu/hal/usb_ops_linux.c | 19 ++++++++++---------
+> >   1 file changed, 10 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > index 6a0a24acf292..9e290c1cc449 100644
+> > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > @@ -15,7 +15,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+> >   	struct adapter	*adapt = pintfhdl->padapter;
+> >   	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
+> >   	struct usb_device *udev = dvobjpriv->pusbdev;
+> > -	unsigned int pipe;
+> > +	u8 pipe;
+> >   	int status = 0;
+> >   	u8 reqtype;
+> 
+> I think, we can pass REALTEK_USB_VENQT_{READ,WRITE} directly as 
+> requesttype argument and get rid of u8 reqtype. + we can define these 
+> macros:
+> 
+> #define
+> usbctrl_vendor_read(...)   usbctrl_vendorreq(...,REALTEK_USB_VENQT_READ)
+> 
+> 
+> #define
+> usbctrl_vendor_write()    usbctrl_vendorreq(...,REALTEK_USB_VENQT_WRITE)
+> 
+> 
+> This will make code more nice, IMO  :)
 
-> >>>> We have three components comprising PM on Tegra:
-> >>>>
-> >>>> 1. Power gate
-> >>>> 2. Clock state
-> >>>> 3. Voltage state
-> >>>>
-> >>>> GENPD on/off represents the 'power gate'.
-> >>>>
-> >>>> Clock and reset are controlled by device drivers using clk and rst APIs.
-> >>>>
-> >>>> Voltage state is represented by GENPD's performance level.
-> >>>>
-> >>>> GENPD core assumes that at a first rpm-resume of a consumer device, its
-> >>>> genpd_performance=0. Not true for Tegra because h/w of the device is
-> >>>> preconfigured to a non-zero perf level initially, h/w may not support
-> >>>> zero level at all.
-> >>>
-> >>> I think you may be misunderstanding genpd's behaviour around this, but
-> >>> let me elaborate.
-> >>>
-> >>> In genpd_runtime_resume(), we try to restore the performance state for
-> >>> the device that genpd_runtime_suspend() *may* have dropped earlier.
-> >>> That means, if genpd_runtime_resume() is called prior
-> >>> genpd_runtime_suspend() for the first time, it means that
-> >>> genpd_runtime_resume() will *not* restore a performance state, but
-> >>> instead just leave the performance state as is for the device (see
-> >>> genpd_restore_performance_state()).
-> >>>
-> >>> In other words, a consumer driver may use the following sequence to
-> >>> set an initial performance state for the device during ->probe():
-> >>>
-> >>> ...
-> >>> rate = clk_get_rate()
-> >>> dev_pm_opp_set_rate(rate)
-> >>>
-> >>> pm_runtime_enable()
-> >>> pm_runtime_resume_and_get()
-> >>> ...
-> >>>
-> >>> Note that, it's the consumer driver's responsibility to manage device
-> >>> specific resources, in its ->runtime_suspend|resume() callbacks.
-> >>> Typically that means dealing with clock gating/ungating, for example.
-> >>>
-> >>> In the other scenario where a consumer driver prefers to *not* call
-> >>> pm_runtime_resume_and_get() in its ->probe(), because it doesn't need
-> >>> to power on the device to complete probing, then we don't want to vote
-> >>> for an OPP at all - and we also want the performance state for the
-> >>> device in genpd to be set to zero. Correct?
-> >>
-> >> Yes
-> >>
-> >>> Is this the main problem you are trying to solve, because I think this
-> >>> doesn't work out of the box as of today?
-> >>
-> >> The main problem is that the restored performance state is zero for the
-> >> first genpd_runtime_resume(), while it's not zero from the h/w perspective.
-> >
-> > This should not be a problem, but can be handled by the consumer driver.
-> >
-> > genpd_runtime_resume() calls genpd_restore_performance_state() to
-> > restore a performance state for the device. However, in the scenario
-> > you describe, "gpd_data->rpm_pstate" is zero, which makes
-> > genpd_restore_performance_state() to just leave the device's
-> > performance state as is - it will *not* restore the performance state
-> > to zero.
-> >
-> > To make the consumer driver deal with this, it would need to call
-> > dev_pm_opp_set_rate() from within its ->runtime_resume() callback.
-> >
-> >>
-> >>> There is another concern though, but perhaps it's not a problem after
-> >>> all. Viresh told us that dev_pm_opp_set_rate() may turn on resources
-> >>> like clock/regulators. That could certainly be problematic, in
-> >>> particular if the device and its genpd have OPP tables associated with
-> >>> it and the consumer driver wants to follow the above sequence in
-> >>> probe.
-> >>
-> >> dev_pm_opp_set_rate() won't enable clocks and regulators, but it may
-> >> change the clock rate and voltage. This is also platform/driver specific
-> >> because it's up to OPP user how to configure OPP table. On Tegra we only
-> >> assign clock to OPP table, regulators are unused.
-> >>
-> >>> Viresh, can you please chime in here and elaborate on some of the
-> >>> magic happening behind dev_pm_opp_set_rate() API - is there a problem
-> >>> here or not?
-> >>>
-> >>>>
-> >>>> GENPD core assumes that consumer devices can work at any performance
-> >>>> level. Not true for Tegra because voltage needs to be set in accordance
-> >>>> to the clock rate before clock is enabled, otherwise h/w won't work
-> >>>> properly, perhaps clock may be unstable or h/w won't be latching.
-> >>>
-> >>> Correct. Genpd relies on the callers to use the OPP framework if there
-> >>> are constraints like you describe above.
-> >>>
-> >>> That said, it's not forbidden for a consumer driver to call
-> >>> dev_pm_genpd_set_performance_state() directly, but then it better
-> >>> knows exactly what it's doing.
-> >>>
-> >>>>
-> >>>> Performance level should be set to 0 while device is suspended.
-> >>>
-> >>> Do you mean system suspend or runtime suspend? Or both?
-> >>
-> >> Runtime suspend.
-> >
-> > Alright. So that's already taken care of for us in genpd_runtime_suspend().
-> >
-> > Or perhaps you have discovered some problem with this?
-> >
-> >>
-> >>>> Performance level needs to be bumped on rpm-resume of a device in
-> >>>> accordance to h/w state before hardware is enabled.
-> >>>
-> >>> Assuming there was a performance state set for the device when
-> >>> genpd_runtime_suspend() was called, genpd_runtime_resume() will
-> >>> restore that state according to the sequence you described.
-> >>
-> >> What do you think about adding API that will allow drivers to explicitly
-> >> set the restored performance state of a power domain?
-> >>
-> >> Another option could be to change the GENPD core, making it to set the
-> >> rpm_pstate when dev_pm_genpd_set_performance_state(dev) is invoked and
-> >> device is rpm-suspended, instead of calling the
-> >> genpd->set_performance_state callback.
-> >>
-> >> Then drivers will be able to sync the perf state at a probe time.
-> >>
-> >> What do you think?
-> >
-> > I don't think it's needed, see my reply earlier above. However your
-> > change touches another problem though, see below.
-> >
-> >>
-> >> diff --git a/drivers/base/power/domain.c b/drivers/base/power/domain.c
-> >> index a934c679e6ce..cc15ab9eacc9 100644
-> >> --- a/drivers/base/power/domain.c
-> >> +++ b/drivers/base/power/domain.c
-> >> @@ -435,7 +435,7 @@ static void genpd_restore_performance_state(struct
-> >> device *dev,
-> >>  int dev_pm_genpd_set_performance_state(struct device *dev, unsigned int
-> >> state)
-> >>  {
-> >>         struct generic_pm_domain *genpd;
-> >> -       int ret;
-> >> +       int ret = 0;
-> >>
-> >>         genpd = dev_to_genpd_safe(dev);
-> >>         if (!genpd)
-> >> @@ -446,7 +446,10 @@ int dev_pm_genpd_set_performance_state(struct
-> >> device *dev, unsigned int state)
-> >>                 return -EINVAL;
-> >>
-> >>         genpd_lock(genpd);
-> >> -       ret = genpd_set_performance_state(dev, state);
-> >> +       if (pm_runtime_suspended(dev))
-> >> +               dev_gpd_data(dev)->rpm_pstate = state;
-> >> +       else
-> >> +               ret = genpd_set_performance_state(dev, state);
-> >>         genpd_unlock(genpd);
-> >
-> > This doesn't work for all cases. For example, when a consumer driver
-> > deploys runtime PM support in its ->probe() according to the below
-> > sequence:
-> >
-> > ...
-> > dev_pm_opp_set_rate(rate)
-> > pm_runtime_get_noresume()
-> > pm_runtime_set_active()
-> > pm_runtime_enable()
-> > ...
-> > pm_runtime_put()
-> > ...
-> >
-> > We need to call genpd_set_performance_state() independently of whether
-> > the device is runtime suspended or not.
->
-> I don't see where is the problem in yours example.
->
-> pm_runtime_suspended() = false while RPM is disabled. When device is
-> resumed, the rpm_pstate=0, so it won't change the pstate on resume.
+Dear Pavel,
 
-Yes, you are certainly correct, my bad! I mixed it up with
-pm_runtime_status_suspended(), which only cares about the status.
+I agree in full: nicer and cleaner :)
 
-So, after a second thought, your suggestion sounds very much
-reasonable to me! I have also tried to consider all different
-scenarios, including the system suspend/resume path, but I think it
-should be fine.
+I'll do that, but please notice that I will also need to change the code of the three 
+usb_read*() for calling usbctrl_vendor_read(). Furthermore, "else res = 0;" becomes
+unnecessary. Please take these changes into account when you'll send them again
+as "regular" patches.
 
-I also think that a patch like the above should be considered as a
-fix, because it actually fixes a problem, according to what I said in
-my earlier reply, below.
+> (Sorry for this formatting, my email client disabled "paste without 
+> formatting" option)
 
-Fixes : 5937c3ce2122 ("PM: domains: Drop/restore performance state
-votes for devices at runtime PM").
+Actually I don't see any oddities in the format of your message :)
 
->
-> > Although, it actually seems like good idea to update
-> > dev_gpd_data(dev)->rpm_pstate = state here, as to make sure
-> > genpd_runtime_resume() doesn't restore an old/invalid value that was
-> > saved while dropping the performance state vote for the device in
-> > genpd_runtime_suspend() earlier.
-> >
-> > Let me send a patch for this shortly, to close this window of a possible error.
->
-> It will also remove the need to resume device just to change the clock
-> rate, like I needed to do it in the PWM patch of this series.
+> >   	u8 *pIo_buf;
+> > @@ -47,19 +47,20 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+> >   		memset(pIo_buf, 0, len);
+> >   
+> >   		if (requesttype == 0x01) {
+> > -			pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> >   			reqtype =  REALTEK_USB_VENQT_READ;
+> > +			status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> > +						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> > +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> > +						      GFP_KERNEL);
+> >   		} else {
+> > -			pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+> >   			reqtype =  REALTEK_USB_VENQT_WRITE;
+> > -			memcpy(pIo_buf, pdata, len);
+> 
+> I guess, this memcpy is needed, since we want to send data from pdata
 
-Do you want to send the patch formally? Or do you prefer it if I do it?
+Oh, dear! How could I have missed that? Two alternatives: either because of working 
+during bedtime, or I'm definitely losing my mind... :(
+ 
+> 
+> > +			status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> > +						      reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> > +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> > +						      GFP_KERNEL);
+> >   		}
+> >   
+> > -		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> > -					 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> > -					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
+> > -
+> > -		if (status == len) {   /*  Success this control transfer. */
+> > +		if (!status) {   /*  Success this control transfer. */
+> >   			rtw_reset_continual_urb_error(dvobjpriv);
+> >   			if (requesttype == 0x01)
+> >   				memcpy(pdata, pIo_buf,  len);
+> > 
+> 
+> 
+> With regards,
+> Pavel Skripkin
 
-Kind regards
-Uffe
+Thanks for you review, I really appreciate it.
+
+Regards,
+
+Fabio
+
+P.S.: As I wrote, I have not my ASUS N10 Nano with me and I won't have the opportunity
+to test this as well as any other patch until the end of August. I hope to not break anything.
+If somebody has time to test the final patch that I'm going to submit, I'd really appreciate it.
+
+
