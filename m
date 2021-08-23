@@ -1,87 +1,99 @@
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch [185.70.40.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96D83FC2
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:12:38 +0000 (UTC)
-Date: Mon, 23 Aug 2021 22:12:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1629756750;
-	bh=50FeX9ibMRexduiJPC7ZruLY3uInaCBLMCqmvNkS5U0=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=n87t4/uzOd24l/bpzoR+J5L318JBRkh11+3dYkaJUAjslnpOk0+WAZ0x/fyuDql8Y
-	 pxuJ4lu4uRfM/wJT2Xsb5EZsHGtjNuF4ZiOsHoMz94HGU8THrddZaLNtTCR2RsD8xw
-	 5oOee2H2JDOxYHdshb0G5z9EfGwUhZRxs9IJtpOxj+wt8QrZ0/tFSrEzc/pI/aN9ip
-	 OklGQuwZFnCb41mxkhlCOCUBRBW2OfuxiMzPCm9ntiHb9PCP1C4WGu/gZ6xS30aK0p
-	 QRR4k73im/ndLpvCCmj1JkxXz6MyJsOyJPblcymJDHR2vayID1IwMMsYtFlIzZgRmB
-	 z5gnWCBxU834g==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Bryan Brattlof <hello@bryanbrattlof.com>
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH] staging: rtl8723bs: remove sdio_osintf.h
-Message-ID: <20210823221156.3353972-1-hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDA23FC2
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:15:15 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id w8so17943244pgf.5
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 15:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RfdR9T5mZGKV6zTbvG9lN48TBpGfeb0ci4Ov6cLVODE=;
+        b=XLlQyOR1TZ84fqnkKvmA5L1aYwtoI6/yyTnBLXhj0MUkxsRtFTL92CSa2Poa1HpbeW
+         HNfiFyhu5K/uGj/LLOOtX21f98XnGYCB7+eekRvG9REDRbIVULgDFhMfiuzTsyEkg1lU
+         IiV36AtV4FrBr0RUDVI8vQgODPfvq6sxZFf/NiejOayr84ME1Fo1XSj+iAS1DhQr5V2E
+         RKy0cpY6S8FLuuWHO1c3uoOWSCruiLBitdCB7DJOTgKOUUJOYZiKAbOcswPcYLhg4+OG
+         khbEp4vCYkhG6bOdxrgh6zIXbO+FdGmowvTiNKODeo15FdFB1iTm4/unoTpQFansWTg5
+         PDnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RfdR9T5mZGKV6zTbvG9lN48TBpGfeb0ci4Ov6cLVODE=;
+        b=ZWolAYoD3qj34+ftwYZl9i10dbOmNdQX221Elanhs7kplb181iGbmmT1x9NMEoYrXU
+         z2dlRfaaLLq96HeRcW3r6bysnKVBWErcsTBAsGIDPRE+64xu84UcyCpL4ziNqcUpor0Q
+         KgPltI+3lOP45agV2H0e2frZSSSMS7SxLUTdtE20eiO37vdWuG7q+8cA5woeRh2brKM9
+         QRZTnhPureVILvH86H9jUwlSKv+8J8d/EmLIJblRZftAp13nzxeRemsmU6y/OEqc32rY
+         8pqAOarS3INHR7YkOU33L0p6vzMro+YXW56xzNzMCilB/+vc8NAU9YWMKM0J+0xZ39x7
+         katg==
+X-Gm-Message-State: AOAM530WGUng757hzfLJ1LJ0d66kGxuQ2M9rzi+Q2JRWWlJqCAUCiaUM
+	TUIJY98Gs7S8oo2lH23nqUGLeTpZkXFLr6RDnEtqMg==
+X-Google-Smtp-Source: ABdhPJxp9KG95R1Y/hUK17QG53Sp8biAn/VMAUkMHbnmn6dbXi3Ry7luK6mPBChTKa0dR67/WYb+goSaRqISAIva4sY=
+X-Received: by 2002:aa7:90d4:0:b029:3b3:2746:5449 with SMTP id
+ k20-20020aa790d40000b02903b327465449mr35970535pfk.81.1629756914544; Mon, 23
+ Aug 2021 15:15:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+References: <20210823120106.9633-1-straube.linux@gmail.com>
+In-Reply-To: <20210823120106.9633-1-straube.linux@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Mon, 23 Aug 2021 23:15:03 +0100
+Message-ID: <CAA=Fs0=Yq9PMEProT4RPTan4K=aL-zkQw=y855vQu+iBTPztHQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] staging: r8188eu: use is_multicast_ether_addr instead
+ of IS_MCAST
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-All definitions inside sdio_osintf.h are unused. Remove it.
+On Mon, 23 Aug 2021 at 13:02, Michael Straube <straube.linux@gmail.com> wrote:
+>
+> This series replaces most uses of the custom IS_MCAST macro with
+> is_multicast_ether_addr. The goal is to get rid of IS_MCAST.
+> There is only one usage left in rtw_sta_mgt.c, but that one needs
+> more effort to verify that the buffers are properly aligned, so I
+> left it as is for now.
+>
+> Michael Straube (8):
+>   staging: r8188eu: ensure proper alignment for eth address buffers
+>   staging: r8188eu: use is_multicast_ether_addr in core/rtw_mlme.c
+>   staging: r8188eu: use is_multicast_ether_addr in core/rtw_mp.c
+>   staging: r8188eu: use is_multicast_ether_addr in core/rtw_recv.c
+>   staging: r8188eu: use is_multicast_ether_addr in core/rtw_security.c
+>   staging: r8188eu: use is_multicast_ether_addr in core/rtw_xmit.c
+>   staging: r8188eu: use is_multicast_ether_addr in hal/rtl8188eu_xmit.c
+>   staging: r8188eu: use is_multicast_ether_addr in os_dep/recv_linux.c
+>
+>  drivers/staging/r8188eu/core/rtw_mlme.c      |  4 ++--
+>  drivers/staging/r8188eu/core/rtw_mp.c        |  4 ++--
+>  drivers/staging/r8188eu/core/rtw_recv.c      | 20 ++++++++++----------
+>  drivers/staging/r8188eu/core/rtw_security.c  |  8 ++++----
+>  drivers/staging/r8188eu/core/rtw_xmit.c      | 15 ++++++---------
+>  drivers/staging/r8188eu/hal/rtl8188eu_xmit.c |  3 +--
+>  drivers/staging/r8188eu/include/rtw_recv.h   | 10 +++++-----
+>  drivers/staging/r8188eu/include/rtw_xmit.h   |  8 ++++----
+>  drivers/staging/r8188eu/os_dep/recv_linux.c  |  2 +-
+>  9 files changed, 35 insertions(+), 39 deletions(-)
+>
+> --
+> 2.32.0
+>
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/include/drv_types.h   |  1 -
- drivers/staging/rtl8723bs/include/sdio_osintf.h | 16 ----------------
- 2 files changed, 17 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/include/sdio_osintf.h
+Dear Michael,
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/stagin=
-g/rtl8723bs/include/drv_types.h
-index 580028d28c42..0e6741db95bf 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -489,7 +489,6 @@ static inline u8 *myid(struct eeprom_priv *peepriv)
- }
+Based on my limited knowledge, looks good to me. Also I built and
+runtime tested it with my N10-Nano, driver works well still. Many
+thanks.
 
- /*  HCI Related header file */
--#include <sdio_osintf.h>
- #include <sdio_ops.h>
- #include <sdio_hal.h>
+For whole series:
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
-diff --git a/drivers/staging/rtl8723bs/include/sdio_osintf.h b/drivers/stag=
-ing/rtl8723bs/include/sdio_osintf.h
-deleted file mode 100644
-index 146b44f95e29..000000000000
---- a/drivers/staging/rtl8723bs/include/sdio_osintf.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*************************************************************************=
-*****
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- *************************************************************************=
-*****/
--#ifndef __SDIO_OSINTF_H__
--#define __SDIO_OSINTF_H__
--
--
--
--u8 sd_hal_bus_init(struct adapter *padapter);
--u8 sd_hal_bus_deinit(struct adapter *padapter);
--void sd_c2h_hdl(struct adapter *padapter);
--
--#endif
---
-2.30.2
-
-
+Regards,
+Phil
