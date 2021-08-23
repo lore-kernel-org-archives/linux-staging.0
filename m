@@ -1,94 +1,140 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF413FC0
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 03:06:53 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id c14so8922243qvs.9
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 20:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v5fKUirlI0ToxpLo9nwyWF9xy/b07uS0bu8mkFdXJJ4=;
-        b=erFyBgVd6uxfFcX3HaP8t0NV9C6E9+O9C3zq036nMZmOJeE28l8RhqShZNWLiExlv4
-         B7lhIdJbRlqm88xklXIFutvI1WUZD0MSU9r8uZz2Kujayh5RFGAp/rmXtCylpm50uh5X
-         U8ZqW85w1t4F7Z8OqlPZ6vvgKPEZf68kYvQUl6OAMBViieV2bEsgypEvvIwCEC68ogXW
-         uvdU9oYM5GY9TQIGCtQtqyINJhs0I5yvUcrN19Eymu+yk3ePxFv4mW+dBgMbOQTH7306
-         Apa9LWKvSsCyLrQBz3uFydR99dPBWM4P+6jcIx21kAorYhGLcoLazisNLfnmlfJwMtV+
-         EpQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v5fKUirlI0ToxpLo9nwyWF9xy/b07uS0bu8mkFdXJJ4=;
-        b=USiF+RAY73/FLbNsAVfzZWMaFWI2MLdE0XHTYxMTTS6qgZ6ljlWz4gK+k5Fb2z/v0v
-         SjAJWBVD1ibjO6YZ/IbbWCruBqaKK4w4QdmAMvudv4oFp2SoDFoz7jL5Z/sDKwh2Ka0F
-         FFQm/6F2IqJlamZOkBtl0Mknq4IDHIOV5RlQQRxZS1M5twciuagwbLrPr5mHCUJGKw7V
-         NDGFkl5oxySTbdDMsKoMNx0bFMigaqMBvOpyuCB0TY8CfXj9vlPLx/MNv4QfIhS1Q9D9
-         roFLzNkGtFTKpu/Vol6z0LD1R5OHqHKTJd5s2xEf8unW30xssABG0e43fWuvJtVj5QMk
-         VqWQ==
-X-Gm-Message-State: AOAM530huDI+vHO7jR6jFu2wtj4FUXcoJ9YqyausOi0i73nAlC0ovNIH
-	NdCdDF/ZKwDy8/BhKsBmnPI=
-X-Google-Smtp-Source: ABdhPJzRsbKxQw9ePN3HS0BDfYjIn+EEf9EgHyOKBXJe/2rwM6YTMtOvUOmTjsPOe8ROkRKup5VqYg==
-X-Received: by 2002:a0c:b216:: with SMTP id x22mr31272965qvd.55.1629688012820;
-        Sun, 22 Aug 2021 20:06:52 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id j18sm7858882qkg.31.2021.08.22.20.06.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Aug 2021 20:06:52 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: xu.xin16@zte.com.cn
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	xu xin <xu.xin16@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH Linux-next] ioctl_linux: fix a potential NULL pointer dereference bug
-Date: Sun, 22 Aug 2021 20:06:31 -0700
-Message-Id: <20210823030631.45517-1-xu.xin16@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1D33FC1
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 04:56:13 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4GtKh13JJDz9sWS;
+	Mon, 23 Aug 2021 14:56:01 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1629694564;
+	bh=R8PBxC/HynH4xEcQANJCH6rE1jH+u8gsKBuxIbMNLTs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=a1iW2Pt1kHHliRzWnsgUWnUPXzAPa6K0czSeVW/lgopJWaUMSBdXd9RvxA2oo+2Bi
+	 pmRIJH5PBg6bByQY/cxKNxkoprS4/Y5ACVbXiYIchmTaPZGQCOlmNym0Z7HGM2wM4c
+	 4Fp2ulP/ZaQxpRgJz4EDHxe4xx6yYeKW+hpsTCDkiHP5QbMve8C48MLs61Q+vEPfdI
+	 VTqXFsDNZDd3tnl+2/9gl12uMzzs6VCYFegjMVs0YdD8TM9avqLkWjZK74C6aBMExz
+	 Etv9zteIN82cJPx68a7lGtZT15hKDTFtgcJJIQISdDBokbfeJWLCrCJY//wTldYX9G
+	 LRVCHoyBJgAkQ==
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Christophe
+ Leroy <christophe.leroy@csgroup.eu>, Sudeep Holla <sudeep.holla@arm.com>,
+ linuxppc-dev@lists.ozlabs.org, kernel test robot <lkp@intel.com>, "Gustavo
+ A. R. Silva" <gustavoars@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-staging@lists.linux.dev,
+ linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ clang-built-linux@googlegroups.com, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 57/63] powerpc/signal32: Use struct_group() to zero
+ spe regs
+In-Reply-To: <202108200851.8AF09CDB71@keescook>
+References: <20210818060533.3569517-1-keescook@chromium.org>
+ <20210818060533.3569517-58-keescook@chromium.org>
+ <877dggeesw.fsf@mpe.ellerman.id.au> <202108200851.8AF09CDB71@keescook>
+Date: Mon, 23 Aug 2021 14:55:58 +1000
+Message-ID: <87k0kcdajl.fsf@mpe.ellerman.id.au>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: xu xin <xu.xin16@zte.com.cn>
+Kees Cook <keescook@chromium.org> writes:
+> On Fri, Aug 20, 2021 at 05:49:35PM +1000, Michael Ellerman wrote:
+>> Kees Cook <keescook@chromium.org> writes:
+>> > In preparation for FORTIFY_SOURCE performing compile-time and run-time
+>> > field bounds checking for memset(), avoid intentionally writing across
+>> > neighboring fields.
+>> >
+>> > Add a struct_group() for the spe registers so that memset() can correctly reason
+>> > about the size:
+>> >
+>> >    In function 'fortify_memset_chk',
+>> >        inlined from 'restore_user_regs.part.0' at arch/powerpc/kernel/signal_32.c:539:3:
+>> >>> include/linux/fortify-string.h:195:4: error: call to '__write_overflow_field' declared with attribute warning: detected write beyond size of field (1st parameter); maybe use struct_group()? [-Werror=attribute-warning]
+>> >      195 |    __write_overflow_field();
+>> >          |    ^~~~~~~~~~~~~~~~~~~~~~~~
+>> >
+>> > Cc: Michael Ellerman <mpe@ellerman.id.au>
+>> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>> > Cc: Paul Mackerras <paulus@samba.org>
+>> > Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+>> > Cc: Sudeep Holla <sudeep.holla@arm.com>
+>> > Cc: linuxppc-dev@lists.ozlabs.org
+>> > Reported-by: kernel test robot <lkp@intel.com>
+>> > Signed-off-by: Kees Cook <keescook@chromium.org>
+>> > ---
+>> >  arch/powerpc/include/asm/processor.h | 6 ++++--
+>> >  arch/powerpc/kernel/signal_32.c      | 6 +++---
+>> >  2 files changed, 7 insertions(+), 5 deletions(-)
+>> >
+>> > diff --git a/arch/powerpc/include/asm/processor.h b/arch/powerpc/include/asm/processor.h
+>> > index f348e564f7dd..05dc567cb9a8 100644
+>> > --- a/arch/powerpc/include/asm/processor.h
+>> > +++ b/arch/powerpc/include/asm/processor.h
+>> > @@ -191,8 +191,10 @@ struct thread_struct {
+>> >  	int		used_vsr;	/* set if process has used VSX */
+>> >  #endif /* CONFIG_VSX */
+>> >  #ifdef CONFIG_SPE
+>> > -	unsigned long	evr[32];	/* upper 32-bits of SPE regs */
+>> > -	u64		acc;		/* Accumulator */
+>> > +	struct_group(spe,
+>> > +		unsigned long	evr[32];	/* upper 32-bits of SPE regs */
+>> > +		u64		acc;		/* Accumulator */
+>> > +	);
+>> >  	unsigned long	spefscr;	/* SPE & eFP status */
+>> >  	unsigned long	spefscr_last;	/* SPEFSCR value on last prctl
+>> >  					   call or trap return */
+>> > diff --git a/arch/powerpc/kernel/signal_32.c b/arch/powerpc/kernel/signal_32.c
+>> > index 0608581967f0..77b86caf5c51 100644
+>> > --- a/arch/powerpc/kernel/signal_32.c
+>> > +++ b/arch/powerpc/kernel/signal_32.c
+>> > @@ -532,11 +532,11 @@ static long restore_user_regs(struct pt_regs *regs,
+>> >  	regs_set_return_msr(regs, regs->msr & ~MSR_SPE);
+>> >  	if (msr & MSR_SPE) {
+>> >  		/* restore spe registers from the stack */
+>> > -		unsafe_copy_from_user(current->thread.evr, &sr->mc_vregs,
+>> > -				      ELF_NEVRREG * sizeof(u32), failed);
+>> > +		unsafe_copy_from_user(&current->thread.spe, &sr->mc_vregs,
+>> > +				      sizeof(current->thread.spe), failed);
+>> 
+>> This makes me nervous, because the ABI is that we copy ELF_NEVRREG *
+>> sizeof(u32) bytes, not whatever sizeof(current->thread.spe) happens to
+>> be.
+>> 
+>> ie. if we use sizeof an inadvertent change to the fields in
+>> thread_struct could change how many bytes we copy out to userspace,
+>> which would be an ABI break.
+>> 
+>> And that's not that hard to do, because it's not at all obvious that the
+>> size and layout of fields in thread_struct affects the user ABI.
+>> 
+>> At the same time we don't want to copy the right number of bytes but
+>> the wrong content, so from that point of view using sizeof is good :)
+>> 
+>> The way we handle it in ptrace is to have BUILD_BUG_ON()s to verify that
+>> things match up, so maybe we should do that here too.
+>> 
+>> ie. add:
+>> 
+>> 	BUILD_BUG_ON(sizeof(current->thread.spe) == ELF_NEVRREG * sizeof(u32));
+>> 
+>> Not sure if you are happy doing that as part of this patch. I can always
+>> do it later if not.
+>
+> Sounds good to me; I did that in a few other cases in the series where
+> the relationships between things seemed tenuous. :) I'll add this (as
+> !=) in v3.
 
-The pointer might be NULL, but it is dereferenced.
+Thanks.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: xu xin <xu.xin16@zte.com.cn>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index a3e6d761e748..ce4ce9190f5f 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -4389,7 +4389,8 @@ static int rtw_dbg_port(struct net_device *dev,
- 				pregpriv->rx_stbc = extra_arg;
- 				DBG_88E("set rx_stbc =%d\n", pregpriv->rx_stbc);
- 			} else {
--				DBG_88E("get rx_stbc =%d\n", pregpriv->rx_stbc);
-+				if (pregpriv)
-+					DBG_88E("get rx_stbc =%d\n", pregpriv->rx_stbc);
- 			}
- 		}
- 			break;
-@@ -4401,7 +4402,8 @@ static int rtw_dbg_port(struct net_device *dev,
- 				pregpriv->ampdu_enable = extra_arg;
- 				DBG_88E("set ampdu_enable =%d\n", pregpriv->ampdu_enable);
- 			} else {
--				DBG_88E("get ampdu_enable =%d\n", pregpriv->ampdu_enable);
-+				if (pregpriv)
-+					DBG_88E("get ampdu_enable =%d\n", pregpriv->ampdu_enable);
- 			}
- 		}
- 			break;
--- 
-2.25.1
-
+cheers
