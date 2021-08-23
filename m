@@ -1,42 +1,42 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59953FC6
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 06:38:04 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id k5so35775150lfu.4
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 23:38:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E973FC6
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 06:44:31 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id p38so35887720lfa.0
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 23:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BdPvjfrmQQ4X+2I95FNkIpXIjWZA9GaTy/9OAFloBV0=;
-        b=toFjt6rXy7Pmusgj8L6nhqNZ72vjcFD+p7frAiTVgYwHglEQA32TuNvsRsy2149h2x
-         x7+BNvF7jCCI08tGc94PHdsOTonYIZW1TJ2Zt9SHIWHJOq2O704TgFxelhd92Cj7KZk/
-         98gVfKzrZ1qTSv0Y5F7q0LL/LDf4ntFzaH1SVViELm+FDKwbTxFZSckWsubfkYtFguCX
-         8hHuX49+hnhcbFwxaWlHVGHx6uDDEjDq8dE5gvxB3OfRCWott89GkpzpRl35ND0FMwj4
-         SsBcPmcnw/wdqqGBKlT++qkCtXTYTGxh0BcpywyID4+5zJSWZVaZompfTLP/mNUraXmG
-         adGw==
+        bh=jsdxE7ab+h+vcpvNYgh2jFQu7hO2EowvIjQTEsRsMBo=;
+        b=PM064RAuQ1e5YseF1LwJT1sn1htwBaxdSekazG1IyHeO6tLVX/QJWL9ebN1q/wuVNO
+         0vxw0uF3dqF2wORAemD/PEPkogUb5cWmB00D/QuwHwyesFDt0sabUSoHGkWIk0nGOA/8
+         t6mJSuDmKwdIkjo1Mn2GM6RhwLVq2F8+Ur1jVBPMiG5+XLdOYftyt3jfjcJTQmr8lKD0
+         xHF9ejQ2vywQEJ6623p0z8UQcRxaS6W9JR9LNLQ7a9UAGyU5HRnxXwLdEiolbCRmVIMD
+         xZ1X5fFTY7Md3vwTl3tmyGGSF7NE+teLPPoKu0DQ+58TnpqZeGfCIAbmLUd/eyaVlQlc
+         xNvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=BdPvjfrmQQ4X+2I95FNkIpXIjWZA9GaTy/9OAFloBV0=;
-        b=eghQaMGzbOD+MVIYuHZ/vSEAOnfEr+jODN0No20D5Fj6VFMsIghmH3zbT9YACqZWaF
-         kiHwHWDHftNPTfKlos+T4HPi91gAQPi/ZgesN8IUu3WDm7t3srCntr6KSxiUU2vN7kEP
-         ZJLUTvNmutddQpumPTCTCr4m1UTVfhXqIsLYCK0W2RdTetg6k2cyGkivtYWLgLYSYN/d
-         FyXtGpfmvhzeg8dQZgR5+bSiYdszjCtulFyu0fsPTjqWz0Renzh7XUAcAiOgR55JHJgy
-         UdmbVuxysWKPdiWYVxSjqKoopAZw5UnJL/aGueGAebnwNuur9+7lMZgODQVYtjCjx4SB
-         cXVA==
-X-Gm-Message-State: AOAM531TdwliLAMaXhPk+rpWI9NPakDdce9QSvPh9rbMx9NLXPawfqWx
-	tNSbWSB93M1jUz79Re9WQEQ=
-X-Google-Smtp-Source: ABdhPJwXKCiqe20T6HnUOSclz2zhNoM9BVFqEW4cvHnujWCGK34E+f5nA8oWSI+7bvYhRFABuk9m8g==
-X-Received: by 2002:a05:6512:77:: with SMTP id i23mr23709477lfo.411.1629700682815;
-        Sun, 22 Aug 2021 23:38:02 -0700 (PDT)
+        bh=jsdxE7ab+h+vcpvNYgh2jFQu7hO2EowvIjQTEsRsMBo=;
+        b=Uq5g7JBNvxRwYpicNkzfql7LoU+YsM8xrWECxznUCbTKQ7+ABxj9NzE2v7bUUC/f8J
+         sQBN3GoUyp7H4R2bFUvUre7ovJopFw7DoNGy8EOP9Vyw0KErRe6FUtgCYo+b5Guo5f2c
+         5EF7ph7zBfsR3sIYDxYnRnFdkQr7j3HsbB+k8U4755m9WYfC1tOiklTeCCEIeHplH00V
+         nHavOseCUnnt4kNobS3OPXgt8lSeJ2ewdkHE01RRFrxlQnIMYuQSI2oQ9Z7cD3l/9Ptl
+         TNrJKG2GCSLZWfKg4ZtZHdVH4exy92qNXEprTlyTfDolJ8dpNwAf1Nt4ugHnD4+4lUl2
+         fb5w==
+X-Gm-Message-State: AOAM532brmhaaUJZ/BI1UzZxz9QSur6d4BzS5WvrcbkJs2bt5s7GbTiM
+	VSehGX4ufAmzOCZ3rmqOm2E=
+X-Google-Smtp-Source: ABdhPJzMWWqasAagqRrlCbDZDmTLxVDQGaLmtt8xabU0Uw1NCYEcntLkiPawUmDDWzk9OqS3C2aAeg==
+X-Received: by 2002:a05:6512:388e:: with SMTP id n14mr82657lft.242.1629701069325;
+        Sun, 22 Aug 2021 23:44:29 -0700 (PDT)
 Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id e4sm1346793ljq.84.2021.08.22.23.38.01
+        by smtp.gmail.com with ESMTPSA id b17sm607579ljj.35.2021.08.22.23.44.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Aug 2021 23:38:02 -0700 (PDT)
+        Sun, 22 Aug 2021 23:44:28 -0700 (PDT)
 Subject: Re: [PATCH RFC v2 0/6] staging: r8188eu: avoid uninit value bugs
 To: Phillip Potter <phil@philpotter.co.uk>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -49,8 +49,8 @@ References: <6182ed46-d79d-7f66-c7c0-096486410b4d@gmail.com>
  <cover.1629642658.git.paskripkin@gmail.com>
  <CAA=Fs0=LACN5VqZ1AMkGBVma0W37bQDUeY1DLZ5S5EwV66AyOA@mail.gmail.com>
 From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <21610b71-3f8e-4688-f669-44c8c849aac5@gmail.com>
-Date: Mon, 23 Aug 2021 09:38:00 +0300
+Message-ID: <49c23e49-8a62-fe65-d74a-85405d7f2b4f@gmail.com>
+Date: Mon, 23 Aug 2021 09:44:27 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -156,11 +156,6 @@ On 8/23/21 3:12 AM, Phillip Potter wrote:
 > are going to control printing of messages at runtime then in my mind
 > this should be done via debugfs and pr_debug or similar - an in-kernel
 > mechanism rather than something driver-provided. Also, the example you
-
-I've copy-pasted previous DBG() macro. I have a plan to clean up these 
-debug macros in future, but I want to make these clean ups on top of 
-this RFC to not rebase this huge patch set many times :)
-
 > give of:
 > 
 >          u32 tmp;
@@ -173,13 +168,8 @@ this RFC to not rebase this huge patch set many times :)
 > thanks.
 > 
 
-To be honest, I made this macro, because I am lazy :P rtw_dbg_port() had 
-a lot DBG_88E() calls with just register value, so I decided to wrap this.
-
-I still believe, that this macro is useful, since callers won't care 
-about creating temp variable and checking read() error code. This macro 
-doesn't cover situation, where we want to print register + smth else, so 
-if you have any idea about improvements, please, let me know :)
+Btw, did you have a chance to test these changes? My r8188eu device 
+_should_ come in few days, so I am not able to test it right now :)
 
 
 With regards,
