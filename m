@@ -1,242 +1,217 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42E13FC6
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 23:50:04 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id d26so8260384wrc.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 16:50:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410BD3FC6
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 23:52:45 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id u16so28615346wrn.5
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 16:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bYvM//XflDl5luddIn4dvmOvBEGYHudcWi9V4yu/ZCI=;
-        b=Ri3OS9aHcin5L1YNj1K78A1Wes1+F6rh4rvjGdeEaOj4DgHdzSpvPGXBd7TFUT0Q79
-         PHBz/mE9WuxUfjVMUYvjtuOL8SSIV1rgT/OTYwSUb00pnj1PSiA3ktu/QY6hXmVrurrL
-         kkWCWONy9QE+riYGjF9eaL9G2fsASQNJ1mezpGuO8GULjIzFBFAk+Rfv0I3Qs1x2MUEM
-         PTEvBai7XJlsdWCc9ODgD6Kg/CH0uoShdacks6bKBCQQN5JKhU01ilNugC3YtWv99aim
-         RFMrmkYZvFN/6DyVwsgdNMl2hcsRbgp9QnM0poe32lc/1sXM9Vb/RvyB5vgf8wdNeYjn
-         Dopg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=i4LYAf+TIkBow5bZEd/9AYDxRHK30KGSr1/9xB58k7I=;
+        b=YiIF7SSswz8oqaj152nfwzCSzQqBoXERj803u9g4kQshAvP7CsAwbaMbki03dKWdEd
+         nYBxGNIcnA4jlrzUXb4MKGml/O+ExwrQnrONu3gTJZJ7vMhAg2XHcDB7jia+F4xq4yiI
+         lcf7XYncKp+W+MCp699nq5BPAaUWcTriBTjAtNTX/2AdXGvjxNow2ac09Eoc9BiDoey4
+         ST1uxD7YXx1R/fxgLuWFgawE8o5TzRYm8UVy1kEuDPvXFUVnSshcx/DpPeWIkiUH2UCN
+         C8G1b55zuucwcNNNyUCVaYgAPipr2yihR3NSERUodh6N52NXwo9rpED0DNZJguZ63nMk
+         WgTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bYvM//XflDl5luddIn4dvmOvBEGYHudcWi9V4yu/ZCI=;
-        b=aAu8WO0SO+mAulaRAzxFv2rwWs5vKQhUCWlev7+z7jj6eydcF8uZjonRG8OrDguDC0
-         E5KaRLniitL42yF+vl29tx4Pz5i+0NCWSw2IZngazan/l0JC32mbiWHmUo9PZ/wkE36M
-         IuECtw7CUpNF8wHvqsPuoKIXTb+UV1zOZrhdQLyrHqRwSfLTIYK/4XMKip+NcUgFngeS
-         1pR+6mvQ8IaDzSrR8/G9xWzs02Yy1EN+kv0/LOxz3uFI8p6BnBl4n7POltdb6nwWLf3+
-         bLeIXCbZKeqPLYL5+6jPWEc5Qsv3MRCLrDGo7eR+YpJpcAOneYU+ZmMZri6dsKMD36Hf
-         sOIQ==
-X-Gm-Message-State: AOAM530L+YBrl0zb70jV1N5/ajj36dP0HLWWyCcMZkZsl0x4ostgTbVp
-	nAevPueOPQhIg27dQ8U7nwI=
-X-Google-Smtp-Source: ABdhPJynU6MgJ+iDd6CB0wVTd0+GgTBoz6seWsAiO0om4bIGNXumVJXMdRA4LWISlm/sbi9m87NqCA==
-X-Received: by 2002:adf:e38a:: with SMTP id e10mr15979962wrm.213.1629762603144;
-        Mon, 23 Aug 2021 16:50:03 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id r4sm562124wmq.34.2021.08.23.16.50.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 16:50:02 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=i4LYAf+TIkBow5bZEd/9AYDxRHK30KGSr1/9xB58k7I=;
+        b=F3k4IcKrcs5mNcns4M4eE0K81G6CZDxzVxNRVZoXMnq0/PIkKCbcxSP4dc9JPNgO/S
+         Es3Pwb2ySobyAs9sKaQ7a3dZUv8s/94y+etjuoI0d83juhyWTC0C3gFDM2z6kDa8WXs4
+         I7ytFoSK0Qhqp+5+BaLl2zipAx5EtVNxX50GHtkc7bYJwIhluHQ8hVDelg3FmiPBBt6+
+         XZHRGjwz/j/SHlc7PjpDaPOk7OYDodCM/KSqlCSNqYocRyNmLIIDclri7dFBJyYZ1sYa
+         tYB0Fp0hR1LAtL39SjCwkkVGtoMwPUEB6+vHqZd+MUdkNWXAD14Lq7e/SbE/nCoh12BI
+         iqMA==
+X-Gm-Message-State: AOAM531iXfVfTIC2cCdZkrFM/RueCBuHpg4+YDG/Lz0eRYZ3VUr3eFxu
+	Tpf4OxbMfl0zRdT/3Nh61OCYdt7VkyM=
+X-Google-Smtp-Source: ABdhPJwjhMoj7/TeodAbEIqKuVpeQLuokojYTOC0XdLEU8mUSBdH25+MoPoCmt0qct+WoyzdjPZRGw==
+X-Received: by 2002:adf:e389:: with SMTP id e9mr16498643wrm.304.1629762763695;
+        Mon, 23 Aug 2021 16:52:43 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
+        by smtp.gmail.com with ESMTPSA id w1sm567025wmc.19.2021.08.23.16.52.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Aug 2021 16:52:43 -0700 (PDT)
+Subject: Re: [PATCH] staging: r8188eu: remove if_ether.h header file
 To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: remove ip.h header file
-Date: Tue, 24 Aug 2021 01:48:58 +0200
-Message-Id: <20210823234858.2633-3-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210823234858.2633-1-straube.linux@gmail.com>
-References: <20210823234858.2633-1-straube.linux@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
+ fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210822164435.16266-1-straube.linux@gmail.com>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <037369f5-7f48-3f24-c9a1-3e902d51c185@gmail.com>
+Date: Tue, 24 Aug 2021 01:51:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210822164435.16266-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The struct ip_options declared in ip.h is only unsed in the optlength
-macro which is also defined in ip.h and not used in the driver code.
-All other definitions/declarations in ip.h are duplicated from
-<include/uapi/linux/ip.h>. Remove the ip.h header file and its includes.
+On 8/22/21 6:44 PM, Michael Straube wrote:
+> All constants, declarations and macros in if_ether.h are either
+> duplicated from <uapi/linux/if_ether.h> or unused. Remove the file
+> if_ether.h and its includes.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_recv.c      |  1 -
+>   drivers/staging/r8188eu/hal/rtl8188eu_recv.c |  1 -
+>   drivers/staging/r8188eu/include/if_ether.h   | 94 --------------------
+>   drivers/staging/r8188eu/os_dep/xmit_linux.c  |  1 -
+>   4 files changed, 97 deletions(-)
+>   delete mode 100644 drivers/staging/r8188eu/include/if_ether.h
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+> index 52236bae8693..08066c9587f9 100644
+> --- a/drivers/staging/r8188eu/core/rtw_recv.c
+> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
+> @@ -8,7 +8,6 @@
+>   #include "../include/recv_osdep.h"
+>   #include "../include/mlme_osdep.h"
+>   #include "../include/ip.h"
+> -#include "../include/if_ether.h"
+>   #include "../include/ethernet.h"
+>   #include "../include/usb_ops.h"
+>   #include "../include/wifi.h"
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+> index a44c9598186c..3a2c7090cd7b 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
+> @@ -7,7 +7,6 @@
+>   #include "../include/recv_osdep.h"
+>   #include "../include/mlme_osdep.h"
+>   #include "../include/ip.h"
+> -#include "../include/if_ether.h"
+>   #include "../include/ethernet.h"
+>   
+>   #include "../include/usb_ops.h"
+> diff --git a/drivers/staging/r8188eu/include/if_ether.h b/drivers/staging/r8188eu/include/if_ether.h
+> deleted file mode 100644
+> index 5bb79fddeec6..000000000000
+> --- a/drivers/staging/r8188eu/include/if_ether.h
+> +++ /dev/null
+> @@ -1,94 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+> -/* Copyright(c) 2007 - 2011 Realtek Corporation. */
+> -
+> -#ifndef _LINUX_IF_ETHER_H
+> -#define _LINUX_IF_ETHER_H
+> -
+> -/*
+> - *	IEEE 802.3 Ethernet magic constants.  The frame sizes omit the preamble
+> - *	and FCS/CRC (frame check sequence).
+> - */
+> -
+> -#define ETH_ALEN	6		/* Octets in one ethernet addr	 */
+> -#define ETH_HLEN	14		/* Total octets in header.	 */
+> -#define ETH_ZLEN	60		/* Min. octets in frame sans FCS */
+> -#define ETH_DATA_LEN	1500		/* Max. octets in payload	 */
+> -#define ETH_FRAME_LEN	1514		/* Max. octets in frame sans FCS */
+> -
+> -/*
+> - *	These are the defined Ethernet Protocol ID's.
+> - */
+> -
+> -#define ETH_P_LOOP	0x0060		/* Ethernet Loopback packet	*/
+> -#define ETH_P_PUP	0x0200		/* Xerox PUP packet		*/
+> -#define ETH_P_PUPAT	0x0201		/* Xerox PUP Addr Trans packet	*/
+> -#define ETH_P_IP	0x0800		/* Internet Protocol packet	*/
+> -#define ETH_P_X25	0x0805		/* CCITT X.25			*/
+> -#define ETH_P_ARP	0x0806		/* Address Resolution packet	*/
+> -#define	ETH_P_BPQ	0x08FF		/* G8BPQ AX.25 Ethernet Packet  */
+> -#define ETH_P_IEEEPUP	0x0a00		/* Xerox IEEE802.3 PUP packet   */
+> -#define ETH_P_IEEEPUPAT	0x0a01		/* Xerox IEEE802.3 PUP		*/
+> -#define ETH_P_DEC       0x6000          /* DEC Assigned proto           */
+> -#define ETH_P_DNA_DL    0x6001          /* DEC DNA Dump/Load            */
+> -#define ETH_P_DNA_RC    0x6002          /* DEC DNA Remote Console       */
+> -#define ETH_P_DNA_RT    0x6003          /* DEC DNA Routing              */
+> -#define ETH_P_LAT       0x6004          /* DEC LAT                      */
+> -#define ETH_P_DIAG      0x6005          /* DEC Diagnostics              */
+> -#define ETH_P_CUST      0x6006          /* DEC Customer use             */
+> -#define ETH_P_SCA       0x6007          /* DEC Systems Comms Arch       */
+> -#define ETH_P_RARP      0x8035		/* Reverse Addr Res packet	*/
+> -#define ETH_P_ATALK	0x809B		/* Appletalk DDP		*/
+> -#define ETH_P_AARP	0x80F3		/* Appletalk AARP		*/
+> -#define ETH_P_8021Q	0x8100          /* 802.1Q VLAN Extended Header  */
+> -#define ETH_P_IPX	0x8137		/* IPX over DIX			*/
+> -#define ETH_P_IPV6	0x86DD		/* IPv6 over bluebook		*/
+> -#define ETH_P_PPP_DISC	0x8863		/* PPPoE discovery messages     */
+> -#define ETH_P_PPP_SES	0x8864		/* PPPoE session messages	*/
+> -#define ETH_P_ATMMPOA	0x884c		/* MultiProtocol Over ATM	*/
+> -#define ETH_P_ATMFATE	0x8884		/* Frame-based ATM Transport
+> -					 * over Ethernet
+> -					 */
+> -
+> -/*
+> - *	Non DIX types. Won't clash for 1500 types.
+> - */
+> -
+> -#define ETH_P_802_3	0x0001		/* Dummy type for 802.3 frames  */
+> -#define ETH_P_AX25	0x0002		/* Dummy protocol id for AX.25  */
+> -#define ETH_P_ALL	0x0003		/* Every packet (be careful!!!) */
+> -#define ETH_P_802_2	0x0004		/* 802.2 frames			*/
+> -#define ETH_P_SNAP	0x0005		/* Internal only		*/
+> -#define ETH_P_DDCMP     0x0006          /* DEC DDCMP: Internal only     */
+> -#define ETH_P_WAN_PPP   0x0007          /* Dummy type for WAN PPP frames*/
+> -#define ETH_P_PPP_MP    0x0008          /* Dummy type for PPP MP frames */
+> -#define ETH_P_LOCALTALK 0x0009		/* Localtalk pseudo type	*/
+> -#define ETH_P_PPPTALK	0x0010		/* Dummy type for Atalk over PPP*/
+> -#define ETH_P_TR_802_2	0x0011		/* 802.2 frames			*/
+> -#define ETH_P_MOBITEX	0x0015		/* Mobitex (kaz@cafe.net)	*/
+> -#define ETH_P_CONTROL	0x0016		/* Card specific control frames */
+> -#define ETH_P_IRDA	0x0017		/* Linux-IrDA			*/
+> -#define ETH_P_ECONET	0x0018		/* Acorn Econet			*/
+> -
+> -/*
+> - *	This is an Ethernet frame header.
+> - */
+> -
+> -struct ethhdr {
+> -	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
+> -	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
+> -	unsigned short	h_proto;		/* packet type ID field	*/
+> -};
+> -
+> -struct _vlan {
+> -	unsigned short       h_vlan_TCI;	/*  Encap prio and VLAN ID */
+> -	unsigned short       h_vlan_encapsulated_proto;
+> -};
+> -
+> -#define get_vlan_id(pvlan)				\
+> -	((ntohs((unsigned short)pvlan->h_vlan_TCI)) & 0xfff)
+> -#define get_vlan_priority(pvlan)			\
+> -	((ntohs((unsigned short)pvlan->h_vlan_TCI))>>13)
+> -#define get_vlan_encap_proto(pvlan)			\
+> -	 (ntohs((unsigned short)pvlan->h_vlan_encapsulated_proto))
+> -
+> -#endif	/* _LINUX_IF_ETHER_H */
+> diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> index 60e0eea7ad84..d35e92c17a5e 100644
+> --- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
+> @@ -5,7 +5,6 @@
+>   
+>   #include "../include/osdep_service.h"
+>   #include "../include/drv_types.h"
+> -#include "../include/if_ether.h"
+>   #include "../include/ip.h"
+>   #include "../include/wifi.h"
+>   #include "../include/mlme_osdep.h"
+> 
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_recv.c      |   1 -
- drivers/staging/r8188eu/core/rtw_xmit.c      |   1 -
- drivers/staging/r8188eu/hal/rtl8188eu_recv.c |   1 -
- drivers/staging/r8188eu/include/ip.h         | 109 -------------------
- drivers/staging/r8188eu/os_dep/xmit_linux.c  |   1 -
- 5 files changed, 113 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/ip.h
+This patch is outdated now.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 08066c9587f9..ea42b4954067 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -7,7 +7,6 @@
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
- #include "../include/mlme_osdep.h"
--#include "../include/ip.h"
- #include "../include/ethernet.h"
- #include "../include/usb_ops.h"
- #include "../include/wifi.h"
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index f242f3ffca70..38183fd37b93 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -7,7 +7,6 @@
- #include "../include/drv_types.h"
- #include "../include/wifi.h"
- #include "../include/osdep_intf.h"
--#include "../include/ip.h"
- #include "../include/usb_ops.h"
- #include "../include/usb_osintf.h"
- 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-index 3a2c7090cd7b..666afa69fce6 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-@@ -6,7 +6,6 @@
- #include "../include/drv_types.h"
- #include "../include/recv_osdep.h"
- #include "../include/mlme_osdep.h"
--#include "../include/ip.h"
- #include "../include/ethernet.h"
- 
- #include "../include/usb_ops.h"
-diff --git a/drivers/staging/r8188eu/include/ip.h b/drivers/staging/r8188eu/include/ip.h
-deleted file mode 100644
-index b7388c8c1b8a..000000000000
---- a/drivers/staging/r8188eu/include/ip.h
-+++ /dev/null
-@@ -1,109 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef _LINUX_IP_H
--#define _LINUX_IP_H
--
--/* SOL_IP socket options */
--
--#define IPTOS_TOS_MASK		0x1E
--#define IPTOS_TOS(tos)		((tos)&IPTOS_TOS_MASK)
--#define	IPTOS_LOWDELAY		0x10
--#define	IPTOS_THROUGHPUT	0x08
--#define	IPTOS_RELIABILITY	0x04
--#define	IPTOS_MINCOST		0x02
--
--#define IPTOS_PREC_MASK		0xE0
--#define IPTOS_PREC(tos)		((tos)&IPTOS_PREC_MASK)
--#define IPTOS_PREC_NETCONTROL           0xe0
--#define IPTOS_PREC_INTERNETCONTROL      0xc0
--#define IPTOS_PREC_CRITIC_ECP           0xa0
--#define IPTOS_PREC_FLASHOVERRIDE        0x80
--#define IPTOS_PREC_FLASH                0x60
--#define IPTOS_PREC_IMMEDIATE            0x40
--#define IPTOS_PREC_PRIORITY             0x20
--#define IPTOS_PREC_ROUTINE              0x00
--
--/* IP options */
--#define IPOPT_COPY		0x80
--#define IPOPT_CLASS_MASK	0x60
--#define IPOPT_NUMBER_MASK	0x1f
--
--#define	IPOPT_COPIED(o)		((o)&IPOPT_COPY)
--#define	IPOPT_CLASS(o)		((o)&IPOPT_CLASS_MASK)
--#define	IPOPT_NUMBER(o)		((o)&IPOPT_NUMBER_MASK)
--
--#define	IPOPT_CONTROL		0x00
--#define	IPOPT_RESERVED1		0x20
--#define	IPOPT_MEASUREMENT	0x40
--#define	IPOPT_RESERVED2		0x60
--
--#define IPOPT_END	(0 | IPOPT_CONTROL)
--#define IPOPT_NOOP	(1 | IPOPT_CONTROL)
--#define IPOPT_SEC	(2 | IPOPT_CONTROL | IPOPT_COPY)
--#define IPOPT_LSRR	(3 | IPOPT_CONTROL | IPOPT_COPY)
--#define IPOPT_TIMESTAMP	(4 | IPOPT_MEASUREMENT)
--#define IPOPT_RR	(7 | IPOPT_CONTROL)
--#define IPOPT_SID	(8 | IPOPT_CONTROL | IPOPT_COPY)
--#define IPOPT_SSRR	(9 | IPOPT_CONTROL | IPOPT_COPY)
--#define IPOPT_RA	(20 | IPOPT_CONTROL | IPOPT_COPY)
--
--#define IPVERSION	4
--#define MAXTTL		255
--#define IPDEFTTL	64
--#define IPOPT_OPTVAL 0
--#define IPOPT_OLEN   1
--#define IPOPT_OFFSET 2
--#define IPOPT_MINOFF 4
--#define MAX_IPOPTLEN 40
--#define IPOPT_NOP IPOPT_NOOP
--#define IPOPT_EOL IPOPT_END
--#define IPOPT_TS  IPOPT_TIMESTAMP
--
--#define	IPOPT_TS_TSONLY		0	/* timestamps only */
--#define	IPOPT_TS_TSANDADDR	1	/* timestamps and addresses */
--#define	IPOPT_TS_PRESPEC	3	/* specified modules only */
--
--struct ip_options {
--	__u32		faddr;			/* Saved first hop address */
--	unsigned char	optlen;
--	unsigned char srr;
--	unsigned char rr;
--	unsigned char ts;
--	unsigned char	is_setbyuser:1,	/* Set by setsockopt?		*/
--			is_data:1,	/* Options in __data, rather than skb*/
--			is_strictroute:1,/* Strict source route		*/
--			srr_is_hit:1,	/* Packet destn addr was ours */
--			is_changed:1,	/* IP checksum more not valid	*/
--			rr_needaddr:1,	/* Need to record addr of out dev*/
--			ts_needtime:1,	/* Need to record timestamp	*/
--			ts_needaddr:1;	/* Need to record addr of out dev  */
--	unsigned char router_alert;
--	unsigned char __pad1;
--	unsigned char __pad2;
--	unsigned char __data[0];
--};
--
--#define optlength(opt) (sizeof(struct ip_options) + opt->optlen)
--
--struct iphdr {
--#if defined(__LITTLE_ENDIAN_BITFIELD)
--	__u8	ihl:4,
--		version:4;
--#elif defined(__BIG_ENDIAN_BITFIELD)
--	__u8	version:4,
--		ihl:4;
--#endif
--	__u8	tos;
--	__u16	tot_len;
--	__u16	id;
--	__u16	frag_off;
--	__u8	ttl;
--	__u8	protocol;
--	__u16	check;
--	__u32	saddr;
--	__u32	daddr;
--	/*The options start here. */
--};
--
--#endif	/* _LINUX_IP_H */
-diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-index d35e92c17a5e..565ac5be7db3 100644
---- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-@@ -5,7 +5,6 @@
- 
- #include "../include/osdep_service.h"
- #include "../include/drv_types.h"
--#include "../include/ip.h"
- #include "../include/wifi.h"
- #include "../include/mlme_osdep.h"
- #include "../include/xmit_osdep.h"
--- 
-2.32.0
-
+regards,
+Michael
