@@ -1,94 +1,76 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46C13FC6
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:32:21 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id k8so28388051wrn.3
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 15:32:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5924C3FC6
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:37:57 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id u14so15340202ejf.13
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 15:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QK0nYGFUqHQWTFniaZjb4pWhF5u+zRG36OlmvbNcxZA=;
-        b=sf/88eEMM0Xnn1lTkkbFnuTTbaIsl14zVPV8vlQJ/Q2f1R7YJc3ILd9iu6Qroy7yyF
-         d+FJkgoxQ3xVulEc+lQA1722L5QOsBjK8O+JGxiHR0ut2e0RlwVNZBQAKWcl1kIppTgi
-         2x0z9EFanDIrJxWFiOVBRhnMIOVhLF57Re0ZvGH3j+7q4SA6hV4Haq8fvHW/v61qRmam
-         zKQhcP2hnCy6EhRE3NSdDSi6pj71sxRuVJXV46IkBuwPCqaJNazBxxeXhdtK9XAE28A4
-         q1rar5VjUjN/letnmHWIhSSv9TeXsDoEVDJPFCs9rY6AMNJqotZw/CsmHCUafsUjzYCu
-         AgUw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HOYcVK/PupAyTSKG1WTjWKuz7jMiHsuJ9l66S9C5qRA=;
+        b=JAwss7mvORNTFGBLkoY9g43fQPYGr3ycyfLGXxfn7xE3u9LJd0Om8h7ZBOEYwZlnxJ
+         zl5q6w9qBVc9TafdeCB9vyJIfF//IC3ZDe2L3q3SmXwTObtLYR39ya+tDed2/ojL77EB
+         SUP7QkeaygGjtgPZ5xwX3xSo2GBiFb0WLRTah2JOS0v9y1L4y8jkTiuDHQdOnDfgRM4n
+         HcSTzVbzum+xll2CKCRcIM9/AAEZwIaq0vlH5STVg9lo/3wJR7aJqi9uPzjDKhdPrygE
+         LpYtpkUYW4WyWWPDwaZRdtKvn5q6zKiw5k2nxlXDWvhO40BCY/ys2Lja6N5Eo63pvc7R
+         cU0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=QK0nYGFUqHQWTFniaZjb4pWhF5u+zRG36OlmvbNcxZA=;
-        b=eLvjLYECGGu4ZoVSyk51kZ5JXkWRdZvIKnXhkSpiifY75+s63ubd4Ttdcd/ov36fWR
-         Jo1N+isAQth+wByRG5iFZVJoIgMYPG09BfJZWODVOQvSWNkfOEIlqAE9vMmahh+4PpNz
-         m1a2gaS58oDwGYdUl9dbFRYAl6izQGmwy72x6U1ZOpNE2qbkRXNdBpXSL3c2fq+YDxWN
-         bzqXTlBuRDtFP9LP/kYkO+fOTR29haDk0aBzr2SVGB1fjDc6TSGsCZbDmifWtFLA93j2
-         fR3tzjFjyDLLW047PWPYOOpTYCbAxrsR8l/QrakSqDllW89fim26XwcLEsCO0OZvfloW
-         hpSw==
-X-Gm-Message-State: AOAM531B0UJea6C2cxWW6JzDh8CBgVVZtvJ/VETe/f3T2a9DjS29reRA
-	DNYXhuJBeU8H4rpLCHgS98Q=
-X-Google-Smtp-Source: ABdhPJzmoD8YZhYtINsMDgdK3AKcXG2TGCinOiK2YoBxHXKoeMeyzgazs5kxGBm9URIoajPiXs0Pvw==
-X-Received: by 2002:a5d:5144:: with SMTP id u4mr16377802wrt.30.1629757940288;
-        Mon, 23 Aug 2021 15:32:20 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id a5sm458608wmj.30.2021.08.23.15.32.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 15:32:19 -0700 (PDT)
-Subject: Re: [PATCH] staging: r8188eu: remove ip.h header file
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>, Martin Kaiser <martin@kaiser.cx>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210823081820.9724-1-straube.linux@gmail.com>
- <CAA=Fs0=6=ueb53iNhyjSE5B8CdQvrpijgihAaN9YVwdDgNGiFA@mail.gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <cb8d08f7-c27c-d6f3-1128-4047350d6871@gmail.com>
-Date: Tue, 24 Aug 2021 00:31:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        bh=HOYcVK/PupAyTSKG1WTjWKuz7jMiHsuJ9l66S9C5qRA=;
+        b=a8wvrMbD7AvUtCBZzkDJTp75ttTyVwCaw68XmpNFl/FEPhqW8ZAsU0Lj613IYJy9HU
+         CjSF95osL97vWwRxwra1yarXCLNnqyqul28TR+E2a/LmOgUgmeJ09HROW2d4sTFSoTZ/
+         qw84C/pZS8DNfvgLidIYf1KoQNE8fBOLEY7J7gUJJQcn8S7dtx8LvoVK2gV/xkYNJp99
+         LuqApXXmcU7+HeNvt+QoQBw1EElbo85JTxGlI64Hgdml7lAt22yRNmvvE6h2br8ZwwyO
+         XpSqX2wcT0uq7oHC3wXNjBjD8eyK05WI4rvso7Jid+mf9IO5ow411nToZ4AkSv3Jkhde
+         0IgQ==
+X-Gm-Message-State: AOAM533/SCoJtu6dbVquxfypyz3KOsssMoehKTNdUoh3JzotdkIuTs3z
+	E9Wl4665OcrqjmpmeaIDZ6o=
+X-Google-Smtp-Source: ABdhPJzY4IP/gXljzfMWbFVxvhGjRPLlCusx5kZeSANDKiketNr4ICaOl80ARKH8Qmwvrp8ibJxNRQ==
+X-Received: by 2002:a17:906:38db:: with SMTP id r27mr38758558ejd.338.1629758275713;
+        Mon, 23 Aug 2021 15:37:55 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id p23sm10375326edw.94.2021.08.23.15.37.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Aug 2021 15:37:55 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pavel Skripkin <paskripkin@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH 0/2] staging: r8188eu: Use new usb_control_msg_recv/send() 
+Date: Tue, 24 Aug 2021 00:37:49 +0200
+Message-Id: <20210823223751.25104-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAA=Fs0=6=ueb53iNhyjSE5B8CdQvrpijgihAaN9YVwdDgNGiFA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/24/21 12:21 AM, Phillip Potter wrote:
-> On Mon, 23 Aug 2021 at 09:19, Michael Straube <straube.linux@gmail.com> wrote:
->>
->> The struct ip_options declared in ip.h is only unsed in the optlength
->> macro which is also defined in ip.h. All other definitions/declarations
->> in ip.h are duplicated from <include/uapi/linux/ip.h>. Remove the ip.h
->> header file and its includes.
->>
->> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->> ---
+Replace usb_control_msg() with the new usb_control_msg_recv() and
+usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
 
-> 
-> Dear Michael,
-> 
-> Thanks for the patch. Sorry, but it seems to conflict with your
-> earlier patch titled: "[PATCH] staging: r8188eu: remove if_ether.h
-> header file". They apply fine individually, but not together - can you
-> confirm this is the case for you as well and not just me?
-> 
-> Regards,
-> Phil
-> 
+Remove camelcase and the unneded initial 'p' (for pointer?) from 
+the pIo_buf variable and from the pintfhdl and pdata arguments of 
+usbctrl_vendorreq().
 
-Hi Phillip,
+Fabio M. De Francesco (2):
+  staging: r8188eu: Use usb_control_msg_recv/send() in
+    usbctrl_vendorreq()
+  staging: r8188eu: Make some clean-ups in usbctrl_vendorreq()
 
-yes I can confirm, sorry about that. I will rework and send both patches
-in a series. Thank you for testing and pointing out this conflict.
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 47 ++++++++++-----------
+ 1 file changed, 23 insertions(+), 24 deletions(-)
 
-best regards,
-Michael
+-- 
+2.32.0
+
