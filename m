@@ -1,120 +1,83 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF37E3FC6
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 23:33:57 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id w8so18098054pgf.5
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 16:33:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B50C3FC6
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 23:50:03 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id z9so28532395wrh.10
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 16:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cUD3URlQQ4xgxg25mMWImAQvOjSa5iTY45I32xJuvNM=;
-        b=JcBiXlmqhj3LPM6JqRufWO+Vsm8GT83ezqt7zzR0ISlNoJT4DworPjGgVfm1t+4i0/
-         5B5aeOKwnYAp1tvZcXrJaRUoMfkfcqKAeqrzRkwkDL+5wb6ExRcGCQyiQ3sYaQS3z0Nn
-         CICdkqDIC84EGcGGgVSaYzc0Fdn+Fqo0ruCifLry18SYaAm1K+6H/2j8/jj53i7ghvYM
-         p5NukNFZdAbOhQXeQxLjTvdcCjnt8T9uHDLIniGMr0K5/9LB96xVpviaX0iUYdvw72jz
-         FTOCVnnp83SuRXES+s7h3nZ1OXHSCCTQoSkNKUSvJBG0QdbLuU0bhZ7GgPC8LO/aabBt
-         F/wg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WlSzoC7+vYGsfYhRVPf9602RHAilsb/3ia2lRqV6Ta0=;
+        b=tENuzhQMiSw5/A9fuaRYyuzQbcVXgmSz4/Zyirf09Ze+uEJZ2h/dBnuwlXYIbMHMIJ
+         /7KRZktUpPHf7Cg7DB80Wwg38JPz4g3OE4eB6Q5gf4dFwV6Y+0bc+b0nQ3s7hCSNAmV9
+         FVfncEJa4Ttho6GmUeNWA1xuKGtAlwGk1ublBrg/6Dk3sejx/zWCB7OCzTMQh/WxQd3r
+         ugz0Ou8TD5ld08yT8uh2jgDthrlVMfdRmWis5pgQquTOL3H0MMi/QXx5bjcQfgLIXGun
+         zVL1HYIvRA+CuTcqTAOrS8o3zRLiO1duCrQLE4u9yeSi/N1Yflu4ed63WCGt9InIxGt9
+         ycmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cUD3URlQQ4xgxg25mMWImAQvOjSa5iTY45I32xJuvNM=;
-        b=NJKMZgfHOOKSZ0EarTAcuAVBVzY151/s3YrdlJzIEGCTU2t1kA3WEM5/vIAlHq1qbR
-         o8U87wm+/F3DhRNiy+e6k1vcckE9bg6ksqYfWVqudU8B416bfmO7FxutwYIBdd1MlAM7
-         UV6T01giQCqK5MquARVnvKpBdi01Mky4oSh1uEEiRsBZYiuyFchOOC8JcLzTeQiYoC37
-         5PZ3Mk7jPBAGiYK9EWB51DKShkrebNB1QIZlkrYbji8ZM++KZzft2cfHeVC/mM+j3VaW
-         8K2xfK/uxzhh+OAjZFv1e1CMeXKQcy16ployDAqGq/Rh5Nfzbt65S0cnXIgI+9o3ePhg
-         dKrQ==
-X-Gm-Message-State: AOAM531NztXzjdZ/PZiXAHtkI+MgWzWKGbJQoeRzPdQmJPLy1AVLCHi3
-	GQQ7XGO2tirfLDP64T/OWAIMd/cFnVd/x/YtaAauUQ==
-X-Google-Smtp-Source: ABdhPJx/7mwpvlh4TrY49LIoOv9osixhVrk+2zmmOflygabPw1FsjiknYx/WsT7h7IzFz7ssY0Pfr+/K2hx7NAmMjXg=
-X-Received: by 2002:a63:d910:: with SMTP id r16mr33990805pgg.318.1629761637490;
- Mon, 23 Aug 2021 16:33:57 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WlSzoC7+vYGsfYhRVPf9602RHAilsb/3ia2lRqV6Ta0=;
+        b=Ecl6QynlO5+v+cBZDgDtbEBJQOPEY3HbKo3rOfKlXHqW643oxhq053PvsRAwCZEMAH
+         48qqRCG+rX4sFPr0QsSwx91mt3p4bVz8foZM+5UAA/anBsP4qMO9jm9CqdPvFC+KWMOD
+         sIbxRWvTU2AIJoN7V1WLkqOJYimP/jo0EB5RMprTabo2DN58OhVDiWsW5WmFgbbyIG2p
+         Udy/UqZJmAVJvQi3KKrGTz+d/Z8goYYcNr9e8Izou7rTjYpKjrn9udozApMu18kKKssC
+         f+q4cVm/mpL8aJUbw2AxJu2IPOCYc9FsQudZ7BwXcL8XT3tw4dSmb0CBforuvK4oE9bN
+         jSVw==
+X-Gm-Message-State: AOAM531OUSDacFeTSLOtNR/zdLzk6QLaj4EQ1oL5LVo4sVjHxF57GlZs
+	5RN7obUh9ZCc/7czqNnnyHc=
+X-Google-Smtp-Source: ABdhPJyQwTRuk886qhJzb7vqBg+Mskg3FEEzM4Ur6ehoceQhDRMxYug0amLzI1xAy/TbmtOuHdR7CA==
+X-Received: by 2002:adf:de83:: with SMTP id w3mr16449923wrl.342.1629762601700;
+        Mon, 23 Aug 2021 16:50:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::687e])
+        by smtp.gmail.com with ESMTPSA id r4sm562124wmq.34.2021.08.23.16.50.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Aug 2021 16:50:01 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/2] staging: r8188eu: remove unneeded header files
+Date: Tue, 24 Aug 2021 01:48:56 +0200
+Message-Id: <20210823234858.2633-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1629642658.git.paskripkin@gmail.com> <9004eb2972780455db4cba9694244a2c572abba8.1629642658.git.paskripkin@gmail.com>
-In-Reply-To: <9004eb2972780455db4cba9694244a2c572abba8.1629642658.git.paskripkin@gmail.com>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Tue, 24 Aug 2021 00:33:46 +0100
-Message-ID: <CAA=Fs0=gX66TW3qoHYWcoSsvai6YZn=U81a34V45oij7NrMJrQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 5/6] staging: r8188eu: add error handling of rtw_read32
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, 
-	Michael Straube <straube.linux@gmail.com>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, 22 Aug 2021 at 15:36, Pavel Skripkin <paskripkin@gmail.com> wrote:
-> -static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
-> +static int usb_read32(struct intf_hdl *pintfhdl, u32 addr, u32 *data)
->  {
->         u8 requesttype;
->         u16 wvalue;
->         u16 len;
-> -       __le32 data;
-> +       int res;
-> +       __le32 tmp;
-> +
-> +       if (WARN_ON(unlikely(!data)))
-> +               return -EINVAL;
->
->         requesttype = 0x01;/* read_in */
->
->         wvalue = (u16)(addr & 0x0000ffff);
->         len = 4;
->
-> -       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> +       res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> +       if (res < 0) {
-> +               dev_err(dvobj_to_dev(pintfhdl->pintf_dev), "Failed to read 32 bytes: %d\n", res);
-> +       } else {
-> +               /* Noone cares about positive return value */
-> +               *data = le32_to_cpu(tmp);
-> +               res = 0;
-> +       }
->
-> -       return le32_to_cpu(data);
-> +       return res;
->  }
+This series removes the header files if_ether.h and ip.h as both just
+duplicate in-kernel definitions.
 
-Dear Pavel,
+Both patches were already sent as single patches but only the one or
+the other can be applied due to conflicts, so I resend them in this
+series.
 
-OK, found the issue with decoded stack trace after reviewing this
-usb_read32 function. Your line:
-res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
+Michael Straube (2):
+  staging: r8188eu: remove if_ether.h header file
+  staging: r8188eu: remove ip.h header file
 
-should read:
-res = usbctrl_vendorreq(pintfhdl, wvalue, &tmp, len, requesttype);
+ drivers/staging/r8188eu/core/rtw_recv.c      |   2 -
+ drivers/staging/r8188eu/core/rtw_xmit.c      |   1 -
+ drivers/staging/r8188eu/hal/rtl8188eu_recv.c |   2 -
+ drivers/staging/r8188eu/include/if_ether.h   |  94 ----------------
+ drivers/staging/r8188eu/include/ip.h         | 109 -------------------
+ drivers/staging/r8188eu/os_dep/xmit_linux.c  |   2 -
+ 6 files changed, 210 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/if_ether.h
+ delete mode 100644 drivers/staging/r8188eu/include/ip.h
 
-With this change, the driver runs fine with no crashes/oopses. I will
-explain the issue but you can probably see already, so I hope I'm not
-coming across as patronising, just trying to be helpful :-)
+-- 
+2.32.0
 
-Essentially, you are taking the address of the data function parameter
-on this line with &data, a pointer to u32, which is giving you a
-pointer to a pointer to u32 (u32 **) for this function parameter
-variable. When passed to usbctrl_vendorreq, it is being passed to
-memcpy inside this function as a void *, meaning that memcpy
-subsequently overwrites the value of the memory address inside data to
-point to a different location, which is problem when it is later
-deferenced at:
-*data = le32_to_cpu(tmp);
-causing the OOPS
-
-Also, as written, you can probably see that tmp is uninitialised. This
-looks like a typo, so guessing this wasn't your intention. Anyhow,
-with that small change, usbctrl_vendorreq reads into tmp, which is
-then passed to le32_to_cpu whose return value is stored via the
-deferenced data ptr (which now has its original address within and not
-inadvertently modified). Hope this helps, and I'd be happy to Ack the
-series if you want to resend this patch. Many thanks.
-
-Regards,
-Phil
