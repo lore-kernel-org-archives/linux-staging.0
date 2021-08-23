@@ -1,37 +1,38 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E573FC2
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:23:40 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id q2so17934003pgt.6
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 15:23:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80F43FC2
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 22:26:22 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id n5so12915796pjt.4
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 15:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=u1W+36Qe3I+Zp/NI9r7n+8Xm3W8eBvWeztJ9wzJAYno=;
-        b=lqQy/nFYAWJ2nHw5eYylGrErEh9yrufxrnuHFFH6+4+4OZKQra0rpfT20g56/cR5RL
-         ieqT4T3VPU6XEKOIJr1PmossE0Il5B7XfNpBqK3NMQ9Ikd74FcQbdHKJVX4tgR7QUKQH
-         lEZGTjy/ZbqwNVhjfE8FxNeKxExePa0/iHQFR8MHKGArfmRxhvu9ZbqaFFp537TL5G9E
-         vpcgcwAdpbQafEzogw+x3xtQt8ixebdhLKE6EkfeWdrzphRLL9e4Ym3/iko0ywB4sq+H
-         UEQlzKPIQ9qvEAibHW351wjj18LAv+uoLi1p23jb4PLw84W/Ach9qCK+kODMxfOa1wB2
-         y/nQ==
+        bh=6ZNGdMlG+N2F/IFNczPVZ4FDm0Rsfwtl+ur4Eoayiuw=;
+        b=Xv6FCGkkowBVANvt56d+uvTNVcdQhDVlnio7+/Ibl3pc0kRCPs+kN9gzVgcEJswYs/
+         nI3uJOZshij44VgS2lSW6WyVL9zP9s4E2E8nuRV3BCsb2+pbpFmIk151uwoxMhJz3eid
+         n2dz9bZVML2CyFdu4lKWS1fiS+J/c9Q4t7SDRsQOLNKqnTuZl2siH3jfWmtZlU5TMNl5
+         P85tUDqRTNxq9wS9QJXAevOmj//FTh2L2KzARLPzwpfi1loFsDFfCWcA9V3LdObA0RT6
+         H7OwbiXaSvurIxf/RmQZvSzIFa9shPeGeC2KxBhOjkOOynaAuze/lOlAdv3n3Hr/9a+T
+         HqBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=u1W+36Qe3I+Zp/NI9r7n+8Xm3W8eBvWeztJ9wzJAYno=;
-        b=jt0bB7LItQcCfzAmTyR8K9R+y5J62qWAGspBl6SArdqpMn4OUd924akO0Y4V4Diqua
-         GCsWsYrObLJ9GBTNXZ074xAy8YmQaTWmJAL6lJ8GCoYcYbYIkVwFIyzwiYGZC64llB1i
-         +58rkRjNmAsjDp/hz+B8d0dVSJfFZpcPn+pPVR/k81ib8exbqRwAjA242Hh+fyHVSV9X
-         /TApVDBs0hnRWIfQnzghnaZtaoliJZVggu0L14E7AwJrpz7s9ZuIs45LA/qwJcm8y/g+
-         fUcbz2a1CbgAXsIs/cv9rXVm+4nt4zvY+fwVEaiQVq1WzeHOv1C2OT69NIUs7Rel4P4G
-         FALw==
-X-Gm-Message-State: AOAM533CRqCDh66wRTATS73/hl+69t0OW/iCD44/FllgdkYyo5IZ1pV6
-	WGxDF3tCxMiaVb0e10bpY+2xYLuux5e32zMu4CbZ1g==
-X-Google-Smtp-Source: ABdhPJwto+nl0syuCMr0fAKFQeJ6rtX2kAqUHL1ydhcfdfJ982CiP7Q1+5MdAMUn63g8W+8YcBEAiS0lWqCKb8HcjbA=
-X-Received: by 2002:a65:6a0a:: with SMTP id m10mr34151460pgu.82.1629757419847;
- Mon, 23 Aug 2021 15:23:39 -0700 (PDT)
+        bh=6ZNGdMlG+N2F/IFNczPVZ4FDm0Rsfwtl+ur4Eoayiuw=;
+        b=QJvdoIo41XWUXqVTM8lUmY3UyGCuG29ewTia4tqkb+rlHVXHOQ+IXKvIEqPDziKE1C
+         uF01OWs7zjQCLWvR7obLa727r34Jn5j1lfWqV/hMeOp+oGmvaZmcFByRITSZ0CB1PKkM
+         fLGRT6l+4vOcgB9oLwUUeNRc5hvmgWA4FCMIefHqt+P7UL3LReYjmZCWCqy2K6soL8BK
+         S6thGmDIVn5ksk0Dzeq6XCVDbNA8kDt2DTIVbV3oq5Ovec3CHCTMKMAh7CK7TQU8YCR+
+         I6DU5XLSVpwKquY+qyrSxqHMN7kHz3t7wSlpq4+5ZDwKHuTtIRSJxDwrZ5wE1Vxe1wnr
+         LjVA==
+X-Gm-Message-State: AOAM532umYKr7p/JWmi0ovpzY9+R5J+B0BM5cLBJX+xL2tlbltpaBVFw
+	cjqisSIjWW6/3jUjdxh5uVkKnVX1kTT/G9djWl0q5A==
+X-Google-Smtp-Source: ABdhPJxFLxUqiUkg839eVAbTxEMd4XC+Uh2NRtHSkFsIt/cX3EZyjx2J5BrEy94Qu3jrjQBmADWbEqvXk+huv3ji7kQ=
+X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id
+ h4-20020a170902f704b029011acdee0490mr30538437plo.37.1629757582266; Mon, 23
+ Aug 2021 15:26:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,8 +43,8 @@ References: <20210823184059.19742-1-paskripkin@gmail.com> <CAA=Fs0mW_4aVNYuLkZMS
  <262ccda0-0aed-26e9-0585-e5376db86596@gmail.com>
 In-Reply-To: <262ccda0-0aed-26e9-0585-e5376db86596@gmail.com>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 23 Aug 2021 23:23:29 +0100
-Message-ID: <CAA=Fs0nVOfqX3+++wvsajUUy0qdfFKT4XZvOZPvdoaa2FAsNQg@mail.gmail.com>
+Date: Mon, 23 Aug 2021 23:26:11 +0100
+Message-ID: <CAA=Fs0=wWdTXgxg9dOm-UBG7VEtmiTOZXfboK5bt0pZvTVVG5w@mail.gmail.com>
 Subject: Re: [PATCH] staging: r8188eu: make rtw_deinit_intf_priv return void
 To: Pavel Skripkin <paskripkin@gmail.com>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, 
@@ -109,13 +110,10 @@ On Mon, 23 Aug 2021 at 22:29, Pavel Skripkin <paskripkin@gmail.com> wrote:
 > With regards,
 > Pavel Skripkin
 
-Dear Pavel,
-
-Happy to help :-)
-
-Sorry to report, but your RFC series generates an OOPS on boot for me,
-in usb_read32. Just doing a stack trace decode to figure out where
-failure is and I will report back.
+Sorry, it also occurred to me after sending it would be better to have
+mentioned this as a reply to that patch series rather than to this
+e-mail. Apologies if I've confused anyone. Anyhow, I shall report my
+findings on that e-mail thread.
 
 Regards,
 Phil
