@@ -1,140 +1,158 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972043FC2
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 00:00:56 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id 7so13834737pfl.10
-        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 17:00:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137073FC2
+	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 00:12:57 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id bo18so10905893pjb.0
+        for <linux-staging@lists.linux.dev>; Sun, 22 Aug 2021 17:12:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wWw01mf7XVdn/fPm5sHYlAPH6WeJMP6dK1QJWQZ7Avw=;
-        b=anRUTAEiU63abVQheRkV6HQRYxPRdUXr08WHdI0Vfs0h5gN3558C6V1S5qSeyO2hOn
-         qcvPYI7ru2svqNaT4WD6HoNe6O0LywVLaNo38GeiPpnLLf+QoUydjQvDKylTw8PLK87e
-         SRSIG9VAFadnHQ/w34fcRLiNHg4QFjyjfGtVwwPibL/xOLFec3VP54tuznBBaVVgDGf/
-         eZO5GpF6sO+wUR3cKQvdzXatHJ8wKmQbe3JpqHLgEfW7H+alDB1phwtTSsjxJRipttQz
-         STY1VkNozLmVuM5dW0ItkFD1ye0bd62s/UsmD/pJM2yqsIpJtYPt24vYzFwibJxmU68j
-         cKLg==
+        bh=lWeK0f3YYSWotGGoYvRH6iLvyN7X0nngXeEnfy+6Thc=;
+        b=S+nwAhyepz6VbGztjBn46pfFV4L8nod4zjGcDPgtMBdJUvHFGB9iUFZpVa5E64tuDQ
+         lQDV5PZzK7pyf2En+sqlUxPI38CEiOth7gtxlcFgT6F/14GLYxxnPKZa5ralieCrn5RK
+         hKxV/sEnf9a1KXLB2N2STiW31lUb9yaMcU/avF5uAQPDdB1zvxoTKKDOyg67PA1+ZhKZ
+         zxEFhjig+rHKeUzVpHaW40EmfuT88uUsmDsjBoGU6gUzJ8ObtjXjV4s1rco/s3lTL9MM
+         48EN4zIQUMXWgd/uRK2qKeS4k75zZetjEegCMh8XREgQ3U/RIRjfEzNIv+nQsUKSVYsT
+         7AjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wWw01mf7XVdn/fPm5sHYlAPH6WeJMP6dK1QJWQZ7Avw=;
-        b=kvYL1Yt6BsaUJwpyboxb0kJ/+z3xGB1TdaWPvSMU8YkpjW8FA4tDNl+1qLGxTQgnBp
-         10Rxxci4Q3APV+XEOjtaE5hWeuufM5oslcq5MByWShQh3bnGFgEPyX6nDXz/9Rq7Cdti
-         Jnuh+7JBNE70vOntMI8sBkxMT4aVpz78qNELiH5cklNEFCNDBw+wQs0gPpzDAPuF7E5S
-         NrgZS3bpIMcX0BnUDBYe677Vbn2iYjrBQdJ3rPniuTph43nAjRr5wN28sX7RimtzcdK6
-         XEJbF6ejpIZbSMPJxvReHxBTDmjFALJGjb1T0LtdVAwd/32djIJ3UbkAkxKikGWq+Z3z
-         g1NA==
-X-Gm-Message-State: AOAM530we9+sEEDciYAt1SUCP2moaqmg2B7TZjB5LFuU6LSuL9fkVn67
-	TcC30nmUEPv2kW2gXV+Mdnm4JvWmGOuTO188iC5MOhB8Xz29VQ==
-X-Google-Smtp-Source: ABdhPJxExexkHvIRkMv7ggxJypHwVySIkPfCZ4c4MfRtgapAsP0L/lVVbCdAVlqgZuU6nRWbHSoNjsoXnxhEQ3rSC+g=
-X-Received: by 2002:a65:6a0a:: with SMTP id m10mr29632419pgu.82.1629676856057;
- Sun, 22 Aug 2021 17:00:56 -0700 (PDT)
+        bh=lWeK0f3YYSWotGGoYvRH6iLvyN7X0nngXeEnfy+6Thc=;
+        b=nP3HTg8o9Eeub0mGbdUU+0i6IoDDj14GPMqizg3maRhADTPry7dOQMJho7dpdNmD3b
+         W7CC0KSrqsu9ZcirO5oC0vd5C2KwK8cl8pz7R+Rbg5S40zQxLfpEhVV9xfsB4V9AGI2j
+         R4qUsNVAJ54gGHJpFFHgNklA4NW6FEk3whVfrQJNPvNx8I1WtfEWq8ay3Mo7alIb3V3N
+         xQqzYTFgK9L2h6NWM6gCpCjgkBshM3G0LcJ6NyDtMOfKUEawghoeIIdXj/wrAUEJes41
+         lI65ZZb58kD5T4jUcbLamWu55ujURijilhIMRFfg1jrBN5XRqBs/WslyYU4BWs0dg8vC
+         sTiw==
+X-Gm-Message-State: AOAM5322hTrwcBZr7LdoYYrnbRoHlHvgmbRYse1MDFOP1d62PB1T83Cu
+	+W3nN0z5WWHn1qOf3p7uK+5W6KcDyKT3jRWPfnxkzw==
+X-Google-Smtp-Source: ABdhPJymuo0M2IWuY+3l4z5bUKsBL7FBWBvOVV0iNQob5CcosG2qKrPYF6sWZfXDj9xGI8y1Vhwko3A0cvTFtpZDRiI=
+X-Received: by 2002:a17:902:6ac6:b0:133:230b:e8bc with SMTP id
+ i6-20020a1709026ac600b00133230be8bcmr5519689plt.22.1629677576512; Sun, 22 Aug
+ 2021 17:12:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1897566.d8lQ4HMSh1@localhost.localdomain> <2099975.VbY6Rib6K3@localhost.localdomain>
- <CAA=Fs0n9pJSRuC=LQ1WsSziaup8XsSax8cQAySb8jMHBQa4X0A@mail.gmail.com> <2244233.5Ao9Nzikjg@localhost.localdomain>
-In-Reply-To: <2244233.5Ao9Nzikjg@localhost.localdomain>
+References: <6182ed46-d79d-7f66-c7c0-096486410b4d@gmail.com> <cover.1629642658.git.paskripkin@gmail.com>
+In-Reply-To: <cover.1629642658.git.paskripkin@gmail.com>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 23 Aug 2021 01:00:45 +0100
-Message-ID: <CAA=Fs0kQFn56GTWQxNcy8sbazaW=GpJ3Dzcp73dPNHkPpJTWTw@mail.gmail.com>
-Subject: Re: TODO list for staging/r8188eu
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>
+Date: Mon, 23 Aug 2021 01:12:45 +0100
+Message-ID: <CAA=Fs0=LACN5VqZ1AMkGBVma0W37bQDUeY1DLZ5S5EwV66AyOA@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 0/6] staging: r8188eu: avoid uninit value bugs
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, 
+	Michael Straube <straube.linux@gmail.com>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 22 Aug 2021 at 17:13, Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
+On Sun, 22 Aug 2021 at 15:35, Pavel Skripkin <paskripkin@gmail.com> wrote:
 >
-> On Sunday, August 22, 2021 5:09:47 PM CEST Phillip Potter wrote:
-> > On Sun, 22 Aug 2021 at 14:50, Fabio M. De Francesco
-> > <fmdefrancesco@gmail.com> wrote:
-> > >
-> > > On Sunday, August 22, 2021 2:36:57 PM CEST Greg Kroah-Hartman wrote:
-> > > > On Sun, Aug 22, 2021 at 09:41:20AM +0200, Fabio M. De Francesco wrote:
-> > > > > Dear Larry, Philip,
-> > > > >
-> > > > > >From what I understand how the development process works, drivers in
-> > > staging
-> > > > >
-> > > > > should have a to-do list in the TODO file. Please read https://
-> > > www.kernel.org/
-> > > > > doc/html/latest/process/2.Process.html?highlight=todo#staging-trees.
-> > > > >
-> > > > > Could you (as the maintainers of the r8188eu driver) please compile and
-> > > > > provide the above mentioned list?
-> > > >
-> > > > Why don't you provide an initial list for people to work off of if you
-> > > > feel it is needed here?
-> > > >
-> > > > thanks,
-> > > >
-> > > > greg k-h
-> > >
-> > > Unfortunately I'm not able to tell what is needed to do to have a driver
-> > > improved so that it can be moved off staging. This work should be better
-> > > addressed by someone who is much more experienced.
-> > >
-> > > For example, I read from other drivers TODO lists that cfg80211 and lib80211
-> > > are required but I don't know what they are.
-> > >
-> > > Regards,
-> > >
-> > > Fabio
-> >
-> > Dear Fabio,
-> >
-> > I believe Larry is working on hooking up CFG80211 again (he mentioned
-> > going quite for a few days to work on it). As for other stuff that
-> > needs doing, a few things come to mind:
-> >
-> > * Removal of dead code (whether or not this includes the
-> > debugging/printing macros is a matter of opinion, I would say yes
-> > personally) such as unused functions, struct fields, etc.
-> > * Correction of code styling in the kernel (e.g. there is a lot of camel case).
-> > * Use of in-kernel functionality and removal of unnecessary wrappers
-> > where possible.
-> > * Removal of the HAL layer and migration of its functionality into the
-> > driver as a whole - this is an important one I would argue.
-> >
-> > There is likely to be lots of other items not on that list, but that
-> > would seem to be the basis of a TODO list if we need one?
-> >
-> > Regards,
-> > Phil
+> Hi, Greg, Larry and Phillip!
 >
-> Dear Philip,
+> I noticed, that new staging driver was added like 3 weeks ago and I decided
+> to look at the code, because drivers in staging directory are always buggy.
 >
-> Thanks for this initial list. I suppose that every driver in staging should have it.
-> If you like I could send a patch with the list you prepared, unless you prefer to
-> make it yourself (since you wrote it). Please let me know what you prefer.
+> The first thing I noticed is *no one* was checking read operations result, but
+> it can fail and driver may start writing random stack values into registers. It
+> can cause driver misbehavior or device misbehavior.
 >
-> We shouldn't forget that from time to time new people decide to enter kernel
-> hacking through staging. I think that a list could help all future newcomers.
+> To avoid this type of bugs, i've changed rtw_read* API. Now all rtw_read
+> funtions return an error, when something went wrong with usb transfer.
 >
-> Thanks,
+> It helps callers to break/return earlier and don't write random values to
+> registers or to rely on random values.
 >
-> Fabio
+> Why is this pacth series RFC?
+>   1. I don't have this device and I cannot test these changes.
+>   2. I don't know how to handle errors in each particular case. For now, function
+>      just returns or returns an error. That's all. I hope, driver maintainers will
+>      help with these bits.
+>   3. I guess, I handled not all uninit value bugs here. I hope, I fixed
+>      at least half of them
 >
 >
+> v1 -> v2:
+>   1. Make rtw_read*() return an error instead of initializing pointer to error
+>   2. Split one huge patch to smaller ones for each rtw_read{8,16,32} function
+>      changes
+>   3. Add new macro for printing register values (It helps to not copy-paste error
+>      handling)
+>   4. Removed {read,write}_macreg (Suggested by Phillip)
+>   5. Rebased on top of staging-next
+>   6. Cleaned checkpatch errors and warnings
 >
+> Only build-tested, since I don't have device with r8118eu chip
 >
+> Pavel Skripkin (6):
+>   staging: r8188eu: remove {read,write}_macreg
+>   staging: r8188eu: add helper macro for printing registers
+>   staging: r8188eu: add error handling of rtw_read8
+>   staging: r8188eu: add error handling of rtw_read16
+>   staging: r8188eu: add error handling of rtw_read32
+>   staging: r8188eu: make ReadEFuse return an int
 >
+>  drivers/staging/r8188eu/core/rtw_debug.c      |  79 +++-
+>  drivers/staging/r8188eu/core/rtw_efuse.c      | 125 +++--
+>  drivers/staging/r8188eu/core/rtw_io.c         |  27 +-
+>  drivers/staging/r8188eu/core/rtw_mp.c         |  70 ++-
+>  drivers/staging/r8188eu/core/rtw_mp_ioctl.c   |  13 +-
+>  drivers/staging/r8188eu/core/rtw_pwrctrl.c    |   5 +-
+>  drivers/staging/r8188eu/core/rtw_sreset.c     |   9 +-
+>  .../r8188eu/hal/Hal8188ERateAdaptive.c        |   8 +-
+>  drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  21 +-
+>  drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   9 +-
+>  drivers/staging/r8188eu/hal/hal_com.c         |  23 +-
+>  drivers/staging/r8188eu/hal/hal_intf.c        |   6 +-
+>  drivers/staging/r8188eu/hal/odm_interface.c   |  12 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  33 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   6 +-
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 285 +++++++++---
+>  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  27 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_sreset.c |  22 +-
+>  drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  18 +-
+>  drivers/staging/r8188eu/hal/usb_halinit.c     | 439 +++++++++++++++---
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c   |  57 ++-
+>  drivers/staging/r8188eu/include/hal_intf.h    |   6 +-
+>  .../staging/r8188eu/include/odm_interface.h   |   6 +-
+>  .../staging/r8188eu/include/rtl8188e_hal.h    |   2 +-
+>  drivers/staging/r8188eu/include/rtw_debug.h   |  13 +
+>  drivers/staging/r8188eu/include/rtw_efuse.h   |   4 +-
+>  drivers/staging/r8188eu/include/rtw_io.h      |  18 +-
+>  drivers/staging/r8188eu/include/rtw_mp.h      |   2 -
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 179 +++++--
+>  drivers/staging/r8188eu/os_dep/usb_intf.c     |   3 +-
+>  30 files changed, 1138 insertions(+), 389 deletions(-)
 >
+> --
+> 2.32.0
 >
-Dear Fabio,
 
-By all means feel free to submit this - there will be other stuff
-people will probably want to add to it also, that is just what I
-thought of so far. Many thanks.
+Dear Pavel,
+
+Thanks for this. I like the code a lot. One thing I am conflicted on
+is the helper macro for the printing of register values though. Whilst
+I'm not necessarily opposed to the concept of the macro itself, I
+don't think it should rely on GlobalDebugLevel for one thing - if we
+are going to control printing of messages at runtime then in my mind
+this should be done via debugfs and pr_debug or similar - an in-kernel
+mechanism rather than something driver-provided. Also, the example you
+give of:
+
+        u32 tmp;
+        if (!rtw_read(&tmp))
+                DBG("reg = %d\n", tmp);
+
+Doesn't seem overly unclear to me if DBG was a pr_debug or similar,
+but I get what you're saying about repetition. This is just a small
+thing though, would be interested to see what others think. Many
+thanks.
 
 Regards,
 Phil
