@@ -1,115 +1,116 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301BE72
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 08:48:04 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id i6so30452684edu.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 01:48:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8370972
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 08:53:14 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id mf2so24233683ejb.9
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 01:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jk6xBwZp29Fyk+wKRE0LSbGZQOFjJkPDJWbElWDwoQY=;
-        b=eIg1uy3Pxb/OkF8xaW0tQ9ZnBp4e01p8TEuMJ4I/NaCra4QSTOmJ6tITDbAkGOFd0M
-         dWgrvolEcW97W3LDnEmCyNeHc2I5j0XztUU9lnb0q8D18rsWQbjo58fj+7TIDVh1GdZU
-         pEWSJ7ulJnZgczTE7M1Nw0qPp040rEB92XwxuVK1nW8+VmOXd5/vjvq8UtAXmMGTzatO
-         rJOoitWkKX4DZqNVZ9ktaazCJClZ0IMm/o8+8+lEyt3urO6fvdS7FNMLVn9I4Vvt66lZ
-         rN9Nl+N3sBH1z5G6aOIRcPbxgY8Ct2LISWr7DDcOJQduoVHXDe8rDe7A/BJL7Gy1MIQ4
-         2Fkw==
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=KchTKU3OTyx4fIEVz6kFgXk9gVOceFXcIF7F4XX2QJA=;
+        b=Az7/YPEWAQmJ/pH1jQ4FfIN/YG+FL19RVNpRvIddo4L61nVXKgSNgF4uzp82HaX2UE
+         rO9iXKRh8n0Ex2q9OamfciJNS2047kSDCkExR9u6fiu+3GcbRBvfY8Sg6V6P1BclJgRT
+         jDeRTTYPnqw4wNicRUFrWpju4PXLBTk/mS4WyqRkcCGs/4vVcpVibjxjWc1WkJl2ufaY
+         Xnu+57sVcHR7ZL5p/7LxZbdKcR33NOt1mfg8RUVZg6bDctGbE+sQaoJCtKMZlIoKIpAF
+         5LoUTnBszNXDXPA/faQMcPOO8tL7EvvAHt4PvDkLwevKXgrGaIIsPNPZEGYe4neayxp7
+         3eKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jk6xBwZp29Fyk+wKRE0LSbGZQOFjJkPDJWbElWDwoQY=;
-        b=qQQE8GZn+5hIJwllZ/k1D7U0P5V9Q1lVBsW9YlDHK9m6b8dL4HogwFk/UDz1k8ZaxL
-         vOYAEnikUn+vUuf5X24NbhnpdXzKlJtTrAcZMavEIt6V25I7sDOKXi5wsUtxEnR4pGp8
-         EO/RTj6mGPJcorWKnzl+2JCThttGKJ/EAJ9Q6HIkbze627TkKSuu1VTOs+RO8FEc725h
-         ykwA55qsf4bydcE9BLrc+uWdgSsW+sFk+t5WZiegKUTPJ95BVkN86sxZHhDiEkyPQFXN
-         USYwdG1ykSxok2YLj40IBooju8HfOcvzp8YZAbXzXGLuCxHxPfK3RZ3GXDFZdSqnyE0b
-         xCpw==
-X-Gm-Message-State: AOAM5326XagNodOkJyFyZiF0ktzrZNXvq1WEvvBSEdaYrPJd/dQ+PExV
-	YRGWSUwLE4ojqLe2Jx5bZyU1rEeg/OFA7L/f4o0=
-X-Google-Smtp-Source: ABdhPJwhymhGPFvohYfFxBEGQRbq7zsTX6RJ9LyFtoXl6kaUpSDVBBamfrgXFsejhRW5Q2AzmoWzHhQ/hNVzcFKuBy0=
-X-Received: by 2002:aa7:d147:: with SMTP id r7mr41738062edo.148.1629794882606;
- Tue, 24 Aug 2021 01:48:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KchTKU3OTyx4fIEVz6kFgXk9gVOceFXcIF7F4XX2QJA=;
+        b=jIzFc7CdtjqHZ6HAKxr9z72wCwjhT89Y6k+l18GDuenfsnmF+kUSqsOrBBLVwNfFPg
+         y5IGdfCUEdp5oKI+BEnOKNMXPMTLTUTyNFyaOTR1H/SnGwgNYa5eXf7ab0R+6/CEV1I5
+         upJx1VggQC5X8vEXno4lfDwoYzsDYtmvBFPox1l7e6SKOS4Yq6uc5oy+E3XPluEgoyaV
+         mC2Pi3KUj078oy7CqS+IyXTO8+QlSwIMCZhQru5wnGF2307QPe3mTo2+uPRptYoKFgRh
+         Vfi01I92Irg8AxiIgmYShvvd8FUw6KvUi8YvFLz4kPAE4m9YorrXGFv1QYTYfYH3DUfM
+         U3bg==
+X-Gm-Message-State: AOAM533LyaXTtiCOJ64RsMljVujR5/MU3wmF1KjF3mJEWrlKrXERCPKb
+	dhm/yM1vtYc5zY/1WvNrpIs=
+X-Google-Smtp-Source: ABdhPJwq3eWorCB9QGeZKXl53/047RtAFkG9EOLac4I5mz7r1CQUdKcRtgyS9j8sMWeB/1gw/MYjbw==
+X-Received: by 2002:a17:906:498b:: with SMTP id p11mr40761873eju.295.1629795192909;
+        Tue, 24 Aug 2021 01:53:12 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id br16sm8819806ejb.34.2021.08.24.01.53.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 01:53:12 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
+Date: Tue, 24 Aug 2021 10:53:11 +0200
+Message-ID: <3198276.4iybWabFxt@localhost.localdomain>
+In-Reply-To: <68eebfaf-50a3-a7ec-12ba-cde33c74c9ce@gmail.com>
+References: <20210823223751.25104-1-fmdefrancesco@gmail.com> <20210823223751.25104-2-fmdefrancesco@gmail.com> <68eebfaf-50a3-a7ec-12ba-cde33c74c9ce@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CABv53a_q4jzsXib7ovRs=eOwqcQ-oKb8c7DA7uUSPf+0tt6aog@mail.gmail.com>
- <20210823170624.GA1420@agape.jhs> <CABv53a9aR8mXE_quxRX06aX3WAKGSOyMqrG8AmqrsvftjH7xyg@mail.gmail.com>
- <CABv53a_9GstHzLbbbghFxU_YDxC0ckh3+bGu4RqAmGL39BHMMg@mail.gmail.com> <20210824074643.GA1731@agape.jhs>
-In-Reply-To: <20210824074643.GA1731@agape.jhs>
-From: iLifetruth <yixiaonn@gmail.com>
-Date: Tue, 24 Aug 2021 16:47:26 +0800
-Message-ID: <CABv53a9x_FbTY0=D_TGsHdS3XsUVg5M=S5WYVNdQXaVSC=XVYQ@mail.gmail.com>
-Subject: Re: staging: possible buffer overflow in rtw_wx_set_scan function in driver/staging/rtl8723bs
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: gregkh@linuxfoundation.org, ross.schm.dev@gmail.com, marcocesati@gmail.com, 
-	insafonov@gmail.com, linux-kernel@vger.kernel.org, 
-	Qiang Liu <cyruscyliu@gmail.com>, yajin@vm-kernel.org, hdegoede@redhat.com, 
-	Larry.Finger@lwfinger.net, Martin Kaiser <martin@kaiser.cx>, 
-	Phillip Potter <phil@philpotter.co.uk>, Michael Straube <straube.linux@gmail.com>, fmdefrancesco@gmail.com, 
-	linux-staging@lists.linux.dev, paskripkin@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Aug 24, 2021 at 3:46 PM Fabio Aiuto <fabioaiuto83@gmail.com> wrote:
->
-> Hello,
->
-> [sorry for resend, I updated the CC field]
->
-> On Tue, Aug 24, 2021 at 03:04:04PM +0800, iLifetruth wrote:
-> > Here are the fixes and the contents of the patch file we suggest.
-> >
-> > [PATCH]staging: rtl8723bs: prevent ->ssid overflow in rtw_wx_set_scan()
-> >
-> > This fixing patch is ported from the upstream commit
-> > 74b6b20df8cf(staging: rtl8188eu: prevent ->ssid overflow in
-> > rtw_wx_set_scan()) which fixes on another driver numbered rtl8188eu.
-> > This code has a check to prevent read overflow but it needs another
-> > check to prevent writing beyond the end of the ->ssid[] array in
-> > driver rtl8723bs.
-> >
+On Tuesday, August 24, 2021 10:13:46 AM CEST Pavel Skripkin wrote:
+> On 8/24/21 1:37 AM, Fabio M. De Francesco wrote:
+> > Replace usb_control_msg() with the new usb_control_msg_recv() and
+> > usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
+> > 
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > > ---
-> >  drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > Thanks to Pavel Skripkin <paskripkin@gmail.com> for his review of the
+> > RFC patch.
+> >   
+> > drivers/staging/r8188eu/hal/usb_ops_linux.c | 25 ++++++++++-----------
+> > 1 file changed, 12 insertions(+), 13 deletions(-)
+> > 
+> > [...]
 > >
-> > diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> > b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> > index f95000df8942..3b859b71bf43 100644
-> > --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> > +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> > @@ -1222,9 +1222,9 @@ static int rtw_wx_set_scan(struct net_device
-> > *dev, struct iw_request_info *a,
-> >
-> >                                 sec_len = *(pos++); len -= 1;
-> >
-> > -                               if (sec_len > 0 && sec_len <= len) {
-> > +                               if (sec_len > 0 && sec_len <= len &&
-> > sec_len<= 32) {
-> >                                         ssid[ssid_index].SsidLength = sec_len;
-> > -                                       memcpy(ssid[ssid_index].Ssid,
-> > pos, ssid[ssid_index].SsidLength);
-> > +                                       memcpy(ssid[ssid_index].Ssid,
-> > pos, sec_len);
-> >                                         ssid_index++;
-> >                                 }
-> >
-> > --
-> >
-> > Thanks for your confirmation,
-> > - iLifetruth
-> >
->
-> the patch looks fine. Just some points:
->
-> - If the patch related to wext support removal will
->   be accepted, the patch isn't necessary. So I will wait
->   until I know the community-maintainer decision.
->
+> Hi, Fabio!
+> 
+> Christophe is right about semantic part. 
 
-OK, I see the situation now, and I will submit a relevant patch to the
-Linux-staging tree at a suitable time.
+Hi Pavel,
+
+I haven't yet read Christophe's message (but I'm going to do it ASAP). 
+I hope he found out what is wrong with the code, what made Phil's tests
+fail.
+
+> Also,
+> 
+> if (!status) {
+> 
+> } else {
+> 	if (status < 0) {		<-
+> 					  |
+> 	} else {			  |
+> 					  |
+> 	}				<-
+> }					
+> 
+> Extra if-else is not needed, since status can be 0 and < 0, there is no 
+> 3rd state, like it was before.
+
+Correct, thanks!
+
+Now I read the following from the documentation of the new API...
+
+"Return: If successful, 0 is returned, Otherwise, a negative error number."
+
+I'll remove that status < 0 check and whatever else is no more necessary.
+Thanks, again :)
+
+Regards,
+
+Fabio
+
+> With regards,
+> Pavel Skripkin
+> 
+
+
+
+
