@@ -1,87 +1,127 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120223FC0
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 21:59:47 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id om1-20020a17090b3a8100b0017941c44ce4so2763582pjb.3
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 14:59:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FB73FC0
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 22:02:11 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id k14so21125473pga.13
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 15:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dV2HwutanGEMSVTHUYToK72cxw7X/GcO81aNccR4QPw=;
-        b=F6A829Luql9VwPos1+eSZTb1jv9suIGsQ9Es/k7eT5czwSSzFPjXCHwEWL9hVGWdAq
-         33f0ohCHpP1vvs2j64TxoV4jl+0Yy8kb94m3ExVE3r0qKi7eNLA6W9jAVjLNwBDJGH9a
-         hPyZEoKEByq9JI3IKvR/mwExVEmxB+ZmuR+RsGwupQZEshercoENGqNV3anIoWQSqYCj
-         4wOB+Os0rKDK2gE3ZmtBvRgwZUC2o4rl+vVU7ebW5rMDPcOxDKuUvm3lzAayX8FFe+Qq
-         FomCB88pOL9+7Ur0jMnIa4jipU1xPjE8pwfR8H9k9TDQUlG0LMPHuxwmmR49B+ZEf74+
-         CRyg==
+        bh=ux4PWshDQUgun7+iFfR9XF7lhOb6fujLGbBAlBGfMDY=;
+        b=st9U/bkuHb6ONLcWA/fEAKEtp7tFDqFymiFz1XavxyMqttCfESEX2UzFYM3Jw+n5Vh
+         AqCW8Q0nLLYtOxodnbaioTh2igkBGRL9xAkDXTbG8ADzqVcapeVuZ+iErKPZzD5omYMg
+         YQUthZGSSY/KEDiRJ1aWxjGJmBeNB2Cz9aZRNRC1ZHR0dS48eha1tHI3HGLPM25iocog
+         u7mcnj+jiIfflo8ITvR54uda3tzHElE/yJt375MHJBZ4VOj+EAqgStjWDKKmINEknMPI
+         8dFCsdKUUAj7pR4Jl59+3OAYVnRkULuNTxHU/SLMKBzI34ZDoygZrExHM1S/01Yba4C6
+         jm2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dV2HwutanGEMSVTHUYToK72cxw7X/GcO81aNccR4QPw=;
-        b=bfWYyIheqsFPh5Rr4JTOKd+X8JGUr0zWfjSSVJzQSKthuiqt7aCE5dxjKHp9jsKbJ1
-         4moqagsDZzAb2/lAAbNGpEwLF3gItpIbPM7tQjZ0mEmzaBKfNlAXbPnyUp4DR8LEhi8Y
-         o/yrc70NjpFj2axAIxWqoMaVwqykFE2n/4xWFTF+RNUD1KSlexz+NpkXxYU2xuTcA0C8
-         ewcoI8bepObwCimKF7+Fl5LVqa4xH5lj70EIlzy5/AnWu6Ym7osqJEbnpteuK/rwbPX6
-         JR5r07jHQKA2shnL7tLiseMNrh+ZAS5xjhqhiaopVva9d20g2jvleW6y5RYnjRYAFpt+
-         28bQ==
-X-Gm-Message-State: AOAM531/JwMPcm3i9v6SLAKf3splHI7BZOgFsUyurY12D9LHftfat1yD
-	roVPdgn+H5wzBKj6wUM1W+Dh5IHrGXAwIdjXeIHdOg==
-X-Google-Smtp-Source: ABdhPJy+DLYO6OTaxf0RcnvBKHSGXpxxWYAoSxW3W2cKgQDk6nNLo91Jd1N006ED3qUtEDGro0cCfvrbp1EZ9B4HOLM=
-X-Received: by 2002:a17:90a:1b2e:: with SMTP id q43mr6727425pjq.217.1629842386524;
- Tue, 24 Aug 2021 14:59:46 -0700 (PDT)
+        bh=ux4PWshDQUgun7+iFfR9XF7lhOb6fujLGbBAlBGfMDY=;
+        b=apxvLGCr3A4mo5Gje11LCDugiJzWuj6DeUYJLT2PaxG3DpN0zK9i5MyFYQ/VhNXUuV
+         UO46Bj0TX8+3vd6szO6c86T8vtqAiFX1yD9M9Tbfsbx4xrV4eU4q7COh47l24vJw2dJN
+         qYDHskfFh5rzA3Tmsip6BGjsUlcQaSSpMg7PhW98v8F16u9iId7WB00v+DE9b8G9Q7zm
+         +GIrJT889Xq9twveg0hg4ZDmARHgu1/mgq6qAdvUVwp+6DsU05J0608VLEnha6+3E4wz
+         hzi9Mobg3nTecd6Tq0jDERjUtlNJn6Da3qdKxzNW+22FX3uJ/fqZxPLofyX19aDx8BkK
+         spvg==
+X-Gm-Message-State: AOAM5322jaYlnYGE51GHyO3c8J0bnE6sdyDANB8qGCTw7Yd/kAxmI769
+	5YM0b8slYHXu8st1vS7d+k8NB3Vk25+3VSKShE4S7A==
+X-Google-Smtp-Source: ABdhPJzg04bwOiBQ9nJT9JRFZwqlKjT7duzDhTp79seoHsEIWF0MYTJgbcHJlD0C9utgAVIliWv3ksK9VRJIyQ5zUvw=
+X-Received: by 2002:a62:5c6:0:b029:341:e0b1:a72c with SMTP id
+ 189-20020a6205c60000b0290341e0b1a72cmr41431417pff.71.1629842531034; Tue, 24
+ Aug 2021 15:02:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210823223751.25104-1-fmdefrancesco@gmail.com>
- <CAA=Fs0ki91VvBOd2Wd59KqeCN+BmF-eWv+r0sH+e3fUG61Zxsg@mail.gmail.com>
- <15825589.4VbMHeJK9p@localhost.localdomain> <1815496.OexNakQ7IY@localhost.localdomain>
-In-Reply-To: <1815496.OexNakQ7IY@localhost.localdomain>
+References: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Tue, 24 Aug 2021 22:59:35 +0100
-Message-ID: <CAA=Fs0k1RWbHqzW73rox+yN+rMiP0sDeMFdiVCjL92XFJ7=gZQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Date: Tue, 24 Aug 2021 23:02:00 +0100
+Message-ID: <CAA=Fs0=yWZ58j7T_vE4SjT3Fv35Zxb2rohQF4V9F7sF78LTR8w@mail.gmail.com>
+Subject: Re: [PATCH linux-next] r8188eu: remove unneeded conversions to bool
+To: CGEL <cgel.zte@gmail.com>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
 	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Pavel Skripkin <paskripkin@gmail.com>
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Jing Yangyang <jing.yangyang@zte.com.cn>, 
+	Zeal Robot <zealci@zte.com.cn>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 24 Aug 2021 at 02:38, Fabio M. De Francesco
-<fmdefrancesco@gmail.com> wrote:
+On Tue, 24 Aug 2021 at 07:34, CGEL <cgel.zte@gmail.com> wrote:
 >
-> Dear Philip,
+> From: Jing Yangyang <jing.yangyang@zte.com.cn>
 >
-> I think that I've inadvertently switched the order by which usb_control_msg_send()
-> and memcpy() are called. I'm very sorry for not doing my tests, but (as I had said
-> before) at the moment I don't have my device with me.
+> Found with scripts/coccinelle/misc/boolconv.cocci.
 >
-> I'm about to send a v2 series.
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Jing Yangyang <jing.yangyang@zte.com.cn>
+> ---
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> Thanks very much for testing on my behalf.
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 5325fe4..20dc4d4 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -3758,7 +3758,7 @@ int issue_probereq_p2p_ex(struct adapter *adapter, u8 *da, int try_cnt, int wait
+>         u32 start = jiffies;
 >
-> Regards,
+>         do {
+> -               ret = _issue_probereq_p2p(adapter, da, wait_ms > 0 ? true : false);
+> +               ret = _issue_probereq_p2p(adapter, da, wait_ms > 0);
 >
-> Fabio
+>                 i++;
 >
+> @@ -4890,7 +4890,7 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
+>         u32 start = jiffies;
+>
+>         do {
+> -               ret = _issue_probereq(padapter, pssid, da, wait_ms > 0 ? true : false);
+> +               ret = _issue_probereq(padapter, pssid, da, wait_ms > 0);
+>
+>                 i++;
+>
+> @@ -5605,7 +5605,7 @@ int issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int pow
+>                 da = get_my_bssid(&pmlmeinfo->network);
+>
+>         do {
+> -               ret = _issue_nulldata(padapter, da, power_mode, wait_ms > 0 ? true : false);
+> +               ret = _issue_nulldata(padapter, da, power_mode, wait_ms > 0);
+>
+>                 i++;
+>
+> @@ -5728,7 +5728,7 @@ int issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16 tid, int
+>                 da = get_my_bssid(&pmlmeinfo->network);
+>
+>         do {
+> -               ret = _issue_qos_nulldata(padapter, da, tid, wait_ms > 0 ? true : false);
+> +               ret = _issue_qos_nulldata(padapter, da, tid, wait_ms > 0);
+>
+>                 i++;
+>
+> @@ -5839,7 +5839,7 @@ int issue_deauth_ex(struct adapter *padapter, u8 *da, unsigned short reason, int
+>         u32 start = jiffies;
+>
+>         do {
+> -               ret = _issue_deauth(padapter, da, reason, wait_ms > 0 ? true : false);
+> +               ret = _issue_deauth(padapter, da, reason, wait_ms > 0);
+>
+>                 i++;
+>
+> --
+> 1.8.3.1
 >
 >
 
-Dear Fabio,
+Not had time to buildest/run this, but it looks ok to me. Many thanks.
 
-Just going through my e-mails now after the work day, so sorry for not
-replying sooner. Don't feel you have to apologise for things like this
-honestly, we are all human and there is a huge amount of churn on this
-driver at the moment. I know there are subsequent e-mails indicating
-this was not the problem anyway, but in any case, I am happy to test
-when I'm able to, and don't worry if it doesn't always work - my code
-is guilty of the same thing constantly :-)
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
 Regards,
 Phil
