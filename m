@@ -1,145 +1,316 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6AB3FC0
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 11:07:49 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id s12so11746678ljg.0
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 04:07:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA933FC0
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 11:22:37 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id n27so11640748eja.5
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 04:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=FpTK3hvE23pECqh9p0EL04iD+tphMlpsn6IwOnys+Yw=;
-        b=MKAHNRe1lcS55l+C6nT7NY2946DeihoetzLsrM65H8RTbpH8YccKELXIddw5tqFebr
-         RyxTc0FViBBli8GOFiht696B2DcQ7ieWqJPLL2UQRmJcMp181SlELCgypd4uLRj7MtSa
-         gHbC3gcOYtCh1F1Jnm6wAt8nk7/ZCs7bmbpCjjKgVXQEdPExjj6uZLK2XFWKxOqaLq1F
-         PRnLKkMgK2AxD6xJ+ecjNOGVhiHIsL2AIDhLj44gOqrfAe5opggNwHachKaFAnMpT3HX
-         2HzBCNmW7iNWQANzQvfkpkrZ51chZCwgWyg+JipNhDZ9S/B/44ZgEdYDTn4SmRwX2pTv
-         0zeA==
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8W2+3arloXezOP0E5J73Ksz+WJOizO3Gg+lSH91G+jI=;
+        b=TQnQ6Z5VhexI/i2F+UEp6T1e4RzzWlHXM6o0AdmRBeUrRqsy4QjjJ0XTG24SaHzTHa
+         7EsaN3IK1pzJBSSFQ5HZ0lIXxObeAakTmIgJF18V/py94yll4ViB7fMUw5JY5dFhTUl4
+         +duDpvm46oHaQTzmF2CLoXrWQUqlP8C71u+VYUIPiXJ1VYwm2RbFwfSdCPbXcQw6k5aX
+         F/XY/JxHxO5MQCRO4Pr3LAEAgAbWShliVrnamfpQEnSnzVbJvxT+VdNTWsIzlb8GaN4p
+         zDF/fHK4CubkQP9l0pSWu4zyZ6uQbfjMUj/iiTXykMy2nDTGQzATIHVm0Zd8EwVD0ql5
+         WkIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FpTK3hvE23pECqh9p0EL04iD+tphMlpsn6IwOnys+Yw=;
-        b=kV3PKhVnXHLgS91nsKhdgQAcE1Uk0USgBEzU09lNzPsxZn9nlnYNel+moHJkusfae4
-         0Gci/eMnVBayDKfciQLcLAMeO7UOAwI7OIEZVYSa3ad3hOfZ8EVyhgs5j7S52BPIJ7SW
-         j2p4Kk2dHdUE4P3eXI3p2wKG3G98w8y5F/oM63VAFkUL5rmAkhu+4HJqQngRIgaLbpL6
-         3OLjNZL0EMqH6hoIt3RvbqxtGQfH7R1uH4vUGvTe/es0OLiOEmNG9N5pFEsKjqN+Eff5
-         Bonax8BVkvtb15pKaXTHvCLesWH2p4oa9yVSbLsoGMQg/4Xk28L+ehp+qXWMPtsxOj2J
-         u0hQ==
-X-Gm-Message-State: AOAM532mPSt+Xp6HMB6zb285TvPY8Gx564lKH6XiomTfUdxzGeRe9Zbd
-	U1pkWC8FF89mJYX/QpSL23o=
-X-Google-Smtp-Source: ABdhPJzdeNtzFvmqVLRRORGLdHk7PoStaT2GgTR2xPoO/JFcfaiD+G7i7CNDEvBfQVJCY4nbmowEjQ==
-X-Received: by 2002:a2e:8e8f:: with SMTP id z15mr24744472ljk.121.1629803268016;
-        Tue, 24 Aug 2021 04:07:48 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id p1sm763760lfs.10.2021.08.24.04.07.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Aug 2021 04:07:47 -0700 (PDT)
-Subject: Re: [PATCH 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in
- usbctrl_vendorreq()
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210823223751.25104-1-fmdefrancesco@gmail.com>
- <20210823223751.25104-2-fmdefrancesco@gmail.com>
- <68eebfaf-50a3-a7ec-12ba-cde33c74c9ce@gmail.com>
- <3198276.4iybWabFxt@localhost.localdomain>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <d5ac7cd8-dc81-732d-b583-628cd2a273cb@gmail.com>
-Date: Tue, 24 Aug 2021 14:07:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8W2+3arloXezOP0E5J73Ksz+WJOizO3Gg+lSH91G+jI=;
+        b=isPkokwVkb4qrQ9QWiWYh+a/Ycu9dAp9FiRbRUbMUP9dLwRoew4kFaJTqal06t9kYB
+         A2eK0i9rGN4KPI794DZyOAxVPniqjt4tCH6owRdcQxEmBDjBNMevjZnWPmdrAfldUAOf
+         OIMfLfa/NtH1d9so3HoWANOrG99wCXoGLMkZ/goj7JIWa53c/9LFUTn5vwDSE521j3Qe
+         QqLz7YUSohlgukqtLqRBgRNpbihqcE3HYw/HZBUTCo3bnVEn+1pIS/Ykl5dsFWUdnAo4
+         +xLOgLBDyfUxUOaGn8dN0S6VeQWQHajAHMfDBPb8tlsAWy9db54nI8lJClP6oPYMJ//h
+         72WA==
+X-Gm-Message-State: AOAM530cChwAeO3OtmTT4vH5HWZD/4bZ7D6IP+YFonjJe9jcNCr9Zj7W
+	dy3LJGhlYwikwgyre2HAUjDt+F+p349F0s9PdbO+xw==
+X-Google-Smtp-Source: ABdhPJzD1thelmLkt9dUDPHIIz/5wJlz3G1EUbAPNvStEVf8XtCVH7Hi8g4xzc2XvwsfN2SBv8VdUp79kjRKHc6G2Uo=
+X-Received: by 2002:a17:906:a0c9:: with SMTP id bh9mr8404843ejb.51.1629804156024;
+ Tue, 24 Aug 2021 04:22:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3198276.4iybWabFxt@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210823162916.824336-1-benjamin.gaignard@collabora.com>
+In-Reply-To: <20210823162916.824336-1-benjamin.gaignard@collabora.com>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Tue, 24 Aug 2021 08:22:24 -0300
+Message-ID: <CAAEAJfCxhe8EubESc4HnO63JnOqVCRTNU62Qrm8wX+Rsc_tSUg@mail.gmail.com>
+Subject: Re: [PATCH] media: hantro: Add support of compressed reference buffers
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Greg KH <gregkh@linuxfoundation.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Chris Healy <cphealy@gmail.com>, 
+	linux-media <linux-media@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, linux-staging@lists.linux.dev, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	Collabora Kernel ML <kernel@collabora.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/24/21 11:53 AM, Fabio M. De Francesco wrote:
-> On Tuesday, August 24, 2021 10:13:46 AM CEST Pavel Skripkin wrote:
->> On 8/24/21 1:37 AM, Fabio M. De Francesco wrote:
->> > Replace usb_control_msg() with the new usb_control_msg_recv() and
->> > usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
->> > 
->> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->> > ---
->> > 
->> > Thanks to Pavel Skripkin <paskripkin@gmail.com> for his review of the
->> > RFC patch.
->> >   
->> > drivers/staging/r8188eu/hal/usb_ops_linux.c | 25 ++++++++++-----------
->> > 1 file changed, 12 insertions(+), 13 deletions(-)
->> > 
->> > [...]
->> >
->> Hi, Fabio!
->> 
->> Christophe is right about semantic part. 
-> 
-> Hi Pavel,
-> 
-> I haven't yet read Christophe's message (but I'm going to do it ASAP).
-> I hope he found out what is wrong with the code, what made Phil's tests
-> fail.
-> 
->> Also,
->> 
->> if (!status) {
->> 
->> } else {
->> 	if (status < 0) {		<-
->> 					  |
->> 	} else {			  |
->> 					  |
->> 	}				<-
->> }					
->> 
->> Extra if-else is not needed, since status can be 0 and < 0, there is no 
->> 3rd state, like it was before.
-> 
-> Correct, thanks!
-> 
-> Now I read the following from the documentation of the new API...
-> 
-> "Return: If successful, 0 is returned, Otherwise, a negative error number."
-> 
-> I'll remove that status < 0 check and whatever else is no more necessary.
-> Thanks, again :)
-> 
-> Regards,
-> 
+Hi Benjamin,
 
-Btw, not related to your patch, but I start think, that this check:
+On Mon, 23 Aug 2021 at 13:29, Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+> Reference frame compression is a feature added in G2 decoder to compress
+> frame buffers so that the bandwidth of storing/loading reference frames
+> can be reduced, especially when the resolution of decoded stream is of
+> high definition.
+>
+> Compressed help to increase the performance of the whole stack, it could
+> be up to 50 fps (against 45 fps) on IMX8MQ.
+> The impact of compressed frames is confirmed when using perf to monitor
+> the number of memory accesses with or without compression feature.
+> The following command
+> perf stat -a -e imx8_ddr0/cycles/,imx8_ddr0/read-cycles/,imx8_ddr0/write-cycles/ gst-launch-1.0 filesrc location=Jockey_3840x2160_120fps_420_8bit_HEVC_RAW.hevc ! queue ! h265parse ! v4l2slh265dec ! fakesink
+>
+> give us these results
+> without compression feature:
+>  Performance counter stats for 'system wide':
+>
+>        14965816743      imx8_ddr0/cycles/
+>          889197312      imx8_ddr0/read-cycles/
+>         1819348862      imx8_ddr0/write-cycles/
+>
+>       18.707373001 seconds time elapsed
+>
+> with compression feature:
+> Performance counter stats for 'system wide':
+>
+>        13750218243      imx8_ddr0/cycles/
+>          402428744      imx8_ddr0/read-cycles/
+>         1255676693      imx8_ddr0/write-cycles/
+>
+>       17.188320061 seconds time elapsed
+>
+> As expected the number of read/write cycles are really lower when compression
+> is used.
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 31 ++++++++++++--
+>  drivers/staging/media/hantro/hantro_g2_regs.h |  4 ++
+>  drivers/staging/media/hantro/hantro_hevc.c    | 41 ++++++++++++++++++-
+>  drivers/staging/media/hantro/hantro_hw.h      |  2 +
+>  4 files changed, 74 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> index 340efb57fd18..da90acd922f7 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -366,10 +366,12 @@ static int set_ref(struct hantro_ctx *ctx)
+>         const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
+>         const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
+>         const struct v4l2_hevc_dpb_entry *dpb = decode_params->dpb;
+> -       dma_addr_t luma_addr, chroma_addr, mv_addr = 0;
+> +       dma_addr_t luma_addr, chroma_addr, mv_addr, compress_luma_addr, compress_chroma_addr = 0;
+>         struct hantro_dev *vpu = ctx->dev;
+>         size_t cr_offset = hantro_hevc_chroma_offset(sps);
+>         size_t mv_offset = hantro_hevc_motion_vectors_offset(sps);
+> +       size_t compress_luma_offset = hantro_hevc_luma_compress_offset(sps);
+> +       size_t compress_chroma_offset = hantro_hevc_chroma_compress_offset(sps);
+>         u32 max_ref_frames;
+>         u16 dpb_longterm_e;
+>         static const struct hantro_reg cur_poc[] = {
+> @@ -442,15 +444,28 @@ static int set_ref(struct hantro_ctx *ctx)
+>                 if (!luma_addr)
+>                         return -ENOMEM;
+>
+> +               /*
+> +                * An allocated frame stores Y and UV planes, motion vectors and
+> +                * compressed Y and UV planes. Compute all these offsets given
+> +                * the frame resolution and the pixel format.
+> +                */
 
+The patch looks good, but I feel we still need to answer some questions
+before it can be merged.
 
-	if (!pIo_buf) {
-		DBG_88E("[%s] pIo_buf == NULL\n", __func__);
-		status = -ENOMEM;
-		goto release_mutex;
-	}
+* Is this a G2 feature? If so, can it be used on VP9?
 
-Should be wrapped as
+* Enabling compression needs more memory. You are proposing
+to allocate frames and compressed frames contiguously,
+but so we need to measure the impact of that. Perhaps separate
+buffers will be better to avoid CMA pressure? Perhaps a given
+user will want to turn this off to reduce memory usage?
 
-	if (WARN_ON(unlikely(!pIo_buf)) {
-		...
-	}
+More importantly, I'm wary of adding HEVC features
+without being able to test anything.
 
-Since usb_vendor_req_buf is initialized in ->probe() and I can't see 
-possible calltrace, which can cause zeroing this pointer.
+Can you work with NXP maintainers to get the GPC/BLK-CTRL [1] sorted out?
 
-Something _completely_ wrong is going on if usb_vendor_req_buf is NULL, 
-and we should complain loud about it. What do you think?
+Then, we have the issue of missing mainlined userspace as well,
+but I suppose that's well underway :-)
 
+[1] https://www.spinics.net/lists/arm-kernel/msg913881.html
 
-With regards,
-Pavel Skripkin
+Cheers,
+Eze
+
+>                 chroma_addr = luma_addr + cr_offset;
+>                 mv_addr = luma_addr + mv_offset;
+> +               compress_luma_addr = luma_addr + compress_luma_offset;
+> +               compress_chroma_addr = luma_addr + compress_chroma_offset;
+>
+>                 if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
+>                         dpb_longterm_e |= BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
+>
+> +               /*
+> +                * For each reference frame Y, UV, motion vector and
+> +                * compressed Y, UV buffers addresses must be set.
+> +                */
+>                 hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
+>                 hantro_write_addr(vpu, G2_REG_CHR_REF(i), chroma_addr);
+>                 hantro_write_addr(vpu, G2_REG_DMV_REF(i), mv_addr);
+> +               hantro_write_addr(vpu, G2_COMP_ADDR_REF(i), compress_luma_addr);
+> +               hantro_write_addr(vpu, G2_COMP_CHR_REF(i), compress_chroma_addr);
+>         }
+>
+>         luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
+> @@ -459,7 +474,12 @@ static int set_ref(struct hantro_ctx *ctx)
+>
+>         chroma_addr = luma_addr + cr_offset;
+>         mv_addr = luma_addr + mv_offset;
+> +       compress_luma_addr = luma_addr + compress_luma_offset;
+> +       compress_chroma_addr = luma_addr + compress_chroma_offset;
+>
+> +       /* The next decoded frame as to be put as the last reference frame entry */
+> +       hantro_write_addr(vpu, G2_COMP_ADDR_REF(i), compress_luma_addr);
+> +       hantro_write_addr(vpu, G2_COMP_CHR_REF(i), compress_chroma_addr);
+>         hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
+>         hantro_write_addr(vpu, G2_REG_CHR_REF(i), chroma_addr);
+>         hantro_write_addr(vpu, G2_REG_DMV_REF(i++), mv_addr);
+> @@ -467,13 +487,18 @@ static int set_ref(struct hantro_ctx *ctx)
+>         hantro_write_addr(vpu, G2_ADDR_DST, luma_addr);
+>         hantro_write_addr(vpu, G2_ADDR_DST_CHR, chroma_addr);
+>         hantro_write_addr(vpu, G2_ADDR_DST_MV, mv_addr);
+> +       hantro_write_addr(vpu, G2_COMP_ADDR_DST, compress_luma_addr);
+> +       hantro_write_addr(vpu, G2_COMP_CHR, compress_chroma_addr);
+>
+>         hantro_hevc_ref_remove_unused(ctx);
+>
+> +       /* Unused reference frames entries most be cleared */
+>         for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
+>                 hantro_write_addr(vpu, G2_REG_ADDR_REF(i), 0);
+>                 hantro_write_addr(vpu, G2_REG_CHR_REF(i), 0);
+>                 hantro_write_addr(vpu, G2_REG_DMV_REF(i), 0);
+> +               hantro_write_addr(vpu, G2_COMP_ADDR_REF(i), 0);
+> +               hantro_write_addr(vpu, G2_COMP_CHR_REF(i), 0);
+>         }
+>
+>         hantro_reg_write(vpu, &g2_refer_lterm_e, dpb_longterm_e);
+> @@ -564,8 +589,8 @@ int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
+>         /* Don't disable output */
+>         hantro_reg_write(vpu, &g2_out_dis, 0);
+>
+> -       /* Don't compress buffers */
+> -       hantro_reg_write(vpu, &g2_ref_compress_bypass, 1);
+> +       /* Compress buffers */
+> +       hantro_reg_write(vpu, &g2_ref_compress_bypass, 0);
+>
+>         /* use NV12 as output format */
+>         hantro_reg_write(vpu, &g2_out_rs_e, 1);
+> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+> index bb22fa921914..2a23e8657db1 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
+> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+> @@ -191,6 +191,10 @@
+>  #define G2_TILE_FILTER         (G2_SWREG(179))
+>  #define G2_TILE_SAO            (G2_SWREG(181))
+>  #define G2_TILE_BSD            (G2_SWREG(183))
+> +#define G2_COMP_ADDR_DST       (G2_SWREG(190))
+> +#define G2_COMP_ADDR_REF(i)    (G2_SWREG(192) + ((i) * 0x8))
+> +#define G2_COMP_CHR            (G2_SWREG(224))
+> +#define G2_COMP_CHR_REF(i)     (G2_SWREG(226) + ((i) * 0x8))
+>
+>  #define g2_strm_buffer_len     G2_DEC_REG(258, 0, 0xffffffff)
+>  #define g2_strm_start_offset   G2_DEC_REG(259, 0, 0xffffffff)
+> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+> index 5347f5a41c2a..78e5ceda520c 100644
+> --- a/drivers/staging/media/hantro/hantro_hevc.c
+> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+> @@ -27,6 +27,13 @@
+>
+>  #define G2_ALIGN               16
+>
+> +#define CBS_SIZE       16      /* compression table size in bytes */
+> +#define CBS_LUMA       8       /* luminance CBS is composed of 1 8x8 coded block */
+> +#define CBS_CHROMA_W   (8 * 2) /* chrominance CBS is composed of two 8x4 coded
+> +                                * blocks, with Cb CB first then Cr CB following
+> +                                */
+> +#define CBS_CHROMA_H   4
+> +
+>  size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps)
+>  {
+>         int bytes_per_pixel = sps->bit_depth_luma_minus8 == 0 ? 1 : 2;
+> @@ -61,12 +68,44 @@ static size_t hantro_hevc_mv_size(const struct v4l2_ctrl_hevc_sps *sps)
+>         return mv_size;
+>  }
+>
+> +size_t hantro_hevc_luma_compress_offset(const struct v4l2_ctrl_hevc_sps *sps)
+> +{
+> +       return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps);
+> +}
+> +
+> +static size_t hantro_hevc_luma_compress_size(const struct v4l2_ctrl_hevc_sps *sps)
+> +{
+> +       u32 pic_width_in_cbsy =
+> +               round_up((sps->pic_width_in_luma_samples + CBS_LUMA - 1) / CBS_LUMA, CBS_SIZE);
+> +       u32 pic_height_in_cbsy = (sps->pic_height_in_luma_samples + CBS_LUMA - 1) / CBS_LUMA;
+> +
+> +       return round_up(pic_width_in_cbsy * pic_height_in_cbsy, CBS_SIZE);
+> +}
+> +
+> +size_t hantro_hevc_chroma_compress_offset(const struct v4l2_ctrl_hevc_sps *sps)
+> +{
+> +       return hantro_hevc_luma_compress_offset(sps) + hantro_hevc_luma_compress_size(sps);
+> +}
+> +
+> +static size_t hantro_hevc_chroma_compress_size(const struct v4l2_ctrl_hevc_sps *sps)
+> +{
+> +       u32 pic_width_in_cbsc =
+> +               round_up((sps->pic_width_in_luma_samples + CBS_CHROMA_W - 1)
+> +                        / CBS_CHROMA_W, CBS_SIZE);
+> +       u32 pic_height_in_cbsc = (sps->pic_height_in_luma_samples / 2 + CBS_CHROMA_H - 1)
+> +                                / CBS_CHROMA_H;
+> +
+> +       return round_up(pic_width_in_cbsc * pic_height_in_cbsc, CBS_SIZE);
+> +}
+> +
+>  static size_t hantro_hevc_ref_size(struct hantro_ctx *ctx)
+>  {
+>         const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+>         const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+>
+> -       return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps);
+> +       return hantro_hevc_motion_vectors_offset(sps) + hantro_hevc_mv_size(sps) +
+> +              hantro_hevc_luma_compress_size(sps) +
+> +              hantro_hevc_chroma_compress_size(sps);
+>  }
+>
+>  static void hantro_hevc_ref_free(struct hantro_ctx *ctx)
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index df7b5e3a57b9..d5c002d0e765 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -255,6 +255,8 @@ dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>  size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>  size_t hantro_hevc_motion_vectors_offset(const struct v4l2_ctrl_hevc_sps *sps);
+> +size_t hantro_hevc_luma_compress_offset(const struct v4l2_ctrl_hevc_sps *sps);
+> +size_t hantro_hevc_chroma_compress_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>
+>  static inline size_t
+>  hantro_h264_mv_size(unsigned int width, unsigned int height)
+> --
+> 2.25.1
+>
