@@ -1,195 +1,131 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E1A3FC1
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 07:46:49 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id u3so42456096ejz.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:46:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B9D3FC1
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 08:00:47 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id d16so36070655ljq.4
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 01:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=VsqAfZyJN9OD0IHKahj/HoL7bz40akh7jyRwrbfEuro=;
-        b=sYIl27axHaB+KXgccTTOy8Qba71m+Sa9jlXykBz++PO0nNjkG8wWEE3xuRhGlQrvt9
-         a+ohGsHPJr6zRAsi3BIRyW3sUNSkgh8NhllNXtp3JyY6G4Zz3EO1ZhMnfZr/sUcivssh
-         AXwbez1OHsikoUQSjOUhUcCPswF0hx6/JbsMLdkGbX+AKVcF9wIESmhc3hBQainRQmKa
-         N+lwjoY8v1wdFBfvv0xjQdl6wphqmczUqkyoCN4dkZmJVrWLRsJ8m4D5zR+0SaBP+90A
-         BukrkrvJe2xJK2Tp6XRcZkQ1KLy6ntQ2txeIjB3v/MRkaFRlWLLN4vKiT7Ov9DapqY+i
-         3RYw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=8FImCoo5pTAQJj0KEDdtKxhCXfoD+DFQjGxp2SXkatY=;
+        b=vOs7yzPi4GDGVqi1TE9XSGGYi+4JMzhwe4u+WmsQTA/m8R2zb/arpQ/9y4aicRgWN+
+         i3rchTUc1TJ7db4PiocnmRZkLRT0qBxImbKp2JXOOn5jkUZKvy+9XkLBK2LsUvn0ZRjg
+         QuJOGwYR6ifl4qx9Nnw8WgfXOlbvISgaTWnXQq55wGd7AKAlEmq6ipmsLbrH1yXrmqzb
+         9FZjlTWSfTVe03qTSQp6vcBM41LHCVgqlXMlOfqv+QZ9IoH4qYimg6CUt62xEDhTXNBy
+         o8R104FLvStnu/Y/M+R1JshychQg+YaysOR2Ot961CDXPrMBsmmWH+wVExn5yQhnUmS8
+         z4aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=VsqAfZyJN9OD0IHKahj/HoL7bz40akh7jyRwrbfEuro=;
-        b=DOFqQm00FVvlNYoKSJLD7DGz0xUydYAcd8tUmbPzIHdgmeww+1s+Pv18CNeDWVgPWs
-         IQtzHIIRvAEYvsh6CrpzhS/dkmSM/QYTluUkd0X/2hCt+LyYuHx8JkIyA0pu/T4vfHNO
-         IuKybk+sFrDx+C9acbDi8MIiHSOl5bVcvVpAZNwaId2eojjrpAZkrr5GCwgVPb2osXby
-         PaHMkGGU+DlXF05Md+Q4IdPNEJNLe/eYt99dzgzGuQiwr5SlBhtFsx3eH6VxohWI9nnD
-         2vN+mFoIrW3rhhzt9ZsBfC0gydEtnd/pecbGhoJmE5DC5v3URjzxuhIfY1jE3rCxIym5
-         WNpw==
-X-Gm-Message-State: AOAM532/Jn87kvT/IxJL05uoyaBBHh69PLj8mzOwkjScMQ87G5oTyCIy
-	FRqISLx8GTKHNWdIyBNadN4=
-X-Google-Smtp-Source: ABdhPJxythtgfsRHsaQp3r6YiC/KoRrK4F8Sl2mh9Coz7edIEsHiRlIpTEGQe2OGXQoFhIDTZMERVQ==
-X-Received: by 2002:a17:906:25db:: with SMTP id n27mr38802644ejb.108.1629791208425;
-        Tue, 24 Aug 2021 00:46:48 -0700 (PDT)
-Received: from agape.jhs ([5.171.73.5])
-        by smtp.gmail.com with ESMTPSA id s2sm1524732ejx.23.2021.08.24.00.46.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 00:46:48 -0700 (PDT)
-Date: Tue, 24 Aug 2021 09:46:44 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: iLifetruth <yixiaonn@gmail.com>
-Cc: gregkh@linuxfoundation.org, ross.schm.dev@gmail.com,
-	marcocesati@gmail.com, insafonov@gmail.com,
-	linux-kernel@vger.kernel.org, Qiang Liu <cyruscyliu@gmail.com>,
-	yajin@vm-kernel.org, hdegoede@redhat.com, Larry.Finger@lwfinger.net,
-	Martin Kaiser <martin@kaiser.cx>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>, fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev, paskripkin@gmail.com
-Subject: Re: staging: possible buffer overflow in rtw_wx_set_scan function in
- driver/staging/rtl8723bs
-Message-ID: <20210824074643.GA1731@agape.jhs>
-References: <CABv53a_q4jzsXib7ovRs=eOwqcQ-oKb8c7DA7uUSPf+0tt6aog@mail.gmail.com>
- <20210823170624.GA1420@agape.jhs>
- <CABv53a9aR8mXE_quxRX06aX3WAKGSOyMqrG8AmqrsvftjH7xyg@mail.gmail.com>
- <CABv53a_9GstHzLbbbghFxU_YDxC0ckh3+bGu4RqAmGL39BHMMg@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8FImCoo5pTAQJj0KEDdtKxhCXfoD+DFQjGxp2SXkatY=;
+        b=Y1sMzLGwZRM6rPMdOFcGjLsl+WWSZuj4r2jXhtrbDUkH8jUSt6V309xNMKF0EE6WGW
+         2zQkwbFwbXrXo3AIqXEDI9bubzK7Rar7i1K79m33XdobIcmWPbHZNP7A2eAInB8+NLUT
+         lS/GyuzEdKl1ghuh6VqzoiYToIOJxrCLULQ3IOKs5YebGM3KRtBKRJ2P6r7s1bL9qubN
+         ++9UyFBwo8mZXliWmkgT9mOIfUrxOz20H82pgkDe1fwiHjpmvEUs/8xnPBcUGpejDWiU
+         eyOabAepYvuVPT+RmGy9kVeYNWWXafzxe85t29WIuLiInNTNvE3fanY5aMYYLz8GoRBs
+         ou2w==
+X-Gm-Message-State: AOAM531UV+wt6ZDE41rweIuOpf/eFlTOXeX/dQBztGSrvOvKG8SJTG5n
+	HXN+fms5V2KNrZdPu84io90=
+X-Google-Smtp-Source: ABdhPJxRZ4Qfikupak4ek2kqdmjHxPDTupO7aC0eYmRgcSXzYv9iKoQL4n6wNhOs9vsFWedb7mj9kg==
+X-Received: by 2002:a05:651c:118f:: with SMTP id w15mr30986601ljo.47.1629792046064;
+        Tue, 24 Aug 2021 01:00:46 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id w3sm387870ljm.13.2021.08.24.01.00.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Aug 2021 01:00:45 -0700 (PDT)
+Subject: Re: [PATCH linux-next] r8188eu: remove unneeded conversions to bool
+To: CGEL <cgel.zte@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Jing Yangyang <jing.yangyang@zte.com.cn>,
+ Zeal Robot <zealci@zte.com.cn>
+References: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <9558f8e0-2ba0-e0af-4e81-6223b1d3bef0@gmail.com>
+Date: Tue, 24 Aug 2021 11:00:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABv53a_9GstHzLbbbghFxU_YDxC0ckh3+bGu4RqAmGL39BHMMg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 8/24/21 9:34 AM, CGEL wrote:
+> From: Jing Yangyang <jing.yangyang@zte.com.cn>
+> 
+> Found with scripts/coccinelle/misc/boolconv.cocci.
+> 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Jing Yangyang <jing.yangyang@zte.com.cn>
 
-[sorry for resend, I updated the CC field]
 
-On Tue, Aug 24, 2021 at 03:04:04PM +0800, iLifetruth wrote:
-> Here are the fixes and the contents of the patch file we suggest.
-> 
-> [PATCH]staging: rtl8723bs: prevent ->ssid overflow in rtw_wx_set_scan()
-> 
-> This fixing patch is ported from the upstream commit
-> 74b6b20df8cf(staging: rtl8188eu: prevent ->ssid overflow in
-> rtw_wx_set_scan()) which fixes on another driver numbered rtl8188eu.
-> This code has a check to prevent read overflow but it needs another
-> check to prevent writing beyond the end of the ->ssid[] array in
-> driver rtl8723bs.
-> 
+Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+
+
 > ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> index f95000df8942..3b859b71bf43 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-> @@ -1222,9 +1222,9 @@ static int rtw_wx_set_scan(struct net_device
-> *dev, struct iw_request_info *a,
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 5325fe4..20dc4d4 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -3758,7 +3758,7 @@ int issue_probereq_p2p_ex(struct adapter *adapter, u8 *da, int try_cnt, int wait
+>   	u32 start = jiffies;
+>   
+>   	do {
+> -		ret = _issue_probereq_p2p(adapter, da, wait_ms > 0 ? true : false);
+> +		ret = _issue_probereq_p2p(adapter, da, wait_ms > 0);
+>   
+>   		i++;
+>   
+> @@ -4890,7 +4890,7 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
+>   	u32 start = jiffies;
+>   
+>   	do {
+> -		ret = _issue_probereq(padapter, pssid, da, wait_ms > 0 ? true : false);
+> +		ret = _issue_probereq(padapter, pssid, da, wait_ms > 0);
+>   
+>   		i++;
+>   
+> @@ -5605,7 +5605,7 @@ int issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int pow
+>   		da = get_my_bssid(&pmlmeinfo->network);
+>   
+>   	do {
+> -		ret = _issue_nulldata(padapter, da, power_mode, wait_ms > 0 ? true : false);
+> +		ret = _issue_nulldata(padapter, da, power_mode, wait_ms > 0);
+>   
+>   		i++;
+>   
+> @@ -5728,7 +5728,7 @@ int issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16 tid, int
+>   		da = get_my_bssid(&pmlmeinfo->network);
+>   
+>   	do {
+> -		ret = _issue_qos_nulldata(padapter, da, tid, wait_ms > 0 ? true : false);
+> +		ret = _issue_qos_nulldata(padapter, da, tid, wait_ms > 0);
+>   
+>   		i++;
+>   
+> @@ -5839,7 +5839,7 @@ int issue_deauth_ex(struct adapter *padapter, u8 *da, unsigned short reason, int
+>   	u32 start = jiffies;
+>   
+>   	do {
+> -		ret = _issue_deauth(padapter, da, reason, wait_ms > 0 ? true : false);
+> +		ret = _issue_deauth(padapter, da, reason, wait_ms > 0);
+>   
+>   		i++;
+>   
 > 
->                                 sec_len = *(pos++); len -= 1;
-> 
-> -                               if (sec_len > 0 && sec_len <= len) {
-> +                               if (sec_len > 0 && sec_len <= len &&
-> sec_len<= 32) {
->                                         ssid[ssid_index].SsidLength = sec_len;
-> -                                       memcpy(ssid[ssid_index].Ssid,
-> pos, ssid[ssid_index].SsidLength);
-> +                                       memcpy(ssid[ssid_index].Ssid,
-> pos, sec_len);
->                                         ssid_index++;
->                                 }
-> 
-> --
-> 
-> Thanks for your confirmation,
-> - iLifetruth
-> 
-
-the patch looks fine. Just some points:
-
-- If the patch related to wext support removal will
-  be accepted, the patch isn't necessary. So I will wait
-  until I know the community-maintainer decision.
 
 
-> 
-> On Tue, Aug 24, 2021 at 10:07 AM iLifetruth <yixiaonn@gmail.com> wrote:
-> >
-> > I haven't committed the patch yet since the Linux staging tree may
-> > seem special. It's not clear to me where to submit the patch. So could
-> > you please fix it?
-> >
-> > Regards and thanks for your confirmation,
-> > - iLifetruth
-> >
-> >
-> > On Tue, Aug 24, 2021 at 1:08 AM Fabio Aiuto <fabioaiuto83@gmail.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > On Mon, Aug 23, 2021 at 11:19:09PM +0800, iLifetruth wrote:
-> > > > Hi, in the latest version of Linux staging tree, we may have found an
-> > > > unfixed security bug in the staging/driver/rtl8723bs related to the
-> > > > CVE-2021-28660. Now, we would like to contact you to confirm this
-> > > > problem.
-> > > >
-> > > > ===========
-> > > > Here is the description of CVE-2021-28660:
-> > > >
-> > > > "It was discovered that the rtl8188eu WiFi driver did not correctly
-> > > > limit the length of SSIDs copied into scan results. An attacker within
-> > > > WiFi range could use this to cause a denial of service (crash or
-> > > > memory corruption) or possibly to execute code on a vulnerable
-> > > > system."
-> > > >
-> > > > ===========
-> > > > The staging driver "rtl8188eu" was fixed by commit
-> > > > 74b6b20df8cfe90ada777d621b54c32e69e27cd7 on 2021-03-10.
-
-- The driver rtl8188eu is deprecated. Now exists r8188eu which has
-  the same security bug, so it needs to be fixed. Again feel free
-  to submit your own patch.
-
-- If you decide to submit your own patch I suggest to put
-  your full name in the email address as you submitted a legal
-  document.
-  
-  vim 409+ Documentation/process/submitting-patches.rst
-
-> > > >
-> > > > However, in another similar staging driver numbered "rtl8723bs", a
-> > > > function named “rtw_wx_set_scan” remains the same problem unfixed. And
-> > > > it is detected in the
-> > > > “drivers/staging/rtl8723bs/os_dep/ioctl_linux.c#Line1354" without
-> > > > checking to prevent writing beyond the end of the ->ssid[] array.
-> > > >
-> > > > Therefore, shall we port the same fix from RTL8188EU to RTL8723BS?
-> > >
-> > > I think it's a good idea, moreover I've just sent a patch series
-> > > aimed at removing that piece of code for it belongs to very
-> > > old wext implementation.
-> > >
-> > > But until it's not accepted by the maintainer that security bug
-> > > is present and harmful. If you fix it thank you, if you don't
-> > > thank you for reporting this, I will fix as soon as possible.
-> > >
-> > > >
-> > > > Thank you!
-> > >
-> > > thank you,
-> > >
-> > > fabio
-
-thank you for your report,
-
-fabio
