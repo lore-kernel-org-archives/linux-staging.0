@@ -1,252 +1,133 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC8E29CA
-	for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 23:53:18 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so575655wme.1
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 16:53:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131C23FC6
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:09:00 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id k14so18164623pga.13
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 17:09:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6d0yPS4kuzXZDPO9/yKbI53HdF+elQfiteyFvoIw4ZQ=;
-        b=jwbKj9PPZT/4vSNn3XRnv4/ImqvCrNSU5z2Z7dxTL9GTHzEQo/oMBxcuYRJ/KMGIlH
-         vY9YvB2v9/ibOcfsvetLOaZRbD86hLpfNcr6xjQihi18ZGrUnxfJwvfQ2GxSG2v5BtNf
-         14qeRddC4WQXhZniZvIVTh6HU61LrHQuTms2hRsj4kvNlsQn8x1bcnc6nXC+sLYfoghu
-         7w8YiaK1OkJQhjmvGJvN5wyd46ko7x3H2t6MVnDNO7srxpUuBTMONcpLSXlU1hVAikXs
-         N+PwPbNUWyxB097FIJJe6GXIEN7DNqK/7QEOVTTzpweXyh0pobGhX9B2/EydzYs/xEdB
-         PGcQ==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8x3/UqQR8bd8C1qjUbEbZOd8gxC4pFu+vpKcAnvRE5w=;
+        b=VesUANvK36el3h6wmJIezyhO4FnEsqkNYKFTws6PZkkPtk1G8++WNn7OUXDrQyYNLg
+         rJqdwSUv3BgSIK+kzlmK28i7DyrRn7RKvmterBq/eDBkF7VUNsZgCmMAYwt5c9AsdbAj
+         tzpOAWVdaPKOXlfG8cjMzs70rQBOTSmei/2w0lkBKkXFcAH0HGT9Wb5STG2YlLt3AZPE
+         6dTl/PhE0e6AolaK0s65duAqLVEOhIF9y7DdmCRp/ygm4wo8nUjilY8kjCkaS9ae866j
+         kE4UpRrd3h5jVwtm9Uy/BmjTAwhazVNWQpilNisRFa791YtK9exlyJfET5+mGZIxUnBB
+         HMwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6d0yPS4kuzXZDPO9/yKbI53HdF+elQfiteyFvoIw4ZQ=;
-        b=b8RAsz8drBYYhnoXJsdwmP43K0JV+bIjFL1svqarjHNOQxZSzGHhUs38FuhW8sbO/C
-         vIBLpuMHvuYammFApsXeCvT1eDcz7lrS6DYyjBqn8TKWbTbeRaPIgS3Wo/u5gmmkHDbw
-         F8UVZbn4UocXDTYf7vLbmgte4czcU+R3X9izlPv1NJyrp7IzpTOzFr/kohuRIifMHE93
-         7FomwM10sxSC7RBBsFs08joQINLEzFHnas2G3W7LzDYsj9mx3bcfgR0kXkrYfwUhmYww
-         dSZXPhMeeCfA1XDodqV9Y5AnXuuRD8ttX8iTy+2X0aW9hZaFDdsEAlk5yXP8HdDYxHbT
-         QXkA==
-X-Gm-Message-State: AOAM5335IjCjQohX/y7nfWB5msbnqCoxoc+fpW3hPhKfCk/WPLvm44IJ
-	EuaQw3zAPusfWlPp6xJSq0r5VqTmzfY=
-X-Google-Smtp-Source: ABdhPJwUt722Ts8+xazKtioDgWjkzA6a8eHxXfQouy6P8NJN/5Q5uWF51U0jBpyvqwgHAxccnF86VQ==
-X-Received: by 2002:a05:600c:4e8b:: with SMTP id f11mr1097785wmq.165.1629762797069;
-        Mon, 23 Aug 2021 16:53:17 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::687e? ([2a02:8108:96c0:3b88::687e])
-        by smtp.gmail.com with ESMTPSA id m12sm2736wrq.29.2021.08.23.16.53.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Aug 2021 16:53:16 -0700 (PDT)
-Subject: Re: [PATCH v2] staging: r8188eu: remove ip.h header file
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210823082814.10083-1-straube.linux@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <2c5cd364-e8d4-57f8-5e0d-6c03d10e7813@gmail.com>
-Date: Tue, 24 Aug 2021 01:52:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8x3/UqQR8bd8C1qjUbEbZOd8gxC4pFu+vpKcAnvRE5w=;
+        b=J7LLNlfQA+lQyClrhCQctw24MHrlxYx098cCWFTHwqcttKcNpRwLw9innZsWREXqQA
+         GfcB9JvhnjQ/hnZaSKIY+tpQdHOeFRhrVNp5AJi9HzDMCUVBG2rX5strS5wIqRdRX7U3
+         jQbBfjWiEBWW9+o4RWOFiDSMDa2koZ1k62U9Xa8t29DPrTQIo9GTHfxXTDCqMetmfuwc
+         CbrkqaCaqTgsPrY3tn3qmgFso44zVqgQXlGV95e9b4n6GmeC+p/2XcHv/Yhs/3tpTi18
+         FKH3gD4MU/cfivraNIUvmZGOBOBY4pYY6a3MhJSlTQxTHsxAdp/BrYAUGaB017yvoyyT
+         RMPg==
+X-Gm-Message-State: AOAM531/DORjbVM91yxWfJRhCjmvsZq9UbWaOn1RDqwl6lOyi3OeF0ca
+	f2hRPgE9GCgzlAvtZcGxMNytcuU+KaKxeiRxsHBdoA==
+X-Google-Smtp-Source: ABdhPJz4A8FpV6mxFhCg2sNgTcbZImvVPl0UNcUCu4Wv2YZyB6yhgFRUvkH/IRicjeI8egBSQHCY0yUtpyhTmWAfsjE=
+X-Received: by 2002:a63:aa43:: with SMTP id x3mr34608690pgo.208.1629763740430;
+ Mon, 23 Aug 2021 17:09:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210823082814.10083-1-straube.linux@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210823223751.25104-1-fmdefrancesco@gmail.com> <20210823223751.25104-2-fmdefrancesco@gmail.com>
+In-Reply-To: <20210823223751.25104-2-fmdefrancesco@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Tue, 24 Aug 2021 01:08:49 +0100
+Message-ID: <CAA=Fs0ki91VvBOd2Wd59KqeCN+BmF-eWv+r0sH+e3fUG61Zxsg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Pavel Skripkin <paskripkin@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 8/23/21 10:28 AM, Michael Straube wrote:
-> The struct ip_options declared in ip.h is only unsed in the optlength
-> macro which is also defined in ip.h and not used in the driver code.
-> All other definitions/declarations in ip.h are duplicated from
-> <include/uapi/linux/ip.h>. Remove the ip.h header file and its includes.
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+On Mon, 23 Aug 2021 at 23:38, Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
+>
+> Replace usb_control_msg() with the new usb_control_msg_recv() and
+> usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
+>
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > ---
-> v1 -> v2
-> Updated the commit message to make clear that the optlength macro is
-> unused.
-> 
->   drivers/staging/r8188eu/core/rtw_recv.c      |   1 -
->   drivers/staging/r8188eu/core/rtw_xmit.c      |   1 -
->   drivers/staging/r8188eu/hal/rtl8188eu_recv.c |   1 -
->   drivers/staging/r8188eu/include/ip.h         | 109 -------------------
->   drivers/staging/r8188eu/os_dep/xmit_linux.c  |   1 -
->   5 files changed, 113 deletions(-)
->   delete mode 100644 drivers/staging/r8188eu/include/ip.h
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-> index 52236bae8693..8802f24fec3a 100644
-> --- a/drivers/staging/r8188eu/core/rtw_recv.c
-> +++ b/drivers/staging/r8188eu/core/rtw_recv.c
-> @@ -7,7 +7,6 @@
->   #include "../include/drv_types.h"
->   #include "../include/recv_osdep.h"
->   #include "../include/mlme_osdep.h"
-> -#include "../include/ip.h"
->   #include "../include/if_ether.h"
->   #include "../include/ethernet.h"
->   #include "../include/usb_ops.h"
-> diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-> index f242f3ffca70..38183fd37b93 100644
-> --- a/drivers/staging/r8188eu/core/rtw_xmit.c
-> +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-> @@ -7,7 +7,6 @@
->   #include "../include/drv_types.h"
->   #include "../include/wifi.h"
->   #include "../include/osdep_intf.h"
-> -#include "../include/ip.h"
->   #include "../include/usb_ops.h"
->   #include "../include/usb_osintf.h"
->   
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-> index a44c9598186c..216a752e6246 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-> @@ -6,7 +6,6 @@
->   #include "../include/drv_types.h"
->   #include "../include/recv_osdep.h"
->   #include "../include/mlme_osdep.h"
-> -#include "../include/ip.h"
->   #include "../include/if_ether.h"
->   #include "../include/ethernet.h"
->   
-> diff --git a/drivers/staging/r8188eu/include/ip.h b/drivers/staging/r8188eu/include/ip.h
-> deleted file mode 100644
-> index b7388c8c1b8a..000000000000
-> --- a/drivers/staging/r8188eu/include/ip.h
-> +++ /dev/null
-> @@ -1,109 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-> -/* Copyright(c) 2007 - 2011 Realtek Corporation. */
+>
+> Thanks to Pavel Skripkin <paskripkin@gmail.com> for his review of the
+> RFC patch.
+>
+> drivers/staging/r8188eu/hal/usb_ops_linux.c | 25 ++++++++++-----------
+> 1 file changed, 12 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index a93d5cfe4635..6f51660b967a 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -15,9 +15,8 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>         struct adapter  *adapt = pintfhdl->padapter;
+>         struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
+>         struct usb_device *udev = dvobjpriv->pusbdev;
+> -       unsigned int pipe;
+> +       u8 pipe;
+>         int status = 0;
+> -       u8 reqtype;
+>         u8 *pIo_buf;
+>         int vendorreq_times = 0;
+>
+> @@ -44,22 +43,22 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>         }
+>
+>         while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> -               memset(pIo_buf, 0, len);
 > -
-> -#ifndef _LINUX_IP_H
-> -#define _LINUX_IP_H
+>                 if (requesttype == 0x01) {
+> -                       pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> -                       reqtype =  REALTEK_USB_VENQT_READ;
+> +                       status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> +                                                     REALTEK_USB_VENQT_READ, value,
+> +                                                     REALTEK_USB_VENQT_CMD_IDX,
+> +                                                     pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +                                                     GFP_KERNEL);
+>                 } else {
+> -                       pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+> -                       reqtype =  REALTEK_USB_VENQT_WRITE;
+>                         memcpy(pIo_buf, pdata, len);
+> +                       status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> +                                                     REALTEK_USB_VENQT_WRITE, value,
+> +                                                     REALTEK_USB_VENQT_CMD_IDX,
+> +                                                     pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +                                                     GFP_KERNEL);
+>                 }
+>
+> -               status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> -                                        reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> -                                        pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
 > -
-> -/* SOL_IP socket options */
-> -
-> -#define IPTOS_TOS_MASK		0x1E
-> -#define IPTOS_TOS(tos)		((tos)&IPTOS_TOS_MASK)
-> -#define	IPTOS_LOWDELAY		0x10
-> -#define	IPTOS_THROUGHPUT	0x08
-> -#define	IPTOS_RELIABILITY	0x04
-> -#define	IPTOS_MINCOST		0x02
-> -
-> -#define IPTOS_PREC_MASK		0xE0
-> -#define IPTOS_PREC(tos)		((tos)&IPTOS_PREC_MASK)
-> -#define IPTOS_PREC_NETCONTROL           0xe0
-> -#define IPTOS_PREC_INTERNETCONTROL      0xc0
-> -#define IPTOS_PREC_CRITIC_ECP           0xa0
-> -#define IPTOS_PREC_FLASHOVERRIDE        0x80
-> -#define IPTOS_PREC_FLASH                0x60
-> -#define IPTOS_PREC_IMMEDIATE            0x40
-> -#define IPTOS_PREC_PRIORITY             0x20
-> -#define IPTOS_PREC_ROUTINE              0x00
-> -
-> -/* IP options */
-> -#define IPOPT_COPY		0x80
-> -#define IPOPT_CLASS_MASK	0x60
-> -#define IPOPT_NUMBER_MASK	0x1f
-> -
-> -#define	IPOPT_COPIED(o)		((o)&IPOPT_COPY)
-> -#define	IPOPT_CLASS(o)		((o)&IPOPT_CLASS_MASK)
-> -#define	IPOPT_NUMBER(o)		((o)&IPOPT_NUMBER_MASK)
-> -
-> -#define	IPOPT_CONTROL		0x00
-> -#define	IPOPT_RESERVED1		0x20
-> -#define	IPOPT_MEASUREMENT	0x40
-> -#define	IPOPT_RESERVED2		0x60
-> -
-> -#define IPOPT_END	(0 | IPOPT_CONTROL)
-> -#define IPOPT_NOOP	(1 | IPOPT_CONTROL)
-> -#define IPOPT_SEC	(2 | IPOPT_CONTROL | IPOPT_COPY)
-> -#define IPOPT_LSRR	(3 | IPOPT_CONTROL | IPOPT_COPY)
-> -#define IPOPT_TIMESTAMP	(4 | IPOPT_MEASUREMENT)
-> -#define IPOPT_RR	(7 | IPOPT_CONTROL)
-> -#define IPOPT_SID	(8 | IPOPT_CONTROL | IPOPT_COPY)
-> -#define IPOPT_SSRR	(9 | IPOPT_CONTROL | IPOPT_COPY)
-> -#define IPOPT_RA	(20 | IPOPT_CONTROL | IPOPT_COPY)
-> -
-> -#define IPVERSION	4
-> -#define MAXTTL		255
-> -#define IPDEFTTL	64
-> -#define IPOPT_OPTVAL 0
-> -#define IPOPT_OLEN   1
-> -#define IPOPT_OFFSET 2
-> -#define IPOPT_MINOFF 4
-> -#define MAX_IPOPTLEN 40
-> -#define IPOPT_NOP IPOPT_NOOP
-> -#define IPOPT_EOL IPOPT_END
-> -#define IPOPT_TS  IPOPT_TIMESTAMP
-> -
-> -#define	IPOPT_TS_TSONLY		0	/* timestamps only */
-> -#define	IPOPT_TS_TSANDADDR	1	/* timestamps and addresses */
-> -#define	IPOPT_TS_PRESPEC	3	/* specified modules only */
-> -
-> -struct ip_options {
-> -	__u32		faddr;			/* Saved first hop address */
-> -	unsigned char	optlen;
-> -	unsigned char srr;
-> -	unsigned char rr;
-> -	unsigned char ts;
-> -	unsigned char	is_setbyuser:1,	/* Set by setsockopt?		*/
-> -			is_data:1,	/* Options in __data, rather than skb*/
-> -			is_strictroute:1,/* Strict source route		*/
-> -			srr_is_hit:1,	/* Packet destn addr was ours */
-> -			is_changed:1,	/* IP checksum more not valid	*/
-> -			rr_needaddr:1,	/* Need to record addr of out dev*/
-> -			ts_needtime:1,	/* Need to record timestamp	*/
-> -			ts_needaddr:1;	/* Need to record addr of out dev  */
-> -	unsigned char router_alert;
-> -	unsigned char __pad1;
-> -	unsigned char __pad2;
-> -	unsigned char __data[0];
-> -};
-> -
-> -#define optlength(opt) (sizeof(struct ip_options) + opt->optlen)
-> -
-> -struct iphdr {
-> -#if defined(__LITTLE_ENDIAN_BITFIELD)
-> -	__u8	ihl:4,
-> -		version:4;
-> -#elif defined(__BIG_ENDIAN_BITFIELD)
-> -	__u8	version:4,
-> -		ihl:4;
-> -#endif
-> -	__u8	tos;
-> -	__u16	tot_len;
-> -	__u16	id;
-> -	__u16	frag_off;
-> -	__u8	ttl;
-> -	__u8	protocol;
-> -	__u16	check;
-> -	__u32	saddr;
-> -	__u32	daddr;
-> -	/*The options start here. */
-> -};
-> -
-> -#endif	/* _LINUX_IP_H */
-> diff --git a/drivers/staging/r8188eu/os_dep/xmit_linux.c b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> index 60e0eea7ad84..80546a886c0e 100644
-> --- a/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/xmit_linux.c
-> @@ -6,7 +6,6 @@
->   #include "../include/osdep_service.h"
->   #include "../include/drv_types.h"
->   #include "../include/if_ether.h"
-> -#include "../include/ip.h"
->   #include "../include/wifi.h"
->   #include "../include/mlme_osdep.h"
->   #include "../include/xmit_osdep.h"
-> 
+> -               if (status == len) {   /*  Success this control transfer. */
+> +               if (!status) {   /*  Success this control transfer. */
+>                         rtw_reset_continual_urb_error(dvobjpriv);
+>                         if (requesttype == 0x01)
+>                                 memcpy(pdata, pIo_buf,  len);
+> --
+> 2.32.0
+>
 
-This patch is outdated now.
+Dear Fabio,
 
-regards,
-Michael
+Thanks for the patch. Sorry, but for some reason with my N10-Nano I
+can't get a connection at all with this patch applied - it just won't
+associate with my network. Interface shows up and no OOPS in log, but
+just disassociates/no IP address/interface down etc. so perhaps
+semantics differ slightly here somehow? Tried two separate
+rollbacks/builds/runs just to make sure I wasn't losing my mind :-)
+
+Regards,
+Phil
