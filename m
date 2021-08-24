@@ -1,130 +1,94 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA983FC1
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 07:01:26 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id k5so43289772lfu.4
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=boY+WRSmsQxyePrjVtd+KgGUQgAKGN9c4xSQZsDSEfk=;
-        b=tiQTu5qkMepoCpYNmDf5S9OEh7vMa/BOBctsTK/YAeAaS0Swkun2sk5rI4M+6n8AvC
-         9LOjCS66QrDxgYXv52+4MlAepNbqZs6NoEs/C7jlWKbXfM19Plu72yUW43emvNvtDIp1
-         HAZ+LSJ2nBzsvdsfAdCOLw9Z4RkIOFsunsGijEwNuKkONHD+zhv5ZKH+3T7WcDBkzRQA
-         PLk1+T+e/ghzLwaEn3AxG0y5NZHHPkXaoGwv2u2WwMKl5GXNHlqnK+b/kkHLxPSTxoa+
-         1WnhUdTE0lP1hLpWZfWE5/mf3MUNOrMyc50GrcJWk2VjkV8X9qneEtYUTGX1pXRUVyay
-         x1Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=boY+WRSmsQxyePrjVtd+KgGUQgAKGN9c4xSQZsDSEfk=;
-        b=lU0gy2eHr6dFQGllcDIPJeC+whEBUrZxsLN+iZlHkqllAuSA736LSpBG9ss+f26YnN
-         o6nWsiONDbHpcdPvLnUGoCVyaAE4yGikKMiw/qk3wKTlF9Oy635H3GAwz71Bneb3CWxy
-         1WN+XlAFQQ4/gf5eZ9XoleJTfbUaOPzuRRjgWMhbbT2gJ0SA7q90puns2b5CM++LYjH1
-         4jHksmFCNZxorwZVImjZzOnUPD3HYqunvPgDo6y1LQWnhpO+Py/8JdvSHTijE8R9mF7k
-         HHh+23WIwC2I2W3tw3+SQ0SL7LMxtOf3kVnjXxL0hdY2xm8/HMdQald2oOLiG1/V2nmE
-         4aTg==
-X-Gm-Message-State: AOAM533VvzOp6xyaytC6xjnQwoZ+GvTFhKD93WgzFLIdurMOr9o2PDAP
-	nru4Gmw1Yso17BSszrM8y4k=
-X-Google-Smtp-Source: ABdhPJxvLYzO5TKP3tO4p0eiAuxJeWoX/3q1jj/HvSPFhOW6BACouNbdVdBrhMv8b3xiQra1lDvYiw==
-X-Received: by 2002:a19:ac42:: with SMTP id r2mr27670685lfc.167.1629788484487;
-        Tue, 24 Aug 2021 00:01:24 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id g27sm1782929lfh.300.2021.08.24.00.01.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Aug 2021 00:01:24 -0700 (PDT)
-Subject: Re: [PATCH RFC v2 5/6] staging: r8188eu: add error handling of
- rtw_read32
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1629642658.git.paskripkin@gmail.com>
- <9004eb2972780455db4cba9694244a2c572abba8.1629642658.git.paskripkin@gmail.com>
- <20210824065825.GL1931@kadam>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <e50d266f-410c-34cb-e28f-f27dc429ef37@gmail.com>
-Date: Tue, 24 Aug 2021 10:01:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211303FC1
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 07:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1629789976;
+	bh=lYai3kw8tALYTD7kBUvkPaGxBm/XvOUHLBjz/wNKAzY=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=KgJoNt7ehH3OprqU5H6xp0YNI0QB+HFub51c3dASruE9xPI4WhIjSjQz/vphiTTlr
+	 +12CyawrDicuDJK94J7QvECHVA5qMkFh8RP5vem0P5/eZ8eeI8MPhOXNWaxv/vv7De
+	 vdzVD9LGad1EMBfXmv5oxVRZROpuE5rc7omWD2vs=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
+ (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
+ 1M6DWi-1mP0Od2pUO-006jbv; Tue, 24 Aug 2021 09:26:15 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <keescook@chromium.org>
+Cc: Len Baker <len.baker@gmx.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH v2 0/3] staging/rtl8192u: Prefer kcalloc over open coded arithmetic
+Date: Tue, 24 Aug 2021 09:25:42 +0200
+Message-Id: <20210824072545.7321-1-len.baker@gmx.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210824065825.GL1931@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ZNfDVea6525BMQvl9hUl0qNX9IDyevcXkLRaOq2huhPlEFt3V2G
+ V7tUuiMhRM9YJtO3EqMfqNhO71KgUOsJQOCwGFxN84xVIUB0AxLG0GzE4DInFD7mrOUdAOX
+ xdP6zQubwABluDMsIHpWfVZMOTfOad7alWvq2nvAxZ0unRSAq+ZTWUtMb6p89cznPdu40Q4
+ Z40Qlc3wHqUTHFyYu68TA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5lK8/GbDASk=:dZ3LIlYaESza+lvsjK1hdk
+ SNRPd2JKoVZiFSAmrRDiUTvRUMH7ML5JmrPaRPujRfwcvHwLpu0pwyYCH0KCNlv3KnON4Reg+
+ OIUqtuiKxJBuewvqx10CAk6/XLt1Z7fbtqYshlbUckoX7QxQ7uPJnORGw/WNt07v/z/nLSdQH
+ ZmnU7xR4FNvJIwUzCEMZLqaTnmG5a29MTeXMC3tYRF5KTQuUM7+rY5ye2dFCfcJqiFFuu4Yhi
+ cVI1tulEjY/3QibDMYHTWrdf+9Iq9kZAIhiYIk5RvpKXERb0JSTtre58qcOdON26zj7gqfYiW
+ fxaHQdwWv/5SmhkbkrzYN3EFSQRH7QUN+FUgoVXJesLKp+vjomRFhnW+U1sGm7EUkPTiLhfdA
+ JZRdLXPXi7huRUog+xqyePm2tqx3p0FwCclDonLT9CTpVnwX+PiLGu987iksJD/HqWOxNc7HR
+ 8eSo1Ti+8ojcAueeWixKCAl0jiNsT9Bx+lUFzNJCj7zw3/AgeaxkoIxgvAbiGFbIt8IkAs81B
+ 2arsQ/mvZ69has1EgoLtmODwunt93BZ037oJb+Xy+dYQRvj4nv3vf9Zmg6CWjJhjXUpb0TqUE
+ CuwP7KmSE//xHLsYlhPtJJkDpJwSHm6arMTgJjjtlKBVwkPVG6z4XM6B/xyHqNkuJSOqiDR8X
+ mY82f3LrGdEUNfUnwpVWeilRbEvegMszG0cSkd0+qtJJFj6VhO+NDT+8FoXQWJh1lfmMwmB/d
+ CiNgCvcn5dVlrI77b/QDk8G0uX5pgv9OLo9SrRv4vMITn9OFoDAAqNZrANZELUZWTkswR9KTl
+ 8BLh0G6hsfgbMzL7cXDXGz2lky+8xyAE5FK4LQh2eV5rU8D/pmE9a0BFrlWmX8P4tl/Gu7DXE
+ Fxkpw6a3zTRACCBcILAqc/im6DWmIgrF+klpePeg6yhtla7/15WnLnF8HHP7xgaLd9j1iFLFR
+ GJhmXGteZNKv0TjzDidBKnbe3CffWWp9dutxIPoAHYviqZ9omjuKwclfDYkvLqKHpIZAaaFz7
+ aRUfeIcM/INTCnF2m7se5juKWL328O0u6XOfsmjhW0p3uUNq/6y05+R7tnex5Daod5C8hh6Tl
+ o8ni5paFaGG5G9vT+gV2ZG7Ri2jwc4OGhGi0sMpa+1t2gnXpBRvQFlXIA==
 
-On 8/24/21 9:58 AM, Dan Carpenter wrote:
-> On Sun, Aug 22, 2021 at 05:36:01PM +0300, Pavel Skripkin wrote:
->> -static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
->> +static int usb_read32(struct intf_hdl *pintfhdl, u32 addr, u32 *data)
->>  {
->>  	u8 requesttype;
->>  	u16 wvalue;
->>  	u16 len;
->> -	__le32 data;
->> +	int res;
->> +	__le32 tmp;
->> +
->> +	if (WARN_ON(unlikely(!data)))
->> +		return -EINVAL;
->>  
->>  	requesttype = 0x01;/* read_in */
->>  
->>  	wvalue = (u16)(addr & 0x0000ffff);
->>  	len = 4;
->>  
->> -	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->> +	res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
->> +	if (res < 0) {
->> +		dev_err(dvobj_to_dev(pintfhdl->pintf_dev), "Failed to read 32 bytes: %d\n", res);
-> 
-> Add a return here.  Try to keep the success path and the failure path
-> as separate as possible.  Try to keep the success path indented at one
-> tab so the code looks like this:
-> 
-> 	success();
-> 	success();
-> 	if (fail)
-> 		handle_failure();
-> 	success();
-> 	success();
-> 
-> Try to deal with exceptions as quickly as possible so that the reader
-> has less to remember.
-> 
->> +	} else {
->> +		/* Noone cares about positive return value */
-> 
-> Ugh...  That's unfortunate.  We should actually care.  The
-> usbctrl_vendorreq() has an information leak where it copies len (4)
-> bytes of data even if usb_control_msg() is not able to read len bytes.
-> 
-> The best fix would be to remove the information leak and make
-> usbctrl_vendorreq() return zero on success.  In other words something
-> like:
-> 
-> 	status = usb_control_msg();
-> 	if (status < 0)
-> 		return status;
-> 	if (status != len)
-> 		return -EIO;
-> 	status = 0;
-> 
+The main reason of this patch serie is to avoid size calculations
+(especially multiplication) in memory allocator function arguments due
+to the risk of them overflowing [1]. This could lead to values wrapping
+around and a smaller allocation being made than the caller was
+expecting. Using those allocations could lead to linear overflows of
+heap memory and other misbehaviors.
 
-I see, thank you for reviewing, will fix in v3! I fully forgot, that 
-usb_control_msg() can receive only part of the message :)
+At the same time, take the opportunity to refactor the function avoiding
+CamelCase in the name of variables and moving some initializations to
+the variables definition block.
 
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#open-co=
+ded-arithmetic-in-allocator-arguments
 
+Changelog v1 -> v2
+- Split the CamelCase refactoring and the moving of initializations in
+  two separate commits (Kees Cook).
+- Link to the documentation to clarify the change in the 3/3 patch (Kees
+  Cook).
+- Modify the commit message to clarify in the 3/3 patch that these
+  changes are not dynamic sizes but it is best to do the change to keep
+  the open-coded math idiom out of code (Kees Cook).
 
-With regards,
-Pavel Skripkin
+Len Baker (3):
+  staging/rtl8192u: Avoid CamelCase in names of variables
+  staging/rtl8192u: Initialize variables in the definition block
+  staging/rtl8192u: Prefer kcalloc over open coded arithmetic
+
+ drivers/staging/rtl8192u/r819xU_phy.c | 92 +++++++++++++--------------
+ 1 file changed, 44 insertions(+), 48 deletions(-)
+
+=2D-
+2.25.1
+
