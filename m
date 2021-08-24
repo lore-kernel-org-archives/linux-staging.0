@@ -1,135 +1,84 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B870F3FC0
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 03:04:24 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id fz10so1889990pjb.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 20:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ftVLBcz2CA6HVw5Sak06NSKiX7H+vKeynT4dia9GcmU=;
-        b=k+9ugNQMNP1T757zCmBjD0HZ4Cm6T3BE+v/X7Wxf65qXhZ4Y1Om/ZwreVVsFldU5ED
-         26Au5VziBd3fTRw9qajnc5Q1bzTZtCXlNbNzYEhhdrLy0j6q3RP41Bfsx2Vet4JiZwHE
-         HpssKarI+iW9nKfS+aZW4kug15wwleM1PIEsfGzs+E/ENGb7NoFhvlaUVQuCR3IWspbE
-         1jdc92yTGvHUY8w5qgAHpd6F4jZjsLSyz7OphX6zYHG1h8uepViMakkTUt9Apji0AqlD
-         h496UE7ulnKIyaYIIz+9WlMWKL7f+UCly0DgUoeMlhVK/OeculmtFoztQ69V1z3oNjW5
-         BaQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ftVLBcz2CA6HVw5Sak06NSKiX7H+vKeynT4dia9GcmU=;
-        b=P1sJGrYo2cRe25PVF1y/8ezLbyQTNgeeI0tF9nyjjykBZCDIEXdZf0i2ZLM7viyHLP
-         v30KYlWSlNcnOOp0G5kOp3p1Ow+JeVWU9AczAaMDy6IC84zRRUdaew79IikXhfkCgoV8
-         18yieRh/bWID7JOK/DpEtORk6aFwv6372CwQlKGGwO9cwOI7M2WrlboyJJAF8saw2Jy7
-         rtJq3Ww+EMlvGQxsJai3ciGwGDaxg8rMsdjFdg7w/zgQr4QGRU5NPCo9Bk+QQCxOStuI
-         nVra0dz8g21kkKDxjlZhHvG/RW/W3EYI7LufBxKwNekztNReYsbopAk4SlbquLPBg3qZ
-         1hRw==
-X-Gm-Message-State: AOAM532UU4QtnaCZH8IfbUikNn5fCscn6N/Ev5eeDpn0Mmr/dJFWLRyd
-	qJM/OQdENHgNqRa7kxCFzvZWmg==
-X-Google-Smtp-Source: ABdhPJxgNZPrPk9tzmxpkCehrPdfFes88M8DqFhHlA/X7V8qZTGRmqZiqGy9NJMzzCPLtwobPdjSGw==
-X-Received: by 2002:a17:902:e547:b029:12c:563c:4a03 with SMTP id n7-20020a170902e547b029012c563c4a03mr30922945plf.46.1629774264209;
-        Mon, 23 Aug 2021 20:04:24 -0700 (PDT)
-Received: from localhost ([122.172.201.85])
-        by smtp.gmail.com with ESMTPSA id c12sm16184839pfl.56.2021.08.23.20.04.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 20:04:23 -0700 (PDT)
-Date: Tue, 24 Aug 2021 08:34:21 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-tegra <linux-tegra@vger.kernel.org>,
-	Linux PM <linux-pm@vger.kernel.org>,
-	Linux USB List <linux-usb@vger.kernel.org>,
-	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-mmc <linux-mmc@vger.kernel.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	DTML <devicetree@vger.kernel.org>,
-	linux-clk <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Message-ID: <20210824030421.3tjfjkx3c2silbnz@vireshk-i7>
-References: <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
- <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
- <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
- <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
- <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
- <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
- <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
- <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
- <CAPDyKFo0rzHT4AhueWjyz9k2ZqUy8N6Od5pbr8sL_m0Jf2AwUg@mail.gmail.com>
- <085d1a2e-57b0-222e-c569-12f3c6bc8161@gmail.com>
+Received: from smtp.smtpout.orange.fr (smtp07.smtpout.orange.fr [80.12.242.129])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52C273FC1
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 05:52:20 +0000 (UTC)
+Received: from [192.168.1.18] ([90.126.253.178])
+	by mwinf5d65 with ME
+	id lHkg250073riaq203Hkg08; Tue, 24 Aug 2021 07:44:42 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 24 Aug 2021 07:44:42 +0200
+X-ME-IP: 90.126.253.178
+Subject: Re: [PATCH 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in
+ usbctrl_vendorreq()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Phillip Potter <phil@philpotter.co.uk>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Pavel Skripkin <paskripkin@gmail.com>
+References: <20210823223751.25104-1-fmdefrancesco@gmail.com>
+ <15825589.4VbMHeJK9p@localhost.localdomain>
+ <1815496.OexNakQ7IY@localhost.localdomain>
+ <4118209.ZeClQeRtK1@localhost.localdomain>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <50d40020-5b0e-4bb9-357b-3640a0f9e8c6@wanadoo.fr>
+Date: Tue, 24 Aug 2021 07:44:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <085d1a2e-57b0-222e-c569-12f3c6bc8161@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <4118209.ZeClQeRtK1@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On 23-08-21, 23:24, Dmitry Osipenko wrote:
-> It's not clear to me whether it will be okay to add a generic OPP syncing by clock rate or should it be a Tegra-specific helper. Viresh, what do you think about this generic OPP helper:
+Le 24/08/2021 à 04:01, Fabio M. De Francesco a écrit :
+> On Tuesday, August 24, 2021 3:38:03 AM CEST Fabio M. De Francesco wrote:
+>> I think that I've inadvertently switched the order by which usb_control_msg_send()
+>> and memcpy() are called. I'm very sorry for not doing my tests, but (as I had said
+>> before) at the moment I don't have my device with me.
 > 
-> /**
->  * dev_pm_opp_sync_with_clk_rate() - Sync OPP state with clock rate
->  * @dev:	device for which we do this operation
->  *
->  * Sync OPP table state with the current clock rate of device.
->  *
->  * Return: 0 on success or a negative error value.
->  */
-> int dev_pm_opp_sync_with_clk_rate(struct device *dev)
-> {
-> 	struct opp_table *opp_table;
-> 	int ret = 0;
+> No, I did not switch them. There must be something else...
+> Sorry for the noise.
 > 
-> 	/* Device may not have OPP table */
-> 	opp_table = _find_opp_table(dev);
-> 	if (IS_ERR(opp_table))
-> 		return 0;
+> Fabio
 > 
-> 	/* Device may not use clock */
-> 	if (IS_ERR(opp_table->clk))
-> 		goto put_table;
-> 
-> 	/* Device may have empty OPP table */
-> 	if (!_get_opp_count(opp_table))
-> 		goto put_table;
-> 
-> 	ret = dev_pm_opp_set_rate(dev, clk_get_rate(opp_table->clk));
-> put_table:
-> 	/* Drop reference taken by _find_opp_table() */
-> 	dev_pm_opp_put_opp_table(opp_table);
-> 
-> 	return ret;
-> }
-> EXPORT_SYMBOL_GPL(dev_pm_opp_sync_with_clk_rate);
 
-I am not sure why you still need this, hope we were going another way
-? Anyway I will have a look at what you have posted now.
+Hi,
 
--- 
-viresh
+'usb_control_msg_recv()' looks like:
+
+int usb_control_msg_recv(struct usb_device *dev, __u8 endpoint, ...)
+{
+	unsigned int pipe = usb_rcvctrlpipe(dev, endpoint);
+	...
+	ret = usb_control_msg(dev, pipe, ...);
+
+
+'usb_control_msg()' looks like:
+int usb_control_msg(struct usb_device *dev, unsigned int pipe, ...)
+{
+
+
+The difference is that one expect an 'endpoint' (and compute the pipe 
+from it), and the other expect a 'pipe'.
+
+Also, in your code, 'pipe' looks un-initialized.
+
+
+So, my guess is that you should rename 'pipe' into 'endpoint' (to keep 
+the semantic), have "endpoint = 0;" somewhere and pass it to 
+usb_control_msg_{recv|send}.
+Or just remove 'pipe' and pass an explicit 0 directly.
+
+Not sure it is enough, but it looks like a difference between before and 
+after your patch.
+
+
+just my 2c,
+CJ
