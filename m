@@ -1,114 +1,117 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC1272
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 09:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1629795643;
-	bh=CLoOoY7f6RqwpYZ2ofNITRL0yRQnd334OfPngkBM7MM=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ix37279hVKQFWJZxgf2JjzmNV+4y5NT5IDcfvTIEHEypRQ6tM03dnHwjzA/u/H7lT
-	 /VYJUhlUK8N9oQUAamBdfTmQmp+VWuLj2x1OHA52V6I9qV2yOyq5yMhS9Smm1Rcv6L
-	 UARg7xVXA45lm1UMwvE1y+2Pb+RClhNDqK6tLNF8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1M8QS2-1mMq0g3C40-004RRV; Tue, 24
- Aug 2021 11:00:42 +0200
-Date: Tue, 24 Aug 2021 11:00:39 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kees Cook <keescook@chromium.org>
-Cc: Len Baker <len.baker@gmx.com>, Dan Carpenter <dan.carpenter@oracle.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: [PATCH v2 3/3] staging/rtl8192u: Prefer kcalloc over open coded
- arithmetic
-Message-ID: <20210824090039.GA7999@titan>
-References: <20210824072545.7321-1-len.baker@gmx.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C055472
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 09:46:06 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id h9so43056077ejs.4
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 02:46:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GrvCsUcjOz7dr6yABmwTuSZ2PSKxdeNbsF0RweGK1nA=;
+        b=SfrMyhqSjfQbmPAWlBf7A8NR1eYktlZG2/doJX1lPcFWXKrUqHC20co4Rqt2090JZf
+         l7dPmSiswukViMZ3kJt24xlHREf2prZjK4R+NndnlrJ4aEaW9C8ontAlSyakwd/k2X+o
+         2rnqqGQ3Yso7ZCgMdU+OC5WfLNEepewf+SA28tx/1M24yYgZJkGri8LXnF/1rAGg2YlI
+         BouxtR/pHMsFVaTyRrpKB7Bp4DZ6WnbrwHfuiD6PbSzuoK2ESbwWFGk8IIpm5iH9vU4B
+         VgvCy4QbR0PTRYSmFXU/UPURFFIBZPQARujNioRHj6W9AB/1H2v+KiCOAtp7T2AwwOmk
+         +jsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GrvCsUcjOz7dr6yABmwTuSZ2PSKxdeNbsF0RweGK1nA=;
+        b=e8li0lE11jCBq4Gura1ajim/8M8ULDvVkDB0t6+jatbmpYxnjKWxYwTcJ3DaWlBB+n
+         Xz+4g+qtkX+1d3Nc+sybU1Hk0Nb6tt9yVKiagodfXixoRdMxzq3gJehfJnIqGHIcHze1
+         7FwEywQYTAjG5VaLfqPS4QVr8BAKUzGEqWJCoHah8MuFhx0wQUwZCFZy7OPmpA9NE8iE
+         OOuR65VklOH1HYPoRrFNgB5fxK6M57Rp7esfhvHPz5WhQ56nynBJOSBTefQl4+GUQGM5
+         W8L7DRU0Oqn4Ibf8Qcs4XO+MGn7Pet3VdD89nP9mD4nt7mIOCzAFaFl80BPMTGDhSZxn
+         U64w==
+X-Gm-Message-State: AOAM5328Ivs8PUv2k7EPzT7ksNWkLOp/cx4ps0W1bIwcsC4Nm7GZCtTV
+	YPQ/NFHSWbSJE1jTHtZQmiY=
+X-Google-Smtp-Source: ABdhPJys7aXWCtp4RAyhTul41UcH3nZpR9j313wpdENzXAAZFuZ7ldTClOl+ysxSqrzr7WO5rwzUWQ==
+X-Received: by 2002:a17:906:38c8:: with SMTP id r8mr40555690ejd.172.1629798365221;
+        Tue, 24 Aug 2021 02:46:05 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id qh2sm8839076ejb.75.2021.08.24.02.46.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 02:46:04 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFC v2 5/6] staging: r8188eu: add error handling of rtw_read32
+Date: Tue, 24 Aug 2021 11:46:03 +0200
+Message-ID: <1970955.u25yFflyLQ@localhost.localdomain>
+In-Reply-To: <96e3703e-a5e2-3c6d-ea3c-b5d3892849b2@gmail.com>
+References: <cover.1629642658.git.paskripkin@gmail.com> <77da7c63-a5b1-a09d-39ec-32c5485b8eac@gmail.com> <96e3703e-a5e2-3c6d-ea3c-b5d3892849b2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210824072545.7321-1-len.baker@gmx.com>
-X-Provags-ID: V03:K1:sgtiKXn1+vejHxr5e2MNRPOe6xGIVm8EP9zcbL/dlY1H7UcYnMt
- 9vGW2Mx616fKLEuOrwJRR2/+Bbct/F0z6+H9nf1cFdjtNmvbLUmWazPpU93x6VgwyuHThSR
- OJ0Dn3hkhBKzFm1yLgiV/AL+lxD6fCB4n6XoY4yYEYoyeNW5+0G3EoDFKhhcyrX1SuQhZPT
- gF+9T8E2zEGzRPkyP2GRA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G9HTkscgmxU=:VCVYYSEsMbHpqbZNADh/l0
- CVIbnLRQj8J3w4Qrfxd4343Am0g5Ns6989uqxsFuNrFT3VPfAiWenjIuU8sszoFUMS/89tJBK
- ytHS0h0SVXf2KJr44ZqXV6mnZ471anTh77zXSFbGAOHdHiTiHrwLy7EPP+NlTjTEorjPDQu62
- 2r0OBHfnSLmQZ9Wo1brRsAd3Wsc4E+1eYsa509XuuaCkZ2KS1CfvGsSOyF8O589KpXNzJFl7j
- MJ26/JfBjdzrkiGT0Wfi26b89ok32eRZQ4stBOOxG77tYfzJnLdSTwqP/OSSdTrOr80/vwINk
- j/Xvx1QycachOhXHmtjkGsNAu2PxKzKp549Q/ifKs7UvlOGeipaLQgo0ubG9N2RbhRF6uhwQI
- uRAYaZahd0Ypy0R/yUVTXBJB8yWL3M+vi4vV/UOZ1z6MdvlqMGAvSoefAbC74XsM4LgSdYRDj
- TO7Aa/KFEwD6fYgSAhUDYbYaMX95RowYn3PK7B/ViobzcxygoiL9mjBTfvNnws9HtRcAvz/zO
- U6j6i0ownOF5f9L6aoC8QWzSRrPpFouIih4hIt+duLw6AqzTEt6txtfPkntkNSVZRCQ/4zRx5
- m1/SVBx+j/Zy+YILdC+ppq3cfQ3TdtTpTOKkniuAZjTmlsNZhD5hZhKoF1NT3ScqJt2zau9Ac
- LWJIGuFeXeanvYNy+J00w5m48wJVpq+G3hZb2hxUtvJ3DrPiXm8SdqbfHKnVaa54C2TOHmlwz
- oknjvuJ2uSrMAR9gX+5q1lCVCjk8W3XjeAZZMLB7mE9xnoPMktidzeXh5+TPajPmsEPxK929B
- K4lj5d7njR/eDCq3umihAR6bt5csDquUDndAjLFk7V9cRztp1Y39lQqAt1fQ7KylOiAj9Elng
- KDNo8imWJmU5cfE/ZktgO9bMd621eUB9sipV2+AzDQ10MPcaM1ZpObKVanrc6GHA7FJd0z9+d
- N2fLIKOCvJxbUtFsASP/S/oO+3VIZLG7V1GDZMBRSbWvBXDuM2Mpoe0gMXu6OLQSCx9Jv8ZqE
- fJJobsj8g0lWu+0BR6rBihqcfke+3dvxJjAQ+c7wu4KWBFf0NND57OqtK+hdMaOJu5OYJonEn
- nKRMGyac871l1x9VTzd7VmtL6n6bgHfJi2xa+2H/aiv1We0pt/pzhX6eQ==
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-As noted in the "Deprecated Interfaces, Language Features, Attributes,
-and Conventions" documentation [1], size calculations (especially
-multiplication) should not be performed in memory allocator (or similar)
-function arguments due to the risk of them overflowing. This could lead
-to values wrapping around and a smaller allocation being made than the
-caller was expecting. Using those allocations could lead to linear
-overflows of heap memory and other misbehaviors.
+On Tuesday, August 24, 2021 10:53:35 AM CEST Pavel Skripkin wrote:
+> On 8/24/21 11:47 AM, Pavel Skripkin wrote:
+> > On 8/24/21 11:38 AM, Fabio M. De Francesco wrote:
+> > 
+> > Hi, Fabio!
+> > 
+> > previous usb_read16() realization, which is 100% right:
+> > 
+> > 
+> > static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
+> > {
+> > 	u8 requesttype;
+> > 	u16 wvalue;
+> > 	u16 len;
+> > 	__le32 data;
 
-In this case these aren't actually dynamic sizes: both sides of the
-multiplication are constant values. However it is best to refactor these
-anyway, just to keep the open-coded math idiom out of code.
+Ah, it was in plain sight! How didn't I notice it? :(
 
-So, use the purpose specific kcalloc() function instead of the argument
-size * count in the kzalloc() function.
+> > 
+> > 	requesttype = 0x01;/* read_in */
+> > 	wvalue = (u16)(addr & 0x0000ffff);
+> > 	len = 2;
+> > 	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
+> > 
+> > 	return (u16)(le32_to_cpu(data) & 0xffff);
+> > }
+> > 
+> > 
+> > Bases on this code, I think, it's oblivious, that data comes in
+> > little-endian. That's why I leaved temp variable for casting le32 to
+> > cpu's endianess.
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#open-co=
-ded-arithmetic-in-allocator-arguments
+Yes you did well (if we trust the old code :)), anyway I guess it
+was correct because I've just seen that data is __le32 also in other Realtek
+drivers.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/staging/rtl8192u/r819xU_phy.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > I could just read into u{16,32} * and then make smth like
+> > 
+> > *data = le32_to_cpu(*data)
+> > 
+> > but static analysis tools will complain about wrong data type passed to
+> >    le32_to_cpu()
 
-diff --git a/drivers/staging/rtl8192u/r819xU_phy.c b/drivers/staging/rtl81=
-92u/r819xU_phy.c
-index ff6fe2ee3349..97f4d89500ae 100644
-=2D-- a/drivers/staging/rtl8192u/r819xU_phy.c
-+++ b/drivers/staging/rtl8192u/r819xU_phy.c
-@@ -1195,17 +1195,17 @@ static u8 rtl8192_phy_SwChnlStepByStep(struct net_=
-device *dev, u8 channel,
- 	u8 e_rfpath;
- 	bool ret;
+Obviously the (not broken) tools should catch that and complain.
 
--	pre_cmd =3D kzalloc(sizeof(*pre_cmd) * MAX_PRECMD_CNT, GFP_KERNEL);
-+	pre_cmd =3D kcalloc(MAX_PRECMD_CNT, sizeof(*pre_cmd), GFP_KERNEL);
- 	if (!pre_cmd)
- 		return false;
+> > + Phillip tested fixed v2 version and it worked well for him. I guess,
+> > Phillip was able to spot weird driver behavior, if this cast is wrong.
+> > 
+> 		^^^^^&
+> 
+> I am wrong with this statement, I guess. Most likely, Phillip is testing 
+> on smth like x64 and this arch is le, so...
+> 
+> With regards,
+> Pavel Skripkin
+> 
+Thanks,
 
--	post_cmd =3D kzalloc(sizeof(*post_cmd) * MAX_POSTCMD_CNT, GFP_KERNEL);
-+	post_cmd =3D kcalloc(MAX_POSTCMD_CNT, sizeof(*post_cmd), GFP_KERNEL);
- 	if (!post_cmd) {
- 		kfree(pre_cmd);
- 		return false;
- 	}
+Fabio
 
--	rf_cmd =3D kzalloc(sizeof(*rf_cmd) * MAX_RFDEPENDCMD_CNT, GFP_KERNEL);
-+	rf_cmd =3D kcalloc(MAX_RFDEPENDCMD_CNT, sizeof(*rf_cmd), GFP_KERNEL);
- 	if (!rf_cmd) {
- 		kfree(pre_cmd);
- 		kfree(post_cmd);
-=2D-
-2.25.1
+
