@@ -1,52 +1,56 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8FD3FC0
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 10:41:51 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so1968782wml.3
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 03:41:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6AB3FC0
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 11:07:49 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id s12so11746678ljg.0
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 04:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5rDmhIw6VgN9dJ5nGPffKFoni3qJUX9jTAANRGcjZ2o=;
-        b=YgLXGaQpZBMKnEU+ZfWneSFhG9KqP7L2XH1a4tFQ/Okmsg/6TOCrc3Pau30Xn12GeD
-         Dhpk0P520kQHQIBmayDgFN/WaBXtOUxdx3a3ZOUsxqmUWQXNPtctchz6d34gGbLWDvtJ
-         RmrJZ2Hvb1ZccmvLPZ28cfrqLKj4fwk70sZNcsJKqM1HppgZc5JTz5MgYyu1YWLuRAEL
-         VUpVjxHq+Fw6/LQ+nXvIAynwjF1LsxbQjRsZxspYaOcy2dDASJnOM7JuO1RlM8cW6pDS
-         LGaXGijKfqpc//33hnH5NWZuL1MB75nuEVc7IkInwTX5FJtj+tmYe4SNQVVwO8fv7qPL
-         27kg==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=FpTK3hvE23pECqh9p0EL04iD+tphMlpsn6IwOnys+Yw=;
+        b=MKAHNRe1lcS55l+C6nT7NY2946DeihoetzLsrM65H8RTbpH8YccKELXIddw5tqFebr
+         RyxTc0FViBBli8GOFiht696B2DcQ7ieWqJPLL2UQRmJcMp181SlELCgypd4uLRj7MtSa
+         gHbC3gcOYtCh1F1Jnm6wAt8nk7/ZCs7bmbpCjjKgVXQEdPExjj6uZLK2XFWKxOqaLq1F
+         PRnLKkMgK2AxD6xJ+ecjNOGVhiHIsL2AIDhLj44gOqrfAe5opggNwHachKaFAnMpT3HX
+         2HzBCNmW7iNWQANzQvfkpkrZ51chZCwgWyg+JipNhDZ9S/B/44ZgEdYDTn4SmRwX2pTv
+         0zeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=5rDmhIw6VgN9dJ5nGPffKFoni3qJUX9jTAANRGcjZ2o=;
-        b=bLZUct17FLp1f5lu7nkREc/6lNZ0ELcnaaSwFppeFirmrAkbGYQY36enpOWHyoQ+W0
-         bh+YnffI3zDZRToMsBVAHrDVnrrb3zi3DK46GF/T7b8kmzOkvsZAPzuS0hlRc45IFzwm
-         sx5FzSHtKHyWIqemRsAVX+AXc2h9eg19Vqv7me+wC8GXp4vuRs0cGK6ES712wndWjFch
-         jE3wEDuxh8f6uSaAykHxww0ylugSRrLqtw7JHOb7A6hrt9BgZWoHfTf/aIAQCal9CkTG
-         rR99EIzZO2H7u2sAkyvnVtV364CDVMl04vResQbmWVpaNmsZxSMyYhX9vLZHueblxDUH
-         R8jw==
-X-Gm-Message-State: AOAM53252ADuVMPg6VHS4qns233SvinP1GVh/0Q8qbp7hwNO+hO3na+6
-	dEMwSl4H9VumMJYZZXAE+0s=
-X-Google-Smtp-Source: ABdhPJxZ7vOstgAq9fZdvAEstw2edJalQi43WfTs9VFGrWdlDkYjqBFvYJq1C8P2kRJy3X29XJgrvg==
-X-Received: by 2002:a1c:f713:: with SMTP id v19mr3451832wmh.188.1629801710436;
-        Tue, 24 Aug 2021 03:41:50 -0700 (PDT)
-Received: from ?IPv6:2a02:8108:96c0:3b88::5d87? ([2a02:8108:96c0:3b88::5d87])
-        by smtp.gmail.com with ESMTPSA id n4sm3118612wri.78.2021.08.24.03.41.49
+        bh=FpTK3hvE23pECqh9p0EL04iD+tphMlpsn6IwOnys+Yw=;
+        b=kV3PKhVnXHLgS91nsKhdgQAcE1Uk0USgBEzU09lNzPsxZn9nlnYNel+moHJkusfae4
+         0Gci/eMnVBayDKfciQLcLAMeO7UOAwI7OIEZVYSa3ad3hOfZ8EVyhgs5j7S52BPIJ7SW
+         j2p4Kk2dHdUE4P3eXI3p2wKG3G98w8y5F/oM63VAFkUL5rmAkhu+4HJqQngRIgaLbpL6
+         3OLjNZL0EMqH6hoIt3RvbqxtGQfH7R1uH4vUGvTe/es0OLiOEmNG9N5pFEsKjqN+Eff5
+         Bonax8BVkvtb15pKaXTHvCLesWH2p4oa9yVSbLsoGMQg/4Xk28L+ehp+qXWMPtsxOj2J
+         u0hQ==
+X-Gm-Message-State: AOAM532mPSt+Xp6HMB6zb285TvPY8Gx564lKH6XiomTfUdxzGeRe9Zbd
+	U1pkWC8FF89mJYX/QpSL23o=
+X-Google-Smtp-Source: ABdhPJzdeNtzFvmqVLRRORGLdHk7PoStaT2GgTR2xPoO/JFcfaiD+G7i7CNDEvBfQVJCY4nbmowEjQ==
+X-Received: by 2002:a2e:8e8f:: with SMTP id z15mr24744472ljk.121.1629803268016;
+        Tue, 24 Aug 2021 04:07:48 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id p1sm763760lfs.10.2021.08.24.04.07.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Aug 2021 03:41:50 -0700 (PDT)
-Subject: Re: [PATCH linux-next] r8188eu: remove unneeded conversions to bool
-To: CGEL <cgel.zte@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
+        Tue, 24 Aug 2021 04:07:47 -0700 (PDT)
+Subject: Re: [PATCH 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in
+ usbctrl_vendorreq()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jing Yangyang <jing.yangyang@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-References: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
-From: Michael Straube <straube.linux@gmail.com>
-Message-ID: <e851f9b3-768b-c628-a066-9c0529803db3@gmail.com>
-Date: Tue, 24 Aug 2021 12:40:57 +0200
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210823223751.25104-1-fmdefrancesco@gmail.com>
+ <20210823223751.25104-2-fmdefrancesco@gmail.com>
+ <68eebfaf-50a3-a7ec-12ba-cde33c74c9ce@gmail.com>
+ <3198276.4iybWabFxt@localhost.localdomain>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <d5ac7cd8-dc81-732d-b583-628cd2a273cb@gmail.com>
+Date: Tue, 24 Aug 2021 14:07:46 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -55,31 +59,87 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <3198276.4iybWabFxt@localhost.localdomain>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/24/21 8:34 AM, CGEL wrote:
-> From: Jing Yangyang <jing.yangyang@zte.com.cn>
+On 8/24/21 11:53 AM, Fabio M. De Francesco wrote:
+> On Tuesday, August 24, 2021 10:13:46 AM CEST Pavel Skripkin wrote:
+>> On 8/24/21 1:37 AM, Fabio M. De Francesco wrote:
+>> > Replace usb_control_msg() with the new usb_control_msg_recv() and
+>> > usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
+>> > 
+>> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+>> > ---
+>> > 
+>> > Thanks to Pavel Skripkin <paskripkin@gmail.com> for his review of the
+>> > RFC patch.
+>> >   
+>> > drivers/staging/r8188eu/hal/usb_ops_linux.c | 25 ++++++++++-----------
+>> > 1 file changed, 12 insertions(+), 13 deletions(-)
+>> > 
+>> > [...]
+>> >
+>> Hi, Fabio!
+>> 
+>> Christophe is right about semantic part. 
 > 
-> Found with scripts/coccinelle/misc/boolconv.cocci.
+> Hi Pavel,
 > 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Jing Yangyang <jing.yangyang@zte.com.cn>
+> I haven't yet read Christophe's message (but I'm going to do it ASAP).
+> I hope he found out what is wrong with the code, what made Phil's tests
+> fail.
+> 
+>> Also,
+>> 
+>> if (!status) {
+>> 
+>> } else {
+>> 	if (status < 0) {		<-
+>> 					  |
+>> 	} else {			  |
+>> 					  |
+>> 	}				<-
+>> }					
+>> 
+>> Extra if-else is not needed, since status can be 0 and < 0, there is no 
+>> 3rd state, like it was before.
+> 
+> Correct, thanks!
+> 
+> Now I read the following from the documentation of the new API...
+> 
+> "Return: If successful, 0 is returned, Otherwise, a negative error number."
+> 
+> I'll remove that status < 0 check and whatever else is no more necessary.
+> Thanks, again :)
+> 
+> Regards,
+> 
 
-Hi Jing,
+Btw, not related to your patch, but I start think, that this check:
 
-thanks for your patch.
 
-Just a minor issue:
-Perhaps you could add the patch subject to the changelog message.
-I'm not 100% sure if that's a requirement, but common practice
-in most cases and nice to have.
+	if (!pIo_buf) {
+		DBG_88E("[%s] pIo_buf == NULL\n", __func__);
+		status = -ENOMEM;
+		goto release_mutex;
+	}
 
-Aside from that:
+Should be wrapped as
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+	if (WARN_ON(unlikely(!pIo_buf)) {
+		...
+	}
 
-Thanks,
-Michael
+Since usb_vendor_req_buf is initialized in ->probe() and I can't see 
+possible calltrace, which can cause zeroing this pointer.
+
+Something _completely_ wrong is going on if usb_vendor_req_buf is NULL, 
+and we should complain loud about it. What do you think?
+
+
+With regards,
+Pavel Skripkin
