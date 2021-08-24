@@ -1,231 +1,197 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5A03FC0
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 22:10:49 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id q3so1279462plx.4
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 15:10:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0883FC0
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 22:16:40 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id j2so8704151pll.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 15:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=sVZKOjTWUVXVlz8oHjdrZ7UztOrSk5NQfTKfCoLHwJ8=;
-        b=tnuOd5AxmG0CkoxMyHx25WepMt/Ltvye9Ceg8uoRR8ol2rWeG5ebTHj+BFXGSqeT9u
-         9oQkEzcR2QVoffoz9c/MykU9I5cSxEjLD12QVoA69JL80vhGTtkAfOsSZfdXwtgV03I6
-         pYTJUjvgmR4kBlWMa994IbK0vqUYcyJ7GRcAie8Xk94mI6Ohc08Y8Twnz+H6xxLmK0nl
-         5myGW3CcOuGkisp5ga+r5tcAXI84p8bJ3k5YR2yRz/pf/K699vByERgSnrfTSwIdVM8f
-         2uBJBqbBbV56xY9yur4FQmkkGdUikj53qDUNCyjgBjVBgS1PXcNphC0JwY1WnuSz/AW0
-         iwlA==
+        bh=KlTyrcytLZKqtMvvZGVThajB/4GbV7rfbTcbICqb4cU=;
+        b=xCNQ9dQPpqgF3LA9SzNDo3HTHA9S68pSJGzZln2gjTFbYz4e7KBShtQDjI3+M1+uh0
+         YIP8WoJDVAUrCZ+EX6ukfo4slp8FcBLjOKqlL4tMxdlGRdWdRl/CDAeoo/TYc7vw55kA
+         xzSsFLRwSva/P+udai0vN7OQHRFNnI49uxVUmbUjoEUPeJvctRCpZHOsQIROmmki2BgV
+         scBt9ArNX8MN1gSOf3Cp/e2w4KIor6vcCoTJFr5dswkh+0fukZ5xxQongr+LIi5hBo9u
+         hYTM1TD9ulLUk6HQYTiGsSNP4lgVubYSzLlv8Z2uToJLUU3p6//V81laHHCT/wfwQN0O
+         +HZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sVZKOjTWUVXVlz8oHjdrZ7UztOrSk5NQfTKfCoLHwJ8=;
-        b=NGJ6u5JAvoSFmkjz76ZGY8eMuDf3+MJksC92UKj5kl7Bx4ZXhV+ID4WSCImmFd/pZ2
-         elzfah3WxzZnW/X8iNA5PCPXisGNnq5WmdJd/pTc3EcAuDHmLxKzCi46GL3o4skMLCIq
-         qvTiDxx66C3vY4+qs/scgBpLjKkUzw0fHVLCSse7W3c/68ZoHLNdx9b58ZIGrBwOXwZE
-         2UzVyjpgxhZjSk7wWJRdJJPAsYF9qPjWRlh8VsBdACxe7zUPl4soI3phnwx3+sbNbRH4
-         l7eDSyslm0LPWN0HtvjdwC4wB/0IriCt9VNGMfA4R5G/JB+I8Nz5JuViUh0jbo6LD62p
-         tDgQ==
-X-Gm-Message-State: AOAM530uQV03sfaoA0aJLLFNFF7fTWYai/YonqYHU009tY+E7S161BSD
-	9SGKXtK3GQWaqTPbCe37hluCSu5pXXLTg/go1l3L5A==
-X-Google-Smtp-Source: ABdhPJz/bRIqGQF1++9B4wLeWxu/wV+eSPLphyaixwNs5xRT/Ukpb4QG+9fhI613V6Xd9JeRNQDQy4845OovKsKcabg=
-X-Received: by 2002:a17:90a:1b2e:: with SMTP id q43mr6774975pjq.217.1629843049148;
- Tue, 24 Aug 2021 15:10:49 -0700 (PDT)
+        bh=KlTyrcytLZKqtMvvZGVThajB/4GbV7rfbTcbICqb4cU=;
+        b=j04bKNFkZmgmh3bXsZtjgwQr+yNg+u8gYRjVyTEvi2v6QicjZrSqdojBEEcHztp6ZZ
+         iouocSE68vgf5k4E0cWCCSUqFqAtpCuUSKsbbUZLmumZxnwupmw3NqLInm9R44ujyGpM
+         iRi20XB/i77ogNn+DLV02Nufj3PSQPVMoIsuF7gzTLHZ3G97XFuJ/d4HiHNRTecioYdz
+         igJs5G4c/+ELI5lTTQDeOk0RIHxTFLJZ9sa6Kn0VtU1AscqvxnZTYXqmbsLdK9Li2mE3
+         V3f6OK2ur07YP1Ig27UmsLPy+PQ2CHt22VRQBulz8qO1kaV1o+hLUxYqDGR9xjRn/EhR
+         ZBrw==
+X-Gm-Message-State: AOAM531feDYRD6Yw7LiDJWouKbg+/SkTJgp7uSEa2/3pgqTL8k0EQU35
+	Vd7N43uO57RYLbcsPF5EdI0uGw7oJOwSEuyDSUe/oA==
+X-Google-Smtp-Source: ABdhPJzRinWHpThsLwNcNHzX5Z+fRQT9GDSjccJng6fFhDhpukrRyTQHvlExTJtpYwcTzIBW3mp24n0sqqLGI9oRFME=
+X-Received: by 2002:a17:90a:1f49:: with SMTP id y9mr6761337pjy.225.1629843399889;
+ Tue, 24 Aug 2021 15:16:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1629642658.git.paskripkin@gmail.com> <2424268.2DCLMNk6Lg@localhost.localdomain>
- <2355365e-d75e-8d1b-aad8-6979b70f33ec@gmail.com> <3419359.n4KOUNuIW1@localhost.localdomain>
- <77da7c63-a5b1-a09d-39ec-32c5485b8eac@gmail.com> <96e3703e-a5e2-3c6d-ea3c-b5d3892849b2@gmail.com>
-In-Reply-To: <96e3703e-a5e2-3c6d-ea3c-b5d3892849b2@gmail.com>
+References: <20210824142823.16845-1-fmdefrancesco@gmail.com>
+ <20210824142823.16845-2-fmdefrancesco@gmail.com> <ac4b9c30-fceb-6838-a6d5-b9f03d5a0246@gmail.com>
+ <10796100.lKEGA7Tnzb@localhost.localdomain>
+In-Reply-To: <10796100.lKEGA7Tnzb@localhost.localdomain>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Tue, 24 Aug 2021 23:10:38 +0100
-Message-ID: <CAA=Fs0=aRaJRr7A2=9HJ=6SSoNV_AP0Xc3qYBNoO+nZ=Kie+ag@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 5/6] staging: r8188eu: add error handling of rtw_read32
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
+Date: Tue, 24 Aug 2021 23:16:29 +0100
+Message-ID: <CAA=Fs0n7kC3RCO=8_Wh=6EWBm+4bbgknLVvi0qVjjkYhi923_A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] staging: r8188eu: Use usb_control_msg_recv/send()
+ in usbctrl_vendorreq()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Pavel Skripkin <paskripkin@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 24 Aug 2021 at 09:53, Pavel Skripkin <paskripkin@gmail.com> wrote:
+On Tue, 24 Aug 2021 at 16:24, Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
 >
-> On 8/24/21 11:47 AM, Pavel Skripkin wrote:
-> > On 8/24/21 11:38 AM, Fabio M. De Francesco wrote:
-> >> On Tuesday, August 24, 2021 8:40:18 AM CEST Pavel Skripkin wrote:
-> >>> On 8/24/21 3:10 AM, Fabio M. De Francesco wrote:
-> >>> > On Tuesday, August 24, 2021 1:33:46 AM CEST Phillip Potter wrote:
-> >>> >> On Sun, 22 Aug 2021 at 15:36, Pavel Skripkin <paskripkin@gmail.com> wrote:
-> >>> >> > -static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
-> >>> >> > +static int usb_read32(struct intf_hdl *pintfhdl, u32 addr, u32 *data)
-> >>> >> >  {
-> >>> >> >         u8 requesttype;
-> >>> >> >         u16 wvalue;
-> >>> >> >         u16 len;
-> >>> >> > -       __le32 data;
-> >>> >> > +       int res;
-> >>> >> > +       __le32 tmp;
-> >>> >> > +
-> >>> >> > +       if (WARN_ON(unlikely(!data)))
-> >>> >> > +               return -EINVAL;
-> >>> >> >
-> >>> >> >         requesttype = 0x01;/* read_in */
-> >>> >> >
-> >>> >> >         wvalue = (u16)(addr & 0x0000ffff);
-> >>> >> >         len = 4;
-> >>> >> >
-> >>> >> > -       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> >>> >> > +       res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> >>> >> > +       if (res < 0) {
-> >>> >> > +               dev_err(dvobj_to_dev(pintfhdl->pintf_dev), "Failed to read 32 bytes: %d\n", res);
-> >>> >> > +       } else {
-> >>> >> > +               /* Noone cares about positive return value */
-> >>> >> > +               *data = le32_to_cpu(tmp);
-> >>> >> > +               res = 0;
-> >>> >> > +       }
-> >>> >> >
-> >>> >> > -       return le32_to_cpu(data);
-> >>> >> > +       return res;
-> >>> >> >  }
-> >>> >>
-> >>> >> Dear Pavel,
-> >>> >>
-> >>> >> OK, found the issue with decoded stack trace after reviewing this
-> >>> >> usb_read32 function. Your line:
-> >>> >> res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> >>> >>
-> >>> >> should read:
-> >>> >> res = usbctrl_vendorreq(pintfhdl, wvalue, &tmp, len, requesttype);
-> >>> >
-> >>> > Dear Philip,
-> >>> >
-> >>> > No, it should read:
-> >>> >
-> >>> > res = usbctrl_vendorreq(pintfhdl, wvalue, data, len, requesttype);
-> >>> >
-> >>> > I suspect that Pavel didn't notice he was reusing a line of the old code
-> >>> > wth no due changes.
-> >>> >
-> >>> >> With this change, the driver runs fine with no crashes/oopses. I will
-> >>> >> explain the issue but you can probably see already, so I hope I'm not
-> >>> >> coming across as patronising, just trying to be helpful :-)
-> >>> >>
-> >>> >> Essentially, you are taking the address of the data function parameter
-> >>> >> on this line with &data, a pointer to u32, which is giving you a
-> >>> >> pointer to a pointer to u32 (u32 **) for this function parameter
-> >>> >> variable. When passed to usbctrl_vendorreq, it is being passed to
-> >>> >> memcpy inside this function as a void *, meaning that memcpy
-> >>> >> subsequently overwrites the value of the memory address inside data to
-> >>> >> point to a different location, which is problem when it is later
-> >>> >> deferenced at:
-> >>> >> *data = le32_to_cpu(tmp);
-> >>> >> causing the OOPS
-> >>> >>
-> >>> >> Also, as written, you can probably see that tmp is uninitialised. This
-> >>> >> looks like a typo, so guessing this wasn't your intention. Anyhow,
-> >>> >> with that small change, usbctrl_vendorreq reads into tmp, which is
-> >>> >> then passed to le32_to_cpu whose return value is stored via the
-> >>> >> deferenced data ptr (which now has its original address within and not
-> >>> >> inadvertently modified). Hope this helps, and I'd be happy to Ack the
-> >>> >> series if you want to resend this patch. Many thanks.
-> >>> >
-> >>> > I think that another typo is having 'tmp', because that variable is unnecessary
-> >>> > and "*data = le32_to_cpu(tmp);" is wrong too.
-> >>> >
-> >>> > Now I also see that also usb_read16() is wrong, while usb_read8() (the one that
-> >>> > I had read yesterday) is the only correct function of the three usb_read*().
-> >>> >
-> >>>
-> >>> Hi, guys!
-> >>>
-> >>>
-> >>> Sorry for breaking your system, Phillip. This code was part of "last
-> >>> minute" changes and yes, it's broken :)
-> >>>
-> >>> I get what Phillip said, because I _should_ read into tmp variable
-> >>> instead of directly to data, but I don't get Fabio's idea, sorry.
-> >>
-> >> Hi Pavel,
-> >>
-> >> I (wrongly?) assumed from the prototype of usb_read32() that u32 *data is in native
-> >> endianness. So, I didn't see the necessity of using _le32 tmp and then convert that tmp
-> >> with le32_to_cpu().
-> >>
-> >> I simply thought that data could be passed to usbctrl_vendorreq as it-is.
-> >>
-> >>> Data from chip comes in little-endian, so we _should_ convert it to
-> >>> cpu's endian. Temp variable is needed to make smatch and all other
-> >>> static anylis tools happy about this code.
-> >>
-> >> Now that you explained that "Data from chip comes in little-endian", obviously
-> >> I must agree with you that the code needs tmp and that tmp must be
-> >> swapped by le32_to_cpu(), ahead of assigning it to *data.
-> >>
-> >> Just a curiosity... Since I was not able to see that *data is returned in little endian,
-> >> can you please point me where in the code you found out that it is? There must
-> >> be some place in the code that I'm unable to find and see that *data is LE.
-> >>
-> >> Thanks in advance,
-> >>
-> >> Fabio
-> >
-> > Hi, Fabio!
-> >
-> > previous usb_read16() realization, which is 100% right:
+> On Tuesday, August 24, 2021 4:35:38 PM CEST Pavel Skripkin wrote:
+> > On 8/24/21 5:28 PM, Fabio M. De Francesco wrote:
+> > > Replace usb_control_msg() with the new usb_control_msg_recv() and
+> > > usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
+> > > Remove no more needed variables. Move out of an if-else block
+> > > some code that it is no more dependent on status < 0. Remove
+> > > redundant code depending on status > 0 or status == len.
+> > >
+> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > ---
+> > >
+> > > v1->v2: According to suggestions by Christophe JAILLET
+> > > <christophe.jaillet@wanadoo.fr>, remove 'pipe' and pass an explicit 0
+> > > to the new API. According to suggestions by Pavel Skripkin
+> > > <paskripkin@gmail.com>, remove an extra if-else that is no more needed,
+> > > since status can be 0 and < 0 and there is no 3rd state, like it was before.
+> > > Many thanks to both them and to Phillip Potter <phil@philpotter.co.uk>
+> > > who kindly offered his time for the purpose of testing v1.
+> > >
+> > >
+> > >   drivers/staging/r8188eu/hal/usb_ops_linux.c | 45 ++++++++-------------
+> > >   1 file changed, 17 insertions(+), 28 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > > index a93d5cfe4635..13e925d21e00 100644
+> > > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > > @@ -15,9 +15,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+> > >     struct adapter  *adapt = pintfhdl->padapter;
+> > >     struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
+> > >     struct usb_device *udev = dvobjpriv->pusbdev;
+> > > -   unsigned int pipe;
+> > >     int status = 0;
+> > > -   u8 reqtype;
+> > >     u8 *pIo_buf;
+> > >     int vendorreq_times = 0;
+> > >
+> > > @@ -44,22 +42,22 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+> > >     }
+> > >
+> > >     while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> > > -           memset(pIo_buf, 0, len);
+> > > -
+> > >             if (requesttype == 0x01) {
+> > > -                   pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> > > -                   reqtype =  REALTEK_USB_VENQT_READ;
+> > > +                   status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
+> > > +                                                 REALTEK_USB_VENQT_READ, value,
+> > > +                                                 REALTEK_USB_VENQT_CMD_IDX, pIo_buf,
+> > > +                                                 len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> > > +                                                 GFP_KERNEL);
+> > >             } else {
+> > > -                   pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+> > > -                   reqtype =  REALTEK_USB_VENQT_WRITE;
+> > >                     memcpy(pIo_buf, pdata, len);
+> > > +                   status = usb_control_msg_send(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
+> > > +                                                 REALTEK_USB_VENQT_WRITE, value,
+> > > +                                                 REALTEK_USB_VENQT_CMD_IDX, pIo_buf,
+> > > +                                                 len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> > > +                                                 GFP_KERNEL);
+> > >             }
+> > >
+> > > -           status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> > > -                                    reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> > > -                                    pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
+> > > -
+> > > -           if (status == len) {   /*  Success this control transfer. */
+> > > +           if (!status) {   /*  Success this control transfer. */
+> > >                     rtw_reset_continual_urb_error(dvobjpriv);
+> > >                     if (requesttype == 0x01)
+> > >                             memcpy(pdata, pIo_buf,  len);
+> > > @@ -68,20 +66,11 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+> > >                             value, (requesttype == 0x01) ? "read" : "write",
+> > >                             len, status, *(u32 *)pdata, vendorreq_times);
+> > >
+> > > -                   if (status < 0) {
+> > > -                           if (status == (-ESHUTDOWN) || status == -ENODEV) {
+> > > -                                   adapt->bSurpriseRemoved = true;
+> > > -                           } else {
+> > > -                                   struct hal_data_8188e   *haldata = GET_HAL_DATA(adapt);
+> > > -                                   haldata->srestpriv.Wifi_Error_Status = USB_VEN_REQ_CMD_FAIL;
+> > > -                           }
+> > > -                   } else { /*  status != len && status >= 0 */
+> > > -                           if (status > 0) {
+> > > -                                   if (requesttype == 0x01) {
+> > > -                                           /*  For Control read transfer, we have to copy the read data from pIo_buf to pdata. */
+> > > -                                           memcpy(pdata, pIo_buf,  len);
+> > > -                                   }
+> > > -                           }
+> > > +                   if (status == (-ESHUTDOWN) || status == -ENODEV) {
+> > > +                           adapt->bSurpriseRemoved = true;
+> > > +                   } else {
+> > > +                           struct hal_data_8188e   *haldata = GET_HAL_DATA(adapt);
+> > > +                           haldata->srestpriv.Wifi_Error_Status = USB_VEN_REQ_CMD_FAIL;
+> > >                     }
+> > >
+> > >                     if (rtw_inc_and_chk_continual_urb_error(dvobjpriv)) {
+> > > @@ -92,7 +81,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+> > >             }
+> > >
+> > >             /*  firmware download is checksumed, don't retry */
+> > > -           if ((value >= FW_8188E_START_ADDRESS && value <= FW_8188E_END_ADDRESS) || status == len)
+> > > +           if (value >= FW_8188E_START_ADDRESS && value <= FW_8188E_END_ADDRESS)
+> > >                     break;
 > >
 > >
-> > static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
-> > {
-> >       u8 requesttype;
-> >       u16 wvalue;
-> >       u16 len;
-> >       __le32 data;
-> >
-> >       requesttype = 0x01;/* read_in */
-> >       wvalue = (u16)(addr & 0x0000ffff);
-> >       len = 2;
-> >       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> >
-> >       return (u16)(le32_to_cpu(data) & 0xffff);
-> > }
-> >
-> >
-> > Bases on this code, I think, it's oblivious, that data comes in
-> > little-endian. That's why I leaved temp variable for casting le32 to
-> > cpu's endianess.
-> >
-> > I could just read into u{16,32} * and then make smth like
-> >
-> > *data = le32_to_cpu(*data)
-> >
-> > but static analysis tools will complain about wrong data type passed to
-> >    le32_to_cpu()
-> >
-> > + Phillip tested fixed v2 version and it worked well for him. I guess,
-> > Phillip was able to spot weird driver behavior, if this cast is wrong.
-> >
->                 ^^^^^&
+> > Shouldn't we break the loop when we have received all data? I think,
+> > status == len should be replaced with !status. Correct me if I am wrong.
 >
-> I am wrong with this statement, I guess. Most likely, Phillip is testing
-> on smth like x64 and this arch is le, so...
+> Yes, correct. I was about to replace status == len with !status when I've
+> been interrupted by a phone call and then I forgot to do the work :(
+>
+> I'll send a v3 this night. Unfortunately now I have to go. While at that
+> I'll also try to understand why 2/2 cannot apply. Sigh!
+>
+> > Other changes look good to me, thanks
+>
+> Thanks to you, Christophe and Philip for all the help you gave.
+>
+> Regards,
+>
+> Fabio
+>
+> > With regards,
+> > Pavel Skripkin
+> >
 >
 >
 >
 >
-> With regards,
-> Pavel Skripkin
 
-Dear Pavel,
-
-You're correct in your assumption, my testing environment is an
-little-endian x64 QEMU VM with USB passthrough for the wireless
-adapter. I prefer to test this way so that driver crashes don't bring
-down the whole machine :-)
+Happy to help - might be worth waiting for staging-testing to have
+more patches merged in and rebasing after that.
 
 Regards,
 Phil
