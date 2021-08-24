@@ -1,80 +1,195 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B7729CA
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 07:38:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="278267756"
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; 
-   d="scan'208";a="278267756"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 00:38:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; 
-   d="scan'208";a="515317618"
-Received: from um.fi.intel.com (HELO um) ([10.237.72.62])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2021 00:38:07 -0700
-From: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-To: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, linux-block@vger.kernel.org,
- linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org,
- alexander.shishkin@linux.intel.com
-Subject: Re: [PATCH v2 47/63] intel_th: msu: Use memset_startat() for
- clearing hw header
-In-Reply-To: <20210818060533.3569517-48-keescook@chromium.org>
-References: <20210818060533.3569517-1-keescook@chromium.org>
- <20210818060533.3569517-48-keescook@chromium.org>
-Date: Tue, 24 Aug 2021 10:38:06 +0300
-Message-ID: <87sfyzi97l.fsf@ashishki-desk.ger.corp.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E1A3FC1
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 07:46:49 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id u3so42456096ejz.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=VsqAfZyJN9OD0IHKahj/HoL7bz40akh7jyRwrbfEuro=;
+        b=sYIl27axHaB+KXgccTTOy8Qba71m+Sa9jlXykBz++PO0nNjkG8wWEE3xuRhGlQrvt9
+         a+ohGsHPJr6zRAsi3BIRyW3sUNSkgh8NhllNXtp3JyY6G4Zz3EO1ZhMnfZr/sUcivssh
+         AXwbez1OHsikoUQSjOUhUcCPswF0hx6/JbsMLdkGbX+AKVcF9wIESmhc3hBQainRQmKa
+         N+lwjoY8v1wdFBfvv0xjQdl6wphqmczUqkyoCN4dkZmJVrWLRsJ8m4D5zR+0SaBP+90A
+         BukrkrvJe2xJK2Tp6XRcZkQ1KLy6ntQ2txeIjB3v/MRkaFRlWLLN4vKiT7Ov9DapqY+i
+         3RYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=VsqAfZyJN9OD0IHKahj/HoL7bz40akh7jyRwrbfEuro=;
+        b=DOFqQm00FVvlNYoKSJLD7DGz0xUydYAcd8tUmbPzIHdgmeww+1s+Pv18CNeDWVgPWs
+         IQtzHIIRvAEYvsh6CrpzhS/dkmSM/QYTluUkd0X/2hCt+LyYuHx8JkIyA0pu/T4vfHNO
+         IuKybk+sFrDx+C9acbDi8MIiHSOl5bVcvVpAZNwaId2eojjrpAZkrr5GCwgVPb2osXby
+         PaHMkGGU+DlXF05Md+Q4IdPNEJNLe/eYt99dzgzGuQiwr5SlBhtFsx3eH6VxohWI9nnD
+         2vN+mFoIrW3rhhzt9ZsBfC0gydEtnd/pecbGhoJmE5DC5v3URjzxuhIfY1jE3rCxIym5
+         WNpw==
+X-Gm-Message-State: AOAM532/Jn87kvT/IxJL05uoyaBBHh69PLj8mzOwkjScMQ87G5oTyCIy
+	FRqISLx8GTKHNWdIyBNadN4=
+X-Google-Smtp-Source: ABdhPJxythtgfsRHsaQp3r6YiC/KoRrK4F8Sl2mh9Coz7edIEsHiRlIpTEGQe2OGXQoFhIDTZMERVQ==
+X-Received: by 2002:a17:906:25db:: with SMTP id n27mr38802644ejb.108.1629791208425;
+        Tue, 24 Aug 2021 00:46:48 -0700 (PDT)
+Received: from agape.jhs ([5.171.73.5])
+        by smtp.gmail.com with ESMTPSA id s2sm1524732ejx.23.2021.08.24.00.46.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Aug 2021 00:46:48 -0700 (PDT)
+Date: Tue, 24 Aug 2021 09:46:44 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: iLifetruth <yixiaonn@gmail.com>
+Cc: gregkh@linuxfoundation.org, ross.schm.dev@gmail.com,
+	marcocesati@gmail.com, insafonov@gmail.com,
+	linux-kernel@vger.kernel.org, Qiang Liu <cyruscyliu@gmail.com>,
+	yajin@vm-kernel.org, hdegoede@redhat.com, Larry.Finger@lwfinger.net,
+	Martin Kaiser <martin@kaiser.cx>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>, fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev, paskripkin@gmail.com
+Subject: Re: staging: possible buffer overflow in rtw_wx_set_scan function in
+ driver/staging/rtl8723bs
+Message-ID: <20210824074643.GA1731@agape.jhs>
+References: <CABv53a_q4jzsXib7ovRs=eOwqcQ-oKb8c7DA7uUSPf+0tt6aog@mail.gmail.com>
+ <20210823170624.GA1420@agape.jhs>
+ <CABv53a9aR8mXE_quxRX06aX3WAKGSOyMqrG8AmqrsvftjH7xyg@mail.gmail.com>
+ <CABv53a_9GstHzLbbbghFxU_YDxC0ckh3+bGu4RqAmGL39BHMMg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABv53a_9GstHzLbbbghFxU_YDxC0ckh3+bGu4RqAmGL39BHMMg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Kees Cook <keescook@chromium.org> writes:
+Hello,
 
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memset(), avoid intentionally writing across
-> neighboring fields.
->
-> Use memset_startat() so memset() doesn't get confused about writing
-> beyond the destination member that is intended to be the starting point
-> of zeroing through the end of the struct.
->
-> Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+[sorry for resend, I updated the CC field]
 
-Acked-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-
+On Tue, Aug 24, 2021 at 03:04:04PM +0800, iLifetruth wrote:
+> Here are the fixes and the contents of the patch file we suggest.
+> 
+> [PATCH]staging: rtl8723bs: prevent ->ssid overflow in rtw_wx_set_scan()
+> 
+> This fixing patch is ported from the upstream commit
+> 74b6b20df8cf(staging: rtl8188eu: prevent ->ssid overflow in
+> rtw_wx_set_scan()) which fixes on another driver numbered rtl8188eu.
+> This code has a check to prevent read overflow but it needs another
+> check to prevent writing beyond the end of the ->ssid[] array in
+> driver rtl8723bs.
+> 
 > ---
->  drivers/hwtracing/intel_th/msu.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
-> index 432ade0842f6..70a07b4e9967 100644
-> --- a/drivers/hwtracing/intel_th/msu.c
-> +++ b/drivers/hwtracing/intel_th/msu.c
-> @@ -658,13 +658,11 @@ static void msc_buffer_clear_hw_header(struct msc *msc)
->  
->  	list_for_each_entry(win, &msc->win_list, entry) {
->  		unsigned int blk;
-> -		size_t hw_sz = sizeof(struct msc_block_desc) -
-> -			offsetof(struct msc_block_desc, hw_tag);
->  
->  		for_each_sg(win->sgt->sgl, sg, win->nr_segs, blk) {
->  			struct msc_block_desc *bdesc = sg_virt(sg);
->  
-> -			memset(&bdesc->hw_tag, 0, hw_sz);
-> +			memset_startat(bdesc, 0, hw_tag);
->  		}
->  	}
->  }
-> -- 
-> 2.30.2
+>  drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+> b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+> index f95000df8942..3b859b71bf43 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+> @@ -1222,9 +1222,9 @@ static int rtw_wx_set_scan(struct net_device
+> *dev, struct iw_request_info *a,
+> 
+>                                 sec_len = *(pos++); len -= 1;
+> 
+> -                               if (sec_len > 0 && sec_len <= len) {
+> +                               if (sec_len > 0 && sec_len <= len &&
+> sec_len<= 32) {
+>                                         ssid[ssid_index].SsidLength = sec_len;
+> -                                       memcpy(ssid[ssid_index].Ssid,
+> pos, ssid[ssid_index].SsidLength);
+> +                                       memcpy(ssid[ssid_index].Ssid,
+> pos, sec_len);
+>                                         ssid_index++;
+>                                 }
+> 
+> --
+> 
+> Thanks for your confirmation,
+> - iLifetruth
+> 
+
+the patch looks fine. Just some points:
+
+- If the patch related to wext support removal will
+  be accepted, the patch isn't necessary. So I will wait
+  until I know the community-maintainer decision.
+
+
+> 
+> On Tue, Aug 24, 2021 at 10:07 AM iLifetruth <yixiaonn@gmail.com> wrote:
+> >
+> > I haven't committed the patch yet since the Linux staging tree may
+> > seem special. It's not clear to me where to submit the patch. So could
+> > you please fix it?
+> >
+> > Regards and thanks for your confirmation,
+> > - iLifetruth
+> >
+> >
+> > On Tue, Aug 24, 2021 at 1:08 AM Fabio Aiuto <fabioaiuto83@gmail.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > On Mon, Aug 23, 2021 at 11:19:09PM +0800, iLifetruth wrote:
+> > > > Hi, in the latest version of Linux staging tree, we may have found an
+> > > > unfixed security bug in the staging/driver/rtl8723bs related to the
+> > > > CVE-2021-28660. Now, we would like to contact you to confirm this
+> > > > problem.
+> > > >
+> > > > ===========
+> > > > Here is the description of CVE-2021-28660:
+> > > >
+> > > > "It was discovered that the rtl8188eu WiFi driver did not correctly
+> > > > limit the length of SSIDs copied into scan results. An attacker within
+> > > > WiFi range could use this to cause a denial of service (crash or
+> > > > memory corruption) or possibly to execute code on a vulnerable
+> > > > system."
+> > > >
+> > > > ===========
+> > > > The staging driver "rtl8188eu" was fixed by commit
+> > > > 74b6b20df8cfe90ada777d621b54c32e69e27cd7 on 2021-03-10.
+
+- The driver rtl8188eu is deprecated. Now exists r8188eu which has
+  the same security bug, so it needs to be fixed. Again feel free
+  to submit your own patch.
+
+- If you decide to submit your own patch I suggest to put
+  your full name in the email address as you submitted a legal
+  document.
+  
+  vim 409+ Documentation/process/submitting-patches.rst
+
+> > > >
+> > > > However, in another similar staging driver numbered "rtl8723bs", a
+> > > > function named “rtw_wx_set_scan” remains the same problem unfixed. And
+> > > > it is detected in the
+> > > > “drivers/staging/rtl8723bs/os_dep/ioctl_linux.c#Line1354" without
+> > > > checking to prevent writing beyond the end of the ->ssid[] array.
+> > > >
+> > > > Therefore, shall we port the same fix from RTL8188EU to RTL8723BS?
+> > >
+> > > I think it's a good idea, moreover I've just sent a patch series
+> > > aimed at removing that piece of code for it belongs to very
+> > > old wext implementation.
+> > >
+> > > But until it's not accepted by the maintainer that security bug
+> > > is present and harmful. If you fix it thank you, if you don't
+> > > thank you for reporting this, I will fix as soon as possible.
+> > >
+> > > >
+> > > > Thank you!
+> > >
+> > > thank you,
+> > >
+> > > fabio
+
+thank you for your report,
+
+fabio
