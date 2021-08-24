@@ -1,363 +1,178 @@
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [194.109.24.28])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253313FC1
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 13:07:25 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id IW87mJKRJCu83IW88ma1Vn; Tue, 24 Aug 2021 15:06:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1629810377; bh=QFsB8tTltlYKn/gLF/eLcZB3Zec7BgwkrqJ5W6ogtss=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=Wfvrrplhg6Shl4VCRferY+loTWGrozXH5JlfwRGPE9mviFGsHVyxNLNmC6xUfRyYl
-	 3WEph4/9g+OFG2HzKEt9Ig4WP9D829nSwf7LpPvtZF/wwqxy4QJHxWKOt8r+YgNVHQ
-	 +SFbOqe0Vw0mOdrGMNWV/2yq4V7kYt+byBcp01vYU9OFF+wj21/XaFyonln1Pe3AsT
-	 /jpy9PM6mHhqNCE9pw9+vRZGJ6FWznGe/jPKawOvg20wEvrNBEn8QG96V4/SAgihY0
-	 8ilVAQoNSBcKEDJounLlTBMKcrOq19CQ0Wd40/h+S7frWvOQYFj4W/ZdROjIAexRmY
-	 q2ZEcX0xJWYvg==
-Subject: Re: [PATCH 00/30] TI Video Decoder driver upstreaming to v5.14-rc6
- kernel
-To: sidraya.bj@pathpartnertech.com, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: prashanth.ka@pathpartnertech.com, praneeth@ti.com, mchehab@kernel.org,
- linux-media@vger.kernel.org, praveen.ap@pathpartnertech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5693FC1
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 13:35:05 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17OAU309025089;
+	Tue, 24 Aug 2021 13:35:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=s76S5KqvicaexCRlLMYPrrkT/x0ZFMCIV7/buuvano0=;
+ b=mKgYmjEaIMuWzkwINob8WhWQhPdOiJylHe0XUme09IYHegVTR44+8VLRI+N5/2ih0tuK
+ MdI70FtmPYUmzNZARPqQQv77GKOLndvHaLWkXLE4qDeBF4W+RNp6pABZTkZ7Xg2cvJSl
+ A1RBdLXkMkBJX/zxnupzg3yjek+Rt2522yLXRL5oQra6dfErQb5y01hToe2G+jakkb6G
+ d/J/GcwKs7wq9ihPKcE40jKMVail7pZAQ7R828R+PU1Jx70t5tG05HDkDQ/cq7WrcOIa
+ 1RkanI3qZ+TPTGLyPqRut9Y/t/DGwltK8lGTOp7WAE7Guo/IpXXaGCQtI0GWoBf1BVOH Lw== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=s76S5KqvicaexCRlLMYPrrkT/x0ZFMCIV7/buuvano0=;
+ b=LSJKjFVJpTylZAlWNMTDadF4agnf/pRJHJxGHKzGof5LFOcX87ccMZ102BP6DMY4jpyv
+ gdyyGTvoup7tT4nu3riLyDr3AR/ut4Dw7kWXZ5syPfGLprEx0byeAshGLRXtiA9hYQeo
+ fE9odXOkRTeqr5BY6QQ8dxpA6UMFVTNiniIi+JwDBfznsFD5qtf9W9TK3JD6TuEw/ZoC
+ 0fRB4+HTUzm2S38bKeWzyopaXnAknqhwqI1949ps2Clc2arOJp7UHdeUm+HFQAYjheFZ
+ EaQOqz8du3ZVe3L0XpP2xMTdt9D8Byku0ijnbbCM3x85QTzk8LkaD/oag1RaI/8GqV22 9A== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3amu7vs2c0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Aug 2021 13:35:02 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17ODVVlI076702;
+	Tue, 24 Aug 2021 13:35:01 GMT
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam08lp2170.outbound.protection.outlook.com [104.47.73.170])
+	by userp3030.oracle.com with ESMTP id 3ajpkxagde-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Aug 2021 13:35:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jb69TWANcbhLciJ6t/5phog0ldImUk/os3kV6oo3RndrKyOlB7XmQZ3Ss3kbvNysroosEGKkSums8h0G9i9P7J/3MfaaLcM0TIRLMIyf2Vv5SBPnPcddUnKu7lEARBa44DOCoqx1EkSFktW1CGUYHe2U9suE9YJkcroRxJ7DB8b3LBUBBBSUzzjLCr7BrOL2mBihbDQeJojGYl8APGLPA0SdQYvEuyR8UNAilOAhpU8ZHF5lVl5mLJgqmsxCWhFx9rTybN+yuUxEdThTK1bQiGZqXVBLBXrM31gMi01DbRs4xhG1T8VEf3WbYFd6m0oaCe7+aeCelsHyLFTFEnsSoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s76S5KqvicaexCRlLMYPrrkT/x0ZFMCIV7/buuvano0=;
+ b=B5XdZqb8JELqvMSofSEa0mP1o7cyZd35LRsEHWphALBhMdxtv8zF3FotcG4E0ne4bBFJ0sQcr7O6pctuv3NoVRwwzq4T6YtZebMKrJmip1n4iEYv9iFFT1IkcRqV2O68F4Wy5C+1fhHDITTW+lrFRNPT7/F2cg9fbiW9ikwYnAyruPsSM6utzIkqWbs0iYu5tHowVemZ0/PdOiVRHkzFaAQAoKpF0rQpe2bY4h7/VULxqNy8NNaA9dAzmNeR7kSOX4DQvDi79rIvRqLxM4UX26L29ftlL789a1cLDMaZdk2P2MnHb8v8kGu0OBQkk/8tk4JOgAjjaB/io2M8fM/vYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s76S5KqvicaexCRlLMYPrrkT/x0ZFMCIV7/buuvano0=;
+ b=qZzSGmOzOEoSa52PQIqotrlsqnOLS20Wtgdyc38/GZCPg616lJO6qqx2DH0CJLGQTopa7jT9EIQTGYayG4J3eg6PYIdlr4XSQaXu8VQqYSljI05vom68pLM7NMVu+hvF9bE4pX4c9yMdZqfiEQLINXQJdUQC3FuxXWa1KEK0DYU=
+Authentication-Results: pathpartnertech.com; dkim=none (message not signed)
+ header.d=none;pathpartnertech.com; dmarc=none action=none
+ header.from=oracle.com;
+Received: from CY4PR1001MB2358.namprd10.prod.outlook.com
+ (2603:10b6:910:4a::32) by CY4PR10MB1751.namprd10.prod.outlook.com
+ (2603:10b6:910:b::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Tue, 24 Aug
+ 2021 13:34:55 +0000
+Received: from CY4PR1001MB2358.namprd10.prod.outlook.com
+ ([fe80::784c:a501:738a:143a]) by CY4PR1001MB2358.namprd10.prod.outlook.com
+ ([fe80::784c:a501:738a:143a%2]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
+ 13:34:55 +0000
+Date: Tue, 24 Aug 2021 16:34:38 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: sidraya.bj@pathpartnertech.com
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, prashanth.ka@pathpartnertech.com,
+        praneeth@ti.com, mchehab@kernel.org, linux-media@vger.kernel.org,
+        praveen.ap@pathpartnertech.com
+Subject: Re: [PATCH 03/30] v4l: vxd-dec: Create vxd_dec Mem Manager helper
+ library
+Message-ID: <20210824133438.GO1931@kadam>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2d9456e8-6b73-0815-29b8-20919d34e666@xs4all.nl>
-Date: Tue, 24 Aug 2021 15:06:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210818141037.19990-4-sidraya.bj@pathpartnertech.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210818141037.19990-4-sidraya.bj@pathpartnertech.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::12)
+ To CY4PR1001MB2358.namprd10.prod.outlook.com (2603:10b6:910:4a::32)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOAIyGWoJ2WUQ5I/jCA+P4EEm/2E11NnjOSN5Hh+u+p43nuPN3mp/dIPPal4Kgic909eN+TU+UwAL8AcH9e7C+6CWXZfLJV0cPB15JgyGuHzepBjU6kg
- vBUBgJmbAuvq2ONeTiZ2i2Q6qeX1SPDoSiMaA6IDCT3si5Hl0CXdDb+KC1lO+ayuEx/tgI9YH2XWp+kJsgeP5KuF3ns5GespP+K5u/hJdb/Vz/kh0JBtvSnX
- yCz2C+YJNxbomCPvPTh6Pz4W6IyIPM1ainhHWxLlOpYaANQLVNlQpEOQzr4z0ZfKUHTfom4ZepGu3bepVcOpmsLTeU/8LTYTtRB5RSz7RJf9MJHEQUATV/kd
- wpy9Sxxtc3RDqom9GQodcKcd5pAPFoRB2rfYGYPBAdUpTqnvodUFnGx1GcP+7KtV2nZfA8f+2b8t4LtxGJnkE/I46eIx+JUSKsrqD368gfS1U0XFDj2N6YwA
- dl5lJhRtlHXbI67PudOZWxL0fEtLfNF3R+gAtXJnTfFdVsKMYnraeLbmbzDjQvRTRfsi7GASpKGd8n9qffyuXnz5jSg/VrpbirKol/6TO43NFXMz8uKucA8S
- MQ65K/5Em0C85Aw5xYu7FzIe
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (62.8.83.99) by JNAP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend Transport; Tue, 24 Aug 2021 13:34:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cc1e4146-70a8-483b-e49e-08d96703f54f
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1751:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<CY4PR10MB175155E544878F4330ED6C5E8EC59@CY4PR10MB1751.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	dv52RqFDi0aZ/zbKuNehawRj2OBH4P1scT/8gP1tjYrQOBE9NuthoiIBDebKTBNzRTCVuEyRWut/GkFPlH0qR9MhzViPB4nywdPw/IDXrivGmFXh91rqzbWYKq1703Suv5zBmziqjDp3+Ev5UVy0OZUEu2NGLOu0/tOqUteLEhAw+aw0jTVJoqcVz2n01l/LVAWBGJ4zEs8dw768MBCvqQJ/9wsvHQb0MDdJRITxZokw0fhb3fDmseYBtA8YczF7UpIFNxqP0PYB7pa5W4L1hVKIFEKuRhGwWU2Z8ICIhkFbciw47F7Wzu7bXPn3eEgyfL/3oiImO6xieg6W+HGA4jlctZaqSBmvhfUUgw9yAeXZshJIXfXEpYHiUmh5QwQJmGdVwKxklsVcnMAwxz3UdUfi3UMg8rdiah2G+U0YRglGJhLDlrZdk6qqgLs9XoK/0UDy9nySjMZwNqMKblDHotExTXvTZch4Z5gk4ZVlGmCEMwgd94zOJUDxKQfwRmm2WettHyC34WEiruAAzxv7ZrB9Lg8Knbp2iELqOSWFtEz6IJW9kFmvFRT5ZACR7hf/RBNG1pzHQwdFyiMk/9D6BzxMf5SEePr7ecNxruihIP7UEkilsYBDyHwA6VArJcaBWpT4ZGzVWAS/zO8WTPEnX/7lOrIZzLpw/yfFIsdhIx6JBYeoNSDU6r8mmQ8bGVCwsNW3HW4V3uw5B3kVNw401ao5wPkKPqp1aLKwb51BC4q6aMhpiN7WlkwEfL+b3Sg9jI1X6I7bNCJR1nwTT309ltMIVl1nrK91bB1ygpB6emU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1001MB2358.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(956004)(44832011)(316002)(2906002)(33716001)(66476007)(9576002)(66556008)(6666004)(9686003)(55016002)(86362001)(186003)(6496006)(5660300002)(26005)(1076003)(508600001)(52116002)(33656002)(8676002)(4744005)(966005)(6916009)(4326008)(8936002)(38350700002)(66946007)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?fO3goUoPw3FRa0rXoaLpMBtX7LJP4sn+DrTMM+/NvbRMUaHaxz4zlZRPDj2r?=
+ =?us-ascii?Q?SE+xpKcwYCVeIK5mkuNEoKjCX/FgdTfNtEbyMew4mhIug0csHQYtscLhtKmt?=
+ =?us-ascii?Q?AaoZmGZOuXuAw1Es2Ih5IoZOZgn+erQ57cvGbeYvOXF+5XoXWW+Pwxxrj8+z?=
+ =?us-ascii?Q?FLSu8hj3Y6pk66x+AfAkDMBbDe6eol3+w0YcfLn393zoA/0AZfOxJU+aIHDd?=
+ =?us-ascii?Q?dtvMQkWSJERYaNfxgvOg/FZFRZIqkXu4bkoODcbNdTXrBKZjtfPGcGk5C67A?=
+ =?us-ascii?Q?pJe9/22zZk0b8YWhJHnaOU1Q/B4vp+9xJyuM7ecwQL3kkjLoKvekW/0ka3le?=
+ =?us-ascii?Q?rpyfrYeT46kV1lpf4SkwXUrmSvG4iLJLRIyDKXbRanZ344nbuh7AyV+YG0s8?=
+ =?us-ascii?Q?AGeQMtoMgJ3SxF893LqUj4XR+DNS742PGzKWOQVTMgYQLtW/uv036iIbDx3Q?=
+ =?us-ascii?Q?eJD6kzEtnx9hD/eVg8auXQJhCay+okIVTNn/YPHqvZIWj7lY/K6HqWD85Ekp?=
+ =?us-ascii?Q?0syLmF6cDpX/Hf9qxGM4qUXagXDQBIMhsNIAmveLy0kP5p87z3X6fnyPHEPd?=
+ =?us-ascii?Q?egNBcFEEdom7641Hjs6Nh1Dg0/RSY3Wbup/FJooIUXePiZS6zbk5ekrdfxMq?=
+ =?us-ascii?Q?8x500eSFtnvzvPqA66X38/p2ZDF/xufRhmLguL08ncmGZUU7dFGOnPmdnNnl?=
+ =?us-ascii?Q?k5pOQfz9aP3/TLdad6lhKoHJVNwLn9yO8sJeeuWxxY3MHCD26zle92HZwH4A?=
+ =?us-ascii?Q?Tm2MEkC803Z4jgvlqAU+c9bJ0QQaDWruFrjekdORea3OkkUJyELz/1muXa+i?=
+ =?us-ascii?Q?j51Hv22dHrWpPdTMvQf9dwVCc26M5X33Tu/6Wed8+EhU0p2lfTEQdE1tuFdg?=
+ =?us-ascii?Q?/M+z/V+eQ8QS5jF2Q6Elwbk/NV8K3RPDFUnDoBOF3s2UiTmC/evO1y/CUZGO?=
+ =?us-ascii?Q?rNw9tah1EzcMuox6AX0/hO31cKJOXlJonJMriYo0hQfFMGrrZpaXvR1SLmiU?=
+ =?us-ascii?Q?gTS0yJnfT5M1Gez6PHLOr/8qG7pu1C2oB7mSmwdbwbJtZOL3npiyct6Tm9Nl?=
+ =?us-ascii?Q?JKT5mDF9lEtJ85d78e/RTgD9Nq4TdZbsflVuOV8w/0Tm4SJ4ub77e3GU9dSv?=
+ =?us-ascii?Q?GYd6/dwiq6xz81QpbLI5PU9TfoRM12gBAfClmV41a/P0dIDWsYqZUk29Do/A?=
+ =?us-ascii?Q?ahIj/jK2L5SlqaPPCihCyzpkhXqYWEJo2i2CdUvDyPyjBn2DhZ97SasR2h+F?=
+ =?us-ascii?Q?9UBhVmNJBcfzOGK9WNgiezMmivLMkdPMtmAh27Wr4nTZfXkGRH/uAEl5q2qm?=
+ =?us-ascii?Q?+zFPcjbmvw4zX3kzaYioHG6Z?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc1e4146-70a8-483b-e49e-08d96703f54f
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1001MB2358.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 13:34:55.7506
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4RW6xNeJxjnmvZfXig51dXfI8BsIZYr/Prt+M9Jp2STR10m5KVLhhpoU4H5+Mazop+uTHpE5QZqGlJ0LQXeqJ83ueXfM6XO3MRwzdC0tu38=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1751
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10085 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 malwarescore=0
+ mlxscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108240090
+X-Proofpoint-GUID: Ux2SaoG-fnCOitEzybVfvpLJ0khEnV_8
+X-Proofpoint-ORIG-GUID: Ux2SaoG-fnCOitEzybVfvpLJ0khEnV_8
 
-Hi Sidraya,
+On Wed, Aug 18, 2021 at 07:40:10PM +0530, sidraya.bj@pathpartnertech.com wrote:
+> +int img_mem_create_ctx(struct mem_ctx **new_ctx)
+> +{
+> +	struct mem_man *mem_man = &mem_man_data;
+> +	struct mem_ctx *ctx;
+> +
+> +	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return -ENOMEM;
+> +
+> +	ctx->buffers = kzalloc(sizeof(*ctx->buffers), GFP_KERNEL);
+> +	if (!ctx->buffers)
+> +		return -ENOMEM;
 
-On 18/08/2021 16:10, sidraya.bj@pathpartnertech.com wrote:
-> From: Sidraya <sidraya.bj@pathpartnertech.com>
-> 
-> This series of patches implements v4l2 based Decoder driver for H264,
-> H265 and MJPEG decoding standards.This Driver is for D5520 H/W decoder on
-> DRA8x SOC of J721e platform.
-> This driver has been tested on v5.14-rc6 kernel for following
-> decoding standards on v4l2 based Gstreamer 1.16 plug-in.
-> 1. H264
-> 2. H265
-> 3. MJPEG
-> 
-> Note:
-> Currently Driver uses list, map and queue custom data structure APIs
-> implementation and IOMMU custom framework.We are working on replacing
-> customised APIs with Linux kernel generic framework APIs.
-> Meanwhile would like to address review comments from
-> reviewers before merging to main media/platform subsystem.
+Smatch would have caught that this needs a kfree(ctx); before returning.
 
-OK, so I consider this an RFC series rather than an actual driver submission
-and I'll mark it as such in patchwork.
+It wouldn't hurt to run Smatch over this code.
 
-First of all, patch 13/30 never made it to the linux-media mailinglist, so the
-series as a whole will not apply. Can you repost 13/30? One possible reason why
-13/30 might have been dropped is if it it a really large patch. You may have to
-split it up in that case.
+git clone https://repo.or.cz/w/smatch.git
+cd smatch
+yum install gcc make sqlite3 sqlite-devel sqlite perl-DBD-SQLite openssl-devel perl-Try-Tiny
+make
+cd ~/kernel/
+~/smatch/smatch_scripts/kchecker drivers/staging/media/vxd/common/img_mem_man.c
 
-Did you run v4l2-compliance for this driver? Always compile v4l2-compliance
-(part of https://git.linuxtv.org/v4l-utils.git/) from the git repo sources
-to make sure you have most recent tests.
+(I am the author of Smatch  #BlowYourOwnTrumpet).
 
-I need to see the output of 'v4l2-compliance' as part of the cover letter.
-There shouldn't be any failures.
-
-I see a lot of pointless #ifdef DEBUG_DECODER_DRIVER lines. Either just drop
-the debug code or use dev_dbg/pr_debug. Ditto for VDEC_ASSERT(). This really
-pollutes the code.
-
-Can you provide a high-level description of the hardware? It seems like this
-driver is a lot more complex than other decoder drivers, but it is not immediately
-clear why that is. One reason might be that the hardware/firmware is a stateless
-decoder, while the driver exposes a stateful decoder API. See the m2m interface
-documentation for the differences between the two:
-
-https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/dev-mem2mem.html
-
-If that's the case, then the driver should really be a stateless driver, that
-will likely make things much easier.
-
-In any case, this driver clearly needs a lot more work.
-
-Regards,
-
-	Hans
-
-> 
-> Sidraya (30):
->   dt-bindings: Add binding for img,d5500-vxd for DRA8x
->   v4l: vxd-dec: Create mmu programming helper library
->   v4l: vxd-dec: Create vxd_dec Mem Manager helper library
->   v4l: vxd-dec: Add vxd helper library
->   v4l: vxd-dec: Add IMG VXD Video Decoder mem to mem drive
->   v4l: vxd-dec: Add hardware control modules
->   v4l: vxd-dec: Add vxd core module
->   v4l: vxd-dec: Add translation control modules
->   v4l: vxd-dec: Add idgen api modules
->   v4l: vxd-dec: Add utility modules
->   v4l: vxd-dec: Add TALMMU module
->   v4l: vxd-dec: Add VDEC MMU wrapper
->   v4l: vxd-dec: Add Bistream Preparser (BSPP) module
->   v4l: vxd-dec: Add common headers
->   v4l: vxd-dec: Add firmware interface headers
->   v4l: vxd-dec: Add pool api modules
->   v4l: vxd-dec: This patch implements resource manage component
->   v4l: vxd-dec: This patch implements pixel processing library
->   v4l:vxd-dec:vdecdd utility library
->   v4l:vxd-dec:Decoder resource component
->   v4l:vxd-dec:Decoder Core Component
->   v4l:vxd-dec:vdecdd headers added
->   v4l:vxd-dec:Decoder Component
->   v4l:vxd-dec: Add resource manager
->   v4l: videodev2: Add 10bit definitions for NV12 and NV16 color formats
->   media: Kconfig: Add Video decoder kconfig and Makefile entries
->   media: platform: vxd: Kconfig: Add Video decoder Kconfig and Makefile
->   IMG DEC V4L2 Interface function implementations
->   arm64: dts: dra82: Add v4l2 vxd_dec device node
->   ARM64: ti_sdk_arm64_release_defconfig: Enable d5520 video decoder
->     driver
-> 
->  .../bindings/media/img,d5520-vxd.yaml         |   52 +
->  MAINTAINERS                                   |  114 +
->  arch/arm64/boot/dts/ti/k3-j721e-main.dtsi     |    9 +
->  .../configs/ti_sdk_arm64_release_defconfig    | 7407 +++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
->  drivers/staging/media/Kconfig                 |    2 +
->  drivers/staging/media/Makefile                |    1 +
->  drivers/staging/media/vxd/common/addr_alloc.c |  499 ++
->  drivers/staging/media/vxd/common/addr_alloc.h |  238 +
->  drivers/staging/media/vxd/common/dq.c         |  248 +
->  drivers/staging/media/vxd/common/dq.h         |   36 +
->  drivers/staging/media/vxd/common/hash.c       |  481 ++
->  drivers/staging/media/vxd/common/hash.h       |   86 +
->  drivers/staging/media/vxd/common/idgen_api.c  |  449 +
->  drivers/staging/media/vxd/common/idgen_api.h  |   59 +
->  drivers/staging/media/vxd/common/img_errors.h |  104 +
->  drivers/staging/media/vxd/common/img_mem.h    |   43 +
->  .../staging/media/vxd/common/img_mem_man.c    | 1124 +++
->  .../staging/media/vxd/common/img_mem_man.h    |  231 +
->  .../media/vxd/common/img_mem_unified.c        |  276 +
->  drivers/staging/media/vxd/common/imgmmu.c     |  782 ++
->  drivers/staging/media/vxd/common/imgmmu.h     |  180 +
->  drivers/staging/media/vxd/common/lst.c        |  119 +
->  drivers/staging/media/vxd/common/lst.h        |   37 +
->  drivers/staging/media/vxd/common/pool.c       |  228 +
->  drivers/staging/media/vxd/common/pool.h       |   66 +
->  drivers/staging/media/vxd/common/pool_api.c   |  709 ++
->  drivers/staging/media/vxd/common/pool_api.h   |  113 +
->  drivers/staging/media/vxd/common/ra.c         |  972 +++
->  drivers/staging/media/vxd/common/ra.h         |  200 +
->  drivers/staging/media/vxd/common/resource.c   |  576 ++
->  drivers/staging/media/vxd/common/resource.h   |   66 +
->  drivers/staging/media/vxd/common/rman_api.c   |  620 ++
->  drivers/staging/media/vxd/common/rman_api.h   |   66 +
->  drivers/staging/media/vxd/common/talmmu_api.c |  753 ++
->  drivers/staging/media/vxd/common/talmmu_api.h |  246 +
->  drivers/staging/media/vxd/common/vid_buf.h    |   42 +
->  drivers/staging/media/vxd/common/work_queue.c |  188 +
->  drivers/staging/media/vxd/common/work_queue.h |   66 +
->  drivers/staging/media/vxd/decoder/Kconfig     |   13 +
->  drivers/staging/media/vxd/decoder/Makefile    |  129 +
->  drivers/staging/media/vxd/decoder/bspp.c      | 2479 ++++++
->  drivers/staging/media/vxd/decoder/bspp.h      |  363 +
->  drivers/staging/media/vxd/decoder/bspp_int.h  |  514 ++
->  drivers/staging/media/vxd/decoder/core.c      | 3656 ++++++++
->  drivers/staging/media/vxd/decoder/core.h      |   72 +
->  .../staging/media/vxd/decoder/dec_resources.c |  554 ++
->  .../staging/media/vxd/decoder/dec_resources.h |   46 +
->  drivers/staging/media/vxd/decoder/decoder.c   | 4622 ++++++++++
->  drivers/staging/media/vxd/decoder/decoder.h   |  375 +
->  .../staging/media/vxd/decoder/fw_interface.h  |  818 ++
->  drivers/staging/media/vxd/decoder/h264_idx.h  |   60 +
->  .../media/vxd/decoder/h264_secure_parser.c    | 3051 +++++++
->  .../media/vxd/decoder/h264_secure_parser.h    |  278 +
->  drivers/staging/media/vxd/decoder/h264_vlc.h  |  604 ++
->  .../staging/media/vxd/decoder/h264fw_data.h   |  652 ++
->  .../media/vxd/decoder/h264fw_data_shared.h    |  759 ++
->  .../media/vxd/decoder/hevc_secure_parser.c    | 2895 +++++++
->  .../media/vxd/decoder/hevc_secure_parser.h    |  455 +
->  .../staging/media/vxd/decoder/hevcfw_data.h   |  472 ++
->  .../media/vxd/decoder/hevcfw_data_shared.h    |  767 ++
->  .../staging/media/vxd/decoder/hw_control.c    | 1211 +++
->  .../staging/media/vxd/decoder/hw_control.h    |  144 +
->  .../media/vxd/decoder/img_dec_common.h        |  278 +
->  .../media/vxd/decoder/img_msvdx_cmds.h        |  279 +
->  .../media/vxd/decoder/img_msvdx_core_regs.h   |   22 +
->  .../media/vxd/decoder/img_msvdx_vdmc_regs.h   |   26 +
->  .../media/vxd/decoder/img_msvdx_vec_regs.h    |   60 +
->  .../staging/media/vxd/decoder/img_pixfmts.h   |  195 +
->  .../media/vxd/decoder/img_profiles_levels.h   |   33 +
->  .../media/vxd/decoder/img_pvdec_core_regs.h   |   60 +
->  .../media/vxd/decoder/img_pvdec_pixel_regs.h  |   35 +
->  .../media/vxd/decoder/img_pvdec_test_regs.h   |   39 +
->  .../media/vxd/decoder/img_vdec_fw_msg.h       |  192 +
->  .../vxd/decoder/img_video_bus4_mmu_regs.h     |  120 +
->  .../media/vxd/decoder/jpeg_secure_parser.c    |  645 ++
->  .../media/vxd/decoder/jpeg_secure_parser.h    |   37 +
->  .../staging/media/vxd/decoder/jpegfw_data.h   |   83 +
->  .../media/vxd/decoder/jpegfw_data_shared.h    |   84 +
->  drivers/staging/media/vxd/decoder/mem_io.h    |   42 +
->  drivers/staging/media/vxd/decoder/mmu_defs.h  |   42 +
->  drivers/staging/media/vxd/decoder/pixel_api.c |  895 ++
->  drivers/staging/media/vxd/decoder/pixel_api.h |  152 +
->  .../media/vxd/decoder/pvdec_entropy_regs.h    |   33 +
->  drivers/staging/media/vxd/decoder/pvdec_int.h |   82 +
->  .../media/vxd/decoder/pvdec_vec_be_regs.h     |   35 +
->  drivers/staging/media/vxd/decoder/reg_io2.h   |   74 +
->  .../staging/media/vxd/decoder/scaler_setup.h  |   59 +
->  drivers/staging/media/vxd/decoder/swsr.c      | 1657 ++++
->  drivers/staging/media/vxd/decoder/swsr.h      |  278 +
->  .../media/vxd/decoder/translation_api.c       | 1725 ++++
->  .../media/vxd/decoder/translation_api.h       |   42 +
->  drivers/staging/media/vxd/decoder/vdec_defs.h |  548 ++
->  .../media/vxd/decoder/vdec_mmu_wrapper.c      |  829 ++
->  .../media/vxd/decoder/vdec_mmu_wrapper.h      |  174 +
->  .../staging/media/vxd/decoder/vdecdd_defs.h   |  446 +
->  .../staging/media/vxd/decoder/vdecdd_utils.c  |   95 +
->  .../staging/media/vxd/decoder/vdecdd_utils.h  |   93 +
->  .../media/vxd/decoder/vdecdd_utils_buf.c      |  897 ++
->  .../staging/media/vxd/decoder/vdecfw_share.h  |   36 +
->  .../staging/media/vxd/decoder/vdecfw_shared.h |  893 ++
->  drivers/staging/media/vxd/decoder/vxd_core.c  | 1683 ++++
->  drivers/staging/media/vxd/decoder/vxd_dec.c   |  185 +
->  drivers/staging/media/vxd/decoder/vxd_dec.h   |  477 ++
->  drivers/staging/media/vxd/decoder/vxd_ext.h   |   74 +
->  drivers/staging/media/vxd/decoder/vxd_int.c   | 1137 +++
->  drivers/staging/media/vxd/decoder/vxd_int.h   |  128 +
->  .../staging/media/vxd/decoder/vxd_mmu_defs.h  |   30 +
->  drivers/staging/media/vxd/decoder/vxd_props.h |   80 +
->  drivers/staging/media/vxd/decoder/vxd_pvdec.c | 1745 ++++
->  .../media/vxd/decoder/vxd_pvdec_priv.h        |  126 +
->  .../media/vxd/decoder/vxd_pvdec_regs.h        |  779 ++
->  drivers/staging/media/vxd/decoder/vxd_v4l2.c  | 2129 +++++
->  include/uapi/linux/videodev2.h                |    2 +
->  114 files changed, 62369 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/img,d5520-vxd.yaml
->  create mode 100644 arch/arm64/configs/ti_sdk_arm64_release_defconfig
->  create mode 100644 drivers/staging/media/vxd/common/addr_alloc.c
->  create mode 100644 drivers/staging/media/vxd/common/addr_alloc.h
->  create mode 100644 drivers/staging/media/vxd/common/dq.c
->  create mode 100644 drivers/staging/media/vxd/common/dq.h
->  create mode 100644 drivers/staging/media/vxd/common/hash.c
->  create mode 100644 drivers/staging/media/vxd/common/hash.h
->  create mode 100644 drivers/staging/media/vxd/common/idgen_api.c
->  create mode 100644 drivers/staging/media/vxd/common/idgen_api.h
->  create mode 100644 drivers/staging/media/vxd/common/img_errors.h
->  create mode 100644 drivers/staging/media/vxd/common/img_mem.h
->  create mode 100644 drivers/staging/media/vxd/common/img_mem_man.c
->  create mode 100644 drivers/staging/media/vxd/common/img_mem_man.h
->  create mode 100644 drivers/staging/media/vxd/common/img_mem_unified.c
->  create mode 100644 drivers/staging/media/vxd/common/imgmmu.c
->  create mode 100644 drivers/staging/media/vxd/common/imgmmu.h
->  create mode 100644 drivers/staging/media/vxd/common/lst.c
->  create mode 100644 drivers/staging/media/vxd/common/lst.h
->  create mode 100644 drivers/staging/media/vxd/common/pool.c
->  create mode 100644 drivers/staging/media/vxd/common/pool.h
->  create mode 100644 drivers/staging/media/vxd/common/pool_api.c
->  create mode 100644 drivers/staging/media/vxd/common/pool_api.h
->  create mode 100644 drivers/staging/media/vxd/common/ra.c
->  create mode 100644 drivers/staging/media/vxd/common/ra.h
->  create mode 100644 drivers/staging/media/vxd/common/resource.c
->  create mode 100644 drivers/staging/media/vxd/common/resource.h
->  create mode 100644 drivers/staging/media/vxd/common/rman_api.c
->  create mode 100644 drivers/staging/media/vxd/common/rman_api.h
->  create mode 100644 drivers/staging/media/vxd/common/talmmu_api.c
->  create mode 100644 drivers/staging/media/vxd/common/talmmu_api.h
->  create mode 100644 drivers/staging/media/vxd/common/vid_buf.h
->  create mode 100644 drivers/staging/media/vxd/common/work_queue.c
->  create mode 100644 drivers/staging/media/vxd/common/work_queue.h
->  create mode 100644 drivers/staging/media/vxd/decoder/Kconfig
->  create mode 100644 drivers/staging/media/vxd/decoder/Makefile
->  create mode 100644 drivers/staging/media/vxd/decoder/bspp.c
->  create mode 100644 drivers/staging/media/vxd/decoder/bspp.h
->  create mode 100644 drivers/staging/media/vxd/decoder/bspp_int.h
->  create mode 100644 drivers/staging/media/vxd/decoder/core.c
->  create mode 100644 drivers/staging/media/vxd/decoder/core.h
->  create mode 100644 drivers/staging/media/vxd/decoder/dec_resources.c
->  create mode 100644 drivers/staging/media/vxd/decoder/dec_resources.h
->  create mode 100644 drivers/staging/media/vxd/decoder/decoder.c
->  create mode 100644 drivers/staging/media/vxd/decoder/decoder.h
->  create mode 100644 drivers/staging/media/vxd/decoder/fw_interface.h
->  create mode 100644 drivers/staging/media/vxd/decoder/h264_idx.h
->  create mode 100644 drivers/staging/media/vxd/decoder/h264_secure_parser.c
->  create mode 100644 drivers/staging/media/vxd/decoder/h264_secure_parser.h
->  create mode 100644 drivers/staging/media/vxd/decoder/h264_vlc.h
->  create mode 100644 drivers/staging/media/vxd/decoder/h264fw_data.h
->  create mode 100644 drivers/staging/media/vxd/decoder/h264fw_data_shared.h
->  create mode 100644 drivers/staging/media/vxd/decoder/hevc_secure_parser.c
->  create mode 100644 drivers/staging/media/vxd/decoder/hevc_secure_parser.h
->  create mode 100644 drivers/staging/media/vxd/decoder/hevcfw_data.h
->  create mode 100644 drivers/staging/media/vxd/decoder/hevcfw_data_shared.h
->  create mode 100644 drivers/staging/media/vxd/decoder/hw_control.c
->  create mode 100644 drivers/staging/media/vxd/decoder/hw_control.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_dec_common.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_msvdx_cmds.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_msvdx_core_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_msvdx_vdmc_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_msvdx_vec_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_pixfmts.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_profiles_levels.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_pvdec_core_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_pvdec_pixel_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_pvdec_test_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_vdec_fw_msg.h
->  create mode 100644 drivers/staging/media/vxd/decoder/img_video_bus4_mmu_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/jpeg_secure_parser.c
->  create mode 100644 drivers/staging/media/vxd/decoder/jpeg_secure_parser.h
->  create mode 100644 drivers/staging/media/vxd/decoder/jpegfw_data.h
->  create mode 100644 drivers/staging/media/vxd/decoder/jpegfw_data_shared.h
->  create mode 100644 drivers/staging/media/vxd/decoder/mem_io.h
->  create mode 100644 drivers/staging/media/vxd/decoder/mmu_defs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/pixel_api.c
->  create mode 100644 drivers/staging/media/vxd/decoder/pixel_api.h
->  create mode 100644 drivers/staging/media/vxd/decoder/pvdec_entropy_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/pvdec_int.h
->  create mode 100644 drivers/staging/media/vxd/decoder/pvdec_vec_be_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/reg_io2.h
->  create mode 100644 drivers/staging/media/vxd/decoder/scaler_setup.h
->  create mode 100644 drivers/staging/media/vxd/decoder/swsr.c
->  create mode 100644 drivers/staging/media/vxd/decoder/swsr.h
->  create mode 100644 drivers/staging/media/vxd/decoder/translation_api.c
->  create mode 100644 drivers/staging/media/vxd/decoder/translation_api.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vdec_defs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vdec_mmu_wrapper.c
->  create mode 100644 drivers/staging/media/vxd/decoder/vdec_mmu_wrapper.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_defs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_utils.c
->  create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_utils.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vdecdd_utils_buf.c
->  create mode 100644 drivers/staging/media/vxd/decoder/vdecfw_share.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vdecfw_shared.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_core.c
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_dec.c
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_dec.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_ext.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_int.c
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_int.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_mmu_defs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_props.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_pvdec.c
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_pvdec_priv.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_pvdec_regs.h
->  create mode 100644 drivers/staging/media/vxd/decoder/vxd_v4l2.c
-> 
+regards,
+dan carpenter
 
