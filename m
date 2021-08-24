@@ -1,41 +1,41 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016B73FC1
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 07:27:03 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id w4so34409427ljh.13
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:27:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6980C29CA
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 07:27:17 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id d16so35930454ljq.4
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mDTHPcAeze7GuqTFf7iUzU0Ra0uK6CJMs05qWwtQgPQ=;
-        b=XCsV+xe2VKeCxurdqvIahXVQVzBjDwZzUZjzAvtSXPXz7i1J0LJdV28tcFZQbU0T/Q
-         wd4wTigTfYyKSMnqYRNKkuMtVBBgcES70UmxHDBafzxgZYfq4j4qUn4emDbIwGhUPB4h
-         8rv6mlG9WaUHjRklgTi++rJ0SM1GOUwzouHaxhSfgI3euN1oG7Ri9hn5i1ahIrx4Hsrs
-         2UWd2O/00oTTUsOAhP/L0Y9aQv9k6PREhqWDC8wA18ar4kjLycc3WkFMlI8vkMy1Iu4B
-         mU+VkmgBhzr0yVGnXKRjeI/EegAg0ilUh6mD/EzyZgtO/UgBN1m+GvhZmN3rYDlt1wDp
-         XnWQ==
+        bh=ssEJXS5mWPr1Oq2NWHBdclycHEgmiyzEVQ1hB54zJfc=;
+        b=EZotiKOWqWceedGd639AfckDcj6us2YrlvptzWSYTRVyNjx2FLWtghZEqPtkup8CHG
+         qbzqkFclisobdc8gdgYl1Bn9Oh7j5aNtMSd4uU0+uzNyV1GI+NEgy5BFnJhueonyVnZH
+         ctDyoIqBNewyxGT0QZgOfbbOaFIZ1vEmA2hRBgGkJoCeqU4OBDDHx6xyVqgVVjobGmuB
+         H+PcspQcvnnt4gWPufvrq+bEAAmpziQznmSR6fZOVnk4NBP4RYZGWk/fukQTCrxpZ9sj
+         mXRcj9HC8TRzaS2BGv87MsBd5kGFzSOqQz8Y9T3gd/8S3xecSzlZgJ0R4V0h8/GYZcwl
+         c7TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mDTHPcAeze7GuqTFf7iUzU0Ra0uK6CJMs05qWwtQgPQ=;
-        b=SmqzkRN4B0Gp7jPEDaDWkBS85lIygvhtD5SY4V9osh5qsWweK1g9mGOfbLqA9gjrxF
-         OFVLu07zKC8mfD2YWcfKKJKOWko26LIe+KFsuKgLqQ70f/+gdS6/Qq7XUQ8ki5g9tb/g
-         jUJGoxiP//t8WcGjpE6rVGBL4q8ptZaGovGB59OteFdbrqyHlt9cVPGbIyPiXInfARWP
-         nvocuDlWXIyKr6RWpjBABg4MDe+Qw1vDjcwjJ+Hq714fv8HumzGNffKbSMasU7rX1jKa
-         INz46eykMMwQKeuea+lcLQASRA4xqjEzHHZIwk70VLpi4qL8vWz1ryBVZ8c6WeOjPoJY
-         7m0w==
-X-Gm-Message-State: AOAM532DKxvf8JlLkvI0SOtwEpuxw/0ptwPHN1Rmn8fBMWrCrnK2vW6g
-	dhRdTYALZ6izWIqSbMdRjUM=
-X-Google-Smtp-Source: ABdhPJw0wywnOmt+5s6vZqNaK/gf21or5oyvVf0BWEzgFYeV3kI70ispgn5uWDgvEmMKUMPq7xsx8w==
-X-Received: by 2002:a2e:8457:: with SMTP id u23mr23578950ljh.3.1629790022108;
-        Tue, 24 Aug 2021 00:27:02 -0700 (PDT)
+        bh=ssEJXS5mWPr1Oq2NWHBdclycHEgmiyzEVQ1hB54zJfc=;
+        b=c5+7ByGGyRo4woIJaQivcWM6DqQGBgOPE8XzFZDLAfPczpHE8wZpEkh05h7Y0QCwEC
+         uilz9UgG5HmWUkZzSvl/YAk+Aab7fjq7c/Mpg0L3rxOLP1m1JvbRWZmELhR2P851RuQ/
+         VVgEzBKqxDOCr9Ils3Yhlj0OfL9ZZRy5ouaBf4qoJeHqyORGwxFEFW4TQepVvGFFoqxM
+         sK7MV+kiZVpCEKSyD9dk/PluiLWYvWSFg2dQIDfFeutUClNIYzBkfyUhlN4tPUR+v6qL
+         J1QQ3os7f+1KwgcLgDY7OWJMdiNhhU4vcyYGvMKn/GRoh3CpHM4q1+zkDUDhi2OIHJSH
+         HOdw==
+X-Gm-Message-State: AOAM530i02Nc3/jqWtsarBPzU//rcd3fwF8kwHVsJGxY/IamVFEtNNBr
+	0ZCqnJuHDVfU+EOKY06ZGMI=
+X-Google-Smtp-Source: ABdhPJzf+d3tbE/rt7WNuEWsP2ouaGmBIcwvSl103N0kEFhagfqLaPhigwFZxnAAwOgY873gbtmEOg==
+X-Received: by 2002:a2e:b53a:: with SMTP id z26mr30188401ljm.95.1629790035529;
+        Tue, 24 Aug 2021 00:27:15 -0700 (PDT)
 Received: from localhost.localdomain ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id z4sm1666203lfb.284.2021.08.24.00.27.01
+        by smtp.gmail.com with ESMTPSA id l8sm331302lfh.157.2021.08.24.00.27.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 00:27:01 -0700 (PDT)
+        Tue, 24 Aug 2021 00:27:15 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
 To: Larry.Finger@lwfinger.net,
 	phil@philpotter.co.uk,
@@ -45,12 +45,12 @@ To: Larry.Finger@lwfinger.net,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH v3 0/6] staging: r8188eu: avoid uninit value bugs
-Date: Tue, 24 Aug 2021 10:25:45 +0300
-Message-Id: <cover.1629789580.git.paskripkin@gmail.com>
+Subject: [PATCH v3 1/6] staging: r8188eu: remove {read,write}_macreg
+Date: Tue, 24 Aug 2021 10:27:13 +0300
+Message-Id: <d591e29d77da73790c71f7a8e508a8b16fd48f65.1629789580.git.paskripkin@gmail.com>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <CAA=Fs0=gX66TW3qoHYWcoSsvai6YZn=U81a34V45oij7NrMJrQ@mail.gmail.com>
-References: <CAA=Fs0=gX66TW3qoHYWcoSsvai6YZn=U81a34V45oij7NrMJrQ@mail.gmail.com>
+In-Reply-To: <cover.1629789580.git.paskripkin@gmail.com>
+References: <cover.1629789580.git.paskripkin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,84 +59,77 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi, Greg, Larry and Phillip!
+These 2 functions are unused, so they can be simply removed
 
-I noticed, that new staging driver was added like 3 weeks ago and I decided
-to look at the code, because drivers in staging directory are always buggy.
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mp.c    | 39 ------------------------
+ drivers/staging/r8188eu/include/rtw_mp.h |  2 --
+ 2 files changed, 41 deletions(-)
 
-The first thing I noticed is *no one* was checking read operations result, but
-it can fail and driver may start writing random stack values into registers. It
-can cause driver misbehavior or device misbehavior.
-
-To avoid this type of bugs, i've changed rtw_read* API. Now all rtw_read
-funtions return an error, when something went wrong with usb transfer.
-
-It helps callers to break/return earlier and don't write random values to
-registers or to rely on random values.
-
-
-v2 -> v3:
-  1. Fixed OOPS in usb_read32(), caused by writing to u32 **
-  2. Fixed style in rtw_read32, rtw_read16 and rtw_read8 (Suggested by Dan)
-  3. Added error hanling when usb_control_msg() returns ret != len
-     NOTE: Dan suggested to add this to usbctrl_vendorreq(), but there is
-     pending series, which will get rid of usb_control_msg(), so (res != len)
-     check can be removed, when Fabio's series will go in
-  4. Removed RFC tag
-
-v1 -> v2:
-  1. Make rtw_read*() return an error instead of initializing pointer to error
-  2. Split one huge patch to smaller ones for each rtw_read{8,16,32} function
-     changes
-  3. Add new macro for printing register values (It helps to not copy-paste error
-     handling)
-  4. Removed {read,write}_macreg (Suggested by Phillip)
-  5. Rebased on top of staging-next
-  6. Cleaned checkpatch errors and warnings
-
-
-Phillip has tested fixed v2 version, AFAIU
-
-Pavel Skripkin (6):
-  staging: r8188eu: remove {read,write}_macreg
-  staging: r8188eu: add helper macro for printing registers
-  staging: r8188eu: add error handling of rtw_read8
-  staging: r8188eu: add error handling of rtw_read16
-  staging: r8188eu: add error handling of rtw_read32
-  staging: r8188eu: make ReadEFuse return an int
-
- drivers/staging/r8188eu/core/rtw_debug.c      |  79 +++-
- drivers/staging/r8188eu/core/rtw_efuse.c      | 125 +++--
- drivers/staging/r8188eu/core/rtw_io.c         |  27 +-
- drivers/staging/r8188eu/core/rtw_mp.c         |  70 ++-
- drivers/staging/r8188eu/core/rtw_mp_ioctl.c   |  13 +-
- drivers/staging/r8188eu/core/rtw_pwrctrl.c    |   5 +-
- drivers/staging/r8188eu/core/rtw_sreset.c     |   9 +-
- .../r8188eu/hal/Hal8188ERateAdaptive.c        |   8 +-
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  21 +-
- drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |   9 +-
- drivers/staging/r8188eu/hal/hal_com.c         |  23 +-
- drivers/staging/r8188eu/hal/hal_intf.c        |   6 +-
- drivers/staging/r8188eu/hal/odm_interface.c   |  12 +-
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  33 +-
- drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   6 +-
- .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 285 +++++++++---
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  27 +-
- drivers/staging/r8188eu/hal/rtl8188e_sreset.c |  22 +-
- drivers/staging/r8188eu/hal/rtl8188eu_led.c   |  18 +-
- drivers/staging/r8188eu/hal/usb_halinit.c     | 439 +++++++++++++++---
- drivers/staging/r8188eu/hal/usb_ops_linux.c   |  62 ++-
- drivers/staging/r8188eu/include/hal_intf.h    |   6 +-
- .../staging/r8188eu/include/odm_interface.h   |   6 +-
- .../staging/r8188eu/include/rtl8188e_hal.h    |   2 +-
- drivers/staging/r8188eu/include/rtw_debug.h   |  13 +
- drivers/staging/r8188eu/include/rtw_efuse.h   |   4 +-
- drivers/staging/r8188eu/include/rtw_io.h      |  18 +-
- drivers/staging/r8188eu/include/rtw_mp.h      |   2 -
- drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 179 +++++--
- drivers/staging/r8188eu/os_dep/usb_intf.c     |   3 +-
- 30 files changed, 1143 insertions(+), 389 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
+index 93bb683b628f..0a0a24fd37b0 100644
+--- a/drivers/staging/r8188eu/core/rtw_mp.c
++++ b/drivers/staging/r8188eu/core/rtw_mp.c
+@@ -7,45 +7,6 @@
+ #include "../include/odm_precomp.h"
+ #include "../include/rtl8188e_hal.h"
+ 
+-u32 read_macreg(struct adapter *padapter, u32 addr, u32 sz)
+-{
+-	u32 val = 0;
+-
+-	switch (sz) {
+-	case 1:
+-		val = rtw_read8(padapter, addr);
+-		break;
+-	case 2:
+-		val = rtw_read16(padapter, addr);
+-		break;
+-	case 4:
+-		val = rtw_read32(padapter, addr);
+-		break;
+-	default:
+-		val = 0xffffffff;
+-		break;
+-	}
+-
+-	return val;
+-}
+-
+-void write_macreg(struct adapter *padapter, u32 addr, u32 val, u32 sz)
+-{
+-	switch (sz) {
+-	case 1:
+-		rtw_write8(padapter, addr, (u8)val);
+-		break;
+-	case 2:
+-		rtw_write16(padapter, addr, (u16)val);
+-		break;
+-	case 4:
+-		rtw_write32(padapter, addr, val);
+-		break;
+-	default:
+-		break;
+-	}
+-}
+-
+ u32 read_bbreg(struct adapter *padapter, u32 addr, u32 bitmask)
+ {
+ 	return rtw_hal_read_bbreg(padapter, addr, bitmask);
+diff --git a/drivers/staging/r8188eu/include/rtw_mp.h b/drivers/staging/r8188eu/include/rtw_mp.h
+index b64b16554343..3a259d991348 100644
+--- a/drivers/staging/r8188eu/include/rtw_mp.h
++++ b/drivers/staging/r8188eu/include/rtw_mp.h
+@@ -410,8 +410,6 @@ void mp_stop_test(struct adapter *padapter);
+ u32 _read_rfreg(struct adapter *padapter, u8 rfpath, u32 addr, u32 bitmask);
+ void _write_rfreg(struct adapter *padapter, u8 rfpath, u32 addr, u32 bitmask, u32 val);
+ 
+-u32 read_macreg(struct adapter *padapter, u32 addr, u32 sz);
+-void write_macreg(struct adapter *padapter, u32 addr, u32 val, u32 sz);
+ u32 read_bbreg(struct adapter *padapter, u32 addr, u32 bitmask);
+ void write_bbreg(struct adapter *padapter, u32 addr, u32 bitmask, u32 val);
+ u32 read_rfreg(struct adapter *padapter, u8 rfpath, u32 addr);
 -- 
 2.32.0
 
