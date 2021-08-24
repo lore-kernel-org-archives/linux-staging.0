@@ -1,53 +1,54 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B9D3FC1
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 08:00:47 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id d16so36070655ljq.4
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 01:00:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB323FC1
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 08:13:49 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id k5so43676926lfu.4
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 01:13:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8FImCoo5pTAQJj0KEDdtKxhCXfoD+DFQjGxp2SXkatY=;
-        b=vOs7yzPi4GDGVqi1TE9XSGGYi+4JMzhwe4u+WmsQTA/m8R2zb/arpQ/9y4aicRgWN+
-         i3rchTUc1TJ7db4PiocnmRZkLRT0qBxImbKp2JXOOn5jkUZKvy+9XkLBK2LsUvn0ZRjg
-         QuJOGwYR6ifl4qx9Nnw8WgfXOlbvISgaTWnXQq55wGd7AKAlEmq6ipmsLbrH1yXrmqzb
-         9FZjlTWSfTVe03qTSQp6vcBM41LHCVgqlXMlOfqv+QZ9IoH4qYimg6CUt62xEDhTXNBy
-         o8R104FLvStnu/Y/M+R1JshychQg+YaysOR2Ot961CDXPrMBsmmWH+wVExn5yQhnUmS8
-         z4aQ==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=AgeEwGNV/wNzrPf/FKB8cVKReR6L7EhRt0SuLyHNHGo=;
+        b=q6Ba1Gip+2Ytcz+JIX4C2qOSOHa7+/2pV4or3lnzQwbp4zYo5b3xYUNJs9z7ZtRXJO
+         pQpPPxsFOLPa2caYEeaMhiYfFvShNfLiizpjllWoyKC6ojmQtXXu42rKH2rbpA1V2Cfu
+         WmbqvapGFiYEnMfnIR04LlxvTA1oHdNyYlVyJ8R93El02KbHukLX7/iKUyuk47pYYJmX
+         E44yMt0bxQLozQQEk0dUvY/1fwhe0CPeLeunsByq36NKTWhx8gvFaSPtXBSQ7xcQMfCA
+         CjBPMiF7LfE0fyUA2Z3W7vExxO6Gbs9tyU5dFmS9S5mAcwr6c4Y0QCpwMMDxgByi9nBF
+         NnSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=8FImCoo5pTAQJj0KEDdtKxhCXfoD+DFQjGxp2SXkatY=;
-        b=Y1sMzLGwZRM6rPMdOFcGjLsl+WWSZuj4r2jXhtrbDUkH8jUSt6V309xNMKF0EE6WGW
-         2zQkwbFwbXrXo3AIqXEDI9bubzK7Rar7i1K79m33XdobIcmWPbHZNP7A2eAInB8+NLUT
-         lS/GyuzEdKl1ghuh6VqzoiYToIOJxrCLULQ3IOKs5YebGM3KRtBKRJ2P6r7s1bL9qubN
-         ++9UyFBwo8mZXliWmkgT9mOIfUrxOz20H82pgkDe1fwiHjpmvEUs/8xnPBcUGpejDWiU
-         eyOabAepYvuVPT+RmGy9kVeYNWWXafzxe85t29WIuLiInNTNvE3fanY5aMYYLz8GoRBs
-         ou2w==
-X-Gm-Message-State: AOAM531UV+wt6ZDE41rweIuOpf/eFlTOXeX/dQBztGSrvOvKG8SJTG5n
-	HXN+fms5V2KNrZdPu84io90=
-X-Google-Smtp-Source: ABdhPJxRZ4Qfikupak4ek2kqdmjHxPDTupO7aC0eYmRgcSXzYv9iKoQL4n6wNhOs9vsFWedb7mj9kg==
-X-Received: by 2002:a05:651c:118f:: with SMTP id w15mr30986601ljo.47.1629792046064;
-        Tue, 24 Aug 2021 01:00:46 -0700 (PDT)
+        bh=AgeEwGNV/wNzrPf/FKB8cVKReR6L7EhRt0SuLyHNHGo=;
+        b=ZwK6+pZ+onExGi50Gm4HNFW+W8qeSlmw6dxQN33huLAyQw2yfr3OQp2CfLzHjeiBoR
+         d5y4lupcdNbx/SlrElHmUBP+lKkMCAp6Gx3dGjaCceLa5w9Kl9SaftAyLr79lA0W7dhS
+         nt8LrzJkjcZwutDjtrvaHHVK61XiqFGLTOOvgIa+/Za6fmvj/dQtlkuwREPcCbrTj7bA
+         A6yMeDinj/nq8RaX9uz9bvJ3j4UzLlcDQdxUtCx7Qq/rsNgtauZZnGBIjLjIG1qWJSKQ
+         q6G4AVlzYziPWkN7wgzV1Xd43s6WaohFeu2d+DX/zJVLQ/32Nh/Tg4v+wd6lN8p+bozE
+         st9w==
+X-Gm-Message-State: AOAM530Ioy7DRbQAxhRj0QtMp/vUScEytY/Nq4vekYCH0Iac/zuqgBzo
+	JEPn3kfAFYAS/DoBuGZP8bU=
+X-Google-Smtp-Source: ABdhPJzgZr37Q5o4qbry5OMUI/gfBPb+dSKoL+Tk5uVFykzdBaIh2uPbBUjBlGt2XrkknvcbaqwF6w==
+X-Received: by 2002:a05:6512:31ce:: with SMTP id j14mr24236976lfe.646.1629792827319;
+        Tue, 24 Aug 2021 01:13:47 -0700 (PDT)
 Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id w3sm387870ljm.13.2021.08.24.01.00.44
+        by smtp.gmail.com with ESMTPSA id u8sm1682746lfg.31.2021.08.24.01.13.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Aug 2021 01:00:45 -0700 (PDT)
-Subject: Re: [PATCH linux-next] r8188eu: remove unneeded conversions to bool
-To: CGEL <cgel.zte@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
+        Tue, 24 Aug 2021 01:13:47 -0700 (PDT)
+Subject: Re: [PATCH 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in
+ usbctrl_vendorreq()
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jing Yangyang <jing.yangyang@zte.com.cn>,
- Zeal Robot <zealci@zte.com.cn>
-References: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210823223751.25104-1-fmdefrancesco@gmail.com>
+ <20210823223751.25104-2-fmdefrancesco@gmail.com>
 From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <9558f8e0-2ba0-e0af-4e81-6223b1d3bef0@gmail.com>
-Date: Tue, 24 Aug 2021 11:00:44 +0300
+Message-ID: <68eebfaf-50a3-a7ec-12ba-cde33c74c9ce@gmail.com>
+Date: Tue, 24 Aug 2021 11:13:46 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -56,76 +57,96 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210824063443.59724-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <20210823223751.25104-2-fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/24/21 9:34 AM, CGEL wrote:
-> From: Jing Yangyang <jing.yangyang@zte.com.cn>
+On 8/24/21 1:37 AM, Fabio M. De Francesco wrote:
+> Replace usb_control_msg() with the new usb_control_msg_recv() and
+> usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
 > 
-> Found with scripts/coccinelle/misc/boolconv.cocci.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Jing Yangyang <jing.yangyang@zte.com.cn>
-
-
-Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
-
-
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > ---
->   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index 5325fe4..20dc4d4 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -3758,7 +3758,7 @@ int issue_probereq_p2p_ex(struct adapter *adapter, u8 *da, int try_cnt, int wait
->   	u32 start = jiffies;
+> Thanks to Pavel Skripkin <paskripkin@gmail.com> for his review of the
+> RFC patch.
 >   
->   	do {
-> -		ret = _issue_probereq_p2p(adapter, da, wait_ms > 0 ? true : false);
-> +		ret = _issue_probereq_p2p(adapter, da, wait_ms > 0);
+> drivers/staging/r8188eu/hal/usb_ops_linux.c | 25 ++++++++++-----------
+> 1 file changed, 12 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index a93d5cfe4635..6f51660b967a 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -15,9 +15,8 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>   	struct adapter	*adapt = pintfhdl->padapter;
+>   	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
+>   	struct usb_device *udev = dvobjpriv->pusbdev;
+> -	unsigned int pipe;
+> +	u8 pipe;
+>   	int status = 0;
+> -	u8 reqtype;
+>   	u8 *pIo_buf;
+>   	int vendorreq_times = 0;
 >   
->   		i++;
+> @@ -44,22 +43,22 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>   	}
 >   
-> @@ -4890,7 +4890,7 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
->   	u32 start = jiffies;
+>   	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> -		memset(pIo_buf, 0, len);
+> -
+>   		if (requesttype == 0x01) {
+> -			pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+> -			reqtype =  REALTEK_USB_VENQT_READ;
+> +			status = usb_control_msg_recv(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> +						      REALTEK_USB_VENQT_READ, value,
+> +						      REALTEK_USB_VENQT_CMD_IDX,
+> +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +						      GFP_KERNEL);
+>   		} else {
+> -			pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+> -			reqtype =  REALTEK_USB_VENQT_WRITE;
+>   			memcpy(pIo_buf, pdata, len);
+> +			status = usb_control_msg_send(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> +						      REALTEK_USB_VENQT_WRITE, value,
+> +						      REALTEK_USB_VENQT_CMD_IDX,
+> +						      pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +						      GFP_KERNEL);
+>   		}
 >   
->   	do {
-> -		ret = _issue_probereq(padapter, pssid, da, wait_ms > 0 ? true : false);
-> +		ret = _issue_probereq(padapter, pssid, da, wait_ms > 0);
->   
->   		i++;
->   
-> @@ -5605,7 +5605,7 @@ int issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int pow
->   		da = get_my_bssid(&pmlmeinfo->network);
->   
->   	do {
-> -		ret = _issue_nulldata(padapter, da, power_mode, wait_ms > 0 ? true : false);
-> +		ret = _issue_nulldata(padapter, da, power_mode, wait_ms > 0);
->   
->   		i++;
->   
-> @@ -5728,7 +5728,7 @@ int issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16 tid, int
->   		da = get_my_bssid(&pmlmeinfo->network);
->   
->   	do {
-> -		ret = _issue_qos_nulldata(padapter, da, tid, wait_ms > 0 ? true : false);
-> +		ret = _issue_qos_nulldata(padapter, da, tid, wait_ms > 0);
->   
->   		i++;
->   
-> @@ -5839,7 +5839,7 @@ int issue_deauth_ex(struct adapter *padapter, u8 *da, unsigned short reason, int
->   	u32 start = jiffies;
->   
->   	do {
-> -		ret = _issue_deauth(padapter, da, reason, wait_ms > 0 ? true : false);
-> +		ret = _issue_deauth(padapter, da, reason, wait_ms > 0);
->   
->   		i++;
->   
+> -		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+> -					 reqtype, value, REALTEK_USB_VENQT_CMD_IDX,
+> -					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
+> -
+> -		if (status == len) {   /*  Success this control transfer. */
+> +		if (!status) {   /*  Success this control transfer. */
+>   			rtw_reset_continual_urb_error(dvobjpriv);
+>   			if (requesttype == 0x01)
+>   				memcpy(pdata, pIo_buf,  len);
 > 
 
+Hi, Fabio!
 
+Christophe is right about semantic part. Also,
+
+if (!status) {
+
+} else {
+	if (status < 0) {		<-
+					  |
+	} else {			  |
+					  |
+	}				<-
+}					
+
+
+Extra if-else is not needed, since status can be 0 and < 0, there is no 
+3rd state, like it was before.
+
+
+
+
+With regards,
+Pavel Skripkin
