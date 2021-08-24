@@ -1,117 +1,78 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C055472
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 09:46:06 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id h9so43056077ejs.4
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 02:46:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F1E72
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 10:26:43 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so1505070wme.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 03:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GrvCsUcjOz7dr6yABmwTuSZ2PSKxdeNbsF0RweGK1nA=;
-        b=SfrMyhqSjfQbmPAWlBf7A8NR1eYktlZG2/doJX1lPcFWXKrUqHC20co4Rqt2090JZf
-         l7dPmSiswukViMZ3kJt24xlHREf2prZjK4R+NndnlrJ4aEaW9C8ontAlSyakwd/k2X+o
-         2rnqqGQ3Yso7ZCgMdU+OC5WfLNEepewf+SA28tx/1M24yYgZJkGri8LXnF/1rAGg2YlI
-         BouxtR/pHMsFVaTyRrpKB7Bp4DZ6WnbrwHfuiD6PbSzuoK2ESbwWFGk8IIpm5iH9vU4B
-         VgvCy4QbR0PTRYSmFXU/UPURFFIBZPQARujNioRHj6W9AB/1H2v+KiCOAtp7T2AwwOmk
-         +jsQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/8erZYE2cD+Vlo7X+889l81VIhNHRmt0/HRXy3thEP4=;
+        b=Yh6K5HwtU/khm1gO+RRAN+TGZ0nBSSC7pXNJxX93WV+FQUWbn0oUjpL+00M4f9DdYz
+         XXttERFqS/lakjHgdflBnvPvi6jAz1zNDvZkJwV0SAWsHMUz16GcUJlz0BLi3fI6rJwJ
+         OfuZ0ts0Y3VmLq1ayJ+4j9q0FchnfHlSJfdClXNNlEkYHBgtaWBdB9tDXfXPnpjl09ei
+         x5DZfu0Ye+SkkkSxUyrTwJvUgz7Lnuj6bbia7WDs8O6YYX2DbQ9jakPA6cDM6kvjsVss
+         wb88i9JHTxzng6SJ1nNY+ymnVqC2qQIWxXM0HyMqbAXv5Jx8AVlHxKP6vBPMpPOdlEqn
+         9WjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GrvCsUcjOz7dr6yABmwTuSZ2PSKxdeNbsF0RweGK1nA=;
-        b=e8li0lE11jCBq4Gura1ajim/8M8ULDvVkDB0t6+jatbmpYxnjKWxYwTcJ3DaWlBB+n
-         Xz+4g+qtkX+1d3Nc+sybU1Hk0Nb6tt9yVKiagodfXixoRdMxzq3gJehfJnIqGHIcHze1
-         7FwEywQYTAjG5VaLfqPS4QVr8BAKUzGEqWJCoHah8MuFhx0wQUwZCFZy7OPmpA9NE8iE
-         OOuR65VklOH1HYPoRrFNgB5fxK6M57Rp7esfhvHPz5WhQ56nynBJOSBTefQl4+GUQGM5
-         W8L7DRU0Oqn4Ibf8Qcs4XO+MGn7Pet3VdD89nP9mD4nt7mIOCzAFaFl80BPMTGDhSZxn
-         U64w==
-X-Gm-Message-State: AOAM5328Ivs8PUv2k7EPzT7ksNWkLOp/cx4ps0W1bIwcsC4Nm7GZCtTV
-	YPQ/NFHSWbSJE1jTHtZQmiY=
-X-Google-Smtp-Source: ABdhPJys7aXWCtp4RAyhTul41UcH3nZpR9j313wpdENzXAAZFuZ7ldTClOl+ysxSqrzr7WO5rwzUWQ==
-X-Received: by 2002:a17:906:38c8:: with SMTP id r8mr40555690ejd.172.1629798365221;
-        Tue, 24 Aug 2021 02:46:05 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id qh2sm8839076ejb.75.2021.08.24.02.46.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 02:46:04 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC v2 5/6] staging: r8188eu: add error handling of rtw_read32
-Date: Tue, 24 Aug 2021 11:46:03 +0200
-Message-ID: <1970955.u25yFflyLQ@localhost.localdomain>
-In-Reply-To: <96e3703e-a5e2-3c6d-ea3c-b5d3892849b2@gmail.com>
-References: <cover.1629642658.git.paskripkin@gmail.com> <77da7c63-a5b1-a09d-39ec-32c5485b8eac@gmail.com> <96e3703e-a5e2-3c6d-ea3c-b5d3892849b2@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/8erZYE2cD+Vlo7X+889l81VIhNHRmt0/HRXy3thEP4=;
+        b=LaYpdQPcvWQoA38DvioO/bhOO8NO4mZt8adrG0lFLfStruj4TRc9kvj1bQRBIHccLL
+         IZd3dM57esmmdcs6dMiLbXaF2ySONQ1a7EvXr9Ny0ui7oSipN9DlLk9m7ByZQEdlXKL8
+         V2W2tJu07FgH/hC8xqCKiKMxWnmZ6b3ApJPLKCiDHKaqeab897EaCDW9YlyanIvCLLlZ
+         +ei0ukf3OlXI5sdYzWJGbrBm6GsNIxXsmtnaCBVsFa1nvhCZ3i519UB9R3N9kfTZmu+V
+         EMMB7XHtjcGt7P3Si7kvPRdZv+B2JwtbPWgae7i9Rv0nSO/DimUKD03K0i/1dyXNvn+n
+         wcEw==
+X-Gm-Message-State: AOAM532nhKdeTJRbkfBxvU+9wJwkBf3QTiZ3j6QlP/EHPqGU8Llcakco
+	/ecVsja/jczWaG0ySw5TtGw=
+X-Google-Smtp-Source: ABdhPJwklu7zScEE++H2vJFMMEwUnTUfcuRtS3eTwxnayYyZu8KhOnVMHdbKX+47IK8zw9D7SjJe4Q==
+X-Received: by 2002:a05:600c:3795:: with SMTP id o21mr1638535wmr.130.1629800802336;
+        Tue, 24 Aug 2021 03:26:42 -0700 (PDT)
+Received: from ?IPv6:2a02:8108:96c0:3b88::5d87? ([2a02:8108:96c0:3b88::5d87])
+        by smtp.gmail.com with ESMTPSA id z7sm1857033wmi.4.2021.08.24.03.26.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Aug 2021 03:26:41 -0700 (PDT)
+Subject: Re: [PATCH 00/23] staging: r8188eu: clean up spacing style issues in
+ core dir
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, martin@kaiser.cx, fmdefrancesco@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210816155818.24005-1-straube.linux@gmail.com>
+ <20210824085845.GN1931@kadam>
+From: Michael Straube <straube.linux@gmail.com>
+Message-ID: <bfd22fe0-27d4-4248-bef4-bad43f464fad@gmail.com>
+Date: Tue, 24 Aug 2021 12:25:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210824085845.GN1931@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tuesday, August 24, 2021 10:53:35 AM CEST Pavel Skripkin wrote:
-> On 8/24/21 11:47 AM, Pavel Skripkin wrote:
-> > On 8/24/21 11:38 AM, Fabio M. De Francesco wrote:
-> > 
-> > Hi, Fabio!
-> > 
-> > previous usb_read16() realization, which is 100% right:
-> > 
-> > 
-> > static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
-> > {
-> > 	u8 requesttype;
-> > 	u16 wvalue;
-> > 	u16 len;
-> > 	__le32 data;
-
-Ah, it was in plain sight! How didn't I notice it? :(
-
-> > 
-> > 	requesttype = 0x01;/* read_in */
-> > 	wvalue = (u16)(addr & 0x0000ffff);
-> > 	len = 2;
-> > 	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> > 
-> > 	return (u16)(le32_to_cpu(data) & 0xffff);
-> > }
-> > 
-> > 
-> > Bases on this code, I think, it's oblivious, that data comes in
-> > little-endian. That's why I leaved temp variable for casting le32 to
-> > cpu's endianess.
-
-Yes you did well (if we trust the old code :)), anyway I guess it
-was correct because I've just seen that data is __le32 also in other Realtek
-drivers.
-
-> > 
-> > I could just read into u{16,32} * and then make smth like
-> > 
-> > *data = le32_to_cpu(*data)
-> > 
-> > but static analysis tools will complain about wrong data type passed to
-> >    le32_to_cpu()
-
-Obviously the (not broken) tools should catch that and complain.
-
-> > + Phillip tested fixed v2 version and it worked well for him. I guess,
-> > Phillip was able to spot weird driver behavior, if this cast is wrong.
-> > 
-> 		^^^^^&
+On 8/24/21 10:58 AM, Dan Carpenter wrote:
+> Thanks!  This was very nicely broken up so it was easy to review.
 > 
-> I am wrong with this statement, I guess. Most likely, Phillip is testing 
-> on smth like x64 and this arch is le, so...
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 > 
-> With regards,
-> Pavel Skripkin
+> regards,
+> dan carpenter
 > 
+
+Has been merged already. But many thanks for taking the time
+to review it!
+
 Thanks,
-
-Fabio
-
+Michael
 
