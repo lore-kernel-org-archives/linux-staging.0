@@ -1,147 +1,90 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFE929CA
-	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:10:42 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id w5so40564628ejq.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 17:10:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E243FC6
+	for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 00:17:54 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id m4so139870pll.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Aug 2021 17:17:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FFa/vNXbOTkZVECzFyo1BP3x0iFIJhbAlOvPMoA4Yo4=;
-        b=bm2bQu1aHZ9J8cmciQhZPFBuntv/uZy6KS3dfLJAqaaUHSfjLev+ubv/Aj6xbD7Dwu
-         gWVQ6t8c+vG9qgCm1a33LkhOUWg52KmQzIAqoQJOaySbfFhfmLZdbpv9N9KM5vIMG+8z
-         X9/Ed3J2WS4CiJUpNzl0blpe4lxwyj4W+H+dE7L08KBJlYFRAEk4mCpentH/GwBzAv0X
-         iJ3karqOibXrgSMNNO8DLbIhPYJT+xcDX/Z5fjA8d+1zWN2OMXxG8MJvcBl0hPXMJpwZ
-         0xL7XxZOOnlawvbXiJ3N4vaTaG4E9MnHaBOHoSq5kc70G3uUBQkVRr+5KXIJhZ9IJg4P
-         vTYg==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7yibjZJUpbZ4+P8Zg5i3r1lSVJYnEnK9gSjxsDfYQ5Q=;
+        b=AJtytBIeQqFlDapbL33j5fzOVo/pO9w5Tpb/y/OSsmkJ2iSk0z46mwp/PcEPIGrWOm
+         aU2W7Adw64NicX6OTFgf8cnezXRb9ggRgxwWczKVpxMATQdtD6wgN4B0hqN4euAH/PrG
+         IDpHB7uzmOGEk1OHok5hifIUUjlDSh5c1ptaiK26KLu9Sxef0kzsjCvOSVB1Ij1E2IXW
+         Oigk3kE0ymAFRL+qOMjmLqwMJxoQFczQFokKxW5oRj9HkjWx4gPp3uphmaCk6QuTEsqS
+         SAi1GIOfKV2zNSTilppo67bbxOLtXPFb6VunNMZ30gaASys/v1KJMiH1plu5xfgk28Qx
+         XUlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FFa/vNXbOTkZVECzFyo1BP3x0iFIJhbAlOvPMoA4Yo4=;
-        b=BQ1I3yqsdnZNp6hWwgULIZhE04dwAlOYyawUxsG1exMu/Kpy6au9NvxV39jZxWjTxa
-         6t8FG1mKLlPhYPEEmJphzWmwKcE4uBNJqr3/Pftq59UOcccELg0EQyyiGIkTKCVzLajz
-         iHLYbMi7qT+ryXcfuKFpDlx9eXTEop7C3i7A15uUuIpF+S5ZZJNXyxMXKcPsvOGC9vJX
-         NfcQFHmw8O+45pU1EWZoTuHmIR1Cl4h/P+mzBBL20SjNf8h0tl9MPIsVHtcz94JrVu3h
-         eRemR5DbZp8tnlsyEi12LcvX9KpxlR0ucN+/I9j2RJrz32iSmsIjTvTMOrEatNxUVhA7
-         dJrw==
-X-Gm-Message-State: AOAM532Jo2I4hqcA9ptaFP7PHifeeqh4rRpzeyb6HLUp2x1zepBTvuge
-	I56Z+eivqqpy0qfhaPaclZQ=
-X-Google-Smtp-Source: ABdhPJzPbz9pHA31WemzzpNGNV/666FPgTsPXhwuhMdh35F/9FiJdWh1JuiiV/rsJSc24hpsXRGBQg==
-X-Received: by 2002:a17:906:5497:: with SMTP id r23mr1262301ejo.302.1629763840571;
-        Mon, 23 Aug 2021 17:10:40 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id m19sm10042670edd.38.2021.08.23.17.10.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Aug 2021 17:10:40 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Pavel Skripkin <paskripkin@gmail.com>, Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC v2 5/6] staging: r8188eu: add error handling of rtw_read32
-Date: Tue, 24 Aug 2021 02:10:37 +0200
-Message-ID: <2424268.2DCLMNk6Lg@localhost.localdomain>
-In-Reply-To: <CAA=Fs0=gX66TW3qoHYWcoSsvai6YZn=U81a34V45oij7NrMJrQ@mail.gmail.com>
-References: <cover.1629642658.git.paskripkin@gmail.com> <9004eb2972780455db4cba9694244a2c572abba8.1629642658.git.paskripkin@gmail.com> <CAA=Fs0=gX66TW3qoHYWcoSsvai6YZn=U81a34V45oij7NrMJrQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7yibjZJUpbZ4+P8Zg5i3r1lSVJYnEnK9gSjxsDfYQ5Q=;
+        b=FCJuFjUR0nZdg3l1jxd3R24XRpEzcuuyAKrfRKrYyfEh8mznu7n1MJ2Jl2sdrymxrI
+         TIzKl21Yery/KcRVz0IiDjpibuncySKD5WV0lPQKLSGCIK2/Fg47Ydjv2Epd7bV/iwdv
+         JEkWJ4ghhyEqYetGFJpPNSiOOIOCf4tYRkOLKfuRpCy1H4EdyX8Ro5fAumrfz2RZgvFF
+         JNhau2fbKebNvtXP2meSPYIsOs7RHJ+zY93YJngNOVMRKlyBrNBdLe+Erxw35Ae3JxcE
+         90jA9tikZ0ggDLDU+wePUmM+sI9cawX2e9Aj47VS1LTf383QINMkfLeqm5IaUYTLP4gh
+         /y9g==
+X-Gm-Message-State: AOAM5303HS6ARkw7j8OkaBDxEcB6qSMUlrmsPTkPGDejJcVESFzjG2R9
+	hsnnFKz8vVIgp89h/0hFwtCZtR7EddZd7IDDJuSLJQ==
+X-Google-Smtp-Source: ABdhPJwGGQFuHpqJSpswfjuCKkLgTaxj95DS+ddmgfEC5xoHhnOn72dJd6L3b8+sJvVpRyECZTObkKequJKSuxMCyQg=
+X-Received: by 2002:a17:90a:1f49:: with SMTP id y9mr1215786pjy.225.1629764274425;
+ Mon, 23 Aug 2021 17:17:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+References: <20210823234858.2633-1-straube.linux@gmail.com>
+In-Reply-To: <20210823234858.2633-1-straube.linux@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Tue, 24 Aug 2021 01:17:43 +0100
+Message-ID: <CAA=Fs0=SiVhTrHNqwrXBA2PFkm1LpWTOkv9b2c7KdijaO1iRsQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] staging: r8188eu: remove unneeded header files
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tuesday, August 24, 2021 1:33:46 AM CEST Phillip Potter wrote:
-> On Sun, 22 Aug 2021 at 15:36, Pavel Skripkin <paskripkin@gmail.com> wrote:
-> > -static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
-> > +static int usb_read32(struct intf_hdl *pintfhdl, u32 addr, u32 *data)
-> >  {
-> >         u8 requesttype;
-> >         u16 wvalue;
-> >         u16 len;
-> > -       __le32 data;
-> > +       int res;
-> > +       __le32 tmp;
-> > +
-> > +       if (WARN_ON(unlikely(!data)))
-> > +               return -EINVAL;
-> >
-> >         requesttype = 0x01;/* read_in */
-> >
-> >         wvalue = (u16)(addr & 0x0000ffff);
-> >         len = 4;
-> >
-> > -       usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> > +       res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> > +       if (res < 0) {
-> > +               dev_err(dvobj_to_dev(pintfhdl->pintf_dev), "Failed to read 32 bytes: %d\n", res);
-> > +       } else {
-> > +               /* Noone cares about positive return value */
-> > +               *data = le32_to_cpu(tmp);
-> > +               res = 0;
-> > +       }
-> >
-> > -       return le32_to_cpu(data);
-> > +       return res;
-> >  }
-> 
-> Dear Pavel,
-> 
-> OK, found the issue with decoded stack trace after reviewing this
-> usb_read32 function. Your line:
-> res = usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> 
-> should read:
-> res = usbctrl_vendorreq(pintfhdl, wvalue, &tmp, len, requesttype);
+On Tue, 24 Aug 2021 at 00:50, Michael Straube <straube.linux@gmail.com> wrote:
+>
+> This series removes the header files if_ether.h and ip.h as both just
+> duplicate in-kernel definitions.
+>
+> Both patches were already sent as single patches but only the one or
+> the other can be applied due to conflicts, so I resend them in this
+> series.
+>
+> Michael Straube (2):
+>   staging: r8188eu: remove if_ether.h header file
+>   staging: r8188eu: remove ip.h header file
+>
+>  drivers/staging/r8188eu/core/rtw_recv.c      |   2 -
+>  drivers/staging/r8188eu/core/rtw_xmit.c      |   1 -
+>  drivers/staging/r8188eu/hal/rtl8188eu_recv.c |   2 -
+>  drivers/staging/r8188eu/include/if_ether.h   |  94 ----------------
+>  drivers/staging/r8188eu/include/ip.h         | 109 -------------------
+>  drivers/staging/r8188eu/os_dep/xmit_linux.c  |   2 -
+>  6 files changed, 210 deletions(-)
+>  delete mode 100644 drivers/staging/r8188eu/include/if_ether.h
+>  delete mode 100644 drivers/staging/r8188eu/include/ip.h
+>
+> --
+> 2.32.0
+>
 
-Dear Philip,
+Dear Michael,
 
-No, it should read:
+Many thanks, applied/built/ran with both patches applied, looks good
+and works fine so far.
 
-res = usbctrl_vendorreq(pintfhdl, wvalue, data, len, requesttype);
-
-I suspect that Pavel didn't notice he was reusing a line of the old code 
-wth no due changes.
-
-> With this change, the driver runs fine with no crashes/oopses. I will
-> explain the issue but you can probably see already, so I hope I'm not
-> coming across as patronising, just trying to be helpful :-)
-> 
-> Essentially, you are taking the address of the data function parameter
-> on this line with &data, a pointer to u32, which is giving you a
-> pointer to a pointer to u32 (u32 **) for this function parameter
-> variable. When passed to usbctrl_vendorreq, it is being passed to
-> memcpy inside this function as a void *, meaning that memcpy
-> subsequently overwrites the value of the memory address inside data to
-> point to a different location, which is problem when it is later
-> deferenced at:
-> *data = le32_to_cpu(tmp);
-> causing the OOPS
-> 
-> Also, as written, you can probably see that tmp is uninitialised. This
-> looks like a typo, so guessing this wasn't your intention. Anyhow,
-> with that small change, usbctrl_vendorreq reads into tmp, which is
-> then passed to le32_to_cpu whose return value is stored via the
-> deferenced data ptr (which now has its original address within and not
-> inadvertently modified). Hope this helps, and I'd be happy to Ack the
-> series if you want to resend this patch. Many thanks.
-
-I think that another typo is having 'tmp', because that variable is unnecessary
-and "*data = le32_to_cpu(tmp);" is wrong too.
-
-Now I also see that also usb_read16() is wrong, while usb_read8() (the one that 
-I had read yesterday) is the only correct function of the three usb_read*().
+For both:
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
 Regards,
-
-Fabio
-> 
-> Regards,
-> Phil
-> 
-
-
-
-
+Phil
