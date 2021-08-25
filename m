@@ -1,98 +1,99 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38B472
-	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 10:13:58 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id i28so42659493ljm.7
-        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 03:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JS8C6fS8XkmAAsadcB8zqjJCFkYRlN9Um96y+mbS8Cc=;
-        b=Zoyz2GPzJxE/cLWDh9w/GrlJZh3XxMTY/o3rSVVq9xbHcltHeoAC3+1iMyYDpgXNbK
-         U5QCwqHLyfONIKqL/5QWp8JtiZRRIKJpFKDPGc7ZHebsVwXCcJxW8r9wTQYqq2SBUPIJ
-         31YUgpMEUuHq44jzK3Xg6Wf5aWzLz8Zc42HUzbRF9F4BScxyKjK+K6WRA8e6dgg7Uddm
-         ++6CGWf+7K1pDuJr0yKos6h5tJAIWuH3K3Y+fSYhUSYNenimIzAAPam5MeA2b627PqQX
-         Ooej31HsLeL2p1FYtI2uPK5lnkBttE6vwDexNbEVRTiXqibtGd4m+voyYONF1IHA6Ghd
-         uluQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JS8C6fS8XkmAAsadcB8zqjJCFkYRlN9Um96y+mbS8Cc=;
-        b=bFKUkF/Tzn4guSwlCz4mbsaUJRcbz3mc/GMxu/IvVjnTO5HmCuJmme18OsGVDrm7tA
-         003eAr48Hu0j29uDbWc3WOi+Hn47H2hMIKwKdSgAgsYgNLQF2vX0CE1Tr+yc2e7ZZNQV
-         5xV3GZVqXxU/MpaAgUW24I7biFx3d6hDsKlC/qeLlkrOAqPEuFJYYcgIE2/IpzrhvMgr
-         atVFTFZHMh33S9yMFuVgNOMbVbqnWYcSaK2kHueoDbnjwH842t7izPqKEzcmJTOeCC2h
-         C87c+vUL/AXFWvKh5G3a4nCaK4fPlaqUsSXY9RnXLh6+h83SM0bmsA3obNyK3pI5AWB3
-         HSKg==
-X-Gm-Message-State: AOAM5325owk9UCK8acpz18moR5aMWW3ydnvagh2NQN1+uM1laQtHpFuf
-	ifFnWk/7FX4ViyNF81qhcgI=
-X-Google-Smtp-Source: ABdhPJzsRVopFPxrJm6WyComBRD3ag5rvATMX7m9T9++0GxomEUsZExl2Lfn4lE42mnJ6kKInbkP0w==
-X-Received: by 2002:a05:651c:1186:: with SMTP id w6mr8434327ljo.50.1629886437077;
-        Wed, 25 Aug 2021 03:13:57 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id d24sm2219522lfs.80.2021.08.25.03.13.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Aug 2021 03:13:56 -0700 (PDT)
-Subject: Re: [PATCH v3 4/6] staging: r8188eu: add error handling of rtw_read16
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1629789580.git.paskripkin@gmail.com>
- <1665728.ljvk3MsED4@localhost.localdomain>
- <ab20fcd7-69a8-0530-7770-0e309178b0f0@gmail.com>
- <2227654.mbYB7oqmoa@localhost.localdomain>
- <794dfd94-fe88-43ac-c4ec-9ff7df9db6de@gmail.com>
- <20210825100647.GS1931@kadam>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <3396277b-6d80-b621-0ef0-71de7d581602@gmail.com>
-Date: Wed, 25 Aug 2021 13:13:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7AE72
+	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 10:21:28 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-68-2GvGDmlwPsiQ0AnOLMju9A-1; Wed, 25 Aug 2021 11:21:25 +0100
+X-MC-Unique: 2GvGDmlwPsiQ0AnOLMju9A-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Wed, 25 Aug 2021 11:21:23 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Wed, 25 Aug 2021 11:21:23 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Dan Carpenter' <dan.carpenter@oracle.com>
+CC: 'Larry Finger' <Larry.Finger@lwfinger.net>, Aakash Hemadri
+	<aakashhemadri123@gmail.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 2/5] staging: r8188eu: cast to restricted __be32
+Thread-Topic: [PATCH v3 2/5] staging: r8188eu: cast to restricted __be32
+Thread-Index: AQHXmCqSnSVpiVCtaEyxz8Go65B0FauD8RPg///yZ4CAACGg0A==
+Date: Wed, 25 Aug 2021 10:21:23 +0000
+Message-ID: <c5cfa7262fca44abb08f1ec5881fac4c@AcuMS.aculab.com>
+References: <cover.1629562355.git.aakashhemadri123@gmail.com>
+ <50439a81aca7ce8c3c97ec1c7247f4cd03f645a5.1629562355.git.aakashhemadri123@gmail.com>
+ <20210823084426.yo2mhgbyehkwwz3h@xps.yggdrasil>
+ <25d336b5-8008-9b3b-7efe-a82afaea0e98@lwfinger.net>
+ <ba4668725f944d12843529f0b0d4a8a2@AcuMS.aculab.com>
+ <20210825091921.GR1931@kadam>
+In-Reply-To: <20210825091921.GR1931@kadam>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210825100647.GS1931@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/25/21 1:06 PM, Dan Carpenter wrote:
-> On Wed, Aug 25, 2021 at 12:55:37PM +0300, Pavel Skripkin wrote:
->> The main problem, that no one knows who is the "old". Greg can take patches
->> in any order he wants
-> 
-> Patches are always taken in first come first serve.
-> 
+From: Dan Carpenter
+> Sent: 25 August 2021 10:19
+>=20
+> On Wed, Aug 25, 2021 at 09:13:44AM +0000, David Laight wrote:
+> > From: Larry Finger
+> > > Sent: 23 August 2021 15:24
+> > >
+> > > On 8/23/21 3:44 AM, Aakash Hemadri wrote:
+> > > > On 21/08/21 09:48PM, Aakash Hemadri wrote:
+> > > >> Fix sparse warning:
+> > > >>> rtw_br_ext.c:836:54: warning: cast to restricted __be32
+> > > >>
+> > > >> dhpch->cookie is be32, change it's type.
+> > ...
+> > > >> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > > >> index f6d1f6029ec3..f65d94bfa286 100644
+> > > >> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > > >> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> > ...
+> > > >> @@ -671,7 +671,7 @@ void dhcp_flag_bcast(struct adapter *priv, str=
+uct sk_buff *skb)
+> > > >>   =09=09=09=09    (udph->dest =3D=3D __constant_htons(SERVER_PORT)=
+)) { /*  DHCP request */
+> > > >>   =09=09=09=09=09struct dhcpMessage *dhcph =3D
+> > > >>   =09=09=09=09=09=09(struct dhcpMessage *)((size_t)udph + sizeof(s=
+truct
+> udphdr));
+> >
+> > This assignment looks dubious at best - WTF is (size_t) for?
+> > I don't seem to have a source tree with this driver in it (probably onl=
+y in 'next'?).
+> > I suspect it should be:
+> > =09struct dhcp_message *dhcph =3D (void *)(udph + 1);
+>=20
+> Those are equivalent.  Either way works.
 
+size_t isn't guaranteed to be large enough to hold a pointer.
 
-Ok, but if pending patch needs new version, then it will be taken at the 
-end?
+=09David
 
-Here is the situation we have:
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
-	I have the patch series based on old function behavior, it was
-	posted first
-
-	Then Fabio posted refactoring of the function and it changes
-	return values.
-
-
-Both series are pending right now and made on top of staging-next 
-branch. Who needs to rebase? I think, applying these series as-is can 
-broke the driver, since error handling will be broken
-
-
-
-
-
-With regards,
-Pavel Skripkin
