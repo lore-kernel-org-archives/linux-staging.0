@@ -1,104 +1,117 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790C93FC1
-	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 03:54:17 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id 7so20130281pfl.10
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 20:54:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5DA3FC0
+	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 04:35:11 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id a25so22132542ejv.6
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 21:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CVEoBZ/UnTo6nLZUccYHUvCMvIcxl/WBSnIq60Ivb00=;
-        b=heeEu0ku4/ofb/JqTrjFVArqpzXSELI9PpG8iyH2oUVcapzxZ4F6eUSll21FaFoEHG
-         rEOcs1p1bjAZ6S0EXDsLYSwpCHJKPlc9FWoJjw6SwmZs/gZDa2QZFfDm6hoPj4zMG2KQ
-         63KYFn007p3fCw3teQ2BiiRzNgdDBrbMOK4YQklMkupPtNZ7Gew5Okrt0YKmu7yc0EN+
-         P31EcfDqEGGIWNLVq90dVWeRu59B+W0L962bFxO8PV0pRntWkNobSK0Gc2R9c/loIIk8
-         bRWQLUrdSeSWepgA1KbFuOHRm3qcScANquXK6KhPjSLwF0rL9T70YGWQUDaaDJtoO64Z
-         m45A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=jnVkSyJgN3E1sDFilQH189RfendGOGfI1/ufZRZKyB0=;
+        b=Cco65m4HBzBTv5b8p+0hDWptfNctJ7xmLI2VkvaRSCIRXeS2lcwfYCJx1TakW/zrB/
+         vBm+AhQNFZuLtPcsAieUcgf+06flF3tDmudZ+wNG/LwyweO6IgiIga+cK2VEv6kVphZa
+         bWwVskoq6mgw31zYgX9ocyPqW8jPOMtp1H1Q2dsd2fRu9mGHy8UTESBoRmy9Pa1CltWT
+         AyBHLW2Y4zVpLep+696g9UTNSo27PvANqWC5NrMZ1tKEwFRYB4r2/Fbuz7CQ4kQLSwNh
+         I168HLpgNZdTkp5GqGy7Rn3XBehwH6nMCvQgUrdIXkOV2AU5usEx2gfJnr691a10XB7L
+         XaVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CVEoBZ/UnTo6nLZUccYHUvCMvIcxl/WBSnIq60Ivb00=;
-        b=r7oC+F7QTaib7l4l9X/fRF4EQGjVUSrRXYKoKdzA9ATPABtZENz0onO07lfk1cIltH
-         VSubjQalW5QlwekgpKmsJrmK6z9quaRRxt8OF6JHudNwM0l+y18WGOTYyqBPcrBARiKC
-         pejO1DMCOb2ficlbKI+Q9ppDx6/b/J29pUzM6TcCw5C78fFhgf4k9HBIrQuiGU3ye4XD
-         rXTTDqS1XYJa8dz3ZiNDkGKAiq+T/jeaEx5kCxlpl+PNMmwXHooZigd1o/Vjzk46JomV
-         IL8U0NXAJsxzfBqO+FOeAnsOIh0CPdlEwCvDAMDKPz0awM5Chkjqy1eY5lJpftxobr86
-         3zxA==
-X-Gm-Message-State: AOAM531PlXYLOy16/AOeQM+c1VnAJJDN2cOsaxlGucTdUqzzBi16H/5M
-	3wGOpVYRpZ703oiog/OcrZU=
-X-Google-Smtp-Source: ABdhPJyfIo5M/sa9StAar1/4CefQWSbehUpQcoL0gNc4p1Jr9nqXEIqqpaaMlJjYqnxXC/a2ilaFig==
-X-Received: by 2002:a63:535f:: with SMTP id t31mr4818786pgl.270.1629863656844;
-        Tue, 24 Aug 2021 20:54:16 -0700 (PDT)
-Received: from user ([122.175.21.197])
-        by smtp.gmail.com with ESMTPSA id h9sm4138369pjg.9.2021.08.24.20.54.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jnVkSyJgN3E1sDFilQH189RfendGOGfI1/ufZRZKyB0=;
+        b=WYGH/4K4X1tMGAxg+1D28o1WrOkS95J6pAef1hRK3zr/ersXUxPhHdhv1a9QEyq3EK
+         X7XA8NFfuHPDSifJ1IpOYNuvRRYz4LP17DpPeIJV+IUh5+oDKNiYPuXsd5gX3mzszXh2
+         VYreO0M28Bl5ChV7ozm7BfmSwvz8pmQ26AWqDhWc4G2ef/V9VVU2wTkogJpYWrhOJoiZ
+         UVXAnA5rV8DjvRuA/2Qi1QAOf7+HpOIGTiW3fF92wJnoqoLc6p9gBu7iw5EN0oWyoBQd
+         9BSvhhDf/HZNa28O7j/30HsbkTaY5e+phBcpMQA5TI7HqZY2K2rhHVzIey/Lowzua8n1
+         +VnQ==
+X-Gm-Message-State: AOAM533OdF7p4+uUvwWr59vINiB5+kOwdvOLSlofj2RE9iaGn5HNEXFO
+	of5IXE/h3pJ8UffnQphKPBQ=
+X-Google-Smtp-Source: ABdhPJwUciuGXzKcuga0wgY2pqKDLFo5GDsUCC35UCs1jFKLv6eiNgf6mXYx4rZhcerDanUrAdtxrw==
+X-Received: by 2002:a17:906:b183:: with SMTP id w3mr30349862ejy.394.1629866110430;
+        Tue, 24 Aug 2021 21:35:10 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id v12sm10292649ejq.36.2021.08.24.21.35.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 20:54:16 -0700 (PDT)
-Date: Wed, 25 Aug 2021 09:24:10 +0530
-From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
-Message-ID: <YSW+4iq1hhFPQI3R@user>
-References: <YSFgrLUfXzgcT6k4@user>
- <1821445.fzUCeO1EU3@localhost.localdomain>
- <CAA=Fs0mu4m04_Be4-f=W+=_hhGn5oJ2q=KOmZdRrMyGhMgqc-Q@mail.gmail.com>
- <18734228.Nv2I6EOGHm@localhost.localdomain>
- <CAA=Fs0kZvkSmf9vH_Z1rUbDMYYd5SWbQQXhGpMxDbfvWQs338A@mail.gmail.com>
+        Tue, 24 Aug 2021 21:35:09 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com, Pavel Skripkin <paskripkin@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/6] staging: r8188eu: add error handling of rtw_read16
+Date: Wed, 25 Aug 2021 06:35:08 +0200
+Message-ID: <1665728.ljvk3MsED4@localhost.localdomain>
+In-Reply-To: <d06f3173e0a4c6f5449d5551cbfb0202849332b7.1629789580.git.paskripkin@gmail.com>
+References: <cover.1629789580.git.paskripkin@gmail.com> <d06f3173e0a4c6f5449d5551cbfb0202849332b7.1629789580.git.paskripkin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA=Fs0kZvkSmf9vH_Z1rUbDMYYd5SWbQQXhGpMxDbfvWQs338A@mail.gmail.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 23 Aug 2021 00:58, Phillip Potter wrote:
-> On Sun, 22 Aug 2021 at 17:24, Fabio M. De Francesco
-> <fmdefrancesco@gmail.com> wrote:
-> >
-> >
-> > Dear Philip,
-> >
-> > I didn't mean to be harsh with you, I apologize if this is the message
-> > I conveyed. Really!
+On Tuesday, August 24, 2021 9:27:35 AM CEST Pavel Skripkin wrote:
+> _rtw_read16 function can fail in case of usb transfer failure. But
+> previous function prototype wasn't designed to return an error to
+> caller. It can cause a lot uninit value bugs all across the driver code,
+> since rtw_read16() returns local stack variable to caller.
+> 
+> Fix it by changing the prototype of this function. Now it returns an
+> int: 0 on success, negative error value on failure and callers should pass
+> the pointer to storage location for register value.
+> 
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> 
+> [...]
 >
-> Dear Fabio,
->
-> No apology necessary :-)
->
-> >
-> >
-> > Now it is clearer to me what acking means. I've given only a handful of
-> > acks because I thought I should also check if they applied and if they
-> > build. It takes time. Now I understand it is not required. Thanks.
-> >
->
-> Yeah I try to ack as many as I can now, but couldn't possibly do as
-> many as I do if I had to build test them all, especially with my own
-> code to write and a family/full time non-kernel dev role. It is
-> certainly desirable for the majority, but if the code looks
-> good/correct and is a simple patch then in my mind an Acked-by is fine
-> to give in any case. That said, I will no doubt make mistakes on that.
->
-> >
-> > Please, don't ever think I'm not more than sure that you give a lot
-> > of your _unpaid_ time to the kernel and I thank you very much
-> > I know what it means, because I too have other commitments :-)
->
-> Thank you, and I appreciate your involvement so keep up the good work :-)
->
-> Regards,
-> Phil
+> -static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
+> +static int usb_read16(struct intf_hdl *pintfhdl, u32 addr, u16 *data)
+>  {
+>  	u8 requesttype;
+>  	u16 wvalue;
+>  	u16 len;
+> -	__le32 data;
+> +	int res;
+> +	__le32 tmp;
+> +
+> +	if (WARN_ON(unlikely(!data)))
+> +		return -EINVAL;
+>  
+>  	requesttype = 0x01;/* read_in */
+>  	wvalue = (u16)(addr & 0x0000ffff);
+>  	len = 2;
+> -	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
+> +	res = usbctrl_vendorreq(pintfhdl, wvalue, &tmp, len, requesttype);
+> +	if (res < 0) {
+> +		dev_err(dvobj_to_dev(pintfhdl->pintf_dev), "Failed to read 16 bytes: %d\n", res);
+> +		return res;
+> +	} else if (res != len) {
+
+Dear Pavel,
+
+Please note that if and when my patch "Use usb_control_msg_recv / send () in 
+usbctrl_vendorreq ()" will be merged, "if (res! = len)" will always evaluate 'true' 
+and usb_read16 () will always return -EIO even if usbctrl_vendorreq () succeeds.
+
+> +		dev_err(dvobj_to_dev(pintfhdl->pintf_dev),
+> +			"Failed to read 16 bytes, could read only %d bytes\n", res);
+> +		return -EIO;
+> +	}
+>  
+> -	return (u16)(le32_to_cpu(data) & 0xffff);
+> +	*data = le32_to_cpu(tmp) & 0xffff;
+> +
+> +	return 0;
+>  }
+
+[...]
+
+Regards,
+
+Fabio
 
 
-Thanks Michael, Phil, Fabio for review.
+
