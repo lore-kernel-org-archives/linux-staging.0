@@ -1,87 +1,155 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2174372
-	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 09:23:32 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-121-slYRAeD_NeiPOZBTIJBABQ-1; Wed, 25 Aug 2021 10:23:30 +0100
-X-MC-Unique: slYRAeD_NeiPOZBTIJBABQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Wed, 25 Aug 2021 10:23:28 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Wed, 25 Aug 2021 10:23:28 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Aakash Hemadri' <aakashhemadri123@gmail.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>
-CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v4 3/5] staging: r8188eu: incorrect type in
- csum_ipv6_magic
-Thread-Topic: [PATCH v4 3/5] staging: r8188eu: incorrect type in
- csum_ipv6_magic
-Thread-Index: AQHXmEBzodgQnjGhvkqCA8EvgQbhz6uD8/vA
-Date: Wed, 25 Aug 2021 09:23:28 +0000
-Message-ID: <f2ab21eab23c4863b1b5c004a75d834d@AcuMS.aculab.com>
-References: <cover.1629563318.git.aakashhemadri123@gmail.com>
- <392082864befe91bb03d16ff7ca5e57ba2a8e549.1629563318.git.aakashhemadri123@gmail.com>
-In-Reply-To: <392082864befe91bb03d16ff7ca5e57ba2a8e549.1629563318.git.aakashhemadri123@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7D272
+	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 09:45:04 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id bq28so3210509lfb.7
+        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 02:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=E7cNoLLVAVafjNCc4brMRUN01zZAHm0abXpnMpPuTt4=;
+        b=XcByKSJRdga/HRYU9DdYIrJkJ5aCKCn6sFPQhJpp+zqLBFptssdthmbwTTqrJU2O1y
+         Fh9T4cOSANuA0NBWqKrxyE6rpE3VUg9YurSVTT9N3ewKp/QELYAgj+C6HkBCJMlVTiOb
+         M7DocgSIXf8gWx7DP6hz+XSoX32UueKJZitZdD1fhIKA/N5U6YwHLEpd41Qt4bCHL0G4
+         ZtJc+vpaJ07T3DdXx/qHSdSN5QI3+K4IqS5ki+/rdR5v1sPFOYpfj0rw4qkKgMj2ioo3
+         hQKDnoVXbW3M/+9DGxJ8r4dLnR6TG4RgZNyl3L7PnWj5GlgkD82og3xcltkjAKoMzhav
+         ZUNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E7cNoLLVAVafjNCc4brMRUN01zZAHm0abXpnMpPuTt4=;
+        b=kYTwIRlN8SyDgJK9qvt4eKNAjh/3kG2uyh1maniP6quL3DtfzAUS1utyN9/4pBs4Wc
+         lRrbpUGL34l5LbYmtDSKGmGgk9waVSuvZT7METcnavE3lqSzEYuA4o8P7SZ9NZaCZyKo
+         LYd7RR3XHdJNqqIqoWCTSRJvCiv1wUkVnJeQ1+r5zJod7A4V2neKlwtDgIGToqiWHNiS
+         SKe+CyAQDzo6MqW2MtCk4urJeX2v3Bb9wOZEVGIwxYUxG6Ggla2sW8CI9gZLVkKdRFyD
+         VjvVlqfuBlo9VuT/QQwY8+jzvBjhuPaoBv28RqXxp8+IQYeZDbVLeqHz60buFSteFVG7
+         4aaw==
+X-Gm-Message-State: AOAM530u7UnWwzTcJP1hd4y4reRCWR+DANO/se0YrtiVSqovtREGaTHV
+	gbFSMtE15XXsyd1eMW2aJIs=
+X-Google-Smtp-Source: ABdhPJxxgQwWKc4KlfaiaB2F9L+jo3PpEaZtT5gXKDmMvuZmO5i5+f3TfZJ4xZuLO6DnWagwNOSZkQ==
+X-Received: by 2002:a05:6512:3190:: with SMTP id i16mr32170681lfe.340.1629884702691;
+        Wed, 25 Aug 2021 02:45:02 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-17-251.dynamic.spd-mgts.ru. [94.29.17.251])
+        by smtp.googlemail.com with ESMTPSA id z13sm2103349ljj.43.2021.08.25.02.45.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 02:45:02 -0700 (PDT)
+Subject: Re: [PATCH v8 20/34] mmc: sdhci-tegra: Add runtime PM and OPP support
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Adrian Hunter <adrian.hunter@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-21-digetx@gmail.com> <YR6O9Om+HzMMG8AR@orome.fritz.box>
+ <05b7ff28-4c01-fb56-deeb-595a5797394b@gmail.com>
+ <YR+TgfCHKOPS3Ng8@orome.fritz.box>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <5a15647c-bc6a-294d-61c8-91efa33c681e@gmail.com>
+Date: Wed, 25 Aug 2021 12:45:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+In-Reply-To: <YR+TgfCHKOPS3Ng8@orome.fritz.box>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Aakash Hemadri
-> Sent: 23 August 2021 18:00
->=20
-> Fix sparse warning:
-> > rtw_br_ext.c:771:84:    got restricted __be16 [usertype] payload_len
-> > rtw_br_ext.c:773:110: warning: incorrect type in argument 2
->     (different base types)
-> > rtw_br_ext.c:773:110:    expected int len
-> > rtw_br_ext.c:773:110:    got restricted __be16 [usertype] payload_len
->=20
-> csum_ipv6_magic and csum_partial expect int len not __be16, use
-> be16_to_cpu()
+20.08.2021 14:35, Thierry Reding пишет:
+> On Fri, Aug 20, 2021 at 01:37:13AM +0300, Dmitry Osipenko wrote:
+>> 19.08.2021 20:03, Thierry Reding пишет:
+>>> On Tue, Aug 17, 2021 at 04:27:40AM +0300, Dmitry Osipenko wrote:
+>>>> The SDHCI on Tegra belongs to the core power domain and we're going to
+>>>> enable GENPD support for the core domain. Now SDHCI must be resumed using
+>>>> runtime PM API in order to initialize the SDHCI power state. The SDHCI
+>>>> clock rate must be changed using OPP API that will reconfigure the power
+>>>> domain performance state in accordance to the rate. Add runtime PM and OPP
+>>>> support to the SDHCI driver.
+>>>>
+>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>> ---
+>>>>  drivers/mmc/host/sdhci-tegra.c | 146 ++++++++++++++++++++++++---------
+>>>>  1 file changed, 105 insertions(+), 41 deletions(-)
+>>>>
+>>>> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+>>>> index 387ce9cdbd7c..a3583359c972 100644
+>>>> --- a/drivers/mmc/host/sdhci-tegra.c
+>>>> +++ b/drivers/mmc/host/sdhci-tegra.c
+>>>> @@ -15,6 +15,8 @@
+>>>>  #include <linux/of.h>
+>>>>  #include <linux/of_device.h>
+>>>>  #include <linux/pinctrl/consumer.h>
+>>>> +#include <linux/pm_opp.h>
+>>>> +#include <linux/pm_runtime.h>
+>>>>  #include <linux/regulator/consumer.h>
+>>>>  #include <linux/reset.h>
+>>>>  #include <linux/mmc/card.h>
+>>>> @@ -24,6 +26,8 @@
+>>>>  #include <linux/gpio/consumer.h>
+>>>>  #include <linux/ktime.h>
+>>>>  
+>>>> +#include <soc/tegra/common.h>
+>>>> +
+>>>>  #include "sdhci-pltfm.h"
+>>>>  #include "cqhci.h"
+>>>>  
+>>>> @@ -123,6 +127,12 @@
+>>>>  					 SDHCI_TRNS_BLK_CNT_EN | \
+>>>>  					 SDHCI_TRNS_DMA)
+>>>>  
+>>>> +enum {
+>>>> +	TEGRA_CLK_BULK_SDHCI,
+>>>> +	TEGRA_CLK_BULK_TMCLK,
+>>>> +	TEGRA_CLK_BULK_NUM,
+>>>> +};
+>>>> +
+>>>>  struct sdhci_tegra_soc_data {
+>>>>  	const struct sdhci_pltfm_data *pdata;
+>>>>  	u64 dma_mask;
+>>>> @@ -171,6 +181,8 @@ struct sdhci_tegra {
+>>>>  	bool enable_hwcq;
+>>>>  	unsigned long curr_clk_rate;
+>>>>  	u8 tuned_tap_delay;
+>>>> +
+>>>> +	struct clk_bulk_data clocks[TEGRA_CLK_BULK_NUM];
+>>>
+>>> This doesn't seem worth it to me. There's a lot of churn in this driver
+>>> that's only needed to convert this to the clk_bulk API and it makes the
+>>> code a lot more difficult to read, in my opinion.
+>>>
+>>> It looks like the only benefit that this gives us is that runtime
+>>> suspend and resume become a few lines shorter.
+>>
+>> The driver probe code looks cleaner with that. You should be looking at
+>> the final result and not at the patch to see it.
+> 
+> I did look at the final result and didn't find it cleaner at all. =)
 
-This is a behaviour change on LE systems.
-Even if you are testing on BE the commit message should say
-that it fixes the length passed to the checksum code and
-was detected by sparse.
-
-...
->  =09=09=09hdr->icmp6_cksum =3D csum_ipv6_magic(&iph->saddr, &iph->daddr,
-> -=09=09=09=09=09=09iph->payload_len,
-> +=09=09=09=09=09=09be16_to_cpu(iph->payload_len),
->  =09=09=09=09=09=09IPPROTO_ICMPV6,
-> -=09=09=09=09=09=09csum_partial((__u8 *)hdr, iph->payload_len, 0));
-> +=09=09=09=09=09=09csum_partial((__u8 *)hdr, be16_to_cpu(iph->payload_len=
-), 0));
-
-Oh - that code is indented far too many times.
-I had to delete a load of tabs to stop my mail crapping it.
-
-=09David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+There is UAF bug in this patch that was spotted by kasan. The
+sdhci_tegra_soc_data isn't resource-managed, but clk_bulk_data is. I'm
+now thinking that it should be okay to keep tmclk always-on, so I'll
+replace the bulk clks back with the sdhci clk in v9.
