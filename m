@@ -1,49 +1,49 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F983FC0
-	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 04:40:38 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id u3so48904105ejz.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 21:40:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7D93FC0
+	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 05:20:05 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id z10so271224edb.6
+        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 22:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DVs+REb065XqkXSI+Yu50Se8g0p/Fqtt0gWQBb3WmuQ=;
-        b=FG0vFRLE2hJ4UIWorO3vLdb5chKPQM/8JffhiDTMnSlH4j018y5+QL2z2cWKTomNKA
-         NjToakFX9B2UT7Ol3WaYlrmQ56eTRFycjcTxkvNvEqqgNDN/L48rTUsIGCJ1chpYHyzO
-         KF8WGu8MZAfA09jVXgVmNInfhcUzM3jdiol1tJ6zOTq9vLEkCh3aN4P3IjVgn54E09SE
-         MR0g3+RCqFKHbJ3nvvybzJcChTSLVPksAfIpTzLnojQwtFIVwk/dqy3PElvKLG38q9fK
-         FvgUD/mk5cszTZIigR74znk/Lohjr+AtJ4pHTDTCyVPkJzKV8sy/y/uTIz7dT53Mumtn
-         kGbA==
+        bh=jY+zZq2r8622JGPGrLQZJIpbL7Iz4oXWiLOi7adzQ3I=;
+        b=d3VK8Dr+N1GcxePH0NDEA/LUKnGHqOzFVRvHyqvlvLRjdab0F5RBZSkaRcFP+u/K09
+         uiH56ralxHS7LlBSnXE5P0ZxGg/2Uz4BVLuIybN3/zGGBLikmhz76wRbSgH+oiaalfHe
+         pFgLD6HJpgIw9uAAduHl3AYor9LRSUcore814fan6T6HU5i3U9sZ1FTtncAySl9T9dOS
+         YRME256okfHhxzUn5jkRUoWIdNn/m8QqwtjAMY6G7T40PgOwCG+BVZCv+cYbzUwvK6cI
+         NIHWc6MDnC/YQl+A7HEUDEVIDjy3BY40GJHI9o7PvYhsheR1uzjWgUvbyfFT69wxy8zz
+         QaUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DVs+REb065XqkXSI+Yu50Se8g0p/Fqtt0gWQBb3WmuQ=;
-        b=rHb3PGNZwJI5Qnqc9aPPuLM3Q/Qlj5pgTkTlmoHT/rYzbpy3yl/cuV/RJA4v/O+POK
-         hllN+XnbjxTBYnUTRZiW39iY5l9CUhqBo/hvvMKFpbEaH9zIanZgSBEgOtVrrWLS4EBK
-         HTsZ+oadc2Oj8gGWU903/TGnVWEEzj1l5439LqlPnZcHXGaS7GXER8S2wOMRodA/vmai
-         8OxmLSZXFB/WamO1f9yJo837DwrDNrzQe/y92B/M9m3p8mez1HarCfEStqSNprx52vbJ
-         7137EICstPUcPrE2v62tA8w393tNovk84ij5jDUXgPTw1UkN72BAtUDKYgObqtu72Hjk
-         Pedw==
-X-Gm-Message-State: AOAM531vT0DZJWMTElJq2DyNl/zHKlMW3ZnrEpfe8B5nCva+cMMaYdFY
-	tyItHZtL1KgPhyKFlPupQrU=
-X-Google-Smtp-Source: ABdhPJzuSuiWJk2oISMQEFPsrG1mJrQw4UdH+A6YJ30gbnlMC8R6YvZMqu3o5FxzZNnKx7nKPVFFkg==
-X-Received: by 2002:a17:907:10cc:: with SMTP id rv12mr9552230ejb.423.1629866437030;
-        Tue, 24 Aug 2021 21:40:37 -0700 (PDT)
+        bh=jY+zZq2r8622JGPGrLQZJIpbL7Iz4oXWiLOi7adzQ3I=;
+        b=bmEfK5KtT/RtepAgnNv6d2jzQnxc95VXL1aQTt2C4L0mtYGZg1u+IHdGfPO4yUmNFj
+         dN3LqNjBQ05ieZX56oVlc+ZEkWukfX97vtd9m8YYeTwvYBrw6MAv5ESMFD+zkCjYko7V
+         cK6W+VUrWYRZ5Hxv5Ma9VcuX+fDhZr6mW3JyNwR7Ve6FLNJftdRypBlczaD2UzyJKtDS
+         tYWXuxlQTBXO/bur9mYukp0q3spJiLh59pIIPiOcKRyqf9CtXPpN8rQkLo8MzGvaxnZz
+         r/pUAt7Tf3XZnH0k92OElaCNyaisdgauegrkvJFkrhB/pG9WcyuAYW/KE7n7cNYVOZuB
+         3onA==
+X-Gm-Message-State: AOAM531Lv4mT7i0UMk/rL1asbwbRXFG/kAMzKBIoHXF780AcccYlpf/k
+	1fpH4Or357gtlUi6bRDXHt0=
+X-Google-Smtp-Source: ABdhPJxSBd0ordI8c1npA88Ina6r+eyPMV31ugVml+px3ybGjsc5RHWR97LuxgY4kk2x4CJ0L41Q+g==
+X-Received: by 2002:a05:6402:22d0:: with SMTP id dm16mr45386460edb.107.1629868804079;
+        Tue, 24 Aug 2021 22:20:04 -0700 (PDT)
 Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id h10sm12718423edb.74.2021.08.24.21.40.35
+        by smtp.gmail.com with ESMTPSA id n15sm12854669edw.70.2021.08.24.22.20.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 21:40:36 -0700 (PDT)
+        Tue, 24 Aug 2021 22:20:03 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com, Pavel Skripkin <paskripkin@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v3 5/6] staging: r8188eu: add error handling of rtw_read32
-Date: Wed, 25 Aug 2021 06:40:35 +0200
-Message-ID: <4686124.Q29LyLEoG2@localhost.localdomain>
-In-Reply-To: <93bf46ce2d0ce12e94672acf28b64dc341fde038.1629789580.git.paskripkin@gmail.com>
-References: <cover.1629789580.git.paskripkin@gmail.com> <93bf46ce2d0ce12e94672acf28b64dc341fde038.1629789580.git.paskripkin@gmail.com>
+To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Alex Elder <elder@ieee.org>
+Cc: kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] staging: greybus: Convert uart.c from IDR to XArray
+Date: Wed, 25 Aug 2021 07:20:02 +0200
+Message-ID: <1838037.Ul9q4Z07vA@localhost.localdomain>
+In-Reply-To: <5541b638-db1e-26f2-2682-81f35504c9a3@ieee.org>
+References: <20210814181130.21383-1-fmdefrancesco@gmail.com> <5541b638-db1e-26f2-2682-81f35504c9a3@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,69 +51,36 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
 
-On Tuesday, August 24, 2021 9:27:42 AM CEST Pavel Skripkin wrote:
-> _rtw_read32 function can fail in case of usb transfer failure. But
-> previous function prototype wasn't designed to return an error to
-> caller. It can cause a lot uninit value bugs all across the driver code,
-> since rtw_read32() returns local stack variable to caller.
+On Monday, August 16, 2021 4:46:08 PM CEST Alex Elder wrote:
+> On 8/14/21 1:11 PM, Fabio M. De Francesco wrote:
+> > Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
+> > is more memory-efficient, parallelisable, and cache friendly. It takes
+> > advantage of RCU to perform lookups without locking. Furthermore, IDR is
+> > deprecated because XArray has a better (cleaner and more consistent) API.
 > 
-> Fix it by changing the prototype of this function. Now it returns an
-> int: 0 on success, negative error value on failure and callers should pass
-> the pointer to storage location for register value.
+> I haven't verified the use of the new API (yet) but I have a few
+> comments on your patch, below.
 > 
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
->
-> [...]
->  
-> -static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
-> +static int usb_read32(struct intf_hdl *pintfhdl, u32 addr, u32 *data)
->  {
->  	u8 requesttype;
->  	u16 wvalue;
->  	u16 len;
-> -	__le32 data;
-> +	int res;
-> +	__le32 tmp;
-> +
-> +	if (WARN_ON(unlikely(!data)))
-> +		return -EINVAL;
->  
->  	requesttype = 0x01;/* read_in */
->  
->  	wvalue = (u16)(addr & 0x0000ffff);
->  	len = 4;
->  
-> -	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
-> +	res = usbctrl_vendorreq(pintfhdl, wvalue, &tmp, len, requesttype);
-> +	if (res < 0) {
-> +		dev_err(dvobj_to_dev(pintfhdl->pintf_dev), "Failed to read 32 bytes: %d\n", res);
-> +		return res;
-> +	} else if (res != len) {
+> 					-Alex
 
-Dear Pavel,
+Dear Alex,
 
-Please note that if and when my patch "Use usb_control_msg_recv / send () in 
-usbctrl_vendorreq ()" will be merged, "if (res! = len)" will always evaluate 'true' 
-and usb_read32() will always return -EIO even if usbctrl_vendorreq () succeeds.
+On August 16th I submitted the v3 of my patch ("staging: greybus: Convert uart.c 
+from IDR to XArray"), with changes based on the comments you provided.
 
-> +		dev_err(dvobj_to_dev(pintfhdl->pintf_dev),
-> +			"Failed to read 32 bytes, could read only %d bytes\n", res);
-> +		return -EIO;
-> +	}
-> +
-> +	*data = le32_to_cpu(tmp);
->  
-> -	return le32_to_cpu(data);
-> +	return 0;
->  }
->  
-> [...]
->
-Regards,
+Could you please take a few minutes to review this too? I would really appreciate it.
+
+The v3 patch is at https://lore.kernel.org/lkml/20210816195000.736-1-fmdefrancesco@gmail.com/
+
+Thanks,
 
 Fabio
 
+P.S.: I'd also like to know if you think it's worth converting IDA to XArray in order 
+to improve the Greybus driver in staging.
+
+  
 
 
