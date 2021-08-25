@@ -1,133 +1,117 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC462FB2
-	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 06:15:42 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id a66so7169975qkc.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Aug 2021 23:15:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FEB3FC3
+	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 08:22:22 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id g13so51143232lfj.12
+        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 01:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PHpfJ/+giY//PTSV9hmjgFnWiFlaULLHw5pVUFnZXjI=;
-        b=JZp+aGqCxDPf0C2vqWl3gA2RSraLRFI1hV70cyMpIkRx5EsSHupFwyXuMRF2sY0o/V
-         3exx9IPtaTXNJZVSFYan6mqnNA3KxqBC39RXykjscq3IDmE5Y7Kn42/Ja3Bh8zpCrLun
-         UXeuRCwGzg16JxZxt25nL/DDN/mACvf4wGIQUnn9/ZFUZSZA30xAMXSfzzDc0p5apHyT
-         vE4GEL5gRgXaljlWZGFfto19WbDSj7ZLqTbDeoCF1hr7bTvUcu8cGDvRqEwRDQa7HDoN
-         Xn6YqpqUF4yUpuf5h5jQVz2yv4JUWpZCXdOOeaqjtvmnQyF1bMr+VYZZyHofB4ZDHPjh
-         VJgQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=5e2CYVsWK7yif+ZWhIuMzcEgDnkaLIfgz62zQHIC1l4=;
+        b=a4Kr7LuOcN0EeqnWmsBBFFPCJ8asQGmFso4pA8RfZVN+Ib7jeTXgtHhKMJRiQ41Qmz
+         E8SMqK4Heq/ikjOJVSvv2yb2MPOXriDjrIMr8tcYtOcUDNRixNcaD4B9tj7oe0Ky8Ism
+         P3eE9GjsubhYYeuV0g7KQEBJZaZkKXn9ruxMIt1DZ4QmRZu02VeSNiC5j/CvgAxgcLWY
+         69rxApImZKSkxl7Nzz0jCskBWdWE6UjJ2X7Uc/1bKBoXDVdjSI5zymzDLp9NRSER3jy5
+         dW8NqjQe88kGfcK4F5tparnB0xTanAh1DWOtGHQEfhtkDxm9m8KbzA3FjGXP+v229of8
+         zHLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=PHpfJ/+giY//PTSV9hmjgFnWiFlaULLHw5pVUFnZXjI=;
-        b=TOYLod4w5QbbxcdRx7cotQjobZbReELlB3WjgkweVriFKCqe/vkK5CzD/VpLNyiXqD
-         8RG5uDHVC4da5rvNEsLFvSLORAy4gDAru0/VI2j9rMG/4n/vbQjc1AG18uzW3YgNCsmk
-         edWl3IKcXiNE6FZj1h8C8J03qblchwtvFxSf0d9RHw1BTkCHg8+iiwZ7HWRvKsWXp6Te
-         /xkjupOFNLDPSsGIQ+RffnVkC3n/sjecWlDWwyN2epYn68Gze3sjKD3IzzKY+1fSN5Wd
-         oixIAKgUMAVMsNqZURe9WbKfHaenWhFXtxf/B01GgsUBCiXZPYDOrlrK1g5u0OvXGwfJ
-         O26Q==
-X-Gm-Message-State: AOAM531r6Oa5Dk4Q1qmFxPBz5uW7v+8+OOEZQKp2gLrVqEdfdPFaTh5Y
-	e97qAkIRpCHoHz0Tp+L9kFo=
-X-Google-Smtp-Source: ABdhPJwhUJUOg82ro0dDkyiSwfBWb+7ycl9aLnNjwi6aXYf1eB3dwg9mrOqQkoLySuxT66fAme/wCw==
-X-Received: by 2002:a05:620a:14ad:: with SMTP id x13mr30242912qkj.172.1629872141200;
-        Tue, 24 Aug 2021 23:15:41 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id x8sm9397102qts.69.2021.08.24.23.15.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 23:15:40 -0700 (PDT)
-From: CGEL <cgel.zte@gmail.com>
-X-Google-Original-From: CGEL <deng.changcheng@zte.com.cn>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jing Yangyang <jing.yangyang@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] drivers:r8188eu: remove unneeded variable
-Date: Tue, 24 Aug 2021 23:15:31 -0700
-Message-Id: <20210825061531.69678-1-deng.changcheng@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+        bh=5e2CYVsWK7yif+ZWhIuMzcEgDnkaLIfgz62zQHIC1l4=;
+        b=tDN3SwpG82akuIWBHRJ5wdTkwdzF5g4jY29WKyvpDBa93EIfGFmETQPlc3TM4kcthG
+         mM25ypW2VJrL+ZX7B3fTcAE9g62xAI3XA8mJd+tec4wkN+8F2Lz/AiO31NXwu5IijfbM
+         pYwQccaXtq+k2p8rxU8CPkT+E+1tlvCkQciTJIZnCEFEmLBT7QrgN9kNXxGL0tbrG+w+
+         X/8BpFSQFgvq5FPigCq+svLkArcsTusEX/X1cFDrmp+J7pGEUEjpmBin49N7oy8hQev9
+         dBnoLCbEeS/ijkJBZjUkIvZpsqiULy4J5Ffg4YpYilyG1sI4nqEU7peYG4ouPz7reN6g
+         KVVg==
+X-Gm-Message-State: AOAM5327IoHCWeGAJjOTEw871CtJDiK8RJGHSE+nwD0xjSNv0/T35DMA
+	SdmdfZqssy3/alSbmtRC5wI=
+X-Google-Smtp-Source: ABdhPJx9ah3lG2IN9SggrEJai3dxMuYeLkvSlw7cKqY/OD8jUTB8PcwPIhpWpPor4x571SmyhmP56w==
+X-Received: by 2002:ac2:5231:: with SMTP id i17mr32422120lfl.497.1629879739813;
+        Wed, 25 Aug 2021 01:22:19 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id r8sm2030339ljc.7.2021.08.25.01.22.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 01:22:19 -0700 (PDT)
+Subject: Re: [PATCH v3 4/6] staging: r8188eu: add error handling of rtw_read16
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ gregkh@linuxfoundation.org, straube.linux@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1629789580.git.paskripkin@gmail.com>
+ <d06f3173e0a4c6f5449d5551cbfb0202849332b7.1629789580.git.paskripkin@gmail.com>
+ <1665728.ljvk3MsED4@localhost.localdomain>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <ab20fcd7-69a8-0530-7770-0e309178b0f0@gmail.com>
+Date: Wed, 25 Aug 2021 11:22:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1665728.ljvk3MsED4@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Jing Yangyang <jing.yangyang@zte.com.cn>
+On 8/25/21 7:35 AM, Fabio M. De Francesco wrote:
+> On Tuesday, August 24, 2021 9:27:35 AM CEST Pavel Skripkin wrote:
+>> _rtw_read16 function can fail in case of usb transfer failure. But
+>> previous function prototype wasn't designed to return an error to
+>> caller. It can cause a lot uninit value bugs all across the driver code,
+>> since rtw_read16() returns local stack variable to caller.
+>> 
+>> Fix it by changing the prototype of this function. Now it returns an
+>> int: 0 on success, negative error value on failure and callers should pass
+>> the pointer to storage location for register value.
+>> 
+>> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+>> 
+>> [...]
+>>
+>> -static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
+>> +static int usb_read16(struct intf_hdl *pintfhdl, u32 addr, u16 *data)
+>>  {
+>>  	u8 requesttype;
+>>  	u16 wvalue;
+>>  	u16 len;
+>> -	__le32 data;
+>> +	int res;
+>> +	__le32 tmp;
+>> +
+>> +	if (WARN_ON(unlikely(!data)))
+>> +		return -EINVAL;
+>>  
+>>  	requesttype = 0x01;/* read_in */
+>>  	wvalue = (u16)(addr & 0x0000ffff);
+>>  	len = 2;
+>> -	usbctrl_vendorreq(pintfhdl, wvalue, &data, len, requesttype);
+>> +	res = usbctrl_vendorreq(pintfhdl, wvalue, &tmp, len, requesttype);
+>> +	if (res < 0) {
+>> +		dev_err(dvobj_to_dev(pintfhdl->pintf_dev), "Failed to read 16 bytes: %d\n", res);
+>> +		return res;
+>> +	} else if (res != len) {
+> 
+> Dear Pavel,
+> 
+> Please note that if and when my patch "Use usb_control_msg_recv / send () in
+> usbctrl_vendorreq ()" will be merged, "if (res! = len)" will always evaluate 'true'
+> and usb_read16 () will always return -EIO even if usbctrl_vendorreq () succeeds.
+> 
 
-Eliminate the following coccicheck warning:
-./drivers/staging/r8188eu/os_dep/os_intfs.c:505:6-12:
- Unneeded variable "status". Return "_SUCCESS" on line 577
-./drivers/staging/r8188eu/os_dep/os_intfs.c:772: 4-7:
-  Unneeded variable "ret". Return "_SUCCESS" on line 818
-./drivers/staging/r8188eu/os_dep/os_intfs.c:823:4-8:
-Unneeded variable "ret8". Return "_SUCCESS" on line 849
+Yep, thank you, but it depends on which series will go in first :)
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Jing Yangyang <jing.yangyang@zte.com.cn>
----
- drivers/staging/r8188eu/os_dep/os_intfs.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 9d7d2b9..8436a43 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -502,7 +502,6 @@ void rtw_proc_remove_one(struct net_device *dev)
- 
- static uint loadparam(struct adapter *padapter,  struct  net_device *pnetdev)
- {
--	uint status = _SUCCESS;
- 	struct registry_priv  *registry_par = &padapter->registrypriv;
- 
- 	GlobalDebugLevel = rtw_debug;
-@@ -574,7 +573,7 @@ static uint loadparam(struct adapter *padapter,  struct  net_device *pnetdev)
- 	snprintf(registry_par->if2name, 16, "%s", if2name);
- 	registry_par->notch_filter = (u8)rtw_notch_filter;
- 
--	return status;
-+	return _SUCCESS;
- }
- 
- static int rtw_net_set_mac_address(struct net_device *pnetdev, void *p)
-@@ -751,7 +750,6 @@ void rtw_stop_drv_threads(struct adapter *padapter)
- 
- static u8 rtw_init_default_value(struct adapter *padapter)
- {
--	u8 ret  = _SUCCESS;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
- 	struct xmit_priv	*pxmitpriv = &padapter->xmitpriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-@@ -797,12 +795,11 @@ static u8 rtw_init_default_value(struct adapter *padapter)
- #ifdef CONFIG_88EU_P2P
- 	padapter->bShowGetP2PState = 1;
- #endif
--	return ret;
-+	return _SUCCESS;
- }
- 
- u8 rtw_reset_drv_sw(struct adapter *padapter)
- {
--	u8	ret8 = _SUCCESS;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct pwrctrl_priv *pwrctrlpriv = &padapter->pwrctrlpriv;
- 
-@@ -828,7 +825,7 @@ u8 rtw_reset_drv_sw(struct adapter *padapter)
- 
- 	rtw_set_signal_stat_timer(&padapter->recvpriv);
- 
--	return ret8;
-+	return _SUCCESS;
- }
- 
- u8 rtw_init_drv_sw(struct adapter *padapter)
--- 
-1.8.3.1
+There is a chance, that you will need to clean up this part, if mine 
+will be merged before yours
 
 
+
+With regards,
+Pavel Skripkin
