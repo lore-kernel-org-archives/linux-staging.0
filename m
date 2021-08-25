@@ -1,86 +1,89 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30E472
-	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 09:01:18 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id w4so40849977ljh.13
-        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 02:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=siiAMXMnOcYcUixi7P4UWut0ajuzZ/rlLvDcwhpsVN8=;
-        b=T6W/S409kDF6euOFXYcn3jMOb11oSOhlNLY4877KSMn90D4JXqi9GCL4JEFrpU0Gh9
-         UmistuDMNEXqklFJEN7XFS+/7vVT2m1EQlXJkPMDbgS76rmr2TiUCAkTaE0gWmc7/Y1e
-         FXngZdcIy+PgEPmaCEgXs/LBcrUkHr2vFb3X2Qo+UdekMtBmzD8t01otcFUcJFr9FRVv
-         UVrSb2Q3Q8cRhMg8kWlKT85lAT55+R73G1KxtExfEzkR+2e6f07W3hn1BoSgVPHUGLpa
-         pJZdlSS01UEaw9JKcNg25zPk0DqulAYHiOBgURq1wiYJd69NCjKRWlFAxU3fmtFWqpUt
-         8jbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=siiAMXMnOcYcUixi7P4UWut0ajuzZ/rlLvDcwhpsVN8=;
-        b=dnhMgmmhoXbyd8e1er9qFBZaf/3sZnLy+314JYnHFhSd1dojokJxCUoWGWh97Wd5de
-         dvQdYj79VIQSDZ20LcyIW8SuTBT4skFwaB9I1b24Ak4ki/JtPzPaAjxbu0HfsEzqRYKu
-         iU9fsHCp0ppfdzTD8vOVQ491Ql4srv2Ol1MX8iDdTX9A+A2/24DtrSTbY4pZ8kjsfKQC
-         DfmRvm3Ky0XzmL6Lyjbc/yeKpBBEhNoYN/XA0xnHOXj8xMow+L0M9Sv+zo65zY9GCC1W
-         +ykxP7Scb+BFSnFYtgyG2bC2WrPsE1pJS+Xao8f2q5U36gexG51MnDO9DUIEwPNYJ6ge
-         fJhA==
-X-Gm-Message-State: AOAM533e90eMSwEh12IZ7NvCLjoL4ZtobKVuD0QxKOW8T4P8jzGnkZRk
-	CxfQZhQfedFBRN2pSGmZt+w=
-X-Google-Smtp-Source: ABdhPJwL6f9fMVll4vj4mAOF4Emm4RvgSlHl+++4R7LihmHN5mJX2b85jvac0GP219gpveQWOwnWEg==
-X-Received: by 2002:a05:651c:1af:: with SMTP id c15mr12593575ljn.194.1629882075304;
-        Wed, 25 Aug 2021 02:01:15 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id d6sm2005094lfi.57.2021.08.25.02.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Aug 2021 02:01:14 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] staging: r8188eu: Use usb_control_msg_recv/send()
- in usbctrl_vendorreq()
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-References: <20210825035311.8910-1-fmdefrancesco@gmail.com>
- <20210825035311.8910-2-fmdefrancesco@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <d1b3c63a-1dcb-72c1-451b-dcca5ea9b128@gmail.com>
-Date: Wed, 25 Aug 2021 12:01:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7B872
+	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 09:13:49 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-251-eNLeqziOMbmB_zlX0-oBfA-1; Wed, 25 Aug 2021 10:13:46 +0100
+X-MC-Unique: eNLeqziOMbmB_zlX0-oBfA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Wed, 25 Aug 2021 10:13:44 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Wed, 25 Aug 2021 10:13:44 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Larry Finger' <Larry.Finger@lwfinger.net>, Aakash Hemadri
+	<aakashhemadri123@gmail.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Phillip Potter <phil@philpotter.co.uk>
+CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 2/5] staging: r8188eu: cast to restricted __be32
+Thread-Topic: [PATCH v3 2/5] staging: r8188eu: cast to restricted __be32
+Thread-Index: AQHXmCqSnSVpiVCtaEyxz8Go65B0FauD8RPg
+Date: Wed, 25 Aug 2021 09:13:44 +0000
+Message-ID: <ba4668725f944d12843529f0b0d4a8a2@AcuMS.aculab.com>
+References: <cover.1629562355.git.aakashhemadri123@gmail.com>
+ <50439a81aca7ce8c3c97ec1c7247f4cd03f645a5.1629562355.git.aakashhemadri123@gmail.com>
+ <20210823084426.yo2mhgbyehkwwz3h@xps.yggdrasil>
+ <25d336b5-8008-9b3b-7efe-a82afaea0e98@lwfinger.net>
+In-Reply-To: <25d336b5-8008-9b3b-7efe-a82afaea0e98@lwfinger.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210825035311.8910-2-fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On 8/25/21 6:53 AM, Fabio M. De Francesco wrote:
-> Replace usb_control_msg() with the new usb_control_msg_recv() and
-> usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
-> Remove no more needed variables. Move out of an if-else block
-> some code that it is no more dependent on status < 0. Remove
-> redundant code depending on status > 0 or status == len.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+RnJvbTogTGFycnkgRmluZ2VyDQo+IFNlbnQ6IDIzIEF1Z3VzdCAyMDIxIDE1OjI0DQo+IA0KPiBP
+biA4LzIzLzIxIDM6NDQgQU0sIEFha2FzaCBIZW1hZHJpIHdyb3RlOg0KPiA+IE9uIDIxLzA4LzIx
+IDA5OjQ4UE0sIEFha2FzaCBIZW1hZHJpIHdyb3RlOg0KPiA+PiBGaXggc3BhcnNlIHdhcm5pbmc6
+DQo+ID4+PiBydHdfYnJfZXh0LmM6ODM2OjU0OiB3YXJuaW5nOiBjYXN0IHRvIHJlc3RyaWN0ZWQg
+X19iZTMyDQo+ID4+DQo+ID4+IGRocGNoLT5jb29raWUgaXMgYmUzMiwgY2hhbmdlIGl0J3MgdHlw
+ZS4NCi4uLg0KPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9y
+dHdfYnJfZXh0LmMgYi9kcml2ZXJzL3N0YWdpbmcvcjgxODhldS9jb3JlL3J0d19icl9leHQuYw0K
+PiA+PiBpbmRleCBmNmQxZjYwMjllYzMuLmY2NWQ5NGJmYTI4NiAxMDA2NDQNCj4gPj4gLS0tIGEv
+ZHJpdmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfYnJfZXh0LmMNCj4gPj4gKysrIGIvZHJp
+dmVycy9zdGFnaW5nL3I4MTg4ZXUvY29yZS9ydHdfYnJfZXh0LmMNCi4uLg0KPiA+PiBAQCAtNjcx
+LDcgKzY3MSw3IEBAIHZvaWQgZGhjcF9mbGFnX2JjYXN0KHN0cnVjdCBhZGFwdGVyICpwcml2LCBz
+dHJ1Y3Qgc2tfYnVmZiAqc2tiKQ0KPiA+PiAgIAkJCQkgICAgKHVkcGgtPmRlc3QgPT0gX19jb25z
+dGFudF9odG9ucyhTRVJWRVJfUE9SVCkpKSB7IC8qICBESENQIHJlcXVlc3QgKi8NCj4gPj4gICAJ
+CQkJCXN0cnVjdCBkaGNwTWVzc2FnZSAqZGhjcGggPQ0KPiA+PiAgIAkJCQkJCShzdHJ1Y3QgZGhj
+cE1lc3NhZ2UgKikoKHNpemVfdCl1ZHBoICsgc2l6ZW9mKHN0cnVjdCB1ZHBoZHIpKTsNCg0KVGhp
+cyBhc3NpZ25tZW50IGxvb2tzIGR1YmlvdXMgYXQgYmVzdCAtIFdURiBpcyAoc2l6ZV90KSBmb3I/
+DQpJIGRvbid0IHNlZW0gdG8gaGF2ZSBhIHNvdXJjZSB0cmVlIHdpdGggdGhpcyBkcml2ZXIgaW4g
+aXQgKHByb2JhYmx5IG9ubHkgaW4gJ25leHQnPykuDQpJIHN1c3BlY3QgaXQgc2hvdWxkIGJlOg0K
+CXN0cnVjdCBkaGNwX21lc3NhZ2UgKmRoY3BoID0gKHZvaWQgKikodWRwaCArIDEpOw0KDQo+ID4+
+IC0JCQkJCXUzMiBjb29raWUgPSBiZTMyX3RvX2NwdSgoX19iZTMyKWRoY3BoLT5jb29raWUpOw0K
+PiA+PiArCQkJCQl1MzIgY29va2llID0gYmUzMl90b19jcHUoZGhjcGgtPmNvb2tpZSk7DQo+ID4+
+DQo+ID4+ICAgCQkJCQlpZiAoY29va2llID09IERIQ1BfTUFHSUMpIHsgLyogIG1hdGNoIG1hZ2lj
+IHdvcmQgKi8NCj4gPj4gICAJCQkJCQlpZiAoIShkaGNwaC0+ZmxhZ3MgJiBodG9ucyhCUk9BRENB
+U1RfRkxBRykpKSB7DQo+ID4+IC0tDQo+ID4+IDIuMzIuMA0KPiA+Pg0KPiA+DQo+ID4gRGF2aWQg
+TGFpZ2h0IHN1Z2dlc3RlZCB0byB1c2UgZ2V0X3VuYWxpZ25lZF9iZTMyLCBJIGFtIG5vdCBzdXJl
+IGlmIGl0J3MNCj4gPiB0aGUgcmlnaHQgdGhpbmcgdG8gZG8gYmVjYXVzZSBhcyBmYXIgYXMgSSB1
+bmRlcnN0YW5kIGdldF91bmFsaWduZWRfYmUzMg0KPiA+IGJ5dGVzaGlmdHMgdGhlIGFyZ3VtZW50
+Lg0KPiA+DQo+ID4gQ2FuIHNvbWVvbmUgcGxlYXNlIGNvbmZpcm0gaWYgdGhpcyBjaGFuZ2UgaXMg
+b2theT8NCj4gPg0KPiANCj4gSXQgaXMgbm90IG5lZWRlZC4gdmFyaWFibGUgZGhjcGgtPmNvb2tp
+ZSBpcyA0LWJ5dGUgYWxpZ25lZC4gVXNpbmQgdGhlIHVuYWxpZ25lZA0KPiB2ZXJzaW9uIHdvdWxk
+IGp1c3QgYWRkIGNwdSBjeWNsZXMgYW5kIGFycml2dyBhdCB0aGUgc2FtZSBwb2ludCENCg0KSXQg
+cmF0aGVyIGRlcGVuZHMgb24gd2hldGhlciB0aGUgaW5wdXQgYnVmZmVyIGlzIGFsaWduZWQuDQpB
+bHRob3VnaCBpZiBpdCBtaWdodCBub3QgYmUgdGhlbiB0aGVuIHRoZSBzdHJ1Y3R1cmUocykgdGhh
+dCBtYXANCml0IG5lZWQgdG8gYmUgbWFya2VkICdwYWNrZWQnLg0KV2hpY2ggd291bGQgYWxzbyBt
+ZWFuIHRoZSBnZXRfdW5hbGlnbmVkX2JlMzIoKSBpc24ndCB0aGUgY29ycmVjdA0Kd2F5IHRvIGhh
+bmRsZSBhIG1pc2FsaWduZWQgYnVmZmVyLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRy
+ZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1L
+MSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
-
-
-I cannot review the second one, since it's not applicable on top of 
-staging-next :)
-
-
-
-
-With regards,
-Pavel Skripkin
