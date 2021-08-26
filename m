@@ -1,106 +1,132 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9E83FC0
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 14:04:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B7C8C61038;
-	Thu, 26 Aug 2021 14:04:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1629986647;
-	bh=hPzln00qZJMKbWdkC8Lbh+h8DjBU3h3+xeXqslz4LDs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SqercknMSmt3VsVTeJHzmphlHiRS1ZEBoehJZk7s/t+Gylp5Py8D1QyKNP9PYnO5L
-	 741Wud87bkXRj6/1OxLm9c2NoKz1uPGQRl/x8VqlLSmvVfgy9CG5Oy8QR0QQ77b8P9
-	 wGTFrSEAAmRjcvh6pddCm2yVSaI+9mWEyv1mQa6s=
-Date: Thu, 26 Aug 2021 16:04:03 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Martin Kaiser <martin@kaiser.cx>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: r8188eu: Remove _enter/_exit_critical_mutex()
-Message-ID: <YSefUxSAwJGRLDYe@kroah.com>
-References: <20210819221241.31987-1-fmdefrancesco@gmail.com>
- <YSdu00zpqfGkKc1e@kroah.com>
- <1729205.azBTxCciFU@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B893FC8
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 14:24:39 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id h9so6707739ejs.4
+        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 07:24:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=DEfNjSCekdhqcVvTJ9JgfrtQOnM3bZoPdHSlk/HOmKI=;
+        b=Atfeu+f6OF1pBdQf8HzJcN4LXwLffSFx7StW32M3Jmpd9388Du7A6ItnIcz09LYkQB
+         fRzGncXJ2rGy1TKRwG9aIXyOiGeCA5g73Ho4+EKkPKns4y6nnQJuE0/I5cfv3U+yv88/
+         uCVtt6WhSJbhuXtnh4h2pZWVAq5cEH00xRX8Pd/akAoyGIF6mI4TLGGvD6yqdblKUAUA
+         a9/N761KvnaZ+391D48+Hwm/LWpQwrLUX3bBUWXpzSB49P5PFsOtPWT5OuOqczG10K7T
+         cBjQgewBhynsMbZ2PmAq+VrEC8caz0HWi0KXt7wMuOEv5y0kpgy/0+JqvXDAex0Xkx1g
+         ezKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DEfNjSCekdhqcVvTJ9JgfrtQOnM3bZoPdHSlk/HOmKI=;
+        b=WOS99WQCV3Dq6cU7CLNpEEwMIW43n6EYPT/3Rz+/vzxaS5w3WX1uzmopWWH0i0rjA2
+         qgsOq9lDxMjLXCFFdhXLzpgrf6Djdi41uie6nP5CBDnXWBPucEbox9pVa2expbqePafq
+         H7DVCt64ImbgEJBuj0FDaD5Syd1cbJltN7WV+hv4L9sEB6b0QgdSofH2BrJoz10ULw9T
+         4Zr6iyJKSnteaUNQEq/XxkmU3gNFjAYyZEcZtepVUIHnE0UOMLysGGhNTXd6Am7XnCqY
+         HQ2f2oaMng5n+Jqspa3E/kvh8eSLiiHEhmM3QMKOlLUi2Jt9fayt+MMI265jcMliED3g
+         13RQ==
+X-Gm-Message-State: AOAM530+3pSy2WZFTQlm8KOKfPonqftqpwGbDkze6ftkLcfQe0S4GUZE
+	iI/5XTncOuAcSHteEk5rRGA=
+X-Google-Smtp-Source: ABdhPJw4xb21tXqsTxqbIP97KPLmpVha7qIK0Y6fLVYfRBGT+RHPZS8aJfoN5vG856yV5DKvORD49A==
+X-Received: by 2002:a17:907:2677:: with SMTP id ci23mr4545440ejc.429.1629987877925;
+        Thu, 26 Aug 2021 07:24:37 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id b5sm1487755ejq.56.2021.08.26.07.24.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Aug 2021 07:24:37 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH v3 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
+Date: Thu, 26 Aug 2021 16:24:35 +0200
+Message-ID: <47945171.69uSEkksVi@localhost.localdomain>
+In-Reply-To: <YSdxhfNjxOcJwxFg@kroah.com>
+References: <20210825035311.8910-1-fmdefrancesco@gmail.com> <20210825035311.8910-2-fmdefrancesco@gmail.com> <YSdxhfNjxOcJwxFg@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1729205.azBTxCciFU@localhost.localdomain>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Aug 26, 2021 at 03:55:37PM +0200, Fabio M. De Francesco wrote:
-> On Thursday, August 26, 2021 12:37:07 PM CEST Greg Kroah-Hartman wrote:
-> > On Fri, Aug 20, 2021 at 12:12:41AM +0200, Fabio M. De Francesco wrote:
-> > > Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
-> > > unnecessary wrappers, respectively to mutex_lock_interruptible() and
-> > > to mutex_unlock(). They also have an odd interface that takes an unused
-> > > argument named pirqL of type unsigned long.
-> > > The original code enters the critical section if the mutex API is
-> > > interrupted while waiting to acquire the lock; therefore it could lead
-> > > to a race condition. Use mutex_lock() because it is uninterruptible and
-> > > so avoid that above-mentioned potential race condition.
-> > > 
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
+On Thursday, August 26, 2021 12:48:37 PM CEST Greg Kroah-Hartman wrote:
+> On Wed, Aug 25, 2021 at 05:53:10AM +0200, Fabio M. De Francesco wrote:
+> > Replace usb_control_msg() with the new usb_control_msg_recv() and
+> > usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
+> > Remove no more needed variables. Move out of an if-else block
+> > some code that it is no more dependent on status < 0. Remove
+> > redundant code depending on status > 0 or status == len.
 > > 
-> > You have changed the behavior of the code here, how have you tested that
-> > this still works properly?
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
 > > 
-> > thanks,
+> > v2->v3: Restore the test for success of usb_control_message_recv/send
+> > that was inadvertently removed. Issue reported by Pavel Skripkin.
 > > 
-> > greg k-h
+> > v1->v2: According to suggestions by Christophe JAILLET 
+> > <christophe.jaillet@wanadoo.fr>, remove 'pipe' and pass an explicit 0
+> > to the new API. According to suggestions by Pavel Skripkin 
+> > <paskripkin@gmail.com>, remove an extra if-else that is no more needed, 
+> > since status can be 0 and < 0 and there is no 3rd state, like it was before.
+> > Many thanks to them and also to Phillip Potter <phil@philpotter.co.uk>
+> > who kindly offered his time for the purpose of testing v1.
+> > 
+> >  drivers/staging/r8188eu/hal/usb_ops_linux.c | 45 ++++++++-------------
+> >  1 file changed, 17 insertions(+), 28 deletions(-)
 > 
-> I forgot to say in this commit message that I've not tested it. I said that in other 
-> patches I've submitted during this days (it's because I'm on vacation and I haven't
-> my device with me), I'm sorry that I forgot to say the same also when I submitted this.
-> 
-> I understand that I've changed the behaviour of the code. I did that because the old 
-> code had mutex_lock_interruptible() that, if interrupted while waiting for acquiring
-> the mutex, it led to a potential race condition.
-> 
-> In the first version of my patch I wrote:
-> 
-> -       _enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
-> +       if (mutex_lock_interruptible(&pxmitpriv->ack_tx_mutex))
-> +               return -EINTR;
-> 
-> I didn't explain why I decided to check and handle a possible -EINTR. Since the original
-> code had no checks of the return value from mutex_lock_interruptible() I thought it
-> could potentially enter the critical section, so I decided to check the return value and
-> exit if I have -EINTR. I guess it shouldn't be allowed to enter the critical section without
-> proper locking.
-> 
-> Then I read another message of yours: "[] (my guess, one almost never needs
-> interruptible locks in a driver)". I interpreted this as: you should change the code
-> to use mutex_lock() (that is uninterruptible) because you don't need to use interruptible
-> locks here. That's why at v3 I changed again the code above and used an uninterruptible
-> mutex_lock(). That's it.
-> 
-> Now  let's go back to the question you asked with your last message. I must admit that,
-> although I have been working here in staging for more or less four months, I still have 
-> some problems to decode your quite terse style :) 
-> 
-> Can you please say what you mean with your question? is it (1) or (2)?
-> 
-> 1) The code is _plain_wrong_: go back to your v1, use the interruptible lock as you did there
-> and return -EINTR if interrupted; in the while, also explain why you decided to check for 
-> errors and what could happen if you don't test for -EINTR (i.e., explicitly say that you could 
-> incur in race conditions if you entered the critical section with no locks acquired).
-> 
-> 2) The code _looks_good_, however I want t know if and how you tested it. 
+> This doesn't apply to my tree at all.  Please rebase and resend.
 
-This one, it looks right, but I want to make sure how you tested it and
-verified that it still works properly.
+This series cannot apply to your tree until another one of mine is applied 
+("staging: r8188eu: Remove _enter/_exit_critical_mutex()"). This series builds
+on the previous patch.
 
-No rush, resend when you are back and have a chance to do so.
+> But first, are you sure you want to use these new functions here?  This
+> is a "common" function that is called from different places for
+> different things.  How about unwinding the callers of this function
+> first, to see if they really need all of the complexity in this function
+> at all, and if not, then call the real USB function in those locations
+> instead.
 
-thanks,
+I think it could be fine to simply refactor usbctrl_vendorreq() to use the newer
+API with no necessity to directly use them at least in six different places in
+hal/usb_ops_linux.c. The only users of this helper are usb_read8/16/32() and
+usb_write8/16/32(). Why do you prefer using usb_control_msg_recv/send() 
+directly in the callers? I guess it would lead to redundant code, more or less
+the same code repeated again and again within the above-mentioned six callers.
+What do we improve by doing as you suggest? What am I missing?
+ 
+> It's only used in this single file, so it shouldn't be that hard to
+> unwind (after seeing where those calls are made from, and if they even
+> need to be present at all.  Hint, look at the mess of where _write16 and
+> friends are set to realize that structure is not needed at all, right?
+> It's a long chain, the more you pull on it, the messier you realize it
+> is...)
 
-greg k-h
+I've already exposed my POV above. However, I know that Pavel is working on
+usb_read*() and usb_write*() and I wouldn't avoid to change those functions
+while he is changing them. Shouldn't I better avoid further changes until 
+my "Remove _enter/_exit_critical_mutexes()" get accepted (or definitely rejected)
+and also wait for Pavel's series to be merged? Since usb_control_msg_recv/send()
+don't return the length of the messages, my patch would break his checks of
+ret == len and lead to serious bugs. I'd wait for his patches and then remove 
+the ret == len check when we get rid of usb_control_msg() and use the new API.
+
+What about my idea?
+
+Thanks,
+
+Fabio
+
+> thanks,
+> 
+> greg k-h
+> 
+
+
+
+
