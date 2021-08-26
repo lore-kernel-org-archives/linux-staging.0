@@ -1,165 +1,92 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B8E3FCB
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 15:43:34 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id z10so5312150edb.6
-        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 08:43:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880F23FCB
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 15:46:31 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id z24-20020a17090acb1800b0018e87a24300so2705043pjt.0
+        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 08:46:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RTmjjgKNf1oCjSw/UGsuRv5cqlu6x5zYZlIgXT+yaLw=;
-        b=lJrbCB4ysWZEZarm93Wi761yWOa7QX6uuPO+ZLMF/GnkYGg5Uwp0Yomk0Vg6y9ZJk/
-         CRv9GBrp1fe2U8X2Rbq7nSiGL8GFkJolMCEvPTCwFAazvpdoFU6mMyK8w126BPWiDmWD
-         g9RlrtPyMYB/J8vrYRvtMz6KEebkG0SJl6C+g4MaU/w7FZezv4EHltZDtTrw1l1+57v+
-         fjjRqAwBwezlB1Copa/4O+ril4Hnv6xsaMxx2am8WnREGpmDWnzl+o3kXWakNPKo5Kzf
-         IVmBZjSnVl4BckAjMG/4R66jaPA5lCTBKdLmpFu07MnEfnJSrs+95sc2uhl2Fy8WDoG7
-         jbjg==
+        h=from:to:cc:subject:date:message-id;
+        bh=orYg9WhXU6LamUpPHbvyglJpY6TmtDwaRBuxFjtRHsQ=;
+        b=SZieHhiquyxl/pFNCH15FSG/VpbZHUdbbIMOey3CtwaxnlpKgFILyoeR9Ja5mqDL10
+         iM/jmZ8KjaN+icB+kbAwcndKFVczbD1MmW/yoj3nLQZEzm5abYwdXF+69i/ETRT8MMbh
+         WOSDC/t1QgRs37bFV7IQ16iZnE4GXI/+7yc1K5KHo4exQyyFQ7qsGTbHrU801QvKhGuk
+         aRq3anck0JnfSLAl4T7FHg6tj4udF2BLX0Nvly/OsZUH8JIHBpSKkXeBd13LDJYRjFEm
+         oHbcfpkGOjTh9oYaRckyH32IB/Eal6BgT41jn15xkGccwnLno0eVKGX3k2h01njSJ37g
+         IGlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RTmjjgKNf1oCjSw/UGsuRv5cqlu6x5zYZlIgXT+yaLw=;
-        b=X6SyGXNSGndXfyPhgtA4RDScpYw9QeOyY9D3baMM76WPwOhEY6FrOC3NIw4nvVgWsY
-         Dp21PrQonoVhGmA6kZ1mmgW+cUK2z7iEMSnlYpzIA8t0XRrxhlF39S9CY2lOJ5xOWnBt
-         O5tRgiHLu5Rdz+i7dxQCo+9MJ9MFbX2C1803cFqG6ovX1mZ0vRNDQx5/pWYZmzRUn+JU
-         LlGuDDwzMVa+9vx4ANMH2Flli/ojYy5zfT/yJiePFoB72HunubaQZA39UboBcKCfZBIg
-         +bsyBQJeUbwQsFwfwT0aiOOOoAvcSTTGTRdKzYg5aNrLs2/zwV1zLw8i/A9miPUfsudR
-         IOTg==
-X-Gm-Message-State: AOAM532FkrghCkf5QNiqU7OVVEDxgVOM8Q1muri1uhErfWOEwgnoUWDG
-	6Ch6cD+OTNVvnnZbbknNp3NwXJtcYMo=
-X-Google-Smtp-Source: ABdhPJwkXf1Qnwx1ulvB0BzEOAhffXq4rQNByw4ajefIueu5Z9lvMH5E2+n0wNBe02BpglytvaB3Rg==
-X-Received: by 2002:aa7:d54f:: with SMTP id u15mr4926461edr.178.1629992613045;
-        Thu, 26 Aug 2021 08:43:33 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id q6sm2025099edd.26.2021.08.26.08.43.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 08:43:32 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v3 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
-Date: Thu, 26 Aug 2021 17:43:31 +0200
-Message-ID: <1897490.lth8vsWHjN@localhost.localdomain>
-In-Reply-To: <YSepDdf+nHekuIxA@kroah.com>
-References: <20210825035311.8910-1-fmdefrancesco@gmail.com> <47945171.69uSEkksVi@localhost.localdomain> <YSepDdf+nHekuIxA@kroah.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=orYg9WhXU6LamUpPHbvyglJpY6TmtDwaRBuxFjtRHsQ=;
+        b=KaT6WivkdpMrxqt+8bJRJaaO8lUU7Rmwnz/aVH4YXW3Bicnb5kP7tlrRrmhUEj3OLi
+         2MdHGjrkKmBz6Zlxow+/LkejstPg1c7nld0hpGrXVpa6MCTb3uOPXR8Stk714FFJyd5w
+         0v10gaAgkJr5vX0pYnlfQ9YsorGQATmMm7/1Ecc8CQ42CYqIxklrx3hTujolkUKvNK0o
+         TEtD7md9t0bBg2TY0s7XfoJZH+ZcfaJiSvzaYlchm0fQqnOJCAmj/lgzesDKIq64S+0l
+         /dIPEvb1EBWzL5ohqdCgCZFKRmxPI2vrdYjj4/76ITpX/AMrTASgie9lT1LfFV0D9uT1
+         FmWg==
+X-Gm-Message-State: AOAM530FDapWqJtlbwV00PpZkNnABIIcjZXdm7CChnJ0f9/pdf+6oUq4
+	3AL/GIW/jF0Ikni59wyBRiM=
+X-Google-Smtp-Source: ABdhPJzDTrhA65210RX8xMhY6wNPQQks306FL40SouNK1Inmobb7UuUqMoM/s9JdeGfNjgMCkx2Sdg==
+X-Received: by 2002:a17:902:edd7:b0:136:9429:d148 with SMTP id q23-20020a170902edd700b001369429d148mr4065836plk.33.1629992791064;
+        Thu, 26 Aug 2021 08:46:31 -0700 (PDT)
+Received: from localhost.localdomain ([222.205.124.103])
+        by smtp.gmail.com with ESMTPSA id p10sm3593898pjv.39.2021.08.26.08.46.27
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 26 Aug 2021 08:46:30 -0700 (PDT)
+From: Wenlong Zhang <yixiaonn@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	marcocesati@gmail.com,
+	insafonov@gmail.com,
+	cyruscyliu@gmail.com,
+	yajin@vm-kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Wenlong Zhang <yixiaonn@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: prevent ->ssid overflow in rtw_wx_set_scan()
+Date: Thu, 26 Aug 2021 23:46:22 +0800
+Message-Id: <20210826154622.55361-1-yixiaonn@gmail.com>
+X-Mailer: git-send-email 2.15.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
 
-On Thursday, August 26, 2021 4:45:33 PM CEST Greg Kroah-Hartman wrote:
-> On Thu, Aug 26, 2021 at 04:24:35PM +0200, Fabio M. De Francesco wrote:
-> > On Thursday, August 26, 2021 12:48:37 PM CEST Greg Kroah-Hartman wrote:
-> > > On Wed, Aug 25, 2021 at 05:53:10AM +0200, Fabio M. De Francesco wrote:
-> > > > Replace usb_control_msg() with the new usb_control_msg_recv() and
-> > > > usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
-> > > > Remove no more needed variables. Move out of an if-else block
-> > > > some code that it is no more dependent on status < 0. Remove
-> > > > redundant code depending on status > 0 or status == len.
-> > > > 
-> > > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > > ---
-> > > > 
-> > > > v2->v3: Restore the test for success of usb_control_message_recv/send
-> > > > that was inadvertently removed. Issue reported by Pavel Skripkin.
-> > > > 
-> > > > v1->v2: According to suggestions by Christophe JAILLET 
-> > > > <christophe.jaillet@wanadoo.fr>, remove 'pipe' and pass an explicit 0
-> > > > to the new API. According to suggestions by Pavel Skripkin 
-> > > > <paskripkin@gmail.com>, remove an extra if-else that is no more needed, 
-> > > > since status can be 0 and < 0 and there is no 3rd state, like it was before.
-> > > > Many thanks to them and also to Phillip Potter <phil@philpotter.co.uk>
-> > > > who kindly offered his time for the purpose of testing v1.
-> > > > 
-> > > >  drivers/staging/r8188eu/hal/usb_ops_linux.c | 45 ++++++++-------------
-> > > >  1 file changed, 17 insertions(+), 28 deletions(-)
-> > > 
-> > > This doesn't apply to my tree at all.  Please rebase and resend.
-> > 
-> > This series cannot apply to your tree until another one of mine is applied 
-> > ("staging: r8188eu: Remove _enter/_exit_critical_mutex()"). This series builds
-> > on the previous patch.
-> 
-> When you do that, please let me know somehow that this is the case,
-> otherwise how am I supposed to guess that?
+Commit 74b6b20df8cf ("staging: rtl8188eu: prevent ->ssid overflow in rtw_wx_set_scan()")
+fixed up the staging driver rtl8188eu by adding another check 
+to prevent writing beyond the end of the ->ssid[] array.
 
-Correct, my fault :( 
+Resolve this by properly fixing up the rtl8723bs driver's version of
+rtw_wx_set_scan() 
 
-To my defense I can only say that I really had forgot that there were the 
-above-mentioned previous patch still in your queue. So I didn't immediately 
-realized that I had to inform you somehow of this kind of dependence.
-I knew that only yesterday, when Pavel wanted to apply this patch to 
-his local copy of your then current tree and he couldn't. After some thoughts
-I understood that the latter depended on the former, but I guess it was too late 
-to inform you. Furthermore, yesterday I thought that you would have applied 
-in a FIFO order and that you wouldn't notice any conflict.
+Reported-by: Wenlong Zhang(iLifetruth) <yixiaonn@gmail.com>
+Fixes: 74b6b20df8cf ("staging: rtl8188eu: prevent ->ssid overflow in rtw_wx_set_scan()")
 
-Actually I was wrong, because you didn't apply the former and instead asked
-me to test it (we talked about that patch some minutes ago in another message).
+Signed-off-by: Wenlong Zhang <yixiaonn@gmail.com>
+
+---
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index 902ac8169948..6fc1020cea11 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -1351,9 +1351,9 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
  
-> > > But first, are you sure you want to use these new functions here?  This
-> > > is a "common" function that is called from different places for
-> > > different things.  How about unwinding the callers of this function
-> > > first, to see if they really need all of the complexity in this function
-> > > at all, and if not, then call the real USB function in those locations
-> > > instead.
-> > 
-> > I think it could be fine to simply refactor usbctrl_vendorreq() to use the newer
-> > API with no necessity to directly use them at least in six different places in
-> > hal/usb_ops_linux.c. The only users of this helper are usb_read8/16/32() and
-> > usb_write8/16/32(). Why do you prefer using usb_control_msg_recv/send() 
-> > directly in the callers? I guess it would lead to redundant code, more or less
-> > the same code repeated again and again within the above-mentioned six callers.
-> > What do we improve by doing as you suggest? What am I missing?
-> 
-> If you unwind the mess, you will find that the code will be much easier
-> to understand.
-> 
-> As an example, look at usb_write8().  Where is it ever called?  Why do
-> we have it at all?  It's only used in 1 place, and then that function
-> unwinds into rtw_write8(), which is used in a lot of places, and never
-> checked at all, making the majority of the logic in this function
-> totally unneeded and useless.
-> 
-> Same for rtw_write16() and rtw_write32().  After unwinding the mess you
-> see that the logic you are working to try to clean up in this patch
-> series is pretty much not used / needed at all, right?  So why do it?
-> 
-> Unwind the mess into a useful set of functions the driver can actually
-> call that is not 2-4 function pointers deep and then we can talk about
-> unifying things, if they are really needed.  But right now, it's
-> impossible to tell.
-
-Yeah, I know how is the call chain from top (rtw_read/write8/16/32()) to bottom
-(usbctrl_vendorreq()) and then to the new USB core API. 
-
-Pavel and I have been talking about this topic while he was working on his 
-series ("r8188eu: avoid uninit value bugs").
-
-Aside from this, I re-thought about what you write above and I too find that
-having 2-4 function pointers deep is a bad design. Anyway I'm stuck in 
-waiting to see what Pavel will submit with his reworking, because I don't 
-desire to make patches that conflict with his.
-
-As you often say to all us: there is no hurry! So, I'll wait to see Pavel's final
-work before changing whatever could conflict with him.
-
-> good luck!
-
-Thanks, I'll need it :-)
-
-And thanks for the time you spent to clarify your thoughts about these topics.
-
-Fabio
+ 					sec_len = *(pos++); len -= 1;
  
-> greg k-h
-
-
+-					if (sec_len > 0 && sec_len <= len) {
++					if (sec_len > 0 && sec_len <= len && sec_len <= 32) {
+ 						ssid[ssid_index].SsidLength = sec_len;
+-						memcpy(ssid[ssid_index].Ssid, pos, ssid[ssid_index].SsidLength);
++						memcpy(ssid[ssid_index].Ssid, pos, sec_len);
+ 						/* DBG_871X("%s COMBO_SCAN with specific ssid:%s, %d\n", __func__ */
+ 						/* 	, ssid[ssid_index].Ssid, ssid[ssid_index].SsidLength); */
+ 						ssid_index++;
+-- 
+2.15.0
 
