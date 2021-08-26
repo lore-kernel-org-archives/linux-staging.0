@@ -1,18 +1,18 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B129372
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 09:48:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BB052610C8;
-	Thu, 26 Aug 2021 09:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0480472
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 10:01:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AAADF60FDA;
+	Thu, 26 Aug 2021 10:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1629971334;
-	bh=pws6yEMx5CQmxG0eSLGORmnzzlW+g+uW697IABxaYho=;
+	s=korg; t=1629972068;
+	bh=aBkNesMqvbH7PzlPklFkGTRo82VXoOZrWukyGg5zmgk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VdiKDdJQaCgiI+CuSLchYjZxNEa5AFlK4fqD9UCqMy1HSYmaTE87blVHY7l6HTO5I
-	 extVD7JjuSCJDW820nlPC1cGFaEdbMGv370LCEfvarOynGK4wb5S39qkxldtkG+dsl
-	 oadM1CysowNN7XicGgQ5u6mznotOleCtDntyr9xc=
-Date: Thu, 26 Aug 2021 11:48:50 +0200
+	b=0TZIGZ6ilntOAA5Vy+88jsU2oXA4xJa+hAZtzNtj08DKsb39Yj8kyw/ZXdSdCUBWK
+	 5YuBrPb+Q8mXpsIfk/6G+BuvewMhUVIHhLvKmSjO3r/6e8jd0zD8n46+Lrd1zV+5qw
+	 nCowxPqAHqV5Npi85sjUfToxptVMdt1mWTa3HdaA=
+Date: Thu, 26 Aug 2021 12:01:03 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Woody Lin <woodylin@google.com>
 Cc: Todd Kjos <tkjos@android.com>,
@@ -24,7 +24,7 @@ Cc: Todd Kjos <tkjos@android.com>,
 	Suren Baghdasaryan <surenb@google.com>,
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Subject: Re: [PATCH] ANDROID: staging: add userpanic-dev driver
-Message-ID: <YSdjgnUwt76cknQ6@kroah.com>
+Message-ID: <YSdmX956TESnJDey@kroah.com>
 References: <20210826092854.58694-1-woodylin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -40,19 +40,165 @@ On Thu, Aug 26, 2021 at 05:28:54PM +0800, Woody Lin wrote:
 > Add char device driver 'userpanic-dev' that exposes an interface to
 > userspace processes to request a system panic with customized panic
 > message.
-> 
-> Signed-off-by: Woody Lin <woodylin@google.com>
-> ---
->  drivers/staging/android/Kconfig         |  12 +++
->  drivers/staging/android/Makefile        |   1 +
->  drivers/staging/android/userpanic-dev.c | 110 ++++++++++++++++++++++++
 
-Why is this in staging?  What is wrong with it that it can not just go
-into the real part of the kernel?  A TODO file is needed explaining what
-needs to be done here in order for it to be accepted.
+Some comments on the code now:
 
-But why is this really needed at all?  Why would userspace want to panic
-the kernel in yet-another-way?
+>  obj-$(CONFIG_ASHMEM)			+= ashmem.o
+> +obj-$(CONFIG_USERPANIC_CHARDEV)	+= userpanic-dev.o
+
+Why CHARDEV?
+
+> diff --git a/drivers/staging/android/userpanic-dev.c b/drivers/staging/android/userpanic-dev.c
+> new file mode 100644
+> index 000000000000..b9a0f0c01826
+> --- /dev/null
+> +++ b/drivers/staging/android/userpanic-dev.c
+> @@ -0,0 +1,110 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* userpanic-dev.c
+> + *
+> + * User-panic Device Interface
+> + *
+> + * Copyright 2021 Google LLC
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ":%s: " fmt, __func__
+
+Why is this needed?
+
+> +
+> +#include <linux/slab.h>
+> +#include <linux/module.h>
+> +#include <linux/string.h>
+> +#include <linux/miscdevice.h>
+> +
+> +struct userpanic_crash_info {
+> +	void __user *title_uaddr;
+> +	void __user *msg_uaddr;
+> +};
+
+If this is a user/kernel api, it can not be burried in a .c file,
+otherwise it will be wrong over time.
+
+And this is NOT how to handle user/kernel pointers at all, please fix.
+
+> +
+> +#define CRASH_INFO		(_IOW('U', 179, struct userpanic_crash_info))
+
+Why does this have to be an ioctl at all?
+
+Why do you have to have a char device for this?
+
+> +
+> +static int do_userpanic(const char *title, const char *msg)
+> +{
+> +	const size_t msgbuf_sz = PAGE_SIZE;
+> +	char *msgbuf;
+> +
+> +	msgbuf = kmalloc(msgbuf_sz, GFP_KERNEL);
+> +	if (!msgbuf)
+> +		return -ENOMEM;
+> +
+> +	pr_emerg("User process '%.*s' %d requesting kernel panic\n",
+> +		 sizeof(current->comm), current->comm, current->pid);
+
+You have a pointer to a struct device, always use it for this and all
+other messages, it should be dev_*(), right?
+
+
+> +	if (msg)
+> +		pr_emerg("   with message: %s\n", msg);
+
+Multi line messages?  Why?
+
+> +
+> +	/* Request panic with customized panic title. */
+> +	snprintf(msgbuf, msgbuf_sz, "U: %s: %s", current->comm, title);
+> +	panic(msgbuf);
+> +	kfree(msgbuf);
+
+Nice, you cleaned up after panicing?  Why?
+
+> +	return -EFAULT;
+> +}
+> +
+> +static long userpanic_device_ioctl(struct file *file, u_int cmd, u_long arg)
+> +{
+> +	struct userpanic_crash_info crash_info;
+> +	char *title;
+> +	char *msg = NULL;
+> +	int ret;
+> +
+> +	switch (cmd) {
+> +	case CRASH_INFO:
+> +		if (copy_from_user(&crash_info, (void __user *)arg, sizeof(crash_info)))
+> +			return -EFAULT;
+> +
+> +		if (!crash_info.title_uaddr)
+> +			return -EINVAL;
+> +
+> +		title = strndup_user(crash_info.title_uaddr, PAGE_SIZE);
+
+What if the string was bigger?
+
+> +		if (IS_ERR(title)) {
+> +			pr_err("failed to strndup .title_uaddr: %d\n", PTR_ERR(title));
+> +			return -EINVAL;
+> +		}
+> +
+> +		if (crash_info.msg_uaddr) {
+> +			msg = strndup_user(crash_info.msg_uaddr, PAGE_SIZE);
+> +			if (IS_ERR(msg)) {
+> +				kfree(title);
+> +				pr_err("failed to strndup .msg_uaddr: %d\n", PTR_ERR(msg));
+> +				return -EINVAL;
+> +			}
+> +		}
+> +
+> +		ret = do_userpanic(title, msg);
+> +		kfree(msg);
+> +		kfree(title);
+> +		return ret;
+
+This can never be hit, right?
+
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static const struct file_operations userpanic_device_fops = {
+> +	.owner          = THIS_MODULE,
+> +	.unlocked_ioctl = userpanic_device_ioctl,
+> +	.compat_ioctl   = compat_ptr_ioctl,
+
+No need for the compat ioctl, do it right the first time.
+
+> +};
+> +
+> +static struct miscdevice userpanic_device = {
+> +	.minor = MISC_DYNAMIC_MINOR,
+> +	.name  = "userspace_panic",
+> +	.fops  = &userpanic_device_fops,
+> +};
+> +
+> +static int __init userspace_panic_dev_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret = misc_register(&userpanic_device);
+> +	if (ret)
+> +		pr_err("misc_register failed for userspace_panic device\n");
+> +
+> +	return ret;
+> +}
+
+Use the correct misc macro here, no need for an init or exit function.
+Wait, where is your exit function?
+
+> +device_initcall(userspace_panic_dev_init);
+
+Why this init call level?  Why not the normal one?
 
 thanks,
 
