@@ -1,72 +1,165 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43B93FCB
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 15:00:06 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id g66-20020a9d12c8000000b0051aeba607f1so3827114otg.11
-        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 08:00:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B8E3FCB
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 15:43:34 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id z10so5312150edb.6
+        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 08:43:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kBkecJZQQz9+/hoAGi3+c4sptw+K9lAwZDNPONTgzkM=;
-        b=EXAWTxXqGOK90Au7/sagYpj+G7IxY22woE2fH4eH4r9g0YUR0EzY0AnbQ6Mho+efdJ
-         NAgBMg7J9GF83KsGgou2OzGxl3t2ul19Cy4fQdVcojets0ECerNqfA0bsNCqXO5vWMGT
-         V7xh80s99Eyn0R2I7Zv6A/1Kx6+hR0Qo1xTcMf9tdRpKWUPtjDrJGhvABXckpLgyb7Tf
-         zr7YtCX7QSWYeb1tJ2BO8oQZToqAgijCkYT6bwuuOnod9NayxZ0NOSyuQV2CztMsbZQO
-         4mxLEea1b8HRsYQeoKJug+rzsp0aNYGhtgMzLYqFB9iqYjb9qwTIhjY48qgVmzY6fHNd
-         k1GA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=RTmjjgKNf1oCjSw/UGsuRv5cqlu6x5zYZlIgXT+yaLw=;
+        b=lJrbCB4ysWZEZarm93Wi761yWOa7QX6uuPO+ZLMF/GnkYGg5Uwp0Yomk0Vg6y9ZJk/
+         CRv9GBrp1fe2U8X2Rbq7nSiGL8GFkJolMCEvPTCwFAazvpdoFU6mMyK8w126BPWiDmWD
+         g9RlrtPyMYB/J8vrYRvtMz6KEebkG0SJl6C+g4MaU/w7FZezv4EHltZDtTrw1l1+57v+
+         fjjRqAwBwezlB1Copa/4O+ril4Hnv6xsaMxx2am8WnREGpmDWnzl+o3kXWakNPKo5Kzf
+         IVmBZjSnVl4BckAjMG/4R66jaPA5lCTBKdLmpFu07MnEfnJSrs+95sc2uhl2Fy8WDoG7
+         jbjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kBkecJZQQz9+/hoAGi3+c4sptw+K9lAwZDNPONTgzkM=;
-        b=dXiYP89mJJv1dX2IOYLnh0SCtIYHbNNZNpyo13MWSAnUeTZllHKAJoJHdouGgnWKJ7
-         C2szXq/E6w1sThoBRgKw99/n4uzdTPpqhn6sxQIAO+wmJ6DWULnXCzftpj+IbNvbIfTl
-         6yO4umTjpbnw4xrVBV/OaUS/7gUO1Y9mkuh4aC/aCbCRTqdYHrqrum5VMjbG2dUww34Z
-         GEZrGj1QB2SqDAm8bdFFrI+bvhmujQSL0H7C8OXn3GVIVeKsRfuP5GfraIKax9M4giuO
-         KPRTr+PulxVjP1w6v4DSTqToFeQZGF+29Y9Cqp/+XLemHolZXWyyuzrP+HWGirt656/t
-         dmlg==
-X-Gm-Message-State: AOAM530jRMGjrkYleHRaC+Y1n0HouLVYzpgyQ9ZLsJMobGdDvpoAAG4h
-	IkbfbB0L3g6ueegexE3IIQM=
-X-Google-Smtp-Source: ABdhPJw5V66NxDj2jnNRyC1UEOtx5+2hUQ9mns0EgEp4dTMnYW5nVYqLN+SYxHop2PwSQImAlAf8qg==
-X-Received: by 2002:a05:6830:3482:: with SMTP id c2mr3438340otu.16.1629990005887;
-        Thu, 26 Aug 2021 08:00:05 -0700 (PDT)
-Received: from 2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com. [2603:8090:2005:39b3::1023])
-        by smtp.gmail.com with ESMTPSA id s10sm609650oog.14.2021.08.26.08.00.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Aug 2021 08:00:05 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: Provide a TODO file for this driver
-To: Fabio Aiuto <fabioaiuto83@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: gregkh@linuxfoundation.org, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210826014959.26857-1-fmdefrancesco@gmail.com>
- <20210826101956.GB1416@agape.jhs>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-Message-ID: <a2dbe053-55ec-bf33-e4c1-fb4ec32fb93b@lwfinger.net>
-Date: Thu, 26 Aug 2021 10:00:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=RTmjjgKNf1oCjSw/UGsuRv5cqlu6x5zYZlIgXT+yaLw=;
+        b=X6SyGXNSGndXfyPhgtA4RDScpYw9QeOyY9D3baMM76WPwOhEY6FrOC3NIw4nvVgWsY
+         Dp21PrQonoVhGmA6kZ1mmgW+cUK2z7iEMSnlYpzIA8t0XRrxhlF39S9CY2lOJ5xOWnBt
+         O5tRgiHLu5Rdz+i7dxQCo+9MJ9MFbX2C1803cFqG6ovX1mZ0vRNDQx5/pWYZmzRUn+JU
+         LlGuDDwzMVa+9vx4ANMH2Flli/ojYy5zfT/yJiePFoB72HunubaQZA39UboBcKCfZBIg
+         +bsyBQJeUbwQsFwfwT0aiOOOoAvcSTTGTRdKzYg5aNrLs2/zwV1zLw8i/A9miPUfsudR
+         IOTg==
+X-Gm-Message-State: AOAM532FkrghCkf5QNiqU7OVVEDxgVOM8Q1muri1uhErfWOEwgnoUWDG
+	6Ch6cD+OTNVvnnZbbknNp3NwXJtcYMo=
+X-Google-Smtp-Source: ABdhPJwkXf1Qnwx1ulvB0BzEOAhffXq4rQNByw4ajefIueu5Z9lvMH5E2+n0wNBe02BpglytvaB3Rg==
+X-Received: by 2002:aa7:d54f:: with SMTP id u15mr4926461edr.178.1629992613045;
+        Thu, 26 Aug 2021 08:43:33 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id q6sm2025099edd.26.2021.08.26.08.43.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Aug 2021 08:43:32 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH v3 1/2] staging: r8188eu: Use usb_control_msg_recv/send() in usbctrl_vendorreq()
+Date: Thu, 26 Aug 2021 17:43:31 +0200
+Message-ID: <1897490.lth8vsWHjN@localhost.localdomain>
+In-Reply-To: <YSepDdf+nHekuIxA@kroah.com>
+References: <20210825035311.8910-1-fmdefrancesco@gmail.com> <47945171.69uSEkksVi@localhost.localdomain> <YSepDdf+nHekuIxA@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210826101956.GB1416@agape.jhs>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 8/26/21 5:19 AM, Fabio Aiuto wrote:
-> Maybe I'm wrong but I think Larry is working on cfg80211 not exactly with
-> lib80211 or mac80211. So I'd remove the clauses on parentheses.
+On Thursday, August 26, 2021 4:45:33 PM CEST Greg Kroah-Hartman wrote:
+> On Thu, Aug 26, 2021 at 04:24:35PM +0200, Fabio M. De Francesco wrote:
+> > On Thursday, August 26, 2021 12:48:37 PM CEST Greg Kroah-Hartman wrote:
+> > > On Wed, Aug 25, 2021 at 05:53:10AM +0200, Fabio M. De Francesco wrote:
+> > > > Replace usb_control_msg() with the new usb_control_msg_recv() and
+> > > > usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
+> > > > Remove no more needed variables. Move out of an if-else block
+> > > > some code that it is no more dependent on status < 0. Remove
+> > > > redundant code depending on status > 0 or status == len.
+> > > > 
+> > > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > > ---
+> > > > 
+> > > > v2->v3: Restore the test for success of usb_control_message_recv/send
+> > > > that was inadvertently removed. Issue reported by Pavel Skripkin.
+> > > > 
+> > > > v1->v2: According to suggestions by Christophe JAILLET 
+> > > > <christophe.jaillet@wanadoo.fr>, remove 'pipe' and pass an explicit 0
+> > > > to the new API. According to suggestions by Pavel Skripkin 
+> > > > <paskripkin@gmail.com>, remove an extra if-else that is no more needed, 
+> > > > since status can be 0 and < 0 and there is no 3rd state, like it was before.
+> > > > Many thanks to them and also to Phillip Potter <phil@philpotter.co.uk>
+> > > > who kindly offered his time for the purpose of testing v1.
+> > > > 
+> > > >  drivers/staging/r8188eu/hal/usb_ops_linux.c | 45 ++++++++-------------
+> > > >  1 file changed, 17 insertions(+), 28 deletions(-)
+> > > 
+> > > This doesn't apply to my tree at all.  Please rebase and resend.
+> > 
+> > This series cannot apply to your tree until another one of mine is applied 
+> > ("staging: r8188eu: Remove _enter/_exit_critical_mutex()"). This series builds
+> > on the previous patch.
 > 
-That is correct. I am not changing it to work with mac80211 - merely cfg80211. 
-Making it work with mac80211 would be a worthy goal, but not mine.
+> When you do that, please let me know somehow that this is the case,
+> otherwise how am I supposed to guess that?
 
-Larry
+Correct, my fault :( 
+
+To my defense I can only say that I really had forgot that there were the 
+above-mentioned previous patch still in your queue. So I didn't immediately 
+realized that I had to inform you somehow of this kind of dependence.
+I knew that only yesterday, when Pavel wanted to apply this patch to 
+his local copy of your then current tree and he couldn't. After some thoughts
+I understood that the latter depended on the former, but I guess it was too late 
+to inform you. Furthermore, yesterday I thought that you would have applied 
+in a FIFO order and that you wouldn't notice any conflict.
+
+Actually I was wrong, because you didn't apply the former and instead asked
+me to test it (we talked about that patch some minutes ago in another message).
+ 
+> > > But first, are you sure you want to use these new functions here?  This
+> > > is a "common" function that is called from different places for
+> > > different things.  How about unwinding the callers of this function
+> > > first, to see if they really need all of the complexity in this function
+> > > at all, and if not, then call the real USB function in those locations
+> > > instead.
+> > 
+> > I think it could be fine to simply refactor usbctrl_vendorreq() to use the newer
+> > API with no necessity to directly use them at least in six different places in
+> > hal/usb_ops_linux.c. The only users of this helper are usb_read8/16/32() and
+> > usb_write8/16/32(). Why do you prefer using usb_control_msg_recv/send() 
+> > directly in the callers? I guess it would lead to redundant code, more or less
+> > the same code repeated again and again within the above-mentioned six callers.
+> > What do we improve by doing as you suggest? What am I missing?
+> 
+> If you unwind the mess, you will find that the code will be much easier
+> to understand.
+> 
+> As an example, look at usb_write8().  Where is it ever called?  Why do
+> we have it at all?  It's only used in 1 place, and then that function
+> unwinds into rtw_write8(), which is used in a lot of places, and never
+> checked at all, making the majority of the logic in this function
+> totally unneeded and useless.
+> 
+> Same for rtw_write16() and rtw_write32().  After unwinding the mess you
+> see that the logic you are working to try to clean up in this patch
+> series is pretty much not used / needed at all, right?  So why do it?
+> 
+> Unwind the mess into a useful set of functions the driver can actually
+> call that is not 2-4 function pointers deep and then we can talk about
+> unifying things, if they are really needed.  But right now, it's
+> impossible to tell.
+
+Yeah, I know how is the call chain from top (rtw_read/write8/16/32()) to bottom
+(usbctrl_vendorreq()) and then to the new USB core API. 
+
+Pavel and I have been talking about this topic while he was working on his 
+series ("r8188eu: avoid uninit value bugs").
+
+Aside from this, I re-thought about what you write above and I too find that
+having 2-4 function pointers deep is a bad design. Anyway I'm stuck in 
+waiting to see what Pavel will submit with his reworking, because I don't 
+desire to make patches that conflict with his.
+
+As you often say to all us: there is no hurry! So, I'll wait to see Pavel's final
+work before changing whatever could conflict with him.
+
+> good luck!
+
+Thanks, I'll need it :-)
+
+And thanks for the time you spent to clarify your thoughts about these topics.
+
+Fabio
+ 
+> greg k-h
+
+
 
