@@ -1,108 +1,118 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from elaine.keithp.com (home.keithp.com [63.227.221.253])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265763FC0
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 05:13:33 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id y34so4011451lfa.8
-        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 22:13:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Hkopqt0feIIS5JxkU+fHJyYMDvajUo970zD2BdvBfg0=;
-        b=EfcxD7f/97/Bdau5hZbMRGsFrjNDNORSy+HkjbaJdyh7InP/nUFTfws39IlBskKiSp
-         +mBUA8nlYV23maf/60P8OEGNi9vzp3lXZySpLXbfeqEk7l1GYodD7iv2837GBkt7z4jt
-         O0q6c8dYE9WxPWAQiIVgj34G6X4KYhESb1GsMsqRJ5NffsbRwitTA68tC2JuBAOucDJK
-         UNK5V6BpjPaPQ/dtV7j4y3NfdqEmAYoIYmVtxO0TJQ4IECWjkxNuKp8Kb/l0b7xHqXSC
-         u2kzm4vREzh6lktO7fgOl0ALaUt5ahiiNoh/MShsODt5Kd+LaJe5aiRpj/0O0krF8rQi
-         +juA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Hkopqt0feIIS5JxkU+fHJyYMDvajUo970zD2BdvBfg0=;
-        b=oMiS9f2PvK/V5MLw9xBqAlZg35ocGMQCKHxEmT65eb+LiaCEOcIF4ojoD9f4E0aurG
-         QGCzcHFkSpJc4fuLWKasPzo7r/e7vZDNptUYNmdyPDfpR+8whwB0XeclsiZPWOc+ct/g
-         0LKq1q4eJMEYGQOQjc5aAv4RTko94G+pSvdosVYWoXg9dXTVW9RkX2h6CraDhJIKZwI/
-         Z5n+4Jkv7raMP9gHbGc5uphuL2OBqR8Oy/Uy2KODStSqaTeq0FObsPgrNqdcAvsnoRmU
-         C1QMpBZJUTpr0PAwoeGvFh7Cx1ewJuVelhLVqlEpC4mynU1FzLLWgYYzbMhLSPiTzqVC
-         z8jQ==
-X-Gm-Message-State: AOAM533qwRNyCL8tBxUUcoWiqyp+dA3WoY/qBfOf99kC4CA+XtY6Ng9L
-	pOrN/fcBc1xN0Tfo4Tx6ULtRg2iBCWhlBg==
-X-Google-Smtp-Source: ABdhPJz0yJDvcJEKF+w0SF6jLoiz2PztOaQBUgQZSiE59hAymPRneGMofqA07OxhM4zJKwQI0d+TJg==
-X-Received: by 2002:a19:ad46:: with SMTP id s6mr1360414lfd.25.1629954811184;
-        Wed, 25 Aug 2021 22:13:31 -0700 (PDT)
-Received: from localhost.localdomain ([46.61.204.60])
-        by smtp.gmail.com with ESMTPSA id z8sm204034lfs.177.2021.08.25.22.13.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Aug 2021 22:13:30 -0700 (PDT)
-Subject: Re: [PATCH v3 3/6] staging: r8188eu: add error handling of rtw_read8
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <cover.1629789580.git.paskripkin@gmail.com>
- <c59d5d850bf9aab208704182c83086609289cb9c.1629789580.git.paskripkin@gmail.com>
- <3591772.nrefL38gfN@localhost.localdomain>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <1f9ef1b3-8581-3261-0cfe-d5e9a8cf8483@gmail.com>
-Date: Thu, 26 Aug 2021 08:13:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83ECA3FC0
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 05:32:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by elaine.keithp.com (Postfix) with ESMTP id 5899F3F3072E;
+	Wed, 25 Aug 2021 22:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+	t=1629955441; bh=9PZ6q0rR03ga0cJLlX7wkSjnkm2X7nPpg5xxJCy9RtY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=V8ZHAWsNxg4cKzN6mnE+JjdKstvoz5QndsaHqm/0JKqtYHx7qf+sik19WnSbpeZ6Q
+	 AjEX1Klqm4x12oAgQH8lJrLC6u/4pXIci4EaQ4RxiiP5jw2kJ+Wr1BlcxY8C2Wy4Fb
+	 jWWcjACtFjQ8oJwH37HJ6c1VpqU7hCwsS5ybTnP5lAV/3zY5d1sdDagmQ9vi3jIuy+
+	 +aNC6ttZBX0IIhNSuXRK8/CLxra6k3qQh4vmIkuBLdI1dM2E+Madd2GgJ1+vrteow/
+	 mf12Ssnv9TySnCx3Kuw4vVdulBma/XNZ1AJsO0j9bHMsWffgJiNgYOkatDiua0iEHW
+	 KwBc5Fi629JHw==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+	by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id d8LHxscT6hWs; Wed, 25 Aug 2021 22:23:56 -0700 (PDT)
+Received: from keithp.com (koto.keithp.com [192.168.11.2])
+	by elaine.keithp.com (Postfix) with ESMTPSA id C066C3F3072D;
+	Wed, 25 Aug 2021 22:23:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+	t=1629955436; bh=9PZ6q0rR03ga0cJLlX7wkSjnkm2X7nPpg5xxJCy9RtY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=oucPIc+p1TEr9jHm30BEh6nsSTrl/DjfKsV2qOrmVf1DMQG6349VUmW+3mP9GkPUL
+	 I83NAfeJdVNAQulPEjD7Ix9GtzkxVOtuCnS0CPRIYVo9SJp4x3PsZAV1p6NNDeHXq/
+	 Pvkro7bsTJKioLnocCmT9z4E0ITr88YmjIXCsx4OjlbFg31K5rB1VNwJFPKdtbo5B+
+	 wgAwhV3gKYrPc9G+VvgOJO5hAdM4ZTbw91d0PzSsU+T1k5fE3VrZWyO/aC9xvXNFSi
+	 KVrT1uAFAENSHmXt2n1lMtYd2RbyVO6pV2gORcBCJ0iIFawEM3Cwmy0/lQqQH6aom9
+	 27qjOJbYQhByQ==
+Received: by keithp.com (Postfix, from userid 1000)
+	id E3F3E1E6011A; Wed, 25 Aug 2021 22:24:18 -0700 (PDT)
+From: Keith Packard <keithp@keithp.com>
+To: Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org
+Cc: Kees Cook <keescook@chromium.org>, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Kalle Valo
+ <kvalo@codeaurora.org>, "David S. Miller" <davem@davemloft.net>, Jakub
+ Kicinski <kuba@kernel.org>, Nilesh Javali <njavali@marvell.com>, Manish
+ Rangankar <mrangankar@marvell.com>,
+ GR-QLogic-Storage-Upstream@marvell.com, "James E.J. Bottomley"
+ <jejb@linux.ibm.com>, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
+ <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Schilhabel <florian.c.schilhabel@googlemail.com>, Johannes Berg
+ <johannes@sipsolutions.net>, Christophe JAILLET
+ <christophe.jaillet@wanadoo.fr>, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ Ross Schmidt <ross.schm.dev@gmail.com>, Marco Cesati
+ <marcocesati@gmail.com>, ath10k@lists.infradead.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev, Rasmus
+ Villemoes <linux@rasmusvillemoes.dk>, Dan Williams
+ <dan.j.williams@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ clang-built-linux@googlegroups.com, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] treewide: Replace 0-element memcpy()
+ destinations with flexible arrays
+In-Reply-To: <20210826050458.1540622-4-keescook@chromium.org>
+References: <20210826050458.1540622-1-keescook@chromium.org>
+ <20210826050458.1540622-4-keescook@chromium.org>
+Date: Wed, 25 Aug 2021 22:24:18 -0700
+Message-ID: <87r1egpym5.fsf@keithp.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3591772.nrefL38gfN@localhost.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha256; protocol="application/pgp-signature"
 
-On 8/26/21 2:45 AM, Fabio M. De Francesco wrote:
-> On Tuesday, August 24, 2021 9:27:27 AM CEST Pavel Skripkin wrote:
->> _rtw_read8 function can fail in case of usb transfer failure. But
->> previous function prototype wasn't designed to return an error to
->> caller. It can cause a lot uninit value bugs all across the driver code,
->> since rtw_read8() returns local stack variable to caller.
->> 
->> Fix it by changing the prototype of this function. Now it returns an
->> int: 0 on success, negative error value on failure and callers should pass
->> the pointer to storage location for register value.
->> 
->> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> 
-> Dear Pavel,
-> 
-> I have to inform you that building patch v3 3/6 with gcc (version 11.1.1 20210721
-> [revision 076930b9690ac3564638636f6b13bbb6bc608aea] (SUSE Linux)), gives
-> the following warning:
-> 
-> drivers/staging/r8188eu/os_dep/ioctl_linux.c:2258:13: warning: variable ‘error’ set but not used [-Wunused-but-set-variable]
->   2258 |         int error;
->        |             ^~~~~
-> 
-> I'm sorry, but I guess that for some reason previously I had only built v2 of your patch
-> which had no warnings at all.
-> 
-> Unfortunately, introducing warnings is not allowed.
-> 
-> While we are at this, I can also confirm that GCC 11.1.1 _does_ _not_ emit the warning
-> that has been reported by the kernel test robot.
-> 
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Yep, I see, thank you. v4 is on the way... I had a plan to send v4 
-yesterday, but I've finally received r8188eu device.
+Kees Cook <keescook@chromium.org> writes:
 
-I tried to connect it and test and.... driver didn't work :) So, I will 
-try to figure out the problem with driver (or device) and will send v4.
+> In some cases, use of the flex_array() helper is needed when a flexible
+> array is part of a union.
 
-Again, thank you for report :) My default gcc is too polite...
+The code below seems to show that the helper is also needed when the
+flexible array is the only member of a struct? Or is this just an
+extension of the 'part of a union' clause?
 
+> @@ -160,7 +160,7 @@ struct bmi_cmd {
+>=20=20
+>  union bmi_resp {
+>  	struct {
+> -		u8 payload[0];
+> +		DECLARE_FLEX_ARRAY(u8, payload);
+>  	} read_mem;
+>  	struct {
+>  		__le32 result;
 
+=2D-=20
+=2Dkeith
 
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-With regards,
-Pavel Skripkin
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAmEnJYIACgkQ2yIaaQAA
+ABFJwg/9HnuEf5sIRlyVndEk8XKVsPy1mM63I9dwsOPTB031099GdKund7uEfybJ
+1kjf3GQv9nMAM0Cq3Uoiqfqv2liuTW2dGKBY2wHAVOtWjQXyTiN3NP3iNx1kVd7X
+txLF08RakTjjbca72QM9P47VuaJMHchiiYQfGrUxaQY9/lUuyR1DawpZLomXT9kV
+fUuBUpYUO/Xta1zs/e6IudCJRL0h6Hlk2nLqV+zrjTNsbEhI+Ztd0Lv40VrIVfUJ
+ZXMCNHomviUCwybnTodcUdtWYU5JqokjGWqYZawyErshiEew6AiM1e5CHkl0fDQU
+OUSteni1sY0nJ32L74MN0A2vjPcOeY3lzE8FTxeY7BzbAorxELYD4jBXhopA0+MW
+CPXS0xfn6crMm2vyFH+6YB2udPlLr1+n0qfxaYr36Tr+dZ81D0lJ5g5UjX4J6q3G
+nqx/vxHjWYvTQpHVZCstuABCHad/J/0X9SRS4xwu4983bMwDOCfKCkF+RNitHfpO
+/m+mzWJYEQokqKtj/V8i1PDUYhpWO9Kx7G2zQZ31le75zrcfKmBccid3m65Z0OAD
+e0w8NfJ1NDwSFTl4duKB8gE5gNKuppuzLlDBQWhrqIK+5mKCapZ0sCjSqJjVxNjK
+Q41Bm6/blVaF0IaP2fnjEbyQYhy9tbuVEwYZ630P5ctqCHxsZ40=
+=cojg
+-----END PGP SIGNATURE-----
+--=-=-=--
