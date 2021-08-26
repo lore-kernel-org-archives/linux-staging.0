@@ -1,94 +1,113 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6393FC7
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 01:50:09 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id i21so2614239ejd.2
-        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 18:50:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5473FC2
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 02:54:32 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id w19-20020a17090aaf9300b00191e6d10a19so1319211pjq.1
+        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 19:54:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=80RKC35nU1+RD8O7RmvEN2Hh0WXweIkEFW8Ee2YLI4w=;
-        b=vNRYxUYzc07cs3ZouSO8oHGLtJNMpg1T0+c4OS+qmQ9fGctVUYfIPA16xesPj2fYUB
-         uRup2fqKKpm/AsonQ2FBN3RypC6oy7eN5GHa3SyXs7ht4/pfCPA8kpBxdNA1x02ncq/K
-         nH0lLecLnDF35cXRXYBGu+dxSq5SmIZl/25YSJ4KxAvf1PclPfd6Ygl6FamgrVEIdDQM
-         yOz0UWJ69wAWXfcPTl5Ok0OQZCo64YvxY2R3vRoGjiKbD8jowMoXkK8fas0jkRxQScqc
-         yFVehrQH+kA2v8QNDO8jUPBCiALhSs2gjITOtF09NzO5r61HdpHu2EioMLTgT+m2FK1j
-         zliQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=zY5JqCFiL9ajwRDJE9ra9rr5h/8lLdU1bpaSqHW2cUY=;
+        b=zBbl6+vdhsHvJNmzRzPXjUjbZjS1JrIbTs8BWJQyR5yrjQ0NIdbYJbf6GP5pApFCVp
+         QwHpr9xoOjbWOHQbf9w84qKF6hnSDYRTcKs92IQ4JEXvC49dJwGf73JNm9e6WL0CaiJ3
+         5m6NOPRUdzpMEkdzaTnJgAib8c7/I1cWyzCPMW9eSlXIY9pGdD3717L7Hz3AuL6VwDK4
+         N4OzVhpVgELJBvWYnrW5vu5o6L3KYwE3MnqcLvfRQ8BGGYt0siZaxfeUknn6gUpgr0d+
+         DOZnGFD+Kfi4FkVDiCh75RoA6R1huFUJmi6KO1t34IILBc+ygQJ2sBcVh+9gAmmY5SNn
+         0pYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=80RKC35nU1+RD8O7RmvEN2Hh0WXweIkEFW8Ee2YLI4w=;
-        b=Q949t/mON7T+pCKLZdjqsdhMS5dZUY3uBeC4pRFaEvMs+T5dVLlHX1asgPqEm8jCDN
-         cHggrspN8qEYIFTGYCZ93QWlB+tz+llnE69WNGVzte1qnRT1adL0Molu7/Ymszhe/phX
-         pKdA7hL39eXUeAWXMYBNKTOu1Vvq4mWZA6McMEc2hNLKrp1D2X7jRQrAK1zGN9ID5sl7
-         lIbK5Zn8lq5cNnbkNHiZfcUl45XrnnMqtIotb46+sYh4sgnrf6b7kdI1o2jfiPsXyngW
-         3wOUjuHTm4W0qAjcp+Gx3Z9TwuT8OvpOC+DuSN5TzRmvXp4XXdcjkH+U3pJhd3C+9tyx
-         AS8w==
-X-Gm-Message-State: AOAM532VyArO6YrS0XLA28vVP3nSxNonLc4BW7l/EbJOzmLaTeW0AsJK
-	m3X3S/sT2BkSxS00R2eWRsE=
-X-Google-Smtp-Source: ABdhPJxFwcYTuMw8e9XJUjGCoAjWOF/JCHjjA/JhRYRxxUMxnFi/VoDMZzCsV3rrXVrLHREgI406eQ==
-X-Received: by 2002:a17:906:9388:: with SMTP id l8mr1589658ejx.307.1629942607754;
-        Wed, 25 Aug 2021 18:50:07 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id u9sm845358edo.37.2021.08.25.18.50.06
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=zY5JqCFiL9ajwRDJE9ra9rr5h/8lLdU1bpaSqHW2cUY=;
+        b=j1vT4HwcK7oKgEKDhUA0xv18xMlOJhFo8zrK+59D46zKHssWBMtyT/es/1GQEvJVp1
+         Xbk1Dp1PzRWPg8KRCulRUD+dkK5rKjdrDDmsu0ZsH7l1bSyU7iB4OIdBfP2Fqz2KY7Sp
+         6LsbfY7lSoR88wd87bGO0SFjT1ZMsBg5PDL08p9cooX36SQk0bWRGE8Zf5N3eBBmqo/N
+         F4UhtnwDt6jber5XiNeFYWN7/xCLzYdz5dU2u5I0EyFjDw8rBhaJrIKzOx1Ys4dAs/Bo
+         V5HopbKr4apjqdyzqdztcSL97885G6yisIWSSrQ/CDI6qEOcvPrr+3cPLJgbGstndJRC
+         hGew==
+X-Gm-Message-State: AOAM530JmeG19VM+soN3aKSwWIqsBSwO/RwpB/KFVF+fCv8gy7kKIL3O
+	Y0OBlYU2GSrV5fj1MYPCHvRvzg==
+X-Google-Smtp-Source: ABdhPJwJ9pkRHq/CTCcQjTYNpLDk2RhglIYRZ3ZolL1qTMxvdQiuO7bqSMhmqzPibKf11tEWAM5bLQ==
+X-Received: by 2002:a17:903:31d6:b0:133:9932:6998 with SMTP id v22-20020a17090331d600b0013399326998mr1459044ple.45.1629946472125;
+        Wed, 25 Aug 2021 19:54:32 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id nl9sm7142139pjb.33.2021.08.25.19.54.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 18:50:07 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org,
-	Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH] staging: r8188eu: Provide a TODO file for this driver
-Date: Thu, 26 Aug 2021 03:49:59 +0200
-Message-Id: <20210826014959.26857-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        Wed, 25 Aug 2021 19:54:31 -0700 (PDT)
+Date: Thu, 26 Aug 2021 08:24:27 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-tegra <linux-tegra@vger.kernel.org>,
+	Linux PM <linux-pm@vger.kernel.org>,
+	Linux USB List <linux-usb@vger.kernel.org>,
+	linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-mmc <linux-mmc@vger.kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	dri-devel <dri-devel@lists.freedesktop.org>,
+	DTML <devicetree@vger.kernel.org>,
+	linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210826025427.exdinwkuavyfcp3f@vireshk-i7>
+References: <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+ <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+ <CAPDyKFrVxhrWGr2pKduehshpLFd_db2NTPGuD7fSqvuHeyzT4w@mail.gmail.com>
+ <f1314a47-9e8b-58e1-7c3f-0afb1ec8e70a@gmail.com>
+ <20210819061617.r4kuqxafjstrv3kt@vireshk-i7>
+ <CAPDyKFpg8ixT4AEjzVLTwQR7Nn9CctjnLCDS5GwkOrAERquyxw@mail.gmail.com>
+ <20210820051843.5mueqpnjbqt3zdzc@vireshk-i7>
+ <b887de8c-a40b-a62e-8abf-698e67cdb70c@gmail.com>
+ <ed70e422-e0e9-8c2a-7ce6-e39cb6fd8108@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed70e422-e0e9-8c2a-7ce6-e39cb6fd8108@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 
-Provide a TODO file that lists the tasks that should be carried out in
-order to move this driver off drivers/staging.
+On 25-08-21, 18:41, Dmitry Osipenko wrote:
+> Thinking a bit more about this, I got a nicer variant which actually works in all cases for Tegra.
+> 
+> Viresh / Ulf, what do you think about this:
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+This is what I have been suggesting from day 1 :)
 
-Thanks to Phillip Potter <phil@philpotter.co.uk> for for providing the first draft.
+https://lore.kernel.org/linux-staging/20210818055849.ybfajzu75ecpdrbn@vireshk-i7/
 
- drivers/staging/r8188eu/TODO | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100644 drivers/staging/r8188eu/TODO
+ "
+  And if it is all about just syncing the genpd core, then can the
+  genpd core do something like what clk framework does? i.e. allow a
+  new optional genpd callback, get_performance_state() (just like
+  set_performance_state()), which can be called initially by the core
+  to get the performance to something other than zero.
+ "
 
-diff --git a/drivers/staging/r8188eu/TODO b/drivers/staging/r8188eu/TODO
-new file mode 100644
-index 000000000000..4bccca69abac
---- /dev/null
-+++ b/drivers/staging/r8188eu/TODO
-@@ -0,0 +1,16 @@
-+To-do list:
-+
-+* Correct the coding style according to Linux guidelines; please read the document
-+at https://www.kernel.org/doc/html/latest/process/coding-style.html.
-+* Remove unnecessary debugging/printing macros; for those that are still needed
-+use the proper kernel API (pr_debug(), dev_dbg(), netdev_dbg()).
-+* Remove dead code such as unusued functions, variables, fields, etc..
-+* Use in-kernel API and remove unnecessary wrappers where possible.
-+* Remove the HAL layer and migrate its functionality into the relevant parts of
-+the driver.
-+* Switch to use LIB80211 (This work is currently in development by Larry Finger).
-+* Switch to use MAC80211 (This work is currently in development by Larry Finger).
-+
-+Please send any patches to Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-+Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>
-+and CC linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org.
+Looks good to me :)
+
 -- 
-2.32.0
-
+viresh
