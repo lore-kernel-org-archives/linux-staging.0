@@ -1,417 +1,108 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E6A3FC0
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 05:05:03 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id z24-20020a17090acb1800b0018e87a24300so1552920pjt.0
-        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 22:05:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265763FC0
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 05:13:33 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id y34so4011451lfa.8
+        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 22:13:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=fQOw84Q+0nXTS439fkG942FAnjDvqnWfwdQqvALTohQ=;
-        b=mBIJf6cF++on2w7AujWCveBhy0CESIqRracrI4E+ReA9rzTkRtqNOIlcy6OoyMY9rA
-         fVp6vRqdfABOysoWaBwtNlxCGcEfJc+LWjjt7Ug4t+rHu1C9f9TTZFqRONpkHBJ9c3gp
-         TKzREeVw5QxC8MUXXm70TDsfZJAYCuA2pO3mA=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Hkopqt0feIIS5JxkU+fHJyYMDvajUo970zD2BdvBfg0=;
+        b=EfcxD7f/97/Bdau5hZbMRGsFrjNDNORSy+HkjbaJdyh7InP/nUFTfws39IlBskKiSp
+         +mBUA8nlYV23maf/60P8OEGNi9vzp3lXZySpLXbfeqEk7l1GYodD7iv2837GBkt7z4jt
+         O0q6c8dYE9WxPWAQiIVgj34G6X4KYhESb1GsMsqRJ5NffsbRwitTA68tC2JuBAOucDJK
+         UNK5V6BpjPaPQ/dtV7j4y3NfdqEmAYoIYmVtxO0TJQ4IECWjkxNuKp8Kb/l0b7xHqXSC
+         u2kzm4vREzh6lktO7fgOl0ALaUt5ahiiNoh/MShsODt5Kd+LaJe5aiRpj/0O0krF8rQi
+         +juA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=fQOw84Q+0nXTS439fkG942FAnjDvqnWfwdQqvALTohQ=;
-        b=IV+Dr/OhndMKNbWlGMF599RlqZgILRF4Z2AFNElWzG2nKKRMeph+XtnYePhxs+d/bK
-         9lD6CxjwIVOCBfog2gF7AKsYVZsx2AbXrLchaHNC9wdD1Bkk+P3qZ26ysdiq7ivdDLUv
-         IrkO/AjbOCGXygVHRPkXBqmbXhNHyUjulEuakymzLc5kOgR0wNIqidM2Ab9L8eX8QISo
-         7QlTqOsn6RtHhT7A40UI4nCRug9MhVG4M/4y1BBTBS8U/zEcuWbs68q6goWfAunXKZsT
-         L6UVrTHTLR2hqgA5a6u77b4T+0t4+CX0PkknGr9log9+Qt+POA/EFL0Au0YlAJDvBddO
-         uIHg==
-X-Gm-Message-State: AOAM53291/HMYpzPT52yiyZ/7ZaeAgICe26eDbh5NHfjINLtQLGhP2Qh
-	JudhA+hX8/0Hs6Kq4xshQI/FWw==
-X-Google-Smtp-Source: ABdhPJwo6VGS8sgKUC/lXBcJ3A2OczgUkjeK4pZ7P3TBrDAjZPBQPQLeVWGiqnBaLDF+/uFr4CyJyQ==
-X-Received: by 2002:a17:90b:4d91:: with SMTP id oj17mr14662366pjb.209.1629954303060;
-        Wed, 25 Aug 2021 22:05:03 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id t13sm1119130pjg.25.2021.08.25.22.05.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 22:05:00 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: linux-kernel@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Kalle Valo <kvalo@codeaurora.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Nilesh Javali <njavali@marvell.com>,
-	Manish Rangankar <mrangankar@marvell.com>,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	Ross Schmidt <ross.schm.dev@gmail.com>,
-	Marco Cesati <marcocesati@gmail.com>,
-	ath10k@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Keith Packard <keithp@keithp.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	clang-built-linux@googlegroups.com,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v2 3/5] treewide: Replace 0-element memcpy() destinations with flexible arrays
-Date: Wed, 25 Aug 2021 22:04:56 -0700
-Message-Id: <20210826050458.1540622-4-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210826050458.1540622-1-keescook@chromium.org>
-References: <20210826050458.1540622-1-keescook@chromium.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Hkopqt0feIIS5JxkU+fHJyYMDvajUo970zD2BdvBfg0=;
+        b=oMiS9f2PvK/V5MLw9xBqAlZg35ocGMQCKHxEmT65eb+LiaCEOcIF4ojoD9f4E0aurG
+         QGCzcHFkSpJc4fuLWKasPzo7r/e7vZDNptUYNmdyPDfpR+8whwB0XeclsiZPWOc+ct/g
+         0LKq1q4eJMEYGQOQjc5aAv4RTko94G+pSvdosVYWoXg9dXTVW9RkX2h6CraDhJIKZwI/
+         Z5n+4Jkv7raMP9gHbGc5uphuL2OBqR8Oy/Uy2KODStSqaTeq0FObsPgrNqdcAvsnoRmU
+         C1QMpBZJUTpr0PAwoeGvFh7Cx1ewJuVelhLVqlEpC4mynU1FzLLWgYYzbMhLSPiTzqVC
+         z8jQ==
+X-Gm-Message-State: AOAM533qwRNyCL8tBxUUcoWiqyp+dA3WoY/qBfOf99kC4CA+XtY6Ng9L
+	pOrN/fcBc1xN0Tfo4Tx6ULtRg2iBCWhlBg==
+X-Google-Smtp-Source: ABdhPJz0yJDvcJEKF+w0SF6jLoiz2PztOaQBUgQZSiE59hAymPRneGMofqA07OxhM4zJKwQI0d+TJg==
+X-Received: by 2002:a19:ad46:: with SMTP id s6mr1360414lfd.25.1629954811184;
+        Wed, 25 Aug 2021 22:13:31 -0700 (PDT)
+Received: from localhost.localdomain ([46.61.204.60])
+        by smtp.gmail.com with ESMTPSA id z8sm204034lfs.177.2021.08.25.22.13.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 22:13:30 -0700 (PDT)
+Subject: Re: [PATCH v3 3/6] staging: r8188eu: add error handling of rtw_read8
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ gregkh@linuxfoundation.org, straube.linux@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <cover.1629789580.git.paskripkin@gmail.com>
+ <c59d5d850bf9aab208704182c83086609289cb9c.1629789580.git.paskripkin@gmail.com>
+ <3591772.nrefL38gfN@localhost.localdomain>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <1f9ef1b3-8581-3261-0cfe-d5e9a8cf8483@gmail.com>
+Date: Thu, 26 Aug 2021 08:13:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9605; h=from:subject; bh=tuToPGIO1fwcT/OaQE7CJFyWXS25t8uKJXExyhn0DhY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhJyD5WMohc3p5GetuWgfUYA3hlc3eWWWJdl37Tmzk tsRDR+6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYScg+QAKCRCJcvTf3G3AJjLxD/ 0WbSS7m0+jhuZ0yEDDmx1f3f3Fd4ylc4n8eEvJqyWQTOEBeC52HalM7Wv0GoqDZsr409+b70Kj9En7 2n3jS2Nmosga/L9RN7YC9u8qi0OdqGXVUmPmOeeAy6vMY3nf32TfdIzBf0OFgzOF693Uri3lQdQkGt X1n7jN2/ma2qJETdJEoWZeFuLUJzQFnFmLtffWGvJelOhGoZJVCtEqyChndE2RRsiGw9sxkJrtip/M wVQhx9fXljN7jgmfAnkuyY8cPPfzM8tFAZk5QNk1DwKxkTY6kSjPMt3wQIP2PWVeJxve8cxG6tBEBy 9QcRSQin4AKCk5e1K9dRUpr2rBZ2pxTpu9+h1fQLeq9crY4tlIWA1N9IE+CYenSB5QS/ElgexfKNWg QRC7FAybRvx09RpC7bmtInRliESEbFkmAyXw51g8m6wzhInC4+FQEU3btvs3iAdymFag/3LI+VDOqN 5i89pzAUXDMY+BMrDEHQd5bsBN4FxGIZeLO0x4J0nF3WZCfnqplq/MCuM8U9cVBQWVBkao42uT4M03 Yy3Q3ELveBean30nqem7NAzic3v+h/HJEV+FbLPiM77rxRQPDLqVPu8NjkMJdVAcDTZpjIfLbI/bt/ ZPL1usCDRxrpqI9YR6ZS/0XI6opvoGU0RxLd5AQLk0ekgfIvkKpQ5pCyGAaQ==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+In-Reply-To: <3591772.nrefL38gfN@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-The 0-element arrays that are used as memcpy() destinations are actually
-flexible arrays. Adjust their structures accordingly so that memcpy()
-can better reason able their destination size (i.e. they need to be seen
-as "unknown" length rather than "zero").
+On 8/26/21 2:45 AM, Fabio M. De Francesco wrote:
+> On Tuesday, August 24, 2021 9:27:27 AM CEST Pavel Skripkin wrote:
+>> _rtw_read8 function can fail in case of usb transfer failure. But
+>> previous function prototype wasn't designed to return an error to
+>> caller. It can cause a lot uninit value bugs all across the driver code,
+>> since rtw_read8() returns local stack variable to caller.
+>> 
+>> Fix it by changing the prototype of this function. Now it returns an
+>> int: 0 on success, negative error value on failure and callers should pass
+>> the pointer to storage location for register value.
+>> 
+>> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> 
+> Dear Pavel,
+> 
+> I have to inform you that building patch v3 3/6 with gcc (version 11.1.1 20210721
+> [revision 076930b9690ac3564638636f6b13bbb6bc608aea] (SUSE Linux)), gives
+> the following warning:
+> 
+> drivers/staging/r8188eu/os_dep/ioctl_linux.c:2258:13: warning: variable ‘error’ set but not used [-Wunused-but-set-variable]
+>   2258 |         int error;
+>        |             ^~~~~
+> 
+> I'm sorry, but I guess that for some reason previously I had only built v2 of your patch
+> which had no warnings at all.
+> 
+> Unfortunately, introducing warnings is not allowed.
+> 
+> While we are at this, I can also confirm that GCC 11.1.1 _does_ _not_ emit the warning
+> that has been reported by the kernel test robot.
+> 
 
-In some cases, use of the flex_array() helper is needed when a flexible
-array is part of a union.
+Yep, I see, thank you. v4 is on the way... I had a plan to send v4 
+yesterday, but I've finally received r8188eu device.
 
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Kalle Valo <kvalo@codeaurora.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Nilesh Javali <njavali@marvell.com>
-Cc: Manish Rangankar <mrangankar@marvell.com>
-Cc: GR-QLogic-Storage-Upstream@marvell.com
-Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Florian Schilhabel <florian.c.schilhabel@googlemail.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Fabio Aiuto <fabioaiuto83@gmail.com>
-Cc: Ross Schmidt <ross.schm.dev@gmail.com>
-Cc: Marco Cesati <marcocesati@gmail.com>
-Cc: ath10k@lists.infradead.org
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/net/wireless/ath/ath10k/bmi.h         | 10 +++----
- drivers/scsi/qla4xxx/ql4_def.h                |  4 +--
- drivers/staging/rtl8188eu/include/ieee80211.h |  6 ++--
- drivers/staging/rtl8712/ieee80211.h           |  4 +--
- drivers/staging/rtl8723bs/include/ieee80211.h |  6 ++--
- include/linux/ieee80211.h                     | 30 +++++++++----------
- include/uapi/linux/dlm_device.h               |  4 +--
- 7 files changed, 32 insertions(+), 32 deletions(-)
+I tried to connect it and test and.... driver didn't work :) So, I will 
+try to figure out the problem with driver (or device) and will send v4.
 
-diff --git a/drivers/net/wireless/ath/ath10k/bmi.h b/drivers/net/wireless/ath/ath10k/bmi.h
-index f6fadcbdd86e..0685c0d2d4ea 100644
---- a/drivers/net/wireless/ath/ath10k/bmi.h
-+++ b/drivers/net/wireless/ath/ath10k/bmi.h
-@@ -109,7 +109,7 @@ struct bmi_cmd {
- 		struct {
- 			__le32 addr;
- 			__le32 len;
--			u8 payload[0];
-+			u8 payload[];
- 		} write_mem;
- 		struct {
- 			__le32 addr;
-@@ -138,18 +138,18 @@ struct bmi_cmd {
- 		} rompatch_uninstall;
- 		struct {
- 			__le32 count;
--			__le32 patch_ids[0]; /* length of @count */
-+			__le32 patch_ids[]; /* length of @count */
- 		} rompatch_activate;
- 		struct {
- 			__le32 count;
--			__le32 patch_ids[0]; /* length of @count */
-+			__le32 patch_ids[]; /* length of @count */
- 		} rompatch_deactivate;
- 		struct {
- 			__le32 addr;
- 		} lz_start;
- 		struct {
- 			__le32 len; /* max BMI_MAX_DATA_SIZE */
--			u8 payload[0]; /* length of @len */
-+			u8 payload[]; /* length of @len */
- 		} lz_data;
- 		struct {
- 			u8 name[BMI_NVRAM_SEG_NAME_SZ];
-@@ -160,7 +160,7 @@ struct bmi_cmd {
- 
- union bmi_resp {
- 	struct {
--		u8 payload[0];
-+		DECLARE_FLEX_ARRAY(u8, payload);
- 	} read_mem;
- 	struct {
- 		__le32 result;
-diff --git a/drivers/scsi/qla4xxx/ql4_def.h b/drivers/scsi/qla4xxx/ql4_def.h
-index 031569c496e5..69a590546bf9 100644
---- a/drivers/scsi/qla4xxx/ql4_def.h
-+++ b/drivers/scsi/qla4xxx/ql4_def.h
-@@ -366,13 +366,13 @@ struct qla4_work_evt {
- 		struct {
- 			enum iscsi_host_event_code code;
- 			uint32_t data_size;
--			uint8_t data[0];
-+			uint8_t data[];
- 		} aen;
- 		struct {
- 			uint32_t status;
- 			uint32_t pid;
- 			uint32_t data_size;
--			uint8_t data[0];
-+			uint8_t data[];
- 		} ping;
- 	} u;
- };
-diff --git a/drivers/staging/rtl8188eu/include/ieee80211.h b/drivers/staging/rtl8188eu/include/ieee80211.h
-index da6245a77d5d..aa5c1a513495 100644
---- a/drivers/staging/rtl8188eu/include/ieee80211.h
-+++ b/drivers/staging/rtl8188eu/include/ieee80211.h
-@@ -199,7 +199,7 @@ struct ieee_param {
- 		struct {
- 			u32 len;
- 			u8 reserved[32];
--			u8 data[0];
-+			u8 data[];
- 		} wpa_ie;
- 		struct {
- 			int command;
-@@ -212,7 +212,7 @@ struct ieee_param {
- 			u8 idx;
- 			u8 seq[8]; /* sequence counter (set: RX, get: TX) */
- 			u16 key_len;
--			u8 key[0];
-+			u8 key[];
- 		} crypt;
- #ifdef CONFIG_88EU_AP_MODE
- 		struct {
-@@ -224,7 +224,7 @@ struct ieee_param {
- 		} add_sta;
- 		struct {
- 			u8	reserved[2];/* for set max_num_sta */
--			u8	buf[0];
-+			u8	buf[];
- 		} bcn_ie;
- #endif
- 
-diff --git a/drivers/staging/rtl8712/ieee80211.h b/drivers/staging/rtl8712/ieee80211.h
-index 61eff7c5746b..65ceaca9b51e 100644
---- a/drivers/staging/rtl8712/ieee80211.h
-+++ b/drivers/staging/rtl8712/ieee80211.h
-@@ -78,7 +78,7 @@ struct ieee_param {
- 		struct {
- 			u32 len;
- 			u8 reserved[32];
--			u8 data[0];
-+			u8 data[];
- 		} wpa_ie;
- 		struct {
- 			int command;
-@@ -91,7 +91,7 @@ struct ieee_param {
- 			u8 idx;
- 			u8 seq[8]; /* sequence counter (set: RX, get: TX) */
- 			u16 key_len;
--			u8 key[0];
-+			u8 key[];
- 		} crypt;
- 	} u;
- };
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 378c21595e05..89c311cd20a6 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -180,7 +180,7 @@ struct ieee_param {
- 		struct {
- 			u32 len;
- 			u8 reserved[32];
--			u8 data[0];
-+			u8 data[];
- 		} wpa_ie;
- 	        struct{
- 			int command;
-@@ -193,7 +193,7 @@ struct ieee_param {
- 			u8 idx;
- 			u8 seq[8]; /* sequence counter (set: RX, get: TX) */
- 			u16 key_len;
--			u8 key[0];
-+			u8 key[];
- 		} crypt;
- 		struct {
- 			u16 aid;
-@@ -204,7 +204,7 @@ struct ieee_param {
- 		} add_sta;
- 		struct {
- 			u8 reserved[2];/* for set max_num_sta */
--			u8 buf[0];
-+			u8 buf[];
- 		} bcn_ie;
- 	} u;
- };
-diff --git a/include/linux/ieee80211.h b/include/linux/ieee80211.h
-index a6730072d13a..445597c03cd1 100644
---- a/include/linux/ieee80211.h
-+++ b/include/linux/ieee80211.h
-@@ -1101,7 +1101,7 @@ struct ieee80211_mgmt {
- 			__le16 auth_transaction;
- 			__le16 status_code;
- 			/* possibly followed by Challenge text */
--			u8 variable[0];
-+			u8 variable[];
- 		} __packed auth;
- 		struct {
- 			__le16 reason_code;
-@@ -1110,26 +1110,26 @@ struct ieee80211_mgmt {
- 			__le16 capab_info;
- 			__le16 listen_interval;
- 			/* followed by SSID and Supported rates */
--			u8 variable[0];
-+			u8 variable[];
- 		} __packed assoc_req;
- 		struct {
- 			__le16 capab_info;
- 			__le16 status_code;
- 			__le16 aid;
- 			/* followed by Supported rates */
--			u8 variable[0];
-+			u8 variable[];
- 		} __packed assoc_resp, reassoc_resp;
- 		struct {
- 			__le16 capab_info;
- 			__le16 status_code;
--			u8 variable[0];
-+			u8 variable[];
- 		} __packed s1g_assoc_resp, s1g_reassoc_resp;
- 		struct {
- 			__le16 capab_info;
- 			__le16 listen_interval;
- 			u8 current_ap[ETH_ALEN];
- 			/* followed by SSID and Supported rates */
--			u8 variable[0];
-+			u8 variable[];
- 		} __packed reassoc_req;
- 		struct {
- 			__le16 reason_code;
-@@ -1140,11 +1140,11 @@ struct ieee80211_mgmt {
- 			__le16 capab_info;
- 			/* followed by some of SSID, Supported rates,
- 			 * FH Params, DS Params, CF Params, IBSS Params, TIM */
--			u8 variable[0];
-+			u8 variable[];
- 		} __packed beacon;
- 		struct {
- 			/* only variable items: SSID, Supported rates */
--			u8 variable[0];
-+			DECLARE_FLEX_ARRAY(u8, variable);
- 		} __packed probe_req;
- 		struct {
- 			__le64 timestamp;
-@@ -1152,7 +1152,7 @@ struct ieee80211_mgmt {
- 			__le16 capab_info;
- 			/* followed by some of SSID, Supported rates,
- 			 * FH Params, DS Params, CF Params, IBSS Params */
--			u8 variable[0];
-+			u8 variable[];
- 		} __packed probe_resp;
- 		struct {
- 			u8 category;
-@@ -1161,16 +1161,16 @@ struct ieee80211_mgmt {
- 					u8 action_code;
- 					u8 dialog_token;
- 					u8 status_code;
--					u8 variable[0];
-+					u8 variable[];
- 				} __packed wme_action;
- 				struct{
- 					u8 action_code;
--					u8 variable[0];
-+					u8 variable[];
- 				} __packed chan_switch;
- 				struct{
- 					u8 action_code;
- 					struct ieee80211_ext_chansw_ie data;
--					u8 variable[0];
-+					u8 variable[];
- 				} __packed ext_chan_switch;
- 				struct{
- 					u8 action_code;
-@@ -1186,7 +1186,7 @@ struct ieee80211_mgmt {
- 					__le16 timeout;
- 					__le16 start_seq_num;
- 					/* followed by BA Extension */
--					u8 variable[0];
-+					u8 variable[];
- 				} __packed addba_req;
- 				struct{
- 					u8 action_code;
-@@ -1202,11 +1202,11 @@ struct ieee80211_mgmt {
- 				} __packed delba;
- 				struct {
- 					u8 action_code;
--					u8 variable[0];
-+					u8 variable[];
- 				} __packed self_prot;
- 				struct{
- 					u8 action_code;
--					u8 variable[0];
-+					u8 variable[];
- 				} __packed mesh_action;
- 				struct {
- 					u8 action;
-@@ -1250,7 +1250,7 @@ struct ieee80211_mgmt {
- 					u8 toa[6];
- 					__le16 tod_error;
- 					__le16 toa_error;
--					u8 variable[0];
-+					u8 variable[];
- 				} __packed ftm;
- 			} u;
- 		} __packed action;
-diff --git a/include/uapi/linux/dlm_device.h b/include/uapi/linux/dlm_device.h
-index f880d2831160..e83954c69fff 100644
---- a/include/uapi/linux/dlm_device.h
-+++ b/include/uapi/linux/dlm_device.h
-@@ -45,13 +45,13 @@ struct dlm_lock_params {
- 	void __user *bastaddr;
- 	struct dlm_lksb __user *lksb;
- 	char lvb[DLM_USER_LVB_LEN];
--	char name[0];
-+	char name[];
- };
- 
- struct dlm_lspace_params {
- 	__u32 flags;
- 	__u32 minor;
--	char name[0];
-+	char name[];
- };
- 
- struct dlm_purge_params {
--- 
-2.30.2
+Again, thank you for report :) My default gcc is too polite...
 
+
+
+
+With regards,
+Pavel Skripkin
