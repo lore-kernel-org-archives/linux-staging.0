@@ -1,96 +1,94 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54B73FC4
-	for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 23:45:51 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id mf2so1985152ejb.9
-        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 16:45:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6393FC7
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 01:50:09 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id i21so2614239ejd.2
+        for <linux-staging@lists.linux.dev>; Wed, 25 Aug 2021 18:50:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kv1+3PF8NoBjdGENhso7cF1mXXZBYI7ik/JgLEIWEFY=;
-        b=I9g8+mQ5rKWvAzdrQlNKi/je8uoX4tqgS0TbgFbhvZ4T97rLTo2hFzqVn3SmxREX4Y
-         S++l3DYcSCuyaf1cK83t/nuMCHI6S85HPv5MQToG2zNIol9k/oKTwkndE6wNUDGnHVct
-         2Sj+gXedYg4s1atCrUZYrJLkB1mwBNiv9MhylJkZifxFP5F7MhZ1+efByjvYIkyWrpQU
-         1D8AP76CpkjRAj7Gc5J3umyH8BwCMIyIwGUUZFWfYW6DqC+HSxkprQzO4ewaRunBh+Xa
-         BwCdN0mhaMu76d7F3MlKoHE6q20CndzLGeGYGU2siHrn4oeDAoYBKQ8NQ1Zh/hCPHifm
-         odIg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=80RKC35nU1+RD8O7RmvEN2Hh0WXweIkEFW8Ee2YLI4w=;
+        b=vNRYxUYzc07cs3ZouSO8oHGLtJNMpg1T0+c4OS+qmQ9fGctVUYfIPA16xesPj2fYUB
+         uRup2fqKKpm/AsonQ2FBN3RypC6oy7eN5GHa3SyXs7ht4/pfCPA8kpBxdNA1x02ncq/K
+         nH0lLecLnDF35cXRXYBGu+dxSq5SmIZl/25YSJ4KxAvf1PclPfd6Ygl6FamgrVEIdDQM
+         yOz0UWJ69wAWXfcPTl5Ok0OQZCo64YvxY2R3vRoGjiKbD8jowMoXkK8fas0jkRxQScqc
+         yFVehrQH+kA2v8QNDO8jUPBCiALhSs2gjITOtF09NzO5r61HdpHu2EioMLTgT+m2FK1j
+         zliQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kv1+3PF8NoBjdGENhso7cF1mXXZBYI7ik/JgLEIWEFY=;
-        b=h+aAMWwRUjTPSIgTwxXbOOfnq3f93S5i9SJ6N+DjWT01Od9YJtg1ZZjkUKC4JHQDML
-         AdFGm73Lz+x/GQFId8EShIGfIRchGsUDAlxP7padyvoDfN09kbzswDcL7Ob0S6E1zZOV
-         EAN/VoxXqTU68M2BDlcfdfm6Ek62CkAHEePpRxWfNij1FGQyfXiN/Undbf7fmu7TpXWV
-         9TAl+dqPnWuY48TtZhAc0Tbl+PLJxlH0Q6tZkhviX6c8GYYbEPNhk2n3Wq46Omt7Gwml
-         EQpjMHcx1yjUUoqONNinTnnTXkNC7EqyW2p2IOH8S9HNl36plgW19ae7k2/3phiBnAij
-         cpwQ==
-X-Gm-Message-State: AOAM5302QM4A5hMAbXdJkMGcG5WytEx2NCwLWTq3UpFYiXqvMbrAFU3u
-	NXRzBEj3IU0jLh5e7nL83SQ=
-X-Google-Smtp-Source: ABdhPJxADK5L+azPcbkWSGJuU3YC9SPUcS4q3XWCss7G/UGZ3RFuy4PW/J6QsImPpB8WY2dU1GnJvw==
-X-Received: by 2002:a17:906:9401:: with SMTP id q1mr1183144ejx.313.1629935150013;
-        Wed, 25 Aug 2021 16:45:50 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=80RKC35nU1+RD8O7RmvEN2Hh0WXweIkEFW8Ee2YLI4w=;
+        b=Q949t/mON7T+pCKLZdjqsdhMS5dZUY3uBeC4pRFaEvMs+T5dVLlHX1asgPqEm8jCDN
+         cHggrspN8qEYIFTGYCZ93QWlB+tz+llnE69WNGVzte1qnRT1adL0Molu7/Ymszhe/phX
+         pKdA7hL39eXUeAWXMYBNKTOu1Vvq4mWZA6McMEc2hNLKrp1D2X7jRQrAK1zGN9ID5sl7
+         lIbK5Zn8lq5cNnbkNHiZfcUl45XrnnMqtIotb46+sYh4sgnrf6b7kdI1o2jfiPsXyngW
+         3wOUjuHTm4W0qAjcp+Gx3Z9TwuT8OvpOC+DuSN5TzRmvXp4XXdcjkH+U3pJhd3C+9tyx
+         AS8w==
+X-Gm-Message-State: AOAM532VyArO6YrS0XLA28vVP3nSxNonLc4BW7l/EbJOzmLaTeW0AsJK
+	m3X3S/sT2BkSxS00R2eWRsE=
+X-Google-Smtp-Source: ABdhPJxFwcYTuMw8e9XJUjGCoAjWOF/JCHjjA/JhRYRxxUMxnFi/VoDMZzCsV3rrXVrLHREgI406eQ==
+X-Received: by 2002:a17:906:9388:: with SMTP id l8mr1589658ejx.307.1629942607754;
+        Wed, 25 Aug 2021 18:50:07 -0700 (PDT)
 Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id x9sm649417edj.95.2021.08.25.16.45.48
+        by smtp.gmail.com with ESMTPSA id u9sm845358edo.37.2021.08.25.18.50.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Aug 2021 16:45:49 -0700 (PDT)
+        Wed, 25 Aug 2021 18:50:07 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com, Pavel Skripkin <paskripkin@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v3 3/6] staging: r8188eu: add error handling of rtw_read8
-Date: Thu, 26 Aug 2021 01:45:47 +0200
-Message-ID: <3591772.nrefL38gfN@localhost.localdomain>
-In-Reply-To: <c59d5d850bf9aab208704182c83086609289cb9c.1629789580.git.paskripkin@gmail.com>
-References: <cover.1629789580.git.paskripkin@gmail.com> <c59d5d850bf9aab208704182c83086609289cb9c.1629789580.git.paskripkin@gmail.com>
+To: gregkh@linuxfoundation.org,
+	Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: r8188eu: Provide a TODO file for this driver
+Date: Thu, 26 Aug 2021 03:49:59 +0200
+Message-Id: <20210826014959.26857-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, August 24, 2021 9:27:27 AM CEST Pavel Skripkin wrote:
-> _rtw_read8 function can fail in case of usb transfer failure. But
-> previous function prototype wasn't designed to return an error to
-> caller. It can cause a lot uninit value bugs all across the driver code,
-> since rtw_read8() returns local stack variable to caller.
->=20
-> Fix it by changing the prototype of this function. Now it returns an
-> int: 0 on success, negative error value on failure and callers should pass
-> the pointer to storage location for register value.
->=20
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+Provide a TODO file that lists the tasks that should be carried out in
+order to move this driver off drivers/staging.
 
-Dear Pavel,
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
 
-I have to inform you that building patch v3 3/6 with gcc (version 11.1.1 20=
-210721=20
-[revision 076930b9690ac3564638636f6b13bbb6bc608aea] (SUSE Linux)), gives
-the following warning:
+Thanks to Phillip Potter <phil@philpotter.co.uk> for for providing the first draft.
 
-drivers/staging/r8188eu/os_dep/ioctl_linux.c:2258:13: warning: variable =E2=
-=80=98error=E2=80=99 set but not used [-Wunused-but-set-variable]
- 2258 |         int error;
-      |             ^~~~~
+ drivers/staging/r8188eu/TODO | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 drivers/staging/r8188eu/TODO
 
-I'm sorry, but I guess that for some reason previously I had only built v2 =
-of your patch=20
-which had no warnings at all.=20
-
-Unfortunately, introducing warnings is not allowed.
-
-While we are at this, I can also confirm that GCC 11.1.1 _does_ _not_ emit =
-the warning=20
-that has been reported by the kernel test robot.=20
-
-Regards,
-
-=46abio
-
-=20
-
+diff --git a/drivers/staging/r8188eu/TODO b/drivers/staging/r8188eu/TODO
+new file mode 100644
+index 000000000000..4bccca69abac
+--- /dev/null
++++ b/drivers/staging/r8188eu/TODO
+@@ -0,0 +1,16 @@
++To-do list:
++
++* Correct the coding style according to Linux guidelines; please read the document
++at https://www.kernel.org/doc/html/latest/process/coding-style.html.
++* Remove unnecessary debugging/printing macros; for those that are still needed
++use the proper kernel API (pr_debug(), dev_dbg(), netdev_dbg()).
++* Remove dead code such as unusued functions, variables, fields, etc..
++* Use in-kernel API and remove unnecessary wrappers where possible.
++* Remove the HAL layer and migrate its functionality into the relevant parts of
++the driver.
++* Switch to use LIB80211 (This work is currently in development by Larry Finger).
++* Switch to use MAC80211 (This work is currently in development by Larry Finger).
++
++Please send any patches to Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
++Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>
++and CC linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org.
+-- 
+2.32.0
 
