@@ -1,49 +1,49 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0368629CA
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 15:57:05 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id i6so5418226edu.1
-        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 08:57:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435DD3FCB
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 16:04:53 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id t19so7379348ejr.8
+        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 09:04:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZXF/RHrw7uR6voIrN0yU+7iqLQE1G5atkH2gmUQ8pZk=;
-        b=RQJ9kvRCGzboqUPP5bbDLYsm7wHK3ezjmAWY1wP8SNnfLIS8HarSFZ7DJKNBFxOZyg
-         T922M3YNTNVOXO+PbK4iL9ZJdNtmDV5GCGR3QRem4nQSsD520BwsZuLH410XfjbB7EQv
-         fxg0GiydJw7Qzi/ur41bgIiyYrORoc/7NuAxot5EHb3QZUR6ae297ssxWmesAEMciV6y
-         LFU5wczmGANMvf63O9yQFiIItalWhpi8XqxwqeTTUfmWXyWsCEGp2YBSQfY5bk7oiELJ
-         Io/8CFj6cHPCYYeag+XZexMWmHNIhp29ydwdyuPOWHwfB4Z4TqgYQ9iN/r+93RjvaSHF
-         OFBg==
+        bh=DHporovZFmU9bKIyyJNWmrcH7b2P9x/EJE1cZCgvzmE=;
+        b=ZKR3h+4OuOJBh6n6Czcd/iH6qvH4Nc351hAm6h8GVLk3BQatJDXXMCXVseyppIX/oJ
+         BiHz4f+MzeBOEx+zSyAZN4Lqk30KxBosecXNMLPR4QbHEkg/veOBBJ/sTDFinL7HPGYl
+         21OSiSit6q6n3Z1pbcLK3sYuf5MhONsxjkfnQfjMNxjgTfZ0wpwx76HJ16zO4Mm848VY
+         Caen7T+8NvYRx0an7JLDe5NNEANck3QGxL3NBVSOCP8tnofQ6dw87QQlaFrB9naOjKnC
+         c+rs37YHPJQjd6ywboYWR7ZfnC0RCUGw0mAfodR6FwEt6pTijQ+qXezOO8x2NccKzmH6
+         r17Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZXF/RHrw7uR6voIrN0yU+7iqLQE1G5atkH2gmUQ8pZk=;
-        b=BQC3gWHQ4dL7pQX24XN7k7uMqiyB7+FMP8g+qxA8ZsQxe1TkmpI4I4vdS/Enhv3VnG
-         BQErgteEwTMGjQ7nwzY7lm+mCvVSe7Ska85pkvreqpgtyS9//XoR3GG3olN9nzpYKV0O
-         DYfcj5yao0Wgjs/Df1fQ1VBxuMqSTvh7vsTu9ZUD2hXjfxbIPxM9Emq0/W7zvFtuy6IN
-         VHx9hOCXaCDPELfMuLgSdZeHuldg/LqUpo5dLWq1nLNEbsq59pBad1BpMuV1kQbotlXI
-         RPlpD7cCSHOD+/ecvJ2FpF+8mte0f3OZYwXREYljqleWLBESpCBy7tSlOwRIWRD7crKt
-         QuCg==
-X-Gm-Message-State: AOAM531DTZ2260bYE4Za3HB4tteN4Dk7fO5LJ7DoFv1XZgT6RPrK49qu
-	9M1qi8fdUscEIYQWRCVsodQ=
-X-Google-Smtp-Source: ABdhPJwTDYtb8XcfblsJ7q7oQNNs+70i6Vv8+cvwvcrMtFQWph5GvGCGlXX7GD4Uq78wknF2uANqUQ==
-X-Received: by 2002:a05:6402:354c:: with SMTP id f12mr4872206edd.287.1629993424411;
-        Thu, 26 Aug 2021 08:57:04 -0700 (PDT)
+        bh=DHporovZFmU9bKIyyJNWmrcH7b2P9x/EJE1cZCgvzmE=;
+        b=rNnBueVu0I0nUAZ8pVJGVPc0daP3ozKCGLoLHfFx0dWpSm02hcUR4tiLnXts4xhG8Z
+         F/q/hN0Laz28zb/IxDRTVITmqGYJuGNWwIMQ48ICpsOIVmbFJldubIAhvPt7HW3XR+UV
+         k1ZddpatQmCRhxyrjBDDx6yI0gZOP51CKlhDeQs4GUc8UmLS7jd9Ynsg7JtfrXC3NxiG
+         YzKdAwPTJXYtt6C7wlgtJOmeVOwTNiHZ7XueLiU+VFEqPnps89Yoqa3KI9+dAoMv0J++
+         HzBxxHBDD8MxY5X4hgVodcILHNS4IZr4pdtJb/7XHoObnIvDop/WOh4mFkZGs2YZUHPA
+         PsTw==
+X-Gm-Message-State: AOAM532fSp7VzzR5jmeU3GrSDd3TNE21s57ReozDAOohMkSvpj6qgwG8
+	gzc5WdQQVEv7joZRx513Mxk=
+X-Google-Smtp-Source: ABdhPJxm8FA85dZ0nT6zHXMTe3zlBCHLbl6lt6GGnhCEn+uuOpcKNVBPRg28wwyWHRySkNFQporPSA==
+X-Received: by 2002:a17:906:8297:: with SMTP id h23mr5076951ejx.168.1629993891637;
+        Thu, 26 Aug 2021 09:04:51 -0700 (PDT)
 Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id q5sm2080803edt.50.2021.08.26.08.57.02
+        by smtp.gmail.com with ESMTPSA id kk2sm153240ejc.114.2021.08.26.09.04.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 08:57:03 -0700 (PDT)
+        Thu, 26 Aug 2021 09:04:51 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Alex Elder <elder@ieee.org>, Alex Elder <elder@linaro.org>
-Cc: kernel test robot <lkp@intel.com>
-Subject: Re: [greybus-dev] [PATCH v2] staging: greybus: Convert uart.c from IDR to XArray
-Date: Thu, 26 Aug 2021 17:57:02 +0200
-Message-ID: <8278430.GnBS7eVdlf@localhost.localdomain>
-In-Reply-To: <335f30c7-8ab4-d46a-d415-e994997a3fa5@linaro.org>
-References: <20210814181130.21383-1-fmdefrancesco@gmail.com> <1838037.Ul9q4Z07vA@localhost.localdomain> <335f30c7-8ab4-d46a-d415-e994997a3fa5@linaro.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, phil@philpotter.co.uk, Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: Provide a TODO file for this driver
+Date: Thu, 26 Aug 2021 18:04:49 +0200
+Message-ID: <1738388.hbRm42UXh6@localhost.localdomain>
+In-Reply-To: <20210826135413.GA1931@kadam>
+References: <20210826130342.9552-1-fmdefrancesco@gmail.com> <20210826135413.GA1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,62 +51,40 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 
-On Wednesday, August 25, 2021 3:45:13 PM CEST Alex Elder wrote:
-> On 8/25/21 12:20 AM, Fabio M. De Francesco wrote:
-> > On Monday, August 16, 2021 4:46:08 PM CEST Alex Elder wrote:
-> >> On 8/14/21 1:11 PM, Fabio M. De Francesco wrote:
-> >>> Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
-> >>> is more memory-efficient, parallelisable, and cache friendly. It takes
-> >>> advantage of RCU to perform lookups without locking. Furthermore, IDR is
-> >>> deprecated because XArray has a better (cleaner and more consistent) API.
-> >>
-> >> I haven't verified the use of the new API (yet) but I have a few
-> >> comments on your patch, below.
-> >>
-> >> 					-Alex
-> > 
-> > Dear Alex,
-> > 
-> > On August 16th I submitted the v3 of my patch ("staging: greybus: Convert uart.c 
-> > from IDR to XArray"), with changes based on the comments you provided.
+On Thursday, August 26, 2021 3:54:13 PM CEST Dan Carpenter wrote:
+> Another thing to fix are some of the sleeping in atomic bugs.
 > 
-> Yes, I intend to review version 3.  I'm sorry I didn't respond to
-> your earlier message; I am on vacation this week.
+> drivers/staging/r8188eu/core/rtw_ap.c:139 update_BCNTIM() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_ap.c:1296 update_bcn_wps_ie() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_ap.c:1361 update_beacon() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_ap.c:1725 ap_free_sta() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_pwrctrl.c:79 ips_leave() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_pwrctrl.c:81 ips_leave() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_mlme_ext.c:6764 receive_disconnect() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_mlme_ext.c:7083 report_del_sta_event() warn: sleeping in atomic context
+> drivers/staging/r8188eu/core/rtw_mlme_ext.c:8133 set_tx_beacon_cmd() warn: sleeping in atomic context
+> drivers/staging/r8188eu/os_dep/mlme_linux.c:117 rtw_report_sec_ie() warn: sleeping in atomic context
 > 
-> 					-Alex
+> There are a few in rtl8723bs as well since the code came from the same
+> place.
+> 
+> drivers/staging/rtl8723bs/core/rtw_ap.c:1601 update_beacon() warn: sleeping in atomic context
+> drivers/staging/rtl8723bs/core/rtw_ap.c:1919 ap_free_sta() warn: sleeping in atomic context
+> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:4270 receive_disconnect() warn: sleeping in atomic context
+> drivers/staging/rtl8723bs/hal/hal_intf.c:100 rtw_hal_init() warn: sleeping in atomic context
+> 
+> regards,
+> dan carpenter
 
-Oh, there's no hurry, sorry to bother you while on vacation.
-Even kernel hackers deserve a vacation at least once a year or two... :-)
+Thanks for your suggestion, I'll add this too to next version.
 
-Thanks,
+However I prefer to wait until tomorrow because it is probable that someone else 
+have think of more tasks to add to the list.
+
+Regards,
 
 Fabio
-
-> > 
-> > Could you please take a few minutes to review this too? I would really appreciate it.
-> > 
-> > The v3 patch is at https://lore.kernel.org/lkml/20210816195000.736-1-fmdefrancesco@gmail.com/
-> > 
-> > Thanks,
-> > 
-> > Fabio
-> > 
-> > P.S.: I'd also like to know if you think it's worth converting IDA to XArray in order 
-> > to improve the Greybus driver in staging.
-> > 
-> >   
-> > 
-> > 
-> > _______________________________________________
-> > greybus-dev mailing list
-> > greybus-dev@lists.linaro.org
-> > https://lists.linaro.org/mailman/listinfo/greybus-dev
-> > 
-> 
-> 
-
-
 
 
