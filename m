@@ -1,82 +1,92 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEF172
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 10:22:28 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-70-jdU_6h5gMCqvi412VMHH6Q-1; Thu, 26 Aug 2021 11:22:26 +0100
-X-MC-Unique: jdU_6h5gMCqvi412VMHH6Q-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Thu, 26 Aug 2021 11:22:25 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Thu, 26 Aug 2021 11:22:25 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Pavel Skripkin' <paskripkin@gmail.com>
-CC: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
-	"phil@philpotter.co.uk" <phil@philpotter.co.uk>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>, "straube.linux@gmail.com"
-	<straube.linux@gmail.com>, "fmdefrancesco@gmail.com"
-	<fmdefrancesco@gmail.com>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 5/6] staging: r8188eu: add error handling of rtw_read32
-Thread-Topic: [PATCH v3 5/6] staging: r8188eu: add error handling of
- rtw_read32
-Thread-Index: AQHXmLmWEBrRSWSvqkChOMAmAhSABKuFfA1QgAAL0aSAAA6eAA==
-Date: Thu, 26 Aug 2021 10:22:25 +0000
-Message-ID: <64112dfd8e8b472ab78ca8b4837dc9e9@AcuMS.aculab.com>
-References: <cover.1629789580.git.paskripkin@gmail.com>
- <93bf46ce2d0ce12e94672acf28b64dc341fde038.1629789580.git.paskripkin@gmail.com>
- <27f5e52d520b453cbcabb3d72f0f5d15@AcuMS.aculab.com>
- <20210826122221.5d2b0f37@gmail.com>
- <685618ac-8de1-4eb1-57dd-9d43b96e872e@gmail.com>
-In-Reply-To: <685618ac-8de1-4eb1-57dd-9d43b96e872e@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD2772
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 10:24:07 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id m4so4147461ljq.8
+        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 03:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MArJc2UXM01InVIrz+q5g7FDMglJPPlUa7D94D3Y6j0=;
+        b=gqKkxyWVckmwgoU51zfz1KfobvSXFXbmtHA6oozBzHxtNBQGm+xHPnJ6F+tugH28kE
+         TKsKKsQNycQVR6n5lh/bswbEyiDoBD38CY4W81mXjPEUFQtgTNZpMbljf5wEqk3f8VBt
+         l5dmd3kE3N9yMLOc2n6gOYXMdWJBHLCn0znO0rj0n5PEQw2UG07aPG7t+7fKkQNiJvz6
+         jKNENwjkm7hgco5RW8metbszsKAiklTX+TWpZFjfulVRud7k5d2Ung9kfDEoIhSj8Na1
+         QnCKe+rI8zumvtSJJxCT+K2cJFFmRMWEDsL0R9FNiTrSi70TBjG2yel7Ef+GVj52BNem
+         IT6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MArJc2UXM01InVIrz+q5g7FDMglJPPlUa7D94D3Y6j0=;
+        b=bSHo4ZjOzlGF8y+HUx/kACPNu92sfslJqaA2A0gG6e7ESBoVfPuBhJOFdGrjcrJ8HJ
+         bQH/JZNktsC5tCEUD2Sq+AaytlMU4aCO+cxJZhMjoepUq3LniXg2P46WKSzPBVMyHA19
+         lNkwD2u7fkxBjo8TbxZ19ndcXEV0ooZHZIwWsA1cRtxhNvv8NiReZAG3br7EjkeDgb34
+         LY3jZ6heJw7T7hX8o225sR8EDSXgkyFO1bJ2J08xIE3wAPkcdgzXIGQsOpM9O3z2jJ1V
+         ch638NjPmhdqm/xZzyWkGs6DgKEpvI3lU3s/Z3Ke2fF4JVSQQcYj83HBv98eI6EcF5mj
+         rkVQ==
+X-Gm-Message-State: AOAM531p9rf/keOvj3gvL72rczjZdAlN3f11QMADBmgSLN24MbAHjqob
+	Lf7VLZEdKrmEkNGeyV1u6jsPcsEWE4udk7DH8KQjhQ==
+X-Google-Smtp-Source: ABdhPJyoZqOiUX9Yihg0SFHx17SqsaQCPKfg5SiCXkVUhxYBLl5wdm3f3DcPjIqtScWuLLC3cHlj5FIgS05CZ3FECX4=
+X-Received: by 2002:a2e:8795:: with SMTP id n21mr2435379lji.474.1629973445418;
+ Thu, 26 Aug 2021 03:24:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+References: <20210826092854.58694-1-woodylin@google.com> <YSdjgnUwt76cknQ6@kroah.com>
+In-Reply-To: <YSdjgnUwt76cknQ6@kroah.com>
+From: Woody Lin <woodylin@google.com>
+Date: Thu, 26 Aug 2021 18:23:53 +0800
+Message-ID: <CAHn4Deczc6gSSsxys6UeAMB99p1jHMZmLFj+KwZ2QhH7dx8E8w@mail.gmail.com>
+Subject: Re: [PATCH] ANDROID: staging: add userpanic-dev driver
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Todd Kjos <tkjos@android.com>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Martijn Coenen <maco@android.com>, Joel Fernandes <joel@joelfernandes.org>, 
+	Christian Brauner <christian@brauner.io>, Hridya Valsaraju <hridya@google.com>, 
+	Suren Baghdasaryan <surenb@google.com>, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-RnJvbTogUGF2ZWwgU2tyaXBraW4NCj4gU2VudDogMjYgQXVndXN0IDIwMjEgMTA6MjgNCj4gDQo+
-IE9uIDgvMjYvMjEgMTI6MjIgUE0sIFBhdmVsIFNrcmlwa2luIHdyb3RlOg0KPiA+IE9uIFRodSwg
-MjYgQXVnIDIwMjEgMDg6NTE6MjMgKzAwMDANCj4gPiBEYXZpZCBMYWlnaHQgPERhdmlkLkxhaWdo
-dEBBQ1VMQUIuQ09NPiB3cm90ZToNCi4uLg0KPiA+PiAuLi4NCj4gPj4gPiAtc3RhdGljIHUzMiB1
-c2JfcmVhZDMyKHN0cnVjdCBpbnRmX2hkbCAqcGludGZoZGwsIHUzMiBhZGRyKQ0KPiA+PiA+ICtz
-dGF0aWMgaW50IHVzYl9yZWFkMzIoc3RydWN0IGludGZfaGRsICpwaW50ZmhkbCwgdTMyIGFkZHIs
-IHUzMg0KPiA+PiA+ICpkYXRhKSB7DQo+ID4+ID4gIAl1OCByZXF1ZXN0dHlwZTsNCj4gPj4gPiAg
-CXUxNiB3dmFsdWU7DQo+ID4+ID4gIAl1MTYgbGVuOw0KPiA+PiA+IC0JX19sZTMyIGRhdGE7DQo+
-ID4+ID4gKwlpbnQgcmVzOw0KPiA+PiA+ICsJX19sZTMyIHRtcDsNCj4gPj4gPiArDQo+ID4+ID4g
-KwlpZiAoV0FSTl9PTih1bmxpa2VseSghZGF0YSkpKQ0KPiA+PiA+ICsJCXJldHVybiAtRUlOVkFM
-Ow0KPiA+PiA+DQo+ID4+DQo+ID4+IEtpbGwgdGhlIE5VTEwgY2hlY2sgLSBpdCBpcyBhIHNpbGx5
-IGNvZGluZyBlcnJvci4NCj4gPj4gQW4gT09QUyBpcyBqdXN0IGFzIGVhc3kgdG8gZGVidWcuDQo+
-ID4+DQo+ID4NCj4gPg0KPiA+IEkgZG9uJ3QgdGhpbmsgdGhhdCBvbmUgc2luZ2xlIGRyaXZlciBz
-aG91bGQga2lsbCB0aGUgd2hvbGUgc3lzdGVtLiBJdCdzDQo+ID4gMTAwJSBhbiBlcnJvciwgYnV0
-IGtlcm5lbCBjYW4gcmVjb3ZlciBmcm9tIGl0IChmb3IgZXhhbXBsZSBkaXNjb25uZWN0DQo+ID4g
-dGhlIGRyaXZlciwgc2luY2UgaXQncyBicm9rZW4pLg0KPiA+DQo+ID4NCj4gPiBBRklBSywgR3Jl
-ZyBhbmQgTGludXMgZG8gbm90IGxpa2UgQlVHX09OcyBpbiByZWNvdmVyYWJsZSBzdGF0ZS4uLg0K
-PiA+IENvcnJlY3QgbWUsIGlmIEkgYW0gd3JvbmcNCj4gPg0KPiBPb3BzLCBJIHRob3VnaHQgYWJv
-dXQgQlVHX09OKCkgaW5zdGVhZCBvZiBXQVJOX09OKCksIHNvcnJ5IGZvcg0KPiBjb25mdXNpb24u
-IE15IHBvaW50IGlzICJ3ZSBzaG91bGQgbm90IGxldCB0aGUgYm94IGJvb20iLg0KDQoNClRoZXJl
-IGlzIG5vIHBvaW50IGNoZWNraW5nIGZvciBOVUxMIHRoYXQganVzdCBjYW4ndCBoYXBwZW4uDQpJ
-biB0aGlzIGNhc2UgYWxsIHRoZSBjYWxsZXJzIHdpbGwgcGFzcyB0aGUgYWRkcmVzcyBvZiBhIGxv
-Y2FsLg0KVGhlcmUgcmVhbGx5IGlzIG5vIHBvaW50IGNoZWNraW5nLg0KDQoJRGF2aWQNCg0KLQ0K
-UmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1p
-bHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVz
-KQ0K
+On Thu, Aug 26, 2021 at 5:48 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Aug 26, 2021 at 05:28:54PM +0800, Woody Lin wrote:
+> > Add char device driver 'userpanic-dev' that exposes an interface to
+> > userspace processes to request a system panic with customized panic
+> > message.
+> >
+> > Signed-off-by: Woody Lin <woodylin@google.com>
+> > ---
+> >  drivers/staging/android/Kconfig         |  12 +++
+> >  drivers/staging/android/Makefile        |   1 +
+> >  drivers/staging/android/userpanic-dev.c | 110 ++++++++++++++++++++++++
+>
+> Why is this in staging?  What is wrong with it that it can not just go
+> into the real part of the kernel?  A TODO file is needed explaining what
+> needs to be done here in order for it to be accepted.
 
+Got it. No more TODO for this driver and I will move it to drivers/android/.
+
+>
+> But why is this really needed at all?  Why would userspace want to panic
+> the kernel in yet-another-way?
+
+The idea is to panic the kernel with a panic message specified by the userspace
+process requesting the panic. Without this the panic handler can only collect
+panic message "sysrq triggered crash" for a panic triggered by user processes.
+Using this driver, user processes can put an informative description -
+process name,
+reason ...etc. - to the panic message.
+
+>
+> thanks,
+>
+> greg k-h
+
+Regards,
+Woody
