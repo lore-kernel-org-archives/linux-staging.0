@@ -1,30 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19983FC2
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 10:48:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A23B6108E;
-	Thu, 26 Aug 2021 10:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560FE3FC2
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 10:50:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E3BF2606A5;
+	Thu, 26 Aug 2021 10:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1629974921;
-	bh=yxtJgotS++D52Z3Lag3uqPEOetyeM7aOaKowbkza2G4=;
+	s=korg; t=1629975014;
+	bh=6dJzEXQA1Uf6AiMMx1L4sJuNorAspoUQIT8dxjE1u64=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sE2n5HQyaQ/RQe0xEGBhZLKMvz06vA1j0eq+d0kWsv3EXfJjVbCVl68BF/vA0X6Nm
-	 TzhcSafr8w9Nu4NFYr5n72BAS2VoKXBJRso9skDpU+c2MQPZe9EgsRGqJIOkh7xAS1
-	 olY4jd6cprGTJguwVb6/VaJfcqdngiUUjOUTV+q0=
-Date: Thu, 26 Aug 2021 12:48:37 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH v3 1/2] staging: r8188eu: Use usb_control_msg_recv/send()
- in usbctrl_vendorreq()
-Message-ID: <YSdxhfNjxOcJwxFg@kroah.com>
-References: <20210825035311.8910-1-fmdefrancesco@gmail.com>
- <20210825035311.8910-2-fmdefrancesco@gmail.com>
+	b=g+R+OW5TJVwA5EQoJcbP0SUfORf8RcGgP7LuVVPDy/hMe+3QRSQLIG39CtkCwKbhr
+	 R/BT+bcNjvqw5Z8wu5OshYmexSo/59MXECcDbH6xUSH/7lxB/1Tcn90IfVbOfly1yt
+	 /VKGAeyxHzQO6NV/NCWyVmruu3q3x9IwxicHuElc=
+Date: Thu, 26 Aug 2021 12:50:10 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/6] staging: r8188eu: add error handling of rtw_read16
+Message-ID: <YSdx4ixYYAyZkOzR@kroah.com>
+References: <cover.1629789580.git.paskripkin@gmail.com>
+ <d06f3173e0a4c6f5449d5551cbfb0202849332b7.1629789580.git.paskripkin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,48 +30,73 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210825035311.8910-2-fmdefrancesco@gmail.com>
+In-Reply-To: <d06f3173e0a4c6f5449d5551cbfb0202849332b7.1629789580.git.paskripkin@gmail.com>
 
-On Wed, Aug 25, 2021 at 05:53:10AM +0200, Fabio M. De Francesco wrote:
-> Replace usb_control_msg() with the new usb_control_msg_recv() and
-> usb_control_msg_send() API of USB Core in usbctrl_vendorreq().
-> Remove no more needed variables. Move out of an if-else block
-> some code that it is no more dependent on status < 0. Remove
-> redundant code depending on status > 0 or status == len.
+On Tue, Aug 24, 2021 at 10:27:35AM +0300, Pavel Skripkin wrote:
+> _rtw_read16 function can fail in case of usb transfer failure. But
+> previous function prototype wasn't designed to return an error to
+> caller. It can cause a lot uninit value bugs all across the driver code,
+> since rtw_read16() returns local stack variable to caller.
 > 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Fix it by changing the prototype of this function. Now it returns an
+> int: 0 on success, negative error value on failure and callers should pass
+> the pointer to storage location for register value.
+> 
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 > ---
+>  drivers/staging/r8188eu/core/rtw_debug.c      |  7 +++-
+>  drivers/staging/r8188eu/core/rtw_io.c         |  9 ++---
+>  drivers/staging/r8188eu/core/rtw_mp_ioctl.c   |  4 +-
+>  drivers/staging/r8188eu/hal/odm_interface.c   |  4 +-
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 29 +++++++++++----
+>  drivers/staging/r8188eu/hal/rtl8188e_phycfg.c |  5 ++-
+>  drivers/staging/r8188eu/hal/usb_halinit.c     | 37 ++++++++++++++++---
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c   | 22 +++++++++--
+>  .../staging/r8188eu/include/odm_interface.h   |  2 +-
+>  drivers/staging/r8188eu/include/rtw_io.h      |  6 +--
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 28 +++++++++++---
+>  11 files changed, 115 insertions(+), 38 deletions(-)
 > 
-> v2->v3: Restore the test for success of usb_control_message_recv/send
-> that was inadvertently removed. Issue reported by Pavel Skripkin.
-> 
-> v1->v2: According to suggestions by Christophe JAILLET 
-> <christophe.jaillet@wanadoo.fr>, remove 'pipe' and pass an explicit 0
-> to the new API. According to suggestions by Pavel Skripkin 
-> <paskripkin@gmail.com>, remove an extra if-else that is no more needed, 
-> since status can be 0 and < 0 and there is no 3rd state, like it was before.
-> Many thanks to them and also to Phillip Potter <phil@philpotter.co.uk>
-> who kindly offered his time for the purpose of testing v1.
-> 
->  drivers/staging/r8188eu/hal/usb_ops_linux.c | 45 ++++++++-------------
->  1 file changed, 17 insertions(+), 28 deletions(-)
+> diff --git a/drivers/staging/r8188eu/core/rtw_debug.c b/drivers/staging/r8188eu/core/rtw_debug.c
+> index 8b7d3eb12bd0..a41675e101ac 100644
+> --- a/drivers/staging/r8188eu/core/rtw_debug.c
+> +++ b/drivers/staging/r8188eu/core/rtw_debug.c
+> @@ -91,7 +91,12 @@ int proc_get_read_reg(char *page, char **start,
+>  				proc_get_read_addr, (u8) tmp);
+>  		break;
+>  	case 2:
+> -		len += snprintf(page + len, count - len, "rtw_read16(0x%x)=0x%x\n", proc_get_read_addr, rtw_read16(padapter, proc_get_read_addr));
+> +		error = rtw_read16(padapter, proc_get_read_addr, (u16 *) &tmp);
+> +		if (error)
+> +			return len;
+> +
+> +		len += snprintf(page + len, count - len, "rtw_read16(0x%x)=0x%x\n",
+> +				proc_get_read_addr, (u16) tmp);
+>  		break;
+>  	case 4:
+>  		len += snprintf(page + len, count - len, "rtw_read32(0x%x)=0x%x\n", proc_get_read_addr, rtw_read32(padapter, proc_get_read_addr));
+> diff --git a/drivers/staging/r8188eu/core/rtw_io.c b/drivers/staging/r8188eu/core/rtw_io.c
+> index 2714506c8ffb..fd64893c778d 100644
+> --- a/drivers/staging/r8188eu/core/rtw_io.c
+> +++ b/drivers/staging/r8188eu/core/rtw_io.c
+> @@ -45,18 +45,15 @@ int __must_check _rtw_read8(struct adapter *adapter, u32 addr, u8 *data)
+>  	return _read8(pintfhdl, addr, data);
+>  }
+>  
+> -u16 _rtw_read16(struct adapter *adapter, u32 addr)
+> +int __must_check _rtw_read16(struct adapter *adapter, u32 addr, u16 *data)
+>  {
+> -	u16 r_val;
+>  	struct io_priv *pio_priv = &adapter->iopriv;
+>  	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+> -	u16 (*_read16)(struct intf_hdl *pintfhdl, u32 addr);
+> +	int (*_read16)(struct intf_hdl *pintfhdl, u32 addr, u16 *data);
+>  
+>  	_read16 = pintfhdl->io_ops._read16;
 
-This doesn't apply to my tree at all.  Please rebase and resend.
-
-But first, are you sure you want to use these new functions here?  This
-is a "common" function that is called from different places for
-different things.  How about unwinding the callers of this function
-first, to see if they really need all of the complexity in this function
-at all, and if not, then call the real USB function in those locations
-instead.
-
-It's only used in this single file, so it shouldn't be that hard to
-unwind (after seeing where those calls are made from, and if they even
-need to be present at all.  Hint, look at the mess of where _write16 and
-friends are set to realize that structure is not needed at all, right?
-It's a long chain, the more you pull on it, the messier you realize it
-is...)
+Why do you need this extra pointer abstraction anyway?  Please unwind
+that first, which will make this function go away (or get easier to
+understand at the least...)
 
 thanks,
 
