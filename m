@@ -1,107 +1,82 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBB972
-	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 10:20:02 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id bt14so5145565ejb.3
-        for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 03:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+kvaMj8EJUxo9/2klnChfd6kwIC9S45AjjV1Kjn+v+M=;
-        b=gAk75JrC/Yt1l+MhZuQc/J2oYzOViLo/QAADrmHo15V1YaWMk+idGOEKoU/jD6EBJv
-         iQblaavqqvZxCkAA45XOp1aHLeam5O/JTPPh5WXlL6uPp1TkaWTnQOJvHNTgzl/yiwSt
-         /oz2HVmua6gzRXonqy/G9FIU2F5/aGLjYKfEAfOYCUvx9qEmwZBKuWF8fNnKc9S5Wjfc
-         h9jCwHfWwRcllF3OJCC53Jj26H9HDmoX7kpS/AQOdrH2Cv8TzKnT7Ie21T84qkR5kVZI
-         TQxuqH7W+eRuQbyhZE6oamLqcwoe585pI4VlB7TOawHOYUeyviyMM8EmLgX2XphmjW1x
-         m8bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+kvaMj8EJUxo9/2klnChfd6kwIC9S45AjjV1Kjn+v+M=;
-        b=HsSnK3U8+4XtoL6h16DAYUgqhorhIx5pNL7UFeG8lrKzQvBrxv98B6L4L2SWoyfpBF
-         lpoxVXjHswaK/Cc7Ts8wvSM78SR6PIkvxrMJxbA47HwTE5umsMePZtxx5SZ05Lf+tNfJ
-         VePBiIb6DJlVI9XbE1Ve/aYXXr8y5Q8nis0o3L1yDqhCIZo3WxZUtBx5eP5YAngzCVId
-         ggoPcwJj7esMWOIHMgSmoaklms2oxYCEsHXC8dBhqDUA4VuemZbQ556+uwrxNXYmoo3E
-         ZtFX1kPDOOMSag3c8u/5CtArbMQ5EH9Mkb5+j7EfjsrqEWcNixPSdKJTd1CohaWo59YX
-         yB+Q==
-X-Gm-Message-State: AOAM530P1WPnguuHn94ZD7V0y+RdqI9U/sjhmRJvC8mPmJXnmuNrUp5g
-	NoF4GzxRerHGege3UE9cn24=
-X-Google-Smtp-Source: ABdhPJy6tGk/bfd8yr0ySl3vhr3cNdZliifKQEN1W2EIwz+Wu2Q/n1qplHX3ymzoYdEJAcq1SC6o+Q==
-X-Received: by 2002:a17:906:4943:: with SMTP id f3mr3442697ejt.102.1629973200918;
-        Thu, 26 Aug 2021 03:20:00 -0700 (PDT)
-Received: from agape.jhs ([5.171.81.205])
-        by smtp.gmail.com with ESMTPSA id k3sm1095440eje.117.2021.08.26.03.19.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Aug 2021 03:20:00 -0700 (PDT)
-Date: Thu, 26 Aug 2021 12:19:57 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: Provide a TODO file for this driver
-Message-ID: <20210826101956.GB1416@agape.jhs>
-References: <20210826014959.26857-1-fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEF172
+	for <linux-staging@lists.linux.dev>; Thu, 26 Aug 2021 10:22:28 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-70-jdU_6h5gMCqvi412VMHH6Q-1; Thu, 26 Aug 2021 11:22:26 +0100
+X-MC-Unique: jdU_6h5gMCqvi412VMHH6Q-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Thu, 26 Aug 2021 11:22:25 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Thu, 26 Aug 2021 11:22:25 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Pavel Skripkin' <paskripkin@gmail.com>
+CC: "Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
+	"phil@philpotter.co.uk" <phil@philpotter.co.uk>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, "straube.linux@gmail.com"
+	<straube.linux@gmail.com>, "fmdefrancesco@gmail.com"
+	<fmdefrancesco@gmail.com>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 5/6] staging: r8188eu: add error handling of rtw_read32
+Thread-Topic: [PATCH v3 5/6] staging: r8188eu: add error handling of
+ rtw_read32
+Thread-Index: AQHXmLmWEBrRSWSvqkChOMAmAhSABKuFfA1QgAAL0aSAAA6eAA==
+Date: Thu, 26 Aug 2021 10:22:25 +0000
+Message-ID: <64112dfd8e8b472ab78ca8b4837dc9e9@AcuMS.aculab.com>
+References: <cover.1629789580.git.paskripkin@gmail.com>
+ <93bf46ce2d0ce12e94672acf28b64dc341fde038.1629789580.git.paskripkin@gmail.com>
+ <27f5e52d520b453cbcabb3d72f0f5d15@AcuMS.aculab.com>
+ <20210826122221.5d2b0f37@gmail.com>
+ <685618ac-8de1-4eb1-57dd-9d43b96e872e@gmail.com>
+In-Reply-To: <685618ac-8de1-4eb1-57dd-9d43b96e872e@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210826014959.26857-1-fmdefrancesco@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Hello Fabio,
+RnJvbTogUGF2ZWwgU2tyaXBraW4NCj4gU2VudDogMjYgQXVndXN0IDIwMjEgMTA6MjgNCj4gDQo+
+IE9uIDgvMjYvMjEgMTI6MjIgUE0sIFBhdmVsIFNrcmlwa2luIHdyb3RlOg0KPiA+IE9uIFRodSwg
+MjYgQXVnIDIwMjEgMDg6NTE6MjMgKzAwMDANCj4gPiBEYXZpZCBMYWlnaHQgPERhdmlkLkxhaWdo
+dEBBQ1VMQUIuQ09NPiB3cm90ZToNCi4uLg0KPiA+PiAuLi4NCj4gPj4gPiAtc3RhdGljIHUzMiB1
+c2JfcmVhZDMyKHN0cnVjdCBpbnRmX2hkbCAqcGludGZoZGwsIHUzMiBhZGRyKQ0KPiA+PiA+ICtz
+dGF0aWMgaW50IHVzYl9yZWFkMzIoc3RydWN0IGludGZfaGRsICpwaW50ZmhkbCwgdTMyIGFkZHIs
+IHUzMg0KPiA+PiA+ICpkYXRhKSB7DQo+ID4+ID4gIAl1OCByZXF1ZXN0dHlwZTsNCj4gPj4gPiAg
+CXUxNiB3dmFsdWU7DQo+ID4+ID4gIAl1MTYgbGVuOw0KPiA+PiA+IC0JX19sZTMyIGRhdGE7DQo+
+ID4+ID4gKwlpbnQgcmVzOw0KPiA+PiA+ICsJX19sZTMyIHRtcDsNCj4gPj4gPiArDQo+ID4+ID4g
+KwlpZiAoV0FSTl9PTih1bmxpa2VseSghZGF0YSkpKQ0KPiA+PiA+ICsJCXJldHVybiAtRUlOVkFM
+Ow0KPiA+PiA+DQo+ID4+DQo+ID4+IEtpbGwgdGhlIE5VTEwgY2hlY2sgLSBpdCBpcyBhIHNpbGx5
+IGNvZGluZyBlcnJvci4NCj4gPj4gQW4gT09QUyBpcyBqdXN0IGFzIGVhc3kgdG8gZGVidWcuDQo+
+ID4+DQo+ID4NCj4gPg0KPiA+IEkgZG9uJ3QgdGhpbmsgdGhhdCBvbmUgc2luZ2xlIGRyaXZlciBz
+aG91bGQga2lsbCB0aGUgd2hvbGUgc3lzdGVtLiBJdCdzDQo+ID4gMTAwJSBhbiBlcnJvciwgYnV0
+IGtlcm5lbCBjYW4gcmVjb3ZlciBmcm9tIGl0IChmb3IgZXhhbXBsZSBkaXNjb25uZWN0DQo+ID4g
+dGhlIGRyaXZlciwgc2luY2UgaXQncyBicm9rZW4pLg0KPiA+DQo+ID4NCj4gPiBBRklBSywgR3Jl
+ZyBhbmQgTGludXMgZG8gbm90IGxpa2UgQlVHX09OcyBpbiByZWNvdmVyYWJsZSBzdGF0ZS4uLg0K
+PiA+IENvcnJlY3QgbWUsIGlmIEkgYW0gd3JvbmcNCj4gPg0KPiBPb3BzLCBJIHRob3VnaHQgYWJv
+dXQgQlVHX09OKCkgaW5zdGVhZCBvZiBXQVJOX09OKCksIHNvcnJ5IGZvcg0KPiBjb25mdXNpb24u
+IE15IHBvaW50IGlzICJ3ZSBzaG91bGQgbm90IGxldCB0aGUgYm94IGJvb20iLg0KDQoNClRoZXJl
+IGlzIG5vIHBvaW50IGNoZWNraW5nIGZvciBOVUxMIHRoYXQganVzdCBjYW4ndCBoYXBwZW4uDQpJ
+biB0aGlzIGNhc2UgYWxsIHRoZSBjYWxsZXJzIHdpbGwgcGFzcyB0aGUgYWRkcmVzcyBvZiBhIGxv
+Y2FsLg0KVGhlcmUgcmVhbGx5IGlzIG5vIHBvaW50IGNoZWNraW5nLg0KDQoJRGF2aWQNCg0KLQ0K
+UmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1p
+bHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVz
+KQ0K
 
-On Thu, Aug 26, 2021 at 03:49:59AM +0200, Fabio M. De Francesco wrote:
-> Provide a TODO file that lists the tasks that should be carried out in
-> order to move this driver off drivers/staging.
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
-> 
-> Thanks to Phillip Potter <phil@philpotter.co.uk> for for providing the first draft.
-> 
->  drivers/staging/r8188eu/TODO | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->  create mode 100644 drivers/staging/r8188eu/TODO
-> 
-> diff --git a/drivers/staging/r8188eu/TODO b/drivers/staging/r8188eu/TODO
-> new file mode 100644
-> index 000000000000..4bccca69abac
-> --- /dev/null
-> +++ b/drivers/staging/r8188eu/TODO
-> @@ -0,0 +1,16 @@
-> +To-do list:
-> +
-> +* Correct the coding style according to Linux guidelines; please read the document
-> +at https://www.kernel.org/doc/html/latest/process/coding-style.html.
-> +* Remove unnecessary debugging/printing macros; for those that are still needed
-> +use the proper kernel API (pr_debug(), dev_dbg(), netdev_dbg()).
-> +* Remove dead code such as unusued functions, variables, fields, etc..
-> +* Use in-kernel API and remove unnecessary wrappers where possible.
-> +* Remove the HAL layer and migrate its functionality into the relevant parts of
-> +the driver.
-> +* Switch to use LIB80211 (This work is currently in development by Larry Finger).
-> +* Switch to use MAC80211 (This work is currently in development by Larry Finger).
-
-Maybe I'm wrong but I think Larry is working on cfg80211 not exactly with
-lib80211 or mac80211. So I'd remove the clauses on parentheses.
-
-> +
-> +Please send any patches to Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-> +Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>
-> +and CC linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org.
-> -- 
-> 2.32.0
-> 
-> 
-
-thank you,
-
-fabio
