@@ -1,83 +1,99 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5C33FC2
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 15:17:38 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id l7-20020a1c2507000000b002e6be5d86b3so4619091wml.3
-        for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 08:17:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9Mvy+Kbt7FAmEXf5iwc1sFwbqDbGbF7nehIGohDWrG0=;
-        b=CPUBlUiWu6BJlUaFoHuakqhLmrV9VcgXzW1bdjPLtSDZoKKCDDJP0DH2HlI1FyBc7u
-         KYBg6AvQ5KKL8Geflv01OJOlCVGuGRMH9n9Ecb31E60MydDc9xPMRl54O58P7Okm0zFk
-         1vk1cW8B+jmcGTjYMXarcaQ/IGGJQCrSfjJGNqMnqu7NJUR4h3jxUwQoHt8TAjhxjVfJ
-         KkPDstdPZSlVaapplBGYO/IPsBrAB+olVFAueyQXeLVL7sIUmJudc9oJOt8jAlPjb3RQ
-         bUhtzsgdJ/6bmatU82pAjyTl838tmcR4j6RGOGwB4klDAkH8iBAAQCqiOxdwtWG8FLBC
-         BGig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9Mvy+Kbt7FAmEXf5iwc1sFwbqDbGbF7nehIGohDWrG0=;
-        b=uUhYES5VYZsm3wpH63q2lWkg7qQtCKfspU/QIF1bRYBe5uRy4/3prz5Da3SEaqwYQu
-         dwyf1dt+UnCeDrI5/uz22yWnADjjCHVEe+LaYWypZeGeB2qn4DTjpmkIeAH5LQozpifo
-         /XkV3oQa0M4hXcAopqg/XI9e2eJecCuIc8OnWIIUqNpH2NRbqZs9aQ0ibWoGphKhbeVc
-         lwZh3Xvlkn9iDZae3MPBPJ1M0tdn5T6yLaIRb8GOsD7QWM8dPMm2+udIXhk1GNPWI0M8
-         eM2gUCYOMmXf+UZXUUfGcLh2SmXOJpgM5XJtBveZRxpkHRf5niAsi8Q3wfEsHt3KvDf8
-         8Tdg==
-X-Gm-Message-State: AOAM530BTytsVFrjIiH7NXeK8u3KTsp7iouCuajTQ9HUaVruAWWWLUWV
-	cmEClsj2zbuZ3MjCwoqMm6Y=
-X-Google-Smtp-Source: ABdhPJxL4AYwJNhnzlaVxDWG97HQPWd13eHcTNDpgZmUZxaxBQKuXLHDIrd8kfh3kgR3U7uBQlCwCg==
-X-Received: by 2002:a05:600c:4e8a:: with SMTP id f10mr9568594wmq.84.1630077457076;
-        Fri, 27 Aug 2021 08:17:37 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.80])
-        by smtp.gmail.com with ESMTPSA id r4sm5074422wmq.10.2021.08.27.08.17.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 08:17:36 -0700 (PDT)
-Date: Fri, 27 Aug 2021 17:17:34 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	gregkh@linuxfoundation.org, phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v3] staging: r8188eu: Provide a TODO file for this driver
-Message-ID: <20210827151733.GA1426@agape.jhs>
-References: <20210827100813.18610-1-fmdefrancesco@gmail.com>
- <a6265f77-cc21-878e-4980-272202fa5415@lwfinger.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33993FC2
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 15:27:27 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF09160232;
+	Fri, 27 Aug 2021 15:27:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1630078047;
+	bh=YcuO1NmAv8VjO+U1iC07eG0TGAhra6EY6qYLzMjAgaA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ytgMCOlbA8xS9fK9fADxvgDVtHAxdZZdYbdHl8d9L3G439mhJbneI4c0KYZuBASB3
+	 SMTgmLPBYH9WPgyZhav/y7Pi7t5xq8ceOTnJbwi5Ymf7CnygBMjEO0Lgu4t5qfY6ko
+	 siwjxk2LH/DxcEJaereaBerz4SWfaS5AN1/TGkZQ=
+Date: Fri, 27 Aug 2021 17:27:20 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Joe Perches <joe@perches.com>
+Cc: linux-kernel@vger.kernel.org, Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 5/5] staging: r8188eu: Use vsprintf extension %phCX to
+ format a copy_to_user string
+Message-ID: <YSkEWBbOJmNSI4zn@kroah.com>
+References: <cover.1630003183.git.joe@perches.com>
+ <152e1b8f84c4686ea38182ca55344ed7f2cede65.1630003183.git.joe@perches.com>
+ <YSildgE0Ul4akIUJ@kroah.com>
+ <903a73b791466918ca72c8fc62406acb86e93018.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <a6265f77-cc21-878e-4980-272202fa5415@lwfinger.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <903a73b791466918ca72c8fc62406acb86e93018.camel@perches.com>
 
-Hello Larry,
-
-On Fri, Aug 27, 2021 at 10:00:16AM -0500, Larry Finger wrote:
-> On 8/27/21 5:08 AM, Fabio M. De Francesco wrote:
-> > +* Switch to use LIB80211.
-> > +* Switch to use MAC80211.
+On Fri, Aug 27, 2021 at 08:23:31AM -0700, Joe Perches wrote:
+> On Fri, 2021-08-27 at 10:42 +0200, Greg Kroah-Hartman wrote:
+> > On Thu, Aug 26, 2021 at 11:43:05AM -0700, Joe Perches wrote:
+> > > This reduces object size without changing the string content.
+> > > 
+> > > compiled x86-64 defconfig w/ r8188eu and gcc 10.3.0
+> > > 
+> > > $ size drivers/staging/r8188eu/os_dep/ioctl_linux.o*
+> > >    text	   data	    bss	    dec	    hex	filename
+> > >   72556	   1548	      0	  74104	  12178	drivers/staging/r8188eu/os_dep/ioctl_linux.o.new
+> > >   72758	   1548	      0	  74306	  12242	drivers/staging/r8188eu/os_dep/ioctl_linux.o.old
+> > > 
+> > > Signed-off-by: Joe Perches <joe@perches.com>
+> > > ---
+> > >  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 9 +++------
+> > >  1 file changed, 3 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > > index ab4a9200f0791..048164659d872 100644
+> > > --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > > +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > > @@ -2907,10 +2907,8 @@ static int rtw_p2p_get_groupid(struct net_device *dev,
+> > >  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
+> > >  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
+> > >  
+> > > 
+> > > -	sprintf(extra, "\n%.2X:%.2X:%.2X:%.2X:%.2X:%.2X %s",
+> > > -		pwdinfo->groupid_info.go_device_addr[0], pwdinfo->groupid_info.go_device_addr[1],
+> > > -		pwdinfo->groupid_info.go_device_addr[2], pwdinfo->groupid_info.go_device_addr[3],
+> > > -		pwdinfo->groupid_info.go_device_addr[4], pwdinfo->groupid_info.go_device_addr[5],
+> > > +	sprintf(extra, "\n%pM %s",
+> > > +		pwdinfo->groupid_info.go_device_addr,
+> > >  		pwdinfo->groupid_info.ssid);
+> > 
+> > We can just use the lower-case one here, no need for a new modifier just
+> > for something like this (i.e. log file output)
 > 
-> You totally ignored my comment of yesterday!!!!! The driver will be
-> converted to use CFG80211 - not eirher of those you quote, unless you are
-> planning to convert to use mac80211. I am not.
-
-I think Fabio took inspiration from other staging rtl* TODO files,
-(i.e. rtl8723bs which already supports cfg80211) where those items
-are listed and it's not related with the work you are donig
-with cfg80211.  
-
+> That was just a trivial conversion of log file output and is lower case
+> as log file output is not ABI.
 > 
-> Larry
+> The copy_to_user bit (2nd diff block) is nominally an ABI and is upper case.
+> IMO at a minimum, it's bad form to change it.
 > 
+> @@ -3075,8 +3073,7 @@ static int rtw_p2p_get_go_device_address(struct net_device *dev,
+>         if (!blnMatch)
+>                 sprintf(go_devadd_str, "\n\ndev_add = NULL");
+>         else
+> -               sprintf(go_devadd_str, "\ndev_add =%.2X:%.2X:%.2X:%.2X:%.2X:%.2X",
+> -                       attr_content[0], attr_content[1], attr_content[2], attr_content[3], attr_content[4], attr_content[5]);
+> +               sprintf(go_devadd_str, "\ndev_add =%6phCX", attr_content);
+>  
+>         if (copy_to_user(wrqu->data.pointer, go_devadd_str, 10 + 17))
+>                 return -EFAULT;
 
-thank you,
+That looks like a horrible driver-specific api that no one will really
+be using and will be removed from the tree soon.  So it can be changed,
+no need to worry about any "compatibility" issues here.
 
-fabio
+thanks,
+
+greg k-h
