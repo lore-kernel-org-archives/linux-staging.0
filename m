@@ -1,25 +1,25 @@
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
+Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976933FC2
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 16:13:51 +0000 (UTC)
-Date: Fri, 27 Aug 2021 16:13:32 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A29C3FC2
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 16:13:58 +0000 (UTC)
+Date: Fri, 27 Aug 2021 16:13:46 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1630080823;
-	bh=SUiCKsss0Pm46QMs/QwJ5GIDOv4aQQwQjeJWav2xWiM=;
+	s=protonmail; t=1630080831;
+	bh=elvI4PYFjwoBQZkWf3kEVUPEO6m0nRDZ+h/+tU39oRY=;
 	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=WiD6hQAEdyDb+E0P153TS9AepQXwVFj3+48+5Ja0gJVIkf9AjN5743qSSfQ9xiWdv
-	 fm+ePLm9aiBFYZL+/GviyEqs9MZC6rgShbltH8CGCP0L0iESIP7H5OHEOZ62GxO9fD
-	 IQ1bYr1bMeqakFDq+RnoIJ1PuraIOJAFoY5NIffK882o7eUwIHYP5AfFPfshF2Bu4d
-	 b/9mFEFp5V5KsM76Thx0zZwdT00yIhrmEyhaYJuQFO8FpZegiksaz278erCGbD1jgK
-	 o6DzMzYtGjg29i5k3mhHPIxhM8KE9MQ8zLd8muROlA5bILFbi/qHWjVEvGdr+DWWQ1
-	 aZlzieSGSLWZA==
+	b=grx6U82TKe73Zjt5cA+H1i+xYZ8x4DAhIKmwbmlQuXUAzynjKLIfja30J2+n6rArn
+	 yDLqtRC+pKSjtkTeRdzFAhVntl3TcTSy3PVx/LODX7cROMkLP2T6k74r3jj35vLpyq
+	 dCW9Tvtzq4Ck9L+R+D8hbR1OwkJj+ZQZJwTwb7jg+sSGtzJWE3WTLme991n4+Muitu
+	 kon8uu5xG9NW+DE9lx/UtXoG7nckVDyii2Sq43Dry/4MNrqiUWfDi/BHSMiYxtuQYh
+	 XMMfANKfMtRo1BFBv6pjGmSmGID2p4wpua7mWcgeJH4sACFsFlDTmfqLwkV15hB1nk
+	 u5z9ezvxRSinA==
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
 Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH 2/5] staging: rtl8723bs: remove sdio_writeN()
-Message-ID: <7755d6f67447da830c9a2cb5d6ed3407b24e24a4.1630080164.git.hello@bryanbrattlof.com>
+Subject: [PATCH 3/5] staging: rtl8723bs: remove sdio_read_mem() and sdio_readN()
+Message-ID: <d05f4a683554be40ddec3ca33047acd6e59ad950.1630080164.git.hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,26 +34,27 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
 
-The sdio_writeN() function is unused. We can remove it.
+The sdio_read_mem() function is unused. We can remove it along with the
+sdio_readN() function that it uses.
 
 Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
 ---
- drivers/staging/rtl8723bs/hal/sdio_ops.c   | 48 ----------------------
- drivers/staging/rtl8723bs/include/rtw_io.h |  1 -
- 2 files changed, 49 deletions(-)
+ drivers/staging/rtl8723bs/hal/sdio_ops.c   | 56 ----------------------
+ drivers/staging/rtl8723bs/include/rtw_io.h |  2 -
+ 2 files changed, 58 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
 8723bs/hal/sdio_ops.c
-index b784a390c8e1..6bd662928ab6 100644
+index 6bd662928ab6..928fa109565e 100644
 --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
 +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -299,53 +299,6 @@ static s32 sdio_write32(struct intf_hdl *intfhdl, u32 =
-addr, u32 val)
- =09return err;
+@@ -195,51 +195,6 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 a=
+ddr)
+ =09return val;
  }
 
--static s32 sdio_writeN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *bu=
-f)
+-static s32 sdio_readN(struct intf_hdl *intfhdl, u32 addr, u32 cnt, u8 *buf=
+)
 -{
 -=09struct adapter *adapter;
 -=09u8 mac_pwr_ctrl_on;
@@ -74,11 +75,12 @@ f)
 -=09=09(!mac_pwr_ctrl_on) ||
 -=09=09(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
 -=09)
--=09=09return sd_cmd52_write(intfhdl, ftaddr, cnt, buf);
+-=09=09return sd_cmd52_read(intfhdl, ftaddr, cnt, buf);
 -
+-=09/*  4 bytes alignment */
 -=09shift =3D ftaddr & 0x3;
 -=09if (shift =3D=3D 0) {
--=09=09err =3D sd_write(intfhdl, ftaddr, cnt, buf);
+-=09=09err =3D sd_read(intfhdl, ftaddr, cnt, buf);
 -=09} else {
 -=09=09u8 *tmpbuf;
 -=09=09u32 n;
@@ -88,44 +90,60 @@ f)
 -=09=09tmpbuf =3D rtw_malloc(n);
 -=09=09if (!tmpbuf)
 -=09=09=09return -1;
--=09=09err =3D sd_read(intfhdl, ftaddr, 4, tmpbuf);
--=09=09if (err) {
--=09=09=09kfree(tmpbuf);
--=09=09=09return err;
--=09=09}
--=09=09memcpy(tmpbuf + shift, buf, cnt);
--=09=09err =3D sd_write(intfhdl, ftaddr, n, tmpbuf);
+-
+-=09=09err =3D sd_read(intfhdl, ftaddr, n, tmpbuf);
+-=09=09if (!err)
+-=09=09=09memcpy(buf, tmpbuf + shift, cnt);
 -=09=09kfree(tmpbuf);
 -=09}
 -=09return err;
 -}
 -
- static void sdio_read_mem(
- =09struct intf_hdl *intfhdl,
- =09u32 addr,
-@@ -463,7 +416,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
-_io_ops *ops)
- =09ops->_write8 =3D &sdio_write8;
- =09ops->_write16 =3D &sdio_write16;
- =09ops->_write32 =3D &sdio_write32;
--=09ops->_writeN =3D &sdio_writeN;
- =09ops->_write_port =3D &sdio_write_port;
+ static s32 sdio_write8(struct intf_hdl *intfhdl, u32 addr, u8 val)
+ {
+ =09u32 ftaddr;
+@@ -299,16 +254,6 @@ static s32 sdio_write32(struct intf_hdl *intfhdl, u32 =
+addr, u32 val)
+ =09return err;
  }
 
+-static void sdio_read_mem(
+-=09struct intf_hdl *intfhdl,
+-=09u32 addr,
+-=09u32 cnt,
+-=09u8 *rmem
+-)
+-{
+-=09sdio_readN(intfhdl, addr, cnt, rmem);
+-}
+-
+ /*
+  * Description:
+  *Read from RX FIFO
+@@ -410,7 +355,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
+_io_ops *ops)
+ =09ops->_read8 =3D &sdio_read8;
+ =09ops->_read16 =3D &sdio_read16;
+ =09ops->_read32 =3D &sdio_read32;
+-=09ops->_read_mem =3D &sdio_read_mem;
+ =09ops->_read_port =3D &sdio_read_port;
+
+ =09ops->_write8 =3D &sdio_write8;
 diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
 tl8723bs/include/rtw_io.h
-index 87f36b7e880f..0753e20cfaa2 100644
+index 0753e20cfaa2..43102f65bddd 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_io.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -84,7 +84,6 @@ struct _io_ops {
- =09=09int (*_write8)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
- =09=09int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
- =09=09int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
--=09=09int (*_writeN)(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *=
-pdata);
-
- =09=09int (*_write8_async)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
+@@ -89,8 +89,6 @@ struct _io_ops {
  =09=09int (*_write16_async)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
+ =09=09int (*_write32_async)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
+
+-=09=09void (*_read_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *=
+pmem);
+-
+ =09=09void (*_sync_irp_protocol_rw)(struct io_queue *pio_q);
+
+ =09=09u32 (*_read_interrupt)(struct intf_hdl *pintfhdl, u32 addr);
 --
 2.30.2
 
