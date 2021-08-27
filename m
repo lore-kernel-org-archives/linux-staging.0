@@ -1,58 +1,38 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667E22FAF
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 06:52:51 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 9B37A320091B;
-	Fri, 27 Aug 2021 02:52:50 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Fri, 27 Aug 2021 02:52:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=GeE912v9isg9oBJN2YWeFxiFw5V
-	6+n6JRLso0F3c1wk=; b=xgXYLsfPg/vq3T+ccXWm3e8dVo+5SZ+crzR4TJw5MFi
-	FP9LKckbi5UtdxSU20EzvSfhsgQfqxivLouTH2ZX/NvdG90xht9LW3Kb4ZiWQvhQ
-	5jGGVEy4bSFCs0E1JAP/mGJ/nwGDwU8W93F+ybadi7Vz7kWWRFwvhdQbxIevSMbF
-	nwgnVOEumKgIDGTj4M35UUTnvLD4RcezDaWo+L0E/R1gXt9/fko+UKyQk8qC7gw+
-	RtBTXDmtmOmXUxHm7UD9okV48m+UyjaNDbAvcua7i5yNoXAcg9jaRDsXxcq5ZeQj
-	/U9sd9uV0Ca5ytCo+l94xE8Ra0R6IN4zPfGEguY93/A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GeE912
-	v9isg9oBJN2YWeFxiFw5V6+n6JRLso0F3c1wk=; b=sYtvQYisB09I53mAGtkgmg
-	58WdDDUOje43u/tOC4s8GBSj/OSjDey5K8ThuDMeND3Tsm7ciSlodcF10xbhzBEf
-	C3UnRlWhL1SWU/Y5wQiJsta/SH6Lm9vO8TTDshN9Sle+SeSCF3sOX6hXP1LIuFP/
-	pxlw/kpZXIaBRWUMIlO+delm0F5w/A6eFiPU+6OC5tN/B3ZEIHEQqM3rD7Ep3hjB
-	RZonnnjuhvFGjsSvpYp9lG7Xt6dwjR88YTkjNbaKlW+1gMg6RR14DjJLBjdd4/3h
-	DJqCOgk0FZg3N+xf1DddEbB3YGR9ezwe7vJeUuMB2E4UaGbIKsujcCktIr3MqVbg
-	==
-X-ME-Sender: <xms:wosoYU97eRq28EdrxhhG9aezjaSHS4HgTaBNX6EVuVbw6EUlSEXaZg>
-    <xme:wosoYcuWTOHqREdVgY3ImWMq62UDz_3eks66-ztXqkqSoZO7ER3H-FySwBKv1hCsF
-    1p1vZPzygV5gg>
-X-ME-Received: <xmr:wosoYaDumsHfhbiFDGBod_tYtjYHRDM9tUB4hXL_EzHaCFeoUwahtRZV>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddguddugecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
-    ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-    hhrdgtohhm
-X-ME-Proxy: <xmx:wosoYUfGvqEAq83hzCmvJjIofdnkdxnNZJPfRJPasV-UmLrENKJCDQ>
-    <xmx:wosoYZP6FdypsryIqHDWOVoCV63gBEaDDP5W9HDTH9kUzsn5kKChLA>
-    <xmx:wosoYele5m73KT2WUwsYST4JXlriHDWTqlaEcUlNbjrezjQLPphjRQ>
-    <xmx:wosoYSangEYJsf1f4DjP8aMOvhsOkB8H78J2XhljGb5SEv93wAgW0A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Aug 2021 02:52:48 -0400 (EDT)
-Date: Fri, 27 Aug 2021 08:52:36 +0200
-From: Greg KH <greg@kroah.com>
-To: Krish Jain <krishjain02939@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Declare the file_operations struct as const
-Message-ID: <YSiLtHpUlXuXE0U8@kroah.com>
-References: <CAPGkw+x+B1731SL=afoSKiWwH-n-FA5YJ+WOwYdv8iyFhWk1zA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53AD3FC2
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 07:12:34 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86E9460F92;
+	Fri, 27 Aug 2021 07:12:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1630048354;
+	bh=CNm1k9Yuyu0Cujjer61BVkr+/veDq0OstmL8jEynAHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=By4UIGIJCwA38IiTikDWwyMoyXdkgAonVUn+0tpLQ9/rEJdTOA0VFrHIY7w6Ss9iV
+	 /h0NS/JN0AXlygYSmfJK2JeqV7rQxVP26bEXdBTJdjygeMuip62XHZKbqMAhuBuWkz
+	 zdcM7NCYztBgeRLFFuIzE88RcV0CGQrPTJ7J9Ajg=
+Date: Fri, 27 Aug 2021 09:12:30 +0200
+From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: David Laight <David.Laight@aculab.com>,
+	"Larry.Finger@lwfinger.net" <Larry.Finger@lwfinger.net>,
+	"phil@philpotter.co.uk" <phil@philpotter.co.uk>,
+	"straube.linux@gmail.com" <straube.linux@gmail.com>,
+	"fmdefrancesco@gmail.com" <fmdefrancesco@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 5/6] staging: r8188eu: add error handling of rtw_read32
+Message-ID: <YSiQXpzswaRhvD4P@kroah.com>
+References: <cover.1629789580.git.paskripkin@gmail.com>
+ <93bf46ce2d0ce12e94672acf28b64dc341fde038.1629789580.git.paskripkin@gmail.com>
+ <27f5e52d520b453cbcabb3d72f0f5d15@AcuMS.aculab.com>
+ <20210826122221.5d2b0f37@gmail.com>
+ <685618ac-8de1-4eb1-57dd-9d43b96e872e@gmail.com>
+ <64112dfd8e8b472ab78ca8b4837dc9e9@AcuMS.aculab.com>
+ <0eb2bbc6-9d35-9ff3-acde-fd89bbe0ca27@gmail.com>
+ <6e864f9d133d4db3923190f5acacc32a@AcuMS.aculab.com>
+ <fb29e9f2-3662-c365-7427-a91a298ef10f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,46 +41,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPGkw+x+B1731SL=afoSKiWwH-n-FA5YJ+WOwYdv8iyFhWk1zA@mail.gmail.com>
+In-Reply-To: <fb29e9f2-3662-c365-7427-a91a298ef10f@gmail.com>
 
-On Fri, Aug 27, 2021 at 03:59:28AM +0200, Krish Jain wrote:
->  From: Krish Jain <krishjain02939@gmail.com>
+On Thu, Aug 26, 2021 at 11:03:04PM +0300, Pavel Skripkin wrote:
+> On 8/26/21 1:59 PM, David Laight wrote:
+> > From: Pavel Skripkin
+> > > Sent: 26 August 2021 11:55
+> > > 
+> > > On 8/26/21 1:22 PM, David Laight wrote:
+> > > > From: Pavel Skripkin
+> > > >> Sent: 26 August 2021 10:28
+> > > >>
+> > > >> On 8/26/21 12:22 PM, Pavel Skripkin wrote:
+> > > >> > On Thu, 26 Aug 2021 08:51:23 +0000
+> > > >> > David Laight <David.Laight@ACULAB.COM> wrote:
+> > > > ...
+> > > >> >> ...
+> > > >> >> > -static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
+> > > >> >> > +static int usb_read32(struct intf_hdl *pintfhdl, u32 addr, u32
+> > > >> >> > *data) {
+> > > >> >> >  	u8 requesttype;
+> > > >> >> >  	u16 wvalue;
+> > > >> >> >  	u16 len;
+> > > >> >> > -	__le32 data;
+> > > >> >> > +	int res;
+> > > >> >> > +	__le32 tmp;
+> > > >> >> > +
+> > > >> >> > +	if (WARN_ON(unlikely(!data)))
+> > > >> >> > +		return -EINVAL;
+> > > >> >> >
+> > > >> >>
+> > > >> >> Kill the NULL check - it is a silly coding error.
+> > > >> >> An OOPS is just as easy to debug.
+> > > >> >>
+> > > >> >
+> > > >> >
+> > > >> > I don't think that one single driver should kill the whole system. It's
+> > > >> > 100% an error, but kernel can recover from it (for example disconnect
+> > > >> > the driver, since it's broken).
+> > > >> >
+> > > >> >
+> > > >> > AFIAK, Greg and Linus do not like BUG_ONs in recoverable state...
+> > > >> > Correct me, if I am wrong
+> > > >> >
+> > > >> Oops, I thought about BUG_ON() instead of WARN_ON(), sorry for
+> > > >> confusion. My point is "we should not let the box boom".
+> > > >
+> > > >
+> > > > There is no point checking for NULL that just can't happen.
+> > > > In this case all the callers will pass the address of a local.
+> > > > There really is no point checking.
+> > > >
+> > > 
+> > > We not always read in local variable, there are few places, where we
+> > > read into passed buffer.
+> > 
+> > It is still a very local coding bug.
+> > 
+> > 	David
+> > 
 > 
-> Declare the file_operations struct as const as done elsewhere in the
-> kernel, as there are no modifications to its fields.
-> 
-> Signed-off-by: Krish Jain <krishjain02939@gmail.com>
-> ---
->  drivers/staging/android/ashmem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+> Sure, but is defensive programming so bad?
 
-Hi,
+Yes it is, for when it is not needed.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+> Greg, what your opinion about this NULL check?
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Never check for things that you know are not going to happen.  Otherwise
+the kernel would just be full of pointless checks everywhere.
 
-- Your patch breaks the build.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+And why are you waiting for me to tell you this?  Why do you not believe
+David?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
