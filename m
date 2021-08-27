@@ -1,172 +1,99 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1179A72
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 09:07:28 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17R6Ih0u015020;
-	Fri, 27 Aug 2021 09:07:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=1NlA62nxTuhcwvEY2cAfwLS0IHS+WNovlyzXRJv3EJ0=;
- b=Zpoa/FaQFKPWVBPrRFspLwgPtv2iKxQY95lzrZIruGP3hazW6ps7utEDDI282loFYJsC
- 0FzPnmNGhNxFVJcnaxADBef6D51/oCjCXGP5rwu0jbTkIS1ArHGx7AW8JjRcWCTA3eJN
- lzfSq6WQCRF59lXxVQwg7JjEWM+11O0cEQmczP6rkGa9MKvC1+yU7d+9LP+c05J29l+O
- SZWvQRZIcPuFCfuotWHrxRuvRXUGhwhVg+pVxrVH7UVlOiX0gdXDu7lWafh2r7ClECSY
- kH6EVWXjNKsusAeJpxkN0A1fkyMKM/wXibTFliZJMBaDpdCizNAs4dp/EEQgYTH0JP+J kg== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=1NlA62nxTuhcwvEY2cAfwLS0IHS+WNovlyzXRJv3EJ0=;
- b=g+F1JjJF71TP3vGvIgjFF99wucd+RLaohL6da8Cf8W1IiHnMBhK+BE/xMiF0pmcC0zV0
- fIR9o0mvQr4WC9j3PmosvsBdq6ubWM7VvKbyk50Tep4mIT7uyWzX4Jvx3f8ydjv5PG1C
- XQpFk//hMEXdBpbkxmbojihgNLVdFfOYBkbsaMunwpbkBDn/mdRucpnlzIYiSTKjvC38
- PIBg10Wm8wUoVw+XRVGetXjw9a5FyKMGga8UtVE227yO5THNhhADiClqA57QntfqEdvg
- IIGd2QhFM8sOJUfb8DNvrf9fRJNdi/mjN9noYrcHZvdUmbm7tCa3YWTNWcL/25EG2x0J Ng== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ap4xv3286-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Aug 2021 09:07:27 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17R8tc04017522;
-	Fri, 27 Aug 2021 09:07:26 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2177.outbound.protection.outlook.com [104.47.57.177])
-	by userp3020.oracle.com with ESMTP id 3akb91rx9f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 27 Aug 2021 09:07:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZXPKV5lLJ9PHBOdYD7ec21GCC+1F68L9FkGleFS2AwEbUOZnBq0oaSQQVZDxjm/mD2PTXAdSILxwKKs1yA/Su00q7vEKG/4aEGLZ//YIKHJ7f0m9g5mjcKk/21Xdjmh6laE4h3n1V7MwREqC9a/9QbsAGHksw5AkasK/lgynyGne79rsV8kPN+bEbxCuCWJwQcewP0sZsBma9Eb10KvwNU3o07s4Q/K1pmulbuEYT5JsuixxbTD0mHQjMq+sUUxl6A/DIx1sFcaZFAtb6W/pMdM/z64pDD5PC/V39WMoMEkx7BkJDwtiqoxpds2ANMJKBZyT8RyfpyY/rPI+/I5m0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1NlA62nxTuhcwvEY2cAfwLS0IHS+WNovlyzXRJv3EJ0=;
- b=L8k6XJ16fwJIAfq9cFhQIfCxlSBrN2ec5nppdzgLydgq0KF3+wrzHOPXMX6Sy+CyH+iprcM+BwFJ7eyewWSR0XtuWNPuBs6agdD44VBaAilvsoJSDvxvr4z5axBhi5PQ+GnogYnajKMx9cnl57y0EdXq6teXDJadWAAwxisr775mmsOeZ5o6mGZpiqMF6mD9IxawhcrApLM9550xK1Mh8vmzkYFMswi1gyJpM4MhLqN5JIjpxo1iz84nCJKq7ZxGAG+w/EZ+6Ee4hRdGspNUbU/L+RoebqgIeVdPcoz15w+87QpF91RD/ESwNUAVJgDL0BnAKWyuPKi3xjUjJcCYQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93FB372
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 09:16:30 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id z2so13085998lft.1
+        for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 02:16:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1NlA62nxTuhcwvEY2cAfwLS0IHS+WNovlyzXRJv3EJ0=;
- b=YXthpoq0pCidpfKhlhkKubxMvZi/1Q8wmy+iVPkfKU/dfWQKUwTDZTgD3pi52fVSdxeetVgHQQVrFIsVEM2jfJ9S/eq2e5WojfaWqiLoABLGoPXyLKB8Orj+t4vTWQ0AnWuZm6hG1O88lRtG945JXF1WwOPE+ChQx0+pDh9bXDw=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO6PR10MB5569.namprd10.prod.outlook.com
- (2603:10b6:303:144::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.22; Fri, 27 Aug
- 2021 09:07:24 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4457.019; Fri, 27 Aug 2021
- 09:07:24 +0000
-Date: Fri, 27 Aug 2021 12:07:06 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-        gregkh@linuxfoundation.org, straube.linux@gmail.com,
-        fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VwzfECxpCdVoPZvMBUhjsZ1CU0bHcG8tMQUcJoB03Mc=;
+        b=U6YJzYHhiIzC093S977N4kojGE2WwMIjAs6xGSKaleQLY4hI+jPjthAivr0L/Gglbw
+         rMS8U5STB3QsD9UWWCSfk44W4FuDQfh5Wu8apnVfbkJG2LPYy1wbRLzhdEgNHKpuaFnm
+         hLNC4JjpVY+xFm68Tcdh/Bo+E/4edjIbq+9Talzc7BYXyOyI7SDEknfVB/k2QSbRJBwM
+         5Oj2GYe2HnqMJfM7QHWRDHau5p0hiyiIypJ5SIG4A4M6WDMSoZAGExo5TW1Au22D6g24
+         3hPbgoxNVgzSN+HjavzL4o8xdIw819E6P1kv4qQwznfPyroedtmLrhBIMCLld5O3cNFa
+         OGgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VwzfECxpCdVoPZvMBUhjsZ1CU0bHcG8tMQUcJoB03Mc=;
+        b=RdTcY/OBEFf3EYThIbenOl0j4pzvw2eqhnvkPcSE4NS6wFnp57KXbf1CBK8DfgX10w
+         d2sMgqZq5hP8+qjVWmj99l+5t/iNIVT8mgGeulGr+fUDRiU2b8ui3Y29GuO26H6QO7pQ
+         a+Z/CbxYtZScWpAAIE0Jzg0AIz2SrrACzRYO8Z1h4VKFqgP3xjTWcKdJ1F3aanQMicIJ
+         OY1I+CBFcNCq3Pg3Cn1TJrDbtnkusrwu4S+Xvz4VDXKs/6VcL7FiviD3Lr49wmmaot/7
+         LrguiA/P8dS41OIVOhN+jtxdigTpznVT9vLpa5xSoKtmdWHbu72boR1tmVthL01ejZ/I
+         8tFQ==
+X-Gm-Message-State: AOAM530Fok/tTJ6xUOGLrxQ5Y56T9sk+BPu9Wih0F3J8f2TE9XWKvHEt
+	b2RrHDrt9Q1Xj2IVLsOS6IA=
+X-Google-Smtp-Source: ABdhPJycNrabdok/Z8eft5BVQ9a42ip6dQ5f2EGgX78UHL4HQER2tKNGQSgPBTtYULu8nrHnjYWp4A==
+X-Received: by 2002:ac2:5456:: with SMTP id d22mr6112299lfn.139.1630055788705;
+        Fri, 27 Aug 2021 02:16:28 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.66.127])
+        by smtp.gmail.com with ESMTPSA id m28sm615005ljc.46.2021.08.27.02.16.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Aug 2021 02:16:28 -0700 (PDT)
 Subject: Re: [PATCH v3 3/6] staging: r8188eu: add error handling of rtw_read8
-Message-ID: <20210827090706.GA12231@kadam>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ gregkh@linuxfoundation.org, straube.linux@gmail.com,
+ fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 References: <cover.1629789580.git.paskripkin@gmail.com>
  <c59d5d850bf9aab208704182c83086609289cb9c.1629789580.git.paskripkin@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c59d5d850bf9aab208704182c83086609289cb9c.1629789580.git.paskripkin@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0058.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::6)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+ <20210827090706.GA12231@kadam>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <84e04d0e-8a07-aedd-117a-6b6337b865c7@gmail.com>
+Date: Fri, 27 Aug 2021 12:16:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kadam (62.8.83.99) by JNAP275CA0058.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.22 via Frontend Transport; Fri, 27 Aug 2021 09:07:19 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7a7686cb-4487-449d-388a-08d9693a155e
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5569:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO6PR10MB55691F7F0875147B6A91EC438EC89@CO6PR10MB5569.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	893YXZdZn17aKqSlaVY2aTIvZz7OUaDQ6/RSqYcmYuB1uCTIX3jyN75TeV/8VPy/RWzltLZ5plroVIb9QUOKLr9UqjgyTSrC5EFSpDsUR8+UDwIfcS5VyFOVWN0+6Wp/pkkEmTW8P/dgENpOqaJu0xwpLgdkVMEyBrTH6OyT8K9UP72gsTu6TnlnEdjxVXlVi56baQpKonqGFsHDDp+BIFvN1R7JwkR3Smdfa6g+grDP/u/0ZJ0D+FLpsbA4NX75fBRuU2VN0KRDKYP314tfWHbgoTMEaRrX9rVf0nAT+uHKapBOrwW4hEiWyboCMerX0Y+qyyQMn7mkEX9T9iK36jfzywx+re31ATO87dCflOr46dJBbLsop3Li93AT2OY15a5a5+oOMmPmx6ZQgEIJeB8jkV2ANLybpSODIlGxKTP+JjSetWbT765gfNIEU6WHH46rA5SLfDYpOZB8/qWqrxdUG1zsVgqeUVqK7vPM8InGszbpFhZd4BxHQsQlHhbufHLdEwizS0g26kFpw8nP/R/kNyZGZQkxnKMXUrF/IWm/pSuukEBN4xSIsC04mr40hbMyIPZRH2WC7wjRkobt3lR4FqzipIp7ndRFUpRiCP4Ui3hTy4DYBVakVjkYJJD0kPlweHJWpxTXYVPWbWbXNyJBgLaeAuejyENa3P8QosTWneehluHCTh2vpFgrTVO4No5g7U+WMhbzDcsJbZXvOw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(39860400002)(376002)(136003)(366004)(396003)(44832011)(4744005)(86362001)(33716001)(186003)(6916009)(38100700002)(478600001)(5660300002)(83380400001)(38350700002)(1076003)(9686003)(33656002)(66946007)(55016002)(66476007)(956004)(6666004)(8676002)(26005)(8936002)(2906002)(52116002)(316002)(4326008)(66556008)(9576002)(6496006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?y1yxvHPMvsCGw5QTmO4LZYYdNNNsfx4PP/VX1NJZgKANM9neQEK9qpGcSf8/?=
- =?us-ascii?Q?Qmka8Ca9k11MTNmonxfhcEE300S3Gty8wdW6Hjqtup7G/oBtwxc/muDDd+0d?=
- =?us-ascii?Q?CQbDruMJtu7mKS+1A+P6XFgbYBS0KOp4RvnI9tJsZ1RTDSoMWe+saR59uA1y?=
- =?us-ascii?Q?OQFrRbvgSNdTjaCuYhWrC7UAgansgh6AH2jv3NpHXIEAAr9ORZJ85iG4qcqC?=
- =?us-ascii?Q?wjQ6qTX80knks1v8FbQjW7ubSXrcSfW+kKmwsuAHLVlKT89UcCWwPzz94oMR?=
- =?us-ascii?Q?Cvi9Z8FCNn25QPvJAJpUpU4rVVeTb71LR2Qfet2zupFEqjbuDYWgwftNhIm+?=
- =?us-ascii?Q?bIn5RU2Hzo2pxVn0k85+JVtbXf++kZtHgF+0T8t877p0Qhl8J9qB1KnohQZW?=
- =?us-ascii?Q?xb+497ov/qVOEwITbEYBK4JNsU7HONjbbQQlgkmfyEULp6qrIvbjZ+SAxV6O?=
- =?us-ascii?Q?UCbwVCE6ker0/6YeUDC+ZRp+r3gTuYZSe2tA9PBjX7XjaJYGJbHHJSOdjNy4?=
- =?us-ascii?Q?cP7oVT6041F3+ylafueNZYXy9kzVlxkJhjL5xuYtkyAPfEeHGt+nVYJFRUHI?=
- =?us-ascii?Q?kRrsFHzL47pU6dTt8lQTrkt8Dvnu8jSTlBKPszMWCtXFK5UHSc1opeYGtHV3?=
- =?us-ascii?Q?bHkedcD47At0B7KO5Uc/92CCLN++ufKvavHkcXDo4Q4pBg8fc8qmo8pfiZxf?=
- =?us-ascii?Q?bkEpsan5oTFgqCRIDeKqHqaIQXKbonPnEe5y7mFoNPKMcpc6lPRyz8MBq8k9?=
- =?us-ascii?Q?Akp5iyIbE2IygxIHLsoLRwPc/cRCV7GSWorQwl50gDmgpUNPrMaW6hul9wVM?=
- =?us-ascii?Q?WNeE49+Cp6S9L1KJ4RKocfJqqbsXu45g6ETkT3PtANesX2VkSg56z5fyWzHf?=
- =?us-ascii?Q?YXIzK3Eel6MT8brsfiHEdzwdWqfpmw0zp76UnwZJjptsDGjlWFB4/ri0lbQl?=
- =?us-ascii?Q?AJnGCzfdu8guuAD6N1v75/FE22siZdeagy2kST2OJBpCfbdgCVvNd3kUOPNy?=
- =?us-ascii?Q?Z31E1Srrza/XDKcPeSpvrpcjufn8EnIv4jGu6AP4kNvFsDIb4MklENYwIvSp?=
- =?us-ascii?Q?nVzo5B8sYR0/Ww2SHyOjUPEFEi3NJj13eEPbf5GhUUu9rnPIfrOBZFAStNVU?=
- =?us-ascii?Q?SI6UJ0CLgNS7DOQ1VBL31Jp+ZYyg5MyHpPUl3F0chhT60qCPDIkYKoOlmf64?=
- =?us-ascii?Q?BnUxj4hrOsZjdHf/SapzpVp2DA7JKavL9gU4uxPYYMBYYjcyaWPexp0i/WuZ?=
- =?us-ascii?Q?g7udLSTXjdthLoLY83psNjom14OQwglfqBOI1GIk9O9zhpBgmRKHK2tW7fMO?=
- =?us-ascii?Q?jbpNeUgR715IQeBtBD4y0g1A?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a7686cb-4487-449d-388a-08d9693a155e
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 09:07:24.2821
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RVrwv11p5qD9vd605oVekMsxyy7mTJv2W69cqNpFU7nYDpMZcOD1mr5NzO82f1hBNNMX/ravRA0dj3Ttdj6eusBgSG1+IUYabSCwXYkw64g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5569
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10088 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108270058
-X-Proofpoint-ORIG-GUID: ui6U8y5XmsbmO8eMx42dl9_T798nSgZa
-X-Proofpoint-GUID: ui6U8y5XmsbmO8eMx42dl9_T798nSgZa
+In-Reply-To: <20210827090706.GA12231@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 24, 2021 at 10:27:27AM +0300, Pavel Skripkin wrote:
-> @@ -83,7 +83,12 @@ int proc_get_read_reg(char *page, char **start,
->  
->  	switch (proc_get_read_len) {
->  	case 1:
-> -		len += snprintf(page + len, count - len, "rtw_read8(0x%x)=0x%x\n", proc_get_read_addr, rtw_read8(padapter, proc_get_read_addr));
-> +		error = rtw_read8(padapter, proc_get_read_addr, (u8 *) &tmp);
-> +		if (error)
-> +			return len;
-> +
-> +		len += snprintf(page + len, count - len, "rtw_read8(0x%x)=0x%x\n",
-> +				proc_get_read_addr, (u8) tmp);
->  		break;
+On 8/27/21 12:07 PM, Dan Carpenter wrote:
+> On Tue, Aug 24, 2021 at 10:27:27AM +0300, Pavel Skripkin wrote:
+>> @@ -83,7 +83,12 @@ int proc_get_read_reg(char *page, char **start,
+>>  
+>>  	switch (proc_get_read_len) {
+>>  	case 1:
+>> -		len += snprintf(page + len, count - len, "rtw_read8(0x%x)=0x%x\n", proc_get_read_addr, rtw_read8(padapter, proc_get_read_addr));
+>> +		error = rtw_read8(padapter, proc_get_read_addr, (u8 *) &tmp);
+>> +		if (error)
+>> +			return len;
+>> +
+>> +		len += snprintf(page + len, count - len, "rtw_read8(0x%x)=0x%x\n",
+>> +				proc_get_read_addr, (u8) tmp);
+>>  		break;
+> 
+> Oh my goodness...  :P
+> 
+> If you look at what proc_get_read_addr is, it turns out it's a 32bit
+> address which is controlled by the user in proc_set_read_reg().  LOL!
+> Just a giant security hole.
+> 
+> My advise is just delete this dead code.  No one is using it so how
+> necessary can it be?
 
-Oh my goodness...  :P
 
-If you look at what proc_get_read_addr is, it turns out it's a 32bit
-address which is controlled by the user in proc_set_read_reg().  LOL!
-Just a giant security hole.
+Yep, it's dead code as was already mentioned. My plan is to convert all 
+this code to sysfs. One thing I am wondering about should I include 
+these changes into this series?...
 
-My advise is just delete this dead code.  No one is using it so how
-necessary can it be?
 
-regards,
-dan carpenter
 
+
+
+With regards,
+Pavel Skripkin
