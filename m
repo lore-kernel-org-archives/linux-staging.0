@@ -1,104 +1,100 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2A02FAF
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 07:53:03 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id g13so12556132lfj.12
-        for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 00:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=CNvP38919NyhYWdPvANs9XQ0JxJiZcSEJqLPjWrVUWQ=;
-        b=Tnv3DVrGcNckVz8XtZvqs/b8pmFGa9HRRpLAMqh7XMTxrziE6rO4GPMZuHmewSXng9
-         r4mQTizQtjXRP57vTO/4UXAZsSK1SZ2hZ68zr67uYLT/Ti+WljX2j8GCv3LCprmPjwd+
-         TQurj9cW3LEI0QpQZwZAI9rH4osDX6Qpc2DSka8QLONBq7nSlwiBs1Sre4MVlA48yhMp
-         8Gy7FFJunEeoJp4oNTFRnbcTKuWHa4pv5sh/9gF4awqU1ZaKTlvyV+o00mjaDqmaCo8Z
-         RXyEYEelzlYv8f8MPyE4NLVs3EQ+q2GZNPt5J/TL6oh/Jc01TZpCci9ktm9+Wd5qrrYS
-         cQrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CNvP38919NyhYWdPvANs9XQ0JxJiZcSEJqLPjWrVUWQ=;
-        b=LqNXEVoQouPi7UkXBPdKx8iQDCzsqrhFXi4DZpG2SXw4jzZqph8Alyfp+ENwAsHXbc
-         BAUQ+/J4KsMWekKmk5Uh2XV6JnHbjU8rJ9Tog6poeGC3YyOQ+ObYikyfFMIGOSCL+gCW
-         hkWxw96YaGMKUwbknZTDvBKIgWakcdlp5kq3lONBcyoMilViXXpz2SV9ADcyS/PfjXKQ
-         4tEjn6lqkFZX56cjXoFy35YM9bGqJ5GT+FKA0lahyHyIfg08jFmA9eHVcamh5A1aIeoi
-         ELaMKT7X7jdwkhG2dgzmVIcW5a1HUCxrHG3PlPwmrFSlYdbAPZKdB07Rqm/uEbV29Wts
-         MIPw==
-X-Gm-Message-State: AOAM532C+CaZPjOUfJfDd/iowRUt6wDNzYmL1Gc7GqCIoTykKDrqPcA5
-	jaCoqHs/Z6xWdJT3yrm8E6c=
-X-Google-Smtp-Source: ABdhPJx9tOaBiX7tYrgwNmZO9SllbNtR/3bB3XSzcJcW0qweu9tw9NUbf0G9doOjqIDTLFeRVXHlHg==
-X-Received: by 2002:a05:6512:96b:: with SMTP id v11mr5816665lft.121.1630050781849;
-        Fri, 27 Aug 2021 00:53:01 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id m16sm521307lfh.243.2021.08.27.00.53.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Aug 2021 00:53:01 -0700 (PDT)
-Subject: Re: [PATCH v3 0/6] staging: r8188eu: avoid uninit value bugs
-To: Kari Argillander <kari.argillander@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <CAA=Fs0=gX66TW3qoHYWcoSsvai6YZn=U81a34V45oij7NrMJrQ@mail.gmail.com>
- <cover.1629789580.git.paskripkin@gmail.com>
- <20210827074932.2qkpvmakwqqxo6hc@kari-VirtualBox>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <ae721297-68ae-dde6-d9e5-5963ebcece07@gmail.com>
-Date: Fri, 27 Aug 2021 10:52:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773B93FC2
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 08:14:13 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-110-mwGT8myTNcm83mBe4IfVKA-1; Fri, 27 Aug 2021 09:14:10 +0100
+X-MC-Unique: mwGT8myTNcm83mBe4IfVKA-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Fri, 27 Aug 2021 09:14:09 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Fri, 27 Aug 2021 09:14:08 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Dan Carpenter' <dan.carpenter@oracle.com>
+CC: 'Pavel Skripkin' <paskripkin@gmail.com>, "Larry.Finger@lwfinger.net"
+	<Larry.Finger@lwfinger.net>, "phil@philpotter.co.uk" <phil@philpotter.co.uk>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"straube.linux@gmail.com" <straube.linux@gmail.com>,
+	"fmdefrancesco@gmail.com" <fmdefrancesco@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 3/6] staging: r8188eu: add error handling of rtw_read8
+Thread-Topic: [PATCH v3 3/6] staging: r8188eu: add error handling of rtw_read8
+Thread-Index: AQHXmLmGl/+E/B1vJUGWAidfG7snbKuFdLBA///xloCAAC/eAIAAAKqAgAFtSnA=
+Date: Fri, 27 Aug 2021 08:14:08 +0000
+Message-ID: <dc133b63e1f54f45a19e67d75a6fcb40@AcuMS.aculab.com>
+References: <cover.1629789580.git.paskripkin@gmail.com>
+ <c59d5d850bf9aab208704182c83086609289cb9c.1629789580.git.paskripkin@gmail.com>
+ <f5c20e0f1b934e04ad11a3627d71f5db@AcuMS.aculab.com>
+ <20210826112745.5e1421ed@gmail.com>
+ <a251767ca181405b93b5ea55a26c3ff0@AcuMS.aculab.com>
+ <20210826112127.GZ1931@kadam>
+In-Reply-To: <20210826112127.GZ1931@kadam>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210827074932.2qkpvmakwqqxo6hc@kari-VirtualBox>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/27/21 10:49 AM, Kari Argillander wrote:
-> On Tue, Aug 24, 2021 at 10:25:45AM +0300, Pavel Skripkin wrote:
->> Hi, Greg, Larry and Phillip!
->> 
->> I noticed, that new staging driver was added like 3 weeks ago and I decided
->> to look at the code, because drivers in staging directory are always buggy.
->> 
->> The first thing I noticed is *no one* was checking read operations result, but
->> it can fail and driver may start writing random stack values into registers. It
->> can cause driver misbehavior or device misbehavior.
->> 
->> To avoid this type of bugs, i've changed rtw_read* API. Now all rtw_read
->> funtions return an error, when something went wrong with usb transfer.
->> 
->> It helps callers to break/return earlier and don't write random values to
->> registers or to rely on random values.
->> 
->> 
->> v2 -> v3:
-> 
-> Hi Pavel.
-> 
-> If v4 is needed can you please send it without replying to old message.
-> This thread is so hard to follow because always new version is answer to
-> old subject. This depens a little bit how you setup your email, but some
-> of us is grouping all emails in same thread and this thread is out of
-> control :D
-> 
+From: Dan Carpenter
+> Sent: 26 August 2021 12:21
+...
+> > > > ...
+> > > > > +=09=09len +=3D snprintf(page + len, count - len,
+> > > > > "rtw_read8(0x%x)=3D0x%x\n",
+> > > > > +=09=09=09=09proc_get_read_addr, (u8) tmp);
+> > > >
+> > > > That is broken.
+> > > >
+> > >
+> > > Don't get it, sorry. Previous code did exactly the same thing, but
+> > > didn't check if read() was successful.
+> >
+> > Look up the return value of snprintf().
+> >
+>=20
+> It's hard to understand what you are saying.  I think you are confusing
+> libc snprintf with the kernel snprintf?  In libc the snprintf function
+> can return negatives but in the kernel it cannot.  This is not going
+> to change.  Any code which checks for negative snprintf returns in the
+> kernel is wrong and should be fixed.
+>=20
+> Anyway, the code works fine.  snprintf here is going to return a number
+> between 18-32 range.  It's not going to overflow the PAGE_SIZE buffer.
 
-Hi, Kari!
+IIRC it is also in a loop ...
 
-v4 will be posted soon, yep. I will post v4 as separate thread :) It's 
-unreal to follow the discussion for sure. I often spend about a minute 
-to find an actual mail to reply xd
+Maybe, but the idiom is just broken.
+Largely the result of snprintf() is never the value you are looking
+for and should be ignored.
 
+Userspace fprintf() is even worse.
+If you care about the write failing you need to call fflush()
+and then ferror() (typically before fclose()).
 
+Fortunately I've never seen a 'must check' attribute on it.
 
+=09David
 
-With regards,
-Pavel Skripkin
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
