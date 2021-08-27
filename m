@@ -1,53 +1,52 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FC03FC2
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 14:32:26 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id l2so6691929lfp.2
-        for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 07:32:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2B73FC4
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 15:00:19 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id u25so4029142oiv.5
+        for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 08:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=TpDa8LjJDudMGosGLLFPxyVB3LRE+KOYsc1mXbf0yDc=;
-        b=Yci7sAAXI0ojhFMOAYDVEM/XETlGxJ7MeOKi2tNncV7YtSfyITU/b6k5NdPSEMx5eB
-         mUkyICoFlH7pOGsXyoCAmupLRG8y1ZM/P4PKqY3SUoXsKSyIebNxp6P+wYDfGXdpBGMX
-         mPXFydTGAHupgkiEitD9Z4AZlP3qvHUj/WdisDBDnuLmb+8fxXLr63skODHbFi7nNmmB
-         GpWxVtiI9tencKW24DZUPYUiZSbYRvdrZJ5H2HA7+NoSUEW5XZocXKmifVKoctYpUfqC
-         ai26DnA7q8LTeit952+GK3paykfLWY4y8rEQFsKkjw+Z//aSG1yvawHhmaAXzs0i+tgI
-         nIKw==
+        h=sender:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=sT/hAVYHeCPn8/fKGQ1DHiSzcrL6MJiSLnVodARb2Q8=;
+        b=HjBpLuj/UoUOlO6hFvtAFVToOBaUi7QqxzC/nQDwVsoEsqXtXFY5vPd/PaNv+LfyR9
+         69fkrXuHRqEpHr5tgbriPozBS/yOzCyJEq6Y2MSc93QuJ+Uj4NrIzT8HbR1I4dGqalcx
+         A55Jdwt8bGXtI5DtN5THjvMOd2KuvwnXWtmv4KbqAgss2abuROzmgFG+ytllVPWy2cid
+         WYDC/0FFXy0MDjp6F1h1Y9/oVMhBU2XjNXOsG0NmrDhUHUt0HgsdVXJFAaK1VIWgBPwc
+         Ti1Dr55ZtF/MazuiHilp7FQ0NkNA0iPANXKZ1gS6VLj+djSG19TeKHX9XSbWp56S8r+X
+         CkoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:sender:subject:to:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=TpDa8LjJDudMGosGLLFPxyVB3LRE+KOYsc1mXbf0yDc=;
-        b=QokAO+AaC2UxDfnUUiA2yE946su+ZUDuYrEXbGpDA6gd4sA/q36r7eZJPsAt9Vb1fj
-         qVkLkROpGsWGz6zX96GOtslIj8kZxG1wQQCt59sAgdqKQ2ezS7mh3wX6RG5hzeWMWlmX
-         pgnpdG3b/qlv8G+gTx6Qx0hhv3o+RPnY+UhL1kRiBj6+CoTrODKVjR8UnXnQM4t2PBp4
-         02a4BxB5rU2dTkljpZFHSrIYuWbHanfOH+zJhbB02cO3dhFcoMVwErXy4jKFQnPLtNNm
-         opg8ntaRxjmR5Pu1gOTh6121bF3uOLjBXufCLjTYF9SuZLOyrUtZvzLAs6+lcWoS7/6D
-         wQUA==
-X-Gm-Message-State: AOAM5318ixGJ1zxazsB7YSY/KzxOEb3ot9Fo3WA53P8EkvYCplSU14HG
-	mq/RXVg8fVsX4nbdLSmewBA=
-X-Google-Smtp-Source: ABdhPJyqOdkdoGzA+wSnlK9O6jKpMAls9Q7Sawrti6v8l0k/cz6l7p2mTpuO/iLt9WXpawtQkpkqZA==
-X-Received: by 2002:a05:6512:23a2:: with SMTP id c34mr4367852lfv.19.1630074745040;
-        Fri, 27 Aug 2021 07:32:25 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.66.127])
-        by smtp.gmail.com with ESMTPSA id s4sm610976lfd.53.2021.08.27.07.32.24
+        bh=sT/hAVYHeCPn8/fKGQ1DHiSzcrL6MJiSLnVodARb2Q8=;
+        b=mEnQpKQVPZIENv2R4UcZiKd72q9bpi6vpZ7ZcMVs2ZTNRTY3DGI6fLQ9MVP3UiUeMq
+         RKc6ARs5pwPIOJg+nQjddyXtPKCfSgelUdye5sHsP9OkrJcvQozwUNESw3rwNQd2xrBc
+         s/Eq2xKMWuQjQyP56/axaxmvdIGvzCJlfmLAC99/RxBa/C2nocHke0e2CpwfRVVn5MCO
+         dLvCTRwfOwdPLvn/2UQPo7EXhuk+Y638ZbJeF1OcyX+3dOHceDhiq3rbxae9oEiUzvUT
+         v2zkzbq0oBOG0s68avmAq7el7/81A4OY4qTSTAw+3bLJvWVybYGeX1b+DiSrLZWbwhVV
+         dqRA==
+X-Gm-Message-State: AOAM5327i57nKCTtahiDMjW5IxgIX8qdWPcx90DO7kNXYOvoEllaZNLX
+	nNxfb5exKlWW5cDgGg1jcz4=
+X-Google-Smtp-Source: ABdhPJyu07+t3J1QHJc05g5iW4JLWt5tqlj0fzuN2ahTLzdFoMEm7/4Pp0qXheDgfx0Tq4v4IfFO8Q==
+X-Received: by 2002:a05:6808:a09:: with SMTP id n9mr14831598oij.67.1630076418892;
+        Fri, 27 Aug 2021 08:00:18 -0700 (PDT)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com (2603-8090-2005-39b3-0000-0000-0000-1023.res6.spectrum.com. [2603:8090:2005:39b3::1023])
+        by smtp.gmail.com with ESMTPSA id y66sm1431987oia.12.2021.08.27.08.00.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Aug 2021 07:32:24 -0700 (PDT)
-Subject: Re: [PATCH v3] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+        Fri, 27 Aug 2021 08:00:18 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Subject: Re: [PATCH v3] staging: r8188eu: Provide a TODO file for this driver
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>,
- Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210819221241.31987-1-fmdefrancesco@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <03d5fd25-7694-18ee-9e2f-7b4057117197@gmail.com>
-Date: Fri, 27 Aug 2021 17:32:22 +0300
+ gregkh@linuxfoundation.org, phil@philpotter.co.uk,
+ Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@oracle.com>
+References: <20210827100813.18610-1-fmdefrancesco@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <a6265f77-cc21-878e-4980-272202fa5415@lwfinger.net>
+Date: Fri, 27 Aug 2021 10:00:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 Precedence: bulk
@@ -56,28 +55,18 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210819221241.31987-1-fmdefrancesco@gmail.com>
+In-Reply-To: <20210827100813.18610-1-fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/20/21 1:12 AM, Fabio M. De Francesco wrote:
-> Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
-> unnecessary wrappers, respectively to mutex_lock_interruptible() and
-> to mutex_unlock(). They also have an odd interface that takes an unused
-> argument named pirqL of type unsigned long.
-> The original code enters the critical section if the mutex API is
-> interrupted while waiting to acquire the lock; therefore it could lead
-> to a race condition. Use mutex_lock() because it is uninterruptible and
-> so avoid that above-mentioned potential race condition.
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+On 8/27/21 5:08 AM, Fabio M. De Francesco wrote:
+> +* Switch to use LIB80211.
+> +* Switch to use MAC80211.
 
-Tested-by: Pavel Skripkin <paskripkin@gmail.com>
-Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+You totally ignored my comment of yesterday!!!!! The driver will be converted to 
+use CFG80211 - not eirher of those you quote, unless you are planning to convert 
+to use mac80211. I am not.
 
-Thanks!
+Larry
 
-
-With regards,
-Pavel Skripkin
