@@ -1,25 +1,27 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CDA3FC3
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 16:14:33 +0000 (UTC)
-Date: Fri, 27 Aug 2021 16:14:20 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116CF3FC2
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 16:22:26 +0000 (UTC)
+Date: Fri, 27 Aug 2021 16:22:12 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1630080865;
-	bh=CnGDwMCmb3wl+up2ny2MnsRvSz1XHCXVpk2rgvjWGyc=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=otiGwXj3E6LeiKE1AffZzWzr0lGdcWfhkEcw87xjKKQN5XX79oePWQbFNZYjwT42N
-	 ZrqPuk31OeRHifrsDPuU18sAOuZj09RrcKSEL/aJccNPnDMEeq41+QPJVXb53hcCMD
-	 TktVWzPweBMg9Sc67Pvpyyymh5O2MM46XzFcscdAJOWjocWeEKfgFHmLEJNTpX4Bws
-	 oDsw10ZYPqP3Q8tMKubd6IQudtul9PcK8SX/u1YnlkECdJ1KfnFvosgxg53Ru6XXpm
-	 itMWbaTC3k2qBzQyAUd1jywrCgEpAOM4oL9U8iBhuXRwNpeM2gDdO4ypqq84E+6n8J
-	 0I0RT/4trNBcg==
+	s=protonmail; t=1630081344;
+	bh=I4JX7t4MHHBtFAolgl6hOrm9rgSrfGIzNZYXK4merpg=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=pJ79Bz155xZwlP/udsUIhz10XooeNt7fNvqWMvnrs9ajYpqApUCIsnMgl5fXhEbdW
+	 +y6uXKV+Eeguet9DiNt6re6fobRc3P6KRHru1vIW3e/iJaI1qUXJ19BAekkL7fn0CD
+	 bZ/VdB2OXUESdto1XEw5BczaL44wQWqgVEoHDPn3ZFmGxiBGjp63bsVbdhZDUE1QPJ
+	 NXzKjnfKonSQspYjhHnmR9fCSBwthotl4lG8hVVolWWD217YMc14mxlrlqLRJd8B46
+	 R5YO0CP/KQxRIYC+dE7V4RglUjmiolRW3V7jeGSRfAflvyP4gwB8QUPrsNSvTsMV9i
+	 nhYJd+pAakz5w==
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH 5/5] staging: rtl8723bs: remove _read_port from _io_ops structure
-Message-ID: <db65b2e127151d7c4bf0ee52148890c469a808ae.1630080164.git.hello@bryanbrattlof.com>
+Subject: Re: [PATCH 0/5] staging: rtl8723bs: remove unused functions
+Message-ID: <20210827162204.vh4xbgniet5w5mmo@h510>
+In-Reply-To: <cover.1630080164.git.hello@bryanbrattlof.com>
+References: <cover.1630080164.git.hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -34,45 +36,24 @@ X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
 X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
 	mailout.protonmail.ch
 
-The function pointer, '_read_port' inside _io_ops is unused.
-We can remove it.
+Sorry for the noise Greg,
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/hal/sdio_ops.c   | 1 -
- drivers/staging/rtl8723bs/include/rtw_io.h | 1 -
- 2 files changed, 2 deletions(-)
+On this day, August 27, 2021 thus sayeth Bryan Brattlof:
+> Changes in v3:
+>  - Fix issue causing some emails to drop their In-Reply-To: header.
+>
+>  (For the curious: NullMailer & my email provider where conspiring)
+>
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
-8723bs/hal/sdio_ops.c
-index 928fa109565e..768a4e553c77 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -355,7 +355,6 @@ void sdio_set_intf_ops(struct adapter *adapter, struct =
-_io_ops *ops)
- =09ops->_read8 =3D &sdio_read8;
- =09ops->_read16 =3D &sdio_read16;
- =09ops->_read32 =3D &sdio_read32;
--=09ops->_read_port =3D &sdio_read_port;
+This turns out to be untrue :(
 
- =09ops->_write8 =3D &sdio_write8;
- =09ops->_write16 =3D &sdio_write16;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/r=
-tl8723bs/include/rtw_io.h
-index fa0cedadaa79..4e0a9f71ce1f 100644
---- a/drivers/staging/rtl8723bs/include/rtw_io.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -83,7 +83,6 @@ struct _io_ops {
- =09=09int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
- =09=09int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
+I've been testing my git-send-email setup on some friends without issue.
+Somewhere between me and the mailing list In-Reply-To: headers are being
+dropped.
 
--=09=09u32 (*_read_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *=
-pmem);
- =09=09u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 =
-*pmem);
- };
+I'll be back, but you can safely drop any patches from me today :(
 
---
-2.30.2
+Again sorry for the noise
 
+~Bryan
 
