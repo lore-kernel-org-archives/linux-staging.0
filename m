@@ -1,28 +1,32 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6F672
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 08:42:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C64E60F6F;
-	Fri, 27 Aug 2021 08:42:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630053757;
-	bh=Wi+hqYvcZj79USE4XMLdmv/0UzddAaB7Y0OacSwib+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sMMGtyVQWuqvA5fPmvaCMihXq39KleoWEGVExfDwViWdWzLuhKnalrgiIxP5Eaudx
-	 uumKI99pR7VLCYjGFL8odYwUWdg1MD7+6q51VeedV7wWrsKlj3QTpxg2eD+0KN+11J
-	 Z5znxDHwRjcgl9I5RoesbrxgwdEgkUMfLPQoEPpA=
-Date: Fri, 27 Aug 2021 10:42:30 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0306C72
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 08:46:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="217961152"
+X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; 
+   d="scan'208";a="217961152"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2021 01:46:28 -0700
+X-IronPort-AV: E=Sophos;i="5.84,356,1620716400"; 
+   d="scan'208";a="599107092"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2021 01:46:26 -0700
+Received: from andy by smile with local (Exim 4.94.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1mJXVE-00EGyS-UN; Fri, 27 Aug 2021 11:46:20 +0300
+Date: Fri, 27 Aug 2021 11:46:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Joe Perches <joe@perches.com>
-Cc: linux-kernel@vger.kernel.org, Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 5/5] staging: r8188eu: Use vsprintf extension %phCX to
- format a copy_to_user string
-Message-ID: <YSildgE0Ul4akIUJ@kroah.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-scsi@vger.kernel.org,
+	storagedev@microchip.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/5] vsprintf and uses: Add upper case output to %*ph
+ extension
+Message-ID: <YSimXPUVcy9zhpYG@smile.fi.intel.com>
 References: <cover.1630003183.git.joe@perches.com>
- <152e1b8f84c4686ea38182ca55344ed7f2cede65.1630003183.git.joe@perches.com>
+ <YSiZlyQzgW8umsjj@smile.fi.intel.com>
+ <4b8e2987c1ff384bac497a20fcd75f9051990cff.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,42 +35,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <152e1b8f84c4686ea38182ca55344ed7f2cede65.1630003183.git.joe@perches.com>
+In-Reply-To: <4b8e2987c1ff384bac497a20fcd75f9051990cff.camel@perches.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Aug 26, 2021 at 11:43:05AM -0700, Joe Perches wrote:
-> This reduces object size without changing the string content.
+On Fri, Aug 27, 2021 at 01:10:41AM -0700, Joe Perches wrote:
+> On Fri, 2021-08-27 at 10:51 +0300, Andy Shevchenko wrote:
+> > On Thu, Aug 26, 2021 at 11:43:00AM -0700, Joe Perches wrote:
+> > > Several sysfs uses that could use %*ph are upper case hex output.
+> > > Add a flag to the short hex formatting routine in vsprintf to support them.
+> > > Add documentation too.
+> >
+> > Thanks!
+> >
+> > Unfortunately I have got only first patch and this cover letter. Can you,
+> > please, Cc entire series?
 > 
-> compiled x86-64 defconfig w/ r8188eu and gcc 10.3.0
+> It's on lore.
 > 
-> $ size drivers/staging/r8188eu/os_dep/ioctl_linux.o*
->    text	   data	    bss	    dec	    hex	filename
->   72556	   1548	      0	  74104	  12178	drivers/staging/r8188eu/os_dep/ioctl_linux.o.new
->   72758	   1548	      0	  74306	  12242	drivers/staging/r8188eu/os_dep/ioctl_linux.o.old
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index ab4a9200f0791..048164659d872 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -2907,10 +2907,8 @@ static int rtw_p2p_get_groupid(struct net_device *dev,
->  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
->  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
->  
-> -	sprintf(extra, "\n%.2X:%.2X:%.2X:%.2X:%.2X:%.2X %s",
-> -		pwdinfo->groupid_info.go_device_addr[0], pwdinfo->groupid_info.go_device_addr[1],
-> -		pwdinfo->groupid_info.go_device_addr[2], pwdinfo->groupid_info.go_device_addr[3],
-> -		pwdinfo->groupid_info.go_device_addr[4], pwdinfo->groupid_info.go_device_addr[5],
-> +	sprintf(extra, "\n%pM %s",
-> +		pwdinfo->groupid_info.go_device_addr,
->  		pwdinfo->groupid_info.ssid);
+> https://lore.kernel.org/lkml/cover.1630003183.git.joe@perches.com/T/#u
 
-We can just use the lower-case one here, no need for a new modifier just
-for something like this (i.e. log file output)
+Thanks. So, you won't me to review them in a regular way :-)
 
-thanks,
+TBH, I think those examples may pretty much be safe to use small
+letters always.
 
-greg k-h
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
