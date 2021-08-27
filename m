@@ -1,75 +1,68 @@
-Received: from smtprelay.hostedemail.com (smtprelay0025.hostedemail.com [216.40.44.25])
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C713FC2
-	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 15:52:40 +0000 (UTC)
-Received: from omf06.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay01.hostedemail.com (Postfix) with ESMTP id E1A66100F1E35;
-	Fri, 27 Aug 2021 15:52:38 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id E864E2448BC;
-	Fri, 27 Aug 2021 15:52:37 +0000 (UTC)
-Message-ID: <52ab858d1061bd8c0da8bba247235d92a5e4a0ec.camel@perches.com>
-Subject: Re: [PATCH 5/5] staging: r8188eu: Use vsprintf extension %phCX to
- format a copy_to_user string
-From: Joe Perches <joe@perches.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6CB3FC2
+	for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 16:13:12 +0000 (UTC)
+Date: Fri, 27 Aug 2021 16:12:56 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail; t=1630080784;
+	bh=Lshhf2wix+TxcMlgLTVzKe5GRvuCLhfvNPWrDPH+j6w=;
+	h=Date:To:From:Cc:Reply-To:Subject:From;
+	b=ap3Qekq1J8OsN2B7QSBf+UNHH+EOc5CRJHY5Nv5KM9Vajvjw03Rh80TaRF/Oyu3Ag
+	 GrLFEyuKQg3vgEZU0hxc67C+5TqCKGtcvvKszBmI8NatFWeKdWXp7MXoWh4M7PcgcA
+	 wuJApGK6cazcfWvAcOo599r8JEL70JK52Hf5wnAq/BpTGaP4cFjG90u8E/+OJF5g3D
+	 Je2qvb4bq5X/O5KstFrOrf/b7OJzoU2ytfEmDNpGhFQ3hj2r0qshA1hhN/MYENK5dO
+	 akTeObbi/OOCfoiz2rlBsIoCjQfefnRbMPdDWGDewPreFONMySajdabQcVvAFjtU2q
+	 mQq8mmFn/I70Q==
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev
-Date: Fri, 27 Aug 2021 08:52:36 -0700
-In-Reply-To: <YSkEWBbOJmNSI4zn@kroah.com>
-References: <cover.1630003183.git.joe@perches.com>
-	 <152e1b8f84c4686ea38182ca55344ed7f2cede65.1630003183.git.joe@perches.com>
-	 <YSildgE0Ul4akIUJ@kroah.com>
-	 <903a73b791466918ca72c8fc62406acb86e93018.camel@perches.com>
-	 <YSkEWBbOJmNSI4zn@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: [PATCH 0/5] staging: rtl8723bs: remove unused functions
+Message-ID: <cover.1630080164.git.hello@bryanbrattlof.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.48
-X-Stat-Signature: y579dc7es1hqde1gffbini44sjqsscse
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: E864E2448BC
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/tBn5XILEQLaSLCcJfkgGrrb6KNxPZqiI=
-X-HE-Tag: 1630079557-674807
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Fri, 2021-08-27 at 17:27 +0200, Greg Kroah-Hartman wrote:
-> On Fri, Aug 27, 2021 at 08:23:31AM -0700, Joe Perches wrote:
-> > On Fri, 2021-08-27 at 10:42 +0200, Greg Kroah-Hartman wrote:
-> > > On Thu, Aug 26, 2021 at 11:43:05AM -0700, Joe Perches wrote:
-> > > > This reduces object size without changing the string content.
-[]
-> > > > diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-[]
-> > The copy_to_user bit (2nd diff block) is nominally an ABI and is upper case.
-> > IMO at a minimum, it's bad form to change it.
-> > 
-> > @@ -3075,8 +3073,7 @@ static int rtw_p2p_get_go_device_address(struct net_device *dev,
-> >         if (!blnMatch)
-> >                 sprintf(go_devadd_str, "\n\ndev_add = NULL");
-> >         else
-> > -               sprintf(go_devadd_str, "\ndev_add =%.2X:%.2X:%.2X:%.2X:%.2X:%.2X",
-> > -                       attr_content[0], attr_content[1], attr_content[2], attr_content[3], attr_content[4], attr_content[5]);
-> > +               sprintf(go_devadd_str, "\ndev_add =%6phCX", attr_content);
-> > 
-> >         if (copy_to_user(wrqu->data.pointer, go_devadd_str, 10 + 17))
-> >                 return -EFAULT;
-> 
-> That looks like a horrible driver-specific api
+Changes in v3:
+ - Fix issue causing some emails to drop their In-Reply-To: header.
 
-Horrible could be used to describe most realtek code in the kernel.
+ (For the curious: NullMailer & my email provider where conspiring)
 
-> that no one will really
-> be using and will be removed from the tree soon.  So it can be changed,
-> no need to worry about any "compatibility" issues here.
+Changes in v2:
+ - Remove build warnings I introduced in the previous version.
 
-Fine with me too.  I just did it for completeness.
+***
 
+There is a lot of un-used code and un-needed abstractions leftover
+in this driver from when (I assume) it could be compiled on more than
+one kernel.
+
+This series removes dead code and is one small step toward
+refactoring how this driver interacts with the SDIO subsystem.
+
+Bryan Brattlof (5):
+  staging: rtl8723bs: remove sdio_write_mem()
+  staging: rtl8723bs: remove sdio_writeN()
+  staging: rtl8723bs: remove sdio_read_mem() and sdio_readN()
+  staging: rtl8723bs: remove unused definitions from rtw_io.h
+  staging: rtl8723bs: remove _read_port from _io_ops structure
+
+ drivers/staging/rtl8723bs/hal/sdio_ops.c   | 116 ---------------------
+ drivers/staging/rtl8723bs/include/rtw_io.h |  96 -----------------
+ 2 files changed, 212 deletions(-)
+
+--
+2.30.2
 
 
