@@ -1,91 +1,149 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7744672
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:18:33 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id bt14so19528415ejb.3
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:18:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C471072
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:23:07 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id k5so20060089lfu.4
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=ufnHtNbrqJITLW1O1XY2r37rNsuwUTovBEX/kbd4pw8=;
-        b=JIQdNctE7m3CdWbbAXZNEThDl3hx2mmwVhfwPFIVcoFFXmiW08dFS4G+T+5f/v7etV
-         fKf0biP29eXfRr7/kz98g6IJoJpbbduuYDyTsvzDaRBnoTq0BfU3Hi6QLCG6QGgAYL/x
-         6Wiln33YawD0ge2Em2bfUJBDb2Yx31LURtkvV/yV1t79mjUAxf9EbfjOeFPjInTuXJup
-         Xnxf21np+s01uPrDK/+9OCF2KQNPd5RtkL7AHtlWGF/M6tAvfGnBwEYrTIiUQlshn9hM
-         7VFkEjJa05s/RsCgFXn/P37yn+4I0qEUnvpOCdqHHBkbw/iA+VvyY8dwwkKXFnr34K78
-         sb7A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OxLig78dAqoxosBKMwaBsTeV8nh1tFLfxAZZJhisw/8=;
+        b=MR7jqwl/eTSmUxA+WWkgCBwW4sHAq8sPSvOyoIkhN4y1+jpH9855fAyGlnERiOTuiK
+         KgmNtHFYdCy0KQwPr868pDh1h2ebBF7UWGxULpMLMEG894fgXehhhK+iMvtUrk8gysmQ
+         d7M0r0YW2a5bMTGfccYiMQ5oSrmPn91a1nBMN3ToPwIsssgazas3vvZSl3l5ibf8YuUF
+         7SPxRC6z6YIQ+LzXWfaJZnXWJyAcKkJ9o63xidxiqNPclMtyJT4291P0I4B/TfjHCBXx
+         pUoz6DJKrCXKfXz6uOj+8m4wGZodvbUrP+Pu5B97nxDZYqM6/TccTb9jjx6jm9Fq9+KW
+         6ApA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ufnHtNbrqJITLW1O1XY2r37rNsuwUTovBEX/kbd4pw8=;
-        b=ZNjOXpWMyfyzdD6+qlhd08nGYh4WaPkPaF6prgUSNNlAFQes4FbAia+37RKpcZgaDG
-         v1qM/jAXWRAGZxxIzOLmdEKObQ3SHtBT6rA4ZXbqu7deIR2D5fvfbrOsthuKsXszk2gH
-         OYRpCzVawuZ4KWD/k7ytGtY2P1LFcz4cjn+yVpVxhhwCPMgvpSPcJRKwlMnZl+fwS13J
-         ev1eLePJCN82O0+9nGWWCLHZvUvduinCI3VG0R9JTtyxH1ZHjAafhnUYn8puKdEs9L6O
-         eQSSs6O0fvUYaxKwwN83qBkyv1w+vDxmnuuMDtMNTvJR8GjIv/3kGh/D4iaYZqMJgZUr
-         4inA==
-X-Gm-Message-State: AOAM530zFg1Avw6hZkOc4enWpsXL4fVjHd9HG7QsAINH4B+CMbXf36KH
-	szOXyyjERtndjBRY8AQcoRw=
-X-Google-Smtp-Source: ABdhPJx39cs05Co7SsOUxUHwlyG/4dLqxxVdTtPN0XVTrF3a4l9uq6Ac7U+BrGKDylg9YK11mRV9sQ==
-X-Received: by 2002:a17:906:f15:: with SMTP id z21mr14832346eji.177.1630145911893;
-        Sat, 28 Aug 2021 03:18:31 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id y10sm4579786eda.47.2021.08.28.03.18.30
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OxLig78dAqoxosBKMwaBsTeV8nh1tFLfxAZZJhisw/8=;
+        b=PYQHwk9ya1Ch3GH/nvz35mAm29u5+sA7oZgX4vTrkr3DfQoaweGRGBqNR6yaHQHctQ
+         /2p5rYAP6CX6UrjPAam37BnxfUxWreqPvA95o//bPApoDHA2bsGb8smpA+f9G+AWsxMO
+         ytSyu0+n8cwWuaDzOwkax+DYPvJSko4C+y/WMMgGu1vhRIVmoqZ4PKv60tEld2oNsqET
+         WAtXiwAUpzqATo/DNUJZoQpc2aFdSsKf4/6WUnf6KrjPTXVakBZ+9UhnZhubU9lfIAxY
+         4lBMHG2URnafxZGHP6XaKibasm/PVhlAhgyuFXbIac5BDjSORkz7VLuvrf6A49Wvff+r
+         8Gxg==
+X-Gm-Message-State: AOAM532E+RMNGVFWkSgnaY/tqeN7Pv8cPrikEFmTHn+vY3hzDkNqmugC
+	TySOAxbPvgHa0xn4PI87KRg=
+X-Google-Smtp-Source: ABdhPJzSCg2wRltK9ix/7rIGPCUhyGhUD4Zh9MP6AmopLjBRkT0CpFE9CiZ2kNWj1GO/lYKiKQTyFA==
+X-Received: by 2002:a05:6512:238e:: with SMTP id c14mr10398615lfv.324.1630146185896;
+        Sat, 28 Aug 2021 03:23:05 -0700 (PDT)
+Received: from kari-VirtualBox (87-95-21-3.bb.dnainternet.fi. [87.95.21.3])
+        by smtp.gmail.com with ESMTPSA id y10sm918666lfh.40.2021.08.28.03.23.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 03:18:31 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v3] staging: r8188eu: Remove _enter/_exit_critical_mutex()
-Date: Sat, 28 Aug 2021 12:18:29 +0200
-Message-ID: <3027220.c38WcS0Ceb@localhost.localdomain>
-In-Reply-To: <03d5fd25-7694-18ee-9e2f-7b4057117197@gmail.com>
-References: <20210819221241.31987-1-fmdefrancesco@gmail.com> <03d5fd25-7694-18ee-9e2f-7b4057117197@gmail.com>
+        Sat, 28 Aug 2021 03:23:05 -0700 (PDT)
+Date: Sat, 28 Aug 2021 13:23:02 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+Cc: gregkh@linuxfoundation.org, hello@bryanbrattlof.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: pi433: fix docs typos and references to
+ previous struct names
+Message-ID: <20210828102302.d7nhe2bkw6h5quqa@kari-VirtualBox>
+References: <20210828101242.GA6841@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210828101242.GA6841@localhost.localdomain>
 
-On Friday, August 27, 2021 4:32:22 PM CEST Pavel Skripkin wrote:
-> On 8/20/21 1:12 AM, Fabio M. De Francesco wrote:
-> > Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
-> > unnecessary wrappers, respectively to mutex_lock_interruptible() and
-> > to mutex_unlock(). They also have an odd interface that takes an unused
-> > argument named pirqL of type unsigned long.
-> > The original code enters the critical section if the mutex API is
-> > interrupted while waiting to acquire the lock; therefore it could lead
-> > to a race condition. Use mutex_lock() because it is uninterruptible and
-> > so avoid that above-mentioned potential race condition.
-> > 
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+
+Re: [PATCH] staging: pi433: fix ...
+
+This is version 2. Subject needs to be [PATCH v2]. If you generate using
+git format-patch add "-v 2" in there.
+
+On Sat, Aug 28, 2021 at 10:12:42PM +1200, Paulo Miguel Almeida wrote:
+> In the comments there where some grammar mistakes and references to
+> struct names that have gotten renamed over time but not updated
+> in the comments.
 > 
-> Tested-by: Pavel Skripkin <paskripkin@gmail.com>
-> Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+> ---
+
+You should have log here what did you change from previous version as
+this is v2. You can also add who ask this change That should be like
+this:
+
+---
+Put your version log here.
+---
+
+>  drivers/staging/pi433/pi433_if.h | 23 +++++++++++------------
+>  1 file changed, 11 insertions(+), 12 deletions(-)
 > 
-> Thanks!
+> diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
+> index d5c1521192c1..855f0bebdc1c 100644
+> --- a/drivers/staging/pi433/pi433_if.h
+> +++ b/drivers/staging/pi433/pi433_if.h
+> @@ -5,14 +5,13 @@
+>   * userspace interface for pi433 radio module
+>   *
+>   * Pi433 is a 433MHz radio module for the Raspberry Pi.
+> - * It is based on the HopeRf Module RFM69CW. Therefore inside of this
+> - * driver, you'll find an abstraction of the rf69 chip.
+> + * It is based on the HopeRf Module RFM69CW. Therefore, inside of this
+> + * driver you'll find an abstraction of the rf69 chip.
+>   *
+> - * If needed, this driver could be extended, to also support other
+> - * devices, basing on HopeRfs rf69.
+> + * If needed this driver could also be extended to support other
+> + * devices based on HopeRf rf69 as well as HopeRf modules with a similar
+> + * interface such as RFM69HCW, RFM12, RFM95 and so on.
+>   *
+> - * The driver can also be extended, to support other modules of
+> - * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
+>   * Copyright (C) 2016 Wolf-Entwicklungen
+>   *	Marcus Wolf <linux@wolf-entwicklungen.de>
+>   */
+> @@ -33,8 +32,8 @@ enum option_on_off {
+>  /* IOCTL structs and commands */
+>  
+>  /**
+> - * struct pi433_tx_config
+> - * describes the configuration of the radio module for sending
+> + * struct pi433_tx_cfg
+> + * describes the configuration of the radio module for sending data
+>   * @frequency:
+>   * @bit_rate:
+>   * @modulation:
+> @@ -46,7 +45,7 @@ enum option_on_off {
+>   * @repetitions:
+>   *
+>   * ATTENTION:
+> - * If the contents of 'pi433_tx_config' ever change
+> + * If the contents of 'pi433_tx_cfg' ever change
+>   * incompatibly, then the ioctl number (see define below) must change.
+>   *
+>   * NOTE: struct layout is the same in 64bit and 32bit userspace.
+> @@ -81,8 +80,8 @@ struct pi433_tx_cfg {
+>  };
+>  
+>  /**
+> - * struct pi433_rx_config
+> - * describes the configuration of the radio module for sending
+> + * struct pi433_rx_cfg
+> + * describes the configuration of the radio module for receiving data
+>   * @frequency:
+>   * @bit_rate:
+>   * @modulation:
+> @@ -94,7 +93,7 @@ struct pi433_tx_cfg {
+>   * @repetitions:
+>   *
+>   * ATTENTION:
+> - * If the contents of 'pi433_rx_config' ever change
+> + * If the contents of 'pi433_rx_cfg' ever change
+>   * incompatibly, then the ioctl number (see define below) must change
+>   *
+>   * NOTE: struct layout is the same in 64bit and 32bit userspace.
+> -- 
+> 2.25.4
 > 
-> 
-> With regards,
-> Pavel Skripkin
-> 
-Hi Pavel,
-
-Thanks very much for testing and reviewing my patch. As you know, Greg wanted
-it tested but I couldn't do that. I'll add your tags and send a v4 and I guess that now
-Greg will easily apply.
-
-Great help from you, thanks again :)
-
-Regards,
-
-Fabio
-
-
-
-
