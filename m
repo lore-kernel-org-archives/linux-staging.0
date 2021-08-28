@@ -1,57 +1,49 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDFB3FC1
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 12:24:18 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id fs6so6481186pjb.4
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 05:24:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4AC3FC3
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 13:02:36 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id e7so8640811pgk.2
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 06:02:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eDSaIJBqh+izHPHHriK0NAbuzPQM6rniHf8ccvF9oRs=;
-        b=BVmFAl20QChh3w25z5aDgoAKDDnhhkARn6uI4phpX6GDyw622uxGX2KjOTbiDs5fsP
-         opqrJCD3yhDboc1OrxRpiH2EP8V2D11O83tpY52YhBV1UQM8QrhCX5xaBg6etjO0XaIi
-         nJjS9CCLJJ8QMcG7O4qBf9+SPEGKCGRG8PV4n1bpkAKwUD1iryhvUZboJcND5rKZsyn8
-         B2D3vBYKUqk1zZdEcMf3LLmf7vHA3T4P09OOC7ngADHOm22lrQnzF5IPpBuXlHk14ZHK
-         WNY3GJhrMpQ0GamhEvokcCBce1ANBS/RnJY5pQxLtzWMaClUpHaWHN+mt7rpI7SAm25q
-         hJkQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=grz/v4rMmgpArLNWapXH90U0PLg2ful4VnniTa/BkFM=;
+        b=QmBzWKooJhpmAJeDZCYKJLdXGH9T21ozKangbOanPc6WkVZ4fuZP7rR+9yb902J60H
+         +ZdtrDgjfliDsnERTgtZFGWlEyCelWU3MZtbjLtKTnWPMVo2F1rhn4btmgCO8yfpbnKR
+         ypjK+PEUL7ZRVRZ0LJPA0Pt+2adqgDucyMvfIVnFkCVFb/EfyrQnyhRS6qvocrzHAwdO
+         UhmRr3DaSANXTsxbIy+rdx9dySu0tHQSH2uhUeSVxlXvGQkxnc52PFYvbYs9MIjPXWuv
+         diokaW2J0nTQeSRvpFuoNcdCwb3uof381re9txMXE9T72mwWpmEwImUIcBDEfkqTK2v6
+         6VFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eDSaIJBqh+izHPHHriK0NAbuzPQM6rniHf8ccvF9oRs=;
-        b=akDd/jMGoFigUTksI1jkcllECzXgRotBY+nSTnOFgIvVAv7ryjsd/Fcde+Ev8FpgpM
-         I5CEsxILzDwj99gxSxBdyQFMZBF3F/H5BAadj042if7aT3baZ2gpQe4JgzU5f8KLyWOT
-         Y8xRUbuKosOu9EXiokuRUtZZY3XiyXfqebaDeP+Nc8Tp46oVBim1cp1E1NOPksjzX87x
-         x87j45aHoQEtyZtxzBVBgN9iduXx7+xOvn95Rx1NXuMxDcV0Y22dB0O3L4UshQMB35h+
-         OBmvxZpYoN9gX7r0k1cCo3fsmiRUQR7s6GAwVEUg760djoTpicq1k7GuRnIV0U4VE02S
-         AXLQ==
-X-Gm-Message-State: AOAM533qKukii8NfChOAB6lVS7kxMzJKsVPmTCcBYT/nOfpo6UpP60vb
-	puIApWG3q5JC/J3E9JcC790=
-X-Google-Smtp-Source: ABdhPJz/o8n/4ad+NPvZNYaUzA9JcQz/YeHan0RbJDRnNWXh1T3Oshas5k5zn67kbuyR+RvSDa/LFg==
-X-Received: by 2002:a17:90b:388f:: with SMTP id mu15mr15814347pjb.41.1630153457491;
-        Sat, 28 Aug 2021 05:24:17 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=grz/v4rMmgpArLNWapXH90U0PLg2ful4VnniTa/BkFM=;
+        b=WgeFp6wneoyQttw84P53QNim2uZeq6SSMTOWYxKaBo0eWmbQE0Vnya76K1I/3sml78
+         KzXQKAXph3ntkp0GQTPZaB29ZgmA6DBntdFFmdLQDlEl/RHO7jFLXwyUnZgM7xbKeFi5
+         i/RU2iPG67nJR9SGiPY5EWY0ay2O7G8yx3Ogu3jHlN1P3XSU5tD/Pw0WNQoNdN4v8Jv1
+         CEhs4DrLItC95kRUTc2s2gsnFD9NHCEI4Mu3Od8qQAwBFcQxw9aRilf7uIVN4C+Z60rG
+         v2a0RK+EWmq6ZV+exXFruMnEEYcILEjul1s5JziCizhP/0jwJyrCXQqFI6gfDhmNJZgh
+         DU0g==
+X-Gm-Message-State: AOAM531rD+cPTVsYBaKJIEzO9WLGYnh9GTNJF0aFWsOLp4ll+EbvyYUU
+	75m0O7iHUPf5S8QdVLokj9o=
+X-Google-Smtp-Source: ABdhPJy+nG2ABLsi4WaNOS1JkwPHOWDCAwbCmZErBzjiK8yN6uXiOWCwjmloqMb2ZolfpjvhRerLcg==
+X-Received: by 2002:a63:2243:: with SMTP id t3mr12183949pgm.114.1630155755652;
+        Sat, 28 Aug 2021 06:02:35 -0700 (PDT)
 Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id l75sm4167671pga.19.2021.08.28.05.24.15
+        by smtp.gmail.com with ESMTPSA id q9sm9302329pfs.40.2021.08.28.06.02.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 05:24:17 -0700 (PDT)
-Date: Sat, 28 Aug 2021 17:54:11 +0530
-From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
-Message-ID: <YSoq6wRQYneYI6N1@user>
-References: <YSFgrLUfXzgcT6k4@user>
- <CAA=Fs0kByg1NztU+Nf__RUzTHuVh_q2hvcyh+3JqXiVgn+_VeQ@mail.gmail.com>
- <1821445.fzUCeO1EU3@localhost.localdomain>
- <YSJEu3sbnR6uIach@kroah.com>
- <YSduG401BA80Xnsb@kroah.com>
+        Sat, 28 Aug 2021 06:02:35 -0700 (PDT)
+Date: Sat, 28 Aug 2021 18:32:29 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	martin@kaiser.cx, jing.yangyang@zte.com.cn,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: os_dep: remove unused static variable
+Message-ID: <YSoz5Qip12K899SN@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,43 +52,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YSduG401BA80Xnsb@kroah.com>
 
-On 26 Aug 2021 12:34, Greg KH wrote:
-> On Sun, Aug 22, 2021 at 02:36:11PM +0200, Greg KH wrote:
-> > On Sun, Aug 22, 2021 at 01:06:09PM +0200, Fabio M. De Francesco wrote:
-> > > On Sunday, August 22, 2021 1:58:10 AM CEST Phillip Potter wrote:
-> > > > On Sat, 21 Aug 2021 at 21:23, Saurav Girepunje
-> > > >
-> > > > <saurav.girepunje@gmail.com> wrote:
-> > > > > Remove the condition with no effect (if == else) in rtw_led.c
-> > > > > file.
-> > > > >
-> > > > > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> > > > > ---
-> > > > >
-> > > > >  drivers/staging/r8188eu/core/rtw_led.c | 5 +----
-> > > > >  1 file changed, 1 insertion(+), 4 deletions(-)
-> > > >
-> > > > Thanks for this, looks good.
-> > > >
-> > > > Acked-by: Phillip Potter <phil@philpotter.co.uk>
-> > > >
-> > > > Regards,
-> > > > Phil
-> > >
-> > > Dear Philip,
-> > >
-> > > Before acking, please check at least if it applies to the current version of
-> > > the tree and check if it compiles without adding warnings and / or errors. :-)
-> >
-> > That is not necessary or needed here, I can do that when I apply the
-> > patch.
->
-> As proof of that, this patch applied just fine to my tree right now...
->
-> thanks,
->
-> greg k-h
+Remove unused static variable rtw_enusbss from os_intfs.c file.
 
-Thanks greg
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/os_intfs.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 8d0158f4a45d..c3ac0ae153f8 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -85,7 +85,6 @@ static int rtw_AcceptAddbaReq = true;/*  0:Reject AP's Add BA req, 1:Accept AP's
+ static int rtw_antdiv_cfg = 2; /*  0:OFF , 1:ON, 2:decide by Efuse config */
+ static int rtw_antdiv_type; /* 0:decide by efuse  1: for 88EE, 1Tx and 1RxCG are diversity.(2 Ant with SPDT), 2:  for 88EE, 1Tx and 2Rx are diversity.(2 Ant, Tx and RxCG are both on aux port, RxCS is on main port), 3: for 88EE, 1Tx and 1RxCG are fixed.(1Ant, Tx and RxCG are both on aux port) */
+
+-static int rtw_enusbss;/* 0:disable, 1:enable */
+
+ static int rtw_hwpdn_mode = 2;/* 0:disable, 1:enable, 2: by EFUSE config */
+
+@@ -133,7 +132,6 @@ module_param(rtw_low_power, int, 0644);
+ module_param(rtw_wifi_spec, int, 0644);
+ module_param(rtw_antdiv_cfg, int, 0644);
+ module_param(rtw_antdiv_type, int, 0644);
+-module_param(rtw_enusbss, int, 0644);
+ module_param(rtw_hwpdn_mode, int, 0644);
+ module_param(rtw_hwpwrp_detect, int, 0644);
+ module_param(rtw_hw_wps_pbc, int, 0644);
+--
+2.32.0
+
