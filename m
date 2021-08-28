@@ -1,122 +1,83 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DA43FC2
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 16:22:11 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id s25so14699384edw.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 09:22:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC9472
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 17:08:47 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso6497732wmi.5
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=TF7JUFsQPDWcLYdKRqO8XAUiSDxHEbbClOj9sJNmRqc=;
-        b=pg06Kz+WkTC16TVQsiF8NAwp8neuw+WECJE0ZgwPKyOCGjVq4zuntK+EUf858EZN8x
-         tgwLwq8OJsDf0DNK1HShbI+/Sg1y2+HeJJ6FqQ8rnmPgvbqYX/4hxZMkfRXk0M2LrkM/
-         M9bU6gIO8BfO2nSQW9kJpvnPwMvRXhHgCTA4+MxjW5VUSLEgeJS+V/hPZGVi+7zHt2SM
-         ET5ia0Lkn2M5LeelzwIFM3t6tOotjUMpcyRVFmZvLv7Wkpv1ws90Uibdtr3SFU7AguxT
-         tPq8hSJOglB9EW8B8cTZSijKhzpTR1CYirAYVpHlgbwKLSeSHlBQ/G+Q+Lah53a6DyhF
-         9IZQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4vE/Cb1JpypKyZ8g1mn3fwNhnyQED17T1jZXZclaen0=;
+        b=nM49oPSgWF18YFAWypKALIlbBPhBuDeFQX7dH6/7z1QEjuc67BmwoFQilAZNUTYLQQ
+         OqkWu6GiP1zXBsZYwKOZk4+3ygtblnuzSJlX2xElbW68mAHg+I3MejBDRhmg5IYvLQhn
+         u6MoUToSXjevN4unPUIAQHTkBjDG4m8Mylid6tMh3YjeVndNQV7ukR132we1RH7oq3pO
+         I6fKEzO3JuHiSzRSpZJqGqMXSbM34NmKB+JvhJHas7SAKpTRonVR2oK8wgauk+38EmQF
+         XBeU3O79/vTRaN9MJspRHJtA1NUbAV++JrJom/iYQxtvA3/UFN1cwOcXgqrriEi9LVC9
+         2L6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=TF7JUFsQPDWcLYdKRqO8XAUiSDxHEbbClOj9sJNmRqc=;
-        b=rTl/B/dvY1MDIYUGZ1p4kcSQbBRnMOQ/ouI7wuUjWHsnK/ke03ilsS41evVm4ThcTO
-         fBokWuEjMo0NN2SUP0E+dD4+v32bky7oBRkj6KnW6FUYJvUdoKR14fZ8Ava1Gl34m0fU
-         miwBuXrSRclzySQv+tSSgcKlyVn019PyxEf3yQtUkoYOVAHf+XdnG04sg7PNaXq8OL8f
-         NAbVObcfwZhGvEMFcyefC46lcCjt6JrxQBrqT+fgH+BoGZXfEwOjVcO6KN1IRDbO7mfB
-         FkJtdmrs4U9qe+1Ud3cjpTwbLR9l3sbe3t2K68rY0kVq1ZjN4fMondM2eHFw8VNFHDO2
-         scLg==
-X-Gm-Message-State: AOAM531EAT10f1epwNfDUaupqcVesyq1KJOcSNa50vCXn30TUY2PQ7/h
-	62YAryvhHT1yvmEUepHsdgc=
-X-Google-Smtp-Source: ABdhPJx8NE9yF9rnSzHACWYgiYrUDfZpolR7S6CTEpDBzSCeMnfd69UKzp5Gutsr5361G+as9hqekA==
-X-Received: by 2002:aa7:d0c3:: with SMTP id u3mr15574460edo.158.1630167730252;
-        Sat, 28 Aug 2021 09:22:10 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::884b? ([2a02:8108:96c0:3b88::884b])
-        by smtp.gmail.com with UTF8SMTPSA id i11sm4993832edu.97.2021.08.28.09.22.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Aug 2021 09:22:09 -0700 (PDT)
-Message-ID: <9f5b45b7-050c-1a10-25f1-ca1d7543f602@gmail.com>
-Date: Sat, 28 Aug 2021 18:22:07 +0200
+        bh=4vE/Cb1JpypKyZ8g1mn3fwNhnyQED17T1jZXZclaen0=;
+        b=Q2dDVO/74qCpBemY4uxvGUsjXAHOrzZie/jfb6vsKRFOQYlcSS6DjDlDirNORh/1li
+         EAzOe47qmNj3hxoXLsUIjn3Ohtp9plFVi7vb8px2B4A+rJxlkOGw5c7zHYqgLumRBt4f
+         1u4aHvId6me7j/+iiSP1RYT8x7RRgzwwjtYeEu/RUfMKnuI/0h0iJvxKxeyxZ4O9tiSr
+         u2LpfEdXfou67/hQb14iyiiDFQkpACDYHlvrzjwIf+zqh/dvWWptEuZ9wumyPePQMNub
+         aM9Rjfc6ZFJpVBlG61Mkwqw87gRnqAbkmabB0FmgLcwMcJ17wbcHX1IwHLXSqWKpjQzn
+         zXQg==
+X-Gm-Message-State: AOAM532M4VYw40owZOy9JKHJ6OYLKTY+0Ve0hLDqBvYAKoydYG+vQ2o6
+	X5kmbvcEa2KGukOYmlSE1sc=
+X-Google-Smtp-Source: ABdhPJwVydkeaDGl7YASlJQG4eND6KNdkuHPcjB7feaFFi+aaIvjTnAmBB+uEVJwMBfUHsI8gnnUIg==
+X-Received: by 2002:a1c:19c1:: with SMTP id 184mr25408435wmz.98.1630170525567;
+        Sat, 28 Aug 2021 10:08:45 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::884b])
+        by smtp.gmail.com with ESMTPSA id u10sm10046515wrt.14.2021.08.28.10.08.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Aug 2021 10:08:45 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove rtl8188e_PHY_ConfigRFWithHeaderFile()
+Date: Sat, 28 Aug 2021 19:08:33 +0200
+Message-Id: <20210828170834.31388-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.1
-Subject: Re: [PATCH] staging: r8188eu: core: remove unused function
-Content-Language: en-US
-To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org, fmdefrancesco@gmail.com,
- martin@kaiser.cx, linux-staging@lists.linux.dev
-Cc: saurav.girepunje@hotmail.com
-References: <YSpP0+aHdq3Roleo@user>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <YSpP0+aHdq3Roleo@user>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/28/21 17:01, Saurav Girepunje wrote:
-> Remove unused function proc_get_adapter_state() from rtw_debug.c file.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->   drivers/staging/r8188eu/core/rtw_debug.c    | 15 ---------------
->   drivers/staging/r8188eu/include/rtw_debug.h |  4 ----
->   2 files changed, 19 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_debug.c b/drivers/staging/r8188eu/core/rtw_debug.c
-> index 2ee64cef73f7..c5bb8b05b3c2 100644
-> --- a/drivers/staging/r8188eu/core/rtw_debug.c
-> +++ b/drivers/staging/r8188eu/core/rtw_debug.c
-> @@ -264,21 +264,6 @@ int proc_get_ap_info(char *page, char **start,
->   	return len;
->   }
-> 
-> -int proc_get_adapter_state(char *page, char **start,
-> -			  off_t offset, int count,
-> -			  int *eof, void *data)
-> -{
-> -	struct net_device *dev = data;
-> -	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
-> -	int len = 0;
-> -
-> -	len += snprintf(page + len, count - len, "bSurpriseRemoved=%d, bDriverStopped=%d\n",
-> -						padapter->bSurpriseRemoved, padapter->bDriverStopped);
-> -
-> -	*eof = 1;
-> -	return len;
-> -}
-> -
->   int proc_get_trx_info(char *page, char **start,
->   			  off_t offset, int count,
->   			  int *eof, void *data)
-> diff --git a/drivers/staging/r8188eu/include/rtw_debug.h b/drivers/staging/r8188eu/include/rtw_debug.h
-> index 3c3bf2a4f30e..9de3a0ed12ba 100644
-> --- a/drivers/staging/r8188eu/include/rtw_debug.h
-> +++ b/drivers/staging/r8188eu/include/rtw_debug.h
-> @@ -112,10 +112,6 @@ int proc_get_ap_info(char *page, char **start,
->   		     off_t offset, int count,
->   		     int *eof, void *data);
-> 
-> -int proc_get_adapter_state(char *page, char **start,
-> -			   off_t offset, int count,
-> -			   int *eof, void *data);
-> -
->   int proc_get_trx_info(char *page, char **start,
->   		      off_t offset, int count,
->   		      int *eof, void *data);
-> --
-> 2.32.0
-> 
+Function rtl8188e_PHY_ConfigRFWithHeaderFile() is not implemented,
+remove the declaration from Hal8188EPhyCfg.h.
 
-Looks good to me.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/include/Hal8188EPhyCfg.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+diff --git a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+index 4370ec2fa981..d15ff69b8485 100644
+--- a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
++++ b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
+@@ -188,8 +188,6 @@ int PHY_RFConfig8188E(struct adapter *adapter);
+ /* RF config */
+ int rtl8188e_PHY_ConfigRFWithParaFile(struct adapter *adapter, u8 *filename,
+ 				      enum rf_radio_path rfpath);
+-int rtl8188e_PHY_ConfigRFWithHeaderFile(struct adapter *adapter,
+-					enum rf_radio_path rfpath);
+ 
+ /* Read initi reg value for tx power setting. */
+ void rtl8192c_PHY_GetHWRegOriginalValue(struct adapter *adapter);
+-- 
+2.32.0
 
-
-Thanks,
-Michael
