@@ -1,84 +1,180 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E073FC1
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:43:44 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so10684132pjr.1
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:43:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BB23FC1
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:51:15 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id t19so19592906ejr.8
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:51:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1f+cT+VJAS51jJ+h2gpiKcy14OxlVz6YvCOSyx2MnME=;
-        b=oZ3ZLErOjhQyMFCiIQ3EZ8XK1u6SbSR0fl9NnF4wO2FQm2Fx/ccx6zKsPt4wvJd9eC
-         jeZOlHYxp5/cEliJy23je/Ywdkg7Sn63IcTLaDZJ3PYGg2NuN5q2amtWc9HqvoUQyYar
-         Wmc2dRaixDGBO4J0jdAXvicqWMCen4HRXy7mi6VlkoCqqvyy+31yPuQx/9mCufmGZ471
-         9qxWpe0KP6L1gmpwR1FG9JV8qLcqs9rRMnMYbuNHZ+zAfdnP7byMrRuvS/hsnX9rkhth
-         ypb4erbAZfIqQv0vtQEhJPKK67trkb3Y1rIDT0jaAwlP/2TZ8NZhXd33FRwOm1hFIKo5
-         mP1A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SNbkArJuVW1U/9UsLn22xFD8rY/NWVqQGTsS5KyA2eQ=;
+        b=LBgEpmRyftq+0A6Q+XSJiDIc08hduuhCKzSQLUkTL3AXqpaVTLvCq6IdhSPZMhDN3u
+         q1Y1Fpik9GSUIaHXOUP6oHTDOzby3yohtPwSGnyGUESJeWfXZhpclbGev0TX/M0vbPL8
+         MNzk+NlhgPujhAxngklqGk5VUZv0DNo1MgCOmmypDox8fsqX1FKgriHlK5cl/ppch3Mn
+         m4/1fP422rl7vblxnngoZZZStk8LSSyp6CVxymiPYLB3byEe+Ur4kDVYwPYN7McAefP6
+         fpZodN68tvSmfracTGpK8izlUxcSAf3gH6od+aCqUXaowzXOOgTSpW/xrDMH5l4w/qkZ
+         RtAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1f+cT+VJAS51jJ+h2gpiKcy14OxlVz6YvCOSyx2MnME=;
-        b=OxTo+J78YTbSK1nLObQviC3qoigZUIWrB8oWFp9pK4DpSi95AuyPv2boKLaX+sGTKi
-         JnH5ddkgcnV6RAK71y75kPjH7ANQT65Bj8VVkTfesaYcONyqq2nURaTCOH1uqyvDJP1f
-         NRKyu5FdveJEb6Wgd0eq/2RPPbFbuTtxRTwLsUFOVhdoLyO5J/w5AWyk7KNtHsg5n40E
-         TeFxNK9c+xAnDS25/uJogDVUsw5EyC4Q5sp2zHFRxhVkzgFQlLGVaZpdynk26PMiQHl2
-         nFXSec3p3ieAD6sxlrz/MEqPr2p85Dvaf6XhP6g4Ml2bdnERI4N6LCaqwtMgm6ku+lIL
-         LKvQ==
-X-Gm-Message-State: AOAM530tApNgIMjg9i/q0QgwnMuSOdnaBnUhxMDs6Zw8bRxqV37TgC2P
-	87l2OfHBwUBZ1QjW1aXlvouCI6Lx+gavlw==
-X-Google-Smtp-Source: ABdhPJw4VPobL8ViBRn4tBBCsMoFsY1DfA+hg0jzXCV4L5Ns1x0C4jLZXG8dSosjM/60k8Qp3eRUQw==
-X-Received: by 2002:a17:90a:aa85:: with SMTP id l5mr16009069pjq.111.1630147423863;
-        Sat, 28 Aug 2021 03:43:43 -0700 (PDT)
-Received: from localhost.localdomain (125-237-24-95-adsl.sparkbb.co.nz. [125.237.24.95])
-        by smtp.gmail.com with ESMTPSA id q126sm1246922pfc.156.2021.08.28.03.43.41
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SNbkArJuVW1U/9UsLn22xFD8rY/NWVqQGTsS5KyA2eQ=;
+        b=eo03OLw1fNLA39va6jLWUN9YRnrvuLkvhLVxU3JJ1gugr2f8cZ+ondRj5OZjqAVxs+
+         TgCpAU0Kfxb44o2GZ+oAYib/qfAgJMlnd7Wj9k0L2yfODFiR2RELZoKv2t3FXXk6N+Ur
+         0wq7A+q5AJWix6pH0ziIHpGTqv13sGUJSGsiPo4DsWjJkhTXK2xqKHzIhAwaw+p9WcXH
+         1J7BDDtCvm5cnO4PUjyOs79NyiPqMxDgLF0qgGU+dv0ENfTRLpRUKKry4ZzJMxdNpZLX
+         HG+/g/LPlU4my1XiP6NRjvugScTI/rTCqqwhFKfmaTsA7r7cFoE6hiuUSyHWQiyE/bBf
+         q+AQ==
+X-Gm-Message-State: AOAM533SRF9MyF9BTmToSqa2wwoYx3Idql+fNMmFMOr5hh/6ylEpJYTy
+	W3YoI0LtszTRjEO/F2tglcT5JBMyE1E=
+X-Google-Smtp-Source: ABdhPJzkjjbmjeyAq80tmc0414DsD2cBAnD11se3XoEVLKuszIQEmmwEU+C/6BIQq/uiMJ0TUgnKoA==
+X-Received: by 2002:a17:906:6994:: with SMTP id i20mr14600828ejr.145.1630147874048;
+        Sat, 28 Aug 2021 03:51:14 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id qt23sm4107542ejb.26.2021.08.28.03.51.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 03:43:43 -0700 (PDT)
-Date: Sat, 28 Aug 2021 22:43:38 +1200
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: Kari Argillander <kari.argillander@gmail.com>
-Cc: gregkh@linuxfoundation.org, hello@bryanbrattlof.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: pi433: fix docs typos and references to
- previous struct names
-Message-ID: <20210828104338.GA8113@localhost.localdomain>
-References: <20210828101242.GA6841@localhost.localdomain>
- <20210828102302.d7nhe2bkw6h5quqa@kari-VirtualBox>
+        Sat, 28 Aug 2021 03:51:13 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Martin Kaiser <martin@kaiser.cx>,
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCHi v4] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+Date: Sat, 28 Aug 2021 12:51:09 +0200
+Message-Id: <20210828105109.5776-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210828102302.d7nhe2bkw6h5quqa@kari-VirtualBox>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 28, 2021 at 01:23:02PM +0300, Kari Argillander wrote:
-> 
-> Re: [PATCH] staging: pi433: fix ...
-> 
-> This is version 2. Subject needs to be [PATCH v2]. If you generate using
-> git format-patch add "-v 2" in there.
-> 
-> On Sat, Aug 28, 2021 at 10:12:42PM +1200, Paulo Miguel Almeida wrote:
-> > In the comments there where some grammar mistakes and references to
-> > struct names that have gotten renamed over time but not updated
-> > in the comments.
-> > 
-> > Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-> > ---
-> 
-> You should have log here what did you change from previous version as
-> this is v2. You can also add who ask this change That should be like
-> this:
-> 
-> ---
-> Put your version log here.
-> ---
-> 
+Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
+unnecessary wrappers, respectively to mutex_lock_interruptible() and
+to mutex_unlock(). They also have an odd interface that takes an unused
+argument named pirqL of type unsigned long.
+The original code enters the critical section if the mutex API is
+interrupted while waiting to acquire the lock; therefore it could lead
+to a race condition. Use mutex_lock() because it is uninterruptible and
+so avoid that above-mentioned potential race condition.
 
-I see. Will do, thanks Kari :-)
+Tested-by: Pavel Skripkin <paskripkin@gmail.com>
+Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+
+v4: Tested and reviewed by Pavel Skripkin. No changes to the code.
+
+v3: Assume that the original authors don't expect that
+mutex_lock_interruptible() can be really interrupted and then lead to 
+a potential race condition. Furthermore, Greg Kroah-Hartman makes me
+notice that "[] one almost never needs interruptable locks in a driver".
+Therefore, replace the calls to mutex_lock_interruptible() with calls to
+mutex_lock() since the latter is uninterruptible and avoid race
+conditions without the necessity to handle -EINTR errors.
+
+v2: Ignore return values from Mutexes API because the original authors
+don't check and manage return errors from mutex_lock_interruptible(). 
+
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c     |  4 ++--
+ drivers/staging/r8188eu/hal/usb_ops_linux.c     |  4 ++--
+ drivers/staging/r8188eu/include/osdep_service.h | 13 -------------
+ drivers/staging/r8188eu/os_dep/os_intfs.c       |  4 ++--
+ 4 files changed, 6 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 5a472a4954b0..3df02bd0db89 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -4359,7 +4359,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
+ 	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
+ 		return -1;
+ 
+-	_enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
++	mutex_lock(&pxmitpriv->ack_tx_mutex);
+ 	pxmitpriv->ack_tx = true;
+ 
+ 	pmgntframe->ack_report = 1;
+@@ -4368,7 +4368,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
+ 	}
+ 
+ 	pxmitpriv->ack_tx = false;
+-	_exit_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
++	mutex_unlock(&pxmitpriv->ack_tx_mutex);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+index 0cf69033c529..065b0d8e030a 100644
+--- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+@@ -29,7 +29,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+ 		goto exit;
+ 	}
+ 
+-	_enter_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
++	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
+ 
+ 	/*  Acquire IO memory for vendorreq */
+ 	pIo_buf = dvobjpriv->usb_vendor_req_buf;
+@@ -92,7 +92,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+ 			break;
+ 	}
+ release_mutex:
+-	_exit_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
++	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
+ exit:
+ 	return status;
+ }
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index 029aa4e92c9b..bb92b9d74bd7 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -56,19 +56,6 @@ static inline struct list_head *get_list_head(struct __queue *queue)
+ 	return (&(queue->queue));
+ }
+ 
+-static inline int _enter_critical_mutex(struct mutex *pmutex, unsigned long *pirqL)
+-{
+-	int ret;
+-
+-	ret = mutex_lock_interruptible(pmutex);
+-	return ret;
+-}
+-
+-static inline void _exit_critical_mutex(struct mutex *pmutex, unsigned long *pirqL)
+-{
+-		mutex_unlock(pmutex);
+-}
+-
+ static inline void rtw_list_delete(struct list_head *plist)
+ {
+ 	list_del_init(plist);
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 8d0158f4a45d..6821dcdf1523 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -1062,9 +1062,9 @@ int netdev_open(struct net_device *pnetdev)
+ 	int ret;
+ 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(pnetdev);
+ 
+-	_enter_critical_mutex(padapter->hw_init_mutex, NULL);
++	mutex_lock(padapter->hw_init_mutex);
+ 	ret = _netdev_open(pnetdev);
+-	_exit_critical_mutex(padapter->hw_init_mutex, NULL);
++	mutex_unlock(padapter->hw_init_mutex);
+ 	return ret;
+ }
+ 
+-- 
+2.32.0
 
