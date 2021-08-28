@@ -1,132 +1,85 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AD62FB2
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 00:08:46 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id x16so3310566pll.2
-        for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 17:08:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8BD3FC1
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 04:30:00 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id 7so7429310pfl.10
+        for <linux-staging@lists.linux.dev>; Fri, 27 Aug 2021 21:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=V1Phuwg9S10P3UrzzO2JJiE8SFms1OaLW24U0NiZUw0=;
-        b=bmt9FXUTZo3GZkAW150BsedhnBTrgDULwpKB1Ck67Nbv/cKpyasz68SYaJSq2jY3f6
-         dlO3swB5SNRbC3gwcd+sfM7pvSHTdLSwzu/vJHSlJ2jfRxy577fRxe28HRHOnnUXfVxK
-         siX8kBXx9Y5rYqVMrx2jl+J5n3Xe2Hl9gnfPkpIIfPsyY4hANCueRNOoB0HiF6LYq6QP
-         CT4h0DMCiMsuZMu+seNgn5rQ43M3Ic+aITRrvZsw6ZPVxI7lqOHJkbeOMnpNMb6tNXVY
-         FCN6W9LgKmA4JwW/E6fFmKevhhrfjufB7lkQ0L0WHODkWmZ1Me7USZRFEhapoSn94UHR
-         /HBA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ThXq/38kzog6YWsBoPcGtQqrTsog3IJpMTo1ZeSwCSQ=;
+        b=kOHbNHP81KjALs3KHPR4QZtz/g+Z6/ozhPpsMWu2ss+Vj6xuQ79CW3ytwfryPkrLe4
+         X/P+gYyB3tLOfL8Aa6X4EvtgD7Dfwgl0VvhCbJq89bpapbFFsPt392DzBMU9VrgDGDzC
+         N/DN1G3h8cGeCRM1FZY3lAfG+Nc7LKmNs2/Rt/pb7d5HFFnfMN7WVPMMTdIsfhZYnM3X
+         TR27mALAevEkq4tcFaC0xjGLtXShnYTGV82Pq7GeVEJvOnnIyqaMjhphoPEibZKThv8V
+         POAjMEauU+4l5nUL3+BW1HiFHEkRk/3YjsXIC5I60sjmzc/kcbrjZPEXGrkGyV1rYQEZ
+         d/3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=V1Phuwg9S10P3UrzzO2JJiE8SFms1OaLW24U0NiZUw0=;
-        b=HDUZlidZPw0olmzoTwOs6Chg+ovLfRFH9fr54R7BfpqPHpKwElrVlHLIYfW1SvqItZ
-         ni/irmGb9PYntyjqsjeinM5Cvrv/NuATIVHsojL/mN0MnDgumVzr3OJA4r3Y94dVnnZL
-         6GAPokdsP8GDfM1wfSByE3ZtFvvaQJyfPF3snodE03atFUCDyVShTvneOKx2eTbZTFxE
-         QrsZcZqEgxG3GvjDu9vbZ/VICnzJMil/bqyJ7yv926ANLplqgnjRtC7aw69j7nTUPlNi
-         txZmkOoitHEUJ34GyS2uhqBtKUJso4s4UdcNv+p5CrzNkZBP2xF4tnW1yf8wdNBey2sk
-         UYng==
-X-Gm-Message-State: AOAM530Itim0IhSW6/ZfdswvkL3+w3IOlJy0FOyWTFNCorfWPH/yiJSB
-	PNTrBzRffZEvuw8ALOgmc0DLNhK1jMM/cQ==
-X-Google-Smtp-Source: ABdhPJxNj0eC9DJ3kkfn0E5168iWGGL0MpSq1fA91RsXa67fr3+MfNIPPFQ//+vv/jocozwnvSJbhg==
-X-Received: by 2002:a17:902:7611:b029:12b:e55e:6ee8 with SMTP id k17-20020a1709027611b029012be55e6ee8mr11167180pll.4.1630109326490;
-        Fri, 27 Aug 2021 17:08:46 -0700 (PDT)
-Received: from localhost.localdomain (125-237-24-95-adsl.sparkbb.co.nz. [125.237.24.95])
-        by smtp.gmail.com with ESMTPSA id u2sm132807pjv.10.2021.08.27.17.08.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ThXq/38kzog6YWsBoPcGtQqrTsog3IJpMTo1ZeSwCSQ=;
+        b=BAJnyBWEqKnalXPzJM0QX2QIYIH/bfCe05GHEjU2AP7t+vSNuICAbD+nnMnRuy1GBt
+         UEzp18yREVf8PHSRDsroLf1t4ogR8uv4epkZClTAogVIJYJntKRQXL+bRCkX0wfskL0E
+         7mRWqoH2stovL7BCNiVsCEiJdf/g3/YFtROl/3BzygHtsijTQOZoLGV4Jmrvx9GYtBQJ
+         fQ3AEvVi6dNQ3EnonyT4ECwX2uNO3hwFqziFlnHDGl7YOBstFcl/F7k7YyZl3TnjbdT2
+         sOayD1pf4OWCrqM8o2hc523qJH7zLO9yD7ze2PNeTxSmyb0eLV6hs9LHgHtJOzqw0IMs
+         FSSw==
+X-Gm-Message-State: AOAM530v4Ysp1wC30iBP3d3azzWPc1C13WvbRCuRedQiugX8bPMNmDgU
+	1OVijbZV8RiVsVS8I63EUns=
+X-Google-Smtp-Source: ABdhPJzQ0qQ2Gs96Y2NARCplv357ZroJmAly06xqBxiLFM/5uBiJ/f1Ku2hHM7V3JSWGemA1djBczA==
+X-Received: by 2002:a63:2242:: with SMTP id t2mr10476568pgm.111.1630124999426;
+        Fri, 27 Aug 2021 21:29:59 -0700 (PDT)
+Received: from xps.yggdrasil ([49.206.124.188])
+        by smtp.gmail.com with ESMTPSA id 6sm7992463pjz.8.2021.08.27.21.29.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Aug 2021 17:08:46 -0700 (PDT)
-Date: Sat, 28 Aug 2021 12:08:36 +1200
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: gregkh@linuxfoundation.org, hello@bryanbrattlof.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: pi433: fix docs typos and references to previous
- struct names
-Message-ID: <20210828000836.GA10188@localhost.localdomain>
+        Fri, 27 Aug 2021 21:29:59 -0700 (PDT)
+From: Aakash Hemadri <aakashhemadri123@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <keescook@chromium.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: wlan-ng: fix invalid assignment warning
+Date: Sat, 28 Aug 2021 09:59:49 +0530
+Message-Id: <20210828042949.2276341-1-aakashhemadri123@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-In the comments there where some grammar mistakes and references to
-struct names that have gotten renamed over time but not reflected
-in the comments.
+p80211_hdr->frame_control is u16, change to __le16
+to satisfy sparse warning:
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+wlan-ng/prism2sta.c:253:43: warning: invalid assignment: |=
+wlan-ng/prism2sta.c:253:43:    left side has type unsigned short
+wlan-ng/prism2sta.c:253:43:    right side has type restricted __le16
+
+Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
 ---
- drivers/staging/pi433/pi433_if.h | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ drivers/staging/wlan-ng/p80211hdr.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
-index d5c1521192c1..1fae62c40661 100644
---- a/drivers/staging/pi433/pi433_if.h
-+++ b/drivers/staging/pi433/pi433_if.h
-@@ -5,16 +5,15 @@
-  * userspace interface for pi433 radio module
-  *
-  * Pi433 is a 433MHz radio module for the Raspberry Pi.
-- * It is based on the HopeRf Module RFM69CW. Therefore inside of this
-- * driver, you'll find an abstraction of the rf69 chip.
-+ * It is based on the HopeRf Module RFM69CW. Therefore, inside of this
-+ * driver you'll find an abstraction of the rf69 chip.
-  *
-- * If needed, this driver could be extended, to also support other
-- * devices, basing on HopeRfs rf69.
-+ * If needed this driver could also be extended to support other
-+ * devices based on HopeRf rf69 as well as HopeRf modules with a similar
-+ * interface such as RFM69HCW, RFM12, RFM95 and so on.
-  *
-- * The driver can also be extended, to support other modules of
-- * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
-  * Copyright (C) 2016 Wolf-Entwicklungen
-- *	Marcus Wolf <linux@wolf-entwicklungen.de>
-+ * Marcus Wolf <linux@wolf-entwicklungen.de>
-  */
+diff --git a/drivers/staging/wlan-ng/p80211hdr.h b/drivers/staging/wlan-ng/p80211hdr.h
+index dd1fb99bf340..5871a55e4a61 100644
+--- a/drivers/staging/wlan-ng/p80211hdr.h
++++ b/drivers/staging/wlan-ng/p80211hdr.h
+@@ -149,7 +149,7 @@
+ /* Generic 802.11 Header types */
  
- #ifndef PI433_H
-@@ -33,8 +32,8 @@ enum option_on_off {
- /* IOCTL structs and commands */
- 
- /**
-- * struct pi433_tx_config
-- * describes the configuration of the radio module for sending
-+ * struct pi433_tx_cfg
-+ * describes the configuration of the radio module for sending data
-  * @frequency:
-  * @bit_rate:
-  * @modulation:
-@@ -46,7 +45,7 @@ enum option_on_off {
-  * @repetitions:
-  *
-  * ATTENTION:
-- * If the contents of 'pi433_tx_config' ever change
-+ * If the contents of 'pi433_tx_cfg' ever change
-  * incompatibly, then the ioctl number (see define below) must change.
-  *
-  * NOTE: struct layout is the same in 64bit and 32bit userspace.
-@@ -81,8 +80,8 @@ struct pi433_tx_cfg {
- };
- 
- /**
-- * struct pi433_rx_config
-- * describes the configuration of the radio module for sending
-+ * struct pi433_rx_cfg
-+ * describes the configuration of the radio module for receiving data
-  * @frequency:
-  * @bit_rate:
-  * @modulation:
-@@ -94,7 +93,7 @@ struct pi433_tx_cfg {
-  * @repetitions:
-  *
-  * ATTENTION:
-- * If the contents of 'pi433_rx_config' ever change
-+ * If the contents of 'pi433_rx_cfg' ever change
-  * incompatibly, then the ioctl number (see define below) must change
-  *
-  * NOTE: struct layout is the same in 64bit and 32bit userspace.
+ struct p80211_hdr {
+-	u16	frame_control;
++	__le16	frame_control;
+ 	u16	duration_id;
+ 	u8	address1[ETH_ALEN];
+ 	u8	address2[ETH_ALEN];
+
+base-commit: f6bc526accf861728d36b12fbc25ac94cd057fc9
 -- 
-2.25.4
+2.32.0
 
