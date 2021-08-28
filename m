@@ -1,53 +1,57 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B9B3FC1
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 11:37:30 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id h1so16370169ljl.9
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 04:37:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDFB3FC1
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 12:24:18 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id fs6so6481186pjb.4
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 05:24:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=yjSEFzv8kluOENILFvuHRCvSbNy9lHGaoFHd7/7ZFsQ=;
-        b=S1DSOz6SVZnuHxCuMzaj0nTV+SF5vsYAC/4eUaN5HXXaMoyJb73AqM/OshZ4HzHAMc
-         PpdVo2WqEawsU09HNnVWGdNDQJPc9D1PCDtO0m3/ixUMUuGjkv7WyWrKmcNQfn7cobkf
-         yWfnBBn9rnKw9453F16PqpmvIOBs0IkMuwXTbU/r/FOVYLUn9nFb8+pFKz+CYP09xsUS
-         NtfULXcwVvUO1GF3I9Ma1OCLY7tTHP7aFrJMqRgPPWRisqVhOvOlVrVrtPP1/dNAahdk
-         hr4MeQBF5gKjJxdsjL3V86TVnApAcwJI+C8s1paDJl6L2D22QWpBE+gyDQuP/qjls5J2
-         V00Q==
+        bh=eDSaIJBqh+izHPHHriK0NAbuzPQM6rniHf8ccvF9oRs=;
+        b=BVmFAl20QChh3w25z5aDgoAKDDnhhkARn6uI4phpX6GDyw622uxGX2KjOTbiDs5fsP
+         opqrJCD3yhDboc1OrxRpiH2EP8V2D11O83tpY52YhBV1UQM8QrhCX5xaBg6etjO0XaIi
+         nJjS9CCLJJ8QMcG7O4qBf9+SPEGKCGRG8PV4n1bpkAKwUD1iryhvUZboJcND5rKZsyn8
+         B2D3vBYKUqk1zZdEcMf3LLmf7vHA3T4P09OOC7ngADHOm22lrQnzF5IPpBuXlHk14ZHK
+         WNY3GJhrMpQ0GamhEvokcCBce1ANBS/RnJY5pQxLtzWMaClUpHaWHN+mt7rpI7SAm25q
+         hJkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=yjSEFzv8kluOENILFvuHRCvSbNy9lHGaoFHd7/7ZFsQ=;
-        b=qGDwqUa1oB4lz1IAtFpPhXiXE8jobGa/yyDlTssUxsMYPzD2KHH+SqbeP1BGNettDI
-         NuygzQfAjft3M03voG0p0U45ronbZPYAw0Xql5KlfUUkGiKTwziNnKkIyBnxjXErD4dc
-         RTKHuCWHRK5pihtuuWL7v6izO6108DRmOtC/WHgiAbQ+DQep2qZ1y+lxAsVBDWZy5kST
-         FVm8kGNTLkkZ6iPFfEOM2Fe0RPQVTLHwWotyh+KnZV8Hyv6bJ7OvzKF2oDTB0pvEbCXI
-         nzRK6fsFJ4saCq3MorVVyFC4ItIPQenwoww3gxxrf2RXZc39PJke1HKFIinLUOrNj3Or
-         05lw==
-X-Gm-Message-State: AOAM531g8wpjYKPJiawFHcliBbQCiROawRQoL5nqh5SixprtKO2mPUgq
-	/i1Od8XRHxFcmDFQpwPWzDA=
-X-Google-Smtp-Source: ABdhPJxcq/9sIBbo1oNHzb+12fxkefXkAK1GnD8rSXHhUSRuT2D+e9DMiO9QidG1zcE7gyv9N+BoqQ==
-X-Received: by 2002:a2e:b605:: with SMTP id r5mr12033036ljn.283.1630150648852;
-        Sat, 28 Aug 2021 04:37:28 -0700 (PDT)
-Received: from kari-VirtualBox (87-95-21-3.bb.dnainternet.fi. [87.95.21.3])
-        by smtp.gmail.com with ESMTPSA id n19sm856205lfu.68.2021.08.28.04.37.27
+        bh=eDSaIJBqh+izHPHHriK0NAbuzPQM6rniHf8ccvF9oRs=;
+        b=akDd/jMGoFigUTksI1jkcllECzXgRotBY+nSTnOFgIvVAv7ryjsd/Fcde+Ev8FpgpM
+         I5CEsxILzDwj99gxSxBdyQFMZBF3F/H5BAadj042if7aT3baZ2gpQe4JgzU5f8KLyWOT
+         Y8xRUbuKosOu9EXiokuRUtZZY3XiyXfqebaDeP+Nc8Tp46oVBim1cp1E1NOPksjzX87x
+         x87j45aHoQEtyZtxzBVBgN9iduXx7+xOvn95Rx1NXuMxDcV0Y22dB0O3L4UshQMB35h+
+         OBmvxZpYoN9gX7r0k1cCo3fsmiRUQR7s6GAwVEUg760djoTpicq1k7GuRnIV0U4VE02S
+         AXLQ==
+X-Gm-Message-State: AOAM533qKukii8NfChOAB6lVS7kxMzJKsVPmTCcBYT/nOfpo6UpP60vb
+	puIApWG3q5JC/J3E9JcC790=
+X-Google-Smtp-Source: ABdhPJz/o8n/4ad+NPvZNYaUzA9JcQz/YeHan0RbJDRnNWXh1T3Oshas5k5zn67kbuyR+RvSDa/LFg==
+X-Received: by 2002:a17:90b:388f:: with SMTP id mu15mr15814347pjb.41.1630153457491;
+        Sat, 28 Aug 2021 05:24:17 -0700 (PDT)
+Received: from user ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id l75sm4167671pga.19.2021.08.28.05.24.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 04:37:28 -0700 (PDT)
-Date: Sat, 28 Aug 2021 14:37:26 +0300
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Aakash Hemadri <aakashhemadri123@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
+        Sat, 28 Aug 2021 05:24:17 -0700 (PDT)
+Date: Sat, 28 Aug 2021 17:54:11 +0530
+From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/3] staging: r8188eu: incorrect type in
- csum_ipv6_magic
-Message-ID: <20210828113726.v4tmknjosvgb7bke@kari-VirtualBox>
-References: <cover.1630148641.git.aakashhemadri123@gmail.com>
- <0b7d6e92c79a6daf55a0c3a4961df6f33a9bcf37.1630148641.git.aakashhemadri123@gmail.com>
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	linux-staging@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
+Message-ID: <YSoq6wRQYneYI6N1@user>
+References: <YSFgrLUfXzgcT6k4@user>
+ <CAA=Fs0kByg1NztU+Nf__RUzTHuVh_q2hvcyh+3JqXiVgn+_VeQ@mail.gmail.com>
+ <1821445.fzUCeO1EU3@localhost.localdomain>
+ <YSJEu3sbnR6uIach@kroah.com>
+ <YSduG401BA80Xnsb@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,50 +60,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0b7d6e92c79a6daf55a0c3a4961df6f33a9bcf37.1630148641.git.aakashhemadri123@gmail.com>
+In-Reply-To: <YSduG401BA80Xnsb@kroah.com>
 
-[PATCH v5 2/3] staging: r8188eu: incorrect type in csum_ipv6_magic
+On 26 Aug 2021 12:34, Greg KH wrote:
+> On Sun, Aug 22, 2021 at 02:36:11PM +0200, Greg KH wrote:
+> > On Sun, Aug 22, 2021 at 01:06:09PM +0200, Fabio M. De Francesco wrote:
+> > > On Sunday, August 22, 2021 1:58:10 AM CEST Phillip Potter wrote:
+> > > > On Sat, 21 Aug 2021 at 21:23, Saurav Girepunje
+> > > >
+> > > > <saurav.girepunje@gmail.com> wrote:
+> > > > > Remove the condition with no effect (if == else) in rtw_led.c
+> > > > > file.
+> > > > >
+> > > > > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> > > > > ---
+> > > > >
+> > > > >  drivers/staging/r8188eu/core/rtw_led.c | 5 +----
+> > > > >  1 file changed, 1 insertion(+), 4 deletions(-)
+> > > >
+> > > > Thanks for this, looks good.
+> > > >
+> > > > Acked-by: Phillip Potter <phil@philpotter.co.uk>
+> > > >
+> > > > Regards,
+> > > > Phil
+> > >
+> > > Dear Philip,
+> > >
+> > > Before acking, please check at least if it applies to the current version of
+> > > the tree and check if it compiles without adding warnings and / or errors. :-)
+> >
+> > That is not necessary or needed here, I can do that when I apply the
+> > patch.
+>
+> As proof of that, this patch applied just fine to my tree right now...
+>
+> thanks,
+>
+> greg k-h
 
-Subject should start with imperative mood. Every patch in this series
-needs this fix.
-
-I actually check linux coding style and did not found mention about
-this, but if you look kernel log then you see that it is at least
-unwritten rule. You can check this if you want
-https://chris.beams.io/posts/git-commit/#imperative
-
-On Sat, Aug 28, 2021 at 04:40:45PM +0530, Aakash Hemadri wrote:
-> Fix sparse warning:
-> > rtw_br_ext.c:771:84:    got restricted __be16 [usertype] payload_len
-> > rtw_br_ext.c:773:110: warning: incorrect type in argument 2
->     (different base types)
-> > rtw_br_ext.c:773:110:    expected int len
-> > rtw_br_ext.c:773:110:    got restricted __be16 [usertype] payload_len
-> 
-> csum_ipv6_magic and csum_partial expect int len not __be16, use
-> be16_to_cpu()
-> 
-> Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_br_ext.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> index aa56cd1a8490..38f1bd591da9 100644
-> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
-> @@ -615,9 +615,9 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
->  						struct icmp6hdr  *hdr = (struct icmp6hdr *)(skb->data + ETH_HLEN + sizeof(*iph));
->  						hdr->icmp6_cksum = 0;
->  						hdr->icmp6_cksum = csum_ipv6_magic(&iph->saddr, &iph->daddr,
-> -										iph->payload_len,
-> +										be16_to_cpu(iph->payload_len),
->  										IPPROTO_ICMPV6,
-> -										csum_partial((__u8 *)hdr, iph->payload_len, 0));
-> +										csum_partial((__u8 *)hdr, be16_to_cpu(iph->payload_len), 0));
->  					}
->  				}
->  			}
-> -- 
-> 2.32.0
-> 
+Thanks greg
