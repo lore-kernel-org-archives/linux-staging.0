@@ -1,86 +1,93 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50FE72
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 18:17:57 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id f11-20020a17090aa78b00b0018e98a7cddaso7230494pjq.4
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 11:17:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2193FC1
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 19:20:57 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id d22-20020a1c1d16000000b002e7777970f0so11704148wmd.3
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 12:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=QK06svqw7DyH5jd4WQQegPSwOLABf8o6RovqCiYy1aI=;
-        b=GdDcYUUFcu40LOvVrFSUSjOdct8TJvYCny7rpi0ZRkFSVfR/5k0QoFQ4ka2tosX2mD
-         /LvxPxJFXR/6FBmbVowLEe3MoVk8rOA1LQwvPCZpBIUbfJwYBhBkDKdfNfuHMqrHwqv0
-         zBjOfRpyG4pyyBLu8mukkVE2CPpPe6castqRRG9OXFo2srraiomilfK74Cb5C6+Njpvb
-         ZtnBOWZz0eGTHk6NhfRRCPwE2zoGCkXdUYX50rOi3G7x+LMi9WPAUqmDZiCvrID3/iTS
-         e2HhcO6A4dJiEdT1aIa7Qvdf/orpoBMCmS1iINujGR2p2pAK48gN5GVZfZgHX/dxxL65
-         PpVQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3blXmIdosDOuNNq7nc3EFCtcuawBSD/bJRQmtHW5+7k=;
+        b=BoUhq/GfIAy4h/4PE78IRtrCiIBdQAyXgY6Hkfs+QynhWluSjz7NDD+9Umc0Pr8E8M
+         fHbWxcESZS4Hh8Owb59LUMiZQmODjssSQ6AxMWJ1KdUld7S3t/3/fU8AOG7gOnIrI8NX
+         Rx1xrMjwKfUQTkS/Aw+/7Mx4LkNtmteALToLtPY5No8G+/8xTNsyxWr8nnKLA6HJBJSy
+         jyxW2Na7Ydie2n3BvrB/bHckxzIHV9oKuHT/JGcYhDveRPP6miCnqt44nJIRceFZqIRk
+         3BfOBEVqu6Y5grr/EgSCJb/NJddRA5sZKIH0mWsV7s/ORtvHHHv6jjf7Kq3EkFQUpRr+
+         LfPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=QK06svqw7DyH5jd4WQQegPSwOLABf8o6RovqCiYy1aI=;
-        b=U/V95XdQloHlcfC7BqFhM4hfKJRqE361f/kqccFPqnlwPvx3Ev5qP7PCTJ6bR09ADN
-         M+1ph/iTpEoxS9dc8hyuwkpUZ1HzHgAQm5E44O+gyoI9ioipKlW566Oc2buOSxeAJPuk
-         mKyNzT9bvfwfQaWRvmuH4gFnTeDN3i5RV0iEvZ/ZjLX6mtDInISBgVsu9fo++LYrIp6b
-         GIt3xBa3v15ItY7nzFMN5W+pzE9+Ib+wjr0UlD2GB+2BlTGKe83ekXkWkTl2mGvoa/OX
-         lmfhTArmzDP/QEuy6+CKAtF+skUeK7J4MY1xOFTjIHPPe9U7pIbPlH+36qMxOeOMY8QE
-         K5ng==
-X-Gm-Message-State: AOAM533UGMlwSM+Z3aVPenhex7EsrMIHnhfjNVLdfMbSwCB/bavK3T3h
-	ILJgSl7oqtBVTDRkVMBWoUs=
-X-Google-Smtp-Source: ABdhPJxHJ5qdD6EpLAmrE4/35glO1pjDTLOTtmU/bxNMDeSr70Q8AwlhYP5UzNNPEl/HCqOJQr959w==
-X-Received: by 2002:a17:902:ed82:b029:ef:48c8:128e with SMTP id e2-20020a170902ed82b02900ef48c8128emr14366631plj.72.1630174677122;
-        Sat, 28 Aug 2021 11:17:57 -0700 (PDT)
-Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id c16sm10196931pfb.196.2021.08.28.11.17.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 11:17:56 -0700 (PDT)
-Date: Sat, 28 Aug 2021 23:47:51 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	martin@kaiser.cx, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: os_dep: use kmemdup instead of kzalloc and
- memcpy
-Message-ID: <YSp9z2/JmvHGhW5m@user>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3blXmIdosDOuNNq7nc3EFCtcuawBSD/bJRQmtHW5+7k=;
+        b=hAiZ+igl/0i1eh044Z44PYLFbD0CLtoUU5W3YPGDG0/HpogJ0SRkPvzJr2gmpIsm7Z
+         OqwMMQrymSFTYFWFN5xzbNTvgqQl23yphMIhUFJ7izvClh1Y1A2Le8hETuKeJ/ZHySqm
+         VjZVPvyyepqHnoA4WwIuiKOD4RTZlv1PnpVLCyPBQxtN2ywLwxFFB+WFRVBERu2DdaPp
+         +V1UxvCN4z9N5V6BnP6FApeofj2UysBp5wvC+nd/kF1Mj/D4O6iVNB4idBt5DuFUafyV
+         OeR3PpJkXN8iCDJgRGL9iQDDx8zkuDNPacszNBwzkGXWGvo2WzpRnOQupT3SL0R70vUW
+         QpdQ==
+X-Gm-Message-State: AOAM533nFXBifP33B7+DqZ6Gpj9ESaVCuxByv2NVtp3BwHc/77LDypYL
+	6sruMeTR40eVz5kU4R4dbrY=
+X-Google-Smtp-Source: ABdhPJyz5Emi3EedmduPhplg1maqn6jL2UZ6g5VEtgiYyqYMWWDP52GalTmaWl05OkvAXPqygVClRQ==
+X-Received: by 2002:a1c:7dd0:: with SMTP id y199mr15046919wmc.148.1630178456131;
+        Sat, 28 Aug 2021 12:20:56 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::884b? ([2a02:8108:96c0:3b88::884b])
+        by smtp.gmail.com with UTF8SMTPSA id p13sm10288209wro.8.2021.08.28.12.20.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Aug 2021 12:20:55 -0700 (PDT)
+Message-ID: <1e31610a-0324-dfb7-abe5-f05d652d461d@gmail.com>
+Date: Sat, 28 Aug 2021 21:20:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH] staging: r8188eu: core: remove null check before vfree
+Content-Language: en-US
+To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+ ross.schm.dev@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YSp4UP1+HrhmDA3C@user>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YSp4UP1+HrhmDA3C@user>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixes coccicheck warning:WARNING opportunity for kmemdup in ioctl_linux.c
+On 8/28/21 19:54, Saurav Girepunje wrote:
+> Remove NULL check. NULL check before freeing function is not needed.
+> 
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_sta_mgt.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+> index f6dffed53a60..4726771a8403 100644
+> --- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+> +++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+> @@ -155,9 +155,7 @@ u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
+>   		spin_unlock_bh(&pstapriv->sta_hash_lock);
+>   		/*===============================*/
+> 
+> -		if (pstapriv->pallocated_stainfo_buf)
+> -			vfree(pstapriv->pallocated_stainfo_buf);
+> -		}
+> +		vfree(pstapriv->pallocated_stainfo_buf);
+> 
+>   	return _SUCCESS;
+>   }
+> --
+> 2.32.0
+> 
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 81d4255d1785..495fadd2b8c8 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -585,14 +585,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
- 	}
-
- 	if (ielen) {
--		buf = kzalloc(ielen, GFP_KERNEL);
-+		buf = kmemdup(pie, ielen, GFP_KERNEL);
- 		if (!buf) {
- 			ret =  -ENOMEM;
- 			goto exit;
- 		}
-
--		memcpy(buf, pie, ielen);
--
- 		/* dump */
- 		{
- 			int i;
---
-2.32.0
-
+Thanks,
+Michael
