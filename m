@@ -1,183 +1,105 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064413FC1
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 11:37:02 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id x11so19917569ejv.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 04:37:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B9B3FC1
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 11:37:30 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id h1so16370169ljl.9
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 04:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9i2MZ6ryE+MCfj7gRcpOOFHN1PhXuatvSgRLYw0l6po=;
-        b=RB9B2G9SbhqgAL6Jt9rBGFQ+uLZGmdn+P1j8CV4zSQ1VhKW2QVJq9dMK+ZIpK0gnzQ
-         //BSC+zE7ykstC+xg6+yI39aaO/8ZOIUYpXeRoWbxzr+s4PnkSoioiv9MuEtBQUjt4lJ
-         84eOmtii9ZRbsVtJDcBzYx+BO5NZTkHs0HseEpM1tVSQtVASpy2+Vp6H6N/be27Urmnb
-         0bfMpqj0DRvfe+sRf35xzcITgfxdTljbkQvJ+GeYUmV24LwBkMwJ710riT3OhDdpRRNY
-         xqXjAGHIOgV6BYpl1dJoXJOgauoUyJhTscX2oOJASAdbp6shxj83tB/nGpECu9j+pPt3
-         6o5w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=yjSEFzv8kluOENILFvuHRCvSbNy9lHGaoFHd7/7ZFsQ=;
+        b=S1DSOz6SVZnuHxCuMzaj0nTV+SF5vsYAC/4eUaN5HXXaMoyJb73AqM/OshZ4HzHAMc
+         PpdVo2WqEawsU09HNnVWGdNDQJPc9D1PCDtO0m3/ixUMUuGjkv7WyWrKmcNQfn7cobkf
+         yWfnBBn9rnKw9453F16PqpmvIOBs0IkMuwXTbU/r/FOVYLUn9nFb8+pFKz+CYP09xsUS
+         NtfULXcwVvUO1GF3I9Ma1OCLY7tTHP7aFrJMqRgPPWRisqVhOvOlVrVrtPP1/dNAahdk
+         hr4MeQBF5gKjJxdsjL3V86TVnApAcwJI+C8s1paDJl6L2D22QWpBE+gyDQuP/qjls5J2
+         V00Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9i2MZ6ryE+MCfj7gRcpOOFHN1PhXuatvSgRLYw0l6po=;
-        b=Gq359JzBYfauPrjQIim3OYYbvZeAtMEHoKOSRNXnAZXGhLClah6q2obWfSXCQQosDV
-         vbqvNKVTylsT6VwxW6u3z++yrqOPSB8GLMirY9BiqOvde1aiqZcc22s0gTHz+1n+0yZg
-         knS56B88Z+bTMm83atwg90CKmcNtLmrjXDhnXLVUG7YEzYCLNBPAWbzx/MV2W4rUIj1X
-         dn6PZyIEggxUEQPYUloB7OBw4gYsN8SZjVy9RxuP4yt4oBhV3J/Fz2N+7m3FKkhJpzpN
-         +aNXbzuDEltwc+kLWB0wtaK10EHf6UPjx+f0Ovk8iu4lxQwz/YVdWS/Ge0iHox5p/vum
-         nm/Q==
-X-Gm-Message-State: AOAM533ghSZInZfQw7lGImU4W27zTJyv+eBdtt7mu4z5ppMP3ZcJWnFb
-	zNTF3q6YgR7gT6FrTMaRJ6k=
-X-Google-Smtp-Source: ABdhPJymAN8bqsqwAy8uk9GsLPGFXXiNv/J5LMBM55jhEhsfSIiJvUq0eaJWw0kaA7fReoH1do4p/Q==
-X-Received: by 2002:a17:906:a044:: with SMTP id bg4mr15045786ejb.312.1630150621294;
-        Sat, 28 Aug 2021 04:37:01 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id q14sm4102081ejc.93.2021.08.28.04.36.59
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=yjSEFzv8kluOENILFvuHRCvSbNy9lHGaoFHd7/7ZFsQ=;
+        b=qGDwqUa1oB4lz1IAtFpPhXiXE8jobGa/yyDlTssUxsMYPzD2KHH+SqbeP1BGNettDI
+         NuygzQfAjft3M03voG0p0U45ronbZPYAw0Xql5KlfUUkGiKTwziNnKkIyBnxjXErD4dc
+         RTKHuCWHRK5pihtuuWL7v6izO6108DRmOtC/WHgiAbQ+DQep2qZ1y+lxAsVBDWZy5kST
+         FVm8kGNTLkkZ6iPFfEOM2Fe0RPQVTLHwWotyh+KnZV8Hyv6bJ7OvzKF2oDTB0pvEbCXI
+         nzRK6fsFJ4saCq3MorVVyFC4ItIPQenwoww3gxxrf2RXZc39PJke1HKFIinLUOrNj3Or
+         05lw==
+X-Gm-Message-State: AOAM531g8wpjYKPJiawFHcliBbQCiROawRQoL5nqh5SixprtKO2mPUgq
+	/i1Od8XRHxFcmDFQpwPWzDA=
+X-Google-Smtp-Source: ABdhPJxcq/9sIBbo1oNHzb+12fxkefXkAK1GnD8rSXHhUSRuT2D+e9DMiO9QidG1zcE7gyv9N+BoqQ==
+X-Received: by 2002:a2e:b605:: with SMTP id r5mr12033036ljn.283.1630150648852;
+        Sat, 28 Aug 2021 04:37:28 -0700 (PDT)
+Received: from kari-VirtualBox (87-95-21-3.bb.dnainternet.fi. [87.95.21.3])
+        by smtp.gmail.com with ESMTPSA id n19sm856205lfu.68.2021.08.28.04.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 04:37:00 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sat, 28 Aug 2021 04:37:28 -0700 (PDT)
+Date: Sat, 28 Aug 2021 14:37:26 +0300
+From: Kari Argillander <kari.argillander@gmail.com>
+To: Aakash Hemadri <aakashhemadri123@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	Martin Kaiser <martin@kaiser.cx>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Aakash Hemadri <aakashhemadri123@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v5] staging: r8188eu: Remove _enter/_exit_critical_mutex()
-Date: Sat, 28 Aug 2021 13:36:56 +0200
-Message-Id: <20210828113656.6963-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.32.0
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] staging: r8188eu: incorrect type in
+ csum_ipv6_magic
+Message-ID: <20210828113726.v4tmknjosvgb7bke@kari-VirtualBox>
+References: <cover.1630148641.git.aakashhemadri123@gmail.com>
+ <0b7d6e92c79a6daf55a0c3a4961df6f33a9bcf37.1630148641.git.aakashhemadri123@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0b7d6e92c79a6daf55a0c3a4961df6f33a9bcf37.1630148641.git.aakashhemadri123@gmail.com>
 
-Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
-unnecessary wrappers, respectively to mutex_lock_interruptible() and
-to mutex_unlock(). They also have an odd interface that takes an unused
-argument named pirqL of type unsigned long.
-The original code enters the critical section if the mutex API is
-interrupted while waiting to acquire the lock; therefore it could lead
-to a race condition. Use mutex_lock() because it is uninterruptible and
-so avoid that above-mentioned potential race condition.
+[PATCH v5 2/3] staging: r8188eu: incorrect type in csum_ipv6_magic
 
-Tested-by: Pavel Skripkin <paskripkin@gmail.com>
-Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+Subject should start with imperative mood. Every patch in this series
+needs this fix.
 
-v5: Fix a typo in the subject line. Reported by Aakash Hemadri.
+I actually check linux coding style and did not found mention about
+this, but if you look kernel log then you see that it is at least
+unwritten rule. You can check this if you want
+https://chris.beams.io/posts/git-commit/#imperative
 
-v4: Tested and reviewed by Pavel Skripkin. No changes to the code.
-
-v3: Assume that the original authors don't expect that
-mutex_lock_interruptible() can be really interrupted and then lead to 
-a potential race condition. Furthermore, Greg Kroah-Hartman makes me
-notice that "[] one almost never needs interruptable locks in a driver".
-Therefore, replace the calls to mutex_lock_interruptible() with calls to
-mutex_lock() since the latter is uninterruptible and avoid race
-conditions without the necessity to handle -EINTR errors.
-
-v2: Ignore return values from Mutexes API because the original authors
-don't check and manage return errors from mutex_lock_interruptible(). 
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c     |  4 ++--
- drivers/staging/r8188eu/hal/usb_ops_linux.c     |  4 ++--
- drivers/staging/r8188eu/include/osdep_service.h | 13 -------------
- drivers/staging/r8188eu/os_dep/os_intfs.c       |  4 ++--
- 4 files changed, 6 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 5a472a4954b0..3df02bd0db89 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -4359,7 +4359,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
- 	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
- 		return -1;
- 
--	_enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
-+	mutex_lock(&pxmitpriv->ack_tx_mutex);
- 	pxmitpriv->ack_tx = true;
- 
- 	pmgntframe->ack_report = 1;
-@@ -4368,7 +4368,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
- 	}
- 
- 	pxmitpriv->ack_tx = false;
--	_exit_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
-+	mutex_unlock(&pxmitpriv->ack_tx_mutex);
- 
- 	return ret;
- }
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 0cf69033c529..065b0d8e030a 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -29,7 +29,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 		goto exit;
- 	}
- 
--	_enter_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
-+	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
- 
- 	/*  Acquire IO memory for vendorreq */
- 	pIo_buf = dvobjpriv->usb_vendor_req_buf;
-@@ -92,7 +92,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 			break;
- 	}
- release_mutex:
--	_exit_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
-+	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
- exit:
- 	return status;
- }
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 029aa4e92c9b..bb92b9d74bd7 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -56,19 +56,6 @@ static inline struct list_head *get_list_head(struct __queue *queue)
- 	return (&(queue->queue));
- }
- 
--static inline int _enter_critical_mutex(struct mutex *pmutex, unsigned long *pirqL)
--{
--	int ret;
--
--	ret = mutex_lock_interruptible(pmutex);
--	return ret;
--}
--
--static inline void _exit_critical_mutex(struct mutex *pmutex, unsigned long *pirqL)
--{
--		mutex_unlock(pmutex);
--}
--
- static inline void rtw_list_delete(struct list_head *plist)
- {
- 	list_del_init(plist);
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 8d0158f4a45d..6821dcdf1523 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -1062,9 +1062,9 @@ int netdev_open(struct net_device *pnetdev)
- 	int ret;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(pnetdev);
- 
--	_enter_critical_mutex(padapter->hw_init_mutex, NULL);
-+	mutex_lock(padapter->hw_init_mutex);
- 	ret = _netdev_open(pnetdev);
--	_exit_critical_mutex(padapter->hw_init_mutex, NULL);
-+	mutex_unlock(padapter->hw_init_mutex);
- 	return ret;
- }
- 
--- 
-2.32.0
-
+On Sat, Aug 28, 2021 at 04:40:45PM +0530, Aakash Hemadri wrote:
+> Fix sparse warning:
+> > rtw_br_ext.c:771:84:    got restricted __be16 [usertype] payload_len
+> > rtw_br_ext.c:773:110: warning: incorrect type in argument 2
+>     (different base types)
+> > rtw_br_ext.c:773:110:    expected int len
+> > rtw_br_ext.c:773:110:    got restricted __be16 [usertype] payload_len
+> 
+> csum_ipv6_magic and csum_partial expect int len not __be16, use
+> be16_to_cpu()
+> 
+> Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index aa56cd1a8490..38f1bd591da9 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -615,9 +615,9 @@ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method)
+>  						struct icmp6hdr  *hdr = (struct icmp6hdr *)(skb->data + ETH_HLEN + sizeof(*iph));
+>  						hdr->icmp6_cksum = 0;
+>  						hdr->icmp6_cksum = csum_ipv6_magic(&iph->saddr, &iph->daddr,
+> -										iph->payload_len,
+> +										be16_to_cpu(iph->payload_len),
+>  										IPPROTO_ICMPV6,
+> -										csum_partial((__u8 *)hdr, iph->payload_len, 0));
+> +										csum_partial((__u8 *)hdr, be16_to_cpu(iph->payload_len), 0));
+>  					}
+>  				}
+>  			}
+> -- 
+> 2.32.0
+> 
