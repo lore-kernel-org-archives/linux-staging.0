@@ -1,55 +1,50 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858FB72
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 08:45:31 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id d17so5592155plr.12
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 01:45:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0AF72
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 08:50:20 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id y23so8258684pgi.7
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 01:50:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=mj2fJEfaUbBANZczs67LmtlLb+z0I2pfGwPFTif1uss=;
-        b=a5U8orWsTW9nmja3DLUQLHRrt6u268wBDqykSLZLkcWxzmf0S2objaM9mRyzqL/+XL
-         OpQPm6anCzlcOsxblKlapb2pmWERlwqiM/S42+2thugh77Go5FjGj1UlLsTht6o1vXYI
-         enAD4Jou6qZN7IWDWSrhxIUziJujyN2FbY6mPMi0RX6BrZ8iMl3bFgDiosPzmGcgJfmS
-         711fQo5SiQcDSdZdYfJLMM3ZW9sVqp0KBrhj/EQr425C5v1x9wPLMHOSmbtDcjv9uTny
-         45EdZvoCJ4xZX6LesPrksUzYuC7MueSvjlSNTm07e6raNNpOGRNLe/J6uh9M1JGo+m6a
-         pAWw==
+        bh=X/1S2Gl51kTwRIc4I7gdOAuHqJXlOOyNqmUcc/x8ic8=;
+        b=AiC1ReYxlFXJF9uWSLkW8Q39/md/6MGcwt0oySlCQTZ6r9YJ1CSbzwDC4pVINYyd7M
+         IjN0b+e0p61+Y9f+OGurS189ilQSNQhCvEp+uGhTmhhQorArsFIW0GFpxMpRJy375Qdp
+         2qxGVH9D/D1vKX3HuY9puc0FF1FoMS2/PS5QUn39K2TZaf2rwqsHVyWUswGqPQVxUeek
+         3Bk+Q3rj+38Is1wUlkGrAfWm2J8q3xVII9+WL2YXqe028S9Rp9y3IldsIt5/EKyEV0KU
+         w0KTQfu/3qlLDbWn1GzF8B9qkvIJxGXGfzoYsebdFHs3hAWRO+tJc1ORXdzgUvieLQi8
+         tmTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mj2fJEfaUbBANZczs67LmtlLb+z0I2pfGwPFTif1uss=;
-        b=jQ0gMwUz+yHehN9g41bOGXT/xl4okB0QYjbT3lkJAWeyD84bXtdCMzQW6tSmxmoIwv
-         N5L3wD6JFboNjPWgCjaFMiV6SV16pOE8Cnm09yci900AuTqP0n6tO4h4SrqdnJkfIbls
-         KI0z0Vup0Yy8NBB2V2Iyq7/s1eQnxt9hgbPOIg60N4iTzLdbVPLBEz9UFRCEJqsDS+HD
-         wEFi8QHFaaJA2oucLmiZuict6O7DxrRWulCC11hODNiXLASjQt5HwHcuU0blLXfhZXeB
-         z8to6+qzAEh+/fk5rr9/HzTLx4KYhXKqBtZgA1xUsAA+5YQLxSwqeLLMFp2mngsKBryt
-         Ohww==
-X-Gm-Message-State: AOAM530dIdcijGS77gHnbef2eJUOnMwI0zQ5ApsyvWWz2oSRXNpDkJsf
-	vI4NpE1f5moEvniv4lSkDR/LQy1xfi2lWA==
-X-Google-Smtp-Source: ABdhPJyuWKjgRpdDqPoc221JsZzAUhi9aYvdY1P3sSv0Dmbcho5r8FvZ2OQZBnoXHyGrbXWeZAFuig==
-X-Received: by 2002:a17:90a:1957:: with SMTP id 23mr14936632pjh.141.1630140330967;
-        Sat, 28 Aug 2021 01:45:30 -0700 (PDT)
+        bh=X/1S2Gl51kTwRIc4I7gdOAuHqJXlOOyNqmUcc/x8ic8=;
+        b=QAI7h7Wy8CmxyE395aOoVFcHg1RyIVK1zFeKKKnKGaThn9gmLx6RnbWQqpmRRMlhdm
+         LBNkf2tpqMStNuLkJipuyLnWnJcprevBRB+/MTh6eV2L/Y7f9WWoOSd/g4RydJfqAAVt
+         N5dKJhVyqjlJ63q8utW6KrCb2NyGmvHSBs3zp4658rln1E59hdaF2NT5Y4n4tCQ8GlhQ
+         aWbbJSuiWSJ4JXrACN+ECSB4AQdg4GhM2q11ayYcVWnmv/Ctgwiko647Ds+6zW6GgR2L
+         mogNGlP9yY+V6KmsEnEKhvheMRxafTgScPEDfCdEEXSWRNoNzRD5f6d14LNMbSn9i2mP
+         aqhA==
+X-Gm-Message-State: AOAM531I5hCQ4D87RtUVQMOzgPguwmJAFZXP07rt3SzlSsQrag+YfBu3
+	blYR4GOIUNBB8wSNCRehwNE=
+X-Google-Smtp-Source: ABdhPJw/1VmJdb1PVKw9B03+c7Tplv3F6dHN+AMBwSpWXg5IhaIyH60DjsQBkmJOPbO9k6UofNtejQ==
+X-Received: by 2002:a63:cd4e:: with SMTP id a14mr11352157pgj.429.1630140619946;
+        Sat, 28 Aug 2021 01:50:19 -0700 (PDT)
 Received: from localhost ([49.206.124.188])
-        by smtp.gmail.com with ESMTPSA id r3sm8280120pff.119.2021.08.28.01.45.30
+        by smtp.gmail.com with ESMTPSA id i11sm9557119pgo.25.2021.08.28.01.50.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 01:45:30 -0700 (PDT)
-Date: Sat, 28 Aug 2021 14:15:28 +0530
+        Sat, 28 Aug 2021 01:50:19 -0700 (PDT)
+Date: Sat, 28 Aug 2021 14:20:17 +0530
 From: Aakash Hemadri <aakashhemadri123@gmail.com>
-To: David Laight <David.Laight@aculab.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 3/5] staging: r8188eu: incorrect type in
- csum_ipv6_magic
-Message-ID: <20210828084528.gbkqcgqaaf3adyb7@xps.yggdrasil>
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/5] staging: r8188eu: fix sparse warnings
+Message-ID: <20210828085017.d5l63yrxkaxqgpgu@xps.yggdrasil>
 References: <cover.1629563318.git.aakashhemadri123@gmail.com>
- <392082864befe91bb03d16ff7ca5e57ba2a8e549.1629563318.git.aakashhemadri123@gmail.com>
- <f2ab21eab23c4863b1b5c004a75d834d@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,28 +53,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f2ab21eab23c4863b1b5c004a75d834d@AcuMS.aculab.com>
+In-Reply-To: <cover.1629563318.git.aakashhemadri123@gmail.com>
 
-On 21/08/25 09:23AM, David Laight wrote:
-> From: Aakash Hemadri
-> > Sent: 23 August 2021 18:00
-> > 
-> > Fix sparse warning:
-> > > rtw_br_ext.c:771:84:    got restricted __be16 [usertype] payload_len
-> > > rtw_br_ext.c:773:110: warning: incorrect type in argument 2
-> >     (different base types)
-> > > rtw_br_ext.c:773:110:    expected int len
-> > > rtw_br_ext.c:773:110:    got restricted __be16 [usertype] payload_len
-> > 
-> > csum_ipv6_magic and csum_partial expect int len not __be16, use
-> > be16_to_cpu()
+On 21/08/23 10:30PM, Aakash Hemadri wrote:
+> Hi,
+> 	This patch series fixes some sparse warnings in rtw_br_ext.c
 > 
-> This is a behaviour change on LE systems.
-> Even if you are testing on BE the commit message should say
-> that it fixes the length passed to the checksum code and
-> was detected by sparse.
+> Changes in v3 -> v4
+> - Added this changelog, as requested by Greg's patch bot
 > 
+> Changes in v2 -> v3
+> - Fixed incorrect usage/removal of endian swaps and checks
+> 
+> Changes in v1 -> v2
+> - Split patch
+> 
+> Aakash Hemadri (5):
+>   staging: r8188eu: restricted __be16 degrades to int
+>   staging: r8188eu: cast to restricted __be32
+>   staging: r8188eu: incorrect type in csum_ipv6_magic
+>   staging: r8188eu: restricted __be16 degrades to int
+>   staging: r8188eu: incorrect type in assignment
+> 
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> 
+> base-commit: 093991aaadf0fbb34184fa37a46e7a157da3f386
+> -- 
+> 2.32.0
+>
 
-Thanks for the note david.
+Hello greg, if there are any issues with the patchset do let me know,
+Larry & Philip acked the previous ver of this patch.
+
+I'd rather not add noise to the ml unnecessarily.
+Also this patchset doesn't apply cleanly to the current staging-testing
+I can resend fixing that if that's the issue.
 
 -Aakash
