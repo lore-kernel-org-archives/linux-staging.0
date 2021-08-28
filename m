@@ -1,180 +1,134 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BB23FC1
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:51:15 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id t19so19592906ejr.8
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:51:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EE93FC1
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:56:39 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id c17so8492506pgc.0
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SNbkArJuVW1U/9UsLn22xFD8rY/NWVqQGTsS5KyA2eQ=;
-        b=LBgEpmRyftq+0A6Q+XSJiDIc08hduuhCKzSQLUkTL3AXqpaVTLvCq6IdhSPZMhDN3u
-         q1Y1Fpik9GSUIaHXOUP6oHTDOzby3yohtPwSGnyGUESJeWfXZhpclbGev0TX/M0vbPL8
-         MNzk+NlhgPujhAxngklqGk5VUZv0DNo1MgCOmmypDox8fsqX1FKgriHlK5cl/ppch3Mn
-         m4/1fP422rl7vblxnngoZZZStk8LSSyp6CVxymiPYLB3byEe+Ur4kDVYwPYN7McAefP6
-         fpZodN68tvSmfracTGpK8izlUxcSAf3gH6od+aCqUXaowzXOOgTSpW/xrDMH5l4w/qkZ
-         RtAA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=sg5nAiaktCH38kYoHhjO0RsLxXlGtuWfNhh8m5dH40k=;
+        b=vIGFq/nkRjCbY+xdM6fhuIyFFJR7xNAZQuNAe8vpgD2rGr0gDiJDw0CEV68KGs6v7a
+         h9ZyirGIui/6a71WPUcq290J8Hs2UewJyXy2xZ2WwVWYENYmAIKpuXluqThrOFt5XSwG
+         sc9paQuTPUvsGPFRy1GlVALaHkOpqStmUCOHErevzA170p8UEpap+8doeorOxuVdDL6s
+         7uxQYjEEl1xxqh75HJizVBwyrOytqKs6g2uPD/yTu5TCiZyEcnybqYCiNpwRRG+tShfi
+         q4z/w0DEBvNc3NBKB+geTNbEUPv1DloTMNT2GezPYFPmtJEiCPTK9fZlMyB0vBAQloWn
+         oFRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SNbkArJuVW1U/9UsLn22xFD8rY/NWVqQGTsS5KyA2eQ=;
-        b=eo03OLw1fNLA39va6jLWUN9YRnrvuLkvhLVxU3JJ1gugr2f8cZ+ondRj5OZjqAVxs+
-         TgCpAU0Kfxb44o2GZ+oAYib/qfAgJMlnd7Wj9k0L2yfODFiR2RELZoKv2t3FXXk6N+Ur
-         0wq7A+q5AJWix6pH0ziIHpGTqv13sGUJSGsiPo4DsWjJkhTXK2xqKHzIhAwaw+p9WcXH
-         1J7BDDtCvm5cnO4PUjyOs79NyiPqMxDgLF0qgGU+dv0ENfTRLpRUKKry4ZzJMxdNpZLX
-         HG+/g/LPlU4my1XiP6NRjvugScTI/rTCqqwhFKfmaTsA7r7cFoE6hiuUSyHWQiyE/bBf
-         q+AQ==
-X-Gm-Message-State: AOAM533SRF9MyF9BTmToSqa2wwoYx3Idql+fNMmFMOr5hh/6ylEpJYTy
-	W3YoI0LtszTRjEO/F2tglcT5JBMyE1E=
-X-Google-Smtp-Source: ABdhPJzkjjbmjeyAq80tmc0414DsD2cBAnD11se3XoEVLKuszIQEmmwEU+C/6BIQq/uiMJ0TUgnKoA==
-X-Received: by 2002:a17:906:6994:: with SMTP id i20mr14600828ejr.145.1630147874048;
-        Sat, 28 Aug 2021 03:51:14 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id qt23sm4107542ejb.26.2021.08.28.03.51.12
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=sg5nAiaktCH38kYoHhjO0RsLxXlGtuWfNhh8m5dH40k=;
+        b=JNTXQGNzLKMcY+ztjraLV5scF7AQZgTdnYkPX+90urklE4sCmguRzRN8RX8GOvY8Of
+         nTeY6AU7lPB0ZuskroqtvZlc9O1LtcdCrioc4jZ0FxmAjV+lFGuxWBNv3zVCSVDaF1YT
+         c97RdXzp6xDx4GQIjXBwvWuOzvEGBQMH88nR/EgHwzRfaYaNnc6YBkxOnp2i5NSX4bdz
+         YgwDPpvZq2rbw9TTM9oNilPfsbJCshD13htld5qq3E9fL3c9Xb1/PiEe6kFvVQF4n3t0
+         64xfu8YrIwIlE6UdPzkQSiYmJYF0moIcIEoziBzjGjCk3XYtLQ1PXVygB+w9JNOtDrYW
+         CUEA==
+X-Gm-Message-State: AOAM530vPlb3jir8DYl0JJ1HcBfK9FtnimkdJ1s6DUUCAWFhQWWo6LCO
+	ko3oRYP2Qx+A6Djc2HvQeJpHL28eN1LtMw==
+X-Google-Smtp-Source: ABdhPJwtVWlZgKQWyIWMN62OlqGOn+xHS6RFTqHwF3WuY/Tdqr3ODww0gmIOhF76b6eNtLiDn+/7MQ==
+X-Received: by 2002:a65:6648:: with SMTP id z8mr11978095pgv.418.1630148198879;
+        Sat, 28 Aug 2021 03:56:38 -0700 (PDT)
+Received: from localhost.localdomain (125-237-24-95-adsl.sparkbb.co.nz. [125.237.24.95])
+        by smtp.gmail.com with ESMTPSA id 10sm9616470pjc.41.2021.08.28.03.56.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 03:51:13 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Martin Kaiser <martin@kaiser.cx>,
-	Michael Straube <straube.linux@gmail.com>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
+        Sat, 28 Aug 2021 03:56:38 -0700 (PDT)
+Date: Sat, 28 Aug 2021 22:56:33 +1200
+From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hello@bryanbrattlof.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCHi v4] staging: r8188eu: Remove _enter/_exit_critical_mutex()
-Date: Sat, 28 Aug 2021 12:51:09 +0200
-Message-Id: <20210828105109.5776-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.32.0
+Subject: [PATCH v2] staging: pi433: fix docs typos and references to previous
+ struct names
+Message-ID: <20210828105633.GA8421@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
-unnecessary wrappers, respectively to mutex_lock_interruptible() and
-to mutex_unlock(). They also have an odd interface that takes an unused
-argument named pirqL of type unsigned long.
-The original code enters the critical section if the mutex API is
-interrupted while waiting to acquire the lock; therefore it could lead
-to a race condition. Use mutex_lock() because it is uninterruptible and
-so avoid that above-mentioned potential race condition.
+In the comments there where some grammar mistakes and references to
+struct names that have gotten renamed over time but not updated
+in the comments.
 
-Tested-by: Pavel Skripkin <paskripkin@gmail.com>
-Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
 ---
+v2: revert identation that had been applied to the author's name (Req:
+Greg k-h)
+v1: https://lore.kernel.org/lkml/20210828000836.GA10188@localhost.localdomain/
+---
+ drivers/staging/pi433/pi433_if.h | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-v4: Tested and reviewed by Pavel Skripkin. No changes to the code.
-
-v3: Assume that the original authors don't expect that
-mutex_lock_interruptible() can be really interrupted and then lead to 
-a potential race condition. Furthermore, Greg Kroah-Hartman makes me
-notice that "[] one almost never needs interruptable locks in a driver".
-Therefore, replace the calls to mutex_lock_interruptible() with calls to
-mutex_lock() since the latter is uninterruptible and avoid race
-conditions without the necessity to handle -EINTR errors.
-
-v2: Ignore return values from Mutexes API because the original authors
-don't check and manage return errors from mutex_lock_interruptible(). 
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c     |  4 ++--
- drivers/staging/r8188eu/hal/usb_ops_linux.c     |  4 ++--
- drivers/staging/r8188eu/include/osdep_service.h | 13 -------------
- drivers/staging/r8188eu/os_dep/os_intfs.c       |  4 ++--
- 4 files changed, 6 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 5a472a4954b0..3df02bd0db89 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -4359,7 +4359,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
- 	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
- 		return -1;
+diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
+index d5c1521192c1..855f0bebdc1c 100644
+--- a/drivers/staging/pi433/pi433_if.h
++++ b/drivers/staging/pi433/pi433_if.h
+@@ -5,14 +5,13 @@
+  * userspace interface for pi433 radio module
+  *
+  * Pi433 is a 433MHz radio module for the Raspberry Pi.
+- * It is based on the HopeRf Module RFM69CW. Therefore inside of this
+- * driver, you'll find an abstraction of the rf69 chip.
++ * It is based on the HopeRf Module RFM69CW. Therefore, inside of this
++ * driver you'll find an abstraction of the rf69 chip.
+  *
+- * If needed, this driver could be extended, to also support other
+- * devices, basing on HopeRfs rf69.
++ * If needed this driver could also be extended to support other
++ * devices based on HopeRf rf69 as well as HopeRf modules with a similar
++ * interface such as RFM69HCW, RFM12, RFM95 and so on.
+  *
+- * The driver can also be extended, to support other modules of
+- * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
+  * Copyright (C) 2016 Wolf-Entwicklungen
+  *	Marcus Wolf <linux@wolf-entwicklungen.de>
+  */
+@@ -33,8 +32,8 @@ enum option_on_off {
+ /* IOCTL structs and commands */
  
--	_enter_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
-+	mutex_lock(&pxmitpriv->ack_tx_mutex);
- 	pxmitpriv->ack_tx = true;
+ /**
+- * struct pi433_tx_config
+- * describes the configuration of the radio module for sending
++ * struct pi433_tx_cfg
++ * describes the configuration of the radio module for sending data
+  * @frequency:
+  * @bit_rate:
+  * @modulation:
+@@ -46,7 +45,7 @@ enum option_on_off {
+  * @repetitions:
+  *
+  * ATTENTION:
+- * If the contents of 'pi433_tx_config' ever change
++ * If the contents of 'pi433_tx_cfg' ever change
+  * incompatibly, then the ioctl number (see define below) must change.
+  *
+  * NOTE: struct layout is the same in 64bit and 32bit userspace.
+@@ -81,8 +80,8 @@ struct pi433_tx_cfg {
+ };
  
- 	pmgntframe->ack_report = 1;
-@@ -4368,7 +4368,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
- 	}
- 
- 	pxmitpriv->ack_tx = false;
--	_exit_critical_mutex(&pxmitpriv->ack_tx_mutex, NULL);
-+	mutex_unlock(&pxmitpriv->ack_tx_mutex);
- 
- 	return ret;
- }
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 0cf69033c529..065b0d8e030a 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -29,7 +29,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 		goto exit;
- 	}
- 
--	_enter_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
-+	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
- 
- 	/*  Acquire IO memory for vendorreq */
- 	pIo_buf = dvobjpriv->usb_vendor_req_buf;
-@@ -92,7 +92,7 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 			break;
- 	}
- release_mutex:
--	_exit_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
-+	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
- exit:
- 	return status;
- }
-diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-index 029aa4e92c9b..bb92b9d74bd7 100644
---- a/drivers/staging/r8188eu/include/osdep_service.h
-+++ b/drivers/staging/r8188eu/include/osdep_service.h
-@@ -56,19 +56,6 @@ static inline struct list_head *get_list_head(struct __queue *queue)
- 	return (&(queue->queue));
- }
- 
--static inline int _enter_critical_mutex(struct mutex *pmutex, unsigned long *pirqL)
--{
--	int ret;
--
--	ret = mutex_lock_interruptible(pmutex);
--	return ret;
--}
--
--static inline void _exit_critical_mutex(struct mutex *pmutex, unsigned long *pirqL)
--{
--		mutex_unlock(pmutex);
--}
--
- static inline void rtw_list_delete(struct list_head *plist)
- {
- 	list_del_init(plist);
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 8d0158f4a45d..6821dcdf1523 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -1062,9 +1062,9 @@ int netdev_open(struct net_device *pnetdev)
- 	int ret;
- 	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(pnetdev);
- 
--	_enter_critical_mutex(padapter->hw_init_mutex, NULL);
-+	mutex_lock(padapter->hw_init_mutex);
- 	ret = _netdev_open(pnetdev);
--	_exit_critical_mutex(padapter->hw_init_mutex, NULL);
-+	mutex_unlock(padapter->hw_init_mutex);
- 	return ret;
- }
- 
+ /**
+- * struct pi433_rx_config
+- * describes the configuration of the radio module for sending
++ * struct pi433_rx_cfg
++ * describes the configuration of the radio module for receiving data
+  * @frequency:
+  * @bit_rate:
+  * @modulation:
+@@ -94,7 +93,7 @@ struct pi433_tx_cfg {
+  * @repetitions:
+  *
+  * ATTENTION:
+- * If the contents of 'pi433_rx_config' ever change
++ * If the contents of 'pi433_rx_cfg' ever change
+  * incompatibly, then the ioctl number (see define below) must change
+  *
+  * NOTE: struct layout is the same in 64bit and 32bit userspace.
 -- 
-2.32.0
+2.25.4
 
