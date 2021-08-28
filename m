@@ -1,98 +1,91 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3359972
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:13:47 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id m18so5840011lfl.10
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:13:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7744672
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:18:33 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id bt14so19528415ejb.3
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7h+WubBbM0HNO31JZ6P6oW4fOf4+jDWFF9hWKBluJfY=;
-        b=mvQL/Pd2HScrwbX0OBzMm+G8PH5lhZTi4r4FhI7aVY4HoYl/6RCmb28AjOTM/5QJdJ
-         QnF4o3G6pzJrZzjSikPM6+XesUSJXVW1SACqy07KUm/UUmFpILi9SIW8BWQL8nB5dQKC
-         hdIVjZfnzcssYY6Eq0yGOhdIVzgzDGJ42xHEWEeBnG7tym0GGp5D0G19rnPrYecC1mTC
-         vS7K5Fmkk8cBW78Q6lyVOMiy7lPm2383mBfb1oC4N/XnGYaPPEWaf0eOU1AFrQKddNwb
-         igcXMYXDpD8vs5NHQy8i6UGrrwjbrfB3iTMXc62Dz9dBafPsfk3WJo8yviTCPSe0GhF4
-         vTKg==
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=ufnHtNbrqJITLW1O1XY2r37rNsuwUTovBEX/kbd4pw8=;
+        b=JIQdNctE7m3CdWbbAXZNEThDl3hx2mmwVhfwPFIVcoFFXmiW08dFS4G+T+5f/v7etV
+         fKf0biP29eXfRr7/kz98g6IJoJpbbduuYDyTsvzDaRBnoTq0BfU3Hi6QLCG6QGgAYL/x
+         6Wiln33YawD0ge2Em2bfUJBDb2Yx31LURtkvV/yV1t79mjUAxf9EbfjOeFPjInTuXJup
+         Xnxf21np+s01uPrDK/+9OCF2KQNPd5RtkL7AHtlWGF/M6tAvfGnBwEYrTIiUQlshn9hM
+         7VFkEjJa05s/RsCgFXn/P37yn+4I0qEUnvpOCdqHHBkbw/iA+VvyY8dwwkKXFnr34K78
+         sb7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7h+WubBbM0HNO31JZ6P6oW4fOf4+jDWFF9hWKBluJfY=;
-        b=LSy7VQeEnne+3SFlrSK3JXXS0du80eabPQPi/QZm2mAy+RMa0nZoU4pAqcLV0C8x2z
-         djgRgr/mtmLU8/C4d3dvKbbFh6fTCVJRJScKNfLry2DVomHezXTfsfbKpLkp+ZZbJYNB
-         L9jLE3zup6CVQMFc52Gvfu7Vu6xRpkzpHvZahBft6OBeDZ3W40MFo7NFgb7mHxVjlkNH
-         KKYJqQvbPI6/IokXcpmlxQ4o8zZVvmwPVLOG86sEfGwfRaKKv63WTSp5FP0WKqKeHGuc
-         PEDEH0LexVBODu65+J85F0g55OkNeImT8/A8rpTaoc3C11V2rJIS8L4sblQuliLItg3U
-         nn/w==
-X-Gm-Message-State: AOAM530g7Y9LNI7duBthm+SN7DbzHoH6eSMVzA139z0U4xIdXA5rwZGl
-	8O1O7yFUycVROME7/+B3UMI=
-X-Google-Smtp-Source: ABdhPJyqidQ8uHqebw51IZD4d3VGpShDLbzvk/g25Xgfe27FS5yBIz24luNn5mnpUzytXhlP9Y+CqA==
-X-Received: by 2002:a05:6512:e88:: with SMTP id bi8mr10181517lfb.328.1630145625141;
-        Sat, 28 Aug 2021 03:13:45 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.229.213])
-        by smtp.gmail.com with ESMTPSA id r8sm998939ljc.7.2021.08.28.03.13.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Aug 2021 03:13:44 -0700 (PDT)
-Subject: Re: [PATCH] staging: r8188eu: add extra TODO entries
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, fabioaiuto83@gmail.com, fmdefrancesco@gmail.com
-References: <20210828000231.1458-1-phil@philpotter.co.uk>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <4ed7a185-0be2-82cb-5460-73a3e27cd6e7@gmail.com>
-Date: Sat, 28 Aug 2021 13:13:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ufnHtNbrqJITLW1O1XY2r37rNsuwUTovBEX/kbd4pw8=;
+        b=ZNjOXpWMyfyzdD6+qlhd08nGYh4WaPkPaF6prgUSNNlAFQes4FbAia+37RKpcZgaDG
+         v1qM/jAXWRAGZxxIzOLmdEKObQ3SHtBT6rA4ZXbqu7deIR2D5fvfbrOsthuKsXszk2gH
+         OYRpCzVawuZ4KWD/k7ytGtY2P1LFcz4cjn+yVpVxhhwCPMgvpSPcJRKwlMnZl+fwS13J
+         ev1eLePJCN82O0+9nGWWCLHZvUvduinCI3VG0R9JTtyxH1ZHjAafhnUYn8puKdEs9L6O
+         eQSSs6O0fvUYaxKwwN83qBkyv1w+vDxmnuuMDtMNTvJR8GjIv/3kGh/D4iaYZqMJgZUr
+         4inA==
+X-Gm-Message-State: AOAM530zFg1Avw6hZkOc4enWpsXL4fVjHd9HG7QsAINH4B+CMbXf36KH
+	szOXyyjERtndjBRY8AQcoRw=
+X-Google-Smtp-Source: ABdhPJx39cs05Co7SsOUxUHwlyG/4dLqxxVdTtPN0XVTrF3a4l9uq6Ac7U+BrGKDylg9YK11mRV9sQ==
+X-Received: by 2002:a17:906:f15:: with SMTP id z21mr14832346eji.177.1630145911893;
+        Sat, 28 Aug 2021 03:18:31 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id y10sm4579786eda.47.2021.08.28.03.18.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Aug 2021 03:18:31 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>, Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH v3] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+Date: Sat, 28 Aug 2021 12:18:29 +0200
+Message-ID: <3027220.c38WcS0Ceb@localhost.localdomain>
+In-Reply-To: <03d5fd25-7694-18ee-9e2f-7b4057117197@gmail.com>
+References: <20210819221241.31987-1-fmdefrancesco@gmail.com> <03d5fd25-7694-18ee-9e2f-7b4057117197@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210828000231.1458-1-phil@philpotter.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On 8/28/21 3:02 AM, Phillip Potter wrote:
-> Add entry for CFG80211 to reflect that it is currently being worked on
-> and is a desirable feature to have for this driver. Leave entries for
-> LIB80211 and MAC80211 in case anyone else wishes to work on them - they
-> can always be removed later, but MAC80211 in particular would certainly
-> be good to aim for. Also, include an entry for improving error handling,
-> as this is another goal of the cleanup effort.
+On Friday, August 27, 2021 4:32:22 PM CEST Pavel Skripkin wrote:
+> On 8/20/21 1:12 AM, Fabio M. De Francesco wrote:
+> > Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
+> > unnecessary wrappers, respectively to mutex_lock_interruptible() and
+> > to mutex_unlock(). They also have an odd interface that takes an unused
+> > argument named pirqL of type unsigned long.
+> > The original code enters the critical section if the mutex API is
+> > interrupted while waiting to acquire the lock; therefore it could lead
+> > to a race condition. Use mutex_lock() because it is uninterruptible and
+> > so avoid that above-mentioned potential race condition.
+> > 
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 > 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->   drivers/staging/r8188eu/TODO | 3 +++
->   1 file changed, 3 insertions(+)
+> Tested-by: Pavel Skripkin <paskripkin@gmail.com>
+> Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
 > 
-> diff --git a/drivers/staging/r8188eu/TODO b/drivers/staging/r8188eu/TODO
-> index 98f918480990..ab9d5d145b3b 100644
-> --- a/drivers/staging/r8188eu/TODO
-> +++ b/drivers/staging/r8188eu/TODO
-> @@ -11,3 +11,6 @@ To-do list:
->     the driver.
->   * Switch to use LIB80211.
->   * Switch to use MAC80211.
-> +* Switch to use CFG80211.
-> +* Improve the error handling of various functions, particularly those that use
-> +  existing kernel APIs.
+> Thanks!
 > 
+> 
+> With regards,
+> Pavel Skripkin
+> 
+Hi Pavel,
+
+Thanks very much for testing and reviewing my patch. As you know, Greg wanted
+it tested but I couldn't do that. I'll add your tags and send a v4 and I guess that now
+Greg will easily apply.
+
+Great help from you, thanks again :)
+
+Regards,
+
+Fabio
 
 
-Cool, I like it. There is one more extra task, but I will take care of 
-it. I hope. We need to delete dead proc code and move to sysfs. I have a 
-plan to finish this part until next weekends, but maybe it worth adding 
-to TODO.
-
-Thank you
 
 
-
-With regards,
-Pavel Skripkin
