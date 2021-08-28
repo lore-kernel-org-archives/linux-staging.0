@@ -1,134 +1,85 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58EE93FC1
-	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 10:56:39 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id c17so8492506pgc.0
-        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 03:56:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6D53FC1
+	for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 11:10:51 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so3722166pjc.3
+        for <linux-staging@lists.linux.dev>; Sat, 28 Aug 2021 04:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=sg5nAiaktCH38kYoHhjO0RsLxXlGtuWfNhh8m5dH40k=;
-        b=vIGFq/nkRjCbY+xdM6fhuIyFFJR7xNAZQuNAe8vpgD2rGr0gDiJDw0CEV68KGs6v7a
-         h9ZyirGIui/6a71WPUcq290J8Hs2UewJyXy2xZ2WwVWYENYmAIKpuXluqThrOFt5XSwG
-         sc9paQuTPUvsGPFRy1GlVALaHkOpqStmUCOHErevzA170p8UEpap+8doeorOxuVdDL6s
-         7uxQYjEEl1xxqh75HJizVBwyrOytqKs6g2uPD/yTu5TCiZyEcnybqYCiNpwRRG+tShfi
-         q4z/w0DEBvNc3NBKB+geTNbEUPv1DloTMNT2GezPYFPmtJEiCPTK9fZlMyB0vBAQloWn
-         oFRQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pNZVmSi+YWtBuE88PyktsWjMFwWCYEKdMAbg/wYXEfE=;
+        b=IRunIA7B/5B3xfhD3JS7Fkuv3bvMTk9oGvsIgFbrUh4JVQ5wViWrhvv3Kdw2YX6Jt4
+         Poa4uuDlGp906YUU6E4VbfRJU0AIPPA6PtlX3LLD6DW/yoEbL7SU/aZ2g7kWKprT7VDu
+         skFxuBow71CwcMuOVICIfZKo+dyXJV5tzkTdwF4eolrmgIvxzDvmRatADs3o31pa6Z71
+         nbCSCgslId63nUtAU1dO5Hks9z13QTHia6KuUK6dk2AguhlmR8WX8dfHD1swHgXJuIoK
+         GNQ3PDyyh/jG67JoZiBYsulRy4QrakALjlNGmGvTm4zdoMYft15+C/A/TNBUC1DZfkcd
+         gI0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=sg5nAiaktCH38kYoHhjO0RsLxXlGtuWfNhh8m5dH40k=;
-        b=JNTXQGNzLKMcY+ztjraLV5scF7AQZgTdnYkPX+90urklE4sCmguRzRN8RX8GOvY8Of
-         nTeY6AU7lPB0ZuskroqtvZlc9O1LtcdCrioc4jZ0FxmAjV+lFGuxWBNv3zVCSVDaF1YT
-         c97RdXzp6xDx4GQIjXBwvWuOzvEGBQMH88nR/EgHwzRfaYaNnc6YBkxOnp2i5NSX4bdz
-         YgwDPpvZq2rbw9TTM9oNilPfsbJCshD13htld5qq3E9fL3c9Xb1/PiEe6kFvVQF4n3t0
-         64xfu8YrIwIlE6UdPzkQSiYmJYF0moIcIEoziBzjGjCk3XYtLQ1PXVygB+w9JNOtDrYW
-         CUEA==
-X-Gm-Message-State: AOAM530vPlb3jir8DYl0JJ1HcBfK9FtnimkdJ1s6DUUCAWFhQWWo6LCO
-	ko3oRYP2Qx+A6Djc2HvQeJpHL28eN1LtMw==
-X-Google-Smtp-Source: ABdhPJwtVWlZgKQWyIWMN62OlqGOn+xHS6RFTqHwF3WuY/Tdqr3ODww0gmIOhF76b6eNtLiDn+/7MQ==
-X-Received: by 2002:a65:6648:: with SMTP id z8mr11978095pgv.418.1630148198879;
-        Sat, 28 Aug 2021 03:56:38 -0700 (PDT)
-Received: from localhost.localdomain (125-237-24-95-adsl.sparkbb.co.nz. [125.237.24.95])
-        by smtp.gmail.com with ESMTPSA id 10sm9616470pjc.41.2021.08.28.03.56.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pNZVmSi+YWtBuE88PyktsWjMFwWCYEKdMAbg/wYXEfE=;
+        b=fNkrMxmNueSNYVnzBaetUWJ//XZo/DFNUig0lbMqqtKagQzjxbCIwqzir3242UHh38
+         IjZZvC3qKhM10o8CDEXA+x98BYvtK0Q0JEmHnG36TtcHQfGcAOH+Hj32l9Cn6pTbiqcb
+         EKvgBpykO+GmgePGp73/btl2i39Hi4AXqvmDYbchyR6Jc58lmREIm12++/9Jl9Xt3vvR
+         qEm1xSEFefhyiqEIQCRfDL3OxIeBkleBLCSz+WcCoC0LRf/PByHfpuUGjubcEkZybrTx
+         ImKybvcaFzBQbaFr7J86MXxHjQrahQvIS5OTDCjUX091M75ectUbwJw+OPiktYC7/lVL
+         53zg==
+X-Gm-Message-State: AOAM532P6V0Uqr/VjQablLRym/r8YqDgVzK70B9n8gEvBgX9t/cYRcq0
+	AC6RPt8r9exK6kRb4gZvSFk=
+X-Google-Smtp-Source: ABdhPJzA/sBMojeYKMMn2KVby78V4f0kr3rQiPKJXWDWxqGrxD4YDMKFrRs5lgxo+tWXoop5fURxpw==
+X-Received: by 2002:a17:902:b58e:b0:136:7ca1:1334 with SMTP id a14-20020a170902b58e00b001367ca11334mr12904546pls.23.1630149051362;
+        Sat, 28 Aug 2021 04:10:51 -0700 (PDT)
+Received: from xps.yggdrasil ([49.206.124.188])
+        by smtp.gmail.com with ESMTPSA id y64sm10205379pgy.32.2021.08.28.04.10.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Aug 2021 03:56:38 -0700 (PDT)
-Date: Sat, 28 Aug 2021 22:56:33 +1200
-From: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hello@bryanbrattlof.com, linux-staging@lists.linux.dev,
+        Sat, 28 Aug 2021 04:10:51 -0700 (PDT)
+From: Aakash Hemadri <aakashhemadri123@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: pi433: fix docs typos and references to previous
- struct names
-Message-ID: <20210828105633.GA8421@localhost.localdomain>
+Subject: [PATCH v5 0/3] staging: r8188eu: fix sparse warnings
+Date: Sat, 28 Aug 2021 16:40:43 +0530
+Message-Id: <cover.1630148641.git.aakashhemadri123@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-In the comments there where some grammar mistakes and references to
-struct names that have gotten renamed over time but not updated
-in the comments.
+Hi,
+	This patch series fixes some sparse warnings in rtw_br_ext.c
 
-Signed-off-by: Paulo Miguel Almeida <paulo.miguel.almeida.rodenas@gmail.com>
----
-v2: revert identation that had been applied to the author's name (Req:
-Greg k-h)
-v1: https://lore.kernel.org/lkml/20210828000836.GA10188@localhost.localdomain/
----
- drivers/staging/pi433/pi433_if.h | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+Changes in v4 -> v5
+- Dropped two patches as they have already been fixed by Larry's changes
+to endian sensitive variables in `struct dhcpMessage`
 
-diff --git a/drivers/staging/pi433/pi433_if.h b/drivers/staging/pi433/pi433_if.h
-index d5c1521192c1..855f0bebdc1c 100644
---- a/drivers/staging/pi433/pi433_if.h
-+++ b/drivers/staging/pi433/pi433_if.h
-@@ -5,14 +5,13 @@
-  * userspace interface for pi433 radio module
-  *
-  * Pi433 is a 433MHz radio module for the Raspberry Pi.
-- * It is based on the HopeRf Module RFM69CW. Therefore inside of this
-- * driver, you'll find an abstraction of the rf69 chip.
-+ * It is based on the HopeRf Module RFM69CW. Therefore, inside of this
-+ * driver you'll find an abstraction of the rf69 chip.
-  *
-- * If needed, this driver could be extended, to also support other
-- * devices, basing on HopeRfs rf69.
-+ * If needed this driver could also be extended to support other
-+ * devices based on HopeRf rf69 as well as HopeRf modules with a similar
-+ * interface such as RFM69HCW, RFM12, RFM95 and so on.
-  *
-- * The driver can also be extended, to support other modules of
-- * HopeRf with a similar interace - e. g. RFM69HCW, RFM12, RFM95, ...
-  * Copyright (C) 2016 Wolf-Entwicklungen
-  *	Marcus Wolf <linux@wolf-entwicklungen.de>
-  */
-@@ -33,8 +32,8 @@ enum option_on_off {
- /* IOCTL structs and commands */
- 
- /**
-- * struct pi433_tx_config
-- * describes the configuration of the radio module for sending
-+ * struct pi433_tx_cfg
-+ * describes the configuration of the radio module for sending data
-  * @frequency:
-  * @bit_rate:
-  * @modulation:
-@@ -46,7 +45,7 @@ enum option_on_off {
-  * @repetitions:
-  *
-  * ATTENTION:
-- * If the contents of 'pi433_tx_config' ever change
-+ * If the contents of 'pi433_tx_cfg' ever change
-  * incompatibly, then the ioctl number (see define below) must change.
-  *
-  * NOTE: struct layout is the same in 64bit and 32bit userspace.
-@@ -81,8 +80,8 @@ struct pi433_tx_cfg {
- };
- 
- /**
-- * struct pi433_rx_config
-- * describes the configuration of the radio module for sending
-+ * struct pi433_rx_cfg
-+ * describes the configuration of the radio module for receiving data
-  * @frequency:
-  * @bit_rate:
-  * @modulation:
-@@ -94,7 +93,7 @@ struct pi433_tx_cfg {
-  * @repetitions:
-  *
-  * ATTENTION:
-- * If the contents of 'pi433_rx_config' ever change
-+ * If the contents of 'pi433_rx_cfg' ever change
-  * incompatibly, then the ioctl number (see define below) must change
-  *
-  * NOTE: struct layout is the same in 64bit and 32bit userspace.
+Changes in v3 -> v4
+- Added this changelog, as requested by Greg's patch bot
+
+Changes in v2 -> v3
+- Fixed incorrect usage/removal of endian swaps and checks
+
+Changes in v1 -> v2
+- Split patch
+
+Aakash Hemadri (3):
+  staging: r8188eu: restricted __be16 degrades to int
+  staging: r8188eu: incorrect type in csum_ipv6_magic
+  staging: r8188eu: incorrect type in assignment
+
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+
+base-commit: 4adb389e08c95fdf91995271932c59250ff0d561
 -- 
-2.25.4
+2.32.0
 
