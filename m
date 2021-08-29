@@ -1,41 +1,41 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A375D3FC8
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 17:56:41 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 79-20020a1c0452000000b002e6cf79e572so13075781wme.1
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 10:56:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A043772
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 18:07:34 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id g18so11520869wrc.11
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 11:07:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=L4EhJ3FPSzsKM7SEta7e07FUT7o8JEpBt1gE+sBpoJo=;
-        b=UPqpnhfVNWxVx1QcQPDCIvPoW2Z/Wg9+Dr0TcD1u3YDxeaSntck1CrYMd5EL3y+Vqk
-         h2VksJaiDHQdCdrLmBOJSafK/a/IziB7V5LlHOdnWjIJUf1ppwPrd+bIZmP5w9Rhv9u7
-         OYqaxTkRqkpQhPJehiDcarr1VHFW/dqzqFh+VUpWeBBVoP1yG49Edpz4VLN/bzVtVi+Y
-         xs4uCCigvDFBu6rRQI7/6M9DwtQupKWvwxp5bQPXqYYo33HhbISAvA8K5rarIveR5nl2
-         GWJ9fFzLKR8L+E0rBu/50eZPs7UHxlcPMZDuiKIaEt/8twlM+/UI6PARSnDU0stFdJFm
-         WuEQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W80P863IqQoCYgbdux1PZ7ouNu5e3TSJsyvPZDzXj30=;
+        b=D67gnxi/I3s5b0XFrfCwGR/U6wEiddqSAMJenEryXzKM44uQYjdLeAfypVxAB5R3vo
+         oL2wVVF15s4mPPsdNM17Zjx+pBVph/D7ubh2ERDolrOXQlG01zqjMzCUCYtSolrGdcqV
+         5Od2Oq26Qh7+H++x3jddMX8QiFf8Od8k14JjAagOybiBxlm6qvP/k7GNBmjvoH7p85Fk
+         1oRQR7qcUyNZx0T4hkn4Mf9ZrlzRrtErUXTkS5Ka0uFLzoPISKoHw1QZ/9RvNO74lhS8
+         ug0o74hiYbUPQXvSkdFZPIZ7XOOSCEibLhjX8VF3YHGIQuBPe6xD8MFMC/uA5st7ifcp
+         xaDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=L4EhJ3FPSzsKM7SEta7e07FUT7o8JEpBt1gE+sBpoJo=;
-        b=UqzBIDfsU76kcis3j3UbM+VGdrcSN6tL/fdC5M9461oRX+QE0lsfht2I7J3cyNFWfq
-         W/U3GpCdO737XJlkkcbLyHxWIWcOdxPSW+lj0JHIjYAugfWGIhUsZP3Uaz57TLQTUogH
-         +AiTe2Yi/LElYK2itvSyEuIzwwZdCGuLXVuT9N3fuA4aCRkxfPtc3KfUsagSVknI3jcZ
-         0t/g2yay/AhGo/FrolEfxCbpoxIEoAfUb/KuKuEgsZtI3L7D0id5If1AfwESH0eoOvoS
-         IRNs5RxL4zXbY1paiHWlZZarUXmcj7bbtX7+o+azaiseH1QFakSL55XuSY6frO9FCPz0
-         WLOw==
-X-Gm-Message-State: AOAM5304f2xYOlEaDClsvsZPMboIaCYdLV4ND+wPHLBRxvFCE9cPrlco
-	bvWrZL89Q3ZWj4WwzpKSgcs=
-X-Google-Smtp-Source: ABdhPJzlo1G1QoNBGoK8JLr8hi5vnDmctNqjiO91Tt6OJAThHLL1Yqy8Ss000Tm8oABFGc6ngZIIWw==
-X-Received: by 2002:a1c:25c7:: with SMTP id l190mr15218198wml.118.1630259800179;
-        Sun, 29 Aug 2021 10:56:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W80P863IqQoCYgbdux1PZ7ouNu5e3TSJsyvPZDzXj30=;
+        b=o1mJUjbhEMJFs/aSYIrq51pb3Loke4q1OR+lVsKaszvgdjlz33Mg5Qits7qJu1Lfg3
+         qZ5DoskYz9BwISId77oXTCUA6Ou1J4ZlTwqdCz4a6L1Yde3CJnoyggE9aicEOTse3Upa
+         j+hMBLHkYHFPM6z722eUXy79UkDXU0sdeXXd0KCk35TjITbfe8QmsDvxuNXt2bdYJXLz
+         uG+8+iqWtTEO2V37In1jHmeIQUf3vRpCDSQfq60uOuQPjBMzcbjY/Iw9rdPB3GktUAMN
+         VuifITYOxFC4mb7NbtZvLeypqmKEqD/okgxZbj65+J+neFEXVEUGvSIi/Q3cV1400xO8
+         Ptmw==
+X-Gm-Message-State: AOAM530mTXQFl620uR5jdck+6LGamchgsWqDSO2HdLCRm9LlFsoAAOKM
+	ZWM7cj0BkBnnN8JSK/BNS0I=
+X-Google-Smtp-Source: ABdhPJxyIb4rSQufcibs6Cvm1uGh+8GPBNrle3Cpi5SvC/7zWsj3Ywi4sHNP9N+wFSE+xwVQDKlh/g==
+X-Received: by 2002:a5d:4844:: with SMTP id n4mr21785676wrs.191.1630260453109;
+        Sun, 29 Aug 2021 11:07:33 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id k25sm13765256wrd.42.2021.08.29.10.56.39
+        by smtp.gmail.com with ESMTPSA id f7sm17124287wmh.20.2021.08.29.11.07.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Aug 2021 10:56:39 -0700 (PDT)
+        Sun, 29 Aug 2021 11:07:32 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,12 +45,10 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: refactor field of struct odm_rf_cal
-Date: Sun, 29 Aug 2021 19:56:24 +0200
-Message-Id: <20210829175624.5915-2-straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove unused constants from wifi.h
+Date: Sun, 29 Aug 2021 20:07:16 +0200
+Message-Id: <20210829180717.15393-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210829175624.5915-1-straube.linux@gmail.com>
-References: <20210829175624.5915-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,75 +57,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor the field IQKMatrixRegSetting of struct odm_rf_cal to be not
-an array. The driver is for chips that operate in the 2.4 GHz band only.
-So only the first element of the array is used and there is no need for
-an array.
+The constants WLAN_REASON_PWR_CAPABILITY_NOT_VALID and
+WLAN_REASON_SUPPORTED_CHANNEL_NOT_VALID defined in wifi.h
+are unused, remove them.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 12 ++++++------
- drivers/staging/r8188eu/include/odm.h        |  3 +--
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ drivers/staging/r8188eu/include/wifi.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 1b0e1e7307cd..6e0abaf58791 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -279,8 +279,8 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
+index 0b3fd94cea18..eb07ac9b8943 100644
+--- a/drivers/staging/r8188eu/include/wifi.h
++++ b/drivers/staging/r8188eu/include/wifi.h
+@@ -126,8 +126,6 @@ enum WIFI_REASON_CODE	{
+ #define WLAN_REASON_DISASSOC_STA_HAS_LEFT 8
+ #define WLAN_REASON_STA_REQ_ASSOC_WITHOUT_AUTH 9 */
+ /* IEEE 802.11h */
+-#define WLAN_REASON_PWR_CAPABILITY_NOT_VALID 10
+-#define WLAN_REASON_SUPPORTED_CHANNEL_NOT_VALID 11
  
- 				/* Adujst OFDM Ant_A according to IQK result */
- 				ele_D = (OFDMSwingTable[(u8)OFDM_index[0]] & 0xFFC00000) >> 22;
--				X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][0];
--				Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][1];
-+				X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][0];
-+				Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][1];
- 
- 				/*  Revse TX power table. */
- 				dm_odm->BbSwingIdxOfdm		= (u8)OFDM_index[0];
-@@ -314,8 +314,8 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
- 					ele_D = (OFDMSwingTable[(u8)OFDM_index[1]] & 0xFFC00000) >> 22;
- 
- 					/* new element A = element D x X */
--					X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][4];
--					Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][5];
-+					X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][4];
-+					Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][5];
- 
- 					if ((X != 0) && (*dm_odm->pBandType == ODM_BAND_2_4G)) {
- 						if ((X & 0x00000200) != 0)	/* consider minus */
-@@ -1182,8 +1182,8 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
- /* by sherry 20120321 */
- 	if (final_candidate < 4) {
- 		for (i = 0; i < IQK_Matrix_REG_NUM; i++)
--			dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][i] = result[final_candidate][i];
--		dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].bIQKDone = true;
-+			dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.Value[0][i] = result[final_candidate][i];
-+		dm_odm->RFCalibrateInfo.IQKMatrixRegSetting.bIQKDone = true;
- 	}
- 
- 	_PHY_SaveADDARegisters(adapt, IQK_BB_REG_92C, dm_odm->RFCalibrateInfo.IQK_BB_backup_recover, 9);
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index d9041ee576bb..7c8f082930dd 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -260,7 +260,6 @@ struct odm_rate_adapt {
- 
- #define AVG_THERMAL_NUM		8
- #define IQK_Matrix_REG_NUM	8
--#define IQK_Matrix_Settings_NUM	1+24+21
- 
- #define	DM_Type_ByFWi		0
- #define	DM_Type_ByDriver	1
-@@ -664,7 +663,7 @@ struct odm_rf_cal {
- 
- 	u8	ThermalValue_HP[HP_THERMAL_NUM];
- 	u8	ThermalValue_HP_index;
--	struct ijk_matrix_regs_set IQKMatrixRegSetting[IQK_Matrix_Settings_NUM];
-+	struct ijk_matrix_regs_set IQKMatrixRegSetting;
- 
- 	u8	Delta_IQK;
- 	u8	Delta_LCK;
+ /* IEEE 802.11i
+ #define WLAN_REASON_INVALID_IE 13
 -- 
 2.33.0
 
