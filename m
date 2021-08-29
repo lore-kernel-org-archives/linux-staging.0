@@ -1,167 +1,233 @@
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590D53FC1
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 21:00:16 +0000 (UTC)
-Date: Sun, 29 Aug 2021 21:00:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1630270807;
-	bh=wz6zZHmKi+d39glEis2kDxC7Ii0oe40CPrCIf0zI8ys=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=Mr8eciYDm5K8u30m1SFYMb8KMW7+EuCZ1SzC2oY4FM9OFqAVwNodL3mZHbiNAtMZF
-	 VUFQ7wH/A5anJBvBt5XPhC1Lz+fBsr4JTFDTiH51s5+gA/NOwB/T6TqpKSF1hNE1Ov
-	 wzxyzH1QHfKK47pQKolt6WtGewRPZ2S9Itk1oLMSOZAIoL7flPry2H+Z06Qaqx+twX
-	 9U4ILdTEj7/zPOC7DsAn8Qk2W2cHzZKosAK5qBA7HDm2pK5R4He+uTS/BhEZmrhstQ
-	 2FsSOB8H0al1xClZb4kN2NXt1pjpuJ2eLDo19Rw2yEHZm2Sb/eSQ/+5FYYCsl4O5Lx
-	 m0OYcc6LmQbSw==
-To: Krish Jain <krishjain02939@gmail.com>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH] Declare the file_operations struct as const
-Message-ID: <20210829205953.63ebc32xlyudsqzg@h510>
-In-Reply-To: <CAPGkw+xroJmxa9i6X++un6tQFQ-3F5uMRCatzufWsdfw7cQ2LQ@mail.gmail.com>
-References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+xTFBeH-x-=dsQK-K5KjZZ7JKmQggz2s26=p7g+71kZjA@mail.gmail.com> <20210829164921.u5ntqk5jz2v3hlgr@h510> <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com> <CAPGkw+wGn1oTAO7JXXApDMm4cFfxXam913hOGnnup1nSOpcVPA@mail.gmail.com> <CAPGkw+xroJmxa9i6X++un6tQFQ-3F5uMRCatzufWsdfw7cQ2LQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFAE3FC1
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 22:11:34 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id mq3so8171883pjb.5
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 15:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=lWn3Bwou+Kf1nMYgp9cDWjibnKU0wXoStsKIGvX9v/A=;
+        b=ihNwTTQe/p5A9yQjNu2AQMoA0nnTtKLgI8nQQKu8iFOxRJ5iLjhF6hFCcJScWiTVy/
+         emoVLcd4Secb02/M4tF0+CSrnGM1E0gDndtaqS31ZFHH+R17WGcOGsS9nceUuOKCGnGW
+         fsiCjLk7TOckm37BEMcLFL+C0CW82qjwv5qBspo91HxJXOrY00lPxMneedIapI/vH9jt
+         9vhkepf/LEPK2T5CZxCbyiviGMQa0gwff7gmEa65rBGLfX/cC6qy1cBOBzWDRJ7jBY+q
+         GxYFcV+c5tjeBfnFj+jglzHDj0ZLfOEbj9JIdShXNLyti5XzKED6wmoZnYFRGihAWvOS
+         hyXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=lWn3Bwou+Kf1nMYgp9cDWjibnKU0wXoStsKIGvX9v/A=;
+        b=dvFDQ1KG4ViL700TWbYpKltWjknbvAnvY3l9PdqiWTOqa2ifqCcqNTL05o3stc/MvN
+         S4V0fC2xQXB6ZDGaCuU9rX16VpsIdVnw5+xFf7cbyiwjqmIAvlcDpY7tYDsf3cucIV57
+         eozKds2ifjuJruD7S7NMcpMimSyIDVVOKTBMwOUKYbEZSPlobJ2VhMNugbOk2ANkP+2P
+         5wXFZPrIZRC2XF2pJE8zviD+OBPlkcgSmC6k5EwWecLn30+rGoWCfXUgD0WcmTO2NHRB
+         YPmCeF0Nu0CeB8kOtRdEzFudPLZ6oY8pv/QIO3velD1jFtNLTQRd1UTXMY14mydJqkWX
+         de2Q==
+X-Gm-Message-State: AOAM5327uQU4N/k1WCEpektkAh1K1gjq/ByVxOTV4QTwR8zj9qzmc3we
+	smUlloJl4tEBHYJwtQ2fk7d0xaksul8fNKMr97U=
+X-Google-Smtp-Source: ABdhPJxx/P4ra5QpWd5duArZLdcPIpwnYCzDJcQdTyLKMbGhl3SM+TwPUew0ZRRYUl+cSk9xgN4fZjN5aLaYIk6QhW8=
+X-Received: by 2002:a17:902:930b:b029:12c:a7f4:afb2 with SMTP id
+ bc11-20020a170902930bb029012ca7f4afb2mr18970184plb.24.1630275093687; Sun, 29
+ Aug 2021 15:11:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+xTFBeH-x-=dsQK-K5KjZZ7JKmQggz2s26=p7g+71kZjA@mail.gmail.com>
+ <20210829164921.u5ntqk5jz2v3hlgr@h510> <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com>
+ <CAPGkw+wGn1oTAO7JXXApDMm4cFfxXam913hOGnnup1nSOpcVPA@mail.gmail.com>
+ <CAPGkw+xroJmxa9i6X++un6tQFQ-3F5uMRCatzufWsdfw7cQ2LQ@mail.gmail.com> <20210829205953.63ebc32xlyudsqzg@h510>
+In-Reply-To: <20210829205953.63ebc32xlyudsqzg@h510>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Mon, 30 Aug 2021 00:11:22 +0200
+Message-ID: <CAPGkw+wtE0HMQmYsMkFEt_BPqqB2j_TQ6zwATp6zyXLyxxwTOA@mail.gmail.com>
+Subject: Re: [PATCH] Declare the file_operations struct as const
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
 
-On this day, August 29, 2021, thus sayeth Krish Jain:
-> Keeping you updated. Small win. The "Symbol version dump
-> "Module.symvers" is missing. " error disappeared. Now I still don't
-> know why
+On Sun, Aug 29, 2021 at 11:00 PM Bryan Brattlof <hello@bryanbrattlof.com> w=
+rote:
 >
-
-Whoop! Any win, no matter their size, always feel great. I ran around
-the house yesterday after cross compiling DOOM! for an armel chip. It's
-that "win" feeling you get that keeps me involved.
-
-It is important that you find out why though. What is the importance to
-having Module.symvers? and why is it a WARNING and not an ERROR?
-
-What would happen if we didn't have the proper symbols when compiling or
-installing this driver?
-
-How and what generates the Module.symvers file when we *do* need it?
-
-How can we turn this warning off when we don't need it?
-
-This is covered in chapter "6. Module Versioning"
-
-  https://www.kernel.org/doc/html/latest/kbuild/modules.html
-
->
-> ERROR: Kernel configuration is invalid."; \
-> echo >&2 "         include/generated/autoconf.h or
-> include/config/auto.conf are missing.";\
-> echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
-> to fix it."; \
->
->
-> is still present.
->
-> How can I fix this?
->
-
-Are there any other 'make *config' options we could try?
-
-What does 'make prepare' even do?
-
-Why do we even need a configuration file?
-
-  https://www.kernel.org/doc/html/latest/kbuild/kconfig.html
-
->
-> Best Regards
->
-> On Sun, Aug 29, 2021 at 8:28 PM Krish Jain <krishjain02939@gmail.com> wro=
-te:
+> On this day, August 29, 2021, thus sayeth Krish Jain:
+> > Keeping you updated. Small win. The "Symbol version dump
+> > "Module.symvers" is missing. " error disappeared. Now I still don't
+> > know why
 > >
-> > Basically it says "you must have a prebuilt kernel available that
-> > contains the configuration and header files used in the build." Since
-> > for the staging kernel  "make oldconfig" asked me for  more
-> > configurations apart from my old configuration file (as it reads the
-> > existing .config file that was used for an old kernel and prompts the
-> > user for options in the current kernel source that are not found in
-> > the file) . So I *don't* currently have a prebuilt kernel that
-> > contains all the configuration in my staging kernel's .config file. So
-> > do I have to build the kernel once before I can just build the module
-> > with "make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android" ?
+>
+> Whoop! Any win, no matter their size, always feel great. I ran around
+> the house yesterday after cross compiling DOOM! for an armel chip. It's
+> that "win" feeling you get that keeps me involved.
+>
+> It is important that you find out why though. What is the importance to
+> having Module.symvers? and why is it a WARNING and not an ERROR?
+
+ When a module is loaded/used, the values contained in the kernel are
+compared with similar values in the module; if they are not equal, the
+kernel refuses to load the module. I don't need it in my case.
+
+> What would happen if we didn't have the proper symbols when compiling or
+> installing this driver?
+> How and what generates the Module.symvers file when we *do* need it?
+
+The kernel would refuse to load the module.
+
+
+
+
+
+> How can we turn this warning off when we don't need it?
+>
+> This is covered in chapter "6. Module Versioning"
+>
+>   https://www.kernel.org/doc/html/latest/kbuild/modules.html
+>
 > >
+> > ERROR: Kernel configuration is invalid."; \
+> > echo >&2 "         include/generated/autoconf.h or
+> > include/config/auto.conf are missing.";\
+> > echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
+> > to fix it."; \
+> >
+> >
+> > is still present.
+> >
+> > How can I fix this?
+> >
+>
+> Are there any other 'make *config' options we could try?
 
-What do all these other configuration settings turn on and off anyway?
+Yes, like main menuconfig. I tried it but it still doesn't work.
 
-Do we really need CONFIG_INFINIBAND turned on if we're working in the
-drivers/staging tree of the kernel?
+> What does 'make prepare' even do?
 
-What would we gain from having a compiled kernel if we want to test a
-single staging driver?
 
-If you found what Module.symvers does, you should know this.
+Prepares for different architectures etc.
 
-> > > >
-> > > > Again, do not allow others to rob you of learning how to solve thes=
-e
-> > > > issues yourself. I *strongly* encourage you to familiarize yourself=
- with
-> > > > the Kernel Build System in the Documentation.
-> > > >
-> > > >   https://www.kernel.org/doc/html/latest/kbuild/modules.html
-> > > >
-> > > > Specifically the first paragraph of "2. How to Build External Modul=
-es"
-> > > >
-> > > > It may seem like a lot for such a simple issue but it *is* worth it=
-.
-> > > > ~Bryan
-> > > >
+
+> Why do we even need a configuration file?
+>
+>   https://www.kernel.org/doc/html/latest/kbuild/kconfig.html
+>
+> >
+> > Best Regards
+> >
+> > On Sun, Aug 29, 2021 at 8:28 PM Krish Jain <krishjain02939@gmail.com> w=
+rote:
 > > >
-> > > That section says
+> > > Basically it says "you must have a prebuilt kernel available that
+> > > contains the configuration and header files used in the build." Since
+> > > for the staging kernel  "make oldconfig" asked me for  more
+> > > configurations apart from my old configuration file (as it reads the
+> > > existing .config file that was used for an old kernel and prompts the
+> > > user for options in the current kernel source that are not found in
+> > > the file) . So I *don't* currently have a prebuilt kernel that
+> > > contains all the configuration in my staging kernel's .config file. S=
+o
+> > > do I have to build the kernel once before I can just build the module
+> > > with "make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android" ?
 > > >
-> > >
-> > > "To build external modules, *you must have a prebuilt kernel
-> > > available* that contains the configuration and header files used in
-> > > the build. Also, the kernel must have been built with modules enabled=
-.
-> > > If you are using a distribution kernel, there will be a package for
-> > > the kernel you are running provided by your distribution.
-> > >
-> > > An alternative is to use the =E2=80=9Cmake=E2=80=9D target =E2=80=
+>
+> What do all these other configuration settings turn on and off anyway?
+>
+> Do we really need CONFIG_INFINIBAND turned on if we're working in the
+> drivers/staging tree of the kernel?
+
+
+No, we don't. I removed it.
+
+> What would we gain from having a compiled kernel if we want to test a
+> single staging driver?
+
+No need to compile the entire kernel I guess for my use case. But
+after all this reading :( I still don't get why " sudo make
+CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android/  V=3D1" worked for you
+but not for me. I still get the following errors
+
+
+test -e include/generated/autoconf.h -a -e include/config/auto.conf || ( \
+echo >&2; \
+echo >&2 "  ERROR: Kernel configuration is invalid."; \
+echo >&2 "         include/generated/autoconf.h or
+include/config/auto.conf are missing.";\
+echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
+to fix it."; \
+echo >&2 ; \
+/bin/false)
+.....
+
+
+How can I fix this?
+
+
+
+
+> If you found what Module.symvers does, you should know this.
+>
+> > > > >
+> > > > > Again, do not allow others to rob you of learning how to solve th=
+ese
+> > > > > issues yourself. I *strongly* encourage you to familiarize yourse=
+lf with
+> > > > > the Kernel Build System in the Documentation.
+> > > > >
+> > > > >   https://www.kernel.org/doc/html/latest/kbuild/modules.html
+> > > > >
+> > > > > Specifically the first paragraph of "2. How to Build External Mod=
+ules"
+> > > > >
+> > > > > It may seem like a lot for such a simple issue but it *is* worth =
+it.
+> > > > > ~Bryan
+> > > > >
+> > > >
+> > > > That section says
+> > > >
+> > > >
+> > > > "To build external modules, *you must have a prebuilt kernel
+> > > > available* that contains the configuration and header files used in
+> > > > the build. Also, the kernel must have been built with modules enabl=
+ed.
+> > > > If you are using a distribution kernel, there will be a package for
+> > > > the kernel you are running provided by your distribution.
+> > > >
+> > > > An alternative is to use the =E2=80=9Cmake=E2=80=9D target =E2=80=
 =9Cmodules_prepare.=E2=80=9D This
-> > > will make sure the kernel contains the information required. The
-> > > target exists solely as a simple way to prepare a kernel source tree
-> > > for building external modules.
-> > >
-> > > NOTE: =E2=80=9Cmodules_prepare=E2=80=9D will not build Module.symvers=
- even if
-> > > CONFIG_MODVERSIONS is set; therefore, *a full kernel build needs to b=
+> > > > will make sure the kernel contains the information required. The
+> > > > target exists solely as a simple way to prepare a kernel source tre=
 e
-> > > executed to make module versioning work.*"
-> > >
-> > > So I am just trying to confirm with you whether I have to first build
-> > > the kernel with like "make" or not? As you can imagine my hardware
-> > > takes *very* long to build a kernel as I did in my last attempt so I
-> > > am asking whether it is needed. Hope you understand.
-> > >
-
-I understand. Though I still don't wish to rob you of this opportunity.
-
-Your ability to come up with these questions and answer them yourself is
-what will make you a better programmer and developer.
-
-Don't get me wrong. Greg knows all too well the garbage I can shovel his
-way. It's not about knowing the answer. It about knowing how to find the
-answer yourself.
-
-~Bryan
-
+> > > > for building external modules.
+> > > >
+> > > > NOTE: =E2=80=9Cmodules_prepare=E2=80=9D will not build Module.symve=
+rs even if
+> > > > CONFIG_MODVERSIONS is set; therefore, *a full kernel build needs to=
+ be
+> > > > executed to make module versioning work.*"
+> > > >
+> > > > So I am just trying to confirm with you whether I have to first bui=
+ld
+> > > > the kernel with like "make" or not? As you can imagine my hardware
+> > > > takes *very* long to build a kernel as I did in my last attempt so =
+I
+> > > > am asking whether it is needed. Hope you understand.
+> > > >
+>
+> I understand. Though I still don't wish to rob you of this opportunity.
+>
+> Your ability to come up with these questions and answer them yourself is
+> what will make you a better programmer and developer.
+>
+> Don't get me wrong. Greg knows all too well the garbage I can shovel his
+> way. It's not about knowing the answer. It about knowing how to find the
+> answer yourself.
+>
+> ~Bryan
+>
