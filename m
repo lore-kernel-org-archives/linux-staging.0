@@ -1,131 +1,93 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9597A72
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 16:57:01 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id e7so11093992pgk.2
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 09:57:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4CB72
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 17:00:17 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id m6so2579176pfh.13
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 10:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=YLvZ3sGYfQ+oBKbVK1D5xdIEOxEaX+9yoh7blhMmsNA=;
-        b=g7Msz3v6Ze5CPdGMYauSyD7ARokHfkuyVOJio2FhPVX6HhbGZncTsYpF9R9O9aQ+Lh
-         f1ebMTbgx5QxuW/JLHEjhtGBh0O3yhiL0mysNwZ2IM06J9gQzfKrwGRq3f0pYipM82tK
-         8Md7P+Tz5t/OKKmBwJC5VJZvDmabAwbKQtLOJ+icx74HvFEW5vKw96csqz/IwjXy0ftg
-         rLPSCP+fezQsLwBYcNMjcsjDWe9ogliuVnQIl/rgc+XsWSICghtzQfOJsaQ70TOt5Wpk
-         pZWBc1cONHSF/EKkdjUKXt7Eqm9fsmWSkjieOzWX4UZeVVmdHF+ikiEF4My6Hc9YsGm3
-         ifdw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=4R4J9rlvTKoWzxXXHOcB/bA1tGLKkMYkfbOBsCAW1c0=;
+        b=nK0Fz/vWMlj+h/f1e/AMVns+P+Nlx0FsYwdUi34OD1gY4QxbF1zXDQ15+7tAwKK3Y9
+         vE33tZpy7wZmQOxSE+kIsqnH/ZLQdMBUrvyX2YnI9K/OqVEw70vGlw4Y2IcUpDa77K8O
+         n262CJAlO7e9GJbDiW9K9pG2O98mObCXwBb4GGkTh+DD6/Bxe4lKYENKITL9ECbVQLly
+         IRGTkoGwGUaRq7I190MEaVIfU/+btdynTNgaLw6oBn5HVWDM1/5NXB9StrzTcw4EQkfS
+         93TZByu3LFh7DBx0T+2hiJgVDSm5DtET8XD2yixkA6YgXdkMW5u1PwisSbiWAwPMGA/0
+         kecw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=YLvZ3sGYfQ+oBKbVK1D5xdIEOxEaX+9yoh7blhMmsNA=;
-        b=lYu7ysJTMYZw9GvVnI71MosPrE796o3lClh/oDN/xZukkBMXuo3dmCaN6LAOyGBp20
-         l8hTqMauT2N0wny5oTn5vNuPq+hYrq8VtHt55zaycmDpA913zwN/hjzhSwhipKyPkoWn
-         +OjOYtZQ9WzxQx6M0p37XnpNCR1qi5QzSf5CBkEpaphLG8H8xugHQw3v1jxzMIlUbtjm
-         bRIlk89ugk7BSOJTo3BxaY81ZdjQcozECYquRlnAjETc2cTi9Yoebcp9iev/CCCoiZET
-         RCAPJKc8ekn9AjPUyWOsROmRxt5oYNLs/pjxC5RrWAWN4c+A5N7KEAmaKERC0JS5gQWK
-         wKtQ==
-X-Gm-Message-State: AOAM531NzT+vYIAVnCe/GyQS8BiTspPuB4aHnHbp3TZTIjpzfQBnEHXD
-	xtZ5r8eppXq/8r6OKA+EBwiwXPiItjt/9xURXDo=
-X-Google-Smtp-Source: ABdhPJzQ0OdZ3rm2lo4nYwGvHAVStdkUBD4qFAEcbAzPEX0aqXGOMbEvcDK+fmJOPaJMnmPzy8jMJmGYECqinZyS4A0=
-X-Received: by 2002:aa7:9d02:0:b0:3f3:df3b:81ae with SMTP id
- k2-20020aa79d02000000b003f3df3b81aemr13026930pfp.19.1630256221133; Sun, 29
- Aug 2021 09:57:01 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=4R4J9rlvTKoWzxXXHOcB/bA1tGLKkMYkfbOBsCAW1c0=;
+        b=GbXqyy9MNLtGj6EU2F6ECP6sn4oYGx00VsYk3cbC027CMHfnGVLe3nP1+L6T4Lcqef
+         2IhqgTK+N2q0QN5uF/rWiyTKfbYetjCzBjrTI7LKxBDTl8rboHWfsh8ddE8UJFNyNNWG
+         gEFgDZMBlAmKIPng3ViSNPp0I45Guch1ZmPsqhZF34Hina0nrDGcjAW/LeMuf5TUYxmv
+         vcUvW8wrScDrlNqrHy/n3gbZ+5SmlaaQP3hvdi3dECvNFnqDdYHBcfbHl4ml1ara3/j9
+         IrxrZ60YWXSRju3/HszwbTVpmh25YB7LnRJ4WWFxVibvzAa5R9eBJ8CrfzzIEh9Cbymi
+         bsHQ==
+X-Gm-Message-State: AOAM531i+6PWoCMQwVs2HbvVqK1etd9PFMCBcYMv362xfgKxzY96Qyk5
+	km97FWoCbfyDVSZ4n2kQYdI=
+X-Google-Smtp-Source: ABdhPJym0I1PN2UCPPEzB9U4peV0Maxkqe55xorBpNwGFxR9FZpdQCnwBrl88776uCDZDnwsGGL73g==
+X-Received: by 2002:a63:2f04:: with SMTP id v4mr17593682pgv.380.1630256416549;
+        Sun, 29 Aug 2021 10:00:16 -0700 (PDT)
+Received: from user ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id 10sm13062093pgd.12.2021.08.29.10.00.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Aug 2021 10:00:16 -0700 (PDT)
+Date: Sun, 29 Aug 2021 22:30:09 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	straube.linux@gmail.com, ross.schm.dev@gmail.com,
+	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH v4] staging: r8188eu: core: remove null check before vfree
+Message-ID: <YSu9GQa1A3s6FYQx@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+xTFBeH-x-=dsQK-K5KjZZ7JKmQggz2s26=p7g+71kZjA@mail.gmail.com>
- <20210829164921.u5ntqk5jz2v3hlgr@h510>
-In-Reply-To: <20210829164921.u5ntqk5jz2v3hlgr@h510>
-From: Krish Jain <krishjain02939@gmail.com>
-Date: Sun, 29 Aug 2021 18:56:50 +0200
-Message-ID: <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com>
-Subject: Re: [PATCH] Declare the file_operations struct as const
-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Aug 29, 2021 at 6:49 PM Bryan Brattlof <hello@bryanbrattlof.com> wr=
-ote:
->
-> On this day, August 29, 2021, thus sayeth Krish Jain:
-> > > >
-> > > > Hi, what option do you mean?  I already ran make allmodconfig and s=
-udo
-> > > > make modules_install install and then make   "CCFLAGS=3D-Werror W=
-=3D1
-> > > > M=3Ddrivers/staging/android/" and now I do get output but one line
-> > > > "WARNING: Symbol version dump "Module.symvers" is missing. Modules =
-may
-> > > > not have dependencies or modversions. You may get many unresolved
-> > > > symbol warnings." . Then I tried "make CCFLAGS=3D-Werror V=3D1
-> > > > M=3Ddrivers/staging/android/" and that outputted the following:
-> > > >
-> > >
-> > > Most of the answers you're asking for are going to get vague response=
-s
-> > > (if any) on the mailing lists. The idea being (and I agree with) that
-> > > giving out the answers will steal your opportunity to explore and lea=
-rn
-> > > the material yourself.
-> > >
-> > > Yes, it would be faster if we told you the answer, but ultimately, we
-> > > would be doing a disservice to you.
-> > >
-> > > Besides, more times than not we (me especially) don't have the answer=
-.
-> > >
-> > > With that said, I will give a (generous) hint. :)
-> > >
-> >
-> > Hi. Do I have to build the kernel once before this works? Or can I
-> > just build a module directly?
-> >
->
-> Again, do not allow others to rob you of learning how to solve these
-> issues yourself. I *strongly* encourage you to familiarize yourself with
-> the Kernel Build System in the Documentation.
->
->   https://www.kernel.org/doc/html/latest/kbuild/modules.html
->
-> Specifically the first paragraph of "2. How to Build External Modules"
->
-> It may seem like a lot for such a simple issue but it *is* worth it.
-> ~Bryan
->
+Remove NULL check. NULL check before freeing function is not needed.
+Correct the indentation.
 
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
 
+ChangeLog V4:
+- Add Change log below --- line
 
-That section says
+ChangeLog V3:
+- Add change log.
 
+ChangeLog V2:
+- Correct the indentation.
 
-"To build external modules, *you must have a prebuilt kernel
-available* that contains the configuration and header files used in
-the build. Also, the kernel must have been built with modules enabled.
-If you are using a distribution kernel, there will be a package for
-the kernel you are running provided by your distribution.
+ drivers/staging/r8188eu/core/rtw_sta_mgt.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-An alternative is to use the =E2=80=9Cmake=E2=80=9D target =E2=80=9Cmodules=
-_prepare.=E2=80=9D This
-will make sure the kernel contains the information required. The
-target exists solely as a simple way to prepare a kernel source tree
-for building external modules.
+diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+index f6dffed53a60..c3600cb1790a 100644
+--- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
++++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
+@@ -155,9 +155,8 @@ u32	_rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ 		spin_unlock_bh(&pstapriv->sta_hash_lock);
+ 		/*===============================*/
 
-NOTE: =E2=80=9Cmodules_prepare=E2=80=9D will not build Module.symvers even =
-if
-CONFIG_MODVERSIONS is set; therefore, *a full kernel build needs to be
-executed to make module versioning work.*"
+-		if (pstapriv->pallocated_stainfo_buf)
+-			vfree(pstapriv->pallocated_stainfo_buf);
+-		}
++		vfree(pstapriv->pallocated_stainfo_buf);
++	}
 
-So I am just trying to confirm with you whether I have to first build
-the kernel with like "make" or not? As you can imagine my hardware
-takes *very* long to build a kernel as I did in my last attempt so I
-am asking whether it is needed. Hope you understand.
+ 	return _SUCCESS;
+ }
+--
+2.32.0
 
-Best Regards
