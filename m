@@ -1,1098 +1,256 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5CC3FC2
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 15:45:48 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id q14so18639547wrp.3
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 08:45:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C30F3FC2
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 16:20:42 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id q68so11001867pga.9
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 09:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XiiyDhZUUAtLYqBMyS+3PDlLVTY1Q5GeHO8Lp+pXuNw=;
-        b=rPOZpoexG3fwHSvJzTk9/UDs+2WuK76I80zBF17US94/1Ud9A16T5sFClACgRVFsHX
-         X0hEUdzkH32EGT1j8RUhRyni6W62VEpyNeJqgsgPWPVTGr79kNI3aV8h/5mJMMW/69WM
-         N+0ocEbBp3Fx8BpaT6yv/D5LMVzhBLxywCzhejOri+VZQrAjTFwyteCdr0aic/9AAa48
-         mYkYKzLvSiYApAeOcTAW9x0geBBByfS+H7FGFMad9uYrdFWnW7VstfZ6sPLBCzTsxJrc
-         4jaZG+GOjwqsyxJxeB3M1ZXIOFK56OaNFkE/LFcd+k10E0KznuAVrJ00VIUT9ZGwMo2O
-         0Yzg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IzFSzITg1sx5FSecfgVemfPISS0vS3rTJxQTZWD5w0w=;
+        b=T+En5cCNMv587eOd774LjBnFwh87efMuXPdJ8LBFPOofzAG3HMt87iCv9GZyb7kd9f
+         I8Vq1B7+b+tkrYzP9bk+mIFKCVkpeQaDC/1Vpjy3StP3ACy4eZ0VWuv4L7ERImT1xH0L
+         Ma/i5zQBBRSFHJDCzmHj8inoGJTGS9rOf0ncIoACLtiP3YPE/xwBdFkJcpM/xSECFU1g
+         DuzhRupQwCqIvtgqMe+hmKcYjumCRAYAn9hdOdQtLgwbZZe3A/VUyCHDdzFVMqCG33Ls
+         k0oojpnlnUypGl2zi6UBmpGGHD5g2aLDmBmCsM6QO9GzcbVDKUwHBlYmBehkDcV2TDEn
+         WDBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XiiyDhZUUAtLYqBMyS+3PDlLVTY1Q5GeHO8Lp+pXuNw=;
-        b=VUh29tz1yYyx0lJIUUZESAqtVdPUAjg9MTm6bOK22idjoHEckbYgKyLo1JtHt9/04v
-         oB/bZ1gsoTGJsduU4mUr7LeCxetpwRUkREeyc4h7bhM5xKG8WtlbkVGpbNKo22hQIgel
-         2w5oho933cVhV95XS5OGOFCCTg5Qki2K55vWRrMQc+daWrMF+Y9kavCKuxac+9KQTmYj
-         aMezrPNTKj9lEQMfT2M9um4vSbe0C8OOUzfrI3fybhhxntQhOWU0XTuZykhx8jNk7+Ia
-         t4a8jbOop3QQxMCfJpYqRfHECxDAjnHj/VCk9LuTUCttmUWHkLQeXTMxB2rno1CiOAwl
-         1mWQ==
-X-Gm-Message-State: AOAM5326xflXku17p/uBzCQvdwOwGoiVsbjQyCWe7nJSIckfVEpVV575
-	jmN1sabzf10D1XAk+tBZnWY=
-X-Google-Smtp-Source: ABdhPJznRt2AKSo6Ochc81vTXsk6n+mfYy+9JQ7d+XKeIPOGel7B64oSSs4cLgpSVPwrQplxJtFkGQ==
-X-Received: by 2002:adf:c542:: with SMTP id s2mr19442250wrf.374.1630251947184;
-        Sun, 29 Aug 2021 08:45:47 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id q13sm12567243wrv.79.2021.08.29.08.45.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Aug 2021 08:45:46 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	fabioaiuto83@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: clean up comparsions to NULL
-Date: Sun, 29 Aug 2021 17:45:33 +0200
-Message-Id: <20210829154533.11054-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IzFSzITg1sx5FSecfgVemfPISS0vS3rTJxQTZWD5w0w=;
+        b=EMdUrLHTdrChcEvMpoNpAO/0xsKUBh2pMmuxoKpglzFHFEgS5Kb7eH/bVbkJLoKGAk
+         lGWgWDMauXapNc9vSd6cdmshw/iCU2YHnEAGcG/GO4mZ5t7VrL8cYhHVmUSouuv5jqMJ
+         EPvEXfaDyft0OhRglhtTWaI0ZHZsYfeanUOlhe5pIn0XQhz7iG8BJoah0AOg4aYiLrON
+         Qd+PSN9AgGP+A6eeXBDiv230IQ1e+72xr+PXOvyLGGOkzr++f0lL8StmoWdNi4BHqAS2
+         ABc7MrmypG/MH9rwIfDIypIpZMuQjHMSvRtjCuwpK4RdAVpZUSQ6SDIbSn78cXRGNx/C
+         RD2g==
+X-Gm-Message-State: AOAM533cCgOAOiuCqtd6bslJq/WfctdyVbWVR7lLoXRQI4qsrtzgbN9Z
+	Xl/9PRM0DAGYAH7AE/HPrCnsTpJz1IHS88BcbCs=
+X-Google-Smtp-Source: ABdhPJwVFbT5JMa94Z8duP5qdnQEWzWdaM35QOnZFg2IQRr6vkVzjZ4HzzxpU3TY8hbTULE+7nTGS7cGd5yzKQHnpSc=
+X-Received: by 2002:a63:fd12:: with SMTP id d18mr17725396pgh.129.1630254041838;
+ Sun, 29 Aug 2021 09:20:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210829144531.c2syu4vv4s22dlg7@h510>
+In-Reply-To: <20210829144531.c2syu4vv4s22dlg7@h510>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Sun, 29 Aug 2021 18:20:30 +0200
+Message-ID: <CAPGkw+xTFBeH-x-=dsQK-K5KjZZ7JKmQggz2s26=p7g+71kZjA@mail.gmail.com>
+Subject: Re: [PATCH] Declare the file_operations struct as const
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Clean up comparsions to NULL reported by checkpatch.
+On Sun, Aug 29, 2021 at 4:45 PM Bryan Brattlof <hello@bryanbrattlof.com> wr=
+ote:
+>
+> Hi Krish
+>
+> On this day, August 29, 2021, thus sayeth Krish Jain:
+> > On Sun, Aug 29, 2021 at 8:17 AM Greg KH <gregkh@linuxfoundation.org> wr=
+ote:
+> > >
+> > > On Sun, Aug 29, 2021 at 04:13:43AM +0200, Krish Jain wrote:
+> > > > On Sat, Aug 28, 2021 at 1:38 AM Bryan Brattlof <hello@bryanbrattlof=
+.com> wrote:
+> > > > > As for your patch, I built the driver using:
+> > > > >
+> > > > >   $ make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android
+> > > > >
+> > > > > Which produced the following error:
+> > > > >
+> > > > >
+> > > > > drivers/staging/android/ashmem.c: In function =E2=80=98ashmem_mma=
+p=E2=80=99:
+> > > > > drivers/staging/android/ashmem.c:380:2: warning: =E2=80=98static=
+=E2=80=99 is not at beginning of declaration [-Wold-style-declaration]
+> > > > >   380 |  const static struct file_operations vmfile_fops;
+> > > > >       |  ^~~~~
+> > > > > drivers/staging/android/ashmem.c:431:16: error: assignment of rea=
+d-only variable =E2=80=98vmfile_fops=E2=80=99
+> > > > >   431 |    vmfile_fops =3D *vmfile->f_op;
+> > > > >       |                ^
+> > > > > drivers/staging/android/ashmem.c:432:21: error: assignment of mem=
+ber =E2=80=98mmap=E2=80=99 in read-only object
+> > > > >   432 |    vmfile_fops.mmap =3D ashmem_vmfile_mmap;
+> > > > >       |                     ^
+> > > > > drivers/staging/android/ashmem.c:433:34: error: assignment of mem=
+ber =E2=80=98get_unmapped_area=E2=80=99 in read-only object
+> > > > >   433 |    vmfile_fops.get_unmapped_area =3D
+> > > > >       |                                  ^
+> > > > > make[1]: *** [scripts/Makefile.build:271: drivers/staging/android=
+/ashmem.o] Error 1
+> > > > > make: *** [Makefile:1851: drivers/staging/android] Error 2
+> > > > >
+> > > >
+> > > > Hi, this seems very useful and I tried this myself just now. I don'=
+t
+> > > > get any errors that you do though. When I hit enter I just get a ne=
+w
+> > > > shell prompt. What am I doing wrong? Probably a silly mistake. I ra=
+n
+> > > > make CCFLAGS=3D-Werror M=3Ddrivers/staging/android/.
+> > >
+> > > Are you sure the file is being built at all?  You usually have to sel=
+ect
+> > > the proper configuration option to enable that driver as well.
+> >
+> >
+> > Hi, what option do you mean?  I already ran make allmodconfig and sudo
+> > make modules_install install and then make   "CCFLAGS=3D-Werror W=3D1
+> > M=3Ddrivers/staging/android/" and now I do get output but one line
+> > "WARNING: Symbol version dump "Module.symvers" is missing. Modules may
+> > not have dependencies or modversions. You may get many unresolved
+> > symbol warnings." . Then I tried "make CCFLAGS=3D-Werror V=3D1
+> > M=3Ddrivers/staging/android/" and that outputted the following:
+> >
+>
+> Most of the answers you're asking for are going to get vague responses
+> (if any) on the mailing lists. The idea being (and I agree with) that
+> giving out the answers will steal your opportunity to explore and learn
+> the material yourself.
+>
+> Yes, it would be faster if we told you the answer, but ultimately, we
+> would be doing a disservice to you.
+>
+> Besides, more times than not we (me especially) don't have the answer.
+>
+> With that said, I will give a (generous) hint. :)
+>
 
-x == NULL -> !x
-x != NULL -> x
+Hi. Do I have to build the kernel once before this works? Or can I
+just build a module directly?
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c       | 20 ++--
- drivers/staging/rtl8723bs/core/rtw_cmd.c      | 96 +++++++++----------
- .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  4 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c     |  6 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 56 +++++------
- drivers/staging/rtl8723bs/core/rtw_security.c |  6 +-
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 24 ++---
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 18 ++--
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  4 +-
- 9 files changed, 117 insertions(+), 117 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 6064dd6a76b4..674592e914e2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -891,7 +891,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		&ie_len,
- 		(pbss_network->ie_length - _BEACON_IE_OFFSET_)
- 	);
--	if (p !=  NULL) {
-+	if (p) {
- 		memcpy(supportRate, p + 2, ie_len);
- 		supportRateNum = ie_len;
- 	}
-@@ -903,7 +903,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		&ie_len,
- 		pbss_network->ie_length - _BEACON_IE_OFFSET_
- 	);
--	if (p !=  NULL) {
-+	if (p) {
- 		memcpy(supportRate + supportRateNum, p + 2, ie_len);
- 		supportRateNum += ie_len;
- 	}
-@@ -991,7 +991,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 			break;
- 		}
- 
--		if ((p == NULL) || (ie_len == 0))
-+		if (!p || ie_len == 0)
- 			break;
- 	}
- 
-@@ -1021,7 +1021,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 				break;
- 			}
- 
--			if ((p == NULL) || (ie_len == 0))
-+			if (!p || ie_len == 0)
- 				break;
- 		}
- 	}
-@@ -1145,7 +1145,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 	psta = rtw_get_stainfo(&padapter->stapriv, pbss_network->mac_address);
- 	if (!psta) {
- 		psta = rtw_alloc_stainfo(&padapter->stapriv, pbss_network->mac_address);
--		if (psta == NULL)
-+		if (!psta)
- 			return _FAIL;
- 	}
- 
-@@ -1275,7 +1275,7 @@ u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
- 	}
- 
- 	psetstakey_para = rtw_zmalloc(sizeof(struct set_stakey_parm));
--	if (psetstakey_para == NULL) {
-+	if (!psetstakey_para) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1311,12 +1311,12 @@ static int rtw_ap_set_key(
- 	int res = _SUCCESS;
- 
- 	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (pcmd == NULL) {
-+	if (!pcmd) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 	psetkeyparm = rtw_zmalloc(sizeof(struct setkey_parm));
--	if (psetkeyparm == NULL) {
-+	if (!psetkeyparm) {
- 		kfree(pcmd);
- 		res = _FAIL;
- 		goto exit;
-@@ -1474,11 +1474,11 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 		&wps_ielen
- 	);
- 
--	if (pwps_ie == NULL || wps_ielen == 0)
-+	if (!pwps_ie || wps_ielen == 0)
- 		return;
- 
- 	pwps_ie_src = pmlmepriv->wps_beacon_ie;
--	if (pwps_ie_src == NULL)
-+	if (!pwps_ie_src)
- 		return;
- 
- 	wps_offset = (uint)(pwps_ie - ie);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index d494c06dab96..e974c07838e7 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -255,7 +255,7 @@ int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
- {
- 	unsigned long irqL;
- 
--	if (obj == NULL)
-+	if (!obj)
- 		goto exit;
- 
- 	/* spin_lock_bh(&queue->lock); */
-@@ -323,7 +323,7 @@ int rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- 	int res = _FAIL;
- 	struct adapter *padapter = pcmdpriv->padapter;
- 
--	if (cmd_obj == NULL)
-+	if (!cmd_obj)
- 		goto exit;
- 
- 	cmd_obj->padapter = padapter;
-@@ -488,7 +488,7 @@ int rtw_cmd_thread(void *context)
- 		/* call callback function for post-processed */
- 		if (pcmd->cmdcode < ARRAY_SIZE(rtw_cmd_callback)) {
- 			pcmd_callback = rtw_cmd_callback[pcmd->cmdcode].callback;
--			if (pcmd_callback == NULL) {
-+			if (!pcmd_callback) {
- 				rtw_free_cmd_obj(pcmd);
- 			} else {
- 				/* todo: !!! fill rsp_buf to pcmd->rsp if (pcmd->rsp!= NULL) */
-@@ -507,7 +507,7 @@ int rtw_cmd_thread(void *context)
- 	/*  free all cmd_obj resources */
- 	do {
- 		pcmd = rtw_dequeue_cmd(pcmdpriv);
--		if (pcmd == NULL) {
-+		if (!pcmd) {
- 			rtw_unregister_cmd_alive(padapter);
- 			break;
- 		}
-@@ -546,11 +546,11 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
- 		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_SCAN, 1);
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL)
-+	if (!ph2c)
- 		return _FAIL;
- 
- 	psurveyPara = rtw_zmalloc(sizeof(struct sitesurvey_parm));
--	if (psurveyPara == NULL) {
-+	if (!psurveyPara) {
- 		kfree(ph2c);
- 		return _FAIL;
- 	}
-@@ -608,13 +608,13 @@ u8 rtw_setdatarate_cmd(struct adapter *padapter, u8 *rateset)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pbsetdataratepara = rtw_zmalloc(sizeof(struct setdatarate_parm));
--	if (pbsetdataratepara == NULL) {
-+	if (!pbsetdataratepara) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -644,7 +644,7 @@ u8 rtw_createbss_cmd(struct adapter  *padapter)
- 	u8 res = _SUCCESS;
- 
- 	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (pcmd == NULL) {
-+	if (!pcmd) {
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -677,7 +677,7 @@ int rtw_startbss_cmd(struct adapter  *padapter, int flags)
- 	} else {
- 		/* need enqueue, prepare cmd_obj and enqueue */
- 		pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
--		if (pcmd == NULL) {
-+		if (!pcmd) {
- 			res = _FAIL;
- 			goto exit;
- 		}
-@@ -729,7 +729,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 	u8 *ptmp = NULL;
- 
- 	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (pcmd == NULL) {
-+	if (!pcmd) {
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -841,7 +841,7 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
- 
- 	/* prepare cmd parameter */
- 	param = rtw_zmalloc(sizeof(*param));
--	if (param == NULL) {
-+	if (!param) {
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -850,7 +850,7 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
- 	if (enqueue) {
- 		/* need enqueue, prepare cmd_obj and enqueue */
- 		cmdobj = rtw_zmalloc(sizeof(*cmdobj));
--		if (cmdobj == NULL) {
-+		if (!cmdobj) {
- 			res = _FAIL;
- 			kfree(param);
- 			goto exit;
-@@ -878,7 +878,7 @@ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrast
- 
- 	psetop = rtw_zmalloc(sizeof(struct setopmode_parm));
- 
--	if (psetop == NULL) {
-+	if (!psetop) {
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -886,7 +886,7 @@ u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrast
- 
- 	if (enqueue) {
- 		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--		if (ph2c == NULL) {
-+		if (!ph2c) {
- 			kfree(psetop);
- 			res = _FAIL;
- 			goto exit;
-@@ -914,7 +914,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
- 	u8 res = _SUCCESS;
- 
- 	psetstakey_para = rtw_zmalloc(sizeof(struct set_stakey_parm));
--	if (psetstakey_para == NULL) {
-+	if (!psetstakey_para) {
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -936,14 +936,14 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
- 
- 	if (enqueue) {
- 		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--		if (ph2c == NULL) {
-+		if (!ph2c) {
- 			kfree(psetstakey_para);
- 			res = _FAIL;
- 			goto exit;
- 		}
- 
- 		psetstakey_rsp = rtw_zmalloc(sizeof(struct set_stakey_rsp));
--		if (psetstakey_rsp == NULL) {
-+		if (!psetstakey_rsp) {
- 			kfree(ph2c);
- 			kfree(psetstakey_para);
- 			res = _FAIL;
-@@ -981,20 +981,20 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
- 		}
- 	} else {
- 		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--		if (ph2c == NULL) {
-+		if (!ph2c) {
- 			res = _FAIL;
- 			goto exit;
- 		}
- 
- 		psetstakey_para = rtw_zmalloc(sizeof(struct set_stakey_parm));
--		if (psetstakey_para == NULL) {
-+		if (!psetstakey_para) {
- 			kfree(ph2c);
- 			res = _FAIL;
- 			goto exit;
- 		}
- 
- 		psetstakey_rsp = rtw_zmalloc(sizeof(struct set_stakey_rsp));
--		if (psetstakey_rsp == NULL) {
-+		if (!psetstakey_rsp) {
- 			kfree(ph2c);
- 			kfree(psetstakey_para);
- 			res = _FAIL;
-@@ -1026,13 +1026,13 @@ u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	paddbareq_parm = rtw_zmalloc(sizeof(struct addBaReq_parm));
--	if (paddbareq_parm == NULL) {
-+	if (!paddbareq_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1058,13 +1058,13 @@ u8 rtw_reset_securitypriv_cmd(struct adapter *padapter)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1093,13 +1093,13 @@ u8 rtw_free_assoc_resources_cmd(struct adapter *padapter)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1129,13 +1129,13 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
- 
- 	/* only  primary padapter does this cmd */
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1177,7 +1177,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue, u8 swconf
- 
- 	/* prepare cmd parameter */
- 	setChannelPlan_param = rtw_zmalloc(sizeof(struct SetChannelPlan_param));
--	if (setChannelPlan_param == NULL) {
-+	if (!setChannelPlan_param) {
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -1186,7 +1186,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue, u8 swconf
- 	if (enqueue) {
- 		/* need enqueue, prepare cmd_obj and enqueue */
- 		pcmdobj = rtw_zmalloc(sizeof(struct cmd_obj));
--		if (pcmdobj == NULL) {
-+		if (!pcmdobj) {
- 			kfree(setChannelPlan_param);
- 			res = _FAIL;
- 			goto exit;
-@@ -1436,13 +1436,13 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
- 
- 	if (enqueue) {
- 		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--		if (ph2c == NULL) {
-+		if (!ph2c) {
- 			res = _FAIL;
- 			goto exit;
- 		}
- 
- 		pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--		if (pdrvextra_cmd_parm == NULL) {
-+		if (!pdrvextra_cmd_parm) {
- 			kfree(ph2c);
- 			res = _FAIL;
- 			goto exit;
-@@ -1478,13 +1478,13 @@ u8 rtw_dm_in_lps_wk_cmd(struct adapter *padapter)
- 
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1544,13 +1544,13 @@ u8 rtw_dm_ra_mask_wk_cmd(struct adapter *padapter, u8 *psta)
- 
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1579,13 +1579,13 @@ u8 rtw_ps_cmd(struct adapter *padapter)
- 	u8 res = _SUCCESS;
- 
- 	ppscmd = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ppscmd == NULL) {
-+	if (!ppscmd) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ppscmd);
- 		res = _FAIL;
- 		goto exit;
-@@ -1651,13 +1651,13 @@ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1745,13 +1745,13 @@ u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1780,13 +1780,13 @@ u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	pdrvextra_cmd_parm = rtw_zmalloc(sizeof(struct drvextra_cmd_parm));
--	if (pdrvextra_cmd_parm == NULL) {
-+	if (!pdrvextra_cmd_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -1961,7 +1961,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 	struct wlan_bssid_ex *pnetwork = (struct wlan_bssid_ex *)pcmd->parmbuf;
- 	struct wlan_network *tgt_network = &(pmlmepriv->cur_network);
- 
--	if (pcmd->parmbuf == NULL)
-+	if (!pcmd->parmbuf)
- 		goto exit;
- 
- 	if (pcmd->res != H2C_SUCCESS)
-@@ -1984,9 +1984,9 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 	} else {
- 		pwlan = rtw_alloc_network(pmlmepriv);
- 		spin_lock_bh(&(pmlmepriv->scanned_queue.lock));
--		if (pwlan == NULL) {
-+		if (!pwlan) {
- 			pwlan = rtw_get_oldest_wlan_network(&pmlmepriv->scanned_queue);
--			if (pwlan == NULL) {
-+			if (!pwlan) {
- 				spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
- 				goto createbss_cmd_fail;
- 			}
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index 5cfde7176617..8c11daff2d59 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -370,7 +370,7 @@ u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_s
- 	struct	mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
- 	u8 res = true;
- 
--	if (padapter == NULL) {
-+	if (!padapter) {
- 		res = false;
- 		goto exit;
- 	}
-@@ -481,7 +481,7 @@ u16 rtw_get_cur_max_rate(struct adapter *adapter)
- 		return 0;
- 
- 	psta = rtw_get_stainfo(&adapter->stapriv, get_bssid(pmlmepriv));
--	if (psta == NULL)
-+	if (!psta)
- 		return 0;
- 
- 	short_GI = query_ra_short_GI(psta);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index ab6a24d70cc9..403a09ed66d5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -439,7 +439,7 @@ struct	wlan_network	*rtw_get_oldest_wlan_network(struct __queue *scanned_queue)
- 		pwlan = list_entry(plist, struct wlan_network, list);
- 
- 		if (!pwlan->fixed) {
--			if (oldest == NULL || time_after(oldest->last_scanned, pwlan->last_scanned))
-+			if (!oldest || time_after(oldest->last_scanned, pwlan->last_scanned))
- 				oldest = pwlan;
- 		}
- 	}
-@@ -542,7 +542,7 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 			/* TODO: don't select network in the same ess as oldest if it's new enough*/
- 		}
- 
--		if (oldest == NULL || time_after(oldest->last_scanned, pnetwork->last_scanned))
-+		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
- 			oldest = pnetwork;
- 
- 	}
-@@ -1820,7 +1820,7 @@ static int rtw_check_join_candidate(struct mlme_priv *mlme
- 			goto exit;
- 	}
- 
--	if (*candidate == NULL || (*candidate)->network.rssi < competitor->network.rssi) {
-+	if (!*candidate || (*candidate)->network.rssi < competitor->network.rssi) {
- 		*candidate = competitor;
- 		updated = true;
- 	}
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 375d2a742dd2..b6c9ea7b793b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -742,11 +742,11 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 	}
- 
- 	pstat = rtw_get_stainfo(pstapriv, sa);
--	if (pstat == NULL) {
-+	if (!pstat) {
- 
- 		/*  allocate a new one */
- 		pstat = rtw_alloc_stainfo(pstapriv, sa);
--		if (pstat == NULL) {
-+		if (!pstat) {
- 			status = WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA;
- 			goto auth_fail;
- 		}
-@@ -814,7 +814,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + 4 + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&ie_len,
- 					len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_ - 4);
- 
--			if ((p == NULL) || (ie_len <= 0)) {
-+			if (!p || ie_len <= 0) {
- 				status = WLAN_STATUS_CHALLENGE_FAIL;
- 				goto auth_fail;
- 			}
-@@ -1034,7 +1034,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 
- 	/*  check if the supported rate is ok */
- 	p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_SUPP_RATES, &ie_len, pkt_len - WLAN_HDR_A3_LEN - ie_offset);
--	if (p == NULL) {
-+	if (!p) {
- 		/*  use our own rate set as statoin used */
- 		/* memcpy(supportRate, AP_BSSRATE, AP_BSSRATE_LEN); */
- 		/* supportRateNum = AP_BSSRATE_LEN; */
-@@ -1047,7 +1047,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 
- 		p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_EXT_SUPP_RATES, &ie_len,
- 				pkt_len - WLAN_HDR_A3_LEN - ie_offset);
--		if (p !=  NULL) {
-+		if (p) {
- 
- 			if (supportRateNum <= sizeof(supportRate)) {
- 				memcpy(supportRate+supportRateNum, p+2, ie_len);
-@@ -1294,7 +1294,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	/* get a unique AID */
- 	if (pstat->aid == 0) {
- 		for (pstat->aid = 1; pstat->aid <= NUM_STA; pstat->aid++)
--			if (pstapriv->sta_aid[pstat->aid - 1] == NULL)
-+			if (!pstapriv->sta_aid[pstat->aid - 1])
- 				break;
- 
- 		/* if (pstat->aid > NUM_STA) { */
-@@ -1944,7 +1944,7 @@ static struct xmit_frame *_alloc_mgtxmitframe(struct xmit_priv *pxmitpriv, bool
- 		goto exit;
- 
- 	pxmitbuf = rtw_alloc_xmitbuf_ext(pxmitpriv);
--	if (pxmitbuf == NULL) {
-+	if (!pxmitbuf) {
- 		rtw_free_xmitframe(pxmitpriv, pmgntframe);
- 		pmgntframe = NULL;
- 		goto exit;
-@@ -2297,7 +2297,7 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
- 	struct wlan_bssid_ex		*cur_network = &(pmlmeinfo->network);
- 	unsigned int	rate_len;
- 
--	if (da == NULL)
-+	if (!da)
- 		return;
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
-@@ -2621,7 +2621,7 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
- 	__le16 le_tmp;
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
--	if (pmgntframe == NULL)
-+	if (!pmgntframe)
- 		return;
- 
- 	/* update attribute */
-@@ -2752,7 +2752,7 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
- 	__le16 lestatus, le_tmp;
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
--	if (pmgntframe == NULL)
-+	if (!pmgntframe)
- 		return;
- 
- 	/* update attribute */
-@@ -2840,7 +2840,7 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
- 				break;
- 			}
- 
--			if ((pbuf == NULL) || (ie_len == 0)) {
-+			if (!pbuf || ie_len == 0) {
- 				break;
- 			}
- 		}
-@@ -2884,7 +2884,7 @@ void issue_assocreq(struct adapter *padapter)
- 	u8 vs_ie_length = 0;
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
--	if (pmgntframe == NULL)
-+	if (!pmgntframe)
- 		goto exit;
- 
- 	/* update attribute */
-@@ -3061,7 +3061,7 @@ static int _issue_nulldata(struct adapter *padapter, unsigned char *da,
- 	pmlmeinfo = &(pmlmeext->mlmext_info);
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
--	if (pmgntframe == NULL)
-+	if (!pmgntframe)
- 		goto exit;
- 
- 	/* update attribute */
-@@ -3200,7 +3200,7 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da,
- 	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
--	if (pmgntframe == NULL)
-+	if (!pmgntframe)
- 		goto exit;
- 
- 	/* update attribute */
-@@ -3313,7 +3313,7 @@ static int _issue_deauth(struct adapter *padapter, unsigned char *da,
- 	__le16 le_tmp;
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
--	if (pmgntframe == NULL) {
-+	if (!pmgntframe) {
- 		goto exit;
- 	}
- 
-@@ -3639,7 +3639,7 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 	action = ACT_PUBLIC_BSSCOEXIST;
- 
- 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
--	if (pmgntframe == NULL) {
-+	if (!pmgntframe) {
- 		return;
- 	}
- 
-@@ -3706,7 +3706,7 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 			pbss_network = (struct wlan_bssid_ex *)&pnetwork->network;
- 
- 			p = rtw_get_ie(pbss_network->ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, pbss_network->ie_length - _FIXED_IE_LENGTH_);
--			if ((p == NULL) || (len == 0)) {/* non-HT */
-+			if (!p || len == 0) {/* non-HT */
- 
- 				if (pbss_network->configuration.ds_config <= 0)
- 					continue;
-@@ -3769,7 +3769,7 @@ unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr)
- 			return _SUCCESS;
- 
- 	psta = rtw_get_stainfo(pstapriv, addr);
--	if (psta == NULL)
-+	if (!psta)
- 		return _SUCCESS;
- 
- 	if (initiator == 0) {/*  recipient */
-@@ -4641,13 +4641,13 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
- 	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (pcmd_obj == NULL) {
-+	if (!pcmd_obj) {
- 		return;
- 	}
- 
- 	cmdsz = (sizeof(struct stadel_event) + sizeof(struct C2HEvent_Header));
- 	pevtcmd = rtw_zmalloc(cmdsz);
--	if (pevtcmd == NULL) {
-+	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
- 	}
-@@ -4693,12 +4693,12 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
- 	pcmd_obj = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (pcmd_obj == NULL)
-+	if (!pcmd_obj)
- 		return;
- 
- 	cmdsz = (sizeof(struct stassoc_event) + sizeof(struct C2HEvent_Header));
- 	pevtcmd = rtw_zmalloc(cmdsz);
--	if (pevtcmd == NULL) {
-+	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
- 	}
-@@ -5147,12 +5147,12 @@ void survey_timer_hdl(struct timer_list *t)
- 		}
- 
- 		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--		if (ph2c == NULL) {
-+		if (!ph2c) {
- 			goto exit_survey_timer_hdl;
- 		}
- 
- 		psurveyPara = rtw_zmalloc(sizeof(struct sitesurvey_parm));
--		if (psurveyPara == NULL) {
-+		if (!psurveyPara) {
- 			kfree(ph2c);
- 			goto exit_survey_timer_hdl;
- 		}
-@@ -5781,7 +5781,7 @@ u8 chk_bmc_sleepq_cmd(struct adapter *padapter)
- 	u8 res = _SUCCESS;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -5805,13 +5805,13 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
- 	int len_diff = 0;
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
--	if (ph2c == NULL) {
-+	if (!ph2c) {
- 		res = _FAIL;
- 		goto exit;
- 	}
- 
- 	ptxBeacon_parm = rtw_zmalloc(sizeof(struct Tx_Beacon_param));
--	if (ptxBeacon_parm == NULL) {
-+	if (!ptxBeacon_parm) {
- 		kfree(ph2c);
- 		res = _FAIL;
- 		goto exit;
-@@ -5871,7 +5871,7 @@ u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
- 	void (*event_callback)(struct adapter *dev, u8 *pbuf);
- 	struct evt_priv *pevt_priv = &(padapter->evtpriv);
- 
--	if (pbuf == NULL)
-+	if (!pbuf)
- 		goto _abort_event_;
- 
- 	peventbuf = (uint *)pbuf;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index b050bf62e3b9..ac731415f733 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -51,7 +51,7 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct arc4_ctx *ctx = &psecuritypriv->xmit_arc4_ctx;
- 
--	if (((struct xmit_frame *)pxmitframe)->buf_addr == NULL)
-+	if (!((struct xmit_frame *)pxmitframe)->buf_addr)
- 		return;
- 
- 	hw_hdr_offset = TXDESC_OFFSET;
-@@ -476,7 +476,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	struct arc4_ctx *ctx = &psecuritypriv->xmit_arc4_ctx;
- 	u32 res = _SUCCESS;
- 
--	if (((struct xmit_frame *)pxmitframe)->buf_addr == NULL)
-+	if (!((struct xmit_frame *)pxmitframe)->buf_addr)
- 		return _FAIL;
- 
- 	hw_hdr_offset = TXDESC_OFFSET;
-@@ -1043,7 +1043,7 @@ u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 	u32 res = _SUCCESS;
- 
--	if (((struct xmit_frame *)pxmitframe)->buf_addr == NULL)
-+	if (!((struct xmit_frame *)pxmitframe)->buf_addr)
- 		return _FAIL;
- 
- 	hw_hdr_offset = TXDESC_OFFSET;
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 499ac3a77512..34da8a569709 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -391,7 +391,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- 		}
- 		else
- 		{
--			if (scanned == NULL) {
-+			if (!scanned) {
- 				rtw_warn_on(1);
- 				return;
- 			}
-@@ -432,7 +432,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
- 		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
- 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
- 
--		if (scanned == NULL) {
-+		if (!scanned) {
- 			rtw_warn_on(1);
- 			goto check_bss;
- 		}
-@@ -551,10 +551,10 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 			goto exit;
- 	}
- 
--	if (strcmp(param->u.crypt.alg, "none") == 0 && (psta == NULL))
-+	if (strcmp(param->u.crypt.alg, "none") == 0 && !psta)
- 		goto exit;
- 
--	if (strcmp(param->u.crypt.alg, "WEP") == 0 && (psta == NULL))
-+	if (strcmp(param->u.crypt.alg, "WEP") == 0 && !psta)
- 	{
- 		wep_key_idx = param->u.crypt.idx;
- 		wep_key_len = param->u.crypt.key_len;
-@@ -907,7 +907,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 			}
- 
- 			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
--			if (pbcmc_sta == NULL)
-+			if (!pbcmc_sta)
- 			{
- 				/* DEBUG_ERR(("Set OID_802_11_ADD_KEY: bcmc stainfo is null\n")); */
- 			}
-@@ -947,7 +947,7 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct net_device *ndev,
- 
- 	param_len = sizeof(struct ieee_param) + params->key_len;
- 	param = rtw_malloc(param_len);
--	if (param == NULL)
-+	if (!param)
- 		return -1;
- 
- 	memset(param, 0, param_len);
-@@ -1098,7 +1098,7 @@ static int cfg80211_rtw_get_station(struct wiphy *wiphy,
- 	}
- 
- 	psta = rtw_get_stainfo(pstapriv, (u8 *)mac);
--	if (psta == NULL) {
-+	if (!psta) {
- 		ret = -ENOENT;
- 		goto exit;
- 	}
-@@ -1327,7 +1327,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	struct rtw_wdev_priv *pwdev_priv;
- 	struct mlme_priv *pmlmepriv;
- 
--	if (ndev == NULL) {
-+	if (!ndev) {
- 		ret = -EINVAL;
- 		goto exit;
- 	}
-@@ -1571,7 +1571,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 	u8 *pwpa, *pwpa2;
- 	u8 null_addr[] = {0, 0, 0, 0, 0, 0};
- 
--	if (pie == NULL || !ielen) {
-+	if (!pie || !ielen) {
- 		/* Treat this as normal case, but need to clear WIFI_UNDER_WPS */
- 		_clr_fwstate_(&padapter->mlmepriv, WIFI_UNDER_WPS);
- 		goto exit;
-@@ -1583,7 +1583,7 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 	}
- 
- 	buf = rtw_zmalloc(ielen);
--	if (buf == NULL) {
-+	if (!buf) {
- 		ret =  -ENOMEM;
- 		goto exit;
- 	}
-@@ -1873,7 +1873,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
- 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, key_material);
- 			pwep = rtw_malloc(wep_total_len);
--			if (pwep == NULL) {
-+			if (!pwep) {
- 				ret = -ENOMEM;
- 				goto exit;
- 			}
-@@ -2708,7 +2708,7 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy,
- 	struct adapter *padapter;
- 	struct rtw_wdev_priv *pwdev_priv;
- 
--	if (ndev == NULL) {
-+	if (!ndev) {
- 		ret = -EINVAL;
- 		goto exit;
- 	}
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-index 9d4a233a861e..908022a17b3f 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-@@ -153,7 +153,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 
- 		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) { /* sta mode */
- 			psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
--			if (psta == NULL) {
-+			if (!psta) {
- 				/* DEBUG_ERR(("Set wpa_set_encryption: Obtain Sta_info fail\n")); */
- 			} else {
- 				/* Jeff: don't disable ieee8021x_blocked while clearing key */
-@@ -206,7 +206,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 			}
- 
- 			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
--			if (pbcmc_sta == NULL) {
-+			if (!pbcmc_sta) {
- 				/* DEBUG_ERR(("Set OID_802_11_ADD_KEY: bcmc stainfo is null\n")); */
- 			} else {
- 				/* Jeff: don't disable ieee8021x_blocked while clearing key */
-@@ -236,9 +236,9 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
- 	int ret = 0;
- 	u8 null_addr[] = {0, 0, 0, 0, 0, 0};
- 
--	if ((ielen > MAX_WPA_IE_LEN) || (pie == NULL)) {
-+	if (ielen > MAX_WPA_IE_LEN || !pie) {
- 		_clr_fwstate_(&padapter->mlmepriv, WIFI_UNDER_WPS);
--		if (pie == NULL)
-+		if (!pie)
- 			return ret;
- 		else
- 			return -EINVAL;
-@@ -246,7 +246,7 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
- 
- 	if (ielen) {
- 		buf = rtw_zmalloc(ielen);
--		if (buf == NULL) {
-+		if (!buf) {
- 			ret =  -ENOMEM;
- 			goto exit;
- 		}
-@@ -491,7 +491,7 @@ static int wpa_supplicant_ioctl(struct net_device *dev, struct iw_point *p)
- 		return -EINVAL;
- 
- 	param = rtw_malloc(p->length);
--	if (param == NULL)
-+	if (!param)
- 		return -ENOMEM;
- 
- 	if (copy_from_user(param, p->pointer, p->length)) {
-@@ -571,7 +571,7 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 			goto exit;
- 	}
- 
--	if (strcmp(param->u.crypt.alg, "none") == 0 && (psta == NULL)) {
-+	if (strcmp(param->u.crypt.alg, "none") == 0 && !psta) {
- 		/* todo:clear default encryption keys */
- 
- 		psecuritypriv->dot11AuthAlgrthm = dot11AuthAlgrthm_Open;
-@@ -583,7 +583,7 @@ static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param,
- 	}
- 
- 
--	if (strcmp(param->u.crypt.alg, "WEP") == 0 && (psta == NULL)) {
-+	if (strcmp(param->u.crypt.alg, "WEP") == 0 && !psta) {
- 		wep_key_idx = param->u.crypt.idx;
- 		wep_key_len = param->u.crypt.key_len;
- 
-@@ -1229,7 +1229,7 @@ static int rtw_hostapd_ioctl(struct net_device *dev, struct iw_point *p)
- 		return -EINVAL;
- 
- 	param = rtw_malloc(p->length);
--	if (param == NULL)
-+	if (!param)
- 		return -ENOMEM;
- 
- 	if (copy_from_user(param, p->pointer, p->length)) {
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index f78bf174de8e..1b8b76f14740 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -488,7 +488,7 @@ void rtw_unregister_netdevs(struct dvobj_priv *dvobj)
- 
- 	padapter = dvobj->padapters;
- 
--	if (padapter == NULL)
-+	if (!padapter)
- 		return;
- 
- 	pnetdev = padapter->pnetdev;
-@@ -594,7 +594,7 @@ struct dvobj_priv *devobj_init(void)
- 	struct dvobj_priv *pdvobj = NULL;
- 
- 	pdvobj = rtw_zmalloc(sizeof(*pdvobj));
--	if (pdvobj == NULL)
-+	if (!pdvobj)
- 		return NULL;
- 
- 	mutex_init(&pdvobj->hw_init_mutex);
--- 
-2.33.0
 
+Best Regards
+
+
+>
+> It looks like your having trouble with Kconfig. Have a look at:
+>
+>    https://www.kernel.org/doc/html/latest/kbuild/makefiles.html
+>
+> and:
+>
+>    https://www.kernel.org/doc/html/latest/kbuild/modules.html
+>
+> Also, you shouldn't need to install anything if you're just testing
+> whether a module builds. Especially when 'sudo' and 'install' are
+> involved.
+>
+> >
+> > test -e include/generated/autoconf.h -a -e include/config/auto.conf || =
+( \
+> > echo >&2; \
+> > echo >&2 "  ERROR: Kernel configuration is invalid."; \
+> > echo >&2 "         include/generated/autoconf.h or
+> > include/config/auto.conf are missing.";\
+> > echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
+> > to fix it."; \
+> >
+>
+> If I were you I would be asking:
+>
+> "What is a Kernel configuration file? and how did I corrupt mine?"
+>
+>    https://www.kernel.org/doc/html/latest/kbuild/kconfig.html
+>
+> >
+> > echo >&2 ; \
+> > /bin/false)
+> > make -f ./scripts/Makefile.build obj=3Ddrivers/staging/android \
+> > single-build=3D \
+> > need-builtin=3D1 need-modorder=3D1
+> > sh ./scripts/modules-check.sh drivers/staging/android/modules.order
+> > make -f ./scripts/Makefile.modpost
+> > WARNING: Symbol version dump "Module.symvers" is missing.
+> >          Modules may not have dependencies or modversions.
+> >          You may get many unresolved symbol warnings.
+> > make -f ./scripts/Makefile.modfinal
+> >
+>
+> "What is Module.symvers?"
+>
+>   If you're reading the links I gave, you should know this by now. :)
+>   Check out chapter 6 in "Building External Modules"
+>
+> >
+> > I followed this and ran make oldconfig && make prepare but all that is
+> > outputted is again  "WARNING: Symbol version dump "Module.symvers" is
+> > missing. Modules may not have dependencies or modversions. You may get
+> > many unresolved symbol warnings." Then I just tried sudo make
+> > modules_install install   again and what was outputted was:
+> >
+>
+>   Again, Be *VERY* careful running commands you do not understand.
+>   Especially when the words 'sudo' and 'install' are in the same
+>   command.
+>
+> >
+> > sed: can't read modules.order: No such file or directory
+> > make[1]: *** [Makefile:1494: __modinst_pre] Error 2
+> > make: *** [Makefile:351: __build_one_by_one] Error 2
+> >
+>
+> "What does modules.order do?"
+>
+>   https://www.kernel.org/doc/html/latest/kbuild/kbuild.html
+>
+> >
+> > Any ideas?  I've been stuck on debugging for hours to no avail. Please
+> > enlighten me on where I am messing up.
+> >
+>
+> All I can say is the kernels' documentation is the greatest thing to
+> have when joining the community. The search bar is *fantastic*.
+>
+>   https://www.kernel.org/doc/html/latest/index.html
+>
+> Together with the collective history of ~30 years of developer's
+> conversations on Linux Kernel Mailing List (LMKL).
+>
+>   https://lore.kernel.org/lkml/
+>
+> Along with our ability to see the full commit history at any time by:
+>
+>   $ git grep <regexp>
+>
+> In the end, all of the questions you have are in the documentation. I
+> can't stress enough how appreciative we should be of contributers to
+> Documentation/ and people like Jonathan Corbet who take the time to
+> document how all of this stuff works in such a straight forward way.
+>
+> Withholding simple answers like this may seem unfair, but the juice is
+> absolutely worth the squeeze the next time you run into another issue.
+>
+> And trust me when I say you *will* run into another issue. We wouldn't
+> be here if there weren't constant issues to solve.
+>
+> We've all been where you're at. Even Greg, he may deny this, but I'm
+> sure he has been.
+>
+> I'm excited to see what you learn.
+> ~Bryan
+>
+> ***
+>
+> Just as an aside, for any other lurkers out there: This was the email
+> that gave me confidence that I could join this community and that
+> sending a patch, no matter how small, is welcome.
+>
+>   https://lore.kernel.org/lkml/Pine.LNX.4.58.0412201646220.4112@ppc970.os=
+dl.org/
+>
+> The old "grey-beards" here don't bite, no matter how much they and
+> everyone else say they do.
+>
