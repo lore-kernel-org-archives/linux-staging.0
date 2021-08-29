@@ -1,226 +1,87 @@
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36023FC2
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 14:45:59 +0000 (UTC)
-Date: Sun, 29 Aug 2021 14:45:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1630248350;
-	bh=egrOQ3xpRZVhIt3GEQKBeg6M7dZBFdrtaZO951FwHac=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=CEh2i9lP5FOiNDIiidJgOLjpoqUebthIpivkxD2j1y0KtSRbqK/iPK2TSC9ZsgjOF
-	 ysV8+14/5d7WyihHPHsZsvJiymZDPqgxtov6p8VBzwTs8Fva5Ii+N6FHCRmldXkVub
-	 H2IPjC6k9ePB+h8AH+o9c63ogXig4Bc7tDDSOx/hmsQ1ynwt08ufF/+akx4P6FaNTT
-	 3zxTMqb0nwaaW6m00zh++QCqRlmwZBxnvWB3tSBQ46t/FY+jVlaG+d+qLiGMXGXiyJ
-	 xtRi9Y3yWymap+dSwgW/HXeni59DQgOQqttr4tvJyrChhOQaa9ED1hZp6s54u3Fc9P
-	 h7Xb6+qV76BGg==
-To: Krish Jain <krishjain02939@gmail.com>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH] Declare the file_operations struct as const
-Message-ID: <20210829144531.c2syu4vv4s22dlg7@h510>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8E83FC2
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 15:04:05 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id j17-20020a05600c1c1100b002e754875260so7673981wms.4
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 08:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=dx6YBc7me/tNxvWQQhiRH8PX3cEFwDzBP2xfLMTDAbo=;
+        b=kMJeKSGuVXUzAC2feI9RJPBmrnkQlr0o3IIXUIqSllXLz+cCY/0Rn663qBZXKe6B1O
+         fOnm3Fah6T0BNcO/ll0wGo83e2KUKLa4o+kG/uQI4j8WPc2Q0obtgriySqd+ygEm5dG2
+         tKmAdaBqyeU3U4+wzsRIWF7Ae3zTTFo4QF9jZXzCXjr3zbdfTo5dbJ0FDI/yNIlVWycQ
+         AofWeiY+luCwHrwviUyjiB1Q61XsAiK4iPPaxg5+hno2QRhDUGnxnb5LnK4dAYrC5pBb
+         oDwa+iLGOls1Tfwkrx7S/ToPja3Aag+5Uv2SxV5mUWCWL2qrvGr/HEMLQo/udPo7n/8H
+         HgPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=dx6YBc7me/tNxvWQQhiRH8PX3cEFwDzBP2xfLMTDAbo=;
+        b=EYZ9aLWeExUpvd8AqobSQHI1BmPU6MC2I02KW8qGaoA0717FOc1mBhToZor1aHiMM5
+         zBYg1d7mA/ciuRJMeJJILglpK9+H3SsoXboTIDAWopIDYocbZlYmYIVtc6aXgtlOYqYe
+         b81zQgwZAyKDliylKcU8dOj+xRhootEF7xE0dcKQa3cxVbEfpN1Bhwtbo6wIMm6yAnxG
+         MaPoUXcPcXV7hoQTsG0DpKd/Oyj+9Y3Q175dJ0AA1phQaydCHDuckpavWVCbWK7STj3b
+         bVK2ZpdQMcXHi4h4WZ7ZOH1k13p9pJYKBDnmr/u8kv33LITcDNEUu7+KVw6eovLxsLhJ
+         9DLg==
+X-Gm-Message-State: AOAM532JfiKk+PqpSyKCaGM753mK+FsfxPeDlPjnUw9nJu9aOTF6LWxS
+	Dxi6bEUjD4EB2vL6vfDkRG0=
+X-Google-Smtp-Source: ABdhPJxbo/RS6HSasHPE2utTSn9O0bQvJtekD7CsR6csw19GXYGgq7pTzh31rlc1gic4CsmXY38Taw==
+X-Received: by 2002:a05:600c:22c3:: with SMTP id 3mr4644512wmg.133.1630249444276;
+        Sun, 29 Aug 2021 08:04:04 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::16fa? ([2a02:8108:96c0:3b88::16fa])
+        by smtp.gmail.com with UTF8SMTPSA id r20sm13119780wrr.47.2021.08.29.08.04.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Aug 2021 08:04:03 -0700 (PDT)
+Message-ID: <3f63d7e1-0eb4-21c0-49eb-262cdadf0e87@gmail.com>
+Date: Sun, 29 Aug 2021 17:04:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH 0/3] staging: r8188eu: cleanup c2h_handler code
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
+Cc: fmdefrancesco@gmail.com, Larry.Finger@lwfinger.net,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210828212453.898-1-phil@philpotter.co.uk>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20210828212453.898-1-phil@philpotter.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Krish
+On 8/28/21 23:24, Phillip Potter wrote:
+> This small patch set cleans up the c2h_handler code in the HAL layer
+> of the driver. In r8188eu, this field of struct hal_ops, is not even
+> used, so dependent code has always returned _FAIL. For this reason, we
+> should remove this function pointer field, and the wrapper function
+> which checks it. This is done in stages by this set, and helps get
+> the driver closer to the pointer where the HAL layer is
+> deleted/integrated as necessary and no longer a separate entity.
+> 
+> Phillip Potter (3):
+>    staging: r8188eu: remove c2h_handler field from struct hal_ops
+>    staging: r8188eu: simplify c2h_evt_hdl function
+>    staging: r8188eu: remove rtw_hal_c2h_handler function
+> 
+>   drivers/staging/r8188eu/core/rtw_cmd.c     | 23 +++-------------------
+>   drivers/staging/r8188eu/hal/hal_intf.c     |  9 ---------
+>   drivers/staging/r8188eu/include/hal_intf.h |  4 ----
+>   3 files changed, 3 insertions(+), 33 deletions(-)
+> 
 
-On this day, August 29, 2021, thus sayeth Krish Jain:
-> On Sun, Aug 29, 2021 at 8:17 AM Greg KH <gregkh@linuxfoundation.org> wrot=
-e:
-> >
-> > On Sun, Aug 29, 2021 at 04:13:43AM +0200, Krish Jain wrote:
-> > > On Sat, Aug 28, 2021 at 1:38 AM Bryan Brattlof <hello@bryanbrattlof.c=
-om> wrote:
-> > > > As for your patch, I built the driver using:
-> > > >
-> > > >   $ make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android
-> > > >
-> > > > Which produced the following error:
-> > > >
-> > > >
-> > > > drivers/staging/android/ashmem.c: In function =E2=80=98ashmem_mmap=
-=E2=80=99:
-> > > > drivers/staging/android/ashmem.c:380:2: warning: =E2=80=98static=
-=E2=80=99 is not at beginning of declaration [-Wold-style-declaration]
-> > > >   380 |  const static struct file_operations vmfile_fops;
-> > > >       |  ^~~~~
-> > > > drivers/staging/android/ashmem.c:431:16: error: assignment of read-=
-only variable =E2=80=98vmfile_fops=E2=80=99
-> > > >   431 |    vmfile_fops =3D *vmfile->f_op;
-> > > >       |                ^
-> > > > drivers/staging/android/ashmem.c:432:21: error: assignment of membe=
-r =E2=80=98mmap=E2=80=99 in read-only object
-> > > >   432 |    vmfile_fops.mmap =3D ashmem_vmfile_mmap;
-> > > >       |                     ^
-> > > > drivers/staging/android/ashmem.c:433:34: error: assignment of membe=
-r =E2=80=98get_unmapped_area=E2=80=99 in read-only object
-> > > >   433 |    vmfile_fops.get_unmapped_area =3D
-> > > >       |                                  ^
-> > > > make[1]: *** [scripts/Makefile.build:271: drivers/staging/android/a=
-shmem.o] Error 1
-> > > > make: *** [Makefile:1851: drivers/staging/android] Error 2
-> > > >
-> > >
-> > > Hi, this seems very useful and I tried this myself just now. I don't
-> > > get any errors that you do though. When I hit enter I just get a new
-> > > shell prompt. What am I doing wrong? Probably a silly mistake. I ran
-> > > make CCFLAGS=3D-Werror M=3Ddrivers/staging/android/.
-> >
-> > Are you sure the file is being built at all?  You usually have to selec=
-t
-> > the proper configuration option to enable that driver as well.
->
->
-> Hi, what option do you mean?  I already ran make allmodconfig and sudo
-> make modules_install install and then make   "CCFLAGS=3D-Werror W=3D1
-> M=3Ddrivers/staging/android/" and now I do get output but one line
-> "WARNING: Symbol version dump "Module.symvers" is missing. Modules may
-> not have dependencies or modversions. You may get many unresolved
-> symbol warnings." . Then I tried "make CCFLAGS=3D-Werror V=3D1
-> M=3Ddrivers/staging/android/" and that outputted the following:
->
+Thanks for your patches Phillip. Looks good to me and I've built and
+runtime tested this series with Inter-Tech DMG-02, so...
 
-Most of the answers you're asking for are going to get vague responses
-(if any) on the mailing lists. The idea being (and I agree with) that
-giving out the answers will steal your opportunity to explore and learn
-the material yourself.
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
-Yes, it would be faster if we told you the answer, but ultimately, we
-would be doing a disservice to you.
-
-Besides, more times than not we (me especially) don't have the answer.
-
-With that said, I will give a (generous) hint. :)
-
-***
-
-It looks like your having trouble with Kconfig. Have a look at:
-
-   https://www.kernel.org/doc/html/latest/kbuild/makefiles.html
-
-and:
-
-   https://www.kernel.org/doc/html/latest/kbuild/modules.html
-
-Also, you shouldn't need to install anything if you're just testing
-whether a module builds. Especially when 'sudo' and 'install' are
-involved.
-
->
-> test -e include/generated/autoconf.h -a -e include/config/auto.conf || ( =
-\
-> echo >&2; \
-> echo >&2 "  ERROR: Kernel configuration is invalid."; \
-> echo >&2 "         include/generated/autoconf.h or
-> include/config/auto.conf are missing.";\
-> echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
-> to fix it."; \
->
-
-If I were you I would be asking:
-
-"What is a Kernel configuration file? and how did I corrupt mine?"
-
-   https://www.kernel.org/doc/html/latest/kbuild/kconfig.html
-
->
-> echo >&2 ; \
-> /bin/false)
-> make -f ./scripts/Makefile.build obj=3Ddrivers/staging/android \
-> single-build=3D \
-> need-builtin=3D1 need-modorder=3D1
-> sh ./scripts/modules-check.sh drivers/staging/android/modules.order
-> make -f ./scripts/Makefile.modpost
-> WARNING: Symbol version dump "Module.symvers" is missing.
->          Modules may not have dependencies or modversions.
->          You may get many unresolved symbol warnings.
-> make -f ./scripts/Makefile.modfinal
->
-
-"What is Module.symvers?"
-
-  If you're reading the links I gave, you should know this by now. :)
-  Check out chapter 6 in "Building External Modules"
-
->
-> I followed this and ran make oldconfig && make prepare but all that is
-> outputted is again  "WARNING: Symbol version dump "Module.symvers" is
-> missing. Modules may not have dependencies or modversions. You may get
-> many unresolved symbol warnings." Then I just tried sudo make
-> modules_install install   again and what was outputted was:
->
-
-  Again, Be *VERY* careful running commands you do not understand.
-  Especially when the words 'sudo' and 'install' are in the same
-  command.
-
->
-> sed: can't read modules.order: No such file or directory
-> make[1]: *** [Makefile:1494: __modinst_pre] Error 2
-> make: *** [Makefile:351: __build_one_by_one] Error 2
->
-
-"What does modules.order do?"
-
-  https://www.kernel.org/doc/html/latest/kbuild/kbuild.html
-
->
-> Any ideas?  I've been stuck on debugging for hours to no avail. Please
-> enlighten me on where I am messing up.
->
-
-All I can say is the kernels' documentation is the greatest thing to
-have when joining the community. The search bar is *fantastic*.
-
-  https://www.kernel.org/doc/html/latest/index.html
-
-Together with the collective history of ~30 years of developer's
-conversations on Linux Kernel Mailing List (LMKL).
-
-  https://lore.kernel.org/lkml/
-
-Along with our ability to see the full commit history at any time by:
-
-  $ git grep <regexp>
-
-In the end, all of the questions you have are in the documentation. I
-can't stress enough how appreciative we should be of contributers to
-Documentation/ and people like Jonathan Corbet who take the time to
-document how all of this stuff works in such a straight forward way.
-
-Withholding simple answers like this may seem unfair, but the juice is
-absolutely worth the squeeze the next time you run into another issue.
-
-And trust me when I say you *will* run into another issue. We wouldn't
-be here if there weren't constant issues to solve.
-
-We've all been where you're at. Even Greg, he may deny this, but I'm
-sure he has been.
-
-I'm excited to see what you learn.
-~Bryan
-
-***
-
-Just as an aside, for any other lurkers out there: This was the email
-that gave me confidence that I could join this community and that
-sending a patch, no matter how small, is welcome.
-
-  https://lore.kernel.org/lkml/Pine.LNX.4.58.0412201646220.4112@ppc970.osdl=
-.org/
-
-The old "grey-beards" here don't bite, no matter how much they and
-everyone else say they do.
-
+Thanks,
+Michael
