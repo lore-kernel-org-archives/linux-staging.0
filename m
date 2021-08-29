@@ -1,146 +1,151 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CCC72
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 18:07:37 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id c8-20020a7bc008000000b002e6e462e95fso13073765wmb.2
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 11:07:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4105872
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 18:28:45 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id m17so7221707plc.6
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 11:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sL3q5BOrUOSwHA12R2JhIzt7TAoia6mkYVfF1Nh53XU=;
-        b=YGWWFJs39bbIiiQAw1AJzle4BZkYZ/DTIYm7gcgiPP7eqZndvAODj7R2OsNbXyO6Vp
-         AUaSbwzhWW2wHdENqvFX6oNF6Hv1G98OjRHD8jTT+R9o0ZaVp3SdjHUzcZOI2CsuNKaD
-         cr42NgvhLk2gbFW5a5kCwC/yku8F0aLxjzVSWtpTHAqmHQtXazsyrv1pv7omNIEMuP7q
-         NMJIIyn6c64PO9eH2550wqlmOyVhXdHLw68v6qUB0rf/73znIVCqwrloTjVp7mWERatp
-         27FIxLHRY31+H/bBgClrbTuVON7pXLQmHmGabudWesDfVnzzPmGmiMczcCcLyKEekU3P
-         UI4Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Ag9D8N0fhBIrol0HNSilfA7AMgyYglE49DL9RoGRtsU=;
+        b=svC4gFefGSS+cR/UbjmxUfdMp4uT7qfQz8vBEFSDJvv4yVkNw0lAR+cIyAtZtpP2JY
+         YDR7PG68+OREMz6GdOh3hpGjHgSDOJ/f/UfvY69fPcQNFd/tKoDj3NeNxCktR3aTXslN
+         zW4YMJQLpozi/SQEpm28Eg0O1bwgZd4ImCpgIj8sbIbLb2XR9ApTzHS7rn+UgrXyY11c
+         Htn0XXrmIJeFwBNpHLQj3Umhj1xYQ5jJ9SSBNql24qUHoznRI59RCpX8m5i0ZZhfznBM
+         vxrVz30o3NSlRUMd/a/OzVBURD31TFeMn2kSoIuy29KITTOOuhmXMemM8eDQuC71ImF/
+         B5rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sL3q5BOrUOSwHA12R2JhIzt7TAoia6mkYVfF1Nh53XU=;
-        b=Y6od3yTJKnZIpaJJhaK9HWi8aPYEFRiwbO1ylwYjtjVJ9irtp1b5LwMId4h/3IhsO5
-         M4dqfwO+Yi9Qa8KiywRyIpOkx0DiQ7DznsjwaNYtihbDZFXqJm8lXmv68ALjLIdNpdAd
-         o6UEVWO3dAMg5TMspXSucUVeEGRDqRceApB40aQ2m9mDWoG8m/ruHFzNWr0QgFGfm/Iu
-         WagKIcMm1ZfFeeViAI7ff2/GPbOj/3fKNgfMSzJeYtyuovecG30oylQIFdSCGyXKog5p
-         nEACUe3Yu57o9FhpsoM3hrQFjyN57y3KDfdmR/iiQpKmgUTpPnl1uq0jkrqySIM45t4w
-         75Ow==
-X-Gm-Message-State: AOAM5307nSkJiuToD4vKiY6gUj1dkChhN2R9ZJVzii8hfcf7e4FHmYRG
-	SD/VDx0dB0H0hwuOev45b70=
-X-Google-Smtp-Source: ABdhPJzVA/bsxb3Wf7vRyIaanehNUmwxg3iMzl6iisTzS6M2/BKpe+kyWa5Of4iiCKuyx3Bkf3ystg==
-X-Received: by 2002:a1c:7515:: with SMTP id o21mr18808112wmc.150.1630260456344;
-        Sun, 29 Aug 2021 11:07:36 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id f7sm17124287wmh.20.2021.08.29.11.07.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Aug 2021 11:07:35 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: remove commented constants from wifi.h
-Date: Sun, 29 Aug 2021 20:07:17 +0200
-Message-Id: <20210829180717.15393-2-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210829180717.15393-1-straube.linux@gmail.com>
-References: <20210829180717.15393-1-straube.linux@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ag9D8N0fhBIrol0HNSilfA7AMgyYglE49DL9RoGRtsU=;
+        b=Dp3luhrzKC0dhCXPRlp6FcQEWxSVI5tFHwssoOMFC4uuqEG5kFvgCqa/D3mfdvIhzP
+         r3SzlRNr6ZvlvqrCXIieqXseIPdfwxVKt+74hnhnWAQ97MfIpEhDQRsmdXegKk2ZfKmP
+         zFwbijgI4MMDEHTvqQLRS/IGVteixBfAWk6mP1V8YTKoU5gftYUrtKkFzzwW6qeL3Pip
+         ILgO+tBJrBh+85qOpjETY/iMx3SiDvxvB2wNiay389HLJYcPz44zHJWEzDP1xVeTDwOS
+         ec6hazPuS8o0feLweqyGoZBcU/Tkd5NT8kwen/uzdjoRXnvqZb/kH114GSjcfJiSFhbS
+         ANIA==
+X-Gm-Message-State: AOAM533bMGcMGGHu+e2nXCQvIdjSkkKrFUjm+wUgmdBfMZrVcZdWmu/7
+	7V53Sq5PjmRKQEGXtlch8MvBYAJEnoDWx+oq0IA=
+X-Google-Smtp-Source: ABdhPJxILhmsT/D4BB4XHvQ4sLJiXMQUnZttdEevpvWn2M3282wW2knpdWHPjJtqDm+pn4FTHFSDu2sVyR65npqsmIM=
+X-Received: by 2002:a17:90a:ec0a:: with SMTP id l10mr373574pjy.26.1630261724681;
+ Sun, 29 Aug 2021 11:28:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+xTFBeH-x-=dsQK-K5KjZZ7JKmQggz2s26=p7g+71kZjA@mail.gmail.com>
+ <20210829164921.u5ntqk5jz2v3hlgr@h510> <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com>
+In-Reply-To: <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Sun, 29 Aug 2021 20:28:33 +0200
+Message-ID: <CAPGkw+wGn1oTAO7JXXApDMm4cFfxXam913hOGnnup1nSOpcVPA@mail.gmail.com>
+Subject: Re: [PATCH] Declare the file_operations struct as const
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove commented constants from wifi.h.
+Basically it says "you must have a prebuilt kernel available that
+contains the configuration and header files used in the build." Since
+for the staging kernel  "make oldconfig" asked me for  more
+configurations apart from my old configuration file (as it reads the
+existing .config file that was used for an old kernel and prompts the
+user for options in the current kernel source that are not found in
+the file) . So I *don't* currently have a prebuilt kernel that
+contains all the configuration in my staging kernel's .config file. So
+do I have to build the kernel once before I can just build the module
+with "make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android" ?
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/include/wifi.h | 50 --------------------------
- 1 file changed, 50 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index eb07ac9b8943..193a557f0f47 100644
---- a/drivers/staging/r8188eu/include/wifi.h
-+++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -114,33 +114,6 @@ enum WIFI_REASON_CODE	{
- 	_RSON_TDLS_TEAR_UN_RSN_		= 26,
- };
- 
--/* Reason codes (IEEE 802.11-2007, 7.3.1.7, Table 7-22)
--
--#define WLAN_REASON_UNSPECIFIED 1
--#define WLAN_REASON_PREV_AUTH_NOT_VALID 2
--#define WLAN_REASON_DEAUTH_LEAVING 3
--#define WLAN_REASON_DISASSOC_DUE_TO_INACTIVITY 4
--#define WLAN_REASON_DISASSOC_AP_BUSY 5
--#define WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA 6
--#define WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA 7
--#define WLAN_REASON_DISASSOC_STA_HAS_LEFT 8
--#define WLAN_REASON_STA_REQ_ASSOC_WITHOUT_AUTH 9 */
--/* IEEE 802.11h */
--
--/* IEEE 802.11i
--#define WLAN_REASON_INVALID_IE 13
--#define WLAN_REASON_MICHAEL_MIC_FAILURE 14
--#define WLAN_REASON_4WAY_HANDSHAKE_TIMEOUT 15
--#define WLAN_REASON_GROUP_KEY_UPDATE_TIMEOUT 16
--#define WLAN_REASON_IE_IN_4WAY_DIFFERS 17
--#define WLAN_REASON_GROUP_CIPHER_NOT_VALID 18
--#define WLAN_REASON_PAIRWISE_CIPHER_NOT_VALID 19
--#define WLAN_REASON_AKMP_NOT_VALID 20
--#define WLAN_REASON_UNSUPPORTED_RSN_IE_VERSION 21
--#define WLAN_REASON_INVALID_RSN_IE_CAPAB 22
--#define WLAN_REASON_IEEE_802_1X_AUTH_FAILED 23
--#define WLAN_REASON_CIPHER_SUITE_REJECTED 24 */
--
- enum WIFI_STATUS_CODE {
- 	_STATS_SUCCESSFUL_		= 0,
- 	_STATS_FAILURE_			= 1,
-@@ -155,19 +128,6 @@ enum WIFI_STATUS_CODE {
- 	_STATS_RATE_FAIL_		= 18,
- };
- 
--/* Status codes (IEEE 802.11-2007, 7.3.1.9, Table 7-23)
--#define WLAN_STATUS_SUCCESS 0
--#define WLAN_STATUS_UNSPECIFIED_FAILURE 1
--#define WLAN_STATUS_CAPS_UNSUPPORTED 10
--#define WLAN_STATUS_REASSOC_NO_ASSOC 11
--#define WLAN_STATUS_ASSOC_DENIED_UNSPEC 12
--#define WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG 13
--#define WLAN_STATUS_UNKNOWN_AUTH_TRANSACTION 14
--#define WLAN_STATUS_CHALLENGE_FAIL 15
--#define WLAN_STATUS_AUTH_TIMEOUT 16
--#define WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA 17
--#define WLAN_STATUS_ASSOC_DENIED_RATES 18 */
--
- /* entended */
- /* IEEE 802.11b */
- #define WLAN_STATUS_ASSOC_DENIED_NOSHORT 19
-@@ -552,16 +512,6 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
- #define _IEEE8021X_MGT_			1	/*  WPA */
- #define _IEEE8021X_PSK_			2	/*  WPA with pre-shared key */
- 
--/*
--#define _NO_PRIVACY_			0
--#define _WEP_40_PRIVACY_		1
--#define _TKIP_PRIVACY_			2
--#define _WRAP_PRIVACY_			3
--#define _CCMP_PRIVACY_			4
--#define _WEP_104_PRIVACY_		5
--#define _WEP_WPA_MIXED_PRIVACY_ 6	WEP + WPA
--*/
--
- /*-----------------------------------------------------------------------------
- 				Below is the definition for WMM
- ------------------------------------------------------------------------------*/
--- 
-2.33.0
+Thanks again
 
+On Sun, Aug 29, 2021 at 6:56 PM Krish Jain <krishjain02939@gmail.com> wrote=
+:
+>
+> On Sun, Aug 29, 2021 at 6:49 PM Bryan Brattlof <hello@bryanbrattlof.com> =
+wrote:
+> >
+> > On this day, August 29, 2021, thus sayeth Krish Jain:
+> > > > >
+> > > > > Hi, what option do you mean?  I already ran make allmodconfig and=
+ sudo
+> > > > > make modules_install install and then make   "CCFLAGS=3D-Werror W=
+=3D1
+> > > > > M=3Ddrivers/staging/android/" and now I do get output but one lin=
+e
+> > > > > "WARNING: Symbol version dump "Module.symvers" is missing. Module=
+s may
+> > > > > not have dependencies or modversions. You may get many unresolved
+> > > > > symbol warnings." . Then I tried "make CCFLAGS=3D-Werror V=3D1
+> > > > > M=3Ddrivers/staging/android/" and that outputted the following:
+> > > > >
+> > > >
+> > > > Most of the answers you're asking for are going to get vague respon=
+ses
+> > > > (if any) on the mailing lists. The idea being (and I agree with) th=
+at
+> > > > giving out the answers will steal your opportunity to explore and l=
+earn
+> > > > the material yourself.
+> > > >
+> > > > Yes, it would be faster if we told you the answer, but ultimately, =
+we
+> > > > would be doing a disservice to you.
+> > > >
+> > > > Besides, more times than not we (me especially) don't have the answ=
+er.
+> > > >
+> > > > With that said, I will give a (generous) hint. :)
+> > > >
+> > >
+> > > Hi. Do I have to build the kernel once before this works? Or can I
+> > > just build a module directly?
+> > >
+> >
+> > Again, do not allow others to rob you of learning how to solve these
+> > issues yourself. I *strongly* encourage you to familiarize yourself wit=
+h
+> > the Kernel Build System in the Documentation.
+> >
+> >   https://www.kernel.org/doc/html/latest/kbuild/modules.html
+> >
+> > Specifically the first paragraph of "2. How to Build External Modules"
+> >
+> > It may seem like a lot for such a simple issue but it *is* worth it.
+> > ~Bryan
+> >
+>
+>
+>
+> That section says
+>
+>
+> "To build external modules, *you must have a prebuilt kernel
+> available* that contains the configuration and header files used in
+> the build. Also, the kernel must have been built with modules enabled.
+> If you are using a distribution kernel, there will be a package for
+> the kernel you are running provided by your distribution.
+>
+> An alternative is to use the =E2=80=9Cmake=E2=80=9D target =E2=80=9Cmodul=
+es_prepare.=E2=80=9D This
+> will make sure the kernel contains the information required. The
+> target exists solely as a simple way to prepare a kernel source tree
+> for building external modules.
+>
+> NOTE: =E2=80=9Cmodules_prepare=E2=80=9D will not build Module.symvers eve=
+n if
+> CONFIG_MODVERSIONS is set; therefore, *a full kernel build needs to be
+> executed to make module versioning work.*"
+>
+> So I am just trying to confirm with you whether I have to first build
+> the kernel with like "make" or not? As you can imagine my hardware
+> takes *very* long to build a kernel as I did in my last attempt so I
+> am asking whether it is needed. Hope you understand.
+>
+> Best Regards
