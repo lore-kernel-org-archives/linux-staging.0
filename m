@@ -1,41 +1,41 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3803FC4
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 09:25:26 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id d6so16800707edt.7
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 02:25:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7E472
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 09:25:27 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id u14so23968378ejf.13
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 02:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=P8cOJwuF63B3kAPlXYd6oasS8yb7CPWzUAASpmG5Xb8=;
-        b=gVCHHH9NHciA1B34T3gAuRPrjTuX53cpRqJEQgM9Gq4LNYSxOwO3j/T9ho1b0YDBgv
-         +0dAkztcE4mzaQ7RL3R3+B1L8gCjNsx/C6pb23oETbXXCOpPoS1RziijwIrKUKvmg/Ln
-         yKS+7/eGdq0AN6ulT8KIOFWiKIQiKNARa+QY+QEcRbpLdZ8kFE3A19jO2QgtjfHmAWfR
-         zcURkAU7yfJmylqmvxk1WiScTlIBf5QTJ6g4zeZw5MEP0yhG+HeJtXmWWjrzxrWu/40T
-         qJpDMzp+olz3hntqiWFpMOHY9uwVXzoCohCXwmdhfdGv3RyQH0GKUHdS4tJhbmXM/7il
-         JVow==
+        bh=Y/vLiAJAaLirA4avCZmKDO9X3ZYIarkhOAplTyeTCuQ=;
+        b=Qr1Vu7B/4dGm3jo/y7RSWSg2knbJ+HvFnc1LNyTB5MqJfVz1+bH3pl4YrrAQKQFz9E
+         8adHx89CHjAw7IcQvSOP7QVo4K8kfCP9WtLak2g05CIj4J89LMzz20ondNdV0Ro4Dt0Q
+         vMDaJL00H/7LbJrEhHt31JQit3aFXs0ApjtgmdfLBwIrJkhhj3niXuFOvzl7VnB8MPb+
+         qUc0aAmiXCNgLdTEfmIjh5xSwXOzO6dKaQVEIcrJeYHlTQY0jpKfnrMesrryjBWL8/h7
+         WbQa+3Q9pOvMBk1WQPQzZfGA4q8zXJyPI8tyLZca3oHExyE0spoLmbG9kb2/Fe1Fwvbm
+         M8HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=P8cOJwuF63B3kAPlXYd6oasS8yb7CPWzUAASpmG5Xb8=;
-        b=P9+LgevBN4w2qpcSTJmWQSl5aJyZb54lO2fRaCS3Dy7IlOotHArckVZssMsfWeH+Bb
-         bWbn6KNMEdyXJf9z5xp0tvDQW1VwOWfYsPgmxv9Rqp4CHY5+B3W5aJ7wYO6bNQ/TJcp4
-         nrYuFeoHn3yzr7+WbNL/f0uHR3RqgRgyuo3WDjyGpb/X3EixicwK7MhjXyHwUgakvRXN
-         nEAkgO+GRTVA7+fEykmE+g4fMc7Pu3U9SDAwJ+PVjlJvW+MfK3s7sh+qIO/lRRYHlVaS
-         sHxWTZW1rzyoIcje4fdimTzLEfgjk/m8XsFV8c4eh/1XKX8gvXRb01qgt2X7dgmq6jG/
-         wiCA==
-X-Gm-Message-State: AOAM531o6hjlEJA6WueKm2CIycEf6xArJ6YeM7d/egwIuNUtUEm6D2XY
-	NSHn9eu2XDU0QTeyrPYS1ag=
-X-Google-Smtp-Source: ABdhPJxmrLnlHUJtXbMWShP+34rlN/WFLyCROTsnVKZ/ornQblLCWR2/QTS4xi+YKkbUHQSNfPDZvQ==
-X-Received: by 2002:aa7:c60e:: with SMTP id h14mr8450755edq.43.1630229125231;
-        Sun, 29 Aug 2021 02:25:25 -0700 (PDT)
+        bh=Y/vLiAJAaLirA4avCZmKDO9X3ZYIarkhOAplTyeTCuQ=;
+        b=WFci/vjBqbJjqvumblmVhvSY5TaVzc55mGhW472kqe15Pv55d4Kqxle8paEfiSEViN
+         nxhFYOUvls1FTXqqw4/b5XGkFfCD+LkNfL+f0bPY7CmAFpoKP2dnp1R3FEddybRmCpSP
+         YiV/S6agOmp/Qr9bysVfA2kl6mk1Znw0u3CQ8/Fhw1EbxJlISiApQoPh3B3dAiCsmVun
+         S7yy7N+0VX0h2NWQSSvbkSHCMCI4pmbIQhYJnPvD2IhHhw2u/+r4K8Fa5CJ0QtFCcqLR
+         VQZrbAiCS0FbqrAUbHmOzmplZevi0YzsP2Cr+jIp9q6KHZdENA2wGjX0J+lsgQsCOn5d
+         Ivnw==
+X-Gm-Message-State: AOAM532quh9irSBV3YTl9UGcCj8v+zk0VXJVeUEuqOLWa3lTtVp9LlxO
+	CmTwnpXjQpC1xmJEE1I11oE=
+X-Google-Smtp-Source: ABdhPJxikWcghIcWhGlR1xactSOdoCHE1XbeAujWmVrTeKRwpMF9J6c5zpFfY+BMadydR8ycLEgvIw==
+X-Received: by 2002:a17:906:c249:: with SMTP id bl9mr19266425ejb.225.1630229126040;
+        Sun, 29 Aug 2021 02:25:26 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id d23sm5814414edt.39.2021.08.29.02.25.24
+        by smtp.gmail.com with ESMTPSA id d23sm5814414edt.39.2021.08.29.02.25.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Aug 2021 02:25:24 -0700 (PDT)
+        Sun, 29 Aug 2021 02:25:25 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 4/6] staging: r8188eu: remove CAM_empty_entry()
-Date: Sun, 29 Aug 2021 11:25:00 +0200
-Message-Id: <20210829092502.3658-5-straube.linux@gmail.com>
+Subject: [PATCH 5/6] staging: r8188eu: remove is_ap_in_wep()
+Date: Sun, 29 Aug 2021 11:25:01 +0200
+Message-Id: <20210829092502.3658-6-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210829092502.3658-1-straube.linux@gmail.com>
 References: <20210829092502.3658-1-straube.linux@gmail.com>
@@ -59,42 +59,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function CAM_empty_entry() is unused, remove it.
+Function is_ap_in_wep() is unused, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_wlan_util.c   | 5 -----
- drivers/staging/r8188eu/include/rtw_mlme_ext.h | 1 -
- 2 files changed, 6 deletions(-)
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 30 -------------------
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |  1 -
+ 2 files changed, 31 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index bc10a08d01e6..ddc84f6b74e2 100644
+index ddc84f6b74e2..8491d82f4a70 100644
 --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
 +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -427,11 +427,6 @@ unsigned int decide_wait_for_beacon_timeout(unsigned int bcn_interval)
- 		return bcn_interval << 2;
+@@ -1134,36 +1134,6 @@ unsigned int should_forbid_n_rate(struct adapter *padapter)
+ 	}
  }
  
--void CAM_empty_entry(struct adapter *Adapter, u8 ucIndex)
+-unsigned int is_ap_in_wep(struct adapter *padapter)
 -{
--	rtw_hal_set_hwreg(Adapter, HW_VAR_CAM_EMPTY_ENTRY, (u8 *)(&ucIndex));
+-	u32 i;
+-	struct ndis_802_11_var_ie *pIE;
+-	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+-	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
+-
+-	if (rtw_get_capability((struct wlan_bssid_ex *)cur_network) & WLAN_CAPABILITY_PRIVACY) {
+-		for (i = sizeof(struct ndis_802_11_fixed_ie); i < pmlmeinfo->network.IELength;) {
+-			pIE = (struct ndis_802_11_var_ie *)(pmlmeinfo->network.IEs + i);
+-
+-			switch (pIE->ElementID) {
+-			case _VENDOR_SPECIFIC_IE_:
+-				if (!memcmp(pIE->data, RTW_WPA_OUI, 4))
+-					return false;
+-				break;
+-			case _RSN_IE_2_:
+-				return false;
+-			default:
+-				break;
+-			}
+-			i += (pIE->Length + 2);
+-		}
+-		return true;
+-	} else {
+-		return false;
+-	}
 -}
 -
- void invalidate_cam_all(struct adapter *padapter)
+ int wifirate2_ratetbl_inx(unsigned char rate)
  {
- 	rtw_hal_set_hwreg(padapter, HW_VAR_CAM_INVALID_ALL, NULL);
+ 	int	inx = 0;
 diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index c6b17da73c5f..01f770d02e5f 100644
+index 01f770d02e5f..1695a9695ddf 100644
 --- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
 +++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -462,7 +462,6 @@ void write_cam(struct adapter *padapter, u8 entry, u16 ctrl, u8 *mac, u8 *key);
- void clear_cam_entry(struct adapter *padapter, u8 entry);
+@@ -516,7 +516,6 @@ unsigned int receive_disconnect(struct adapter *padapter,
+ unsigned char get_highest_rate_idx(u32 mask);
+ int support_short_GI(struct adapter *padapter, struct HT_caps_element *caps);
+ unsigned int is_ap_in_tkip(struct adapter *padapter);
+-unsigned int is_ap_in_wep(struct adapter *padapter);
+ unsigned int should_forbid_n_rate(struct adapter *padapter);
  
- void invalidate_cam_all(struct adapter *padapter);
--void CAM_empty_entry(struct adapter * Adapter, u8 ucIndex);
- 
- int allocate_fw_sta_entry(struct adapter *padapter);
- void flush_all_cam_entry(struct adapter *padapter);
+ void report_join_res(struct adapter *padapter, int res);
 -- 
 2.32.0
 
