@@ -1,161 +1,100 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68CE3FC3
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 12:35:15 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id t19so24703914ejr.8
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 05:35:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3243FC3
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 12:48:09 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id u14so24687744ejf.13
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 05:48:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EYBZNoKAcbtNdSL+F8kkawzJmRLh+kaOYHD4JZttxW4=;
-        b=AZcej/jdSphU7fJhQ1DvwcdMuw/Rg7uLiTBaLEiLFBT7i22PAjhzwpFxNCHa5338ei
-         y5nqLZPuPq8j2nJXJhI97JhwNiqnwLhzdz2P7nWcXNs0A0u5nLY+EwRbDo/iqoUIiIrF
-         uftM8y7+yO+Mnb0qgqphUwaoT36Bt3J2mWSR+fmNYnm7JasmMTJnLtJvEGv7STl+cYE7
-         4e1R2KtNVy18c4mDoQLFT//6n8Z+L5Nq6LVrFknc6q24xQIbTtz228tbxMfVyRsJc9SW
-         XITHBGhSAmhFWtnbH1X6vxTDQWDghxLRvXUJZnOZQC+AmfraTUKspxl26QXA5FKGNnOx
-         8a5A==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=fx2U/XtzQdPMmzz3ViClmHkgP7ZRkumubzXlcaMQAgc=;
+        b=H7J+kJ0FaROaSAEynu14/HHVZ7CW4MZShaUQBSZW+7FzWI/CNBHzVd1d4LJS05zrT6
+         QuJEJzHHbycc3CirYzrYyEIcJwA5oTcenjy+6lSvA8/X5LuLGiifCkJzQojiAuSIp+NC
+         vUtR5o9YfDl4fU4U66GGLb8ukikmRFaSESPZaUhusSJWtYFQqJZ+NanVpb1bGrAjMaWt
+         th/5+7jm3DxXGsrdkW5NOipxUWdbB/R7FM2QvecvM+QgUjArRWxMmCTGejJCNvZZOBFv
+         d1/mfVDcf8M/UWr5R7uO2rAPvUI/IYIHaM0ya3P6q2GajyXOAG27CDIaMFifVoppyk53
+         UZow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EYBZNoKAcbtNdSL+F8kkawzJmRLh+kaOYHD4JZttxW4=;
-        b=NY55IjzlXBwsgnL6qRswE0j3vgPRUxbDYtnx/d0czNr8vVop/jArEK3jHqZ7M0CH78
-         NehoQBmBVZWlyOUe6DRiiWRXUe6GDrp3kyB5PI6zKMS3zgflC66f/KruwyuIgGWzxOj2
-         kl89HWp2jrpdW01DudnVA4rtCUJscHw8eQ6nx4DuPmAPPyZU7lijAz/INDX2jfnvvMik
-         UaAUAroPV58jggwvu70BBWI3bNDJu61GzGvuIBtoeBBjl2vdLsjgX3/tlVQTPtjYUizX
-         4zXObN6j/xZDg8UEhE9wIvr3FDcClXDS9MjLppa04M+fKtxeLTAw4yhpNgdzJpNIKClq
-         mutw==
-X-Gm-Message-State: AOAM531wBm8aopLkl4pQYkXpFgQtS/urSHcvPW/3tBQe47Eau3EObOOP
-	LVbK+9qpUgHXzd7xmDgAU9Y=
-X-Google-Smtp-Source: ABdhPJwW0Qaqfo2obGhYwtC9dXl7btM7gwIaG3Wog4ElTP6m3pr6NuVkEfz8WW4KYVb5lXPMx0ZKng==
-X-Received: by 2002:a17:906:7716:: with SMTP id q22mr20209551ejm.457.1630240514045;
-        Sun, 29 Aug 2021 05:35:14 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id n13sm3851225edq.91.2021.08.29.05.35.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Aug 2021 05:35:13 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, Larry Finger <Larry.Finger@lwfinger.net>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/3] staging: r8188eu: simplify c2h_evt_hdl function
-Date: Sun, 29 Aug 2021 14:35:11 +0200
-Message-ID: <3090174.7fztx2B5dC@localhost.localdomain>
-In-Reply-To: <CAA=Fs0meC_nVjb2gESnmz2pPgzNa4=QT_jnteAh4B8Cds6_0fQ@mail.gmail.com>
-References: <20210828212453.898-1-phil@philpotter.co.uk> <21174665.bKA57LRvRV@localhost.localdomain> <CAA=Fs0meC_nVjb2gESnmz2pPgzNa4=QT_jnteAh4B8Cds6_0fQ@mail.gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=fx2U/XtzQdPMmzz3ViClmHkgP7ZRkumubzXlcaMQAgc=;
+        b=Np0y/r8T5cUSjR+rsmyJctxKKBD2OMjK3IFc//pdBjTMXw9tELDejiBwMXcSfrvxpN
+         A1Tcmxc2dtyB5NZUyD/Td7z8TrGNNfSojbHPykPdTUd3gcdeEvjVxyj9jKIyAgo9lGjS
+         gDj9qmU/bWkzxG8fD+TWCAWAY1dpzil39B6YxrbAX6kPMtYiXitC7UpOVdxhz2Y5wusg
+         /IeNzAc8/V7cjvpPEyRXWrW24SUeaJO/vX4lrqVraUJthSqsmdRtISJAn3RX+eSxdq+A
+         ZAgg1IG3Y3zpLeTsXen90Ob6+1GLc/wbFQe/uVU7Ra27LIDjhOPoeRD6QidYCScn4x2b
+         kOIQ==
+X-Gm-Message-State: AOAM530sUax19xdXMZJ9X1UgzIxKOAr0jp8cD1u0kY3xkVNtBYZFl79X
+	OfVp8nBB+YkHIwx0xIVKB1Q=
+X-Google-Smtp-Source: ABdhPJyQXKQ2ht5+zMqKD0ywC/NdJXwdMwtgrwZPoAVAoOQhRvOxBQyX7Sk38fQnW9SmT48k3JjPBA==
+X-Received: by 2002:a17:906:3ed2:: with SMTP id d18mr19158501ejj.311.1630241288257;
+        Sun, 29 Aug 2021 05:48:08 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::16fa? ([2a02:8108:96c0:3b88::16fa])
+        by smtp.gmail.com with UTF8SMTPSA id i19sm6091154edx.54.2021.08.29.05.48.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Aug 2021 05:48:07 -0700 (PDT)
+Message-ID: <67d0244b-03d8-7775-8384-88a25b17769e@gmail.com>
+Date: Sun, 29 Aug 2021 14:48:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH] staging: r8188eu: core: remove condition with no effect
+Content-Language: en-US
+To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YStM2wxtkDAnRemt@user>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YStM2wxtkDAnRemt@user>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sunday, August 29, 2021 12:49:42 PM CEST Phillip Potter wrote:
-> On Sun, 29 Aug 2021 at 09:52, Fabio M. De Francesco
-> <fmdefrancesco@gmail.com> wrote:
-> >
-> > >  static s32 c2h_evt_hdl(struct adapter *adapter, struct c2h_evt_hdr *c2h_evt, c2h_id_filter filter)
-> > >  {
-> > > -     s32 ret = _FAIL;
-> > >       u8 buf[16];
-> > >
-> > > -     if (!c2h_evt) {
-> > > -             /* No c2h event in cmd_obj, read c2h event before handling*/
-> > > -             if (c2h_evt_read(adapter, buf) == _SUCCESS) {
-> > > -                     c2h_evt = (struct c2h_evt_hdr *)buf;
-> >
-> > Dear Philip,
-> >
-> > Not related to your patch, but what kind of odd assignment is it? c2h_evt takes
-> > the address of a local variable and therefore it crashes the kernel whenever
-> > someone decides to dereference it after this function returns and unwinds
-> > the stack...
+On 8/29/21 11:01, Saurav Girepunje wrote:
+> Remove the condition with no effect (if == else) and group multiple
+> cases which execute same statement in rtw_mlme_ext.c
 > 
-> Dear Fabio,
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 9 ---------
+>   1 file changed, 9 deletions(-)
 > 
-> Thank you for taking a look firstly, really appreciate it :-) As for the line:
-> c2h_evt = (struct c2h_evt_hdr *)buf;
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 5a472a4954b0..4178b3c1ff57 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -453,17 +453,8 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+>   		fallthrough;
+>   	case WIFI_ASSOCREQ:
+>   	case WIFI_REASSOCREQ:
+> -		_mgt_dispatcher(padapter, ptable, precv_frame);
+> -		break;
+>   	case WIFI_PROBEREQ:
+> -		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+> -			_mgt_dispatcher(padapter, ptable, precv_frame);
+> -		else
+> -			_mgt_dispatcher(padapter, ptable, precv_frame);
+> -		break;
+>   	case WIFI_BEACON:
+> -		_mgt_dispatcher(padapter, ptable, precv_frame);
+> -		break;
+>   	case WIFI_ACTION:
+>   		_mgt_dispatcher(padapter, ptable, precv_frame);
+>   		break;
+> --
+> 2.32.0
 > 
-> in the original code before I removed it, bear in mind that this
-> pointer assignment is
-> happening into the parameter variable c2h_evt, which is a copy of the
-> passed in argument,
-> as C is pass-by-value. 
 
-You're right! Sorry. For sure I was still sleeping when I wrote that message. 
-The assignment is to the argument itself, not to the storage 
-location it points to... for a moment I forgot how arguments are passed
-(by value) and how pointers work :(
-
-> Therefore, after the c2h_evt_hdl function
-> returns, the value passed
-> in as the argument for this parameter would still have its original
-> pointer value (or NULL).
-> 
-> It would not therefore be possible to deference the pointer to this
-> stack-allocated memory
-> from outside the function, even in the original code. I agree though,
-> its purpose is dubious.
-> Originally, the wrapper function rtw_hal_c2h_handler would have passed
-> it through to the
-> function assigned to the c2h_handler function pointer, but there was
-> no such function in
-> this driver, so it was never executed.
-> 
-> >
-> > > +     if (!c2h_evt)
-> > > +             c2h_evt_read(adapter, buf);
-> >
-> > Having said that, I strongly doubt that this path is ever taken. I didn't check the call
-> > chain, but it may be that the function in never called or, if it is called, it always
-> > has a valid c2h_evt argument.
-> >
-> > Actually I don't mean to suggest something specific. It simply looks odd, so I'd check
-> > and if this happens to be the case, I'd remove the whole c2h_evt_hdl().
-> >
-> > Regards,
-> >
-> > Fabio
-> 
-> As alluded to, removing the whole of c2h_evt_hdl would lead to
-> c2h_evt_read no longer
-> being executed, 
-
-Yes, correct. I see that the only caller of c2h_evt_hdl() is at line 1971 of  core/rtw_cmd.c:
-"c2h_evt_hdl(padapter, (struct c2h_evt_hdr *)pdrvextra_cmd->pbuf, NULL);".
-Actually I cannot say whether or not pdrvextra_cmd->pbuf is properly initialized at
-that specific point.
-
-Maybe that staying on the safe side and checking for !c2h_evt is the most reasonable
-thing to do...
-
-Some time ago, Greg wrote that even reads can have side effects on some (broken?) 
-hardware. So, you're on the safe side if you leave that read where it is. Well done. 
-
-> which would mean the reads from the adapter register
-> don't happen, and
-> nor does the clearing by c2h_evt_clear(adapter); - in particular, the
-> comment there mentions
-> the FW not updating the next command message if this isn't executed when needed.
-> 
-> This may be perfectly fine, but I thought this approach is safer due
-> to the above.
-
-Yes, I must agree with you :)
-
-Thanks for making me notice that detail about arguments. Maybe that that odd 
-assignment made me forget for a moment how passing arguments works in C.
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
 Thanks,
-
-Fabio
-
-> Regards,
-> Phil
-> 
-
-
-
+Michael
