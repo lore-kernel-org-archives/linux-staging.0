@@ -1,87 +1,187 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C630672
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 09:01:23 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id bg1so1448696plb.13
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 02:01:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4151972
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 09:23:00 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id me10so24016792ejb.11
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 02:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=4UhAzAPVc+icCp7Y2EezPOc71pObAloaN9xXjYM1qls=;
-        b=MdjTjxH8zJRW8uWJWPTAZK1RSHyGcYMLiQabXQY/zKTEAt9ixk8Qiovp+36Zabc2Qm
-         2UiOf5rnkOGqf1qd5LPLm+9vhcLRJUOn7z2Q+yMyuPDdqQPYXqEs5+JWGBcWvD0NMr/o
-         BQ2hPynd0ivspYkVbnGqOBk6feCtleyN5N8J/3O2tX6TjxEkWCZ22Ppiin8JaJ2YoK5u
-         VW/CHpEp1ImTl5kTTJhHpW+S6a1LNG/xVIbn4UUeTnq845S5K75Yhaf8/E5IJ/1aqiXF
-         doGnbgADJf1bZWTCAVPBExMWDnyrv5aTt4zY0UxRho8PO9y4UlbBQNNiomHEM7486E1K
-         az1g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e+dqt6XS4ZNHrivjUXrH9fxmNodvBLxJ0+D0nFk09Hs=;
+        b=JU8XOd2b7Xq5IKjUsiaaBVKqQ3ZtsFJwsPoNIih8o+KUk46lR4ecr611my62NK94Z5
+         cLZlHegUnhQo6eN7sxiYLPLd8CIrtDYVLdwdtExbixGnYWFDEtkzsa11hQ/XG2rPr6mj
+         RFadpuwGKvGyQGDZtydcVxY6RyAFMU1Tw44uD4EZhKQhbEUw4IVrdf0EK0tkinCyvFCO
+         +lotJf7sryrklWXPjz0BHrU88LxcL6cgcP6lFcUZCXcQFP2d9RNBKMCdmK/CvckqjQwJ
+         98Zcc5y4MDfDcgf5akQMDpnikq15HZn3lw+PvDjhQNydQomY60Im6u5BjleJdZ2rEZmX
+         bUdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=4UhAzAPVc+icCp7Y2EezPOc71pObAloaN9xXjYM1qls=;
-        b=ZOyN0Tsa1+vGaeDPNf7FrsywcMMDDaeMlikjpbkqYmvyIXzlbWamxXVLNybXphvJvq
-         FHJ9ylXbkP6z5i4JDyo0ITpCvRMDVhgHxRYKdZus8L5s6arrPX+yIrpufXHq2k8trzvZ
-         96MbyIVRrh99QwEcfqUKL6LTWU/f1hVCz/7HaDDJ3rqDwhnMakRlVABXNNBRwCcQN3P1
-         7ZtmOwNMQN746n5l75cYsZNhTQq/Zcq24cDGHiuSCzBY5sBPsNaUyBoKsasu/j5ovFXs
-         l0FSEi+XfL9mQsotOVBd2fycp6UhX5feS9Pvtd7DjAj8gRbWFGljpSZC9ARoqnqtdWhz
-         CcXw==
-X-Gm-Message-State: AOAM533hZr1zzCIXzwYHmE8gTr7ImTI/coVWKl2VGbdeThb1StiG/5xo
-	LHkgfj/kVIhRYvTevwzqZFk=
-X-Google-Smtp-Source: ABdhPJyhVNmjEHSADuxEbsj5bOgEqE9c1xAjyTeT0qaF9+UN0Qzyo3McstdapWEB8c48mI54qsgyEw==
-X-Received: by 2002:a17:90a:1b07:: with SMTP id q7mr20143146pjq.100.1630227683234;
-        Sun, 29 Aug 2021 02:01:23 -0700 (PDT)
-Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id 130sm909293pfy.175.2021.08.29.02.01.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e+dqt6XS4ZNHrivjUXrH9fxmNodvBLxJ0+D0nFk09Hs=;
+        b=lzPS8y70bdAVa9pAxME6beMhTKzOXXHHLHqrfmETRN9jFWekjTSETO6z+jLjYojJ37
+         Yr8+ziQEJsrGi3oRpRvBYQ8kOxwK/DLdMSANgLd6VYDmprJQ4ahg3YTloTqNahC58ydC
+         XrIgB7NJUEvSZszZlP1mBaN867xepGYzXV4KHFnaUc994qTKr0AkVUdTcyvshnD63bZ7
+         3RjHpRowYH5n3lKDBFvKtbSrIXjozTAhkDINSPOxMwC3eAkM7tQ1zlqbE7B7hPk5hpGS
+         asznSwNZLh+tGtP0jFqLn1KeYZNTDzsCb13vg291PVT2kzqYf34ivMY3XHGp+CiOI2n5
+         VFlA==
+X-Gm-Message-State: AOAM531epzknXLSsXN4xOxY11nqyhRWgEPmX9ccqwgeb4laZ/ZWlzaY2
+	GZFsSVMBtOO54XQXg8/gMxM=
+X-Google-Smtp-Source: ABdhPJy6D7wvo+5iCtrPdFblc/OhtL1DNGesRrmldOnErYS5oePwvizVmEzgWREo4pwFRIlztOd93g==
+X-Received: by 2002:a17:907:628d:: with SMTP id nd13mr19549239ejc.7.1630228978627;
+        Sun, 29 Aug 2021 02:22:58 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id u4sm610916ejc.19.2021.08.29.02.22.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Aug 2021 02:01:22 -0700 (PDT)
-Date: Sun, 29 Aug 2021 14:31:15 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: core: remove condition with no effect
-Message-ID: <YStM2wxtkDAnRemt@user>
+        Sun, 29 Aug 2021 02:22:57 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
+Date: Sun, 29 Aug 2021 11:22:50 +0200
+Message-Id: <20210829092250.25379-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Remove the condition with no effect (if == else) and group multiple
-cases which execute same statement in rtw_mlme_ext.c
+Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
+is more memory-efficient, parallelisable, and cache friendly. It takes
+advantage of RCU to perform lookups without locking. Furthermore, IDR is
+deprecated because XArray has a better (cleaner and more consistent) API.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 9 ---------
- 1 file changed, 9 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 5a472a4954b0..4178b3c1ff57 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -453,17 +453,8 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- 		fallthrough;
- 	case WIFI_ASSOCREQ:
- 	case WIFI_REASSOCREQ:
--		_mgt_dispatcher(padapter, ptable, precv_frame);
--		break;
- 	case WIFI_PROBEREQ:
--		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
--			_mgt_dispatcher(padapter, ptable, precv_frame);
--		else
--			_mgt_dispatcher(padapter, ptable, precv_frame);
--		break;
- 	case WIFI_BEACON:
--		_mgt_dispatcher(padapter, ptable, precv_frame);
--		break;
- 	case WIFI_ACTION:
- 		_mgt_dispatcher(padapter, ptable, precv_frame);
- 		break;
---
+v3->v4: 
+	Remove mutex_lock/unlock around xa_load(). These locks seem to
+	be unnecessary because there is a 1:1 correspondence between
+	a specific minor and its gb_tty and there is no reference
+	counting. I think that the RCU locks used inside xa_load()
+	are sufficient to protect this API from returning an invalid
+	gb_tty in case of concurrent access. Some more considerations 
+	on this topic are in the following message to linux-kernel list:
+	https://lore.kernel.org/lkml/3554184.2JXonMZcNW@localhost.localdomain/
+v2->v3:
+        Fix some issues according to a review by Alex Elder <elder@ieee.org>
+v1->v2:
+        Fix an issue found by the kernel test robot. It is due to
+        passing to xa_*lock() the same old mutex that IDR used with
+        the previous version of the code.
+
+ drivers/staging/greybus/uart.c | 32 ++++++++++++++------------------
+ 1 file changed, 14 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index 73f01ed1e5b7..f66983adb51b 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -22,7 +22,7 @@
+ #include <linux/serial.h>
+ #include <linux/tty_driver.h>
+ #include <linux/tty_flip.h>
+-#include <linux/idr.h>
++#include <linux/xarray.h>
+ #include <linux/fs.h>
+ #include <linux/kdev_t.h>
+ #include <linux/kfifo.h>
+@@ -32,8 +32,9 @@
+ 
+ #include "gbphy.h"
+ 
+-#define GB_NUM_MINORS	16	/* 16 is more than enough */
+-#define GB_NAME		"ttyGB"
++#define GB_NUM_MINORS		16	/* 16 is more than enough */
++#define GB_RANGE_MINORS		XA_LIMIT(0, GB_NUM_MINORS)
++#define GB_NAME			"ttyGB"
+ 
+ #define GB_UART_WRITE_FIFO_SIZE		PAGE_SIZE
+ #define GB_UART_WRITE_ROOM_MARGIN	1	/* leave some space in fifo */
+@@ -67,8 +68,7 @@ struct gb_tty {
+ };
+ 
+ static struct tty_driver *gb_tty_driver;
+-static DEFINE_IDR(tty_minors);
+-static DEFINE_MUTEX(table_lock);
++static DEFINE_XARRAY(tty_minors);
+ 
+ static int gb_uart_receive_data_handler(struct gb_operation *op)
+ {
+@@ -341,8 +341,7 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ {
+ 	struct gb_tty *gb_tty;
+ 
+-	mutex_lock(&table_lock);
+-	gb_tty = idr_find(&tty_minors, minor);
++	gb_tty = xa_load(&tty_minors, minor);
+ 	if (gb_tty) {
+ 		mutex_lock(&gb_tty->mutex);
+ 		if (gb_tty->disconnected) {
+@@ -353,19 +352,18 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+ 			mutex_unlock(&gb_tty->mutex);
+ 		}
+ 	}
+-	mutex_unlock(&table_lock);
+ 	return gb_tty;
+ }
+ 
+ static int alloc_minor(struct gb_tty *gb_tty)
+ {
+ 	int minor;
++	int ret;
+ 
+-	mutex_lock(&table_lock);
+-	minor = idr_alloc(&tty_minors, gb_tty, 0, GB_NUM_MINORS, GFP_KERNEL);
+-	mutex_unlock(&table_lock);
+-	if (minor >= 0)
+-		gb_tty->minor = minor;
++	ret = xa_alloc(&tty_minors, &minor, gb_tty, GB_RANGE_MINORS, GFP_KERNEL);
++	if (ret)
++		return ret;
++	gb_tty->minor = minor;
+ 	return minor;
+ }
+ 
+@@ -374,9 +372,7 @@ static void release_minor(struct gb_tty *gb_tty)
+ 	int minor = gb_tty->minor;
+ 
+ 	gb_tty->minor = 0;	/* Maybe should use an invalid value instead */
+-	mutex_lock(&table_lock);
+-	idr_remove(&tty_minors, minor);
+-	mutex_unlock(&table_lock);
++	xa_erase(&tty_minors, minor);
+ }
+ 
+ static int gb_tty_install(struct tty_driver *driver, struct tty_struct *tty)
+@@ -837,7 +833,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
+ 
+ 	minor = alloc_minor(gb_tty);
+ 	if (minor < 0) {
+-		if (minor == -ENOSPC) {
++		if (minor == -EBUSY) {
+ 			dev_err(&gbphy_dev->dev,
+ 				"no more free minor numbers\n");
+ 			retval = -ENODEV;
+@@ -982,7 +978,7 @@ static void gb_tty_exit(void)
+ {
+ 	tty_unregister_driver(gb_tty_driver);
+ 	put_tty_driver(gb_tty_driver);
+-	idr_destroy(&tty_minors);
++	xa_destroy(&tty_minors);
+ }
+ 
+ static const struct gbphy_device_id gb_uart_id_table[] = {
+-- 
 2.32.0
 
