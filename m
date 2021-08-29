@@ -1,39 +1,39 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7183FC1
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 11:26:06 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id e26so1462179wmk.2
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 04:26:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A5F2FAF
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 11:26:07 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id b6so17885344wrh.10
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 04:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Io8xO0I4IEBB9vVq6AY5ZVVzX55PtEN8u1vYr2NZxCM=;
-        b=vao9VY4VlO9XySUqx4Dwg2sIPDmE1CPN0tM++A9Zhk2sSp/yic7WoIqfcjyJiSaBd4
-         Fj4WNZfBIHwV8tQP+wFWfdBfF+XX2Avlt9bwkQuqXJ/MFmkGJhq7rcMJ2hvE63FVFIis
-         SoL+5WXfJ4pqa7X3tySoISatx0ZVNbIw4noHEX0Ys5FVTo4KxwR2glvqOH5X5zMVrpLK
-         B5TA7RVHvftMAVktGJuUea799TUpSLap/cebgejwQq+os44vJI81MVaedYBp6ZhLbbI5
-         xdMVOVcFWS/lgygyWekXy2B+wXIeOCVd/5MiedWAu9TT2rUx//REjU8F4/cuFdAqnuxT
-         YCvw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bk3vHLkpVQKkYaxCanjovyNRt8yU/3sM0JETBfSeoT4=;
+        b=GO9FxyDxQ0p03Lqcuw8FgGgRlzSLCx3oklfVe7YJd9hvaCRfOTRYdvF8r2DKEV8U8H
+         r7z5t7bbM9Z8Kvm1bGTIbpi4kodX7q2OuS4sBB7KM4JbsIDuDgOx7bbMw0+CfgtpbH3E
+         VPP6nArmEzyCgiqP3f3wGdBxw/7dUVMICLrkC4G6NR4Fz+461IpZJen1eEMi+pGUMd7Y
+         l3rf4Muk3hUb4xGeY4aa7V5YckXntoBgYF5ZOn+FkK3lc1zqo7R1RJawe/WA3liM/FB3
+         ZOpXOnPjAtzv2s3obZ0TeKqEZWHqQIQM0anekJGSp5N4MQP2Owi8Efz7s6NjoiZTtc31
+         Akqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Io8xO0I4IEBB9vVq6AY5ZVVzX55PtEN8u1vYr2NZxCM=;
-        b=pgF0/i5vDE0qu+qBWYsOlfjlMHKG8YYGHDiRKVa3b91U3gP8gdwwvrgF2hJ1Xk7Ejy
-         HNnqnxS7u58IrPJJK4pmyNwtfOgYLYXpnrwtZXPB5Ic0IrGyyW2azSQRydpnwiXi7Zbr
-         5UyEE4n9h5AH9kiK6WGjD+Crwdzjf9oiRvD8uy55t8O5Vw9/s06vVFxxUr05h/9oZ3cT
-         sqH/v6/0oryYUM9vyuz2BOEv3efp1qxd0R2NY5ScqAFdj/kCdEpbUHCnyF5IwLQY6hd5
-         87NkrmQSn/tuUSshzArWh500sNavgMkNm9aQ/hAEMETYXF0rtsYwbxHV0DJ5NLgLIBKd
-         5R0A==
-X-Gm-Message-State: AOAM530ygI8fJBhzzUxa0WWdNZyfCMYwFgFeVwfezKU9mXCpcK4wZ5XL
-	7AxhSxSnQ0pQ/Fth3+y1wnY=
-X-Google-Smtp-Source: ABdhPJxznOGld6n7fDomSJ5/KFFe9dG71xxXjUI/K1zYz1bvzbJ7Ql4bPBYdywubpQKRMatJFy467g==
-X-Received: by 2002:a05:600c:1457:: with SMTP id h23mr22177449wmi.143.1630236365339;
-        Sun, 29 Aug 2021 04:26:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bk3vHLkpVQKkYaxCanjovyNRt8yU/3sM0JETBfSeoT4=;
+        b=ASmzU2STLVL67FytV67cIxPJLMtFGzFidIv9GK/RS8B+1gVaTd4+HovtVq7lK8vfDK
+         Oc6w48lxhjCA9c7u18tp3bsqIP5oW+Lhw1iTPm46+jesnzUYFDpa2uAXeFNPOoVfrFLA
+         oBFSwK7JhQwT0r9L3+90WsSW5J7NvcZqzUcaAOmlcPjPDdjmxVZqBBXVG24LJ2ieuLWh
+         0TER/+aO7w0zkWNiTgyRaXUZ1tQAv+kvtyoDbyNW03WGzhXqb57kwmrax1HDTsStZUfS
+         CcItYyBjlwDnjCgck39lwuWEE74O6nD5zSnib0Mfzal7rBjXbpjYj9mcG8xAv6DJQFBk
+         DlbQ==
+X-Gm-Message-State: AOAM530MLXJaebCWUVleZaO0Z7lHbPQjqvIKPqLvY9sEt+x8/U7sHT5Z
+	SETpOELaGu8j1C1A+8rJS4c=
+X-Google-Smtp-Source: ABdhPJy4dmQVJOF6nMxrHRpQ1pYqfweHnHgAUeHUpHYwak2zX0+CSBTJjFcyJQMwRE3gkpKuHB41jw==
+X-Received: by 2002:adf:8170:: with SMTP id 103mr20244377wrm.167.1630236366254;
+        Sun, 29 Aug 2021 04:26:06 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id h8sm15826581wmb.35.2021.08.29.04.26.04
+        by smtp.gmail.com with ESMTPSA id h8sm15826581wmb.35.2021.08.29.04.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 29 Aug 2021 04:26:05 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -45,10 +45,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/3] staging: r8188eu: clean up unnecessary type casts
-Date: Sun, 29 Aug 2021 13:25:52 +0200
-Message-Id: <20210829112555.8726-1-straube.linux@gmail.com>
+Subject: [PATCH 1/3] staging: r8188eu: convert type of second parameter of rtw_*_encrypt()
+Date: Sun, 29 Aug 2021 13:25:53 +0200
+Message-Id: <20210829112555.8726-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210829112555.8726-1-straube.linux@gmail.com>
+References: <20210829112555.8726-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,23 +59,174 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes unnecessary type casts from de/encrypt functions
-in core/rtw_security.c.
+Convert the type of the second parameter of the rtw_*_encrypt() functions
+to struct xmit_frame.
 
-Tested with Inter-Tech DMG-02 adapter connected to a CCMP network.
+All callers of the functions cast the type to (u8 *) and in the functions
+it is casted back to the original type. Changing the type of the second
+parameter to struct xmit_frame avoids these unnecessary casts and improves
+readability.
 
-Michael Straube (3):
-  staging: r8188eu: convert type of second parameter of rtw_*_encrypt()
-  staging: r8188eu: convert type of second parameter of rtw_*_decrypt()
-  staging: r8188eu: remove unnecessary type casts
-
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
  drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  2 +-
- drivers/staging/r8188eu/core/rtw_recv.c       |  6 +-
- drivers/staging/r8188eu/core/rtw_security.c   | 61 +++++++++----------
- drivers/staging/r8188eu/core/rtw_xmit.c       |  6 +-
- .../staging/r8188eu/include/rtw_security.h    | 12 ++--
- 5 files changed, 42 insertions(+), 45 deletions(-)
+ drivers/staging/r8188eu/core/rtw_security.c   | 36 +++++++++----------
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  6 ++--
+ .../staging/r8188eu/include/rtw_security.h    |  6 ++--
+ 4 files changed, 23 insertions(+), 27 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 5a472a4954b0..d78d1b00f66c 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -5049,7 +5049,7 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
+ 
+ 	pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+-	rtw_wep_encrypt(padapter, (u8 *)pmgntframe);
++	rtw_wep_encrypt(padapter, pmgntframe);
+ 	DBG_88E("%s\n", __func__);
+ 	dump_mgntframe(padapter, pmgntframe);
+ }
+diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
+index 5aa893ab46e9..5168159d8ae7 100644
+--- a/drivers/staging/r8188eu/core/rtw_security.c
++++ b/drivers/staging/r8188eu/core/rtw_security.c
+@@ -77,7 +77,7 @@ static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32
+ /*
+ 	Need to consider the fragment  situation
+ */
+-void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
++void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ {	/*  exclude ICV */
+ 	union {
+ 		__le32 f0;
+@@ -91,17 +91,15 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	u8	*pframe, *payload, *iv;    /* wepkey */
+ 	u8	wepkey[16];
+ 	u8   hw_hdr_offset = 0;
+-	struct	pkt_attrib	 *pattrib = &((struct xmit_frame *)pxmitframe)->attrib;
++	struct	pkt_attrib	 *pattrib = &pxmitframe->attrib;
+ 	struct	security_priv	*psecuritypriv = &padapter->securitypriv;
+ 	struct	xmit_priv		*pxmitpriv = &padapter->xmitpriv;
+ 
+-	if (!((struct xmit_frame *)pxmitframe)->buf_addr)
++	if (!pxmitframe->buf_addr)
+ 		return;
+ 
+-	hw_hdr_offset = TXDESC_SIZE +
+-		 (((struct xmit_frame *)pxmitframe)->pkt_offset * PACKET_OFFSET_SZ);
+-
+-	pframe = ((struct xmit_frame *)pxmitframe)->buf_addr + hw_hdr_offset;
++	hw_hdr_offset = TXDESC_SIZE + pxmitframe->pkt_offset * PACKET_OFFSET_SZ;
++	pframe = pxmitframe->buf_addr + hw_hdr_offset;
+ 
+ 	/* start to encrypt each fragment */
+ 	if ((pattrib->encrypt == _WEP40_) || (pattrib->encrypt == _WEP104_)) {
+@@ -502,7 +500,7 @@ static void phase2(u8 *rc4key, const u8 *tk, const u16 *p1k, u16 iv16)
+ }
+ 
+ /* The hlen isn't include the IV */
+-u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
++u32 rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ {																	/*  exclude ICV */
+ 	u16	pnl;
+ 	u32	pnh;
+@@ -519,17 +517,17 @@ u32	rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	u8	*pframe, *payload, *iv, *prwskey;
+ 	union pn48 dot11txpn;
+ 	struct	sta_info		*stainfo;
+-	struct	pkt_attrib	 *pattrib = &((struct xmit_frame *)pxmitframe)->attrib;
++	struct	pkt_attrib	 *pattrib = &pxmitframe->attrib;
+ 	struct	security_priv	*psecuritypriv = &padapter->securitypriv;
+ 	struct	xmit_priv		*pxmitpriv = &padapter->xmitpriv;
+ 	u32	res = _SUCCESS;
+ 
+-	if (!((struct xmit_frame *)pxmitframe)->buf_addr)
++	if (!pxmitframe->buf_addr)
+ 		return _FAIL;
+ 
+-	hw_hdr_offset = TXDESC_SIZE +
+-		 (((struct xmit_frame *)pxmitframe)->pkt_offset * PACKET_OFFSET_SZ);
+-	pframe = ((struct xmit_frame *)pxmitframe)->buf_addr + hw_hdr_offset;
++	hw_hdr_offset = TXDESC_SIZE + pxmitframe->pkt_offset * PACKET_OFFSET_SZ;
++	pframe = pxmitframe->buf_addr + hw_hdr_offset;
++
+ 	/* 4 start to encrypt each fragment */
+ 	if (pattrib->encrypt == _TKIP_) {
+ 		if (pattrib->psta)
+@@ -1154,7 +1152,7 @@ static int aes_cipher(u8 *key, uint hdrlen, u8 *pframe, uint plen)
+ 	return _SUCCESS;
+ }
+ 
+-u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
++u32 rtw_aes_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ {	/*  exclude ICV */
+ 
+ 	/*static*/
+@@ -1165,20 +1163,18 @@ u32	rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	u8	*pframe, *prwskey;	/*  *payload,*iv */
+ 	u8   hw_hdr_offset = 0;
+ 	struct	sta_info		*stainfo;
+-	struct	pkt_attrib	 *pattrib = &((struct xmit_frame *)pxmitframe)->attrib;
++	struct	pkt_attrib	 *pattrib = &pxmitframe->attrib;
+ 	struct	security_priv	*psecuritypriv = &padapter->securitypriv;
+ 	struct	xmit_priv		*pxmitpriv = &padapter->xmitpriv;
+ 
+ /*	uint	offset = 0; */
+ 	u32 res = _SUCCESS;
+ 
+-	if (!((struct xmit_frame *)pxmitframe)->buf_addr)
++	if (!pxmitframe->buf_addr)
+ 		return _FAIL;
+ 
+-	hw_hdr_offset = TXDESC_SIZE +
+-		 (((struct xmit_frame *)pxmitframe)->pkt_offset * PACKET_OFFSET_SZ);
+-
+-	pframe = ((struct xmit_frame *)pxmitframe)->buf_addr + hw_hdr_offset;
++	hw_hdr_offset = TXDESC_SIZE + pxmitframe->pkt_offset * PACKET_OFFSET_SZ;
++	pframe = pxmitframe->buf_addr + hw_hdr_offset;
+ 
+ 	/* 4 start to encrypt each fragment */
+ 	if (pattrib->encrypt == _AES_) {
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index 46fe62c7c32c..bcc4d65cdcee 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -683,13 +683,13 @@ static s32 xmitframe_swencrypt(struct adapter *padapter, struct xmit_frame *pxmi
+ 		switch (pattrib->encrypt) {
+ 		case _WEP40_:
+ 		case _WEP104_:
+-			rtw_wep_encrypt(padapter, (u8 *)pxmitframe);
++			rtw_wep_encrypt(padapter, pxmitframe);
+ 			break;
+ 		case _TKIP_:
+-			rtw_tkip_encrypt(padapter, (u8 *)pxmitframe);
++			rtw_tkip_encrypt(padapter, pxmitframe);
+ 			break;
+ 		case _AES_:
+-			rtw_aes_encrypt(padapter, (u8 *)pxmitframe);
++			rtw_aes_encrypt(padapter, pxmitframe);
+ 			break;
+ 		default:
+ 			break;
+diff --git a/drivers/staging/r8188eu/include/rtw_security.h b/drivers/staging/r8188eu/include/rtw_security.h
+index ec6ecdb7bc98..4e6d4257b7ba 100644
+--- a/drivers/staging/r8188eu/include/rtw_security.h
++++ b/drivers/staging/r8188eu/include/rtw_security.h
+@@ -330,9 +330,9 @@ void rtw_secmicappend(struct mic_data *pmicdata, u8 *src, u32 nBytes);
+ void rtw_secgetmic(struct mic_data *pmicdata, u8 *dst);
+ void rtw_seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len,
+ 			u8 *Miccode, u8   priority);
+-u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe);
+-u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe);
+-void rtw_wep_encrypt(struct adapter *padapter, u8  *pxmitframe);
++u32 rtw_aes_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe);
++u32 rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe);
++void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe);
+ u32 rtw_aes_decrypt(struct adapter *padapter, u8  *precvframe);
+ u32 rtw_tkip_decrypt(struct adapter *padapter, u8  *precvframe);
+ void rtw_wep_decrypt(struct adapter *padapter, u8  *precvframe);
 -- 
 2.32.0
 
