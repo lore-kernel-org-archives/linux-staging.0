@@ -1,157 +1,126 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF2C72
-	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 09:39:54 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id z24-20020a17090acb1800b0018e87a24300so7980807pjt.0
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 02:39:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666B32FAF
+	for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 10:49:53 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id w19-20020a17090aaf9300b00191e6d10a19so8017757pjq.1
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 03:49:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MmLaKagS31srib53jXrdLBXwGqYoszuOVVS08Z19pEc=;
-        b=qXCxsVgWNHCrsPxwnQAtn+x4zgRta3DM1dAW73hdbKD2o/ZD4lnbQfnpGK3UI+G6dc
-         Ps4ETLezOE4j8YQjh2iNTGomuDXNOSGUxIcfPhm5FGN/Q05mddCpZH+xJjXGlg2f/Qqb
-         iafAYlpZO/caOhXj5noLaJUYqIdzEk1RprQ4upehwj22YycWIFp8/+p5Her7mX8MvzPd
-         tl5VQvwc9eXfeeCZR0WnbQVM4g2VgypaJ2TL9Xv6Egl01IqHICOcpM0b3NnI8bktL4Sv
-         5rxNiK1eEwkgX06QrZrOtpq5TXWdtfXR57nrBvBqCXuSlmZokZ9BJS+mDQz5GcfcrTH8
-         Tb0w==
+         :cc;
+        bh=kcwbt0QYBilC1KUjADiZKweYPQYwCgMgAZVZ1Z7Fg5w=;
+        b=cWubZFphcxdu24TVVWdwW2ngYth/s1Sj7sIcpFHLlOU7J1VGniqC5o1xSQG3vfeOUg
+         wFiP13SbBxiPAhLzx7+GYgszVoqR0Rm0sICWdLdN5UiaYoE8VR6mCWhtepxRGe8uh4et
+         plfmf6CK/vQ8uS8AIBAaJyd6ItUX9IFZCQ6N1lvW2XjOPi5d2wD5snrn+1CbcX3/0jse
+         QsFq0OmPUJZzRLa9ngNmnIAVCxJ7pR5iBJj/SNfEvy4SHTLJ0thk5GnR3hJBCL5EfveW
+         N8elgOjSDty9ZjvO5jKdtHqdOK7eIhtcdrZv5y0Rnl+2MT5f4Mcv1K2aJ6HcSXKTsz7u
+         J06g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MmLaKagS31srib53jXrdLBXwGqYoszuOVVS08Z19pEc=;
-        b=tcf1eSx3rvO+u0bzflF8AFVunrK0VN4tDGo+Fwj97cbfHm+XgqL11fMym9i40vLIPs
-         p5pYYbUj8+arh7SvS0C7ydc314tP25pdhBpXPP3V6DzBffg+H2/V6hokm4nOgh1A2DNx
-         UabE7RuGMHOuLBEcv0Wf+k0aejYPpgMQv6AqeNgDjWYuG+M625WHKWksRX+fDzY9f52c
-         w0xSgmKlOUUr/hf7bdNRJwXsTLJn1KJQAj/7GtaA8pAn8na4UMeawzDTNLJIljnKQwU8
-         +3nGoYn62J2V7Hd+DcQm1oDD9p7uLKz5EEvzxnUnA2yCE8DiuovqfnNSCIGZeHlZRw0j
-         fM6w==
-X-Gm-Message-State: AOAM530XQeVqzi8J/1eJPWQAbA94fHYMf6Fd98TzyFkDbJV4FayWlQ54
-	gR0WE84wIXSDsBQeHKqGA6xHVgFTeq3KSlTPAMkEnxTai06wsA==
-X-Google-Smtp-Source: ABdhPJz6TMQi08thXw+nqtgAQP1ZikB52XM8X5PQjditJTQcdD9njDMvK9qxSGPc+Yc8t5yJuNbDCNr9sz0phABq4FA=
-X-Received: by 2002:a17:90b:1c83:: with SMTP id oo3mr20482892pjb.26.1630229993821;
- Sun, 29 Aug 2021 02:39:53 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=kcwbt0QYBilC1KUjADiZKweYPQYwCgMgAZVZ1Z7Fg5w=;
+        b=NgVjsr/IuBhIpNUT297gpedGPtOq9eKZNEJBHc2xjBKH9VNTiiSTn37h6FQMCta6rr
+         E5F3gscokaZbUA3rR0oaJ83DFjNOSt8gzTTKl7UP2nhfjZ4AZ70nl9TvkNwaWN/SFXsH
+         r1+X7VGBWCrkXOv9QfXYGnRuCcf8pxpVg4+IewnACAysLNc4KJwjtBlEZgaH7TROdLXV
+         wQ4n8BrwqpF6VG8HIFIKlXYJfL5F1V2mPtZtOxPFqDZBFl79Wzm3tQlp/9UNt1aPpPgu
+         OHhfxRnH+1Z8ktJ6b15DIXT0G9JS7SEfetEL43Q3xavc4C/rR+SpZS/v6/5O1dD96XFe
+         KSfg==
+X-Gm-Message-State: AOAM5310bYVc0Pkoe0T7YJALi/ixPfXoAzHqA0AJQvMuUa2x053q+tU1
+	bFxBCkQJ75SjV2S6Wf9sZkODM8261OOLCFEAMtq9CA==
+X-Google-Smtp-Source: ABdhPJyg5OvleoQoU758Mdf0exKeOgwhKC9k987aeUPLHLoMATE2umjufiCp75Lvs+wDPYBBMQCH3EtyKxkmtzJvF5s=
+X-Received: by 2002:a17:90a:1f49:: with SMTP id y9mr33134651pjy.225.1630234192921;
+ Sun, 29 Aug 2021 03:49:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAPGkw+x+B1731SL=afoSKiWwH-n-FA5YJ+WOwYdv8iyFhWk1zA@mail.gmail.com>
- <3634721.RBzQ2xsved@localhost.localdomain> <1742120.GgyQvu0Ciu@localhost.localdomain>
- <CAPGkw+yJ=V0OwFE+uqCeWWS8JbJD=YBE3+Uk-OKpmHRnvSTh+A@mail.gmail.com>
- <CAPGkw+w-y+iC3dMDLxi8DR3N+jf8roiJ2Vs_-uHxJ=i57eTiUA@mail.gmail.com>
- <CAPGkw+zyj4e-m19KdrHpAN_vHksNDy=k_cPPAftSN-hNoph0=w@mail.gmail.com>
- <20210827233835.px4az5hyqks2n4o5@h510> <CAPGkw+x7sXUtrZYv6tm+Apbjk5CYwd1j1BvvL6uCPWsot3zKSg@mail.gmail.com>
- <YSsmV3LIZ9NLZkdQ@kroah.com>
-In-Reply-To: <YSsmV3LIZ9NLZkdQ@kroah.com>
-From: Krish Jain <krishjain02939@gmail.com>
-Date: Sun, 29 Aug 2021 11:39:42 +0200
-Message-ID: <CAPGkw+wOvXm6eZWdpULAi_Of41FWSGvC911S-cO1G2roSU7P8g@mail.gmail.com>
-Subject: Re: [PATCH] Declare the file_operations struct as const
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
+References: <20210828212453.898-1-phil@philpotter.co.uk> <20210828212453.898-3-phil@philpotter.co.uk>
+ <21174665.bKA57LRvRV@localhost.localdomain>
+In-Reply-To: <21174665.bKA57LRvRV@localhost.localdomain>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Sun, 29 Aug 2021 11:49:42 +0100
+Message-ID: <CAA=Fs0meC_nVjb2gESnmz2pPgzNa4=QT_jnteAh4B8Cds6_0fQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] staging: r8188eu: simplify c2h_evt_hdl function
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
+	Larry Finger <Larry.Finger@lwfinger.net>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 29, 2021 at 8:17 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Sun, 29 Aug 2021 at 09:52, Fabio M. De Francesco
+<fmdefrancesco@gmail.com> wrote:
 >
-> On Sun, Aug 29, 2021 at 04:13:43AM +0200, Krish Jain wrote:
-> > On Sat, Aug 28, 2021 at 1:38 AM Bryan Brattlof <hello@bryanbrattlof.com=
-> wrote:
-> > > As for your patch, I built the driver using:
-> > >
-> > >   $ make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android
-> > >
-> > > Which produced the following error:
-> > >
-> > >
-> > > drivers/staging/android/ashmem.c: In function =E2=80=98ashmem_mmap=E2=
-=80=99:
-> > > drivers/staging/android/ashmem.c:380:2: warning: =E2=80=98static=E2=
-=80=99 is not at beginning of declaration [-Wold-style-declaration]
-> > >   380 |  const static struct file_operations vmfile_fops;
-> > >       |  ^~~~~
-> > > drivers/staging/android/ashmem.c:431:16: error: assignment of read-on=
-ly variable =E2=80=98vmfile_fops=E2=80=99
-> > >   431 |    vmfile_fops =3D *vmfile->f_op;
-> > >       |                ^
-> > > drivers/staging/android/ashmem.c:432:21: error: assignment of member =
-=E2=80=98mmap=E2=80=99 in read-only object
-> > >   432 |    vmfile_fops.mmap =3D ashmem_vmfile_mmap;
-> > >       |                     ^
-> > > drivers/staging/android/ashmem.c:433:34: error: assignment of member =
-=E2=80=98get_unmapped_area=E2=80=99 in read-only object
-> > >   433 |    vmfile_fops.get_unmapped_area =3D
-> > >       |                                  ^
-> > > make[1]: *** [scripts/Makefile.build:271: drivers/staging/android/ash=
-mem.o] Error 1
-> > > make: *** [Makefile:1851: drivers/staging/android] Error 2
-> > >
+> >  static s32 c2h_evt_hdl(struct adapter *adapter, struct c2h_evt_hdr *c2h_evt, c2h_id_filter filter)
+> >  {
+> > -     s32 ret = _FAIL;
+> >       u8 buf[16];
 > >
-> > Hi, this seems very useful and I tried this myself just now. I don't
-> > get any errors that you do though. When I hit enter I just get a new
-> > shell prompt. What am I doing wrong? Probably a silly mistake. I ran
-> > make CCFLAGS=3D-Werror M=3Ddrivers/staging/android/.
+> > -     if (!c2h_evt) {
+> > -             /* No c2h event in cmd_obj, read c2h event before handling*/
+> > -             if (c2h_evt_read(adapter, buf) == _SUCCESS) {
+> > -                     c2h_evt = (struct c2h_evt_hdr *)buf;
 >
-> Are you sure the file is being built at all?  You usually have to select
-> the proper configuration option to enable that driver as well.
-
-
-Hi, what option do you mean?  I already ran make allmodconfig and sudo
-make modules_install install and then make   "CCFLAGS=3D-Werror W=3D1
-M=3Ddrivers/staging/android/" and now I do get output but one line
-"WARNING: Symbol version dump "Module.symvers" is missing. Modules may
-not have dependencies or modversions. You may get many unresolved
-symbol warnings." . Then I tried "make CCFLAGS=3D-Werror V=3D1
-M=3Ddrivers/staging/android/" and that outputted the following:
-
-
-test -e include/generated/autoconf.h -a -e include/config/auto.conf || ( \
-echo >&2; \
-echo >&2 "  ERROR: Kernel configuration is invalid."; \
-echo >&2 "         include/generated/autoconf.h or
-include/config/auto.conf are missing.";\
-echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
-to fix it."; \
-echo >&2 ; \
-/bin/false)
-make -f ./scripts/Makefile.build obj=3Ddrivers/staging/android \
-single-build=3D \
-need-builtin=3D1 need-modorder=3D1
-sh ./scripts/modules-check.sh drivers/staging/android/modules.order
-make -f ./scripts/Makefile.modpost
-WARNING: Symbol version dump "Module.symvers" is missing.
-         Modules may not have dependencies or modversions.
-         You may get many unresolved symbol warnings.
-make -f ./scripts/Makefile.modfinal
-
-
-
-I followed this and ran make oldconfig && make prepare but all that is
-outputted is again  "WARNING: Symbol version dump "Module.symvers" is
-missing. Modules may not have dependencies or modversions. You may get
-many unresolved symbol warnings." Then I just tried sudo make
-modules_install install   again and what was outputted was:
-
-
-sed: can't read modules.order: No such file or directory
-make[1]: *** [Makefile:1494: __modinst_pre] Error 2
-make: *** [Makefile:351: __build_one_by_one] Error 2
-
-
-
-Any ideas?  I've been stuck on debugging for hours to no avail. Please
-enlighten me on where I am messing up.
-
-
-Best Regards
-
-
-
-
-
-> thanks,
+> Dear Philip,
 >
-> greg k-h
+> Not related to your patch, but what kind of odd assignment is it? c2h_evt takes
+> the address of a local variable and therefore it crashes the kernel whenever
+> someone decides to dereference it after this function returns and unwinds
+> the stack...
+
+Dear Fabio,
+
+Thank you for taking a look firstly, really appreciate it :-) As for the line:
+c2h_evt = (struct c2h_evt_hdr *)buf;
+
+in the original code before I removed it, bear in mind that this
+pointer assignment is
+happening into the parameter variable c2h_evt, which is a copy of the
+passed in argument,
+as C is pass-by-value. Therefore, after the c2h_evt_hdl function
+returns, the value passed
+in as the argument for this parameter would still have its original
+pointer value (or NULL).
+
+It would not therefore be possible to deference the pointer to this
+stack-allocated memory
+from outside the function, even in the original code. I agree though,
+its purpose is dubious.
+Originally, the wrapper function rtw_hal_c2h_handler would have passed
+it through to the
+function assigned to the c2h_handler function pointer, but there was
+no such function in
+this driver, so it was never executed.
+
+>
+> > +     if (!c2h_evt)
+> > +             c2h_evt_read(adapter, buf);
+>
+> Having said that, I strongly doubt that this path is ever taken. I didn't check the call
+> chain, but it may be that the function in never called or, if it is called, it always
+> has a valid c2h_evt argument.
+>
+> Actually I don't mean to suggest something specific. It simply looks odd, so I'd check
+> and if this happens to be the case, I'd remove the whole c2h_evt_hdl().
+>
+> Regards,
+>
+> Fabio
+
+As alluded to, removing the whole of c2h_evt_hdl would lead to
+c2h_evt_read no longer
+being executed, which would mean the reads from the adapter register
+don't happen, and
+nor does the clearing by c2h_evt_clear(adapter); - in particular, the
+comment there mentions
+the FW not updating the next command message if this isn't executed when needed.
+
+This may be perfectly fine, but I thought this approach is safer due
+to the above.
+
+Regards,
+Phil
