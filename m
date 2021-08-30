@@ -1,50 +1,49 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110EB3FC2
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 00:16:28 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id ot2-20020a17090b3b4200b0019127f8ed87so11026519pjb.1
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 17:16:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5F43FC2
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 00:17:51 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id x16so10835494pfh.2
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 17:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lfvUPoqcsdtWp2xQNM0SN6X8Hkd9bKLbzzZB8u6GYqA=;
-        b=s1RBr2BDjIqmSADqZJM0821Es4cznWSVszRMOTWsNkxJj1SaG2/cZK89mot5U7lcE6
-         e5wI0RQVsYWB6V3cYeiepqfpDyM9VZ9EpT/FeszNQA3wrnbAi1yJo1m0EFCdrEd0ODw4
-         on21sa3P4CgPLO8d5wNjFzhCZYD66ZooEYqe1voTzIUdj/PiUG4BIDz/MuIv7N+RJCCh
-         2KtiiCMGIpVem6XMVY34j2+aCBIj1NzXS69DcYlnsaUgBBYTCiuOVcAD1JyPgmP4oCi4
-         9YcxJDvuDAJkSU/FbbYyf7Y+2GD8MT9f+pHn/36VtjLNp6kiWKli8cAqsRhA1Xfo9Nhp
-         0B1Q==
+        bh=YyjNDu1HBv7DaFaJvN576gJvcx+mkQzf4by1fYHwuLw=;
+        b=ipAby8fSNns1CCeCy/dslLv9tEUMUO+AVpxomMVz1L9HMJ9aTSzOIYaSkMfCX/ZBi2
+         XdxefGLBvLTbyI6JVhUY8rSFrngkK7nxk7wpIukmZvSXj4dbIPa7+AtqEyXgFwWJ0/7Z
+         NdPhZrKT6l+5bMBRNBZwW61i2UwMm9lkooJFqgC5kYtiRAQaA2zJ1OyQqULGkeo+d1zS
+         aZZtTx9fODPOjQW5UydGNkUQi81fkVjCZzspX89szAMFIQqEVQ7SSrU8VhyFidysA7Ra
+         qe84dg9jIZNT33E8zevPPmJCxS/wKjxddLlyIRkMk4Dv7OtlkgKn2xnE9vIV5+S+IAxn
+         f5oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lfvUPoqcsdtWp2xQNM0SN6X8Hkd9bKLbzzZB8u6GYqA=;
-        b=ja7jPPvWSBp2bw/4AqepzPkYRJ4ABzf86ivCi06LsKocvVXgtkM/5m873GIZPI55Yx
-         XIOF8k4jSIl98f1drBhI350ly1DQe2Tz/isI0qzW1afBh7JL0cmTofCATer8dzjkOAsT
-         JxsDEXqxD2NNtF+Pif7rZdDWini9PEXfeiyJBjhq8gTyHSKYjMz93u8+nVZDkyohVz0m
-         I574I+qUFvLcvVtxvHhxAZMCkTNRVRHRyRW+Ei2y3jVhjSwKozltgqvKEtBrlcjOvWgi
-         ZSdFWDqcTqZez5+H2U+OZhc/4ZjnJOunn9cRGhMXuK7iYyGHSdaZNid2Jxu6YPZh/sM0
-         mchA==
-X-Gm-Message-State: AOAM533q+Q8FwrcXCFNwjOsjzm5ZP20OGluMhuPDOteX5YxtcrXUR5Lk
-	1HNH6ySCTqdSbCP7dvUzDm1bRXQfH82tKYk7HMe7gQ==
-X-Google-Smtp-Source: ABdhPJzPA7ddCc4MfwJdTsKB2/CaMhpr98rYQhnXm4B9fIZpU/+zj9PvJZh5uu8BMvhtLbl5SiBY6MEX6ZSr56XuT6w=
-X-Received: by 2002:a17:902:f704:b029:11a:cdee:490 with SMTP id
- h4-20020a170902f704b029011acdee0490mr19290977plo.37.1630282588598; Sun, 29
- Aug 2021 17:16:28 -0700 (PDT)
+        bh=YyjNDu1HBv7DaFaJvN576gJvcx+mkQzf4by1fYHwuLw=;
+        b=iUEPHaWYJ9MnEGRAOIHuUQdVTpwZQmK9VLFhs3T3JxDBYFnFvwZc3pXMAazjb+zINC
+         G0Sh7YshsLWLuxgtNHipeuRIVWAdjNqWOJL6exvsUGWp4Mx5ECOk0CvqSnmCHWsitexA
+         O7gjpIFAHd3KRkcvtX0FmrA6/zMjTf2xUkUPgs/veaBwvH2krTh1lD/Dm4sTvZ/TzXyO
+         QW26DLL/Vgn5mDSQDNgUiXvk6vesGNcA6cJ9mGGQN1lu3s7u9YPJss6WkPrE6R9g7WXm
+         gdMkIn4NW0QO+ddn0X51+hg9ZimqBXUroFj9GIieBYrzFYxULiWLLDOiWK3zRpgd7kpI
+         dwYQ==
+X-Gm-Message-State: AOAM530wCJrbb2/rVJsbftMKvJcNSGX0BIcLIgEJBdCA6AvVpE+o0rOK
+	07PM3ai3N19XJZT2iYMYJlEefDOt4yDC2zfcP7Z7HQ==
+X-Google-Smtp-Source: ABdhPJxGKXm/SahkdjxmMWqpsKHAwTCfZL8bpLVRRD4CQ36xFk20PSupXzsL7+4trXTWQTe8ipSStmQse7cSWsR6RkA=
+X-Received: by 2002:a63:aa43:: with SMTP id x3mr19221781pgo.208.1630282671525;
+ Sun, 29 Aug 2021 17:17:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210829112555.8726-1-straube.linux@gmail.com>
-In-Reply-To: <20210829112555.8726-1-straube.linux@gmail.com>
+References: <20210829175624.5915-1-straube.linux@gmail.com>
+In-Reply-To: <20210829175624.5915-1-straube.linux@gmail.com>
 From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 30 Aug 2021 01:16:17 +0100
-Message-ID: <CAA=Fs0==H6_Jne-hRoQWFedPE02zaoL=Mov0mJam52+YQtEHKQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] staging: r8188eu: clean up unnecessary type casts
+Date: Mon, 30 Aug 2021 01:17:40 +0100
+Message-ID: <CAA=Fs0maUfQ9ZybeaifcNHyzzCGPS-UPhPMFY_14v9xZ=to8JA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: r8188eu: remove local variable Indexforchannel
 To: Michael Straube <straube.linux@gmail.com>
 Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
 	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
@@ -52,34 +51,56 @@ Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.ne
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 29 Aug 2021 at 12:26, Michael Straube <straube.linux@gmail.com> wrote:
+On Sun, 29 Aug 2021 at 18:56, Michael Straube <straube.linux@gmail.com> wrote:
 >
-> This series removes unnecessary type casts from de/encrypt functions
-> in core/rtw_security.c.
+> The local variable Indexforchannel in function
+> odm_TXPowerTrackingCallback_ThermalMeter_8188E() is initilaized to 0
+> and never changed. Remove the variable and replace its usage with 0.
 >
-> Tested with Inter-Tech DMG-02 adapter connected to a CCMP network.
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>  drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >
-> Michael Straube (3):
->   staging: r8188eu: convert type of second parameter of rtw_*_encrypt()
->   staging: r8188eu: convert type of second parameter of rtw_*_decrypt()
->   staging: r8188eu: remove unnecessary type casts
+> diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+> index 356885e27edd..1b0e1e7307cd 100644
+> --- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+> +++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+> @@ -110,7 +110,6 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+>         bool is2t = false;
 >
->  drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  2 +-
->  drivers/staging/r8188eu/core/rtw_recv.c       |  6 +-
->  drivers/staging/r8188eu/core/rtw_security.c   | 61 +++++++++----------
->  drivers/staging/r8188eu/core/rtw_xmit.c       |  6 +-
->  .../staging/r8188eu/include/rtw_security.h    | 12 ++--
->  5 files changed, 42 insertions(+), 45 deletions(-)
+>         u8 OFDM_min_index = 6, rf; /* OFDM BB Swing should be less than +3.0dB, which is required by Arthur */
+> -       u8 Indexforchannel = 0/*GetRightChnlPlaceforIQK(pHalData->CurrentChannel)*/;
+>         s8 OFDM_index_mapping[2][index_mapping_NUM_88E] = {
+>                 {0, 0, 2, 3, 4, 4,              /* 2.4G, decrease power */
+>                 5, 6, 7, 7, 8, 9,
+> @@ -280,8 +279,8 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
 >
+>                                 /* Adujst OFDM Ant_A according to IQK result */
+>                                 ele_D = (OFDMSwingTable[(u8)OFDM_index[0]] & 0xFFC00000) >> 22;
+> -                               X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][0];
+> -                               Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][1];
+> +                               X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][0];
+> +                               Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][1];
+>
+>                                 /*  Revse TX power table. */
+>                                 dm_odm->BbSwingIdxOfdm          = (u8)OFDM_index[0];
+> @@ -315,8 +314,8 @@ odm_TXPowerTrackingCallback_ThermalMeter_8188E(
+>                                         ele_D = (OFDMSwingTable[(u8)OFDM_index[1]] & 0xFFC00000) >> 22;
+>
+>                                         /* new element A = element D x X */
+> -                                       X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][4];
+> -                                       Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[Indexforchannel].Value[0][5];
+> +                                       X = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][4];
+> +                                       Y = dm_odm->RFCalibrateInfo.IQKMatrixRegSetting[0].Value[0][5];
+>
+>                                         if ((X != 0) && (*dm_odm->pBandType == ODM_BAND_2_4G)) {
+>                                                 if ((X & 0x00000200) != 0)      /* consider minus */
 > --
-> 2.32.0
+> 2.33.0
 >
-
-Dear Michael,
-
-Looks good to me, built/run fine again, for whole series:
 
 Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
 Regards,
-Phil Potter
+Phil
