@@ -1,50 +1,33 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9FE3FC2
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 08:14:32 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso8786809wmi.5
-        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 01:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=C9dk2+VCltyEEkDv8wQBAPoWCNIY69Z823DPo+nBLdc=;
-        b=afedxgOLpJNwFJh2CpeczYHooEtygK+OZpghWQFMhQGKW9f3oosVxuKQLfw5yjFfAu
-         P+i3LEQUik40cXAYmtKtVyR06ugLIxkhi1/lvSkLJZIEi/DuRMdvhkAuRUrrx8BCPLo2
-         86RryPT6y780RZHFx2BvFpnkYDCW3RBF12ca/1v8ChI4veUxBn4wOfksU4CgxN//9XY5
-         1GyUjzKHWgVCNggPOgI98e6ygM2dnmVld6lIcYI+Vao2z7AM/PeWJP4XGyY1u5oHQwoD
-         /3JdZ+OsGq9IjAbO1eqzO48/BUYV03HZncUUQwrGeI+68W3s3/eCkT2SZ8M2P3IuicI2
-         dPuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=C9dk2+VCltyEEkDv8wQBAPoWCNIY69Z823DPo+nBLdc=;
-        b=cNDA+n82+YGJfJKteTMXt+g/Dvj3OWK/GLLgKnEa1wnxyxRjZXeJV7Ya6Ujb53grYV
-         pEVPV5WsYBbXeLTR/miQULWNk7wg0y09saKlxJLWlaLdeFSqiS90u8ZwKk8/UvvU6wcU
-         J/qWf8fjYAJ3l7tdQnjxs7NwfXlsqWf0jl9w1P76I2EDBJ9ahpM5xCxd2htTB5ap6Gzb
-         atkI+Z/ppeoZ1o7rAM22Lic99ZhYJNPFRyGWDbCZ0E/eGWAYkWlolOACPIdZGi/kSFif
-         HruEm6wzS2D/RyuMr0+g6CH5z9fqtqv5VX20euevLxVWOdnDAeaTgX1n4Rb1FJaefPbw
-         2LPw==
-X-Gm-Message-State: AOAM5304DiHi7c23xHnCX3r19yxbldHrF1Nm96ArF+pj0IaDQskJgNTL
-	4rrYaLhCnJiFyEnluRTXeV0=
-X-Google-Smtp-Source: ABdhPJy2gFfXJviteh0Qp5UT5bwpI3yQrfsp5IyTjhc7I+bLutyE7Y7JsTiGBbvVRhPAv/AmiaWQtg==
-X-Received: by 2002:a05:600c:4999:: with SMTP id h25mr31317552wmp.175.1630311271439;
-        Mon, 30 Aug 2021 01:14:31 -0700 (PDT)
-Received: from agape.jhs ([5.171.81.86])
-        by smtp.gmail.com with ESMTPSA id l124sm14381278wml.8.2021.08.30.01.14.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Aug 2021 01:14:31 -0700 (PDT)
-Date: Mon, 30 Aug 2021 10:14:29 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] staging: rtl8723bs: remove lockdep warning
-Message-ID: <20210830081428.GB1416@agape.jhs>
-References: <cover.1630307025.git.fabioaiuto83@gmail.com>
- <85ef4038-24e7-fdd4-fe42-35416f705b99@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DCF72
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 09:12:37 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 839B76101B;
+	Mon, 30 Aug 2021 09:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1630314757;
+	bh=lRY3z7xzOhyAa+s22iimKUyXMmbwq9wyRJbp7StGBn8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UHzT/+UcQr4T8GBmyidibU8QhwbNurATRroq6qrxAIiHCcADCu/Jio60QFigfdWsL
+	 xUmzStA75l4aZofPA+jyPkYhViv0v/sdvRszDrPwj7v7IO3b41EytOj6rjbnqv5Nd4
+	 /lyZjxty59Kbqm+7xJ/j3UFIA41tMAL8GXP8LZz49H13K1S5THaTMPJRXh3CdI1Fnu
+	 FzwfK8nhClFTcuo2CLOAczAmcwLJ+HV9eU4hyB2Fo6PvsWMh2VjD4VZuxJX3QZ8mNe
+	 T+cv49ft+TqfUj6Q7RddW4/LL/TXQ3g/CziVJbBlFxDotXPCiOOK8bE+3cCMF06y+4
+	 gZFzyTDWJ1Fdw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1mKdLA-0005T9-6y; Mon, 30 Aug 2021 11:12:28 +0200
+Date: Mon, 30 Aug 2021 11:12:28 +0200
+From: Johan Hovold <johan@kernel.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
+Message-ID: <YSyg/Db1So0LDGR+@hovoldconsulting.com>
+References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,43 +36,110 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <85ef4038-24e7-fdd4-fe42-35416f705b99@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210829092250.25379-1-fmdefrancesco@gmail.com>
 
-Hello Hans,
+On Sun, Aug 29, 2021 at 11:22:50AM +0200, Fabio M. De Francesco wrote:
+> Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
+> is more memory-efficient, parallelisable, and cache friendly. It takes
+> advantage of RCU to perform lookups without locking. Furthermore, IDR is
+> deprecated because XArray has a better (cleaner and more consistent) API.
 
-On Mon, Aug 30, 2021 at 09:44:01AM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 8/30/21 9:09 AM, Fabio Aiuto wrote:
-> > This patchseries removes a lockdep warning that turned out to
-> > be a false positive.
-> > 
-> > All "lockable" queues in the driver are initialized by
-> > a single function. This confuses lockdep which puts all
-> > locks in the same unexistent class.
-> > 
-> > Fixed it by doing the initalization of queues in place.
-> > 
-> > Done a small code cleaning and removed the no more
-> > used function.
-> > 
-> > Tested-on: Lenovo ideapad Miix 300-10IBY
-> 
-> Thank you so much for fixing this.
-> 
-> The entire series looks good to me:
-> 
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> For the series.
+Where does it say that IDR is deprecated? Almost all drivers use IDR/IDA
+and its interfaces are straight-forward. In most cases we don't care
+about a possible slight increase in efficiency either, and so also in
+this case. Correctness is what matters and doing these conversions risks
+introducing regressions.
 
-Thank you,
+And I believe IDR use XArray internally these days anyway.
 
-fabio
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+> 
+> v3->v4: 
+> 	Remove mutex_lock/unlock around xa_load(). These locks seem to
+> 	be unnecessary because there is a 1:1 correspondence between
+> 	a specific minor and its gb_tty and there is no reference
+> 	counting. I think that the RCU locks used inside xa_load()
+> 	are sufficient to protect this API from returning an invalid
+> 	gb_tty in case of concurrent access. Some more considerations 
+> 	on this topic are in the following message to linux-kernel list:
+> 	https://lore.kernel.org/lkml/3554184.2JXonMZcNW@localhost.localdomain/
 
+This just doesn't make sense (and a valid motivation would need to go in
+the commit message if there was one).
+
+> v2->v3:
+>         Fix some issues according to a review by Alex Elder <elder@ieee.org>
+> v1->v2:
+>         Fix an issue found by the kernel test robot. It is due to
+>         passing to xa_*lock() the same old mutex that IDR used with
+>         the previous version of the code.
 > 
-> Regards,
+>  drivers/staging/greybus/uart.c | 32 ++++++++++++++------------------
+>  1 file changed, 14 insertions(+), 18 deletions(-)
 > 
-> Hans
-> 
+> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+> index 73f01ed1e5b7..f66983adb51b 100644
+> --- a/drivers/staging/greybus/uart.c
+> +++ b/drivers/staging/greybus/uart.c
+> @@ -22,7 +22,7 @@
+>  #include <linux/serial.h>
+>  #include <linux/tty_driver.h>
+>  #include <linux/tty_flip.h>
+> -#include <linux/idr.h>
+> +#include <linux/xarray.h>
+>  #include <linux/fs.h>
+>  #include <linux/kdev_t.h>
+>  #include <linux/kfifo.h>
+> @@ -32,8 +32,9 @@
+>  
+>  #include "gbphy.h"
+>  
+> -#define GB_NUM_MINORS	16	/* 16 is more than enough */
+> -#define GB_NAME		"ttyGB"
+> +#define GB_NUM_MINORS		16	/* 16 is more than enough */
+> +#define GB_RANGE_MINORS		XA_LIMIT(0, GB_NUM_MINORS)
+> +#define GB_NAME			"ttyGB"
+>  
+>  #define GB_UART_WRITE_FIFO_SIZE		PAGE_SIZE
+>  #define GB_UART_WRITE_ROOM_MARGIN	1	/* leave some space in fifo */
+> @@ -67,8 +68,7 @@ struct gb_tty {
+>  };
+>  
+>  static struct tty_driver *gb_tty_driver;
+> -static DEFINE_IDR(tty_minors);
+> -static DEFINE_MUTEX(table_lock);
+> +static DEFINE_XARRAY(tty_minors);
+>  
+>  static int gb_uart_receive_data_handler(struct gb_operation *op)
+>  {
+> @@ -341,8 +341,7 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+>  {
+>  	struct gb_tty *gb_tty;
+>  
+> -	mutex_lock(&table_lock);
+> -	gb_tty = idr_find(&tty_minors, minor);
+> +	gb_tty = xa_load(&tty_minors, minor);
+>  	if (gb_tty) {
+>  		mutex_lock(&gb_tty->mutex);
+>  		if (gb_tty->disconnected) {
+> @@ -353,19 +352,18 @@ static struct gb_tty *get_gb_by_minor(unsigned int minor)
+>  			mutex_unlock(&gb_tty->mutex);
+>  		}
+>  	}
+> -	mutex_unlock(&table_lock);
+
+You can't just drop the locking here since you'd introduce a potential
+use-after-free in case gb_tty is freed after the lookup but before the
+port reference is taken.
+
+That said, this driver is already broken since it can currently free the
+gb_tty while there are references to the port. I'll try to fix it up...
+
+>  	return gb_tty;
+>  }
+
+But as you may have gathered, I don't think doing these conversions is a
+good idea.
+
+Johan
