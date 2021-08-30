@@ -1,295 +1,99 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369743FC1
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 13:01:29 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id 18so12115084pfh.9
-        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 06:01:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3783FC1
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 13:16:37 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id me10so31044446ejb.11
+        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 06:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=DGaqXG6bmi3iDyt8AzR1s/ABOXV7ZXOmSecZ1y9/9wY=;
-        b=csbAoxpCpxOJoE4m82GuH7cz1Mh3v8wmls/HWACe+CGA03gjcBZGObcIo/UODNm8rD
-         0fL7MK0LDmSt8xtf8q8OjTL/Pps9wz//qmMy8oxTlwuHLUbK2U1frxGMLoeWITVLuRiv
-         7NuWp6QWNrRBE5iikayQ08dJheunreYoFcYB2Oy7kuYmoQjYIVWKt0U+AW22jQxvDs3x
-         v2g5uhxEWd5wLNBjabggwXNguUnyg+I8/NesnF41Ht6qjQZdtQ4IppE9zltxh+JRusXz
-         ZuuIg9HYs8zi6cPEmuNBx+HC/ERmtOmbTQynEC56NkMVVToHP5eh+aNQFj+ThDSMHJ+3
-         UKkA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/eOxZaKGbxmQPslyu0PUS3U6D6ydLmM18aPAdUZtRfg=;
+        b=sTIEy6k8cD913yMcDMqoAFe5WNTGIfMnlYr8X/PTgSqIj6c/tNIL6vrOU09WJKVswx
+         1ZtBeifn8OwF8QhNY+xSrp8B4YTpqBsqNsRqbFyOUQcU4oMevQhf1qGmapsVIMmA4CKK
+         RGmu4XGbSK7hKRdnE4JgdxTJY0XR3AsfAGANWDdSSIW0OWxt8OiUXQpgGxGQwZdSx70s
+         V9HV7MrJ6thZPJ7sGk19T5tFJfLPwt8vHgWtY/Ov/r4thO/9y3MnUloDFB44g35YgTgW
+         JPDkNLfk/NazLkV4R37H+7WzKvgQEhaoa1gztCgzOKW6ZaC+MVvvaWyq94DoxwKWbjkp
+         cIeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=DGaqXG6bmi3iDyt8AzR1s/ABOXV7ZXOmSecZ1y9/9wY=;
-        b=OCbWirDa63SlDMA0CW2dVcnHOTpAdvEJo+hGjT7cYXVh9kqz+FLBZvprK6oxb/4yZN
-         9f8umVynEDCKLtt0x3Q+6vH0dFGCndbQhSIY1+AGT6zk5iaoq0iROhsuPh3ir70djIO0
-         t54rIDHzfIaLMW5PLAvzCvzFxtD0U71ETcz3hbCs/5QXoS/9oQRNgNph2AYg9pwnqowo
-         ziZqSuIE9e5SBD+uUM6evNQOBqxiRMAO9Qx9L4xFnLN85Lnc43J3NuPz6D8ofrm8RYye
-         ufZnZp6NuO2lzZTQKlmxH69SffN2Nl1RLbQRR22HhDQoR4NhO6CxaFhRkvXVW5W5oGNy
-         xI1Q==
-X-Gm-Message-State: AOAM533/lfu4KewWlSUPTwdACCGQxG8Y93pmcHDNHMN8wUX+e7JIT9Ty
-	KIy0q3tuYwmWPgnznRplWgru1ViUT9z2YD/pgiA=
-X-Google-Smtp-Source: ABdhPJz+WaPuEBqNyIA4EiSxTAhrZIgVEL2LfqLsWD1D7oOLA0T/oWYmNsOq31aeWVKvFJunt494YXvc1uJyN8cxtWw=
-X-Received: by 2002:a62:1d94:0:b0:3eb:321d:671a with SMTP id
- d142-20020a621d94000000b003eb321d671amr22978720pfd.2.1630328488609; Mon, 30
- Aug 2021 06:01:28 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/eOxZaKGbxmQPslyu0PUS3U6D6ydLmM18aPAdUZtRfg=;
+        b=LclKkUYMtT0ZeCdFan8UiPcqf4EtyY8rQVeDp5cM1vx1RDPL+YDOBwB4fhOAv/CFHB
+         z4py67EK2csgsJLSRR+aLN4pFVfrSNTi4BKyY6wVeKfS8233rSPpgaWdO/FQKR8zEKeH
+         Sj7M2ilGRbkDQXMIX6rKoh7UP3B9eaVp+pjn6c5eIwNnkpunHRe178bBhF2HWkrsMuDM
+         JeoBK5cLRnbF/zlLr4RZEeXTUqQthQFIAGmSrMsZtOiuWt7EVLNb5g9tiP4+6YIzTeWr
+         cOYzuhr5yHPqmzT5C5/pt/mTrNY6id2Cz0GMvsT+j17XhrSs4sA0RKoAt8TShSAAEiVk
+         nULg==
+X-Gm-Message-State: AOAM532KP8ZELlKqFI/XpOQ8N6M/ITiPXAO/cWjJZ78GhX5KvuIIn3vV
+	gWVqAknMJRr2xTw+lDJ3JCk=
+X-Google-Smtp-Source: ABdhPJytTcwVMr733sqiiEbX4zDzTCRG13Mvo74nIsaQQkLOzLbES03gpI0dRHwbWSC9rq4nGAOCTQ==
+X-Received: by 2002:a17:906:84d0:: with SMTP id f16mr24621579ejy.6.1630329395850;
+        Mon, 30 Aug 2021 06:16:35 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id am3sm6699130ejc.74.2021.08.30.06.16.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 06:16:35 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Matthew Wilcox <willy@infradead.org>, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
+Date: Mon, 30 Aug 2021 15:16:33 +0200
+Message-ID: <8412914.CfCsZqXv9W@localhost.localdomain>
+In-Reply-To: <YSzQAd0Rg5CF/eLe@hovoldconsulting.com>
+References: <20210829092250.25379-1-fmdefrancesco@gmail.com> <YSzMB80NOkNvdjy1@casper.infradead.org> <YSzQAd0Rg5CF/eLe@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+xTFBeH-x-=dsQK-K5KjZZ7JKmQggz2s26=p7g+71kZjA@mail.gmail.com>
- <20210829164921.u5ntqk5jz2v3hlgr@h510> <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com>
- <CAPGkw+wGn1oTAO7JXXApDMm4cFfxXam913hOGnnup1nSOpcVPA@mail.gmail.com>
- <CAPGkw+xroJmxa9i6X++un6tQFQ-3F5uMRCatzufWsdfw7cQ2LQ@mail.gmail.com>
- <20210829205953.63ebc32xlyudsqzg@h510> <CAPGkw+wtE0HMQmYsMkFEt_BPqqB2j_TQ6zwATp6zyXLyxxwTOA@mail.gmail.com>
- <CAPGkw+w=A1ZBQrmSR2mCgXnfEvhG9tbuJjQ+q1-=Tedwb_XhOA@mail.gmail.com>
-In-Reply-To: <CAPGkw+w=A1ZBQrmSR2mCgXnfEvhG9tbuJjQ+q1-=Tedwb_XhOA@mail.gmail.com>
-From: Krish Jain <krishjain02939@gmail.com>
-Date: Mon, 30 Aug 2021 15:01:17 +0200
-Message-ID: <CAPGkw+xzAZxEXBvsFuBLiCRfNvjBxwds7Q-CWeo8RM4Rxmabcw@mail.gmail.com>
-Subject: Re: [PATCH] Declare the file_operations struct as const
-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-One sec this got even more confusing. I saw
-https://stackoverflow.com/questions/23184181/error-while-running-make-insta=
-ll-include-generated-autoconf-h-or-include-confi
-and it says
+On Monday, August 30, 2021 2:33:05 PM CEST Johan Hovold wrote:
+> On Mon, Aug 30, 2021 at 01:16:07PM +0100, Matthew Wilcox wrote:
+> > On Mon, Aug 30, 2021 at 01:52:48PM +0200, Johan Hovold wrote:
+> > > Whether the API is better is debatable. As I said, almost no drivers use
+> > > the new XArray interface, and perhaps partly because the new interface
+> > > isn't as intuitive as has been claimed (e.g. xa_load() instead of
+> > > ida_find()). And IDR/IDA isn't marked/documented as deprecated as far as
+> > > I know.
+> > 
+> > I can't just slap a 'deprecated' attribute on it.  That'll cause a
+> > storm of warnings.  What would you suggest I do to warn people that
+> > this interface is deprecated and I would like to remove it?
+> 
+> I'd at least expect a suggestion in the IDR documentation to consider
+> using XArray instead.
+> 
+> > Why do you think that idr_find() is more intuitive than xa_load()?
+> > The 'find' verb means that you search for something.  But it doesn't
+> > search for anything; it just returns the pointer at that index.
+> > 'find' should return the next non-NULL pointer at-or-above a given
+> > index.
+> 
+> We're looking up a minor number which may or may not exist. "Find" (or
+> "lookup" or "search") seems to describe this much better than "load"
+> (even if that may better reflect the implementation of XArray).
+> 
+> And no, I would not expect a find implementation to return the next
+> entry if the requested entry does not exist (and neither does idr_find()
+> or radix_tree_lookup()).
+> 
+> Johan
+> 
+Dear Johan,
 
--------
-You are including the V=3D1 which causes Make to show the commands as
-they're being run. From the looks of it, you're not actually seeing
-the error itself, but you're seeing the test that it's running to
-check if those files exist:
+Since your are not interested to this changes there's no need to restore the
+Mutexes that were in v1. Please drop the patch and sorry for the noise.
 
-test -e include/generated/autoconf.h -a -e include/config/auto.conf ||
-( \ ... echo error messages here ... \ )
+Regards,
 
-That test is being run, and if it fails, it would echo those messages
-to standard error, which it's not. If your module isn't building it's
-probably due to some other issue.
-------
-
-So where is it going all wrong? Messing up the file ashmem.c does not
-print the errors.
+Fabio
 
 
-Best Regards
 
-On Mon, Aug 30, 2021 at 2:40 PM Krish Jain <krishjain02939@gmail.com> wrote=
-:
->
-> Hi.
->
-> https://pastebin.com/NuvqMUWu is the link to the .config file.
-> The error I get is https://imgur.com/gkwh7Sb .
->
->
-> Best Regards
->
->
-> On Mon, Aug 30, 2021 at 12:11 AM Krish Jain <krishjain02939@gmail.com> wr=
-ote:
-> >
-> > On Sun, Aug 29, 2021 at 11:00 PM Bryan Brattlof <hello@bryanbrattlof.co=
-m> wrote:
-> > >
-> > > On this day, August 29, 2021, thus sayeth Krish Jain:
-> > > > Keeping you updated. Small win. The "Symbol version dump
-> > > > "Module.symvers" is missing. " error disappeared. Now I still don't
-> > > > know why
-> > > >
-> > >
-> > > Whoop! Any win, no matter their size, always feel great. I ran around
-> > > the house yesterday after cross compiling DOOM! for an armel chip. It=
-'s
-> > > that "win" feeling you get that keeps me involved.
-> > >
-> > > It is important that you find out why though. What is the importance =
-to
-> > > having Module.symvers? and why is it a WARNING and not an ERROR?
-> >
-> >  When a module is loaded/used, the values contained in the kernel are
-> > compared with similar values in the module; if they are not equal, the
-> > kernel refuses to load the module. I don't need it in my case.
-> >
-> > > What would happen if we didn't have the proper symbols when compiling=
- or
-> > > installing this driver?
-> > > How and what generates the Module.symvers file when we *do* need it?
-> >
-> > The kernel would refuse to load the module.
-> >
-> >
-> >
-> >
-> >
-> > > How can we turn this warning off when we don't need it?
-> > >
-> > > This is covered in chapter "6. Module Versioning"
-> > >
-> > >   https://www.kernel.org/doc/html/latest/kbuild/modules.html
-> > >
-> > > >
-> > > > ERROR: Kernel configuration is invalid."; \
-> > > > echo >&2 "         include/generated/autoconf.h or
-> > > > include/config/auto.conf are missing.";\
-> > > > echo >&2 "         Run 'make oldconfig && make prepare' on kernel s=
-rc
-> > > > to fix it."; \
-> > > >
-> > > >
-> > > > is still present.
-> > > >
-> > > > How can I fix this?
-> > > >
-> > >
-> > > Are there any other 'make *config' options we could try?
-> >
-> > Yes, like main menuconfig. I tried it but it still doesn't work.
-> >
-> > > What does 'make prepare' even do?
-> >
-> >
-> > Prepares for different architectures etc.
-> >
-> >
-> > > Why do we even need a configuration file?
-> > >
-> > >   https://www.kernel.org/doc/html/latest/kbuild/kconfig.html
-> > >
-> > > >
-> > > > Best Regards
-> > > >
-> > > > On Sun, Aug 29, 2021 at 8:28 PM Krish Jain <krishjain02939@gmail.co=
-m> wrote:
-> > > > >
-> > > > > Basically it says "you must have a prebuilt kernel available that
-> > > > > contains the configuration and header files used in the build." S=
-ince
-> > > > > for the staging kernel  "make oldconfig" asked me for  more
-> > > > > configurations apart from my old configuration file (as it reads =
-the
-> > > > > existing .config file that was used for an old kernel and prompts=
- the
-> > > > > user for options in the current kernel source that are not found =
-in
-> > > > > the file) . So I *don't* currently have a prebuilt kernel that
-> > > > > contains all the configuration in my staging kernel's .config fil=
-e. So
-> > > > > do I have to build the kernel once before I can just build the mo=
-dule
-> > > > > with "make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android" ?
-> > > > >
-> > >
-> > > What do all these other configuration settings turn on and off anyway=
-?
-> > >
-> > > Do we really need CONFIG_INFINIBAND turned on if we're working in the
-> > > drivers/staging tree of the kernel?
-> >
-> >
-> > No, we don't. I removed it.
-> >
-> > > What would we gain from having a compiled kernel if we want to test a
-> > > single staging driver?
-> >
-> > No need to compile the entire kernel I guess for my use case. But
-> > after all this reading :( I still don't get why " sudo make
-> > CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android/  V=3D1" worked for=
- you
-> > but not for me. I still get the following errors
-> >
-> >
-> > test -e include/generated/autoconf.h -a -e include/config/auto.conf || =
-( \
-> > echo >&2; \
-> > echo >&2 "  ERROR: Kernel configuration is invalid."; \
-> > echo >&2 "         include/generated/autoconf.h or
-> > include/config/auto.conf are missing.";\
-> > echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
-> > to fix it."; \
-> > echo >&2 ; \
-> > /bin/false)
-> > .....
-> >
-> >
-> > How can I fix this?
-> >
-> >
-> >
-> >
-> > > If you found what Module.symvers does, you should know this.
-> > >
-> > > > > > >
-> > > > > > > Again, do not allow others to rob you of learning how to solv=
-e these
-> > > > > > > issues yourself. I *strongly* encourage you to familiarize yo=
-urself with
-> > > > > > > the Kernel Build System in the Documentation.
-> > > > > > >
-> > > > > > >   https://www.kernel.org/doc/html/latest/kbuild/modules.html
-> > > > > > >
-> > > > > > > Specifically the first paragraph of "2. How to Build External=
- Modules"
-> > > > > > >
-> > > > > > > It may seem like a lot for such a simple issue but it *is* wo=
-rth it.
-> > > > > > > ~Bryan
-> > > > > > >
-> > > > > >
-> > > > > > That section says
-> > > > > >
-> > > > > >
-> > > > > > "To build external modules, *you must have a prebuilt kernel
-> > > > > > available* that contains the configuration and header files use=
-d in
-> > > > > > the build. Also, the kernel must have been built with modules e=
-nabled.
-> > > > > > If you are using a distribution kernel, there will be a package=
- for
-> > > > > > the kernel you are running provided by your distribution.
-> > > > > >
-> > > > > > An alternative is to use the =E2=80=9Cmake=E2=80=9D target =E2=
-=80=9Cmodules_prepare.=E2=80=9D This
-> > > > > > will make sure the kernel contains the information required. Th=
-e
-> > > > > > target exists solely as a simple way to prepare a kernel source=
- tree
-> > > > > > for building external modules.
-> > > > > >
-> > > > > > NOTE: =E2=80=9Cmodules_prepare=E2=80=9D will not build Module.s=
-ymvers even if
-> > > > > > CONFIG_MODVERSIONS is set; therefore, *a full kernel build need=
-s to be
-> > > > > > executed to make module versioning work.*"
-> > > > > >
-> > > > > > So I am just trying to confirm with you whether I have to first=
- build
-> > > > > > the kernel with like "make" or not? As you can imagine my hardw=
-are
-> > > > > > takes *very* long to build a kernel as I did in my last attempt=
- so I
-> > > > > > am asking whether it is needed. Hope you understand.
-> > > > > >
-> > >
-> > > I understand. Though I still don't wish to rob you of this opportunit=
-y.
-> > >
-> > > Your ability to come up with these questions and answer them yourself=
- is
-> > > what will make you a better programmer and developer.
-> > >
-> > > Don't get me wrong. Greg knows all too well the garbage I can shovel =
-his
-> > > way. It's not about knowing the answer. It about knowing how to find =
-the
-> > > answer yourself.
-> > >
-> > > ~Bryan
-> > >
+
