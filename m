@@ -1,60 +1,108 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87623FC3
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 11:27:01 +0000 (UTC)
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 8890A6112F;
-	Mon, 30 Aug 2021 11:26:58 +0000 (UTC)
-Date: Mon, 30 Aug 2021 12:30:10 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Alexander Vorwerk <alec@vc-celle.de>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: cdc: remove braces from single line if
- blocks
-Message-ID: <20210830123010.682d59f5@jic23-huawei>
-In-Reply-To: <20210820224914.1260-1-alec@vc-celle.de>
-References: <20210820224914.1260-1-alec@vc-celle.de>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757453FC3
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 11:52:58 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E7D4D61153;
+	Mon, 30 Aug 2021 11:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1630324377;
+	bh=p7pJj9eRCF/dNAutIgicMrOIDXY7IqZaj/mUfhWD540=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m4WNTJD6VthqPU/J/hoTTLStpT7A7sA1aet/60ZicMkgd2VgchNtPxvJBi12B9iat
+	 OBk/Zikyvzq0S9J1KNlprjRVTOouzfA02EQqmjNN0WYSV2a9g7qpT+u37ALB0h9MpF
+	 3JUjhRefThL/KimBzWSj1Tb+kBLGOUGNKYtck65eSAYkxBs4c4dWyD/cbMqoOazBIK
+	 P42qxsGdyaQe8uUmNunzOoFNXdldEywtSPNQs+gjYLxsSeKx4/KzOWUh03vzIbfdfE
+	 qlzrZyhtm5xBnQCJt5aVKoQKdjwTaNQYCNCUww9ImOB4F4N+GOC8jkPF1xB97Tzcyj
+	 hWTi0Xdv8nElw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1mKfqK-0005rZ-TU; Mon, 30 Aug 2021 13:52:49 +0200
+Date: Mon, 30 Aug 2021 13:52:48 +0200
+From: Johan Hovold <johan@kernel.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
+Message-ID: <YSzGkNfG6HOayiXi@hovoldconsulting.com>
+References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
+ <YSyg/Db1So0LDGR+@hovoldconsulting.com>
+ <2879439.WEJLM9RBEh@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2879439.WEJLM9RBEh@localhost.localdomain>
 
-On Sat, 21 Aug 2021 00:49:14 +0200
-Alexander Vorwerk <alec@vc-celle.de> wrote:
+[ Please wrap your mails at 72 columns or so. ]
 
-> Remove braces from single line if blocks to clear checkpatch warnings.
-> WARNING: braces {} are not necessary for single statement blocks
+On Mon, Aug 30, 2021 at 01:10:54PM +0200, Fabio M. De Francesco wrote:
+> On Monday, August 30, 2021 11:12:28 AM CEST Johan Hovold wrote:
+> > On Sun, Aug 29, 2021 at 11:22:50AM +0200, Fabio M. De Francesco wrote:
+> > > Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
+> > > is more memory-efficient, parallelisable, and cache friendly. It takes
+> > > advantage of RCU to perform lookups without locking. Furthermore, IDR is
+> > > deprecated because XArray has a better (cleaner and more consistent) API.
+> > 
+> > Where does it say that IDR is deprecated? Almost all drivers use IDR/IDA
+> > and its interfaces are straight-forward. In most cases we don't care
+> > about a possible slight increase in efficiency either, and so also in
+> > this case. Correctness is what matters and doing these conversions risks
+> > introducing regressions.
+> > 
+> > And I believe IDR use XArray internally these days anyway.
 > 
-> Signed-off-by: Alexander Vorwerk <alec@vc-celle.de>
-Applied. Thanks
-> ---
->  drivers/staging/iio/cdc/ad7746.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/cdc/ad7746.c b/drivers/staging/iio/cdc/ad7746.c
-> index 78ac720266e6..71c709771676 100644
-> --- a/drivers/staging/iio/cdc/ad7746.c
-> +++ b/drivers/staging/iio/cdc/ad7746.c
-> @@ -241,10 +241,8 @@ static int ad7746_select_channel(struct iio_dev *indio_dev,
->  		if (ret < 0)
->  			return ret;
->  
-> -		if (chip->capdac_set != chan->channel) {
-> -
-> +		if (chip->capdac_set != chan->channel)
->  			chip->capdac_set = chan->channel;
-> -		}
->  		break;
->  	case IIO_VOLTAGE:
->  	case IIO_TEMP:
+> Please read the following message by Matthew Wilcox for an
+> authoritative response to your doubts about efficiency of XArray and
+> IDR deprecation:
 
+> https://lore.kernel.org/lkml/20210503182629.GE1847222@casper.infradead.org/
+> 
+> In particular he says that "[] The advantage of the XArray over the
+> IDR is that it has a better API (and the IDR interface is
+> deprecated).".
+
+Whether the API is better is debatable. As I said, almost no drivers use
+the new XArray interface, and perhaps partly because the new interface
+isn't as intuitive as has been claimed (e.g. xa_load() instead of
+ida_find()). And IDR/IDA isn't marked/documented as deprecated as far as
+I know.
+
+Your commit message sounds like ad for something, and is mostly
+irrelevant for the case at hand.
+
+> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > ---
+> > > 
+> > > v3->v4: 
+> > > 	Remove mutex_lock/unlock around xa_load(). These locks seem to
+> > > 	be unnecessary because there is a 1:1 correspondence between
+> > > 	a specific minor and its gb_tty and there is no reference
+> > > 	counting. I think that the RCU locks used inside xa_load()
+> > > 	are sufficient to protect this API from returning an invalid
+> > > 	gb_tty in case of concurrent access. Some more considerations 
+> > > 	on this topic are in the following message to linux-kernel list:
+> > > 	https://lore.kernel.org/lkml/3554184.2JXonMZcNW@localhost.localdomain/
+> > 
+> > This just doesn't make sense (and a valid motivation would need to go in
+> > the commit message if there was one).
+> 
+> OK, I'll take your words on it. Alex Elder wrote that he guess the
+> mutex_lock/unlock() around xa_load() are probably not necessary. As I
+> said I don't yet have knowledge of this kind of topics, so I was just
+> attempting to find out a reason why. Now I know that my v1 was correct
+> in having those Mutexes as the original code with IDR had.
+
+This is partly why doing such conversions is a bad idea in the first
+place. You need to understand the code that you're changing.
+
+You don't know the code and risk introducing bugs, we need to spend time
+reviewing it, and in the end we gain close to nothing at best.
+
+Johan
