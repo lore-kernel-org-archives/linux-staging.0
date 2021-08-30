@@ -1,108 +1,83 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757453FC3
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 11:52:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E7D4D61153;
-	Mon, 30 Aug 2021 11:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1630324377;
-	bh=p7pJj9eRCF/dNAutIgicMrOIDXY7IqZaj/mUfhWD540=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m4WNTJD6VthqPU/J/hoTTLStpT7A7sA1aet/60ZicMkgd2VgchNtPxvJBi12B9iat
-	 OBk/Zikyvzq0S9J1KNlprjRVTOouzfA02EQqmjNN0WYSV2a9g7qpT+u37ALB0h9MpF
-	 3JUjhRefThL/KimBzWSj1Tb+kBLGOUGNKYtck65eSAYkxBs4c4dWyD/cbMqoOazBIK
-	 P42qxsGdyaQe8uUmNunzOoFNXdldEywtSPNQs+gjYLxsSeKx4/KzOWUh03vzIbfdfE
-	 qlzrZyhtm5xBnQCJt5aVKoQKdjwTaNQYCNCUww9ImOB4F4N+GOC8jkPF1xB97Tzcyj
-	 hWTi0Xdv8nElw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1mKfqK-0005rZ-TU; Mon, 30 Aug 2021 13:52:49 +0200
-Date: Mon, 30 Aug 2021 13:52:48 +0200
-From: Johan Hovold <johan@kernel.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
-Message-ID: <YSzGkNfG6HOayiXi@hovoldconsulting.com>
-References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
- <YSyg/Db1So0LDGR+@hovoldconsulting.com>
- <2879439.WEJLM9RBEh@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E343FC3
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 12:04:35 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id z4so22066123wrr.6
+        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 05:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0TkptHSvoyjCQEisDx9uEyo0ZmIqb3gk+9GGlP5MHlM=;
+        b=i+kjTY2N8tJPsbKc6Led8NFV5ziB6zvieZn+TlOtdg9yR/c0riXLO91TzscPgxqdin
+         OXgI2sEiR0MDPRccP/h8WJ1zalnN8jJx71B7OidOeKyVjYnIGg/eyp9I9d32f94CPHeg
+         8bDFq7CTh+FD4ETCgon78Fy0NgGGYlE2Y8URshST9xCjiyIwR1uXpdVPwZ3swCzhVxQd
+         m1RMDe+nY84j7BZ0XOdYLRAY4pCySruQrDEowx/Ipsuiz3nwAdE1whbWdEYkyJPV8BAe
+         KSyrQjt7rIFL8++8wRZOTIEr64Cb4dtv7u0sr5MyB3j72jbgirZDYAukrRJkZ+th3E5d
+         5Nlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0TkptHSvoyjCQEisDx9uEyo0ZmIqb3gk+9GGlP5MHlM=;
+        b=g5hv2uyu/61rnBYJlNxxV2RKie9iVSebLKMKR3iaZc1ya3mHw+aqHivJMS4BMurNab
+         UifGRBMQYRXMUJbt7S6UNAgahI7DzE2wckR6VzyhIyQrrlNCPu3a2t4LkBhg1nbhPFFz
+         vP5N2Ck8dQAAtGDeL/UM7khegpd7E6d6pxddUEDfcnKFZdopC1zVApwOoMQovmItkjV+
+         HXBWnwwJCYm6lwqT+MxkaZReLXEAHhz1cCpDoImTrM6NG2KronfpJtPhQlm0JfPWpzmi
+         KshQHZ5zZdewV21AYZyIWhGACo4D+HOE4z9Xd5aCT7cUtiFKYrAWBMaR5u40oLpjMkXW
+         sVUA==
+X-Gm-Message-State: AOAM530zrevp9BlqcP2VVe/7Drl0sJvO2a5KLh5SKQLLhCl2A59t2/Ok
+	ymz9qNqBGqj9QLmCFH7zZpI=
+X-Google-Smtp-Source: ABdhPJyumtCqQ7rtPQ4iaxfHgjuS49AAfjb54Enay087+RlBwzs7gUWHUuyeLgfa6YbbSpAQWqp7xw==
+X-Received: by 2002:adf:de09:: with SMTP id b9mr24931868wrm.314.1630325073759;
+        Mon, 30 Aug 2021 05:04:33 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
+        by smtp.gmail.com with ESMTPSA id f18sm13184195wmc.6.2021.08.30.05.04.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Aug 2021 05:04:33 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/8] staging: r8188eu: refactor rtw_macaddr_cfg()
+Date: Mon, 30 Aug 2021 14:04:12 +0200
+Message-Id: <20210830120420.5287-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2879439.WEJLM9RBEh@localhost.localdomain>
+Content-Transfer-Encoding: 8bit
 
-[ Please wrap your mails at 72 columns or so. ]
+This series refactors rtw_macaddr_cfg().
+- use mac_pton() instead of custom approach
+- use *_ether_addr() functions to copy the mac address
+  and check if it is a broadcast or zero address
+- assign random default mac address instead of fixed one
+- clean up minor style issues
 
-On Mon, Aug 30, 2021 at 01:10:54PM +0200, Fabio M. De Francesco wrote:
-> On Monday, August 30, 2021 11:12:28 AM CEST Johan Hovold wrote:
-> > On Sun, Aug 29, 2021 at 11:22:50AM +0200, Fabio M. De Francesco wrote:
-> > > Convert greybus/uart.c from IDR to XArray. The abstract data type XArray
-> > > is more memory-efficient, parallelisable, and cache friendly. It takes
-> > > advantage of RCU to perform lookups without locking. Furthermore, IDR is
-> > > deprecated because XArray has a better (cleaner and more consistent) API.
-> > 
-> > Where does it say that IDR is deprecated? Almost all drivers use IDR/IDA
-> > and its interfaces are straight-forward. In most cases we don't care
-> > about a possible slight increase in efficiency either, and so also in
-> > this case. Correctness is what matters and doing these conversions risks
-> > introducing regressions.
-> > 
-> > And I believe IDR use XArray internally these days anyway.
-> 
-> Please read the following message by Matthew Wilcox for an
-> authoritative response to your doubts about efficiency of XArray and
-> IDR deprecation:
+Michael Straube (8):
+  staging: r8188eu use mac_pton() in rtw_macaddr_cfg()
+  staging: r8188eu: ensure mac address buffer is properly aligned
+  staging: r8188eu: use ETH_ALEN
+  staging: r8188eu: use is_*_ether_addr() in rtw_macaddr_cfg()
+  staging: r8188eu: use random default mac address
+  staging: r8188eu: use ether_addr_copy() in rtw_macaddr_cfg()
+  staging: r8188eu: add missing blank line after declarations
+  staging: r8188eu: remove unnecessary parentheses
 
-> https://lore.kernel.org/lkml/20210503182629.GE1847222@casper.infradead.org/
-> 
-> In particular he says that "[] The advantage of the XArray over the
-> IDR is that it has a better API (and the IDR interface is
-> deprecated).".
+ drivers/staging/r8188eu/core/rtw_ieee80211.c | 33 +++++++-------------
+ drivers/staging/r8188eu/include/rtw_eeprom.h |  2 +-
+ 2 files changed, 12 insertions(+), 23 deletions(-)
 
-Whether the API is better is debatable. As I said, almost no drivers use
-the new XArray interface, and perhaps partly because the new interface
-isn't as intuitive as has been claimed (e.g. xa_load() instead of
-ida_find()). And IDR/IDA isn't marked/documented as deprecated as far as
-I know.
+-- 
+2.33.0
 
-Your commit message sounds like ad for something, and is mostly
-irrelevant for the case at hand.
-
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > > ---
-> > > 
-> > > v3->v4: 
-> > > 	Remove mutex_lock/unlock around xa_load(). These locks seem to
-> > > 	be unnecessary because there is a 1:1 correspondence between
-> > > 	a specific minor and its gb_tty and there is no reference
-> > > 	counting. I think that the RCU locks used inside xa_load()
-> > > 	are sufficient to protect this API from returning an invalid
-> > > 	gb_tty in case of concurrent access. Some more considerations 
-> > > 	on this topic are in the following message to linux-kernel list:
-> > > 	https://lore.kernel.org/lkml/3554184.2JXonMZcNW@localhost.localdomain/
-> > 
-> > This just doesn't make sense (and a valid motivation would need to go in
-> > the commit message if there was one).
-> 
-> OK, I'll take your words on it. Alex Elder wrote that he guess the
-> mutex_lock/unlock() around xa_load() are probably not necessary. As I
-> said I don't yet have knowledge of this kind of topics, so I was just
-> attempting to find out a reason why. Now I know that my v1 was correct
-> in having those Mutexes as the original code with IDR had.
-
-This is partly why doing such conversions is a bad idea in the first
-place. You need to understand the code that you're changing.
-
-You don't know the code and risk introducing bugs, we need to spend time
-reviewing it, and in the end we gain close to nothing at best.
-
-Johan
