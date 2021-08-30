@@ -1,112 +1,174 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE0572
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 09:22:06 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id z9-20020a7bc149000000b002e8861aff59so10003768wmi.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 02:22:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE423FC3
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 10:39:46 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17U6woML032083;
+	Mon, 30 Aug 2021 10:39:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=vl3pzbtuuRPM8NnxvNi7n1ZApjrxdHqMBfF2ibwFpiI=;
+ b=qEAaZGu+JfM1nFGuqiZFljzfN79aXSFEn9hRbbtA9lZ21V2YlPCvVhfOMeXviznPLVWb
+ FWYBUYPlFfZxstRC7FxUQyO7iEhhS2zx5w1togpzFXLElKiS+jPPkPDxbMlFqaR0fi2X
+ bX6WW9EHS33Hd0l6gQh9Bwd0Sa2mgnV3WwSA24YcSg6PBFbGxQrAWQj1tpJFMUTk3rhg
+ X85aLxgoL3lUbfvDddFXVE8zmz36A9z4ZSp09cWxi/Dd/Zo2GcVawK1ZrjY4Ac7UfJd7
+ dOYIclYhmEupXl9HU+vx90E0rjCe84Eq0COeqjMZ493as69MxxXKN+tAtIDoMzgxAtIr 9Q== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=vl3pzbtuuRPM8NnxvNi7n1ZApjrxdHqMBfF2ibwFpiI=;
+ b=wsT76+petaBuqtXfBDfGS7O7DtXKCDz0Wo1vcxxIvkJ8Mve2BVKMEUjlxUWlYn8YhjyV
+ 1jEn1e6/oscGH5T1XbkKPLMpLp8Tb2Ji9vkvFXJ5Rm34T/Jnmm2bweWy2sZvbLsVyfa3
+ S9yQRpP/tkh0AKDRPJUWc2QsbaOPuG8y1VUs93C16l8CZisnnAY8FyiU4WmVqoGxalxl
+ zWbBaGXIw4Du5nwb5LS1GbJJjEYRNdiNF2ToPbYELzLHQor9jOo6NK6Tuw96q1iU+M/0
+ VVlKyUi5GESexLDzS3z4NKDD7JpoYpP107WURnVBE+vHA3XoDA2iE8ZPxNFMqRNOUfAs jw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3arbxsh6rp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 30 Aug 2021 10:39:35 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17UAZY6b020190;
+	Mon, 30 Aug 2021 10:39:34 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
+	by aserp3020.oracle.com with ESMTP id 3aqcy2m1mh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 30 Aug 2021 10:39:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D03WCXhbeJ/spYV4QT0KliSEVdwZ3LuKkZro+lc+oW3VHa4X4AgqPBrHE9cm+yZiYkQb4wP9ExE6SaseNsL8DybooP7i/Ofkuf7m3eiej8rXdZICaNcYWDN7H6kscGQDS2fFn1o/ywenAR/PW7j8JVpmW68ywv5/Pypt1smLf4bpUoPeXL8mHtLUxLuyAXEB4NcBvp+5/BfZC2w0JKBqECc1qLoTWTxRW5Xy5AWX64w6W57MsmNvu2EGNDDfo2AJ/SqFYu8J1iVZwPuv0Xwq8CZ2HahVh1tMCDXRHcE9vz7vGeHIh1HuSDTobanPLgZZHrcnpg5SWFYBZ2ZSX4odFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vl3pzbtuuRPM8NnxvNi7n1ZApjrxdHqMBfF2ibwFpiI=;
+ b=Id1KhxLDG5WyWwj+DJyxWuHPexflUFsbZUIKpw5dGY/T5Uos3nML0i+ToFE3NyuYFlgbDMkYjtTb7eB6LLC/OsExz8PtQ/GdCBcW4nGAcCC/rBrYKJY2FqlyH0A0n+OYIefUR+c0WYSB6E9qur+mI1PETABOS/eDhW7kLEYQi0Aj3h1EZUSeVWWao2nZIbaZFG6wvlTQsSgxXYiVqJkPWq9wPWGJD7et6/DmwjcS027z3wr2rC7co9jhYywlVYhQGjxP5obGHCzJh6MF5mXNJvLVmOL9YLf+rhOLmDLjbQQC+3OVFIiFL4AT2Zo0FU/8whPxYW/VKDrTGgoFFg3mwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1K2L0rfQcMA4bHPO7PeyHVg9f7MV/63zN9Cyy+Mz/1I=;
-        b=MwvbTUoXPFfHYJWBysVve6D22DaqF7WouBzXZ5uV6PcPKYzj7ouBPtBD0l9iJlMNCL
-         2B/EBUs4Yjv3lEFfV97CWZ7Tk+NCrg2tRxXEBMXU7z5FTBpEZnZcDp5ZZmWbDcL97Fkf
-         lE8Qj2Cjc4QAdUJE1BuP98eUMelnDo+5nT+cpggD9D3Y6sB6icNSaWOmkGcbUlClAWfj
-         j9heZk8m6n7UTEjI+1OBS2ObhkZi7PNjPG9b3prUfnii+oM7x6NvB4AeHRDJ2ith1jTm
-         jozWfr6ZT8g/ukJGIdSbdLNOS6gyYoJESB7rYBTPAanfTIfMjOGaTHUQE75k2VImnrFl
-         2rNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1K2L0rfQcMA4bHPO7PeyHVg9f7MV/63zN9Cyy+Mz/1I=;
-        b=j/ErXNyhFZY9N9MSi/ZY3J0fHlX1fqdnWLPVYJwp6OiZNbkPtFp30G6m+ofwNIhpYJ
-         U96XBOa+4N2HNaLHj+A76Li+AXP1n2lhuy/Wsh7U1Rf3myzohbuL31ksiGXXn6HvcTNR
-         JMczaXh+YKodSeb2ojPnndRVxNenIYR4xaoPAFs+xsnDXLJ9UJ9DnK4yFooHr5gSS/Tk
-         nC9ab3Sjrw1swEaulvarjSltuct8m49engHl7yCbFRc07DWOXxsqmHLlarHB0WTGtBN4
-         ZazhrOea2rXpfvZTP4+ApdSr+SIr8pwN9oae4XxZviPeEwObJOCnTVZmVXtdxnt5scPL
-         snhw==
-X-Gm-Message-State: AOAM533znOQLkM3SqLN21y6T6jQyaEjvl6hT0na++s9x+r5rKfR1Ya4U
-	x6uRSHip2B5mmp61NhQTZ2g=
-X-Google-Smtp-Source: ABdhPJyg6F3CiC0oxDopjeuy116vYb8nYwo4z6r6St1P2iAILpwRb2/X03HxTdzGuOC9lHcBvksIng==
-X-Received: by 2002:a05:600c:8a4:: with SMTP id l36mr20861074wmp.128.1630315324621;
-        Mon, 30 Aug 2021 02:22:04 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id j1sm18378248wrd.50.2021.08.30.02.22.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Aug 2021 02:22:04 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 4/4] staging: r8188eu: remove unused function SetBcnCtrlReg()
-Date: Mon, 30 Aug 2021 11:21:53 +0200
-Message-Id: <20210830092153.9283-5-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210830092153.9283-1-straube.linux@gmail.com>
-References: <20210830092153.9283-1-straube.linux@gmail.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vl3pzbtuuRPM8NnxvNi7n1ZApjrxdHqMBfF2ibwFpiI=;
+ b=k37f9QKhsq0ahECm2MssKn7ZqS4KKrBrpsAd+3qIAHUXNyZvPKrZDnFnbKSREeFdUBI1wMK8+ZxvLDAH1q0HqlpdAFuw3m2vEvQT3k/h7kOSQC/W8ZtdiT0x/Cy90ciRWnsp6o6OPH6jg5CrPjuaUSvp9R9bFXq+GUaUUAPLfWg=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2207.namprd10.prod.outlook.com
+ (2603:10b6:301:36::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Mon, 30 Aug
+ 2021 10:39:31 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4457.024; Mon, 30 Aug 2021
+ 10:39:31 +0000
+Date: Mon, 30 Aug 2021 13:39:12 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Kari Argillander <kari.argillander@gmail.com>
+Cc: Aakash Hemadri <aakashhemadri123@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] staging: r8188eu: incorrect type in
+ csum_ipv6_magic
+Message-ID: <20210830103912.GD12231@kadam>
+References: <cover.1630148641.git.aakashhemadri123@gmail.com>
+ <0b7d6e92c79a6daf55a0c3a4961df6f33a9bcf37.1630148641.git.aakashhemadri123@gmail.com>
+ <20210828113726.v4tmknjosvgb7bke@kari-VirtualBox>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210828113726.v4tmknjosvgb7bke@kari-VirtualBox>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0060.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::14)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kadam (62.8.83.99) by JNAP275CA0060.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.19 via Frontend Transport; Mon, 30 Aug 2021 10:39:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d0873958-7701-48bb-b7eb-08d96ba272c8
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2207:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR1001MB2207BC3191AF3F883327067B8ECB9@MWHPR1001MB2207.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:46;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	00GVJXoQM4Gv3Y79RgVATAj4FFEiyAm08Yn41RZwVPoBNQM+p2biRTe2yufs5VLykaAYs2RshLCWU9EEF5qqYWrWBMKBxhp/FjYTdynm6byT21qZSZAjqvfg82ubXu+nqIwCaMYrhA+LMUZtoRkh+XwquzvlATV90dZC14JEzW4gL2h1OjQjEdQ/egJsZyrV1sXsigZ522xGO6+TkXnSNq+KefBoOBy3TPPkRFg5kT4y1deADCM9Og1P9Z6jQ9sBOiebwbVLYzbDKpgIk/ks2zTBklH+HOEjoTo55Oi7dHxixf1J585ITUOzst+MIHTgzTTSVjwOiKEso3kLgG3/JH5qflC9EE/jJ74x9J+7gnOF+kwMDoTN2CU40C2m+zG7M2oyyZdEhRkaddT0BvOOe8xCpF58o1oJ/kfOcs0GbjlaCZoNwyVHj5eNbrqmDDGovraT8BlZRBXwPocRi4DKawhi/8376di7WGwYQMODf7Cv6HCMGs8p75n5ZTd3gLGBYEubMvw07AF7QR5axjtKUq0E1+7u6z61f+FjUDlLNBpyRnquDB+b3ELak6DbkuCjWHlgJesZSsFBqNyQVKX4X3xeN0bv9FqzBeIo+hBQO3Mkk5KxLY5y7L5KPXPzwpWbO24tz098u1wNQLrHgDnYwmuS7H0RoU2SfU+t6iuZNaxU9YM1vBdKFURFsZiulHDGFe+r8hejQEiZCmBnwHG8xizR4mRcgh3LErTYZbC9bZwKFmjN82/cB/8vtuQQKX5Gd5UWUnEdEavXkdMSu52Xus4Hl76+JdWH0V6+sQpD8NE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(346002)(136003)(39860400002)(376002)(396003)(33656002)(9686003)(83380400001)(4326008)(66476007)(316002)(6496006)(26005)(54906003)(478600001)(966005)(66946007)(33716001)(8676002)(66556008)(1076003)(44832011)(2906002)(6666004)(186003)(8936002)(6916009)(52116002)(5660300002)(86362001)(9576002)(38350700002)(38100700002)(956004)(55016002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ZaILrr22BF2Fi+12lOOE6BX2hxtny1JbJuZNXVQPzJ43KeOvCW8u0C6VqE34?=
+ =?us-ascii?Q?5BRpLs4Ri6Sx+WUuhPu9DGoKdNBxRVG0z4tx0djUIO/pQ8Sg5tAxGbP1EcIt?=
+ =?us-ascii?Q?vwfVZ6fn3FK0NclDBEpqfHiRwU1+ZKIq3wnTbyvsXp8S4cwPVgVbdCzTuh2B?=
+ =?us-ascii?Q?bYKUBooRjDLWM/0RABksx7+vaZdTXl2Gprc5OdhbNHuM+Ds2rPaHhfw5OPZg?=
+ =?us-ascii?Q?PODgj9vqunnQIRIdv2URkDg7fTn3D7o/iPECgdJmCkUrjz/12UZD1a/NN37F?=
+ =?us-ascii?Q?Bq0ROKIaOi/J1SaG8jnoImdjCJsHmmoVpWzyc0cgSdYrIThplMZUVFF8Bdiv?=
+ =?us-ascii?Q?G1/PSbTQdgYLq2NhEaLGpldd6d/zl+I1xbBX5MNSpgl3abZDUJ0ULfYRFnGB?=
+ =?us-ascii?Q?SBRZIpoxvkbI1RFFQFJ6WDU29kHXdhPCdneevZ7rL7ae0b88fAVHQ/G+8eS+?=
+ =?us-ascii?Q?uGKJf8jmmj/MaKWiy0u6Cxhh/z2ONJVqj2D8gV5g3jI9zxV6tPQRg+jBA/RQ?=
+ =?us-ascii?Q?OR6x//ycvPpjD+81LMHl/nMcx2rVguWMAuku7IcdaXEmTPkSdbjqLfjDSTHo?=
+ =?us-ascii?Q?ANLP7mZ+gagD+zvQPk6weOn0faY2XH4oQvBoNYV845dae7hh1QKyayWGMjvQ?=
+ =?us-ascii?Q?g3DTz6ZF0b+dHORGvipeq761253lbtiyKBW2HJyDNnr0eHzXhbMDI7YHONQg?=
+ =?us-ascii?Q?j1sBCUqB0UOJNcyh/bDENZN3NDDW6j89AD/oVnOfR/i2CQxjBmcG8FG5GklY?=
+ =?us-ascii?Q?od5ygFHcc5dJCS7zQhSSrj2V6cOFqTu3+P4T8q3e+BvbUcUVye3952rhWfCY?=
+ =?us-ascii?Q?J0apPkl4/yVG3sFcQQ59bJ9NFX96sDZEoU6FCiz3lhlduhKrr8R/6oRVBFVm?=
+ =?us-ascii?Q?qEhhI48t/+vuGpUzTEYEklXc6mns3FVX25i6mFP5yQB1dwxm0UiguTaOkb06?=
+ =?us-ascii?Q?cxj5qRnQ/sue3nRl1tFUpuqwGsAZAE8nFZs4XF73T1OXfcUTKjGJ0FaUqt5M?=
+ =?us-ascii?Q?fhPPo8A1lAJjjcU8N0DUuKvr+/AvK3InzDT7+NNfKctlX4KmsHtJpfKyuTaR?=
+ =?us-ascii?Q?HCVPZrLDlzWdRy65Ndxo1tbMayjk5wr/l2ImvWMANSGBoye84Ye/J5Am3jV+?=
+ =?us-ascii?Q?4bJReFich87qmlxvm0ILBDhduKO7S6us7D9DNlA54AL7pnc+AkKI+coTVaT0?=
+ =?us-ascii?Q?udS78PxnynMIB+pn3ZZyiQvsJkHw/eJinH5qWhkqOI5/0KwFi4eHioNAVNaQ?=
+ =?us-ascii?Q?sIf/d0LIqHx+Jjjx0w8b1sJIKIp8U+2tpdnioTOZJKzcpjydMhW6zG7X5YDg?=
+ =?us-ascii?Q?egFY89m9h2ZNJOYprAr1my18?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0873958-7701-48bb-b7eb-08d96ba272c8
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2021 10:39:30.9067
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vri9UCKwwW3nVqHWyhWb0IT9DMEMMVVJBRe07EQ8HHyaW6EQsEccjmkEhHv2LFbfWzR6Y5yPXf6FmTT3akWApligTajmoqbadm4I99TdA4Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2207
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10091 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 suspectscore=0
+ phishscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108300077
+X-Proofpoint-GUID: 9W67oxumY7tePmOO1ZW1vPCA6wYaSwbU
+X-Proofpoint-ORIG-GUID: 9W67oxumY7tePmOO1ZW1vPCA6wYaSwbU
 
-Remove unused function SetBcnCtrlReg().
+On Sat, Aug 28, 2021 at 02:37:26PM +0300, Kari Argillander wrote:
+> [PATCH v5 2/3] staging: r8188eu: incorrect type in csum_ipv6_magic
+> 
+> Subject should start with imperative mood. Every patch in this series
+> needs this fix.
+> 
+> I actually check linux coding style and did not found mention about
+> this, but if you look kernel log then you see that it is at least
+> unwritten rule. You can check this if you want
+> https://chris.beams.io/posts/git-commit/#imperative
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- .../staging/r8188eu/hal/rtl8188e_hal_init.c    | 18 ------------------
- drivers/staging/r8188eu/include/rtl8188e_hal.h |  3 ---
- 2 files changed, 21 deletions(-)
+The imperitive rule is stupid.  We're dealing with thousands of people
+and lots of them don't speak English as a first language and it's hard
+to write commit messages.  Let's not make it harder than it already is.
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 3da5c27b6805..1adaf472a116 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -2283,21 +2283,3 @@ bool HalDetectPwrDownMode88E(struct adapter *Adapter)
- 
- 	return pHalData->pwrdown;
- }	/*  HalDetectPwrDownMode */
--
--/*  This function is used only for 92C to set REG_BCN_CTRL(0x550) register. */
--/*  We just reserve the value of the register in variable pHalData->RegBcnCtrlVal and then operate */
--/*  the value of the register via atomic operation. */
--/*  This prevents from race condition when setting this register. */
--/*  The value of pHalData->RegBcnCtrlVal is initialized in HwConfigureRTL8192CE() function. */
--
--void SetBcnCtrlReg(struct adapter *padapter, u8 SetBits, u8 ClearBits)
--{
--	struct hal_data_8188e *pHalData;
--
--	pHalData = GET_HAL_DATA(padapter);
--
--	pHalData->RegBcnCtrlVal |= SetBits;
--	pHalData->RegBcnCtrlVal &= ~ClearBits;
--
--	rtw_write8(padapter, REG_BCN_CTRL, (u8)pHalData->RegBcnCtrlVal);
--}
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 3939bf053de1..103991b6ec82 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -437,9 +437,6 @@ bool HalDetectPwrDownMode88E(struct adapter *Adapter);
- void Hal_InitChannelPlan(struct adapter *padapter);
- void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc);
- 
--/*  register */
--void SetBcnCtrlReg(struct adapter *padapter, u8 SetBits, u8 ClearBits);
--
- void rtl8188e_clone_haldata(struct adapter *dst, struct adapter *src);
- void rtl8188e_start_thread(struct adapter *padapter);
- void rtl8188e_stop_thread(struct adapter *padapter);
--- 
-2.33.0
+If you look through the commit messages on this list people are like.
+"Blah blah blah.  Fix it!"  I like that approach because it shows how
+humanity can triumph over pointless beaucrats.  But in terms of
+understanding the commit adding "Fix it!" doesn't add any value.
 
+The only thing which matters if if the commit message has the correct
+information in an understandable way.
+
+regards,
+dan carpenter
