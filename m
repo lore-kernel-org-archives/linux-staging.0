@@ -1,120 +1,154 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599B93FC2
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 07:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1630309445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VbCYBJ5L58cJSBbw8FF7cXPHj0GCoH2oZb8jcw5g0h8=;
-	b=SK07Gkh6tX65EksT9/dJz9cOu1sVKE3Y+eMoS0tCs9Qv20cz/lbVc3GQv98GfwsNcJ5Zdn
-	WqNVpRhNw0DuPMYJJPHyySDVbnQBSombzwxhJsr2NVEgOtKdv7+emC8IeKiTcOH1skH3f5
-	sfXgfuYUF/Y5ZlZvyTqJ5gbpWclg7EA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-7IUIjnUwO-C2hmtY9QkLrA-1; Mon, 30 Aug 2021 03:44:03 -0400
-X-MC-Unique: 7IUIjnUwO-C2hmtY9QkLrA-1
-Received: by mail-ed1-f71.google.com with SMTP id z17-20020a05640240d100b003cac681f4f4so1633627edb.21
-        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 00:44:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6D03FC2
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 08:06:11 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id s10so4692735lfr.11
+        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 01:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/rqmMsuVC/4+tn8xkykTg6rWz+8uejNw//LxydQyIhI=;
+        b=AjS7DrEFhqLYkAZnpxuqDducOWBXWg5mKW29ikB6PuRhpGFLvqEfaCuwyzcNzcqz5K
+         58NuNBJH/K7LuofKqECT1sLf5QYRDWUR47GBMaEDQvjOckOuLceLUiHedHxJkjUrnM5J
+         NBLMPm/63XiWL+Mt9hukI2YP+n+wr/QuZvw0r1DZzvc7dTQFH3IgxpNCT6tGQ6it9LWo
+         m018BNElX8hKd8SNph424S/xLIcqwcS0zEfd+TYRg0adrIIK8PxwblPdJBAKgUycoI3U
+         8j3Z2U4oZZkKbEdD6RlrrAZyYnhAjWfdwDp1Ez/f2fSKWgeT5b3YINRzbYRLnCSt6qRA
+         vogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=VbCYBJ5L58cJSBbw8FF7cXPHj0GCoH2oZb8jcw5g0h8=;
-        b=eMCFpijNQgIUwqZk56y3dOxqn5RheSD/2z59NS6CyqPFX9QY2JJhz3sVnY+z/e5FdZ
-         WJsf2ebvRjXCIUaiJYveT8ON/4OGko6pIuTeZEGQafg5WTfYjUnE3+YtdV/wDXEeQpq5
-         fdTOaHs2H5S6huzkecmgkfVrjQjeS6ItMNWBAjQymBvnhQPy9zdtZrVoMpxjeUFeVIsW
-         sbrf2hckYzJ/CYsDggjld3ngD8Zg8hgUj58U1azdwmu9/xvQlQEXwxkW00uNudPedOev
-         D5AfSG1kS4iK7FDZd4yAdiG/QzX3K96Gx8DujQZPOSBXnfelfzJ+FpKEU/w9yxnlaZaS
-         PuOQ==
-X-Gm-Message-State: AOAM532sTSTPj1CZz2pYoVFRJ6Txj3ojuLEzqTlRhTgAL+7yqCIzaWDG
-	eh+3TvbeMIXYSkLzSvFiG3bvxRrGtAZCQ5bvM+B9X9fqXk3GFr3LxTjHjRduLpQwDU2otyat6qs
-	2ihOMn9NJueH5kwANXMU1+YuwFw==
-X-Received: by 2002:a50:8ad7:: with SMTP id k23mr22927462edk.310.1630309442281;
-        Mon, 30 Aug 2021 00:44:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytmTh1FuKFfXv/3tgJfJ6JpdS3PLc9jKKnTuqyAPzyF74S8/dKUzr1ZIs7kfe5olfMkIWLmg==
-X-Received: by 2002:a50:8ad7:: with SMTP id k23mr22927451edk.310.1630309442116;
-        Mon, 30 Aug 2021 00:44:02 -0700 (PDT)
-Received: from x1.localdomain ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id b8sm7108980edv.96.2021.08.30.00.44.01
+        bh=/rqmMsuVC/4+tn8xkykTg6rWz+8uejNw//LxydQyIhI=;
+        b=UWVqFneV4RB9VepELfJCSGwakp9MzbFmo1s11TRpxN5K6VighOUA1aqUmxuKDNA4sh
+         dg8CjHGikIC8Au2w8PQKKIhK5/7nHpGTRlYjOkOr2fIjhbVlU1paDAKI7LtbkaAoRJoC
+         SoFzzrDuNNLZ1bedyvMICDDB2/S5i/XflFvxYs0GqjkxLxOF9f7TaQGAVE92eNDSwQsc
+         OhCPvGUiNEks6C3w87LS5PXI7AxRe0ZaI1TmWmLRkG/ySUcVipyFWLOL8E5DcLaAbMho
+         atcdz8Wl5tpbHmVI3nlPszVqV7QYpffKx37s74Iib371a+4tBlqX7MKh0BYStKrEZAri
+         pujg==
+X-Gm-Message-State: AOAM532nxEItt6vK+BO+e6WO0iLV764BQBzDUJuP/r4xkpPguAIncx9F
+	Cu1k8v9mo+oRLyaZoEqAbjo=
+X-Google-Smtp-Source: ABdhPJyyg/d8lMpc+kOn7+9kx9Y+q25tktE2/HxA5iYsTCyW1On0C+VCo4gGb5vVJtwE83XUZs114w==
+X-Received: by 2002:ac2:5df6:: with SMTP id z22mr16583226lfq.645.1630310769805;
+        Mon, 30 Aug 2021 01:06:09 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.229.213])
+        by smtp.gmail.com with ESMTPSA id o10sm697278lfo.207.2021.08.30.01.06.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Aug 2021 00:44:01 -0700 (PDT)
-Subject: Re: [PATCH 0/3] staging: rtl8723bs: remove lockdep warning
-To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1630307025.git.fabioaiuto83@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <85ef4038-24e7-fdd4-fe42-35416f705b99@redhat.com>
-Date: Mon, 30 Aug 2021 09:44:01 +0200
+        Mon, 30 Aug 2021 01:06:09 -0700 (PDT)
+Subject: Re: [PATCH 2/3] staging: r8188eu: simplify c2h_evt_hdl function
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com,
+ fmdefrancesco@gmail.com, Larry.Finger@lwfinger.net,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210828212453.898-1-phil@philpotter.co.uk>
+ <20210828212453.898-3-phil@philpotter.co.uk>
+ <19b08be7-964e-fdbc-93c8-825ad41e1ade@gmail.com> <YSwVwKdJaj3EcW5V@equinox>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <68ebbffe-62cc-5fcb-1fca-e96a1e9dc822@gmail.com>
+Date: Mon, 30 Aug 2021 11:06:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <cover.1630307025.git.fabioaiuto83@gmail.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YSwVwKdJaj3EcW5V@equinox>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 8/30/21 9:09 AM, Fabio Aiuto wrote:
-> This patchseries removes a lockdep warning that turned out to
-> be a false positive.
+On 8/30/21 2:18 AM, Phillip Potter wrote:
+> On Sun, Aug 29, 2021 at 02:54:14PM +0300, Pavel Skripkin wrote:
+>> On 8/29/21 12:24 AM, Phillip Potter wrote:
+>> > Simplify c2h_evt_hdl function by removing majority of its code. The
+>> > function always returns _FAIL anyway, due to the wrapper function it
+>> > calls always returning _FAIL. For this reason, it is better to just
+>> > return _FAIL directly.
+>> > 
+>> > Leave the call to c2h_evt_read in place, as without it, event handling
+>> > semantics of the driver would be changed, despite nothing actually being
+>> > done with the event.
+>> > 
+>> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+>> > ---
+>> >   drivers/staging/r8188eu/core/rtw_cmd.c | 21 +++------------------
+>> >   1 file changed, 3 insertions(+), 18 deletions(-)
+>> > 
+>> > diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+>> > index ce73ac7cf973..b520c6b43c03 100644
+>> > --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+>> > +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+>> > @@ -1854,27 +1854,12 @@ u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
+>> >   static s32 c2h_evt_hdl(struct adapter *adapter, struct c2h_evt_hdr *c2h_evt, c2h_id_filter filter)
+>> >   {
+>> > -	s32 ret = _FAIL;
+>> >   	u8 buf[16];
+>> > -	if (!c2h_evt) {
+>> > -		/* No c2h event in cmd_obj, read c2h event before handling*/
+>> > -		if (c2h_evt_read(adapter, buf) == _SUCCESS) {
+>> > -			c2h_evt = (struct c2h_evt_hdr *)buf;
+>> > +	if (!c2h_evt)
+>> > +		c2h_evt_read(adapter, buf);
+>> > -			if (filter && !filter(c2h_evt->id))
+>> > -				goto exit;
+>> > -
+>> > -			ret = rtw_hal_c2h_handler(adapter, c2h_evt);
+>> > -		}
+>> > -	} else {
+>> > -		if (filter && !filter(c2h_evt->id))
+>> > -			goto exit;
+>> > -
+>> > -		ret = rtw_hal_c2h_handler(adapter, c2h_evt);
+>> > -	}
+>> > -exit:
+>> > -	return ret;
+>> > +	return _FAIL;
+>> 
+>> 
+>> Hi, Phillip!
+>> 
+>> 
+>> Do we really need to return _FAIL every time? The only one caller of
+>> c2h_evt_hdl() does not rely on it's return value. Shouldn't we make this
+>> function return void to simplify the code?
 > 
-> All "lockable" queues in the driver are initialized by
-> a single function. This confuses lockdep which puts all
-> locks in the same unexistent class.
+> Dear Pavel,
 > 
-> Fixed it by doing the initalization of queues in place.
+> Thanks for the review. Good point on the return type, I'll publish a v2
+> series.
 > 
-> Done a small code cleaning and removed the no more
-> used function.
+>> 
+>> 
+>> BTW, this function does nothing now, as I understand. It reads to local
+>> buffer and returns. I think, it can be removed
+>> 
+>> 
+>> 
+>> >   }
+>> >   static void c2h_wk_callback(struct work_struct *work)
+>> > 
 > 
-> Tested-on: Lenovo ideapad Miix 300-10IBY
-
-Thank you so much for fixing this.
-
-The entire series looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-For the series.
-
-Regards,
-
-Hans
-
-
-
-
-
+> Not sure if you're referring to c2h_wk_callback or c2h_evt_hdl, but
+> either way, they both call (indirectly or otherwise) c2h_evt_read and
+> c2h_evt_clear as well as rtw_c2h_wk_cmd in the case of c2h_wk_callback.
+> To just delete them wholesale therefore would be unsafe I think, due to
+> the effect on event semantics.
 > 
-> Fabio Aiuto (3):
->   staging: rtl8723bs: unwrap initialization of queues
->   staging: rtl8723bs: remove unnecessary parentheses
->   staging: rtl8723bs: remove unused _rtw_init_queue() function
-> 
->  drivers/staging/rtl8723bs/core/rtw_ap.c       |  3 +-
->  drivers/staging/rtl8723bs/core/rtw_cmd.c      |  3 +-
->  drivers/staging/rtl8723bs/core/rtw_mlme.c     |  6 ++--
->  drivers/staging/rtl8723bs/core/rtw_recv.c     | 12 ++++---
->  drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  | 15 ++++++---
->  drivers/staging/rtl8723bs/core/rtw_xmit.c     | 33 ++++++++++++-------
->  .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  6 ++--
->  .../staging/rtl8723bs/os_dep/osdep_service.c  |  7 ----
->  8 files changed, 52 insertions(+), 33 deletions(-)
+> Certainly, it is possible to handle this c2h stuff by just reading from
+> register and ignoring though - another series is a better place for that
+> though I think. Admittedly, I may be talking nonsense here :-)
 > 
 
+I was referring to c2h_evt_hdl. I missed, that c2h_evt_read() writes to 
+register, sorry :)
+
+
+
+
+
+With regards,
+Pavel Skripkin
