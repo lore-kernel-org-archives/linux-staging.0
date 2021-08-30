@@ -1,75 +1,258 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBAE3FC1
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 12:33:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9AD3D60C40;
-	Mon, 30 Aug 2021 12:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1630326793;
-	bh=vV+7QnNcsLi7ddrn19KrBeLW/vMy+0JLtPVhL5tRbOk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HlcaD79YuVD6E4snc6M8dEemUht+nc/NxwaoDzP60kuXKC6zG6Ydi3emsqcj02bH8
-	 8k007CSBzgrFoUkX3fmlUSqBqcUz5s0wASf1qdOUp1m68IAgCyKB2vbWwlMgT8DZJD
-	 fIh5imSlsfUEO0g9371knT/i95Q+PITkizeR1zWtbDk1oOmMcnT2UefIadUEubfwiq
-	 G9BZmfRtJ/WEcH1Vpzz5P5J4cAWyu+Wil9htTcOhDiakLkJoX237X2oeV4O1N7u87O
-	 9DbwP6fHGbV0nq/Ptuqs5iPf+dXip7GB3G92uKWrz7Irka9CeBf2yOAPeUwWmavu4f
-	 OaBGc5wwttE3A==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1mKgTJ-00061h-KY; Mon, 30 Aug 2021 14:33:05 +0200
-Date: Mon, 30 Aug 2021 14:33:05 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
-Message-ID: <YSzQAd0Rg5CF/eLe@hovoldconsulting.com>
-References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
- <YSyg/Db1So0LDGR+@hovoldconsulting.com>
- <2879439.WEJLM9RBEh@localhost.localdomain>
- <YSzGkNfG6HOayiXi@hovoldconsulting.com>
- <YSzMB80NOkNvdjy1@casper.infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3443FC1
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 12:40:12 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so13767639pjr.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 05:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ehJntOoC29/aDdVKocB/Ug4RX2L3GatBa1f/ygdqGyg=;
+        b=ZYLCtNbCKbpAUQOaPc+p0j2LMZGyRRdYh7qF0bZp22vhHvZML+XwXqLPfHYtPoZLaC
+         76KmNSwi3Ns5IvC4RmK2p5fKVsSRY2sbOxvOfyssL/I6EuBX6bDmtUnhXNFqvUKibOxA
+         5ayJTuqLgJG+iij8TqEWWTXbD7xXBlexCKSxXLJrst80RzOv6l5XngBpmdInTB0nIIC/
+         gyyBmV3Fb5Dtc7l08s0ddnXSb6I1Os4O7JCHm4Zv+fVmlujqT7P0O2VisU4A+oNzGNPh
+         cEzU5aBQKG9ENT6ePIwwpfTx2sH1kiqWzhLpFxm7LMPH8FpmwX4J1UjE+cJXBYDPzgKI
+         fqDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ehJntOoC29/aDdVKocB/Ug4RX2L3GatBa1f/ygdqGyg=;
+        b=DmvAwp0+Cd3Fn7jUyYJhjeNv9WmS2kFfOCnbajPFsb787farXWKMO4rAQgYWLOyENz
+         d7UjR6si0J3/Cccvd2rzvuKQ+3UpSCUk4mCrsbyZaBhyrCjFIhmEH/MIdhiACHa5fy5O
+         BI97qqjr5dbactX4PdhjpNqr5EUehpiQvKyem3XRmMZy2hnvx95zIwFTAOcjAJ/zUwvs
+         j7H/D0ZilqquxRdZMh/N5Vclw8DkEx1sF3+ZVzevn4f6IaLu5p0SWlOdPO9jPPYQT2GH
+         S9fXv5sJ9LLTLtccWh7WqhPwa5qezrBj4guugGgGv/1tEAFK8Nu1XsMms6chov/bYoOV
+         RqsA==
+X-Gm-Message-State: AOAM530h73y8+IKnr+QXWBBug6Ld7AwNAFbL2H5gBL/KnLONWE8ycPia
+	XQEBLKSmh7x865CUhql4hK5zrt54YizYjfvLuI8=
+X-Google-Smtp-Source: ABdhPJyfZeRUKmp0oSzKRpXfTfUvuwST6VnJdZjt7od5XKdJ8al7k7sATncio3/TZt/aNmh3h07YwmVcZMef8lW+42w=
+X-Received: by 2002:a17:90a:ec0a:: with SMTP id l10mr4552540pjy.26.1630327211750;
+ Mon, 30 Aug 2021 05:40:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YSzMB80NOkNvdjy1@casper.infradead.org>
+References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+xTFBeH-x-=dsQK-K5KjZZ7JKmQggz2s26=p7g+71kZjA@mail.gmail.com>
+ <20210829164921.u5ntqk5jz2v3hlgr@h510> <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com>
+ <CAPGkw+wGn1oTAO7JXXApDMm4cFfxXam913hOGnnup1nSOpcVPA@mail.gmail.com>
+ <CAPGkw+xroJmxa9i6X++un6tQFQ-3F5uMRCatzufWsdfw7cQ2LQ@mail.gmail.com>
+ <20210829205953.63ebc32xlyudsqzg@h510> <CAPGkw+wtE0HMQmYsMkFEt_BPqqB2j_TQ6zwATp6zyXLyxxwTOA@mail.gmail.com>
+In-Reply-To: <CAPGkw+wtE0HMQmYsMkFEt_BPqqB2j_TQ6zwATp6zyXLyxxwTOA@mail.gmail.com>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Mon, 30 Aug 2021 14:40:00 +0200
+Message-ID: <CAPGkw+w=A1ZBQrmSR2mCgXnfEvhG9tbuJjQ+q1-=Tedwb_XhOA@mail.gmail.com>
+Subject: Re: [PATCH] Declare the file_operations struct as const
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 30, 2021 at 01:16:07PM +0100, Matthew Wilcox wrote:
-> On Mon, Aug 30, 2021 at 01:52:48PM +0200, Johan Hovold wrote:
-> > Whether the API is better is debatable. As I said, almost no drivers use
-> > the new XArray interface, and perhaps partly because the new interface
-> > isn't as intuitive as has been claimed (e.g. xa_load() instead of
-> > ida_find()). And IDR/IDA isn't marked/documented as deprecated as far as
-> > I know.
-> 
-> I can't just slap a 'deprecated' attribute on it.  That'll cause a
-> storm of warnings.  What would you suggest I do to warn people that
-> this interface is deprecated and I would like to remove it?
+Hi.
 
-I'd at least expect a suggestion in the IDR documentation to consider
-using XArray instead.
+https://pastebin.com/NuvqMUWu is the link to the .config file.
+The error I get is https://imgur.com/gkwh7Sb .
 
-> Why do you think that idr_find() is more intuitive than xa_load()?
-> The 'find' verb means that you search for something.  But it doesn't
-> search for anything; it just returns the pointer at that index.
-> 'find' should return the next non-NULL pointer at-or-above a given
-> index.
 
-We're looking up a minor number which may or may not exist. "Find" (or
-"lookup" or "search") seems to describe this much better than "load"
-(even if that may better reflect the implementation of XArray).
+Best Regards
 
-And no, I would not expect a find implementation to return the next
-entry if the requested entry does not exist (and neither does idr_find()
-or radix_tree_lookup()).
 
-Johan
+On Mon, Aug 30, 2021 at 12:11 AM Krish Jain <krishjain02939@gmail.com> wrot=
+e:
+>
+> On Sun, Aug 29, 2021 at 11:00 PM Bryan Brattlof <hello@bryanbrattlof.com>=
+ wrote:
+> >
+> > On this day, August 29, 2021, thus sayeth Krish Jain:
+> > > Keeping you updated. Small win. The "Symbol version dump
+> > > "Module.symvers" is missing. " error disappeared. Now I still don't
+> > > know why
+> > >
+> >
+> > Whoop! Any win, no matter their size, always feel great. I ran around
+> > the house yesterday after cross compiling DOOM! for an armel chip. It's
+> > that "win" feeling you get that keeps me involved.
+> >
+> > It is important that you find out why though. What is the importance to
+> > having Module.symvers? and why is it a WARNING and not an ERROR?
+>
+>  When a module is loaded/used, the values contained in the kernel are
+> compared with similar values in the module; if they are not equal, the
+> kernel refuses to load the module. I don't need it in my case.
+>
+> > What would happen if we didn't have the proper symbols when compiling o=
+r
+> > installing this driver?
+> > How and what generates the Module.symvers file when we *do* need it?
+>
+> The kernel would refuse to load the module.
+>
+>
+>
+>
+>
+> > How can we turn this warning off when we don't need it?
+> >
+> > This is covered in chapter "6. Module Versioning"
+> >
+> >   https://www.kernel.org/doc/html/latest/kbuild/modules.html
+> >
+> > >
+> > > ERROR: Kernel configuration is invalid."; \
+> > > echo >&2 "         include/generated/autoconf.h or
+> > > include/config/auto.conf are missing.";\
+> > > echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
+> > > to fix it."; \
+> > >
+> > >
+> > > is still present.
+> > >
+> > > How can I fix this?
+> > >
+> >
+> > Are there any other 'make *config' options we could try?
+>
+> Yes, like main menuconfig. I tried it but it still doesn't work.
+>
+> > What does 'make prepare' even do?
+>
+>
+> Prepares for different architectures etc.
+>
+>
+> > Why do we even need a configuration file?
+> >
+> >   https://www.kernel.org/doc/html/latest/kbuild/kconfig.html
+> >
+> > >
+> > > Best Regards
+> > >
+> > > On Sun, Aug 29, 2021 at 8:28 PM Krish Jain <krishjain02939@gmail.com>=
+ wrote:
+> > > >
+> > > > Basically it says "you must have a prebuilt kernel available that
+> > > > contains the configuration and header files used in the build." Sin=
+ce
+> > > > for the staging kernel  "make oldconfig" asked me for  more
+> > > > configurations apart from my old configuration file (as it reads th=
+e
+> > > > existing .config file that was used for an old kernel and prompts t=
+he
+> > > > user for options in the current kernel source that are not found in
+> > > > the file) . So I *don't* currently have a prebuilt kernel that
+> > > > contains all the configuration in my staging kernel's .config file.=
+ So
+> > > > do I have to build the kernel once before I can just build the modu=
+le
+> > > > with "make CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android" ?
+> > > >
+> >
+> > What do all these other configuration settings turn on and off anyway?
+> >
+> > Do we really need CONFIG_INFINIBAND turned on if we're working in the
+> > drivers/staging tree of the kernel?
+>
+>
+> No, we don't. I removed it.
+>
+> > What would we gain from having a compiled kernel if we want to test a
+> > single staging driver?
+>
+> No need to compile the entire kernel I guess for my use case. But
+> after all this reading :( I still don't get why " sudo make
+> CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android/  V=3D1" worked for y=
+ou
+> but not for me. I still get the following errors
+>
+>
+> test -e include/generated/autoconf.h -a -e include/config/auto.conf || ( =
+\
+> echo >&2; \
+> echo >&2 "  ERROR: Kernel configuration is invalid."; \
+> echo >&2 "         include/generated/autoconf.h or
+> include/config/auto.conf are missing.";\
+> echo >&2 "         Run 'make oldconfig && make prepare' on kernel src
+> to fix it."; \
+> echo >&2 ; \
+> /bin/false)
+> .....
+>
+>
+> How can I fix this?
+>
+>
+>
+>
+> > If you found what Module.symvers does, you should know this.
+> >
+> > > > > >
+> > > > > > Again, do not allow others to rob you of learning how to solve =
+these
+> > > > > > issues yourself. I *strongly* encourage you to familiarize your=
+self with
+> > > > > > the Kernel Build System in the Documentation.
+> > > > > >
+> > > > > >   https://www.kernel.org/doc/html/latest/kbuild/modules.html
+> > > > > >
+> > > > > > Specifically the first paragraph of "2. How to Build External M=
+odules"
+> > > > > >
+> > > > > > It may seem like a lot for such a simple issue but it *is* wort=
+h it.
+> > > > > > ~Bryan
+> > > > > >
+> > > > >
+> > > > > That section says
+> > > > >
+> > > > >
+> > > > > "To build external modules, *you must have a prebuilt kernel
+> > > > > available* that contains the configuration and header files used =
+in
+> > > > > the build. Also, the kernel must have been built with modules ena=
+bled.
+> > > > > If you are using a distribution kernel, there will be a package f=
+or
+> > > > > the kernel you are running provided by your distribution.
+> > > > >
+> > > > > An alternative is to use the =E2=80=9Cmake=E2=80=9D target =E2=80=
+=9Cmodules_prepare.=E2=80=9D This
+> > > > > will make sure the kernel contains the information required. The
+> > > > > target exists solely as a simple way to prepare a kernel source t=
+ree
+> > > > > for building external modules.
+> > > > >
+> > > > > NOTE: =E2=80=9Cmodules_prepare=E2=80=9D will not build Module.sym=
+vers even if
+> > > > > CONFIG_MODVERSIONS is set; therefore, *a full kernel build needs =
+to be
+> > > > > executed to make module versioning work.*"
+> > > > >
+> > > > > So I am just trying to confirm with you whether I have to first b=
+uild
+> > > > > the kernel with like "make" or not? As you can imagine my hardwar=
+e
+> > > > > takes *very* long to build a kernel as I did in my last attempt s=
+o I
+> > > > > am asking whether it is needed. Hope you understand.
+> > > > >
+> >
+> > I understand. Though I still don't wish to rob you of this opportunity.
+> >
+> > Your ability to come up with these questions and answer them yourself i=
+s
+> > what will make you a better programmer and developer.
+> >
+> > Don't get me wrong. Greg knows all too well the garbage I can shovel hi=
+s
+> > way. It's not about knowing the answer. It about knowing how to find th=
+e
+> > answer yourself.
+> >
+> > ~Bryan
+> >
