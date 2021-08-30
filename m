@@ -1,145 +1,104 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971943FC2
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 00:21:38 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id fs6so8302683pjb.4
-        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 17:21:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D93D72
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 01:28:19 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id x16so5942644pll.2
+        for <linux-staging@lists.linux.dev>; Sun, 29 Aug 2021 18:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ke0tls+7+LPLJsimfwRuyYvi3NKswNkWCJ4p4i2engI=;
-        b=HghffSYgTGHoFgrjY4yWMmNA9fDowsajh8hWyAGMVlZJ9w0HEcN8XwuLOLV7ENkvHF
-         UAcj62DlXLOWWCGM4Dtb1hpKm8CdaCIiYDZT+FsH2PSI6RCM3jwpvD6L/EHQzDP6MPPU
-         A2qzMS4hIm5sfqj2+dcBv6oVAfmcdLzCRg78YyxEacySFReT0yS6jBMQ/7A4879x/dM6
-         YCDzTvwy2ZNPZW62UvRmAQ6Kswc/Q/iWZD0nWeEiJuqSbWK81pMtUi8Mh82WnFk74EUx
-         OdAbYpwmRlKmR4BkorEebap0+5eNc9hLPxD39bs5wqCRVAK6YGKtp2Gfz7mn6+/d4gh3
-         SYPw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X3SrLsuCe4juyzGE4LqoUUFGT9pNx1rNm2mTU/3y9og=;
+        b=aKR25DYdFm6Sp8Z3gewF3tCnA3+j7tvKqkNfrDZe6Cg/w4/rhlgujAZLRWgNwbZF8e
+         zLk+SP7KEOsLVdJVqcylGueMfw3pCr9+weJ6ZtiaUwcd6r6q5aWitq/X6IRddGaMXVcw
+         NjdXM+WZxTi8Ox81gFk0cY70M9RJGbQO9cSx71M5qVmOpToGEqFSAZOveiZF+VundMES
+         kjX9qit9IuGB0W6DOGJxosGFjAYZBrBt5FNIPoG16MDkRryYyd+tgofronVJpYAQN4oc
+         QKgg9dzCnEnsCevxBZLJ3xDQobsUBXo2E9LZxs9ldMZiX9d4go3MPWytwDz+zR5EFpDu
+         MO5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ke0tls+7+LPLJsimfwRuyYvi3NKswNkWCJ4p4i2engI=;
-        b=qSQZbdFRrm94E7HyjPFTWeReo2fol69xAdCs9gQRto7TVKlA4+09L4+fLGGz+SGS8g
-         TFI3l3835U9NDUuuN4wcLc00lO+PUFM94GT1qV7kpx0b1CeMNXTj5OMtmhLvgfiOISEY
-         gNCavsE9eev+kgiB4nKOJRCBQ02zYa4me4tZ3rPRKM/I8eGqfKaoGxma3KRo/04TQ011
-         vpaOxE0v3cSwK0YlK9oAB+wdbxszW7JsvZqvVCsq/Vmwo3VKWY6E31VTHY2OmSIeCIbj
-         wZGqVAqrmBM6yCvJgPW1iv+ubaJkJSdkn4LKwzzHZcc9Pzd15RUILHCvc645YfhKVHtg
-         Tf/Q==
-X-Gm-Message-State: AOAM530M2tJME9dhModYgQin9Pf4GUEcSo0zlUBhJzeyxcbfeG4Oga+N
-	hYKHkxxX+50sqmdUs64kx1FFT2Lw4zXbC7Lz8bzTOg==
-X-Google-Smtp-Source: ABdhPJzQ9pUbyzNzCIuIzs40Pa1q8XCu1tinyUikd4Jssccim1V4FNauBFjBPNqQIDqkByVuXb81Lt9jzTymBFrjdgk=
-X-Received: by 2002:a17:90b:691:: with SMTP id m17mr4125982pjz.217.1630282898122;
- Sun, 29 Aug 2021 17:21:38 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X3SrLsuCe4juyzGE4LqoUUFGT9pNx1rNm2mTU/3y9og=;
+        b=moHjadtOwBFIeUyw+wDE/GGZ2BfjgsSIc2xwtGMPcl0AMbEmYJLxffer86RUysYfYi
+         TuJLS3tiLm5Wtuju7Gy3oSONeaRZSQYU0kSzkp7j0uYqNZ/ZTPi+fEIP9fnOPdypP6bY
+         bBEEl4ldRTKiq/fgJkPoF+5yywDjqOpIf8Dv9DYMt1072wIzdn9UUoxIPow5605McLXB
+         AB5vRLT5SrMI/g/rE9//XqBO8xecpkkmRUYPGjgn0PgNfkMk3fXcqgqa9tt/OAh/eAvm
+         G5ibjwOf/ljDXmCoNdSUKzC8D/7KU8Go5f7X7ZFtJmh4sVzUAD7D7ihsDivnOF6NyS57
+         QteA==
+X-Gm-Message-State: AOAM530xjwbCRz0HnIZ762YjWrmURHXewJuTuzuFA47YR9yGu5JaFXg4
+	HQkiqCu+usropOxoyRzhDqA=
+X-Google-Smtp-Source: ABdhPJx3zQCY3/Nuk5XcDNwNmQlvbKMVdbrKD+be3wlQzQ7ph4BZhy5e7a0Nzglb2q9Gyzk1QKdjDA==
+X-Received: by 2002:a17:902:d504:b029:12d:4cb3:397e with SMTP id b4-20020a170902d504b029012d4cb3397emr19893430plg.41.1630286899143;
+        Sun, 29 Aug 2021 18:28:19 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id g12sm12615322pjh.33.2021.08.29.18.28.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Aug 2021 18:28:18 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: xu.xin16@zte.com.cn
+To: phil@philpotter.co.uk
+Cc: Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	xu xin <xu.xin16@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] staging: r8118eu: remove useless parts of judgements from os_dep/ioctl_linux.
+Date: Sun, 29 Aug 2021 18:28:11 -0700
+Message-Id: <20210830012811.3384-1-xu.xin16@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210829180717.15393-1-straube.linux@gmail.com> <20210829180717.15393-2-straube.linux@gmail.com>
-In-Reply-To: <20210829180717.15393-2-straube.linux@gmail.com>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 30 Aug 2021 01:21:27 +0100
-Message-ID: <CAA=Fs0mnaBKbw0ZWg-fgRZ0a6vZCHO-U9cL+D5_a2WpROtWKYA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] staging: r8188eu: remove commented constants from wifi.h
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, 29 Aug 2021 at 19:07, Michael Straube <straube.linux@gmail.com> wrote:
->
-> Remove commented constants from wifi.h.
->
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->  drivers/staging/r8188eu/include/wifi.h | 50 --------------------------
->  1 file changed, 50 deletions(-)
->
-> diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-> index eb07ac9b8943..193a557f0f47 100644
-> --- a/drivers/staging/r8188eu/include/wifi.h
-> +++ b/drivers/staging/r8188eu/include/wifi.h
-> @@ -114,33 +114,6 @@ enum WIFI_REASON_CODE      {
->         _RSON_TDLS_TEAR_UN_RSN_         = 26,
->  };
->
-> -/* Reason codes (IEEE 802.11-2007, 7.3.1.7, Table 7-22)
-> -
-> -#define WLAN_REASON_UNSPECIFIED 1
-> -#define WLAN_REASON_PREV_AUTH_NOT_VALID 2
-> -#define WLAN_REASON_DEAUTH_LEAVING 3
-> -#define WLAN_REASON_DISASSOC_DUE_TO_INACTIVITY 4
-> -#define WLAN_REASON_DISASSOC_AP_BUSY 5
-> -#define WLAN_REASON_CLASS2_FRAME_FROM_NONAUTH_STA 6
-> -#define WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA 7
-> -#define WLAN_REASON_DISASSOC_STA_HAS_LEFT 8
-> -#define WLAN_REASON_STA_REQ_ASSOC_WITHOUT_AUTH 9 */
-> -/* IEEE 802.11h */
-> -
-> -/* IEEE 802.11i
-> -#define WLAN_REASON_INVALID_IE 13
-> -#define WLAN_REASON_MICHAEL_MIC_FAILURE 14
-> -#define WLAN_REASON_4WAY_HANDSHAKE_TIMEOUT 15
-> -#define WLAN_REASON_GROUP_KEY_UPDATE_TIMEOUT 16
-> -#define WLAN_REASON_IE_IN_4WAY_DIFFERS 17
-> -#define WLAN_REASON_GROUP_CIPHER_NOT_VALID 18
-> -#define WLAN_REASON_PAIRWISE_CIPHER_NOT_VALID 19
-> -#define WLAN_REASON_AKMP_NOT_VALID 20
-> -#define WLAN_REASON_UNSUPPORTED_RSN_IE_VERSION 21
-> -#define WLAN_REASON_INVALID_RSN_IE_CAPAB 22
-> -#define WLAN_REASON_IEEE_802_1X_AUTH_FAILED 23
-> -#define WLAN_REASON_CIPHER_SUITE_REJECTED 24 */
-> -
->  enum WIFI_STATUS_CODE {
->         _STATS_SUCCESSFUL_              = 0,
->         _STATS_FAILURE_                 = 1,
-> @@ -155,19 +128,6 @@ enum WIFI_STATUS_CODE {
->         _STATS_RATE_FAIL_               = 18,
->  };
->
-> -/* Status codes (IEEE 802.11-2007, 7.3.1.9, Table 7-23)
-> -#define WLAN_STATUS_SUCCESS 0
-> -#define WLAN_STATUS_UNSPECIFIED_FAILURE 1
-> -#define WLAN_STATUS_CAPS_UNSUPPORTED 10
-> -#define WLAN_STATUS_REASSOC_NO_ASSOC 11
-> -#define WLAN_STATUS_ASSOC_DENIED_UNSPEC 12
-> -#define WLAN_STATUS_NOT_SUPPORTED_AUTH_ALG 13
-> -#define WLAN_STATUS_UNKNOWN_AUTH_TRANSACTION 14
-> -#define WLAN_STATUS_CHALLENGE_FAIL 15
-> -#define WLAN_STATUS_AUTH_TIMEOUT 16
-> -#define WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA 17
-> -#define WLAN_STATUS_ASSOC_DENIED_RATES 18 */
-> -
->  /* entended */
->  /* IEEE 802.11b */
->  #define WLAN_STATUS_ASSOC_DENIED_NOSHORT 19
-> @@ -552,16 +512,6 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
->  #define _IEEE8021X_MGT_                        1       /*  WPA */
->  #define _IEEE8021X_PSK_                        2       /*  WPA with pre-shared key */
->
-> -/*
-> -#define _NO_PRIVACY_                   0
-> -#define _WEP_40_PRIVACY_               1
-> -#define _TKIP_PRIVACY_                 2
-> -#define _WRAP_PRIVACY_                 3
-> -#define _CCMP_PRIVACY_                 4
-> -#define _WEP_104_PRIVACY_              5
-> -#define _WEP_WPA_MIXED_PRIVACY_ 6      WEP + WPA
-> -*/
-> -
->  /*-----------------------------------------------------------------------------
->                                 Below is the definition for WMM
->  ------------------------------------------------------------------------------*/
-> --
-> 2.33.0
->
+From: xu xin <xu.xin16@zte.com.cn>
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
+Remove the check of the pointer 'pregpriv' that is impossible to be
+NULL. There is no need to check if pregpriv is NULL.
 
-Regards,
-Phil
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+Thansk-to: Pavel Skripkin <paskripkin@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index ab4a9200f079..d2f7a77357f1 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -4340,11 +4340,10 @@ static int rtw_dbg_port(struct net_device *dev,
+ 			struct registry_priv	*pregpriv = &padapter->registrypriv;
+ 			/*  0: disable, bit(0):enable 2.4g, bit(1):enable 5g, 0x3: enable both 2.4g and 5g */
+ 			/* default is set to enable 2.4GHZ for IOT issue with bufflao's AP at 5GHZ */
+-			if (pregpriv &&
+-			    (extra_arg == 0 ||
+-			     extra_arg == 1 ||
+-			     extra_arg == 2 ||
+-			     extra_arg == 3)) {
++			if (extra_arg == 0 ||
++			    extra_arg == 1 ||
++			    extra_arg == 2 ||
++			    extra_arg == 3) {
+ 				pregpriv->rx_stbc = extra_arg;
+ 				DBG_88E("set rx_stbc =%d\n", pregpriv->rx_stbc);
+ 			} else {
+@@ -4356,7 +4355,7 @@ static int rtw_dbg_port(struct net_device *dev,
+ 		{
+ 			struct registry_priv	*pregpriv = &padapter->registrypriv;
+ 			/*  0: disable, 0x1:enable (but wifi_spec should be 0), 0x2: force enable (don't care wifi_spec) */
+-			if (pregpriv && extra_arg >= 0 && extra_arg < 3) {
++			if (extra_arg >= 0 && extra_arg < 3) {
+ 				pregpriv->ampdu_enable = extra_arg;
+ 				DBG_88E("set ampdu_enable =%d\n", pregpriv->ampdu_enable);
+ 			} else {
+-- 
+2.25.1
+
