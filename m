@@ -1,88 +1,120 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB213FC2
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 07:10:22 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id m2so8115053wmm.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 00:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dQOEpVE/C5dPQ93Tb+yBF/RNgfmLwzTx629HAf0Qgcs=;
-        b=uiELm4PTLBuhU7cgEqNnEg/k/V8uMGvTMgOPgR3QQxJefAQmj5HcwfiJLC54Hkg4Vh
-         RidYD+FPn/GpI6z7kqIKlv/OhXpynG6so3RSJ+CmZffvwl7DT7l90FKIzQiprsVHpmSM
-         R5Nv/ceMiOHX4DWrxcr4TlytcoHtLzgqfaPMLogPVJVPR3ia6lGtiKx/SJbZb/N3qdr/
-         fPG4hXjZH7q1lbK2tSmKwF8xknr12rqqw4zz6uuvGXDXHk+jLFijOfPnCNPiGQrqPz2M
-         vAnz3aRP0WrM/hkue2UijdcGTXSfD8172yoRbuDylh60LRyyJTr3ZtnHCqWu8AjlKnVY
-         CHuQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599B93FC2
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 07:44:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1630309445;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VbCYBJ5L58cJSBbw8FF7cXPHj0GCoH2oZb8jcw5g0h8=;
+	b=SK07Gkh6tX65EksT9/dJz9cOu1sVKE3Y+eMoS0tCs9Qv20cz/lbVc3GQv98GfwsNcJ5Zdn
+	WqNVpRhNw0DuPMYJJPHyySDVbnQBSombzwxhJsr2NVEgOtKdv7+emC8IeKiTcOH1skH3f5
+	sfXgfuYUF/Y5ZlZvyTqJ5gbpWclg7EA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-7IUIjnUwO-C2hmtY9QkLrA-1; Mon, 30 Aug 2021 03:44:03 -0400
+X-MC-Unique: 7IUIjnUwO-C2hmtY9QkLrA-1
+Received: by mail-ed1-f71.google.com with SMTP id z17-20020a05640240d100b003cac681f4f4so1633627edb.21
+        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 00:44:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dQOEpVE/C5dPQ93Tb+yBF/RNgfmLwzTx629HAf0Qgcs=;
-        b=CORF6+g4UmjiU0weyfJnlUgpfFO9s/d+P51i+5/Gbqd4F5+CW7cx8djRPtSjuJadv8
-         4mMWTPlPLn2RDG+B1NVy6NEkaKAoINS9ML/vO4Zd83ZREjAUAgdCr8H3G5nd6hGGdNLw
-         vXIloyfdAa9vqF7FGkjLUQ5Z0XMv+tx5cwUno8+YLrFEFiZ6UeNNrkYQOp9UU8ktECle
-         aNrWFn/HFk0d3S4cquxgsbNISffUidv7ulNFQfHXBDM8sFJeRNlsR1pajEbn/BEY9for
-         9iLItpLPGyMzdj4pnjnIbsZbniatnmzmCIwtgUWuNiZ/5ZJsYJNN22qY+RJGx02vCZOo
-         rbwA==
-X-Gm-Message-State: AOAM533Gs7HN+wKpJRt2Gx5Oi1Ny25iVUbS56HduFsahytf/LgBN1EBL
-	XPOFsgaHOzNK8nRpw7QcRaALAlR6u6c=
-X-Google-Smtp-Source: ABdhPJxMCEKVn1y7BMu5P1w6JKn20bQsG5ZgkajYeYMBq5atkbsXeVV+o3+7xo/G2TYRdlUcdjjiOQ==
-X-Received: by 2002:a7b:c041:: with SMTP id u1mr20002423wmc.95.1630307420944;
-        Mon, 30 Aug 2021 00:10:20 -0700 (PDT)
-Received: from agape ([5.171.81.86])
-        by smtp.gmail.com with ESMTPSA id o5sm14362073wrw.17.2021.08.30.00.10.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Aug 2021 00:10:20 -0700 (PDT)
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: remove unused _rtw_init_queue() function
-Date: Mon, 30 Aug 2021 09:09:25 +0200
-Message-Id: <3c03fcfbe799195c84608b05fc54efe921bef4de.1630307025.git.fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1630307025.git.fabioaiuto83@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VbCYBJ5L58cJSBbw8FF7cXPHj0GCoH2oZb8jcw5g0h8=;
+        b=eMCFpijNQgIUwqZk56y3dOxqn5RheSD/2z59NS6CyqPFX9QY2JJhz3sVnY+z/e5FdZ
+         WJsf2ebvRjXCIUaiJYveT8ON/4OGko6pIuTeZEGQafg5WTfYjUnE3+YtdV/wDXEeQpq5
+         fdTOaHs2H5S6huzkecmgkfVrjQjeS6ItMNWBAjQymBvnhQPy9zdtZrVoMpxjeUFeVIsW
+         sbrf2hckYzJ/CYsDggjld3ngD8Zg8hgUj58U1azdwmu9/xvQlQEXwxkW00uNudPedOev
+         D5AfSG1kS4iK7FDZd4yAdiG/QzX3K96Gx8DujQZPOSBXnfelfzJ+FpKEU/w9yxnlaZaS
+         PuOQ==
+X-Gm-Message-State: AOAM532sTSTPj1CZz2pYoVFRJ6Txj3ojuLEzqTlRhTgAL+7yqCIzaWDG
+	eh+3TvbeMIXYSkLzSvFiG3bvxRrGtAZCQ5bvM+B9X9fqXk3GFr3LxTjHjRduLpQwDU2otyat6qs
+	2ihOMn9NJueH5kwANXMU1+YuwFw==
+X-Received: by 2002:a50:8ad7:: with SMTP id k23mr22927462edk.310.1630309442281;
+        Mon, 30 Aug 2021 00:44:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytmTh1FuKFfXv/3tgJfJ6JpdS3PLc9jKKnTuqyAPzyF74S8/dKUzr1ZIs7kfe5olfMkIWLmg==
+X-Received: by 2002:a50:8ad7:: with SMTP id k23mr22927451edk.310.1630309442116;
+        Mon, 30 Aug 2021 00:44:02 -0700 (PDT)
+Received: from x1.localdomain ([81.30.35.201])
+        by smtp.gmail.com with ESMTPSA id b8sm7108980edv.96.2021.08.30.00.44.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Aug 2021 00:44:01 -0700 (PDT)
+Subject: Re: [PATCH 0/3] staging: rtl8723bs: remove lockdep warning
+To: Fabio Aiuto <fabioaiuto83@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
 References: <cover.1630307025.git.fabioaiuto83@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <85ef4038-24e7-fdd4-fe42-35416f705b99@redhat.com>
+Date: Mon, 30 Aug 2021 09:44:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1630307025.git.fabioaiuto83@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-remove _rtw_init_queue() left unused by previous commit
-in this series.
+Hi,
 
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 7 -------
- 1 file changed, 7 deletions(-)
+On 8/30/21 9:09 AM, Fabio Aiuto wrote:
+> This patchseries removes a lockdep warning that turned out to
+> be a false positive.
+> 
+> All "lockable" queues in the driver are initialized by
+> a single function. This confuses lockdep which puts all
+> locks in the same unexistent class.
+> 
+> Fixed it by doing the initalization of queues in place.
+> 
+> Done a small code cleaning and removed the no more
+> used function.
+> 
+> Tested-on: Lenovo ideapad Miix 300-10IBY
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index c58555a4012f..2d630ecef08b 100644
---- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-+++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -49,13 +49,6 @@ inline int _rtw_netif_rx(struct net_device *ndev, struct sk_buff *skb)
- 	return netif_rx(skb);
- }
- 
--void _rtw_init_queue(struct __queue *pqueue)
--{
--	INIT_LIST_HEAD(&(pqueue->queue));
--
--	spin_lock_init(&(pqueue->lock));
--}
--
- struct net_device *rtw_alloc_etherdev_with_old_priv(int sizeof_priv, void *old_priv)
- {
- 	struct net_device *pnetdev;
--- 
-2.20.1
+Thank you so much for fixing this.
+
+The entire series looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+For the series.
+
+Regards,
+
+Hans
+
+
+
+
+
+> 
+> Fabio Aiuto (3):
+>   staging: rtl8723bs: unwrap initialization of queues
+>   staging: rtl8723bs: remove unnecessary parentheses
+>   staging: rtl8723bs: remove unused _rtw_init_queue() function
+> 
+>  drivers/staging/rtl8723bs/core/rtw_ap.c       |  3 +-
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c      |  3 +-
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c     |  6 ++--
+>  drivers/staging/rtl8723bs/core/rtw_recv.c     | 12 ++++---
+>  drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  | 15 ++++++---
+>  drivers/staging/rtl8723bs/core/rtw_xmit.c     | 33 ++++++++++++-------
+>  .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  6 ++--
+>  .../staging/rtl8723bs/os_dep/osdep_service.c  |  7 ----
+>  8 files changed, 52 insertions(+), 33 deletions(-)
+> 
 
