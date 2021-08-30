@@ -1,85 +1,58 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C346D3FC6
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 12:15:52 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t15so15913602wrg.7
-        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 05:15:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/i9rKJcPxsCwJ6kNIOQV+qImhOF+UG8aTJL9Wyv+hOs=;
-        b=noHnxrJcLvMQCWvRDvwpB3nwGLG6+rMkeQcfkJqFkDfcfTOqwK4DJorWksfevYNyd2
-         YG2zvV64AKyyUpQVCmODZkzNXTwEfYi4L5TDMmjdQQRfGWuIW5qCZim2Qngl6ePTwQ1z
-         pra1pQPbenoYg4e8XGX7NiDIWbg4sP670HhEpOgnKmsD5EFZVXnWCMIxluPtFnZyor+5
-         30caJqA1CvPBALWuD5q2lURHxXly4bdn6Vq7096+XTyE98mp3RrQLIS+yqe4VeUgRfVo
-         r/4f7DpOWEzrgg8BIiHcmSWZLn08QlWTIZ/WOgb7nG9pY0poF2vVVCaGhRz2hcxG2rcj
-         fhlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/i9rKJcPxsCwJ6kNIOQV+qImhOF+UG8aTJL9Wyv+hOs=;
-        b=uYsncLFpZCZYtMt1gI2vDcrqStt2hzuw9Gd7h+MdxFr1D4yfpb4VbyVIsznnMUC6ed
-         hVhPT9MX4+D7+X9gnQH4rg9kD7PQ6LtlTeqsEiK70pdF/e7U6qNE7kBNJ8anKAt31dkE
-         V0DjINg/RSk+kKfLdO1YXfyZptDRwU0Y9gGDFJbONQQwcyuFSdj8oEKoHeIw7ZSMjmP8
-         nkHxcFAgzKZG2wBW8gaKKm5wC6FmFDnuE3GRbe+cHsk8ewVRRsfZHTeDJj+HzSSk/sO6
-         0qD3043D3ozUUMEuJv07JUcc34LjG6c8npqwXHrhlKeX6/J9dHmVjjQOqiNUbnzQpEPg
-         mhfw==
-X-Gm-Message-State: AOAM531QIEQDobLIqNAQov4mxndxXIVaDyuARjDbw7roq111Hh29L7Rl
-	Cuz/WUgtsZDqlFhXOrajU0U=
-X-Google-Smtp-Source: ABdhPJwAg6PQZI/w0tl85ZAwyZYNBpuF4+1ZuvSh4A7001LBNJbGPe3RdZbDo6mYUTh5OWavGtY9jw==
-X-Received: by 2002:a5d:6e0c:: with SMTP id h12mr25913814wrz.334.1630325751249;
-        Mon, 30 Aug 2021 05:15:51 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id x11sm15492116wro.83.2021.08.30.05.15.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Aug 2021 05:15:50 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 8/8] staging: r8188eu: remove unnecessary parentheses
-Date: Mon, 30 Aug 2021 14:15:08 +0200
-Message-Id: <20210830121508.6411-9-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210830121508.6411-1-straube.linux@gmail.com>
-References: <20210830121508.6411-1-straube.linux@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCBD3FC3
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 12:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=/4QXEOD8J90syLrjyDkqaGDPwNN8IRPTqOTnnGhg5bE=; b=F32ICRcAQBjiJyGtar49N+Z/Sh
+	uuXfh3zJ/mZOaU1k09f+TlsxTeDYq+PiRXzAzswu3OQ2cAK8BTl6CqDRNDoZ87becadLx4jsxJLgQ
+	nRA775w3F4BudAIxRhoLl6qU6OI62n8TmviYdtp3Ibg6CjVzEHimsyDO2ptD4V3k8KUzq2uxwHdJU
+	0R15nMIMeeWh3vy1gcRz5icm9aG8/WHaLXPmjnFTRtw1bgKdcdhnzPtvr/AlXr3jqMftN+pl5UI+a
+	2lTmkZLFGmOY1L5Gs99X0Kz+T7HF9AhLyJ0Ypqhs/MlbvBAr+0DVs1OSCx3zbQ034zn7SlxZsTjxT
+	m7m5/mbw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1mKgCt-00083W-1T; Mon, 30 Aug 2021 12:16:18 +0000
+Date: Mon, 30 Aug 2021 13:16:07 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
+Message-ID: <YSzMB80NOkNvdjy1@casper.infradead.org>
+References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
+ <YSyg/Db1So0LDGR+@hovoldconsulting.com>
+ <2879439.WEJLM9RBEh@localhost.localdomain>
+ <YSzGkNfG6HOayiXi@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YSzGkNfG6HOayiXi@hovoldconsulting.com>
 
-Remove unnecessary parentheses around a variable to improve
-readability.
+On Mon, Aug 30, 2021 at 01:52:48PM +0200, Johan Hovold wrote:
+> Whether the API is better is debatable. As I said, almost no drivers use
+> the new XArray interface, and perhaps partly because the new interface
+> isn't as intuitive as has been claimed (e.g. xa_load() instead of
+> ida_find()). And IDR/IDA isn't marked/documented as deprecated as far as
+> I know.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_ieee80211.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I can't just slap a 'deprecated' attribute on it.  That'll cause a
+storm of warnings.  What would you suggest I do to warn people that
+this interface is deprecated and I would like to remove it?
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-index f76c762ccd4b..952ad3eec5bc 100644
---- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
-+++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-@@ -1038,7 +1038,7 @@ void rtw_macaddr_cfg(u8 *mac_addr)
- 		DBG_88E("MAC Address from efuse error, assign random one !!!\n");
- 	}
- 
--	DBG_88E("rtw_macaddr_cfg MAC Address  = %pM\n", (mac_addr));
-+	DBG_88E("rtw_macaddr_cfg MAC Address  = %pM\n", mac_addr);
- }
- 
- void dump_ies(u8 *buf, u32 buf_len)
--- 
-2.33.0
+Why do you think that idr_find() is more intuitive than xa_load()?
+The 'find' verb means that you search for something.  But it doesn't
+search for anything; it just returns the pointer at that index.
+'find' should return the next non-NULL pointer at-or-above a given
+index.
 
