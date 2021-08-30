@@ -1,41 +1,41 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F56C3FC3
-	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 12:15:45 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id u9so22095811wrg.8
-        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 05:15:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900883FC3
+	for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 12:15:46 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id d22-20020a1c1d16000000b002e7777970f0so14524524wmd.3
+        for <linux-staging@lists.linux.dev>; Mon, 30 Aug 2021 05:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eF8hUMXIhBsRJkAF7DIG+jKUHZ6c4iXSE2pyRmvKCds=;
-        b=mvf86/q93n6Lwm976tOSViTKEdu5SNinrbjpM4CzmDzRbbAoIfZWDuFvZvUMWiJeZm
-         9us4DgjI0GC1+A2zqv01WzST5eBV50kELy14PoJ8hoN1gcZNCBnlDlfx/ysEZP0DJ6Sp
-         RgCPntLM/QJzNZGTSCTHNnWz95y33xR7tlrbFM51JEwYq449oU1yNzpDbB1e3APRTCHZ
-         n7LLp+Uhi1C6XBNtjoPnCcoEm7lJ3boh+drWY3nv3791KUUIs/mcdZxHmwkWb5iMUi/i
-         X6JhIn7BSVJMzDolEqzoxVfGm9Fx1Y+hsE3eUqSMBOpJdrvDpJ/6aOwTrUdno71shKd3
-         2svw==
+        bh=7HirnwGNf7jyImc4ZKCsenDbRLWYzFjlPI/Sq6s9Xg8=;
+        b=UFvBRBSmv4S7/WfQHzjLKHvB9xm1czJJ7wCtAi0G2eBu94+12fvx3bWNl/Y/W0GM5+
+         z/gtmQ+N3UWRtSohOLkiJWPW+E4n/V92lIbQqJF2s6aadlULKpCJDAua0xV4jeD06bdO
+         2VL3plu7i31ieC2VBBErzkbuMJf9GK+wb3QjcxGSsYdGoprG3YQZDZpxv05uU3a1rTRv
+         xCVF+pHOoim8QRhjGohb4qRtR5oswq19D8yo5ywmAxi+Ki0mOOawgaW6+VHp3TOooj+s
+         dqVquwbu/Ul1SjEV74YGoAEgbRNH2IPcqCqmdpd99TkDgrab5OfRL2gqmN0b2qO76xKR
+         lkrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eF8hUMXIhBsRJkAF7DIG+jKUHZ6c4iXSE2pyRmvKCds=;
-        b=DeHJzShIc3LyPfQZZ9pEaFolONJC8D262wHVhzgxVQBHgxfXPmvaM8OPZoTFYg4sE1
-         +cEblhg/anc2yA8aGhc55MMRaw3A8Od5IBQOM1rAs8sFiHEltGa8g+DJrd3ag3mxwIRc
-         VyyYB2sqA8eeWPMmMfgxSIt4C+Pop1cwNM5rbl6EOO9zRj/Yjmxfv9b0V4MC9IMX2/86
-         7EJ4X7KYeuXrm21O4ikslMmfs1j0XxkDa6nt63fN2OEjsokCbQJ5GCExVuEbB1DXmBbe
-         xcWq15AuNNva+Le00hsGQuOJMQ+YLgc9T2SJ9oT8UKf/+P2Z/17uY90LRQpIluzVIvdO
-         +m3w==
-X-Gm-Message-State: AOAM532T2BtxNQDjVAoQTCOEPtMyjUrXPunYm6dqRmQfAwkv0HWKGEgC
-	4agq60uyTsvr1IrMEhbm4xs=
-X-Google-Smtp-Source: ABdhPJyl3rAxqQrt5eRZv/pCgx/o50rAK3ATJtra8lZGmZT/6G2AX7ysZFK5u2hfnEKl8rfd0oxfjA==
-X-Received: by 2002:a05:6000:343:: with SMTP id e3mr17514382wre.96.1630325743933;
-        Mon, 30 Aug 2021 05:15:43 -0700 (PDT)
+        bh=7HirnwGNf7jyImc4ZKCsenDbRLWYzFjlPI/Sq6s9Xg8=;
+        b=tmUBdYYKxx8XXkx7ZsT25DVgMUeMfZDv/4UradZ8jZw0g0bmW3trJTvb18n/MxDedY
+         HeZAvWzn38zTUlLG4D0Mr5A18gP0J+q1IDg0EqWYH1wjf9skDHlKkpSlOwbkHgOM/EHi
+         YBOZzOdPP3ZP9XRK0c3ChC2N7wLhdQoXozgrbczTP1R9/8snVHqjhFtVPJcHYWjBCibr
+         Y3oyYznHmHmi0UR8xXZbcqFvL+kA3TLyWe8aaiD/zOYzTCrXSWyZ8KGcTulHLYWN56/a
+         mpmCihN59BeHC5n2ThtPIMM/aTMOx/I5BVX7eH53xL44Xp7XQiEPs/l2UGWKKehxiAKj
+         7PwA==
+X-Gm-Message-State: AOAM530krOu59VaoRoszPqnoPoTo8xYQiulzoj0EYLSkyGXMgaxwgNwq
+	LNN4MczKssW96eAiNn3xADI=
+X-Google-Smtp-Source: ABdhPJyGecg1TI9i5bdRoPpRqAix6J9TFzwP+pYBLhOXDX/8ukPB+18iFtXB7gNeNTQgI4bsPf2DvQ==
+X-Received: by 2002:a05:600c:298:: with SMTP id 24mr31638529wmk.172.1630325745115;
+        Mon, 30 Aug 2021 05:15:45 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id x11sm15492116wro.83.2021.08.30.05.15.42
+        by smtp.gmail.com with ESMTPSA id x11sm15492116wro.83.2021.08.30.05.15.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Aug 2021 05:15:43 -0700 (PDT)
+        Mon, 30 Aug 2021 05:15:44 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 3/8] staging: r8188eu: use ETH_ALEN
-Date: Mon, 30 Aug 2021 14:15:03 +0200
-Message-Id: <20210830121508.6411-4-straube.linux@gmail.com>
+Subject: [PATCH v2 4/8] staging: r8188eu: use is_*_ether_addr() in rtw_macaddr_cfg()
+Date: Mon, 30 Aug 2021 14:15:04 +0200
+Message-Id: <20210830121508.6411-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210830121508.6411-1-straube.linux@gmail.com>
 References: <20210830121508.6411-1-straube.linux@gmail.com>
@@ -59,27 +59,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use ETH_ALEN instead of hard-coding the value for the mac_addr buffer
-in struct eeprom_priv.
+Use is_broadcast_ether_addr() and is_zero_ether_addr() in
+rtw_macaddr_cfg(). The buffer is properly aligned.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/rtw_eeprom.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/core/rtw_ieee80211.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/rtw_eeprom.h b/drivers/staging/r8188eu/include/rtw_eeprom.h
-index fb591a764dac..d0c812cf5cc2 100644
---- a/drivers/staging/r8188eu/include/rtw_eeprom.h
-+++ b/drivers/staging/r8188eu/include/rtw_eeprom.h
-@@ -99,7 +99,7 @@ struct eeprom_priv {
- 	u8		bautoload_fail_flag;
- 	u8		bloadfile_fail_flag;
- 	u8		bloadmac_fail_flag;
--	u8		mac_addr[6] __aligned(2); /* PermanentAddress */
-+	u8		mac_addr[ETH_ALEN] __aligned(2); /* PermanentAddress */
- 	u16		channel_plan;
- 	u8		EepromOrEfuse;
- 	u8		efuse_eeprom_data[HWSET_MAX_SIZE_512] __aligned(4);
+diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+index 205798b76cf9..35a548e1c92e 100644
+--- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
++++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
+@@ -1032,10 +1032,7 @@ void rtw_macaddr_cfg(u8 *mac_addr)
+ 		memcpy(mac, mac_addr, ETH_ALEN);
+ 	}
+ 
+-	if (((mac[0] == 0xff) && (mac[1] == 0xff) && (mac[2] == 0xff) &&
+-	     (mac[3] == 0xff) && (mac[4] == 0xff) && (mac[5] == 0xff)) ||
+-	    ((mac[0] == 0x0) && (mac[1] == 0x0) && (mac[2] == 0x0) &&
+-	     (mac[3] == 0x0) && (mac[4] == 0x0) && (mac[5] == 0x0))) {
++	if (is_broadcast_ether_addr(mac) || is_zero_ether_addr(mac)) {
+ 		mac[0] = 0x00;
+ 		mac[1] = 0xe0;
+ 		mac[2] = 0x4c;
 -- 
 2.33.0
 
