@@ -1,77 +1,217 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mail-41103.protonmail.ch (mail-41103.protonmail.ch [185.70.41.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2BA3FC4
-	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 12:18:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FC4F60200;
-	Tue, 31 Aug 2021 12:18:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1630412315;
-	bh=RKmHEBBqe+fABZVLSlBOdZnAUww2NeSx7NR1sqNQevs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q3akqxME9qMngNOJsq4ob1d5h8OMuZBOJr8QNYr8ONAZAnjIWPGzMKUPevc883mxN
-	 Nvz15u+l1Wpnzb1ylKnwuqA+20/70LTIhRs3vtWwoGOhXgU5v3C+Dr2Vg3XL503UxD
-	 Eb3+SnVuzgsVCfDZDgiTBw3oMoPReS+lIpxHnYkBIR/l9pHXV3Pi9hwLFrwqEC0IVZ
-	 XbzEG7Psb8RelEUc1/03EKOyFmIgPn+Ucs1NddFguIkgNZg9a/6P0TK+fRH/NULso8
-	 juU66L4h5DF7xY8mi1xC5LDXCWjc13wpXzTgi9vrCeCz40u2Z2xb8hLVfrVA+vh+0b
-	 DzU9mIm9vSyyg==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1mL2ii-0004il-2r; Tue, 31 Aug 2021 14:18:28 +0200
-Date: Tue, 31 Aug 2021 14:18:28 +0200
-From: Johan Hovold <johan@kernel.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Alex Elder <elder@linaro.org>, Matthew Wilcox <willy@infradead.org>,
-	Alex Elder <elder@kernel.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org
-Subject: Re: [greybus-dev] [PATCH v4] staging: greybus: Convert uart.c from
- IDR to XArray
-Message-ID: <YS4eFP3xXdAugyYL@hovoldconsulting.com>
-References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
- <f7a25eb1-20f4-5031-a156-9e5dc019ad28@linaro.org>
- <YS3jSsGSs0yAw/Ba@hovoldconsulting.com>
- <6155058.TBsaUTXu4T@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092582FAE
+	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 13:41:45 +0000 (UTC)
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by mail-41103.protonmail.ch (Postfix) with ESMTPS id 4GzSrZ62yYz4x4D6
+	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 13:36:14 +0000 (UTC)
+Authentication-Results: mail-41103.protonmail.ch;
+	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="Y87cmOTY"
+Date: Tue, 31 Aug 2021 13:35:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail; t=1630416956;
+	bh=cn0U6GzVIDMIdqLgNMFeLkrCj6U5UatyC2ElQujHs0E=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=Y87cmOTYcxcgUu34+GA65wKU15gu8Arj4V+SdJwK09N13rLy3klz9bKIO2PK8SH3j
+	 DVIoAA6nS50MbshfD1rIKr8m9yLYW+7144ZxxH42Uw4pPktJ2URwmSfGOzh16d1znS
+	 amPZB+yvwSfaoGrGWRg6bTeyYjCK0OBeTvLT9V6Lr77vrCXUjxvQYu5RKKTmsBNxVh
+	 fpL9oNUM8sw4nWJRnfw/8Ene9d42ljTWfnE78z2JUmCKdOzSJRYIxXDFbUf1jMYqqa
+	 fsMPnMTnQBoAuWOfBDKoFmVQliHxS7fcOomVKFxHbWIMJ7a/P4DGek1WA22KB9Z0mw
+	 pKFG4656rezPA==
+To: Krish Jain <krishjain02939@gmail.com>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: Re: [PATCH] Declare the file_operations struct as const
+Message-ID: <20210831133533.6aayzjghdakrhy56@h510>
+In-Reply-To: <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com>
+References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+ypKOVsJF_Guna+9+q-+cApYzdBGHMPKKr6MAzGQtqy2g@mail.gmail.com> <CAPGkw+wGn1oTAO7JXXApDMm4cFfxXam913hOGnnup1nSOpcVPA@mail.gmail.com> <CAPGkw+xroJmxa9i6X++un6tQFQ-3F5uMRCatzufWsdfw7cQ2LQ@mail.gmail.com> <20210829205953.63ebc32xlyudsqzg@h510> <CAPGkw+wtE0HMQmYsMkFEt_BPqqB2j_TQ6zwATp6zyXLyxxwTOA@mail.gmail.com> <CAPGkw+w=A1ZBQrmSR2mCgXnfEvhG9tbuJjQ+q1-=Tedwb_XhOA@mail.gmail.com> <CAPGkw+xzAZxEXBvsFuBLiCRfNvjBxwds7Q-CWeo8RM4Rxmabcw@mail.gmail.com> <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6155058.TBsaUTXu4T@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-On Tue, Aug 31, 2021 at 01:50:05PM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, August 31, 2021 10:07:38 AM CEST Johan Hovold wrote:
+On this day, August 31, 2021, thus sayeth Krish Jain:
+> Hi, could someone help with this? Still stuck. Maybe someone else has
+> some insight into this issue too? Or Greg or Bryan.
+>
+> Thanks
+>
 
-> > Since most people can't really test their changes to Greybus perhaps it
-> > isn't the best example of code that can be safely modified. But yeah,
-> > parts of it are still in staging and, yes, staging has been promoted as
-> > place were some churn is accepted.
+Just another friendly reminder about top posting. I liked Greg's link to
+John Gruber's opinion. TLDR: It's poor form.
 
-> I cannot test my changes to Greybus, but I think that trivial changes are 
-> just required to build. To stay on the safe side I had left those 
-> mutex_lock() around xa_load(). I wasn't sure about it, but since the original 
-> code had the Mutexes I thought it wouldn't hurt to leave them there.
+  http://daringfireball.net/2007/07/on_top
 
-But if you weren't sure that your patch was correct, you can't also
-claim that it was trivial. Patches dealing with locking and concurrency
-usually are not.
+Ignoring these bits of advice send signals to the community that you
+don't value the time we donate to you.
 
-I too had go look up the XArray interface and review the Greybus uart
-code (which is broken and that doesn't make it easier for any of us).
+>
+> On Mon, Aug 30, 2021 at 3:01 PM Krish Jain <krishjain02939@gmail.com> wro=
+te:
+> >
+> > One sec this got even more confusing. I saw
+> > https://stackoverflow.com/questions/23184181/error-while-running-make-i=
+nstall-include-generated-autoconf-h-or-include-confi
+> > and it says
+> >
+> > -------
+> > You are including the V=3D1 which causes Make to show the commands as
+> > they're being run. From the looks of it, you're not actually seeing
+> > the error itself, but you're seeing the test that it's running to
+> > check if those files exist:
+> >
+> > test -e include/generated/autoconf.h -a -e include/config/auto.conf ||
+> > ( \ ... echo error messages here ... \ )
+> >
+> > That test is being run, and if it fails, it would echo those messages
+> > to standard error, which it's not. If your module isn't building it's
+> > probably due to some other issue.
+> > ------
+> >
+> > So where is it going all wrong? Messing up the file ashmem.c does not
+> > print the errors.
+> >
 
-So no, this wasn't trivial, it carries a cost and should therefore in
-the end also have some gain. And what that was wasn't clear from the
-commit message (since any small efficiency gain is irrelevant in this
-case).
+I have no clue where you got V=3D1 from. Are you sure you need it?
 
-Sorry you got stuck in the middle. Perhaps you can see it as a
-first-hand experience of some of the trade offs involved when doing
-kernel development.
+As for "So where is it going all wrong?"
 
-And remember that a good commit message describing the motivation for
-the change (avoiding boiler-plate marketing terms) is a good start if
-you want to get your patches accepted.
+Like Greg said a few emails ago:
 
-Johan
+  "Are you sure the file is being built at all? You usually have to
+  select the proper configuration option to enable that driver as well."
+
+After a response from Greg like that, I would ask myself: How do I
+select the proper configuration options? and How do I know if the proper
+one is set?
+
+Having had the same issue as you when I first started, I will try to
+save you some time. Read the documentation, it is faster than you think
+and will give you more information than I can give you over email:
+
+  https://www.kernel.org/doc/html/latest/kbuild/makefiles.html
+
+> > >
+> > > https://pastebin.com/NuvqMUWu is the link to the .config file.
+> > > The error I get is https://imgur.com/gkwh7Sb .
+> > >
+
+Your .config will be different to everyone else. I have different
+hardware to you, Greg or Fabio. And I will need different modules and
+options enabled.  I have no idea if your .config file is correct.
+
+This error seems to indicate you're missing your Module.symvers file,
+not your .config file. It's hard to tell with the V=3D1 option set.
+
+> > > >
+> > > >  When a module is loaded/used, the values contained in the kernel a=
+re
+> > > > compared with similar values in the module; if they are not equal, =
+the
+> > > > kernel refuses to load the module. I don't need it in my case.
+> > > >
+> > > > > What would happen if we didn't have the proper symbols when compi=
+ling or
+> > > > > installing this driver?
+> > > > > How and what generates the Module.symvers file when we *do* need =
+it?
+> > > >
+> > > > The kernel would refuse to load the module.
+> > > >
+
+Excellent! This has nothing to do with test building our shared memory
+system. We can either turn the warning off, find a way to generate the
+file, or fake that we've generated the file.
+
+Though it's important you know the impact of your decision.
+
+> > > > > >
+> > > > > > ERROR: Kernel configuration is invalid."; \
+> > > > > > echo >&2 "         include/generated/autoconf.h or
+> > > > > > include/config/auto.conf are missing.";\
+> > > > > > echo >&2 "         Run 'make oldconfig && make prepare' on kern=
+el src
+> > > > > > to fix it."; \
+> > > > > >
+> > > > > >
+> > > > > > is still present.
+> > > > > >
+> > > > > > How can I fix this?
+> > > > > >
+
+After everything above, (See what we mean about top posting?) Are you
+sure you're getting this ERROR?
+
+> > > > >
+> > > > > Are there any other 'make *config' options we could try?
+> > > >
+> > > > Yes, like main menuconfig. I tried it but it still doesn't work.
+> > > >
+
+There are more (faster) options. Though 'menuconfig' would be a great
+option to select specific modules you would like to build.
+
+> > > > >
+> > > > > Do we really need CONFIG_INFINIBAND turned on if we're working in=
+ the
+> > > > > drivers/staging tree of the kernel?
+> > > >
+> > > > No, we don't. I removed it.
+> > > >
+
+"removed it" makes me think your editing your .config file by hand.
+It's not wrong to do so, just be sure you know what you're doing.
+
+> > > >
+> > > > > What would we gain from having a compiled kernel if we want to te=
+st a
+> > > > > single staging driver?
+> > > >
+> > > > No need to compile the entire kernel I guess for my use case. But
+> > > > after all this reading :( I still don't get why " sudo make
+> > > > CCFLAGS=3D-Werror W=3D1 M=3Ddrivers/staging/android/  V=3D1" worked=
+ for you
+> > > > but not for me. I still get the following errors
+> > > >
+> > > >
+> > > > test -e include/generated/autoconf.h -a -e include/config/auto.conf=
+ || ( \
+> > > > echo >&2; \
+> > > > echo >&2 "  ERROR: Kernel configuration is invalid."; \
+> > > > echo >&2 "         include/generated/autoconf.h or
+> > > > include/config/auto.conf are missing.";\
+> > > > echo >&2 "         Run 'make oldconfig && make prepare' on kernel s=
+rc
+> > > > to fix it."; \
+> > > > echo >&2 ; \
+> > > > /bin/false)
+> > > > .....
+> > > >
+> > > >
+> > > > How can I fix this?
+> > > >
+
+My advice would be to familiarize yourself with how modules are built
+with "Linux Kernel Makefiles" section in the documentation.
+
+  https://www.kernel.org/doc/html/latest/kbuild/makefiles.html
+
+It describes everything in greater detail than I could ever give here.
+
+If anyone else wants to jump in here, feel free.
+~Bryan
+
