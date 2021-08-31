@@ -1,86 +1,67 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249BE3FC2
-	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 08:16:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ABDF360FC0;
-	Tue, 31 Aug 2021 08:16:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1630397810;
-	bh=yTyNUSNUuUCigkGqM37M/tkhLWZdGvb5UP17lvLzs8w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sRYw1zSnhFopgKVsOrgKcwvby1ylBT/KdnY49F8pG8P7vQRZXH2kDIUVmJr9b1f12
-	 VEU7Z7ZNu62RbECi8Ak+ykJSNiuCuwfhwv2uEgYpJ9QLo+3OHNZo+BYQNXJrPKlC5h
-	 2yk5D7U6UBWE1GKH5Ktrs7QlpqAWiLNFBB3AcGhCijZ7xOIIhkAv2LlUNyP8zI82Lm
-	 kDk5jS+tsa6h/k+OJfNzLVqnFSPKy6GJ9Tr2BsTtNmZkKkDIAeeumwWday1wYd7B85
-	 MVjzDHwsc2k4PbWINaRgbSCbISKdUrq1HPhZe1IKmYfhiXJbXvD8CBxM2VCPD4nvH0
-	 YrY4h13WDxabA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1mKywk-0007Cy-V0; Tue, 31 Aug 2021 10:16:43 +0200
-Date: Tue, 31 Aug 2021 10:16:42 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
-Message-ID: <YS3laqvwXE9XoAD/@hovoldconsulting.com>
-References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
- <YSyg/Db1So0LDGR+@hovoldconsulting.com>
- <2879439.WEJLM9RBEh@localhost.localdomain>
- <YSzGkNfG6HOayiXi@hovoldconsulting.com>
- <YSzMB80NOkNvdjy1@casper.infradead.org>
- <YSzQAd0Rg5CF/eLe@hovoldconsulting.com>
- <YSzdtzH1GdZqt66G@casper.infradead.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA81B72
+	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 08:40:27 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id b6so26354555wrh.10
+        for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 01:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=tpgdwJ8aV/oJ/3Y288K3Jw8J276wPQjTvmO8SwKNYG0=;
+        b=bjo1Law/Ha4kZL71sTf78aIyaLtyP4Wpd6cl3zusSDioAxkSeyi8SPBxU48tgylgwW
+         MaZEjHcZ+h1Bt0vsWsCMNBReFQEgSWeQYJEjyfTEBPEs8rnxB9fUUIOel8n6J+Qr/BSl
+         orfWqHLIYfecr/09JrE8xUDH2vndw3oRyDDrQ68o6tV5pzt3+8U62HwRA/eHhLEVwVEY
+         sfOFhuzc1DpWXUSbbR7I5/ogiFLJsA5twJFB7zhpWqyN/dD2k1FXcgUBUfOUKOIg0bwx
+         iXioON0NpfUjbPd3LziVExTPGK/Ly/SlUiq+3YKJBGO8DpMu+E6DXKbKIEj63y3XErAc
+         +l4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=tpgdwJ8aV/oJ/3Y288K3Jw8J276wPQjTvmO8SwKNYG0=;
+        b=G8u5NQqJlYq7UrPLPFGYErZlSw2HNB/uClY+M99utEB/zVel8Ecq4IKrXDLAsz1W6l
+         gEinm9AhIgSmz49wigLujJezRoC70rml4IvC0nCuhUPOD7ngTqEeYcndeYy4PwEeQ855
+         tAuBcWQjQpiuy+TLVC/U16FUrMbcSS/m3Ozydz/ZTqphmuT/Kgc3TegYXZvYhjDrr5Ts
+         rmOM52DoqGC3+Nz6NNCWo2IwjDylGmhqO4Onb1NDe5zoBXx2rmpyQrXwH9/IbwE2VgCE
+         gwN6IxxgBT59dXhrjha/34raHz9udmz+OXG9aFmeL5C85lew/B6QwxbBNsp2Ufz2xwbC
+         wblQ==
+X-Gm-Message-State: AOAM533aH61+c77FPyMUt4JEhji3ycKJAWG9tfx0eA+tdET96jxg1hUw
+	9/dTonVlLV0PYQ0UDJOCyTM=
+X-Google-Smtp-Source: ABdhPJxaJhQc1E1GI4ZOjM9kN7WMKJxNo7mJuOBcpIOTMwzlrx4OAnWGu5fGKdaElx3YrQlghpeSMA==
+X-Received: by 2002:adf:9151:: with SMTP id j75mr30305889wrj.68.1630399226261;
+        Tue, 31 Aug 2021 01:40:26 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::884b? ([2a02:8108:96c0:3b88::884b])
+        by smtp.gmail.com with UTF8SMTPSA id y15sm2002528wmi.18.2021.08.31.01.40.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Aug 2021 01:40:25 -0700 (PDT)
+Message-ID: <85959c1f-80d4-3fd9-f8a5-d7688e337e95@gmail.com>
+Date: Tue, 31 Aug 2021 10:40:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YSzdtzH1GdZqt66G@casper.infradead.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Content-Language: en-US
+To: Larry.Finger@lwfinger.net
+Cc: gregkh@linuxfoundation.org, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ straube.linux@gmail.com
+From: Michael Straube <straube.linux@gmail.com>
+Subject: staging: r8188eu: Switching encryption to use lib80211
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 30, 2021 at 02:31:35PM +0100, Matthew Wilcox wrote:
-> On Mon, Aug 30, 2021 at 02:33:05PM +0200, Johan Hovold wrote:
-> > On Mon, Aug 30, 2021 at 01:16:07PM +0100, Matthew Wilcox wrote:
-> > > On Mon, Aug 30, 2021 at 01:52:48PM +0200, Johan Hovold wrote:
-> > > > Whether the API is better is debatable. As I said, almost no drivers use
-> > > > the new XArray interface, and perhaps partly because the new interface
-> > > > isn't as intuitive as has been claimed (e.g. xa_load() instead of
-> > > > ida_find()). And IDR/IDA isn't marked/documented as deprecated as far as
-> > > > I know.
+Hi Larry and all,
 
-> > > Why do you think that idr_find() is more intuitive than xa_load()?
-> > > The 'find' verb means that you search for something.  But it doesn't
-> > > search for anything; it just returns the pointer at that index.
-> > > 'find' should return the next non-NULL pointer at-or-above a given
-> > > index.
-> > 
-> > We're looking up a minor number which may or may not exist. "Find" (or
-> > "lookup" or "search") seems to describe this much better than "load"
-> > (even if that may better reflect the implementation of XArray).
-> 
-> It's not the _implementation_ that it fits, it's the _idiom_.
-> The implementation is a lookup in a trie.  The idiom of the XArray
-> is that it's a sparse array, and so it's a load.
+I'm currently working on adapting patches from the old rtl8188eu driver
+that convert the frame de/encrypt functions to use lib80211.
 
-Ok, but it still stands out in the conversions since it is in no way
-obvious that idr_find() should be replaced by xa_load() from just
-looking at the diff. You need to look up the interface for that.
+Please let me know if it's not worth.
 
-> > And no, I would not expect a find implementation to return the next
-> > entry if the requested entry does not exist (and neither does idr_find()
-> > or radix_tree_lookup()).
-> 
-> Oh dear.  You've been corrupted by the bad naming of the IDR functions
-> ;-(
-
-Heh. Don't flatter yourself. Just look up any text book on data
-structures.
-
-Johan
+Thanks,
+Michael
