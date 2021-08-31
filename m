@@ -1,137 +1,77 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A743FC4;
-	Tue, 31 Aug 2021 11:56:42 +0000 (UTC)
-Received: from [IPv6:2a01:e0a:4cb:a870:2d6:5982:f5be:998c] (unknown [IPv6:2a01:e0a:4cb:a870:2d6:5982:f5be:998c])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D52781F42F46;
-	Tue, 31 Aug 2021 12:56:39 +0100 (BST)
-Subject: Re: [PATCH 1/2] media: hevc: Remove RPS named flags
-To: John Cox <jc@kynesim.co.uk>
-Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
- mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
- jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl,
- ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
- <20210831094900.203283-2-benjamin.gaignard@collabora.com>
- <4g2sigpsttf80t72c7spdqqjvvijnths2d@4ax.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <fdf6417e-09cd-f0a0-a351-fccd64bfc8c7@collabora.com>
-Date: Tue, 31 Aug 2021 13:56:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2BA3FC4
+	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 12:18:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FC4F60200;
+	Tue, 31 Aug 2021 12:18:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1630412315;
+	bh=RKmHEBBqe+fABZVLSlBOdZnAUww2NeSx7NR1sqNQevs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q3akqxME9qMngNOJsq4ob1d5h8OMuZBOJr8QNYr8ONAZAnjIWPGzMKUPevc883mxN
+	 Nvz15u+l1Wpnzb1ylKnwuqA+20/70LTIhRs3vtWwoGOhXgU5v3C+Dr2Vg3XL503UxD
+	 Eb3+SnVuzgsVCfDZDgiTBw3oMoPReS+lIpxHnYkBIR/l9pHXV3Pi9hwLFrwqEC0IVZ
+	 XbzEG7Psb8RelEUc1/03EKOyFmIgPn+Ucs1NddFguIkgNZg9a/6P0TK+fRH/NULso8
+	 juU66L4h5DF7xY8mi1xC5LDXCWjc13wpXzTgi9vrCeCz40u2Z2xb8hLVfrVA+vh+0b
+	 DzU9mIm9vSyyg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan@kernel.org>)
+	id 1mL2ii-0004il-2r; Tue, 31 Aug 2021 14:18:28 +0200
+Date: Tue, 31 Aug 2021 14:18:28 +0200
+From: Johan Hovold <johan@kernel.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Alex Elder <elder@linaro.org>, Matthew Wilcox <willy@infradead.org>,
+	Alex Elder <elder@kernel.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org
+Subject: Re: [greybus-dev] [PATCH v4] staging: greybus: Convert uart.c from
+ IDR to XArray
+Message-ID: <YS4eFP3xXdAugyYL@hovoldconsulting.com>
+References: <20210829092250.25379-1-fmdefrancesco@gmail.com>
+ <f7a25eb1-20f4-5031-a156-9e5dc019ad28@linaro.org>
+ <YS3jSsGSs0yAw/Ba@hovoldconsulting.com>
+ <6155058.TBsaUTXu4T@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <4g2sigpsttf80t72c7spdqqjvvijnths2d@4ax.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6155058.TBsaUTXu4T@localhost.localdomain>
 
+On Tue, Aug 31, 2021 at 01:50:05PM +0200, Fabio M. De Francesco wrote:
+> On Tuesday, August 31, 2021 10:07:38 AM CEST Johan Hovold wrote:
 
-Le 31/08/2021 à 13:08, John Cox a écrit :
->> Marking a picture as long-term reference is valid for DPB but not for RPS.
->> Change flag name to match with it description in HEVC spec chapiter
->> "8.3.2 Decoding process for reference picture set".
->> Remove the other unused RPS flags.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 ++----
->> drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
->> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
->> include/media/hevc-ctrls.h                                | 4 +---
->> 4 files changed, 5 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 3865acb9e0fd..eff33c511090 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -3138,10 +3138,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->> 	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
->>      * - __u8
->>        - ``rps``
->> -      - The reference set for the reference frame
->> -        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
->> -        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
->> -        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->> +      - Long term flag for the reference frame
->> +        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->>      * - __u8
->>        - ``field_pic``
->>        - Whether the reference is a field picture or a frame.
-> If you are going to remove all the RPS values except for Long Term
-> wouldn't it be better to rename the field too, either to "flags" or a
-> bool "is_long_term"?  If we have a field called RPS it really should be
-> able to have a value for any of the 5 valid Reference Picture Sets that
-> a DPB entry can belong to.
+> > Since most people can't really test their changes to Greybus perhaps it
+> > isn't the best example of code that can be safely modified. But yeah,
+> > parts of it are still in staging and, yes, staging has been promoted as
+> > place were some churn is accepted.
 
-I will send a v2 and rename rps into flags.
+> I cannot test my changes to Greybus, but I think that trivial changes are 
+> just required to build. To stay on the safe side I had left those 
+> mutex_lock() around xa_load(). I wasn't sure about it, but since the original 
+> code had the Mutexes I thought it wouldn't hurt to leave them there.
 
->
-> As a side note, it is important to my code that the DPB array contains
-> all the DPB entries not just the ones that are in use in this frame.  I
-> need them so I can track which frames have left the DPB so I can
-> reuse/free the MV tables associated with them (yes I could keep one for
-> every entry in the capture Q but that is generally wasteful on memory
-> and the Pi is often memory constrained). So maybe update the docn on DPB
-> to make this explicit please? (I suspect that current code does this
-> anyway as it is generally easier to do than to not.)
+But if you weren't sure that your patch was correct, you can't also
+claim that it was trivial. Patches dealing with locking and concurrency
+usually are not.
 
-That should be in another patch :-)
+I too had go look up the XArray interface and review the Greybus uart
+code (which is broken and that doesn't make it easier for any of us).
 
-Benjamin
+So no, this wasn't trivial, it carries a cost and should therefore in
+the end also have some gain. And what that was wasn't clear from the
+commit message (since any small efficiency gain is irrelevant in this
+case).
 
->
-> John Cox
->
->> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> index 9ea864ca5625..be46b3c28b17 100644
->> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->> @@ -503,7 +503,7 @@ static int set_ref(struct hantro_ctx *ctx)
->> 		compress_luma_addr = luma_addr + compress_luma_offset;
->> 		compress_chroma_addr = luma_addr + compress_chroma_offset;
->>
->> -		if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->> +		if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->> 			dpb_longterm_e |= BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
->>
->> 		/*
->> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->> index ef0311a16d01..6086cc35e8cc 100644
->> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->> @@ -169,7 +169,7 @@ static void cedrus_h265_ref_pic_list_write(struct cedrus_dev *dev,
->> 		unsigned int index = list[i];
->> 		u8 value = list[i];
->>
->> -		if (dpb[index].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->> +		if (dpb[index].rps == V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->> 			value |= VE_DEC_H265_SRAM_REF_PIC_LIST_LT_REF;
->>
->> 		/* Each SRAM word gathers up to 4 references. */
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index ef63bc205756..f587448ef495 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -127,9 +127,7 @@ struct v4l2_ctrl_hevc_pps {
->> 	__u64	flags;
->> };
->>
->> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE	0x01
->> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER	0x02
->> -#define V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR		0x03
->> +#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
->>
->> #define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
->>
+Sorry you got stuck in the middle. Perhaps you can see it as a
+first-hand experience of some of the trade offs involved when doing
+kernel development.
+
+And remember that a good commit message describing the motivation for
+the change (avoiding boiler-plate marketing terms) is a good start if
+you want to get your patches accepted.
+
+Johan
