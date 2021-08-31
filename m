@@ -1,150 +1,148 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB7329CA
-	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 11:08:08 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id v10so27019838wrd.4
-        for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 04:08:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5543FC4
+	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 11:50:10 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id i21so38049662ejd.2
+        for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 04:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=nMRTUAlq+ptR/ckeEvsJ2OY0SDOy9cpq2/OlFIgm97M=;
-        b=qsp4c+wN0W3QAqKyb6QGXEW9nPLEAOkKU7RtwLh9zvb06ptChOpvOqSO9lwu3CMekq
-         oLBc39IdmcReLrYv8oLeznfogTcijoYweoSDWI7AtjHeE4/v1QVgXZM3SwMEJk8/mpQw
-         bcBe1cIi+0ja+JpsWOuO8fbVQXb/Z+zjqrRZ1sM8dHxR7+XtWNBMd45/zAzImTov8mX6
-         pgmL2p1g9EE2ariy0meoI+5caNaawlG4IY3RDTXjYzL9zQV48ENYGCe7TDIg50JxbIH2
-         M8N8EOcSsT4yA2WzsSwmFGYBDfuuX2FcgeTjjvJ9z3Tbh7e5JoacSRoI/h6pym4CZlfq
-         jBUA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=G3EAEGce9DDVcaeWugp6PobFOe4iFXkc5xvRhZSkkGw=;
+        b=Lx/1A6DmeuQnhij6Da/uxEIPb5BzL0zii2ZMDwEmwWrwBQlFXT5fa7AvJHvNjfRKc8
+         zFAiJWXEAji1k2DPGLezQZgyLaEdKNsk715u1/F1fY8mgprK4lw9hV80bV+r14ejvwJR
+         W2XX7In0UNfhjDweu6YiWImhaQWrXBji2j2wd94Rpn9b9+bwamPieXl4qfabnYm/33S+
+         YK2fxSy45j26/VJhWPSG6L/kHq5ALeKyWWvJWjKoi1gEO67ocd2Cyp7vg8zV0R3sViGX
+         n6A2AasECZmsfz9xPvjktBhvy9MXH1nATuDu0FZJrlna0CODYBPZwyk7M9SE5Qn0qwkF
+         /Jeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=nMRTUAlq+ptR/ckeEvsJ2OY0SDOy9cpq2/OlFIgm97M=;
-        b=tVey4oCpkf3NXN7U1mtcLXsl5XHJvJa7oFsqgGVjf/hb7N6loeyK77Y15Uq5sNu7Ei
-         G0pUf8GnxZNq41imXbcTekC0WSfXh8dCGgQZUdvwhMKFw597itHdHo78/LGL9LcZtyPp
-         Immlfk9qG/7sjQWqPIhU93OXbkD89K4I2h+RTGyVPlyq+eg9SlqvzEAFzJzSdvY7+xXj
-         Ro90Hxn07vnWCJFfr3s81kgoGsfH/buu4YiK0BS3A23n1Q/gLcpKTBi+nJ6k2oeDFckk
-         9rk48HQO3QwYtDZrIUs1kcg+PZ3CRYaIG0w8gDxNJSUbHCTdmE2lujBmnZW7epaLPDB8
-         /P3Q==
-X-Gm-Message-State: AOAM532oIkz9uTrI0nPw4fDB6CaDsc9LeB00uUYaod+Lak5AE8ypxrAK
-	depHnk5UTPk2ptNs6v8L4hjpxg==
-X-Google-Smtp-Source: ABdhPJzXIL3GbSqZDI1inNtMGsjeB9vVKemBahtgKBwRGcrh9KL0DkvZHGv4C8PCZdFxPLuHoEjlgg==
-X-Received: by 2002:a5d:6785:: with SMTP id v5mr30524945wru.261.1630408087281;
-        Tue, 31 Aug 2021 04:08:07 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id s12sm18338402wru.41.2021.08.31.04.08.06
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 31 Aug 2021 04:08:06 -0700 (PDT)
-From: John Cox <jc@kynesim.co.uk>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH 1/2] media: hevc: Remove RPS named flags
-Date: Tue, 31 Aug 2021 12:08:06 +0100
-Message-ID: <4g2sigpsttf80t72c7spdqqjvvijnths2d@4ax.com>
-References: <20210831094900.203283-1-benjamin.gaignard@collabora.com> <20210831094900.203283-2-benjamin.gaignard@collabora.com>
-In-Reply-To: <20210831094900.203283-2-benjamin.gaignard@collabora.com>
-User-Agent: ForteAgent/8.00.32.1272
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=G3EAEGce9DDVcaeWugp6PobFOe4iFXkc5xvRhZSkkGw=;
+        b=LRJOzG1N96hK1JQLswwcq6M2CPi2W1uKxJlEepHrhBaEmbuNdWF6L8WdGMA5DGPYTR
+         9er0gA4lZ+3+pJAzhM5ZmnhYbpRNXqEbezovEsRPGWjg9/ugYyuV5KioDOOXO9bfep0U
+         gx8Fmh44SwL6I33EuJ2dVkmqFwX3JX5UgsVz/VxEWvmH9mkRozAPRUmwoREPZd3XoY6m
+         SjbaW0UiuyNf6e3ZlsrLHtKDMZH9LAAnIXhE5a3C/rdroeFQgr7Y7sOQzKyQDrRXL6r4
+         4t90h+5Rt18OSH/dFMPdQuMhZB926jYO3hGNd9aE9Vx6pOe205yGkOGAHTwXdE7G+mz+
+         B3Gw==
+X-Gm-Message-State: AOAM531bSAY11jjjgMka6fhdhtz8w37nP4aa0xI8ncsYV4sZVbRjs5St
+	iTlHGQ8MA9/68Zz+mkYqxbE=
+X-Google-Smtp-Source: ABdhPJzYUeBhPzvh8YJvV3+MS2hWTuO/H0Yc5wWmS5Dyi+xlR7LcBqk6GL61VKzNkx/PZed228yzIA==
+X-Received: by 2002:a17:906:32d9:: with SMTP id k25mr29842763ejk.290.1630410609117;
+        Tue, 31 Aug 2021 04:50:09 -0700 (PDT)
+Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
+        by smtp.gmail.com with ESMTPSA id e11sm9273276edq.30.2021.08.31.04.50.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Aug 2021 04:50:08 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Alex Elder <elder@linaro.org>, Johan Hovold <johan@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Alex Elder <elder@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org
+Subject: Re: [greybus-dev] [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
+Date: Tue, 31 Aug 2021 13:50:05 +0200
+Message-ID: <6155058.TBsaUTXu4T@localhost.localdomain>
+In-Reply-To: <YS3jSsGSs0yAw/Ba@hovoldconsulting.com>
+References: <20210829092250.25379-1-fmdefrancesco@gmail.com> <f7a25eb1-20f4-5031-a156-9e5dc019ad28@linaro.org> <YS3jSsGSs0yAw/Ba@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
->Marking a picture as long-term reference is valid for DPB but not for =
-RPS.
->Change flag name to match with it description in HEVC spec chapiter
->"8.3.2 Decoding process for reference picture set".
->Remove the other unused RPS flags.
->
->Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->---
-> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 ++----
-> drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
-> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
-> include/media/hevc-ctrls.h                                | 4 +---
-> 4 files changed, 5 insertions(+), 9 deletions(-)
->
->diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->index 3865acb9e0fd..eff33c511090 100644
->--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->@@ -3138,10 +3138,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> 	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
->     * - __u8
->       - ``rps``
->-      - The reference set for the reference frame
->-        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
->-        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
->-        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->+      - Long term flag for the reference frame
->+        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->     * - __u8
->       - ``field_pic``
->       - Whether the reference is a field picture or a frame.
+On Tuesday, August 31, 2021 10:07:38 AM CEST Johan Hovold wrote:
+> On Mon, Aug 30, 2021 at 08:20:25AM -0500, Alex Elder wrote:
+> 
+> > I have been offering review feedback on this patch for three reasons:
+> > 
+> > - First, because I think the intended change does no real harm to the
+> >   Greybus code, and in a small way actually simplifies it.
+> 
+> You leave out that we've already seen three versions of the patch that
+> broke things in various ways and that there was still work to be done
+> with respect to the commit message and verifying the locking. That's all
+> real costs that someone needs to bear.
+> 
+> > - Because I wanted to encourage Fabio's efforts to be part of the
+> >   Linux contributor community.
 
-If you are going to remove all the RPS values except for Long Term
-wouldn't it be better to rename the field too, either to "flags" or a
-bool "is_long_term"?  If we have a field called RPS it really should be
-able to have a value for any of the 5 valid Reference Picture Sets that
-a DPB entry can belong to.
+I really appreciated it, thank you so much Alex.
 
-As a side note, it is important to my code that the DPB array contains
-all the DPB entries not just the ones that are in use in this frame.  I
-need them so I can track which frames have left the DPB so I can
-reuse/free the MV tables associated with them (yes I could keep one for
-every entry in the capture Q but that is generally wasteful on memory
-and the Pi is often memory constrained). So maybe update the docn on DPB
-to make this explicit please? (I suspect that current code does this
-anyway as it is generally easier to do than to not.)
+> Helping new contributers that for example have run into a bug or need
+> some assistance adding a new feature that they themselves have use for
+> is one thing.
+> 
+> I'm not so sure we're helping either newcomers or Linux long term by
+> inventing work for an already strained community however.
+> 
+> [ This is more of a general comment and of course in no way a critique
+>   against Fabio or a claim that the XArray conversions are pointless. ]
+> 
+> > - Because I suspected that Matthew's long-term intention was to
+> >   replace IDR/IDA use with XArray, so this would represent an early
+> >   conversion.
 
-John Cox
+I am pretty sure that Mathew desires that people convert as much as possible 
+code from IDR to XArray. You had his confirmation in this thread along with 
+the link to the old message I have provided. However you and Alex are the 
+maintainers, not Matthew. I must respect your POV.
 
->diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c =
-b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->index 9ea864ca5625..be46b3c28b17 100644
->--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->@@ -503,7 +503,7 @@ static int set_ref(struct hantro_ctx *ctx)
-> 		compress_luma_addr =3D luma_addr + compress_luma_offset;
-> 		compress_chroma_addr =3D luma_addr + compress_chroma_offset;
->=20
->-		if (dpb[i].rps =3D=3D V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->+		if (dpb[i].rps =3D=3D V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
-> 			dpb_longterm_e |=3D BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
->=20
-> 		/*
->diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
-b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->index ef0311a16d01..6086cc35e8cc 100644
->--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->@@ -169,7 +169,7 @@ static void cedrus_h265_ref_pic_list_write(struct =
-cedrus_dev *dev,
-> 		unsigned int index =3D list[i];
-> 		u8 value =3D list[i];
->=20
->-		if (dpb[index].rps =3D=3D V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->+		if (dpb[index].rps =3D=3D V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
-> 			value |=3D VE_DEC_H265_SRAM_REF_PIC_LIST_LT_REF;
->=20
-> 		/* Each SRAM word gathers up to 4 references. */
->diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->index ef63bc205756..f587448ef495 100644
->--- a/include/media/hevc-ctrls.h
->+++ b/include/media/hevc-ctrls.h
->@@ -127,9 +127,7 @@ struct v4l2_ctrl_hevc_pps {
-> 	__u64	flags;
-> };
->=20
->-#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE	0x01
->-#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER	0x02
->-#define V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR		0x03
->+#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
->=20
-> #define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
->=20
+> That could be a valid motivation for the change indeed (since the
+> efficiency arguments are irrelevant in this case), but I could not find
+> any indications that there has been an agreement to deprecate the
+> current interfaces.
+> 
+> Last time around I think there was even push-back to convert IDR/IDA to
+> use XArray internally instead (but I may misremember).
+> 
+> > The Greybus code is generally good, but that doesn't mean it can't
+> > evolve.  It gets very little patch traffic, so I don't consider small
+> > changes like this "useless churn."  The Greybus code is held up as an
+> > example of Linux kernel code that can be safely modified, and I think
+> > it's actively promoted as a possible source of new developer tasks
+> > (e.g. for Outreachy).
+> 
+> Since most people can't really test their changes to Greybus perhaps it
+> isn't the best example of code that can be safely modified. But yeah,
+> parts of it are still in staging and, yes, staging has been promoted as
+> place were some churn is accepted.
+>  
+> Johan
+
+I cannot test my changes to Greybus, but I think that trivial changes are 
+just required to build. To stay on the safe side I had left those 
+mutex_lock() around xa_load(). I wasn't sure about it, but since the original 
+code had the Mutexes I thought it wouldn't hurt to leave them there.
+
+As it was conceived it was a "trivial" patch that didn't" need any tests, 
+IMO. Greg has said, more than once, that "trivial" patches are "more than
+welcome" in drivers/staging, so I took his words applicable to staging/
+greybus too. 
+
+Until the locks were there, my patch was indeed a "trivial" patch. I know the 
+XArray API enough to do this task because I've already worked on unisys/
+visorhba and you may bet I had not the hardware to test that patch. 
+Furthermore, it was much more complex work than what I've done in staging/
+greybus. After some time, due to the lack of responses from Unisys 
+maintainers he took the responsibility to apply my patch. He knew that it was 
+not tested, so he wrote "let's see what it breaks :)". 
+
+I'm very sorry to bother you. I don't really know in the deep how Greybus 
+works and I don't know how to write drivers because at the moment I prefer  
+to spend my (very limited) time to learn core subsystems (process management 
+and the schedulers above all). But while learning, I also want to give back 
+something to the kernel and its Community. I think that little works on 
+staging are the best way to accomplish this goal.
+
+I was wrong in assuming that trivial patches to Greybus are welcome as they 
+are for other drivers.
+
+Best regards,
+
+Fabio
+
+
+
