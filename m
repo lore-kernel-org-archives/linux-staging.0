@@ -1,118 +1,104 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4443FD6
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 16:50:08 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id w4so55645ljh.13
-        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 09:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w6CphMFgf5XtmkIUIZdS3zg3lS0CLaheDoiUHPnX0Fk=;
-        b=XWORPcX4JUiWNYhys31DRm5lPzmQ8u3sh4J6BqTmpr0mg4ugdlAnpEPUP/nDyLFoi4
-         LXOKc1TEP4Rcp3WKfC9pWuacs8HoE5v93ke7gWjPkYyZRbmnql6lTS3lcu+Nee5S2CQs
-         4KLUoQY7eshWi4Uj/Y8cdKSRMXIp/YYbL9Ypo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w6CphMFgf5XtmkIUIZdS3zg3lS0CLaheDoiUHPnX0Fk=;
-        b=Sj2O4iYDePaNMJG3Kf8PPotROHsE6Psc42ld5suA1lo8Dv8LbGrB0sweFqOEfKSgBL
-         5zuwGbWEZHkTS5irH2pIfugg0z1/RC6ljK+IEeiXIU7VUAZu+ksnQbWeO4D5YCCoiMXO
-         pVfTvsqT7U6Xk4lMI2wkvsr6xk7QP9xKERWrhTtcx8LntmW+0xB1THiuOzNAxoOt8+y9
-         FXzobKJrLjlWS0MI45xHfNu7V4ymQ7hGEgd+OdrlKew6SlqzBMRcp4+8s2319J42aV2y
-         IN7Vi6Cbm7X8b0zsTU4wOCztskoXJh7DTCItMG+ia2Yzu1bPu5M6r8JiThSuKULzVkP8
-         eY/g==
-X-Gm-Message-State: AOAM531vXa+ly6zyoeBs0ZJNlifl5QpV+/7q2HFRsXvUrYOTkcmwYlrO
-	Xi2DBwo+JeJdusv4ZnAe/72TizVNSL3aOeQ4
-X-Google-Smtp-Source: ABdhPJxLY9IDvMnk00FeTsXXwRX0krVcyF+0Ctd/BX/6iGuyQ+djFTJwX2gyi80l0RTZIrOZ9ILsfg==
-X-Received: by 2002:a2e:8553:: with SMTP id u19mr549859ljj.158.1630515004889;
-        Wed, 01 Sep 2021 09:50:04 -0700 (PDT)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
-        by smtp.gmail.com with ESMTPSA id u2sm21655lji.82.2021.09.01.09.50.03
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Sep 2021 09:50:04 -0700 (PDT)
-Received: by mail-lf1-f43.google.com with SMTP id p38so421343lfa.0
-        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 09:50:03 -0700 (PDT)
-X-Received: by 2002:a05:6512:1053:: with SMTP id c19mr273608lfb.201.1630515003669;
- Wed, 01 Sep 2021 09:50:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AC572
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 16:51:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 84A0660525;
+	Wed,  1 Sep 2021 16:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1630515072;
+	bh=A9wkNg9aBJrglsUZ5b/buH7xJaIQnLA+gD3vgVvDd7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QPeXShP9yKHzHlMdGL7qlLOd2lcOPNGRl8kL0qYwIlxJPbLzdlLogxSB0S1nBPiOc
+	 Pm7JdoOZozq1ou1DXfeRSbjYD9TWSXqmORrEypMmDIJhPT07uUNT9aINUF9qNv51ar
+	 +IKAIzlaYNjJIU9AZQJC+5QNVoX4ufAex0OeNuGw=
+Date: Wed, 1 Sep 2021 18:51:09 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Krish Jain <krishjain02939@gmail.com>
+Cc: Bryan Brattlof <hello@bryanbrattlof.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Declare the file_operations struct as const
+Message-ID: <YS+vfVTV0fls6KuN@kroah.com>
+References: <20210829144531.c2syu4vv4s22dlg7@h510>
+ <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com>
+ <20210831133533.6aayzjghdakrhy56@h510>
+ <13366651.n50aozgL3V@localhost.localdomain>
+ <20210831230014.cp46vho2hnndacjp@h510>
+ <CAPGkw+zpYsovnXL_4GfjsQ60fqre+xyiwvwKuDj_fHPTKEfzeQ@mail.gmail.com>
+ <YS+cexhuqldPaACs@kroah.com>
+ <CAPGkw+z+uepM0hiNh48xjjD7=2rpgr+RSLzMcHbw2iE=8y+xqQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YS+LXqoDGk0CqU1Q@kroah.com>
-In-Reply-To: <YS+LXqoDGk0CqU1Q@kroah.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 1 Sep 2021 09:49:47 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whqN1gAZk0ZD_4JxGemdbpnQkDaNFY9MjW==v-kb1J-fw@mail.gmail.com>
-Message-ID: <CAHk-=whqN1gAZk0ZD_4JxGemdbpnQkDaNFY9MjW==v-kb1J-fw@mail.gmail.com>
-Subject: Re: [GIT PULL] Staging / IIO driver changes for 5.15-rc1
-To: Greg KH <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Phillip Potter <phil@philpotter.co.uk>, Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPGkw+z+uepM0hiNh48xjjD7=2rpgr+RSLzMcHbw2iE=8y+xqQ@mail.gmail.com>
 
-On Wed, Sep 1, 2021 at 7:17 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> Lots of churn in some staging drivers, we dropped the "old" rtl8188eu
-> driver and replaced it with a newer version of the driver that had been
-> maintained out-of-tree by Larry with the end goal of actually being able
-> to get this driver out of staging eventually.  Despite that driver being
-> "newer" the line count of this pull request is going up.
+On Wed, Sep 01, 2021 at 05:34:36PM +0200, Krish Jain wrote:
+> Oh ok, thanks Greg. I only attempted to use "make CCFLAGS=-Werror W=1
+> M=drivers/staging/android/" as that's the command Bryan used earlier
+> and it worked.
+> 
+> "As for your patch, I built the driver using:
+> 
+>   $ make CCFLAGS=-Werror W=1 M=drivers/staging/android"
+> 
+> 
+> Can you tell me why this is the case?
 
-Ugh.
+Again, it depends on your kernel configuration file as to what will, or
+will not, be built.
 
-So this had a conflict with the networking tree, and commit
-89939e890605 ("staging: rtlwifi: use siocdevprivate") in particular.
+If you have some things set as modules, they can be built as a module,
+but the ashmem code can not be built as a module, so you would never
+build it if you did the above line.
 
-Ok, so that conflict looked annoying but harmless - git saw the new
-driver as a rename of the old one, and tried to actually apply the
-changes from that commit to the new one.
+Here, look at this sequence, starting with a tree that does nothing if I
+do a simple 'make' in it, as the whole kernel is already built, and
+ashmem is enabled in the kernel configuration
 
-And git actually did a reasonable job, everything considered. There
-were enough similarities that it wasn't entirely crazy, and enough
-differences that it caused conflicts.
+$ grep ASHMEM .config
+CONFIG_ASHMEM=y
+$ make
+$
 
-HOWEVER.
+So, let's change the time stamp on the ashmem.c file and see what gets
+built if you use the M= option:
 
-Actually then looking at the root causes of the conflicts, as part of
-just trying to finish what git had started, I notice that a lot of the
-code in the new driver was just completely dead.
+$ touch drivers/staging/android/ashmem.c
+$ make M=drivers/staging/android
+  MODPOST drivers/staging/android/Module.symvers
+$
 
-As of commit ae7471cae00a ("staging: r8188eu: remove rtw_ioctl
-function") the only caller of rtw_android_priv_cmd() is entirely gone.
+Nothing gets built as ashmem is NOT a module, and M= only builds any
+modules in the directory you specified.
 
-But rtw_android_priv_cmd() was kept around, and was in fact the only
-reason that the files
+But, if you tell make to just build the whole subdirectory, no matter
+what the setting is, it will be built:
 
-    drivers/staging/r8188eu/include/rtw_android.h
-    drivers/staging/r8188eu/os_dep/rtw_android.c
+$ make drivers/staging/android/
+  CALL    scripts/checksyscalls.sh
+  CALL    scripts/atomic/check-atomics.sh
+  DESCEND objtool
+  CC      drivers/staging/android/ashmem.o
+  AR      drivers/staging/android/built-in.a
+$
 
-existed at all.
+So that's the difference, "M=" builds modules in that directory, but if
+you tell it to build the subdir, everything in there that needs to be
+built, will be built.
 
-End result: instead of trying to fix up the conflict in dead code, I
-just ripped out the code completely.
+Be careful about your kernel configuration, that is the key for what
+will, and will not, be built.
 
-So my merge actually looks simple and clean: when you look at the
-conflict diff of my merge, all you see is that I removed
-'os_dep/rtw_android.o' from drivers/staging/r8188eu/Makefile.
+Perhaps you should look at the book, "Linux Kernel in a Nutshell" that
+is free online.  It talks all about building and configuring a kernel.
+Parts of it are out of date, but the general ideas are good.
 
-What you don't actually see as a conflict, is that I removed those
-files entirely. That removal doesn't show up as "conflicts", because
-that filename didn't exist in my HEAD commit before the merge at all
-(because my tree had that old "rtl8188eu" driver).
+hope this helps,
 
-So this email is just a long explanation for what I did, to make
-people aware that maybe I screwed up. It builds for me, and honestly,
-it makes sense to me in ways that your git tree did not, but I can't
-test any of it.
-
-Added Arnd (for the siocdevprivate conversion) and Phillip/Larry (for
-the r8188eu driver side) - can you please double-check what I did.
-
-                   Linus
+greg k-h
