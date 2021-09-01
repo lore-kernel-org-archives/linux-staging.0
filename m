@@ -1,53 +1,106 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE0072
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 16:52:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6E61060E98;
-	Wed,  1 Sep 2021 16:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1630515123;
-	bh=T+4sluKSoKgjkdQ7wWIDcExSljgArqcFTueJwqyFE8w=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=T0hs+5NA6U6T3hV2OJ/97tCoub+BrVQl7E3PFiZbAllP/Hy2krGyDYTT8WMIlMCcm
-	 N/WJCd+DiCqT4Nsdy7GW0L0DGd1+huncV3WqQ2/qVFd80CvyI1Dyk4KkvGleC4gKNT
-	 5VJ6s/qq085uw3LF8CmaxRni415wL1K1rwZMV4Rqloc1lv8KHyzy9/Poz9L/xoZ7aE
-	 Ba2lYnPSu1K5qgYQXZfIlNblM8e5GecuGhZIUAz6hegKz2NFFoZXbkebfudQj5tyXV
-	 jpliSrMnZwfRZusoWbJXxukPYNlBI6AKt+l6TVuoB0DDNkdvVJtXMiubWSXoxAeHqc
-	 YFnGda3KErZCQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 5E744600AB;
-	Wed,  1 Sep 2021 16:52:03 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging / IIO driver changes for 5.15-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YS+LXqoDGk0CqU1Q@kroah.com>
-References: <YS+LXqoDGk0CqU1Q@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <YS+LXqoDGk0CqU1Q@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.15-rc1
-X-PR-Tracked-Commit-Id: 4adb389e08c95fdf91995271932c59250ff0d561
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: ebf435d3b51b22340ef047aad0c2936ec4833ab2
-Message-Id: <163051512332.18728.3117437173081787944.pr-tracker-bot@kernel.org>
-Date: Wed, 01 Sep 2021 16:52:03 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F73C72
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 17:34:22 +0000 (UTC)
+Date: Wed, 01 Sep 2021 17:34:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
+	s=protonmail; t=1630517653;
+	bh=4DZXoSZg/x86Vl6h/q4bF5QMWXnNiM9y1sUOzfxcIMI=;
+	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+	b=i8STOvz0t8mkjlVrtjuWxWXd6gJ4Fg8bHGsl/o8YYiDiA8+zKrunBnWkRSzzMB1X/
+	 XUcRCW+XUE60EaeqDxLaH8qi/x0q+RNBKWoRX63qWAzrQpsHw7NYiNSjq70P1AQHgw
+	 MIxUSoTyKu0JjEe2X+u8fQQZM9Z6vUceJ/3og4WyaxpLXwVDk50T4r8tJe8ylESp9S
+	 XhmnDwBBf0zATpL2lJ5cAFKd2nb+Vt4AVjUjpDwE8BL7oF351sa3frB4aK2Pfb/BA9
+	 YZKnYmOezpKEnk1wqD3vtGR4WtiYdz8DB7UM0+AW+p/+eutbrdSWo0eF4moL5PbVlm
+	 niQprq1j9KRLA==
+To: Krish Jain <krishjain02939@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
+From: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: Re: [PATCH] Declare the file_operations struct as const
+Message-ID: <20210901173357.2dfvw5xgpzjndesc@h510>
+In-Reply-To: <YS+vfVTV0fls6KuN@kroah.com>
+References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com> <20210831133533.6aayzjghdakrhy56@h510> <13366651.n50aozgL3V@localhost.localdomain> <20210831230014.cp46vho2hnndacjp@h510> <CAPGkw+zpYsovnXL_4GfjsQ60fqre+xyiwvwKuDj_fHPTKEfzeQ@mail.gmail.com> <YS+cexhuqldPaACs@kroah.com> <CAPGkw+z+uepM0hiNh48xjjD7=2rpgr+RSLzMcHbw2iE=8y+xqQ@mail.gmail.com> <YS+vfVTV0fls6KuN@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+	autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	mailout.protonmail.ch
 
-The pull request you sent on Wed, 1 Sep 2021 16:17:02 +0200:
+On this day, September  1, 2021, thus sayeth Greg KH:
+> On Wed, Sep 01, 2021 at 05:34:36PM +0200, Krish Jain wrote:
+> >
+> > Can you tell me why this is the case?
+>
+> Again, it depends on your kernel configuration file as to what will, or
+> will not, be built.
+>
+> If you have some things set as modules, they can be built as a module,
+> but the ashmem code can not be built as a module, so you would never
+> build it if you did the above line.
+>
+> Here, look at this sequence, starting with a tree that does nothing if I
+> do a simple 'make' in it, as the whole kernel is already built, and
+> ashmem is enabled in the kernel configuration
+>
+> $ grep ASHMEM .config
+> CONFIG_ASHMEM=3Dy
+> $ make
+> $
+>
+> So, let's change the time stamp on the ashmem.c file and see what gets
+> built if you use the M=3D option:
+>
+> $ touch drivers/staging/android/ashmem.c
+> $ make M=3Ddrivers/staging/android
+>   MODPOST drivers/staging/android/Module.symvers
+> $
+>
+> Nothing gets built as ashmem is NOT a module, and M=3D only builds any
+> modules in the directory you specified.
+>
+> But, if you tell make to just build the whole subdirectory, no matter
+> what the setting is, it will be built:
+>
+> $ make drivers/staging/android/
+>   CALL    scripts/checksyscalls.sh
+>   CALL    scripts/atomic/check-atomics.sh
+>   DESCEND objtool
+>   CC      drivers/staging/android/ashmem.o
+>   AR      drivers/staging/android/built-in.a
+> $
+>
+> So that's the difference, "M=3D" builds modules in that directory, but if
+> you tell it to build the subdir, everything in there that needs to be
+> built, will be built.
+>
+> Be careful about your kernel configuration, that is the key for what
+> will, and will not, be built.
+>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.15-rc1
+Ouch...
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/ebf435d3b51b22340ef047aad0c2936ec4833ab2
+I want to *really* apologize to you Krish for introducing so much
+confusion while you, and apparently I, am still learning. And for your
+persistence with seeking the correct answer here Krish.
 
-Thank you!
+I did not notice that this could only be build as a built-in object.
+Thank you Greg for pointing out my mistake, and I apologize for dragging
+this out longer than it had to and the frustration this caused.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+It seems I will be reading the documentation again, along with Greg's
+book recommendation, "Linux Kernel in a Nutshell" over this merge
+window.
+
+Thank you again Krish and Greg
+~Bryan
+
