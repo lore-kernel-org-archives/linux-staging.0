@@ -1,120 +1,77 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD9B3FCD
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 21:14:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 263D860F90;
-	Wed,  1 Sep 2021 21:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630530844;
-	bh=7z3vWMPPeJNHqr9rK0ISrbSO6GXWv+7nWgnuE5I8epI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I9SOLwgnb6ulbLnZb+3QlfFT9bqHEObLXFTlEvJpIQTTAEmX/yKZhCOZs3iG9DPec
-	 5f5xRmmmy5FKSyO3SsHpVNPqFCw+O1Pag5gAFjXlybdgx0y71NzxL+EcFxOZ0M0iBf
-	 TIFTeGnXXH4/I/Rzn2U9SBQEUcSUNfWgVeFrdfNE=
-Date: Wed, 1 Sep 2021 23:14:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Krish Jain <krishjain02939@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c" by fixing
- formatting of lines ending with "("
-Message-ID: <YS/tGreHTw0XcVs5@kroah.com>
-References: <CAPGkw+zcW+mG2hnvQZqPzeS3T2AobYmZkoPKkqHo-KK3MSKTaA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21673FCD
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 21:28:22 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id k13so1999953lfv.2
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 14:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eCael78eHTXtzN3Jeoe7P5VBsdIsgjl3tT58y4QUcXI=;
+        b=TPQiuLqHwS06/WSYc3aqR2n6F/ZnAzPZ4cNqDMXlKyJHO71AdpC+c9mXY5rUoJ3NO4
+         n+bQPZkg8zBYBQZ+JJoFiRBDUDni/OSVdlNcEk1xo7LgvQZvnhIuKPbZnMQqCW54neIR
+         I9Fi7MrYRX5+XT9b7cJOyWiKEjBb8tb2adItA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eCael78eHTXtzN3Jeoe7P5VBsdIsgjl3tT58y4QUcXI=;
+        b=Ran464ksVuAj4TdQUBAgn8ymqBB43MV+wISiwMZ+faS5PH63DE8wFZTTHvIbNz0N+I
+         uiBkSb5dZPaZlDYwDxP2vM7mlQ4zJXLYBXgB9ZowPrB+oen3kB401wGyqgCknuReNJCI
+         8HX3dc1f7ECVvwRNZpqjClqIdpuoR5WV+oK1//i0mlXGApFZb56g2NQ34wanUgiRWUXv
+         RrSsUe2H0ogm5PON/GxXnlFxlJoKk2FOnYm9AxUUYx/vI4mDNHYWQ1LTo90r7QlMdZYL
+         Js8giHMbwrWjlH37Y/vYPNqxY1MJnLUBl5erT9lLRDZRYasGBZE0CKLlcb1iXv11omaG
+         i8Zg==
+X-Gm-Message-State: AOAM530F97nenJfBW3gDPqKDDQMBKBRwBhsnWvp5fn8m/8eZuUzWoX7T
+	LGs8G7i3SAAJBK/zX+4UclfqNnKPYsBCkDxt
+X-Google-Smtp-Source: ABdhPJwpvNb6/LLl/INi4qYSBYpIKjzWVAoGU6KcRhCpczBI7keQBqycwhqwjgwXfx13uHJoTT18AQ==
+X-Received: by 2002:a05:6512:3d0d:: with SMTP id d13mr1046366lfv.513.1630531700291;
+        Wed, 01 Sep 2021 14:28:20 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id d19sm64940lfv.74.2021.09.01.14.28.19
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Sep 2021 14:28:19 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id s3so1408801ljp.11
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 14:28:19 -0700 (PDT)
+X-Received: by 2002:a2e:9b8e:: with SMTP id z14mr1305255lji.411.1630531698848;
+ Wed, 01 Sep 2021 14:28:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPGkw+zcW+mG2hnvQZqPzeS3T2AobYmZkoPKkqHo-KK3MSKTaA@mail.gmail.com>
+References: <YS+LXqoDGk0CqU1Q@kroah.com> <CAHk-=whqN1gAZk0ZD_4JxGemdbpnQkDaNFY9MjW==v-kb1J-fw@mail.gmail.com>
+ <YS/pzJCV8MiwOPRB@equinox>
+In-Reply-To: <YS/pzJCV8MiwOPRB@equinox>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 1 Sep 2021 14:28:02 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whzVVzA5Ng0BUZOvhxEjQiopjwWM5KQDhh6-dWKbD_=vA@mail.gmail.com>
+Message-ID: <CAHk-=whzVVzA5Ng0BUZOvhxEjQiopjwWM5KQDhh6-dWKbD_=vA@mail.gmail.com>
+Subject: Re: [GIT PULL] Staging / IIO driver changes for 5.15-rc1
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Larry Finger <Larry.Finger@lwfinger.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 01, 2021 at 10:58:55PM +0200, Krish Jain wrote:
-> From: Krish Jain <krishjain02939@gmail.com>
-> 
-> This patch fixes the format of the code. It properly formats lines
-> that should not end with a '(' as suggested by checkpath.pl.
-> 
-> Signed-off-by: Krish Jain <krishjain02939@gmail.com>
-> 
-> ---
->  drivers/staging/mt7621-dma/hsdma-mt7621.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c
-> b/drivers/staging/mt7621-dma/hsdma-mt7621.c
-> index b0ed935de7ac..89b72a802800 100644
-> --- a/drivers/staging/mt7621-dma/hsdma-mt7621.c
-> +++ b/drivers/staging/mt7621-dma/hsdma-mt7621.c
-> @@ -162,8 +162,7 @@ struct mtk_hsdam_engine {
->   struct mtk_hsdma_chan chan[1];
->  };
-> 
-> -static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(
-> - struct mtk_hsdma_chan *chan)
-> +static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct
-> mtk_hsdma_chan *chan)
->  {
->   return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
->   ddev);
-> @@ -174,8 +173,7 @@ static inline struct mtk_hsdma_chan
-> *to_mtk_hsdma_chan(struct dma_chan *c)
->   return container_of(c, struct mtk_hsdma_chan, vchan.chan);
->  }
-> 
-> -static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(
-> - struct virt_dma_desc *vdesc)
-> +static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(struct
-> virt_dma_desc *vdesc)
->  {
->   return container_of(vdesc, struct mtk_hsdma_desc, vdesc);
->  }
-> @@ -457,9 +455,7 @@ static void mtk_hsdma_issue_pending(struct dma_chan *c)
->   spin_unlock_bh(&chan->vchan.lock);
->  }
-> 
-> -static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
-> - struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
-> - size_t len, unsigned long flags)
-> +static struct dma_async_tx_descriptor
-> *mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest,
-> dma_addr_t src, size_t len, unsigned long flags)
->  {
->   struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
->   struct mtk_hsdma_desc *desc;
-> -- 
-> 2.25.1
-> 
+On Wed, Sep 1, 2021 at 2:00 PM Phillip Potter <phil@philpotter.co.uk> wrote:
+>
+> I left this code in when I wrote ae7471cae00a ("staging: r8188eu: remove
+> rtw_ioctl function") with the intention of modifying and reconnecting,
+> once the changes to struct net_device_ops made their way into the
+> staging tree.
 
-Hi,
+Oh, ok. That explains why the dead code existed.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Yeah, I guess y9ou can resurrect it now with the new siocdevprivate model.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+I actually ended up doing that first as part of the merge, until I
+noticed that the code wasn't connected in the staging tree at all and
+then decided to undo my merge and just remove the dead code.
 
-- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
-  and can not be applied.  Please read the file,
-  Documentation/email-clients.txt in order to fix this.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+            Linus
