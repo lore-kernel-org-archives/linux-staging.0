@@ -1,70 +1,149 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF84F3FC1
-	for <linux-staging@lists.linux.dev>; Tue, 31 Aug 2021 23:00:38 +0000 (UTC)
-Date: Tue, 31 Aug 2021 23:00:25 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1630450829;
-	bh=noA0FZoSk+OcatcyPOJCreA4yUOp3PHiHQgl9tJ6gww=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=Ta45suJT0EnyDHCLyFsvdwkZId3zgaID66MMTGAGyzYFdePMbUATJPHyxScunxv9L
-	 I8jkflsJ1mGxzZyT16kpOzpDXPH8gIivCDCMosCQXYiVSeeol9GJilBbqKj2jfaDeJ
-	 HFbGjNDSdh2cQ/J0SXZrzWusDtjq9j+yYGfZ/wAT2L+toYe4GPRieeR4tUClnBaDTs
-	 SKv3mrtn/v4chh1M/fDBtCdGt3ARMJZjPC1/MKsXwHkpLIEtfQ5y4aBc9k0c+vxi1x
-	 clPnkWfl/oROrmsEcCxkZFry2i1fAKc31o6PmF0JEJZn5D9R0jh7Z6jb0Iq6g4azwk
-	 x+JHCNNJrCeUQ==
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Krish Jain <krishjain02939@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH] Declare the file_operations struct as const
-Message-ID: <20210831230014.cp46vho2hnndacjp@h510>
-In-Reply-To: <13366651.n50aozgL3V@localhost.localdomain>
-References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com> <20210831133533.6aayzjghdakrhy56@h510> <13366651.n50aozgL3V@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649B872
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 08:56:14 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id f2so3668117ljn.1
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 01:56:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0RkP4boPB+hwm43igbyjeBM2G7tQ31bVoeCGcwryyz0=;
+        b=t46HYZlq1rIsGdLMNDoBKZWl/E8RXSUWcuDx79JwCq4iW/EDBXUGSOa6t9becNEhH6
+         EJuBZc9hszqF9s15MyIJnQENEre/JyXTZc66MW/1oCbgBncTlMcsluJYAhUBitmboJUB
+         6Ycl0BcBsfloU3YN1FmoBmLBoS6B4P6fwBKyAz56T5IxTTPNq478rnenDRKbWuEd7lTj
+         66Bl9QbPKTdm0tQs1gcREbbNCmIe0sW/8vEfCKOWCsbJd4tgzRP2nGjHLJh4k9vIshQS
+         WAHcnBscC3oqkosnnp7hfgeVzCIRmxZLSUpRGSj/Z3/6bQpToQJIC+RDlyvhFH2XEpFg
+         MUYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0RkP4boPB+hwm43igbyjeBM2G7tQ31bVoeCGcwryyz0=;
+        b=uaosLnuazhIPoAbUNZJLmTR2DE6bzlbTucEKzz8hLJ+qEFMbqVCz9o+2558UCjFOmN
+         wP1VapIhnzzfX6hL2Gr4hAyJfIEb2iBIWulTFx+XlJcDnMiylEa04y+dJ3trlr3o2w+P
+         eqNgzMDf+jK3Fg3/ptkUoYL1NqkX75URDIt1///qQ6qnCPpXLRn7w99LLXhyRAwtRHKE
+         l6ZKPUOWDWxRLwu7RUU5LSG8az0aDmz+Dqre+st/yFy38v3QMufySzbFRfZPqVqNG73y
+         P6k3Jly4ZPEWcZ1KE9kBx6BavgdTAaER5agDnB0gsLV6gmiRI8jKyl2TxxijF7a3j5yk
+         OPOg==
+X-Gm-Message-State: AOAM531484oVl+ZkMWVrmXmXvfNIvwct+bWAiTN2XYtg/MSUBF5Z6/0U
+	rZIO8G/iKfZ4edErwfisBViDDdo7Dvz86zUPzrb1Mw==
+X-Google-Smtp-Source: ABdhPJzOLrom9w8R6tPJaewkr7Uo8YA704UR65WrPfKGn9ty9MGKcizq1Pva3OHpUhkOy7JekGI5W9f/nx7oj+qmp3c=
+X-Received: by 2002:a05:651c:3d9:: with SMTP id f25mr27885067ljp.334.1630486572194;
+ Wed, 01 Sep 2021 01:56:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+References: <20210826092854.58694-1-woodylin@google.com> <YSdjgnUwt76cknQ6@kroah.com>
+ <CAHn4Deczc6gSSsxys6UeAMB99p1jHMZmLFj+KwZ2QhH7dx8E8w@mail.gmail.com>
+ <YSdy1pAS1hkLVEH9@kroah.com> <CAHn4Dee0d+cdSmMCB4YVMp-9swo=0UQ5gm4kz43RVY11KFnM1w@mail.gmail.com>
+ <YSiQxH5VehWoAcvO@kroah.com>
+In-Reply-To: <YSiQxH5VehWoAcvO@kroah.com>
+From: Woody Lin <woodylin@google.com>
+Date: Wed, 1 Sep 2021 16:56:00 +0800
+Message-ID: <CAHn4DeeTwCs0v8G8deLFzeoKFE=bNe3LFTG6ZAXT1YGNu-YCaw@mail.gmail.com>
+Subject: Re: [PATCH] ANDROID: staging: add userpanic-dev driver
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Todd Kjos <tkjos@android.com>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Martijn Coenen <maco@android.com>, Joel Fernandes <joel@joelfernandes.org>, 
+	Christian Brauner <christian@brauner.io>, Hridya Valsaraju <hridya@google.com>, 
+	Suren Baghdasaryan <surenb@google.com>, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On this day, August 31, 2021, thus sayeth Fabio M. De Francesco:
+On Fri, Aug 27, 2021 at 3:14 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
-> I just want to *really* thank you for the hard work you got involved and =
-that
-> you carried out with one of the highest levels of professionalism (and
-> patience :)) very few of us could ever equal (not I, for sure).
+> On Fri, Aug 27, 2021 at 11:51:03AM +0800, Woody Lin wrote:
+> > On Thu, Aug 26, 2021 at 6:54 PM Greg Kroah-Hartman
+> > <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Thu, Aug 26, 2021 at 06:23:53PM +0800, Woody Lin wrote:
+> > > > On Thu, Aug 26, 2021 at 5:48 PM Greg Kroah-Hartman
+> > > > <gregkh@linuxfoundation.org> wrote:
+> > > > >
+> > > > > On Thu, Aug 26, 2021 at 05:28:54PM +0800, Woody Lin wrote:
+> > > > > > Add char device driver 'userpanic-dev' that exposes an interface to
+> > > > > > userspace processes to request a system panic with customized panic
+> > > > > > message.
+> > > > > >
+> > > > > > Signed-off-by: Woody Lin <woodylin@google.com>
+> > > > > > ---
+> > > > > >  drivers/staging/android/Kconfig         |  12 +++
+> > > > > >  drivers/staging/android/Makefile        |   1 +
+> > > > > >  drivers/staging/android/userpanic-dev.c | 110 ++++++++++++++++++++++++
+> > > > >
+> > > > > Why is this in staging?  What is wrong with it that it can not just go
+> > > > > into the real part of the kernel?  A TODO file is needed explaining what
+> > > > > needs to be done here in order for it to be accepted.
+> > > >
+> > > > Got it. No more TODO for this driver and I will move it to drivers/android/.
+> > > >
+> > > > >
+> > > > > But why is this really needed at all?  Why would userspace want to panic
+> > > > > the kernel in yet-another-way?
+> > > >
+> > > > The idea is to panic the kernel with a panic message specified by the userspace
+> > > > process requesting the panic. Without this the panic handler can only collect
+> > > > panic message "sysrq triggered crash" for a panic triggered by user processes.
+> > > > Using this driver, user processes can put an informative description -
+> > > > process name,
+> > > > reason ...etc. - to the panic message.
+> > >
+> > > What custom userspace tool is going to use this new user/kernel api and
+> > > again, why is it needed?  Who needs to panic the kernel with a custom
+> > > message and where is that used?
+> >
+> > It's for Android's services. Currently there are usages like these:
+> >
+> > * init requests panic in InitFatalReboot (abort handler).
+> > https://android.googlesource.com/platform/system/core/+/master/init/reboot_utils.cpp#170
+> >   android::base::WriteStringToFile("c", PROC_SYSRQ);
+> >
+> > * llkd requests panic to recover kernel live-lock.
+> > https://android.googlesource.com/platform/system/core/+/master/llkd/libllkd.cpp#564
+> >   android::base::WriteStringToFd("c", sysrqTriggerFd);
+> >
+> > * Watchdog requests panic to recover timeout-loop.
+> > https://android.googlesource.com/platform/frameworks/base/+/master/services/core/java/com/android/server/Watchdog.java#847
+> >   doSysRq('c');
+> >
+> > So to improve the panic message from "sysrq triggered crash" to a more
+> > informative one (e.g.: "Watchdog break timeout-loop", "llkd panic
+> > live-lock"), we'd like to add this driver to expose a dedicated
+> > interface for userspace to panic the kernel with a custom message. Later
+> > the panic handler implemented per platform can collect the message and
+> > use it to build the crash report. A crash report with a more readable
+> > title (compared to the generic "sysrq triggered crash") will be easier
+> > to categorize, triage, etc.
 >
-> I thank you also not for the technical hints you gave to Krish, instead f=
-or
-> your your choice "to not rob [you] Krish the opportunity to learn".
->
-> Actually I was tempted to write something like "first do this, than that,=
- and
-> finally run this tool". But I was able to desist, by learning from you ho=
-w
-> people should be helped for real.
->
-> Most of us here should learn by your attitude.
->
-> Thanks again, seriously.
->
+> But you can do that today from userspace, just write to the kernel log
+> before doing the sysrq call.  That way your tools can pick up what you
+> need later on, no kernel changes should be needed at all.
 
-Thank you for such kind words, Fabio.
+Thanks for the idea. I actually need it in panic message because in our
+platforms, the message is saved in a specific buffer that can be
+accessed by a crash handler (not running in the same execution level as
+Linux) which is also used to build crash reports. So parsing log buffer
+can be too complex for it when compared to reading from the dedicated
+buffer. But I understand this may not be a good reason to phase in
+interfaces like this to the kernel? If so, I am starting from building it as
+a vendor module and giving up covering the early stage of "init" for now.
 
-I was very lucky to be, and still am, surrounded by people who
-demonstrated this idea to me when I was young. I am very happy to see
-others here see how beneficial and helpful (in the long term) learning
-this way can be.
+And also thanks for the suggestions on the patch, I will revise them
+accordingly when submitting it to the internal kernel modules repo.
 
-I'm grateful to have found and be a part of this community.
-~Bryan
-
+>
+> > And the reason to submit this to upstream, instead of making it a vendor
+> > module, is that we'd like to enable it for the early stage of "init", where
+> > none of the kernel module has been mounted.
+>
+> Helps if it would actually build :(
+>
+> thanks,
+>
+> greg k-h
