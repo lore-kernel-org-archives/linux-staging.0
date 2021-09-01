@@ -1,134 +1,118 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB093FC1
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 15:39:50 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id u14so7505912ejf.13
-        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 08:39:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4443FD6
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 16:50:08 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id w4so55645ljh.13
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 09:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Gtxtlf+IvPbb5S4KUDPGBv/IseOgDOneCJ4TI1+PC5w=;
-        b=W9ttA5JKJsbe0026yGjy3AiJE2JS0BQJeNEshdziMVwGYYqu4uTR16v5ftqqA5LoTd
-         R0kfilGPdNJzDInnXmcLdLsV89icUPFbRoWSULCF7JpvmJdYIsxjbfYvzPk9E5yST5pL
-         mhFJ4LKxRqjO5VuaKtvGCFeEg9wfXGX1XXLwbn0HsvuQ+WudH2hiQE8r54d16beCvUBd
-         tScsJ8V8h0Cq4BG+N008WF3PjMDu51fGjfRF6r2N2dZU3GyUV1k94Y0WWnPAdqlXbZYA
-         p31PLd+vlxa47cVzrp3ubhBBbVPDAlyeyqITHb81u5M4F2xO2Ow+FPta/XQqCr9JMUIq
-         mNPw==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w6CphMFgf5XtmkIUIZdS3zg3lS0CLaheDoiUHPnX0Fk=;
+        b=XWORPcX4JUiWNYhys31DRm5lPzmQ8u3sh4J6BqTmpr0mg4ugdlAnpEPUP/nDyLFoi4
+         LXOKc1TEP4Rcp3WKfC9pWuacs8HoE5v93ke7gWjPkYyZRbmnql6lTS3lcu+Nee5S2CQs
+         4KLUoQY7eshWi4Uj/Y8cdKSRMXIp/YYbL9Ypo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Gtxtlf+IvPbb5S4KUDPGBv/IseOgDOneCJ4TI1+PC5w=;
-        b=VMAFK+o3vY1m2k3MgAFvXmI2w3KfO2yRCUtYBjpXsG7yoEohAYeuYuUMLb86zRYag3
-         1WPyHlyWaCYrHQHuK49YcahyNVCEHvoO59k1P+HnUj6zFFjoNr+59BBKZFZ0B5WXu+FE
-         eoXqjm/7Q+DFFi0dIamjUGYOqyQVNngp1nL/k/w4Hck17VxKDIgyDTTNxsngNpI8ZBwc
-         KXAZYWy8WM7eC3fs9TYR/kMKNYxIef08CykAbF2PrneelkkcFBGihJmIFCFV8Cf7tl5K
-         Kvr/rISrNXi+y/rNkD/YLn/Drt4nQgw8oacHKE417kVDRWusI0Hhqz/nxZSPkEGcMMLP
-         IaSw==
-X-Gm-Message-State: AOAM531uXCyilevI3WO6pW6Qtq+GmpHUXOcx3DP2/8VPqlZJZnEOY4Hf
-	LdpmNC/c7mcie5tjFp2lAFg=
-X-Google-Smtp-Source: ABdhPJy43iwSCZVMf2T5xtACWqKltQuAv2LAC08MVHPt3txFGtmVbJKC2vEoNDAeA6yK6ZRYJRi8bg==
-X-Received: by 2002:a17:906:a0a:: with SMTP id w10mr54387ejf.416.1630510789079;
-        Wed, 01 Sep 2021 08:39:49 -0700 (PDT)
-Received: from localhost.localdomain (host-79-22-100-164.retail.telecomitalia.it. [79.22.100.164])
-        by smtp.gmail.com with ESMTPSA id qq16sm17102ejb.120.2021.09.01.08.39.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 08:39:48 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@linaro.org>, Alex Elder <elder@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org
-Subject: Re: [greybus-dev] [PATCH v4] staging: greybus: Convert uart.c from IDR to XArray
-Date: Wed, 01 Sep 2021 17:39:46 +0200
-Message-ID: <2942098.x5hDSQIzYV@localhost.localdomain>
-In-Reply-To: <YS+ORkbD9NuEOl0D@casper.infradead.org>
-References: <20210829092250.25379-1-fmdefrancesco@gmail.com> <8914101.vIO1HAjRha@localhost.localdomain> <YS+ORkbD9NuEOl0D@casper.infradead.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w6CphMFgf5XtmkIUIZdS3zg3lS0CLaheDoiUHPnX0Fk=;
+        b=Sj2O4iYDePaNMJG3Kf8PPotROHsE6Psc42ld5suA1lo8Dv8LbGrB0sweFqOEfKSgBL
+         5zuwGbWEZHkTS5irH2pIfugg0z1/RC6ljK+IEeiXIU7VUAZu+ksnQbWeO4D5YCCoiMXO
+         pVfTvsqT7U6Xk4lMI2wkvsr6xk7QP9xKERWrhTtcx8LntmW+0xB1THiuOzNAxoOt8+y9
+         FXzobKJrLjlWS0MI45xHfNu7V4ymQ7hGEgd+OdrlKew6SlqzBMRcp4+8s2319J42aV2y
+         IN7Vi6Cbm7X8b0zsTU4wOCztskoXJh7DTCItMG+ia2Yzu1bPu5M6r8JiThSuKULzVkP8
+         eY/g==
+X-Gm-Message-State: AOAM531vXa+ly6zyoeBs0ZJNlifl5QpV+/7q2HFRsXvUrYOTkcmwYlrO
+	Xi2DBwo+JeJdusv4ZnAe/72TizVNSL3aOeQ4
+X-Google-Smtp-Source: ABdhPJxLY9IDvMnk00FeTsXXwRX0krVcyF+0Ctd/BX/6iGuyQ+djFTJwX2gyi80l0RTZIrOZ9ILsfg==
+X-Received: by 2002:a2e:8553:: with SMTP id u19mr549859ljj.158.1630515004889;
+        Wed, 01 Sep 2021 09:50:04 -0700 (PDT)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com. [209.85.167.43])
+        by smtp.gmail.com with ESMTPSA id u2sm21655lji.82.2021.09.01.09.50.03
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Sep 2021 09:50:04 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id p38so421343lfa.0
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 09:50:03 -0700 (PDT)
+X-Received: by 2002:a05:6512:1053:: with SMTP id c19mr273608lfb.201.1630515003669;
+ Wed, 01 Sep 2021 09:50:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <YS+LXqoDGk0CqU1Q@kroah.com>
+In-Reply-To: <YS+LXqoDGk0CqU1Q@kroah.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 1 Sep 2021 09:49:47 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whqN1gAZk0ZD_4JxGemdbpnQkDaNFY9MjW==v-kb1J-fw@mail.gmail.com>
+Message-ID: <CAHk-=whqN1gAZk0ZD_4JxGemdbpnQkDaNFY9MjW==v-kb1J-fw@mail.gmail.com>
+Subject: Re: [GIT PULL] Staging / IIO driver changes for 5.15-rc1
+To: Greg KH <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Phillip Potter <phil@philpotter.co.uk>, Larry Finger <Larry.Finger@lwfinger.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday, September 1, 2021 4:29:26 PM CEST Matthew Wilcox wrote:
-> On Wed, Sep 01, 2021 at 03:56:20PM +0200, Fabio M. De Francesco wrote:
-> > Anyway I tried to reason about it. I perfectly know what is required to 
-> > protect critical sections of code, but I don't know how drivers work; I 
-mean 
-> > I don't know whether or not different threads that run concurrently could 
-> > really interfere in that specific section. This is because I simply 
-reason in 
-> > terms of general rules of protection of critical section but I really 
-don't 
-> > know how Greybus works or (more in general) how drivers work.
-> 
-> From a quick look, it is indeed possible to get rid of the mutex.
-> If this were a high-performance path which needed to have many threads
-> simultaneously looking up the gb_tty, or it were core kernel code, I
-> would say that you should use kfree_rcu() to free gb_tty and then
-> you could replace the mutex_lock() on lookup with a rcu_read_lock().
-> 
-> Since this is low-performance and driver code, I think you're better off
-> simply doing this:
-> 
-> 	xa_lock((&tty_minors);
-> 	gb_tty = xa_load(&tty_minors, minor);
-> 	... establish a refcount ...
-> 	xa_unlock(&tty_minors);
-> 
-> EXCEPT ...
-> 
-> establishing a refcount currently involves taking a mutex.  So you can't
-> do that.  First, you have to convert the gb_tty mutex to a spinlock
-> (which looks fine to me), and then you can do this.  But this is where
-> you need to work with the driver authors to make sure it's OK.
+On Wed, Sep 1, 2021 at 7:17 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> Lots of churn in some staging drivers, we dropped the "old" rtl8188eu
+> driver and replaced it with a newer version of the driver that had been
+> maintained out-of-tree by Larry with the end goal of actually being able
+> to get this driver out of staging eventually.  Despite that driver being
+> "newer" the line count of this pull request is going up.
 
-Dear Matthew,
+Ugh.
 
-I think that I understand your suggestion and, as far as my experience with 
-concurrency in userspace may have any relevance here, I often use reference 
-counting with objects that are shared by multiple threads.
+So this had a conflict with the networking tree, and commit
+89939e890605 ("staging: rtlwifi: use siocdevprivate") in particular.
 
-Unfortunately, this is not the point. The *real* issue is that I am not able 
-to provide good reasons for doing IDR to XArray conversions in Greybus code. 
-I tried to provide some sort of motivation by using your own words that I 
-still remember from a message you sent a couple of months ago: 
+Ok, so that conflict looked annoying but harmless - git saw the new
+driver as a rename of the old one, and tried to actually apply the
+changes from that commit to the new one.
 
-More or less you wrote:
+And git actually did a reasonable job, everything considered. There
+were enough similarities that it wasn't entirely crazy, and enough
+differences that it caused conflicts.
 
-"The abstract data type XArray is more memory-efficient, parallelisable, and 
-cache friendly. It takes advantage of RCU to perform lookups without locking. 
-Furthermore, IDR is deprecated because XArray has a better (cleaner and more 
-consistent) API.".
+HOWEVER.
 
-I can reason on the "cleaner and more consistent API" and for what I 
-understand from the grand design of the implementation of XArray I may also 
-attempt to discuss some of the other parts of the above-mentioned statement.
+Actually then looking at the root causes of the conflicts, as part of
+just trying to finish what git had started, I notice that a lot of the
+code in the new driver was just completely dead.
 
-Anyway I must respect the point of view of Johan H.: "And remember that a 
-good commit message describing the motivation for the change (avoiding 
-boiler-plate marketing terms) is a good start if you want to get your patches 
-accepted.". That's absolutely fair and, I say that seriously, I must follow  
-this rule. Since I'm not able to do that I understand that I have to desist.
+As of commit ae7471cae00a ("staging: r8188eu: remove rtw_ioctl
+function") the only caller of rtw_android_priv_cmd() is entirely gone.
 
-If it depended on me I'd like to convert as many possible drivers from IDR to 
-XArray, but it seems that many maintainers don't care (even if the work was 
-perfect in every detail since v1). I guess they have their reason to think 
-that the trade-off isn't even worth the time to review. I'm yet not sure that 
-IDA to XArray is worth as much as IDR to XArray is. But for the latter I 
-would bet it is.
+But rtw_android_priv_cmd() was kept around, and was in fact the only
+reason that the files
 
-Please, nobody should misunderstand me. I know that I'm going well beyond 
-what my experience may permit to say about this matter. I'm just expressing 
-my opinion with no intentions to push anybody in any direction. Please 
-forgive me if this is what it may seem to the readers that are following this 
-thread.
+    drivers/staging/r8188eu/include/rtw_android.h
+    drivers/staging/r8188eu/os_dep/rtw_android.c
 
-Thanks,
+existed at all.
 
-Fabio
+End result: instead of trying to fix up the conflict in dead code, I
+just ripped out the code completely.
 
+So my merge actually looks simple and clean: when you look at the
+conflict diff of my merge, all you see is that I removed
+'os_dep/rtw_android.o' from drivers/staging/r8188eu/Makefile.
 
+What you don't actually see as a conflict, is that I removed those
+files entirely. That removal doesn't show up as "conflicts", because
+that filename didn't exist in my HEAD commit before the merge at all
+(because my tree had that old "rtl8188eu" driver).
+
+So this email is just a long explanation for what I did, to make
+people aware that maybe I screwed up. It builds for me, and honestly,
+it makes sense to me in ways that your git tree did not, but I can't
+test any of it.
+
+Added Arnd (for the siocdevprivate conversion) and Phillip/Larry (for
+the r8188eu driver side) - can you please double-check what I did.
+
+                   Linus
