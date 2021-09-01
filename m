@@ -1,104 +1,53 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AC572
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 16:51:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 84A0660525;
-	Wed,  1 Sep 2021 16:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630515072;
-	bh=A9wkNg9aBJrglsUZ5b/buH7xJaIQnLA+gD3vgVvDd7s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QPeXShP9yKHzHlMdGL7qlLOd2lcOPNGRl8kL0qYwIlxJPbLzdlLogxSB0S1nBPiOc
-	 Pm7JdoOZozq1ou1DXfeRSbjYD9TWSXqmORrEypMmDIJhPT07uUNT9aINUF9qNv51ar
-	 +IKAIzlaYNjJIU9AZQJC+5QNVoX4ufAex0OeNuGw=
-Date: Wed, 1 Sep 2021 18:51:09 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Krish Jain <krishjain02939@gmail.com>
-Cc: Bryan Brattlof <hello@bryanbrattlof.com>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Declare the file_operations struct as const
-Message-ID: <YS+vfVTV0fls6KuN@kroah.com>
-References: <20210829144531.c2syu4vv4s22dlg7@h510>
- <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com>
- <20210831133533.6aayzjghdakrhy56@h510>
- <13366651.n50aozgL3V@localhost.localdomain>
- <20210831230014.cp46vho2hnndacjp@h510>
- <CAPGkw+zpYsovnXL_4GfjsQ60fqre+xyiwvwKuDj_fHPTKEfzeQ@mail.gmail.com>
- <YS+cexhuqldPaACs@kroah.com>
- <CAPGkw+z+uepM0hiNh48xjjD7=2rpgr+RSLzMcHbw2iE=8y+xqQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE0072
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 16:52:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6E61060E98;
+	Wed,  1 Sep 2021 16:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1630515123;
+	bh=T+4sluKSoKgjkdQ7wWIDcExSljgArqcFTueJwqyFE8w=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=T0hs+5NA6U6T3hV2OJ/97tCoub+BrVQl7E3PFiZbAllP/Hy2krGyDYTT8WMIlMCcm
+	 N/WJCd+DiCqT4Nsdy7GW0L0DGd1+huncV3WqQ2/qVFd80CvyI1Dyk4KkvGleC4gKNT
+	 5VJ6s/qq085uw3LF8CmaxRni415wL1K1rwZMV4Rqloc1lv8KHyzy9/Poz9L/xoZ7aE
+	 Ba2lYnPSu1K5qgYQXZfIlNblM8e5GecuGhZIUAz6hegKz2NFFoZXbkebfudQj5tyXV
+	 jpliSrMnZwfRZusoWbJXxukPYNlBI6AKt+l6TVuoB0DDNkdvVJtXMiubWSXoxAeHqc
+	 YFnGda3KErZCQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 5E744600AB;
+	Wed,  1 Sep 2021 16:52:03 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging / IIO driver changes for 5.15-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YS+LXqoDGk0CqU1Q@kroah.com>
+References: <YS+LXqoDGk0CqU1Q@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <YS+LXqoDGk0CqU1Q@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.15-rc1
+X-PR-Tracked-Commit-Id: 4adb389e08c95fdf91995271932c59250ff0d561
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: ebf435d3b51b22340ef047aad0c2936ec4833ab2
+Message-Id: <163051512332.18728.3117437173081787944.pr-tracker-bot@kernel.org>
+Date: Wed, 01 Sep 2021 16:52:03 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPGkw+z+uepM0hiNh48xjjD7=2rpgr+RSLzMcHbw2iE=8y+xqQ@mail.gmail.com>
 
-On Wed, Sep 01, 2021 at 05:34:36PM +0200, Krish Jain wrote:
-> Oh ok, thanks Greg. I only attempted to use "make CCFLAGS=-Werror W=1
-> M=drivers/staging/android/" as that's the command Bryan used earlier
-> and it worked.
-> 
-> "As for your patch, I built the driver using:
-> 
->   $ make CCFLAGS=-Werror W=1 M=drivers/staging/android"
-> 
-> 
-> Can you tell me why this is the case?
+The pull request you sent on Wed, 1 Sep 2021 16:17:02 +0200:
 
-Again, it depends on your kernel configuration file as to what will, or
-will not, be built.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.15-rc1
 
-If you have some things set as modules, they can be built as a module,
-but the ashmem code can not be built as a module, so you would never
-build it if you did the above line.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/ebf435d3b51b22340ef047aad0c2936ec4833ab2
 
-Here, look at this sequence, starting with a tree that does nothing if I
-do a simple 'make' in it, as the whole kernel is already built, and
-ashmem is enabled in the kernel configuration
+Thank you!
 
-$ grep ASHMEM .config
-CONFIG_ASHMEM=y
-$ make
-$
-
-So, let's change the time stamp on the ashmem.c file and see what gets
-built if you use the M= option:
-
-$ touch drivers/staging/android/ashmem.c
-$ make M=drivers/staging/android
-  MODPOST drivers/staging/android/Module.symvers
-$
-
-Nothing gets built as ashmem is NOT a module, and M= only builds any
-modules in the directory you specified.
-
-But, if you tell make to just build the whole subdirectory, no matter
-what the setting is, it will be built:
-
-$ make drivers/staging/android/
-  CALL    scripts/checksyscalls.sh
-  CALL    scripts/atomic/check-atomics.sh
-  DESCEND objtool
-  CC      drivers/staging/android/ashmem.o
-  AR      drivers/staging/android/built-in.a
-$
-
-So that's the difference, "M=" builds modules in that directory, but if
-you tell it to build the subdir, everything in there that needs to be
-built, will be built.
-
-Be careful about your kernel configuration, that is the key for what
-will, and will not, be built.
-
-Perhaps you should look at the book, "Linux Kernel in a Nutshell" that
-is free online.  It talks all about building and configuring a kernel.
-Parts of it are out of date, but the general ideas are good.
-
-hope this helps,
-
-greg k-h
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
