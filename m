@@ -1,149 +1,247 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [194.109.24.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649B872
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 08:56:14 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id f2so3668117ljn.1
-        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 01:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0RkP4boPB+hwm43igbyjeBM2G7tQ31bVoeCGcwryyz0=;
-        b=t46HYZlq1rIsGdLMNDoBKZWl/E8RXSUWcuDx79JwCq4iW/EDBXUGSOa6t9becNEhH6
-         EJuBZc9hszqF9s15MyIJnQENEre/JyXTZc66MW/1oCbgBncTlMcsluJYAhUBitmboJUB
-         6Ycl0BcBsfloU3YN1FmoBmLBoS6B4P6fwBKyAz56T5IxTTPNq478rnenDRKbWuEd7lTj
-         66Bl9QbPKTdm0tQs1gcREbbNCmIe0sW/8vEfCKOWCsbJd4tgzRP2nGjHLJh4k9vIshQS
-         WAHcnBscC3oqkosnnp7hfgeVzCIRmxZLSUpRGSj/Z3/6bQpToQJIC+RDlyvhFH2XEpFg
-         MUYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0RkP4boPB+hwm43igbyjeBM2G7tQ31bVoeCGcwryyz0=;
-        b=uaosLnuazhIPoAbUNZJLmTR2DE6bzlbTucEKzz8hLJ+qEFMbqVCz9o+2558UCjFOmN
-         wP1VapIhnzzfX6hL2Gr4hAyJfIEb2iBIWulTFx+XlJcDnMiylEa04y+dJ3trlr3o2w+P
-         eqNgzMDf+jK3Fg3/ptkUoYL1NqkX75URDIt1///qQ6qnCPpXLRn7w99LLXhyRAwtRHKE
-         l6ZKPUOWDWxRLwu7RUU5LSG8az0aDmz+Dqre+st/yFy38v3QMufySzbFRfZPqVqNG73y
-         P6k3Jly4ZPEWcZ1KE9kBx6BavgdTAaER5agDnB0gsLV6gmiRI8jKyl2TxxijF7a3j5yk
-         OPOg==
-X-Gm-Message-State: AOAM531484oVl+ZkMWVrmXmXvfNIvwct+bWAiTN2XYtg/MSUBF5Z6/0U
-	rZIO8G/iKfZ4edErwfisBViDDdo7Dvz86zUPzrb1Mw==
-X-Google-Smtp-Source: ABdhPJzOLrom9w8R6tPJaewkr7Uo8YA704UR65WrPfKGn9ty9MGKcizq1Pva3OHpUhkOy7JekGI5W9f/nx7oj+qmp3c=
-X-Received: by 2002:a05:651c:3d9:: with SMTP id f25mr27885067ljp.334.1630486572194;
- Wed, 01 Sep 2021 01:56:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2CD3FC3
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 11:29:00 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud7.xs4all.net with ESMTPA
+	id LOPFmJkhu0e6wLOPGmQF42; Wed, 01 Sep 2021 13:27:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1630495672; bh=7MjIq9DrLqf2feI45rNo8/0rkK8PmdE54UQ5xesuT1Q=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=RcBymD3JlDdYh7JVdfp8f80cg20/EBQGZJaGM1srAA/+XHdY1+zhLrvOp3B1jba0r
+	 dDdIMDY/spgDEe3IhxUluXZkLhVMs/7ArxmwEWJOk0irs2gcYVE8RTefzUwSHAPcKa
+	 m2627W5CCGjxw/NvPcGgSqHuVXXFB2snd9X0nbvyW0SZbxZxtnIMiIDTntvXCH3RDd
+	 uE/EO/EZdTeraituJH+RWpPPekNHDzmp8DeVr6hB4dm3LON/lKo0DEc20H4WUaBobF
+	 vouitnTobqL4l59mDbY0xtXPqODy18Q21UnpIUjf75XkU08WRA8e+Py2+a0IpD7ZVp
+	 2fzotB1flTDFA==
+Subject: Re: [PATCH] media: hantro: Trace hevc hw cycles performance register
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+ Ezequiel Garcia <elezegarcia@gmail.com>
+References: <20210823135606.633052-1-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f9edaa49-31cb-b98f-1c79-13b151513077@xs4all.nl>
+Date: Wed, 1 Sep 2021 13:27:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210826092854.58694-1-woodylin@google.com> <YSdjgnUwt76cknQ6@kroah.com>
- <CAHn4Deczc6gSSsxys6UeAMB99p1jHMZmLFj+KwZ2QhH7dx8E8w@mail.gmail.com>
- <YSdy1pAS1hkLVEH9@kroah.com> <CAHn4Dee0d+cdSmMCB4YVMp-9swo=0UQ5gm4kz43RVY11KFnM1w@mail.gmail.com>
- <YSiQxH5VehWoAcvO@kroah.com>
-In-Reply-To: <YSiQxH5VehWoAcvO@kroah.com>
-From: Woody Lin <woodylin@google.com>
-Date: Wed, 1 Sep 2021 16:56:00 +0800
-Message-ID: <CAHn4DeeTwCs0v8G8deLFzeoKFE=bNe3LFTG6ZAXT1YGNu-YCaw@mail.gmail.com>
-Subject: Re: [PATCH] ANDROID: staging: add userpanic-dev driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Todd Kjos <tkjos@android.com>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Martijn Coenen <maco@android.com>, Joel Fernandes <joel@joelfernandes.org>, 
-	Christian Brauner <christian@brauner.io>, Hridya Valsaraju <hridya@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210823135606.633052-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfC4xkAZsoqg+9dmEoRPAO2iiF1UV7C3dEE2KqskEwbdc/GySvbVsjVzfDap+9vxAz2hGienCE7N+1dPgxs291LOUN5rxkd0M2M+3alEPmQC01WkkKJTV
+ a2O337cJLuQAjAZGHFHCDHJvrbQMgtaqSUjDSS+wvnnbRzyfxDHDNKaFl3ai3QGn3aUyPLLpLC9j957fa/hskAYWeW86+KtUFBDtqV39c4fOsCMzRgCfRT+4
+ sJRsn+rTBvA5f9hgzOVVh14MTN9IsrCok/UfgAhDoCpLfmpnlpqQPba02xnbu/scRm9zowUdik7O9voa1EzHSoJ1aNHO/SGX1O7Scb5yuHbViOhPm66rQsuH
+ Wi3YNNTJ5XeH+AVk3xdbl8bBpw2486WAIuSvooe99XkpCmQu1fTKrnW5BPfIO5KVsh6HYEjZhhgP5ls1mZojrvhJZm2xAfzuAj18SoCPrR8f3N6kn6fkBVuw
+ eHHYtkdf8+f5S8ccDZiB1hCAR+RAHN3q666LX31Owe9xSJu4CAspBPYQqjIYUl9igdE/ni/7du1zx2z/VoKAI0JijJhZug5DMDICgJMyHwn43vySU4gEJDxs
+ aVEZ9V+Vgt/gNXRxm8+1zil2mOg1+3+W16krKuP31hlEw6crKuoiJry5NJoTd3oRiVdmMUJTOJvqqDfk3wuh8X/wPQ62NzDA2oAqPnftcV5WmiLEXrzlg+Xk
+ vA+Au+KZv8IhVw6m6ox3ZFpaOIab4XdYQmf2XejMVB+RuVDEJjx0KxuT84hv24FB+u/yIZLe4QWqEMEGxv/jWbalWXo+G7inV40SXclHFyIMMNEt4D5FJvnH
+ rnYgE8a+ZHaOHhhh4lC8oylj4s/64Soy7LsSEg9u
 
-On Fri, Aug 27, 2021 at 3:14 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Aug 27, 2021 at 11:51:03AM +0800, Woody Lin wrote:
-> > On Thu, Aug 26, 2021 at 6:54 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Thu, Aug 26, 2021 at 06:23:53PM +0800, Woody Lin wrote:
-> > > > On Thu, Aug 26, 2021 at 5:48 PM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > >
-> > > > > On Thu, Aug 26, 2021 at 05:28:54PM +0800, Woody Lin wrote:
-> > > > > > Add char device driver 'userpanic-dev' that exposes an interface to
-> > > > > > userspace processes to request a system panic with customized panic
-> > > > > > message.
-> > > > > >
-> > > > > > Signed-off-by: Woody Lin <woodylin@google.com>
-> > > > > > ---
-> > > > > >  drivers/staging/android/Kconfig         |  12 +++
-> > > > > >  drivers/staging/android/Makefile        |   1 +
-> > > > > >  drivers/staging/android/userpanic-dev.c | 110 ++++++++++++++++++++++++
-> > > > >
-> > > > > Why is this in staging?  What is wrong with it that it can not just go
-> > > > > into the real part of the kernel?  A TODO file is needed explaining what
-> > > > > needs to be done here in order for it to be accepted.
-> > > >
-> > > > Got it. No more TODO for this driver and I will move it to drivers/android/.
-> > > >
-> > > > >
-> > > > > But why is this really needed at all?  Why would userspace want to panic
-> > > > > the kernel in yet-another-way?
-> > > >
-> > > > The idea is to panic the kernel with a panic message specified by the userspace
-> > > > process requesting the panic. Without this the panic handler can only collect
-> > > > panic message "sysrq triggered crash" for a panic triggered by user processes.
-> > > > Using this driver, user processes can put an informative description -
-> > > > process name,
-> > > > reason ...etc. - to the panic message.
-> > >
-> > > What custom userspace tool is going to use this new user/kernel api and
-> > > again, why is it needed?  Who needs to panic the kernel with a custom
-> > > message and where is that used?
-> >
-> > It's for Android's services. Currently there are usages like these:
-> >
-> > * init requests panic in InitFatalReboot (abort handler).
-> > https://android.googlesource.com/platform/system/core/+/master/init/reboot_utils.cpp#170
-> >   android::base::WriteStringToFile("c", PROC_SYSRQ);
-> >
-> > * llkd requests panic to recover kernel live-lock.
-> > https://android.googlesource.com/platform/system/core/+/master/llkd/libllkd.cpp#564
-> >   android::base::WriteStringToFd("c", sysrqTriggerFd);
-> >
-> > * Watchdog requests panic to recover timeout-loop.
-> > https://android.googlesource.com/platform/frameworks/base/+/master/services/core/java/com/android/server/Watchdog.java#847
-> >   doSysRq('c');
-> >
-> > So to improve the panic message from "sysrq triggered crash" to a more
-> > informative one (e.g.: "Watchdog break timeout-loop", "llkd panic
-> > live-lock"), we'd like to add this driver to expose a dedicated
-> > interface for userspace to panic the kernel with a custom message. Later
-> > the panic handler implemented per platform can collect the message and
-> > use it to build the crash report. A crash report with a more readable
-> > title (compared to the generic "sysrq triggered crash") will be easier
-> > to categorize, triage, etc.
->
-> But you can do that today from userspace, just write to the kernel log
-> before doing the sysrq call.  That way your tools can pick up what you
-> need later on, no kernel changes should be needed at all.
+Hi Benjamin,
 
-Thanks for the idea. I actually need it in panic message because in our
-platforms, the message is saved in a specific buffer that can be
-accessed by a crash handler (not running in the same execution level as
-Linux) which is also used to build crash reports. So parsing log buffer
-can be too complex for it when compared to reading from the dedicated
-buffer. But I understand this may not be a good reason to phase in
-interfaces like this to the kernel? If so, I am starting from building it as
-a vendor module and giving up covering the early stage of "init" for now.
+I'm confused: this is also part of '[PATCH v4 0/9] Additional features for Hantro HEVC', so
+do you want to merge this independently from that series? Are there differences between v4 1/9
+and this patch, or are they identical?
 
-And also thanks for the suggestions on the patch, I will revise them
-accordingly when submitting it to the internal kernel modules repo.
+In any case, I'd like to have a Reviewed-by or Acked-by from Ezequiel before merging this.
 
->
-> > And the reason to submit this to upstream, instead of making it a vendor
-> > module, is that we'd like to enable it for the early stage of "init", where
-> > none of the kernel module has been mounted.
->
-> Helps if it would actually build :(
->
-> thanks,
->
-> greg k-h
+Regards,
+
+	Hans
+
+On 23/08/2021 15:56, Benjamin Gaignard wrote:
+> After each hevc decoded frame trace the hardware performance.
+> It provides the number of hw cycles spend per decoded macroblock.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  Documentation/admin-guide/media/hantro.rst    | 14 +++++++
+>  .../admin-guide/media/v4l-drivers.rst         |  1 +
+>  drivers/staging/media/hantro/hantro_drv.c     |  3 ++
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 16 ++++++++
+>  drivers/staging/media/hantro/hantro_g2_regs.h |  1 +
+>  drivers/staging/media/hantro/hantro_hw.h      |  1 +
+>  drivers/staging/media/hantro/hantro_trace.h   | 41 +++++++++++++++++++
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   |  1 +
+>  8 files changed, 78 insertions(+)
+>  create mode 100644 Documentation/admin-guide/media/hantro.rst
+>  create mode 100644 drivers/staging/media/hantro/hantro_trace.h
+> 
+> diff --git a/Documentation/admin-guide/media/hantro.rst b/Documentation/admin-guide/media/hantro.rst
+> new file mode 100644
+> index 000000000000..6cb552a5dfcb
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/hantro.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=================
+> +The hantro driver
+> +=================
+> +
+> +Trace
+> +~~~~~
+> +
+> +You can trace the hardware decoding performances by using event tracing::
+> +
+> +    # echo hantro_hevc_perf >> /sys/kernel/debug/tracing/set_event
+> +
+> +That will keep a log of the number of hardware cycles spend per decoded macroblock
+> diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
+> index 9c7ebe2ca3bd..4f2f72a2b3b5 100644
+> --- a/Documentation/admin-guide/media/v4l-drivers.rst
+> +++ b/Documentation/admin-guide/media/v4l-drivers.rst
+> @@ -15,6 +15,7 @@ Video4Linux (V4L) driver-specific documentation
+>  	cx88
+>  	davinci-vpbe
+>  	fimc
+> +        hantro
+>  	imx
+>  	imx7
+>  	ipu3
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 8a2edd67f2c6..236160c51e59 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -28,6 +28,9 @@
+>  #include "hantro.h"
+>  #include "hantro_hw.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include "hantro_trace.h"
+> +
+>  #define DRIVER_NAME "hantro-vpu"
+>  
+>  int hantro_debug;
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> index 340efb57fd18..fef16d1724da 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -7,6 +7,7 @@
+>  
+>  #include "hantro_hw.h"
+>  #include "hantro_g2_regs.h"
+> +#include "hantro_trace.h"
+>  
+>  #define HEVC_DEC_MODE	0xC
+>  
+> @@ -22,6 +23,21 @@ static inline void hantro_write_addr(struct hantro_dev *vpu,
+>  	vdpu_write(vpu, addr & 0xffffffff, offset);
+>  }
+>  
+> +void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx)
+> +{
+> +	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+> +	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+> +	struct hantro_dev *vpu = ctx->dev;
+> +	u32 hw_cycles = 0;
+> +	u32 mbs = (sps->pic_width_in_luma_samples *
+> +		   sps->pic_height_in_luma_samples) >> 8;
+> +
+> +	if (mbs)
+> +		hw_cycles = vdpu_read(vpu, G2_HW_PERFORMANCE) / mbs;
+> +
+> +	trace_hantro_hevc_perf(ctx, hw_cycles);
+> +}
+> +
+>  static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+>  {
+>  	struct hantro_dev *vpu = ctx->dev;
+> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+> index bb22fa921914..17d84ec9c5c2 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
+> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+> @@ -177,6 +177,7 @@
+>  #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
+>  #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
+>  
+> +#define G2_HW_PERFORMANCE	(G2_SWREG(63))
+>  #define G2_ADDR_DST		(G2_SWREG(65))
+>  #define G2_REG_ADDR_REF(i)	(G2_SWREG(67)  + ((i) * 0x8))
+>  #define G2_ADDR_DST_CHR		(G2_SWREG(99))
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index df7b5e3a57b9..ab6f379354cc 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -250,6 +250,7 @@ void hantro_h264_dec_exit(struct hantro_ctx *ctx);
+>  int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+>  void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+> +void hantro_g2_hevc_dec_done(struct hantro_ctx *ctx);
+>  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+> diff --git a/drivers/staging/media/hantro/hantro_trace.h b/drivers/staging/media/hantro/hantro_trace.h
+> new file mode 100644
+> index 000000000000..fa8fec26fa3c
+> --- /dev/null
+> +++ b/drivers/staging/media/hantro/hantro_trace.h
+> @@ -0,0 +1,41 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#if !defined(__HANTRO_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
+> +#define __HANTRO_TRACE_H__
+> +
+> +#include <linux/tracepoint.h>
+> +#include <media/videobuf2-v4l2.h>
+> +
+> +#include "hantro.h"
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM hantro
+> +#define TRACE_INCLUDE_FILE hantro_trace
+> +
+> +TRACE_EVENT(hantro_hevc_perf,
+> +	TP_PROTO(struct hantro_ctx *ctx, u32 hw_cycles),
+> +
+> +	TP_ARGS(ctx, hw_cycles),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(int, minor)
+> +		__field(struct v4l2_fh *, fh)
+> +		__field(u32, hw_cycles)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->minor = ctx->fh.vdev->minor;
+> +		__entry->fh = &ctx->fh;
+> +		__entry->hw_cycles = hw_cycles;
+> +	),
+> +
+> +	TP_printk("minor = %d, fh = %p, %8d cycles / mb",
+> +		  __entry->minor, __entry->fh, __entry->hw_cycles)
+> +);
+> +
+> +#endif /* __HANTRO_TRACE_H__ */
+> +
+> +#undef TRACE_INCLUDE_PATH
+> +#define TRACE_INCLUDE_PATH ../../drivers/staging/media/hantro
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index ea919bfb9891..7e9e24bb5057 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -239,6 +239,7 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+>  		.reset = imx8m_vpu_g2_reset,
+>  		.init = hantro_hevc_dec_init,
+>  		.exit = hantro_hevc_dec_exit,
+> +		.done = hantro_g2_hevc_dec_done,
+>  	},
+>  };
+>  
+> 
+
