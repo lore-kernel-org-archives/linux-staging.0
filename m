@@ -1,106 +1,139 @@
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F73C72
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 17:34:22 +0000 (UTC)
-Date: Wed, 01 Sep 2021 17:34:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1630517653;
-	bh=4DZXoSZg/x86Vl6h/q4bF5QMWXnNiM9y1sUOzfxcIMI=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=i8STOvz0t8mkjlVrtjuWxWXd6gJ4Fg8bHGsl/o8YYiDiA8+zKrunBnWkRSzzMB1X/
-	 XUcRCW+XUE60EaeqDxLaH8qi/x0q+RNBKWoRX63qWAzrQpsHw7NYiNSjq70P1AQHgw
-	 MIxUSoTyKu0JjEe2X+u8fQQZM9Z6vUceJ/3og4WyaxpLXwVDk50T4r8tJe8ylESp9S
-	 XhmnDwBBf0zATpL2lJ5cAFKd2nb+Vt4AVjUjpDwE8BL7oF351sa3frB4aK2Pfb/BA9
-	 YZKnYmOezpKEnk1wqD3vtGR4WtiYdz8DB7UM0+AW+p/+eutbrdSWo0eF4moL5PbVlm
-	 niQprq1j9KRLA==
-To: Krish Jain <krishjain02939@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH] Declare the file_operations struct as const
-Message-ID: <20210901173357.2dfvw5xgpzjndesc@h510>
-In-Reply-To: <YS+vfVTV0fls6KuN@kroah.com>
-References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com> <20210831133533.6aayzjghdakrhy56@h510> <13366651.n50aozgL3V@localhost.localdomain> <20210831230014.cp46vho2hnndacjp@h510> <CAPGkw+zpYsovnXL_4GfjsQ60fqre+xyiwvwKuDj_fHPTKEfzeQ@mail.gmail.com> <YS+cexhuqldPaACs@kroah.com> <CAPGkw+z+uepM0hiNh48xjjD7=2rpgr+RSLzMcHbw2iE=8y+xqQ@mail.gmail.com> <YS+vfVTV0fls6KuN@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5960D72
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 18:04:47 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id r2so244503pgl.10
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 11:04:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jT1FBNDJ8Khy+4TE63B+kK4MLXv82MCEzJzPE6StIGA=;
+        b=or7AB9ZV4bVmEp4PVKukG70PMdtkEQxYh/YAe0wSDizgWal1xd4rZSzAdBjtBNWkA9
+         ngIN0iV4SSX3qNm05mmTzS4VW/cXtLKC8p5emiUoY1ueLhAmLC+0w+KdFE5cLwda1+Zp
+         w5w0wdVr0SJwWRX8SOrSEYyWu0YHLQc1NkWnSM/stYb9QdqEINRvfugVOp5wtnL5d4Lw
+         tLnKVzQeLf0IhmiB71Q4+OM2uJFrNIvf1J46Zyw1fBf/h4wpqrv/DwSFVAjEIvgq3NhR
+         iJwCcZ15OQERcEEoGVvtPOBhx7se70wUeOoXVKldG2Vx5GhUxYjHOj6FXYZbK/2dcjVS
+         oNtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jT1FBNDJ8Khy+4TE63B+kK4MLXv82MCEzJzPE6StIGA=;
+        b=fY0QP6CqmcYMmZ1MKl5GTimEVW/xaH85p8tdOsyjoVcUkr6HfUMnd1VIjD4/6P7Gca
+         wZHDW7eljnt+e2VuqZF4qr2Qjy/9CAlFHA2kRo0FMzkLIc+NNC5AqoQVXf3va362KTAg
+         YvgBUbd9LJAAUljxmww1eamAAQV3qcLNwTgOu2LRs5KuQ8CmnaNSgwv8SqeAswqWpeni
+         ND24a74T/67nMJO0kFES2YFYP5oIl89AnBcReqA/8hGWcsOeHpoIFlIuecsCq/mSNtuV
+         vo+KQaDVdlIVF+I2NgiwcT99o2jJoVpYbWqbxgkfpZUlEVKf5ZNsD6ow9CLDLanursXa
+         TYgQ==
+X-Gm-Message-State: AOAM533LrtgrY0eHHO34x3fRLKhlvSDmUHcoGbN7o46ldz6aB6rlYie8
+	xiJHuqrfO3LrZ/2Sg5WA7wVJbBh5KQ0UzQeUKLM=
+X-Google-Smtp-Source: ABdhPJy8K1Q75bsso7kyj+rHAgxfosvMbi5oINX7JEzYAdQYaPMgHfOVQ8YZGaxUhcW97rxmaF3b2Apn5sconoGEqWg=
+X-Received: by 2002:a63:fc1d:: with SMTP id j29mr345547pgi.54.1630519486834;
+ Wed, 01 Sep 2021 11:04:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+References: <20210829144531.c2syu4vv4s22dlg7@h510> <CAPGkw+wyH3Pj6DV_m8wqCV5yujhjRwTwVNs6dK4i9JO-Y3ys6w@mail.gmail.com>
+ <20210831133533.6aayzjghdakrhy56@h510> <13366651.n50aozgL3V@localhost.localdomain>
+ <20210831230014.cp46vho2hnndacjp@h510> <CAPGkw+zpYsovnXL_4GfjsQ60fqre+xyiwvwKuDj_fHPTKEfzeQ@mail.gmail.com>
+ <YS+cexhuqldPaACs@kroah.com> <CAPGkw+z+uepM0hiNh48xjjD7=2rpgr+RSLzMcHbw2iE=8y+xqQ@mail.gmail.com>
+ <YS+vfVTV0fls6KuN@kroah.com> <20210901173357.2dfvw5xgpzjndesc@h510>
+In-Reply-To: <20210901173357.2dfvw5xgpzjndesc@h510>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Wed, 1 Sep 2021 20:04:35 +0200
+Message-ID: <CAPGkw+zhb=zC8fKyK8uUiNxNqCUR9Trg6N7fBjaAcBc9rmkmUg@mail.gmail.com>
+Subject: Re: [PATCH] Declare the file_operations struct as const
+To: Bryan Brattlof <hello@bryanbrattlof.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, 
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On this day, September  1, 2021, thus sayeth Greg KH:
-> On Wed, Sep 01, 2021 at 05:34:36PM +0200, Krish Jain wrote:
+On Wed, Sep 1, 2021 at 7:34 PM Bryan Brattlof <hello@bryanbrattlof.com> wrote:
+>
+> On this day, September  1, 2021, thus sayeth Greg KH:
+> > On Wed, Sep 01, 2021 at 05:34:36PM +0200, Krish Jain wrote:
+> > >
+> > > Can you tell me why this is the case?
 > >
-> > Can you tell me why this is the case?
+> > Again, it depends on your kernel configuration file as to what will, or
+> > will not, be built.
+> >
+> > If you have some things set as modules, they can be built as a module,
+> > but the ashmem code can not be built as a module, so you would never
+> > build it if you did the above line.
+> >
+> > Here, look at this sequence, starting with a tree that does nothing if I
+> > do a simple 'make' in it, as the whole kernel is already built, and
+> > ashmem is enabled in the kernel configuration
+> >
+> > $ grep ASHMEM .config
+> > CONFIG_ASHMEM=y
+> > $ make
+> > $
+> >
+> > So, let's change the time stamp on the ashmem.c file and see what gets
+> > built if you use the M= option:
+> >
+> > $ touch drivers/staging/android/ashmem.c
+> > $ make M=drivers/staging/android
+> >   MODPOST drivers/staging/android/Module.symvers
+> > $
+> >
+> > Nothing gets built as ashmem is NOT a module, and M= only builds any
+> > modules in the directory you specified.
+> >
+> > But, if you tell make to just build the whole subdirectory, no matter
+> > what the setting is, it will be built:
+> >
+> > $ make drivers/staging/android/
+> >   CALL    scripts/checksyscalls.sh
+> >   CALL    scripts/atomic/check-atomics.sh
+> >   DESCEND objtool
+> >   CC      drivers/staging/android/ashmem.o
+> >   AR      drivers/staging/android/built-in.a
+> > $
+> >
+> > So that's the difference, "M=" builds modules in that directory, but if
+> > you tell it to build the subdir, everything in there that needs to be
+> > built, will be built.
+> >
+> > Be careful about your kernel configuration, that is the key for what
+> > will, and will not, be built.
+> >
 >
-> Again, it depends on your kernel configuration file as to what will, or
-> will not, be built.
+> Ouch...
 >
-> If you have some things set as modules, they can be built as a module,
-> but the ashmem code can not be built as a module, so you would never
-> build it if you did the above line.
+> I want to *really* apologize to you Krish for introducing so much
+> confusion while you, and apparently I, am still learning. And for your
+> persistence with seeking the correct answer here Krish.
 >
-> Here, look at this sequence, starting with a tree that does nothing if I
-> do a simple 'make' in it, as the whole kernel is already built, and
-> ashmem is enabled in the kernel configuration
+> I did not notice that this could only be build as a built-in object.
+> Thank you Greg for pointing out my mistake, and I apologize for dragging
+> this out longer than it had to and the frustration this caused.
 >
-> $ grep ASHMEM .config
-> CONFIG_ASHMEM=3Dy
-> $ make
-> $
+> It seems I will be reading the documentation again, along with Greg's
+> book recommendation, "Linux Kernel in a Nutshell" over this merge
+> window.
 >
-> So, let's change the time stamp on the ashmem.c file and see what gets
-> built if you use the M=3D option:
->
-> $ touch drivers/staging/android/ashmem.c
-> $ make M=3Ddrivers/staging/android
->   MODPOST drivers/staging/android/Module.symvers
-> $
->
-> Nothing gets built as ashmem is NOT a module, and M=3D only builds any
-> modules in the directory you specified.
->
-> But, if you tell make to just build the whole subdirectory, no matter
-> what the setting is, it will be built:
->
-> $ make drivers/staging/android/
->   CALL    scripts/checksyscalls.sh
->   CALL    scripts/atomic/check-atomics.sh
->   DESCEND objtool
->   CC      drivers/staging/android/ashmem.o
->   AR      drivers/staging/android/built-in.a
-> $
->
-> So that's the difference, "M=3D" builds modules in that directory, but if
-> you tell it to build the subdir, everything in there that needs to be
-> built, will be built.
->
-> Be careful about your kernel configuration, that is the key for what
-> will, and will not, be built.
+> Thank you again Krish and Greg
+> ~Bryan
 >
 
-Ouch...
+Yes, lots of reading to do :) . I had a look at the book and it seems
+better than the documentation too, I don't know, maybe the writing
+style? Love it, Greg. Lastly just out of curiosity, Bryan,  if this
+can only be built as a built-in object then how come "As for your
+patch, I built the driver using:
 
-I want to *really* apologize to you Krish for introducing so much
-confusion while you, and apparently I, am still learning. And for your
-persistence with seeking the correct answer here Krish.
+  $ make CCFLAGS=-Werror W=1 M=drivers/staging/android"
 
-I did not notice that this could only be build as a built-in object.
-Thank you Greg for pointing out my mistake, and I apologize for dragging
-this out longer than it had to and the frustration this caused.
+got you the errors that I desired? Aren't you building as a module here?
 
-It seems I will be reading the documentation again, along with Greg's
-book recommendation, "Linux Kernel in a Nutshell" over this merge
-window.
 
-Thank you again Krish and Greg
-~Bryan
-
+Warm Regards
