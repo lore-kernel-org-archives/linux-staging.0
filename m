@@ -1,77 +1,100 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21673FCD
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 21:28:22 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id k13so1999953lfv.2
-        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 14:28:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5C43FCD
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 21:36:05 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id x6so1669712wrv.13
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 14:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eCael78eHTXtzN3Jeoe7P5VBsdIsgjl3tT58y4QUcXI=;
-        b=TPQiuLqHwS06/WSYc3aqR2n6F/ZnAzPZ4cNqDMXlKyJHO71AdpC+c9mXY5rUoJ3NO4
-         n+bQPZkg8zBYBQZ+JJoFiRBDUDni/OSVdlNcEk1xo7LgvQZvnhIuKPbZnMQqCW54neIR
-         I9Fi7MrYRX5+XT9b7cJOyWiKEjBb8tb2adItA=
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=6jo/SeRsF0/cH1rEbtARKHrr8bYBF5vAMrnioOdOcqQ=;
+        b=kcawKE7dK1XBMjPvYGNt5OcITyjpgqhuF2z9kPluF6RDUum4EKMn2jTJ4IFW1F+z2V
+         hsQuVXCnQlSi4sOFvYvrulgCrFGYzUF0sblIcVnoRo/dlA4SCxxGp7mpvHm8Rdkzz5YG
+         3tv4AvdIBaDydCZ73J4K728v+fpJ67+dL7SX8Fvxe24Gal3azzwQv8G7/OVfCrGguj39
+         sK9JYSN48Pjn0cVCsWUAc+c00sLf0tbk0D/27gRYozcLubSFqIUz7jEsibDoKnZsdumY
+         5+dOt1ZTwmDmGCGhvwB5TEt7R7NNhYHej23I87K+rUK30WYRvsrycetGRSYdxeeKuQ9N
+         WSgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eCael78eHTXtzN3Jeoe7P5VBsdIsgjl3tT58y4QUcXI=;
-        b=Ran464ksVuAj4TdQUBAgn8ymqBB43MV+wISiwMZ+faS5PH63DE8wFZTTHvIbNz0N+I
-         uiBkSb5dZPaZlDYwDxP2vM7mlQ4zJXLYBXgB9ZowPrB+oen3kB401wGyqgCknuReNJCI
-         8HX3dc1f7ECVvwRNZpqjClqIdpuoR5WV+oK1//i0mlXGApFZb56g2NQ34wanUgiRWUXv
-         RrSsUe2H0ogm5PON/GxXnlFxlJoKk2FOnYm9AxUUYx/vI4mDNHYWQ1LTo90r7QlMdZYL
-         Js8giHMbwrWjlH37Y/vYPNqxY1MJnLUBl5erT9lLRDZRYasGBZE0CKLlcb1iXv11omaG
-         i8Zg==
-X-Gm-Message-State: AOAM530F97nenJfBW3gDPqKDDQMBKBRwBhsnWvp5fn8m/8eZuUzWoX7T
-	LGs8G7i3SAAJBK/zX+4UclfqNnKPYsBCkDxt
-X-Google-Smtp-Source: ABdhPJwpvNb6/LLl/INi4qYSBYpIKjzWVAoGU6KcRhCpczBI7keQBqycwhqwjgwXfx13uHJoTT18AQ==
-X-Received: by 2002:a05:6512:3d0d:: with SMTP id d13mr1046366lfv.513.1630531700291;
-        Wed, 01 Sep 2021 14:28:20 -0700 (PDT)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
-        by smtp.gmail.com with ESMTPSA id d19sm64940lfv.74.2021.09.01.14.28.19
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Sep 2021 14:28:19 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id s3so1408801ljp.11
-        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 14:28:19 -0700 (PDT)
-X-Received: by 2002:a2e:9b8e:: with SMTP id z14mr1305255lji.411.1630531698848;
- Wed, 01 Sep 2021 14:28:18 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=6jo/SeRsF0/cH1rEbtARKHrr8bYBF5vAMrnioOdOcqQ=;
+        b=kj1sOTSFBPODK+FZgJtmhQcmW3IMAKPKv/kBEiqlhc4nvbX5RGativud12pBtT0Cwn
+         1v0oeQ8cGKYng88Ho3wl1RSNzXk/0F5gcW+oj4kSgJve7FJcsJ+dV5j7bFWOaWkTOGEJ
+         V1YP76s6MnLxv7kxqktqChFrgq0D3/rzVdp+tf9fJzDnc0tqbWgY4kYTseI7LE7Z7dsl
+         ODic6/PeBi1MrK+Hbf0o2djwPQ8m6YYNZRlp9l5YK/wGFsm3GqB5GrXuYgKajxEoObgY
+         ejPpmrxOR0xr0Fx3QapIAXBcdVYOQhedncbBVBHB3F2oYRSM0gHMAX9NSZna6AZbq9OU
+         YrBA==
+X-Gm-Message-State: AOAM5331aEhIqPmodwywgHDO5QA3i+Qbwg2gSFn9u09MEfbamYCIcC2X
+	5NyNEnF7pyLw/HTW7m48LwW7zoxZllQ=
+X-Google-Smtp-Source: ABdhPJxHeEfrOjPdDzxdv2Sy+lM1bbzM8y9Of+IebgNrxFytgbvvHzFPT+/XlqeL8Ti/2awBejdsbw==
+X-Received: by 2002:adf:c40d:: with SMTP id v13mr1542062wrf.388.1630532163791;
+        Wed, 01 Sep 2021 14:36:03 -0700 (PDT)
+Received: from panther (190.red-88-4-24.dynamicip.rima-tde.net. [88.4.24.190])
+        by smtp.gmail.com with ESMTPSA id q14sm600655wrc.31.2021.09.01.14.36.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 14:36:03 -0700 (PDT)
+Date: Thu, 2 Sep 2021 13:11:18 +0200
+From: Krish Jain <krishjain02939@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+Subject: [PATCH] Fix formatting for file "hsdma-mt7621.c"
+Message-ID: <20210902111118.GA576891@panther>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YS+LXqoDGk0CqU1Q@kroah.com> <CAHk-=whqN1gAZk0ZD_4JxGemdbpnQkDaNFY9MjW==v-kb1J-fw@mail.gmail.com>
- <YS/pzJCV8MiwOPRB@equinox>
-In-Reply-To: <YS/pzJCV8MiwOPRB@equinox>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 1 Sep 2021 14:28:02 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whzVVzA5Ng0BUZOvhxEjQiopjwWM5KQDhh6-dWKbD_=vA@mail.gmail.com>
-Message-ID: <CAHk-=whzVVzA5Ng0BUZOvhxEjQiopjwWM5KQDhh6-dWKbD_=vA@mail.gmail.com>
-Subject: Re: [GIT PULL] Staging / IIO driver changes for 5.15-rc1
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Larry Finger <Larry.Finger@lwfinger.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Sep 1, 2021 at 2:00 PM Phillip Potter <phil@philpotter.co.uk> wrote:
->
-> I left this code in when I wrote ae7471cae00a ("staging: r8188eu: remove
-> rtw_ioctl function") with the intention of modifying and reconnecting,
-> once the changes to struct net_device_ops made their way into the
-> staging tree.
+From: Krish Jain <krishjain02939@gmail.com>
 
-Oh, ok. That explains why the dead code existed.
+This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
 
-Yeah, I guess y9ou can resurrect it now with the new siocdevprivate model.
+Signed-off-by: Krish Jain <krishjain02939@gmail.com>
 
-I actually ended up doing that first as part of the merge, until I
-noticed that the code wasn't connected in the staging tree at all and
-then decided to undo my merge and just remove the dead code.
+---
+ drivers/staging/mt7621-dma/hsdma-mt7621.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-            Linus
+diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+index b0ed935de7ac..89b72a802800 100644
+--- a/drivers/staging/mt7621-dma/hsdma-mt7621.c
++++ b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+@@ -162,8 +162,7 @@ struct mtk_hsdam_engine {
+ 	struct mtk_hsdma_chan chan[1];
+ };
+ 
+-static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(
+-		struct mtk_hsdma_chan *chan)
++static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct mtk_hsdma_chan *chan)
+ {
+ 	return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
+ 			ddev);
+@@ -174,8 +173,7 @@ static inline struct mtk_hsdma_chan *to_mtk_hsdma_chan(struct dma_chan *c)
+ 	return container_of(c, struct mtk_hsdma_chan, vchan.chan);
+ }
+ 
+-static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(
+-		struct virt_dma_desc *vdesc)
++static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(struct virt_dma_desc *vdesc)
+ {
+ 	return container_of(vdesc, struct mtk_hsdma_desc, vdesc);
+ }
+@@ -457,9 +455,7 @@ static void mtk_hsdma_issue_pending(struct dma_chan *c)
+ 	spin_unlock_bh(&chan->vchan.lock);
+ }
+ 
+-static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
+-		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
+-		size_t len, unsigned long flags)
++static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest, dma_addr_t src, size_t len, unsigned long flags)
+ {
+ 	struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
+ 	struct mtk_hsdma_desc *desc;
+-- 
+2.25.1
+
