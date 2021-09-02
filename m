@@ -1,46 +1,46 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB752FAF
-	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 21:38:41 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id u9so1712175wrg.8
-        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 14:38:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFAC3FCD
+	for <linux-staging@lists.linux.dev>; Wed,  1 Sep 2021 22:21:35 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id m2so854273wmm.0
+        for <linux-staging@lists.linux.dev>; Wed, 01 Sep 2021 15:21:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=1UqelwOIW4rRogtjnWjm8nkumANrfwZLvotA8MVovNQ=;
-        b=blweDPs5Ym26j1kB1I5flBDfYzvZuEUVmcx5ZMmZQ9kYJ63fCxZkteFAghiSxuAIdd
-         x2egUaG5MZeb4a2mL/0DOfAOCC+Rc95smYMXUPIcuFq1Ia0thvYZP9lXucGsT3vxiNbl
-         6kliOt7HwEtcH4uT2f+fJXtU9Ak6eWORQHIWo/+MynGkFdv6cGyom02WntCP3zN21ML0
-         aiJXaGvbbGzhmJWVrjAaDO/3WXaSq1MVAwgA4nxSZTs/y1RaYNubpejNkals/1X+2Edy
-         ho7WImVbnoh7cZRWQaVcfkPQb7T7WEamj6ee0209SLrv531hRcgmKtlx5ThZZiZ4Yiqp
-         SsEA==
+        bh=ZSaSzTufTueiywkO3jjUJoO4ic3/O/DqfqX56V8rSIw=;
+        b=V+xMq/kaVEIx194lqlk2gnDlDg3VHt9wVehf8aST4EU5+VJAbVDjbxTEsWAAkF9mhQ
+         MTD77U4bSCBEqK9XCN9LkhLlVXKUsxI6Z/b5JNMd99rRtmoSk/M1YESgqGUm0yWZxI2S
+         sEDzZloORMRE0zaBL0xcVnl+khmTwJn8j+/ht5d920KzkCpW/jK8b1luGY3X3i1T2LsR
+         Mq7K1VxzThQIhAnnMKaHj8GERHQT/DVJ8oE0jVzUDvfTrBiGTHtHj1PlB2VTK6oz3wtH
+         ulpWWQc5TTO+mPt0aGPIRuUAUqnZYX5swl7dzVTWXy5dMkLz2YNbkk/Eec1AtTpqFld/
+         ZFvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=1UqelwOIW4rRogtjnWjm8nkumANrfwZLvotA8MVovNQ=;
-        b=oxDiXrdj0co1HIGs5dk9xcQe9yoI+LWGfsa6dKasfjCbK2VcKXnKWXWWqlZcM5FCe9
-         36vlpHGnXn7+fterk1grRzjcFLJxVJXmHX8ZO6nm9c4ooW+Qw+5FPR83IMvMuFIwKCeb
-         sjsY/P1gGF1h8C8CNo7itfS9NnFu40hT6N3mvUG9+XO6WgCk6XuaiN1KMqXqvTUq/bxA
-         /K5zYIjePNv8BWZ/RAIxJns73jdXuHvqrQS8xPizNQQKpaxjrERTc6wYU/r5pcPUv75J
-         lX+IY+66UluS8DXyPgz8kG3zDXCgq+w7eU/rd9w/s6Y8Ja+vVdUz0qAnTQzPZAyEKfOI
-         AbcA==
-X-Gm-Message-State: AOAM533UOZWI41XtYKFWuremcU5quh7lI+hpBHolPKYl+tN50Fz/GreC
-	Av7IgjlpSgswOWT4BjJi0m4OI6/+F38=
-X-Google-Smtp-Source: ABdhPJxNhJZrUUQqBGUlgTA0fYhCJbiVa9kJ/dooYPRvP7iuyNnCpT30IkcRaAZwfPAUeZkp6zEIxA==
-X-Received: by 2002:adf:cd0f:: with SMTP id w15mr5526wrm.346.1630532320272;
-        Wed, 01 Sep 2021 14:38:40 -0700 (PDT)
+        bh=ZSaSzTufTueiywkO3jjUJoO4ic3/O/DqfqX56V8rSIw=;
+        b=EmZ65Q+QiZyMxt+p7UkDZ9JiboL7nqxcS1wieEUR1krBB4PfajTlFyXg6t9YKR4GqG
+         djabFVEJINJG6zQa+6dTu03lPzDfuOE6OfYuZoQMy4mk/q9NCo5scjI1Guc2G33ArS2W
+         0u1v9NWtzBKqLcQRlqzKZ0+7r9GNz0jKVOUxlCRvZUBSVKr8o3gMJE3vnJl9V59wL7pC
+         gFuKbMtMgzU9lXijHeco6LtIZU2WqK5j1YhbaWb89vXglDa81NMutcZV3h6nwXc96O1O
+         WWMNqBkTUBNIjFcmAg+sNrfA0PHuoUCVRm4vP7t+wocLvPqE7Pr9d7OvcdsFpE+inTDf
+         A7SQ==
+X-Gm-Message-State: AOAM533wgbTxw6PeE40JwqnstZHh3vKHboXh2WWitEtEz9REPfSgRaTJ
+	8EmSmWlNH026k8faKEAVKuI=
+X-Google-Smtp-Source: ABdhPJyyKbMzfzXaatiauG7SH/v5aLbcXPvY7+tK/zM8M8xArjxZ7ZzVRhVkqTfRw3gxG85acIP6iw==
+X-Received: by 2002:a1c:7316:: with SMTP id d22mr105101wmb.171.1630534893647;
+        Wed, 01 Sep 2021 15:21:33 -0700 (PDT)
 Received: from panther (190.red-88-4-24.dynamicip.rima-tde.net. [88.4.24.190])
-        by smtp.gmail.com with ESMTPSA id c13sm582537wru.73.2021.09.01.14.38.39
+        by smtp.gmail.com with ESMTPSA id z14sm613824wmi.24.2021.09.01.15.21.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 14:38:39 -0700 (PDT)
-Date: Thu, 2 Sep 2021 13:13:39 +0200
+        Wed, 01 Sep 2021 15:21:33 -0700 (PDT)
+Date: Thu, 2 Sep 2021 13:52:15 +0200
 From: Krish Jain <krishjain02939@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev
-Subject: [PATCH] Fix formatting for file "hsdma-mt7621.c"
-Message-ID: <20210902111339.GA577108@panther>
+Subject: [PATCH] Use BIT macro instead of (1 << HSDMA_GLO_BT_SHIFT)
+Message-ID: <20210902115215.GA582112@panther>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,49 +50,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
+This patch replaces (1 << HSDMA_GLO_BT_SHIFT) with the BIT(x) macro, as suggested by checkpatch.pl, for the file drivers/staging/mt7621-dma/hsdma-mt7621.c .
 
 Signed-off-by: Krish Jain <krishjain02939@gmail.com>
 
 ---
- drivers/staging/mt7621-dma/hsdma-mt7621.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/staging/mt7621-dma/hsdma-mt7621.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c b/drivers/staging/mt7621-dma/hsdma-mt7621.c
-index b0ed935de7ac..89b72a802800 100644
+index 89b72a802800..a99cec876110 100644
 --- a/drivers/staging/mt7621-dma/hsdma-mt7621.c
 +++ b/drivers/staging/mt7621-dma/hsdma-mt7621.c
-@@ -162,8 +162,7 @@ struct mtk_hsdam_engine {
- 	struct mtk_hsdma_chan chan[1];
- };
+@@ -72,7 +72,7 @@
+ #define HSDMA_GLO_TX_DMA		BIT(0)
  
--static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(
--		struct mtk_hsdma_chan *chan)
-+static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct mtk_hsdma_chan *chan)
+ #define HSDMA_BT_SIZE_16BYTES		(0 << HSDMA_GLO_BT_SHIFT)
+-#define HSDMA_BT_SIZE_32BYTES		(1 << HSDMA_GLO_BT_SHIFT)
++#define HSDMA_BT_SIZE_32BYTES		BIT(HSDMA_GLO_BT_SHIFT)
+ #define HSDMA_BT_SIZE_64BYTES		(2 << HSDMA_GLO_BT_SHIFT)
+ #define HSDMA_BT_SIZE_128BYTES		(3 << HSDMA_GLO_BT_SHIFT)
+ 
+@@ -164,8 +164,7 @@ struct mtk_hsdam_engine {
+ 
+ static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct mtk_hsdma_chan *chan)
  {
- 	return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
- 			ddev);
-@@ -174,8 +173,7 @@ static inline struct mtk_hsdma_chan *to_mtk_hsdma_chan(struct dma_chan *c)
- 	return container_of(c, struct mtk_hsdma_chan, vchan.chan);
+-	return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
+-			ddev);
++	return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine, ddev);
  }
  
--static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(
--		struct virt_dma_desc *vdesc)
-+static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(struct virt_dma_desc *vdesc)
- {
- 	return container_of(vdesc, struct mtk_hsdma_desc, vdesc);
- }
-@@ -457,9 +455,7 @@ static void mtk_hsdma_issue_pending(struct dma_chan *c)
- 	spin_unlock_bh(&chan->vchan.lock);
- }
- 
--static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
--		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
--		size_t len, unsigned long flags)
-+static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest, dma_addr_t src, size_t len, unsigned long flags)
- {
- 	struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
- 	struct mtk_hsdma_desc *desc;
+ static inline struct mtk_hsdma_chan *to_mtk_hsdma_chan(struct dma_chan *c)
 -- 
 2.25.1
 
