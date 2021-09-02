@@ -1,94 +1,79 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E9A72
-	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 09:29:40 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id e21so2797814ejz.12
-        for <linux-staging@lists.linux.dev>; Thu, 02 Sep 2021 02:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=BCIadNtgJxMuBnbXRvKUyOdGpeELhFfMWSvYcSrngec=;
-        b=aWLt2Lg2fnQiH9AQHWg5eETKa/61mTI9WRLFUX/nmylrMtEA+1eW6NAo/7dgaidPEB
-         XzWVeCUPHO1tdutR3FXVtqSWgURsn0ft6X0LB/U6DDibpdYwcxsYy8NjcANkLkwYLG2/
-         d1mmQ54p68ABhepC6FPrzxU9/DwKmZ9DPekp4g2v4Bxm9DDMpn7JS7a673aozwcQw9oE
-         6M64grjhnoCQ3gkA7Iw1TNtIRcdQGqDPMiFdCdvjNDUhES9AjHhsXeciv0knKJhfhB7Z
-         VvIqmvbIhTadr2mF6UbnuGTq9Ij4oOkVtXO8/xSOXJD/szPFIr8fKjptcsBTSWiUrkRF
-         +0yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=BCIadNtgJxMuBnbXRvKUyOdGpeELhFfMWSvYcSrngec=;
-        b=t1S4nSbaWV2Ilp8nO9xbPc69exO6smGmgodpnxU72AuKCByJf+xbFTLmWQ8GWfQpE6
-         an7r+VxRgRdfiqLI2xXfbXoGF1lYLA8oaBPHj0m9fJx+SCaUO/t/SIlF7RvCkv29NTBM
-         BPBK6b5ufO/IzKw39qX2sgv/dxaqleeMC2OUgyZijXMF/w0XGaWvwiX3TC4lWaCAe93D
-         Wt1K9V+vdmPTmH6h0qXDXkdITng5JV1ZS9TGtWJn2i6O6l8MFLH0+cXoLjVHQ0gzvuSM
-         d+1COhINnjRN9tegLgpF2nQ0snXJsaltO0YUzCDHmSSVdweb3vS05Zv/n2CigHQwf/rf
-         934A==
-X-Gm-Message-State: AOAM532JSxfk0dgaDcBR8clgAtlF1JHJLV1SCtKGVYhYPrh/r+TeDa5T
-	xep0jC+mm3d8zN69uHbQIY1pjaa5AL4=
-X-Google-Smtp-Source: ABdhPJyULatZFvFoW3qSuW8cTMDFGP1r2V0iYpahlZ7Ujx81qTFPG/N28YCkofjrYYEKeElJsLpa2g==
-X-Received: by 2002:a17:906:4892:: with SMTP id v18mr2716465ejq.541.1630574978589;
-        Thu, 02 Sep 2021 02:29:38 -0700 (PDT)
-Received: from agape.jhs ([5.171.72.108])
-        by smtp.gmail.com with ESMTPSA id v10sm759876edt.25.2021.09.02.02.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Sep 2021 02:29:38 -0700 (PDT)
-Date: Thu, 2 Sep 2021 11:29:35 +0200
-From: Fabio Aiuto <fabioaiuto83@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: hdegoede@redhat.com, Larry.Finger@lwfinger.net,
-	Michael Straube <straube.linux@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE69872
+	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 09:32:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BF3C460BD3;
+	Thu,  2 Sep 2021 09:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1630575130;
+	bh=NHsA+Vy/oUU+BihgEqjE5BmsIRdVjcq6VeyhVk9uTog=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kLfZfiH9UxhV2d+y3g+uBHNO1tr7S5P9eNEXKgm4b6zJSlfhcoNJO16Kbv0xzkLzq
+	 Mi6ht5i+8rlgapQXFchRLtoFHx1oC5RtQZoP8TCaVY+yGfdDBz/+skmw3ZaVyS/K+7
+	 Cz1u+upLcPcMpH4glPLPlk9m9XuSh7dTYrOW2X54=
+Date: Thu, 2 Sep 2021 11:32:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Martin Kaiser <martin@kaiser.cx>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove possible deadlock when
- disconnect
-Message-ID: <20210902092934.GA1422@agape.jhs>
-References: <20210830141645.3646-1-fabioaiuto83@gmail.com>
- <YTCWwLSX0I3Ica2e@kroah.com>
+	Michael Straube <straube.linux@gmail.com>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Aakash Hemadri <aakashhemadri123@gmail.com>
+Subject: Re: [PATCH v5] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+Message-ID: <YTCaF5Ure2tjfbZB@kroah.com>
+References: <20210828113656.6963-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YTCWwLSX0I3Ica2e@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210828113656.6963-1-fmdefrancesco@gmail.com>
 
-Hello Greg,
-
-On Thu, Sep 02, 2021 at 11:17:52AM +0200, Greg KH wrote:
-
-<snip> 
-
+On Sat, Aug 28, 2021 at 01:36:56PM +0200, Fabio M. De Francesco wrote:
+> Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
+> unnecessary wrappers, respectively to mutex_lock_interruptible() and
+> to mutex_unlock(). They also have an odd interface that takes an unused
+> argument named pirqL of type unsigned long.
+> The original code enters the critical section if the mutex API is
+> interrupted while waiting to acquire the lock; therefore it could lead
+> to a race condition. Use mutex_lock() because it is uninterruptible and
+> so avoid that above-mentioned potential race condition.
 > 
-> With this patch applied, I get the following build warning:
+> Tested-by: Pavel Skripkin <paskripkin@gmail.com>
+> Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
 > 
-> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c: In function ‘chk_bmc_sleepq_hdl’:
-> drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:5922:27: warning: unused variable ‘pxmitpriv’ [-Wunused-variable]
->  5922 |         struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
->       |                           ^~~~~~~~~
+> v5: Fix a typo in the subject line. Reported by Aakash Hemadri.
 > 
+> v4: Tested and reviewed by Pavel Skripkin. No changes to the code.
 > 
-> Please fix up and resend it, we can not add build warnings to the tree
-> at any time.
+> v3: Assume that the original authors don't expect that
+> mutex_lock_interruptible() can be really interrupted and then lead to 
+> a potential race condition. Furthermore, Greg Kroah-Hartman makes me
+> notice that "[] one almost never needs interruptable locks in a driver".
+> Therefore, replace the calls to mutex_lock_interruptible() with calls to
+> mutex_lock() since the latter is uninterruptible and avoid race
+> conditions without the necessity to handle -EINTR errors.
 
-oops, sorry will fix soon
+Based on a recent conversation on the linux-usb mailing list, perhaps I
+was wrong:
+	https://lore.kernel.org/r/20210829015825.GA297712@rowland.harvard.edu
 
-> 
-> thanks,
-> 
-> greg k-h
+Can you check what happens with your change when you disconnect the
+device and these code paths are being called?  That is when you do want
+the lock interrupted.
 
-thank you,
+Yes, the logic still seems wrong, but I don't want to see the code now
+just lock up entirely with this change as it is a change in how things
+work from today.
 
-fabio
+thanks,
+
+greg k-h
