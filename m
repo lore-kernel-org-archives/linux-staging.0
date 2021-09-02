@@ -1,27 +1,28 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C61C72
-	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 09:24:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 96AB96108B;
-	Thu,  2 Sep 2021 09:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B71072
+	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 09:25:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 201AB61058;
+	Thu,  2 Sep 2021 09:25:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630574657;
-	bh=VgEI2i4ZAs/h+EYvY3IzMrFuSHJvnX+iqn/RMGhHHL0=;
+	s=korg; t=1630574755;
+	bh=Yxy8KM/Ohu/+iS5kBagZcmeiZaFKnSW9/TTj7inv4ZU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JEVasX8kPBjUklqRLYiCF84foaXIEVAfp0S4hDOI++ACdlC4S7zIusPIthzNw++Ro
-	 4LdtemNY8jIJLOCzftDb/BHLff62tm8TFNOS4XTlx23WnbuZ1AjblvzAZ/ZfM7Dir7
-	 UJSw7dYQrKx+JAO48ShWzz8+XoBUYP3XXWdSIyJs=
-Date: Thu, 2 Sep 2021 11:23:59 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
-	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: r8188eu: remove unused constants from wifi.h
-Message-ID: <YTCYL85eGWP+s2JX@kroah.com>
-References: <20210829180717.15393-1-straube.linux@gmail.com>
- <YTCYFu6fAi5vs2IE@kroah.com>
+	b=fhaf3pWmgUnA6/2gPoyol3nOWFW9Zx2baVX1bw7KONGrfY5le3/P3g2TbzqVF9bFU
+	 jxWQZZ83QxQ0lyK0EeZndMYhLnRl9FOzYvm5Zw1tvLlbdVCFkoh7FDKOqmGktH4xXB
+	 x//lyqtDFvQp/2+4OZ7W0Lje4pW5X9z33xDNvoLY=
+Date: Thu, 2 Sep 2021 11:25:53 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Aakash Hemadri <aakashhemadri123@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] staging: r8188eu: restricted __be16 degrades to
+ int
+Message-ID: <YTCYodihc/U/StOw@kroah.com>
+References: <cover.1630148641.git.aakashhemadri123@gmail.com>
+ <652e62b7f30d216bafc6ef390ed27c2c6864fe95.1630148641.git.aakashhemadri123@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,28 +31,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YTCYFu6fAi5vs2IE@kroah.com>
+In-Reply-To: <652e62b7f30d216bafc6ef390ed27c2c6864fe95.1630148641.git.aakashhemadri123@gmail.com>
 
-On Thu, Sep 02, 2021 at 11:23:34AM +0200, Greg KH wrote:
-> On Sun, Aug 29, 2021 at 08:07:16PM +0200, Michael Straube wrote:
-> > The constants WLAN_REASON_PWR_CAPABILITY_NOT_VALID and
-> > WLAN_REASON_SUPPORTED_CHANNEL_NOT_VALID defined in wifi.h
-> > are unused, remove them.
-> > 
-> > Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> > ---
-> >  drivers/staging/r8188eu/include/wifi.h | 2 --
-> >  1 file changed, 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-> > index 0b3fd94cea18..eb07ac9b8943 100644
-> > --- a/drivers/staging/r8188eu/include/wifi.h
-> > +++ b/drivers/staging/r8188eu/include/wifi.h
-> > @@ -126,8 +126,6 @@ enum WIFI_REASON_CODE	{
-> >  #define WLAN_REASON_DISASSOC_STA_HAS_LEFT 8
-> >  #define WLAN_REASON_STA_REQ_ASSOC_WITHOUT_AUTH 9 */
-> >  /* IEEE 802.11h */
+On Sat, Aug 28, 2021 at 04:40:44PM +0530, Aakash Hemadri wrote:
+> Fix sparse warning:
+> > rtw_br_ext.c:73:23: warning: restricted __be16 degrades to integer
 > 
-> This comment can now be deleted, right?
+> Here tag->tag_len is be16, use be16_to_cpu()
+> 
+> Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
+> ---
+>  drivers/staging/r8188eu/core/rtw_br_ext.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> index 62a672243696..aa56cd1a8490 100644
+> --- a/drivers/staging/r8188eu/core/rtw_br_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+> @@ -70,7 +70,7 @@ static int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_tag *tag)
+>  	struct pppoe_hdr *ph = (struct pppoe_hdr *)(skb->data + ETH_HLEN);
+>  	int data_len;
+>  
+> -	data_len = tag->tag_len + TAG_HDR_LEN;
+> +	data_len = be16_to_cpu(tag->tag_len) + TAG_HDR_LEN;
+>  	if (skb_tailroom(skb) < data_len) {
+>  		_DEBUG_ERR("skb_tailroom() failed in add SID tag!\n");
+>  		return -1;
+> -- 
+> 2.32.0
+> 
 
-Ah, you do it on the follow-in patch, nevermind...
+If this change happens, that means the existing driver does not work at
+all on little-endian machines today?  But that seems odd and wrong, are
+you sure this change is correct?
+
+How did you test this?
+
+thanks,
+
+greg k-h
