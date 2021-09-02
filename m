@@ -1,84 +1,75 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA10072
-	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 16:55:39 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id me10so5895149ejb.11
-        for <linux-staging@lists.linux.dev>; Thu, 02 Sep 2021 09:55:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874703FCD
+	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 20:24:59 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id q68so3201663pga.9
+        for <linux-staging@lists.linux.dev>; Thu, 02 Sep 2021 13:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DdjT4Us6xIPBwUlhi0ZmrboIND0msaui3k9fDHdcywk=;
-        b=MRQ5J5NcSS7kJA+NVAT9d1mDsJd8/n7Rnu9sLmT8pLWh9ftJXZqtSi8PlEUhOL84AT
-         tTxglMgU891q1EsiSmgMa9okBFOpmeT3hK8xZlyZNM5AUc0/JVm8rb2WBHSnACSrWfTY
-         dpWAWSt//ZkKIq9EVQw25M0w5NtMLQx/NGVskYLV7hA7B9gl4D4sHJJ4zabbj2wkgAo5
-         kzKWnYZ6QigeYm/QNjmp5uC2ZGgdQuzp0lAsBHa4v6wNHNoxc8xeSWIZcTglFTneUvmp
-         3wKkWOPGpfOg75hZI6Lq6kSPiYOimtTBzD9LPozCWMXgYq8QzyUgG+Pkue477uU6shQz
-         QYEw==
+        bh=jUldLVtWO/tpg8tbJWjKGXY9tHoc65390V+frphn+q0=;
+        b=lmXnP/qesnEmSmdyXbgcBavDjTHJUc/zbUvuh/ddchQ0qm1OysvfFJyUtdZ+gIcTPY
+         IyZW2LCwHUukuZfYWCBR/X9Wse2iqpLwFvE4eja2sFq1z1OrDzSW6tAm4vdLkZzRfkph
+         qklclEZ70Oi8ukggGSIa9bHZAaSH3vTCIOAP8/kU8M/v7XYv8IYeAMAtL+oL0sL3NdZk
+         tiAX8s3KyGyqpERBHG15YO8z8H3xiVHWOPEypt+xsAySQPUmggd6Zqr8BMw/lp+wRPT6
+         QAEcHOm6hli4oUlx2YU2cysNSPu3AEZw0ycoUwTIhAi0UZ/HVzlRMetmgaj+45OF2xnv
+         v8UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DdjT4Us6xIPBwUlhi0ZmrboIND0msaui3k9fDHdcywk=;
-        b=IbPEj42pwX7aThw+m15s2VHqU/lUOQGfKMVTyc0spUcWsvGm5otDQQ7aXgUoUOfbii
-         93GDVos1F/TsVKq86CBKuGVBfcAJEFnqbIcBxvoWUUomvfvIPVpDTbgzwwYdu8/Rc19/
-         /mHvDxW8sskm3/qAJbuBfn3Eujt1gAMnvmSbSzHNjZ1S9LYB9yKq5nlh3RFm/HwRUYOR
-         akxxQqluiEplGF9EE2YSlnadJH9PML7HXTlq+wlBIruCx3wciRPNZWM7PYOUzhpYi2lj
-         huU8TCDyRUew++r4iyW+M4FzuI8LaaPQwGYcpIt78P1xa12BXltTdu9mhou3ITQzL03Y
-         FMDw==
-X-Gm-Message-State: AOAM533ZecD8RSAeHbSjJWiZGUHxnzRQpMHqp1pcgAl1ks0wym4CViSG
-	ZO2X/+Iumf9n0Er/SLYc9z9EyoLxTrpz6aePRtcqfw==
-X-Google-Smtp-Source: ABdhPJwh0/RZoQbsfLsqpqYa2DxpxgVPhTrvfHT/R7bfvGSqtM20ZcJksUFa4sf2GDzTTqsDLOUud4ibRTEhfeHDVWo=
-X-Received: by 2002:a17:906:7749:: with SMTP id o9mr4966675ejn.141.1630601738117;
- Thu, 02 Sep 2021 09:55:38 -0700 (PDT)
+        bh=jUldLVtWO/tpg8tbJWjKGXY9tHoc65390V+frphn+q0=;
+        b=NNC8bGfBUkpF0BshDKTsK0mzfsTv8SVzHnV8BBQauLBtzjC0r160s5gD7OTquvQXbt
+         G1btudBbSAgWQWXVMtTjcXlMGVJesMR8A4xHlpJk/roibffpJOrb3fnjujVmLK1YG5oe
+         r6ErsaC61jagBgpveHu1zi/OYCq5l+0sscKeYw402UhvctET5Po8pBy3ABqjvUTvkMy5
+         8m1ZWZdVb14J+NdtzqaKTQIoB6ZAFXbmGVo0v20Cb5MaU4bh5YDfF+18GIUxMwdZoBm0
+         NYuwCno7864M8KrvZAXGqFSXGUjIML473YPV63UYx7AZ8mSqr28Nms+b2UMGTb+Wwrhk
+         45wg==
+X-Gm-Message-State: AOAM531nRU7h3S2EVgYVuAMRlZ75dSl6UpSWD3jEvyIw4ILKaBqZLNq/
+	HTeLyNdtQWx1Z9ESV9C32o3SLbU1UMlu/Uz+U3A=
+X-Google-Smtp-Source: ABdhPJwHFqWSQVHQU+m7cUBVWTkRd1EEjnifwL2VHkKeWPJzyVwKYbL9Va6Fwxy2p8reB0hTe6Q4zylBqS8xfnXnJxQ=
+X-Received: by 2002:a63:fd12:: with SMTP id d18mr142202pgh.129.1630614298974;
+ Thu, 02 Sep 2021 13:24:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210831094900.203283-1-benjamin.gaignard@collabora.com> <1484b5ebb9c943c72d7d7a0481c1a2cd9899705b.camel@ndufresne.ca>
-In-Reply-To: <1484b5ebb9c943c72d7d7a0481c1a2cd9899705b.camel@ndufresne.ca>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Thu, 2 Sep 2021 13:55:26 -0300
-Message-ID: <CAAEAJfA9Sjr78c==1tCoqja4abY2sZ++UcAT7fgBrK7wid1-2A@mail.gmail.com>
-Subject: Re: [PATCH 0/2] media: HEVC: RPS clean up
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Greg KH <gregkh@linuxfoundation.org>, Maxime Ripard <mripard@kernel.org>, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Chen-Yu Tsai <wens@csie.org>, 
-	=?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	John Cox <jc@kynesim.co.uk>, linux-media <linux-media@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, linux-staging@lists.linux.dev, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	Lucas Stach <l.stach@pengutronix.de>
+References: <20210902111339.GA577108@panther> <YTCU3SpFgyFbxXs3@kroah.com>
+In-Reply-To: <YTCU3SpFgyFbxXs3@kroah.com>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Thu, 2 Sep 2021 22:24:47 +0200
+Message-ID: <CAPGkw+z5b52n7rjHH3_LtH5tmt66ZBvqpbiGTj430Ncqv2ZcBw@mail.gmail.com>
+Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c"
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Hans, Nicolas,
+Hi, I use nano. I don't see my editor asking me to wrap the changelog
+text? What exactly can I do to get it properly line wrapped properly?
 
-On Tue, 31 Aug 2021 at 16:19, Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+Best Regards,
+
+Krish
+
+On Thu, Sep 2, 2021 at 11:09 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> As per discussion with Ezequiel, I think this patch should perhaps be made an
-> RFC titled "media: uapi: clean and make HEVC uAPI public". Keep it RFC until we
-> have collected all the needed changes.
+> On Thu, Sep 02, 2021 at 01:13:39PM +0200, Krish Jain wrote:
+> > This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
 >
-> Opinion ?
-
-I agree.
-
-IMO, it makes no sense to keep merging anything on Hantro G2 HEVC
-support, until the BLK-CTRL part is ready [1]. Without that, we can't
-test anything
-so we may introduce regressions without knowing.
-
-Also, I think it's time to start discussing the HEVC uAPI as a whole,
-with the goal is having a stable interface that can be used by userspace
-frameworks (GStreamer).
-
-[1] https://www.spinics.net/lists/arm-kernel/msg913881.html
-
-Thanks,
-Ezequiel
+> Please properly line-wrap your changelog text like your editor asked you
+> to.
+>
+> Also, your subject line needs work, look at other commits for this
+> driver with:
+>         git log --oneline drivers/staging/mt7621-dma/
+> and notice how they say the driver name and the subsystem.
+>
+> Please fix up and resend a v2.
+>
+> thanks,
+>
+> greg k-h
