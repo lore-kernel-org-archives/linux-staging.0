@@ -1,30 +1,23 @@
 Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3EAA3FCD
-	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 11:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80D8D2FAF
+	for <linux-staging@lists.linux.dev>; Thu,  2 Sep 2021 11:43:13 +0000 (UTC)
 Received: from uucp (helo=alpha)
 	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-	id 1mLkaL-0002IW-01; Thu, 02 Sep 2021 13:08:45 +0200
+	id 1mLkaL-0002IW-00; Thu, 02 Sep 2021 13:08:45 +0200
 Received: by alpha.franken.de (Postfix, from userid 1000)
-	id 4297DC0A09; Thu,  2 Sep 2021 13:08:35 +0200 (CEST)
-Date: Thu, 2 Sep 2021 13:08:35 +0200
+	id C1C7CC09FF; Thu,  2 Sep 2021 13:08:04 +0200 (CEST)
+Date: Thu, 2 Sep 2021 13:08:04 +0200
 From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	"open list:MIPS" <linux-mips@vger.kernel.org>,
-	linux-pci <linux-pci@vger.kernel.org>,
-	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] staging: mt7621-pci: set end limit for
- 'ioport_resource'
-Message-ID: <20210902110835.GB7614@alpha.franken.de>
+Cc: bhelgaas@google.com, matthias.bgg@gmail.com, gregkh@linuxfoundation.org,
+	linux-mips@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, neil@brown.name,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] MIPS: ralink: don't define PC_IOBASE but increase
+ IO_SPACE_LIMIT
+Message-ID: <20210902110804.GA7614@alpha.franken.de>
 References: <20210822161005.22467-1-sergio.paracuellos@gmail.com>
- <20210822161005.22467-4-sergio.paracuellos@gmail.com>
- <YSip4/kMNOG4uYC3@kroah.com>
- <CAMhs-H_0ytYCoBLj9GJDjHSPPHLC6_oBsm-V9s4FjhE7NY8TCw@mail.gmail.com>
- <YTCWR7oyLWgTDbQe@kroah.com>
- <CAMhs-H8U-crQHFVQj6j4Y5qs-S2NaW9trH8twKH8AwDR+AAYgg@mail.gmail.com>
+ <20210822161005.22467-2-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,41 +26,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMhs-H8U-crQHFVQj6j4Y5qs-S2NaW9trH8twKH8AwDR+AAYgg@mail.gmail.com>
+In-Reply-To: <20210822161005.22467-2-sergio.paracuellos@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Sep 02, 2021 at 12:15:12PM +0200, Sergio Paracuellos wrote:
-> On Thu, Sep 2, 2021 at 11:15 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Sun, Aug 29, 2021 at 05:14:27PM +0200, Sergio Paracuellos wrote:
-> > > On Fri, Aug 27, 2021 at 11:01 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Sun, Aug 22, 2021 at 06:10:05PM +0200, Sergio Paracuellos wrote:
-> > > > > We have increase IO_SPACE_LIMIT for ralink platform to get PCI IO resources
-> > > > > properly handled using PCI core APIs. To align those changes with driver
-> > > > > code we have to set 'ioport_resource' end limit to IO_SPACE_LIMIT to avoid
-> > > > > errors.
-> > > > >
-> > > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > > >
-> > > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > >
-> > > Thanks. Since I am planning to move 'mt7621-pci' from staging to
-> > > 'drivers/pci/controller' and send v3 after the next merge window, I
-> > > prefer this patch to go through the staging tree. For the other two I
-> > > don't have any preference and it is ok for me to go through mips or
-> > > pci trees. So, Bjorn and Thomas is up to you if you are ok with the
-> > > changes.
-> >
-> > Yes, I would need acks for the other patches in the series if this is to
-> > come through the staging tree.
+On Sun, Aug 22, 2021 at 06:10:03PM +0200, Sergio Paracuellos wrote:
+> Defining PCI_IOBASE results in pci resource handling working but the
+> addresses generated for IO accesses are wrong since the ioremap in the pci core
+> function 'pci_parse_request_of_pci_ranges' tries to remap to a fixed virtual
+> address (PC_IOBASE) which can't work for KSEG1 addresses. To get it working this
+> way, we would need to put PCI_IOBASE somewhere into KSEG2 which will result in
+> creating TLB entries for IO addresses, which most of the time isn't needed on
+> MIPS because of access via KSEG1. So avoid to define PCI_IOBASE and increase
+> IO_SPACE_LIMIT resource for ralink MIPS platform instead, to get valid IO
+> addresses for resources from pci core 'pci_address_to_pio' function.
 > 
-> Yes, I know it. Let's wait for Thomas and Bjorn preference for those
-> remaining two.
+> Fixes: 222b27713d7f ("MIPS: ralink: Define PCI_IOBASE)
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> ---
+>  arch/mips/include/asm/mach-ralink/spaces.h | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
+> index 87d085c9ad61..31a3525213cf 100644
+> --- a/arch/mips/include/asm/mach-ralink/spaces.h
+> +++ b/arch/mips/include/asm/mach-ralink/spaces.h
+> @@ -2,9 +2,7 @@
+>  #ifndef __ASM_MACH_RALINK_SPACES_H_
+>  #define __ASM_MACH_RALINK_SPACES_H_
+>  
+> -#define PCI_IOBASE	_AC(0xa0000000, UL)
+> -#define PCI_IOSIZE	SZ_16M
+> -#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
+> +#define IO_SPACE_LIMIT	0x1fffffff
+>  
+>  #include <asm/mach-generic/spaces.h>
+>  #endif
+> -- 
+> 2.25.1
 
-I've sent my acked-by for the MIPS patch. 
 
-Thomas.
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
 -- 
 Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
