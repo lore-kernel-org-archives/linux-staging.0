@@ -1,95 +1,80 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C893FD5
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 18:54:45 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id 2so212215pfo.8
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 11:54:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE773FD5
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 19:05:01 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id q11so76710wrr.9
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 12:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JPPn+kbAlZ1MWLNKQ2tdH9GpmK0cO7Zw1ZlJsYJztcY=;
-        b=KBsVJ6KYy89BuFK894h9wXPGIq87RDblxdrT2/9PZ80BTtsp3eOVQnf7cYqLafvd+i
-         1pE284lLXCWf5Qea5zwusPs+wMQ7C9mGaHau5Ori/iLePtdBDrzUKAQlHCw8ECfIiU4f
-         CR8rZGHQ7d5gTyMnFqHxqq6bOtX0eqOseRFWeYh4jTko2V3xQ+8Q+/yR+oAcwwniEECh
-         GVjeXYM30sc8Ho22U1SSgcodhwsbJ1begO61V/9XLus3De+zgEixJW6iltSqz+apd4Da
-         FCSnrl0oPzIcVlPZ+L4UB34PXtypzkhK9EL7IgyfAw55ufSZzLlGgu1bmAZisTAYfn6A
-         RaTw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iGjCcoCfsKc5nOLWhuXqF/48+OAzPEG2ZVBrM3dGEWk=;
+        b=HZk5le5JAtvCcFATezsYrwuRukTLJn4cDBIsS1ilVZc+8gR4Yw8uY9032wSs+BiRYg
+         5OH4uVtnmtlnOdRGEBX9nDofgIG1oLzcg3WMRvSAv+w7JPuTrJI0dnrd/9mnSZQF55i6
+         NhjXzPceW1wHCR/RuZIhC9Q70e6Hx0QqEvYdLVpYsgI9O7U8nOhW5D1tX6x85Q0VpxsX
+         iP7MKYZ9gLqtKswPHmOJWvszh0+ptPO5aP0sX1gxL/U25dIjoT+ArtNFVwolhU1V4eve
+         6S0Hx6Dht9dMLHHKhltauMiZvsSoE7Z0C24qxSAKvMogF7po30B2t0n8klNfmL18pFyZ
+         puCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JPPn+kbAlZ1MWLNKQ2tdH9GpmK0cO7Zw1ZlJsYJztcY=;
-        b=gjJ2HtpNQiIZ9z7RlezKCZfn70eDb++wTQqCCwV0XHvJM824FZ4Ly0YIc3ouOxpQJ5
-         YbdDSi0PeRjlA+oKZqUIOA34rX4QGHDeFKBxP7iCivKYIFf3gPz7InlsEImYErF4y1cr
-         /kx6Z6TSNjS4fvp1gUFilU8X7vnzzrRvu9wsu56c6uzHfwa2YJHDvNb21Y4Fi4dabJk6
-         WBcNLiVsyYWefiHXO/EE26CvDw0A4Z2Ok91brKmFot31beNeQVgsWHZRyqshI+aUgU4e
-         exT7Gpse5gzjS8Dx80FCfM7zUL+IwxSqNyK0QCN0RSWCXUup29DnTXO62YjOUx9C/89w
-         VkJA==
-X-Gm-Message-State: AOAM531RmQyqMtKclBXbeVOo+2tNDcwEt7BuPD6y8CO1XcF5RXOjQeRe
-	Gb/ME/91ngo/ceWjD7EERs5/iLsQEde73jInw2Q=
-X-Google-Smtp-Source: ABdhPJwOZWoo+bJfQutYdoVNvoWpxY148cF+BXFbI3o0M9DnpEFNvnlm18W6NFY8LB/oQVWHK496M+SRMpQN5fjsBbs=
-X-Received: by 2002:a65:6554:: with SMTP id a20mr420257pgw.107.1630695284688;
- Fri, 03 Sep 2021 11:54:44 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iGjCcoCfsKc5nOLWhuXqF/48+OAzPEG2ZVBrM3dGEWk=;
+        b=XVyFBlra1gQWrR7OVhHLoYR4gUmoo3XSPHP69uQx/HufjczFmWoehju+E7HI+FBbe/
+         fqAlj3dEOfKUZMiFOOz/9OVnpDU4kx722SJt9U5ZhgpI5qNROEAJ3lBUlVN3he9NSEMr
+         HjM24MqUtD1b1X9SRKEkHwKQ/3Rbqebb4Z8gJI9WzhYOKJ011P/3ByFjWV7qKJWdFuG1
+         T14CrFQgfnE9qYYuo8kzonOWWUAnI+ndxSFsPzZ2r7ejbWgW3fZT0dTtFeZzTOcQwxSL
+         gmWqSu2e+4roEnV+gcVBDdC8/fbUa56hCEE14MleV8LPJNJ0UETt5ACHQFesZJpOtP2D
+         cvxg==
+X-Gm-Message-State: AOAM531mJFsQ2Ju2aWmmk/lELpPd9anBXrPpGPhAkaHNxjfyA9Zm/WjT
+	HUki1E3TUWEyapLYJhNvCsY=
+X-Google-Smtp-Source: ABdhPJxalX5b9bt7SlCR3opFgt8BzJiDjjgTjyu4DYUPmbtzDFboVHWtm88r3ZaNBG5RW9XCGIzx/w==
+X-Received: by 2002:adf:cf0b:: with SMTP id o11mr598397wrj.72.1630695900023;
+        Fri, 03 Sep 2021 12:05:00 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::848c])
+        by smtp.gmail.com with ESMTPSA id u25sm229291wmj.10.2021.09.03.12.04.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Sep 2021 12:04:59 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: clean up dead code and use in-kernel arc4
+Date: Fri,  3 Sep 2021 21:04:41 +0200
+Message-Id: <20210903190444.15585-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210902111339.GA577108@panther> <YTCU3SpFgyFbxXs3@kroah.com>
- <CAPGkw+xhPfD0acY1GcwPpHg=kHw7o2+y94-r3AxfzsfyqG4bDw@mail.gmail.com> <YTJXOFlkLTBTg9rl@kroah.com>
-In-Reply-To: <YTJXOFlkLTBTg9rl@kroah.com>
-From: Krish Jain <krishjain02939@gmail.com>
-Date: Fri, 3 Sep 2021 20:54:33 +0200
-Message-ID: <CAPGkw+yKQx+O3yfxxMgv9oyH2-pun5-g=+mFWQ_YwbfXp1Y6cA@mail.gmail.com>
-Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c"
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 3, 2021 at 7:11 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Sep 03, 2021 at 05:49:46PM +0200, Krish Jain wrote:
-> > On Thu, Sep 2, 2021 at 11:09 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Thu, Sep 02, 2021 at 01:13:39PM +0200, Krish Jain wrote:
-> > > > This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
-> > >
-> > > Please properly line-wrap your changelog text like your editor asked you
-> > > to.
-> > >
-> > > Also, your subject line needs work, look at other commits for this
-> > > driver with:
-> > >         git log --oneline drivers/staging/mt7621-dma/
-> > > and notice how they say the driver name and the subsystem.
-> > >
-> > > Please fix up and resend a v2.
-> > >
-> > > thanks,
-> > >
-> > > greg k-h
-> >
-> > Do you mean I should line-wrap (at 72 columns) the entire thing or
-> > only that line?
->
-> Your whole changelog text needs to be wrapped at 72 columns.
->
-> Look at the 'git log' in the kernel tree for hundreds of thousands of
-> examples :)
->
-> thanks,
->
-> greg k-h
+This series removes the unused function rtw_use_tkipkey_handler()
+and constant CRC32_POLY.
 
-Hi, so you mean only the change-log text (as in the text telling what
-changes have been made) needs to be wrapped at 72 columns but the code
-itself (the git diff) doesn't, right ? Because then the entire purpose
-of my formatting the code will be lost. Sorry for the confusion.
-Learning
+And it converts the driver to use in-kernel arc4 encryption instead
+of a custom implementation for WEP and TKIP.
 
+Tested with Inter-Tech DMG-02 and TP-Link TL-WA901N access point in
+WEP and TKIP mode.
 
-Best Regards,
+Michael Straube (3):
+  staging: r8188eu: remove unused constant CRC32_POLY
+  staging: r8188eu: use in-kernel arc4 encryption
+  staging: r8188eu: remove rtw_use_tkipkey_handler()
 
-Krish
+ drivers/staging/r8188eu/core/rtw_security.c   | 123 +++---------------
+ .../staging/r8188eu/include/rtw_security.h    |   6 +-
+ 2 files changed, 25 insertions(+), 104 deletions(-)
+
+-- 
+2.33.0
+
