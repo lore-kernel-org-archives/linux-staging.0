@@ -1,86 +1,96 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED8D72
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 18:18:14 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id g14so177413ljk.5
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 11:18:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A27C3FD5
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 18:53:41 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id gp20-20020a17090adf1400b00196b761920aso180653pjb.3
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 11:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=883xElBFencY5c0OGGg52rdLZq6bLCaxWzcjeMOL5Ig=;
-        b=QRMaoMuu+mn7nYV8gnSsQzl0222xnKTRPE0tqT2Z4lYny5RixvHQLav7A2IOYhPiVu
-         z9zjyFgpBH4MmrQTyXiJeg0DLDGTdOM0keZRvnUs+u406UAkyykG2QRezV0P5EjZwxkX
-         VLtrbFHE4BfhWrZllXz7ledx/m8IP8YnPBVbjPn9UlsSOyAeLoNGGN/K3Ardm/XPYOxd
-         QnfyLBaLH+QyCMKsYZuAmO9W7nTZ+MOm3g9j9boYblDt6B+M7CD27roOInJL6o+n5xoc
-         3/d8j/x4U/AczX7WaUjOS09O97F3OojOUoAIylXzDQ6OYwseEUDkYPjwFG0V/7HLxbVt
-         lrqA==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cYg95UwxTL2wMWqBMmt8+HU/FFQUMY2wtY0M2szhJz8=;
+        b=QIp/9/b95JTMk9GYZ/8RlI4mVoQv4y2yt6N+yut/ximLGMu+tuqgZ16WFcVWV1mqGq
+         fepqe7v2A20HFYssg1nO6q3PyQblDX7qDazWYNC3Pc4VhRasd1EvBTpM67pwafkmKzDG
+         8ZwaEw4euZAjKAjqzI5lRX4/sF1I7IIB4936jkCUQS49BrMluF7f8P0mevm9wlS7ku4e
+         hqgcayKLbLvuVb/IOKLhAUOVhyk+g8yH4rXzxJUWxtaXS1b9YKwwWvnEEsSVj+yGWCeM
+         /MQVfEbjm1zYGzx5w2DGXmIzOVBMQhysdwrnSbZKmhRZ5B1HpMAWs21lk0F51MSBhyYE
+         Z3Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=883xElBFencY5c0OGGg52rdLZq6bLCaxWzcjeMOL5Ig=;
-        b=U8/gUUnzCV6AYTOyjNQyMeHo2k2MyLmZMc2VFdJ4hOYx3wuw9yLqFHLfiVpqjgm5yD
-         NovHL/487ISR+knC1qGf9eEJwlbprtSnJ2Zw3z6z02mBkW9lZIXjbpJvIUrj6a2HsEZU
-         oxkZq3v2GFZdYYWwRzSWP2Ho4nn3O05HtOw273cJ5PW4P0XMXOLiK+CRjXaYK56cOmgK
-         ciuLf7Cxv7gK8pqQkKtCOJkdkb7WLSqgNMsIJgyEbNhZxdTToB68mQQbtt9W0i7wP9DJ
-         FhCE7jTpwd5onU11coW9vjCmpUKRMmV+qA6JUC/ScGo6gWCw7aqRGTOnrbXCd2XW5iRs
-         SsHw==
-X-Gm-Message-State: AOAM533JPs4CpanR8Y22ODrJvNroEuM4kmnbF2k8YRi4BTmHjaC9xfss
-	xXPXkTcif9h9/plYQLGSVDA=
-X-Google-Smtp-Source: ABdhPJy9FMS8REW2mtVJBLxK/Eusely6MYf8zBy4dPK+0LWD28RMb76WayE95gFYfislhIl8ZAmVIw==
-X-Received: by 2002:a2e:5345:: with SMTP id t5mr247471ljd.20.1630693092357;
-        Fri, 03 Sep 2021 11:18:12 -0700 (PDT)
-Received: from localhost.localdomain ([46.235.67.70])
-        by smtp.gmail.com with ESMTPSA id d5sm15719lfv.14.2021.09.03.11.18.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 11:18:12 -0700 (PDT)
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	straube.linux@gmail.com,
-	fmdefrancesco@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Pavel Skripkin <paskripkin@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: remove useless memset
-Date: Fri,  3 Sep 2021 21:18:07 +0300
-Message-Id: <97a283ed5b97632033b0fc7c6aa0fbfc82f06da3.1630692375.git.paskripkin@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <ee783fbb71abb549505b84542223be7a7c905eea.1630692375.git.paskripkin@gmail.com>
-References: <ee783fbb71abb549505b84542223be7a7c905eea.1630692375.git.paskripkin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cYg95UwxTL2wMWqBMmt8+HU/FFQUMY2wtY0M2szhJz8=;
+        b=bOLRvK1td6zi4sH+MiqLCyDQ8jxBD19kP1dnEqwuzRslznt12v6oMGnkCGqmvfDkek
+         oA4gqYYkUbOiFg8RkEjefuEKTuglxd5OlqsfWV3xJZLg9kTLWYHp67s6FwlmTpLF7rSl
+         rSQVZL5r8yjH876yA2UgYE90KaxIcx4uUDqtKti3l2Cped9gV3syhElBYBVUE8Qe5jNs
+         JqKaK40TeD/W+ViNiM4FMizsFafMnG7ot1cTd39QTGijDTXrKaGIn/OThsj2XZVf+iJ2
+         kMbK5KzU2CXWmw5ATSW3PWeMJ3O09BUz2QD7u90knAYl9GbOjPAfPaJkUUA+iYsJ1+qq
+         MV/g==
+X-Gm-Message-State: AOAM532RyGaSPzIVb4r5b6HH0qfupK3ZAFAVNNmiaO+QoTEC/9qSJ7iJ
+	U8BkLF4IhS+W9crQQJbkqGk4cxO5deYp+o5tRgvetQ==
+X-Google-Smtp-Source: ABdhPJzaqbi+WTtOyW8aEzKZGLrWRFG0rYEWODEzLKf/vG09PU01udkGwV0zaahhozokMiR2kCRYO8U8/ekTQehdJDk=
+X-Received: by 2002:a17:902:6b84:b029:ee:f966:1911 with SMTP id
+ p4-20020a1709026b84b02900eef9661911mr224187plk.69.1630695220952; Fri, 03 Sep
+ 2021 11:53:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YTJhwQstKPUYRwN+@user>
+In-Reply-To: <YTJhwQstKPUYRwN+@user>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Fri, 3 Sep 2021 19:53:29 +0100
+Message-ID: <CAA=Fs0mP7xqiS7+EX+J5MYH-AkEN_5SgtLrxAd669kXHG7Jk+A@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: os_dep: use kmemdup instead of kzalloc
+ and memcpy
+To: Saurav Girepunje <saurav.girepunje@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, 
+	Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, saurav.girepunje@hotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-psetkeyparm is kzalloced buffer, there is no need in zeroing it one more
-time, since kzalloc had already set memory to 0.
+On Fri, 3 Sept 2021 at 18:56, Saurav Girepunje
+<saurav.girepunje@gmail.com> wrote:
+>
+> Fixes coccicheck warning:WARNING opportunity for kmemdup in ioctl_linux.c
+>
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> index 81d4255d1785..495fadd2b8c8 100644
+> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> @@ -585,14 +585,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
+>         }
+>
+>         if (ielen) {
+> -               buf = kzalloc(ielen, GFP_KERNEL);
+> +               buf = kmemdup(pie, ielen, GFP_KERNEL);
+>                 if (!buf) {
+>                         ret =  -ENOMEM;
+>                         goto exit;
+>                 }
+>
+> -               memcpy(buf, pie, ielen);
+> -
+>                 /* dump */
+>                 {
+>                         int i;
+> --
+> 2.32.0
+>
 
-Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_mlme.c | 2 --
- 1 file changed, 2 deletions(-)
+Dear Saurav,
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index bd991d7ed809..37578638bb76 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1690,8 +1690,6 @@ int rtw_set_key(struct adapter *adapter, struct security_priv *psecuritypriv, in
- 		goto exit;
- 	}
- 
--	memset(psetkeyparm, 0, sizeof(struct setkey_parm));
--
- 	if (psecuritypriv->dot11AuthAlgrthm == dot11AuthAlgrthm_8021X)
- 		psetkeyparm->algorithm = (unsigned char)psecuritypriv->dot118021XGrpPrivacy;
- 	else
--- 
-2.33.0
+Looks good, thanks:
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
+Regards,
+Phil
