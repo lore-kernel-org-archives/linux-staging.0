@@ -1,37 +1,37 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D753FC1
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 15:30:12 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id m26so4560773pff.3
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 08:30:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCB33FC1
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 15:49:58 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id r2so5911288pgl.10
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 08:49:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mQCffvfvV6JjsByh+9Z8w1Be6P4PW+G6FOMb0ew1msw=;
-        b=gAnOOmkhTS2neE2n9NHe0rSRsuMcoL3zb2hBTQPzAGT/H21fgG+I7KO2aHhb8VIc1i
-         ZgnRcCR4vo9iYrMSzGKOndL6t3lQJYa4cMsEvcG9a3TJLp3tz9iHMpXcNSS8sfc2ezYL
-         g0fL5eXqomkKEuKpnEhrI5gr2rUHk666Mhi16JYThAe6ScI1u65oKM9Kktnjj3aFTAQ3
-         FwFO6m8ktOuC6gXHmEQA2+BZ2orN1hB45SebL8UowrLnAOSwYVC6rPKkjs/eWCS4fY0e
-         pIrvrV7d9EXuiAcwo/E0FsIwkfp7iplricef3xfEb3QerLigwwS2xRzZYzssj440+1OK
-         SKRQ==
+        bh=H+y3G6ZLNVNe2FLAUHvKre0bJLsO9td0ygyxLkukKLM=;
+        b=TmVGsRZFiW76qHDRSBmsNquJ9FU3UlnM+0LfVqC54A2tZfuGUZMTe6BR77HlaMZRTw
+         WkyXh3EA0moDBv9vgLfkDYntPkac7R9J+UR4NRyO+RStkRlxul9T+hpLvj18JtXxKDTN
+         kGotR2pmzihIMXJq7OA5K1DLeZ+ztofKxaNx+iFTdp5KycD8lud5LwSv42pFciZkCExF
+         U1bjiXFJHUDK70xabe0NAtJi4yk2LZ9ugRpbmoTNV50g5R8AB8xfUZIl8aMS8KlRywyy
+         iRvvRFmPn4JTp8qRRYMkU2C8Zei6Rr/BMgrBhEE0iR0Y+jbXbGAFXuKQoDQ+apWNiA8M
+         Cu1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mQCffvfvV6JjsByh+9Z8w1Be6P4PW+G6FOMb0ew1msw=;
-        b=ssAHSytS3BR1A/SCs+0XWKBeprrVyhS/p2AC4A8Xl8L0pYEDq8e6h0kckpi90SWkmA
-         KyLlDWjLrlDDhtsKMc8PcB7fyah31+INN64B8/GHO8ySgOFXrxc3IT6wmIMwPULccu+9
-         zlAcW3Sr9C90sNGKrLvSGo+zUljtJO4VoVbtctf3Q0ScYxYkhjdbuMyj5Qtu5XPCiqRq
-         RDl++xs9irT9QTWJVxOTM3lsoUCIfpgzw2b8vcBabwlRSGiJRmT1ARM5yc9W43YuYCbD
-         2opqiCf7IrtpHfoN4y1J37YpgIV8OnzDDRd5skAMXhdoQBmsjmaOuHBYXNI+VkIWkmg2
-         dHCw==
-X-Gm-Message-State: AOAM5301UxGGmdlglAKXaxw8OiYvvirqH0m3FLPikrYR/DvhbOlmwIPk
-	1mG+ccI5ralnJrum0R24MOu4gmreZaFwN6aGfTnShbiXeCQ=
-X-Google-Smtp-Source: ABdhPJxFVxl2f5ZRJT54W5bx6B/EWLGUKxlzq+TAI7oBkptT1ecCneQS5jermNCTfBs3p12V1XgJ+ssm05bxXq+ZsZ4=
-X-Received: by 2002:a63:101c:: with SMTP id f28mr4086711pgl.330.1630683011667;
- Fri, 03 Sep 2021 08:30:11 -0700 (PDT)
+        bh=H+y3G6ZLNVNe2FLAUHvKre0bJLsO9td0ygyxLkukKLM=;
+        b=LdS+SXTfnB1B/cR5wiMaTO8HlOr/PuRs4vEBaBsw8wC9xixw2fAIVYYBfv2FHh8pb3
+         XiJFiqPbELRaCR28+cg1my6Bl+VSYDAXVa7McnboXew1rhCXpnSeHu1Kc9trs/Uf0gZG
+         mKGtmugJDtUSTy9Ac1guUFZgbdqfU0ywNsp8cDUToAuyxcXA55b3dTP7u+YeAOFOhgok
+         0PUYaA9/xEM8wIVZ2qL5Y+aO4iD/e5DxDOvfDYUTITHKdUP/8fQcjMnylJZromoZzHqa
+         YCk2HIbxo9sVEWbxJrDMHn8nSL2H339EEdA0WhluikYkh1aqZUDhNTgpRpT3HD3+EZqL
+         Rwgg==
+X-Gm-Message-State: AOAM5306Azz3VjV2n3qJVDYlmOHVi5LUQNeldlM35AnaoKovJKSL1Wuk
+	rPlHY4jKMmC6nm1XHsoE66l1RgyBbmpQnKacWUiValIAL3HL4w==
+X-Google-Smtp-Source: ABdhPJxpU3nZzqQE5GPm8DLAAKnjsXCx0CBCijF43v/m8TJ4bPpNED0gr0TaLghTKxfAes3iMe9bSvWTnqcUq60YmqY=
+X-Received: by 2002:a63:101c:: with SMTP id f28mr4159207pgl.330.1630684197652;
+ Fri, 03 Sep 2021 08:49:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,44 +39,37 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20210902111339.GA577108@panther> <YTCU3SpFgyFbxXs3@kroah.com>
- <CAPGkw+z5b52n7rjHH3_LtH5tmt66ZBvqpbiGTj430Ncqv2ZcBw@mail.gmail.com> <YTG/jv1bZUpDOrh4@kroah.com>
-In-Reply-To: <YTG/jv1bZUpDOrh4@kroah.com>
+In-Reply-To: <YTCU3SpFgyFbxXs3@kroah.com>
 From: Krish Jain <krishjain02939@gmail.com>
-Date: Fri, 3 Sep 2021 17:30:00 +0200
-Message-ID: <CAPGkw+x7oXb2Wrj79O1o0WYhtbqQPDmSTVGuWdxnV3UuAKFZPg@mail.gmail.com>
+Date: Fri, 3 Sep 2021 17:49:46 +0200
+Message-ID: <CAPGkw+xhPfD0acY1GcwPpHg=kHw7o2+y94-r3AxfzsfyqG4bDw@mail.gmail.com>
 Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c"
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 3, 2021 at 8:24 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Thu, Sep 2, 2021 at 11:09 AM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> A: http://en.wikipedia.org/wiki/Top_post
-> Q: Were do I find info about this thing called top-posting?
-> A: Because it messes up the order in which people normally read text.
-> Q: Why is top-posting such a bad thing?
-> A: Top-posting.
-> Q: What is the most annoying thing in e-mail?
+> On Thu, Sep 02, 2021 at 01:13:39PM +0200, Krish Jain wrote:
+> > This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
 >
-> A: No.
-> Q: Should I include quotations after my reply?
+> Please properly line-wrap your changelog text like your editor asked you
+> to.
 >
-> http://daringfireball.net/2007/07/on_top
+> Also, your subject line needs work, look at other commits for this
+> driver with:
+>         git log --oneline drivers/staging/mt7621-dma/
+> and notice how they say the driver name and the subsystem.
 >
-> On Thu, Sep 02, 2021 at 10:24:47PM +0200, Krish Jain wrote:
-> > Hi, I use nano. I don't see my editor asking me to wrap the changelog
-> > text? What exactly can I do to get it properly line wrapped properly?
->
-> If you have an editor that is not set up to wrap your lines at 72
-> columns, then you need to do it "by hand".
+> Please fix up and resend a v2.
 >
 > thanks,
 >
 > greg k-h
 
-Ok, doing that right now. And sorry about top posting, you know it
-takes a while till a habit goes away. On autopilot mode, I just am
-used to writing on top.
-
+Do you mean I should line-wrap (at 72 columns) the entire thing or
+only that line? " This patch fixes the format of the code. It properly
+formats lines that should not end with a '(' as suggested by
+checkpath.pl."
 
 Best Regards
