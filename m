@@ -1,55 +1,54 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F30E3FD5
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 19:16:00 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id z9-20020a7bc149000000b002e8861aff59so252583wmi.0
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 12:16:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DA03FD5
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 19:34:05 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id bq28so350285lfb.7
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 12:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jby0eLjR5fmSKbW72710HBIYKVjDctkxsujqObkX5uc=;
-        b=SLrh1Ztnx76ROB0fnOkF9sq/3061TM75qGghhTwjHU7aVBVsFH34XLtDuaCmwHsciA
-         L3w2dPnz7s9n12CDnbjqMvX8OHv9XtA4MbOB39nrtRcGA8GLMjMUcrHzHiKHw9VfPPpu
-         MyM+vXkTcMO96kAFb9dh6RdXObQSEgDdtSu9v9skocWYqFMeWXcuyRyPZKO5fgl/ZjIo
-         uMqExE5dFkfvqYoKwnJd7RvE/+OvXbnbIoavLJNQDUJic9scKNahB30RkKW44uau5HYW
-         pxgJkXAuUNUSbPW7LYaDv+WZh39QL53omTLi6qtDqWKjrsg+sOrfWDo1Xc53rou4CNxS
-         bpXQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=peCcaeM8c7cWLf96b5sbNnvu2tAd4n6WEj9yJgkNbbU=;
+        b=q1ylvYlUEdtmJD4xxyE+w6T5vzJsfuBKW6GkML/+Clfg3PGqAN10vCGcuxNFG07HRC
+         wvbwjJcduCsHLFQmJXGnvJxYnbwAZU1R2w1NpOh9HYFgIjMt2MMaoJNwLDRVnUmbe9Cu
+         12bHdWe8mXiqxt4ofeE/by0U8nYyaMjsMUn2cE2Y8/Dx6KP0pFORbp6THFi0bNyQJkUS
+         y0Rir8gx/vXgNMZaRAX5Yy+soPk1URos+8prDeVWM3sn7W0fKcCnXtGCsmcP91wdkVX9
+         rUxwNZcbhdN+Xtc1n+hDHJbsFblk2RJUdethBBNOWnxeOOUOUDFmV6zu1LfujSrp9T1e
+         qayg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jby0eLjR5fmSKbW72710HBIYKVjDctkxsujqObkX5uc=;
-        b=l0BnKiG3vyoIOh1JID19nPkCn2Xns7aVIxNMgguTaaaiwgne1CpXEGSsO8iQKb2zhT
-         q0oiKtrRCDfmbXpRuFQPOPTJ94sz6MF0jGml5PP+eJzq47WoxC8hidmOPhBlK931Ro4z
-         6aRY4PNFpPV+fxNdOMhXCxCdO/XyIJsEmrnzAIgkDh9HBYtVh+tMFtmkpI/UOpe59bZf
-         bFhQAX5kjm7SbGnGKLkoXFMMxbenpG3ehcGCyg006CSTnlmPU3kS1AUSX2uydsKoDBZl
-         EIzuz9pSouuY5u43Yg7kAgUF6fzjvtSd2s3hC61q5tFpKafqBj5F1nqhTKlfyoQbRW6k
-         kKcw==
-X-Gm-Message-State: AOAM5318MlAANIx/egHJgTZT29+Dk0RK1+qXb3hnkep9dbI8mcU5M1ez
-	n1vmrMnCk/GDp4kCjkw6OV/AXA==
-X-Google-Smtp-Source: ABdhPJwXG5M1Mk0eJ6FksUuALeL6vSMK3n32rsWqZkETWrvrszwYnICGAXTKMsv07xv+bmkMo8F6EQ==
-X-Received: by 2002:a1c:23d2:: with SMTP id j201mr232742wmj.163.1630696558558;
-        Fri, 03 Sep 2021 12:15:58 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id a133sm253397wme.5.2021.09.03.12.15.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=peCcaeM8c7cWLf96b5sbNnvu2tAd4n6WEj9yJgkNbbU=;
+        b=rokeOGnSX2EX7Ju59in4UZnJtNnT+iFtYY1goFjbfnehHU39VhE5ZpCsW4Ryis58U5
+         JG2FTqEMnCgV9zPhCysSyLi20NztCesLqFyGBTX6Bb2pAF0vDgil2HCbBbQutks79pCN
+         igtQyNuhN36Mco0BSNx4txqzMi4hK4PobjPZEgpLUBuhFUJ0MyM/TcUfp/rf3zLYyEeR
+         SQnVV4qTSdz83T/6cqvjGpWd5H6OWoaHpd+0hL9PM46jeXV/BcUkPHdrxfEUsCM81hCI
+         U3ryWbfTJIvKX8PIMY0GhlqoduEs7Dix8TqwpLFnJQL0Hf3xJtIncDs+lCqgzuP/ONlr
+         L9hg==
+X-Gm-Message-State: AOAM530KMUFOZKMxnMooa6TJvLCo7ssQi7qC7itTyN3zwIGPs/2R0J9Y
+	FobTVmtULLW6NGt+KN51ITU=
+X-Google-Smtp-Source: ABdhPJzdV2ZH+K0hm46Sc+1sz+EDe0iD3QZWgYC3PnIe4mxqL1178AfV6a1yV0IBivFpw4IP9zEV9g==
+X-Received: by 2002:a05:6512:3d19:: with SMTP id d25mr338983lfv.549.1630697643877;
+        Fri, 03 Sep 2021 12:34:03 -0700 (PDT)
+Received: from localhost.localdomain ([46.235.67.70])
+        by smtp.gmail.com with ESMTPSA id j13sm31914lfu.214.2021.09.03.12.34.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 12:15:58 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: gregkh@linuxfoundation.org,
-	mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mjpeg-users@lists.sourceforge.net,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 8/8] staging: media: zoran: move videodev alloc
-Date: Fri,  3 Sep 2021 19:15:40 +0000
-Message-Id: <20210903191540.3052775-9-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210903191540.3052775-1-clabbe@baylibre.com>
-References: <20210903191540.3052775-1-clabbe@baylibre.com>
+        Fri, 03 Sep 2021 12:34:03 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	"Fabio M . De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove _rtw_mutex_{init,free}
+Date: Fri,  3 Sep 2021 22:33:56 +0300
+Message-Id: <20210903193356.31927-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,175 +57,156 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move some code out of zr36057_init() and create new functions for handling zr->video_dev.
-This permit to ease code reading and fix a zr->video_dev memory leak.
+While testing Fabio's patch I hit lockdep warning about possible
+deadlock:
 
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+[  252.063305] WARNING: possible recursive locking detected
+[  252.063642] 5.14.0+ #9 Tainted: G         C
+[  252.063946] --------------------------------------------
+[  252.064282] ip/335 is trying to acquire lock:
+[  252.064560] ffff888009ebad28 (pmutex){+.+.}-{4:4}, at: usbctrl_vendorreq+0xc5/0x4a0 [r8188eu]
+[  252.065168]
+[  252.065168] but task is already holding lock:
+[  252.065536] ffffffffc021b3b8 (pmutex){+.+.}-{4:4}, at:  netdev_open+0x3a/0x5f [r8188eu]
+[  252.066085]
+[  252.066085] other info that might help us debug this:
+[  252.066494]  Possible unsafe locking scenario:
+[  252.066494]
+[  252.066866]        CPU0
+[  252.067025]        ----
+[  252.067184]   lock(pmutex);
+[  252.067367]   lock(pmutex);
+
+There is one problem with this warning: there is no pmutex in this
+driver, *BUT* all mutexes are initialized via private _rtw_mutex_init
+API, which had struct mutex *pmutex argument.
+
+So, all mutexes in this driver had same name in lockdep map. Of course,
+lockdep will complain about any nested locking.
+
+Fix it by open-coding _rtw_mutex_{init,free} wrappers, because we do not
+need them at all.
+
+Cc: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- drivers/staging/media/zoran/zoran.h        |  2 +-
- drivers/staging/media/zoran/zoran_card.c   | 80 ++++++++++++++--------
- drivers/staging/media/zoran/zoran_driver.c |  5 +-
- 3 files changed, 54 insertions(+), 33 deletions(-)
+ drivers/staging/r8188eu/core/rtw_sreset.c       |  2 +-
+ drivers/staging/r8188eu/core/rtw_xmit.c         |  4 ++--
+ drivers/staging/r8188eu/include/osdep_service.h |  2 --
+ drivers/staging/r8188eu/os_dep/osdep_service.c  | 10 ----------
+ drivers/staging/r8188eu/os_dep/usb_intf.c       |  8 ++++----
+ 5 files changed, 7 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
-index 8c271005f14d..45f2d4d862b3 100644
---- a/drivers/staging/media/zoran/zoran.h
-+++ b/drivers/staging/media/zoran/zoran.h
-@@ -318,6 +318,6 @@ static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
+diff --git a/drivers/staging/r8188eu/core/rtw_sreset.c b/drivers/staging/r8188eu/core/rtw_sreset.c
+index c831033d20a9..1787c2d7ea5f 100644
+--- a/drivers/staging/r8188eu/core/rtw_sreset.c
++++ b/drivers/staging/r8188eu/core/rtw_sreset.c
+@@ -8,7 +8,7 @@ void sreset_init_value(struct adapter *padapter)
+ 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(padapter);
+ 	struct sreset_priv *psrtpriv = &pHalData->srestpriv;
  
- #endif
+-	_rtw_mutex_init(&psrtpriv->silentreset_mutex);
++	mutex_init(&psrtpriv->silentreset_mutex);
+ 	psrtpriv->silent_reset_inprogress = false;
+ 	psrtpriv->wifi_error_status = WIFI_STATUS_SUCCESS;
+ 	psrtpriv->last_tx_time = 0;
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index bcc4d65cdcee..875d1bf1679c 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -196,7 +196,7 @@ s32	_rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 	pxmitpriv->voq_cnt = 0;
  
--int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq);
-+int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir);
- void zoran_queue_exit(struct zoran *zr);
- int zr_set_buf(struct zoran *zr);
-diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index ed74f04994da..0b3afd8a702e 100644
---- a/drivers/staging/media/zoran/zoran_card.c
-+++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -828,6 +828,52 @@ int zoran_check_jpg_settings(struct zoran *zr,
- 	return 0;
+ 	pxmitpriv->ack_tx = false;
+-	_rtw_mutex_init(&pxmitpriv->ack_tx_mutex);
++	mutex_init(&pxmitpriv->ack_tx_mutex);
+ 	rtw_sctx_init(&pxmitpriv->ack_tx_ops, 0);
+ 
+ 	rtw_hal_init_xmit_priv(padapter);
+@@ -243,7 +243,7 @@ void _rtw_free_xmit_priv(struct xmit_priv *pxmitpriv)
+ 
+ 	rtw_free_hwxmits(padapter);
+ 
+-	_rtw_mutex_free(&pxmitpriv->ack_tx_mutex);
++	mutex_destroy(&pxmitpriv->ack_tx_mutex);
  }
  
-+static int zoran_init_video_device(struct zoran *zr, struct video_device *video_dev, int dir)
-+{
-+	int err;
-+
-+	/* Now add the template and register the device unit. */
-+	*video_dev = zoran_template;
-+	video_dev->v4l2_dev = &zr->v4l2_dev;
-+	video_dev->lock = &zr->lock;
-+	video_dev->device_caps = V4L2_CAP_STREAMING | dir;
-+
-+	strscpy(video_dev->name, ZR_DEVNAME(zr), sizeof(video_dev->name));
-+	/*
-+	 * It's not a mem2mem device, but you can both capture and output from one and the same
-+	 * device. This should really be split up into two device nodes, but that's a job for
-+	 * another day.
-+	 */
-+	video_dev->vfl_dir = VFL_DIR_M2M;
-+	zoran_queue_init(zr, &zr->vq, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-+
-+	err = video_register_device(video_dev, VFL_TYPE_VIDEO, video_nr[zr->id]);
-+	if (err < 0)
-+		return err;
-+	video_set_drvdata(video_dev, zr);
-+	return 0;
-+}
-+
-+static void zoran_exit_video_devices(struct zoran *zr)
-+{
-+	video_unregister_device(zr->video_dev);
-+	kfree(zr->video_dev);
-+}
-+
-+static int zoran_init_video_devices(struct zoran *zr)
-+{
-+	int err;
-+
-+	zr->video_dev = video_device_alloc();
-+	if (!zr->video_dev)
-+		return -ENOMEM;
-+
-+	err = zoran_init_video_device(zr, zr->video_dev, V4L2_CAP_VIDEO_CAPTURE);
-+	if (err)
-+		kfree(zr->video_dev);
-+	return err;
-+}
-+
- void zoran_open_init_params(struct zoran *zr)
- {
- 	int i;
-@@ -899,17 +945,11 @@ static int zr36057_init(struct zoran *zr)
- 	zoran_open_init_params(zr);
+ static void update_attrib_vcs_info(struct adapter *padapter, struct xmit_frame *pxmitframe)
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index 029aa4e92c9b..05bac61c3a19 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -155,8 +155,6 @@ extern unsigned char RSN_TKIP_CIPHER[4];
+ void *rtw_malloc2d(int h, int w, int size);
  
- 	/* allocate memory *before* doing anything to the hardware in case allocation fails */
--	zr->video_dev = video_device_alloc();
--	if (!zr->video_dev) {
--		err = -ENOMEM;
--		goto exit;
--	}
- 	zr->stat_com = dma_alloc_coherent(&zr->pci_dev->dev,
- 					  BUZ_NUM_STAT_COM * sizeof(u32),
- 					  &zr->p_sc, GFP_KERNEL);
- 	if (!zr->stat_com) {
--		err = -ENOMEM;
--		goto exit_video;
-+		return -ENOMEM;
- 	}
- 	for (j = 0; j < BUZ_NUM_STAT_COM; j++)
- 		zr->stat_com[j] = cpu_to_le32(1); /* mark as unavailable to zr36057 */
-@@ -922,26 +962,9 @@ static int zr36057_init(struct zoran *zr)
- 		goto exit_statcom;
- 	}
+ u32  _rtw_down_sema(struct semaphore *sema);
+-void _rtw_mutex_init(struct mutex *pmutex);
+-void _rtw_mutex_free(struct mutex *pmutex);
  
--	/* Now add the template and register the device unit. */
--	*zr->video_dev = zoran_template;
--	zr->video_dev->v4l2_dev = &zr->v4l2_dev;
--	zr->video_dev->lock = &zr->lock;
--	zr->video_dev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE;
--
--	strscpy(zr->video_dev->name, ZR_DEVNAME(zr), sizeof(zr->video_dev->name));
--	/*
--	 * It's not a mem2mem device, but you can both capture and output from one and the same
--	 * device. This should really be split up into two device nodes, but that's a job for
--	 * another day.
--	 */
--	zr->video_dev->vfl_dir = VFL_DIR_M2M;
--
--	zoran_queue_init(zr, &zr->vq);
--
--	err = video_register_device(zr->video_dev, VFL_TYPE_VIDEO, video_nr[zr->id]);
--	if (err < 0)
-+	err = zoran_init_video_devices(zr);
-+	if (err)
- 		goto exit_statcomb;
--	video_set_drvdata(zr->video_dev, zr);
+ void _rtw_init_queue(struct __queue *pqueue);
  
- 	zoran_init_hardware(zr);
- 	if (!pass_through) {
-@@ -956,9 +979,6 @@ static int zr36057_init(struct zoran *zr)
- 	dma_free_coherent(&zr->pci_dev->dev, BUZ_NUM_STAT_COM * sizeof(u32) * 2, zr->stat_comb, zr->p_scb);
- exit_statcom:
- 	dma_free_coherent(&zr->pci_dev->dev, BUZ_NUM_STAT_COM * sizeof(u32), zr->stat_com, zr->p_sc);
--exit_video:
--	kfree(zr->video_dev);
--exit:
- 	return err;
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 95ac6086370b..4328992907f2 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -67,16 +67,6 @@ u32 _rtw_down_sema(struct semaphore *sema)
+ 		return _SUCCESS;
  }
  
-@@ -990,7 +1010,7 @@ static void zoran_remove(struct pci_dev *pdev)
- 	dma_free_coherent(&zr->pci_dev->dev, BUZ_NUM_STAT_COM * sizeof(u32) * 2, zr->stat_comb, zr->p_scb);
- 	pci_release_regions(pdev);
- 	pci_disable_device(zr->pci_dev);
--	video_unregister_device(zr->video_dev);
-+	zoran_exit_video_devices(zr);
- exit_free:
- 	v4l2_ctrl_handler_free(&zr->hdl);
- 	v4l2_device_unregister(&zr->v4l2_dev);
-diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index 46382e43f1bf..551db338c7f7 100644
---- a/drivers/staging/media/zoran/zoran_driver.c
-+++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -1008,7 +1008,7 @@ static const struct vb2_ops zr_video_qops = {
- 	.wait_finish            = vb2_ops_wait_finish,
- };
- 
--int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq)
-+int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir)
+-void	_rtw_mutex_init(struct mutex *pmutex)
+-{
+-	mutex_init(pmutex);
+-}
+-
+-void	_rtw_mutex_free(struct mutex *pmutex)
+-{
+-	mutex_destroy(pmutex);
+-}
+-
+ void	_rtw_init_queue(struct __queue *pqueue)
  {
- 	int err;
+ 	INIT_LIST_HEAD(&pqueue->queue);
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index bb85ab77fd26..8a981a30ea1f 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -116,7 +116,7 @@ static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
+ {
+ 	u8 rst = _SUCCESS;
  
-@@ -1016,7 +1016,8 @@ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq)
- 	INIT_LIST_HEAD(&zr->queued_bufs);
+-	_rtw_mutex_init(&dvobj->usb_vendor_req_mutex);
++	mutex_init(&dvobj->usb_vendor_req_mutex);
  
- 	vq->dev = &zr->pci_dev->dev;
--	vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+	vq->type = dir;
-+
- 	vq->io_modes = VB2_USERPTR | VB2_DMABUF | VB2_MMAP | VB2_READ | VB2_WRITE;
- 	vq->drv_priv = zr;
- 	vq->buf_struct_size = sizeof(struct zr_buffer);
+ 	dvobj->usb_alloc_vendor_req_buf = kzalloc(MAX_USB_IO_CTL_SIZE, GFP_KERNEL);
+ 	if (!dvobj->usb_alloc_vendor_req_buf) {
+@@ -132,7 +132,7 @@ static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
+ static void rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
+ {
+ 	kfree(dvobj->usb_alloc_vendor_req_buf);
+-	_rtw_mutex_free(&dvobj->usb_vendor_req_mutex);
++	mutex_destroy(&dvobj->usb_vendor_req_mutex);
+ }
+ 
+ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
+@@ -760,7 +760,7 @@ static int __init rtw_drv_entry(void)
+ {
+ 	DBG_88E(DRV_NAME " driver version=%s\n", DRIVERVERSION);
+ 
+-	_rtw_mutex_init(&usb_drv->hw_init_mutex);
++	mutex_init(&usb_drv->hw_init_mutex);
+ 
+ 	usb_drv->drv_registered = true;
+ 	return usb_register(&usb_drv->usbdrv);
+@@ -773,7 +773,7 @@ static void __exit rtw_drv_halt(void)
+ 	usb_drv->drv_registered = false;
+ 	usb_deregister(&usb_drv->usbdrv);
+ 
+-	_rtw_mutex_free(&usb_drv->hw_init_mutex);
++	mutex_destroy(&usb_drv->hw_init_mutex);
+ 	DBG_88E("-rtw_drv_halt\n");
+ }
+ 
 -- 
-2.32.0
+2.33.0
 
