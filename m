@@ -1,106 +1,184 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E2C3FC9
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 09:34:17 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id g18so7294224wrc.11
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 02:34:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809C23FC1
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 15:09:14 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id m28so12375432lfj.6
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 08:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ApEY98xhN5gp0CgU7AnzqI8rYPys3K5CiH3JVol8qbg=;
-        b=m8CFzFwXJfCVwzVDB+xfrkNn/GMDk2eIkBoHtBqTRTAF/6bZNKwWiZtH8yNBwYMCgB
-         yfH8MHlbLa8d6slDhCJ4rRBtVwrsTH8EGCRaTMt5DfNwnjylRYbpNZd7lcCsrfBM0BYy
-         O42ztNv5w1yI7I4x5mzTjBwkdMhYOylZn4FdKp08eGqBZCZNTUurep7XBji5clQOP2G6
-         Z60dfbBWYPIucq9k4lmMaOCk9LU6zw6nbGcpm+p283PkHK7euHzOZjfjs4BQWoUugJqk
-         krPsSK301uMQDfcsgyc/Wo0SPsgCTmt4aGKfac65q7680bdeCJK781UXk4Lj3Q78NiwI
-         U6aw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=cqU2PGqygwu99ZbSzOT9TyhyUY2249zso5423D4lseM=;
+        b=JatPzTL6lKTcgrasPi9n2LhNUb9YbfL9EY92QjDDjTfXDQT8a/L0p2yP4dX0xw3fdR
+         wd/9l3PjOH9k6ECIZUaPpVEJYYTLdkMSmCL2gyOo3lFeM8Y7gG0+fEXVnSt4UAK5jtKR
+         CwRQZPslXr/3+YqeULmtAM51kdld7tmYnGEavPKgMfaBtIScKHldITi5zN8X0DTUUrKh
+         x323pPnTgeh0zcbgNrXpj+GhFvXh+qL0KR2e/9LCpRJAf9RwKNFCZ+EI6vFEEJnKlsYu
+         D4567LW5K6fJU++lSHRTr3Q+8jTzbB65YGrliRJXRMxOA7rnopltlpGw7xcCTkpyp6qx
+         U0bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ApEY98xhN5gp0CgU7AnzqI8rYPys3K5CiH3JVol8qbg=;
-        b=Cz8lAiGfvF2t3j8/LCxjW4xQa+hDo+aJoD/34+yYgCdIIO7JyfBF9+dxfJBctTmfcT
-         ipLcW5toC7zAyFfRqsHDHDPY+Jtop91Ai5TNhM16EE23qMzXhb02g3rAltY1NHruyUpI
-         DNvjBeVtNG0uQNd3Ho3cGrMgOAbs/umalEE4Wd26DWGH/rvLlW712QuvfjW1WLPVUi/5
-         klicfTcrSnug6QJVOcpEurvdvd5BPns9BLmbYR8c8X8NLSCOiFYWJl7mgIHxJPJNcaLW
-         wrCZrp1VgjEsfj8jfKPN1Rcu5F27wBmIkDIDV4cIbfGuzQta8X+q3/cdsgOCpsT9zi0M
-         m3Eg==
-X-Gm-Message-State: AOAM533zgDtFdA/TFtqSRdIA7dO5pjuXSAlNM7g+EDb1t2/pvyPVn5tr
-	Tn1zGwAK2zgoiFeXY06HhhI=
-X-Google-Smtp-Source: ABdhPJzr2o2iLy6DWjzEJ1GHl+jNwERg29P8wB9rNUrs98d4YhoxQr4Z1WXeyX0SpCEzJOCI9Sriyg==
-X-Received: by 2002:a5d:570c:: with SMTP id a12mr2891850wrv.117.1630661655937;
-        Fri, 03 Sep 2021 02:34:15 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id x11sm3853060wmk.21.2021.09.03.02.34.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 02:34:15 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 6/6] staging: r8188eu: remove enum hardware_type
-Date: Fri,  3 Sep 2021 11:33:54 +0200
-Message-Id: <20210903093354.12645-7-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210903093354.12645-1-straube.linux@gmail.com>
-References: <20210903093354.12645-1-straube.linux@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=cqU2PGqygwu99ZbSzOT9TyhyUY2249zso5423D4lseM=;
+        b=UXtDfTFEdv+FZ2UnA9OQRzLnvA27/AfFSK7ir9WX0TadY/N+uR0DPmVAsEHYWXXod+
+         lBuBVxK9sb0oUJk5t/tVO2kdLrVuowO6MSWEuudae7Cgokwh9yz0HgvTGG2IXCnnrN7e
+         dzHLzFflDxxQ+Sbt4Fywad1eXmMvlUqa+yFZoTh8VoDHQOlNYGvThlu36Cg5i1+7oAJ3
+         hW5SQki2xYf10zantYsT4PMIbR9vtNlF2WMY8FKeVOViymS68Z3GG/r1lj/z9cxhbolw
+         kAS10J0Mtut4aFKDdhImZfgUfWFswLLviUxZU/dAICU1Qfj6QhYkdPzjj+Lf2LAk47yy
+         +jMg==
+X-Gm-Message-State: AOAM531I/GyjrStb2cwM/e4uMnKDyccP0o+MWmwYJ2Dl2eeacQwMXi10
+	awipn88nhBfAoXYARzFJoEU=
+X-Google-Smtp-Source: ABdhPJzS0YAvlPsopOi+A7Sezb4QTIRI17QorQk8+EuniZgIw/NNYJjAHtIr+SiXkvNb39CxV5O3QQ==
+X-Received: by 2002:a05:6512:3a88:: with SMTP id q8mr3211788lfu.228.1630681752555;
+        Fri, 03 Sep 2021 08:09:12 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.70])
+        by smtp.gmail.com with UTF8SMTPSA id k38sm532790lfv.128.2021.09.03.08.09.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Sep 2021 08:09:12 -0700 (PDT)
+Message-ID: <cd1e8e38-29e7-3565-fb16-baa6c320100d@gmail.com>
+Date: Fri, 3 Sep 2021 18:09:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH v5] staging: r8188eu: Remove _enter/_exit_critical_mutex()
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>,
+ Michael Straube <straube.linux@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Aakash Hemadri <aakashhemadri123@gmail.com>
+References: <20210828113656.6963-1-fmdefrancesco@gmail.com>
+ <YTCaF5Ure2tjfbZB@kroah.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <YTCaF5Ure2tjfbZB@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From enum hardware_type only HARDWARE_TYPE_RTL8188EU is used in the
-driver. Remove the enum and define HARDWARE_TYPE_RTL8188EU.
+On 9/2/21 12:32, Greg Kroah-Hartman wrote:
+> On Sat, Aug 28, 2021 at 01:36:56PM +0200, Fabio M. De Francesco wrote:
+>> Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
+>> unnecessary wrappers, respectively to mutex_lock_interruptible() and
+>> to mutex_unlock(). They also have an odd interface that takes an unused
+>> argument named pirqL of type unsigned long.
+>> The original code enters the critical section if the mutex API is
+>> interrupted while waiting to acquire the lock; therefore it could lead
+>> to a race condition. Use mutex_lock() because it is uninterruptible and
+>> so avoid that above-mentioned potential race condition.
+>> 
+>> Tested-by: Pavel Skripkin <paskripkin@gmail.com>
+>> Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+>> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+>> ---
+>> 
+>> v5: Fix a typo in the subject line. Reported by Aakash Hemadri.
+>> 
+>> v4: Tested and reviewed by Pavel Skripkin. No changes to the code.
+>> 
+>> v3: Assume that the original authors don't expect that
+>> mutex_lock_interruptible() can be really interrupted and then lead to 
+>> a potential race condition. Furthermore, Greg Kroah-Hartman makes me
+>> notice that "[] one almost never needs interruptable locks in a driver".
+>> Therefore, replace the calls to mutex_lock_interruptible() with calls to
+>> mutex_lock() since the latter is uninterruptible and avoid race
+>> conditions without the necessity to handle -EINTR errors.
+> 
+> Based on a recent conversation on the linux-usb mailing list, perhaps I
+> was wrong:
+> 	https://lore.kernel.org/r/20210829015825.GA297712@rowland.harvard.edu
+> 
+> Can you check what happens with your change when you disconnect the
+> device and these code paths are being called?  That is when you do want
+> the lock interrupted.
+> 
+> Yes, the logic still seems wrong, but I don't want to see the code now
+> just lock up entirely with this change as it is a change in how things
+> work from today.
+> 
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/include/hal_intf.h | 23 +---------------------
- 1 file changed, 1 insertion(+), 22 deletions(-)
+Hi, Greg!
 
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 117a98e5444e..5f6ef4d6333a 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -260,28 +260,7 @@ struct hal_ops {
- #define RF_CHANGE_BY_HW		BIT(30)
- #define RF_CHANGE_BY_SW		BIT(31)
- 
--enum hardware_type {
--	HARDWARE_TYPE_RTL8180,
--	HARDWARE_TYPE_RTL8185,
--	HARDWARE_TYPE_RTL8187,
--	HARDWARE_TYPE_RTL8188,
--	HARDWARE_TYPE_RTL8190P,
--	HARDWARE_TYPE_RTL8192E,
--	HARDWARE_TYPE_RTL819xU,
--	HARDWARE_TYPE_RTL8192SE,
--	HARDWARE_TYPE_RTL8192SU,
--	HARDWARE_TYPE_RTL8192CE,
--	HARDWARE_TYPE_RTL8192CU,
--	HARDWARE_TYPE_RTL8192DE,
--	HARDWARE_TYPE_RTL8192DU,
--	HARDWARE_TYPE_RTL8723AE,
--	HARDWARE_TYPE_RTL8723AU,
--	HARDWARE_TYPE_RTL8723AS,
--	HARDWARE_TYPE_RTL8188EE,
--	HARDWARE_TYPE_RTL8188EU,
--	HARDWARE_TYPE_RTL8188ES,
--	HARDWARE_TYPE_MAX,
--};
-+#define HARDWARE_TYPE_RTL8188EU 17
- 
- #define GET_EEPROM_EFUSE_PRIV(adapter) (&adapter->eeprompriv)
- 
--- 
-2.33.0
+I've retested this patch with lockdep enabled and I actually hit a 
+deadlock. It's really my fault to forgot about lockdep while testing v4, 
+I am sorry about the situation.
 
+Actually, the disconnect here is not the problem, the problem was in 
+original code. Changing mutex_lock_interruptible to mutex_lock just 
+helped to discover it.
+
+
+The log:
+
+[  252.063305] WARNING: possible recursive locking detected
+[  252.063642] 5.14.0+ #9 Tainted: G         C
+[  252.063946] --------------------------------------------
+[  252.064282] ip/335 is trying to acquire lock:
+[  252.064560] ffff888009ebad28 (pmutex){+.+.}-{4:4}, at: 
+usbctrl_vendorreq+0xc5/0x4a0 [r8188eu]
+[  252.065168]
+[  252.065168] but task is already holding lock:
+[  252.065536] ffffffffc021b3b8 (pmutex){+.+.}-{4:4}, at: 
+netdev_open+0x3a/0x5f [r8188eu]
+[  252.066085]
+[  252.066085] other info that might help us debug this:
+[  252.066494]  Possible unsafe locking scenario:
+[  252.066494]
+[  252.066866]        CPU0
+[  252.067025]        ----
+[  252.067184]   lock(pmutex);
+[  252.067367]   lock(pmutex);
+[  252.067548]
+[  252.067548]  *** DEADLOCK ***
+[  252.067548]
+[  252.067920]  May be due to missing lock nesting notation
+[  252.067920]
+[  252.068346] 2 locks held by ip/335:
+[  252.068570]  #0: ffffffffbda94628 (rtnl_mutex){+.+.}-{4:4}, at: 
+rtnetlink_rcv_msg+0x1e0/0x660
+[  252.069115]  #1: ffffffffc021b3b8 (pmutex){+.+.}-{4:4}, at: 
+netdev_open+0x3a/0x5f [r8188eu]
+[  252.069690]
+[  252.069690] stack backtrace:
+[  252.069968] CPU: 1 PID: 335 Comm: ip Tainted: G         C 
+5.14.0+ #9
+[  252.071111] Call Trace:
+[  252.071273]  dump_stack_lvl+0x45/0x59
+[  252.071513]  __lock_acquire.cold+0x1fe/0x31b
+[  252.072709]  lock_acquire+0x157/0x3c0
+[  252.074445]  __mutex_lock+0xf6/0xc90
+[  252.076294]  usbctrl_vendorreq+0xc5/0x4a0 [r8188eu]
+[  252.076651]  usb_read8+0x68/0x8f [r8188eu]
+[  252.076962]  ? usb_read16+0x8e/0x8e [r8188eu]
+[  252.077287]  _rtw_read8+0x2d/0x32 [r8188eu]
+[  252.077601]  HalPwrSeqCmdParsing+0x143/0x1de [r8188eu]
+[  252.077979]  rtl8188eu_InitPowerOn+0x5a/0xe0 [r8188eu]
+[  252.078352]  rtl8188eu_hal_init+0xe7/0x1008 [r8188eu]
+[  252.078989]  rtw_hal_init+0x38/0xb5 [r8188eu]
+[  252.079317]  _netdev_open+0x282/0x4db [r8188eu]
+[  252.079653]  netdev_open+0x42/0x5f [r8188eu]
+
+
+The problem was here before, but it was race condition, rather than a 
+deadlock: netdev_open() locks the mutex, but internally calls usb_read8().
+
+With previous code mutex_lock_interruptible() just fails and execution 
+goes forward. It's not correct anyway... Fabio's patch helps to discover 
+design bug :)
+
+
+Again, I am so sorry for not enabling lockdep while testing this first 
+time...
+
+
+
+
+
+With regards,
+Pavel Skripkin
