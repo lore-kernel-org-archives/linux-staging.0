@@ -1,41 +1,41 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0DC3FDC
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 19:05:02 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id g18so67580wrc.11
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 12:05:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733113FD5
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 19:05:03 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id e26so4133651wmk.2
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 12:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JGbmNNalbr+0cEXhwNEc9zJ5EBVfAOBKHrUSQH81oqg=;
-        b=NUqcmH7tkkJUcvokrQL2+dtXXqpMI92FMGo8W6Uti26j3dqLpFvMF52rvsD1ceRCvr
-         Z22wrC3blIdzhlyWt2mmY8S9+fxx32XZ4TMYTsRLLbMoNn8VeLqmk7SNP1r4r69mVdrG
-         6yt7+svdGbdpSxIVA50SDHfYPyX9qp7ppAtz9TcQRE9X+alWgfmbHcViku1Zm/2Bnmxc
-         9VJXvsdM6S28ipgTKgrqLyMCZ0VxzLaWXLJqN6uzVp153hztmIbxBgDKMG78BpU9ROI/
-         Ssj+Ypt3Lbj6AMwrbqEEBkiLAir6pyXzOALldyOxOjeI0eMlaE/YS6xr3GBEXwwA4w+3
-         Rmyw==
+        bh=HUDG+kXf4dTjbdDqMNwNv9gOfhHcrXZhxjOwR67JUzc=;
+        b=kBZKn+HSlHYwG8cmbTyv2+KH9WWh0xUTFzKS4uNtbayBAG0Jn8bahqh92XI7AIw0k3
+         b8f00Jx7NS/3tBcheo9O55q7N1wYsXcOtSN1uGPlMvgpasnXSg0or/frwOk22nw5EZ9c
+         kU53tAUPDp5MpTKl5crwwsM0pPPGhgFbhjRBmqsWck3CDoU19/I/pKolrYa2RaJ/0DJq
+         1kRyuWZNbSLGO4sVEgkCnO0w1LdIA99AUMp2HXOrygW+mBHXThZMFa6fwJrp5Byqfzy8
+         +4eDE6MgZvCoKsqME0HGJ+O2gj6xyUFSHL+IuaAlLqBkSNakL7f5Q7N7FT0rTxtCoA7Y
+         kWRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JGbmNNalbr+0cEXhwNEc9zJ5EBVfAOBKHrUSQH81oqg=;
-        b=dHJDnANcbWc4w/tebj12HHvujWkbyh7l0rKXLZ/Mim8eHhn2W8j8y9ifSfyLH2NsAu
-         XQ92WiCFq+1pkmueSCDoj3Mt7a9Ngd/4ewnyUgbJlkdBIkPcQTKeo5XNMhYNXSM7xrZa
-         HlbMaEdjm6D+NXu7/HoFYGt7l1QiDWXEMtF4hGG1SH3XF608DqHQsvzH8dxNCSQyHWBn
-         ai0CsTaVhcYZA1iOqFV+mCYhN/3wNTiusrg105Zq6/gjyGVoFuZTJ9jZPmeuP2vmqHl/
-         5P5WoZpqGLkILTatr05Ais0Ov2xMYd1mU5WOPMLJVhDfCKHdMAHmO3K1LvUj0x6VLMLm
-         YY7Q==
-X-Gm-Message-State: AOAM531l9mLUqbUv20xBleU0d6X0jDikdJA3CSDv6iDuf4clP3+5TEfv
-	aM+7bOjr9X2JwaxmQIUBQcQ=
-X-Google-Smtp-Source: ABdhPJyj+8Z2u14LC/Ahj2kqd8exxSEdWXcsYuNl3hdDOw8lrWoFAEfwz5ejaVEfY7MYyP2kpNErNw==
-X-Received: by 2002:adf:f7ce:: with SMTP id a14mr580456wrq.174.1630695900944;
-        Fri, 03 Sep 2021 12:05:00 -0700 (PDT)
+        bh=HUDG+kXf4dTjbdDqMNwNv9gOfhHcrXZhxjOwR67JUzc=;
+        b=FoD1ITEXgn1aARvca+1kZN/Dw+26ZiBjdQX82QWXaduip6kSGvvZXQbOhnjBB1s4jW
+         4F6NEUb5QaKz8zEMelvwewWcse2MLatmQ+2Qhwk7/nQpSmWMdUGr8l/elESxqmsOOcjF
+         x1j7s9QUlHqLIduZYnA3mZgYoK3dcAPYL2a8c97fYwRkgRaBmsod9qgfhlO2H5XcM5jL
+         6FQZL2md0ugRdX161fGlZxFO1dEXCzurMZCMzhvSpw6OeryySpS5RdtddPVrFhNK3E+u
+         Oki2L/kbvsJix5UzGHoH2hsfcYc/+GUR+kFaVGlcFc23fBOZtDAWfiibic9v7AG3lHWy
+         GZeg==
+X-Gm-Message-State: AOAM533omBlbkQachoPSmxDSR16d2fKc9Dr3VWVy5QyDhvqMwxQZMsSI
+	ECls1olFNefsTTuaQA6MZNM=
+X-Google-Smtp-Source: ABdhPJxWOCawnkkAkIojBTmGc1HwpUdoFf1kSr035/nFikyPj83mtt8Guo7CqrXzmBy+RDMTI9+B+g==
+X-Received: by 2002:a05:600c:4109:: with SMTP id j9mr237502wmi.88.1630695901842;
+        Fri, 03 Sep 2021 12:05:01 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::848c])
-        by smtp.gmail.com with ESMTPSA id u25sm229291wmj.10.2021.09.03.12.05.00
+        by smtp.gmail.com with ESMTPSA id u25sm229291wmj.10.2021.09.03.12.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 12:05:00 -0700 (PDT)
+        Fri, 03 Sep 2021 12:05:01 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/3] staging: r8188eu: remove unused constant CRC32_POLY
-Date: Fri,  3 Sep 2021 21:04:42 +0200
-Message-Id: <20210903190444.15585-2-straube.linux@gmail.com>
+Subject: [PATCH 2/3] staging: r8188eu: use in-kernel arc4 encryption
+Date: Fri,  3 Sep 2021 21:04:43 +0200
+Message-Id: <20210903190444.15585-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210903190444.15585-1-straube.linux@gmail.com>
 References: <20210903190444.15585-1-straube.linux@gmail.com>
@@ -59,26 +59,240 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused constant CRC32_POLY.
+Replace custom arc4 implementation with in-kernel one.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_security.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_security.c   | 102 ++++--------------
+ .../staging/r8188eu/include/rtw_security.h    |   5 +
+ 2 files changed, 25 insertions(+), 82 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
-index 48f77c6cf43c..d0586af1abad 100644
+index d0586af1abad..a7f769048a44 100644
 --- a/drivers/staging/r8188eu/core/rtw_security.c
 +++ b/drivers/staging/r8188eu/core/rtw_security.c
-@@ -10,8 +10,6 @@
+@@ -10,68 +10,6 @@
  
  /* WEP related ===== */
  
--#define CRC32_POLY 0x04c11db7
+-struct arc4context {
+-	u32 x;
+-	u32 y;
+-	u8 state[256];
+-};
 -
- struct arc4context {
- 	u32 x;
- 	u32 y;
+-static void arcfour_init(struct arc4context *parc4ctx, u8 *key, u32	key_len)
+-{
+-	u32	t, u;
+-	u32	keyindex;
+-	u32	stateindex;
+-	u8 *state;
+-	u32	counter;
+-
+-	state = parc4ctx->state;
+-	parc4ctx->x = 0;
+-	parc4ctx->y = 0;
+-	for (counter = 0; counter < 256; counter++)
+-		state[counter] = (u8)counter;
+-	keyindex = 0;
+-	stateindex = 0;
+-	for (counter = 0; counter < 256; counter++) {
+-		t = state[counter];
+-		stateindex = (stateindex + key[keyindex] + t) & 0xff;
+-		u = state[stateindex];
+-		state[stateindex] = (u8)t;
+-		state[counter] = (u8)u;
+-		if (++keyindex >= key_len)
+-			keyindex = 0;
+-	}
+-
+-}
+-
+-static u32 arcfour_byte(struct arc4context *parc4ctx)
+-{
+-	u32 x;
+-	u32 y;
+-	u32 sx, sy;
+-	u8 *state;
+-
+-	state = parc4ctx->state;
+-	x = (parc4ctx->x + 1) & 0xff;
+-	sx = state[x];
+-	y = (sx + parc4ctx->y) & 0xff;
+-	sy = state[y];
+-	parc4ctx->x = x;
+-	parc4ctx->y = y;
+-	state[y] = (u8)sx;
+-	state[x] = (u8)sy;
+-
+-	return state[(sx + sy) & 0xff];
+-}
+-
+-static void arcfour_encrypt(struct arc4context *parc4ctx, u8 *dest, u8 *src, u32 len)
+-{
+-	u32	i;
+-
+-	for (i = 0; i < len; i++)
+-		dest[i] = src[i] ^ (unsigned char)arcfour_byte(parc4ctx);
+-
+-}
+-
+ /*
+ 	Need to consider the fragment  situation
+ */
+@@ -81,7 +19,6 @@ void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 		__le32 f0;
+ 		u8 f1[4];
+ 	} crc;
+-	struct arc4context	 mycontext;
+ 
+ 	int	curfragnum, length;
+ 	u32	keylength;
+@@ -92,6 +29,7 @@ void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 	struct	pkt_attrib	 *pattrib = &pxmitframe->attrib;
+ 	struct	security_priv	*psecuritypriv = &padapter->securitypriv;
+ 	struct	xmit_priv		*pxmitpriv = &padapter->xmitpriv;
++	struct arc4_ctx *ctx = &psecuritypriv->xmit_arc4_ctx;
+ 
+ 	if (!pxmitframe->buf_addr)
+ 		return;
+@@ -114,15 +52,15 @@ void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 
+ 				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+-				arcfour_init(&mycontext, wepkey, 3 + keylength);
+-				arcfour_encrypt(&mycontext, payload, payload, length);
+-				arcfour_encrypt(&mycontext, payload + length, crc.f1, 4);
++				arc4_setkey(ctx, wepkey, 3 + keylength);
++				arc4_crypt(ctx, payload, payload, length);
++				arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 			} else {
+ 				length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+ 				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+-				arcfour_init(&mycontext, wepkey, 3 + keylength);
+-				arcfour_encrypt(&mycontext, payload, payload, length);
+-				arcfour_encrypt(&mycontext, payload + length, crc.f1, 4);
++				arc4_setkey(ctx, wepkey, 3 + keylength);
++				arc4_crypt(ctx, payload, payload, length);
++				arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 				pframe += pxmitpriv->frag_len;
+ 				pframe = (u8 *)RND4((size_t)(pframe));
+@@ -135,13 +73,13 @@ void rtw_wep_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ void rtw_wep_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ {
+ 	/*  exclude ICV */
+-	struct arc4context	 mycontext;
+ 	int	length;
+ 	u32	keylength;
+ 	u8	*pframe, *payload, *iv, wepkey[16];
+ 	u8	 keyindex;
+ 	struct	rx_pkt_attrib	 *prxattrib = &precvframe->attrib;
+ 	struct	security_priv	*psecuritypriv = &padapter->securitypriv;
++	struct arc4_ctx *ctx = &psecuritypriv->recv_arc4_ctx;
+ 
+ 	pframe = precvframe->rx_data;
+ 
+@@ -157,8 +95,8 @@ void rtw_wep_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 		payload = pframe + prxattrib->iv_len + prxattrib->hdrlen;
+ 
+ 		/* decrypt payload include icv */
+-		arcfour_init(&mycontext, wepkey, 3 + keylength);
+-		arcfour_encrypt(&mycontext, payload, payload,  length);
++		arc4_setkey(ctx, wepkey, 3 + keylength);
++		arc4_crypt(ctx, payload, payload, length);
+ 	}
+ }
+ 
+@@ -509,7 +447,6 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 		u8 f1[4];
+ 	} crc;
+ 	u8   hw_hdr_offset = 0;
+-	struct arc4context mycontext;
+ 	int			curfragnum, length;
+ 
+ 	u8	*pframe, *payload, *iv, *prwskey;
+@@ -518,6 +455,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 	struct	pkt_attrib	 *pattrib = &pxmitframe->attrib;
+ 	struct	security_priv	*psecuritypriv = &padapter->securitypriv;
+ 	struct	xmit_priv		*pxmitpriv = &padapter->xmitpriv;
++	struct arc4_ctx *ctx = &psecuritypriv->xmit_arc4_ctx;
+ 	u32	res = _SUCCESS;
+ 
+ 	if (!pxmitframe->buf_addr)
+@@ -554,16 +492,16 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+ 					length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+ 					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+-					arcfour_init(&mycontext, rc4key, 16);
+-					arcfour_encrypt(&mycontext, payload, payload, length);
+-					arcfour_encrypt(&mycontext, payload + length, crc.f1, 4);
++					arc4_setkey(ctx, rc4key, 16);
++					arc4_crypt(ctx, payload, payload, length);
++					arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 				} else {
+ 					length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
+ 					crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+-					arcfour_init(&mycontext, rc4key, 16);
+-					arcfour_encrypt(&mycontext, payload, payload, length);
+-					arcfour_encrypt(&mycontext, payload + length, crc.f1, 4);
++					arc4_setkey(ctx, rc4key, 16);
++					arc4_crypt(ctx, payload, payload, length);
++					arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 					pframe += pxmitpriv->frag_len;
+ 					pframe = (u8 *)RND4((size_t)(pframe));
+@@ -588,7 +526,6 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 		__le32 f0;
+ 		u8 f1[4];
+ 	} crc;
+-	struct arc4context mycontext;
+ 	int			length;
+ 
+ 	u8	*pframe, *payload, *iv, *prwskey;
+@@ -596,6 +533,7 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 	struct	sta_info		*stainfo;
+ 	struct	rx_pkt_attrib	 *prxattrib = &precvframe->attrib;
+ 	struct	security_priv	*psecuritypriv = &padapter->securitypriv;
++	struct arc4_ctx *ctx = &psecuritypriv->recv_arc4_ctx;
+ 	u32		res = _SUCCESS;
+ 
+ 	pframe = precvframe->rx_data;
+@@ -629,8 +567,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, struct recv_frame *precvframe)
+ 
+ 			/* 4 decrypt payload include icv */
+ 
+-			arcfour_init(&mycontext, rc4key, 16);
+-			arcfour_encrypt(&mycontext, payload, payload, length);
++			arc4_setkey(ctx, rc4key, 16);
++			arc4_crypt(ctx, payload, payload, length);
+ 
+ 			crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+diff --git a/drivers/staging/r8188eu/include/rtw_security.h b/drivers/staging/r8188eu/include/rtw_security.h
+index 1fc1a4f30eec..8ff583cdc0a6 100644
+--- a/drivers/staging/r8188eu/include/rtw_security.h
++++ b/drivers/staging/r8188eu/include/rtw_security.h
+@@ -6,6 +6,7 @@
+ 
+ #include "osdep_service.h"
+ #include "drv_types.h"
++#include <crypto/arc4.h>
+ 
+ #define _NO_PRIVACY_			0x0
+ #define _WEP40_				0x1
+@@ -106,6 +107,10 @@ struct security_priv {
+ 	union Keytype	dot118021XGrprxmickey[4];
+ 	union pn48	dot11Grptxpn;		/* PN48 used for Grp Key xmit.*/
+ 	union pn48	dot11Grprxpn;		/* PN48 used for Grp Key recv.*/
++
++	struct arc4_ctx xmit_arc4_ctx;
++	struct arc4_ctx recv_arc4_ctx;
++
+ #ifdef CONFIG_88EU_AP_MODE
+ 	/* extend security capabilities for AP_MODE */
+ 	unsigned int dot8021xalg;/* 0:disable, 1:psk, 2:802.1x */
 -- 
 2.33.0
 
