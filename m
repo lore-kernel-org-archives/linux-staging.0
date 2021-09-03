@@ -1,26 +1,53 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E666672
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 17:11:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FA8060F3A;
-	Fri,  3 Sep 2021 17:11:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630689083;
-	bh=rcdZIR1F5GTC+dEhx46SBgFcH8TKU9foH8PLC7wQ+gA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YcOsLXaIZ9lPN5sxAbGqhvIKZU7YuPxu+PsEbz1IBOwbi6PnyKqJUGrM5ae0IHy32
-	 Q1gqqon68tR2P5caQlBbevDqPwyN9OHUB8LWTigdB3QT0wvX3hlFxiLM0gcf/UL0HU
-	 r7oU+wMucolTm54r3NYRnH9EjOlPapTi2aqufGEU=
-Date: Fri, 3 Sep 2021 19:11:20 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Krish Jain <krishjain02939@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c"
-Message-ID: <YTJXOFlkLTBTg9rl@kroah.com>
-References: <20210902111339.GA577108@panther>
- <YTCU3SpFgyFbxXs3@kroah.com>
- <CAPGkw+xhPfD0acY1GcwPpHg=kHw7o2+y94-r3AxfzsfyqG4bDw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0848C72
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 17:48:44 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id fs6so69553pjb.4
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 10:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=2RwvGxxkwgPp1kC7OUNpSHVKhmd69dXp1tT7aj4N4gg=;
+        b=FUaUag50ob2Eqb3yiH+FdjIbjocFosp5iaSENleFndT7apgR77KU3A5ioFl1HKxOZq
+         YKREVYFNT5Z+uQdr1cgUgo1uIneWdyQeQ97SzWdiy8N2t5ZBPf8T1SrEahe/5MvE4uFm
+         m2/bcenZ7FMb8p+865QmY2ETiregCBuNR3diuL0qKpuxl4/gu6+vhLDvWmTkk+0JNtJQ
+         IkibDjcOeHP8vJoB79rCSfPMT0jIO6SD/LcxGZx6Qb51dygHTo6V13QFodvOtc2a4zaB
+         0JHveZ6MJQCc583r7YLuZcIFNdRdRD44myJjng0ygqHIWFpK7NuE+UPejRljJ+XC+3Us
+         5raw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2RwvGxxkwgPp1kC7OUNpSHVKhmd69dXp1tT7aj4N4gg=;
+        b=H4idtlQ8ulXHD+mPcYSe7EmvQpPRUPkkdxjGnol+3bZN3GS6m04QPGsy97FFwqU7H2
+         YfbDlIqxrLTeFIV7lqajhKZUUnUT0wmTfqmt7ZWn+u56ZyIVFvCD1sMu9Nqa4JNikinM
+         5n1Tx5CLeDeBCoYF8LxFbc0R5MuIC842mr0bIsl1Fy+N2fc/KSUwSuTJtdrdypustWj6
+         asvKlf1J3jG4xy16Ouqer7jzferotMzhzuS5LwIem03aqfq00IUyZoxJ+7Ka1kbbGv1R
+         BxWwMy/rqFqFQ40Chb6FhKH/tpCDZaZgrO5mHQWQFcH7vYWQF6ZGXv4/JFX7dMwYCR0P
+         l6cA==
+X-Gm-Message-State: AOAM532nXlpIwBRYvkwvJCY6CO9umAr5aIPFhQQ4eEbPpoo9FgmMB5db
+	FTrm68pOvTkxm0seoVZ29uA=
+X-Google-Smtp-Source: ABdhPJydzohBvdITs+K1x4HKM7Kxmexw20vOxzGAKL4JzKbqnWDK5Er0TA1+iGiOyGWrEIN7un9/yw==
+X-Received: by 2002:a17:90a:8c8b:: with SMTP id b11mr90687pjo.14.1630691324349;
+        Fri, 03 Sep 2021 10:48:44 -0700 (PDT)
+Received: from user ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id i5sm5746049pjk.47.2021.09.03.10.48.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Sep 2021 10:48:43 -0700 (PDT)
+Date: Fri, 3 Sep 2021 23:18:38 +0530
+From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] staging: r8188eu: os_dep: use kmemdup instead of kzalloc
+ and memcpy
+Message-ID: <YTJf9odBRwxHZTs8@user>
+References: <YSp9z2/JmvHGhW5m@user>
+ <YTCXef5o9JHtQhuD@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,36 +56,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPGkw+xhPfD0acY1GcwPpHg=kHw7o2+y94-r3AxfzsfyqG4bDw@mail.gmail.com>
+In-Reply-To: <YTCXef5o9JHtQhuD@kroah.com>
 
-On Fri, Sep 03, 2021 at 05:49:46PM +0200, Krish Jain wrote:
-> On Thu, Sep 2, 2021 at 11:09 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+On 02 Sep 2021 11:20, Greg KH wrote:
+> On Sat, Aug 28, 2021 at 11:47:51PM +0530, Saurav Girepunje wrote:
+> > Fixes coccicheck warning:WARNING opportunity for kmemdup in ioctl_linux.c
 > >
-> > On Thu, Sep 02, 2021 at 01:13:39PM +0200, Krish Jain wrote:
-> > > This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
+> > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> > ---
+> >  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
 > >
-> > Please properly line-wrap your changelog text like your editor asked you
-> > to.
+> > diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > index 81d4255d1785..495fadd2b8c8 100644
+> > --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> > @@ -585,14 +585,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
+> >  	}
 > >
-> > Also, your subject line needs work, look at other commits for this
-> > driver with:
-> >         git log --oneline drivers/staging/mt7621-dma/
-> > and notice how they say the driver name and the subsystem.
+> >  	if (ielen) {
+> > -		buf = kzalloc(ielen, GFP_KERNEL);
+> > +		buf = kmemdup(pie, ielen, GFP_KERNEL);
+> >  		if (!buf) {
+> >  			ret =  -ENOMEM;
+> >  			goto exit;
+> >  		}
 > >
-> > Please fix up and resend a v2.
+> > -		memcpy(buf, pie, ielen);
+> > -
+> >  		/* dump */
+> >  		{
+> >  			int i;
+> > --
+> > 2.32.0
 > >
-> > thanks,
 > >
-> > greg k-h
-> 
-> Do you mean I should line-wrap (at 72 columns) the entire thing or
-> only that line?
+>
+> This patch never showed up on lore.kernel.org for some reason.  Please
+> resend and see if it was a mailing issue on your side...
+>
+> thanks,
+>
+> greg k-h
 
-Your whole changelog text needs to be wrapped at 72 columns.
 
-Look at the 'git log' in the kernel tree for hundreds of thousands of
-examples :)
+Ok, I will resend this patch.
 
-thanks,
-
-greg k-h
+Thanks,
+Saurav Girepunje
