@@ -1,41 +1,41 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8CB3FC9
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 09:34:12 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id v10so7297593wrd.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C99172
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 09:34:13 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id b10so7357709wru.0
         for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 02:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nWnFUkWigf/R5l4257MEx+ITJVpSAzZHXNuW2f9UJjE=;
-        b=T/CMt57jPfAl9+I4JBaHsHapsIouKVbo+CwrONj1z9RdHb9+syjzLzRodBR7exOkBp
-         AL+vY2myuqio1+Pn8QA5JEQhsAifFIZx5rTXd3yXT7d/x307cQeVBpe7aZ8U+PFw7q36
-         akidkOTdbTIEVYODsAMmBcpEFukmZcA1QiV/xsHZmn1AAKpXIPbrtB6m8eW5cGnicfcO
-         WvYt8mduXtsOIsTDOnn++HzTqpmL8NYIGxoXOu9RdLcO+IR4nElzK/NRwvQyDZAKGuTJ
-         z/Pl29LbzNpOC+cnYwMTyL3d7imEIFv7PyU37Qg0AQhUHG4ZNuDoSidtr36mQcr3i6x+
-         6vaQ==
+        bh=oznwyLooQ2rhxtSqFdj86ZRnOv4fBG2J3jHuHaF1yHE=;
+        b=JoXcaDwhgnMRJEWj2g2has1eZ0yY4ltbJg6pxCKsVVuBwKcNCUGfosjNn2WWMsauY0
+         Nu4ihue8A4cZI6pLYwsOuspwKJUQNp9+JXWzUbRW4X9Olrpy618jNbm0v2rPhQgDIZg0
+         1S/fmKjnY2bhgJB8twzpX7aMZGsE6F6qQknJMs64KMRo5hwd+nVpXG/1mGuw63Qx8t3V
+         c0GB7H81OfZPdegjsLn/X3o5cPN3QhPsNtNxqOqT+MyS981VRPe8mRkn1SCwRqhJSGGc
+         TUolZvdXmV8KUbehSPsFJ4jt4a5ItvPMoa1q0p1J1WqGt+CJzmwvSnrdfsPXn0z5EF7B
+         7JIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nWnFUkWigf/R5l4257MEx+ITJVpSAzZHXNuW2f9UJjE=;
-        b=l4JEOMR9NzdHMX/qWRcRbqpOXWn1pWZm86DnBUP5pFRxDFnGBZnMA7VnVL5aQFucPr
-         2NjsANsAAiENgqnyoadhheoaNZrwebrl+bh5lWs3I7vivGOWn1liffAnMwQIiy6aSlqU
-         bGy94Z/e2JEkkQlb/srRD2ALlx/HJm1BjcFy0KppTDi2MB1ufYBLNLnlKwZwSlCqjqjm
-         4cOi2yfJgsWX0+9As2/4sc2aSn8Z9jqc6hP3hCgZ7eX2i5Ahl+ZheWCMaK/5LHeatI/6
-         iL9FQEnRP+L+pWVemw9+ITLUoLBSzv2AbMheX8V8pIuz2Njh1aBiU8duXteA6IOcvhRJ
-         P/yA==
-X-Gm-Message-State: AOAM531Qpu33AFdYs5OYfy6NNTbwtYrObhnFcpqLumG7nF0h38vETytV
-	UvVLJpNINQh5i7WOJ4tYpNY=
-X-Google-Smtp-Source: ABdhPJwQZI3CDN3TxMei3yQ+d3GOz0ritWI9u/yQu8kRphixN7dizPsJBLuMmKaf2C67x6JdAdH/Nw==
-X-Received: by 2002:adf:b741:: with SMTP id n1mr2929121wre.120.1630661650700;
-        Fri, 03 Sep 2021 02:34:10 -0700 (PDT)
+        bh=oznwyLooQ2rhxtSqFdj86ZRnOv4fBG2J3jHuHaF1yHE=;
+        b=OxnuWH/zNu6QUhv/O7qy4delr/LuIFyd2h5dU9loeFGxIlEe6lJl52tQkqiAXulhiG
+         qMvmyo0Y/gOc5ZpHCUdjHoZVbHdbjdni9U3dQ5Cd/yO3T2ZCZmO33leVeejDmA5aZ5w1
+         MgOVklljNGKekZ2PhIkY04LBrn5GnlhJlno16o8UlFBsjQhnMs/wazkumSYYiM/JS2hV
+         jFYNHxL7QyNHE0C9FgWlXwgYnT8umfgxedF2ktkPyv0nP/mbnjNodCYGutj2kZ3Bd+hR
+         rmDm3eiZ6e4tzmjGgso9LLFG8wguXmJTeuDWzV8QW9e+D2XGuKQI1lQTcMEo++0Il49K
+         mEAw==
+X-Gm-Message-State: AOAM531ImUvDdrMDP9zektqB5uuz/apOFea/kZ5hSG8Nlb0ChOoJ3TTA
+	tKouAD1drq8EcvEzZGJm0nzQ2rbMJdtv8A==
+X-Google-Smtp-Source: ABdhPJx/+h8UZIFCxZiltfDZtgYQjnz6VeGEXE2xBJC2LwoUstv45cDQ6Ku0Mnsvv6luek7fadzOzg==
+X-Received: by 2002:adf:80c8:: with SMTP id 66mr2931481wrl.65.1630661651619;
+        Fri, 03 Sep 2021 02:34:11 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id x11sm3853060wmk.21.2021.09.03.02.34.09
+        by smtp.gmail.com with ESMTPSA id x11sm3853060wmk.21.2021.09.03.02.34.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 02:34:10 -0700 (PDT)
+        Fri, 03 Sep 2021 02:34:11 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/6] staging: r8188eu: remove unused enum from ieee80211.h.
-Date: Fri,  3 Sep 2021 11:33:51 +0200
-Message-Id: <20210903093354.12645-4-straube.linux@gmail.com>
+Subject: [PATCH 4/6] staging: r8188eu: remove unused enum rt_eeprom_type
+Date: Fri,  3 Sep 2021 11:33:52 +0200
+Message-Id: <20210903093354.12645-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210903093354.12645-1-straube.linux@gmail.com>
 References: <20210903093354.12645-1-straube.linux@gmail.com>
@@ -59,52 +59,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused enum from ieee80211.h.
+Remove unused enum rt_eeprom_type.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/ieee80211.h | 28 ---------------------
- 1 file changed, 28 deletions(-)
+ drivers/staging/r8188eu/include/hal_intf.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index bc5b030e9c40..ef0a7c20bd58 100644
---- a/drivers/staging/r8188eu/include/ieee80211.h
-+++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -19,34 +19,6 @@
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index 954de3ab2613..bbdbbf9697b1 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -254,12 +254,6 @@ struct hal_ops {
+ 	c2h_id_filter c2h_id_filter_ccx;
+ };
  
- #define RTL_IOCTL_HOSTAPD (SIOCIWFIRSTPRIV + 28)
- 
--/* RTL871X_IOCTL_HOSTAPD ioctl() cmd: */
--enum {
--	RTL871X_HOSTAPD_FLUSH = 1,
--	RTL871X_HOSTAPD_ADD_STA = 2,
--	RTL871X_HOSTAPD_REMOVE_STA = 3,
--	RTL871X_HOSTAPD_GET_INFO_STA = 4,
--	/* REMOVED: PRISM2_HOSTAPD_RESET_TXEXC_STA = 5, */
--	RTL871X_HOSTAPD_GET_WPAIE_STA = 5,
--	RTL871X_SET_ENCRYPTION = 6,
--	RTL871X_GET_ENCRYPTION = 7,
--	RTL871X_HOSTAPD_SET_FLAGS_STA = 8,
--	RTL871X_HOSTAPD_GET_RID = 9,
--	RTL871X_HOSTAPD_SET_RID = 10,
--	RTL871X_HOSTAPD_SET_ASSOC_AP_ADDR = 11,
--	RTL871X_HOSTAPD_SET_GENERIC_ELEMENT = 12,
--	RTL871X_HOSTAPD_MLME = 13,
--	RTL871X_HOSTAPD_SCAN_REQ = 14,
--	RTL871X_HOSTAPD_STA_CLEAR_STATS = 15,
--	RTL871X_HOSTAPD_SET_BEACON = 16,
--	RTL871X_HOSTAPD_SET_WPS_BEACON = 17,
--	RTL871X_HOSTAPD_SET_WPS_PROBE_RESP = 18,
--	RTL871X_HOSTAPD_SET_WPS_ASSOC_RESP = 19,
--	RTL871X_HOSTAPD_SET_HIDDEN_SSID = 20,
--	RTL871X_HOSTAPD_SET_MACADDR_ACL = 21,
--	RTL871X_HOSTAPD_ACL_ADD_STA = 22,
--	RTL871X_HOSTAPD_ACL_REMOVE_STA = 23,
+-enum rt_eeprom_type {
+-	EEPROM_93C46,
+-	EEPROM_93C56,
+-	EEPROM_BOOT_EFUSE,
 -};
 -
- /* STA flags */
- #define WLAN_STA_AUTH BIT(0)
- #define WLAN_STA_ASSOC BIT(1)
+ #define RF_CHANGE_BY_INIT	0
+ #define RF_CHANGE_BY_IPS	BIT(28)
+ #define RF_CHANGE_BY_PS		BIT(29)
 -- 
 2.33.0
 
