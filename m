@@ -1,96 +1,95 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A27C3FD5
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 18:53:41 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id gp20-20020a17090adf1400b00196b761920aso180653pjb.3
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 11:53:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C893FD5
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 18:54:45 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id 2so212215pfo.8
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 11:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cYg95UwxTL2wMWqBMmt8+HU/FFQUMY2wtY0M2szhJz8=;
-        b=QIp/9/b95JTMk9GYZ/8RlI4mVoQv4y2yt6N+yut/ximLGMu+tuqgZ16WFcVWV1mqGq
-         fepqe7v2A20HFYssg1nO6q3PyQblDX7qDazWYNC3Pc4VhRasd1EvBTpM67pwafkmKzDG
-         8ZwaEw4euZAjKAjqzI5lRX4/sF1I7IIB4936jkCUQS49BrMluF7f8P0mevm9wlS7ku4e
-         hqgcayKLbLvuVb/IOKLhAUOVhyk+g8yH4rXzxJUWxtaXS1b9YKwwWvnEEsSVj+yGWCeM
-         /MQVfEbjm1zYGzx5w2DGXmIzOVBMQhysdwrnSbZKmhRZ5B1HpMAWs21lk0F51MSBhyYE
-         Z3Ew==
+        bh=JPPn+kbAlZ1MWLNKQ2tdH9GpmK0cO7Zw1ZlJsYJztcY=;
+        b=KBsVJ6KYy89BuFK894h9wXPGIq87RDblxdrT2/9PZ80BTtsp3eOVQnf7cYqLafvd+i
+         1pE284lLXCWf5Qea5zwusPs+wMQ7C9mGaHau5Ori/iLePtdBDrzUKAQlHCw8ECfIiU4f
+         CR8rZGHQ7d5gTyMnFqHxqq6bOtX0eqOseRFWeYh4jTko2V3xQ+8Q+/yR+oAcwwniEECh
+         GVjeXYM30sc8Ho22U1SSgcodhwsbJ1begO61V/9XLus3De+zgEixJW6iltSqz+apd4Da
+         FCSnrl0oPzIcVlPZ+L4UB34PXtypzkhK9EL7IgyfAw55ufSZzLlGgu1bmAZisTAYfn6A
+         RaTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cYg95UwxTL2wMWqBMmt8+HU/FFQUMY2wtY0M2szhJz8=;
-        b=bOLRvK1td6zi4sH+MiqLCyDQ8jxBD19kP1dnEqwuzRslznt12v6oMGnkCGqmvfDkek
-         oA4gqYYkUbOiFg8RkEjefuEKTuglxd5OlqsfWV3xJZLg9kTLWYHp67s6FwlmTpLF7rSl
-         rSQVZL5r8yjH876yA2UgYE90KaxIcx4uUDqtKti3l2Cped9gV3syhElBYBVUE8Qe5jNs
-         JqKaK40TeD/W+ViNiM4FMizsFafMnG7ot1cTd39QTGijDTXrKaGIn/OThsj2XZVf+iJ2
-         kMbK5KzU2CXWmw5ATSW3PWeMJ3O09BUz2QD7u90knAYl9GbOjPAfPaJkUUA+iYsJ1+qq
-         MV/g==
-X-Gm-Message-State: AOAM532RyGaSPzIVb4r5b6HH0qfupK3ZAFAVNNmiaO+QoTEC/9qSJ7iJ
-	U8BkLF4IhS+W9crQQJbkqGk4cxO5deYp+o5tRgvetQ==
-X-Google-Smtp-Source: ABdhPJzaqbi+WTtOyW8aEzKZGLrWRFG0rYEWODEzLKf/vG09PU01udkGwV0zaahhozokMiR2kCRYO8U8/ekTQehdJDk=
-X-Received: by 2002:a17:902:6b84:b029:ee:f966:1911 with SMTP id
- p4-20020a1709026b84b02900eef9661911mr224187plk.69.1630695220952; Fri, 03 Sep
- 2021 11:53:40 -0700 (PDT)
+        bh=JPPn+kbAlZ1MWLNKQ2tdH9GpmK0cO7Zw1ZlJsYJztcY=;
+        b=gjJ2HtpNQiIZ9z7RlezKCZfn70eDb++wTQqCCwV0XHvJM824FZ4Ly0YIc3ouOxpQJ5
+         YbdDSi0PeRjlA+oKZqUIOA34rX4QGHDeFKBxP7iCivKYIFf3gPz7InlsEImYErF4y1cr
+         /kx6Z6TSNjS4fvp1gUFilU8X7vnzzrRvu9wsu56c6uzHfwa2YJHDvNb21Y4Fi4dabJk6
+         WBcNLiVsyYWefiHXO/EE26CvDw0A4Z2Ok91brKmFot31beNeQVgsWHZRyqshI+aUgU4e
+         exT7Gpse5gzjS8Dx80FCfM7zUL+IwxSqNyK0QCN0RSWCXUup29DnTXO62YjOUx9C/89w
+         VkJA==
+X-Gm-Message-State: AOAM531RmQyqMtKclBXbeVOo+2tNDcwEt7BuPD6y8CO1XcF5RXOjQeRe
+	Gb/ME/91ngo/ceWjD7EERs5/iLsQEde73jInw2Q=
+X-Google-Smtp-Source: ABdhPJwOZWoo+bJfQutYdoVNvoWpxY148cF+BXFbI3o0M9DnpEFNvnlm18W6NFY8LB/oQVWHK496M+SRMpQN5fjsBbs=
+X-Received: by 2002:a65:6554:: with SMTP id a20mr420257pgw.107.1630695284688;
+ Fri, 03 Sep 2021 11:54:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YTJhwQstKPUYRwN+@user>
-In-Reply-To: <YTJhwQstKPUYRwN+@user>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Fri, 3 Sep 2021 19:53:29 +0100
-Message-ID: <CAA=Fs0mP7xqiS7+EX+J5MYH-AkEN_5SgtLrxAd669kXHG7Jk+A@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: os_dep: use kmemdup instead of kzalloc
- and memcpy
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Greg KH <gregkh@linuxfoundation.org>, 
-	Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, saurav.girepunje@hotmail.com
+References: <20210902111339.GA577108@panther> <YTCU3SpFgyFbxXs3@kroah.com>
+ <CAPGkw+xhPfD0acY1GcwPpHg=kHw7o2+y94-r3AxfzsfyqG4bDw@mail.gmail.com> <YTJXOFlkLTBTg9rl@kroah.com>
+In-Reply-To: <YTJXOFlkLTBTg9rl@kroah.com>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Fri, 3 Sep 2021 20:54:33 +0200
+Message-ID: <CAPGkw+yKQx+O3yfxxMgv9oyH2-pun5-g=+mFWQ_YwbfXp1Y6cA@mail.gmail.com>
+Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c"
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 3 Sept 2021 at 18:56, Saurav Girepunje
-<saurav.girepunje@gmail.com> wrote:
+On Fri, Sep 3, 2021 at 7:11 PM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
-> Fixes coccicheck warning:WARNING opportunity for kmemdup in ioctl_linux.c
+> On Fri, Sep 03, 2021 at 05:49:46PM +0200, Krish Jain wrote:
+> > On Thu, Sep 2, 2021 at 11:09 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Thu, Sep 02, 2021 at 01:13:39PM +0200, Krish Jain wrote:
+> > > > This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
+> > >
+> > > Please properly line-wrap your changelog text like your editor asked you
+> > > to.
+> > >
+> > > Also, your subject line needs work, look at other commits for this
+> > > driver with:
+> > >         git log --oneline drivers/staging/mt7621-dma/
+> > > and notice how they say the driver name and the subsystem.
+> > >
+> > > Please fix up and resend a v2.
+> > >
+> > > thanks,
+> > >
+> > > greg k-h
+> >
+> > Do you mean I should line-wrap (at 72 columns) the entire thing or
+> > only that line?
 >
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> Your whole changelog text needs to be wrapped at 72 columns.
 >
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 81d4255d1785..495fadd2b8c8 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -585,14 +585,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
->         }
+> Look at the 'git log' in the kernel tree for hundreds of thousands of
+> examples :)
 >
->         if (ielen) {
-> -               buf = kzalloc(ielen, GFP_KERNEL);
-> +               buf = kmemdup(pie, ielen, GFP_KERNEL);
->                 if (!buf) {
->                         ret =  -ENOMEM;
->                         goto exit;
->                 }
+> thanks,
 >
-> -               memcpy(buf, pie, ielen);
-> -
->                 /* dump */
->                 {
->                         int i;
-> --
-> 2.32.0
->
+> greg k-h
 
-Dear Saurav,
+Hi, so you mean only the change-log text (as in the text telling what
+changes have been made) needs to be wrapped at 72 columns but the code
+itself (the git diff) doesn't, right ? Because then the entire purpose
+of my formatting the code will be lost. Sorry for the confusion.
+Learning
 
-Looks good, thanks:
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
-Regards,
-Phil
+Best Regards,
+
+Krish
