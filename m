@@ -1,41 +1,41 @@
 Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739CC72
-	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 09:34:16 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id v10so7297878wrd.4
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 02:34:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E2C3FC9
+	for <linux-staging@lists.linux.dev>; Fri,  3 Sep 2021 09:34:17 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id g18so7294224wrc.11
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 02:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=u8mntTNaiLWjY70DY1DSoMIjwedthxyJ8a+lz8Q75Aw=;
-        b=E93pGRgevUTJ8BopWVKHQLqfluJChQEDqKtWpgvCdSBKAXUkvAAJ1pDWt3FrivsUAl
-         lz0XI7CJfMlzkiv7c6XAe7g/EiP6yXCbhB9nyxTrOxX3oXwMzqo96SwL7w1j/LhLHAkn
-         JNFyyRMwxs6OBhwzauhm4t4LFohLPR7+l2J41YUxFmYjHjpDRGj/bu3ilbOHaqOZiLTA
-         w4qrWlNZC/ThiiWXwetQUw1pl+S7fDWrU9mfmpHLLHBUWCQklZ6kXcp63W8n65ahCy9W
-         L2zldXhX1Ce9DExZ5zolazRl/jR9r+BUqouxUfR0oC68qPc7DvRHbUU9QRz5inDjSy/Y
-         nkSA==
+        bh=ApEY98xhN5gp0CgU7AnzqI8rYPys3K5CiH3JVol8qbg=;
+        b=m8CFzFwXJfCVwzVDB+xfrkNn/GMDk2eIkBoHtBqTRTAF/6bZNKwWiZtH8yNBwYMCgB
+         yfH8MHlbLa8d6slDhCJ4rRBtVwrsTH8EGCRaTMt5DfNwnjylRYbpNZd7lcCsrfBM0BYy
+         O42ztNv5w1yI7I4x5mzTjBwkdMhYOylZn4FdKp08eGqBZCZNTUurep7XBji5clQOP2G6
+         Z60dfbBWYPIucq9k4lmMaOCk9LU6zw6nbGcpm+p283PkHK7euHzOZjfjs4BQWoUugJqk
+         krPsSK301uMQDfcsgyc/Wo0SPsgCTmt4aGKfac65q7680bdeCJK781UXk4Lj3Q78NiwI
+         U6aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=u8mntTNaiLWjY70DY1DSoMIjwedthxyJ8a+lz8Q75Aw=;
-        b=L6193y4AR0l6EW2NpXBu1PlxsFpwGBkSDjj4Kwh4CAWTjT1d+QsGrY1cPuAxSV+AsQ
-         LfMEHax/ezekPNiMZe69QQXjyzXFjTOGzKmckSy42GeY9i/THldkcBGV5VK2cQgHE2V4
-         3804LO4Fybtp4c1maeOfmp3sBK0hAFr1FTdYhQ8BCHp+W2R+Pg8b+0M6oHPS7qZGhQRf
-         s/rlg1NyiSCWyfaPycrPkmQ2z7jUUEGeNEJGJpnoBTE14a8bRHKsOPLXX29193KeLvj3
-         tb31Zd9qcPQIj1n+zrmQr3WD23HVHZ3Rrny4xLCLb5nD2MGsiWuQb73uiziVEGo+lDz2
-         9fiw==
-X-Gm-Message-State: AOAM531C4WqgOeDccgPOO9bRkkEBjm6txcIIk4rWds0GWsHwvFDio+N1
-	83fCsbgBGhAm12FQytNBcbpCLBbn+/vlEQ==
-X-Google-Smtp-Source: ABdhPJwJSBYG573SRljTTzhmSBZXyru+7CMW3qF19k6lQr642pBHX+l5XraG2LZPpZNvi1zyl8lXUg==
-X-Received: by 2002:adf:b7cd:: with SMTP id t13mr3008755wre.63.1630661654939;
-        Fri, 03 Sep 2021 02:34:14 -0700 (PDT)
+        bh=ApEY98xhN5gp0CgU7AnzqI8rYPys3K5CiH3JVol8qbg=;
+        b=Cz8lAiGfvF2t3j8/LCxjW4xQa+hDo+aJoD/34+yYgCdIIO7JyfBF9+dxfJBctTmfcT
+         ipLcW5toC7zAyFfRqsHDHDPY+Jtop91Ai5TNhM16EE23qMzXhb02g3rAltY1NHruyUpI
+         DNvjBeVtNG0uQNd3Ho3cGrMgOAbs/umalEE4Wd26DWGH/rvLlW712QuvfjW1WLPVUi/5
+         klicfTcrSnug6QJVOcpEurvdvd5BPns9BLmbYR8c8X8NLSCOiFYWJl7mgIHxJPJNcaLW
+         wrCZrp1VgjEsfj8jfKPN1Rcu5F27wBmIkDIDV4cIbfGuzQta8X+q3/cdsgOCpsT9zi0M
+         m3Eg==
+X-Gm-Message-State: AOAM533zgDtFdA/TFtqSRdIA7dO5pjuXSAlNM7g+EDb1t2/pvyPVn5tr
+	Tn1zGwAK2zgoiFeXY06HhhI=
+X-Google-Smtp-Source: ABdhPJzr2o2iLy6DWjzEJ1GHl+jNwERg29P8wB9rNUrs98d4YhoxQr4Z1WXeyX0SpCEzJOCI9Sriyg==
+X-Received: by 2002:a5d:570c:: with SMTP id a12mr2891850wrv.117.1630661655937;
+        Fri, 03 Sep 2021 02:34:15 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::16fa])
-        by smtp.gmail.com with ESMTPSA id x11sm3853060wmk.21.2021.09.03.02.34.11
+        by smtp.gmail.com with ESMTPSA id x11sm3853060wmk.21.2021.09.03.02.34.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Sep 2021 02:34:14 -0700 (PDT)
+        Fri, 03 Sep 2021 02:34:15 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/6] staging: r8188eu: remove IS_HARDWARE_TYPE_8188* macros
-Date: Fri,  3 Sep 2021 11:33:53 +0200
-Message-Id: <20210903093354.12645-6-straube.linux@gmail.com>
+Subject: [PATCH 6/6] staging: r8188eu: remove enum hardware_type
+Date: Fri,  3 Sep 2021 11:33:54 +0200
+Message-Id: <20210903093354.12645-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210903093354.12645-1-straube.linux@gmail.com>
 References: <20210903093354.12645-1-straube.linux@gmail.com>
@@ -59,75 +59,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The IS_HARDWARE_TYPE_8188* macros are not needed because the driver
-is for RTL8188EU chips, remove them.
+From enum hardware_type only HARDWARE_TYPE_RTL8188EU is used in the
+driver. Remove the enum and define HARDWARE_TYPE_RTL8188EU.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_mp.c  | 20 +++++++++-----------
- drivers/staging/r8188eu/include/hal_intf.h | 11 -----------
- 2 files changed, 9 insertions(+), 22 deletions(-)
+ drivers/staging/r8188eu/include/hal_intf.h | 23 +---------------------
+ 1 file changed, 1 insertion(+), 22 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_mp.c b/drivers/staging/r8188eu/hal/rtl8188e_mp.c
-index ee0c96890cf3..eb9e32dfcbe7 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_mp.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_mp.c
-@@ -506,12 +506,11 @@ void Hal_SetSingleToneTx(struct adapter *pAdapter, u8 bStart)
- 	if (bStart) {
- 		/*  Start Single Tone. */
- 		/*  <20120326, Kordan> To amplify the power of tone for Xtal calibration. (asked by Edlu) */
--		if (IS_HARDWARE_TYPE_8188E(pAdapter)) {
--			reg58 = PHY_QueryRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask);
--			reg58 &= 0xFFFFFFF0;
--			reg58 += 2;
--			PHY_SetRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask, reg58);
--		}
-+		reg58 = PHY_QueryRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask);
-+		reg58 &= 0xFFFFFFF0;
-+		reg58 += 2;
-+		PHY_SetRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask, reg58);
-+
- 		PHY_SetBBReg(pAdapter, rFPGA0_RFMOD, bCCKEn, 0x0);
- 		PHY_SetBBReg(pAdapter, rFPGA0_RFMOD, bOFDMEn, 0x0);
- 
-@@ -528,11 +527,10 @@ void Hal_SetSingleToneTx(struct adapter *pAdapter, u8 bStart)
- 		/*  Stop Single Tone. */
- 		/*  <20120326, Kordan> To amplify the power of tone for Xtal calibration. (asked by Edlu) */
- 		/*  <20120326, Kordan> Only in single tone mode. (asked by Edlu) */
--		if (IS_HARDWARE_TYPE_8188E(pAdapter)) {
--			reg58 = PHY_QueryRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask);
--			reg58 &= 0xFFFFFFF0;
--			PHY_SetRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask, reg58);
--		}
-+		reg58 = PHY_QueryRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask);
-+		reg58 &= 0xFFFFFFF0;
-+		PHY_SetRFReg(pAdapter, RF_PATH_A, LNA_Low_Gain_3, bRFRegOffsetMask, reg58);
-+
- 		write_bbreg(pAdapter, rFPGA0_RFMOD, bCCKEn, 0x1);
- 		write_bbreg(pAdapter, rFPGA0_RFMOD, bOFDMEn, 0x1);
- 
 diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index bbdbbf9697b1..117a98e5444e 100644
+index 117a98e5444e..5f6ef4d6333a 100644
 --- a/drivers/staging/r8188eu/include/hal_intf.h
 +++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -283,17 +283,6 @@ enum hardware_type {
- 	HARDWARE_TYPE_MAX,
- };
+@@ -260,28 +260,7 @@ struct hal_ops {
+ #define RF_CHANGE_BY_HW		BIT(30)
+ #define RF_CHANGE_BY_SW		BIT(31)
  
--/*  RTL8188E Series */
--#define IS_HARDWARE_TYPE_8188EE(_Adapter)			\
--(((struct adapter *)_Adapter)->HardwareType == HARDWARE_TYPE_RTL8188EE)
--#define IS_HARDWARE_TYPE_8188EU(_Adapter)			\
--(((struct adapter *)_Adapter)->HardwareType == HARDWARE_TYPE_RTL8188EU)
--#define IS_HARDWARE_TYPE_8188ES(_Adapter)			\
--(((struct adapter *)_Adapter)->HardwareType == HARDWARE_TYPE_RTL8188ES)
--#define	IS_HARDWARE_TYPE_8188E(_Adapter)	\
--(IS_HARDWARE_TYPE_8188EE(_Adapter) || IS_HARDWARE_TYPE_8188EU(_Adapter) || \
-- IS_HARDWARE_TYPE_8188ES(_Adapter))
--
+-enum hardware_type {
+-	HARDWARE_TYPE_RTL8180,
+-	HARDWARE_TYPE_RTL8185,
+-	HARDWARE_TYPE_RTL8187,
+-	HARDWARE_TYPE_RTL8188,
+-	HARDWARE_TYPE_RTL8190P,
+-	HARDWARE_TYPE_RTL8192E,
+-	HARDWARE_TYPE_RTL819xU,
+-	HARDWARE_TYPE_RTL8192SE,
+-	HARDWARE_TYPE_RTL8192SU,
+-	HARDWARE_TYPE_RTL8192CE,
+-	HARDWARE_TYPE_RTL8192CU,
+-	HARDWARE_TYPE_RTL8192DE,
+-	HARDWARE_TYPE_RTL8192DU,
+-	HARDWARE_TYPE_RTL8723AE,
+-	HARDWARE_TYPE_RTL8723AU,
+-	HARDWARE_TYPE_RTL8723AS,
+-	HARDWARE_TYPE_RTL8188EE,
+-	HARDWARE_TYPE_RTL8188EU,
+-	HARDWARE_TYPE_RTL8188ES,
+-	HARDWARE_TYPE_MAX,
+-};
++#define HARDWARE_TYPE_RTL8188EU 17
+ 
  #define GET_EEPROM_EFUSE_PRIV(adapter) (&adapter->eeprompriv)
  
- #define is_boot_from_eeprom(adapter) (adapter->eeprompriv.EepromOrEfuse)
 -- 
 2.33.0
 
