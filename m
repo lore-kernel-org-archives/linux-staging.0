@@ -1,87 +1,115 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3053FCC
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 09:39:19 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id f11-20020a17090aa78b00b0018e98a7cddaso1191423pjq.4
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 02:39:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96233FCC
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 09:41:01 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id y17so1439605pfl.13
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 02:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=plYva5hHszvERh5e5dbtWwplKYm4ip7TSv2p3MOtQOE=;
-        b=WekawAkPIMwH9SiTHXg0fIPfJ5AA+4tzFsWmBBqY1GowcQCgEi3/pP9JbmAlfrudkj
-         MHzJfaBpDPD5zZ+t8YpfTsopDfg3SoNvUGwo9fBAlokQC3VhsUPmkkxw3KbENR0NEGdV
-         U2FyyVDfVLZlKt+ZMCWWbFT43nr94yDfbqM23lGY+emAUZXAdPTnrzAU/zhIflBltgYd
-         kF/YwkKiSCLtKgrmwUU5qMSDhT/SUztOxzUUU+1dLjBtIY5OR57vnrAIdflQVSSPm/nC
-         ucLvtsC0+SHMOzjwsCNHyMJPm9I1asW89f6eS4PhV4v6PL1Vpf4mlu/qDnV1/KxtYaj6
-         LIYw==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2CvcJSiEN9MNXuAzxJzwyEfnTU0mKkfe0+AjDJ9kifY=;
+        b=PSAR8amj8SgeZssZ3i6aMhFnhx1d4yc7BYIy+eXaxcMCN1aRoV2VqqXOM2pmH1LvRh
+         suidGUSlvYdrWD6WtmksppAQQejgzqMFdNY+FvjO2wKBY14MmY1LOB888gf890VzaV2I
+         nTP5g2G8jyoBaDxBGJRLcDQ98Vvq67nwdzFCIbge+CWR77ynC61LFys+8KVF4qlIBI/U
+         3osF4Ki1nBsfaUgPkJ7opkfRy4sw6+tt2mY5fFzIoT4i/ZCfU51LENFPBxUD7MkJG+C8
+         W2A8sc/jgNGKU16m2bGUqCtY95b23dyuP4WZomR7tlXbXhUpd+fsXmuYtrmciKNqFgzN
+         n1GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=plYva5hHszvERh5e5dbtWwplKYm4ip7TSv2p3MOtQOE=;
-        b=KpVUFfQFfugUEWxDKZR9o9WwnNnGDB+jTIXRh3/nymNS+SMAbr+HAFu0KKjGc9obUr
-         t6X3F9z/i0Rf7azDtUwcBqSq22tUSJsej5U/AoAZfsFVXFmQQX8lgFvTBrO17oOXcuYv
-         2CuYNEJkpfEJVbvCVFYn7dDzl+d1TGXlWyMWTDWCq0Wvhwp7xfEAQ/4DR89h98bkO+S+
-         RKddccWooCo+Mnlr0lZ2SWYYN9XtIVRa7/OYE4Xj9Mt5NvHpC6lnAjrZB39RonUMOlq9
-         l+WoPQZVMH5cgirBxqLjLXPzu7K4Tf66d6lnNdBN0OrEWnRsvOWOIw14lymVkbJQyx1s
-         hXvw==
-X-Gm-Message-State: AOAM533UJumTSTSBxxz4BuYUoqEkJrUIlt6AwyLXPcRVR0j7OcG7eNN6
-	h09UkX4HD4oYyYR4wWTm3TU=
-X-Google-Smtp-Source: ABdhPJzuW5wxNK9ghnYeDDYhnYgqDuo8ge2Jk/t+M6m5fh4W6grNKjdqI40IpAoPkGEpq3ixlvSfmA==
-X-Received: by 2002:a17:90b:1d02:: with SMTP id on2mr3468540pjb.204.1630748359223;
-        Sat, 04 Sep 2021 02:39:19 -0700 (PDT)
-Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id j17sm1890612pfn.148.2021.09.04.02.39.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 02:39:18 -0700 (PDT)
-Date: Sat, 4 Sep 2021 15:09:13 +0530
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2CvcJSiEN9MNXuAzxJzwyEfnTU0mKkfe0+AjDJ9kifY=;
+        b=IKl6Pfo046bFEyfOP5NJS6WvlbXXp/LaY/eUahE5WEkXejguXcO0snoPqWXMPx0H4B
+         b7FD2h3axI7tu4SPBixC8ljmdCPs5U7i0eIZyA9Owf5ktxMPtKejS3JLeBL4F6ynAD7c
+         ArLFIX5bZ9fj6qB9+AUtwiVSUIOz4sYo6fH9xriePQ3mysN2+cr37ebday7laxypDJOZ
+         sIiPnVNfZ37IbRQsqB2Q5o0pD/qtzyGSD9e4+x9lC8cAp8nCidm2t08TgMkFS+uM+Qxr
+         Nd08cv1YCVeZ5UCGR3NzsicUaXu9ZPzVOR3EDdlhK0jV5z+xHjuv3kQAZio5IAlIlb/J
+         +5jA==
+X-Gm-Message-State: AOAM531Vw5IF/Xcq22hTWBT59snh20sPxPoYwzY3GX52Z9jnzTfpa7mi
+	cTtJdgw+6uy0pBhTp+3Mq5g=
+X-Google-Smtp-Source: ABdhPJxq2rms+uXKvb4icD3P3JOkrs3NOtHPFvW/WtVyj4BtTwAnf8MfiVqQ6s96O3u9y/XiLBUpcg==
+X-Received: by 2002:a63:ef58:: with SMTP id c24mr2902397pgk.299.1630748461514;
+        Sat, 04 Sep 2021 02:41:01 -0700 (PDT)
+Received: from [192.168.1.6] ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id d15sm1797118pfh.34.2021.09.04.02.40.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Sep 2021 02:41:00 -0700 (PDT)
+Cc: saurav.girepunje@hotmail.com, Larry Finger <Larry.Finger@lwfinger.net>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: r8188eu: os_dep: use kmemdup instead of kzalloc
+ and memcpy
+To: Phillip Potter <phil@philpotter.co.uk>
+References: <YTJhwQstKPUYRwN+@user>
+ <CAA=Fs0mP7xqiS7+EX+J5MYH-AkEN_5SgtLrxAd669kXHG7Jk+A@mail.gmail.com>
 From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: os_dep: simplifiy the rtw_resume function
-Message-ID: <YTM+wayCk2n2CrVP@user>
+Message-ID: <52642929-cec1-d03b-03f1-130a54c0c289@gmail.com>
+Date: Sat, 4 Sep 2021 15:10:57 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <CAA=Fs0mP7xqiS7+EX+J5MYH-AkEN_5SgtLrxAd669kXHG7Jk+A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Remove unused variable ret and pwrpriv.
-Remove the condition with no effect (if == else) in usb_intf.c
-file.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/r8188eu/os_dep/usb_intf.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index bb85ab77fd26..673cd3001183 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -493,14 +493,8 @@ static int rtw_resume(struct usb_interface *pusb_intf)
- {
- 	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
- 	struct adapter *padapter = dvobj->if1;
--	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
--	int ret = 0;
+On 04/09/21 12:23 am, Phillip Potter wrote:
+> On Fri, 3 Sept 2021 at 18:56, Saurav Girepunje
+> <saurav.girepunje@gmail.com> wrote:
+>>
+>> Fixes coccicheck warning:WARNING opportunity for kmemdup in ioctl_linux.c
+>>
+>> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+>> ---
+>>   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
+>>   1 file changed, 1 insertion(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+>> index 81d4255d1785..495fadd2b8c8 100644
+>> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+>> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+>> @@ -585,14 +585,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
+>>          }
+>>
+>>          if (ielen) {
+>> -               buf = kzalloc(ielen, GFP_KERNEL);
+>> +               buf = kmemdup(pie, ielen, GFP_KERNEL);
+>>                  if (!buf) {
+>>                          ret =  -ENOMEM;
+>>                          goto exit;
+>>                  }
+>>
+>> -               memcpy(buf, pie, ielen);
+>> -
+>>                  /* dump */
+>>                  {
+>>                          int i;
+>> --
+>> 2.32.0
+>>
+> 
+> Dear Saurav,
+> 
+> Looks good, thanks:
+> Acked-by: Phillip Potter <phil@philpotter.co.uk>
+> 
+> Regards,
+> Phil
+> 
 
--	if (pwrpriv->bInternalAutoSuspend)
--		ret = rtw_resume_process(padapter);
--	else
--		ret = rtw_resume_process(padapter);
--	return ret;
-+	return rtw_resume_process(padapter);
- }
+Thanks for review Phil
 
- int rtw_resume_process(struct adapter *padapter)
---
-2.32.0
-
+Regards,
+Saurav Girepunje
