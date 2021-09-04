@@ -1,108 +1,107 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482C63FC0
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 19:06:34 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id b10so3568616wru.0
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 12:06:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49723FCD
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 20:41:45 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id jg16so5160854ejc.1
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 13:41:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=AkQJf6wMVAtTiytE5TeAIUUT3cc5gz6qLO2GIm6ptGw=;
-        b=O0PgKcQr2woF9NHv4Et9+XdiVj5R2Y64r3D89ZvdKyutoRawi11SsLX2klAvP0SbHJ
-         2O2DRNADWSHibX6kuJXYZSj4ed9xHaHCFm/zMhKNJSWoIKH/7yxM8dKQcq7k2eoyS/eq
-         qrNMxJm2+PbUyj5d6obHBdlXng8MGAUbXjuzPBh8DS1n4knP83mMPQwjFPjLiS/fZbdm
-         5XGOqxkne4dQ6zB2WWcDoaoxK/P1dJ+jiBoACmMFV6Ku7HcEaJFXST+YwFmykOd9A0C1
-         pVLSFzd7SsBruxDn+xxO88+H7n9B6ea62uNcaj6pxQY0RMqt4shfGhm4OoNdEHdQrfBG
-         f/ig==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=lFrmrzYdi4W9e05rZQyIefjI/ECSxbcxYQllGrHvMCg=;
+        b=B0Z6m3EEkmYaeB0NxXr0zIH17/0/9gVvynrZc4f+uYbPozTISUs3B1mPr7AwYYAQr8
+         Q3jBlroT+bOU+6l4FcfgYkd98mmA6FLmJ4TtHL5Q3rDX7bc9Rtrdd9Ud3td7ng8Eg6bk
+         ZLc0EAOQoEWqhEodV+9A3Kclx79CkCVz3KUTsZW7kAF5OLY/NmaD9L3YSACuz2P1Nhll
+         bwVvWUekDrsHG28XHdG9aFzA1OCGAQcGphVcSSiToXI5QWYui/tUe+Wkg3UM2kMXK7ad
+         p//z9SKxYx99GHV8HUwJ2H8rKsD/nDqWmNWz1X+7PLXEmsi7iwv1t3d5yb+5UtKaS7Ng
+         Lezw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=AkQJf6wMVAtTiytE5TeAIUUT3cc5gz6qLO2GIm6ptGw=;
-        b=gNrsOKtEbkmyKvNSdG+iul/oM3nc4sEiYTI5NqZrxueRPOusA23evN0tYQKCAjJFY0
-         A5t9DE6E9UqTUfnpM+WD2lDIwz1Oel/fXSjdI/Xe/IZstT7nCWEUDSdty/y9be3pqBT9
-         Eh0ohe40aqnEpyyP0nfvNOelmeak8suQnVZMPBemY/RnVfRH2DjNqs6F9TZs2lbvsbtu
-         G04wTEZw+lwHVyZEu6a5rGNrh83sD7r4QPJpgHMgcT4xzHPXRhGVQY+wBLifTp/CqmPr
-         Dsj+u3fl9N+am7MtS/tJgKHALEodHG31KmyLNj4rkePbfHIbGL/3F9D4yZaMIcs8KQBH
-         jHhg==
-X-Gm-Message-State: AOAM532zPQVj6BtZ8elvUVacIsFDF9h3T39Vty7iVmpPKYkceqPbZmMi
-	f3nFlyVHoXbhlepj+WR8Esw=
-X-Google-Smtp-Source: ABdhPJwhzytBPmjBlvto52pArb22R0ONysceF7WL3lT+VNWte5TTl3E86ebHzPRfBDLAENYcIfW9Yw==
-X-Received: by 2002:a5d:410b:: with SMTP id l11mr5231684wrp.76.1630782392660;
-        Sat, 04 Sep 2021 12:06:32 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::8fe1? ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with UTF8SMTPSA id k16sm2922659wrx.87.2021.09.04.12.06.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Sep 2021 12:06:31 -0700 (PDT)
-Message-ID: <11231264-b315-9994-31c4-b1f2e463ebd7@gmail.com>
-Date: Sat, 4 Sep 2021 21:06:30 +0200
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=lFrmrzYdi4W9e05rZQyIefjI/ECSxbcxYQllGrHvMCg=;
+        b=dkmlbldP8atq3pBAYlifyfZJTwVt7xhqPPt4g8Xq3Ky8Nd9fu1CG5NyBip7uIqFO4x
+         RiZQliCqGSZg8LFk4Zr+uyvNwXFZ2n+NX6lPVyWuSiamXSCOdZHAwRSg9BcGdSr+mirE
+         tpWABXE5P4q/N02brBi/+l5CBgakfZP83Yhup1VxiY3oiff7oCNcrof591+8V858FnfL
+         44V8OetDEYA8rdhlhzyzKjgAups7cDvUQXGqgK3AWtzU+Jzz7/IFpRmJpkL5ZEZfbsqB
+         eBTRDk47mpWlJfWAuaZEFXj0XPPlYnHPCF3bT/LIDm3h6t3Xf0SEbqXhETlzU0QNzkZi
+         qi3w==
+X-Gm-Message-State: AOAM533A1Dxwagrslylbo56sy/y35HRwsUwQBzKAEntq3T66EwioaCf5
+	cYqxVBsPma2rsW65kCX7Zps=
+X-Google-Smtp-Source: ABdhPJxiSqnDZgkoMQ1RWDgSU3bxKLT9uacc3Q13nxfYCAaGFQxz88qrVNX+8deihPMXKkFfeHoA4w==
+X-Received: by 2002:a17:906:3fc1:: with SMTP id k1mr5824741ejj.44.1630788103998;
+        Sat, 04 Sep 2021 13:41:43 -0700 (PDT)
+Received: from localhost.localdomain (host-79-23-101-208.retail.telecomitalia.it. [79.23.101.208])
+        by smtp.gmail.com with ESMTPSA id n2sm1854806edi.32.2021.09.04.13.41.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Sep 2021 13:41:43 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Skripkin <paskripkin@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org
+Subject: Re: [PATCH 3/3] staging: r8188eu: Shorten calls chain of rtw_write8/16/32/N()
+Date: Sat, 04 Sep 2021 22:41:41 +0200
+Message-ID: <2791328.7pjKATJfGa@localhost.localdomain>
+In-Reply-To: <202109050113.Uyg2SCTW-lkp@intel.com>
+References: <20210904150447.14659-4-fmdefrancesco@gmail.com> <202109050113.Uyg2SCTW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.1
-Subject: Re: [PATCH 0/6] staging: r8188eu: remove some functions from hal_ops
-Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>, Martin Kaiser <martin@kaiser.cx>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210904124033.14244-1-straube.linux@gmail.com>
- <CAA=Fs0ntWh8kanSBMA+jBLHAgVTAjH7SFJ8ROrmncZTkzSy-gQ@mail.gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <CAA=Fs0ntWh8kanSBMA+jBLHAgVTAjH7SFJ8ROrmncZTkzSy-gQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="ISO-8859-1"
 
-On 9/4/21 20:27, Phillip Potter wrote:
-> On Sat, 4 Sept 2021 at 13:40, Michael Straube <straube.linux@gmail.com> wrote:
->>
->> Getting rid of the hal layer is on the todo list. This series
->> removes some functions from hal_ops and make the driver call the
->> pointed functions directly.
->>
->> Tested with Inter-Tech DMG-02.
->>
->> Michael Straube (6):
->>    staging: r8188eu: remove intf_chip_configure from hal_ops
->>    staging: r8188eu: remove read_adapter_info from hal_ops
->>    staging: r8188eu: remove read_chip_version from hal_ops
->>    staging: r8188eu: remove wrapper around ReadChipVersion8188E()
->>    staging: r8188eu: remove GetHalODMVarHandler from hal_ops
->>    staging: r8188eu: remove init_default_value from hal_ops
->>
->>   drivers/staging/r8188eu/hal/hal_intf.c        | 33 -------------------
->>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 16 +--------
->>   drivers/staging/r8188eu/hal/usb_halinit.c     | 10 ++----
->>   drivers/staging/r8188eu/include/hal_intf.h    | 22 +++----------
->>   .../staging/r8188eu/include/rtl8188e_hal.h    |  2 ++
->>   drivers/staging/r8188eu/os_dep/os_intfs.c     |  4 +--
->>   drivers/staging/r8188eu/os_dep/usb_intf.c     |  7 ++--
->>   7 files changed, 16 insertions(+), 78 deletions(-)
->>
->> --
->> 2.33.0
->>
+On Saturday, September 4, 2021 7:09:58 PM CEST kernel test robot wrote:
+> Hi "Fabio,
 > 
-> Dear Michael,
+> Thank you for the patch! Yet something to improve:
 > 
-> Looks good to me, built and tested here:
-> Acked-by: Phillip Potter <phil@philpotter.co.uk>
+> [auto build test ERROR on staging/staging-testing]
 > 
-> Regards,
-> Phil
+> url:    https://github.com/0day-ci/linux/commits/Fabio-M-De-Francesco/
+staging-r8188eu-Shorten-and-simplify-calls-chain/20210904-231010
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 
+fde4862d1ac7100028da4371d92454fec6cf3f4f
+>
+> [...]
+>
+> All errors (new ones prefixed by >>):
 > 
+>    drivers/staging/r8188eu/hal/usb_ops_linux.c: In function 'usb_write':
+> >> drivers/staging/r8188eu/hal/usb_ops_linux.c:105:47: error: 
+'REALTEK_USB_VENQT_SEND' undeclared (first use in this function); did you 
+mean 'REALTEK_USB_VENQT_READ'?
+>      105 |                                               
+REALTEK_USB_VENQT_SEND, value,
+>          |                                               
+^~~~~~~~~~~~~~~~~~~~~~
+>
+Hello to all,
 
-Thanks for your review and testing Phillip.
-Much appreciated.
+I apologize for this easily avoidable mistake. I'm about to post the v2 
+series.
+
+However, I write this message to affirm that Pavel's tests on this patch are 
+still valid and confirmed because his copy *has* the right parameter that is 
+REALTEK_USB_VENQT_WRITE.
+
+It's all my fault. Pavel warned me that during the review and test he noticed 
+that I had written REALTEK_USB_VENQT_READ and obviously my build was 
+successful because it was a symbol known to the compiler.
+
+Pavel successfully changed his local copy and I (independently) changed mine 
+without thinking about rebuilding. I was absolutely certain it was the 
+expected parameter (perhaps the function name - usb_control_msg_send () - 
+played a part in leading me to this stupid mistake).
+
+In summary, first I want to apologize for the noise, secondly I want to 
+apologize to Pavel who is co-author and tester of this 3/3 of our series.
 
 Regards,
-Michael
+
+Fabio
+
+
+
