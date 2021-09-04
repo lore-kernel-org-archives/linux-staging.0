@@ -1,108 +1,85 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5023FC9
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 12:14:51 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id s29so1680084pfw.5
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 05:14:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7B772
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 12:40:52 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id x6so2539076wrv.13
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 05:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=yWbmcQlOamqknzkTVRblnZufvJwZB9dtwXewZ/RdYJE=;
-        b=E2GiGl1AzGZqAOlfyQF05ZTAd0sDQN/1wvSR5EwI2oflUzBM+K3Q4QHB3gMvWxBfCC
-         JkeVl+rtl56DrkOUlSQBC71lpX/+HY1bZYb8WVlxJ6t+ce8GgoTqzo9l31ngnL3Blj7J
-         3/u3HtGvkFcVWeR4oNUbtWxQrlqob/giohrQi0l/N4vaVqF7C9D7A/7gnvrOaoJ5nIb5
-         OVZdIYqF/lS7r4DWH+5oJHPKNAgrPODm1phPU+sm48G+g8CJmpS6gFO/UTLG60XaZez+
-         rN2g1iYe1xRKp8ANseJL7RZoqNe6vf7FPi1Po60OutMMyiPDbitDbDUj6geVXwIRXmT6
-         9R/g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zHqal9h+jJaWhEw2JxpQmHT6gLaSxp8mSOl4ryaFk8Q=;
+        b=aG09Kp5NHfT7KEQ/z0kGfitBZtEJsE0cqGFHd6ZD8Qgz6mfLpYtcN9R+EwDtDhFvpj
+         S+7KXw/5CEpaJreH2mZ+oiyRpH/7nmucn3mAH7JIAdV/ijzQQf5tij7McPDFJmRItjYe
+         U6+kS4dehIOOTM9TW5wvEKzxe4+lp0cwAu4c0R0Ne0laLM2uH9pLfUsXe0E0/0U7Q/xz
+         9yNfXDNuMoV07yAiDpP1DMSch7qZn4I9tt1QSVAH07USUt/6OxkJ6CmqQUXeNlWM/CSD
+         Ok7TcBNwLaYr4O9BZtWv2kjcW1wrkfisDLKhU/CLBOMQeV7uN2hDvY8xALmE9JhrudeG
+         l+lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=yWbmcQlOamqknzkTVRblnZufvJwZB9dtwXewZ/RdYJE=;
-        b=Fvq4Xi+0yOFllfL+CcLwwxrKjysWLNcYobA0IbDZRS3w8tiFFpZ+cCh+DFbgWGPDiU
-         24Nf9UEZQhg58IYICriaeSGzrq0s8/fhn37/2cnn/8BE4VJKJNclWi6eBM/GFdw8mz6C
-         88A/5fhHvG4P4MQRPVGUro4tuGvs5M/ZLMdcmYIpQK6wIhmcxbiiH4TrY0MtVbgPy6mM
-         7BUBF7pWkFGUGcG0osdHJzv+ngsp5H9hh/PDa/69naKyVzXcO9CougCX28Xk6waaVy32
-         CARO9O72r8b7GMd57YtSaZlqaf7MqdlOGceqUAkWIIw4uGvmu91VtCBrWbbCfRTpxE3W
-         6KNg==
-X-Gm-Message-State: AOAM5312wMh1RrJDQ9CQfW2FcLpgJH6/zWZtAUakIEs01o/wM+s3Ff1A
-	zFnVbmi8MqOZ2GLd6yEwB80=
-X-Google-Smtp-Source: ABdhPJwVpcX0RMlQ+8VbEVUvJ6RS+QyZjiQFeCrTOiBXf4Aw1eADDGx8ypfja20dKjfrBRqkhXf+hA==
-X-Received: by 2002:a05:6a00:2410:b0:409:5fbd:cb40 with SMTP id z16-20020a056a00241000b004095fbdcb40mr7679981pfh.8.1630757690667;
-        Sat, 04 Sep 2021 05:14:50 -0700 (PDT)
-Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id o10sm2481631pgp.68.2021.09.04.05.14.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zHqal9h+jJaWhEw2JxpQmHT6gLaSxp8mSOl4ryaFk8Q=;
+        b=dIi5BzM4j7mG0sU1SQ2wCB7fsMddzwaq2/hV4HgGvEEHn5Q4OOxJ4ri1wc76SYzuaa
+         88Vgfv/nGCdNAP+sGLL68CVzHW26G/3nicRFUEUYcZla+TFWt5SR0+ayWYMQtNszytqk
+         wnN9zrFe4iOvq+KTHOHJrEyuG0K76guh04goF3jSmo0OkmJOAfsvgLeBdHeCrhorgaxk
+         ysUgnvsi8lXK8XwiUs7Ua62YKlbKXh1WC9uSm07O6YlIWukVFsW1TUMxRXkZiE8DEQw1
+         3ZnTK4DlaH2rLxNngfdYEOE8fJTcdyN3aXZH4aMSziroBUwN8dBq1tSiRP/CIzCylVVY
+         qV8w==
+X-Gm-Message-State: AOAM532zlhT/Bi7eyyFpOK6bHf0UoDG7/OJ8UZW9MF2XA7Y5YGzBPvyo
+	T67NsDoi2lZtP/mdcoZTB+0=
+X-Google-Smtp-Source: ABdhPJwpDMT6IL1yyHoo1bn+PHEbWjtBPV2IHcM4UR4SYn2av03cjtZx4UDc2nKDITCaPlz/IiN0XQ==
+X-Received: by 2002:adf:c452:: with SMTP id a18mr3828338wrg.225.1630759251222;
+        Sat, 04 Sep 2021 05:40:51 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
+        by smtp.gmail.com with ESMTPSA id j207sm2094071wmj.40.2021.09.04.05.40.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 05:14:50 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:44:44 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, saurav.girepunje@gmail.com,
-	straube.linux@gmail.com, martin@kaiser.cx, nathan@kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH v2] staging: r8188eu: os_dep: simplifiy the rtw_resume
- function
-Message-ID: <YTNjNLcNvPfD9+5Z@user>
+        Sat, 04 Sep 2021 05:40:50 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/6] staging: r8188eu: remove some functions from hal_ops
+Date: Sat,  4 Sep 2021 14:40:27 +0200
+Message-Id: <20210904124033.14244-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Remove unused variable ret and pwrpriv.
-Remove the condition with no effect (if == else) in usb_intf.c
-file.
-Remove rtw_resume_process() and move whole thing to rtw_resume().
+Getting rid of the hal layer is on the todo list. This series
+removes some functions from hal_ops and make the driver call the
+pointed functions directly.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
+Tested with Inter-Tech DMG-02.
 
-ChangeLog V2:
-- Remove rtw_resume_process() and move whole thing to rtw_resume().
----
- drivers/staging/r8188eu/include/usb_osintf.h |  2 --
- drivers/staging/r8188eu/os_dep/usb_intf.c    | 12 ------------
- 2 files changed, 14 deletions(-)
+Michael Straube (6):
+  staging: r8188eu: remove intf_chip_configure from hal_ops
+  staging: r8188eu: remove read_adapter_info from hal_ops
+  staging: r8188eu: remove read_chip_version from hal_ops
+  staging: r8188eu: remove wrapper around ReadChipVersion8188E()
+  staging: r8188eu: remove GetHalODMVarHandler from hal_ops
+  staging: r8188eu: remove init_default_value from hal_ops
 
-diff --git a/drivers/staging/r8188eu/include/usb_osintf.h b/drivers/staging/r8188eu/include/usb_osintf.h
-index d1a1f739309c..34229b1cb081 100644
---- a/drivers/staging/r8188eu/include/usb_osintf.h
-+++ b/drivers/staging/r8188eu/include/usb_osintf.h
-@@ -24,6 +24,4 @@ void *scdb_findEntry(struct adapter *priv, unsigned char *macAddr,
- void nat25_db_expire(struct adapter *priv);
- int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method);
+ drivers/staging/r8188eu/hal/hal_intf.c        | 33 -------------------
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 16 +--------
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 10 ++----
+ drivers/staging/r8188eu/include/hal_intf.h    | 22 +++----------
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  2 ++
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  4 +--
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  7 ++--
+ 7 files changed, 16 insertions(+), 78 deletions(-)
 
--int rtw_resume_process(struct adapter *padapter);
--
- #endif
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index bb85ab77fd26..77b03e7631b7 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -493,18 +493,6 @@ static int rtw_resume(struct usb_interface *pusb_intf)
- {
- 	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
- 	struct adapter *padapter = dvobj->if1;
--	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
--	int ret = 0;
--
--	if (pwrpriv->bInternalAutoSuspend)
--		ret = rtw_resume_process(padapter);
--	else
--		ret = rtw_resume_process(padapter);
--	return ret;
--}
--
--int rtw_resume_process(struct adapter *padapter)
--{
- 	struct net_device *pnetdev;
- 	struct pwrctrl_priv *pwrpriv = NULL;
- 	int ret = -1;
---
-2.32.0
+-- 
+2.33.0
 
