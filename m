@@ -1,115 +1,108 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96233FCC
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 09:41:01 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id y17so1439605pfl.13
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 02:41:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2CvcJSiEN9MNXuAzxJzwyEfnTU0mKkfe0+AjDJ9kifY=;
-        b=PSAR8amj8SgeZssZ3i6aMhFnhx1d4yc7BYIy+eXaxcMCN1aRoV2VqqXOM2pmH1LvRh
-         suidGUSlvYdrWD6WtmksppAQQejgzqMFdNY+FvjO2wKBY14MmY1LOB888gf890VzaV2I
-         nTP5g2G8jyoBaDxBGJRLcDQ98Vvq67nwdzFCIbge+CWR77ynC61LFys+8KVF4qlIBI/U
-         3osF4Ki1nBsfaUgPkJ7opkfRy4sw6+tt2mY5fFzIoT4i/ZCfU51LENFPBxUD7MkJG+C8
-         W2A8sc/jgNGKU16m2bGUqCtY95b23dyuP4WZomR7tlXbXhUpd+fsXmuYtrmciKNqFgzN
-         n1GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2CvcJSiEN9MNXuAzxJzwyEfnTU0mKkfe0+AjDJ9kifY=;
-        b=IKl6Pfo046bFEyfOP5NJS6WvlbXXp/LaY/eUahE5WEkXejguXcO0snoPqWXMPx0H4B
-         b7FD2h3axI7tu4SPBixC8ljmdCPs5U7i0eIZyA9Owf5ktxMPtKejS3JLeBL4F6ynAD7c
-         ArLFIX5bZ9fj6qB9+AUtwiVSUIOz4sYo6fH9xriePQ3mysN2+cr37ebday7laxypDJOZ
-         sIiPnVNfZ37IbRQsqB2Q5o0pD/qtzyGSD9e4+x9lC8cAp8nCidm2t08TgMkFS+uM+Qxr
-         Nd08cv1YCVeZ5UCGR3NzsicUaXu9ZPzVOR3EDdlhK0jV5z+xHjuv3kQAZio5IAlIlb/J
-         +5jA==
-X-Gm-Message-State: AOAM531Vw5IF/Xcq22hTWBT59snh20sPxPoYwzY3GX52Z9jnzTfpa7mi
-	cTtJdgw+6uy0pBhTp+3Mq5g=
-X-Google-Smtp-Source: ABdhPJxq2rms+uXKvb4icD3P3JOkrs3NOtHPFvW/WtVyj4BtTwAnf8MfiVqQ6s96O3u9y/XiLBUpcg==
-X-Received: by 2002:a63:ef58:: with SMTP id c24mr2902397pgk.299.1630748461514;
-        Sat, 04 Sep 2021 02:41:01 -0700 (PDT)
-Received: from [192.168.1.6] ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id d15sm1797118pfh.34.2021.09.04.02.40.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Sep 2021 02:41:00 -0700 (PDT)
-Cc: saurav.girepunje@hotmail.com, Larry Finger <Larry.Finger@lwfinger.net>,
- Greg KH <gregkh@linuxfoundation.org>,
- Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: r8188eu: os_dep: use kmemdup instead of kzalloc
- and memcpy
-To: Phillip Potter <phil@philpotter.co.uk>
-References: <YTJhwQstKPUYRwN+@user>
- <CAA=Fs0mP7xqiS7+EX+J5MYH-AkEN_5SgtLrxAd669kXHG7Jk+A@mail.gmail.com>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-Message-ID: <52642929-cec1-d03b-03f1-130a54c0c289@gmail.com>
-Date: Sat, 4 Sep 2021 15:10:57 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367E13FCC
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 10:06:25 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 295335804A3;
+	Sat,  4 Sep 2021 06:06:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sat, 04 Sep 2021 06:06:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=ZtKpVg177OTzh0Ohhb3bXC9Gfrs
+	WEgSOsLMzs3dNp0E=; b=EXHCOXivVlVVx7Yblbq4QwmWeaFjiHDbOufzUXQl360
+	R+/mxC2PPuRFusDB0CZTA9CAI2DDtTMSBUxmhdi3JbNAn93EIuK41NDAaz0BX+1o
+	MdMvNhrupBmQP37cQNA6RQARDN0N4FIjMGY0gzqLwia6/VFMXm0GrA/0bO5FhrC+
+	p6FIWa/k/aZFwnf1b7cVIoB4wX26ETkjd/kV+68ftrs+upE69ijV8MSD/tcLQXRw
+	Y+K/Z069k0gw+Mc8+6KiXPE9CxY08jC19iBGXnRwFKaTXqJ8K0yw9oZbSRmWVIXx
+	5B7wf7ajhx52S6NDpW5njZ8qBsDmWy+tkMe8i0t0VhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZtKpVg
+	177OTzh0Ohhb3bXC9GfrsWEgSOsLMzs3dNp0E=; b=TmiKGB6YYLXLuZmfr57NqH
+	6AmQAw0/LpFf4ughNQ+oSEh8M3fkdJEQW1Z0eiaU9A6gCM7BCoDcdZlgEhCD5VP2
+	4E+Tp54sWtkR6eK7ja4VHvQ9QmfUsfyKWVfPfl6Mfds/g00FWnsm7a6UltFWcsZf
+	ep+c1u60iUMqwvQF3IVNA4LSbi7Bv2Cp01RPPjNtQwIYohPJfMYycn0Qsr0aaRAZ
+	gdVuRP3vnc0syTBsRDgdAujZ1Yxl0QaOtjExZ3vmjYHd8/iUaxApWhlYhBeuo/ia
+	r93eWdx4u+SfQ8WJDqRva5ETcUptsAzay11CJmk4SPsjRHICmonNKe1PRcl76zUA
+	==
+X-ME-Sender: <xms:H0UzYZpljogFzy7H8rH3FaXZG55gslWsbaoWDWCGVzvztAjqj0gUTA>
+    <xme:H0UzYbq615H4mcBqX7g8u16kYvO2Du0PEBWzRngd7PLiE-p2_IdlIXfmLDYiV_cqc
+    CYUcsQR3JVbVw>
+X-ME-Received: <xmr:H0UzYWP1dVGG7LlUjIKwAbvaoPzat_DqQ5Ulogksz6CiQ36-vxR-R_c8A5NYx_hACPEzGxKzbb9B1s_mN6F4wITYsIrtFXPS>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvledgvdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+    drtghomh
+X-ME-Proxy: <xmx:H0UzYU7Z1__apsSNOJC4k9tGQOfgdLu_TS1veWL-PbkRQOpd17VU2A>
+    <xmx:H0UzYY5eTxCdRW7CO0mh-JLT5I71vPrMecs-6_KBItLlc2VAmOJbew>
+    <xmx:H0UzYchyjRDzPeHnTIyGC0ILuFv9SQgMhfiJo30CSOt4cK_8Flfb1Q>
+    <xmx:IEUzYXR9QnP-Ds5EoGMaz3rh09ggsL0y5Yj6G-eQ_FpRvo3Ajf2GmQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 4 Sep 2021 06:06:22 -0400 (EDT)
+Date: Sat, 4 Sep 2021 12:06:21 +0200
+From: Greg KH <greg@kroah.com>
+To: Saurav Girepunje <saurav.girepunje@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] staging: r8188eu: os_dep: simplifiy the rtw_resume
+ function
+Message-ID: <YTNFHd6o0f9rAMO2@kroah.com>
+References: <YTM+wayCk2n2CrVP@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAA=Fs0mP7xqiS7+EX+J5MYH-AkEN_5SgtLrxAd669kXHG7Jk+A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YTM+wayCk2n2CrVP@user>
 
-
-
-On 04/09/21 12:23 am, Phillip Potter wrote:
-> On Fri, 3 Sept 2021 at 18:56, Saurav Girepunje
-> <saurav.girepunje@gmail.com> wrote:
->>
->> Fixes coccicheck warning:WARNING opportunity for kmemdup in ioctl_linux.c
->>
->> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
->> ---
->>   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
->>   1 file changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
->> index 81d4255d1785..495fadd2b8c8 100644
->> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
->> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
->> @@ -585,14 +585,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
->>          }
->>
->>          if (ielen) {
->> -               buf = kzalloc(ielen, GFP_KERNEL);
->> +               buf = kmemdup(pie, ielen, GFP_KERNEL);
->>                  if (!buf) {
->>                          ret =  -ENOMEM;
->>                          goto exit;
->>                  }
->>
->> -               memcpy(buf, pie, ielen);
->> -
->>                  /* dump */
->>                  {
->>                          int i;
->> --
->> 2.32.0
->>
+On Sat, Sep 04, 2021 at 03:09:13PM +0530, Saurav Girepunje wrote:
+> Remove unused variable ret and pwrpriv.
+> Remove the condition with no effect (if == else) in usb_intf.c
+> file.
 > 
-> Dear Saurav,
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>  drivers/staging/r8188eu/os_dep/usb_intf.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 > 
-> Looks good, thanks:
-> Acked-by: Phillip Potter <phil@philpotter.co.uk>
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index bb85ab77fd26..673cd3001183 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -493,14 +493,8 @@ static int rtw_resume(struct usb_interface *pusb_intf)
+>  {
+>  	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
+>  	struct adapter *padapter = dvobj->if1;
+> -	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
+> -	int ret = 0;
 > 
-> Regards,
-> Phil
+> -	if (pwrpriv->bInternalAutoSuspend)
+> -		ret = rtw_resume_process(padapter);
+> -	else
+> -		ret = rtw_resume_process(padapter);
+> -	return ret;
+> +	return rtw_resume_process(padapter);
+>  }
 > 
+>  int rtw_resume_process(struct adapter *padapter)
 
-Thanks for review Phil
+Why not just delete the rtw_resume_process() declaration line and make
+the rtw_resume() function be the whole thing, as rtw_resume_process() is
+never called anywhere else.  That would be even more lines of code
+removed and simplified here.
 
-Regards,
-Saurav Girepunje
+thanks,
+
+greg k-h
