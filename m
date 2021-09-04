@@ -1,27 +1,52 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5CAC3FC7
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 05:53:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BDBA960F90;
-	Sat,  4 Sep 2021 05:53:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630734783;
-	bh=qpOBAvDkDu13hb8ihotJ6B5GQ43H7dVCqgu92ZbgssU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ndzyo0kLml9lgVZDXvNlZX+vzt4QXmPQ7+BNSvOVHfTm0nomUhDRy6PDuJG2tuZD3
-	 ELl2PD8Ip3r2wpTq/UGUvZKU8cHDJ49kLCy1L65JJ3kJqLcMDwIuf6ZyJdr7CkqbjB
-	 vj2vjdkS95DrO9+aEbvnxTJ2+1+3vqjYTBKVxvkI=
-Date: Sat, 4 Sep 2021 07:53:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Corentin Labbe <clabbe@baylibre.com>
-Cc: mchehab@kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 4/8] staging: media: zoran: add debugfs
-Message-ID: <YTMJvI1C1OmBgdeI@kroah.com>
-References: <20210903191540.3052775-1-clabbe@baylibre.com>
- <20210903191540.3052775-5-clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0C63FC7
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 05:58:49 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id u6so1203577pfi.0
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 22:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=f/n2nxuDHHhZ11WJWH1zIlD9cd3WmDx7yPKho8Os6hw=;
+        b=LjUuzuQVdKjipEN2HiXMhHaHtudEzYHRvcJnqfs0vWkUitj1LMLoQZcKIkvBzB+Xed
+         1qzvhzGnXJkO8S/5XUgq4B4Te2lxgP2Qtf27F57OSHz24RxZCu13mNa17cAtaIXstmss
+         dYeVSWpFb/JRD9w4Y4JruCSnCkoKFprbuD08uoR/SApfFCxPK4EkCa7tVWxG37oiOcLz
+         zOVvD9koX4x20oUdHL/HU+Pw/XtGQtUA2B/91birEDb+baLWB0XvOuEsRsNVvnQzrH5D
+         x/91lbI03+KU6mfsivAF0k4iiQBwiYhAbnFN41z8AgBZqS4Q9mIowPMdC7XZD9VTyY+D
+         QwPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=f/n2nxuDHHhZ11WJWH1zIlD9cd3WmDx7yPKho8Os6hw=;
+        b=KdDG9+OofSRfcsegzp3/OgY8mjqZUp0DnsW6lD3WLpVL2TA5vpDU+u8Fatrg6N+Gjx
+         HIHa5jBdlqZIX2PRZ94hFGwV5Bkz+sM73DBFnbX46VUnPF3sBCi0e5P1Jnk04mf59mb5
+         YPp0HzGVYh+8eH1Io+ecmGDN6tEzLTGAezSauvIKzsLoqu2882btb3IlhBUXhonmFJJn
+         2TCD4gc7W/JukF6k8nl67i2Ios+x00TNJpCx+E6HqGMuERgHSoA1vSQ91XspwmyPRD6w
+         eAOkZYIrf8THyoeiJAagC21Ed4VJyqIZ/jYmqWx1ug1xBn6DLZcBuxHTg77VSqfM5Vp1
+         Estw==
+X-Gm-Message-State: AOAM533T/WtM5Wegr5N9OWsyI9VPwcBNd4/GsKcUjBUtvIGRWtkr/FOv
+	bBQXTGah/R9szvQH6ulKV6c=
+X-Google-Smtp-Source: ABdhPJy9L0JX9a9KbH7pkZ2BFzJGUNJlWX2uQNcel6crBH60SUmj0Aw0+gOqLX/1uAsXm7g3jN42dw==
+X-Received: by 2002:aa7:90c8:0:b029:32c:935f:de5f with SMTP id k8-20020aa790c80000b029032c935fde5fmr2207340pfk.79.1630735129318;
+        Fri, 03 Sep 2021 22:58:49 -0700 (PDT)
+Received: from user ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id b20sm1057325pfl.9.2021.09.03.22.58.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Sep 2021 22:58:48 -0700 (PDT)
+Date: Sat, 4 Sep 2021 11:28:43 +0530
+From: SAURAV GIREPUNJE <saurav.girepunje@gmail.com>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+Subject: Re: [PATCH v4] staging: r8188eu: core: remove null check before vfree
+Message-ID: <YTMLE9tIYCv6uNeE@user>
+References: <YSu9GQa1A3s6FYQx@user>
+ <bf3547a3-bca0-cb81-b086-0d7a9bfe6e7c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,122 +55,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210903191540.3052775-5-clabbe@baylibre.com>
+In-Reply-To: <bf3547a3-bca0-cb81-b086-0d7a9bfe6e7c@gmail.com>
 
-On Fri, Sep 03, 2021 at 07:15:36PM +0000, Corentin Labbe wrote:
-> Add debugfs for displaying zoran debug and stats information.
-> 
-> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
-> ---
->  drivers/staging/media/zoran/Kconfig      | 10 ++++++
->  drivers/staging/media/zoran/zoran.h      |  5 +++
->  drivers/staging/media/zoran/zoran_card.c | 39 ++++++++++++++++++++++++
->  3 files changed, 54 insertions(+)
-> 
-> diff --git a/drivers/staging/media/zoran/Kconfig b/drivers/staging/media/zoran/Kconfig
-> index 7874842033ca..7d2d3c2431b1 100644
-> --- a/drivers/staging/media/zoran/Kconfig
-> +++ b/drivers/staging/media/zoran/Kconfig
-> @@ -74,3 +74,13 @@ config VIDEO_ZORAN_AVS6EYES
->  	select VIDEO_KS0127 if MEDIA_SUBDRV_AUTOSELECT
->  	help
->  	  Support for the AverMedia 6 Eyes video surveillance card.
-> +
-> +config VIDEO_ZORAN_DEBUG
-> +	bool "Enable zoran debugfs"
-> +	depends on VIDEO_ZORAN
-> +	depends on DEBUG_FS
-> +	help
-> +	  Say y to enable zoran debug file.
-> +	  This will create /sys/kernel/debug/CARD_NAME/debug for displaying
-> +	  stats and debug information.
-> +
-> diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
-> index b1ad2a2b914c..8c271005f14d 100644
-> --- a/drivers/staging/media/zoran/zoran.h
-> +++ b/drivers/staging/media/zoran/zoran.h
-> @@ -18,6 +18,7 @@
->  #ifndef _BUZ_H_
->  #define _BUZ_H_
->  
-> +#include <linux/debugfs.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/videobuf2-core.h>
-> @@ -295,6 +296,10 @@ struct zoran {
->  	struct list_head queued_bufs;
->  	spinlock_t queued_bufs_lock; /* Protects queued_bufs */
->  	struct zr_buffer *inuse[BUZ_NUM_STAT_COM * 2];
-> +#ifdef CONFIG_VIDEO_ZORAN_DEBUG
-> +	struct dentry *dbgfs_dir;
-> +	struct dentry *dbgfs_file;
+On 30 Aug 2021 14:09, Michael Straube wrote:
+> On 8/29/21 19:00, Saurav Girepunje wrote:
+> > Remove NULL check. NULL check before freeing function is not needed.
+> > Correct the indentation.
+> >
+> > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> > ---
+> >
+>
+> Acked-by: Michael Straube <straube.linux@gmail.com>
+>
+> Thanks,
+> Michael
 
-No need for these, the file is never referenced and the directory can be
-looked up when you want to remove it.
 
-> +#endif
->  };
->  
->  static inline struct zoran *to_zoran(struct v4l2_device *v4l2_dev)
-> diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-> index f1465fbf98af..1ed8ed2f4f7f 100644
-> --- a/drivers/staging/media/zoran/zoran_card.c
-> +++ b/drivers/staging/media/zoran/zoran_card.c
-> @@ -1051,6 +1051,39 @@ static const struct v4l2_ctrl_ops zoran_video_ctrl_ops = {
->  	.s_ctrl = zoran_video_set_ctrl,
->  };
->  
-> +#ifdef CONFIG_VIDEO_ZORAN_DEBUG
-> +static int zoran_debugfs_show(struct seq_file *seq, void *v)
-> +{
-> +	struct zoran *zr = seq->private;
-> +
-> +	seq_printf(seq, "Running mode %x\n", zr->running);
-> +	seq_printf(seq, "Codec mode %x\n", zr->codec_mode);
-> +	seq_printf(seq, "Norm %x\n", zr->norm);
-> +	seq_printf(seq, "Input %d\n", zr->input);
-> +	seq_printf(seq, "Buffersize %d\n", zr->buffer_size);
-> +
-> +	seq_printf(seq, "V4L width %dx%d\n", zr->v4l_settings.width, zr->v4l_settings.height);
-> +	seq_printf(seq, "V4L bytesperline %d\n", zr->v4l_settings.bytesperline);
-> +
-> +	seq_printf(seq, "JPG decimation %u\n", zr->jpg_settings.decimation);
-> +	seq_printf(seq, "JPG hor_dcm %u\n", zr->jpg_settings.hor_dcm);
-> +	seq_printf(seq, "JPG ver_dcm %u\n", zr->jpg_settings.ver_dcm);
-> +	seq_printf(seq, "JPG tmp_dcm %u\n", zr->jpg_settings.tmp_dcm);
-> +	seq_printf(seq, "JPG odd_even %u\n", zr->jpg_settings.odd_even);
-> +	seq_printf(seq, "JPG crop %dx%d %d %d\n",
-> +		zr->jpg_settings.img_x,
-> +		zr->jpg_settings.img_y,
-> +		zr->jpg_settings.img_width,
-> +		zr->jpg_settings.img_height);
-> +
-> +	seq_printf(seq, "Prepared %u\n", zr->prepared);
-> +	seq_printf(seq, "Queued %u\n", zr->queued);
-> +	return 0;
-> +}
-> +
-> +DEFINE_SHOW_ATTRIBUTE(zoran_debugfs);
-> +#endif
-> +
->  /*
->   *   Scan for a Buz card (actually for the PCI controller ZR36057),
->   *   request the irq and map the io memory
-> @@ -1286,6 +1319,12 @@ static int zoran_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  
->  	zr->map_mode = ZORAN_MAP_MODE_RAW;
->  
-> +#ifdef CONFIG_VIDEO_ZORAN_DEBUG
-> +	zr->dbgfs_dir = debugfs_create_dir(ZR_DEVNAME(zr), NULL);
-> +	zr->dbgfs_file = debugfs_create_file("debug", 0444,
-> +					      zr->dbgfs_dir, zr,
-> +					      &zoran_debugfs_fops);
-> +#endif
+Thanks for Review Michael
 
-Wait, when are you removing the files when the device is removed?
 
-That needs to be fixed no matter what before this patch is accepted.
-
-thanks,
-
-greg k-h
+Saurav
