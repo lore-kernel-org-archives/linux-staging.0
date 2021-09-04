@@ -1,108 +1,102 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367E13FCC
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 10:06:25 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 295335804A3;
-	Sat,  4 Sep 2021 06:06:24 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sat, 04 Sep 2021 06:06:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=ZtKpVg177OTzh0Ohhb3bXC9Gfrs
-	WEgSOsLMzs3dNp0E=; b=EXHCOXivVlVVx7Yblbq4QwmWeaFjiHDbOufzUXQl360
-	R+/mxC2PPuRFusDB0CZTA9CAI2DDtTMSBUxmhdi3JbNAn93EIuK41NDAaz0BX+1o
-	MdMvNhrupBmQP37cQNA6RQARDN0N4FIjMGY0gzqLwia6/VFMXm0GrA/0bO5FhrC+
-	p6FIWa/k/aZFwnf1b7cVIoB4wX26ETkjd/kV+68ftrs+upE69ijV8MSD/tcLQXRw
-	Y+K/Z069k0gw+Mc8+6KiXPE9CxY08jC19iBGXnRwFKaTXqJ8K0yw9oZbSRmWVIXx
-	5B7wf7ajhx52S6NDpW5njZ8qBsDmWy+tkMe8i0t0VhQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZtKpVg
-	177OTzh0Ohhb3bXC9GfrsWEgSOsLMzs3dNp0E=; b=TmiKGB6YYLXLuZmfr57NqH
-	6AmQAw0/LpFf4ughNQ+oSEh8M3fkdJEQW1Z0eiaU9A6gCM7BCoDcdZlgEhCD5VP2
-	4E+Tp54sWtkR6eK7ja4VHvQ9QmfUsfyKWVfPfl6Mfds/g00FWnsm7a6UltFWcsZf
-	ep+c1u60iUMqwvQF3IVNA4LSbi7Bv2Cp01RPPjNtQwIYohPJfMYycn0Qsr0aaRAZ
-	gdVuRP3vnc0syTBsRDgdAujZ1Yxl0QaOtjExZ3vmjYHd8/iUaxApWhlYhBeuo/ia
-	r93eWdx4u+SfQ8WJDqRva5ETcUptsAzay11CJmk4SPsjRHICmonNKe1PRcl76zUA
-	==
-X-ME-Sender: <xms:H0UzYZpljogFzy7H8rH3FaXZG55gslWsbaoWDWCGVzvztAjqj0gUTA>
-    <xme:H0UzYbq615H4mcBqX7g8u16kYvO2Du0PEBWzRngd7PLiE-p2_IdlIXfmLDYiV_cqc
-    CYUcsQR3JVbVw>
-X-ME-Received: <xmr:H0UzYWP1dVGG7LlUjIKwAbvaoPzat_DqQ5Ulogksz6CiQ36-vxR-R_c8A5NYx_hACPEzGxKzbb9B1s_mN6F4wITYsIrtFXPS>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvledgvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
-    drtghomh
-X-ME-Proxy: <xmx:H0UzYU7Z1__apsSNOJC4k9tGQOfgdLu_TS1veWL-PbkRQOpd17VU2A>
-    <xmx:H0UzYY5eTxCdRW7CO0mh-JLT5I71vPrMecs-6_KBItLlc2VAmOJbew>
-    <xmx:H0UzYchyjRDzPeHnTIyGC0ILuFv9SQgMhfiJo30CSOt4cK_8Flfb1Q>
-    <xmx:IEUzYXR9QnP-Ds5EoGMaz3rh09ggsL0y5Yj6G-eQ_FpRvo3Ajf2GmQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 4 Sep 2021 06:06:22 -0400 (EDT)
-Date: Sat, 4 Sep 2021 12:06:21 +0200
-From: Greg KH <greg@kroah.com>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: r8188eu: os_dep: simplifiy the rtw_resume
- function
-Message-ID: <YTNFHd6o0f9rAMO2@kroah.com>
-References: <YTM+wayCk2n2CrVP@user>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500193FC9
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 11:12:02 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id u6so1620598pfi.0
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 04:12:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PmFrXKRKeIR2yVHZ2IBS5vFBvtUC5hAYiL4a0y3Y7B4=;
+        b=HU2TLwarjzF+4YD6vfsmIndBSmCCqdCMImTC1yJ/qxtemhz2qZHsa1oY9qWctSQfLc
+         tpc9N7ONfG3hdOTNu39XNny25GBSmrKdNGGZuIsqGn+yAHl1KbpipSS+KHV7/ZKIyHRS
+         o+UIOT7lHTI+uCSkv5x/gLp9GAbvZbUzgWz0p32dbqmzgUzIXBnY+E98UPNnR/AGKopB
+         RihMMwSf5paPr5sQTzQXF3L1P5Yxnk8hZO+PDj+Qnl3J/Ojk+/vCxLNQ+UEh0JTVmVGD
+         fQw6PwiJGAJc9hnlgjGX464TPJN9D+yuN6KgSAxkefP6wV51k/LJWucv/za3c7d6K9Dj
+         ndIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PmFrXKRKeIR2yVHZ2IBS5vFBvtUC5hAYiL4a0y3Y7B4=;
+        b=Exx/Hjak2Hq0aZR359qF/WaOEgi00XE304AVRRdv2OG5Yd02/cSYRK5t8eK1ImVFf3
+         B4m/sTAYI4Gu8+vCnWgYrwK9V0dNhdbOdJT7JPF5TxAINLHoA/xQz/845Ck4fkwWzyYL
+         Lf5AJrmWrxtiqh8nDXovE9iB4JARQ2c+WgDuUTeMDYdz6IlWcAOlYfTU5dOrgTgjdW/M
+         pG3ZIVhlLuuGNVYWvk0SGvMu5WY3tM0fuXwiBUgvjFkBrdX3X05epY2JidQWMk+NKQCc
+         sjXGgRb5Bfjonc4M2DZj1GnMWhAtFyUhZ0ujXMhM7sMxTokt/HPi5HXvGXLJRLoRga90
+         4QzA==
+X-Gm-Message-State: AOAM532CQLPjvcib7KKvUbxCoW/urMRR3VHb/PLxKPdQjDJqli35nJMI
+	4HglPCmzuJcNxlIyRkf7yDG1YjJjivCiRhL9K8k=
+X-Google-Smtp-Source: ABdhPJxW6JnVQwvmRZMx83HSKQs/kFc6IsPZBDVIpoMP7wTlLCjPqIdgyvZu3DxEAnhGOr9O4aqSMFmlWNbz5+yoRSc=
+X-Received: by 2002:a63:101c:: with SMTP id f28mr3195734pgl.330.1630753921691;
+ Sat, 04 Sep 2021 04:12:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YTM+wayCk2n2CrVP@user>
+References: <20210902111339.GA577108@panther> <YTCU3SpFgyFbxXs3@kroah.com>
+ <CAPGkw+xhPfD0acY1GcwPpHg=kHw7o2+y94-r3AxfzsfyqG4bDw@mail.gmail.com>
+ <YTJXOFlkLTBTg9rl@kroah.com> <CAPGkw+yKQx+O3yfxxMgv9oyH2-pun5-g=+mFWQ_YwbfXp1Y6cA@mail.gmail.com>
+ <YTMMAS+veKFAwRi7@kroah.com>
+In-Reply-To: <YTMMAS+veKFAwRi7@kroah.com>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Sat, 4 Sep 2021 13:11:50 +0200
+Message-ID: <CAPGkw+yHzWsQvARu+k9F7S-sRScDjuTz05Sbypzvv7qJC3O21Q@mail.gmail.com>
+Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c"
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Sep 04, 2021 at 03:09:13PM +0530, Saurav Girepunje wrote:
-> Remove unused variable ret and pwrpriv.
-> Remove the condition with no effect (if == else) in usb_intf.c
-> file.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/r8188eu/os_dep/usb_intf.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index bb85ab77fd26..673cd3001183 100644
-> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -493,14 +493,8 @@ static int rtw_resume(struct usb_interface *pusb_intf)
->  {
->  	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
->  	struct adapter *padapter = dvobj->if1;
-> -	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
-> -	int ret = 0;
-> 
-> -	if (pwrpriv->bInternalAutoSuspend)
-> -		ret = rtw_resume_process(padapter);
-> -	else
-> -		ret = rtw_resume_process(padapter);
-> -	return ret;
-> +	return rtw_resume_process(padapter);
->  }
-> 
->  int rtw_resume_process(struct adapter *padapter)
+On Sat, Sep 4, 2021 at 8:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Sep 03, 2021 at 08:54:33PM +0200, Krish Jain wrote:
+> > On Fri, Sep 3, 2021 at 7:11 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Fri, Sep 03, 2021 at 05:49:46PM +0200, Krish Jain wrote:
+> > > > On Thu, Sep 2, 2021 at 11:09 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > > >
+> > > > > On Thu, Sep 02, 2021 at 01:13:39PM +0200, Krish Jain wrote:
+> > > > > > This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
+> > > > >
+> > > > > Please properly line-wrap your changelog text like your editor asked you
+> > > > > to.
+> > > > >
+> > > > > Also, your subject line needs work, look at other commits for this
+> > > > > driver with:
+> > > > >         git log --oneline drivers/staging/mt7621-dma/
+> > > > > and notice how they say the driver name and the subsystem.
+> > > > >
+> > > > > Please fix up and resend a v2.
+> > > > >
+> > > > > thanks,
+> > > > >
+> > > > > greg k-h
+> > > >
+> > > > Do you mean I should line-wrap (at 72 columns) the entire thing or
+> > > > only that line?
+> > >
+> > > Your whole changelog text needs to be wrapped at 72 columns.
+> > >
+> > > Look at the 'git log' in the kernel tree for hundreds of thousands of
+> > > examples :)
+> > >
+> > > thanks,
+> > >
+> > > greg k-h
+> >
+> > Hi, so you mean only the change-log text (as in the text telling what
+> > changes have been made) needs to be wrapped at 72 columns but the code
+> > itself (the git diff) doesn't, right ?
+>
+> Yes, just the text that you add to the commit message.
+>
 
-Why not just delete the rtw_resume_process() declaration line and make
-the rtw_resume() function be the whole thing, as rtw_resume_process() is
-never called anywhere else.  That would be even more lines of code
-removed and simplified here.
 
-thanks,
+Oh, wow, thank you. That's rather easy. You'll have it ASAP when I reach home
 
-greg k-h
+
+Best Regards
