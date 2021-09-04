@@ -1,121 +1,99 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69163FC7
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 04:51:51 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id v1so707795plo.10
-        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 21:51:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB783FC7
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 05:44:43 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id e7so1136879pgk.2
+        for <linux-staging@lists.linux.dev>; Fri, 03 Sep 2021 22:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:subject:from:to:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rSC+wsvApcFev2eGAY1v7kdeN81+/4Sh3ZwQ0aBGzF0=;
-        b=OlUtuLW4JFX5yUDu/HMNsPr7nDw3wid2fAHpemmEj5LNxgQCOClojrezBnJYRD6o1z
-         fNvh78hAg25vZnc1F+eWgPcx5SreVSXosb4UXIeg6JpbrkTXzQTlQgLWOwnHxWk7/k1C
-         /67exeg9axav6aE4tYabqWu8OJUQhpypHYZD2TjlhT5xLJmOzC7mLmBMuKwnK9kvg+Mb
-         HtqW23nrEgmrTgnZhx1DFQ/RnBS116da/XrmnE8H99appPU0gdAHE4k4O+hVksnWVQy3
-         q7eMxuOeEfo5koNKVUp0LhPkCV0Ay/sO5NXzDweoCNI7U82YPVG+WVk4ZXBLkVr5i64U
-         hvpA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=uBcl0oFTcsg+IJHeJ3hoqpsIqHeVx3Yjgs9nxKf6e0s=;
+        b=ncYWYM4Fa33zgBPCY8QkFrC9CMQrJzsnaQC9/XhhBEODlO9dQebfwtZLDdi/C64nBq
+         UWVJi8aLEITeApRGeW9Zf1FZwO78dKgG5j75XZX1/P2FK+hNxIVzIXDiSFsSVLGB2nbZ
+         lfphBq6m0O6lUgXXEgshOCKYdj2+rvoSKDVlWbvseN50vseLCpuvpESJXxC3e2rhKKAc
+         SZft8tfOxOwP3NcU6GO9HWRes7+UA1rOJnk9Sl/JsN+gOWmcyLnCMqVOlgdDNOndWVEM
+         DajOJtlQgxb0X6B4P8m21lG6pj+76JqGE38muy9eC/RK5l2pWIO/haRaRubeIKBUKowH
+         5D/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:cc:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rSC+wsvApcFev2eGAY1v7kdeN81+/4Sh3ZwQ0aBGzF0=;
-        b=PWrhhZL3BrMWI4FoYpDrO/digFwcnPmiHIvLP4AZNnuYDll55kGItFEvJQF1BdaLaK
-         701YLxVkM10Okp+Jz4+dm/PNniGzlSQANDvZSoj/vj+Zabn6cnNuuecVUYUJxg3bTN34
-         sry+YNENk1EJ7ofNxIvT25Rk9ZJXVJMyAXk1tSNWEcgk/MbfWi9VCti5/4RjqsU+a3cq
-         vR6up2BvjwBoOR94iEdJPduRYjQskrjZ97ML73fey7y7c4gDTtiRtoYJSYts8wXQmzwn
-         cV9w9o+cNTsYXly8fj3ANx8Qhow2xD3rpqbKogcS2GNrTduMPvHQFaCkfr5aHhJGTtrH
-         QqbQ==
-X-Gm-Message-State: AOAM533mwH45yEwJ9FNbSIrWeoqmiuG+mOUuYpTKUkAqVVngfJgmMroz
-	LHJu+PwP/aeadBUGlbn+YVE=
-X-Google-Smtp-Source: ABdhPJywqxVKGQN/plFMg539PKBgWcUvrN2vuU9YsWQ2itoX0Ogmwu10zR60hgRsUeOEx5efXW9jTA==
-X-Received: by 2002:a17:90a:4ce2:: with SMTP id k89mr2387002pjh.233.1630731111066;
-        Fri, 03 Sep 2021 21:51:51 -0700 (PDT)
-Received: from [192.168.1.6] ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id y12sm961937pgl.65.2021.09.03.21.51.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Sep 2021 21:51:50 -0700 (PDT)
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- straube.linux@gmail.com, martin@kaiser.cx, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: r8188eu: os_dep: use kmemdup instead of kzalloc
- and memcpy
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=uBcl0oFTcsg+IJHeJ3hoqpsIqHeVx3Yjgs9nxKf6e0s=;
+        b=oADT/MDHTRdjd22npZyyZj4dzBEcHFX513SnW1VC15SMr9Uv6nm3wkKv2oyGmojgPC
+         FHkyHUD/Sc2MMjN6Kv1kjxDPYr7ZYNP2VSM/Ix1gtSrax1OsfHNZiwOHJSL02G0Bf1PD
+         YP9X8S9W2joqBplqDp2Iv4RTD+gVmUduNK9vAAu22O6MQNeXruNwTuz3KgTvxNb0SROt
+         tbuUlpONe7IODmk5Tip8FuFsNp08bsOEGCpa0r9QWlCa/az7iNXghlra/7GgYXjMPsJM
+         AxzEddoMiya91EW+7pbVhczqA2+8wNjgIPm+pkv6T3K0Bs6I1nurCwghaquY5gUDkCnC
+         3KFw==
+X-Gm-Message-State: AOAM533EtISZG/5zOhTN04wuYnUKlpFGgwiI1uhbEWZhhDC1fUZkXM8W
+	aCsKSwHyv5xU91duxVp0NpBo98BJ6G1FexCt
+X-Google-Smtp-Source: ABdhPJy15WNZaqsKxKlp00nk5tpjeh7ygstxwW8sUggLurHtQGlK4QKtGFfw7lVLTyernHZHrfu9dg==
+X-Received: by 2002:a63:5902:: with SMTP id n2mr2281599pgb.305.1630734283267;
+        Fri, 03 Sep 2021 22:44:43 -0700 (PDT)
+Received: from user ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id v190sm1024647pfv.166.2021.09.03.22.44.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Sep 2021 22:44:42 -0700 (PDT)
+Date: Sat, 4 Sep 2021 11:14:37 +0530
 From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <YSp9z2/JmvHGhW5m@user> <YTCXef5o9JHtQhuD@kroah.com>
- <YTJf9odBRwxHZTs8@user>
-Message-ID: <972f6b6c-ffdc-e32d-4433-38df7e8a78d1@gmail.com>
-Date: Sat, 4 Sep 2021 10:21:46 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	fmdefrancesco@gmail.com, saurav.girepunje@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: hal:  remove condition with no effect
+Message-ID: <YTMHxQJXKZHE5mg0@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YTJf9odBRwxHZTs8@user>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Fixes coccicheck warning: Remove the condition with no effect
+(if == else) in odm.c
 
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/r8188eu/hal/odm.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-On 03/09/21 11:18 pm, SAURAV GIREPUNJE wrote:
-> On 02 Sep 2021 11:20, Greg KH wrote:
->> On Sat, Aug 28, 2021 at 11:47:51PM +0530, Saurav Girepunje wrote:
->>> Fixes coccicheck warning:WARNING opportunity for kmemdup in ioctl_linux.c
->>>
->>> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
->>> ---
->>>   drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +---
->>>   1 file changed, 1 insertion(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
->>> index 81d4255d1785..495fadd2b8c8 100644
->>> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
->>> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
->>> @@ -585,14 +585,12 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
->>>   	}
->>>
->>>   	if (ielen) {
->>> -		buf = kzalloc(ielen, GFP_KERNEL);
->>> +		buf = kmemdup(pie, ielen, GFP_KERNEL);
->>>   		if (!buf) {
->>>   			ret =  -ENOMEM;
->>>   			goto exit;
->>>   		}
->>>
->>> -		memcpy(buf, pie, ielen);
->>> -
->>>   		/* dump */
->>>   		{
->>>   			int i;
->>> --
->>> 2.32.0
->>>
->>>
->>
->> This patch never showed up on lore.kernel.org for some reason.  Please
->> resend and see if it was a mailing issue on your side...
->>
->> thanks,
->>
->> greg k-h
-> 
-> 
-> Ok, I will resend this patch.
-> 
-> Thanks,
-> Saurav Girepunje
-> 
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index ed94f64d878d..a115bbfa8429 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -565,13 +565,8 @@ void odm_DIGInit(struct odm_dm_struct *pDM_Odm)
+ 	pDM_DigTable->RssiHighThresh	= DM_DIG_THRESH_HIGH;
+ 	pDM_DigTable->FALowThresh	= DM_false_ALARM_THRESH_LOW;
+ 	pDM_DigTable->FAHighThresh	= DM_false_ALARM_THRESH_HIGH;
+-	if (pDM_Odm->BoardType == ODM_BOARD_HIGHPWR) {
+-		pDM_DigTable->rx_gain_range_max = DM_DIG_MAX_NIC;
+-		pDM_DigTable->rx_gain_range_min = DM_DIG_MIN_NIC;
+-	} else {
+-		pDM_DigTable->rx_gain_range_max = DM_DIG_MAX_NIC;
+-		pDM_DigTable->rx_gain_range_min = DM_DIG_MIN_NIC;
+-	}
++	pDM_DigTable->rx_gain_range_max = DM_DIG_MAX_NIC;
++	pDM_DigTable->rx_gain_range_min = DM_DIG_MIN_NIC;
+ 	pDM_DigTable->BackoffVal = DM_DIG_BACKOFF_DEFAULT;
+ 	pDM_DigTable->BackoffVal_range_max = DM_DIG_BACKOFF_MAX;
+ 	pDM_DigTable->BackoffVal_range_min = DM_DIG_BACKOFF_MIN;
+@@ -1345,10 +1340,8 @@ static void FindMinimumRSSI(struct adapter *pAdapter)
+ 	if (!check_fwstate(pmlmepriv, _FW_LINKED) &&
+ 	    pdmpriv->EntryMinUndecoratedSmoothedPWDB == 0)
+ 		pdmpriv->MinUndecoratedPWDBForDM = 0;
+-	if (check_fwstate(pmlmepriv, _FW_LINKED)) /*  Default port */
+-		pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
+-	else /*  associated entry pwdb */
+-		pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
++
++	pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
+ }
 
-Hi Greg,
+ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
+--
+2.32.0
 
-I have resend the patch, But the last patch also on lore.kernel.org
-https://lore.kernel.org/all/YSp9z2%2FJmvHGhW5m@user/
-
-Regards,
-Saurav Girepunje
