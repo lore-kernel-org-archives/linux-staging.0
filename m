@@ -1,102 +1,111 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500193FC9
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 11:12:02 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id u6so1620598pfi.0
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 04:12:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BAE3FC9
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 12:04:34 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id v123so1646724pfb.11
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 05:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PmFrXKRKeIR2yVHZ2IBS5vFBvtUC5hAYiL4a0y3Y7B4=;
-        b=HU2TLwarjzF+4YD6vfsmIndBSmCCqdCMImTC1yJ/qxtemhz2qZHsa1oY9qWctSQfLc
-         tpc9N7ONfG3hdOTNu39XNny25GBSmrKdNGGZuIsqGn+yAHl1KbpipSS+KHV7/ZKIyHRS
-         o+UIOT7lHTI+uCSkv5x/gLp9GAbvZbUzgWz0p32dbqmzgUzIXBnY+E98UPNnR/AGKopB
-         RihMMwSf5paPr5sQTzQXF3L1P5Yxnk8hZO+PDj+Qnl3J/Ojk+/vCxLNQ+UEh0JTVmVGD
-         fQw6PwiJGAJc9hnlgjGX464TPJN9D+yuN6KgSAxkefP6wV51k/LJWucv/za3c7d6K9Dj
-         ndIw==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=OwQCsW8BxcYFS8G8wSIAFz/7up4NJG1Qwl4Oqjte5MU=;
+        b=cgO9QkLqzUhfHxDUk2n45clRCI4alkLbbHjOyTDgBuyyrlbiODxfvWRUAoXFlMdxel
+         91rwaKN+YvaclvV1HGffe4KSURvBdlIfLRn8xviFYQpj8ElmSCY7Alq8/fTYkvxWpz3e
+         rpDUdlOHO04KlL5HMWOKz1KqgkAt8mqWJcfKeZf3IPlJi508AHTAecW0ESmfRO3FwMzm
+         fS9gGlIDN1WEaBcF3lOn5ojtmkm88C85oHTPmox96Fu0CztRYQFMDtXSz9V4xc0PJRmx
+         MgiMNN2xCdV1KATfrPn+ZpKNG4p7lFXdlyTWtVB/LeH6Ih3f7g2qhrlvBwzRA+c8OwQx
+         HmLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PmFrXKRKeIR2yVHZ2IBS5vFBvtUC5hAYiL4a0y3Y7B4=;
-        b=Exx/Hjak2Hq0aZR359qF/WaOEgi00XE304AVRRdv2OG5Yd02/cSYRK5t8eK1ImVFf3
-         B4m/sTAYI4Gu8+vCnWgYrwK9V0dNhdbOdJT7JPF5TxAINLHoA/xQz/845Ck4fkwWzyYL
-         Lf5AJrmWrxtiqh8nDXovE9iB4JARQ2c+WgDuUTeMDYdz6IlWcAOlYfTU5dOrgTgjdW/M
-         pG3ZIVhlLuuGNVYWvk0SGvMu5WY3tM0fuXwiBUgvjFkBrdX3X05epY2JidQWMk+NKQCc
-         sjXGgRb5Bfjonc4M2DZj1GnMWhAtFyUhZ0ujXMhM7sMxTokt/HPi5HXvGXLJRLoRga90
-         4QzA==
-X-Gm-Message-State: AOAM532CQLPjvcib7KKvUbxCoW/urMRR3VHb/PLxKPdQjDJqli35nJMI
-	4HglPCmzuJcNxlIyRkf7yDG1YjJjivCiRhL9K8k=
-X-Google-Smtp-Source: ABdhPJxW6JnVQwvmRZMx83HSKQs/kFc6IsPZBDVIpoMP7wTlLCjPqIdgyvZu3DxEAnhGOr9O4aqSMFmlWNbz5+yoRSc=
-X-Received: by 2002:a63:101c:: with SMTP id f28mr3195734pgl.330.1630753921691;
- Sat, 04 Sep 2021 04:12:01 -0700 (PDT)
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=OwQCsW8BxcYFS8G8wSIAFz/7up4NJG1Qwl4Oqjte5MU=;
+        b=Ra63s/CRvqKyOT2Tet4snq1QyPVcBpOWVIwCFMjztBhRi8dB61SDvsw8qgg8wr+C0t
+         zcA4gYp5kpD+jfmwwxeHXFzO8xXlqHzJv7vEk625TIPeXmMzHFQ7MG9M+kj5TMti9ctr
+         CEYzDF9vHEGfyn/3AsF6D0lusKFFLBMnbhGTlk0X0FvVeLmGYfYomINUXpoXYSl8cTXS
+         atw9vQBAzDldJKrKPH9iS0hNNAzLOJ+f3rCNo+JMN7W0dgrnUTOjG8ddNgjiNfn84QE3
+         oCjBL0XF7E/KKvSAj0z5R2JRNDlw/0Nzo+KTbXnuk4kLNdjQlgikwR4B+wQbKEzAmaJM
+         PL8A==
+X-Gm-Message-State: AOAM533OSxFFvdtigCwyK3DmIIQq3rzs4e7HStY3HIcYqgJo6MAmnUb7
+	72popC39MhyUaPSTpxdBjAs=
+X-Google-Smtp-Source: ABdhPJzBNvCk9uCcn1mBC39Noah7rFWVL8l2W4fuYxCPI2xqgLX6HuI76mPSmwbJd3iO46GV6JMs3Q==
+X-Received: by 2002:a65:6288:: with SMTP id f8mr3361579pgv.81.1630757073949;
+        Sat, 04 Sep 2021 05:04:33 -0700 (PDT)
+Received: from [192.168.1.6] ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id p3sm2145073pfw.71.2021.09.04.05.04.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Sep 2021 05:04:33 -0700 (PDT)
+Cc: saurav.girepunje@hotmail.com, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, straube.linux@gmail.com, martin@kaiser.cx,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: os_dep: simplifiy the rtw_resume
+ function
+To: Greg KH <greg@kroah.com>
+References: <YTM+wayCk2n2CrVP@user> <YTNFHd6o0f9rAMO2@kroah.com>
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+Message-ID: <30ae6751-3b44-7779-4eae-14d0ed7a75c6@gmail.com>
+Date: Sat, 4 Sep 2021 17:34:29 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210902111339.GA577108@panther> <YTCU3SpFgyFbxXs3@kroah.com>
- <CAPGkw+xhPfD0acY1GcwPpHg=kHw7o2+y94-r3AxfzsfyqG4bDw@mail.gmail.com>
- <YTJXOFlkLTBTg9rl@kroah.com> <CAPGkw+yKQx+O3yfxxMgv9oyH2-pun5-g=+mFWQ_YwbfXp1Y6cA@mail.gmail.com>
- <YTMMAS+veKFAwRi7@kroah.com>
-In-Reply-To: <YTMMAS+veKFAwRi7@kroah.com>
-From: Krish Jain <krishjain02939@gmail.com>
-Date: Sat, 4 Sep 2021 13:11:50 +0200
-Message-ID: <CAPGkw+yHzWsQvARu+k9F7S-sRScDjuTz05Sbypzvv7qJC3O21Q@mail.gmail.com>
-Subject: Re: [PATCH] Fix formatting for file "hsdma-mt7621.c"
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-
-On Sat, Sep 4, 2021 at 8:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Sep 03, 2021 at 08:54:33PM +0200, Krish Jain wrote:
-> > On Fri, Sep 3, 2021 at 7:11 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Fri, Sep 03, 2021 at 05:49:46PM +0200, Krish Jain wrote:
-> > > > On Thu, Sep 2, 2021 at 11:09 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > >
-> > > > > On Thu, Sep 02, 2021 at 01:13:39PM +0200, Krish Jain wrote:
-> > > > > > This patch fixes the format of the code. It properly formats lines that should not end with a '(' as suggested by checkpath.pl.
-> > > > >
-> > > > > Please properly line-wrap your changelog text like your editor asked you
-> > > > > to.
-> > > > >
-> > > > > Also, your subject line needs work, look at other commits for this
-> > > > > driver with:
-> > > > >         git log --oneline drivers/staging/mt7621-dma/
-> > > > > and notice how they say the driver name and the subsystem.
-> > > > >
-> > > > > Please fix up and resend a v2.
-> > > > >
-> > > > > thanks,
-> > > > >
-> > > > > greg k-h
-> > > >
-> > > > Do you mean I should line-wrap (at 72 columns) the entire thing or
-> > > > only that line?
-> > >
-> > > Your whole changelog text needs to be wrapped at 72 columns.
-> > >
-> > > Look at the 'git log' in the kernel tree for hundreds of thousands of
-> > > examples :)
-> > >
-> > > thanks,
-> > >
-> > > greg k-h
-> >
-> > Hi, so you mean only the change-log text (as in the text telling what
-> > changes have been made) needs to be wrapped at 72 columns but the code
-> > itself (the git diff) doesn't, right ?
->
-> Yes, just the text that you add to the commit message.
->
+In-Reply-To: <YTNFHd6o0f9rAMO2@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
-Oh, wow, thank you. That's rather easy. You'll have it ASAP when I reach home
 
+On 04/09/21 3:36 pm, Greg KH wrote:
+> On Sat, Sep 04, 2021 at 03:09:13PM +0530, Saurav Girepunje wrote:
+>> Remove unused variable ret and pwrpriv.
+>> Remove the condition with no effect (if == else) in usb_intf.c
+>> file.
+>>
+>> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+>> ---
+>>   drivers/staging/r8188eu/os_dep/usb_intf.c | 8 +-------
+>>   1 file changed, 1 insertion(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+>> index bb85ab77fd26..673cd3001183 100644
+>> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+>> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+>> @@ -493,14 +493,8 @@ static int rtw_resume(struct usb_interface *pusb_intf)
+>>   {
+>>   	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
+>>   	struct adapter *padapter = dvobj->if1;
+>> -	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
+>> -	int ret = 0;
+>>
+>> -	if (pwrpriv->bInternalAutoSuspend)
+>> -		ret = rtw_resume_process(padapter);
+>> -	else
+>> -		ret = rtw_resume_process(padapter);
+>> -	return ret;
+>> +	return rtw_resume_process(padapter);
+>>   }
+>>
+>>   int rtw_resume_process(struct adapter *padapter)
+> 
+> Why not just delete the rtw_resume_process() declaration line and make
+> the rtw_resume() function be the whole thing, as rtw_resume_process() is
+> never called anywhere else.  That would be even more lines of code
+> removed and simplified here.
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-Best Regards
+Yes, rtw_resume_process function can be removed .
+Thanks for review greg.
+
+Regards,
+Saurav Girepunje
