@@ -1,101 +1,97 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB963FC9
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 20:48:27 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id u9so3697021wrg.8
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 13:48:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACEE3FC9
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 21:28:48 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id eb14so3866683edb.8
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 14:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=YtO5RfmSEUHgUxw3hz9c0tESRCB4tsWTWughH3zQrtc=;
-        b=Tyjz2h8HEOJwURMA1Ly02sMSPLn8sZKkg9bvgxM0pqbFj0J9h1NRSnveX6vhSzgNq0
-         aQdAp49sd+XUM3GJ4ISGH9HALVq3Loy5W4wJYZnUJtIuS9UpGk585QfXOON04zPNdUR7
-         NLuk4nByG6ouoIh/qzfmihiUc8vMg5kyRTXVnJhzp0DnlWfeTv/1/CPtOHctewdNd9jV
-         qwUs3GH1WkQqIChF4qX3Titf2kxbhkDKviwd2U202lQi5cg1/0+leHTxAkHDSAciFG/T
-         L0z5NfCimsIW/la7/dK8ZVlWKd8oiD7sBHqUXKn5vxQhHZHqf6zTiATEVmcJP0IqespH
-         gOkA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UIj4kd16/zrsNXzE8q2OMx4c2eCEJ9nBcH+2bqe0QjM=;
+        b=mQrchdQcqYhfsiwNvlqbFpaN+ZAsFxabIGsbkAN9H2RpMnbY6mtLBeWKGusnpoZnSV
+         bwzN7yb2sVD2CsuhTAfroADDAU6ROpX102gyubSUtoMI0AyMbBM12B29bmMSR2LzcDic
+         kBoz+TlMY3CU1rSra12Ne5w8oR7diAV3YLU29E/Ax2mJemV532L6YgHuKrdsf4h3C3go
+         SfuN4G336neapwDpxz45vceI71X0JoLcryn1xMDVE4fPCqwq1pMEI6treRIFDwijUopV
+         GU0b+c1TQ7woWdDuM1ZcD5jDsDKj6eJdWLcaA0lX7d41s5v/wKsGOxl5xNJNE8wrgwmT
+         BCkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=YtO5RfmSEUHgUxw3hz9c0tESRCB4tsWTWughH3zQrtc=;
-        b=QirrwOMcyMA/Lm/vs23X84o5D4TRXiA24RxPiyrCjH4ipBK7j0lgzvWdcVKSdlewrr
-         CxnXS6H1xpKP9+T0ZUimR2T4TyxP++Kx4AByK/XxX4r5uuryUihJfb26tc6NvP3XG6qP
-         8r124iP+4sSeJ2QSlUEPdhg/P0LHDRFDVVEyDi2VUY68LsJX4TE3cORIV5uAwbFMGpYo
-         vu+483XB6n1F2/p9wTOLz9aU1iJl6u7UMoWe4dPUtXnJW3+dNL29vB+roxNR3PWfV/5s
-         0sLqN0Oq7Z/sxXNdDZBsdNAox5wYFPYRnuDKAe5VREPkX0/f2FWzGs90OvGFMPcApyGb
-         h/Vg==
-X-Gm-Message-State: AOAM5307XUROygp+XHt+Ct/gIJqrcNhupw9pS1IarNi1lmfLwye/YvV8
-	0yIIoiU8Ws3tnK2rWJ7qBrtH1M2s6co=
-X-Google-Smtp-Source: ABdhPJwOCJmTlX6L+Lsg40FmvDAXXm1tyZcQ/BHGM5Ee6fw8KH8Zgmok1DYNe9I/uE0Zq3EUqqfUfA==
-X-Received: by 2002:adf:c452:: with SMTP id a18mr5411484wrg.225.1630788505773;
-        Sat, 04 Sep 2021 13:48:25 -0700 (PDT)
-Received: from panther (190.red-88-4-24.dynamicip.rima-tde.net. [88.4.24.190])
-        by smtp.gmail.com with ESMTPSA id z17sm3100060wrh.66.2021.09.04.13.48.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UIj4kd16/zrsNXzE8q2OMx4c2eCEJ9nBcH+2bqe0QjM=;
+        b=RoTOQzszH8vljSDKCOaikTiVieRYINQ9rvRc8bnu9JwBPgVJ9qg1z9nreTaR6oz7qw
+         xIFxdRwIPyy7Rc3soE8h2dpQr4BpkvUz7kpCEjkLGr3qQdXhX2rsatSrM6HZJttEfk1K
+         hDkEKxnQPFoiiEoTcRrzL6rha5vwZf5+DADBoSfn+pXEPcDgUzm59DVME/fW8hZIVZvF
+         JyETBoFHCf+KSritGcfCC8gSCEpwD+Ro90H3J8bmJT/c9S4EBUxKPztnIxSKe/wx41et
+         Sv4L9V+fj5swz7u5PrNDQIFIvymz5vuhl2K9/hSUQn0sg0ugEuw35xYvX5alznFMb8Aa
+         dH8A==
+X-Gm-Message-State: AOAM533RbFVJHvwkpAm3zI7OwitJWvTphJwBTWHeijZ2joGmEQxKKyqe
+	IEZgUTYpJWhmQzeTLzm4WhS23L1u5MM=
+X-Google-Smtp-Source: ABdhPJyy/9D1M5+/ZkZGzijGwmSPnQpQfixYDLZf0fZrsxU+d8ziwv/mchGa0hJofvgHDtMGTrQ+Pg==
+X-Received: by 2002:a05:6402:1d25:: with SMTP id dh5mr5741429edb.91.1630790926708;
+        Sat, 04 Sep 2021 14:28:46 -0700 (PDT)
+Received: from localhost.localdomain (host-79-23-101-208.retail.telecomitalia.it. [79.23.101.208])
+        by smtp.gmail.com with ESMTPSA id n13sm1866699edq.91.2021.09.04.14.28.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 13:48:25 -0700 (PDT)
-Date: Sun, 5 Sep 2021 11:02:01 +0200
-From: Krish Jain <krishjain02939@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev
-Subject: [PATCH v2] mt7621-dma: Properly format lines in "hsdma-mt7621.c"
- ending with an open parenthesis
-Message-ID: <20210905090201.GA283023@panther>
+        Sat, 04 Sep 2021 14:28:46 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2 0/3] staging: r8188eu: Shorten and simplify calls chain
+Date: Sat,  4 Sep 2021 23:27:16 +0200
+Message-Id: <20210904212719.11426-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-From: Krish Jain <krishjain02939@gmail.com>
+io_ops abstraction is useless in this driver, since there is only one ops
+registration. Without io_ops we can get rid of indirect calls mess and
+shorten the calls chain.
 
-This patch fixes the format of the code. It properly formats lines that
-should not end with a '(' as suggested by checkpath.pl.
+Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+For this purpose unify the three usb_read8/16/32 into the new
+usb_read(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_read() and use in it the new
+usb_control_msg_recv() API of USB Core.
 
-Signed-off-by: Krish Jain <krishjain02939@gmail.com>
----
- drivers/staging/mt7621-dma/hsdma-mt7621.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+For this purpose unify the four usb_write8/16/32/N() into the new
+usb_write(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_write() and use in it the new
+usb_control_msg_send() API of USB Core.
 
-diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c b/drivers/staging/mt7621-dma/hsdma-mt7621.c
-index b0ed935de7ac..89b72a802800 100644
---- a/drivers/staging/mt7621-dma/hsdma-mt7621.c
-+++ b/drivers/staging/mt7621-dma/hsdma-mt7621.c
-@@ -162,8 +162,7 @@ struct mtk_hsdam_engine {
- 	struct mtk_hsdma_chan chan[1];
- };
- 
--static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(
--		struct mtk_hsdma_chan *chan)
-+static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct mtk_hsdma_chan *chan)
- {
- 	return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
- 			ddev);
-@@ -174,8 +173,7 @@ static inline struct mtk_hsdma_chan *to_mtk_hsdma_chan(struct dma_chan *c)
- 	return container_of(c, struct mtk_hsdma_chan, vchan.chan);
- }
- 
--static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(
--		struct virt_dma_desc *vdesc)
-+static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(struct virt_dma_desc *vdesc)
- {
- 	return container_of(vdesc, struct mtk_hsdma_desc, vdesc);
- }
-@@ -457,9 +455,7 @@ static void mtk_hsdma_issue_pending(struct dma_chan *c)
- 	spin_unlock_bh(&chan->vchan.lock);
- }
- 
--static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
--		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
--		size_t len, unsigned long flags)
-+static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest, dma_addr_t src, size_t len, unsigned long flags)
- {
- 	struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
- 	struct mtk_hsdma_desc *desc;
+The code with the modifications was thoroughly tested by Pavel Skripkin 
+using a TP-Link TL-WN722N v2 / v3 [Realtek RTL8188EUS]
+
+Fabio M. De Francesco (2):
+  staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
+  staging: r8188eu: Shorten calls chain of rtw_write8/16/32/N()
+
+Pavel Skripkin (1):
+  staging: r8188eu: remove _io_ops structure
+
+ drivers/staging/r8188eu/core/rtw_io.c         | 241 +----------------
+ drivers/staging/r8188eu/hal/usb_halinit.c     |   6 +-
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   | 242 +++++++++++-------
+ drivers/staging/r8188eu/include/rtw_io.h      |  76 +-----
+ drivers/staging/r8188eu/include/usb_ops.h     |   2 -
+ .../staging/r8188eu/include/usb_ops_linux.h   |   8 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |   2 +-
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  40 +--
+ 8 files changed, 174 insertions(+), 443 deletions(-)
+
 -- 
-2.25.1
+2.33.0
 
