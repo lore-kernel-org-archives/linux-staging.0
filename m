@@ -1,41 +1,41 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D053FCD
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 22:00:59 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id a25so5368589ejv.6
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 15:00:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C453FCD
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 22:01:01 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id x11so5451334ejv.0
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 15:01:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Tc3tJqgTrWQJFMEh/aj2oTvdJ8WvkMN0LPTXcCZlJy0=;
-        b=Kpw273Pi0qVsxYXxzmU3XsyhKZMXaMj5V7WK1rZV4ydCtLG0SXXc2MVodiJnUKxlH/
-         5TNaiiEaZZmtdyg2Q76eHeYG6OJd3lQHG8zpFnNUZbqLuW/uLCgvI/UPeBTfqD0duboa
-         DIgQOy9HeYmH950sBUJgI79iClg6gcpOP6MpsWIYgD+Su54CnPJTMeTQhBhS4dI6fc2n
-         WzDAMCe+sNfDZjz3R+NSmtlsoCqkSZ3ZaYKNfUQq1GvlRu/Mc4p59EL8ymDNmKG3nHVZ
-         PqV8WSwFqiIYTnwdTLPbRw4kGkqZkYgFQmPtI0G2oYj3VGOYIX5+yAouHgljXtyfOElj
-         qhNQ==
+        bh=vIMWLaffYSoH4Zt5SkP/zr4UWJey5AoUiyXt6T+4tSY=;
+        b=nvQftgFkUI10HpZOIMq8XegaQchYRCT8ofQtf2k1s7xmCoevy846TDgC+B62EOqssg
+         Ujfk08VvOYJZPncvpCjnYaAxF+5qEzcj3qZfbdlhfP2AUHvfknvJkY0m5AcGZSaYMLYE
+         mo8xeVY0sVv1s7rdylZ8ebHZRWzk9GJSY5SVPjlkY9E2wQsPOm+1XkjDfdFTtP7wEwVS
+         6u9ZQGdKs1CAX8pB2vI7MPzBYWt0+riKuUwbbRuOfbCsDe1zWjg6Rn86cN7hRJONRKXO
+         ER0P9l3nISxrxOFOMMZiXWAZJYJxQzMl6LrsJRcCczdSa7Gs8nH9LRc5RCzii814G2tc
+         pAOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Tc3tJqgTrWQJFMEh/aj2oTvdJ8WvkMN0LPTXcCZlJy0=;
-        b=DM5JbE1FmoacBMSM7m56/KJK48pIRqAOZoY/02Qm9Sc9eUiNcyFhhaCaNE41ebodKU
-         8xS/x7G8FioCemj3uH9//ONEe51YlpE/zDL1b7URsT+HKJrsXB9UB9aWC7kGhw8FFbwG
-         pndrvlpAaXSSgcvAxglYgwrRtetsjcDX+EF28lqn1Hn3FUHbYuiQNMf7utKh/xxBtKRP
-         clH9y8WbyZxIoeoemxu2titfgLCbM1GZLG3nYc85ySaq11TyXIExlmBFK2KGoADV2JUT
-         BMxmyhIhRermUwPQVvEfQVx6gaBxgrPcwkV8QXV0WX4dnZAvni7vG2nI66FobdZx8TNo
-         p9hQ==
-X-Gm-Message-State: AOAM532QxNB25afWjHQi5z5xNzpOzDu3aSeAhBBcjbtroiSzCZKBWO/H
-	0bKpwLOn+fWFJZYi/2vTMfc=
-X-Google-Smtp-Source: ABdhPJwsGZeUlCMYBC/ppf6euLdEzFmUQ1ItMMZE1OI/siH99mCi/02XamgPCh4VsGERZ+hezbLgLw==
-X-Received: by 2002:a17:906:74d:: with SMTP id z13mr5981250ejb.127.1630792858146;
-        Sat, 04 Sep 2021 15:00:58 -0700 (PDT)
+        bh=vIMWLaffYSoH4Zt5SkP/zr4UWJey5AoUiyXt6T+4tSY=;
+        b=hj4pQP+AmANDSUDYgpSr6f5twu/Gtq1kkZpLHsyuu2uZTP6tqCoaf0P0x1uDtpNwbz
+         6XlNcUAoFvhDdZPPpOSZMoRMdhu30pDooIpmVf/ojG/Ptb2DF6nLrsYgchxxX9KqpjLH
+         jKWFZmpBs+jZWuchYRLOKUJiNCSrbg8c7RR/NFgjwhwpZl8cYP0usW1W9kmeMdKBfngl
+         2fQ8W8HMEpZYiozA+TAHMBvWAg56NzWEk50h82FaZz3KTdFPvM6Tf4HlaWL/W8ryTn1S
+         GviGU85Wp5SONesfJ5EMBKJyaedW/8iyp2+rXCYCl24UY5UYYtGgeMcXEo3ejnvSO74J
+         pJFQ==
+X-Gm-Message-State: AOAM531P6hZQdRYbrTQANnY8Zyk3inJyT9/jtOmMkBqFktN44fc2sKH7
+	K4UMf74ldUa4Ky+RrQ+F17E=
+X-Google-Smtp-Source: ABdhPJxA1FPnDYy3SJL61LTgfAxTG4eoNL8K4JI3m4R79W4VNSyawk1d36eJTzZyF31v50hmnE6Vdw==
+X-Received: by 2002:a17:907:1dcf:: with SMTP id og15mr6021115ejc.470.1630792860206;
+        Sat, 04 Sep 2021 15:01:00 -0700 (PDT)
 Received: from localhost.localdomain (host-79-23-101-208.retail.telecomitalia.it. [79.23.101.208])
-        by smtp.gmail.com with ESMTPSA id i4sm1940258edq.34.2021.09.04.15.00.57
+        by smtp.gmail.com with ESMTPSA id i4sm1940258edq.34.2021.09.04.15.00.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 15:00:57 -0700 (PDT)
+        Sat, 04 Sep 2021 15:00:59 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -44,9 +44,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v3 2/3] staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
-Date: Sun,  5 Sep 2021 00:00:47 +0200
-Message-Id: <20210904220048.12822-3-fmdefrancesco@gmail.com>
+Subject: [PATCH v3 3/3] staging: r8188eu: Shorten calls chain of rtw_write8/16/32/N()
+Date: Sun,  5 Sep 2021 00:00:48 +0200
+Message-Id: <20210904220048.12822-4-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210904220048.12822-1-fmdefrancesco@gmail.com>
 References: <20210904220048.12822-1-fmdefrancesco@gmail.com>
@@ -58,11 +58,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
-For this purpose unify the three usb_read8/16/32 into the new
-usb_read(); make the latter parameterizable with 'size'; embed most of
-the code of usbctrl_vendorreq() into usb_read() and use in it the new
-usb_control_msg_recv() API of USB Core.
+Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+For this purpose unify the four usb_write8/16/32/N() into the new
+usb_write(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_write() and use in it the new
+usb_control_msg_send() API of USB Core.
 
 Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
@@ -70,57 +70,111 @@ Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
 
-v2->v3: No changes.
+v2->v3: Fix the version number of the patch.
+ 
+v1->v2: Replace parameter REALTEK_USB_VENQT_READ with REALTEK_USB_VENQT_WRITE
+in usb_control_msg_send(). More in-depth explanation at
+https://lore.kernel.org/lkml/2791328.7pjKATJfGa@localhost.localdomain/T/#m1fc1ab2f7c1f463049ad88d5df5bb1b107b37260
 
-v1->v2: No changes.
-
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 92 +++++++++++++++++----
- 1 file changed, 78 insertions(+), 14 deletions(-)
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 130 ++++++++------------
+ 1 file changed, 53 insertions(+), 77 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index a87b0d2e87d0..f9c4fd5a2c53 100644
+index f9c4fd5a2c53..e31d1b1fdb12 100644
 --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -97,38 +97,102 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
- 	return status;
- }
+@@ -8,76 +8,51 @@
+ #include "../include/recv_osdep.h"
+ #include "../include/rtl8188e_hal.h"
  
+-static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata, u16 len, u8 requesttype)
 +static int usb_read(struct intf_hdl *intfhdl, u32 addr, void *data, u8 size)
-+{
+ {
+-	struct adapter	*adapt = pintfhdl->padapter;
+-	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
 +	u16 value = (u16)(addr & 0x0000ffff);
 +	struct adapter *adapt = intfhdl->padapter;
 +	struct dvobj_priv *dvobjpriv = adapter_to_dvobj(adapt);
-+	struct usb_device *udev = dvobjpriv->pusbdev;
+ 	struct usb_device *udev = dvobjpriv->pusbdev;
+-	unsigned int pipe;
+-	int status = 0;
+-	u8 *pIo_buf;
 +	int status;
 +	u8 *io_buf;
-+	int vendorreq_times = 0;
-+
+ 	int vendorreq_times = 0;
+ 
+-	if ((adapt->bSurpriseRemoved) || (adapt->pwrctrlpriv.pnp_bstop_trx)) {
 +	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
-+		status = -EPERM;
-+		goto exit;
-+	}
-+
+ 		status = -EPERM;
+ 		goto exit;
+ 	}
+ 
+-	if (len > MAX_VENDOR_REQ_CMD_SIZE) {
+-		DBG_88E("[%s] Buffer len error ,vendor request failed\n", __func__);
+-		status = -EINVAL;
+-		goto exit;
+-	}
+-
+-	_enter_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
 +	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
-+
-+	/*  Acquire IO memory for vendorreq */
+ 
+ 	/*  Acquire IO memory for vendorreq */
+-	pIo_buf = dvobjpriv->usb_vendor_req_buf;
 +	io_buf = dvobjpriv->usb_vendor_req_buf;
-+
+ 
+-	if (!pIo_buf) {
+-		DBG_88E("[%s] pIo_buf == NULL\n", __func__);
 +	if (!io_buf) {
 +		DBG_88E("[%s] io_buf == NULL\n", __func__);
-+		status = -ENOMEM;
-+		goto release_mutex;
-+	}
-+
-+	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+ 		status = -ENOMEM;
+ 		goto release_mutex;
+ 	}
+ 
+-	if (requesttype == REALTEK_USB_VENQT_READ)
+-		pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+-	else
+-		pipe = usb_sndctrlpipe(udev, 0);/* write_out */
+-
+ 	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+-		if (requesttype == REALTEK_USB_VENQT_READ)
+-			memset(pIo_buf, 0, len);
+-		else
+-			memcpy(pIo_buf, pdata, len);
+-
+-		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
+-					 requesttype, value, REALTEK_USB_VENQT_CMD_IDX,
+-					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
+-
+-		if (status == len) {   /*  Success this control transfer. */
 +		status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
 +					      REALTEK_USB_VENQT_READ, value,
 +					      REALTEK_USB_VENQT_CMD_IDX, io_buf,
 +					      size, RTW_USB_CONTROL_MSG_TIMEOUT,
 +					      GFP_KERNEL);
 +		if (!status) {   /*  Success this control transfer. */
-+			rtw_reset_continual_urb_error(dvobjpriv);
+ 			rtw_reset_continual_urb_error(dvobjpriv);
+-			if (requesttype == REALTEK_USB_VENQT_READ)
+-				memcpy(pdata, pIo_buf,  len);
 +			memcpy(data, io_buf, size);
-+		} else { /*  error cases */
+ 		} else { /*  error cases */
+-			DBG_88E("reg 0x%x, usb %s %u fail, status:%d value=0x%x, vendorreq_times:%d\n",
+-				value, (requesttype == REALTEK_USB_VENQT_READ) ? "read" : "write",
+-				len, status, *(u32 *)pdata, vendorreq_times);
+-
+-			if (status < 0) {
+-				if (status == (-ESHUTDOWN) || status == -ENODEV) {
+-					adapt->bSurpriseRemoved = true;
+-				} else {
+-					struct hal_data_8188e	*haldata = GET_HAL_DATA(adapt);
+-					haldata->srestpriv.wifi_error_status = USB_VEN_REQ_CMD_FAIL;
+-				}
+-			} else { /*  status != len && status >= 0 */
+-				if (status > 0) {
+-					if (requesttype == REALTEK_USB_VENQT_READ) {
+-						/*  For Control read transfer, we have to copy the read data from pIo_buf to pdata. */
+-						memcpy(pdata, pIo_buf,  len);
+-					}
+-				}
 +			DBG_88E("reg 0x%x, usb %s %u fail, status:%d vendorreq_times:%d\n",
 +				value, "read", size, status, vendorreq_times);
 +
@@ -130,60 +184,70 @@ index a87b0d2e87d0..f9c4fd5a2c53 100644
 +				struct hal_data_8188e *haldata = GET_HAL_DATA(adapt);
 +
 +				haldata->srestpriv.wifi_error_status = USB_VEN_REQ_CMD_FAIL;
-+			}
-+
-+			if (rtw_inc_and_chk_continual_urb_error(dvobjpriv)) {
-+				adapt->bSurpriseRemoved = true;
-+				break;
-+			}
-+		}
-+
+ 			}
+ 
+ 			if (rtw_inc_and_chk_continual_urb_error(dvobjpriv)) {
+@@ -87,17 +62,18 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+ 
+ 		}
+ 
+-		/*  firmware download is checksumed, don't retry */
+-		if ((value >= FW_8188E_START_ADDRESS && value <= FW_8188E_END_ADDRESS) || status == len)
 +		/*  firmware download is checksummed, don't retry */
 +		if ((value >= FW_8188E_START_ADDRESS && value <= FW_8188E_END_ADDRESS) || !status)
-+			break;
-+	}
+ 			break;
+ 	}
 +
-+release_mutex:
+ release_mutex:
+-	_exit_critical_mutex(&dvobjpriv->usb_vendor_req_mutex, NULL);
 +	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
-+exit:
-+	return status;
-+}
-+
- u8 rtw_read8(struct adapter *adapter, u32 addr)
- {
--	struct io_priv *pio_priv = &adapter->iopriv;
--	struct intf_hdl *pintfhdl = &pio_priv->intf;
--	u16 wvalue = (u16)(addr & 0x0000ffff);
-+	struct io_priv *io_priv = &adapter->iopriv;
-+	struct intf_hdl *intfhdl = &io_priv->intf;
-+	u16 value = (u16)(addr & 0x0000ffff);
- 	u8 data;
- 
--	usbctrl_vendorreq(pintfhdl, wvalue, &data, 1, REALTEK_USB_VENQT_READ);
-+	usb_read(intfhdl, value, &data, 1);
- 
- 	return data;
+ exit:
+ 	return status;
  }
  
- u16 rtw_read16(struct adapter *adapter, u32 addr)
+-static int usb_read(struct intf_hdl *intfhdl, u32 addr, void *data, u8 size)
++static int usb_write(struct intf_hdl *intfhdl, u32 addr, void *data, u8 size)
+ {
+ 	u16 value = (u16)(addr & 0x0000ffff);
+ 	struct adapter *adapt = intfhdl->padapter;
+@@ -123,15 +99,15 @@ static int usb_read(struct intf_hdl *intfhdl, u32 addr, void *data, u8 size)
+ 		goto release_mutex;
+ 	}
+ 
++	memcpy(io_buf, data, size);
+ 	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+-		status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
+-					      REALTEK_USB_VENQT_READ, value,
++		status = usb_control_msg_send(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
++					      REALTEK_USB_VENQT_WRITE, value,
+ 					      REALTEK_USB_VENQT_CMD_IDX, io_buf,
+ 					      size, RTW_USB_CONTROL_MSG_TIMEOUT,
+ 					      GFP_KERNEL);
+ 		if (!status) {   /*  Success this control transfer. */
+ 			rtw_reset_continual_urb_error(dvobjpriv);
+-			memcpy(data, io_buf, size);
+ 		} else { /*  error cases */
+ 			DBG_88E("reg 0x%x, usb %s %u fail, status:%d vendorreq_times:%d\n",
+ 				value, "read", size, status, vendorreq_times);
+@@ -199,55 +175,55 @@ u32 rtw_read32(struct adapter *adapter, u32 addr)
+ 
+ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
  {
 -	struct io_priv *pio_priv = &adapter->iopriv;
 -	struct intf_hdl *pintfhdl = &pio_priv->intf;
 -	u16 wvalue = (u16)(addr & 0x0000ffff);
--	__le32 data;
 +	struct io_priv *io_priv = &adapter->iopriv;
 +	struct intf_hdl *intfhdl = &io_priv->intf;
 +	u16 value = (u16)(addr & 0x0000ffff);
-+	__le16 data;
+ 	int ret;
  
--	usbctrl_vendorreq(pintfhdl, wvalue, &data, 2, REALTEK_USB_VENQT_READ);
-+	usb_read(intfhdl, value, &data, 2);
+-	ret = usbctrl_vendorreq(pintfhdl, wvalue, &val, 1, REALTEK_USB_VENQT_WRITE);
++	ret = usb_write(intfhdl, value, &val, 1);
  
--	return (u16)(le32_to_cpu(data) & 0xffff);
-+	return le16_to_cpu(data);
+ 	return RTW_STATUS_CODE(ret);
  }
  
- u32 rtw_read32(struct adapter *adapter, u32 addr)
+ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
  {
 -	struct io_priv *pio_priv = &adapter->iopriv;
 -	struct intf_hdl *pintfhdl = &pio_priv->intf;
@@ -191,12 +255,53 @@ index a87b0d2e87d0..f9c4fd5a2c53 100644
 +	struct io_priv *io_priv = &adapter->iopriv;
 +	struct intf_hdl *intfhdl = &io_priv->intf;
 +	u16 value = (u16)(addr & 0x0000ffff);
- 	__le32 data;
+ 	__le32 data = cpu_to_le32(val & 0x0000ffff);
+ 	int ret;
  
--	usbctrl_vendorreq(pintfhdl, wvalue, &data, 4, REALTEK_USB_VENQT_READ);
-+	usb_read(intfhdl, value, &data, 4);
+-	ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, 2, REALTEK_USB_VENQT_WRITE);
++	ret = usb_write(intfhdl, value, &data, 2);
  
- 	return le32_to_cpu(data);
+ 	return RTW_STATUS_CODE(ret);
+ }
+ 
+ int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
+ {
+-	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct intf_hdl *pintfhdl = &pio_priv->intf;
+-	u16 wvalue = (u16)(addr & 0x0000ffff);
++	struct io_priv *io_priv = &adapter->iopriv;
++	struct intf_hdl *intfhdl = &io_priv->intf;
++	u16 value = (u16)(addr & 0x0000ffff);
+ 	__le32 data = cpu_to_le32(val);
+ 	int ret;
+ 
+-	ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, 4, REALTEK_USB_VENQT_WRITE);
++	ret = usb_write(intfhdl, value, &data, 4);
+ 
+ 	return RTW_STATUS_CODE(ret);
+ }
+ 
+-int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *pdata)
++int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *data)
+ {
+-	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct intf_hdl *pintfhdl = &pio_priv->intf;
+-	u16 wvalue = (u16)(addr & 0x0000ffff);
++	struct io_priv *io_priv = &adapter->iopriv;
++	struct intf_hdl *intfhdl = &io_priv->intf;
++	u16 value = (u16)(addr & 0x0000ffff);
+ 	u8 buf[VENDOR_CMD_MAX_DATA_LEN] = {0};
+ 	int ret;
+ 
+ 	if (length > VENDOR_CMD_MAX_DATA_LEN)
+ 		return -EINVAL;
+ 
+-	memcpy(buf, pdata, length);
+-	ret = usbctrl_vendorreq(pintfhdl, wvalue, buf, (length & 0xffff), REALTEK_USB_VENQT_WRITE);
++	memcpy(buf, data, length);
++	ret = usb_write(intfhdl, value, buf, (length & 0xffff));
+ 
+ 	return RTW_STATUS_CODE(ret);
  }
 -- 
 2.33.0
