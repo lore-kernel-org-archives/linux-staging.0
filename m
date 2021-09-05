@@ -1,84 +1,109 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CAF3FC0
-	for <linux-staging@lists.linux.dev>; Sun,  5 Sep 2021 21:40:40 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id d6so6199154wrc.11
-        for <linux-staging@lists.linux.dev>; Sun, 05 Sep 2021 14:40:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804063FC9
+	for <linux-staging@lists.linux.dev>; Sun,  5 Sep 2021 22:39:19 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id s11so4831661pgr.11
+        for <linux-staging@lists.linux.dev>; Sun, 05 Sep 2021 15:39:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=EI/tQ0853DgmlZpgUH6Sb8Mf92xDUUOdSCeoB3y9z5k=;
-        b=XqQnR5svqFEfr69eWiEFC9YZH7l61Qz+vrz1V1/rLRWUbJHt1nppEErih7/Ct8P4DD
-         ncVamoWfi4yVxVFM7yoiWHyp5c5fjc/mdGWmjvFcprreKSKhqSOFXWJccBeMJLQsol4r
-         SP27LCoos1KmpINQTHqrvwHfGrc9KaFuRdhFMHmHhleEdZdjBwU8VtM9r0068hiavn7y
-         x0pM7Xp1paK5Zs+AbUNHhieubdThc2wpLntFWDLlVRhdv4Jyf7UiODnuTlpSiEvsMAiJ
-         Ve1N7hXnUI5cijwu9/PLLtIBH8ZwCSMLLnc/2I7M+YBj9wPToFTmXz0IZgGKZCVax0IC
-         PsYA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xmvml1AShCn8Vbbw+i5nSyQiXWYXUYVF7OcOpWlVsg8=;
+        b=TRjLFxN+XF9HLfdeVXJy+r8mPkCEWxyHc+iJ1oTBL+pyO78FOkkirScn1774V+48jK
+         QBf0+d8+KiOXhtTO/Jyzp1G7fut4wTTr+13NBOdgMlHNkzEsrhJBmuierxHmIyDNzYNA
+         SYDMDWY2c9eEyB7AEHjjSD4Mv4bKmzAx4gCfHuhLVXNfBd1WlsGP+1MgJuJnpE0d6jby
+         CgomrisDr26N++9vjNVISlnTnTHqyiUuOcfX0Bbji/p05UMgPfzU3sYSl+HANhUQjDk+
+         oOUiCDzBEiJ654X2Oawh9Cu5fEpFh3E69jf6lKDzpi4kfjg9IcXNTOFMrujE4x/Oir4n
+         zmbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=EI/tQ0853DgmlZpgUH6Sb8Mf92xDUUOdSCeoB3y9z5k=;
-        b=f/9UBJotkLeP/d11e0THdPaizdsG7dZJHIJ8SdlOnlAGIgfSoXHxHzFsO3ElDoe28/
-         9qh3qOewassbOXWxpoHPNE2dEyEasbw2pkNph4uASGBQMRP1ZWjjbppG87QH50bpECdC
-         zixnceBK3ToIrISJFvefxV11bIg44OWH82re+h4/54zMQiRSdK8cdQRfVLCc37a7y2i/
-         QiPusTE7gAEowGcuJJCr94N8oO6bjEUKwJm92Xx2yZyineE3+uDuy+6ihzMxR6CmhLvN
-         E26KNPjw3T8QXiluIAr4C404TRPZ4hchILHu6xjM4tU7R5TlYab4bQbMt1ezgmaojtNU
-         jhXQ==
-X-Gm-Message-State: AOAM532wUuOfX5I+F+59tTcor33N8rn6Wf4UjSQ5mtU4osjR329Rk9GS
-	Z8MDTCUbsX9QdGFf9YK+muM=
-X-Google-Smtp-Source: ABdhPJxhzS7wcIoJV53OmR17rs/Sqs/epck5DWXDarSnkVXm8JvPqvAcOuQLKqLv2ELrPkgSzr/MWw==
-X-Received: by 2002:adf:e788:: with SMTP id n8mr9755988wrm.214.1630878038888;
-        Sun, 05 Sep 2021 14:40:38 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::8fe1? ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with UTF8SMTPSA id l21sm5390410wmh.31.2021.09.05.14.40.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Sep 2021 14:40:38 -0700 (PDT)
-Message-ID: <94b3634f-f531-d4f1-2809-dc4de5b9b876@gmail.com>
-Date: Sun, 5 Sep 2021 23:40:37 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xmvml1AShCn8Vbbw+i5nSyQiXWYXUYVF7OcOpWlVsg8=;
+        b=TA+tcGwiW0RFROA4gAs35ET03YQ4g1jlx/vPWdujq6bmlXXWT60+80PFzYXCfGjsaV
+         83oTOWumQB7O8kKPatKZn06eLZ1V1DOGHIo5MUu7NC7QSFdx9fMFGMlFDxencF0mbeyg
+         M/mMEx6Uu5t+MR3xRDWzByzqwOB1dJMHKrenjRO0uyRm2XGLpL10tzf9eQ5HLf41oLxp
+         3Y0fMGcd6h8IGYvM+BgoS1fzW1UXuSN9o0fB3nSxqTAyfJDs3WmLdYDUtHTBTNjy79a+
+         GXfVwdC4c/qJrV+eyp4uebgXU0XRCvVeslO+7FUk47danUcklnRGIwJ/Y6QZyALq4xb7
+         Y3nQ==
+X-Gm-Message-State: AOAM532sp3FhU7OJcFQ6LGTjwCiLTZfcwfGwCczavHhEtjnVxU46JNc2
+	FhPX9o4VhtD2bLq3ggB+e4dQ+h07l6t1NK4KQEw=
+X-Google-Smtp-Source: ABdhPJxfaGoJjLExjWQKCivbiz/+dZ1HoqlcqxeZ+1vvjstwpw7i9PuGOXgq+F+Ye20rUxhpnJv7V8clz6VpUz/tlRA=
+X-Received: by 2002:a05:6a00:ac6:b029:374:a33b:a74 with SMTP id
+ c6-20020a056a000ac6b0290374a33b0a74mr13396883pfl.51.1630881558800; Sun, 05
+ Sep 2021 15:39:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.1
-Subject: Re: [PATCH] staging: r8188eu: fix type mismacth
-Content-Language: en-US
-To: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org, fmdefrancesco@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210905205216.24831-1-paskripkin@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20210905205216.24831-1-paskripkin@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20210905090201.GA283023@panther>
+In-Reply-To: <20210905090201.GA283023@panther>
+From: Krish Jain <krishjain02939@gmail.com>
+Date: Mon, 6 Sep 2021 00:39:07 +0200
+Message-ID: <CAPGkw+yYqNtUQdVPmWVTd+WYHcfguMWJ+Dat2B=DvAeAaWetug@mail.gmail.com>
+Subject: Re: [PATCH v2] mt7621-dma: Properly format lines in "hsdma-mt7621.c"
+ ending with an open parenthesis
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Pavel,
+On Sat, Sep 4, 2021 at 10:48 PM Krish Jain <krishjain02939@gmail.com> wrote:
+>
+> From: Krish Jain <krishjain02939@gmail.com>
+>
+> This patch fixes the format of the code. It properly formats lines that
+> should not end with a '(' as suggested by checkpath.pl.
+>
+> Signed-off-by: Krish Jain <krishjain02939@gmail.com>
+> ---
+>  drivers/staging/mt7621-dma/hsdma-mt7621.c | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+> index b0ed935de7ac..89b72a802800 100644
+> --- a/drivers/staging/mt7621-dma/hsdma-mt7621.c
+> +++ b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+> @@ -162,8 +162,7 @@ struct mtk_hsdam_engine {
+>         struct mtk_hsdma_chan chan[1];
+>  };
+>
+> -static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(
+> -               struct mtk_hsdma_chan *chan)
+> +static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct mtk_hsdma_chan *chan)
+>  {
+>         return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
+>                         ddev);
+> @@ -174,8 +173,7 @@ static inline struct mtk_hsdma_chan *to_mtk_hsdma_chan(struct dma_chan *c)
+>         return container_of(c, struct mtk_hsdma_chan, vchan.chan);
+>  }
+>
+> -static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(
+> -               struct virt_dma_desc *vdesc)
+> +static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(struct virt_dma_desc *vdesc)
+>  {
+>         return container_of(vdesc, struct mtk_hsdma_desc, vdesc);
+>  }
+> @@ -457,9 +455,7 @@ static void mtk_hsdma_issue_pending(struct dma_chan *c)
+>         spin_unlock_bh(&chan->vchan.lock);
+>  }
+>
+> -static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
+> -               struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
+> -               size_t len, unsigned long flags)
+> +static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest, dma_addr_t src, size_t len, unsigned long flags)
+>  {
+>         struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
+>         struct mtk_hsdma_desc *desc;
+> --
+> 2.25.1
+>
 
-On 9/5/21 22:52, Pavel Skripkin wrote:
-> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-> index fee4208dacba..afe6c7fa594d 100644
-> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> @@ -1162,7 +1162,7 @@ u8 rtw_setassocsta_cmd(struct adapter  *padapter, u8 *mac_addr)
->   		goto exit;
->   	}
->   
-> -	psetassocsta_rsp = kzalloc(sizeof(struct set_assocsta_rsp), GFP_ATOMIC);
-> +	psetassocsta_rsp = kzalloc(sizeof(struct set_stakey_rsp), GFP_ATOMIC);
-
-this should be
-
-psetassocsta_rsp = kzalloc(sizeof(*psetassocsta_rsp), GFP_ATOMIC);
+Hi, Greg, just to follow up on this, is this submission OK?
 
 
-This way you get always the correct size, no matter what's the type of
-psetassocsta_rsp. Checkpatch suggests this too. ;)
+Best Regards,
 
-Best regards,
-Michael
+Krish
