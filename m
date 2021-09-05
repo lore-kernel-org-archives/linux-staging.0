@@ -1,145 +1,94 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5030872
-	for <linux-staging@lists.linux.dev>; Sun,  5 Sep 2021 18:46:04 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id v1so2604939plo.10
-        for <linux-staging@lists.linux.dev>; Sun, 05 Sep 2021 11:46:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69CB72
+	for <linux-staging@lists.linux.dev>; Sun,  5 Sep 2021 19:12:29 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id w8so4509665pgf.5
+        for <linux-staging@lists.linux.dev>; Sun, 05 Sep 2021 12:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=A0AxMO/6mnm7mS5tH8sAepDPtEJ/6RXbzlmGEKvemFk=;
-        b=pUe/G4l2M97MzDY/AvQlXjKYHrV+zgLd2iD/nheKBAJwy7DsLqnmVdDCASNJz/nbjE
-         pZN9iNMNILTPqIpPU8fKAsAwUm7104hYcgbmwgnFL9T4bFB7Fy+Cr9+JpJ6P1T7gcnAA
-         FFtu1bSlmPG5yz5/2TLq8QqUSyAnNWuoeUNOMORF+RxCJXQA0j1LzacXaJDraH8HbpLg
-         TF6dOXKG2SIY/IpQNnVRz4ak2CkCJ+h4w4AAnQ1Bu+hkh6ZrhdJSXEaednmRkeEvdB+s
-         Lfvv5nDaJoY5e2mUz/6q8now37T05H4FNivL/aFF+AMXX1UVhZtwKqg0y1Ns6cO78GSH
-         +Byg==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oClDNOQT+GLawQeS0dfRl/HargK9SobeC6dDUiHWklU=;
+        b=UIwichcWFdQy45M0knSwKSVbXz1XtLJOaq0orKwSxLZc1eXBfVqk8m9/5k/7NsamGQ
+         OKGJgZFhfl6G7vSR4WD14WuQAiuMDHQDLNlh7SFkHnAzIBV5Fm5okJ/Ffgrh8YjmetYY
+         3RBMjP4QUNnSVz/RV693X8qImG0dvFHSKPycz9RqPI16a8w2fxiN91ntZXx6nQbEYftA
+         J4Tx8gychIgD0QswBZI+H0OFnPayVOeQIAf95/FcQQ78V5957nkcmdAVJyfqTzFPcV4M
+         oajXKqAegeafuv0XBpaa69ncrxZeS9qtOXZxLGrwmKcqyozJQdYuOK3CG8BqG9V85Etm
+         7Wwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=A0AxMO/6mnm7mS5tH8sAepDPtEJ/6RXbzlmGEKvemFk=;
-        b=Y+T+z5JAgHXgb2sh5aDbPVaEa7f4L+fbRpO1LJGyT/NWcMHmSUu+aNEH2TAVx5c3q/
-         UTZQCXRsDgufcybaV5YCG8pLzAyWiF7culzsBoHJTsuUPpPz7Lsd37uG2CGAnnEFySQ3
-         gyAK5NGWkwERy4YSD0gbLKbu4z7puRI4CyVnL3nt9LX8NY147nZIqYBOmU7XQLZHIj9e
-         BRkh0BJldVBBEH6Btmx9AgDARn1kPQTTuSb2D4i5NWZLJcQnIJl9AVhcihTptSRALUK0
-         NfipDYWu9hHIHyQfy69TfMHUxLtizem02YJVvJ33OBlRvSSH4uIsmNlC3YWwxP8crPXC
-         kvEA==
-X-Gm-Message-State: AOAM530C3u8ylyrz/V9/Wihd46PpRENHavr51YAC6bSa7hm/hIa8oqvL
-	HZUlSgrjiCEkqlwJhqQXadA=
-X-Google-Smtp-Source: ABdhPJydT3MHzK+39z8my7P2lPiqSumjTIndk0xWZx3a5mdR/UDaskAgbHLflL5vb/OPOI24cbwB8A==
-X-Received: by 2002:a17:90a:7345:: with SMTP id j5mr10225819pjs.48.1630867563685;
-        Sun, 05 Sep 2021 11:46:03 -0700 (PDT)
-Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id c24sm6388677pgj.63.2021.09.05.11.46.00
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oClDNOQT+GLawQeS0dfRl/HargK9SobeC6dDUiHWklU=;
+        b=Ue9fQrPZB3BLe7k9ZgVi+r585dxSmTsE1EWeK8LVaDbkvDvxxdcSKIeqcHtvgfY1f8
+         43dRgVaUuvjaMIWfCGnddhgEiNSRN6NQkOqNbIDXawL2def9YZDWtOu7pd4w/1goD+a0
+         vEkEsEWPSAxTWbcAWhqO6pzOs/JqzL6Q8R1pKecOCBUFudOOB2D6NXqmc6WvuzsjEtdV
+         o1L53UXv9e0eHY0/oT622J0itrPBQIrg0SxC2A17AsIP1gnJnm08DdTJgdozwNASs5Mt
+         nHAtLKIN2BSU1WvUS87keXjRmvCksWLqI4Pktm9Ybpd1jIVkFdU7Y2dc0NzM3kr84/bq
+         M7qw==
+X-Gm-Message-State: AOAM531AOgqiMm+DU8xE3/A21+S041kqX+IOAGsHIsLQ5R+KJyvi0ElE
+	S32gI4NK7oqYFS3MNgKK3hQ=
+X-Google-Smtp-Source: ABdhPJxRx62rob+PMFUIZGbCbl8wa8C9Sq228UrqAbu/HArueR/qJv3KRPszg+/q6h3KYjHYcHKolQ==
+X-Received: by 2002:aa7:9056:0:b0:412:444e:f601 with SMTP id n22-20020aa79056000000b00412444ef601mr8621568pfo.84.1630869149398;
+        Sun, 05 Sep 2021 12:12:29 -0700 (PDT)
+Received: from tong-desktop.local (99-105-211-126.lightspeed.sntcca.sbcglobal.net. [99.105.211.126])
+        by smtp.googlemail.com with ESMTPSA id h4sm4492638pjs.2.2021.09.05.12.12.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Sep 2021 11:46:03 -0700 (PDT)
-Date: Mon, 6 Sep 2021 00:15:57 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
-	gregkh@linuxfoundation.org, fmdefrancesco@gmail.com,
-	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
+        Sun, 05 Sep 2021 12:12:29 -0700 (PDT)
+From: Tong Zhang <ztong0001@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	Tong Zhang <ztong0001@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8712: Move similar execution in to a function.
-Message-ID: <YTUQZdPiYFscIsvU@user>
+Subject: [PATCH v1] media: atomisp: fix compilation error
+Date: Sun,  5 Sep 2021 12:12:21 -0700
+Message-Id: <20210905191222.612949-1-ztong0001@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Move the common execution for read_macreg_hdl, write_macreg_hdl,
-write_bbreg_hdl and write_rfreg_hdl in to a new function
-common_read_write_hdl.
+I am getting the following compilation error on ubuntu 20.04 with gcc 9.3.0.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+ 1649 | }
+      | ^
+cc1: some warnings being treated as errors
+make[4]: *** [scripts/Makefile.build:277: drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o] Error 1
+
+I made some minor changes to the switch-case to keep gcc happy.
+
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
 ---
- drivers/staging/rtl8712/rtl8712_cmd.c | 41 +++++++--------------------
- 1 file changed, 11 insertions(+), 30 deletions(-)
+ .../media/atomisp/pci/hive_isp_css_common/host/input_system.c  | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8712/rtl8712_cmd.c b/drivers/staging/rtl8712/rtl8712_cmd.c
-index e9294e1ed06e..9bc0588be04b 100644
---- a/drivers/staging/rtl8712/rtl8712_cmd.c
-+++ b/drivers/staging/rtl8712/rtl8712_cmd.c
-@@ -117,9 +117,9 @@ static void r871x_internal_cmd_hdl(struct _adapter *padapter, u8 *pbuf)
- 	kfree(pdrvcmd->pbuf);
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 8e085dda0c18..58eb74edc953 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -1644,8 +1644,9 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 	case INPUT_SYSTEM_XMEM_CAPTURE:
+ 	case INPUT_SYSTEM_XMEM_ACQUIRE:
+ 	default:
+-		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
++		break;
+ 	}
++	return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
  }
-
--static u8 read_macreg_hdl(struct _adapter *padapter, u8 *pbuf)
-+static u8 common_read_write_hdl(struct _adapter *padapter, u8 *pbuf)
- {
--	void (*pcmd_callback)(struct _adapter *dev, struct cmd_obj	*pcmd);
-+	void (*pcmd_callback)(struct _adapter *dev, struct cmd_obj *pcmd);
- 	struct cmd_obj *pcmd  = (struct cmd_obj *)pbuf;
-
- 	/*  invoke cmd->callback function */
-@@ -129,20 +129,17 @@ static u8 read_macreg_hdl(struct _adapter *padapter, u8 *pbuf)
- 	else
- 		pcmd_callback(padapter, pcmd);
- 	return H2C_SUCCESS;
-+
- }
-
--static u8 write_macreg_hdl(struct _adapter *padapter, u8 *pbuf)
-+static u8 read_macreg_hdl(struct _adapter *padapter, u8 *pbuf)
- {
--	void (*pcmd_callback)(struct _adapter *dev, struct cmd_obj	*pcmd);
--	struct cmd_obj *pcmd  = (struct cmd_obj *)pbuf;
-+	return common_read_write_hdl(padapter, pbuf);
-+}
-
--	/*  invoke cmd->callback function */
--	pcmd_callback = cmd_callback[pcmd->cmdcode].callback;
--	if (!pcmd_callback)
--		r8712_free_cmd_obj(pcmd);
--	else
--		pcmd_callback(padapter, pcmd);
--	return H2C_SUCCESS;
-+static u8 write_macreg_hdl(struct _adapter *padapter, u8 *pbuf)
-+{
-+	return common_read_write_hdl(padapter, pbuf);
- }
-
- static u8 read_bbreg_hdl(struct _adapter *padapter, u8 *pbuf)
-@@ -155,15 +152,7 @@ static u8 read_bbreg_hdl(struct _adapter *padapter, u8 *pbuf)
-
- static u8 write_bbreg_hdl(struct _adapter *padapter, u8 *pbuf)
- {
--	void (*pcmd_callback)(struct _adapter *dev, struct cmd_obj *pcmd);
--	struct cmd_obj *pcmd  = (struct cmd_obj *)pbuf;
--
--	pcmd_callback = cmd_callback[pcmd->cmdcode].callback;
--	if (!pcmd_callback)
--		r8712_free_cmd_obj(pcmd);
--	else
--		pcmd_callback(padapter, pcmd);
--	return H2C_SUCCESS;
-+	return common_read_write_hdl(padapter, pbuf);
- }
-
- static u8 read_rfreg_hdl(struct _adapter *padapter, u8 *pbuf)
-@@ -184,15 +173,7 @@ static u8 read_rfreg_hdl(struct _adapter *padapter, u8 *pbuf)
-
- static u8 write_rfreg_hdl(struct _adapter *padapter, u8 *pbuf)
- {
--	void (*pcmd_callback)(struct _adapter *dev, struct cmd_obj *pcmd);
--	struct cmd_obj *pcmd  = (struct cmd_obj *)pbuf;
--
--	pcmd_callback = cmd_callback[pcmd->cmdcode].callback;
--	if (!pcmd_callback)
--		r8712_free_cmd_obj(pcmd);
--	else
--		pcmd_callback(padapter, pcmd);
--	return H2C_SUCCESS;
-+	return common_read_write_hdl(padapter, pbuf);
- }
-
- static u8 sys_suspend_hdl(struct _adapter *padapter, u8 *pbuf)
---
-2.32.0
+ 
+ // Test flags and set structure.
+-- 
+2.25.1
 
