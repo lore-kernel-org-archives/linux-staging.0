@@ -1,105 +1,94 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B646B3FC9
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 22:11:33 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id a25so5397938ejv.6
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 15:11:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DD43FC7
+	for <linux-staging@lists.linux.dev>; Sun,  5 Sep 2021 07:55:52 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id v20-20020a1cf714000000b002e71f4d2026so1835558wmh.1
+        for <linux-staging@lists.linux.dev>; Sun, 05 Sep 2021 00:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=pnO88SnYwL+lxhkaT9WWjyqqGtrBLDXuOHryPbPgt0I=;
-        b=KSVwLRFmYD1meZv2Fl8QTFJhJd+OugYquC+jL68KYWRTnpq40a9SitOu1NM8LtWajW
-         zmqRKGu3QjDkDn6/Ulb/RwyZQdDfTf1Lmz5x9Eq4UA/Y48MaTmuGYArI3DRNr9xXa9eG
-         kIwX+OK42KjMtSuPeb/z5S1VuZqrYrhMT8YarGAW/KvMx2Gg/W+lJGvD0dVDHBZ5fuW3
-         3xyG3BbLWBBEkDh21HlQWaC5XyxewmTL5NLTf/XTrEDLT+PDl9iKWKqc6FYTWYqrfK/U
-         5b6vzw6PWrnfnPDTVI33jYlU4MA1pn6nXlVa44o50fNZfzL5sY641Q4o7mY0w92I+gzk
-         iSkg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Y+rK5DuvhxVwRtS3sArMrVdmfKfsYPeSxUMrQtQ8RKA=;
+        b=NymRjouTjiSsvoj8n3DXDlAaIXMF2oTGhpHn3rqi0OyG5Qn3VV49D/xgLppDJptArq
+         8B20HykJFHhSMB5mASLU6vAHqjdl17E+RoTWuLeZMKAXnXU4WgkMjc7fFqHYsMrgyyO1
+         fp9N1dJiz3h/nooRjW6Q7MXQYI/5xeE6thWE3i4P32YpNZ5fPycYQFf7t4IM0V2lPNHT
+         SEfV4g7zxZZzes6MXQd5aHszwftB+oeHQxTEwyvzClIZZ5qFnWZwMtMWvzLSLogqHub2
+         S+G80+1DWf/QCt6MnVuGzbawm/H7A2jPbpVE/WNVEjP2l2+RJ+EtCRddK+2dYJa4sxmn
+         36NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pnO88SnYwL+lxhkaT9WWjyqqGtrBLDXuOHryPbPgt0I=;
-        b=iwoAiGK3MMlZz87Y8e9KHSCFyaQCZ6Yu732IY69AOVhcYMGHsrWPmzmbTOpCiWHky9
-         DVs6GARBU1soX2O2wVvHI1ae524GznTBZNt4P232wNu2LCHBqBun2Jsg0pHt7LBNzVJd
-         zUqtCEMFYJy21A/XsKsrqrXvs+cbOwor1ZqhOBi8d8rrG0ilPvuIw4dETo+rC0uHC+ls
-         zjaMwp84OPzCHMSBi5mr8W8jcUKm15bD5E8Ml74G+N0IPugY9U2GpNRmcWedQOmxYnJs
-         hOVnMw+tURqE5Pos0roJok4/Bo2v9gIyVgu986EdMD56ENqVKWD8LPPZUa55z0URZDCN
-         uLQA==
-X-Gm-Message-State: AOAM533ah0KClZugPfVwL7riNYNT5/KR9MDV+1igEeD6+iphLV+wf5gR
-	l9cBrmH0fVMn9LoTJMMtKmQWb9YGNwA=
-X-Google-Smtp-Source: ABdhPJxOA2KjnI+4V509sYDRR4A2+vFjmq9UU4wA+FCwMul/Bb/wcty9Lb/10f809Uo6+4YY4+4DHA==
-X-Received: by 2002:a17:907:1b02:: with SMTP id mp2mr6006270ejc.196.1630793492157;
-        Sat, 04 Sep 2021 15:11:32 -0700 (PDT)
-Received: from localhost.localdomain (host-79-23-101-208.retail.telecomitalia.it. [79.23.101.208])
-        by smtp.gmail.com with ESMTPSA id j13sm1921761edt.72.2021.09.04.15.11.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 15:11:31 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] staging: r8188eu: Shorten and simplify calls chain
-Date: Sun, 05 Sep 2021 00:11:30 +0200
-Message-ID: <1985180.urcR3nkfMq@localhost.localdomain>
-In-Reply-To: <20210904212719.11426-1-fmdefrancesco@gmail.com>
-References: <20210904212719.11426-1-fmdefrancesco@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Y+rK5DuvhxVwRtS3sArMrVdmfKfsYPeSxUMrQtQ8RKA=;
+        b=qvD7/40KO39XKeJpSQ4i29wDE0Lkry55bff7ML4LUFo514fFG05zb/6rV5Xg4S5fkf
+         449tJ4tLCAfNA431/LeiraHwcxN2GSB7tDCVYZec/0tHYmDok/j7UL40dMcHE70Mom7v
+         bVxH15Y+nctdSIKpoedTF40ImnhaYQzEaUkHE8Hvv3jQytepyyrhyiG3/Nh6YCeYG41u
+         0yEDByaGBUCxQ9OvkP6dZX77hNdh7rjNqqIMx7vMuDRDsmxfWr5H+76A4r0wRSF5Wje8
+         fGZDIgf4Q4gTJGEJu9ZGgSzs3a1HJ4zrVLDMy/ZmG3WWLa9qi7s0J5jP0HKoCr6bLhuK
+         6zFQ==
+X-Gm-Message-State: AOAM530QPR9U/5vW1eRt+u/BolGlIrqa19OkfwAX1IWlVKtQJbVgUaAB
+	WJ4WsSyQaVBPnGowKZ9e+7w=
+X-Google-Smtp-Source: ABdhPJznRZcl0pp+K61vAQgAo3gWm12zlOxRHyvKbX2S7y3CaGR2xyy+Ao484odxRlyojDvfbzcZzQ==
+X-Received: by 2002:a05:600c:1990:: with SMTP id t16mr6065013wmq.45.1630828551120;
+        Sun, 05 Sep 2021 00:55:51 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::dc38? ([2a02:8108:96c0:3b88::dc38])
+        by smtp.gmail.com with UTF8SMTPSA id l26sm3923669wmi.13.2021.09.05.00.55.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Sep 2021 00:55:50 -0700 (PDT)
+Message-ID: <41f6eb79-c943-c8b4-78d9-cc10e8ffa7ea@gmail.com>
+Date: Sun, 5 Sep 2021 09:55:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH] staging: r8188eu: core: remove condition never execute
+Content-Language: en-US
+To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
+ phil@philpotter.co.uk, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YTNrjG1y05ByN54+@user>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YTNrjG1y05ByN54+@user>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Saturday, September 4, 2021 11:27:16 PM CEST Fabio M. De Francesco wrote:
-> io_ops abstraction is useless in this driver, since there is only one ops
-> registration. Without io_ops we can get rid of indirect calls mess and
-> shorten the calls chain.
+On 9/4/21 14:50, Saurav Girepunje wrote:
+> Remove condition which never get execute.
+> as pattrib->mdata is always zero before if condition check.
 > 
-> Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
-> For this purpose unify the three usb_read8/16/32 into the new
-> usb_read(); make the latter parametrizable with 'size'; embed most of
-> the code of usbctrl_vendorreq() into usb_read() and use in it the new
-> usb_control_msg_recv() API of USB Core.
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 3 ---
+>   1 file changed, 3 deletions(-)
 > 
-> Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
-> For this purpose unify the four usb_write8/16/32/N() into the new
-> usb_write(); make the latter parametrizable with 'size'; embed most of
-> the code of usbctrl_vendorreq() into usb_write() and use in it the new
-> usb_control_msg_send() API of USB Core.
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> index 4178b3c1ff57..f314f55997bf 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -5669,9 +5669,6 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16
+>   	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
+>   		SetToDs(fctrl);
 > 
-> The code with the modifications was thoroughly tested by Pavel Skripkin 
-> using a TP-Link TL-WN722N v2 / v3 [Realtek RTL8188EUS]
+> -	if (pattrib->mdata)
+> -		SetMData(fctrl);
+> -
+>   	qc = (unsigned short *)(pframe + pattrib->hdrlen - 2);
 > 
-> Fabio M. De Francesco (2):
->   staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
->   staging: r8188eu: Shorten calls chain of rtw_write8/16/32/N()
+>   	SetPriority(qc, tid);
+> --
+> 2.32.0
 > 
-> Pavel Skripkin (1):
->   staging: r8188eu: remove _io_ops structure
-> 
->  drivers/staging/r8188eu/core/rtw_io.c         | 241 +----------------
->  drivers/staging/r8188eu/hal/usb_halinit.c     |   6 +-
->  drivers/staging/r8188eu/hal/usb_ops_linux.c   | 242 +++++++++++-------
->  drivers/staging/r8188eu/include/rtw_io.h      |  76 +-----
->  drivers/staging/r8188eu/include/usb_ops.h     |   2 -
->  .../staging/r8188eu/include/usb_ops_linux.h   |   8 -
->  drivers/staging/r8188eu/os_dep/usb_intf.c     |   2 +-
->  .../staging/r8188eu/os_dep/usb_ops_linux.c    |  40 +--
->  8 files changed, 174 insertions(+), 443 deletions(-)
-> 
-> -- 
-> 2.33.0
-> 
-Dear Maintainers,
 
-Stupid mistakes on mistakes... Please discard this revision of the series 
-because patch 3/3 is missing the version number.
+Looks good to me.
+
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
 Thanks,
-
-Fabio
-
-
-
+Michael
