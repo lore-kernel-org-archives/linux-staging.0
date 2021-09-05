@@ -1,107 +1,101 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49723FCD
-	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 20:41:45 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id jg16so5160854ejc.1
-        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 13:41:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB963FC9
+	for <linux-staging@lists.linux.dev>; Sat,  4 Sep 2021 20:48:27 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id u9so3697021wrg.8
+        for <linux-staging@lists.linux.dev>; Sat, 04 Sep 2021 13:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=lFrmrzYdi4W9e05rZQyIefjI/ECSxbcxYQllGrHvMCg=;
-        b=B0Z6m3EEkmYaeB0NxXr0zIH17/0/9gVvynrZc4f+uYbPozTISUs3B1mPr7AwYYAQr8
-         Q3jBlroT+bOU+6l4FcfgYkd98mmA6FLmJ4TtHL5Q3rDX7bc9Rtrdd9Ud3td7ng8Eg6bk
-         ZLc0EAOQoEWqhEodV+9A3Kclx79CkCVz3KUTsZW7kAF5OLY/NmaD9L3YSACuz2P1Nhll
-         bwVvWUekDrsHG28XHdG9aFzA1OCGAQcGphVcSSiToXI5QWYui/tUe+Wkg3UM2kMXK7ad
-         p//z9SKxYx99GHV8HUwJ2H8rKsD/nDqWmNWz1X+7PLXEmsi7iwv1t3d5yb+5UtKaS7Ng
-         Lezw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=YtO5RfmSEUHgUxw3hz9c0tESRCB4tsWTWughH3zQrtc=;
+        b=Tyjz2h8HEOJwURMA1Ly02sMSPLn8sZKkg9bvgxM0pqbFj0J9h1NRSnveX6vhSzgNq0
+         aQdAp49sd+XUM3GJ4ISGH9HALVq3Loy5W4wJYZnUJtIuS9UpGk585QfXOON04zPNdUR7
+         NLuk4nByG6ouoIh/qzfmihiUc8vMg5kyRTXVnJhzp0DnlWfeTv/1/CPtOHctewdNd9jV
+         qwUs3GH1WkQqIChF4qX3Titf2kxbhkDKviwd2U202lQi5cg1/0+leHTxAkHDSAciFG/T
+         L0z5NfCimsIW/la7/dK8ZVlWKd8oiD7sBHqUXKn5vxQhHZHqf6zTiATEVmcJP0IqespH
+         gOkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lFrmrzYdi4W9e05rZQyIefjI/ECSxbcxYQllGrHvMCg=;
-        b=dkmlbldP8atq3pBAYlifyfZJTwVt7xhqPPt4g8Xq3Ky8Nd9fu1CG5NyBip7uIqFO4x
-         RiZQliCqGSZg8LFk4Zr+uyvNwXFZ2n+NX6lPVyWuSiamXSCOdZHAwRSg9BcGdSr+mirE
-         tpWABXE5P4q/N02brBi/+l5CBgakfZP83Yhup1VxiY3oiff7oCNcrof591+8V858FnfL
-         44V8OetDEYA8rdhlhzyzKjgAups7cDvUQXGqgK3AWtzU+Jzz7/IFpRmJpkL5ZEZfbsqB
-         eBTRDk47mpWlJfWAuaZEFXj0XPPlYnHPCF3bT/LIDm3h6t3Xf0SEbqXhETlzU0QNzkZi
-         qi3w==
-X-Gm-Message-State: AOAM533A1Dxwagrslylbo56sy/y35HRwsUwQBzKAEntq3T66EwioaCf5
-	cYqxVBsPma2rsW65kCX7Zps=
-X-Google-Smtp-Source: ABdhPJxiSqnDZgkoMQ1RWDgSU3bxKLT9uacc3Q13nxfYCAaGFQxz88qrVNX+8deihPMXKkFfeHoA4w==
-X-Received: by 2002:a17:906:3fc1:: with SMTP id k1mr5824741ejj.44.1630788103998;
-        Sat, 04 Sep 2021 13:41:43 -0700 (PDT)
-Received: from localhost.localdomain (host-79-23-101-208.retail.telecomitalia.it. [79.23.101.208])
-        by smtp.gmail.com with ESMTPSA id n2sm1854806edi.32.2021.09.04.13.41.42
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=YtO5RfmSEUHgUxw3hz9c0tESRCB4tsWTWughH3zQrtc=;
+        b=QirrwOMcyMA/Lm/vs23X84o5D4TRXiA24RxPiyrCjH4ipBK7j0lgzvWdcVKSdlewrr
+         CxnXS6H1xpKP9+T0ZUimR2T4TyxP++Kx4AByK/XxX4r5uuryUihJfb26tc6NvP3XG6qP
+         8r124iP+4sSeJ2QSlUEPdhg/P0LHDRFDVVEyDi2VUY68LsJX4TE3cORIV5uAwbFMGpYo
+         vu+483XB6n1F2/p9wTOLz9aU1iJl6u7UMoWe4dPUtXnJW3+dNL29vB+roxNR3PWfV/5s
+         0sLqN0Oq7Z/sxXNdDZBsdNAox5wYFPYRnuDKAe5VREPkX0/f2FWzGs90OvGFMPcApyGb
+         h/Vg==
+X-Gm-Message-State: AOAM5307XUROygp+XHt+Ct/gIJqrcNhupw9pS1IarNi1lmfLwye/YvV8
+	0yIIoiU8Ws3tnK2rWJ7qBrtH1M2s6co=
+X-Google-Smtp-Source: ABdhPJwOCJmTlX6L+Lsg40FmvDAXXm1tyZcQ/BHGM5Ee6fw8KH8Zgmok1DYNe9I/uE0Zq3EUqqfUfA==
+X-Received: by 2002:adf:c452:: with SMTP id a18mr5411484wrg.225.1630788505773;
+        Sat, 04 Sep 2021 13:48:25 -0700 (PDT)
+Received: from panther (190.red-88-4-24.dynamicip.rima-tde.net. [88.4.24.190])
+        by smtp.gmail.com with ESMTPSA id z17sm3100060wrh.66.2021.09.04.13.48.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Sep 2021 13:41:43 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Skripkin <paskripkin@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org
-Subject: Re: [PATCH 3/3] staging: r8188eu: Shorten calls chain of rtw_write8/16/32/N()
-Date: Sat, 04 Sep 2021 22:41:41 +0200
-Message-ID: <2791328.7pjKATJfGa@localhost.localdomain>
-In-Reply-To: <202109050113.Uyg2SCTW-lkp@intel.com>
-References: <20210904150447.14659-4-fmdefrancesco@gmail.com> <202109050113.Uyg2SCTW-lkp@intel.com>
+        Sat, 04 Sep 2021 13:48:25 -0700 (PDT)
+Date: Sun, 5 Sep 2021 11:02:01 +0200
+From: Krish Jain <krishjain02939@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+Subject: [PATCH v2] mt7621-dma: Properly format lines in "hsdma-mt7621.c"
+ ending with an open parenthesis
+Message-ID: <20210905090201.GA283023@panther>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Saturday, September 4, 2021 7:09:58 PM CEST kernel test robot wrote:
-> Hi "Fabio,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on staging/staging-testing]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Fabio-M-De-Francesco/
-staging-r8188eu-Shorten-and-simplify-calls-chain/20210904-231010
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 
-fde4862d1ac7100028da4371d92454fec6cf3f4f
->
-> [...]
->
-> All errors (new ones prefixed by >>):
-> 
->    drivers/staging/r8188eu/hal/usb_ops_linux.c: In function 'usb_write':
-> >> drivers/staging/r8188eu/hal/usb_ops_linux.c:105:47: error: 
-'REALTEK_USB_VENQT_SEND' undeclared (first use in this function); did you 
-mean 'REALTEK_USB_VENQT_READ'?
->      105 |                                               
-REALTEK_USB_VENQT_SEND, value,
->          |                                               
-^~~~~~~~~~~~~~~~~~~~~~
->
-Hello to all,
+From: Krish Jain <krishjain02939@gmail.com>
 
-I apologize for this easily avoidable mistake. I'm about to post the v2 
-series.
+This patch fixes the format of the code. It properly formats lines that
+should not end with a '(' as suggested by checkpath.pl.
 
-However, I write this message to affirm that Pavel's tests on this patch are 
-still valid and confirmed because his copy *has* the right parameter that is 
-REALTEK_USB_VENQT_WRITE.
+Signed-off-by: Krish Jain <krishjain02939@gmail.com>
+---
+ drivers/staging/mt7621-dma/hsdma-mt7621.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-It's all my fault. Pavel warned me that during the review and test he noticed 
-that I had written REALTEK_USB_VENQT_READ and obviously my build was 
-successful because it was a symbol known to the compiler.
-
-Pavel successfully changed his local copy and I (independently) changed mine 
-without thinking about rebuilding. I was absolutely certain it was the 
-expected parameter (perhaps the function name - usb_control_msg_send () - 
-played a part in leading me to this stupid mistake).
-
-In summary, first I want to apologize for the noise, secondly I want to 
-apologize to Pavel who is co-author and tester of this 3/3 of our series.
-
-Regards,
-
-Fabio
-
-
+diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+index b0ed935de7ac..89b72a802800 100644
+--- a/drivers/staging/mt7621-dma/hsdma-mt7621.c
++++ b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+@@ -162,8 +162,7 @@ struct mtk_hsdam_engine {
+ 	struct mtk_hsdma_chan chan[1];
+ };
+ 
+-static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(
+-		struct mtk_hsdma_chan *chan)
++static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct mtk_hsdma_chan *chan)
+ {
+ 	return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
+ 			ddev);
+@@ -174,8 +173,7 @@ static inline struct mtk_hsdma_chan *to_mtk_hsdma_chan(struct dma_chan *c)
+ 	return container_of(c, struct mtk_hsdma_chan, vchan.chan);
+ }
+ 
+-static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(
+-		struct virt_dma_desc *vdesc)
++static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(struct virt_dma_desc *vdesc)
+ {
+ 	return container_of(vdesc, struct mtk_hsdma_desc, vdesc);
+ }
+@@ -457,9 +455,7 @@ static void mtk_hsdma_issue_pending(struct dma_chan *c)
+ 	spin_unlock_bh(&chan->vchan.lock);
+ }
+ 
+-static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
+-		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
+-		size_t len, unsigned long flags)
++static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest, dma_addr_t src, size_t len, unsigned long flags)
+ {
+ 	struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
+ 	struct mtk_hsdma_desc *desc;
+-- 
+2.25.1
 
