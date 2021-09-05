@@ -1,94 +1,87 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69CB72
-	for <linux-staging@lists.linux.dev>; Sun,  5 Sep 2021 19:12:29 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id w8so4509665pgf.5
-        for <linux-staging@lists.linux.dev>; Sun, 05 Sep 2021 12:12:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1763FC0
+	for <linux-staging@lists.linux.dev>; Sun,  5 Sep 2021 20:42:21 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id i28so7747801ljm.7
+        for <linux-staging@lists.linux.dev>; Sun, 05 Sep 2021 13:42:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=oClDNOQT+GLawQeS0dfRl/HargK9SobeC6dDUiHWklU=;
-        b=UIwichcWFdQy45M0knSwKSVbXz1XtLJOaq0orKwSxLZc1eXBfVqk8m9/5k/7NsamGQ
-         OKGJgZFhfl6G7vSR4WD14WuQAiuMDHQDLNlh7SFkHnAzIBV5Fm5okJ/Ffgrh8YjmetYY
-         3RBMjP4QUNnSVz/RV693X8qImG0dvFHSKPycz9RqPI16a8w2fxiN91ntZXx6nQbEYftA
-         J4Tx8gychIgD0QswBZI+H0OFnPayVOeQIAf95/FcQQ78V5957nkcmdAVJyfqTzFPcV4M
-         oajXKqAegeafuv0XBpaa69ncrxZeS9qtOXZxLGrwmKcqyozJQdYuOK3CG8BqG9V85Etm
-         7Wwg==
+        bh=7sHgNwoOa9//VFt2qH71qaB4nY0YqNgFxnvDIKi9n7A=;
+        b=ewz96NKaP0huTasPQ+6dlHcI+kGp/c+PQbklf9XQ8n23FwKVAVteMg0/Obqlz3q38K
+         mmdq5T7vTz+tEa85vpuQTgH8V9d0QAO5/ayY6P0or+hjJivVYlwMMZjYOEBEyjBk/lde
+         Ts/fPxRZ9nhZmY6DXjkjAZoeWcIz5JNeCGlzdjCk+vgFl/bzlNAYneTVuK36BRUiDPr2
+         oCOiEvfCx2mcGQpmyEZpivNKYAipyK2IKOqV/6SxkeypSGU95mDIFujjyQYKhjfFPrY8
+         6slDThKBy8EfKAMZ6YIvj6SSd49ltmdXu6Z1f3GcDRJT732F3tB2va+JqUHpKLxSMTlN
+         d3EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=oClDNOQT+GLawQeS0dfRl/HargK9SobeC6dDUiHWklU=;
-        b=Ue9fQrPZB3BLe7k9ZgVi+r585dxSmTsE1EWeK8LVaDbkvDvxxdcSKIeqcHtvgfY1f8
-         43dRgVaUuvjaMIWfCGnddhgEiNSRN6NQkOqNbIDXawL2def9YZDWtOu7pd4w/1goD+a0
-         vEkEsEWPSAxTWbcAWhqO6pzOs/JqzL6Q8R1pKecOCBUFudOOB2D6NXqmc6WvuzsjEtdV
-         o1L53UXv9e0eHY0/oT622J0itrPBQIrg0SxC2A17AsIP1gnJnm08DdTJgdozwNASs5Mt
-         nHAtLKIN2BSU1WvUS87keXjRmvCksWLqI4Pktm9Ybpd1jIVkFdU7Y2dc0NzM3kr84/bq
-         M7qw==
-X-Gm-Message-State: AOAM531AOgqiMm+DU8xE3/A21+S041kqX+IOAGsHIsLQ5R+KJyvi0ElE
-	S32gI4NK7oqYFS3MNgKK3hQ=
-X-Google-Smtp-Source: ABdhPJxRx62rob+PMFUIZGbCbl8wa8C9Sq228UrqAbu/HArueR/qJv3KRPszg+/q6h3KYjHYcHKolQ==
-X-Received: by 2002:aa7:9056:0:b0:412:444e:f601 with SMTP id n22-20020aa79056000000b00412444ef601mr8621568pfo.84.1630869149398;
-        Sun, 05 Sep 2021 12:12:29 -0700 (PDT)
-Received: from tong-desktop.local (99-105-211-126.lightspeed.sntcca.sbcglobal.net. [99.105.211.126])
-        by smtp.googlemail.com with ESMTPSA id h4sm4492638pjs.2.2021.09.05.12.12.28
+        bh=7sHgNwoOa9//VFt2qH71qaB4nY0YqNgFxnvDIKi9n7A=;
+        b=WmFki+r1nHVMpECs2593SX56UL1u89Wf892rhRHAspkUPiBp2j9xK7eQ2995qqkNKm
+         9SsYgXGrwjltg3yLQQ+uGbeJcHq4LqSTvoQTFsi4UZBKuG7g6PU1Ha38yR8PRV9bCCi5
+         GTTWR4emQgS7tYAEs3zCkyaCNhSJS5Q+Mgt7CLCAKWsj6GcBO/rhagc50pO7bohOX2go
+         Sv7Y2tR4iG0dvkATZ0AgaB7l/yHjdUofC4XM/hG84DJlSar0nloXvF9R2MDjQ7YSN0Vq
+         DohIpY5OuUTwfRsBXk+4IJk+82lOSQh4gaShSF1vQds0lxoJQMv0TgSZs4vMCcEF7V+G
+         YKIA==
+X-Gm-Message-State: AOAM531iBaNZTLz4uQE1fBKXQPAGOwNi6HWJYfiIKr1IyzGwL8F734Lf
+	bWniUBmAopbJ79HJZKlilHY=
+X-Google-Smtp-Source: ABdhPJz/qdW1J7jjebgPt5QJ5gpHlQrlz0UYgMQ+DxeRzTDU5SjvS2I6qR8QELzL0a9z7YaKLrZoJg==
+X-Received: by 2002:a2e:a809:: with SMTP id l9mr7934205ljq.147.1630874539904;
+        Sun, 05 Sep 2021 13:42:19 -0700 (PDT)
+Received: from localhost.localdomain ([46.235.67.70])
+        by smtp.gmail.com with ESMTPSA id y9sm774633ljm.5.2021.09.05.13.42.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Sep 2021 12:12:29 -0700 (PDT)
-From: Tong Zhang <ztong0001@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	Tong Zhang <ztong0001@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] media: atomisp: fix compilation error
-Date: Sun,  5 Sep 2021 12:12:21 -0700
-Message-Id: <20210905191222.612949-1-ztong0001@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 05 Sep 2021 13:42:19 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pavel Skripkin <paskripkin@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove useless check
+Date: Sun,  5 Sep 2021 23:42:18 +0300
+Message-Id: <20210905204218.19317-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-I am getting the following compilation error on ubuntu 20.04 with gcc 9.3.0.
+smatch says:
+usb_intf.c:326 rtw_hw_suspend() warn: variable dereferenced before check 'padapter' (see line 323)
+usb_intf.c:387 rtw_hw_resume() warn: variable dereferenced before check 'padapter' (see line 385)
 
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
-drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
- 1649 | }
-      | ^
-cc1: some warnings being treated as errors
-make[4]: *** [scripts/Makefile.build:277: drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o] Error 1
+There is only one caller of rtw_hw_suspend() and it does not check
+padapter pointer, so let's just omit this check to make smatch happy.
 
-I made some minor changes to the switch-case to keep gcc happy.
-
-Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- .../media/atomisp/pci/hive_isp_css_common/host/input_system.c  | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/r8188eu/os_dep/usb_intf.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 8e085dda0c18..58eb74edc953 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -1644,8 +1644,9 @@ static input_system_err_t input_system_configure_channel_sensor(
- 	case INPUT_SYSTEM_XMEM_CAPTURE:
- 	case INPUT_SYSTEM_XMEM_ACQUIRE:
- 	default:
--		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
-+		break;
- 	}
-+	return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
- }
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index bb85ab77fd26..42a375e7345c 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -322,9 +322,6 @@ int rtw_hw_suspend(struct adapter *padapter)
+ 	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
+ 	struct net_device *pnetdev = padapter->pnetdev;
  
- // Test flags and set structure.
+-
+-	if (!padapter)
+-		goto error_exit;
+ 	if ((!padapter->bup) || (padapter->bDriverStopped) ||
+ 	    (padapter->bSurpriseRemoved)) {
+ 		DBG_88E("padapter->bup=%d bDriverStopped=%d bSurpriseRemoved = %d\n",
 -- 
-2.25.1
+2.33.0
 
