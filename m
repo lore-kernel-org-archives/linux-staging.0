@@ -1,123 +1,166 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65183FC1
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 14:04:45 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id g14so11535934ljk.5
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 07:04:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=z66n7Klv98ugqFOF5GUDxxDBgLweu1M8Wtpm3iZu2pU=;
-        b=pyoBGjP2KlMAvkfNzkOaOTVl/6MmW1ctP9c0Z09ut+tciH6Up98jF9/On32+ziYb6y
-         OLtgbWXH5Y9yGUKq1qx6AQuWQNFmOwcKw2J7nZ47kHIlfFL08uGQkGToC1DiVG9dsy3g
-         vDkDlTyKqGw/OrV/zUvAsIXiBzP+vYvOXfBgn4Bwp7FnTqBUCoAVxwiiYTowqJ1+s0zp
-         3kCiHeXY3oESNMO00NzXYsHOFb5YMHHiSsAYotf4xBU2fDrj4AoYXXID25M2fGLrRrzR
-         t23+rMaXe4Kmwj61AFfWUtD9yUv35FUwgUzInw7aFQlhZsJF8wzNYpqnti4AYw71Gp5r
-         v5Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=z66n7Klv98ugqFOF5GUDxxDBgLweu1M8Wtpm3iZu2pU=;
-        b=aPcAQnQjv062MArle/F7CmkJfGGX6PwCS/mEreAt669BxVjWwQKf/p7yJ2ztTJ3nro
-         XxqQNCVgMigZxfR2MCKDLBfbzXHhVuaLOmx4UUrV1s2tqqtmMLFJh7Gd/I+rAB+goKr9
-         MPdWwOK5atp/BUUra9DQ2RmRjlz6JBED1WdO7S7HONZRrAlMEdRwwrFW0LsyujlLa1rE
-         RBUeQUaETyWE9ZohowmEcgWz1QjmmBAEqZrU2Z/odVaWvJpsI35eQarSAxRLyCjJ6yrf
-         xmvcPTc0in2PvihvRhibcNH2qUbbdTvCfAmWRQcDUTLrhILaihx+bq6ZACdBpw2c5XLb
-         gyQw==
-X-Gm-Message-State: AOAM531XNpedYOS3Y/MJwDS+Dd5nn2XSyY+wHtS41dDPY9Z9U0BDXdpm
-	DL6+2B9zfHnP0Dn34Q5/0Sc=
-X-Google-Smtp-Source: ABdhPJycvZ90BGex/QMFxYA45cl3Cr2egPrVoIDho5a0HnrXAvlphkwcnx3O+RleIzImvuPWSlftVw==
-X-Received: by 2002:a05:651c:211c:: with SMTP id a28mr10859531ljq.8.1630937083627;
-        Mon, 06 Sep 2021 07:04:43 -0700 (PDT)
-Received: from localhost.localdomain ([46.61.204.60])
-        by smtp.gmail.com with ESMTPSA id q189sm1035298ljb.68.2021.09.06.07.04.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Sep 2021 07:04:43 -0700 (PDT)
-Subject: Re: [PATCH 1/3] staging: r8188eu: remove _io_ops structure
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4833FC1
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 14:07:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2DC1F60295;
+	Mon,  6 Sep 2021 14:07:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1630937248;
+	bh=suG3xSGw5ooBqY20FWEKzQb3ctJT1m9GA/CIcKz/Ka8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=km2jDDMe2Jas52qfgtRwyar9kVE0ajhbnXR3CQFeesC88meBCz+GlDxxrgcyxgwo4
+	 N7DGnP2/p9MtrOMTjhX8sCiFsk22mVvNKyrI+F/+TFNY87NDvFeLgp3cvwad5cVs0H
+	 fRdTesrWh2Qg51JfNOkLdfkUiwicrK5lHLrrOsVQ=
+Date: Mon, 6 Sep 2021 16:07:26 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210904150447.14659-1-fmdefrancesco@gmail.com>
- <20210904150447.14659-2-fmdefrancesco@gmail.com>
- <20210906074910.GG1957@kadam>
-From: Pavel Skripkin <paskripkin@gmail.com>
-Message-ID: <aec7eb51-721a-d2c1-4eba-c4adbb8265c3@gmail.com>
-Date: Mon, 6 Sep 2021 17:04:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] staging: r8188eu: Shorten calls chain of
+ rtw_read8/16/32()
+Message-ID: <YTYgnrvwxNt4+CvR@kroah.com>
+References: <20210904220048.12822-1-fmdefrancesco@gmail.com>
+ <20210904220048.12822-3-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210906074910.GG1957@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210904220048.12822-3-fmdefrancesco@gmail.com>
 
-On 9/6/21 10:49 AM, Dan Carpenter wrote:
-> On Sat, Sep 04, 2021 at 05:04:45PM +0200, Fabio M. De Francesco wrote:
->> -static int usb_writeN(struct intf_hdl *pintfhdl, u32 addr, u32 length, u8 *pdata)
->> +int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *pdata)
->>  {
->> +	struct io_priv *pio_priv = &adapter->iopriv;
->> +	struct intf_hdl *pintfhdl = &pio_priv->intf;
->>  	u16 wvalue = (u16)(addr & 0x0000ffff);
->>  	u8 buf[VENDOR_CMD_MAX_DATA_LEN] = {0};
->> +	int ret;
->>  
->>  	if (length > VENDOR_CMD_MAX_DATA_LEN)
->>  		return -EINVAL;
+On Sun, Sep 05, 2021 at 12:00:47AM +0200, Fabio M. De Francesco wrote:
+> Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+> For this purpose unify the three usb_read8/16/32 into the new
+> usb_read(); make the latter parameterizable with 'size'; embed most of
+> the code of usbctrl_vendorreq() into usb_read() and use in it the new
+> usb_control_msg_recv() API of USB Core.
 > 
-> The caller treats this negative return as success.
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
 > 
-
-Oh, good catch, thank you so much for pointing it out... This driver 
-uses unusual approach for error handling with private _SUCCESS and _FAIL 
-macros and I forgot to call RTW_ERROR_CODE :(
-
->>  
->>  	memcpy(buf, pdata, length);
->> +	ret = usbctrl_vendorreq(pintfhdl, wvalue, buf, (length & 0xffff), REALTEK_USB_VENQT_WRITE);
->>  
->> -	return usbctrl_vendorreq(pintfhdl, wvalue, buf, (length & 0xffff), REALTEK_USB_VENQT_WRITE);
->> +	return RTW_STATUS_CODE(ret);
->>  }
+> v2->v3: No changes.
 > 
-> [ snip ]
+> v1->v2: No changes.
 > 
+>  drivers/staging/r8188eu/hal/usb_ops_linux.c | 92 +++++++++++++++++----
+>  1 file changed, 78 insertions(+), 14 deletions(-)
 > 
->> -void usb_read_port_cancel(struct intf_hdl *pintfhdl)
->> +void rtw_read_port_cancel(struct adapter *adapter)
->>  {
->>  	int i;
->> -	struct recv_buf *precvbuf;
->> -	struct adapter	*padapter = pintfhdl->padapter;
->> -	precvbuf = (struct recv_buf *)padapter->recvpriv.precv_buf;
->> +	struct recv_buf *precvbuf = (struct recv_buf *) adapter->recvpriv.precv_buf;
->>  
->>  	DBG_88E("%s\n", __func__);
->>  
->> -	padapter->bReadPortCancel = true;
->> +	adapter->bReadPortCancel = true;
-> 
-> In these functions it would be better to rename "padapter" as "adapter"
-> in a follow on function.  Keep it the same for now just to make review
-> easier.
-> 
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index a87b0d2e87d0..f9c4fd5a2c53 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -97,38 +97,102 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>  	return status;
+>  }
+>  
+> +static int usb_read(struct intf_hdl *intfhdl, u32 addr, void *data, u8 size)
+> +{
+> +	u16 value = (u16)(addr & 0x0000ffff);
 
-Ok, will bring old name back in v4. Thank you for review :)
+Why not just pass in the address as a 16bit value?
 
 
+> +	struct adapter *adapt = intfhdl->padapter;
+> +	struct dvobj_priv *dvobjpriv = adapter_to_dvobj(adapt);
+> +	struct usb_device *udev = dvobjpriv->pusbdev;
+> +	int status;
+> +	u8 *io_buf;
+> +	int vendorreq_times = 0;
+> +
+> +	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
+> +		status = -EPERM;
+> +		goto exit;
 
+This is "interesting" to see if it's really even working as they think
+it does, but let's leave it alone for now...
 
-With regards,
-Pavel Skripkin
+> +	}
+> +
+> +	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
+> +
+> +	/*  Acquire IO memory for vendorreq */
+> +	io_buf = dvobjpriv->usb_vendor_req_buf;
+> +
+> +	if (!io_buf) {
+> +		DBG_88E("[%s] io_buf == NULL\n", __func__);
+
+How can this buffer ever be NULL?
+
+> +		status = -ENOMEM;
+> +		goto release_mutex;
+> +	}
+
+Why share a buffer at all anyway?
+
+> +	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> +		status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
+> +					      REALTEK_USB_VENQT_READ, value,
+> +					      REALTEK_USB_VENQT_CMD_IDX, io_buf,
+> +					      size, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +					      GFP_KERNEL);
+> +		if (!status) {   /*  Success this control transfer. */
+
+Comments go on the next line.
+
+> +			rtw_reset_continual_urb_error(dvobjpriv);
+> +			memcpy(data, io_buf, size);
+> +		} else { /*  error cases */
+
+Again, next line for the comment.
+
+> +			DBG_88E("reg 0x%x, usb %s %u fail, status:%d vendorreq_times:%d\n",
+> +				value, "read", size, status, vendorreq_times);
+
+These should be removed eventually...
+
+> +
+> +			if (status == (-ESHUTDOWN) || status == -ENODEV) {
+> +				adapt->bSurpriseRemoved = true;
+
+Odd, but ok...
+
+> +			} else {
+> +				struct hal_data_8188e *haldata = GET_HAL_DATA(adapt);
+> +
+> +				haldata->srestpriv.wifi_error_status = USB_VEN_REQ_CMD_FAIL;
+
+Why are we not saying the command failed even if the device was removed?
+
+But if we do say an error happened, why are we trying to send this out
+again?  What would happen to make it work the second time?
+
+> +			}
+> +
+> +			if (rtw_inc_and_chk_continual_urb_error(dvobjpriv)) {
+> +				adapt->bSurpriseRemoved = true;
+
+So we try to see if the device was removed again?
+
+> +				break;
+> +			}
+> +		}
+> +
+> +		/*  firmware download is checksummed, don't retry */
+> +		if ((value >= FW_8188E_START_ADDRESS && value <= FW_8188E_END_ADDRESS) || !status)
+> +			break;
+
+Nothing like a special case for firmware magic.
+
+Those calls should just use a different write function entirely,
+eventually, to remove this...
+
+Ok, I know you are just moving code around, this is fine, just pointing
+out things that should be fixed up eventually...
+
+thanks,
+
+greg k-h
