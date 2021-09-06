@@ -1,41 +1,41 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC343FC0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B3772
 	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 18:25:03 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id v5so10526320edc.2
+Received: by mail-ej1-f48.google.com with SMTP id jg16so14996738ejc.1
         for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 11:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KAvqQpKCWyLVtqR0Pixbdc0rZlX3SIjqbixAcUQtRok=;
-        b=Zv4jj4Ws41TLRFURaiCkR4uuMqRVh0JVrg2SYUNgruxNfqsLLahDgIaYyC7SYLiGpj
-         yy54zX45Ka2CmokfLTP+yU2vT9EZKAZ30t9U/FmItC8UpOJL305LMEvQ1yR2xy7bkhbt
-         P0I3plwsswG4/odoTlFobVMKU1pqxMuoUFtgQZKASExByVgBI6gnJnz+MEnQRpPs2WLk
-         qrjt2GMP3XRRVZyB1VI/aWh+6MpiQhkTLD+qwpjRmVkVujgIiuCMOxkaNP3TN3AjRBa0
-         NGCprDuuj/Bn+PzPfcyzeHMpVjSXu0S2vybT0Gid03yel2f3nGSNdw6nH1NbszoZtQoA
-         x9aQ==
+        bh=J4xkTtQ3wuvhdh3g04JX3HPGsYGJOr6tST/yQR3N1No=;
+        b=afWwh8SlpRQgFxdu6p52VMMT0pIdFap/oBBvT6vT3Gu6nPVbxVfc1yrfvJZBb/tOmN
+         jk/sAnIN4IWnRGaJdJl7+TzW6/IMNC3lX3U7cGw2m9zNDHIPnC2JwnrB0QTBnGrIoR10
+         lsn0hdtp0PjA1mzNqUKLTg3rFucjadWN/Gyw+bzfcTiFMtFshAWyNmxGCotFdUiD3wyu
+         0kJu8rKgKO3aZfEnhfcCOamQY+hJf/rVddo0wbJaVEZp42e5dZ/+dij5P9WhSvaoT6FG
+         HQEkbznmubMpjRihu0ZcB0hh3raYLrNxHqNLPYN1uqNGrc84KZoI3Uld2u7e8QRrvTel
+         KWJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KAvqQpKCWyLVtqR0Pixbdc0rZlX3SIjqbixAcUQtRok=;
-        b=Ef45XuMQlBKGztLtWvFTnXgDzzY0FTPaGGYf76x+JtGREUYL0VwgMOujAUZp/PLzAk
-         BLG6gBtaE/twQMauSsS4+a8piQg7PpdP7EWA4ledy1ohgeUIz4CZSc7VUGc/Gk9ua72G
-         XsxMafoUl0cJ5pwKBBUonjtVXWG6/tr0i7EUGP70OP4TSbdaONnR8iHBcERNBN3bzSAM
-         Y1mN8SQa1MHTu2NUoAlqNmtrXpST3cuY4KJ/d0x8fCjqMrkUGifR0b4+roH9dbUIr9Hp
-         jiu7TUD9gj4i3hs9z/VGwUNogpuag+jMo8Xi6ow4ZJR+dWZcL/InWh3XYUzC3d/gq9CE
-         m6QQ==
-X-Gm-Message-State: AOAM533eWBncbm4oITkaZssAHWCHreh6zIyYzzLgJZbF2rM+dRn1/NjY
-	Qcfmzyq4gC5Z1RzlAiU/svt4O1Roslv2fQ==
-X-Google-Smtp-Source: ABdhPJytVB9Xkrq5KAcfF7f5iZ9n+IjXJ6n3PMu4ieY/eGwA/AQ8MkcH+z9xfaqvlUvGvlKlMXNVjw==
-X-Received: by 2002:aa7:d2cb:: with SMTP id k11mr14624324edr.227.1630952701568;
-        Mon, 06 Sep 2021 11:25:01 -0700 (PDT)
+        bh=J4xkTtQ3wuvhdh3g04JX3HPGsYGJOr6tST/yQR3N1No=;
+        b=JKeKFtXzaq8y+Hr6q3C612rj079RL1KV3/n3OcXxAX2a+31xtcGbNO5ciRS/3kQwgN
+         QEk6qxRXlwbO/qscDUkrEEtAafD0YMdcMG2keEQOr0YD6X+aBteLJi0TH4LMxlAi/1vH
+         QZuiCW8MVBj9pFQ0szW4uCm2InQzm+cjINF/p4F07nfW5HvxX3f01+PgFoFRUCDzFXWO
+         qRhr8K5Szy06osgYTT/xWzTjFD/kJv67ewu+2khjouZgICnruDKqRE/BEKr4SKRVqNp6
+         t/bPBRbU037V0V4j78fqMWoFcSdHdLTeijBOUyTGqWFYAumF2BPIQBGsHQoBlpl8AL06
+         qlgQ==
+X-Gm-Message-State: AOAM531BEwq60w8rEiY3xxc0QDriwDUuMBEzG8X80qEwI2H9eoiCf4J/
+	I58C6t4lQ7vi42PLWtmKcuM=
+X-Google-Smtp-Source: ABdhPJwvJB7if0txSW/sHXRhHpBExx6IyOYQ7pmuj6aep+IgNaEX1SHcdyim90Y8gTQOv5tPEiramQ==
+X-Received: by 2002:a17:906:7250:: with SMTP id n16mr14733640ejk.147.1630952702282;
+        Mon, 06 Sep 2021 11:25:02 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id s25sm4284492ejq.17.2021.09.06.11.25.00
+        by smtp.gmail.com with ESMTPSA id s25sm4284492ejq.17.2021.09.06.11.25.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 11:25:01 -0700 (PDT)
+        Mon, 06 Sep 2021 11:25:02 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 01/40] staging: r8188eu: remove InitSwLeds from hal_ops
-Date: Mon,  6 Sep 2021 20:23:59 +0200
-Message-Id: <20210906182438.5417-2-straube.linux@gmail.com>
+Subject: [PATCH 02/40] staging: r8188eu: remove DeInitSwLeds from hal_ops
+Date: Mon,  6 Sep 2021 20:24:00 +0200
+Message-Id: <20210906182438.5417-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210906182438.5417-1-straube.linux@gmail.com>
 References: <20210906182438.5417-1-straube.linux@gmail.com>
@@ -59,111 +59,94 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove InitSwLeds from hal_ops and remove its wrapper
-rtw_hal_sw_led_init(). Call rtl8188eu_InitSwLeds() directly instead.
+Remove DeInitSwLeds from hal_ops and remove its wrapper
+rtw_hal_sw_led_deinit(). Call rtl8188eu_DeInitSwLeds() directly
+instead.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
  drivers/staging/r8188eu/hal/hal_intf.c       | 6 ------
  drivers/staging/r8188eu/hal/usb_halinit.c    | 1 -
- drivers/staging/r8188eu/include/hal_intf.h   | 2 --
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 3 ++-
- drivers/staging/r8188eu/os_dep/os_intfs.c    | 4 ++--
- 5 files changed, 4 insertions(+), 12 deletions(-)
+ drivers/staging/r8188eu/include/hal_intf.h   | 3 ---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c    | 2 +-
+ 5 files changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index e91db4f5886b..1848a7246d6d 100644
+index 1848a7246d6d..3c4c719fe9bc 100644
 --- a/drivers/staging/r8188eu/hal/hal_intf.c
 +++ b/drivers/staging/r8188eu/hal/hal_intf.c
 @@ -25,12 +25,6 @@ void rtw_hal_dm_deinit(struct adapter *adapt)
  		adapt->HalFunc.dm_deinit(adapt);
  }
  
--void rtw_hal_sw_led_init(struct adapter *adapt)
+-void rtw_hal_sw_led_deinit(struct adapter *adapt)
 -{
--	if (adapt->HalFunc.InitSwLeds)
--		adapt->HalFunc.InitSwLeds(adapt);
+-	if (adapt->HalFunc.DeInitSwLeds)
+-		adapt->HalFunc.DeInitSwLeds(adapt);
 -}
 -
- void rtw_hal_sw_led_deinit(struct adapter *adapt)
+ u32 rtw_hal_power_on(struct adapter *adapt)
  {
- 	if (adapt->HalFunc.DeInitSwLeds)
+ 	if (adapt->HalFunc.hal_power_on)
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 679f9f6e6dbe..86080d502636 100644
+index 86080d502636..87aa12a6b5ba 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
 @@ -2246,7 +2246,6 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
  
  	halfunc->init_recv_priv = &rtl8188eu_init_recv_priv;
  	halfunc->free_recv_priv = &rtl8188eu_free_recv_priv;
--	halfunc->InitSwLeds = &rtl8188eu_InitSwLeds;
- 	halfunc->DeInitSwLeds = &rtl8188eu_DeInitSwLeds;
+-	halfunc->DeInitSwLeds = &rtl8188eu_DeInitSwLeds;
  
  	halfunc->SetHwRegHandler = &SetHwReg8188EU;
+ 	halfunc->GetHwRegHandler = &GetHwReg8188EU;
 diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 16d59d24d1b8..e240d5b2406f 100644
+index e240d5b2406f..a3da6e04d481 100644
 --- a/drivers/staging/r8188eu/include/hal_intf.h
 +++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -143,7 +143,6 @@ struct hal_ops {
+@@ -143,8 +143,6 @@ struct hal_ops {
  	s32	(*init_recv_priv)(struct adapter *padapter);
  	void	(*free_recv_priv)(struct adapter *padapter);
  
--	void	(*InitSwLeds)(struct adapter *padapter);
- 	void	(*DeInitSwLeds)(struct adapter *padapter);
- 
+-	void	(*DeInitSwLeds)(struct adapter *padapter);
+-
  	void	(*dm_init)(struct adapter *padapter);
-@@ -256,7 +255,6 @@ void	rtw_hal_free_data(struct adapter *padapter);
+ 	void	(*dm_deinit)(struct adapter *padapter);
+ 
+@@ -255,7 +253,6 @@ void	rtw_hal_free_data(struct adapter *padapter);
  
  void rtw_hal_dm_init(struct adapter *padapter);
  void rtw_hal_dm_deinit(struct adapter *padapter);
--void rtw_hal_sw_led_init(struct adapter *padapter);
- void rtw_hal_sw_led_deinit(struct adapter *padapter);
+-void rtw_hal_sw_led_deinit(struct adapter *padapter);
  
  u32 rtw_hal_power_on(struct adapter *padapter);
+ uint rtw_hal_init(struct adapter *padapter);
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index bd637a667299..7c18b0adf740 100644
+index 7c18b0adf740..c7229878ee53 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -15,6 +15,7 @@
- #include "../include/rtw_mp_ioctl.h"
- #include "../include/usb_ops.h"
- #include "../include/rtl8188e_hal.h"
-+#include "../include/rtl8188e_led.h"
+@@ -3862,7 +3862,7 @@ static int rtw_rereg_nd_name(struct net_device *dev,
+ 		rtw_led_control(padapter, LED_CTL_POWER_OFF);
+ 		rereg_priv->old_bRegUseLed = padapter->ledpriv.bRegUseLed;
+ 		padapter->ledpriv.bRegUseLed = false;
+-		rtw_hal_sw_led_deinit(padapter);
++		rtl8188eu_DeInitSwLeds(padapter);
  
- #include "../include/rtw_mp.h"
- #include "../include/rtw_iol.h"
-@@ -3845,7 +3846,7 @@ static int rtw_rereg_nd_name(struct net_device *dev,
- 
- 	if (!memcmp(rereg_priv->old_ifname, "disable%d", 9)) {
- 		padapter->ledpriv.bRegUseLed = rereg_priv->old_bRegUseLed;
--		rtw_hal_sw_led_init(padapter);
-+		rtl8188eu_InitSwLeds(padapter);
- 		rtw_ips_mode_req(&padapter->pwrctrlpriv, rereg_priv->old_ips_mode);
- 	}
- 
+ 		/*  the interface is being "disabled", we can do deeper IPS */
+ 		rereg_priv->old_ips_mode = rtw_get_ips_mode_req(&padapter->pwrctrlpriv);
 diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 49ccdde1b0bb..7e0eaa3f7db6 100644
+index 7e0eaa3f7db6..43deffc29833 100644
 --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
 +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -9,9 +9,9 @@
- #include "../include/recv_osdep.h"
- #include "../include/hal_intf.h"
- #include "../include/rtw_ioctl.h"
--
- #include "../include/usb_osintf.h"
- #include "../include/rtw_br_ext.h"
-+#include "../include/rtl8188e_led.h"
+@@ -906,7 +906,7 @@ void rtw_cancel_all_timer(struct adapter *padapter)
+ 	_cancel_timer_ex(&padapter->mlmepriv.dynamic_chk_timer);
  
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("Realtek Wireless Lan Driver");
-@@ -887,7 +887,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 	ret8 = rtw_init_default_value(padapter);
+ 	/*  cancel sw led timer */
+-	rtw_hal_sw_led_deinit(padapter);
++	rtl8188eu_DeInitSwLeds(padapter);
  
- 	rtw_hal_dm_init(padapter);
--	rtw_hal_sw_led_init(padapter);
-+	rtl8188eu_InitSwLeds(padapter);
- 
- 	rtw_hal_sreset_init(padapter);
+ 	_cancel_timer_ex(&padapter->pwrctrlpriv.pwr_state_check_timer);
  
 -- 
 2.33.0
