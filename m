@@ -1,133 +1,78 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6185E72
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 18:25:32 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id jg16so14998599ejc.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 11:25:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABC072
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 18:38:29 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id q3so10568045edt.5
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 11:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4rDU/Aka2Jxuf6M2FTahHDgy7VZclBVFd9XLtJVQxGI=;
-        b=HH32OtePnoDD33mrzpeNN62Gvy4klcIm5zMAZmlfv+ghYKPtC3Ccrwq7b2km1SMGVv
-         2p3o0qeyeLGkldeH4NrB3DX+eVECy9aKsX63WieDComyqhufAvhG/xXN+JZXJ8chicpy
-         ZxVET6amT+QGjg9EeLaFuo8JvDwDI4B866htOk+LsQ2buK0RztFFDS+TQGZvecbHTqg2
-         9lr+CSAxsMn5FsyInxxpBdtrdntN/o9/mONTsjNFlzagWgiXxV0/2hQX+DB6G8d0IEGk
-         YO9qyk3OaXuw+Sniddnn3ZGayeHlSy/vNxq291UdppbgmwRFqRLG6c//Dc94/iA2fL3n
-         NE6A==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=5qxOSUsAvpDHSMLpGbVT+4MUrgaqCQsk57usbM5FUQA=;
+        b=oS1pJaJNmoKNUp3OAGHbYYPiDbcwyH4364r5pn/7SRLQvOUU3JWcM9TbyfYQFuznI3
+         sCCLZDQ/HkGPU6uwzExVsF4qvRTRRMx+QTSrm5py4ybdu3fQMnWNZx/yqMBAIbKciY97
+         cLHwWAUevCOBqtcrOWhD3YN4kPTzD1EdB7w7TF6VgPBFSsraPj3oYFosmVvFJVpgWoN4
+         vLvPU2CSqG9WsjxRMgLpdHZxER4DOxV94LxELhhsBARaGtWGr97CoriAdpLJi4MJWAOG
+         bjuVhCH9nY8WJUfrXf5clF/cQQjjyCBpAjwsNmxU+bge4I9XC63Qdy6TYnk0b+SrCtGy
+         KzXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4rDU/Aka2Jxuf6M2FTahHDgy7VZclBVFd9XLtJVQxGI=;
-        b=uTkSVk9bNZCd61tYKpzEQB1ZxclsJARHcTt/lbazhqBThZogrnLwKWypG2bqTc6Lq7
-         eOxUNvz2fgebSsB9tngcvjrLU5YkKpQ4NMuxbXbI25d+nB9328Aq3N/CM7p1bo6Otg99
-         VqMPNm5azJPSvUmEL4tnuNqyORp0ufg8cVqCpKP/jsr4RVyfPf69P4mHdIL2+cxg8mOr
-         EjHmWZzUX5dRJc+PjP8ZZpUe48wlQ0//cm+epbp2FsCE+oDu/WcGgw61fOK4uhgiRnUy
-         p/lvwELBEDJOun1mWmiKbfZjMLOxMMYVuaNsvhykFZLEkO1DkWJiaTTdFKYEb1HLac8u
-         +PIw==
-X-Gm-Message-State: AOAM530ddb24uW2ByCokIWw77j+sdvvYFFrBbMUKqGTEEU1LsKYe5puz
-	E7X0POqdM7Nn04YnRE+RfjupeeJ17Z8U1Q==
-X-Google-Smtp-Source: ABdhPJyJfuKpLPxrs6gxAiO0N01xvXdfQLM1g/qkbGdryaAM4HqjlBXKrRjVlEj31TFiC74Iw6aKXw==
-X-Received: by 2002:a17:907:1b02:: with SMTP id mp2mr14805866ejc.196.1630952730826;
-        Mon, 06 Sep 2021 11:25:30 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id s25sm4284492ejq.17.2021.09.06.11.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 11:25:30 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 40/40] staging: r8188eu: remove UpdateHalRAMask8188EUsb from hal_ops
-Date: Mon,  6 Sep 2021 20:24:38 +0200
-Message-Id: <20210906182438.5417-41-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210906182438.5417-1-straube.linux@gmail.com>
-References: <20210906182438.5417-1-straube.linux@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=5qxOSUsAvpDHSMLpGbVT+4MUrgaqCQsk57usbM5FUQA=;
+        b=OUI40KANt3O9xbxz6zXTUgvSm8npzbEo+nz/t6BKwbjQOtYRrtQ9I9IVXEmdsmkzNB
+         e5nrz1MLD6hh26OpACjBJNkl0Rz7fFdeIi5HUu44hQx9x1I/oqK/U50j3DzBkVkwYELq
+         RlbvyAMJaoPWLM648amm7AZ8d6bsL8/ol3qwZxS03OdsAtuzLUQY3TZ/fqwJr5rBt1pQ
+         XbzIi3Yj1N4+yCWWnoGAlhgpXDghmap2NxP2LIg4j0xjmULsaT8HNwY0pb/KClKiCORt
+         rYqxhrZ0+PaglAhKai4WWD6YTbAXibwbH3er3IND9Cuy39c/j8es89+/P3G5KJN8y3Bn
+         YwIg==
+X-Gm-Message-State: AOAM5324DfmGCPbAG5V9YQpANuCPvoHxNe0HnsrhKrYUz5Hdqji83Lxl
+	7NgTl/DbJ24GJyKg361Z1pE=
+X-Google-Smtp-Source: ABdhPJwpoEZWa4qVwaKDjw3npiXsKUEdhmQzDxp74swm3Ht6EjZvBjb3PAvJ1JJuxE//ph7uUcf98g==
+X-Received: by 2002:a05:6402:350d:: with SMTP id b13mr14569940edd.1.1630953507637;
+        Mon, 06 Sep 2021 11:38:27 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::8fe1? ([2a02:8108:96c0:3b88::8fe1])
+        by smtp.gmail.com with UTF8SMTPSA id r11sm4355205ejy.71.2021.09.06.11.38.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Sep 2021 11:38:27 -0700 (PDT)
+Message-ID: <a762c010-e6b3-6fed-30e9-1520664b6b25@gmail.com>
+Date: Mon, 6 Sep 2021 20:38:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH 00/40] staging: r8188eu: remove function pointers from
+ struct hal_ops
+Content-Language: en-US
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
+ fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210906182438.5417-1-straube.linux@gmail.com>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20210906182438.5417-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove UpdateHalRAMask8188EUsb hal_ops and call
-UpdateHalRAMask8188EUsb() directly instead.
+On 9/6/21 20:23, Michael Straube wrote:
+> In order to get rid of the HAL layer this series removes the next
+> bunch of function pointers from struct hal_ops.
+> 
+> Also it removes some empty functions and cleans up some minor style
+> issues I stumbled upon.
+> 
+> Tested on x86_64 with Inter-Tech DMG-02.
+> 
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/hal_intf.c     | 4 +---
- drivers/staging/r8188eu/hal/usb_halinit.c  | 4 +---
- drivers/staging/r8188eu/include/hal_intf.h | 4 +---
- 3 files changed, 3 insertions(+), 9 deletions(-)
+Ouch, although I've checked everything, starting with patch 20 there
+is a typo in the commit messages. The word 'from' is missing. :(
 
-diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index d38a8134b243..92c55b9ab244 100644
---- a/drivers/staging/r8188eu/hal/hal_intf.c
-+++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -139,9 +139,7 @@ void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
- 			add_RATid(adapt, psta, 0);/* todo: based on rssi_level*/
- #endif
- 	} else {
--		if (adapt->HalFunc.UpdateRAMaskHandler)
--			adapt->HalFunc.UpdateRAMaskHandler(adapt, mac_id,
--							      rssi_level);
-+		UpdateHalRAMask8188EUsb(adapt, mac_id, rssi_level);
- 	}
- }
- 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 4d60b5156995..37a976c56f06 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -2064,7 +2064,7 @@ static u8 SetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eV
- 	return bResult;
- }
- 
--static void UpdateHalRAMask8188EUsb(struct adapter *adapt, u32 mac_id, u8 rssi_level)
-+void UpdateHalRAMask8188EUsb(struct adapter *adapt, u32 mac_id, u8 rssi_level)
- {
- 	u8 init_rate = 0;
- 	u8 networkType, raid;
-@@ -2230,8 +2230,6 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
- 	halfunc->GetHalDefVarHandler = &GetHalDefVar8188EUsb;
- 	halfunc->SetHalDefVarHandler = &SetHalDefVar8188EUsb;
- 
--	halfunc->UpdateRAMaskHandler = &UpdateHalRAMask8188EUsb;
--
- 	halfunc->hal_xmit = &rtl8188eu_hal_xmit;
- 	halfunc->mgnt_xmit = &rtl8188eu_mgnt_xmit;
- 
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 668a21cbe71e..727ef8511f64 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -147,9 +147,6 @@ struct hal_ops {
- 				       enum hal_def_variable eVariable,
- 				       void *pValue);
- 
--	void	(*UpdateRAMaskHandler)(struct adapter *padapter,
--				       u32 mac_id, u8 rssi_level);
--
- 	s32	(*hal_xmit)(struct adapter *padapter,
- 			    struct xmit_frame *pxmitframe);
- 	s32 (*mgnt_xmit)(struct adapter *padapter,
-@@ -205,6 +202,7 @@ int rtl8188e_Efuse_PgPacketWrite(struct adapter *pAdapter, u8 offset, u8 word_en
- void hal_notch_filter_8188e(struct adapter *adapter, bool enable);
- 
- void SetBeaconRelatedRegisters8188EUsb(struct adapter *adapt);
-+void UpdateHalRAMask8188EUsb(struct adapter *adapt, u32 mac_id, u8 rssi_level);
- 
- uint rtw_hal_init(struct adapter *padapter);
- uint rtw_hal_deinit(struct adapter *padapter);
--- 
-2.33.0
+I'll fix it and send v2, sorry.
 
+Michael
