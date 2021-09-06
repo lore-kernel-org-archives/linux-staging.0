@@ -1,41 +1,41 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12473FC0
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 18:25:06 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id z19so10495901edi.9
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 11:25:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F1972
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 18:25:07 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id h9so14987637ejs.4
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 11:25:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NEkKMDZao1qnEO6WpzuCXGiPtoH4ChXtukbnEWoWLss=;
-        b=Z11O3pcgIazMQ+tibHi+QkIdm3Yy53BNJvXmv03eXdSCS6HLjcQHkfC/yUAZcYuTmE
-         GpFq7fePyaLUunkiFGkEIbNHm8A1KAU1txUeqH7aqtS8iA0uew9cvZLajUR+19Dr22tW
-         ouOScnjmkMHSV4C4P2H9Kt/qsgncXjlndPmfghoYpQF6USEgA8C90VBgJbZCEsVke1VA
-         AKOUbGInXVnBkmfWUhg5E2YAHVFrb/jX+3AN2E1WbJ/eoLNiOxrEh1geJEdy5S3LVTux
-         GnNvwc2gfZHHnZKM7teFaXTbqI9mdM2of4/LJ9dua+eCvR4YurfAljxrTyxc1ZaYHoPJ
-         1a2A==
+        bh=QXVzeoyjMV+agTPaWJLE9UNLbNfSwKQpfreP1FngznE=;
+        b=iLVUmjwbuS8oAZZ7VbzwuKStVt8xXSgXQEdDVbOuasR34srTMPeQWQQScxCuOZys+M
+         1rijm9/utaRLBMzHvIjTA91c0mycKSghFWdhBxgg9Ik9LIUNBRR1t5i1SRj91AjYATSL
+         S+a++XgRoEXfN8yOE4X3rkqC9T3rGjNr+0uwuVz0Vt3/kBuR/brP8OM2E5ivEwEXJQBE
+         dOi6H9hP9iQv5DuRKgIak3gzBCnrjYTtB3snyFsTYNJqdE8ThwIU4Z17I/3Zgk3kn6DP
+         pUH5MyXbwmpxc9EXYFafl5OafTk4pEGAjPbbEeK6bDXbzs6z2gdGDKh0DAxoto02fTye
+         0m/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NEkKMDZao1qnEO6WpzuCXGiPtoH4ChXtukbnEWoWLss=;
-        b=p85KRhRwBjm/flzq9uBC0Cb8e7N/9Rl9bdVQdJ45VGHiQHOfql66j/L8gDm/TNf05K
-         vX0XZMti9axcKJz9ub/IapGkp4p7/spv8Ry/XaZlaApi5DiIJzgocKUDjr0TrOoWa6ze
-         Nwy3F5x9eymUyLrF5gfl6Do6MugNo0LJUHOSr5YMK4Qc8NcJV7m50XWaxHPhFKhkW5TW
-         WAs/J5t2H/AB1AHrYv0X1AcSym304t46/BgKExqpcYA27Oijyaojf1IJYXRmN0gaoX3u
-         dWdr5D80o5TpREu2YRc9ywBWRe+P5/yKsrgkdRl/W8Ckn+oMq6+67/us5F29aRnfjcSt
-         haEw==
-X-Gm-Message-State: AOAM530S18yQnswcoRI/lwfzciLOAKRpSGHU1nwBwYE+jfB6t9WtCO1n
-	b3WP7M7qfUKSh7daIUuFOJY=
-X-Google-Smtp-Source: ABdhPJyw6Q+HhCzO1NRTv/biImAw4OjDl1o+96thDwvetURhjDE5gZYoJVW9DmDnFLXZoXmkuTMCcg==
-X-Received: by 2002:aa7:da8c:: with SMTP id q12mr14609446eds.380.1630952705222;
+        bh=QXVzeoyjMV+agTPaWJLE9UNLbNfSwKQpfreP1FngznE=;
+        b=abGh3hdyrPQ1y+ID4cWmgVn7Bm8KXyWbf1y54pW725jd1jhRBI6foXnWTZBoBmW1Zw
+         Fma1eB7Hol2Fwa38Q+p7tRDJSeNltr/YjohMQ+PArW7oabb0aX264YwnlY91B4d1acfN
+         ror/KAOMKVCmbhmpGOuDPUZdpCPtUnY9vH4OD+Fa1eeUgiFi1VbttQI98JzYgKTRWWj9
+         VUhWLPwE3nDgLyvJi4fe07zELJj+eE5NyrSGal5TI91YSV06/TPbrip0LIrOCoCYdym8
+         gxTjHmsJXi77vMMH1b9Ym/ps8fqYpNge8ou/32eh6/vJ5RqSStcRP1s0DGULwpxjzdOb
+         o/fA==
+X-Gm-Message-State: AOAM532+rUAImXR+K9ex//vqrz0FZQDmgizJETFB3gR8u1sztvrT4A7j
+	k95GIgX7rWiRSYhQ73nwBE8=
+X-Google-Smtp-Source: ABdhPJwXQqOcvfXSz8smRmHNfjJ9DuZNhgMqwD1kBXRqSRhyRIUyd+kDoV+IMmJtHY1bCw2S/aDAVg==
+X-Received: by 2002:a17:906:26c4:: with SMTP id u4mr14526413ejc.511.1630952705973;
         Mon, 06 Sep 2021 11:25:05 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id s25sm4284492ejq.17.2021.09.06.11.25.04
+        by smtp.gmail.com with ESMTPSA id s25sm4284492ejq.17.2021.09.06.11.25.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 11:25:04 -0700 (PDT)
+        Mon, 06 Sep 2021 11:25:05 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 05/40] staging: r8188eu: remove SetHalODMVarHandler from hal_ops
-Date: Mon,  6 Sep 2021 20:24:03 +0200
-Message-Id: <20210906182438.5417-6-straube.linux@gmail.com>
+Subject: [PATCH 06/40] staging: r8188eu: remove empty functions
+Date: Mon,  6 Sep 2021 20:24:04 +0200
+Message-Id: <20210906182438.5417-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210906182438.5417-1-straube.linux@gmail.com>
 References: <20210906182438.5417-1-straube.linux@gmail.com>
@@ -59,176 +59,93 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove SetHalODMVarHandler from hal_ops and remove its wrapper
-rtw_hal_set_odm_var(). Call rtl8188e_SetHalODMVar() directly instead.
+Remove the following empty functions.
+
+Hal_InitChannelPlan()
+Hal_CustomizeByCustomerID_8188EU()
+_InitBeaconMaxError()
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_ap.c           |  4 ++--
- drivers/staging/r8188eu/core/rtw_mlme.c         |  4 ++--
- drivers/staging/r8188eu/core/rtw_p2p.c          |  4 ++--
- drivers/staging/r8188eu/core/rtw_sta_mgt.c      |  2 +-
- drivers/staging/r8188eu/hal/hal_intf.c          |  9 ---------
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  4 +---
- drivers/staging/r8188eu/include/hal_intf.h      | 10 ++--------
- 7 files changed, 10 insertions(+), 27 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  4 ----
+ drivers/staging/r8188eu/hal/usb_halinit.c       | 15 ---------------
+ drivers/staging/r8188eu/include/rtl8188e_hal.h  |  1 -
+ 3 files changed, 20 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 1c07ad28b242..da8b5332b5e7 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -453,7 +453,7 @@ void update_bmc_sta(struct adapter *padapter)
- 		init_rate = get_highest_rate_idx(tx_ra_bitmap & 0x0fffffff) & 0x3f;
- 
- 		/* ap mode */
--		rtw_hal_set_odm_var(padapter, HAL_ODM_STA_INFO, psta, true);
-+		rtl8188e_SetHalODMVar(padapter, HAL_ODM_STA_INFO, psta, true);
- 
- 		{
- 			u8 arg = 0;
-@@ -505,7 +505,7 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
- 	DBG_88E("%s\n", __func__);
- 
- 	/* ap mode */
--	rtw_hal_set_odm_var(padapter, HAL_ODM_STA_INFO, psta, true);
-+	rtl8188e_SetHalODMVar(padapter, HAL_ODM_STA_INFO, psta, true);
- 
- 	if (psecuritypriv->dot11AuthAlgrthm == dot11AuthAlgrthm_8021X)
- 		psta->ieee8021x_blocked = true;
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 37578638bb76..d330f58ab3ad 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -984,7 +984,7 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
- 		psta->aid  = pnetwork->join_res;
- 		psta->mac_id = 0;
- 		/* sta mode */
--		rtw_hal_set_odm_var(padapter, HAL_ODM_STA_INFO, psta, true);
-+		rtl8188e_SetHalODMVar(padapter, HAL_ODM_STA_INFO, psta, true);
- 		/* security related */
- 		if (padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X) {
- 			padapter->securitypriv.binstallGrpkey = false;
-@@ -1276,7 +1276,7 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
- 	psta->mac_id = (uint)pstassoc->cam_id;
- 	DBG_88E("%s\n", __func__);
- 	/* for ad-hoc mode */
--	rtw_hal_set_odm_var(adapter, HAL_ODM_STA_INFO, psta, true);
-+	rtl8188e_SetHalODMVar(adapter, HAL_ODM_STA_INFO, psta, true);
- 	rtw_sta_media_status_rpt(adapter, psta, 1);
- 	if (adapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X)
- 		psta->dot118021XPrivacy = adapter->securitypriv.dot11PrivacyAlgrthm;
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index e2b6cf2386e0..3d237f276847 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -1955,7 +1955,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
- 		/* Enable P2P function */
- 		init_wifidirect_info(padapter, role);
- 
--		rtw_hal_set_odm_var(padapter, HAL_ODM_P2P_STATE, NULL, true);
-+		rtl8188e_SetHalODMVar(padapter, HAL_ODM_P2P_STATE, NULL, true);
- 	} else if (role == P2P_ROLE_DISABLE) {
- 		if (_FAIL == rtw_pwr_wakeup(padapter)) {
- 			ret = _FAIL;
-@@ -1974,7 +1974,7 @@ int rtw_p2p_enable(struct adapter *padapter, enum P2P_ROLE role)
- 			memset(&pwdinfo->rx_prov_disc_info, 0x00, sizeof(struct rx_provdisc_req_info));
- 		}
- 
--		rtw_hal_set_odm_var(padapter, HAL_ODM_P2P_STATE, NULL, false);
-+		rtl8188e_SetHalODMVar(padapter, HAL_ODM_P2P_STATE, NULL, false);
- 
- 		/* Restore to initial setting. */
- 		update_tx_basic_rate(padapter, padapter->registrypriv.wireless_mode);
-diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-index c3600cb1790a..fc6484e403d0 100644
---- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-+++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-@@ -320,7 +320,7 @@ u32	rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- 	}
- 
- 	if (!(psta->state & WIFI_AP_STATE))
--		rtw_hal_set_odm_var(padapter, HAL_ODM_STA_INFO, psta, false);
-+		rtl8188e_SetHalODMVar(padapter, HAL_ODM_STA_INFO, psta, false);
- 
- #ifdef CONFIG_88EU_AP_MODE
- 
-diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index d467e734a699..4f893333cade 100644
---- a/drivers/staging/r8188eu/hal/hal_intf.c
-+++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -82,15 +82,6 @@ u8 rtw_hal_get_def_var(struct adapter *adapt,
- 	return _FAIL;
- }
- 
--void rtw_hal_set_odm_var(struct adapter *adapt,
--			 enum hal_odm_variable var, void *val1,
--			 bool set)
--{
--	if (adapt->HalFunc.SetHalODMVarHandler)
--		adapt->HalFunc.SetHalODMVarHandler(adapt, var,
--						      val1, set);
--}
--
- u32 rtw_hal_inirp_init(struct adapter *adapt)
- {
- 	u32 rst = _FAIL;
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 355878ec270d..bed89a1234bd 100644
+index bed89a1234bd..ca020f2ed7a2 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -1728,7 +1728,7 @@ void rtl8188e_read_chip_version(struct adapter *padapter)
- 	MSG_88E("RF_Type is %x!!\n", pHalData->rf_type);
+@@ -2242,10 +2242,6 @@ void Hal_ReadThermalMeter_88E(struct adapter *Adapter, u8 *PROMContent, bool Aut
+ 	DBG_88E("ThermalMeter = 0x%x\n", pHalData->EEPROMThermalMeter);
  }
  
--static void rtl8188e_SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
-+void rtl8188e_SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
+-void Hal_InitChannelPlan(struct adapter *padapter)
+-{
+-}
+-
+ bool HalDetectPwrDownMode88E(struct adapter *Adapter)
  {
- 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(Adapter);
- 	struct odm_dm_struct *podmpriv = &pHalData->odmpriv;
-@@ -1816,8 +1816,6 @@ void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc)
- 	pHalFunc->sreset_linked_status_check  = &rtl8188e_sreset_linked_status_check;
- 	pHalFunc->sreset_get_wifi_status  = &sreset_get_wifi_status;
+ 	u8 tmpvalue = 0;
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 87aa12a6b5ba..65f68f35b611 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -403,10 +403,6 @@ static void _InitEDCA(struct adapter *Adapter)
+ 	rtw_write32(Adapter, REG_EDCA_VO_PARAM, 0x002FA226);
+ }
  
--	pHalFunc->SetHalODMVarHandler = &rtl8188e_SetHalODMVar;
+-static void _InitBeaconMaxError(struct adapter *Adapter, bool		InfraMode)
+-{
+-}
 -
- 	pHalFunc->IOL_exec_cmds_sync = &rtl8188e_IOL_exec_cmds_sync;
+ static void _InitHWLed(struct adapter *Adapter)
+ {
+ 	struct led_priv *pledpriv = &Adapter->ledpriv;
+@@ -819,7 +815,6 @@ static u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	InitUsbAggregationSetting(Adapter);
+ 	_InitOperationMode(Adapter);/* todo */
+ 	_InitBeaconParameters(Adapter);
+-	_InitBeaconMaxError(Adapter, true);
  
- 	pHalFunc->hal_notch_filter = &hal_notch_filter_8188e;
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 61f4a6bcb7dc..f6f0763e0ab3 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -162,10 +162,6 @@ struct hal_ops {
- 				       enum hal_def_variable eVariable,
- 				       void *pValue);
+ 	/*  */
+ 	/*  Init CR MACTXEN, MACRXEN after setting RxFF boundary REG_TRXFF_BNDY to patch */
+@@ -1140,10 +1135,6 @@ static void Hal_EfuseParseMACAddr_8188EU(struct adapter *adapt, u8 *hwinfo, bool
+ 	}
+ }
  
--	void	(*SetHalODMVarHandler)(struct adapter *padapter,
--				       enum hal_odm_variable eVariable,
--				       void *pValue1, bool bSet);
+-static void Hal_CustomizeByCustomerID_8188EU(struct adapter *adapt)
+-{
+-}
 -
- 	void	(*UpdateRAMaskHandler)(struct adapter *padapter,
- 				       u32 mac_id, u8 rssi_level);
- 	void	(*SetBeaconRelatedRegistersHandler)(struct adapter *padapter);
-@@ -245,6 +241,8 @@ void rtl8188eu_set_hal_ops(struct adapter *padapter);
- void rtl8188eu_interface_configure(struct adapter *adapt);
- void ReadAdapterInfo8188EU(struct adapter *Adapter);
- void rtl8188eu_init_default_value(struct adapter *adapt);
-+void rtl8188e_SetHalODMVar(struct adapter *Adapter,
-+			   enum hal_odm_variable eVariable, void *pValue1, bool bSet);
+ static void
+ readAdapterInfo_8188EU(
+ 		struct adapter *adapt
+@@ -1166,12 +1157,6 @@ readAdapterInfo_8188EU(
+ 	Hal_EfuseParseBoardType88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 	Hal_ReadThermalMeter_88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
  
- void	rtw_hal_free_data(struct adapter *padapter);
- 
-@@ -260,10 +258,6 @@ u8 rtw_hal_set_def_var(struct adapter *padapter,
- u8 rtw_hal_get_def_var(struct adapter *padapter,
- 		       enum hal_def_variable eVariable, void *pValue);
- 
--void rtw_hal_set_odm_var(struct adapter *padapter,
--			 enum hal_odm_variable eVariable, void *pValue1,
--			 bool bSet);
+-	/*  */
+-	/*  The following part initialize some vars by PG info. */
+-	/*  */
+-	Hal_InitChannelPlan(adapt);
+-	Hal_CustomizeByCustomerID_8188EU(adapt);
 -
- u32	rtw_hal_inirp_init(struct adapter *padapter);
- u32	rtw_hal_inirp_deinit(struct adapter *padapter);
+ 	_ReadLEDSetting(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ }
  
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+index 5cd441e8e16b..bb5620a9b17b 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+@@ -434,7 +434,6 @@ void Hal_ReadPowerSavingMode88E(struct adapter *pAdapter, u8 *hwinfo,
+ 
+ bool HalDetectPwrDownMode88E(struct adapter *Adapter);
+ 
+-void Hal_InitChannelPlan(struct adapter *padapter);
+ void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc);
+ 
+ void rtl8188e_read_chip_version(struct adapter *padapter);
 -- 
 2.33.0
 
