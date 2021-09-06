@@ -1,41 +1,41 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D146B3FC7
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 19:03:04 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id t19so15107553ejr.8
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 12:03:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4276C72
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 19:03:06 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id i21so15151623ejd.2
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 12:03:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cIzcA7kDeR7Tp8yYzZpF0njPv2fcxCf50SRHZkuULqs=;
-        b=b0Gp64vUfeD1zsHFPOsVtMk8IxAqT8nQAUHNWOIghFZt6v78Mz/iKat4DdyKwjwGV0
-         5skeQga2f6IKhfiO1gIvRJL2CUScsFsh7cnSzo2VYn1W4CnPtPUZpTvJ0ve9r8gaJEuz
-         1wvCFlDkN1IYX/irhEyXEy69CrcISpPET/RR5SLhqnZTf/gsm3F6WvXs39/Ey9pkcwht
-         e/VfXSOJFOIX/dykKiNQFN9MpxHNAjiYAC4m43MfHgDPSgiziseNuDef54dWs828J7We
-         VoQ1Qzvw6WLzdj2xyEu6Mh5ZE+jtil6uNdlmjydE01kdDp87w2OqvyFW8Z34yYxz1Ns/
-         +/eA==
+        bh=ylsz5hLK/1lXA/L9MdBP0SRDSx5HJpGwb+F0dPt9n6U=;
+        b=Q8yPxunALisprQGaT3wCJctl/aJl+vqEDVLVPDScw3EtB6BXPDfdUb9S7XxIAw9B9x
+         TiMGX0hqsP6flMXDhtWrfBZU4likiKh46UXboGLUKLDD27Tt9g/nuhLx4LutkWwU8sDn
+         Ni58HehBrVADO5Pu8kVK+A7YiuW1VHoyTeqW4vWxAIP2wCrq4HcZe1JhdQeMlGdcQfhY
+         Dm4lodHkRMVAg4UMh3xQK9aMkZmYLPZLzw0isF9g0Ic8PmMQMp2av3bY5d+Mp1qQTyqG
+         HoNUdPT9zr2FF8jD9GcBBK2CSeOSfKxA0xG7LvUdnrgv2BeM5h57N8I8NOXDvov3w4zS
+         XkKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cIzcA7kDeR7Tp8yYzZpF0njPv2fcxCf50SRHZkuULqs=;
-        b=GP2O8OO6ILXAn3hTRXTlCE702/4ZpvAEgAI2+d356o9YO/nN7jldUJv38y2MPadXMZ
-         Cx77vFVk4fkF00+BVNbS88BVCBIQYUxFstNbeRsUngvTB/0HsnrTN9ohzPV5HFEHvcoS
-         GauTvowY0DFAdlMpgldckxoEw531IwI55lrbI46b8Upa3Ah2maZ/bf2I1EIe6zvBE8aZ
-         gepZ+CHwFxj1YDdrNDTHnp22do8uF5OFJ+nWkTWP1UnS+lJv9i0KlJd9qfJPnOumC9o1
-         WUjrE0wQ5VlrehWk89lcx19ryISXjWIq9jr8pW6JmU9swk8Wr6O0nW8k1RRPleKl1q53
-         HdJw==
-X-Gm-Message-State: AOAM533AKwbEn5hMngP2CRVlPdzpRh7WTMz/Hvqz0ovm70QbQJOb9xr9
-	rg6E4KoLTGt0gl0mejDh4kM=
-X-Google-Smtp-Source: ABdhPJxDFeojolcyvqimGvFOUvZr6mXIcqZlg/TEIJPZmd5bpQQoOzrRnta83XbKt5DN22qdBgL9dQ==
-X-Received: by 2002:a17:906:2755:: with SMTP id a21mr14307198ejd.488.1630954983318;
-        Mon, 06 Sep 2021 12:03:03 -0700 (PDT)
+        bh=ylsz5hLK/1lXA/L9MdBP0SRDSx5HJpGwb+F0dPt9n6U=;
+        b=JMXblZGGYDOVzma2YRkWBNjoH5hHBbla1qHESzSod5ZPRbsM1EEuek4jIDf7Yiz2Ag
+         1cRcS0EjHXLjyEWHwGeT1lx6jv4BBAZrd60HZTSd35icFPBb+U8iD576s0QLOPGC5JUy
+         RQxOMtWQGqUz9tf4sDP7n421KKQxkH83eQtq1E1zJwjNQ0K5bWbdIwDhQsSDFwpegMvz
+         sNoCll298kLCLLPL7Yt1tdJBopODVNrIEqwIVZCY/b8F7jXWZ16+1zUnfl69HCsDnPma
+         vmsFeqYKE1xPKOCK7dU7+tsHDKwa2EBLohRfC5eXzbHwV/Fhfe0nDyriBWmp+GmkfAvM
+         YyNQ==
+X-Gm-Message-State: AOAM531LI25dZttgJC0xytSx0elTgYeTJnIn1Agpxy5UHD/451Fpl55O
+	FeMZ9nIPXc2JAAeauslres4=
+X-Google-Smtp-Source: ABdhPJyjDAFHl8K5Ai8iYND58HWfAzlrDHFxlhReuawLAmu5HchcjNoFMMtFAt3Lb9az4/tPtXV67w==
+X-Received: by 2002:a17:906:32d9:: with SMTP id k25mr14845567ejk.290.1630954984701;
+        Mon, 06 Sep 2021 12:03:04 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id k15sm4372018ejb.92.2021.09.06.12.03.02
+        by smtp.gmail.com with ESMTPSA id k15sm4372018ejb.92.2021.09.06.12.03.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 12:03:03 -0700 (PDT)
+        Mon, 06 Sep 2021 12:03:04 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 24/40] staging: r8188eu: remove ReadEFuse from hal_ops
-Date: Mon,  6 Sep 2021 21:02:07 +0200
-Message-Id: <20210906190223.11396-25-straube.linux@gmail.com>
+Subject: [PATCH v3 26/40] staging: r8188eu: remove EfuseGetCurrentSize from hal_ops
+Date: Mon,  6 Sep 2021 21:02:09 +0200
+Message-Id: <20210906190223.11396-27-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210906190223.11396-1-straube.linux@gmail.com>
 References: <20210906190223.11396-1-straube.linux@gmail.com>
@@ -59,107 +59,139 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove ReadEFuse from hal_ops and remove its wrapper
-efuse_ReadEFuse(). Call rtl8188e_ReadEFuse() directly instead.
+Remove EfuseGetCurrentSize from hal_ops and remove its wrapper
+Efuse_GetCurrentSize(). Call rtl8188e_EfuseGetCurrentSize() directly
+instead.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_efuse.c        | 11 +++--------
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  7 +++----
- drivers/staging/r8188eu/include/hal_intf.h      |  5 +++--
- 3 files changed, 9 insertions(+), 14 deletions(-)
+ drivers/staging/r8188eu/core/rtw_efuse.c      | 31 +------------------
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  7 ++---
+ drivers/staging/r8188eu/include/hal_intf.h    |  3 +-
+ drivers/staging/r8188eu/include/rtw_efuse.h   |  1 -
+ 4 files changed, 5 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index 1aeddfa2f14d..faf6cefaa4f0 100644
+index 42462a91ac58..bae9a32ec27e 100644
 --- a/drivers/staging/r8188eu/core/rtw_efuse.c
 +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -175,11 +175,6 @@ ReadEFuseByte(
- /* 					write addr must be after sec5. */
- /*  */
+@@ -58,35 +58,6 @@ Efuse_Write1ByteToFakeContent(
+ 	return true;
+ }
  
--static void efuse_ReadEFuse(struct adapter *Adapter, u8 efuseType, u16 _offset, u16 _size_byte, u8 *pbuf, bool pseudo)
+-/*-----------------------------------------------------------------------------
+- * Function:	efuse_GetCurrentSize
+- *
+- * Overview:	Get current efuse size!!!
+- *
+- * Input:       NONE
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 11/16/2008	MHC		Create Version 0.
+- *
+- *---------------------------------------------------------------------------*/
+-u16
+-Efuse_GetCurrentSize(
+-	struct adapter *pAdapter,
+-	u8 efuseType,
+-	bool pseudo)
 -{
--	Adapter->HalFunc.ReadEFuse(Adapter, efuseType, _offset, _size_byte, pbuf, pseudo);
+-	u16 ret = 0;
+-
+-	ret = pAdapter->HalFunc.EfuseGetCurrentSize(pAdapter, efuseType, pseudo);
+-
+-	return ret;
 -}
 -
- void EFUSE_GetEfuseDefinition(struct adapter *pAdapter, u8 efuseType, u8 type, void *pOut, bool pseudo
- 	)
+ /*  11/16/2008 MH Add description. Get current efuse area enabled word!!. */
+ u8
+ Efuse_CalculateWordCnts(u8 word_en)
+@@ -404,7 +375,7 @@ u16 efuse_GetMaxSize(struct adapter *padapter)
+ u8 efuse_GetCurrentSize(struct adapter *padapter, u16 *size)
  {
-@@ -450,7 +445,7 @@ u8 rtw_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- 
  	rtl8188e_EfusePowerSwitch(padapter, false, true);
- 
--	efuse_ReadEFuse(padapter, EFUSE_WIFI, addr, cnts, data, false);
-+	rtl8188e_ReadEFuse(padapter, EFUSE_WIFI, addr, cnts, data, false);
- 
+-	*size = Efuse_GetCurrentSize(padapter, EFUSE_WIFI, false);
++	*size = rtl8188e_EfuseGetCurrentSize(padapter, EFUSE_WIFI, false);
  	rtl8188e_EfusePowerSwitch(padapter, false, false);
  
-@@ -468,7 +463,7 @@ u8 rtw_BT_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- 
- 	rtl8188e_EfusePowerSwitch(padapter, false, true);
- 
--	efuse_ReadEFuse(padapter, EFUSE_BT, addr, cnts, data, false);
-+	rtl8188e_ReadEFuse(padapter, EFUSE_BT, addr, cnts, data, false);
- 
- 	rtl8188e_EfusePowerSwitch(padapter, false, false);
- 
-@@ -745,7 +740,7 @@ static void Efuse_ReadAllMap(struct adapter *pAdapter, u8 efuseType, u8 *Efuse,
- 
- 	EFUSE_GetEfuseDefinition(pAdapter, efuseType, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, pseudo);
- 
--	efuse_ReadEFuse(pAdapter, efuseType, 0, mapLen, Efuse, pseudo);
-+	rtl8188e_ReadEFuse(pAdapter, efuseType, 0, mapLen, Efuse, pseudo);
- 
- 	rtl8188e_EfusePowerSwitch(pAdapter, false, false);
- }
+ 	return _SUCCESS;
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index b5d0cd332165..eed32dd6ee28 100644
+index 47bc2f6ee37e..8b7fde0a49f1 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -912,9 +912,9 @@ static void ReadEFuse_Pseudo(struct adapter *Adapter, u8 efuseType, u16 _offset,
- 	Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
+@@ -1181,7 +1181,7 @@ static u16 Hal_EfuseGetCurrentSize_Pseudo(struct adapter *pAdapter, bool bPseudo
+ 	return ret;
  }
  
--static void rtl8188e_ReadEFuse(struct adapter *Adapter, u8 efuseType,
--			       u16 _offset, u16 _size_byte, u8 *pbuf,
--			       bool bPseudoTest)
-+void rtl8188e_ReadEFuse(struct adapter *Adapter, u8 efuseType,
-+			u16 _offset, u16 _size_byte, u8 *pbuf,
-+			bool bPseudoTest)
+-static u16 rtl8188e_EfuseGetCurrentSize(struct adapter *pAdapter, u8 efuseType, bool bPseudoTest)
++u16 rtl8188e_EfuseGetCurrentSize(struct adapter *pAdapter, u8 efuseType, bool bPseudoTest)
  {
- 	if (bPseudoTest)
- 		ReadEFuse_Pseudo(Adapter, efuseType, _offset, _size_byte, pbuf, bPseudoTest);
+ 	u16	ret = 0;
+ 
+@@ -1323,7 +1323,7 @@ static bool hal_EfuseFixHeaderProcess(struct adapter *pAdapter, u8 efuseType, st
+ 			if (!PgWriteSuccess)
+ 				return false;
+ 			else
+-				efuse_addr = Efuse_GetCurrentSize(pAdapter, efuseType, bPseudoTest);
++				efuse_addr = rtl8188e_EfuseGetCurrentSize(pAdapter, efuseType, bPseudoTest);
+ 		} else {
+ 			efuse_addr = efuse_addr + (pFixPkt->word_cnts * 2) + 1;
+ 		}
+@@ -1612,7 +1612,7 @@ hal_EfusePgCheckAvailableAddr(
+ 	/* Change to check TYPE_EFUSE_MAP_LEN , because 8188E raw 256, logic map over 256. */
+ 	rtl8188e_EFUSE_GetEfuseDefinition(pAdapter, EFUSE_WIFI, TYPE_EFUSE_MAP_LEN, (void *)&efuse_max_available_len, false);
+ 
+-	if (Efuse_GetCurrentSize(pAdapter, efuseType, bPseudoTest) >= efuse_max_available_len)
++	if (rtl8188e_EfuseGetCurrentSize(pAdapter, efuseType, bPseudoTest) >= efuse_max_available_len)
+ 		return false;
+ 	return true;
+ }
 @@ -1782,7 +1782,6 @@ void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc)
  	pHalFunc->write_rfreg = &rtl8188e_PHY_SetRFReg;
  
  	/*  Efuse related function */
--	pHalFunc->ReadEFuse = &rtl8188e_ReadEFuse;
- 	pHalFunc->EFUSEGetEfuseDefinition = &rtl8188e_EFUSE_GetEfuseDefinition;
- 	pHalFunc->EfuseGetCurrentSize = &rtl8188e_EfuseGetCurrentSize;
+-	pHalFunc->EfuseGetCurrentSize = &rtl8188e_EfuseGetCurrentSize;
  	pHalFunc->Efuse_PgPacketRead = &rtl8188e_Efuse_PgPacketRead;
+ 	pHalFunc->Efuse_PgPacketWrite = &rtl8188e_Efuse_PgPacketWrite;
+ 	pHalFunc->Efuse_WordEnableDataWrite = &rtl8188e_Efuse_WordEnableDataWrite;
 diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 86456bac3a5a..e1bb1f30c7e9 100644
+index 6db73da08e2b..640195a4c830 100644
 --- a/drivers/staging/r8188eu/include/hal_intf.h
 +++ b/drivers/staging/r8188eu/include/hal_intf.h
 @@ -177,8 +177,6 @@ struct hal_ops {
  			       enum rf_radio_path eRFPath, u32 RegAddr,
  			       u32 BitMask, u32 Data);
  
--	void (*ReadEFuse)(struct adapter *padapter, u8 efuseType, u16 _offset,
--			  u16 _size_byte, u8 *pbuf, bool bPseudoTest);
- 	void (*EFUSEGetEfuseDefinition)(struct adapter *padapter, u8 efuseType,
- 					u8 type, void *pOut, bool bPseudoTest);
- 	u16	(*EfuseGetCurrentSize)(struct adapter *padapter, u8 efuseType,
-@@ -220,6 +218,9 @@ void rtl8188e_SetHalODMVar(struct adapter *Adapter,
- u32 rtl8188eu_InitPowerOn(struct adapter *adapt);
- 
- void rtl8188e_EfusePowerSwitch(struct adapter *pAdapter, u8 bWrite, u8 PwrState);
-+void rtl8188e_ReadEFuse(struct adapter *Adapter, u8 efuseType,
-+			u16 _offset, u16 _size_byte, u8 *pbuf,
-+			bool bPseudoTest);
+-	u16	(*EfuseGetCurrentSize)(struct adapter *padapter, u8 efuseType,
+-				       bool bPseudoTest);
+ 	int	(*Efuse_PgPacketRead)(struct adapter *adapter, u8 offset,
+ 				      u8 *data, bool bPseudoTest);
+ 	int	(*Efuse_PgPacketWrite)(struct adapter *padapter, u8 offset,
+@@ -221,6 +219,7 @@ void rtl8188e_ReadEFuse(struct adapter *Adapter, u8 efuseType,
+ 			bool bPseudoTest);
+ void rtl8188e_EFUSE_GetEfuseDefinition(struct adapter *pAdapter, u8 efuseType,
+ 				       u8 type, void *pOut, bool bPseudoTest);
++u16 rtl8188e_EfuseGetCurrentSize(struct adapter *pAdapter, u8 efuseType, bool bPseudoTest);
  
  void	rtw_hal_free_data(struct adapter *padapter);
  uint rtw_hal_init(struct adapter *padapter);
+diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
+index 1dc49d82abf4..5cd1313dbe36 100644
+--- a/drivers/staging/r8188eu/include/rtw_efuse.h
++++ b/drivers/staging/r8188eu/include/rtw_efuse.h
+@@ -111,7 +111,6 @@ u8 rtw_BT_efuse_map_read(struct adapter *adapter, u16 addr,
+ 			 u16 cnts, u8 *data);
+ u8 rtw_BT_efuse_map_write(struct adapter *adapter, u16 addr,
+ 			  u16 cnts, u8 *data);
+-u16 Efuse_GetCurrentSize(struct adapter *adapter, u8 efusetype, bool test);
+ u8 Efuse_CalculateWordCnts(u8 word_en);
+ void ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf, bool test);
+ u8 efuse_OneByteRead(struct adapter *adapter, u16 addr, u8 *data, bool test);
 -- 
 2.33.0
 
