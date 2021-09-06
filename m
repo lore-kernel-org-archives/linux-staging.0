@@ -1,106 +1,112 @@
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [194.109.24.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B833FC1
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 11:05:05 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id NCPsm6vHllQKhNCPtmQzSN; Mon, 06 Sep 2021 13:03:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1630926237; bh=mDvtFV9UjP+KgBf+7q8PbDmYnyjvS8LhvtNWmmO4/Uk=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=h7YHvb1CK1GEjunBsOYuF/d6z4r+chqjsNh4lVpvYcvwoggkr4d9tYKnqKfINSEkt
-	 oo+pfgRxAFKClLK8f7S5Cxmb+6WBbilsxULb2HqKSrdzNG2S4OPrqQhobmFdiJ76XA
-	 UjIEQnAOGIIRaiKIs1IMMxISszv0m84Hmrpg0g3u+g9oRRIRjpW3Hs6qUHrzadWh/r
-	 M1BMshXgsVbw6VB0fcF2oKPxtmysahQJ7qv2zXi0XQBOyFCnZ3Krl7G3yHkpjF463j
-	 F7l655g6L9dcZQ5xWMWXvEm+Ra7SahOoRKdIqsBfr+N+Rlsy9Whja/YFCR6NYZG+8h
-	 M2tVIjrgQSzKw==
-Subject: Re: [PATCH 0/8] staging: media: zoran: fusion in one module
-To: Corentin Labbe <clabbe@baylibre.com>, gregkh@linuxfoundation.org,
- mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20210903191540.3052775-1-clabbe@baylibre.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <efe035cc-1839-210f-c0d4-4d58801aa65c@xs4all.nl>
-Date: Mon, 6 Sep 2021 13:03:56 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6541E3FC1
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 12:37:01 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id u16so9653495wrn.5
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 05:37:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VX21Q1wpGiOpiva+IThVTrifsWOLftr6Zwi9vQzn0VI=;
+        b=q/npCZBG5L3lGLbMSdu4NMX3Ctk6Ad7I+cGARbRcucC/TQNttqexAphG2Xr950+CRn
+         lQXjILuqgzrdJANuQpKf4iojCSc53auX2OnwPuSi+KqCDYfm8LdaIykVVprQtKXhqkNh
+         ltB11KXTVtIzdjqSsrD/mUehKx6+M2HrJn3Ogh9pIdFf5L02P6z2gCBN/5+GxKU2E01V
+         j26omRs5aYCxRy8omLxTP7WK93BvTmx+qVk0puabyNlrtFh56vqbB0Ble1+sZ6AqXF2A
+         IvWeHtp8sDfCoqSiiE0KfG1Ruecnf+sckUzReZu1jadnU59cKoyKVkvQmhGvZLnKQglf
+         QCvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=VX21Q1wpGiOpiva+IThVTrifsWOLftr6Zwi9vQzn0VI=;
+        b=gmiKj30OU6JKVFteAhWG9Hf3Ol9HYNjXDCmePK7/bw6d68MFIRfXKb8lZuyBnhriyk
+         eUVUHsEG/xlxnkJseb7rscya+AQUbsDZCunoq9SRikOFZlz7ok0dRVilLnN7hsixkoQ6
+         wEl7JlHLCR5C5JxUQvyijem2Jim/GOv+SQ6zxr881hPADv9BQgaWHyk8z5mYXcsouoNP
+         r5Zrn0OnxhGxKibpJwZy5nNyi/k97ppTC3EfCWS4WPm9sU2eRLlD4O/b5M+41zftZyhU
+         laqaqB4hYQ3/9/2X/3465sgsSQpb832wga3jpkBI1+eMGGRO3QMt0nHYyfuDRzEpIl+Y
+         ByyQ==
+X-Gm-Message-State: AOAM5327DS8qrejp/D58sswdJmahP2NAHbMU7JxdnIKD+PZGOyGsM2pQ
+	nCZoxHMt6lv38T92UAK0lcjfhw==
+X-Google-Smtp-Source: ABdhPJwEMng/N0V1zZ4ZkG+iEuNFlsHHHf1I8nEkBFzbiKlIdgCCQhlygeCfux6P+CO7yWmAtu2tZQ==
+X-Received: by 2002:adf:c144:: with SMTP id w4mr13310866wre.398.1630931819430;
+        Mon, 06 Sep 2021 05:36:59 -0700 (PDT)
+Received: from ?IPv6:2001:861:44c0:66c0:9afb:57ba:5ea:2010? ([2001:861:44c0:66c0:9afb:57ba:5ea:2010])
+        by smtp.gmail.com with ESMTPSA id c2sm7744538wrs.60.2021.09.06.05.36.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Sep 2021 05:36:59 -0700 (PDT)
+Subject: Re: [PATCH] Media: meson: vdec: Use
+ devm_platform_ioremap_resource_byname()
+To: zhaoxiao <long870912@gmail.com>, mchehab@kernel.org, khilman@baylibre.com
+Cc: gregkh@linuxfoundation.org, jbrunet@baylibre.com,
+ martin.blumenstingl@googlemail.com, linux-media@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20210906070013.7362-1-long870912@gmail.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <1b6f9a78-c648-e8b0-2ae6-1922aad89c49@baylibre.com>
+Date: Mon, 6 Sep 2021 14:36:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210903191540.3052775-1-clabbe@baylibre.com>
+In-Reply-To: <20210906070013.7362-1-long870912@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJIXL08RwQgMNMzOYbe0M0VJlLntr2uNqP+LLvSAcYVjylm6uej9Wx4ry4BYBNOsaxT/1woOlqCnq/HGjhbnPEot+2QLc9CggTOnJLFl8Io7omw+8BB8
- mGgN2mJrKsxT1QWv3Wav2WvQeSKCDOjGtPVjZnxkcKCCloHzN+HUPdkEvciFs2VX5enEbb6BWK8b/XtG/JijRKRwyEnC+2WP4a7GNmjxAHPzHnvgbUKbsAaU
- vKgmsnxUXksAcIfM/GlTYRh2XqsWniIpRrHkYMBkYkBjwHmud7iu53p5qNvfwluIkJn//RrJXHrZ/opgKXK5lDFXfDhGI/XzP5QQSAv3y9zEbta4h2+XKEJr
- qGItXiPM+S8oWacsLHcDVlW2TNlzCYyQoqzsNmgNRbBazbvAESHGyA5StVfaACqcpndLDGaVkBRjX6xe/tY380px5hnViikZFiieqbsW6JZ3g54H6K0jEvMz
- 9nJcfvc1bcJ9S9QjAnMQq8c3KsyLj4i0Irt470PW/ozYNJ1yZf2nxW0P7Q8=
 
-Hi Corentin,
+Hi,
 
-I finally had the opportunity to test the staging zoran driver.
+In subject Medis should be media
 
-I found several issues when running v4l2-compliance -s (I posted a patch
-for that), but more seriously is the fact that trying to capture MJPG
-at resolutions 384x288 or less just hangs my PC. It works OK with 768x576.
-
-I discovered this when running 'v4l2-compliance -s -a -f'.
-
-BTW, why isn't the initial format equal to MJPG 768x576?
-I would expect that for these boards that should be the default format.
-
-Another issue is that the TODO should mention that for video output there
-should be a second video device node. And that's really something that
-has to be done before the zoran driver can be moved out of staging.
-
-It shouldn't be that hard to implement, I think.
-
-Right now it is impossible to run the compliance test for the output, since
-it doesn't even see it as an output.
-
-Regards,
-
-	Hans
-
-On 03/09/2021 21:15, Corentin Labbe wrote:
-> Hello
+On 06/09/2021 09:00, zhaoxiao wrote:
+> Use the devm_platform_ioremap_resource_byname() helper instead of
+> calling platform_get_resource_byname() and devm_ioremap_resource()
+> separately.
 > 
-> The main change of this serie is to fusion all zoran related modules in
-> one.
-> This fixes the load order problem when everything is built-in.
+> Signed-off-by: zhaoxiao <long870912@gmail.com>
+> ---
+>  drivers/staging/media/meson/vdec/vdec.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 > 
-> Regards
-> 
-> Corentin Labbe (8):
->   staging: media: zoran: move module parameter checks to zoran_probe
->   staging: media: zoran: use module_pci_driver
->   staging: media: zoran: rename debug module parameter
->   staging: media: zoran: add debugfs
->   staging: media: zoran: videocode: remove procfs
->   staging: media: zoran: fusion all modules
->   staging: media: zoran: remove vidmem
->   staging: media: zoran: move videodev alloc
-> 
->  drivers/staging/media/zoran/Kconfig        |  24 +-
->  drivers/staging/media/zoran/Makefile       |   8 +-
->  drivers/staging/media/zoran/videocodec.c   |  60 +----
->  drivers/staging/media/zoran/videocodec.h   |   5 +
->  drivers/staging/media/zoran/zoran.h        |   7 +-
->  drivers/staging/media/zoran/zoran_card.c   | 259 +++++++++++++--------
->  drivers/staging/media/zoran/zoran_driver.c |   5 +-
->  drivers/staging/media/zoran/zr36016.c      |  23 +-
->  drivers/staging/media/zoran/zr36016.h      |   2 +
->  drivers/staging/media/zoran/zr36050.c      |  20 +-
->  drivers/staging/media/zoran/zr36050.h      |   2 +
->  drivers/staging/media/zoran/zr36060.c      |  20 +-
->  drivers/staging/media/zoran/zr36060.h      |   2 +
->  13 files changed, 229 insertions(+), 208 deletions(-)
+> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+> index e51d69c4729d..8549d95be0f2 100644
+> --- a/drivers/staging/media/meson/vdec/vdec.c
+> +++ b/drivers/staging/media/meson/vdec/vdec.c
+> @@ -994,7 +994,6 @@ static int vdec_probe(struct platform_device *pdev)
+>  	struct device *dev = &pdev->dev;
+>  	struct video_device *vdev;
+>  	struct amvdec_core *core;
+> -	struct resource *r;
+>  	const struct of_device_id *of_id;
+>  	int irq;
+>  	int ret;
+> @@ -1006,13 +1005,11 @@ static int vdec_probe(struct platform_device *pdev)
+>  	core->dev = dev;
+>  	platform_set_drvdata(pdev, core);
+>  
+> -	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
+> -	core->dos_base = devm_ioremap_resource(dev, r);
+> +	core->dos_base = devm_platform_ioremap_resource_byname(pdev, "dos");
+>  	if (IS_ERR(core->dos_base))
+>  		return PTR_ERR(core->dos_base);
+>  
+> -	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
+> -	core->esparser_base = devm_ioremap_resource(dev, r);
+> +	core->esparser_base = devm_platform_ioremap_resource_byname(pdev, "esparser");
+>  	if (IS_ERR(core->esparser_base))
+>  		return PTR_ERR(core->esparser_base);
+>  
 > 
 
+With the subject fixed:
+
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
