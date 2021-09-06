@@ -1,41 +1,41 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C319272
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 19:03:09 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id t19so15107893ejr.8
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 12:03:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA093FC7
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 19:03:10 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id jg16so15155954ejc.1
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 12:03:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TwtcbicrqVzcOBpKF8LIDrbovh6REX7OM2xtMOK5yVY=;
-        b=OyLQzHK3JgBRyB9+COmigSykd2tQ8sKimgm7NaGKG2Sijc+slNXGdj2ZK5/KzGf2TS
-         Mo2RHg1HbD9QP96oCWMQJ9G/YjPb8H/NfT1Qax+yEoCZOosu8BWEnPul3xiPJ0IxlWY4
-         zz4HgtFK3+1UUbYkmXOKM/dAEJ0GbHRQU2Ae35jC4V4wSRSLeUXxq21y/tG3HKXaZcp0
-         bmhqsgIXVYuGgRLPiX70xhQA/IaxKuRDhIhy2Q4/FvQkYWc0dkcJRwUHiWTmtPCQjBNt
-         b45AtLQEqAdxvbs2AtIrAcwISjTvw8G3oDgWbKnalPmwaArO0Z34ASQFexDS8AgjHdFh
-         9+RA==
+        bh=PTO2QXrKZY0AGmkUtVFYURWGtcSjnC2Lr7CY2NRAnG4=;
+        b=YwOnebAFXKuHr8VTn2Nyv32yAWhmULRkKiOaFAEk9TykEDihOsVZQ0EG/nXwF6XGCA
+         h8SppyVrFfgaMccjaJNvzNmK//45EHkXCSPJQ/Q6vhBmJ/XrPmhMlgr3a31cE74dPETZ
+         yqj/nGamn5SKYr1ppSrd2UXtvHKi8k1AIFgnCEiQd5IwoQcHt1x23U5M6mkzMYDB7hxC
+         ZBd350Y2/yBn/bQR0QfAFkXGKvgBCAwzc5p08s/cRtcVwXTfCrh7aKXJueCOv/jVIUsZ
+         8EOcLeqyJQz4xpyIJBarvlOtHdFgjpUeupcFO98wuHcL76LXc3wTNJhmgu2uDU3NACcy
+         47+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TwtcbicrqVzcOBpKF8LIDrbovh6REX7OM2xtMOK5yVY=;
-        b=DmyWwUcllbxjPrl/lPsXbyTdDIFKCzag+q6w6WWzZaPbBWiz5qlEw4bVb/y3NEIx+l
-         xVaZ1WzBmRrT0K8qxtfCrVulUlG81Cjm9dsnDxB4no6ZTpiROCqdhqJtWBJOeYkYnftr
-         zABMjO66zky8FyygRnwfrQ+SpZKV2O0UVYoIz/WrEzXi9Qt8laEnu0s8zQG+xHTCOYbx
-         S0d3YYW3YRWQ/tTrZeqSO55zpjFvAcbRYrcQrsdBWClMbYgOtDHTshF9RK/tAY6TR4Ez
-         tgb5KJp3sdhu7dwKJpJIsBPmz5Eo9xYTUY1zk2RWBgjEiGaUMwo8+knG+Di8ODPeMVnh
-         9P0g==
-X-Gm-Message-State: AOAM530NGCOrapkYhConzMsUcMxPhOm7NAglcR84rNq05dC+IrexYrUP
-	Pon/8gvDX1FSLnfCMmLRRJc=
-X-Google-Smtp-Source: ABdhPJxnCGGYTxLXKxgRw/ESB1IVe0JNCooQAQ5II1cSJ0dXub0qnuov20nZ7eEvN42r5ggy9D3WFw==
-X-Received: by 2002:a17:906:2642:: with SMTP id i2mr14900238ejc.323.1630954988245;
+        bh=PTO2QXrKZY0AGmkUtVFYURWGtcSjnC2Lr7CY2NRAnG4=;
+        b=iXFgP9nU0alHvXgJeLr+RNO1qu64usqD6kAN4QvmaQM4tZVyTuKatOIllXM76T/Ccz
+         /ZjvDyVywo3cPpYCcbDwFWQS5tA4rPJaK4IC2ZPwFuA8N0Uo6Q4fFJqTM7HAtR5fL9Bw
+         ErZ0AyNkMrBPukqZUhiiPeg1ZOxbphMnQ0vH0PpFq5rleF92NvN2TeouG9I9N1LzG0gl
+         FMQqq/jAOcMqTK4bpHbiuab4qn8x5hs9HkKbcLhRiNyF7ZvRRY47FAWxWQLaTLr47WJ2
+         wZ/KoWoppGQ3rcBzcMc1X+Y0Qb6KIL0R9h47QsvpD3vH4ol5DQ52sUWktgfnaOBomsR5
+         NUEQ==
+X-Gm-Message-State: AOAM5336EuBkzf/fr3NjqoNIoO//XDexBn1U/fEfNRzkHpYKZ1bJpaN+
+	vWfRDJGjVTDtQsp0P/IcvwI=
+X-Google-Smtp-Source: ABdhPJx2cdaZBxVejVEmjInER6IaxiP22CRXYCqxWtzm3sWV2Eo4EeyBw8awRRr1Ka3kuBuC+pSVvQ==
+X-Received: by 2002:a17:906:878f:: with SMTP id za15mr14858137ejb.140.1630954988928;
         Mon, 06 Sep 2021 12:03:08 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id k15sm4372018ejb.92.2021.09.06.12.03.07
+        by smtp.gmail.com with ESMTPSA id k15sm4372018ejb.92.2021.09.06.12.03.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 12:03:07 -0700 (PDT)
+        Mon, 06 Sep 2021 12:03:08 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 31/40] staging: r8188eu: remove useless assignment
-Date: Mon,  6 Sep 2021 21:02:14 +0200
-Message-Id: <20210906190223.11396-32-straube.linux@gmail.com>
+Subject: [PATCH v3 32/40] staging: r8188eu: remove AntDivBeforeLinkHandler from hal_ops
+Date: Mon,  6 Sep 2021 21:02:15 +0200
+Message-Id: <20210906190223.11396-33-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210906190223.11396-1-straube.linux@gmail.com>
 References: <20210906190223.11396-1-straube.linux@gmail.com>
@@ -59,30 +59,81 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The local variable badworden is set to a new value immediately after
-an assignment. Remove the useless assignment and initialization.
+Remove AntDivBeforeLinkHandler from hal_ops and remove its wrapper
+rtw_hal_antdiv_before_linked(). Call AntDivBeforeLink8188E() directly
+instead.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c     | 2 +-
+ drivers/staging/r8188eu/hal/hal_intf.c          | 7 -------
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 1 -
+ drivers/staging/r8188eu/include/hal_intf.h      | 2 --
+ 4 files changed, 1 insertion(+), 11 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 2bdc1ed18149..ef04845d7a71 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -6370,7 +6370,7 @@ void site_survey(struct adapter *padapter)
+ 			/*  20100721:Interrupt scan operation here. */
+ 			/*  For SW antenna diversity before link, it needs to switch to another antenna and scan again. */
+ 			/*  It compares the scan result and select beter one to do connection. */
+-			if (rtw_hal_antdiv_before_linked(padapter)) {
++			if (AntDivBeforeLink8188E(padapter)) {
+ 				pmlmeext->sitesurvey_res.bss_cnt = 0;
+ 				pmlmeext->sitesurvey_res.channel_idx = -1;
+ 				pmlmeext->chan_scan_time = SURVEY_TO / 2;
+diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
+index 27adaea61f84..1bec02b1dede 100644
+--- a/drivers/staging/r8188eu/hal/hal_intf.c
++++ b/drivers/staging/r8188eu/hal/hal_intf.c
+@@ -206,13 +206,6 @@ void rtw_hal_bcn_related_reg_setting(struct adapter *adapt)
+ 		adapt->HalFunc.SetBeaconRelatedRegistersHandler(adapt);
+ }
+ 
+-u8 rtw_hal_antdiv_before_linked(struct adapter *adapt)
+-{
+-	if (adapt->HalFunc.AntDivBeforeLinkHandler)
+-		return adapt->HalFunc.AntDivBeforeLinkHandler(adapt);
+-	return false;
+-}
+-
+ void rtw_hal_antdiv_rssi_compared(struct adapter *adapt,
+ 				  struct wlan_bssid_ex *dst,
+ 				  struct wlan_bssid_ex *src)
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index eb30a6fcd8d0..33d4e534f05e 100644
+index 33d4e534f05e..62fd62ced0e5 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -1438,10 +1438,9 @@ static bool hal_EfusePgPacketWrite1ByteHeader(struct adapter *pAdapter, u8 efuse
- static bool hal_EfusePgPacketWriteData(struct adapter *pAdapter, u8 efuseType, u16 *pAddr, struct pgpkt *pTargetPkt, bool bPseudoTest)
- {
- 	u16	efuse_addr = *pAddr;
--	u8 badworden = 0;
-+	u8 badworden;
- 	u32	PgWriteSuccess = 0;
+@@ -1773,7 +1773,6 @@ void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc)
+ 	pHalFunc->run_thread = &rtl8188e_start_thread;
+ 	pHalFunc->cancel_thread = &rtl8188e_stop_thread;
  
--	badworden = 0x0f;
- 	badworden = rtl8188e_Efuse_WordEnableDataWrite(pAdapter, efuse_addr + 1, pTargetPkt->word_en, pTargetPkt->data, bPseudoTest);
- 	if (badworden == 0x0F) {
- 		/*  write ok */
+-	pHalFunc->AntDivBeforeLinkHandler = &AntDivBeforeLink8188E;
+ 	pHalFunc->AntDivCompareHandler = &AntDivCompare8188E;
+ 	pHalFunc->read_bbreg = &rtl8188e_PHY_QueryBBReg;
+ 	pHalFunc->write_bbreg = &rtl8188e_PHY_SetBBReg;
+diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
+index 4b937bd2c63c..929e861cc81b 100644
+--- a/drivers/staging/r8188eu/include/hal_intf.h
++++ b/drivers/staging/r8188eu/include/hal_intf.h
+@@ -156,7 +156,6 @@ struct hal_ops {
+ 	void	(*run_thread)(struct adapter *adapter);
+ 	void	(*cancel_thread)(struct adapter *adapter);
+ 
+-	u8	(*AntDivBeforeLinkHandler)(struct adapter *adapter);
+ 	void	(*AntDivCompareHandler)(struct adapter *adapter,
+ 					struct wlan_bssid_ex *dst,
+ 					struct wlan_bssid_ex *src);
+@@ -256,7 +255,6 @@ void	rtw_hal_write_rfreg(struct adapter *padapter,
+ 			    enum rf_radio_path eRFPath, u32 RegAddr,
+ 			    u32 BitMask, u32 Data);
+ 
+-u8	rtw_hal_antdiv_before_linked(struct adapter *padapter);
+ void	rtw_hal_antdiv_rssi_compared(struct adapter *padapter,
+ 				     struct wlan_bssid_ex *dst,
+ 				     struct wlan_bssid_ex *src);
 -- 
 2.33.0
 
