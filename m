@@ -1,126 +1,109 @@
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF60072
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 15:07:14 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id NGCDmvT9n0e6wNGCEmjmQm; Mon, 06 Sep 2021 17:06:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1630940766; bh=yeHa/t0AGOYf+3WJOb6kO5tvc+5inH6bRJkSTgSvV0I=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=PMI6lg4+idACUqyL35yCYZ9GGGWKr8OcG6ZYfC8o9ti4eowRMBfSi2HLmkvXsYc8s
-	 PXa1ww5aLk25Y3iJZFCFUYm88bEIJRbUdY7JnEIuqwj691uXMtSImVgd8NPuIk+fwr
-	 vSJwKvapZ6+8vP7hodx8Gk4TPjND67bZlpFnIUBpsjCRZR9TZTVUCoIpFEY/KpC20i
-	 hmX3hw8UXiJqj73O6bOMgGrRwDggX52UQfGymVkjkeEj8R76TVAXAkSgBm9Q4dpcNy
-	 LgLSo1yRRcsHxpyMCNMyWH4xgFGw28B46AEEOUZ7Kz4QpT2CBLJfkc18lKCdsquwAn
-	 WepygwiopS1UQ==
-Subject: Re: [PATCH 0/8] staging: media: zoran: fusion in one module
-To: LABBE Corentin <clabbe@baylibre.com>
-Cc: gregkh@linuxfoundation.org, mchehab@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20210903191540.3052775-1-clabbe@baylibre.com>
- <efe035cc-1839-210f-c0d4-4d58801aa65c@xs4all.nl> <YTYcf3We4dcvBx1h@Red>
- <940d5bdf-89b8-b5a4-f485-aa5b1c51286b@xs4all.nl> <YTYsL5i0B48k/V0Z@Red>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3745aef0-bab0-06ee-6073-892b80fb4c8b@xs4all.nl>
-Date: Mon, 6 Sep 2021 17:06:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BF572
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 16:00:02 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id y6so12060109lje.2
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 09:00:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=twGtmfDzBAHKvF2VlmhhZjcU0XdG5QkPmLUmZIfBd9M=;
+        b=cg1Zl9vw6PAmX1heiKgpoamPuYY+GjEHjZiY9YEUJAARcXycY+FkSjeLqMrKvQ2i2d
+         OeydYLRYbIJSGYZXYEsqKIuUkkaxRkoDOEbgfLFElQX45twLfS0Jqfkr0Ny2vkeyFZIg
+         IhC9RZ4lJMdtdtEQEst/ovba4P2PCLK0u9WslyuC75sC9BS+rJPHNsMSV3KkwQ6TQK5O
+         FZOHXhqrOK2M2+JdbpkfoAI41ChHJTaWQOoXF5JAQEuo5VguslxpVRxg6wLkJcvoAHzd
+         VGzedP7SDV0fcjQ/tderm5PubQhljnAiYBQbfuyjYZVn+dtgAil1EUbV4MEJUS4B88oM
+         xxjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=twGtmfDzBAHKvF2VlmhhZjcU0XdG5QkPmLUmZIfBd9M=;
+        b=V6d3r7S5CMrD2+ZEGKezPok4nm0sErmXPK3qM9jD00GKUP+M9js2eYI5VJCYuWZFZl
+         SvElsCDBfA+cbdt+NUIsq6j6fyrm/NtYVDHa0mkyGmI/HQ6FtioqLD+jXNlo9QGxroV5
+         vaOHUKqRWIYpkMe0tTvT6MFvce1J1CiIG5H4bA0UM/Usz2mvqFw8AoYlPh2OSpi3aicD
+         ySPjqZ0sJsGBdmlBe8rna5eNvs6C2f56NANA8qUIJJukxYKMqEesYjc1oQ9TCiBUYhRF
+         7xZgJFjSYZB3vR5Nfcy1dybna8QXvhglwVCDFSzXebN9//zQaQnd6BN6GrkIjm8rk7fn
+         6CRQ==
+X-Gm-Message-State: AOAM532NgyuGFhzdYa4rTEcUShfGocRYLED30p0mQm/mJTAIdbJjccAd
+	mY+sfB50SCXV3CtnvQgXNQ0=
+X-Google-Smtp-Source: ABdhPJx+6euSSK9xV5ERLg3qVdUOaGMMAUNxtfkUYSfuvogXZjwh2D4jgs+mt4WJM1P2Ueb930dlAg==
+X-Received: by 2002:a2e:9455:: with SMTP id o21mr11054506ljh.103.1630944001118;
+        Mon, 06 Sep 2021 09:00:01 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.70])
+        by smtp.gmail.com with UTF8SMTPSA id z16sm771345lfd.21.2021.09.06.09.00.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Sep 2021 09:00:00 -0700 (PDT)
+Message-ID: <0f13057d-f33a-9efa-4cae-937169abbcd8@gmail.com>
+Date: Mon, 6 Sep 2021 18:59:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YTYsL5i0B48k/V0Z@Red>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH] staging: r8188eu: fix type mismacth
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfPe4A5wkLGAmuzlYMzRdamij6d8UPn4nlc9TZZD7roox9yA20SQmNTRN9cmzE0US4z3HGIflLVfCJ7NLjEHYE1Z9cHTRlXpU1xGDT/qlEf+/I9iv5ljq
- R+BDC2m3dOyU7l1EsLjBP0JaBvS/G+TItpqfmIlw8ir3e97cAiL5en3g07R7nLHHcA4V0UtobPd8+EPuMiWGlakdkltPcTW+NDNT51N75dw6YQZERY6ht5Kg
- DPRKCfgNqFT3hujB5BQAQjUiT9mHaqlbVrGt8O6ZBmPmXqI9MfCzOHTTNW5vsemgFX2RvyIsXFLg9IiSKsNxIeJBZapp9Isn42+8lhOwOXlNiQclbN8ifZC4
- bpFeKzGbnroE6iCxvZBRT9dIuADg6x1CPySnwJsViot8CzNXaYcKQy4Ow1DO7bq89dj8SOepfcq+7JVRSzkiL3B9o20CpiR7dgoDbZfhBS8bFk9A/5M+oJJq
- zUquhXQtuuz/w70eeQ87VwynNDuYnX9CNy5+ScZyPAHg6Pm1/0fJwKwfLYE=
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ gregkh@linuxfoundation.org, straube.linux@gmail.com,
+ fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210905205216.24831-1-paskripkin@gmail.com>
+ <20210906065650.GD1957@kadam>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20210906065650.GD1957@kadam>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 06/09/2021 16:56, LABBE Corentin wrote:
-> Le Mon, Sep 06, 2021 at 04:11:16PM +0200, Hans Verkuil a écrit :
->> On 06/09/2021 15:49, LABBE Corentin wrote:
->>> Le Mon, Sep 06, 2021 at 01:03:56PM +0200, Hans Verkuil a écrit :
->>>> Hi Corentin,
->>>>
->>>> I finally had the opportunity to test the staging zoran driver.
->>>>
->>>> I found several issues when running v4l2-compliance -s (I posted a patch
->>>> for that), but more seriously is the fact that trying to capture MJPG
->>>> at resolutions 384x288 or less just hangs my PC. It works OK with 768x576.
->>>>
->>>> I discovered this when running 'v4l2-compliance -s -a -f'.
->>>>
->>>> BTW, why isn't the initial format equal to MJPG 768x576?
->>>> I would expect that for these boards that should be the default format.
->>>>
->>>> Another issue is that the TODO should mention that for video output there
->>>> should be a second video device node. And that's really something that
->>>> has to be done before the zoran driver can be moved out of staging.
->>>>
->>>> It shouldn't be that hard to implement, I think.
->>>>
->>>> Right now it is impossible to run the compliance test for the output, since
->>>> it doesn't even see it as an output.
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>
->>> I work on having a second device for output, (it is the reason of "staging: media: zoran: move videodev alloc" which will help).
->>>
->>> But I still have the problem of non working output.
->>>
->>> Does output is really needed for going out of staging ?
->>> Probably nobody have it working for ages. The only way to had it was to use an old mplayer output which is broken since so many time.
->>> Note that this plugin will never work again.
->>>
->>> The only way to work on output is to use ffmpeg which just recently have suport for writing non-raw video to V4L.
->>
->> Then just remove it. The code for output remains in the git history so if someone wants to
->> resurrect that, then that's always possible.
->>
->> The point is that I don't want to have half-baked output support in mainline.
->>
->> But what exactly is the problem with getting output to work? Doesn't it just decode
->> MJPEG frames? (Sorry if you explained it before, it's so long ago that I looked at this
->> that I forgot the details)
->>
+On 9/6/21 09:56, Dan Carpenter wrote:
+> On Sun, Sep 05, 2021 at 11:52:16PM +0300, Pavel Skripkin wrote:
+>> smatch says:
+>> rtw_cmd.c:1165 rtw_setassocsta_cmd() warn: struct type mismatch 'set_stakey_rsp vs set_assocsta_rsp'
+>> 
+>> Since psetassocsta_rsp has struct set_stakey_rsp * type, it looks like
+>> copy-paste failure. This error didn't cause any bugs, because
+>> sizeof(struct set_assocsta_parm) > sizeof(struct set_stakey_rsp), but
+>> there is no reason for allocation extra unused memory
+>> 
+>> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for RTL8188eu driver")
+>> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+>> ---
+>>  drivers/staging/r8188eu/core/rtw_cmd.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+>> index fee4208dacba..afe6c7fa594d 100644
+>> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
+>> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+>> @@ -1162,7 +1162,7 @@ u8 rtw_setassocsta_cmd(struct adapter  *padapter, u8 *mac_addr)
+>>  		goto exit;
+>>  	}
+>>  
+>> -	psetassocsta_rsp = kzalloc(sizeof(struct set_assocsta_rsp), GFP_ATOMIC);
+>> +	psetassocsta_rsp = kzalloc(sizeof(struct set_stakey_rsp), GFP_ATOMIC);
+>>  	if (!psetassocsta_rsp) {
+>>  		kfree(ph2c);
+>>  		kfree(psetassocsta_para);
 > 
-> The first problem is that zoran dont like comment COM/APP0 markers.
-> This imply a per buffer filtering but this is already handled in my next branch.
+> I'm not sure this is correct.  Might be, might be not.  But we use
+> sizeof(struct set_assocsta_rsp) later in the function so it likely leads
+> to memory corruption.
 > 
-> But the remaining problem is that any output is like http://kernel.montjoie.ovh/zoran_out.png.
-> 
-> I hacked the driver to grab a working buffer when doing input and overrun output buffer later.
-> And the result is a working static output.
-> So the hw handling is good and the problem came from the data feeding/handling.
-> 
-> I believe that something is wrong in what ffmpeg negociate/send.
-> 
-> Regards
+>          ph2c->rsp = (u8 *)psetassocsta_rsp;
+>          ph2c->rspsz = sizeof(struct set_assocsta_rsp);
 > 
 
-Why not use v4l2-ctl to capture video and then replay it? You should be able to do this:
+Hi, Dan!
 
-v4l2-ctl --stream-mmap --stream-to-hdr cap.hdr --stream-count 60
 
-then this:
+Unfortunately, this function is unused, so I will just remove it in v2 :)
 
-v4l2-ctl --stream-out-mmap --stream-from-hdr cap.hdr
 
-The -hdr options write the frames prefixed with a header containing the length of the frame.
-That way you can capture variable-length frames and stream them out with the same payload
-length.
-
-Regards,
-
-	Hans
+With regards,
+Pavel Skripkin
