@@ -1,206 +1,100 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611533FC1
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 12:48:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E9F86101C;
-	Mon,  6 Sep 2021 12:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1630932484;
-	bh=/ST7X1c8DQCgiY0ou0QT7ESHMj9xrSDt45dcYJeTI6s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Hb5DLefgMiRLLs3wpEyKeNKxcxpbPi0GZGjRlW9F1ZDNLReahO5kZ1ILLkAS8C4Av
-	 SuFFBunuJTqsIiPRplbBWRvkofr4O+63MkH3twp30T73/lyjhKOxX7G0EeXpX5dcdp
-	 /o3mPq7cjD60TOuYOAVLTeQwMKAi0b00wtKrMhlXvtqjkcuc/bDdk4B4HgNUpMw50f
-	 J4cyXs3lw2bhxMY/s5JfxLsaOl+jpfZICHwFy1CiIy09jsbBLDIYpVcsEjNy0T3Tfr
-	 Iz/jzEE9Yyfj6zfBPHClxSCaKUx6yjWFVdzmhxPjIhFgA1rCNNh1HU9jd3ZrxuooGg
-	 Yy6CNLOfhALJQ==
-Received: from johan by xi with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1mNE2R-0005pf-MK; Mon, 06 Sep 2021 14:47:51 +0200
-From: Johan Hovold <johan@kernel.org>
-To: David Lin <dtwlin@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: greybus: uart: fix tty use after free
-Date: Mon,  6 Sep 2021 14:45:38 +0200
-Message-Id: <20210906124538.22358-1-johan@kernel.org>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A553FC1
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 13:36:51 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id n39so2911805wms.1
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 06:36:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=BAhGQaiUNFMd0cF59B0SMEJVdU2tWj7S2/LF/UKcv6g=;
+        b=RYSOiZFCjTkL418WGcVP8CEyv+CIL2CdD4Mr508ZMphamikcEWmCQYwh2rSgJSpjIj
+         R7adpHoBEoteB8/pbIsVPFHdfwKjhMAEQ8Zpi/YujLxueK6V4bjolnfkAZ1KnlyMZez6
+         A0r4Cs6ZxfawdLnGEnPiY1iRnYAkxaIQJceBww/0hDtoj8PxdMAXVK1qOz/VO5b/zzbQ
+         CqGWUqebJtpfryjTuDyFV7TfNsN6KW9hIyWluZ5qM1rJV/XDF0+LeC6SvnRl224EEW8T
+         HL6BXgWe0j32pQZ/DlegkQa6ym5eozBwadSbkxve+gfZ45jinlFvgqEipB+Eb8PycuDV
+         WOBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=BAhGQaiUNFMd0cF59B0SMEJVdU2tWj7S2/LF/UKcv6g=;
+        b=d1tWOiyVMHG59t9iON2qZBa984gBl3wpYzCeH7U+26/5fn1rHtUPVTSD9pYVBVxZYL
+         gsc0ovOa2W9PSYomZ0hc/FNTTFEfEmddO9W91l5fY1rfl2f5YLsGpjxNrr4guqZqzBD2
+         vWhLem6R3jVWTgjv6mDQxzyUi5H8j+838prHwVD24eG0PXL99Xxzm/acYRr6tRprxKJW
+         MQwWibafRd9FtcE3oK93FiW0UlIoMGEdIjtqXHJpFmo0iTUh5KS81QqLYHd5m5qoawxa
+         J0O8b++/uNMWCpk/XjWgxQw8LryrJCD8hYTKOhJ/qAGTWgFW1d60QAbscFMd3X7iiShn
+         s+xA==
+X-Gm-Message-State: AOAM5305/ogetkOY8AZzSNc0wIRDkhYl7jZe8YtyqupjD1TZPA6hU+nl
+	ru401AMuWy4KK10RoGD/GnEkFA==
+X-Google-Smtp-Source: ABdhPJxhQ8DPhLD12SafiRBRfu4OijkIySpx5v+sXRBz4eKpz4sMYsbNfXMKlBllmBy+mdlAHXWmwQ==
+X-Received: by 2002:a05:600c:3502:: with SMTP id h2mr11686505wmq.182.1630935409867;
+        Mon, 06 Sep 2021 06:36:49 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id q195sm7559994wme.37.2021.09.06.06.36.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Sep 2021 06:36:49 -0700 (PDT)
+Date: Mon, 6 Sep 2021 15:36:43 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: mchehab@kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 4/8] staging: media: zoran: add debugfs
+Message-ID: <YTYZaxjiKzVurMEF@Red>
+References: <20210903191540.3052775-1-clabbe@baylibre.com>
+ <20210903191540.3052775-5-clabbe@baylibre.com>
+ <YTMJvI1C1OmBgdeI@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YTMJvI1C1OmBgdeI@kroah.com>
 
-User space can hold a tty open indefinitely and tty drivers must not
-release the underlying structures until the last user is gone.
+Le Sat, Sep 04, 2021 at 07:53:00AM +0200, Greg KH a écrit :
+> On Fri, Sep 03, 2021 at 07:15:36PM +0000, Corentin Labbe wrote:
+> > Add debugfs for displaying zoran debug and stats information.
+> > 
+> > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> > ---
+> >  drivers/staging/media/zoran/Kconfig      | 10 ++++++
+> >  drivers/staging/media/zoran/zoran.h      |  5 +++
+> >  drivers/staging/media/zoran/zoran_card.c | 39 ++++++++++++++++++++++++
+> >  3 files changed, 54 insertions(+)
+> > 
+> > +#ifdef CONFIG_VIDEO_ZORAN_DEBUG
+> > +	struct dentry *dbgfs_dir;
+> > +	struct dentry *dbgfs_file;
+> 
+> No need for these, the file is never referenced and the directory can be
+> looked up when you want to remove it.
+> 
+> > +#endif
+[...]
+> > +#ifdef CONFIG_VIDEO_ZORAN_DEBUG
+> > +	zr->dbgfs_dir = debugfs_create_dir(ZR_DEVNAME(zr), NULL);
+> > +	zr->dbgfs_file = debugfs_create_file("debug", 0444,
+> > +					      zr->dbgfs_dir, zr,
+> > +					      &zoran_debugfs_fops);
+> > +#endif
+> 
+> Wait, when are you removing the files when the device is removed?
+> 
+> That needs to be fixed no matter what before this patch is accepted.
+> 
 
-Switch to using the tty-port reference counter to manage the life time
-of the greybus tty state to avoid use after free after a disconnect.
+Hello
 
-Fixes: a18e15175708 ("greybus: more uart work")
-Cc: stable@vger.kernel.org      # 4.9
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/staging/greybus/uart.c | 62 ++++++++++++++++++----------------
- 1 file changed, 32 insertions(+), 30 deletions(-)
+Sorry to have forgotten this.
+I will fix this.
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 73f01ed1e5b7..a943fce322be 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -761,6 +761,17 @@ static void gb_tty_port_shutdown(struct tty_port *port)
- 	gbphy_runtime_put_autosuspend(gb_tty->gbphy_dev);
- }
- 
-+static void gb_tty_port_destruct(struct tty_port *port)
-+{
-+	struct gb_tty *gb_tty = container_of(port, struct gb_tty, port);
-+
-+	if (gb_tty->minor != GB_NUM_MINORS)
-+		release_minor(gb_tty);
-+	kfifo_free(&gb_tty->write_fifo);
-+	kfree(gb_tty->buffer);
-+	kfree(gb_tty);
-+}
-+
- static const struct tty_operations gb_ops = {
- 	.install =		gb_tty_install,
- 	.open =			gb_tty_open,
-@@ -786,6 +797,7 @@ static const struct tty_port_operations gb_port_ops = {
- 	.dtr_rts =		gb_tty_dtr_rts,
- 	.activate =		gb_tty_port_activate,
- 	.shutdown =		gb_tty_port_shutdown,
-+	.destruct =		gb_tty_port_destruct,
- };
- 
- static int gb_uart_probe(struct gbphy_device *gbphy_dev,
-@@ -798,17 +810,11 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 	int retval;
- 	int minor;
- 
--	gb_tty = kzalloc(sizeof(*gb_tty), GFP_KERNEL);
--	if (!gb_tty)
--		return -ENOMEM;
--
- 	connection = gb_connection_create(gbphy_dev->bundle,
- 					  le16_to_cpu(gbphy_dev->cport_desc->id),
- 					  gb_uart_request_handler);
--	if (IS_ERR(connection)) {
--		retval = PTR_ERR(connection);
--		goto exit_tty_free;
--	}
-+	if (IS_ERR(connection))
-+		return PTR_ERR(connection);
- 
- 	max_payload = gb_operation_get_payload_size_max(connection);
- 	if (max_payload < sizeof(struct gb_uart_send_data_request)) {
-@@ -816,13 +822,23 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 		goto exit_connection_destroy;
- 	}
- 
-+	gb_tty = kzalloc(sizeof(*gb_tty), GFP_KERNEL);
-+	if (!gb_tty) {
-+		retval = -ENOMEM;
-+		goto exit_connection_destroy;
-+	}
-+
-+	tty_port_init(&gb_tty->port);
-+	gb_tty->port.ops = &gb_port_ops;
-+	gb_tty->minor = GB_NUM_MINORS;
-+
- 	gb_tty->buffer_payload_max = max_payload -
- 			sizeof(struct gb_uart_send_data_request);
- 
- 	gb_tty->buffer = kzalloc(gb_tty->buffer_payload_max, GFP_KERNEL);
- 	if (!gb_tty->buffer) {
- 		retval = -ENOMEM;
--		goto exit_connection_destroy;
-+		goto exit_put_port;
- 	}
- 
- 	INIT_WORK(&gb_tty->tx_work, gb_uart_tx_write_work);
-@@ -830,7 +846,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 	retval = kfifo_alloc(&gb_tty->write_fifo, GB_UART_WRITE_FIFO_SIZE,
- 			     GFP_KERNEL);
- 	if (retval)
--		goto exit_buf_free;
-+		goto exit_put_port;
- 
- 	gb_tty->credits = GB_UART_FIRMWARE_CREDITS;
- 	init_completion(&gb_tty->credits_complete);
-@@ -844,7 +860,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 		} else {
- 			retval = minor;
- 		}
--		goto exit_kfifo_free;
-+		goto exit_put_port;
- 	}
- 
- 	gb_tty->minor = minor;
-@@ -853,9 +869,6 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 	init_waitqueue_head(&gb_tty->wioctl);
- 	mutex_init(&gb_tty->mutex);
- 
--	tty_port_init(&gb_tty->port);
--	gb_tty->port.ops = &gb_port_ops;
--
- 	gb_tty->connection = connection;
- 	gb_tty->gbphy_dev = gbphy_dev;
- 	gb_connection_set_data(connection, gb_tty);
-@@ -863,7 +876,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 
- 	retval = gb_connection_enable_tx(connection);
- 	if (retval)
--		goto exit_release_minor;
-+		goto exit_put_port;
- 
- 	send_control(gb_tty, gb_tty->ctrlout);
- 
-@@ -890,16 +903,10 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
- 
- exit_connection_disable:
- 	gb_connection_disable(connection);
--exit_release_minor:
--	release_minor(gb_tty);
--exit_kfifo_free:
--	kfifo_free(&gb_tty->write_fifo);
--exit_buf_free:
--	kfree(gb_tty->buffer);
-+exit_put_port:
-+	tty_port_put(&gb_tty->port);
- exit_connection_destroy:
- 	gb_connection_destroy(connection);
--exit_tty_free:
--	kfree(gb_tty);
- 
- 	return retval;
- }
-@@ -930,15 +937,10 @@ static void gb_uart_remove(struct gbphy_device *gbphy_dev)
- 	gb_connection_disable_rx(connection);
- 	tty_unregister_device(gb_tty_driver, gb_tty->minor);
- 
--	/* FIXME - free transmit / receive buffers */
--
- 	gb_connection_disable(connection);
--	tty_port_destroy(&gb_tty->port);
- 	gb_connection_destroy(connection);
--	release_minor(gb_tty);
--	kfifo_free(&gb_tty->write_fifo);
--	kfree(gb_tty->buffer);
--	kfree(gb_tty);
-+
-+	tty_port_put(&gb_tty->port);
- }
- 
- static int gb_tty_init(void)
--- 
-2.32.0
-
+Thanks
+Regards
