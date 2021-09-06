@@ -1,68 +1,99 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [194.109.24.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DB73FC1
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 14:08:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F74760F13;
-	Mon,  6 Sep 2021 14:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630937303;
-	bh=EKzrg0s9cAQ3WAFURVYWWL7gE0UNIfSw36IhF4UpEiU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hzq2yz7XYNf9PG/NrOC1A9DkoIlxDOeABS4elyfIWQDd/IoGJQBSJJCLLfuMlVuSB
-	 v32c5QfsDac53b+YWY3MA0Gc6bf/kNSfzUFBb2gpBqFWTJDqzKDTfip2TYb7zEsdxk
-	 ZRtbkESR+Ipbs7Qz6cRnZ2r6wdwLY2FDLW/5Q8HM=
-Date: Mon, 6 Sep 2021 16:08:20 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] staging: r8188eu: remove _io_ops structure
-Message-ID: <YTYg1PA94K2IPNWl@kroah.com>
-References: <20210904220048.12822-1-fmdefrancesco@gmail.com>
- <20210904220048.12822-2-fmdefrancesco@gmail.com>
- <YTYeGH+5MG5OeEbi@kroah.com>
- <90459a0f-a32f-bf45-c790-19a03673d6fc@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FAC3FC1
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 14:11:24 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud7.xs4all.net with ESMTPA
+	id NFLAmv8PJ0e6wNFLBmjYlP; Mon, 06 Sep 2021 16:11:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1630937477; bh=JOLzZ7VqRiUX50FvIiVUIPyGghClF0+xkw331cYUrqo=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=Y1aeMPJ5mxvYANUEvGy1NKDZRyMin52EK9fTg046OigPHj1YeEPHSMKOeR7D4HT2F
+	 ye0Pa8Dktao1ZtaPs8KngC2IP3GVcEDohyNzdYRqtXCJElcvQsdjjGhF22QaPJ33oP
+	 UAS74jcllU7ZlC0hRn5gWqP7rCoQCcjrUKfS9gOoOxs6cmyGSyK9hDAxX9kF1QZweN
+	 OPRTveCdYVs4u1ZB5mQTqDaKFFkiZnMCglk0kggU8OE8vJPFpntKQh4AhGLysi1M7q
+	 qwOATwCMTmTj0tj/e4skD7C5V/7WApkUvSwiiPtjY+3bJVVGxQYvNiybQQ1UpR6dkB
+	 +cmWa0DCZ5NSA==
+Subject: Re: [PATCH 0/8] staging: media: zoran: fusion in one module
+To: LABBE Corentin <clabbe@baylibre.com>
+Cc: gregkh@linuxfoundation.org, mchehab@kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+References: <20210903191540.3052775-1-clabbe@baylibre.com>
+ <efe035cc-1839-210f-c0d4-4d58801aa65c@xs4all.nl> <YTYcf3We4dcvBx1h@Red>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <940d5bdf-89b8-b5a4-f485-aa5b1c51286b@xs4all.nl>
+Date: Mon, 6 Sep 2021 16:11:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90459a0f-a32f-bf45-c790-19a03673d6fc@gmail.com>
+In-Reply-To: <YTYcf3We4dcvBx1h@Red>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfKevPp5h25g9kbcNoNwuDq7cIO1nAHg8u8+yuBLhSFy1pHef+MYEqWsmLSEATIWmPqDAcotBwtjqt7GhoH1kUi5KX+D/gc2epyPZVByAOvn6ubpQXsI4
+ LVeiFvMAq0l3EhAXrx1B80b8FlrZmIl99e86iQmc+q5ZSMmh9G90XCd3L0lK7/s42itoNPEBKPvu6p4J+JIYqIP6o9bqD+T9dFydbqHNm/y1Wy7vAtTOr8ry
+ 1YOcMJzGWxelPmY8XWwiSLVTGY/bDutz4yIghdWwo3LarhzxzKnN6borwSyvmA1cYBmsPwGT5jridissXk4KJ1bDYGhFSqrvLqiriVvyl51F7VIPLiYQiExL
+ BbMTwSdCG4Rn3N7VS5BSXYyMuQ95FIwJM+GvW2D1qvm2zVgowogeEGhkYT6Ke2ASJFbUizhM4qvXciG4WY3hYorF6KuVBRAuNLvrXfzsZ0Vtr04aWV1CSGc7
+ eqDUhAW0dkUq1B64r9DpCBIMAfO/sGDm+Qj7fF+0PqiravuYY8DoucAg7XE=
 
-On Mon, Sep 06, 2021 at 05:01:09PM +0300, Pavel Skripkin wrote:
-> On 9/6/21 4:56 PM, Greg Kroah-Hartman wrote:
-> > On Sun, Sep 05, 2021 at 12:00:46AM +0200, Fabio M. De Francesco wrote:
-> > > -void _rtw_read_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
-> > > -{
-> > > -	void (*_read_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
-> > > -	struct io_priv *pio_priv = &adapter->iopriv;
-> > > -	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-> > > -
-> > > -
-> > > -	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
-> > > -	     return;
-> > > -	_read_mem = pintfhdl->io_ops._read_mem;
-> > > -	_read_mem(pintfhdl, addr, cnt, pmem);
-> > > -
-> > > -}
-> > 
-> > This is odd, in that it resolves down to usb_read_mem which does
-> > nothing at all.
-> > 
-> > And then no one calls this at all either?
-> > 
+On 06/09/2021 15:49, LABBE Corentin wrote:
+> Le Mon, Sep 06, 2021 at 01:03:56PM +0200, Hans Verkuil a écrit :
+>> Hi Corentin,
+>>
+>> I finally had the opportunity to test the staging zoran driver.
+>>
+>> I found several issues when running v4l2-compliance -s (I posted a patch
+>> for that), but more seriously is the fact that trying to capture MJPG
+>> at resolutions 384x288 or less just hangs my PC. It works OK with 768x576.
+>>
+>> I discovered this when running 'v4l2-compliance -s -a -f'.
+>>
+>> BTW, why isn't the initial format equal to MJPG 768x576?
+>> I would expect that for these boards that should be the default format.
+>>
+>> Another issue is that the TODO should mention that for video output there
+>> should be a second video device node. And that's really something that
+>> has to be done before the zoran driver can be moved out of staging.
+>>
+>> It shouldn't be that hard to implement, I think.
+>>
+>> Right now it is impossible to run the compliance test for the output, since
+>> it doesn't even see it as an output.
+>>
+>> Regards,
+>>
+>> 	Hans
 > 
-> Yep, there is no caller of this function... Idk why this was added :)
+> I work on having a second device for output, (it is the reason of "staging: media: zoran: move videodev alloc" which will help).
+> 
+> But I still have the problem of non working output.
+> 
+> Does output is really needed for going out of staging ?
+> Probably nobody have it working for ages. The only way to had it was to use an old mplayer output which is broken since so many time.
+> Note that this plugin will never work again.
+> 
+> The only way to work on output is to use ffmpeg which just recently have suport for writing non-raw video to V4L.
 
-PCI devices require a read after a write to ensure that the write has
-completed.  Odds are this is left over from that.
+Then just remove it. The code for output remains in the git history so if someone wants to
+resurrect that, then that's always possible.
 
-thanks,
+The point is that I don't want to have half-baked output support in mainline.
 
-greg k-h
+But what exactly is the problem with getting output to work? Doesn't it just decode
+MJPEG frames? (Sorry if you explained it before, it's so long ago that I looked at this
+that I forgot the details)
+
+In any case, before the driver can be moved out of staging video output should either
+be working or removed. Either is fine, but not the halfway state it is in today.
+
+Regards,
+
+	Hans
