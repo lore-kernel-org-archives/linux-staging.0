@@ -1,99 +1,226 @@
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [194.109.24.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FAC3FC1
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 14:11:24 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id NFLAmv8PJ0e6wNFLBmjYlP; Mon, 06 Sep 2021 16:11:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1630937477; bh=JOLzZ7VqRiUX50FvIiVUIPyGghClF0+xkw331cYUrqo=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=Y1aeMPJ5mxvYANUEvGy1NKDZRyMin52EK9fTg046OigPHj1YeEPHSMKOeR7D4HT2F
-	 ye0Pa8Dktao1ZtaPs8KngC2IP3GVcEDohyNzdYRqtXCJElcvQsdjjGhF22QaPJ33oP
-	 UAS74jcllU7ZlC0hRn5gWqP7rCoQCcjrUKfS9gOoOxs6cmyGSyK9hDAxX9kF1QZweN
-	 OPRTveCdYVs4u1ZB5mQTqDaKFFkiZnMCglk0kggU8OE8vJPFpntKQh4AhGLysi1M7q
-	 qwOATwCMTmTj0tj/e4skD7C5V/7WApkUvSwiiPtjY+3bJVVGxQYvNiybQQ1UpR6dkB
-	 +cmWa0DCZ5NSA==
-Subject: Re: [PATCH 0/8] staging: media: zoran: fusion in one module
-To: LABBE Corentin <clabbe@baylibre.com>
-Cc: gregkh@linuxfoundation.org, mchehab@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20210903191540.3052775-1-clabbe@baylibre.com>
- <efe035cc-1839-210f-c0d4-4d58801aa65c@xs4all.nl> <YTYcf3We4dcvBx1h@Red>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <940d5bdf-89b8-b5a4-f485-aa5b1c51286b@xs4all.nl>
-Date: Mon, 6 Sep 2021 16:11:16 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5773FC1
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 14:22:48 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id s12so11686767ljg.0
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 07:22:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=mG8tNKUvhm36FHkpW6dMAH1JMCzSmycVFv0CHA2JrTU=;
+        b=oTeOncfwbF5FaDVUIEJPG/rR4mNO8+/1Vw17pycGaisfoqyFVu+UClUg6taLQKI+r3
+         S7mQhDWdpEFhF1gT+dCU3b/jCloIV8m+y04seagNAXymiMXhsiCI6U+u7ELXJPT7HcLZ
+         Zt9l19hA6kgAbIc+E3FLJayHA8bkH5F3CLO0Pw/8laBbBiiFNBQ6ojVjiq/7kVveP2mL
+         WSF9mMGFjRt7a/HMK9e9FZhIoybRAyH4MpV49M1ODzppNCiAfhdfAG9IzshBU31Q1JH+
+         NnanP1OvXu92a0D6bGJnSDRtp9fryzPquS1HUc3TdBdT1kAq08NeB4ctTL+1O1XI/g2M
+         JF6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mG8tNKUvhm36FHkpW6dMAH1JMCzSmycVFv0CHA2JrTU=;
+        b=UjNjsPv2w3F4AW3UqaP9wOQ5VDnBLQgGeVGswm15so5/wuoxW2znC6A3qpAbNYQ3Vw
+         roh6xH2S608K4QKC9wC//ZVDhAhx1WMGPovil4MmUOyniCxCpKXHfdt7RCCbLHEOM2Xt
+         kluNqSmhaU8nzyVs7Y0TAmchPZVVfYBIyu6LlzHkcvNGcCQhFw3CbxTOuqScr6hfZnHo
+         bpTvz18f7vrwtKzHPSX55I5B7Bp8KtZOMWOQ9yYw040WMm1nQ1aOlHK2TgNx7cXwFCmU
+         S7CioR0mkJjMCxl4MDYdolul7BfsvXLQtuoF1YJZeEXuJzCd7om8FybKto+zIIGIG9LV
+         u/WA==
+X-Gm-Message-State: AOAM531tmSMruc+1PHpluwpd1gUwBwhbQc9KFYLyNEwxEE5Ayxd+TI+K
+	FPAzJblmLHnFHCkKAywyXNc=
+X-Google-Smtp-Source: ABdhPJwDPKxGvRNAKHv4gLf4CtMNzkxaLxIRq0fUtRw4WKyXL83YGRRvI1aAAb3fhHyF/7IuD5ulgg==
+X-Received: by 2002:a05:651c:98c:: with SMTP id b12mr10927539ljq.83.1630938166643;
+        Mon, 06 Sep 2021 07:22:46 -0700 (PDT)
+Received: from localhost.localdomain ([46.61.204.60])
+        by smtp.gmail.com with ESMTPSA id d4sm750103lfg.261.2021.09.06.07.22.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Sep 2021 07:22:46 -0700 (PDT)
+Subject: Re: [PATCH v3 2/3] staging: r8188eu: Shorten calls chain of
+ rtw_read8/16/32()
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210904220048.12822-1-fmdefrancesco@gmail.com>
+ <20210904220048.12822-3-fmdefrancesco@gmail.com> <YTYgnrvwxNt4+CvR@kroah.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+Message-ID: <ed989e91-7b3a-5a6d-1b3c-0e9c5d677d1c@gmail.com>
+Date: Mon, 6 Sep 2021 17:22:45 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YTYcf3We4dcvBx1h@Red>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YTYgnrvwxNt4+CvR@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKevPp5h25g9kbcNoNwuDq7cIO1nAHg8u8+yuBLhSFy1pHef+MYEqWsmLSEATIWmPqDAcotBwtjqt7GhoH1kUi5KX+D/gc2epyPZVByAOvn6ubpQXsI4
- LVeiFvMAq0l3EhAXrx1B80b8FlrZmIl99e86iQmc+q5ZSMmh9G90XCd3L0lK7/s42itoNPEBKPvu6p4J+JIYqIP6o9bqD+T9dFydbqHNm/y1Wy7vAtTOr8ry
- 1YOcMJzGWxelPmY8XWwiSLVTGY/bDutz4yIghdWwo3LarhzxzKnN6borwSyvmA1cYBmsPwGT5jridissXk4KJ1bDYGhFSqrvLqiriVvyl51F7VIPLiYQiExL
- BbMTwSdCG4Rn3N7VS5BSXYyMuQ95FIwJM+GvW2D1qvm2zVgowogeEGhkYT6Ke2ASJFbUizhM4qvXciG4WY3hYorF6KuVBRAuNLvrXfzsZ0Vtr04aWV1CSGc7
- eqDUhAW0dkUq1B64r9DpCBIMAfO/sGDm+Qj7fF+0PqiravuYY8DoucAg7XE=
+Content-Transfer-Encoding: 7bit
 
-On 06/09/2021 15:49, LABBE Corentin wrote:
-> Le Mon, Sep 06, 2021 at 01:03:56PM +0200, Hans Verkuil a écrit :
->> Hi Corentin,
->>
->> I finally had the opportunity to test the staging zoran driver.
->>
->> I found several issues when running v4l2-compliance -s (I posted a patch
->> for that), but more seriously is the fact that trying to capture MJPG
->> at resolutions 384x288 or less just hangs my PC. It works OK with 768x576.
->>
->> I discovered this when running 'v4l2-compliance -s -a -f'.
->>
->> BTW, why isn't the initial format equal to MJPG 768x576?
->> I would expect that for these boards that should be the default format.
->>
->> Another issue is that the TODO should mention that for video output there
->> should be a second video device node. And that's really something that
->> has to be done before the zoran driver can be moved out of staging.
->>
->> It shouldn't be that hard to implement, I think.
->>
->> Right now it is impossible to run the compliance test for the output, since
->> it doesn't even see it as an output.
->>
->> Regards,
->>
->> 	Hans
+On 9/6/21 5:07 PM, Greg Kroah-Hartman wrote:
+> On Sun, Sep 05, 2021 at 12:00:47AM +0200, Fabio M. De Francesco wrote:
+>> Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+>> For this purpose unify the three usb_read8/16/32 into the new
+>> usb_read(); make the latter parameterizable with 'size'; embed most of
+>> the code of usbctrl_vendorreq() into usb_read() and use in it the new
+>> usb_control_msg_recv() API of USB Core.
+>> 
+>> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
+>> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+>> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+>> ---
+>> 
+>> v2->v3: No changes.
+>> 
+>> v1->v2: No changes.
+>> 
+>>  drivers/staging/r8188eu/hal/usb_ops_linux.c | 92 +++++++++++++++++----
+>>  1 file changed, 78 insertions(+), 14 deletions(-)
+>> 
+>> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+>> index a87b0d2e87d0..f9c4fd5a2c53 100644
+>> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+>> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+>> @@ -97,38 +97,102 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
+>>  	return status;
+>>  }
+>>  
+>> +static int usb_read(struct intf_hdl *intfhdl, u32 addr, void *data, u8 size)
+>> +{
+>> +	u16 value = (u16)(addr & 0x0000ffff);
 > 
-> I work on having a second device for output, (it is the reason of "staging: media: zoran: move videodev alloc" which will help).
+> Why not just pass in the address as a 16bit value?
 > 
-> But I still have the problem of non working output.
 > 
-> Does output is really needed for going out of staging ?
-> Probably nobody have it working for ages. The only way to had it was to use an old mplayer output which is broken since so many time.
-> Note that this plugin will never work again.
+>> +	struct adapter *adapt = intfhdl->padapter;
+>> +	struct dvobj_priv *dvobjpriv = adapter_to_dvobj(adapt);
+>> +	struct usb_device *udev = dvobjpriv->pusbdev;
+>> +	int status;
+>> +	u8 *io_buf;
+>> +	int vendorreq_times = 0;
+>> +
+>> +	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
+>> +		status = -EPERM;
+>> +		goto exit;
 > 
-> The only way to work on output is to use ffmpeg which just recently have suport for writing non-raw video to V4L.
+> This is "interesting" to see if it's really even working as they think
+> it does, but let's leave it alone for now...
+> 
+>> +	}
+>> +
+>> +	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
+>> +
+>> +	/*  Acquire IO memory for vendorreq */
+>> +	io_buf = dvobjpriv->usb_vendor_req_buf;
+>> +
+>> +	if (!io_buf) {
+>> +		DBG_88E("[%s] io_buf == NULL\n", __func__);
+> 
+> How can this buffer ever be NULL?
+> 
+>> +		status = -ENOMEM;
+>> +		goto release_mutex;
+>> +	}
+> 
+> Why share a buffer at all anyway?
+> 
+>> +	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+>> +		status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
+>> +					      REALTEK_USB_VENQT_READ, value,
+>> +					      REALTEK_USB_VENQT_CMD_IDX, io_buf,
+>> +					      size, RTW_USB_CONTROL_MSG_TIMEOUT,
+>> +					      GFP_KERNEL);
+>> +		if (!status) {   /*  Success this control transfer. */
+> 
+> Comments go on the next line.
+> 
+>> +			rtw_reset_continual_urb_error(dvobjpriv);
+>> +			memcpy(data, io_buf, size);
+>> +		} else { /*  error cases */
+> 
+> Again, next line for the comment.
+> 
+>> +			DBG_88E("reg 0x%x, usb %s %u fail, status:%d vendorreq_times:%d\n",
+>> +				value, "read", size, status, vendorreq_times);
+> 
+> These should be removed eventually...
+> 
+>> +
+>> +			if (status == (-ESHUTDOWN) || status == -ENODEV) {
+>> +				adapt->bSurpriseRemoved = true;
+> 
+> Odd, but ok...
+> 
+>> +			} else {
+>> +				struct hal_data_8188e *haldata = GET_HAL_DATA(adapt);
+>> +
+>> +				haldata->srestpriv.wifi_error_status = USB_VEN_REQ_CMD_FAIL;
+> 
+> Why are we not saying the command failed even if the device was removed?
+> 
+> But if we do say an error happened, why are we trying to send this out
+> again?  What would happen to make it work the second time?
+> 
+>> +			}
+>> +
+>> +			if (rtw_inc_and_chk_continual_urb_error(dvobjpriv)) {
+>> +				adapt->bSurpriseRemoved = true;
+> 
+> So we try to see if the device was removed again?
+> 
+>> +				break;
+>> +			}
+>> +		}
+>> +
+>> +		/*  firmware download is checksummed, don't retry */
+>> +		if ((value >= FW_8188E_START_ADDRESS && value <= FW_8188E_END_ADDRESS) || !status)
+>> +			break;
+> 
+> Nothing like a special case for firmware magic.
+> 
+> Those calls should just use a different write function entirely,
+> eventually, to remove this...
+> 
+> Ok, I know you are just moving code around, this is fine, just pointing
+> out things that should be fixed up eventually...
+> 
 
-Then just remove it. The code for output remains in the git history so if someone wants to
-resurrect that, then that's always possible.
+I agree with all statements, and I've asked maintainers about some of 
+them before. It's 100% should be fixed, but we (me and Fabio) want to 
+fix them step by step to not rebase every time new clean up goes in.
 
-The point is that I don't want to have half-baked output support in mainline.
+Our plan is: (Fabio, please, correct me, if I am wrong here)
 
-But what exactly is the problem with getting output to work? Doesn't it just decode
-MJPEG frames? (Sorry if you explained it before, it's so long ago that I looked at this
-that I forgot the details)
+1. ops removal + shorten call chain (this patch series)
+2. my error handling series [1]
+3. Clean ups for rtw_* functions (old usb_*)
+4. Remove dead proc code + introduce new sysfs interface, based on old 
+proc code.
 
-In any case, before the driver can be moved out of staging video output should either
-be working or removed. Either is fine, but not the halfway state it is in today.
 
-Regards,
+We can prepare them all at once, but, IMO:
 
-	Hans
+1. It will be really hard to review
+2. A lot of rebasing through new versions, since there are a lot
+clean ups appear every day.
+
+
+I believe, our step-by-step plan should be more comfortable for all of us :)
+
+
+Thank you!
+
+
+[1] 
+https://lore.kernel.org/linux-staging/cover.1629479152.git.paskripkin@gmail.com/
+
+
+
+With regards,
+Pavel Skripkin
