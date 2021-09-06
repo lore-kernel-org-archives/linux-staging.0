@@ -1,53 +1,52 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133CF3FCC
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 13:40:33 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id k20-20020a05600c0b5400b002e87ad6956eso4832615wmr.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 06:40:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528303FC1
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 13:49:55 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id j17-20020a05600c1c1100b002e754875260so4825238wms.4
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 06:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=h8fzMrlNfeqQ1V7Mw80vYgzWg31AUNU+8kCIzeOvUGI=;
-        b=je2IdFXBFDkVDGrZ/5L/zJzOOgyE3lZrrMAc5jKis+ikQ4QzVyyH8H4n6ukkmh/xyk
-         pzBXlWwfxhhK3/LZHDkYYY+Ucdx611532nvBAD5hyazba83gwOma33BsStXJTr1RtskT
-         nS1EWS9FHclna4c1zy6fUHixoJHpZZde3J+wypLKKw8wDd/6sWMXB6Ei7vFiLfu6Ccht
-         Fv3FgSmZ3hfi40JMHNWSKEIyqyefR+rZ+YAIv9Xgj9xsXZfTlEshG0sDKn+wewU/cNe6
-         vOkkVYqsEpUJB58rZ6GGDFzQEBzbAnBn+PPe1+KKA6TZvyUix0r8Wl95MxZYcoHTzbhn
-         1a/Q==
+        bh=A4jOhR2vRvnKHiSaA5vRT/Kewp2YBhwRZF6rf63lEkI=;
+        b=DEaD2/Yzj/PIEGHCf2Hgo9sTxwYOGS0pd4+5rls6fny99vQBctrGXz+mpQT3NSi4qv
+         vpvdJns2nVVQnM6kFp0Bi5TzO1zETmUQx8IwPSsb1UUGf9mh/iKoTz0OFrQB1+8K/5cJ
+         /+WZp85bDP1VjTlBquBB0A0ueMkIFKeWYVnqq4W35+pS+JeYD826QdMswqdLt/8IYucI
+         S598cEr7xEJJ2bU3bFVBg8KALmxcBkmzABNs1VLF6hXh/jXwE8C6XvmzpIJS90RYbyR2
+         BIEISwZl5ESCB1CKuSissqglGkIZOmJdYoJK+sNKG3WtYlh4px8lQTavdaOZFy1iYDB5
+         kN+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=h8fzMrlNfeqQ1V7Mw80vYgzWg31AUNU+8kCIzeOvUGI=;
-        b=qhZbM3nXwomlEvLeasBz11GynAgyn6Pr8tglcehGjdzvXH2s/SV59idNQnzppgJXTh
-         HM1YqSjiC6hse2n93+bubrP2JzftJs0xOyeieas8zey3J4lD8LQnEMtXbBmXltglhkRl
-         jlYh8Bo+Pu67i4QrZYhB2AM3+S5N4IHodf4FOvHTBOWyHW/I6+lLXIn1rddnRBuV2MHe
-         PYnobIflOLT9VKrynzXNmmTb5rbqmmfV1mtfXLLzfr5RsPOzNWuBnVKvhZVVI58EBysn
-         8qAp9JBD/oPpUWRT2YZCjIFmGExwCIvM0z1H0ey5U7+zp+yIqW4ghOM+o0I0NSUsPljx
-         rlpg==
-X-Gm-Message-State: AOAM530lezu2eGE+Sc7IhkOaNS4G22DZJ5dqJHsxBfb4Bf8pVEIBPdDb
-	uLP7J6yubtZO1WvbVi/5za/rHQ==
-X-Google-Smtp-Source: ABdhPJxSZNMrd0jxUL99QDIGbL3HxtYqrJ/yXjYhWzUID0G4CuSLLXg2Je/UOA0ZVhX9lg36hyCAuw==
-X-Received: by 2002:a1c:28b:: with SMTP id 133mr11457428wmc.138.1630935632338;
-        Mon, 06 Sep 2021 06:40:32 -0700 (PDT)
+        bh=A4jOhR2vRvnKHiSaA5vRT/Kewp2YBhwRZF6rf63lEkI=;
+        b=U9lROr1BAnCUzR6QovWyTwd1RMBVJBefZnA1MQAOqj456npLawNzZOynGxlD8NSB6J
+         iOUu6//7J0QTedRveTyfoET9HeklzIDHRfJZez0yd9qzKojuZEn8lwsRqT379qQIZcaH
+         5qAEMjyaxOrl7yhSJncC8lbYS1tax9SlQPynWRfjSWCeAaeeqEpkwzBfXvpnmPp8k9O/
+         8irkHgBvphMU2y7518HPzu69fEOtMWlEqasMF8C+bNaSxS/wb1jiJ+AhJEJj1KzNZd+p
+         1RbW/MhTTW+oEKhVrctN1L65TvrwTWM+nJeY672E90ja+uXouamavYxqEab4+82sU/b5
+         fbIA==
+X-Gm-Message-State: AOAM531SZntIkckVym5m3cz8ZpmnUMTulklpF/ljbNIOLqWF9yhzBOxZ
+	meZkK+bUr+CACqlk3ILwZvY76w==
+X-Google-Smtp-Source: ABdhPJx3FlWvq/ELhQaqN25Y+JvPNsma3T425v7WMG7udITx98z2t1PeLJlC4vWYiLbDd9Hp9mhtWg==
+X-Received: by 2002:a1c:7d06:: with SMTP id y6mr11185837wmc.7.1630936193693;
+        Mon, 06 Sep 2021 06:49:53 -0700 (PDT)
 Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id d7sm7934372wrs.39.2021.09.06.06.40.31
+        by smtp.googlemail.com with ESMTPSA id i5sm6838107wmq.17.2021.09.06.06.49.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 06:40:32 -0700 (PDT)
-Date: Mon, 6 Sep 2021 15:40:30 +0200
+        Mon, 06 Sep 2021 06:49:53 -0700 (PDT)
+Date: Mon, 6 Sep 2021 15:49:51 +0200
 From: LABBE Corentin <clabbe@baylibre.com>
 To: Hans Verkuil <hverkuil@xs4all.nl>
 Cc: gregkh@linuxfoundation.org, mchehab@kernel.org,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 6/8] staging: media: zoran: fusion all modules
-Message-ID: <YTYaTk9+fCrwHbTG@Red>
+Subject: Re: [PATCH 0/8] staging: media: zoran: fusion in one module
+Message-ID: <YTYcf3We4dcvBx1h@Red>
 References: <20210903191540.3052775-1-clabbe@baylibre.com>
- <20210903191540.3052775-7-clabbe@baylibre.com>
- <9318ec41-d884-2c1a-1190-3a93c3f5a3fb@xs4all.nl>
+ <efe035cc-1839-210f-c0d4-4d58801aa65c@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,33 +56,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9318ec41-d884-2c1a-1190-3a93c3f5a3fb@xs4all.nl>
+In-Reply-To: <efe035cc-1839-210f-c0d4-4d58801aa65c@xs4all.nl>
 
-Le Mon, Sep 06, 2021 at 12:41:32PM +0200, Hans Verkuil a écrit :
-> On 03/09/2021 21:15, Corentin Labbe wrote:
-> > The zoran driver is split in many modules, but this lead to some
-> > problems.
-> > One of them is that load order is incorrect when everything is built-in.
-> > 
-> > Having more than one module is useless, so fusion all zoran modules in
-> > one.
+Le Mon, Sep 06, 2021 at 01:03:56PM +0200, Hans Verkuil a écrit :
+> Hi Corentin,
 > 
-> After applying this patch I am no longer able to rmmod the module: it will
-> always report that it is in use. This is with a Miro DC30.
+> I finally had the opportunity to test the staging zoran driver.
 > 
-> So something is wrong with refcounting.
+> I found several issues when running v4l2-compliance -s (I posted a patch
+> for that), but more seriously is the fact that trying to capture MJPG
+> at resolutions 384x288 or less just hangs my PC. It works OK with 768x576.
 > 
-> I do like the idea of merging all these modules, but it needs a bit more
-> testing.
+> I discovered this when running 'v4l2-compliance -s -a -f'.
+> 
+> BTW, why isn't the initial format equal to MJPG 768x576?
+> I would expect that for these boards that should be the default format.
+> 
+> Another issue is that the TODO should mention that for video output there
+> should be a second video device node. And that's really something that
+> has to be done before the zoran driver can be moved out of staging.
+> 
+> It shouldn't be that hard to implement, I think.
+> 
+> Right now it is impossible to run the compliance test for the output, since
+> it doesn't even see it as an output.
 > 
 > Regards,
 > 
 > 	Hans
-> 
 
-Hello
+I work on having a second device for output, (it is the reason of "staging: media: zoran: move videodev alloc" which will help).
 
-I am sorry, I was sure to have successfully removed the zoran module a couple of time with my DC10.
-Anyway I just acquired a DC30, so I will test it also (even if I believe that model should not change anything).
+But I still have the problem of non working output.
+
+Does output is really needed for going out of staging ?
+Probably nobody have it working for ages. The only way to had it was to use an old mplayer output which is broken since so many time.
+Note that this plugin will never work again.
+
+The only way to work on output is to use ffmpeg which just recently have suport for writing non-raw video to V4L.
 
 Regards
