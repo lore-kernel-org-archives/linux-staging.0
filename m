@@ -1,41 +1,41 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99873FCC
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 19:02:53 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id bt14so15153051ejb.3
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 12:02:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5B472
+	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 19:02:54 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id h9so15146090ejs.4
+        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 12:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3tDGXKtpZmrXTW/NI9hHWNVg4jLQ4sKJiRKhYqlYVho=;
-        b=MxMmIS5SCwrBOOlZTaHp64L2PdFZVOqWw7jrYQGZDXsnCF3piTyZLhvyHKlbgRcBHZ
-         +Ibz94o8bZbISzOuSjBx08ksx/OgBiXGU0QjDKpAXtSVcgNnC4dhx0Up/rP39d2N9c3e
-         ouW+iOP+Rz+cJKlFowf3E6BktJPhUD0CXuYbwap3ai3DdHwZYyyDn3gXI/6sZQ37NinP
-         AyKvfIOL+Ad7oSFZLujnKvEfHwh+wG+f1i4QGaBB0KPS+qjTo72L1AkJle/5ZGwd5Jw5
-         9MJcUhdF+G4yVwLNzuym08VVbC0pdf3JNMfCzoaKLjtGkIufdEgeK1UhkP+BNxuYTh3W
-         tCqA==
+        bh=uYnkOq4yxqkoB1rb/ew5x0vj+H8yKqRwDVySAJFiDa4=;
+        b=DfB7sVYdYlWaBe8Gu48z3RvXHStBbqKU0fAxDkNtI1EuHvCReBdxrivjvXU2XGwe8b
+         RPDW7Hwazw/ZR8dQtgPU/lgIMUOMpLwU/f70lucc7mtHTh5QzHbtvZbJNdfFDAex/C63
+         bxwM+BDChFVKqma09Vy7vDlWPKHpFvV8vkqnHriRcnHof8z/nttkuYaMIKElchxhiJmB
+         lSx4m5G2i6RbZG7lkBKtX/3V0ltmQ68meglyTT4jDa8c/OjrVfrm+aafl8wjdo/qYK08
+         U43RAAPGy3BwPsLFhmXLKrSUrczeWTEpVEhGrAini1I0BZwDDDbOdnY0vMixCnh/aSlq
+         XGkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3tDGXKtpZmrXTW/NI9hHWNVg4jLQ4sKJiRKhYqlYVho=;
-        b=X1RHuCEJIwSrMffUgZj9RNRY/wjjNcd01XiqfeKtrDTcLyBOu7nep+u7fF8h8W7I8A
-         wAZ+FEzSGBJ7MdmtqfrTG0VVVAaMWF8GFq3KGDNSDlJ7UgCcacCatKu4hZLHowbZW0O4
-         T3VpfVddcRUeEtJzNW3h6R6qDz/hbiOz5McfHdqbCLwzMjI+kW3FPLh9bs1F6bJtnOmW
-         RyBbdmTexjMYSBdFgaH4PFNBYYyryRZ1+sUmPSF3XIMxsfuWrNCDDVZgSekDRtjonQp6
-         jx2BAptBaEsyfraazgdiLco6/GO9rantaGaYFvIhJvbDSKFTGnkNWEWIlu5BcYDeFBla
-         qddA==
-X-Gm-Message-State: AOAM531JHXOB/fbdbIWyRo6wNA1CRzQeqLr5rlO0uKUHVN4OHQdYgi+Z
-	ykiGGtTzuhBpe4aXX7k1/TY=
-X-Google-Smtp-Source: ABdhPJx0GKX2ot4TzGSthcMCU3ko/DcFghbpB0X3I1NfrKj//Amij5nnHwq18Biue0bu2od1QW5z1A==
-X-Received: by 2002:a17:906:7fc4:: with SMTP id r4mr15776189ejs.75.1630954972103;
+        bh=uYnkOq4yxqkoB1rb/ew5x0vj+H8yKqRwDVySAJFiDa4=;
+        b=ffEZeNOfrsr2noDtAgKpJTj87dS98wGrcJkXIJMd1A+IfV1ApponNMcbzK54x3p9ZW
+         HA5q68dscaE2eZJic1RAqUvBH4khIgvu2Excga9vi8lnbhaDc8bSoteqZZIKEcDQsOC7
+         tlWSIPza+z0981g3lsq1is8qlnna++Io76V9Uvl2yoZ5+Q8gMt4EeihLTkTeC5rOx2QC
+         UnPWHOChj/kft0cwlILvXChT2xIsJ7NcRtl+vst7aakhKC7usNN/xfGEWrZvXAXMCd5t
+         sXugC4LhmWr2M0B9meCebSYc9x13PKuBVZEOx4LsMoSPaiF7ID+VM3oX9evShY/6Lq6E
+         86Mg==
+X-Gm-Message-State: AOAM531AiFyQB1I8DIRpn5A5CuuLZkHY/jXzTbnw+7k/RWmtC5gmaqMg
+	JGGSamSPm0QFtfrFbB4zywY=
+X-Google-Smtp-Source: ABdhPJy7MD8qtlB4RAqTd0ENop1+T5mKFR7A+n+BUOvXxfHw/kz96DfNs/GxySP/3ujNKwfsQxOaWg==
+X-Received: by 2002:a17:906:2505:: with SMTP id i5mr15087341ejb.450.1630954972870;
         Mon, 06 Sep 2021 12:02:52 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id k15sm4372018ejb.92.2021.09.06.12.02.51
+        by smtp.gmail.com with ESMTPSA id k15sm4372018ejb.92.2021.09.06.12.02.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Sep 2021 12:02:51 -0700 (PDT)
+        Mon, 06 Sep 2021 12:02:52 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 09/40] staging: r8188eu: remove hal_dm_watchdog from hal_ops
-Date: Mon,  6 Sep 2021 21:01:52 +0200
-Message-Id: <20210906190223.11396-10-straube.linux@gmail.com>
+Subject: [PATCH v3 10/40] staging: r8188eu: remove set_bwmode_handler from hal_ops
+Date: Mon,  6 Sep 2021 21:01:53 +0200
+Message-Id: <20210906190223.11396-11-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210906190223.11396-1-straube.linux@gmail.com>
 References: <20210906190223.11396-1-straube.linux@gmail.com>
@@ -59,89 +59,84 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove hal_dm_watchdog from hal_ops and remove its wrapper
-rtw_hal_dm_watchdog(). Call rtl8188e_HalDmWatchDog directly instead.
+Remove set_bwmode_handler from hal_ops and remove its wrapper
+rtw_hal_set_bwmode(). Call PHY_SetBWMode8188E() directly instead.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c          | 3 ++-
- drivers/staging/r8188eu/hal/hal_intf.c          | 6 ------
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 2 --
- drivers/staging/r8188eu/include/hal_intf.h      | 3 ---
- 4 files changed, 2 insertions(+), 12 deletions(-)
+ drivers/staging/r8188eu/core/rtw_wlan_util.c    | 2 +-
+ drivers/staging/r8188eu/hal/hal_intf.c          | 8 --------
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 1 -
+ drivers/staging/r8188eu/include/hal_intf.h      | 5 -----
+ 4 files changed, 1 insertion(+), 15 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 738e1ec749be..67b4fe1304a5 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -9,6 +9,7 @@
- #include "../include/mlme_osdep.h"
- #include "../include/rtw_br_ext.h"
- #include "../include/rtw_mlme_ext.h"
-+#include "../include/rtl8188e_dm.h"
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index ccb5fbbc3ffb..37400e29eec4 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -328,7 +328,7 @@ void SetBWMode(struct adapter *padapter, unsigned short bwmode,
+ 	rtw_set_oper_bw(padapter, bwmode);
+ 	rtw_set_oper_choffset(padapter, channel_offset);
  
- /*
- Caller and the rtw_cmd_thread can protect cmd_q by spin_lock.
-@@ -1496,7 +1497,7 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter, u8 *pbuf, int sz)
- 	linked_status_chk(padapter);
- 	traffic_status_watchdog(padapter);
- 
--	rtw_hal_dm_watchdog(padapter);
-+	rtl8188e_HalDmWatchDog(padapter);
+-	rtw_hal_set_bwmode(padapter, (enum ht_channel_width)bwmode, channel_offset);
++	PHY_SetBWMode8188E(padapter, (enum ht_channel_width)bwmode, channel_offset);
  }
  
- static void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+ void set_channel_bwmode(struct adapter *padapter, unsigned char channel, unsigned char channel_offset, unsigned short bwmode)
 diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index 45166f160756..9374e5ecb13b 100644
+index 9374e5ecb13b..93691e72e263 100644
 --- a/drivers/staging/r8188eu/hal/hal_intf.c
 +++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -229,12 +229,6 @@ void rtw_hal_set_chan(struct adapter *adapt, u8 channel)
- 		adapt->HalFunc.set_channel_handler(adapt, channel);
+@@ -215,14 +215,6 @@ void rtw_hal_write_rfreg(struct adapter *adapt, enum rf_radio_path rfpath,
+ 					      bitmask, data);
  }
  
--void rtw_hal_dm_watchdog(struct adapter *adapt)
+-void rtw_hal_set_bwmode(struct adapter *adapt,
+-			enum ht_channel_width bandwidth, u8 offset)
 -{
--	if (adapt->HalFunc.hal_dm_watchdog)
--		adapt->HalFunc.hal_dm_watchdog(adapt);
+-	if (adapt->HalFunc.set_bwmode_handler)
+-		adapt->HalFunc.set_bwmode_handler(adapt, bandwidth,
+-						     offset);
 -}
 -
- void rtw_hal_bcn_related_reg_setting(struct adapter *adapt)
+ void rtw_hal_set_chan(struct adapter *adapt, u8 channel)
  {
- 	if (adapt->HalFunc.SetBeaconRelatedRegistersHandler)
+ 	if (adapt->HalFunc.set_channel_handler)
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index ca020f2ed7a2..844a18117f09 100644
+index 844a18117f09..8a73294d8bec 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -1787,8 +1787,6 @@ void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc)
- 	pHalFunc->set_bwmode_handler = &PHY_SetBWMode8188E;
+@@ -1784,7 +1784,6 @@ void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc)
+ {
+ 	pHalFunc->free_hal_data = &rtl8188e_free_hal_data;
+ 
+-	pHalFunc->set_bwmode_handler = &PHY_SetBWMode8188E;
  	pHalFunc->set_channel_handler = &PHY_SwChnl8188E;
  
--	pHalFunc->hal_dm_watchdog = &rtl8188e_HalDmWatchDog;
--
  	pHalFunc->Add_RateATid = &rtl8188e_Add_RateATid;
- 	pHalFunc->run_thread = &rtl8188e_start_thread;
- 	pHalFunc->cancel_thread = &rtl8188e_stop_thread;
 diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 44a8943eadfe..caf759a9eb48 100644
+index caf759a9eb48..f3f294aa6a24 100644
 --- a/drivers/staging/r8188eu/include/hal_intf.h
 +++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -148,8 +148,6 @@ struct hal_ops {
- 				      u8 Offset);
+@@ -143,9 +143,6 @@ struct hal_ops {
+ 	s32	(*init_recv_priv)(struct adapter *padapter);
+ 	void	(*free_recv_priv)(struct adapter *padapter);
+ 
+-	void	(*set_bwmode_handler)(struct adapter *padapter,
+-				      enum ht_channel_width Bandwidth,
+-				      u8 Offset);
  	void	(*set_channel_handler)(struct adapter *padapter, u8 channel);
  
--	void	(*hal_dm_watchdog)(struct adapter *padapter);
--
  	void	(*SetHwRegHandler)(struct adapter *padapter, u8	variable,
- 				   u8 *val);
- 	void	(*GetHwRegHandler)(struct adapter *padapter, u8	variable,
-@@ -289,7 +287,6 @@ void	rtw_hal_write_rfreg(struct adapter *padapter,
- void	rtw_hal_set_bwmode(struct adapter *padapter,
- 			   enum ht_channel_width Bandwidth, u8 Offset);
+@@ -284,8 +281,6 @@ void	rtw_hal_write_rfreg(struct adapter *padapter,
+ 			    enum rf_radio_path eRFPath, u32 RegAddr,
+ 			    u32 BitMask, u32 Data);
+ 
+-void	rtw_hal_set_bwmode(struct adapter *padapter,
+-			   enum ht_channel_width Bandwidth, u8 Offset);
  void	rtw_hal_set_chan(struct adapter *padapter, u8 channel);
--void	rtw_hal_dm_watchdog(struct adapter *padapter);
  
  u8	rtw_hal_antdiv_before_linked(struct adapter *padapter);
- void	rtw_hal_antdiv_rssi_compared(struct adapter *padapter,
 -- 
 2.33.0
 
