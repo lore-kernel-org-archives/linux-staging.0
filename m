@@ -1,73 +1,87 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D4572
-	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 05:01:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4176960ED8;
-	Tue,  7 Sep 2021 05:01:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1630990882;
-	bh=+DwFL4bVabNWWgQK1ObX9GwAradwBOrI5qsddr1H0FQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W2eVjaaNzftPCY7XxL4jNzAKsRWFFVwWnbe15Kmf2tzVXxToUIVfFI9WQ+lSLqyJh
-	 /Bz0q6SWE5VmnymxbRaYrinS3fDCnQKa8NQHqdpCIilFa/jTk4cjoZNpSg9r4effde
-	 bPIbtPwZbzYc1g8iKbM9Zz2h3qW/HCnFBZWG+E9Y=
-Date: Tue, 7 Sep 2021 07:01:11 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56AA72
+	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 09:00:03 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id B740E401A4;
+	Tue,  7 Sep 2021 08:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1631004782;
+	bh=YVKAThawjAoSDAeEprgD3mnzbZ4u6HBoKcAGGqllCTg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	b=vy/d+zBgJhFy7aAhGvUjxjvSZX2mG6upP8DqcXWF9gjt+tB4C+5NRQ6CcVTD8tjSP
+	 ltTiS85VA3fDkA++3KjoSpNtcc3FtkDHrrzZoWbyob6ZRa9Dok8jAjTD5vx8tcM3iK
+	 HVzBiMJ5yZGMc29IXK6P73gWa3O6Up6lixj1a30a+igyrhuUHmzXKDK22lDDSnzQtc
+	 xj/r2axzt4i5UzSz4Dg3vQVyFeOq8yw6wxIFTzUZhbOkZTE71n5LcDT1mCKou7d684
+	 eaDZ4G9tsynoc7UPcwvCjaNNi1oD2BYlSLBL9BkgghnfwSx5SaSPEZj14kGVC7uC+8
+	 xRSxts0wmx5TA==
+From: Colin King <colin.king@canonical.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] staging: r8188eu: remove _io_ops structure
-Message-ID: <YTbyFyVe37YTV8VC@kroah.com>
-References: <20210904220048.12822-1-fmdefrancesco@gmail.com>
- <20210904220048.12822-2-fmdefrancesco@gmail.com>
- <YTYeGH+5MG5OeEbi@kroah.com>
- <d9e536d6-1b66-52d5-50a8-0c011b23e018@gmail.com>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: remove redundant variable hoffset
+Date: Tue,  7 Sep 2021 09:53:02 +0100
+Message-Id: <20210907085302.10672-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d9e536d6-1b66-52d5-50a8-0c011b23e018@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 06, 2021 at 08:19:05PM +0300, Pavel Skripkin wrote:
-> On 9/6/21 16:56, Greg Kroah-Hartman wrote:
-> > On Sun, Sep 05, 2021 at 12:00:46AM +0200, Fabio M. De Francesco wrote:
-> > > -void _rtw_read_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
-> > > -{
-> > > -	void (*_read_mem)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
-> > > -	struct io_priv *pio_priv = &adapter->iopriv;
-> > > -	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
-> > > -
-> > > -
-> > > -	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
-> > > -	     return;
-> > > -	_read_mem = pintfhdl->io_ops._read_mem;
-> > > -	_read_mem(pintfhdl, addr, cnt, pmem);
-> > > -
-> > > -}
-> > 
-> > This is odd, in that it resolves down to usb_read_mem which does
-> > nothing at all.
-> > 
-> > And then no one calls this at all either?
-> > 
-> > How about removing the io ops that are not used at all first, one at a
-> > time, making it obvious what is happening, and then convert the ones
-> > that are used one at a time, and when all is done, then removing the
-> > structure?
-> > 
-> 
-> Just have started to cut one big patch to smaller ones and does it make
-> sense to group changes like: one for usb_read*, one for usb_write* and one
-> for usb_port*? I think, it would be cleaner and series won't be too big.
-> 
-> 
-> What do you think?
+From: Colin Ian King <colin.king@canonical.com>
 
-I will not know until I see the patches, so no need to ask :)
+Variable hoffset is being assigned values but it is never being
+used. The variable is redundant and can be removed.
+
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 14758361960c..7c12ca548c47 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -1143,7 +1143,7 @@ static u16 hal_EfuseGetCurrentSize_8188e(struct adapter *pAdapter, bool bPseudoT
+ {
+ 	int	bContinual = true;
+ 	u16	efuse_addr = 0;
+-	u8 hoffset = 0, hworden = 0;
++	u8 hworden = 0;
+ 	u8 efuse_data, word_cnts = 0;
+ 
+ 	if (bPseudoTest)
+@@ -1156,18 +1156,15 @@ static u16 hal_EfuseGetCurrentSize_8188e(struct adapter *pAdapter, bool bPseudoT
+ 	       AVAILABLE_EFUSE_ADDR(efuse_addr)) {
+ 		if (efuse_data != 0xFF) {
+ 			if ((efuse_data & 0x1F) == 0x0F) {		/* extended header */
+-				hoffset = efuse_data;
+ 				efuse_addr++;
+ 				efuse_OneByteRead(pAdapter, efuse_addr, &efuse_data, bPseudoTest);
+ 				if ((efuse_data & 0x0F) == 0x0F) {
+ 					efuse_addr++;
+ 					continue;
+ 				} else {
+-					hoffset = ((hoffset & 0xE0) >> 5) | ((efuse_data & 0xF0) >> 1);
+ 					hworden = efuse_data & 0x0F;
+ 				}
+ 			} else {
+-				hoffset = (efuse_data >> 4) & 0x0F;
+ 				hworden =  efuse_data & 0x0F;
+ 			}
+ 			word_cnts = Efuse_CalculateWordCnts(hworden);
+-- 
+2.32.0
+
