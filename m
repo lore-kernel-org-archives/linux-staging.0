@@ -1,36 +1,34 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6232772
-	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 11:33:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A2FD6109F;
-	Tue,  7 Sep 2021 11:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B7372
+	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 11:40:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A15F6103D;
+	Tue,  7 Sep 2021 11:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631014402;
-	bh=LinC0cWavtsL7SVSTF2PUQ+C6ByDu7ePNeKUza5Qnd0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EBIJ9USC0KY68FyU/XsZeXffk53MSdgiyQDajTuooV5qVUYUH0qVjFPG3F4tPCXGn
-	 E6fuqVn4ddiHfNpHS2RtYQYO+nIqP1WeN0FX7oXbKvU2zDZTB2KHV4hFnsg/DzbKLu
-	 4j5CxLndQw/e1u+aR7wo0AqaIwBGNyJcDUg82FcM=
+	s=korg; t=1631014847;
+	bh=Fq4GWqMANAE5kW7B/XIq8+Zj7QRhldvs2UZlf6DMF5M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PLHmWlkzApXtJh2U2J+T43zFKKGnuAR9jjUXvjNbdq1CrNs1VaswjjaSFqBdzRCij
+	 1bcvQoUrl4a5KQvNH2toanl+2+RkHD4yhjg0Rz10JPtuhTGKX61AhZvw6GaTafPQq6
+	 ws480jHphn4x7AbLHRy5tgh4HW0CDlL8uSNysVh4=
+Date: Tue, 7 Sep 2021 13:40:44 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jacob Feder <jacobsfeder@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
+Cc: Jacob Feder <jacobsfeder@gmail.com>, Lee Jones <lee.jones@linaro.org>,
 	Muhammad Usama Anjum <musamaanjum@gmail.com>
-Subject: [PATCH] staging: axis-fifo: convert to use miscdevice
-Date: Tue,  7 Sep 2021 13:33:14 +0200
-Message-Id: <20210907113314.2195505-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.33.0
+Subject: [PATCH v2] staging: axis-fifo: convert to use miscdevice
+Message-ID: <YTdPvBgKW6cKYrvb@kroah.com>
+References: <20210907113314.2195505-1-gregkh@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6681; h=from:subject; bh=LinC0cWavtsL7SVSTF2PUQ+C6ByDu7ePNeKUza5Qnd0=; b=owGbwMvMwCRo6H6F97bub03G02pJDInmvj84Th9/nMm061c9W56nm+Oe8scu12bWyVyPrzZUm2I9 5bZDRywLgyATg6yYIsuXbTxH91ccUvQytD0NM4eVCWQIAxenAEyk/C7D/Pody1fapZ+yNgzp0A2QuS WStlgin2GeWetd3/pDK+a/vLzSZFH/Gs8T8X84AA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210907113314.2195505-1-gregkh@linuxfoundation.org>
 
 Using a struct class, a cdev, and another device just for a single minor
 device is total overkill.  Just use a dynamic misc device instead,
@@ -41,11 +39,13 @@ Cc: Lee Jones <lee.jones@linaro.org>
 Cc: Muhammad Usama Anjum <musamaanjum@gmail.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 87 ++++++++-------------------
- 1 file changed, 25 insertions(+), 62 deletions(-)
+v2: properly set the misc device parent pointer.
+
+ drivers/staging/axis-fifo/axis-fifo.c | 88 ++++++++-------------------
+ 1 file changed, 26 insertions(+), 62 deletions(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index b23eabb863d1..40ca2c251ad5 100644
+index b23eabb863d1..632f140dddbc 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
 @@ -30,6 +30,7 @@
@@ -136,7 +136,7 @@ index b23eabb863d1..40ca2c251ad5 100644
  	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
  
  	/* ----------------------------
-@@ -904,51 +905,20 @@ static int axis_fifo_probe(struct platform_device *pdev)
+@@ -904,51 +905,21 @@ static int axis_fifo_probe(struct platform_device *pdev)
  	 * ----------------------------
  	 */
  
@@ -147,6 +147,7 @@ index b23eabb863d1..40ca2c251ad5 100644
 +	fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
 +	fifo->miscdev.name = device_name;
 +	fifo->miscdev.groups = axis_fifo_attrs_groups;
++	fifo->miscdev.parent = dev;
 +	rc = misc_register(&fifo->miscdev);
  	if (rc < 0)
  		goto err_initial;
@@ -196,7 +197,7 @@ index b23eabb863d1..40ca2c251ad5 100644
  err_initial:
  	dev_set_drvdata(dev, NULL);
  	return rc;
-@@ -959,10 +929,7 @@ static int axis_fifo_remove(struct platform_device *pdev)
+@@ -959,10 +930,7 @@ static int axis_fifo_remove(struct platform_device *pdev)
  	struct device *dev = &pdev->dev;
  	struct axis_fifo *fifo = dev_get_drvdata(dev);
  
@@ -208,7 +209,7 @@ index b23eabb863d1..40ca2c251ad5 100644
  	dev_set_drvdata(dev, NULL);
  
  	return 0;
-@@ -987,9 +954,6 @@ static int __init axis_fifo_init(void)
+@@ -987,9 +955,6 @@ static int __init axis_fifo_init(void)
  {
  	pr_info("axis-fifo driver loaded with parameters read_timeout = %i, write_timeout = %i\n",
  		read_timeout, write_timeout);
@@ -218,7 +219,7 @@ index b23eabb863d1..40ca2c251ad5 100644
  	return platform_driver_register(&axis_fifo_driver);
  }
  
-@@ -998,7 +962,6 @@ module_init(axis_fifo_init);
+@@ -998,7 +963,6 @@ module_init(axis_fifo_init);
  static void __exit axis_fifo_exit(void)
  {
  	platform_driver_unregister(&axis_fifo_driver);
