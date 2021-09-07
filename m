@@ -1,110 +1,100 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A3172
-	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 22:10:06 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id v20-20020a1cf714000000b002e71f4d2026so31154wmh.1
-        for <linux-staging@lists.linux.dev>; Tue, 07 Sep 2021 15:10:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676B472
+	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 22:30:05 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id 18so315675pfh.9
+        for <linux-staging@lists.linux.dev>; Tue, 07 Sep 2021 15:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jvwyaUQt5n0mIy7xaampJ1fxHnCzRU2G9ORyorTcaFg=;
-        b=Z4rmr9kIvWxpCZB7IlbES4y5ojyL37h9G+fB4bQ6OtiadOHiY5YXZ4Ogh2qASFEQtr
-         EGuKvVEt6NBZH8MSZqGGhf41wkdqlwIzt82Bv7oLn09LFnE26opQDzF/NkDVpTF2JOiA
-         0KnC38oF2p+v3u7AtMuhD70OcSxmD0xcKy5UqM6DcBU50A6A8pjO8i2Mu58lrWfJQSUm
-         AJL/DOVUkuq2zzUNhXAAovXCNleAuEm9fIShv6/RRQUFNHmWaHCGDlqoMzvsych/UksC
-         rKAuUjrHwevf/uiPUf1BE18PSrJlTiagDegF+45oe9/aT1/HRpDyLQfWyXGQ6wmuewmI
-         Scnw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mP/IIf+MJPppx6rdwrLf1UIeleriTJ/3EK8yRMv6DsY=;
+        b=OKiv359hU6qwhV0SwGATvX1niwWqBdt0iGVarRgaeolD4hzPmJDltZkhIaBcjrxj1g
+         8yqQPMtR9hTicQqC8UdXe3yUS0N3dSxGGrPc9IrbaA8rPIH2uFWArfsiBL9gxZ02lRzt
+         O663f/s9A0fsw5delQpKcLC6q9liiTEMIJmqOnSV4JrDPkBPxQQHSCSRa7lf0B3HHtvO
+         S2DsnYxaJMzK2N+LCiesfvt4mPCPfFTZnVl2wK3EVkfJcPHs3Nk4T0Ny9h0NU6woqGE2
+         pMUBvw488luPIt/5A6pXMXJSoXQMjUu3cDYu7Ve4Rziy5iIwyrF7OU90trUnnzjOpEPq
+         V48g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jvwyaUQt5n0mIy7xaampJ1fxHnCzRU2G9ORyorTcaFg=;
-        b=EWtK9jWWjDuAtFd3Pm4PuC6pU4G/kR/C3sTrRN4Mg9dPRIPET3diefFdTpc4pk34Ai
-         Nw79RlFuEXtV8gqeffhN2IZn1IbTXR4l5yS+0bRBC0Y/Uh6Z4ZI7LvQs8N9kO30SZwhw
-         FBM6A1/4CiHh5eOCqjJns8MzV9y8SoPv6sHFwMKAux88U0K+dW/YWqoORxx07pIbzCoM
-         1u1UuYSOSDusM/5QNI9FatQ5rL2Kysw31WB0+3OjKBhMMDvun7xhzozKMkjsMWCcqtKl
-         wdnT1qN29ekVwNfhhP5Z2PC+NQGiEaIyaKur4fBSzpZehVofbhHN4qtBAQPPGphQ2Dlo
-         wneQ==
-X-Gm-Message-State: AOAM531DnlL+RE4u2+4kO7omZ100epyTr7Z2hU2Og626kUZfeKYkeurS
-	BxlHbOUZAvEZtwt9se1q/ExGdw==
-X-Google-Smtp-Source: ABdhPJxP+dFd1KsQhgXsGzKnROx0wlUsDamiYbTKMztXUuGDFqaZrpO3mEzk7mcnUsvSILyh1AsIcg==
-X-Received: by 2002:a1c:cc05:: with SMTP id h5mr408853wmb.5.1631052605160;
-        Tue, 07 Sep 2021 15:10:05 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id h8sm265028wmb.35.2021.09.07.15.10.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 15:10:04 -0700 (PDT)
-Date: Tue, 7 Sep 2021 23:10:02 +0100
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Colin King <colin.king@canonical.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: remove redundant variable hoffset
-Message-ID: <YTfjOtrlaZscXVTm@equinox>
-References: <20210907085302.10672-1-colin.king@canonical.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mP/IIf+MJPppx6rdwrLf1UIeleriTJ/3EK8yRMv6DsY=;
+        b=ulDXtlenZLb1nNK9Mk7UdtMlAAcn4qBpPdyE0GW9v6PE8591uLjRnMWFkIcvRImT+J
+         Ur33raoprJvu2E7sGD0LyBQEwk80Xv3cHC2SVQA0YbPmJFO7DJv5JWuzSWskWwDHu52H
+         GfTbBUfOTBr3atG5huCfuT4e0aGImlVqzjZpLNAvKVRz8fGNFrHmdDQEg3AnnAuhdSBa
+         FxOqfZtr9sKeVpnZaZg1OJTHCXucBPgM0v02N2pTEQY8De0lHVksi/ta8dFF/z108vVH
+         WmJhqCi4e45Kfu9PpN/p1XntL3tAbLuevfUMZh0Ftmr8K3otrJV7iBxgEagAutg26bTQ
+         14sQ==
+X-Gm-Message-State: AOAM533KtbDtFldon/8GekbKXfW8KNMHH6nBDGPQD57z99gC4tOEPM2y
+	pXPDZT4dBp45sR5cS1C+k+Pbp+w7fIArFvYBGBuUd2/4+baW2w==
+X-Google-Smtp-Source: ABdhPJzgkyotWqm/GhDUt9M4xwX5X+VVZD0hVUEAJ1Bsel6IlV6f5bjhhHaFaC6IFBLXBU7Canbhv3p1uWvFRkEaI7g=
+X-Received: by 2002:a63:dd46:: with SMTP id g6mr528777pgj.347.1631053804832;
+ Tue, 07 Sep 2021 15:30:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210907085302.10672-1-colin.king@canonical.com>
+References: <20210907210924.22287-1-straube.linux@gmail.com>
+In-Reply-To: <20210907210924.22287-1-straube.linux@gmail.com>
+From: Phillip Potter <phil@philpotter.co.uk>
+Date: Tue, 7 Sep 2021 23:29:53 +0100
+Message-ID: <CAA=Fs0mg7ZjgK-NeeGehEVKczyfH2ZsruWe_nneroBJw6kz=zw@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: remove unused function Hal_ProSetCrystalCap()
+To: Michael Straube <straube.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
+	Martin Kaiser <martin@kaiser.cx>, "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 07, 2021 at 09:53:02AM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> Variable hoffset is being assigned values but it is never being
-> used. The variable is redundant and can be removed.
-> 
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+On Tue, 7 Sept 2021 at 22:09, Michael Straube <straube.linux@gmail.com> wrote:
+>
+> Remove unused function Hal_ProSetCrystalCap().
+>
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->  drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> index 14758361960c..7c12ca548c47 100644
-> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-> @@ -1143,7 +1143,7 @@ static u16 hal_EfuseGetCurrentSize_8188e(struct adapter *pAdapter, bool bPseudoT
->  {
->  	int	bContinual = true;
->  	u16	efuse_addr = 0;
-> -	u8 hoffset = 0, hworden = 0;
-> +	u8 hworden = 0;
->  	u8 efuse_data, word_cnts = 0;
->  
->  	if (bPseudoTest)
-> @@ -1156,18 +1156,15 @@ static u16 hal_EfuseGetCurrentSize_8188e(struct adapter *pAdapter, bool bPseudoT
->  	       AVAILABLE_EFUSE_ADDR(efuse_addr)) {
->  		if (efuse_data != 0xFF) {
->  			if ((efuse_data & 0x1F) == 0x0F) {		/* extended header */
-> -				hoffset = efuse_data;
->  				efuse_addr++;
->  				efuse_OneByteRead(pAdapter, efuse_addr, &efuse_data, bPseudoTest);
->  				if ((efuse_data & 0x0F) == 0x0F) {
->  					efuse_addr++;
->  					continue;
->  				} else {
-> -					hoffset = ((hoffset & 0xE0) >> 5) | ((efuse_data & 0xF0) >> 1);
->  					hworden = efuse_data & 0x0F;
->  				}
->  			} else {
-> -				hoffset = (efuse_data >> 4) & 0x0F;
->  				hworden =  efuse_data & 0x0F;
->  			}
->  			word_cnts = Efuse_CalculateWordCnts(hworden);
-> -- 
-> 2.32.0
-> 
+>  drivers/staging/r8188eu/core/rtw_mp.c    | 9 ---------
+>  drivers/staging/r8188eu/include/rtw_mp.h | 1 -
+>  2 files changed, 10 deletions(-)
+>
+> diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
+> index dabdd0406f30..82268f754da0 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mp.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mp.c
+> @@ -924,12 +924,3 @@ void _rtw_mp_xmit_priv(struct xmit_priv *pxmitpriv)
+>  exit:
+>         ;
+>  }
+> -
+> -void Hal_ProSetCrystalCap(struct adapter *pAdapter, u32 CrystalCapVal)
+> -{
+> -       CrystalCapVal = CrystalCapVal & 0x3F;
+> -
+> -       // write 0x24[16:11] = 0x24[22:17] = CrystalCap
+> -       PHY_SetBBReg(pAdapter, REG_AFE_XTAL_CTRL, 0x7FF800,
+> -                    (CrystalCapVal | (CrystalCapVal << 6)));
+> -}
+> diff --git a/drivers/staging/r8188eu/include/rtw_mp.h b/drivers/staging/r8188eu/include/rtw_mp.h
+> index b2befe09d944..73fb6974d076 100644
+> --- a/drivers/staging/r8188eu/include/rtw_mp.h
+> +++ b/drivers/staging/r8188eu/include/rtw_mp.h
+> @@ -466,7 +466,6 @@ void Hal_TriggerRFThermalMeter(struct adapter *pAdapter);
+>  u8 Hal_ReadRFThermalMeter(struct adapter *pAdapter);
+>  void Hal_SetCCKContinuousTx(struct adapter *pAdapter, u8 bStart);
+>  void Hal_SetOFDMContinuousTx(struct adapter *pAdapter, u8 bStart);
+> -void Hal_ProSetCrystalCap (struct adapter *pAdapter , u32 CrystalCapVal);
+>  void _rtw_mp_xmit_priv(struct xmit_priv *pxmitpriv);
+>  void MP_PHY_SetRFPathSwitch(struct adapter *pAdapter ,bool bMain);
+>
+> --
+> 2.33.0
+>
 
-Many thanks Colin, looks good to me.
+Looks good Michael, many thanks.
 
 Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
