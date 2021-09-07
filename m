@@ -1,102 +1,69 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E41B3FC0
-	for <linux-staging@lists.linux.dev>; Mon,  6 Sep 2021 23:05:30 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id g14so6623588pfm.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Sep 2021 16:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RsnUjT2+lUd00F759XigVRFI1hNrAY0fPM7J0dBz5Ak=;
-        b=kf8ERraXpY7/9DjZhN2LY8R3OBm2l4f4d41PW8s3L2lEqxeGjqwzu2Qjt/stfq8cgL
-         56qKqdFX6vfgJ5Y4h0AKSrTYyQOtLs0m11njbI/0hI48xw+JkeVRU2/WlsWtDtqwG8fQ
-         C+VFDvrF9zOmVJWV74mKVg4KXCMnEPXO3oESxojPsZX+ULrmKhpQJEG3QwrfCC7Ba31H
-         GuRm9DXurfxNFTW60Q0p8XIbzE5LK21LhdCPQU2NJhy6XOXx8I+5L82rlNSmmdT21l1c
-         IOYq8ggVaZTOJBj7D140CRwfzMNGYOsNyKs5UMS7aAmozHfOiQia19JeHJ/KrOwFbe+L
-         c69w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RsnUjT2+lUd00F759XigVRFI1hNrAY0fPM7J0dBz5Ak=;
-        b=H3df5lAAQfUQzKwuDt3c/lDHKKY0+3rXH0QuRDB2BSY4lbi9zxcs4E4QJqH6ewQS/m
-         Mj0ZuWDxPbnFEJdm0OwwoTOHU1t/vN+szOcrofwDLuTV75V8x7/BvNeNl7xZy+F/y1ch
-         ncwj3WOkWZjmRAucxZ+0njUY9f7QGddRXju9voPg91pe4M1eZg9ZhMrPy8aQdiVJNcSn
-         77veR/3mp46/NMe0GH2RkhV0HCT1QUZ/LwISn/U91OcJWqvb8fnX9WccSzWGrmBga+i+
-         sFbnbP1+g8WbiAZS1pKfcVwvJXTAdx//YfwtugqAYF+V+B8va78rCi101E3/058O57AS
-         FcLw==
-X-Gm-Message-State: AOAM531/QOWS/VuUEkH/appk8y3ZWkA/hOSM25nPTacb35Jpql4tfDrG
-	eYHBUG0xPf5ln/aFMTGWpao2jnmSguxmOiUvlzx+kLC26Lk=
-X-Google-Smtp-Source: ABdhPJx5QMGl5O2ZTDIzcGZe6FnwUGR+4uvnqa4pSiPXomY+JNiWgpEPk42WblCceXMK5OcHIFzFWnYGwEYWTLFo/a4=
-X-Received: by 2002:a63:ef58:: with SMTP id c24mr14002991pgk.299.1630969529846;
- Mon, 06 Sep 2021 16:05:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E0972
+	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 05:00:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D3C160ED8;
+	Tue,  7 Sep 2021 05:00:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1630990812;
+	bh=zUmx2ULy/blbbM0YNdkMyQFOd/Xq8yYfxL9d420jKck=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WGGaHNBEC3HcfmcE17GghVqNXqh2qmM2mBcpzsiCnw7ThGhwwfqWbARhQz793YM9e
+	 u+1WQi9K9PVzCTAAEIDX47yX93RaXHiYveY7mCBVaXGJBsSMDsBr6mVjwmFHabDAUe
+	 M3NzEw6Z1QElWVnhcA+BI2u3KJzmQPrX5yn7DnHk=
+Date: Tue, 7 Sep 2021 07:00:02 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kari Argillander <kari.argillander@gmail.com>
+Cc: Michael Straube <straube.linux@gmail.com>, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, martin@kaiser.cx, fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 00/40] staging: r8188eu: remove function pointers from
+ struct hal_ops
+Message-ID: <YTbx0hAC4jmF6WP4@kroah.com>
+References: <20210906190223.11396-1-straube.linux@gmail.com>
+ <20210906225713.zbkm6tzghjsv3s2t@kari-VirtualBox>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210906010106.898-1-phil@philpotter.co.uk> <20210906010106.898-3-phil@philpotter.co.uk>
- <20210906082535.GK1957@kadam>
-In-Reply-To: <20210906082535.GK1957@kadam>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Tue, 7 Sep 2021 00:05:18 +0100
-Message-ID: <CAA=Fs0mxo5Ty9RfrWBuq53ycaay5xuw9_wk=Z11J18gpeGnW7g@mail.gmail.com>
-Subject: Re: [PATCH 02/14] staging: r8188eu: remove hal_reset_security_engine
- from struct hal_ops
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Larry Finger <Larry.Finger@lwfinger.net>, 
-	Michael Straube <straube.linux@gmail.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210906225713.zbkm6tzghjsv3s2t@kari-VirtualBox>
 
-On Mon, 6 Sept 2021 at 09:26, Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Mon, Sep 06, 2021 at 02:00:54AM +0100, Phillip Potter wrote:
-> > Remove hal_reset_security_engine function pointer from struct hal_ops,
-> > as it is unused.
-> >
-> > Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> > ---
-> >  drivers/staging/r8188eu/include/hal_intf.h | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-> > index 5612274dea4d..3cbe6c277677 100644
-> > --- a/drivers/staging/r8188eu/include/hal_intf.h
-> > +++ b/drivers/staging/r8188eu/include/hal_intf.h
-> > @@ -250,7 +250,6 @@ struct hal_ops {
-> >                                 u32 bndy_cnt);
-> >
-> >       void (*hal_notch_filter)(struct adapter *adapter, bool enable);
-> > -     void (*hal_reset_security_engine)(struct adapter *adapter);
-> >       c2h_id_filter c2h_id_filter_ccx;
-> >  };
->
-> I love these patchsets which are removing the HAL layer, but it would
-> be better if you folded patches 1 and 2 together because it would be
-> easier to review.  That way we can just say "Well, if this patch isn't
-> correct it will cause a compile error so let's assume it's correct
-> unless the kbuild-bot complains."
->
-> There are other pairs in this patchset which are the same way where they
-> would be easier to review if they were merged. 3 & 4.  5 & 6.  Etc.
->
-> The patcheset is fine but for future reference please fold them together.
->
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
->
-> regards,
-> dan carpenter
->
+On Tue, Sep 07, 2021 at 01:57:13AM +0300, Kari Argillander wrote:
+> On Mon, Sep 06, 2021 at 09:01:43PM +0200, Michael Straube wrote:
+> > In order to get rid of the HAL layer this series removes the next
+> > bunch of function pointers from struct hal_ops.
+> > 
+> > Also it removes some empty functions and cleans up some minor style
+> > issues I stumbled upon.
+> > 
+> > Tested on x86_64 with Inter-Tech DMG-02.
+> > 
+> > 
+> > v1 -> v2
+> > Fixed typos in commit messages.
+> > 
+> > v2 -> v3
+> > Added this missing patchset version changelog.
+> 
+> Can you please hold on litle bit longer before you send next patch
+> series. This will make quite bit traffic on the lists and it does
+> not add value. Wait for bit for reviewers and after that make new
+> series. You can even post below yours own messages if you found some
+> mistake and point out that you will change it when you send next
+> series. Good hold on time would be 3-7 days with series this big imo.
 
-Dear Dan,
+No need to wait that long, if you know you messed up, sending it again
+is just fine so that maintainers and reviewers do not start looking at
+things that you know is incorrect.
 
-Thank you for the review, much appreciated. I will endeavour to do
-this in future.
+But you can just send a response saying "oops, this is wrong, I will
+resend this in a day".
 
-Regards,
-Phil
+thanks
+
+greg k-h
