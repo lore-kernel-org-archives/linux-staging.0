@@ -1,91 +1,100 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA3372
-	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 10:08:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B057603E7;
-	Tue,  7 Sep 2021 10:08:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631009326;
-	bh=pIiemJLPaAy67hAx81382ZlctfAZvjwMb3odoIi4t8A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jJprcHQPU4NJe7pu023OmmO3hX7YlxxIngzyharrQmFRr3jrCraouT3qGwm8VY6wq
-	 N09HZ1BRF8EnyOcfFuyDzmeUBmRqp1dg63vnZURCjQSUgHjPKqXFBnRfLt+VA603+W
-	 yd3VKUOy8kukhReVajZlCMwjodmug6RAo4XNoJOM=
-Date: Tue, 7 Sep 2021 12:08:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: paskripkin@gmail.com, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, larry.finger@lwfinger.net,
-	phil@philpotter.co.uk
-Subject: Re: patch "staging: r8188eu: Remove _enter/_exit_critical_mutex()"
- added to staging-testing
-Message-ID: <YTc6LCathRnb0U6U@kroah.com>
-References: <1630997812180231@kroah.com>
- <3355001.phisWU0qcP@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA01E72
+	for <linux-staging@lists.linux.dev>; Tue,  7 Sep 2021 10:10:29 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-285-AjN96C9hN9WOcY0vzSbalw-1; Tue, 07 Sep 2021 11:10:26 +0100
+X-MC-Unique: AjN96C9hN9WOcY0vzSbalw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Tue, 7 Sep 2021 11:10:19 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Tue, 7 Sep 2021 11:10:19 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: "'Fabio M. De Francesco'" <fmdefrancesco@gmail.com>, Larry Finger
+	<Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, Pavel Skripkin
+	<paskripkin@gmail.com>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 3/3] staging: r8188eu: Shorten calls chain of
+ rtw_write8/16/32/N()
+Thread-Topic: [PATCH v3 3/3] staging: r8188eu: Shorten calls chain of
+ rtw_write8/16/32/N()
+Thread-Index: AQHXowbxud4S7oFeskKSrbEZlc25E6uYWqHg
+Date: Tue, 7 Sep 2021 10:10:19 +0000
+Message-ID: <5a359f20e80341c9910ecc6286eb0aec@AcuMS.aculab.com>
+References: <20210904220048.12822-1-fmdefrancesco@gmail.com>
+ <20210904220048.12822-4-fmdefrancesco@gmail.com>
+In-Reply-To: <20210904220048.12822-4-fmdefrancesco@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3355001.phisWU0qcP@localhost.localdomain>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 07, 2021 at 11:00:28AM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, September 7, 2021 8:56:52 AM CEST gregkh@linuxfoundation.org 
-> wrote:
-> > 
-> > This is a note to let you know that I've just added the patch titled
-> > 
-> >     staging: r8188eu: Remove _enter/_exit_critical_mutex()
-> > 
-> > to my staging git tree which can be found at
-> >     git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git
-> > in the staging-testing branch.
-> > 
-> > The patch will show up in the next release of the linux-next tree
-> > (usually sometime within the next 24 hours during the week.)
-> > 
-> > The patch will be merged to the staging-next branch sometime soon,
-> > after it passes testing, and the merge window is open.
-> > 
-> > If you have any questions about this process, please let me know.
-> > 
-> > 
-> > From d3c6dfb00bd9fe75f3a44246d6db7991f6443bac Mon Sep 17 00:00:00 2001
-> > From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-> > Date: Sat, 28 Aug 2021 13:36:56 +0200
-> > Subject: staging: r8188eu: Remove _enter/_exit_critical_mutex()
-> > 
-> > Remove _enter_critical_mutex() and _exit_critical_mutex(). They are
-> > unnecessary wrappers, respectively to mutex_lock_interruptible() and
-> > to mutex_unlock(). They also have an odd interface that takes an unused
-> > argument named pirqL of type unsigned long.
-> > The original code enters the critical section if the mutex API is
-> > interrupted while waiting to acquire the lock; therefore it could lead
-> > to a race condition. Use mutex_lock() because it is uninterruptible and
-> > so avoid that above-mentioned potential race condition.
-> 
-> Dear Greg,
-> 
-> I've just read this message. Thank you for applying my patch. I really 
-> appreciated that you trust the code :)
-> 
-> Unfortunately it makes me wonder if I should have added a "Fixes:" tag 
-> because it (among other things) prevents a (possible while remote - I guess)
-> bug. The code entered the critical section if the sleeping of the 
-> interruptible mutex were interrupted by signals and so it could lead to race 
-> conditions.
-> 
-> I have this doubt. Please let me know if I'd better redo the commit message 
-> and add the above-mentioned tag.
+From: Fabio M. De Francesco
+> Sent: 04 September 2021 23:01
+>
+> Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+> For this purpose unify the four usb_write8/16/32/N() into the new
+> usb_write(); make the latter parameterizable with 'size'; embed most of
+> the code of usbctrl_vendorreq() into usb_write() and use in it the new
+> usb_control_msg_send() API of USB Core.
+>=20
+...
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/stagin=
+g/r8188eu/hal/usb_ops_linux.c
+> index f9c4fd5a2c53..e31d1b1fdb12 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -8,76 +8,51 @@
+>  #include "../include/recv_osdep.h"
+>  #include "../include/rtl8188e_hal.h"
+>=20
+> -static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void =
+*pdata, u16 len, u8
+> requesttype)
+> +static int usb_read(struct intf_hdl *intfhdl, u32 addr, void *data, u8 s=
+ize)
+>  {
+> -=09struct adapter=09*adapt =3D pintfhdl->padapter;
+> -=09struct dvobj_priv  *dvobjpriv =3D adapter_to_dvobj(adapt);
+> +=09u16 value =3D (u16)(addr & 0x0000ffff);
+> +=09struct adapter *adapt =3D intfhdl->padapter;
+> +=09struct dvobj_priv *dvobjpriv =3D adapter_to_dvobj(adapt);
+>  =09struct usb_device *udev =3D dvobjpriv->pusbdev;
+> -=09unsigned int pipe;
+> -=09int status =3D 0;
+> -=09u8 *pIo_buf;
+> +=09int status;
+> +=09u8 *io_buf;
 
-Given the mess that is this driver right now, no, that's not needed at
-all.  Only worry about that when you are fixing a real issue that should
-be backported to older kernel releases.
+Some of these changes are whitespace or renames.
+They ought to be in a different patch.
 
-thanks,
+I think you'll need 'reverse xmas tree' ordering as well.
 
-greg k-h
+=09David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
