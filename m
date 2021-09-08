@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D174872
-	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 08:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B473272
+	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 09:25:27 +0000 (UTC)
 Received: from pd956d63d.dip0.t-ipconnect.de ([217.86.214.61] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mNtPQ-0000yP-G6; Wed, 08 Sep 2021 10:58:20 +0200
+	id 1mNtPG-0000yP-RN; Wed, 08 Sep 2021 10:58:10 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,12 +16,10 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/3] staging: r8188eu: this endless loop is executed only once
-Date: Wed,  8 Sep 2021 10:57:47 +0200
-Message-Id: <20210908085747.32254-4-martin@kaiser.cx>
+Subject: [PATCH 0/3] three simple cleanups
+Date: Wed,  8 Sep 2021 10:57:44 +0200
+Message-Id: <20210908085747.32254-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210908085747.32254-1-martin@kaiser.cx>
-References: <20210908085747.32254-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,70 +28,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There's a funny "loop" in rtl8188eu_xmitframe_complete. It looks like
+Remove unused definitions and a pointless loop.
 
-do {
-  ... some commands...
-  break;
-} while (1);
+Martin Kaiser (3):
+  staging: r8188eu: remove unused function prototype
+  staging: r8188eu: remove unused define
+  staging: r8188eu: this endless loop is executed only once
 
-Remove it.
+ drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  | 34 ++++++++-----------
+ drivers/staging/r8188eu/include/rtw_io.h      |  2 --
+ .../staging/r8188eu/os_dep/osdep_service.c    |  2 --
+ 3 files changed, 15 insertions(+), 23 deletions(-)
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/hal/rtl8188eu_xmit.c | 34 +++++++++-----------
- 1 file changed, 15 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-index 17be67ac5fae..3b870d0c72fd 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_xmit.c
-@@ -437,30 +437,26 @@ s32 rtl8188eu_xmitframe_complete(struct adapter *adapt, struct xmit_priv *pxmitp
- 	}
- 
- 	/* 3 1. pick up first frame */
--	do {
--		rtw_free_xmitframe(pxmitpriv, pxmitframe);
--
--		pxmitframe = rtw_dequeue_xframe(pxmitpriv, pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
--		if (!pxmitframe) {
--			/*  no more xmit frame, release xmit buffer */
--			rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
--			return false;
--		}
-+	rtw_free_xmitframe(pxmitpriv, pxmitframe);
- 
--		pxmitframe->pxmitbuf = pxmitbuf;
--		pxmitframe->buf_addr = pxmitbuf->pbuf;
--		pxmitbuf->priv_data = pxmitframe;
-+	pxmitframe = rtw_dequeue_xframe(pxmitpriv, pxmitpriv->hwxmits, pxmitpriv->hwxmit_entry);
-+	if (!pxmitframe) {
-+		/*  no more xmit frame, release xmit buffer */
-+		rtw_free_xmitbuf(pxmitpriv, pxmitbuf);
-+		return false;
-+	}
- 
--		pxmitframe->agg_num = 1; /*  alloc xmitframe should assign to 1. */
--		pxmitframe->pkt_offset = 1; /*  first frame of aggregation, reserve offset */
-+	pxmitframe->pxmitbuf = pxmitbuf;
-+	pxmitframe->buf_addr = pxmitbuf->pbuf;
-+	pxmitbuf->priv_data = pxmitframe;
- 
--		rtw_xmitframe_coalesce(adapt, pxmitframe->pkt, pxmitframe);
-+	pxmitframe->agg_num = 1; /*  alloc xmitframe should assign to 1. */
-+	pxmitframe->pkt_offset = 1; /*  first frame of aggregation, reserve offset */
- 
--		/*  always return ndis_packet after rtw_xmitframe_coalesce */
--		rtw_os_xmit_complete(adapt, pxmitframe);
-+	rtw_xmitframe_coalesce(adapt, pxmitframe->pkt, pxmitframe);
- 
--		break;
--	} while (1);
-+	/*  always return ndis_packet after rtw_xmitframe_coalesce */
-+	rtw_os_xmit_complete(adapt, pxmitframe);
- 
- 	/* 3 2. aggregate same priority and same DA(AP or STA) frames */
- 	pfirstframe = pxmitframe;
 -- 
 2.20.1
 
