@@ -1,41 +1,41 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923D03FD5
-	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 23:10:16 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id q26so5580914wrc.7
-        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 16:10:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DAD72
+	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 23:10:17 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id q26so5580949wrc.7
+        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 16:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UZtUkA8uA7tyAnR1JQv0hvRBLsmltUOtKeKYLbxIW8c=;
-        b=CqZQgiOgLva3wRn6rcX+rsQbs7Aihl/+1pSGLWlq4AcBHLL/c1D/xAq5P+E0T55R+9
-         o9S3P6t25cjtHKTJMRTx9bxjYc0YelCDwox/bNZAtgQM2biglVLHQCJ3Bjm1p2frULep
-         3axycg5ILdeRvg8YBG/FCyPdPwK/d+xpLgxnhjKnzrcomBhyI8G2SdguMkS8z0ZInJ6L
-         C+n9tJDdmKY/NUNL5KBgWi8MEwNyW9M3oHGz3NLk22fcrs7xQ7SmSVxAS+VkMHvJJKg1
-         IvmZ9Dc+E0kK0VEfgy7y/WrS1OvTnShW5UWJL6fEkgfubdCgFR6vV+v9N/1sWNMu/irp
-         FlcQ==
+        bh=Bck3GxM/smuWPP1BN2oyn2huDSeUCK8vvjWeb+leiQk=;
+        b=OJ6wttDqNyKkGNxg8MNgwxQayIgUMQxKm+MI/X5bR0AFTYdkt7jVJlOy5sGCnvtwGV
+         A9Ae2BqXvcCFLpQnWknKXzjC5WGbjCFOv361MK2YVo+UNg9UcQwN5SAHLRroth6X3UOm
+         aWHA1Kjgv3PaVBuUvpmff28lPiZvPJXiaXYpz9r2KZIhZfbDjzmpj3Hl3vS1nX089eNS
+         /MoorYx8g6mF7GQBiduC2jSlWm3SD/j9mk1KMMU3II6vhOKLyTFa07wOfS6q1y4IlcLP
+         QN0VkTEk842XxXzV3qvUHqSnWhT+ekkzK0vkPUq7AHSGYlXDv4DJhp2FeE888RgGthEa
+         vx8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UZtUkA8uA7tyAnR1JQv0hvRBLsmltUOtKeKYLbxIW8c=;
-        b=J0ZffggraAJCjpzapUAMnTnJyZJieAXDmSo026NRs49gFdD831Jax92MX2Gb6+jFSc
-         dNEyvx1KMmGYDj8QdDhobF26d6/U+FDSNLyHrbkCteZfCisAT90o1okt5UR0RYN5b1Bc
-         UnvsxVs3NoI0S7bovoS/0uW8UOWKD1LfF0Ku0xpyHXUR7POuUeXzgNKzgdXrfBnNZbRD
-         a+TpctNncVHbvQT2WZXvkWx88ecU4KuvL+xBdwVsEj2v70+phCQ+Ss2HShLAESQ+3cg1
-         MQEQnbu/9xeuz7NHzRFxFBsbM6+doal9zdrx1UQwGqzCU5jJUZX+SL8OaQYolhqU5/Be
-         Cy9w==
-X-Gm-Message-State: AOAM530hjeoqcchSL9x4sI+SnUvbgxevoFYvFWmZ5SW5TxPF+58aoi2r
-	S4J5Sk4XXD8PDV7R7hUm6jQ=
-X-Google-Smtp-Source: ABdhPJwmbUd4K2WLg6p3JTv6MNdyVrJy5d1p4iVIYgBaZ8pfF54JFOCfZZmlSTF2Xw8Lv2Oc8WHkwg==
-X-Received: by 2002:adf:eacb:: with SMTP id o11mr65857wrn.418.1631142615093;
+        bh=Bck3GxM/smuWPP1BN2oyn2huDSeUCK8vvjWeb+leiQk=;
+        b=iBXT6k/S9Mvpd2ZYoMKW4LeSVR9YKdT24MxORfe0COsnrqXpDI51bi+J/LhxfeLi9S
+         EOzc3WgR5Xy0N12D3DW9Rv/npb+fSn/TMjVMi4ThY/G6mhcZ6MDTGoJdlPdaQm1GC+hv
+         YImxpeSFGikMVEMnHrvNx8j/eF/t2Vg3LjCs+n9PNnVg6MjanfWk7raKsjkyiAjZP4PZ
+         2tkqKAKW2XErDZWCK9vlO4hpXM/CD+Xh8+sn57LKUHHr3Ydif9HPEuvpx1L6Vkhl7VTA
+         Ke1+X/FVB9NzF/PByNZTphODT8WDEl+J4VSPAbSswILcu5xNgNp4IuGFh9EzZswaZ7jd
+         PBow==
+X-Gm-Message-State: AOAM531g3zDlJM7BRbDSS23z1QO8gGC1UgOUMC2cbPjqyNKyfJdmfaOT
+	wIi0jcHxyRbg80jCmlK9Drk=
+X-Google-Smtp-Source: ABdhPJzhdAmgitEAHjHd4q7oxUOqHssQvkjGp8GQZVP8dwRoTSHGoKBoYquguQfk1hCgOdjr4LbIDg==
+X-Received: by 2002:adf:f101:: with SMTP id r1mr47110wro.355.1631142615891;
         Wed, 08 Sep 2021 16:10:15 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id l21sm348393wmh.31.2021.09.08.16.10.14
+        by smtp.gmail.com with ESMTPSA id l21sm348393wmh.31.2021.09.08.16.10.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 16:10:14 -0700 (PDT)
+        Wed, 08 Sep 2021 16:10:15 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/2] staging: r8188eu: remove unused odm_Init_RSSIForDM()
-Date: Thu,  9 Sep 2021 01:09:52 +0200
-Message-Id: <20210908230953.16931-2-straube.linux@gmail.com>
+Subject: [PATCH 2/2] staging: r8188eu: remove unused ODM_MacStatusQuery()
+Date: Thu,  9 Sep 2021 01:09:53 +0200
+Message-Id: <20210908230953.16931-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210908230953.16931-1-straube.linux@gmail.com>
 References: <20210908230953.16931-1-straube.linux@gmail.com>
@@ -59,42 +59,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function odm_Init_RSSIForDM() is unused and empty, remove it.
+Function ODM_MacStatusQuery() is unused and empty, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm_HWConfig.c     | 4 ----
- drivers/staging/r8188eu/include/odm_HWConfig.h | 2 --
- 2 files changed, 6 deletions(-)
+ drivers/staging/r8188eu/hal/odm_HWConfig.c     | 8 --------
+ drivers/staging/r8188eu/include/odm_HWConfig.h | 7 -------
+ 2 files changed, 15 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index ada22a526fee..db4c072ec6c5 100644
+index db4c072ec6c5..0a07795e3912 100644
 --- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
 +++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -356,10 +356,6 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 	dm_odm->DM_FatTable.antsel_rx_keep_2 = pPhyStaRpt->antsel_rx_keep_2;
+@@ -519,14 +519,6 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *dm_odm,
+ 	ODM_PhyStatusQuery_92CSeries(dm_odm, pPhyInfo, pPhyStatus, pPktinfo, adapt);
  }
  
--void odm_Init_RSSIForDM(struct odm_dm_struct *dm_odm)
+-/*  For future use. */
+-void ODM_MacStatusQuery(struct odm_dm_struct *dm_odm, u8 *mac_stat,
+-			u8 macid, bool pkt_match_bssid,
+-			bool pkttoself, bool pkt_beacon)
 -{
+-	/*  2011/10/19 Driver team will handle in the future. */
 -}
 -
- static void odm_Process_RSSIForDM(struct odm_dm_struct *dm_odm,
- 				  struct odm_phy_status_info *pPhyInfo,
- 				  struct odm_per_pkt_info *pPktinfo)
+ enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *dm_odm,
+ 					   enum rf_radio_path content,
+ 					   enum rf_radio_path rfpath)
 diff --git a/drivers/staging/r8188eu/include/odm_HWConfig.h b/drivers/staging/r8188eu/include/odm_HWConfig.h
-index 9b2ab3bcf992..790ab4d1eff5 100644
+index 790ab4d1eff5..e2edcb7dbad6 100644
 --- a/drivers/staging/r8188eu/include/odm_HWConfig.h
 +++ b/drivers/staging/r8188eu/include/odm_HWConfig.h
-@@ -89,8 +89,6 @@ struct phy_status_rpt {
- #endif
- };
+@@ -95,13 +95,6 @@ void ODM_PhyStatusQuery(struct odm_dm_struct *pDM_Odm,
+ 			struct odm_per_pkt_info *pPktinfo,
+ 			struct adapter *adapt);
  
--void odm_Init_RSSIForDM(struct odm_dm_struct *pDM_Odm);
+-void ODM_MacStatusQuery(struct odm_dm_struct *pDM_Odm,
+-			u8 *pMacStatus,
+-			u8	MacID,
+-			bool	bPacketMatchBSSID,
+-			bool	bPacketToSelf,
+-			bool	bPacketBeacon);
 -
- void ODM_PhyStatusQuery(struct odm_dm_struct *pDM_Odm,
- 			struct odm_phy_status_info *pPhyInfo,
- 			u8 *pPhyStatus,
+ enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *pDM_Odm,
+ 					   enum rf_radio_path Content,
+ 					   enum rf_radio_path eRFPath);
 -- 
 2.33.0
 
