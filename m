@@ -1,55 +1,79 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FA872
-	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 09:25:35 +0000 (UTC)
-Received: from pd956d63d.dip0.t-ipconnect.de ([217.86.214.61] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mNtPM-0000yP-Ab; Wed, 08 Sep 2021 10:58:16 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 2/3] staging: r8188eu: remove unused define
-Date: Wed,  8 Sep 2021 10:57:46 +0200
-Message-Id: <20210908085747.32254-3-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210908085747.32254-1-martin@kaiser.cx>
-References: <20210908085747.32254-1-martin@kaiser.cx>
+Received: from baidu.com (mx21.baidu.com [220.181.3.85])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD58172
+	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 10:57:45 +0000 (UTC)
+Received: from BJHW-Mail-Ex15.internal.baidu.com (unknown [10.127.64.38])
+	by Forcepoint Email with ESMTPS id 0247CF25D7BF6BFF0374;
+	Wed,  8 Sep 2021 18:57:37 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BJHW-Mail-Ex15.internal.baidu.com (10.127.64.38) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Wed, 8 Sep 2021 18:57:36 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Wed, 8 Sep 2021 18:57:36 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <caihuoqing@baidu.com>
+CC: Neil Armstrong <narmstrong@baylibre.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Kevin
+ Hilman" <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, "Martin
+ Blumenstingl" <martin.blumenstingl@googlemail.com>,
+	<linux-media@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-staging@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] staging: media: meson: vdec: Make use of the helper function devm_platform_ioremap_resource_byname()
+Date: Wed, 8 Sep 2021 18:57:29 +0800
+Message-ID: <20210908105730.1882-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex15.internal.baidu.com (10.127.64.38) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex15_2021-09-08 18:57:36:970
 
-The RTW_SUSPEND_LOCK_NAME define is not used. Remove it.
+Use the devm_platform_ioremap_resource_byname() helper instead of
+calling platform_get_resource_byname() and devm_ioremap_resource()
+separately
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/staging/r8188eu/os_dep/osdep_service.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/media/meson/vdec/vdec.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-index 4328992907f2..cbe4f52c4a09 100644
---- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-+++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-@@ -97,8 +97,6 @@ void rtw_usleep_os(int us)
- 		msleep((us / 1000) + 1);
- }
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index e51d69c4729d..8549d95be0f2 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -994,7 +994,6 @@ static int vdec_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct video_device *vdev;
+ 	struct amvdec_core *core;
+-	struct resource *r;
+ 	const struct of_device_id *of_id;
+ 	int irq;
+ 	int ret;
+@@ -1006,13 +1005,11 @@ static int vdec_probe(struct platform_device *pdev)
+ 	core->dev = dev;
+ 	platform_set_drvdata(pdev, core);
  
--#define RTW_SUSPEND_LOCK_NAME "rtw_wifi"
--
- static const struct device_type wlan_type = {
- 	.name = "wlan",
- };
+-	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dos");
+-	core->dos_base = devm_ioremap_resource(dev, r);
++	core->dos_base = devm_platform_ioremap_resource_byname(pdev, "dos");
+ 	if (IS_ERR(core->dos_base))
+ 		return PTR_ERR(core->dos_base);
+ 
+-	r = platform_get_resource_byname(pdev, IORESOURCE_MEM, "esparser");
+-	core->esparser_base = devm_ioremap_resource(dev, r);
++	core->esparser_base = devm_platform_ioremap_resource_byname(pdev, "esparser");
+ 	if (IS_ERR(core->esparser_base))
+ 		return PTR_ERR(core->esparser_base);
+ 
 -- 
-2.20.1
+2.25.1
 
