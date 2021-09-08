@@ -1,41 +1,41 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB123FE1
-	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 22:39:29 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id u16so5531278wrn.5
-        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 15:39:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8778D72
+	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 22:39:32 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id u9so5502008wrg.8
+        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 15:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1Xjay+OnxJOLudTFFKRgsdno8a9S825AsCQkvjXdAR0=;
-        b=cXJI+VMD7JpbhibxlJDS7juqR7RIU+RI5jaOcRxpsRQ6KsZeBr+E7MX648vUQEVugm
-         iTlq0RTejSPY/Nt3cDEo+nj7VObOZ75nSFq5qwJivSS7T1DiWkMm6iAA2wrO5E30RaX0
-         p4wiBq/9aCsfvw0DFYgPAe3DzfvxIIqD5beMNrBjESmaMYhJohmlVhoucxh7bl6607XP
-         eOb9KxYzA7WJCIgZzqYI8EEBPqR77l/oO77lVEEwFyPQhFwFg1zwO6x2PRRkZZlqdY9B
-         P4rheHRGWhtSbyt7TnqVz5nkB+s2w9RnuLHqFOmrY4cVaV3hyHZXOPcmqcX9H5XMnL0k
-         Is7Q==
+        bh=ev+Bp/+/AMJyfm0UPz2j6n4X4wGybMjpIdHclYnCg/o=;
+        b=XoPCeYcVtDCNVDvml1OplWQIFZnPPc1xDU8NZ2a7e8L7mOqk4mrrhF+O41E+0IyPey
+         FkStPjoZ49pulEufZbgPVCi/ZS6pZeH6HGHgBYd1jLxetRcifV8sOJDOqImyQca3DIDE
+         p3/4RNXkhPfAwMVYxWrA2/nvIimN97K0VrowPO7frmFOheSRG2RgJ5HPVOlU3mFGhqV1
+         kPVdxGdEh5KdkuqMqUuhD9Lqfhd4/GgMvOyA0DPrkVjF8NiGQo9dzw/+GqBafOum+rW4
+         8xZUb4s7LFBwYfKdOdkXV5m7mQXeNoXVKEh37Lp0QonvTVaWEAnSiz5+dcbjiiVy/+xv
+         wVog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1Xjay+OnxJOLudTFFKRgsdno8a9S825AsCQkvjXdAR0=;
-        b=7i4XbTx63jM1RwAiRIpJqTrCRDr4aG7w8j4olSqx5anKkexlCCzn7JcHHP3aQcpw0/
-         DXvyHK7H/PPhdZoyV8TAaeD4WGe2YWM3fntIVSByto5kahUpwPszmXjWCXYZk934lr05
-         hFjnZbsrGqcfnOBZ3wHDRFuyfNMlxae7zNZoq9omgq3rf1x/NbuZflimAnTwywHNR5iy
-         wwAHa8s23pEi1F//HGS1MPCFfDyb5RHtXJI+6QaXnKCBgFfIRPtoYZqrN9+U3nA5nB3q
-         FbbgfTrSAx6AR6mZxH3qAGCP13Fu8cv3F6MBI0laRij5sTCugySa7Fk1nKQX9xuEPLJb
-         duPQ==
-X-Gm-Message-State: AOAM530PFiQfEnIUY0H5s+0kxKyU7Vy1V6bn/OyaKlecm6AsWDLwS4Xr
-	5bryA4TCxwshxlJhl3dS43M=
-X-Google-Smtp-Source: ABdhPJwgw/cfKfmsbe6kgu2iH7AEggfQvurrLn8j9t+1H5rJ49/pvxpYhndcRD1kNqXW2OWgLeQ77g==
-X-Received: by 2002:a5d:5490:: with SMTP id h16mr588478wrv.170.1631140767956;
-        Wed, 08 Sep 2021 15:39:27 -0700 (PDT)
+        bh=ev+Bp/+/AMJyfm0UPz2j6n4X4wGybMjpIdHclYnCg/o=;
+        b=rYHZoJ5Ow7SXs1XW2Z7uacnPbuf7qpc1Sc6aT2MN9L6yOlcxePXVUDuhvbOROqCUoT
+         qM6gR7ADDnFcyPEuaeEjHLGXVIJVnB+/PsZdP7Z7cJSjsMsqexY0mH013srbWcPESD66
+         R9J00dLdjk9FnPXv16PwvKd9urjkwymf8MO45FRwMXzkfAZ8X7oEUI+spNwG8UIRlXrP
+         YSAG1uBnhBZioLH5fWrQTjSewKwcrr/IS18jFcjwJdkU8GPLVPP82GC20UDUbiITNPn1
+         V/SojU8uKiV0CWH2SY4r/Qg5PMURFIW77N9uNq/xpRAvRMtVE4DVW1N7pTkrtOrO3PHv
+         LFxA==
+X-Gm-Message-State: AOAM5331IPd1g0NCR7YaZj0IgQQh60+kEor4y8HoV+tS/KxqBSUCnSjt
+	zF7dPtg/8HQ7LD6x2HfHu40=
+X-Google-Smtp-Source: ABdhPJwrjXLx+d3AllDMvWicC0tH55HHMoXrbFIT7Uc4xoWkUieZkV0WBkSej/+rgMZH4LDdW3SIFw==
+X-Received: by 2002:a5d:44c8:: with SMTP id z8mr563415wrr.332.1631140771063;
+        Wed, 08 Sep 2021 15:39:31 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id d29sm428643wrc.6.2021.09.08.15.39.27
+        by smtp.gmail.com with ESMTPSA id d29sm428643wrc.6.2021.09.08.15.39.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 15:39:27 -0700 (PDT)
+        Wed, 08 Sep 2021 15:39:30 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/4] staging: r8188eu: remove unused PHY_UpdateTxPowerDbm8188E()
-Date: Thu,  9 Sep 2021 00:39:02 +0200
-Message-Id: <20210908223903.10516-4-straube.linux@gmail.com>
+Subject: [PATCH 4/4] staging: r8188eu: remove unused rtl8192c_PHY_GetHWRegOriginalValue()
+Date: Thu,  9 Sep 2021 00:39:03 +0200
+Message-Id: <20210908223903.10516-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210908223903.10516-1-straube.linux@gmail.com>
 References: <20210908223903.10516-1-straube.linux@gmail.com>
@@ -59,125 +59,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function PHY_UpdateTxPowerDbm8188E() is unused and it is the only user
-of function phy_DbmToTxPwrIdx(), remove both.
+Function rtl8192c_PHY_GetHWRegOriginalValue() is unused, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 80 -------------------
- .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  1 -
- 2 files changed, 81 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c  | 18 ------------------
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h   |  3 ---
+ 2 files changed, 21 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index d3564181542d..dd0008bcceb6 100644
+index dd0008bcceb6..94febe0edd35 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -627,49 +627,6 @@ rtl8192c_PHY_GetHWRegOriginalValue(
- 	pHalData->framesyncC34 = PHY_QueryBBReg(Adapter, rOFDM0_RxDetector2, bMaskDWord);
+@@ -609,24 +609,6 @@ int PHY_RFConfig8188E(struct adapter *Adapter)
+ 	return rtStatus;
  }
  
--/*  */
--/*	Description: */
--/*		Map dBm into Tx power index according to */
--/*		current HW model, for example, RF and PA, and */
--/*		current wireless mode. */
--/*	By Bruce, 2008-01-29. */
--/*  */
--static	u8 phy_DbmToTxPwrIdx(struct adapter *Adapter, enum wireless_mode WirelessMode, int PowerInDbm)
+-void
+-rtl8192c_PHY_GetHWRegOriginalValue(
+-		struct adapter *Adapter
+-	)
 -{
--	u8 TxPwrIdx = 0;
--	int				Offset = 0;
+-	struct hal_data_8188e	*pHalData = GET_HAL_DATA(Adapter);
 -
--	/*  */
--	/*  Tested by MP, we found that CCK Index 0 equals to 8dbm, OFDM legacy equals to */
--	/*  3dbm, and OFDM HT equals to 0dbm respectively. */
--	/*  Note: */
--	/*	The mapping may be different by different NICs. Do not use this formula for what needs accurate result. */
--	/*  By Bruce, 2008-01-29. */
--	/*  */
--	switch (WirelessMode) {
--	case WIRELESS_MODE_B:
--		Offset = -7;
--		break;
+-	/*  read rx initial gain */
+-	pHalData->DefaultInitialGain[0] = (u8)PHY_QueryBBReg(Adapter, rOFDM0_XAAGCCore1, bMaskByte0);
+-	pHalData->DefaultInitialGain[1] = (u8)PHY_QueryBBReg(Adapter, rOFDM0_XBAGCCore1, bMaskByte0);
+-	pHalData->DefaultInitialGain[2] = (u8)PHY_QueryBBReg(Adapter, rOFDM0_XCAGCCore1, bMaskByte0);
+-	pHalData->DefaultInitialGain[3] = (u8)PHY_QueryBBReg(Adapter, rOFDM0_XDAGCCore1, bMaskByte0);
 -
--	case WIRELESS_MODE_G:
--	case WIRELESS_MODE_N_24G:
--	default:
--		Offset = -8;
--		break;
--	}
--
--	if ((PowerInDbm - Offset) > 0)
--		TxPwrIdx = (u8)((PowerInDbm - Offset) * 2);
--	else
--		TxPwrIdx = 0;
--
--	/*  Tx Power Index is too large. */
--	if (TxPwrIdx > MAX_TXPWR_IDX_NMODE_92S)
--		TxPwrIdx = MAX_TXPWR_IDX_NMODE_92S;
--
--	return TxPwrIdx;
+-	/*  read framesync */
+-	pHalData->framesync = (u8)PHY_QueryBBReg(Adapter, rOFDM0_RxDetector3, bMaskByte0);
+-	pHalData->framesyncC34 = PHY_QueryBBReg(Adapter, rOFDM0_RxDetector2, bMaskDWord);
 -}
 -
  static void getTxPowerIndex88E(struct adapter *Adapter, u8 channel, u8 *cckPowerLevel,
  			       u8 *ofdmPowerLevel, u8 *BW20PowerLevel,
  			       u8 *BW40PowerLevel)
-@@ -793,43 +750,6 @@ PHY_SetTxPowerLevel8188E(
- 	rtl8188e_PHY_RF6052SetOFDMTxPower(Adapter, &ofdmPowerLevel[0], &BW20PowerLevel[0], &BW40PowerLevel[0], channel);
- }
- 
--/*  */
--/*	Description: */
--/*		Update transmit power level of all channel supported. */
--/*  */
--/*	TODO: */
--/*		A mode. */
--/*	By Bruce, 2008-02-04. */
--/*  */
--bool
--PHY_UpdateTxPowerDbm8188E(
--		struct adapter *Adapter,
--		int		powerInDbm
--	)
--{
--	struct hal_data_8188e	*pHalData = GET_HAL_DATA(Adapter);
--	u8 idx;
--	u8 rf_path;
--
--	/*  TODO: A mode Tx power. */
--	u8 CckTxPwrIdx = phy_DbmToTxPwrIdx(Adapter, WIRELESS_MODE_B, powerInDbm);
--	u8 OfdmTxPwrIdx = phy_DbmToTxPwrIdx(Adapter, WIRELESS_MODE_N_24G, powerInDbm);
--
--	if (OfdmTxPwrIdx - pHalData->LegacyHTTxPowerDiff > 0)
--		OfdmTxPwrIdx -= pHalData->LegacyHTTxPowerDiff;
--	else
--		OfdmTxPwrIdx = 0;
--
--	for (idx = 0; idx < 14; idx++) {
--		for (rf_path = 0; rf_path < 2; rf_path++) {
--			pHalData->TxPwrLevelCck[rf_path][idx] = CckTxPwrIdx;
--			pHalData->TxPwrLevelHT40_1S[rf_path][idx] =
--			pHalData->TxPwrLevelHT40_2S[rf_path][idx] = OfdmTxPwrIdx;
--		}
--	}
--	return true;
--}
--
- /*-----------------------------------------------------------------------------
-  * Function:    PHY_SetBWModeCallback8192C()
-  *
 diff --git a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
-index 1799d9aeaa3c..e5662fa9c918 100644
+index e5662fa9c918..ee4b26ecd19d 100644
 --- a/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
 +++ b/drivers/staging/r8188eu/include/Hal8188EPhyCfg.h
-@@ -190,7 +190,6 @@ void rtl8192c_PHY_GetHWRegOriginalValue(struct adapter *adapter);
+@@ -185,9 +185,6 @@ int PHY_MACConfig8188E(struct adapter *adapter);
+ int PHY_BBConfig8188E(struct adapter *adapter);
+ int PHY_RFConfig8188E(struct adapter *adapter);
  
+-/* Read initi reg value for tx power setting. */
+-void rtl8192c_PHY_GetHWRegOriginalValue(struct adapter *adapter);
+-
  /*  BB TX Power R/W */
  void PHY_SetTxPowerLevel8188E(struct adapter *adapter, u8 channel);
--bool PHY_UpdateTxPowerDbm8188E(struct adapter *adapter, int power);
  
- /*  Switch bandwidth for 8192S */
- void PHY_SetBWMode8188E(struct adapter *adapter,
 -- 
 2.33.0
 
