@@ -1,255 +1,85 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E1572
-	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 12:16:26 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id x10so2039033ilm.12
-        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 05:16:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9F672
+	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 15:52:39 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id y132so2135474wmc.1
+        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 08:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+GtAWakd3pdV8HQ9F3sd52YrBJrg5R1xSo+M5bxbcpM=;
-        b=gEictymgNG4qWkNdiHTk3Ai+MVxyUTVoFa+sTi9CD86hHkRokj6A90ykjKYM1y2CBr
-         1iJ5gllin4eBbqHMagANOYi+/lpZATWOe6M6+QN8Z0Z1KtbulXLBv4sZbp4LNdPQXnWZ
-         LfxyP2atZKmJNku7Tksle0Q85lylxvMIoh+qDJHRSAmvH8G/UQEhMSY3FHawrOTaUD1n
-         kTSWCJEFcOO1VRfhqK26vpRcqHSBGRJUSZJ44MQ7tU+AfTHHzSacVdu6FnRq5pulT1ON
-         +sADDGtmj43e6yE0VGO0rhqOyk8ZLIHCInqu3CZhbcJnSevF2NHTq31/Z4m+WQ4KLbid
-         bfRw==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=q2NxKj9XsOje8Q6zNEUbuoFayLJ20hHyWL0fAt8sMJU=;
+        b=Qh+NQNmAcfBOWuxB3Pn82d8ejOQIbMwzFJWuhSOABRoeq27XjvCSXo1UFD64EOa1Yv
+         Eu7eCyUrbWq+0t9TqSqncNBJoSzMah3ZNef/pitdDZn9QFiAoP4oolVmitSrHg+KPU+m
+         xZqAD3lXOhSimHig7kDJk6RUmdCqRxve6dvkj7OB+oPieipwKKjM1yHdi+T4gWDBLMpp
+         i6X7xH92/blCpFypV/rDcjNOmP8Dn89/fdSSfYKV80atBWHIVHIPQsJOLPhd/c1dKJC6
+         a7/5T1SyRG5XbgsX1rNozoMtf0OWYbe1srmn8zcR1TV54xUQzPlxIBV7pz9u7x9X9xks
+         7sqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=+GtAWakd3pdV8HQ9F3sd52YrBJrg5R1xSo+M5bxbcpM=;
-        b=0z9doA+aOuTf0fKTKcCrImYLSEr0FCAOppEKPNYPWFBxu0TtFlYH2tGIj4ndPqkMMw
-         QlFwpfTE2V0i2KQ969k5AeM5X/TVdk6CHf7powT2m/hCsI6TeT4UOXgt56zvCpooAz4g
-         X0xNIN/GDSlOwuKIZz9Xfzn1rHQT2yZqzj/JoMVo+kSW9BVnbnAkznvnUCEwcp2RvcxB
-         mxBXHGj5AAjrTU10PI+1VyKPaKctbNE2xRN8UvVYT6IJhziY+rY56xgTxj5kROD3AFII
-         JZdIGQX8H6v+8oskoQxyv5nNfqrViT3hF3nzfQmGYnfta5OnajKV1dJD3lnpA5Tw8W/2
-         S3vQ==
-X-Gm-Message-State: AOAM533v25qP8tAojbl3FcZh+uDtsg+nDRpIsVGmOHh4ARWs/+J6DStI
-	nDBm/XI92Mlu0uAODGQU+SzwLQ==
-X-Google-Smtp-Source: ABdhPJzRXh8bRGnBu/21Dpmv3vWUZkpgIUUYj6TIJhcmSYhtSmzslICbd3iPLxkRJv5ySd0sBBScmA==
-X-Received: by 2002:a92:c5cf:: with SMTP id s15mr2710598ilt.62.1631103385661;
-        Wed, 08 Sep 2021 05:16:25 -0700 (PDT)
-Received: from [172.22.22.4] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
-        by smtp.googlemail.com with ESMTPSA id p15sm1070440iop.15.2021.09.08.05.16.24
+        bh=q2NxKj9XsOje8Q6zNEUbuoFayLJ20hHyWL0fAt8sMJU=;
+        b=Bw7HoKQyUgH/sdYoCzSWzcQVf2nd1L6uCbuQChI1n1ESetR5iI0mnBw2kAau1axUKE
+         eXMpDoQFgQW5FqA17l6l9WmepA4vq39UrWCil2d7qEerhzlmnqgPzopWTtK+FfmOZfoQ
+         m+5WOszu29GPMYCXCldL5Zd2H/s63vtxrK/V7ng3faa4gGU3eYjntyjNi09j/9gvtpy9
+         rphzWQzBT6aruj5xee2ytlOEIgv/3N1zvkYgeQF2nDjkH20/VYkY4bbW38WG+aNqAtJS
+         /5lUWrsGIaEGpr9e4kW1EcPAQvrab1hD5KjQsUIqD6iWXULe1gA7SDMRYE40HcRpkhdt
+         KI6A==
+X-Gm-Message-State: AOAM533PiAaYi/X2i3rtKquWpKyXmxMuAnxzUKKmN5WO+uV9V9jEyU7Z
+	LFlu8EwbfGu5zcYEHI4GeRU=
+X-Google-Smtp-Source: ABdhPJy/XGG+tmdIKXbx/8neDMGxDPTU67R4IK8lls44LWz2umk+cir8dSMzziddtwPcWu7pzwcArA==
+X-Received: by 2002:a1c:2b04:: with SMTP id r4mr4282393wmr.168.1631116358346;
+        Wed, 08 Sep 2021 08:52:38 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::dc38? ([2a02:8108:96c0:3b88::dc38])
+        by smtp.gmail.com with ESMTPSA id g3sm2643531wrh.94.2021.09.08.08.52.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Sep 2021 05:16:25 -0700 (PDT)
-Subject: Re: [greybus-dev] [PATCH] staging: greybus: uart: fix tty use after
- free
-To: Johan Hovold <johan@kernel.org>
-Cc: David Lin <dtwlin@gmail.com>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20210906124538.22358-1-johan@kernel.org>
- <56782caa-bd9d-b049-7ca6-c64e3fbe109a@linaro.org>
- <YThsyOlHqWmb5hsV@hovoldconsulting.com>
-From: Alex Elder <elder@linaro.org>
-Message-ID: <1ec74bbe-2185-d287-09cf-a001d14a012c@linaro.org>
-Date: Wed, 8 Sep 2021 07:16:24 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        Wed, 08 Sep 2021 08:52:37 -0700 (PDT)
+Message-ID: <cfdf62cb-336c-5822-39ce-0ebc09f64ef8@gmail.com>
+Date: Wed, 8 Sep 2021 17:52:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YThsyOlHqWmb5hsV@hovoldconsulting.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH 0/3] three simple cleanups
 Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210908085747.32254-1-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20210908085747.32254-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/8/21 2:56 AM, Johan Hovold wrote:
-> On Tue, Sep 07, 2021 at 08:32:25AM -0500, Alex Elder wrote:
->> On 9/6/21 7:45 AM, Johan Hovold wrote:
->    
->>> +static void gb_tty_port_destruct(struct tty_port *port)
->>> +{
->>> +	struct gb_tty *gb_tty = container_of(port, struct gb_tty, port);
->>> +
->>
->> So the minor number is GB_NUM_MINORS until after both the buffer
->> and the kfifo have been allocated.
+On 9/8/21 10:57, Martin Kaiser wrote:
+> Remove unused definitions and a pointless loop.
 > 
-> Yes, but more importantly until the minor number has been allocated.
+> Martin Kaiser (3):
+>    staging: r8188eu: remove unused function prototype
+>    staging: r8188eu: remove unused define
+>    staging: r8188eu: this endless loop is executed only once
 > 
->> And kfifo_free() (similar to
->> kfree()) handles being provided a non-initialized kfifo, correct?
+>   drivers/staging/r8188eu/hal/rtl8188eu_xmit.c  | 34 ++++++++-----------
+>   drivers/staging/r8188eu/include/rtw_io.h      |  2 --
+>   .../staging/r8188eu/os_dep/osdep_service.c    |  2 --
+>   3 files changed, 15 insertions(+), 23 deletions(-)
 > 
-> Correct, as long as it has been zeroed.
 
-The original patch looks fine to me.  Thanks for the explanation.
+Builds and looks good to me.
 
-Reviewed-by: Alex Elder <elder@linaro.org>
+For all 3 patches
 
->>> +	if (gb_tty->minor != GB_NUM_MINORS)
->>> +		release_minor(gb_tty);
->>> +	kfifo_free(&gb_tty->write_fifo);
->>> +	kfree(gb_tty->buffer);
->>> +	kfree(gb_tty);
->>> +}
->>> +
->>>    static const struct tty_operations gb_ops = {
->>>    	.install =		gb_tty_install,
->>>    	.open =			gb_tty_open,
->>> @@ -786,6 +797,7 @@ static const struct tty_port_operations gb_port_ops = {
->>>    	.dtr_rts =		gb_tty_dtr_rts,
->>>    	.activate =		gb_tty_port_activate,
->>>    	.shutdown =		gb_tty_port_shutdown,
->>> +	.destruct =		gb_tty_port_destruct,
->>>    };
->>>    
->>>    static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>> @@ -798,17 +810,11 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>>    	int retval;
->>>    	int minor;
->>>    
->>> -	gb_tty = kzalloc(sizeof(*gb_tty), GFP_KERNEL);
->>> -	if (!gb_tty)
->>> -		return -ENOMEM;
->>> -
->>
->> Why do you reorder when you allocate the gb_tty structure?
->> I don't have a problem with it, but it seems like the order
->> doesn't matter.  Is it just so you can initialize it right
->> after it's allocated?  (If so, I like that reason.)
-> 
-> Yeah, and I wanted to keep the bits managed by the port reference count
-> together.
-> 
->>>    	connection = gb_connection_create(gbphy_dev->bundle,
->>>    					  le16_to_cpu(gbphy_dev->cport_desc->id),
->>>    					  gb_uart_request_handler);
->>> -	if (IS_ERR(connection)) {
->>> -		retval = PTR_ERR(connection);
->>> -		goto exit_tty_free;
->>> -	}
->>> +	if (IS_ERR(connection))
->>> +		return PTR_ERR(connection);
->>>    
->>>    	max_payload = gb_operation_get_payload_size_max(connection);
->>>    	if (max_payload < sizeof(struct gb_uart_send_data_request)) {
->>> @@ -816,13 +822,23 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>>    		goto exit_connection_destroy;
->>>    	}
->>>    
->>> +	gb_tty = kzalloc(sizeof(*gb_tty), GFP_KERNEL);
->>> +	if (!gb_tty) {
->>> +		retval = -ENOMEM;
->>> +		goto exit_connection_destroy;
->>> +	}
->>> +
->>> +	tty_port_init(&gb_tty->port);
->>> +	gb_tty->port.ops = &gb_port_ops;
->>> +	gb_tty->minor = GB_NUM_MINORS;
->>> +
->>>    	gb_tty->buffer_payload_max = max_payload -
->>>    			sizeof(struct gb_uart_send_data_request);
->>>    
->>>    	gb_tty->buffer = kzalloc(gb_tty->buffer_payload_max, GFP_KERNEL);
->>>    	if (!gb_tty->buffer) {
->>>    		retval = -ENOMEM;
->>> -		goto exit_connection_destroy;
->>> +		goto exit_put_port;
->>>    	}
->>>    
->>>    	INIT_WORK(&gb_tty->tx_work, gb_uart_tx_write_work);
->>> @@ -830,7 +846,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>>    	retval = kfifo_alloc(&gb_tty->write_fifo, GB_UART_WRITE_FIFO_SIZE,
->>>    			     GFP_KERNEL);
->>>    	if (retval)
->>> -		goto exit_buf_free;
->>> +		goto exit_put_port;
->>>    
->>>    	gb_tty->credits = GB_UART_FIRMWARE_CREDITS;
->>>    	init_completion(&gb_tty->credits_complete);
->>> @@ -844,7 +860,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>>    		} else {
->>>    			retval = minor;
->>>    		}
->>> -		goto exit_kfifo_free;
->>> +		goto exit_put_port;
->>>    	}
->>>    
->>>    	gb_tty->minor = minor;
->>> @@ -853,9 +869,6 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>>    	init_waitqueue_head(&gb_tty->wioctl);
->>>    	mutex_init(&gb_tty->mutex);
->>>    
->>> -	tty_port_init(&gb_tty->port);
->>> -	gb_tty->port.ops = &gb_port_ops;
->>> -
->>>    	gb_tty->connection = connection;
->>>    	gb_tty->gbphy_dev = gbphy_dev;
->>>    	gb_connection_set_data(connection, gb_tty);
->>> @@ -863,7 +876,7 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>>    
->>>    	retval = gb_connection_enable_tx(connection);
->>>    	if (retval)
->>> -		goto exit_release_minor;
->>> +		goto exit_put_port;
->>>    
->>>    	send_control(gb_tty, gb_tty->ctrlout);
->>>    
->>> @@ -890,16 +903,10 @@ static int gb_uart_probe(struct gbphy_device *gbphy_dev,
->>>    
->>>    exit_connection_disable:
->>>    	gb_connection_disable(connection);
->>> -exit_release_minor:
->>> -	release_minor(gb_tty);
->>> -exit_kfifo_free:
->>> -	kfifo_free(&gb_tty->write_fifo);
->>> -exit_buf_free:
->>> -	kfree(gb_tty->buffer);
->>> +exit_put_port:
->>> +	tty_port_put(&gb_tty->port);
->>>    exit_connection_destroy:
->>>    	gb_connection_destroy(connection);
->>> -exit_tty_free:
->>> -	kfree(gb_tty);
->>>    
->>>    	return retval;
->>>    }
->>> @@ -930,15 +937,10 @@ static void gb_uart_remove(struct gbphy_device *gbphy_dev)
->>>    	gb_connection_disable_rx(connection);
->>>    	tty_unregister_device(gb_tty_driver, gb_tty->minor);
->>>    
->>> -	/* FIXME - free transmit / receive buffers */
->>> -
->>>    	gb_connection_disable(connection);
->>> -	tty_port_destroy(&gb_tty->port);
->>>    	gb_connection_destroy(connection);
->>> -	release_minor(gb_tty);
->>> -	kfifo_free(&gb_tty->write_fifo);
->>> -	kfree(gb_tty->buffer);
->>> -	kfree(gb_tty);
->>> +
->>> +	tty_port_put(&gb_tty->port);
->>
->> In the error path above, you call tty_port_put()
->> before calling gb_connection_destroy(), which matches
->> (in reverse) the order in which they're created. I'm
->> accustomed to having the order of the calls here match
->> the error path.  Is this difference intentional?  (It
->> shouldn't really matter.)
-> 
-> I considered reordering (it stands out a bit in my eyes too) but decided
-> to leave it in place to highlight the fact that the connection may be
-> freed before the rest of the state either way (since a user may hold a
-> reference to it).
-> 
-> [ A driver mustn't do I/O after remove() returns even if it might be
->    possible to keep the connection structure around. That would however be
->    complicated by the lack of reference counting on the bundle/interface
->    structures so I decided not to venture down that path. ]
-> 
-> Like you say, the order here doesn't really matter so I can move it up
-> if you prefer.
-> 
-> Johan
-> 
+Acked-by: Michael Straube <straube.linux@gmail.com>
+
+Thanks,
+Michael
 
