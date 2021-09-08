@@ -1,41 +1,41 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41DA72
-	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 23:10:15 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id u19-20020a7bc053000000b002f8d045b2caso44289wmc.1
-        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 16:10:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923D03FD5
+	for <linux-staging@lists.linux.dev>; Wed,  8 Sep 2021 23:10:16 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id q26so5580914wrc.7
+        for <linux-staging@lists.linux.dev>; Wed, 08 Sep 2021 16:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FUNSeceQctNpOtv7NxFjjx9adbKFkGaFzjaK9/lF9t0=;
-        b=BYvtVaktqt3K7oTwqBwBpTYQzLL3zGuHTPp8DNHdfH/VllkaptRMyRQUTE9MfBx7Mx
-         KDFg3PMZwsmWUuC1VgH87KszujVckGIib3H5gZVend6ObY0PRgxgagAplD/3EYUf7COU
-         w6wb+P1VFxzQC9d9sqsFs1WOqIF7C5gYSYa72dG3YCz1DnEiBrpPQOHr0F/ME9vW60Kq
-         50TGwzjeuD3lSJ4iI+3qHdbPPZSBAsXqSr7erjHZNxzhCwYbTZBLACVforLxXyUtAvB9
-         omg7M4UFaeMAQrhbOAoUE9hnxSRQxFPd0oVOlIJ600Htro/C52rG0bLub0iHwDaGy2x6
-         czcA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UZtUkA8uA7tyAnR1JQv0hvRBLsmltUOtKeKYLbxIW8c=;
+        b=CqZQgiOgLva3wRn6rcX+rsQbs7Aihl/+1pSGLWlq4AcBHLL/c1D/xAq5P+E0T55R+9
+         o9S3P6t25cjtHKTJMRTx9bxjYc0YelCDwox/bNZAtgQM2biglVLHQCJ3Bjm1p2frULep
+         3axycg5ILdeRvg8YBG/FCyPdPwK/d+xpLgxnhjKnzrcomBhyI8G2SdguMkS8z0ZInJ6L
+         C+n9tJDdmKY/NUNL5KBgWi8MEwNyW9M3oHGz3NLk22fcrs7xQ7SmSVxAS+VkMHvJJKg1
+         IvmZ9Dc+E0kK0VEfgy7y/WrS1OvTnShW5UWJL6fEkgfubdCgFR6vV+v9N/1sWNMu/irp
+         FlcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FUNSeceQctNpOtv7NxFjjx9adbKFkGaFzjaK9/lF9t0=;
-        b=qlb5RoUc/0SU3Qa61/c2RzBbyIr4VX9COuEzf6CYwBUpCV6YQMVx7m3hDywZMgpqzn
-         Ud8VrVDcA7NbHpHnkmZFBbNG+UmKgeo30MlJGqvu6krBlKxYl7Y4QVa2wL3APqTxTgPJ
-         FsJmhgmmNxC078B7eHD9dFnGEG0xM2NCpLiPuG50LBJuEME0GmuUOOpypIJw56PrwwLK
-         UsVY/HAGx/lJdMvFXi2CyZkLPXVpO357dTN+cgNtLHHgRipLreOAlcnRBOn+SW7IPx8p
-         hoJRocKoMvKbtSSlwhXxokzrEhAwsuoHJXCieqBG/Wrf8qU+pPtXiNYB8Tu2ax3x7XMo
-         lY+A==
-X-Gm-Message-State: AOAM531npowg9poiIT9O3IFU74zfjSfXvLZUoohQmN7RXuns3gCICnXV
-	Xat2+Xwhm+Q9aP8vPHwwHlA=
-X-Google-Smtp-Source: ABdhPJyE8KVuqMh21000QXanMwVC7iyKkyF9ooc4XvHiAWRiffM6xGojB7eBWfI/xG9K/Lv0TOh54A==
-X-Received: by 2002:a05:600c:4e93:: with SMTP id f19mr5821303wmq.185.1631142614209;
-        Wed, 08 Sep 2021 16:10:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UZtUkA8uA7tyAnR1JQv0hvRBLsmltUOtKeKYLbxIW8c=;
+        b=J0ZffggraAJCjpzapUAMnTnJyZJieAXDmSo026NRs49gFdD831Jax92MX2Gb6+jFSc
+         dNEyvx1KMmGYDj8QdDhobF26d6/U+FDSNLyHrbkCteZfCisAT90o1okt5UR0RYN5b1Bc
+         UnvsxVs3NoI0S7bovoS/0uW8UOWKD1LfF0Ku0xpyHXUR7POuUeXzgNKzgdXrfBnNZbRD
+         a+TpctNncVHbvQT2WZXvkWx88ecU4KuvL+xBdwVsEj2v70+phCQ+Ss2HShLAESQ+3cg1
+         MQEQnbu/9xeuz7NHzRFxFBsbM6+doal9zdrx1UQwGqzCU5jJUZX+SL8OaQYolhqU5/Be
+         Cy9w==
+X-Gm-Message-State: AOAM530hjeoqcchSL9x4sI+SnUvbgxevoFYvFWmZ5SW5TxPF+58aoi2r
+	S4J5Sk4XXD8PDV7R7hUm6jQ=
+X-Google-Smtp-Source: ABdhPJwmbUd4K2WLg6p3JTv6MNdyVrJy5d1p4iVIYgBaZ8pfF54JFOCfZZmlSTF2Xw8Lv2Oc8WHkwg==
+X-Received: by 2002:adf:eacb:: with SMTP id o11mr65857wrn.418.1631142615093;
+        Wed, 08 Sep 2021 16:10:15 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id l21sm348393wmh.31.2021.09.08.16.10.11
+        by smtp.gmail.com with ESMTPSA id l21sm348393wmh.31.2021.09.08.16.10.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Sep 2021 16:10:13 -0700 (PDT)
+        Wed, 08 Sep 2021 16:10:14 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,10 +45,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/2] staging: r8188eu: remove unused functions from hal/odm_HWConfig.c
-Date: Thu,  9 Sep 2021 01:09:51 +0200
-Message-Id: <20210908230953.16931-1-straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove unused odm_Init_RSSIForDM()
+Date: Thu,  9 Sep 2021 01:09:52 +0200
+Message-Id: <20210908230953.16931-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210908230953.16931-1-straube.linux@gmail.com>
+References: <20210908230953.16931-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,17 +59,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes unused and empty functions from the file
-hal/odm_HWConfig.c.
+Function odm_Init_RSSIForDM() is unused and empty, remove it.
 
-Michael Straube (2):
-  staging: r8188eu: remove unused odm_Init_RSSIForDM()
-  staging: r8188eu: remove unused ODM_MacStatusQuery()
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/hal/odm_HWConfig.c     | 4 ----
+ drivers/staging/r8188eu/include/odm_HWConfig.h | 2 --
+ 2 files changed, 6 deletions(-)
 
- drivers/staging/r8188eu/hal/odm_HWConfig.c     | 12 ------------
- drivers/staging/r8188eu/include/odm_HWConfig.h |  9 ---------
- 2 files changed, 21 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+index ada22a526fee..db4c072ec6c5 100644
+--- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
++++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+@@ -356,10 +356,6 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+ 	dm_odm->DM_FatTable.antsel_rx_keep_2 = pPhyStaRpt->antsel_rx_keep_2;
+ }
+ 
+-void odm_Init_RSSIForDM(struct odm_dm_struct *dm_odm)
+-{
+-}
+-
+ static void odm_Process_RSSIForDM(struct odm_dm_struct *dm_odm,
+ 				  struct odm_phy_status_info *pPhyInfo,
+ 				  struct odm_per_pkt_info *pPktinfo)
+diff --git a/drivers/staging/r8188eu/include/odm_HWConfig.h b/drivers/staging/r8188eu/include/odm_HWConfig.h
+index 9b2ab3bcf992..790ab4d1eff5 100644
+--- a/drivers/staging/r8188eu/include/odm_HWConfig.h
++++ b/drivers/staging/r8188eu/include/odm_HWConfig.h
+@@ -89,8 +89,6 @@ struct phy_status_rpt {
+ #endif
+ };
+ 
+-void odm_Init_RSSIForDM(struct odm_dm_struct *pDM_Odm);
+-
+ void ODM_PhyStatusQuery(struct odm_dm_struct *pDM_Odm,
+ 			struct odm_phy_status_info *pPhyInfo,
+ 			u8 *pPhyStatus,
 -- 
 2.33.0
 
