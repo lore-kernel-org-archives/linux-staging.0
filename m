@@ -1,30 +1,35 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B372FAE
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:47:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5885B615A7;
-	Thu,  9 Sep 2021 11:47:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D873FE1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:47:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7093A61215;
+	Thu,  9 Sep 2021 11:47:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1631188045;
-	bh=L/kYqinvZKgiNpnF/JFP/OdfPQwTZRg8Ij6fzHTyWUA=;
+	s=k20201202; t=1631188053;
+	bh=Y9yifLqTMAhtK6J/aU0Oho44D67037QoREffN/4CvcU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Sxd748i2dMGfwyJtqEYAGLNy+AGO6+CaS0Y+DCdmHsAixSt/pLeTvPRQPAmM9KXDB
-	 6ZJnfLn3yuUeR0DZOukvQXc7ffu+2qXleWnzALKsUd/XHePNNBj2Kb44aBZPFvljtA
-	 HL6LQZJHx1sxPIo3RZedZYLUAPpsZvU71OX/5d2Rk/2zEbai+RyOxIy16sdYv33NZk
-	 pGYGbsPsbYAGka/L9H6qy77/QgxLPaR7KFbCOM/wW2PGtXe8nWZmzzbsm/fu/yNMLX
-	 Id+j0oJa85Dxjero6kWckC30ervzlSiKG6YUZOvsH334+oPRzMwnHOM2LHizSocs8u
-	 zOFfN0XfckB1A==
+	b=MBEROKbdK71gAUjgLUOmHuI1sT7qc9SPQEnTKSiWbGiyQgM+UD43oQ1gs4g6x4hUs
+	 WEF1u+2EumOyvmS6P/armJxbb2HzE/nyYMwbf2v4maMOmYZg31cOesWDuGpIZK/lrs
+	 qQpLf9pi5mJbPnm94cOiGT8WVFojfJShYfUfFx+e5wlB+e2nDYx8b54cgv+bl+irzm
+	 xU1LPvjPCaJ87P3DCXyhKYaV4c1lAiLwVd3BRsWVKo6vjomSPymclthVOJFGHB+TEB
+	 dCHNmCZ0lTsXuwSYHs3WmwtsMqz2nuQJDLRixi6VEAF8iUvMUuX7tguu8BeCKof10b
+	 oMQdh038S4ciA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Ezequiel Garcia <ezequiel@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Alex Bee <knaerzche@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.13 038/219] staging: hisilicon,hi6421-spmi-pmic.yaml: fix patternProperties
-Date: Thu,  9 Sep 2021 07:43:34 -0400
-Message-Id: <20210909114635.143983-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 045/219] media: hantro: vp8: Move noisy WARN_ON to vpu_debug
+Date: Thu,  9 Sep 2021 07:43:41 -0400
+Message-Id: <20210909114635.143983-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
@@ -38,51 +43,98 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-[ Upstream commit 334201d503d5903f38f6e804263fc291ce8f451a ]
+[ Upstream commit 6ad61a7847da09b6261824accb539d05bcdfef65 ]
 
-The regex at the patternProperties is wrong, although this was
-not reported as the DT schema was not enforcing properties.
+When the VP8 decoders can't find a reference frame,
+the driver falls back to the current output frame.
 
-Fix it.
+This will probably produce some undesirable results,
+leading to frame corruption, but shouldn't cause
+noisy warnings.
 
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Alex Bee <knaerzche@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/46b2f30df235481cb1404913380e45706dfd8253.1626515862.git.mchehab+huawei@kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/staging/media/hantro/hantro_g1_vp8_dec.c    | 13 ++++++++++---
+ .../staging/media/hantro/rk3399_vpu_hw_vp8_dec.c    | 13 ++++++++++---
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-index 3b23ad56b31a..ef664b4458fb 100644
---- a/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-+++ b/drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
-@@ -42,6 +42,8 @@ properties:
-   regulators:
-     type: object
+diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+index 57002ba70176..3cd90637ac63 100644
+--- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+@@ -376,12 +376,17 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vb2_dst = hantro_get_dst_buf(ctx);
  
-+    additionalProperties: false
-+
-     properties:
-       '#address-cells':
-         const: 1
-@@ -50,11 +52,13 @@ properties:
-         const: 0
+ 	ref = hantro_get_ref(ctx, hdr->last_frame_ts);
+-	if (!ref)
++	if (!ref) {
++		vpu_debug(0, "failed to find last frame ts=%llu\n",
++			  hdr->last_frame_ts);
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
++	}
+ 	vdpu_write_relaxed(vpu, ref, G1_REG_ADDR_REF(0));
  
-     patternProperties:
--      '^ldo[0-9]+@[0-9a-f]$':
-+      '^(ldo|LDO)[0-9]+$':
-         type: object
+ 	ref = hantro_get_ref(ctx, hdr->golden_frame_ts);
+-	WARN_ON(!ref && hdr->golden_frame_ts);
++	if (!ref && hdr->golden_frame_ts)
++		vpu_debug(0, "failed to find golden frame ts=%llu\n",
++			  hdr->golden_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_FLAG_SIGN_BIAS_GOLDEN)
+@@ -389,7 +394,9 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vdpu_write_relaxed(vpu, ref, G1_REG_ADDR_REF(4));
  
-         $ref: "/schemas/regulator/regulator.yaml#"
+ 	ref = hantro_get_ref(ctx, hdr->alt_frame_ts);
+-	WARN_ON(!ref && hdr->alt_frame_ts);
++	if (!ref && hdr->alt_frame_ts)
++		vpu_debug(0, "failed to find alt frame ts=%llu\n",
++			  hdr->alt_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_FLAG_SIGN_BIAS_ALT)
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+index 8661a3cc1e6b..361619201605 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+@@ -453,12 +453,17 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vb2_dst = hantro_get_dst_buf(ctx);
  
-+        unevaluatedProperties: false
-+
- required:
-   - compatible
-   - reg
+ 	ref = hantro_get_ref(ctx, hdr->last_frame_ts);
+-	if (!ref)
++	if (!ref) {
++		vpu_debug(0, "failed to find last frame ts=%llu\n",
++			  hdr->last_frame_ts);
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
++	}
+ 	vdpu_write_relaxed(vpu, ref, VDPU_REG_VP8_ADDR_REF0);
+ 
+ 	ref = hantro_get_ref(ctx, hdr->golden_frame_ts);
+-	WARN_ON(!ref && hdr->golden_frame_ts);
++	if (!ref && hdr->golden_frame_ts)
++		vpu_debug(0, "failed to find golden frame ts=%llu\n",
++			  hdr->golden_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_FLAG_SIGN_BIAS_GOLDEN)
+@@ -466,7 +471,9 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vdpu_write_relaxed(vpu, ref, VDPU_REG_VP8_ADDR_REF2_5(2));
+ 
+ 	ref = hantro_get_ref(ctx, hdr->alt_frame_ts);
+-	WARN_ON(!ref && hdr->alt_frame_ts);
++	if (!ref && hdr->alt_frame_ts)
++		vpu_debug(0, "failed to find alt frame ts=%llu\n",
++			  hdr->alt_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_FLAG_SIGN_BIAS_ALT)
 -- 
 2.30.2
 
