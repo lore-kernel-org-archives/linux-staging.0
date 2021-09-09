@@ -1,41 +1,41 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4933FF0
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 16:47:15 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id w19so3271658oik.10
-        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 09:47:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCD43FF0
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 16:58:16 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id v2so3332590oie.6
+        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 09:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=sender:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=/HOD0r+rKY/GeZYEndQFE9lA0j70zwcJVrEznlYIfPk=;
-        b=L+JlXcoRmb9VydGdi5vxaw+1sBzx+gb0sler8VxZWqhCBXar/sulLq3/bhyh5Pmi4l
-         Gh7wyy/Hy+bf7NralBwKrNdjSnPFm6wk/+XrlCk/mCXBUZjesPXf9qhke4jgv77hiLb+
-         +z7vN4vUDhX/9aMAS+OX7smYOKbuMGzWH7PeMnIcWYibKALx2fQz/Crz+dlSf2PYLYCV
-         mwolBDD5u2zC0n1fRtD0uPUSZhW6Wb4y5YAL+t3gc/rZ9gAjjNt+Ym7gZAlI+kh344yq
-         ge8rEAFgwLXYLLpFXE0iVeaso+0xG6l/XYjnCyJdaw19eiVD1h63VGvBJI1ntgggpe+M
-         7Fxw==
+        bh=gPBOrGWdsOHFecocyOlDS82ne3N1lR+8IshWbaUphiU=;
+        b=B8Dh0q89UY7+ChrR2FIVnszlRqd4FUS01I+jlYzRTP+dstViW/Appc+GzIYKi/EDgs
+         WyvxrSPNJD/P9qjl9hhEaoZZw3f+Sf81RbaDpqE+yG1R09wesIQcgviBmknmgFQcN160
+         5r1KjGyoeLoZzZFH+sYKahE3oJ7KzoSezG7MK3kYGDZNeOIXGyNOSMRxWHk8uodnokxU
+         pTaCcttCG7kfS2Gu+cKauDd/ADQXhEUIM32WWm+4Ms9lVd71rI5jM9gCZAUDDI0UkuRT
+         e5fuxcKzqElgPzB5+bEAc7/mj2U9OgLPuVNKUS7m7ZnVbl72YRgfzUSowWJIhaetdHVh
+         9eHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :mime-version:content-transfer-encoding;
-        bh=/HOD0r+rKY/GeZYEndQFE9lA0j70zwcJVrEznlYIfPk=;
-        b=VTr7Wmef+X4USb2fohKVDQ6bkZASa16iI7CtFxedKYuo3YmYY7cOCm9i/GoGRb+PbH
-         z0DKaFIhYGFhyD8M/6sAG5aCxcaYGsIQJBsn2beC37xLXxkrywIqHSVivVhQT9gC8VQ9
-         HN3gqEykWex7P+319jOsha3U7BkM+ewtRto1sXnE2LyuI+fU0dckoJgQXvo7dx4V8j9h
-         9pS9cmrIbRs4EsWBRi8Oh89jj+N/DoBneQvYO4eVrwRu78MiQE0MIVSRe0P2B0qZTZ81
-         DrZhgOeslIcmcLmIY6DS65eVs4zO67Of7zRqJXlCn+lyaJhA6tPOvX2G5POjgAX8N16I
-         nVGw==
-X-Gm-Message-State: AOAM531GySzklklsFWqRTIUj5ZXAhQYLf6CsvUxygRhkl4t+GKpM0kE8
-	V/u1k3wEc3VLJUCyS6jG9i8=
-X-Google-Smtp-Source: ABdhPJwy12KrD8QZq3GSYMc5Hm+hqo/fEaLhTGEWFQkfDP+UsbgfGRdGHyOselYEdy8AgYkkT8qf5A==
-X-Received: by 2002:a54:4589:: with SMTP id z9mr659592oib.22.1631206034055;
-        Thu, 09 Sep 2021 09:47:14 -0700 (PDT)
+        bh=gPBOrGWdsOHFecocyOlDS82ne3N1lR+8IshWbaUphiU=;
+        b=vTaGTtL1+ncRpi/2iEkTZtfJTP57q8Fve5ezxFUPL/mN4o23Mz8Ro9GOOMrclN1nJF
+         se5XXN7zpoUT3za/uJQFN/p3HBRBWnE0smHZNaoctW+DCPEKDutP/1oOu00xjdistoAJ
+         aOmU5kAqlHizktD3V+IINY+04wk1OwnJb1JCROuYzsVl1D1In/k7aQjIE5fgvRAS0Cn6
+         5wrdZ37EJsJq2VHcNHb6pTXCjMUIhkdt2XL8uaKQboClkD+qI+sEdb2KSc+EUlSOXyA9
+         cFnSKKswm06dRvUjES60fjkfUVugEpMsV9MLbGFoy30mJWpDACVgMC8tb+nEE1dIgZkJ
+         hiyw==
+X-Gm-Message-State: AOAM5302Xf4bQ36D0N9KCgog/ZIQnkZncC7Mc1fna8WPZ0pD3+kGeCbH
+	BDitGaA2pbPFYpt33VwfACA=
+X-Google-Smtp-Source: ABdhPJwBpiWfBR8MCMy2OOwy+Os+TnwyKqN3EUsThj8Qe7ARhtfJ5RCz6Se35lwkI/6sVxLhUgElmA==
+X-Received: by 2002:aca:a90a:: with SMTP id s10mr621683oie.12.1631206694874;
+        Thu, 09 Sep 2021 09:58:14 -0700 (PDT)
 Received: from 2603-8090-2005-39b3-0000-0000-0000-102d.res6.spectrum.com.com (2603-8090-2005-39b3-0000-0000-0000-102d.res6.spectrum.com. [2603:8090:2005:39b3::102d])
-        by smtp.gmail.com with ESMTPSA id v11sm567108oto.22.2021.09.09.09.47.12
+        by smtp.gmail.com with ESMTPSA id d10sm511784ooj.24.2021.09.09.09.58.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 09:47:13 -0700 (PDT)
+        Thu, 09 Sep 2021 09:58:14 -0700 (PDT)
 Sender: Larry Finger <larry.finger@gmail.com>
 From: Larry Finger <Larry.Finger@lwfinger.net>
 To: gregkh@linuxfoundation.org
@@ -43,9 +43,9 @@ Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Larry Finger <Larry.Finger@lwfinger.net>
-Subject: [PATCH v2] staging: r8188eu: Remove conditionals CONFIG_88EU_{AP_MODE,P2P}
-Date: Thu,  9 Sep 2021 11:47:08 -0500
-Message-Id: <20210909164708.641-1-Larry.Finger@lwfinger.net>
+Subject: [PATCH v3] staging: r8188eu: Remove conditionals CONFIG_88EU_{AP_MODE,P2P}
+Date: Thu,  9 Sep 2021 11:58:09 -0500
+Message-Id: <20210909165809.12634-1-Larry.Finger@lwfinger.net>
 X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -69,6 +69,7 @@ CONFIG_88EU_P2P be automatically included.
 Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 ---
 v2 - removed AP symbol from Kconfig following GregKH suggestion
+v3 - fixed some merge problems with Greg's tree
 ---
  drivers/staging/r8188eu/Kconfig               |  10 --
  drivers/staging/r8188eu/core/rtw_ap.c         |   8 -
@@ -126,19 +127,19 @@ index dc1719d3f2e4..f5fe423530f0 100644
 -
 -endif
 diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 1c07ad28b242..17575461f142 100644
+index 8e6b1964f533..84f853c304f4 100644
 --- a/drivers/staging/r8188eu/core/rtw_ap.c
 +++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -8,8 +8,6 @@
- #include "../include/wifi.h"
+@@ -9,8 +9,6 @@
  #include "../include/ieee80211.h"
+ #include "../include/rtl8188e_cmd.h"
  
 -#ifdef CONFIG_88EU_AP_MODE
 -
  void init_mlme_ap_info(struct adapter *padapter)
  {
  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-@@ -603,9 +601,7 @@ static void start_bss_network(struct adapter *padapter, u8 *pbuf)
+@@ -604,9 +602,7 @@ static void start_bss_network(struct adapter *padapter, u8 *pbuf)
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
  	struct wlan_bssid_ex *pnetwork_mlmeext = &pmlmeinfo->network;
  	struct HT_info_element *pht_info = NULL;
@@ -148,7 +149,7 @@ index 1c07ad28b242..17575461f142 100644
  
  	bcn_interval = (u16)pnetwork->Configuration.BeaconPeriod;
  	cur_channel = pnetwork->Configuration.DSConfig;
-@@ -706,10 +702,8 @@ static void start_bss_network(struct adapter *padapter, u8 *pbuf)
+@@ -707,10 +703,8 @@ static void start_bss_network(struct adapter *padapter, u8 *pbuf)
  	/* let pnetwork_mlmeext == pnetwork_mlme. */
  	memcpy(pnetwork_mlmeext, pnetwork, pnetwork->Length);
  
@@ -159,17 +160,17 @@ index 1c07ad28b242..17575461f142 100644
  
  	if (pmlmeext->bstart_bss) {
  		update_beacon(padapter, _TIM_IE_, NULL, false);
-@@ -1846,5 +1840,3 @@ void stop_ap_mode(struct adapter *padapter)
+@@ -1847,5 +1841,3 @@ void stop_ap_mode(struct adapter *padapter)
  
  	rtw_free_mlme_priv_ie_data(pmlmepriv);
  }
 -
 -#endif /* CONFIG_88EU_AP_MODE */
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 738e1ec749be..5afe6e007a71 100644
+index a52c17dd2e5a..b3695f1282de 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -1486,10 +1486,8 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter, u8 *pbuf, int sz)
+@@ -1488,10 +1488,8 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter, u8 *pbuf, int sz)
  	padapter = (struct adapter *)pbuf;
  	pmlmepriv = &padapter->mlmepriv;
  
@@ -178,9 +179,9 @@ index 738e1ec749be..5afe6e007a71 100644
  		expire_timeout_chk(padapter);
 -#endif
  
- 	rtw_hal_sreset_xmit_status_check(padapter);
+ 	rtl8188e_sreset_xmit_status_check(padapter);
  
-@@ -1674,7 +1672,6 @@ static void power_saving_wk_hdl(struct adapter *padapter, u8 *pbuf, int sz)
+@@ -1676,7 +1674,6 @@ static void power_saving_wk_hdl(struct adapter *padapter, u8 *pbuf, int sz)
  	 rtw_ps_processor(padapter);
  }
  
@@ -188,7 +189,7 @@ index 738e1ec749be..5afe6e007a71 100644
  u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
  {
  	struct cmd_obj	*ph2c;
-@@ -1711,7 +1708,6 @@ u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
+@@ -1713,7 +1710,6 @@ u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
  
  	return res;
  }
@@ -196,7 +197,7 @@ index 738e1ec749be..5afe6e007a71 100644
  
  u8 rtw_ps_cmd(struct adapter *padapter)
  {
-@@ -1745,8 +1741,6 @@ u8 rtw_ps_cmd(struct adapter *padapter)
+@@ -1747,8 +1743,6 @@ u8 rtw_ps_cmd(struct adapter *padapter)
  	return res;
  }
  
@@ -205,7 +206,7 @@ index 738e1ec749be..5afe6e007a71 100644
  static void rtw_chk_hi_queue_hdl(struct adapter *padapter)
  {
  	int cnt = 0;
-@@ -1817,7 +1811,6 @@ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter)
+@@ -1819,7 +1813,6 @@ u8 rtw_chk_hi_queue_cmd(struct adapter *padapter)
  exit:
  	return res;
  }
@@ -213,7 +214,7 @@ index 738e1ec749be..5afe6e007a71 100644
  
  u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
  {
-@@ -1894,10 +1887,8 @@ static void c2h_wk_callback(struct work_struct *work)
+@@ -1896,10 +1889,8 @@ static void c2h_wk_callback(struct work_struct *work)
  			continue;
  		}
  
@@ -224,7 +225,7 @@ index 738e1ec749be..5afe6e007a71 100644
  	}
  
  	evtpriv->c2h_wk_alive = false;
-@@ -1928,7 +1919,6 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
+@@ -1930,7 +1921,6 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
  	case ANT_SELECT_WK_CID:
  		antenna_select_wk_hdl(padapter, pdrvextra_cmd->type_size);
  		break;
@@ -232,7 +233,7 @@ index 738e1ec749be..5afe6e007a71 100644
  	case P2P_PS_WK_CID:
  		p2p_ps_wk_hdl(padapter, pdrvextra_cmd->type_size);
  		break;
-@@ -1937,12 +1927,9 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
+@@ -1939,12 +1929,9 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
  		/* 	I used the type_size as the type command */
  		p2p_protocol_wk_hdl(padapter, pdrvextra_cmd->type_size);
  		break;
@@ -322,10 +323,10 @@ index c187de78b4ac..8f5611d9d0d8 100644
  		case Ndis802_11AutoUnknown:
  		case Ndis802_11InfrastructureMax:
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 37578638bb76..6f972d3fe11f 100644
+index 848b1d4bf398..977f12bd9aae 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -88,7 +88,6 @@ static void rtw_mfree_mlme_priv_lock(struct mlme_priv *pmlmepriv)
+@@ -89,7 +89,6 @@ static void rtw_mfree_mlme_priv_lock(struct mlme_priv *pmlmepriv)
  {
  }
  
@@ -333,7 +334,7 @@ index 37578638bb76..6f972d3fe11f 100644
  static void rtw_free_mlme_ie_data(u8 **ppie, u32 *plen)
  {
  	kfree(*ppie);
-@@ -111,11 +110,6 @@ void rtw_free_mlme_priv_ie_data(struct mlme_priv *pmlmepriv)
+@@ -112,11 +111,6 @@ void rtw_free_mlme_priv_ie_data(struct mlme_priv *pmlmepriv)
  	rtw_free_mlme_ie_data(&pmlmepriv->p2p_go_probe_resp_ie, &pmlmepriv->p2p_go_probe_resp_ie_len);
  	rtw_free_mlme_ie_data(&pmlmepriv->p2p_assoc_req_ie, &pmlmepriv->p2p_assoc_req_ie_len);
  }
@@ -345,7 +346,7 @@ index 37578638bb76..6f972d3fe11f 100644
  
  void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
  {
-@@ -611,9 +605,7 @@ static void rtw_add_network(struct adapter *adapter,
+@@ -612,9 +606,7 @@ static void rtw_add_network(struct adapter *adapter,
  			    struct wlan_bssid_ex *pnetwork)
  {
  
@@ -355,7 +356,7 @@ index 37578638bb76..6f972d3fe11f 100644
  	update_current_network(adapter, pnetwork);
  	rtw_update_scanned_network(adapter, pnetwork);
  
-@@ -1200,24 +1192,20 @@ void rtw_joinbss_event_callback(struct adapter *adapter, u8 *pbuf)
+@@ -1201,24 +1193,20 @@ void rtw_joinbss_event_callback(struct adapter *adapter, u8 *pbuf)
  static u8 search_max_mac_id(struct adapter *padapter)
  {
  	u8 mac_id;
@@ -382,7 +383,7 @@ index 37578638bb76..6f972d3fe11f 100644
  		for (mac_id = (NUM_STA - 1); mac_id >= IBSS_START_MAC_ID; mac_id--) {
  			if (pmlmeinfo->FW_sta_info[mac_id].status == 1)
  				break;
-@@ -1255,14 +1243,12 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
+@@ -1256,14 +1244,12 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
  	if (!rtw_access_ctrl(adapter, pstassoc->macaddr))
  		return;
  
@@ -397,7 +398,7 @@ index 37578638bb76..6f972d3fe11f 100644
  	/* for AD-HOC mode */
  	psta = rtw_get_stainfo(&adapter->stapriv, pstassoc->macaddr);
  	if (psta)
-@@ -1486,10 +1472,8 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
+@@ -1487,10 +1473,8 @@ void rtw_dynamic_check_timer_handlder(struct adapter *adapter)
  	rtw_dynamic_chk_wk_cmd(adapter);
  
  	if (pregistrypriv->wifi_spec == 1) {
@@ -409,10 +410,10 @@ index 37578638bb76..6f972d3fe11f 100644
  			/* auto site survey */
  			rtw_auto_scan_handler(adapter);
 diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 57cf74d30984..bbc31ed7c8ec 100644
+index 45acbd17f5e8..abbf541618ed 100644
 --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -362,9 +362,7 @@ int	init_mlme_ext_priv(struct adapter *padapter)
+@@ -363,9 +363,7 @@ int	init_mlme_ext_priv(struct adapter *padapter)
  
  	init_mlme_ext_timer(padapter);
  
@@ -422,7 +423,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	pmlmeext->max_chan_nums = init_channel_set(padapter, pmlmepriv->ChannelPlan, pmlmeext->channel_set);
  	init_channel_list(padapter, pmlmeext->channel_set, pmlmeext->max_chan_nums, &pmlmeext->channel_list);
-@@ -409,9 +407,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -410,9 +408,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
  {
  	int index;
  	struct mlme_handler *ptable;
@@ -432,7 +433,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
  	u8 *pframe = precv_frame->rx_data;
  	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
-@@ -443,7 +439,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -444,7 +440,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
  		psta->RxMgmtFrameSeqNum = precv_frame->attrib.seq_num;
  	}
  
@@ -440,7 +441,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	switch (GetFrameSubType(pframe)) {
  	case WIFI_AUTH:
  		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
-@@ -464,12 +459,8 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -465,12 +460,8 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
  			rtw_hostapd_mlme_rx(padapter, precv_frame);
  		break;
  	}
@@ -453,7 +454,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  static u32 p2p_listen_state_process(struct adapter *padapter, unsigned char *da)
  {
  	bool response = true;
-@@ -483,7 +474,6 @@ static u32 p2p_listen_state_process(struct adapter *padapter, unsigned char *da)
+@@ -484,7 +475,6 @@ static u32 p2p_listen_state_process(struct adapter *padapter, unsigned char *da)
  
  	return _SUCCESS;
  }
@@ -461,7 +462,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  /****************************************************************************
  
-@@ -503,7 +493,6 @@ unsigned int OnProbeReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -504,7 +494,6 @@ unsigned int OnProbeReq(struct adapter *padapter, struct recv_frame *precv_frame
  	uint len = precv_frame->len;
  	u8 is_valid_p2p_probereq = false;
  
@@ -469,7 +470,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	struct wifidirect_info	*pwdinfo = &padapter->wdinfo;
  	u8 wifi_test_chk_rate = 1;
  
-@@ -538,7 +527,6 @@ unsigned int OnProbeReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -539,7 +528,6 @@ unsigned int OnProbeReq(struct adapter *padapter, struct recv_frame *precv_frame
  	}
  
  _continue:
@@ -477,7 +478,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
  		return _SUCCESS;
-@@ -572,12 +560,9 @@ unsigned int OnProbeReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -573,12 +561,9 @@ unsigned int OnProbeReq(struct adapter *padapter, struct recv_frame *precv_frame
  unsigned int OnProbeRsp(struct adapter *padapter, struct recv_frame *precv_frame)
  {
  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
@@ -490,7 +491,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_TX_PROVISION_DIS_REQ)) {
  		if (pwdinfo->tx_prov_disc_info.benable) {
  			if (!memcmp(pwdinfo->tx_prov_disc_info.peerIFAddr, GetAddr2Ptr(pframe), ETH_ALEN)) {
-@@ -612,8 +597,6 @@ unsigned int OnProbeRsp(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -613,8 +598,6 @@ unsigned int OnProbeRsp(struct adapter *padapter, struct recv_frame *precv_frame
  			}
  		}
  	}
@@ -499,7 +500,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if (pmlmeext->sitesurvey_res.state == SCAN_PROCESS) {
  		report_survey_event(padapter, precv_frame);
  		return _SUCCESS;
-@@ -714,7 +697,6 @@ unsigned int OnBeacon(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -715,7 +698,6 @@ unsigned int OnBeacon(struct adapter *padapter, struct recv_frame *precv_frame)
  
  unsigned int OnAuth(struct adapter *padapter, struct recv_frame *precv_frame)
  {
@@ -507,7 +508,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	unsigned int	auth_mode, ie_len;
  	u16 seq;
  	unsigned char	*sa, *p;
-@@ -858,9 +840,7 @@ unsigned int OnAuth(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -859,9 +841,7 @@ unsigned int OnAuth(struct adapter *padapter, struct recv_frame *precv_frame)
  	/*  Now, we are going to issue_auth... */
  	pstat->auth_seq = seq + 1;
  
@@ -517,7 +518,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	if (pstat->state & WIFI_FW_AUTH_SUCCESS)
  		pstat->auth_seq = 0;
-@@ -877,11 +857,7 @@ unsigned int OnAuth(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -878,11 +858,7 @@ unsigned int OnAuth(struct adapter *padapter, struct recv_frame *precv_frame)
  	pstat->auth_seq = 2;
  	memcpy(pstat->hwaddr, sa, 6);
  
@@ -529,7 +530,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	return _FAIL;
  }
  
-@@ -962,7 +938,6 @@ unsigned int OnAuthClient(struct adapter *padapter, struct recv_frame *precv_fra
+@@ -963,7 +939,6 @@ unsigned int OnAuthClient(struct adapter *padapter, struct recv_frame *precv_fra
  
  unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame)
  {
@@ -537,7 +538,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	u16 capab_info;
  	struct rtw_ieee802_11_elems elems;
  	struct sta_info	*pstat;
-@@ -981,12 +956,10 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -982,12 +957,10 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
  	struct sta_priv *pstapriv = &padapter->stapriv;
  	u8 *pframe = precv_frame->rx_data;
  	uint pkt_len = precv_frame->len;
@@ -550,7 +551,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
  		return _FAIL;
-@@ -1310,7 +1283,6 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -1311,7 +1284,6 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
  	if (status != _STATS_SUCCESSFUL_)
  		goto OnAssocReqFail;
  
@@ -558,7 +559,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	pstat->is_p2p_device = false;
  	if (rtw_p2p_chk_role(pwdinfo, P2P_ROLE_GO)) {
  		p2pie = rtw_get_p2p_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, pkt_len - WLAN_HDR_A3_LEN - ie_offset, NULL, &p2pielen);
-@@ -1325,7 +1297,6 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -1326,7 +1298,6 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
  		}
  	}
  	pstat->p2p_status_code = p2p_status_code;
@@ -566,7 +567,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	/* TODO: identify_proprietary_vendor_ie(); */
  	/*  Realtek proprietary IE */
-@@ -1376,7 +1347,6 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -1377,7 +1348,6 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
  
  	/*  now the station is qualified to join our BSS... */
  	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (_STATS_SUCCESSFUL_ == status)) {
@@ -574,7 +575,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		/* 1 bss_cap_update & sta_info_update */
  		bss_cap_update_on_sta_join(padapter, pstat);
  		sta_info_update(padapter, pstat);
-@@ -1393,30 +1363,23 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -1394,30 +1364,23 @@ unsigned int OnAssocReq(struct adapter *padapter, struct recv_frame *precv_frame
  
  		/* 3-(1) report sta add event */
  		report_add_sta_event(padapter, pstat->hwaddr, pstat->aid);
@@ -605,7 +606,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	return _FAIL;
  }
-@@ -1518,26 +1481,21 @@ unsigned int OnDeAuth(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -1519,26 +1482,21 @@ unsigned int OnDeAuth(struct adapter *padapter, struct recv_frame *precv_frame)
  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
  	u8 *pframe = precv_frame->rx_data;
@@ -632,7 +633,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
  		struct sta_info *psta;
  		struct sta_priv *pstapriv = &padapter->stapriv;
-@@ -1561,9 +1519,7 @@ unsigned int OnDeAuth(struct adapter *padapter, struct recv_frame *precv_frame)
+@@ -1562,9 +1520,7 @@ unsigned int OnDeAuth(struct adapter *padapter, struct recv_frame *precv_frame)
  		}
  
  		return _SUCCESS;
@@ -643,7 +644,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		int	ignore_received_deauth = 0;
  
  		/* Before sending the auth frame to start the STA/GC mode connection with AP/GO,
-@@ -1598,26 +1554,21 @@ unsigned int OnDisassoc(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -1599,26 +1555,21 @@ unsigned int OnDisassoc(struct adapter *padapter, struct recv_frame *precv_frame
  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
  	u8 *pframe = precv_frame->rx_data;
@@ -670,7 +671,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
  		struct sta_info *psta;
  		struct sta_priv *pstapriv = &padapter->stapriv;
-@@ -1641,9 +1592,7 @@ unsigned int OnDisassoc(struct adapter *padapter, struct recv_frame *precv_frame
+@@ -1642,9 +1593,7 @@ unsigned int OnDisassoc(struct adapter *padapter, struct recv_frame *precv_frame
  		}
  
  		return _SUCCESS;
@@ -681,7 +682,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		DBG_88E_LEVEL(_drv_always_, "ap recv disassoc reason code(%d) sta:%pM\n",
  			      reason, GetAddr3Ptr(pframe));
  
-@@ -1785,8 +1734,6 @@ unsigned int OnAction_back(struct adapter *padapter, struct recv_frame *precv_fr
+@@ -1786,8 +1735,6 @@ unsigned int OnAction_back(struct adapter *padapter, struct recv_frame *precv_fr
  	return _SUCCESS;
  }
  
@@ -690,7 +691,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  static int get_reg_classes_full_count(struct p2p_channels *channel_list)
  {
  	int cnt = 0;
-@@ -3779,8 +3726,6 @@ int issue_probereq_p2p_ex(struct adapter *adapter, u8 *da, int try_cnt, int wait
+@@ -3780,8 +3727,6 @@ int issue_probereq_p2p_ex(struct adapter *adapter, u8 *da, int try_cnt, int wait
  	return ret;
  }
  
@@ -699,7 +700,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  static s32 rtw_action_public_decache(struct recv_frame *recv_frame, s32 token)
  {
  	struct adapter *adapter = recv_frame->adapter;
-@@ -3818,7 +3763,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+@@ -3819,7 +3764,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
  	u8 *pframe = precv_frame->rx_data;
  	u8 *frame_body;
  	u8 dialogToken = 0;
@@ -707,7 +708,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	struct adapter *padapter = precv_frame->adapter;
  	uint len = precv_frame->len;
  	u8 *p2p_ie;
-@@ -3826,7 +3770,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+@@ -3827,7 +3771,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
  	struct	wifidirect_info	*pwdinfo = &padapter->wdinfo;
  	u8	result = P2P_STATUS_SUCCESS;
  	u8	empty_addr[ETH_ALEN] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -715,7 +716,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	frame_body = (unsigned char *)(pframe + sizeof(struct rtw_ieee80211_hdr_3addr));
  
-@@ -3835,7 +3778,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+@@ -3836,7 +3779,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
  	if (rtw_action_public_decache(precv_frame, dialogToken) == _FAIL)
  		return _FAIL;
  
@@ -723,7 +724,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	_cancel_timer_ex(&pwdinfo->reset_ch_sitesurvey);
  	/*	Do nothing if the driver doesn't enable the P2P function. */
  	if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE) || rtw_p2p_chk_state(pwdinfo, P2P_STATE_IDLE))
-@@ -4098,7 +4040,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
+@@ -4099,7 +4041,6 @@ static unsigned int on_action_public_p2p(struct recv_frame *precv_frame)
  		_set_timer(&pwdinfo->restore_p2p_state_timer, P2P_PROVISION_TIMEOUT);
  		break;
  	}
@@ -731,7 +732,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	return _SUCCESS;
  }
-@@ -4175,7 +4116,6 @@ unsigned int OnAction_wmm(struct adapter *padapter, struct recv_frame *precv_fra
+@@ -4176,7 +4117,6 @@ unsigned int OnAction_wmm(struct adapter *padapter, struct recv_frame *precv_fra
  
  unsigned int OnAction_p2p(struct adapter *padapter, struct recv_frame *precv_frame)
  {
@@ -739,7 +740,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	u8 *frame_body;
  	u8 category, OUI_Subtype;
  	u8 *pframe = precv_frame->rx_data;
-@@ -4213,7 +4153,6 @@ unsigned int OnAction_p2p(struct adapter *padapter, struct recv_frame *precv_fra
+@@ -4214,7 +4154,6 @@ unsigned int OnAction_p2p(struct adapter *padapter, struct recv_frame *precv_fra
  	default:
  		break;
  	}
@@ -747,7 +748,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	return _SUCCESS;
  }
  
-@@ -4411,18 +4350,14 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+@@ -4412,18 +4351,14 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
  	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
  	u8	bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
@@ -766,7 +767,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	/* update attribute */
  	pattrib = &pmgntframe->attrib;
-@@ -4449,7 +4384,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+@@ -4450,7 +4385,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  	pattrib->pktlen = sizeof(struct rtw_ieee80211_hdr_3addr);
  
  	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
@@ -774,7 +775,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		/*  for P2P : Primary Device Type & Device Name */
  		u32 wpsielen = 0, insert_len = 0;
  		u8 *wpsie = NULL;
-@@ -4514,9 +4448,7 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+@@ -4515,9 +4449,7 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  			memcpy(pframe, premainder_ie, remainder_ielen);
  			pframe += remainder_ielen;
  			pattrib->pktlen += remainder_ielen;
@@ -785,7 +786,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  			int len_diff;
  			memcpy(pframe, cur_network->IEs, cur_network->IELength);
  			len_diff = update_hidden_ssid(
-@@ -4542,7 +4474,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+@@ -4543,7 +4475,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  				_clr_fwstate_(pmlmepriv, WIFI_UNDER_WPS);
  		}
  
@@ -793,7 +794,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		if (rtw_p2p_chk_role(pwdinfo, P2P_ROLE_GO)) {
  			u32 len;
  			len = build_beacon_p2p_ie(pwdinfo, pframe);
-@@ -4550,7 +4481,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+@@ -4551,7 +4482,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  			pframe += len;
  			pattrib->pktlen += len;
  		}
@@ -801,7 +802,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  		goto _issue_bcn;
  	}
-@@ -4602,11 +4532,9 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+@@ -4603,11 +4533,9 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
  	/* todo:HT for adhoc */
  _issue_bcn:
  
@@ -813,7 +814,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	if ((pattrib->pktlen + TXDESC_SIZE) > 512) {
  		DBG_88E("beacon frame too large\n");
-@@ -4631,18 +4559,14 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+@@ -4632,18 +4560,14 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
  	__le16 *fctrl;
  	unsigned char					*mac, *bssid;
  	struct xmit_priv	*pxmitpriv = &padapter->xmitpriv;
@@ -832,7 +833,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
  	if (!pmgntframe) {
-@@ -4679,7 +4603,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+@@ -4680,7 +4604,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
  	if (cur_network->IELength > MAX_IE_SZ)
  		return;
  
@@ -840,7 +841,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
  		pwps_ie = rtw_get_wps_ie(cur_network->IEs + _FIXED_IE_LENGTH_, cur_network->IELength - _FIXED_IE_LENGTH_, NULL, &wps_ielen);
  
-@@ -4715,9 +4638,7 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+@@ -4716,9 +4639,7 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
  			pframe += cur_network->IELength;
  			pattrib->pktlen += cur_network->IELength;
  		}
@@ -851,7 +852,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		/* timestamp will be inserted by hardware */
  		pframe += 8;
  		pattrib->pktlen += 8;
-@@ -4766,7 +4687,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+@@ -4767,7 +4688,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
  		/* todo:HT for adhoc */
  	}
  
@@ -859,7 +860,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if (rtw_p2p_chk_role(pwdinfo, P2P_ROLE_GO) && is_valid_p2p_probereq) {
  		u32 len;
  		len = build_probe_resp_p2p_ie(pwdinfo, pframe);
-@@ -4774,7 +4694,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
+@@ -4775,7 +4695,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
  		pframe += len;
  		pattrib->pktlen += len;
  	}
@@ -867,7 +868,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	pattrib->last_txcmdsz = pattrib->pktlen;
  
-@@ -4922,9 +4841,7 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
+@@ -4923,9 +4842,7 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
  	__le16 *fctrl;
  	unsigned int val32;
  	u16 val16;
@@ -877,7 +878,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	int use_shared_key = 0;
  	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
-@@ -4954,8 +4871,6 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
+@@ -4955,8 +4872,6 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
  	pattrib->pktlen = sizeof(struct rtw_ieee80211_hdr_3addr);
  
  	if (psta) {/*  for AP mode */
@@ -886,7 +887,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		memcpy(pwlanhdr->addr1, psta->hwaddr, ETH_ALEN);
  		memcpy(pwlanhdr->addr2, myid(&padapter->eeprompriv), ETH_ALEN);
  		memcpy(pwlanhdr->addr3, myid(&padapter->eeprompriv), ETH_ALEN);
-@@ -4988,7 +4903,6 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
+@@ -4989,7 +4904,6 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
  		/*  added challenging text... */
  		if ((psta->auth_seq == 2) && (psta->state & WIFI_FW_AUTH_STATE) && (use_shared_key == 1))
  			pframe = rtw_set_ie(pframe, _CHLGETXT_IE_, 128, psta->chg_txt, &pattrib->pktlen);
@@ -894,7 +895,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	} else {
  		__le32 le_tmp32;
  		__le16 le_tmp16;
-@@ -5047,7 +4961,6 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
+@@ -5048,7 +4962,6 @@ void issue_auth(struct adapter *padapter, struct sta_info *psta, unsigned short
  
  void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_info *pstat, int pkt_type)
  {
@@ -902,7 +903,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	struct xmit_frame	*pmgntframe;
  	struct rtw_ieee80211_hdr	*pwlanhdr;
  	struct pkt_attrib *pattrib;
-@@ -5061,9 +4974,7 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
+@@ -5062,9 +4975,7 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
  	struct wlan_bssid_ex *pnetwork = &pmlmeinfo->network;
  	u8 *ie = pnetwork->IEs;
  	__le16 lestatus, leval;
@@ -912,7 +913,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	DBG_88E("%s\n", __func__);
  
-@@ -5166,7 +5077,6 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
+@@ -5167,7 +5078,6 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
  		pattrib->pktlen += pmlmepriv->wps_assoc_resp_ie_len;
  	}
  
@@ -920,7 +921,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if (rtw_p2p_chk_role(pwdinfo, P2P_ROLE_GO) && (pstat->is_p2p_device)) {
  		u32 len;
  
-@@ -5175,10 +5085,8 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
+@@ -5176,10 +5086,8 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
  		pframe += len;
  		pattrib->pktlen += len;
  	}
@@ -931,7 +932,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  }
  
  void issue_assocreq(struct adapter *padapter)
-@@ -5199,11 +5107,9 @@ void issue_assocreq(struct adapter *padapter)
+@@ -5200,11 +5108,9 @@ void issue_assocreq(struct adapter *padapter)
  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
  	int	bssrate_len = 0, sta_bssrate_len = 0;
@@ -943,7 +944,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
  	if (!pmgntframe)
-@@ -5369,8 +5275,6 @@ void issue_assocreq(struct adapter *padapter)
+@@ -5370,8 +5276,6 @@ void issue_assocreq(struct adapter *padapter)
  	if (pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_REALTEK)
  		pframe = rtw_set_ie(pframe, _VENDOR_SPECIFIC_IE_, 6, REALTEK_96B_IE, &pattrib->pktlen);
  
@@ -952,7 +953,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	if (!rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE) && !rtw_p2p_chk_state(pwdinfo, P2P_STATE_IDLE)) {
  		/*	Should add the P2P IE in the association request frame. */
  		/*	P2P OUI */
-@@ -5498,8 +5402,6 @@ void issue_assocreq(struct adapter *padapter)
+@@ -5499,8 +5403,6 @@ void issue_assocreq(struct adapter *padapter)
  		pframe = rtw_set_ie(pframe, _VENDOR_SPECIFIC_IE_, p2pielen, (unsigned char *)p2pie, &pattrib->pktlen);
  	}
  
@@ -961,7 +962,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	pattrib->last_txcmdsz = pattrib->pktlen;
  	dump_mgntframe(padapter, pmgntframe);
  
-@@ -5758,16 +5660,12 @@ static int _issue_deauth(struct adapter *padapter, unsigned char *da, unsigned s
+@@ -5759,16 +5661,12 @@ static int _issue_deauth(struct adapter *padapter, unsigned char *da, unsigned s
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
  	int ret = _FAIL;
  	__le16 le_tmp;
@@ -978,7 +979,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
  	if (!pmgntframe)
-@@ -6266,8 +6164,6 @@ void site_survey(struct adapter *padapter)
+@@ -6267,8 +6165,6 @@ void site_survey(struct adapter *padapter)
  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
  	u32 initialgain = 0;
@@ -987,7 +988,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
  
  	if ((pwdinfo->rx_invitereq_info.scan_op_ch_only) || (pwdinfo->p2p_info.scan_op_ch_only)) {
-@@ -6287,9 +6183,7 @@ void site_survey(struct adapter *padapter)
+@@ -6288,9 +6184,7 @@ void site_survey(struct adapter *padapter)
  			ScanType = pmlmeext->channel_set[ch_set_idx].ScanType;
  		else
  			ScanType = SCAN_ACTIVE;
@@ -998,7 +999,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		struct rtw_ieee80211_channel *ch;
  		if (pmlmeext->sitesurvey_res.channel_idx < pmlmeext->sitesurvey_res.ch_num) {
  			ch = &pmlmeext->sitesurvey_res.ch[pmlmeext->sitesurvey_res.channel_idx];
-@@ -6309,15 +6203,12 @@ void site_survey(struct adapter *padapter)
+@@ -6310,15 +6204,12 @@ void site_survey(struct adapter *padapter)
  			SelectChannel(padapter, survey_channel);
  
  		if (ScanType == SCAN_ACTIVE) { /* obey the channel plan setting... */
@@ -1015,7 +1016,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  				int i;
  				for (i = 0; i < RTW_SSID_SCAN_AMOUNT; i++) {
  					if (pmlmeext->sitesurvey_res.ssid[i].SsidLength) {
-@@ -6340,8 +6231,6 @@ void site_survey(struct adapter *padapter)
+@@ -6341,8 +6232,6 @@ void site_survey(struct adapter *padapter)
  		set_survey_timer(pmlmeext, pmlmeext->chan_scan_time);
  	} else {
  		/*	channel number is 0 or this channel is not valid. */
@@ -1024,7 +1025,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		if (rtw_p2p_chk_state(pwdinfo, P2P_STATE_SCAN) || rtw_p2p_chk_state(pwdinfo, P2P_STATE_FIND_PHASE_SEARCH)) {
  			if ((pwdinfo->rx_invitereq_info.scan_op_ch_only) || (pwdinfo->p2p_info.scan_op_ch_only)) {
  				/*	Set the find_phase_state_exchange_cnt to P2P_FINDPHASE_EX_CNT. */
-@@ -6363,9 +6252,7 @@ void site_survey(struct adapter *padapter)
+@@ -6364,9 +6253,7 @@ void site_survey(struct adapter *padapter)
  			/* Switch_DM_Func(padapter, DYNAMIC_FUNC_DIG|DYNAMIC_FUNC_HP|DYNAMIC_FUNC_SS, true); */
  
  			_set_timer(&pwdinfo->find_phase_timer, (u32)((u32)(pwdinfo->listen_dwell) * 100));
@@ -1035,7 +1036,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  			/*  20100721:Interrupt scan operation here. */
  			/*  For SW antenna diversity before link, it needs to switch to another antenna and scan again. */
  			/*  It compares the scan result and select beter one to do connection. */
-@@ -6376,22 +6263,18 @@ void site_survey(struct adapter *padapter)
+@@ -6377,22 +6264,18 @@ void site_survey(struct adapter *padapter)
  				set_survey_timer(pmlmeext, pmlmeext->chan_scan_time);
  				return;
  			}
@@ -1058,7 +1059,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  			/* flush 4-AC Queue after site_survey */
  			/* val8 = 0; */
-@@ -7412,9 +7295,7 @@ void linked_status_chk(struct adapter *padapter)
+@@ -7413,9 +7296,7 @@ void linked_status_chk(struct adapter *padapter)
  		psta = rtw_get_stainfo(pstapriv, pmlmeinfo->network.MacAddress);
  		if (psta) {
  			bool is_p2p_enable = false;
@@ -1068,7 +1069,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  			if (!chk_ap_is_alive(padapter, psta))
  				rx_chk = _FAIL;
-@@ -7512,9 +7393,7 @@ void survey_timer_hdl(struct adapter *padapter)
+@@ -7513,9 +7394,7 @@ void survey_timer_hdl(struct adapter *padapter)
  	struct sitesurvey_parm	*psurveyPara;
  	struct cmd_priv					*pcmdpriv = &padapter->cmdpriv;
  	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
@@ -1078,7 +1079,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	/* issue rtw_sitesurvey_cmd */
  	if (pmlmeext->sitesurvey_res.state > SCAN_START) {
-@@ -7522,7 +7401,6 @@ void survey_timer_hdl(struct adapter *padapter)
+@@ -7523,7 +7402,6 @@ void survey_timer_hdl(struct adapter *padapter)
  			pmlmeext->sitesurvey_res.channel_idx++;
  
  		if (pmlmeext->scan_abort) {
@@ -1086,7 +1087,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  			if (!rtw_p2p_chk_state(&padapter->wdinfo, P2P_STATE_NONE)) {
  				rtw_p2p_findphase_ex_set(pwdinfo, P2P_FINDPHASE_EX_MAX);
  				pmlmeext->sitesurvey_res.channel_idx = 3;
-@@ -7530,9 +7408,7 @@ void survey_timer_hdl(struct adapter *padapter)
+@@ -7531,9 +7409,7 @@ void survey_timer_hdl(struct adapter *padapter)
  					, pmlmeext->sitesurvey_res.channel_idx
  					, pwdinfo->find_phase_state_exchange_cnt
  			);
@@ -1097,7 +1098,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  				pmlmeext->sitesurvey_res.channel_idx = pmlmeext->sitesurvey_res.ch_num;
  				DBG_88E("%s idx:%d\n", __func__
  					, pmlmeext->sitesurvey_res.channel_idx
-@@ -7650,13 +7526,10 @@ u8 createbss_hdl(struct adapter *padapter, u8 *pbuf)
+@@ -7651,13 +7527,10 @@ u8 createbss_hdl(struct adapter *padapter, u8 *pbuf)
  	/* u32	initialgain; */
  
  	if (pparm->network.InfrastructureMode == Ndis802_11APMode) {
@@ -1111,7 +1112,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  	}
  
  	/* below is for ad-hoc master */
-@@ -7907,10 +7780,7 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+@@ -7908,10 +7781,7 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
  	u8 val8;
  	u32	initialgain;
  	u32	i;
@@ -1122,7 +1123,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  	if (pmlmeext->sitesurvey_res.state == SCAN_DISABLE) {
  		/* for first time sitesurvey_cmd */
-@@ -7957,14 +7827,10 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
+@@ -7958,14 +7828,10 @@ u8 sitesurvey_cmd_hdl(struct adapter *padapter, u8 *pbuf)
  		Switch_DM_Func(padapter, DYNAMIC_FUNC_DISABLE, false);
  
  		/* config the initial gain under scanning, need to write the BB registers */
@@ -1137,7 +1138,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  
  		rtw_hal_set_hwreg(padapter, HW_VAR_INITIAL_GAIN, (u8 *)(&initialgain));
  
-@@ -8196,9 +8062,8 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
+@@ -8197,9 +8063,8 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
  	if (send_beacon(padapter) == _FAIL) {
  		DBG_88E("issue_beacon, fail!\n");
  		return H2C_PARAMETERS_ERROR;
@@ -1149,7 +1150,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  		struct sta_info *psta_bmc;
  		struct list_head *xmitframe_plist, *xmitframe_phead;
  		struct xmit_frame *pxmitframe = NULL;
-@@ -8241,7 +8106,6 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
+@@ -8242,7 +8107,6 @@ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf)
  			spin_unlock_bh(&psta_bmc->sleep_q.lock);
  		}
  	}
@@ -1158,7 +1159,7 @@ index 57cf74d30984..bbc31ed7c8ec 100644
  }
  
 diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index e2b6cf2386e0..8013e14c9a9e 100644
+index 3d237f276847..f942f8f9e3f6 100644
 --- a/drivers/staging/r8188eu/core/rtw_p2p.c
 +++ b/drivers/staging/r8188eu/core/rtw_p2p.c
 @@ -7,8 +7,6 @@
@@ -1203,7 +1204,7 @@ index e2b6cf2386e0..8013e14c9a9e 100644
 -
 -#endif /* CONFIG_88EU_P2P */
 diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index c3897b29121c..1df8f2b349f8 100644
+index 00750394c50b..353b7bd850d9 100644
 --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
 +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
 @@ -99,10 +99,7 @@ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
@@ -1338,7 +1339,7 @@ index ba69cf9facfe..a0375207a8e4 100644
  }
  
 diff --git a/drivers/staging/r8188eu/core/rtw_sta_mgt.c b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
-index c3600cb1790a..9875a5957753 100644
+index fc6484e403d0..37bd05fd1832 100644
 --- a/drivers/staging/r8188eu/core/rtw_sta_mgt.c
 +++ b/drivers/staging/r8188eu/core/rtw_sta_mgt.c
 @@ -24,8 +24,6 @@ static void _rtw_init_stainfo(struct sta_info *psta)
@@ -1391,7 +1392,7 @@ index c3600cb1790a..9875a5957753 100644
  }
 @@ -322,8 +312,6 @@ u32	rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
  	if (!(psta->state & WIFI_AP_STATE))
- 		rtw_hal_set_odm_var(padapter, HAL_ODM_STA_INFO, psta, false);
+ 		rtl8188e_SetHalODMVar(padapter, HAL_ODM_STA_INFO, psta, false);
  
 -#ifdef CONFIG_88EU_AP_MODE
 -
@@ -1424,7 +1425,7 @@ index c3600cb1790a..9875a5957753 100644
  	return res;
  }
 diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index ccb5fbbc3ffb..472b359158b6 100644
+index c2f664bdb979..26106dd06d56 100644
 --- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
 +++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
 @@ -1233,7 +1233,6 @@ void set_sta_rate(struct adapter *padapter, struct sta_info *psta)
@@ -1444,7 +1445,7 @@ index ccb5fbbc3ffb..472b359158b6 100644
  
  	if ((wirelessmode & WIRELESS_11B) && (wirelessmode == WIRELESS_11B))
 diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index bcc4d65cdcee..0540f537fc4b 100644
+index 875d1bf1679c..1bfb91f445df 100644
 --- a/drivers/staging/r8188eu/core/rtw_xmit.c
 +++ b/drivers/staging/r8188eu/core/rtw_xmit.c
 @@ -1773,14 +1773,12 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
@@ -1481,10 +1482,10 @@ index bcc4d65cdcee..0540f537fc4b 100644
  {
  	sctx->timeout_ms = timeout_ms;
 diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index e91db4f5886b..71e0ccfc5654 100644
+index 92c55b9ab244..53459e7f3db4 100644
 --- a/drivers/staging/r8188eu/hal/hal_intf.c
 +++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -186,14 +186,12 @@ void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
+@@ -130,14 +130,12 @@ void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
  	struct mlme_priv *pmlmepriv = &adapt->mlmepriv;
  
  	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
@@ -1497,8 +1498,8 @@ index e91db4f5886b..71e0ccfc5654 100644
  			add_RATid(adapt, psta, 0);/* todo: based on rssi_level*/
 -#endif
  	} else {
- 		if (adapt->HalFunc.UpdateRAMaskHandler)
- 			adapt->HalFunc.UpdateRAMaskHandler(adapt, mac_id,
+ 		UpdateHalRAMask8188EUsb(adapt, mac_id, rssi_level);
+ 	}
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
 index 7d50d64cf34d..f5268d295278 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
@@ -1519,10 +1520,10 @@ index 7d50d64cf34d..f5268d295278 100644
 -
  }
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 679f9f6e6dbe..309dd6ca4730 100644
+index 37a976c56f06..c5347c5459d6 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1776,14 +1776,12 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+@@ -1761,14 +1761,12 @@ static void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
  			rtl8188e_set_FwJoinBssReport_cmd(Adapter, mstatus);
  		}
  		break;
@@ -1675,7 +1676,7 @@ index 6fbf9a47430b..626df5f44fc5 100644
  void CheckFwRsvdPageContent(struct adapter *adapt);
  void rtl8188e_set_FwMediaStatus_cmd(struct adapter *adapt, __le16 mstatus_rpt);
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 5cd441e8e16b..90bdfe84758d 100644
+index 13217789d495..a9ca29b5b9c1 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
 @@ -364,9 +364,7 @@ struct hal_data_8188e {
@@ -1907,10 +1908,10 @@ index 8ff99fc6381d..24b1254310b2 100644
  
  static inline u32 wifi_mac_hash(u8 *mac)
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index bd637a667299..3453ac9012f6 100644
+index 08b891b9c708..1349348b9b32 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -137,7 +137,6 @@ static char *translate_scan(struct adapter *padapter,
+@@ -138,7 +138,6 @@ static char *translate_scan(struct adapter *padapter,
  	u8 bw_40MHz = 0, short_GI = 0;
  	u16 mcs_rate = 0;
  	u8 ss, sq;
@@ -1918,7 +1919,7 @@ index bd637a667299..3453ac9012f6 100644
  	struct wifidirect_info *pwdinfo = &padapter->wdinfo;
  
  	if (!rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE)) {
-@@ -165,7 +164,6 @@ static char *translate_scan(struct adapter *padapter,
+@@ -166,7 +165,6 @@ static char *translate_scan(struct adapter *padapter,
  		if (!blnGotP2PIE)
  			return start;
  	}
@@ -1926,7 +1927,7 @@ index bd637a667299..3453ac9012f6 100644
  
  	/*  AP MAC address  */
  	iwe.cmd = SIOCGIWAP;
-@@ -424,9 +422,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+@@ -425,9 +423,7 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
  	struct mlme_priv	*pmlmepriv = &padapter->mlmepriv;
  	struct security_priv *psecuritypriv = &padapter->securitypriv;
@@ -1936,7 +1937,7 @@ index bd637a667299..3453ac9012f6 100644
  
  	param->u.crypt.err = 0;
  	param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
-@@ -539,10 +535,8 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+@@ -540,10 +536,8 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
  					padapter->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
  
  					rtw_set_key(padapter, &padapter->securitypriv, param->u.crypt.idx, 1);
@@ -1947,7 +1948,7 @@ index bd637a667299..3453ac9012f6 100644
  				}
  			}
  			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
-@@ -572,9 +566,7 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
+@@ -573,9 +567,7 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
  	u8 *buf = NULL;
  	int group_cipher = 0, pairwise_cipher = 0;
  	int ret = 0;
@@ -1957,7 +1958,7 @@ index bd637a667299..3453ac9012f6 100644
  
  	if (ielen > MAX_WPA_IE_LEN || !pie) {
  		_clr_fwstate_(&padapter->mlmepriv, WIFI_UNDER_WPS);
-@@ -677,10 +669,8 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
+@@ -678,10 +670,8 @@ static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ie
  					memcpy(padapter->securitypriv.wps_ie, &buf[cnt], padapter->securitypriv.wps_ie_len);
  
  					set_fwstate(&padapter->mlmepriv, WIFI_UNDER_WPS);
@@ -1968,7 +1969,7 @@ index bd637a667299..3453ac9012f6 100644
  					cnt += buf[cnt + 1] + 2;
  					break;
  				} else {
-@@ -1149,9 +1139,7 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
+@@ -1150,9 +1140,7 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
  	struct ndis_802_11_ssid ssid[RTW_SSID_SCAN_AMOUNT];
@@ -1978,7 +1979,7 @@ index bd637a667299..3453ac9012f6 100644
  
  	if (padapter->registrypriv.mp_mode == 1) {
  		if (check_fwstate(pmlmepriv, WIFI_MP_STATE)) {
-@@ -1197,14 +1185,12 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
+@@ -1198,14 +1186,12 @@ static int rtw_wx_set_scan(struct net_device *dev, struct iw_request_info *a,
  /*	the pmlmepriv->scan_interval is always equal to 3. */
  /*	So, the wpa_supplicant won't find out the WPS SoftAP. */
  
@@ -1993,7 +1994,7 @@ index bd637a667299..3453ac9012f6 100644
  
  	memset(ssid, 0, sizeof(struct ndis_802_11_ssid) * RTW_SSID_SCAN_AMOUNT);
  
-@@ -1300,16 +1286,13 @@ static int rtw_wx_get_scan(struct net_device *dev, struct iw_request_info *a,
+@@ -1301,16 +1287,13 @@ static int rtw_wx_get_scan(struct net_device *dev, struct iw_request_info *a,
  	u32 cnt = 0;
  	u32 wait_for_surveydone;
  	int wait_status;
@@ -2010,7 +2011,7 @@ index bd637a667299..3453ac9012f6 100644
  	if (!rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE)) {
  		/*	P2P is enabled */
  		wait_for_surveydone = 200;
-@@ -1317,11 +1300,6 @@ static int rtw_wx_get_scan(struct net_device *dev, struct iw_request_info *a,
+@@ -1318,11 +1301,6 @@ static int rtw_wx_get_scan(struct net_device *dev, struct iw_request_info *a,
  		/*	P2P is disabled */
  		wait_for_surveydone = 100;
  	}
@@ -2022,7 +2023,7 @@ index bd637a667299..3453ac9012f6 100644
  
  	wait_status = _FW_UNDER_SURVEY | _FW_UNDER_LINKING;
  
-@@ -2557,7 +2535,6 @@ static int rtw_wps_start(struct net_device *dev,
+@@ -2558,7 +2536,6 @@ static int rtw_wps_start(struct net_device *dev,
  	return ret;
  }
  
@@ -2030,7 +2031,7 @@ index bd637a667299..3453ac9012f6 100644
  static int rtw_wext_p2p_enable(struct net_device *dev,
  			       struct iw_request_info *info,
  			       union iwreq_data *wrqu, char *extra)
-@@ -3662,15 +3639,12 @@ static int rtw_p2p_got_wpsinfo(struct net_device *dev,
+@@ -3663,15 +3640,12 @@ static int rtw_p2p_got_wpsinfo(struct net_device *dev,
  	return ret;
  }
  
@@ -2046,7 +2047,7 @@ index bd637a667299..3453ac9012f6 100644
  	DBG_88E("[%s] extra = %s\n", __func__, extra);
  	if (!memcmp(extra, "enable =", 7)) {
  		rtw_wext_p2p_enable(dev, info, wrqu, &extra[7]);
-@@ -3717,7 +3691,6 @@ static int rtw_p2p_set(struct net_device *dev,
+@@ -3718,7 +3692,6 @@ static int rtw_p2p_set(struct net_device *dev,
  		wrqu->data.length -= 11;
  		rtw_p2p_set_persistent(dev, info, wrqu, &extra[11]);
  	}
@@ -2054,7 +2055,7 @@ index bd637a667299..3453ac9012f6 100644
  
  	return ret;
  }
-@@ -3728,7 +3701,6 @@ static int rtw_p2p_get(struct net_device *dev,
+@@ -3729,7 +3702,6 @@ static int rtw_p2p_get(struct net_device *dev,
  {
  	int ret = 0;
  
@@ -2062,7 +2063,7 @@ index bd637a667299..3453ac9012f6 100644
  	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(dev);
  
  	if (padapter->bShowGetP2PState)
-@@ -3752,7 +3724,6 @@ static int rtw_p2p_get(struct net_device *dev,
+@@ -3753,7 +3725,6 @@ static int rtw_p2p_get(struct net_device *dev,
  	} else if (!memcmp(wrqu->data.pointer, "op_ch", 5)) {
  		rtw_p2p_get_op_ch(dev, info, wrqu, extra);
  	}
@@ -2070,7 +2071,7 @@ index bd637a667299..3453ac9012f6 100644
  	return ret;
  }
  
-@@ -3762,7 +3733,6 @@ static int rtw_p2p_get2(struct net_device *dev,
+@@ -3763,7 +3734,6 @@ static int rtw_p2p_get2(struct net_device *dev,
  {
  	int ret = 0;
  
@@ -2078,7 +2079,7 @@ index bd637a667299..3453ac9012f6 100644
  	DBG_88E("[%s] extra = %s\n", __func__, (char *)wrqu->data.pointer);
  	if (!memcmp(extra, "wpsCM =", 6)) {
  		wrqu->data.length -= 6;
-@@ -3781,8 +3751,6 @@ static int rtw_p2p_get2(struct net_device *dev,
+@@ -3782,8 +3752,6 @@ static int rtw_p2p_get2(struct net_device *dev,
  		rtw_p2p_get_invitation_procedure(dev, info, wrqu, &extra[8]);
  	}
  
@@ -2087,7 +2088,7 @@ index bd637a667299..3453ac9012f6 100644
  	return ret;
  }
  
-@@ -4247,9 +4215,7 @@ static int rtw_dbg_port(struct net_device *dev,
+@@ -4248,9 +4216,7 @@ static int rtw_dbg_port(struct net_device *dev,
  				struct list_head *plist, *phead;
  				struct recv_reorder_ctrl *preorder_ctrl;
  
@@ -2097,7 +2098,7 @@ index bd637a667299..3453ac9012f6 100644
  				spin_lock_bh(&pstapriv->sta_hash_lock);
  
  				for (i = 0; i < NUM_STA; i++) {
-@@ -4270,14 +4236,12 @@ static int rtw_dbg_port(struct net_device *dev,
+@@ -4271,14 +4237,12 @@ static int rtw_dbg_port(struct net_device *dev,
  							DBG_88E("ampdu_enable = %d\n", psta->htpriv.ampdu_enable);
  							DBG_88E("agg_enable_bitmap =%x, candidate_tid_bitmap =%x\n", psta->htpriv.agg_enable_bitmap, psta->htpriv.candidate_tid_bitmap);
  
@@ -2112,7 +2113,7 @@ index bd637a667299..3453ac9012f6 100644
  							DBG_88E("dot118021XPrivacy = 0x%x\n", psta->dot118021XPrivacy);
  
  							for (j = 0; j < 16; j++) {
-@@ -4358,10 +4322,8 @@ static int rtw_dbg_port(struct net_device *dev,
+@@ -4359,10 +4323,8 @@ static int rtw_dbg_port(struct net_device *dev,
  			padapter->bNotifyChannelChange = extra_arg;
  			break;
  		case 0x24:
@@ -2143,10 +2144,10 @@ index e3ee9dc7ab90..cc33baf38da7 100644
 -
 -#endif
 diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 49ccdde1b0bb..c8226f8350a3 100644
+index a1136c0dadf7..306377fe8bfc 100644
 --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
 +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -362,15 +362,12 @@ void rtw_proc_init_one(struct net_device *dev)
+@@ -364,15 +364,12 @@ void rtw_proc_init_one(struct net_device *dev)
  		}
  	}
  
@@ -2162,7 +2163,7 @@ index 49ccdde1b0bb..c8226f8350a3 100644
  
  	entry = create_proc_read_entry("best_channel", S_IFREG | S_IRUGO,
  				   dir_dev, proc_get_best_channel, dev);
-@@ -467,9 +464,7 @@ void rtw_proc_remove_one(struct net_device *dev)
+@@ -469,9 +466,7 @@ void rtw_proc_remove_one(struct net_device *dev)
  			remove_proc_entry("rf_reg_dump3", dir_dev);
  			remove_proc_entry("rf_reg_dump4", dir_dev);
  		}
@@ -2172,7 +2173,7 @@ index 49ccdde1b0bb..c8226f8350a3 100644
  
  		remove_proc_entry("best_channel", dir_dev);
  		remove_proc_entry("rx_signal", dir_dev);
-@@ -789,9 +784,7 @@ static u8 rtw_init_default_value(struct adapter *padapter)
+@@ -788,9 +783,7 @@ static u8 rtw_init_default_value(struct adapter *padapter)
  	padapter->bWritePortCancel = false;
  	padapter->bRxRSSIDisplay = 0;
  	padapter->bNotifyChannelChange = 0;
@@ -2182,7 +2183,7 @@ index 49ccdde1b0bb..c8226f8350a3 100644
  	return _SUCCESS;
  }
  
-@@ -846,11 +839,9 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+@@ -845,11 +838,9 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
  		goto exit;
  	}
  
@@ -2194,7 +2195,7 @@ index 49ccdde1b0bb..c8226f8350a3 100644
  
  	if (init_mlme_ext_priv(padapter) == _FAIL) {
  		ret8 = _FAIL;
-@@ -920,7 +911,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
+@@ -919,7 +910,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
  	/* we can call rtw_p2p_enable here, but: */
  	/*  1. rtw_p2p_enable may have IO operation */
  	/*  2. rtw_p2p_enable is bundled with wext interface */
@@ -2202,7 +2203,7 @@ index 49ccdde1b0bb..c8226f8350a3 100644
  	{
  		struct wifidirect_info *pwdinfo = &padapter->wdinfo;
  		if (!rtw_p2p_chk_state(pwdinfo, P2P_STATE_NONE)) {
-@@ -930,7 +920,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
+@@ -929,7 +919,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
  			rtw_p2p_set_state(pwdinfo, P2P_STATE_NONE);
  		}
  	}
@@ -2210,7 +2211,7 @@ index 49ccdde1b0bb..c8226f8350a3 100644
  
  	free_mlme_ext_priv(&padapter->mlmeextpriv);
  
-@@ -1185,9 +1174,7 @@ int netdev_close(struct net_device *pnetdev)
+@@ -1184,9 +1173,7 @@ int netdev_close(struct net_device *pnetdev)
  
  	nat25_db_cleanup(padapter);
  
@@ -2221,10 +2222,10 @@ index 49ccdde1b0bb..c8226f8350a3 100644
  	kfree(dvobj->firmware.szFwBuffer);
  	dvobj->firmware.szFwBuffer = NULL;
 diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index b7129e8b9924..d97021149e68 100644
+index 4828862260d5..da93512993f1 100644
 --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
 +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -630,10 +630,8 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
+@@ -627,10 +627,8 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
  	/*  alloc dev name after read efuse. */
  	rtw_init_netdev_name(pnetdev, padapter->registrypriv.ifname);
  	rtw_macaddr_cfg(padapter->eeprompriv.mac_addr);
@@ -2235,7 +2236,7 @@ index b7129e8b9924..d97021149e68 100644
  	memcpy(pnetdev->dev_addr, padapter->eeprompriv.mac_addr, ETH_ALEN);
  	DBG_88E("MAC Address from pnetdev->dev_addr =  %pM\n",
  		pnetdev->dev_addr);
-@@ -677,9 +675,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
+@@ -674,9 +672,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
  	if (check_fwstate(pmlmepriv, _FW_LINKED))
  		rtw_disassoc_cmd(if1, 0, false);
  
