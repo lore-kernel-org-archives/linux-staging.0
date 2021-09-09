@@ -1,117 +1,82 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DB972
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 10:03:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AEF6161104;
-	Thu,  9 Sep 2021 10:03:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631181835;
-	bh=aNdNVuOHQN5in236EpLXyDhP5u8tvEK2yD/1lia4+b4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m3/QlHVj/fckqSe3t/Fb/99JM1BygLomd5IwSSiFxf/zy5l77jKm6+Dw4WAAPreV3
-	 9LkRkr4HdCB90k0x6zROAejj3E7C3b1KcSV8fr5siMX1UTQg6aL+BmLHIRhHTuqDNv
-	 uN8nxT2T2vS2vYuc74BNI1Gn1fFvkIBsUw0tgYhs=
-Date: Thu, 9 Sep 2021 12:03:52 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: saurav.girepunje@hotmail.com, Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk, straube.linux@gmail.com, martin@kaiser.cx,
-	nathan@kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: os_dep: simplifiy the rtw_resume
- function
-Message-ID: <YTncCDuVwnk9RF09@kroah.com>
-References: <YTNjNLcNvPfD9+5Z@user>
- <YTTYo2BSG/JTuijx@kroah.com>
- <41bd374e-3122-0580-f38d-bb03401730b6@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E07E3FE1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:05:33 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id g21so2100591edw.4
+        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 04:05:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I7xGDBdz64wmEzOneTZADBd1QDtzlZv4vk2FOyjlh/4=;
+        b=MeqHvM0PrVC2fWIc1pNOHOwKVAOufi/brwvOBCw6klHF9cJQ03rAfdJe09jm3VvKqk
+         NvPONbHgmT3n93U977Egcm1tesnF7+sgUW6iJOPLuES3Pk279DuTeCJYNIPfE9XDSvDD
+         rnIBOe2CEOEKlFE/r8iavtTMvSiZYuMQSugSFGfL2VgChPVif/t1d9ek7lXvnlR68Y5f
+         A5QlpqKi6t4DoD+Ll6LTIE3fHxSesABasIsu6jBn0BtKvpWsSQ5yvNiUY+WYJLwi7Jvv
+         LPnyjNLQGhYLUCoiVccLxHZTTNKowKIdKuz0ilj7WlJVE80G890do5G7aYKhOhmB8Or/
+         Vs7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I7xGDBdz64wmEzOneTZADBd1QDtzlZv4vk2FOyjlh/4=;
+        b=VpTYhBXrZnv8EHEdNPlvud6ZvfSK6hT14t6N0T32GW5KFoUhi+PbinjarUFjHI5Clq
+         qY5IV/uOFqpT1YyYZaDsiZ9vrXCdB3pSyTlidA6TvdWOfIVR7nguSyHxMsMdwq53YVcx
+         xJvxOQ+YR9XN/NvTFHk4nOvf/+fpmyfX2vEje98hUUKJP0ZEn8KDq651YlKjZU4U9RiI
+         gWFZkSx7fiiLJqxjw3EPr/4iYWoUe6JbbRFainyFmvKirVSlsu8hrg4OLUxX038kZJQ2
+         aPB9zSB0K1RxPrk+0cGYO/pfzxYsddemW7oK8vBbbKsuG83t2iPV8xEBTbdmhVfsxmVC
+         XqQw==
+X-Gm-Message-State: AOAM530zsOrcmMS8zWhLRXftA/E0+BSQIq2YLnyxR1QcqJjow43XWcMY
+	gMHzBoeRXUrZ42Xt5kZPGCk=
+X-Google-Smtp-Source: ABdhPJwRK9B7E3eQNxRZEQ9Y/3PSW4oHHGD36jxRVY6zpXr600GahEmUHyg44d0ZFDs7JQdcmzGckA==
+X-Received: by 2002:a50:ec0d:: with SMTP id g13mr2578628edr.233.1631185531863;
+        Thu, 09 Sep 2021 04:05:31 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::dc38])
+        by smtp.gmail.com with ESMTPSA id g9sm883373edk.54.2021.09.09.04.05.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 04:05:31 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove unused macro READ_AND_CONFIG_TC
+Date: Thu,  9 Sep 2021 13:05:17 +0200
+Message-Id: <20210909110517.15243-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <41bd374e-3122-0580-f38d-bb03401730b6@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 08, 2021 at 11:17:20PM +0530, Saurav Girepunje wrote:
-> 
-> 
-> On 05/09/21 8:18 pm, Greg KH wrote:
-> > On Sat, Sep 04, 2021 at 05:44:44PM +0530, Saurav Girepunje wrote:
-> > > Remove unused variable ret and pwrpriv.
-> > > Remove the condition with no effect (if == else) in usb_intf.c
-> > > file.
-> > > Remove rtw_resume_process() and move whole thing to rtw_resume().
-> > > 
-> > > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> > > ---
-> > > 
-> > > ChangeLog V2:
-> > > - Remove rtw_resume_process() and move whole thing to rtw_resume().
-> > > ---
-> > >   drivers/staging/r8188eu/include/usb_osintf.h |  2 --
-> > >   drivers/staging/r8188eu/os_dep/usb_intf.c    | 12 ------------
-> > >   2 files changed, 14 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/r8188eu/include/usb_osintf.h b/drivers/staging/r8188eu/include/usb_osintf.h
-> > > index d1a1f739309c..34229b1cb081 100644
-> > > --- a/drivers/staging/r8188eu/include/usb_osintf.h
-> > > +++ b/drivers/staging/r8188eu/include/usb_osintf.h
-> > > @@ -24,6 +24,4 @@ void *scdb_findEntry(struct adapter *priv, unsigned char *macAddr,
-> > >   void nat25_db_expire(struct adapter *priv);
-> > >   int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method);
-> > > 
-> > > -int rtw_resume_process(struct adapter *padapter);
-> > > -
-> > >   #endif
-> > > diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > > index bb85ab77fd26..77b03e7631b7 100644
-> > > --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > > +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > > @@ -493,18 +493,6 @@ static int rtw_resume(struct usb_interface *pusb_intf)
-> > >   {
-> > >   	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
-> > >   	struct adapter *padapter = dvobj->if1;
-> > > -	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
-> > > -	int ret = 0;
-> > > -
-> > > -	if (pwrpriv->bInternalAutoSuspend)
-> > > -		ret = rtw_resume_process(padapter);
-> > > -	else
-> > > -		ret = rtw_resume_process(padapter);
-> > > -	return ret;
-> > > -}
-> > > -
-> > > -int rtw_resume_process(struct adapter *padapter)
-> > > -{
-> > >   	struct net_device *pnetdev;
-> > >   	struct pwrctrl_priv *pwrpriv = NULL;
-> > >   	int ret = -1;
-> > 
-> > You can also remove the test for padapter being NULL in this function,
-> > as you just proved it could never be null otherwise the above function
-> > you removed would have crashed, right?  You should do that all at once
-> > so we remember why that test was removed.
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> 
-> Yes, padapter was deference without checking it could be NULL on rtw_resume.
+The macro READ_AND_CONFIG_TC is not used, remove it.
+Found with GCC -Wunused-macros.
 
-How can it ever be NULL there?
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/hal/odm_HWConfig.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> I think having NULL check would be safe. However if padapter is NULL then on
-> goto exit "if (pwrpriv)" condition  will never true as pwrpriv is
-> initialized with NULL. There should be one more goto exit just to return.!
-> 
-> let me know you thought greg,
+diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+index ada22a526fee..058d04f6aa58 100644
+--- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
++++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
+@@ -6,7 +6,6 @@
+ #define READ_AND_CONFIG     READ_AND_CONFIG_MP
+ 
+ #define READ_AND_CONFIG_MP(ic, txt) (ODM_ReadAndConfig##txt##ic(dm_odm))
+-#define READ_AND_CONFIG_TC(ic, txt) (ODM_ReadAndConfig_TC##txt##ic(dm_odm))
+ 
+ static u8 odm_QueryRxPwrPercentage(s8 AntPower)
+ {
+-- 
+2.33.0
 
-Don't check for things that can never happen.
-
-thanks,
-
-greg k-h
