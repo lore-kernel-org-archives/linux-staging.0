@@ -1,30 +1,30 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5B63FE1
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:59:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 635286140D;
-	Thu,  9 Sep 2021 11:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6692FAE
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:59:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 20C466328E;
+	Thu,  9 Sep 2021 11:59:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1631188758;
-	bh=j7fEjZeqNGG1BVw4z7+o9ebWYMqAA1V0g2vnqTRhNPw=;
+	s=k20201202; t=1631188774;
+	bh=Navu+9orUptoC/TIOjd8OF+vPVfJr3AYSShtGdBkDLk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TstgKyBnJDRO41897CqYx+jcTjBbsm4xamMxOgF0aKZGfOn8ygM046iyjWeOi3Pqh
-	 BXsRBOsAyCP4sXsyWSQF2f4A2d2yPW9i6xD5b9KcP4uilglW50bPzurjDqVgU5DZkF
-	 dnqu8Zbr//lMTOLCKa5G63CxZ4aWmtduDcVtNipzpotmgAPSuRcthVeK7aaOtOj/BW
-	 IWB/oClIyp5uSiMKkBx8TgYXV/nFy7YOaVIY9tRz0nOAFZK9xYTMn1vlDyEbYzLC4X
-	 hVucA1lhLt3JYKk53KVcQ9RvBtJzVCXvrALjWWwlwJ1Y4NvwA0TLIlZMNKt3kWiOzd
-	 nDR6rKrxYwm5g==
+	b=BwSxOHEcKoTO8kjWK3gU8cGbZADoH2K1kh+qCKOC4NvvVDIAv2JFZIflf/2y/PoOU
+	 8nVHfF6gil8/nHa6M/GypEHSDrHjSotbvFra0flXZAobQOQBsIqgBVyx6KHrRhZF/2
+	 QUU8tLrNoapVQEs6/EJhdH+vL6WCbDssKCeFUOlLBXf9eWN0GUdOxu3jzFU9atK8A5
+	 CXCiH4CPM+kKEfECe3DyF/3iGEyTWUi50cIHXEzkVwxDYyvsWJRSnLIwkV4yq1L+Ms
+	 RQBE6tr8E13Rn6QhU5RwBJJrrd3IUWqgdh14Eko2fvrbaAIiOVAI5hhbQ+/RVAr5yo
+	 dQEuB4hVnzx6w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.14 13/59] staging: board: Fix uninitialized spinlock when attaching genpd
-Date: Thu,  9 Sep 2021 07:58:14 -0400
-Message-Id: <20210909115900.149795-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 27/59] staging: ks7010: Fix the initialization of the 'sleep_status' structure
+Date: Thu,  9 Sep 2021 07:58:28 -0400
+Message-Id: <20210909115900.149795-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115900.149795-1-sashal@kernel.org>
 References: <20210909115900.149795-1-sashal@kernel.org>
@@ -38,65 +38,36 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-[ Upstream commit df00609821bf17f50a75a446266d19adb8339d84 ]
+[ Upstream commit 56315e55119c0ea57e142b6efb7c31208628ad86 ]
 
-On Armadillo-800-EVA with CONFIG_DEBUG_SPINLOCK=y:
+'sleep_status' has 3 atomic_t members. Initialize the 3 of them instead of
+initializing only 2 of them and setting 0 twice to the same variable.
 
-    BUG: spinlock bad magic on CPU#0, swapper/1
-     lock: lcdc0_device+0x10c/0x308, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
-    CPU: 0 PID: 1 Comm: swapper Not tainted 5.11.0-rc5-armadillo-00036-gbbca04be7a80-dirty #287
-    Hardware name: Generic R8A7740 (Flattened Device Tree)
-    [<c010c3c8>] (unwind_backtrace) from [<c010a49c>] (show_stack+0x10/0x14)
-    [<c010a49c>] (show_stack) from [<c0159534>] (do_raw_spin_lock+0x20/0x94)
-    [<c0159534>] (do_raw_spin_lock) from [<c040858c>] (dev_pm_get_subsys_data+0x8c/0x11c)
-    [<c040858c>] (dev_pm_get_subsys_data) from [<c05fbcac>] (genpd_add_device+0x78/0x2b8)
-    [<c05fbcac>] (genpd_add_device) from [<c0412db4>] (of_genpd_add_device+0x34/0x4c)
-    [<c0412db4>] (of_genpd_add_device) from [<c0a1ea74>] (board_staging_register_device+0x11c/0x148)
-    [<c0a1ea74>] (board_staging_register_device) from [<c0a1eac4>] (board_staging_register_devices+0x24/0x28)
-
-of_genpd_add_device() is called before platform_device_register(), as it
-needs to attach the genpd before the device is probed.  But the spinlock
-is only initialized when the device is registered.
-
-Fix this by open-coding the spinlock initialization, cfr.
-device_pm_init_common() in the internal drivers/base code, and in the
-SuperH early platform code.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://lore.kernel.org/r/57783ece7ddae55f2bda2f59f452180bff744ea0.1626257398.git.geert+renesas@glider.be
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Link: https://lore.kernel.org/r/d2e52a33a9beab41879551d0ae2fdfc99970adab.1626856991.git.christophe.jaillet@wanadoo.fr
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/board/board.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/staging/ks7010/ks7010_sdio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/board/board.c b/drivers/staging/board/board.c
-index 86dc41101610..1e2b33912a8a 100644
---- a/drivers/staging/board/board.c
-+++ b/drivers/staging/board/board.c
-@@ -139,6 +139,7 @@ int __init board_staging_register_clock(const struct board_staging_clk *bsc)
- static int board_staging_add_dev_domain(struct platform_device *pdev,
- 					const char *domain)
- {
-+	struct device *dev = &pdev->dev;
- 	struct of_phandle_args pd_args;
- 	struct device_node *np;
+diff --git a/drivers/staging/ks7010/ks7010_sdio.c b/drivers/staging/ks7010/ks7010_sdio.c
+index 8cfdff198334..84a5b6ebfd07 100644
+--- a/drivers/staging/ks7010/ks7010_sdio.c
++++ b/drivers/staging/ks7010/ks7010_sdio.c
+@@ -904,9 +904,9 @@ static int ks7010_sdio_probe(struct sdio_func *func,
+ 	memset(&priv->wstats, 0, sizeof(priv->wstats));
  
-@@ -151,7 +152,11 @@ static int board_staging_add_dev_domain(struct platform_device *pdev,
- 	pd_args.np = np;
- 	pd_args.args_count = 0;
+ 	/* sleep mode */
++	atomic_set(&priv->sleepstatus.status, 0);
+ 	atomic_set(&priv->sleepstatus.doze_request, 0);
+ 	atomic_set(&priv->sleepstatus.wakeup_request, 0);
+-	atomic_set(&priv->sleepstatus.wakeup_request, 0);
  
--	return of_genpd_add_device(&pd_args, &pdev->dev);
-+	/* Initialization similar to device_pm_init_common() */
-+	spin_lock_init(&dev->power.lock);
-+	dev->power.early_init = true;
-+
-+	return of_genpd_add_device(&pd_args, dev);
- }
- #else
- static inline int board_staging_add_dev_domain(struct platform_device *pdev,
+ 	trx_device_init(priv);
+ 	hostif_init(priv);
 -- 
 2.30.2
 
