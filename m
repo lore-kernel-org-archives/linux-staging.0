@@ -1,32 +1,30 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0170E3FE3
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:52:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D6A8161B28;
-	Thu,  9 Sep 2021 11:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A11D3FE1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:52:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86BF061357;
+	Thu,  9 Sep 2021 11:52:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1631188324;
-	bh=vJf/hOLRbSjBB5md0JjqiGgNpfTuhUqJ4jPhXj65f/0=;
+	s=k20201202; t=1631188351;
+	bh=bkivChkdpLFO1TZYQV/g8jfevgN1DLu5GcAyvQybj68=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gjDwOQol4jsJrYqQDjQAoGY0ThdvtXv79CfxUNIpTZI9GFcB01sIH5df7iUGhHSPM
-	 PRVuv3UeLIKzowIH0h1kb1qf7agVE812sP/59g/WTl7tDv69zAk6iqCF5JaHTF8wN5
-	 bbblfM2R5AUcEDMBi4oX7THho1LrCsem4I2LYh4iHTxttGmAs3CaFvo3F1WbiVw7kp
-	 jj4sLTtQTyLwWmpd3kgXvT1NS8n8kAma/YT0VgTtzfuGBj/aBVs2AZEpMvc2jomi4x
-	 BLcuUFVXKknrSQrTXLaSekf3h78Aa6RvijabuEL1uihfHMS6EN9mmVFH7zLUPdOwX8
-	 HsITrDeQnGoMQ==
+	b=oxh47qqYG0FmUb39zlSXrA08Sa/4KbLm4eQPg05V49sLlip57r3uT3pdKqsrlZmzg
+	 fn69PKEppE3Op5HHAzahQwnbabr5aSxqKy9a3tvjms+CT5WBB6MK6n1mx97RqXRYWY
+	 +tr3oWK38XXUlb/tr6eOS8b6wnp3qkiBD+zOlrORNM+lOoH1vKvT36yjkhwmnlOkL7
+	 W2alab2p9yXhgtftjIwgmSFzVNP2nXW8P2zYXjSNF6WCetLK1LaWMvhmXf6Gk5x1w0
+	 C8dIeZVDwkxTcJAnL6YREdIvBwYK8K6RQnip6toqEwuHFVBq67Yic8vqJTCowOfPAM
+	 laYbUecFIb0Gg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Yang Yingliang <yangyingliang@huawei.com>,
-	Hulk Robot <hulkci@huawei.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 036/176] media: atomisp: pci: fix error return code in atomisp_pci_probe()
-Date: Thu,  9 Sep 2021 07:48:58 -0400
-Message-Id: <20210909115118.146181-36-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 057/176] staging: ks7010: Fix the initialization of the 'sleep_status' structure
+Date: Thu,  9 Sep 2021 07:49:19 -0400
+Message-Id: <20210909115118.146181-57-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
 References: <20210909115118.146181-1-sashal@kernel.org>
@@ -40,36 +38,36 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-[ Upstream commit d14e272958bdfdc40dcafb827d24ba6fdafa9d52 ]
+[ Upstream commit 56315e55119c0ea57e142b6efb7c31208628ad86 ]
 
-If init_atomisp_wdts() fails, atomisp_pci_probe() need return
-error code.
+'sleep_status' has 3 atomic_t members. Initialize the 3 of them instead of
+initializing only 2 of them and setting 0 twice to the same variable.
 
-Link: https://lore.kernel.org/linux-media/20210617072329.1233662-1-yangyingliang@huawei.com
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Link: https://lore.kernel.org/r/d2e52a33a9beab41879551d0ae2fdfc99970adab.1626856991.git.christophe.jaillet@wanadoo.fr
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/ks7010/ks7010_sdio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 02f774ed80c8..fa1bd99cd6f1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1763,7 +1763,8 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	if (err < 0)
- 		goto register_entities_fail;
- 	/* init atomisp wdts */
--	if (init_atomisp_wdts(isp) != 0)
-+	err = init_atomisp_wdts(isp);
-+	if (err != 0)
- 		goto wdt_work_queue_fail;
+diff --git a/drivers/staging/ks7010/ks7010_sdio.c b/drivers/staging/ks7010/ks7010_sdio.c
+index 78dc8beeae98..8c740c771f50 100644
+--- a/drivers/staging/ks7010/ks7010_sdio.c
++++ b/drivers/staging/ks7010/ks7010_sdio.c
+@@ -939,9 +939,9 @@ static void ks7010_private_init(struct ks_wlan_private *priv,
+ 	memset(&priv->wstats, 0, sizeof(priv->wstats));
  
- 	/* save the iunit context only once after all the values are init'ed. */
+ 	/* sleep mode */
++	atomic_set(&priv->sleepstatus.status, 0);
+ 	atomic_set(&priv->sleepstatus.doze_request, 0);
+ 	atomic_set(&priv->sleepstatus.wakeup_request, 0);
+-	atomic_set(&priv->sleepstatus.wakeup_request, 0);
+ 
+ 	trx_device_init(priv);
+ 	hostif_init(priv);
 -- 
 2.30.2
 
