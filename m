@@ -1,25 +1,25 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B75272
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 10:01:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D7F3B611AD;
-	Thu,  9 Sep 2021 10:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170D072
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 10:02:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4666E61186;
+	Thu,  9 Sep 2021 10:02:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631181714;
-	bh=/1f9r8n9WVDTH6/Q/V695DPtM4Oyh3rAnEy9HTpXCm8=;
+	s=korg; t=1631181769;
+	bh=tST3j+VeGfiMYjUDeIGLoo4VkNGbnSZ4tPRr+7FlyMg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GaBNtYTxaCkbW00RDO9jLMx28TcPJ2arczOBGqvAa6l6vLBjt9nYPnTO8sf8d37j4
-	 SqR3oQan0g82yJ1F90YPW1cK9o2jeW2+sKJ2HgIIXtkYm2NwSY4+Q7qzZs/zJHSpGF
-	 7pdh/UB9TvVYOUn+xTSm5h4nduILlOBa1UXHgI5Q=
-Date: Thu, 9 Sep 2021 12:01:51 +0200
+	b=pNm933f+qZndUR+pmDQ+YbQFyNU6af7tZ23/XLh5eqi2FT6SDDaQ5KFO13Axvf8R/
+	 5WWCOzDDL6t8J7QYFVLPK81UFoyagCw73gUXcSkYO0IKQfQDXHhAiFaeHCDnzx1VB2
+	 kFX1ocQEFRR+py8GDEJkI/LzpU8jUHfzUiLBHQ68=
+Date: Thu, 9 Sep 2021 12:02:47 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Larry Finger <Larry.Finger@lwfinger.net>
 Cc: phil@philpotter.co.uk, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: r8188eu: Remove conditionals
  CONFIG_88EU_{AP_MODE,P2P}
-Message-ID: <YTnbj+1fLVav5fyN@kroah.com>
+Message-ID: <YTnbx2h10cgUeYmQ@kroah.com>
 References: <20210908050109.1279-1-Larry.Finger@lwfinger.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -44,9 +44,45 @@ On Wed, Sep 08, 2021 at 12:01:09AM -0500, Larry Finger wrote:
 > CONFIG_88EU_P2P be automatically included.
 > 
 > Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
+> ---
+>  drivers/staging/r8188eu/core/rtw_ap.c         |   8 -
+>  drivers/staging/r8188eu/core/rtw_cmd.c        |  13 --
+>  drivers/staging/r8188eu/core/rtw_debug.c      |   3 -
+>  drivers/staging/r8188eu/core/rtw_ieee80211.c  |   5 -
+>  drivers/staging/r8188eu/core/rtw_ioctl_set.c  |   5 -
+>  drivers/staging/r8188eu/core/rtw_mlme.c       |  20 +--
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 156 ++----------------
+>  drivers/staging/r8188eu/core/rtw_p2p.c        |  16 --
+>  drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  19 ---
+>  drivers/staging/r8188eu/core/rtw_recv.c       |   9 -
+>  drivers/staging/r8188eu/core/rtw_sta_mgt.c    |  17 --
+>  drivers/staging/r8188eu/core/rtw_wlan_util.c  |   2 -
+>  drivers/staging/r8188eu/core/rtw_xmit.c       |   6 -
+>  drivers/staging/r8188eu/hal/hal_intf.c        |   2 -
+>  drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |   3 -
+>  drivers/staging/r8188eu/hal/usb_halinit.c     |   2 -
+>  drivers/staging/r8188eu/include/drv_types.h   |   8 -
+>  drivers/staging/r8188eu/include/ieee80211.h   |  12 --
+>  .../staging/r8188eu/include/ioctl_cfg80211.h  |   2 -
+>  .../staging/r8188eu/include/rtl8188e_cmd.h    |   2 -
+>  .../staging/r8188eu/include/rtl8188e_hal.h    |   2 -
+>  drivers/staging/r8188eu/include/rtw_ap.h      |   5 -
+>  drivers/staging/r8188eu/include/rtw_cmd.h     |   4 -
+>  drivers/staging/r8188eu/include/rtw_debug.h   |   4 -
+>  drivers/staging/r8188eu/include/rtw_mlme.h    |   5 -
+>  .../staging/r8188eu/include/rtw_mlme_ext.h    |   4 -
+>  .../staging/r8188eu/include/rtw_security.h    |   2 -
+>  drivers/staging/r8188eu/include/rtw_xmit.h    |   2 -
+>  drivers/staging/r8188eu/include/sta_info.h    |   7 -
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  38 -----
+>  drivers/staging/r8188eu/os_dep/mlme_linux.c   |   4 -
+>  drivers/staging/r8188eu/os_dep/os_intfs.c     |  13 --
+>  drivers/staging/r8188eu/os_dep/usb_intf.c     |   4 -
+>  .../staging/r8188eu/os_dep/usb_ops_linux.c    |   2 -
+>  34 files changed, 12 insertions(+), 394 deletions(-)
 
-Makes sense.  If this really does need to be split up in the future, it
-can be done better without all of this #ifdef mess in the .c files.
+Wait, shouldn't you also remove it from the Kconfig file as part of this
+change?
 
 thanks,
 
