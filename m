@@ -1,53 +1,51 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C48D3FF0
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 20:21:55 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id m25-20020a7bcb99000000b002e751bcb5dbso2279693wmi.5
-        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 13:21:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBD63FEE
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 21:20:03 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id d6so4483736wrc.11
+        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 14:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mtgnYh4+V2MnpDEhOcmk+l7ZYHvGZHXFt+EjfvjuPgU=;
-        b=oZVa5hb+/A+juJRocbJEsGIOh2Vgt87Ol5kGD27oTDbndwB14f6+E/NH2o751yPtnM
-         DleVf7cYm7aPYU8k3q7vShxcKgduWmi+COnIH+JsDERyAfURxw4me7vYSpe/OaYGSJQQ
-         2UfGtvNcavkZj8S1wR0IeXnM6Pec8RwGLNq00IUAFhxPqNz+G2xoCPjXcIrohjcN09Ay
-         EUPimfOozhYaYW5pHA7Izb0wixY6/ld6OIG6a1cUBpYThatu6/eTGSx2lW8EaZEHr95z
-         PkA2H2lhEfNdyrQ2y2419DmT+kIDN8bSRMhTVknGUuMK7p7MszgCHxqm82rTQ+5Yov6r
-         TM2w==
+        bh=IjVEcRwSUp15VhRofJDWnHv3EIrC+ItI8VvG9mNn4Is=;
+        b=bxU+T2wvN6781GavtovvUr9Lj3oaqHmLstpWaGelZ9C25kkLW5gF/2WhvtOGEfVgJ+
+         F6CXVpk9+36JHYHbhIjYyn0pOy2sRanBnmWL5XjHm6ULMawIrkh1Esd4r5mLPek3d1lI
+         3kUhNYPdlCBB46cMt/ddzvcOY392dMlES4hlx2u468MWKqRKATZl4gvuGg8Mc/CwonDC
+         6CK7nXuOCRt6uR8aQnqMIRoKIX1vSASAuZd+UMzjDkiBWmDzEYTrKS/936urn3Nllhba
+         F+W8XD2DDnYRxMEY2TaWkRNoh9cQehyRBhSqd8sbjZe3PzOcT5abmtEIY1+dk4PlYKSy
+         BPlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mtgnYh4+V2MnpDEhOcmk+l7ZYHvGZHXFt+EjfvjuPgU=;
-        b=5STokviMnoQBPe5AQCb0EtoupdoG7PCRqqwRTINDbDKdPU6oFm+y5QftWDGwYCd2mO
-         /6DXphEvTu9I83TCl4RHxgVJHhtKbQ3X/AkbzqIAOm1xbFCOjN9XNldu6F2Fn/tLNrm1
-         0EAezWybwLT//uG6Y642UceAtw5vEpa3ZjqQcNtpATW/pJ+xjh4oxNkv0EdrXZPTB7Cq
-         hfaisNUL9i6QzK4LZ6ziFe4jt2NvBafEVz6ftt/Is8za2426FoTYt2q4JqVUdDFqzpYt
-         ldCgaRFyRSYwfNKJucC+j2vOJB+EofvaEP+hv+K0QtQkHWzYCFw03M+lYEMVtNXIKG+b
-         ve3Q==
-X-Gm-Message-State: AOAM530ht5PpzhM72bQzOVzwcZRJO+yAg9PF+YLtnq/mnXtrC+L7kXa2
-	dqu8pClKYI43fuQ/M2JImUY=
-X-Google-Smtp-Source: ABdhPJwdYbEbTikpTjwNLOCMQWyLbZ83iknG0vJnHFYYzkcawvTeQ9xid/+cHX/rxAo2MWQuGcszEQ==
-X-Received: by 2002:a1c:1b17:: with SMTP id b23mr4805681wmb.139.1631218913461;
-        Thu, 09 Sep 2021 13:21:53 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::1db2])
-        by smtp.gmail.com with ESMTPSA id n5sm2415620wmd.29.2021.09.09.13.21.52
+        bh=IjVEcRwSUp15VhRofJDWnHv3EIrC+ItI8VvG9mNn4Is=;
+        b=XrL4B1h4B/kTHIXC1D4rI5PhFf+xSnE5j5OndndqOPr4tX/JPINGUF1yp6hPoAyUn6
+         Ny8Ly8twrInUeUXg1bRvwCTtYOTGFTDC9iGZ6EPooJkrKTofwwxLtqag6LnZvQJeieqZ
+         YkQwJ4Bpbnqkor4ugcmqCaWgsAvsk6ekK3JPYvfxcRfaGlJA8U0OA0QJyCIfNeW+MC1E
+         I54vqAUFPvLmVO7DqcycbXcDAUintPbGXADBfHn8+4iXDp231JMkg4NhFU4BI1MBqmo8
+         jGXPYYjdek+yi1CReOgE6ye1Lm/RJq8pk988MFB0sEEjQ8Y04mIs2A2nJZ67Aps7AcJC
+         HPRg==
+X-Gm-Message-State: AOAM533Ul7wbyxh1Vj85gDof/bzPP9/Z/uGyj/xcTwZRVQgx90BsN187
+	ZkZ7jmH07RBw8zvLYlQ8TKY=
+X-Google-Smtp-Source: ABdhPJwxXGWNK1YLaOUsud7PSKcuxnzCNFBthMoYkcjNXjtHTvKKPE+Kp8EDuBRlQ8dkKOMhSifyyg==
+X-Received: by 2002:adf:f48e:: with SMTP id l14mr6166207wro.109.1631222401550;
+        Thu, 09 Sep 2021 14:20:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
+        by smtp.gmail.com with ESMTPSA id n5sm2511973wmd.29.2021.09.09.14.20.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 13:21:52 -0700 (PDT)
+        Thu, 09 Sep 2021 14:20:00 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove unused macro ROUND
-Date: Thu,  9 Sep 2021 22:21:30 +0200
-Message-Id: <20210909202130.28508-1-straube.linux@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unused macros from ioctl_linux.c
+Date: Thu,  9 Sep 2021 23:19:22 +0200
+Message-Id: <20210909211922.24872-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -57,35 +55,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The macro ROUND is not used in the driver, remove it.
+These macros are not used in the driver, remove them.
 Found with GCC -Wunused-macros.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_security.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_security.c b/drivers/staging/r8188eu/core/rtw_security.c
-index 82987255400a..db35f326bbb1 100644
---- a/drivers/staging/r8188eu/core/rtw_security.c
-+++ b/drivers/staging/r8188eu/core/rtw_security.c
-@@ -1555,16 +1555,3 @@ const u8 rcons[] = {
- 	0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36
- 	/* for 128-bit blocks, Rijndael never uses more than 10 rcon values */
- };
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+index 908022a17b3f..27fb1be036b8 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+@@ -15,20 +15,6 @@
+ 
+ #define RTL_IOCTL_WPA_SUPPLICANT	(SIOCIWFIRSTPRIV+30)
+ 
+-#define SCAN_ITEM_SIZE 768
+-#define MAX_CUSTOM_LEN 64
+-#define RATE_COUNT 4
 -
--/**
-- * Expand the cipher key into the encryption key schedule.
-- *
-- * @return	the number of rounds for the given cipher key size.
-- */
--#define ROUND(i, d, s) \
--do {									\
--	d##0 = TE0(s##0) ^ TE1(s##1) ^ TE2(s##2) ^ TE3(s##3) ^ rk[4 * i]; \
--	d##1 = TE0(s##1) ^ TE1(s##2) ^ TE2(s##3) ^ TE3(s##0) ^ rk[4 * i + 1]; \
--	d##2 = TE0(s##2) ^ TE1(s##3) ^ TE2(s##0) ^ TE3(s##1) ^ rk[4 * i + 2]; \
--	d##3 = TE0(s##3) ^ TE1(s##0) ^ TE2(s##1) ^ TE3(s##2) ^ rk[4 * i + 3]; \
--} while (0);
+-/*  combo scan */
+-#define WEXT_CSCAN_HEADER		"CSCAN S\x01\x00\x00S\x00"
+-#define WEXT_CSCAN_HEADER_SIZE		12
+-#define WEXT_CSCAN_SSID_SECTION		'S'
+-#define WEXT_CSCAN_CHANNEL_SECTION	'C'
+-#define WEXT_CSCAN_ACTV_DWELL_SECTION	'A'
+-#define WEXT_CSCAN_PASV_DWELL_SECTION	'P'
+-#define WEXT_CSCAN_HOME_DWELL_SECTION	'H'
+-#define WEXT_CSCAN_TYPE_SECTION		'T'
+-
+ static int wpa_set_auth_algs(struct net_device *dev, u32 value)
+ {
+ 	struct adapter *padapter = rtw_netdev_priv(dev);
 -- 
 2.33.0
 
