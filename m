@@ -1,82 +1,158 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E07E3FE1
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:05:33 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id g21so2100591edw.4
-        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 04:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=I7xGDBdz64wmEzOneTZADBd1QDtzlZv4vk2FOyjlh/4=;
-        b=MeqHvM0PrVC2fWIc1pNOHOwKVAOufi/brwvOBCw6klHF9cJQ03rAfdJe09jm3VvKqk
-         NvPONbHgmT3n93U977Egcm1tesnF7+sgUW6iJOPLuES3Pk279DuTeCJYNIPfE9XDSvDD
-         rnIBOe2CEOEKlFE/r8iavtTMvSiZYuMQSugSFGfL2VgChPVif/t1d9ek7lXvnlR68Y5f
-         A5QlpqKi6t4DoD+Ll6LTIE3fHxSesABasIsu6jBn0BtKvpWsSQ5yvNiUY+WYJLwi7Jvv
-         LPnyjNLQGhYLUCoiVccLxHZTTNKowKIdKuz0ilj7WlJVE80G890do5G7aYKhOhmB8Or/
-         Vs7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=I7xGDBdz64wmEzOneTZADBd1QDtzlZv4vk2FOyjlh/4=;
-        b=VpTYhBXrZnv8EHEdNPlvud6ZvfSK6hT14t6N0T32GW5KFoUhi+PbinjarUFjHI5Clq
-         qY5IV/uOFqpT1YyYZaDsiZ9vrXCdB3pSyTlidA6TvdWOfIVR7nguSyHxMsMdwq53YVcx
-         xJvxOQ+YR9XN/NvTFHk4nOvf/+fpmyfX2vEje98hUUKJP0ZEn8KDq651YlKjZU4U9RiI
-         gWFZkSx7fiiLJqxjw3EPr/4iYWoUe6JbbRFainyFmvKirVSlsu8hrg4OLUxX038kZJQ2
-         aPB9zSB0K1RxPrk+0cGYO/pfzxYsddemW7oK8vBbbKsuG83t2iPV8xEBTbdmhVfsxmVC
-         XqQw==
-X-Gm-Message-State: AOAM530zsOrcmMS8zWhLRXftA/E0+BSQIq2YLnyxR1QcqJjow43XWcMY
-	gMHzBoeRXUrZ42Xt5kZPGCk=
-X-Google-Smtp-Source: ABdhPJwRK9B7E3eQNxRZEQ9Y/3PSW4oHHGD36jxRVY6zpXr600GahEmUHyg44d0ZFDs7JQdcmzGckA==
-X-Received: by 2002:a50:ec0d:: with SMTP id g13mr2578628edr.233.1631185531863;
-        Thu, 09 Sep 2021 04:05:31 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::dc38])
-        by smtp.gmail.com with ESMTPSA id g9sm883373edk.54.2021.09.09.04.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 04:05:31 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove unused macro READ_AND_CONFIG_TC
-Date: Thu,  9 Sep 2021 13:05:17 +0200
-Message-Id: <20210909110517.15243-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16663FE1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:42:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CA306611F2;
+	Thu,  9 Sep 2021 11:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1631187723;
+	bh=R/FP0+oAVo2AeNFA7qf0OxWozrEBzLnjnBDryWXRD4M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GATFNgfIaD2J6gbcv2RtQnThVSI1oTPb0mjNhR/27rYOJD70pm3A2ZqAJa430+z66
+	 vdnIuFgJjN//SodcHW7mNbJGk7mdFC6WZNbLd3tbCW8fvI/u+7F/YAMOajOcXLTxU0
+	 VOhGMVQLi8m7tcuPDl9uimpSOsXTspn7MjQ6/eyfnxRwAextl4HOqRyW7XqYGgbnIx
+	 tu03P9WFz5n62z28EBhD1ea7+/Ul1UehjMyzgIOa/aQ90Bw2S4WMXvfM/nkcXr2DpH
+	 s/826/JhnmR7jINyy3D0Byzd6F9D0OPeGRT4ZhfjGPYAeiBb9Kj2OTsMzYpc7WByyM
+	 8bg93h4SosmQQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Phillip Potter <phil@philpotter.co.uk>,
+	kernel test robot <lkp@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.14 044/252] staging: rtl8188eu: remove rtw_wx_set_rate handler function
+Date: Thu,  9 Sep 2021 07:37:38 -0400
+Message-Id: <20210909114106.141462-44-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
+References: <20210909114106.141462-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-The macro READ_AND_CONFIG_TC is not used, remove it.
-Found with GCC -Wunused-macros.
+From: Phillip Potter <phil@philpotter.co.uk>
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+[ Upstream commit ac5951a6e3d50cfa861ea83baa2ec15d994389cb ]
+
+Remove rtw_wx_set_rate handler function, which currently handles the
+SIOCSIWRATE wext ioctl. This function (although containing a lot of
+code) set nothing outside its own local variables, and did nothing other
+than call a now removed debugging statement repeatedly. Removing it and
+leaving its associated entry in rtw_handlers as NULL is therefore the
+better option. Removing this function also fixes a kernel test robot
+warning.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+Link: https://lore.kernel.org/r/20210625191658.1299-1-phil@philpotter.co.uk
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/r8188eu/hal/odm_HWConfig.c | 1 -
- 1 file changed, 1 deletion(-)
+ .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 75 -------------------
+ 1 file changed, 75 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index ada22a526fee..058d04f6aa58 100644
---- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
-+++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -6,7 +6,6 @@
- #define READ_AND_CONFIG     READ_AND_CONFIG_MP
+diff --git a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+index b958a8d882b0..d4dce8ef0322 100644
+--- a/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/rtl8188eu/os_dep/ioctl_linux.c
+@@ -1262,80 +1262,6 @@ static int rtw_wx_get_essid(struct net_device *dev,
+ 	return 0;
+ }
  
- #define READ_AND_CONFIG_MP(ic, txt) (ODM_ReadAndConfig##txt##ic(dm_odm))
--#define READ_AND_CONFIG_TC(ic, txt) (ODM_ReadAndConfig_TC##txt##ic(dm_odm))
- 
- static u8 odm_QueryRxPwrPercentage(s8 AntPower)
- {
+-static int rtw_wx_set_rate(struct net_device *dev,
+-			   struct iw_request_info *a,
+-			   union iwreq_data *wrqu, char *extra)
+-{
+-	int i;
+-	u8 datarates[NumRates];
+-	u32	target_rate = wrqu->bitrate.value;
+-	u32	fixed = wrqu->bitrate.fixed;
+-	u32	ratevalue = 0;
+-	u8 mpdatarate[NumRates] = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0xff};
+-
+-	if (target_rate == -1) {
+-		ratevalue = 11;
+-		goto set_rate;
+-	}
+-	target_rate /= 100000;
+-
+-	switch (target_rate) {
+-	case 10:
+-		ratevalue = 0;
+-		break;
+-	case 20:
+-		ratevalue = 1;
+-		break;
+-	case 55:
+-		ratevalue = 2;
+-		break;
+-	case 60:
+-		ratevalue = 3;
+-		break;
+-	case 90:
+-		ratevalue = 4;
+-		break;
+-	case 110:
+-		ratevalue = 5;
+-		break;
+-	case 120:
+-		ratevalue = 6;
+-		break;
+-	case 180:
+-		ratevalue = 7;
+-		break;
+-	case 240:
+-		ratevalue = 8;
+-		break;
+-	case 360:
+-		ratevalue = 9;
+-		break;
+-	case 480:
+-		ratevalue = 10;
+-		break;
+-	case 540:
+-		ratevalue = 11;
+-		break;
+-	default:
+-		ratevalue = 11;
+-		break;
+-	}
+-
+-set_rate:
+-
+-	for (i = 0; i < NumRates; i++) {
+-		if (ratevalue == mpdatarate[i]) {
+-			datarates[i] = mpdatarate[i];
+-			if (fixed == 0)
+-				break;
+-		} else {
+-			datarates[i] = 0xff;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+ static int rtw_wx_get_rate(struct net_device *dev,
+ 			   struct iw_request_info *info,
+ 			   union iwreq_data *wrqu, char *extra)
+@@ -2715,7 +2641,6 @@ static iw_handler rtw_handlers[] = {
+ 	IW_HANDLER(SIOCSIWESSID, rtw_wx_set_essid),
+ 	IW_HANDLER(SIOCGIWESSID, rtw_wx_get_essid),
+ 	IW_HANDLER(SIOCGIWNICKN, rtw_wx_get_nick),
+-	IW_HANDLER(SIOCSIWRATE, rtw_wx_set_rate),
+ 	IW_HANDLER(SIOCGIWRATE, rtw_wx_get_rate),
+ 	IW_HANDLER(SIOCSIWRTS, rtw_wx_set_rts),
+ 	IW_HANDLER(SIOCGIWRTS, rtw_wx_get_rts),
 -- 
-2.33.0
+2.30.2
 
