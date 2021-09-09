@@ -1,33 +1,33 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592FA3FE1
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:58:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 531876325C;
-	Thu,  9 Sep 2021 11:58:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5B63FE1
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:59:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 635286140D;
+	Thu,  9 Sep 2021 11:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1631188713;
-	bh=A5j40hBeOa+S/CWU9wfHang6QqKX1n9X4A6eC31b2Do=;
+	s=k20201202; t=1631188758;
+	bh=j7fEjZeqNGG1BVw4z7+o9ebWYMqAA1V0g2vnqTRhNPw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kLeq6utz9wdQ2viaCXq9IDNdjjlfLlEw2w+b91mTXQIBlTTLfAitqQ35gb75GPYa+
-	 Lw3rE/pI7Z1BGfsORnrZ0/mVaWqPX8BgyuAXiTUJ51gSguOq6KQeWg5sRQJFxClR3i
-	 CXHwCfB8X27fM8E4QvKTqpPMYwDV5vuZDq4yQm9aeFyZbDWRzqt9HD/aNRXJCYjwji
-	 /ItqJWWJMn402PCtHkaN/F3PjHjen7EvCppuVq/RQ3tMeaRlbY/HBUef8w4ZITJjht
-	 RbT7unhYmRextXdWqTbmFuGVHOKUuKN8HkKPq/Gpkxzg/6Z+vIiXtTK1eGsIQ1cRjr
-	 57q6a5D0qGu+Q==
+	b=TstgKyBnJDRO41897CqYx+jcTjBbsm4xamMxOgF0aKZGfOn8ygM046iyjWeOi3Pqh
+	 BXsRBOsAyCP4sXsyWSQF2f4A2d2yPW9i6xD5b9KcP4uilglW50bPzurjDqVgU5DZkF
+	 dnqu8Zbr//lMTOLCKa5G63CxZ4aWmtduDcVtNipzpotmgAPSuRcthVeK7aaOtOj/BW
+	 IWB/oClIyp5uSiMKkBx8TgYXV/nFy7YOaVIY9tRz0nOAFZK9xYTMn1vlDyEbYzLC4X
+	 hVucA1lhLt3JYKk53KVcQ9RvBtJzVCXvrALjWWwlwJ1Y4NvwA0TLIlZMNKt3kWiOzd
+	 nDR6rKrxYwm5g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 4.19 53/74] staging: rts5208: Fix get_ms_information() heap buffer size
-Date: Thu,  9 Sep 2021 07:57:05 -0400
-Message-Id: <20210909115726.149004-53-sashal@kernel.org>
+	Sasha Levin <sashal@kernel.org>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 4.14 13/59] staging: board: Fix uninitialized spinlock when attaching genpd
+Date: Thu,  9 Sep 2021 07:58:14 -0400
+Message-Id: <20210909115900.149795-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115726.149004-1-sashal@kernel.org>
-References: <20210909115726.149004-1-sashal@kernel.org>
+In-Reply-To: <20210909115900.149795-1-sashal@kernel.org>
+References: <20210909115900.149795-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,82 +38,65 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Kees Cook <keescook@chromium.org>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit cbe34165cc1b7d1110b268ba8b9f30843c941639 ]
+[ Upstream commit df00609821bf17f50a75a446266d19adb8339d84 ]
 
-Fix buf allocation size (it needs to be 2 bytes larger). Found when
-__alloc_size() annotations were added to kmalloc() interfaces.
+On Armadillo-800-EVA with CONFIG_DEBUG_SPINLOCK=y:
 
-In file included from ./include/linux/string.h:253,
-                 from ./include/linux/bitmap.h:10,
-                 from ./include/linux/cpumask.h:12,
-                 from ./arch/x86/include/asm/paravirt.h:17,
-                 from ./arch/x86/include/asm/irqflags.h:63,
-                 from ./include/linux/irqflags.h:16,
-                 from ./include/linux/rcupdate.h:26,
-                 from ./include/linux/rculist.h:11,
-                 from ./include/linux/pid.h:5,
-                 from ./include/linux/sched.h:14,
-                 from ./include/linux/blkdev.h:5,
-                 from drivers/staging/rts5208/rtsx_scsi.c:12:
-In function 'get_ms_information',
-    inlined from 'ms_sp_cmnd' at drivers/staging/rts5208/rtsx_scsi.c:2877:12,
-    inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3247:12:
-./include/linux/fortify-string.h:54:29: warning: '__builtin_memcpy' forming offset [106, 107] is out
- of the bounds [0, 106] [-Warray-bounds]
-   54 | #define __underlying_memcpy __builtin_memcpy
-      |                             ^
-./include/linux/fortify-string.h:417:2: note: in expansion of macro '__underlying_memcpy'
-  417 |  __underlying_##op(p, q, __fortify_size);   \
-      |  ^~~~~~~~~~~~~
-./include/linux/fortify-string.h:463:26: note: in expansion of macro '__fortify_memcpy_chk'
-  463 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
-      |                          ^~~~~~~~~~~~~~~~~~~~
-drivers/staging/rts5208/rtsx_scsi.c:2851:3: note: in expansion of macro 'memcpy'
- 2851 |   memcpy(buf + i, ms_card->raw_sys_info, 96);
-      |   ^~~~~~
+    BUG: spinlock bad magic on CPU#0, swapper/1
+     lock: lcdc0_device+0x10c/0x308, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+    CPU: 0 PID: 1 Comm: swapper Not tainted 5.11.0-rc5-armadillo-00036-gbbca04be7a80-dirty #287
+    Hardware name: Generic R8A7740 (Flattened Device Tree)
+    [<c010c3c8>] (unwind_backtrace) from [<c010a49c>] (show_stack+0x10/0x14)
+    [<c010a49c>] (show_stack) from [<c0159534>] (do_raw_spin_lock+0x20/0x94)
+    [<c0159534>] (do_raw_spin_lock) from [<c040858c>] (dev_pm_get_subsys_data+0x8c/0x11c)
+    [<c040858c>] (dev_pm_get_subsys_data) from [<c05fbcac>] (genpd_add_device+0x78/0x2b8)
+    [<c05fbcac>] (genpd_add_device) from [<c0412db4>] (of_genpd_add_device+0x34/0x4c)
+    [<c0412db4>] (of_genpd_add_device) from [<c0a1ea74>] (board_staging_register_device+0x11c/0x148)
+    [<c0a1ea74>] (board_staging_register_device) from [<c0a1eac4>] (board_staging_register_devices+0x24/0x28)
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20210818044252.1533634-1-keescook@chromium.org
+of_genpd_add_device() is called before platform_device_register(), as it
+needs to attach the genpd before the device is probed.  But the spinlock
+is only initialized when the device is registered.
+
+Fix this by open-coding the spinlock initialization, cfr.
+device_pm_init_common() in the internal drivers/base code, and in the
+SuperH early platform code.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/r/57783ece7ddae55f2bda2f59f452180bff744ea0.1626257398.git.geert+renesas@glider.be
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/rts5208/rtsx_scsi.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/staging/board/board.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
-index c9a6d97938f6..68889d082c3c 100644
---- a/drivers/staging/rts5208/rtsx_scsi.c
-+++ b/drivers/staging/rts5208/rtsx_scsi.c
-@@ -2841,10 +2841,10 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
- 	}
+diff --git a/drivers/staging/board/board.c b/drivers/staging/board/board.c
+index 86dc41101610..1e2b33912a8a 100644
+--- a/drivers/staging/board/board.c
++++ b/drivers/staging/board/board.c
+@@ -139,6 +139,7 @@ int __init board_staging_register_clock(const struct board_staging_clk *bsc)
+ static int board_staging_add_dev_domain(struct platform_device *pdev,
+ 					const char *domain)
+ {
++	struct device *dev = &pdev->dev;
+ 	struct of_phandle_args pd_args;
+ 	struct device_node *np;
  
- 	if (dev_info_id == 0x15) {
--		buf_len = 0x3A;
-+		buf_len = 0x3C;
- 		data_len = 0x3A;
- 	} else {
--		buf_len = 0x6A;
-+		buf_len = 0x6C;
- 		data_len = 0x6A;
- 	}
+@@ -151,7 +152,11 @@ static int board_staging_add_dev_domain(struct platform_device *pdev,
+ 	pd_args.np = np;
+ 	pd_args.args_count = 0;
  
-@@ -2895,11 +2895,7 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
- 	}
- 
- 	rtsx_stor_set_xfer_buf(buf, buf_len, srb);
--
--	if (dev_info_id == 0x15)
--		scsi_set_resid(srb, scsi_bufflen(srb) - 0x3C);
--	else
--		scsi_set_resid(srb, scsi_bufflen(srb) - 0x6C);
-+	scsi_set_resid(srb, scsi_bufflen(srb) - buf_len);
- 
- 	kfree(buf);
- 	return STATUS_SUCCESS;
+-	return of_genpd_add_device(&pd_args, &pdev->dev);
++	/* Initialization similar to device_pm_init_common() */
++	spin_lock_init(&dev->power.lock);
++	dev->power.early_init = true;
++
++	return of_genpd_add_device(&pd_args, dev);
+ }
+ #else
+ static inline int board_staging_add_dev_domain(struct platform_device *pdev,
 -- 
 2.30.2
 
