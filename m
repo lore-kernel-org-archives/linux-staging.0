@@ -1,30 +1,35 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF093FE1
-	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:51:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C6E7E6135A;
-	Thu,  9 Sep 2021 11:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20BF2FAE
+	for <linux-staging@lists.linux.dev>; Thu,  9 Sep 2021 11:52:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 956F46127A;
+	Thu,  9 Sep 2021 11:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1631188314;
-	bh=JU4iJc6oY871eBLmLglTyk8lAnK2nHC5KV9FVXhDFpo=;
+	s=k20201202; t=1631188320;
+	bh=L0rHw5ZGotj/gnqKYNSK1Xc/T0+CJetbfYu7bTcQweI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tYndqQ8bjNQQBgaC54Z7B/Px8GzOFJ62iLDLmYrlskO4iR6OK5zhsUPk5PaljWD01
-	 vw3fa8RomJWZzFJIoIB47vW7WzYea4t2ecxJHxKD59Z2mQWJwnS5H3tgDeTbmhtP0v
-	 gv8pdZILbzlJ1O+P4F7reyYyTwJfjNoDb8A4c9lZsBNkf5Uq1U4iC/1cF0g0Jhv5E0
-	 pmZ1wVIlYfQ4IcQPHXCeou1HkOR5o0c/YjdyPt0+G97jLz354mH1pioCu2A8JJeQwY
-	 5tcSBPjUwapUVGlkbrEWx5H6FpDpeCPKEI4fkSDyso0lb/ixWMbOValfPtBUPp/FKP
-	 o2V8zndVGQAbw==
+	b=Epi7VoHbO7ebOaOS7MhjvyRu8s+Y1N/6BNhjV0qcK+YJKnnU/3Wq8SFTYc7uRYI3M
+	 vobNaYLCpXawb0S1wtHjXPREm+A18eKqV01fW55V6pkmBRzJ40R6UAZ6dHcvYMsZQf
+	 Qp8mPhzs36n+ZwwoEbttiZPGOlksN9R2kg0ebPxIRlXglKJ2vQWKGcKJwKO5avM7O9
+	 PHQP+E4mqIbzgMOaEnLEFXLj1YHjPvrwp580Fd0p8lEhMuW0jx7taGwBu4/fHLbYzW
+	 S6ZkcuWYpMdRuLWSqenz4fxrXkNouMqTvEuI4DxAhEfSONd6cM1fSs2AbH+uyaB4pW
+	 cCf5+mz87a0Zg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Ezequiel Garcia <ezequiel@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Alex Bee <knaerzche@gmail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 028/176] staging: board: Fix uninitialized spinlock when attaching genpd
-Date: Thu,  9 Sep 2021 07:48:50 -0400
-Message-Id: <20210909115118.146181-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 033/176] media: hantro: vp8: Move noisy WARN_ON to vpu_debug
+Date: Thu,  9 Sep 2021 07:48:55 -0400
+Message-Id: <20210909115118.146181-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
 References: <20210909115118.146181-1-sashal@kernel.org>
@@ -38,65 +43,98 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-[ Upstream commit df00609821bf17f50a75a446266d19adb8339d84 ]
+[ Upstream commit 6ad61a7847da09b6261824accb539d05bcdfef65 ]
 
-On Armadillo-800-EVA with CONFIG_DEBUG_SPINLOCK=y:
+When the VP8 decoders can't find a reference frame,
+the driver falls back to the current output frame.
 
-    BUG: spinlock bad magic on CPU#0, swapper/1
-     lock: lcdc0_device+0x10c/0x308, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
-    CPU: 0 PID: 1 Comm: swapper Not tainted 5.11.0-rc5-armadillo-00036-gbbca04be7a80-dirty #287
-    Hardware name: Generic R8A7740 (Flattened Device Tree)
-    [<c010c3c8>] (unwind_backtrace) from [<c010a49c>] (show_stack+0x10/0x14)
-    [<c010a49c>] (show_stack) from [<c0159534>] (do_raw_spin_lock+0x20/0x94)
-    [<c0159534>] (do_raw_spin_lock) from [<c040858c>] (dev_pm_get_subsys_data+0x8c/0x11c)
-    [<c040858c>] (dev_pm_get_subsys_data) from [<c05fbcac>] (genpd_add_device+0x78/0x2b8)
-    [<c05fbcac>] (genpd_add_device) from [<c0412db4>] (of_genpd_add_device+0x34/0x4c)
-    [<c0412db4>] (of_genpd_add_device) from [<c0a1ea74>] (board_staging_register_device+0x11c/0x148)
-    [<c0a1ea74>] (board_staging_register_device) from [<c0a1eac4>] (board_staging_register_devices+0x24/0x28)
+This will probably produce some undesirable results,
+leading to frame corruption, but shouldn't cause
+noisy warnings.
 
-of_genpd_add_device() is called before platform_device_register(), as it
-needs to attach the genpd before the device is probed.  But the spinlock
-is only initialized when the device is registered.
-
-Fix this by open-coding the spinlock initialization, cfr.
-device_pm_init_common() in the internal drivers/base code, and in the
-SuperH early platform code.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://lore.kernel.org/r/57783ece7ddae55f2bda2f59f452180bff744ea0.1626257398.git.geert+renesas@glider.be
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Alex Bee <knaerzche@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/board/board.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/staging/media/hantro/hantro_g1_vp8_dec.c    | 13 ++++++++++---
+ .../staging/media/hantro/rk3399_vpu_hw_vp8_dec.c    | 13 ++++++++++---
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/board/board.c b/drivers/staging/board/board.c
-index cb6feb34dd40..f980af037345 100644
---- a/drivers/staging/board/board.c
-+++ b/drivers/staging/board/board.c
-@@ -136,6 +136,7 @@ int __init board_staging_register_clock(const struct board_staging_clk *bsc)
- static int board_staging_add_dev_domain(struct platform_device *pdev,
- 					const char *domain)
- {
-+	struct device *dev = &pdev->dev;
- 	struct of_phandle_args pd_args;
- 	struct device_node *np;
+diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+index a5cdf150cd16..d30bdc678cc2 100644
+--- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+@@ -377,12 +377,17 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vb2_dst = hantro_get_dst_buf(ctx);
  
-@@ -148,7 +149,11 @@ static int board_staging_add_dev_domain(struct platform_device *pdev,
- 	pd_args.np = np;
- 	pd_args.args_count = 0;
+ 	ref = hantro_get_ref(ctx, hdr->last_frame_ts);
+-	if (!ref)
++	if (!ref) {
++		vpu_debug(0, "failed to find last frame ts=%llu\n",
++			  hdr->last_frame_ts);
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
++	}
+ 	vdpu_write_relaxed(vpu, ref, G1_REG_ADDR_REF(0));
  
--	return of_genpd_add_device(&pd_args, &pdev->dev);
-+	/* Initialization similar to device_pm_init_common() */
-+	spin_lock_init(&dev->power.lock);
-+	dev->power.early_init = true;
-+
-+	return of_genpd_add_device(&pd_args, dev);
- }
- #else
- static inline int board_staging_add_dev_domain(struct platform_device *pdev,
+ 	ref = hantro_get_ref(ctx, hdr->golden_frame_ts);
+-	WARN_ON(!ref && hdr->golden_frame_ts);
++	if (!ref && hdr->golden_frame_ts)
++		vpu_debug(0, "failed to find golden frame ts=%llu\n",
++			  hdr->golden_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_GOLDEN)
+@@ -390,7 +395,9 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vdpu_write_relaxed(vpu, ref, G1_REG_ADDR_REF(4));
+ 
+ 	ref = hantro_get_ref(ctx, hdr->alt_frame_ts);
+-	WARN_ON(!ref && hdr->alt_frame_ts);
++	if (!ref && hdr->alt_frame_ts)
++		vpu_debug(0, "failed to find alt frame ts=%llu\n",
++			  hdr->alt_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_ALT)
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+index a4a792f00b11..5b8c8fc49cce 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+@@ -454,12 +454,17 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vb2_dst = hantro_get_dst_buf(ctx);
+ 
+ 	ref = hantro_get_ref(ctx, hdr->last_frame_ts);
+-	if (!ref)
++	if (!ref) {
++		vpu_debug(0, "failed to find last frame ts=%llu\n",
++			  hdr->last_frame_ts);
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
++	}
+ 	vdpu_write_relaxed(vpu, ref, VDPU_REG_VP8_ADDR_REF0);
+ 
+ 	ref = hantro_get_ref(ctx, hdr->golden_frame_ts);
+-	WARN_ON(!ref && hdr->golden_frame_ts);
++	if (!ref && hdr->golden_frame_ts)
++		vpu_debug(0, "failed to find golden frame ts=%llu\n",
++			  hdr->golden_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_GOLDEN)
+@@ -467,7 +472,9 @@ static void cfg_ref(struct hantro_ctx *ctx,
+ 	vdpu_write_relaxed(vpu, ref, VDPU_REG_VP8_ADDR_REF2_5(2));
+ 
+ 	ref = hantro_get_ref(ctx, hdr->alt_frame_ts);
+-	WARN_ON(!ref && hdr->alt_frame_ts);
++	if (!ref && hdr->alt_frame_ts)
++		vpu_debug(0, "failed to find alt frame ts=%llu\n",
++			  hdr->alt_frame_ts);
+ 	if (!ref)
+ 		ref = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
+ 	if (hdr->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_ALT)
 -- 
 2.30.2
 
