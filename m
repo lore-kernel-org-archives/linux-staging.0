@@ -1,39 +1,39 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FF22F80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5BF2FB3
 	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 11:11:40 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id u19-20020a7bc053000000b002f8d045b2caso1095743wmc.1
-        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 04:11:39 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id m9so2091547wrb.1
+        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 04:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1cV/z4HRiZSKdyLrb2H86Cg+HDx8EKzCLziyjHu/SfU=;
-        b=Z6K4kgMMjs86niFPz7F+EbELD9nWwLPo9iS8BQL949u+X50Jh28R3l+qd+61mDJPRX
-         xP/Di/3sCWblgqM1fcK+RByfk9HedWSnxj3vIPoXABXZeasET/S4R9nd4AKm6+bnoC9/
-         aMgv9DsXapyy5RW4jGk30dNZACDDXqWmjVDlSSOe1ssm8nl9lAZyzt42oQXYlDTqSOs+
-         wXFJbCs/DZ3VTRX4VxkiEx4xM/li3wK+ClB77onA08oeNYShUlwCf+BspiZZTwN1xIgP
-         +Qo7nJWheq4whzyzSNDw5ym/C7Ir7bTL4fRnmNoz/3eSk4SIYjcAEt5TsftKAkJTb9V2
-         s4Hw==
+        bh=qbseSWFL5SJsHF/L9qG3Ou9sIXvfgEprnI2+Eq5KFww=;
+        b=qtMjiQS/BHfF2a83tjKl59vutDXgbbprFhZr4MrE63v3hmotUMw2vnWnNIJeNFx0ks
+         eWD3G2R9nWG8lBU5i+4ct5aCkNgwARgLz7iDtSaHvWe7ryRh93PeOEgfrfCUHD/esyzj
+         n/p/FyurTmRTF8Tvzj1iAz1MfL2QWATpp50ESHv59YJGbJ5/a4piwvYKnCi+JgR1gQsg
+         dm93y5aULkrdiTPX2nhDW2zI6GdvDQ67vH452SbFabBUWCHnBfemRm/Q2bbG+KYK6oZ0
+         03hqwsylB3kxkP3VxbdKICXg1sX1b5nlrKr8RPXTnXiS+P0gN1+qxIIvBH2AiybCfDLt
+         PYuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1cV/z4HRiZSKdyLrb2H86Cg+HDx8EKzCLziyjHu/SfU=;
-        b=IOXtkpYPuA6IEwlQR2YxoT7HsV+3xrdUDQouwd5Nbv3yUwx9aMhBZ3t5PsfMh0GjD+
-         PLeYk/zYa3SIOOLpykq8gkZPSw5HVyF39oFgnzz8H9TQIRegqvEt8ioRebrJiDM+Sc+q
-         E3I1OppmQCa4x7fy8wLIAEQvinHcdk65gBtQoNUsD0WEAutB1WAAw+xUomSHDelKVVcI
-         P1eqC8C7qWHvuKOM1VlG3fEGyjCkkhaxXCAkbBpTydeKMT9C+l0c5ImPziZCO+4vydlq
-         PXDywSdSYsbJTqR6ReK7wFH8lBM4DlZKbB4HhPts1kQwDeS1e1GjswDx++xOTODgcJj3
-         tXqA==
-X-Gm-Message-State: AOAM532E68r6YI/XPcc9MRoDY8d+YwLyKeW/4jf+N36VbSo6gmbNxfwA
-	yc213ZWcwPHILZbWPrYy0LM=
-X-Google-Smtp-Source: ABdhPJwyAtmPqVkSYakdmDBewPobNVhuA5igo0RbNL0mjcabJm9ix2Q28i42Id7+fGIfSdpNkmNQAA==
-X-Received: by 2002:a05:600c:b46:: with SMTP id k6mr7829094wmr.35.1631272298400;
-        Fri, 10 Sep 2021 04:11:38 -0700 (PDT)
+        bh=qbseSWFL5SJsHF/L9qG3Ou9sIXvfgEprnI2+Eq5KFww=;
+        b=z1Qsw13gGzgUqEPeX2RTefjv82+tJunLdT8vn9qElzK3x2Eccyp145ho+XeeEkFpB7
+         9Y2ETBEo5QHegon2/o5GiE9BqkXwqsZw3/4i8WhSwsXgCM+Mt7zBWEyAnSDR3WIztAg2
+         KwJb0pMnz9LzsY9jb2/flEV6UdYIAByPPvtfn5eck/W/iYCy4Xz03JKgdNIZlwq4Krkl
+         r5A2r1DjMEmkEviUmagyeEFwPbmrJTEbTmwz5ikY/Bx+KhfpjlZ2sPsL/CnedoylbFo2
+         jYKXIMkClYYM7FrDiauYLk3Ri83A6zcA1C+Yzq8/IOagSUfyDK+M0pQSUGLvNjYRQ3gE
+         uO8A==
+X-Gm-Message-State: AOAM531HiIf8AnZd9pbE3j6Zp7n9ff1ka2XJq9SIQVjWqvfdMHEyWJ3w
+	2GSAux4QQDDQlGOoGLZDDjI=
+X-Google-Smtp-Source: ABdhPJxMHc6T2LFSVcmy/m1qT5YXajzfpSGj/YM6DY3CzGMMumSS3ofZFwg6Qbf9Ip6pFv/hx3WyEQ==
+X-Received: by 2002:adf:f7c2:: with SMTP id a2mr9071827wrq.58.1631272299196;
+        Fri, 10 Sep 2021 04:11:39 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id o7sm3848828wmc.46.2021.09.10.04.11.37
+        by smtp.gmail.com with ESMTPSA id o7sm3848828wmc.46.2021.09.10.04.11.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 10 Sep 2021 04:11:38 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 2/3] staging: r8188eu: remove wrapper rtw_IOL_exec_cmds_sync()
-Date: Fri, 10 Sep 2021 13:11:09 +0200
-Message-Id: <20210910111110.4628-2-straube.linux@gmail.com>
+Subject: [PATCH v2 3/3] staging: r8188eu: remove rtw_IOL_append_LLT_cmd()
+Date: Fri, 10 Sep 2021 13:11:10 +0200
+Message-Id: <20210910111110.4628-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210910111110.4628-1-straube.linux@gmail.com>
 References: <20210910111110.4628-1-straube.linux@gmail.com>
@@ -59,148 +59,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtw_IOL_exec_cmds_sync() is just a wrapper around
-rtl8188e_IOL_exec_cmds_sync(). Remove it.
+Function rtw_IOL_append_LLT_cmd() just returns _SUCCESS and the only
+caller does not use the return value. Remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
-v1 -> v2: added missing 'r8188eu:' to commit message
+v1 -> v2: no changes
 
- drivers/staging/r8188eu/core/rtw_iol.c          |  5 -----
- drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c  |  4 ++--
- drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c |  2 +-
- drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c  |  2 +-
- drivers/staging/r8188eu/include/rtw_iol.h       |  3 ---
- drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 10 +++++-----
- 6 files changed, 9 insertions(+), 17 deletions(-)
+ drivers/staging/r8188eu/core/rtw_iol.c       | 5 -----
+ drivers/staging/r8188eu/include/rtw_iol.h    | 1 -
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 3 ---
+ 3 files changed, 9 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
-index 9c85e590fc9d..08677552e5d6 100644
+index 08677552e5d6..ff08861b7acb 100644
 --- a/drivers/staging/r8188eu/core/rtw_iol.c
 +++ b/drivers/staging/r8188eu/core/rtw_iol.c
 @@ -72,11 +72,6 @@ bool rtw_IOL_applied(struct adapter  *adapter)
  	return false;
  }
  
--int rtw_IOL_exec_cmds_sync(struct adapter  *adapter, struct xmit_frame *xmit_frame, u32 max_wating_ms, u32 bndy_cnt)
+-int rtw_IOL_append_LLT_cmd(struct xmit_frame *xmit_frame, u8 page_boundary)
 -{
--	return rtl8188e_IOL_exec_cmds_sync(adapter, xmit_frame, max_wating_ms, bndy_cnt);
+-	return _SUCCESS;
 -}
 -
- int rtw_IOL_append_LLT_cmd(struct xmit_frame *xmit_frame, u8 page_boundary)
+ int _rtw_IOL_append_WB_cmd(struct xmit_frame *xmit_frame, u16 addr, u8 value, u8 mask)
  {
- 	return _SUCCESS;
-diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-index 55aa20a30342..86e92552dfb0 100644
---- a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-+++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-@@ -246,7 +246,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
- 		}
- 	}
- 	if (biol) {
--		if (!rtw_IOL_exec_cmds_sync(dm_odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
-+		if (!rtl8188e_IOL_exec_cmds_sync(dm_odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
- 			printk("~~~ %s IOL_exec_cmds Failed !!!\n", __func__);
- 			rst = HAL_STATUS_FAILURE;
- 		}
-@@ -557,7 +557,7 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
- 		}
- 	}
- 	if (biol) {
--		if (!rtw_IOL_exec_cmds_sync(dm_odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
-+		if (!rtl8188e_IOL_exec_cmds_sync(dm_odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
- 			rst = HAL_STATUS_FAILURE;
- 			pr_info("~~~ IOL Config %s Failed !!!\n", __func__);
- 		}
-diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-index 0ff2609c26bb..0aab0eb87682 100644
---- a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-+++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
-@@ -204,7 +204,7 @@ enum HAL_STATUS ODM_ReadAndConfig_MAC_REG_8188E(struct odm_dm_struct *dm_odm)
- 		}
- 	}
- 	if (biol) {
--		if (!rtw_IOL_exec_cmds_sync(dm_odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
-+		if (!rtl8188e_IOL_exec_cmds_sync(dm_odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
- 			pr_info("~~~ MAC IOL_exec_cmds Failed !!!\n");
- 			rst = HAL_STATUS_FAILURE;
- 		}
-diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
-index 55e4b4a877a4..b4269ad56ede 100644
---- a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
-+++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
-@@ -241,7 +241,7 @@ enum HAL_STATUS ODM_ReadAndConfig_RadioA_1T_8188E(struct odm_dm_struct *pDM_Odm)
- 		}
- 	}
- 	if (biol) {
--		if (!rtw_IOL_exec_cmds_sync(pDM_Odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
-+		if (!rtl8188e_IOL_exec_cmds_sync(pDM_Odm->Adapter, pxmit_frame, 1000, bndy_cnt)) {
- 			rst = HAL_STATUS_FAILURE;
- 			pr_info("~~~ IOL Config %s Failed !!!\n", __func__);
- 		}
+ 	struct ioreg_cfg cmd = {8, IOREG_CMD_WB_REG, 0x0, 0x0, 0x0};
 diff --git a/drivers/staging/r8188eu/include/rtw_iol.h b/drivers/staging/r8188eu/include/rtw_iol.h
-index 471f9ca092a8..a07c3ae0bed7 100644
+index a07c3ae0bed7..bb2c9fcf8985 100644
 --- a/drivers/staging/r8188eu/include/rtw_iol.h
 +++ b/drivers/staging/r8188eu/include/rtw_iol.h
-@@ -34,9 +34,6 @@ struct xmit_frame *rtw_IOL_accquire_xmit_frame(struct adapter *adapter);
+@@ -33,7 +33,6 @@ enum ioreg_cmd {
+ struct xmit_frame *rtw_IOL_accquire_xmit_frame(struct adapter *adapter);
  int rtw_IOL_append_cmds(struct xmit_frame *xmit_frame, u8 *IOL_cmds,
  			u32 cmd_len);
- int rtw_IOL_append_LLT_cmd(struct xmit_frame *xmit_frame, u8 page_boundary);
--int rtw_IOL_exec_cmds_sync(struct adapter  *adapter,
--			   struct xmit_frame *xmit_frame, u32 max_wating_ms,
--			   u32 bndy_cnt);
+-int rtw_IOL_append_LLT_cmd(struct xmit_frame *xmit_frame, u8 page_boundary);
  bool rtw_IOL_applied(struct adapter  *adapter);
  int rtw_IOL_append_DELAY_US_cmd(struct xmit_frame *xmit_frame, u16 us);
  int rtw_IOL_append_DELAY_MS_cmd(struct xmit_frame *xmit_frame, u16 ms);
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 08b891b9c708..b428d0b36171 100644
+index b428d0b36171..e3e43c8cd11c 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -4032,7 +4032,7 @@ static int rtw_dbg_port(struct net_device *dev,
+@@ -4021,7 +4021,6 @@ static int rtw_dbg_port(struct net_device *dev,
+ 		switch (minor_cmd) {
+ 		case 0x04: /* LLT table initialization test */
+ 		{
+-			u8 page_boundary = 0xf9;
+ 			struct xmit_frame	*xmit_frame;
  
- 			rtw_IOL_append_LLT_cmd(xmit_frame, page_boundary);
- 
--			if (_SUCCESS != rtw_IOL_exec_cmds_sync(padapter, xmit_frame, 500, 0))
-+			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, 500, 0) != _SUCCESS)
- 				ret = -EPERM;
- 		}
- 			break;
-@@ -4056,7 +4056,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 				rtw_IOL_append_WB_cmd(xmit_frame, reg, 0x08, 0xff);
- 				rtw_IOL_append_DELAY_MS_cmd(xmit_frame, blink_delay_ms);
+ 			xmit_frame = rtw_IOL_accquire_xmit_frame(padapter);
+@@ -4030,8 +4029,6 @@ static int rtw_dbg_port(struct net_device *dev,
+ 				break;
  			}
--			if (_SUCCESS != rtw_IOL_exec_cmds_sync(padapter, xmit_frame, (blink_delay_ms * blink_num * 2) + 200, 0))
-+			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, (blink_delay_ms * blink_num * 2) + 200, 0) != _SUCCESS)
+ 
+-			rtw_IOL_append_LLT_cmd(xmit_frame, page_boundary);
+-
+ 			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, 500, 0) != _SUCCESS)
  				ret = -EPERM;
  		}
- 			break;
-@@ -4078,7 +4078,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 
- 			for (i = 0; i < write_num; i++)
- 				rtw_IOL_append_WB_cmd(xmit_frame, reg, i + start_value, 0xFF);
--			if (_SUCCESS != rtw_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0))
-+			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0) != _SUCCESS)
- 				ret = -EPERM;
- 
- 			final = rtw_read8(padapter, reg);
-@@ -4107,7 +4107,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 
- 			for (i = 0; i < write_num; i++)
- 				rtw_IOL_append_WW_cmd(xmit_frame, reg, i + start_value, 0xFFFF);
--			if (_SUCCESS != rtw_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0))
-+			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0) != _SUCCESS)
- 				ret = -EPERM;
- 
- 			final = rtw_read16(padapter, reg);
-@@ -4135,7 +4135,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 
- 			for (i = 0; i < write_num; i++)
- 				rtw_IOL_append_WD_cmd(xmit_frame, reg, i + start_value, 0xFFFFFFFF);
--			if (_SUCCESS != rtw_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0))
-+			if (rtl8188e_IOL_exec_cmds_sync(padapter, xmit_frame, 5000, 0) != _SUCCESS)
- 				ret = -EPERM;
- 
- 			final = rtw_read32(padapter, reg);
 -- 
 2.33.0
 
