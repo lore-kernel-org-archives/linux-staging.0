@@ -1,104 +1,168 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B02A3FC3
-	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 18:40:48 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id x27so5908769lfu.5
-        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 11:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=3vkTMGrZ3SRZIZdzzIrtgXnmVKr3uAywThftSTXEpQY=;
-        b=LAXyZ71WmTVjjlIkgp8qd5/MZzB4/gg+KUl/2LCXnkwX8nvBSbTc9rOwfKC+/RTmNO
-         H85MliFgE2jxwO/GH5u9rg4EwIaWjNWJ+OI7pspJusPnIczEioczoCQLC5EQBWrHEQ47
-         oRndC7ATCBWesElZnBlNxuxOo6IsGKuRI5gC3EwnnzR0Z0cWYLtWIOn6elhJNMb2eQbM
-         mABBmosWonK0MeS+OaG4ghyk9Uh7OglgSZwm3NCl21v01BQ8zcMIEUHBXasGHPJ3Q6Iy
-         rUHShIf9lgDBgVXV9jd+fNylnPcbcR6+HbI/HsaGruFrSBVGQrs9mypM1YxYt22QttGJ
-         7FHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=3vkTMGrZ3SRZIZdzzIrtgXnmVKr3uAywThftSTXEpQY=;
-        b=GDpm196tSxse1M4HrXtsSZsfcCabp19n9BLUl3RItnRC51TDC7Xv2RdLBKNk5FoQPp
-         7OvsOMqWsGVFQqHW1WUZXouK8EakNobENNOaQRjicbIt3QujzRFXPjTeuapu2Bkz90Vz
-         s0E+HgSaybFKNp9ni12lSEIyAwC14gBUIO8jRPap7OkEVG+ZuQscsMAaMEIQF4YVcI95
-         qBff4GfKtYSuBMR8mBpexvj2JdR3orMOACwcpf0ETW807LFWIXEcRWnnnXDHxtC3UEa/
-         gi9cXUTzaFE+VkEb0ErYChToqHVslK/nXQj1BCkiKzSJOEGW6UxcC0EyjO1Ob7x2KL7n
-         JeqQ==
-X-Gm-Message-State: AOAM532R5SdQZ+eoEw6LOPCP4PwRZw/DMcJQgo8+glck0DNzE6P1crK0
-	NCDSL5ragR7cXWzOlujoE3s=
-X-Google-Smtp-Source: ABdhPJz5ZkaZjWTWzzQccHlDZvXfHwAEaCrAp3HYRTEhRBJRUP/4tK6H3AmjqeACS8MXsmjj41A61g==
-X-Received: by 2002:a05:6512:304b:: with SMTP id b11mr5177111lfb.502.1631299246559;
-        Fri, 10 Sep 2021 11:40:46 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.70])
-        by smtp.gmail.com with UTF8SMTPSA id r13sm636505ljh.61.2021.09.10.11.40.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Sep 2021 11:40:46 -0700 (PDT)
-Message-ID: <dbc1947b-f9bf-c577-6b1d-c73516e7ff49@gmail.com>
-Date: Fri, 10 Sep 2021 21:40:45 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9B23FC3;
+	Fri, 10 Sep 2021 18:42:24 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id A4711240005;
+	Fri, 10 Sep 2021 18:42:20 +0000 (UTC)
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH 05/22] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+Date: Fri, 10 Sep 2021 20:41:30 +0200
+Message-Id: <20210910184147.336618-6-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.1
-Subject: Re: [PATCH] staging: r8188eu: core: remove unused variable padapter
-Content-Language: en-US
-To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YTukfSY0CxowGXlQ@user>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <YTukfSY0CxowGXlQ@user>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/10/21 21:31, Saurav Girepunje wrote:
-> Remove unused variable padapter from mp_init_xmit_attrib().
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+The A31 CSI controller supports two distinct input interfaces:
+parallel and an external MIPI CSI-2 bridge. The parallel interface
+is often connected to a set of hardware pins while the MIPI CSI-2
+bridge is an internal FIFO-ish link. As a result, these two inputs
+are distinguished as two different ports.
 
-Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+Note that only one of the two may be present on a controller instance.
+For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+dedicated to parallel.
 
-Thanks!
+Update the binding with an explicit ports node that holds two distinct
+port nodes: one for parallel input and one for MIPI CSI-2.
 
-> ---
->   drivers/staging/r8188eu/core/rtw_mp.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
-> index dabdd0406f30..8ac23d2112fb 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mp.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mp.c
-> @@ -75,7 +75,7 @@ static void _init_mp_priv_(struct mp_priv *pmp_priv)
->   	memcpy(pnetwork->Ssid.Ssid, "mp_871x", pnetwork->Ssid.SsidLength);
->   }
-> 
-> -static void mp_init_xmit_attrib(struct mp_tx *pmptx, struct adapter *padapter)
-> +static void mp_init_xmit_attrib(struct mp_tx *pmptx)
->   {
->   	struct pkt_attrib *pattrib;
->   	struct tx_desc *desc;
-> @@ -107,7 +107,7 @@ s32 init_mp_priv(struct adapter *padapter)
->   	pmppriv->papdater = padapter;
-> 
->   	pmppriv->tx.stop = 1;
-> -	mp_init_xmit_attrib(&pmppriv->tx, padapter);
-> +	mp_init_xmit_attrib(&pmppriv->tx);
-> 
->   	switch (padapter->registrypriv.rf_config) {
->   	case RF_1T1R:
-> --
-> 2.32.0
-> 
+This is backward-compatible with the single-port approach that was
+previously taken for representing the parallel interface port, which
+stays enumerated as fwnode port 0.
 
+Note that additional ports may be added in the future, especially to
+support feeding the CSI controller's output to the ISP.
 
-With regards,
-Pavel Skripkin
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
+---
+ .../media/allwinner,sun6i-a31-csi.yaml        | 75 +++++++++++++++----
+ 1 file changed, 62 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+index 8b568072a069..f4a686b77a38 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+@@ -61,6 +61,49 @@ properties:
+ 
+     additionalProperties: false
+ 
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: Parallel input port, connect to a parallel sensor
++
++        properties:
++          reg:
++            const: 0
++
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              bus-width:
++                enum: [ 8, 10, 12, 16 ]
++
++              pclk-sample: true
++              hsync-active: true
++              vsync-active: true
++
++            required:
++              - bus-width
++
++        additionalProperties: false
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: MIPI CSI-2 bridge input port
++
++        properties:
++          reg:
++            const: 1
++
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++        additionalProperties: false
++
+ required:
+   - compatible
+   - reg
+@@ -89,19 +132,25 @@ examples:
+                       "ram";
+         resets = <&ccu RST_BUS_CSI>;
+ 
+-        port {
+-            /* Parallel bus endpoint */
+-            csi1_ep: endpoint {
+-                remote-endpoint = <&adv7611_ep>;
+-                bus-width = <16>;
+-
+-                /*
+-                 * If hsync-active/vsync-active are missing,
+-                 * embedded BT.656 sync is used.
+-                 */
+-                 hsync-active = <0>; /* Active low */
+-                 vsync-active = <0>; /* Active low */
+-                 pclk-sample = <1>;  /* Rising */
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                /* Parallel bus endpoint */
++                csi1_ep: endpoint {
++                    remote-endpoint = <&adv7611_ep>;
++                    bus-width = <16>;
++
++                    /*
++                     * If hsync-active/vsync-active are missing,
++                     * embedded BT.656 sync is used.
++                     */
++                     hsync-active = <0>; /* Active low */
++                     vsync-active = <0>; /* Active low */
++                     pclk-sample = <1>;  /* Rising */
++                };
+             };
+         };
+     };
+-- 
+2.32.0
+
