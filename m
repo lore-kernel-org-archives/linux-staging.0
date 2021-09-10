@@ -1,303 +1,161 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A002FAF;
-	Fri, 10 Sep 2021 18:46:38 +0000 (UTC)
-Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id AB723D4C28;
-	Fri, 10 Sep 2021 18:42:27 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by relay10.mail.gandi.net (Postfix) with ESMTPSA id 0B94724000B;
-	Fri, 10 Sep 2021 18:42:18 +0000 (UTC)
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH 04/22] phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI CSI-2
-Date: Fri, 10 Sep 2021 20:41:29 +0200
-Message-Id: <20210910184147.336618-5-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6FC3FC3
+	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 19:05:57 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id ho42so6244921ejc.9
+        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 12:05:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=SfjhQuNvnVfgeiqsfJ0/2nWkaueeq4WUPQeFXDKbLt8=;
+        b=a5SI7FF1Plx5V39ChRXMpRHycTd6yTWhxSdsVgQjWIJG/p45ZQZpoZ91mYpWFXJMsu
+         +MKHwZR9vs/NqUc8oNL8jteuyzvG8f7jCNHELsXxgXPdAgG0bO2esW+2Wy2TlGTQGxfZ
+         wJLNtSojZql9iTsPd1o8bYMYpTBtIXE+SzEMABZQ1H59Pnc27jYNIcIqNR+9ZyewVzWk
+         L23SEmCgSU4RDJ/+Gvz1GSQzPtl5KBJym2DMXz1q2Hal5AP119zKAqGYZ1pqekZ/I0Px
+         +Z0zf+b2YW4Kzu46HOawowjdoPDQGCQ7qRKQtHXaRSiMrvnG31d4mbosA5ip7TatxcFo
+         Fxcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=SfjhQuNvnVfgeiqsfJ0/2nWkaueeq4WUPQeFXDKbLt8=;
+        b=Ib7zICAyv/RNpPMgq0sbJqwpNu9T806mdAf6B1/KGECl2/EsZaeyQLsEotHzR8Ww2C
+         Cll9f+guTOi3vNrd3I8AIsOLjDcZxZW3yXswvAAN7NhwJuNEuU4tPJ4FJ/27SJEKRjiU
+         O6CyyrhHza9sFGNACtQMEZm/XhxjmENecCbQEBMeZkoSWUru4dhVlSHmxrMef06a+qRG
+         DOS8jMYU8M3PbJP2kGkglmLR6bR/E0tye5OPZ2sw24oxUph95lmcD75rzvunKTHtw6fV
+         D+cB7vthWQWO7RLiijIJbRVALNgUSG2d2dg5gCFZfbJsVHU7im+bYkilfcOE590hq8sP
+         m/LA==
+X-Gm-Message-State: AOAM531cLUvTfXg/ltXusHJ1U8whIxS0PYg6sa7OHB0LlPRwHLjXXLfS
+	uQb2htsDmjwYZgl6OyIAWnE=
+X-Google-Smtp-Source: ABdhPJxfMGyvGG8cMqbcN7yNNhqzxf8B9qvYyJ/SxMtDL3d6wv6Gg4Rshz8r6BxPkXt6VjsPIZxXPQ==
+X-Received: by 2002:a17:906:850a:: with SMTP id i10mr11215892ejx.256.1631300756211;
+        Fri, 10 Sep 2021 12:05:56 -0700 (PDT)
+Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
+        by smtp.gmail.com with ESMTPSA id w5sm2926680ejz.25.2021.09.10.12.05.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Sep 2021 12:05:55 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
+Date: Fri, 10 Sep 2021 21:05:54 +0200
+Message-ID: <2762638.ITW8iCUxI0@localhost.localdomain>
+In-Reply-To: <9324065.O9NRuxeco7@localhost.localdomain>
+References: <20210904220048.12822-1-fmdefrancesco@gmail.com> <YTYgnrvwxNt4+CvR@kroah.com> <9324065.O9NRuxeco7@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The Allwinner A31 D-PHY supports both Rx and Tx modes. While the latter
-is already supported and used for MIPI DSI this adds support for the
-former, to be used with MIPI CSI-2.
+On Friday, September 10, 2021 5:19:58 PM CEST Fabio M. De Francesco wrote:
+> On Monday, September 6, 2021 4:07:26 PM CEST Greg Kroah-Hartman wrote:
+> > On Sun, Sep 05, 2021 at 12:00:47AM +0200, Fabio M. De Francesco wrote:
+> > > Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+> > > For this purpose unify the three usb_read8/16/32 into the new
+> > > usb_read(); make the latter parameterizable with 'size'; embed most of
+> > > the code of usbctrl_vendorreq() into usb_read() and use in it the new
+> > > usb_control_msg_recv() API of USB Core.
+> > > 
+> > > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
+> > > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > > ---
+> > >
+> > > [...]
+> > > 
+> > > +	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
+> > > +		status = usb_control_msg_recv(udev, 0, 
+> REALTEK_USB_VENQT_CMD_REQ,
+> > > +					      
+> REALTEK_USB_VENQT_READ, value,
+> > > +					      
+> REALTEK_USB_VENQT_CMD_IDX, io_buf,
+> > > +					      size, 
+> RTW_USB_CONTROL_MSG_TIMEOUT,
+> > > +					      GFP_KERNEL);
+> > > +		if (!status) {   /*  Success this control transfer. */
+> > 
+> > Comments go on the next line.
+> > 
+> > > +			rtw_reset_continual_urb_error(dvobjpriv);
+> > > +			memcpy(data, io_buf, size);
+> > > +		} else { /*  error cases */
+> > 
+> > Again, next line for the comment.
+> > 
+> > > +			DBG_88E("reg 0x%x, usb %s %u fail, status:
+> %d vendorreq_times:%d\n",
+> > > +				value, "read", size, status, 
+> vendorreq_times);
+> > 
+> > These should be removed eventually...
+> > 
+> > > +
+> > > +			if (status == (-ESHUTDOWN) || status == -
+> ENODEV) {
+> > > +				adapt->bSurpriseRemoved = true;
+> > 
+> > Odd, but ok...
+> 
+> I'm not so sure that it is OK. Please correct me if I'm wrong...
+> 
+> The calls chain from usb_control_msg_recv() seems to be the following:
+> 
+> usb_control_msg_recv/send()
+>         -> usb_control_msg()
+>                 -> usb_internal_control_msg()
+>                         -> usb_start_wait_urb()
+>                                 -> usb_submit_urb()
+> 
+> Each of the above functions could fail for different reasons and if so they 
+> return the errors up to the first caller into "status". I can find no lines 
+> of code where the above-mentioned functions set and return -ESHUTDOWN.
+> 
+> Unless I'm missing something obvious, "status" is a non-shared variable. 
+The 
+> variables that are assigned with errors in all five of the above-mentioned 
+> functions are also local (non shared) variables.
+> 
+> To summarize: how could "status" be assigned -ESHUTDOWN? Is any point in 
+the 
+> chain that value assigned by a concurrent thread to a shared variable and 
+> then returned up to the caller (i.e., usb_control_msg_recv())?
+> 
+> Since the code has this "if (status == (-ESHUTDOWN) || ...)" it expects 
+that 
+> sometimes it could be 'true', so I'm 100% sure that I can't see where my 
+> argument is not valid... :(
 
-This implementation is inspired by Allwinner's V3s Linux SDK
-implementation, which was used as a documentation base.
+Sorry, please disregard my previous message.
 
-It uses the direction dt property to distinguish between tx and rx
-directions.
+I found that, somewhere about a couple of function deeper in the chain,  the 
+-ESHUTDOWN error code can indeed be returned. I had to read again and again 
+every line of the chain until I saw that.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 166 +++++++++++++++++++-
- 1 file changed, 162 insertions(+), 4 deletions(-)
+Fabio
 
-diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-index f0bc87d654d4..3900f1650851 100644
---- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-+++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-@@ -24,6 +24,14 @@
- #define SUN6I_DPHY_TX_CTL_REG		0x04
- #define SUN6I_DPHY_TX_CTL_HS_TX_CLK_CONT	BIT(28)
- 
-+#define SUN6I_DPHY_RX_CTL_REG		0x08
-+#define SUN6I_DPHY_RX_CTL_EN_DBC	BIT(31)
-+#define SUN6I_DPHY_RX_CTL_RX_CLK_FORCE	BIT(24)
-+#define SUN6I_DPHY_RX_CTL_RX_D3_FORCE	BIT(23)
-+#define SUN6I_DPHY_RX_CTL_RX_D2_FORCE	BIT(22)
-+#define SUN6I_DPHY_RX_CTL_RX_D1_FORCE	BIT(21)
-+#define SUN6I_DPHY_RX_CTL_RX_D0_FORCE	BIT(20)
-+
- #define SUN6I_DPHY_TX_TIME0_REG		0x10
- #define SUN6I_DPHY_TX_TIME0_HS_TRAIL(n)		(((n) & 0xff) << 24)
- #define SUN6I_DPHY_TX_TIME0_HS_PREPARE(n)	(((n) & 0xff) << 16)
-@@ -44,12 +52,29 @@
- #define SUN6I_DPHY_TX_TIME4_HS_TX_ANA1(n)	(((n) & 0xff) << 8)
- #define SUN6I_DPHY_TX_TIME4_HS_TX_ANA0(n)	((n) & 0xff)
- 
-+#define SUN6I_DPHY_RX_TIME0_REG		0x30
-+#define SUN6I_DPHY_RX_TIME0_HS_RX_SYNC(n)	(((n) & 0xff) << 24)
-+#define SUN6I_DPHY_RX_TIME0_HS_RX_CLK_MISS(n)	(((n) & 0xff) << 16)
-+#define SUN6I_DPHY_RX_TIME0_LP_RX(n)		(((n) & 0xff) << 8)
-+
-+#define SUN6I_DPHY_RX_TIME1_REG		0x34
-+#define SUN6I_DPHY_RX_TIME1_RX_DLY(n)		(((n) & 0xfff) << 20)
-+#define SUN6I_DPHY_RX_TIME1_LP_RX_ULPS_WP(n)	((n) & 0xfffff)
-+
-+#define SUN6I_DPHY_RX_TIME2_REG		0x38
-+#define SUN6I_DPHY_RX_TIME2_HS_RX_ANA1(n)	(((n) & 0xff) << 8)
-+#define SUN6I_DPHY_RX_TIME2_HS_RX_ANA0(n)	((n) & 0xff)
-+
-+#define SUN6I_DPHY_RX_TIME3_REG		0x40
-+#define SUN6I_DPHY_RX_TIME3_LPRST_DLY(n)	(((n) & 0xffff) << 16)
-+
- #define SUN6I_DPHY_ANA0_REG		0x4c
- #define SUN6I_DPHY_ANA0_REG_PWS			BIT(31)
- #define SUN6I_DPHY_ANA0_REG_DMPC		BIT(28)
- #define SUN6I_DPHY_ANA0_REG_DMPD(n)		(((n) & 0xf) << 24)
- #define SUN6I_DPHY_ANA0_REG_SLV(n)		(((n) & 7) << 12)
- #define SUN6I_DPHY_ANA0_REG_DEN(n)		(((n) & 0xf) << 8)
-+#define SUN6I_DPHY_ANA0_REG_SFB(n)		(((n) & 3) << 2)
- 
- #define SUN6I_DPHY_ANA1_REG		0x50
- #define SUN6I_DPHY_ANA1_REG_VTTMODE		BIT(31)
-@@ -84,6 +109,11 @@
- 
- #define SUN6I_DPHY_DBG5_REG		0xf4
- 
-+enum sun6i_dphy_direction {
-+	SUN6I_DPHY_DIRECTION_TX,
-+	SUN6I_DPHY_DIRECTION_RX,
-+};
-+
- struct sun6i_dphy {
- 	struct clk				*bus_clk;
- 	struct clk				*mod_clk;
-@@ -92,6 +122,8 @@ struct sun6i_dphy {
- 
- 	struct phy				*phy;
- 	struct phy_configure_opts_mipi_dphy	config;
-+
-+	enum sun6i_dphy_direction		direction;
- };
- 
- static int sun6i_dphy_init(struct phy *phy)
-@@ -119,9 +151,8 @@ static int sun6i_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
- 	return 0;
- }
- 
--static int sun6i_dphy_power_on(struct phy *phy)
-+static int sun6i_dphy_tx_power_on(struct sun6i_dphy *dphy)
- {
--	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
- 	u8 lanes_mask = GENMASK(dphy->config.lanes - 1, 0);
- 
- 	regmap_write(dphy->regs, SUN6I_DPHY_TX_CTL_REG,
-@@ -211,12 +242,129 @@ static int sun6i_dphy_power_on(struct phy *phy)
- 	return 0;
- }
- 
-+static int sun6i_dphy_rx_power_on(struct sun6i_dphy *dphy)
-+{
-+	/* Physical clock rate is actually half of symbol rate with DDR. */
-+	unsigned long mipi_symbol_rate = dphy->config.hs_clk_rate;
-+	unsigned long dphy_clk_rate;
-+	unsigned int rx_dly;
-+	unsigned int lprst_dly;
-+	u32 value;
-+
-+	dphy_clk_rate = clk_get_rate(dphy->mod_clk);
-+	if (!dphy_clk_rate)
-+		return -EINVAL;
-+
-+	/* Hardcoded timing parameters from the Allwinner BSP. */
-+	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME0_REG,
-+		     SUN6I_DPHY_RX_TIME0_HS_RX_SYNC(255) |
-+		     SUN6I_DPHY_RX_TIME0_HS_RX_CLK_MISS(255) |
-+		     SUN6I_DPHY_RX_TIME0_LP_RX(255));
-+
-+	/*
-+	 * Formula from the Allwinner BSP, with hardcoded coefficients
-+	 * (probably internal divider/multiplier).
-+	 */
-+	rx_dly = 8 * (unsigned int)(dphy_clk_rate / (mipi_symbol_rate / 8));
-+
-+	/*
-+	 * The Allwinner BSP has an alternative formula for LP_RX_ULPS_WP:
-+	 * lp_ulps_wp_cnt = lp_ulps_wp_ms * lp_clk / 1000
-+	 * but does not use it and hardcodes 255 instead.
-+	 */
-+	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME1_REG,
-+		     SUN6I_DPHY_RX_TIME1_RX_DLY(rx_dly) |
-+		     SUN6I_DPHY_RX_TIME1_LP_RX_ULPS_WP(255));
-+
-+	/* HS_RX_ANA0 value is hardcoded in the Allwinner BSP. */
-+	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME2_REG,
-+		     SUN6I_DPHY_RX_TIME2_HS_RX_ANA0(4));
-+
-+	/*
-+	 * Formula from the Allwinner BSP, with hardcoded coefficients
-+	 * (probably internal divider/multiplier).
-+	 */
-+	lprst_dly = 4 * (unsigned int)(dphy_clk_rate / (mipi_symbol_rate / 2));
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME3_REG,
-+		     SUN6I_DPHY_RX_TIME3_LPRST_DLY(lprst_dly));
-+
-+	/* Analog parameters are hardcoded in the Allwinner BSP. */
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG,
-+		     SUN6I_DPHY_ANA0_REG_PWS |
-+		     SUN6I_DPHY_ANA0_REG_SLV(7) |
-+		     SUN6I_DPHY_ANA0_REG_SFB(2));
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA1_REG,
-+		     SUN6I_DPHY_ANA1_REG_SVTT(4));
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG,
-+		     SUN6I_DPHY_ANA4_REG_DMPLVC |
-+		     SUN6I_DPHY_ANA4_REG_DMPLVD(1));
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA2_REG,
-+		     SUN6I_DPHY_ANA2_REG_ENIB);
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG,
-+		     SUN6I_DPHY_ANA3_EN_LDOR |
-+		     SUN6I_DPHY_ANA3_EN_LDOC |
-+		     SUN6I_DPHY_ANA3_EN_LDOD);
-+
-+	/*
-+	 * Delay comes from the Allwinner BSP, likely for internal regulator
-+	 * ramp-up.
-+	 */
-+	udelay(3);
-+
-+	value = SUN6I_DPHY_RX_CTL_EN_DBC | SUN6I_DPHY_RX_CTL_RX_CLK_FORCE;
-+
-+	/*
-+	 * Rx data lane force-enable bits are used as regular RX enable by the
-+	 * Allwinner BSP.
-+	 */
-+	if (dphy->config.lanes >= 1)
-+		value |= SUN6I_DPHY_RX_CTL_RX_D0_FORCE;
-+	if (dphy->config.lanes >= 2)
-+		value |= SUN6I_DPHY_RX_CTL_RX_D1_FORCE;
-+	if (dphy->config.lanes >= 3)
-+		value |= SUN6I_DPHY_RX_CTL_RX_D2_FORCE;
-+	if (dphy->config.lanes == 4)
-+		value |= SUN6I_DPHY_RX_CTL_RX_D3_FORCE;
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_RX_CTL_REG, value);
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
-+		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
-+		     SUN6I_DPHY_GCTL_EN);
-+
-+	return 0;
-+}
-+
-+static int sun6i_dphy_power_on(struct phy *phy)
-+{
-+	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
-+
-+	switch (dphy->direction) {
-+	case SUN6I_DPHY_DIRECTION_TX:
-+		return sun6i_dphy_tx_power_on(dphy);
-+	case SUN6I_DPHY_DIRECTION_RX:
-+		return sun6i_dphy_rx_power_on(dphy);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
- static int sun6i_dphy_power_off(struct phy *phy)
- {
- 	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
- 
--	regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA1_REG,
--			   SUN6I_DPHY_ANA1_REG_VTTMODE, 0);
-+	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG, 0);
-+
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG, 0);
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA1_REG, 0);
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA2_REG, 0);
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG, 0);
-+	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG, 0);
- 
- 	return 0;
- }
-@@ -253,7 +401,9 @@ static int sun6i_dphy_probe(struct platform_device *pdev)
- {
- 	struct phy_provider *phy_provider;
- 	struct sun6i_dphy *dphy;
-+	const char *direction;
- 	void __iomem *regs;
-+	int ret;
- 
- 	dphy = devm_kzalloc(&pdev->dev, sizeof(*dphy), GFP_KERNEL);
- 	if (!dphy)
-@@ -290,6 +440,14 @@ static int sun6i_dphy_probe(struct platform_device *pdev)
- 		return PTR_ERR(dphy->phy);
- 	}
- 
-+	dphy->direction = SUN6I_DPHY_DIRECTION_TX;
-+
-+	ret = of_property_read_string(pdev->dev.of_node, "allwinner,direction",
-+				      &direction);
-+
-+	if (!ret && !strncmp(direction, "rx", 2))
-+		dphy->direction = SUN6I_DPHY_DIRECTION_RX;
-+
- 	phy_set_drvdata(dphy->phy, dphy);
- 	phy_provider = devm_of_phy_provider_register(&pdev->dev, of_phy_simple_xlate);
- 
--- 
-2.32.0
+> Can someone please help me to understand this topic?
+> 
+> Thanks,
+> 
+> Fabio
+> 
+> 
+> 
+> > 
+> > > [...]
+> 
+> 
+> 
+> 
+
+
+
 
