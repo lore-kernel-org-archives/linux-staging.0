@@ -1,112 +1,83 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045153FE2
-	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 20:50:52 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id n5so4353687wro.12
-        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 13:50:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFA63FC3
+	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 21:06:17 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id n7-20020a05600c3b8700b002f8ca941d89so2228511wms.2
+        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 14:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DFP20JdLWO44Og/uNow71PnOPRiaV70lhBMuJXoTRec=;
-        b=LoKTUaI4giA4ss0KYOFiQc32KJcI6yJd1HI2Iveo4EiqbkSgfk4PITSi6YFtdFhsUx
-         gtazEO54B4rAMlud//IKHFAMS2jbnYG77SAK+tPOslXDiS0oQkhG/wsEvhGDMVvLBw+g
-         NRxTi94fLwEBFL3jeE98NTXlLHfviiwmha25n77ckVejLK8gKb0xFQC8fkhc7ax4grou
-         ZlyyYKYPgKTdRAVht/ogrfSwo5mK0VuogOkDi92S1H1/SWWWqrop01MiqHq9K2k52R6F
-         w+1Dv3C+3HZgss+ejFdf8ulb8dRsLGuNJnXh4V6303yt7dfEA7w4ivS1+4vYuSXN3Snn
-         rtOQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=TLj/ONS/sld60sqpERNMaRNSbW3piuAZR1aelVesNnA=;
+        b=oqt0cnUo8pv7evLVlDPWL3BXa3YP8fcn/cOCTgH8vK/bPCqsSpNX5Xh4U20UwQo8M7
+         +ASBUrAHSx7h2DXlCsDS3XNFhYoR3mbl1vMqAc2bwGYrj2724OitCf8Ue9xHQrTY4yjX
+         8OmZIBo4gxd836Zs/m3/HrL1VAYITLn+HwsEm+mKjCYGr1n0WLRMBJIBLKUJ69Irdbpi
+         UgANyYYdt3TMjaON4V+XzJy+5l2JAFWB2RJHkqTzywYDLL6GzvN5mqu0NoKbCTfUoluK
+         QGf1EWzl6PlTtt98g8sPqYhbJVCilGqZrg0u03JCKLSIrNxXdDn/YfIicRH4sBqLeg01
+         iYGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DFP20JdLWO44Og/uNow71PnOPRiaV70lhBMuJXoTRec=;
-        b=kXkuo2+30S1wSZUm3p40OK3Zw5YfvC+1yNXoyJri9Fd3t9YzFtZRj0rX+uFjB2JflR
-         fntcLLDiuY18stWwcewBHSXKl00Uq9QdzYQhYqRNES0HSVTriwu32UrJ2LjZgfwOrM0o
-         KGimF6JEEPL8cIAcoOTikfDhs31QWujMugEY96Vw8VXwbUcI8pkBjYZ9wcppBeftRNdd
-         LzsJaxs+WwHRAZA+phKtD0qsgGHg1wP3Kd0AW/zuIQJzqMG7Il5kB4eu+8R52gtid8Kw
-         Ls9u+GtlDXTylcBgmQPXgUHHujdmxuaaJjU0VkRvmUCKvJTFRSJH4/+li+QaCmNPTJQK
-         /kzQ==
-X-Gm-Message-State: AOAM532eZUb6plhTkVc9WOHgCUKCIMuxVRHZ47sZX3kCF/OODplIa0fg
-	aaDFdppvW4dYHPNYZTJhpjE=
-X-Google-Smtp-Source: ABdhPJyDH6/NnvBEQjD+DiWZ/4IqsxX6uYqAr1fTReaCT+WQD1b5UKIJtdXSkZ6BeVogDqr386cQOw==
-X-Received: by 2002:adf:902b:: with SMTP id h40mr11621131wrh.342.1631307050571;
-        Fri, 10 Sep 2021 13:50:50 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id g11sm5592427wrx.30.2021.09.10.13.50.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 13:50:50 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 7/7] staging: r8188eu: remove rtl8188e_set_hal_ops()
-Date: Fri, 10 Sep 2021 22:50:33 +0200
-Message-Id: <20210910205033.3778-8-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210910205033.3778-1-straube.linux@gmail.com>
-References: <20210910205033.3778-1-straube.linux@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=TLj/ONS/sld60sqpERNMaRNSbW3piuAZR1aelVesNnA=;
+        b=mI3Tyzh6ypgITrHmlnyoLpDcrWAzc96ZkqabxkoIixEPVkM/7n8nSQX4M+RKFu7ScQ
+         p5XHa0qUnN7LopL/qpCQ5KHZJuw4O2OkvSIV+ZxvJS07Od1KJzeRL//sot+LasE4hoG3
+         K4AvWk/YxJW0ox0khL0hYLzKgSp+c2GU4nIrgffHuN1ZU7yRnlCf+AJVEjgwdL0zSnCw
+         n3yNiL7lKPVvBghJVFqxbsASIB9XPGvYwrwCbORMOMVVZDZLwWisyWyVhUYJgmGWSYaX
+         RY9YMAlfB75/pvAJZjCWKkJPWwD4opyIPdRbAjrjCfNv7iXlvTscHqDi3Iag8ZW8ubxX
+         f0nw==
+X-Gm-Message-State: AOAM530CQtWXRb02IUhGC8b8D/D5eoA5ZTPxggV6aQu14bc8CFeDEPKl
+	zVBJHKT/3krFOyX8paU8Wlo=
+X-Google-Smtp-Source: ABdhPJwSciMCagUQIW5NgDmk7rlPZNnNKEx4aYuocKIOMM/Xa+9+e9yPCBSsYmmvEvjGKxe2xfkTMw==
+X-Received: by 2002:a05:600c:3514:: with SMTP id h20mr10302816wmq.98.1631307975545;
+        Fri, 10 Sep 2021 14:06:15 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::8fe1? ([2a02:8108:96c0:3b88::8fe1])
+        by smtp.gmail.com with ESMTPSA id m18sm3132448wrn.85.2021.09.10.14.06.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Sep 2021 14:06:15 -0700 (PDT)
+Message-ID: <79d75d2f-c55f-eb4a-a03a-c54d00b50de5@gmail.com>
+Date: Fri, 10 Sep 2021 23:06:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH 0/4] remove unused usb endpoint functions
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210910202151.4007-1-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20210910202151.4007-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-After the removal of some pointers from struct hal_ops the function
-rtl8188e_set_hal_ops() is empty now. Remove it.
+On 9/10/21 22:21, Martin Kaiser wrote:
+> Remove driver-specific functions to detect the type and direction of a
+> usb endpoint. Their callers have already been updated to use the helper
+> functions from the usb core.
+> 
+> Martin Kaiser (4):
+>    staging: r8188eu: remove unused function usb_endpoint_is_int
+>    staging: r8188eu: remove unused function RT_usb_endpoint_is_bulk_in
+>    staging: r8188eu: remove unused function RT_usb_endpoint_num
+>    staging: r8188eu: remove the remaining usb endpoint functions
+> 
+>   drivers/staging/r8188eu/os_dep/usb_intf.c | 40 -----------------------
+>   1 file changed, 40 deletions(-)
+> 
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 ---
- drivers/staging/r8188eu/hal/usb_halinit.c       | 2 --
- drivers/staging/r8188eu/include/rtl8188e_hal.h  | 2 --
- 3 files changed, 7 deletions(-)
+Compiles and looks good to me.
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 0d6c3adff27e..027dcfb95547 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -1748,9 +1748,6 @@ void hal_notch_filter_8188e(struct adapter *adapter, bool enable)
- 		rtw_write8(adapter, rOFDM0_RxDSP + 1, rtw_read8(adapter, rOFDM0_RxDSP + 1) & ~BIT(1));
- 	}
- }
--void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc)
--{
--}
- 
- u8 GetEEPROMSize8188E(struct adapter *padapter)
- {
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index aeaf53c1cfbf..0c317a8723ef 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -2227,6 +2227,4 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
- 	halfunc->GetHwRegHandler = &GetHwReg8188EU;
- 	halfunc->GetHalDefVarHandler = &GetHalDefVar8188EUsb;
- 	halfunc->SetHalDefVarHandler = &SetHalDefVar8188EUsb;
--
--	rtl8188e_set_hal_ops(halfunc);
- }
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index a9ca29b5b9c1..537a8d17642c 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -432,8 +432,6 @@ void Hal_ReadPowerSavingMode88E(struct adapter *pAdapter, u8 *hwinfo,
- 
- bool HalDetectPwrDownMode88E(struct adapter *Adapter);
- 
--void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc);
--
- void rtl8188e_read_chip_version(struct adapter *padapter);
- 
- void rtw_IOL_cmd_tx_pkt_buf_dump(struct adapter  *Adapter, int len);
--- 
-2.33.0
+For all 4 patches
+
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
