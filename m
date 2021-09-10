@@ -1,127 +1,119 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDC73FC2
-	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 06:21:38 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id gp20-20020a17090adf1400b00196b761920aso739858pjb.3
-        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 23:21:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=YZ1Cg3jt7kSg/s1Z6W7j84UpRGbFtuFXUdAmMNqttek=;
-        b=pbBh2lafzMJ8pxp+1se+PF13P2h8nvIrrXnsc+fXSy/Oem1T2BRrXwSg0C5CQD2NQu
-         VbNYxlYunBJZUaEXaGzIQh/Oaq5tXnCbL58yAKdWdHewniJ2v6kdsZwM9VxBHJU76Kyj
-         g9cMZmRVeVAl7oy40nl9BzN7Voj6taD7U2ocrFfZMhjxwaK7Z+MpyRLjNts9oSx8FXVU
-         K/ep3uVQlxHIdXILQsFTaKTpyioeYn2fgzAuHwCih9UI1qe9L/DXWOxtnevTdZBGvaGZ
-         LM3g926xWS56jNLGuLF1SxKji//fb5PS/ZsSMKu8Iqx+tXfe8M+DGru4WBvTMvm4GMiJ
-         sKig==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260D83FC2
+	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 06:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1631255071;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pnqlEhLtfhytMeRqppmfXFCckHKhqrWYsJrwlC/wIv4=;
+	b=erByxi5Js2WtirE9MePbb//F6382h3Y/0nEIesNz7pWIj5PHiM4mu2DLGvNXlNxEOfRhaG
+	GEspjQTUiTB+YXbgWqdm0jy2WcI+YC6SwBub8JV2FbDQeHOY1adfs+3t+QYLcAK4k384Q4
+	Oh/LXaix3STF4UN27C/8rSTPa5DzV0A=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-UDVPKQ33OAKi5Cly4A3YiQ-1; Fri, 10 Sep 2021 02:24:29 -0400
+X-MC-Unique: UDVPKQ33OAKi5Cly4A3YiQ-1
+Received: by mail-ed1-f72.google.com with SMTP id z17-20020a05640240d100b003cac681f4f4so345721edb.21
+        for <linux-staging@lists.linux.dev>; Thu, 09 Sep 2021 23:24:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=YZ1Cg3jt7kSg/s1Z6W7j84UpRGbFtuFXUdAmMNqttek=;
-        b=gjHB6CUOPc71pbLUO7azZrkEZZpM71jfRUUZ3Nxt2EmvD+kGLOawSWYvZRO6mkzc9R
-         tK2GBiii6kCzpq/MDOgg80bXxdfLN5JDgUD01QRxC5MDiiW7VNQABwiFaJ8Z97XCWDDk
-         ymLiNr4mNXKSKP8go1UdjMdr87YsRU/938q+mRGa0gSrdT3gIovHc1DGho4QoAvvI6r3
-         +schPJ0Wdq9Eou09bAO//y4DrWXdmGJ52ZqiTcIyNN1QtQwKPkFz1RA3G9xxkyRlpbhA
-         XTOQkYtAirgNM92UoUT62WArqLLqSOgiiBPjGNcbf7AlQ0rtj1TnYdKDUP4TgzS7v5mF
-         t1Rw==
-X-Gm-Message-State: AOAM532Sy0YJQhpXHBQ4MN3nPh096lHLgcTE1LtHsXr/Fkb6AOlwjbUV
-	k0TsM9bnTWDxelKk2b9uBI0=
-X-Google-Smtp-Source: ABdhPJwUgdwGRc1oUeS6iivmnlzKwt980w8DajfjUlPGPVCR2WPjnS94g4QYxvhHSg9Y1SGLH5k79A==
-X-Received: by 2002:a17:90b:1b06:: with SMTP id nu6mr7749738pjb.15.1631254898261;
-        Thu, 09 Sep 2021 23:21:38 -0700 (PDT)
-Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id b10sm2922570pfl.220.2021.09.09.23.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 23:21:37 -0700 (PDT)
-Date: Fri, 10 Sep 2021 11:51:32 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	saurav.girepunje@gmail.com, fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH v2] staging: r8188eu: core: remove duplicate structure
-Message-ID: <YTr5bFrc1C4CUqZU@user>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pnqlEhLtfhytMeRqppmfXFCckHKhqrWYsJrwlC/wIv4=;
+        b=3UA7iKmMhyGWlZU/BxgxURugN130IO5AbO3todH0vSeCFu6bvpugIlUgkrZEV+4hiu
+         fYh0EQI63pZ0O8q8xgN5kzzDt8gvphZ+QpnSokbzFaVUf0/cemT0AdeMnnBk0J6wEH/2
+         0pLmS/P2tY0LbcQP2RfQ+GBV50SzLMzDRUSEnlnhfo1qMfxfl02z3c65b2Cigh0ZW5mZ
+         L0GbBdZXsC1aoCHSpTb8wbi2kYT9WGZ9D4ITnOzayg6v4AfSuVkJ6UD4mv8YCRlqxKed
+         zKrx2qjsjQyMnL9aOMgr49Rly9Uu1eojPWUWWNxjU/z0QJSmuH9EH8giNYBf9YWpqnP7
+         Y91g==
+X-Gm-Message-State: AOAM531yi2O8VmZ2YtH+l8CpkyaqABHPedbRMrjyUWU9ZKPHIDGFNDd/
+	627qUBC3Klj2nTZ8iMMbD1lpB3LSU5I1eOZghjJs9SGh+mkB1f+th59mMG7vClKjdmSzEH+ee72
+	NbGsYYWAsv3ZCQr2AjPfLpl/gCw==
+X-Received: by 2002:a17:906:5408:: with SMTP id q8mr7398373ejo.54.1631255068482;
+        Thu, 09 Sep 2021 23:24:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySHpKwGqt60OguV1nAVbYXS6ixd+RRfr7vvv0dTOupfqnEpbcGDztj8pVK2vfAO7tCNUk0eg==
+X-Received: by 2002:a17:906:5408:: with SMTP id q8mr7398351ejo.54.1631255068242;
+        Thu, 09 Sep 2021 23:24:28 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id gz22sm1926879ejb.15.2021.09.09.23.24.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Sep 2021 23:24:27 -0700 (PDT)
+Subject: Re: [PATCH] staging: rtl8723bs: remove unused macros from
+ ioctl_linux.c
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210909211922.24872-1-straube.linux@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <d39f410e-ac89-54e1-5c54-a17bdc5ebc49@redhat.com>
+Date: Fri, 10 Sep 2021 08:24:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20210909211922.24872-1-straube.linux@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Remove duplicate structure mlme_handler. struct action_handler and
-mlme_handler both are having same member. Replace mlme_handler with
-action_handler.
+Hi,
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
+On 9/9/21 11:19 PM, Michael Straube wrote:
+> These macros are not used in the driver, remove them.
+> Found with GCC -Wunused-macros.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 
-ChangeLog V2:
+Thanks, patch looks good to me:
 
-- Replace the struct mlme_handler by action_handler.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-ChangeLog V1:
+Regards,
 
--Remove duplicate structure mlme_handler and action_handler. Both
- structure are having same member. Replace it with mlme_action_handler.
+Hans
 
 
- drivers/staging/r8188eu/core/rtw_mlme_ext.c    | 6 +++---
- drivers/staging/r8188eu/include/rtw_mlme_ext.h | 6 ------
- 2 files changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index f314f55997bf..499eda43fd69 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -11,7 +11,7 @@
- #include "../include/mlme_osdep.h"
- #include "../include/recv_osdep.h"
-
--static struct mlme_handler mlme_sta_tbl[] = {
-+static struct action_handler mlme_sta_tbl[] = {
- 	{WIFI_ASSOCREQ,		"OnAssocReq",	&OnAssocReq},
- 	{WIFI_ASSOCRSP,		"OnAssocRsp",	&OnAssocRsp},
- 	{WIFI_REASSOCREQ,	"OnReAssocReq",	&OnAssocReq},
-@@ -391,7 +391,7 @@ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
- 	}
- }
-
--static void _mgt_dispatcher(struct adapter *padapter, struct mlme_handler *ptable, struct recv_frame *precv_frame)
-+static void _mgt_dispatcher(struct adapter *padapter, struct action_handler *ptable, struct recv_frame *precv_frame)
- {
- 	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
- 	u8 *pframe = precv_frame->rx_data;
-@@ -408,7 +408,7 @@ static void _mgt_dispatcher(struct adapter *padapter, struct mlme_handler *ptabl
- void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
- {
- 	int index;
--	struct mlme_handler *ptable;
-+	struct action_handler *ptable;
- #ifdef CONFIG_88EU_AP_MODE
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- #endif /* CONFIG_88EU_AP_MODE */
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index d2f4d3ce7b90..6175abbc5029 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -213,12 +213,6 @@ enum SCAN_STATE {
- 	SCAN_STATE_MAX,
- };
-
--struct mlme_handler {
--	unsigned int   num;
--	char *str;
--	unsigned int (*func)(struct adapter *adapt, struct recv_frame *frame);
--};
--
- struct action_handler {
- 	unsigned int   num;
- 	char* str;
---
-2.32.0
+> ---
+>  drivers/staging/rtl8723bs/os_dep/ioctl_linux.c | 14 --------------
+>  1 file changed, 14 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+> index 908022a17b3f..27fb1be036b8 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+> @@ -15,20 +15,6 @@
+>  
+>  #define RTL_IOCTL_WPA_SUPPLICANT	(SIOCIWFIRSTPRIV+30)
+>  
+> -#define SCAN_ITEM_SIZE 768
+> -#define MAX_CUSTOM_LEN 64
+> -#define RATE_COUNT 4
+> -
+> -/*  combo scan */
+> -#define WEXT_CSCAN_HEADER		"CSCAN S\x01\x00\x00S\x00"
+> -#define WEXT_CSCAN_HEADER_SIZE		12
+> -#define WEXT_CSCAN_SSID_SECTION		'S'
+> -#define WEXT_CSCAN_CHANNEL_SECTION	'C'
+> -#define WEXT_CSCAN_ACTV_DWELL_SECTION	'A'
+> -#define WEXT_CSCAN_PASV_DWELL_SECTION	'P'
+> -#define WEXT_CSCAN_HOME_DWELL_SECTION	'H'
+> -#define WEXT_CSCAN_TYPE_SECTION		'T'
+> -
+>  static int wpa_set_auth_algs(struct net_device *dev, u32 value)
+>  {
+>  	struct adapter *padapter = rtw_netdev_priv(dev);
+> 
 
