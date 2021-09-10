@@ -1,41 +1,41 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52B63FE9
-	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 20:50:50 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id n5so4353548wro.12
-        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 13:50:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC663FEB
+	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 20:50:51 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id d6so4360857wrc.11
+        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 13:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=QMMWHBlq3Ww3OLNIoPNYbhp6nVa7989cVH911hyE4+U=;
-        b=jbIhYI22X7cLru/sHX2rvczYxJBijnM5X034fq4EldZgmdbqHlgwgHkt6r1W4JhUeT
-         5B5etgfRtU/yZuwuJr35wBTpDwhoKf2IxLCfO13QyUygDwQErOWMCXsegEsFCLCtp5J3
-         76om97PntHUSSrZahIcRZllQG+f5zWATP4zX4s9wORHlMdqvxIggJBlFNM/5ltYK+nSd
-         EvvLGiMBhUGWX1LYwaTqPu5YjoohpmOc5oq1IlaTOV3p1Ii95ax9zGMAXEwppK+tSZTu
-         C3xps2fr0f00lYrIkkmeUGQzuHJjVSI3o5IM0VDzbpM9b1wZ0IENw0iupY/Rh9xrhwJi
-         x1fw==
+        bh=yaiQfLV/na2Dp/9gG36nqiqId4moJWSXdqDONozjDdc=;
+        b=U8HAFy8Ur8f1PxRuDxqcP6zcChLYM2KQBhIb5NxTpjFeyO2hNUVCvTr2ZiNEoST9tb
+         JFqHXjvUYz9DuXYhpCmM26RMqHM28LGk9pkRNOKMwbSxfdKPyaZYCLkOwNWi/QqDuXpM
+         IHUUVK9OA+jhOmf/xEy2Avk3HtvSPzIt8FnSLMKCW4iRWXQywGdWo/C7dlvOn7XRkAWG
+         FK5TXl+b9ayUeCJA5Ke/pq0WARJYfTDlyhv0TN0AVUh4L6vpvXWSxLr+O01Bzu19W6ov
+         PirVc3uL7rf8aHC0OGKfIW3sTmfWa15fSGj+o/O4jzsKv+lfPwMg6L8cjBDqfSJyfPuT
+         ysPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QMMWHBlq3Ww3OLNIoPNYbhp6nVa7989cVH911hyE4+U=;
-        b=DmXeJ0e9mu1Zfa6JNvNmrN53l8NjBGz1yrxN6ECUWKUNl56dPJ/4A+m730ZUV53IHO
-         8J+PuisLshwI93LPv7Bp7ifsYOfpgwELvSuCLUbcS8BksD99kU7g8Q0yt9ywRGAJLYO6
-         yChZLWopNWVu3Ja791lhFJ7ggcXbvC0npG4ogVueFu8V4R7A1ZCVxi/2VWEUyx0vNIKn
-         7jGxLeHtTs/AStBOZBLrtePIDEqGPBQIPfBaeitAA8q8YJV3pH/skX0vl+tNcmB7DnGh
-         5mUlQRVo96N1WFhMucFCp/XhcPZHMwZH1QflDsNUWjFjlpiBW6sA54jvgjPIexqh4qWQ
-         kyyw==
-X-Gm-Message-State: AOAM531Er0XMnmc2dPHeAkSKWJ/f3nFmCr1Ec9Tm3Eg67Agt3yopdbSh
-	jDQsAAvaCQOvAkH/hD59eOI=
-X-Google-Smtp-Source: ABdhPJwk1U+q73hiCHAKb+pVANoQR4CohugMZFN11YErzoUmfbO1dURQL7TU8MUZb+JkzDQOy3xziQ==
-X-Received: by 2002:adf:b741:: with SMTP id n1mr12069596wre.354.1631307049090;
+        bh=yaiQfLV/na2Dp/9gG36nqiqId4moJWSXdqDONozjDdc=;
+        b=ZEbgvMY4Qx7WqZJEJDLjNIgbEbjX8hhlFVJv103KT09NtfISLK3qAOcl7Hl7h6jf6g
+         60fOn8MzCVlaWuhzUNL/qsAh8NPUe5Bv/GTxil7BznhTzSmeeM0YWkH2aRFdey1dSfz0
+         rhJ9a9IFcyNB46AdXdaMLEEBhPTbPWQYSADzqHynY7unHWIpQS5t5zGxdUJUHPLrne5u
+         WHfnxjhpWb+Rq81NXTGcgws0gkvhnsHNyNg6DXrDRBXwQj5DelDtsNUFfVcPhFBPw2jA
+         7713o1vIk4pwohuieQTxBewTnwi91IkkufArrvY4uJhX2u+EWYmLECCS7f76yJRUEZTp
+         Tx0A==
+X-Gm-Message-State: AOAM530jLE0JAeR2c/DjUUwNyWszHvlPYHidfqQbkzenIIIONxL7y+WA
+	Zb/X4y//ob2KrddGek3iwPE=
+X-Google-Smtp-Source: ABdhPJyeU5a4WB6ZyvQ5JtiLKA7DNko1ERCfN3XG9akfIrZv9qw4KI+99d1g2XUjdXCdHSbV66BGvQ==
+X-Received: by 2002:adf:ef48:: with SMTP id c8mr4671685wrp.349.1631307049875;
         Fri, 10 Sep 2021 13:50:49 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::8fe1])
-        by smtp.gmail.com with ESMTPSA id g11sm5592427wrx.30.2021.09.10.13.50.48
+        by smtp.gmail.com with ESMTPSA id g11sm5592427wrx.30.2021.09.10.13.50.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 13:50:48 -0700 (PDT)
+        Fri, 10 Sep 2021 13:50:49 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/7] staging: r8188eu: remove read_rfreg from struct hal_ops
-Date: Fri, 10 Sep 2021 22:50:31 +0200
-Message-Id: <20210910205033.3778-6-straube.linux@gmail.com>
+Subject: [PATCH 6/7] staging: r8188eu: remove write_rfreg from struct hal_ops
+Date: Fri, 10 Sep 2021 22:50:32 +0200
+Message-Id: <20210910205033.3778-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210910205033.3778-1-straube.linux@gmail.com>
 References: <20210910205033.3778-1-straube.linux@gmail.com>
@@ -59,183 +59,116 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove read_rfreg from struct hal_ops and its wrapper
-rtw_hal_read_rfreg(). Call rtl8188e_PHY_QueryRFReg() directly instead.
+Remove write_rfreg from struct hal_ops and its wrapper
+rtw_hal_write_rfreg(). Call rtl8188e_PHY_SetRFReg() directly instead.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_debug.c        |  8 ++++----
- drivers/staging/r8188eu/core/rtw_mp.c           |  2 +-
- drivers/staging/r8188eu/hal/hal_intf.c          | 11 -----------
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  1 -
- drivers/staging/r8188eu/include/hal_intf.h      |  5 -----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 12 ++++++------
- 6 files changed, 11 insertions(+), 28 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mp.c           | 2 +-
+ drivers/staging/r8188eu/hal/hal_intf.c          | 8 --------
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 1 -
+ drivers/staging/r8188eu/include/hal_intf.h      | 8 --------
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 6 +++---
+ 5 files changed, 4 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_debug.c b/drivers/staging/r8188eu/core/rtw_debug.c
-index 65daf674ea69..3d613d997a38 100644
---- a/drivers/staging/r8188eu/core/rtw_debug.c
-+++ b/drivers/staging/r8188eu/core/rtw_debug.c
-@@ -428,7 +428,7 @@ int proc_get_rf_reg_dump1(char *page, char **start,
- 	path = 1;
- 	len += snprintf(page + len, count - len, "\nRF_Path(%x)\n", path);
- 	for (i = 0; i < 0xC0; i++) {
--		value = rtw_hal_read_rfreg(padapter, path, i, 0xffffffff);
-+		value = rtl8188e_PHY_QueryRFReg(padapter, path, i, 0xffffffff);
- 		if (j % 4 == 1)
- 			len += snprintf(page + len, count - len, "0x%02x ", i);
- 		len += snprintf(page + len, count - len, " 0x%08x ", value);
-@@ -453,7 +453,7 @@ int proc_get_rf_reg_dump2(char *page, char **start,
- 	path = 1;
- 	len += snprintf(page + len, count - len, "\nRF_Path(%x)\n", path);
- 	for (i = 0xC0; i < 0x100; i++) {
--		value = rtw_hal_read_rfreg(padapter, path, i, 0xffffffff);
-+		value = rtl8188e_PHY_QueryRFReg(padapter, path, i, 0xffffffff);
- 		if (j % 4 == 1)
- 			len += snprintf(page + len, count - len, "0x%02x ", i);
- 		len += snprintf(page + len, count - len, " 0x%08x ", value);
-@@ -478,7 +478,7 @@ int proc_get_rf_reg_dump3(char *page, char **start,
- 	path = 2;
- 	len += snprintf(page + len, count - len, "\nRF_Path(%x)\n", path);
- 	for (i = 0; i < 0xC0; i++) {
--		value = rtw_hal_read_rfreg(padapter, path, i, 0xffffffff);
-+		value = rtl8188e_PHY_QueryRFReg(padapter, path, i, 0xffffffff);
- 		if (j % 4 == 1)
- 			len += snprintf(page + len, count - len, "0x%02x ", i);
- 		len += snprintf(page + len, count - len, " 0x%08x ", value);
-@@ -504,7 +504,7 @@ int proc_get_rf_reg_dump4(char *page, char **start,
- 	path = 2;
- 	len += snprintf(page + len, count - len, "\nRF_Path(%x)\n", path);
- 	for (i = 0xC0; i < 0x100; i++) {
--		value = rtw_hal_read_rfreg(padapter, path, i, 0xffffffff);
-+		value = rtl8188e_PHY_QueryRFReg(padapter, path, i, 0xffffffff);
- 		if (j % 4 == 1)
- 			len += snprintf(page + len, count - len, "0x%02x ", i);
- 		len += snprintf(page + len, count - len, " 0x%08x ", value);
 diff --git a/drivers/staging/r8188eu/core/rtw_mp.c b/drivers/staging/r8188eu/core/rtw_mp.c
-index c0400196b55e..011d2f915cc9 100644
+index 011d2f915cc9..ab251c49c875 100644
 --- a/drivers/staging/r8188eu/core/rtw_mp.c
 +++ b/drivers/staging/r8188eu/core/rtw_mp.c
-@@ -19,7 +19,7 @@ void write_bbreg(struct adapter *padapter, u32 addr, u32 bitmask, u32 val)
- 
- u32 _read_rfreg(struct adapter *padapter, u8 rfpath, u32 addr, u32 bitmask)
- {
--	return rtw_hal_read_rfreg(padapter, (enum rf_radio_path)rfpath, addr, bitmask);
-+	return rtl8188e_PHY_QueryRFReg(padapter, (enum rf_radio_path)rfpath, addr, bitmask);
- }
+@@ -24,7 +24,7 @@ u32 _read_rfreg(struct adapter *padapter, u8 rfpath, u32 addr, u32 bitmask)
  
  void _write_rfreg(struct adapter *padapter, u8 rfpath, u32 addr, u32 bitmask, u32 val)
-diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index 155b2f580054..72e4b17c9fc0 100644
---- a/drivers/staging/r8188eu/hal/hal_intf.c
-+++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -125,17 +125,6 @@ void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
- 	}
+ {
+-	rtw_hal_write_rfreg(padapter, (enum rf_radio_path)rfpath, addr, bitmask, val);
++	rtl8188e_PHY_SetRFReg(padapter, (enum rf_radio_path)rfpath, addr, bitmask, val);
  }
  
--u32 rtw_hal_read_rfreg(struct adapter *adapt, enum rf_radio_path rfpath,
--		       u32 regaddr, u32 bitmask)
+ u32 read_rfreg(struct adapter *padapter, u8 rfpath, u32 addr)
+diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
+index 72e4b17c9fc0..410cc4197548 100644
+--- a/drivers/staging/r8188eu/hal/hal_intf.c
++++ b/drivers/staging/r8188eu/hal/hal_intf.c
+@@ -124,11 +124,3 @@ void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
+ 		UpdateHalRAMask8188EUsb(adapt, mac_id, rssi_level);
+ 	}
+ }
+-
+-void rtw_hal_write_rfreg(struct adapter *adapt, enum rf_radio_path rfpath,
+-			 u32 regaddr, u32 bitmask, u32 data)
 -{
--	u32 data = 0;
--
--	if (adapt->HalFunc.read_rfreg)
--		data = adapt->HalFunc.read_rfreg(adapt, rfpath, regaddr,
--						    bitmask);
--	return data;
+-	if (adapt->HalFunc.write_rfreg)
+-		adapt->HalFunc.write_rfreg(adapt, rfpath, regaddr,
+-					      bitmask, data);
 -}
--
- void rtw_hal_write_rfreg(struct adapter *adapt, enum rf_radio_path rfpath,
- 			 u32 regaddr, u32 bitmask, u32 data)
- {
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index dfc38ff3c750..3806afc03d8e 100644
+index 3806afc03d8e..0d6c3adff27e 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 @@ -1750,7 +1750,6 @@ void hal_notch_filter_8188e(struct adapter *adapter, bool enable)
  }
  void rtl8188e_set_hal_ops(struct hal_ops *pHalFunc)
  {
--	pHalFunc->read_rfreg = &rtl8188e_PHY_QueryRFReg;
- 	pHalFunc->write_rfreg = &rtl8188e_PHY_SetRFReg;
+-	pHalFunc->write_rfreg = &rtl8188e_PHY_SetRFReg;
  }
  
+ u8 GetEEPROMSize8188E(struct adapter *padapter)
 diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 11b0871ab66a..0aebf40c8b1f 100644
+index 0aebf40c8b1f..174819bdff44 100644
 --- a/drivers/staging/r8188eu/include/hal_intf.h
 +++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -147,9 +147,6 @@ struct hal_ops {
+@@ -146,10 +146,6 @@ struct hal_ops {
+ 	u8	(*SetHalDefVarHandler)(struct adapter *padapter,
  				       enum hal_def_variable eVariable,
  				       void *pValue);
+-
+-	void	(*write_rfreg)(struct adapter *padapter,
+-			       enum rf_radio_path eRFPath, u32 RegAddr,
+-			       u32 BitMask, u32 Data);
+ };
  
--	u32	(*read_rfreg)(struct adapter *padapter,
--			      enum rf_radio_path eRFPath, u32 RegAddr,
--			      u32 BitMask);
- 	void	(*write_rfreg)(struct adapter *padapter,
- 			       enum rf_radio_path eRFPath, u32 RegAddr,
- 			       u32 BitMask, u32 Data);
-@@ -217,8 +214,6 @@ void rtw_hal_update_ra_mask(struct adapter *padapter, u32 mac_id, u8 level);
+ #define RF_CHANGE_BY_INIT	0
+@@ -214,10 +210,6 @@ void rtw_hal_update_ra_mask(struct adapter *padapter, u32 mac_id, u8 level);
  void	rtw_hal_clone_data(struct adapter *dst_adapt,
  			   struct adapter *src_adapt);
  
--u32	rtw_hal_read_rfreg(struct adapter *padapter, enum rf_radio_path eRFPath,
--			   u32 RegAddr, u32 BitMask);
- void	rtw_hal_write_rfreg(struct adapter *padapter,
- 			    enum rf_radio_path eRFPath, u32 RegAddr,
- 			    u32 BitMask, u32 Data);
+-void	rtw_hal_write_rfreg(struct adapter *padapter,
+-			    enum rf_radio_path eRFPath, u32 RegAddr,
+-			    u32 BitMask, u32 Data);
+-
+ void indicate_wx_scan_complete_event(struct adapter *padapter);
+ u8 rtw_do_join(struct adapter *padapter);
+ 
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index cc03be3bbe0b..21a5d7c54860 100644
+index 21a5d7c54860..92b8f2c109c3 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -2122,7 +2122,7 @@ static int rtw_wx_read_rf(struct net_device *dev,
- 
+@@ -2143,7 +2143,7 @@ static int rtw_wx_write_rf(struct net_device *dev,
  	path = *(u32 *)extra;
  	addr = *((u32 *)extra + 1);
--	data32 = rtw_hal_read_rfreg(padapter, path, addr, 0xFFFFF);
-+	data32 = rtl8188e_PHY_QueryRFReg(padapter, path, addr, 0xFFFFF);
- 	/*
- 	 * IMPORTANT!!
- 	 * Only when wireless private ioctl is at odd order,
-@@ -2262,7 +2262,7 @@ static void rtw_dbg_mode_hdl(struct adapter *padapter, u32 id, u8 *pdata, u32 le
- 		path = (u8)prfreg->path;
+ 	data32 = *((u32 *)extra + 2);
+-	rtw_hal_write_rfreg(padapter, path, addr, 0xFFFFF, data32);
++	rtl8188e_PHY_SetRFReg(padapter, path, addr, 0xFFFFF, data32);
+ 
+ 	return 0;
+ }
+@@ -2275,7 +2275,7 @@ static void rtw_dbg_mode_hdl(struct adapter *padapter, u32 id, u8 *pdata, u32 le
  		offset = (u8)prfreg->offset;
+ 		value = prfreg->value;
  
--		value = rtw_hal_read_rfreg(padapter, path, offset, 0xffffffff);
-+		value = rtl8188e_PHY_QueryRFReg(padapter, path, offset, 0xffffffff);
+-		rtw_hal_write_rfreg(padapter, path, offset, 0xffffffff, value);
++		rtl8188e_PHY_SetRFReg(padapter, path, offset, 0xffffffff, value);
  
- 		prfreg->value = value;
- 
-@@ -3890,7 +3890,7 @@ static void rf_reg_dump(struct adapter *padapter)
- 	for (path = 0; path < path_nums; path++) {
- 		pr_info("\nRF_Path(%x)\n", path);
- 		for (i = 0; i < 0x100; i++) {
--			value = rtw_hal_read_rfreg(padapter, path, i, 0xffffffff);
-+			value = rtl8188e_PHY_QueryRFReg(padapter, path, i, 0xffffffff);
- 			if (j % 4 == 1)
- 				pr_info("0x%02x ", i);
- 			pr_info(" 0x%08x ", value);
-@@ -3965,11 +3965,11 @@ static int rtw_dbg_port(struct net_device *dev,
- 		DBG_88E("write_bbreg(0x%x) = 0x%x\n", arg, rtl8188e_PHY_QueryBBReg(padapter, arg, 0xffffffff));
  		break;
- 	case 0x74:/* read_rf */
--		DBG_88E("read RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", minor_cmd, arg, rtw_hal_read_rfreg(padapter, minor_cmd, arg, 0xffffffff));
-+		DBG_88E("read RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", minor_cmd, arg, rtl8188e_PHY_QueryRFReg(padapter, minor_cmd, arg, 0xffffffff));
+ 	case GEN_MP_IOCTL_SUBCODE(TRIGGER_GPIO):
+@@ -3968,7 +3968,7 @@ static int rtw_dbg_port(struct net_device *dev,
+ 		DBG_88E("read RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", minor_cmd, arg, rtl8188e_PHY_QueryRFReg(padapter, minor_cmd, arg, 0xffffffff));
  		break;
  	case 0x75:/* write_rf */
- 		rtw_hal_write_rfreg(padapter, minor_cmd, arg, 0xffffffff, extra_arg);
--		DBG_88E("write RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", minor_cmd, arg, rtw_hal_read_rfreg(padapter, minor_cmd, arg, 0xffffffff));
-+		DBG_88E("write RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", minor_cmd, arg, rtl8188e_PHY_QueryRFReg(padapter, minor_cmd, arg, 0xffffffff));
+-		rtw_hal_write_rfreg(padapter, minor_cmd, arg, 0xffffffff, extra_arg);
++		rtl8188e_PHY_SetRFReg(padapter, minor_cmd, arg, 0xffffffff, extra_arg);
+ 		DBG_88E("write RF_reg path(0x%02x), offset(0x%x), value(0x%08x)\n", minor_cmd, arg, rtl8188e_PHY_QueryRFReg(padapter, minor_cmd, arg, 0xffffffff));
  		break;
  
- 	case 0x76:
-@@ -6069,7 +6069,7 @@ static int rtw_mp_dump(struct net_device *dev,
- 
- 		for (path = 0; path < path_nums; path++) {
- 			for (i = 0; i < 0x34; i++) {
--				value = rtw_hal_read_rfreg(padapter, path, i, 0xffffffff);
-+				value = rtl8188e_PHY_QueryRFReg(padapter, path, i, 0xffffffff);
- 				if (j % 4 == 1)
- 					DBG_88E("0x%02x ", i);
- 				DBG_88E(" 0x%08x ", value);
 -- 
 2.33.0
 
