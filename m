@@ -1,144 +1,160 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FD73FC3
-	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 15:20:02 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id h9so4984423ejs.4
-        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 08:20:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FC53FC2
+	for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 16:49:09 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id mi6-20020a17090b4b4600b00199280a31cbso1530034pjb.0
+        for <linux-staging@lists.linux.dev>; Fri, 10 Sep 2021 09:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Y3tC4nDyVOsSkA0uvt6jkAqJXxoQ4QhFC8D3n1gWmeM=;
-        b=ccMPMMdig5pYc+7VPBZnQ4mnFUWGTG7mZaFdqBT9Xd6nDf6cpl7WE75bCXUPBZPGl4
-         wWgELNQlT/zOxFOIxv5i4T2mpvIQZm6wDUJf0NJf5kJvx4y/oj7kb23opd02XH/VIooU
-         uqsLsbZnGehK1pQ/JnitY5m67RA0XQitRLSe5hdehUKQTCmucvHmWf3iOxJlddJZ5dkf
-         H+lAQ3uH+BtVf6bXYPmXCzAl5sI5VGTQ1cvJA1tFP8QAhYg743NLQ2UQ6Psu8LxrRxL5
-         G8CC4lnp2IVuKEr6F9jLiJ2i7VQygXG0al0ZVwSR+KfkVQDpWZDUGUzALiAFcEg5khgt
-         dNtA==
+        h=cc:subject:to:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=D73TCouYpmB9xTDq2w7pwNMpCZ26H76q6mSoWgYbZp4=;
+        b=F43ZYCKmMprzrgdMer2LY0t1FWeggf1klI3wE4zuw9KgzxKPLwSUcLq68QagbKqcgS
+         u0VbgQi7BC2XMZyYslXV24N/ciEdhGbIWfqgfBseRd38ZrP3eI+7SJQEnI7GqKfZAaMR
+         q3hAwgZMiyBr1umfujg7FKciNwjoq9o3Kz4iYclfulVhUX17jd5SNphe0VrlITtTVsVW
+         HE+x2l7uYN/EbTrEXl/4rvuTn+YC7CDq8oNL6h4+X/3iuWGqQxRBG5c7NbJ/aB9xrlcG
+         0baweGLp/SP2nzj136hFGOJp8b880iaDG5mCLzvw2VbpcuC0YZ5UUv9hapNxd/tmnKKQ
+         nNxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Y3tC4nDyVOsSkA0uvt6jkAqJXxoQ4QhFC8D3n1gWmeM=;
-        b=BQHoZ+vz/bOZgSdFk750O9N3yUnMIvq54KBr020dwgZrTou2Yx9wpyHRv/RgeTgGoW
-         BLfmuenz/MvscZbmbWZxb7oq59sAYQang+Inc9W448z4vr0VJBXwdgGDvcrNzoCEE9TO
-         QkSIxtq3aygFIHmbYwOTPdnLOxUmZOQcYP94ko7A3hGcs6+XhEfs0ryKGt9nbouK3ybm
-         YlBh0E9CtdEhH3+hXJZ42N5jJluqWsZuTJsyScjaGFR5ZagnZO/+GLYOn2rGIMyn8UtW
-         gjenIuFNHohyHpE1Q8vPc3HrdFv/ihjqrf60y+dBUYRNYyuPdYeCojGIOYDpzJAU+flP
-         uA4A==
-X-Gm-Message-State: AOAM5306OWdbiFsQM/u7A9kiAlMTdAD1V/xiRncuURxT8q/Rtn8fyeYu
-	7wglKc/pZNCHMonpZpXbZwLPgcQNw3s=
-X-Google-Smtp-Source: ABdhPJz3kLbFrvosjlIym0GPjZG0FUPBwnXlHAOjGj9fbcmUnBGPHja0GDTZOaYuCjD+t5cWBIhSXg==
-X-Received: by 2002:a17:907:c10:: with SMTP id ga16mr10343714ejc.174.1631287200402;
-        Fri, 10 Sep 2021 08:20:00 -0700 (PDT)
-Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
-        by smtp.gmail.com with ESMTPSA id j5sm2602039ejb.96.2021.09.10.08.19.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Sep 2021 08:19:59 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
-Date: Fri, 10 Sep 2021 17:19:58 +0200
-Message-ID: <9324065.O9NRuxeco7@localhost.localdomain>
-In-Reply-To: <YTYgnrvwxNt4+CvR@kroah.com>
-References: <20210904220048.12822-1-fmdefrancesco@gmail.com> <20210904220048.12822-3-fmdefrancesco@gmail.com> <YTYgnrvwxNt4+CvR@kroah.com>
+        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=D73TCouYpmB9xTDq2w7pwNMpCZ26H76q6mSoWgYbZp4=;
+        b=XTsPm6T+QM7cMWD57Dmrl0INEHOmQoCWxrLyD2nvZmcmqky0S2vnFEMq+/2LnOrSQQ
+         KJPcyyvwpHcyuRXtetxLlfXebmNMqk4vVl7zG0AAhZ4WLzue9YElWkSlhPLhPZqoS3o7
+         VAmXvSUZpQu+lIwsCF4DGi5DtexYPVpOcFs3XWFYqIiJsssVLYsRy6dh/5e58b01J0h7
+         s5iicBsOMvjCPJ8VGJNp7/mjCPcXI04kmJMHdfOW/ll04eFN9eA+qLBRka37UL747WBl
+         S+BfD4uMOlbCX99ihwSbQWaTkrgLCLIuzNg/a1O9bPmRE+H+o/h6HqvHyi/r1GZslZUa
+         J7eA==
+X-Gm-Message-State: AOAM532YpI5pfdaxsseb2Sg5TJHSkopIUGqAu3z2z4Tp2jZ3T98eIIuj
+	lLEui07/zinSzgbYp9hNsUE=
+X-Google-Smtp-Source: ABdhPJw+XLEN+3FBF3KioB9P2490DQ0c/LCiYAWPjGRvjicH0jMd3fzKEg//lH4Jt+EWTnL0EVQeGg==
+X-Received: by 2002:a17:90a:1991:: with SMTP id 17mr10627798pji.149.1631292548500;
+        Fri, 10 Sep 2021 09:49:08 -0700 (PDT)
+Received: from [192.168.1.6] ([117.98.200.228])
+        by smtp.gmail.com with ESMTPSA id v190sm5537113pfv.166.2021.09.10.09.49.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Sep 2021 09:49:08 -0700 (PDT)
+Cc: saurav.girepunje@hotmail.com, Larry.Finger@lwfinger.net,
+ florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+ fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8712: Move similar execution in to a
+ function.
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <YTsXXxtQn7QN6nIm@user> <20210910090045.GD7203@kadam>
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+Message-ID: <a31836c3-6999-339b-32f8-5f7d7f7e5b27@gmail.com>
+Date: Fri, 10 Sep 2021 22:19:03 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20210910090045.GD7203@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Monday, September 6, 2021 4:07:26 PM CEST Greg Kroah-Hartman wrote:
-> On Sun, Sep 05, 2021 at 12:00:47AM +0200, Fabio M. De Francesco wrote:
-> > Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
-> > For this purpose unify the three usb_read8/16/32 into the new
-> > usb_read(); make the latter parameterizable with 'size'; embed most of
-> > the code of usbctrl_vendorreq() into usb_read() and use in it the new
-> > usb_control_msg_recv() API of USB Core.
-> > 
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >
-> > [...]
-> > 
-> > +	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
-> > +		status = usb_control_msg_recv(udev, 0, 
-REALTEK_USB_VENQT_CMD_REQ,
-> > +					      
-REALTEK_USB_VENQT_READ, value,
-> > +					      
-REALTEK_USB_VENQT_CMD_IDX, io_buf,
-> > +					      size, 
-RTW_USB_CONTROL_MSG_TIMEOUT,
-> > +					      GFP_KERNEL);
-> > +		if (!status) {   /*  Success this control transfer. */
+
+
+On 10/09/21 2:30 pm, Dan Carpenter wrote:
 > 
-> Comments go on the next line.
+> On Fri, Sep 10, 2021 at 01:59:19PM +0530, Saurav Girepunje wrote:
+>> In rtl8712_cmd.c function read_macreg_hdl,write_macreg_hdl,write_bbreg_hdl
+>> and write_rfreg_hdl all are having same execution.
 > 
-> > +			rtw_reset_continual_urb_error(dvobjpriv);
-> > +			memcpy(data, io_buf, size);
-> > +		} else { /*  error cases */
+> I get what you're trying to do, because this code is bad and duplicative
+> but this is not the right fix.
 > 
-> Again, next line for the comment.
+> Let's take read_macreg_hdl() as an example.
 > 
-> > +			DBG_88E("reg 0x%x, usb %s %u fail, status:
-%d vendorreq_times:%d\n",
-> > +				value, "read", size, status, 
-vendorreq_times);
+> Look at how it's called:
 > 
-> These should be removed eventually...
+>     215          switch (pcmd->cmdcode) {
+>     216          case GEN_CMD_CODE(_Read_MACREG):
+>     217                  read_macreg_hdl(padapter, (u8 *)pcmd);
+>     218                  pcmd_r = pcmd;
+>     219                  break;
 > 
-> > +
-> > +			if (status == (-ESHUTDOWN) || status == -
-ENODEV) {
-> > +				adapt->bSurpriseRemoved = true;
+> Then look at how it's implemented:
 > 
-> Odd, but ok...
+>     120  static u8 read_macreg_hdl(struct _adapter *padapter, u8 *pbuf)
+>     121  {
+>     122          void (*pcmd_callback)(struct _adapter *dev, struct cmd_obj      *pcmd);
+>     123          struct cmd_obj *pcmd  = (struct cmd_obj *)pbuf;
+>     124
+>     125          /*  invoke cmd->callback function */
+>     126          pcmd_callback = cmd_callback[pcmd->cmdcode].callback;
+> 
+> So pcmd->cmdcode is GEN_CMD_CODE(_Read_MACREG).  We look that up in the
+> cmd_callback[] array and it is:
+> 
+>          {GEN_CMD_CODE(_Read_MACREG), NULL}, /*0*/
+> 
+>     127          if (!pcmd_callback)
+>     128                  r8712_free_cmd_obj(pcmd);
+> 
+> So now we no that "pcmd_callback" is NULL meaning it will free "pcmd".
+> And if you remember in the caller it does "pcmd_r = pcmd;" but "pcmd"
+> is freed so that's going to lead to a use after free in r8712_cmd_thread().
+> It's garbage and the patch doesn't really help.
 
-I'm not so sure that it is OK. Please correct me if I'm wrong...
+One more thought here after the
 
-The calls chain from usb_control_msg_recv() seems to be the following:
+     127          if (!pcmd_callback)
+     128                  r8712_free_cmd_obj(pcmd);
 
-usb_control_msg_recv/send()
-        -> usb_control_msg()
-                -> usb_internal_control_msg()
-                        -> usb_start_wait_urb()
-                                -> usb_submit_urb()
+r8712_free_cmd_obj(pcmd); we could do  pcmd = NULL; so in the caller 
+when it will do "pcmd_r = pcmd;" it is actually making NULL to pcmd_r. 
+On r8712_cmd_thread there is check for pcmd is NULL or not before 
+execution on pcmd.
 
-Each of the above functions could fail for different reasons and if so they 
-return the errors up to the first caller into "status". I can find no lines 
-of code where the above-mentioned functions set and return -ESHUTDOWN.
+pcmd = cmd_hdl_filter(padapter, pcmd);
+	if (pcmd) { /* if pcmd != NULL, cmd will be handled by f/w */
 
-Unless I'm missing something obvious, "status" is a non-shared variable. The 
-variables that are assigned with errors in all five of the above-mentioned 
-functions are also local (non shared) variables.
-
-To summarize: how could "status" be assigned -ESHUTDOWN? Is any point in the 
-chain that value assigned by a concurrent thread to a shared variable and 
-then returned up to the caller (i.e., usb_control_msg_recv())?
-
-Since the code has this "if (status == (-ESHUTDOWN) || ...)" it expects that 
-sometimes it could be 'true', so I'm 100% sure that I can't see where my 
-argument is not valid... :(
-
-Can someone please help me to understand this topic?
-
-Thanks,
-
-Fabio
-
-
+Please let me know you thought on this dan.
 
 > 
-> > [...]
+> The right way to fix it is to get rid of the cmd_callback[] array.
+> 
+>     129          else
+>     130                  pcmd_callback(padapter, pcmd);
+>     131          return H2C_SUCCESS;
+>     132  }
+> 
+> Getting rid of the cmd_callback[] array looks like this.  In
+> read_rfreg_hdl() we know that the callback is r8712_getbbrfreg_cmdrsp_callback()
+> so we can call that directly.
+> 
+> diff --git a/drivers/staging/rtl8712/rtl8712_cmd.c b/drivers/staging/rtl8712/rtl8712_cmd.c
+> index e9294e1ed06e..51a6abb27d41 100644
+> --- a/drivers/staging/rtl8712/rtl8712_cmd.c
+> +++ b/drivers/staging/rtl8712/rtl8712_cmd.c
+> @@ -174,11 +174,7 @@ static u8 read_rfreg_hdl(struct _adapter *padapter, u8 *pbuf)
+>   
+>   	if (pcmd->rsp && pcmd->rspsz > 0)
+>   		memcpy(pcmd->rsp, (u8 *)&val, pcmd->rspsz);
+> -	pcmd_callback = cmd_callback[pcmd->cmdcode].callback;
+> -	if (!pcmd_callback)
+> -		r8712_free_cmd_obj(pcmd);
+> -	else
+> -		pcmd_callback(padapter, pcmd);
+> +	r8712_getbbrfreg_cmdrsp_callback(padapter, pcmd);
+>   	return H2C_SUCCESS;
+>   }
+>   
+> 
+> regards,
+> dan carpenter
+> 
 
+Thanks Dan for review.
 
-
+Regards,
+Saurav Girepunje
