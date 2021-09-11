@@ -1,41 +1,41 @@
 Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C260C3FD2
-	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 13:27:16 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id q26so6849625wrc.7
-        for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 06:27:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A296D3FC3
+	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 13:27:17 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id m9so6873116wrb.1
+        for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 06:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8jv3SaRimBllN++YKlTH+V3/aNHdh4o+a7TE+SifVGM=;
-        b=WTmuR1Ic0Dizf8+Liqtye5+Rf8dDv/r2YRyPtxDr6ji160UYi2LV2c5qA56MiC3XP4
-         zdOW2iFgiyI3XBrmrMeviCkhmjktz2c+RhDN67jHwl7YUoAPqh4rcusjJ0/z5o7nqIrA
-         A9RquTtjgy8SoAuTMYxc2upIapZjH+LDnZ0T5Yil/W//yBmIXvNu5nGNOL1/Q+bVLLd/
-         6FThEAPFNMVDm7oHEJ45AtDZWPXyrI2zR8QF/6PEFkE02O+GXGVxm7lXki8Gxwfy0Wbp
-         AU1qnjHsrhE6HRPJHcq4oZBjftTwsCZdnNeXijbAKwwsAHTsXV+wQWF8dAGqPHiSNrkA
-         KGJg==
+        bh=AmLUCAEYxFwcmvdkedi2Q6MG01eb0FCj6BHmjyNoRDo=;
+        b=gh5fmzaKtMLgTD+LNRL5uPZYNtP312p4MYOVdoDN/VCvW6hvhAmFbyOyPOP5U8ZgWm
+         GmQhFg2SzFDtCjzc+1lY0Pnpl9kFFDOwNqVjnhV/XwV28F8+BhmbAO3Vd8YAaGocKkIr
+         TvknVHpzHvE7KCoX1h75lNtijcfzSwEhYVinwm/p6UoP7qiZJ+P2QfvJAoOBNFFPGhT6
+         vPtkxxMTqg7OYSvCJKhKL/UrpQ7k4EXPOvI7zT23XQPeUXZAUKr4481HwjtyiPitGZgA
+         xpY8mJtG8//amnwDQCbPUGG//DaaQP4CTD1PnaZ4qGE5nVhRMCsI7ag71qr7jcDNitZ/
+         SI+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8jv3SaRimBllN++YKlTH+V3/aNHdh4o+a7TE+SifVGM=;
-        b=xr+GPC37LyE/VDT9+JUuYbA+ZSq53TeofLfG4BeoOqK92isnluDhmwCMOoUwR2Ildh
-         ofrxqgYu14DWKfe5/fueXa2Uct6Q5SN0YJu0i7sabL7Dmo4nnYOOGfB/5RiEWndTK5KD
-         dVynIW8PBotK+v3lnSD0BlKYeEQyKEqiZYaUMxbU/BczE1pr4YBHTetgiYbOMthYttDZ
-         l0JmCduqPeuND7qMAM3hOHLLgTyI/v4DAD38AmGzmH6DWECuzgyb9KKvfb98/oXn68Pt
-         SybH5shahFyVQeAevHUD/DhOCtEQMOtvUaDiVabMvvoSFWJiWz2pcaMGbRUHy2ZfzCsn
-         CEHA==
-X-Gm-Message-State: AOAM532I5wylOLNRnm8i7Hk2JhyOzYu7y1vawOlJRjOkopeACxBTq+Cx
-	Oj6u/LDx4Rw9Bqfg+VamcNw=
-X-Google-Smtp-Source: ABdhPJyzhEh86wwW3pEQrZ5IyDsuL33ZfgoZs/hu2OifhnfFg9OfybAoyO7Hk0ZzwkfbRcrBxaWAKA==
-X-Received: by 2002:a05:6000:160d:: with SMTP id u13mr3201239wrb.17.1631366835236;
-        Sat, 11 Sep 2021 06:27:15 -0700 (PDT)
+        bh=AmLUCAEYxFwcmvdkedi2Q6MG01eb0FCj6BHmjyNoRDo=;
+        b=0A630QNFglpM0gwGHEIPz9fqnWCAAKjKiIrmIFpXtwt1Ov+RNFYB9ff6X6LrOgIo5R
+         nztAi1QgU+2y194dhdQ9e22+1uO9gPwy4yPEN2tDbit77AnHuWhTyyc9PcXSN9pniF62
+         2n41LlcjYoU+9Nn+GKCNvWkSaFJOxsRW296jbsZS55Qf5902r63p4rMYNhuDpPYctHXv
+         nrumBkNts4TIgiqGCibnvXY8sGY6NkJQJmZxuWzHPSPusa/Yya13c07VB/HBA/TxyNIu
+         Z6PR/v4aXcl5ayVVFeQ04EDMVVYqWYREU7bQySGmCEyX2gcm7KRNzuc7NvPizhkOkmf4
+         C07A==
+X-Gm-Message-State: AOAM530Y+gPFJOzr/LljQ2j+3NmHlCNjahTDzt9rXqdOJnjX43ZmMwut
+	JR2Q9u5iG6djkoJzO36mFaw=
+X-Google-Smtp-Source: ABdhPJzmLtRALLCbQiIs7tIlzevcAi6M2JWuEQVzxfm0jn4DPuJ+1LBl+VRnvTopetmb2sKsLKjt1Q==
+X-Received: by 2002:a5d:534c:: with SMTP id t12mr3179404wrv.219.1631366836171;
+        Sat, 11 Sep 2021 06:27:16 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id 48sm1770253wrc.14.2021.09.11.06.27.14
+        by smtp.gmail.com with ESMTPSA id 48sm1770253wrc.14.2021.09.11.06.27.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Sep 2021 06:27:14 -0700 (PDT)
+        Sat, 11 Sep 2021 06:27:15 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 12/18] staging: r8188eu: remove unused ODM_SetTimer()
-Date: Sat, 11 Sep 2021 15:26:29 +0200
-Message-Id: <20210911132635.30369-13-straube.linux@gmail.com>
+Subject: [PATCH 13/18] staging: r8188eu: remove unused ODM_Read2Byte()
+Date: Sat, 11 Sep 2021 15:26:30 +0200
+Message-Id: <20210911132635.30369-14-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210911132635.30369-1-straube.linux@gmail.com>
 References: <20210911132635.30369-1-straube.linux@gmail.com>
@@ -59,44 +59,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function ODM_SetTimer() is unused, remove it.
+Function ODM_Read2Byte() is unused, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm_interface.c     | 5 -----
- drivers/staging/r8188eu/include/odm_interface.h | 3 ---
+ drivers/staging/r8188eu/hal/odm_interface.c     | 6 ------
+ drivers/staging/r8188eu/include/odm_interface.h | 2 --
  2 files changed, 8 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm_interface.c b/drivers/staging/r8188eu/hal/odm_interface.c
-index 7fd450575eb4..31888a6dd9a8 100644
+index 31888a6dd9a8..987fad541337 100644
 --- a/drivers/staging/r8188eu/hal/odm_interface.c
 +++ b/drivers/staging/r8188eu/hal/odm_interface.c
-@@ -114,11 +114,6 @@ void ODM_sleep_ms(u32 ms)
- 	msleep(ms);
+@@ -10,12 +10,6 @@ u8 ODM_Read1Byte(struct odm_dm_struct *pDM_Odm, u32 RegAddr)
+ 	return rtw_read8(Adapter, RegAddr);
  }
  
--void ODM_SetTimer(struct odm_dm_struct *pDM_Odm, struct timer_list *pTimer, u32 msDelay)
+-u16 ODM_Read2Byte(struct odm_dm_struct *pDM_Odm, u32 RegAddr)
 -{
--	_set_timer(pTimer, msDelay); /* ms */
+-	struct adapter *Adapter = pDM_Odm->Adapter;
+-	return rtw_read16(Adapter, RegAddr);
 -}
 -
- void ODM_CancelTimer(struct odm_dm_struct *pDM_Odm, struct timer_list *pTimer)
+ u32 ODM_Read4Byte(struct odm_dm_struct *pDM_Odm, u32 RegAddr)
  {
- 	_cancel_timer_ex(pTimer);
+ 	struct adapter *Adapter = pDM_Odm->Adapter;
 diff --git a/drivers/staging/r8188eu/include/odm_interface.h b/drivers/staging/r8188eu/include/odm_interface.h
-index f6c23fd9b31b..ce9e4d8b6830 100644
+index ce9e4d8b6830..e87ee60005c8 100644
 --- a/drivers/staging/r8188eu/include/odm_interface.h
 +++ b/drivers/staging/r8188eu/include/odm_interface.h
-@@ -104,9 +104,6 @@ void ODM_delay_us(u32 us);
+@@ -62,8 +62,6 @@ typedef void (*RT_WORKITEM_CALL_BACK)(void *pContext);
  
- void ODM_sleep_ms(u32 ms);
+ u8 ODM_Read1Byte(struct odm_dm_struct *pDM_Odm, u32 RegAddr);
  
--void ODM_SetTimer(struct odm_dm_struct *pDM_Odm, struct timer_list *pTimer,
--		  u32 msDelay);
+-u16 ODM_Read2Byte(struct odm_dm_struct *pDM_Odm, u32 RegAddr);
 -
- void ODM_InitializeTimer(struct odm_dm_struct *pDM_Odm,
- 			 struct timer_list *pTimer, void *CallBackFunc,
- 			 void *pContext, const char *szID);
+ u32 ODM_Read4Byte(struct odm_dm_struct *pDM_Odm, u32 RegAddr);
+ 
+ void ODM_Write1Byte(struct odm_dm_struct *pDM_Odm, u32 RegAddr, u8 Data);
 -- 
 2.33.0
 
