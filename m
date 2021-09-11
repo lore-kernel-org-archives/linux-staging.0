@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D35C3FD7
-	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 16:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DF73FD7
+	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 16:10:35 +0000 (UTC)
 Received: from dslb-084-059-243-091.084.059.pools.vodafone-ip.de ([84.59.243.91] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mP5aJ-0007nr-HW; Sat, 11 Sep 2021 18:10:31 +0200
+	id 1mP5aK-0007nr-Sf; Sat, 11 Sep 2021 18:10:32 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/4] staging: r8188eu: remove rtw_hw_suspend
-Date: Sat, 11 Sep 2021 18:10:18 +0200
-Message-Id: <20210911161019.26881-4-martin@kaiser.cx>
+Subject: [PATCH 4/4] staging: r8188eu: remove rtw_hw_resume
+Date: Sat, 11 Sep 2021 18:10:19 +0200
+Message-Id: <20210911161019.26881-5-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210911161019.26881-1-martin@kaiser.cx>
 References: <20210911161019.26881-1-martin@kaiser.cx>
@@ -30,96 +30,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The bHWPwrPindetect cleanup removed the only call to rtw_hw_suspend.
+The bHWPwrPindetect cleanup removed the only call to rtw_hw_resume.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
  drivers/staging/r8188eu/include/osdep_intf.h |  1 -
- drivers/staging/r8188eu/os_dep/usb_intf.c    | 59 --------------------
- 2 files changed, 60 deletions(-)
+ drivers/staging/r8188eu/os_dep/usb_intf.c    | 39 --------------------
+ 2 files changed, 40 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
-index 3ea60feee2db..5a2c7a98f023 100644
+index 5a2c7a98f023..da36770852f8 100644
 --- a/drivers/staging/r8188eu/include/osdep_intf.h
 +++ b/drivers/staging/r8188eu/include/osdep_intf.h
-@@ -58,7 +58,6 @@ void rtw_ips_dev_unload(struct adapter *padapter);
+@@ -58,6 +58,5 @@ void rtw_ips_dev_unload(struct adapter *padapter);
  
  int rtw_ips_pwr_up(struct adapter *padapter);
  void rtw_ips_pwr_down(struct adapter *padapter);
--int rtw_hw_suspend(struct adapter *padapter);
- int rtw_hw_resume(struct adapter *padapter);
+-int rtw_hw_resume(struct adapter *padapter);
  
  #endif	/* _OSDEP_INTF_H_ */
 diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index fc5ed770cb71..f532dab0254c 100644
+index f532dab0254c..da381f42f3f6 100644
 --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
 +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -278,65 +278,6 @@ static void process_spec_devid(const struct usb_device_id *pdid)
+@@ -278,45 +278,6 @@ static void process_spec_devid(const struct usb_device_id *pdid)
  	}
  }
  
--int rtw_hw_suspend(struct adapter *padapter)
+-int rtw_hw_resume(struct adapter *padapter)
 -{
--	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
+-	struct pwrctrl_priv *pwrpriv;
 -	struct net_device *pnetdev = padapter->pnetdev;
 -
--	if ((!padapter->bup) || (padapter->bDriverStopped) ||
--	    (padapter->bSurpriseRemoved)) {
--		DBG_88E("padapter->bup=%d bDriverStopped=%d bSurpriseRemoved = %d\n",
--			padapter->bup, padapter->bDriverStopped,
--			padapter->bSurpriseRemoved);
+-	if (!padapter)
+-		goto error_exit;
+-	pwrpriv = &padapter->pwrctrlpriv;
+-	DBG_88E("==> rtw_hw_resume\n");
+-	_enter_pwrlock(&pwrpriv->lock);
+-	pwrpriv->bips_processing = true;
+-	rtw_reset_drv_sw(padapter);
+-
+-	if (pm_netdev_open(pnetdev, false) != 0) {
+-		_exit_pwrlock(&pwrpriv->lock);
 -		goto error_exit;
 -	}
 -
--	LeaveAllPowerSaveMode(padapter);
+-	netif_device_attach(pnetdev);
+-	netif_carrier_on(pnetdev);
 -
--	DBG_88E("==> rtw_hw_suspend\n");
--	_enter_pwrlock(&pwrpriv->lock);
--	pwrpriv->bips_processing = true;
--	/* s1. */
--	if (pnetdev) {
--		netif_carrier_off(pnetdev);
--		rtw_netif_stop_queue(pnetdev);
--	}
+-	if (!netif_queue_stopped(pnetdev))
+-		netif_start_queue(pnetdev);
+-	else
+-		netif_wake_queue(pnetdev);
 -
--	/* s2. */
--	rtw_disassoc_cmd(padapter, 500, false);
+-	pwrpriv->bkeepfwalive = false;
 -
--	/* s2-2.  indicate disconnect to os */
--	{
--		struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
--
--		if (check_fwstate(pmlmepriv, _FW_LINKED)) {
--			_clr_fwstate_(pmlmepriv, _FW_LINKED);
--
--			rtw_led_control(padapter, LED_CTL_NO_LINK);
--
--			rtw_os_indicate_disconnect(padapter);
--
--			/* donnot enqueue cmd */
--			rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_DISCONNECT, 0);
--		}
--	}
--	/* s2-3. */
--	rtw_free_assoc_resources(padapter, 1);
--
--	/* s2-4. */
--	rtw_free_network_queue(padapter, true);
--	rtw_ips_dev_unload(padapter);
--	pwrpriv->rf_pwrstate = rf_off;
+-	pwrpriv->rf_pwrstate = rf_on;
 -	pwrpriv->bips_processing = false;
 -
 -	_exit_pwrlock(&pwrpriv->lock);
--	return 0;
 -
+-	return 0;
 -error_exit:
--	DBG_88E("%s, failed\n", __func__);
+-	DBG_88E("%s, Open net dev failed\n", __func__);
 -	return -1;
 -}
 -
- int rtw_hw_resume(struct adapter *padapter)
+ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
  {
- 	struct pwrctrl_priv *pwrpriv;
+ 	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
 -- 
 2.20.1
 
