@@ -1,91 +1,108 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C803FC3
-	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 09:39:01 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id q26so6268235wrc.7
-        for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 02:39:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0FF3FC3
+	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 10:24:12 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id q26so6379172wrc.7
+        for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 03:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BzfT+8mL4lnIIztKWMb14N98BJQF3dCybA3fCPHp1cA=;
-        b=GRi0/295tLKKHZERq1UUtuATtq1NANk8QB3E7eoQhEGkmqpdMOVzq29PGKefr6Yz77
-         94cq5nrm0Li3BgK3DWODFJB+ybgOtNgqpVXx9IBOqJPF03D6mrE82XR4i1JaZ3a/Y7Hq
-         PBPmKmVOEJTiB4D9bxKvd8Nm6LNmMsRfGV8bOzZHK7NsvQSJVvPJ4WHkzda0bKQXd+0e
-         Ir9DcsTJo6odp49jWRgqaflCUMQst6ynQIEU5DzfVoGPt1l4jPI3kyJCkvpOtYEbAP1r
-         OOQMtUpCuaGRzu+3khcBhykNxqVNGBJdLtkFX40H/Gi8qbaOFNYgDvuqtU9ZRHqdwGRb
-         s0uQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=YqGDZZMJKPugLbHU1Z+KSXD5nBkqoBERs7vHAT2/hzo=;
+        b=Q3l5j9tTDRzH0acAC7NMkA87vTfP4ro0ABYJMQakGilztDnr3CkxusgQKX7HvQNAXT
+         DVza84wZe+jYqKzSiq0mU+89Q0RbjbmGKF5Y5iOtRqMeJ0KeGimOUI3oZb0JKyNWa1Q2
+         rMWintNWJy243GdKTPUdn5PykLQqmvGqB3RgP5ar0wqlqTm9iLH0wa8D3uE0227MTDdj
+         DGvDGamsp+WH9QzV7HweU+X3u+K1hk6yRX4S42LExH3rnE6qvs5k23wZJRlp7q4/YsNq
+         Es6YtM0pc/0s20yv5ITHqCFwZ08O79zHLaDlWVueM/s8YN+jaQ1d9wP4f3hvtIMgiem5
+         PqaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BzfT+8mL4lnIIztKWMb14N98BJQF3dCybA3fCPHp1cA=;
-        b=la+JmxacuPERfz5Xl5SmNDsusxW60lFrIHkwlLYYQX5hek4C/DiXSFfTsQ1eLkO2Ja
-         9xt4dvws8kX9geyakY9mO2kqW7ZlLl74i8V0JSnXej5IsOxE0YdKAj1U6bqlS2m30la8
-         4l1sRuYaRH4LDK/PtasjhSBabqqWqs17UEJVe5RMwsSRdC1n7VeUbB8gx1Y2Lp043khl
-         iwtiDm8wxUN1bcykyTswqhvXpwLXXueK7Y781+BCalPRqzJdmywldhdorGmJnp1JAi3/
-         EWb7bEYNCYE7kCakOUSHTpMwpgspqSrcU+zPIQQ29i5E2ez3rZJDrcatwEC6h6oMdnjY
-         vwgA==
-X-Gm-Message-State: AOAM530reQR88WmbGffQrHSFmBg9bpCjQwFPdbjajul8jFig5U77J8nu
-	zvsk1Tsa4w2MCOhqxsecuPE=
-X-Google-Smtp-Source: ABdhPJwrQAMC22waHM9G7/C6yt2NkNgHcg9+tAxqYf1Qw1czq8VoYwnRAlFkG5E9HWP8dABbUPjyLQ==
-X-Received: by 2002:adf:cf05:: with SMTP id o5mr2261763wrj.270.1631353139351;
-        Sat, 11 Sep 2021 02:38:59 -0700 (PDT)
-Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
-        by smtp.gmail.com with ESMTPSA id j20sm1231871wrb.5.2021.09.11.02.38.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Sep 2021 02:38:58 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org, Michael Straube <straube.linux@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>
-Subject: Re: [PATCH 0/7] remove pointers from struct hal_ops
-Date: Sat, 11 Sep 2021 11:38:57 +0200
-Message-ID: <1858319.rr7sHpn3up@localhost.localdomain>
-In-Reply-To: <20210910205033.3778-1-straube.linux@gmail.com>
-References: <20210910205033.3778-1-straube.linux@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=YqGDZZMJKPugLbHU1Z+KSXD5nBkqoBERs7vHAT2/hzo=;
+        b=tdAgD3RYqmvaDCQx+lig9mCchWoxhpMLLISoNwvyA3457nFSWvvtNZlkgvQc4sJ8Qj
+         tarsnKds9R++UmxSVLxtP85PyTbliXvId6tkMO6uvm0z48saLfAGrNB7jg+nQPEToab3
+         Xkcj8THgSfeti0wUBSdtojlP3m1JUeQMynIEtUuJaKUCI414oehRfjHAwWjATGByUl++
+         +tATNfZJ209zjRQPVWzY4zPWjKH/4z1D4QbTRgkIut+vh7bcbT0Lns2jdp008K8itGF/
+         egu7YJfliTCIZFcrICQjXDxvGx23fWSTNSkslZMuxkOg6qUwqXWaMNymX2wb4I9eXTdU
+         j1rQ==
+X-Gm-Message-State: AOAM533Jcac24QaioXpBC0SNgOvIOOMnJJrPAoJBxRmYlvqrWasiOk7f
+	zP51ylWQ3VGb+WNt4xQW1TM=
+X-Google-Smtp-Source: ABdhPJyWawzrPoeggbJueCiuR65y3mZN0kFClQFojNFf0Y5ecIXX1lCT5YBC2k4SQ3hHh7qDvMGKPQ==
+X-Received: by 2002:adf:ee49:: with SMTP id w9mr2476358wro.158.1631355850945;
+        Sat, 11 Sep 2021 03:24:10 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::8fe1? ([2a02:8108:96c0:3b88::8fe1])
+        by smtp.gmail.com with ESMTPSA id u2sm1213238wmj.29.2021.09.11.03.24.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Sep 2021 03:24:10 -0700 (PDT)
+Message-ID: <296aa357-1bba-4136-c651-a18d04c8d32a@gmail.com>
+Date: Sat, 11 Sep 2021 12:24:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH 0/7] remove pointers from struct hal_ops
+Content-Language: en-US
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210910205033.3778-1-straube.linux@gmail.com>
+ <1858319.rr7sHpn3up@localhost.localdomain>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <1858319.rr7sHpn3up@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Friday, September 10, 2021 10:50:26 PM CEST Michael Straube wrote:
-> This series removes some more pointers from struct hal_ops and
-> removes the function rtl8188e_set_hal_ops() that is empty after
-> the removals.
+On 9/11/21 11:38, Fabio M. De Francesco wrote:
+> On Friday, September 10, 2021 10:50:26 PM CEST Michael Straube wrote:
+>> This series removes some more pointers from struct hal_ops and
+>> removes the function rtl8188e_set_hal_ops() that is empty after
+>> the removals.
+>>
+>> Michael Straube (7):
+>>    staging: r8188eu: remove mgnt_xmit from struct hal_ops
+>>    staging: r8188eu: remove hal_xmit from struct hal_ops
+>>    staging: r8188eu: remove read_bbreg from struct hal_ops
+>>    staging: r8188eu: remove write_bbreg from struct hal_ops
+>>    staging: r8188eu: remove read_rfreg from struct hal_ops
+>>    staging: r8188eu: remove write_rfreg from struct hal_ops
+>>    staging: r8188eu: remove rtl8188e_set_hal_ops()
+>>
 > 
-> Michael Straube (7):
->   staging: r8188eu: remove mgnt_xmit from struct hal_ops
->   staging: r8188eu: remove hal_xmit from struct hal_ops
->   staging: r8188eu: remove read_bbreg from struct hal_ops
->   staging: r8188eu: remove write_bbreg from struct hal_ops
->   staging: r8188eu: remove read_rfreg from struct hal_ops
->   staging: r8188eu: remove write_rfreg from struct hal_ops
->   staging: r8188eu: remove rtl8188e_set_hal_ops()
+> Hi Michael,
+> 
+> This series is good.
+> 
+> Furthermore, I compiled the whole series with gcc version 11.2.1 2020816
+> [revision 056e324ce46a7924b5cf10f61010cf9dd2ca10e9] (SUSE Linux) one
+> patch at a time. There are no errors or warnings at any time in any of the
+> seven builds.
+> 
+> But, unfortunately, I have no time to test. So the whole series is...
+> 
+> Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> 
+> Thanks,
+> 
+> Fabio
 > 
 
-Hi Michael,
+Hi Fabio,
 
-This series is good.
+thank you for the review. I have tested it on x86_64 with
+Inter-Tech DMG-02 connected to a CCMP network without any
+issues.
 
-Furthermore, I compiled the whole series with gcc version 11.2.1 2020816 
-[revision 056e324ce46a7924b5cf10f61010cf9dd2ca10e9] (SUSE Linux) one 
-patch at a time. There are no errors or warnings at any time in any of the 
-seven builds.
-
-But, unfortunately, I have no time to test. So the whole series is...
-
-Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+Perhaps I should have mentioned that in the cover letter. ;)
 
 Thanks,
 
-Fabio
-
-
-
-
+Michael
 
