@@ -1,104 +1,95 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DF73FD7
-	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 16:10:35 +0000 (UTC)
-Received: from dslb-084-059-243-091.084.059.pools.vodafone-ip.de ([84.59.243.91] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mP5aK-0007nr-Sf; Sat, 11 Sep 2021 18:10:32 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 4/4] staging: r8188eu: remove rtw_hw_resume
-Date: Sat, 11 Sep 2021 18:10:19 +0200
-Message-Id: <20210911161019.26881-5-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210911161019.26881-1-martin@kaiser.cx>
-References: <20210911161019.26881-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB783FC3
+	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 18:33:55 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id e26so3550802wmk.2
+        for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 11:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=0nDMZoA1FmymyOsMekWRkgrfqA9nLfGofhzBu5s0MiI=;
+        b=lTKs2xhrL5zclQgutYhmmfMvqsqaUIG0DtKRqGRztp69Ry+Y/Ly4mtYA+U3Ier8boq
+         /feLd2L/Io4fnF8u6wGMevYTc1h0tjm5sRRHqXLfZ1UM7Bzhu/VgaxE21WmTEfGVpNsY
+         nw9SEX/qXFFfPY3Cq2UEwW4ScWLEzFCwufzi41kzn0LMQ5BX1sFd5Z7vDSAjU52R1vmO
+         TG7QBxgSKVMMSLvlvTWOWbs+KPCz+Z/3wWDaceZJUFTRD1OzmZzRTg/TNO5nkfLrJqNt
+         ImgbRtOxFi52e+IDjmqZkik3EPzTvBNb9FKYPTQBhuEr3LiN9m2uF/53d683yWKGmg94
+         sNgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=0nDMZoA1FmymyOsMekWRkgrfqA9nLfGofhzBu5s0MiI=;
+        b=aVtQvL8DkzA2F/GCpnI0ARYLcnX5iJlUTN2RtxSPJe/Ss5n5Ame3ZP4FRYisREPWn6
+         3R4S53UtmAveqxbJK6RarfdMY/6UD0DBozPqRq61Q09M6A1Zxu+pAnCUAV5KFkQDkhMR
+         7aDMR08vP1s4gMM8eG/jlE3pH5Y3mpVu0srfjeXRQmHI5o+NETWFJMMGYdQx0tX9xG+/
+         q37KHyO3jwsJoMruEeaNwr5G+xDtY/SqnXKC240eRuERkCP1J+hYY/DjHDDGk1Tw9y95
+         IGAwFPYsqh3YzWosrP0q+nAugDCeiYYDqW2Hn3KQ8iOgP2GilzQYuZqzcFWRJ9awqZCp
+         YqCw==
+X-Gm-Message-State: AOAM532y0NFYTStanXa6typPWIPGsyrd1Po7aJupohjhHPJSbNHW3U+7
+	PPxSwy3FJ1DxYpRTfIT6yyg=
+X-Google-Smtp-Source: ABdhPJyWAGMJesUMUT3+5oJPXd29WZJB2b4c/5/aTfnVVOvjgMbIMMTjm05p8qbgThq3sV35Nbkg8A==
+X-Received: by 2002:a05:600c:2250:: with SMTP id a16mr3659235wmm.72.1631385234320;
+        Sat, 11 Sep 2021 11:33:54 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::1db2? ([2a02:8108:96c0:3b88::1db2])
+        by smtp.gmail.com with ESMTPSA id l7sm2111273wmp.48.2021.09.11.11.33.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Sep 2021 11:33:53 -0700 (PDT)
+Message-ID: <760ac39a-5562-cac5-0b7b-e42f6628743c@gmail.com>
+Date: Sat, 11 Sep 2021 20:33:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH 05/12] staging: r8188eu: remove rtw_set_rpwm
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210911141521.24901-1-martin@kaiser.cx>
+ <20210911141521.24901-6-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20210911141521.24901-6-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The bHWPwrPindetect cleanup removed the only call to rtw_hw_resume.
+On 9/11/21 16:15, Martin Kaiser wrote:
+> After we dropped the call to set HW_VAR_SET_RPWM, the rtw_set_rpwm
+> function doesn't do anything useful.
+> 
+> Remove the function and the rpwm component of struct pwrctrl_priv,
+> which is not used outside of rtw_set_rpwm.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>   .../realtek/rtl8192cu/include/rtw_pwrctrl.h   |  1 -
+>   drivers/staging/r8188eu/core/rtw_pwrctrl.c    | 34 -------------------
+>   drivers/staging/r8188eu/include/rtw_pwrctrl.h |  2 --
+>   3 files changed, 37 deletions(-)
+> 
+> diff --git a/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h b/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h
+> index a4cb292e1aea..303df55c521a 100644
+> --- a/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h
+> +++ b/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h
+> @@ -309,7 +309,6 @@ extern void cpwm_int_hdl(PADAPTER padapter, struct reportpwrstate_parm *preportp
+>   #endif
+>
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/include/osdep_intf.h |  1 -
- drivers/staging/r8188eu/os_dep/usb_intf.c    | 39 --------------------
- 2 files changed, 40 deletions(-)
+The patch does not apply to staging-testing.
 
-diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
-index 5a2c7a98f023..da36770852f8 100644
---- a/drivers/staging/r8188eu/include/osdep_intf.h
-+++ b/drivers/staging/r8188eu/include/osdep_intf.h
-@@ -58,6 +58,5 @@ void rtw_ips_dev_unload(struct adapter *padapter);
- 
- int rtw_ips_pwr_up(struct adapter *padapter);
- void rtw_ips_pwr_down(struct adapter *padapter);
--int rtw_hw_resume(struct adapter *padapter);
- 
- #endif	/* _OSDEP_INTF_H_ */
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index f532dab0254c..da381f42f3f6 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -278,45 +278,6 @@ static void process_spec_devid(const struct usb_device_id *pdid)
- 	}
- }
- 
--int rtw_hw_resume(struct adapter *padapter)
--{
--	struct pwrctrl_priv *pwrpriv;
--	struct net_device *pnetdev = padapter->pnetdev;
--
--	if (!padapter)
--		goto error_exit;
--	pwrpriv = &padapter->pwrctrlpriv;
--	DBG_88E("==> rtw_hw_resume\n");
--	_enter_pwrlock(&pwrpriv->lock);
--	pwrpriv->bips_processing = true;
--	rtw_reset_drv_sw(padapter);
--
--	if (pm_netdev_open(pnetdev, false) != 0) {
--		_exit_pwrlock(&pwrpriv->lock);
--		goto error_exit;
--	}
--
--	netif_device_attach(pnetdev);
--	netif_carrier_on(pnetdev);
--
--	if (!netif_queue_stopped(pnetdev))
--		netif_start_queue(pnetdev);
--	else
--		netif_wake_queue(pnetdev);
--
--	pwrpriv->bkeepfwalive = false;
--
--	pwrpriv->rf_pwrstate = rf_on;
--	pwrpriv->bips_processing = false;
--
--	_exit_pwrlock(&pwrpriv->lock);
--
--	return 0;
--error_exit:
--	DBG_88E("%s, Open net dev failed\n", __func__);
--	return -1;
--}
--
- static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
- {
- 	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
--- 
-2.20.1
+Looks to me that the change in
 
+.../realtek/rtl8192cu/include/rtw_pwrctrl.h
+
+made it into this patch by accident?
+
+Thanks,
+Michael
