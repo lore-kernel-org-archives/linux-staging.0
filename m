@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC1A3FD2
-	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 14:16:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FC53FC3
+	for <linux-staging@lists.linux.dev>; Sat, 11 Sep 2021 14:16:05 +0000 (UTC)
 Received: from dslb-084-059-243-091.084.059.pools.vodafone-ip.de ([84.59.243.91] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mP3nV-0006bt-NX; Sat, 11 Sep 2021 16:16:01 +0200
+	id 1mP3nW-0006bt-MM; Sat, 11 Sep 2021 16:16:02 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 04/12] staging: r8188eu: remove write-only variable tog
-Date: Sat, 11 Sep 2021 16:15:13 +0200
-Message-Id: <20210911141521.24901-5-martin@kaiser.cx>
+Subject: [PATCH 05/12] staging: r8188eu: remove rtw_set_rpwm
+Date: Sat, 11 Sep 2021 16:15:14 +0200
+Message-Id: <20210911141521.24901-6-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210911141521.24901-1-martin@kaiser.cx>
 References: <20210911141521.24901-1-martin@kaiser.cx>
@@ -30,48 +30,117 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tog in struct pwrctrl_priv is never read. Remove it.
+After we dropped the call to set HW_VAR_SET_RPWM, the rtw_set_rpwm
+function doesn't do anything useful.
+
+Remove the function and the rpwm component of struct pwrctrl_priv,
+which is not used outside of rtw_set_rpwm.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_pwrctrl.c    | 4 ----
- drivers/staging/r8188eu/include/rtw_pwrctrl.h | 1 -
- 2 files changed, 5 deletions(-)
+ .../realtek/rtl8192cu/include/rtw_pwrctrl.h   |  1 -
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    | 34 -------------------
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h |  2 --
+ 3 files changed, 37 deletions(-)
 
+diff --git a/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h b/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h
+index a4cb292e1aea..303df55c521a 100644
+--- a/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h
++++ b/drivers/net/wireless/realtek/rtl8192cu/include/rtw_pwrctrl.h
+@@ -309,7 +309,6 @@ extern void cpwm_int_hdl(PADAPTER padapter, struct reportpwrstate_parm *preportp
+ #endif
+ 
+ extern void rtw_set_ps_mode(_adapter * padapter, u8 ps_mode, u8 smart_ps);
+-extern void rtw_set_rpwm(_adapter * padapter, u8 val8);
+ extern void LeaveAllPowerSaveMode(PADAPTER Adapter);
+ #ifdef CONFIG_IPS
+ void _ips_enter(_adapter * padapter);
 diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index 2a0ee3aac700..86841093caa8 100644
+index 86841093caa8..5b4cd8e738db 100644
 --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
 +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-@@ -213,8 +213,6 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
+@@ -186,35 +186,6 @@ static void pwr_state_check_handler(struct timer_list *t)
+ 	rtw_ps_cmd(padapter);
+ }
+ 
+-/*
+- *
+- * Parameters
+- *	padapter
+- *	pslv			power state level, only could be PS_STATE_S0 ~ PS_STATE_S4
+- *
+- */
+-void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
+-{
+-	struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
+-
+-	pslv = PS_STATE(pslv);
+-
+-	if (pwrpriv->rpwm == pslv)
+-		return;
+-
+-	if ((padapter->bSurpriseRemoved) ||
+-	    (!padapter->hw_init_completed)) {
+-		return;
+-	}
+-
+-	if (padapter->bDriverStopped) {
+-		if (pslv < PS_STATE_S2)
+-			return;
+-	}
+-
+-	pwrpriv->rpwm = pslv;
+-}
+-
+ static u8 PS_RDY_CHECK(struct adapter *padapter)
+ {
+ 	u32 curr_time, delta_time;
+@@ -264,7 +235,6 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
+ 		if (pwdinfo->opp_ps == 0) {
+ 			DBG_88E("rtw_set_ps_mode: Leave 802.11 power save\n");
+ 			pwrpriv->pwr_mode = ps_mode;
+-			rtw_set_rpwm(padapter, PS_STATE_S4);
+ 			rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_PWRMODE, (u8 *)(&ps_mode));
+ 			pwrpriv->bFwCurrentInPSMode = false;
+ 		}
+@@ -280,8 +250,6 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
+ 			/*  Set CTWindow after LPS */
+ 			if (pwdinfo->opp_ps == 1)
+ 				p2p_ps_wk_cmd(padapter, P2P_PS_ENABLE, 0);
+-
+-			rtw_set_rpwm(padapter, PS_STATE_S2);
+ 		}
  	}
  
- 	pwrpriv->rpwm = pslv;
--
--	pwrpriv->tog += 0x80;
- }
+@@ -416,8 +384,6 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
  
- static u8 PS_RDY_CHECK(struct adapter *padapter)
-@@ -424,8 +422,6 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
+ 	pwrctrlpriv->bFwCurrentInPSMode = false;
+ 
+-	pwrctrlpriv->rpwm = 0;
+-
+ 	pwrctrlpriv->pwr_mode = PS_MODE_ACTIVE;
  	pwrctrlpriv->smart_ps = padapter->registrypriv.smart_ps;
  	pwrctrlpriv->bcn_ant_mode = 0;
- 
--	pwrctrlpriv->tog = 0x80;
--
- 	timer_setup(&pwrctrlpriv->pwr_state_check_timer, pwr_state_check_handler, 0);
- }
- 
 diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-index c5804a48072b..5be67644ba5f 100644
+index 5be67644ba5f..08d821575755 100644
 --- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
 +++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-@@ -152,7 +152,6 @@ enum { /*  for ips_mode */
+@@ -151,7 +151,6 @@ enum { /*  for ips_mode */
+ 
  struct pwrctrl_priv {
  	struct semaphore lock;
- 	volatile u8 rpwm; /*  requested power state for fw */
--	volatile u8 tog; /*  toggling */
+-	volatile u8 rpwm; /*  requested power state for fw */
  	volatile u8 cpwm_tog; /*  toggling */
  
  	u8	pwr_mode;
+@@ -234,7 +233,6 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter);
+ 
+ void rtw_set_ps_mode(struct adapter *adapter, u8 ps_mode, u8 smart_ps,
+ 		     u8 bcn_ant_mode);
+-void rtw_set_rpwm(struct adapter *adapter, u8 val8);
+ void LeaveAllPowerSaveMode(struct adapter *adapter);
+ void ips_enter(struct adapter *padapter);
+ int ips_leave(struct adapter *padapter);
 -- 
 2.20.1
 
