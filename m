@@ -1,41 +1,41 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240AF3FC5;
-	Sun, 12 Sep 2021 08:21:04 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id g74so4301633wmg.5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C822F80;
+	Sun, 12 Sep 2021 08:21:05 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id b21-20020a1c8015000000b003049690d882so1765194wmd.5;
         Sun, 12 Sep 2021 01:21:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LT34+O2y8jlTFIaCq6B6/Rp8/2SCwO8Z1dBB/RqrE7o=;
-        b=ZbaLrC4FD3vx/1V0YKwP6kGOJvQjS+QTu7htpwg4T7cDEFVUwbEmPv6ojk6sDnGDZZ
-         KZOCeQVo/8s2dSI2B1hveQo2CIEahpxsVnSoXSKlctcIFGS0FynfUqSevuWu9pVKknsw
-         R3/qvQpPCqhMIJEnaEhaE+X2RILw0pecPN1Xn119e+ewzThGoyvblzRFYjlmWHPO43le
-         VCxzFEjf7L7/ZDjoCi8Hga8vGCPtgBdq8Jj9r972sJeYqnE4wnnpdsqgnJTCc2XJgZan
-         /4WDb1I2isOhvUZLUkzvrxs9CzCYsNrAzU2POCwhU56XCLDc89QNgjdx5pm2JfeFhS/6
-         mkyw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WPj6LXbNCWGMgslr5J8S2na/ssf54cOsK6CaQGpLv5A=;
+        b=fsg98pch/a14OEbNJXu9VqTjbbnBK2TPC6ZWLIpx/D+a5L8V/SMariJ4nvg6bJRFmI
+         bPZPLVn/EKRmFr/LnOdSE5m5t/Tcpz8Mqs43dfw9g5nkSlHVrjW3gAWeNIAwsMzcrKUL
+         NbsHDjcfE+KxOFdT5pMInpF+dZkgDGfkueRfvv50JYEU3xvW+A5mUw4hVfHLj0pVywT3
+         mOK6w/izbeiLC+H0nRQWogvTMnYBZPd44ByPvywrVFm0sEhfEFKOorpCy6gEMC5WAkbZ
+         2kAVaW/NrDoXUXtw8nk6kDHzIN/9IoFiWJSCpH5745gU3ORVi2xetU4hwSkyJTNO2H/5
+         eq4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LT34+O2y8jlTFIaCq6B6/Rp8/2SCwO8Z1dBB/RqrE7o=;
-        b=iZUHlDZN3175UM2UZ+hFmHfqNIcBDdYvODpzAwuNrK4sfxtFaBfr1s8QIYXa4HBdbo
-         70xf2z5ocatl5t3T8cYbmhCbzt5D4bNORxt8ahnO8IsblWvEkeiS73NQZPBucNa3Dk8n
-         VsgEojsyHxcTkGODoongcdFRlWq1CDIQna/oWXHv+8XuLTiUOBaFU/IhmabZFeP3PK9L
-         AuTcmo8u7vEYRO0PcxdkBnahYgFFuft3s1R5yQOT4hfjbK2EZ5OPR2wN+LogkykYIWTx
-         lRLsGLNLHIlKsqYdKhyBdSdEgloma2ob7hiNqk6MoL1Zqw8rvYWW41WKKnWOFQ63Kilh
-         3e4w==
-X-Gm-Message-State: AOAM533yojfzcoksEvoVf8/UEWFCzsWOjvv39R0aA+Vn+jGHgoTMEQZS
-	ZI0wvv75Obv10+VF4Mu07u4=
-X-Google-Smtp-Source: ABdhPJyqLnC1HxRGb9sUgb6iU1MmFNSzSyZOI+NhOigKON5velkaZkdi84vHFDZIyu/1TLAbWjzS8w==
-X-Received: by 2002:a1c:800e:: with SMTP id b14mr5923995wmd.54.1631434862589;
-        Sun, 12 Sep 2021 01:21:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WPj6LXbNCWGMgslr5J8S2na/ssf54cOsK6CaQGpLv5A=;
+        b=CtfdDsCSJrH5KL9BfaIy6vOwtqq+8aI6oLMrA0WN9gy9hPYBQ4/bVMBTisPDxs4Lsk
+         HerzgRck5YXm1X+q0A2qpwUTy0sdjYfGXM2QjBBZWGC0o2ci3419M4IiIccjY2IwTYdu
+         UqwKEspc/iK+86ABtOgNdwR98VzZgXWxWhkIiwM+9JYaoc8dMM17UOeLzW2gI8ElmksF
+         JM5CG4REQwnYma9KFuzFmM/WVvY/vyUnUuIKmZwPOuYGvLd7AvWcRT4LU+XARfWoQ9mU
+         LgZoCYD3rEIFH/Ry+OVCuKbLI0Im9AmTj+h7d/5OlPg7qypBgsmI718/RazMOvgwFUaJ
+         xotw==
+X-Gm-Message-State: AOAM5321Se/NUoXTpLusn95DlLzj+1xvlbMlg7aKqk1Ct0H66TKDuPuA
+	2mrp5iGElyLGyX/GdoD/NuA=
+X-Google-Smtp-Source: ABdhPJzTvuyKRgnTBkT2kkQi1LutRMAbSxrCCgfp9wfzImXxciiR95cPN4bNxbk6/01FqTsUApZ3QA==
+X-Received: by 2002:a1c:2313:: with SMTP id j19mr5665683wmj.189.1631434863602;
+        Sun, 12 Sep 2021 01:21:03 -0700 (PDT)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id z7sm4734148wre.72.2021.09.12.01.21.01
+        by smtp.gmail.com with ESMTPSA id z7sm4734148wre.72.2021.09.12.01.21.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 01:21:02 -0700 (PDT)
+        Sun, 12 Sep 2021 01:21:03 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	paul.kocialkowski@bootlin.com
@@ -49,10 +49,12 @@ Cc: wens@csie.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 0/2] media: cedrus: validate H264 and H265 SPS controls
-Date: Sun, 12 Sep 2021 10:20:49 +0200
-Message-Id: <20210912082051.404645-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 1/2] media: cedrus: Add H265 10-bit capability flag
+Date: Sun, 12 Sep 2021 10:20:50 +0200
+Message-Id: <20210912082051.404645-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210912082051.404645-1-jernej.skrabec@gmail.com>
+References: <20210912082051.404645-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,27 +63,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since Cedrus core doesn't support decoding all possible H264 and H265
-formats, it's good to add some validation, which would reject unsupported
-combinations.
+Currently only H6 variant supports decoding 10-bit H265 videos.
 
-Patch 1 adds H265 10-bit capability flag, currently supported only on H6.
+Add a capability flag, so driver could determine if 10-bit H265 slices
+should be allowed or not.
 
-Patch 2 adds H264/H265 SPS validation callback.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 1 +
+ drivers/staging/media/sunxi/cedrus/cedrus.h | 1 +
+ 2 files changed, 2 insertions(+)
 
-Please take a look.
-
-Best regards,
-Jernej
-
-Jernej Skrabec (2):
-  media: cedrus: Add H265 10-bit capability flag
-  media: cedrus: add check for H264 and H265 limitations
-
- drivers/staging/media/sunxi/cedrus/cedrus.c | 47 +++++++++++++++++++++
- drivers/staging/media/sunxi/cedrus/cedrus.h |  1 +
- 2 files changed, 48 insertions(+)
-
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 144286920749..e7741178465b 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -556,6 +556,7 @@ static const struct cedrus_variant sun50i_h6_cedrus_variant = {
+ 			  CEDRUS_CAPABILITY_MPEG2_DEC |
+ 			  CEDRUS_CAPABILITY_H264_DEC |
+ 			  CEDRUS_CAPABILITY_H265_DEC |
++			  CEDRUS_CAPABILITY_H265_10_DEC |
+ 			  CEDRUS_CAPABILITY_VP8_DEC,
+ 	.mod_rate	= 600000000,
+ };
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+index 9c7bfd2b6616..c345f2984041 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -32,6 +32,7 @@
+ #define CEDRUS_CAPABILITY_H264_DEC	BIT(2)
+ #define CEDRUS_CAPABILITY_MPEG2_DEC	BIT(3)
+ #define CEDRUS_CAPABILITY_VP8_DEC	BIT(4)
++#define CEDRUS_CAPABILITY_H265_10_DEC	BIT(5)
+ 
+ enum cedrus_codec {
+ 	CEDRUS_CODEC_MPEG2,
 -- 
 2.33.0
 
