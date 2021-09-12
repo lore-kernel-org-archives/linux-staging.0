@@ -1,224 +1,245 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9499C3FCF
-	for <linux-staging@lists.linux.dev>; Sun, 12 Sep 2021 17:16:19 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id u13-20020a17090abb0db0290177e1d9b3f7so4957446pjr.1
-        for <linux-staging@lists.linux.dev>; Sun, 12 Sep 2021 10:16:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664653FC3
+	for <linux-staging@lists.linux.dev>; Sun, 12 Sep 2021 20:09:34 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id u15so5262572wru.6
+        for <linux-staging@lists.linux.dev>; Sun, 12 Sep 2021 13:09:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=lGLbYa4J/EZXe/PrXpmfquP6UQajacndX8DduSJkb9I=;
-        b=YKgvivWauINumj3NILs+WLOWbIwfwmfzzsGXuXDnJPQqYcnSxtH4EOfNB/Lk2lXbe7
-         MfsY+o63JXNAugUbkqfy4CpTFV/TuJz9A59QUfUqJ9MANUKEDj48UIYCUZRIec1sqA0J
-         KOYXmeHxJIc/GPa1oW2K/Crsn5yR0N8N9c8GOsAJyWqWGDK0YenCCLSW4j9Tp1QZD1n6
-         NWpCr+1z145CftO0/VHxTxJlb6vknLt+gCIjvklTWqhsnBKalWIE15sJaWjgVTbvWRW6
-         wBbylM7CEU9azHaU7HVIG3KWwtPVJ/DtLEz/IajS+8IaZp07nKWsraFIeNjxA8Mz0w00
-         Xx1Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fiqPbDCwFmlbxuuQ8fWiazbK8+HJRDKZSDH45j5yDS4=;
+        b=THwDQW5aW0tqS6hx7IbEh4k3R6LOg61YJp4dnkYQ0rdPvyVHzJXXIOpL2+LusxvMfe
+         a4wrGLBOOr3Diq7eVvzWwFTfU9NRkOXi4vbtd8Qpke8OuPNPvFTR2y6y3CuEfRrI5oC9
+         uTm7qvw6IKca1gnycpnH/2kw1QRLZCrc8lDSyol8PKdMJ+qDBw912wpsyS9H8SF79xZ5
+         4ecuFobb7f4TheRTr7knx28d+twYQ8LzYcwQY/i/Ji6/N75JZwhhgeHtILkg7bH4aG29
+         udp1ydDMxBKGq/VR7UnS9J5xRZHrPvHiJDNbzZK3mdc3ZVE24yGr8nKj/lusGr1/KDmj
+         Fbeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=lGLbYa4J/EZXe/PrXpmfquP6UQajacndX8DduSJkb9I=;
-        b=dsjlS6Yt5yT6QXukLjoVhNtxetbR3ozCxIxjVI+xKuhXA8QDH2sOKjNvI+BPr1Wm2R
-         Om2wdq+eEnrII43/ivVwRMN9hSBO00k5heIRB1xtcuM2yNPrX5IkqYTwih3YkwT8v6y0
-         ztbzwkWSFIKAOWmJL3B8wx2ls2tC7l4vo00naf38XqtFi7qjUbRDImpMMBsuEBs/lsPS
-         lQ8lxJn0kBELRdCRdMq3SfdTI0yrBxA+UjqCLrfFmtWJcibfGRfdo36H4UigfRJZO9uE
-         8Md+m0d8pcDQ8HrpdSsRxRBpqJA5aSg0Q/vjPWZNEWmN2eFWGANUuyHoUykUHgdLoWBa
-         ITzQ==
-X-Gm-Message-State: AOAM532xjiwkgqyxdjK/OX4zf2Z+gAcF0Tv64T/omq7a/Dgi2oiYXhs5
-	UM7a6CZw1jSCF5BotmZJSJw=
-X-Google-Smtp-Source: ABdhPJylQoKi0ZxmxC2e0StkTbXR+jRJ+5OR03VmEzNksdJmKqx5Vc7/15HSo7BWhZPgjFpIGkvhHA==
-X-Received: by 2002:a17:902:b909:b0:13a:2d8e:12bc with SMTP id bf9-20020a170902b90900b0013a2d8e12bcmr6839890plb.6.1631466979027;
-        Sun, 12 Sep 2021 10:16:19 -0700 (PDT)
-Received: from user ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id d3sm4395494pjc.49.2021.09.12.10.16.15
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fiqPbDCwFmlbxuuQ8fWiazbK8+HJRDKZSDH45j5yDS4=;
+        b=1NPkN7MZfq90MQrZ4doTi7zUr8/en2Fv6scd4kX9bH6SE0DlYiMByoCdtY/j3xelcs
+         dCLmKpMvftY2DpCJ7BgS3rRdTVPTsjRLV6gDbUrlxfKUIqJAzd9zt0QCo+sA91eUeGcd
+         vT8m7Mt06yM2cQC22LLStK6M0liH+olj+yriQ4CuKG+5w33gIy/H7o5bEaNijQGQhkHO
+         KHUVnbuiBqGM4oJ5yq9zBYjQzAUBJPH5VRDNeUQsR4k2TXpwsCyKkBFVTkTcI15ZWx6X
+         matkDyT12x9Ga7eW2+1sFKwdYEVqcncopmIRh5/k55A4jGVNuRYiW4MGnS/LMiRABXm7
+         DrEA==
+X-Gm-Message-State: AOAM532G7MeKStuTeTdd4+1663c+Aq94mDeBV4bPTROZ/HDM5TN21zjf
+	uzxlA6CmnP1c99VBf6TOiyc=
+X-Google-Smtp-Source: ABdhPJx+cwbh1xTxO952gJLAARzpJGlg4ZSY4Z/pn0vStAUvtPTnJq1wrXO//SEeNwlkWFML1MlvyQ==
+X-Received: by 2002:adf:ef92:: with SMTP id d18mr8944757wro.264.1631477372674;
+        Sun, 12 Sep 2021 13:09:32 -0700 (PDT)
+Received: from localhost.localdomain (46-138-83-36.dynamic.spd-mgts.ru. [46.138.83.36])
+        by smtp.gmail.com with ESMTPSA id v10sm5463476wrg.15.2021.09.12.13.09.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 10:16:18 -0700 (PDT)
-Date: Sun, 12 Sep 2021 22:46:12 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, martin@kaiser.cx,
-	saurav.girepunje@gmail.com, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: os_dep: remove unused function
- rtw_android_priv_cmd
-Message-ID: <YT413EaBXqIqMttS@user>
+        Sun, 12 Sep 2021 13:09:32 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>,
+	Stefan Agner <stefan@agner.ch>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-spi@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-mmc@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v11 00/34] NVIDIA Tegra power management patches for 5.16
+Date: Sun, 12 Sep 2021 23:07:58 +0300
+Message-Id: <20210912200832.12312-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Remove unused function rtw_android_priv_cmd.
+This series adds runtime PM support to Tegra drivers and enables core
+voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/r8188eu/include/rtw_android.h |   1 -
- drivers/staging/r8188eu/os_dep/rtw_android.c  | 138 ------------------
- 2 files changed, 139 deletions(-)
+All patches in this series are interdependent and should go via Tegra tree.
 
-diff --git a/drivers/staging/r8188eu/include/rtw_android.h b/drivers/staging/r8188eu/include/rtw_android.h
-index f60cf1c82984..86e3ac5f7955 100644
---- a/drivers/staging/r8188eu/include/rtw_android.h
-+++ b/drivers/staging/r8188eu/include/rtw_android.h
-@@ -42,6 +42,5 @@ enum ANDROID_WIFI_CMD {
- };
+Changelog:
 
- int rtw_android_cmdstr_to_num(char *cmdstr);
--int rtw_android_priv_cmd(struct net_device *net, struct ifreq *ifr, int cmd);
+v11: - Added acks and r-b from Rob Herring, Mark Brown and Miquel Raynal
+       that were given to v8.
 
- #endif /* __RTW_ANDROID_H__ */
-diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
-index 010d529c8982..bd76177d60f9 100644
---- a/drivers/staging/r8188eu/os_dep/rtw_android.c
-+++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
-@@ -133,141 +133,3 @@ static int rtw_android_set_block(struct net_device *net, char *command,
- 	return 0;
- }
+     - Corrected order of the new memory controller reset entry in
+       device-trees and host1x DT binding patch, which was requested by
+       Rob Herring.
 
--int rtw_android_priv_cmd(struct net_device *net, struct ifreq *ifr, int cmd)
--{
--	int ret = 0;
--	char *command = NULL;
--	int cmd_num;
--	int bytes_written = 0;
--	struct android_wifi_priv_cmd priv_cmd;
--
--	if (!ifr->ifr_data) {
--		ret = -EINVAL;
--		goto exit;
--	}
--	if (copy_from_user(&priv_cmd, ifr->ifr_data,
--			   sizeof(struct android_wifi_priv_cmd))) {
--		ret = -EFAULT;
--		goto exit;
--	}
--	command = kmalloc(priv_cmd.total_len, GFP_KERNEL);
--	if (!command) {
--		DBG_88E("%s: failed to allocate memory\n", __func__);
--		ret = -ENOMEM;
--		goto exit;
--	}
--	if (!access_ok(priv_cmd.buf, priv_cmd.total_len)) {
--		DBG_88E("%s: failed to access memory\n", __func__);
--		ret = -EFAULT;
--		goto exit;
--	}
--	if (copy_from_user(command, (char __user *)priv_cmd.buf,
--			   priv_cmd.total_len)) {
--		ret = -EFAULT;
--		goto exit;
--	}
--	DBG_88E("%s: Android private cmd \"%s\" on %s\n",
--		__func__, command, ifr->ifr_name);
--	cmd_num = rtw_android_cmdstr_to_num(command);
--	switch (cmd_num) {
--	case ANDROID_WIFI_CMD_START:
--		goto response;
--	case ANDROID_WIFI_CMD_SETFWPATH:
--		goto response;
--	}
--	if (!g_wifi_on) {
--		DBG_88E("%s: Ignore private cmd \"%s\" - iface %s is down\n",
--			__func__, command, ifr->ifr_name);
--		ret = 0;
--		goto exit;
--	}
--	switch (cmd_num) {
--	case ANDROID_WIFI_CMD_STOP:
--		break;
--	case ANDROID_WIFI_CMD_SCAN_ACTIVE:
--		break;
--	case ANDROID_WIFI_CMD_SCAN_PASSIVE:
--		break;
--	case ANDROID_WIFI_CMD_RSSI:
--		bytes_written = rtw_android_get_rssi(net, command,
--						     priv_cmd.total_len);
--		break;
--	case ANDROID_WIFI_CMD_LINKSPEED:
--		bytes_written = rtw_android_get_link_speed(net, command,
--							   priv_cmd.total_len);
--		break;
--	case ANDROID_WIFI_CMD_MACADDR:
--		bytes_written = rtw_android_get_macaddr(net, command,
--							priv_cmd.total_len);
--		break;
--	case ANDROID_WIFI_CMD_BLOCK:
--		bytes_written = rtw_android_set_block(net, command,
--						      priv_cmd.total_len);
--		break;
--	case ANDROID_WIFI_CMD_RXFILTER_START:
--		break;
--	case ANDROID_WIFI_CMD_RXFILTER_STOP:
--		break;
--	case ANDROID_WIFI_CMD_RXFILTER_ADD:
--		break;
--	case ANDROID_WIFI_CMD_RXFILTER_REMOVE:
--		break;
--	case ANDROID_WIFI_CMD_BTCOEXSCAN_START:
--		/* TBD: BTCOEXSCAN-START */
--		break;
--	case ANDROID_WIFI_CMD_BTCOEXSCAN_STOP:
--		/* TBD: BTCOEXSCAN-STOP */
--		break;
--	case ANDROID_WIFI_CMD_BTCOEXMODE:
--		break;
--	case ANDROID_WIFI_CMD_SETSUSPENDOPT:
--		break;
--	case ANDROID_WIFI_CMD_SETBAND:
--		break;
--	case ANDROID_WIFI_CMD_GETBAND:
--		break;
--	case ANDROID_WIFI_CMD_COUNTRY:
--		bytes_written = android_set_cntry(net, command,
--						  priv_cmd.total_len);
--		break;
--	case ANDROID_WIFI_CMD_P2P_DEV_ADDR:
--		bytes_written = android_get_p2p_addr(net, command,
--						     priv_cmd.total_len);
--		break;
--	case ANDROID_WIFI_CMD_P2P_SET_NOA:
--		break;
--	case ANDROID_WIFI_CMD_P2P_GET_NOA:
--		break;
--	case ANDROID_WIFI_CMD_P2P_SET_PS:
--		break;
--	default:
--		DBG_88E("Unknown PRIVATE command %s - ignored\n", command);
--		snprintf(command, 3, "OK");
--		bytes_written = strlen("OK");
--	}
--
--response:
--	if (bytes_written >= 0) {
--		if ((bytes_written == 0) && (priv_cmd.total_len > 0))
--			command[0] = '\0';
--		if (bytes_written >= priv_cmd.total_len) {
--			DBG_88E("%s: bytes_written = %d\n", __func__,
--				bytes_written);
--			bytes_written = priv_cmd.total_len;
--		} else {
--			bytes_written++;
--		}
--		priv_cmd.used_len = bytes_written;
--		if (copy_to_user((char __user *)priv_cmd.buf, command,
--				 bytes_written)) {
--			DBG_88E("%s: failed to copy data to user buffer\n",
--				__func__);
--			ret = -EFAULT;
--		}
--	} else {
--		ret = bytes_written;
--	}
--exit:
--	kfree(command);
--	return ret;
--}
---
+     - Switched consumer drivers to use power domain state syncing done
+       by new Tegra's common OPP-initialization helper.
+
+     - Made use of new devm_pm_runtime_enable() helper that was added to
+       v5.15 kernel, where appropriate.
+
+     - Added "fuse: Use resource-managed helpers" patch.
+
+     - Converted Tegra20/30 clk drivers to a proper platform drivers,
+       which was requested by Thierry Reding.
+
+     - Removed clk-bulk API usage from the MMC patch, which was requested
+       by Thierry Reding.
+
+     - Changed CORE power domain name to "core" in a new patch
+       "Change name of core power domain".
+
+     - Misc small fixes for problems that I found since v8, like couple
+       typos in error code paths and restored working RPM for Tegra DRM
+       UAPI v1 that was removed in v8 by accident.
+
+v9-v10: Figured out remaining GENPD API changes with Ulf Hansson and
+        Viresh Kumar. The OPP-sync helper that was used in v8 isn't needed
+        anymore because GENPD API now allows consumer drivers to
+        init rpm_pstate of power domains.
+
+v8: - Added new generic dev_pm_opp_sync() helper that syncs OPP state with
+      hardware. All drivers changed to use it. This replaces GENPD attach_dev
+      callback hacks that were used in v7.
+
+    - Added new patch patch "soc/tegra: regulators: Prepare for suspend"
+      that fixes dying Tegra20 SoC after enabling VENC power domain during
+      resume from suspend. It matches to what downstream kernel does on
+      suspend/resume.
+
+    - After a second thought, I dropped patches which added RPM to memory
+      drivers since hardware is always-on and RPM not needed.
+
+    - Replaced the "dummy host1x driver" patch with new "Disable unused
+      host1x hardware" patch, since it's a cleaner solution.
+
+Dmitry Osipenko (34):
+  opp: Change type of dev_pm_opp_attach_genpd(names) argument
+  soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
+  soc/tegra: pmc: Disable PMC state syncing
+  soc/tegra: Don't print error message when OPPs not available
+  dt-bindings: clock: tegra-car: Document new clock sub-nodes
+  clk: tegra: Support runtime PM and power domain
+  dt-bindings: host1x: Document OPP and power domain properties
+  dt-bindings: host1x: Document Memory Client resets of Host1x, GR2D and
+    GR3D
+  gpu: host1x: Add runtime PM and OPP support
+  gpu: host1x: Add host1x_channel_stop()
+  drm/tegra: dc: Support OPP and SoC core voltage scaling
+  drm/tegra: hdmi: Add OPP support
+  drm/tegra: gr2d: Support generic power domain and runtime PM
+  drm/tegra: gr3d: Support generic power domain and runtime PM
+  drm/tegra: vic: Support system suspend
+  usb: chipidea: tegra: Add runtime PM and OPP support
+  bus: tegra-gmi: Add runtime PM and OPP support
+  pwm: tegra: Add runtime PM and OPP support
+  mmc: sdhci-tegra: Add runtime PM and OPP support
+  mtd: rawnand: tegra: Add runtime PM and OPP support
+  spi: tegra20-slink: Add OPP support
+  media: dt: bindings: tegra-vde: Convert to schema
+  media: dt: bindings: tegra-vde: Document OPP and power domain
+  media: staging: tegra-vde: Support generic power domain
+  soc/tegra: fuse: Reset hardware
+  soc/tegra: fuse: Use resource-managed helpers
+  soc/tegra: regulators: Prepare for suspend
+  soc/tegra: pmc: Change name of core power domain
+  soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30
+  ARM: tegra: Add OPP tables and power domains to Tegra20 device-trees
+  ARM: tegra: Add OPP tables and power domains to Tegra30 device-trees
+  ARM: tegra: Add Memory Client resets to Tegra20 GR2D, GR3D and Host1x
+  ARM: tegra: Add Memory Client resets to Tegra30 GR2D, GR3D and Host1x
+  ARM: tegra20/30: Disable unused host1x hardware
+
+ .../bindings/clock/nvidia,tegra20-car.yaml    |   37 +
+ .../display/tegra/nvidia,tegra20-host1x.txt   |   53 +
+ .../bindings/media/nvidia,tegra-vde.txt       |   64 -
+ .../bindings/media/nvidia,tegra-vde.yaml      |  119 ++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |    1 +
+ arch/arm/boot/dts/tegra20-colibri.dtsi        |    3 +-
+ arch/arm/boot/dts/tegra20-harmony.dts         |    3 +-
+ arch/arm/boot/dts/tegra20-paz00.dts           |    1 +
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  941 +++++++++++
+ arch/arm/boot/dts/tegra20-seaboard.dts        |    3 +-
+ arch/arm/boot/dts/tegra20-tamonten.dtsi       |    3 +-
+ arch/arm/boot/dts/tegra20-trimslice.dts       |    9 +
+ arch/arm/boot/dts/tegra20-ventana.dts         |    1 +
+ arch/arm/boot/dts/tegra20.dtsi                |  116 +-
+ .../tegra30-asus-nexus7-grouper-common.dtsi   |    1 +
+ arch/arm/boot/dts/tegra30-beaver.dts          |    1 +
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         |    1 +
+ arch/arm/boot/dts/tegra30-colibri.dtsi        |   17 +-
+ arch/arm/boot/dts/tegra30-ouya.dts            |    1 +
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi | 1412 +++++++++++++++++
+ arch/arm/boot/dts/tegra30.dtsi                |  175 +-
+ drivers/bus/tegra-gmi.c                       |   52 +-
+ drivers/clk/tegra/Makefile                    |    1 +
+ drivers/clk/tegra/clk-device.c                |  222 +++
+ drivers/clk/tegra/clk-pll.c                   |    2 +-
+ drivers/clk/tegra/clk-super.c                 |    2 +-
+ drivers/clk/tegra/clk-tegra20.c               |   77 +-
+ drivers/clk/tegra/clk-tegra30.c               |  116 +-
+ drivers/clk/tegra/clk.c                       |   75 +-
+ drivers/clk/tegra/clk.h                       |    2 +
+ drivers/gpu/drm/tegra/dc.c                    |   74 +
+ drivers/gpu/drm/tegra/dc.h                    |    2 +
+ drivers/gpu/drm/tegra/gr2d.c                  |  155 +-
+ drivers/gpu/drm/tegra/gr3d.c                  |  388 ++++-
+ drivers/gpu/drm/tegra/hdmi.c                  |   16 +-
+ drivers/gpu/drm/tegra/vic.c                   |    4 +
+ drivers/gpu/host1x/channel.c                  |    8 +
+ drivers/gpu/host1x/debug.c                    |   15 +
+ drivers/gpu/host1x/dev.c                      |  151 +-
+ drivers/gpu/host1x/dev.h                      |    3 +-
+ drivers/gpu/host1x/hw/channel_hw.c            |   44 +-
+ drivers/gpu/host1x/intr.c                     |    3 -
+ drivers/gpu/host1x/syncpt.c                   |    5 +-
+ drivers/mmc/host/sdhci-tegra.c                |   82 +-
+ drivers/mtd/nand/raw/tegra_nand.c             |   55 +-
+ drivers/opp/core.c                            |    6 +-
+ drivers/pwm/pwm-tegra.c                       |   88 +-
+ drivers/soc/tegra/common.c                    |    4 +-
+ drivers/soc/tegra/fuse/fuse-tegra.c           |   51 +-
+ drivers/soc/tegra/fuse/fuse-tegra20.c         |   33 +-
+ drivers/soc/tegra/fuse/fuse.h                 |    1 +
+ drivers/soc/tegra/pmc.c                       |   19 +-
+ drivers/soc/tegra/regulators-tegra20.c        |   99 ++
+ drivers/soc/tegra/regulators-tegra30.c        |  122 ++
+ drivers/spi/spi-tegra20-slink.c               |   10 +-
+ drivers/staging/media/tegra-vde/vde.c         |   57 +-
+ drivers/usb/chipidea/ci_hdrc_tegra.c          |   53 +-
+ include/linux/host1x.h                        |    1 +
+ include/linux/pm_opp.h                        |    8 +-
+ include/soc/tegra/common.h                    |   24 +
+ 60 files changed, 4739 insertions(+), 353 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt
+ create mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.yaml
+ create mode 100644 drivers/clk/tegra/clk-device.c
+
+-- 
 2.32.0
 
