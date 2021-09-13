@@ -1,44 +1,44 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837543FC3
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 19:38:36 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id q26so16398953wrc.7
-        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 12:38:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA63D3FC3
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 20:19:35 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id k13so23633066lfv.2
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 13:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=c6DbKWeeuhyIQk/sjR5gJ2Num3qwAgw1fKp51/8HpbY=;
-        b=Q8+5Fs8fNNTZntiKDFNbaSpGrjYmQD7GVzFqb6ch5BoIw0spXXKGxehoszaG80RNTz
-         hhMxqj6D0QZjaYR8f0LhVvzVtczxcldm0lWur3fRndY8bKFt1MnHVZ0jWe/mDr6IgS4C
-         yJAOnWfyT1nEnMDfvyNesKRTBjovnmyfKEtnD5IQKVDvLyCnHqKOqjMHeYqZXBEkYwk0
-         cYTYAY63t8JchWXbwcTZ7yTkgTN+OVX1QpXvoyNV18YTZsulKtZ55x8vO11aSDK6TU51
-         W4yCZTjPKDTVZpgk8xgydcxFOs34xXCgEar0pFlwnlTKhcWL6PXum3lVGetE4opx2I0g
-         /1YA==
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=CXSocbKNp6y3NvY9ucG6LeYMMUtoHNp3xudt7bwh/1Q=;
+        b=hHHikTXfU8Wue4ZV784uppdPdR3PGSRYgA+dRwFuQsv5NUgjrUvcp7xhm9sPNrg92M
+         9zJYagf8ZGwRYFe006/XWTjn6QvxLiyl1iFW27+apSpFOwT+u2dIKjkEqj12ForzoqmA
+         70bq+dVkidI2MW+ST2M6+k2aJGwFqcIJPle5l0t4JI7kiiBDyKp27tWb/zAMD8/Y2Z2E
+         fLdG+RkFqVEfNirmC5Fd/H012ZtXeel0foeHTRbiC2PiNfBNM91jQsmxDZeQip19tE00
+         PtvMoGFIIl0NPLgcjs1D+9hrY3F+HyHbe2F4BlaMlKzR6jDXULdRMhNic+7j9ZS7Zn/j
+         925Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+         :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=c6DbKWeeuhyIQk/sjR5gJ2Num3qwAgw1fKp51/8HpbY=;
-        b=PlmqzxxBH0toxqWN/+6bkKvNnligjqD8vVKA2rB5cfglZYZuQZ7OASMeIN5JbeNVEl
-         XLtNPYAYl28obrD0hHTxGBj4T2kEoySUkgbeO0RPyW4blLlmwIVnLBfCEsTeUlPnZ7g+
-         kdlY5LqFMYRD95g+qzWNGjcOXqqtHYTwNU2z/O0489Eq22GuHlrFOeRmlLNLXmfDxlQx
-         nNWu6wyiF49KFD5SmsbNY9yHQkie+JwHU2b3CnAk9sAoBbEgPi8nZ4RAGq4eAkXM99GZ
-         k0ZOkjTgRSI+D1CENj1yX/+7pViG6GlJIIzqxTdoD0G/NeyrJI/Jl7e0Q4LAsUOEEISD
-         2dLw==
-X-Gm-Message-State: AOAM531+QXawcHK8lHk9By14QtKR6WuFL+X+kk4dKWka5DigZVOTcc6z
-	ArvJPaAZ1lkuuMBVDlX8pvg=
-X-Google-Smtp-Source: ABdhPJyeNb/QodalatxHQ8M39Shvt3YxxNv1ndi5rl5f7lljsUhavpCTCWIs/1+XcvvnU0ACRJxvRA==
-X-Received: by 2002:a5d:4591:: with SMTP id p17mr14483338wrq.59.1631561914937;
-        Mon, 13 Sep 2021 12:38:34 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::1db2? ([2a02:8108:96c0:3b88::1db2])
-        by smtp.gmail.com with ESMTPSA id n26sm5745365wmi.43.2021.09.13.12.38.34
+        bh=CXSocbKNp6y3NvY9ucG6LeYMMUtoHNp3xudt7bwh/1Q=;
+        b=gZgrwUFsxEZUllWjyZSfCEGCcrgqMItUeVbAsPFavBpa0xbrZ2nph4rYJ2KdUkBWSd
+         bVmCncE5tEmG/HqF8LronYnhspGfzNri3jC3NRlOC037XPr+jvxTwgJD+LFmapSpNkFu
+         duXkJSDAZs9H6V0RggdkU+L36VWaVQQJpJFpnCG+dWXsoIXid6hgLCULCK+3nX8GBT3o
+         oIzLPqfKLyho1R59/iJP49CpJ45D912YJyuwQmKx48VXJBD07abXsJym2v2yxTREpquu
+         KIHQyHfgyS1QyaND++e1erS9eQVqklykxXcQTkQQ5RTxJT2hSJ2iGZRTKskxHycBbeJX
+         j/Yw==
+X-Gm-Message-State: AOAM5332+bVri32cgy1zLO93F3p6kT4NNtPO4f/4wve2sRH2HwhTpCek
+	0VuMLQQf5VwL3e9umjmyavXTBWIYOkD6DRH3
+X-Google-Smtp-Source: ABdhPJw2gtipt1LbN8AtinXFoNwwvQvSHFl4+GZJtAW/PskfzxJJVjD0TzOYzlyBmv0ru1D4r0zztw==
+X-Received: by 2002:ac2:4c45:: with SMTP id o5mr7323698lfk.620.1631564373884;
+        Mon, 13 Sep 2021 13:19:33 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.49])
+        by smtp.gmail.com with ESMTPSA id b15sm1099519ljj.16.2021.09.13.13.19.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Sep 2021 12:38:34 -0700 (PDT)
-Message-ID: <1feb008a-d13b-6b27-5e1f-e56fed37cd3e@gmail.com>
-Date: Mon, 13 Sep 2021 21:38:33 +0200
+        Mon, 13 Sep 2021 13:19:33 -0700 (PDT)
+Message-ID: <384860bb-c56d-a5db-2a31-ac659d89f490@gmail.com>
+Date: Mon, 13 Sep 2021 23:19:32 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,34 +47,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.0.3
-Subject: Re: [PATCH v2 3/8] staging: r8188eu: _free_pwrlock is empty
+Subject: Re: [PATCH v4 17/18] staging: r8188eu: Shorten calls chain of
+ rtw_read8/16/32()
 Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210911141521.24901-1-martin@kaiser.cx>
- <20210913185110.3065-1-martin@kaiser.cx>
- <20210913185110.3065-4-martin@kaiser.cx>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20210913185110.3065-4-martin@kaiser.cx>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Michael Straube <straube.linux@gmail.com>
+References: <20210913181002.16651-1-fmdefrancesco@gmail.com>
+ <20210913181002.16651-18-fmdefrancesco@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20210913181002.16651-18-fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Martin,
+On 9/13/21 21:10, Fabio M. De Francesco wrote:
+> Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+> For this purpose unify the three usb_read8/16/32 into the new
+> usb_read(); make the latter parameterizable with 'size'; embed most of
+> the code of usbctrl_vendorreq() into usb_read() and use in it the new
+> usb_control_msg_recv() API of USB Core.
+> 
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+> 
+> v3->v4:
+> 	Make some changes according to a first review of Greg
+> 	Kroah-Hartman; remove unnecessary while loop and a couple of
+> 	'if' test; handle the errors returned by usb_control_msg_recv()
+> v2->v3:
+> 	No changes.
+> v1->v2:
+> 	No changes.
+> 
 
-On 9/13/21 20:51, Martin Kaiser wrote:
-> -void rtw_free_pwrctrl_priv(struct adapter *adapter)
-> -{
-> -	struct pwrctrl_priv *pwrctrlpriv = &adapter->pwrctrlpriv;
-> -
-> -	_free_pwrlock(&pwrctrlpriv->lock);
-> -
-> -}
+Hi, maintainers and reviewers!
 
-the prototype of rtw_free_pwrctrl_priv can also be removed
-from rtw_pwrctrl.h,
+We have just noticed, that 17 and 18 patches in this series contain 
+logic error, so, please, don't waste time reviewing them.
 
-Thanks,
-Michael
+v5 will be posted soon :)
+
+
+With regards,
+Pavel Skripkin
