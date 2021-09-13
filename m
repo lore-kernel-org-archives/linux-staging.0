@@ -1,41 +1,41 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFD32FAF
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 18:10:37 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id v5so15689113edc.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 11:10:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3133FC5
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 18:10:44 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id hx25so42262ejc.6
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 11:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=R5wCXN8UMr0yeIliFqF4PlBTRBgABhGfIl5Cz/aUsug=;
-        b=d1OcZ4AF4PYa4o+xzHZQQFqfZ10aqMcc0p6kjqxBkYuVWnM+rXSEECBnGpxOU+j+Ad
-         VJbg8mIuAw78iDINmdvI+Y3PxzO778el2xsvDxaankxoTt65/1nD1gZnqp4ODYMMYUG8
-         hjFjUaApv94RtS4CRacGWZ/hnk9maceFb9rtoEawKI6N9cm16RQtq20ij+h+7Zc1V676
-         9hnsKc66k87vorTG+9SJTJY8pxGw0/NiIIp6maLpeH7ZVlThJ0rB6SX1K8k1djceK8+B
-         XKzNzrhyggFlHTDPlpQwjcPM6ZiFprFTBQuENn/4l+qvmyy4cJLTymx8WojfesAbj5bm
-         Nj6A==
+        bh=juToNSL9y2xYueZ02gZQdSCb4zeNxtS+PZPD9ackgoE=;
+        b=KXPReHVxokt1tL0H8LItaBI0ppp1tszpsPQ9hDWzb41Mrz1347cUetsOyeG2ZC3vxt
+         t5E1RqkSY2a+4LhVKRoIAcQlCl5C0CcPvIEkZCufGBzGEaRjCcnBJxTCgeXu6wYLnv94
+         EcUs8uY8HVkmfknS4SUs2qjP+zJiIgnQvsH/OtjCfoaBrzHEzP/+xoYAZRbtvx//yWqj
+         nSja/dDgwvPez9L9ft+VymTBU0lwSOiY8UXUqxrU9vetG/Vc71WFWEhjRvBhccmXap6y
+         vX7Tu3CsWFbxHeCpSja8GrbyCGD03b8Krj2nYpXJ5CYScB6TPGI7ANdlmrCHuV8bqSRX
+         BXNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=R5wCXN8UMr0yeIliFqF4PlBTRBgABhGfIl5Cz/aUsug=;
-        b=uol36qkqYP7KBm/JqN4/lMEe42nciQ4iwCR7rQNJINmtHoYTmQvQDdRBLvpFuuqL+I
-         4JFghI520L4jSpYwX8HbwHELdcA+nmTb7dmDpqC50Pqu9K8eaKRmaZQbtmpNAl6LRlnA
-         Hzy80rtnE+TpViXXguArHEy3eugFbsaj4VO+12Gpmt+7KFsKNnnaGiDzXSkDLwiO33g7
-         kch8aUblhwFa7ht/B2eVXqcacOr899umqF/bIedfd88ruKAuEyWU72BAsm6HRXjBCPCZ
-         PJbuKOyh8BXKjLlHiSPThWJolXMQIzcZsbYmIzmU3R4hLX52it9gKIofCn0oj4ys1gYE
-         f/Bw==
-X-Gm-Message-State: AOAM533FYFJ68UOfgzlqBhnzkIZlY9jSMBV7j6J1fSt4rzARp4ByRvOF
-	ZYrciIOsT+/s+EPVRpvNItI=
-X-Google-Smtp-Source: ABdhPJyEToAVRi2HwgHeQsKjG2kbyTw1/yYkzdHqgBbXx8PgpqCAhUCErULJ9/0nzYZchyhnJtwmGA==
-X-Received: by 2002:a05:6402:493:: with SMTP id k19mr14846912edv.386.1631556635758;
-        Mon, 13 Sep 2021 11:10:35 -0700 (PDT)
+        bh=juToNSL9y2xYueZ02gZQdSCb4zeNxtS+PZPD9ackgoE=;
+        b=HBWyiWX1tcKeE80ODaSysR2z9uHDu1HWShR00IiIWgaUtbecWWjofi7vshpMY40koW
+         vFr7o/kdNEMYUaKAyITst3mibbSxaCjHpzc9pdwX3F1DgfIhkP24ZZbu2MG1xHZYYNHl
+         ghHahmopF8rPRfKSa1cLQhoflJ5u8QK0e4kBjp8bpfMlhoGsvEwDpOu5rgQaA7YEFwqo
+         lLWAWrRyGAbj3A/PSr9A6Lw/NUPaQBXcae2BkIk3SQ3ePoUmxsDUAljHVKBNlj1BjvQc
+         H4GEHyLllZWsPeQqq6WvIG1c9o8ppGTsWNMUUqYuzVrlDpKDRoabbUf3tlGfR3XSFc2S
+         GaMA==
+X-Gm-Message-State: AOAM533rxESc3ns2W9cQikxqLTa6/0jx9HoyQUBqxrfkoyhEPcnSHPio
+	jRPR0afNA1udzFn6htAr2CE=
+X-Google-Smtp-Source: ABdhPJzw8T5j7PHIUsu+Z0NJxvE72/EKFLEeG0FB1tC6CVB8WzL5g0/5j+nV43rEDHv68vcIndt9Kg==
+X-Received: by 2002:a17:906:1454:: with SMTP id q20mr14684602ejc.446.1631556642892;
+        Mon, 13 Sep 2021 11:10:42 -0700 (PDT)
 Received: from localhost.localdomain.it (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
-        by smtp.gmail.com with ESMTPSA id d25sm4258999edt.33.2021.09.13.11.10.34
+        by smtp.gmail.com with ESMTPSA id d25sm4258999edt.33.2021.09.13.11.10.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Sep 2021 11:10:35 -0700 (PDT)
+        Mon, 13 Sep 2021 11:10:42 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -45,9 +45,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Michael Straube <straube.linux@gmail.com>
 Cc: Pavel Skripkin <paskripkin@gmail.com>,
 	"Fabio M . De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v4 03/18] staging: r8188eu: remove the helpers of rtw_read16()
-Date: Mon, 13 Sep 2021 20:09:47 +0200
-Message-Id: <20210913181002.16651-4-fmdefrancesco@gmail.com>
+Subject: [PATCH v4 04/18] staging: r8188eu: remove the helpers of rtw_read32()
+Date: Mon, 13 Sep 2021 20:09:48 +0200
+Message-Id: <20210913181002.16651-5-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210913181002.16651-1-fmdefrancesco@gmail.com>
 References: <20210913181002.16651-1-fmdefrancesco@gmail.com>
@@ -61,11 +61,11 @@ Content-Transfer-Encoding: 8bit
 
 From: Pavel Skripkin <paskripkin@gmail.com>
 
-Remove the unnecessary _rtw_read16() and usb_read16() and embed their
-code into the caller (i.e., rtw_read16()).
+Remove the unnecessary _rtw_readr32() and usb_read32() and embed their
+code into the caller (i.e., rtw_read32()).
 
-_rtw_read16() is a mere redefinition of rtw_read16() and it is unneeded.
-usb_read16() was the only functions assigned to the (*_usb_read16) pointer,
+_rtw_read32() is a mere redefinition of rtw_read32() and it is unneeded.
+usb_read32() was the only functions assigned to the (*_usb_read32) pointer,
 so we can simply remove it and make a direct call.
 
 This patch is in preparation for the _io_ops structure removal.
@@ -88,75 +88,75 @@ v1->v2:
  3 files changed, 4 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_io.c b/drivers/staging/r8188eu/core/rtw_io.c
-index 4c43b6d00178..b5d1c8e52b22 100644
+index b5d1c8e52b22..cb24500cbc6e 100644
 --- a/drivers/staging/r8188eu/core/rtw_io.c
 +++ b/drivers/staging/r8188eu/core/rtw_io.c
 @@ -34,20 +34,6 @@ jackson@realtek.com.tw
  #define rtw_cpu_to_le16(val)		cpu_to_le16(val)
  #define rtw_cpu_to_le32(val)		cpu_to_le32(val)
  
--u16 _rtw_read16(struct adapter *adapter, u32 addr)
+-u32 _rtw_read32(struct adapter *adapter, u32 addr)
 -{
--	u16 r_val;
+-	u32 r_val;
 -	struct io_priv *pio_priv = &adapter->iopriv;
 -	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
--	u16 (*_read16)(struct intf_hdl *pintfhdl, u32 addr);
+-	u32	(*_read32)(struct intf_hdl *pintfhdl, u32 addr);
 -
--	_read16 = pintfhdl->io_ops._read16;
+-	_read32 = pintfhdl->io_ops._read32;
 -
--	r_val = _read16(pintfhdl, addr);
+-	r_val = _read32(pintfhdl, addr);
 -
 -	return r_val;
 -}
 -
- u32 _rtw_read32(struct adapter *adapter, u32 addr)
+ int _rtw_write8(struct adapter *adapter, u32 addr, u8 val)
  {
- 	u32 r_val;
+ 	struct io_priv *pio_priv = &adapter->iopriv;
 diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 8389deeb1182..8b4fc014d93a 100644
+index 8b4fc014d93a..39fd9994787d 100644
 --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -109,8 +109,10 @@ u8 rtw_read8(struct adapter *adapter, u32 addr)
- 	return data;
+@@ -121,8 +121,10 @@ u16 rtw_read16(struct adapter *adapter, u32 addr)
+ 	return (u16)(le32_to_cpu(data) & 0xffff);
  }
  
--static u16 usb_read16(struct intf_hdl *pintfhdl, u32 addr)
-+u16 rtw_read16(struct adapter *adapter, u32 addr)
+-static u32 usb_read32(struct intf_hdl *pintfhdl, u32 addr)
++u32 rtw_read32(struct adapter *adapter, u32 addr)
  {
 +	struct io_priv *pio_priv = &adapter->iopriv;
 +	struct intf_hdl *pintfhdl = &pio_priv->intf;
  	u16 wvalue = (u16)(addr & 0x0000ffff);
  	__le32 data;
  
-@@ -540,7 +542,6 @@ void rtl8188eu_set_intf_ops(struct _io_ops	*pops)
+@@ -542,7 +544,6 @@ void rtl8188eu_set_intf_ops(struct _io_ops	*pops)
  {
  
  	memset((u8 *)pops, 0, sizeof(struct _io_ops));
--	pops->_read16 = &usb_read16;
- 	pops->_read32 = &usb_read32;
+-	pops->_read32 = &usb_read32;
  	pops->_read_port = &usb_read_port;
  	pops->_write8 = &usb_write8;
+ 	pops->_write16 = &usb_write16;
 diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
-index 9dc32f7bcae8..527503d3ecc8 100644
+index 527503d3ecc8..c53d9c8bd9a7 100644
 --- a/drivers/staging/r8188eu/include/rtw_io.h
 +++ b/drivers/staging/r8188eu/include/rtw_io.h
-@@ -246,7 +246,7 @@ void _rtw_attrib_read(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
- void _rtw_attrib_write(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+@@ -247,7 +247,7 @@ void _rtw_attrib_write(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
  
  u8 rtw_read8(struct adapter *adapter, u32 addr);
--u16 _rtw_read16(struct adapter *adapter, u32 addr);
-+u16 rtw_read16(struct adapter *adapter, u32 addr);
- u32 _rtw_read32(struct adapter *adapter, u32 addr);
+ u16 rtw_read16(struct adapter *adapter, u32 addr);
+-u32 _rtw_read32(struct adapter *adapter, u32 addr);
++u32 rtw_read32(struct adapter *adapter, u32 addr);
  void _rtw_read_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
  void _rtw_read_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+ void _rtw_read_port_cancel(struct adapter *adapter);
 @@ -267,7 +267,6 @@ u32 _rtw_write_port_and_wait(struct adapter *adapter, u32 addr, u32 cnt,
  			     u8 *pmem, int timeout_ms);
  void _rtw_write_port_cancel(struct adapter *adapter);
  
--#define rtw_read16(adapter, addr) _rtw_read16((adapter), (addr))
- #define rtw_read32(adapter, addr) _rtw_read32((adapter), (addr))
+-#define rtw_read32(adapter, addr) _rtw_read32((adapter), (addr))
  #define rtw_read_port(adapter, addr, cnt, mem)				\
  	_rtw_read_port((adapter), (addr), (cnt), (mem))
+ #define rtw_read_port_cancel(adapter) _rtw_read_port_cancel((adapter))
 -- 
 2.33.0
 
