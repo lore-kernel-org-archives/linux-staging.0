@@ -1,236 +1,115 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486983FC5
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 17:40:30 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id g14so9560112pfm.1
-        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 10:40:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB14B3FC5
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 18:10:23 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id hx25so40155ejc.6
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 11:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CSOkfsibILtVOPEWTt+WszgZsXrlN9GKs6HqkiYI+W4=;
-        b=hMoSbCOVq4KSoEckLUAp2oX3HeaMZyVCo6Ek6hXfmFg4O5gFJVf3AzLgbA6xW8HsJp
-         UvzHuC+OeF4tIDBtqcM3kFFbupYhqf0dTkFdpsONYeNELPai9o6XRayPnRp3hJUSDbtn
-         GrS+HDgeSyNZOf+dFnanauH0JHsFB/AWBkyKPMlaJBZCiUDHFvi2vTcQe2q7G32Tdvl4
-         UA3OAD22wh4NtkalzeZOhyCI+WvglFlRZyAITdfATINvIxX4EbAInHfhl1XMr54dlFhw
-         6aaZB19eXtYcKfod6evRDp61Zf8w5lQ9IfnAScC8C5J7kyKGQlVtekaci5SCpHDIYooj
-         wW2w==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W9vZwmlkrDBjvEWyCMDm/dnLCct5DvZtNMR1EOH464M=;
+        b=O+XyRFkRhNILNdeUWZgUoamaUVDiY4Van3n3NvBFXRPsO/RNK3cBvycVR5kV5P4A1C
+         0LIVBpLG6/ihvlIP+w3eaB9judjq+TEFuK+e8Ld04dr7PdMqwJeYqxlcpeBmELzGYYj3
+         msFdvvAbG6wrDaEtX6A09Cq14sX6lTccRUb7ptWguk8/yt/q1G4UqP5i7Ilv5L1hQSdz
+         eBJ5W5I+U5EP6JGKSDWgorAJIoLGcvoUdK2nRYgg1THK1ndbLcy8Alb/CAzpdRe6bcTp
+         Su2UjZJskkUVZwcjwOKg2lzX8/lTY5SIGD0BJZmPMVO5koGfBlmDeGqEDS2FuWwQJ7eb
+         f2FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CSOkfsibILtVOPEWTt+WszgZsXrlN9GKs6HqkiYI+W4=;
-        b=nf+pie9t4qE3MNF27EpyI3APEdpOuf1k5HvIGskbo4oBq5A9ZQmqYGlkX6dgtpPnRC
-         FYq9F6DsjAobjKDilPcQKzQt2auU5RNk4gHZhR9MBBHVvq1DyImeOUEN+SjGIPd3Ziej
-         LaHTss41K252asf4pzJAtjYeeKCLiFOh7xQ+SyXOwfY4k/K8AVCNzD5fBQPT7nI3o1ER
-         F/nl2rBlUzjy7XYEZ37lugLyfeb1P+rGXb9pKMcSz74EYePiF2ZlcmpjmDD0F6cvMiGj
-         b1ySVd+RyIt8BYewWZmuAIafKtK8fINsX94oqksnKD/QFqfb/w0VMA/Z/zju5LEERVfB
-         5WuA==
-X-Gm-Message-State: AOAM533ZAmBJ/PVich0PfUPsdgYgBFomM57oWv8NtWQumMQ6SziKoLPm
-	E/xi5Xe3PPj2soRqh5OzghPY6zIKhAYh69Dr8oYGEg==
-X-Google-Smtp-Source: ABdhPJyM5whXt3fWxtwzUoF7k9FgfBZcI/XqMx+AxgpKFoCOEqXrbxCbO0Q47i6uNgfTtR6pXE0x5/IyQyhQJRomVSY=
-X-Received: by 2002:a63:dd46:: with SMTP id g6mr12154246pgj.347.1631554829739;
- Mon, 13 Sep 2021 10:40:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W9vZwmlkrDBjvEWyCMDm/dnLCct5DvZtNMR1EOH464M=;
+        b=lEzkkCD3Nt5ls61eSk278UhmpAOY2qdeoeoOYNXcXw+w0eTSQiSwOH8q5sWFiCwGPv
+         mMk4f84us+e9KgdXkrf1K2q0tTR2oQmD+vylUSyUGs4SeWhvTTn7ARDcqSqqJzabzLx7
+         Ysu3FH8m6pyEfgwhF6gBgxrn3/J45gGN44yiCnbnB0jc1fqg0D9GXWg+s321TkHdw0A/
+         OzT92tUrGjNmWfUqtkP9MYk4Rniv07ZfbmMhdvW76WUeDGeg+Y7FGBgN16neeDz4+E09
+         u1L4PtJViiHCTeygl6d5b/4ddxZF20yyTAl0206nkjzN0q65u1zuiG760bGQQXokdaJh
+         PckA==
+X-Gm-Message-State: AOAM531t9Nhu+CLR42LNEf7mDoZM1kFERhYCVY+urh2dp9e+fheLRD6u
+	/2GkocE62Wqqb9S69l2DWFep84iFMPE=
+X-Google-Smtp-Source: ABdhPJyCAxJTcYtbPJOTf3H833YeEg4AAyF8nk4KVRiBXBpuEs0lBnPEOJJafFv4DQ5K4SAMD/8W5A==
+X-Received: by 2002:a17:906:2bc7:: with SMTP id n7mr13605981ejg.238.1631556622092;
+        Mon, 13 Sep 2021 11:10:22 -0700 (PDT)
+Received: from localhost.localdomain.it (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
+        by smtp.gmail.com with ESMTPSA id d25sm4258999edt.33.2021.09.13.11.10.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Sep 2021 11:10:21 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v4 00/18] staging: r8188eu: Shorten and simplify calls chain
+Date: Mon, 13 Sep 2021 20:09:44 +0200
+Message-Id: <20210913181002.16651-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YT413EaBXqIqMttS@user> <YT97MRziXoUFhvXh@kroah.com>
-In-Reply-To: <YT97MRziXoUFhvXh@kroah.com>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Mon, 13 Sep 2021 18:40:18 +0100
-Message-ID: <CAA=Fs0n5xt5CtkyVcissVfJpP4_QBpCSUStUy=pT1DwXmsyMMg@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: os_dep: remove unused function rtw_android_priv_cmd
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Martin Kaiser <martin@kaiser.cx>, 
-	Greg KH <gregkh@linuxfoundation.org>, Michael Straube <straube.linux@gmail.com>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, saurav.girepunje@hotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 13 Sept 2021 at 17:24, Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Sun, Sep 12, 2021 at 10:46:12PM +0530, Saurav Girepunje wrote:
-> > Remove unused function rtw_android_priv_cmd.
-> >
-> > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> > ---
-> >  drivers/staging/r8188eu/include/rtw_android.h |   1 -
-> >  drivers/staging/r8188eu/os_dep/rtw_android.c  | 138 ------------------
-> >  2 files changed, 139 deletions(-)
-> >
-> > diff --git a/drivers/staging/r8188eu/include/rtw_android.h b/drivers/staging/r8188eu/include/rtw_android.h
-> > index f60cf1c82984..86e3ac5f7955 100644
-> > --- a/drivers/staging/r8188eu/include/rtw_android.h
-> > +++ b/drivers/staging/r8188eu/include/rtw_android.h
-> > @@ -42,6 +42,5 @@ enum ANDROID_WIFI_CMD {
-> >  };
-> >
-> >  int rtw_android_cmdstr_to_num(char *cmdstr);
-> > -int rtw_android_priv_cmd(struct net_device *net, struct ifreq *ifr, int cmd);
-> >
-> >  #endif /* __RTW_ANDROID_H__ */
-> > diff --git a/drivers/staging/r8188eu/os_dep/rtw_android.c b/drivers/staging/r8188eu/os_dep/rtw_android.c
-> > index 010d529c8982..bd76177d60f9 100644
-> > --- a/drivers/staging/r8188eu/os_dep/rtw_android.c
-> > +++ b/drivers/staging/r8188eu/os_dep/rtw_android.c
-> > @@ -133,141 +133,3 @@ static int rtw_android_set_block(struct net_device *net, char *command,
-> >       return 0;
-> >  }
-> >
-> > -int rtw_android_priv_cmd(struct net_device *net, struct ifreq *ifr, int cmd)
-> > -{
-> > -     int ret = 0;
-> > -     char *command = NULL;
-> > -     int cmd_num;
-> > -     int bytes_written = 0;
-> > -     struct android_wifi_priv_cmd priv_cmd;
-> > -
-> > -     if (!ifr->ifr_data) {
-> > -             ret = -EINVAL;
-> > -             goto exit;
-> > -     }
-> > -     if (copy_from_user(&priv_cmd, ifr->ifr_data,
-> > -                        sizeof(struct android_wifi_priv_cmd))) {
-> > -             ret = -EFAULT;
-> > -             goto exit;
-> > -     }
-> > -     command = kmalloc(priv_cmd.total_len, GFP_KERNEL);
-> > -     if (!command) {
-> > -             DBG_88E("%s: failed to allocate memory\n", __func__);
-> > -             ret = -ENOMEM;
-> > -             goto exit;
-> > -     }
-> > -     if (!access_ok(priv_cmd.buf, priv_cmd.total_len)) {
-> > -             DBG_88E("%s: failed to access memory\n", __func__);
-> > -             ret = -EFAULT;
-> > -             goto exit;
-> > -     }
-> > -     if (copy_from_user(command, (char __user *)priv_cmd.buf,
-> > -                        priv_cmd.total_len)) {
-> > -             ret = -EFAULT;
-> > -             goto exit;
-> > -     }
-> > -     DBG_88E("%s: Android private cmd \"%s\" on %s\n",
-> > -             __func__, command, ifr->ifr_name);
-> > -     cmd_num = rtw_android_cmdstr_to_num(command);
-> > -     switch (cmd_num) {
-> > -     case ANDROID_WIFI_CMD_START:
-> > -             goto response;
-> > -     case ANDROID_WIFI_CMD_SETFWPATH:
-> > -             goto response;
-> > -     }
-> > -     if (!g_wifi_on) {
-> > -             DBG_88E("%s: Ignore private cmd \"%s\" - iface %s is down\n",
-> > -                     __func__, command, ifr->ifr_name);
-> > -             ret = 0;
-> > -             goto exit;
-> > -     }
-> > -     switch (cmd_num) {
-> > -     case ANDROID_WIFI_CMD_STOP:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_SCAN_ACTIVE:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_SCAN_PASSIVE:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_RSSI:
-> > -             bytes_written = rtw_android_get_rssi(net, command,
-> > -                                                  priv_cmd.total_len);
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_LINKSPEED:
-> > -             bytes_written = rtw_android_get_link_speed(net, command,
-> > -                                                        priv_cmd.total_len);
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_MACADDR:
-> > -             bytes_written = rtw_android_get_macaddr(net, command,
-> > -                                                     priv_cmd.total_len);
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_BLOCK:
-> > -             bytes_written = rtw_android_set_block(net, command,
-> > -                                                   priv_cmd.total_len);
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_RXFILTER_START:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_RXFILTER_STOP:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_RXFILTER_ADD:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_RXFILTER_REMOVE:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_BTCOEXSCAN_START:
-> > -             /* TBD: BTCOEXSCAN-START */
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_BTCOEXSCAN_STOP:
-> > -             /* TBD: BTCOEXSCAN-STOP */
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_BTCOEXMODE:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_SETSUSPENDOPT:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_SETBAND:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_GETBAND:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_COUNTRY:
-> > -             bytes_written = android_set_cntry(net, command,
-> > -                                               priv_cmd.total_len);
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_P2P_DEV_ADDR:
-> > -             bytes_written = android_get_p2p_addr(net, command,
-> > -                                                  priv_cmd.total_len);
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_P2P_SET_NOA:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_P2P_GET_NOA:
-> > -             break;
-> > -     case ANDROID_WIFI_CMD_P2P_SET_PS:
-> > -             break;
-> > -     default:
-> > -             DBG_88E("Unknown PRIVATE command %s - ignored\n", command);
-> > -             snprintf(command, 3, "OK");
-> > -             bytes_written = strlen("OK");
-> > -     }
-> > -
-> > -response:
-> > -     if (bytes_written >= 0) {
-> > -             if ((bytes_written == 0) && (priv_cmd.total_len > 0))
-> > -                     command[0] = '\0';
-> > -             if (bytes_written >= priv_cmd.total_len) {
-> > -                     DBG_88E("%s: bytes_written = %d\n", __func__,
-> > -                             bytes_written);
-> > -                     bytes_written = priv_cmd.total_len;
-> > -             } else {
-> > -                     bytes_written++;
-> > -             }
-> > -             priv_cmd.used_len = bytes_written;
-> > -             if (copy_to_user((char __user *)priv_cmd.buf, command,
-> > -                              bytes_written)) {
-> > -                     DBG_88E("%s: failed to copy data to user buffer\n",
-> > -                             __func__);
-> > -                     ret = -EFAULT;
-> > -             }
-> > -     } else {
-> > -             ret = bytes_written;
-> > -     }
-> > -exit:
-> > -     kfree(command);
-> > -     return ret;
-> > -}
-> > --
-> > 2.32.0
-> >
-> >
->
-> Does not apply to my tree :(
+io_ops abstraction is useless in this driver, since there is only one ops
+registration. Without io_ops we can get rid of indirect calls mess and
+shorten the calls chain.
 
-Dear Saurav,
+Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+For this purpose unify the three usb_read8/16/32 into the new
+usb_read(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_read() and use in it the new
+usb_control_msg_recv() API of USB Core.
 
-This code is already gone - Linus deleted it during a merge
-conflict resolution. I am planning to add it back soon though
-and reconnect with the newer siocdevprivate approach.
+Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+For this purpose unify the four usb_write8/16/32/N() into the new
+usb_write(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_write() and use in it the new
+usb_control_msg_send() API of USB Core.
 
-Regards,
-Phil
+The code with the modifications was thoroughly tested by Pavel Skripkin
+using a TP-Link TL-WN722N v2 / v3 [Realtek RTL8188EUS] and by Fabio M.
+De Francesco using a ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano].
+
+Fabio M. De Francesco (4):
+  staging: r8188eu: hal: Clean up usbctrl_vendorreq()
+  staging: r8188eu: hal: Clean up rtw_read*() and rtw_write*()
+  staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
+  staging: r8188eu: Shorten calls chain of rtw_write8/16/32/N()
+
+Pavel Skripkin (14):
+  staging: r8188eu: remove usb_{read,write}_mem
+  staging: r8188eu: remove the helpers of rtw_read8()
+  staging: r8188eu: remove the helpers of rtw_read16()
+  staging: r8188eu: remove the helpers of rtw_read32()
+  staging: r8188eu: remove the helpers of usb_write8
+  staging: r8188eu: remove the helpers of usb_write16
+  staging: r8188eu: remove the helpers of usb_write32
+  staging: r8188eu: remove the helpers of usb_writeN
+  staging: r8188eu: remove the helpers of usb_read_port
+  staging: r8188eu: remove the helpers of usb_write_port
+  staging: r8188eu: remove the helpers of usb_read_port_cancel
+  staging: r8188eu: remove the helpers of usb_write_port_cancel
+  staging: r8188eu: remove core/rtw_io.c
+  staging: remove struct _io_ops
+
+ drivers/staging/r8188eu/Makefile              |   1 -
+ drivers/staging/r8188eu/core/rtw_io.c         | 299 ------------------
+ drivers/staging/r8188eu/hal/usb_halinit.c     |   6 +-
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   | 250 ++++++++-------
+ drivers/staging/r8188eu/include/rtw_io.h      |  89 +-----
+ drivers/staging/r8188eu/include/usb_ops.h     |   2 -
+ .../staging/r8188eu/include/usb_ops_linux.h   |   8 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |   8 +-
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  20 +-
+ 9 files changed, 157 insertions(+), 526 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_io.c
+
+-- 
+2.33.0
+
