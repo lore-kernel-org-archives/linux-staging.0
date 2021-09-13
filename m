@@ -1,55 +1,21 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85413FD6;
-	Mon, 13 Sep 2021 08:32:53 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id F34C6580B05;
-	Mon, 13 Sep 2021 04:32:52 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 13 Sep 2021 04:32:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=75DIi7N4mlFsZ7koSe8DWsv99XW
-	KUQRl2cLcYOj+eRw=; b=AnOlF00X96M/zW0xSLaelxCdp+K18+ZvmQsW1G5Jmc1
-	oElqXlG6JCdmczd/vKPwL3qL4BDsX6dkA2fN6QRoJ8grHu2Thc25WjizjZg9Avzc
-	RaYn7G8tooHV1u49uwMxyOxP30LxlMkM6+rtPQOjoVzsYMx9PyXe3O4Hnv/egiTw
-	NyZet3CUtGVfyhSbCqE/wgND+4cU/EVakaCS6mEzJvl0dptFN5cXvZc4+UylhV8/
-	aL8qVF/Ul/4o34hylws0sak95LsbZcJkg/JVlqgWvdOBfXQNDvZrK8rb30ljmMNm
-	pHD53eqmmRrzSQbAhzT6rPX5eSzlc5E4LO/IrfEHvjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=75DIi7
-	N4mlFsZ7koSe8DWsv99XWKUQRl2cLcYOj+eRw=; b=SN9b9to4Bd4dhSPZrvD5Ip
-	v6TQojxM8KFWFJbSgojmFZqVxzmpkrCCS7Bi0ctSCWNTpLP0C+Ltb2smFmZ9t5dN
-	8H0cWcfdxawGXxZmZOxKv5iZZrdrRSh5ENXelBLtB+8O1cjQ4VNJBWzGOfDPgiYO
-	0E8/MSmhw0cFXxAdjKqDebZ3qX1Y0mmgcxORhkBvByyHCQoQ23m1iSdgFSaKQdZF
-	xDmDbMMKcZGxSF8R8V2NXQoLNCIL1jvVHqG/fH+Pkc2CGK/lTI8JGEfY3DWKHnBm
-	OnmJUZLUdv+BwoWPMWiK4Ikr+HL7emzRoNrMO/poMgcCqISHnFes1IhfajTEwufg
-	==
-X-ME-Sender: <xms:sgw_Yfk08ku3w2tB6OIiCaJwz8ukU_9LVm3ZGzSO97YdIBckz0UBLA>
-    <xme:sgw_YS1gOv0XzLLVJbrUaxYBsjUNwJI9PihhLnmg_dVfbVOiZUBygwn5GUvF_Tta6
-    hII1FJLLYK-K3P7mSo>
-X-ME-Received: <xmr:sgw_YVq5H-v5FtgSUXDYNNPdwaK9kYeNunnKZCsNhzqgSXAblDCehDWjp07BpkGR9pSmzpNNV9T8erwdcgxJAi36B-YuUAXDmg5p>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegjedgtdegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:sgw_YXkz5MzWwU4gJPWMz_8NWHOQ1DmnM4gv77MB2pfmpU60E_48jA>
-    <xmx:sgw_Yd1kOOHLiDkMeW5kMsQlIqOfrSjHWCBtbQPI8FakjpnQQJaSug>
-    <xmx:sgw_YWscRLJY93a522dC4jHw87H5KupnycUSN4X6eSrAGMMUpRqakQ>
-    <xmx:tAw_Ya7jfDwgw7gUctNpUkbWkmcXDngX9I6l8AXMn46WIWNRv7f-Qg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Sep 2021 04:32:50 -0400 (EDT)
-Date: Mon, 13 Sep 2021 10:32:48 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Samuel Holland <samuel@sholland.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C643FD6;
+	Mon, 13 Sep 2021 08:56:55 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 0B32ECDED2;
+	Mon, 13 Sep 2021 08:54:02 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 5001B40003;
+	Mon, 13 Sep 2021 08:53:52 +0000 (UTC)
+Date: Mon, 13 Sep 2021 10:53:51 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
 	Yong Deng <yong.deng@magewell.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -59,18 +25,12 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 19/22] soc: sunxi: mbus: Add A31 ISP compatibles to the
- list
-Message-ID: <20210913083248.h3m775cbmwsvhg6g@gilmour>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
+Message-ID: <YT8RnzVqLebtPMD+@aptenodytes>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-20-paul.kocialkowski@bootlin.com>
- <208239ba-01b1-451e-6030-894bd25770c3@sholland.org>
- <YT8BkjAZUGGYTR9l@aptenodytes>
+ <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
+ <20210913075417.ampb2jt4quftpqzj@gilmour>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,49 +38,80 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="f2zlbewwwotbr242"
+	protocol="application/pgp-signature"; boundary="jDKl5hLx33khB+zy"
 Content-Disposition: inline
-In-Reply-To: <YT8BkjAZUGGYTR9l@aptenodytes>
+In-Reply-To: <20210913075417.ampb2jt4quftpqzj@gilmour>
 
 
---f2zlbewwwotbr242
-Content-Type: text/plain; charset=us-ascii
+--jDKl5hLx33khB+zy
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 13, 2021 at 09:45:22AM +0200, Paul Kocialkowski wrote:
-> Hi Samuel,
+Hi,
+
+On Mon 13 Sep 21, 09:54, Maxime Ripard wrote:
+> On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
+> > In order to reparent the CSI module clock to the ISP PLL via
+> > device-tree, export the ISP PLL clock declaration in the public
+> > device-tree header.
 >=20
-> On Fri 10 Sep 21, 21:36, Samuel Holland wrote:
-> > On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
-> > > The A31 ISP sits on the mbus and requires the usual bus address
-> > > adaptation. Add its compatibles to the list.
-> >=20
-> > My understanding is that this driver only exists to work around old DT
-> > bindings where the interconnects/interconnect-names =3D "dma-mem"
-> > properties are not required (and so they are historically missing from
-> > the device trees).
-> >=20
-> > For new bindings, it would be better to use those properties and not add
-> > to this list.
+> You use clk_set_rate_exclusive in the ISP driver on the module clock so
+> it should prevent what you're mentioning from happening.
+
+It does, but then it breaks display support entirely (because the DRM
+driver doesn't use clk_set_rate_exclusive).
+
+The bottomline is that using the same PLL for both display and camera
+easily results in conflicts.
+
+> If it doesn't, then clk_set_rate_exclusive has a bug and should be
+> fixed.
 >=20
-> Oh okay, I didn't really look into it and just did the same thing that was
-> done for the CSI controller. Thanks for the heads up!
+> Either way, using assigned-clock-parents is not a good solution here
+> either, it only makes sure that this is the case when probe is run.
 
-This code was done to maintain backward compatibility. New DT should
-indeed use the interconnects property.
+I'm not sure what could provide better guarantees. There is a clock
+parenting API (in the clock framework) which may, but this implies
+providing the parent clock to the driver which seems way out of line
+since this is a platform-specific matter that should certainly not
+be handled by the driver.
 
-Maxime
+I also tried hardcoding the reparenting bit in the CCU driver, but
+this felt less clean than doing it in device-tree.
 
---f2zlbewwwotbr242
+What do you think?
+
+> > Details regarding why the CSI module clock is best parented to the ISP
+> > PLL are provided in the related commit.
+>=20
+> This is relevant to this commit too and "the related commit" is far too
+> blurry when you consider the entire Linux git history.
+
+Fair enough!
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--jDKl5hLx33khB+zy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYT8MsAAKCRDj7w1vZxhR
-xZy/AP9rOXpdGd4BspcymmvG0qIIWP3Pq7kC/1bc4wAklO4KHgD9Ha2JWbrzpEPh
-UGlrPhGtVhtUgMRZHOwB90O+gdiFLgI=
-=Gzk+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/EZ8ACgkQ3cLmz3+f
+v9GAXgf/WonaK8RTTtsz/x2Qh5N5DUQf8yAr5T68Jmx1Vo0uTy0bCi81Er1mcels
+4i6fI+7VeDZT5eopMWHisHVtgCj0u9mACqHgNnH6izOCei7WU1I9NANeIqDDZeow
+QVK16HSwIMpe5Be5UTu/tloyf8WGxcmEXTLyAhYSW3wynlegWFx7qe0GpSby7SCW
+moBvtsHEQ9k3FlvvRtwnZEuUWuBFf5eWN/o0dHy69BL92MYCA0D4lDg0phCrZzru
+ru41/xE+7fKLDTcOUCoVoKQX4Sh23iymP7dzk+YDbXjN8httuTe0HjZiC89sMDX/
+NMsXWS3qM/Owy4KyJP7K4dfSLylwQQ==
+=Rhfu
 -----END PGP SIGNATURE-----
 
---f2zlbewwwotbr242--
+--jDKl5hLx33khB+zy--
