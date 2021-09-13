@@ -1,75 +1,70 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935F83FD0
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 16:25:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A65F86023B;
-	Mon, 13 Sep 2021 16:25:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631550358;
-	bh=k2gjCgqIRciyyDVHRUfYHy8eLkHaUsw4OJP6DmYTCeo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D743FD0
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 16:27:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A2D3760E76;
+	Mon, 13 Sep 2021 16:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1631550455;
+	bh=+JU75Xr+8q9kiFLxr1qYENZSbwe5QYQ0hiW2ZF5UCD0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z350u0T1rMBl/EKHNv9LAI/QocjghKC+Qf2vJce4bbOxLjiKlU1terzrbpBQHluat
-	 dg3H0bT13pXwXCI5dGNxJVnONBmm5K68MpdjT6tdGCbGHjXUlhKV+0PHofh4le4NnF
-	 jFSPMEy02et4JrWKnET1rBsonSytWZflFLKdxi+4=
-Date: Mon, 13 Sep 2021 18:25:56 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: define wowlan_stub only when
- CONFIG_PM is enabled
-Message-ID: <YT97lJVU8cx3wxwN@kroah.com>
-References: <20210913140937.1490133-1-hello@bryanbrattlof.com>
+	b=nYFQxeHb0GejwY1c9Wp9liAY4sMkenPKpjRCTclr2YunjCOr2wzwBBi9vD2HLuJqZ
+	 3IggVeQkyIqLwrVt3TtoTcy1sxq3XNWr1A7EoQ19iUO4AiDMtfw7dRIDzG5S9R/ErQ
+	 Virp4+/ZMn77Wme4xWVuK6Tu0KOI5CrCApWRGLtE4bUotf+nENo1Dp2HzucqOyfds4
+	 Cba13pYZKZZRD1iF0CGMasAJpGr9AEYYFMv2aJok+Sxg6guc6WB7HbFHtkdAOLL1ab
+	 lD5nLJ2m1ZC9wCVnN2Hsq3gLWEbNML9M0RDKvaoivMQMQFL5Tc/sYjsUHN4DOdrtYN
+	 41BPrC2M6gogQ==
+Date: Mon, 13 Sep 2021 12:27:34 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Phillip Potter <phil@philpotter.co.uk>,
+	kernel test robot <lkp@intel.com>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH AUTOSEL 5.14 044/252] staging: rtl8188eu: remove
+ rtw_wx_set_rate handler function
+Message-ID: <YT979kMB0rOJeqZO@sashalap>
+References: <20210909114106.141462-1-sashal@kernel.org>
+ <20210909114106.141462-44-sashal@kernel.org>
+ <YTn0ofrVzKH/IuyV@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20210913140937.1490133-1-hello@bryanbrattlof.com>
+In-Reply-To: <YTn0ofrVzKH/IuyV@kroah.com>
 
-On Mon, Sep 13, 2021 at 02:10:12PM +0000, Bryan Brattlof wrote:
-> The wake-on-lan stub is needed only when the device power management
-> functionality is enabled in the kernel. Conditionally define
-> wowlan_stub to avoid potential unused object warnings.
-> 
-> Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
-> ---
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 34da8a569709..f4a9b4b7c97e 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -47,6 +47,7 @@ static const u32 rtw_cipher_suites[] = {
->   * Moreover wowlan has to be enabled via a the nl80211_set_wowlan callback.
->   * (from user space, e.g. iw phy0 wowlan enable)
->   */
-> +#if defined(CONFIG_PM)
->  static const struct wiphy_wowlan_support wowlan_stub = {
->  	.flags = WIPHY_WOWLAN_ANY,
->  	.n_patterns = 0,
-> @@ -54,6 +55,7 @@ static const struct wiphy_wowlan_support wowlan_stub = {
->  	.pattern_min_len = 0,
->  	.max_pkt_offset = 0,
->  };
-> +#endif
-> 
->  static struct ieee80211_rate rtw_rates[] = {
->  	RATETAB_ENT(10,  0x1,   0),
-> --
-> 2.30.2
-> 
-> 
+On Thu, Sep 09, 2021 at 01:48:49PM +0200, Greg Kroah-Hartman wrote:
+>On Thu, Sep 09, 2021 at 07:37:38AM -0400, Sasha Levin wrote:
+>> From: Phillip Potter <phil@philpotter.co.uk>
+>>
+>> [ Upstream commit ac5951a6e3d50cfa861ea83baa2ec15d994389cb ]
+>>
+>> Remove rtw_wx_set_rate handler function, which currently handles the
+>> SIOCSIWRATE wext ioctl. This function (although containing a lot of
+>> code) set nothing outside its own local variables, and did nothing other
+>> than call a now removed debugging statement repeatedly. Removing it and
+>> leaving its associated entry in rtw_handlers as NULL is therefore the
+>> better option. Removing this function also fixes a kernel test robot
+>> warning.
+>>
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+>> Link: https://lore.kernel.org/r/20210625191658.1299-1-phil@philpotter.co.uk
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>> ---
+>>  .../staging/rtl8188eu/os_dep/ioctl_linux.c    | 75 -------------------
+>>  1 file changed, 75 deletions(-)
+>
+>This whole driver is now gone in 5.15-rc1, so no need for doing anything
+>like this for older kernels.  Please drop this patch from all branches.
 
-Do you get a build warning with the code as-is?
+Dropped, thanks!
 
-Having #if in .c files is generally a bad idea, are you sure there is no
-other way to solve this?
-
-thanks,
-
-greg k-h
+-- 
+Thanks,
+Sasha
