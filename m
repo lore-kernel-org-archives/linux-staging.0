@@ -1,38 +1,38 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155023FC4;
-	Mon, 13 Sep 2021 07:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DE73FC4;
+	Mon, 13 Sep 2021 07:50:33 +0000 (UTC)
+Received: from relay11.mail.gandi.net (unknown [217.70.178.231])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 08D06CCFCF;
+	Mon, 13 Sep 2021 07:44:42 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by relay11.mail.gandi.net (Postfix) with ESMTPSA id 24A0C100007;
-	Mon, 13 Sep 2021 07:45:59 +0000 (UTC)
-Date: Mon, 13 Sep 2021 09:45:59 +0200
+	by relay11.mail.gandi.net (Postfix) with ESMTPSA id 6AD0F100018;
+	Mon, 13 Sep 2021 07:44:23 +0000 (UTC)
+Date: Mon, 13 Sep 2021 09:44:22 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	devicetree <devicetree@vger.kernel.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-phy@lists.infradead.org,
-	linux-clk <linux-clk@vger.kernel.org>,
-	linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+To: Samuel Holland <samuel@sholland.org>
+Cc: Yong Deng <yong.deng@magewell.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH NOT FOR MERGE 13/22] ARM: dts: sun8i: a83t: Add MIPI
- CSI-2 controller node
-Message-ID: <YT8Bt3Fmakn97vi9@aptenodytes>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 09/22] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2
+ support
+Message-ID: <YT8BVo61qL1jq/er@aptenodytes>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-14-paul.kocialkowski@bootlin.com>
- <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
+ <20210910184147.336618-10-paul.kocialkowski@bootlin.com>
+ <483288cb-d9fa-4581-7986-d15c4aa27769@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,108 +40,165 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a3BeDpyJol7qXzGn"
+	protocol="application/pgp-signature"; boundary="QZVQzP+VTAJydr5U"
 Content-Disposition: inline
-In-Reply-To: <CAGb2v66OHJREEg1Djkk=VyY0yUr5JE8Fp+xsb40wCk6E56bH8A@mail.gmail.com>
+In-Reply-To: <483288cb-d9fa-4581-7986-d15c4aa27769@sholland.org>
 
 
---a3BeDpyJol7qXzGn
+--QZVQzP+VTAJydr5U
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Chen-Yu,
+Hi Samuel,
 
-On Sat 11 Sep 21, 10:53, Chen-Yu Tsai wrote:
-> Hi,
->=20
-> On Sat, Sep 11, 2021 at 2:42 AM Paul Kocialkowski
-> <paul.kocialkowski@bootlin.com> wrote:
-> >
-> > MIPI CSI-2 is supported on the A83T with a dedicated controller that
-> > covers both the protocol and D-PHY. It can be connected to the CSI
-> > interface as a V4L2 subdev through the fwnode graph.
-> >
-> > This is not done by default since connecting the bridge without a
-> > subdev attached to it will cause a failure on the CSI driver.
-> >
+On Fri 10 Sep 21, 21:32, Samuel Holland wrote:
+> On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
+> > MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
+> > controller. The controller uses a separate D-PHY, which is the same
+> > that is otherwise used for MIPI DSI, but used in Rx mode.
+> >=20
+> > On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
+> > not have access to any parallel interface pins.
+> >=20
+> > Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
+> > support the MIPI CSI-2 interface.
+> >=20
+> > Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
+> > even when no sensor is connected. This will result in a probe failure
+> > for the controller as long as no sensor is connected but this is fine
+> > since no other interface is available.
+> >=20
 > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  arch/arm/boot/dts/sun8i-v3s.dtsi | 72 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 72 insertions(+)
+> >=20
+> > diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i=
+-v3s.dtsi
+> > index a77b63362a1d..ec7fa6459547 100644
+> > --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+> > @@ -612,6 +612,34 @@ spi0: spi@1c68000 {
+> >  			#size-cells =3D <0>;
+> >  		};
+> > =20
+> > +		csi0: camera@1cb0000 {
+> > +			compatible =3D "allwinner,sun8i-v3s-csi";
+> > +			reg =3D <0x01cb0000 0x1000>;
+> > +			interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +			clocks =3D <&ccu CLK_BUS_CSI>,
+> > +				 <&ccu CLK_CSI1_SCLK>,
+> > +				 <&ccu CLK_DRAM_CSI>;
+> > +			clock-names =3D "bus", "mod", "ram";
+> > +			resets =3D <&ccu RST_BUS_CSI>;
+> > +			status =3D "disabled";
+> > +
+> > +			assigned-clocks =3D <&ccu CLK_CSI1_SCLK>;
+> > +			assigned-clock-parents =3D <&ccu CLK_PLL_ISP>;
+> > +
+> > +			ports {
+> > +				#address-cells =3D <1>;
+> > +				#size-cells =3D <0>;
+> > +
+> > +				port@1 {
+> > +					reg =3D <1>;
+> > +
+> > +					csi0_in_mipi_csi2: endpoint {
+> > +						remote-endpoint =3D <&mipi_csi2_out_csi0>;
+> > +					};
+> > +				};
+> > +			};
+> > +		};
+> > +
+> >  		csi1: camera@1cb4000 {
+> >  			compatible =3D "allwinner,sun8i-v3s-csi";
+> >  			reg =3D <0x01cb4000 0x3000>;
 >=20
-> I believe you tagged the wrong patch to not be merged? AFAICT it
-> should be the next patch that hooks up OV8865, not this one.
+> All of the new nodes should be added above this one, to maintain unit
+> address order.
 
-Yes you are definitely right, this patch is good for merge and the next
-one is not.
+Good catch, this was an overlook on my side.
 
 Thanks,
 
 Paul
 
-> > ---
-> >  arch/arm/boot/dts/sun8i-a83t.dtsi | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8=
-i-a83t.dtsi
-> > index ac97eac91349..1fa51f7ef063 100644
-> > --- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > +++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-> > @@ -1064,6 +1064,32 @@ csi: camera@1cb0000 {
-> >                         status =3D "disabled";
-> >                 };
-> >
-> > +               mipi_csi2: csi@1cb1000 {
-> > +                       compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
-> > +                       reg =3D <0x01cb1000 0x1000>;
-> > +                       interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +                       clocks =3D <&ccu CLK_BUS_CSI>,
-> > +                                <&ccu CLK_CSI_SCLK>,
-> > +                                <&ccu CLK_MIPI_CSI>,
-> > +                                <&ccu CLK_CSI_MISC>;
-> > +                       clock-names =3D "bus", "mod", "mipi", "misc";
-> > +                       resets =3D <&ccu RST_BUS_CSI>;
-> > +                       status =3D "disabled";
+> Regards,
+> Samuel
+>=20
+> > @@ -637,5 +665,49 @@ gic: interrupt-controller@1c81000 {
+> >  			#interrupt-cells =3D <3>;
+> >  			interrupts =3D <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_=
+HIGH)>;
+> >  		};
 > > +
-> > +                       ports {
-> > +                               #address-cells =3D <1>;
-> > +                               #size-cells =3D <0>;
+> > +		mipi_csi2: csi@1cb1000 {
+> > +			compatible =3D "allwinner,sun8i-v3s-mipi-csi2",
+> > +				     "allwinner,sun6i-a31-mipi-csi2";
+> > +			reg =3D <0x01cb1000 0x1000>;
+> > +			interrupts =3D <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
+> > +			clocks =3D <&ccu CLK_BUS_CSI>,
+> > +				 <&ccu CLK_CSI1_SCLK>;
+> > +			clock-names =3D "bus", "mod";
+> > +			resets =3D <&ccu RST_BUS_CSI>;
+> > +			status =3D "disabled";
 > > +
-> > +                               mipi_csi2_in: port@0 {
-> > +                                       reg =3D <0>;
-> > +                               };
+> > +			phys =3D <&dphy>;
+> > +			phy-names =3D "dphy";
 > > +
-> > +                               mipi_csi2_out: port@1 {
-> > +                                       reg =3D <1>;
-> > +                               };
-> > +                       };
-> > +               };
+> > +			ports {
+> > +				#address-cells =3D <1>;
+> > +				#size-cells =3D <0>;
 > > +
-> >                 hdmi: hdmi@1ee0000 {
-> >                         compatible =3D "allwinner,sun8i-a83t-dw-hdmi";
-> >                         reg =3D <0x01ee0000 0x10000>;
-> > --
-> > 2.32.0
-> >
-> >
+> > +				mipi_csi2_in: port@0 {
+> > +					reg =3D <0>;
+> > +				};
+> > +
+> > +				mipi_csi2_out: port@1 {
+> > +					reg =3D <1>;
+> > +
+> > +					mipi_csi2_out_csi0: endpoint {
+> > +						remote-endpoint =3D <&csi0_in_mipi_csi2>;
+> > +					};
+> > +				};
+> > +			};
+> > +		};
+> > +
+> > +		dphy: d-phy@1cb2000 {
+> > +			compatible =3D "allwinner,sun6i-a31-mipi-dphy";
+> > +			reg =3D <0x01cb2000 0x1000>;
+> > +			clocks =3D <&ccu CLK_BUS_CSI>,
+> > +				 <&ccu CLK_MIPI_CSI>;
+> > +			clock-names =3D "bus", "mod";
+> > +			resets =3D <&ccu RST_BUS_CSI>;
+> > +			allwinner,direction =3D "rx";
+> > +			status =3D "disabled";
+> > +			#phy-cells =3D <0>;
+> > +		};
+> >  	};
+> >  };
+> >=20
+>=20
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---a3BeDpyJol7qXzGn
+--QZVQzP+VTAJydr5U
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AbcACgkQ3cLmz3+f
-v9GBrgf9HSUZdAaK36cq9m6svkBM+jphy40Yx1unln6fFfLoQoLluNFl8vwi5iKc
-Gb42Npg4NojviHDFxq71JtZiURP/pz9HiqmE7eOB0c9rdxL+SDXE9zzK8BfOXOwi
-1oySmXYcP2zbseeQHZ5VCCUzMZBcGWtnZTq+IJuYktq1F0448cYzUC1h7sdI0dbs
-yuEb9x2Xz0HtlLd5GuY8G3azwmyZxNdEotTP3LcFJ2mHbjxBvu6butmych9IOanN
-wnIPiULd3YFmoJ9khRL1KfKZ0N7WkZRLZBTlbhKrv5PIeQNjTWIIFjNN7y/gvEOZ
-omUKtZSmJY9vCNYwFHoATT43SX7uyA==
-=MNI6
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AVYACgkQ3cLmz3+f
+v9EFwAgAlLhO92v/X6G6gs1EKL/Ve3k5WVgSYDcp38cxhVkn9TYIx+u97xSfyDLC
+P5PABn2O8tERf6e7U1NBmqr64vSzvziaRmeLo6co6sdLEJuNvk4wrp3/9U7+dp/Q
+9Pp/tPxadAO4SKID7BW5UKTEzWqzGlsGJf/6p83oKzwWtBCTBXTfK0PjkmESPFy8
+kTX1gqi9/Pe0oiWH0PRZJIZzPYDP8PpRNPQNxhPlXivuSnDLFwNAhaSXrMvqOnl2
+/Y+tpSRPXTKGPqjIAzRn3G2fTveiHMw0fTLwVgcZqqNIK4dACeQLJYNdSxjTMORZ
+J1xWZQdStHkESCp9DRxlxV8TLbiItg==
+=95oz
 -----END PGP SIGNATURE-----
 
---a3BeDpyJol7qXzGn--
+--QZVQzP+VTAJydr5U--
