@@ -1,60 +1,80 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68113FC3
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 19:37:37 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1mPrlm-0005hm-0V; Mon, 13 Sep 2021 21:37:34 +0200
-Date: Mon, 13 Sep 2021 21:37:33 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/12] staging: r8188eu: power management cleanup
-Message-ID: <20210913193733.nh5fijjo5jlsmqpk@viti.kaiser.cx>
-References: <20210911141521.24901-1-martin@kaiser.cx>
- <YT96cYdbN/n5OY+S@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837543FC3
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 19:38:36 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id q26so16398953wrc.7
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 12:38:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=c6DbKWeeuhyIQk/sjR5gJ2Num3qwAgw1fKp51/8HpbY=;
+        b=Q8+5Fs8fNNTZntiKDFNbaSpGrjYmQD7GVzFqb6ch5BoIw0spXXKGxehoszaG80RNTz
+         hhMxqj6D0QZjaYR8f0LhVvzVtczxcldm0lWur3fRndY8bKFt1MnHVZ0jWe/mDr6IgS4C
+         yJAOnWfyT1nEnMDfvyNesKRTBjovnmyfKEtnD5IQKVDvLyCnHqKOqjMHeYqZXBEkYwk0
+         cYTYAY63t8JchWXbwcTZ7yTkgTN+OVX1QpXvoyNV18YTZsulKtZ55x8vO11aSDK6TU51
+         W4yCZTjPKDTVZpgk8xgydcxFOs34xXCgEar0pFlwnlTKhcWL6PXum3lVGetE4opx2I0g
+         /1YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=c6DbKWeeuhyIQk/sjR5gJ2Num3qwAgw1fKp51/8HpbY=;
+        b=PlmqzxxBH0toxqWN/+6bkKvNnligjqD8vVKA2rB5cfglZYZuQZ7OASMeIN5JbeNVEl
+         XLtNPYAYl28obrD0hHTxGBj4T2kEoySUkgbeO0RPyW4blLlmwIVnLBfCEsTeUlPnZ7g+
+         kdlY5LqFMYRD95g+qzWNGjcOXqqtHYTwNU2z/O0489Eq22GuHlrFOeRmlLNLXmfDxlQx
+         nNWu6wyiF49KFD5SmsbNY9yHQkie+JwHU2b3CnAk9sAoBbEgPi8nZ4RAGq4eAkXM99GZ
+         k0ZOkjTgRSI+D1CENj1yX/+7pViG6GlJIIzqxTdoD0G/NeyrJI/Jl7e0Q4LAsUOEEISD
+         2dLw==
+X-Gm-Message-State: AOAM531+QXawcHK8lHk9By14QtKR6WuFL+X+kk4dKWka5DigZVOTcc6z
+	ArvJPaAZ1lkuuMBVDlX8pvg=
+X-Google-Smtp-Source: ABdhPJyeNb/QodalatxHQ8M39Shvt3YxxNv1ndi5rl5f7lljsUhavpCTCWIs/1+XcvvnU0ACRJxvRA==
+X-Received: by 2002:a5d:4591:: with SMTP id p17mr14483338wrq.59.1631561914937;
+        Mon, 13 Sep 2021 12:38:34 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::1db2? ([2a02:8108:96c0:3b88::1db2])
+        by smtp.gmail.com with ESMTPSA id n26sm5745365wmi.43.2021.09.13.12.38.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Sep 2021 12:38:34 -0700 (PDT)
+Message-ID: <1feb008a-d13b-6b27-5e1f-e56fed37cd3e@gmail.com>
+Date: Mon, 13 Sep 2021 21:38:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YT96cYdbN/n5OY+S@kroah.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH v2 3/8] staging: r8188eu: _free_pwrlock is empty
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210911141521.24901-1-martin@kaiser.cx>
+ <20210913185110.3065-1-martin@kaiser.cx>
+ <20210913185110.3065-4-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20210913185110.3065-4-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thus wrote Greg Kroah-Hartman (gregkh@linuxfoundation.org):
+Hi Martin,
 
-> On Sat, Sep 11, 2021 at 04:15:09PM +0200, Martin Kaiser wrote:
-> > Remove some unused parts of the power management code.
+On 9/13/21 20:51, Martin Kaiser wrote:
+> -void rtw_free_pwrctrl_priv(struct adapter *adapter)
+> -{
+> -	struct pwrctrl_priv *pwrctrlpriv = &adapter->pwrctrlpriv;
+> -
+> -	_free_pwrlock(&pwrctrlpriv->lock);
+> -
+> -}
 
-> > Tested with Edimax EW-7811Un V2 on an ARM32 embedded system.
+the prototype of rtw_free_pwrctrl_priv can also be removed
+from rtw_pwrctrl.h,
 
-> > Martin Kaiser (12):
-> >   staging: r8188eu: btcoex_rfon is always false
-> >   staging: r8188eu: setting HW_VAR_SET_RPWM does nothing
-> >   staging: r8188eu: remove write-only variable cpwm
-> >   staging: r8188eu: remove write-only variable tog
-> >   staging: r8188eu: remove rtw_set_rpwm
-> >   staging: r8188eu: remove unused power state defines
-> >   staging: r8188eu: _free_pwrlock is empty
-> >   staging: r8188eu: remove unused pwrctrl definitions
-> >   staging: r8188eu: remove unused enum and array
-> >   staging: r8188eu: rtw_set_ips_deny is not used
-> >   staging: r8188eu: remove unused variable cpwm_tog
-> >   staging: r8188eu: remove unused variable b_hw_radio_off
-
-> I applied a subset of these.  Please rebase and resend the reset.
-
-I sent a v2 of this patchset with the outstanding patches as a followup
-to this set. I hope that this is generally the right thing to do after
-the maintainer applies some patches of a set.
-
-Thanks & best regards,
-Martin
+Thanks,
+Michael
