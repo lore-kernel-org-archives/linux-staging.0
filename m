@@ -1,28 +1,54 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9353F3FC3
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 19:01:32 +0000 (UTC)
-Received: from 250.57.4.146.static.wline.lns.sme.cust.swisscom.ch ([146.4.57.250] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mPrCo-0005LG-UZ; Mon, 13 Sep 2021 21:01:26 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B43C3FC3
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 19:21:11 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 196-20020a1c04cd000000b002fa489ffe1fso157760wme.4
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 12:21:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZTkljj3h+rTe2KBAyAOXxGYvTDb2Jx0UPe/y0mO6974=;
+        b=N2B7edFOIXkqBqcVeWdUIQZvOJfOCKOgJUqeh9qq2rmA9HKal3oX5Ovr7KdLLJL0YA
+         Z0GDZ9O1HAnhFoA/ad0DV8Ic9aKC67REhGWQKhQ/wRl/W7v4cuQWroFe/Dnz3kSbRbZ1
+         7hPy8ZjQITnINBJhUxw4HaHoodg/KG+PCoonE0iar/U9bwteoluTofcWoO39u54zjUQj
+         KUrLdz/1oM88H2Veg0j1Bt87o94zp0CDum6gmRUJTe6ELqsDr0CHb2UhXYkemHFDrIif
+         4pJ/WvJWYfWbRLP1PQgu7/now5QfbRWS/9rvJo9rYZ81i391AbwSogiRFAO8U5qEhHqL
+         HFrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZTkljj3h+rTe2KBAyAOXxGYvTDb2Jx0UPe/y0mO6974=;
+        b=EhPvoIWFcuSi1mQKmbFSg9BqYSIzz2hgqDpaQB08uOuyicZU1g5Lx1og3OTv3mWIzn
+         Naf/+aN7X03GIbjSb8TW7VJhNXM+BnpWtNWW21UC/HVp4nOPAudFsydSJrtw2nRKnD1a
+         7qwsNSmpPlzPjeIZNdLfy2tj4OrmierRaSphFSvyBwKYjmRf8hArOmrQk6Qndr/aIpX1
+         BRmrUsMspPFEuaCChjBXvt+PLNIIHTgpdQ8PPrO5nI2mZgKPA96Scv5l+cA1lshkWedZ
+         V69mjWGfJYCF+l6HSO/iWlwxSzHfKd/BwLTn897FCGM7oTq6ymXhSzUmAAC8LzcBJ5xz
+         /RLA==
+X-Gm-Message-State: AOAM530RLOkUkpU1PUspgemwZzHi6TYurGAy7UGCN0Vj6G7ivtLLi3Vk
+	UuK3QUOMONhR2hgK8HaV2JM=
+X-Google-Smtp-Source: ABdhPJymv5uEomJRaSyutIHUUpPODIWhCGF1NIQLM1vmoUj526ylZ2yn6O3R9AiUD5dtxCa4XbgIxg==
+X-Received: by 2002:a1c:acc2:: with SMTP id v185mr12840636wme.71.1631560869581;
+        Mon, 13 Sep 2021 12:21:09 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::1db2])
+        by smtp.gmail.com with ESMTPSA id m2sm475021wmm.3.2021.09.13.12.21.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Sep 2021 12:21:09 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2 2/2] staging: r8188eu: remove rtw_hw_resume
-Date: Mon, 13 Sep 2021 20:59:57 +0200
-Message-Id: <20210913185957.3166-3-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210913185957.3166-1-martin@kaiser.cx>
-References: <20210911161019.26881-1-martin@kaiser.cx>
- <20210913185957.3166-1-martin@kaiser.cx>
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/3] staging: r8188eu: clean up odm_types.h
+Date: Mon, 13 Sep 2021 21:20:40 +0200
+Message-Id: <20210913192043.26527-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,78 +57,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The bHWPwrPindetect cleanup removed the only call to rtw_hw_resume.
+This series removes unused defines, an unused enum and an unnecessary
+include from the header file odm_types.h.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
-v2:
-- rebased against today's staging-testing branch
+Michael Straube (3):
+  staging: r8188eu: remove unused enum RT_SPINLOCK_TYPE
+  staging: r8188eu: remove unused defines from odm_types.h
+  staging: r8188eu: remove unnecessary include from odm_types.h
 
- drivers/staging/r8188eu/include/osdep_intf.h |  1 -
- drivers/staging/r8188eu/os_dep/usb_intf.c    | 39 --------------------
- 2 files changed, 40 deletions(-)
+ drivers/staging/r8188eu/include/odm_types.h | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
-index 5a2c7a98f023..da36770852f8 100644
---- a/drivers/staging/r8188eu/include/osdep_intf.h
-+++ b/drivers/staging/r8188eu/include/osdep_intf.h
-@@ -58,6 +58,5 @@ void rtw_ips_dev_unload(struct adapter *padapter);
- 
- int rtw_ips_pwr_up(struct adapter *padapter);
- void rtw_ips_pwr_down(struct adapter *padapter);
--int rtw_hw_resume(struct adapter *padapter);
- 
- #endif	/* _OSDEP_INTF_H_ */
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index a23b0becb668..c40246bbb4f4 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -278,45 +278,6 @@ static void process_spec_devid(const struct usb_device_id *pdid)
- 	}
- }
- 
--int rtw_hw_resume(struct adapter *padapter)
--{
--	struct pwrctrl_priv *pwrpriv;
--	struct net_device *pnetdev = padapter->pnetdev;
--
--	if (!padapter)
--		goto error_exit;
--	pwrpriv = &padapter->pwrctrlpriv;
--	DBG_88E("==> rtw_hw_resume\n");
--	_enter_pwrlock(&pwrpriv->lock);
--	pwrpriv->bips_processing = true;
--	rtw_reset_drv_sw(padapter);
--
--	if (pm_netdev_open(pnetdev, false) != 0) {
--		_exit_pwrlock(&pwrpriv->lock);
--		goto error_exit;
--	}
--
--	netif_device_attach(pnetdev);
--	netif_carrier_on(pnetdev);
--
--	if (!netif_queue_stopped(pnetdev))
--		netif_start_queue(pnetdev);
--	else
--		netif_wake_queue(pnetdev);
--
--	pwrpriv->bkeepfwalive = false;
--
--	pwrpriv->rf_pwrstate = rf_on;
--	pwrpriv->bips_processing = false;
--
--	_exit_pwrlock(&pwrpriv->lock);
--
--	return 0;
--error_exit:
--	DBG_88E("%s, Open net dev failed\n", __func__);
--	return -1;
--}
--
- static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
- {
- 	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
 -- 
-2.20.1
+2.33.0
 
