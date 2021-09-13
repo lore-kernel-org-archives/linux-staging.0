@@ -1,27 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1853FD0
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 16:18:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7241960EE5;
-	Mon, 13 Sep 2021 16:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634553FD0
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 16:21:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9AE3860EE5;
+	Mon, 13 Sep 2021 16:21:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631549911;
-	bh=1QYduAjqko44zZ/U4MXISA30+hpgDfQVIK7iDh1pJFk=;
+	s=korg; t=1631550073;
+	bh=1v+BzYscB7RrEgma7R6BwLGpCDKi1yPqJg+TV5c6ONA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cTezS0NaO1PiYWPqLJuTEBs+5L0sJu+mAaHcj91lCRVC1Tnau9L7q0b9Prh2g3HPB
-	 yfdSlUyemyuWufbysMg+L8KHLgWIUVmwE+hvorrvFD24wOWbd8JxpYNseyGl3SllEO
-	 kSB9Mb2mMcbjTfFB/kpklR0JEXYvrJfjHmFx0wNI=
-Date: Mon, 13 Sep 2021 18:18:29 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: r8188eu: core: remove the function
- power_saving_wk_hdl
-Message-ID: <YT951VyaUEX8uFpz@kroah.com>
-References: <YTub30ZRG3oLbxQW@user>
+	b=mXXXJdHpkVSYOPfC5ndT4Pt55MxT1aDQGGD+2dG3PEUBS6HNAt+w9evrUHqYEUm90
+	 Ztlw08uCc9bPfMnvZ21tBMftd3LhFlWz04Lq/sasWXH4eZYx02ppdr65GHquNXyTbG
+	 uSqSFgb8n8AukNgBZSf9v/vrabWg3rmnluNgNqlQ=
+Date: Mon, 13 Sep 2021 18:21:05 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/12] staging: r8188eu: power management cleanup
+Message-ID: <YT96cYdbN/n5OY+S@kroah.com>
+References: <20210911141521.24901-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,50 +30,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YTub30ZRG3oLbxQW@user>
+In-Reply-To: <20210911141521.24901-1-martin@kaiser.cx>
 
-On Fri, Sep 10, 2021 at 11:24:39PM +0530, Saurav Girepunje wrote:
-> Remove the function power_saving_wk_hdl() as it just calling
-> the rtw_ps_processor().Instead of power_saving_wk_hdl() call directly
-> rtw_ps_processor().
+On Sat, Sep 11, 2021 at 04:15:09PM +0200, Martin Kaiser wrote:
+> Remove some unused parts of the power management code.
 > 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/r8188eu/core/rtw_cmd.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+> Tested with Edimax EW-7811Un V2 on an ARM32 embedded system.
 > 
-> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-> index ce73ac7cf973..35e6a943c556 100644
-> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> @@ -1669,11 +1669,6 @@ u8 rtw_antenna_select_cmd(struct adapter *padapter, u8 antenna, u8 enqueue)
->  	return res;
->  }
-> 
-> -static void power_saving_wk_hdl(struct adapter *padapter, u8 *pbuf, int sz)
-> -{
-> -	 rtw_ps_processor(padapter);
-> -}
-> -
->  #ifdef CONFIG_88EU_P2P
->  u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
->  {
-> @@ -1941,7 +1936,7 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
->  		dynamic_chk_wk_hdl(padapter, pdrvextra_cmd->pbuf, pdrvextra_cmd->type_size);
->  		break;
->  	case POWER_SAVING_CTRL_WK_CID:
-> -		power_saving_wk_hdl(padapter, pdrvextra_cmd->pbuf, pdrvextra_cmd->type_size);
-> +		rtw_ps_processor(padapter);
->  		break;
->  	case LPS_CTRL_WK_CID:
->  		lps_ctrl_wk_hdl(padapter, (u8)pdrvextra_cmd->type_size);
-> --
-> 2.32.0
-> 
-> 
+> Martin Kaiser (12):
+>   staging: r8188eu: btcoex_rfon is always false
+>   staging: r8188eu: setting HW_VAR_SET_RPWM does nothing
+>   staging: r8188eu: remove write-only variable cpwm
+>   staging: r8188eu: remove write-only variable tog
+>   staging: r8188eu: remove rtw_set_rpwm
+>   staging: r8188eu: remove unused power state defines
+>   staging: r8188eu: _free_pwrlock is empty
+>   staging: r8188eu: remove unused pwrctrl definitions
+>   staging: r8188eu: remove unused enum and array
+>   staging: r8188eu: rtw_set_ips_deny is not used
+>   staging: r8188eu: remove unused variable cpwm_tog
+>   staging: r8188eu: remove unused variable b_hw_radio_off
 
-Also does not apply to my tree.  Please rebase against my staging-next
-branch and resend.
+I applied a subset of these.  Please rebase and resend the reset.
 
 thanks,
 
