@@ -1,38 +1,72 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DE73FC4;
-	Mon, 13 Sep 2021 07:50:33 +0000 (UTC)
-Received: from relay11.mail.gandi.net (unknown [217.70.178.231])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 08D06CCFCF;
-	Mon, 13 Sep 2021 07:44:42 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by relay11.mail.gandi.net (Postfix) with ESMTPSA id 6AD0F100018;
-	Mon, 13 Sep 2021 07:44:23 +0000 (UTC)
-Date: Mon, 13 Sep 2021 09:44:22 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Yong Deng <yong.deng@magewell.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984763FC4;
+	Mon, 13 Sep 2021 07:54:22 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id BCC0E580B19;
+	Mon, 13 Sep 2021 03:54:21 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 13 Sep 2021 03:54:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=H8iC8iHH15qxrWE5p36hpaSNhVm
+	Drj/cFBvDF2mQy2E=; b=UCfz2XtPhqhQXdFg6bLxKSpWTWtfkqIOg2guL+fXvKA
+	Wcj8/ouyHsRZ2ZHZXxWkf5xBKf6EX71bJkf/399vs4ctj0s/vD6p8TP8Zo9cKfMb
+	f8nQ9kMWaVKfaR2dBzFZQ77Yz7VSXQ59S5mqjLEslbHo9VllCnLshbv+ynNle7gU
+	5lI7nAKGcFk3gYj1IAVs+bOBKjuFm+UdM/9NrwmlLSggIMQY85+wvmsyvY99uujL
+	OVIg0EZjOko0OZthW8+bfP2kHkKZhMfGEfpJmIn38C4ntfryqB/xb99J0v8ENOyL
+	6x9/xDWbxYkqOf/PkLeTqtT1WFyZTDkCeWL/a2wE6ng==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=H8iC8i
+	HH15qxrWE5p36hpaSNhVmDrj/cFBvDF2mQy2E=; b=nELtx7Ev2gebBVUNhEEN+m
+	Cf5eZIoXUV3lQ+EMzuH94Xo8HlKTUEf1mYwKaoooBH0CPzaUvEygsKgbnTAA2Tme
+	I9lKc6uP7dQOawMGp6kE0RZ5RofgBbeVyUva8j+3HAyqZxSfx1qui0km3xyxOhct
+	qgstkYSYWcQNiJFcNX8Af4EGFVrcmteFwJLud30Qn54AJw1StUl2fLymPUpyq4q/
+	TFMqaoDjUWjTQG9WgS+a7+09XD+LmaRU460/QhcXrExjRmg6G9rXlVi08urHV47x
+	Cd+zIvrQYIEeja0zJAQ3lQzjdyTwvMKd3wS8QTCqjB4Wl1wF5EKGfQecfo8k2Kdg
+	==
+X-ME-Sender: <xms:qwM_YSb2_yyHGTFILvfkS5qEZ5gNxUFrH039nCy2LqcC94W4CjxBGw>
+    <xme:qwM_YVYOIEfRBp5oXNHGQD5K7RT7jlhmJGRxrsEzWk_M2lEsx-G-Ja-8Ahq6pjfYx
+    43GcNOII36jP8RTXkM>
+X-ME-Received: <xmr:qwM_Yc-2L9iHoeRfv2AuUXDhCod8wYzL8UCI77i4J9LNVbs1yCzQlKwig1sstlUeehRMupesSZjpxl8y44EDuyA5qbelzGeO7LzY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegiedguddvgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+    heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:qwM_YUo8RjhvzG1itXj-wb4NbexHe3mO6PZO9nrUu3St7r4v1NPFKQ>
+    <xmx:qwM_YdrrjQxCRyoocyi3XVLb1LVaZ8rWke5r3pYhH0dXc59CODjplA>
+    <xmx:qwM_YSTkMdTh6OyqL4MyRtkEwblNxGRqtOrTll-QHrlCFe96Qgvg8w>
+    <xmx:rQM_YSiHQeCrBXAszl-g_7wRnf5eToxq8Xy16SfZF1xTIf-eFYQsJA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Sep 2021 03:54:18 -0400 (EDT)
+Date: Mon, 13 Sep 2021 09:54:17 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 09/22] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2
- support
-Message-ID: <YT8BVo61qL1jq/er@aptenodytes>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
+Message-ID: <20210913075417.ampb2jt4quftpqzj@gilmour>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-10-paul.kocialkowski@bootlin.com>
- <483288cb-d9fa-4581-7986-d15c4aa27769@sholland.org>
+ <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,165 +74,46 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="QZVQzP+VTAJydr5U"
+	protocol="application/pgp-signature"; boundary="3eyvvraksbaukjuq"
 Content-Disposition: inline
-In-Reply-To: <483288cb-d9fa-4581-7986-d15c4aa27769@sholland.org>
+In-Reply-To: <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
 
 
---QZVQzP+VTAJydr5U
-Content-Type: text/plain; charset=utf-8
+--3eyvvraksbaukjuq
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Samuel,
+On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
+> In order to reparent the CSI module clock to the ISP PLL via
+> device-tree, export the ISP PLL clock declaration in the public
+> device-tree header.
 
-On Fri 10 Sep 21, 21:32, Samuel Holland wrote:
-> On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
-> > MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
-> > controller. The controller uses a separate D-PHY, which is the same
-> > that is otherwise used for MIPI DSI, but used in Rx mode.
-> >=20
-> > On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
-> > not have access to any parallel interface pins.
-> >=20
-> > Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
-> > support the MIPI CSI-2 interface.
-> >=20
-> > Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
-> > even when no sensor is connected. This will result in a probe failure
-> > for the controller as long as no sensor is connected but this is fine
-> > since no other interface is available.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  arch/arm/boot/dts/sun8i-v3s.dtsi | 72 ++++++++++++++++++++++++++++++++
-> >  1 file changed, 72 insertions(+)
-> >=20
-> > diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i=
--v3s.dtsi
-> > index a77b63362a1d..ec7fa6459547 100644
-> > --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-> > +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-> > @@ -612,6 +612,34 @@ spi0: spi@1c68000 {
-> >  			#size-cells =3D <0>;
-> >  		};
-> > =20
-> > +		csi0: camera@1cb0000 {
-> > +			compatible =3D "allwinner,sun8i-v3s-csi";
-> > +			reg =3D <0x01cb0000 0x1000>;
-> > +			interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks =3D <&ccu CLK_BUS_CSI>,
-> > +				 <&ccu CLK_CSI1_SCLK>,
-> > +				 <&ccu CLK_DRAM_CSI>;
-> > +			clock-names =3D "bus", "mod", "ram";
-> > +			resets =3D <&ccu RST_BUS_CSI>;
-> > +			status =3D "disabled";
-> > +
-> > +			assigned-clocks =3D <&ccu CLK_CSI1_SCLK>;
-> > +			assigned-clock-parents =3D <&ccu CLK_PLL_ISP>;
-> > +
-> > +			ports {
-> > +				#address-cells =3D <1>;
-> > +				#size-cells =3D <0>;
-> > +
-> > +				port@1 {
-> > +					reg =3D <1>;
-> > +
-> > +					csi0_in_mipi_csi2: endpoint {
-> > +						remote-endpoint =3D <&mipi_csi2_out_csi0>;
-> > +					};
-> > +				};
-> > +			};
-> > +		};
-> > +
-> >  		csi1: camera@1cb4000 {
-> >  			compatible =3D "allwinner,sun8i-v3s-csi";
-> >  			reg =3D <0x01cb4000 0x3000>;
->=20
-> All of the new nodes should be added above this one, to maintain unit
-> address order.
+You use clk_set_rate_exclusive in the ISP driver on the module clock so
+it should prevent what you're mentioning from happening.
 
-Good catch, this was an overlook on my side.
+If it doesn't, then clk_set_rate_exclusive has a bug and should be
+fixed.
 
-Thanks,
+Either way, using assigned-clock-parents is not a good solution here
+either, it only makes sure that this is the case when probe is run.
 
-Paul
+> Details regarding why the CSI module clock is best parented to the ISP
+> PLL are provided in the related commit.
 
-> Regards,
-> Samuel
->=20
-> > @@ -637,5 +665,49 @@ gic: interrupt-controller@1c81000 {
-> >  			#interrupt-cells =3D <3>;
-> >  			interrupts =3D <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_=
-HIGH)>;
-> >  		};
-> > +
-> > +		mipi_csi2: csi@1cb1000 {
-> > +			compatible =3D "allwinner,sun8i-v3s-mipi-csi2",
-> > +				     "allwinner,sun6i-a31-mipi-csi2";
-> > +			reg =3D <0x01cb1000 0x1000>;
-> > +			interrupts =3D <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks =3D <&ccu CLK_BUS_CSI>,
-> > +				 <&ccu CLK_CSI1_SCLK>;
-> > +			clock-names =3D "bus", "mod";
-> > +			resets =3D <&ccu RST_BUS_CSI>;
-> > +			status =3D "disabled";
-> > +
-> > +			phys =3D <&dphy>;
-> > +			phy-names =3D "dphy";
-> > +
-> > +			ports {
-> > +				#address-cells =3D <1>;
-> > +				#size-cells =3D <0>;
-> > +
-> > +				mipi_csi2_in: port@0 {
-> > +					reg =3D <0>;
-> > +				};
-> > +
-> > +				mipi_csi2_out: port@1 {
-> > +					reg =3D <1>;
-> > +
-> > +					mipi_csi2_out_csi0: endpoint {
-> > +						remote-endpoint =3D <&csi0_in_mipi_csi2>;
-> > +					};
-> > +				};
-> > +			};
-> > +		};
-> > +
-> > +		dphy: d-phy@1cb2000 {
-> > +			compatible =3D "allwinner,sun6i-a31-mipi-dphy";
-> > +			reg =3D <0x01cb2000 0x1000>;
-> > +			clocks =3D <&ccu CLK_BUS_CSI>,
-> > +				 <&ccu CLK_MIPI_CSI>;
-> > +			clock-names =3D "bus", "mod";
-> > +			resets =3D <&ccu RST_BUS_CSI>;
-> > +			allwinner,direction =3D "rx";
-> > +			status =3D "disabled";
-> > +			#phy-cells =3D <0>;
-> > +		};
-> >  	};
-> >  };
-> >=20
->=20
+This is relevant to this commit too and "the related commit" is far too
+blurry when you consider the entire Linux git history.
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Maxime
 
---QZVQzP+VTAJydr5U
+--3eyvvraksbaukjuq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AVYACgkQ3cLmz3+f
-v9EFwAgAlLhO92v/X6G6gs1EKL/Ve3k5WVgSYDcp38cxhVkn9TYIx+u97xSfyDLC
-P5PABn2O8tERf6e7U1NBmqr64vSzvziaRmeLo6co6sdLEJuNvk4wrp3/9U7+dp/Q
-9Pp/tPxadAO4SKID7BW5UKTEzWqzGlsGJf/6p83oKzwWtBCTBXTfK0PjkmESPFy8
-kTX1gqi9/Pe0oiWH0PRZJIZzPYDP8PpRNPQNxhPlXivuSnDLFwNAhaSXrMvqOnl2
-/Y+tpSRPXTKGPqjIAzRn3G2fTveiHMw0fTLwVgcZqqNIK4dACeQLJYNdSxjTMORZ
-J1xWZQdStHkESCp9DRxlxV8TLbiItg==
-=95oz
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYT8DqQAKCRDj7w1vZxhR
+xTZvAQCBM99MGd6qVMOuUH5pAUXkNRCjmqWYffeGxv1bEMviLgEA9/VMtVKq1DGw
+cYRuC53YO5a08nIT5L/y26XC1yd/CAg=
+=3hm0
 -----END PGP SIGNATURE-----
 
---QZVQzP+VTAJydr5U--
+--3eyvvraksbaukjuq--
