@@ -1,80 +1,90 @@
-Received: from mail-41104.protonmail.ch (mail-41104.protonmail.ch [185.70.41.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178293FC4
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 14:16:25 +0000 (UTC)
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by mail-41104.protonmail.ch (Postfix) with ESMTPS id 4H7T0J0HM0z4x9LW
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 14:10:40 +0000 (UTC)
-Authentication-Results: mail-41104.protonmail.ch;
-	dkim=pass (2048-bit key) header.d=bryanbrattlof.com header.i=@bryanbrattlof.com header.b="F3Mnwnp8"
-Date: Mon, 13 Sep 2021 14:10:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1631542223;
-	bh=oss/E+70MRl03TJMdN6Zz+nYBuwtt0h53qYO3R5VcFY=;
-	h=Date:To:From:Cc:Reply-To:Subject:From;
-	b=F3Mnwnp8wndAEJvgLSGbhDOzblYKVeMkvV/pCXEpTJo5WleYqSo4yJsb+mFXfmOGw
-	 f3fkWSrMlfKY7cOo26q4NXQl08bt6IEX2IkbL8zYmHkHZalH9BVAcIqnvjboNr9nxr
-	 LWBVnMbSBiN3su8fAT2vSUeEKG09SepOk1sWfmISN4b+7s99ngBpkCLJ92LhkeZluD
-	 4AcW7caR2mShxoDU7y4TUMGLZmxBqPyAdBu/LHMRFuNLs3GWx5X6bx4SlJNfYaxs8d
-	 qF4CJ0PP/DructOuu3Ur96oCShgaUl5MyvzS44Izxj0/6te9UZEtwTnFZF6rTiePHX
-	 rD5x+Bu5gwunw==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Bryan Brattlof <hello@bryanbrattlof.com>
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: [PATCH] staging: rtl8723bs: define wowlan_stub only when CONFIG_PM is enabled
-Message-ID: <20210913140937.1490133-1-hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473913FC4
+	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 14:24:54 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id f6so12357118iox.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 07:24:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=y4Lq9CmvVcXXhPkYqU8poyyam6g50FxqVLy0oSkOGwo=;
+        b=cr3Szu2PZkLNoOgq0/pNUQ7Fj5694Bo2qV8vrVedRjJCfzgGVXOzeEYVheg4ZPxGEv
+         3aCVgAf9I5Kz+XUoyOocmaSYPYPnbuPvwm8fGpvMCuWC0o+1E+mXMACJtVgk0uIJUU9h
+         t/yXY9ZSwWjKUjFKgM4E6NRaTZTBoBrpKixGs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=y4Lq9CmvVcXXhPkYqU8poyyam6g50FxqVLy0oSkOGwo=;
+        b=GNc69Xzdmf+ViqcHJtU3WavEpwRG2QVNMRzJYVaAJgWfJg8SNj0xMGin44C7viZSNb
+         r6m6v8/1m6vgzYy2H6S/E2Sw3Kan6e6BdJK7fykQ2vbVu9GwP8zJvprkrOwfG98yJBI/
+         U9Wk3c2zkUIZWMRAiR45qL0JS+sP+DQGvbUlBVyNQvG0IT89EcJBpLwLU+Knm3FjAJna
+         Nk+PyB9YsRdsu2807YGeHF+7/MvjwtPej7AX7u/mwsbqirTEKNGmmnNkBUD0KQds/XND
+         9r4edWzFHAuioSHjrJRQOMzcVgqoIhE93YmrIUa4IEiqCK3aQMnwZsCnEBOjyg9KI/Bc
+         9JJQ==
+X-Gm-Message-State: AOAM532EhaOzzZKBzN8LoER/be9MWL2jHVkdReDdO5RdYHqcxc9n5G98
+	1v2KSXI+MuBiRl8gygyk53wiPA==
+X-Google-Smtp-Source: ABdhPJx/eqqIB4vBAz8lHgsBf/5IFCa6nkTSnkdfc1eI2EY+xn1/EEl30qUR5S0dnd5MPZmncifOqg==
+X-Received: by 2002:a05:6638:1301:: with SMTP id r1mr10200622jad.32.1631543093348;
+        Mon, 13 Sep 2021 07:24:53 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id w3sm4899283ilc.23.2021.09.13.07.24.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Sep 2021 07:24:52 -0700 (PDT)
+Subject: Re: [PATCH] media: atomisp: fix control reaches end of non-void
+ function error
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, paskripkin@gmail.com,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20210910223700.32494-1-skhan@linuxfoundation.org>
+ <20210913084102.GF7203@kadam>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <7f1c09f9-49e1-718b-329c-aae9d2f69266@linuxfoundation.org>
+Date: Mon, 13 Sep 2021 08:24:51 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+In-Reply-To: <20210913084102.GF7203@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-The wake-on-lan stub is needed only when the device power management
-functionality is enabled in the kernel. Conditionally define
-wowlan_stub to avoid potential unused object warnings.
+On 9/13/21 2:41 AM, Dan Carpenter wrote:
+> On Fri, Sep 10, 2021 at 04:37:00PM -0600, Shuah Khan wrote:
+>> Fix the following build error with -Werror=return-type enabled. Fix
+>> input_system_configure_channel_sensor() to return status when control
+>> reaches the end.
+>>
+>> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o
+>> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
+>> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+>>   1649 | }
+>>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> 
+> Hi Shuah,
+> 
+> You're the third person to send this patch recently but it was fixed on
+> Aug 2 in staging-next in commit 05344a1d2ea7 ("media: atomisp: restore
+> missing 'return' statement").  What tree are you working against?  It
+> seems like it needs to be backported somewhere.
+> 
 
-Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 ++
- 1 file changed, 2 insertions(+)
+I am working on Linux 5.15 - should have checked staging next though before
+sending the patch :)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/st=
-aging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 34da8a569709..f4a9b4b7c97e 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -47,6 +47,7 @@ static const u32 rtw_cipher_suites[] =3D {
-  * Moreover wowlan has to be enabled via a the nl80211_set_wowlan callback=
-.
-  * (from user space, e.g. iw phy0 wowlan enable)
-  */
-+#if defined(CONFIG_PM)
- static const struct wiphy_wowlan_support wowlan_stub =3D {
- =09.flags =3D WIPHY_WOWLAN_ANY,
- =09.n_patterns =3D 0,
-@@ -54,6 +55,7 @@ static const struct wiphy_wowlan_support wowlan_stub =3D =
-{
- =09.pattern_min_len =3D 0,
- =09.max_pkt_offset =3D 0,
- };
-+#endif
-
- static struct ieee80211_rate rtw_rates[] =3D {
- =09RATETAB_ENT(10,  0x1,   0),
---
-2.30.2
-
+thanks,
+-- Shuah
 
