@@ -1,176 +1,138 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742FD3FC3
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 13:01:57 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18ECossS024447;
-	Tue, 14 Sep 2021 13:01:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=U1IuVqNR1EiEUyKFM5fu5nLz2Ag7NEyvTUT7Z8rudGY=;
- b=nDBJwnI958kfKioEXsP+P0kOQBktWoUrOqCFC/5ZTVJBsrW9nW7g2419teDibjk9AMo4
- wV70E0hsXyDnw/MxYFKueIWeovs+CaBsMtm7CkXT43gauWHt3P6hYLGi4g3h1dSokJVd
- 5dJLR0IcYwQHCQeEnOdTzyPHHRXI6oryeqcHfJNdu4srIBn7232SJTSdZflkbTViNnPL
- OmAenkZWo/FDJGU5ZRz5+aIxZnRjc4dPfFdGmXUn4bY/nfnkAp+7E201DZquBNPCX2oa
- 46jtDap8VTEM/1iLzhr+LW+VWmFEUAhUijbLTp+8HZGw27n14NLiZBLkkEHyK00Yqdfv hw== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=U1IuVqNR1EiEUyKFM5fu5nLz2Ag7NEyvTUT7Z8rudGY=;
- b=lziYHedxqnBZJMYsRw6ATp5oVgbMUKhM1Gtr6u5jd+52lPL1+jMyT5ZrLAREI3tDlKYZ
- wo5RhKACF6zv7aTAvsa4sdLBThY+7DwLq6tcaK3V9c8xcu5HG7FMf82edTHL5Uclc0eB
- dkpgo1qq6MmJnWke1czeTtZc2kRoivzqH43G9uAd53RJCaImLCo5BCJj2oFZl92HKP1i
- 1uRzf7Vd57KCIcOj5w6+ruQ5YJFxv70BmTGweSt+7uApbMMlfJv2XCJo2KD0jOYKV2AB
- FLIq30W6Muzc8R5/7C1Tt/iNTNxeTgK3gFNap8CFGy/zEKYXL/S0iRwR8BI/2pzHJBsP wA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3b2pyg9524-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 13:01:49 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18ED0QrT066252;
-	Tue, 14 Sep 2021 13:01:47 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
-	by aserp3020.oracle.com with ESMTP id 3b0m969pun-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 13:01:47 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Lmpz55i6GWxMZjamcbvYI3jLldNS+AgdZyoUrO/8d48YjhNIJV58osZzsMJFr+0jnCDwvPr3pLY0kwg9E9xKUaMPclObKZUPJJWPt3Xu+eGHQGEMeiZWnvl22vc2BD/ve7Fvja4pP15MjeyxMUJoR2CYLTtxtrcBekvpLtjRSJ6XQ7PaqzL5V+2L3GjN/WBrnFReDAKWIoEgvreKsfpMxbb30DZSY4s2YUhe/bGet8iQRFyWhk5MXnHZh0ZhbfdtACy5qKDtrQtlaXDtDqZTnqd9PP7P8p/+qvIr9WfKZgqQVNZOZ33urS0Faos4RIjIot1g7r6JjL0LIYBZRi75bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=U1IuVqNR1EiEUyKFM5fu5nLz2Ag7NEyvTUT7Z8rudGY=;
- b=GNspjOpPo4fg2kxbzMlrAXq3XWgfCWXzpIoQS5eOEUKt0Ca6H2DoBPu5A8mwukX8Wnz9Y/8KmTLYnvapGuWvWGpvZZXyTgZo32IN1XCUaTkpEn7aFNGkJZDEDzcEt4rzAYPJdckQouXY3WKdn0fHacfFpsa+bXDj0arHUOaw9VAkZ9QEuVHrHb06hcXNGe3mYwncQwXu7y8aBTGS02FM5PeYx3M+IYIeSxA6l/mvCo+HSJwzoj+/7snb8k7jw7DGQXXDRORtLUp5droCYpSCW5/z5vSy+599Y6+STqNmx9eN58wxQXBhSq5pTN82LjOHk+M5ywL89J0rOmc3IFM/Bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087843FC3
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 13:19:35 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id v16so9159802ilg.3
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 06:19:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U1IuVqNR1EiEUyKFM5fu5nLz2Ag7NEyvTUT7Z8rudGY=;
- b=t7UALEvaaVw4HuUv+ksnAaGyDBZPg+VsqJfxu0eBvY5tFsCXeRj3TV2t5Sbm//2tVqnzY1+hER8baK0XUxU3+TvPWiOdyCErC01A0xwQiJtZ1yFDrzj0+tgGc7qn3FesY/VmqRd0SgnLXktDucrIYDuWPQEUv7abH5fAhdWVKNM=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1488.namprd10.prod.outlook.com
- (2603:10b6:300:23::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.17; Tue, 14 Sep
- 2021 13:01:45 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
- 13:01:45 +0000
-Date: Tue, 14 Sep 2021 16:01:12 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Michael Straube <straube.linux@gmail.com>,
-        Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v4 17/18] staging: r8188eu: Shorten calls chain of
- rtw_read8/16/32()
-Message-ID: <20210914130112.GD2116@kadam>
-References: <20210913181002.16651-1-fmdefrancesco@gmail.com>
- <20210913181002.16651-18-fmdefrancesco@gmail.com>
- <20210914093258.GC2088@kadam>
- <5747368.884CoaO9ss@localhost.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5747368.884CoaO9ss@localhost.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0003.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::8)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=vF5L7GXRUK29LXMTYRG6W7BkE3rRpiH/vOLwx+ir5w4=;
+        b=rBmEJnqkXzS41M6QNEd5U6BFmT2ADhSPFtA/aqR/0hSd99MmexWWeb3DwdZKukJzlF
+         gNrsslLy6bpsbDJA/GveRZoLSFc6eruRHDg4HKEPDgb/rLDY48dgOYdTg7nCsFXDgrZB
+         6bR7YAcjNUrpPmGBP+ZOf2b8Lu8uOmiPANWB6wY1Sy5CxPZZdQhHi85pwwEYnAM9ZOwv
+         TEQW1NKjdP3qQFmbfMyhvh7wBJoW2D/pKK+WtXvkxnMNbonOf3Z0p0H+N65Ci6ByuR36
+         N8xdsyZJKiml3CyyHgv5vGVuNGe5OKNF3gcyLqH1gKHmIZXV6VI8iqXkFF/fZFe+mkNo
+         IGrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=vF5L7GXRUK29LXMTYRG6W7BkE3rRpiH/vOLwx+ir5w4=;
+        b=JjYhFBmuJ7Z8cTxSh/moa6HAwZQgelLo6gtSzExtFoaRpQL7Dw9ABctB6KLpcHuQ9L
+         6uW+7DBr1ULJ+COkuBk1IsaC82yMXJSw2Xmv60WDZ1ge/U6xLf3ertU4vrRl8PUK1m/O
+         aMBA6Xn16R7kfRJLdHQpxyfZRbxrLFgXqaB+qGNXPao6Wugx7EBUPSPMKfVh0QKDsS3r
+         Q4GcN4pehetRTv7TKHMgOuldIRnNQEAYDl+drT2NzCkn1+91wJ9iA1zPPbnxubNw5s9t
+         Gc2L2n9VoRyNtRc7NjpV5AakR8fk72HPbgqr7K10uAsTHuqo7KHmorGiSaJt3pkDsDYL
+         A1IQ==
+X-Gm-Message-State: AOAM532PdNe9GpXxw9/MeL+7kQ2awgBBqRSBHTKJXVA+QfPu9M8chuv0
+	fbTXNr3ESZ70ZpeQFFnmba0oSA==
+X-Google-Smtp-Source: ABdhPJy7LNF2NL0nktkyHtcqQ0/1bHTN3pLBYQ0Px9v6ZBDyGIJbpzq/7n+5znbafTmOelW8AqXVhg==
+X-Received: by 2002:a05:6e02:551:: with SMTP id i17mr3532683ils.281.1631625575171;
+        Tue, 14 Sep 2021 06:19:35 -0700 (PDT)
+Received: from [172.22.22.26] (c-73-185-129-58.hsd1.mn.comcast.net. [73.185.129.58])
+        by smtp.googlemail.com with ESMTPSA id f17sm4693585ilq.44.2021.09.14.06.19.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Sep 2021 06:19:34 -0700 (PDT)
+Subject: Re: [greybus-dev] [PATCH 14/16] tty: drivers/staging/, stop using
+ tty_flip_buffer_push
+To: Jiri Slaby <jslaby@suse.cz>, gregkh@linuxfoundation.org
+Cc: Alex Elder <elder@kernel.org>, linux-staging@lists.linux.dev,
+ Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linux-serial@vger.kernel.org,
+ David Lin <dtwlin@gmail.com>
+References: <20210914091134.17426-1-jslaby@suse.cz>
+ <20210914091415.17918-1-jslaby@suse.cz>
+ <20210914091415.17918-7-jslaby@suse.cz>
+From: Alex Elder <elder@linaro.org>
+Message-ID: <9cd19a7d-797f-4951-c29a-c263f69a6631@linaro.org>
+Date: Tue, 14 Sep 2021 08:19:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.99) by JNAP275CA0003.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::8) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend Transport; Tue, 14 Sep 2021 13:01:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 91d9dd92-980a-4fa3-f15d-08d9777fcde6
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1488:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB148834E0CE1B092C038BCF558EDA9@MWHPR10MB1488.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:538;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Exvf6yqeUXhtdOv2G3yllxuHc+QzxTYsQcPFtVHubeOCML/AscZwhqguMbAqpFH7traRZgLJmGe8gPbf327nLQa0KlwxEpwFjaSsr1wGJCGtJBWEGCpG2FmcbhuLhriqIsBeeR66pOaowBeLFFalsGuhrXPIZnOHnCX/fyZavZmpms3IXmDQkrFspXfgRsOiNlOLO2slOISYW3lzlCfPHTaURn1We2j6lhvxL7hOtun3UXpDO49qjh190dqe8b6SkRL95kz4iEj5NGCeKw/ibiISOw5Ey78DhBRzyZDNMNWcP0ESHzYn9jYf1nQT3tsxfLVidJ5c0BfkWnVhVISlRtUMw4Ju5+5iJjiJ5FaVkvizx8qkO02SxhHWxH6Kc5ZCpW0pkqneBT5+JV8aQjoysuuyaLOcPRe+LivH1wtw6XAZDwywFuxh+aWUUuSdAlL283W6r+H0vCR4w0R9xvkUaimsffLbhvgFHdkcNmCKslZ6hsT1vw3YGkcjE1tUUWKNMLYa8eAdT6suEX8jrUqlV0EnOwrb0B9WQifXFdGDZ8+0LHUskhyonUKgu7OdtLm3mwiA4/iEjaK2cyQ6MF2VpleDuwgZ4Gkqk0g02jpQvFnBXVDGymkqLpo/atlO//m8hM0RxaqWaTlZNc40NctBJVrK9DolhFxxmKJ3Ajb4WsWiuCPJPOMnqJbnL6ZYCyz30BuXohnkVulp9Qo226DgGA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(346002)(376002)(366004)(136003)(39860400002)(26005)(83380400001)(8936002)(956004)(5660300002)(9686003)(53546011)(66556008)(8676002)(66946007)(2906002)(4326008)(38100700002)(38350700002)(55016002)(86362001)(316002)(6496006)(6916009)(52116002)(9576002)(1076003)(186003)(66476007)(478600001)(6666004)(54906003)(33716001)(44832011)(33656002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2h0Ywet+Q9oiBW7rilQHx3odgZrxSTHpXAWE2FzO83Mie2eAp56uzqJSPqP1?=
- =?us-ascii?Q?EFnt0yBudmoyimsqLUCu5iXaBab6fwYL3b2j2En5H1M5gYmNk9EwEqhMSy1y?=
- =?us-ascii?Q?NXQAVLMu+vL5dBg2lMwldh/vDz2tsA6GT3tp/pP6uQks36YBi7qsG/yLDWGN?=
- =?us-ascii?Q?KVF1YqDjDV77yl4mht02sQWyGRYyi9MlKWYIY822G/FYxpFLPeTxdbeaRjyU?=
- =?us-ascii?Q?57krhkMqm8KJeKt2BcmPX0JJByD0MD0UBVUbq7E63+BWdjhk+fS0Q1XC8mzS?=
- =?us-ascii?Q?F2Lylyk3m+8qaIOdC2wdBNDpkPho6+zDZ9BujWE8Ox45ZNbqDi26lL6Yf0e2?=
- =?us-ascii?Q?MsyCt8JKv1QWGNACIBrJL2yQSYWLbH5sWSFK+RD0SRAsl9p6G7wZt1RNHlXx?=
- =?us-ascii?Q?1RP54hxvq/AzNqwhpzgIAOfiBOXiFvRyLJBxWd3NGk3AhYp6l4H6QhKH5dPj?=
- =?us-ascii?Q?WLjvM5/aM05uOCHxWKbRZH9MEF0fgs6zhxeDsOHtFvrmwWs+hdR/Ki02Ap7s?=
- =?us-ascii?Q?FxCmhJfqeAX9+825H63IHk/9z3Z+TxrJSDU8eViKitv5aVaordSZmb6hCgXZ?=
- =?us-ascii?Q?ivInTty5Q4aahEvbJWjMsSr/h5gcHQmbVq55aveg7xfOsDIsd2oO1RXqv5Ad?=
- =?us-ascii?Q?KNEsF73pjZZvG1w2Jb6QlwW7oeC1eAQPDZwtDdvIcuTSjrH9jBN8V91Jccf9?=
- =?us-ascii?Q?CTT2kY9nrd7kr546WY36HlSmO/LuL23H3Jpcs+FNy1zZYUaqKGvgNgtBcZqV?=
- =?us-ascii?Q?lJs7Lu2QZLtLV9JD8at7r42M/8/IllCA7Y55Fk4YwrqJxVFZWe+BQ2OsXJvr?=
- =?us-ascii?Q?LG2NERea34Fjq2NfOZ4sWfxzansWq20zRbyF4lXWQyTx5PRIE/jvMqJVExNb?=
- =?us-ascii?Q?ovdh2OGvReTYbbDUJq5ozq5xgM1S7wyuirRGcdZc4sHUO8hpxWXgD/AMD2Xr?=
- =?us-ascii?Q?GGeH+QH1aUZq6RJIJ2BoltAb2UBNyUuy6/vG/V0CbUo0ml5u2zdIPmSgVsOf?=
- =?us-ascii?Q?5+EvvzAURZ8gczuZzbRP9Ojl8X4Cbfho9zbxH6ggnliILXb/lvQWM4xgRZbo?=
- =?us-ascii?Q?bDsBDuiUplX6Rl4DsVJrxv3PablCtKDqdye6j+O8xre4ZWnDvc0iW/APAHqT?=
- =?us-ascii?Q?6EJ8B5iaXd4yW68Tfmy0Tq3eth6BaKxPNe3KJjTiZuBBz2V7gLODnfz2O0jM?=
- =?us-ascii?Q?O+g9U5ovQzOnXIntsEh0Ysty4FZODarGv3Uisq6FXfKgZeJsSZJaZ6LIdsC5?=
- =?us-ascii?Q?eY2OLZkobnwQRURmxmnX62BWjIvoSABrkXHN+3KYFwfNM1JTeZ0O/E23qEyx?=
- =?us-ascii?Q?8rfFubx5JcspsoaZ14/TFj/8?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91d9dd92-980a-4fa3-f15d-08d9777fcde6
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 13:01:45.3639
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3EW3+Ht92gpjJUvOfWUDBxPZeTQkG2cX7T9cSJxYu5LB3iL97xswsVh9qBxgNxz1MJqumrK1AAohMDwFJ8bbNT9UeQeXjgfl50Rl/djxh/s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1488
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10106 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 malwarescore=0
- adultscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
- definitions=main-2109140081
-X-Proofpoint-GUID: smk2AUECnUfHx_ZYyQ8hnAtT6OUQ5KqL
-X-Proofpoint-ORIG-GUID: smk2AUECnUfHx_ZYyQ8hnAtT6OUQ5KqL
+In-Reply-To: <20210914091415.17918-7-jslaby@suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 14, 2021 at 02:55:45PM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, September 14, 2021 11:32:58 AM CEST Dan Carpenter wrote:
-> > On Mon, Sep 13, 2021 at 08:10:01PM +0200, Fabio M. De Francesco wrote:
-> > > +	if (status == (-ESHUTDOWN || -ENODEV || -ENOENT)) {
-> > 
-> > 	if (status == -ESHUTDOWN ||
-> > 	    status == -ENODEV ||
-> > 	    status == -ENOENT) {
-> 
-> This is a stupid mistake and Pavel soon noticed it. Yesterday I sent a 
-> message to ask reviewers for disregarding v4 and wait for v5 with the fix of 
-> this test. :(
+On 9/14/21 4:14 AM, Jiri Slaby wrote:
+> Since commit a9c3f68f3cd8d (tty: Fix low_latency BUG) in 2014,
+> tty_flip_buffer_push() is only a wrapper to tty_schedule_flip(). We are
+> going to remove the former, so call the latter directly in
+> drivers/staging/.
 
-There wasn't enough information in the email to know what issue you had
-seen.  I had already started reviewing it when I saw the email.
+For "greybus/uart.c", looks good.
+
+Reviewed-by: Alex Elder <elder@linaro.org>
 
 > 
-> However, I noticed that usb_control_msg_recv() might return in "status" some 
-> recoverable errors (like -ENOMEM and others); so I guess that the code must 
-> retry in a while loop (exactly as it did with usb_control_msg() in 
-> usbctrl_vendorreq()). 
-
-I would not add a while loop unless testing shows it is required.
-
-regards,
-dan carpenter
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> Cc: David Lin <dtwlin@gmail.com>
+> Cc: Johan Hovold <johan@kernel.org>
+> Cc: Alex Elder <elder@kernel.org>
+> Cc: linux-staging@lists.linux.dev
+> Cc: greybus-dev@lists.linaro.org
+> ---
+>  drivers/staging/fwserial/fwserial.c | 4 ++--
+>  drivers/staging/gdm724x/gdm_tty.c   | 2 +-
+>  drivers/staging/greybus/uart.c      | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/fwserial/fwserial.c b/drivers/staging/fwserial/fwserial.c
+> index e8fa7f53cd5e..b2d3f95edbc3 100644
+> --- a/drivers/staging/fwserial/fwserial.c
+> +++ b/drivers/staging/fwserial/fwserial.c
+> @@ -518,7 +518,7 @@ static void fwtty_emit_breaks(struct work_struct *work)
+>  		if (c < t)
+>  			break;
+>  	}
+> -	tty_flip_buffer_push(&port->port);
+> +	tty_schedule_flip(&port->port);
+>  
+>  	if (port->mstatus & (UART_LSR_BI << 24))
+>  		schedule_delayed_work(&port->emit_breaks, FREQ_BREAKS);
+> @@ -565,7 +565,7 @@ static int fwtty_rx(struct fwtty_port *port, unsigned char *data, size_t len)
+>  
+>  	c = tty_insert_flip_string_fixed_flag(&port->port, data, TTY_NORMAL, n);
+>  	if (c > 0)
+> -		tty_flip_buffer_push(&port->port);
+> +		tty_schedule_flip(&port->port);
+>  	n -= c;
+>  
+>  	if (n) {
+> diff --git a/drivers/staging/gdm724x/gdm_tty.c b/drivers/staging/gdm724x/gdm_tty.c
+> index 04df6f9f5403..95a3b4e61fec 100644
+> --- a/drivers/staging/gdm724x/gdm_tty.c
+> +++ b/drivers/staging/gdm724x/gdm_tty.c
+> @@ -129,7 +129,7 @@ static int gdm_tty_recv_complete(void *data,
+>  	if (data && len) {
+>  		if (tty_buffer_request_room(&gdm->port, len) == len) {
+>  			tty_insert_flip_string(&gdm->port, data, len);
+> -			tty_flip_buffer_push(&gdm->port);
+> +			tty_schedule_flip(&gdm->port);
+>  		} else {
+>  			return TO_HOST_BUFFER_REQUEST_FAIL;
+>  		}
+> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+> index e6d860a9678e..2bdc2401b652 100644
+> --- a/drivers/staging/greybus/uart.c
+> +++ b/drivers/staging/greybus/uart.c
+> @@ -122,7 +122,7 @@ static int gb_uart_receive_data_handler(struct gb_operation *op)
+>  			recv_data_size, count);
+>  	}
+>  	if (count)
+> -		tty_flip_buffer_push(port);
+> +		tty_schedule_flip(port);
+>  	return 0;
+>  }
+>  
+> 
 
