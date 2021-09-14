@@ -1,15 +1,12 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505313FD0;
-	Tue, 14 Sep 2021 07:48:36 +0000 (UTC)
-Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id DE431D0D36;
-	Tue, 14 Sep 2021 07:43:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A73693FD0;
+	Tue, 14 Sep 2021 07:50:46 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by relay12.mail.gandi.net (Postfix) with ESMTPSA id E429820000B;
-	Tue, 14 Sep 2021 07:43:08 +0000 (UTC)
-Date: Tue, 14 Sep 2021 09:43:08 +0200
+	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 07B6E4000C;
+	Tue, 14 Sep 2021 07:50:41 +0000 (UTC)
+Date: Tue, 14 Sep 2021 09:50:41 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Maxime Ripard <maxime@cerno.tech>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -25,14 +22,13 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 05/22] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2
- input port
-Message-ID: <YUBSjBMUk+nQSzRz@aptenodytes>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 20/22] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <YUBUUQxBaGUkjzMP@aptenodytes>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-6-paul.kocialkowski@bootlin.com>
- <20210913080931.opbtx45sxqu52jxe@gilmour>
+ <20210910184147.336618-21-paul.kocialkowski@bootlin.com>
+ <20210913083135.v7q7joux2xckat62@gilmour>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,167 +36,71 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="sgIICy+NNUkr1U2H"
+	protocol="application/pgp-signature"; boundary="N+QqgaOnVGg+nb5A"
 Content-Disposition: inline
-In-Reply-To: <20210913080931.opbtx45sxqu52jxe@gilmour>
+In-Reply-To: <20210913083135.v7q7joux2xckat62@gilmour>
 
 
---sgIICy+NNUkr1U2H
+--N+QqgaOnVGg+nb5A
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Mon 13 Sep 21, 10:09, Maxime Ripard wrote:
-> On Fri, Sep 10, 2021 at 08:41:30PM +0200, Paul Kocialkowski wrote:
-> > The A31 CSI controller supports two distinct input interfaces:
-> > parallel and an external MIPI CSI-2 bridge. The parallel interface
-> > is often connected to a set of hardware pins while the MIPI CSI-2
-> > bridge is an internal FIFO-ish link. As a result, these two inputs
-> > are distinguished as two different ports.
+On Mon 13 Sep 21, 10:31, Maxime Ripard wrote:
+> On Fri, Sep 10, 2021 at 08:41:45PM +0200, Paul Kocialkowski wrote:
+> > Some Allwinner platforms come with an Image Signal Processor, which
+> > supports various features in order to enhance and transform data
+> > received by image sensors into good-looking pictures. In most cases,
+> > the data is raw bayer, which gets internally converted to RGB and
+> > finally YUV, which is what the hardware produces.
 > >=20
-> > Note that only one of the two may be present on a controller instance.
-> > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> > dedicated to parallel.
+> > This driver supports ISPs that are similar to the A31 ISP, which was
+> > the first standalone ISP found in Allwinner platforms. Simpler ISP
+> > blocks were found in the A10 and A20, where they are tied to a CSI
+> > controller. Newer generations of Allwinner SoCs (starting with the
+> > H6, H616, etc) come with a new camera subsystem and revised ISP.
+> > Even though these previous and next-generation ISPs are somewhat
+> > similar to the A31 ISP, they have enough significant differences to
+> > be out of the scope of this driver.
 > >=20
-> > Update the binding with an explicit ports node that holds two distinct
-> > port nodes: one for parallel input and one for MIPI CSI-2.
+> > While the ISP supports many features, including 3A and many
+> > enhancement blocks, this implementation is limited to the following:
+> > - V3s (V3/S3) platform support;
+> > - Bayer media bus formats as input;
+> > - Semi-planar YUV (NV12/NV21) as output;
+> > - Debayering with per-component gain and offset configuration;
+> > - 2D noise filtering with configurable coefficients.
 > >=20
-> > This is backward-compatible with the single-port approach that was
-> > previously taken for representing the parallel interface port, which
-> > stays enumerated as fwnode port 0.
-> >=20
-> > Note that additional ports may be added in the future, especially to
-> > support feeding the CSI controller's output to the ISP.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  .../media/allwinner,sun6i-a31-csi.yaml        | 75 +++++++++++++++----
-> >  1 file changed, 62 insertions(+), 13 deletions(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
-i.yaml
-> > index 8b568072a069..f4a686b77a38 100644
-> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
-aml
-> > @@ -61,6 +61,49 @@ properties:
-> > =20
-> >      additionalProperties: false
-> > =20
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: Parallel input port, connect to a parallel sensor
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 0
-> > +
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              bus-width:
-> > +                enum: [ 8, 10, 12, 16 ]
-> > +
-> > +              pclk-sample: true
-> > +              hsync-active: true
-> > +              vsync-active: true
-> > +
-> > +            required:
-> > +              - bus-width
-> > +
-> > +        additionalProperties: false
+> > Since many features are missing from the associated uAPI, the driver
+> > is aimed to integrate staging until all features are properly
+> > described.
 >=20
-> You don't have to duplicate the entire definition there, you can just
-> reference port:
+> We can add new features/interfaces to a !staging driver. Why do you
+> think staging is required?
+
+This is true for the driver but not so much for the uAPI, so it seems that
+the uAPI must be added to staging in some way. Then I'm not sure it makes s=
+ense
+to have a !staging driver that depends on a staging uAPI.
+
+Besides that, I added it to staging because that's the process that was
+followed by rkisp1, which is a very similar case.
+
+> > On the technical side, it uses the v4l2 and media controller APIs,
+> > with a video node for capture, a processor subdev and a video node
+> > for parameters submission. A specific uAPI structure and associated
+> > v4l2 meta format are used to configure parameters of the supported
+> > modules.
 >=20
-> $ref: #/properties/port
+> This meta format needs to be documented
 
-And that would reference the local (previous) definition of the port node?
-Sounds like a good thing indeed.
+You're right, there should probably be a pixfmt-meta-sun6i-isp.rst
+documentation file. I guess it should live along in the staging driver
+directory for now and be destaged later.
 
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: MIPI CSI-2 bridge input port
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 1
-> > +
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +        additionalProperties: false
-> > +
->=20
-> port@0 is required?
-
-It shouldn't be required. Does that call for a change here?
-
-> And at the top-level, either ports or port are required too
-
-Yes I guess that is true. Should that be a required+oneOf type of thing?
-
-> >  required:
-> >    - compatible
-> >    - reg
-> > @@ -89,19 +132,25 @@ examples:
-> >                        "ram";
-> >          resets =3D <&ccu RST_BUS_CSI>;
-> > =20
-> > -        port {
-> > -            /* Parallel bus endpoint */
-> > -            csi1_ep: endpoint {
-> > -                remote-endpoint =3D <&adv7611_ep>;
-> > -                bus-width =3D <16>;
-> > -
-> > -                /*
-> > -                 * If hsync-active/vsync-active are missing,
-> > -                 * embedded BT.656 sync is used.
-> > -                 */
-> > -                 hsync-active =3D <0>; /* Active low */
-> > -                 vsync-active =3D <0>; /* Active low */
-> > -                 pclk-sample =3D <1>;  /* Rising */
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            port@0 {
-> > +                reg =3D <0>;
-> > +                /* Parallel bus endpoint */
-> > +                csi1_ep: endpoint {
-> > +                    remote-endpoint =3D <&adv7611_ep>;
-> > +                    bus-width =3D <16>;
-> > +
-> > +                    /*
-> > +                     * If hsync-active/vsync-active are missing,
-> > +                     * embedded BT.656 sync is used.
-> > +                     */
-> > +                     hsync-active =3D <0>; /* Active low */
-> > +                     vsync-active =3D <0>; /* Active low */
-> > +                     pclk-sample =3D <1>;  /* Rising */
-> > +                };
-> >              };
-> >          };
-> >      };
->=20
-> I'd keep the original example and add one with the CSI bridge
-
-Understood, will do.
-
-Thanks,
+Cheers,
 
 Paul
 
@@ -209,19 +109,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---sgIICy+NNUkr1U2H
+--N+QqgaOnVGg+nb5A
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEyBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAUowACgkQ3cLmz3+f
-v9HVfQf3ceKXmCCS1bAycLVMI86R8GkWo5vt/v5Osg8D3oUZIE/KwelraqzS+rGn
-ZbqrtgjJQvxP/0WvM6ARVoMbU6KD37vSJSmVuGgGrbRhn3S4IJo3xOykxctr9/nL
-wVwca3ymBipsiLU3adCbz1BhLYYzBTr8OXiJ/0NnZ3Gl8BMUetBSA8nd78E4gca1
-PaY5+87njZqG8rfMO/yozuLLxnujfsDcyC97xiE1Fgflqn31q6wBWOZpmnhTkvEM
-Y0WCR60gnaXkNKjPsoAXfGUa4gZO0rOR8U+Ppwf2LmyOZUqd+Nf8J6h8rsD6pLIO
-b929E1fCp//Ou0qD6zu6MSDjQq5R
-=c8hO
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAVFEACgkQ3cLmz3+f
+v9FMhAf/bAGGMJm3PCVKPQFBMmTnl7dcHX2eA24BUWY8e+zsCMmd7A74imEjZUXg
+xURaGLaWc3WVje8tq2idWiyGMIZOLPwlJBI2mhTnZaJiMhTxBN4NvURssuHyu+e6
+lnvOUXXALN2oJPBoBVaTYuqMyECYxsWCjUjZG5XgASjlSIHZDH0jDkGAqfuOeRlB
+r8dVEMjS/sWtBlLOp6Mw1Z1Rc8w3fEj5++D5bXd/aOGYavZeo2/2yn6cOoVsRsf3
+abhdRCEy7tVL5hyb6HGD4CPkIcZtMcvVvxomiX5f7fVCba5iuexjdgzaugg/fsYi
+0IMX9Lr/PmNJ9/5VNbHg7nfhhZcF/g==
+=3ZW0
 -----END PGP SIGNATURE-----
 
---sgIICy+NNUkr1U2H--
+--N+QqgaOnVGg+nb5A--
