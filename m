@@ -1,121 +1,115 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F72A3FD2;
-	Tue, 14 Sep 2021 11:11:45 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3C042A5;
-	Tue, 14 Sep 2021 13:11:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1631617904;
-	bh=UVN9Czt4d3zRJH4FreSTQyVzvDmfnJhgwAWZq7jgpak=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ir49+m105z1jz+jtGji8tsAqWQZ8kgxHOFeV7vW3ytIHrvOU2IzjHw58VO4/UNxu+
-	 lIOsD8oGDBYhTPM01llE3XGSal0gIdRzQ6loCzgMS4e37f+38xDpUvlMovjblgVpDW
-	 A3sCb3MMKNHeEYv1m+wh50lSeuiIqwZI6gF1G9ME=
-Date: Tue, 14 Sep 2021 14:11:18 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 20/22] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <YUCDVm4OA3C3Re09@pendragon.ideasonboard.com>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-21-paul.kocialkowski@bootlin.com>
- <20210913083135.v7q7joux2xckat62@gilmour>
- <YUBUUQxBaGUkjzMP@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9094C3FC4
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 11:18:06 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id q3so19288511edt.5
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 04:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/sbK6Gyku0pI2crTRLJKEIo3nSfX3xy0COK8b8AjyvI=;
+        b=HvCxjYx5jExAgYRvyFHZWAdtux8k0u8JyFtCMZNYuDqN3XWjtOvL4HnBVa7jZqenR5
+         UrIJ7gVErGlkNzG4FLSyzoVpIsMcFTboQD9Ina7NaqnEjkG/IP6So6vi6cnSXcUJzBek
+         EHe2lazYXYTNugfB6Ti+w8SWtUMummWgQbLKs0EYu4kJz5r78LpSGVjUx9StcVR3WOpU
+         qdCraJrIdndx0hFenerjMWEq40UW1P8UyaC2f9v4RT61WabGhepThWlsWNZCKV3MEPQm
+         G2XMBTeBtpXoXi/UaaSuLSpXwtj4hjGsEZlMrr4IWxhnVA0pX5aItJYwkJrYyPIh5Beb
+         njSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/sbK6Gyku0pI2crTRLJKEIo3nSfX3xy0COK8b8AjyvI=;
+        b=KkeYXoou2c4QSEhJIlkJyh1v8JZAMpi9Q93mFsVH4YzR2LgmPbCPhoLOkIJr1WX5/D
+         k0li5yimtLpcUO/fDnp+UAhyZvLp6Azb40AhPkSkJlrnn/7O3vapeG00EVEP9co6d2Fd
+         Np6LkQNupX1sEjL+qQmH7adoRuejh2qLnKcEcngowY0ptyijT6XKmm0ChSsAa3pHlOYf
+         hyl6tlsZ42LzedzbudnKEVNjVmdGqeZaO7OW9win31BybxXj2C9dubZL8+ZpmqGzF3+S
+         FXycD062fe9wcSRc1NiO7hBMKggjG6FMTiW5VE3Y+/mA8qp5/YtstjQBBFJv7x8THmqe
+         EIKA==
+X-Gm-Message-State: AOAM531kplUBH6bb7PK2eFYJhixxLEPMFTLgqP5yUrmHcEL/uokt52Uc
+	NpbWd7b4RW01wQBQeYzLttM=
+X-Google-Smtp-Source: ABdhPJyGQLy3IoGt2RfEiNs8iExv2YYlSQEOTccADlEhuYNZT5i6aV/k/uGT/ked8e2B+i3J6rlIUA==
+X-Received: by 2002:a05:6402:493:: with SMTP id k19mr19144049edv.386.1631618284842;
+        Tue, 14 Sep 2021 04:18:04 -0700 (PDT)
+Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
+        by smtp.gmail.com with ESMTPSA id la17sm4683629ejb.80.2021.09.14.04.18.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 04:18:04 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>, Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH v4 15/18] staging: r8188eu: hal: Clean up usbctrl_vendorreq()
+Date: Tue, 14 Sep 2021 13:18:01 +0200
+Message-ID: <2067006.DYBlakG51R@localhost.localdomain>
+In-Reply-To: <20210914092405.GB2088@kadam>
+References: <20210913181002.16651-1-fmdefrancesco@gmail.com> <20210913181002.16651-16-fmdefrancesco@gmail.com> <20210914092405.GB2088@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YUBUUQxBaGUkjzMP@aptenodytes>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Paul,
-
-On Tue, Sep 14, 2021 at 09:50:41AM +0200, Paul Kocialkowski wrote:
-> On Mon 13 Sep 21, 10:31, Maxime Ripard wrote:
-> > On Fri, Sep 10, 2021 at 08:41:45PM +0200, Paul Kocialkowski wrote:
-> > > Some Allwinner platforms come with an Image Signal Processor, which
-> > > supports various features in order to enhance and transform data
-> > > received by image sensors into good-looking pictures. In most cases,
-> > > the data is raw bayer, which gets internally converted to RGB and
-> > > finally YUV, which is what the hardware produces.
-> > > 
-> > > This driver supports ISPs that are similar to the A31 ISP, which was
-> > > the first standalone ISP found in Allwinner platforms. Simpler ISP
-> > > blocks were found in the A10 and A20, where they are tied to a CSI
-> > > controller. Newer generations of Allwinner SoCs (starting with the
-> > > H6, H616, etc) come with a new camera subsystem and revised ISP.
-> > > Even though these previous and next-generation ISPs are somewhat
-> > > similar to the A31 ISP, they have enough significant differences to
-> > > be out of the scope of this driver.
-> > > 
-> > > While the ISP supports many features, including 3A and many
-> > > enhancement blocks, this implementation is limited to the following:
-> > > - V3s (V3/S3) platform support;
-> > > - Bayer media bus formats as input;
-> > > - Semi-planar YUV (NV12/NV21) as output;
-> > > - Debayering with per-component gain and offset configuration;
-> > > - 2D noise filtering with configurable coefficients.
-> > > 
-> > > Since many features are missing from the associated uAPI, the driver
-> > > is aimed to integrate staging until all features are properly
-> > > described.
+On Tuesday, September 14, 2021 11:24:05 AM CEST Dan Carpenter wrote:
+> On Mon, Sep 13, 2021 at 08:09:59PM +0200, Fabio M. De Francesco wrote:
+> > Clean up usbctrl_vendorreq () in usb_ops_linux.c because some
+> > of its code will be reused in this series. This cleanup is in
+> > preparation for shortening the call chains of rtw_read{8,16,32}()
+> > and rtw_write{8,16,32,N}(). More insights about the reasons why at
+> > https://lore.kernel.org/lkml/5319192.FrU0QrjFp7@localhost.localdomain/
 > > 
-> > We can add new features/interfaces to a !staging driver. Why do you
-> > think staging is required?
 > 
-> This is true for the driver but not so much for the uAPI, so it seems that
-> the uAPI must be added to staging in some way. Then I'm not sure it makes sense
-> to have a !staging driver that depends on a staging uAPI.
+> This commit message is quite bad.
 > 
-> Besides that, I added it to staging because that's the process that was
-> followed by rkisp1, which is a very similar case.
+> This patch has nothing to do with reusing the code or shortening call
+> chains.
 
-Maxime is right in the sense that uAPI can always be extended, but it
-has to be done in a backward-compatible manner, and staging is sometimes
-considered as not being covered by the ABI stability requirements of the
-kernel. Not everybody agrees on this, but there are clear cases where
-userspace really can't expect staging ABIs to be stable (for instance
-when the driver doesn't even compile).
+It has to do, in a certain sense. Let me explain please...
 
-I think there's value in having the driver in staging to facilitate
-development until we consider the ABI stable, but I'm not entirely sure
-if there should be another step taken to mark this ABI is not being
-ready yet.
+Some days ago, David Laight made the review of "Shorten calls chain of 
+rtw_write8/16/32/n()" version 3. 
 
-> > > On the technical side, it uses the v4l2 and media controller APIs,
-> > > with a video node for capture, a processor subdev and a video node
-> > > for parameters submission. A specific uAPI structure and associated
-> > > v4l2 meta format are used to configure parameters of the supported
-> > > modules.
-> > 
-> > This meta format needs to be documented
-> 
-> You're right, there should probably be a pixfmt-meta-sun6i-isp.rst
-> documentation file. I guess it should live along in the staging driver
-> directory for now and be destaged later.
+In that patch he noticed some lines of usb_read() that I had created with the 
+help of reusing some lines of the code of usbctrl_vendorreq() that is deleted 
+in the same patch. 
 
-Can documentation in staging be compiled ? If not I think it can go to
-Documentation/
+He thought that they were clean-ups and renames and so he suggested to make 
+those "clean-ups" in a separate patch.
 
--- 
+However they were _not_ renames or other clean-ups, because usb_read() was 
+not touched in that patch and, above all, it was a new function. 
+
+I am sure that when I write new functions I can use whatever name of 
+variables I like, even if people may think I'm renaming the variables that 
+were in a old function that now is deleted. Am I not permitted?
+
+However, because I also think that readability of the diffs matters, I 
+decided to do some clean-up of the code I'm about to reuse in the new 
+functions. It improves readability of the above-mentioned patch that is also 
+the 18/18 of this series.
+
+That is the reason why I'm cleaning up a function that is going to be deleted 
+in the last patch of the series.
+
+> Don't use a link like that in the commit message especially when it's a
+> link to an email you wrote.  If it's someone else's email you can say,
+> something like "As <name> points out in <his/her> email <url>.  Blah
+> blah blah."  That way you give credit to the other person but all the
+> information is in the commit message.
+
+I agree with you. I'll redo the commit message for in order to summarize in 
+few lines why I'm doing clean-ups of functions that must be deleted in 18/18.
+The same for 16/18. I think that a short explanation like the one that I gave 
+you above should suffice (much shorter, obviously).
+
+I hope that I've been clear now. Please let me know if you have more 
+suggestions about this patch and the next (16/18).
+
 Regards,
 
-Laurent Pinchart
+Fabio
+
+
