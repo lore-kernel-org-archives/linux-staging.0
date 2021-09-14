@@ -1,12 +1,12 @@
 Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540B83FD0;
-	Tue, 14 Sep 2021 07:39:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EED3FD0;
+	Tue, 14 Sep 2021 07:44:25 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by relay11.mail.gandi.net (Postfix) with ESMTPSA id A31FD100009;
-	Tue, 14 Sep 2021 07:39:44 +0000 (UTC)
-Date: Tue, 14 Sep 2021 09:39:44 +0200
+	by relay11.mail.gandi.net (Postfix) with ESMTPSA id AC9E4100011;
+	Tue, 14 Sep 2021 07:44:22 +0000 (UTC)
+Date: Tue, 14 Sep 2021 09:44:22 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Maxime Ripard <maxime@cerno.tech>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -23,12 +23,12 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 03/22] dt-bindings: sun6i-a31-mipi-dphy: Add optional
- direction property
-Message-ID: <YUBRwNxIuU0+/CyS@aptenodytes>
+Subject: Re: [PATCH 17/22] dt-bindings: media: Add Allwinner A31 ISP bindings
+ documentation
+Message-ID: <YUBS1sdHKUMZx6gx@aptenodytes>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-4-paul.kocialkowski@bootlin.com>
- <20210913080008.2rxa22ifisuu3dwn@gilmour>
+ <20210910184147.336618-18-paul.kocialkowski@bootlin.com>
+ <20210913081808.esgqvz4eeatp4hkp@gilmour>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,90 +36,162 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3sJ9a4xR7kppdInQ"
+	protocol="application/pgp-signature"; boundary="x/ZjxzLvCjsZxqAS"
 Content-Disposition: inline
-In-Reply-To: <20210913080008.2rxa22ifisuu3dwn@gilmour>
+In-Reply-To: <20210913081808.esgqvz4eeatp4hkp@gilmour>
 
 
---3sJ9a4xR7kppdInQ
+--x/ZjxzLvCjsZxqAS
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Mon 13 Sep 21, 10:00, Maxime Ripard wrote:
-> On Fri, Sep 10, 2021 at 08:41:28PM +0200, Paul Kocialkowski wrote:
-> > The Allwinner A31 MIPI D-PHY block supports both tx and rx directions,
-> > although each instance of the block is meant to be used in one
-> > direction only. There will typically be one instance for MIPI DSI and
-> > one for MIPI CSI-2 (it seems unlikely to ever see a shared instance).
-> >=20
-> > Describe the direction with a new allwinner,direction property.
-> > For backwards compatibility, the property is optional and tx mode
-> > should be assumed by default.
+On Mon 13 Sep 21, 10:18, Maxime Ripard wrote:
+> On Fri, Sep 10, 2021 at 08:41:42PM +0200, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > Signal Processor (ISP).
 > >=20
 > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > > ---
-> >  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml  | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
+> >  .../media/allwinner,sun6i-a31-csi.yaml        |   2 +-
+> >  .../media/allwinner,sun6i-a31-isp.yaml        | 111 ++++++++++++++++++
+> >  2 files changed, 112 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-isp.yaml
 > >=20
-> > diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml
-> > index d0b541a461f3..303bbaf3b915 100644
-> > --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > @@ -37,6 +37,18 @@ properties:
-> >    resets:
-> >      maxItems: 1
-> > =20
-> > +  allwinner,direction:
-> > +    $ref: '/schemas/types.yaml#/definitions/string'
-> > +    description: |
-> > +      Direction of the D-PHY:
-> > +      - "rx" for receiving (e.g. when used with MIPI CSI-2);
-> > +      - "tx" for transmitting (e.g. when used with MIPI DSI).
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
+i.yaml
+> > index f4a686b77a38..c60f6b5403fa 100644
+> > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
+aml
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
+aml
+> > @@ -1,4 +1,4 @@
+> > -# SPDX-License-Identifier: GPL-2.0
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> >  %YAML 1.2
+> >  ---
+> >  $id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-csi.yaml#
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
+p.yaml
+> > new file mode 100644
+> > index 000000000000..a0f82f150e90
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
+aml
+> > @@ -0,0 +1,111 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +      When the property is missing, "tx" direction is assumed.
->=20
-> You can provide this using default
-
-Understood.
-
-> > +    oneOf:
-> > +      - const: tx
-> > +      - const: rx
+> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
+indings
 > > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - allwinner,sun6i-a31-isp
+> > +      - allwinner,sun8i-v3s-isp
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus Clock
+> > +      - description: Module Clock
+> > +      - description: DRAM Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+> > +      - const: ram
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: CSI0 input port
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: CSI1 input port
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +          endpoint:
+> > +            $ref: video-interfaces.yaml#
+> > +            unevaluatedProperties: false
+> > +
+> > +        additionalProperties: false
 >=20
-> enum?
+> port@0 and port@1 required?
 
-Ah yes, enum feels like a better fit!
+I'd say just one of them, does that make sense?
 
-Thanks,
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+>=20
+> ports required?
+
+I think so yes, so I'll add it there.
 
 Paul
+
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---3sJ9a4xR7kppdInQ
+--x/ZjxzLvCjsZxqAS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAUb8ACgkQ3cLmz3+f
-v9G6MQf+LFXtO+lLmczqO2FeIZ57ZBvDX1arKZiS0kXZP+nN3Y+7FjpJoF5qxpPd
-M7yIhPccBdpJshGqMhFh4swhZeM2tgml5hQfLhXYWKObKp1UZXcfCQ9uQ0b6jX7l
-pE94RTNuf7KUOalTc7SIIKEHGcCtelN2QP5QkN9dCVIQx/QR2LQPweh1Pyrejgnc
-k8rktdvc9Fta19KFbvjC8ni1WFQfsZs0h3jo6xoMrC8w1cVEVvQ8dTkljzRJ+k4W
-DFDBlmrHneE+pgmpDsHM9L2kKcYm/7EsKPc3KWkwQwTZ7QS220qH42+rDnpXtH8l
-Z5HvmxYSzkOVIahP4X1VEmzWLeQ7rg==
-=+9YF
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAUtYACgkQ3cLmz3+f
+v9EiZQgAncwC5/lF0lGIbrTPuu+Q9LnR4LGlxrt2xaOkbmtxVfCuQexU1wx2+C0m
+X+H+fuo3Eq8DN3lFIeAmXG03mYFoVJj8kPybnE6K9e48LQJ70/ahwK7MueZQVuzO
+PDGmIDVxWJtGSbbPUTedQnlYgE+eVzqfbedRrdeYFGRdrUSS9pbO4kW/4lm0xkZW
+UMGcam8bE8v4iyc77LBdvX1cNtexR/PD4L7aiCD0zPkG35iHwzZcEPuXmhuyg/27
+ksjDM1DurT9+zJMQTOv09ii1qJr3jaN1t6l7THV3hOYupapueCU1G/ILqb2Wd4mK
+CSZ2qYlFM6vc5HrIf0v671i9ViGatQ==
+=gBHG
 -----END PGP SIGNATURE-----
 
---3sJ9a4xR7kppdInQ--
+--x/ZjxzLvCjsZxqAS--
