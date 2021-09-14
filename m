@@ -1,59 +1,102 @@
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF833FD0
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 22:45:34 +0000 (UTC)
-Date: Tue, 14 Sep 2021 22:45:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1631659526;
-	bh=NgZMqBOxNObodZSjMDIHyt0PNPZZdXFN2N/CqmntTFM=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=nhf3S8liJkAq1T/BDhESL1FtcJzciSfJQV4L+im0hX0emr+legpSumjsxDFPfdCeS
-	 w23Xuvq67qt++gt/7Av0d7Uuq7DY4UzWFn6eyGu/3ILjZtAep9Rt6jZBW3PZydmurv
-	 ATfPA86ccj00/ZcuEK5gS+lhq55BPqK7UynZ77QOVjadz/8pF27rS53nub9tfDtpcp
-	 Pov9QugSCgbjWU7OfyIRv+tYqkrEaYIWL4sppESlGsc/9Q0tZE/rc8eF5/MhqCIi4V
-	 R3ZFwAFFQojvX15I9DT4WMa2FU8x0wN3AnF1SNdEU2Tgit3tbi4vPiIoQT7amXy0CJ
-	 9phZSSpiTrOIw==
-To: Dan Carpenter <dan.carpenter@oracle.com>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH] staging: rtl8723bs: define wowlan_stub only when CONFIG_PM is enabled
-Message-ID: <20210914224509.g2fbttqmrjhevftu@h510>
-In-Reply-To: <20210914085214.GA2088@kadam>
-References: <20210913140937.1490133-1-hello@bryanbrattlof.com> <YT97lJVU8cx3wxwN@kroah.com> <20210913234247.ptqjjbilrtkzc4id@h510> <20210914085214.GA2088@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B8F3FD0
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 23:08:47 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id m21-20020a17090a859500b00197688449c4so855209pjn.0
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 16:08:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dWF2WtOQjAs6Ovh6klQEAngD4cRkCFvS0VTfme6VCT4=;
+        b=b4SbGfynDJ3oXl0iBEObPwfZknO9rSiX0uTjOwgvDchoSpasHMR4Yfvj3cS6/enDrP
+         y/WjqPjYF1J8NY5eoBiyc8l0ToxooUTf8yj0TZksBz+hnHw9cpPIVu0VvL7bXVGrYdyB
+         gWLCU8C0WrvycRZ3nATMUW1T2osCid39ZMQwsFXyTIM9zFcWU9ndbRbbp0cfBA3iXyui
+         fEZXzuY8clN3FaP3/a2CuxElK64BvR+vxrFaomMmXjjvT2h9gaUm61ueC9incp6BNxA1
+         dcnxF2YDwrTRwZVvD7Kq/X7bEs9ivVGiMVN14Gvq3c/v/L86wjKQWy8vVb9PLFv6FP1d
+         8WmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dWF2WtOQjAs6Ovh6klQEAngD4cRkCFvS0VTfme6VCT4=;
+        b=M7Lm0hsMIrLVI2r+9Tu062XQPsqMYMSdN2yDCDYa6coO9axXBiYjM481AZtaZk5+Da
+         3vFso23yZ4fVo5QFcTmHjr+RXEKmG+jsCl8nAjz+0zKepD2Ric2RUcfj5XY9Hzxde1U+
+         w7JdnZjIb5mcUvSjr4rPnIX/zKdeDMpc2Crk0WOdiRPpZ2pnK8xlCbGcbJNFbs1lXe6k
+         xFe8LL8MkgNJFDDk0j2++oSsLfrTR7n6zZAbEOyRhdWX9NpHO0OXjPCFCYcD9nbKG1iR
+         1/+hqctUCmGilSKB7H8HLh4Q5TxLz0LVku+gdtzpCmn5KpDuPhBMAU8X+LBtxmhKKlAR
+         krlw==
+X-Gm-Message-State: AOAM533iAXHtHf6njY+mFhPmBf3cvqnnUGucHmzbcvhU+u+ON4L751I1
+	CSDKzGqciMbrgrufD6JUI7Q=
+X-Google-Smtp-Source: ABdhPJySpApN2CJRFkSzjIhPt8Qj8GAKEIXqRNJIk9c0Xr27VY5v3FnpfyTL3ba4hZFp2fLtC7TYwg==
+X-Received: by 2002:a17:90a:ab90:: with SMTP id n16mr4730236pjq.157.1631660927629;
+        Tue, 14 Sep 2021 16:08:47 -0700 (PDT)
+Received: from u20.vmware.com (c-67-180-127-245.hsd1.ca.comcast.net. [67.180.127.245])
+        by smtp.gmail.com with ESMTPSA id 203sm11291916pfx.119.2021.09.14.16.08.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 16:08:47 -0700 (PDT)
+From: ua1422@gmail.com
+To: greg@kroah.com,
+	linux-staging@lists.linux.dev
+Cc: Usman Ansari <ua1422@gmail.com>
+Subject: [PATCH] Fix checkpatch.pl error for prism2mgmt.h
+Date: Tue, 14 Sep 2021 16:08:39 -0700
+Message-Id: <20210914230840.1528-1-ua1422@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
 
-On this day, September 14, 2021, thus sayeth Dan Carpenter:
-> On Mon, Sep 13, 2021 at 11:42:55PM +0000, Bryan Brattlof wrote:
-> > I'll be back with a v2 that rips all of this out.
->
-> Or use the __maybe_unused annotation:
->
-> static __maybe_unused const struct wiphy_wowlan_support wowlan_stub =3D {
->
+From: Usman Ansari <ua1422@gmail.com>
 
-Thanks for the suggestion Dan; I like this much better. :)
+Signed-off-by: Usman Ansari <ua1422@gmail.com>
+---
+ drivers/staging/wlan-ng/prism2mgmt.h | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-I've been poking around with my config today and noticed I can still
-produce this warning with CONFIG_PM enabled, which means something else
-is going on that I don't fully understand yet.
-
-I may hold off on sending v2 until I make sure I understand what's going
-on and double check that I didn't bork my config.
-
-Thanks from jumping in
-~Bryan
+diff --git a/drivers/staging/wlan-ng/prism2mgmt.h b/drivers/staging/wlan-ng/prism2mgmt.h
+index 17bc1ee0d498..19e648a81489 100644
+--- a/drivers/staging/wlan-ng/prism2mgmt.h
++++ b/drivers/staging/wlan-ng/prism2mgmt.h
+@@ -58,8 +58,8 @@
+  *    --------------------------------------------------------------------
+  */
+ 
+-#ifndef _PRISM2MGMT_H
+-#define _PRISM2MGMT_H
++ #ifndef _PRISM2MGMT_H
++ #define _PRISM2MGMT_H
+ 
+ extern int prism2_reset_holdtime;
+ extern int prism2_reset_settletime;
+@@ -91,7 +91,9 @@ int prism2mgmt_autojoin(struct wlandevice *wlandev, void *msgp);
+  */
+ 
+ /* byte area conversion functions*/
+-void prism2mgmt_bytearea2pstr(u8 *bytearea, struct p80211pstrd *pstr, int len);
++void prism2mgmt_bytearea2pstr(u8 *bytearea,
++                              struct p80211pstrd *pstr,
++                              int len);
+ 
+ /* byte string conversion functions*/
+ void prism2mgmt_pstr2bytestr(struct hfa384x_bytestr *bytestr,
+@@ -112,9 +114,9 @@ void prism2sta_processing_defer(struct work_struct *data);
+ void prism2sta_commsqual_defer(struct work_struct *data);
+ void prism2sta_commsqual_timer(struct timer_list *t);
+ 
+-/* Interface callback functions, passing data back up to the cfg80211 layer */
++/* Interface callback, passing data back up to the cfg80211 layer */
+ void prism2_connect_result(struct wlandevice *wlandev, u8 failed);
+ void prism2_disconnected(struct wlandevice *wlandev);
+ void prism2_roamed(struct wlandevice *wlandev);
+ 
+-#endif
++ #endif
+-- 
+2.25.1
 
