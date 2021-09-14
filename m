@@ -1,48 +1,48 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B8F3FD0
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 23:08:47 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id m21-20020a17090a859500b00197688449c4so855209pjn.0
-        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 16:08:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC56C3FD0
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 23:12:39 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id bb10so445167plb.2
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 16:12:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=dWF2WtOQjAs6Ovh6klQEAngD4cRkCFvS0VTfme6VCT4=;
-        b=b4SbGfynDJ3oXl0iBEObPwfZknO9rSiX0uTjOwgvDchoSpasHMR4Yfvj3cS6/enDrP
-         y/WjqPjYF1J8NY5eoBiyc8l0ToxooUTf8yj0TZksBz+hnHw9cpPIVu0VvL7bXVGrYdyB
-         gWLCU8C0WrvycRZ3nATMUW1T2osCid39ZMQwsFXyTIM9zFcWU9ndbRbbp0cfBA3iXyui
-         fEZXzuY8clN3FaP3/a2CuxElK64BvR+vxrFaomMmXjjvT2h9gaUm61ueC9incp6BNxA1
-         dcnxF2YDwrTRwZVvD7Kq/X7bEs9ivVGiMVN14Gvq3c/v/L86wjKQWy8vVb9PLFv6FP1d
-         8WmQ==
+        b=KTIvKdzesMcqOvAs7OwROrymyXZA12bmc+NB7bdfGkjEokRuwR0tGexoJk1ja1RD1p
+         nEx2U7T25bCDeEGOKZJQElGLw237vqijuQmf47EURwniIkQwZwCmTDDvqWFvb3X/nu5B
+         ftFRCnCiiVicJd9tUyUZqtejsfnt+dsD0XJpxqzAg1I8YwcZWlm/rNWpqtmixBrOvNOQ
+         evUdW7Gf+DZS60Kaf2Rk+3/pvww/bsQzsL68tueHBgh4XqAnwqlkye9L6JN5VkRsFwRl
+         qnPoSmkVD1gDPtzhtWdrWpgH5ZJX74kxQBtcAaowl/JQwfNwwTsoREPcP8TXQJDpIjMK
+         8Gag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=dWF2WtOQjAs6Ovh6klQEAngD4cRkCFvS0VTfme6VCT4=;
-        b=M7Lm0hsMIrLVI2r+9Tu062XQPsqMYMSdN2yDCDYa6coO9axXBiYjM481AZtaZk5+Da
-         3vFso23yZ4fVo5QFcTmHjr+RXEKmG+jsCl8nAjz+0zKepD2Ric2RUcfj5XY9Hzxde1U+
-         w7JdnZjIb5mcUvSjr4rPnIX/zKdeDMpc2Crk0WOdiRPpZ2pnK8xlCbGcbJNFbs1lXe6k
-         xFe8LL8MkgNJFDDk0j2++oSsLfrTR7n6zZAbEOyRhdWX9NpHO0OXjPCFCYcD9nbKG1iR
-         1/+hqctUCmGilSKB7H8HLh4Q5TxLz0LVku+gdtzpCmn5KpDuPhBMAU8X+LBtxmhKKlAR
-         krlw==
-X-Gm-Message-State: AOAM533iAXHtHf6njY+mFhPmBf3cvqnnUGucHmzbcvhU+u+ON4L751I1
-	CSDKzGqciMbrgrufD6JUI7Q=
-X-Google-Smtp-Source: ABdhPJySpApN2CJRFkSzjIhPt8Qj8GAKEIXqRNJIk9c0Xr27VY5v3FnpfyTL3ba4hZFp2fLtC7TYwg==
-X-Received: by 2002:a17:90a:ab90:: with SMTP id n16mr4730236pjq.157.1631660927629;
-        Tue, 14 Sep 2021 16:08:47 -0700 (PDT)
+        b=RQftyrV5pvvHdHFQN2djMVC+anriCJOj78rCPRk7j8pXtRlvRXDLXmp3kJcYLBgk3F
+         8O2wusAQmjb5Q+EUCewqKzs/+6/sjRzY1sBFBLnoUaeVPkkK8NNs/BRfRNKzF3o9nUvg
+         X1imYyeXPQEy53XzjI6Jp5zYst/i9DjqFTAjkgk5HOrJxhUXQpfplBv/AeSaf1MdZsUX
+         Ha/e72g+fj/28Xsa3a4V2U0BD4D+yEOhH8doQoDEXcUQmBH5d4hsVwsLBaaSPe9I/2ya
+         UjCi+zq8RWfHxn9OI1ggDu9LUpK9a64n7iHT6OzBX9oG+OJebG6AHH81+KoC1V82ukBd
+         tDLA==
+X-Gm-Message-State: AOAM532Ged1pabsiRCtt9laXUOpwb6An+D+6CefWWefY/tPJgteZWbfN
+	IyCkYkfArb9Rwa5xKeUZxhM=
+X-Google-Smtp-Source: ABdhPJzGKF7L1i3XQOo7gLwGzX90rZl+328xh85ltmchWeD/1bRhG1P3nIMULjdLiFrbddjQjTO4YA==
+X-Received: by 2002:a17:902:654d:b0:13a:50b5:da29 with SMTP id d13-20020a170902654d00b0013a50b5da29mr17155313pln.68.1631661159347;
+        Tue, 14 Sep 2021 16:12:39 -0700 (PDT)
 Received: from u20.vmware.com (c-67-180-127-245.hsd1.ca.comcast.net. [67.180.127.245])
-        by smtp.gmail.com with ESMTPSA id 203sm11291916pfx.119.2021.09.14.16.08.46
+        by smtp.gmail.com with ESMTPSA id u24sm11531933pfm.85.2021.09.14.16.12.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 16:08:47 -0700 (PDT)
+        Tue, 14 Sep 2021 16:12:39 -0700 (PDT)
 From: ua1422@gmail.com
 To: greg@kroah.com,
 	linux-staging@lists.linux.dev
 Cc: Usman Ansari <ua1422@gmail.com>
 Subject: [PATCH] Fix checkpatch.pl error for prism2mgmt.h
-Date: Tue, 14 Sep 2021 16:08:39 -0700
-Message-Id: <20210914230840.1528-1-ua1422@gmail.com>
+Date: Tue, 14 Sep 2021 16:12:32 -0700
+Message-Id: <20210914231232.1592-1-ua1422@gmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
