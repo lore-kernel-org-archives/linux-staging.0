@@ -1,66 +1,66 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6548E3FC5
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 09:24:31 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18E8h8g6018222;
-	Tue, 14 Sep 2021 09:24:23 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EC83FC5
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 09:33:22 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18E8iCZA009867;
+	Tue, 14 Sep 2021 09:33:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=9TByCfGHOxM5JPqAeVJX3fG7RM7BIJKHdbJGuEQahjA=;
- b=1MPMuv5/hboFK30UOrQpv/T8D1SHRc0JHHbV3jy0vNd5Gr8QCC+uFhVsDFrNFLe80q0j
- TowaxoDxTsGsVrskWTeU/q9mxujA8heAzuCTEkXAKZX1iQsi981QGfK5N5Nk/4xddHU3
- 3P7te5qjwqciftfe80dav84MYa30E2gE4bNznyV5Z9bGRuGIZp6jOFPWZoJHstuoj26B
- YhkwUyGjhKlWaOC6BP3VMNL0zA81oj03aspDMdJFyFdiZ5JFz6XTm13vZ2BMX1mwJxFH
- 6vz946zDgGhPo1COj2ppPZzexNxHJpO+9Qvf8rwJGEmCerLOVKTvl20pG+/aEGik2LcA bQ== 
+ : subject : message-id : references : content-type :
+ content-transfer-encoding : in-reply-to : mime-version; s=corp-2021-07-09;
+ bh=PLGXOYyUY+kNdz7RK+DWQHIhO0vUL9U230+eRbRea/Q=;
+ b=I9g3hQIawhVcNm6rwKbZmBy0FePvpKOV5UnTOkZz6LDLDB5gYPanR8ggpHdTOKvTJ+ER
+ wfpy4BUv+3d/9YfxyB44HZPPH3ZBKjsxMSqOC7mfDVlrtqcpl5mpfCc44nQvUmFnSdnI
+ t/16NltFlm3Wv2a5EKoxbtJUIGSNNj6WqmokvAb7DaJpo3YUvZIViysOD+BVe2GeKfZB
+ cooFCQMHXRyoG1cHVYGWijaB6keg835/Z6bGz/xiV4F75xQykDgqTnZitBmFrbzxdEcU
+ iQMPWU1/GXPU3YrwxufBvTT0aT8b37ICRR1WsbU0ByBZ+fBcBExoDhWiMsXlzpB5hhUP bA== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=9TByCfGHOxM5JPqAeVJX3fG7RM7BIJKHdbJGuEQahjA=;
- b=A6+elLkWOtLPoAnZz4Wk3p2yng4cK50o3hMbuVIi8SBseNeaPJkEhpJtN+klJaT2RiQc
- fQjrn3juccOLuJzAkOS7eo7dbPH5C+YHUZFdZTNwzb1pqTqLaydykSHR56t1c//8uINP
- CAmOYE+GIfuBwPgZ8S1gsgCw/cD41on7phsdbJkPXSHJVjC9dk+DaA7hNNSlosLm2pWi
- 4omdCkbA+RTGjWtUReULwdBSe8qiq0yCh9o/RV9+gBpvJ5sAgSnjojqbqn9s4Yw7IlMa
- ++I8oh/48FtWvlcgSIhWGyKwCoA7GbqFt28533hzWcqZfDpwzmrZzodFQ/i1cEDYAH5/ +w== 
+ : subject : message-id : references : content-type :
+ content-transfer-encoding : in-reply-to : mime-version; s=corp-2020-01-29;
+ bh=PLGXOYyUY+kNdz7RK+DWQHIhO0vUL9U230+eRbRea/Q=;
+ b=HoJlRd6qIc1922PpNaQIfX3xb+OmOzYps4IvIYcTxz3mm1ffzN/bB+QDob8SHsylzfW6
+ Tn6iIzNrERG2TiQIvgXOcQ5v9cyCEf/rjkbAt/8DruG81CxvRAPwt9qKWu5puFYgfmmk
+ ymUV58hKp8abA3zbx8SK7hPbwhOq3fSAHwSmv9rTo/pNABuA01zBhVmW1JYhO1acwBpd
+ nGj3WcrzZaiT6GgNU+BhhrfFQt5g9uUMuKCUk+k9srzsBYv6GU9nBOyAHQnM0WyTA9+x
+ yrf6P+9JUxblVPiOxhuJrexSWuyorsrWH6sSCQvmQZ8fERVGdvYuPR+xJwYopOBKSoeF kA== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3b2kj5s387-1
+	by mx0b-00069f02.pphosted.com with ESMTP id 3b2p3mgqxv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 09:24:22 +0000
+	Tue, 14 Sep 2021 09:33:19 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18E9AXjS029589;
-	Tue, 14 Sep 2021 09:24:21 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
-	by aserp3030.oracle.com with ESMTP id 3b0jgctv35-1
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18E9UWHs114856;
+	Tue, 14 Sep 2021 09:33:18 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+	by aserp3030.oracle.com with ESMTP id 3b0jgcu6dy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 09:24:21 +0000
+	Tue, 14 Sep 2021 09:33:18 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M9G4WFtlLGewTpITx3EKKawczmE9fFy02JTPsLb08KVjq40834iuvgX6C6lJfsotq3lZm2SMIeIkAPxUcv/F3TYxLvsTUSFL2CPoJYME+uUY9ELFiUJJW6YkzYcDN7Kpx2AuVukixfV7jDGGYsW21Mvk61p6RN66tBPGVmzmWmwBiqFGGl2j3t7wlb3df9RL3edwjXe5mugF7dN4/Z0olPA4SYOJLQOr/uV3F8XzNj+1ISAalWzAHIsqFVEjCaNY9r0GnbBZqyQo6Sy/w3bz+HWc4NUPxZj8+cZzy3lsvKhDUOYI2FZf9HYJ2C/gR6Q5J5JmRJtmCmEWGW1sPAkmRA==
+ b=Apg1V1Jcb2/6tLijxLHYegfxcGxi348Oa31ody4RIQhk9ZdXkT03q8YJFDChh2A+wUKV+kjIuXI69lE5EVSVkZKU2AJ3QcgEXPnyI14uPzteyAzQtvmKTMce+BuoV2zKoYxIK/bdOFhEClgzXlZ3/w6zvPBdr+qOZhC91oTcc8wK2mrgESeKdmToLL8lyktmzsXAXrWCQWQl2GOQP5Ytz80X1NSIaFAEYgJtGJSD33C3wpBuZQgBCFWuLred56Wlqlq5qMXKOGQ68tDzR7DlNa4scNC1Ez2/4SHC2GiSO1X2Xe3X+T+dHagvRIDHTy9q07wbRtM6AyxYern/M2zYxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=9TByCfGHOxM5JPqAeVJX3fG7RM7BIJKHdbJGuEQahjA=;
- b=b+M9env8G0+PzuHM7CjLFlfkbfjlcPxMvWCuRT5HzoiMpwq2coA3Kmfeb49f6sIKEwfFvGDcNgmpNIgcwDYcObtBuqp5OOwYTIC58aHX0Rs+iRDuATuCdjyr7NAtUfOy6mLThOsER2QRw3vd3812pwxO9QidLjuVLd6Ie40Ihn1MIZHdlK+Rc7Up+yAeOEgEykZRQj1VKasrtxw0cwdiDGt1iSM2jN7JjjJtYN5KtjGAbIvElHx1o4KzLrL7jXv96ubJrF9AHbEetTw6vPlCAbGrPamFA55LW3JTQIgX0GEEu4ly3+CGCXW64SOzWEibtPNCSpEQ7+zevqI2ktEjJw==
+ bh=PLGXOYyUY+kNdz7RK+DWQHIhO0vUL9U230+eRbRea/Q=;
+ b=nd055r5cMs20fsB+jdhjIvl+UDpl2Q4aSkAfy1i0fDHX61xym/c4pnWxlw+xCt56qJ7gUfWKW2URVfBFr4mUE6Qpq/0gQj96vVC5M+Z5QvfZFOJLvjxKE4MUTyFcVsJCBfcZVbezey3jyg2AOo1D28UGEn9FacLtBLtRJwcI73DPp5WwC7cZnsh0Q/leEtrXXGNz29H/3TYr9hHvazGml1dkpYNKCuDGdzXq0JJutPfIaKSMlXNzkGeJb90AAk5f7fWA4DGG/DRf5Ao09vgZqT1s8OsNri87w5BEaFUI2aApTkv+CbFuabnKgtpNWgzbNzymBlVkZZXokVqHce+fQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9TByCfGHOxM5JPqAeVJX3fG7RM7BIJKHdbJGuEQahjA=;
- b=YqGLUWcdycv2L5UupIXTVOfYcJADC7nc7NLxGntnB0z47UULgsPIUTDIgyE9MqhQU3itzQmXVOw5k9T8ET1coXmD9iqJmJT6DnHAfblAzbwcMY0AgqPN8a601RUQ0BrdHhq971kFy71mYdQPcC+TB83P/dOaRdLHjo0DnBmrkZs=
+ bh=PLGXOYyUY+kNdz7RK+DWQHIhO0vUL9U230+eRbRea/Q=;
+ b=ybTPhCYCGerrlIXP9QkKm6SswRgQe6b79N8SOwnsJpi1ZDFsu/X5cdmrIlMmOtI3eZxTRe848LPI7pRfX8vF9SvImslmIVw1Gxc9gIrdPTlBEAR3/TqmOphk6wiXYnU54LsjBrWyZxxuWbSh03sFlE1MUI0MqbJmr7WmFvwqKBs=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR1001MB2320.namprd10.prod.outlook.com
- (2603:10b6:301:2e::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.17; Tue, 14 Sep
- 2021 09:24:19 +0000
+ (2603:10b6:301:2d::28) by CO1PR10MB4690.namprd10.prod.outlook.com
+ (2603:10b6:303:9f::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Tue, 14 Sep
+ 2021 09:33:16 +0000
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
- 09:24:19 +0000
-Date: Tue, 14 Sep 2021 12:24:05 +0300
+ 09:33:16 +0000
+Date: Tue, 14 Sep 2021 12:32:58 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -69,16 +69,17 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
         Michael Straube <straube.linux@gmail.com>,
         Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v4 15/18] staging: r8188eu: hal: Clean up
- usbctrl_vendorreq()
-Message-ID: <20210914092405.GB2088@kadam>
+Subject: Re: [PATCH v4 17/18] staging: r8188eu: Shorten calls chain of
+ rtw_read8/16/32()
+Message-ID: <20210914093258.GC2088@kadam>
 References: <20210913181002.16651-1-fmdefrancesco@gmail.com>
- <20210913181002.16651-16-fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset=us-ascii
+ <20210913181002.16651-18-fmdefrancesco@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210913181002.16651-16-fmdefrancesco@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210913181002.16651-18-fmdefrancesco@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0021.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::12)
+X-ClientProxiedBy: JNXP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::19)
  To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -86,232 +87,153 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.99) by JNAP275CA0021.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.16 via Frontend Transport; Tue, 14 Sep 2021 09:24:15 +0000
+Received: from kadam (62.8.83.99) by JNXP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend Transport; Tue, 14 Sep 2021 09:33:11 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 082fe8e3-3bd2-4cf4-1bec-08d977616e22
-X-MS-TrafficTypeDiagnostic: MWHPR1001MB2320:
+X-MS-Office365-Filtering-Correlation-Id: b402e935-6f76-456c-dd36-08d97762adf1
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4690:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<MWHPR1001MB2320D5F649CC1D00EF15E19B8EDA9@MWHPR1001MB2320.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:153;
+	<CO1PR10MB4690A4A003C3DD1BA25F421D8EDA9@CO1PR10MB4690.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	GRZWohBtC+QkoOIQKrMu91rN3cawEL3mI8rYjP0NxuX3aCaX7fpeB0i0RRkr9WsuL+8fst27JRBfivi4JfdfVa1+dGuUk4OwIaUMtrw24RXcvIkxgCR0eD2WEy6NJPlkfUlbIREI9YKwcpSE/vF+ZgyVXGu3TVH4kXshjHHp1zmsrQhF7eEz8foTOaZ1K12FF7Ty2W0cO5SweWDsqcmQfVW/faZmt6J0lI6RhgPCVdRhsUHx9/eqwnzUNfJs55mRVQ83qf3XLmsdfP07HwFzoVL9KEIdMErjjW1ALe6sqrbN4wDZaUIO5kMH5naFZU6asmQuwC+cSb+jxt2Tr9IuQizkzLtdVC2/vgfI/5nf0UmFQyAHItzal+eOxl2+7/RLRYBfkQ7wcmDWQcjci1xVTcARoDI1Zi7yFpIdYule311jXfnLQDzl3iEBf42VsGAKFZ4myPSRcxcELfg8KAlonhGqtYnL5exlLoHkGWYEzySQN1lrzjy8IUT2B9fbXmMBFItLlZZ6qI7ABh3DJFrWRjrBTSI1K7kVKrMp+ND+4CMwTNxNK9nBw0gTOILFiYQNWoshCaTOqz0c1ChGu3Mo8/TteFdbwHGqMlnW2+KQ9uhWlbIroWtNbFoxeIPawB8kqUXNrd2akVUYg9vVtUS+JrypzwnBDvdGzMEmVCgV+EdN9Cj4eHWRvw5yFuSg7EMvjToNnBvOTy1eA8MZZbwlqo+A/lt/CEhJPa9rLDKoDLWYdWVcZ4WVVNkGv6OpDoIt9laHlXIV8a3TfmqE/Zb3NUAFnwAgoegUUarCyW37jrY=
+	fl8nksubBwMFPea7uRhjS0gIeuJ1x0GJoFcDKKbSurpdKNBaCrKvpTs6Yz4UndsFhzN8IW8ac3dO72Ax7UPD+JCGFqGgFiJY5r4iqxO5xoPcOI62ISC7alVfMLJLgX3HajOBb8j11F/OxsW6Yclnd7E1UTXxbNNxqyPrxwfBueft7UHF6rKY6wubs4qLcEqpYryHng7dz6HDZjn1xCaysR+o7+IrxzrlG1W0DporFCEulEvqIA4WrrVfPjir/ejqqKCUZAPFEiel6rx/kgdBP4N4zUncXRW1SMYTMRoX8SQsgYpLipchPxtfF6LNhTEdzCVXaUbVJLF1IsdvYWeFYanr+efPf05deetNTMWEEOGDScUVfeUkHLbzzbq9jEVQ7ayPbzvww2OD4DrKxR3HyRLPGEXuy8Z8/rK/xI75/gFhl59ettkGmNq9LDEbxtHiC+WsPiS6j0z6hefN1g/ZD/L5VEjYjuxH4nox/KPkIxWRxG6WQuzjB2vUw2Vhy7ZzFIy3nIeub/G1lChPX371yabMQJVu5hVm3wGGVKtEQVD2OqXT6DwwSPve0fW7SaGdti5+pMfWDJUphHqiptgZ6UhSca2pxqwmSyXf3i2GPvu1CkuvSDLYwfzcLL00/0d0JxCB81zSfVpNT45Fudkb5ZPqvzF8i0ho2HKt1ciBWJHBwcJF/oSExuAmPLNw3weuzdpzP/W/ySREeDQj9D4JlA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(396003)(136003)(346002)(366004)(39860400002)(33656002)(66476007)(66556008)(2906002)(1076003)(86362001)(956004)(38350700002)(55016002)(54906003)(83380400001)(26005)(6916009)(66946007)(316002)(52116002)(186003)(5660300002)(6496006)(33716001)(38100700002)(8936002)(478600001)(4326008)(966005)(9576002)(9686003)(44832011)(6666004)(8676002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(136003)(376002)(396003)(346002)(366004)(55016002)(83380400001)(956004)(4326008)(316002)(52116002)(33656002)(66476007)(66556008)(66946007)(478600001)(5660300002)(6916009)(6666004)(2906002)(9576002)(8936002)(1076003)(54906003)(38100700002)(6496006)(44832011)(26005)(38350700002)(33716001)(86362001)(8676002)(186003)(9686003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?oRlUAwnp05EEnuS0VThfXHyL/33EdBjamEGNXiiGa7qPIWGhRGMlOLmjsiIU?=
- =?us-ascii?Q?Kna2wJ4ckr+XkV5MWl7lIsCj4RyRetbvE3rwFBvtZ6XqnHz+SpQwCOB6dRjV?=
- =?us-ascii?Q?zR2uYUhKuKaL67IhZEc8SlICy8eiilJ0GJ2qXIU78WiX0q93mr2OR1ZArvW5?=
- =?us-ascii?Q?PVIEDskVqll2HqHDNzy0w2PYMveaDq1cwd+qRQsz55FqHiX7Lu7zB5tVhxWl?=
- =?us-ascii?Q?6S+W7oCwz3ac16z2jxf9udzQ6UoFfQm/MKdpFClx7/LT0dlwW9u0tIp3Tz3P?=
- =?us-ascii?Q?OtM82FJkd97I+m1uCSj2m4Vfvt6qYiXyUgKSUB2qQofWC3b8cBn3OF+EPygm?=
- =?us-ascii?Q?qAPV2ZxmYNpK8BfMfdc4BolL4F2wRljQarNIe/O/iloBxLBDwKaI6U9PkbVe?=
- =?us-ascii?Q?ne+sj0S9EV6f2sHWapRev8/ntoo39SIXPJfvl2wQRIba2xiWY35B4fsPX5Yo?=
- =?us-ascii?Q?mFKkm+0crxpqesfFjfz3JeEImLjxeXhGjwFBsVl+MFC7f8i6X1dpn/pfs0vb?=
- =?us-ascii?Q?lLLV/PvHtTs3k2dIbzoUyDWyn/x4In5cEmsa9yAnM5ieLLsVns62NiYkXiWP?=
- =?us-ascii?Q?CCGX0fSslI6xdNN9IA61tzw58skST+KkxXZ28WiJvXnIY9UMa6wDh+Ctog35?=
- =?us-ascii?Q?5xKCdRcqzhQAelTNuzQLJgR7lqv/OdrKf2ps4LM8u4ZhRDzgjnsz7TVdMv7a?=
- =?us-ascii?Q?VBZgEIX0qgq1pSt4H3FYudhRDwmw1aKmwGKSfngXEWWDElNPlXNGghCeUjl/?=
- =?us-ascii?Q?XRSKjXmhVa1HntI2HIU5z40RAhJxCFwKSTrRnPUtYx/WgxOagiPtd9E+N6OQ?=
- =?us-ascii?Q?k/SEysS4giOO7Rx3vg9nKlMt/xwMDZhwcXSA5glxN1BaJLj1Xam/qBnAVofp?=
- =?us-ascii?Q?ZNGWEcIy9Ykk474MQOzy9OVzVjvNGqXejp2Gr5R09tVhlDJuXBTA0rGhA2ew?=
- =?us-ascii?Q?OiRbZqbTr09d34Xso+m1U997Hvz3IS8mJy8lYdJeMycUzTELClO7GAIUJpFH?=
- =?us-ascii?Q?aY/G/kzZnNzusDCwXx97CbKy3dxgwjuJnTxQIrYQOf3hIczA+yp+LGL17YTl?=
- =?us-ascii?Q?iJyBRzSMis48ZE18ZtKb0xLu6QkO2pJaUHJqbNj1h5XC1UDLdNcZTZNPR491?=
- =?us-ascii?Q?7sROhlRXL38YvHVzZnIyBzXoszmveKKJcl735LFpm/UobYhQqj94l9iqlPV1?=
- =?us-ascii?Q?w3oQMwhIvCX7sDSIwoFnN6jUL/5QouSUUZqTB6XWXBnZ/qA30Wl6PKD7Ip3n?=
- =?us-ascii?Q?phVJGWfKulBzSA4wMS9TEp++tRO7RN+MWaNMW44ebSNkRKlGJQZuVPv77bZ1?=
- =?us-ascii?Q?GV2x97mxkiiVMeedGcXfcz1B?=
+	=?utf-8?B?YjlhdTJoR0ZWVldBUGI5UTR5azhqTTBueEJHR0FjK0daWkN6MDFONFovNzUx?=
+ =?utf-8?B?eEUxTDhER0twODJVeUtuaFpnNGZDVWhuUSsydXAzUmgwZGFJcVg3bkJTb3JR?=
+ =?utf-8?B?V2lXZXE3TlFjMytVMVErVFpPeGV3WUtPNzRaVEI3Z29wakI4N3R1UVJKWEhU?=
+ =?utf-8?B?RUxIOWpJM0phZEUxUlJOUTg3RmdtY1NaYktWU3NaMmhKUnhuZW0vNWZmZ3pY?=
+ =?utf-8?B?SXdHWTZrUkZOWEVkQlcxRWQyWkZTUDZ5SkF0bU1QMVF6WjdHaTBQOXlJWTB2?=
+ =?utf-8?B?MTQ4c1ZUdUZnY0gvbzZjNTdETHo4VWZkWGpRM0lBS2VFS25oanRESFVsdW0x?=
+ =?utf-8?B?bjBFb2RhdWJvV29iZnZUSHh1SlhxeTZmM0FoNGpzaVZVQ1ZsblZqR2tRVGpH?=
+ =?utf-8?B?eDlGMXBwQlNoMTVta2JtZVI2ZEpTczVDM0YrZlRXTjJEMmtHbVBRZjhBcHNE?=
+ =?utf-8?B?eDZFNFhwcXFLQi8yMngwbjl2ZEVMVGcxaGpmRGcwZHk4enFPRmhKb2k2QW5a?=
+ =?utf-8?B?OW5yeDMzM2JyeHoydE02VldGRGt3S3pHNGt5dXFDNysrMWFjVkljcDFseGo4?=
+ =?utf-8?B?dTBycndIcFpSOHZnWnlTZk1jK0IwRXVid01lMW1qQndTVmEvT1YxdmtOV09M?=
+ =?utf-8?B?c1ZoN3VXTnJ1UHQ0RS85VlNidzVUTG5GeHZ0KzZUek96NEVjOC9CdlNYZHBq?=
+ =?utf-8?B?WExjaWdtQVM5YkFvK3lrclE2YUorbEpvOVIwOTdKL080MzRJVzFPbldyQ0JG?=
+ =?utf-8?B?K0s3ZEJHTXF4alpDVi9iRTZzMDIrVVpkWDRrQ0c1Zng4UmFKUVpNR1lmWkg2?=
+ =?utf-8?B?Z2hGM1pRcnl3MlVDeGRkZlRkU2tjVWJjTEl5Um1HOHF0OEk1OFo1T3hNdWNh?=
+ =?utf-8?B?NDFJVVVCdFlFZ0dkcTdOcFA2VzU1TWlrVkZZbUNKbWorUUlPUE1aVy9hdGxY?=
+ =?utf-8?B?SjhEcFFxZFh0UlBxc3NwNHhSYnhyRnZGd3R2QlF1SjVkbVlyTUVHdVd1QWFP?=
+ =?utf-8?B?N2dvbVlFSUtMazZIWFJXdVkwSmJzRDVNQmwxYjFmdWJGa0N3ZXpGbVlXZUts?=
+ =?utf-8?B?bWhVTUtVVzNrd0x5WGlVVVBGdzNNSHdlYnEvcGtQWk9kcmlrNDVmRm42MXhL?=
+ =?utf-8?B?ZTBQd0hpNzJROHh0QUpHMmNGZmZXUmpQR1RmNHlGZ2FBUUNhcFpndnRNTzZQ?=
+ =?utf-8?B?ME96RGM1V3ZPWGxPWFlJdEFlTEFDUDlSVEJVTE1xK1p4d2ppaGx3ZENBUG4x?=
+ =?utf-8?B?VTlBNjBFUTR4c2lCbHNrdWY2bjZ2YVFKSDNWRWZMSzEvcldCcjlQQ21FYjhS?=
+ =?utf-8?B?cTRpbXNva3ZNUk5pbjIvRWZlL2ZqNnBZMjkyT1NQNWhEbzJzNjAxOHFsNzN3?=
+ =?utf-8?B?Z0Rac0s2QjlKRlA0cmtKZGdFRFpxcG42cW4vaDVxem1PbVJUWXVXWURZekd6?=
+ =?utf-8?B?SE9ucms1bzhIWXNERzhtdkpsbDRUcWlrdVErWkdSaE5BQ09vUk8wOXFENHAr?=
+ =?utf-8?B?dmhneHlLZmZMZjdLYkZVV2Z2TXV2WU1nVE9mZkZpRXFQbVRuL0JOcWRvWXVQ?=
+ =?utf-8?B?S1VoMC81amx1SWg1QnlYQUVLMXJlcFkvZjEySXk1ZmliM2FUMm9xQ0MyaWJS?=
+ =?utf-8?B?YU9ZMUE0SnZaNUJNTjVsdDRrZUZXRzlNR2szOURFN2VHcE1ZVTY1WlV3aXNZ?=
+ =?utf-8?B?TkdTdTVDeXkwZHJjamRQRE50T0htOVl1dnprM3R3L1FnSm55TmJrcDN4YnM0?=
+ =?utf-8?Q?CJs46LO17sokOfnW2pb+47gg02xlHSFHr/TJ8G6?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 082fe8e3-3bd2-4cf4-1bec-08d977616e22
+X-MS-Exchange-CrossTenant-Network-Message-Id: b402e935-6f76-456c-dd36-08d97762adf1
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 09:24:19.5326
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 09:33:16.3222
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ApujOzKGMDf24+IJPQZXOv84Z/3B962OUmgv1UzME4w40qd8AyFm7nMwo64hn+iCrpT8DvWJnr3qqxSSPz2KvRIqegQFzAnz0p5SqiIKS6M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2320
+X-MS-Exchange-CrossTenant-UserPrincipalName: /hClZs/MxE9SI+UP4F9tBQWGq2wAXIv2xrokXJsHOMu2wHHqkIN04ye6bGO5WfGgS/tSkYLcrD4lMsh6b9+hHqU51PJN6BOaXTCzJy1LL7A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4690
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10106 signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0
  mlxlogscore=999 adultscore=0 bulkscore=0 spamscore=0 phishscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109030001 definitions=main-2109140056
-X-Proofpoint-ORIG-GUID: NNLhd1LCiWd4-d-GwkBVbDLhNAByq9v9
-X-Proofpoint-GUID: NNLhd1LCiWd4-d-GwkBVbDLhNAByq9v9
+ engine=8.12.0-2109030001 definitions=main-2109140057
+X-Proofpoint-GUID: 9Cg4o-CBu9sh68sLzU17ZgiKXMyAmuxf
+X-Proofpoint-ORIG-GUID: 9Cg4o-CBu9sh68sLzU17ZgiKXMyAmuxf
 
-On Mon, Sep 13, 2021 at 08:09:59PM +0200, Fabio M. De Francesco wrote:
-> Clean up usbctrl_vendorreq () in usb_ops_linux.c because some
-> of its code will be reused in this series. This cleanup is in
-> preparation for shortening the call chains of rtw_read{8,16,32}()
-> and rtw_write{8,16,32,N}(). More insights about the reasons why at
-> https://lore.kernel.org/lkml/5319192.FrU0QrjFp7@localhost.localdomain/
-> 
-
-This commit message is quite bad.
-
-This patch has nothing to do with reusing the code or shortening call
-chains.
-
-Don't use a link like that in the commit message especially when it's a
-link to an email you wrote.  If it's someone else's email you can say,
-somethink like "As <name> points out in <his/her> email <url>.  Blah
-blah blah."  That way you give credit to the other person but all the
-information is in the commit message.
-
-A better commit message would be:
-
-    Clean up usbctrl_vendorreq().
-
-    1) Remove impossible NULL check.
-    2) Rename variables:
-        pintfhdl => intfhdl
-        pdata => data
-        pIo_buf => io_buf
-    3) Edit the comments.
-
-> Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
-> 
-> v3->v4:
->         Make this patch.
-> v2->v3:
->         No changes.
-> v1->v2:
->         No changes.
-> 
->  drivers/staging/r8188eu/hal/usb_ops_linux.c | 62 +++++++++------------
->  1 file changed, 27 insertions(+), 35 deletions(-)
-> 
+On Mon, Sep 13, 2021 at 08:10:01PM +0200, Fabio M. De Francesco wrote:
 > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index 117213c9f984..2c7e92085a6e 100644
+> index 04402bab805e..75475b0083db 100644
 > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -8,15 +8,15 @@
->  #include "../include/recv_osdep.h"
->  #include "../include/rtl8188e_hal.h"
+> @@ -89,6 +89,56 @@ static int usbctrl_vendorreq(struct intf_hdl *intfhdl, u16 value, void *data, u1
+>  	return status;
+>  }
 >  
-> -static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata, u16 len, u8 requesttype)
-> +static int usbctrl_vendorreq(struct intf_hdl *intfhdl, u16 value, void *data, u16 len, u8 requesttype)
->  {
-> -	struct adapter	*adapt = pintfhdl->padapter;
-> -	struct dvobj_priv  *dvobjpriv = adapter_to_dvobj(adapt);
-> -	struct usb_device *udev = dvobjpriv->pusbdev;
-> -	unsigned int pipe;
->  	int status = 0;
-> -	u8 *pIo_buf;
-> +	u8 *io_buf;
-> +	unsigned int pipe;
->  	int vendorreq_times = 0;
+> +static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
+> +{
+> +	int status;
+> +	u8 *io_buf; /* pointer to I/O buffer */
 > +	struct adapter *adapt = intfhdl->padapter;
 > +	struct dvobj_priv *dvobjpriv = adapter_to_dvobj(adapt);
 > +	struct usb_device *udev = dvobjpriv->pusbdev;
+> +
+> +	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
+> +		status = -EPERM;
+> +		goto exit;
+> +	}
 
-I don't understand why you moved these from the top to the bottom.
-But the original was better.  In networking code declarations are
-normally written in Reverse Christmas Tree format, longest to shortest,
-like this:
+Just return directly.
 
-	long long long_name;
-	medium name;
-	u8 short;
+	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
+		return -EPERM;
 
->  
->  	if ((adapt->bSurpriseRemoved) || (adapt->pwrctrlpriv.pnp_bstop_trx)) {
->  		status = -EPERM;
-> @@ -32,51 +32,44 @@ static int usbctrl_vendorreq(struct intf_hdl *pintfhdl, u16 value, void *pdata,
->  	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
->  
->  	/*  Acquire IO memory for vendorreq */
-> -	pIo_buf = dvobjpriv->usb_vendor_req_buf;
-> -
-> -	if (!pIo_buf) {
-> -		DBG_88E("[%s] pIo_buf == NULL\n", __func__);
-> -		status = -ENOMEM;
-> -		goto release_mutex;
-> -	}
+> +
+> +	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
+> +
 > +	io_buf = dvobjpriv->usb_vendor_req_buf;
->  
->  	if (requesttype == REALTEK_USB_VENQT_READ)
-> -		pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
-> +		/* read in */
-> +		pipe = usb_rcvctrlpipe(udev, 0);
->  	else
-> -		pipe = usb_sndctrlpipe(udev, 0);/* write_out */
-> +		/* write out */
-> +		pipe = usb_sndctrlpipe(udev, 0);
+> +
+> +	status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
+> +				      REALTEK_USB_VENQT_READ, addr,
+> +				      REALTEK_USB_VENQT_CMD_IDX, io_buf,
+> +				      size, RTW_USB_CONTROL_MSG_TIMEOUT,
+> +				      GFP_KERNEL);
+> +	if (!status) {
+> +		/*  Success this control transfer. */
 
-Use {} curly braces around multi-line indents.  But in this case the
-comments are worthless.  Just delete them.
+It's always better to do error handling instead of success handling.
 
+	if (status) {
 
->  
->  	while (++vendorreq_times <= MAX_USBCTRL_VENDORREQ_TIMES) {
->  		if (requesttype == REALTEK_USB_VENQT_READ)
-> -			memset(pIo_buf, 0, len);
-> +			memset(io_buf, 0, len);
->  		else
-> -			memcpy(pIo_buf, pdata, len);
-> +			memcpy(io_buf, data, len);
->  
->  		status = usb_control_msg(udev, pipe, REALTEK_USB_VENQT_CMD_REQ,
->  					 requesttype, value, REALTEK_USB_VENQT_CMD_IDX,
-> -					 pIo_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
-> +					 io_buf, len, RTW_USB_CONTROL_MSG_TIMEOUT);
->  
-> -		if (status == len) {   /*  Success this control transfer. */
-> +		if (status == len) {
-> +			/*  success */
+Remove the comment because now it's in the standard format.
 
-Delete this comment.
+> +		rtw_reset_continual_urb_error(dvobjpriv);
+> +		memcpy(data, io_buf, size);
+> +		goto mutex_unlock;
+> +	}
+> +	/*  error cases */
+> +	if (status == (-ESHUTDOWN || -ENODEV || -ENOENT)) {
 
->  			rtw_reset_continual_urb_error(dvobjpriv);
->  			if (requesttype == REALTEK_USB_VENQT_READ)
-> -				memcpy(pdata, pIo_buf,  len);
-> -		} else { /*  error cases */
-> -			DBG_88E("reg 0x%x, usb %s %u fail, status:%d value=0x%x, vendorreq_times:%d\n",
-> -				value, (requesttype == REALTEK_USB_VENQT_READ) ? "read" : "write",
-> -				len, status, *(u32 *)pdata, vendorreq_times);
-> -
-> +				memcpy(data, io_buf,  len);
-> +		} else {
-> +			/* errors */
-
-Delete.
+	if (status == -ESHUTDOWN ||
+	    status == -ENODEV ||
+	    status == -ENOENT) {
 
 
->  			if (status < 0) {
-> -				if (status == (-ESHUTDOWN) || status == -ENODEV) {
-> +				if (status == (-ESHUTDOWN || -ENODEV)) {
->  					adapt->bSurpriseRemoved = true;
->  				} else {
-> -					struct hal_data_8188e	*haldata = GET_HAL_DATA(adapt);
-> +					struct hal_data_8188e *haldata = GET_HAL_DATA(adapt);
->  					haldata->srestpriv.wifi_error_status = USB_VEN_REQ_CMD_FAIL;
->  				}
-> -			} else { /*  status != len && status >= 0 */
-> +			} else {
-> +				/*  status != len && status >= 0 */
+> +		/*
+> +		 * device or controller has been disabled due to
+> +		 * some problem that could not be worked around,
+> +		 * device or bus doesn’t exist, endpoint does not
+> +		 * exist or is not enabled.
+> +		 */
+> +		adapt->bSurpriseRemoved = true;
+> +			goto mutex_unlock;
 
-Delete.
+Indented wrong.
 
->  				if (status > 0) {
-> -					if (requesttype == REALTEK_USB_VENQT_READ) {
-> -						/*  For Control read transfer, we have to copy the read data from pIo_buf to pdata. */
-> -						memcpy(pdata, pIo_buf,  len);
-> -					}
-> +					if (requesttype == REALTEK_USB_VENQT_READ)
-> +						memcpy(data, io_buf,  len);
->  				}
->  			}
->  
+> +	}
+> +	GET_HAL_DATA(adapt)->srestpriv.wifi_error_status = USB_VEN_REQ_CMD_FAIL;
+> +	if (rtw_inc_and_chk_continual_urb_error(dvobjpriv)) {
+> +		adapt->bSurpriseRemoved = true;
+> +		goto mutex_unlock;
+> +	}
+> +mutex_unlock:
+> +	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
+> +exit:
+> +	return status;
+> +}
 
 regards,
 dan carpenter
+
