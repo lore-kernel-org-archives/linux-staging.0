@@ -1,176 +1,189 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A023FC4
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 12:20:55 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18E9cgiJ029055;
-	Tue, 14 Sep 2021 12:20:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=0NMa2KIxA8f/Cs48T4D7Mj3F3HgKNCzSpae/7mBfoxI=;
- b=YsSjBE8GZcR0LzZEHzYGnsh3E29hIbrcIAaWOm4+Kst0WEuHm/kBErsS4nDYK6IyYWMG
- yrpZ3LOf8rA3mdtpw4OBr/PFwqCvPJrP3u6PM2Mroesh2KXSPpBDIwNBuCoSzFHu88fw
- KnQVS8LR+Y9OH5vLQakpyD8sWeOg8j75w6kUMdFI5VkzuasGR+gysuP9czinUkqYCYG8
- fe2QeQVJ6/dzVzbjbzYoEEDcA2kU4wIsy6lSHYy30k9obVCDi9SETq/kvImxQQZsWkdE
- kNYB2meP8n1nU9NoH+EWB6/258o2SmjwH4SDzPQ5cMwx/rDLvcX2janUExcaSLbnjvvx yw== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=0NMa2KIxA8f/Cs48T4D7Mj3F3HgKNCzSpae/7mBfoxI=;
- b=kuE86W7E/rld6pUgY/AI9fRzeYsLFOpAkOWuHYUw353/tSFzvwrolgaFtg84FghBMFWy
- KF2GrQ3lIlXyVbrC1zeBo7+curFcB9+U+v1C3zlPkMr5G/XT/Tjw8vRR9cJO9svtdixC
- 1O3AYptLoBwq3broxHw1Y1oGSAGYqOotHJ/BKeCQdCUvIaXYXIDTePqMHB0nqR0hlYdM
- SJE+3MgsUx+pf+gKvlhwB0V8Z2dYj9pAT23GvbNvA17AOJv1Dop8KeqCBgWay8JA4aBi
- RjddO39/Cti1dFm5x1WbJNKzODl+3CAUui7e55htt+7T597CoQ5xVSWgEKVbVS0LFMaj kA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3b2kj5sksk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 12:20:52 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18ECAXuc066653;
-	Tue, 14 Sep 2021 12:20:50 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
-	by aserp3030.oracle.com with ESMTP id 3b0jgd1crg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 12:20:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ObBHz5/G3LX6ZMr55s57Vibu1SjdLqvhajyf14h+WiuV0sRaVjMmGf6BaSWnA/VQ5HYCRn1cfjxVN19Z8TCpIDRGgCLu0OVGRZdyPyv4ZdPPG7hzyEmdgVI6o/qrXdlh7NNlqFS8+JT+WdKFXKhe6Gv/MXa6jYEsxoN1mFINp11PrGEcGc+WVB9dcDFsohLcO4QaPNlgLj5mvL8aJxFSL8WYCBpRBIytZwUKQ1ZFGBLCqJejT35lGfJhBGTSWXVgT3KHfp5b/Vqo38XEVQQ7PcbX6QtsC0FEri6MmvKXENUbG10RTAd2jwCdcTuVpNQiKIiG59H8zRPxDu7DCNb4iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=0NMa2KIxA8f/Cs48T4D7Mj3F3HgKNCzSpae/7mBfoxI=;
- b=IuOrMX8QNTDKMA33UKXeW9jOuZI4bdBvHT73cSTmlxvFhMEWo6vTDtlgWP2St7DZiCsoLzmm7GL1g58StjhnCU2UHP5cgxV+l9iRK4g446UCInlmRBNBzsAfX6o3JpdVrpqMn3387/YgMiS1N6/uk3SBfI4edhmv2GxyhwwPUbmYlskwvBfoZWjIR6HD+THxOuMDwefT/Of/sh5dpX6WnjJ6oOUigoQCAbSdXw+0xYABV8GiYGB7XPoVckUwq3sryrEb0T6on53N9vAcBtRMOYoKwk7qx0NMQYON9fIHpUnef6MSHv/pK7mGemFOGU5S3tVA+tMx+hMWznk2xIxLbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907B53FC3
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 12:55:49 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id bt14so28711855ejb.3
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 05:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0NMa2KIxA8f/Cs48T4D7Mj3F3HgKNCzSpae/7mBfoxI=;
- b=th2rEpLryViNTo4x8nvbFY4sZRawTWvJdNfruYP87udpA0EYZe6GPBUlKEtKPe+7Fhbuedt0Gf1TTEFJzEzB76vPfvMtFm3inkOmTEXn0lDz433Le7cWslxYIOnDdVCdKyhWqsJUncAdpPH3ujDpFhz9NTD3WEmxFyl8TyF13lw=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4658.namprd10.prod.outlook.com
- (2603:10b6:303:91::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Tue, 14 Sep
- 2021 12:20:49 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
- 12:20:49 +0000
-Date: Tue, 14 Sep 2021 15:20:21 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Michael Straube <straube.linux@gmail.com>,
-        Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v4 15/18] staging: r8188eu: hal: Clean up
- usbctrl_vendorreq()
-Message-ID: <20210914122021.GC2116@kadam>
-References: <20210913181002.16651-1-fmdefrancesco@gmail.com>
- <20210913181002.16651-16-fmdefrancesco@gmail.com>
- <20210914092405.GB2088@kadam>
- <2067006.DYBlakG51R@localhost.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2067006.DYBlakG51R@localhost.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0018.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::23)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WGC4R8+TCrwsk8jUyujs7YCwt7cCpSEx6KAtmzDpy4U=;
+        b=Q+L5kQBtZZ+cnyz+4OO/oeqEHGFS7pkCA+YGjH9kYyTHmthFAR01fPD9JsmFyBuZA+
+         XFexmEarc1fe37+KnVsI6+XasXwme8WEytgREOaitwiLjgBJq3cqk7Nsb7TwGuVR5kG5
+         f+JDiTf2ww/Xytx3sRXfgIu3vk1wZ2mihev3MuRK28oquFnIBy09mWAfKy6MJDpryKNb
+         rFvtv6uhmftk6jjdN/a9i1E0G89uMfBIlUHrmebz3V1voDjujE78c9QnjOVsUOwCc7gF
+         6aR6FEhSg+UFqr9UGEv9i3/jTEyxKGugWA06GwmNyHSX05RFRKw/TtanASZqMe/HbHFj
+         ENxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WGC4R8+TCrwsk8jUyujs7YCwt7cCpSEx6KAtmzDpy4U=;
+        b=oz1VOXcj9HKY4nMhhfDAmWEdHjwzmgbXi7fZkuOHjZ5LlsiU50ZT8YTJz+drQVP1ut
+         9FOnKUschmFykzzFO2hBJxfgYgGgr4PO8r7HSAXzGp8tnEn4wR5oG9f8/ciRYkPmHm13
+         5zZFZQ7mCefSP2D8MknU/A4fpU/bQ9Z1SwWjcHSslwf1MdQe9VyJeRm9lRzJYH31dVNO
+         VySTlG5482/zoODJkX/E4f+4yM+UEzxJ+AslVFnIrJmAzFd3DqF/NvlnZfpIXaqeoefb
+         GftUDH+bNfIYyaRm/OfKMXX0N3IgabSsbL7lU275NvQqrjrhTG1jm449iYPAL9gBjWP8
+         IK9w==
+X-Gm-Message-State: AOAM531xKSKEPAwaeWG/3MZKWKZraOKZtOVglBVHLXlLZGVslh4TxXk3
+	oHjYyPFufSkdCzWQpQx7w4c=
+X-Google-Smtp-Source: ABdhPJxFuUA9Yu8HgrGRJZiM/3YqAiLODtvRJE8/enZvzwzkyCMuOOPMu88aCmcGd2fVqvBblTBuGg==
+X-Received: by 2002:a17:906:c1c9:: with SMTP id bw9mr18693801ejb.3.1631624147902;
+        Tue, 14 Sep 2021 05:55:47 -0700 (PDT)
+Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
+        by smtp.gmail.com with ESMTPSA id p19sm4845600ejo.81.2021.09.14.05.55.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 05:55:47 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>, Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH v4 17/18] staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
+Date: Tue, 14 Sep 2021 14:55:45 +0200
+Message-ID: <5747368.884CoaO9ss@localhost.localdomain>
+In-Reply-To: <20210914093258.GC2088@kadam>
+References: <20210913181002.16651-1-fmdefrancesco@gmail.com> <20210913181002.16651-18-fmdefrancesco@gmail.com> <20210914093258.GC2088@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.99) by JNAP275CA0018.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend Transport; Tue, 14 Sep 2021 12:20:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5da6715b-6380-435e-8676-08d9777a15bd
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4658:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB465849D96EDF416780F42BCA8EDA9@CO1PR10MB4658.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	GiIDiA1D+rYa4Z56Y28AC1r4mWoKd48MpvlbGmrMSTMegH0+ZCsDY4QlgdiTq5jcx7wOjlMrmjK66/W4sPSZZMjlrcDM0uLnx4TTBWQcdskuFEe4DLCIIfH4sOJB9I+Cvurqa21C2CTpT183DBzaQEkudIpYu7GI2EfXlDPVPKehemwYgCrB1KV2bKxMYKsIzy0T4gDCnzeC29EjqH05bhAaD6ipJmKpfYoukSxrTukdtqlFBrPD3q6yp29Quq3vMriuMh1OZEtcJU/lo4FAnWlDRfn75+JxwDEF46JzRjC2/+KLeQ4Gzcw1rY1xHRaxufZ76Yu6/VzcVelZaw+ktLV/b5TkE4mqaKblRB6PfQ09xV+N1HiAf6pHJnki2NXUuFVs2sO/tekwPCCpuqk+56szU9iL6ImWJYglmYvy6y8qrdf6hTpuFnMaD3Ii4gZzZzxr3H9Cvd8GfprdL5mMeivWgltvtq5k8G2ue5qKW+LY/OXt6q0leN+AF5uyVU96dlmlm8rh7Sr///OCx8neoZ0838kPsCYQHc07DEdnCKs2wDTL4HAeZCKGWbdVfdjcJfiaem98h9xvJrHHCiamCE59MlfU3NP3ZNtiezSpmRhOybMUDhKLQqT6bnYQE46yOwDw8w4duyQZlrfOya+QoPnOphzR2XCXeoi2fFqL6Zkwg6wUbKt9Q/6ZOhd8e+0n0j5tuRVsdmvaBRLLhJDpyrCuo8cIRT3VJsqR/85ZgnPXirhglJWRj/sGE0bEnpJgP4k1/Ewp3Jtz7k9jtfH8J80NDLI4mYfain+L9jOrC/s=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(376002)(396003)(39860400002)(366004)(136003)(83380400001)(55016002)(1076003)(53546011)(33716001)(33656002)(44832011)(316002)(54906003)(86362001)(26005)(6916009)(6496006)(8936002)(966005)(66476007)(6666004)(186003)(66946007)(478600001)(66556008)(5660300002)(8676002)(4326008)(9576002)(2906002)(9686003)(52116002)(38100700002)(38350700002)(956004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?hB68N9dyRWlymoJ3uB9ZPkeiMGNBd0kTxxCZW3FhC0xIEuesbiqx7tKK1BBn?=
- =?us-ascii?Q?yuIXgTsl8wkg8BsznoOoTwTBDiRAc4jn6Ld1DMVsQ4GAx41ZZ3+jnSz0N1/2?=
- =?us-ascii?Q?ZbVVq6Z3PjGo6J4fEO1AXVSXVYn/PuukP0+qLU6MBfklRJCF0C19YzB1lN+r?=
- =?us-ascii?Q?jIFNuZHAiID8K6m8fF0OF6N/2uFjeoYCrLmvIcBQoJACtPGpBBofvZ4038HW?=
- =?us-ascii?Q?EtG0e48g9lVx21ef2aXxF1qu2v0Wl2GfCEBDp4n1wiznqV+3xEwA6snWlGzy?=
- =?us-ascii?Q?IKgZJjUz2cRTPUDdXLlw8NRVlhL1wVSK3Hj9uCYxMezws26/YbMK7t4KSTPo?=
- =?us-ascii?Q?MNEuZB5dl2b2mKEptY9mY+oERCLDZfh4PZS4uVWa22xjHC2Ebxd28F/+/WKO?=
- =?us-ascii?Q?YG1kxBLhm9J+9PpiM7inGYWeOFISlvMF8ZFwGBceF64Aup/LFHUmoXJw4C5q?=
- =?us-ascii?Q?t/DX61fx3mhsdEt8dXP0M7UKyFWIatAH34YKo6Tqdk5E68mAyrgiqRUkuxGP?=
- =?us-ascii?Q?yjM3RFP8Wj5vzwoEEIFVjt0TN9Ml2L2zKTFOkbh9c3iEIlti8rYRm1W5W3kH?=
- =?us-ascii?Q?MXdSxsQXp0q0nBXBg2m8dq6lRC3Tv5k2dprFgTjPJku4oqJjrQMR1LLSbihD?=
- =?us-ascii?Q?NuT6te4OIq16CDd6srqvWh48BAkqHq01+Gip5SpmOOWg2Tkq2Ok9BBO+DuLy?=
- =?us-ascii?Q?gJaT1rSswKjxZz3SxBmRkmOKrvXnumvdLSrxKekSjS/s6fPSmgNy9f83EGGI?=
- =?us-ascii?Q?n5nwPY4EJ45Nuv5BBR9Jwa7PAZ9HRtqhU4ADirvDFiXJ4je/y0ULDW8zNSUS?=
- =?us-ascii?Q?8hQr4hC3QdhzJwyXV/g07Kx2k7EHk5BA/7/hRBAjgY6MWHqbT3VjKPakMv2m?=
- =?us-ascii?Q?eZ8JWrirG7p/7c0ffYiZAZuwCnAkcxbiAYTjPjfGtKBUR/zoCSHvmxGhdPmT?=
- =?us-ascii?Q?0bzh7jb0hx5R9+Sv6dreJvnXAZCCORroYlXi7qYzMe0h9Maq9ewGBVsolMMF?=
- =?us-ascii?Q?65ZDx0Pf1oRbd/E0E2VB/Fe+A82lvXsKqDWnTnAI4RTJjp2I1YRD551z2nt4?=
- =?us-ascii?Q?7T1Oaz6ahTw2t7Nzf1L6S0UfkQDfFgp+8zH8zMv0E/zu+0fvqHyxibiPAHXc?=
- =?us-ascii?Q?fY6FZGbMCGFsRgH8YxckyOPTwyG7VaIN5wJOYFtbawHVXOj5yfcuc+6I+aV+?=
- =?us-ascii?Q?QS9XJT199ar3gDRTYm8w7TUGqjc4k/L5faVdK42P9z3dEk/odyMBOeSDnEjm?=
- =?us-ascii?Q?oHKOLx60q6ZtbvQxVM46szhlISmFBl2tF46GU6O2pUHkCYwHjDaYozj+1IdP?=
- =?us-ascii?Q?dw/OMT2neMIogrw7SxpgIJGr?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5da6715b-6380-435e-8676-08d9777a15bd
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 12:20:48.9970
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d5Vu4Aup4haVSLBrAzALLGdVVCjTPYO2/+o/rmbN5FVgrrkSVKuSMWjXH0klgHNvUArPWKTu0rwQzI9utJXHy4l11jP9k1lh001RXrgcASM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4658
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10106 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0
- mlxlogscore=621 adultscore=0 bulkscore=0 spamscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109030001 definitions=main-2109140076
-X-Proofpoint-ORIG-GUID: HtI8JnqVZoA31h5DX3PYjhozZhPcCVze
-X-Proofpoint-GUID: HtI8JnqVZoA31h5DX3PYjhozZhPcCVze
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, Sep 14, 2021 at 01:18:01PM +0200, Fabio M. De Francesco wrote:
-> On Tuesday, September 14, 2021 11:24:05 AM CEST Dan Carpenter wrote:
-> > On Mon, Sep 13, 2021 at 08:09:59PM +0200, Fabio M. De Francesco wrote:
-> > > Clean up usbctrl_vendorreq () in usb_ops_linux.c because some
-> > > of its code will be reused in this series. This cleanup is in
-> > > preparation for shortening the call chains of rtw_read{8,16,32}()
-> > > and rtw_write{8,16,32,N}(). More insights about the reasons why at
-> > > https://lore.kernel.org/lkml/5319192.FrU0QrjFp7@localhost.localdomain/ 
-> > > 
-> > 
-> > This commit message is quite bad.
-> > 
-> > This patch has nothing to do with reusing the code or shortening call
-> > chains.
-> 
-> It has to do, in a certain sense. Let me explain please...
+On Tuesday, September 14, 2021 11:32:58 AM CEST Dan Carpenter wrote:
+> On Mon, Sep 13, 2021 at 08:10:01PM +0200, Fabio M. De Francesco wrote:
+> > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/
+staging/r8188eu/hal/usb_ops_linux.c
+> > index 04402bab805e..75475b0083db 100644
+> > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > @@ -89,6 +89,56 @@ static int usbctrl_vendorreq(struct intf_hdl *intfhd=
+l,=20
+u16 value, void *data, u1
+> >  	return status;
+> >  }
+> > =20
+> > +static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8=
+=20
+size)
+> > +{
+> > +	int status;
+> > +	u8 *io_buf; /* pointer to I/O buffer */
+> > +	struct adapter *adapt =3D intfhdl->padapter;
+> > +	struct dvobj_priv *dvobjpriv =3D adapter_to_dvobj(adapt);
+> > +	struct usb_device *udev =3D dvobjpriv->pusbdev;
+> > +
+> > +	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)=20
+{
+> > +		status =3D -EPERM;
+> > +		goto exit;
+> > +	}
+>=20
+> Just return directly.
+>=20
+> 	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
+> 		return -EPERM;
 
-I guess I can see that all this stuff is related in your mind, but next
-time please leave it out.  Keep the commit messages as simple to
-understand as possible.
+Dear Dan,
 
-Just say you are cleaning up the function.  That's a simple motivation.
-A good motivation.
+I agree with you, I'll return it directly in v5.
 
-regards,
-dan carpenter
+> > +
+> > +	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
+> > +
+> > +	io_buf =3D dvobjpriv->usb_vendor_req_buf;
+> > +
+> > +	status =3D usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
+> > +				      REALTEK_USB_VENQT_READ,=20
+addr,
+> > +				      REALTEK_USB_VENQT_CMD_IDX,=20
+io_buf,
+> > +				      size,=20
+RTW_USB_CONTROL_MSG_TIMEOUT,
+> > +				      GFP_KERNEL);
+> > +	if (!status) {
+> > +		/*  Success this control transfer. */
+>=20
+> It's always better to do error handling instead of success handling.
+
+Yes, you're right again. I blindly followed the style that was in the parts=
+=20
+of the code of usbctrl_vendorreq() that I'm reusing here.
+=20
+> 	if (status) {
+>=20
+> Remove the comment because now it's in the standard format.
+
+OK, those comments are not necessary: I'll remove them.
+
+> > +		rtw_reset_continual_urb_error(dvobjpriv);
+> > +		memcpy(data, io_buf, size);
+> > +		goto mutex_unlock;
+> > +	}
+> > +	/*  error cases */
+> > +	if (status =3D=3D (-ESHUTDOWN || -ENODEV || -ENOENT)) {
+>=20
+> 	if (status =3D=3D -ESHUTDOWN ||
+> 	    status =3D=3D -ENODEV ||
+> 	    status =3D=3D -ENOENT) {
+
+This is a stupid mistake and Pavel soon noticed it. Yesterday I sent a=20
+message to ask reviewers for disregarding v4 and wait for v5 with the fix o=
+f=20
+this test. :(
+
+However, I noticed that usb_control_msg_recv() might return in "status" som=
+e=20
+recoverable errors (like -ENOMEM and others); so I guess that the code must=
+=20
+retry in a while loop (exactly as it did with usb_control_msg() in=20
+usbctrl_vendorreq()).=20
+
+Actually I'm not 100% sure that the "while" loop is needed. What I know is=
+=20
+that I've been using this version (with _no_ loop) for about a week, not le=
+ss=20
+than 12 hours a day and I didn't notice any problem...
+
+Can you please tell if a loop for retries is *really* necessary?
+
+>=20
+> > +		/*
+> > +		 * device or controller has been disabled due to
+> > +		 * some problem that could not be worked around,
+> > +		 * device or bus doesn=E2=80=99t exist, endpoint does not
+> > +		 * exist or is not enabled.
+> > +		 */
+> > +		adapt->bSurpriseRemoved =3D true;
+> > +			goto mutex_unlock;
+>=20
+> Indented wrong.
+
+Yes, it must be fixed.
+
+Regards,
+
+=46abio
+
+>=20
+> > +	}
+> > +	GET_HAL_DATA(adapt)->srestpriv.wifi_error_status =3D=20
+USB_VEN_REQ_CMD_FAIL;
+> > +	if (rtw_inc_and_chk_continual_urb_error(dvobjpriv)) {
+> > +		adapt->bSurpriseRemoved =3D true;
+> > +		goto mutex_unlock;
+> > +	}
+> > +mutex_unlock:
+> > +	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
+> > +exit:
+> > +	return status;
+> > +}
+>=20
+> regards,
+> dan carpenter
+>
+
 
