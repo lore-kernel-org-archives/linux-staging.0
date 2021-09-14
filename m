@@ -1,224 +1,76 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424283FC4;
-	Tue, 14 Sep 2021 12:07:48 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id 661922B01379;
-	Tue, 14 Sep 2021 08:07:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 14 Sep 2021 08:07:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=BS95iNxDHg5IOU2+CDcWqYE/6lG
-	WFlRvAAVzj9l4DcI=; b=XD0+gQOXZbokDOzAZ6flaxp1i3L29WmBNgvS1Iax+5y
-	tsCM8t450uG5+RRc7xYNnAZju6OG5oxHlE87g3dz6IA/5AZAJZ9ieDc5CFsVBP8J
-	UoBhlPs0o3Yzz2JkZM5T09E0j5wlMAY4LXAx1tycjB0wn3r9m9VSRtZnUr8IhwdZ
-	qgB/QgS9zlUj8CNgvt+nBK+ynRBhOikrLj3pvUpootJKV3K6ARUGsYm61Lc0zInB
-	k77qW8Ttx8A/wmqmhnthJFZWdQntKS8o0a2V0YyD7x4I190U+zQkIlfi6RWsAjlD
-	GcjswuV7jTYPP9ujh/SSpZaxq5F5KBGtTDKW+8i7yjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=BS95iN
-	xDHg5IOU2+CDcWqYE/6lGWFlRvAAVzj9l4DcI=; b=KuRS788U0D00PNM0rHpJOb
-	paqmhCQq/lTNWXqchtoymYAiUr/aHBjKWnjwESbx6+wXIJeKvarfuqe40r/Eo+IC
-	UtLey5pD9YswkZGbwxb6iTGksHQIdQwGkDJJtvyIIyPQJrG9sceNofxIi99njlUd
-	QZ6WoKRkmC8P+T44zr6uXJMUxqwjiCjseXhuOylMAfyw+LD00O0spSZfR7W2O3ca
-	FuTWM00Nv/PBVHbmfN9Wd8QIIi+YcS5yn/PBPBFOmgMJ7rxV85jnxE6hhrQ18qmk
-	lB7PYwwv4QBj7OsiW95ac6T6Edqm5dC1MXqY/sBjdEr3HB9chrqiWZr+U2OWlv/Q
-	==
-X-ME-Sender: <xms:j5BAYQgogg9sngRVjbTllDyGz7_Kw68pQmB09t8RMJtmGL--F_6WtQ>
-    <xme:j5BAYZBXuKmNNkVESltB9bCqWSLLgqlFKLfzVei9eSTuVId4NwCTviiUD1Slz3kAW
-    SI0QzJz6MaoHj_xqx8>
-X-ME-Received: <xmr:j5BAYYEASXI7suVY92ZYBFAlV-f55ITFV58C4ljccexpd4S1KCpHW9ndY45IMhSRrZ-FqZ5BjCqSkjRBmFlIsninoT6MsBQwK4gA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegledggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepffetteevieejteeuhfffgeektefghfeileehhedtuddutefhhfejtddvtddu
-    ledvnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
-    thgvtghh
-X-ME-Proxy: <xmx:j5BAYRSJWNm5GuLVrGpo9E_Arz34Zw8bK4nebFcVEEdapol1o0KCyw>
-    <xmx:j5BAYdwZjghzUaDfTNUNN3dvAN2ZCuaKDbXLmTpQWN-GaQr10aWZ0Q>
-    <xmx:j5BAYf5Gc2_Bmqj5UMvNQiwkXWWIAaJMHbzI0vj8bCM7XQ4EpkDZIg>
-    <xmx:kpBAYepHMCq04u8C3mlL2dWZog89syeFPfOKB36rETkDZP8WxmfuL8_Onp4>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Sep 2021 08:07:43 -0400 (EDT)
-Date: Tue, 14 Sep 2021 14:07:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 17/22] dt-bindings: media: Add Allwinner A31 ISP bindings
- documentation
-Message-ID: <20210914120741.gmrqdlev2p7r6f5l@gilmour>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-18-paul.kocialkowski@bootlin.com>
- <20210913081808.esgqvz4eeatp4hkp@gilmour>
- <YUBS1sdHKUMZx6gx@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131603FD2
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 12:14:04 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id d21so12138701wra.12
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 05:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WG3o0NPKF4oM/tA2/pUsvZD7ibEQxGbhXbUXWj0SZd4=;
+        b=GJdn5Uh8WrxXCQERCWhk0lob2qap5Cd2LwunFkORyXmigauemhDPc0WA1v5RAWN3t6
+         5qFk7ps3jFCQHR+cFXOO2/0njuA2aCphVwI2CueihLxFbBgF2LDr5sAvn82r9HTJCa+z
+         2H38dT9nC7Ud1zsWNrHdTbwA4yFhVzvpR6RM+VGRGLNrsi+HJvYLOPs2GUCtyOabej8U
+         OL7HvFLDy4NfVmscX8z4pi0tQkVowDZaIj+SfcBFZYY10Q/F+FyfNAu9dKV+/h2PsA0w
+         aa/af0Hzk8Si2piLZvvGAsX89eBxsXHhqq2hwp/jhbGtUee9NI/1qB+K7UZoOudZpoLK
+         6NHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WG3o0NPKF4oM/tA2/pUsvZD7ibEQxGbhXbUXWj0SZd4=;
+        b=Lc4WkYbGPkbDnBvF0Dok3ckSMrIKemJsLkIVG61ZYUVXJlc+vqE+t+IgpcN4xIpKJx
+         aGHUGn6q8rDV3/DmXL0ZXFQRdVapfi266ADJjUmPylEao8FxSQuAxxmvbVANfsI8U6ED
+         I4M50DBZvhIneEttXJrZRgbkg9V+OZ+glRw+64ucPSn3twxDIfytEBw+pzWfGcsNzJVQ
+         6MheS2i5DFwmdeEXyn/SIIjUFLS2P+/rOCuSX+PBahLwhoRrjwPZ4xe6clY8wnic4m4U
+         lt3LiFFC7xx0GWZQjyDPW4RQXNEL57Gyc2s1/3MVrFZbg3xI/7oPuzlp8PnbvcYtpJp5
+         toNQ==
+X-Gm-Message-State: AOAM532B4XrrKzpM3cmlnJpEJnHTcVF2lrvOSFS5Bk6buoYJSDm+vbL8
+	sHJAYphe6TKXBu1e0mTgL5s=
+X-Google-Smtp-Source: ABdhPJzim/4QKv1GY4VteX70vQ+pZ2HZAuHh25CzF/BbtQBP6ceeJvT+s7LVwCwi9XaS4eKmGj4gMg==
+X-Received: by 2002:adf:8144:: with SMTP id 62mr18661185wrm.144.1631621642459;
+        Tue, 14 Sep 2021 05:14:02 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
+        by smtp.gmail.com with ESMTPSA id j19sm10028100wra.92.2021.09.14.05.14.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 05:14:01 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/4] staging: r8188eu: remove unused fields from struct hal_data_8188e
+Date: Tue, 14 Sep 2021 14:13:48 +0200
+Message-Id: <20210914121352.26052-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gqq67qthp5eyfcss"
-Content-Disposition: inline
-In-Reply-To: <YUBS1sdHKUMZx6gx@aptenodytes>
+Content-Transfer-Encoding: 8bit
 
+This series removes some unused fields from struct hal_data_8188eu.
 
---gqq67qthp5eyfcss
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Tested on x86_64 with Inter-Tech DMG-02.
 
-On Tue, Sep 14, 2021 at 09:44:22AM +0200, Paul Kocialkowski wrote:
-> Hi,
->=20
-> On Mon 13 Sep 21, 10:18, Maxime Ripard wrote:
-> > On Fri, Sep 10, 2021 at 08:41:42PM +0200, Paul Kocialkowski wrote:
-> > > This introduces YAML bindings documentation for the Allwinner A31 Ima=
-ge
-> > > Signal Processor (ISP).
-> > >=20
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > ---
-> > >  .../media/allwinner,sun6i-a31-csi.yaml        |   2 +-
-> > >  .../media/allwinner,sun6i-a31-isp.yaml        | 111 ++++++++++++++++=
-++
-> > >  2 files changed, 112 insertions(+), 1 deletion(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner=
-,sun6i-a31-isp.yaml
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-=
-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-csi.yaml
-> > > index f4a686b77a38..c60f6b5403fa 100644
-> > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi=
-=2Eyaml
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi=
-=2Eyaml
-> > > @@ -1,4 +1,4 @@
-> > > -# SPDX-License-Identifier: GPL-2.0
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > >  %YAML 1.2
-> > >  ---
-> > >  $id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-csi.yam=
-l#
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-=
-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-isp.yaml
-> > > new file mode 100644
-> > > index 000000000000..a0f82f150e90
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp=
-=2Eyaml
-> > > @@ -0,0 +1,111 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yam=
-l#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree=
- Bindings
-> > > +
-> > > +maintainers:
-> > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - allwinner,sun6i-a31-isp
-> > > +      - allwinner,sun8i-v3s-isp
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: Bus Clock
-> > > +      - description: Module Clock
-> > > +      - description: DRAM Clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: bus
-> > > +      - const: mod
-> > > +      - const: ram
-> > > +
-> > > +  resets:
-> > > +    maxItems: 1
-> > > +
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: CSI0 input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > > +
-> > > +          endpoint:
-> > > +            $ref: video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: CSI1 input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > > +
-> > > +          endpoint:
-> > > +            $ref: video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
-> >=20
-> > port@0 and port@1 required?
->=20
-> I'd say just one of them, does that make sense?
+Michael Straube (4):
+  staging: r8188eu: remove unused macros from rtl8188e_hal.h
+  staging: r8188eu: remove write-only fields from struct hal_data_8188e
+  staging: r8188eu: remove unused enums from rtl8288e_hal.h
+  staging: r8188eu: remove unused field from struct hal_data_8188e
 
-Don't we have some SoC with both? If so, we should have an anyOf here.
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  5 -----
+ .../staging/r8188eu/include/rtl8188e_hal.h    | 22 -------------------
+ 2 files changed, 27 deletions(-)
 
-maxime
+-- 
+2.33.0
 
---gqq67qthp5eyfcss
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUCQjQAKCRDj7w1vZxhR
-xZnQAP0T5rrW8HglxlUdmhQBMd2gsP7z48fcaN5uOKJXVZgVogD9FAslehFY8qhg
-xTl+YmcTWItiWy/6SBH6p5vjuNGCHQk=
-=ePfT
------END PGP SIGNATURE-----
-
---gqq67qthp5eyfcss--
