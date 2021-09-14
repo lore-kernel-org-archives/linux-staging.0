@@ -1,108 +1,124 @@
-Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4518F3FD0
-	for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 23:43:13 +0000 (UTC)
-Date: Mon, 13 Sep 2021 23:42:55 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bryanbrattlof.com;
-	s=protonmail; t=1631576581;
-	bh=XX4N+dD43FqDtNWZ+Y9OiIIuX7aACcGRhQqGpdYZRRc=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=pKrFLwsYETPNjpMkp9fOZL305a/OS+qI/FiSdeQMtNHU8iDCp+Hs5V7NIK0kV+YDF
-	 0wc++Tds/I61l1DzkdXPzLNXgXARvT+43GE1QvlrEYGWkFr/vP8waaGMAAifuEFUU+
-	 jWhRVHJ7riT1ka+lj3at18KaOWp2fYxSTjIm+/vpWHots9b3zN8HEomwaB6zg64TZl
-	 BNXm+zRuziaIFzsBxUeP947KQIkZhxfA6XMJQs4oPQJ6OtiN/AtB25uhmUpFkF7owO
-	 OTSkONFRlii0Vf9/4NJBiCYVfyPqNcwJwivWpVk9nsEmYx35xMTfk2yYgYnGQlQlYu
-	 XNaRxlK+AtGrQ==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Bryan Brattlof <hello@bryanbrattlof.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Reply-To: Bryan Brattlof <hello@bryanbrattlof.com>
-Subject: Re: [PATCH] staging: rtl8723bs: define wowlan_stub only when CONFIG_PM is enabled
-Message-ID: <20210913234247.ptqjjbilrtkzc4id@h510>
-In-Reply-To: <YT97lJVU8cx3wxwN@kroah.com>
-References: <20210913140937.1490133-1-hello@bryanbrattlof.com> <YT97lJVU8cx3wxwN@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4733FC3
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 03:40:44 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso1048100pjh.5
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 20:40:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pathpartnertech.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :in-reply-to:user-agent:content-disposition;
+        bh=JbyQ7VGQk35fFKq+ZHXwnl3QOO9Lw+YzIfoAl5zBW0Y=;
+        b=jBZke60Q/SiBooMIMQxd5Irr3YfUKyl/Y4jaFWgUsT66RmMrS3i9rgfh2Ud0y5PY/z
+         NVk2Ar+iOzCEu4yReGS9MD0JwLXeP8/Cu6L78b3sFDT7vZPGx/+M8Ci/XrcrEvq/FXgr
+         +Rx1QioGafI5R5oMNd+Av5b0sOcxGZrEwZAg8mVssbP8jyiThl70WryrVbIeozbGYp5v
+         cm/ZQ4GtEd+wT1hH7Du7qbokadOflXuEx8jjIZ7WW/V5k96s7TrNicnPd1m0eVocYCS/
+         aj5aZjHYwgfXhIcHQBhvfEwxdx+5/YC53L98XhhmjEQPEcF2AQNEsbDYWvyz4SGsZ0jq
+         lTgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:in-reply-to:user-agent:content-disposition;
+        bh=JbyQ7VGQk35fFKq+ZHXwnl3QOO9Lw+YzIfoAl5zBW0Y=;
+        b=KpfWCOGO5rMcEQACOKao2bZ60e56PsuSTwxhLC35A4BCqdOrox19DEDemY00a5jYj2
+         a7jcRv7moFwJiHjVqklgcavvAmkwNSx+MjmHdLT53Hwep6GgJSHDzgiiSfzSjaH0elzE
+         1vO/Gqkw4eLWpmr6HrxHvPhEGCub+CnPvc1bi+3+kinDW0k/pz3esWmSI8l1257XSWRl
+         FMR9d5qjZKmanmyE0Iyhx6Uq4XEBX/z0JNQ/5NtT16xukIWE1MZhkIPuS4Pw9Kv/p89q
+         n26SPd8+cbPUC2/U4Hye7iCJTCXAk/GTJpIoKyjr0402MsjmeOfCCdRcAcL6BZwlZcJ1
+         TkVA==
+X-Gm-Message-State: AOAM533RihqacRCrKyIlzkXpURIr7qIM0/t4xmJ3w7y5ovBP00bYrO2H
+	nYbRBjbWUX3MZx9BcrdriB3Vi1DQtIys5Ci+egtHR7p/CLeTEYoeBsAVAfvFFxWdoaDh0ESteDb
+	ngUHo/JQRt7Nd7gqmo48=
+X-Google-Smtp-Source: ABdhPJzvPREwsMVsSmlMxKvhTvyVINXu+p/ZqeLrzBiwtjk/uh+XdKf8sXnTS5Q0/U0ON8qIWM8GuA==
+X-Received: by 2002:a17:90a:e386:: with SMTP id b6mr1280514pjz.97.1631590844188;
+        Mon, 13 Sep 2021 20:40:44 -0700 (PDT)
+Received: from sidraya-laptopU ([203.201.61.238])
+        by smtp.gmail.com with ESMTPSA id w26sm476509pfj.178.2021.09.13.20.40.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 13 Sep 2021 20:40:43 -0700 (PDT)
+Date: Tue, 14 Sep 2021 09:10:37 +0530
+From: Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, prashanth.ka@pathpartnertech.com,
+	praneeth@ti.com, mchehab@kernel.org, linux-media@vger.kernel.org,
+	praveen.ap@pathpartnertech.com
+Subject: Re: [PATCH 03/30] v4l: vxd-dec: Create vxd_dec Mem Manager helper
+ library
+Message-ID: <20210914034032.orctp5ov5oc33vag@sidraya-laptopU>
+References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
+ <20210818141037.19990-4-sidraya.bj@pathpartnertech.com>
+ <20210824133438.GO1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
+In-Reply-To: <20210824133438.GO1931@kadam>
+User-Agent: NeoMutt/20171215
+Content-Type: text/plain; charset="US-ASCII"
+Content-Disposition: inline
 
-On this day, September 13, 2021, thus sayeth Greg Kroah-Hartman:
-> On Mon, Sep 13, 2021 at 02:10:12PM +0000, Bryan Brattlof wrote:
-> > The wake-on-lan stub is needed only when the device power management
-> > functionality is enabled in the kernel. Conditionally define
-> > wowlan_stub to avoid potential unused object warnings.
-> >
-> > Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
-> > ---
-> >  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/driver=
-s/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > index 34da8a569709..f4a9b4b7c97e 100644
-> > --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> > @@ -47,6 +47,7 @@ static const u32 rtw_cipher_suites[] =3D {
-> >   * Moreover wowlan has to be enabled via a the nl80211_set_wowlan call=
-back.
-> >   * (from user space, e.g. iw phy0 wowlan enable)
-> >   */
-> > +#if defined(CONFIG_PM)
-> >  static const struct wiphy_wowlan_support wowlan_stub =3D {
-> >  =09.flags =3D WIPHY_WOWLAN_ANY,
-> >  =09.n_patterns =3D 0,
-> > @@ -54,6 +55,7 @@ static const struct wiphy_wowlan_support wowlan_stub =
-=3D {
-> >  =09.pattern_min_len =3D 0,
-> >  =09.max_pkt_offset =3D 0,
-> >  };
-> > +#endif
-> >
-> >  static struct ieee80211_rate rtw_rates[] =3D {
-> >  =09RATETAB_ENT(10,  0x1,   0),
-> > --
-> > 2.30.2
-> >
-> >
->
-> Do you get a build warning with the code as-is?
->
-> Having #if in .c files is generally a bad idea, are you sure there is no
-> other way to solve this?
->
+On Tue, Aug 24, 2021 at 04:34:38PM +0300, Dan Carpenter wrote:
+> On Wed, Aug 18, 2021 at 07:40:10PM +0530, sidraya.bj@pathpartnertech.com wrote:
+> > +int img_mem_create_ctx(struct mem_ctx **new_ctx)
+> > +{
+> > +	struct mem_man *mem_man = &mem_man_data;
+> > +	struct mem_ctx *ctx;
+> > +
+> > +	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+> > +	if (!ctx)
+> > +		return -ENOMEM;
+> > +
+> > +	ctx->buffers = kzalloc(sizeof(*ctx->buffers), GFP_KERNEL);
+> > +	if (!ctx->buffers)
+> > +		return -ENOMEM;
+> 
+> Smatch would have caught that this needs a kfree(ctx); before returning.
+> 
+> It wouldn't hurt to run Smatch over this code.
+> 
+> git clone https://repo.or.cz/w/smatch.git
+> cd smatch
+> yum install gcc make sqlite3 sqlite-devel sqlite perl-DBD-SQLite openssl-devel perl-Try-Tiny
+> make
+> cd ~/kernel/
+> ~/smatch/smatch_scripts/kchecker drivers/staging/media/vxd/common/img_mem_man.c
+> 
+> (I am the author of Smatch  #BlowYourOwnTrumpet).
+> 
+> regards,
+> dan carpenter
+> 
+I will run Smatch and will remove similar findings.
+Thank you for reviewing. 
 
-Hi Greg,
+-- 
 
-Turns out I should have played with the CONFIG_PM setting more before I
-sent you this patch. All of this can be ripped out.  :)
 
-This is the warning I get with staging-next being where it is now:
 
-  CC [M]  drivers/staging/rtl8723bs/os_dep/xmit_linux.o
-drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c:50:42: warning: =E2=80=
-=98wowlan_stub=E2=80=99 defined but not used [-Wunused-const-variable=3D]
-   50 | static const struct wiphy_wowlan_support wowlan_stub =3D {
-      |                                          ^~~~~~~~~~~
 
-I'm using tinyconfig plus the rtl8723bs driver and it's dependencies to
-build a microscopic buildroot image for an Intel Compute Stick I managed
-to get my hands on recently.
 
-I assumed disabling the power management parts of the kernel produced it
-and didn't think twice. :/
 
-I'll be back with a v2 that rips all of this out.
-
-Thanks again Greg,
-~Bryan
-
+This
+message contains confidential information and is intended only 
+for the
+individual(s) named. If you are not the intended
+recipient, you are 
+notified that disclosing, copying, distributing or taking any
+action in 
+reliance on the contents of this mail and attached file/s is strictly
+prohibited. Please notify the
+sender immediately and delete this e-mail 
+from your system. E-mail transmission
+cannot be guaranteed to be secured or 
+error-free as information could be
+intercepted, corrupted, lost, destroyed, 
+arrive late or incomplete, or contain
+viruses. The sender therefore does 
+not accept liability for any errors or
+omissions in the contents of this 
+message, which arise as a result of e-mail
+transmission.
