@@ -1,99 +1,139 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4733FC3
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 03:40:44 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso1048100pjh.5
-        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 20:40:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AAFE3FC3
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 04:25:03 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id 18so10924633pfh.9
+        for <linux-staging@lists.linux.dev>; Mon, 13 Sep 2021 21:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pathpartnertech.com; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :in-reply-to:user-agent:content-disposition;
-        bh=JbyQ7VGQk35fFKq+ZHXwnl3QOO9Lw+YzIfoAl5zBW0Y=;
-        b=jBZke60Q/SiBooMIMQxd5Irr3YfUKyl/Y4jaFWgUsT66RmMrS3i9rgfh2Ud0y5PY/z
-         NVk2Ar+iOzCEu4yReGS9MD0JwLXeP8/Cu6L78b3sFDT7vZPGx/+M8Ci/XrcrEvq/FXgr
-         +Rx1QioGafI5R5oMNd+Av5b0sOcxGZrEwZAg8mVssbP8jyiThl70WryrVbIeozbGYp5v
-         cm/ZQ4GtEd+wT1hH7Du7qbokadOflXuEx8jjIZ7WW/V5k96s7TrNicnPd1m0eVocYCS/
-         aj5aZjHYwgfXhIcHQBhvfEwxdx+5/YC53L98XhhmjEQPEcF2AQNEsbDYWvyz4SGsZ0jq
-         lTgA==
+        bh=5H2bcMfxByKm2EVUg1iJMD5chj5K7B0S9zZLnk9vCwM=;
+        b=FID+wq/FYlPSh2Z7HxqDdnou1mMCkl3k4Skk0P+X88RAl/VcGXiAkriocgpWuvPcXG
+         Kq3x15rxwghXkeMt1PwPxs2PPwN4E0psiiCaEVxtG6OtHLt8RQ92CqEsCPCyUMGeQ/NY
+         pXftPl9TKE+evQ16m0LGZWDNAfja9y63J5ojp537+OX+ZDqAZFAZu/iPzxeHMJkhjAE2
+         lFkQaD9GgI6GLq6zLc5jTUFF5IB51gATkDgjNTPGbHa4Xz93EKHJnslXlZ/ygM5RYDHL
+         EtALtr6T+Xr1/2ClFzFLIOGukp024UM3n/umm294jlEpwxy/lycqYXX5/qqoCXdPTMbE
+         Q6zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:in-reply-to:user-agent:content-disposition;
-        bh=JbyQ7VGQk35fFKq+ZHXwnl3QOO9Lw+YzIfoAl5zBW0Y=;
-        b=KpfWCOGO5rMcEQACOKao2bZ60e56PsuSTwxhLC35A4BCqdOrox19DEDemY00a5jYj2
-         a7jcRv7moFwJiHjVqklgcavvAmkwNSx+MjmHdLT53Hwep6GgJSHDzgiiSfzSjaH0elzE
-         1vO/Gqkw4eLWpmr6HrxHvPhEGCub+CnPvc1bi+3+kinDW0k/pz3esWmSI8l1257XSWRl
-         FMR9d5qjZKmanmyE0Iyhx6Uq4XEBX/z0JNQ/5NtT16xukIWE1MZhkIPuS4Pw9Kv/p89q
-         n26SPd8+cbPUC2/U4Hye7iCJTCXAk/GTJpIoKyjr0402MsjmeOfCCdRcAcL6BZwlZcJ1
-         TkVA==
-X-Gm-Message-State: AOAM533RihqacRCrKyIlzkXpURIr7qIM0/t4xmJ3w7y5ovBP00bYrO2H
-	nYbRBjbWUX3MZx9BcrdriB3Vi1DQtIys5Ci+egtHR7p/CLeTEYoeBsAVAfvFFxWdoaDh0ESteDb
-	ngUHo/JQRt7Nd7gqmo48=
-X-Google-Smtp-Source: ABdhPJzvPREwsMVsSmlMxKvhTvyVINXu+p/ZqeLrzBiwtjk/uh+XdKf8sXnTS5Q0/U0ON8qIWM8GuA==
-X-Received: by 2002:a17:90a:e386:: with SMTP id b6mr1280514pjz.97.1631590844188;
-        Mon, 13 Sep 2021 20:40:44 -0700 (PDT)
+        bh=5H2bcMfxByKm2EVUg1iJMD5chj5K7B0S9zZLnk9vCwM=;
+        b=cBT9BGJClGieH0gxxxpeeVOma6Tv4yI0W8OhRs5rR6gRycoM06LP7yLr8XS9HqKcOS
+         pzr2BV4ASJeaXgI4opcE2TKXzcxOmF5kyAqCi6gYJ6/T9LmK7LHr9UkjxM3hrtD6GvLd
+         Q072Mq1Gc757flwzMCFj4kqbULAk7FgOm+wVSQobfSt1yAxvvKjlou4jAzrminJ2jdNn
+         ySX+wsg8+OMBj5gE/X5YhagovBmg7MfCWgf++wKzGgkdCtjEFjVKn++k6IW+xoKvkccR
+         2F2CbSGoeickzXRtazT9TP/acfOpw1eRJk7+7WqN7dCsqG0UJdr7zR56tCofxYYV16ia
+         BmTA==
+X-Gm-Message-State: AOAM5308CkaF6OSYH0LrOyJ/QhEZdaG7Jx2Rz84wTBkUccl70HxX/Z1p
+	Tu14ZbX2kpCGyorpqsjfhATm6hu8gJmwjNGyTLlq/tRqNTy3wmUPeR51bn5h7QJP20oQzlZ+rNq
+	B67DeCvnS5HaQjXWPXrs=
+X-Google-Smtp-Source: ABdhPJyhUBnsaiA7W9PWKhumgbVl2XyGla6we+u1qEcEzZ4T0Rmx6kI2MD23reRzjgQ+fm8rIXiCoQ==
+X-Received: by 2002:a63:ef57:: with SMTP id c23mr13797054pgk.60.1631593502582;
+        Mon, 13 Sep 2021 21:25:02 -0700 (PDT)
 Received: from sidraya-laptopU ([203.201.61.238])
-        by smtp.gmail.com with ESMTPSA id w26sm476509pfj.178.2021.09.13.20.40.41
+        by smtp.gmail.com with ESMTPSA id d3sm9797780pga.7.2021.09.13.21.24.58
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 13 Sep 2021 20:40:43 -0700 (PDT)
-Date: Tue, 14 Sep 2021 09:10:37 +0530
+        Mon, 13 Sep 2021 21:25:02 -0700 (PDT)
+Date: Tue, 14 Sep 2021 09:54:55 +0530
 From: Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
 To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, prashanth.ka@pathpartnertech.com,
 	praneeth@ti.com, mchehab@kernel.org, linux-media@vger.kernel.org,
 	praveen.ap@pathpartnertech.com
-Subject: Re: [PATCH 03/30] v4l: vxd-dec: Create vxd_dec Mem Manager helper
- library
-Message-ID: <20210914034032.orctp5ov5oc33vag@sidraya-laptopU>
+Subject: Re: [PATCH 09/30] v4l: vxd-dec: Add idgen api modules
+Message-ID: <20210914042453.ttbf2atkzymqt5yl@sidraya-laptopU>
 References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
- <20210818141037.19990-4-sidraya.bj@pathpartnertech.com>
- <20210824133438.GO1931@kadam>
+ <20210818141037.19990-10-sidraya.bj@pathpartnertech.com>
+ <20210824140005.GQ1931@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210824133438.GO1931@kadam>
+In-Reply-To: <20210824140005.GQ1931@kadam>
 User-Agent: NeoMutt/20171215
 Content-Type: text/plain; charset="US-ASCII"
 Content-Disposition: inline
 
-On Tue, Aug 24, 2021 at 04:34:38PM +0300, Dan Carpenter wrote:
-> On Wed, Aug 18, 2021 at 07:40:10PM +0530, sidraya.bj@pathpartnertech.com wrote:
-> > +int img_mem_create_ctx(struct mem_ctx **new_ctx)
+On Tue, Aug 24, 2021 at 05:00:06PM +0300, Dan Carpenter wrote:
+> Of course this is all staging code and we normally don't review staging
+> code too hard when it's first sent because we understand that staging
+> code needs a lot of work before it's acceptable.
+> 
+> One of the rules of staging is that you can't touch code outside of
+> staging.
+> 
+> But since I happened to glance at a some of this code then here are
+> some tiny comments:
+> 
+> On Wed, Aug 18, 2021 at 07:40:16PM +0530, sidraya.bj@pathpartnertech.com wrote:
+> > +/*
+> > + * Structure contains the ID context.
+> > + */
+> > +struct idgen_hdblk {
+> > +	void **link; /* to be part of single linked list */
+> > +	/* Array of handles in this block. */
+> > +	void *ahhandles[1];
+> 
+> Don't use 1 element flex arrays.  Do it like this:
+> 
+> 	void *ahhandles[];
+> 
+> You will have to adjust all you math.  But you should be using the
+> "struct_size(hdblk, ahhandles, nr)" macro anyway to prevent integer
+> overflows.
+> 
+> > +int idgen_createcontext(unsigned int maxid, unsigned int blksize,
+> > +			int incid, void **idgenhandle)
 > > +{
-> > +	struct mem_man *mem_man = &mem_man_data;
-> > +	struct mem_ctx *ctx;
+> > +	struct idgen_context *idcontext;
 > > +
-> > +	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-> > +	if (!ctx)
-> > +		return -ENOMEM;
+> > +	/* Create context structure */
+> > +	idcontext = kzalloc(sizeof(*idcontext), GFP_KERNEL);
+> > +	if (!idcontext)
+> > +		return IMG_ERROR_OUT_OF_MEMORY;
+> 
+> We need to get rid of all these weird error codes?  You can add that
+> to the TODO file.
+> 
+> > +int idgen_destroycontext(void *idgenhandle)
+> > +{
+> > +	struct idgen_context *idcontext = (struct idgen_context *)idgenhandle;
+> > +	struct idgen_hdblk *hdblk;
 > > +
-> > +	ctx->buffers = kzalloc(sizeof(*ctx->buffers), GFP_KERNEL);
-> > +	if (!ctx->buffers)
-> > +		return -ENOMEM;
+> > +	if (!idcontext)
+> > +		return IMG_ERROR_INVALID_PARAMETERS;
+> > +
+> > +	/* If incrementing Ids, free the List of Incrementing Ids */
+> > +	if (idcontext->incids) {
+> > +		struct idgen_id *id;
+> > +		unsigned int i = 0;
+> > +
+> > +		for (i = 0; i < idcontext->blksize; i++) {
+> > +			id = lst_removehead(&idcontext->incidlist[i]);
 > 
-> Smatch would have caught that this needs a kfree(ctx); before returning.
-> 
-> It wouldn't hurt to run Smatch over this code.
-> 
-> git clone https://repo.or.cz/w/smatch.git
-> cd smatch
-> yum install gcc make sqlite3 sqlite-devel sqlite perl-DBD-SQLite openssl-devel perl-Try-Tiny
-> make
-> cd ~/kernel/
-> ~/smatch/smatch_scripts/kchecker drivers/staging/media/vxd/common/img_mem_man.c
-> 
-> (I am the author of Smatch  #BlowYourOwnTrumpet).
+> You're not allowed to invent your own list API. :P  Generally there just
+> seems like too much extra helper functions and wrappers.  Removing this
+> kind of stuff is standard for staging drivers so that's normall.  Add it
+> to the TODO.
 > 
 > regards,
 > dan carpenter
 > 
-I will run Smatch and will remove similar findings.
-Thank you for reviewing. 
+
+I will make change for void *ahhandles[1] with void *ahhandles[];,
+will use "struct_size" while allocating memory.
+
+I will replaced all Error macros with directly linux Error macros.
+
+About customized data structure API e.g-list,queue, I am currently working on
+replacing them with Linux kernel generic dtata structure API's.
+Thank you for reviewing.
 
 -- 
 
