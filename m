@@ -1,12 +1,15 @@
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EED3FD0;
-	Tue, 14 Sep 2021 07:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505313FD0;
+	Tue, 14 Sep 2021 07:48:36 +0000 (UTC)
+Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id DE431D0D36;
+	Tue, 14 Sep 2021 07:43:18 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by relay11.mail.gandi.net (Postfix) with ESMTPSA id AC9E4100011;
-	Tue, 14 Sep 2021 07:44:22 +0000 (UTC)
-Date: Tue, 14 Sep 2021 09:44:22 +0200
+	by relay12.mail.gandi.net (Postfix) with ESMTPSA id E429820000B;
+	Tue, 14 Sep 2021 07:43:08 +0000 (UTC)
+Date: Tue, 14 Sep 2021 09:43:08 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Maxime Ripard <maxime@cerno.tech>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -22,13 +25,14 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 17/22] dt-bindings: media: Add Allwinner A31 ISP bindings
- documentation
-Message-ID: <YUBS1sdHKUMZx6gx@aptenodytes>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 05/22] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2
+ input port
+Message-ID: <YUBSjBMUk+nQSzRz@aptenodytes>
 References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-18-paul.kocialkowski@bootlin.com>
- <20210913081808.esgqvz4eeatp4hkp@gilmour>
+ <20210910184147.336618-6-paul.kocialkowski@bootlin.com>
+ <20210913080931.opbtx45sxqu52jxe@gilmour>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,100 +40,66 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="x/ZjxzLvCjsZxqAS"
+	protocol="application/pgp-signature"; boundary="sgIICy+NNUkr1U2H"
 Content-Disposition: inline
-In-Reply-To: <20210913081808.esgqvz4eeatp4hkp@gilmour>
+In-Reply-To: <20210913080931.opbtx45sxqu52jxe@gilmour>
 
 
---x/ZjxzLvCjsZxqAS
+--sgIICy+NNUkr1U2H
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Mon 13 Sep 21, 10:18, Maxime Ripard wrote:
-> On Fri, Sep 10, 2021 at 08:41:42PM +0200, Paul Kocialkowski wrote:
-> > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > Signal Processor (ISP).
+On Mon 13 Sep 21, 10:09, Maxime Ripard wrote:
+> On Fri, Sep 10, 2021 at 08:41:30PM +0200, Paul Kocialkowski wrote:
+> > The A31 CSI controller supports two distinct input interfaces:
+> > parallel and an external MIPI CSI-2 bridge. The parallel interface
+> > is often connected to a set of hardware pins while the MIPI CSI-2
+> > bridge is an internal FIFO-ish link. As a result, these two inputs
+> > are distinguished as two different ports.
+> >=20
+> > Note that only one of the two may be present on a controller instance.
+> > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+> > dedicated to parallel.
+> >=20
+> > Update the binding with an explicit ports node that holds two distinct
+> > port nodes: one for parallel input and one for MIPI CSI-2.
+> >=20
+> > This is backward-compatible with the single-port approach that was
+> > previously taken for representing the parallel interface port, which
+> > stays enumerated as fwnode port 0.
+> >=20
+> > Note that additional ports may be added in the future, especially to
+> > support feeding the CSI controller's output to the ISP.
 > >=20
 > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Acked-by: Maxime Ripard <mripard@kernel.org>
 > > ---
-> >  .../media/allwinner,sun6i-a31-csi.yaml        |   2 +-
-> >  .../media/allwinner,sun6i-a31-isp.yaml        | 111 ++++++++++++++++++
-> >  2 files changed, 112 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
-un6i-a31-isp.yaml
+> >  .../media/allwinner,sun6i-a31-csi.yaml        | 75 +++++++++++++++----
+> >  1 file changed, 62 insertions(+), 13 deletions(-)
 > >=20
 > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
 1-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-cs=
 i.yaml
-> > index f4a686b77a38..c60f6b5403fa 100644
+> > index 8b568072a069..f4a686b77a38 100644
 > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
 aml
 > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.y=
 aml
-> > @@ -1,4 +1,4 @@
-> > -# SPDX-License-Identifier: GPL-2.0
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> >  %YAML 1.2
-> >  ---
-> >  $id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-csi.yaml#
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
-p.yaml
-> > new file mode 100644
-> > index 000000000000..a0f82f150e90
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
-aml
-> > @@ -0,0 +1,111 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
-indings
-> > +
-> > +maintainers:
-> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - allwinner,sun6i-a31-isp
-> > +      - allwinner,sun8i-v3s-isp
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Bus Clock
-> > +      - description: Module Clock
-> > +      - description: DRAM Clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: bus
-> > +      - const: mod
-> > +      - const: ram
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
+> > @@ -61,6 +61,49 @@ properties:
+> > =20
+> >      additionalProperties: false
+> > =20
 > > +  ports:
 > > +    $ref: /schemas/graph.yaml#/properties/ports
 > > +
 > > +    properties:
 > > +      port@0:
 > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: CSI0 input port
+> > +        description: Parallel input port, connect to a parallel sensor
 > > +
 > > +        properties:
 > > +          reg:
@@ -139,59 +109,119 @@ indings
 > > +            $ref: video-interfaces.yaml#
 > > +            unevaluatedProperties: false
 > > +
-> > +        additionalProperties: false
+> > +            properties:
+> > +              bus-width:
+> > +                enum: [ 8, 10, 12, 16 ]
 > > +
+> > +              pclk-sample: true
+> > +              hsync-active: true
+> > +              vsync-active: true
+> > +
+> > +            required:
+> > +              - bus-width
+> > +
+> > +        additionalProperties: false
+>=20
+> You don't have to duplicate the entire definition there, you can just
+> reference port:
+>=20
+> $ref: #/properties/port
+
+And that would reference the local (previous) definition of the port node?
+Sounds like a good thing indeed.
+
 > > +      port@1:
 > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: CSI1 input port
+> > +        description: MIPI CSI-2 bridge input port
 > > +
 > > +        properties:
 > > +          reg:
-> > +            const: 0
+> > +            const: 1
 > > +
 > > +          endpoint:
 > > +            $ref: video-interfaces.yaml#
 > > +            unevaluatedProperties: false
 > > +
 > > +        additionalProperties: false
+> > +
 >=20
-> port@0 and port@1 required?
+> port@0 is required?
 
-I'd say just one of them, does that make sense?
+It shouldn't be required. Does that call for a change here?
 
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
+> And at the top-level, either ports or port are required too
+
+Yes I guess that is true. Should that be a required+oneOf type of thing?
+
+> >  required:
+> >    - compatible
+> >    - reg
+> > @@ -89,19 +132,25 @@ examples:
+> >                        "ram";
+> >          resets =3D <&ccu RST_BUS_CSI>;
+> > =20
+> > -        port {
+> > -            /* Parallel bus endpoint */
+> > -            csi1_ep: endpoint {
+> > -                remote-endpoint =3D <&adv7611_ep>;
+> > -                bus-width =3D <16>;
+> > -
+> > -                /*
+> > -                 * If hsync-active/vsync-active are missing,
+> > -                 * embedded BT.656 sync is used.
+> > -                 */
+> > -                 hsync-active =3D <0>; /* Active low */
+> > -                 vsync-active =3D <0>; /* Active low */
+> > -                 pclk-sample =3D <1>;  /* Rising */
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +                /* Parallel bus endpoint */
+> > +                csi1_ep: endpoint {
+> > +                    remote-endpoint =3D <&adv7611_ep>;
+> > +                    bus-width =3D <16>;
+> > +
+> > +                    /*
+> > +                     * If hsync-active/vsync-active are missing,
+> > +                     * embedded BT.656 sync is used.
+> > +                     */
+> > +                     hsync-active =3D <0>; /* Active low */
+> > +                     vsync-active =3D <0>; /* Active low */
+> > +                     pclk-sample =3D <1>;  /* Rising */
+> > +                };
+> >              };
+> >          };
+> >      };
 >=20
-> ports required?
+> I'd keep the original example and add one with the CSI bridge
 
-I think so yes, so I'll add it there.
+Understood, will do.
+
+Thanks,
 
 Paul
-
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---x/ZjxzLvCjsZxqAS
+--sgIICy+NNUkr1U2H
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAUtYACgkQ3cLmz3+f
-v9EiZQgAncwC5/lF0lGIbrTPuu+Q9LnR4LGlxrt2xaOkbmtxVfCuQexU1wx2+C0m
-X+H+fuo3Eq8DN3lFIeAmXG03mYFoVJj8kPybnE6K9e48LQJ70/ahwK7MueZQVuzO
-PDGmIDVxWJtGSbbPUTedQnlYgE+eVzqfbedRrdeYFGRdrUSS9pbO4kW/4lm0xkZW
-UMGcam8bE8v4iyc77LBdvX1cNtexR/PD4L7aiCD0zPkG35iHwzZcEPuXmhuyg/27
-ksjDM1DurT9+zJMQTOv09ii1qJr3jaN1t6l7THV3hOYupapueCU1G/ILqb2Wd4mK
-CSZ2qYlFM6vc5HrIf0v671i9ViGatQ==
-=gBHG
+iQEyBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmFAUowACgkQ3cLmz3+f
+v9HVfQf3ceKXmCCS1bAycLVMI86R8GkWo5vt/v5Osg8D3oUZIE/KwelraqzS+rGn
+ZbqrtgjJQvxP/0WvM6ARVoMbU6KD37vSJSmVuGgGrbRhn3S4IJo3xOykxctr9/nL
+wVwca3ymBipsiLU3adCbz1BhLYYzBTr8OXiJ/0NnZ3Gl8BMUetBSA8nd78E4gca1
+PaY5+87njZqG8rfMO/yozuLLxnujfsDcyC97xiE1Fgflqn31q6wBWOZpmnhTkvEM
+Y0WCR60gnaXkNKjPsoAXfGUa4gZO0rOR8U+Ppwf2LmyOZUqd+Nf8J6h8rsD6pLIO
+b929E1fCp//Ou0qD6zu6MSDjQq5R
+=c8hO
 -----END PGP SIGNATURE-----
 
---x/ZjxzLvCjsZxqAS--
+--sgIICy+NNUkr1U2H--
