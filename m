@@ -1,87 +1,102 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926A43FC3
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 14:05:49 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id jg16so29196414ejc.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 07:05:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14AC3FD0
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 14:31:13 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id 17so12904833pgp.4
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 07:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=OStgA6BGSrOeE1owL122sV6WqITjN7ZcXrkuShEwznM=;
-        b=QTglR5JMNhQx4U74zOjBwL5GtZPbuguosufJf1OEwvdzXd71mgIbk79C9X17SpLpnr
-         dkOQ1hdfBND+joZ+ff5itcSMDjtz/deZV8ju4KBv0HrLMOz4fcFbs+Av9qveWldjVTK1
-         owHg/bu2wpMlohAOXkf96a+5V/zdFGUH/jt2PYRordSNObXYnAJcoFRQmyaT5LxQhT+g
-         yv00OArrQ/W2Q/16sN4NXdiP9v1L4qDgs+BqNv6NqGeL5slUPQMMA7lqKk6nBJMDYRoO
-         WpczNipIffKWE4bvgZ7JtZEDbalRgdiC0+diAd/UcyJQgU9b0QwMth9vFzytepXU8q5g
-         5RkA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w0OnMvsDVskt5GO6UPoyhHQ+fQZFdSjePNVx2sNQE/o=;
+        b=WoiotpieTT+jVVeokS5GLYFcwyaC45SPW/UM4a76quzE/R4aR7TmMNDfidSmrxdpHh
+         sZ9kL+wPjdNPRlPVREHitomHTBrgxmtpBfqtkVvUFqJF31V9t+ycbishWeQoPS/n0q1g
+         Frn5c0tiwOf/FIyoZB0U9WftFGpMiaiReHbyzKjB3oAvha00x4VuJUU6sTK/2TfYg1zo
+         0MO7gckoCZbKjgjDULwGJmXL5u4eO97dvuuxM3DXlsPqVtUUA4D+B/5VU+dJHbeXrXzk
+         qHzxGujsX7DtZc6KFXY07TvBMWUgdV/BSXQuqR1w803PGtdjRrYdhtbj0TYesQqWertd
+         1MUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OStgA6BGSrOeE1owL122sV6WqITjN7ZcXrkuShEwznM=;
-        b=uS5jZk4AkK6d8SlVCTrMdiJx5GLL1PQ8LjERnZ68PDqk1Xg3OPdkyCRwieOKZBiP42
-         jfo3OsiDXY5CRjsYlcLARmvfZMZropcUnGMq5vRCUZ2qhc1rJ3nh4qQyuIqQxdg4Apk8
-         kdy08x03/cy1IO67J4n8wsVC9kbONAfSFQ+wk3r1NduauOOnItsMlMqgm5DelP2aDcTm
-         FA3Sdzfv80Srch8gcE9U7r3Uua8ywQctPppF8xaI55G2aZ5SGhGzdGeFIGEGv5T0Lw5C
-         P4Q19Moj9cdP89CXr3VBRmMS+R8v9FSrQpBvs/TSpd67y6lvRayW5OwQHlBV/NHxwLld
-         +mPQ==
-X-Gm-Message-State: AOAM531H6WwuHcjHlWHj5SkYZPBoIo0kMmuZWe9S1cj77XlQS8/u0zVh
-	JoA0zLUtO6bzeQGVo+U9JQ4=
-X-Google-Smtp-Source: ABdhPJyA8xP5SMNVSUzytDl0/3rJYZPfHu3iQNtsEaQY0luP5yBe9fqh5Ox9Y0AgSdcAgX7dORNaAw==
-X-Received: by 2002:a17:906:32d6:: with SMTP id k22mr18775395ejk.228.1631628347807;
-        Tue, 14 Sep 2021 07:05:47 -0700 (PDT)
-Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
-        by smtp.gmail.com with ESMTPSA id e7sm5996134edk.3.2021.09.14.07.05.46
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=w0OnMvsDVskt5GO6UPoyhHQ+fQZFdSjePNVx2sNQE/o=;
+        b=6aX5L8tImnWfb2R9cH4jtZNuH//PpyB96qjn82RDkBI1fz6V1peYkP6SS7LOPuhLsI
+         DAneqRb6CLUl2kZykavXVx/ooBg2LzWTd5XdpYWDkWzxqu12BXJHYFdYUJqoSy23CarJ
+         xppG7DcmA4I5i9pLFSIJU22KNAnqTBsrAo0WknLFkg+LZ7KtDUuc7N8bX+cp+T6Vlj8z
+         uHPgcEG/7wjxHKYVjfNShFGrdrqGe3zROo/CCLa15sWO9JesXC0wtToA6asKxOkBipAj
+         jsM6As+FAcCa/Gixb7RiWcbe1XpqytKI09ThL013ShrXHPKI4FDz1yNsuNAy3fCyCjAv
+         bysA==
+X-Gm-Message-State: AOAM5305aXo4cxqU4fBeUET6H8kStBk9ndbbPrTYRefRl/lZRC5PpRU5
+	FCT23+nzDevKy8k81yboyzQ=
+X-Google-Smtp-Source: ABdhPJx+1bKb7b1nUkHsmCbarE6xqR+X/fKwp0fj/jnKlt7HW9AigaevdLjwlFuIs+zsRpahzX20Og==
+X-Received: by 2002:a63:7a0e:: with SMTP id v14mr15821775pgc.466.1631629873230;
+        Tue, 14 Sep 2021 07:31:13 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1c26:79fe:c0f6:4118:85fb:d7f6])
+        by smtp.gmail.com with ESMTPSA id p16sm10365073pfw.66.2021.09.14.07.31.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 07:05:47 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>, Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH v4 15/18] staging: r8188eu: hal: Clean up usbctrl_vendorreq()
-Date: Tue, 14 Sep 2021 16:05:45 +0200
-Message-ID: <11594204.TA4nE9Oavg@localhost.localdomain>
-In-Reply-To: <20210914133007.GE2116@kadam>
-References: <20210913181002.16651-1-fmdefrancesco@gmail.com> <1670478.viNvIS23Oo@localhost.localdomain> <20210914133007.GE2116@kadam>
+        Tue, 14 Sep 2021 07:31:12 -0700 (PDT)
+From: Srivathsa Dara <srivathsa729.8@gmail.com>
+To: jerome.pouiller@silabs.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Srivathsa Dara <srivathsa729.8@gmail.com>
+Subject: [PATCH] staging: wfx: sta: Fix 'else' coding style warning
+Date: Tue, 14 Sep 2021 20:01:06 +0530
+Message-Id: <20210914143107.18436-1-srivathsa729.8@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, September 14, 2021 3:30:07 PM CEST Dan Carpenter wrote:
-> On Tue, Sep 14, 2021 at 03:24:06PM +0200, Fabio M. De Francesco wrote:
-> > [...]
-> David and I are saying the same thing.  "Reverse Christmas Tree" vs
-> "reverse xmas tree".  It's like an upside down pine tree.
-> 
-> 	asfklajsdfljasldf
-> 	asdflkjasldfjal
-> 	asdflkjalsdfj
-> 	asldfkjalsdf
-> 	asldfkjl98
-> 	lwkejrlw
-> 	ljklkjl
-> 	lkjkll
-> 	kjld
-> 	asdf
-> 	x
-> 
-> regards,
-> dan carpenter
+Fix 'else is not generally useful after a break or return' checkpatch
+warning
 
-Oh, sorry. I interpreted David's message the other way because it seemed to 
-me that the code already had this RXT style (with the only exception of the 
-"wvalue" variable that now is gone forever). Now I see that I got it wrong 
-and that something got lost in translation.
+Signed-off-by: Srivathsa Dara <srivathsa729.8@gmail.com>
+---
+ drivers/staging/wfx/sta.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-Thank you again,
-
-Fabio
-
-
+diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
+index aceb18a1f54b..23c0425e3929 100644
+--- a/drivers/staging/wfx/sta.c
++++ b/drivers/staging/wfx/sta.c
+@@ -169,19 +169,18 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
+ 			if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
+ 				dev_info(wvif->wdev->dev, "ignoring requested PS mode");
+ 			return -1;
+-		} else {
+-			/* It is necessary to enable PS if channels
+-			 * are different.
+-			 */
+-			if (enable_ps)
+-				*enable_ps = true;
+-			if (wvif->wdev->force_ps_timeout > -1)
+-				return wvif->wdev->force_ps_timeout;
+-			else if (wfx_api_older_than(wvif->wdev, 3, 2))
+-				return 0;
+-			else
+-				return 30;
+ 		}
++		/* It is necessary to enable PS if channels
++		 * are different.
++		 */
++		if (enable_ps)
++			*enable_ps = true;
++		if (wvif->wdev->force_ps_timeout > -1)
++			return wvif->wdev->force_ps_timeout;
++		else if (wfx_api_older_than(wvif->wdev, 3, 2))
++			return 0;
++		else
++			return 30;
+ 	}
+ 	if (enable_ps)
+ 		*enable_ps = wvif->vif->bss_conf.ps;
+-- 
+2.25.1
 
