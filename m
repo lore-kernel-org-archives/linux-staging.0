@@ -1,163 +1,121 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33A43FC5
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 09:45:57 +0000 (UTC)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18E9cqpS024454;
-	Tue, 14 Sep 2021 09:45:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=ToOACQBrmkUVrGmEdkVLwX57u4niYVaS+/hBJNNIS6U=;
- b=NlbIuB0o1/tK0KtnQIdCXYO4tlG2gbXV26LCQ+SW5Ex9XYNyq4e9EA57nFbNRbIisWls
- b+v++J8PRwd4k5JCxEu+Bk5rasVToskXHWJFAfepuCDYjYeyCzlLN836pecZxuY1nYzj
- tUgoy6/SBsvemA/Vsu2JkEwBSBPXcov3VKSSJc6ZLW1K8+rd7Po3leV6XphPTpviRw74
- jbBdSP/1ai2tDN4BTyw+d3zv11AmdR4OWg53iYuPy8AXf2SlNkeekgDftLam0hBPELi7
- /h4GwN6wo+UUhjTrF4SR90Yp8gNJx4EQbwJTtb6LaVCKLWQOrayiB2VCHdCkqTDGLzBP 8g== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=ToOACQBrmkUVrGmEdkVLwX57u4niYVaS+/hBJNNIS6U=;
- b=rXr6ALT/XEVBdlBY8C3RwuiWS9smdQwKMX5oe08bgXUr233yp4OTcv50LyG8Jd8cOAol
- uAh1lQBRwYtyIilGfnjQ4UpHbsxX/n/HeInLcwQIIbm1uZNKV5vWmFxdM0J4soLBQkm2
- fC/WF7SBnQhHhQP0cUyhaL0PFj+kZQSTHQNJsc6JpKvXGVUJ+Ll+7hlCYDsIkdnLSSmG
- VF5nJNqkO+nsU4JdA8s1xPYMlr7GwvlO6m1UImmOX4eiNOPe1BHxIQBX+Xx2G7Q0sPCp
- BAUZYEyCLusZzULwNjWHEcEY62zyX5j9ceMU4S0swuFBuGA9m7XJ5p7sHZ3LDiCcVgeJ Dw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3b2pyg8jm6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 09:45:51 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18E9jDlp135607;
-	Tue, 14 Sep 2021 09:45:50 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
-	by userp3030.oracle.com with ESMTP id 3b0hjuv3xk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 14 Sep 2021 09:45:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iFlZnMd4tka5Egmh9ub5FxqlCtOHb6jRio52Pxo8/JwufjsQ2XorJAIDrXmK27T2GtJWOHqoi2MacPx7EmkThAwdHyqE0KpZcTe1ror44u3YWSFZaSxbo5QGWwnkCFNdbmyr4seS924d0EsoLPadOz2/bfEK3CJn2aaQEob7ojuD/447+4LcKXHch38V0UXAremPy/Cj34eDOPVERWZEjxIjiRyT6/lSXf3fbvsY2vzJw5w71kHB8ktSNaiJOW848kYbfd6NIDqmmnL70S1VQTQ1FhELHq3dFm2nYjg7ATrr9Tuof96A4EG/hkq70a0ijO9jUYOd1otETzkV31OQ9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=ToOACQBrmkUVrGmEdkVLwX57u4niYVaS+/hBJNNIS6U=;
- b=flUcRuL8z9DeQpSdQK70/c+WBcmj+FAk72iKWeZidbjHZFQujoQ3ZJVV5WHfwJm5ra+tuPhralj2LmqBmu17WTixPOR8AvUBpfOtXtWa0sidao1lH2akDvG/6ptgmRlPcA5E7SSwKn+iGp2JSb6yuJr/Bn65JUlzd5TM+vStobZXKRSYzWbnfTnrE2QwJzYxejx2ZG1V7umj8JWX4sLGFPUqOF2l+BljQX/AGSlDditnvh4NkRMsKyLZRCS9zNsG7jHAkrvEypYURbIzHPzwQmoH1h4BYAqutg5H12Jb9XP4JlVFMzxIARVaqAMG1ot504OMypSblQX+z5oGwy1Peg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ToOACQBrmkUVrGmEdkVLwX57u4niYVaS+/hBJNNIS6U=;
- b=eEfH3s850vgLD/6YlOHGXqnyPfr/t90jC0xjYZLUfXKGZLP0A0sFRuWee6gDAs3AAUCQAvDO5FW9R9EBIKdxokwQ0d7rrkI9MWgeMsEPqlocJjkLTROffeiha8y4OMRsMpPerR37RBj+UwPsWZoO8Zg49bWmE/YJTNUbicWkNS4=
-Authentication-Results: kaiser.cx; dkim=none (message not signed)
- header.d=none;kaiser.cx; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1950.namprd10.prod.outlook.com
- (2603:10b6:300:10d::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.17; Tue, 14 Sep
- 2021 09:45:48 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
- 09:45:48 +0000
-Date: Tue, 14 Sep 2021 12:45:33 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Michael Straube <straube.linux@gmail.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/8] staging: r8188eu: power management cleanup
-Message-ID: <20210914094533.GD2088@kadam>
-References: <20210911141521.24901-1-martin@kaiser.cx>
- <20210913185110.3065-1-martin@kaiser.cx>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210913185110.3065-1-martin@kaiser.cx>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0023.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::35)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F72A3FD2;
+	Tue, 14 Sep 2021 11:11:45 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3C042A5;
+	Tue, 14 Sep 2021 13:11:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1631617904;
+	bh=UVN9Czt4d3zRJH4FreSTQyVzvDmfnJhgwAWZq7jgpak=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ir49+m105z1jz+jtGji8tsAqWQZ8kgxHOFeV7vW3ytIHrvOU2IzjHw58VO4/UNxu+
+	 lIOsD8oGDBYhTPM01llE3XGSal0gIdRzQ6loCzgMS4e37f+38xDpUvlMovjblgVpDW
+	 A3sCb3MMKNHeEYv1m+wh50lSeuiIqwZI6gF1G9ME=
+Date: Tue, 14 Sep 2021 14:11:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 20/22] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <YUCDVm4OA3C3Re09@pendragon.ideasonboard.com>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-21-paul.kocialkowski@bootlin.com>
+ <20210913083135.v7q7joux2xckat62@gilmour>
+ <YUBUUQxBaGUkjzMP@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.99) by JN2P275CA0023.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend Transport; Tue, 14 Sep 2021 09:45:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 43c86a39-ea18-4128-3a38-08d977646e59
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1950:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB1950FE26AF3BAB766EB908FD8EDA9@MWHPR10MB1950.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	GeGntZHWnJrhXAoq1SGp0iWOco9AfDCyr5k+LzZTEFb/7ssZ3vOKXPKBJ5h237vW0mLCihaz4/d0k07jgtQ3RG7SXky78mN17JdnFR/hwFLEKqiTGvVKrEhRYl6P1ETI5F5qm5T0Wmv9gzPJSRjDAjOytnIb/bjHn35BoseeJYeDAo3/PRb9xRI23mBw1zvkgseNU5FD9qjB96YtZOUl1G85f/MmzkukuqxtLJs34uu8iVHk5qVTg7DluzUcyFdqiacf+5gTU80VBIGjVgqNSmNfeF858ZwOZs03L3WQiHveRSw2dqGgbdGiJMrkkHNaxaqeIqC/xo20xjmiYaQmaSmDy4ATjI+Tu6P6fiXVwnLyOCWestfV7LNztUki08boMuKB86dK9rtmxDPkGbmMPVmR6UsBbU/zwSV+/Qt6FulCauAC6cnYdpFl2e2F0EGDejsZjGX34h+cHlKwO/EITzmL3XlbPN3b4/7g1I7S9YXcwajRkhy8bsQBGFdQROyJrMPImSZgIvEQQg/SXQ6ht9mgp0BmFWQtBNars1Y3zIi01O+Gs9lJ6uVbz/kBqegOeMrTfnuToiSxU9y/D/1NLZ/bjUF63wdSi6D0EkMgrB46CH+5N7+1bkqhSQzNa4vTaxNvlvPuFgkV8ubl7k+2pje6KfCe4GILp6mJN0PzIGwpU312mFTkUaTfOKTglUkjJ43nbAkCr+5DUTKvrSihsA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(366004)(136003)(39860400002)(376002)(346002)(33656002)(66476007)(956004)(66556008)(8936002)(6496006)(9576002)(33716001)(4744005)(55016002)(66946007)(1076003)(86362001)(44832011)(186003)(26005)(5660300002)(478600001)(6666004)(6916009)(2906002)(4326008)(52116002)(8676002)(316002)(9686003)(38350700002)(38100700002)(54906003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2wAigZ6SfcRg2MQUPJzVe80mzDk70sA6UZUJdsbMUYcfeW8Jqhq1DYb7gPCP?=
- =?us-ascii?Q?0H7z4fIbm/RB6xaRs8Ifonzc5oSf4klbmKoD+Q5TT6E+wZNcziXK8H3kEn9b?=
- =?us-ascii?Q?x/PIE35J9mC1RdPMw7mP2kf2ynGxdNSJ+6t66SyRznuXztxdxnEw74tz6G2o?=
- =?us-ascii?Q?zUYaInYQlvs4keRJiUd6P3GcP+Vj+AxxjXpXRvWAKtn7DDFgZCUav32yCCZ0?=
- =?us-ascii?Q?Ly1vUMnvwYA9hDCLAmyhHf+FOPemr53QvbwRVjR+ts4nQJolL8rdSvgJgayJ?=
- =?us-ascii?Q?HB3dSZXwr3XB8XNx7gxqG4y0ITyGtpJlFgOAkFX2B3nctxSvoC0yPrGgJCkL?=
- =?us-ascii?Q?Wb2PxffviHpQHPriY4924vSEAp5Q98C2d6T1SOPkUGB/d8nOTnciOTsiccuf?=
- =?us-ascii?Q?d/oxyiIeXivkMOdrTyrlDI8GJbmyMNJ+patmrc5X5ns5dWIuR2jeTZmp75js?=
- =?us-ascii?Q?Y8Bu2B55qFfTeZhu9cha3Qv8xOChS2OLwkr+VnDuCBKtoOX3uRFSy0GkfpIq?=
- =?us-ascii?Q?MQ3ee4UedfFJ32zirIfFQb/Po8oLnkAWlNmpxQuL5V3MSaUwRQI9G5tPu8Un?=
- =?us-ascii?Q?O4UCbIgQmQXxUve1tSrw2uidRJR8s4IusjzE7APChRnpaHqTev1/EeiwQN2A?=
- =?us-ascii?Q?v9/ZMWS4tFr694LzvZ7Fzkl0++rbmbROx0QMj/7ajFH/z4gBR2ZLE9hNyxp1?=
- =?us-ascii?Q?oBIKHp7N1BaDXkvxm4XN/e/qxevgHzNlswLzbZBrznanaaywP50ruAOyNAwm?=
- =?us-ascii?Q?OheU+clYhtq6ZI6A45vt/acy2YuMB42WzukEW2CHYByxkXuJbvmHzrnB1z0N?=
- =?us-ascii?Q?O4Cv38xYQxcdpjTEha/C1f5fGFExgyX+xY/5M2sRPXZUeBbgq2+hoyRMC4Z+?=
- =?us-ascii?Q?zJiCAZ5XnF274Y7l8L8eMyJgBtGLKYTk3JB8gkCTy39QpIku/S9GogUYAbmb?=
- =?us-ascii?Q?MQOaHxtSv3iDw+WpcynRUNPZuvPitDwLtJyoTPrZeE6b/SSdLB50+NAvdXdA?=
- =?us-ascii?Q?viFHF55Ny2V55qMeVA/pPYmdzz5w5QurE/QQSzIXxeWHkL1J3vQW+uTtCYI+?=
- =?us-ascii?Q?5sBvyfdF6yFScaFzdANPLXVTrTW+xJNXZNwdcybqWyF0GxgOuc1FQNJgy0tT?=
- =?us-ascii?Q?YbRKpRoHG3KK3E+n7b4EWVFfr9FuFOOYqeQcwpjcblgNdK7D7yiCJCBcb3d3?=
- =?us-ascii?Q?GTeYa6SrRfYD2W5FqvTZgh6nI2iCkRXlIpIgBWGXFqJwtIRdUGA69YOkBGFI?=
- =?us-ascii?Q?hoAMkAhMkCIRtjTo2JFeZeUJZ9wZOBoTBs3kPECMuM8kVSxi/LMMJhELx4gv?=
- =?us-ascii?Q?0uazoYV+3c/x7UDK1aI++sVH?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43c86a39-ea18-4128-3a38-08d977646e59
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 09:45:48.3181
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KuGfM7cBEPHVHk3LN3RpLqYcOk4yIbgQv2SBBb7V/wfgCYZJ5MzXBuWcrVTxDYVfz8e7xmczj2EB6lJqkJwkxj2kHrUzwiWdGCvyhMd4Slk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1950
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10106 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
- definitions=main-2109140059
-X-Proofpoint-GUID: 4_fMPi3Pq7XwqTNCY02s7MmanSWe2wJN
-X-Proofpoint-ORIG-GUID: 4_fMPi3Pq7XwqTNCY02s7MmanSWe2wJN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YUBUUQxBaGUkjzMP@aptenodytes>
 
-On Mon, Sep 13, 2021 at 08:51:02PM +0200, Martin Kaiser wrote:
-> Remove some unused parts of the power management code.
+Hi Paul,
+
+On Tue, Sep 14, 2021 at 09:50:41AM +0200, Paul Kocialkowski wrote:
+> On Mon 13 Sep 21, 10:31, Maxime Ripard wrote:
+> > On Fri, Sep 10, 2021 at 08:41:45PM +0200, Paul Kocialkowski wrote:
+> > > Some Allwinner platforms come with an Image Signal Processor, which
+> > > supports various features in order to enhance and transform data
+> > > received by image sensors into good-looking pictures. In most cases,
+> > > the data is raw bayer, which gets internally converted to RGB and
+> > > finally YUV, which is what the hardware produces.
+> > > 
+> > > This driver supports ISPs that are similar to the A31 ISP, which was
+> > > the first standalone ISP found in Allwinner platforms. Simpler ISP
+> > > blocks were found in the A10 and A20, where they are tied to a CSI
+> > > controller. Newer generations of Allwinner SoCs (starting with the
+> > > H6, H616, etc) come with a new camera subsystem and revised ISP.
+> > > Even though these previous and next-generation ISPs are somewhat
+> > > similar to the A31 ISP, they have enough significant differences to
+> > > be out of the scope of this driver.
+> > > 
+> > > While the ISP supports many features, including 3A and many
+> > > enhancement blocks, this implementation is limited to the following:
+> > > - V3s (V3/S3) platform support;
+> > > - Bayer media bus formats as input;
+> > > - Semi-planar YUV (NV12/NV21) as output;
+> > > - Debayering with per-component gain and offset configuration;
+> > > - 2D noise filtering with configurable coefficients.
+> > > 
+> > > Since many features are missing from the associated uAPI, the driver
+> > > is aimed to integrate staging until all features are properly
+> > > described.
+> > 
+> > We can add new features/interfaces to a !staging driver. Why do you
+> > think staging is required?
 > 
-> Tested with Edimax EW-7811Un V2 on an ARM32 embedded system.
+> This is true for the driver but not so much for the uAPI, so it seems that
+> the uAPI must be added to staging in some way. Then I'm not sure it makes sense
+> to have a !staging driver that depends on a staging uAPI.
 > 
-> v2:
-> - rebased against today's staging-testing branch
-> - fixed one patch that changed files outside of the r8188eu driver
+> Besides that, I added it to staging because that's the process that was
+> followed by rkisp1, which is a very similar case.
 
-In future, when you're resending a v2 could you just create a new
-thread?  We used to encourage people to send it on the same thread but
-these days it's more common to start a new thread.  Also staging doesn't
-used patchwork but subsystems which use patchwork prefer new threads or
-patchwork gets messed up somehow.
+Maxime is right in the sense that uAPI can always be extended, but it
+has to be done in a backward-compatible manner, and staging is sometimes
+considered as not being covered by the ABI stability requirements of the
+kernel. Not everybody agrees on this, but there are clear cases where
+userspace really can't expect staging ABIs to be stable (for instance
+when the driver doesn't even compile).
 
-regards,
-dan carpenter
+I think there's value in having the driver in staging to facilitate
+development until we consider the ABI stable, but I'm not entirely sure
+if there should be another step taken to mark this ABI is not being
+ready yet.
 
+> > > On the technical side, it uses the v4l2 and media controller APIs,
+> > > with a video node for capture, a processor subdev and a video node
+> > > for parameters submission. A specific uAPI structure and associated
+> > > v4l2 meta format are used to configure parameters of the supported
+> > > modules.
+> > 
+> > This meta format needs to be documented
+> 
+> You're right, there should probably be a pixfmt-meta-sun6i-isp.rst
+> documentation file. I guess it should live along in the staging driver
+> directory for now and be destaged later.
+
+Can documentation in staging be compiled ? If not I think it can go to
+Documentation/
+
+-- 
+Regards,
+
+Laurent Pinchart
