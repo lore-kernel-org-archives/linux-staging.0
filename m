@@ -1,90 +1,88 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4443FC3
-	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 21:38:28 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id u4so462175qta.2
-        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 14:38:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1363FC3
+	for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 22:22:30 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id u16so648035wrn.5
+        for <linux-staging@lists.linux.dev>; Tue, 14 Sep 2021 15:22:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gTyzltWgTFXOPjw+JtVdJBDzeHI6HlS3kPelko2mAhw=;
-        b=pTJXXzRDKNPU9M1obXdrsuGlbMwi0taGqkvHnjZmaU4JR8i2I/61GJlKgJl73KlWAl
-         1tJeDR25y7tSKG2u7mIL/9kaEgY11SGN/Y/3Orpbt3heF0j5nu7n5BoHanImH0Bf7sFI
-         BhiiuTQytiILqQsx+dj9HwGu4OjxuchYWvsmZWvdpZOO4K8eoxP3UF9ci2Rvl6nIU8+t
-         rFP3s1csAXONWuyqUE+/blK9iUExireE6XvtJkCZTSgsBO5OQuOnWMY3PANTm/919Ytf
-         pAC3048sHWVfZE5D7bqZo4VCtGhVNsExZgtXqoxHEw9pS5dQz3FOryzx9bYE7toAT+os
-         gbmw==
+        d=philpotter-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9miw9SxWD4u0MzKWwOg5JNvsX0BNeRBeHfRb+p9jelo=;
+        b=kxU9zo4bB3SNnuVhnb9/SuNygbOih4SJg2h89xELrhbMHYuAjSXDklDxEQOxGAcr8T
+         RXn0JhJtIPIv6RMUMmW/aQjaLwyFRt7MBlK2xlJkWdYZfeKdGtq7CoAhw3iTmNi5gC4F
+         7+H95ozTYtjb2vAWufgiY1Ug9p5O3YFPZ+ftCd+w4QrWcbY4KIv8o0Z0rorun2NP4bMS
+         zG6nuUakNwhVeRynoPAzLxiZoQYYxjOMv+BPRIjwIs6N1KxNloTo/0xxU+iCcJ80HHCT
+         ZG/TsL+kcKhEBITH/dEy/JLaarEXKtKteLGDcJIA8SCHX6sAlImib98GoSknoCFA6mMj
+         k+4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gTyzltWgTFXOPjw+JtVdJBDzeHI6HlS3kPelko2mAhw=;
-        b=dZqNnVPUuXvCh6QJW6uY1b/jRfDYceUJovoZl3ibJ3HlF+XU0UGWjl5Xa9eBhLMrnV
-         tCaCFMfoayNqCJ7kGSQLdUQPnqhghchU093WDKH/PS6KRiIRTRkP+vyBU514IJV66TBO
-         mwQUNl5Pin0gy9cZX40xVyqV8lanLb5UiBWX7LIMXUc7ezB19sL84gOyQl4ApmRK55ge
-         i+h73hxdzVYBXKrg17OvYaXAUd++HtfsROsY3QOZDrOBCq1ZywwF+Xvhmc71ON2H/fAv
-         z0Hdehu7UQoAOwM/3UjcI+yVI5WkUaB/OGTccU9L4Y6wU9uZlct2S+TiGuOHtnguCJsV
-         bn3g==
-X-Gm-Message-State: AOAM532Q03PqSUc2plTLkJaJkprxXym9TGIe99/J/VkuI6gULjFkfyH3
-	OLuVn5cVb0VWj3NCb43akzKRb60YemFPuQ==
-X-Google-Smtp-Source: ABdhPJyWMHfuCic8pX9ljyiNAr9gMqISRMOcByncvz5LKp6v6+PdH7vYTqxTcP1pVbEqgYtrKinMUw==
-X-Received: by 2002:ac8:4905:: with SMTP id e5mr6898010qtq.415.1631655507126;
-        Tue, 14 Sep 2021 14:38:27 -0700 (PDT)
-Received: from localhost.localdomain ([191.84.239.65])
-        by smtp.gmail.com with ESMTPSA id o7sm6716611qtw.87.2021.09.14.14.38.24
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9miw9SxWD4u0MzKWwOg5JNvsX0BNeRBeHfRb+p9jelo=;
+        b=Vl9qcSTvuh1Ezk+UwOwvzxMtyYKr+UgsssBTy5HShPcoyhACCG/8IHvtjb9FbepJvk
+         B3YxW4EZYxGNr/ZPSZAfymPNM/PZhGHQXK3s0F9aBrQJrvkqHmMztaBA0Vh9Ghd6gbAw
+         h8mCq/0443tSSArIDnT3Wo32LMi1GkwfED8igOoZuWbzycWhGGNraSuSl0U/50CGzpqR
+         CdImF0/JKRHBcQperlo8UfYP0nk6zIbuLqOZvkJ6Gt9l9qeF/MUNKoSf2hNw/AsEF7fz
+         NvnP8j++nlNAAWyS4zUd+oRvCxOeWVTzjUhroMV8blVNCk/of8u//Ig8sumMtWarlCID
+         7iqw==
+X-Gm-Message-State: AOAM5310xJVTucMGXAnwnCy0qI6pz25Ce6a0Fo1JbTwEvatPwsa43toR
+	uWZO/38LSTbFAUxEKUJho9hbAA==
+X-Google-Smtp-Source: ABdhPJz/EPJVQ00Dz/FRmjo9aidF8nvyBR0G6x7XpAg7VIfv950GLcNFFMZjEAzut3+gF2d7BXJF8w==
+X-Received: by 2002:adf:80eb:: with SMTP id 98mr1459440wrl.348.1631658149357;
+        Tue, 14 Sep 2021 15:22:29 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id h15sm11271408wrc.19.2021.09.14.15.22.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Sep 2021 14:38:26 -0700 (PDT)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	nsaenz@kernel.org,
-	stefan.wahren@i2se.com,
-	arnd@arndb.de,
-	dan.carpenter@oracle.com,
-	ojaswin98@gmail.com,
-	amarjargal16@gmail.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: [PATCH 8/8] staging: vchiq_arm: use __func__ to get function name in debug message
-Date: Tue, 14 Sep 2021 18:35:40 -0300
-Message-Id: <20210914213532.396654-8-gascoar@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210914213532.396654-1-gascoar@gmail.com>
-References: <20210914213532.396654-1-gascoar@gmail.com>
+        Tue, 14 Sep 2021 15:22:28 -0700 (PDT)
+Date: Tue, 14 Sep 2021 23:22:26 +0100
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, martin@kaiser.cx,
+	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] staging: r8188eu: remove unused fields from struct
+ hal_data_8188e
+Message-ID: <YUEgoipiosdhiXdq@equinox>
+References: <20210914121352.26052-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210914121352.26052-1-straube.linux@gmail.com>
 
-Avoid hardcoded function name using "%s", __func__. This prevents
-potential naming conflict if the function is eventually renamed.
+On Tue, Sep 14, 2021 at 02:13:48PM +0200, Michael Straube wrote:
+> This series removes some unused fields from struct hal_data_8188eu.
+> 
+> Tested on x86_64 with Inter-Tech DMG-02.
+> 
+> Michael Straube (4):
+>   staging: r8188eu: remove unused macros from rtl8188e_hal.h
+>   staging: r8188eu: remove write-only fields from struct hal_data_8188e
+>   staging: r8188eu: remove unused enums from rtl8288e_hal.h
+>   staging: r8188eu: remove unused field from struct hal_data_8188e
+> 
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  5 -----
+>  .../staging/r8188eu/include/rtl8188e_hal.h    | 22 -------------------
+>  2 files changed, 27 deletions(-)
+> 
+> -- 
+> 2.33.0
+> 
 
-Reported by checkpatch.pl
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Dear Michael,
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 72d9a6e37ae9..2d498fb0d19f 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1025,7 +1025,7 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
- 			spin_unlock(&msg_queue_spinlock);
- 			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
--			vchiq_log_trace(vchiq_arm_log_level, "service_callback - msg queue full");
-+			vchiq_log_trace(vchiq_arm_log_level, "%s - msg queue full", __func__);
- 			/*
- 			 * If there is no MESSAGE_AVAILABLE in the completion
- 			 * queue, add one
--- 
-2.33.0
+Looks good, built and tested here and working fine - as you say though
+these are removals of unused code/properties so I was expecting it to
+work anyway :-)
 
+One small thing to change though: the subject line of PATCH 3/4 should
+refer to rtl8188e_hal.h, rather than rtl8288e_hal.h.
+
+Many thanks,
+Phil
