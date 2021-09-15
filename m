@@ -1,41 +1,41 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CA12FB2
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 20:19:06 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id b64so5002987qkg.0
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 13:19:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7E83FC9
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 20:19:09 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id bk29so4903328qkb.8
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 13:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=b700IZOvcmDVrq+0HZ+RP1WwJQWxcExsUcbv+nvnXKY=;
-        b=qvHmIw3rsiOmJNvQnovoM0eSxf60ZOF3NN7bXJBhMKTXA5AZMTxHsB2LVjXld7utC9
-         AhyY9FxPd9Ug9poqLYuFD9UxFZjFqBjtuUMxAF5Vixoq9VZKDOolaWEKJDTjvDw0wEG9
-         zGLALbltQ63z8cHWnCD86kXsj++MFG7cuHNBOm+KC17g2fvCp3fdaL0bnWJPqpTkJeyc
-         dz9BNi1qdEblD43b4H5QgQ3ugJD7U9aBdczHMi79wgNg+5W5ugDf8isf8QjsLz/cUV9k
-         ODxCDfYCxEBQqQWumFCo5xWpd0ghL4ANHajmOQIu8/GkCROwbw7auSVvqsWwDJ8b+S0A
-         Wisg==
+        bh=eNeXjhvCGZPX2nOcWVH9hj3paV16QHjNZaxjtD37JKc=;
+        b=g3OY89RCjR/ZGNoaOqhwVZXTsShvf+4AgqRiex9BxVvvDDGOxenuubTn8Mm0zFpxlP
+         vhjhH6r6IMvoDpkKeOD7854wV7ZjqnRes5liPmP0Z7eREmGwaB6v3dauUdBmRCy74rVg
+         uqjYewRfe/6Gg1DF4qqpH3cjb3p3QMpMgZEtMkEGQxvxHgDM8NzcLelILaSg+NAxJitD
+         JsfxtuD/hreiPf0fn96PTFzV0kpbqEk9e/xz/evXzHjJiq4S87rqBTUMArzSh1EmTW8G
+         1/29JD7LhFCTx6EdMfxsaBd1OSCpY1QNMm5VhxyQetbHlPlR0gm2SaF34N+/ORufHfm5
+         Px9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=b700IZOvcmDVrq+0HZ+RP1WwJQWxcExsUcbv+nvnXKY=;
-        b=GakVWcVTunfByxvM0SizOmVO0a79rp+2AudJgT/uqCwsFO2F7bnZuyKV2K97Pm8ere
-         jlt0PC8BeRDm+36WlFks9huIPJ8XHlK7K/aL8Ho43p4RwDlegvCJ+b/KXxkts7F3xGh3
-         zAuC3dEq/jp1pTUVxg86l00XLmTuZVjBLb8gRYXe9zP2YmiWPECyZRV44km0e5OazWIQ
-         zQO44sN38EtDbnceFYUYjnu7xrgQuaMZGkpDDp4EkCry7xSDsUY2eTJELx3Miepv2/XP
-         /QJqJlfOeNGQOM6jjwKVVu85390APcAw5LXGVP7Wp/8/J9XsfzCi01f+R2ybMWG967iB
-         n/Ag==
-X-Gm-Message-State: AOAM530zPTbFewHrqLoeP8I/wzuthFWWDb0rHKM6phc71YPmcVgA3O6+
-	0wqAFp3Pz9Ni/igaj0COCGXr/B0KCNfKag==
-X-Google-Smtp-Source: ABdhPJzmRHxWO920nngdRsWvz7XJcu2fOsLeeXM1AJ5dnkZrzjyb14Hm86NHvlwr1RDYeC+Xu1I+uw==
-X-Received: by 2002:a05:620a:bc5:: with SMTP id s5mr1771242qki.47.1631737145479;
-        Wed, 15 Sep 2021 13:19:05 -0700 (PDT)
+        bh=eNeXjhvCGZPX2nOcWVH9hj3paV16QHjNZaxjtD37JKc=;
+        b=c2nE3Y/0EnCRa6k/ta7Cu4j6H+r87r5ZA9E3I4Ixytf5/gSSrXfmNJIYNBJCaP8GpO
+         9eGEhVBrVt3RXsSfW0bU1UbYAaaZqtRDr9ceJm6W8Tl/MA4CVUyin0a/copEIQUf40cI
+         v4tbODl91m2FiW9er/dJ7p1aqZRPzpinGvgYyKAu/NA4iSsYKRs+2VHJy6d1cscT8+NM
+         y6ywBNBa4HOrgTKaHGKUqyyUJZX2BCPc17+jS6zV4noEwU7SHY3VT/IfrMz4w9dsdSey
+         T7IJdz0JmwYN3LhI8yfQqM4qOYyqHTkTmUPk6OyYgnIhbAV12+x61T57eNNYXegw+OSn
+         xTgA==
+X-Gm-Message-State: AOAM532R7uHRRieL6ji/bnuqJ93e8RUlm54vy99s0H9tpj/VQXXZJ7Ej
+	reKKX6ssMGijCg/x+5ZpP3lxEj3azaIIAA==
+X-Google-Smtp-Source: ABdhPJyanF71gCbC8J2WEmeT+/Yhmt/G/LTPzMgphfSx8n8Wl1RiJa07g2Q3QxjqOURzIhVZPbh41Q==
+X-Received: by 2002:a05:620a:129c:: with SMTP id w28mr1754188qki.359.1631737148148;
+        Wed, 15 Sep 2021 13:19:08 -0700 (PDT)
 Received: from debianG.lan ([181.166.206.110])
-        by smtp.gmail.com with ESMTPSA id g8sm752834qkm.25.2021.09.15.13.19.02
+        by smtp.gmail.com with ESMTPSA id g8sm752834qkm.25.2021.09.15.13.19.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 13:19:05 -0700 (PDT)
+        Wed, 15 Sep 2021 13:19:07 -0700 (PDT)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -50,9 +50,9 @@ Cc: gregkh@linuxfoundation.org,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH 4/7] staging: vchiq_arm: cleanup blank lines
-Date: Wed, 15 Sep 2021 17:18:21 -0300
-Message-Id: <20210915201824.413202-4-gascoar@gmail.com>
+Subject: [PATCH 5/7] staging: vchiq_arm: fix quoted strings split across lines
+Date: Wed, 15 Sep 2021 17:18:22 -0300
+Message-Id: <20210915201824.413202-5-gascoar@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210915201824.413202-1-gascoar@gmail.com>
 References: <20210915201824.413202-1-gascoar@gmail.com>
@@ -64,36 +64,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary blank lines after open braces and before close
-braces.
+Quoted strings should not be split across lines. As put it in
+Documentation/process/coding-style.rst: "never break user-visible
+strings such as printk messages because that breaks the ability to grep
+for them."
 
 Reported by checkpatch.pl
 
 Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 --
- 1 file changed, 2 deletions(-)
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c    | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 9464a4777ff6..778540faaa1c 100644
+index 778540faaa1c..3225f0738ef9 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1218,7 +1218,6 @@ int vchiq_dump_platform_service_state(void *dump_context,
- struct vchiq_state *
- vchiq_get_state(void)
- {
--
- 	if (!g_state.remote)
- 		pr_err("%s: g_state.remote == NULL\n", __func__);
- 	else if (g_state.remote->initialised != 1)
-@@ -1339,7 +1338,6 @@ vchiq_arm_init_state(struct vchiq_state *state,
+@@ -1613,9 +1613,8 @@ vchiq_dump_service_use_state(struct vchiq_state *state)
+ 	read_unlock_bh(&arm_state->susp_res_lock);
  
- 		arm_state->state = state;
- 		arm_state->first_connect = 0;
--
- 	}
- }
+ 	if (only_nonzero)
+-		vchiq_log_warning(vchiq_susp_log_level, "Too many active "
+-			"services (%d).  Only dumping up to first %d services "
+-			"with non-zero use-count", active_services, found);
++		vchiq_log_warning(vchiq_susp_log_level, "Too many active services (%d). Only dumping up to first %d services with non-zero use-count",
++				  active_services, found);
  
+ 	for (i = 0; i < found; i++) {
+ 		vchiq_log_warning(vchiq_susp_log_level, "----- %c%c%c%c:%d service count %d %s",
 -- 
 2.33.0
 
