@@ -1,115 +1,114 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668073FD2
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 14:20:02 +0000 (UTC)
-Received: from mail-wm1-f44.google.com ([209.85.128.44]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MeCd5-1n0g471NHL-00bIG2 for <linux-staging@lists.linux.dev>; Wed, 15 Sep
- 2021 16:20:00 +0200
-Received: by mail-wm1-f44.google.com with SMTP id k5-20020a05600c1c8500b002f76c42214bso4944014wms.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 07:19:59 -0700 (PDT)
-X-Gm-Message-State: AOAM530XePu+l9eT0uFPDaEbO0SVVaaCWec/78Hw9h9dM5Z+nitiFvuc
-	pj2gZ+0arembua8MgGGs9RhSWt7M6KpkYaaq3Co=
-X-Google-Smtp-Source: ABdhPJz8J4pJD+afwfweySjUuRBGa8LE2pnN/Ho6Oq2xiKUYXAx1VWdT2VBNYglVJPI9KXcGv93s3eNUwo2NtweqBfs=
-X-Received: by 2002:a05:600c:896:: with SMTP id l22mr4757847wmp.173.1631715599598;
- Wed, 15 Sep 2021 07:19:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5CF3FC5
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 14:59:08 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id c22so4716714edn.12
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 07:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LUyNTvwye+kPafaOnI2efXLTbx8D91gxZhFPaGgBa+k=;
+        b=ain0M3hd5IPb69qG/03ea/REqMNY4Kp9RDkBg6Z4d9hYXfrWI2kFqsARfTjr0wCoVO
+         xmiK20FF7bUui0ZXn5Xxw+UqPj514FqfBIP/C7k9nYOSIh0Pk3mjBBD6/6Qk9wRYPutM
+         V9S8Au1toYSQCArfKQEEPr6AGJ9CARGPCpGQ5v2r4hV9u/0ddemK1sC4fAjEA+TO58Tx
+         OoM/soU5y5zHD4x3xQR5HR4MUgA8l7q75c52k6n5geeUMpZhaC2fYwEboTFZkO6mh4ud
+         ebQMAD/WjemqHpAmzaWgrNlecBjzr+EtivaD5VOz/h746n60/iMkQ1X3h2QteI047XTX
+         QQFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LUyNTvwye+kPafaOnI2efXLTbx8D91gxZhFPaGgBa+k=;
+        b=KFZGUcI07y3zabOo9npP3A+4xI2KW1QQo1JGNOlrUGmECUKag0lTLIpbxa1HeM+ymA
+         wIs3ahrtjr2tRV7KFy5gHAvln4VKviFfwQHZhEl00IcTqX6PJjlUzDaBOyDxpo+zu1xw
+         Rf58V4bSWL6F7/CMEX8KLzK+KKoEzI5aXHyMiFvdoYbPxYFW1G8YZoKzMbJIVuAeTpf4
+         TBLWuQXDvftVgvhF1UPqxvvnJT5WyOYty45eJuWDFiFPRf/4gp/pVEMuIVsIY4HEBvjM
+         Lg2UoNRlTgx/j/lVhcGfmT4T9Yoebz4GmwdsnKz5gxhhoM/5OgNVoGZUycdwfcaSjrq+
+         QAOw==
+X-Gm-Message-State: AOAM532Lk2aFxgkVhxs8MHMP2ErW1GXMduusJo/ADaETguEzRIDH5E1y
+	P7l8rFN1wD0JmNjTArVfygw=
+X-Google-Smtp-Source: ABdhPJxMLnU3ZIJKNIZnhw9R15iaT5x3M37FMGTazy54fNU+vcmFffcZJ/v4fKVjDmfrZl6xoDNOHg==
+X-Received: by 2002:a05:6402:42d5:: with SMTP id i21mr490103edc.14.1631717946682;
+        Wed, 15 Sep 2021 07:59:06 -0700 (PDT)
+Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
+        by smtp.gmail.com with ESMTPSA id la17sm90688ejb.80.2021.09.15.07.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Sep 2021 07:59:06 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Philip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>
+Subject: Re: [PATCH v5 15/19] staging: r8188eu: hal: Clean up usbctrl_vendorreq()
+Date: Wed, 15 Sep 2021 16:59:03 +0200
+Message-ID: <3504293.VdliR8Xgxp@localhost.localdomain>
+In-Reply-To: <20210915135301.GF2088@kadam>
+References: <20210915124149.27543-1-fmdefrancesco@gmail.com> <20210915124149.27543-16-fmdefrancesco@gmail.com> <20210915135301.GF2088@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210914213532.396654-1-gascoar@gmail.com> <260b38b8-6f3f-f6cc-0388-09a269ead507@i2se.com>
- <d09502f2-84d2-839f-1350-ae7f248e5981@raspberrypi.com>
-In-Reply-To: <d09502f2-84d2-839f-1350-ae7f248e5981@raspberrypi.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 15 Sep 2021 16:19:43 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3HGm1cPo4sW9fOY4E8AN8yAq3tevXxU5m8bmtmsU8WKw@mail.gmail.com>
-Message-ID: <CAK8P3a3HGm1cPo4sW9fOY4E8AN8yAq3tevXxU5m8bmtmsU8WKw@mail.gmail.com>
-Subject: Re: [PATCH 1/8] staging: vchiq_arm: replace sleep() with usleep_range()
-To: Phil Elwell <phil@raspberrypi.com>
-Cc: Stefan Wahren <stefan.wahren@i2se.com>, Gaston Gonzalez <gascoar@gmail.com>, 
-	linux-staging@lists.linux.dev, gregkh <gregkh@linuxfoundation.org>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Dan Carpenter <dan.carpenter@oracle.com>, ojaswin98@gmail.com, 
-	Amarjargal Gundjalam <amarjargal16@gmail.com>, 
-	"moderated list:BROADCOM BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:sIEfIE7Gnk3aKfR5qC2Jie8MhH4JhL6QzeY6TsEHch0cjkRphK0
- o10RETQzs3f1odTHaKAjuJwMFqdvqwLPQdZJhFi9qEWo/pWeBRdi81WcDrDQriEsIVRtu8l
- unOJ0lF9n7lKC6AM+WLxgR8eyExDmTlq6kvat6KG/SEfRYxZoWd44R2jl7ki5k3j8oWjP+G
- 9/hvwYpY/Ihq3wJ4J2bdw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C2lxkHMm7GA=:5Xbfm6n1KxSJ+X4L5yXF7I
- 6P4gXT/NcNB6BBBZPJhO40oh6IMGkN5QcaocJgSzCv+AjfH25fmCxXiM/ams6gT5hqho0xDUs
- xq3HiIcqOUla+ioyLUyALFabQ5h7tuPnyqEowD/6spmdyEkwr3zHhhnPMrRnoEg97NYVGtE9/
- u80RKeVFyqXqNv41PO/mwOZpmVO7AU7ZfRRDwLNR+7QiwrXe13nyNwKWhsK4I4YeNUTIiCjCB
- LJuc8g2O4CYNVJBQ5ob28eYC0zxSzD10SCTQsbYQ5G8uP9P59XeUvKvMc6hN7q01x9Kpt0wjG
- D1bJHCbi3ROXIq7MD8Dk9/XbTIUtn0SYhl05390h68X6FAhRTVpH/oRWLwaloyNEXsxURstEr
- 1mL8Va4hb/RAKBPlyvxZLYOfGkygrI9ARgs3XPhrnZkodM9lXM/lR5IJ/ksje4+yPwktKvKmt
- Z1gW1VKwYzoMmokjWeGlFN2dItEvLX0CGJMa1fOVmq7HlmoZxO5Fs1yeApFFShZMk3vc4wa7G
- 0hGfLmLxRO04pYQ1XBqmoAQ8C2t4EPxM1IYM57DLAfnYTAPB4fu+MLeGEYHFJl0eIfrVALBUQ
- sphIUbToLDZK5y1IBckZefuPbxCJJf+nW09CKjY8EEp4uehanyXHhocQA1POB8GCyYHYoX7SO
- JX6gOu4USZLFpwVrwDXObbShEttqFzU4d6hdhUciH0MFVYcGhvRnv5WsgQ40eVm6h5KOJYMBm
- ZiJB0yrf5kfQypF7odRigUkyHGcdD7H+25DBLOHy65b4YJgi9sLVP1ZEKr4EXQ5kgPyXwXJOt
- RhwmU3/FsB4na7nKtYOF85nqPIQEtlaFGDaw1lBX8TZf3Z8g9XjbIGNLVqus+U7TltH1yZMLW
- 8I4cnpxm4S0TAKi4u3XQ==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Sep 15, 2021 at 10:06 AM Phil Elwell <phil@raspberrypi.com> wrote:
->
-> Hi Stefan,
->
-> On 15/09/2021 06:21, Stefan Wahren wrote:
-> > Hi,
+On Wednesday, September 15, 2021 3:53:01 PM CEST Dan Carpenter wrote:
+> On Wed, Sep 15, 2021 at 02:41:45PM +0200, Fabio M. De Francesco wrote:
+> > Clean up usbctrl_vendoreq () in usb_ops_linux.c. Eventually this function
+> > will be deleted but some of the code will be reused later. This cleanup
+> > makes code reuse easier.
 > >
-> > Am 14.09.21 um 23:35 schrieb Gaston Gonzalez:
-> >> usleep_range() should be used instead of sleep() when sleepings range
-> >> from 10 us to 20 ms, [1].
-> >>
-> >> Reported by checkpatch.pl
-> >>
-> >> [1] Documentation/timers/timers-howto.txt
-> >> ---
-> >>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
-> >>   1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> >> index b25369a13452..0214ae37e01f 100644
-> >> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> >> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> >> @@ -824,7 +824,7 @@ vchiq_bulk_transmit(unsigned int handle, const void *data, unsigned int size,
-> >>              if (status != VCHIQ_RETRY)
-> >>                      break;
-> >>
-> >> -            msleep(1);
-> >> +            usleep_range(1000, 1100);
-> >
-> > from my understanding the usage of usleep_range() and hrtimers isn't
-> > necessary here. The intention is to sleep a little bit and not "exactly"
-> > 1 ms.
-> >
-> > @Phil Elwell: what is your opinion?
->
-> Exactly - the aim is just to stop it spinning.
+> Thanks for removing the URL.  This commit message is no longer bad to
+> the point where it has to be redone but it's still not great.
+> 
+> I explicitly told you to leave the irrelevant information out.  I'm
+> trying to help you and it's frustrating that you're not listening.  I
+> wish that you had just copy and pasted the commit message which I sent.
 
-This is usually a sign for something else being wrong in the thing it's
-waiting for. I can see multiple 'return VCHIQ_RETRY' statements in
-vchiq_bulk_transfer(), however these all happen when the task
-has received a signal and wait_for_completion_interruptible()
-or mutex_lock_killable() has returned an error.
+I'm sorry, seriously. It's hard to listen carefully when I need to do my 
+*real* work while trying my best to contribute to the kernel. Sometimes I'm 
+so tired that I forget something important or what it is said by reviewers. I 
+know that this is not a good excuse, anyway please don't ever think that I 
+don't mind of the time you spend on reviews and writing suggestions. 
 
-I don't see why one of them would return on any signal and the other
-one only fatal signals, as you usually want those conditions to be the
-same, but in either case, the loop is broken because as soon as
-you get a signal, those interfaces will keep returning the same error
-and you can never break out of the loop any more.
+> This relates the discussion we had about reviewing patches one at a time
+> in the order they arrive.  Every patch should be self contained.  It
+> should not refer to the past except in the case of explaining the Fixes
+> tag and it should not refer to the future except in the case where it
+> needs to excuse adding unused infrastructure.  Reviewing is stateless.
+> We don't want to know about your plans.
+> 
+> On the other hand, the commit message doesn't list the changes the
+> commit makes as part of the clean up process.  That would have been
+> helpful information for me as a reviewer.
+> 
+> *Sigh*  Whatever...  I would have allowed this commit message but there
+> is a bug in the code.
+> 
+> > +				memcpy(data, io_buf,  len);
+> > +		} else {
+> > +			/* errors */
+> >  			if (status < 0) {
+> > -				if (status == (-ESHUTDOWN) || 
+status == -ENODEV) {
+> > +				if (status == (-ESHUTDOWN || -
+ENODEV)) {
+> 
+> This is a bug so you'll have to redo the patch.
 
-I don't know how to properly fix it, but it's clear that vchiq_bulk_transmit()
-needs to propagate the -EINTR or -ERESTSTARTSYS back to user space
-to let the calling task handle the signal before retrying.
+This is the proof of what I was trying to convey with the words above. I 
+perfectly knew, since days, that this line is wrong but for some reason that 
+I really cannot understand why it's still there.
 
-        Arnd
+Thank you very much,
+
+Fabio
+
+> regards,
+> dan carpenter
+> 
+
+
+
+
