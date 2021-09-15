@@ -1,41 +1,41 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2F53FD4
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 09:02:21 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id b21-20020a1c8015000000b003049690d882so4165862wmd.5
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 02:02:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4210D3FC5
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 09:02:22 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id i3so1543039wmq.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 02:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hs3mRcTeREmOfSm39kN+QtHRavsM4VI0RyJdbjV285Q=;
-        b=DG8M9J6xuHLtr/nbqPvulc3q/HwyojLa2iMboMhpRdjCHJDbu6oVsNDpZ2v4zKYmX/
-         mdlOrnj0RA5on2WbdG2k+bmGONRXzvEcaLm+ynrTFqqet29Rn/5voWZl8QC3ujQz5wa1
-         b3r++NHQLRYXHQ1bcVbKs1HqNvBmTLxulxa3gMZfuxytCJL6kqvOb8QS9xTx1qiw49QO
-         9ziKcozVDI8pTDkCOx/o5EApwDPlnybikC22aP0gMaaK29tvtfvjyyy7rkwO0xhuGCuc
-         6njTXp8sWJiuokbao5t0ROFqDCKtkRFFwqJHM8yU3qs1++5aZinYJS+BM9d7np9SbyZ0
-         L+yQ==
+        bh=OSOSsriq+ikZA4mrzrbiyfyFu2Bj3tXb4d5edmqNKB4=;
+        b=BsQk5m21j2misJqF/GKeuIt6tbAX366ctFPEqmK0ynxh/LlC7hozkCFoBYP7lFicIB
+         EJNb6SvhRJfREFgSB4aN4Qid8P+V+dgp6M79seSU0YdAgfMPgw0zghKyoDYNexU1zUri
+         6HQdazENt9XTsQ+wr22CmnA6TXNOkYg/4vP82fUdrl8sk/dlIgFcSZHQyrT7TcCtkkSr
+         plS+Ju90/cJCxc71W4DV/SDAI4scqXYebW32/L4m1CNpbtI9MRcrMbtyTlgul70xThiK
+         h7IgjvM5/4iI4QHwLN2Im8cosP+VgFR0D0WIg0NDMEAZvH8FLuHGVxPp5iKKEXXAtr9t
+         rMYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hs3mRcTeREmOfSm39kN+QtHRavsM4VI0RyJdbjV285Q=;
-        b=lvkaaYWCfFbwV58ifV/gXfp08kfSIRRZ3uCECgtd/n+FBoj+0/n67FQWwC1wYMdFRY
-         9XgR/Yq2k7fZ/qvkL/mcR8mxrQzU51bYePwsSYB/Gh+ctxfiOo9dU3xudO0Uh0YZQO7w
-         t07zynFW+VBemmsvbAMonYwcYAnAwyJES8M/49XiW1EW4mQ+STfg5ri3BNLeyDYj1p5a
-         BKxtvK2KaqCBdF57yjzJIWVRVqEa1R7DtBg0ht563XQ/D0FUqmOdY7pOoYTUPMxjw1e3
-         sb1E09SzrxLCSgJ8vBdGaNbK0AfUV0fyzND6ev4vzA+en7KtwGvD0nR2hFus/mO+FcTC
-         htHg==
-X-Gm-Message-State: AOAM530XdoMzFKMo0HbP1i/QAhaMa4ng3uEp9g0gcZPYQ4Q6xkpp+B7D
-	eH+ynnYYCtv14FNZkIDBfQI=
-X-Google-Smtp-Source: ABdhPJyZzjRch5cHfi/ZGfLYSUbX/tVcd0Dy7jLi5u1ctPlm7I7ZM2P6WKgbWQERmoHUtC6yxpu1hA==
-X-Received: by 2002:a05:600c:26d4:: with SMTP id 20mr3334117wmv.40.1631696539772;
-        Wed, 15 Sep 2021 02:02:19 -0700 (PDT)
+        bh=OSOSsriq+ikZA4mrzrbiyfyFu2Bj3tXb4d5edmqNKB4=;
+        b=x9uBli9VS46SSCzN1VHSuyeJGHKdnuScYMNkvb31DP2ni7Ti3QPwRulW9piujO6KvH
+         L6uENkACaRycWdgDdMakH1TaL3VZfEQMQai9BkaqIYk4unqnk+Bq7Msjjz8ioPfs6IcT
+         CVtYBi8V/Qz3jWcNPtqmHNFihq/99ofc38MpilfKzh9jcE7g/yyzmshosyYm8w9Xa4v6
+         0CFAhN50e1fWZt8Xbze8MON3DuPDeNUMmer2O3v+Alh0NoIDMwa9XK1UYPaTlbBJer60
+         sWdvuxDtz4KEwpT9lFw95uFeHQzPg5e1kjTd+C2lpWOfG4WnTl1VCUmcqNEfwTPL8Ot5
+         eXHw==
+X-Gm-Message-State: AOAM530PKC+tv736SI4pyt1Vad2WcmV3fpEfgU/hRYNtb5qZsZFIDnq3
+	ob8jIxgPW6WR0wLZ2m939AI=
+X-Google-Smtp-Source: ABdhPJxUCe9xdchxwi1Avh3jaJ3oPD+ebF7vl0C0+V6AyCX1T7IIkHRKhornkYVYeNW47auKPqtOow==
+X-Received: by 2002:a7b:c959:: with SMTP id i25mr3263162wml.55.1631696540721;
+        Wed, 15 Sep 2021 02:02:20 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::1db2])
         by smtp.gmail.com with ESMTPSA id n186sm3565530wme.31.2021.09.15.02.02.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 02:02:19 -0700 (PDT)
+        Wed, 15 Sep 2021 02:02:20 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 3/4] staging: r8188eu: remove unused enums from rtl8188e_hal.h
-Date: Wed, 15 Sep 2021 11:01:55 +0200
-Message-Id: <20210915090156.4169-4-straube.linux@gmail.com>
+Subject: [PATCH v2 4/4] staging: r8188eu: remove unused field from struct hal_data_8188e
+Date: Wed, 15 Sep 2021 11:01:56 +0200
+Message-Id: <20210915090156.4169-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210915090156.4169-1-straube.linux@gmail.com>
 References: <20210915090156.4169-1-straube.linux@gmail.com>
@@ -59,40 +59,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After removing MultiFunc and RegulatorMode from struct hal_data_8188e
-the enums rt_multi_func and rt_regulator_mode are unused now, remove
-them.
+Field BluetoothCoexist of struct hal_data_8188e is unused, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/rtl8188e_hal.h | 14 --------------
- 1 file changed, 14 deletions(-)
+ drivers/staging/r8188eu/include/rtl8188e_hal.h | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 7e2feb390416..17913dcc9fbe 100644
+index 17913dcc9fbe..e7e7064dd356 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -207,20 +207,6 @@ struct txpowerinfo24g {
+@@ -289,7 +289,6 @@ struct hal_data_8188e {
+ 	u8	CrystalCap;
+ 	u32	AntennaTxPath;			/*  Antenna path Tx */
+ 	u32	AntennaRxPath;			/*  Antenna path Rx */
+-	u8	BluetoothCoexist;
+ 	u8	ExternalPA;
  
- #define EFUSE_PROTECT_BYTES_BANK	16
- 
--/*  For RTL8723 WiFi/BT/GPS multi-function configuration. */
--enum rt_multi_func {
--	RT_MULTI_FUNC_NONE = 0x00,
--	RT_MULTI_FUNC_WIFI = 0x01,
--	RT_MULTI_FUNC_BT = 0x02,
--	RT_MULTI_FUNC_GPS = 0x04,
--};
--
--/*  For RTL8723 regulator mode. */
--enum rt_regulator_mode {
--	RT_SWITCHING_REGULATOR = 0,
--	RT_LDO_REGULATOR = 1,
--};
--
- struct hal_data_8188e {
- 	struct HAL_VERSION	VersionID;
- 	u16	CustomerID;
+ 	u8	bLedOpenDrain; /* Open-drain support for controlling the LED.*/
 -- 
 2.33.0
 
