@@ -1,53 +1,54 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2F83FC9
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 11:10:16 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id q11so3228714wrr.9
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 04:10:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593973FD2
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 12:42:10 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id h9so5885651ejs.4
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 05:42:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=xIc1TJKHNDEJugEawqGLzpfqg8jZCQtvA5lcl+ms/bs=;
-        b=aNjYYj74+RVXOjZ9dW1QZCH74cAHh2U51k76impL+mU/pwsuC8fe2WH6raDVC23pR2
-         g+8esSPhgsTI5uSEsqPfz8hG8bsnuGQUss0KSlh5a27u7IIbYPDrmAL6eGU1EWx1/e/J
-         toLIeryRlb5Am1/Mrqw716B24yCB0+Aecmxf6WlKf63fWTDbXbuXwxMU3apbk6Pv1LsQ
-         w0gDpPnmpKm0woPsF/p+E9pry91sKpEabMMd75c7xnZPg0PrLfGwgoAl7JyoRB5YgLMt
-         e3SkIyDB3yBOPCBf8GylebP+sui/gTDY+E7mc2IX/Tck3xlqH8AyMnAn7fGVxpjGv64s
-         eWGw==
+        bh=qfLPUTv3Y98OfQk3kQ+WNWuUKVMqNIKrc6gnxKnh8fE=;
+        b=B86wVuGx5nIFDLwmC8pL+9z1ED7zEa4/usZZoDjg47TPUSuAdtMjopsaUUB8HjuEtA
+         HWuyrfnzGeDcfyyI2rLW2egC+NHgmOKX4loaluSqEz4jkd8pyMYsjI1ChleGAlEuswLh
+         MuDazYMZXUCBCEzvZetZcacfJWKEJvZqX4RhqlLGvowL71vhw4s9WBBWtKl3O9QjzUOC
+         aaTbc0kul46CHj551lD6fhh+q9uzovsPaWmfZdDGq1cMP1WWc0YxbPj10Th9tKTfQADm
+         F+zGw0iNw2CxfGj8IcMZOB+BeyLZI3+0Ew0XU6YQ4AvvZfn+yQmX9PQN97/zGjiJOZin
+         zpHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=xIc1TJKHNDEJugEawqGLzpfqg8jZCQtvA5lcl+ms/bs=;
-        b=lXaHVPcPOdFwtOj6hUXYjLkWXZuUvziWWnynMkJ0rnBmTspfIlFoTBsVl+uJjfnKvT
-         s4XpyhzhRImd6e2V9l3v6RaGhGGWod3UlSwwXam8BZ1qD2Vy5COtlx6rjVg4+VMojJoe
-         BJD5m3XxgMymxTfm4V9weSX3oyWw8xkZ/TMYoAZupG86JWBE/ttA7uIppDJr/hnV0MLW
-         bjiDbBf3okvC0ttwD1tJrHoyNdbYjRlgBXDEYkYOClps1TMR7WXjcXhDT1YeyOtrke3Q
-         v++T5QBB9RTU5qnOXIvHdiIDg6EeKLk4bP26bBLjsK/Mc+wdaS+DHPIXlCl6CFM2X3V4
-         +/pw==
-X-Gm-Message-State: AOAM531IPWhqtQYI76JT+yZJg+2YmJ9OP3QTYW3zK3Ssn4/TYIsQ0OFR
-	Mq8iXmpbhif1nZrRMaZ4I1M=
-X-Google-Smtp-Source: ABdhPJxDjtNyLzCmH1TUvW34PN2loF452WiHb4Z4GMGhu8CATYErY0AG+BqWisUW7g+cT7v7a8Pcqw==
-X-Received: by 2002:adf:e108:: with SMTP id t8mr4343594wrz.84.1631704214902;
-        Wed, 15 Sep 2021 04:10:14 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::1db2])
-        by smtp.gmail.com with ESMTPSA id c23sm3955702wmb.37.2021.09.15.04.10.13
+        bh=qfLPUTv3Y98OfQk3kQ+WNWuUKVMqNIKrc6gnxKnh8fE=;
+        b=T6wt6P+Efidqm1w3+TXt7m2FSlkLW9ZHDfoUIiu3R0iyRi9evVeqCuWbBYlOPl+1v3
+         2fRp1h4LD54jve2Q/fYTTchWUeENdKTbb9BO57y/OpfA+SjdW9MgMNETt6T75diyO8Bq
+         n0M1yEOQw2A8Q3gMLuSzbLOvsFrdtoc7m8bWhpIa133OosBxb7/IgrplGoO9hjch88zH
+         zYkjaPJ9h2odZl2DrByb/mgl1WfuxyJCwzAmDlzzrvtM1uQYO0kkpnEMhjxwNm8Z7H8d
+         OYTEiS9PMKtkQAdiSbNghsrhReYB54V9w5EA9jAELHSqzBv3LAyI4/8vn6sDBtWjvkyO
+         8vMA==
+X-Gm-Message-State: AOAM533GdfC3QxX4J4Fr/QqH96ZNkMqNVzZ3oV4Ix/DyhKvKHG0lcgQv
+	rE7zxD2Zjr0Hv0aDa2aJ2uU=
+X-Google-Smtp-Source: ABdhPJySQr654wYkbz6C3QB30y1S+tDRi1ogU8sXIKxM1N0Lbm3FSwXykjjGA7sNdI2aiAv2p4JefQ==
+X-Received: by 2002:a17:906:c252:: with SMTP id bl18mr24267164ejb.519.1631709728367;
+        Wed, 15 Sep 2021 05:42:08 -0700 (PDT)
+Received: from localhost.localdomain.it (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
+        by smtp.gmail.com with ESMTPSA id s3sm6394002ejm.49.2021.09.15.05.42.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 04:10:14 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
+        Wed, 15 Sep 2021 05:42:07 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Philip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Skripkin <paskripkin@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove unused enum odm_bt_coexist
-Date: Wed, 15 Sep 2021 13:09:58 +0200
-Message-Id: <20210915110958.17743-1-straube.linux@gmail.com>
+	David Laight <david.Laight@aculab.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v5 00/19] staging: r8188eu: Shorten and simplify calls chain
+Date: Wed, 15 Sep 2021 14:41:30 +0200
+Message-Id: <20210915124149.27543-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -57,31 +58,111 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused enum odm_bt_coexist.
+io_ops abstraction is useless in this driver, since there is only one ops
+registration. Without io_ops we can get rid of indirect calls mess and
+shorten the calls chain.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/include/odm.h | 7 -------
- 1 file changed, 7 deletions(-)
+Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+For this purpose unify the three usb_read8/16/32 into the new
+usb_read(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_read() and use in it the new
+usb_control_msg_recv() API of USB Core.
 
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index c6e876f5d470..4fee0e9e0df3 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -514,13 +514,6 @@ enum odm_mac_phy_mode {
- 	ODM_DMDP	= 2,
- };
- 
--enum odm_bt_coexist {
--	ODM_BT_BUSY		= 1,
--	ODM_BT_ON		= 2,
--	ODM_BT_OFF		= 3,
--	ODM_BT_NONE		= 4,
--};
--
- /*  ODM_CMNINFO_OP_MODE */
- enum odm_operation_mode {
- 	ODM_NO_LINK		= BIT(0),
+Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+For this purpose unify the four usb_write8/16/32/N() into the new
+usb_write(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_write() and use in it the new
+usb_control_msg_send() API of USB Core.
+
+The code with the modifications was thoroughly tested by Pavel Skripkin
+using a TP-Link TL-WN722N v2 / v3 [Realtek RTL8188EUS] and by Fabio M.
+De Francesco using a ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano].
+
+Changelog:
+
+v4->v5:
+        - 1-14:
+                No changes;
+        - 15-16:
+                Fix minor formatting issues and use "Reverse Xmas Tree" style,
+                according to suggestions by David Laight and Dan Carpenter;
+        - 17-18:
+                Pavel Skripkin found logical errors in the checks of the
+                values returned by usb_control_msg_{recv,send}(), so fix them;
+                Dan Carpenter suggested to do error handling before success
+                handling, so change the code accordingly;
+        - 19:
+                Add this patch in order to get rid of the shared buffer in
+                usb_read() and usb_write() and remove this field from struct
+                "dvobj_priv".
+
+v3->v4:
+        - 1-14:
+                Split a patch into fourteen;
+        - 15-16:
+                Add these patches for clean-ups of the code that is going to be
+                reused in 17-18/18;
+        - 17-18:
+                Make some changes according to a first review of Greg
+                Kroah-Hartman; furthermore, remove the unnecessary while loop
+                and a couple of if' test; handle the errors returned by
+                usb_control_msg_recv().
+
+v2->v3:
+        - 1:
+                No changes;
+        - 3:
+                Fix the version number of the patch.
+
+v1->v2:
+        - 1:
+                No changes;
+        - 3:
+                Replace parameter REALTEK_USB_VENQT_READ with REALTEK_USB_VENQT_WRITE
+                in usb_control_msg_send(). More in-depth explanation at
+                https://lore.kernel.org/lkml/2791328.7pjKATJfGa@localhost.localdomain/T/#m1fc1ab2f7c1f463049ad88d5df5bb1b107b37260
+
+v1: https://lore.kernel.org/lkml/20210904150447.14659-1-fmdefrancesco@gmail.com/
+v2: https://lore.kernel.org/lkml/20210904212719.11426-1-fmdefrancesco@gmail.com/
+v3: https://lore.kernel.org/lkml/20210904220048.12822-1-fmdefrancesco@gmail.com/
+v4: https://lore.kernel.org/lkml/20210913181002.16651-1-fmdefrancesco@gmail.com/
+
+Fabio M. De Francesco (4):
+  staging: r8188eu: hal: Clean up usbctrl_vendorreq()
+  staging: r8188eu: hal: Clean up rtw_read*() and rtw_write*()
+  staging: r8188eu: Shorten calls chain of rtw_read8/16/32()
+  staging: r8188eu: Shorten calls chain of rtw_write8/16/32/N()
+
+Pavel Skripkin (15):
+  staging: r8188eu: remove usb_{read,write}_mem
+  staging: r8188eu: remove the helpers of rtw_read8()
+  staging: r8188eu: remove the helpers of rtw_read16()
+  staging: r8188eu: remove the helpers of rtw_read32()
+  staging: r8188eu: remove the helpers of usb_write8
+  staging: r8188eu: remove the helpers of usb_write16
+  staging: r8188eu: remove the helpers of usb_write32
+  staging: r8188eu: remove the helpers of usb_writeN
+  staging: r8188eu: remove the helpers of usb_read_port
+  staging: r8188eu: remove the helpers of usb_write_port
+  staging: r8188eu: remove the helpers of usb_read_port_cancel
+  staging: r8188eu: remove the helpers of usb_write_port_cancel
+  staging: r8188eu: remove core/rtw_io.c
+  staging: remove struct _io_ops
+  staging: r8188eu: remove shared buffer for usb requests
+
+ drivers/staging/r8188eu/Makefile              |   1 -
+ drivers/staging/r8188eu/core/rtw_io.c         | 299 ------------------
+ drivers/staging/r8188eu/hal/usb_halinit.c     |   6 +-
+ drivers/staging/r8188eu/hal/usb_ops_linux.c   | 261 ++++++++-------
+ drivers/staging/r8188eu/include/drv_types.h   |   5 -
+ drivers/staging/r8188eu/include/rtw_io.h      |  89 +-----
+ drivers/staging/r8188eu/include/usb_ops.h     |   2 -
+ .../staging/r8188eu/include/usb_ops_linux.h   |   8 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  37 +--
+ .../staging/r8188eu/os_dep/usb_ops_linux.c    |  20 +-
+ 10 files changed, 166 insertions(+), 562 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/core/rtw_io.c
+
 -- 
 2.33.0
 
