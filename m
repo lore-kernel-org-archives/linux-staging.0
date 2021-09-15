@@ -1,41 +1,41 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39903FC9
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 20:29:32 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id n2-20020a9d6f02000000b0054455dae485so46367otq.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 13:29:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41B92FB2
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 20:29:35 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id r26so5918937oij.2
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 13:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hoVVooistygyhZh4JdyGmVYpdIyp7cTYMGqCLCSTLY0=;
-        b=GLh+YyiPdeP971yf2WMJp6qlI1tEFoeWedmD3j5EJABG3/wl06rNX3hGpliIQbAPJi
-         37nPcYTAMCdNOFefeDyFRRFlPDq7gg9gswDQ08Cam39BZ0e+TX3CTVV2TLMCuthtBfWh
-         bZUVTOd1uwq2kDf3E/quJX/fNZnJLea8FpvSK9VkLUrPOgO1HOwLj5jW6WFms8LS+GAt
-         vvK10OU8oVqiThwTiy7P962tCwFNb+87hGr6yn4kg7OcLSLt0q/f3dnbx3RRTYwDOXKI
-         c8vbb0poNNnYvtbfes5xhGZ+0KfC9jb3xMSFqf0unz8otO8yuEnc10iqlQWAeAKtJAeY
-         2Rlw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ep/byKh0NuVpkH8Herix4A8TT0fTgaV62jYcvRPVYXQ=;
+        b=B0AlQHDVJjoUjcROJnHXZlQlM0RwJAr4Y+2PzuhDaik1A/rJB9fzhBB0vgw0kN0a+M
+         hVixW9kpfT0gjBVHePMa235S18n4tEFjje0WnWVXOkZmZmc8EKGUpnF/0uSBRk8EJGCq
+         Kxbg34OYV851lA6P2B/D1d0dfAGYYcWyQ4EVdxkXH9g+T34bbna7nNLic/W4iJhmrahl
+         AmEiCdUZFJGMQu1CVrMlUNFBmkgGsuVvL+2nC3Jyg0VuQdpALnXyvzgoh41+rgMSt4Og
+         M7qvTDNGp3ZqiPQqqsBPAkvsKrHtrZyaaNWCIPGTUx5tbXFFFLC2ctsHby8KQQgMEZme
+         R3sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hoVVooistygyhZh4JdyGmVYpdIyp7cTYMGqCLCSTLY0=;
-        b=P9OBUGW8DZL3vS5PyZ8gc35jr8lXum8f8k2v4O1q/uLyym8upOLCpR45qV5cyqpQHu
-         8CcgieHg1Pyl0LgLXpGndCMx52qIAdUpgOOKCAGFv/rDfU94HLZ245Tux+sPrpjoMdSa
-         zdHKCPxRQuRsJK33RCkn1zEFYSQMXnGYJe0JpJYuhdllBFs7s1L4+2GBUlaIEdxnSE7t
-         ZzV6XH6/GNkJjqTbCudEaAu6zKz8eY3t4R8EUVF4RkI39kgjixZ13/zQbwKPTVAsC67z
-         wrAVD6PnBQCDJiS2KioURWEcy+aWY1lYHCD+2LdIhfOnmujfIXkci8P49ZPYcxiA5TGs
-         df2w==
-X-Gm-Message-State: AOAM531IvQs5NwnA8yMqeGp+2dUwrYfAVyZw7/K5DPagHBDE8Ferl8Ll
-	gpGWnOwq5vNOycTvE3clhMPZMbIRpQV9UQ==
-X-Google-Smtp-Source: ABdhPJzcrfoUuffYTAAYHUwkorhtRtauEj17pThrWLsC5z1Xi/NCJnQYmOoCOv0J7b6iCpqCzMoopQ==
-X-Received: by 2002:a9d:6094:: with SMTP id m20mr1704121otj.380.1631737771796;
-        Wed, 15 Sep 2021 13:29:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ep/byKh0NuVpkH8Herix4A8TT0fTgaV62jYcvRPVYXQ=;
+        b=H0Hw9O9xByMH6zn3pCpL2VkBo5NCBY/TRZtqKpQlAJpIlyOEX6Ts2BX9vHLyi52hbf
+         YE8K4NTiw0C0KbqUDVczV4qMPYW7mfIpOBFSStf/iR0O2DJNSDKBunYBirjPZcJRKdRk
+         TMdL6rmgWK36SKsbH63ADcvu990uqBRYzlqkcn7tz0g/8SPr08PbRXUa8AYoHDxwLi3R
+         rhudCyglp2VP3NvjMW9fqJQzqpGJKQEDcUGFP5yCZLylbsnUchhvn4rUg3ASj1J2SLXw
+         W+78jGqdUqOkl56qe6807rBHMNVVtjQ/D7gK+htXOlPlwM7EmDXfb5yikDgwGi2uBp7m
+         ibpw==
+X-Gm-Message-State: AOAM530mmKasHMboI5wo9mohBri5mOBlIZYUAi8zGsEWoa/wxSIuRUCw
+	T+vn0sduaTLrUJVtywi7k3bltW3nxw7tGw==
+X-Google-Smtp-Source: ABdhPJy/5z2ic5/GvSkn/yyqMCItDM65BJjpu8uzY7UN6I+FKmb85kh0rfgO6j/91CwXtoLz19oTbA==
+X-Received: by 2002:aca:1917:: with SMTP id l23mr1177025oii.10.1631737774938;
+        Wed, 15 Sep 2021 13:29:34 -0700 (PDT)
 Received: from debianG.lan ([181.166.206.110])
-        by smtp.gmail.com with ESMTPSA id l4sm247584oth.4.2021.09.15.13.29.28
+        by smtp.gmail.com with ESMTPSA id l4sm247584oth.4.2021.09.15.13.29.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 13:29:31 -0700 (PDT)
+        Wed, 15 Sep 2021 13:29:34 -0700 (PDT)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -50,10 +50,12 @@ Cc: gregkh@linuxfoundation.org,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH 1/3] staging: vchiq: remove braces from if block
-Date: Wed, 15 Sep 2021 17:29:14 -0300
-Message-Id: <20210915202916.413914-1-gascoar@gmail.com>
+Subject: [PATCH 2/3] staging: vchiq: add braces to if block
+Date: Wed, 15 Sep 2021 17:29:15 -0300
+Message-Id: <20210915202916.413914-2-gascoar@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210915202916.413914-1-gascoar@gmail.com>
+References: <20210915202916.413914-1-gascoar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,30 +64,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary braces from if block.
+The rule of not using braces in single statement does not apply if only
+one branch of the conditional statement is a single statement. Add
+braces to fix this.
+
+While at it, remove extra blank space after a comment inside the if
+block.
 
 Reported by checkpatch.pl
 
 Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 ---
- .../vc04_services/interface/vchiq_arm/vchiq_connected.c        | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_connected.c  | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-index 83502f5f3a33..f367dbe2bc63 100644
+index f367dbe2bc63..1802fd5e4888 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
-@@ -17,9 +17,8 @@ static   DEFINE_MUTEX(g_connected_mutex);
- /* Function to initialize our lock */
- static void connected_init(void)
- {
--	if (!g_once_init) {
-+	if (!g_once_init)
- 		g_once_init = 1;
--	}
- }
+@@ -34,16 +34,15 @@ void vchiq_add_connected_callback(void (*callback)(void))
+ 	if (mutex_lock_killable(&g_connected_mutex))
+ 		return;
  
- /*
+-	if (g_connected)
++	if (g_connected) {
+ 		/* We're already connected. Call the callback immediately. */
+-
+ 		callback();
+-	else {
+-		if (g_num_deferred_callbacks >= MAX_CALLBACKS)
++	} else {
++		if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
+ 			vchiq_log_error(vchiq_core_log_level,
+ 				"There already %d callback registered - please increase MAX_CALLBACKS",
+ 				g_num_deferred_callbacks);
+-		else {
++		} else {
+ 			g_deferred_callback[g_num_deferred_callbacks] =
+ 				callback;
+ 			g_num_deferred_callbacks++;
 -- 
 2.33.0
 
