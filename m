@@ -1,101 +1,98 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE613FC4
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 08:06:12 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id i23so2436291wrb.2
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 01:06:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8798E3FC3
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 08:56:35 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id d6so2604711wrc.11
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 01:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZE0PeTRh9qfRZGJNwCzqtIG58jlteNMLdoVqfOwsJSc=;
-        b=PiLZA/X9ua4zt13neVQpgP6jN+QDMTGTzbeUs/sHSbBf+dH/4iYMdnQ8XWtx7dF76q
-         zhaWYh1exDJt+ed9kyDp6D75YhjZXgvgiwL5vpaRy2oa8TcvpfvfqKMOqXZSxdn2a9/L
-         clmXSH4OwOJ0iL8ZZG2hBDHa7BgCsvXyG0/8uj8kMmUJIMf1XZ7Zruhg6ycOwm43vcTL
-         rmn4fcAv2g4zu7yTHQsFbItaDImlg/1glSrU1y7WedAvExdsWcfJukJ0uAePMkfQafdL
-         9CohDlXmn6ps2tvAuW7EJlbklXwIA8JCwXzvB6bh3Q97hrB+pTjo9zzjmTI7hwYbLLFp
-         j09w==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=BrOGHGt7cC0oT366jdb+W6ImeT82WbSz/76J3XwKsF8=;
+        b=DL1iZmiMaXVusOOHpuKdsQXBCBI4VyrKd1zr+C9X/hN67XuYWfszjjCoA3b8STPyxf
+         1KxdC7FY4WyAmNn2Kf7ux5WXthSHcuUHuZSUG2VWIjkXSUgSkTrCO1q/3WDdqEbj+gi+
+         QDrwhr27v2YE5V+M0dyM5nFMKQqSH+YOWjp7D0WRzBbefmy2kCVI7UEwZfVH2uMbEnhF
+         bqxFUy+bXbM2QChj1UGfWxKdizLLDe41hVkA00PEy80LaokVx/JG18jk7VAC2Jngfsi7
+         SItcbUMqwoT19jfyHJsWbDBksNxhuN6wzLN+JZc1HVDeXk8nz6ZZIfDHCajMYo2q44GI
+         0sgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=ZE0PeTRh9qfRZGJNwCzqtIG58jlteNMLdoVqfOwsJSc=;
-        b=AIh9D+yYZUb9m7LWQzYGw5xl1SPftyy79KFv3A1fhyXpshZr8DhaxbENXucfh0YRLs
-         JNGvSXezYshkqxiePgE4NjP5kO68EGEkSytd+2y+YD1Zm1f8k3ImPiHuKPi92Q758Nng
-         aCLO/S8y69zpnYaQsfTOJfQK19J3TYnkFqGEcukwpjq8lsXjeB//gDxMTgP1n1N4c5Xe
-         C2GTkqiknPlpdqjp6rj7+JDFxhE5U4UrrQ2C0rW/YrNXRAoCg5SwZ4ajQ51VvKvfZ/Iv
-         FVBPQClSceQWg9qzhUNS4pMBkQ3M+SKM+aZvnEp9TSU/e2Zi07PQSzrgzLbqYnQGGc8d
-         ftJQ==
-X-Gm-Message-State: AOAM5335rFrESV6WlycIj8kOGlAeuZuaQz4laxenkt1HOwGiQ7FaylrO
-	obCUsfaa+8n/jjnKzlKUUW8IQQ==
-X-Google-Smtp-Source: ABdhPJwJ2evMM3o2cbEHd2qfC2Zc9a0Zn5BEoBr1iOPEPLIAfRVXA2v74v/MCXQdflid0JKN7ihvHg==
-X-Received: by 2002:a5d:4a46:: with SMTP id v6mr3451302wrs.262.1631693171268;
-        Wed, 15 Sep 2021 01:06:11 -0700 (PDT)
-Received: from ?IPv6:2a00:1098:3142:14:1538:6132:c93a:c98c? ([2a00:1098:3142:14:1538:6132:c93a:c98c])
-        by smtp.gmail.com with ESMTPSA id j4sm13056800wrt.23.2021.09.15.01.06.09
+        bh=BrOGHGt7cC0oT366jdb+W6ImeT82WbSz/76J3XwKsF8=;
+        b=l7Dthrum1xIlqj6fKT3pX2paGMQmDwRuPEyqwvbpteSBt0IJjathfcI+fK7Tt2F1BC
+         QzYlAC4fdc81KCC6IrNAqRc3S+ZERB+fUntKLKyoQpemJRFwyRXLlLI0xFGoGjAyfq+7
+         kLR91CHwBbhDHaPpQEqGIpDhtERQ1qPO3m1EPzu95zNeyRAkvGWF8B40czWejbgwiQbW
+         GDej4Kqi2YDwTLCROmvkkQ/zhnM8yk57QD932sNCqjNChk2FEDZoUvbzBOzyhkHo5Lwy
+         /9SeAltQtl4w/NMl4NZTPBUUg8/qochs2oUUpDBrAGdskuoLgGK4kUMtfvRtRcJITuQr
+         qywQ==
+X-Gm-Message-State: AOAM532FRW6xSKX/N7RnYv0KSMQwh3br7Dc7gysERmv5Z15H4OFQHyQ9
+	faF0qkNF2lg+uV9msdLa1sA=
+X-Google-Smtp-Source: ABdhPJxkmtWxZER2bPF5Y8q7uwbsEORrfxEp7wPIBWKWuYwEYaVw+XyWIHZcnzLCAKOrW0+FWYCAvg==
+X-Received: by 2002:a5d:63d2:: with SMTP id c18mr3613545wrw.311.1631696193795;
+        Wed, 15 Sep 2021 01:56:33 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::1db2? ([2a02:8108:96c0:3b88::1db2])
+        by smtp.gmail.com with ESMTPSA id u8sm3812049wmq.45.2021.09.15.01.56.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Sep 2021 01:06:10 -0700 (PDT)
-Subject: Re: [PATCH 1/8] staging: vchiq_arm: replace sleep() with
- usleep_range()
-To: Stefan Wahren <stefan.wahren@i2se.com>,
- Gaston Gonzalez <gascoar@gmail.com>, linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, nsaenz@kernel.org, arnd@arndb.de,
- dan.carpenter@oracle.com, ojaswin98@gmail.com, amarjargal16@gmail.com,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-References: <20210914213532.396654-1-gascoar@gmail.com>
- <260b38b8-6f3f-f6cc-0388-09a269ead507@i2se.com>
-From: Phil Elwell <phil@raspberrypi.com>
-Message-ID: <d09502f2-84d2-839f-1350-ae7f248e5981@raspberrypi.com>
-Date: Wed, 15 Sep 2021 09:06:09 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        Wed, 15 Sep 2021 01:56:33 -0700 (PDT)
+Message-ID: <70042ac9-b114-9447-e25a-b5f75496ee63@gmail.com>
+Date: Wed, 15 Sep 2021 10:56:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <260b38b8-6f3f-f6cc-0388-09a269ead507@i2se.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH 0/4] staging: r8188eu: remove unused fields from struct
+ hal_data_8188e
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net, martin@kaiser.cx,
+ fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210914121352.26052-1-straube.linux@gmail.com>
+ <YUEgoipiosdhiXdq@equinox>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YUEgoipiosdhiXdq@equinox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Stefan,
-
-On 15/09/2021 06:21, Stefan Wahren wrote:
-> Hi,
-> 
-> Am 14.09.21 um 23:35 schrieb Gaston Gonzalez:
->> usleep_range() should be used instead of sleep() when sleepings range
->> from 10 us to 20 ms, [1].
+On 9/15/21 00:22, Phillip Potter wrote:
+> On Tue, Sep 14, 2021 at 02:13:48PM +0200, Michael Straube wrote:
+>> This series removes some unused fields from struct hal_data_8188eu.
 >>
->> Reported by checkpatch.pl
+>> Tested on x86_64 with Inter-Tech DMG-02.
 >>
->> [1] Documentation/timers/timers-howto.txt
->> ---
->>   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
+>> Michael Straube (4):
+>>    staging: r8188eu: remove unused macros from rtl8188e_hal.h
+>>    staging: r8188eu: remove write-only fields from struct hal_data_8188e
+>>    staging: r8188eu: remove unused enums from rtl8288e_hal.h
+>>    staging: r8188eu: remove unused field from struct hal_data_8188e
 >>
->> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> index b25369a13452..0214ae37e01f 100644
->> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
->> @@ -824,7 +824,7 @@ vchiq_bulk_transmit(unsigned int handle, const void *data, unsigned int size,
->>   		if (status != VCHIQ_RETRY)
->>   			break;
->>   
->> -		msleep(1);
->> +		usleep_range(1000, 1100);
+>>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  5 -----
+>>   .../staging/r8188eu/include/rtl8188e_hal.h    | 22 -------------------
+>>   2 files changed, 27 deletions(-)
+>>
+>> -- 
+>> 2.33.0
+>>
 > 
-> from my understanding the usage of usleep_range() and hrtimers isn't
-> necessary here. The intention is to sleep a little bit and not "exactly"
-> 1 ms.
+> Dear Michael,
 > 
-> @Phil Elwell: what is your opinion?
+> Looks good, built and tested here and working fine - as you say though
+> these are removals of unused code/properties so I was expecting it to
+> work anyway :-)
+> 
+> One small thing to change though: the subject line of PATCH 3/4 should
+> refer to rtl8188e_hal.h, rather than rtl8288e_hal.h.
 
-Exactly - the aim is just to stop it spinning.
+Thank you for reviewing and spotting the typo Phillip.
+I'll send v2 soon.
 
-Phil
+Regards,
+Michael
+
