@@ -1,44 +1,46 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6523FC5
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 15:49:43 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id x6so4581644wrv.13
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 08:49:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CFA3FC5
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 16:06:40 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id i3-20020a056830210300b0051af5666070so4229528otc.4
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 09:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=gxvIk/3dplKod5R6MerJbNpMQbcwiJJARjdwQMpnT/w=;
-        b=hRZA9gFOO6PpVTFsKSMyJe/x/ov5s+egnBGCmw4dR5IvYHu3MRtEKWc4ItAprWcP68
-         U+sRGHAPP0ydaD+4HfmOkxooRx8jc7tb5/jVKzSGcPIAd5crr7dksUMrvUgP+HRrSbOL
-         rQQXiJ6g+En1AJWphzMKkmbObVrMXm4BSLkyxbGyccqq+2Ga4PEChA/H+lMgUf1+NX7s
-         TwPUdNmW+Gh/pQoTC1G1ZZF15XDIteajUWsM4pGfXzEeLVymGzcXYPigFJ6g72xS9neh
-         4pryab3M/rzOepHAajzPDFzEVs8/CB403UChETzfLUbEMtPh/pOU2uCM+T6fnZwUEkmh
-         rdHQ==
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ISVv1atSRTyYqw35Va1vQyD5cjgJi0F9b5ypn+Ek17k=;
+        b=FNKt/2RVm35X+MKmP0UvQfr8+x6j8k5p/H6MwV0U8RF+9Q+2K9FwQiwt0DvA0cEyI/
+         gQBdFbqKvslpE3cHCOm9uaxWcmidZGipyFWy40r7rjovw3EYPMLdliNKJJChaunXSdAi
+         dbbnNoffAl8EoNYdO2Oa1FP0IEi2mAzQEjBpVmSuQ7YGnM3J1Vyf1G6xFEy04V75x5Qh
+         Vhyd/Ux7ACAWjzbtBBO88/zDobpOZ2qijNxx6IPsbkDMWvcUp4MT845LJsy9VWSCT6gg
+         l8NZA9cJPs2L8lqDW8yDePBA+KWGTB+AXH/TADMH9sAOh5mK4kEv86vIGES+4NEWQ9Au
+         5ywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=gxvIk/3dplKod5R6MerJbNpMQbcwiJJARjdwQMpnT/w=;
-        b=ZmUaKjj4XDRGoNuqvcBTthaV49p7dy83W0T6dJ8MfusE8K/zPjTgEijXpdBaJ6oBsE
-         0aPjKM1gzws2Padn3v3mUFKDJo43ofw4QZ7ll5OkYDahD2cUhZdGCVyRyYORti+jETMx
-         2HaQy1af2ojU9oN7b1sMq9Ov5HT9+2MFRC5R7VA7RACF62wJouenYT2W6JaTGzfa85Y4
-         LbKrlQM43jO1ygoRSy0FLQrw/ZBpSuAwAm5it1+6oa/2N00psQ9SoCyWDVKd/EtOzl5u
-         /X+hAN+NK1IPeqC4gNIAQKKvgiJOuorcECr2GtsEXd9HcXje8DqcCpjFWWAtnzgTYolC
-         KTcw==
-X-Gm-Message-State: AOAM530lxwtF2KEnhbYpFdbavJrJc3HPMmcDbbHoiGN6mKS9o2Ow8jNz
-	miKryqtPUkAdt9PkJg92Kak=
-X-Google-Smtp-Source: ABdhPJzksEhuqES2o1uIFL2bXdOHeDbnnWn+XtNMfBOge294ryKCmV27h7pIeWsf5WgoXSyZAbD5qg==
-X-Received: by 2002:a5d:43d2:: with SMTP id v18mr773098wrr.98.1631720981849;
-        Wed, 15 Sep 2021 08:49:41 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::ae40? ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id i5sm325288wrc.86.2021.09.15.08.49.40
+        bh=ISVv1atSRTyYqw35Va1vQyD5cjgJi0F9b5ypn+Ek17k=;
+        b=hzzOd0ax92mIkzZ/cfWFv5gH7VYyyBODhq0wbkXzxNlOBOnUip5jI+hm3AKA6DovKS
+         9j+1hJonXGwwSrfrOCG2DeL2PdVvWTGAs5HXPjQLWCTYzZpVxRcE7xFBhF6CKtTKfERF
+         rVDgSSePVj/6zsbHR9G1qEnK7aieaQEKztR6Vx8IaXCmOw9bc5fUgThWGLapqBeH04n5
+         VMlMl0/mFfZEWShKsx6g7dlNP/vx4K1s/lhiipM1HcYBkdT1ZzRN7ATXrCFbqmAUJ6TK
+         niptcd2KVMwcQ4RWa1YwmwrIJPXJDfnM2Yy7iVt8I48yolECuptLNyLPvBVlibklYCmr
+         QEVA==
+X-Gm-Message-State: AOAM530s/UcKCn6II5Pt3oXFEA0Y+e7TJsiPR0ldxfTB45MHvE/dSSMA
+	1c8bhPL29HA0liTBKrOK10o=
+X-Google-Smtp-Source: ABdhPJyVkbAyqqHjYzoVgnBBeNWM9UBbJpVryIa+1MgbDiKM9Ppa9i4KBFs5ocWqrIypvV9rVVIffg==
+X-Received: by 2002:a9d:7c88:: with SMTP id q8mr630037otn.367.1631721999749;
+        Wed, 15 Sep 2021 09:06:39 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::1007? (2603-8090-2005-39b3-0000-0000-0000-1007.res6.spectrum.com. [2603:8090:2005:39b3::1007])
+        by smtp.gmail.com with ESMTPSA id h19sm73054otr.75.2021.09.15.09.06.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Sep 2021 08:49:41 -0700 (PDT)
-Message-ID: <f0fcfced-3d32-f302-10f2-a1eeca57039e@gmail.com>
-Date: Wed, 15 Sep 2021 17:49:38 +0200
+        Wed, 15 Sep 2021 09:06:38 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <6f89f419-edaf-296a-1021-cdc12f218e7a@lwfinger.net>
+Date: Wed, 15 Sep 2021 11:06:36 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,57 +48,157 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH v2 0/4] staging: r8188eu: remove unused fields from struct
- hal_data_8188e
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v5 10/19] staging: r8188eu: remove the helpers of
+ usb_write_port()
 Content-Language: en-US
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210915090156.4169-1-straube.linux@gmail.com>
- <2416232.Kz4EfdPaPr@localhost.localdomain>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <2416232.Kz4EfdPaPr@localhost.localdomain>
+ Philip Potter <phil@philpotter.co.uk>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+References: <20210915124149.27543-1-fmdefrancesco@gmail.com>
+ <20210915124149.27543-11-fmdefrancesco@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <20210915124149.27543-11-fmdefrancesco@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/15/21 15:34, Fabio M. De Francesco wrote:
-> On Wednesday, September 15, 2021 11:01:52 AM CEST Michael Straube wrote:
->> This series removes some unused fields from struct hal_data_8188eu.
->>
->> Tested on x86_64 with Inter-Tech DMG-02.
->>
->> v1 -> v2
->> Fixed a typo in the subject line of patch 3/4.
->>
->> Michael Straube (4):
->>    staging: r8188eu: remove unused macros from rtl8188e_hal.h
->>    staging: r8188eu: remove write-only fields from struct hal_data_8188e
->>    staging: r8188eu: remove unused enums from rtl8188e_hal.h
->>    staging: r8188eu: remove unused field from struct hal_data_8188e
->>
->>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  5 -----
->>   .../staging/r8188eu/include/rtl8188e_hal.h    | 22 -------------------
->>   2 files changed, 27 deletions(-)
->>
->> -- 
->> 2.33.0
+On 9/15/21 07:41, Fabio M. De Francesco wrote:
+> From: Pavel Skripkin <paskripkin@gmail.com>
 > 
-> Hi Michael,
+> Remove the unnecessary _rtw_write_port() and usb_write_port() and embed
+> their code into the caller (i.e., rtw_write_port()).
 > 
-> Due to your removals, this driver is now about a third lighter. After fixing
-> that little issue that Philip noticed, this series looks as good as any of
-> yours. So...
+> _rtw_write_port() is a mere redefinition of rtw_write_port() and it is
+> unneeded. usb_write_port() was the only functions assigned to the
+> (*_usb_write_port) pointer, so we can simply remove it and make a direct
+> call.
 > 
-> Acked-by:  Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> This patch is in preparation for the _io_ops structure removal.
+> 
+> Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> ---
+>   drivers/staging/r8188eu/core/rtw_io.c         | 20 +------------------
+>   drivers/staging/r8188eu/hal/usb_ops_linux.c   |  1 -
+>   drivers/staging/r8188eu/include/rtw_io.h      |  4 +---
+>   .../staging/r8188eu/include/usb_ops_linux.h   |  1 -
+>   .../staging/r8188eu/os_dep/usb_ops_linux.c    |  3 +--
+>   5 files changed, 3 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_io.c b/drivers/staging/r8188eu/core/rtw_io.c
+> index ac72f894da75..3a5e9dbfcb12 100644
+> --- a/drivers/staging/r8188eu/core/rtw_io.c
+> +++ b/drivers/staging/r8188eu/core/rtw_io.c
+> @@ -87,24 +87,6 @@ void _rtw_read_port_cancel(struct adapter *adapter)
+>   		_read_port_cancel(pintfhdl);
+>   }
+>   
+> -u32 _rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
+> -{
+> -	u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
+> -	struct io_priv *pio_priv = &adapter->iopriv;
+> -	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+> -	u32 ret = _SUCCESS;
+> -
+> -
+> -
+> -	_write_port = pintfhdl->io_ops._write_port;
+> -
+> -	ret = _write_port(pintfhdl, addr, cnt, pmem);
+> -
+> -
+> -
+> -	return ret;
+> -}
+> -
+>   u32 _rtw_write_port_and_wait(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem, int timeout_ms)
+>   {
+>   	int ret = _SUCCESS;
+> @@ -114,7 +96,7 @@ u32 _rtw_write_port_and_wait(struct adapter *adapter, u32 addr, u32 cnt, u8 *pme
+>   	rtw_sctx_init(&sctx, timeout_ms);
+>   	pxmitbuf->sctx = &sctx;
+>   
+> -	ret = _rtw_write_port(adapter, addr, cnt, pmem);
+> +	ret = rtw_write_port(adapter, addr, cnt, pmem);
+>   
+>   	if (ret == _SUCCESS)
+>   		ret = rtw_sctx_wait(&sctx);
+> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> index a104e3fac7d1..4fea21c0f7af 100644
+> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> @@ -562,7 +562,6 @@ void rtl8188eu_set_intf_ops(struct _io_ops	*pops)
+>   {
+>   
+>   	memset((u8 *)pops, 0, sizeof(struct _io_ops));
+> -	pops->_write_port = &usb_write_port;
+>   	pops->_read_port_cancel = &usb_read_port_cancel;
+>   	pops->_write_port_cancel = &usb_write_port_cancel;
+>   
+> diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
+> index 600c6e7a375b..f2b1978b6e80 100644
+> --- a/drivers/staging/r8188eu/include/rtw_io.h
+> +++ b/drivers/staging/r8188eu/include/rtw_io.h
+> @@ -262,7 +262,7 @@ int _rtw_write16_async(struct adapter *adapter, u32 addr, u16 val);
+>   int _rtw_write32_async(struct adapter *adapter, u32 addr, u32 val);
+>   
+>   void _rtw_write_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+> -u32 _rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+> +u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+>   u32 _rtw_write_port_and_wait(struct adapter *adapter, u32 addr, u32 cnt,
+>   			     u8 *pmem, int timeout_ms);
+>   void _rtw_write_port_cancel(struct adapter *adapter);
+> @@ -275,8 +275,6 @@ void _rtw_write_port_cancel(struct adapter *adapter);
+>   	_rtw_write16_async((adapter), (addr), (val))
+>   #define rtw_write32_async(adapter, addr, val)				\
+>   	_rtw_write32_async((adapter), (addr), (val))
+> -#define rtw_write_port(adapter, addr, cnt, mem)				\
+> -	_rtw_write_port((adapter), (addr), (cnt), (mem))
+>   #define rtw_write_port_and_wait(adapter, addr, cnt, mem, timeout_ms)	\
+>   	_rtw_write_port_and_wait((adapter), (addr), (cnt), (mem), (timeout_ms))
+>   #define rtw_write_port_cancel(adapter) _rtw_write_port_cancel((adapter))
+> diff --git a/drivers/staging/r8188eu/include/usb_ops_linux.h b/drivers/staging/r8188eu/include/usb_ops_linux.h
+> index 37e0614fd15c..bdc596fe5854 100644
+> --- a/drivers/staging/r8188eu/include/usb_ops_linux.h
+> +++ b/drivers/staging/r8188eu/include/usb_ops_linux.h
+> @@ -30,7 +30,6 @@ unsigned int ffaddr2pipehdl(struct dvobj_priv *pdvobj, u32 addr);
+>   
+>   void usb_read_port_cancel(struct intf_hdl *pintfhdl);
+>   
+> -u32 usb_write_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem);
+>   void usb_write_port_cancel(struct intf_hdl *pintfhdl);
+>   
+>   #endif
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+> index 9afb4df71969..36ef06f88fdd 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+> @@ -124,14 +124,13 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
+>   
+>   }
+>   
+> -u32 usb_write_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
+> +u32 rtw_write_port(struct adapter *padapter, u32 addr, u32 cnt, u8 *wmem)
+>   {
+>   	unsigned long irqL;
+>   	unsigned int pipe;
+>   	int status;
+>   	u32 ret = _FAIL;
+>   	struct urb *purb = NULL;
+> -	struct adapter *padapter = (struct adapter *)pintfhdl->padapter;
+>   	struct dvobj_priv	*pdvobj = adapter_to_dvobj(padapter);
+>   	struct xmit_priv	*pxmitpriv = &padapter->xmitpriv;
+>   	struct xmit_buf *pxmitbuf = (struct xmit_buf *)wmem;
+> 
 
-Thank you Fabio.
+Patch 1 failed to apply to Greg's staging-testing branch. Particularly with the 
+changes with large number of patches, you need to remove the commits in 
+question, got a 'git pull', and then test that your changes still apply.
 
-Well others have contributed to rip out unused code too. ;)
-It's nice to see so many people care about this driver. Seems there is a
-little chance to get it out of staging some day... though there is still
-a lot of work/cleanup to do.
+Larry
 
-Regards,
-Michael
+
