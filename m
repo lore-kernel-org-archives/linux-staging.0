@@ -1,114 +1,102 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5CF3FC5
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 14:59:08 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id c22so4716714edn.12
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 07:59:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6523FC5
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 15:49:43 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id x6so4581644wrv.13
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 08:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LUyNTvwye+kPafaOnI2efXLTbx8D91gxZhFPaGgBa+k=;
-        b=ain0M3hd5IPb69qG/03ea/REqMNY4Kp9RDkBg6Z4d9hYXfrWI2kFqsARfTjr0wCoVO
-         xmiK20FF7bUui0ZXn5Xxw+UqPj514FqfBIP/C7k9nYOSIh0Pk3mjBBD6/6Qk9wRYPutM
-         V9S8Au1toYSQCArfKQEEPr6AGJ9CARGPCpGQ5v2r4hV9u/0ddemK1sC4fAjEA+TO58Tx
-         OoM/soU5y5zHD4x3xQR5HR4MUgA8l7q75c52k6n5geeUMpZhaC2fYwEboTFZkO6mh4ud
-         ebQMAD/WjemqHpAmzaWgrNlecBjzr+EtivaD5VOz/h746n60/iMkQ1X3h2QteI047XTX
-         QQFw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=gxvIk/3dplKod5R6MerJbNpMQbcwiJJARjdwQMpnT/w=;
+        b=hRZA9gFOO6PpVTFsKSMyJe/x/ov5s+egnBGCmw4dR5IvYHu3MRtEKWc4ItAprWcP68
+         U+sRGHAPP0ydaD+4HfmOkxooRx8jc7tb5/jVKzSGcPIAd5crr7dksUMrvUgP+HRrSbOL
+         rQQXiJ6g+En1AJWphzMKkmbObVrMXm4BSLkyxbGyccqq+2Ga4PEChA/H+lMgUf1+NX7s
+         TwPUdNmW+Gh/pQoTC1G1ZZF15XDIteajUWsM4pGfXzEeLVymGzcXYPigFJ6g72xS9neh
+         4pryab3M/rzOepHAajzPDFzEVs8/CB403UChETzfLUbEMtPh/pOU2uCM+T6fnZwUEkmh
+         rdHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LUyNTvwye+kPafaOnI2efXLTbx8D91gxZhFPaGgBa+k=;
-        b=KFZGUcI07y3zabOo9npP3A+4xI2KW1QQo1JGNOlrUGmECUKag0lTLIpbxa1HeM+ymA
-         wIs3ahrtjr2tRV7KFy5gHAvln4VKviFfwQHZhEl00IcTqX6PJjlUzDaBOyDxpo+zu1xw
-         Rf58V4bSWL6F7/CMEX8KLzK+KKoEzI5aXHyMiFvdoYbPxYFW1G8YZoKzMbJIVuAeTpf4
-         TBLWuQXDvftVgvhF1UPqxvvnJT5WyOYty45eJuWDFiFPRf/4gp/pVEMuIVsIY4HEBvjM
-         Lg2UoNRlTgx/j/lVhcGfmT4T9Yoebz4GmwdsnKz5gxhhoM/5OgNVoGZUycdwfcaSjrq+
-         QAOw==
-X-Gm-Message-State: AOAM532Lk2aFxgkVhxs8MHMP2ErW1GXMduusJo/ADaETguEzRIDH5E1y
-	P7l8rFN1wD0JmNjTArVfygw=
-X-Google-Smtp-Source: ABdhPJxMLnU3ZIJKNIZnhw9R15iaT5x3M37FMGTazy54fNU+vcmFffcZJ/v4fKVjDmfrZl6xoDNOHg==
-X-Received: by 2002:a05:6402:42d5:: with SMTP id i21mr490103edc.14.1631717946682;
-        Wed, 15 Sep 2021 07:59:06 -0700 (PDT)
-Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
-        by smtp.gmail.com with ESMTPSA id la17sm90688ejb.80.2021.09.15.07.59.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 07:59:06 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Philip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>
-Subject: Re: [PATCH v5 15/19] staging: r8188eu: hal: Clean up usbctrl_vendorreq()
-Date: Wed, 15 Sep 2021 16:59:03 +0200
-Message-ID: <3504293.VdliR8Xgxp@localhost.localdomain>
-In-Reply-To: <20210915135301.GF2088@kadam>
-References: <20210915124149.27543-1-fmdefrancesco@gmail.com> <20210915124149.27543-16-fmdefrancesco@gmail.com> <20210915135301.GF2088@kadam>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=gxvIk/3dplKod5R6MerJbNpMQbcwiJJARjdwQMpnT/w=;
+        b=ZmUaKjj4XDRGoNuqvcBTthaV49p7dy83W0T6dJ8MfusE8K/zPjTgEijXpdBaJ6oBsE
+         0aPjKM1gzws2Padn3v3mUFKDJo43ofw4QZ7ll5OkYDahD2cUhZdGCVyRyYORti+jETMx
+         2HaQy1af2ojU9oN7b1sMq9Ov5HT9+2MFRC5R7VA7RACF62wJouenYT2W6JaTGzfa85Y4
+         LbKrlQM43jO1ygoRSy0FLQrw/ZBpSuAwAm5it1+6oa/2N00psQ9SoCyWDVKd/EtOzl5u
+         /X+hAN+NK1IPeqC4gNIAQKKvgiJOuorcECr2GtsEXd9HcXje8DqcCpjFWWAtnzgTYolC
+         KTcw==
+X-Gm-Message-State: AOAM530lxwtF2KEnhbYpFdbavJrJc3HPMmcDbbHoiGN6mKS9o2Ow8jNz
+	miKryqtPUkAdt9PkJg92Kak=
+X-Google-Smtp-Source: ABdhPJzksEhuqES2o1uIFL2bXdOHeDbnnWn+XtNMfBOge294ryKCmV27h7pIeWsf5WgoXSyZAbD5qg==
+X-Received: by 2002:a5d:43d2:: with SMTP id v18mr773098wrr.98.1631720981849;
+        Wed, 15 Sep 2021 08:49:41 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::ae40? ([2a02:8108:96c0:3b88::ae40])
+        by smtp.gmail.com with ESMTPSA id i5sm325288wrc.86.2021.09.15.08.49.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Sep 2021 08:49:41 -0700 (PDT)
+Message-ID: <f0fcfced-3d32-f302-10f2-a1eeca57039e@gmail.com>
+Date: Wed, 15 Sep 2021 17:49:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH v2 0/4] staging: r8188eu: remove unused fields from struct
+ hal_data_8188e
+Content-Language: en-US
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210915090156.4169-1-straube.linux@gmail.com>
+ <2416232.Kz4EfdPaPr@localhost.localdomain>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <2416232.Kz4EfdPaPr@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wednesday, September 15, 2021 3:53:01 PM CEST Dan Carpenter wrote:
-> On Wed, Sep 15, 2021 at 02:41:45PM +0200, Fabio M. De Francesco wrote:
-> > Clean up usbctrl_vendoreq () in usb_ops_linux.c. Eventually this function
-> > will be deleted but some of the code will be reused later. This cleanup
-> > makes code reuse easier.
-> >
-> Thanks for removing the URL.  This commit message is no longer bad to
-> the point where it has to be redone but it's still not great.
+On 9/15/21 15:34, Fabio M. De Francesco wrote:
+> On Wednesday, September 15, 2021 11:01:52 AM CEST Michael Straube wrote:
+>> This series removes some unused fields from struct hal_data_8188eu.
+>>
+>> Tested on x86_64 with Inter-Tech DMG-02.
+>>
+>> v1 -> v2
+>> Fixed a typo in the subject line of patch 3/4.
+>>
+>> Michael Straube (4):
+>>    staging: r8188eu: remove unused macros from rtl8188e_hal.h
+>>    staging: r8188eu: remove write-only fields from struct hal_data_8188e
+>>    staging: r8188eu: remove unused enums from rtl8188e_hal.h
+>>    staging: r8188eu: remove unused field from struct hal_data_8188e
+>>
+>>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  5 -----
+>>   .../staging/r8188eu/include/rtl8188e_hal.h    | 22 -------------------
+>>   2 files changed, 27 deletions(-)
+>>
+>> -- 
+>> 2.33.0
 > 
-> I explicitly told you to leave the irrelevant information out.  I'm
-> trying to help you and it's frustrating that you're not listening.  I
-> wish that you had just copy and pasted the commit message which I sent.
-
-I'm sorry, seriously. It's hard to listen carefully when I need to do my 
-*real* work while trying my best to contribute to the kernel. Sometimes I'm 
-so tired that I forget something important or what it is said by reviewers. I 
-know that this is not a good excuse, anyway please don't ever think that I 
-don't mind of the time you spend on reviews and writing suggestions. 
-
-> This relates the discussion we had about reviewing patches one at a time
-> in the order they arrive.  Every patch should be self contained.  It
-> should not refer to the past except in the case of explaining the Fixes
-> tag and it should not refer to the future except in the case where it
-> needs to excuse adding unused infrastructure.  Reviewing is stateless.
-> We don't want to know about your plans.
+> Hi Michael,
 > 
-> On the other hand, the commit message doesn't list the changes the
-> commit makes as part of the clean up process.  That would have been
-> helpful information for me as a reviewer.
+> Due to your removals, this driver is now about a third lighter. After fixing
+> that little issue that Philip noticed, this series looks as good as any of
+> yours. So...
 > 
-> *Sigh*  Whatever...  I would have allowed this commit message but there
-> is a bug in the code.
-> 
-> > +				memcpy(data, io_buf,  len);
-> > +		} else {
-> > +			/* errors */
-> >  			if (status < 0) {
-> > -				if (status == (-ESHUTDOWN) || 
-status == -ENODEV) {
-> > +				if (status == (-ESHUTDOWN || -
-ENODEV)) {
-> 
-> This is a bug so you'll have to redo the patch.
+> Acked-by:  Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-This is the proof of what I was trying to convey with the words above. I 
-perfectly knew, since days, that this line is wrong but for some reason that 
-I really cannot understand why it's still there.
+Thank you Fabio.
 
-Thank you very much,
+Well others have contributed to rip out unused code too. ;)
+It's nice to see so many people care about this driver. Seems there is a
+little chance to get it out of staging some day... though there is still
+a lot of work/cleanup to do.
 
-Fabio
-
-> regards,
-> dan carpenter
-> 
-
-
-
-
+Regards,
+Michael
