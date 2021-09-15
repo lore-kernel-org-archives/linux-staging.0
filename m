@@ -1,246 +1,90 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BDE3FD2
-	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 12:45:45 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id g8so4139460edt.7
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 05:45:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354983FD2
+	for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 13:34:29 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id h17so4372150edj.6
+        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 06:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nDwYiDOns8dNazua/uS9cfYsJtzSJs0ViVitlyXDhbo=;
-        b=JS6flJmOF8Ikzm7Eb+zR9v9RHfQtfMyi6gXK5OvAwYmJHuxaQd6urS09bItBZgxoe1
-         LKBH2JxuOKrMe4oFG/ZSOD8kIzmZ/WJSozrH/33lxupkTIRu622uNY7OmlKzflJ0rdNR
-         TSL6XN9zj6RW17PIqMyMgKyJ+HobrFthdzUmOIBqcjIMxnBI8+6biFuNIUGuLFy4j54U
-         cBiGFxnRm75bITd1qSUj5uN6TCLc6hk40GZe3B2CurrAS+IkT1M1sFOQdPa1Et49rQBE
-         PG/undFTrl66Sa7wkzqkOjTOgBl3LnwNJZD6cgh9OY7XAaEsoX83Q6UOBWlMHBf8KcjP
-         4iBQ==
+        bh=+5pkhHU6uSbiTJeV/y5KWHfW0IEfLBUjZh7XULYmJ74=;
+        b=BlKiTKWd/n1ZpeCRDDjCqJGDsPFeGpCs3FWwonyOqL7bzw0tmhqIpcUbG8+4OJ7t3G
+         jivmRDoWhFAkl13i7JXEg1hf0X3oeeZpYIQafYDkFos1cyuSs7NF6YSA8ylTQ2UIl5XN
+         rw/s8IWDIkblFuaeCE1PF9tdw8JED12QUwMZf4FMT9VT8q7abKkIpG2LMo7ZUjDTGJrq
+         4Ddjz+v1HMxEGFaC3yUaglhLHkep1RUW5u5yjsXKlb4DkUZqwXVlQuUfzeAejEAGqBRt
+         fBlUkXbGlTu6+rH5Y36/utwQcHtzxGqHunfTBi8kxL0Ne/J1MmER1jg9uSTw4a7B4BBd
+         AUVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nDwYiDOns8dNazua/uS9cfYsJtzSJs0ViVitlyXDhbo=;
-        b=F4+tEunSqSf5krd9OYuPlWQ+OPTmUeOrnqRWqJSeIkctMihMP4RMS7WhL+yzhyprv+
-         9+QesEKw7AF5ta/Mfr9OQfPV9tWAcgOhGsWxAz4lISb+PMrg3N/uI0DyzAocJBz5Ybch
-         iNA4bfqm9Tiy/Y9pxMGbWIPcGLwXoE59bBk0geVF43rL1tgRmUBF9xPz/3X8D14ob+aq
-         mQLBn1s+5XP5BMV+cZ3SAvWBEk25I7UcsmOCnGHcBxwIdoKqIkow3b3f/1XfAL71kpmK
-         Ub4oe6j1XYA1MPPU0Ps3+g1oUGZH9DK9uMUEZHj6r4WTWDVeiUPHAb5HeGMg4hbUCjVb
-         uEJg==
-X-Gm-Message-State: AOAM533El8iYLxBr6Cy72KPLnpknAEinvT2StZC2shO5fz2cQRnWmCoz
-	9dJvgam6j/ZS2PUBijIfuUw=
-X-Google-Smtp-Source: ABdhPJxbgWfokUufBmxir+vc47DffoFwBe9O22Y83mXj/drLqx5pk2fxDTIsO+ZnvZuUNJZCw5W47Q==
-X-Received: by 2002:a05:6402:42d4:: with SMTP id i20mr19999620edc.348.1631709943460;
-        Wed, 15 Sep 2021 05:45:43 -0700 (PDT)
-Received: from localhost.localdomain.it (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
-        by smtp.gmail.com with ESMTPSA id s3sm6394002ejm.49.2021.09.15.05.45.42
+        bh=+5pkhHU6uSbiTJeV/y5KWHfW0IEfLBUjZh7XULYmJ74=;
+        b=zFDnzUKGuN6wH5pePr1xD5DuND2MzsU9rky8T0sEM4JJd4/gg9fZ1lvsncf104kczY
+         OwKB0yqbykLeC2lT+/lLk9M86f4cTe41VVyeNMpN2EuaQynpp3xujCmz9lzde8hMCbH7
+         0MRgNTy48fkcpMVaN8B8eKQ5E8jcvdWUHn/Qj8yF4thhs5EP8wwF+3PcYAyapIPXodKq
+         9HJOZuD0hNX+xiJq8idCW5tpf4MXnQ1xzuly3gHKFT4xlYJ4b1m8wNMDIY2tOyHJglxW
+         LRMZDEL8rK8CVbYDwbp0Ki/lmSjbQkEMt6jvwLimXBRHIE3cCcQJReN1ymWW5ioPkHkz
+         rsBg==
+X-Gm-Message-State: AOAM53099woLsmfana77TPBzh8zwKh2S6XGKulBrDqM1mA01oeJ0csTs
+	HCyAgAVYeDNtAH77zoRSAts=
+X-Google-Smtp-Source: ABdhPJw/KQLz36+AAF+fr/h07gdt75WX9W7sLMGjsIO51YMz4kat8zMxbSIyRm2B9oL8KWUCaAUUXw==
+X-Received: by 2002:a50:9eaa:: with SMTP id a39mr69422edf.56.1631712867545;
+        Wed, 15 Sep 2021 06:34:27 -0700 (PDT)
+Received: from localhost.localdomain (host-79-43-5-131.retail.telecomitalia.it. [79.43.5.131])
+        by smtp.gmail.com with ESMTPSA id v8sm6392793ejy.79.2021.09.15.06.34.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 05:45:43 -0700 (PDT)
+        Wed, 15 Sep 2021 06:34:27 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Philip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	David Laight <david.Laight@aculab.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Cc: "Fabio M . De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v5 19/19] staging: r8188eu: remove shared buffer for usb requests
-Date: Wed, 15 Sep 2021 14:41:49 +0200
-Message-Id: <20210915124149.27543-20-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210915124149.27543-1-fmdefrancesco@gmail.com>
-References: <20210915124149.27543-1-fmdefrancesco@gmail.com>
+To: gregkh@linuxfoundation.org, Michael Straube <straube.linux@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>
+Subject: Re: [PATCH v2 0/4] staging: r8188eu: remove unused fields from struct hal_data_8188e
+Date: Wed, 15 Sep 2021 15:34:23 +0200
+Message-ID: <2416232.Kz4EfdPaPr@localhost.localdomain>
+In-Reply-To: <20210915090156.4169-1-straube.linux@gmail.com>
+References: <20210915090156.4169-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Pavel Skripkin <paskripkin@gmail.com>
+On Wednesday, September 15, 2021 11:01:52 AM CEST Michael Straube wrote:
+> This series removes some unused fields from struct hal_data_8188eu.
+> 
+> Tested on x86_64 with Inter-Tech DMG-02.
+> 
+> v1 -> v2
+> Fixed a typo in the subject line of patch 3/4.
+> 
+> Michael Straube (4):
+>   staging: r8188eu: remove unused macros from rtl8188e_hal.h
+>   staging: r8188eu: remove write-only fields from struct hal_data_8188e
+>   staging: r8188eu: remove unused enums from rtl8188e_hal.h
+>   staging: r8188eu: remove unused field from struct hal_data_8188e
+> 
+>  .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  5 -----
+>  .../staging/r8188eu/include/rtl8188e_hal.h    | 22 -------------------
+>  2 files changed, 27 deletions(-)
+> 
+> -- 
+> 2.33.0
 
-This driver used shared buffer for usb requests. It led to using
-mutexes, i.e no usb requests can be done in parallel.
+Hi Michael,
 
-USB requests can be fired in parallel since USB Core allows it. In
-order to allow them, remove usb_vendor_req_buf from dvobj_priv (since
-USB I/O is the only user of it) and remove also usb_vendor_req_mutex
-(since there is nothing to protect).
+Due to your removals, this driver is now about a third lighter. After fixing  
+that little issue that Philip noticed, this series looks as good as any of 
+yours. So...
 
-Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 29 ++++++++++-----------
- drivers/staging/r8188eu/include/drv_types.h |  5 ----
- drivers/staging/r8188eu/os_dep/usb_intf.c   | 29 +--------------------
- 3 files changed, 15 insertions(+), 48 deletions(-)
+Acked-by:  Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 656f3a774e48..0ed4e6c8b1f5 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -19,9 +19,9 @@ static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
- 	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
- 		return -EPERM;
- 
--	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
--
--	io_buf = dvobjpriv->usb_vendor_req_buf;
-+	io_buf = kmalloc(size, GFP_KERNEL);
-+	if (!io_buf)
-+		return -ENOMEM;
- 
- 	status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
- 				      REALTEK_USB_VENQT_READ, addr,
-@@ -39,7 +39,7 @@ static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
- 		 * exist or is not enabled.
- 		 */
- 		adapt->bSurpriseRemoved = true;
--		goto mutex_unlock;
-+		goto end;
- 	}
- 
- 	if (status < 0) {
-@@ -49,15 +49,14 @@ static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
- 		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
- 			adapt->bSurpriseRemoved = true;
- 
--		goto mutex_unlock;
-+		goto end;
- 	}
- 
- 	rtw_reset_continual_urb_error(dvobjpriv);
- 	memcpy(data, io_buf, size);
- 
--mutex_unlock:
--	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
--
-+end:
-+	kfree(io_buf);
- 	return status;
- }
- 
-@@ -72,9 +71,10 @@ static int usb_write(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
- 	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
- 		return -EPERM;
- 
--	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
-+	io_buf = kmalloc(size, GFP_KERNEL);
-+	if (!io_buf)
-+		return -ENOMEM;
- 
--	io_buf = dvobjpriv->usb_vendor_req_buf;
- 	memcpy(io_buf, data, size);
- 
- 	status = usb_control_msg_send(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
-@@ -93,7 +93,7 @@ static int usb_write(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
- 		 * exist or is not enabled.
- 		 */
- 		adapt->bSurpriseRemoved = true;
--		goto mutex_unlock;
-+		goto end;
- 	}
- 
- 	if (status < 0) {
-@@ -103,14 +103,13 @@ static int usb_write(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
- 		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
- 			adapt->bSurpriseRemoved = true;
- 
--		goto mutex_unlock;
-+		goto end;
- 	}
- 
- 	rtw_reset_continual_urb_error(dvobjpriv);
- 
--mutex_unlock:
--	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
--
-+end:
-+	kfree(io_buf);
- 	return status;
- }
- 
-diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-index 626c6273be6f..499b2bce8cbe 100644
---- a/drivers/staging/r8188eu/include/drv_types.h
-+++ b/drivers/staging/r8188eu/include/drv_types.h
-@@ -168,11 +168,6 @@ struct dvobj_priv {
- 	int	ep_num[5]; /* endpoint number */
- 	int	RegUsbSS;
- 	struct semaphore usb_suspend_sema;
--	struct mutex  usb_vendor_req_mutex;
--
--	u8 *usb_alloc_vendor_req_buf;
--	u8 *usb_vendor_req_buf;
--
- 	struct usb_interface *pusbintf;
- 	struct usb_device *pusbdev;
- 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 306325818a9a..7603cb026368 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -73,29 +73,6 @@ static struct rtw_usb_drv rtl8188e_usb_drv = {
- 
- static struct rtw_usb_drv *usb_drv = &rtl8188e_usb_drv;
- 
--static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
--{
--	u8 rst = _SUCCESS;
--
--	mutex_init(&dvobj->usb_vendor_req_mutex);
--
--	dvobj->usb_alloc_vendor_req_buf = kzalloc(MAX_USB_IO_CTL_SIZE, GFP_KERNEL);
--	if (!dvobj->usb_alloc_vendor_req_buf) {
--		DBG_88E("alloc usb_vendor_req_buf failed... /n");
--		rst = _FAIL;
--		goto exit;
--	}
--	dvobj->usb_vendor_req_buf = (u8 *)N_BYTE_ALIGMENT((size_t)(dvobj->usb_alloc_vendor_req_buf), ALIGNMENT_UNIT);
--exit:
--	return rst;
--}
--
--static void rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
--{
--	kfree(dvobj->usb_alloc_vendor_req_buf);
--	mutex_destroy(&dvobj->usb_vendor_req_mutex);
--}
--
- static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- {
- 	int	i;
-@@ -158,9 +135,6 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 		DBG_88E("NON USB_SPEED_HIGH\n");
- 	}
- 
--	if (rtw_init_intf_priv(pdvobjpriv) == _FAIL)
--		goto free_dvobj;
--
- 	/* 3 misc */
- 	sema_init(&pdvobjpriv->usb_suspend_sema, 0);
- 	rtw_reset_continual_urb_error(pdvobjpriv);
-@@ -169,7 +143,6 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 
- 	status = _SUCCESS;
- 
--free_dvobj:
- 	if (status != _SUCCESS && pdvobjpriv) {
- 		usb_set_intfdata(usb_intf, NULL);
- 		kfree(pdvobjpriv);
-@@ -200,7 +173,7 @@ static void usb_dvobj_deinit(struct usb_interface *usb_intf)
- 				usb_reset_device(interface_to_usbdev(usb_intf));
- 			}
- 		}
--		rtw_deinit_intf_priv(dvobj);
-+
- 		kfree(dvobj);
- 	}
- 
--- 
-2.33.0
+Thanks,
+
+Fabio
+
+
 
