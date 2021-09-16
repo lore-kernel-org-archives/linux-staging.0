@@ -1,75 +1,75 @@
-Received: from smtp77.iad3a.emailsrvr.com (smtp77.iad3a.emailsrvr.com [173.203.187.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52D62F80
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 17:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1631803835;
-	bh=ARRShqYel/AFPgRIrMAGJ0CCJl0lX8sUyPk06CsbnLQ=;
-	h=From:To:Subject:Date:From;
-	b=JyZrHXC0EhhT0ccYrGDyFYJR0/Bi/a3uV1my7NtCphcVbS1xSN+RYJqXI0yMEQtAE
-	 2kFZDioQBMkjuNCYIbnxWfdBzCUQwxC7GakCmif4sD4m6ihOqmVsCZhEbGUE+Vh1T+
-	 2xpPf1HuwTmCZ0nNXy38FhjxbVasqQFLZQwBKZwo=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp2.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 469B2282B;
-	Thu, 16 Sep 2021 10:50:34 -0400 (EDT)
-From: Ian Abbott <abbotti@mev.co.uk>
-To: linux-kernel@vger.kernel.org
-Cc: Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v2] comedi: Fix memory leak in compat_insnlist()
-Date: Thu, 16 Sep 2021 15:50:23 +0100
-Message-Id: <20210916145023.157479-1-abbotti@mev.co.uk>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210916144438.156858-1-abbotti@mev.co.uk>
-References: <20210916144438.156858-1-abbotti@mev.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44373FC5
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 19:49:16 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id c8-20020a9d6c88000000b00517cd06302dso9733538otr.13
+        for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 12:49:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=0KsoWtKkhaXMiBJDC0/XxZwnXXQWFGw8B4mYJMIPHr0=;
+        b=MqitZGHalLjkzj4n0XLkGxxrrv0AtQP7jx5zO7svuzebLG9N+/e/2twxC1uIzW19TR
+         mwNXV0atgH/i53tFEEYFvFh+hZ6q78Oxko+Xr2KgohgBq1dDycJUvSseSUzWwGjKEbfl
+         aFyIPPAP3I5TmAUnMZ+++7mKj5uRdmXpLDDWZHjt4twd/QUUkSNlvhewOuzb5NDsi1ug
+         /nNXpLyPaTNrdysQLp6nXECsmv3wx+TsLKchJg9MlCAOiMC+WUwPSfJO4Bf2/wKbgfie
+         bzI6mSBpz68bUgna+KF6nJPSHPSq5svhuekbVe83xGnjQYDoKYJAR9XZOY/QsqrXec4Y
+         DiMQ==
+X-Gm-Message-State: AOAM532eJD3GSHbMgwt8vlaZ5sdHnzpYJdGjcgU2i2Xu5xH52ocOxjFg
+	3u3gP3p1TYvCSjJRZBEU8A==
+X-Google-Smtp-Source: ABdhPJxEEp/Qsw3alHt8zhmxwHRpVnbr0IilY/Bi03MDyZNTmeQPJrTz7p+nPBP14eKxCi6oX/vdRA==
+X-Received: by 2002:a9d:70cc:: with SMTP id w12mr6143201otj.306.1631821755916;
+        Thu, 16 Sep 2021 12:49:15 -0700 (PDT)
+Received: from robh.at.kernel.org (107-211-252-53.lightspeed.cicril.sbcglobal.net. [107.211.252.53])
+        by smtp.gmail.com with ESMTPSA id z7sm948074oti.65.2021.09.16.12.49.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 12:49:15 -0700 (PDT)
+Received: (nullmailer pid 1377102 invoked by uid 1000);
+	Thu, 16 Sep 2021 19:49:11 -0000
+Date: Thu, 16 Sep 2021 14:49:11 -0500
+From: Rob Herring <robh@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Viresh Kumar <vireshk@kernel.org>, Lucas Stach <dev@lynxeye.de>, linux-mmc@vger.kernel.org, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
+	Richard Weinberger <richard@nod.at>, Nishanth Menon <nm@ti.com>, linux-pwm@vger.kernel.org, 
+	Lee Jones <lee.jones@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	linux-tegra@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>, 
+	linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	linux-clk@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, linux-mtd@lists.infradead.org, 
+	Mark Brown <broonie@kernel.org>, Michael Turquette <mturquette@baylibre.com>, 
+	linux-kernel@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>, 
+	devicetree@vger.kernel.org, Stefan Agner <stefan@agner.ch>, linux-spi@vger.kernel.org, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-pm@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v11 08/34] dt-bindings: host1x: Document Memory Client
+ resets of Host1x, GR2D and GR3D
+Message-ID: <YUOftwuVt7EqtA5I@robh.at.kernel.org>
+References: <20210912200832.12312-1-digetx@gmail.com>
+ <20210912200832.12312-9-digetx@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Classification-ID: 6b5d46b7-08db-410e-b953-84ff91fa7dea-1-1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210912200832.12312-9-digetx@gmail.com>
 
-`compat_insnlist()` handles the 32-bit version of the `COMEDI_INSNLIST`
-ioctl (whenwhen `CONFIG_COMPAT` is enabled).  It allocates memory to
-temporarily hold an array of `struct comedi_insn` converted from the
-32-bit version in user space.  This memory is only being freed if there
-is a fault while filling the array, otherwise it is leaked.
+On Sun, 12 Sep 2021 23:08:06 +0300, Dmitry Osipenko wrote:
+> Memory Client should be blocked before hardware reset is asserted in order
+> to prevent memory corruption and hanging of memory controller.
+> 
+> Document Memory Client resets of Host1x, GR2D and GR3D hardware units.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  .../bindings/display/tegra/nvidia,tegra20-host1x.txt          | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
 
-Add a call to `kfree()` to fix the leak.
-
-Fixes: b8d47d881305 ("comedi: get rid of compat_alloc_user_space() mess in COMEDI_INSNLIST compat"
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Cc: <stable@vger.kernel.org> # 5.13+
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
----
-v2: Corrected typo in Greg's email address.
-
-N.B. Also need patches for 5.8+ from before comedi moved out of staging.
----
- drivers/comedi/comedi_fops.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/comedi/comedi_fops.c b/drivers/comedi/comedi_fops.c
-index df77b6bf5c64..763cea8418f8 100644
---- a/drivers/comedi/comedi_fops.c
-+++ b/drivers/comedi/comedi_fops.c
-@@ -3090,6 +3090,7 @@ static int compat_insnlist(struct file *file, unsigned long arg)
- 	mutex_lock(&dev->mutex);
- 	rc = do_insnlist_ioctl(dev, insns, insnlist32.n_insns, file);
- 	mutex_unlock(&dev->mutex);
-+	kfree(insns);
- 	return rc;
- }
- 
--- 
-2.33.0
-
+Reviewed-by: Rob Herring <robh@kernel.org>
