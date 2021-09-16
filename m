@@ -1,17 +1,17 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278123FCF
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 16:31:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A5EF61381;
-	Thu, 16 Sep 2021 16:31:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8313FCF
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 16:48:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 133056322D;
+	Thu, 16 Sep 2021 16:48:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631809880;
+	s=korg; t=1631810924;
 	bh=wT3iu+1KsIblfmC2Xxu1rpoOWJc5iroPFIXC6zv3PRM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aTNqd+yZRFwBpPTxPDSv1YDluD3Ql2Ew0VlpZrI5rBCMNSnrYHS7wnoyAEdWthrcW
-	 eEZcFrm/5ZeJyIZnkNJqhZckG7Hxr54c2wzmQR47CLO5ZNB4icApdN/8QF3xtbTqyF
-	 Rihh+xeJNwOuLC/zRjKxaJyT4Y1YoVuDkjqGc1zA=
+	b=OsQJvuQBtz+wMh4XNtZcWTyY1A92eesy0h/j13Nn4bpH1zNwEteZLDyy2r+pHir9a
+	 GK0kcP9doa6NVEIQcmAe8WBfAIlBveVyFPPk5khCd0gWLDGW85AwqyMxl3WECxUIFC
+	 BSOCPhsUmXs96H5yZDOGk/AxQkqO4tBu6BfqdImU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -19,12 +19,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	Kees Cook <keescook@chromium.org>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.13 285/380] staging: rts5208: Fix get_ms_information() heap buffer size
-Date: Thu, 16 Sep 2021 18:00:42 +0200
-Message-Id: <20210916155813.771281329@linuxfoundation.org>
+Subject: [PATCH 5.14 319/432] staging: rts5208: Fix get_ms_information() heap buffer size
+Date: Thu, 16 Sep 2021 18:01:08 +0200
+Message-Id: <20210916155821.643187896@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210916155803.966362085@linuxfoundation.org>
-References: <20210916155803.966362085@linuxfoundation.org>
+In-Reply-To: <20210916155810.813340753@linuxfoundation.org>
+References: <20210916155810.813340753@linuxfoundation.org>
 User-Agent: quilt/0.66
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
