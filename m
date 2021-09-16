@@ -1,71 +1,118 @@
-Received: from smtp64.ord1d.emailsrvr.com (smtp64.ord1d.emailsrvr.com [184.106.54.64])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE3B3FC3
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 16:01:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-	s=20190130-41we5z8j; t=1631803531;
-	bh=wntXMQVPfNAlvsw/B4mAyFrI8LJDb845y3vVM0u8iFg=;
-	h=From:To:Subject:Date:From;
-	b=MircA7Fey+K8tQNrdz3EtKb91UFYLZjNHJnovfprFiX2tmEkmua6dgSddXhPPue6f
-	 vdGp83GClC8iKtg8+RiQ+9ddTnAYsnZOSw+Qtj2Q5+sWU1xTSfhWcgfelQCngijfVL
-	 KTvL5ay0J+pAwGN2qUGx3idLNJzyoAaTl6nA57HQ=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp17.relay.ord1d.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 482D7201F5;
-	Thu, 16 Sep 2021 10:45:30 -0400 (EDT)
-From: Ian Abbott <abbotti@mev.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E320F3FC3
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 16:13:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 19C20611F2;
+	Thu, 16 Sep 2021 16:13:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1631808801;
+	bh=wT3iu+1KsIblfmC2Xxu1rpoOWJc5iroPFIXC6zv3PRM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=K8fnm6pKvIruR84gnN9US7XRd1Wh6QWqBnHP6f+zvgvBGrTkxG0yMhNu/PWHXaEff
+	 Pm4ul9XrpavXPg1D1hZLv4KW8ICvXH+gVVN0au60C7oSiV2RCp0Yj/t57Bv5jhQWqU
+	 l66LffRNjuVtCf96KwqrjnvAQpSa30dQgZk6blRs=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Cc: Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Greg Kroah-Hartman <greglh@linuxfoundation.org>,
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] comedi: Fix memory leak in compat_insnlist()
-Date: Thu, 16 Sep 2021 15:44:38 +0100
-Message-Id: <20210916144438.156858-1-abbotti@mev.co.uk>
+	Kees Cook <keescook@chromium.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.10 228/306] staging: rts5208: Fix get_ms_information() heap buffer size
+Date: Thu, 16 Sep 2021 17:59:33 +0200
+Message-Id: <20210916155801.831825518@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210916155753.903069397@linuxfoundation.org>
+References: <20210916155753.903069397@linuxfoundation.org>
+User-Agent: quilt/0.66
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Classification-ID: 712c3295-ddca-4044-8232-b0e932842c75-1-1
 
-`compat_insnlist()` handles the 32-bit version of the `COMEDI_INSNLIST`
-ioctl (whenwhen `CONFIG_COMPAT` is enabled).  It allocates memory to
-temporarily hold an array of `struct comedi_insn` converted from the
-32-bit version in user space.  This memory is only being freed if there
-is a fault while filling the array, otherwise it is leaked.
+From: Kees Cook <keescook@chromium.org>
 
-Add a call to `kfree()` to fix the leak.
+[ Upstream commit cbe34165cc1b7d1110b268ba8b9f30843c941639 ]
 
-Fixes: b8d47d881305 ("comedi: get rid of compat_alloc_user_space() mess in COMEDI_INSNLIST compat"
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Greg Kroah-Hartman <greglh@linuxfoundation.org>
+Fix buf allocation size (it needs to be 2 bytes larger). Found when
+__alloc_size() annotations were added to kmalloc() interfaces.
+
+In file included from ./include/linux/string.h:253,
+                 from ./include/linux/bitmap.h:10,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/paravirt.h:17,
+                 from ./arch/x86/include/asm/irqflags.h:63,
+                 from ./include/linux/irqflags.h:16,
+                 from ./include/linux/rcupdate.h:26,
+                 from ./include/linux/rculist.h:11,
+                 from ./include/linux/pid.h:5,
+                 from ./include/linux/sched.h:14,
+                 from ./include/linux/blkdev.h:5,
+                 from drivers/staging/rts5208/rtsx_scsi.c:12:
+In function 'get_ms_information',
+    inlined from 'ms_sp_cmnd' at drivers/staging/rts5208/rtsx_scsi.c:2877:12,
+    inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3247:12:
+./include/linux/fortify-string.h:54:29: warning: '__builtin_memcpy' forming offset [106, 107] is out
+ of the bounds [0, 106] [-Warray-bounds]
+   54 | #define __underlying_memcpy __builtin_memcpy
+      |                             ^
+./include/linux/fortify-string.h:417:2: note: in expansion of macro '__underlying_memcpy'
+  417 |  __underlying_##op(p, q, __fortify_size);   \
+      |  ^~~~~~~~~~~~~
+./include/linux/fortify-string.h:463:26: note: in expansion of macro '__fortify_memcpy_chk'
+  463 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
+      |                          ^~~~~~~~~~~~~~~~~~~~
+drivers/staging/rts5208/rtsx_scsi.c:2851:3: note: in expansion of macro 'memcpy'
+ 2851 |   memcpy(buf + i, ms_card->raw_sys_info, 96);
+      |   ^~~~~~
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev
-Cc: <stable@vger.kernel.org> # 5.13+
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/r/20210818044252.1533634-1-keescook@chromium.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-N.B. Also need patches for 5.8+ from before comedi moved out of staging.
----
- drivers/comedi/comedi_fops.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/rts5208/rtsx_scsi.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/comedi/comedi_fops.c b/drivers/comedi/comedi_fops.c
-index df77b6bf5c64..763cea8418f8 100644
---- a/drivers/comedi/comedi_fops.c
-+++ b/drivers/comedi/comedi_fops.c
-@@ -3090,6 +3090,7 @@ static int compat_insnlist(struct file *file, unsigned long arg)
- 	mutex_lock(&dev->mutex);
- 	rc = do_insnlist_ioctl(dev, insns, insnlist32.n_insns, file);
- 	mutex_unlock(&dev->mutex);
-+	kfree(insns);
- 	return rc;
- }
+diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+index 1deb74112ad4..11d9d9155eef 100644
+--- a/drivers/staging/rts5208/rtsx_scsi.c
++++ b/drivers/staging/rts5208/rtsx_scsi.c
+@@ -2802,10 +2802,10 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	}
  
+ 	if (dev_info_id == 0x15) {
+-		buf_len = 0x3A;
++		buf_len = 0x3C;
+ 		data_len = 0x3A;
+ 	} else {
+-		buf_len = 0x6A;
++		buf_len = 0x6C;
+ 		data_len = 0x6A;
+ 	}
+ 
+@@ -2855,11 +2855,7 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	}
+ 
+ 	rtsx_stor_set_xfer_buf(buf, buf_len, srb);
+-
+-	if (dev_info_id == 0x15)
+-		scsi_set_resid(srb, scsi_bufflen(srb) - 0x3C);
+-	else
+-		scsi_set_resid(srb, scsi_bufflen(srb) - 0x6C);
++	scsi_set_resid(srb, scsi_bufflen(srb) - buf_len);
+ 
+ 	kfree(buf);
+ 	return STATUS_SUCCESS;
 -- 
-2.33.0
+2.30.2
+
+
 
