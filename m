@@ -1,147 +1,118 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C073FD0;
-	Thu, 16 Sep 2021 16:30:09 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.west.internal (Postfix) with ESMTP id B62142B00B18;
-	Thu, 16 Sep 2021 12:30:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 16 Sep 2021 12:30:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=Lqt0we4A/T0SHYBhw0ZBiteVrFa
-	e9rbK0EPrRuFl3oY=; b=LnIWuareiS2jP4nnsunZoVLeH91/ijKlwjtNs0JMLTq
-	W5SkajmnGWk707CsLe1azxnZa8myH4n+bFwA8ckwnQjA8EphQZ0JCTbh4Y6K4n92
-	g2g1F/E53xOP06kQjsn+JOMXRyEu2S88ZzuGGJQxDVYZTatLErit5ewiKV6u2BdI
-	lsdp1cZ5a3HMBapmFj07mGRW4hl42aMEFuzE7fU2OxArRkU7uz0Iikxns502WK2A
-	VurLq8I/YfExtRjENhb9CeCKHxLmcZVIj9cZsKuRCnd2TZcIYlaMPv+7tJ16zeKO
-	lv+MK8f24hm/KgC6L9xe5JnBP56ZQ7rQAeA2NIPzziw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Lqt0we
-	4A/T0SHYBhw0ZBiteVrFae9rbK0EPrRuFl3oY=; b=hzcmiTskzfJ0LpViQyTC36
-	ukeBnRV3kVOlWsu8LkC8k3TIb0V6CrrFJkdx5Op//6RBN8W6uLa83Op2gJZ5M6bA
-	5CKZYAMI8pT3jB91IQObI/Zwdf7H9RY3lcqQvuTZhmouwzJmpjnAINJFQk9RZqCP
-	oU/PuigbRr66lGhsqy7F+GrdxXBtRVpmg3VbU/sccLOyqg5GIWO6uiqOk+75rKvi
-	GRDXS8VgLCMv6LllYt39AjMMPv/a9ZRqCUaBNHwX4nrPHQB95LHjWGSY5fpeEy9C
-	I78PdIa9tVQJn/iwGijd8nj+guRXbXSpCIkz5ojHdqqkHjRo0hnQ5vsB7RyPdKEA
-	==
-X-ME-Sender: <xms:DHFDYefc5hj8gi4dxWD0LPwIZ-7eCAuChRgl45hXKphK3maJmwnwXg>
-    <xme:DHFDYYO0rUPS9nmSFSqwpcxqfQ_pQUfnIXBaWh_gKPlov19Nv09H08sl9fMbW8jej
-    x4FLS8PBE-WDjuxu1Q>
-X-ME-Received: <xmr:DHFDYfjlR9vtTu4VW1DUC-1go9vAGAgiu4mdYnnLPoc-sg8jUE3667OYC6LwQ6eKgLK2bp65AsiHYahP4-YRGqqoixLRb-JI6Ggs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgleeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:DHFDYb8mvUuKkKkddxegg6gItiZ5TjT8Cc64Qf7pAUHPtYmMU-xSjA>
-    <xmx:DHFDYavdsMaQrdk1zzZdfVtKrlwD3fDdTKdBvT-bzXktew1v5aVQpw>
-    <xmx:DHFDYSGgAKXuaQV93QNJ2A44fGIJFswzUnmo5pe6HbLIx8qSeTi1UA>
-    <xmx:D3FDYVkgEXJK3xiJFUwFzoVSyYi_MlOVvwBGpewYBcsbvogO0Rptf9nzLW8>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 12:30:03 -0400 (EDT)
-Date: Thu, 16 Sep 2021 18:30:00 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
-Message-ID: <20210916163000.6ezo6muhq23bewyi@gilmour>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
- <20210913075417.ampb2jt4quftpqzj@gilmour>
- <YT8RnzVqLebtPMD+@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278123FCF
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 16:31:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A5EF61381;
+	Thu, 16 Sep 2021 16:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1631809880;
+	bh=wT3iu+1KsIblfmC2Xxu1rpoOWJc5iroPFIXC6zv3PRM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aTNqd+yZRFwBpPTxPDSv1YDluD3Ql2Ew0VlpZrI5rBCMNSnrYHS7wnoyAEdWthrcW
+	 eEZcFrm/5ZeJyIZnkNJqhZckG7Hxr54c2wzmQR47CLO5ZNB4icApdN/8QF3xtbTqyF
+	 Rihh+xeJNwOuLC/zRjKxaJyT4Y1YoVuDkjqGc1zA=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Kees Cook <keescook@chromium.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.13 285/380] staging: rts5208: Fix get_ms_information() heap buffer size
+Date: Thu, 16 Sep 2021 18:00:42 +0200
+Message-Id: <20210916155813.771281329@linuxfoundation.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210916155803.966362085@linuxfoundation.org>
+References: <20210916155803.966362085@linuxfoundation.org>
+User-Agent: quilt/0.66
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6h7nudibxh245pvl"
-Content-Disposition: inline
-In-Reply-To: <YT8RnzVqLebtPMD+@aptenodytes>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Kees Cook <keescook@chromium.org>
+
+[ Upstream commit cbe34165cc1b7d1110b268ba8b9f30843c941639 ]
+
+Fix buf allocation size (it needs to be 2 bytes larger). Found when
+__alloc_size() annotations were added to kmalloc() interfaces.
+
+In file included from ./include/linux/string.h:253,
+                 from ./include/linux/bitmap.h:10,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/paravirt.h:17,
+                 from ./arch/x86/include/asm/irqflags.h:63,
+                 from ./include/linux/irqflags.h:16,
+                 from ./include/linux/rcupdate.h:26,
+                 from ./include/linux/rculist.h:11,
+                 from ./include/linux/pid.h:5,
+                 from ./include/linux/sched.h:14,
+                 from ./include/linux/blkdev.h:5,
+                 from drivers/staging/rts5208/rtsx_scsi.c:12:
+In function 'get_ms_information',
+    inlined from 'ms_sp_cmnd' at drivers/staging/rts5208/rtsx_scsi.c:2877:12,
+    inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3247:12:
+./include/linux/fortify-string.h:54:29: warning: '__builtin_memcpy' forming offset [106, 107] is out
+ of the bounds [0, 106] [-Warray-bounds]
+   54 | #define __underlying_memcpy __builtin_memcpy
+      |                             ^
+./include/linux/fortify-string.h:417:2: note: in expansion of macro '__underlying_memcpy'
+  417 |  __underlying_##op(p, q, __fortify_size);   \
+      |  ^~~~~~~~~~~~~
+./include/linux/fortify-string.h:463:26: note: in expansion of macro '__fortify_memcpy_chk'
+  463 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
+      |                          ^~~~~~~~~~~~~~~~~~~~
+drivers/staging/rts5208/rtsx_scsi.c:2851:3: note: in expansion of macro 'memcpy'
+ 2851 |   memcpy(buf + i, ms_card->raw_sys_info, 96);
+      |   ^~~~~~
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/r/20210818044252.1533634-1-keescook@chromium.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/rts5208/rtsx_scsi.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+index 1deb74112ad4..11d9d9155eef 100644
+--- a/drivers/staging/rts5208/rtsx_scsi.c
++++ b/drivers/staging/rts5208/rtsx_scsi.c
+@@ -2802,10 +2802,10 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	}
+ 
+ 	if (dev_info_id == 0x15) {
+-		buf_len = 0x3A;
++		buf_len = 0x3C;
+ 		data_len = 0x3A;
+ 	} else {
+-		buf_len = 0x6A;
++		buf_len = 0x6C;
+ 		data_len = 0x6A;
+ 	}
+ 
+@@ -2855,11 +2855,7 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	}
+ 
+ 	rtsx_stor_set_xfer_buf(buf, buf_len, srb);
+-
+-	if (dev_info_id == 0x15)
+-		scsi_set_resid(srb, scsi_bufflen(srb) - 0x3C);
+-	else
+-		scsi_set_resid(srb, scsi_bufflen(srb) - 0x6C);
++	scsi_set_resid(srb, scsi_bufflen(srb) - buf_len);
+ 
+ 	kfree(buf);
+ 	return STATUS_SUCCESS;
+-- 
+2.30.2
 
 
---6h7nudibxh245pvl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Salut Paul,
-
-On Mon, Sep 13, 2021 at 10:53:51AM +0200, Paul Kocialkowski wrote:
-> On Mon 13 Sep 21, 09:54, Maxime Ripard wrote:
-> > On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
-> > > In order to reparent the CSI module clock to the ISP PLL via
-> > > device-tree, export the ISP PLL clock declaration in the public
-> > > device-tree header.
-> >=20
-> > You use clk_set_rate_exclusive in the ISP driver on the module clock so
-> > it should prevent what you're mentioning from happening.
->=20
-> It does, but then it breaks display support entirely (because the DRM
-> driver doesn't use clk_set_rate_exclusive).
->=20
-> The bottomline is that using the same PLL for both display and camera
-> easily results in conflicts.
-
-The commit log should reflect that then
-
-> > If it doesn't, then clk_set_rate_exclusive has a bug and should be
-> > fixed.
-> >=20
-> > Either way, using assigned-clock-parents is not a good solution here
-> > either, it only makes sure that this is the case when probe is run.
->=20
-> I'm not sure what could provide better guarantees. There is a clock
-> parenting API (in the clock framework) which may, but this implies
-> providing the parent clock to the driver which seems way out of line
-> since this is a platform-specific matter that should certainly not
-> be handled by the driver.
->=20
-> I also tried hardcoding the reparenting bit in the CCU driver, but
-> this felt less clean than doing it in device-tree.
->=20
-> What do you think?
-
-This is essentially policy, and putting it in the DT fails for the
-reason we already discussed, but also if we ever want to change it for
-example to optimize it a bit. In this case, we would have to deal with
-the old and new DT, and the possible consequences.
-
-So yeah, hardcoding it in the clock driver seems like a more sensible
-choice.
-
-Maxime
-
---6h7nudibxh245pvl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNxCAAKCRDj7w1vZxhR
-xTHSAP94s1QU8mIU0mn77banRpkH0ZGKIUjPYygrvhOgdlCSegD/UryBgzqTDNlY
-omqVVtLWlYLTj9NQE+yJaYV+lXE3oQo=
-=K8KU
------END PGP SIGNATURE-----
-
---6h7nudibxh245pvl--
