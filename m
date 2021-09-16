@@ -1,171 +1,59 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5B13FCF
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 14:06:18 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18GDhs2x009007;
-	Thu, 16 Sep 2021 14:06:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=7zp44+SBlCmaaIy4MZjGbZVwGPvqSK8z7UPoRoxCjpI=;
- b=y6avDAoTzR9yXU7aEbmy7k+/1IrEDrSfvgO7UcizatFWyMglbxNIu5hxNS/VaU4CgD+w
- sUGqrE0WsvhyDe7HQ38EmO83gJCqZQ+Ym8c0xc8DjGaGOPpKWGQi/E6TGPMtgf9TTJfB
- A/nUYkKFPl8gi4FWHr8fcluTWCg2RxPqekOzqTbT6KI3o/v5WbMX03rOcAOBJIPVam6j
- t61veuMf/0WsBIdGFcYGwARFFWtmEGRTLgfRF8bV1Axvk4bFM9MJDUEJ1r3LKWEodr+I
- iQ6AlUmTEffuwgkQ0Pan302ZS14K0zZ1wtVsaUum5TrNeJ0BJetFn9Kw1Cnz+omkuA+7 CA== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=7zp44+SBlCmaaIy4MZjGbZVwGPvqSK8z7UPoRoxCjpI=;
- b=L/OuD8KWmww87WyKDsnyj1GzkP2WI1QymJnwCCIzh3b1CQc8Pu3AaD09JWcMK7NU/IJx
- UpnvHFXAlfTzm+9qhJAmZGk4tLJV+ntitPxrjf+D3ejMA8+S4HHabUTTwdwAuiDxNX8J
- qECJavKjtm1M++s6hnM1Nxo3hTp5OJx6MGkFDyiKF09FeltOmL5oSQ9UrhIgjStNMRr5
- c/PUwmhiFWKx3D/SEQSJjkVLG3G4YMx99OhWFi/NepOENNfN65HSAVSEB6P2Wd7hUGz4
- LcEitIsY7wfoca/vWnODE5c+AqxTYREcsW3K+m+Bw1DJzmhdxKFbfW9hbFTBewCV87hm kQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3b3jysks5y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Sep 2021 14:06:12 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18GDtGlW158837;
-	Thu, 16 Sep 2021 14:06:10 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by userp3030.oracle.com with ESMTP id 3b0hjy9p6m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Sep 2021 14:06:10 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cLQ0TFZnA3Q1FsKqMudSUxWx1YPRpxqZqBp7eMi77uNk8HZeSsQCLFDPVQFNFEX7RWFQNbQnNTWWAsGRw6S7NunL1eyGArihdAjxAmZ5t4HGb58PBCvE2tV1EBZOKVZPVuEIlB7I5K6ZT2kuKSH+n9SYk0X4J+YCteWQ+usz9SIW1WwA7IdXjTgJgEJtXrjVAUA/HXp0KR6z6O3OTIvnu1rQRFhQdKpz95pNKJael8Ru3HvoO9VlMgSqcCpRyfVFawUrfxa8RtxbwoI6r7Kc9WPuu+n2Y/ucL8TTt4dix7rlcFEMdvE5fUU9qYWDiJxC8eOWUEc7rBXqmZG1kW+vSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=7zp44+SBlCmaaIy4MZjGbZVwGPvqSK8z7UPoRoxCjpI=;
- b=ae1gp2v5UKu/UllMjB5gjy7Eo4lssZC0Jl1rKTmTgV4oeXAlyerlqwZt7sjg4pIk8p4UFuA7wksi+Ic9KliNabs2j6kW8gnDix3ZeNz/8l5jZNyz+rQKLsLdJrFIEnn6DKgPA9YZc9p5VnI4mGkXGZjPIaBNX0JsmkSb11GwBl8rMpyjTlR39RSBlDPxj7xIVRw7MBK/wttVRa/t4lQ2mWl6dkUeS2WoGjwUZ20gDmezYWdiNHHyEu9A2Cqwoy78o0J+3qEsKVBhJO7Amln7mPdOzLFaDb6/H32SiES4LL3NvDXKgWIETuC+aAn0n22cUydDIYrxEcikbXhn9nnu0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7zp44+SBlCmaaIy4MZjGbZVwGPvqSK8z7UPoRoxCjpI=;
- b=iBkVBamejapRjhNk9o3lHCKbC9ZbefqSPrGekV22mevU0/WPXkwUEWsJ0gnaRXbGW3//+xFvkNpEwSLG277x6p2bmhjdChSu3zO7damUEsDgUWiy/i5JpsGjRf9IAyvQgH+9sDGyoDfurPEUJY9kveEC5Ufb5X4LKZw1ITNprrU=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1886.namprd10.prod.outlook.com
- (2603:10b6:300:10e::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.18; Thu, 16 Sep
- 2021 14:06:07 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4523.016; Thu, 16 Sep 2021
- 14:06:07 +0000
-Date: Thu, 16 Sep 2021 17:05:52 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Joshua de Block <deblockj0482@gmail.com>
-Cc: forest@alittletooquiet.net, gregkh@linuxfoundation.org, aldas60@gmail.com,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: vt6656: Fix warning message generated by
- checkpatch.pl
-Message-ID: <20210916140551.GK2088@kadam>
-References: <YUJCI9w8sJLFihRD@joshua-VirtualBox>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUJCI9w8sJLFihRD@joshua-VirtualBox>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNXP275CA0009.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::21)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C312FAE
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 14:52:31 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id b6so6956345ilv.0
+        for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 07:52:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=0270jj8hnvtU6Z8Tv4sd6F6VhusCWGFru+o41CqU4dY=;
+        b=q34RR4LWBrtLkQq2xfuHk/ZCP/8aq4P6vuiGM+iRHBZZDR6Z+I4sFYKs0CjFxHbsWz
+         lfkWFeVwdZ1vA1q4va4kmIwB/L5KhQ+bqHkhlE7vcgZtf67MrO4xGUKWlsF26Hbb+VPB
+         LU9/uLiUg57er+zxw9lzt4pCD3EWLugba3QxYGYdoruUaQQAOdiy8ix4o4sdDWnh4a5P
+         I2ond2PyOOmsht17N8CCHh0qt5ZRli4qcuVfSVAlHRDFLTPQP+OJbECtsJC1q51PLNqx
+         ucvG3iLSB1RX/sm/8qt2NMu40NzhSh+RVwzHHB0CDZKpp9gY//v4ZL69CM/l0Cme+mS1
+         ha7g==
+X-Gm-Message-State: AOAM531w0/pj4DqHSoOtdD1oAxS2FsnrSuKle+mGdSFvWta7Jy5eAf/r
+	W0GnAsgtQabOOERznZzJog==
+X-Google-Smtp-Source: ABdhPJyhvUDPfLSQOfqzy/j95As8UgMQaFnCqJEywtA9Ni9W2l1qewwlfPBHZo0IFSPe2ybOjx+Azw==
+X-Received: by 2002:a92:7f08:: with SMTP id a8mr4112867ild.125.1631803950945;
+        Thu, 16 Sep 2021 07:52:30 -0700 (PDT)
+Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net. [96.84.70.89])
+        by smtp.gmail.com with ESMTPSA id e15sm1822474ilu.29.2021.09.16.07.52.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 07:52:30 -0700 (PDT)
+Received: (nullmailer pid 1340114 invoked by uid 1000);
+	Thu, 16 Sep 2021 14:52:29 -0000
+Date: Thu, 16 Sep 2021 09:52:29 -0500
+From: Rob Herring <robh@kernel.org>
+To: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, git@xilinx.com, shubhrajyoti.datta@gmail.com, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v13 1/5] dt-bindings: add documentation of xilinx
+ clocking wizard
+Message-ID: <YUNaLWfcTEYpGwJx@robh.at.kernel.org>
+References: <cover.1631623906.git.shubhrajyoti.datta@xilinx.com>
+ <5abe09974e95f127784b9eb5b8764e099e4a1b2d.1631623906.git.shubhrajyoti.datta@xilinx.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.99) by JNXP275CA0009.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend Transport; Thu, 16 Sep 2021 14:06:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9c25708e-be99-4c26-94dc-08d9791b20c6
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1886:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB1886A370792A5E737E825F598EDC9@MWHPR10MB1886.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	y7UCZJaTgg884mUE+3Coz8aaLtXlxDUZdIvLBN6WueoNnmSU0SfHRyIWYTFrVCs2dBCGX97FzEqf5cxUwtIZRbc0EEYAwkLVCH1kEZf+G14Lvaam2L7m5WWdw76LO9f8Foa+fhaQU+pvGbyS9fv9rea1oUw3WAdnXKGngLnNUKwoGEyWj1UW6Re2X1W75qZZLJrl/m3WqqDKtv1DNnGbtzapNND5s9CS+usFh/oa7icGqXfS3QGqxaq56RPa8dBa1ycAHF7ClpO5vcUyyfpPOI3E4WBWZ8TjdBRfRwNVPHRyLOITQbEOUDcdUNARDdmvJLJqpcTDrv/HuHnn70tyuPMcBTw1aFr+Cn27+W2il3sSA84cvIzr7mK4gmc+UQEh+kRu4bsfUGqo7+4h9PXSX2aJZCQg2qYrzZbI/OK2pjkSKA8OaISmjx56arSldtO97EyZ53F5blvManY4VhysztUgAbfZth5mnqwGLG08qkWeJndhJqj+yA43NwLv5EPKbj14v9/1De7rDAowCma+jdqKy6zaXrQwhJa75UrIX55ZxX59SUB/UoVVCz6U7vd9tNq2phk4i1DDtQjEYqAK1cz5hj/LIF9l2ACwgKC5IEKszZQ6DtwbJ5unSWCxNLCRcwNWnk07CxjeNzQtWC48bFrTXO01qHdtkJFwojEHMhpt7qVnlh7gSBF9H99fpT0DOBuhpR6ApqAdEwM6EXdDXg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6916009)(26005)(33716001)(44832011)(66556008)(2906002)(186003)(8676002)(4326008)(5660300002)(508600001)(83380400001)(4744005)(6666004)(1076003)(9686003)(66946007)(52116002)(66476007)(316002)(38350700002)(9576002)(956004)(55016002)(38100700002)(8936002)(33656002)(6496006)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?kD5/zyC3J75zqJWKKUNMKluMdyftN9vuheghrsNGRYx9gWhRM26DfRqbujIB?=
- =?us-ascii?Q?n7I/JCikucC3D2dLLW1W/xXnLtq93FBu6/I7zSG7/nmflh4QZQobT1v//XNa?=
- =?us-ascii?Q?FnCdfp2aB1djB7KP3fFSYQg5/McyouO2xr4xNR2BSO/vjXrO7zkkT9W1+voP?=
- =?us-ascii?Q?0JUrwuIlC2VkqZimHtEGE/STVmrbNvzcudyxqVdS/L7RHX/v3QvTb2T0hx/z?=
- =?us-ascii?Q?Nk0PONxKl8PAae2q/ZU4xk/IG8Y2WvkSkVY9/YhaZI43YgoLtP2L22j1qKiG?=
- =?us-ascii?Q?IqK77tWCoBCHsOn3huRFI8a45byElLVl7AirmLhcy3aQp/5DqVBBM8my9EFA?=
- =?us-ascii?Q?OMAx2n7E7QJd6fmetmHVnfd3eQd7fK0GubKXbgYlCF/7vFNEDgJ2X7jue+2J?=
- =?us-ascii?Q?09Z87SOzozDnCGZ3/A7xk6W8enabuWTNJlga+LPq+onHGpjhjUAjtA+cVyy8?=
- =?us-ascii?Q?5IrwsVpmynIIjRVjzoIn0WVGH8+kbAD0AN0BI6bculwnDGj7VjmX3V4BcA7i?=
- =?us-ascii?Q?nySHUWrANhrdMh8vesBnrQvsT1Sv5UkHra2SMawtQ0NaKcgS4FtaVIYyJ10H?=
- =?us-ascii?Q?abuoqsUuDTycTLrAXqNfptfMCJVAl2IV/klvewqEk16RJdax2hxPeVMHzVEC?=
- =?us-ascii?Q?kKEM3EFfhh+dEwBu2gtXBR6OZqFMYXiOnDbxt/nl6QwWgpNVWwcDQtYe7jJr?=
- =?us-ascii?Q?uEjAtNxvhhpCoF5EENi0K7dP+bYn49HtdEVG4N+SWJDrL9l4vL/y0Kwniy+7?=
- =?us-ascii?Q?NoVBtyqmMNu8OhkJSvAPaiqNFlGjHp5VEtNEjX0Xg+s8Dg50WYzcFYubiQwg?=
- =?us-ascii?Q?yRHbmP/f8k0qF6wttXosVdlbt5JI70mQ4uEgpiI+NPnQka3QvZ9JMtAWpQN5?=
- =?us-ascii?Q?Bgov9xjYa7VWDyjI7zDCIiGYIAQotJogL9ihcRUikCXu0iogpsiec81yQdhK?=
- =?us-ascii?Q?5W9UHJ7qxAZCRqMLg5wL6lURyGWigpaKcT9XrpuG/eeZTrtNW7ZdOH4WKF76?=
- =?us-ascii?Q?T+3GcKgLxzd3nM+qkdZKV3ZWxsSHEqVLvjGU8maHibYOjQSjLKfXXfuMCdvb?=
- =?us-ascii?Q?qMJ/qUXgzt+1qgYGu7NT38HIYi/rMD4gkOqWBk3PxLCgKk+nz3u9jGtHHfNn?=
- =?us-ascii?Q?4rfYLQb6/MZcChO3bhVMK73fTt98Og/wsjcB8U4ZJG35AZNZUmxkUstZ9hNV?=
- =?us-ascii?Q?T7JSo9GR77YUywXbdmVhDs2xTzuQm4bcMTdVS74vqTrOtiNtPsXHie5pK1hA?=
- =?us-ascii?Q?KMbsxtazWI95+L1SaElI25lu7TxYRSLRwdUPhyGBr0QfhgF2E8xy7W5gNFyI?=
- =?us-ascii?Q?Ptt9gr1y2Vm36H3OYRoULuCU?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c25708e-be99-4c26-94dc-08d9791b20c6
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2021 14:06:07.6595
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fuYEmjj3LV232hgd5pFBh2wwxUMpi085CpBUiNRGpUMTtVwN/uvKTgm2PbrjNdKzsoE1ftGP+4wBp+vuAxzCCR1431cnq3Kpw0xOMe1xWQM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1886
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10109 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
- definitions=main-2109160090
-X-Proofpoint-GUID: VrcGcw6pE-H8OkQCide6yP0cmrKX6vyz
-X-Proofpoint-ORIG-GUID: VrcGcw6pE-H8OkQCide6yP0cmrKX6vyz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5abe09974e95f127784b9eb5b8764e099e4a1b2d.1631623906.git.shubhrajyoti.datta@xilinx.com>
 
-On Wed, Sep 15, 2021 at 01:57:39PM -0500, Joshua de Block wrote:
-> Description: Address the following checkpatch warning:
->    * WARNING: Unnecessary ftrace-like logging - prefer using ftrace
+On Tue, 14 Sep 2021 18:27:41 +0530, Shubhrajyoti Datta wrote:
+> Add the devicetree binding for the xilinx clocking wizard.
 > 
-> Signed-off-by: Joshua de Block <deblockj0482@gmail.com>
+> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
 > ---
->  drivers/staging/vt6656/rxtx.c | 1 -
->  1 file changed, 1 deletion(-)
+>  .../bindings/clock/xlnx,clocking-wizard.yaml  | 77 +++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/clock/xlnx,clocking-wizard.yaml
 > 
-> diff --git a/drivers/staging/vt6656/rxtx.c b/drivers/staging/vt6656/rxtx.c
-> index a31947f2620d..b129397ef41f 100644
-> --- a/drivers/staging/vt6656/rxtx.c
-> +++ b/drivers/staging/vt6656/rxtx.c
-> @@ -58,7 +58,6 @@ static struct vnt_usb_send_context
->  	struct vnt_usb_send_context *context = NULL;
->  	int ii;
->  
-> -	dev_dbg(&priv->usb->dev, "%s\n", __func__);
->  
 
-Delete the next blank line as well.  Otherwise it introduces a new
-checkpatch warning.
-
->  	for (ii = 0; ii < priv->num_tx_context; ii++) {
->  		if (!priv->tx_context[ii])
-
-regards,
-dan carpenter
-
+Reviewed-by: Rob Herring <robh@kernel.org>
