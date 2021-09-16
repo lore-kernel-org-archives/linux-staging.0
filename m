@@ -1,115 +1,224 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F043FC5
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 11:51:17 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id m3so15580153lfu.2
-        for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 04:51:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AF23FC5
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 12:14:20 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id t6so15964850edi.9
+        for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 05:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=4hpTBly87CJvdUmFguNKgkL3zMg4fhjWobSldTLWtEQ=;
-        b=LiWk/ERskfbepSnqhc/N37YQ19GF9KcB9vqrXQUtk/RwXRAaTtNtuCpRM17UWhStg3
-         ZIWZvWD+m4hDMMYxhhzPLIwjWM3LfK5oSXe1FlWzfvwxOORux2Xz5FRPlP0+/iXPWKYE
-         eMfYHU02EFDO/pWpsI+Zzt9DeFKlLgcZdGwKcp1/U0bXkrIzKmMvC0po8+8ixuMjRNGy
-         vVGVy5KozQYdLCe/xys8Pf/s2DFmYAf6cKioCsUSqE03kJ78pDoXUdVbDkpqXE4n5Qx+
-         XtLukTzT9sOd+02KAkMdnBtI9pnfc9KfbGFJezraFDgrvP6pE/nl2WON/Kh2IDszfmt8
-         yB+A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dceZ5uiDy0+Um3nYa2DJqEKVOq4Y9eg0YaVZ8ELhM+o=;
+        b=ITKmohoFX118+vkERG1GZWtf0ZHVsD6dL+I+loxNI89ZaS8sQGmfM62KdbUBpGqvTB
+         rM85K7KFQHHjby/u+cHQSrzMBkPTdTKIY8zWkcDzP2QEqktty9S+XVQBC5T1vtEoV4Db
+         V0ow4DcMeTHCMs+k+nyJx0/RUeLhuQgT79ZO5KKt6zXHeBDL58+BAqKH1nOGQNQyzJ73
+         i7YC/GI1xyNVM77N8/NV56BsZnrLz2rKhX7TioLMKJPViWDRYChGJ2VGjAJtYEVetrqE
+         Np2Z5zDW1W8wGYCeGu5cQeHFtzDlO1DXnHez9zCfoVLa8HbVeI+tvNGbAE0Sn3o45wRv
+         /PXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=4hpTBly87CJvdUmFguNKgkL3zMg4fhjWobSldTLWtEQ=;
-        b=03lGGPgomsbezqT7vadF8Ao9TjeiU8CYl4P6RoVZZMkphoBw1jZZH+DhH5CYqj5FFJ
-         DZr03a1/I/poJwcEFE91RrPIXJwUih3f8GuPJAI7Uw2BdWDPZe/7lLk07hs0V7GfRIFM
-         K44KcVOAGZjcSD22HxSE4Fgh6lsyeCsjeBtMYcVjxfPTTjruxhwoTzBjf4kQReW6kMKq
-         DtIDPfiZ90S33A/1ahsHCKx/e1Cs3qGF830+e6YWKMWIbS6C2xXvRYUe65Hpp/esn6uV
-         8tR8/Ln52HZ3oro+2DzG6c9qgVLryS2RLYRqBvLXRuOn/4DPRuGWYPl4grFzvdP4wlkB
-         Cojw==
-X-Gm-Message-State: AOAM531ZK/6kKwfE9wIixteEkPLocDXxz3Ky6xVfqW+S4X4VtuocRpDp
-	y2kPKW74uqCbHGGmjGtZtZc=
-X-Google-Smtp-Source: ABdhPJyPAR8oSRuJy3exZ0vWjQuCgJJ9IMX6KLUOrYcJ8nfIuAhWqA9Qd4KipZQm/S13+VXwJL1DYA==
-X-Received: by 2002:a05:6512:21ad:: with SMTP id c13mr3950932lft.27.1631793075072;
-        Thu, 16 Sep 2021 04:51:15 -0700 (PDT)
-Received: from [192.168.1.11] ([46.235.67.49])
-        by smtp.gmail.com with ESMTPSA id o21sm240463lfu.4.2021.09.16.04.51.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Sep 2021 04:51:14 -0700 (PDT)
-Message-ID: <fb4e88d9-8e1e-4964-8361-085f5a6ee9f1@gmail.com>
-Date: Thu, 16 Sep 2021 14:51:10 +0300
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dceZ5uiDy0+Um3nYa2DJqEKVOq4Y9eg0YaVZ8ELhM+o=;
+        b=ZyBB+6qe0aBz+OkfN5p7OU7VHn9hoG6X4W820u+q2pvSpvz1+BCeST5BQAv2EQph8a
+         nQ4+wJtHOxJLVCJeORgYjcJX6tLx2djs75H5v7CucBU6+N2WelnXiN3ALNpvq9438d1o
+         bnwjHtn9BoMiq4vYZWZIsoIQoUKtrFQQbAv442mqJCVxnP0a1fDlpwdjv48wBhQRNH/z
+         Q2f+n6xKMDfFQUB+s7y6Gn9xnfmWZU0sYE5d85wBqr8Qv0sOJmrmUPU5NC60xTMAo7qc
+         dPcn8Uq1sy4mODRPfDQTJg2AmQB+nYRJ7IY+xccJnTTOgr3Zm1HX3e88vvOzN53htgSe
+         A2Yg==
+X-Gm-Message-State: AOAM531NxWtaDpjidY/OFsfTPazH316CAqEWEobQjXsrz5Clx4hD9Dz9
+	ywCf5jNaC37Kn9vEmzeEn00=
+X-Google-Smtp-Source: ABdhPJyiCIJyLzFmU30/g1amsyFm/bu8BYO30s73qIG7d6Jul+70WYEzQS4YU90FawDjX4s8N6lr3A==
+X-Received: by 2002:a17:906:4a0b:: with SMTP id w11mr6134745eju.265.1631794458498;
+        Thu, 16 Sep 2021 05:14:18 -0700 (PDT)
+Received: from localhost.localdomain (host-79-47-104-104.retail.telecomitalia.it. [79.47.104.104])
+        by smtp.gmail.com with ESMTPSA id gl2sm1102155ejb.110.2021.09.16.05.14.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 05:14:18 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>
+Subject: Re: [PATCH v6 16/19] staging: r8188eu: Clean up rtw_read*() and rtw_write*()
+Date: Thu, 16 Sep 2021 14:14:14 +0200
+Message-ID: <1797501.xtDa3BoUpI@localhost.localdomain>
+In-Reply-To: <20210916113606.GJ2116@kadam>
+References: <20210915211103.18001-1-fmdefrancesco@gmail.com> <20210915211103.18001-17-fmdefrancesco@gmail.com> <20210916113606.GJ2116@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.0.3
-Subject: Re: [PATCH v6 19/19] staging: r8188eu: remove shared buffer for USB
- requests
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- David Laight <david.Laight@aculab.com>
-References: <20210915211103.18001-1-fmdefrancesco@gmail.com>
- <20210915211103.18001-20-fmdefrancesco@gmail.com>
- <20210916114928.GK2116@kadam>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20210916114928.GK2116@kadam>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 9/16/21 14:49, Dan Carpenter wrote:
-> On Wed, Sep 15, 2021 at 11:11:03PM +0200, Fabio M. De Francesco wrote:
->>  static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
->>  {
->>  	int	i;
->> @@ -158,9 +135,6 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
->>  		DBG_88E("NON USB_SPEED_HIGH\n");
->>  	}
->>  
->> -	if (rtw_init_intf_priv(pdvobjpriv) == _FAIL)
->> -		goto free_dvobj;
->> -
->>  	/* 3 misc */
->>  	sema_init(&pdvobjpriv->usb_suspend_sema, 0);
->>  	rtw_reset_continual_urb_error(pdvobjpriv);
->> @@ -169,7 +143,6 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
->>  
->>  	status = _SUCCESS;
->          ^^^^^^^^^^^^^^^^^
+On Thursday, September 16, 2021 1:36:06 PM CEST Dan Carpenter wrote:
+> On Wed, Sep 15, 2021 at 11:11:00PM +0200, Fabio M. De Francesco wrote:
+> > Clean up rtw_read{8,16,32}() and rtw_write{8,16,32,N}() in 
+usb_ops_linux.c.
+> > 
 > 
->>  
->> -free_dvobj:
->>  	if (status != _SUCCESS && pdvobjpriv) {
->              ^^^^^^^^^^^^^^^^^^
-> status is going to be _SUCCESS so we can delete this if statement.
+> It would be good to know what you did more specifically.
+> 
+> 1) Rename variables:
+> 	pio_priv => io_priv
+> 	pintfhdl => intfhdl
+> 	wvalue => address.
+> 2) Remove unnecessary casts.
+> 3) Fix types.  Use __le16 instead of __le32.
+
+Dear Dan,
+
+I'm sorry for missing that. :( 
+
+Now I remember that you asked for this specifications at least once (if not 
+twice). I'll redo the commit message and add the list above in v7. I guess 
+that I have to do the same in 15/19.
+
+> The last one is a small KASan bug fix.  So good job on that.
+
+Thanks (even if I don't yet know anything about KASan).
+
+> > Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
+> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  drivers/staging/r8188eu/hal/usb_ops_linux.c | 68 ++++++++++-----------
+> >  1 file changed, 34 insertions(+), 34 deletions(-)
+> > 
+> > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/
+staging/r8188eu/hal/usb_ops_linux.c
+> > index 2098ce935dc0..d87da84eca07 100644
+> > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+> > @@ -91,91 +91,91 @@ static int usbctrl_vendorreq(struct intf_hdl 
+*intfhdl, u16 value, void *data, u1
+> >  
+> >  u8 rtw_read8(struct adapter *adapter, u32 addr)
+> >  {
+> > -	struct io_priv *pio_priv = &adapter->iopriv;
+> > -	struct intf_hdl *pintfhdl = &pio_priv->intf;
+> > -	u16 wvalue = (u16)(addr & 0x0000ffff);
+> > +	struct io_priv *io_priv = &adapter->iopriv;
+> > +	struct intf_hdl *intfhdl = &io_priv->intf;
+> > +	u16 address = addr & 0xffff;
+> >  	u8 data;
+> > -
+> 
+> Deleting this line introduces a checkpatch warning.
+
+I didn't notice the warning. This too will be fixed in v7.
+
+> > -	usbctrl_vendorreq(pintfhdl, wvalue, &data, 1, 
+REALTEK_USB_VENQT_READ);
+> > +	usbctrl_vendorreq(intfhdl, address, &data, 1, 
+REALTEK_USB_VENQT_READ);
+> >  
+> >  	return data;
+> >  }
+> >  
+> >  u16 rtw_read16(struct adapter *adapter, u32 addr)
+> >  {
+> > -	struct io_priv *pio_priv = &adapter->iopriv;
+> > -	struct intf_hdl *pintfhdl = &pio_priv->intf;
+> > -	u16 wvalue = (u16)(addr & 0x0000ffff);
+> > -	__le32 data;
+> > +	struct io_priv *io_priv = &adapter->iopriv;
+> > +	struct intf_hdl *intfhdl = &io_priv->intf;
+> > +	u16 address = addr & 0xffff;
+> > +	__le16 data;
+> >  
+> > -	usbctrl_vendorreq(pintfhdl, wvalue, &data, 2, 
+REALTEK_USB_VENQT_READ);
+> > +	usbctrl_vendorreq(intfhdl, address, &data, 2, 
+REALTEK_USB_VENQT_READ);
+> >  
+> > -	return (u16)(le32_to_cpu(data) & 0xffff);
+> > +	return le16_to_cpu(data);
+> 
+> The last two bytes of "data" are not initialized.  I do not think that
+> will cause a bug on either endian type of system during runtime but I
+> this that KASan will catch it and complain.
+
+I don't want to add mistakes on mistakes. I guess that you are talking of the 
+same fix you wrote above and that "return le16_to_cpu(data);" is correct.
+Am I interpreting your words in the correct way?
+ 
+> >  }
+> >  
+> >  u32 rtw_read32(struct adapter *adapter, u32 addr)
+> >  {
+> > -	struct io_priv *pio_priv = &adapter->iopriv;
+> > -	struct intf_hdl *pintfhdl = &pio_priv->intf;
+> > -	u16 wvalue = (u16)(addr & 0x0000ffff);
+> > +	struct io_priv *io_priv = &adapter->iopriv;
+> > +	struct intf_hdl *intfhdl = &io_priv->intf;
+> > +	u16 address = addr & 0xffff;
+> >  	__le32 data;
+> >  
+> > -	usbctrl_vendorreq(pintfhdl, wvalue, &data, 4, 
+REALTEK_USB_VENQT_READ);
+> > +	usbctrl_vendorreq(intfhdl, address, &data, 4, 
+REALTEK_USB_VENQT_READ);
+> >  
+> >  	return le32_to_cpu(data);
+> >  }
+> >  
+> >  int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
+> >  {
+> > -	struct io_priv *pio_priv = &adapter->iopriv;
+> > -	struct intf_hdl *pintfhdl = &pio_priv->intf;
+> > -	u16 wvalue = (u16)(addr & 0x0000ffff);
+> > +	struct io_priv *io_priv = &adapter->iopriv;
+> > +	struct intf_hdl *intfhdl = &io_priv->intf;
+> > +	u16 address = addr & 0xffff;
+> >  	int ret;
+> >  
+> > -	ret = usbctrl_vendorreq(pintfhdl, wvalue, &val, 1, 
+REALTEK_USB_VENQT_WRITE);
+> > +	ret = usbctrl_vendorreq(intfhdl, address, &val, 1, 
+REALTEK_USB_VENQT_WRITE);
+> >  
+> >  	return RTW_STATUS_CODE(ret);
+> >  }
+> >  
+> >  int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+> >  {
+> > -	struct io_priv *pio_priv = &adapter->iopriv;
+> > -	struct intf_hdl *pintfhdl = &pio_priv->intf;
+> > -	u16 wvalue = (u16)(addr & 0x0000ffff);
+> > -	__le32 data = cpu_to_le32(val & 0x0000ffff);
+> > +	struct io_priv *io_priv = &adapter->iopriv;
+> > +	struct intf_hdl *intfhdl = &io_priv->intf;
+> > +	__le16 data = cpu_to_le16(val);
+> 
+> This is the other interesting change.  I think the original code works
+> though.
+
+Here too, I'm a bit confused... Do yo prefer the original code or you're 
+saying that, although the original code works fine, I made the correct choice 
+in changing it? Can you please confirm?
+
+> 
+> > +	u16 address = addr & 0xffff;
+> >  	int ret;
+> >  
+> > -	ret = usbctrl_vendorreq(pintfhdl, wvalue, &data, 2, 
+REALTEK_USB_VENQT_WRITE);
+> > +	ret = usbctrl_vendorreq(intfhdl, address, &data, 2, 
+REALTEK_USB_VENQT_WRITE);
+> >  
+> >  	return RTW_STATUS_CODE(ret);
+> >  }
+> 
+> regards,
+> dan carpenter
+> 
 > 
 
-silly mistake :(
+Regards,
 
-will be fixed in v7, thanks so much for review
-
-
->>  		usb_set_intfdata(usb_intf, NULL);
->>  		kfree(pdvobjpriv);
->> @@ -200,7 +173,7 @@ static void usb_dvobj_deinit(struct usb_interface *usb_intf)
->>  				usb_reset_device(interface_to_usbdev(usb_intf));
->>  			}
->>  		}
->> -		rtw_deinit_intf_priv(dvobj);
->> +
->>  		kfree(dvobj);
->>  	}
-> 
+Fabio
 
 
-
-With regards,
-Pavel Skripkin
