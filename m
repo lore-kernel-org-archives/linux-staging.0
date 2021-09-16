@@ -1,59 +1,50 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp101.ord1d.emailsrvr.com (smtp101.ord1d.emailsrvr.com [184.106.54.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C312FAE
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 14:52:31 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id b6so6956345ilv.0
-        for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 07:52:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0270jj8hnvtU6Z8Tv4sd6F6VhusCWGFru+o41CqU4dY=;
-        b=q34RR4LWBrtLkQq2xfuHk/ZCP/8aq4P6vuiGM+iRHBZZDR6Z+I4sFYKs0CjFxHbsWz
-         lfkWFeVwdZ1vA1q4va4kmIwB/L5KhQ+bqHkhlE7vcgZtf67MrO4xGUKWlsF26Hbb+VPB
-         LU9/uLiUg57er+zxw9lzt4pCD3EWLugba3QxYGYdoruUaQQAOdiy8ix4o4sdDWnh4a5P
-         I2ond2PyOOmsht17N8CCHh0qt5ZRli4qcuVfSVAlHRDFLTPQP+OJbECtsJC1q51PLNqx
-         ucvG3iLSB1RX/sm/8qt2NMu40NzhSh+RVwzHHB0CDZKpp9gY//v4ZL69CM/l0Cme+mS1
-         ha7g==
-X-Gm-Message-State: AOAM531w0/pj4DqHSoOtdD1oAxS2FsnrSuKle+mGdSFvWta7Jy5eAf/r
-	W0GnAsgtQabOOERznZzJog==
-X-Google-Smtp-Source: ABdhPJyhvUDPfLSQOfqzy/j95As8UgMQaFnCqJEywtA9Ni9W2l1qewwlfPBHZo0IFSPe2ybOjx+Azw==
-X-Received: by 2002:a92:7f08:: with SMTP id a8mr4112867ild.125.1631803950945;
-        Thu, 16 Sep 2021 07:52:30 -0700 (PDT)
-Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net. [96.84.70.89])
-        by smtp.gmail.com with ESMTPSA id e15sm1822474ilu.29.2021.09.16.07.52.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 07:52:30 -0700 (PDT)
-Received: (nullmailer pid 1340114 invoked by uid 1000);
-	Thu, 16 Sep 2021 14:52:29 -0000
-Date: Thu, 16 Sep 2021 09:52:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, git@xilinx.com, shubhrajyoti.datta@gmail.com, gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v13 1/5] dt-bindings: add documentation of xilinx
- clocking wizard
-Message-ID: <YUNaLWfcTEYpGwJx@robh.at.kernel.org>
-References: <cover.1631623906.git.shubhrajyoti.datta@xilinx.com>
- <5abe09974e95f127784b9eb5b8764e099e4a1b2d.1631623906.git.shubhrajyoti.datta@xilinx.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7CD3FC3
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 15:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
+	s=20190130-41we5z8j; t=1631803656;
+	bh=oGcCGIKnGjk/ZPJFTm5ie8WYtb0aCti6vzAcVLvJMEI=;
+	h=Subject:To:From:Date:From;
+	b=Y5LKOGPVapbM2N7GyiHcL+8DYO0K0yHroB17OHBnTXg/tmMpOwCClxMpVUWnYy576
+	 a7zK6CxcmBefHz6hiu9p8zC81FRk+TfsxmP5rnGm6QbYQ942BuEHBCZYHuoP2gRj6L
+	 xEiOoEYtr3hkHF/7moQSEq7TYNvCu4vBU2IKrSs8=
+X-Auth-ID: abbotti@mev.co.uk
+Received: by smtp21.relay.ord1d.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 4E3BA6019B;
+	Thu, 16 Sep 2021 10:47:35 -0400 (EDT)
+Subject: Re: [PATCH] comedi: Fix memory leak in compat_insnlist()
+To: linux-kernel@vger.kernel.org
+Cc: H Hartley Sweeten <hsweeten@visionengravers.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ Greg Kroah-Hartman <greglh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev, stable@vger.kernel.org
+References: <20210916144438.156858-1-abbotti@mev.co.uk>
+From: Ian Abbott <abbotti@mev.co.uk>
+Organization: MEV Ltd.
+Message-ID: <631771cd-4fde-210d-2bf8-ac36f8e6cdda@mev.co.uk>
+Date: Thu, 16 Sep 2021 15:47:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5abe09974e95f127784b9eb5b8764e099e4a1b2d.1631623906.git.shubhrajyoti.datta@xilinx.com>
+In-Reply-To: <20210916144438.156858-1-abbotti@mev.co.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Classification-ID: 17782ee8-0505-4b13-9f0a-5b33163ea9a9-1-1
 
-On Tue, 14 Sep 2021 18:27:41 +0530, Shubhrajyoti Datta wrote:
-> Add the devicetree binding for the xilinx clocking wizard.
-> 
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-> ---
->  .../bindings/clock/xlnx,clocking-wizard.yaml  | 77 +++++++++++++++++++
->  1 file changed, 77 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/xlnx,clocking-wizard.yaml
-> 
+On 16/09/2021 15:44, Ian Abbott wrote:
+> Cc: Greg Kroah-Hartman <greglh@linuxfoundation.org>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Sorry, I need to resend it to fix that typo.
+
+-- 
+-=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
+-=( registered in England & Wales.  Regd. number: 02862268.  )=-
+-=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
+-=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
