@@ -1,524 +1,104 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2968D3FC9
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 05:05:47 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id j13so11954705edv.13
-        for <linux-staging@lists.linux.dev>; Wed, 15 Sep 2021 22:05:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CAE3FC3
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 08:29:17 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id d6so8061637wrc.11
+        for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 01:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VoD2qmZ/fNfRcJwUxEEWLDk1W6vmafuG6EyLNrB0mys=;
-        b=OZaUsGLTB/RTKAzXhD27i0Fd54yLeeIRZnRevNzY+eEHFgk4D8QyhStdeSCtO+JuLs
-         RaWp89Zmi/j2igdV8HTjYq4yozfaA1MCAwEZaGF7xWPvim2myrkcdkz/zNDifQcUnHgi
-         KS8urK6SXaIpIDiCFVBWpnEvTq1nRUrYRSksmXD765vQwY3SaLwKbHusORaz5i6gGeoq
-         bLukNcnrnzXC5Bp1Qp3+JMytMD7Sk7c8Zip+PGM/cEXSRiya2RmdTzVojYuuhrUjWWq/
-         wd+EtJ/vMvX92lF5rbWfL9gtcgHfcN8VHvY+/fhIqZBSAORfO/YmMg6+P+6FLanTmSml
-         mPJw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZZccAzt1xxxXzq/Q0/mhYP15uyP5RiZKfB2//wDW8cY=;
+        b=mvWbX36gCST29e6vttj8Wd+a+X4DEEn1xewKjXhYnUCJeLVVDjJyOP3CdJOBhfgT9g
+         EUN3xwFbxtQ7C58cH9EwYNuKdQRaChmlhUZLYOHkMUL2/RDvZ5/qKe51CxRPJ5YqV/AV
+         A6RgQKoFX5fQE2POGIkopqyiG4RCiOJEEIwSOVZEnCh0gQ0WYyvnQM+WJxgZw/S+gXDT
+         1tXebLWkyQxx3kgKOHfQlYIUYnR3r0lDlK6qZrMt+zwOGoUzj+bl2LyrJylCNPxjt7Tb
+         tPwXhFfjUFGbUkpKLoMxYIZKUXk/eZuNGuNxYtglpGeHuEo2NUsc5BdcYvWMEG4ZbhMx
+         lYXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VoD2qmZ/fNfRcJwUxEEWLDk1W6vmafuG6EyLNrB0mys=;
-        b=iMN7t+Mob9zyKTzZuz1PNxJL78qAk4haHYjw9rmdsR1d+lxrLix4Xgx4qpgq72rRQs
-         pJPYDCr+wpdQyWaUGkATok5617I/h03wOszG7W+CAHp5GbrtBFRrO7tYsl03F8ys4ENM
-         dTMi2WFTQaLC1EIR2yQ9Ybe/9UaqlqQwtkdgJ/LxxfucKSnFA8QgJS+KF/inAyfaYhGr
-         funm4KHXBI9T2oBzMH6Dq9JZViUjzBi0E2uIl7bFxxhFv7yKsNbEmp33zHnEEzdtDRhg
-         /CQiIPm7SshBp8Y/sZjKG0oA66qc4CJVTPE28rBWqd/7jB7/58rcMKLNBeCTkxhfbXNI
-         avcw==
-X-Gm-Message-State: AOAM531Aq8prTD4lhdQxnhmWIOAMbOKtFBzABHrLYEWuqao1k6tRXYPd
-	Gy5RO6np2htNDpkWu8N8fwOLOSq77BpO3SxoNvCxdw==
-X-Google-Smtp-Source: ABdhPJwuRmqYFEi6jJ8o/kU5gLq/s+iJai9rvo3BPXeQRXe5qy83zmClrUa+H1bn6gLTuHFDfwaFttPK4MlahlnnqvA=
-X-Received: by 2002:a17:906:e20e:: with SMTP id gf14mr4203948ejb.244.1631768745206;
- Wed, 15 Sep 2021 22:05:45 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZZccAzt1xxxXzq/Q0/mhYP15uyP5RiZKfB2//wDW8cY=;
+        b=V4aMTxIxWpJFyK1Cyz0lu8hTMNB3vZAkrCj2zcSaGhzi7xFtDB85BePGnApXByIdYc
+         WpkvD6pR+8Lrw+KVpeP4/x3Cq6rC8Z1K/YLzc+gTngu0TFvTvUUe8j79RRVJfU4VTwnv
+         5GN/w/pVBDDJZD+p7zBHUQXwvshyWSf+c7miwA3iHAwcVbOk7gBdmrDDsxXF2gsVRRCs
+         TPqC8C1xsqi4uIujvnTRO+Vt/fp3KCjVVZhjbEdHHEQiAm+HBuccsbsPa11ihrM8Zo/h
+         9VPFk1qjBiBfdnYnjBvhMbM3+6leAStohoDA90i0M4CRImJMrnjEwNXM4JNfHaiBYwxd
+         OHBg==
+X-Gm-Message-State: AOAM532qRLWLHRFz0fYcs6OpZ94/iY7uN8oXNcb+4wLyUQD0cAcHzASz
+	95xG7HwBSzlZjVTSt+2O/eM=
+X-Google-Smtp-Source: ABdhPJyR2DRZ7H5uDZ7Bb89R90sHWZlhRwRAKCyUa7W2osBroCZ8dH10oEGaFUlrNPyw2c5pbBq5Vw==
+X-Received: by 2002:adf:816f:: with SMTP id 102mr4571518wrm.368.1631780955905;
+        Thu, 16 Sep 2021 01:29:15 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
+        by smtp.gmail.com with ESMTPSA id d129sm7458079wmd.23.2021.09.16.01.29.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Sep 2021 01:29:15 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove unused ODM_RASupport_Init()
+Date: Thu, 16 Sep 2021 10:29:05 +0200
+Message-Id: <20210916082906.25294-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210915162324.25513-1-dafna.hirschfeld@collabora.com> <20210915162324.25513-3-dafna.hirschfeld@collabora.com>
-In-Reply-To: <20210915162324.25513-3-dafna.hirschfeld@collabora.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Thu, 16 Sep 2021 02:05:33 -0300
-Message-ID: <CAAEAJfA5p_W8VKa=varFYqg+0pQhdk_125F7cdy9LrrbQ2QKpw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] staging: media: wave5: Add the vdi layer
-To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc: Robert Beckett <bob.beckett@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Collabora Kernel ML <kernel@collabora.com>, Dafna Hirschfeld <dafna3@gmail.com>, kiril.bicevski@collabora.com, 
-	Nas Chung <nas.chung@chipsnmedia.com>, lafley.kim@chipsnmedia.com, 
-	scott.woo@chipsnmedia.com, olivier.crete@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Function ODM_RASupport_Init() is unused, remove it.
 
-On Wed, 15 Sept 2021 at 13:24, Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
-> Add the vdi directory of the wave5 codec driver.
-> The vdi.h header defines common helper functions
-> such as writing/reading register and handling endianness.
->
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/wave5/vdi/vdi.c | 325 ++++++++++++++++++++++++++
->  drivers/staging/media/wave5/vdi/vdi.h |  79 +++++++
->  2 files changed, 404 insertions(+)
->  create mode 100644 drivers/staging/media/wave5/vdi/vdi.c
->  create mode 100644 drivers/staging/media/wave5/vdi/vdi.h
->
-> diff --git a/drivers/staging/media/wave5/vdi/vdi.c b/drivers/staging/media/wave5/vdi/vdi.c
-> new file mode 100644
-> index 000000000000..95bc120407a4
-> --- /dev/null
-> +++ b/drivers/staging/media/wave5/vdi/vdi.c
-> @@ -0,0 +1,325 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-> +/*
-> + * Wave5 series multi-standard codec IP - low level access functions
-> + *
-> + * Copyright (C) 2021 CHIPS&MEDIA INC
-> + */
-> +#include <linux/bug.h>
-> +#include "vdi.h"
-> +#include "../v4l2/vpu.h"
-> +#include "../vpuapi/wave/wave5_regdefine.h"
-> +#include <linux/delay.h>
-> +#define VDI_SRAM_BASE_ADDR                  0x00
-> +
-> +#define VDI_SYSTEM_ENDIAN                VDI_LITTLE_ENDIAN
-> +#define VDI_128BIT_BUS_SYSTEM_ENDIAN     VDI_128BIT_LITTLE_ENDIAN
-> +
-> +static int vdi_allocate_common_memory(struct device *dev)
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c     | 10 ----------
+ drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h |  2 --
+ 2 files changed, 12 deletions(-)
 
-I would get rid of this entirely and just use the DMA API allocators.
+diff --git a/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c b/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
+index d873672feb27..8a6cb18b0f29 100644
+--- a/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
++++ b/drivers/staging/r8188eu/hal/Hal8188ERateAdaptive.c
+@@ -471,16 +471,6 @@ odm_RATxRPTTimerSetting(
+ 	}
+ }
+ 
+-void
+-ODM_RASupport_Init(
+-		struct odm_dm_struct *dm_odm
+-	)
+-{
+-	/*  2012/02/14 MH Be noticed, the init must be after IC type is recognized!!!!! */
+-	if (dm_odm->SupportICType == ODM_RTL8188E)
+-		dm_odm->RaSupport88E = true;
+-}
+-
+ int ODM_RAInfo_Init(struct odm_dm_struct *dm_odm, u8 macid)
+ {
+ 	struct odm_ra_info *pRaInfo = &dm_odm->RAInfo[macid];
+diff --git a/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h b/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
+index d5ced507a648..20d73ca781e8 100644
+--- a/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
++++ b/drivers/staging/r8188eu/include/Hal8188ERateAdaptive.h
+@@ -37,8 +37,6 @@
+ 	LE_BITS_TO_1BYTE(__paddr + 6, 0, 8)
+ /*  End rate adaptive define */
+ 
+-void ODM_RASupport_Init(struct odm_dm_struct *dm_odm);
+-
+ int ODM_RAInfo_Init_all(struct odm_dm_struct *dm_odm);
+ 
+ int ODM_RAInfo_Init(struct odm_dm_struct *dm_odm, u8 MacID);
+-- 
+2.33.0
 
-> +{
-> +       int ret;
-> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +
-> +       if (!vpu_dev->common_mem.vaddr) {
-> +               vpu_dev->common_mem.size = SIZE_COMMON;
-> +               ret = vdi_allocate_dma_memory(vpu_dev, &vpu_dev->common_mem);
-> +               if (ret) {
-> +                       dev_err(dev, "unable to allocate common buffer\n");
-> +                       return ret;
-> +               }
-> +       }
-> +
-> +       dev_dbg(dev, "common_mem: daddr=%pad size=%zu vaddr=0x%p\n",
-> +               &vpu_dev->common_mem.daddr, vpu_dev->common_mem.size,
-> +                       vpu_dev->common_mem.vaddr);
-> +
-> +       return 0;
-> +}
-> +
-> +int vdi_init(struct device *dev)
-
-As mentioned on patch 3/6, please prefix functions, e.g. "wave5_vdi_init".
-
-> +{
-> +       struct vpu_platform_data *pdata = dev_get_platdata(dev);
-> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +       int i;
-> +
-> +       if (vdi_allocate_common_memory(dev) < 0) {
-> +               pr_err("[VDI] fail to get vpu common buffer from driver\n");
-
-As mentioned on patch 3/6, please clean the pr_{} with dev_{},
-if possible.
-
-If you need to use pr_{} for some reason, you can use pr_fmt
-instead of having that "[VDI]". This stuff is even nicely
-documented Documentation/core-api/printk-basics.rst :-)
-
-> +               goto ERR_VDI_INIT;
-> +       }
-> +
-> +       if (pdata && pdata->reset)
-> +               pdata->reset(dev, vpu_dev->vdb_register.vaddr);
-> +
-> +       if (pdata && pdata->pre_fw_init) {
-> +               if (pdata->pre_fw_init(dev, vpu_dev->vdb_register.vaddr))
-> +                       goto ERR_VDI_INIT;
-> +       }
-> +
-> +       if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
-> +               // if BIT processor is not running.
-> +               if (vdi_read_register(vpu_dev, W5_VCPU_CUR_PC) == 0) {
-> +                       for (i = 0; i < 64; i++)
-> +                               vdi_write_register(vpu_dev, (i * 4) + 0x100, 0x0);
-> +               }
-> +       } else {
-> +               WARN_ONCE(1, "unsupported product code 0x%x\n", vpu_dev->product_code);
-> +       }
-> +
-> +       pr_info("[VDI] success to init driver\n");
-> +
-> +       return 0;
-> +
-> +ERR_VDI_INIT:
-> +
-
-Avoid caps.
-
-> +       vdi_release(dev);
-> +       return -1;
-> +}
-> +EXPORT_SYMBOL(vdi_init);
-> +
-
-Exported to whom?
-
-> +int vdi_release(struct device *dev)
-> +{
-> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +
-> +       memset(&vpu_dev->vdb_register, 0x00, sizeof(vpu_dev->vdb_register));
-> +       vdi_free_dma_memory(vpu_dev, &vpu_dev->common_mem);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL(vdi_release);
-> +
-> +void vdi_write_register(struct vpu_device *vpu_dev, unsigned int addr, unsigned int data)
-> +{
-> +       struct vpu_platform_data *pdata;
-> +
-> +       pdata = dev_get_platdata(vpu_dev->dev);
-> +       if (pdata && pdata->write_register)
-> +               return pdata->write_register(vpu_dev->dev, vpu_dev->vdb_register.vaddr, addr, data);
-> +
-> +       writel(data, vpu_dev->vdb_register.vaddr + addr);
-> +}
-> +
-> +unsigned int vdi_read_register(struct vpu_device *vpu_dev, unsigned int addr)
-> +{
-> +       struct vpu_platform_data *pdata;
-> +
-> +       pdata = dev_get_platdata(vpu_dev->dev);
-> +       if (pdata && pdata->read_register)
-> +               return pdata->read_register(vpu_dev->dev, vpu_dev->vdb_register.vaddr, addr);
-> +
-> +       return readl(vpu_dev->vdb_register.vaddr + addr);
-> +}
-> +EXPORT_SYMBOL(vdi_read_register);
-> +
-> +int vdi_buffer_sync(struct device *dev, struct vpu_buf *vb, int dir)
-> +{
-> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
-> +       struct vpu_platform_data *pdata;
-> +
-> +       if (!vb || !vb->vaddr) {
-> +               pr_err("%s(): unable to clear unmapped buffer\n", __func__);
-> +               return -EINVAL;
-> +       }
-> +
-> +       pdata = dev_get_platdata(dev);
-> +       if (pdata && pdata->buffer_sync)
-> +               return pdata->buffer_sync(dev, vpu_dev->vdb_register.vaddr, vb, 0, vb->size, dir);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL(vdi_buffer_sync);
-> +
-> +int vdi_clear_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
-> +{
-> +       struct vpu_platform_data *pdata;
-> +
-> +       if (!vb || !vb->vaddr) {
-> +               pr_err("%s(): unable to clear unmapped buffer\n", __func__);
-> +               return -EINVAL;
-> +       }
-> +
-> +       memset(vb->vaddr, 0, vb->size);
-> +       pdata = dev_get_platdata(vpu_dev->dev);
-> +       if (pdata && pdata->buffer_sync)
-> +               pdata->buffer_sync(vpu_dev->dev, vpu_dev->vdb_register.vaddr, vb, 0, vb->size, VPU_BUF_SYNC_TO_DEVICE);
-> +
-> +       return vb->size;
-> +}
-> +
-> +static int swap_endian(struct vpu_device *vpu_dev, unsigned char *data, int len, int endian);
-> +
-> +int vdi_write_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb, size_t offset, unsigned char *data, int len, int endian)
-> +{
-> +       struct vpu_platform_data *pdata;
-> +
-> +       if (!vb || !vb->vaddr) {
-> +               pr_err("%s(): unable to write to unmapped buffer\n", __func__);
-> +               return -EINVAL;
-> +       }
-> +
-> +       if ((offset + len) > vb->size) {
-> +               pr_err("%s(): buffer too small\n", __func__);
-> +               return -ENOSPC;
-> +       }
-> +
-> +       swap_endian(vpu_dev, data, len, endian);
-> +       memcpy(vb->vaddr + offset, data, len);
-> +       pdata = dev_get_platdata(vpu_dev->dev);
-> +       if (pdata && pdata->buffer_sync)
-> +               pdata->buffer_sync(vpu_dev->dev, vpu_dev->vdb_register.vaddr, vb, offset, len, VPU_BUF_SYNC_TO_DEVICE);
-> +
-> +       return len;
-> +}
-> +
-> +int vdi_allocate_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
-> +{
-> +       void *vaddr;
-> +       dma_addr_t daddr;
-> +       struct vpu_platform_data *pdata;
-> +
-> +       if (!vb->size) {
-> +               dev_err(vpu_dev->dev, "%s(): requested size==0\n", __func__);
-> +               return -EINVAL;
-> +       }
-> +
-> +       pdata = dev_get_platdata(vpu_dev->dev);
-> +       if (pdata && pdata->buffer_alloc)
-> +               return pdata->buffer_alloc(vpu_dev->dev, vb);
-
-I don't see buffer_alloc implemented, but like I said, better to just
-ditch this ad-hoc allocator and do follow kernel-style, like all drivers.
-
-> +
-> +       vaddr = dma_alloc_coherent(vpu_dev->dev, vb->size, &daddr, GFP_KERNEL);
-> +       if (!vaddr)
-> +               return -ENOMEM;
-> +       vb->vaddr = vaddr;
-> +       vb->daddr = daddr;
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL(vdi_allocate_dma_memory);
-> +
-> +void vdi_free_dma_memory(struct vpu_device *vpu_dev, struct vpu_buf *vb)
-> +{
-> +       struct vpu_platform_data *pdata;
-> +
-> +       if (vb->size == 0)
-> +               return;
-> +
-> +       pdata = dev_get_platdata(vpu_dev->dev);
-> +       if (pdata && pdata->buffer_free)
-> +               return pdata->buffer_free(vpu_dev->dev, vb);
-> +
-> +       if (!vb->vaddr)
-> +               dev_err(vpu_dev->dev, "%s(): requested free of unmapped buffer\n", __func__);
-> +       else
-> +               dma_free_coherent(vpu_dev->dev, vb->size, vb->vaddr, vb->daddr);
-> +
-> +       memset(vb, 0, sizeof(*vb));
-> +}
-> +EXPORT_SYMBOL(vdi_free_dma_memory);
-> +
-> +int vdi_convert_endian(struct vpu_device *vpu_dev, unsigned int endian)
-> +{
-> +       if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
-> +               switch (endian) {
-> +               case VDI_LITTLE_ENDIAN:
-> +                       endian = 0x00;
-> +                       break;
-> +               case VDI_BIG_ENDIAN:
-> +                       endian = 0x0f;
-> +                       break;
-> +               case VDI_32BIT_LITTLE_ENDIAN:
-> +                       endian = 0x04;
-> +                       break;
-> +               case VDI_32BIT_BIG_ENDIAN:
-> +                       endian = 0x03;
-> +                       break;
-> +               }
-> +       }
-> +
-> +       return (endian & 0x0f);
-> +}
-> +
-> +void byte_swap(unsigned char *data, int len)
-> +{
-> +       u8 temp;
-> +       s32 i;
-> +
-> +       for (i = 0; i < len; i += 2) {
-> +               temp      = data[i];
-> +               data[i]   = data[i + 1];
-> +               data[i + 1] = temp;
-> +       }
-> +}
-> +
-> +void word_swap(unsigned char *data, int len)
-
-Perhaps there's some library function for all these?
-
-> +{
-> +       u16  temp;
-> +       u16 *ptr = (uint16_t *)data;
-> +       s32   i, size = len / (int)sizeof(uint16_t);
-> +
-> +       for (i = 0; i < size; i += 2) {
-> +               temp     = ptr[i];
-> +               ptr[i]   = ptr[i + 1];
-> +               ptr[i + 1] = temp;
-> +       }
-> +}
-> +
-> +void dword_swap(unsigned char *data, int len)
-> +{
-> +       u32  temp;
-> +       u32 *ptr = (uint32_t *)data;
-> +       s32   i, size = len / (int)sizeof(uint32_t);
-> +
-> +       for (i = 0; i < size; i += 2) {
-> +               temp     = ptr[i];
-> +               ptr[i]   = ptr[i + 1];
-> +               ptr[i + 1] = temp;
-> +       }
-> +}
-> +
-> +void lword_swap(unsigned char *data, int len)
-> +{
-> +       u64  temp;
-> +       u64 *ptr = (uint64_t *)data;
-> +       s32   i, size = len / (int)sizeof(uint64_t);
-> +
-> +       for (i = 0; i < size; i += 2) {
-> +               temp     = ptr[i];
-> +               ptr[i]   = ptr[i + 1];
-> +               ptr[i + 1] = temp;
-> +       }
-> +}
-> +
-> +static int swap_endian(struct vpu_device *vpu_dev, unsigned char *data, int len, int endian)
-> +{
-> +       int         changes;
-> +       int         sys_endian;
-> +       bool        byte_change, word_change, dword_change, lword_change;
-> +
-> +       if (PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
-> +               sys_endian = VDI_128BIT_BUS_SYSTEM_ENDIAN;
-> +       } else {
-> +               pr_err("unknown product id : %08x\n", vpu_dev->product_code);
-> +               return -1;
-> +       }
-> +
-> +       endian     = vdi_convert_endian(vpu_dev, endian);
-> +       sys_endian = vdi_convert_endian(vpu_dev, sys_endian);
-> +       if (endian == sys_endian)
-> +               return 0;
-> +
-> +       changes     = endian ^ sys_endian;
-> +       byte_change  = changes & 0x01;
-> +       word_change  = ((changes & 0x02) == 0x02);
-> +       dword_change = ((changes & 0x04) == 0x04);
-> +       lword_change = ((changes & 0x08) == 0x08);
-> +
-> +       if (byte_change)
-> +               byte_swap(data, len);
-> +       if (word_change)
-> +               word_swap(data, len);
-> +       if (dword_change)
-> +               dword_swap(data, len);
-> +       if (lword_change)
-> +               lword_swap(data, len);
-> +
-> +       return 1;
-> +}
-> +
-> diff --git a/drivers/staging/media/wave5/vdi/vdi.h b/drivers/staging/media/wave5/vdi/vdi.h
-> new file mode 100644
-> index 000000000000..31fcea026755
-> --- /dev/null
-> +++ b/drivers/staging/media/wave5/vdi/vdi.h
-> @@ -0,0 +1,79 @@
-> +/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
-> +/*
-> + * Wave5 series multi-standard codec IP - low level access functions
-> + *
-> + * Copyright (C) 2021 CHIPS&MEDIA INC
-> + */
-> +
-> +#ifndef _VDI_H_
-> +#define _VDI_H_
-> +
-> +#include "../vpuapi/vpuconfig.h"
-> +#include <linux/string.h>
-> +#include <linux/slab.h>
-> +#include <linux/device.h>
-> +
-> +/************************************************************************/
-> +/* COMMON REGISTERS                                                     */
-> +/************************************************************************/
-> +#define VPU_PRODUCT_CODE_REGISTER                 0x1044
-> +
-> +/* system register write */
-> +#define vpu_write_reg(VPU_INST, ADDR, DATA) vdi_write_register(VPU_INST, ADDR, DATA)
-> +// system register read
-> +#define vpu_read_reg(CORE, ADDR) vdi_read_register(CORE, ADDR)
-> +// system memory write
-> +#define vpu_write_mem(CORE, VB, OFFSET, DATA, LEN, ENDIAN)    \
-> +       vdi_write_memory(CORE, VB, OFFSET, DATA, LEN, ENDIAN)
-> +
-> +struct vpu_buf {
-> +       size_t size;
-> +       dma_addr_t daddr;
-> +       void __iomem *vaddr;
-> +};
-> +
-> +enum endian_mode {
-> +       VDI_LITTLE_ENDIAN = 0,      /* 64bit LE */
-> +       VDI_BIG_ENDIAN,             /* 64bit BE */
-> +       VDI_32BIT_LITTLE_ENDIAN,
-> +       VDI_32BIT_BIG_ENDIAN,
-> +       /* WAVE PRODUCTS */
-> +       VDI_128BIT_LITTLE_ENDIAN    = 16,
-> +       VDI_128BIT_LE_BYTE_SWAP,
-> +       VDI_128BIT_LE_WORD_SWAP,
-> +       VDI_128BIT_LE_WORD_BYTE_SWAP,
-> +       VDI_128BIT_LE_DWORD_SWAP,
-> +       VDI_128BIT_LE_DWORD_BYTE_SWAP,
-> +       VDI_128BIT_LE_DWORD_WORD_SWAP,
-> +       VDI_128BIT_LE_DWORD_WORD_BYTE_SWAP,
-> +       VDI_128BIT_BE_DWORD_WORD_BYTE_SWAP,
-> +       VDI_128BIT_BE_DWORD_WORD_SWAP,
-> +       VDI_128BIT_BE_DWORD_BYTE_SWAP,
-> +       VDI_128BIT_BE_DWORD_SWAP,
-> +       VDI_128BIT_BE_WORD_BYTE_SWAP,
-> +       VDI_128BIT_BE_WORD_SWAP,
-> +       VDI_128BIT_BE_BYTE_SWAP,
-> +       VDI_128BIT_BIG_ENDIAN        = 31,
-> +       VDI_ENDIAN_MAX
-> +};
-> +
-> +#define VDI_128BIT_ENDIAN_MASK 0xf
-> +
-> +int vdi_init(struct device *dev);
-> +int vdi_release(struct device *dev);   //this function may be called only at system off.
-> +
-> +/**
-> + * @brief       make clock stable before changing clock frequency
-> + * @detail      before inoking vdi_set_clock_freg caller MUST invoke vdi_ready_change_clock
-> + *             function.
-> + *              after changing clock frequency caller also invoke vdi_done_change_clock() function.
-> + * @return  0   failure
-> + *          1   success
-> + */
-> +int vdi_ready_change_clock(unsigned long core_idx);
-> +int vdi_set_change_clock(unsigned long core_idx, unsigned long clock_mask);
-> +int vdi_done_change_clock(unsigned long core_idx);
-> +int vdi_buffer_sync(struct device *dev, struct vpu_buf *vb, int dir);
-> +
-> +#endif //#ifndef _VDI_H_
-> +
-> --
-> 2.17.1
->
-
-Regards,
-Ezequiel
