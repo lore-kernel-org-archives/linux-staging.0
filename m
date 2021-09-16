@@ -1,244 +1,198 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530763FD0
-	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 09:44:27 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 192-20020a1c04c9000000b002f7a4ab0a49so5457882wme.0
-        for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 02:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lutVxa6fHCXHHJWCv9CzZ9NdTiQVG3MxU/LECqbu9b8=;
-        b=jOxaNxjiioyGomcqsDSVW/aBxiFVE7PPpe5/MqqgI8pyMZemZwaao91kw1JtUe3jTt
-         mqE44MBNBjrV6kyQkJ+43apNvy1Ni20jj4mVLWneaQlphlvBUMTkBviMZxxAYklgiZ2T
-         kUSjmJ5lrtZx4/QkwizDnJp021N9txmG5f6IY4xImf+giiVSfE1DLOKo8De1QMlySLzU
-         CBb5ZzyAfc5FRDxvoUjj97Ga9D2iA5cUQ6xbmTmV+G1z2kGOnxm+Q96m68+1Cer9Mfcv
-         fFIk296UG5dRnhkOlXS3Nvgfe+3nWn/2jCFp7pwikavsdox4QAtJdF6Xf7qqlHRbgTXE
-         fi2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lutVxa6fHCXHHJWCv9CzZ9NdTiQVG3MxU/LECqbu9b8=;
-        b=aN35N5v4OHLdHjiqLJTnZ2ONpKRJQL1mmgGDH6tahBtyrKOSwd0d8I2TAWMXVnWjyj
-         uLnC/1x4au1gpk8CU0ruipFYbvVQ3rE/mUv0FFKvqNYWYP18F/J91uiaWFmQLOrf0wfX
-         kTi9IlyYheu8xV/FAgwT/gNPyQox2sYnnb+l/QzL49nbJlfwdjYTvlw8wfGKw0RIi69e
-         wvAgLoCWOU3RRdZo9FEZkC3DlgqjefIlJDRekS5Suti7ntLZFgrrEzmz/kQ7odc4HtrO
-         Esg6xL195E7hubN1PjfPYTG2NTTkK+xI60Iv/BnrebPMb6lP+MCnoFhtAcg24y0gBKK6
-         qElg==
-X-Gm-Message-State: AOAM531wQfm1dS9tXRJ9VO36yJi2jtbVqTLu9sUjlz7HuIB8u46gZleJ
-	xbM2ta/G8gp0B1WdrKVyDmw=
-X-Google-Smtp-Source: ABdhPJy8diiFtTuiTSQA4GhHUVTgngDvNIKNhLvXZ9JGVnSxq655b4FhWs64UXS4ilpVOiXcD4IpIw==
-X-Received: by 2002:a1c:9a8e:: with SMTP id c136mr9069314wme.191.1631785465582;
-        Thu, 16 Sep 2021 02:44:25 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id f18sm3344423wrw.63.2021.09.16.02.44.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Sep 2021 02:44:24 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove dead code from odm_RxPhyStatus92CSeries_Parsing()
-Date: Thu, 16 Sep 2021 11:43:54 +0200
-Message-Id: <20210916094354.15635-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F1B3FC5
+	for <linux-staging@lists.linux.dev>; Thu, 16 Sep 2021 10:54:38 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.93]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MdeKd-1mzsrs3QDB-00Zigg; Thu, 16 Sep 2021 12:54:21 +0200
+Subject: Re: [PATCH 1/7] staging: vchiq_arm: cleanup code alignment issues
+To: Gaston Gonzalez <gascoar@gmail.com>, linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org, nsaenz@kernel.org, arnd@arndb.de,
+ dan.carpenter@oracle.com, ojaswin98@gmail.com, amarjargal16@gmail.com,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
+References: <20210915201824.413202-1-gascoar@gmail.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <025d76f9-69ca-ee12-cc98-023a2ac2714d@i2se.com>
+Date: Thu, 16 Sep 2021 12:54:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210915201824.413202-1-gascoar@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Provags-ID: V03:K1:6D33VnWQkta/RYZ2NiDApnrr8adORujM9CxmmgMhA/RVQqYagYh
+ 3P4+s5PoY9LeqgCMy8ZcbWEg1iPic746vTt6VzMkYbIx4m/5/3W7N8H6AdALIW/IeYb7gXk
+ +R5HiLIDogxBLjajg7BUyG3/QbeQvymwINU8o+4JVjm3/tcAWjAwYnecYHmjzy8UWbZ3Thp
+ 9ttfU2ViozkoBQ8zJf4Dw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VBu9tEkyOTA=:fevkQlUebt+0SPl6azkBHy
+ ZLgamNxxb8hc6vS+1WOPj8dSxeukcGeS/BTP6eX/YAjwVKCklIZkBRPGF480b39Z2JPIkUC2r
+ TfoRNsQKUfhbTtYZIl9uOakV2Je0AJUqfDTV/JFOeKdITPgUXpkVqh3dZkQZwgq6SC6MVIiuK
+ Q11g8B7fFZQ14K0HV3RNX4LLrHJYRYcKTl7o2NZNkMEH17YS1uE5hDk6GOJ+6BL1bFweVY0zf
+ UwSF74w8uiH5W3zzCaUjDnhtGzcVbG4kPt3iet6BrwbsYdFAUVqc12ja5boCcwBSEj19WvOE2
+ 3RD3Ov57BZD69BmuY+6eHA5MvCABQ4A6vvHAjqENxIIWXyCmCVQF5INbIU7fB9WsWwiOHju6H
+ p0nzE+c+8a2fq4y3HPj2zLnA/UxoxkBXdytcEQh9cIppdCjLNdzgo1VwoTDGaq26iH8cnpm4S
+ bI5rDMKXT6ngQZG7dFQkFEg9rzvPOToqTM+j46H23pINsNUIBMyFsKWdAwvqcBmsZALLU5+qE
+ uO3xYBUD1G2qW3q7rdvECoPJZY+4NGpcWKUcpEv2/srQt28pPV1FJDKiz0CZllORtaxKGT4mL
+ GvoFF+wTz1PCDmWZXm4FyfEv+Ak9jvbHCaaMPQDHfULGBVQLPLp0iMdYFMViWNehMuNx03RCD
+ CCP8WQBfjEmND+rllBZFymfpXNeheYrcz0OP/f39s7mw4kTiM+KKDgNVNEGCGEcWd3M7mJYxO
+ mO1Ryv/wN/W2HOXIfGf9PD/GSz0HfjgTy0GAmNq//1yKFfl60TlIw5uTa+s=
 
-The test "if (dm_odm->SupportICType & (ODM_RTL8188E | ODM_RTL8812))" is
-always true since SupportICType is always ODM_RTL8188E in this driver.
-Remove the test and the never executed else arm.
+Hi Gaston,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
-Tested on x86_64 with Inter-Tech DMG-02.
+Am 15.09.21 um 22:18 schrieb Gaston Gonzalez:
+> Fix code alignment issues.
+>
+> Reported by checkpatch.pl
+>
+> Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 
- drivers/staging/r8188eu/hal/odm_HWConfig.c | 153 ++++++---------------
- 1 file changed, 45 insertions(+), 108 deletions(-)
+please:
 
-diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index 40642375c972..86c2e03dcdce 100644
---- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
-+++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -111,7 +111,6 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 	pPhyInfo->RxMIMOSignalQuality[RF_PATH_B] = -1;
- 
- 	if (isCCKrate) {
--		u8 report;
- 		u8 cck_agc_rpt;
- 
- 		dm_odm->PhyDbgInfo.NumQryPhyStatusCCK++;
-@@ -125,113 +124,51 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 		/* 2011.11.28 LukeLee: 88E use different LNA & VGA gain table */
- 		/* The RSSI formula should be modified according to the gain table */
- 		/* In 88E, cck_highpwr is always set to 1 */
--		if (dm_odm->SupportICType & (ODM_RTL8188E | ODM_RTL8812)) {
--			LNA_idx = ((cck_agc_rpt & 0xE0) >> 5);
--			VGA_idx = (cck_agc_rpt & 0x1F);
--			switch (LNA_idx) {
--			case 7:
--				if (VGA_idx <= 27)
--					rx_pwr_all = -100 + 2 * (27 - VGA_idx); /* VGA_idx = 27~2 */
--				else
--					rx_pwr_all = -100;
--				break;
--			case 6:
--				rx_pwr_all = -48 + 2 * (2 - VGA_idx); /* VGA_idx = 2~0 */
--				break;
--			case 5:
--				rx_pwr_all = -42 + 2 * (7 - VGA_idx); /* VGA_idx = 7~5 */
--				break;
--			case 4:
--				rx_pwr_all = -36 + 2 * (7 - VGA_idx); /* VGA_idx = 7~4 */
--				break;
--			case 3:
--				rx_pwr_all = -24 + 2 * (7 - VGA_idx); /* VGA_idx = 7~0 */
--				break;
--			case 2:
--				if (cck_highpwr)
--					rx_pwr_all = -12 + 2 * (5 - VGA_idx); /* VGA_idx = 5~0 */
--				else
--					rx_pwr_all = -6 + 2 * (5 - VGA_idx);
--				break;
--			case 1:
--					rx_pwr_all = 8 - 2 * VGA_idx;
--				break;
--			case 0:
--					rx_pwr_all = 14 - 2 * VGA_idx;
--				break;
--			default:
--				break;
--			}
--			rx_pwr_all += 6;
--			PWDB_ALL = odm_QueryRxPwrPercentage(rx_pwr_all);
--			if (!cck_highpwr) {
--				if (PWDB_ALL >= 80)
--					PWDB_ALL = ((PWDB_ALL - 80) << 1) + ((PWDB_ALL - 80) >> 1) + 80;
--				else if ((PWDB_ALL <= 78) && (PWDB_ALL >= 20))
--					PWDB_ALL += 3;
--				if (PWDB_ALL > 100)
--					PWDB_ALL = 100;
--			}
--		} else {
--			if (!cck_highpwr) {
--				report = (cck_agc_rpt & 0xc0) >> 6;
--				switch (report) {
--				/*  03312009 modified by cosa */
--				/*  Modify the RF RNA gain value to -40, -20, -2, 14 by Jenyu's suggestion */
--				/*  Note: different RF with the different RNA gain. */
--				case 0x3:
--					rx_pwr_all = -46 - (cck_agc_rpt & 0x3e);
--					break;
--				case 0x2:
--					rx_pwr_all = -26 - (cck_agc_rpt & 0x3e);
--					break;
--				case 0x1:
--					rx_pwr_all = -12 - (cck_agc_rpt & 0x3e);
--					break;
--				case 0x0:
--					rx_pwr_all = 16 - (cck_agc_rpt & 0x3e);
--					break;
--				}
--			} else {
--				report = (cck_agc_rpt & 0x60) >> 5;
--				switch (report) {
--				case 0x3:
--					rx_pwr_all = -46 - ((cck_agc_rpt & 0x1f) << 1);
--					break;
--				case 0x2:
--					rx_pwr_all = -26 - ((cck_agc_rpt & 0x1f) << 1);
--					break;
--				case 0x1:
--					rx_pwr_all = -12 - ((cck_agc_rpt & 0x1f) << 1);
--					break;
--				case 0x0:
--					rx_pwr_all = 16 - ((cck_agc_rpt & 0x1f) << 1);
--					break;
--				}
--			}
--
--			PWDB_ALL = odm_QueryRxPwrPercentage(rx_pwr_all);
--
--			/* Modification for ext-LNA board */
--			if (dm_odm->BoardType == ODM_BOARD_HIGHPWR) {
--				if ((cck_agc_rpt >> 7) == 0) {
--					PWDB_ALL = (PWDB_ALL > 94) ? 100 : (PWDB_ALL + 6);
--				} else {
--					if (PWDB_ALL > 38)
--						PWDB_ALL -= 16;
--					else
--						PWDB_ALL = (PWDB_ALL <= 16) ? (PWDB_ALL >> 2) : (PWDB_ALL - 12);
--				}
--
--				/* CCK modification */
--				if (PWDB_ALL > 25 && PWDB_ALL <= 60)
--					PWDB_ALL += 6;
--			} else {/* Modification for int-LNA board */
--				if (PWDB_ALL > 99)
--					PWDB_ALL -= 8;
--				else if (PWDB_ALL > 50 && PWDB_ALL <= 68)
--					PWDB_ALL += 4;
--			}
-+		LNA_idx = ((cck_agc_rpt & 0xE0) >> 5);
-+		VGA_idx = (cck_agc_rpt & 0x1F);
-+		switch (LNA_idx) {
-+		case 7:
-+			if (VGA_idx <= 27)
-+				rx_pwr_all = -100 + 2 * (27 - VGA_idx); /* VGA_idx = 27~2 */
-+			else
-+				rx_pwr_all = -100;
-+			break;
-+		case 6:
-+			rx_pwr_all = -48 + 2 * (2 - VGA_idx); /* VGA_idx = 2~0 */
-+			break;
-+		case 5:
-+			rx_pwr_all = -42 + 2 * (7 - VGA_idx); /* VGA_idx = 7~5 */
-+			break;
-+		case 4:
-+			rx_pwr_all = -36 + 2 * (7 - VGA_idx); /* VGA_idx = 7~4 */
-+			break;
-+		case 3:
-+			rx_pwr_all = -24 + 2 * (7 - VGA_idx); /* VGA_idx = 7~0 */
-+			break;
-+		case 2:
-+			if (cck_highpwr)
-+				rx_pwr_all = -12 + 2 * (5 - VGA_idx); /* VGA_idx = 5~0 */
-+			else
-+				rx_pwr_all = -6 + 2 * (5 - VGA_idx);
-+			break;
-+		case 1:
-+				rx_pwr_all = 8 - 2 * VGA_idx;
-+			break;
-+		case 0:
-+				rx_pwr_all = 14 - 2 * VGA_idx;
-+			break;
-+		default:
-+			break;
-+		}
-+		rx_pwr_all += 6;
-+		PWDB_ALL = odm_QueryRxPwrPercentage(rx_pwr_all);
-+		if (!cck_highpwr) {
-+			if (PWDB_ALL >= 80)
-+				PWDB_ALL = ((PWDB_ALL - 80) << 1) + ((PWDB_ALL - 80) >> 1) + 80;
-+			else if ((PWDB_ALL <= 78) && (PWDB_ALL >= 20))
-+				PWDB_ALL += 3;
-+			if (PWDB_ALL > 100)
-+				PWDB_ALL = 100;
- 		}
- 
- 		pPhyInfo->RxPWDBAll = PWDB_ALL;
--- 
-2.33.0
+- use a version for your patch series
+- add a cover letter with version changes
+- try to give reviewers more time before sending a new version
+- try to avoid multiple patch series for the same driver at the same time=
+
+
+Regards
+
 
