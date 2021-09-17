@@ -1,58 +1,57 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B323FC3
-	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 09:22:46 +0000 (UTC)
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1B948402D2
-	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 09:22:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1631870561;
-	bh=sKqaN3dAa3OzIkq2x9fGW8/ov3xbVPisMuBMh0bt1ds=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=f5KTWRF1ipa3ga0acSLOyXUHH0yRvApZOT9qkNqPPcLHO/NC7F4BAhrAgtLIw3atO
-	 u3zmEkiFx5m/J/EC/lU14Q+PTlxNoBLrn4OrTeYAeEZJzvY4NETolcDeh/GNmlKEFC
-	 VzTTms4z1QQ1C4Yb3/lLxM7gqh4EuR/VY0TgAJBKqiLoKfmPwzP++ZDZq60fkZaGB4
-	 qOe85zPKeg4/5IZTp4ddhAKdnoOGvaUpqwKHYmx7+3JB0amn0dAYjlK9ReXgNdrvie
-	 QZuUDKbzBGEPmjpHOSqP1Y6VqLiwSFnu6NNi4ProWwOWayG/LK0tKs8xICz3RGwclV
-	 8+GLtFq+SFE1Q==
-Received: by mail-wm1-f71.google.com with SMTP id z26-20020a1c4c1a000000b00300ec9d8d77so1609891wmf.5
-        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 02:22:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A550E3FC3
+	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 10:02:56 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id u18so9219344pgf.0
+        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 03:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=px6g63+FWM02o2XFrJusr9ULh6BtbU2yNZkDpWVUktI=;
+        b=p+C+uIIDNT8ekPB5dFw1M0P59Zpt53V9WWsD0bc1xmbj/DkMCX2igZ0nH3pL2mWyZ9
+         R3YH9giXxQglXgwbrLOpkC6YuUnmPj52usd37gMguP0fvwjJrLxID/zJKfB1WGcVwveb
+         63pxgWUO+vhiHhG4DkJoAGYjr9xxoC/YPTEIdJvERftT0HdBKjG6cd7ZxW+cYMl58VCW
+         gD8z1hw5zs7b/qMAevWfbD7adSbgU9W0eAQegSr2zhdAXlPEIf414CcjYASu8x6FN0XW
+         /7O0eOMsAkQvN3Q39bGU3hQr49aIrYmXkJQvNEgLSswGRThiYYJmM+l+ijPHfzLQ0Zb9
+         YgLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sKqaN3dAa3OzIkq2x9fGW8/ov3xbVPisMuBMh0bt1ds=;
-        b=BZ+M51LKBpTtU25KhQZETcvJuNmoOQqLMxwxGEWf1xdlxK7AgzU3atTN0EkndZfgzq
-         H7EkFEvLYXMFVqH+UIZ87TxhqZrgz60gSFAbgNs+h3Si/ZT6tk9ESLeSARYc7SbgaYBf
-         qOmxs6WkG9uG/8PP/vofRzvrpxDUvCJX09RbY7Vn07xD6iHTWS/Z+lh2ivoujsR+GTpf
-         eLmGC/1y2zchBv4aVswtCbU1IT2nxTuU1HFOkkXubFZo+XPsgn8KbD3ioMO3T2SZjj/4
-         6wWRMwvrzBwP5jDZw6mMIIJldBHqw7XXMibbLxG+0LPFnZW5JdG9EVbTQ5+lu2Nq2pa3
-         aKVw==
-X-Gm-Message-State: AOAM533w4I64/1GBlsG35n9lLZrXDcuT3y0Yg+rR4v0N6zFNVHwBz3nK
-	jKjxRTiKvoEQEdKQ0ZT5xKXBGXTxi2MEJWEl8iEDsOd6pkBx1eGcMDIb9DJQAdxqoMHKMPP03vZ
-	WiBSLk9b/31qGYsKYI/4fy0ukDIoI3Y/o6kXs67uIGPc=
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr11013140wrr.236.1631870560768;
-        Fri, 17 Sep 2021 02:22:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOKIr4nUWuCKxSsVsGtcawKvqxo1EmKH/JAYikoJ7Ssjb8mXSyFAeCUDJ+zD7DS/EpQfPCmA==
-X-Received: by 2002:adf:fe0e:: with SMTP id n14mr11013120wrr.236.1631870560606;
-        Fri, 17 Sep 2021 02:22:40 -0700 (PDT)
-Received: from localhost.localdomain (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
-        by smtp.gmail.com with ESMTPSA id l21sm5656704wmh.31.2021.09.17.02.22.39
+        bh=px6g63+FWM02o2XFrJusr9ULh6BtbU2yNZkDpWVUktI=;
+        b=3k4xIuNV2AnIz5nFWHVNl6ps7DNH2bAI978++bp6dZN2s7SWOpd0xiaqw9rZxlV9Ot
+         PR6haAAD7snghC+uwA46gI0qCyP1HElUIC+z5LoYgc0ScTdwK5pZxw/awodqMlaOKGvU
+         98k/VrJrzS3Sigfn3I1MRazYF8u3rCll8bWaZXYdJksaq1WniogTQMsNQ5HJoxyn1nKS
+         Bq+7AGwiLMowZftXEAbbXG9JHoieV/2CMKi7tdtiGLDIA/iDiIUHqy05dhR4CexoroF8
+         FRvM16ESIAjkBZjDCpHcR3N25ONhBEe21Q3dRVG2i14W9/FRVFu4pHsL/A4I1HAMNoG9
+         G+5w==
+X-Gm-Message-State: AOAM530FNgPf1p71G+0apgcCGoDf6b5mQSOv/nhtYxXtvD3XZ7ZdjOnY
+	y1Snc9qpt8salde1EsOMKMQ=
+X-Google-Smtp-Source: ABdhPJxqNEeGPI37hs2MV6DCLYp6Mr/5jTrkhYpZoSGk6BwJA9S97cIWaF1tiRqb4xNme5BjdUWlRA==
+X-Received: by 2002:a63:6544:: with SMTP id z65mr9126289pgb.325.1631872976128;
+        Fri, 17 Sep 2021 03:02:56 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id h13sm6102604pgf.14.2021.09.17.03.02.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 02:22:40 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To: linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] wlan-ng: remove duplicate USB device ID
-Date: Fri, 17 Sep 2021 11:22:06 +0200
-Message-Id: <20210917092206.19677-1-krzysztof.kozlowski@canonical.com>
-X-Mailer: git-send-email 2.30.2
+        Fri, 17 Sep 2021 03:02:55 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: deng.changcheng@zte.com.cn
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	nathan@kernel.org,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Changcheng Deng <deng.changcheng@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] staging: r8188eu: use swap()
+Date: Fri, 17 Sep 2021 10:02:38 +0000
+Message-Id: <20210917100238.232576-1-deng.changcheng@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,33 +60,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The device 0x2821,0x3300 is already on the list.
+From: Changcheng Deng <deng.changcheng@zte.com.cn>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Use swap() in order to make code cleaner. Issue found by coccinelle.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
 ---
- drivers/staging/wlan-ng/prism2usb.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/wlan-ng/prism2usb.c b/drivers/staging/wlan-ng/prism2usb.c
-index 4b08dc1da4f9..dc0749b8eff7 100644
---- a/drivers/staging/wlan-ng/prism2usb.c
-+++ b/drivers/staging/wlan-ng/prism2usb.c
-@@ -34,14 +34,13 @@ static const struct usb_device_id usb_prism_tbl[] = {
- 	PRISM_DEV(0x04f1, 0x3009, "JVC MP-XP7250 Builtin USB WLAN Adapter"),
- 	PRISM_DEV(0x0846, 0x4110, "NetGear MA111"),
- 	PRISM_DEV(0x03f3, 0x0020, "Adaptec AWN-8020 USB WLAN Adapter"),
--	PRISM_DEV(0x2821, 0x3300, "ASUS-WL140 Wireless USB Adapter"),
-+	PRISM_DEV(0x2821, 0x3300, "ASUS-WL140 / Hawking HighDB Wireless USB Adapter"),
- 	PRISM_DEV(0x2001, 0x3700, "DWL-122 Wireless USB Adapter"),
- 	PRISM_DEV(0x2001, 0x3702, "DWL-120 Rev F Wireless USB Adapter"),
- 	PRISM_DEV(0x50c2, 0x4013, "Averatec USB WLAN Adapter"),
- 	PRISM_DEV(0x2c02, 0x14ea, "Planex GW-US11H WLAN USB Adapter"),
- 	PRISM_DEV(0x124a, 0x168b, "Airvast PRISM3 WLAN USB Adapter"),
- 	PRISM_DEV(0x083a, 0x3503, "T-Sinus 111 USB WLAN Adapter"),
--	PRISM_DEV(0x2821, 0x3300, "Hawking HighDB USB Adapter"),
- 	PRISM_DEV(0x0411, 0x0044, "Melco WLI-USB-KB11 11Mbps WLAN Adapter"),
- 	PRISM_DEV(0x1668, 0x6106, "ROPEX FreeLan 802.11b USB Adapter"),
- 	PRISM_DEV(0x124a, 0x4017, "Pheenet WL-503IA 802.11b USB Adapter"),
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 26106dd06d56..3d1d8c198e53 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -584,7 +584,7 @@ void WMMOnAssocRsp(struct adapter *padapter)
+ 	inx[0] = 0; inx[1] = 1; inx[2] = 2; inx[3] = 3;
+ 
+ 	if (pregpriv->wifi_spec == 1) {
+-		u32	j, tmp, change_inx = false;
++		u32 j, change_inx = false;
+ 
+ 		/* entry indx: 0->vo, 1->vi, 2->be, 3->bk. */
+ 		for (i = 0; i < 4; i++) {
+@@ -599,13 +599,8 @@ void WMMOnAssocRsp(struct adapter *padapter)
+ 				}
+ 
+ 				if (change_inx) {
+-					tmp = edca[i];
+-					edca[i] = edca[j];
+-					edca[j] = tmp;
+-
+-					tmp = inx[i];
+-					inx[i] = inx[j];
+-					inx[j] = tmp;
++					swap(edca[i], edca[j]);
++					swap(inx[i], inx[j]);
+ 
+ 					change_inx = false;
+ 				}
 -- 
-2.30.2
+2.25.1
 
