@@ -1,56 +1,58 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E0B3FCC
-	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 08:06:36 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id l18-20020a05600c4f1200b002f8cf606262so9268257wmq.1
-        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 01:06:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tGibByFFKAnmoZ4Tx8w/BzTiNbMgE9jWPqkMBctkewA=;
-        b=i3T5XrSJMNe6np1XMZiq2RLr/c0jTlnT6vhAM8Z+bY7EiVNxh8BvNdwol+blpiMn36
-         090gd13ZSRHY5oo7fhrl2THk73IBSSbJ3FEhKeuMKM906rHIEE3Z3sdYSL5dVVRjwRxz
-         /xzrNFMYDG27iydVZdoVjiImkq9KATJwVhFw4dAsLpdvgGqlW+WwvxWkcREqmrlInsh8
-         pPZr4MjAoMpAC3o7iMXGF8Dw95Xf4RBO1I6nZfypOseQrh+2IBw6Y9EG/WFUhQDF18+J
-         3bBh9XNM45auFTkUpBP+6inzlVR45zt8rG+Asb8ryvRjaiSIwVlOyITc9B+h4CIJi+qf
-         NicQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B323FC3
+	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 09:22:46 +0000 (UTC)
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 1B948402D2
+	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 09:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1631870561;
+	bh=sKqaN3dAa3OzIkq2x9fGW8/ov3xbVPisMuBMh0bt1ds=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+	b=f5KTWRF1ipa3ga0acSLOyXUHH0yRvApZOT9qkNqPPcLHO/NC7F4BAhrAgtLIw3atO
+	 u3zmEkiFx5m/J/EC/lU14Q+PTlxNoBLrn4OrTeYAeEZJzvY4NETolcDeh/GNmlKEFC
+	 VzTTms4z1QQ1C4Yb3/lLxM7gqh4EuR/VY0TgAJBKqiLoKfmPwzP++ZDZq60fkZaGB4
+	 qOe85zPKeg4/5IZTp4ddhAKdnoOGvaUpqwKHYmx7+3JB0amn0dAYjlK9ReXgNdrvie
+	 QZuUDKbzBGEPmjpHOSqP1Y6VqLiwSFnu6NNi4ProWwOWayG/LK0tKs8xICz3RGwclV
+	 8+GLtFq+SFE1Q==
+Received: by mail-wm1-f71.google.com with SMTP id z26-20020a1c4c1a000000b00300ec9d8d77so1609891wmf.5
+        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 02:22:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tGibByFFKAnmoZ4Tx8w/BzTiNbMgE9jWPqkMBctkewA=;
-        b=YbL0S6mAzw9nKT+68SuCQnOkqsUBAnlc+nmNoYem1LW/hubaGxOk31aaR+ZRpxQMre
-         Oo1XqhAWq22+7vtOzVFakC6e5PJjFZ2478VfdmauGChheyKGVETZGFAVveXjwkAu/3oB
-         OZewrkRc5m6fSS0AjME6l5LUCqBsbrx4FUh9hUu8tZONo+V3U07RRDDj35lN9DuDtIr7
-         qlpW7q2yMeGt+ZNm63gXq/RvhW1EcPDNJS/gUDJWH+xm9adHnyg7EStFHtnYmsndvQB/
-         GjFpOMbQngbp2S02iTMkG7Sxgeb0qgginIlmm/TsoWN7BcTvFiM4RPB5+mSQVh5Hgnt4
-         06tg==
-X-Gm-Message-State: AOAM531YcZSq+ikqQZ1Uw0OtTYjgo43oEH40ZpatNFSYOogGl82X5g+R
-	lG7X0Q2gx8tWD2iagVFCELB/TXH568NFzg==
-X-Google-Smtp-Source: ABdhPJztQgGs+x+7ykrjLjj53lqpu0wmLpU32mXyoCsVHFdtxUtIrxEkhB6A/qEkVmb7k0zgPrqpRw==
-X-Received: by 2002:a05:600c:b41:: with SMTP id k1mr14093514wmr.4.1631865994877;
-        Fri, 17 Sep 2021 01:06:34 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id r129sm5690890wmr.7.2021.09.17.01.06.34
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sKqaN3dAa3OzIkq2x9fGW8/ov3xbVPisMuBMh0bt1ds=;
+        b=BZ+M51LKBpTtU25KhQZETcvJuNmoOQqLMxwxGEWf1xdlxK7AgzU3atTN0EkndZfgzq
+         H7EkFEvLYXMFVqH+UIZ87TxhqZrgz60gSFAbgNs+h3Si/ZT6tk9ESLeSARYc7SbgaYBf
+         qOmxs6WkG9uG/8PP/vofRzvrpxDUvCJX09RbY7Vn07xD6iHTWS/Z+lh2ivoujsR+GTpf
+         eLmGC/1y2zchBv4aVswtCbU1IT2nxTuU1HFOkkXubFZo+XPsgn8KbD3ioMO3T2SZjj/4
+         6wWRMwvrzBwP5jDZw6mMIIJldBHqw7XXMibbLxG+0LPFnZW5JdG9EVbTQ5+lu2Nq2pa3
+         aKVw==
+X-Gm-Message-State: AOAM533w4I64/1GBlsG35n9lLZrXDcuT3y0Yg+rR4v0N6zFNVHwBz3nK
+	jKjxRTiKvoEQEdKQ0ZT5xKXBGXTxi2MEJWEl8iEDsOd6pkBx1eGcMDIb9DJQAdxqoMHKMPP03vZ
+	WiBSLk9b/31qGYsKYI/4fy0ukDIoI3Y/o6kXs67uIGPc=
+X-Received: by 2002:adf:fe0e:: with SMTP id n14mr11013140wrr.236.1631870560768;
+        Fri, 17 Sep 2021 02:22:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOKIr4nUWuCKxSsVsGtcawKvqxo1EmKH/JAYikoJ7Ssjb8mXSyFAeCUDJ+zD7DS/EpQfPCmA==
+X-Received: by 2002:adf:fe0e:: with SMTP id n14mr11013120wrr.236.1631870560606;
+        Fri, 17 Sep 2021 02:22:40 -0700 (PDT)
+Received: from localhost.localdomain (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
+        by smtp.gmail.com with ESMTPSA id l21sm5656704wmh.31.2021.09.17.02.22.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 01:06:34 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 4/4] staging: r8188eu: remove switches from phy_RF6052_Config_ParaFile()
-Date: Fri, 17 Sep 2021 10:06:15 +0200
-Message-Id: <20210917080615.25819-5-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210917080615.25819-1-straube.linux@gmail.com>
-References: <20210917080615.25819-1-straube.linux@gmail.com>
+        Fri, 17 Sep 2021 02:22:40 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To: linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] wlan-ng: remove duplicate USB device ID
+Date: Fri, 17 Sep 2021 11:22:06 +0200
+Message-Id: <20210917092206.19677-1-krzysztof.kozlowski@canonical.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,74 +61,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In function phy_RF6052_Config_ParaFile() the variable eRFPath is always 0
-and RF_PATH_A = 0 in this driver. So we can remove the 'switch (eRFPath)'
-statements and just keep the code from the RF_PATH_A cases.
+The device 0x2821,0x3300 is already on the list.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 39 +++----------------
- 1 file changed, 6 insertions(+), 33 deletions(-)
+ drivers/staging/wlan-ng/prism2usb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-index 63e85052cc98..2f16c0966973 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-@@ -466,16 +466,8 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 	pPhyReg = &pHalData->PHYRegDef[eRFPath];
- 
- 	/*----Store original RFENV control type----*/
--	switch (eRFPath) {
--	case RF_PATH_A:
--	case RF_PATH_C:
--		u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV);
--		break;
--	case RF_PATH_B:
--	case RF_PATH_D:
--		u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV << 16);
--		break;
--	}
-+	u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV);
-+
- 	/*----Set RF_ENV enable----*/
- 	PHY_SetBBReg(Adapter, pPhyReg->rfintfe, bRFSI_RFENV << 16, 0x1);
- 	udelay(1);/* PlatformStallExecution(1); */
-@@ -492,31 +484,12 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 	udelay(1);/* PlatformStallExecution(1); */
- 
- 	/*----Initialize RF fom connfiguration file----*/
--	switch (eRFPath) {
--	case RF_PATH_A:
--		if (HAL_STATUS_FAILURE == ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv, (enum rf_radio_path)eRFPath, (enum rf_radio_path)eRFPath))
--			rtStatus = _FAIL;
--		break;
--	case RF_PATH_B:
- 	if (HAL_STATUS_FAILURE == ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv, (enum rf_radio_path)eRFPath, (enum rf_radio_path)eRFPath))
--			rtStatus = _FAIL;
--		break;
--	case RF_PATH_C:
--		break;
--	case RF_PATH_D:
--		break;
--	}
-+		rtStatus = _FAIL;
-+
- 	/*----Restore RFENV control type----*/;
--	switch (eRFPath) {
--	case RF_PATH_A:
--	case RF_PATH_C:
--		PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV, u4RegValue);
--		break;
--	case RF_PATH_B:
--	case RF_PATH_D:
--		PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV << 16, u4RegValue);
--		break;
--	}
-+	PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV, u4RegValue);
-+
- 	if (rtStatus != _SUCCESS)
- 		goto phy_RF6052_Config_ParaFile_Fail;
- 
+diff --git a/drivers/staging/wlan-ng/prism2usb.c b/drivers/staging/wlan-ng/prism2usb.c
+index 4b08dc1da4f9..dc0749b8eff7 100644
+--- a/drivers/staging/wlan-ng/prism2usb.c
++++ b/drivers/staging/wlan-ng/prism2usb.c
+@@ -34,14 +34,13 @@ static const struct usb_device_id usb_prism_tbl[] = {
+ 	PRISM_DEV(0x04f1, 0x3009, "JVC MP-XP7250 Builtin USB WLAN Adapter"),
+ 	PRISM_DEV(0x0846, 0x4110, "NetGear MA111"),
+ 	PRISM_DEV(0x03f3, 0x0020, "Adaptec AWN-8020 USB WLAN Adapter"),
+-	PRISM_DEV(0x2821, 0x3300, "ASUS-WL140 Wireless USB Adapter"),
++	PRISM_DEV(0x2821, 0x3300, "ASUS-WL140 / Hawking HighDB Wireless USB Adapter"),
+ 	PRISM_DEV(0x2001, 0x3700, "DWL-122 Wireless USB Adapter"),
+ 	PRISM_DEV(0x2001, 0x3702, "DWL-120 Rev F Wireless USB Adapter"),
+ 	PRISM_DEV(0x50c2, 0x4013, "Averatec USB WLAN Adapter"),
+ 	PRISM_DEV(0x2c02, 0x14ea, "Planex GW-US11H WLAN USB Adapter"),
+ 	PRISM_DEV(0x124a, 0x168b, "Airvast PRISM3 WLAN USB Adapter"),
+ 	PRISM_DEV(0x083a, 0x3503, "T-Sinus 111 USB WLAN Adapter"),
+-	PRISM_DEV(0x2821, 0x3300, "Hawking HighDB USB Adapter"),
+ 	PRISM_DEV(0x0411, 0x0044, "Melco WLI-USB-KB11 11Mbps WLAN Adapter"),
+ 	PRISM_DEV(0x1668, 0x6106, "ROPEX FreeLan 802.11b USB Adapter"),
+ 	PRISM_DEV(0x124a, 0x4017, "Pheenet WL-503IA 802.11b USB Adapter"),
 -- 
-2.33.0
+2.30.2
 
