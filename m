@@ -1,193 +1,98 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77573FC5
-	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 14:55:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF3A1611C3;
-	Fri, 17 Sep 2021 14:55:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FB93FC5
+	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 14:59:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C24A61152;
+	Fri, 17 Sep 2021 14:59:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631890542;
-	bh=yQjwV5l7XrRDfQ9d6R5cRqtrBL6wf3UbBx+EQSAVJGc=;
+	s=korg; t=1631890781;
+	bh=rq5PzzOFrHc1KmZbpfwmO28EQTpCplOWgu2k+YD6F2k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FdCAb8qWo5h99CtMzg4WGTOOYWymsO/2eFVigVRoOt8kW7cPsfc5pZTWA81RInXiD
-	 7BnboAV9ekw5wNBHc3T9YUHSEYYhrEP85uvmrDja3umU64bAphhR27JNbAPPUZafp1
-	 XbWNB6u2yqkUJgDiCHU2eIy0fD3ssqo7k3nDFJ+0=
-Date: Fri, 17 Sep 2021 16:55:39 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Laight <david.Laight@aculab.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v7 19/19] staging: r8188eu: remove shared buffer for usb
- requests
-Message-ID: <YUSsa+3NjQVGD9gb@kroah.com>
-References: <20210917071837.10926-1-fmdefrancesco@gmail.com>
- <20210917071837.10926-20-fmdefrancesco@gmail.com>
+	b=XQMPxkOlrYV3w3JYoSW8GwBTyJWFb9LDCmO6dqqZuDHL7nK0Qo2H98Q+guMMC6ajn
+	 mJvSydvevM94/V3NTg4K8u0QQwrFjPtztMS2QWoq3zmxoGHVIrGLW3jDv365X/buKQ
+	 EJ0k0lZSvcn8Int5p8vXuEbAx55k2BIdwWR7/sio=
+Date: Fri, 17 Sep 2021 16:59:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Srivathsa Dara <srivathsa729.8@gmail.com>
+Subject: Re: [PATCH] staging: wfx: sta: Fix 'else' coding style warning
+Message-ID: <YUStWq5jGgIh0rfx@kroah.com>
+References: <20210914143107.18436-1-srivathsa729.8@gmail.com>
+ <3459215.8gJYjjsDaa@pc-42>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210917071837.10926-20-fmdefrancesco@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3459215.8gJYjjsDaa@pc-42>
 
-On Fri, Sep 17, 2021 at 09:18:37AM +0200, Fabio M. De Francesco wrote:
-> From: Pavel Skripkin <paskripkin@gmail.com>
+On Fri, Sep 17, 2021 at 04:33:50PM +0200, Jérôme Pouiller wrote:
+> Hello Srivathsa,
 > 
-> This driver used shared buffer for usb requests. It led to using
-> mutexes, i.e no usb requests can be done in parallel.
+> Thank for your suggestion. However ...
 > 
-> USB requests can be fired in parallel since USB Core allows it. In
-> order to allow them, remove usb_vendor_req_buf from dvobj_priv (since
-> USB I/O is the only user of it) and remove also usb_vendor_req_mutex
-> (since there is nothing to protect).
-
-Ah, you are removing this buffer, nice!
-
-But, just because the USB core allows multiple messages to be sent to a
-device at the same time, does NOT mean that the device itself can handle
-that sort of a thing.
-
-Keeping that lock might be a good idea, until you can prove otherwise.
-You never know, maybe there's never any contention at all for it because
-these accesses are all done in a serial fashion and the lock
-grab/release is instant.  But if that is not the case, you might really
-get a device confused here by throwing multiple control messages at it
-in ways that it is not set up to handle at all.
-
-So please do not drop the lock.
-
-More comments below.
-
-
+> On Tuesday 14 September 2021 16:31:06 CEST Srivathsa Dara wrote:
+> > Fix 'else is not generally useful after a break or return' checkpatch
+> > warning
+> > 
+> > Signed-off-by: Srivathsa Dara <srivathsa729.8@gmail.com>
+> > ---
+> >  drivers/staging/wfx/sta.c | 23 +++++++++++------------
+> >  1 file changed, 11 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
+> > index aceb18a1f54b..23c0425e3929 100644
+> > --- a/drivers/staging/wfx/sta.c
+> > +++ b/drivers/staging/wfx/sta.c
+> > @@ -169,19 +169,18 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
+> >                         if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
+> >                                 dev_info(wvif->wdev->dev, "ignoring requested PS mode");
+> >                         return -1;
+> > -               } else {
+> > -                       /* It is necessary to enable PS if channels
+> > -                        * are different.
+> > -                        */
+> > -                       if (enable_ps)
+> > -                               *enable_ps = true;
+> > -                       if (wvif->wdev->force_ps_timeout > -1)
+> > -                               return wvif->wdev->force_ps_timeout;
+> > -                       else if (wfx_api_older_than(wvif->wdev, 3, 2))
+> > -                               return 0;
+> > -                       else
+> > -                               return 30;
+> >                 }
+> > +               /* It is necessary to enable PS if channels
+> > +                * are different.
+> > +                */
+> > +               if (enable_ps)
+> > +                       *enable_ps = true;
+> > +               if (wvif->wdev->force_ps_timeout > -1)
+> > +                       return wvif->wdev->force_ps_timeout;
+> > +               else if (wfx_api_older_than(wvif->wdev, 3, 2))
+> > +                       return 0;
+> > +               else
+> > +                       return 30;
 > 
-> Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> ---
->  drivers/staging/r8188eu/hal/usb_ops_linux.c | 29 ++++++++-------
->  drivers/staging/r8188eu/include/drv_types.h |  5 ---
->  drivers/staging/r8188eu/os_dep/usb_intf.c   | 40 ++-------------------
->  3 files changed, 16 insertions(+), 58 deletions(-)
+> I am not a big fan of blindly applying the hints from checkpatch. With
+> this patch, it seems that the code in the "if" branch is an exception
+> and the rest of the code is the general case.
 > 
-> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index 656f3a774e48..0ed4e6c8b1f5 100644
-> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -19,9 +19,9 @@ static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
->  	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
->  		return -EPERM;
->  
-> -	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
-> -
-> -	io_buf = dvobjpriv->usb_vendor_req_buf;
-> +	io_buf = kmalloc(size, GFP_KERNEL);
-> +	if (!io_buf)
-> +		return -ENOMEM;
+> But, it is not true. There are two cases, and the author (me in fact)
+> attended to express that that by using a "else" statement.
 
-Please read the docs for usb_control_msg_recv().  It can allow data off
-of the stack, so no need to allocate/free the buffer like this all the
-time.
+But that first part of the if statement returns, making the second part
+not needed to be indented at all as the code flow just moves on here.
 
-Note, the usb_control_msg() call does require the data to be allocated
-dynamically, like the code does today.  Which is why you probably got
-confused here.
-
-Same for usb_control_msg_send(), it can take data off of the stack.
-
-
->  
->  	status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
->  				      REALTEK_USB_VENQT_READ, addr,
-> @@ -39,7 +39,7 @@ static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
->  		 * exist or is not enabled.
->  		 */
->  		adapt->bSurpriseRemoved = true;
-> -		goto mutex_unlock;
-> +		goto end;
->  	}
->  
->  	if (status < 0) {
-> @@ -49,15 +49,14 @@ static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
->  		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
->  			adapt->bSurpriseRemoved = true;
->  
-> -		goto mutex_unlock;
-> +		goto end;
->  	}
->  
->  	rtw_reset_continual_urb_error(dvobjpriv);
->  	memcpy(data, io_buf, size);
->  
-> -mutex_unlock:
-> -	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
-> -
-> +end:
-> +	kfree(io_buf);
->  	return status;
->  }
->  
-> @@ -72,9 +71,10 @@ static int usb_write(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
->  	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
->  		return -EPERM;
->  
-> -	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
-> +	io_buf = kmalloc(size, GFP_KERNEL);
-> +	if (!io_buf)
-> +		return -ENOMEM;
->  
-> -	io_buf = dvobjpriv->usb_vendor_req_buf;
->  	memcpy(io_buf, data, size);
->  
->  	status = usb_control_msg_send(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
-> @@ -93,7 +93,7 @@ static int usb_write(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
->  		 * exist or is not enabled.
->  		 */
->  		adapt->bSurpriseRemoved = true;
-> -		goto mutex_unlock;
-> +		goto end;
->  	}
->  
->  	if (status < 0) {
-> @@ -103,14 +103,13 @@ static int usb_write(struct intf_hdl *intfhdl, u16 addr, void *data, u8 size)
->  		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
->  			adapt->bSurpriseRemoved = true;
->  
-> -		goto mutex_unlock;
-> +		goto end;
->  	}
->  
->  	rtw_reset_continual_urb_error(dvobjpriv);
->  
-> -mutex_unlock:
-> -	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
-> -
-> +end:
-> +	kfree(io_buf);
->  	return status;
->  }
->  
-> diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-> index 626c6273be6f..499b2bce8cbe 100644
-> --- a/drivers/staging/r8188eu/include/drv_types.h
-> +++ b/drivers/staging/r8188eu/include/drv_types.h
-> @@ -168,11 +168,6 @@ struct dvobj_priv {
->  	int	ep_num[5]; /* endpoint number */
->  	int	RegUsbSS;
->  	struct semaphore usb_suspend_sema;
-> -	struct mutex  usb_vendor_req_mutex;
-> -
-> -	u8 *usb_alloc_vendor_req_buf;
-> -	u8 *usb_vendor_req_buf;
-
-I do like removing these buffers, and I think that is all that this
-change should be doing.
+It's best not to indent if not needed, and it's not needed here as
+the tools are saying.  So I've applied this.
 
 thanks,
 
 greg k-h
+
