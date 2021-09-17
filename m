@@ -1,85 +1,118 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBE429CA
-	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 15:18:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CC5EC61164;
-	Fri, 17 Sep 2021 15:18:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631891895;
-	bh=96NVuakQJdmaO277CeGDiyCBNXhMgA/638vNRLesnyc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gYxvoiO1I1AqWfBxf49rIRQgHssvElBbASOYmcN03uAx8XkjMi30rkGKyC6p9X3aE
-	 l1671X4Q95CkCh9/kN89XUfd3HU80h1TP0EsOLmAkm+GVVKx3yGNbuQZNM5R1GIJgY
-	 jI61iXwzKsAQyc3QcFU7qeiDnWgGtNWrFJsZFmqY=
-Date: Fri, 17 Sep 2021 17:18:13 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Laight <david.Laight@aculab.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: Re: [PATCH v7 19/19] staging: r8188eu: remove shared buffer for usb
- requests
-Message-ID: <YUSxtQ7D0w6QkB/N@kroah.com>
-References: <20210917071837.10926-1-fmdefrancesco@gmail.com>
- <20210917071837.10926-20-fmdefrancesco@gmail.com>
- <YUSsa+3NjQVGD9gb@kroah.com>
- <ef2a89f5-f68c-e7e2-9338-78e70dc41701@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2A63FC5
+	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 15:23:31 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id g41so1324016lfv.1
+        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 08:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Qme74H7nTKZWlp83x/X8Ld8D+VkxfyGb4OUt72XjpFA=;
+        b=OtB0kyPv+JFXBLnXN0XEadsFWqc30HEaRDwF/JCOjutgsVRFnqKE0PXMpt/e7jpD01
+         CGHB2+GcbMlnn/+i0X2YJn5Hj/x3xObEAbXeYQ0qMX2HzsMP04nL3qE7dMysbW7MVj6f
+         Y5pOjqmfrmDPx/YVI7GVWqHhl2aguApFxxVFB77FUoFKw4wl6TltxjD0d3LhBXVP3ItU
+         lLLOFcDANp+HFuw7mxIOMXucjhkZHRb4HNKRirS7foi0FtHRyEhPGxycjerslv3iUTWu
+         oPLjNU36vcEcspz9fpfkZBoJ8c7Hwwi38Aa22YupyGeoQdqfyNoq1N9wvRTbK9TG0DRo
+         DD8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Qme74H7nTKZWlp83x/X8Ld8D+VkxfyGb4OUt72XjpFA=;
+        b=vM0nZ7Hb0DhBDku0+VpwCiGYmPSO20bvSVYbQdGu6SyeiAqwdMNpScqv9wJSBMpET+
+         znb6SkQgPA4sOJvv8omKTZjX6oRTFS1sGmu27ls8LthuVLcc9ny+z2ett6QWG6oQ4waK
+         CSCicQwFDF474bZWhlEySy8lA9aGn+znM73mHQTqIO2V+eJzwuOp080+XVpIhnJhCcYQ
+         ZoZCOt1r09aRfo1/I3bFNOi5JsbmKJDDlaiT/ICdeXkx8eGk8H8aIceoOfmIfrjuszTf
+         aB1jFnFiMErqFkFIH/A0VP9xGgS/Fid2HWBkabOpNriR95d1zvSeXc9s5emJCj64rWo7
+         nfLg==
+X-Gm-Message-State: AOAM530RytV8Gs0stD0VB1/+8DZyTWh5xlJ9vI2uGrKyvslZhJW7Vein
+	l4rJ1OOpMLIr4Rc/EKlKOhY=
+X-Google-Smtp-Source: ABdhPJynBeK8RH+6fgWWVCBlVAZnebACzwigzUuAYmQrX4X7UsXvmmU9qG46o0NTQJEyaLLqdLtoJw==
+X-Received: by 2002:a05:651c:10a2:: with SMTP id k2mr10643964ljn.262.1631892205128;
+        Fri, 17 Sep 2021 08:23:25 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.49])
+        by smtp.gmail.com with ESMTPSA id b15sm552549lfp.221.2021.09.17.08.23.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Sep 2021 08:23:24 -0700 (PDT)
+Message-ID: <4e39e4ef-995d-49ce-58d6-75fd6a27da96@gmail.com>
+Date: Fri, 17 Sep 2021 18:23:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef2a89f5-f68c-e7e2-9338-78e70dc41701@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.3
+Subject: Re: [PATCH v7 19/19] staging: r8188eu: remove shared buffer for usb
+ requests
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+References: <20210917071837.10926-1-fmdefrancesco@gmail.com>
+ <20210917071837.10926-20-fmdefrancesco@gmail.com>
+ <YUSsa+3NjQVGD9gb@kroah.com> <ef2a89f5-f68c-e7e2-9338-78e70dc41701@gmail.com>
+ <YUSxtQ7D0w6QkB/N@kroah.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <YUSxtQ7D0w6QkB/N@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 17, 2021 at 06:03:52PM +0300, Pavel Skripkin wrote:
-> On 9/17/21 17:55, Greg Kroah-Hartman wrote:
-> > On Fri, Sep 17, 2021 at 09:18:37AM +0200, Fabio M. De Francesco wrote:
-> > > From: Pavel Skripkin <paskripkin@gmail.com>
-> > > 
-> > > This driver used shared buffer for usb requests. It led to using
-> > > mutexes, i.e no usb requests can be done in parallel.
-> > > 
-> > > USB requests can be fired in parallel since USB Core allows it. In
-> > > order to allow them, remove usb_vendor_req_buf from dvobj_priv (since
-> > > USB I/O is the only user of it) and remove also usb_vendor_req_mutex
-> > > (since there is nothing to protect).
-> > 
-> > Ah, you are removing this buffer, nice!
-> > 
-> > But, just because the USB core allows multiple messages to be sent to a
-> > device at the same time, does NOT mean that the device itself can handle
-> > that sort of a thing.
-> > 
-> > Keeping that lock might be a good idea, until you can prove otherwise.
-> > You never know, maybe there's never any contention at all for it because
-> > these accesses are all done in a serial fashion and the lock
-> > grab/release is instant.  But if that is not the case, you might really
-> > get a device confused here by throwing multiple control messages at it
-> > in ways that it is not set up to handle at all.
-> > 
-> > So please do not drop the lock.
-> > 
-> > More comments below.
-> > 
+On 9/17/21 18:18, Greg Kroah-Hartman wrote:
+> On Fri, Sep 17, 2021 at 06:03:52PM +0300, Pavel Skripkin wrote:
+>> On 9/17/21 17:55, Greg Kroah-Hartman wrote:
+>> > On Fri, Sep 17, 2021 at 09:18:37AM +0200, Fabio M. De Francesco wrote:
+>> > > From: Pavel Skripkin <paskripkin@gmail.com>
+>> > > 
+>> > > This driver used shared buffer for usb requests. It led to using
+>> > > mutexes, i.e no usb requests can be done in parallel.
+>> > > 
+>> > > USB requests can be fired in parallel since USB Core allows it. In
+>> > > order to allow them, remove usb_vendor_req_buf from dvobj_priv (since
+>> > > USB I/O is the only user of it) and remove also usb_vendor_req_mutex
+>> > > (since there is nothing to protect).
+>> > 
+>> > Ah, you are removing this buffer, nice!
+>> > 
+>> > But, just because the USB core allows multiple messages to be sent to a
+>> > device at the same time, does NOT mean that the device itself can handle
+>> > that sort of a thing.
+>> > 
+>> > Keeping that lock might be a good idea, until you can prove otherwise.
+>> > You never know, maybe there's never any contention at all for it because
+>> > these accesses are all done in a serial fashion and the lock
+>> > grab/release is instant.  But if that is not the case, you might really
+>> > get a device confused here by throwing multiple control messages at it
+>> > in ways that it is not set up to handle at all.
+>> > 
+>> > So please do not drop the lock.
+>> > 
+>> > More comments below.
+>> > 
+>> 
+>> We have tested this change. I've tested it in qemu with TP-Link TL-WN722N v2
+>> / v3 [Realtek RTL8188EUS], and Fabio has tested it on his host for like a
+>> whole evening.
+>> 
+>> I agree, that our testing does not cover all possible cases and I can't say
+>> it was "good stress testing", so, I think, we need some comments from
+>> maintainers.
 > 
-> We have tested this change. I've tested it in qemu with TP-Link TL-WN722N v2
-> / v3 [Realtek RTL8188EUS], and Fabio has tested it on his host for like a
-> whole evening.
+> Ok, then make it a single patch that does nothing but remove the lock so
+> that we can revert it later when problems show up :)
 > 
-> I agree, that our testing does not cover all possible cases and I can't say
-> it was "good stress testing", so, I think, we need some comments from
-> maintainers.
 
-Ok, then make it a single patch that does nothing but remove the lock so
-that we can revert it later when problems show up :)
+Sure! Thank you again :)
 
-thanks,
 
-greg k-h
+
+
+With regards,
+Pavel Skripkin
