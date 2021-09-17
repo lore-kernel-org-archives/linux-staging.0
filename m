@@ -1,98 +1,74 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FB93FC5
-	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 14:59:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C24A61152;
-	Fri, 17 Sep 2021 14:59:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631890781;
-	bh=rq5PzzOFrHc1KmZbpfwmO28EQTpCplOWgu2k+YD6F2k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XQMPxkOlrYV3w3JYoSW8GwBTyJWFb9LDCmO6dqqZuDHL7nK0Qo2H98Q+guMMC6ajn
-	 mJvSydvevM94/V3NTg4K8u0QQwrFjPtztMS2QWoq3zmxoGHVIrGLW3jDv365X/buKQ
-	 EJ0k0lZSvcn8Int5p8vXuEbAx55k2BIdwWR7/sio=
-Date: Fri, 17 Sep 2021 16:59:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?B?Suly9G1l?= Pouiller <jerome.pouiller@silabs.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Srivathsa Dara <srivathsa729.8@gmail.com>
-Subject: Re: [PATCH] staging: wfx: sta: Fix 'else' coding style warning
-Message-ID: <YUStWq5jGgIh0rfx@kroah.com>
-References: <20210914143107.18436-1-srivathsa729.8@gmail.com>
- <3459215.8gJYjjsDaa@pc-42>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDC03FC5
+	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 15:01:31 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-118-P_YM_ZexMOSzGlbBMtakIg-1; Fri, 17 Sep 2021 16:01:29 +0100
+X-MC-Unique: P_YM_ZexMOSzGlbBMtakIg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Fri, 17 Sep 2021 16:01:27 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Fri, 17 Sep 2021 16:01:27 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Greg Kroah-Hartman' <gregkh@linuxfoundation.org>, "Fabio M. De Francesco"
+	<fmdefrancesco@gmail.com>
+CC: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
+	<phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Dan Carpenter
+	<dan.carpenter@oracle.com>
+Subject: RE: [PATCH v7 17/19] staging: r8188eu: shorten calls chain of
+ rtw_read{8,16,32}()
+Thread-Topic: [PATCH v7 17/19] staging: r8188eu: shorten calls chain of
+ rtw_read{8,16,32}()
+Thread-Index: AQHXq9NTJLbXvqWt40ebp4CiR7TthquoUQPA
+Date: Fri, 17 Sep 2021 15:01:27 +0000
+Message-ID: <0331c99f809449e88e5e5be9311aa5a9@AcuMS.aculab.com>
+References: <20210917071837.10926-1-fmdefrancesco@gmail.com>
+ <20210917071837.10926-18-fmdefrancesco@gmail.com>
+ <YUSrIqW5WSYuoa14@kroah.com>
+In-Reply-To: <YUSrIqW5WSYuoa14@kroah.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3459215.8gJYjjsDaa@pc-42>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Fri, Sep 17, 2021 at 04:33:50PM +0200, Jérôme Pouiller wrote:
-> Hello Srivathsa,
-> 
-> Thank for your suggestion. However ...
-> 
-> On Tuesday 14 September 2021 16:31:06 CEST Srivathsa Dara wrote:
-> > Fix 'else is not generally useful after a break or return' checkpatch
-> > warning
-> > 
-> > Signed-off-by: Srivathsa Dara <srivathsa729.8@gmail.com>
-> > ---
-> >  drivers/staging/wfx/sta.c | 23 +++++++++++------------
-> >  1 file changed, 11 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/staging/wfx/sta.c b/drivers/staging/wfx/sta.c
-> > index aceb18a1f54b..23c0425e3929 100644
-> > --- a/drivers/staging/wfx/sta.c
-> > +++ b/drivers/staging/wfx/sta.c
-> > @@ -169,19 +169,18 @@ static int wfx_get_ps_timeout(struct wfx_vif *wvif, bool *enable_ps)
-> >                         if (wvif->vif->bss_conf.assoc && wvif->vif->bss_conf.ps)
-> >                                 dev_info(wvif->wdev->dev, "ignoring requested PS mode");
-> >                         return -1;
-> > -               } else {
-> > -                       /* It is necessary to enable PS if channels
-> > -                        * are different.
-> > -                        */
-> > -                       if (enable_ps)
-> > -                               *enable_ps = true;
-> > -                       if (wvif->wdev->force_ps_timeout > -1)
-> > -                               return wvif->wdev->force_ps_timeout;
-> > -                       else if (wfx_api_older_than(wvif->wdev, 3, 2))
-> > -                               return 0;
-> > -                       else
-> > -                               return 30;
-> >                 }
-> > +               /* It is necessary to enable PS if channels
-> > +                * are different.
-> > +                */
-> > +               if (enable_ps)
-> > +                       *enable_ps = true;
-> > +               if (wvif->wdev->force_ps_timeout > -1)
-> > +                       return wvif->wdev->force_ps_timeout;
-> > +               else if (wfx_api_older_than(wvif->wdev, 3, 2))
-> > +                       return 0;
-> > +               else
-> > +                       return 30;
-> 
-> I am not a big fan of blindly applying the hints from checkpatch. With
-> this patch, it seems that the code in the "if" branch is an exception
-> and the rest of the code is the general case.
-> 
-> But, it is not true. There are two cases, and the author (me in fact)
-> attended to express that that by using a "else" statement.
-
-But that first part of the if statement returns, making the second part
-not needed to be indented at all as the code flow just moves on here.
-
-It's best not to indent if not needed, and it's not needed here as
-the tools are saying.  So I've applied this.
-
-thanks,
-
-greg k-h
+RnJvbTogR3JlZyBLcm9haC1IYXJ0bWFuDQo+IFNlbnQ6IDE3IFNlcHRlbWJlciAyMDIxIDE1OjUw
+DQouLi4NCj4gPiArc3RhdGljIGludCB1c2JfcmVhZChzdHJ1Y3QgaW50Zl9oZGwgKmludGZoZGws
+IHUxNiBhZGRyLCB2b2lkICpkYXRhLCB1OCBzaXplKQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgYWRh
+cHRlciAqYWRhcHQgPSBpbnRmaGRsLT5wYWRhcHRlcjsNCj4gPiArCXN0cnVjdCBkdm9ial9wcml2
+ICpkdm9ianByaXYgPSBhZGFwdGVyX3RvX2R2b2JqKGFkYXB0KTsNCj4gPiArCXN0cnVjdCB1c2Jf
+ZGV2aWNlICp1ZGV2ID0gZHZvYmpwcml2LT5wdXNiZGV2Ow0KPiA+ICsJaW50IHN0YXR1czsNCj4g
+PiArCXU4ICppb19idWY7IC8qIFBvaW50ZXIgdG8gSS9PIGJ1ZmZlciAqLw0KPiANCj4gQXMgeW91
+ICJrbm93IiBzaXplIGlzIG5vdCBnb2luZyB0byBiZSBsYXJnZXIgdGhhbiA0IChoaW50LCB5b3Ug
+c2hvdWxkDQo+IHByYm9hYmx5IGNoZWNrIGl0KSwganVzdCB1c2UgYnl0ZXMgb2ZmIG9mIHRoZSBz
+dGFjayBoZXJlLCBhbmQgeW91IGNhbg0KPiBpZ25vcmUgdGhpcyBidWZmZXIgZW50aXJlbHkuICBU
+aGF0IHdpbGwgaG9wZWZ1bGx5IGFsbG93IHlvdSBpbiB0aGUNCj4gZnV0dXJlIHRvIGdldCByaWQg
+b2YgdGhhdCBidWZmZXIgYXMgb2RkcyBhcmUgaXQgd2lsbCBub3QgYmUgbmVlZGVkDQo+IGFueW1v
+cmUuDQoNCklzbid0IHRoYXQgbGlrZWx5IHRvIGJlIHRoZSBidWZmZXIgdGhhdCBnZXRzIGRtYSdk
+IHRvL2Zyb20/DQpJbiB3aGljaCBjYXNlIGl0IGNhbid0IGJlIG9uLXN0YWNrLg0KQ2VydGFpbmx5
+IHRoYXQgaXMgYSBjb21tb24gcHJvYmxlbSB3aXRoIHVzYiBkcml2ZXJzLg0KDQpHaXZlIHRoZSBz
+aXplIG9mIHRoZSB1cmI/IHN0cnVjdHVyZSBhbGxvY2F0ZWQgZm9yIGVhY2ggdHJhbnNmZXINCmFk
+ZGluZyBhIGJvdW5jZSBidWZmZXIgYXJlYSBpbiBpdCBmb3Igc2hvcnQgdHJhbnNmZXJzIHdvdWxk
+DQpzdXJlbHkgYmUgc2FuZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtl
+c2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBV
+Sw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
