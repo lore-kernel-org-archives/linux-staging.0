@@ -1,39 +1,39 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DE33FCD
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:57:59 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 196-20020a1c04cd000000b002fa489ffe1fso11760657wme.4
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:57:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6D73FC0
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:58:00 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id s24so9132906wmh.4
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:58:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZCRS9YO/EfFwLmhMCxMGwWzVTAfOXMSICKT6p7l5oDc=;
-        b=ZOkdbx6LyN56shmP7X0Ky0YwEfqR2sv/sVkHCxvzI7pcj4O5Wah7rDlht27vAY9Sl3
-         VTRU9snCF9A5FZtzqpNHzobaqlAmz8XYWByunyFy82FZv60HTuXdYdEz1uQj9FgbjAM1
-         s/gKTaJLNlJ9YsQWhItMfJL9WcEX5SDaoKk35PQpGWhxo+YXC4oH9IRe9AzN/C1oh/Zl
-         efyKCaXsgAvBSEME8hwAH/GKUpAcvA41AeTemEh2d8jBi9rZiDz1GPc3DQ0HjXTDBbOg
-         aL/WVNNleph5pbU76sdMIp2D9ReTUTXAlIhOTlfQZ2wIG5hvH7TTIDTFoa78YDhNS9NG
-         6V2A==
+        bh=G3L7UCaBvWad8+27dGs+IVJ3mC7af2HpF3EaDWIxm5w=;
+        b=duqVs66A83TsK8E3/YGRQqAq4WCnVULKCjVZjsBs36npCIIXbt6dZUy7PbokWqbzuM
+         Ezllb9BrRpvJJA/0P82KKR0jC2Oa1gGH9GPGntXTYsxa/374jffhD7MxrIOEYq3xISwn
+         ZVfrYVnesqKATSiTWi7yfo7+rm0ONuRSSHdGzsK8dib1Wkr7UKu4efBqzxQiuQjv7uFM
+         qAeNnU+dgtIcEBi800gEj0/0HRkmYfkPTrkMsPF5NsOjdqQpJ4XAHkF0wuaUjBbaWbx5
+         JMiFWDzUP1CQRP5nEsmx3AwLha1e+JwAgzZx9TfbQuRIr0cxxBN8cmda92dtlbzQ2y+T
+         ASfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZCRS9YO/EfFwLmhMCxMGwWzVTAfOXMSICKT6p7l5oDc=;
-        b=8EF8VJR4XELXsoq1KzZOV7zR5isrD3/kv6XbO7dSOWGNg7BpaOhj1pe1q4UsmMkVzA
-         0zzYP5CrpnZ9qFHlGDXACVqElzeH5NIByFVvmPhgJ9aEfDtk4y2UuNRWVJC+O76qwvis
-         NcPmfPr74oheOLCevh8rpKbZlki/ipEEin5WUVdin7fSNyC1y4CtNo/2AfdimgywfFnc
-         tRRNSpxwya7wBmCh3RC2L+R64XmkuzB1Srs74ssjUW97iVgySJHqrrxs2WwbLGsenQwm
-         isrzW6PO0HCn6L2DilN3QBuK+neqfgmTp4nbcE1/KdIgcoPPbh+6A5UG+eqr8aqT5Zfi
-         mVVw==
-X-Gm-Message-State: AOAM530DAI6GXJ2boBbGizNl2ij9RXBHqmur+/NJ8c6GHxC96Q9qnUB8
-	EzAz/Eweu8pNROg+smcnZpE=
-X-Google-Smtp-Source: ABdhPJx6Ivac7Ps7cXJKkeDGJW1OzuuZerqrs0i7OCRBlFR144IOK44ExYNZ6WX6iYwi/pe/hcM1zw==
-X-Received: by 2002:a1c:3b87:: with SMTP id i129mr10767585wma.115.1631959078309;
-        Sat, 18 Sep 2021 02:57:58 -0700 (PDT)
+        bh=G3L7UCaBvWad8+27dGs+IVJ3mC7af2HpF3EaDWIxm5w=;
+        b=fLOP3GZm7s9lGbC7SJvYW19pdjujhcZtc8LUhWNM8cQoA2dvYJbL+VZIOoCW6BVrXK
+         wyNsWwYJJAqqQaEwDpzA3txZEWbv47uN8gnxpvZSGrlV4T503W9Uq0FsUFxoAyUKp4gN
+         zFX/Qev62chuaN8D/X29Hj9Cxbij0Felh1PM4grSYa4CIETyv6SmFAVwwCT6vieLhjA3
+         lq2lGtB5RazvnDztxnHK2sX/WYRuUChdjNlAonaIKTK2uPbl4KSd2c1f+ObqQ9cQfUdL
+         C36MUZ/g00F/GotoIX21eLBtbyLQ+K5FWCZgT/Joa+UNQoFKRpatU9KlbWVZQeJ6aUfh
+         U3IA==
+X-Gm-Message-State: AOAM531iSYp3hj7CthFgk0HR9JPVfwwr/zblpzcneh6irGxyLe+oFPa5
+	zHyj1Y/D7LYOUToe7Hphuzw=
+X-Google-Smtp-Source: ABdhPJxhHDNMxpVa0IF16fDZRjZGH4ydTY9Y45cD7TMUUU3PRlnxouDadSXEbvYkcvRQONdbpXBWEA==
+X-Received: by 2002:a7b:c107:: with SMTP id w7mr14878939wmi.91.1631959079212;
+        Sat, 18 Sep 2021 02:57:59 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id o26sm13013287wmc.17.2021.09.18.02.57.57
+        by smtp.gmail.com with ESMTPSA id o26sm13013287wmc.17.2021.09.18.02.57.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 18 Sep 2021 02:57:58 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/8] staging: r8188eu: remove rtl8188e_RF_ChangeTxPath()
-Date: Sat, 18 Sep 2021 11:57:22 +0200
-Message-Id: <20210918095727.13591-4-straube.linux@gmail.com>
+Subject: [PATCH 4/8] staging: r8188eu: remove unused struct rf_shadow
+Date: Sat, 18 Sep 2021 11:57:23 +0200
+Message-Id: <20210918095727.13591-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210918095727.13591-1-straube.linux@gmail.com>
 References: <20210918095727.13591-1-straube.linux@gmail.com>
@@ -59,59 +59,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtl8188e_RF_ChangeTxPath() is not used, remove it.
+Remove unused struct rf_shadow.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 22 -------------------
- drivers/staging/r8188eu/include/rtl8188e_rf.h |  1 -
- 2 files changed, 23 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 21 -------------------
+ 1 file changed, 21 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-index 2f16c0966973..2fffe42e97c0 100644
+index 2fffe42e97c0..2dcfbb008914 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
-@@ -50,28 +50,6 @@ struct rf_shadow {
+@@ -29,27 +29,6 @@
+ #include "../include/drv_types.h"
+ #include "../include/rtl8188e_hal.h"
  
- /*------------------------Define local variable------------------------------*/
- 
--/*-----------------------------------------------------------------------------
-- * Function:	RF_ChangeTxPath
-- *
-- * Overview:	For RL6052, we must change some RF settign for 1T or 2T.
-- *
-- * Input:		u16 DataRate		0x80-8f, 0x90-9f
-- *
-- * Output:      NONE
-- *
-- * Return:      NONE
-- *
-- * Revised History:
-- * When			Who		Remark
-- * 09/25/2008	MHC		Create Version 0.
-- *						Firmwaer support the utility later.
-- *
-- *---------------------------------------------------------------------------*/
--void rtl8188e_RF_ChangeTxPath(struct adapter *Adapter, u16 DataRate)
--{
--/*  We do not support gain table change inACUT now !!!! Delete later !!! */
--}	/* RF_ChangeTxPath */
+-/*---------------------------Define Local Constant---------------------------*/
+-/*  Define local structure for debug!!!!! */
+-struct rf_shadow {
+-	/*  Shadow register value */
+-	u32 Value;
+-	/*  Compare or not flag */
+-	u8 Compare;
+-	/*  Record If it had ever modified unpredicted */
+-	u8 ErrorOrNot;
+-	/*  Recorver Flag */
+-	u8 Recorver;
+-	/*  */
+-	u8 Driver_Write;
+-};
+-
+-/*---------------------------Define Local Constant---------------------------*/
+-
+-/*------------------------Define global variable-----------------------------*/
+-
+-/*------------------------Define local variable------------------------------*/
 -
  /*-----------------------------------------------------------------------------
   * Function:    PHY_RF6052SetBandwidth()
   *
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_rf.h b/drivers/staging/r8188eu/include/rtl8188e_rf.h
-index da6b7f8212a3..04556496baad 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_rf.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_rf.h
-@@ -9,7 +9,6 @@
- #define		RF6052_MAX_PATH			2
- 
- int	PHY_RF6052_Config8188E(struct adapter *Adapter);
--void rtl8188e_RF_ChangeTxPath(struct adapter *Adapter, u16 DataRate);
- void rtl8188e_PHY_RF6052SetBandwidth(struct adapter *Adapter,
- 				     enum ht_channel_width Bandwidth);
- void	rtl8188e_PHY_RF6052SetCckTxPower(struct adapter *Adapter, u8 *level);
 -- 
 2.33.0
 
