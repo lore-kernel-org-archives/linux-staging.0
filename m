@@ -1,41 +1,41 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466183FC5
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:58:03 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id d207-20020a1c1dd8000000b00307e2d1ec1aso8483932wmd.5
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:58:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C293FC0
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:58:04 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id d21so19216939wra.12
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=k7P045dEU7nb9Dn+sQy4wSUSI87UBpJSz893JclonIw=;
-        b=bCKCXfmE6IM316LMsRbAD29MOdyh0Wy65zxUN9K3t2Vz5k2f8YPWyaDUub/YbxqNqj
-         Rh34bDdK7uZxLtTyHghb0B4MLj8aQ5VaJ9UGjSymf9RBOezLdlY1jQFmG0hYaqRnAz9k
-         ZsPbJBkcJBZGhEG1uB0ADqzBRVL0H9J9EYRKQn1jPvR/4m1huyIbH+/hsCparVI08fbs
-         4jTtAgOb8mubOIWQ8fskmArwKqWYz7t36UD2S7Bo0MAayMwLg1QZisPeJVOdLbkuYaDD
-         kvobkDUzbI1ZIUHrTA33NnjM7EyXDsWMVuUsP05c30QuSXX5RlnutZuMTIZeMxsFd0P1
-         qURg==
+        bh=GN0wJ5LnNY6MYcGXoZ0yQC1yHdhXckp/WdDFfQjh9kk=;
+        b=HDzUjA8/t9XwZlA0ZRewydSInyoCIRHunEnd9TC4sXobyukeYHELIppaqRFr20Is7P
+         /6rtpN+RkCySxtnfFgZhyC/EG5uGHmkZjtlkGWJjMExu5h/BaqaOyBbANTCQJbCKB3kw
+         lIwZHJpq4Q+d99PeGLL9xFc86jbeICoG9P8UpVnqoAd8D8s9XBgBVMYquInuoOEQ7qNw
+         GjKfeT24zzVDYAIx95hI6apaC9i1f45Ln7zjwqoNdmae6WoMjxjBEy0Fzs6/LRMAOZMr
+         ZD6tAQ+ddAicIpDKRfraKPv7mTihc1TszjNIRnTNdB+7p89VmbsvhvssdWzK+Rfr0ohR
+         KnNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=k7P045dEU7nb9Dn+sQy4wSUSI87UBpJSz893JclonIw=;
-        b=H0HlC0HcpHRgUihImkHkNnLfCUBLVqEtnf1qacBJqS7QExB7Q0ppLL5wSzn+ZLEt/T
-         ZDeMVcVRUjOGYjkol7qddRhlwRPfAQEuZMdRtJhhg5SroyFN7YhU4q7a2KanDfNcBziP
-         AOLi6TIoHgZBukRqqLEiFtQFLi/fYQhqitK2T0D0c4ycJx9aQ60s+yaBPah0FA71fQV7
-         rDHeaKLa7V0dym/bxdljGVAM7PEnGe2j2lPbv3rZp2LMALGlkOnyr+9iMK8EFk3zBnxj
-         symQseDsWClRjJUyCiUKL3UqspceQAxfdC7hpiQN/VYxcv7HYhXWh7/McHnUsxVfZSiq
-         KxNg==
-X-Gm-Message-State: AOAM532doz+I2IkA4XASDCac59XdYX8QfMWkRgcdrPbdDLoC1zuPLuww
-	DMJ20H6sQ1AfyFuShHtcSMU=
-X-Google-Smtp-Source: ABdhPJxthwx+gq1M4zpjGXsn0otM1mjjj2fIkb9Yle8g7PfzKpfH1WGoZl7xMxnO6Ix4swH7n9uXzA==
-X-Received: by 2002:a05:600c:35c8:: with SMTP id r8mr2756694wmq.71.1631959081709;
-        Sat, 18 Sep 2021 02:58:01 -0700 (PDT)
+        bh=GN0wJ5LnNY6MYcGXoZ0yQC1yHdhXckp/WdDFfQjh9kk=;
+        b=XLMpPKGR/6iMOn+RSa4+ZU83boQjDxtL5SAhmFLfPsvwc4nGz4vbmD4xk892C76K8Z
+         D7Qf7U6O9fTz5CxKOCqwYwqYpdlCX5aMj2NLlPGITwbfpLVZRRnthszlnUOBNJx5rQoL
+         VsbZluZB8qOCQ5x3NwQ71EUVCWwkFW5zfcz4DcUb4lBbE+8yb8bpwQa3zGYAUch+Y46x
+         7AW7yusi/pCv9yQvG+2PCf3R5y9o8tan6/C3L6qk2hZL8LDNOD8XR1DdtIbjzEt7/7WM
+         OH8ordVycJJ7OrlJPp+C5J94sRrhnmI68luVwLSNLJiWyd+UqE3JNqRsdZHNSwoC2PcY
+         CvWA==
+X-Gm-Message-State: AOAM532RbFAhGy7iyfo8LFQgTL/RAqgFcnUFledJrhjRZeWuin7p7ZY3
+	Q9jOmNiEtlpUBKGfW+cgPHk=
+X-Google-Smtp-Source: ABdhPJwx0McoFN5Vjc/Fxh6Jfqyy5O/iD1mjHQ3dQhngP/mFr5R3CzGVfXSMMgwKmr+3V+RE/fBsrg==
+X-Received: by 2002:adf:d216:: with SMTP id j22mr16542547wrh.191.1631959082580;
+        Sat, 18 Sep 2021 02:58:02 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id o26sm13013287wmc.17.2021.09.18.02.58.00
+        by smtp.gmail.com with ESMTPSA id o26sm13013287wmc.17.2021.09.18.02.58.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 02:58:01 -0700 (PDT)
+        Sat, 18 Sep 2021 02:58:02 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 7/8] staging: r8188eu: remove rtl8188e_set_rssi_cmd()
-Date: Sat, 18 Sep 2021 11:57:26 +0200
-Message-Id: <20210918095727.13591-8-straube.linux@gmail.com>
+Subject: [PATCH 8/8] staging: r8188eu: remove EFUSE_Read1Byte()
+Date: Sat, 18 Sep 2021 11:57:27 +0200
+Message-Id: <20210918095727.13591-9-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210918095727.13591-1-straube.linux@gmail.com>
 References: <20210918095727.13591-1-straube.linux@gmail.com>
@@ -59,52 +59,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtl8188e_set_rssi_cmd() is not used, remove it.
+Function EFUSE_Read1Byte() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c     | 15 ---------------
- drivers/staging/r8188eu/include/rtl8188e_cmd.h |  1 -
- 2 files changed, 16 deletions(-)
+ drivers/staging/r8188eu/core/rtw_efuse.c    | 58 ---------------------
+ drivers/staging/r8188eu/include/rtw_efuse.h |  1 -
+ 2 files changed, 59 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-index 6cdc2e40aad4..6450c2c32f8a 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-@@ -109,21 +109,6 @@ static s32 FillH2CCmd_88E(struct adapter *adapt, u8 ElementID, u32 CmdLen, u8 *p
- 	return ret;
+diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+index 0c4ea1e45842..801887f497cf 100644
+--- a/drivers/staging/r8188eu/core/rtw_efuse.c
++++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+@@ -127,64 +127,6 @@ ReadEFuseByte(
+ 	*pbuf = (u8)(value32 & 0xff);
  }
  
--u8 rtl8188e_set_rssi_cmd(struct adapter *adapt, u8 *param)
+-/*-----------------------------------------------------------------------------
+- * Function:	EFUSE_Read1Byte
+- *
+- * Overview:	Copy from WMAC fot EFUSE read 1 byte.
+- *
+- * Input:       NONE
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 09/23/2008	MHC		Copy from WMAC.
+- *
+- *---------------------------------------------------------------------------*/
+-u8 EFUSE_Read1Byte(struct adapter *Adapter, u16 Address)
 -{
--	u8 res = _SUCCESS;
--	struct hal_data_8188e *haldata = GET_HAL_DATA(adapt);
+-	u8 data;
+-	u8 Bytetemp = {0x00};
+-	u8 temp = {0x00};
+-	u32 k = 0;
+-	u16 contentLen = 0;
 -
--	if (haldata->fw_ractrl) {
--		;
+-	rtl8188e_EFUSE_GetEfuseDefinition(Adapter, EFUSE_WIFI, TYPE_EFUSE_REAL_CONTENT_LEN, (void *)&contentLen, false);
+-
+-	if (Address < contentLen) {	/* E-fuse 512Byte */
+-		/* Write E-fuse Register address bit0~7 */
+-		temp = Address & 0xFF;
+-		rtw_write8(Adapter, EFUSE_CTRL + 1, temp);
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 2);
+-		/* Write E-fuse Register address bit8~9 */
+-		temp = ((Address >> 8) & 0x03) | (Bytetemp & 0xFC);
+-		rtw_write8(Adapter, EFUSE_CTRL + 2, temp);
+-
+-		/* Write 0x30[31]= 0 */
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+-		temp = Bytetemp & 0x7F;
+-		rtw_write8(Adapter, EFUSE_CTRL + 3, temp);
+-
+-		/* Wait Write-ready (0x30[31]= 1) */
+-		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+-		while (!(Bytetemp & 0x80)) {
+-			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
+-			k++;
+-			if (k == 1000) {
+-				k = 0;
+-				break;
+-			}
+-		}
+-		data = rtw_read8(Adapter, EFUSE_CTRL);
+-		return data;
 -	} else {
--		DBG_88E("==>%s fw dont support RA\n", __func__);
--		res = _FAIL;
+-		return 0xFF;
 -	}
 -
--	return res;
--}
+-} /* EFUSE_Read1Byte */
 -
- u8 rtl8188e_set_raid_cmd(struct adapter *adapt, u32 mask)
+ /*  11/16/2008 MH Read one byte from real Efuse. */
+ u8 efuse_OneByteRead(struct adapter *pAdapter, u16 addr, u8 *data, bool pseudo)
  {
- 	u8 buf[3];
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_cmd.h b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
-index 626df5f44fc5..01404b774ebd 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
-@@ -91,7 +91,6 @@ struct P2P_PS_CTWPeriod_t {
- /*  host message to firmware cmd */
- void rtl8188e_set_FwPwrMode_cmd(struct adapter *padapter, u8 Mode);
- void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *padapter, u8 mstatus);
--u8 rtl8188e_set_rssi_cmd(struct adapter *padapter, u8 *param);
- u8 rtl8188e_set_raid_cmd(struct adapter *padapter, u32 mask);
- void rtl8188e_Add_RateATid(struct adapter *padapter, u32 bitmap, u8 arg,
- 			   u8 rssi_level);
+diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
+index 2dd74c9c691d..53ac906f79fd 100644
+--- a/drivers/staging/r8188eu/include/rtw_efuse.h
++++ b/drivers/staging/r8188eu/include/rtw_efuse.h
+@@ -118,7 +118,6 @@ u8 efuse_OneByteWrite(struct adapter *adapter, u16 addr, u8 data, bool	test);
+ 
+ void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
+ 
+-u8 EFUSE_Read1Byte(struct adapter *adapter, u16 address);
+ void EFUSE_ShadowMapUpdate(struct adapter *adapter, u8 efusetype, bool test);
+ void EFUSE_ShadowRead(struct adapter *adapt, u8 type, u16 offset, u32 *val);
+ 
 -- 
 2.33.0
 
