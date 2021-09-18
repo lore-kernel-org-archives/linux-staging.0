@@ -1,41 +1,41 @@
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EB63FC0
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:25:13 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id f62-20020a1c1f41000000b0030b42643f72so3466273wmf.3
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:25:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F443FCC
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:25:14 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id z2so61085wmc.3
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:25:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DgZ+hqLf0FtG7Wd9/tJWqhkp5dALrXXdBCxii4LerqQ=;
-        b=Ihr1l87bWK7MTYjEuqozYrrc/Ll0WnFH4v4CZE/z23N28tp4uNtHznT/EvAUO6hpxk
-         XiNwDvGP/AAjYwHPpyzZIOZgC3vWuODmimvaD1GBhMTwUsnPsa8InlM4Ko7cZewBu6MG
-         ukPql6HNm/xT9sZFUzTyrFNgzP4qah+KpSRMM73rQKgVpa9O3mt6bBoO3ZT2axcBWCrH
-         8QbdmSpKg03uQFwUyolSwYSYD9Uaptj5OIu1aL/++RBzVxgn3Mei1FFijFSzQ2zNn88F
-         UlIcYtbJLBd4a64ob8RArzKZfBJpoeNUGBmSzjdsdW7UTZumqLK4leUcdn2vWqM4oyz8
-         qa5A==
+        bh=1Zy5mhgewa9a0uZy3rtygxAsubHg3zkYkDDVaK9v8Os=;
+        b=WaToek/ZyRp/nPWh4ixxXxfttZfNAY7xm4z92mLuPv7dCnCsatp5HxbDlJMkIMjIuj
+         r4yGjHO5jqsNBQtYNrmL5HmA8LjH9FCK07dorZmonDs5oDwZ+FO0VUzRaNT6Ey9T340M
+         tZN2+q9GEMXR7jWOLIvBEmCNUulJzxknh9NrLdCnK0eMYl0L8X7m8yPBfZfc9OeL3TyX
+         8eEuxt/ucMLLq7HC/WaJNAD88LZdb3ZB7cEZwqavk2IB3fujBgxmMPAh9PjrsF/MYYgR
+         Uo10TfKGFWcUGrsg6DOAuvRhaZHc75agdcN64eZkweZLgsrz3xjyu5IFCgUcw0vq+wtV
+         mCRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DgZ+hqLf0FtG7Wd9/tJWqhkp5dALrXXdBCxii4LerqQ=;
-        b=jAsc6upA6XDqUbiT2pSQHmBsRjRFDysRDDsKbdeZDn6LDICbDS6hMWMVUh8Gopc5Ri
-         Xu+EGDaEJlI827lENOCWbXNNUhG+/KfiiGMT0mxpMQQWl0nD14zMyK41XpHSZ0NwNCw6
-         c3siWpjzRYfDh1Wc/75oRN9FWstO+0vagU9E/+Jzwg6OaHEUAi3bIK+H2DGZv9Sx8Hvr
-         lrys/qvPDMciaNMf3fEg3lHthgoEqAEtH6mAmcyQDqhXyYUkaKdQmulNMfAPKwWwcs+u
-         9+Ahm3Qalbef4JIzEz4xCWNP0NVRHENO+UawfHTOPm/QFIrOKZlrt5Sp9BBtjq18l43D
-         NRDw==
-X-Gm-Message-State: AOAM533fziDhX0/kuVVaHopXMT8pG2xsdIjJ9syf6KowjMJmtMWs1zkm
-	pmsUYKh7ATb3C/AEHyu2cbU=
-X-Google-Smtp-Source: ABdhPJy3Mq31E43QAUlrzwCFGL2vG7YyoPCfwlgYjzuKJ4jwQ+0M4zIPVwYFiu2Xf9p3aP1IsNiKuQ==
-X-Received: by 2002:a7b:cde8:: with SMTP id p8mr19211053wmj.178.1631957112062;
+        bh=1Zy5mhgewa9a0uZy3rtygxAsubHg3zkYkDDVaK9v8Os=;
+        b=NWIjjr87dxLHAVGXIiWUoTLmbEhrCk2r0jastuyKqKfgTLD/4Q5oc1ttbpqRtz9CEG
+         lR/JnkebN/ObSElmEPWX+yiegH3S8DEkqFCBZpNs/yP38+f0Q1HVHKwYkMQO623aEikO
+         1oT5+uEyU8U1TAC+LJx8UgdIHi/H8R9CXdVEoLiZJZLbjJxmN1cYTWSPGJhMadhKL5a+
+         aziijYFrXpOPaPVqx/rjQfCbuKzpUW57vTINcUgYsyFhHXBtGIlW5x+cy4D5rFwsNzVG
+         tMKSVnp/s7r0QXDNvceJrs3r093xzMy/N/xnusm0yPoM3hOEDGP+3yKNiKuviCl2aIyv
+         HCsw==
+X-Gm-Message-State: AOAM530IiSrvSH1jnR4b75e76h2qGbZBTMFkRPYTLlwV1wrsHH/aPDp7
+	2FoTK+t1odXsP4aLkERy1BA=
+X-Google-Smtp-Source: ABdhPJzISGnJqCWUjVXjvcEH+hMpvbMFR3lfVfEaM6FG59XmFSR05VJhl3kqKuGJvblRl7MCK5AxrA==
+X-Received: by 2002:a7b:c20f:: with SMTP id x15mr19358267wmi.143.1631957112887;
         Sat, 18 Sep 2021 02:25:12 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id 5sm4233742wmb.37.2021.09.18.02.25.11
+        by smtp.gmail.com with ESMTPSA id 5sm4233742wmb.37.2021.09.18.02.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 02:25:11 -0700 (PDT)
+        Sat, 18 Sep 2021 02:25:12 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 09/12] staging: r8188eu: remove unnecessary if statements
-Date: Sat, 18 Sep 2021 11:24:40 +0200
-Message-Id: <20210918092443.8724-10-straube.linux@gmail.com>
+Subject: [PATCH v2 10/12] staging: r8188eu: remove dead code from odm.c
+Date: Sat, 18 Sep 2021 11:24:41 +0200
+Message-Id: <20210918092443.8724-11-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210918092443.8724-1-straube.linux@gmail.com>
 References: <20210918092443.8724-1-straube.linux@gmail.com>
@@ -59,71 +59,165 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-(pDM_Odm->SupportICType & ODM_IC_11AC_SERIES) is always false and
-(pDM_Odm->SupportICType & ODM_IC_11N_SERIES) is always true since
-SupportICType is ODM_RTL8188E in this driver. Remove unnecessary
-if statements that check for this.
+(pDM_Odm->SupportICType & ODM_IC_11N_SERIES) is true in this driver.
+There is an if statement that checks this. Remove it and its never
+executed else arm.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm.c | 39 +++++++++++++------------------
- 1 file changed, 16 insertions(+), 23 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c | 140 ++++++++++++++----------------
+ 1 file changed, 63 insertions(+), 77 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index cb27edf657d9..23ef08fc64cd 100644
+index 23ef08fc64cd..1a4c2e93f732 100644
 --- a/drivers/staging/r8188eu/hal/odm.c
 +++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -163,22 +163,18 @@ void ODM_DMInit(struct odm_dm_struct *pDM_Odm)
- 	odm_DIGInit(pDM_Odm);
- 	odm_RateAdaptiveMaskInit(pDM_Odm);
+@@ -739,84 +739,70 @@ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm)
+ 	if (!(pDM_Odm->SupportAbility & ODM_BB_FA_CNT))
+ 		return;
  
--	if (pDM_Odm->SupportICType & ODM_IC_11AC_SERIES) {
--		;
--	} else if (pDM_Odm->SupportICType & ODM_IC_11N_SERIES) {
--		odm_PrimaryCCA_Init(pDM_Odm);    /*  Gary */
--		odm_DynamicBBPowerSavingInit(pDM_Odm);
--		odm_DynamicTxPowerInit(pDM_Odm);
--		odm_TXPowerTrackingInit(pDM_Odm);
--		ODM_EdcaTurboInit(pDM_Odm);
--		ODM_RAInfo_Init_all(pDM_Odm);
--		if ((pDM_Odm->AntDivType == CG_TRX_HW_ANTDIV)	||
--		    (pDM_Odm->AntDivType == CGCS_RX_HW_ANTDIV) ||
--		    (pDM_Odm->AntDivType == CG_TRX_SMART_ANTDIV))
--			odm_InitHybridAntDiv(pDM_Odm);
--		else if (pDM_Odm->AntDivType == CGCS_RX_SW_ANTDIV)
--			odm_SwAntDivInit(pDM_Odm);
--	}
-+	odm_PrimaryCCA_Init(pDM_Odm);    /*  Gary */
-+	odm_DynamicBBPowerSavingInit(pDM_Odm);
-+	odm_DynamicTxPowerInit(pDM_Odm);
-+	odm_TXPowerTrackingInit(pDM_Odm);
-+	ODM_EdcaTurboInit(pDM_Odm);
-+	ODM_RAInfo_Init_all(pDM_Odm);
-+	if ((pDM_Odm->AntDivType == CG_TRX_HW_ANTDIV)	||
-+	    (pDM_Odm->AntDivType == CGCS_RX_HW_ANTDIV) ||
-+	    (pDM_Odm->AntDivType == CG_TRX_SMART_ANTDIV))
-+		odm_InitHybridAntDiv(pDM_Odm);
-+	else if (pDM_Odm->AntDivType == CGCS_RX_SW_ANTDIV)
-+		odm_SwAntDivInit(pDM_Odm);
- }
- 
- /*  2011/09/20 MH This is the entry pointer for all team to execute HW out source DM. */
-@@ -218,13 +214,10 @@ void ODM_DMWatchdog(struct odm_dm_struct *pDM_Odm)
- 	else if (pDM_Odm->AntDivType == CGCS_RX_SW_ANTDIV)
- 		odm_SwAntDivChkAntSwitch(pDM_Odm, SWAW_STEP_PEAK);
- 
--	if (pDM_Odm->SupportICType & ODM_IC_11AC_SERIES) {
--		;
--	} else if (pDM_Odm->SupportICType & ODM_IC_11N_SERIES) {
--		ODM_TXPowerTrackingCheck(pDM_Odm);
--		odm_EdcaTurboCheck(pDM_Odm);
--		odm_DynamicTxPower(pDM_Odm);
--	}
-+	ODM_TXPowerTrackingCheck(pDM_Odm);
-+	odm_EdcaTurboCheck(pDM_Odm);
-+	odm_DynamicTxPower(pDM_Odm);
+-	if (pDM_Odm->SupportICType & ODM_IC_11N_SERIES) {
+-		/* hold ofdm counter */
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_HOLDC_11N, BIT(31), 1); /* hold page C counter */
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(31), 1); /* hold page D counter */
+-
+-		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE1_11N, bMaskDWord);
+-		FalseAlmCnt->Cnt_Fast_Fsync = (ret_value & 0xffff);
+-		FalseAlmCnt->Cnt_SB_Search_fail = ((ret_value & 0xffff0000) >> 16);
+-		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE2_11N, bMaskDWord);
+-		FalseAlmCnt->Cnt_OFDM_CCA = (ret_value & 0xffff);
+-		FalseAlmCnt->Cnt_Parity_Fail = ((ret_value & 0xffff0000) >> 16);
+-		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE3_11N, bMaskDWord);
+-		FalseAlmCnt->Cnt_Rate_Illegal = (ret_value & 0xffff);
+-		FalseAlmCnt->Cnt_Crc8_fail = ((ret_value & 0xffff0000) >> 16);
+-		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE4_11N, bMaskDWord);
+-		FalseAlmCnt->Cnt_Mcs_fail = (ret_value & 0xffff);
+-
+-		FalseAlmCnt->Cnt_Ofdm_fail = FalseAlmCnt->Cnt_Parity_Fail + FalseAlmCnt->Cnt_Rate_Illegal +
+-					     FalseAlmCnt->Cnt_Crc8_fail + FalseAlmCnt->Cnt_Mcs_fail +
+-					     FalseAlmCnt->Cnt_Fast_Fsync + FalseAlmCnt->Cnt_SB_Search_fail;
+-
+-		if (pDM_Odm->SupportICType == ODM_RTL8188E) {
+-			ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_SC_CNT_11N, bMaskDWord);
+-			FalseAlmCnt->Cnt_BW_LSC = (ret_value & 0xffff);
+-			FalseAlmCnt->Cnt_BW_USC = ((ret_value & 0xffff0000) >> 16);
+-		}
++	/* hold ofdm counter */
++	ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_HOLDC_11N, BIT(31), 1); /* hold page C counter */
++	ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(31), 1); /* hold page D counter */
 +
- 	odm_dtc(pDM_Odm);
++	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE1_11N, bMaskDWord);
++	FalseAlmCnt->Cnt_Fast_Fsync = (ret_value & 0xffff);
++	FalseAlmCnt->Cnt_SB_Search_fail = ((ret_value & 0xffff0000) >> 16);
++	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE2_11N, bMaskDWord);
++	FalseAlmCnt->Cnt_OFDM_CCA = (ret_value & 0xffff);
++	FalseAlmCnt->Cnt_Parity_Fail = ((ret_value & 0xffff0000) >> 16);
++	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE3_11N, bMaskDWord);
++	FalseAlmCnt->Cnt_Rate_Illegal = (ret_value & 0xffff);
++	FalseAlmCnt->Cnt_Crc8_fail = ((ret_value & 0xffff0000) >> 16);
++	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_TYPE4_11N, bMaskDWord);
++	FalseAlmCnt->Cnt_Mcs_fail = (ret_value & 0xffff);
++
++	FalseAlmCnt->Cnt_Ofdm_fail = FalseAlmCnt->Cnt_Parity_Fail + FalseAlmCnt->Cnt_Rate_Illegal +
++				     FalseAlmCnt->Cnt_Crc8_fail + FalseAlmCnt->Cnt_Mcs_fail +
++				     FalseAlmCnt->Cnt_Fast_Fsync + FalseAlmCnt->Cnt_SB_Search_fail;
+ 
+-		/* hold cck counter */
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(12), 1);
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(14), 1);
+-
+-		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_LSB_11N, bMaskByte0);
+-		FalseAlmCnt->Cnt_Cck_fail = ret_value;
+-		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_MSB_11N, bMaskByte3);
+-		FalseAlmCnt->Cnt_Cck_fail +=  (ret_value & 0xff) << 8;
+-
+-		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_CCA_CNT_11N, bMaskDWord);
+-		FalseAlmCnt->Cnt_CCK_CCA = ((ret_value & 0xFF) << 8) | ((ret_value & 0xFF00) >> 8);
+-
+-		FalseAlmCnt->Cnt_all = (FalseAlmCnt->Cnt_Fast_Fsync +
+-					FalseAlmCnt->Cnt_SB_Search_fail +
+-					FalseAlmCnt->Cnt_Parity_Fail +
+-					FalseAlmCnt->Cnt_Rate_Illegal +
+-					FalseAlmCnt->Cnt_Crc8_fail +
+-					FalseAlmCnt->Cnt_Mcs_fail +
+-					FalseAlmCnt->Cnt_Cck_fail);
+-
+-		FalseAlmCnt->Cnt_CCA_all = FalseAlmCnt->Cnt_OFDM_CCA + FalseAlmCnt->Cnt_CCK_CCA;
+-
+-		if (pDM_Odm->SupportICType >= ODM_RTL8723A) {
+-			/* reset false alarm counter registers */
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTC_11N, BIT(31), 1);
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTC_11N, BIT(31), 0);
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(27), 1);
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(27), 0);
+-			/* update ofdm counter */
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_HOLDC_11N, BIT(31), 0); /* update page C counter */
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(31), 0); /* update page D counter */
+-
+-			/* reset CCK CCA counter */
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13) | BIT(12), 0);
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13) | BIT(12), 2);
+-			/* reset CCK FA counter */
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15) | BIT(14), 0);
+-			ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15) | BIT(14), 2);
+-		}
+-	} else { /* FOR ODM_IC_11AC_SERIES */
+-		/* read OFDM FA counter */
+-		FalseAlmCnt->Cnt_Ofdm_fail = ODM_GetBBReg(pDM_Odm, ODM_REG_OFDM_FA_11AC, bMaskLWord);
+-		FalseAlmCnt->Cnt_Cck_fail = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_11AC, bMaskLWord);
+-		FalseAlmCnt->Cnt_all = FalseAlmCnt->Cnt_Ofdm_fail + FalseAlmCnt->Cnt_Cck_fail;
+-
+-		/*  reset OFDM FA coutner */
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RST_11AC, BIT(17), 1);
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RST_11AC, BIT(17), 0);
+-		/*  reset CCK FA counter */
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11AC, BIT(15), 0);
+-		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11AC, BIT(15), 1);
++	if (pDM_Odm->SupportICType == ODM_RTL8188E) {
++		ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_SC_CNT_11N, bMaskDWord);
++		FalseAlmCnt->Cnt_BW_LSC = (ret_value & 0xffff);
++		FalseAlmCnt->Cnt_BW_USC = ((ret_value & 0xffff0000) >> 16);
++	}
++
++	/* hold cck counter */
++	ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(12), 1);
++	ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(14), 1);
++
++	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_LSB_11N, bMaskByte0);
++	FalseAlmCnt->Cnt_Cck_fail = ret_value;
++	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_FA_MSB_11N, bMaskByte3);
++	FalseAlmCnt->Cnt_Cck_fail +=  (ret_value & 0xff) << 8;
++
++	ret_value = ODM_GetBBReg(pDM_Odm, ODM_REG_CCK_CCA_CNT_11N, bMaskDWord);
++	FalseAlmCnt->Cnt_CCK_CCA = ((ret_value & 0xFF) << 8) | ((ret_value & 0xFF00) >> 8);
++
++	FalseAlmCnt->Cnt_all = (FalseAlmCnt->Cnt_Fast_Fsync +
++				FalseAlmCnt->Cnt_SB_Search_fail +
++				FalseAlmCnt->Cnt_Parity_Fail +
++				FalseAlmCnt->Cnt_Rate_Illegal +
++				FalseAlmCnt->Cnt_Crc8_fail +
++				FalseAlmCnt->Cnt_Mcs_fail +
++				FalseAlmCnt->Cnt_Cck_fail);
++
++	FalseAlmCnt->Cnt_CCA_all = FalseAlmCnt->Cnt_OFDM_CCA + FalseAlmCnt->Cnt_CCK_CCA;
++
++	if (pDM_Odm->SupportICType >= ODM_RTL8723A) {
++		/* reset false alarm counter registers */
++		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTC_11N, BIT(31), 1);
++		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTC_11N, BIT(31), 0);
++		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(27), 1);
++		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(27), 0);
++		/* update ofdm counter */
++		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_HOLDC_11N, BIT(31), 0); /* update page C counter */
++		ODM_SetBBReg(pDM_Odm, ODM_REG_OFDM_FA_RSTD_11N, BIT(31), 0); /* update page D counter */
++
++		/* reset CCK CCA counter */
++		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13) | BIT(12), 0);
++		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(13) | BIT(12), 2);
++		/* reset CCK FA counter */
++		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15) | BIT(14), 0);
++		ODM_SetBBReg(pDM_Odm, ODM_REG_CCK_FA_RST_11N, BIT(15) | BIT(14), 2);
+ 	}
  }
  
 -- 
