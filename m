@@ -1,41 +1,41 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B283FC0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DE33FCD
 	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:57:59 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id t18so19323216wrb.0
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:57:58 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id 196-20020a1c04cd000000b002fa489ffe1fso11760657wme.4
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PoBjKuAUIrqbP3exqakCt2vgFtdI/tJF3GNqO0fS3j0=;
-        b=Ox7zDSD410YxA6Jsf1uhzjcNeueHkAHxdJGWH4aU/QZL+AOmKqFUdAiZPhbv2y9F4z
-         2905eK4d5AzuNopZe0VW8qd0uN4bRn1qUoAviujORUnkaPLX1JCwyMEFwIYoK/SSklUQ
-         9jHliF5FhkyOZOCKnTiXkSiA2xA/3CgqT66tBUQQT9nBzfIvrubyWSGwSbF1xRCcIflB
-         KHWuL6l6Wx7qlzUGLNKiEOl1xQAj1tklmyIH7a5xKl6aFpuwooXw/DaDXUmHSbXMImAW
-         rDP20Q+FYwbXFadhSOT6ekDG2B2Jj2mZE6+suK3G+tk9R2WNbmqoIXfTxQ7JKbBygM/n
-         R/yg==
+        bh=ZCRS9YO/EfFwLmhMCxMGwWzVTAfOXMSICKT6p7l5oDc=;
+        b=ZOkdbx6LyN56shmP7X0Ky0YwEfqR2sv/sVkHCxvzI7pcj4O5Wah7rDlht27vAY9Sl3
+         VTRU9snCF9A5FZtzqpNHzobaqlAmz8XYWByunyFy82FZv60HTuXdYdEz1uQj9FgbjAM1
+         s/gKTaJLNlJ9YsQWhItMfJL9WcEX5SDaoKk35PQpGWhxo+YXC4oH9IRe9AzN/C1oh/Zl
+         efyKCaXsgAvBSEME8hwAH/GKUpAcvA41AeTemEh2d8jBi9rZiDz1GPc3DQ0HjXTDBbOg
+         aL/WVNNleph5pbU76sdMIp2D9ReTUTXAlIhOTlfQZ2wIG5hvH7TTIDTFoa78YDhNS9NG
+         6V2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PoBjKuAUIrqbP3exqakCt2vgFtdI/tJF3GNqO0fS3j0=;
-        b=NSTU3kPi0YKoUzUWOUMmPb0EciI552I7AZ7mYzA8K7LPIubAKW0QSiTIitDrFVRhpq
-         THcK9aZ8xVkUNb7+KWQh25ysrNgyOu/YLbJSUzs91jNQxFIx05q6dFwHczcAIeSocVo3
-         YCg3R4ZUJLZV7nzkIjtbvV8bwTpp57D3BoeAY0CICJI5NPu+69B+Kjv0NQkosLeh9KQH
-         YOXJjLE3sqiVlgrv1ttqVttL8hvoIsAb1U3E4fE5bXbdrCUlzSFzo42lUCluXIolBjcL
-         iLMLA+obwOCMY/DPSSksTwoiKY0LrpaTDSxvSnLLViI/GN5hmOCIs0a9DptBUk0A3G+C
-         wdeA==
-X-Gm-Message-State: AOAM533ED+IUULn3kQraXKcQ4tRbN2FrgapEebyp7bp4ofN0NFk1PPsi
-	qeUAiEcOfcku/Rv34bsxsBg=
-X-Google-Smtp-Source: ABdhPJxjof1kHIGNOKsUajD2R19NjrwkzNm2It0qYZJZ7aSUELu5C6Uw2xkU1acWb4ObN3YNEclgIA==
-X-Received: by 2002:a05:6000:104e:: with SMTP id c14mr17051583wrx.130.1631959077442;
-        Sat, 18 Sep 2021 02:57:57 -0700 (PDT)
+        bh=ZCRS9YO/EfFwLmhMCxMGwWzVTAfOXMSICKT6p7l5oDc=;
+        b=8EF8VJR4XELXsoq1KzZOV7zR5isrD3/kv6XbO7dSOWGNg7BpaOhj1pe1q4UsmMkVzA
+         0zzYP5CrpnZ9qFHlGDXACVqElzeH5NIByFVvmPhgJ9aEfDtk4y2UuNRWVJC+O76qwvis
+         NcPmfPr74oheOLCevh8rpKbZlki/ipEEin5WUVdin7fSNyC1y4CtNo/2AfdimgywfFnc
+         tRRNSpxwya7wBmCh3RC2L+R64XmkuzB1Srs74ssjUW97iVgySJHqrrxs2WwbLGsenQwm
+         isrzW6PO0HCn6L2DilN3QBuK+neqfgmTp4nbcE1/KdIgcoPPbh+6A5UG+eqr8aqT5Zfi
+         mVVw==
+X-Gm-Message-State: AOAM530DAI6GXJ2boBbGizNl2ij9RXBHqmur+/NJ8c6GHxC96Q9qnUB8
+	EzAz/Eweu8pNROg+smcnZpE=
+X-Google-Smtp-Source: ABdhPJx6Ivac7Ps7cXJKkeDGJW1OzuuZerqrs0i7OCRBlFR144IOK44ExYNZ6WX6iYwi/pe/hcM1zw==
+X-Received: by 2002:a1c:3b87:: with SMTP id i129mr10767585wma.115.1631959078309;
+        Sat, 18 Sep 2021 02:57:58 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id o26sm13013287wmc.17.2021.09.18.02.57.56
+        by smtp.gmail.com with ESMTPSA id o26sm13013287wmc.17.2021.09.18.02.57.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 02:57:57 -0700 (PDT)
+        Sat, 18 Sep 2021 02:57:58 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/8] staging: r8188eu: remove ODM_DIG_LowerBound_88E()
-Date: Sat, 18 Sep 2021 11:57:21 +0200
-Message-Id: <20210918095727.13591-3-straube.linux@gmail.com>
+Subject: [PATCH 3/8] staging: r8188eu: remove rtl8188e_RF_ChangeTxPath()
+Date: Sat, 18 Sep 2021 11:57:22 +0200
+Message-Id: <20210918095727.13591-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210918095727.13591-1-straube.linux@gmail.com>
 References: <20210918095727.13591-1-straube.linux@gmail.com>
@@ -59,47 +59,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function ODM_DIG_LowerBound_88E() is not used, remove it.
+Function rtl8188e_RF_ChangeTxPath() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm_RTL8188E.c     | 9 ---------
- drivers/staging/r8188eu/include/odm_RTL8188E.h | 2 --
- 2 files changed, 11 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 22 -------------------
+ drivers/staging/r8188eu/include/rtl8188e_rf.h |  1 -
+ 2 files changed, 23 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/odm_RTL8188E.c b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-index c64a291f9966..7270ce68cfd2 100644
---- a/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-+++ b/drivers/staging/r8188eu/hal/odm_RTL8188E.c
-@@ -3,15 +3,6 @@
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+index 2f16c0966973..2fffe42e97c0 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+@@ -50,28 +50,6 @@ struct rf_shadow {
  
- #include "../include/odm_precomp.h"
+ /*------------------------Define local variable------------------------------*/
  
--void ODM_DIG_LowerBound_88E(struct odm_dm_struct *dm_odm)
+-/*-----------------------------------------------------------------------------
+- * Function:	RF_ChangeTxPath
+- *
+- * Overview:	For RL6052, we must change some RF settign for 1T or 2T.
+- *
+- * Input:		u16 DataRate		0x80-8f, 0x90-9f
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 09/25/2008	MHC		Create Version 0.
+- *						Firmwaer support the utility later.
+- *
+- *---------------------------------------------------------------------------*/
+-void rtl8188e_RF_ChangeTxPath(struct adapter *Adapter, u16 DataRate)
 -{
--	struct rtw_dig *pDM_DigTable = &dm_odm->DM_DigTable;
+-/*  We do not support gain table change inACUT now !!!! Delete later !!! */
+-}	/* RF_ChangeTxPath */
 -
--	if (dm_odm->AntDivType == CG_TRX_HW_ANTDIV)
--		pDM_DigTable->rx_gain_range_min = (u8)pDM_DigTable->AntDiv_RSSI_max;
--	/* If only one Entry connected */
--}
--
- static void odm_RX_HWAntDivInit(struct odm_dm_struct *dm_odm)
- {
- 	u32	value32;
-diff --git a/drivers/staging/r8188eu/include/odm_RTL8188E.h b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-index 00d2678532f8..96e50c9224aa 100644
---- a/drivers/staging/r8188eu/include/odm_RTL8188E.h
-+++ b/drivers/staging/r8188eu/include/odm_RTL8188E.h
-@@ -11,8 +11,6 @@
- #define	MAIN_ANT_CGCS_RX	0
- #define	AUX_ANT_CGCS_RX	1
+ /*-----------------------------------------------------------------------------
+  * Function:    PHY_RF6052SetBandwidth()
+  *
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_rf.h b/drivers/staging/r8188eu/include/rtl8188e_rf.h
+index da6b7f8212a3..04556496baad 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_rf.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_rf.h
+@@ -9,7 +9,6 @@
+ #define		RF6052_MAX_PATH			2
  
--void ODM_DIG_LowerBound_88E(struct odm_dm_struct *pDM_Odm);
--
- void ODM_AntennaDiversityInit_88E(struct odm_dm_struct *pDM_Odm);
- 
- void ODM_AntennaDiversity_88E(struct odm_dm_struct *pDM_Odm);
+ int	PHY_RF6052_Config8188E(struct adapter *Adapter);
+-void rtl8188e_RF_ChangeTxPath(struct adapter *Adapter, u16 DataRate);
+ void rtl8188e_PHY_RF6052SetBandwidth(struct adapter *Adapter,
+ 				     enum ht_channel_width Bandwidth);
+ void	rtl8188e_PHY_RF6052SetCckTxPower(struct adapter *Adapter, u8 *level);
 -- 
 2.33.0
 
