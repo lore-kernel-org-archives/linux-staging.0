@@ -1,50 +1,54 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E027D72
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 06:59:14 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id p12-20020a17090adf8c00b0019c959bc795so3383266pjv.1
-        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 23:59:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120C072
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 08:11:32 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id z184-20020a1c7ec1000000b003065f0bc631so11675286wmc.0
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 01:11:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Pwr8YX18G5sM3rMEHlqvF4zfqHnt+BYzRfgaDWyefDg=;
-        b=AbC7bh3JoGElFxwKdP2z0kCPv794uJB9sZbgRoLdfuaDXThL+fqeO9FipFvwUfkG8q
-         UalCkEMNeGXGdUu3C6eZz7aX86RDQT4xqtzKDwijc0j0YfHRxgD15g/vUtYTu1Z8DoV5
-         6cN5xd/1qTFvUBLEawDto6SvImGzA0onuvz/npqFrCqYrDoB/a0woijeBzJ3f1YcuY65
-         srZNfbvrq2N4fqlacwD2dq1sBTL53zynXtb6b2WGGhcDQUhKIof0jfXXpUYk1f1RyiYv
-         fPcbPEXWVolXfCyoIe05RmSg4iFjYhj+5+m5ldPKkm6GluJEV1AXOk79XNg9lPQSBXZz
-         kR2A==
+        bh=W1oNWM59ctOP8p0w6rhK9BPGUQ/JX9ovwPlneKU7qzM=;
+        b=G60U62gc/jXgolFWzeUtQjQ7378GfefhmL4I7gbO1GjcrmwCzlk10t72ro5awRcdzA
+         FHdJP1q8xuPq2pZ88zKM1bkhwzzWib5Xr7zu7e/cnqx8ha+4iv5IOFOskKyq5yBRnIW6
+         ReAkmXrQEjquoe9IfFz6tlO6IuEf2IIvp/VhV9zkNxfsrW90qZz9wyGRVR3otR2X5jt2
+         pEqayr2/piUbbOTBw+BEIqLzCi6h2xKg3KkU9BtSiOdfF7A9UbQxFxdO+ZwA4IuKgD9a
+         U/2aCQ48wxnilygXovKRfaMltUWpmRZEFg9XJMhn1Mc4a2Mouh3EqNqOR+LNRwlxgL+p
+         crSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Pwr8YX18G5sM3rMEHlqvF4zfqHnt+BYzRfgaDWyefDg=;
-        b=ArEc+AcrUUihmTF5Nkt8lNV9tYBe4FvCW75qPAbwprI/djwrHHV27ZxX4oHTtmlKKb
-         H7ScfUIMMG4RssUijoK01+ly9uIkRpAdQe/ieDYxjrJtdFrwwjIHHz7s8JnT1z2PsBay
-         ZGsHM9rWxaSElJ3bL13gcBXhU0J0W+iVMg0KJzcGC7PiTOdJa29ZSsrZc6o4C1YOyG+s
-         FkdFRRbfQggHrblx55Z+Un++7YhgmPsq59fGExpxViyg/IQPhJpp6iqCw2wr7HJqpI0F
-         J+poO+mrOHHNhn/j+SXQTnqhfZakX4lUFo3RZ38mgpkgholfOVsSBb4NatQK2lOdjT52
-         2Daw==
-X-Gm-Message-State: AOAM5339K/EIUEG2FPbIlBuQW8EtYRrHq0rxx/pMHTYBYlkOcXEOhxhV
-	uPT+//pmiwiSrMnwrwJe2C8=
-X-Google-Smtp-Source: ABdhPJxB8i6k8CtDM69ch7D4s/pTKprEfbMbUcd5t5Y+h+crptjf0FQ138N8kfegwGbU3gKNM0WNwA==
-X-Received: by 2002:a17:90a:f18f:: with SMTP id bv15mr16577996pjb.93.1631948354352;
-        Fri, 17 Sep 2021 23:59:14 -0700 (PDT)
-Received: from localhost.localdomain ([2402:e280:2130:198:9b25:1cfb:9ff3:2a8f])
-        by smtp.gmail.com with ESMTPSA id lj7sm7261763pjb.18.2021.09.17.23.59.12
+        bh=W1oNWM59ctOP8p0w6rhK9BPGUQ/JX9ovwPlneKU7qzM=;
+        b=b8UrC98gi4+xtwA5S52mYsTn/eLACn8MD5zVisDsjjLxv1pv3Ak92M0O6YIMFFkFBK
+         DZosgNCFMTK6qYF3WvWQ4hpWtWIeZxpebZGHfQhLM93OS5ygfB1Io/owkciZVCeNnJqy
+         sY2TuxxG+q7qSNy7W/0Lj80uLmmA4eTEVAbvNx/hEKxrxnOnHhFY9JGoFbWN2s/Tgkxf
+         ip44GVcACMoY0J04okzetAB6WfdmWNJ9aV2kGRwBD5RcHFfSqSPY/afsbuaiJr+KFvbM
+         kCF8Ux7kexjGKaTrtCIIcEuQUqg8cREeD6gwZYdVIbl8pCaacUZYB5u5YS4fk44igV5D
+         O38Q==
+X-Gm-Message-State: AOAM533xXDSfUumN5JKqj46w+VpRsHusgxSsDcwy29NIIxSgVZFz+fp5
+	o3+YGg8P8m6FJ+bIz01n0yI=
+X-Google-Smtp-Source: ABdhPJx9RoUt73/+C/u5YsETXl/Ef5TWayLLd415yJIzHizdHdfy4NHYjGNSKv2QI9KTZSdvD9hwxg==
+X-Received: by 2002:a1c:f00a:: with SMTP id a10mr14109903wmb.112.1631952690466;
+        Sat, 18 Sep 2021 01:11:30 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cad])
+        by smtp.gmail.com with ESMTPSA id d17sm8918760wrp.57.2021.09.18.01.11.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 23:59:14 -0700 (PDT)
-From: Benjamin Philip <benjamin.philip495@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Benjamin Philip <benjamin.philip495@gmail.com>,
+        Sat, 18 Sep 2021 01:11:30 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rts5208: remove unnecessary parentheses in ms.c
-Date: Sat, 18 Sep 2021 12:27:44 +0530
-Message-Id: <20210918065744.26304-1-benjamin.philip495@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 1/2] staging: r8188eu: remove unused defines from odm_RegDefine11N.h
+Date: Sat, 18 Sep 2021 10:11:19 +0200
+Message-Id: <20210918081120.2798-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,170 +57,156 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This commit removes unnecessary parentheses, that have been flagged
-by checkpatch.pl in ms.c
+Remove unused defines from odm_RegDefine11N.h.
 
-Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rts5208/ms.c | 42 ++++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ .../r8188eu/include/odm_RegDefine11N.h        | 96 -------------------
+ 1 file changed, 96 deletions(-)
 
-diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.c
-index c6ad34a7fa33..2a6fab5c117a 100644
---- a/drivers/staging/rts5208/ms.c
-+++ b/drivers/staging/rts5208/ms.c
-@@ -165,7 +165,7 @@ static int ms_write_bytes(struct rtsx_chip *chip,
- 	struct ms_info *ms_card = &chip->ms_card;
- 	int retval, i;
+diff --git a/drivers/staging/r8188eu/include/odm_RegDefine11N.h b/drivers/staging/r8188eu/include/odm_RegDefine11N.h
+index 5d1d73490c1c..3e2fd6b1c793 100644
+--- a/drivers/staging/r8188eu/include/odm_RegDefine11N.h
++++ b/drivers/staging/r8188eu/include/odm_RegDefine11N.h
+@@ -4,56 +4,20 @@
+ #ifndef	__ODM_REGDEFINE11N_H__
+ #define __ODM_REGDEFINE11N_H__
  
--	if (!data || (data_len < cnt))
-+	if (!data || data_len < cnt)
- 		return STATUS_ERROR;
+-/* 2 RF REG LIST */
+-#define	ODM_REG_RF_MODE_11N				0x00
+-#define	ODM_REG_RF_0B_11N				0x0B
+-#define	ODM_REG_CHNBW_11N				0x18
+-#define	ODM_REG_T_METER_11N				0x24
+-#define	ODM_REG_RF_25_11N				0x25
+-#define	ODM_REG_RF_26_11N				0x26
+-#define	ODM_REG_RF_27_11N				0x27
+-#define	ODM_REG_RF_2B_11N				0x2B
+-#define	ODM_REG_RF_2C_11N				0x2C
+-#define	ODM_REG_RXRF_A3_11N				0x3C
+-#define	ODM_REG_T_METER_92D_11N			0x42
+-#define	ODM_REG_T_METER_88E_11N			0x42
+-
+ /* 2 BB REG LIST */
+ /* PAGE 8 */
+-#define	ODM_REG_BB_CTRL_11N				0x800
+-#define	ODM_REG_RF_PIN_11N				0x804
+-#define	ODM_REG_PSD_CTRL_11N				0x808
+ #define	ODM_REG_TX_ANT_CTRL_11N			0x80C
+-#define	ODM_REG_BB_PWR_SAV5_11N			0x818
+-#define	ODM_REG_CCK_RPT_FORMAT_11N		0x824
+ #define	ODM_REG_RX_DEFUALT_A_11N		0x858
+-#define	ODM_REG_RX_DEFUALT_B_11N		0x85A
+-#define	ODM_REG_BB_PWR_SAV3_11N			0x85C
+ #define	ODM_REG_ANTSEL_CTRL_11N			0x860
+ #define	ODM_REG_RX_ANT_CTRL_11N			0x864
+ #define	ODM_REG_PIN_CTRL_11N				0x870
+-#define	ODM_REG_BB_PWR_SAV1_11N			0x874
+-#define	ODM_REG_ANTSEL_PATH_11N			0x878
+-#define	ODM_REG_BB_3WIRE_11N			0x88C
+ #define	ODM_REG_SC_CNT_11N				0x8C4
+-#define	ODM_REG_PSD_DATA_11N			0x8B4
+ /* PAGE 9 */
+ #define	ODM_REG_ANT_MAPPING1_11N		0x914
+-#define	ODM_REG_ANT_MAPPING2_11N		0x918
+ /* PAGE A */
+ #define	ODM_REG_CCK_ANTDIV_PARA1_11N	0xA00
+ #define	ODM_REG_CCK_CCA_11N				0xA0A
+ #define	ODM_REG_CCK_ANTDIV_PARA2_11N	0xA0C
+-#define	ODM_REG_CCK_ANTDIV_PARA3_11N	0xA10
+-#define	ODM_REG_CCK_ANTDIV_PARA4_11N	0xA14
+-#define	ODM_REG_CCK_FILTER_PARA1_11N	0xA22
+-#define	ODM_REG_CCK_FILTER_PARA2_11N	0xA23
+-#define	ODM_REG_CCK_FILTER_PARA3_11N	0xA24
+-#define	ODM_REG_CCK_FILTER_PARA4_11N	0xA25
+-#define	ODM_REG_CCK_FILTER_PARA5_11N	0xA26
+-#define	ODM_REG_CCK_FILTER_PARA6_11N	0xA27
+-#define	ODM_REG_CCK_FILTER_PARA7_11N	0xA28
+-#define	ODM_REG_CCK_FILTER_PARA8_11N	0xA29
+ #define	ODM_REG_CCK_FA_RST_11N			0xA2C
+ #define	ODM_REG_CCK_FA_MSB_11N			0xA58
+ #define	ODM_REG_CCK_FA_LSB_11N			0xA5C
+@@ -61,28 +25,10 @@
+ #define	ODM_REG_BB_PWR_SAV4_11N			0xA74
+ /* PAGE B */
+ #define	ODM_REG_LNA_SWITCH_11N			0xB2C
+-#define	ODM_REG_PATH_SWITCH_11N			0xB30
+-#define	ODM_REG_RSSI_CTRL_11N			0xB38
+-#define	ODM_REG_CONFIG_ANTA_11N			0xB68
+-#define	ODM_REG_RSSI_BT_11N				0xB9C
+ /* PAGE C */
+ #define	ODM_REG_OFDM_FA_HOLDC_11N		0xC00
+-#define	ODM_REG_RX_PATH_11N				0xC04
+-#define	ODM_REG_TRMUX_11N				0xC08
+ #define	ODM_REG_OFDM_FA_RSTC_11N		0xC0C
+-#define	ODM_REG_RXIQI_MATRIX_11N		0xC14
+-#define	ODM_REG_TXIQK_MATRIX_LSB1_11N	0xC4C
+ #define	ODM_REG_IGI_A_11N				0xC50
+-#define	ODM_REG_ANTDIV_PARA2_11N		0xC54
+-#define	ODM_REG_IGI_B_11N					0xC58
+-#define	ODM_REG_ANTDIV_PARA3_11N		0xC5C
+-#define	ODM_REG_BB_PWR_SAV2_11N			0xC70
+-#define	ODM_REG_RX_OFF_11N				0xC7C
+-#define	ODM_REG_TXIQK_MATRIXA_11N		0xC80
+-#define	ODM_REG_TXIQK_MATRIXB_11N		0xC88
+-#define	ODM_REG_TXIQK_MATRIXA_LSB2_11N	0xC94
+-#define	ODM_REG_TXIQK_MATRIXB_LSB2_11N	0xC9C
+-#define	ODM_REG_RXIQK_MATRIX_LSB_11N	0xCA0
+ #define	ODM_REG_ANTDIV_PARA1_11N		0xCA4
+ #define	ODM_REG_OFDM_FA_TYPE1_11N		0xCF0
+ /* PAGE D */
+@@ -90,52 +36,10 @@
+ #define	ODM_REG_OFDM_FA_TYPE2_11N		0xDA0
+ #define	ODM_REG_OFDM_FA_TYPE3_11N		0xDA4
+ #define	ODM_REG_OFDM_FA_TYPE4_11N		0xDA8
+-/* PAGE E */
+-#define	ODM_REG_TXAGC_A_6_18_11N		0xE00
+-#define	ODM_REG_TXAGC_A_24_54_11N		0xE04
+-#define	ODM_REG_TXAGC_A_1_MCS32_11N	0xE08
+-#define	ODM_REG_TXAGC_A_MCS0_3_11N		0xE10
+-#define	ODM_REG_TXAGC_A_MCS4_7_11N		0xE14
+-#define	ODM_REG_TXAGC_A_MCS8_11_11N	0xE18
+-#define	ODM_REG_TXAGC_A_MCS12_15_11N	0xE1C
+-#define	ODM_REG_FPGA0_IQK_11N			0xE28
+-#define	ODM_REG_TXIQK_TONE_A_11N		0xE30
+-#define	ODM_REG_RXIQK_TONE_A_11N		0xE34
+-#define	ODM_REG_TXIQK_PI_A_11N			0xE38
+-#define	ODM_REG_RXIQK_PI_A_11N			0xE3C
+-#define	ODM_REG_TXIQK_11N				0xE40
+-#define	ODM_REG_RXIQK_11N				0xE44
+-#define	ODM_REG_IQK_AGC_PTS_11N			0xE48
+-#define	ODM_REG_IQK_AGC_RSP_11N			0xE4C
+-#define	ODM_REG_BLUETOOTH_11N			0xE6C
+-#define	ODM_REG_RX_WAIT_CCA_11N			0xE70
+-#define	ODM_REG_TX_CCK_RFON_11N			0xE74
+-#define	ODM_REG_TX_CCK_BBON_11N			0xE78
+-#define	ODM_REG_OFDM_RFON_11N			0xE7C
+-#define	ODM_REG_OFDM_BBON_11N			0xE80
+-#define		ODM_REG_TX2RX_11N				0xE84
+-#define	ODM_REG_TX2TX_11N				0xE88
+-#define	ODM_REG_RX_CCK_11N				0xE8C
+-#define	ODM_REG_RX_OFDM_11N				0xED0
+-#define	ODM_REG_RX_WAIT_RIFS_11N		0xED4
+-#define	ODM_REG_RX2RX_11N				0xED8
+-#define	ODM_REG_STANDBY_11N				0xEDC
+-#define	ODM_REG_SLEEP_11N				0xEE0
+-#define	ODM_REG_PMPD_ANAEN_11N			0xEEC
  
- 	rtsx_init_cmd(chip);
-@@ -290,7 +290,7 @@ static int ms_read_bytes(struct rtsx_chip *chip,
- 	for (i = 0; i < data_len; i++)
- 		data[i] = ptr[i];
+ /* 2 MAC REG LIST */
+-#define	ODM_REG_BB_RST_11N				0x02
+ #define	ODM_REG_ANTSEL_PIN_11N			0x4C
+-#define	ODM_REG_EARLY_MODE_11N			0x4D0
+-#define	ODM_REG_RSSI_MONITOR_11N		0x4FE
+-#define	ODM_REG_EDCA_VO_11N				0x500
+-#define	ODM_REG_EDCA_VI_11N				0x504
+-#define	ODM_REG_EDCA_BE_11N				0x508
+-#define	ODM_REG_EDCA_BK_11N				0x50C
+-#define	ODM_REG_TXPAUSE_11N				0x522
+ #define	ODM_REG_RESP_TX_11N				0x6D8
+-#define	ODM_REG_ANT_TRAIN_PARA1_11N	0x7b0
+-#define	ODM_REG_ANT_TRAIN_PARA2_11N	0x7b4
  
--	if ((tpc == PRO_READ_SHORT_DATA) && (data_len == 8)) {
-+	if (tpc == PRO_READ_SHORT_DATA && data_len == 8) {
- 		dev_dbg(rtsx_dev(chip), "Read format progress:\n");
- 		print_hex_dump_bytes(KBUILD_MODNAME ": ", DUMP_PREFIX_NONE, ptr,
- 				     cnt);
-@@ -964,13 +964,13 @@ static int ms_read_attribute_info(struct rtsx_chip *chip)
- 		i++;
- 	} while (i < 1024);
- 
--	if ((buf[0] != 0xa5) && (buf[1] != 0xc3)) {
-+	if (buf[0] != 0xa5 && buf[1] != 0xc3) {
- 		/* Signature code is wrong */
- 		kfree(buf);
- 		return STATUS_FAIL;
- 	}
- 
--	if ((buf[4] < 1) || (buf[4] > 12)) {
-+	if (buf[4] < 1 || buf[4] > 12) {
- 		kfree(buf);
- 		return STATUS_FAIL;
- 	}
-@@ -979,8 +979,8 @@ static int ms_read_attribute_info(struct rtsx_chip *chip)
- 		int cur_addr_off = 16 + i * 12;
- 
- #ifdef SUPPORT_MSXC
--		if ((buf[cur_addr_off + 8] == 0x10) ||
--		    (buf[cur_addr_off + 8] == 0x13)) {
-+		if (buf[cur_addr_off + 8] == 0x10 ||
-+		    buf[cur_addr_off + 8] == 0x13) {
- #else
- 		if (buf[cur_addr_off + 8] == 0x10) {
- #endif
-@@ -1109,8 +1109,8 @@ static int ms_read_attribute_info(struct rtsx_chip *chip)
- #endif
- 
- 	if (device_type != 0x00) {
--		if ((device_type == 0x01) || (device_type == 0x02) ||
--		    (device_type == 0x03)) {
-+		if (device_type == 0x01 || device_type == 0x02 ||
-+		    device_type == 0x03) {
- 			chip->card_wp |= MS_CARD;
- 		} else {
- 			return STATUS_FAIL;
-@@ -1336,7 +1336,7 @@ static int ms_write_extra_data(struct rtsx_chip *chip, u16 block_addr,
- 	int retval, i;
- 	u8 val, data[16];
- 
--	if (!buf || (buf_len < MS_EXTRA_SIZE))
-+	if (!buf || buf_len < MS_EXTRA_SIZE)
- 		return STATUS_FAIL;
- 
- 	retval = ms_set_rw_reg_addr(chip, OVERWRITE_FLAG, MS_EXTRA_SIZE,
-@@ -1574,7 +1574,7 @@ static int ms_erase_block(struct rtsx_chip *chip, u16 phy_blk)
- 
- static void ms_set_page_status(u16 log_blk, u8 type, u8 *extra, int extra_len)
- {
--	if (!extra || (extra_len < MS_EXTRA_SIZE))
-+	if (!extra || extra_len < MS_EXTRA_SIZE)
- 		return;
- 
- 	memset(extra, 0xFF, MS_EXTRA_SIZE);
-@@ -2008,7 +2008,7 @@ static int reset_ms(struct rtsx_chip *chip)
- 		goto RE_SEARCH;
- 	}
- 
--	if ((ptr[14] == 1) || (ptr[14] == 3))
-+	if (ptr[14] == 1 || ptr[14] == 3)
- 		chip->card_wp |= MS_CARD;
- 
- 	/* BLOCK_SIZE_0, BLOCK_SIZE_1 */
-@@ -2378,8 +2378,8 @@ static int ms_build_l2p_tbl(struct rtsx_chip *chip, int seg_no)
- 			continue;
- 		}
- 
--		if ((log_blk < ms_start_idx[seg_no]) ||
--		    (log_blk >= ms_start_idx[seg_no + 1])) {
-+		if (log_blk < ms_start_idx[seg_no] ||
-+		    log_blk >= ms_start_idx[seg_no + 1]) {
- 			if (!(chip->card_wp & MS_CARD)) {
- 				retval = ms_erase_block(chip, phy_blk);
- 				if (retval != STATUS_SUCCESS)
-@@ -2662,7 +2662,7 @@ static int mspro_rw_multi_sector(struct scsi_cmnd *srb,
- 		return retval;
- 
- 	if (ms_card->seq_mode) {
--		if ((ms_card->pre_dir != srb->sc_data_direction) ||
-+		if (ms_card->pre_dir != srb->sc_data_direction ||
- 		    ((ms_card->pre_sec_addr + ms_card->pre_sec_cnt) !=
- 		     start_sector) ||
- 		    (mode_2k && (ms_card->seq_mode & MODE_512_SEQ)) ||
-@@ -3294,8 +3294,8 @@ static int ms_write_multiple_pages(struct rtsx_chip *chip, u16 old_blk,
- 					return STATUS_FAIL;
- 			}
- 
--			if ((page_addr == (end_page - 1)) ||
--			    (page_addr == ms_card->page_off)) {
-+			if (page_addr == (end_page - 1) ||
-+			    page_addr == ms_card->page_off) {
- 				if (!(val & INT_REG_CED)) {
- 					ms_set_err_code(chip,
- 							MS_FLASH_WRITE_ERROR);
-@@ -3434,8 +3434,8 @@ static int ms_rw_multi_sector(struct scsi_cmnd *srb, struct rtsx_chip *chip,
- 	if (srb->sc_data_direction == DMA_TO_DEVICE) {
- #ifdef MS_DELAY_WRITE
- 		if (delay_write->delay_write_flag &&
--		    (delay_write->logblock == log_blk) &&
--		    (start_page > delay_write->pageoff)) {
-+		    delay_write->logblock == log_blk &&
-+		    start_page > delay_write->pageoff) {
- 			delay_write->delay_write_flag = 0;
- 			retval = ms_copy_page(chip,
- 					      delay_write->old_phyblock,
-@@ -3467,7 +3467,7 @@ static int ms_rw_multi_sector(struct scsi_cmnd *srb, struct rtsx_chip *chip,
- 					(chip, seg_no,
- 					 log_blk - ms_start_idx[seg_no]);
- 			new_blk  = ms_get_unused_block(chip, seg_no);
--			if ((old_blk == 0xFFFF) || (new_blk == 0xFFFF)) {
-+			if (old_blk == 0xFFFF || new_blk == 0xFFFF) {
- 				set_sense_type(chip, lun,
- 					       SENSE_TYPE_MEDIA_WRITE_ERR);
- 				return STATUS_FAIL;
-@@ -4179,7 +4179,7 @@ int mg_set_ICV(struct scsi_cmnd *srb, struct rtsx_chip *chip)
- 
- 		retval = rtsx_transfer_data(chip, MS_CARD, buf + 4 + i * 512,
- 					    512, 0, DMA_TO_DEVICE, 3000);
--		if ((retval < 0) || check_ms_err(chip)) {
-+		if (retval < 0 || check_ms_err(chip)) {
- 			rtsx_clear_ms_error(chip);
- 			if (ms_card->mg_auth == 0) {
- 				if ((buf[5] & 0xC0) != 0)
-@@ -4200,7 +4200,7 @@ int mg_set_ICV(struct scsi_cmnd *srb, struct rtsx_chip *chip)
- #else
- 	retval = ms_transfer_data(chip, MS_TM_AUTO_WRITE, PRO_WRITE_LONG_DATA,
- 				  2, WAIT_INT, 0, 0, buf + 4, 1024);
--	if ((retval != STATUS_SUCCESS) || check_ms_err(chip)) {
-+	if (retval != STATUS_SUCCESS || check_ms_err(chip)) {
- 		rtsx_clear_ms_error(chip);
- 		if (ms_card->mg_auth == 0) {
- 			if ((buf[5] & 0xC0) != 0)
+ /* DIG Related */
+ #define	ODM_BIT_IGI_11N					0x0000007F
 -- 
-2.31.1
+2.33.0
 
