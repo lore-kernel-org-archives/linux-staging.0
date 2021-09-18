@@ -1,97 +1,104 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EB73FC8
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 17:32:34 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t8so20637483wrq.4
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 10:32:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B6E3FC8
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 18:19:19 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id v5so42572880edc.2
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 11:19:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UVE7QZS3RWL2QAHWQXoCR4muirEC/eJJlq5hFMqUVLk=;
-        b=atis6OazR0/togfP8brQNQvC7+QKZJNyciGtQ1X6sWCGSoMGn3KhPptr4NAG5oEbIY
-         48pfpY+T1gjwiG0yc/zOCLIjHf6crzb74w3tnxuSeaiV4+8kiqQT50jZZgeRVEPTezHa
-         ga2O4V/hCOsB8OJ6wn2xKrHmLRhmBTU4/1hhxiCL5c/6yb1/21Gxi6kGT6YNFjRZN0UA
-         bvjGcGmCmip9IZZ2nEn9SCWSTOQMxU43aF949F86t4RBQBww4OzLpL5aiEK4kGc0yja4
-         Ova/NKGpETJ5RNGnCzyw3EL1IXP6Nn4LPu05dsGtCIwv/A745+HJkL5JMBAUL0ShjbUM
-         5QyA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rPQxqApznozzGxmIzZvgKnlRlxKs6mC5a3qq+j04H9I=;
+        b=PRCekKGHawQ11jBADXVwcKBQ6mMms4qimPl32QMQqoQnEMrUjdkAowqUBA29WrCNZo
+         J6OZHavRXU32TQSgpGZz+OrZ/KgggH1IZYB5U5vdc/c3yR7+TzzNTDlByPKBZFF65nbO
+         L4HWDiPC0Ds0pCdIX0Z3gMoExrigxQ5nwg0RDBz8ALi3hFXLJ7mXWoKzE+z0FH/bj2Ut
+         nXmXeqP20r+8myXv2cfxAceCZoUp8/aCCfIj3w9OZI64suUGDk4CKLgXlnoiTVzw16R1
+         tBqGWJ19a9iyY4tbpcAlNYwFDNNLs4oJQFdp/Xw+zPn3daAMQkZ/77DctcuXlENNwNU8
+         oHvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UVE7QZS3RWL2QAHWQXoCR4muirEC/eJJlq5hFMqUVLk=;
-        b=uwMRsLPBNDwJEk4/7/+0dr5AqXniQ9nKzZ3Unm3mDyu7mAPYGPFsYv6GgghKxxoYy6
-         jH0lR60EdiyaJ8ktn+gShDp6NlamlbBW+F2VsL1Atxv9j26khUxxfkkZQJWP2Pw6SCaA
-         moaGs69QPWLb4zvFU7pGtqxOYZ2SwMJY50G5FUEQpOn69uqXoyfYMhgxlTDIp/CG/8HR
-         QzO74YrWN4XIqtq5GBEi9hT2zCk+AWB5iA5uT2eQxcB27Q/IfenMc8tbmy6hzinZDN2d
-         V/MWs4VpBKaylft55q/c31hboouLuYb4ifh9i5RqxtMFv+L7CELJnjBMeipU0U9vIwsm
-         LJcA==
-X-Gm-Message-State: AOAM533PCuHscrhpQv67aGckBlXtsmGiTWRULw74ti7KGYxg/KHq9m04
-	1eOtClac/7CNLEvMytObFpk=
-X-Google-Smtp-Source: ABdhPJzm4XHTg1a0lmsW83bFN7OND2/M9x4+Hk9byAK+hB1rOZd7kgeEwxm1M/bXqM1ufTYwwG0x4A==
-X-Received: by 2002:adf:8170:: with SMTP id 103mr19241290wrm.167.1631986352831;
-        Sat, 18 Sep 2021 10:32:32 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id y64sm7475517wmc.38.2021.09.18.10.32.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Sep 2021 10:32:32 -0700 (PDT)
-Message-ID: <0701af92-b341-f7b0-8a0c-3bea8a69f580@gmail.com>
-Date: Sat, 18 Sep 2021 19:32:31 +0200
+        bh=rPQxqApznozzGxmIzZvgKnlRlxKs6mC5a3qq+j04H9I=;
+        b=n8r11z8UPis8sMUX37Uwzcr2VAe7e60EDka+ynXzk37G6OGRDqHd+OufVVDu+k9fBu
+         0cDp5xymSRaTdVD6N6xxpS5HOSat+gPEelRiFlL8MmEZwPIyCrsED5Hf7Y5lXvZPezEk
+         0lQUuEu9owieMBbIiqRflgkhGqaGEueKDjSdggiDLN12/xgc/+3U4tD5cbln6BzNrvvT
+         5qeYVcMiAK41VaE9CZCPIuXcoNYsSkeIpyjB8BopiwkRRDx6d3Jp/YfYUM1qSoDBzu7Y
+         +0Hjg0x4AA/j5vUPylNWqwtEjEdQ/yFajT8hojcwCEmbMK24ra9frLs5/C5GDnSwZNhO
+         2Sqg==
+X-Gm-Message-State: AOAM533xhy9hTQF620GqwMtaCvH3NN3uMTa9VViPj5RXpRuRU/j3a2PN
+	qvyc5rY/QCXm9iHL/q8Ivu8=
+X-Google-Smtp-Source: ABdhPJxzNlRWQV2P1N54o/h3NTWK7I2bE857Jl7NyPlNiaPJ6QRM8yuq1J8zMPVjkzN7z09vkv2Zag==
+X-Received: by 2002:a05:6402:1855:: with SMTP id v21mr20407272edy.349.1631989157646;
+        Sat, 18 Sep 2021 11:19:17 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
+        by smtp.gmail.com with ESMTPSA id t19sm3903673ejb.115.2021.09.18.11.19.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Sep 2021 11:19:17 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	martin@kaiser.cx,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v3 00/14] staging: r8188eu: remove odm_RegDefine11AC.h
+Date: Sat, 18 Sep 2021 20:18:50 +0200
+Message-Id: <20210918181904.12000-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: staging: r8188eu: Can odm_DynamicTxPowerNIC() be removed?
-Content-Language: en-US
-To: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <7f1c135a-d85d-d271-f315-d665a5fe1472@gmail.com>
- <89d9424a-d792-633a-d8e8-cebe7c3a2e20@lwfinger.net>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <89d9424a-d792-633a-d8e8-cebe7c3a2e20@lwfinger.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 9/18/21 18:46, Larry Finger wrote:
-> On 9/18/21 08:31, Michael Straube wrote:
->> Hi Larry, Phillip and all.
->>
->> While removing code that checks for the chip type I stumbled upon this:
->>
->>
->> void odm_DynamicTxPowerNIC(struct odm_dm_struct *pDM_Odm)
->> {
->>      if (!(pDM_Odm->SupportAbility & ODM_BB_DYNAMIC_TXPWR))
->>          return;
->>
->>      if (pDM_Odm->SupportICType == ODM_RTL8188E) {
->>          /*  ??? */
->>          /*  This part need to be redefined. */
->>      }
->> }
->>
->>
->> (pDM_Odm->SupportICType == ODM_RTL8188E) is always true in this driver.
->> Currently the function does nothing and the driver seems to work fine.
->> Because of the comment I'm not sure if the whole function can just be
->> removed?
-> 
-> Yes, I agree. No later driver does anything with this routine, thus it 
-> is dead and can be removed.
-> 
-> Larry
-> 
+The first 12 patches in this series remove macros and code that
+is valid only for 11ac chips and therefore not needed/used in this
+driver. Finally we can remove the header odm_RegDefine11AC.h.
 
-Ok, thank you.
+The last 2 patches remove unused defines from odm_RegDefine11N.h and
+clean up indentation in that file.
 
-Regards,
-Michael
+Tested on x86_64 with Inter-Tech DMG-02.
+
+v2 -> v3
+Added 2 patches that were sent separately but depend on this series.
+The first 12 patches are unchanged.
+
+v1 -> v2
+Changed subject line of patch 11/12 to fix a typo.
+All other patches are unchanged.
+
+Michael Straube (14):
+  staging: r8188eu: remove comments from odm_interface.h
+  staging: r8188eu: remove unused macros from odm_interface.h
+  staging: r8188eu: remove _ic_type from macro _cat in odm_interface.h
+  staging: r8188eu: remove dead code from ODM_Write_DIG()
+  staging: r8188eu: remove unnecessary if statement
+  staging: r8188eu: remove more dead code from ODM_Write_DIG()
+  staging: r8188eu: remove macro ODM_REG
+  staging: r8188eu: remove macro ODM_BIT
+  staging: r8188eu: remove unnecessary if statements
+  staging: r8188eu: remove dead code from odm.c
+  staging: r8188eu: remove macros ODM_IC_11{N,AC}_SERIES
+  staging: r8188eu: remove header file odm_RegDefine11AC.h
+  staging: r8188eu: remove unused defines from odm_RegDefine11N.h
+  staging: r8188eu: clean up indentation in odm_RegDefine11N.h
+
+ drivers/staging/r8188eu/hal/odm.c             | 224 +++++++-----------
+ drivers/staging/r8188eu/include/odm.h         |   5 -
+ .../r8188eu/include/odm_RegDefine11AC.h       |  29 ---
+ .../r8188eu/include/odm_RegDefine11N.h        | 112 +--------
+ .../staging/r8188eu/include/odm_interface.h   |  41 ----
+ drivers/staging/r8188eu/include/odm_precomp.h |   1 -
+ 6 files changed, 90 insertions(+), 322 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11AC.h
+
+-- 
+2.33.0
+
