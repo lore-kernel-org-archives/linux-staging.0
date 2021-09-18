@@ -1,210 +1,82 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CB33FC0
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 12:19:42 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id z94so40283931ede.8
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 05:19:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E163FC3
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 13:31:51 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id b21-20020a1c8015000000b003049690d882so12030559wmd.5
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 06:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0qn+DksEdBMENR1uvA0NKAX3ZxsUx8jYHAO154ypq2g=;
-        b=EKwJXjuv0ncWqBYU8wjGCWihBKNPOb9DG97bqS586y04KrgRXKCIvARxbIdk/EosfF
-         +GnedPCw5KiGBNB2eNxJfzRVYUO0qucXGnGW60bSmyPrkjmZdmQXAwMHmr+wg7MNyPmr
-         X6zw455UDZ+X4vbKPq42JF30RCUrfYIPb3UOXZArX1i/kU9TEpm8aEHnZaUoJgc2gN8Y
-         rHabmKQKt64XIHix+w9Ps+LlKVTD7+7OMGUP+292maZ1UD4Ac4fuy/BLYKGSAje5BaGi
-         mnkiKjKEVxPYqMeKD0p29LNfH0+HyDwW+6YA/PcekfE9a9uF1fuekvtvUqDVrCFruJp7
-         8QgA==
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=btttk93aUSoAIGuvA0mTkUBQEce9Eyd/W3I2VtkIz5w=;
+        b=Xhl6QYeEWdrSrlNtd2m8HCfgmI7HSzhbg3rAvOI+cTykhjCqUaR6TRMvnN0e1F5YEy
+         dlUa99GeTEiwnz/CW/SLZ8315ZcwZOZIZDOz16YqYCnjgcI655mBl22FIPqKh/QezEZF
+         4IFaeDTsGJwtAvPiVgvbkUIgzr6vgk8K8iukxvl1htLUKeAF1NITk65TkHhTO9KVESdr
+         NNYQEMK7pSytNsYL5jVvUHXY3Q9ZdFTT6iBoYGEFIkY7w6cVEWF49cZCJ3l86666pren
+         40j76a6aGqeltIOwACZmjWGOSM4vFD4+KjYwAj+zd3ZG24u9WSi5M9ASgtiSCt4q6y4s
+         Ga9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0qn+DksEdBMENR1uvA0NKAX3ZxsUx8jYHAO154ypq2g=;
-        b=GxsiCuFStWzN2Bgf7zszESKdq4qIZltER+ZKPhYWr4tc518xTNvATz479muUyuI5YZ
-         1T6jgMs6KnmOqWKQSxN/8esQjxChHzIwv1UZEhciRkuMC51vchaf76QBWMStxGIW+EWq
-         HDCG6ONH/zHBzWpODmMYctEJXg+sL0aii7eRTpA8KUxF/H2GFGjzfscxv0yLzUzL4n64
-         AN2wollcayYpkbIwG+v3CnBe7hfbeD+WSu82X5e4PTIRV52I8Il+OP4GX7P3HlMxumtC
-         3dz4/YU1G2AYxk5xLJM6ZiSnOyBjm/sYESUlMAGbRMxuNHpL++mWsO2aRA4MtuWuoLPz
-         rhfQ==
-X-Gm-Message-State: AOAM533G1y+W+AAaql8jyiu9exr6jUNfp/CqI0YGu71GIyXtaHviYADE
-	rlIRQsWNqkZmTcXL2AJbTf4=
-X-Google-Smtp-Source: ABdhPJwMCK1iUWLLgv0fn4p1DJ/XAn63gi/lPih8kGDpCl8WzdcQx9MS9N6n6hhyq7Q4oglRcsEeIA==
-X-Received: by 2002:a05:6402:2061:: with SMTP id bd1mr18538339edb.186.1631967580486;
-        Sat, 18 Sep 2021 05:19:40 -0700 (PDT)
-Received: from localhost.localdomain (host-79-47-104-104.retail.telecomitalia.it. [79.47.104.104])
-        by smtp.gmail.com with ESMTPSA id o22sm4178967edi.89.2021.09.18.05.19.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 05:19:39 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>, Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v7 17/19] staging: r8188eu: shorten calls chain of rtw_read{8,16,32}()
-Date: Sat, 18 Sep 2021 14:19:38 +0200
-Message-ID: <14193957.S5bSOd67d6@localhost.localdomain>
-In-Reply-To: <YUSrIqW5WSYuoa14@kroah.com>
-References: <20210917071837.10926-1-fmdefrancesco@gmail.com> <20210917071837.10926-18-fmdefrancesco@gmail.com> <YUSrIqW5WSYuoa14@kroah.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=btttk93aUSoAIGuvA0mTkUBQEce9Eyd/W3I2VtkIz5w=;
+        b=6+VjJKVoW4/HE4ShkXjR2rs56rb4S/MX5SmhHEiNvNn677ff0aWV+DlfmrL4UmJXpa
+         rm2wI6wHs9hmYmzDNQXuXTbQdnYNnpGEzvxJbG8G0agOD0e4JOVAA54Hxtoxg/Dc+gkS
+         eZKToiiL2Xrh+U7RMCSBoviaRvaYUr6TvuiqQZDfcQDyQruAJ/G30EuSvbVNQFDuup6g
+         zks9un3GCuBEj/7JvtJNkJqMZ5z6xZdAC/wXe+5sWPHBGTTZSm2V2sJGZ6Hwmyh2683W
+         0ccMukwFdAfGK9zA4CRzv2s+a794fhbcUUVtVbHMwBBR/lEKGew3lwaGGjYrJJWUnviM
+         Gi9w==
+X-Gm-Message-State: AOAM531Lpeqir5aT6/nBTXdTkhV6OGy7krzkny8gzZt+2l1cCIqsMS/j
+	s03wOZYhJoSX7K2JjcQiJeI=
+X-Google-Smtp-Source: ABdhPJzW5QuBHT1//iBN/LEipFfEVSJ3k8S4oCN2WTOnucZO6OPPwus7sCOefy0VdP7e1altBeEMDA==
+X-Received: by 2002:a1c:3845:: with SMTP id f66mr15396060wma.63.1631971910196;
+        Sat, 18 Sep 2021 06:31:50 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
+        by smtp.gmail.com with ESMTPSA id l124sm13781028wml.8.2021.09.18.06.31.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Sep 2021 06:31:49 -0700 (PDT)
+Message-ID: <7f1c135a-d85d-d271-f315-d665a5fe1472@gmail.com>
+Date: Sat, 18 Sep 2021 15:31:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Content-Language: en-US
+To: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From: Michael Straube <straube.linux@gmail.com>
+Subject: staging: r8188eu: Can odm_DynamicTxPowerNIC() be removed?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Friday, September 17, 2021 4:50:10 PM CEST Greg Kroah-Hartman wrote:
-> On Fri, Sep 17, 2021 at 09:18:35AM +0200, Fabio M. De Francesco wrote:
-> > Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
-> > For this purpose unify the three usb_read8/16/32 into the new
-> > usb_read(); make the latter parameterizable with 'size'; embed most of
-> > the code of usbctrl_vendorreq() into usb_read() and use in it the new
-> > usb_control_msg_recv() API of USB Core.
-> >=20
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
-> > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  drivers/staging/r8188eu/hal/usb_ops_linux.c | 59 +++++++++++++++++++--
-> >  1 file changed, 56 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/
-staging/r8188eu/hal/usb_ops_linux.c
-> > index 2d5e9b3ba538..ef35358cf2d3 100644
-> > --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> > +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> > @@ -89,6 +89,59 @@ static int usbctrl_vendorreq(struct intf_hdl *intfhd=
-l,=20
-u16 value, void *data, u1
-> >  	return status;
-> >  }
-> > =20
-> > +static int usb_read(struct intf_hdl *intfhdl, u16 addr, void *data, u8=
-=20
-size)
-> > +{
-> > +	struct adapter *adapt =3D intfhdl->padapter;
-> > +	struct dvobj_priv *dvobjpriv =3D adapter_to_dvobj(adapt);
-> > +	struct usb_device *udev =3D dvobjpriv->pusbdev;
-> > +	int status;
-> > +	u8 *io_buf; /* Pointer to I/O buffer */
->=20
-> As you "know" size is not going to be larger than 4 (hint, you should
-> probably check it), just use bytes off of the stack here, and you can
-> ignore this buffer entirely.  That will hopefully allow you in the
-> future to get rid of that buffer as odds are it will not be needed
-> anymore.
+Hi Larry, Phillip and all.
 
-Dear Greg,
-
-Yes we know that in fact, for the rtw_read*() cases, we only have 1,2,4 byt=
-es=20
-size embedded in the calls. It's different for rtw_write*() where we have a=
-=20
-version, that is rtw_writeN(), that could pass larger sizes (checked by the=
-=20
-caller to not be larger than  VENDOR_CMD_MAX_DATA_LEN).
-
-Said that, we already get rid of the buffer in 19/19. As far as 17/19 and=20
-18/19 are regarded we prefer to leave the code as-is, because we have=20
-many other changes in this 17/19 and in the next 18/19.
-
->=20
-> > +
-> > +	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
-> > +		return -EPERM;
->=20
-> How is it ok to check this outside of the lock?  What happens if these
-> values change right _after_ you check them?
-
-Yes, this is a mistake that was in the original code and we didn't noticed.=
-=20
-Anyway, we guess that moving the acquire of he mutex soon before this check=
-=20
-is all that is required. I hope it is the correct fix. Isn't it?
-
->=20
-> Why check them at all, is this something that we even care about?
->=20
-> I know you are trying to make this just the same logic at is there
-> today, but why not just do it right the first time?
->=20
-
-Yes, we are trying to make the same logic that is there today: we already=20
-changed a lot of other logic that was in this code. I see that=20
-bSurpriseRemoved is set in error cases, so for the moment we don't feel lik=
-e=20
-removing anything related to this variable. With a high degree of probabili=
-ty =20
-we'll do this task later in future patches.=20
-
-Do you agree with the argument above?
-
-=46or instance, we got rid of that while loop around the control messages=20
-sending/receiving API calls and we got rid of some plainly useless 'if' tes=
-ts=20
-(such as "if ((value >=3D FW_8188E_START_ADDRESS && value <=3D=20
-=46W_8188E_END_ADDRESS) || status =3D=3D len) break;"), and much more.
-
-> > +
-> > +	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
-> > +
-> > +	io_buf =3D dvobjpriv->usb_vendor_req_buf;
-> > +
-> > +	status =3D usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
-> > +				      REALTEK_USB_VENQT_READ,=20
-addr,
-> > +				      REALTEK_USB_VENQT_CMD_IDX,=20
-io_buf,
-> > +				      size,=20
-RTW_USB_CONTROL_MSG_TIMEOUT,
-> > +				      GFP_KERNEL);
-> > +
-> > +	if (status =3D=3D -ESHUTDOWN ||
-> > +	    status =3D=3D -ENODEV ||
-> > +	    status =3D=3D -ENOENT) {
-> > +		/*
-> > +		 * device or controller has been disabled due to
-> > +		 * some problem that could not be worked around,
-> > +		 * device or bus doesn=E2=80=99t exist, endpoint does not
-> > +		 * exist or is not enabled.
-> > +		 */
-> > +		adapt->bSurpriseRemoved =3D true;
-> > +		goto mutex_unlock;
-> > +	}
-> > +
-> > +	if (status < 0) {
-> > +		GET_HAL_DATA(adapt)->srestpriv.wifi_error_status =3D
-> > +			USB_VEN_REQ_CMD_FAIL;
-> > +
-> > +		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
-> > +			adapt->bSurpriseRemoved =3D true;
-> > +
-> > +		goto mutex_unlock;
-> > +	}
-> > +
-> > +	rtw_reset_continual_urb_error(dvobjpriv);
-> > +	memcpy(data, io_buf, size);
-> > +
-> > +mutex_unlock:
-> > +	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
-> > +
-> > +	return status;
->=20
-> No one cares about this value, is that ok?
-
-I'm aware of Pavel's work on changing all the callers up to the top of the=
-=20
-chains in order to do proper error checking. That's why we return status=20
-here.
-
->=20
-> thanks,
->=20
-> greg k-h
->=20
+While removing code that checks for the chip type I stumbled upon this:
 
 
+void odm_DynamicTxPowerNIC(struct odm_dm_struct *pDM_Odm)
+{
+	if (!(pDM_Odm->SupportAbility & ODM_BB_DYNAMIC_TXPWR))
+		return;
+
+	if (pDM_Odm->SupportICType == ODM_RTL8188E) {
+		/*  ??? */
+		/*  This part need to be redefined. */
+	}
+}
 
 
+(pDM_Odm->SupportICType == ODM_RTL8188E) is always true in this driver.
+Currently the function does nothing and the driver seems to work fine.
+Because of the comment I'm not sure if the whole function can just be
+removed?
+
+Regards,
+Michael
