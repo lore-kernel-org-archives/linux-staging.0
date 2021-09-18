@@ -1,44 +1,46 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F72D72
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 15:24:01 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id g21so41851519edw.4
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 08:24:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2533FC8
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 16:46:54 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id 6so18584348oiy.8
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:46:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/PVHZeQvuCdJZw/7spyFDTgAV+tqTP3cubrD/AsvRUE=;
-        b=g3G1y6iqalMUdxu2CHB+pDSTfXBWaVTyIT14AiI+GkxoKfEKO5deyRk3NhFk4nnbi4
-         veFbn1FGSQMHNS/Kpd0pbpJNl0Pb30U6NehA17r/SrthCklGoP92qKGLKHchspDWK1T0
-         uNDuS70fBhJ4gjQmrfnqj3MAjd7cdn0FPuMmdQ3dITDGUAjHJu/inMTB79hhGq+iJg/k
-         IBrYTYyyCDgpSkLQTt5J+tOW/lRt9ed/M3Ov1W/urE5irU2BRqspRSvjmoTrfj8CYWrA
-         Kx4KTJzJJ4GZbsvnrOKQxuFu9XrM2+33aL6gsY4n0ji77LUFYOMgCW7BE46zAWmIZu8i
-         xOHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+        h=sender:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=/PVHZeQvuCdJZw/7spyFDTgAV+tqTP3cubrD/AsvRUE=;
-        b=sh79iJOL5GFLrGGJmL7PxrYVvNt7nMBSmfi3AG09UmQAX7ER9G/U2TE0nryV66Q7TG
-         MJYweNS1h80erVXKku/+daw2mFcza18KsCZ3MGZn3EAA8/o3wWd/a3MFu4eU+EJbdTq0
-         fUQixMocpL34HMV8Ig4cFR5tPjYWCoVn6mhFI/uIahtFliK9p5MhNRt2w7jFNdrZV0LH
-         fZkgbqos3FhVuE3YrfGdLtqZFj1ji8bYg7lt0xxfmTnKQMQjcFBS9Ax1l7RPf0vL24a8
-         P6+KELHm8LLfR+oDlemrnwAh6rPebn+b0Ch7R/Q2oU/Ei2K+oB6E6sjvGdGpNNx2HnEJ
-         tm2A==
-X-Gm-Message-State: AOAM532U/o0Zo1u1c/bbEe8Pn1IAIJM2oSL/4G9UH/LHpd1zFp78tYMI
-	CR9F/og/fYny9KWC/SMcourS93IzCssc/w==
-X-Google-Smtp-Source: ABdhPJxyOJoPGKkmBorV+l/KTBon5gA3f+YV/V2WnySmLJsQeY152oV20/A8mhK3XxEPGkyZE6P9Tw==
-X-Received: by 2002:a17:906:688a:: with SMTP id n10mr18642709ejr.389.1631978639707;
-        Sat, 18 Sep 2021 08:23:59 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id i13sm4164751edc.48.2021.09.18.08.23.58
+        bh=obSBg7yoA8+wBn+9K/jBy5HRK2evrx5Rl7Npq0wHYHg=;
+        b=SZjbm7c3OdFuckYQ903VM07ZGtiPuY1r8bAJ+GiKVRlbJyxq/l1nqB3LXLc95HCqOR
+         qFGU2jZx//GGmJ17XWYCBb8pEThdNc+e2mhGvo3FVo4NQ9HGl2MOYho8psPZ0Z7NLyc4
+         +3TZN2W0u2Wn6kSutXwRWjiwQVPwNmk9olWvweTCeSOh3vRZx8HayQgDWclctfLkoeHL
+         zEsAfv58yu/5kTY8lZtc9La/QhLpJQh1qILarqfuQdCotwfnro/C/8yKiHDtY8dhGlaj
+         tnNrWDNo/xXlh6EawZ6DaOIp+fnox0v/Lrb68Zid3MZX0IXbJKknYBt/srLVQrxxNnmD
+         oLcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=obSBg7yoA8+wBn+9K/jBy5HRK2evrx5Rl7Npq0wHYHg=;
+        b=ShRguNl9QF3uL/gRUOINyK1HDnty1KbfEtL9IrPbdzbCV8NgXWEs5oTDjVqBQMS5cI
+         rwd0XA7/DFvwZU5bLosG8HLemkhS4BCcJhF0gZVcLuJa/4mxqMhaFLGwLnkMpiXz/5Vn
+         7nBHGI0rOwQDzE4TQz/6sE7VV8GxfnlxeRCGwQLtD1fq382w+p1Xuy8hXAjJ4ni4ogVD
+         p+8OoZkbcasTYfgg8mBrktsWp2OlfAIQhmM3sJH7uSGoSmSVloemuQpLI6qfdCkpQlbP
+         5l8DBaJz2cN2nVEY4iHcJK8Z88p3qcgj0P6p2MBhK0oMAYVYBcZY+r8xmEdwyIQmoAgr
+         zAng==
+X-Gm-Message-State: AOAM530lBSL2XgrDSRc+T8FkV+GcoWG3RFxzS+JJh/tkPgbtArSoV8KQ
+	25B21069hrt4oT5iEyelGWQ=
+X-Google-Smtp-Source: ABdhPJzTgiK5k3wxTcFSH+8ValyCDQhB2y+AWRWhvCRi0+VDHB1aFFghNw2fPZNAL/ckm4vd9aNheg==
+X-Received: by 2002:a54:4e84:: with SMTP id c4mr13665751oiy.106.1631983613291;
+        Sat, 18 Sep 2021 09:46:53 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::1007? (2603-8090-2005-39b3-0000-0000-0000-1007.res6.spectrum.com. [2603:8090:2005:39b3::1007])
+        by smtp.gmail.com with ESMTPSA id ay42sm2216153oib.22.2021.09.18.09.46.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Sep 2021 08:23:59 -0700 (PDT)
-Message-ID: <202aba98-2e54-9728-3bcb-2f195062a535@gmail.com>
-Date: Sat, 18 Sep 2021 17:23:58 +0200
+        Sat, 18 Sep 2021 09:46:52 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <89d9424a-d792-633a-d8e8-cebe7c3a2e20@lwfinger.net>
+Date: Sat, 18 Sep 2021 11:46:50 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,45 +49,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH] staging: r8188eu: remove rtw_free_pwrctrl_priv prototype
+Subject: Re: staging: r8188eu: Can odm_DynamicTxPowerNIC() be removed?
 Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210918141141.28547-1-martin@kaiser.cx>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20210918141141.28547-1-martin@kaiser.cx>
+To: Michael Straube <straube.linux@gmail.com>,
+ Phillip Potter <phil@philpotter.co.uk>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <7f1c135a-d85d-d271-f315-d665a5fe1472@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <7f1c135a-d85d-d271-f315-d665a5fe1472@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/18/21 16:11, Martin Kaiser wrote:
-> The rtw_free_pwrctrl_priv has already been removed in commit 6729e7541934
-> ("staging: r8188eu: _free_pwrlock is empty"). Remove the prototype as well.
+On 9/18/21 08:31, Michael Straube wrote:
+> Hi Larry, Phillip and all.
 > 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->   drivers/staging/r8188eu/include/rtw_pwrctrl.h | 1 -
->   1 file changed, 1 deletion(-)
+> While removing code that checks for the chip type I stumbled upon this:
 > 
-> diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-> index a77fb76a0b09..e412ef71b54b 100644
-> --- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-> +++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-> @@ -134,7 +134,6 @@ struct pwrctrl_priv {
->   				       (pwrctrl)->pwr_state_check_interval)
->   
->   void rtw_init_pwrctrl_priv(struct adapter *adapter);
-> -void rtw_free_pwrctrl_priv(struct adapter *adapter);
->   
->   void rtw_set_ps_mode(struct adapter *adapter, u8 ps_mode, u8 smart_ps,
->   		     u8 bcn_ant_mode);
 > 
+> void odm_DynamicTxPowerNIC(struct odm_dm_struct *pDM_Odm)
+> {
+>      if (!(pDM_Odm->SupportAbility & ODM_BB_DYNAMIC_TXPWR))
+>          return;
+> 
+>      if (pDM_Odm->SupportICType == ODM_RTL8188E) {
+>          /*  ??? */
+>          /*  This part need to be redefined. */
+>      }
+> }
+> 
+> 
+> (pDM_Odm->SupportICType == ODM_RTL8188E) is always true in this driver.
+> Currently the function does nothing and the driver seems to work fine.
+> Because of the comment I'm not sure if the whole function can just be
+> removed?
 
-Looks good to me.
+Yes, I agree. No later driver does anything with this routine, thus it is dead 
+and can be removed.
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+Larry
 
-Thanks,
-Michael
