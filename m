@@ -1,153 +1,128 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C293FC0
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:58:04 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id d21so19216939wra.12
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:58:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185E53FC0
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 11:13:54 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id z94so39844556ede.8
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 04:13:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GN0wJ5LnNY6MYcGXoZ0yQC1yHdhXckp/WdDFfQjh9kk=;
-        b=HDzUjA8/t9XwZlA0ZRewydSInyoCIRHunEnd9TC4sXobyukeYHELIppaqRFr20Is7P
-         /6rtpN+RkCySxtnfFgZhyC/EG5uGHmkZjtlkGWJjMExu5h/BaqaOyBbANTCQJbCKB3kw
-         lIwZHJpq4Q+d99PeGLL9xFc86jbeICoG9P8UpVnqoAd8D8s9XBgBVMYquInuoOEQ7qNw
-         GjKfeT24zzVDYAIx95hI6apaC9i1f45Ln7zjwqoNdmae6WoMjxjBEy0Fzs6/LRMAOZMr
-         ZD6tAQ+ddAicIpDKRfraKPv7mTihc1TszjNIRnTNdB+7p89VmbsvhvssdWzK+Rfr0ohR
-         KnNA==
+        bh=4vr2U1g0cHwYjPOSj/zot+rofFLB5h1tCK6NQz/LyYE=;
+        b=ktJ6F95cTA1GygDzE7c5ZtbpuPy6Uini85+rNZuEpmM732dC56TDIuHQ42No5D3rNq
+         xyLHzOa1lykeFa47OuvPsmpoSPWjjrYyQZbfqiLeOCgCPzuMSiDCfxq48e2VGCfzXcjX
+         C5F5E15K5+3DLlNcprvf9L3JkXkD7r58aYYJw4/KiEEnQvH8ud/kGhJEBFIoyLig7yKM
+         aDgPjViPmAiFNx/3S4MzcI5MIn1zDVhzZNxykhGOnizx9CksOpRbfxU1oFIVhPtGh6Gc
+         aamk33p1cAkCqpI0dE5m+mrmKKUM/EHQyy4iNwfmh2qaWVwQgzoeyP2LNS2/ESmYVmp6
+         /ziw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GN0wJ5LnNY6MYcGXoZ0yQC1yHdhXckp/WdDFfQjh9kk=;
-        b=XLMpPKGR/6iMOn+RSa4+ZU83boQjDxtL5SAhmFLfPsvwc4nGz4vbmD4xk892C76K8Z
-         D7Qf7U6O9fTz5CxKOCqwYwqYpdlCX5aMj2NLlPGITwbfpLVZRRnthszlnUOBNJx5rQoL
-         VsbZluZB8qOCQ5x3NwQ71EUVCWwkFW5zfcz4DcUb4lBbE+8yb8bpwQa3zGYAUch+Y46x
-         7AW7yusi/pCv9yQvG+2PCf3R5y9o8tan6/C3L6qk2hZL8LDNOD8XR1DdtIbjzEt7/7WM
-         OH8ordVycJJ7OrlJPp+C5J94sRrhnmI68luVwLSNLJiWyd+UqE3JNqRsdZHNSwoC2PcY
-         CvWA==
-X-Gm-Message-State: AOAM532RbFAhGy7iyfo8LFQgTL/RAqgFcnUFledJrhjRZeWuin7p7ZY3
-	Q9jOmNiEtlpUBKGfW+cgPHk=
-X-Google-Smtp-Source: ABdhPJwx0McoFN5Vjc/Fxh6Jfqyy5O/iD1mjHQ3dQhngP/mFr5R3CzGVfXSMMgwKmr+3V+RE/fBsrg==
-X-Received: by 2002:adf:d216:: with SMTP id j22mr16542547wrh.191.1631959082580;
-        Sat, 18 Sep 2021 02:58:02 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id o26sm13013287wmc.17.2021.09.18.02.58.01
+        bh=4vr2U1g0cHwYjPOSj/zot+rofFLB5h1tCK6NQz/LyYE=;
+        b=6JjK80wVLm3p+kS5HS1KxUWE3AYHrQOoem010OQm25JJbAyvV6tVN6Qe2ypMcT/mW2
+         TxEQPseHorD5vJpy4VNiNAfXQ/p/JX8i2yd1VHB2XgVdSrkdUFNDWrrU9Vvb5hhFURdW
+         qwt3+crffeQypinDcxR/iMEijHAxuzv8sSM8lxIPXcZPMfphvtLBJkeVnvMGI9n1CB/a
+         N2w7u3/J2SvrxYkb4roj85FBCnwjr+vPTDrZPQEAoKPhAGgA87TPAg2qxtwtWywEl3rj
+         xXKuD2crNDGoFPZas9RWUtHcfR1ImukY5aiicNPk5ma+aOkr5CLCx7Q1TJD3ZMpnM/Hr
+         rvXw==
+X-Gm-Message-State: AOAM531wPHsnyPkJd3Ml8DPMVsN2Se1qvuwlY9V6q1nM4La3ugH5Hle1
+	yK2i4oYH4oyq4HhKNEpwvts=
+X-Google-Smtp-Source: ABdhPJw+Wub1Nm0D6xiJKPChmzA+MVSq3jw11+5fT1PMrsC8+XDpKgxxZOHPfzaabMZg03AVVX8OcQ==
+X-Received: by 2002:a17:906:3fd7:: with SMTP id k23mr17245844ejj.176.1631963632371;
+        Sat, 18 Sep 2021 04:13:52 -0700 (PDT)
+Received: from localhost.localdomain (host-79-47-104-104.retail.telecomitalia.it. [79.47.104.104])
+        by smtp.gmail.com with ESMTPSA id a24sm4055999edu.49.2021.09.18.04.13.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 02:58:02 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 8/8] staging: r8188eu: remove EFUSE_Read1Byte()
-Date: Sat, 18 Sep 2021 11:57:27 +0200
-Message-Id: <20210918095727.13591-9-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210918095727.13591-1-straube.linux@gmail.com>
-References: <20210918095727.13591-1-straube.linux@gmail.com>
+        Sat, 18 Sep 2021 04:13:51 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v7 15/19] staging: r8188eu: clean up usbctrl_vendorreq()
+Date: Sat, 18 Sep 2021 13:13:48 +0200
+Message-ID: <1988292.s3joEKjhKX@localhost.localdomain>
+In-Reply-To: <YUSpwTneDgRtUBvM@kroah.com>
+References: <20210917071837.10926-1-fmdefrancesco@gmail.com> <20210917071837.10926-16-fmdefrancesco@gmail.com> <YUSpwTneDgRtUBvM@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Function EFUSE_Read1Byte() is not used, remove it.
+On Friday, September 17, 2021 4:44:17 PM CEST Greg Kroah-Hartman wrote:
+> On Fri, Sep 17, 2021 at 09:18:33AM +0200, Fabio M. De Francesco wrote:
+> > Clean up usbctrl_vendoreq() in usb_ops_linux.c.
+> > 
+> > List of changes:
+> > 
+> > 1) Rename variables:
+> > 	pdata => data
+> >         pio_priv => io_priv
+> >         pintfhdl => intfhdl
+> >         wvalue => address.
+> > 2) Reorder variables declarations according to the "Reverse Xmas Tree"
+> >    style.
+> > 3) Remove unnecessary test for "!pIo_buf".
+> > 4) Move comments one line below code.
+> > 5) Remove unnecessary excess parentheses.
+> > 6) Remove unnecessary extra spaces.
+> > 7) Remove unnecessary comments.
+> > 8) Fix grammar errors (checksumed => checksummed).
+> 
+> When you find yourself listing all of the different things you have done
+> in a single commit, that is a HUGE hint that you need to break this up
+> into smaller pieces.
+> 
+> Please do so here, this should not be just one change, as it's almost
+> impossible to look at this and "know" it's all still the same logic
+> happening here.  But if you had broken this down into 8 different
+> changes, then it would have been obvious and I could easily have applied
+> the changes.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_efuse.c    | 58 ---------------------
- drivers/staging/r8188eu/include/rtw_efuse.h |  1 -
- 2 files changed, 59 deletions(-)
+Dear Greg,
 
-diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index 0c4ea1e45842..801887f497cf 100644
---- a/drivers/staging/r8188eu/core/rtw_efuse.c
-+++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -127,64 +127,6 @@ ReadEFuseByte(
- 	*pbuf = (u8)(value32 & 0xff);
- }
- 
--/*-----------------------------------------------------------------------------
-- * Function:	EFUSE_Read1Byte
-- *
-- * Overview:	Copy from WMAC fot EFUSE read 1 byte.
-- *
-- * Input:       NONE
-- *
-- * Output:      NONE
-- *
-- * Return:      NONE
-- *
-- * Revised History:
-- * When			Who		Remark
-- * 09/23/2008	MHC		Copy from WMAC.
-- *
-- *---------------------------------------------------------------------------*/
--u8 EFUSE_Read1Byte(struct adapter *Adapter, u16 Address)
--{
--	u8 data;
--	u8 Bytetemp = {0x00};
--	u8 temp = {0x00};
--	u32 k = 0;
--	u16 contentLen = 0;
--
--	rtl8188e_EFUSE_GetEfuseDefinition(Adapter, EFUSE_WIFI, TYPE_EFUSE_REAL_CONTENT_LEN, (void *)&contentLen, false);
--
--	if (Address < contentLen) {	/* E-fuse 512Byte */
--		/* Write E-fuse Register address bit0~7 */
--		temp = Address & 0xFF;
--		rtw_write8(Adapter, EFUSE_CTRL + 1, temp);
--		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 2);
--		/* Write E-fuse Register address bit8~9 */
--		temp = ((Address >> 8) & 0x03) | (Bytetemp & 0xFC);
--		rtw_write8(Adapter, EFUSE_CTRL + 2, temp);
--
--		/* Write 0x30[31]= 0 */
--		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
--		temp = Bytetemp & 0x7F;
--		rtw_write8(Adapter, EFUSE_CTRL + 3, temp);
--
--		/* Wait Write-ready (0x30[31]= 1) */
--		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
--		while (!(Bytetemp & 0x80)) {
--			Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 3);
--			k++;
--			if (k == 1000) {
--				k = 0;
--				break;
--			}
--		}
--		data = rtw_read8(Adapter, EFUSE_CTRL);
--		return data;
--	} else {
--		return 0xFF;
--	}
--
--} /* EFUSE_Read1Byte */
--
- /*  11/16/2008 MH Read one byte from real Efuse. */
- u8 efuse_OneByteRead(struct adapter *pAdapter, u16 addr, u8 *data, bool pseudo)
- {
-diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
-index 2dd74c9c691d..53ac906f79fd 100644
---- a/drivers/staging/r8188eu/include/rtw_efuse.h
-+++ b/drivers/staging/r8188eu/include/rtw_efuse.h
-@@ -118,7 +118,6 @@ u8 efuse_OneByteWrite(struct adapter *adapter, u16 addr, u8 data, bool	test);
- 
- void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
- 
--u8 EFUSE_Read1Byte(struct adapter *adapter, u16 address);
- void EFUSE_ShadowMapUpdate(struct adapter *adapter, u8 efusetype, bool test);
- void EFUSE_ShadowRead(struct adapter *adapt, u8 type, u16 offset, u32 *val);
- 
--- 
-2.33.0
+My first thought when I read you message was to simply delete this patch 
+because usbctrl_vendorreq() is going to be deleted in 18/19. But then I 
+rethought of the original purpose behind this patch and (after talking with 
+Pavel) we decided to do the task you asked and split this patch into 8 
+smaller ones. The only reason is because, as you noticed, we "[]are moving 
+code around", so, although I'm not required to clean up code in 
+usbctrl_vendorreq(), I'm required to make the new usb_read() and usb_write() 
+the cleaner the possible. This preventive clean up helps me a lot.
+
+Obviously I guess that I'm required to split also the next patch of this 
+series in 3 because there are also there 3 different kind of clean-ups.
+
+So, we'll have a total of 11 clean-ups.
+
+> 
+> I've taken the first 14 patches in this series, it's great work, thank
+> you all for doing this.  
+
+Thanks to you for the "great work". We appreciated it.
+
+> But this, and the remaining patches in here
+> need to be split up more to make it obvious that the changes are correct
+> and should be accepted.  Please feel free to start the numbering of the
+> patch series over now, given that the first 14 are now merged into my
+> tree.
+
+We're working on this.
+
+Thanks,
+
+Fabio
+
+> 
+> thanks,
+> 
+> greg k-h
+> 
+
+
+
 
