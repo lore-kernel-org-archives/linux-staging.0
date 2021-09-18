@@ -1,44 +1,44 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351D472
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 14:42:51 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id eg28so18543543edb.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 07:42:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55A272
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 14:49:45 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id a194-20020a1c98cb000000b0030b41ac389fso4118634wme.2
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 07:49:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=OHAXqZmW/hm/leBd0Sv6MalLTN836Msh4RCiA2OjwWI=;
-        b=CnIxv2oDvziqoDVzvL5nxi4EqX2v6SZdEDs2xKOI4quxHJhijDNRiDBMP7j5bwuEGQ
-         e36efLZzQ2hZsPENnNfVcE31q/xAVYxo/pVrN5+t0mHFd8FkZ+j96vZf5fki6Msbn53T
-         Jry48sCeApv06AheEwv515vCPSLBvn+blQr9S9dlloZbiRCVjEtIMzX2V+66qUzHmsp3
-         AyRQzSpCvDYTffS02uiaLQjrxiK3TsDu9po6ZQ0sKG0ZqpeUNuAPWo0MsJe+LsusJ4Mj
-         gu9zYzARgZdyb3jdcJCaWaj+6h3MLJNLg0Lh8nEv2KHvwGSYp4O3WJwD6Dqfu0PLCKWU
-         6AoA==
+        bh=IHZrue8eaEVoR90tYQSkQHv5Ol8PKpa0TisrULZV3r4=;
+        b=o/zmLih6xo/Zxfc1BhQxMsxOFaxVYeiJ4/HXXchFQ0XZTkb5C4V6BV7gFi9yEgyGMF
+         6+NUWRGLw2WGHDHWlwXf6g8oLMioUH2xhs8Z7q6QwragxOKj/MdwVMRyIWMRGG7vNocB
+         4gsnLv8WFksvhfu5v09QUPdafesjlK3JXM9fnmd7meNNr2b+cffwv1mviCzk1VqxKmHT
+         nuQuAkTl6Wtb42yM+B59bQEmAvci671JeQ2LB6qZvgjSBXVFuOMOB+N+dc632jElak0F
+         Fq6sjIpq6RmFp8tp8wXpUMQ/lf5cCIaCFSj/CLtifD3Jd+Jrs36J5IN641YDRrOgdJux
+         q0rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=OHAXqZmW/hm/leBd0Sv6MalLTN836Msh4RCiA2OjwWI=;
-        b=hHvHQqVKv6NMY7oxTsMsz9JwSFtZBJoJJogZM21coWK0EJGFhez0KrQW4LfVVkU4ge
-         jPBogJr0x/xbPkcXdSdhjtMSLnuNYugj2MuyBcFyIwK2AsfprZML+dh+Nr71/R+nAP/G
-         S4DOyM9VCwyq9o3ErOjv3C3sh2q6cRFKgBn9vhCv87Ram+fjdipfhuY1FRvsosuYClbd
-         gmk9vy1Vaz8dJzGEY4BO7s/TAfgTxboydLT3lUVcProUEMGzIfRogRfddA8XkKfdQs8e
-         C6v78sCFrQql6VMdE9e+el/fwq3bMxrDFfBya5bq9amymD6Y9tqxQnqAEdvr9ahADw/C
-         6B6A==
-X-Gm-Message-State: AOAM531xXrr415wCJdYEiwqFQxKvJUpowutph73lR1Eg+vxnHCtEvXa8
-	AbPgEeAP0Lg9bWOHanj/VEg=
-X-Google-Smtp-Source: ABdhPJwRl3QPHusKRc4LHRJt5D3wvswrHC+SXx7bcn31446ADQt8+6zrtjZlvQ5/ulwde/ATCBERMQ==
-X-Received: by 2002:a50:e1c4:: with SMTP id m4mr11098037edl.307.1631976169524;
-        Sat, 18 Sep 2021 07:42:49 -0700 (PDT)
+        bh=IHZrue8eaEVoR90tYQSkQHv5Ol8PKpa0TisrULZV3r4=;
+        b=st6+Es7Twl95uVSamTkQX1sdC7BGemFaoGcC9YFF2HhXYQ9e84Y1zJMmVU72BYPFBJ
+         7CQTMS1PdO0ZGV3sib8Txr4g4wh7hO44Rrl4oca+IrPNQ4j2IXUHoWyC6Hu4+pY2RgTe
+         h3AP6V4T0Gy2M4oWA9AFoV36xZoRpFzpiPWKUkCukqSUw/y/slwUrsakNzARecoUp/Ah
+         xzoUTPIqY8MnplywDw8vNTwfegCV9UhYo3prGjD3dN32arVCWga5GEmbbi3U16iaksVF
+         3tpxIdy3qEzQqYVxqsW6OkkdVeNaA9WH17tbwmN9+B9dgdb2mqnvycYA5t0K8JIWX/tn
+         gFWw==
+X-Gm-Message-State: AOAM533wiNPwXZvt4I2c0n30p7k9+DVSuyA9oNtrJv1SbpIwu+4y2tKs
+	LVGbFxULF+y+JZ+vp0s1Kqc=
+X-Google-Smtp-Source: ABdhPJwwGl8IeA/ScGaxe2sWnzK4O181R2QQndj/pTVhpX+RCi2BZ3JAmss2Pl1+oBAHZUJpIDiM/w==
+X-Received: by 2002:a05:600c:a08:: with SMTP id z8mr20843832wmp.165.1631976584067;
+        Sat, 18 Sep 2021 07:49:44 -0700 (PDT)
 Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id s26sm4355296edt.41.2021.09.18.07.42.48
+        by smtp.gmail.com with ESMTPSA id r2sm10644873wrg.31.2021.09.18.07.49.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Sep 2021 07:42:49 -0700 (PDT)
-Message-ID: <7907c680-e3fd-3dd9-983b-dcd2275cdedb@gmail.com>
-Date: Sat, 18 Sep 2021 16:42:48 +0200
+        Sat, 18 Sep 2021 07:49:43 -0700 (PDT)
+Message-ID: <4aed2f18-a40e-2aac-3188-010bdb945f97@gmail.com>
+Date: Sat, 18 Sep 2021 16:49:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -260,12 +260,12 @@ On 9/18/21 16:24, Greg KH wrote:
 
 Hi Greg.
 
-Ah, I'm sorry, this patch (and 2/2) dependeds on the patchset
+Ah, I'm sorry, this patch (and 2/2) depends on the patchset
 
 [PATCH v2 00/12] staging: r8188eu: remove odm_RegDefine11AC.h
 
 which, I guess, is below this patch in your review list?
-Somehow I did not notice this dependency. :(
+Somehow I did not notice this dependency.
 
 Should I send a v2?
 
