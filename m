@@ -1,29 +1,30 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7070F72
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 06:51:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5934861052;
-	Sat, 18 Sep 2021 06:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE5D72
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 06:51:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6ABFA61212;
+	Sat, 18 Sep 2021 06:51:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1631947882;
-	bh=mnbm4SqrJc6QcChjp+TKhYE9PhGbWQh2MLRpWSNuSog=;
+	s=korg; t=1631947897;
+	bh=85j315zLca+Ym0UL7sOa1rTwJAIBi4hPaT0qc+V/Lvs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ShJxf7wmeN2bRNYBtXcfdVD1BljL9wGoZr+AxaWTyRzATauKmMzqcihKm9l5G3tW9
-	 OKJV0g7rzZP68+yA+oFx77YRNI6oUv53tt0FsmJ0qQQ5nHdPlct7j+ZVs1T8+qS+VP
-	 s07p51hOMaAJzxh9ky6NMnlTvPTz61gzwHFAIfac=
-Date: Sat, 18 Sep 2021 08:51:04 +0200
+	b=lO2lXPILxHGZdwcdGKMkCqT88TjuSY0mfznJJk3eSjn/bvQMatr+/A8cn1fL22yOO
+	 un2DhP5YDV2G4ADMeGrie/7yxFMuMDxiuwLaKiPZcgRzV6zVtUCnBEkJAwLylGO/vn
+	 ymtml4iscXJee1OIYqobqSvoFLbWYhotdiolcj8k=
+Date: Sat, 18 Sep 2021 08:51:18 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: cgel.zte@gmail.com
 Cc: Larry.Finger@lwfinger.net, dan.carpenter@oracle.com,
-	phil@philpotter.co.uk, straube.linux@gmail.com, martin@kaiser.cx,
-	paskripkin@gmail.com, nathan@kernel.org, saurav.girepunje@gmail.com,
+	phil@philpotter.co.uk, straube.linux@gmail.com,
+	fmdefrancesco@gmail.com, martin@kaiser.cx,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Changcheng Deng <deng.changcheng@zte.com.cn>,
 	Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH V2] staging: r8188eu: use ARRAY_SIZE
-Message-ID: <YUWMWEJLX7Xj6nl4@kroah.com>
-References: <20210918033910.237216-1-deng.changcheng@zte.com.cn>
+Subject: Re: [PATCH V2] staging: r8188eu: Use kzalloc() instead of
+ kmalloc()+memset()
+Message-ID: <YUWMZt81nViI7KiQ@kroah.com>
+References: <20210918035141.237455-1-deng.changcheng@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -32,35 +33,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210918033910.237216-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <20210918035141.237455-1-deng.changcheng@zte.com.cn>
 
-On Sat, Sep 18, 2021 at 03:39:10AM +0000, cgel.zte@gmail.com wrote:
+On Sat, Sep 18, 2021 at 03:51:41AM +0000, cgel.zte@gmail.com wrote:
 > From: Changcheng Deng <deng.changcheng@zte.com.cn>
 > 
-> Use ARRAY_SIZE instead of dividing sizeof array with sizeof an element.
+> This place can use kzalloc() directly instead of calling kmalloc() then
+> memset(). Replace them.
+> At the same time,error code that is "ret = -ENOMEM;" should be added
+> here.
 > 
 > Reported-by: Zeal Robot <zealci@zte.com.cn>
 > Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
 > ---
->  drivers/staging/r8188eu/os_dep/usb_intf.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index d04d2f658ce0..44bee3b2d0ce 100644
-> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -261,10 +261,8 @@ static void process_spec_devid(const struct usb_device_id *pdid)
->  	u16 vid, pid;
->  	u32 flags;
->  	int i;
-> -	int num = sizeof(specific_device_id_tbl) /
-> -		  sizeof(struct specific_device_id);
+> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> index ac218da94ce5..2fb34964f8c8 100644
+> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> @@ -463,11 +463,12 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+>  		if (wep_key_len > 0) {
+>  			wep_key_len = wep_key_len <= 5 ? 5 : 13;
+>  			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
+> -			pwep = kmalloc(wep_total_len, GFP_KERNEL);
+> -			if (!pwep)
+> +			pwep = kzalloc(wep_total_len, GFP_KERNEL);
+> +			if (!pwep) {
+> +				ret = -ENOMEM;
+>  				goto exit;
+> +			}
 >  
-> -	for (i = 0; i < num; i++) {
-> +	for (i = 0; i < ARRAY_SIZE(specific_device_id_tbl); i++) {
->  		vid = specific_device_id_tbl[i].idVendor;
->  		pid = specific_device_id_tbl[i].idProduct;
->  		flags = specific_device_id_tbl[i].flags;
+> -			memset(pwep, 0, wep_total_len);
+>  			pwep->KeyLength = wep_key_len;
+>  			pwep->Length = wep_total_len;
+>  			if (wep_key_len == 13) {
 > -- 
 > 2.25.1
 > 
