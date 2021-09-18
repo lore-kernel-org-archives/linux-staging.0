@@ -1,41 +1,41 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9526F3FC8
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 18:19:31 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id eg28so20096702edb.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 11:19:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6FE3FC9
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 18:19:32 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id q3so43092472edt.5
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 11:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=reovVjRvWVVgh0neDi2EWdAtfsrfN9OXCYPujWCZGUs=;
-        b=HKfImwqMFYaXWyvS41+saMk56CfzFm2ioXn5+Z9hfCfexWI6eZKu+9RU7XccGNDgsG
-         gzVYpt8r2FeYUo6i0u8OMxvuCznuGaj9FXr0X/kfq1VpT4215OOB79XxfK8lngWed1Xc
-         AGYuq2IMrSQN4dthOGT1tB0XgfEr5jD2p4Ar8EudaR0j/6o1y3VbiqUE7zhGbMwBJW3G
-         b5zBRINFTjO/rGbsy3GVKMmx4b9Pl1hMmLsdMfEAtKXoBr8WAop7xJ2PBAwcsUQ9YNfB
-         A6Dcq+b2QkSK9LE4xiQa1lth25YfY9ozSf8bsi1Cu5UrhWFCPE22yG89b7LLVhJcwxf8
-         GtXg==
+        bh=W1oNWM59ctOP8p0w6rhK9BPGUQ/JX9ovwPlneKU7qzM=;
+        b=pP0/6VtDxaKIQVXMmhcEnMZv3Yqp+jQBBAP/m4DLpw+9+qpb8ZkERpwPz1Gqfvw0Yi
+         5X2m5J9QWZZado5uY7qF+UD9va9AmpJ9GFNk5XBc57iwPLK81kS1Xy/UdIdDNWN2VGqR
+         O2eDbeFlcA0+9lbwLmG96s/1h6Fm9/PZXzQBBmkI7xjIw4yXQegTKGocraRzRXNq3igp
+         KcKSUnLZmDNsZ1GqFM/mOMrq8VpkgTg2RnvKHwMev/JV2rUOiwxQJH3Wftl77xblPsu1
+         CgE8rwOfbjSgpF6/1bEbwm8tjU1pNORi01te+Xg+UXe+j6BmNuQYWsHdFU+18KmFk3am
+         +aiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=reovVjRvWVVgh0neDi2EWdAtfsrfN9OXCYPujWCZGUs=;
-        b=4lFERcg5jXqV1vpwV5Bpip6DuK3zB9uolRgacGpp8Rq0/LVjFy8hMS3+9PchbU1+XV
-         jNeplzorwmhJ0mc/9MWwTXcai6xlZfrIJCqnqdw5BroPqX/Am1zx19ve8ixa3vpdVAFa
-         tTBB/vriyF1Jh3tjEgdiawTx0/zaLjYVTuc1N9zedhYeVl4IU+VFo/iqaAcWwuXlHDbE
-         wrvFzWV4CbpGpKasG7cwn3+NGWslv70zBFYFDrzwMN0HD7RST+RkLW0BQNqB6LD7Ol9I
-         qY+a4h3eKWHOQfbs3qWkQBdWKSvs/0nCdKXdak3gYcQLeLghyBIyjGuj0H7YZ7SVd+Jv
-         mLQA==
-X-Gm-Message-State: AOAM532krRVjqe4bSqO7+kFfxINwY3558hdTg1ZkXDAe0YFR9fn7a1dW
-	Cs7L7Mz/H5nNH4FEg8GprgY=
-X-Google-Smtp-Source: ABdhPJwQKHtl97wrZSF00SqANVeBp3XiYKVSvfMfFF/gPeT+nTK75EkuVfhC/c0WQzRj49jcKR4n3Q==
-X-Received: by 2002:a17:906:dbd7:: with SMTP id yc23mr19177092ejb.187.1631989170033;
+        bh=W1oNWM59ctOP8p0w6rhK9BPGUQ/JX9ovwPlneKU7qzM=;
+        b=NNBHAeB7WkxL3QYdj8nnKWJmnbjxQnXhHGJaPNmwbtw97Cdp5LolAQIxPiWVM4Y5Fv
+         oSyGsT9d0zPxuCA3K3lGdWTVFWYvVB3Ny/3GK5q+79CpUznjoMuEcbRHNwN/N1Fp6cBW
+         lLNGOfRXpg9emMQKsxlWsx2yAzKahPv6gS/APq3QNn+g57Y+0pN3CcdU/634brlMLs2h
+         jgpwrpt0/oA7IsxyVwZKYyoWQ5xDv9TOIYJry1ql70dvVOwufNoM3s4cNiaD2r9gLik9
+         7eYKCX18tPsgwR6AlzLgw8jWYMWlVLzzI9Cwvo1zOgZaE7DPS38qxcoVaef2XLsY8pHb
+         PPYA==
+X-Gm-Message-State: AOAM533/+RmxzeCPlyrdq7juXbZDSzIjXuFoqSsO5+xMhUsQ6nEUMF53
+	LJPEhZMtkrhNlfhPifPvEIE=
+X-Google-Smtp-Source: ABdhPJxqbBW+Ybr3RCWfwVGJ+8STDZi57F3OxqA0Rjz4zZOI5SVw0X7kQ8NJbqVcBwA+q8z/EESTyw==
+X-Received: by 2002:a17:906:e82:: with SMTP id p2mr19201328ejf.50.1631989170788;
         Sat, 18 Sep 2021 11:19:30 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id t19sm3903673ejb.115.2021.09.18.11.19.29
+        by smtp.gmail.com with ESMTPSA id t19sm3903673ejb.115.2021.09.18.11.19.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 11:19:29 -0700 (PDT)
+        Sat, 18 Sep 2021 11:19:30 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 12/14] staging: r8188eu: remove header file odm_RegDefine11AC.h
-Date: Sat, 18 Sep 2021 20:19:02 +0200
-Message-Id: <20210918181904.12000-13-straube.linux@gmail.com>
+Subject: [PATCH v3 13/14] staging: r8188eu: remove unused defines from odm_RegDefine11N.h
+Date: Sat, 18 Sep 2021 20:19:03 +0200
+Message-Id: <20210918181904.12000-14-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210918181904.12000-1-straube.linux@gmail.com>
 References: <20210918181904.12000-1-straube.linux@gmail.com>
@@ -59,63 +59,156 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Finally the header odm_RegDefine11AC.h is unused now.
-Remove it.
+Remove unused defines from odm_RegDefine11N.h.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- .../r8188eu/include/odm_RegDefine11AC.h       | 29 -------------------
- drivers/staging/r8188eu/include/odm_precomp.h |  1 -
- 2 files changed, 30 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11AC.h
+ .../r8188eu/include/odm_RegDefine11N.h        | 96 -------------------
+ 1 file changed, 96 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/odm_RegDefine11AC.h b/drivers/staging/r8188eu/include/odm_RegDefine11AC.h
-deleted file mode 100644
-index bba7511cf244..000000000000
---- a/drivers/staging/r8188eu/include/odm_RegDefine11AC.h
-+++ /dev/null
-@@ -1,29 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef	__ODM_REGDEFINE11AC_H__
--#define __ODM_REGDEFINE11AC_H__
--
+diff --git a/drivers/staging/r8188eu/include/odm_RegDefine11N.h b/drivers/staging/r8188eu/include/odm_RegDefine11N.h
+index 5d1d73490c1c..3e2fd6b1c793 100644
+--- a/drivers/staging/r8188eu/include/odm_RegDefine11N.h
++++ b/drivers/staging/r8188eu/include/odm_RegDefine11N.h
+@@ -4,56 +4,20 @@
+ #ifndef	__ODM_REGDEFINE11N_H__
+ #define __ODM_REGDEFINE11N_H__
+ 
 -/* 2 RF REG LIST */
+-#define	ODM_REG_RF_MODE_11N				0x00
+-#define	ODM_REG_RF_0B_11N				0x0B
+-#define	ODM_REG_CHNBW_11N				0x18
+-#define	ODM_REG_T_METER_11N				0x24
+-#define	ODM_REG_RF_25_11N				0x25
+-#define	ODM_REG_RF_26_11N				0x26
+-#define	ODM_REG_RF_27_11N				0x27
+-#define	ODM_REG_RF_2B_11N				0x2B
+-#define	ODM_REG_RF_2C_11N				0x2C
+-#define	ODM_REG_RXRF_A3_11N				0x3C
+-#define	ODM_REG_T_METER_92D_11N			0x42
+-#define	ODM_REG_T_METER_88E_11N			0x42
 -
--/* 2 BB REG LIST */
--/* PAGE 8 */
--/* PAGE 9 */
--#define	ODM_REG_OFDM_FA_RST_11AC		0x9A4
--/* PAGE A */
--#define	ODM_REG_CCK_CCA_11AC				0xA0A
--#define	ODM_REG_CCK_FA_RST_11AC			0xA2C
--#define	ODM_REG_CCK_FA_11AC				0xA5C
--/* PAGE C */
--#define	ODM_REG_IGI_A_11AC				0xC50
+ /* 2 BB REG LIST */
+ /* PAGE 8 */
+-#define	ODM_REG_BB_CTRL_11N				0x800
+-#define	ODM_REG_RF_PIN_11N				0x804
+-#define	ODM_REG_PSD_CTRL_11N				0x808
+ #define	ODM_REG_TX_ANT_CTRL_11N			0x80C
+-#define	ODM_REG_BB_PWR_SAV5_11N			0x818
+-#define	ODM_REG_CCK_RPT_FORMAT_11N		0x824
+ #define	ODM_REG_RX_DEFUALT_A_11N		0x858
+-#define	ODM_REG_RX_DEFUALT_B_11N		0x85A
+-#define	ODM_REG_BB_PWR_SAV3_11N			0x85C
+ #define	ODM_REG_ANTSEL_CTRL_11N			0x860
+ #define	ODM_REG_RX_ANT_CTRL_11N			0x864
+ #define	ODM_REG_PIN_CTRL_11N				0x870
+-#define	ODM_REG_BB_PWR_SAV1_11N			0x874
+-#define	ODM_REG_ANTSEL_PATH_11N			0x878
+-#define	ODM_REG_BB_3WIRE_11N			0x88C
+ #define	ODM_REG_SC_CNT_11N				0x8C4
+-#define	ODM_REG_PSD_DATA_11N			0x8B4
+ /* PAGE 9 */
+ #define	ODM_REG_ANT_MAPPING1_11N		0x914
+-#define	ODM_REG_ANT_MAPPING2_11N		0x918
+ /* PAGE A */
+ #define	ODM_REG_CCK_ANTDIV_PARA1_11N	0xA00
+ #define	ODM_REG_CCK_CCA_11N				0xA0A
+ #define	ODM_REG_CCK_ANTDIV_PARA2_11N	0xA0C
+-#define	ODM_REG_CCK_ANTDIV_PARA3_11N	0xA10
+-#define	ODM_REG_CCK_ANTDIV_PARA4_11N	0xA14
+-#define	ODM_REG_CCK_FILTER_PARA1_11N	0xA22
+-#define	ODM_REG_CCK_FILTER_PARA2_11N	0xA23
+-#define	ODM_REG_CCK_FILTER_PARA3_11N	0xA24
+-#define	ODM_REG_CCK_FILTER_PARA4_11N	0xA25
+-#define	ODM_REG_CCK_FILTER_PARA5_11N	0xA26
+-#define	ODM_REG_CCK_FILTER_PARA6_11N	0xA27
+-#define	ODM_REG_CCK_FILTER_PARA7_11N	0xA28
+-#define	ODM_REG_CCK_FILTER_PARA8_11N	0xA29
+ #define	ODM_REG_CCK_FA_RST_11N			0xA2C
+ #define	ODM_REG_CCK_FA_MSB_11N			0xA58
+ #define	ODM_REG_CCK_FA_LSB_11N			0xA5C
+@@ -61,28 +25,10 @@
+ #define	ODM_REG_BB_PWR_SAV4_11N			0xA74
+ /* PAGE B */
+ #define	ODM_REG_LNA_SWITCH_11N			0xB2C
+-#define	ODM_REG_PATH_SWITCH_11N			0xB30
+-#define	ODM_REG_RSSI_CTRL_11N			0xB38
+-#define	ODM_REG_CONFIG_ANTA_11N			0xB68
+-#define	ODM_REG_RSSI_BT_11N				0xB9C
+ /* PAGE C */
+ #define	ODM_REG_OFDM_FA_HOLDC_11N		0xC00
+-#define	ODM_REG_RX_PATH_11N				0xC04
+-#define	ODM_REG_TRMUX_11N				0xC08
+ #define	ODM_REG_OFDM_FA_RSTC_11N		0xC0C
+-#define	ODM_REG_RXIQI_MATRIX_11N		0xC14
+-#define	ODM_REG_TXIQK_MATRIX_LSB1_11N	0xC4C
+ #define	ODM_REG_IGI_A_11N				0xC50
+-#define	ODM_REG_ANTDIV_PARA2_11N		0xC54
+-#define	ODM_REG_IGI_B_11N					0xC58
+-#define	ODM_REG_ANTDIV_PARA3_11N		0xC5C
+-#define	ODM_REG_BB_PWR_SAV2_11N			0xC70
+-#define	ODM_REG_RX_OFF_11N				0xC7C
+-#define	ODM_REG_TXIQK_MATRIXA_11N		0xC80
+-#define	ODM_REG_TXIQK_MATRIXB_11N		0xC88
+-#define	ODM_REG_TXIQK_MATRIXA_LSB2_11N	0xC94
+-#define	ODM_REG_TXIQK_MATRIXB_LSB2_11N	0xC9C
+-#define	ODM_REG_RXIQK_MATRIX_LSB_11N	0xCA0
+ #define	ODM_REG_ANTDIV_PARA1_11N		0xCA4
+ #define	ODM_REG_OFDM_FA_TYPE1_11N		0xCF0
+ /* PAGE D */
+@@ -90,52 +36,10 @@
+ #define	ODM_REG_OFDM_FA_TYPE2_11N		0xDA0
+ #define	ODM_REG_OFDM_FA_TYPE3_11N		0xDA4
+ #define	ODM_REG_OFDM_FA_TYPE4_11N		0xDA8
 -/* PAGE E */
--#define	ODM_REG_IGI_B_11AC				0xE50
--/* PAGE F */
--#define	ODM_REG_OFDM_FA_11AC			0xF48
--
--/* 2 MAC REG LIST */
--
--/* DIG Related */
--#define	ODM_BIT_IGI_11AC				0xFFFFFFFF
--
--#endif
-diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
-index ffc6f8ecafc0..cd8e3d2db212 100644
---- a/drivers/staging/r8188eu/include/odm_precomp.h
-+++ b/drivers/staging/r8188eu/include/odm_precomp.h
-@@ -18,7 +18,6 @@
+-#define	ODM_REG_TXAGC_A_6_18_11N		0xE00
+-#define	ODM_REG_TXAGC_A_24_54_11N		0xE04
+-#define	ODM_REG_TXAGC_A_1_MCS32_11N	0xE08
+-#define	ODM_REG_TXAGC_A_MCS0_3_11N		0xE10
+-#define	ODM_REG_TXAGC_A_MCS4_7_11N		0xE14
+-#define	ODM_REG_TXAGC_A_MCS8_11_11N	0xE18
+-#define	ODM_REG_TXAGC_A_MCS12_15_11N	0xE1C
+-#define	ODM_REG_FPGA0_IQK_11N			0xE28
+-#define	ODM_REG_TXIQK_TONE_A_11N		0xE30
+-#define	ODM_REG_RXIQK_TONE_A_11N		0xE34
+-#define	ODM_REG_TXIQK_PI_A_11N			0xE38
+-#define	ODM_REG_RXIQK_PI_A_11N			0xE3C
+-#define	ODM_REG_TXIQK_11N				0xE40
+-#define	ODM_REG_RXIQK_11N				0xE44
+-#define	ODM_REG_IQK_AGC_PTS_11N			0xE48
+-#define	ODM_REG_IQK_AGC_RSP_11N			0xE4C
+-#define	ODM_REG_BLUETOOTH_11N			0xE6C
+-#define	ODM_REG_RX_WAIT_CCA_11N			0xE70
+-#define	ODM_REG_TX_CCK_RFON_11N			0xE74
+-#define	ODM_REG_TX_CCK_BBON_11N			0xE78
+-#define	ODM_REG_OFDM_RFON_11N			0xE7C
+-#define	ODM_REG_OFDM_BBON_11N			0xE80
+-#define		ODM_REG_TX2RX_11N				0xE84
+-#define	ODM_REG_TX2TX_11N				0xE88
+-#define	ODM_REG_RX_CCK_11N				0xE8C
+-#define	ODM_REG_RX_OFDM_11N				0xED0
+-#define	ODM_REG_RX_WAIT_RIFS_11N		0xED4
+-#define	ODM_REG_RX2RX_11N				0xED8
+-#define	ODM_REG_STANDBY_11N				0xEDC
+-#define	ODM_REG_SLEEP_11N				0xEE0
+-#define	ODM_REG_PMPD_ANAEN_11N			0xEEC
  
- #include "odm.h"
- #include "odm_HWConfig.h"
--#include "odm_RegDefine11AC.h"
- #include "odm_RegDefine11N.h"
+ /* 2 MAC REG LIST */
+-#define	ODM_REG_BB_RST_11N				0x02
+ #define	ODM_REG_ANTSEL_PIN_11N			0x4C
+-#define	ODM_REG_EARLY_MODE_11N			0x4D0
+-#define	ODM_REG_RSSI_MONITOR_11N		0x4FE
+-#define	ODM_REG_EDCA_VO_11N				0x500
+-#define	ODM_REG_EDCA_VI_11N				0x504
+-#define	ODM_REG_EDCA_BE_11N				0x508
+-#define	ODM_REG_EDCA_BK_11N				0x50C
+-#define	ODM_REG_TXPAUSE_11N				0x522
+ #define	ODM_REG_RESP_TX_11N				0x6D8
+-#define	ODM_REG_ANT_TRAIN_PARA1_11N	0x7b0
+-#define	ODM_REG_ANT_TRAIN_PARA2_11N	0x7b4
  
- #include "HalPhyRf_8188e.h"/* for IQK,LCK,Power-tracking */
+ /* DIG Related */
+ #define	ODM_BIT_IGI_11N					0x0000007F
 -- 
 2.33.0
 
