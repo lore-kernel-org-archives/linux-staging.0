@@ -1,41 +1,41 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A853FCE
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:25:08 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id i23so19197436wrb.2
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:25:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5B93FCC
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 09:25:09 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id g16so19147548wrb.3
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 02:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=o62fR3XicmTQpyeoxj/xI/V7ktA8LxV/7f30/vkQiH0=;
-        b=qSnMsioDq4Lb2uTMVPD//5zjflkgCOqUx8Hg4quPioYvLpBylNQkHpfVHhnOmplxV4
-         CNTAQZpoycE8mZLZr6ZZlQwA6pwv4fXwc7dj3j91rItWTJ3B9CD1UotBcUzL2I/hln0p
-         v1sIOwRrQEeyp3RI7Gtg+JqEtajmHANW43AzPeAJ0YTJDi/GrWtQuMnqJ6yC0n/T8sBq
-         qUMH6mxWbn/HviiCOR47InU/6ekjLDJjD5DTPQ20Olt8SGnntM+x3tI5YHmiIreZVST9
-         c8H6A5uZOvPM1mFgm5brOA1p9rqzPgkRFH2vwYzedGuxrCBBol5p/Pc89v+6LTdvIIaE
-         DTQQ==
+        bh=nh/WmLCbKtUynZDayAfXG6y9ApWz2vlF+iZiOm05hgM=;
+        b=CKyLlR3xnAsEYgY2ruOz6sIhAWHvSbBYThR7IVsFmVWmmVsqreCR8sXb5bkEoUGhul
+         T6yiyekoREyVkEWuuTm8n2I1q0B/rDCvhCV5tRosr5SL/7x3O0oNGoNYdmU49VBDR4Bv
+         ZQpHXqZxkVhlzfZVe9DYheWE3FcPgNSVEz212SytXjQoKWmKgV1kXjrIId87pD84h9Tq
+         iPO2I6ovaC3Zn3GvDcGpFALM2/zomWrhFiBUKXTFGnddgh0CDtfznpEs7UG1WVytMbQm
+         L/mvopUqjXJSFbtYCYJbZhtuxQBkoP3/vIpXAwlFGPD2ix1WM6F5xxNUiRexmh39LRBR
+         dZAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=o62fR3XicmTQpyeoxj/xI/V7ktA8LxV/7f30/vkQiH0=;
-        b=O3EL4j5XUaknnrfUCYJ9zYnJINM/AK1U5DxK7fMZtKgeTsV1tSUFsVI+hnIvYHZtog
-         YcYXjA5pGBiesZgETTZAW+DiED6KSxr/yiJJ/sxq/UX9BT74wQtYIzoJqoKQG2p7THSZ
-         3dZXc7niEMOFuG2BIn5wz6DewY+2TgNM9jK8phPLcp1wx7BNOCsnJsdj9tImpl3H499p
-         9l+TGmbXfy6K2G3iqLZOyC05s1JB9sCsoj6cXjXHmqkJ5iCJBindPIhcRGcPftBxQ8YF
-         4FlTnpOYHkmscsEhQDZbGM1XSnL85Re20K7Piv9BgqdUTjJ/SQaLhQkxWDW0Ca8Nl/Lu
-         XL0g==
-X-Gm-Message-State: AOAM533DtBIcPVX2GooEns0PszhfzA3D4IpL7Ex05rnL5tYJHa610/CW
-	PbX/x6auSSJjozvBKbOR7m8=
-X-Google-Smtp-Source: ABdhPJwWhp9wEkEI6v8ORTthLI0ZVRN/xx9CJOvsSiO+hLPnfE7il60MOKvyl+iJBuFoo/7DfIckzQ==
-X-Received: by 2002:adf:ef02:: with SMTP id e2mr16773864wro.401.1631957106925;
-        Sat, 18 Sep 2021 02:25:06 -0700 (PDT)
+        bh=nh/WmLCbKtUynZDayAfXG6y9ApWz2vlF+iZiOm05hgM=;
+        b=4Lw3/7eHEU2Xgi3yeQNQz8b7tBOueqUGV6tr2FGG1loe+qjE6EW8jRIMkqaIvM/aud
+         G4CkjQ49/EMzhdD396FEoMe5ielf8iNJrWFSAR0dcU5pxQ1OBh35vWQk1wRLzAfT3Gfc
+         iNcAe0dm0AvnsDl7Cvtf0ge+t7hV4HUtkODw7HbTq+w80C8usoh9FLvN5rOuNpgTsfEM
+         44xUUjEHGQmKEmq/wzadeu45s+NcemFyKEbjGjGKKc1pp41VUe/IhfFWJzMqhBksvbEp
+         PhLmJYAl4+c4jUBYPtJqfa54/3pHRvykeY7xckFKr2c1s5xkSMMTQ+Mr/5oxXEwhatb+
+         dWjg==
+X-Gm-Message-State: AOAM530gHMoBN7g95ACZ5xZgC721wvwAgMpuS1Vuvp0znoyvCBxi3Stf
+	0LW+8TfFyLDnPVieRtDaf4E=
+X-Google-Smtp-Source: ABdhPJyW2d+o7ZXFv0NI4CzuoTCcMXgUcbx1SicCll5kGJ23KhZ1TP5kJeBt0loUw71pDHlaNOBoSA==
+X-Received: by 2002:adf:e8c7:: with SMTP id k7mr17084379wrn.47.1631957107689;
+        Sat, 18 Sep 2021 02:25:07 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
         by smtp.gmail.com with ESMTPSA id 5sm4233742wmb.37.2021.09.18.02.25.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Sep 2021 02:25:06 -0700 (PDT)
+        Sat, 18 Sep 2021 02:25:07 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 03/12] staging: r8188eu: remove _ic_type from macro _cat in odm_interface.h
-Date: Sat, 18 Sep 2021 11:24:34 +0200
-Message-Id: <20210918092443.8724-4-straube.linux@gmail.com>
+Subject: [PATCH v2 04/12] staging: r8188eu: remove dead code from ODM_Write_DIG()
+Date: Sat, 18 Sep 2021 11:24:35 +0200
+Message-Id: <20210918092443.8724-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210918092443.8724-1-straube.linux@gmail.com>
 References: <20210918092443.8724-1-straube.linux@gmail.com>
@@ -59,40 +59,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-((_ic_type) & ODM_IC_11N_SERIES) is always true since SupportICType
-is ODM_RTL8188E in this driver. Remove it from the _cat macro.
+In this driver SupportPlatform is ODM_CE, so code in the
+"else if (pDM_Odm->SupportPlatform & (ODM_AP | ODM_ADSL))" is never
+executed. Remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/odm_interface.h | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c | 34 -------------------------------
+ 1 file changed, 34 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/odm_interface.h b/drivers/staging/r8188eu/include/odm_interface.h
-index d3e46b2a4cea..4f35dcd0bf49 100644
---- a/drivers/staging/r8188eu/include/odm_interface.h
-+++ b/drivers/staging/r8188eu/include/odm_interface.h
-@@ -5,18 +5,12 @@
- #define __ODM_INTERFACE_H__
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index d23e9296a10e..5f98c797c59a 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -460,21 +460,6 @@ void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm)
+ 		pDM_Odm->bOneEntryOnly = false;
+ }
  
- #define _reg_11N(_name)			ODM_REG_##_name##_11N
--#define _reg_11AC(_name)		ODM_REG_##_name##_11AC
- #define _bit_11N(_name)			ODM_BIT_##_name##_11N
--#define _bit_11AC(_name)		ODM_BIT_##_name##_11AC
- 
--#define _cat(_name, _ic_type, _func)					\
--	(								\
--		((_ic_type) & ODM_IC_11N_SERIES) ? _func##_11N(_name) :	\
--		_func##_11AC(_name)					\
--	)
-+#define _cat(_name, _func)	(_func##_11N(_name))
- 
--#define ODM_REG(_name, _pDM_Odm) _cat(_name, _pDM_Odm->SupportICType, _reg)
--#define ODM_BIT(_name, _pDM_Odm) _cat(_name, _pDM_Odm->SupportICType, _bit)
-+#define ODM_REG(_name, _pDM_Odm) _cat(_name, _reg)
-+#define ODM_BIT(_name, _pDM_Odm) _cat(_name, _bit)
- 
- enum odm_h2c_cmd {
- 	ODM_H2C_RSSI_REPORT = 0,
+-static int getIGIForDiff(int value_IGI)
+-{
+-	#define ONERCCA_LOW_TH		0x30
+-	#define ONERCCA_LOW_DIFF	8
+-
+-	if (value_IGI < ONERCCA_LOW_TH) {
+-		if ((ONERCCA_LOW_TH - value_IGI) < ONERCCA_LOW_DIFF)
+-			return ONERCCA_LOW_TH;
+-		else
+-			return value_IGI + ONERCCA_LOW_DIFF;
+-	} else {
+-		return value_IGI;
+-	}
+-}
+-
+ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
+ {
+ 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
+@@ -484,26 +469,7 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
+ 			ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+ 			if (pDM_Odm->SupportICType != ODM_RTL8188E)
+ 				ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+-		} else if (pDM_Odm->SupportPlatform & (ODM_AP | ODM_ADSL)) {
+-			switch (*pDM_Odm->pOnePathCCA) {
+-			case ODM_CCA_2R:
+-				ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+-				if (pDM_Odm->SupportICType != ODM_RTL8188E)
+-					ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+-				break;
+-			case ODM_CCA_1R_A:
+-				ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+-				if (pDM_Odm->SupportICType != ODM_RTL8188E)
+-					ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), getIGIForDiff(CurrentIGI));
+-				break;
+-			case ODM_CCA_1R_B:
+-				ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), getIGIForDiff(CurrentIGI));
+-				if (pDM_Odm->SupportICType != ODM_RTL8188E)
+-					ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+-				break;
+-			}
+ 		}
+-		/* pDM_DigTable->PreIGValue = pDM_DigTable->CurIGValue; */
+ 		pDM_DigTable->CurIGValue = CurrentIGI;
+ 	}
+ /*  Add by Neil Chen to enable edcca to MP Platform */
 -- 
 2.33.0
 
