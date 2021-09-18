@@ -1,56 +1,60 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876133FCB
-	for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 23:31:15 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id y132so8512443wmc.1
-        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 16:31:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433733FC0
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 03:39:24 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id v2so7424702plp.8
+        for <linux-staging@lists.linux.dev>; Fri, 17 Sep 2021 20:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=reovVjRvWVVgh0neDi2EWdAtfsrfN9OXCYPujWCZGUs=;
-        b=f2JnfPpwNYC3DgKQ5UVHPgdGHhIA3j4OFIgXMjuFy6xRZn7hcN3bneicvyaohtF+zB
-         b8wNdKCvoUYHV1ZVNyZRfF2xrGKVO01w53AUN3B188ie3bMf4+P364xT9TmQHst0p3LX
-         R7MwX7hcHgDIHjrRFn7/XbqbgqLYx6dw7e9/+YkogPs9wPgnZ442ptKEaP4iFTm4//RB
-         bkg0JUfwjrVcHuqXjHWRYzEe/b4H5l1a7nsKUFky1YhA2KBCCeU6MCZxKCBN1nyHzDHu
-         1aTtvfp1RkxdBMApjGgGHtWDafyPp+ELw1TlksRBVRjx6rNBwQP0D+6pXlzEjemFioLH
-         +NMw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0ms3vEIwed7axJJI4pRikbtTzcex85bsJ251ErKhjvo=;
+        b=ilabGGj9uvmj1RzfihJGadghI0jqdj7TpAxqd3kz0KVNSQU+vatTG66po7Kh7Vfwu9
+         bqFijo1p2oHK1xTeLRjINt/oom/UUpaB924qPdsdVTZR0kuOKGswdUhitdnJk3Cm6SMk
+         Dwpj8mExHsS1QB4+RWb091sLAxtbd2+7zqEFlrXXVqh+B7FsTLEKLi2q6fKEu4wT437y
+         9BziNBe1bXZhv/WCkAgUkIb6/1JF82lL9ESPIyMk+cNOSct5OXYWXM8+ZrHeuL7HG7G7
+         kwsrW+izsl9cMAMtPeoGAG38hHAQKv+G0eL6z6bR3JtrsF9VvS4f3yd/BwRIIg86hnAj
+         NQZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=reovVjRvWVVgh0neDi2EWdAtfsrfN9OXCYPujWCZGUs=;
-        b=vof6FQAZYTdp4pQP+WTsxtofFhLX2c4ddh9kNCY6HcN5bWsnoA+IRIWzqsgGv0e3rB
-         Iw4aHIq/iRyNfX4DZ4D5mMoe+aOFRhOM/A5mahwB2OEqnuZs95OcqeKvQCoBwZ/kcyEF
-         qxGFT+x1ZMVZSCHObbYmDYkHsZd3wzoGO05cijmmHAJVZRUGNL6Ix8PE0Px6NQyLFfhk
-         v/bKqejSdoS3XAUss9XFfm8Zoc+fc+xFNg9FiH+Q4SD5Q8AwJi0CS//fNQM8nLRnD7Y2
-         4OgjcbrWDPkuXQPpQ6Yn76b39KcDlM6jDxZLvcQ7eVXWSj50juTVwlfmf+UqLcmXRW1C
-         wcoQ==
-X-Gm-Message-State: AOAM532L7AEF844IkhL65iq61dhLQaKKbpi2rIyDGkiBz0lK0hTXhyNW
-	bvnRgxZb9K5F8NJUf7Ao+PU=
-X-Google-Smtp-Source: ABdhPJzbo72sv1OoQMFHo+mbPwx99y2o0A7ljN9jcf0dGmuyL+jgnjwrFtcmQZ3c+n7nAWzUB3bUWA==
-X-Received: by 2002:a05:600c:a49:: with SMTP id c9mr17153712wmq.159.1631921473977;
-        Fri, 17 Sep 2021 16:31:13 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ae40])
-        by smtp.gmail.com with ESMTPSA id w9sm7523148wmc.19.2021.09.17.16.31.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0ms3vEIwed7axJJI4pRikbtTzcex85bsJ251ErKhjvo=;
+        b=uxttaQQs7oNsyWBel2hohNt12y1FP9hOqW+ANxFeMQGcPq8n/nsPz9QyPimqODFmgn
+         E7te+X8hgrYqw2NbSolhyScPJJnuNFehHAVayIuPudomlhx6t6o+2RHjr9jtwpj2RC+5
+         ZW8oFCn7lCSebfCI8j0fU6fKcAm0wn2dk8QS+Fm850tYgGKLXg3O0a7oT+XuksDRozG8
+         N8BKpNIKl6psB/4zn4fz2yFKEJjcTyt8NsgVG99+idHG3QlY64egTHz42lhXC59PAO94
+         W8zge84UXRMrUx5qrrAqhDzPQcJb4GaqeQfn6uJs5QyolOoORGKK+HrJLg9svKFLq3jA
+         rVPQ==
+X-Gm-Message-State: AOAM531B2GsuYb28YyXL8W0ue9c+5M5UqH2VM4bbuj+XrQEOZnwcV78z
+	5XyZKG/8RHA6TsqlxU9HMqs=
+X-Google-Smtp-Source: ABdhPJwEZdSvXJGp8Ad+4wmgoHbSl5eovwDglEYhz2ffvQC8RCf8ldTGHJz/LI58C78RaV9i4Oo0wg==
+X-Received: by 2002:a17:902:b717:b029:11a:fae3:ba7c with SMTP id d23-20020a170902b717b029011afae3ba7cmr12696892pls.28.1631936363747;
+        Fri, 17 Sep 2021 20:39:23 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id m21sm7926957pfa.216.2021.09.17.20.39.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 16:31:13 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Fri, 17 Sep 2021 20:39:23 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: deng.changcheng@zte.com.cn
+To: Larry.Finger@lwfinger.net,
+	dan.carpenter@oracle.com
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
 	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
+	paskripkin@gmail.com,
+	nathan@kernel.org,
+	saurav.girepunje@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 12/12] staging: r8188eu: remove header file odm_RegDefine11AC.h
-Date: Sat, 18 Sep 2021 01:30:48 +0200
-Message-Id: <20210917233048.31677-13-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210917233048.31677-1-straube.linux@gmail.com>
-References: <20210917233048.31677-1-straube.linux@gmail.com>
+	Changcheng Deng <deng.changcheng@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH V2] staging: r8188eu: use ARRAY_SIZE
+Date: Sat, 18 Sep 2021 03:39:10 +0000
+Message-Id: <20210918033910.237216-1-deng.changcheng@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,63 +63,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Finally the header odm_RegDefine11AC.h is unused now.
-Remove it.
+From: Changcheng Deng <deng.changcheng@zte.com.cn>
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Use ARRAY_SIZE instead of dividing sizeof array with sizeof an element.
+
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
 ---
- .../r8188eu/include/odm_RegDefine11AC.h       | 29 -------------------
- drivers/staging/r8188eu/include/odm_precomp.h |  1 -
- 2 files changed, 30 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/include/odm_RegDefine11AC.h
+ drivers/staging/r8188eu/os_dep/usb_intf.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/odm_RegDefine11AC.h b/drivers/staging/r8188eu/include/odm_RegDefine11AC.h
-deleted file mode 100644
-index bba7511cf244..000000000000
---- a/drivers/staging/r8188eu/include/odm_RegDefine11AC.h
-+++ /dev/null
-@@ -1,29 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
--/* Copyright(c) 2007 - 2011 Realtek Corporation. */
--
--#ifndef	__ODM_REGDEFINE11AC_H__
--#define __ODM_REGDEFINE11AC_H__
--
--/* 2 RF REG LIST */
--
--/* 2 BB REG LIST */
--/* PAGE 8 */
--/* PAGE 9 */
--#define	ODM_REG_OFDM_FA_RST_11AC		0x9A4
--/* PAGE A */
--#define	ODM_REG_CCK_CCA_11AC				0xA0A
--#define	ODM_REG_CCK_FA_RST_11AC			0xA2C
--#define	ODM_REG_CCK_FA_11AC				0xA5C
--/* PAGE C */
--#define	ODM_REG_IGI_A_11AC				0xC50
--/* PAGE E */
--#define	ODM_REG_IGI_B_11AC				0xE50
--/* PAGE F */
--#define	ODM_REG_OFDM_FA_11AC			0xF48
--
--/* 2 MAC REG LIST */
--
--/* DIG Related */
--#define	ODM_BIT_IGI_11AC				0xFFFFFFFF
--
--#endif
-diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
-index ffc6f8ecafc0..cd8e3d2db212 100644
---- a/drivers/staging/r8188eu/include/odm_precomp.h
-+++ b/drivers/staging/r8188eu/include/odm_precomp.h
-@@ -18,7 +18,6 @@
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index d04d2f658ce0..44bee3b2d0ce 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -261,10 +261,8 @@ static void process_spec_devid(const struct usb_device_id *pdid)
+ 	u16 vid, pid;
+ 	u32 flags;
+ 	int i;
+-	int num = sizeof(specific_device_id_tbl) /
+-		  sizeof(struct specific_device_id);
  
- #include "odm.h"
- #include "odm_HWConfig.h"
--#include "odm_RegDefine11AC.h"
- #include "odm_RegDefine11N.h"
- 
- #include "HalPhyRf_8188e.h"/* for IQK,LCK,Power-tracking */
+-	for (i = 0; i < num; i++) {
++	for (i = 0; i < ARRAY_SIZE(specific_device_id_tbl); i++) {
+ 		vid = specific_device_id_tbl[i].idVendor;
+ 		pid = specific_device_id_tbl[i].idProduct;
+ 		flags = specific_device_id_tbl[i].flags;
 -- 
-2.33.0
+2.25.1
 
