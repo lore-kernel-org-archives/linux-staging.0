@@ -1,39 +1,39 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D59E3FC8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99D73FC9
 	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 18:19:25 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id n10so42275693eda.10
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 11:19:24 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id v5so42573610edc.2
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 11:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UmdvyLEdteIkPC5QKKxfnddWF+96+b6HOaR6hgtQ+98=;
-        b=IjAOonNcxGUtuI1FvVBWz2NywLVRBrbOWHDoCdkoByXq2GP8VMK5Ziu3bdz5fFqprm
-         Yx8DUNODVLVl6u9z3D1RaV+b9PdUMR0+WRS9R8qMJGDqYoZZfqFtlqUKCegoHgiKynoo
-         XScrW9/nXM1ADOI6J4qZx7s8mn4XQ8NP1+j9o1AGINhwfJJIBnIyP24rJObRp/qjd3Of
-         roUUArauJWaltiWJaJCw+OIRKofdiwofPcLbFy8aTJdQ7YOHTIKzhbiFY/Re++vIH3In
-         rK7lD83sx4ZAfh5HcNL5aGY5B6yLdGHkcRyIoEq+4m1twkQlr/KVfpxK8cPPbRpS+Sf/
-         S2Fw==
+        bh=ZgAFzPYLLEIZyR5p3BVXRSzgw7xSTQ9/sY8TbwA9U/g=;
+        b=lOFwAENwRZCqB/7vN1B1bjeEVrED3ORpOrsPKE+o/8Z4jIB3JpRKP0H1llDupxUeF+
+         41mwwWK/712kDacF8eWJjulzDmnuQYGAYYVT+jNkjt3VCy3DYXNNyjLzZeufEwZSFTm9
+         4RfHQC1yKkBS/mf9gcgwAt+8ZPqykTBZMVtIOlqaD+GC8WD4cf6TN/qY81hS9fziHO7j
+         m/i/j8cz69cwxZreLcvv93iHwSc03P1PJwxDYI6Q2OimPRo4QTypgEIxNpYGJiB9LsGy
+         YkRoyzYo0l1K/tvQYtkBmOXTQFfAc+STHOh3NjGlWbRoxd0xeKgUHLKqq3C1P5XZpObi
+         DXEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UmdvyLEdteIkPC5QKKxfnddWF+96+b6HOaR6hgtQ+98=;
-        b=eCGEM+nRDmPayWPA9uRHJrKwnlGhTEDeYM9vkMOn7bPDMEy948nEk2Q5CNS1PZWPL6
-         /wrCAU8bNpU9KRCkZtJhTbfqdXfUdBkJXy72E1/78eyEbU0/fNm12cAHfXq2C7P/GUpX
-         up84qOY7TJH8f7JySKWzwLGtXAZ71s19srYU7tivalRwx3LcGzblcf4rRo0hvOnzRyaQ
-         ZzuQKwQTUsNHk+/EBF41CVUaYFm+Yncd/1reampqcq227g+O8ocVunMpb1JM3BXuJzDF
-         Ukb85J32NqSC1B9HkJ2/lfXUfpws6YhWppvT6jZzFUs//sukH6ZusoJ6yJ1ucdi5B7lr
-         npDA==
-X-Gm-Message-State: AOAM533sDOc2DZ5EfJnRXGOTbvzw7in/OnMvNztOTV+O54L9X6PvlDUJ
-	uSy1zfEZ0lsnj597EUSUSC4=
-X-Google-Smtp-Source: ABdhPJwYa8zWwOZxps/DyLr7Mv8Fs+A8bgd2KgyGDYX5xOYAQWhUlzINikOIJixIXEaWUj6fBbx12g==
-X-Received: by 2002:a17:906:8981:: with SMTP id gg1mr19515105ejc.95.1631989163462;
-        Sat, 18 Sep 2021 11:19:23 -0700 (PDT)
+        bh=ZgAFzPYLLEIZyR5p3BVXRSzgw7xSTQ9/sY8TbwA9U/g=;
+        b=rwqX6U9gZgjhIxwHYUluOXUNaA6JI2qQ9jDx58jg1pVk0rSZzaqGJZUiy+2NZqPZwZ
+         53ZdsgXhH4ieoBwP5RAHWzFU9FaEHLh/ZAWJ0b/DEmQSlr/2VFB4fRtg13ziQJzE24mM
+         ohbh3/AXaZeCpgC1hyzn7A+ixZUGpNL+JUvJAaTaPTlBaQHxYg354O0esnjoRxLN6/hF
+         bfp5WqgSf/eUa1ib8nnvQhc1chJq2VbHYQXQboFqxv5ETgCxuP3jrY/0qFTYXpVJwth8
+         KZnQtcOALfjE/kvppjywFX9UfYA+eaxyI/UAvYxswSy+oxT5kxY1b3D9MoN8iwAJ07Ax
+         lCnA==
+X-Gm-Message-State: AOAM533pKFqF0B69mNvB7ylYMUZlFkv4G08ZSgQI1Fhr7bDvOPIrs/GN
+	HayT+fHHcOGOiF3x3pO3LoU=
+X-Google-Smtp-Source: ABdhPJxw7wwwCZFqHc8ef5F9ZwQp1DvPLhnD+aq2AxCoG+PfhY5+nL7+tK1+FvlzlIe3DND1M+YzXQ==
+X-Received: by 2002:a17:906:9395:: with SMTP id l21mr19229580ejx.308.1631989164211;
+        Sat, 18 Sep 2021 11:19:24 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id t19sm3903673ejb.115.2021.09.18.11.19.22
+        by smtp.gmail.com with ESMTPSA id t19sm3903673ejb.115.2021.09.18.11.19.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 18 Sep 2021 11:19:23 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -45,9 +45,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v3 05/14] staging: r8188eu: remove unnecessary if statement
-Date: Sat, 18 Sep 2021 20:18:55 +0200
-Message-Id: <20210918181904.12000-6-straube.linux@gmail.com>
+Subject: [PATCH v3 06/14] staging: r8188eu: remove more dead code from ODM_Write_DIG()
+Date: Sat, 18 Sep 2021 20:18:56 +0200
+Message-Id: <20210918181904.12000-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210918181904.12000-1-straube.linux@gmail.com>
 References: <20210918181904.12000-1-straube.linux@gmail.com>
@@ -59,34 +59,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SupportPlatform is ODM_CE in this driver. Remove an unnecessary
-if statement that checks the SupportPlatform value.
+SupportICType is ODM_RTL8188E in this driver. Remove code that is
+never executed.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 5f98c797c59a..cac4f8ff7b63 100644
+index cac4f8ff7b63..48c10b78f4a5 100644
 --- a/drivers/staging/r8188eu/hal/odm.c
 +++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -465,11 +465,10 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
+@@ -466,12 +466,8 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
  
  	if (pDM_DigTable->CurIGValue != CurrentIGI) {
--		if (pDM_Odm->SupportPlatform & (ODM_CE | ODM_MP)) {
--			ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
--			if (pDM_Odm->SupportICType != ODM_RTL8188E)
--				ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
--		}
-+		ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
-+		if (pDM_Odm->SupportICType != ODM_RTL8188E)
-+			ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
-+
+ 		ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_A, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+-		if (pDM_Odm->SupportICType != ODM_RTL8188E)
+-			ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
+-
  		pDM_DigTable->CurIGValue = CurrentIGI;
  	}
- /*  Add by Neil Chen to enable edcca to MP Platform */
+-/*  Add by Neil Chen to enable edcca to MP Platform */
+ }
+ 
+ /* Need LPS mode for CE platform --2012--08--24--- */
 -- 
 2.33.0
 
