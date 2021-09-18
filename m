@@ -1,44 +1,44 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3895872
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 15:05:52 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id c21so41336247edj.0
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 08:05:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0965D72
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 15:16:38 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id j13so41764956edv.13
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 08:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/CMFJ7Wiw0IVysseP72ac3f9tRe9z65OyRRe4nVoDAg=;
-        b=K/kV/5q9RIJV6WjNZp3sMXCm0wFBESFHVbeKY2lrFrUhD0MRxwzrhxqBv35m6l8xAK
-         qMHRG5xr7r/FNRJrQG/B7sjbvMAklkVgmok4W5fpurLSiUlC5k+i3FCO9AVqlW5bFwtU
-         7WLoE2ZfJ2eug+R7pXsylZpZiUb+7zaTlVxWjTE7LyyteXqpXzdbSNVrnHLBGuuOM8n7
-         Eps4YxbwyecKSGbAlZbDRDfNbmakRADzd7GXbN+AD5puFsXSaFKNso9OEbV+bQf4EqSV
-         cqKbFM91MGfMGHFiG0wc7fcsOd9EkJFfDnpA/GleYJ8u8RJszSSFmHm2zdLafvWbjQ5H
-         qiBg==
+        bh=t3eMGUEJNYAjhTCkshwSSCcrwbmI90ywvcRzbi0dcEU=;
+        b=lXJjlM8sL2lvHxRaLDsPB1fyT5HvqtlKxiZBjk9gcyi/T2wF9bY9WNgS//66lbAUrg
+         bQ9f2Lqll3tNr54ikwdwqZZVxplUPeLAuhazr6O7PPyo5wNYlU+CzOm62z9CJoZ4umh+
+         5eHm0sYnVEHfxuj+ycCRIQAHnsmwO0AtfhGdIY9xfzB4dV73qNRwUXHwWQP1KkBQJuCR
+         XLdG+FX8K5X3HiC8B27qwugQnYzkIJ7er4tPPAstv/ViI/dzTIDG5i5lyrsAMgw2nQ0+
+         tmRkd8uO6q5alsFgy/KeWEFBvDZAAx9SNw4fkuOkqBZFwOyXDWVmpKH7mK7gKaI93JDG
+         lUiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=/CMFJ7Wiw0IVysseP72ac3f9tRe9z65OyRRe4nVoDAg=;
-        b=VzwKxUgzB7J0VOhbSYtJjph46ewkoyXrw4DvDNh3IF9VwNLjWFsY82D8e6/pW6TjA9
-         uTIyJIldac0hEJrbCgITL2y+/NfYQYdhrg88qLEIG7Sc9SgWKAUI/F+BTKe51RO79KEb
-         elUHmYx+7wDKSc/H0d9ifTboLWyDPpwSVDlUUQKDB+Rf6OUJCSBv3CoQANq1y7dhZnIz
-         Z2ecK39ZTmHN4zRZ6PvBopkBbxZgFbxVUmZx22U9WhPiOuAjAsPHVj50KcJB3D+U2LXG
-         3hH4TWXd6Su8GZjSJXf2qF0eMzxDQA6lzHji+6OZynDTnpaHxzIvP8eIfbOVwlY+Nvvb
-         RKWw==
-X-Gm-Message-State: AOAM533O1BAlUg1roBc3m+ET9jg+wz3NlwFunadCla8UVqCQjXSY2o9S
-	khJDnrDNgN4IRJuVLRdAhJ8=
-X-Google-Smtp-Source: ABdhPJzP2TZmE1vMxLZTS+HDk9YU6svKP2+sciWeaJim41SnMbpzMopPJLWHDRhW+TMe2mGdv2yMGQ==
-X-Received: by 2002:a17:906:504:: with SMTP id j4mr18226253eja.245.1631977550521;
-        Sat, 18 Sep 2021 08:05:50 -0700 (PDT)
+        bh=t3eMGUEJNYAjhTCkshwSSCcrwbmI90ywvcRzbi0dcEU=;
+        b=8GwWC3wxSaG8mPPX8ky2UFAwhSgILANVdIzkkzjCY9ZqlT5rfsHMlW5ONzkwQOCukK
+         FIOEgGO8DaRCraN/YOxBtcRDU+m3CWZatuGqU8+G5rMRqRvyENiBIcV3vhcIdrW/u04m
+         4SwH0zCnXcUHQII8p5JPAb+Z/dI/MNd2j7mEbTOX/B81bqYdq4K8WZNVh3jfBkRDjKxT
+         xVB4UvAqkN8eVp44iuRysVr/SvuFxyop3nLiW77NUdqMgZFuZB7TKFqoLFomsQPCdKFI
+         xecMnFXt1DX/LTGkpESPCH8BWwhyoxQXp3ORe2SMYBUhMV10fBjNR0+/HrQxI2V28s6j
+         wJyg==
+X-Gm-Message-State: AOAM531b4inO7uLejLrG97Y3KdvEvSPMnxCgSi/ctcz/nUp7MKbR4eZg
+	Q/D+6yINWekCahlRPR6Whm0=
+X-Google-Smtp-Source: ABdhPJxm/vxu2JFatsxBMA9yPsd3eO+040U+s0vyHXxtB906u/sWHk4i0U2FBv+5+XBlrnaYeE7muQ==
+X-Received: by 2002:a05:6402:2061:: with SMTP id bd1mr19345566edb.186.1631978197327;
+        Sat, 18 Sep 2021 08:16:37 -0700 (PDT)
 Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id d9sm4332401ede.31.2021.09.18.08.05.49
+        by smtp.gmail.com with ESMTPSA id br21sm3835483ejb.112.2021.09.18.08.16.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Sep 2021 08:05:50 -0700 (PDT)
-Message-ID: <30d90bcf-0847-1562-d600-6f187608cced@gmail.com>
-Date: Sat, 18 Sep 2021 17:05:49 +0200
+        Sat, 18 Sep 2021 08:16:36 -0700 (PDT)
+Message-ID: <a1ef6b5a-43d0-3b45-7905-0f93e2a340c5@gmail.com>
+Date: Sat, 18 Sep 2021 17:16:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,237 +47,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH 1/2] staging: r8188eu: remove unused defines from
- odm_RegDefine11N.h
+Subject: Re: [PATCH v3 2/2] staging: r8188eu: remove rtw_hw_resume
 Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk, martin@kaiser.cx,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20210918081120.2798-1-straube.linux@gmail.com>
- <YUX2mNXLzqJXmer4@kroah.com> <7907c680-e3fd-3dd9-983b-dcd2275cdedb@gmail.com>
- <YUX+uJSFDtEfuWrs@kroah.com>
+References: <20210911161019.26881-1-martin@kaiser.cx>
+ <20210918135722.23976-1-martin@kaiser.cx>
+ <20210918135722.23976-2-martin@kaiser.cx>
 From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <YUX+uJSFDtEfuWrs@kroah.com>
+In-Reply-To: <20210918135722.23976-2-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/18/21 16:59, Greg KH wrote:
-> On Sat, Sep 18, 2021 at 04:42:48PM +0200, Michael Straube wrote:
->> On 9/18/21 16:24, Greg KH wrote:
->>> On Sat, Sep 18, 2021 at 10:11:19AM +0200, Michael Straube wrote:
->>>> Remove unused defines from odm_RegDefine11N.h.
->>>>
->>>> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->>>> ---
->>>>    .../r8188eu/include/odm_RegDefine11N.h        | 96 -------------------
->>>>    1 file changed, 96 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/r8188eu/include/odm_RegDefine11N.h b/drivers/staging/r8188eu/include/odm_RegDefine11N.h
->>>> index 5d1d73490c1c..3e2fd6b1c793 100644
->>>> --- a/drivers/staging/r8188eu/include/odm_RegDefine11N.h
->>>> +++ b/drivers/staging/r8188eu/include/odm_RegDefine11N.h
->>>> @@ -4,56 +4,20 @@
->>>>    #ifndef	__ODM_REGDEFINE11N_H__
->>>>    #define __ODM_REGDEFINE11N_H__
->>>> -/* 2 RF REG LIST */
->>>> -#define	ODM_REG_RF_MODE_11N				0x00
->>>> -#define	ODM_REG_RF_0B_11N				0x0B
->>>> -#define	ODM_REG_CHNBW_11N				0x18
->>>> -#define	ODM_REG_T_METER_11N				0x24
->>>> -#define	ODM_REG_RF_25_11N				0x25
->>>> -#define	ODM_REG_RF_26_11N				0x26
->>>> -#define	ODM_REG_RF_27_11N				0x27
->>>> -#define	ODM_REG_RF_2B_11N				0x2B
->>>> -#define	ODM_REG_RF_2C_11N				0x2C
->>>> -#define	ODM_REG_RXRF_A3_11N				0x3C
->>>> -#define	ODM_REG_T_METER_92D_11N			0x42
->>>> -#define	ODM_REG_T_METER_88E_11N			0x42
->>>> -
->>>>    /* 2 BB REG LIST */
->>>>    /* PAGE 8 */
->>>> -#define	ODM_REG_BB_CTRL_11N				0x800
->>>> -#define	ODM_REG_RF_PIN_11N				0x804
->>>> -#define	ODM_REG_PSD_CTRL_11N				0x808
->>>>    #define	ODM_REG_TX_ANT_CTRL_11N			0x80C
->>>> -#define	ODM_REG_BB_PWR_SAV5_11N			0x818
->>>> -#define	ODM_REG_CCK_RPT_FORMAT_11N		0x824
->>>>    #define	ODM_REG_RX_DEFUALT_A_11N		0x858
->>>> -#define	ODM_REG_RX_DEFUALT_B_11N		0x85A
->>>> -#define	ODM_REG_BB_PWR_SAV3_11N			0x85C
->>>>    #define	ODM_REG_ANTSEL_CTRL_11N			0x860
->>>>    #define	ODM_REG_RX_ANT_CTRL_11N			0x864
->>>>    #define	ODM_REG_PIN_CTRL_11N				0x870
->>>> -#define	ODM_REG_BB_PWR_SAV1_11N			0x874
->>>> -#define	ODM_REG_ANTSEL_PATH_11N			0x878
->>>> -#define	ODM_REG_BB_3WIRE_11N			0x88C
->>>>    #define	ODM_REG_SC_CNT_11N				0x8C4
->>>> -#define	ODM_REG_PSD_DATA_11N			0x8B4
->>>>    /* PAGE 9 */
->>>>    #define	ODM_REG_ANT_MAPPING1_11N		0x914
->>>> -#define	ODM_REG_ANT_MAPPING2_11N		0x918
->>>>    /* PAGE A */
->>>>    #define	ODM_REG_CCK_ANTDIV_PARA1_11N	0xA00
->>>>    #define	ODM_REG_CCK_CCA_11N				0xA0A
->>>>    #define	ODM_REG_CCK_ANTDIV_PARA2_11N	0xA0C
->>>> -#define	ODM_REG_CCK_ANTDIV_PARA3_11N	0xA10
->>>> -#define	ODM_REG_CCK_ANTDIV_PARA4_11N	0xA14
->>>> -#define	ODM_REG_CCK_FILTER_PARA1_11N	0xA22
->>>> -#define	ODM_REG_CCK_FILTER_PARA2_11N	0xA23
->>>> -#define	ODM_REG_CCK_FILTER_PARA3_11N	0xA24
->>>> -#define	ODM_REG_CCK_FILTER_PARA4_11N	0xA25
->>>> -#define	ODM_REG_CCK_FILTER_PARA5_11N	0xA26
->>>> -#define	ODM_REG_CCK_FILTER_PARA6_11N	0xA27
->>>> -#define	ODM_REG_CCK_FILTER_PARA7_11N	0xA28
->>>> -#define	ODM_REG_CCK_FILTER_PARA8_11N	0xA29
->>>>    #define	ODM_REG_CCK_FA_RST_11N			0xA2C
->>>>    #define	ODM_REG_CCK_FA_MSB_11N			0xA58
->>>>    #define	ODM_REG_CCK_FA_LSB_11N			0xA5C
->>>> @@ -61,28 +25,10 @@
->>>>    #define	ODM_REG_BB_PWR_SAV4_11N			0xA74
->>>>    /* PAGE B */
->>>>    #define	ODM_REG_LNA_SWITCH_11N			0xB2C
->>>> -#define	ODM_REG_PATH_SWITCH_11N			0xB30
->>>> -#define	ODM_REG_RSSI_CTRL_11N			0xB38
->>>> -#define	ODM_REG_CONFIG_ANTA_11N			0xB68
->>>> -#define	ODM_REG_RSSI_BT_11N				0xB9C
->>>>    /* PAGE C */
->>>>    #define	ODM_REG_OFDM_FA_HOLDC_11N		0xC00
->>>> -#define	ODM_REG_RX_PATH_11N				0xC04
->>>> -#define	ODM_REG_TRMUX_11N				0xC08
->>>>    #define	ODM_REG_OFDM_FA_RSTC_11N		0xC0C
->>>> -#define	ODM_REG_RXIQI_MATRIX_11N		0xC14
->>>> -#define	ODM_REG_TXIQK_MATRIX_LSB1_11N	0xC4C
->>>>    #define	ODM_REG_IGI_A_11N				0xC50
->>>> -#define	ODM_REG_ANTDIV_PARA2_11N		0xC54
->>>> -#define	ODM_REG_IGI_B_11N					0xC58
->>>> -#define	ODM_REG_ANTDIV_PARA3_11N		0xC5C
->>>> -#define	ODM_REG_BB_PWR_SAV2_11N			0xC70
->>>> -#define	ODM_REG_RX_OFF_11N				0xC7C
->>>> -#define	ODM_REG_TXIQK_MATRIXA_11N		0xC80
->>>> -#define	ODM_REG_TXIQK_MATRIXB_11N		0xC88
->>>> -#define	ODM_REG_TXIQK_MATRIXA_LSB2_11N	0xC94
->>>> -#define	ODM_REG_TXIQK_MATRIXB_LSB2_11N	0xC9C
->>>> -#define	ODM_REG_RXIQK_MATRIX_LSB_11N	0xCA0
->>>>    #define	ODM_REG_ANTDIV_PARA1_11N		0xCA4
->>>>    #define	ODM_REG_OFDM_FA_TYPE1_11N		0xCF0
->>>>    /* PAGE D */
->>>> @@ -90,52 +36,10 @@
->>>>    #define	ODM_REG_OFDM_FA_TYPE2_11N		0xDA0
->>>>    #define	ODM_REG_OFDM_FA_TYPE3_11N		0xDA4
->>>>    #define	ODM_REG_OFDM_FA_TYPE4_11N		0xDA8
->>>> -/* PAGE E */
->>>> -#define	ODM_REG_TXAGC_A_6_18_11N		0xE00
->>>> -#define	ODM_REG_TXAGC_A_24_54_11N		0xE04
->>>> -#define	ODM_REG_TXAGC_A_1_MCS32_11N	0xE08
->>>> -#define	ODM_REG_TXAGC_A_MCS0_3_11N		0xE10
->>>> -#define	ODM_REG_TXAGC_A_MCS4_7_11N		0xE14
->>>> -#define	ODM_REG_TXAGC_A_MCS8_11_11N	0xE18
->>>> -#define	ODM_REG_TXAGC_A_MCS12_15_11N	0xE1C
->>>> -#define	ODM_REG_FPGA0_IQK_11N			0xE28
->>>> -#define	ODM_REG_TXIQK_TONE_A_11N		0xE30
->>>> -#define	ODM_REG_RXIQK_TONE_A_11N		0xE34
->>>> -#define	ODM_REG_TXIQK_PI_A_11N			0xE38
->>>> -#define	ODM_REG_RXIQK_PI_A_11N			0xE3C
->>>> -#define	ODM_REG_TXIQK_11N				0xE40
->>>> -#define	ODM_REG_RXIQK_11N				0xE44
->>>> -#define	ODM_REG_IQK_AGC_PTS_11N			0xE48
->>>> -#define	ODM_REG_IQK_AGC_RSP_11N			0xE4C
->>>> -#define	ODM_REG_BLUETOOTH_11N			0xE6C
->>>> -#define	ODM_REG_RX_WAIT_CCA_11N			0xE70
->>>> -#define	ODM_REG_TX_CCK_RFON_11N			0xE74
->>>> -#define	ODM_REG_TX_CCK_BBON_11N			0xE78
->>>> -#define	ODM_REG_OFDM_RFON_11N			0xE7C
->>>> -#define	ODM_REG_OFDM_BBON_11N			0xE80
->>>> -#define		ODM_REG_TX2RX_11N				0xE84
->>>> -#define	ODM_REG_TX2TX_11N				0xE88
->>>> -#define	ODM_REG_RX_CCK_11N				0xE8C
->>>> -#define	ODM_REG_RX_OFDM_11N				0xED0
->>>> -#define	ODM_REG_RX_WAIT_RIFS_11N		0xED4
->>>> -#define	ODM_REG_RX2RX_11N				0xED8
->>>> -#define	ODM_REG_STANDBY_11N				0xEDC
->>>> -#define	ODM_REG_SLEEP_11N				0xEE0
->>>> -#define	ODM_REG_PMPD_ANAEN_11N			0xEEC
->>>>    /* 2 MAC REG LIST */
->>>> -#define	ODM_REG_BB_RST_11N				0x02
->>>>    #define	ODM_REG_ANTSEL_PIN_11N			0x4C
->>>> -#define	ODM_REG_EARLY_MODE_11N			0x4D0
->>>> -#define	ODM_REG_RSSI_MONITOR_11N		0x4FE
->>>> -#define	ODM_REG_EDCA_VO_11N				0x500
->>>> -#define	ODM_REG_EDCA_VI_11N				0x504
->>>> -#define	ODM_REG_EDCA_BE_11N				0x508
->>>> -#define	ODM_REG_EDCA_BK_11N				0x50C
->>>> -#define	ODM_REG_TXPAUSE_11N				0x522
->>>>    #define	ODM_REG_RESP_TX_11N				0x6D8
->>>> -#define	ODM_REG_ANT_TRAIN_PARA1_11N	0x7b0
->>>> -#define	ODM_REG_ANT_TRAIN_PARA2_11N	0x7b4
->>>>    /* DIG Related */
->>>>    #define	ODM_BIT_IGI_11N					0x0000007F
->>>> -- 
->>>> 2.33.0
->>>>
->>>>
->>>
->>> I get the following build error after applying this series:
->>>
->>> In file included from drivers/staging/r8188eu/hal/../include/odm_precomp.h:28,
->>>                    from drivers/staging/r8188eu/hal/odm.c:6:
->>> drivers/staging/r8188eu/hal/odm.c: In function ‘ODM_Write_DIG’:
->>> drivers/staging/r8188eu/hal/../include/odm_interface.h:30:41: error: ‘ODM_REG_IGI_B_11N’ undeclared (first use in this function); did you mean ‘ODM_REG_IGI_A_11N’?
->>>      30 | #define _reg_11N(_name)                 ODM_REG_##_name##_11N
->>>         |                                         ^~~~~~~~
->>> drivers/staging/r8188eu/hal/../include/odm_interface.h:37:52: note: in expansion of macro ‘_reg_11N’
->>>      37 |                 ((_ic_type) & ODM_IC_11N_SERIES) ? _func##_11N(_name) : \
->>>         |                                                    ^~~~~
->>> drivers/staging/r8188eu/hal/../include/odm_interface.h:45:34: note: in expansion of macro ‘_cat’
->>>      45 | #define ODM_REG(_name, _pDM_Odm) _cat(_name, _pDM_Odm->SupportICType, _reg)
->>>         |                                  ^~~~
->>> drivers/staging/r8188eu/hal/odm.c:486:55: note: in expansion of macro ‘ODM_REG’
->>>     486 |                                 ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
->>>         |                                                       ^~~~~~~
->>> drivers/staging/r8188eu/hal/../include/odm_interface.h:30:41: note: each undeclared identifier is reported only once for each function it appears in
->>>      30 | #define _reg_11N(_name)                 ODM_REG_##_name##_11N
->>>         |                                         ^~~~~~~~
->>> drivers/staging/r8188eu/hal/../include/odm_interface.h:37:52: note: in expansion of macro ‘_reg_11N’
->>>      37 |                 ((_ic_type) & ODM_IC_11N_SERIES) ? _func##_11N(_name) : \
->>>         |                                                    ^~~~~
->>> drivers/staging/r8188eu/hal/../include/odm_interface.h:45:34: note: in expansion of macro ‘_cat’
->>>      45 | #define ODM_REG(_name, _pDM_Odm) _cat(_name, _pDM_Odm->SupportICType, _reg)
->>>         |                                  ^~~~
->>> drivers/staging/r8188eu/hal/odm.c:486:55: note: in expansion of macro ‘ODM_REG’
->>>     486 |                                 ODM_SetBBReg(pDM_Odm, ODM_REG(IGI_B, pDM_Odm), ODM_BIT(IGI, pDM_Odm), CurrentIGI);
->>>         |                                                       ^~~~~~~
->>> make[3]: *** [scripts/Makefile.build:277: drivers/staging/r8188eu/hal/odm.o] Error 1
->>>
->>>
->>>
->>> Looks like these defines are used :(
->>>
->>> How did you test this?
->>>
->>> greg k-h
->>>
->>
->> Hi Greg.
->>
->> Ah, I'm sorry, this patch (and 2/2) dependeds on the patchset
->>
->> [PATCH v2 00/12] staging: r8188eu: remove odm_RegDefine11AC.h
->>
->> which, I guess, is below this patch in your review list?
->> Somehow I did not notice this dependency. :(
->>
->> Should I send a v2?
+On 9/18/21 15:57, Martin Kaiser wrote:
+> Commit c0a099b7341c ("staging: r8188eu: bHWPwrPindetect is always false")
+> removed the only call to rtw_hw_resume.
 > 
-> Make it part of that series?  or tell me somehow, otherwise how was I
-> supposed to know this?
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+> v3:
+> - another rebase against today's staging-testing branch
 > 
-> thanks,
+> v2:
+> - rebased against today's staging-testing branch
 > 
-> greg k-h
+>   drivers/staging/r8188eu/include/osdep_intf.h |  1 -
+>   drivers/staging/r8188eu/os_dep/usb_intf.c    | 39 --------------------
+>   2 files changed, 40 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/include/osdep_intf.h b/drivers/staging/r8188eu/include/osdep_intf.h
+> index 5a2c7a98f023..da36770852f8 100644
+> --- a/drivers/staging/r8188eu/include/osdep_intf.h
+> +++ b/drivers/staging/r8188eu/include/osdep_intf.h
+> @@ -58,6 +58,5 @@ void rtw_ips_dev_unload(struct adapter *padapter);
+>   
+>   int rtw_ips_pwr_up(struct adapter *padapter);
+>   void rtw_ips_pwr_down(struct adapter *padapter);
+> -int rtw_hw_resume(struct adapter *padapter);
+>   
+>   #endif	/* _OSDEP_INTF_H_ */
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index 25dc90847380..11a584cbe9d8 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -278,45 +278,6 @@ static void process_spec_devid(const struct usb_device_id *pdid)
+>   	}
+>   }
+>   
+> -int rtw_hw_resume(struct adapter *padapter)
+> -{
+> -	struct pwrctrl_priv *pwrpriv;
+> -	struct net_device *pnetdev = padapter->pnetdev;
+> -
+> -	if (!padapter)
+> -		goto error_exit;
+> -	pwrpriv = &padapter->pwrctrlpriv;
+> -	DBG_88E("==> rtw_hw_resume\n");
+> -	_enter_pwrlock(&pwrpriv->lock);
+> -	pwrpriv->bips_processing = true;
+> -	rtw_reset_drv_sw(padapter);
+> -
+> -	if (pm_netdev_open(pnetdev, false) != 0) {
+> -		_exit_pwrlock(&pwrpriv->lock);
+> -		goto error_exit;
+> -	}
+> -
+> -	netif_device_attach(pnetdev);
+> -	netif_carrier_on(pnetdev);
+> -
+> -	if (!netif_queue_stopped(pnetdev))
+> -		netif_start_queue(pnetdev);
+> -	else
+> -		netif_wake_queue(pnetdev);
+> -
+> -	pwrpriv->bkeepfwalive = false;
+> -
+> -	pwrpriv->rf_pwrstate = rf_on;
+> -	pwrpriv->bips_processing = false;
+> -
+> -	_exit_pwrlock(&pwrpriv->lock);
+> -
+> -	return 0;
+> -error_exit:
+> -	DBG_88E("%s, Open net dev failed\n", __func__);
+> -	return -1;
+> -}
+> -
+>   static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
+>   {
+>   	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
 > 
 
-I will send v3 of the other series and include these two patches.
+Looks good to me.
+
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
 Thanks,
 Michael
