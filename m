@@ -1,82 +1,84 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E163FC3
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 13:31:51 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id b21-20020a1c8015000000b003049690d882so12030559wmd.5
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 06:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=btttk93aUSoAIGuvA0mTkUBQEce9Eyd/W3I2VtkIz5w=;
-        b=Xhl6QYeEWdrSrlNtd2m8HCfgmI7HSzhbg3rAvOI+cTykhjCqUaR6TRMvnN0e1F5YEy
-         dlUa99GeTEiwnz/CW/SLZ8315ZcwZOZIZDOz16YqYCnjgcI655mBl22FIPqKh/QezEZF
-         4IFaeDTsGJwtAvPiVgvbkUIgzr6vgk8K8iukxvl1htLUKeAF1NITk65TkHhTO9KVESdr
-         NNYQEMK7pSytNsYL5jVvUHXY3Q9ZdFTT6iBoYGEFIkY7w6cVEWF49cZCJ3l86666pren
-         40j76a6aGqeltIOwACZmjWGOSM4vFD4+KjYwAj+zd3ZG24u9WSi5M9ASgtiSCt4q6y4s
-         Ga9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=btttk93aUSoAIGuvA0mTkUBQEce9Eyd/W3I2VtkIz5w=;
-        b=6+VjJKVoW4/HE4ShkXjR2rs56rb4S/MX5SmhHEiNvNn677ff0aWV+DlfmrL4UmJXpa
-         rm2wI6wHs9hmYmzDNQXuXTbQdnYNnpGEzvxJbG8G0agOD0e4JOVAA54Hxtoxg/Dc+gkS
-         eZKToiiL2Xrh+U7RMCSBoviaRvaYUr6TvuiqQZDfcQDyQruAJ/G30EuSvbVNQFDuup6g
-         zks9un3GCuBEj/7JvtJNkJqMZ5z6xZdAC/wXe+5sWPHBGTTZSm2V2sJGZ6Hwmyh2683W
-         0ccMukwFdAfGK9zA4CRzv2s+a794fhbcUUVtVbHMwBBR/lEKGew3lwaGGjYrJJWUnviM
-         Gi9w==
-X-Gm-Message-State: AOAM531Lpeqir5aT6/nBTXdTkhV6OGy7krzkny8gzZt+2l1cCIqsMS/j
-	s03wOZYhJoSX7K2JjcQiJeI=
-X-Google-Smtp-Source: ABdhPJzW5QuBHT1//iBN/LEipFfEVSJ3k8S4oCN2WTOnucZO6OPPwus7sCOefy0VdP7e1altBeEMDA==
-X-Received: by 2002:a1c:3845:: with SMTP id f66mr15396060wma.63.1631971910196;
-        Sat, 18 Sep 2021 06:31:50 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id l124sm13781028wml.8.2021.09.18.06.31.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Sep 2021 06:31:49 -0700 (PDT)
-Message-ID: <7f1c135a-d85d-d271-f315-d665a5fe1472@gmail.com>
-Date: Sat, 18 Sep 2021 15:31:48 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF8693FC3
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 13:40:39 +0000 (UTC)
+Received: from dslb-178-004-203-016.178.004.pools.vodafone-ip.de ([178.4.203.16] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mRaa2-0001lQ-0u; Sat, 18 Sep 2021 15:40:34 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH] staging: r8188eu: do not write past the end of an array
+Date: Sat, 18 Sep 2021 15:40:24 +0200
+Message-Id: <20210918134024.23837-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Content-Language: en-US
-To: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-From: Michael Straube <straube.linux@gmail.com>
-Subject: staging: r8188eu: Can odm_DynamicTxPowerNIC() be removed?
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Larry, Phillip and all.
+Commit f7b687d6b67e ("staging: r8188eu: remove NumTotalRFPath from struct
+hal_data_8188e") removed a for loop around a block of code that is executed
+only once when i == 0. However, without the for loop, i will never be set
+to 0 before the code block is executed. i remains at 2, which is the final
+value after the previous loop. This results in a write past the end of the
+powerlevel and MCSBase arrays.
 
-While removing code that checks for the chip type I stumbled upon this:
+[   28.480809] Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: rtl8188e_PHY_RF6052SetOFDMTxPower+0x124/0x128 [r8188eu]
+[   28.493752] ---[ end Kernel panic - not syncing: stack-protector: Kernel stack is corrupted in: rtl8188e_PHY_RF6052SetOFDMTxPower+0x124/0x128 [r8188eu] ]---
 
+Fix this by replacing i with 0 in the code block that used to be the body of
+the loop. While at it, remove the powerlevel array that was just holding a
+temporary value.
 
-void odm_DynamicTxPowerNIC(struct odm_dm_struct *pDM_Odm)
-{
-	if (!(pDM_Odm->SupportAbility & ODM_BB_DYNAMIC_TXPWR))
-		return;
+Tested with Edimax EW-7811Un V2 on an ARM32 embedded system.
 
-	if (pDM_Odm->SupportICType == ODM_RTL8188E) {
-		/*  ??? */
-		/*  This part need to be redefined. */
-	}
-}
+Fixes: f7b687d6b67e ("staging: r8188eu: remove NumTotalRFPath from struct hal_data_8188e")
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+index 2f16c0966973..b334864feffd 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+@@ -227,7 +227,7 @@ static void getpowerbase88e(struct adapter *Adapter, u8 *pPowerLevelOFDM,
+ {
+ 	struct hal_data_8188e *pHalData = GET_HAL_DATA(Adapter);
+ 	u32 powerBase0, powerBase1;
+-	u8 i, powerlevel[2];
++	u8 i;
+ 
+ 	for (i = 0; i < 2; i++) {
+ 		powerBase0 = pPowerLevelOFDM[i];
+@@ -238,12 +238,11 @@ static void getpowerbase88e(struct adapter *Adapter, u8 *pPowerLevelOFDM,
+ 
+ 	/* Check HT20 to HT40 diff */
+ 	if (pHalData->CurrentChannelBW == HT_CHANNEL_WIDTH_20)
+-		powerlevel[i] = pPowerLevelBW20[i];
++		powerBase1 = pPowerLevelBW20[0];
+ 	else
+-		powerlevel[i] = pPowerLevelBW40[i];
+-	powerBase1 = powerlevel[i];
++		powerBase1 = pPowerLevelBW40[0];
+ 	powerBase1 = (powerBase1 << 24) | (powerBase1 << 16) | (powerBase1 << 8) | powerBase1;
+-	*(MCSBase + i) = powerBase1;
++	*MCSBase = powerBase1;
+ }
+ 
+ static void get_rx_power_val_by_reg(struct adapter *Adapter, u8 Channel,
+-- 
+2.20.1
 
-(pDM_Odm->SupportICType == ODM_RTL8188E) is always true in this driver.
-Currently the function does nothing and the driver seems to work fine.
-Because of the comment I'm not sure if the whole function can just be
-removed?
-
-Regards,
-Michael
