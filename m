@@ -1,122 +1,97 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319113FC8
-	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 17:22:54 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id j14so1178209plx.4
-        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 10:22:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EB73FC8
+	for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 17:32:34 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id t8so20637483wrq.4
+        for <linux-staging@lists.linux.dev>; Sat, 18 Sep 2021 10:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:subject:to:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6babHy+b4BwGbNSFMykruhsxsT6H8Mxu4ETZghrYvkY=;
-        b=cSTtO2h+7FNhdz1XrStuIFt89EQjCjP9BySawI99Na3gXZCNJxuWat8RU1l7kxWZ47
-         rouiu8VrXDLhMALCW0JGnmTiU0QHvVB/CqbPDlC2vdSTB6b9hMI4cv51kMuAQaeSFX9q
-         6G3WDXmG8i8d+it3CExGOhLtYdRLWHUufnSzQgU665HyE8HU2R+B3W2S9yeq48eqNtSO
-         6V0WxaJOCu5Hs65ltkuFOHx6bCkPCujbaMGbYRQ+HjdGaka6cOfOKrP0faqRf+hgb+NI
-         7ri/48CTg3pmR9mCdSzsdy5xHUolmPJQMUhUO2hcojYrXVJlzDMwFihwkPSQPknAdIGY
-         QrFQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=UVE7QZS3RWL2QAHWQXoCR4muirEC/eJJlq5hFMqUVLk=;
+        b=atis6OazR0/togfP8brQNQvC7+QKZJNyciGtQ1X6sWCGSoMGn3KhPptr4NAG5oEbIY
+         48pfpY+T1gjwiG0yc/zOCLIjHf6crzb74w3tnxuSeaiV4+8kiqQT50jZZgeRVEPTezHa
+         ga2O4V/hCOsB8OJ6wn2xKrHmLRhmBTU4/1hhxiCL5c/6yb1/21Gxi6kGT6YNFjRZN0UA
+         bvjGcGmCmip9IZZ2nEn9SCWSTOQMxU43aF949F86t4RBQBww4OzLpL5aiEK4kGc0yja4
+         Ova/NKGpETJ5RNGnCzyw3EL1IXP6Nn4LPu05dsGtCIwv/A745+HJkL5JMBAUL0ShjbUM
+         5QyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:cc:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=6babHy+b4BwGbNSFMykruhsxsT6H8Mxu4ETZghrYvkY=;
-        b=WACIWjMZwDK/pVShWFtOPQL7tw4Bo8Qi7OZtqq84u9fLvwmgB0aHK4ZKnogudW5tlX
-         E62TuX0Y8iuDlYSX4jp6aKQlaRFjJbXsWeQYV5oOGjVWdzjOIMv/q3DkBfEU97ovAVzv
-         sJic1LASr8TfX+7jrc9Nhs/tw8d0q03ZQ4gRgswiObxDdV7OkKs6vSPsqBdGCwhyzKcH
-         eVG+NhVXGC+LR01a9BlFozY3rgy17ei+gna047SXEgoFi2uHjECuqPhIpALRGsNY+TVu
-         VSHYiG1p2hWVKVZl5fNCVi1E0qtr7BMAaK/92J17tCyI+rInBPOlAuyNhAjUvKRpgdev
-         kuEA==
-X-Gm-Message-State: AOAM533p1mcmK7+2HrbaksfsvkWoFOTRDQwAmFA3jrwbTSsOww/0aE8S
-	IvvCow+HFrvWAkbU/v+8TrA=
-X-Google-Smtp-Source: ABdhPJxP/UqD44WL8Ns2o3Towek7WupWws3FWrE60+DczWiPoV4OAZl8YB+AGVOAqX7hNm3TgCno6A==
-X-Received: by 2002:a17:90b:3904:: with SMTP id ob4mr16650763pjb.148.1631985773609;
-        Sat, 18 Sep 2021 10:22:53 -0700 (PDT)
-Received: from [192.168.1.6] ([117.98.200.228])
-        by smtp.gmail.com with ESMTPSA id 26sm11914447pgx.72.2021.09.18.10.22.51
+        bh=UVE7QZS3RWL2QAHWQXoCR4muirEC/eJJlq5hFMqUVLk=;
+        b=uwMRsLPBNDwJEk4/7/+0dr5AqXniQ9nKzZ3Unm3mDyu7mAPYGPFsYv6GgghKxxoYy6
+         jH0lR60EdiyaJ8ktn+gShDp6NlamlbBW+F2VsL1Atxv9j26khUxxfkkZQJWP2Pw6SCaA
+         moaGs69QPWLb4zvFU7pGtqxOYZ2SwMJY50G5FUEQpOn69uqXoyfYMhgxlTDIp/CG/8HR
+         QzO74YrWN4XIqtq5GBEi9hT2zCk+AWB5iA5uT2eQxcB27Q/IfenMc8tbmy6hzinZDN2d
+         V/MWs4VpBKaylft55q/c31hboouLuYb4ifh9i5RqxtMFv+L7CELJnjBMeipU0U9vIwsm
+         LJcA==
+X-Gm-Message-State: AOAM533PCuHscrhpQv67aGckBlXtsmGiTWRULw74ti7KGYxg/KHq9m04
+	1eOtClac/7CNLEvMytObFpk=
+X-Google-Smtp-Source: ABdhPJzm4XHTg1a0lmsW83bFN7OND2/M9x4+Hk9byAK+hB1rOZd7kgeEwxm1M/bXqM1ufTYwwG0x4A==
+X-Received: by 2002:adf:8170:: with SMTP id 103mr19241290wrm.167.1631986352831;
+        Sat, 18 Sep 2021 10:32:32 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
+        by smtp.gmail.com with ESMTPSA id y64sm7475517wmc.38.2021.09.18.10.32.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Sep 2021 10:22:53 -0700 (PDT)
-Cc: saurav.girepunje@hotmail.com, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: core: remove the function
- power_saving_wk_hdl
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <YTub30ZRG3oLbxQW@user> <YT951VyaUEX8uFpz@kroah.com>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-Message-ID: <45c4de06-f618-4352-91ea-885edecdf8bb@gmail.com>
-Date: Sat, 18 Sep 2021 22:52:50 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Sat, 18 Sep 2021 10:32:32 -0700 (PDT)
+Message-ID: <0701af92-b341-f7b0-8a0c-3bea8a69f580@gmail.com>
+Date: Sat, 18 Sep 2021 19:32:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YT951VyaUEX8uFpz@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: staging: r8188eu: Can odm_DynamicTxPowerNIC() be removed?
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <7f1c135a-d85d-d271-f315-d665a5fe1472@gmail.com>
+ <89d9424a-d792-633a-d8e8-cebe7c3a2e20@lwfinger.net>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <89d9424a-d792-633a-d8e8-cebe7c3a2e20@lwfinger.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-
-On 13/09/21 9:48 pm, Greg KH wrote:
-> On Fri, Sep 10, 2021 at 11:24:39PM +0530, Saurav Girepunje wrote:
->> Remove the function power_saving_wk_hdl() as it just calling
->> the rtw_ps_processor().Instead of power_saving_wk_hdl() call directly
->> rtw_ps_processor().
+On 9/18/21 18:46, Larry Finger wrote:
+> On 9/18/21 08:31, Michael Straube wrote:
+>> Hi Larry, Phillip and all.
 >>
->> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
->> ---
->>   drivers/staging/r8188eu/core/rtw_cmd.c | 7 +------
->>   1 file changed, 1 insertion(+), 6 deletions(-)
->>
->> diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
->> index ce73ac7cf973..35e6a943c556 100644
->> --- a/drivers/staging/r8188eu/core/rtw_cmd.c
->> +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
->> @@ -1669,11 +1669,6 @@ u8 rtw_antenna_select_cmd(struct adapter *padapter, u8 antenna, u8 enqueue)
->>   	return res;
->>   }
->>
->> -static void power_saving_wk_hdl(struct adapter *padapter, u8 *pbuf, int sz)
->> -{
->> -	 rtw_ps_processor(padapter);
->> -}
->> -
->>   #ifdef CONFIG_88EU_P2P
->>   u8 p2p_protocol_wk_cmd(struct adapter *padapter, int intCmdType)
->>   {
->> @@ -1941,7 +1936,7 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
->>   		dynamic_chk_wk_hdl(padapter, pdrvextra_cmd->pbuf, pdrvextra_cmd->type_size);
->>   		break;
->>   	case POWER_SAVING_CTRL_WK_CID:
->> -		power_saving_wk_hdl(padapter, pdrvextra_cmd->pbuf, pdrvextra_cmd->type_size);
->> +		rtw_ps_processor(padapter);
->>   		break;
->>   	case LPS_CTRL_WK_CID:
->>   		lps_ctrl_wk_hdl(padapter, (u8)pdrvextra_cmd->type_size);
->> --
->> 2.32.0
+>> While removing code that checks for the chip type I stumbled upon this:
 >>
 >>
+>> void odm_DynamicTxPowerNIC(struct odm_dm_struct *pDM_Odm)
+>> {
+>>      if (!(pDM_Odm->SupportAbility & ODM_BB_DYNAMIC_TXPWR))
+>>          return;
+>>
+>>      if (pDM_Odm->SupportICType == ODM_RTL8188E) {
+>>          /*  ??? */
+>>          /*  This part need to be redefined. */
+>>      }
+>> }
+>>
+>>
+>> (pDM_Odm->SupportICType == ODM_RTL8188E) is always true in this driver.
+>> Currently the function does nothing and the driver seems to work fine.
+>> Because of the comment I'm not sure if the whole function can just be
+>> removed?
 > 
-> Also does not apply to my tree.  Please rebase against my staging-next
-> branch and resend.
+> Yes, I agree. No later driver does anything with this routine, thus it 
+> is dead and can be removed.
 > 
-> thanks,
-> 
-> greg k-h
+> Larry
 > 
 
-Hi Greg,
-
-I always do rebase against your staging-testing branch. Can you help me 
-to understand.When we need to rebase on staging-next. Do we always need 
-to rebase against staging-next..!
-
+Ok, thank you.
 
 Regards,
-Saurav Girepunje
+Michael
