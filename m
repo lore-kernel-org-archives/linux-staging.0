@@ -1,41 +1,41 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E1972
-	for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 15:37:39 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id s24so11159714wmh.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157503FC3
+	for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 15:37:40 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id w29so24132212wra.8
         for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 08:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nXMUgHcMZfyY9k+4nDgErnfgloDRhYJnVFo3LMXQlrM=;
-        b=X0qu+bb+AZ63iT5aKeHoGKv9NcF7QkVA6HARCKvSiIcbEP7f+aJ4QNBZTArGpvAeBE
-         Udabe07k6pdbiHsYnFgrzBGBlZE8kk0bzfHrrhiWSPitsDxQCid0Pj5048fJZXL9oimH
-         iW9Oydyt6Il2XuXoFphwpHZs9jTVdNS6t5TdKO1jH9VuLJKpcnFBRp6xW1XjlDD7nX8X
-         UDgDbUuT8vJSOoXHFypB6kWNhSdGTM+n4jEQldhFk1isgTigxEb+0U9OfrNMiOvf+aNo
-         RON+dhY2LnKDSc7jXv19m2rkQfCL6HtOO9HJA0aSm/B+y+KrL75aDJ7yIj8UoiJUJINf
-         l0XQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qxOyobLZn5i5+ghXkOmiy23gp8zoW0xgzcmJjVSUJjc=;
+        b=RDQXPy7kcxIwgzVAYeEmDc/Zr3Tsf0x7SowPNr9khcD6znlVcCST6QV6H4tvEnKWJz
+         +NQqXXJ8Ng6Q92u7yL/9JQBMuP/ANsJx8pVubeMAcRCOdkiO/9XUuTHfi8p5PIs99L/K
+         oiKavx6kNMdKvMQ3wu3PG57t6797nxD28mpMYgIfDefnxqyB5rZj7Zo0c2vq2BnYDJEO
+         WEgOWztg98TPfrWTnJBWbBOKAxkxd+Lfrjda7t9TStVyWXQxU9CBP5T5VHBT4n71hNwc
+         qGq4oc+k0NFl9yRZOO/AB0VTPIL1e9CrcSV3Vv93PZVraeAceWXKZB087rpAmrSiNdfP
+         DX6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nXMUgHcMZfyY9k+4nDgErnfgloDRhYJnVFo3LMXQlrM=;
-        b=7OXw4RE0m1tLuNx6awG6NBtd1a1+ypQM96OLTkffNayp7YMprueAYKBXG+TEPMJpnJ
-         zUfBUcH+OvZfWA3JbMTM9LsurCSS07gsPihNT4YfVdGlk/iFey+C9vVc4e2NNBta5UY6
-         ZeVKmZCZWD7z0DmdfQ5eTRg6ss3xREYbv+wHcVRg3iTJDTYiNY45S1GDEfQx5YnR49X3
-         /dKyVZmoSKLkVaH91d5F0iOPn1zFi6VgHu8vn9QQyxUCiFaO/826H13HyAlvQzSdUvZL
-         zLSi3p+rSfvZh4uc3LZzsProrxIZk7cX1qYnfUCVRu49lw0Ce77iP/1cHVkt3GeyG//1
-         nDYA==
-X-Gm-Message-State: AOAM532mzNx355yHEYGrzhrqvN4hn8qL0F1JpeDC2VJOMCe/IPdgKDjs
-	Z9XfXOHeItyl6GKO4e5hvQs=
-X-Google-Smtp-Source: ABdhPJxqdVAhv/j7paPSrXLqdSreKB07b7r9FWwvjzP4T6P6QsHdVl59G5171uG7gLycOYMM4b/68A==
-X-Received: by 2002:a7b:c384:: with SMTP id s4mr20547419wmj.108.1632065857610;
-        Sun, 19 Sep 2021 08:37:37 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qxOyobLZn5i5+ghXkOmiy23gp8zoW0xgzcmJjVSUJjc=;
+        b=w6f0D7wl9rsjEmEzytLwVdF1Nys1olDxX7OIVRfGnX78rVzCtLVgvwptSJ2JWMUHCE
+         Q57hFK7erct9L/oKGrL7jWpZutUxccQ6havcIISBhKhZPdy2YSP67Cebt+B2uDDdLGjt
+         T2wBjyvNF+NhrU4ulJ15fjVRqdY8w2iwMSDtebpMyvZM1tUivdA4E7ifMIdzkN0oAlLM
+         1Htdi1g/TH/0smzw0rX5NKjZXCVtGFIEngsSPp4HfHn4cfqJA/4yz1E1E8Xifm38cUdK
+         BE4Caa64vFnuL/3cSJwYlL9+/+Ew+uQzIRlC1lmMWNW9VNAeF+/JmVbX/JxeMbQs+swu
+         8yEQ==
+X-Gm-Message-State: AOAM531CXZExkd6tN23lTTkW6w70LdftKWbRZUsQTYRFsIbtfUZ5Iwji
+	fBjmtq+zgsFChzl3dlojkwE=
+X-Google-Smtp-Source: ABdhPJxD8UjgldRY+3Q95jeOI/NWh949OBuYzQdHN0t8XX/Z+eZQS+cdb8qssFMaxcT4Nlf01by15Q==
+X-Received: by 2002:adf:ce84:: with SMTP id r4mr23813135wrn.107.1632065858458;
+        Sun, 19 Sep 2021 08:37:38 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id l15sm16614501wme.42.2021.09.19.08.37.36
+        by smtp.gmail.com with ESMTPSA id l15sm16614501wme.42.2021.09.19.08.37.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Sep 2021 08:37:37 -0700 (PDT)
+        Sun, 19 Sep 2021 08:37:38 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -45,10 +45,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/6] staging: r8188eu: remove unused functions from rtw_ap.c
-Date: Sun, 19 Sep 2021 17:36:53 +0200
-Message-Id: <20210919153659.20826-1-straube.linux@gmail.com>
+Subject: [PATCH 1/6] staging: r8188eu: remove ap_sta_info_defer_update()
+Date: Sun, 19 Sep 2021 17:36:54 +0200
+Message-Id: <20210919153659.20826-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210919153659.20826-1-straube.linux@gmail.com>
+References: <20210919153659.20826-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,20 +59,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes all unused functions from rtw_ap.c.
+Function ap_sta_info_defer_update() is not used, remove it.
 
-Michael Straube (6):
-  staging: r8188eu: remove ap_sta_info_defer_update()
-  staging: r8188eu: remove rtw_acl_add_sta()
-  staging: r8188eu: remove rtw_acl_remove_sta()
-  staging: r8188eu: remove rtw_ap_inform_ch_switch()
-  staging: r8188eu: remove rtw_check_beacon_data()
-  staging: r8188eu: remove rtw_set_macaddr_acl()
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c    | 9 ---------
+ drivers/staging/r8188eu/include/rtw_ap.h | 1 -
+ 2 files changed, 10 deletions(-)
 
- drivers/staging/r8188eu/core/rtw_ap.c    | 584 -----------------------
- drivers/staging/r8188eu/include/rtw_ap.h |   6 -
- 2 files changed, 590 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index b265de3ff88d..49d65d5b3bac 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -1731,15 +1731,6 @@ void sta_info_update(struct adapter *padapter, struct sta_info *psta)
+ 	update_sta_info_apmode(padapter, psta);
+ }
+ 
+-/* called >= TSR LEVEL for USB or SDIO Interface*/
+-void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta)
+-{
+-	if (psta->state & _FW_LINKED) {
+-		/* add ratid */
+-		add_RATid(padapter, psta, 0);/* DM_RATR_STA_INIT */
+-	}
+-}
+-
+ void start_ap_mode(struct adapter *padapter)
+ {
+ 	int i;
+diff --git a/drivers/staging/r8188eu/include/rtw_ap.h b/drivers/staging/r8188eu/include/rtw_ap.h
+index c7cdab00538d..11e6f799d577 100644
+--- a/drivers/staging/r8188eu/include/rtw_ap.h
++++ b/drivers/staging/r8188eu/include/rtw_ap.h
+@@ -30,7 +30,6 @@ void associated_clients_update(struct adapter *padapter, u8 updated);
+ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta);
+ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta);
+ void sta_info_update(struct adapter *padapter, struct sta_info *psta);
+-void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta);
+ u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
+ 	       bool active, u16 reason);
+ int rtw_sta_flush(struct adapter *padapter);
 -- 
 2.33.0
 
