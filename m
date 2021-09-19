@@ -1,164 +1,74 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B823FC3
+	for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 09:05:20 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1632042320; h=Content-Type: MIME-Version: Message-ID: Date:
+ References: In-Reply-To: Subject: Cc: To: From: Sender;
+ bh=C2SJzDFioL6x/Cj6RdueyKoBo3DX6Vzq7xa4jPC31l4=; b=eH/J+Kyo8LI75coIDbgaYCLe3H7gLIJpzWzO3JyLFwQvucBmqbSIYKvUgsLudHPA9iCW+fuq
+ v8qbWf926A0OOWuIAIDGlqGw2VDn+QKhP9B80+uKg01sbHJnoLmEjH56+cssaS/720iL+kK5
+ 96OgyBq2SDgzMU4CZKockeyAelQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI5NGRkNiIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 6146fd4e65c3cc8c63ac8cda (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sun, 19 Sep 2021 09:05:18
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 5B8FBC43460; Sun, 19 Sep 2021 09:05:18 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from tykki (tynnyri.adurom.net [51.15.11.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A2C72
-	for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 06:38:37 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.west.internal (Postfix) with ESMTP id 9F1EA320039A;
-	Sun, 19 Sep 2021 02:38:36 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sun, 19 Sep 2021 02:38:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=+iMtLpWBusMdRyq8TiDCF2XyQMC
-	8az/X7x3RmzlHJkQ=; b=lBlMvGAkYTDK50RYyVObzJH9csRap4eDr4F45Cnt8YY
-	/YfXH/T7eH1mbfA5lMBCMo4Mm3b5c+Yjf79ynflKQrg7ZnsCGmY7bN1Wwor8MtxP
-	jPZFPoWk6ecaGaoGQaYAo0B+mJGZRyfmiYygd7TOeDKWCPM0JYxAYd0x3XcXlfzw
-	sdRsFy/gUtMC4MjDLuruoVnJvptB8yIKqI1N31QbVG6V6Oh6J9gI/7YThm+grYEF
-	oLA1uMlANsPAivwdXL84Os7YSO113moz5n6R/b5I6fbD/ZDL6PZYRMuYKus1hWQA
-	Hh2RC/FrlUxhFzTW/JxJufhfaleCgsuaLnN4uLI/SfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=+iMtLp
-	WBusMdRyq8TiDCF2XyQMC8az/X7x3RmzlHJkQ=; b=YcwTDWijIeN5O5kHpbf+jj
-	dnhKuoRlQgKDmBTwYIP8Sqn56G2YpE+7tyXhlfJxsuaZ9klmxm8rsmrzwM7GfxGu
-	+2fveInYDX2ecJDq4Y0zaSZnEtgdkB1jpTqg06uEKqjwIENrBX1hAydcB7j0tQ3K
-	dm3IDO5Vng19WPsfnWIRcW+hlwhaAythqYOLTVJvnUJX/UaIeA+VqFWiRgEcCt9S
-	B8WqlfPHsxjglmCjW6UvlN2MiFxOtQzxj20RSplYhURudg0d7wBOowlt+02/uucr
-	3l6lcC93Nw/AULlNuyMSIpvbtlBM6zJ4ChLZOltknejhlq+45NYc/ZVIhhjmYnPQ
-	==
-X-ME-Sender: <xms:7NpGYQs9ubq__Rf1WYYoJq-NsXA6d-xEe8NxtFaEbJj0edtYxv4vCQ>
-    <xme:7NpGYdf70AW8TTjIPxQl2zv3pMiWsSi8snkaBDiP0Vw9lOjcABao3ivlRdgqDYCMC
-    fH5w_zl7xoSgg>
-X-ME-Received: <xmr:7NpGYby80s_oHC0MnOjWALUbxdDixp5FKCIk3V33zmqrCc74kuzOoRU_2tI1ECUCyH7nWKc99tjH_ABOCWBCuB7E8ebnHpl1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehledguddtiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
-    ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
-    hhrdgtohhm
-X-ME-Proxy: <xmx:7NpGYTOwfhxbw1uhJYdegHcfRmvR_Z0KKoIERg5jFPCGKNMPIRxgCQ>
-    <xmx:7NpGYQ-chtkkRzDuWdfCb-YCF5Ifl1egMCp0lDSoU5_mraYclPgUMA>
-    <xmx:7NpGYbWIQO_mizkqjyHSD9WrqIKr6BMBzsFzb41wPx-qnyNs8XtOXw>
-    <xmx:7NpGYSJ8PUGDoTwdXbi_Es2RWPiM-_PHN9uhkxenYIyfYrtUnVmGZw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 19 Sep 2021 02:38:34 -0400 (EDT)
-Date: Sun, 19 Sep 2021 08:38:16 +0200
-From: Greg KH <greg@kroah.com>
-To: "Usman S. Ansari" <ua1422@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Staging: wlan-ng: Fix warning messages generated by
- checkpatch.pl
-Message-ID: <YUba2PMFTv7nucP0@kroah.com>
-References: <20210917182542.52733-1-ua1422@gmail.com>
- <YUWM2xt1a8OOvWFV@kroah.com>
- <CACYKDtieSGhL45vofCZaY=CajYqFvHaFU1Yu4OK8nJfT6wr91g@mail.gmail.com>
+	(Authenticated sender: kvalo)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 4B8F7C4338F;
+	Sun, 19 Sep 2021 09:05:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 4B8F7C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+From: Kalle Valo <kvalo@codeaurora.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,  Ulrich Kunitz <kune@deine-taler.de>,  "David S. Miller" <davem@davemloft.net>,  Jakub Kicinski <kuba@kernel.org>,  linux-wireless@vger.kernel.org,  zd1211-devs@lists.sourceforge.net,  netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,  Jens Frederich <jfrederich@gmail.com>,  Jon Nettleton <jon.nettleton@gmail.com>,  linux-staging@lists.linux.dev,  Daniel Drake <drake@endlessos.org>
+Subject: Re: [PATCH v2] MAINTAINERS: Move Daniel Drake to credits
+In-Reply-To: <YUSZy0fH0oKuFsLV@kroah.com> (Greg Kroah-Hartman's message of
+	"Fri, 17 Sep 2021 15:36:11 +0200")
+References: <20210917102834.25649-1-krzysztof.kozlowski@canonical.com>
+	<YUSZy0fH0oKuFsLV@kroah.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Date: Sun, 19 Sep 2021 12:05:11 +0300
+Message-ID: <875yuxx7eg.fsf@codeaurora.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACYKDtieSGhL45vofCZaY=CajYqFvHaFU1Yu4OK8nJfT6wr91g@mail.gmail.com>
+Content-Type: text/plain
 
-On Sat, Sep 18, 2021 at 11:29:42AM -0700, Usman S. Ansari wrote:
-> On Fri, Sep 17, 2021 at 11:53 PM Greg KH <greg@kroah.com> wrote:
-> 
-> > On Fri, Sep 17, 2021 at 11:25:42AM -0700, ua1422@gmail.com wrote:
-> > > From: Usman Ansari <ua1422@gmail.com>
-> > >
-> > > Signed-off-by: Usman Ansari <ua1422@gmail.com>
-> > > Description: Address the following checkpatch warning:
-> > >
-> > > WARNING: Commit log lines starting with '#' are dropped by git as
-> > comments
-> > > ---
-> > >  drivers/staging/wlan-ng/cfg80211.c | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/wlan-ng/cfg80211.c
-> > b/drivers/staging/wlan-ng/cfg80211.c
-> > > index 7951bd63816f..f03dc1e59db1 100644
-> > > --- a/drivers/staging/wlan-ng/cfg80211.c
-> > > +++ b/drivers/staging/wlan-ng/cfg80211.c
-> > > @@ -1,7 +1,7 @@
-> > >  // SPDX-License-Identifier: GPL-2.0
-> > >  /* cfg80211 Interface for prism2_usb module */
-> > > -#include "hfa384x.h"
-> > > -#include "prism2mgmt.h"
-> > > + #include "hfa384x.h"
-> > > + #include "prism2mgmt.h"
-> > >
-> > >  /* Prism2 channel/frequency/bitrate declarations */
-> > >  static const struct ieee80211_channel prism2_channels[] = {
-> > > @@ -28,7 +28,7 @@ static const struct ieee80211_rate prism2_rates[] = {
-> > >       { .bitrate = 110 }
-> > >  };
-> > >
-> > > -#define PRISM2_NUM_CIPHER_SUITES 2
-> > > + #define PRISM2_NUM_CIPHER_SUITES 2
-> > >  static const u32 prism2_cipher_suites[PRISM2_NUM_CIPHER_SUITES] = {
-> > >       WLAN_CIPHER_SUITE_WEP40,
-> > >       WLAN_CIPHER_SUITE_WEP104
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > Hi,
-> >
-> > This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-> > a patch that has triggered this response.  He used to manually respond
-> > to these common problems, but in order to save his sanity (he kept
-> > writing the same thing over and over, yet to different people), I was
-> > created.  Hopefully you will not take offence and will fix the problem
-> > in your patch and resubmit it so that it can be accepted into the Linux
-> > kernel tree.
-> >
-> > You are receiving this message because of the following common error(s)
-> > as indicated below:
-> >
-> > - Your patch does not have a Signed-off-by: line.  Please read the
-> >   kernel file, Documentation/SubmittingPatches and resend it after
-> >   adding that line.  Note, the line needs to be in the body of the
-> >   email, before the patch, not at the bottom of the patch or in the
-> >   email signature.
-> >
-> > - You did not specify a description of why the patch is needed, or
-> >   possibly, any description at all, in the email body.  Please read the
-> >   section entitled "The canonical patch format" in the kernel file,
-> >   Documentation/SubmittingPatches for what is needed in order to
-> >   properly describe the change.
-> >
-> > - You did not write a descriptive Subject: for the patch, allowing Greg,
-> >   and everyone else, to know what this patch is all about.  Please read
-> >   the section entitled "The canonical patch format" in the kernel file,
-> >   Documentation/SubmittingPatches for what a proper Subject: line should
-> >   look like.
-> >
-> > If you wish to discuss this problem further, or you have questions about
-> > how to resolve this issue, please feel free to respond to this email and
-> > Greg will reply once he has dug out from the pending patches received
-> > from other developers.
-> >
-> > thanks,
-> >
-> > greg k-h's patch email bot
-> >
-> 
-> Hi Greg,
-> 
-> I think I have covered all the items listed in your email bot reply. Please
-> let me know if the patch is not meeting the expectations.
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
 
-It is not, sorry.  Please read the documentation.
+> On Fri, Sep 17, 2021 at 12:28:34PM +0200, Krzysztof Kozlowski wrote:
+>> Daniel Drake's @gentoo.org email bounces (is listed as retired Gentoo
+>> developer) and there was no activity from him regarding zd1211rw driver.
+>> Also his second address @laptop.org bounces.
+>> 
+>> Cc: Daniel Drake <drake@endlessos.org>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Also look at your patch itself, it is not correct.
+Thanks. I assume it's ok for everyone that I take this to
+wireless-drivers.
 
-good luck!
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
 
-greg k-h
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
