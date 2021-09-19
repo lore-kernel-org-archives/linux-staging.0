@@ -1,41 +1,41 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725B12FB6
-	for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 23:54:06 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id j13so53995048edv.13
-        for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 16:54:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84AA72
+	for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 23:54:07 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id g8so54009778edt.7
+        for <linux-staging@lists.linux.dev>; Sun, 19 Sep 2021 16:54:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0Tc3T6heCxZqW05/CSeGigfVkKIeuPYK64e+EOdX8yk=;
-        b=qeZwCS8QzFM7A5lvYq8vRYbQWYJsFcUJyUNqC4e80miNyI6xOwa7ysrocZSPnZED1M
-         bzl4XmbvD57QvzLY44CZwU7toh6Z0zl/2bQxtHnhVS9uk67vOvYlynYZdemccs3dBzSB
-         ChlgqyKACBivLYAFxY0F7kwRP6tA9nAzO2lgzjJTIb3Rn/cQVYtXZe0W8SjJu9l7W9uz
-         u6+pcppoMSgOLI88nfckM75W99upUOyxCDd95usPEwPnOL02htEWp/Hwd25hU2hqu1by
-         9dmMUQn6xvJnHx5DI75ETXDnBIgE8KJ5XMHB7bTuCvfDNvkGT1Iut9iSmDBZDHPZtkVT
-         JxCQ==
+        bh=0HeSFyYPFTepArePe3je7Z+vfgzfAoaNBDxBw/Ndyzs=;
+        b=FL9TVx4cqktQFF+xa3di7lqsy5dVVXHw/Kog4h1EQm2EqmrGp1zXeNll9dontHbvSu
+         SwTNRj2JHifdj5bzNRBQLIVVsQhETtvu0YnWzAFP7Ii4Hcf5L9Xp1VBmpJwUrhazGIBG
+         OgkIHsSsD4U1EW9F//NOlyVGIHUAHUYGyCcyrBX4HFtjmOemH98VbSSJyGV314YD3WAB
+         wSADurfBX88YufcT2Si4WIOgMhQ/FQ5jBKrDOTamH8Lv98+PT97Ko8J51fu8LLP/ppQd
+         eOVPuKyKjXcBqWktQjhXr+a1XEvp7SVxZbPNmOjuty4GWtC8tSZ5s/zFU+9u+f+4Ui5/
+         GR7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0Tc3T6heCxZqW05/CSeGigfVkKIeuPYK64e+EOdX8yk=;
-        b=HfNEzIw409S4GvJP9OQ67743KwjCpPnnoqC7NRaa0iclBNTromBk6iRs582OyIzf9b
-         DQmLJ6H0eIfa26yyUutwM3sWRT6F3Py7PQSTiAPLRY9lcfMem/J6VglW0q81TjsEoN10
-         mmHZXb7qZY9/zCqQZnLAs+XzgGLCxLUgsUr27zqT+o5i0xunddDwiOTgCuP5XKaFKBgM
-         KTovS3PN2FOetxlWc5fQwPAjA8F0WLgmTD01wHpJ/8jHv4iwBOI6492aZGqsmMWzbkP8
-         /MuIwUVG8obvPm2BvFrbifSepN3l2DajHHoOc4Kupo/f+N6dsM4NM2YvPLP4CgH6A1ch
-         /PGA==
-X-Gm-Message-State: AOAM53394e34WCgvs7fDK1Gm0TJO7OTQRob4/ybZv4hbKOm8pZSYNWUX
-	zYz8btbqqpqK5DhQzCcOSLU=
-X-Google-Smtp-Source: ABdhPJzIeF3/pu1mKfDIHTgr9G+Taq5GmXMSHgAN74dQpeYYQ5M9jmfBIrtpYJ0GXTioKBPQ52qq+g==
-X-Received: by 2002:a05:6402:847:: with SMTP id b7mr26458200edz.242.1632095644822;
-        Sun, 19 Sep 2021 16:54:04 -0700 (PDT)
+        bh=0HeSFyYPFTepArePe3je7Z+vfgzfAoaNBDxBw/Ndyzs=;
+        b=afJhR4mVgmho18nnqkRLdFUt9ussXuEnRqjEfZlw0a/VFf39+iRLKEK3DgwtnNGW9u
+         ueiSH42ZDkfbHAlu0kGFJrx8Eq/yaq6npUfLQTBXSydXr7i3/9dMDWdYP4koralhNEPG
+         GFusMe79XohtkcPKHOhlwRNWGSTjN3amSbxmTZrVy03s6UHYgQzdCrF3jthPtdSifxhx
+         WCPSUm6AcoXu/PuJOPpvYQL482XZTvsinMSqJ+rrtqXHZEqyAF2TXr/KCgPFzWMaJEPR
+         DgFMzWRY6M3IC8oA1cksmUIxs+436URie8zFGWh33hCqTJCWTVW/1pnmE2b+K8TS0Qmc
+         0iuw==
+X-Gm-Message-State: AOAM53218dz5Bkh2ffu8T83zMBUgVQJYlI3kiXfmbYwVRVG7VYCtZK4g
+	GOiIZLx1OVcOAyyRr3s1TA4=
+X-Google-Smtp-Source: ABdhPJwHWKpa6ltK4B+EVKBKZcKE4DeUQfRnvHj6oqj+NN6G6CnReWt8hVRRMvCJE8lqmW2PtwAdSw==
+X-Received: by 2002:a17:906:e094:: with SMTP id gh20mr26538221ejb.252.1632095646108;
+        Sun, 19 Sep 2021 16:54:06 -0700 (PDT)
 Received: from localhost.localdomain (host-79-47-104-104.retail.telecomitalia.it. [79.47.104.104])
-        by smtp.gmail.com with ESMTPSA id e11sm5353636ejm.41.2021.09.19.16.54.03
+        by smtp.gmail.com with ESMTPSA id e11sm5353636ejm.41.2021.09.19.16.54.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Sep 2021 16:54:04 -0700 (PDT)
+        Sun, 19 Sep 2021 16:54:05 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -47,9 +47,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Martin Kaiser <martin@kaiser.cx>
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v8 02/19] staging: r8188eu: reorder declarations in usbctrl_vendorreq()
-Date: Mon, 20 Sep 2021 01:53:39 +0200
-Message-Id: <20210919235356.4151-3-fmdefrancesco@gmail.com>
+Subject: [PATCH v8 03/19] staging: r8188eu: remove unnecessary test in usbctrl_vendorreq()
+Date: Mon, 20 Sep 2021 01:53:40 +0200
+Message-Id: <20210919235356.4151-4-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210919235356.4151-1-fmdefrancesco@gmail.com>
 References: <20210919235356.4151-1-fmdefrancesco@gmail.com>
@@ -61,32 +61,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Reorder variables declarations according to the "Reverse Xmas Tree"
-style.
+Remove unnecessary test for "!io_buf" in usbctrl_vendorreq(). Remove the
+no more used "release_mutex:" label.
 
 Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 3bfae4bd4a1e..e06aea92c8d2 100644
+index e06aea92c8d2..d92bdcc3716d 100644
 --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -13,10 +13,10 @@ static int usbctrl_vendorreq(struct intf_hdl *intfhdl, u16 value, void *data, u1
- 	struct adapter *adapt = intfhdl->padapter;
- 	struct dvobj_priv *dvobjpriv = adapter_to_dvobj(adapt);
- 	struct usb_device *udev = dvobjpriv->pusbdev;
-+	int vendorreq_times = 0;
- 	unsigned int pipe;
- 	int status = 0;
- 	u8 *io_buf;
--	int vendorreq_times = 0;
+@@ -34,12 +34,6 @@ static int usbctrl_vendorreq(struct intf_hdl *intfhdl, u16 value, void *data, u1
+ 	/*  Acquire IO memory for vendorreq */
+ 	io_buf = dvobjpriv->usb_vendor_req_buf;
  
- 	if ((adapt->bSurpriseRemoved) || (adapt->pwrctrlpriv.pnp_bstop_trx)) {
- 		status = -EPERM;
+-	if (!io_buf) {
+-		DBG_88E("[%s] io_buf == NULL\n", __func__);
+-		status = -ENOMEM;
+-		goto release_mutex;
+-	}
+-
+ 	if (requesttype == REALTEK_USB_VENQT_READ)
+ 		pipe = usb_rcvctrlpipe(udev, 0);/* read_in */
+ 	else
+@@ -91,7 +85,7 @@ static int usbctrl_vendorreq(struct intf_hdl *intfhdl, u16 value, void *data, u1
+ 		if ((value >= FW_8188E_START_ADDRESS && value <= FW_8188E_END_ADDRESS) || status == len)
+ 			break;
+ 	}
+-release_mutex:
++
+ 	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
+ exit:
+ 	return status;
 -- 
 2.33.0
 
