@@ -1,41 +1,41 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098CC29CA
-	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 18:12:00 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id b15so52880043lfe.7
-        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 11:12:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A8B3FC0
+	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 18:12:02 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id g41so38684652lfv.1
+        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 11:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wufLMjvcV2REchuzKnLPe9Ps3w6SDfXDXOXmKrrN/u8=;
-        b=JN7GxvpOPNq+Oqp6duDkMntCZ8lBa2OcUwIq2xz81Cqu6aJXcvoSGwYvkEKSn3TGIi
-         J/byK0VDMeaDXJRKJdcNNPquP5tCmrqGjYunCi4z2b567hkWsefXfoVApE0ZOtWBjtWa
-         g/hqhyiS0h7h+IsYDCTeDEC55jfFprIpznVKtTPnNynj5sOIuqUWnYzk/hVFmfmLI6V+
-         YnLIXS68xv13EVQVdA8z1uZg6FDW6l2sy+EwkkGbiIH0J4UOSXD15gD9Aw6/aPZZYHYI
-         I7xNcKK3MqvJAOvUfniwLprFKU8hO18nrfUwnNDFwGjj6FdeCzZk6bzrg60DTViqtmGg
-         QhDA==
+        bh=b3yXsdmsWJbu2CaukGByuPBPrpPUHlzf8e1vIPRsAi8=;
+        b=mSz7uU/bRRInYFwuM8f6B84EvUoksh7ddPhtlASBvZ85dgMc6wSlwy9SyUr71eh6Fl
+         8aF/ejqZiLi8ozfYp9/gUV4vYRxtIvgQjgPnZXtQL7Y+v9G9Y+cAaoQ21eYKgU3RZGA1
+         UOWbjyklkTrEUyaLSLrxbDkrvqYVMR0YBcW59uTVr7/Ot83fYGy4c+QiJj/Xy92xKSgB
+         EfV5X85nt0Citt1qMKvG2qkwPH6VuQN5kOywq4zIlYwPZtXGr+a27VopPVnjFYxmMedy
+         4bzfzsT9EaigD80tFXxFOEytgM+rMwHIS7FkhnwqO0rdhVONYqcKyeIkWnAmXAWihsxB
+         g4eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wufLMjvcV2REchuzKnLPe9Ps3w6SDfXDXOXmKrrN/u8=;
-        b=72totAVMiH+p9X4BIMJ9EhnNwSe/wtVHS+vVi80sxw+7IwU3HxscFO31K1v19uUBOc
-         LlJyrCgcYpzfFqoRiPR90zJ1qqjR0+n5G1qAjW7+t0UHDLUCG1W2m2thhw7fbjAhPT67
-         mNC3hz+gNdx6j3YltI8SpEsIAsLqvfinyC5EoB4OepB+zecY/tEEs3ppmfMte3r0mAWK
-         q0dsOgddl+9dPXeFluxyoRrrMCJlQzejlySROUo7rdj1LR50SELGYJKeyA6O5lUhgoO3
-         zKkm08vQGfNWdxTVaTEK0QDVPcd1kmuJD4R2chVyxOL47Zm24NZYsNNfSBG/fEetClVE
-         Nz/g==
-X-Gm-Message-State: AOAM5320HgWU6wyR3P+FahdvoKVJxQuep5YGtDdLq9neM7qb4HQih+DH
-	wO/5r2gLBWYVKCSGMK9i3ys=
-X-Google-Smtp-Source: ABdhPJzbQIQuQGiApbO9GwH5+NuxjTWqNAoH6tuJ2Tj7QVup+0KXL9BjwmYobjt3qUZFoYVeLQeKoQ==
-X-Received: by 2002:a05:6512:401e:: with SMTP id br30mr13112738lfb.399.1632161519020;
-        Mon, 20 Sep 2021 11:11:59 -0700 (PDT)
+        bh=b3yXsdmsWJbu2CaukGByuPBPrpPUHlzf8e1vIPRsAi8=;
+        b=Z9tPTyObvWEZhLLuq0j/5nEpf46xZ2zmnJ975DrLlJiPL2bw1CJ9qvIqMeykkBqZa+
+         Y0vvIoGyNuwQfenDqBPc7IIHGmDuAqcALAd2GkLy79cYtZqLQCvy35a/gJ4sSRmmBZWs
+         /Hai5I8D+ymu/KGNSpVJvn66SCrQAvad5BszIBsTUof0wFfj5nCfaiTN6sXIhMxlQwGO
+         0Dsu2mZ57UjUKDXifwbBUkBKhInk0L2jFouBesu4Cs8JpwJRd7GqIf/UxK4N+XIlrxv6
+         69psVukVDXeOv+gAAX313tRPJPT2OsaccHNoEXU2UvNAIt0EAdtCZq3hOZo1kmAT7Y8T
+         wcbA==
+X-Gm-Message-State: AOAM532CdAVYHEgXYkMfZDqd1XiP/5J4vorFY1abVv4TrS41+xY5tNyQ
+	aqCT041nLltv5VA8fd6Zv/M=
+X-Google-Smtp-Source: ABdhPJyyop5T5u9zSJ7UMIl5EYQj77IA6sm5fQ8onwEgRAuSRlsCeH7gqEyvDQr6Gg0QHhoOer317g==
+X-Received: by 2002:a05:6512:3a82:: with SMTP id q2mr20094513lfu.543.1632161520309;
+        Mon, 20 Sep 2021 11:12:00 -0700 (PDT)
 Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru. [46.138.151.206])
-        by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.11.57
+        by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.11.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 11:11:58 -0700 (PDT)
+        Mon, 20 Sep 2021 11:12:00 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Stefan Agner <stefan@agner.ch>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	David Heidelberg <david@ixit.cz>
-Subject: [PATCH v12 01/35] opp: Change type of dev_pm_opp_attach_genpd(names) argument
-Date: Mon, 20 Sep 2021 21:11:11 +0300
-Message-Id: <20210920181145.19543-2-digetx@gmail.com>
+Subject: [PATCH v12 02/35] soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
+Date: Mon, 20 Sep 2021 21:11:12 +0300
+Message-Id: <20210920181145.19543-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210920181145.19543-1-digetx@gmail.com>
 References: <20210920181145.19543-1-digetx@gmail.com>
@@ -83,77 +83,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Elements of the 'names' array are not changed by the code, constify them
-for consistency.
+Only couple drivers need to get the -ENODEV error code and majority of
+drivers need to explicitly initialize the performance state. Add new
+common helper which sets up OPP table for these drivers.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c     | 6 +++---
- include/linux/pm_opp.h | 8 ++++----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ include/soc/tegra/common.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 04b4691a8aac..3057beabd370 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -2348,12 +2348,12 @@ static void _opp_detach_genpd(struct opp_table *opp_table)
-  * "required-opps" are added in DT.
-  */
- struct opp_table *dev_pm_opp_attach_genpd(struct device *dev,
--		const char **names, struct device ***virt_devs)
-+		const char * const *names, struct device ***virt_devs)
- {
- 	struct opp_table *opp_table;
- 	struct device *virt_dev;
- 	int index = 0, ret = -EINVAL;
--	const char **name = names;
-+	const char * const *name = names;
- 
- 	opp_table = _add_opp_table(dev, false);
- 	if (IS_ERR(opp_table))
-@@ -2457,7 +2457,7 @@ static void devm_pm_opp_detach_genpd(void *data)
-  *
-  * Return: 0 on success and errorno otherwise.
-  */
--int devm_pm_opp_attach_genpd(struct device *dev, const char **names,
-+int devm_pm_opp_attach_genpd(struct device *dev, const char * const *names,
- 			     struct device ***virt_devs)
- {
- 	struct opp_table *opp_table;
-diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index a95d6fdd20b6..879c138c7b8e 100644
---- a/include/linux/pm_opp.h
-+++ b/include/linux/pm_opp.h
-@@ -156,9 +156,9 @@ int devm_pm_opp_set_clkname(struct device *dev, const char *name);
- struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
- void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table);
- int devm_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
--struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
-+struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs);
- void dev_pm_opp_detach_genpd(struct opp_table *opp_table);
--int devm_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
-+int devm_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs);
- struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table *src_table, struct opp_table *dst_table, struct dev_pm_opp *src_opp);
- int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate);
- int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq);
-@@ -376,7 +376,7 @@ static inline int devm_pm_opp_set_clkname(struct device *dev, const char *name)
- 	return -EOPNOTSUPP;
+diff --git a/include/soc/tegra/common.h b/include/soc/tegra/common.h
+index af41ad80ec21..5b4a042f60fb 100644
+--- a/include/soc/tegra/common.h
++++ b/include/soc/tegra/common.h
+@@ -39,4 +39,28 @@ devm_tegra_core_dev_init_opp_table(struct device *dev,
  }
+ #endif
  
--static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs)
-+static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs)
- {
- 	return ERR_PTR(-EOPNOTSUPP);
- }
-@@ -384,7 +384,7 @@ static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, cons
- static inline void dev_pm_opp_detach_genpd(struct opp_table *opp_table) {}
- 
- static inline int devm_pm_opp_attach_genpd(struct device *dev,
--					   const char **names,
-+					   const char * const *names,
- 					   struct device ***virt_devs)
- {
- 	return -EOPNOTSUPP;
++/*
++ * This function should be invoked with the enabled runtime PM of the device
++ * in order to initialize performance state properly. Most of Tegra devices
++ * are assumed to be suspended at a probe time and GENPD require RPM to be
++ * enabled to set up the rpm-resume state, otherwise device is active and
++ * performance state is applied immediately. Note that it will initialize
++ * OPP bandwidth if it's wired in a device-tree for this device, which is
++ * undesirable for a suspended device.
++ */
++static inline int
++devm_tegra_core_dev_init_opp_table_common(struct device *dev)
++{
++	struct tegra_core_opp_params opp_params = {};
++	int err;
++
++	opp_params.init_state = true;
++
++	err = devm_tegra_core_dev_init_opp_table(dev, &opp_params);
++	if (err != -ENODEV)
++		return err;
++
++	return 0;
++}
++
+ #endif /* __SOC_TEGRA_COMMON_H__ */
 -- 
 2.32.0
 
