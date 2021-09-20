@@ -1,104 +1,63 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7FC3FC3
-	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 09:55:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6FBFD60F6C;
-	Mon, 20 Sep 2021 09:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632131730;
-	bh=IwuTqGD6KHEEeQN9ukZskmYqK2M+xPIbzdRgv9CM0hw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pzBqGFkF2dRXU1uaDDQ9kTjw6HGh9M3WgQOl7lbMlE/yZbXUNqhrzDWJ6OGjhpvUe
-	 P+VkGCA7DzFQzX7ZzX/fhK3btVcST6++dj5EH2emvzyQ7UEI9caUIg4VeFps4aDWbL
-	 8ycx+4A+3GDDsVv5kDYwxqIE6H/+FXusEkxsPZHa3B8Bpzgi6Y/yDWCqvj8uPaxYfD
-	 wtAwQVmcW9AN45g0lnHgDs7pO29CAcYckEDDh9Y3r3lb4sNVDEjLu65LhDukcUbaPu
-	 w3DhyNGi2Nkv2KPP91Y/cxEePOvg+Ei+mgVYE7qojoHBmNLTO2Shokd/WO3NcDjwyi
-	 wa/72tN8H3ojQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904AD3FC3
+	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 10:09:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86C0160E9C;
+	Mon, 20 Sep 2021 10:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1632132553;
+	bh=S+3ma9YFjHGWvmLW58NxGb6gvt/Tr6xPp8Acn3HjfVo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gwzutkduiqVq+KN31ixwh7uelCMJX4Wwktmfl+4idHYdnA2GRBnGT9rdqldo+1qgz
+	 dnrTJbRA8j1K1jTuOzjHcNa+i+xVzTQN6ZbSLw5MkfKc+xmnsQh3zZqoO4JoTOch2K
+	 ID3HDa9ERNz7L+3fFTJVIH3qAlRqhhK/uWIsqEZ0=
+Date: Mon, 20 Sep 2021 12:09:10 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
+	Arnd Bergmann <arnd@arndb.de>,
 	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>,
-	linux-staging@lists.linux.dev,
+	Martin Kaiser <martin@kaiser.cx>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: fix -Wrestrict warnings
-Date: Mon, 20 Sep 2021 11:55:09 +0200
-Message-Id: <20210920095525.1150678-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+Subject: Re: [PATCH] staging: r8188eu: fix -Wrestrict warnings
+Message-ID: <YUhdxrSWhObY9gg0@kroah.com>
+References: <20210920095525.1150678-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210920095525.1150678-1-arnd@kernel.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Sep 20, 2021 at 11:55:09AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Adding back the nonstandard ioctl commands caused -Wrestrict warnings
+> when building with 'make W=1':
+> 
+> drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function 'rtw_mp_read_rf':
+> drivers/staging/r8188eu/os_dep/ioctl_linux.c:5515:27: error: 'sprintf' argument 3 overlaps destination object 'extra' [-Werror=restrict]
+>  5515 |                           sprintf(extra, "%s %d", extra, strtou);
+>       |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/staging/r8188eu/os_dep/ioctl_linux.c:5470:54: note: destination object referenced by 'restrict'-qualified argument 1 was declared here
+>  5470 |                         struct iw_point *wrqu, char *extra)
+>       |                                                ~~~~~~^~~~~
+> 
+> Change these to the same construct used elsewhere in that driver,
+> with an offset to the string to make the warning go away.
+> 
+> The ioctl commands were previously removed, and it's unlikely that
+> anything is actually using them, so ideally I would prefer to have
+> them removed again.
 
-Adding back the nonstandard ioctl commands caused -Wrestrict warnings
-when building with 'make W=1':
+I'll apply this to get rid of the warning, but will also work on
+removing the ioctls entirely.
 
-drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function 'rtw_mp_read_rf':
-drivers/staging/r8188eu/os_dep/ioctl_linux.c:5515:27: error: 'sprintf' argument 3 overlaps destination object 'extra' [-Werror=restrict]
- 5515 |                           sprintf(extra, "%s %d", extra, strtou);
-      |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/staging/r8188eu/os_dep/ioctl_linux.c:5470:54: note: destination object referenced by 'restrict'-qualified argument 1 was declared here
- 5470 |                         struct iw_point *wrqu, char *extra)
-      |                                                ~~~~~~^~~~~
+thanks,
 
-Change these to the same construct used elsewhere in that driver,
-with an offset to the string to make the warning go away.
-
-The ioctl commands were previously removed, and it's unlikely that
-anything is actually using them, so ideally I would prefer to have
-them removed again.
-
-The lack of range checking of the 'extra' output buffer is also
-slightly worrying, but I did not check whether this could cause
-harm.
-
-Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 81d4255d1785..1fd375076001 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -5372,8 +5372,8 @@ static int rtw_mp_read_reg(struct net_device *dev,
- 
- 			pnext++;
- 			if (*pnext != '\0') {
--				  strtout = simple_strtoul(pnext, &ptmp, 16);
--				  sprintf(extra, "%s %d", extra, strtout);
-+				strtout = simple_strtoul(pnext, &ptmp, 16);
-+				sprintf(extra + strlen(extra), " %d", strtout);
- 			} else {
- 				  break;
- 			}
-@@ -5405,7 +5405,7 @@ static int rtw_mp_read_reg(struct net_device *dev,
- 			pnext++;
- 			if (*pnext != '\0') {
- 				strtout = simple_strtoul(pnext, &ptmp, 16);
--				sprintf(extra, "%s %d", extra, strtout);
-+				sprintf(extra + strlen(extra), " %d", strtout);
- 			} else {
- 				break;
- 			}
-@@ -5512,7 +5512,7 @@ static int rtw_mp_read_rf(struct net_device *dev,
- 		pnext++;
- 		if (*pnext != '\0') {
- 			  strtou = simple_strtoul(pnext, &ptmp, 16);
--			  sprintf(extra, "%s %d", extra, strtou);
-+			  sprintf(extra + strlen(extra), " %d", strtou);
- 		} else {
- 			  break;
- 		}
--- 
-2.29.2
-
+greg k-h
