@@ -1,93 +1,259 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DCE3FC0
-	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 18:07:58 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id w6so11625506pll.3
-        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 11:07:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4223FC0
+	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 18:12:00 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id t10so64971813lfd.8
+        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 11:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pathpartnertech.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=IqSMwR4a24hMxIKCSGAPEfZhxYKFpQxhDLhmb/v1kic=;
-        b=lGaqqIVdZjx5cV8e5OybW+DS38hiLCzay1UiikAkJg8Cd2sT2Lj1Fteq27KWe6/pBW
-         99TU/DeuIqc8IkFHgAiHxM8ILsJsMNKMiGNfLGhDd3fghZxixuLfIyLgiHSPcyaosMph
-         8daH7/50//CxeOIf4dWveOo74yFR/ew/WBkjD6lwHaTi6aq4A1Tu0hXYvoaIYPifuw+S
-         jw1Uf6JfUuF0wXy/jh0mOeCMMiEx6MykjYYoKc5Defesnq1IxpcISxr9Z/M4+YlrPz3+
-         Slqj1u/f1EirUmxSBEV0C9LLtKbWDdqGWOnlbt8tBZOrSiCqjMCejI7TX0znftcghjB0
-         4YCQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9hZA8DXDU796DBllGh2WWGpLeIOKX/wCYawIZamWEr4=;
+        b=XIcF64dSuhWpXU4P/tMwGmV8lQvhQX9tGRKgC50NUIq4jcjgk6jyzreRcUc4ijlsPc
+         8ntT1l+mB11fRHg2u+6lR9sjvKVnZZC+YQzpmSYi+kOkFeLf0LgZc+BVTj6MW+qoVP9P
+         v9hPk+NeBy7d+vrDYg4Ok0HgHQN+1dzcA6MUJaqQLxFbKZIJU5EJAd91DOayNweFYUWo
+         8PiI+jxAw0XyEkP9GE8ev6QsPig0p+bopUjkwn1nfNlAhZHU3FpT5qupriLpDVcc9Ipp
+         gc1mYJHjcwhMGsC/RR+v2I8fNLc+UTyr1K9RqPcihY6wmRXqPejmRVX95Dcdud86ue3a
+         MdcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IqSMwR4a24hMxIKCSGAPEfZhxYKFpQxhDLhmb/v1kic=;
-        b=Kr9d1zj4q5A/kTKTNma5wzg3K0pDceYVGIbPGXpQq3hRwoF4NnECvJsUyLJICh1MR1
-         SkEA0d8ioQsd7Qw/02QlaLNDZ/+AB1HMp99LlVa7/5Y0o2FmNYnAwr+BhUc0nWiRptp0
-         SvTwwNt4QBLUH87CGUg16iT19PCa4B2w7kmAnfcZkuIniZl1LTqi9QGSV7SI0nO+G1jq
-         jMNgw0RLD52GGbOudW+RQV4e6n+v+Uy11VR87AGpMalbMfvgCv4sjSgG5sxisdkymSUB
-         EexMU7o1w6/E+lg7JszHk0f9ubAwP3H13zpq3UmtNGwwVJLvhR66vfbgdcyteRdKqRfG
-         KqYg==
-X-Gm-Message-State: AOAM532Tu3y+miZZ8LIgFysS8t/tVoXEPQ2mBcxuOReXIypYcrt0g9Cy
-	Zxe42+Dwsqch9BfHPdd5vqyRYA==
-X-Google-Smtp-Source: ABdhPJwVPpE27E6o3XpzAEQHtvhWnZk0mAbE5+OIGrFfrMv1SidHQPlf67DPYKEz3QForL3HqmbO2g==
-X-Received: by 2002:a17:90b:3447:: with SMTP id lj7mr354324pjb.112.1632161277584;
-        Mon, 20 Sep 2021 11:07:57 -0700 (PDT)
-Received: from sidraya-laptopU ([49.207.203.250])
-        by smtp.gmail.com with ESMTPSA id g15sm2797784pfu.155.2021.09.20.11.07.54
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 20 Sep 2021 11:07:57 -0700 (PDT)
-Date: Mon, 20 Sep 2021 23:37:51 +0530
-From: Sidraya Jayagond <sidraya.bj@pathpartnertech.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, prashanth.ka@pathpartnertech.com,
-	praneeth@ti.com, mchehab@kernel.org, linux-media@vger.kernel.org,
-	praveen.ap@pathpartnertech.com
-Subject: Re: [PATCH 03/30] v4l: vxd-dec: Create vxd_dec Mem Manager helper
- library
-Message-ID: <20210920180749.uibnx6y2ktk4l4jv@sidraya-laptopU>
-References: <20210818141037.19990-1-sidraya.bj@pathpartnertech.com>
- <20210818141037.19990-4-sidraya.bj@pathpartnertech.com>
- <20210824133438.GO1931@kadam>
- <20210914034032.orctp5ov5oc33vag@sidraya-laptopU>
- <YUAmeLYf/fvbCHo3@kroah.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9hZA8DXDU796DBllGh2WWGpLeIOKX/wCYawIZamWEr4=;
+        b=N50cGS5MmGQSzmP+JjKiASGK9Ca5oqPNxaVFG7xs49Gg2lLwTtNrh59MUDOrJFV5oG
+         2EgmRgUCHv2QfHHM5Hn7VTcZ5lf7IGdj8fl5l50kH36MWoAVSeYKmaALBoqWn/9IOyRy
+         iz7WZxlcOvwDtUlZHKtd8CcHFNR8cjfMVxLDz451ACo4LcZVZQRY63FIABBfFZYK1HvN
+         Pi+hrWOeAYXK7on/XBXDcOzV325rND9srTkcwzFjpI53ohvmit/FouyGwZ99LnlgLdRj
+         GuoSOR8RKCrPKAs2Cvp3MAoUOZp1nUn62rUxGM6WhxBqULx4yTqCCaexG0XNywyl6QMq
+         rklw==
+X-Gm-Message-State: AOAM532DvQgTdWa4GkYiFzirUr9Ydwnj/DtzHuFqHSNQytMDAH8pLMEy
+	9H9s2HzHVjC80qUZPb8ZhBw=
+X-Google-Smtp-Source: ABdhPJzgLb+ntOtsBdjSKpDu5pG0fDgi4PQFxcnVU7wR7TnUYidBadrJPisdv9ra5MQ1i8a0c7ZG6g==
+X-Received: by 2002:a05:651c:1b4:: with SMTP id c20mr1178331ljn.484.1632161517564;
+        Mon, 20 Sep 2021 11:11:57 -0700 (PDT)
+Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru. [46.138.151.206])
+        by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.11.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Sep 2021 11:11:57 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Peter Chen <peter.chen@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Nishanth Menon <nm@ti.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-pwm@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Weinberger <richard@nod.at>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Lucas Stach <dev@lynxeye.de>,
+	Stefan Agner <stefan@agner.ch>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	David Heidelberg <david@ixit.cz>
+Subject: [PATCH v12 00/35] NVIDIA Tegra power management patches for 5.16
+Date: Mon, 20 Sep 2021 21:11:10 +0300
+Message-Id: <20210920181145.19543-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUAmeLYf/fvbCHo3@kroah.com>
-User-Agent: NeoMutt/20171215
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 14, 2021 at 06:35:04AM +0200, Greg KH wrote:
-> On Tue, Sep 14, 2021 at 09:10:37AM +0530, Sidraya Jayagond wrote:
-> > This
-> > message contains confidential information and is intended only 
-> > for the
-> > individual(s) named. If you are not the intended
-> > recipient, you are 
-> > notified that disclosing, copying, distributing or taking any
-> > action in 
-> > reliance on the contents of this mail and attached file/s is strictly
-> > prohibited. Please notify the
-> > sender immediately and delete this e-mail 
-> > from your system. E-mail transmission
-> > cannot be guaranteed to be secured or 
-> > error-free as information could be
-> > intercepted, corrupted, lost, destroyed, 
-> > arrive late or incomplete, or contain
-> > viruses. The sender therefore does 
-> > not accept liability for any errors or
-> > omissions in the contents of this 
-> > message, which arise as a result of e-mail
-> > transmission.
-> > 
-> 
-> Now deleted, this is not ok for kernel development mailing lists, sorry.
+This series adds runtime PM support to Tegra drivers and enables core
+voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
 
-We are able resolve and removed confidentiality signature for my
-email-id.
-I apologize for the inconvenience.
+All patches in this series are interdependent and should go via Tegra tree.
+
+Changelog:
+
+v12: - Added r-b from Rob Herring to the host1x binding patch.
+
+     - Added acks from Hans Verkuil to the video decoder patches.
+
+     - In the v11 changelog I forgot to mention that the clk-binding
+       patch was also changed with a corrected regex pattern and removed
+       'clocks' sub-node. This patch needs r-b or ack too.
+
+     - Added new "Rename 3d power domains" patch to match the DT schema
+       naming requirement. Thanks to David Heidelberg for spotting this
+       problem.
+
+     - Replaced #ifdef CONFIG_PM_SLEEP with maybe_unused in the MMC patch
+       to make code cleaner.
+
+v11: - Added acks and r-b from Rob Herring, Mark Brown and Miquel Raynal
+       that were given to v8.
+
+     - Corrected order of the new memory controller reset entry in
+       device-trees and host1x DT binding patch, which was requested by
+       Rob Herring.
+
+     - Switched consumer drivers to use power domain state syncing done
+       by new Tegra's common OPP-initialization helper.
+
+     - Made use of new devm_pm_runtime_enable() helper that was added to
+       v5.15 kernel, where appropriate.
+
+     - Added "fuse: Use resource-managed helpers" patch.
+
+     - Converted Tegra20/30 clk drivers to a proper platform drivers,
+       which was requested by Thierry Reding.
+
+     - Removed clk-bulk API usage from the MMC patch, which was requested
+       by Thierry Reding.
+
+     - Changed CORE power domain name to "core" in a new patch
+       "Change name of core power domain".
+
+     - Misc small fixes for problems that I found since v8, like couple
+       typos in error code paths and restored working RPM for Tegra DRM
+       UAPI v1 that was removed in v8 by accident.
+
+v9-v10: Figured out remaining GENPD API changes with Ulf Hansson and
+        Viresh Kumar. The OPP-sync helper that was used in v8 isn't needed
+        anymore because GENPD API now allows consumer drivers to
+        init rpm_pstate of power domains.
+
+v8: - Added new generic dev_pm_opp_sync() helper that syncs OPP state with
+      hardware. All drivers changed to use it. This replaces GENPD attach_dev
+      callback hacks that were used in v7.
+
+    - Added new patch patch "soc/tegra: regulators: Prepare for suspend"
+      that fixes dying Tegra20 SoC after enabling VENC power domain during
+      resume from suspend. It matches to what downstream kernel does on
+      suspend/resume.
+
+    - After a second thought, I dropped patches which added RPM to memory
+      drivers since hardware is always-on and RPM not needed.
+
+    - Replaced the "dummy host1x driver" patch with new "Disable unused
+      host1x hardware" patch, since it's a cleaner solution.
+
+Dmitry Osipenko (35):
+  opp: Change type of dev_pm_opp_attach_genpd(names) argument
+  soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
+  soc/tegra: pmc: Disable PMC state syncing
+  soc/tegra: Don't print error message when OPPs not available
+  dt-bindings: clock: tegra-car: Document new clock sub-nodes
+  clk: tegra: Support runtime PM and power domain
+  dt-bindings: host1x: Document OPP and power domain properties
+  dt-bindings: host1x: Document Memory Client resets of Host1x, GR2D and
+    GR3D
+  gpu: host1x: Add runtime PM and OPP support
+  gpu: host1x: Add host1x_channel_stop()
+  drm/tegra: dc: Support OPP and SoC core voltage scaling
+  drm/tegra: hdmi: Add OPP support
+  drm/tegra: gr2d: Support generic power domain and runtime PM
+  drm/tegra: gr3d: Support generic power domain and runtime PM
+  drm/tegra: vic: Support system suspend
+  usb: chipidea: tegra: Add runtime PM and OPP support
+  bus: tegra-gmi: Add runtime PM and OPP support
+  pwm: tegra: Add runtime PM and OPP support
+  mmc: sdhci-tegra: Add runtime PM and OPP support
+  mtd: rawnand: tegra: Add runtime PM and OPP support
+  spi: tegra20-slink: Add OPP support
+  media: dt: bindings: tegra-vde: Convert to schema
+  media: dt: bindings: tegra-vde: Document OPP and power domain
+  media: staging: tegra-vde: Support generic power domain
+  soc/tegra: fuse: Reset hardware
+  soc/tegra: fuse: Use resource-managed helpers
+  soc/tegra: regulators: Prepare for suspend
+  soc/tegra: pmc: Rename 3d power domains
+  soc/tegra: pmc: Rename core power domain
+  soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30
+  ARM: tegra: Add OPP tables and power domains to Tegra20 device-trees
+  ARM: tegra: Add OPP tables and power domains to Tegra30 device-trees
+  ARM: tegra: Add Memory Client resets to Tegra20 GR2D, GR3D and Host1x
+  ARM: tegra: Add Memory Client resets to Tegra30 GR2D, GR3D and Host1x
+  ARM: tegra20/30: Disable unused host1x hardware
+
+ .../bindings/clock/nvidia,tegra20-car.yaml    |   37 +
+ .../display/tegra/nvidia,tegra20-host1x.txt   |   53 +
+ .../bindings/media/nvidia,tegra-vde.txt       |   64 -
+ .../bindings/media/nvidia,tegra-vde.yaml      |  119 ++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |    1 +
+ arch/arm/boot/dts/tegra20-colibri.dtsi        |    3 +-
+ arch/arm/boot/dts/tegra20-harmony.dts         |    3 +-
+ arch/arm/boot/dts/tegra20-paz00.dts           |    1 +
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  941 +++++++++++
+ arch/arm/boot/dts/tegra20-seaboard.dts        |    3 +-
+ arch/arm/boot/dts/tegra20-tamonten.dtsi       |    3 +-
+ arch/arm/boot/dts/tegra20-trimslice.dts       |    9 +
+ arch/arm/boot/dts/tegra20-ventana.dts         |    1 +
+ arch/arm/boot/dts/tegra20.dtsi                |  116 +-
+ .../tegra30-asus-nexus7-grouper-common.dtsi   |    1 +
+ arch/arm/boot/dts/tegra30-beaver.dts          |    1 +
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         |    1 +
+ arch/arm/boot/dts/tegra30-colibri.dtsi        |   17 +-
+ arch/arm/boot/dts/tegra30-ouya.dts            |    1 +
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi | 1412 +++++++++++++++++
+ arch/arm/boot/dts/tegra30.dtsi                |  175 +-
+ drivers/bus/tegra-gmi.c                       |   52 +-
+ drivers/clk/tegra/Makefile                    |    1 +
+ drivers/clk/tegra/clk-device.c                |  222 +++
+ drivers/clk/tegra/clk-pll.c                   |    2 +-
+ drivers/clk/tegra/clk-super.c                 |    2 +-
+ drivers/clk/tegra/clk-tegra20.c               |   77 +-
+ drivers/clk/tegra/clk-tegra30.c               |  116 +-
+ drivers/clk/tegra/clk.c                       |   75 +-
+ drivers/clk/tegra/clk.h                       |    2 +
+ drivers/gpu/drm/tegra/dc.c                    |   74 +
+ drivers/gpu/drm/tegra/dc.h                    |    2 +
+ drivers/gpu/drm/tegra/gr2d.c                  |  155 +-
+ drivers/gpu/drm/tegra/gr3d.c                  |  388 ++++-
+ drivers/gpu/drm/tegra/hdmi.c                  |   16 +-
+ drivers/gpu/drm/tegra/vic.c                   |    4 +
+ drivers/gpu/host1x/channel.c                  |    8 +
+ drivers/gpu/host1x/debug.c                    |   15 +
+ drivers/gpu/host1x/dev.c                      |  151 +-
+ drivers/gpu/host1x/dev.h                      |    3 +-
+ drivers/gpu/host1x/hw/channel_hw.c            |   44 +-
+ drivers/gpu/host1x/intr.c                     |    3 -
+ drivers/gpu/host1x/syncpt.c                   |    5 +-
+ drivers/mmc/host/sdhci-tegra.c                |   80 +-
+ drivers/mtd/nand/raw/tegra_nand.c             |   55 +-
+ drivers/opp/core.c                            |    6 +-
+ drivers/pwm/pwm-tegra.c                       |   88 +-
+ drivers/soc/tegra/common.c                    |    4 +-
+ drivers/soc/tegra/fuse/fuse-tegra.c           |   51 +-
+ drivers/soc/tegra/fuse/fuse-tegra20.c         |   33 +-
+ drivers/soc/tegra/fuse/fuse.h                 |    1 +
+ drivers/soc/tegra/pmc.c                       |   27 +-
+ drivers/soc/tegra/regulators-tegra20.c        |   99 ++
+ drivers/soc/tegra/regulators-tegra30.c        |  122 ++
+ drivers/spi/spi-tegra20-slink.c               |   10 +-
+ drivers/staging/media/tegra-vde/vde.c         |   57 +-
+ drivers/usb/chipidea/ci_hdrc_tegra.c          |   53 +-
+ include/linux/host1x.h                        |    1 +
+ include/linux/pm_opp.h                        |    8 +-
+ include/soc/tegra/common.h                    |   24 +
+ 60 files changed, 4741 insertions(+), 357 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt
+ create mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.yaml
+ create mode 100644 drivers/clk/tegra/clk-device.c
+
+-- 
+2.32.0
+
