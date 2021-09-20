@@ -1,41 +1,41 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A8B3FC0
-	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 18:12:02 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id g41so38684652lfv.1
-        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 11:12:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F71A3FC0
+	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 18:12:03 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id u8so19845632lff.9
+        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 11:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=b3yXsdmsWJbu2CaukGByuPBPrpPUHlzf8e1vIPRsAi8=;
-        b=mSz7uU/bRRInYFwuM8f6B84EvUoksh7ddPhtlASBvZ85dgMc6wSlwy9SyUr71eh6Fl
-         8aF/ejqZiLi8ozfYp9/gUV4vYRxtIvgQjgPnZXtQL7Y+v9G9Y+cAaoQ21eYKgU3RZGA1
-         UOWbjyklkTrEUyaLSLrxbDkrvqYVMR0YBcW59uTVr7/Ot83fYGy4c+QiJj/Xy92xKSgB
-         EfV5X85nt0Citt1qMKvG2qkwPH6VuQN5kOywq4zIlYwPZtXGr+a27VopPVnjFYxmMedy
-         4bzfzsT9EaigD80tFXxFOEytgM+rMwHIS7FkhnwqO0rdhVONYqcKyeIkWnAmXAWihsxB
-         g4eQ==
+        bh=+whg/vR1lDDJUCWuilT5Vzp2lbX9lxYPieEOT99+gTQ=;
+        b=a/qXfySr5wgA4w+tyGV7Cd6yjjYVyDUjfCXy3OkQQumZlK+xaznwbHXqtXnrDQ0W+y
+         8A5DTSaLVa+NLa0IRGnfyXOJrEQYVv17xSgrb7F7Ke8DqqmGTmNatrNh/hsIZBvSwZSu
+         L1sUFGr2ldyDuV6Q6rWrhbqx/xwLj1JxYfxmuGx9QmrfEcrbm7apcl3bfRGqQGJ1Mjad
+         fxtvCzG5eMhOL1SZLMNTLXy8fguH2eUl7Ro4DXUryLnlWoV+HWieK38v+DLWTSHZP2i4
+         RPKaxmWcKrSAQ9vKOi8qEbrVVF/wPDVJUqrZoRtFj1lXrCJy9E3azLA9bC2bFfbd8HMd
+         O+ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=b3yXsdmsWJbu2CaukGByuPBPrpPUHlzf8e1vIPRsAi8=;
-        b=Z9tPTyObvWEZhLLuq0j/5nEpf46xZ2zmnJ975DrLlJiPL2bw1CJ9qvIqMeykkBqZa+
-         Y0vvIoGyNuwQfenDqBPc7IIHGmDuAqcALAd2GkLy79cYtZqLQCvy35a/gJ4sSRmmBZWs
-         /Hai5I8D+ymu/KGNSpVJvn66SCrQAvad5BszIBsTUof0wFfj5nCfaiTN6sXIhMxlQwGO
-         0Dsu2mZ57UjUKDXifwbBUkBKhInk0L2jFouBesu4Cs8JpwJRd7GqIf/UxK4N+XIlrxv6
-         69psVukVDXeOv+gAAX313tRPJPT2OsaccHNoEXU2UvNAIt0EAdtCZq3hOZo1kmAT7Y8T
-         wcbA==
-X-Gm-Message-State: AOAM532CdAVYHEgXYkMfZDqd1XiP/5J4vorFY1abVv4TrS41+xY5tNyQ
-	aqCT041nLltv5VA8fd6Zv/M=
-X-Google-Smtp-Source: ABdhPJyyop5T5u9zSJ7UMIl5EYQj77IA6sm5fQ8onwEgRAuSRlsCeH7gqEyvDQr6Gg0QHhoOer317g==
-X-Received: by 2002:a05:6512:3a82:: with SMTP id q2mr20094513lfu.543.1632161520309;
-        Mon, 20 Sep 2021 11:12:00 -0700 (PDT)
+        bh=+whg/vR1lDDJUCWuilT5Vzp2lbX9lxYPieEOT99+gTQ=;
+        b=mw/f3DP+ETI1eMUano2RVsQUhsyfcciaAu+dkqvoXOoqFNRUt6OOLuWbmdrEUFQWYf
+         6mauvt7ClIQIfI6AqWWBQUW0DtepBNV+usEXC/9HTLHWBGGCzuXTsVTo70toic2ixR6Z
+         vqc0B/n4dnosi37xamNKy/Tk3EGU/8OsZpiaKuoTxPXsajpSR13l8SvmvSZ+i9waoUAO
+         RTPAEVYEhm79j3TIbDPiMRV1OD+Mca+dTiCQOscGbqq+fdwHnC+lT4cJyS8H612hLpNm
+         WTznKUE51+CIfM+I9wwBRI1mCBNbZpD1UJwaZ8cau+Bd7XSmn7QwKv02UiTynaJX777+
+         95Cg==
+X-Gm-Message-State: AOAM531wEGDrvbmOT+uzhvKPlwOXtCmZ0pXgRlRyVXYwx3+cCEh3gS2m
+	f44/jH0lgTOMIVLS3xbMC34=
+X-Google-Smtp-Source: ABdhPJx24pELWSIhrH9JQNg/PbatPFdvAEDxhsX/FpmS2QgCUk+yFI3pQvJzv51ELrOPUm2XNsCnEg==
+X-Received: by 2002:a05:6512:33c2:: with SMTP id d2mr17607940lfg.18.1632161521781;
+        Mon, 20 Sep 2021 11:12:01 -0700 (PDT)
 Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru. [46.138.151.206])
-        by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.11.59
+        by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.12.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 11:12:00 -0700 (PDT)
+        Mon, 20 Sep 2021 11:12:01 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Stefan Agner <stefan@agner.ch>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	David Heidelberg <david@ixit.cz>
-Subject: [PATCH v12 02/35] soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
-Date: Mon, 20 Sep 2021 21:11:12 +0300
-Message-Id: <20210920181145.19543-3-digetx@gmail.com>
+Subject: [PATCH v12 03/35] soc/tegra: pmc: Disable PMC state syncing
+Date: Mon, 20 Sep 2021 21:11:13 +0300
+Message-Id: <20210920181145.19543-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210920181145.19543-1-digetx@gmail.com>
 References: <20210920181145.19543-1-digetx@gmail.com>
@@ -83,48 +83,107 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Only couple drivers need to get the -ENODEV error code and majority of
-drivers need to explicitly initialize the performance state. Add new
-common helper which sets up OPP table for these drivers.
+Disable PMC state syncing in order to ensure that we won't break older
+kernels once device-trees will be updated with the addition of the power
+domains. This also allows to apply device-tree PM patches independently
+from the driver patches.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- include/soc/tegra/common.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/soc/tegra/pmc.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/include/soc/tegra/common.h b/include/soc/tegra/common.h
-index af41ad80ec21..5b4a042f60fb 100644
---- a/include/soc/tegra/common.h
-+++ b/include/soc/tegra/common.h
-@@ -39,4 +39,28 @@ devm_tegra_core_dev_init_opp_table(struct device *dev,
- }
- #endif
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 50091c4ec948..fb8faf7b226a 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -360,6 +360,7 @@ struct tegra_pmc_soc {
+ 	unsigned int num_pmc_clks;
+ 	bool has_blink_output;
+ 	bool has_usb_sleepwalk;
++	bool supports_core_domain;
+ };
  
-+/*
-+ * This function should be invoked with the enabled runtime PM of the device
-+ * in order to initialize performance state properly. Most of Tegra devices
-+ * are assumed to be suspended at a probe time and GENPD require RPM to be
-+ * enabled to set up the rpm-resume state, otherwise device is active and
-+ * performance state is applied immediately. Note that it will initialize
-+ * OPP bandwidth if it's wired in a device-tree for this device, which is
-+ * undesirable for a suspended device.
-+ */
-+static inline int
-+devm_tegra_core_dev_init_opp_table_common(struct device *dev)
-+{
-+	struct tegra_core_opp_params opp_params = {};
-+	int err;
+ /**
+@@ -3041,6 +3042,7 @@ static void tegra20_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
+ }
+ 
+ static const struct tegra_pmc_soc tegra20_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = ARRAY_SIZE(tegra20_powergates),
+ 	.powergates = tegra20_powergates,
+ 	.num_cpu_powergates = 0,
+@@ -3101,6 +3103,7 @@ static const char * const tegra30_reset_sources[] = {
+ };
+ 
+ static const struct tegra_pmc_soc tegra30_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = ARRAY_SIZE(tegra30_powergates),
+ 	.powergates = tegra30_powergates,
+ 	.num_cpu_powergates = ARRAY_SIZE(tegra30_cpu_powergates),
+@@ -3157,6 +3160,7 @@ static const u8 tegra114_cpu_powergates[] = {
+ };
+ 
+ static const struct tegra_pmc_soc tegra114_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = ARRAY_SIZE(tegra114_powergates),
+ 	.powergates = tegra114_powergates,
+ 	.num_cpu_powergates = ARRAY_SIZE(tegra114_cpu_powergates),
+@@ -3273,6 +3277,7 @@ static const struct pinctrl_pin_desc tegra124_pin_descs[] = {
+ };
+ 
+ static const struct tegra_pmc_soc tegra124_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = ARRAY_SIZE(tegra124_powergates),
+ 	.powergates = tegra124_powergates,
+ 	.num_cpu_powergates = ARRAY_SIZE(tegra124_cpu_powergates),
+@@ -3398,6 +3403,7 @@ static const struct tegra_wake_event tegra210_wake_events[] = {
+ };
+ 
+ static const struct tegra_pmc_soc tegra210_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = ARRAY_SIZE(tegra210_powergates),
+ 	.powergates = tegra210_powergates,
+ 	.num_cpu_powergates = ARRAY_SIZE(tegra210_cpu_powergates),
+@@ -3555,6 +3561,7 @@ static const struct tegra_wake_event tegra186_wake_events[] = {
+ };
+ 
+ static const struct tegra_pmc_soc tegra186_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = 0,
+ 	.powergates = NULL,
+ 	.num_cpu_powergates = 0,
+@@ -3689,6 +3696,7 @@ static const struct tegra_wake_event tegra194_wake_events[] = {
+ };
+ 
+ static const struct tegra_pmc_soc tegra194_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = 0,
+ 	.powergates = NULL,
+ 	.num_cpu_powergates = 0,
+@@ -3757,6 +3765,7 @@ static const char * const tegra234_reset_sources[] = {
+ };
+ 
+ static const struct tegra_pmc_soc tegra234_pmc_soc = {
++	.supports_core_domain = false,
+ 	.num_powergates = 0,
+ 	.powergates = NULL,
+ 	.num_cpu_powergates = 0,
+@@ -3803,6 +3812,14 @@ static void tegra_pmc_sync_state(struct device *dev)
+ {
+ 	int err;
+ 
++	/*
++	 * Newer device-trees have power domains, but we need to prepare all
++	 * device drivers with runtime PM and OPP support first, otherwise
++	 * state syncing is unsafe.
++	 */
++	if (!pmc->soc->supports_core_domain)
++		return;
 +
-+	opp_params.init_state = true;
-+
-+	err = devm_tegra_core_dev_init_opp_table(dev, &opp_params);
-+	if (err != -ENODEV)
-+		return err;
-+
-+	return 0;
-+}
-+
- #endif /* __SOC_TEGRA_COMMON_H__ */
+ 	/*
+ 	 * Older device-trees don't have core PD, and thus, there are
+ 	 * no dependencies that will block the state syncing. We shouldn't
 -- 
 2.32.0
 
