@@ -1,122 +1,118 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE143FC0
-	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 16:37:55 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id m21so44475349qkm.13
-        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 09:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BKUIuDa3lioYwj9MZ6lMDEtCsGFXka8J1qfR+h8017M=;
-        b=NKrskdfWN0WAOiTgNq/TS/Lif0HqFgj+7S6+Ndm/PekHxHuLWDgv3W7htyv2KlXywN
-         kWeONl9LV3wRd3OVySEspRcoliPbBRO6h6IPmIFyW15OJW1tuZmnU8PieoFtdl9i3BHB
-         N64vglgYcGTxgU5hR1VUbCw73gW2TUNGM0MOLut03dOspRUzDVr0M0ugjgB3+dZavc33
-         8vTN8tprGor08uPumXKlRhUuWVgoEnKii6YJiXkY/w0BfQTFJyTGKhyD/9HkDqJq4e5k
-         AaOBjOkCNJKM0EGkIu6pAzt8NLH2tJkqEhAEpbUl07jps7+aT2tpfwE9rZgEWzx31skI
-         XaUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BKUIuDa3lioYwj9MZ6lMDEtCsGFXka8J1qfR+h8017M=;
-        b=2ZYZcIxEpjm0RkvKlzQSHITizivpVDNvCIOvTAOaoItQEPEK5J0WqF9tcOvN7scDfl
-         8lMBybu93V0C49oFrISdtWTY9ibbTLBlxr6DP+0bra2azPkEFJPMf84d6daYbwWXct66
-         KEYZSZs+7Kr13cZo94bSUnFBTWWPrLWQkvPCQQimXgK4wy5C/VY64FTg13ho2spkuXao
-         PSgsLcufEQraYkCrVZHUINcQmQc6vzmPm7uMLJm1NEHpa+vOYT6KAievyNelTLMvBqgR
-         r9NfU2FU5OakBxr5oFTa3yOcOmywVPEPBn3/lUiKvwe66mPVzJu2jZb6xcq7JC81Gz3T
-         OCPg==
-X-Gm-Message-State: AOAM530GoMiuKx4R/1Ja/uzhAJh4fd7DQx5Nwc7xK9VSg1OEP3+eVC+V
-	1oIIrD0s6RtNvdInWBL8n0Y=
-X-Google-Smtp-Source: ABdhPJx7457/YOz2A/7ARQa6hRfDYJpiXBfHG+CGYmhJaagoF60H55lHrfaZNIAncABqQ8VwL9IFOw==
-X-Received: by 2002:a37:9b43:: with SMTP id d64mr4250565qke.111.1632155874981;
-        Mon, 20 Sep 2021 09:37:54 -0700 (PDT)
-Received: from Zachary-Arch ([128.211.185.212])
-        by smtp.gmail.com with ESMTPSA id e22sm9090215qte.57.2021.09.20.09.37.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 09:37:54 -0700 (PDT)
-Date: Mon, 20 Sep 2021 09:37:53 -0700
-From: Zachary Mayhew <zacklukem.kernel@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@lists.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: add docs for fbtft_write_spi()
-Message-ID: <YUi44c1mlkZR14v4@Zachary-Arch.localdomain>
-References: <20210920152601.170453-1-zacklukem.kernel@gmail.com>
- <YUiq9iDGLN6+5+rd@kroah.com>
- <YUixsZQ/J0dPfJqj@Zachary-Arch.localdomain>
- <YUi0coGlTkQ0C5Rm@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80B83FC0
+	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 17:02:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E4F0661A8B;
+	Mon, 20 Sep 2021 17:02:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1632157348;
+	bh=GRhJGOE30nH8bfCQst7rI7i6KlEzDKNJgdHyLz+qXcc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=FrwlBhvPx8oIVmORd3LhHuWCv7OIyyFfnHyZES2VLW3Rp/8x5P9XMa1OrLjBDlkV6
+	 +ljN17/U/HyILnP0H6H4fJM42BZCuZXMROhm5UhIi0oDgFAkXod1CcA453Ks7afnNF
+	 KQzrqd+aAWDSLKWWqnS3UEwiicBMaA8mEmsVMDf4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Kees Cook <keescook@chromium.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.14 167/217] staging: rts5208: Fix get_ms_information() heap buffer size
+Date: Mon, 20 Sep 2021 18:43:08 +0200
+Message-Id: <20210920163930.296953471@linuxfoundation.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210920163924.591371269@linuxfoundation.org>
+References: <20210920163924.591371269@linuxfoundation.org>
+User-Agent: quilt/0.66
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YUi0coGlTkQ0C5Rm@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 20, 2021 at 06:18:58PM +0200, Greg KH wrote:
-> On Mon, Sep 20, 2021 at 09:07:13AM -0700, Zachary Mayhew wrote:
-> > On Mon, Sep 20, 2021 at 05:38:30PM +0200, Greg KH wrote:
-> > > On Mon, Sep 20, 2021 at 08:26:03AM -0700, Zachary Mayhew wrote:
-> > > > Subject: [PATCH] staging: fbtft: add docs for fbtft_write_spi()
-> > > 
-> > > Odd, this shouldn't be in the body of the email :(
-> > > 
-> > > > 
-> > > > This patch adds documentation for fbtft_write_spi() to make its
-> > > > calling context clear and explain what it does.
-> > > > 
-> > > > Signed-off-by: Zachary Mayhew <zacklukem.kernel@gmail.com>
-> > > > ---
-> > > >  drivers/staging/fbtft/fbtft-io.c | 13 +++++++++++++
-> > > >  1 file changed, 13 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/staging/fbtft/fbtft-io.c b/drivers/staging/fbtft/fbtft-io.c
-> > > > index de1904a443c2..985d7cf8c774 100644
-> > > > --- a/drivers/staging/fbtft/fbtft-io.c
-> > > > +++ b/drivers/staging/fbtft/fbtft-io.c
-> > > > @@ -5,6 +5,19 @@
-> > > >  #include <linux/spi/spi.h>
-> > > >  #include "fbtft.h"
-> > > >  
-> > > > +/**
-> > > > + * fbtft_write_spi() - write data to current spi
-> > > > + * @par: Driver data including driver &struct spi_device
-> > > > + * @buf: Buffer to write to spi
-> > > > + * @len: Length of the buffer
-> > > > + * Context: can sleep
-> > > > + *
-> > > > + * Builds an &struct spi_transfer and &struct spi_message object based on the
-> > > > + * given @buf and @len.  These are then used in a call to spi_sync() which will
-> > > > + * write to the spi.
-> > > > + *
-> > > > + * Return: zero on success or else a negative error code
-> > > > + */
-> > > >  int fbtft_write_spi(struct fbtft_par *par, void *buf, size_t len)
-> > > >  {
-> > > >  	struct spi_transfer t = {
-> > > > -- 
-> > > > 2.33.0
-> > > > 
-> > > > 
-> > > 
-> > > Is this file being imported into the kernel doc tools?  If so, great, if
-> > > not, this isn't going to help out all that much, right?
-> > 
-> > It doesn't appear to be imported at this time, as such it may not be
-> > necessary.
-> 
-> So is this change needed?
+From: Kees Cook <keescook@chromium.org>
 
-No it isn't.  Sorry for the trouble :)
+[ Upstream commit cbe34165cc1b7d1110b268ba8b9f30843c941639 ]
 
-> 
-> thanks,
-> 
-> greg k-h
+Fix buf allocation size (it needs to be 2 bytes larger). Found when
+__alloc_size() annotations were added to kmalloc() interfaces.
 
-Thanks
--Zachary Mayhew
+In file included from ./include/linux/string.h:253,
+                 from ./include/linux/bitmap.h:10,
+                 from ./include/linux/cpumask.h:12,
+                 from ./arch/x86/include/asm/paravirt.h:17,
+                 from ./arch/x86/include/asm/irqflags.h:63,
+                 from ./include/linux/irqflags.h:16,
+                 from ./include/linux/rcupdate.h:26,
+                 from ./include/linux/rculist.h:11,
+                 from ./include/linux/pid.h:5,
+                 from ./include/linux/sched.h:14,
+                 from ./include/linux/blkdev.h:5,
+                 from drivers/staging/rts5208/rtsx_scsi.c:12:
+In function 'get_ms_information',
+    inlined from 'ms_sp_cmnd' at drivers/staging/rts5208/rtsx_scsi.c:2877:12,
+    inlined from 'rtsx_scsi_handler' at drivers/staging/rts5208/rtsx_scsi.c:3247:12:
+./include/linux/fortify-string.h:54:29: warning: '__builtin_memcpy' forming offset [106, 107] is out
+ of the bounds [0, 106] [-Warray-bounds]
+   54 | #define __underlying_memcpy __builtin_memcpy
+      |                             ^
+./include/linux/fortify-string.h:417:2: note: in expansion of macro '__underlying_memcpy'
+  417 |  __underlying_##op(p, q, __fortify_size);   \
+      |  ^~~~~~~~~~~~~
+./include/linux/fortify-string.h:463:26: note: in expansion of macro '__fortify_memcpy_chk'
+  463 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,   \
+      |                          ^~~~~~~~~~~~~~~~~~~~
+drivers/staging/rts5208/rtsx_scsi.c:2851:3: note: in expansion of macro 'memcpy'
+ 2851 |   memcpy(buf + i, ms_card->raw_sys_info, 96);
+      |   ^~~~~~
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Link: https://lore.kernel.org/r/20210818044252.1533634-1-keescook@chromium.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/staging/rts5208/rtsx_scsi.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
+index a401b13f5f5e..c46ac0e5e852 100644
+--- a/drivers/staging/rts5208/rtsx_scsi.c
++++ b/drivers/staging/rts5208/rtsx_scsi.c
+@@ -3026,10 +3026,10 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	}
+ 
+ 	if (dev_info_id == 0x15) {
+-		buf_len = 0x3A;
++		buf_len = 0x3C;
+ 		data_len = 0x3A;
+ 	} else {
+-		buf_len = 0x6A;
++		buf_len = 0x6C;
+ 		data_len = 0x6A;
+ 	}
+ 
+@@ -3081,11 +3081,7 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	}
+ 
+ 	rtsx_stor_set_xfer_buf(buf, buf_len, srb);
+-
+-	if (dev_info_id == 0x15)
+-		scsi_set_resid(srb, scsi_bufflen(srb) - 0x3C);
+-	else
+-		scsi_set_resid(srb, scsi_bufflen(srb) - 0x6C);
++	scsi_set_resid(srb, scsi_bufflen(srb) - buf_len);
+ 
+ 	kfree(buf);
+ 	return STATUS_SUCCESS;
+-- 
+2.30.2
+
+
+
