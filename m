@@ -1,41 +1,41 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511B43FC0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF9E3FCA
 	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 18:12:38 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id i4so71811477lfv.4
+Received: by mail-lf1-f53.google.com with SMTP id e15so32428770lfr.10
         for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 11:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=myD2habKvt7RXAHJbtKPfyU4WLnqnb1bLB54hjelw1E=;
-        b=Wwh5Bp61loEgevDUFcsNB1xPMhR1XTpK+N5ivwKy3o+MQreoLkBZiSjBr1jHTPesp/
-         y/RfPU1kIhmHBS4vZnv1ofR8MSrfOTaVskrC+CjJ/iyi3SBAtlMhN/5K8QIbifnjOkuu
-         Dh97HFATcsIjwx7rWqSro8j+RixDozr05vXauDn4codyUtrpkPAL8OacgXCjMiw9sU6H
-         hrJ4bNYPWROFg+PHVRJTKZ6aEWK/3UsIAIkJtdyUrIhQx3KUJx5sHmCOuzEu7Je3Fd8E
-         k+UQaoNQXUCMSbxKpQfnFFK1bid7z+ov06RC5SgaW3u6UB/EwwGVRrTWh9dh9YT+vmxe
-         5cHQ==
+        bh=3cNnrDCgyIBL/irFJrBQOLNlmfmIoiosnZsoOoMlXuE=;
+        b=Yw1w3MbC5k7IwOn9x5OTHcYwRtwR40Vn1tYr+38jcmf/34n9b3/5Yu8db7KTf8KfJn
+         6plmmWGXUWByLqSrt1gOqTq7SLIKjyeysN8Iu+x4I6amZoLrBjnHVzVs4PsVbPfHpfNn
+         AAwq8IylOkPVDvkSSi2xqOvwyj5ItVlmIGzrnBITswcKw5+yHyxp1rZW3MLyHmDglXaA
+         sdtQetdm+kodIkce+g94RsuF08NMxDVwhzgeKTWk/FTCVfXILiCZdO08lPJkRPJ10+Ya
+         gc2sV/Cr6NAHGRP8ICaP1v5MLpsnak4WMvX1hLawyL2Qc4oiLMTiwdXhXBKjfzEMmEcm
+         6U0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=myD2habKvt7RXAHJbtKPfyU4WLnqnb1bLB54hjelw1E=;
-        b=JO6BS1ftoKPKFH7ccnNEMqL700TOO3ZHWCtdRX9vCdeigGKBvawRcOwi6kNfFGO/GF
-         XNChjKF3dGfo7TF7akCTrSkU0FBziCylPS/LadDO/bqUzx5br0RsnKOMMyE+8PTH77Hj
-         PCS6K+7WCEsAVKanJXQduZdJlpZJZNyw/RBmKfyXplsaSelQfdIDIi1O+v14dWh/vAtO
-         5z0JzFbDbKM3mwEIBwMB4wDwamYUcD/UW3nfSiNXlev8mHGZcg2qZYHzjyqljceTiAnZ
-         DsPpdAtrvQIwCPdsV5jH+7Hw9Wwca320dw5mPf7YNdEBJzfMqEDhO1SOPtwzqhlmkYBl
-         ucpw==
-X-Gm-Message-State: AOAM530mpVxuKq6kbzm6t4KTWRCxzAw6F+rICWCYYWp01XgiK7X9WqIl
-	9s6M0PeCgb7WlHevxvgmm0Q=
-X-Google-Smtp-Source: ABdhPJx0jdF0TRfniBGFptMPciVnLNS38vWQMz2X5dyyfZ8CmknMYMYEDaHex2CJkph6/kiivPojgA==
-X-Received: by 2002:a2e:2243:: with SMTP id i64mr16693903lji.333.1632161556519;
-        Mon, 20 Sep 2021 11:12:36 -0700 (PDT)
+        bh=3cNnrDCgyIBL/irFJrBQOLNlmfmIoiosnZsoOoMlXuE=;
+        b=WxMplQoqxbzGutCmHaa80xjq6iim8LFWZJnu6dV6DzgoLVRYMWbm7wH4YU/tsJ5f8E
+         nBhETydYPx1eCwEABk1/I5doTcWLlp0SrL05kb9Dz2zBOr2tclOYH6yDJzwWtgF2tMtF
+         GHkipYRbDKSl9fHhug/N0R9Rodng9yE9stfOygDEqT66WeXtYaIo9B86w7cS92eP2OLl
+         N3vLqIvPMbHTBDZXpYFxi8NE+w4ZCEyJQNQ6XfQnM6SqPqFJ4Y+Z44IMbDF7eA41K6mt
+         RoZXffytvkVrgwV52l+dLlaUGdF72H1Rm3xvjpLIiGyvad+nLbVIbimrkjBbC/1K+efP
+         W5Hw==
+X-Gm-Message-State: AOAM53310IJVJa7KRj7vL4HufTIqKk+TchPViW22v37ucpI7IJyZ0NBS
+	cX/G0GwovY6zGt9EWHfrXnI=
+X-Google-Smtp-Source: ABdhPJylByjO84Stsx9/ViAqL+H/onA2LwTouIfPv9E7JOFSK+y2mzq6tqkieMfV3MTDPRXOzy/rkg==
+X-Received: by 2002:a05:6512:3995:: with SMTP id j21mr711969lfu.452.1632161555252;
+        Mon, 20 Sep 2021 11:12:35 -0700 (PDT)
 Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru. [46.138.151.206])
-        by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.12.35
+        by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.12.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 11:12:36 -0700 (PDT)
+        Mon, 20 Sep 2021 11:12:35 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Stefan Agner <stefan@agner.ch>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	David Heidelberg <david@ixit.cz>
-Subject: [PATCH v12 29/35] soc/tegra: pmc: Rename core power domain
-Date: Mon, 20 Sep 2021 21:11:39 +0300
-Message-Id: <20210920181145.19543-30-digetx@gmail.com>
+Subject: [PATCH v12 28/35] soc/tegra: pmc: Rename 3d power domains
+Date: Mon, 20 Sep 2021 21:11:38 +0300
+Message-Id: <20210920181145.19543-29-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210920181145.19543-1-digetx@gmail.com>
 References: <20210920181145.19543-1-digetx@gmail.com>
@@ -83,27 +83,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-CORE power domain uses name of device-tree node, which is inconsistent with
-the names of PMC domains. Set the name to "core" to make it consistent.
+Device-tree schema doesn't allow domain name to start with a number.
+We don't use 3d domain yet in device-trees, so rename it to the name
+used by Tegra TRMs: TD, TD2.
 
+Reported-by: David Heidelberg <david@ixit.cz>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soc/tegra/pmc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 6759f19b9cd6..3e52ceada60c 100644
+index fb8faf7b226a..6759f19b9cd6 100644
 --- a/drivers/soc/tegra/pmc.c
 +++ b/drivers/soc/tegra/pmc.c
-@@ -1353,7 +1353,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
- 	if (!genpd)
- 		return -ENOMEM;
+@@ -2964,7 +2964,7 @@ static SIMPLE_DEV_PM_OPS(tegra_pmc_pm_ops, tegra_pmc_suspend, tegra_pmc_resume);
  
--	genpd->name = np->name;
-+	genpd->name = "core";
- 	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
- 	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
+ static const char * const tegra20_powergates[] = {
+ 	[TEGRA_POWERGATE_CPU] = "cpu",
+-	[TEGRA_POWERGATE_3D] = "3d",
++	[TEGRA_POWERGATE_3D] = "td",
+ 	[TEGRA_POWERGATE_VENC] = "venc",
+ 	[TEGRA_POWERGATE_VDEC] = "vdec",
+ 	[TEGRA_POWERGATE_PCIE] = "pcie",
+@@ -3072,7 +3072,7 @@ static const struct tegra_pmc_soc tegra20_pmc_soc = {
  
+ static const char * const tegra30_powergates[] = {
+ 	[TEGRA_POWERGATE_CPU] = "cpu0",
+-	[TEGRA_POWERGATE_3D] = "3d0",
++	[TEGRA_POWERGATE_3D] = "td",
+ 	[TEGRA_POWERGATE_VENC] = "venc",
+ 	[TEGRA_POWERGATE_VDEC] = "vdec",
+ 	[TEGRA_POWERGATE_PCIE] = "pcie",
+@@ -3084,7 +3084,7 @@ static const char * const tegra30_powergates[] = {
+ 	[TEGRA_POWERGATE_CPU2] = "cpu2",
+ 	[TEGRA_POWERGATE_CPU3] = "cpu3",
+ 	[TEGRA_POWERGATE_CELP] = "celp",
+-	[TEGRA_POWERGATE_3D1] = "3d1",
++	[TEGRA_POWERGATE_3D1] = "td2",
+ };
+ 
+ static const u8 tegra30_cpu_powergates[] = {
+@@ -3133,7 +3133,7 @@ static const struct tegra_pmc_soc tegra30_pmc_soc = {
+ 
+ static const char * const tegra114_powergates[] = {
+ 	[TEGRA_POWERGATE_CPU] = "crail",
+-	[TEGRA_POWERGATE_3D] = "3d",
++	[TEGRA_POWERGATE_3D] = "td",
+ 	[TEGRA_POWERGATE_VENC] = "venc",
+ 	[TEGRA_POWERGATE_VDEC] = "vdec",
+ 	[TEGRA_POWERGATE_MPE] = "mpe",
 -- 
 2.32.0
 
