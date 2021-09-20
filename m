@@ -1,17 +1,17 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA423FC0
-	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 17:12:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B8C5961352;
-	Mon, 20 Sep 2021 17:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5663FC0
+	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 17:20:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C37A163271;
+	Mon, 20 Sep 2021 17:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632157940;
-	bh=A5j40hBeOa+S/CWU9wfHang6QqKX1n9X4A6eC31b2Do=;
+	s=korg; t=1632158408;
+	bh=wT3iu+1KsIblfmC2Xxu1rpoOWJc5iroPFIXC6zv3PRM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NhDinvsjHpLCai+YwHWO0WQmOInh93rl3OX/KHO9Sn0ZhKUa5HbFGcpzXJc24k8bY
-	 uqXJ0fnxBih9BcxgSoFcIm2V5/3jPjxy3Q8kbZ1kFuEgW+8T2NT5FquVyB0kr2qlUO
-	 TKHfVsvcXXUlyiwP5Q/RI4TfNA91UG9JgsdcW+Tc=
+	b=gOf1SshME/MYJWgKyXCfHbdX6u25gmmxf0H50kDPu7W8JVUXrlq3KeakYxpOTB+Ab
+	 FQPV6V76jf33cUjYKuwIYmrHhF/JoGp39ZgRAFxuB1OglYM8JG2BtPMkJHWDEZO6Wg
+	 oGVwCcTAnjNN38Ukj0+QJ91NpkrsYkO6pPmfZzlc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -19,12 +19,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	Kees Cook <keescook@chromium.org>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 222/293] staging: rts5208: Fix get_ms_information() heap buffer size
-Date: Mon, 20 Sep 2021 18:43:04 +0200
-Message-Id: <20210920163940.986021614@linuxfoundation.org>
+Subject: [PATCH 5.4 142/260] staging: rts5208: Fix get_ms_information() heap buffer size
+Date: Mon, 20 Sep 2021 18:42:40 +0200
+Message-Id: <20210920163935.938853168@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210920163933.258815435@linuxfoundation.org>
-References: <20210920163933.258815435@linuxfoundation.org>
+In-Reply-To: <20210920163931.123590023@linuxfoundation.org>
+References: <20210920163931.123590023@linuxfoundation.org>
 User-Agent: quilt/0.66
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rts5208/rtsx_scsi.c b/drivers/staging/rts5208/rtsx_scsi.c
-index c9a6d97938f6..68889d082c3c 100644
+index 1deb74112ad4..11d9d9155eef 100644
 --- a/drivers/staging/rts5208/rtsx_scsi.c
 +++ b/drivers/staging/rts5208/rtsx_scsi.c
-@@ -2841,10 +2841,10 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+@@ -2802,10 +2802,10 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
  	}
  
  	if (dev_info_id == 0x15) {
@@ -98,7 +98,7 @@ index c9a6d97938f6..68889d082c3c 100644
  		data_len = 0x6A;
  	}
  
-@@ -2895,11 +2895,7 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+@@ -2855,11 +2855,7 @@ static int get_ms_information(struct scsi_cmnd *srb, struct rtsx_chip *chip)
  	}
  
  	rtsx_stor_set_xfer_buf(buf, buf_len, srb);
