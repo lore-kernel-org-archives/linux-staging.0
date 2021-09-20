@@ -1,169 +1,113 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADCF3FC5
-	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 13:54:55 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id v5so60931254edc.2
-        for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 06:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ago48Rpx2s0FA5kJM2lxWBXF4wmn4ZxkGTX5NYeA3xk=;
-        b=OPkpOlpOI0cKLBaZYHDxS5Py1PuZu0k9JisRRpyo8vUabXajREiZLRibhylW7O3Cvq
-         3fn2zYtJK9ZBJdYV4YlCWyPc8DUbMnWQcvRG3NiiGKjzKRwrrpKeijd890S7p2wsB0Ia
-         k34Y6FPCxptuEp+OH4m3ROhDoG2pdIlMKoYZs2PvfOXdl2GBs3Bli3e9yVygpmFp2qEm
-         Rz+ocAWrHEu9RaBFgRZDvJRypyDiKD3B4ZuSXF2E+Xl//WC+9lK/0lD/YtHcbFjapkUC
-         k0gwCVVlsPjvI8/N5tjp+1+MtnXDCTXpHF8jtSkPm0yZJcUPaEnxcXDJZXwc6st9m9yD
-         Y3NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ago48Rpx2s0FA5kJM2lxWBXF4wmn4ZxkGTX5NYeA3xk=;
-        b=AxkORqzj9L3ig290/oTEzQhHbAuI3NofWVMMZrC8T971ZFg9VYlugGvzcaOoBOoSs3
-         mwocILrzwZKFkmQ9dvA4pVS6ZDczuFTK0W86xzko5LhAaPVH+n2kaSN8DNr2FA0RoTNB
-         HGjUOkpqYU79PApRcCd9opYMmsDk465AOJtHUCovYUknxPdZnkUJfvCQQvOvTynRQpER
-         UHGcmafpdS7X1UXTk3C00ZCt67Q7xetukB3z8aFBD+DcRnpZsEon+BNUt3LXzdgeV83r
-         geh6SOXR5pXJoFhzb4EQ8RVr0rboiDfD+q9OUC4E73vHdwpMWo/REO6tCBGzb83gbGbW
-         g6SQ==
-X-Gm-Message-State: AOAM533ekB7/zE7zfGjvgGLW7n1BpJE3mdFzgHPCOyhV1LQv91hXnY67
-	z8Nl2kdGs0hBpXb2RPKBDus=
-X-Google-Smtp-Source: ABdhPJxmvsfS6nF71sy4H20g5P+EHRJ8FhgIDIgsmqdKioEvCUqqVZGrI7X4kqPxJxIWjRu5M9c/lg==
-X-Received: by 2002:a50:d581:: with SMTP id v1mr29488085edi.210.1632146056206;
-        Mon, 20 Sep 2021 06:54:16 -0700 (PDT)
-Received: from localhost.localdomain (host-79-47-104-104.retail.telecomitalia.it. [79.47.104.104])
-        by smtp.gmail.com with ESMTPSA id t14sm6168932ejf.24.2021.09.20.06.54.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Sep 2021 06:54:15 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Saurav Girepunje <saurav.girepunje@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, saurav.girepunje@hotmail.com, Larry.Finger@lwfinger.net, phil@philpotter.co.uk, straube.linux@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: core: remove the function power_saving_wk_hdl
-Date: Mon, 20 Sep 2021 15:54:14 +0200
-Message-ID: <3091070.onRVGqex5P@localhost.localdomain>
-In-Reply-To: <20210920123910.GQ2088@kadam>
-References: <YTub30ZRG3oLbxQW@user> <2311011.CixZWWR6MO@localhost.localdomain> <20210920123910.GQ2088@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C963FC5
+	for <linux-staging@lists.linux.dev>; Mon, 20 Sep 2021 14:06:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A34B8610A3;
+	Mon, 20 Sep 2021 14:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1632146766;
+	bh=+wCLe94ow4O2NdpwryQt7Y9C0yMng8j8FqCzsNFHPsU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MXVI1U8qU5maKFZu2N3gXvnQuB/Dx4NXUCTVU3D/HvArcYKgasn4I9gsDwSscVau5
+	 +wCBdc4BrPaeLbG82EeRopHdtoYFGUlgnDeD8Z3jZZnYmm+bigeSQwg9Lt1TYBwFIb
+	 YwsH6PUHob2I61OCrDdfrBGpvqnbuEY6iig4eDLU=
+Date: Mon, 20 Sep 2021 16:06:03 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	David Laight <david.Laight@aculab.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: Re: [PATCH v8 00/19] staging: r8188eu: shorten and simplify calls
+ chains
+Message-ID: <YUiVS1LUrUoaZF8h@kroah.com>
+References: <20210919235356.4151-1-fmdefrancesco@gmail.com>
+ <YUh2vtxNxNBmpKHQ@kroah.com>
+ <17555679.WE2PrEGejU@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <17555679.WE2PrEGejU@localhost.localdomain>
 
-On Monday, September 20, 2021 2:39:10 PM CEST Dan Carpenter wrote:
-> On Mon, Sep 20, 2021 at 02:31:28PM +0200, Fabio M. De Francesco wrote:
-> > On Monday, September 20, 2021 1:32:21 PM CEST Dan Carpenter wrote:
-> > > On Mon, Sep 20, 2021 at 01:13:54PM +0200, Fabio M. De Francesco wrote:
-> > > > On Monday, September 20, 2021 12:36:06 PM CEST Greg KH wrote:
-> > > > > On Sat, Sep 18, 2021 at 10:52:50PM +0530, Saurav Girepunje wrote:
-> > > > > > 
-> > > > > > 
-> > > > > > On 13/09/21 9:48 pm, Greg KH wrote:
-> > > > > > > On Fri, Sep 10, 2021 at 11:24:39PM +0530, Saurav Girepunje 
-wrote:
-> > > > > > > > Remove the function power_saving_wk_hdl() as it just calling
-> > > > > > > > the rtw_ps_processor().Instead of power_saving_wk_hdl() call 
-> > directly
-> > > > > > > > rtw_ps_processor().
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> > > > > > >
-> > > > > > > []
-> > > > > > > 
-> > > > > > > Also does not apply to my tree.  Please rebase against my 
-staging-
-> > next
-> > > > > > > branch and resend.
-> > > > > > > 
-> > > > > > > thanks,
-> > > > > > > 
-> > > > > > > greg k-h
-> > > > > > > 
-> > > > > > 
-> > > > > > Hi Greg,
-> > > > > > 
-> > > > > > I always do rebase against your staging-testing branch. Can you 
-help 
-> > me 
-> > > > to
-> > > > > > understand.When we need to rebase on staging-next. Do we always 
-need 
-> > to
-> > > > > > rebase against staging-next..!
-> > > > > 
-> > > > > Yes, you should.  When you are working on code that lots of other 
-> > people
-> > > > > are working on, there will be conflicts like this, and you just 
-need to
-> > > > > stay on top of it.
-> > > > > 
-> > > > > thanks,
-> > > > > 
-> > > > > greg k-h
-> > > > > 
-> > > > 
-> > > > Sorry, Greg. I'm confused... :(
-> > > > 
-> > > > As far as I know, everyone here make patches for staging-testing.
+On Mon, Sep 20, 2021 at 03:44:53PM +0200, Fabio M. De Francesco wrote:
+> On Monday, September 20, 2021 1:55:42 PM CEST Greg Kroah-Hartman wrote:
+> > On Mon, Sep 20, 2021 at 01:53:37AM +0200, Fabio M. De Francesco wrote:
+> > > --- Preface ---
 > > > 
-> > > Nope.  It's only you.
+> > > This is v8 of "shorten and simplify calls chain". The first 14 patches
+> > > have already been applied to staging-testing, so we have been requested
+> > > to reset the numbering of the remaining patches to 01/19, while 
+> discarding
+> > > from this new submission the above-mentioned 14 patches (otherwise we 
+> would 
+> > > have submitted a series containing 33 patches).
+> > > 
+> > > The following commit message is provided as it was in v7, both for the 
+> > > purpose of presenting the whole picture to Maintainers, Reviewers, and to 
+> > > anybody else who may be interested in knowing the entire design and the
+> > > evolution since v1 to the current v8.
+> > > 
+> > > --- Commit message ---
+> > > 
+> > > io_ops abstraction is useless in this driver, since there is only one ops
+> > > registration. Without io_ops we can get rid of indirect calls mess and
+> > > shorten the calls chain.
+> > > 
+> > > Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+> > > For this purpose unify the three usb_read8/16/32 into the new
+> > > usb_read(); make the latter parameterizable with 'size'; embed most of
+> > > the code of usbctrl_vendorreq() into usb_read() and use in it the new
+> > > usb_control_msg_recv() API of USB Core.
+> > > 
+> > > Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+> > > For this purpose unify the four usb_write8/16/32/N() into the new
+> > > usb_write(); make the latter parameterizable with 'size'; embed most of
+> > > the code of usbctrl_vendorreq() into usb_write() and use in it the new
+> > > usb_control_msg_send() API of USB Core.
+> > > 
+> > > The code with the modifications was thoroughly tested by Pavel Skripkin
+> > > using a TP-Link TL-WN722N v2 / v3 [Realtek RTL8188EUS] and by Fabio M.
+> > > De Francesco using a ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 
+> Nano].
+> > > 
+> > > --- Changelog ---
+> > > 
+> > > v7->v8 (old numbering):
+> > > 	- 1-14:
+> > > 		Patches applied to staging-testing, so they are 
+> dropped
+> > > 		from the current v8;
+> > > 
+> > > 	- 15-19:
+> > > 		Split into 19 patches. Numbering reset to 01. After 
+> this
+> > > 		reset, 15-19/19 become 01-19/19 (so we have a total of 
+> 33
+> > > 		patches in this series. 
 > > 
-> > And Saurav (at least) :)
-> > 
+> > Better, still needs a bit more work.  I took 2 of these to shorten your
+> > load a bit :)
+> >
+> Thanks, Greg. I've already seen that you took those other 2 from the series. 
+> We are about half way to destination: 14 + 2 already taken. :)
 > 
-> Nope.  Saurav is working against something old.  You can see the
-> #ifdef CONFIG_88EU_P2P stuff that was removed in commit 102243f893ec
-> ("staging: r8188eu: Remove conditionals CONFIG_88EU_{AP_MODE,P2P}") was
-> applied.
+> I've not replied to the other messages of yours because they are easy to 
+> understand, fix or change commit messages, and resend as v9.
 > 
+> Instead I'm replying to this particular message because I'm not able to see 
+> where "a bit more work" is needed.
 
-Oh, I didn't notice that he was working against something old. 
+The "bit more work" was my review comments on the patches.
 
-My attention was drawn only by the fact that Greg talked about staging-next, 
-while I was expecting something like "please rebase and resend against my 
-current staging-testing".
+thanks,
 
-> > I've been misled and in turn I misled Pavel. This is due to a guide in 
-> > kernelnewbies.org that explicitly says to use staging-testing:
-> > 
-> > https://kernelnewbies.org/OutreachyfirstpatchSetup
-> > 
-> > In that page the is a section ("Set up your Linux kernel code 
-repository") 
-> > which says: "[] Then use the revision control system called git to clone 
-Greg 
-> > Kroah-Hartman's staging tree repository: git clone -b staging-testing 
-git://
-> > git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git".
-> > 
-> 
-> Huh...
-> 
-> Those aren't *bad* instructions.  Working against testing-next is fine,
-> but just be aware that it can rebase.
-
-Good to know. For what the series Pavel and I submitted we'll complete our 
-work, that is sending v9, against current staging-testing. I suppose we'd 
-better stay consistent.
-
-For new work, since you make notice that we have to "be aware that it 
-[staging-testing] can rebase", we'll switch to staging-next.
-
-Thanks for pointing this out.
-
-Regards,
-
-Fabio 
-
-> 
-> regards,
-> dan carpenter
-> 
-> 
-
-
-
-
+greg k-h
