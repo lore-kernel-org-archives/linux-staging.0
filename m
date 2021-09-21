@@ -1,116 +1,79 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146BD72
-	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 07:02:26 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id u15so36159056wru.6
-        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 00:02:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B7B72
+	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 07:34:25 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id 17so19924000pgp.4
+        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 00:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=fusWwRhGhDwMDvQIF2rL+xIXyvzxwvV+7P1DjBX2OMs=;
-        b=17ypAGfGNToM0JSjgeiOeGU851YZP0qvqVdPT5/wmSGdUXJ3vAdN4BAOh9A7cDHB5a
-         AnweVmVoZRkGEn+GBVrYIQJd5My/8znNb84Dvybfp4W0w9vScptNps5QF4U38ECx8tco
-         2CUiLk/agsteCVIQEkd6qe8/ZujmvYC530UJdreb3wyzUMUX856xFPlfx76NWSoFwnG1
-         TJ/Ec8u3HAEpAo2vhZp3kkGaHNZllUxLafsuh5no2ljfi6wB0kQS2njBg3M1W6AX7AaO
-         aSE5wCot9OdHYI6j7SWUcVGhTfLuNKk3qPN4/rl2YtlAcak1FryT5nuJWc9hr7UMCrut
-         ETNA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9fj7HOMTAEjrvCtbYb+Vzu40lpj7JG3HNn+Dw24QDhE=;
+        b=XiHW8y8HiRKWE4MjzdMcGMKrnLNUm/2DxA23Rwjpv/Y2uyPKsGHVF9SKjyTZVOVt3u
+         tgiuas0utFrWqv82kSL92lTElSNbMUhfilYsigMBE4gg4Z+0qqWEcJaE36vLVbqHK8EU
+         S1mlWNz3aV+xpcH30RxiKwXEaOaqo3/wPwL3KA/pY83VxwI+4t5uXrCmDwDDf2kue1m9
+         S3Bj+0XGOPmuNxVCcr+oCUFw3V+P9n4DG2NPHtEPKcMJuRfjiqK/j+vzSlmyX3xhnvbM
+         HCpYgs68zPF3esI/eCuWrEfgdERS/P/6D0XZNFlIzjRMzIHHSTB4MVAM0KLay/cFcNOQ
+         RdJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fusWwRhGhDwMDvQIF2rL+xIXyvzxwvV+7P1DjBX2OMs=;
-        b=rQqvdHAzc2bhE3UWDH6YEcr2LJC1YPpu7ywGBk5az6ZNs83HOHuOu1yiM7OYd3ULSb
-         hgw3Rbtj1/hrDJnguUO33Q4uzuucVj2/sMOraRMfP+2up5jpExdis+l/ISXwuLK139uo
-         QEmzbpARr9wvv8/3GHNbJeTT55i5YMleW/MiI1zCmhkg36/EmP6C8qlbb3kzb2HIRYqw
-         cqSZS38Q+O+TBPMGcN5vinbl8FO7D2Z5tfT+1Rf6saVlivIiwl0m5gV8zHYqvf2X26RX
-         b335WL/BS3qhlVugqrqhs0c3xOrVlgZl90M5tNebKvF5z9WSUw0W5TAwAYAPKyxHYb1X
-         yVgg==
-X-Gm-Message-State: AOAM530rSyX7pwNBZwTfTp1R00qPrFJ8QrKjzD49Mb5fplh/iWv0jndi
-	SisDUYKX2KsFk2niqlvivWDUIg==
-X-Google-Smtp-Source: ABdhPJz0OlMS4q0UvEdCzO4nXU7/PwGZ8ozvQmNUB80OlTlbJwb+ceMDZjLzoyimOSm5UKvaW2UlrA==
-X-Received: by 2002:a5d:6c6d:: with SMTP id r13mr17856595wrz.439.1632207745235;
-        Tue, 21 Sep 2021 00:02:25 -0700 (PDT)
-Received: from localhost ([86.61.181.4])
-        by smtp.gmail.com with ESMTPSA id r25sm19674308wrc.26.2021.09.21.00.02.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9fj7HOMTAEjrvCtbYb+Vzu40lpj7JG3HNn+Dw24QDhE=;
+        b=gJH0hBdBYAacw7qadQ/5+9luyhB1UV2+Qi+t5XiX2iUDlF6XYhEVGVo8/SNxjJAfhV
+         Dd3AX2OASNhvKsUs0WKKtFtSr/0pfcqvv33uKHFhfWhe4uX3a1BFkX/jXRW1khPjYlx7
+         OsgNX1om2Md/6UOqd4BEeqliyEAgeEupgbOCVTL1tcV8zMqNUqFN/tVwrWGDsh1cmeNw
+         9aTlvoE+C4DbF308I2fo/DqaeKWO5M1TGll46XGY8ue7Bie+2W9Q+4Z1MxKmoon/B7x0
+         DA/Kx+ma/nSZEvUY6TVShQK4++CqvhoAf5peYRBMCtle6XRbLerxEkfgpvGGJDs2WWk4
+         UUew==
+X-Gm-Message-State: AOAM533R9Wqe/4DO4irT0W1KUoAjxbd9nuOYME/IdasVAeWlpdICRJjc
+	TI3GEueS6HKY+L3+uHqJaGA=
+X-Google-Smtp-Source: ABdhPJxAImd3GsLSf8jEOhahqfGtQvb40nnbL+RNafys5hkuywableCwRRUk/AB6esCS4cPJbBL2aA==
+X-Received: by 2002:aa7:9e0a:0:b0:447:a7f7:40e with SMTP id y10-20020aa79e0a000000b00447a7f7040emr11513094pfq.37.1632209664732;
+        Tue, 21 Sep 2021 00:34:24 -0700 (PDT)
+Received: from localhost.localdomain ([2402:e280:2130:198:9b25:1cfb:9ff3:2a8f])
+        by smtp.gmail.com with ESMTPSA id x8sm16565957pfq.131.2021.09.21.00.34.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 00:02:24 -0700 (PDT)
-Date: Tue, 21 Sep 2021 09:02:23 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
-	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-staging@lists.linux.dev, Manish Chopra <manishc@marvell.com>,
-	Michael Chan <michael.chan@broadcom.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com,
-	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Satanand Burla <sburla@marvell.com>,
-	Shannon Nelson <snelson@pensando.io>,
-	Simon Horman <simon.horman@corigine.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next] devlink: Make devlink_register to be void
-Message-ID: <YUmDf3KdLS/4FwoT@nanopsycho>
-References: <2e089a45e03db31bf451d768fc588c02a2f781e8.1632148852.git.leonro@nvidia.com>
- <20210920133915.59ddfeef@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        Tue, 21 Sep 2021 00:34:24 -0700 (PDT)
+From: Benjamin Philip <benjamin.philip495@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Benjamin Philip <benjamin.philip495@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] staging: rts5208: remove unnecessary parentheses in all files
+Date: Tue, 21 Sep 2021 13:03:41 +0530
+Message-Id: <cover.1632209460.git.benjamin.philip495@gmail.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210920133915.59ddfeef@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Transfer-Encoding: 8bit
 
-Mon, Sep 20, 2021 at 10:39:15PM CEST, kuba@kernel.org wrote:
->On Mon, 20 Sep 2021 17:41:44 +0300 Leon Romanovsky wrote:
->> From: Leon Romanovsky <leonro@nvidia.com>
->> 
->> devlink_register() can't fail and always returns success, but all drivers
->> are obligated to check returned status anyway. This adds a lot of boilerplate
->> code to handle impossible flow.
->> 
->> Make devlink_register() void and simplify the drivers that use that
->> API call.
->
->Unlike unused functions bringing back error handling may be
->non-trivial. I'd rather you deferred such cleanups until you're 
->ready to post your full rework and therefore give us some confidence 
->the revert will not be needed.
+This patchset removes all unnecessary parentheses in the rts5208 driver.
 
-Well, that was the original reason why I made it to return int, so the
-drivers are prepared. But truth is that given the time this is on and
-the need to return int never really materialized, I tend to ack with the
-cleanup.
+Benjamin Philip (8):
+  staging: rts5208: remove unnecessary parentheses in rtsx_card.c
+  staging: rts5208: remove unnecessary parentheses in rtsx.c
+  staging: rts5208: remove unnecessary parentheses in rtsx_chip.c
+  staging: rts5208: remove unnecessary parentheses in rtsx_transport.c
+  staging: rts5208: remove unnecessary parentheses in sd.c
+  staging: rts5208: remove unnecessary parentheses in xd.c
+  staging: rts5208: remove unnecessary parentheses in rtsx_scsi.c
+  staging: rts5208: remove parentheses pair in sd.c
+
+ drivers/staging/rts5208/rtsx.c           |   2 +-
+ drivers/staging/rts5208/rtsx_card.c      |   8 +-
+ drivers/staging/rts5208/rtsx_chip.c      |  16 ++--
+ drivers/staging/rts5208/rtsx_scsi.c      | 106 +++++++++++------------
+ drivers/staging/rts5208/rtsx_transport.c |   6 +-
+ drivers/staging/rts5208/sd.c             |  68 +++++++--------
+ drivers/staging/rts5208/xd.c             |  48 +++++-----
+ 7 files changed, 127 insertions(+), 127 deletions(-)
+
+-- 
+2.31.1
+
