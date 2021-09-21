@@ -1,116 +1,84 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059303FC0
+	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 05:35:32 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1632202535; h=Date: Message-Id: Cc: To: References:
+ In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
+ Content-Type: Sender; bh=d/WbfYzCtCLxGjLS1Fn53umG1vTseNrfK0KHCNl2EuE=;
+ b=wHVM+BKuqTAkt9h4gXzRTendEuWOQSYnKIAY1Dl2seNhDwmWYwMklS3dSmGEB5jx2BeSGiGQ
+ tCUac4MpkH0zwCnfGYUa5TvSH910oy5zgxIbfVTa+qM/RiutKdR9JMNl8VKYHJ60Ozs52k2I
+ YxFDTArURvD8pVV3yXK/TiDnH6Y=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyI5NGRkNiIsICJsaW51eC1zdGFnaW5nQGxpc3RzLmxpbnV4LmRldiIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 61496f1db585cc7d247d84c4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 21 Sep 2021 05:35:25
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id DA9E4C4360D; Tue, 21 Sep 2021 05:35:25 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+	MISSING_DATE,MISSING_MID,SPF_FAIL,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
+Received: from tykki.adurom.net (tynnyri.adurom.net [51.15.11.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D6A3FCB
-	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 02:19:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 946B461245;
-	Tue, 21 Sep 2021 02:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632190750;
-	bh=Z+11tE516+e0V1bcSE+sqc/byA+rMuk9RbFhyqq7PYk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d90ZZKy8uQqKCKsdlcPvk8V+Wg37YRYMGkKcES9+Dp7tMmqpK2DNANFneNOaJcTI2
-	 b4ZDwbRcpjJEi59AMJct89FFTyI2XQW4U9OVG94kCpYOwKDtoGxIhrZlFEkfukoQmJ
-	 LVcx4Of36Y+mtMne9kJFCnfjgN6NS0kQnG+SRqLlC01hSPA4UAKh2FaFK8hmeTPGr4
-	 u4KgNPsbR2urWO0se7ZrGB+6/jd1GfpBe2FRo9FVU6f1MJIb8X2jCdbh8Sv1pDd+Hl
-	 i4qvy5Uyr2VqLXN8sv0VpTZHYtbCOGjhcAZDU/DJTWaGXnZQbwKgVg+ZCO8QyLw+Wy
-	 Mqc3qkth7VV4g==
-Date: Tue, 21 Sep 2021 05:19:06 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
-	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-staging@lists.linux.dev, Manish Chopra <manishc@marvell.com>,
-	Michael Chan <michael.chan@broadcom.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com,
-	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Satanand Burla <sburla@marvell.com>,
-	Shannon Nelson <snelson@pensando.io>,
-	Simon Horman <simon.horman@corigine.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next] devlink: Make devlink_register to be void
-Message-ID: <YUlBGk2Mq3iYhtku@unreal>
-References: <2e089a45e03db31bf451d768fc588c02a2f781e8.1632148852.git.leonro@nvidia.com>
- <20210920133915.59ddfeef@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20210920140407.0732b3d0@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+	(Authenticated sender: kvalo)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 8E2C5C4338F;
+	Tue, 21 Sep 2021 05:35:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 8E2C5C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210920140407.0732b3d0@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2] MAINTAINERS: Move Daniel Drake to credits
+From: Kalle Valo <kvalo@codeaurora.org>
+In-Reply-To: <20210917102834.25649-1-krzysztof.kozlowski@canonical.com>
+References: <20210917102834.25649-1-krzysztof.kozlowski@canonical.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: Ulrich Kunitz <kune@deine-taler.de>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ linux-wireless@vger.kernel.org, zd1211-devs@lists.sourceforge.net,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jens Frederich <jfrederich@gmail.com>,
+ Jon Nettleton <jon.nettleton@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-staging@lists.linux.dev,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Daniel Drake <drake@endlessos.org>
+User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.7.3
+Message-Id: <20210921053525.DA9E4C4360D@smtp.codeaurora.org>
+Date: Tue, 21 Sep 2021 05:35:25 +0000 (UTC)
 
-On Mon, Sep 20, 2021 at 02:04:07PM -0700, Jakub Kicinski wrote:
-> On Mon, 20 Sep 2021 13:39:15 -0700 Jakub Kicinski wrote:
-> > On Mon, 20 Sep 2021 17:41:44 +0300 Leon Romanovsky wrote:
-> > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > 
-> > > devlink_register() can't fail and always returns success, but all drivers
-> > > are obligated to check returned status anyway. This adds a lot of boilerplate
-> > > code to handle impossible flow.
-> > > 
-> > > Make devlink_register() void and simplify the drivers that use that
-> > > API call.  
-> > 
-> > Unlike unused functions bringing back error handling may be
-> > non-trivial. I'd rather you deferred such cleanups until you're 
-> > ready to post your full rework and therefore give us some confidence 
-> > the revert will not be needed.
+Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com> wrote:
+
+> Daniel Drake's @gentoo.org email bounces (is listed as retired Gentoo
+> developer) and there was no activity from him regarding zd1211rw driver.
+> Also his second address @laptop.org bounces.
 > 
-> If you disagree you gotta repost, new devlink_register call got added
-> in the meantime.
+> Cc: Daniel Drake <drake@endlessos.org>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-This is exactly what I afraid, new devlink API users are added faster
-than I can cleanup them.
+Patch applied to wireless-drivers.git, thanks.
 
-For example, let's take a look on newly added ipc_devlink_init(), it is
-called conditionally "if (stage == IPC_MEM_EXEC_STAGE_BOOT) {". How can
-it be different stage if we are in driver .probe() routine?
+91dab18f0df1 MAINTAINERS: Move Daniel Drake to credits
 
-They also introduced devlink_sio.devlink_read_pend and
-devlink_sio.read_sem to protect from something that right position of
-devlink_register() will fix. I also have serious doubts that their
-current protection is correct, once they called to devlink_params_publish()
-the user can crash the system, because he can access the parameters before
-they initialized their protection.
+-- 
+https://patchwork.kernel.org/project/linux-wireless/patch/20210917102834.25649-1-krzysztof.kozlowski@canonical.com/
 
-So yes, I disagree. We will need to make sure that devlink_register()
-can't fail and it will make life easier for everyone (no need to unwind)
-while we put that command  being last in probe sequence.
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
-If I repost, will you take it? I don't want to waste anyone time if it
-is not.
-
-Thanks
