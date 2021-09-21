@@ -1,223 +1,178 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8758E3FCE
-	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 18:19:15 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id v22so72743132edd.11
-        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 11:19:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6233FC0
+	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 18:36:20 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id 109so14080382uag.13
+        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 11:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TTqvejltSg/bMxgdP11IHkbarmw4jl7hIyqp9NWXnIc=;
-        b=fUQwlMBuQ1u+0H55lobZVU6lj2p8OKszoyYTfvIMV/Yj+n5SXmy1saAa2xQUAw2vgl
-         PTD2nYKn/lTTZ9epA7sy4XgHYzCHgEsa4qJWxuGOBP2SnoIy7uDkrwxokdE3fDFyxURl
-         /lISDBRm9ytrYzgeaDbhjNE/OChg126eegRJDC/rfljTfGWHC+3v0Mrxk9c03ZGsnD2w
-         my7pQ/V7mS5s3PjWDPmwzS3JSAbQzzD7zqyaXCaL9vuuhln46mjT1joorLEM8uls+62u
-         NC3MqKa+OzZB4uZQRDIIWqJSLPHIbaBpNvti975o8BN91z3H9O3Tf4XB0rYaIX9KwXl/
-         nfLw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9rQM8rFOt2w9g1uwaNXKi/W0WBTPzmqUSP6L93KiS60=;
+        b=JKWfOwo0qRe2M5/nP75Fh8fugq/Ab9wJ1ekK/RVqZLuilnLgppHTT0GfCiF55qvp7W
+         0VuykJs079gw0rPbZD6WnQMcUgB5aSQ5wS4dVvoD8lyfnrSJw9dPoDRNIrpy1daUCxek
+         XGjpZLarSuxjsfWXdvg/D+Kaf6F9QJGZI3TLaQkL9R2nMcgCgL8Zv6pA4pBOkzRi467M
+         UMHJ+nBpazkTOQh0zSA1YQXPXHQJVX0bkSLB4A+Vx7Hu/zlZGoE2ZWIf9sYwfSlPd0eI
+         CcqPXgLD9R5LzNi/2ar5wtRpXUA/DQqUY84I2HhNRYAzoRKL8FK8aLfsJZQ8KeWtfdBC
+         xmtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TTqvejltSg/bMxgdP11IHkbarmw4jl7hIyqp9NWXnIc=;
-        b=nuMSDJD/X702cukkvj/WQM54rXPgZeDfXCvTTQGDh726ooifaLa/RcM9lGUZRN8JDQ
-         f2SBOUGODHtdtYQkDRJm0RZNa9mAVEYB74yzNSTlNRt6KGWC4craGEeOYOEkHivjcg+u
-         Uo4GzUALQGgH0GPByZDvEWpSJyq2MkuttbRWm49JFwmlW/mVmkKwLpADkSeuz0lso0Uh
-         ycjaz5UtMAqQTR4oFRoVoRrskla9GwvXQOTEXpeB929GylDumQCwIxNIJ34U3IX8ZQeI
-         T5bVi13lOKrhv8Bol0NOslDMURxLX60/9+s9KH8duEmt85AQ9YGwUuYlW58jvWe18oIq
-         fofw==
-X-Gm-Message-State: AOAM533FjdSEIg8x1APh75NMxFTHzEspF6PFuki+RmXb2J8caY9JuU4B
-	01YnJ9x6X1UMVnyYPJWM9x0=
-X-Google-Smtp-Source: ABdhPJw/j3hGMiQhWE5pb6OLARzTD1DEF/jgZLT+XT0R1ww+xHoZajTR61gBgKAkX9v93GYqPl4cOQ==
-X-Received: by 2002:a17:906:dbe5:: with SMTP id yd5mr35697554ejb.134.1632248353914;
-        Tue, 21 Sep 2021 11:19:13 -0700 (PDT)
-Received: from localhost.localdomain.it (host-212-171-30-160.retail.telecomitalia.it. [212.171.30.160])
-        by smtp.gmail.com with ESMTPSA id cn8sm1833162edb.77.2021.09.21.11.19.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 11:19:13 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	David Laight <david.Laight@aculab.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Martin Kaiser <martin@kaiser.cx>
-Cc: "Fabio M . De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v9 16/16] staging: r8188eu: remove usb_vendor_req_mutex
-Date: Tue, 21 Sep 2021 20:18:34 +0200
-Message-Id: <20210921181834.29677-17-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210921181834.29677-1-fmdefrancesco@gmail.com>
-References: <20210921181834.29677-1-fmdefrancesco@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9rQM8rFOt2w9g1uwaNXKi/W0WBTPzmqUSP6L93KiS60=;
+        b=tkBF1AhfhXBZjbuMh2Uitpr5WJBM3P6t2CZm1qNvSkIEK7wtP95SSs18zEHdC3lsY9
+         skPCo7B+HtpBOefNaoXi7XZyGMO8rSRF2+chHfXCzci4sps9YchCBkGFbJ2sncXpyRL1
+         kLs9sYym8pVUiqJUDVnRHuO2nXruT36gLywlYx/PLReW7vwztW7U02VJufOngr287ORC
+         AC1lxiPQQBxBYZiRRJf02UZZM5peDpjDDRS2H/nRyfJVxeMnGszGgV3M0X8cH82+oy3D
+         5ijXn08gG3iPmkxJX5c+tMD0Fy8Da6Caa7yXGtxnca8LhYooIxgsbD4m30wSZOuLinFz
+         aFmg==
+X-Gm-Message-State: AOAM5304WkTUqago+kf25EWJNUeI8x0YVOWzg7J29WTpn0ElorLG7n8D
+	2Sv6baNJnzQBfnK5RM304RNqYM9speYExSxCyONEqPUuiM4=
+X-Google-Smtp-Source: ABdhPJzlHF5SaM3EdhYmFitG9fTSjfMb13Rb23ebxONiBmZ6ZlAVTGAUMPEoxpdfFWSWOggbejil47BpAUPwhGWDZ4w=
+X-Received: by 2002:ab0:2a96:: with SMTP id h22mr18213847uar.0.1632249379251;
+ Tue, 21 Sep 2021 11:36:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210822161005.22467-3-sergio.paracuellos@gmail.com> <20210921174924.GA104830@bhelgaas>
+In-Reply-To: <20210921174924.GA104830@bhelgaas>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Tue, 21 Sep 2021 20:36:07 +0200
+Message-ID: <CAMhs-H90yvbnPN26C7P_431cYqD4=8yrCUrxUY3L5k1GdsCeiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] PCI: fix 'pci_remap_iospace' for architectures
+ with PCI_IOBASE not defined
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, 
+	"open list:MIPS" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
+	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Pavel Skripkin <paskripkin@gmail.com>
+Hi Bjorn,
 
-This mutex was used to protect shared buffer for USB requests. Since
-buffer was removed in previous patch we can remove this mutex as well.
+On Tue, Sep 21, 2021 at 7:49 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> [+cc Liviu, Rob, Catalin, Arnd, since this warning was added by
+> 8b921acfeffd ("PCI: Add pci_remap_iospace() to map bus I/O resources"),
+> https://git.kernel.org/linus/8b921acfeffd]
+>
+> On Sun, Aug 22, 2021 at 06:10:04PM +0200, Sergio Paracuellos wrote:
+> > Request for I/O resources from device tree call 'pci_remap_iospace' from
+> > 'devm_pci_remap_iospace' which is also called from device tree function
+> > 'pci_parse_request_of_pci_ranges'. if PCI_IOBASE is not defined and I/O
+> > resources are requested the following warning appears:
+> >
+> > ------------[ cut here ]------------
+> > WARNING: CPU: 2 PID: 1 at ../drivers/pci/pci.c:4066 pci_remap_iospace+0x3c/0x54
+> > This architecture does not support memory mapped I/O
+> > Modules linked in:
+> > CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.10.1+ #1228
+> > Stack : 00000000 00000000 807fa974 00000000 827ffa80 80066b48 80710000 0000000b
+> >         00000000 00000000 81c59aac 7d06ddec 80850000 00000001 81c59a40 7d06ddec
+> >         00000000 00000000 807c909c 81c598f0 00000001 81c59904 00000000 0000000a
+> >         203a6d6d 80708880 0000000f 70617773 80850000 00000000 00000000 807d0000
+> >         807ffecc 1e160000 00000001 00000200 00000000 8054e920 00000008 815e0008
+> >         ...
+> > Call Trace:
+> > [<80008efc>] show_stack+0x8c/0x130
+> > [<806e1674>] dump_stack+0x9c/0xc8
+> > [<80024a3c>] __warn+0xc0/0xe8
+> > [<80024ad0>] warn_slowpath_fmt+0x6c/0xbc
+> > [<80410ca8>] pci_remap_iospace+0x3c/0x54
+> > [<80410d20>] devm_pci_remap_iospace+0x58/0xa4
+> > [<8042019c>] devm_of_pci_bridge_init+0x4dc/0x55c
+> > [<80408de8>] devm_pci_alloc_host_bridge+0x78/0x88
+> > [<80424e44>] mt7621_pci_probe+0x68/0x9a4
+> > [<80464804>] platform_drv_probe+0x40/0x7c
+> > [<804628bc>] really_probe+0x2fc/0x4e4
+> > [<80463214>] device_driver_attach+0x4c/0x74
+> > [<80463384>] __driver_attach+0x148/0x150
+> > [<8046047c>] bus_for_each_dev+0x6c/0xb0
+> > [<804614dc>] bus_add_driver+0x1b4/0x1fc
+> > [<80463aa0>] driver_register+0xd0/0x110
+> > [<80001714>] do_one_initcall+0x84/0x1c0
+> > [<808e7fd0>] kernel_init_freeable+0x214/0x24c
+> > [<806e4164>] kernel_init+0x14/0x118
+> > [<80003358>] ret_from_kernel_thread+0x14/0x1c
+> >
+> > ---[ end trace 1c9d4412bd51b53c ]---
+> > mt7621-pci 1e140000.pcie: error -19: failed to map resource [io  0x1e160000-0x1e16ffff]
+> >
+> > Since there are architectures (like MIPS ralink) that can request I/O
+> > resources from device tree but have not mapeable I/O space and also PCI_IOBASE
+> > not defined, avoid this warning and just return zero to make the I/O ranges
+> > assignment work.
+> >
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > ---
+> >  drivers/pci/pci.c | 12 ++++++------
+> >  1 file changed, 6 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> > index aacf575c15cf..10bb2191f376 100644
+> > --- a/drivers/pci/pci.c
+> > +++ b/drivers/pci/pci.c
+> > @@ -4102,9 +4102,9 @@ unsigned long __weak pci_address_to_pio(phys_addr_t address)
+> >   * @phys_addr: physical address of range to be mapped
+> >   *
+> >   * Remap the memory mapped I/O space described by the @res and the CPU
+> > - * physical address @phys_addr into virtual address space.  Only
+> > - * architectures that have memory mapped IO functions defined (and the
+> > - * PCI_IOBASE value defined) should call this function.
+> > + * physical address @phys_addr into virtual address space. There
+> > + * are architectures that don't define PCI_IOBASE but can have not
+> > + * mapeable IO space. Return zero for those cases.
+> >   */
+> >  int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+> >  {
+> > @@ -4122,10 +4122,10 @@ int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+> >  #else
+> >       /*
+> >        * This architecture does not have memory mapped I/O space,
+> > -      * so this function should never be called
+> > +      * but can have not mapeable I/O space, so just return ok
+> > +      * here.
+> >        */
+> > -     WARN_ONCE(1, "This architecture does not support memory mapped I/O\n");
+> > -     return -ENODEV;
+> > +     return 0;
+>
+> This doesn't seem right to me.  pci_remap_iospace() remaps
+> memory-mapped I/O space into virtual address space.
+>
+> If the architecture doesn't support that remapping, we shouldn't claim
+> that it succeeded.
+>
+> The analogous path for ACPI is in acpi_pci_root_remap_iospace(), where
+> we only call pci_remap_iospace() if PCI_IOBASE is defined.  Maybe we
+> should use the same approach here, i.e., add the corresonding #ifdef
+> in pci_parse_request_of_pci_ranges()?
 
-Furthermore, because it was used to serialize the calls to the Core USB 
-API, we thoroughly tested the enabling of concurrent firing of USB requests
-without the mutex and found no problems of any kind in common use cases.
+This approach you are talking here is what I did in v1 of this series
+[0] and you tell me to properly fix that in the 'pci_remap_iospace'.
+Both of these v1 and v2 obviously end up in a working pci system for
+mt7621 ralink.
+Another option I guess would be to mark 'pci_remap_iospace' as weak
+and redefine the symbol for ralink but since it is only for one simple
+return zero maybe it makes no sense at all... Please, tell me the
+correct approach to properly fix this and make things work for this
+platform.
 
-Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 30 ++++++---------------
- drivers/staging/r8188eu/os_dep/usb_intf.c   | 22 ++-------------
- 2 files changed, 10 insertions(+), 42 deletions(-)
+Thanks in advance for your time,
+     Sergio Paracuellos
 
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 3ede93cd68d6..c15a75513c8c 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -16,12 +16,8 @@ static int usb_read(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 	int status;
- 	u8 io_buf[4];
- 
--	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
--
--	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
--		status = -EPERM;
--		goto mutex_unlock;
--	}
-+	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
-+		return -EPERM;
- 
- 	status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
- 				      REALTEK_USB_VENQT_READ, value,
-@@ -39,7 +35,7 @@ static int usb_read(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		 * exist or is not enabled.
- 		 */
- 		adapt->bSurpriseRemoved = true;
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	if (status < 0) {
-@@ -49,15 +45,12 @@ static int usb_read(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
- 			adapt->bSurpriseRemoved = true;
- 
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	rtw_reset_continual_urb_error(dvobjpriv);
- 	memcpy(data, io_buf, size);
- 
--mutex_unlock:
--	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
--
- 	return status;
- }
- 
-@@ -69,12 +62,8 @@ static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 	int status;
- 	u8 io_buf[VENDOR_CMD_MAX_DATA_LEN];
- 
--	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
--
--	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
--		status = -EPERM;
--		goto mutex_unlock;
--	}
-+	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
-+		return -EPERM;
- 
- 	memcpy(io_buf, data, size);
- 	status = usb_control_msg_send(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
-@@ -93,7 +82,7 @@ static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		 * exist or is not enabled.
- 		 */
- 		adapt->bSurpriseRemoved = true;
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	if (status < 0) {
-@@ -103,14 +92,11 @@ static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
- 			adapt->bSurpriseRemoved = true;
- 
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	rtw_reset_continual_urb_error(dvobjpriv);
- 
--mutex_unlock:
--	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
--
- 	return status;
- }
- 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 5ab42d55207f..2e6e6070c304 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -73,21 +73,9 @@ static struct rtw_usb_drv rtl8188e_usb_drv = {
- 
- static struct rtw_usb_drv *usb_drv = &rtl8188e_usb_drv;
- 
--static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
--{
--	mutex_init(&dvobj->usb_vendor_req_mutex);
--	return _SUCCESS;
--}
--
--static void rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
--{
--	mutex_destroy(&dvobj->usb_vendor_req_mutex);
--}
--
- static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- {
- 	int	i;
--	int	status = _FAIL;
- 	struct dvobj_priv *pdvobjpriv;
- 	struct usb_host_config		*phost_conf;
- 	struct usb_config_descriptor	*pconf_desc;
-@@ -146,19 +134,13 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 		DBG_88E("NON USB_SPEED_HIGH\n");
- 	}
- 
--	if (rtw_init_intf_priv(pdvobjpriv) == _FAIL)
--		goto free_dvobj;
--
- 	/* 3 misc */
- 	sema_init(&pdvobjpriv->usb_suspend_sema, 0);
- 	rtw_reset_continual_urb_error(pdvobjpriv);
- 
- 	usb_get_dev(pusbd);
- 
--	status = _SUCCESS;
--
--free_dvobj:
--	if (status != _SUCCESS && pdvobjpriv) {
-+	if (pdvobjpriv) {
- 		usb_set_intfdata(usb_intf, NULL);
- 		kfree(pdvobjpriv);
- 		pdvobjpriv = NULL;
-@@ -188,7 +170,7 @@ static void usb_dvobj_deinit(struct usb_interface *usb_intf)
- 				usb_reset_device(interface_to_usbdev(usb_intf));
- 			}
- 		}
--		rtw_deinit_intf_priv(dvobj);
-+
- 		kfree(dvobj);
- 	}
- 
--- 
-2.33.0
+[0]: https://lore.kernel.org/linux-pci/20210807072409.9018-2-sergio.paracuellos@gmail.com/T/#m73c19c3b72fdf8c63e6d3fe8dc80aeee4e4adcaa
 
+>
+> >  #endif
+> >  }
+> >  EXPORT_SYMBOL(pci_remap_iospace);
+> > --
+> > 2.25.1
+> >
