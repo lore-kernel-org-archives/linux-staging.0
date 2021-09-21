@@ -1,49 +1,49 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2CE72
-	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 07:34:32 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id c4so12772743pls.6
-        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 00:34:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC7072
+	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 07:34:34 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id bb10so12792024plb.2
+        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 00:34:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TlJsAf1+7G/N1SBoPqWC+h5+yG2txJP5IpL+3P1rsSM=;
-        b=D1DhBDIOmmSGRzi/t2NSRQrQ9QCfactfnRJ++l95GLll6PYCMp0D4YOLBHjRal0n4+
-         +46tZ2t5hQNqP36wvns3NgeFhI2puILURcMpTXZdEF5PPt8DbSMt8StypRqc1U/aAW9L
-         b7xRBMi/9B2GTGLOG5DhInruYwc06DELhaK5U0zscJQLrzL5VB1I3/UTCKMDLZT2R8qk
-         FKDvz8WfCAUIlTBwE/99fIVYgVA6zz+2pPQCiOJv2o15bqOHRMfXFNsRIiR5CL9P1cmI
-         9lpUr1sUmpz5yErC3wHIebGQmEUb5WeCR6p7LD5qkKa2UuaSIUJiaeNxe6EPFl7z+ztv
-         g2Gg==
+        bh=lNkTYEXPIHbmXpekiqOnuAZdI8FohljR3op2nnwnxx0=;
+        b=DWAoq5cGqkbp1FF7x8O2eZiQADrE6eqcBzUE4TnIDGBmr65wpiEtWB0aVDexviKm8v
+         vSJMBsRaoytKLDYmvPuVMZPASYnQOzkywQlsyHdsy3vR/b6ows4/2SoM6yzQSetAH41u
+         N7Z56p9LGdLmbEyIqEb8cZWCIn6RIpNH9ORcR5Asypg9LPO99AOl9+ssWF+1vMDnvOmt
+         gzl4pkoNZofQJqMTPYLUcYSZKNl8hYGkG/9jE+NjUakyMA/FjcaFTwaf4MZy4htrDiV9
+         TuW4SaZ/FmlkptE9BwLzL/1XKHvtaXQrwdbkT/DMpi1pz58eyZE3FaggDOLZ7kTbl5z+
+         f0mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TlJsAf1+7G/N1SBoPqWC+h5+yG2txJP5IpL+3P1rsSM=;
-        b=Sqnu3b9ZeAPwigBVzvRz2F7dfliYBscLDaNCNBskrfVvchB8pw25Bk7J9HdMpoBpOL
-         yxlhpug3uBu/BvA1/a23grbY3gcxFPlNPZIaDvhDQG+dYo8L052h70OopS16/7ixynA2
-         AKqTn+sXFZ80ga1LEsyB27NG4N0Zn2rVrVu6KzBiH/1R0pQnaXl+f/PbBpX8uLZ1l16H
-         JB7YuF39FezF+BGvPe4weVliCwWkenGrJgBDGdTlChHsrPInmgEHKXxIT+z/aOWljdw4
-         qovrhewpVJJZMktrz/imEgpL9se4mCIrjZLKvQVZVlRI2L4hA/Zv7jBvhH0VJVbMcKWh
-         R3jg==
-X-Gm-Message-State: AOAM533UFCWtsfzXsalLyuiDqbzOS/SqHyHUaSmt9RaGdzJ3B0qBqurf
-	K9n1jUh+P45HM4FnpyWRH3J0/4mlbwY=
-X-Google-Smtp-Source: ABdhPJxd8sJdUI3XDgCAK4rHzqgqDTTcfn8LiXnqIzmuI1BhOPWGgBh780AzbJg2FgV10b1kRDbcvw==
-X-Received: by 2002:a17:90a:f2cd:: with SMTP id gt13mr3696364pjb.153.1632209671814;
-        Tue, 21 Sep 2021 00:34:31 -0700 (PDT)
+        bh=lNkTYEXPIHbmXpekiqOnuAZdI8FohljR3op2nnwnxx0=;
+        b=V/MUYKoUeJwEFYNzdisxggWGqKn0Nzb8swb5xUW7aCkwWw5E508IAm1YMP0trWoGkL
+         qd9zVldG6znPxDP6xsJSRy9YiSOFujSyyI8/RhKN9+wAjiJE0yDTCRMFvhghQx8wV5xy
+         ABvA68/mYd+CajQVYGplHhKsQqsXKDcKw5bK1PHNfj/9+V05/1/q9nCXzSrZS2nF2NPz
+         tzalId9R57uhtmJ5IJnQDvXG9LQJBjkBFpTtvScCC7X65BVZgXp7QMbLQm//h5mMbIyE
+         IBs7JNI1wEjC6ykJfqMHWPIZoAXD/CT2pMteD2Tf+pC6d9PcGeabdPMXmOQNHgVDJMuh
+         jfEA==
+X-Gm-Message-State: AOAM532AOZkm4dp6oGk2eP9Dj6ffh2EP6Wz132kCgPEp8DnZRpytwGod
+	Dw7eRkzSZRI2czT+A11jTdk=
+X-Google-Smtp-Source: ABdhPJxQJTMFlUza/zA2xNAAjujLphEEfiSE60BOhQ7kccP1aA8GRIiiG+Rpi0IFsQsLhC9iuIdWiA==
+X-Received: by 2002:a17:90b:38cc:: with SMTP id nn12mr3761588pjb.108.1632209674273;
+        Tue, 21 Sep 2021 00:34:34 -0700 (PDT)
 Received: from localhost.localdomain ([2402:e280:2130:198:9b25:1cfb:9ff3:2a8f])
-        by smtp.gmail.com with ESMTPSA id x8sm16565957pfq.131.2021.09.21.00.34.29
+        by smtp.gmail.com with ESMTPSA id x8sm16565957pfq.131.2021.09.21.00.34.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 00:34:31 -0700 (PDT)
+        Tue, 21 Sep 2021 00:34:34 -0700 (PDT)
 From: Benjamin Philip <benjamin.philip495@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Benjamin Philip <benjamin.philip495@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/8] staging: rts5208: remove unnecessary parentheses in rtsx_chip.c
-Date: Tue, 21 Sep 2021 13:03:44 +0530
-Message-Id: <4395499086a3188ea4c4d190460967990bd7a670.1632209460.git.benjamin.philip495@gmail.com>
+Subject: [PATCH 4/8] staging: rts5208: remove unnecessary parentheses in rtsx_transport.c
+Date: Tue, 21 Sep 2021 13:03:45 +0530
+Message-Id: <2fdcc64fbfa85482917d229163e4eb6c4094b789.1632209460.git.benjamin.philip495@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632209460.git.benjamin.philip495@gmail.com>
 References: <cover.1632209460.git.benjamin.philip495@gmail.com>
@@ -56,83 +56,44 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 This commit removes unnecessary parentheses, that have been flagged
-by checkpatch.pl in rtsx_chip.c
+by checkpatch.pl in rtsx_transport.c.
+
 Signed-off-by: Benjamin Philip <benjamin.philip495@gmail.com>
 ---
- drivers/staging/rts5208/rtsx_chip.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rts5208/rtsx_transport.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rts5208/rtsx_chip.c b/drivers/staging/rts5208/rtsx_chip.c
-index ee9ddc4eb94d..6375032918d4 100644
---- a/drivers/staging/rts5208/rtsx_chip.c
-+++ b/drivers/staging/rts5208/rtsx_chip.c
-@@ -325,7 +325,7 @@ static int rtsx_enable_pcie_intr(struct rtsx_chip *chip)
- 			return STATUS_FAIL;
- 	}
+diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
+index 909a3e663ef6..805dc18fac0a 100644
+--- a/drivers/staging/rts5208/rtsx_transport.c
++++ b/drivers/staging/rts5208/rtsx_transport.c
+@@ -326,7 +326,7 @@ static int rtsx_transfer_sglist_adma_partial(struct rtsx_chip *chip, u8 card,
+ 	struct scatterlist *sg_ptr;
+ 	u32 val = TRIG_DMA;
  
--	if (chip->driver_first_load && (chip->ic_version < IC_VER_C))
-+	if (chip->driver_first_load && chip->ic_version < IC_VER_C)
- 		rtsx_calibration(chip);
+-	if (!sg || (num_sg <= 0) || !offset || !index)
++	if (!sg || num_sg <= 0 || !offset || !index)
+ 		return -EIO;
  
- 	return STATUS_SUCCESS;
-@@ -496,7 +496,7 @@ int rtsx_reset_chip(struct rtsx_chip *chip)
- 		chip->int_reg);
- 	if (chip->int_reg & SD_EXIST) {
- #ifdef HW_AUTO_SWITCH_SD_BUS
--		if (CHECK_PID(chip, 0x5208) && (chip->ic_version < IC_VER_C))
-+		if (CHECK_PID(chip, 0x5208) && chip->ic_version < IC_VER_C)
- 			retval = rtsx_pre_handle_sdio_old(chip);
- 		else
- 			retval = rtsx_pre_handle_sdio_new(chip);
-@@ -563,7 +563,7 @@ int rtsx_reset_chip(struct rtsx_chip *chip)
- 			return retval;
- 	}
+ 	if (dma_dir == DMA_TO_DEVICE)
+@@ -489,7 +489,7 @@ static int rtsx_transfer_sglist_adma(struct rtsx_chip *chip, u8 card,
+ 	long timeleft;
+ 	struct scatterlist *sg_ptr;
  
--	if (CHECK_PID(chip, 0x5208) && (chip->ic_version >= IC_VER_D)) {
-+	if (CHECK_PID(chip, 0x5208) && chip->ic_version >= IC_VER_D) {
- 		retval = rtsx_write_register(chip, PETXCFG, 0x1C, 0x14);
- 		if (retval)
- 			return retval;
-@@ -606,7 +606,7 @@ static inline int valid_sd_speed_prior(u32 sd_speed_prior)
- 	for (i = 0; i < 4; i++) {
- 		u8 tmp = (u8)(sd_speed_prior >> (i * 8));
+-	if (!sg || (num_sg <= 0))
++	if (!sg || num_sg <= 0)
+ 		return -EIO;
  
--		if ((tmp < 0x01) || (tmp > 0x04)) {
-+		if (tmp < 0x01 || tmp > 0x04) {
- 			valid_para = false;
- 			break;
- 		}
-@@ -808,10 +808,10 @@ int rtsx_init_chip(struct rtsx_chip *chip)
- 	dev_dbg(rtsx_dev(chip), "sd_current_prior = 0x%08x\n",
- 		chip->sd_current_prior);
+ 	if (dma_dir == DMA_TO_DEVICE)
+@@ -635,7 +635,7 @@ static int rtsx_transfer_buf(struct rtsx_chip *chip, u8 card, void *buf,
+ 	u32 val = BIT(31);
+ 	long timeleft;
  
--	if ((chip->sd_ddr_tx_phase > 31) || (chip->sd_ddr_tx_phase < 0))
-+	if (chip->sd_ddr_tx_phase > 31 || chip->sd_ddr_tx_phase < 0)
- 		chip->sd_ddr_tx_phase = 0;
+-	if (!buf || (len <= 0))
++	if (!buf || len <= 0)
+ 		return -EIO;
  
--	if ((chip->mmc_ddr_tx_phase > 31) || (chip->mmc_ddr_tx_phase < 0))
-+	if (chip->mmc_ddr_tx_phase > 31 || chip->mmc_ddr_tx_phase < 0)
- 		chip->mmc_ddr_tx_phase = 0;
- 
- 	retval = rtsx_write_register(chip, FPDCTL, SSC_POWER_DOWN, 0);
-@@ -1840,7 +1840,7 @@ int rtsx_pre_handle_interrupt(struct rtsx_chip *chip)
- 	chip->int_reg = rtsx_readl(chip, RTSX_BIPR);
- 
- 	if (((chip->int_reg & int_enable) == 0) ||
--	    (chip->int_reg == 0xFFFFFFFF))
-+	    chip->int_reg == 0xFFFFFFFF)
- 		return STATUS_FAIL;
- 
- 	status = chip->int_reg &= (int_enable | 0x7FFFFF);
-@@ -1939,7 +1939,7 @@ void rtsx_do_before_power_down(struct rtsx_chip *chip, int pm_stat)
- 	}
- #endif
- 
--	if (CHECK_PID(chip, 0x5208) && (chip->ic_version >= IC_VER_D)) {
-+	if (CHECK_PID(chip, 0x5208) && chip->ic_version >= IC_VER_D) {
- 		/* u_force_clkreq_0 */
- 		rtsx_write_register(chip, PETXCFG, 0x08, 0x08);
- 	}
+ 	if (dma_dir == DMA_TO_DEVICE)
 -- 
 2.31.1
 
