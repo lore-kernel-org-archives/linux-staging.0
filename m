@@ -1,100 +1,88 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00D33FC5
-	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 12:39:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D5F6E60EE4;
-	Tue, 21 Sep 2021 12:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632227999;
-	bh=dX+cwcBtXlRU2Cy6ZCzeR+J9bsOcN6ZcV8RsSQI80Tc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rJfygDD0FiSpM1F9bZSz6k8lJNpdXjVV2EP4sEnWe2jlXIdydFW86nrMr7EMBdLn0
-	 VWUFpgURddaCHdZSmTuyThkPIKs4v5M3/nSjv2NtgJ0Q2EisX/IzpbfOdYoNQhXlGP
-	 BvboNEPiV/Cl74u4hOvdBQUUujkkjhscfoMU9uBCmmovD2/Aa4jQoZzDodvGtqvFNN
-	 Sbb7MOM33wcHSi77wrnJBq7vXX/ETS/jqTbRsLrSh1zb46dQNXL//zQ7L2USoT4Iew
-	 dXNVdc83dt+NKtv3XktQnVk5aa3olkrpsrqy7sojj9EGjavU0zRo2xS9BcfsclKPMR
-	 9zlABopkzywKA==
-Date: Tue, 21 Sep 2021 05:39:56 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Andrew Lunn <andrew@lunn.ch>, Ariel Elior
- <aelior@marvell.com>, Bin Luo <luobin9@huawei.com>, Claudiu Manoil
- <claudiu.manoil@nxp.com>, Coiby Xu <coiby.xu@gmail.com>, Derek Chickles
- <dchickles@marvell.com>, drivers@pensando.io, Felix Manlunas
- <fmanlunas@marvell.com>, Florian Fainelli <f.fainelli@gmail.com>, Geetha
- sowjanya <gakula@marvell.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, GR-everest-linux-l2@marvell.com,
- GR-Linux-NIC-Dev@marvell.com, hariprasad <hkelam@marvell.com>, Ido Schimmel
- <idosch@nvidia.com>, intel-wired-lan@lists.osuosl.org, Ioana Ciornei
- <ioana.ciornei@nxp.com>, Jerin Jacob <jerinj@marvell.com>, Jesse Brandeburg
- <jesse.brandeburg@intel.com>, Jiri Pirko <jiri@nvidia.com>, Jonathan Lemon
- <jonathan.lemon@gmail.com>, Linu Cherian <lcherian@marvell.com>,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, Manish Chopra
- <manishc@marvell.com>, Michael Chan <michael.chan@broadcom.com>,
- netdev@vger.kernel.org, oss-drivers@corigine.com, Richard Cochran
- <richardcochran@gmail.com>, Saeed Mahameed <saeedm@nvidia.com>, Salil Mehta
- <salil.mehta@huawei.com>, Satanand Burla <sburla@marvell.com>, Shannon
- Nelson <snelson@pensando.io>, Simon Horman <simon.horman@corigine.com>,
- Subbaraya Sundeep <sbhatta@marvell.com>, Sunil Goutham
- <sgoutham@marvell.com>, Taras Chornyi <tchornyi@marvell.com>, Tariq Toukan
- <tariqt@nvidia.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>, Vivien
- Didelot <vivien.didelot@gmail.com>, Vladimir Oltean
- <vladimir.oltean@nxp.com>, Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next] devlink: Make devlink_register to be void
-Message-ID: <20210921053956.11ac7156@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <YUlBGk2Mq3iYhtku@unreal>
-References: <2e089a45e03db31bf451d768fc588c02a2f781e8.1632148852.git.leonro@nvidia.com>
-	<20210920133915.59ddfeef@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-	<20210920140407.0732b3d0@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-	<YUlBGk2Mq3iYhtku@unreal>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A620E72
+	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 15:28:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B6F461186;
+	Tue, 21 Sep 2021 15:28:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1632238091;
+	bh=V87W35buudncgpwodJtfOSyNRpRSP2nRzOMxEHbJ6Ng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L7kXW1QmwHxvxEyDZtTAHONgIrrW7Par9SVjEBp5YB40xjEL1gMnnl36EBn5rH9qw
+	 9hVCEvyWoksbijklQ+hBS7Q9QpO5nO78wr2khcqC956vFkSd6bOzfQa6HpTK+6/2mW
+	 3dkUDS1rlA0xkHMvEqqNSaJ+Wy+f4iIhJP62XIag=
+Date: Tue, 21 Sep 2021 17:28:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	"open list:MIPS" <linux-mips@vger.kernel.org>,
+	linux-pci <linux-pci@vger.kernel.org>,
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] staging: mt7621-pci: set end limit for
+ 'ioport_resource'
+Message-ID: <YUn6BmP/4EvFmawz@kroah.com>
+References: <20210822161005.22467-1-sergio.paracuellos@gmail.com>
+ <20210822161005.22467-4-sergio.paracuellos@gmail.com>
+ <YSip4/kMNOG4uYC3@kroah.com>
+ <CAMhs-H_0ytYCoBLj9GJDjHSPPHLC6_oBsm-V9s4FjhE7NY8TCw@mail.gmail.com>
+ <YTCWR7oyLWgTDbQe@kroah.com>
+ <CAMhs-H8U-crQHFVQj6j4Y5qs-S2NaW9trH8twKH8AwDR+AAYgg@mail.gmail.com>
+ <20210902110835.GB7614@alpha.franken.de>
+ <CAMhs-H_1U=X25+q=wDnQ+FGbxXMx1vFpefEMJviFxOc7T0jwjA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMhs-H_1U=X25+q=wDnQ+FGbxXMx1vFpefEMJviFxOc7T0jwjA@mail.gmail.com>
 
-On Tue, 21 Sep 2021 05:19:06 +0300 Leon Romanovsky wrote:
-> On Mon, Sep 20, 2021 at 02:04:07PM -0700, Jakub Kicinski wrote:
-> > On Mon, 20 Sep 2021 13:39:15 -0700 Jakub Kicinski wrote:  
-> > > On Mon, 20 Sep 2021 17:41:44 +0300 Leon Romanovsky wrote:  
->  [...]  
-> > > 
-> > > Unlike unused functions bringing back error handling may be
-> > > non-trivial. I'd rather you deferred such cleanups until you're 
-> > > ready to post your full rework and therefore give us some confidence 
-> > > the revert will not be needed.  
-> > 
-> > If you disagree you gotta repost, new devlink_register call got added
-> > in the meantime.  
+On Thu, Sep 02, 2021 at 01:19:53PM +0200, Sergio Paracuellos wrote:
+> On Thu, Sep 2, 2021 at 1:08 PM Thomas Bogendoerfer
+> <tsbogend@alpha.franken.de> wrote:
+> >
+> > On Thu, Sep 02, 2021 at 12:15:12PM +0200, Sergio Paracuellos wrote:
+> > > On Thu, Sep 2, 2021 at 11:15 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Sun, Aug 29, 2021 at 05:14:27PM +0200, Sergio Paracuellos wrote:
+> > > > > On Fri, Aug 27, 2021 at 11:01 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > > > >
+> > > > > > On Sun, Aug 22, 2021 at 06:10:05PM +0200, Sergio Paracuellos wrote:
+> > > > > > > We have increase IO_SPACE_LIMIT for ralink platform to get PCI IO resources
+> > > > > > > properly handled using PCI core APIs. To align those changes with driver
+> > > > > > > code we have to set 'ioport_resource' end limit to IO_SPACE_LIMIT to avoid
+> > > > > > > errors.
+> > > > > > >
+> > > > > > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > > > >
+> > > > > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > >
+> > > > > Thanks. Since I am planning to move 'mt7621-pci' from staging to
+> > > > > 'drivers/pci/controller' and send v3 after the next merge window, I
+> > > > > prefer this patch to go through the staging tree. For the other two I
+> > > > > don't have any preference and it is ok for me to go through mips or
+> > > > > pci trees. So, Bjorn and Thomas is up to you if you are ok with the
+> > > > > changes.
+> > > >
+> > > > Yes, I would need acks for the other patches in the series if this is to
+> > > > come through the staging tree.
+> > >
+> > > Yes, I know it. Let's wait for Thomas and Bjorn preference for those
+> > > remaining two.
+> >
+> > I've sent my acked-by for the MIPS patch.
 > 
-> This is exactly what I afraid, new devlink API users are added faster
-> than I can cleanup them.
-> 
-> For example, let's take a look on newly added ipc_devlink_init(), it is
-> called conditionally "if (stage == IPC_MEM_EXEC_STAGE_BOOT) {". How can
-> it be different stage if we are in driver .probe() routine?
-> 
-> They also introduced devlink_sio.devlink_read_pend and
-> devlink_sio.read_sem to protect from something that right position of
-> devlink_register() will fix. I also have serious doubts that their
-> current protection is correct, once they called to devlink_params_publish()
-> the user can crash the system, because he can access the parameters before
-> they initialized their protection.
-> 
-> So yes, I disagree. We will need to make sure that devlink_register()
-> can't fail and it will make life easier for everyone (no need to unwind)
-> while we put that command  being last in probe sequence.
+> Thanks!
 
-Remains to be seen if return type makes people follow correct ordering.
+Ok, I took patches 1 and 3 in my tree now.  Please submit patch 2 to the
+PCI developers and maintainer, as that is up to them to take, not me.
 
-> If I repost, will you take it? I don't want to waste anyone time if it
-> is not.
+thanks,
 
-Yeah, go for it.
+greg k-h
