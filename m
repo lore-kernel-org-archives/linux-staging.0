@@ -1,83 +1,92 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C443E72
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:20:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 53AC4611B0;
-	Wed, 22 Sep 2021 13:20:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632316807;
-	bh=e629AuGefhJIdNjI5mU4FtRRKzsoCkMCGvZj9iUO1/Q=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=uCTJ6JSLYDlQIH1ID+doV82pPqQ2TIQE9AICXyFKkO1xsCfKxWYZbneTZ83/7Rixb
-	 DkJlLSsFTDVX8ojjWa08gRjAHp7Ej2Q42dsqWCsTlmh67sc1386kXvQuDJ3sGUdHCi
-	 Xnuz7T5mxdOLVP7q64d5gdR9UT6MDOdCjBBkgIGXRg0QLFxu1RofORurf+ZJ/SoLxS
-	 cinA9x1EJzTrOZ1R2TxM/BAm3LYjrgS/Y0FDqV9kwcZFYb5tdko0QSHJZf0Zio72p2
-	 Alva7PGmjxIAFzTyZG2meD4RddnhmDpwRA8BTbiKaP6duFVeP3m8kLuN9gF7trjZ1h
-	 T7irIwp/55+TQ==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 401F660A7C;
-	Wed, 22 Sep 2021 13:20:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE20E72
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:21:20 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id u18so11587880lfd.12
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 06:21:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=6arDu0bHKhe+YT1UraMY0MBKwysBZPAsrewYON3ecAQ=;
+        b=WjzdbaM+CXMA0teP/YGVvk89FeUFWuAbqAV8nRAin4e3Eb9ONN01Is26Gx6n8Q/s6c
+         ZFv0k9lALvY0u9SkBX60mP74hQl2jN4Gu1dMP7fWXHJnvW1FHLCpDi2wxqUjL2PlP44t
+         liF+YxmV9KANbC4Jgrw6SFr5pSrbgmyBBXTeiZdtEYAU87qQaFy6jAj1Du6r1i5eP1jA
+         qN2JVkpXCQvXNHP9JYgOkJg1XWXL5MR6bhXozG/DoisVT3fdyvgdhjPycq05WvwFp4Tc
+         pKP0XZORlFxN0NCB6RPmhze0lekX+5EHMHzhCf+873B83J3GD5e66vEyKWYhAlgMFLTI
+         B+Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=6arDu0bHKhe+YT1UraMY0MBKwysBZPAsrewYON3ecAQ=;
+        b=fsMxQkrCeWB747zcrB/WBlCokoPbg1zix5yFRbXcVExYsHATjZ/7o/YqPWgz0ZgKr3
+         YeyFGbyCT6/KQPhZB/5I+8Ku/Rats7Yrq/VR6PstMZciq6kBguHrlsw4DMDZi0AMlGBV
+         f7sSMTTQXXWbeyo01p+JuADrsbCYUH7hMCcOW5l+S11t/xT5A0mDGw4Ahcf1SA3Y7+/O
+         R4xVm6j2U30ag7SE4cVxADbm+GDDrNpDCgRYuq/q4injpYhEpUFYsXMkFsIujFxWDsBc
+         1u/nat5G9YDTDhwdIf+hNMh6u3qzrsS5bleP+Rwo6JJxsp+4QmV7MPe5I08NY+Y/SkQm
+         KQAg==
+X-Gm-Message-State: AOAM530wS4DaM1ue1fy6XnpXmx60nzz7NcNBbHDsb4GiyhIzQedb5FU5
+	jlsUfsHIXYdDvrFpIsdZHJc=
+X-Google-Smtp-Source: ABdhPJzKMoiib1IP7uFrzIzqrHdxIHI16pju0WUINfy/rVOkyx6qheK25/MW/1hVXwMMv27iUGuXvA==
+X-Received: by 2002:ac2:5322:: with SMTP id f2mr15956976lfh.531.1632316867286;
+        Wed, 22 Sep 2021 06:21:07 -0700 (PDT)
+Received: from [192.168.1.11] ([46.235.67.49])
+        by smtp.gmail.com with ESMTPSA id y9sm191715lfl.240.2021.09.22.06.21.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Sep 2021 06:21:06 -0700 (PDT)
+Message-ID: <dd99d40d-297e-8d27-dabe-d0e4c633d391@gmail.com>
+Date: Wed, 22 Sep 2021 16:21:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v1] devlink: Make devlink_register to be void
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <163231680725.16453.13582291901349669974.git-patchwork-notify@kernel.org>
-Date: Wed, 22 Sep 2021 13:20:07 +0000
-References: <311a6c7e74ad612474446890a12c9d310b9507ed.1632300324.git.leonro@nvidia.com>
-In-Reply-To: <311a6c7e74ad612474446890a12c9d310b9507ed.1632300324.git.leonro@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: davem@davemloft.net, kuba@kernel.org, leonro@nvidia.com,
- alexandre.belloni@bootlin.com, andrew@lunn.ch, aelior@marvell.com,
- luobin9@huawei.com, claudiu.manoil@nxp.com, coiby.xu@gmail.com,
- dchickles@marvell.com, drivers@pensando.io, fmanlunas@marvell.com,
- f.fainelli@gmail.com, gakula@marvell.com, gregkh@linuxfoundation.org,
- GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
- hkelam@marvell.com, idosch@nvidia.com, linuxwwan@intel.com,
- intel-wired-lan@lists.osuosl.org, ioana.ciornei@nxp.com, jerinj@marvell.com,
- jesse.brandeburg@intel.com, jiri@nvidia.com, jonathan.lemon@gmail.com,
- lcherian@marvell.com, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-staging@lists.linux.dev, loic.poulain@linaro.org, manishc@marvell.com,
- m.chetan.kumar@intel.com, michael.chan@broadcom.com, netdev@vger.kernel.org,
- oss-drivers@corigine.com, richardcochran@gmail.com, saeedm@nvidia.com,
- salil.mehta@huawei.com, sburla@marvell.com, ryazanov.s.a@gmail.com,
- snelson@pensando.io, simon.horman@corigine.com, sbhatta@marvell.com,
- sgoutham@marvell.com, tchornyi@marvell.com, tariqt@nvidia.com,
- anthony.l.nguyen@intel.com, UNGLinuxDriver@microchip.com,
- vkochan@marvell.com, vivien.didelot@gmail.com, vladimir.oltean@nxp.com,
- yisen.zhuang@huawei.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v9 16/16] staging: r8188eu: remove usb_vendor_req_mutex
+Content-Language: en-US
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Martin Kaiser <martin@kaiser.cx>
+References: <20210921181834.29677-1-fmdefrancesco@gmail.com>
+ <20210921181834.29677-17-fmdefrancesco@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20210921181834.29677-17-fmdefrancesco@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This patch was applied to netdev/net-next.git (refs/heads/master):
-
-On Wed, 22 Sep 2021 11:58:03 +0300 you wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On 9/21/21 21:18, Fabio M. De Francesco wrote:
+> From: Pavel Skripkin <paskripkin@gmail.com>
 > 
-> devlink_register() can't fail and always returns success, but all drivers
-> are obligated to check returned status anyway. This adds a lot of boilerplate
-> code to handle impossible flow.
+> This mutex was used to protect shared buffer for USB requests. Since
+> buffer was removed in previous patch we can remove this mutex as well.
 > 
-> Make devlink_register() void and simplify the drivers that use that
-> API call.
+> Furthermore, because it was used to serialize the calls to the Core USB
+> API, we thoroughly tested the enabling of concurrent firing of USB requests
+> without the mutex and found no problems of any kind in common use cases.
 > 
-> [...]
+> Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 
-Here is the summary with links:
-  - [net-next,v1] devlink: Make devlink_register to be void
-    https://git.kernel.org/netdev/net-next/c/db4278c55fa5
+Hi, Greg!
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+If all is OK with previous 15 patches, please, do not take this one, it 
+  causes problems with connection... :)
+
+I don't understand what went wrong after v8, but anyway, this one should 
+not be applied for now, since it's broken
 
 
+Thank you
+
+
+
+With regards,
+Pavel Skripkin
