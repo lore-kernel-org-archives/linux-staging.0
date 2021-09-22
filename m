@@ -1,111 +1,160 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69CA3FC0
-	for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 19:47:30 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id g16so165333wrb.3
-        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 12:47:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED863FC7
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 02:56:48 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id r5so4017987edi.10
+        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 19:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=czrP6QE0oWPp2IhYAOngMIyhTl+nVLIjWbQ3m00v7QA=;
-        b=m5Sos2iGL079vJXKEZQ0e8MA2dClwVyjJsPWI16owIYwRZRYxP0mSFZ+Zqrt488qX3
-         RShZ0A/GdtU548amVYVZox2QpsA7NZxcEXvWzZLZUBs1ypUCamBBAiWfG65nkwzHCY8N
-         1yUWubXS1qRm89HH46cpWc29DxdjIDtl8xm8z1R292CDOUKzer89p6fSAcovP4RktQM3
-         x2KjEnnTlTVzIVzC8ZeqIdZDu6MZMA7fuoqriDmhn4HWBuKgbHyimhV4tRZoxuqaodoM
-         Q9hUqOhPfCXgPfyanRxSWP8KpM+qIqOKsE0anM++A9H1tfamXtALllAcWtYJBrgGS2fa
-         HJEw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BQE8We2TUW6ETCU3EPHSz1ZO6PtIUMV7ze3iwz7OX9k=;
+        b=mZRRgkDND0a8Zv1ITP019eR5edqbykxW99V+8y3aliLiFbsxQDY2/PHCNak86hUF8d
+         Vctgl9BUPyl3qyeE2BZPHLyvXDTA1iU4XZQ7q4g6NkCKUIP551AnKVhwmPO2q4zf1Ad5
+         34tpkKkksMaUV2uhUDB8dmlPDlcIaP2KUBReMFXXbTC6rNaz9p9i0IghMV96pN1COVKB
+         av92DVRKly/FfrjJjR+Ym0efA0N8REdYiTfk+DD4psTpeHkOlI2f+XQnyqSaDS7ADMoe
+         H5J3L7W+RF/C5nelsKsxK/2DL8rhNOS8S4BIJmxYCQwEYZo6AxbKewFi5XV5m+je5itO
+         krLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=czrP6QE0oWPp2IhYAOngMIyhTl+nVLIjWbQ3m00v7QA=;
-        b=UuWuL22AuS2ti/rfrfA99i6W9QAIoAASL9fLi+6s8IekREgVU/Gu9gVQo+yiulYDpU
-         n+ttQimfFRma9YihaNmhoZ1FWQd5SOZ5WBnYgg/O2KjipEh82GC46kFGbZZtjXvIZ/8f
-         cbDp9H3GUpQ7UQpDM6085Gygatzu094Xv2i3fi3hw8PSqdx4a1gxcOcLJO1EGekJG2jZ
-         8FTLhO8XmAQMeKeTVG6fctoEkB9JfrT3EeTL49Cxb3rJ77nYPK2j8T8azZZY/hn5fLqL
-         g+1aFX0MKsdAsAiy5UeOkTqlzRLRnJtd8jxkFXtS2nHH52lbFBpe60i5kVybVtAL2Z0R
-         8xJg==
-X-Gm-Message-State: AOAM533FjAzMBAHBa7txm+c605PUtV3lvoxpHOH+aO8DEJI0+VKuPm8R
-	M6x3lRKUO0XMWDggUq8p6Qw=
-X-Google-Smtp-Source: ABdhPJxkceAbiZL5yL+cUubPZ6waOHIV41xb+da3h9eEMnjG+MNWp72+nz8wjAGBs6osjSG1Br8pfw==
-X-Received: by 2002:adf:9d47:: with SMTP id o7mr37449901wre.50.1632253649256;
-        Tue, 21 Sep 2021 12:47:29 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id s13sm3891243wmc.47.2021.09.21.12.47.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Sep 2021 12:47:28 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 8/8] staging: r8188eu: remove odm_DynamicTxPowerInit()
-Date: Tue, 21 Sep 2021 21:46:58 +0200
-Message-Id: <20210921194658.10654-9-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210921194658.10654-1-straube.linux@gmail.com>
-References: <20210921194658.10654-1-straube.linux@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BQE8We2TUW6ETCU3EPHSz1ZO6PtIUMV7ze3iwz7OX9k=;
+        b=1UgnIcbdUQPtLuubRuzF5a9xS+kJJlmBsJoIeny+Y5ijQqcW7oMCSJJSUR/AuvaD0D
+         lf1XrIyBb4LBuUNNv2xHDLbx6taRJyPHCHPqKvWCSTlS/ynvMIaRO2tAAFUOWxSZzPH9
+         9fI5mIcdlqf/4Qr/j+igB72r7q0SU2LakQ0B9VjLvp9kPRKOPknvlQ9l4Cp244HnMiRk
+         9A/LXQIdJ65HjPYRqBF7G6FVTHtE4PItAHwepIl7ctciO99RStr/lrPpD9mbJSfPNlOn
+         lctmprXXQe18/CoHC7hw0aMh1QvZ3F/x1fFTNFt4JwNL3gGz/mZaAqHp4dAcQRhCAnRO
+         RZcA==
+X-Gm-Message-State: AOAM532UWyLL8sWSdei0fKbiTeEskLb9W6KDI9M/GeNhNzwKUOaK1dTM
+	jl7+bM/2gzVV19vJ6GGm2rCbiBTkSkyDejEICaGA9UHa
+X-Google-Smtp-Source: ABdhPJxHCRmVJNkvTGqW4F+RBRnNUdp8hEJcKjcypbj7ozWq8kCac3AxcApn3s5DSbeDJWzobeyv2wG+1SN/AhLrqGI=
+X-Received: by 2002:a17:906:3a0f:: with SMTP id z15mr40063881eje.42.1632279406318;
+ Tue, 21 Sep 2021 19:56:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210917182542.52733-1-ua1422@gmail.com> <YUWM2xt1a8OOvWFV@kroah.com>
+ <CACYKDtieSGhL45vofCZaY=CajYqFvHaFU1Yu4OK8nJfT6wr91g@mail.gmail.com> <YUba2PMFTv7nucP0@kroah.com>
+In-Reply-To: <YUba2PMFTv7nucP0@kroah.com>
+From: "Usman S. Ansari" <ua1422@gmail.com>
+Date: Tue, 21 Sep 2021 19:56:10 -0700
+Message-ID: <CACYKDthSg42XEEkuYG904En6Q7r4Kj0Sc4MHgfoS2gPmRkNDjA@mail.gmail.com>
+Subject: Re: [PATCH] Staging: wlan-ng: Fix warning messages generated by checkpatch.pl
+To: Greg KH <greg@kroah.com>
+Cc: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Function odm_DynamicTxPowerInit() is empty now, remove it.
+On Sat, Sep 18, 2021 at 11:38 PM Greg KH <greg@kroah.com> wrote:
+>
+> On Sat, Sep 18, 2021 at 11:29:42AM -0700, Usman S. Ansari wrote:
+> > On Fri, Sep 17, 2021 at 11:53 PM Greg KH <greg@kroah.com> wrote:
+> >
+> > > On Fri, Sep 17, 2021 at 11:25:42AM -0700, ua1422@gmail.com wrote:
+> > > > From: Usman Ansari <ua1422@gmail.com>
+> > > >
+> > > > Signed-off-by: Usman Ansari <ua1422@gmail.com>
+> > > > Description: Address the following checkpatch warning:
+> > > >
+> > > > WARNING: Commit log lines starting with '#' are dropped by git as
+> > > comments
+> > > > ---
+> > > >  drivers/staging/wlan-ng/cfg80211.c | 6 +++---
+> > > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/wlan-ng/cfg80211.c
+> > > b/drivers/staging/wlan-ng/cfg80211.c
+> > > > index 7951bd63816f..f03dc1e59db1 100644
+> > > > --- a/drivers/staging/wlan-ng/cfg80211.c
+> > > > +++ b/drivers/staging/wlan-ng/cfg80211.c
+> > > > @@ -1,7 +1,7 @@
+> > > >  // SPDX-License-Identifier: GPL-2.0
+> > > >  /* cfg80211 Interface for prism2_usb module */
+> > > > -#include "hfa384x.h"
+> > > > -#include "prism2mgmt.h"
+> > > > + #include "hfa384x.h"
+> > > > + #include "prism2mgmt.h"
+> > > >
+> > > >  /* Prism2 channel/frequency/bitrate declarations */
+> > > >  static const struct ieee80211_channel prism2_channels[] = {
+> > > > @@ -28,7 +28,7 @@ static const struct ieee80211_rate prism2_rates[] = {
+> > > >       { .bitrate = 110 }
+> > > >  };
+> > > >
+> > > > -#define PRISM2_NUM_CIPHER_SUITES 2
+> > > > + #define PRISM2_NUM_CIPHER_SUITES 2
+> > > >  static const u32 prism2_cipher_suites[PRISM2_NUM_CIPHER_SUITES] = {
+> > > >       WLAN_CIPHER_SUITE_WEP40,
+> > > >       WLAN_CIPHER_SUITE_WEP104
+> > > > --
+> > > > 2.25.1
+> > > >
+> > >
+> > > Hi,
+> > >
+> > > This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+> > > a patch that has triggered this response.  He used to manually respond
+> > > to these common problems, but in order to save his sanity (he kept
+> > > writing the same thing over and over, yet to different people), I was
+> > > created.  Hopefully you will not take offence and will fix the problem
+> > > in your patch and resubmit it so that it can be accepted into the Linux
+> > > kernel tree.
+> > >
+> > > You are receiving this message because of the following common error(s)
+> > > as indicated below:
+> > >
+> > > - Your patch does not have a Signed-off-by: line.  Please read the
+> > >   kernel file, Documentation/SubmittingPatches and resend it after
+> > >   adding that line.  Note, the line needs to be in the body of the
+> > >   email, before the patch, not at the bottom of the patch or in the
+> > >   email signature.
+> > >
+> > > - You did not specify a description of why the patch is needed, or
+> > >   possibly, any description at all, in the email body.  Please read the
+> > >   section entitled "The canonical patch format" in the kernel file,
+> > >   Documentation/SubmittingPatches for what is needed in order to
+> > >   properly describe the change.
+> > >
+> > > - You did not write a descriptive Subject: for the patch, allowing Greg,
+> > >   and everyone else, to know what this patch is all about.  Please read
+> > >   the section entitled "The canonical patch format" in the kernel file,
+> > >   Documentation/SubmittingPatches for what a proper Subject: line should
+> > >   look like.
+> > >
+> > > If you wish to discuss this problem further, or you have questions about
+> > > how to resolve this issue, please feel free to respond to this email and
+> > > Greg will reply once he has dug out from the pending patches received
+> > > from other developers.
+> > >
+> > > thanks,
+> > >
+> > > greg k-h's patch email bot
+> > >
+> >
+> > Hi Greg,
+> >
+> > I think I have covered all the items listed in your email bot reply. Please
+> > let me know if the patch is not meeting the expectations.
+>
+> It is not, sorry.  Please read the documentation.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/odm.c             | 9 ---------
- drivers/staging/r8188eu/include/odm_precomp.h | 1 -
- 2 files changed, 10 deletions(-)
+This is more for learning and not arguing:
+- I do have signed-off in my patch
+- I do have a Description of the patch
+- I do have a subject describing the patch
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 87f0ea84819a..e0784e38e083 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -165,7 +165,6 @@ void ODM_DMInit(struct odm_dm_struct *pDM_Odm)
- 
- 	odm_PrimaryCCA_Init(pDM_Odm);    /*  Gary */
- 	odm_DynamicBBPowerSavingInit(pDM_Odm);
--	odm_DynamicTxPowerInit(pDM_Odm);
- 	odm_TXPowerTrackingInit(pDM_Odm);
- 	ODM_EdcaTurboInit(pDM_Odm);
- 	ODM_RAInfo_Init_all(pDM_Odm);
-@@ -1174,14 +1173,6 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
- 	return false;
- }
- 
--/* 3============================================================ */
--/* 3 Dynamic Tx Power */
--/* 3============================================================ */
--
--void odm_DynamicTxPowerInit(struct odm_dm_struct *pDM_Odm)
--{
--}
--
- /* 3============================================================ */
- /* 3 RSSI Monitor */
- /* 3============================================================ */
-diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
-index 43f8e6849a45..6b3800894bc6 100644
---- a/drivers/staging/r8188eu/include/odm_precomp.h
-+++ b/drivers/staging/r8188eu/include/odm_precomp.h
-@@ -36,7 +36,6 @@
- void odm_DIGInit(struct odm_dm_struct *pDM_Odm);
- void odm_RateAdaptiveMaskInit(struct odm_dm_struct *pDM_Odm);
- void odm_DynamicBBPowerSavingInit(struct odm_dm_struct *pDM_Odm);
--void odm_DynamicTxPowerInit(struct odm_dm_struct *pDM_Odm);
- void odm_TXPowerTrackingInit(struct odm_dm_struct *pDM_Odm);
- void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm);
- void odm_SwAntDivInit_NIC(struct odm_dm_struct *pDM_Odm);
--- 
-2.33.0
+Anyone, please let me know, what are the expectations not fulfilled?
 
+> Also look at your patch itself, it is not correct.
+
+Please let me know what is not correct, I tried to follow the patch guidance.
+
+> good luck!
+
+Thanks for your guidance in advance.
+
+> greg k-h
