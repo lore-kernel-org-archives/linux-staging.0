@@ -1,41 +1,41 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA423FC8
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:29 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id q26so10365844wrc.7
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C14E3FCF
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:30 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id q26so10365956wrc.7
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7e0J/R3gJQDabLtHpyjQtJohAsSE1y48rkqb7f3qtUY=;
-        b=hgDUzJx9Wklh5ga++9Ww6PwBSw3PHmNLidI7GjhFVbFYKzKO80hxVYClgQ44rIUZ2i
-         k7kQQDHmskPF3VfOXddFbDh77rEOYpn2FLtWzEsooSX/ZmRDgNabR1L/+WSrggQB20tU
-         iIXVS0imaFljey5tguIDydky4IzzgsEpjMqHAd5MmeTIOR1O3ihbkLsZWGPshfZDsaWc
-         1bvfLFGlCNeHTNDcvbYn5Ua8CcE2NK9Ccsf55laeskzrSMKA3jwRTg1m3a1mJ+HgJBXb
-         wgyP4/bjg2c3LOk5qGzmbxx1oj2MvbaU+Z0LrSHgF56jdYzaV0vXfZaVF+coBEATg9hb
-         Xv7g==
+        bh=YSCnO5rvDNy/iD2c+QoexcZcz8k9dThBLzb6/O0fGr0=;
+        b=VYmx1OeTObjdnEjr/+iGftwyxyiKPNRB4AFsn+RNes3rcpewJa4T0xNK56d34ZcOy4
+         6g5EuLHe8QVIRt6g44B4kw4osBbB7zCzTC5QTYp5upgGAJCJhazXDZupRQMQ3cO9u7Fu
+         40R6wTQnkxHoe72IBsVZmPxn2fjhLcLVZtWJ8hVBBClVa/7pHaSQB4tiZPXmCQPdskAs
+         b36DOIGPdhpyt4M1doQFsmlPX6J9NX/fv4odVtyXV6RG/JyZXMqCYXUXwFxnAnnHr3Xa
+         f7rtFurLBbzkKj9IoNMb2w1e//xn4H8MwKx5AeIBN5dBbtJ2hVEUxOBmRv19q49izSsn
+         drpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7e0J/R3gJQDabLtHpyjQtJohAsSE1y48rkqb7f3qtUY=;
-        b=63hG3qg5m1v25aNN6cz/h17XWcaDEWCh9aHXuNCwXHxSKwpxUdhDOnKX64BZufQ7Ei
-         IoYl5n3DOKpptTv3wgU24m6x5AWhM0dkH0yiqUd3NmpKRhs3aF1AgIzMYqMQ91+2fTWw
-         JjeJ+C38/pRH/LPFDWKZWvc9OyoQpurnh4RVoE1+Xl/8K2ut4MBxFZtveu0kNQSkVfNH
-         4+7ZlhjvyAoH9ii7FFBwqo7rUqBYeygDMy90PZjrn0uDv8YUTWZSF4wgkwK9BiQ0OS65
-         OmjTByoeogc+oLhBH1UkL2BZfqcMv+EbUjC0aNSjFjr2T5XjP2f8G1QHe6SgYygxv4fI
-         SbSw==
-X-Gm-Message-State: AOAM533RGLoPrdV+dtEB7AadfnoXTkGBIFTDcYx08uzubMXAdGHKbZI8
-	fjiyKZ1ms5sGU2ZyheYpwhA=
-X-Google-Smtp-Source: ABdhPJx9EuC82Fw1eD74bNVhvtvthXqtmBWDVjaxdniMkpMlE6EsAOYlXgBoXdRQFaUIe40CLjm6lA==
-X-Received: by 2002:adf:cc82:: with SMTP id p2mr907133wrj.5.1632341128165;
+        bh=YSCnO5rvDNy/iD2c+QoexcZcz8k9dThBLzb6/O0fGr0=;
+        b=HAr9XWmHUa2DZbFzL2x2CmO/7UyVLGaUtLqS++9vtJcT4CPsR46wyOmNpXM9Y+vuIj
+         wddrnTa34O72Ml1NYU2pwNG7ITbLPzA2f2TdxYAmxnN8xKTofnQJRR48NPn/KZZMzRBa
+         HDNyZ8afVb/hCiPeBmWv9hd3XgDZbkcgl7npCnxComiXvV/Y4TwDI6GlcL6FTnEV67S7
+         M8fTo7QGNJ+QVPCT6ATv0KK74n+Af/32j6IeQhlTT0gCo4z7i7y91Q0eXHuMb11vBtPL
+         DxKuBkeCIWdG8+Je4zRBVuGDn5bbiX94qDb95jyKCW4pV6xBWpwIp8j2Rc7wx3khcwEC
+         ORlQ==
+X-Gm-Message-State: AOAM5334ySRcw3u/OXvXCXcW3B0qlZTWXCQnP7e2VAuU84BH7hLORTZe
+	TBVLYIMGGkPiqzvJNQxvq1E=
+X-Google-Smtp-Source: ABdhPJyu64QOxcI4VH2w07QK+7QIhs5fXkJs7Um+27YcZQ/GdSZlQb4Nxsl2g6PWGIB6GAqfsrO3vg==
+X-Received: by 2002:adf:ebcd:: with SMTP id v13mr890167wrn.400.1632341128945;
         Wed, 22 Sep 2021 13:05:28 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.27
+        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 13:05:27 -0700 (PDT)
+        Wed, 22 Sep 2021 13:05:28 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 03/47] staging: r8188eu: remove efuse_GetMaxSize()
-Date: Wed, 22 Sep 2021 22:03:36 +0200
-Message-Id: <20210922200420.9693-4-straube.linux@gmail.com>
+Subject: [PATCH 04/47] staging: r8188eu: remove rtw_BT_efuse_map_write()
+Date: Wed, 22 Sep 2021 22:03:37 +0200
+Message-Id: <20210922200420.9693-5-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922200420.9693-1-straube.linux@gmail.com>
 References: <20210922200420.9693-1-straube.linux@gmail.com>
@@ -57,44 +57,132 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function efuse_GetMaxSize is not used, remove it.
+Function rtw_BT_efuse_map_write() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_efuse.c    | 7 -------
- drivers/staging/r8188eu/include/rtw_efuse.h | 1 -
- 2 files changed, 8 deletions(-)
+ drivers/staging/r8188eu/core/rtw_efuse.c    | 94 ---------------------
+ drivers/staging/r8188eu/include/rtw_efuse.h |  2 -
+ 2 files changed, 96 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index cb4ad21f00c1..ef7a50d31c01 100644
+index ef7a50d31c01..010740d035ea 100644
 --- a/drivers/staging/r8188eu/core/rtw_efuse.c
 +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -279,13 +279,6 @@ u8 rtw_efuse_access(struct adapter *padapter, u8 write, u16 start_addr, u16 cnts
- 	return res;
+@@ -406,100 +406,6 @@ u8 rtw_efuse_map_write(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
+ 	return ret;
  }
  
--u16 efuse_GetMaxSize(struct adapter *padapter)
+-u8 rtw_BT_efuse_map_write(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
 -{
--	u16 max_size;
--	rtl8188e_EFUSE_GetEfuseDefinition(padapter, EFUSE_WIFI, TYPE_AVAILABLE_EFUSE_BYTES_TOTAL, (void *)&max_size, false);
--	return max_size;
+-	u8 offset, word_en;
+-	u8 *map;
+-	u8 newdata[PGPKT_DATA_SIZE + 1];
+-	s32	i, idx;
+-	u8 ret = _SUCCESS;
+-	u16 mapLen = 0;
+-
+-	rtl8188e_EFUSE_GetEfuseDefinition(padapter, EFUSE_BT, TYPE_EFUSE_MAP_LEN, (void *)&mapLen, false);
+-
+-	if ((addr + cnts) > mapLen)
+-		return _FAIL;
+-
+-	map = kzalloc(mapLen, GFP_KERNEL);
+-	if (!map)
+-		return _FAIL;
+-
+-	ret = rtw_BT_efuse_map_read(padapter, 0, mapLen, map);
+-	if (ret == _FAIL)
+-		goto exit;
+-
+-	rtl8188e_EfusePowerSwitch(padapter, true, true);
+-
+-	offset = (addr >> 3);
+-	word_en = 0xF;
+-	memset(newdata, 0xFF, PGPKT_DATA_SIZE + 1);
+-	i = addr & 0x7;	/*  index of one package */
+-	idx = 0;	/*  data index */
+-
+-	if (i & 0x1) {
+-		/*  odd start */
+-		if (data[idx] != map[addr + idx]) {
+-			word_en &= ~BIT(i >> 1);
+-			newdata[i - 1] = map[addr + idx - 1];
+-			newdata[i] = data[idx];
+-		}
+-		i++;
+-		idx++;
+-	}
+-	do {
+-		for (; i < PGPKT_DATA_SIZE; i += 2) {
+-			if (cnts == idx)
+-				break;
+-			if ((cnts - idx) == 1) {
+-				if (data[idx] != map[addr + idx]) {
+-					word_en &= ~BIT(i >> 1);
+-					newdata[i] = data[idx];
+-					newdata[i + 1] = map[addr + idx + 1];
+-				}
+-				idx++;
+-				break;
+-			} else {
+-				if ((data[idx] != map[addr + idx]) ||
+-				    (data[idx + 1] != map[addr + idx + 1])) {
+-					word_en &= ~BIT(i >> 1);
+-					newdata[i] = data[idx];
+-					newdata[i + 1] = data[idx + 1];
+-				}
+-				idx += 2;
+-			}
+-			if (idx == cnts)
+-				break;
+-		}
+-
+-		if (word_en != 0xF) {
+-			DBG_88E("%s: offset=%#X\n", __func__, offset);
+-			DBG_88E("%s: word_en=%#X\n", __func__, word_en);
+-			DBG_88E("%s: data=", __func__);
+-			for (i = 0; i < PGPKT_DATA_SIZE; i++)
+-				DBG_88E("0x%02X ", newdata[i]);
+-			DBG_88E("\n");
+-
+-			break;
+-		}
+-
+-		if (idx == cnts)
+-			break;
+-
+-		offset++;
+-		i = 0;
+-		word_en = 0xF;
+-		memset(newdata, 0xFF, PGPKT_DATA_SIZE);
+-	} while (1);
+-
+-	rtl8188e_EfusePowerSwitch(padapter, true, false);
+-
+-exit:
+-
+-	kfree(map);
+-
+-	return ret;
 -}
 -
- u8 rtw_efuse_map_read(struct adapter *padapter, u16 addr, u16 cnts, u8 *data)
- {
- 	u16 mapLen = 0;
+ /*-----------------------------------------------------------------------------
+  * Function:	Efuse_ReadAllMap
+  *
 diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
-index a6e36be6ee76..de98b732fce0 100644
+index de98b732fce0..02cbadb2ec2b 100644
 --- a/drivers/staging/r8188eu/include/rtw_efuse.h
 +++ b/drivers/staging/r8188eu/include/rtw_efuse.h
-@@ -101,7 +101,6 @@ extern u8 fakeBTEfuseInitMap[];
- extern u8 fakeBTEfuseModifiedMap[];
- /*------------------------Export global variable----------------------------*/
- 
--u16 efuse_GetMaxSize(struct adapter *adapter);
- u8 rtw_efuse_access(struct adapter *adapter, u8 read, u16 start_addr,
- 		    u16 cnts, u8 *data);
- u8 rtw_efuse_map_read(struct adapter *adapter, u16 addr, u16 cnts, u8 *data);
+@@ -107,8 +107,6 @@ u8 rtw_efuse_map_read(struct adapter *adapter, u16 addr, u16 cnts, u8 *data);
+ u8 rtw_efuse_map_write(struct adapter *adapter, u16 addr, u16 cnts, u8 *data);
+ u8 rtw_BT_efuse_map_read(struct adapter *adapter, u16 addr,
+ 			 u16 cnts, u8 *data);
+-u8 rtw_BT_efuse_map_write(struct adapter *adapter, u16 addr,
+-			  u16 cnts, u8 *data);
+ u8 Efuse_CalculateWordCnts(u8 word_en);
+ void ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf, bool test);
+ u8 efuse_OneByteRead(struct adapter *adapter, u16 addr, u8 *data, bool test);
 -- 
 2.33.0
 
