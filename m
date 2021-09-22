@@ -1,93 +1,195 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D093FC5
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 05:00:42 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id d6so2898267wrc.11
-        for <linux-staging@lists.linux.dev>; Tue, 21 Sep 2021 22:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uLV1H8lOUqllhWhMWtTAgHCu5bS8aT/YHsgKcThPqTo=;
-        b=hc7YsC+KdwME/FdU9dBYKerpWNTd36HebU7kzGoHCb+v9NITrk4VBHlGJvNybmu2NV
-         HgE8Mf/5sNZF40dlkEq1WNn/bQXmZaQ8GE+1DwvvCVLJN6Vh4+EwzVF+uVaAAsUXh78F
-         +pek75WzITpMDasRDOWC9VZaEw1ofuCHUhYEVjWY4njIvlhTUnaqp0U2KDfhyiZMigEv
-         rMY4ocfnD3d5grfgbOERKJpYe/SqoefgRwTF20fZm8JLp9nRpXXylHeJ3C+9xf4GOj1D
-         6ABRyEjeu4AMiIT4p+dO4FzrU1DmYLHV33Ja4mYGzE93h2w4nLKFlkx9+l4NX/i6TFl1
-         FWdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uLV1H8lOUqllhWhMWtTAgHCu5bS8aT/YHsgKcThPqTo=;
-        b=18gXjUwS2fgMFd9yCCgmRanMa6imz0nhiMuK+lI13Jlmd2r0/bKC2XUPeoghY63c/c
-         brClioJPk0bRh4EeCYtOm8cSjDfnf5LN2F9Jof+NVeStTaBxR5qFeF3zd7UbnIqpeBCi
-         y3SnPzE+6/JREUDPDWnDD0TqqzosTDjO553dVORzhdHumn1xZu9uqYRr1doKHKyggZga
-         EvQzWvYKjLQXefpeRzelXdKat/1gEKA0fGoycjAw/CCkBrKAL0pRdY9FDk47s4ZPAjZy
-         yqxUXzISAOO2lzbtLx+Tj3yJ9+PPrrVJn+y6TfLDvMTc+VteI5F+RA9bLlFxIjazIKD2
-         XwvQ==
-X-Gm-Message-State: AOAM533bLLWADrD08jN/EgmNTeAwzN78geJ0e7pNZC48gvHslgjnWNsH
-	MA9HBjN9gx20XTnTdriVZAc=
-X-Google-Smtp-Source: ABdhPJydVjWKiS4HM+M6BTpD6DBcjrGFUBfUfGlobfx9VO3CWDAwnpe828DpeeusVa6m6HrEob5EuA==
-X-Received: by 2002:a5d:64e2:: with SMTP id g2mr36130452wri.20.1632286841330;
-        Tue, 21 Sep 2021 22:00:41 -0700 (PDT)
-Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id b187sm4811625wmd.33.2021.09.21.22.00.40
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 Sep 2021 22:00:40 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-pci@vger.kernel.org
-Cc: lorenzo.pieralisi@arm.com,
-	john@phrozen.org,
-	devicetree@vger.kernel.org,
-	tsbogend@alpha.franken.de,
-	bhelgaas@google.com,
-	matthias.bgg@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-mips@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	neil@brown.name,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] MAINTAINERS: add myself as maintainer of the MT7621 PCI controller driver
-Date: Wed, 22 Sep 2021 07:00:35 +0200
-Message-Id: <20210922050035.18162-4-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210922050035.18162-1-sergio.paracuellos@gmail.com>
-References: <20210922050035.18162-1-sergio.paracuellos@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6D672
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 06:26:33 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id BC38B5C0134;
+	Wed, 22 Sep 2021 02:26:32 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 22 Sep 2021 02:26:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=Y9/1gD2msJOfaeSLNHVSjdVA7rA
+	AosgBn0cjn2zsfMk=; b=olj/biKDG2RoXzju3WX9iTyrNY3bvBjC3nd37Bj2rqk
+	8lmsibGcRYihcqeSmAq2XZjyE0WRTa0KKmoD1LTNGvFvhzTdV1Hrd1+3p2XeWH83
+	DTlkuCZ/1MST/VGOlDscuExYhIUXo9G/Ac7vANl+MzJ12mP3uQdm+9C1VY+3fOU3
+	DyAdUe6dgYkXkhb25i5htT4423+cPWOhVLjrubq1KD24jS/n4DM0YLGE3xnFdMD/
+	6RIJ61UjMhyUZiRcjVt4ky+C1WgLrluDmjc++1NNf2Mm7BAFznH+vNc2ic2eLsZu
+	cDQQfcDHufzj3SIpLkJ8H0fWRk30Y5FGiWo7lQMXbGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Y9/1gD
+	2msJOfaeSLNHVSjdVA7rAAosgBn0cjn2zsfMk=; b=o6cHjpwOXHFCmRm/858yi7
+	YbSg63xdmDYecGD9nVIk2t9+T9lRw+CQoDkYP7dCox1gpQHXs+XNPkFRTHOuIgrX
+	kvdsXt3sKi67ZFLwLun0N8yHdybVbRq27TRECXZcgdYZpnLOnxsyyUm9toUn7OpK
+	NCqY+d/CiVdu24jQ+0s0aVcCg46I122JlOPudWttQ4P3+1dJSG6s0A8Lvf0TL5NV
+	3pfM/aRfp9nGsfdU+amNmHUGtIKEdS7Br1wi55EjuEcSKyOQpefqHwzyQHf/Xyyy
+	8byQGVN6bRgTf2eZVhO/PuqzIFDy7u/hC8MufvA2aU1tBeawB+SPPyuvnBAXPdLQ
+	==
+X-ME-Sender: <xms:mMxKYVGupfkF2428LWpogW2UM7dUGWn6X_5-APTstTOs7JXhptea7Q>
+    <xme:mMxKYaUayl4ePq_ippJDKzO0iy7VkoD1hyqTcwIW5mwEFiSkz_G5piaG-CrVAnZpe
+    INSlfh8tXEk8Q>
+X-ME-Received: <xmr:mMxKYXLueY0lJ2DH1aGFrwrcVIczdFXBLaa7tZcozBRQqn9yh9tslpdMOKLU03kVa6N6z1wiaHTuRO4iXCVF9oU1KvLUSO23>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeiiedguddtudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
+    ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorg
+    hhrdgtohhm
+X-ME-Proxy: <xmx:mMxKYbFeILuO1d0LnjcqbTnau-mry0Z0Eae0ATuYQqvsVmTZtEZLTw>
+    <xmx:mMxKYbUbS8dihmKsEmruRqffBheQBab1_Dv4qvkRscq6mEVp_ciCmA>
+    <xmx:mMxKYWMGolekYNCzeLOYYht5N_4Z7aum9FNyyOnX1IWOSrlxegBsWA>
+    <xmx:mMxKYYgK2H-9Oc3yp4nDC5w2Tcxl1N3w9GI9C6C3Gf6SSxpa_IDdGQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Sep 2021 02:26:32 -0400 (EDT)
+Date: Wed, 22 Sep 2021 08:26:28 +0200
+From: Greg KH <greg@kroah.com>
+To: "Usman S. Ansari" <ua1422@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Staging: wlan-ng: Fix warning messages generated by
+ checkpatch.pl
+Message-ID: <YUrMlF+fuL09Hk9u@kroah.com>
+References: <20210917182542.52733-1-ua1422@gmail.com>
+ <YUWM2xt1a8OOvWFV@kroah.com>
+ <CACYKDtieSGhL45vofCZaY=CajYqFvHaFU1Yu4OK8nJfT6wr91g@mail.gmail.com>
+ <YUba2PMFTv7nucP0@kroah.com>
+ <CACYKDthSg42XEEkuYG904En6Q7r4Kj0Sc4MHgfoS2gPmRkNDjA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACYKDthSg42XEEkuYG904En6Q7r4Kj0Sc4MHgfoS2gPmRkNDjA@mail.gmail.com>
 
-Add myself as maintainer of the PCie Controlller driver for
-MT7621 SoCs.
+On Tue, Sep 21, 2021 at 07:56:10PM -0700, Usman S. Ansari wrote:
+> On Sat, Sep 18, 2021 at 11:38 PM Greg KH <greg@kroah.com> wrote:
+> >
+> > On Sat, Sep 18, 2021 at 11:29:42AM -0700, Usman S. Ansari wrote:
+> > > On Fri, Sep 17, 2021 at 11:53 PM Greg KH <greg@kroah.com> wrote:
+> > >
+> > > > On Fri, Sep 17, 2021 at 11:25:42AM -0700, ua1422@gmail.com wrote:
+> > > > > From: Usman Ansari <ua1422@gmail.com>
+> > > > >
+> > > > > Signed-off-by: Usman Ansari <ua1422@gmail.com>
+> > > > > Description: Address the following checkpatch warning:
+> > > > >
+> > > > > WARNING: Commit log lines starting with '#' are dropped by git as
+> > > > comments
+> > > > > ---
+> > > > >  drivers/staging/wlan-ng/cfg80211.c | 6 +++---
+> > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/staging/wlan-ng/cfg80211.c
+> > > > b/drivers/staging/wlan-ng/cfg80211.c
+> > > > > index 7951bd63816f..f03dc1e59db1 100644
+> > > > > --- a/drivers/staging/wlan-ng/cfg80211.c
+> > > > > +++ b/drivers/staging/wlan-ng/cfg80211.c
+> > > > > @@ -1,7 +1,7 @@
+> > > > >  // SPDX-License-Identifier: GPL-2.0
+> > > > >  /* cfg80211 Interface for prism2_usb module */
+> > > > > -#include "hfa384x.h"
+> > > > > -#include "prism2mgmt.h"
+> > > > > + #include "hfa384x.h"
+> > > > > + #include "prism2mgmt.h"
+> > > > >
+> > > > >  /* Prism2 channel/frequency/bitrate declarations */
+> > > > >  static const struct ieee80211_channel prism2_channels[] = {
+> > > > > @@ -28,7 +28,7 @@ static const struct ieee80211_rate prism2_rates[] = {
+> > > > >       { .bitrate = 110 }
+> > > > >  };
+> > > > >
+> > > > > -#define PRISM2_NUM_CIPHER_SUITES 2
+> > > > > + #define PRISM2_NUM_CIPHER_SUITES 2
+> > > > >  static const u32 prism2_cipher_suites[PRISM2_NUM_CIPHER_SUITES] = {
+> > > > >       WLAN_CIPHER_SUITE_WEP40,
+> > > > >       WLAN_CIPHER_SUITE_WEP104
+> > > > > --
+> > > > > 2.25.1
+> > > > >
+> > > >
+> > > > Hi,
+> > > >
+> > > > This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+> > > > a patch that has triggered this response.  He used to manually respond
+> > > > to these common problems, but in order to save his sanity (he kept
+> > > > writing the same thing over and over, yet to different people), I was
+> > > > created.  Hopefully you will not take offence and will fix the problem
+> > > > in your patch and resubmit it so that it can be accepted into the Linux
+> > > > kernel tree.
+> > > >
+> > > > You are receiving this message because of the following common error(s)
+> > > > as indicated below:
+> > > >
+> > > > - Your patch does not have a Signed-off-by: line.  Please read the
+> > > >   kernel file, Documentation/SubmittingPatches and resend it after
+> > > >   adding that line.  Note, the line needs to be in the body of the
+> > > >   email, before the patch, not at the bottom of the patch or in the
+> > > >   email signature.
+> > > >
+> > > > - You did not specify a description of why the patch is needed, or
+> > > >   possibly, any description at all, in the email body.  Please read the
+> > > >   section entitled "The canonical patch format" in the kernel file,
+> > > >   Documentation/SubmittingPatches for what is needed in order to
+> > > >   properly describe the change.
+> > > >
+> > > > - You did not write a descriptive Subject: for the patch, allowing Greg,
+> > > >   and everyone else, to know what this patch is all about.  Please read
+> > > >   the section entitled "The canonical patch format" in the kernel file,
+> > > >   Documentation/SubmittingPatches for what a proper Subject: line should
+> > > >   look like.
+> > > >
+> > > > If you wish to discuss this problem further, or you have questions about
+> > > > how to resolve this issue, please feel free to respond to this email and
+> > > > Greg will reply once he has dug out from the pending patches received
+> > > > from other developers.
+> > > >
+> > > > thanks,
+> > > >
+> > > > greg k-h's patch email bot
+> > > >
+> > >
+> > > Hi Greg,
+> > >
+> > > I think I have covered all the items listed in your email bot reply. Please
+> > > let me know if the patch is not meeting the expectations.
+> >
+> > It is not, sorry.  Please read the documentation.
+> 
+> This is more for learning and not arguing:
+> - I do have signed-off in my patch
+> - I do have a Description of the patch
+> - I do have a subject describing the patch
+> 
+> Anyone, please let me know, what are the expectations not fulfilled?
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+Here is what you have in your changelog, from above:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index eeb4c70b3d5b..a7f0cbad7ac5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11842,6 +11842,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/i2c/i2c-mt7621.txt
- F:	drivers/i2c/busses/i2c-mt7621.c
- 
-+MEDIATEK MT7621 PCI CONTROLLER DRIVER
-+M:	Sergio Paracuellos <sergio.paracuellos@gmail.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-+F:	drivers/pci/controller/pci-mt7621.c
-+
- MEDIATEK MT7621 PHY PCI DRIVER
- M:	Sergio Paracuellos <sergio.paracuellos@gmail.com>
- S:	Maintained
--- 
-2.25.1
+	From: Usman Ansari <ua1422@gmail.com>
 
+	Signed-off-by: Usman Ansari <ua1422@gmail.com>
+	Description: Address the following checkpatch warning:
+
+	WARNING: Commit log lines starting with '#' are dropped by git as
+	comments
+
+
+Now look at any of the thousands of commits in the kernel tree, are they
+also in this format?  Or are they in a different format?
+
+Look at the documentation that my bot pointed you at for what the
+structure of a changelog comment should be.  Notably look _where_ the
+information should be in the changelog commit (top?  middle?  bottom?)
+and compare it to what you did here.
+
+Try to rewrite it to match what has been accepted in the past.
+
+hope this helps,
+
+greg k-h
