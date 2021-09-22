@@ -1,41 +1,41 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5CB3FC8
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:27 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id w29so10352913wra.8
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347453FC9
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:28 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id d21so10280687wra.12
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jEaQvr3VC+onuDR73XZ9fOvEJ6JR6IVQTYkFzDHUZt0=;
-        b=Ed1FWW2C6t0N8NOuiWAedXT0KB4tMy56FDZng3mwXnuGIOxpJtxtOc2/ZMf9rid9z7
-         JUUq+8oL9KF3gkkei5kOI6H68iLMj/R5P8fiQSnS7tYZRQA02yLfWJZfChFw1TE6vwW3
-         EHsOLCrQq5fH0nq8jVT1EC9l3iv6IQaA+syxdGC3CvCu7zmflBFfy5QWYMhDUMH1pwwr
-         9qdL7z8nKCwmnchICv3nHA7apSA1M+F1poFAAiWYSMTmCo60M7XzZoqtYba6a21JKw0o
-         mt5Bn5w3OFwYVi+D55D6w1fYe9FLo0SLU3+CChA9p87t5bpQmiJ4DnEYLxUxBQA0QJvR
-         wk+g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=So4uie0HiP7WQjSXZrgcgIwmM4TdpiWLeMD3d0z1vw8=;
+        b=PgqtkcHRGPRv7TXV6nD3EeMqESrSMfAQp8WOxvYLW5KnIuQQlgsxFsEmbBrAYV14Zm
+         9vqFCQOB5dhFkGmlrhszfVlj7ZuXXk/uzKEeLdThIhdD+a8exiGLiJ8xc/SsBJGTBbar
+         +opeuIJdh03prCdFELeVEQkzG5mviahmA3+AzlL4pilW/F5Uhc3LQQalZIdY51uj8zMb
+         2TgRQFpDTcre7Jei52dt7IYKSzgsV5kxoxpB9tWmVZ+dmJbpX/cWR7lw96ClwBwafR00
+         dfIc8Le/WBCrzjLHeAVTDVVnh2B6uHeDqqAfDQjEUDAw+Y3M4klaQg6d/NcZ29dIjRix
+         RtNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jEaQvr3VC+onuDR73XZ9fOvEJ6JR6IVQTYkFzDHUZt0=;
-        b=nD4cibC4oyPoVfFG1W+a1tpAO4F1JzPEQL/ei4708nZSA/srkNtznTum2iY5WRqObK
-         EydcuClFu1qwHIY9kFciU32YjWfkNwXDFGf8yMDbRBR6VBqI7sCo40NrHuRfDlnBWLFs
-         xZmk1OSboV3oQ9xthmt4d6p1kQaI+yXc/NisX94WophgtqefXPTt1SjySoYM5mX4j/F3
-         gsSX/DXmtYI0vnPOQciK4uSS1dxzlRK+NVVhexLHg0sSsUvdMk/MUk2amHrrfBN5yv8b
-         /5LZ05LnzXSksZV/sVPzqrjc9OegeHhzSUAefi70b442AFWMRu8jgmrHmuMog8clRgj0
-         3YSw==
-X-Gm-Message-State: AOAM531w3QyqId+xnV7aTB6cN9FwafsjzYIpxW8b4tonc0x5VBSGFSSC
-	N1oGS4UDE/AXWXbjdCc0mJQ=
-X-Google-Smtp-Source: ABdhPJy+WRPt8Lp3xdfAdduQcqpw3ihSoPzH+mtKXSni1sV+oWcBD7HmknYqNAFwrc4mOj/H/XLQ8g==
-X-Received: by 2002:a05:6000:18a4:: with SMTP id b4mr930578wri.96.1632341125898;
-        Wed, 22 Sep 2021 13:05:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=So4uie0HiP7WQjSXZrgcgIwmM4TdpiWLeMD3d0z1vw8=;
+        b=hVgfhe08Jg40SIJLjAL3j6GGqMGEYhEHxVUiENo3dqL3eOMO1mzvGxIgJr+2F2hjVE
+         3A6dZFjg01dBRJDyLkVA0v/6q5PCU11NemoHIstQMZZkJSxBpFbeKgRkUNU/dEWPaUqH
+         kQ3nEdfbHqXdUC212wiVpHsBpDR+zkih1YfmvFvODrM77yN+PepYyMKeLE0N2bJxRWmK
+         +brY2xbbAeoPgZ6wR0KX1b0uiw3B1a5470Oa5FpIlQKsDyf94HGVjGEM5fG7rKRtjNMa
+         dKmXMjjf9boOl0MIvf3Z6CG7U7zrvhF5yHS1TFARkQ4iw25KT9n2MR+6rgOqwPKjX40j
+         uFgQ==
+X-Gm-Message-State: AOAM530ZBhqrIA4xvTdVaX7+FbOD3L8soyz9+ogm4ZYYfR2bVt8QEnh2
+	rWo5COPUDfO/ohkItrbtoAk=
+X-Google-Smtp-Source: ABdhPJyBPJJgtGVivVgt+3OJLWAAPQ4v+rdRy91ItAm+K62S+wBgXQfPM4bq0NaFHyn+/T4ueagVAQ==
+X-Received: by 2002:a5d:6a8b:: with SMTP id s11mr882801wru.127.1632341126592;
+        Wed, 22 Sep 2021 13:05:26 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.23
+        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 13:05:25 -0700 (PDT)
+        Wed, 22 Sep 2021 13:05:26 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 00/47] staging: r8188eu: remove unused functions
-Date: Wed, 22 Sep 2021 22:03:33 +0200
-Message-Id: <20210922200420.9693-1-straube.linux@gmail.com>
+Subject: [PATCH 01/47] staging: r8188eu: remove EFUSE_ShadowRead()
+Date: Wed, 22 Sep 2021 22:03:34 +0200
+Message-Id: <20210922200420.9693-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210922200420.9693-1-straube.linux@gmail.com>
+References: <20210922200420.9693-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,87 +57,129 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes a bunch of unused functions and one unused enum.
+Function EFUSE_ShadowRead() is not used, remove it. It is the only
+user of the functions efuse_ShadowRead{1,2,4}Byte, remove these as
+well.
 
-Tested on x86_64 with Inter-Tech DMG-02.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_efuse.c    | 87 ---------------------
+ drivers/staging/r8188eu/include/rtw_efuse.h |  1 -
+ 2 files changed, 88 deletions(-)
 
-Michael Straube (47):
-  staging: r8188eu: remove EFUSE_ShadowRead()
-  staging: r8188eu: remove efuse_GetCurrentSize()
-  staging: r8188eu: remove efuse_GetMaxSize()
-  staging: r8188eu: remove rtw_BT_efuse_map_write()
-  staging: r8188eu: remove rtw_efuse_access()
-  staging: r8188eu: remove rtw_efuse_map_write()
-  staging: r8188eu: remove rtw_BT_efuse_map_read()
-  staging: r8188eu: remove rtw_efuse_map_read()
-  staging: r8188eu: remove _rtw_dequeue_network()
-  staging: r8188eu: remove _rtw_enqueue_network()
-  staging: r8188eu: remove rtw_get_timestampe_from_ie()
-  staging: r8188eu: remove rtw_scan_abort()
-  staging: r8188eu: remove issue_action_spct_ch_switch()
-  staging: r8188eu: remove issue_probereq_p2p_ex()
-  staging: r8188eu: remove sreset_get_wifi_status()
-  staging: r8188eu: remove build_deauth_p2p_ie()
-  staging: r8188eu: remove rtw_freq2ch()
-  staging: r8188eu: remove rtw_set_802_11_add_key()
-  staging: r8188eu: remove rtw_set_802_11_remove_key()
-  staging: r8188eu: remove rtw_set_802_11_remove_wep()
-  staging: r8188eu: remove rtw_set_country()
-  staging: r8188eu: remove rtw_set_scan_mode()
-  staging: r8188eu: remove rtw_validate_ssid()
-  staging: r8188eu: remove rtw_set_channel_plan()
-  staging: r8188eu: remove rtw_atoi()
-  staging: r8188eu: remove rtw_cbuf_push()
-  staging: r8188eu: remove rtw_cbuf_full()
-  staging: r8188eu: remove rtw_os_read_port()
-  staging: r8188eu: remove rtw_IOL_cmd_buf_dump()
-  staging: r8188eu: remove action_public_str()
-  staging: r8188eu: remove dump_ies()
-  staging: r8188eu: remove hal_ch_offset_to_secondary_ch_offset()
-  staging: r8188eu: remove secondary_ch_offset_to_hal_ch_offset()
-  staging: r8188eu: remove ieee80211_get_hdrlen()
-  staging: r8188eu: remove ieee80211_is_empty_essid()
-  staging: r8188eu: remove rtw_action_frame_parse()
-  staging: r8188eu: remove rtw_ies_remove_ie()
-  staging: r8188eu: remove rtw_set_ie_ch_switch()
-  staging: r8188eu: remove rtw_set_ie_mesh_ch_switch_parm()
-  staging: r8188eu: remove rtw_set_ie_secondary_ch_offset()
-  staging: r8188eu: remove enum secondary_ch_offset
-  staging: r8188eu: remove rtw_dequeue_recvbuf()
-  staging: r8188eu: remove rtw_enqueue_recvbuf()
-  staging: r8188eu: remove rtw_enqueue_recvbuf_to_head()
-  staging: r8188eu: remove rtw_init_recvframe()
-  staging: r8188eu: remove rtw_calculate_wlan_pkt_size_by_attribue()
-  staging: r8188eu: remove rtw_sctx_done()
-
- drivers/staging/r8188eu/core/rtw_efuse.c      | 377 ------------------
- drivers/staging/r8188eu/core/rtw_ieee80211.c  | 301 --------------
- drivers/staging/r8188eu/core/rtw_ioctl_set.c  | 374 -----------------
- drivers/staging/r8188eu/core/rtw_iol.c        |  17 -
- drivers/staging/r8188eu/core/rtw_mlme.c       |  64 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  96 -----
- drivers/staging/r8188eu/core/rtw_p2p.c        |   7 -
- drivers/staging/r8188eu/core/rtw_recv.c       |  58 ---
- drivers/staging/r8188eu/core/rtw_rf.c         |  17 -
- drivers/staging/r8188eu/core/rtw_sreset.c     |  30 --
- drivers/staging/r8188eu/core/rtw_xmit.c       |  23 --
- drivers/staging/r8188eu/include/ieee80211.h   |  31 --
- .../staging/r8188eu/include/osdep_service.h   |   4 -
- drivers/staging/r8188eu/include/recv_osdep.h  |   2 -
- drivers/staging/r8188eu/include/rtw_efuse.h   |  11 -
- .../staging/r8188eu/include/rtw_ioctl_set.h   |   8 -
- drivers/staging/r8188eu/include/rtw_iol.h     |   1 -
- drivers/staging/r8188eu/include/rtw_mlme.h    |   6 -
- .../staging/r8188eu/include/rtw_mlme_ext.h    |   4 -
- drivers/staging/r8188eu/include/rtw_p2p.h     |   1 -
- drivers/staging/r8188eu/include/rtw_recv.h    |   5 -
- drivers/staging/r8188eu/include/rtw_rf.h      |   1 -
- drivers/staging/r8188eu/include/rtw_sreset.h  |   1 -
- drivers/staging/r8188eu/include/rtw_xmit.h    |   3 -
- .../staging/r8188eu/os_dep/osdep_service.c    |  49 ---
- drivers/staging/r8188eu/os_dep/recv_linux.c   |  14 -
- 26 files changed, 1505 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+index 801887f497cf..958954473d9b 100644
+--- a/drivers/staging/r8188eu/core/rtw_efuse.c
++++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+@@ -516,66 +516,6 @@ u8 rtw_BT_efuse_map_write(struct adapter *padapter, u16 addr, u16 cnts, u8 *data
+ 	return ret;
+ }
+ 
+-/*-----------------------------------------------------------------------------
+- * Function:	efuse_ShadowRead1Byte
+- *			efuse_ShadowRead2Byte
+- *			efuse_ShadowRead4Byte
+- *
+- * Overview:	Read from efuse init map by one/two/four bytes !!!!!
+- *
+- * Input:       NONE
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 11/12/2008	MHC		Create Version 0.
+- *
+- *---------------------------------------------------------------------------*/
+-static void
+-efuse_ShadowRead1Byte(
+-		struct adapter *pAdapter,
+-		u16 Offset,
+-		u8 *Value)
+-{
+-	struct eeprom_priv *pEEPROM = &pAdapter->eeprompriv;
+-
+-	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-
+-}	/*  EFUSE_ShadowRead1Byte */
+-
+-/* Read Two Bytes */
+-static void
+-efuse_ShadowRead2Byte(
+-		struct adapter *pAdapter,
+-		u16 Offset,
+-		u16 *Value)
+-{
+-	struct eeprom_priv *pEEPROM = &pAdapter->eeprompriv;
+-
+-	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
+-
+-}	/*  EFUSE_ShadowRead2Byte */
+-
+-/* Read Four Bytes */
+-static void
+-efuse_ShadowRead4Byte(
+-		struct adapter *pAdapter,
+-		u16 Offset,
+-		u32 *Value)
+-{
+-	struct eeprom_priv *pEEPROM = &pAdapter->eeprompriv;
+-
+-	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 2] << 16;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 3] << 24;
+-
+-}	/*  efuse_ShadowRead4Byte */
+-
+ /*-----------------------------------------------------------------------------
+  * Function:	Efuse_ReadAllMap
+  *
+@@ -636,30 +576,3 @@ void EFUSE_ShadowMapUpdate(
+ 	else
+ 		Efuse_ReadAllMap(pAdapter, efuseType, pEEPROM->efuse_eeprom_data, pseudo);
+ } /*  EFUSE_ShadowMapUpdate */
+-
+-/*-----------------------------------------------------------------------------
+- * Function:	EFUSE_ShadowRead
+- *
+- * Overview:	Read from efuse init map !!!!!
+- *
+- * Input:       NONE
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 11/12/2008	MHC		Create Version 0.
+- *
+- *---------------------------------------------------------------------------*/
+-void EFUSE_ShadowRead(struct adapter *pAdapter, u8 Type, u16 Offset, u32 *Value)
+-{
+-	if (Type == 1)
+-		efuse_ShadowRead1Byte(pAdapter, Offset, (u8 *)Value);
+-	else if (Type == 2)
+-		efuse_ShadowRead2Byte(pAdapter, Offset, (u16 *)Value);
+-	else if (Type == 4)
+-		efuse_ShadowRead4Byte(pAdapter, Offset, (u32 *)Value);
+-
+-}	/*  EFUSE_ShadowRead */
+diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
+index 53ac906f79fd..81407efbdc44 100644
+--- a/drivers/staging/r8188eu/include/rtw_efuse.h
++++ b/drivers/staging/r8188eu/include/rtw_efuse.h
+@@ -119,6 +119,5 @@ u8 efuse_OneByteWrite(struct adapter *adapter, u16 addr, u8 data, bool	test);
+ void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
+ 
+ void EFUSE_ShadowMapUpdate(struct adapter *adapter, u8 efusetype, bool test);
+-void EFUSE_ShadowRead(struct adapter *adapt, u8 type, u16 offset, u32 *val);
+ 
+ #endif
 -- 
 2.33.0
 
