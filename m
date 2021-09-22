@@ -1,207 +1,227 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C97A3FCD
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:55:16 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id c33so2769815uae.9
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:55:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246A3FCD
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 21:50:31 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id c21so15284857edj.0
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 14:50:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+BgGcO6gFQXcEbp81W0SITnzPCJRTfQCooICPiiqUQE=;
-        b=TykkEhnHLuHqCUjgNo7m/K/2WUALhSo3dJVfrXWO4Yp+cJajkCzcQMdGv7/YjInJz5
-         OH7sV3qcejnEBqefgWXW0QRrVp1hzat3YGOXajYYK8AKthAF710rN1Yz99fyhpXakpMn
-         4JGpQYN0pYxZumOC3Wv8Ybts/lDDUaDas5HtfTD3CTM1loZEY15gj7Fb8F+oce3FnsU3
-         +SJNQFd7/NxDfts98XLT+82+C95USroJC0rtgn9CIH8fVQF1MJm/2xPFNzUXqKeGTHS5
-         71F6hBcorVOh9LK3+k7+ELoZTA+2zSDIlHe7XV6K/62rliRBtvEW6z5VMnAUYOvr6g89
-         jrsA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QvtzOdpFtI51DTz/KDaMACdOOmAd5rcG9hZcUr+ctzs=;
+        b=l12/yQOUcuuLQ/1w27SqnA8lss7R678Q3b36tkhI/QN6/Hm1sLhyJ1JKcw+wFCVtpX
+         KGR6MM03faGfVGpR1ik5/7M6PtSPub3Wdy62Skj8T9QXQ/3sP3wffo/lyk7bZ+WjqGLW
+         idjKhKuvW4T95k1ZEdHIyBz2WkS4Xkdj8Zxe0O6B0hnhPNUvKCpLppRcQn8xh+Gl52hc
+         8q1BAXlxzAX+zFO7n8TG/a2iNPRy4Az5Lj78FnYMtqPHyARQ0W2MskYhz5DqwTSoGsnh
+         BuCCUVswGJ90ZNtDOCokxwwK//1JokpfUuzjBK3AxeqVyHFRjsqaDF72FFQFi3GgkZ0C
+         TEFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+BgGcO6gFQXcEbp81W0SITnzPCJRTfQCooICPiiqUQE=;
-        b=ZRXpI+V0JtMg5PbxgGeSWBM7/b2BbVQ46RQ4HKxnGLbakeOf+3eWt98rGxyFu819i9
-         OUyrZDRiuY1zTOwpVBvNFdbAGUxAXQ5E8dWUCTQ6VXp+hg5lBerS4bLplgHEgiAKBoBJ
-         H/g6fNQXum/yC5rtDXoPft51mJ7+Ek1ZIDQkoeSgg7bH+lcD7usw+5GIWcYigtov+Vdc
-         MgThXn4TeP88WxCX8v5O7Iasni4Q0G+1fuzqZhl7H2DIGlRL6OICm+EVYLoGqaaTClk6
-         SVTMdW0xWCS/CbKi9OvGNk4p8Q4SIW09ogADmzgo4bPhnDTXRwynHrSgE9RCWjbiWiO5
-         EdxQ==
-X-Gm-Message-State: AOAM5325nRH7HF/NlvgUI8sn5AOzYraAmV7OJbIydg8SiyYK8QYkyTJJ
-	v2G1u2wshvI4JiFRLVWCxPDbKioUI+OU9L1GbBA=
-X-Google-Smtp-Source: ABdhPJxDcGQqN9GCuF5eoxTUNHLefZk5THF4K0AQCUiQ8kbVHEpZo6V88ftTRy/PDIxFAtSe/B0Z7N9xXDHao2bE/zs=
-X-Received: by 2002:ab0:54d2:: with SMTP id q18mr1634240uaa.46.1632344115448;
- Wed, 22 Sep 2021 13:55:15 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QvtzOdpFtI51DTz/KDaMACdOOmAd5rcG9hZcUr+ctzs=;
+        b=rJ7XMWQuZHlHpo6HWYd5hfNt66NRm15Nj0GU0Zn2GSmOyd3vuKLy7Dl5rJgXD67lsE
+         SL4dIH/81cJKEP8WtgXjGiePjxPOx5zKSU1YVsQaldBTOOPAHmaZistt5l6Uff89pES+
+         TS6b5B6IZIU6ICm3HHX9ZRiFns0EYDd+qk5B8AFrFlF3lNAzYO8OBFqPaP+rabUisTFF
+         QhUFlA1B3NZqiH8sPxD5VxcT13+YEZ7npipxkXAznbPpOLrQ9Chp9o3Su9jMBrKXsYYS
+         OI/K2UawCvnnLoJpyD+Gl6VaWl/Nv7ikn2LHm4G94OIb+CCcVKJS5AWd3egJVgodW3hZ
+         VSMQ==
+X-Gm-Message-State: AOAM530TVZTP9RlnNseqYQLZFv+bouDzuQZxCDVO05hz/DJsBU1DjaFb
+	50kTGvZzlOZ+UY5FI5Whf6g=
+X-Google-Smtp-Source: ABdhPJyPtWVDJwK7nvMy8GslkwNVGzEEnJzLyDB/8MCJUucQDM2jmigtP4XvVqncSV6w1yP44zUZBw==
+X-Received: by 2002:a17:906:7217:: with SMTP id m23mr1535341ejk.466.1632347430390;
+        Wed, 22 Sep 2021 14:50:30 -0700 (PDT)
+Received: from tom-desktop.station (net-93-71-218-228.cust.vodafonedsl.it. [93.71.218.228])
+        by smtp.gmail.com with ESMTPSA id a4sm1960203edb.79.2021.09.22.14.50.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Sep 2021 14:50:29 -0700 (PDT)
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: 
+Cc: tomm.merciai@gmail.com,
+	Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yujia Qiao <rapiz@foxmail.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vt6655: Replace camel case variables
+Date: Wed, 22 Sep 2021 23:50:24 +0200
+Message-Id: <20210922215026.572424-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
- <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
- <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
- <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
- <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com> <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
-In-Reply-To: <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Wed, 22 Sep 2021 22:55:03 +0200
-Message-ID: <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
+Work in progress: replace camel case variables.
 
-On Wed, Sep 22, 2021 at 9:57 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Wed, Sep 22, 2021 at 8:40 PM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> > On Wed, Sep 22, 2021 at 8:07 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Wed, Sep 22, 2021 at 7:42 PM Sergio Paracuellos
-> > > Ok, thank you for the detailed explanation.
-> > >
-> > > I suppose you can use the generic infrastructure in asm-generic/io.h
-> > > if you "#define PCI_IOBASE mips_io_port_base". In this case, you
-> > > should have an architecture specific implementation of
-> > > pci_remap_iospace() that assigns mips_io_port_base.
-> >
-> > No, that is what I tried originally defining PCI_IOBASE as
-> > _AC(0xa0000000, UL) [0] which is the same as KSEG1 [1] that ends in
-> > 'mips_io_port_base'.
->
-> Defining it as KSEG1 would be problematic because that means that
-> the Linux-visible port numbers are offset from the bus-visible ones.
->
-> You really want PCI_IOBASE to point to the address of port 0.
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+---
+ drivers/staging/vt6655/baseband.c | 50 +++++++++++++++----------------
+ 1 file changed, 25 insertions(+), 25 deletions(-)
 
-Do you mean that doing
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index f73f3fad3e05..93640311f8e3 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -500,7 +500,7 @@ static const unsigned char by_vt3253_init_tab_rfmd[CB_VT3253_INIT_FOR_RFMD][2] =
+ };
+ 
+ #define CB_VT3253B0_INIT_FOR_RFMD 256
+-static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
++static const unsigned char by_vt3253b0_rfmd[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+ 	{0x00, 0x31},
+ 	{0x01, 0x00},
+ 	{0x02, 0x00},
+@@ -762,7 +762,7 @@ static const unsigned char byVT3253B0_RFMD[CB_VT3253B0_INIT_FOR_RFMD][2] = {
+ #define CB_VT3253B0_AGC_FOR_RFMD2959 195
+ /* For RFMD2959 */
+ static
+-unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
++unsigned char by_vt3253b0_agc4_rfmd2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
+ 	{0xF0, 0x00},
+ 	{0xF1, 0x3E},
+ 	{0xF0, 0x80},
+@@ -963,7 +963,7 @@ unsigned char byVT3253B0_AGC4_RFMD2959[CB_VT3253B0_AGC_FOR_RFMD2959][2] = {
+ #define CB_VT3253B0_INIT_FOR_AIROHA2230 256
+ /* For AIROHA */
+ static
+-unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
++unsigned char by_vt3253b0_airoha2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
+ 	{0x00, 0x31},
+ 	{0x01, 0x00},
+ 	{0x02, 0x00},
+@@ -1224,7 +1224,7 @@ unsigned char byVT3253B0_AIROHA2230[CB_VT3253B0_INIT_FOR_AIROHA2230][2] = {
+ 
+ #define CB_VT3253B0_INIT_FOR_UW2451 256
+ /* For UW2451 */
+-static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
++static unsigned char by_vt3253b0_uw2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
+ 	{0x00, 0x31},
+ 	{0x01, 0x00},
+ 	{0x02, 0x00},
+@@ -1485,7 +1485,7 @@ static unsigned char byVT3253B0_UW2451[CB_VT3253B0_INIT_FOR_UW2451][2] = {
+ 
+ #define CB_VT3253B0_AGC 193
+ /* For AIROHA */
+-static unsigned char byVT3253B0_AGC[CB_VT3253B0_AGC][2] = {
++static unsigned char by_vt3253b0_agc[CB_VT3253B0_AGC][2] = {
+ 	{0xF0, 0x00},
+ 	{0xF1, 0x00},
+ 	{0xF0, 0x80},
+@@ -2006,13 +2006,13 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		} else {
+ 			for (ii = 0; ii < CB_VT3253B0_INIT_FOR_RFMD; ii++)
+ 				result &= bb_write_embedded(priv,
+-					byVT3253B0_RFMD[ii][0],
+-					byVT3253B0_RFMD[ii][1]);
++					by_vt3253b0_rfmd[ii][0],
++					by_vt3253b0_rfmd[ii][1]);
+ 
+ 			for (ii = 0; ii < CB_VT3253B0_AGC_FOR_RFMD2959; ii++)
+ 				result &= bb_write_embedded(priv,
+-					byVT3253B0_AGC4_RFMD2959[ii][0],
+-					byVT3253B0_AGC4_RFMD2959[ii][1]);
++					by_vt3253b0_agc4_rfmd2959[ii][0],
++					by_vt3253b0_agc4_rfmd2959[ii][1]);
+ 
+ 			VNSvOutPortD(iobase + MAC_REG_ITRTMSET, 0x23);
+ 			MACvRegBitsOn(iobase, MAC_REG_PAPEDELAY, BIT(0));
+@@ -2028,12 +2028,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if ((by_rf_type == RF_AIROHA) || (by_rf_type == RF_AL2230S)) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AIROHA2230[ii][0],
+-				byVT3253B0_AIROHA2230[ii][1]);
++				by_vt3253b0_airoha2230[ii][0],
++				by_vt3253b0_airoha2230[ii][1]);
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
++				by_vt3253b0_agc[ii][0], by_vt3253b0_agc[ii][1]);
+ 
+ 		priv->abyBBVGA[0] = 0x1C;
+ 		priv->abyBBVGA[1] = 0x10;
+@@ -2046,13 +2046,13 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if (by_rf_type == RF_UW2451) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_UW2451[ii][0],
+-				byVT3253B0_UW2451[ii][1]);
++				by_vt3253b0_uw2451[ii][0],
++				by_vt3253b0_uw2451[ii][1]);
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0],
+-				byVT3253B0_AGC[ii][1]);
++				by_vt3253b0_agc[ii][0],
++				by_vt3253b0_agc[ii][1]);
+ 
+ 		VNSvOutPortB(iobase + MAC_REG_ITRTMSET, 0x23);
+ 		MACvRegBitsOn(iobase, MAC_REG_PAPEDELAY, BIT(0));
+@@ -2068,8 +2068,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if (by_rf_type == RF_UW2452) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_UW2451[ii][0],
+-				byVT3253B0_UW2451[ii][1]);
++				by_vt3253b0_uw2451[ii][0],
++				by_vt3253b0_uw2451[ii][1]);
+ 
+ 		/* Init ANT B select,
+ 		 * TX Config CR09 = 0x61->0x45,
+@@ -2101,7 +2101,7 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
++				by_vt3253b0_agc[ii][0], by_vt3253b0_agc[ii][1]);
+ 
+ 		priv->abyBBVGA[0] = 0x14;
+ 		priv->abyBBVGA[1] = 0x0A;
+@@ -2116,12 +2116,12 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if (by_rf_type == RF_VT3226) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AIROHA2230[ii][0],
+-				byVT3253B0_AIROHA2230[ii][1]);
++				by_vt3253b0_airoha2230[ii][0],
++				by_vt3253b0_airoha2230[ii][1]);
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
++				by_vt3253b0_agc[ii][0], by_vt3253b0_agc[ii][1]);
+ 
+ 		priv->abyBBVGA[0] = 0x1C;
+ 		priv->abyBBVGA[1] = 0x10;
+@@ -2137,8 +2137,8 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	} else if (by_rf_type == RF_AIROHA7230) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AIROHA2230[ii][0],
+-				byVT3253B0_AIROHA2230[ii][1]);
++				by_vt3253b0_airoha2230[ii][0],
++				by_vt3253b0_airoha2230[ii][1]);
+ 
+ 		/* {{ RobertYu:20050223, request by JerryChung */
+ 		/* Init ANT B select,TX Config CR09 = 0x61->0x45,
+@@ -2155,7 +2155,7 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 
+ 		for (ii = 0; ii < CB_VT3253B0_AGC; ii++)
+ 			result &= bb_write_embedded(priv,
+-				byVT3253B0_AGC[ii][0], byVT3253B0_AGC[ii][1]);
++				by_vt3253b0_agc[ii][0], by_vt3253b0_agc[ii][1]);
+ 
+ 		priv->abyBBVGA[0] = 0x1C;
+ 		priv->abyBBVGA[1] = 0x10;
+-- 
+2.25.1
 
-#define PCI_IOBASE mips_io_port_base
-
-would have different result that doing what I did
-
-#define PCI_IOBASE _AC(0xa0000000, UL)
-
-?
-
-I am not really understanding this yet (I think I need a bit of sleep
-time :)), but I will test this tomorrow and come back to you again
-with results.
-
->
-> > > pci_remap_iospace() was originally meant as an architecture
-> > > specific helper, but it moved into generic code after all architectures
-> > > had the same requirements. If MIPS has different requirements,
-> > > then it should not be shared.
-> >
-> > I see. So, if it can not be shared, would defining 'pci_remap_iospace'
-> > as 'weak' acceptable? Doing in this way I guess I can redefine the
-> > symbol for mips to have the same I currently have but without the
-> > ifdef in the core APIs...
->
-> I would hope to kill off the __weak functions, and prefer using an #ifdef
-> around the generic implementation. One way to do it is to define
-> a macro with the same name, such as
->
-> #define pci_remap_iospace pci_remap_iospace
-
-I guess this should be defined in arch/mips/include/asm/pci.h?
-
->
-> and then use #ifdef around the C function to see if that's already defined.
-
-I see. That would work, I guess. But I don't really understand why
-this approach would be better than this patch changes itself. Looks
-more hacky to me. As Bjorn pointed out in a previous version of this
-patch [0], this case is the same as the one in
-'acpi_pci_root_remap_iospace' and the same approach is used there...
-
->
-> > >
-> > > I don't yet understand how you deal with having multiple PCIe
-> > > host bridge devices if they have distinct I/O port ranges.
-> > > Without remapping to dynamic virtual addresses, does
-> > > that mean that every MMIO register between the first and
-> > > last PCIe bridge also shows up in /dev/ioport? Or do you
-> > > only support port I/O on the first PCIe host bridge?
-> >
-> > For example, this board is using all available three pci ports [2] and I get:
-> >
-> > root@gnubee:~# cat /proc/ioports
-> > 1e160000-1e16ffff : pcie@1e140000
-> >   1e160000-1e160fff : PCI Bus 0000:01
-> >     1e160000-1e16000f : 0000:01:00.0
-> >       1e160000-1e16000f : ahci
-> >     1e160010-1e160017 : 0000:01:00.0
-> >       1e160010-1e160017 : ahci
-> >     1e160018-1e16001f : 0000:01:00.0
-> >       1e160018-1e16001f : ahci
-> >     1e160020-1e160023 : 0000:01:00.0
-> >       1e160020-1e160023 : ahci
-> >     1e160024-1e160027 : 0000:01:00.0
-> >       1e160024-1e160027 : ahci
-> >   1e161000-1e161fff : PCI Bus 0000:02
-> >     1e161000-1e16100f : 0000:02:00.0
-> >       1e161000-1e16100f : ahci
-> >     1e161010-1e161017 : 0000:02:00.0
-> >       1e161010-1e161017 : ahci
-> >     1e161018-1e16101f : 0000:02:00.0
-> >       1e161018-1e16101f : ahci
-> >     1e161020-1e161023 : 0000:02:00.0
-> >       1e161020-1e161023 : ahci
-> >     1e161024-1e161027 : 0000:02:00.0
-> >       1e161024-1e161027 : ahci
-> >   1e162000-1e162fff : PCI Bus 0000:03
-> >     1e162000-1e16200f : 0000:03:00.0
-> >       1e162000-1e16200f : ahci
-> >     1e162010-1e162017 : 0000:03:00.0
-> >       1e162010-1e162017 : ahci
-> >     1e162018-1e16201f : 0000:03:00.0
-> >       1e162018-1e16201f : ahci
-> >     1e162020-1e162023 : 0000:03:00.0
-> >       1e162020-1e162023 : ahci
-> >     1e162024-1e162027 : 0000:03:00.0
-> >       1e162024-1e162027 : ahci
->
-> Ah ok, so there are I/O ports that are at least
-> visible (may or may not be accessed by the driver).
-
-Yes, all of them are enumerated on boot and exposed in /proc/ioports.
-
->
-> I only see one host bridge here though, and it has a single
-> I/O port range, so maybe all three ports are inside of
-> a single PCI domain?
-
-See this cover letter [1] with a fantastic ascii art :) to a better
-understanding of this pci topology. Yes, there is one host bridge and
-from here three virtual bridges where at most three endpoints can be
-connected.
-
->
-> Having high numbers for the I/O ports is definitely a
-> problem as I mentioned. Anything that tries to access
-> PC-style legacy devices on the low port numbers
-> will now directly go on the bus accessing MMIO
-> registers that it shouldn't, either causing a CPU exception
-> or (worse) undefined behavior from random register
-> accesses.
-
-All I/O port addresses for ralink SoCs are in higher addresses than
-default IO_SPACE_LIMIT 0xFFFF, that's why we have to also change this
-limit together with this patch changes. Nothing to do with this, is an
-architectural thing of these SoCs.
-
-Best regards,
-     Sergio Paracuellos
->
->        Arnd
-
-[0]: https://lore.kernel.org/linux-staging/CAMhs-H-OJyXs+QViJa5_O3wUGhoupmaW4qvVG8WGjxm1haRj9Q@mail.gmail.com/T/#m9e8e8d3afca908d1e1c57539d5e03dd9f5efd850
-[1]: https://www.spinics.net/lists/kernel/msg4085596.html
