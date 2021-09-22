@@ -1,160 +1,141 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77483FC8
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 19:57:41 +0000 (UTC)
-Received: from mail-wr1-f53.google.com ([209.85.221.53]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MmlGg-1nBZzh3nGQ-00jqOj for <linux-staging@lists.linux.dev>; Wed, 22 Sep
- 2021 21:57:39 +0200
-Received: by mail-wr1-f53.google.com with SMTP id w17so10255320wrv.10
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 12:57:39 -0700 (PDT)
-X-Gm-Message-State: AOAM531z7Yo0jRngiRQ5fObLXlDALe83a/pvkhSE8dR6FfE/4AfAdard
-	gta5ZR+eCYdIGQdHjOv5sn9twvzOA45AGAauq5M=
-X-Google-Smtp-Source: ABdhPJwgGZ9USpTQcbjF1tGcTxsBwqBG1jppN6hfyIkZHEanRUZjCnfn1k1S8QsRU2t3uS2PlP2EINDKZA9arVayJqE=
-X-Received: by 2002:adf:f481:: with SMTP id l1mr780247wro.411.1632340659471;
- Wed, 22 Sep 2021 12:57:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5CB3FC8
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:27 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id w29so10352913wra.8
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jEaQvr3VC+onuDR73XZ9fOvEJ6JR6IVQTYkFzDHUZt0=;
+        b=Ed1FWW2C6t0N8NOuiWAedXT0KB4tMy56FDZng3mwXnuGIOxpJtxtOc2/ZMf9rid9z7
+         JUUq+8oL9KF3gkkei5kOI6H68iLMj/R5P8fiQSnS7tYZRQA02yLfWJZfChFw1TE6vwW3
+         EHsOLCrQq5fH0nq8jVT1EC9l3iv6IQaA+syxdGC3CvCu7zmflBFfy5QWYMhDUMH1pwwr
+         9qdL7z8nKCwmnchICv3nHA7apSA1M+F1poFAAiWYSMTmCo60M7XzZoqtYba6a21JKw0o
+         mt5Bn5w3OFwYVi+D55D6w1fYe9FLo0SLU3+CChA9p87t5bpQmiJ4DnEYLxUxBQA0QJvR
+         wk+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jEaQvr3VC+onuDR73XZ9fOvEJ6JR6IVQTYkFzDHUZt0=;
+        b=nD4cibC4oyPoVfFG1W+a1tpAO4F1JzPEQL/ei4708nZSA/srkNtznTum2iY5WRqObK
+         EydcuClFu1qwHIY9kFciU32YjWfkNwXDFGf8yMDbRBR6VBqI7sCo40NrHuRfDlnBWLFs
+         xZmk1OSboV3oQ9xthmt4d6p1kQaI+yXc/NisX94WophgtqefXPTt1SjySoYM5mX4j/F3
+         gsSX/DXmtYI0vnPOQciK4uSS1dxzlRK+NVVhexLHg0sSsUvdMk/MUk2amHrrfBN5yv8b
+         /5LZ05LnzXSksZV/sVPzqrjc9OegeHhzSUAefi70b442AFWMRu8jgmrHmuMog8clRgj0
+         3YSw==
+X-Gm-Message-State: AOAM531w3QyqId+xnV7aTB6cN9FwafsjzYIpxW8b4tonc0x5VBSGFSSC
+	N1oGS4UDE/AXWXbjdCc0mJQ=
+X-Google-Smtp-Source: ABdhPJy+WRPt8Lp3xdfAdduQcqpw3ihSoPzH+mtKXSni1sV+oWcBD7HmknYqNAFwrc4mOj/H/XLQ8g==
+X-Received: by 2002:a05:6000:18a4:: with SMTP id b4mr930578wri.96.1632341125898;
+        Wed, 22 Sep 2021 13:05:25 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
+        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Sep 2021 13:05:25 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 00/47] staging: r8188eu: remove unused functions
+Date: Wed, 22 Sep 2021 22:03:33 +0200
+Message-Id: <20210922200420.9693-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
- <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
- <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
- <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com> <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
-In-Reply-To: <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Wed, 22 Sep 2021 21:57:23 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
-Message-ID: <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-pci <linux-pci@vger.kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:mkUu3tAaBZHPxUnVEmVZhYIZLBcCEow/JOkJlsyHro2BW/GYOvn
- fjz9Lx62KetWoayJ54WIgKCrR5fAfjCenPGHzV2B6xy3KXHdCWWQnZBVJ1fxSxmYAlc6jCC
- WOgYp+iqFWh/ksXSgX0aWQHy/+3PbJ/IYsgs/vzcix7XfBti4Tv6GJSyIH7vtWeiTfQ1Ygu
- 1dAEldAW5pZiFb2b/IR4g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:c+JI68mFeLg=:DTghU1ZuxZ0ysM/yM4BP84
- 871FSZJuJ7MwmldoeY7UYCzuk9plbcYaBrOw+e0I/FCJFH47s+eQdgQN0JdtZ7r6NRNeXh1MD
- 8ggrnrAsPCLJNf8b0Pi+xhisuBroAOMe2MO87oSDHQAlvAuAM8MUuA68BmEajRtxYEZMxoqAI
- Z5ulChLW4YYer72gp2sQ1hxTbGDxgV02uLzF8xQz9eKqn+h+0GzIBTSIuKdGcgBJ4JpsqTAGu
- qKawB8On949aieFcYk1HMlcnylI0sfAnDjO9cULvaV1wNWuru+elvrtce2NDd9J93JJP1q1rt
- a8xM3X9P1+NBt+XlkJOtIG3LTHZLHgNdZCgMlaP53+LqTjZs/F8oaBlEB71pR1o/puezSE21g
- pmpCJ8OeLh3T8c7W7Zm6m9j4E3pv+QJQcEG+JYKFoXzT6lObeo706jGNC59xn3gVWRzCI4Iwu
- kWO8DBy/OqL53TO3lwLWXXdJBphJhpQ36maj4VYlQT30KqioH+vXSY+KEDPwvPw/qpVms0Xzo
- qLXNpUwTBvTo+gRzjH8paEVTDEDCFOk6Gw9ad+Nvp4dyaSEeRN6I0mPLh+AWAavnJDy+FLTSS
- FuQ1v6VlVZTZvFbSEUaPLGyXecSwdvG4WzLmThDu9FwvpwXlPCGchmEMt8dCcZjiGOMKqB8Ih
- iaP1+dzFuNRfDZseR1LVWd9eL8x1bCOXkcTLDSfPW7H1j9sJQiN87P1wDr9Y1TmOgcHCdLIG2
- mWnJAA4D+RzVv22AWznqHKqH2dpeEsXD9U06Zw94Du4cuxWip1/nOtvdUALYHOKDVRYe2glYM
- 7FALB16UIrkRlN7dr82DBTEz2hpE5JttWE2mN6sZDSyU1oWHFIKqRce49cLTNZ2I5gylOtrlw
- mubgOZbRafGWQBFzXjiw==
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 22, 2021 at 8:40 PM Sergio Paracuellos
-<sergio.paracuellos@gmail.com> wrote:
-> On Wed, Sep 22, 2021 at 8:07 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Wed, Sep 22, 2021 at 7:42 PM Sergio Paracuellos
-> > Ok, thank you for the detailed explanation.
-> >
-> > I suppose you can use the generic infrastructure in asm-generic/io.h
-> > if you "#define PCI_IOBASE mips_io_port_base". In this case, you
-> > should have an architecture specific implementation of
-> > pci_remap_iospace() that assigns mips_io_port_base.
->
-> No, that is what I tried originally defining PCI_IOBASE as
-> _AC(0xa0000000, UL) [0] which is the same as KSEG1 [1] that ends in
-> 'mips_io_port_base'.
+This series removes a bunch of unused functions and one unused enum.
 
-Defining it as KSEG1 would be problematic because that means that
-the Linux-visible port numbers are offset from the bus-visible ones.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-You really want PCI_IOBASE to point to the address of port 0.
+Michael Straube (47):
+  staging: r8188eu: remove EFUSE_ShadowRead()
+  staging: r8188eu: remove efuse_GetCurrentSize()
+  staging: r8188eu: remove efuse_GetMaxSize()
+  staging: r8188eu: remove rtw_BT_efuse_map_write()
+  staging: r8188eu: remove rtw_efuse_access()
+  staging: r8188eu: remove rtw_efuse_map_write()
+  staging: r8188eu: remove rtw_BT_efuse_map_read()
+  staging: r8188eu: remove rtw_efuse_map_read()
+  staging: r8188eu: remove _rtw_dequeue_network()
+  staging: r8188eu: remove _rtw_enqueue_network()
+  staging: r8188eu: remove rtw_get_timestampe_from_ie()
+  staging: r8188eu: remove rtw_scan_abort()
+  staging: r8188eu: remove issue_action_spct_ch_switch()
+  staging: r8188eu: remove issue_probereq_p2p_ex()
+  staging: r8188eu: remove sreset_get_wifi_status()
+  staging: r8188eu: remove build_deauth_p2p_ie()
+  staging: r8188eu: remove rtw_freq2ch()
+  staging: r8188eu: remove rtw_set_802_11_add_key()
+  staging: r8188eu: remove rtw_set_802_11_remove_key()
+  staging: r8188eu: remove rtw_set_802_11_remove_wep()
+  staging: r8188eu: remove rtw_set_country()
+  staging: r8188eu: remove rtw_set_scan_mode()
+  staging: r8188eu: remove rtw_validate_ssid()
+  staging: r8188eu: remove rtw_set_channel_plan()
+  staging: r8188eu: remove rtw_atoi()
+  staging: r8188eu: remove rtw_cbuf_push()
+  staging: r8188eu: remove rtw_cbuf_full()
+  staging: r8188eu: remove rtw_os_read_port()
+  staging: r8188eu: remove rtw_IOL_cmd_buf_dump()
+  staging: r8188eu: remove action_public_str()
+  staging: r8188eu: remove dump_ies()
+  staging: r8188eu: remove hal_ch_offset_to_secondary_ch_offset()
+  staging: r8188eu: remove secondary_ch_offset_to_hal_ch_offset()
+  staging: r8188eu: remove ieee80211_get_hdrlen()
+  staging: r8188eu: remove ieee80211_is_empty_essid()
+  staging: r8188eu: remove rtw_action_frame_parse()
+  staging: r8188eu: remove rtw_ies_remove_ie()
+  staging: r8188eu: remove rtw_set_ie_ch_switch()
+  staging: r8188eu: remove rtw_set_ie_mesh_ch_switch_parm()
+  staging: r8188eu: remove rtw_set_ie_secondary_ch_offset()
+  staging: r8188eu: remove enum secondary_ch_offset
+  staging: r8188eu: remove rtw_dequeue_recvbuf()
+  staging: r8188eu: remove rtw_enqueue_recvbuf()
+  staging: r8188eu: remove rtw_enqueue_recvbuf_to_head()
+  staging: r8188eu: remove rtw_init_recvframe()
+  staging: r8188eu: remove rtw_calculate_wlan_pkt_size_by_attribue()
+  staging: r8188eu: remove rtw_sctx_done()
 
-> > pci_remap_iospace() was originally meant as an architecture
-> > specific helper, but it moved into generic code after all architectures
-> > had the same requirements. If MIPS has different requirements,
-> > then it should not be shared.
->
-> I see. So, if it can not be shared, would defining 'pci_remap_iospace'
-> as 'weak' acceptable? Doing in this way I guess I can redefine the
-> symbol for mips to have the same I currently have but without the
-> ifdef in the core APIs...
+ drivers/staging/r8188eu/core/rtw_efuse.c      | 377 ------------------
+ drivers/staging/r8188eu/core/rtw_ieee80211.c  | 301 --------------
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  | 374 -----------------
+ drivers/staging/r8188eu/core/rtw_iol.c        |  17 -
+ drivers/staging/r8188eu/core/rtw_mlme.c       |  64 ---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  96 -----
+ drivers/staging/r8188eu/core/rtw_p2p.c        |   7 -
+ drivers/staging/r8188eu/core/rtw_recv.c       |  58 ---
+ drivers/staging/r8188eu/core/rtw_rf.c         |  17 -
+ drivers/staging/r8188eu/core/rtw_sreset.c     |  30 --
+ drivers/staging/r8188eu/core/rtw_xmit.c       |  23 --
+ drivers/staging/r8188eu/include/ieee80211.h   |  31 --
+ .../staging/r8188eu/include/osdep_service.h   |   4 -
+ drivers/staging/r8188eu/include/recv_osdep.h  |   2 -
+ drivers/staging/r8188eu/include/rtw_efuse.h   |  11 -
+ .../staging/r8188eu/include/rtw_ioctl_set.h   |   8 -
+ drivers/staging/r8188eu/include/rtw_iol.h     |   1 -
+ drivers/staging/r8188eu/include/rtw_mlme.h    |   6 -
+ .../staging/r8188eu/include/rtw_mlme_ext.h    |   4 -
+ drivers/staging/r8188eu/include/rtw_p2p.h     |   1 -
+ drivers/staging/r8188eu/include/rtw_recv.h    |   5 -
+ drivers/staging/r8188eu/include/rtw_rf.h      |   1 -
+ drivers/staging/r8188eu/include/rtw_sreset.h  |   1 -
+ drivers/staging/r8188eu/include/rtw_xmit.h    |   3 -
+ .../staging/r8188eu/os_dep/osdep_service.c    |  49 ---
+ drivers/staging/r8188eu/os_dep/recv_linux.c   |  14 -
+ 26 files changed, 1505 deletions(-)
 
-I would hope to kill off the __weak functions, and prefer using an #ifdef
-around the generic implementation. One way to do it is to define
-a macro with the same name, such as
+-- 
+2.33.0
 
-#define pci_remap_iospace pci_remap_iospace
-
-and then use #ifdef around the C function to see if that's arleady defined.
-
-> >
-> > I don't yet understand how you deal with having multiple PCIe
-> > host bridge devices if they have distinct I/O port ranges.
-> > Without remapping to dynamic virtual addresses, does
-> > that mean that every MMIO register between the first and
-> > last PCIe bridge also shows up in /dev/ioport? Or do you
-> > only support port I/O on the first PCIe host bridge?
->
-> For example, this board is using all available three pci ports [2] and I get:
->
-> root@gnubee:~# cat /proc/ioports
-> 1e160000-1e16ffff : pcie@1e140000
->   1e160000-1e160fff : PCI Bus 0000:01
->     1e160000-1e16000f : 0000:01:00.0
->       1e160000-1e16000f : ahci
->     1e160010-1e160017 : 0000:01:00.0
->       1e160010-1e160017 : ahci
->     1e160018-1e16001f : 0000:01:00.0
->       1e160018-1e16001f : ahci
->     1e160020-1e160023 : 0000:01:00.0
->       1e160020-1e160023 : ahci
->     1e160024-1e160027 : 0000:01:00.0
->       1e160024-1e160027 : ahci
->   1e161000-1e161fff : PCI Bus 0000:02
->     1e161000-1e16100f : 0000:02:00.0
->       1e161000-1e16100f : ahci
->     1e161010-1e161017 : 0000:02:00.0
->       1e161010-1e161017 : ahci
->     1e161018-1e16101f : 0000:02:00.0
->       1e161018-1e16101f : ahci
->     1e161020-1e161023 : 0000:02:00.0
->       1e161020-1e161023 : ahci
->     1e161024-1e161027 : 0000:02:00.0
->       1e161024-1e161027 : ahci
->   1e162000-1e162fff : PCI Bus 0000:03
->     1e162000-1e16200f : 0000:03:00.0
->       1e162000-1e16200f : ahci
->     1e162010-1e162017 : 0000:03:00.0
->       1e162010-1e162017 : ahci
->     1e162018-1e16201f : 0000:03:00.0
->       1e162018-1e16201f : ahci
->     1e162020-1e162023 : 0000:03:00.0
->       1e162020-1e162023 : ahci
->     1e162024-1e162027 : 0000:03:00.0
->       1e162024-1e162027 : ahci
-
-Ah ok, so there are I/O ports that are at least
-visible (may or may not be accessed by the driver).
-
-I only see one host bridge here though, and it has a single
-I/O port range, so maybe all three ports are inside of
-a single PCI domain?
-
-Having high numbers for the I/O ports is definitely a
-problem as I mentioned. Anything that tries to access
-PC-style legacy devices on the low port numbers
-will now directly go on the bus accessing MMIO
-registers that it shouldn't, either causing a CPU exception
-or (worse) undefined behavior from random register
-accesses.
-
-       Arnd
