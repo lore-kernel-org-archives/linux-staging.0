@@ -1,74 +1,92 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0686572
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:22:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A880760FC1;
-	Wed, 22 Sep 2021 13:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632316969;
-	bh=RMLmKC2ffOq6sR/gzS529nDFxhd9wlS77MVexpDzG6E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lkWzjNglpdHkDPCl+AybxJ57pkPgALNx9aV/Fy7QfdVVqQdxl3S9IifKmtR6bzPUm
-	 sX0M6EVDQzdO/i1jX/kIjYrSlMhO3q2UFV3UOH5i56st5JIMfJ2fBmD9YzmUFV6qxO
-	 ci39RgUEQ5V/AsXiKRYf1m6ECWmF6BSrN+cGtMMq7atGke9nHXLXmAeIz/xL2gWY7V
-	 3bMA6Hc74s/osrSr5a2NocRFZq6W5fp9wNJrkzLeS6kpvj+Ag2GurH/Nzd3ddQPqV0
-	 YNDFc+U1kLBFE75PKv4+2Wy5cE1s0/n2YI5SsKYoRpR1X9ziVH0w++LaLJHHhKrBTG
-	 CyN3i7ALKNH7A==
-Date: Wed, 22 Sep 2021 06:22:46 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>, Leon Romanovsky
- <leonro@nvidia.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>, Bin Luo
- <luobin9@huawei.com>, Claudiu Manoil <claudiu.manoil@nxp.com>, Coiby Xu
- <coiby.xu@gmail.com>, Derek Chickles <dchickles@marvell.com>,
- drivers@pensando.io, Felix Manlunas <fmanlunas@marvell.com>, Florian
- Fainelli <f.fainelli@gmail.com>, Geetha sowjanya <gakula@marvell.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
- GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com, hariprasad
- <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>, Intel Corporation
- <linuxwwan@intel.com>, intel-wired-lan@lists.osuosl.org, Ioana Ciornei
- <ioana.ciornei@nxp.com>, Jerin Jacob <jerinj@marvell.com>, Jesse Brandeburg
- <jesse.brandeburg@intel.com>, Jiri Pirko <jiri@nvidia.com>, Jonathan Lemon
- <jonathan.lemon@gmail.com>, Linu Cherian <lcherian@marvell.com>,
- linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev, Loic Poulain
- <loic.poulain@linaro.org>, Manish Chopra <manishc@marvell.com>, M Chetan
- Kumar <m.chetan.kumar@intel.com>, Michael Chan <michael.chan@broadcom.com>,
- netdev@vger.kernel.org, oss-drivers@corigine.com, Richard Cochran
- <richardcochran@gmail.com>, Saeed Mahameed <saeedm@nvidia.com>, Salil Mehta
- <salil.mehta@huawei.com>, Satanand Burla <sburla@marvell.com>, Sergey
- Ryazanov <ryazanov.s.a@gmail.com>, Shannon Nelson <snelson@pensando.io>,
- Simon Horman <simon.horman@corigine.com>, Subbaraya Sundeep
- <sbhatta@marvell.com>, Sunil Goutham <sgoutham@marvell.com>, Taras Chornyi
- <tchornyi@marvell.com>, Tariq Toukan <tariqt@nvidia.com>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, UNGLinuxDriver@microchip.com, Vadym Kochan
- <vkochan@marvell.com>, Vivien Didelot <vivien.didelot@gmail.com>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next v1] devlink: Make devlink_register to be void
-Message-ID: <20210922062246.26e38305@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <311a6c7e74ad612474446890a12c9d310b9507ed.1632300324.git.leonro@nvidia.com>
-References: <311a6c7e74ad612474446890a12c9d310b9507ed.1632300324.git.leonro@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0AA3FC7
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 15:47:38 +0000 (UTC)
+Received: from mail-wr1-f51.google.com ([209.85.221.51]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N2VCb-1mrfGw0JAt-013ssq for <linux-staging@lists.linux.dev>; Wed, 22 Sep
+ 2021 17:47:37 +0200
+Received: by mail-wr1-f51.google.com with SMTP id t18so8320974wrb.0
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 08:47:36 -0700 (PDT)
+X-Gm-Message-State: AOAM5333ZPOs0DMHu0fGazFOoa0nV6pMzzYjHrA1Jd40yBxAv/QRNWkY
+	R5ruJpEDxPUsj3MazSrJryxxG8RoVHFpRuxskio=
+X-Google-Smtp-Source: ABdhPJxB6TJlgu1o3FLWomlpGuf9FbFSkPg8W1963ZV6qmS8zbuKAuZX7xZ4UTGLotnbbpRUNol21y/AFJHlcpA0/ew=
+X-Received: by 2002:a5d:6c6f:: with SMTP id r15mr300802wrz.428.1632325656698;
+ Wed, 22 Sep 2021 08:47:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
+In-Reply-To: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Wed, 22 Sep 2021 17:47:20 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
+Message-ID: <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
+Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
+	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Rc6tGpWKuJnaJDz0iCINVTBUC60tDQ1g6zZcY+6Zs7hS4o1lFM3
+ u/AyrmGZNjDERgv870dmp/2YMaeSYq25HLrAE+/40UoLEwj/WKi2ZmtQsjW4b5ThT5Itww+
+ +X5U6vXBKv4o0AmEwFmCOooWuOxvJdDBi9rHdEX591Uw0bMURNt4KfnR0rwDzYjF+t04sKH
+ uOaFO3RqDcPV4czNHglTQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CPME9/lL8dk=:fP4OVDZ7m5d5NtmM5+bg+H
+ t6lSuSE+jRFjqZA2dLuS02jyoEA20xhC5KLB88uWZYigYHUUW1z0DJ3pHyFAOLDFkiBCT43Hk
+ 5HIYjXpvTOL9GXHErWjiEPXDLec8iPfQyp2bSNlk2YecZBaAgFt7dGiL8Be3zGlJKzifswlLP
+ j8pk1kfntUhwHmyKSlV6ezJiYmezUl8LDNn7rl5T2xcLyP9RWiWb8Gs/NF5B6NbJXsoYhP172
+ 9ezeY6zBSMLwwnyEBHK2ZxMNuXTjVGnYCtBPuqFCtrtAOYgVLDzwSr3uuA8J1ds+5rPj3dmpo
+ wqBPeoNcsLvXHH02Cu0L0HLt1u9+SV7wiGGoPUrRw6B2Ut76nyVo7tgzqDLgVnY3gUkTHEiTL
+ TffUKSkhJdkHpymewzI3De9maXvJiB16p/Rko+QoE4eu0yNDCyykOHwwGrwRV4LqiWOk1IA6w
+ sEHNL6WeIwhiCMxYrN05uedVtu0axHtxxmLZuqxO8GCr/v1fMg4Xe4uj3FjP9dMLrweYZg8zf
+ WDV4S1gY6NXon6chWR86adeDAsm6NxH6kCKgwqG3OAJwVDZ2VNK+vMOKvm+Yi8BzS3FOSc9UC
+ FLtM3vcqMKa0nTxQd69PGnryksQrJaq7SHlyye/RX2ONmfCuSDArSoLBWnjBj91qbugj1bS3S
+ xZXK/QWGFqwgdEYdW2oz0t4JV72nyBH4jkhOd1oVTx/T2GosmPVQQI6zSkkbAVQrM6KaYKvFV
+ WmsepST6DRW8iqHlQYiDEeglSeUrZX26WhPSZTd7jHj0eL0vVMFG144jZPtFPsiJHce/IlrcS
+ uYknF18seBangbhE2Z/DC2JIP4NkKtvePHE28zbU8zLAlm/bJb+HHH5bPcWBe/edIieGQEw/z
+ K8VHFv8PIPDY/w5r5RCg==
 
-On Wed, 22 Sep 2021 11:58:03 +0300 Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> devlink_register() can't fail and always returns success, but all drivers
-> are obligated to check returned status anyway. This adds a lot of boilerplate
-> code to handle impossible flow.
-> 
-> Make devlink_register() void and simplify the drivers that use that
-> API call.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+On Wed, Sep 22, 2021 at 6:23 AM Sergio Paracuellos
+<sergio.paracuellos@gmail.com> wrote:
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index d84381ce82b5..7d7aab1d1d64 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -564,12 +564,14 @@ static int pci_parse_request_of_pci_ranges(struct device *dev,
+>
+>                 switch (resource_type(res)) {
+>                 case IORESOURCE_IO:
+> +#ifdef PCI_IOBASE
+>                         err = devm_pci_remap_iospace(dev, res, iobase);
+>                         if (err) {
+>                                 dev_warn(dev, "error %d: failed to map resource %pR\n",
+>                                          err, res);
+>                                 resource_list_destroy_entry(win);
+>                         }
+> +#endif
+>                         break;
+
+I wonder if we should have a different symbol controlling this than PCI_IOBASE,
+because we are somewhat overloading the semantics here. There are a couple
+of ways that I/O space can be handled
+
+a) inb()/outb() are custom instructions, as on x86, PCI_IOBASE is not defined
+b) there is no I/O space, as on s390, PCI_IOBASE is not defined
+c) PCI_IOBASE points to a virtual address used for dynamic mapping of I/O
+    space, as on ARM
+d) PCI_IOBASE is NULL, and the port number corresponds to the virtual
+   address (some older architectures)
+
+I'm not completely sure where your platform fits in here, it sounds like you
+address them using a machine specific physical address as the base in
+inb() plus the port number as an offset, is that correct?
+
+       Arnd
