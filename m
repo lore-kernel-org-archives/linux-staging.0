@@ -1,39 +1,39 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24853FC8
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:52 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id u15so10387336wru.6
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CED3FD1
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:53 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id t8so10456031wrq.4
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qI/xLHpU06C05zRaDpeIlkhzxTRXSNV1nXcZzQIB8+w=;
-        b=ji0iPTheDQSsb1QkLd54H9X5vXszvdOo/6q8nheN4ElsmFgRXPAo5zaFiznUDiqX6T
-         60mVAKtAjni2DRcZuxUm5hY0MSaNk99/SrBZVfZhVkEAbs5yLRRny7xhqeRV6jbVPaHf
-         bo+Ec+UGj48ofb8HQyQaQba9J8TknleqH03BlTCO15mgNMNA9GbsntH1mZdhojrQuwXo
-         w2Cv0Zwv7Msehuw0g7jXhL3mzipPhVrJZ5xW5VYJOeEKyqwEOOwusKv256Z64rlGeW+h
-         zrx9DhopetXokMadsGTVIIRFgZAYCTbMl4m12qliz1YihN1BA2EokfHx6MWh9uZ9Ihhi
-         WGQQ==
+        bh=Q2KHo/cgVsPXphTOqclY226ymCgxuFcLN/28gKh/lRY=;
+        b=OsVsiT4eM5gEW3DiFfetMb1umnY7TuBomgLYRI/m2TYSQjLPhMK9wgRlgEy0tHyEOz
+         qb2DdlJGMrA3L88pEbP0axJEkuxxf01wkaVWEXIiGul57kqgNiErIuHje2hFG4mAN0C5
+         0eXRDdaKXrZT1ZfvhGkMi3iIkURvZBNCKuBjb3ydu2Slpwk88lMi1WOx4KR9knhEGdnk
+         a31lR0q3LXV2Bjc5xeDctPB0kwMzTIPQZz7hp6MGEzD6hO3KQNrycl6l6qGwpWAt8V2R
+         8DFVIir8ScE4l5WyjS4bMXeISePa5EAD7aG5KgWZIif5vxnwH6hg6gC4EadsQnuPWoGJ
+         I/vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qI/xLHpU06C05zRaDpeIlkhzxTRXSNV1nXcZzQIB8+w=;
-        b=nMM8VY/wnBu1tuDq2UH2IyBKpSsHUBPr1KOoQlJnAmNialpjiioPdNvCOsjX6GcJfG
-         h5D0GCrvzOpQ2yI+JFnELSP5C2gAY+cthinVn2u8ZGemwcjvlELhdSytcAhDcVu1Q7qS
-         PLh1Qe1nDG9zm0z90YJ3Kd4t285g0i1Zw02pCPlGav2N8TGl4LqzR4rsz4PPaFTZJoWE
-         b1RT6Ilts4QQ6vh+G9DI/fKahfCzjF1DxfCI9bdD4hlrVR3lKGA8bvDLEE3TE1fhbpy2
-         x27C5gqj+t9BstwosE5BEp4j6Jb4xRvzW7W4aJ/EY0BkOavR+f3iNtSU5lA+NcgeHXr0
-         IQ5g==
-X-Gm-Message-State: AOAM532DfUF87Bv11EaWFBjz39qIxKjmxYtf7YnJwzTICvs+kvNvsa7v
-	5V4OtWEB6dXpxNmZ1NPZmKEZFxxLsUTF1Q==
-X-Google-Smtp-Source: ABdhPJyZFvMTkEm+F9vHpOBpL4InsZisXhOYJajF5UVgLHe4mkCyGBSLd1rniuWIPzkKliPTY5T9Og==
-X-Received: by 2002:a05:6000:11ca:: with SMTP id i10mr859330wrx.317.1632341151379;
-        Wed, 22 Sep 2021 13:05:51 -0700 (PDT)
+        bh=Q2KHo/cgVsPXphTOqclY226ymCgxuFcLN/28gKh/lRY=;
+        b=RU3+LPkTD4aqkI3FXdYBMi4QDLyNPvUdgEE3QDHSHlIMBr4Y5ubWgK8NOiHgxoCOUq
+         Ai/fbgnJZ8gryp/4KazWbkcWoMhYjpYfIG1YSqmfwwmfJX8dCoBHZKfopq9d+p6OST/5
+         muGCePNOms8Ysha/V1so7YuXLyTdx2NFuShiC+TksKqX01t8sthsdcN/HaCs/uo8LqPh
+         B+tNSzuFWxYRR87hdDDWN7ZvFGhpKCKicSbF+up9kbVlLmYR2XiyeTZLd7ifBeQpUDkO
+         HLg5SG9yXofc0a9ALGJoNpmKMyQp8eUY13XMXlqBWmEbjsHqsQFLDRMRHwL5aGbjVBNz
+         FZ+A==
+X-Gm-Message-State: AOAM5313qoZSwrlvt0pTsLXdcHDcaWofzdGfJMQXxi2fgCO61xiBwXO7
+	g/1pOcC90i8y5lDE/WWLkww=
+X-Google-Smtp-Source: ABdhPJyFk5i30kLxK1XkcamnhisCjUBjlHQFY/YGCSYoV9AhgXCrWm4bPiSjrc3CCHox5u2fUa//CA==
+X-Received: by 2002:adf:f1c7:: with SMTP id z7mr802235wro.425.1632341152078;
+        Wed, 22 Sep 2021 13:05:52 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.50
+        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 22 Sep 2021 13:05:51 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 28/47] staging: r8188eu: remove rtw_os_read_port()
-Date: Wed, 22 Sep 2021 22:04:01 +0200
-Message-Id: <20210922200420.9693-29-straube.linux@gmail.com>
+Subject: [PATCH 29/47] staging: r8188eu: remove rtw_IOL_cmd_buf_dump()
+Date: Wed, 22 Sep 2021 22:04:02 +0200
+Message-Id: <20210922200420.9693-30-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922200420.9693-1-straube.linux@gmail.com>
 References: <20210922200420.9693-1-straube.linux@gmail.com>
@@ -57,52 +57,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtw_os_read_port() is not used, remove it.
+Function rtw_IOL_cmd_buf_dump() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/include/recv_osdep.h |  2 --
- drivers/staging/r8188eu/os_dep/recv_linux.c  | 14 --------------
- 2 files changed, 16 deletions(-)
+ drivers/staging/r8188eu/core/rtw_iol.c    | 17 -----------------
+ drivers/staging/r8188eu/include/rtw_iol.h |  1 -
+ 2 files changed, 18 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/recv_osdep.h b/drivers/staging/r8188eu/include/recv_osdep.h
-index 72ddf515071e..e87467022b39 100644
---- a/drivers/staging/r8188eu/include/recv_osdep.h
-+++ b/drivers/staging/r8188eu/include/recv_osdep.h
-@@ -27,8 +27,6 @@ void rtw_os_recv_resource_free(struct recv_priv *precvpriv);
- int rtw_os_recvbuf_resource_alloc(struct adapter *adapt, struct recv_buf *buf);
- int rtw_os_recvbuf_resource_free(struct adapter *adapt, struct recv_buf *buf);
- 
--void rtw_os_read_port(struct adapter *padapter, struct recv_buf *precvbuf);
--
- void rtw_init_recv_timer(struct recv_reorder_ctrl *preorder_ctrl);
- int _netdev_open(struct net_device *pnetdev);
- int netdev_open(struct net_device *pnetdev);
-diff --git a/drivers/staging/r8188eu/os_dep/recv_linux.c b/drivers/staging/r8188eu/os_dep/recv_linux.c
-index 917a63e3e94c..5a7fb94e21c1 100644
---- a/drivers/staging/r8188eu/os_dep/recv_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/recv_linux.c
-@@ -186,20 +186,6 @@ int rtw_recv_indicatepkt(struct adapter *padapter,
- 	 return _FAIL;
+diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
+index ee7cda76e767..fe6078864158 100644
+--- a/drivers/staging/r8188eu/core/rtw_iol.c
++++ b/drivers/staging/r8188eu/core/rtw_iol.c
+@@ -163,20 +163,3 @@ u8 rtw_IOL_cmd_boundary_handle(struct xmit_frame *pxmit_frame)
+ 	}
+ 	return is_cmd_bndy;
  }
- 
--void rtw_os_read_port(struct adapter *padapter, struct recv_buf *precvbuf)
+-
+-void rtw_IOL_cmd_buf_dump(int buf_len, u8 *pbuf)
 -{
--	struct recv_priv *precvpriv = &padapter->recvpriv;
+-	int i;
+-	int j = 1;
 -
--	precvbuf->ref_cnt--;
--	/* free skb in recv_buf */
--	dev_kfree_skb_any(precvbuf->pskb);
--	precvbuf->pskb = NULL;
--	precvbuf->reuse = false;
--	if (!precvbuf->irp_pending)
--		rtw_read_port(padapter, precvpriv->ff_hwaddr, 0,
--			      (unsigned char *)precvbuf);
+-	pr_info("###### %s ######\n", __func__);
+-	for (i = 0; i < buf_len; i++) {
+-		printk("%02x-", *(pbuf + i));
+-
+-		if (j % 32 == 0)
+-			printk("\n");
+-		j++;
+-	}
+-	printk("\n");
+-	pr_info("=============ioreg_cmd len=%d===============\n", buf_len);
 -}
--
- static void _rtw_reordering_ctrl_timeout_handler(struct timer_list *t)
- {
- 	struct recv_reorder_ctrl *preorder_ctrl;
+diff --git a/drivers/staging/r8188eu/include/rtw_iol.h b/drivers/staging/r8188eu/include/rtw_iol.h
+index 4d44e59fd04f..fb88ebc1dabb 100644
+--- a/drivers/staging/r8188eu/include/rtw_iol.h
++++ b/drivers/staging/r8188eu/include/rtw_iol.h
+@@ -59,6 +59,5 @@ int _rtw_IOL_append_WRF_cmd(struct xmit_frame *xmit_frame, u8 rf_path,
+ 	_rtw_IOL_append_WRF_cmd((xmit_frame),(rf_path), (addr), (value), (mask))
+ 
+ u8 rtw_IOL_cmd_boundary_handle(struct xmit_frame *pxmit_frame);
+-void  rtw_IOL_cmd_buf_dump(int buf_len, u8 *pbuf);
+ 
+ #endif /* __RTW_IOL_H_ */
 -- 
 2.33.0
 
