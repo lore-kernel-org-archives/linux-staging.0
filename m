@@ -1,41 +1,41 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352713FC9
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:39 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id g16so10443681wrb.3
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3013FC8
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:42 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id t8so10537022wri.1
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Zdg0ApDj4T40ceOwnYh8jnghOBBg9kMORnILNtCiL9U=;
-        b=Rla5l0Yxy4lbAhh6y+O1KYmWzVSaCfdlrdJ/OWwwupp31cjx+/EjnFbGmTEvmjq1i9
-         R87GJ3hLHH8g9kQZztyikIksGfMHACWQNRpg3Dr/rP5ytEyqTZFOmJiirvB10Wm1hA87
-         TRolSYs4eW+h2Lk6bQrGT9bBGMgqTKmg1Z0OEXggHNMzX9JBk0ypLqVScuRGjbqD/ORP
-         dGVFGbI81OGPxbj1D0WjkRZDlWVThV98Ln83kdjnrOP/WtVbamPG5PnNJDT7uaUe1Gma
-         oUlF6k4aJeFr4ti6CWIBTlA92eMe69u78n4yIWJ9jvK+7LjZLzBNvIQgtwNCii3VdgnZ
-         7k4g==
+        bh=fTMycjhf7bQ4/iwIBGKReOWRba8a40NSGVgfRFeXVyw=;
+        b=U/JK16CULZzzTiRpUJyKHh7JkIFkM/fpi6DYhONrevIT534u/XPjhNvx00eyMYoIEP
+         DMVVx22NA/RbHXWbja+s3Ro4d7gdnMWyvhTvJjdPRWtkbOO8lG+bNhI9BRHZx9vM7ZFb
+         36NmqpWLbDvB5DO/zPumenq72QQ/Uzz3rj8fgL0cIlyYnG615y161tPdgrHHh3lDJwWt
+         hHKUPcfbEd/YBFAfmwdK/u5N8tujp3PxQ3SeLj0vBESwsd5SyDlAc74w/4co/VHHbF2l
+         lcKXtAtFy3at9P7k8EsBUYtdkhwOd6ci13NbfjZj91IRxuqMzq7UJvO3Q4g0Ne0CGK3v
+         7n9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Zdg0ApDj4T40ceOwnYh8jnghOBBg9kMORnILNtCiL9U=;
-        b=esEufdQqADif3V1q+L7HaIFJZATPCuL4zYSqgWGC9kOyehiGbteBE2LhcUqmePGckC
-         2UQOSvxxh0MSJZu7TH+ELdKpMNRTpQYwygRBKnsMfjg18LyXMaEmyiuw/fdGKR7JdEJU
-         +C1flvwvS+aHs6NUE0dpxKTyy4bVmK/KuVGzF3mzOP8dhhrI7GMD9k3UxJ9RoQYL2oH/
-         4kpV0NFcn1bhn/CIXknz2JIOsYLNqzDiot942CchWxheO/UWlFIYGk/YLuQ9ship2HK7
-         qMebYxHqSeARiTzmw3hZL/VOZqPrwxCLUEMQhpNK/PaIGvVMmHR9kLjBELyPY+KuhIBz
-         kxkA==
-X-Gm-Message-State: AOAM531akLtp4dBTT/C9w3Q9BF4Y1AmIcRpvBgQ2gvcv/tSu82akwKX0
-	pyE0U16DgGdcquG3j3BySRc=
-X-Google-Smtp-Source: ABdhPJzuDBrdXSgertbvORZzAVOIt3mC6Rd0p132EE4uLSvZWDC5IeDVvPCCESdOgxjfKSZvbTflAA==
-X-Received: by 2002:a05:6000:1a52:: with SMTP id t18mr871746wry.21.1632341137711;
-        Wed, 22 Sep 2021 13:05:37 -0700 (PDT)
+        bh=fTMycjhf7bQ4/iwIBGKReOWRba8a40NSGVgfRFeXVyw=;
+        b=sz443772OvbRJrkBDyud9mx65ZG0eJInvjHZ0iI7uGdX7a05BMHvsY4lX6nGBpmkuy
+         Zp+onySrhMUzLid4ZxXDj/chGx+ULvSE5eu0DYleJpVa0rZVzXfJ7hvZEI5OFY7KKg1f
+         /zAsbceZF3/DBaQw6OSOHaxmU2YeXlKlypBc5xfrRFXzfEl4wLU4gZ5XNCOnGkyohKNN
+         5NurQJpQBb0kp5OqJamF1XhdyChLwy9IR13mJFnteBR/o0p32K0XZIZ+rC3pg5kDqq69
+         TOTgNBZeWIg7+shZN9zEOmlIvWRIQrmBR/3iVDmI27/rqMlf1xzHKnObK8praaQ9SW6o
+         Ke0w==
+X-Gm-Message-State: AOAM530845VX2LLcYR0bkC9rjw2plxwBub5qfxTHZQVKtgSzozYfSzJ0
+	FwW3LGYB8aOy7VkCNEAwsS4=
+X-Google-Smtp-Source: ABdhPJxgvGDUDdGRfxeZvRkGVW9QHcJFLmxkoRsRhGFBTGRbkRf2wnUZzhdOw9hNwz6s6HYPf8oN1A==
+X-Received: by 2002:a1c:7304:: with SMTP id d4mr841175wmb.125.1632341140849;
+        Wed, 22 Sep 2021 13:05:40 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.36
+        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 13:05:37 -0700 (PDT)
+        Wed, 22 Sep 2021 13:05:40 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 14/47] staging: r8188eu: remove issue_probereq_p2p_ex()
-Date: Wed, 22 Sep 2021 22:03:47 +0200
-Message-Id: <20210922200420.9693-15-straube.linux@gmail.com>
+Subject: [PATCH 15/47] staging: r8188eu: remove sreset_get_wifi_status()
+Date: Wed, 22 Sep 2021 22:03:48 +0200
+Message-Id: <20210922200420.9693-16-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922200420.9693-1-straube.linux@gmail.com>
 References: <20210922200420.9693-1-straube.linux@gmail.com>
@@ -57,75 +57,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function issue_probereq_p2p_ex() is not used, remove it.
+Function sreset_get_wifi_status() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 37 -------------------
- .../staging/r8188eu/include/rtw_mlme_ext.h    |  2 -
- 2 files changed, 39 deletions(-)
+ drivers/staging/r8188eu/core/rtw_sreset.c    | 30 --------------------
+ drivers/staging/r8188eu/include/rtw_sreset.h |  1 -
+ 2 files changed, 31 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index c35ca002b63f..905e7f0b83d1 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -3690,43 +3690,6 @@ inline void issue_probereq_p2p(struct adapter *adapter, u8 *da)
- 	_issue_probereq_p2p(adapter, da, false);
+diff --git a/drivers/staging/r8188eu/core/rtw_sreset.c b/drivers/staging/r8188eu/core/rtw_sreset.c
+index 1787c2d7ea5f..baa2a080a46e 100644
+--- a/drivers/staging/r8188eu/core/rtw_sreset.c
++++ b/drivers/staging/r8188eu/core/rtw_sreset.c
+@@ -25,36 +25,6 @@ void sreset_reset_value(struct adapter *padapter)
+ 	psrtpriv->last_tx_complete_time = 0;
  }
  
--int issue_probereq_p2p_ex(struct adapter *adapter, u8 *da, int try_cnt, int wait_ms)
+-u8 sreset_get_wifi_status(struct adapter *padapter)
 -{
--	int ret;
--	int i = 0;
--	u32 start = jiffies;
+-	struct hal_data_8188e	*pHalData = GET_HAL_DATA(padapter);
+-	struct sreset_priv *psrtpriv = &pHalData->srestpriv;
 -
--	do {
--		ret = _issue_probereq_p2p(adapter, da, wait_ms > 0);
+-	u8 status = WIFI_STATUS_SUCCESS;
+-	u32 val32 = 0;
 -
--		i++;
--
--		if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
--			break;
--
--		if (i < try_cnt && wait_ms > 0 && ret == _FAIL)
--			msleep(wait_ms);
--	} while ((i < try_cnt) && ((ret == _FAIL) || (wait_ms == 0)));
--
--	if (ret != _FAIL) {
--		ret = _SUCCESS;
--		goto exit;
+-	if (psrtpriv->silent_reset_inprogress)
+-		return status;
+-	val32 = rtw_read32(padapter, REG_TXDMA_STATUS);
+-	if (val32 == 0xeaeaeaea) {
+-		psrtpriv->wifi_error_status = WIFI_IF_NOT_EXIST;
+-	} else if (val32 != 0) {
+-		DBG_88E("txdmastatu(%x)\n", val32);
+-		psrtpriv->wifi_error_status = WIFI_MAC_TXDMA_ERROR;
 -	}
 -
--	if (try_cnt && wait_ms) {
--		if (da)
--			DBG_88E(FUNC_ADPT_FMT" to %pM, ch:%u%s, %d/%d in %u ms\n",
--				FUNC_ADPT_ARG(adapter), da, rtw_get_oper_ch(adapter),
--				ret == _SUCCESS ? ", acked" : "", i, try_cnt, rtw_get_passing_time_ms(start));
--		else
--			DBG_88E(FUNC_ADPT_FMT", ch:%u%s, %d/%d in %u ms\n",
--				FUNC_ADPT_ARG(adapter), rtw_get_oper_ch(adapter),
--				ret == _SUCCESS ? ", acked" : "", i, try_cnt, rtw_get_passing_time_ms(start));
+-	if (WIFI_STATUS_SUCCESS != psrtpriv->wifi_error_status) {
+-		DBG_88E("==>%s error_status(0x%x)\n", __func__, psrtpriv->wifi_error_status);
+-		status = (psrtpriv->wifi_error_status & (~(USB_READ_PORT_FAIL | USB_WRITE_PORT_FAIL)));
 -	}
--exit:
--	return ret;
+-	DBG_88E("==> %s wifi_status(0x%x)\n", __func__, status);
+-
+-	/* status restore */
+-	psrtpriv->wifi_error_status = WIFI_STATUS_SUCCESS;
+-
+-	return status;
 -}
 -
- static s32 rtw_action_public_decache(struct recv_frame *recv_frame, s32 token)
+ void sreset_set_wifi_error_status(struct adapter *padapter, u32 status)
  {
- 	struct adapter *adapter = recv_frame->adapter;
-diff --git a/drivers/staging/r8188eu/include/rtw_mlme_ext.h b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-index 89020f828e08..5b307ad3afa5 100644
---- a/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-+++ b/drivers/staging/r8188eu/include/rtw_mlme_ext.h
-@@ -541,8 +541,6 @@ void issue_p2p_provision_request(struct adapter *padapter, u8 *pssid,
- 				 u8 ussidlen, u8 *pdev_raddr);
- void issue_p2p_GO_request(struct adapter *padapter, u8 *raddr);
- void issue_probereq_p2p(struct adapter *padapter, u8 *da);
--int issue_probereq_p2p_ex(struct adapter *adapter, u8 *da, int try_cnt,
--			  int wait_ms);
- void issue_p2p_invitation_response(struct adapter *padapter, u8 *raddr,
- 				   u8 dialogToken, u8 success);
- void issue_p2p_invitation_request(struct adapter *padapter, u8* raddr);
+ 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(padapter);
+diff --git a/drivers/staging/r8188eu/include/rtw_sreset.h b/drivers/staging/r8188eu/include/rtw_sreset.h
+index 4e97997c305b..47ad185c755f 100644
+--- a/drivers/staging/r8188eu/include/rtw_sreset.h
++++ b/drivers/staging/r8188eu/include/rtw_sreset.h
+@@ -28,7 +28,6 @@ struct sreset_priv {
+ 
+ void sreset_init_value(struct adapter *padapter);
+ void sreset_reset_value(struct adapter *padapter);
+-u8 sreset_get_wifi_status(struct adapter *padapter);
+ void sreset_set_wifi_error_status(struct adapter *padapter, u32 status);
+ 
+ #endif
 -- 
 2.33.0
 
