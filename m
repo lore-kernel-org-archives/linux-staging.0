@@ -1,11 +1,11 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CE23FD1
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 10:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD843FCB
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 10:12:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: andrzej.p)
-	with ESMTPSA id 3696C1F437F7
+	with ESMTPSA id E57C81F437EA
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -28,10 +28,11 @@ Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Shawn Guo <shawnguo@kernel.org>,
-	kernel@collabora.com
-Subject: [PATCH v5 08/10] media: hantro: Prepare for other G2 codecs
-Date: Wed, 22 Sep 2021 12:11:44 +0200
-Message-Id: <20210922101146.13762-9-andrzej.p@collabora.com>
+	kernel@collabora.com,
+	Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v5 04/10] hantro: Add quirk for NV12/NV12_4L4 capture format
+Date: Wed, 22 Sep 2021 12:11:40 +0200
+Message-Id: <20210922101146.13762-5-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210922101146.13762-1-andrzej.p@collabora.com>
 References: <20210922101146.13762-1-andrzej.p@collabora.com>
@@ -41,161 +42,67 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-VeriSilicon Hantro G2 core supports other codecs besides hevc.
-Factor out some common code in preparation for vp9 support.
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
+The G2 core decoder engine produces NV12_4L4 format,
+which is a simple NV12 4x4 tiled format. The driver currently
+hides this format by always enabling the post-processor engine,
+and therefore offering NV12 directly.
+
+This is done without using the logic in hantro_postproc.c
+and therefore makes it difficult to add VP9 cleanly.
+
+Since fixing this is not easy, add a small quirk to force
+NV12 if HEVC was configured, but otherwise declare NV12_4L4
+as the pixel format in imx8mq_vpu_g2_variant.dec_fmts.
+
+This will be used by the VP9 decoder which will be added soon.
+
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/staging/media/hantro/Makefile         |  1 +
- drivers/staging/media/hantro/hantro.h         |  7 +++++
- drivers/staging/media/hantro/hantro_g2.c      | 27 ++++++++++++++++
- .../staging/media/hantro/hantro_g2_hevc_dec.c | 31 -------------------
- drivers/staging/media/hantro/hantro_g2_regs.h |  7 +++++
- drivers/staging/media/hantro/hantro_hw.h      |  2 ++
- 6 files changed, 44 insertions(+), 31 deletions(-)
- create mode 100644 drivers/staging/media/hantro/hantro_g2.c
+ drivers/staging/media/hantro/hantro_v4l2.c  | 14 ++++++++++++++
+ drivers/staging/media/hantro/imx8m_vpu_hw.c |  2 +-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
-index 90036831fec4..fe6d84871d07 100644
---- a/drivers/staging/media/hantro/Makefile
-+++ b/drivers/staging/media/hantro/Makefile
-@@ -12,6 +12,7 @@ hantro-vpu-y += \
- 		hantro_g1_mpeg2_dec.o \
- 		hantro_g2_hevc_dec.o \
- 		hantro_g1_vp8_dec.o \
-+		hantro_g2.o \
- 		rockchip_vpu2_hw_jpeg_enc.o \
- 		rockchip_vpu2_hw_h264_dec.o \
- 		rockchip_vpu2_hw_mpeg2_dec.o \
-diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index dd5e56765d4e..d91eb2b1c509 100644
---- a/drivers/staging/media/hantro/hantro.h
-+++ b/drivers/staging/media/hantro/hantro.h
-@@ -369,6 +369,13 @@ static inline void vdpu_write(struct hantro_dev *vpu, u32 val, u32 reg)
- 	writel(val, vpu->dec_base + reg);
- }
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index bcb0bdff4a9a..d1f060c55fed 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -150,6 +150,20 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
+ 	unsigned int num_fmts, i, j = 0;
+ 	bool skip_mode_none;
  
-+static inline void hantro_write_addr(struct hantro_dev *vpu,
-+				     unsigned long offset,
-+				     dma_addr_t addr)
-+{
-+	vdpu_write(vpu, addr & 0xffffffff, offset);
-+}
-+
- static inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
- {
- 	u32 val = readl(vpu->dec_base + reg);
-diff --git a/drivers/staging/media/hantro/hantro_g2.c b/drivers/staging/media/hantro/hantro_g2.c
-new file mode 100644
-index 000000000000..5f7bb27913de
---- /dev/null
-+++ b/drivers/staging/media/hantro/hantro_g2.c
-@@ -0,0 +1,27 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Hantro VPU codec driver
-+ *
-+ * Copyright (C) 2021 Collabora Ltd, Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-+ */
-+
-+#include "hantro_hw.h"
-+#include "hantro_g2_regs.h"
-+
-+void hantro_g2_check_idle(struct hantro_dev *vpu)
-+{
-+	int i;
-+
-+	for (i = 0; i < 3; i++) {
-+		u32 status;
-+
-+		/* Make sure the VPU is idle */
-+		status = vdpu_read(vpu, G2_REG_INTERRUPT);
-+		if (status & G2_REG_INTERRUPT_DEC_E) {
-+			dev_warn(vpu->dev, "device still running, aborting");
-+			status |= G2_REG_INTERRUPT_DEC_ABORT_E | G2_REG_INTERRUPT_DEC_IRQ_DIS;
-+			vdpu_write(vpu, status, G2_REG_INTERRUPT);
++	/*
++	 * The HEVC decoder on the G2 core needs a little quirk to offer NV12
++	 * only on the capture side. Once the post-processor logic is used,
++	 * we will be able to expose NV12_4L4 and NV12 as the other cases,
++	 * and therefore remove this quirk.
++	 */
++	if (capture && ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
++		if (f->index == 0) {
++			f->pixelformat = V4L2_PIX_FMT_NV12;
++			return 0;
 +		}
++		return -EINVAL;
 +	}
-+}
 +
-diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-index 340efb57fd18..226cecda9495 100644
---- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-@@ -8,20 +8,6 @@
- #include "hantro_hw.h"
- #include "hantro_g2_regs.h"
+ 	/*
+ 	 * When dealing with an encoder:
+ 	 *  - on the capture side we want to filter out all MODE_NONE formats.
+diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+index 02e61438220a..a40b161e5956 100644
+--- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
++++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+@@ -134,7 +134,7 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
  
--#define HEVC_DEC_MODE	0xC
--
--#define BUS_WIDTH_32		0
--#define BUS_WIDTH_64		1
--#define BUS_WIDTH_128		2
--#define BUS_WIDTH_256		3
--
--static inline void hantro_write_addr(struct hantro_dev *vpu,
--				     unsigned long offset,
--				     dma_addr_t addr)
--{
--	vdpu_write(vpu, addr & 0xffffffff, offset);
--}
--
- static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-@@ -516,23 +502,6 @@ static void set_buffers(struct hantro_ctx *ctx)
- 	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
- }
- 
--static void hantro_g2_check_idle(struct hantro_dev *vpu)
--{
--	int i;
--
--	for (i = 0; i < 3; i++) {
--		u32 status;
--
--		/* Make sure the VPU is idle */
--		status = vdpu_read(vpu, G2_REG_INTERRUPT);
--		if (status & G2_REG_INTERRUPT_DEC_E) {
--			dev_warn(vpu->dev, "device still running, aborting");
--			status |= G2_REG_INTERRUPT_DEC_ABORT_E | G2_REG_INTERRUPT_DEC_IRQ_DIS;
--			vdpu_write(vpu, status, G2_REG_INTERRUPT);
--		}
--	}
--}
--
- int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx)
- {
- 	struct hantro_dev *vpu = ctx->dev;
-diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
-index bb22fa921914..0ac0ba375e80 100644
---- a/drivers/staging/media/hantro/hantro_g2_regs.h
-+++ b/drivers/staging/media/hantro/hantro_g2_regs.h
-@@ -27,6 +27,13 @@
- #define G2_REG_INTERRUPT_DEC_IRQ_DIS	BIT(4)
- #define G2_REG_INTERRUPT_DEC_E		BIT(0)
- 
-+#define HEVC_DEC_MODE			0xc
-+
-+#define BUS_WIDTH_32			0
-+#define BUS_WIDTH_64			1
-+#define BUS_WIDTH_128			2
-+#define BUS_WIDTH_256			3
-+
- #define g2_strm_swap		G2_DEC_REG(2, 28, 0xf)
- #define g2_dirmv_swap		G2_DEC_REG(2, 20, 0xf)
- 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 4323e63dfbfc..42b3f3961f75 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -308,4 +308,6 @@ void hantro_vp8_dec_exit(struct hantro_ctx *ctx);
- void hantro_vp8_prob_update(struct hantro_ctx *ctx,
- 			    const struct v4l2_ctrl_vp8_frame *hdr);
- 
-+void hantro_g2_check_idle(struct hantro_dev *vpu);
-+
- #endif /* HANTRO_HW_H_ */
+ static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
+ 	{
+-		.fourcc = V4L2_PIX_FMT_NV12,
++		.fourcc = V4L2_PIX_FMT_NV12_4L4,
+ 		.codec_mode = HANTRO_MODE_NONE,
+ 	},
+ 	{
 -- 
 2.17.1
 
