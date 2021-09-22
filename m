@@ -1,113 +1,207 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54A63FC9
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:06:06 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id q26so10370527wrc.7
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:06:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C97A3FCD
+	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:55:16 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id c33so2769815uae.9
+        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=F/iH+36SldsQBoDkg2Y4zZm5zAqT3XUaCffb3gcQJM8=;
-        b=dF4GuDagkP7l0tztCZkm7IPpcUcbRWySAr/D8OpsxVo+YIHJwc2NEV6i1Wi5kT20QJ
-         42aqPiwJWdNahxpc7VHFJN5161BxLqnCtTPMC0Z4AN76A4ItYjEWkLCWpEdEs2r3UC8a
-         5mJVX95iC5IP9jVA7O7/7MEt98zqxQ5cxvfZ2ZY6uxdvW/vc+ygeuQlrMQdvr8yv+o0N
-         MCk29azpPJJPbTXHw9LazBxWMg1Yo64zAGocIfxFCRTG2tChwVYNk7W+OJbRpaCXJTsZ
-         NbloOw++ZvNkwbLOz2HZm61sw7aS/QsaMansLioQVIjJpQGamFfKM6FHLrdu+/LWkriS
-         5/1A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+BgGcO6gFQXcEbp81W0SITnzPCJRTfQCooICPiiqUQE=;
+        b=TykkEhnHLuHqCUjgNo7m/K/2WUALhSo3dJVfrXWO4Yp+cJajkCzcQMdGv7/YjInJz5
+         OH7sV3qcejnEBqefgWXW0QRrVp1hzat3YGOXajYYK8AKthAF710rN1Yz99fyhpXakpMn
+         4JGpQYN0pYxZumOC3Wv8Ybts/lDDUaDas5HtfTD3CTM1loZEY15gj7Fb8F+oce3FnsU3
+         +SJNQFd7/NxDfts98XLT+82+C95USroJC0rtgn9CIH8fVQF1MJm/2xPFNzUXqKeGTHS5
+         71F6hBcorVOh9LK3+k7+ELoZTA+2zSDIlHe7XV6K/62rliRBtvEW6z5VMnAUYOvr6g89
+         jrsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F/iH+36SldsQBoDkg2Y4zZm5zAqT3XUaCffb3gcQJM8=;
-        b=KNJzLn56QzbPl2DqF3kBhwdPPPZQASuxEX7OKzIcBi+0cSQhQX5V0P4wi0ssSFzlAx
-         mIWYYMn5SCbGmv3xd3Rkap0YXSNne35nHP4NQu7B2S6xj5iShksbzRmA7nWi/0YfQyLB
-         aJozw6DLaJD94XSeZwgeODsIE7gQKXsrBmqk+3BNNeUhQmkZQCQiIjw+hj/IzCl1lLgB
-         kez56qPj368GkmuXeU6199tPz9xE1MmL/DDAC+H7HqiCPEGhYOUm9OryFN7HlMAyTyrR
-         zLxDA0wXFgcs1E8jJrb6yXhEDEECVUNtQLUhrzg9Fjxm9R7lh1C2jumvahSyfnDE2uav
-         GZ1Q==
-X-Gm-Message-State: AOAM532Ib9Lqpc84ph2xhhLNWNZJxf/lZPpvBk2aDH1GoUCtdSJy3kap
-	4sPQRoigiTtVxeO3zr4zFX0=
-X-Google-Smtp-Source: ABdhPJwN4t7uhD3jXF3PhhZs1jrwCC80z0rQWgnIHnRz+zVrKqbj+1StIEGxNhBWRH6L/3IqoB89Mg==
-X-Received: by 2002:a7b:c104:: with SMTP id w4mr860839wmi.160.1632341165104;
-        Wed, 22 Sep 2021 13:06:05 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.06.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 13:06:04 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 46/47] staging: r8188eu: remove rtw_calculate_wlan_pkt_size_by_attribue()
-Date: Wed, 22 Sep 2021 22:04:19 +0200
-Message-Id: <20210922200420.9693-47-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210922200420.9693-1-straube.linux@gmail.com>
-References: <20210922200420.9693-1-straube.linux@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+BgGcO6gFQXcEbp81W0SITnzPCJRTfQCooICPiiqUQE=;
+        b=ZRXpI+V0JtMg5PbxgGeSWBM7/b2BbVQ46RQ4HKxnGLbakeOf+3eWt98rGxyFu819i9
+         OUyrZDRiuY1zTOwpVBvNFdbAGUxAXQ5E8dWUCTQ6VXp+hg5lBerS4bLplgHEgiAKBoBJ
+         H/g6fNQXum/yC5rtDXoPft51mJ7+Ek1ZIDQkoeSgg7bH+lcD7usw+5GIWcYigtov+Vdc
+         MgThXn4TeP88WxCX8v5O7Iasni4Q0G+1fuzqZhl7H2DIGlRL6OICm+EVYLoGqaaTClk6
+         SVTMdW0xWCS/CbKi9OvGNk4p8Q4SIW09ogADmzgo4bPhnDTXRwynHrSgE9RCWjbiWiO5
+         EdxQ==
+X-Gm-Message-State: AOAM5325nRH7HF/NlvgUI8sn5AOzYraAmV7OJbIydg8SiyYK8QYkyTJJ
+	v2G1u2wshvI4JiFRLVWCxPDbKioUI+OU9L1GbBA=
+X-Google-Smtp-Source: ABdhPJxDcGQqN9GCuF5eoxTUNHLefZk5THF4K0AQCUiQ8kbVHEpZo6V88ftTRy/PDIxFAtSe/B0Z7N9xXDHao2bE/zs=
+X-Received: by 2002:ab0:54d2:: with SMTP id q18mr1634240uaa.46.1632344115448;
+ Wed, 22 Sep 2021 13:55:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
+ <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
+ <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
+ <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
+ <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com> <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
+In-Reply-To: <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Wed, 22 Sep 2021 22:55:03 +0200
+Message-ID: <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
+Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
+	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Content-Type: text/plain; charset="UTF-8"
 
-Function rtw_calculate_wlan_pkt_size_by_attribue() is not used,
-remove it.
+Hi Arnd,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_xmit.c    | 18 ------------------
- drivers/staging/r8188eu/include/rtw_xmit.h |  2 --
- 2 files changed, 20 deletions(-)
+On Wed, Sep 22, 2021 at 9:57 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Wed, Sep 22, 2021 at 8:40 PM Sergio Paracuellos
+> <sergio.paracuellos@gmail.com> wrote:
+> > On Wed, Sep 22, 2021 at 8:07 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > On Wed, Sep 22, 2021 at 7:42 PM Sergio Paracuellos
+> > > Ok, thank you for the detailed explanation.
+> > >
+> > > I suppose you can use the generic infrastructure in asm-generic/io.h
+> > > if you "#define PCI_IOBASE mips_io_port_base". In this case, you
+> > > should have an architecture specific implementation of
+> > > pci_remap_iospace() that assigns mips_io_port_base.
+> >
+> > No, that is what I tried originally defining PCI_IOBASE as
+> > _AC(0xa0000000, UL) [0] which is the same as KSEG1 [1] that ends in
+> > 'mips_io_port_base'.
+>
+> Defining it as KSEG1 would be problematic because that means that
+> the Linux-visible port numbers are offset from the bus-visible ones.
+>
+> You really want PCI_IOBASE to point to the address of port 0.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
-index f9ae48f73cdf..6213244450e7 100644
---- a/drivers/staging/r8188eu/core/rtw_xmit.c
-+++ b/drivers/staging/r8188eu/core/rtw_xmit.c
-@@ -861,24 +861,6 @@ s32 rtw_txframes_sta_ac_pending(struct adapter *padapter, struct pkt_attrib *pat
- 	return 0;
- }
- 
--/*
-- * Calculate wlan 802.11 packet MAX size from pkt_attrib
-- * This function doesn't consider fragment case
-- */
--u32 rtw_calculate_wlan_pkt_size_by_attribue(struct pkt_attrib *pattrib)
--{
--	u32	len = 0;
--
--	len = pattrib->hdrlen + pattrib->iv_len; /*  WLAN Header and IV */
--	len += SNAP_SIZE + sizeof(u16); /*  LLC */
--	len += pattrib->pktlen;
--	if (pattrib->encrypt == _TKIP_)
--		len += 8; /*  MIC */
--	len += ((pattrib->bswenc) ? pattrib->icv_len : 0); /*  ICV */
--
--	return len;
--}
--
- /*
- 
- This sub-routine will perform all the following:
-diff --git a/drivers/staging/r8188eu/include/rtw_xmit.h b/drivers/staging/r8188eu/include/rtw_xmit.h
-index 1244545070c7..01e8b90becf5 100644
---- a/drivers/staging/r8188eu/include/rtw_xmit.h
-+++ b/drivers/staging/r8188eu/include/rtw_xmit.h
-@@ -333,8 +333,6 @@ struct xmit_frame *rtw_dequeue_xframe(struct xmit_priv *pxmitpriv,
- 
- s32 rtw_xmit_classifier(struct adapter *padapter,
- 			struct xmit_frame *pxmitframe);
--u32 rtw_calculate_wlan_pkt_size_by_attribue(struct pkt_attrib *pattrib);
--#define rtw_wlan_pkt_size(f) rtw_calculate_wlan_pkt_size_by_attribue(&f->attrib)
- s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt,
- 			   struct xmit_frame *pxmitframe);
- s32 _rtw_init_hw_txqueue(struct hw_txqueue *phw_txqueue, u8 ac_tag);
--- 
-2.33.0
+Do you mean that doing
 
+#define PCI_IOBASE mips_io_port_base
+
+would have different result that doing what I did
+
+#define PCI_IOBASE _AC(0xa0000000, UL)
+
+?
+
+I am not really understanding this yet (I think I need a bit of sleep
+time :)), but I will test this tomorrow and come back to you again
+with results.
+
+>
+> > > pci_remap_iospace() was originally meant as an architecture
+> > > specific helper, but it moved into generic code after all architectures
+> > > had the same requirements. If MIPS has different requirements,
+> > > then it should not be shared.
+> >
+> > I see. So, if it can not be shared, would defining 'pci_remap_iospace'
+> > as 'weak' acceptable? Doing in this way I guess I can redefine the
+> > symbol for mips to have the same I currently have but without the
+> > ifdef in the core APIs...
+>
+> I would hope to kill off the __weak functions, and prefer using an #ifdef
+> around the generic implementation. One way to do it is to define
+> a macro with the same name, such as
+>
+> #define pci_remap_iospace pci_remap_iospace
+
+I guess this should be defined in arch/mips/include/asm/pci.h?
+
+>
+> and then use #ifdef around the C function to see if that's already defined.
+
+I see. That would work, I guess. But I don't really understand why
+this approach would be better than this patch changes itself. Looks
+more hacky to me. As Bjorn pointed out in a previous version of this
+patch [0], this case is the same as the one in
+'acpi_pci_root_remap_iospace' and the same approach is used there...
+
+>
+> > >
+> > > I don't yet understand how you deal with having multiple PCIe
+> > > host bridge devices if they have distinct I/O port ranges.
+> > > Without remapping to dynamic virtual addresses, does
+> > > that mean that every MMIO register between the first and
+> > > last PCIe bridge also shows up in /dev/ioport? Or do you
+> > > only support port I/O on the first PCIe host bridge?
+> >
+> > For example, this board is using all available three pci ports [2] and I get:
+> >
+> > root@gnubee:~# cat /proc/ioports
+> > 1e160000-1e16ffff : pcie@1e140000
+> >   1e160000-1e160fff : PCI Bus 0000:01
+> >     1e160000-1e16000f : 0000:01:00.0
+> >       1e160000-1e16000f : ahci
+> >     1e160010-1e160017 : 0000:01:00.0
+> >       1e160010-1e160017 : ahci
+> >     1e160018-1e16001f : 0000:01:00.0
+> >       1e160018-1e16001f : ahci
+> >     1e160020-1e160023 : 0000:01:00.0
+> >       1e160020-1e160023 : ahci
+> >     1e160024-1e160027 : 0000:01:00.0
+> >       1e160024-1e160027 : ahci
+> >   1e161000-1e161fff : PCI Bus 0000:02
+> >     1e161000-1e16100f : 0000:02:00.0
+> >       1e161000-1e16100f : ahci
+> >     1e161010-1e161017 : 0000:02:00.0
+> >       1e161010-1e161017 : ahci
+> >     1e161018-1e16101f : 0000:02:00.0
+> >       1e161018-1e16101f : ahci
+> >     1e161020-1e161023 : 0000:02:00.0
+> >       1e161020-1e161023 : ahci
+> >     1e161024-1e161027 : 0000:02:00.0
+> >       1e161024-1e161027 : ahci
+> >   1e162000-1e162fff : PCI Bus 0000:03
+> >     1e162000-1e16200f : 0000:03:00.0
+> >       1e162000-1e16200f : ahci
+> >     1e162010-1e162017 : 0000:03:00.0
+> >       1e162010-1e162017 : ahci
+> >     1e162018-1e16201f : 0000:03:00.0
+> >       1e162018-1e16201f : ahci
+> >     1e162020-1e162023 : 0000:03:00.0
+> >       1e162020-1e162023 : ahci
+> >     1e162024-1e162027 : 0000:03:00.0
+> >       1e162024-1e162027 : ahci
+>
+> Ah ok, so there are I/O ports that are at least
+> visible (may or may not be accessed by the driver).
+
+Yes, all of them are enumerated on boot and exposed in /proc/ioports.
+
+>
+> I only see one host bridge here though, and it has a single
+> I/O port range, so maybe all three ports are inside of
+> a single PCI domain?
+
+See this cover letter [1] with a fantastic ascii art :) to a better
+understanding of this pci topology. Yes, there is one host bridge and
+from here three virtual bridges where at most three endpoints can be
+connected.
+
+>
+> Having high numbers for the I/O ports is definitely a
+> problem as I mentioned. Anything that tries to access
+> PC-style legacy devices on the low port numbers
+> will now directly go on the bus accessing MMIO
+> registers that it shouldn't, either causing a CPU exception
+> or (worse) undefined behavior from random register
+> accesses.
+
+All I/O port addresses for ralink SoCs are in higher addresses than
+default IO_SPACE_LIMIT 0xFFFF, that's why we have to also change this
+limit together with this patch changes. Nothing to do with this, is an
+architectural thing of these SoCs.
+
+Best regards,
+     Sergio Paracuellos
+>
+>        Arnd
+
+[0]: https://lore.kernel.org/linux-staging/CAMhs-H-OJyXs+QViJa5_O3wUGhoupmaW4qvVG8WGjxm1haRj9Q@mail.gmail.com/T/#m9e8e8d3afca908d1e1c57539d5e03dd9f5efd850
+[1]: https://www.spinics.net/lists/kernel/msg4085596.html
