@@ -1,41 +1,41 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557963FC9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38583FCF
 	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:57 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id q11so10346760wrr.9
+Received: by mail-wr1-f41.google.com with SMTP id t18so10520764wrb.0
         for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UEYKYQ5J9H6qMmee2VNKEvAyB/3XJjxnpzB4yMio1yg=;
-        b=k4ZQ6heS+dr+E3tmWYKdhMFXef/P8mdd59c7stIPxv+AmyIJTOe/q2/OTI5c5yikcc
-         tE0yXLb8sEQ0OrXulX9/FXmhGXIW0uJm/cwykVsg2WJ8Q49cV1EPfVFXyMRW+SdgGILn
-         +MqMC956Qe5a4xhB5CVvT39+8M/aEu/3uekg9a8/MXzme7Mvlivbusap2bvOFxahykjf
-         wTA2H+8ky6UAk0z1BWL7qeFhGjA74DcgRLtK9sscKEebZqEqG7FFaDqjb+HlT0DGTgDf
-         zo8ljAk635ZSuEuc/e4ePlm35GGlCR8rs8vIYZZtMgeM4Tx/o0XRyeA/lxki1clXgtaq
-         o/hQ==
+        bh=QQRjrd1hqS1tn11TLgM7TMQnbVhuuEudKXbyztmf3pE=;
+        b=OEzr9qtnMO9lewSaSXEAN7P2TQmsvFbg8uTMqyc7cprQpZbm0iHY6/r1u26kAAfEVl
+         tvTcije5zHH8xu4Jj/e80QrGvbxTzllsFOpwtkr6TH8RnZGOKMFiKFpNSX33a/JP9jDW
+         6p+fvZFDXQu/x5cxYBhzTLNWR0R4ywjOEWZ6KZYwyMP+dE/0gQKdzOanwiF24xZaboPt
+         eT52keAy76Kv7NzJFkN92SKBFq4P028QUUoPtFFpLS/YIoXdkxrNFBhFRKaMAu+tZp0u
+         IbDphL3007idYyKsMJ+k56C72PufYw95driJxU/rpb84ImAxkZjVdQZBqZrn8KsJSmAM
+         lFDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UEYKYQ5J9H6qMmee2VNKEvAyB/3XJjxnpzB4yMio1yg=;
-        b=2sGqEhOGzb537MOMf1V9AHcM68DRQNvCux5AAo8dBsYUrzQ8cfyIYo5vP3ZsW3a6EH
-         o7bBMIBfeeNEPzEH4ZLparmfysM5WxRZXXUfNBU8SJ1LVD/4Ea/VAExQDhglqBEIhOqO
-         eeL6JS9ABQKh4WrhapQcfW9gkeQ3PQi/D93xdy1yTlrQMvILmb//ecCO5ySFj+7dEiLv
-         upLYAV+CS7J4NyuriH8X5LY6utB97Vsega5PCCW8tB2hRcuoBdSg29d5Rnqojrbuq/9q
-         LTPncsC9Z8JD7U69a4wcZd2ykhMrFMOUs6VQ0h9eGei4HOnP3ZUge9NTxS3DVsg88GUC
-         wQ8Q==
-X-Gm-Message-State: AOAM530sE7rsbUO3Nq/nmuKMKsaFuHVEq8xRW7lcfcRWfDJE/QszBeKc
-	30NcshpNIMDizeDwO2Qa2vxe0p1Bg/setQ==
-X-Google-Smtp-Source: ABdhPJzPlninuCiJAb0mSSKwhdWv+D5bEApZfgQeWvIMZfsPP4v6o9z7qp+MqNQsxaejD8pDMj8zlA==
-X-Received: by 2002:a5d:5351:: with SMTP id t17mr845151wrv.405.1632341155821;
-        Wed, 22 Sep 2021 13:05:55 -0700 (PDT)
+        bh=QQRjrd1hqS1tn11TLgM7TMQnbVhuuEudKXbyztmf3pE=;
+        b=AffLoghOyPukMzD3l4brelHug3qcvCykMensa3JSybgcQozdvDqmYmYxk2CTTy3cfK
+         +kY1k6MVq0c3v4wzseE3C2LyveoAiNDXOu5aroK6m0dsGKs1GV1XntT+Zc/xnu3Pc61+
+         OO9/Egil8qpyHwFwNLPtZSlck97ZiEja3u+3PAMxwByHnkzfAkwDsjDPlbVXe/Pwwb85
+         pJ+jDCBrlfdEO7Kzay3P4CmZCZvwSTviHBZ5Q1nKeug699DSO/t7zC7yAaSyHZrtveOb
+         rVeE+ivPiqNti7ca7GpKo00E+XYLfOIz+0yZu4pCiNrSLvEp3Pzg07Fp9Q1V5gGxKv/E
+         TVFg==
+X-Gm-Message-State: AOAM532JABW8TsQn2e0fkZGAdJmj6X/OzbJ7NO7kKCmaTJk7o/1EaUsy
+	NuZeH+ZRoB5AhwZnBGvlhlE=
+X-Google-Smtp-Source: ABdhPJyRKSoPeA2AraM3W4fEt0ER7vURurlZk/WbyaPSQlZ0/akipk2HG+5Q4I7i0KNpflc2GjRFqg==
+X-Received: by 2002:adf:de09:: with SMTP id b9mr937125wrm.114.1632341156496;
+        Wed, 22 Sep 2021 13:05:56 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
         by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 13:05:55 -0700 (PDT)
+        Wed, 22 Sep 2021 13:05:56 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 34/47] staging: r8188eu: remove ieee80211_get_hdrlen()
-Date: Wed, 22 Sep 2021 22:04:07 +0200
-Message-Id: <20210922200420.9693-35-straube.linux@gmail.com>
+Subject: [PATCH 35/47] staging: r8188eu: remove ieee80211_is_empty_essid()
+Date: Wed, 22 Sep 2021 22:04:08 +0200
+Message-Id: <20210922200420.9693-36-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922200420.9693-1-straube.linux@gmail.com>
 References: <20210922200420.9693-1-straube.linux@gmail.com>
@@ -57,64 +57,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function ieee80211_get_hdrlen() is not used, remove it.
+Function ieee80211_is_empty_essid() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_ieee80211.c | 27 --------------------
- drivers/staging/r8188eu/include/ieee80211.h  |  1 -
- 2 files changed, 28 deletions(-)
+ drivers/staging/r8188eu/core/rtw_ieee80211.c | 17 -----------------
+ drivers/staging/r8188eu/include/ieee80211.h  |  3 ---
+ 2 files changed, 20 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_ieee80211.c b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-index 3f0c1a78ccb1..956b9bafcdd1 100644
+index 956b9bafcdd1..29bf3bdb598b 100644
 --- a/drivers/staging/r8188eu/core/rtw_ieee80211.c
 +++ b/drivers/staging/r8188eu/core/rtw_ieee80211.c
-@@ -1214,33 +1214,6 @@ int ieee80211_is_empty_essid(const char *essid, int essid_len)
- 	return 1;
+@@ -1197,23 +1197,6 @@ void rtw_wlan_bssid_ex_remove_p2p_attr(struct wlan_bssid_ex *bss_ex, u8 attr_id)
+ 	}
  }
  
--int ieee80211_get_hdrlen(u16 fc)
+-/* Baron adds to avoid FreeBSD warning */
+-int ieee80211_is_empty_essid(const char *essid, int essid_len)
 -{
--	int hdrlen = 24;
+-	/* Single white space is for Linksys APs */
+-	if (essid_len == 1 && essid[0] == ' ')
+-		return 1;
 -
--	switch (WLAN_FC_GET_TYPE(fc)) {
--	case RTW_IEEE80211_FTYPE_DATA:
--		if (fc & RTW_IEEE80211_STYPE_QOS_DATA)
--			hdrlen += 2;
--		if ((fc & RTW_IEEE80211_FCTL_FROMDS) && (fc & RTW_IEEE80211_FCTL_TODS))
--			hdrlen += 6; /* Addr4 */
--		break;
--	case RTW_IEEE80211_FTYPE_CTL:
--		switch (WLAN_FC_GET_STYPE(fc)) {
--		case RTW_IEEE80211_STYPE_CTS:
--		case RTW_IEEE80211_STYPE_ACK:
--			hdrlen = 10;
--			break;
--		default:
--			hdrlen = 16;
--			break;
--		}
--		break;
+-	/* Otherwise, if the entire essid is 0, we assume it is hidden */
+-	while (essid_len) {
+-		essid_len--;
+-		if (essid[essid_len] != '\0')
+-			return 0;
 -	}
 -
--	return hdrlen;
+-	return 1;
 -}
 -
  static int rtw_get_cipher_info(struct wlan_network *pnetwork)
  {
  	u32 wpa_ielen;
 diff --git a/drivers/staging/r8188eu/include/ieee80211.h b/drivers/staging/r8188eu/include/ieee80211.h
-index 8df83481bf47..7e9520c7fac5 100644
+index 7e9520c7fac5..af1e074e0bdf 100644
 --- a/drivers/staging/r8188eu/include/ieee80211.h
 +++ b/drivers/staging/r8188eu/include/ieee80211.h
-@@ -890,7 +890,6 @@ struct tx_pending {
+@@ -888,9 +888,6 @@ struct tx_pending {
+ #define IEEE_G	    (1<<2)
+ #define IEEE_MODE_MASK    (IEEE_A|IEEE_B|IEEE_G)
  
- /* Baron move to ieee80211.c */
- int ieee80211_is_empty_essid(const char *essid, int essid_len);
--int ieee80211_get_hdrlen(u16 fc);
- 
+-/* Baron move to ieee80211.c */
+-int ieee80211_is_empty_essid(const char *essid, int essid_len);
+-
  /* Action category code */
  enum rtw_ieee80211_category {
+ 	RTW_WLAN_CATEGORY_SPECTRUM_MGMT = 0,
 -- 
 2.33.0
 
