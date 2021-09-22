@@ -1,41 +1,41 @@
 Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470AB3FC9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36B53FC8
 	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 20:05:43 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id w29so10355040wra.8
+Received: by mail-wr1-f48.google.com with SMTP id u15so10386186wru.6
         for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 13:05:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=E93OQWyEHg9H2K50AEqcZaCXK+BXZHFSzWYopoW3wW0=;
-        b=piXj9hzWyjsLam9T89Ot5AUgueWh5IIcGDQ/KIDAkhm/Gp9zwM91hm0TZi+RJxGr+0
-         YZMaC3PZyTkWJl3WxIwtBNxtVIhbfg1TOSzcVb+/7rrxQQ/AgWB+/piGUCwE8Ce5O84h
-         NxE88Wf8XtVZBxBaKW27ea8ShuZcFfI5ZopW8Ltz7GdjSxBgLW92cOEI+CPc/EA0roW7
-         r2GZ7rd26rjV6kzHNRMZLZHwovpr8e+Lf8x5ZOhomC2gqPA9pWAKNW6ySwZI3TEkclgz
-         a0d5z1xAz/mZ53grvxyu2rZVKisxi+1gXcS3lQHUq0GPs1FotB+3Gqgg4dmWp5St2CTx
-         947w==
+        bh=z9p8PF9NWhXYm8/vlVRzN1zo7iSWjHxunaq2fDG+51w=;
+        b=euKolRSbJmoASMOC8bo1KU69hczNJsHCAzssV/W/1/ZtHgEAsYBbVvrvDPcnNJnizz
+         JnzUvkPIsN2DipdHxsdEzPVxhA5MsyPtejeDV5QHvBw6QHT/Wp4zuKljqupD+vKwAobB
+         m64KwTKP+2Jj8DzHDVGU8IZMAhjwJMNrmv9dLWH8IJTaLMgajF7neqFdSrQTeatylWJS
+         uEJSYwy8Vxx6J/IKJo2jlC/1NSYH6dp9I4Zvy1sK4SmuPdkqMs8wRUVyx1MBvxcIhgCE
+         KBUIx2HUL22mmamvRNCeEuROnuFMj8SkdH+46jKUivaFXDMnszVvwMYssTjAjw7ECg/g
+         T5hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=E93OQWyEHg9H2K50AEqcZaCXK+BXZHFSzWYopoW3wW0=;
-        b=1gYVAbc6VpQZtuZCWaCaoBs7SQA4JpIcRS1QPOOT02HsBlJyRCmDlRD2J1rrEgGZ88
-         UAAp707owp2QAL4CeCBlHzZDVbcw8YPXkvkN2fr3i0WRJBsIDd3s6k7i5oFW76/Fhnfv
-         gU4CfgxxuR6MbvMPWEhMK9cSRZjtYLbsceLs+MCeDOmuaf6kBjresdpFopyGuczbn46z
-         h/y2SoVn0IdSHOXldax9C8Htn+2UvbImKbmIoyUtNCwRJKtQwiYz072J5XBHj3FfLI0P
-         NM4dvDgY1kNmNkc/7RKXA7Hp7sSRhCUX5wNht94HIp47yFDfHT81EMFlx8MgMtDvM1Xj
-         94qw==
-X-Gm-Message-State: AOAM533YKOoBFjOCbItW4ksr6OM85ZHITbGOpREXjWZu7P8emTlzbe9u
-	cAabx6NhsoxF6YlpoXuf/68=
-X-Google-Smtp-Source: ABdhPJz7vHWTzNxXUIK31VyFinzzJ2kozUww9uS3Wd9C++Z0GmUu8K68+BlN6Nu9qJFRocsbtUKLcA==
-X-Received: by 2002:a7b:c3d2:: with SMTP id t18mr848370wmj.33.1632341141783;
-        Wed, 22 Sep 2021 13:05:41 -0700 (PDT)
+        bh=z9p8PF9NWhXYm8/vlVRzN1zo7iSWjHxunaq2fDG+51w=;
+        b=1Rk+d82K7IFlezxFocViiCJyQU8xk6sjcWuB9ILQTVM3BmBGnPw4UeKX1nC2VZiDXP
+         ke98K3JpBz+i4gZgpnCvUKVkpme0OjKXAV9D7cZwa0O7l0uK3PeIhWmAyCPTKd16WVT9
+         nbyhBN/PdapQi0AzF0M/waHSgxj115aEuOw/hT5KvAnYu7oeOXpnr2ZBBWweVRq3Ng8y
+         /vObGdGWC3JTpy6ovs5o8YTQExd1VD9Khnza+ppdMl2VfjThe/Wakkcf8NqN+Ft5/3Wo
+         LVnzdZtudH0cxsVkMKEV2XWLvfKkQV28kTPFplUk1VB0Bwn8vagjqIMb85xl9Vhed3pi
+         XOvQ==
+X-Gm-Message-State: AOAM5313WdtqWmDn/jygokOI6i8OpIlaMTHO/YGY+VXkFIQGXWZxj27d
+	db+aLQa2DO0LEnjwqkh+suw=
+X-Google-Smtp-Source: ABdhPJw27EckKV9yUXXiyXaaGPA7XRo2epd7DDvuT3XA/oo3cbVcadPzqIqqG07WdXpt/F2HJ5lzvw==
+X-Received: by 2002:a5d:59ae:: with SMTP id p14mr937374wrr.278.1632341142496;
+        Wed, 22 Sep 2021 13:05:42 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.40
+        by smtp.gmail.com with ESMTPSA id e2sm3219761wra.40.2021.09.22.13.05.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 13:05:41 -0700 (PDT)
+        Wed, 22 Sep 2021 13:05:42 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 16/47] staging: r8188eu: remove build_deauth_p2p_ie()
-Date: Wed, 22 Sep 2021 22:03:49 +0200
-Message-Id: <20210922200420.9693-17-straube.linux@gmail.com>
+Subject: [PATCH 17/47] staging: r8188eu: remove rtw_freq2ch()
+Date: Wed, 22 Sep 2021 22:03:50 +0200
+Message-Id: <20210922200420.9693-18-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922200420.9693-1-straube.linux@gmail.com>
 References: <20210922200420.9693-1-straube.linux@gmail.com>
@@ -57,44 +57,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function build_deauth_p2p_ie() is not used, remove it.
+Function rtw_freq2ch() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_p2p.c    | 7 -------
- drivers/staging/r8188eu/include/rtw_p2p.h | 1 -
- 2 files changed, 8 deletions(-)
+ drivers/staging/r8188eu/core/rtw_rf.c    | 17 -----------------
+ drivers/staging/r8188eu/include/rtw_rf.h |  1 -
+ 2 files changed, 18 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_p2p.c b/drivers/staging/r8188eu/core/rtw_p2p.c
-index f942f8f9e3f6..dbcf8bd24e6a 100644
---- a/drivers/staging/r8188eu/core/rtw_p2p.c
-+++ b/drivers/staging/r8188eu/core/rtw_p2p.c
-@@ -733,13 +733,6 @@ u32 build_assoc_resp_p2p_ie(struct wifidirect_info *pwdinfo, u8 *pbuf, u8 status
- 	return len;
- }
+diff --git a/drivers/staging/r8188eu/core/rtw_rf.c b/drivers/staging/r8188eu/core/rtw_rf.c
+index 321546c40446..2ec56012516e 100644
+--- a/drivers/staging/r8188eu/core/rtw_rf.c
++++ b/drivers/staging/r8188eu/core/rtw_rf.c
+@@ -53,20 +53,3 @@ u32 rtw_ch2freq(u32 channel)
  
--u32 build_deauth_p2p_ie(struct wifidirect_info *pwdinfo, u8 *pbuf)
+ 	return freq;
+ }
+-
+-u32 rtw_freq2ch(u32 freq)
 -{
--	u32 len = 0;
+-	u8	i;
+-	u32	ch = 0;
 -
--	return len;
+-	for (i = 0; i < ch_freq_map_num; i++) {
+-		if (freq == ch_freq_map[i].frequency) {
+-			ch = ch_freq_map[i].channel;
+-				break;
+-		}
+-	}
+-	if (i == ch_freq_map_num)
+-		ch = 1;
+-
+-	return ch;
 -}
--
- u32 process_probe_req_p2p_ie(struct wifidirect_info *pwdinfo, u8 *pframe, uint len)
- {
- 	u8 *p;
-diff --git a/drivers/staging/r8188eu/include/rtw_p2p.h b/drivers/staging/r8188eu/include/rtw_p2p.h
-index 92b9bfe3ea0b..b91322a1fe10 100644
---- a/drivers/staging/r8188eu/include/rtw_p2p.h
-+++ b/drivers/staging/r8188eu/include/rtw_p2p.h
-@@ -13,7 +13,6 @@ u32 build_prov_disc_request_p2p_ie(struct wifidirect_info *pwdinfo,
- 				   u8 *pdev_raddr);
- u32 build_assoc_resp_p2p_ie(struct wifidirect_info *pwdinfo,
- 			    u8 *pbuf, u8 status_code);
--u32 build_deauth_p2p_ie(struct wifidirect_info *pwdinfo, u8 *pbuf);
- u32 process_probe_req_p2p_ie(struct wifidirect_info *pwdinfo,
- 			     u8 *pframe, uint len);
- u32 process_assoc_req_p2p_ie(struct wifidirect_info *pwdinfo,
+diff --git a/drivers/staging/r8188eu/include/rtw_rf.h b/drivers/staging/r8188eu/include/rtw_rf.h
+index 48129da9c93f..fadb141c6945 100644
+--- a/drivers/staging/r8188eu/include/rtw_rf.h
++++ b/drivers/staging/r8188eu/include/rtw_rf.h
+@@ -121,6 +121,5 @@ enum rt_rf_type_def {
+ };
+ 
+ u32 rtw_ch2freq(u32 ch);
+-u32 rtw_freq2ch(u32 freq);
+ 
+ #endif /* _RTL8711_RF_H_ */
 -- 
 2.33.0
 
