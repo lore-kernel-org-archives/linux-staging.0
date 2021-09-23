@@ -1,102 +1,79 @@
-Received: from gateway32.websitewelcome.com (gateway32.websitewelcome.com [192.185.145.12])
+Received: from smtp181.sjtu.edu.cn (smtp181.sjtu.edu.cn [202.120.2.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9ED72
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 23:33:18 +0000 (UTC)
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-	by gateway32.websitewelcome.com (Postfix) with ESMTP id 3FAE93FA67
-	for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 18:09:05 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with SMTP
-	id TBMPmLyMdMGeETBMPmTPKV; Wed, 22 Sep 2021 18:09:05 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=AbCQpuiP0FFS2JbpLU0DivFOkabMY3zTZtov5oB6aVE=; b=vsJK6s1sXjGgkOPIoPKkCmn7md
-	cM8amv9OdZfUe+WNLoc0sEimnA80MPQmdMAyJfMGWklrvLEB9OdQKoqNIzbE+bXg22gXYgIHwxpoq
-	O0zCD1/ZyR+h6tcTY1YJ3n5g1peyn3JeZK/V4Cx9Fm31wLuk/pe3EDEcIsP1wOr+vef2yT4O5+sje
-	K9OG6cZoVCK2cz8b1ZHl166pR2R57gHt/s6F6h8o7xghBV/6V0i+1YbLC2FZQx43ajYwYiDwpzqhT
-	jNH/BekCyF43CYGqs3ID4tSAKY0H3HgCSxeMWLTc7wUjacTG+cJKda9a3Sylsv/Qgi7LXbFqsQI5j
-	FX2w1Uxg==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:38206 helo=[192.168.15.9])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1mTBMO-000C97-Px; Wed, 22 Sep 2021 18:09:04 -0500
-Subject: Re: [PATCH] staging: vt6655: Replace camel case variable name
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lucas Henneman <lucas.henneman@linaro.org>,
- Madhumitha Prabakaran <madhumithabiw@gmail.com>,
- Yujia Qiao <rapiz@foxmail.com>,
- Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
- Edmundo Carmona Antoranz <eantoranz@gmail.com>,
- =?UTF-8?B?QWxkYXMgVGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Deepak R Varma <mh12gx2825@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210922225138.668520-1-tomm.merciai@gmail.com>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-ID: <6695e45f-4530-ab39-923d-8347649762bb@embeddedor.com>
-Date: Wed, 22 Sep 2021 18:12:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88003FC8
+	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 04:06:05 +0000 (UTC)
+Received: from proxy02.sjtu.edu.cn (smtp188.sjtu.edu.cn [202.120.2.188])
+	by smtp181.sjtu.edu.cn (Postfix) with ESMTPS id B49BA1008CBCD;
+	Thu, 23 Sep 2021 11:56:19 +0800 (CST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by proxy02.sjtu.edu.cn (Postfix) with ESMTP id DFA8C200B5750;
+	Thu, 23 Sep 2021 11:56:18 +0800 (CST)
+X-Virus-Scanned: amavisd-new at 
+Received: from proxy02.sjtu.edu.cn ([127.0.0.1])
+	by localhost (proxy02.sjtu.edu.cn [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id OmACp8iz5J-C; Thu, 23 Sep 2021 11:56:18 +0800 (CST)
+Received: from guozhi-ipads.ipads-lab.se.sjtu.edu.cn (unknown [202.120.40.82])
+	(Authenticated sender: qtxuning1999@sjtu.edu.cn)
+	by proxy02.sjtu.edu.cn (Postfix) with ESMTPSA id 1EB59200C02C8;
+	Thu, 23 Sep 2021 11:55:57 +0800 (CST)
+From: Guo Zhi <qtxuning1999@sjtu.edu.cn>
+To: nsaenz@kernel.org,
+	gregkh@linuxfoundation.org,
+	peterz@infradead.org,
+	maz@kernel.org,
+	bsegall@google.com,
+	rdunlap@infradead.org,
+	airlied@redhat.com,
+	kan.liang@linux.intel.com,
+	odin@uged.al
+Cc: bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Guo Zhi <qtxuning1999@sjtu.edu.cn>
+Subject: [PATCH] staging: vchip_arm: Fix misuse of %x
+Date: Thu, 23 Sep 2021 11:55:54 +0800
+Message-Id: <20210923035554.669434-1-qtxuning1999@sjtu.edu.cn>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210922225138.668520-1-tomm.merciai@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1mTBMO-000C97-Px
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.9]) [187.162.31.110]:38206
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 12
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Transfer-Encoding: 8bit
 
+Pointers should be printed with %p or %px rather than
+cast to (unsigned long) and printed with %lx.
+Change %lx to %pK to print the pointers.
 
+Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
+---
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-On 9/22/21 17:51, Tommaso Merciai wrote:
-> Work in progress: replace camel case variables
-> 
-> PortOffset -> port_offset
-> 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> ---
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index b5aac862a29..408e5fe710b 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -591,11 +591,11 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+ 		return VCHIQ_SUCCESS;
+ 
+ 	vchiq_log_trace(vchiq_arm_log_level,
+-		"%s - service %lx(%d,%p), reason %d, header %lx, instance %lx, bulk_userdata %lx",
+-		__func__, (unsigned long)user_service,
++		"%s - service %pK(%d,%p), reason %d, header %pK, instance %pK, bulk_userdata %pK",
++		__func__, user_service,
+ 		service->localport, user_service->userdata,
+-		reason, (unsigned long)header,
+-		(unsigned long)instance, (unsigned long)bulk_userdata);
++		reason, header,
++		instance, bulk_userdata);
+ 
+ 	if (header && user_service->is_vchi) {
+ 		spin_lock(&msg_queue_spinlock);
+-- 
+2.33.0
 
-When someone gives you feedback and you have to respin your
-patch, you should version the patches that you resend, and
-mention what changed, here:
-
-Changes in v2:
- - Variable should be port_offset instead of port_off_set.
-
-I encourage you to take a look at this:
-
-https://kernelnewbies.org/Outreachyfirstpatch
-
-It will be of great help if you are trying to land
-your first patches. :)
-
---
-Gustavo
