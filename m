@@ -1,41 +1,41 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E5A2FAE
-	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 19:09:32 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id t28so6737308wra.7
-        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 12:09:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727A23FC7
+	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 19:09:33 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id t18so20222819wrb.0
+        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 12:09:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xyZGisBD3DW4oYzcr+S2RkmqV081EMO9g7OlIFtR4uE=;
-        b=VyMGhuUmGkvIp72iMTLrAUaHspZP+lxyxSILXZ8cePLfbNfiEP13WVKZyFrb/VdcO3
-         P9ijgvTTRqw4/UN8WmWL+ZaE/QDoKS34T3cIK3jKPyXbUk9Z7kya0BtwSm9x5plQBHGJ
-         zr7hbtLsz9PvOjQ1wBQtIhVxCgBTadN4cwjC6eB3rKN5ai2AIdd8bkbMG6vFkXvrOr5P
-         fqGjI7kwUi63/ELRvpg9Gd7orO+l1Tl/LZhcS+yk1yapyN0j9qEnQgp9QLkZahO81QJa
-         1bsldJk2I1QHVVvW6iuNJ2fTck01BE/RfM1SzCk8ppYQ9saVu6M4+XULv0ZRRJr8brgP
-         xAAw==
+        bh=doDk7RUtFMDUp7hgyLWsA1aVYygB5CnnTWl9G24Whkk=;
+        b=RhqiiZKtQ+IRDox4XlAjdw+RWey5oYfQ1+3ISFjYRCTg8tC4x0aicIGhs6GFHdWGQi
+         WE0zPwOtP9KdwyrpkjIdDLRtwph9mEOtc1mXlj2Wc4VICVqnJaNy7u/iHqfk1YgabQRw
+         9ZUkWcQsu4KcHN9UrW8MrUHV+FReruxUqdiouM9rjkI5nRnxBG6ucMMiKBat/8VJ5dbK
+         PtfZzWaton6q/ExcosJW3E2AP97QtcQEneFbWG6uphXjohoD5tgMshTMXiifbdk/CY2B
+         yl1DTN8qYffKl7kBvUOZThVbIZht/AQ562nrmGC6WvBUTXJrdoeOw3J/QZ1mNnFk5Ypg
+         QYJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xyZGisBD3DW4oYzcr+S2RkmqV081EMO9g7OlIFtR4uE=;
-        b=z6Ak1cmMcJHhioBbaH8K7YE/io5jWZEuGgTSe3ynApCIeZnHTG8q+GseugKtlg+ZvI
-         WHKGzCguuz+RVH7KdANM1s1T0o42b4qbjO7IVj5KluCrDoJ3IBPlJhfohgGz5SFEGfSH
-         TjVNyvsYeuNPsIwlMlCKJb2DlgmvCVvOMLyRS0IekwGeJY4j6A3p80whChOU520ikdGM
-         XIIHW8AzeW5N7+k/3ZDPN8nC/qFavWTrOGYAXbJCMz/oalu6yFG/4Yk1xurlSETa5U+c
-         Yl7bf0ULUKmKPuGSaXpP39fd1+MiU/EYPzurIIb4G5kvK7qiK810bJMww78e3micqTcE
-         AtCQ==
-X-Gm-Message-State: AOAM532PbyQw9RPZgpxW8n1go12T7TRwSddc6Ufl2BYLskgRBpzZC7ug
-	g96FV/NMgK6zrzdDNPeNPo8=
-X-Google-Smtp-Source: ABdhPJwndNK0biCeBUeSTQOoKjIYzudaaf08OXzEYBc/xmdDTM8CLBYO+KC06yRqAixbHkbC9xdtfw==
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr6313029wme.76.1632424171160;
+        bh=doDk7RUtFMDUp7hgyLWsA1aVYygB5CnnTWl9G24Whkk=;
+        b=5+fPFS+XnnUal7QNjKJUunRyr6EAODmd/VmghoV/JqQFUpiCCnumLBWvabKbDNwDbX
+         GdwRcrefnyDXql+LywOzeaEgUcO+57tg0GC7Hbw3ohw0cYI/ItoPvEz0H8SDjOQ1KCt1
+         DS+lHJSoS9B6YCLx/7x3H6PYKaZGmU24KVXyC0FaZYLU8LAWYg4y+DxrieOtASGe7uNz
+         T/pYG83hDwiaf15NujUJD1npNSuZKyUjyF97d34Mcg2UYPtPqgZ0cLii7e39cdx6ihoa
+         VO8Q3tRp7AJZASabMC3TCFIZ2/SPsum9L4iIVf7MU0vl5FtYVwRjAfCpOXjkIJurbaMA
+         QLFA==
+X-Gm-Message-State: AOAM5335S5xnoZW6Che2DO7MzRdB8R2j0NXv2Ycpl+5xcL89FxL1kYdW
+	TdzOqcxhdVzeQZYdg4PMUWE=
+X-Google-Smtp-Source: ABdhPJy5quB4fAo1r1ALhknN3vt5PekwbZOfvLGItiSUAibr/jOhUh1AUeKJZmL0opEjncySqnCSFQ==
+X-Received: by 2002:a05:600c:2d45:: with SMTP id a5mr6193115wmg.39.1632424171879;
         Thu, 23 Sep 2021 12:09:31 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cad])
-        by smtp.gmail.com with ESMTPSA id e28sm6323591wrc.10.2021.09.23.12.09.30
+        by smtp.gmail.com with ESMTPSA id e28sm6323591wrc.10.2021.09.23.12.09.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Sep 2021 12:09:30 -0700 (PDT)
+        Thu, 23 Sep 2021 12:09:31 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 02/17] staging: r8188eu: remove rtw_createbss_cmd_ex()
-Date: Thu, 23 Sep 2021 21:09:05 +0200
-Message-Id: <20210923190920.3580-3-straube.linux@gmail.com>
+Subject: [PATCH 03/17] staging: r8188eu: remove rtw_getbbreg_cmd()
+Date: Thu, 23 Sep 2021 21:09:06 +0200
+Message-Id: <20210923190920.3580-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210923190920.3580-1-straube.linux@gmail.com>
 References: <20210923190920.3580-1-straube.linux@gmail.com>
@@ -57,64 +57,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtw_createbss_cmd_ex() is not used, remove it.
+Function rtw_getbbreg_cmd() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c    | 26 -----------------------
- drivers/staging/r8188eu/include/rtw_cmd.h |  2 --
- 2 files changed, 28 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c    | 34 -----------------------
+ drivers/staging/r8188eu/include/rtw_cmd.h |  1 -
+ 2 files changed, 35 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 4b149425cff7..972c47136b1c 100644
+index 972c47136b1c..3a3a56078138 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -717,32 +717,6 @@ u8 rtw_createbss_cmd(struct adapter  *padapter)
+@@ -574,40 +574,6 @@ u8 rtw_setbbreg_cmd(struct adapter *padapter, u8 offset, u8 val)
  	return res;
  }
  
--u8 rtw_createbss_cmd_ex(struct adapter  *padapter, unsigned char *pbss, unsigned int sz)
+-u8 rtw_getbbreg_cmd(struct adapter  *padapter, u8 offset, u8 *pval)
 -{
--	struct cmd_obj *pcmd;
--	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+-	struct cmd_obj *ph2c;
+-	struct readBB_parm *prdbbparm;
+-	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
 -	u8	res = _SUCCESS;
 -
--	pcmd = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
--	if (!pcmd) {
+-	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
+-	if (!ph2c) {
 -		res = _FAIL;
 -		goto exit;
+-		}
+-	prdbbparm = kzalloc(sizeof(struct readBB_parm), GFP_ATOMIC);
+-
+-	if (!prdbbparm) {
+-		kfree(ph2c);
+-		return _FAIL;
 -	}
 -
--	INIT_LIST_HEAD(&pcmd->list);
--	pcmd->cmdcode = GEN_CMD_CODE(_CreateBss);
--	pcmd->parmbuf = pbss;
--	pcmd->cmdsz =  sz;
--	pcmd->rsp = NULL;
--	pcmd->rspsz = 0;
+-	INIT_LIST_HEAD(&ph2c->list);
+-	ph2c->cmdcode = GEN_CMD_CODE(_GetBBReg);
+-	ph2c->parmbuf = (unsigned char *)prdbbparm;
+-	ph2c->cmdsz =  sizeof(struct readBB_parm);
+-	ph2c->rsp = pval;
+-	ph2c->rspsz = sizeof(struct readBB_rsp);
 -
--	res = rtw_enqueue_cmd(pcmdpriv, pcmd);
+-	prdbbparm->offset = offset;
 -
+-	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
 -exit:
 -
 -	return res;
 -}
 -
- u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ u8 rtw_setrfreg_cmd(struct adapter  *padapter, u8 offset, u32 val)
  {
- 	u8	res = _SUCCESS;
+ 	struct cmd_obj *ph2c;
 diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index 7923749ae7bd..ce47ad21c087 100644
+index ce47ad21c087..fca02454c8d1 100644
 --- a/drivers/staging/r8188eu/include/rtw_cmd.h
 +++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -750,8 +750,6 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
- 		      int ssid_num, struct rtw_ieee80211_channel *ch,
- 		      int ch_num);
- u8 rtw_createbss_cmd(struct adapter  *padapter);
--u8 rtw_createbss_cmd_ex(struct adapter  *padapter, unsigned char *pbss,
--			       unsigned int sz);
- u8 rtw_setphy_cmd(struct adapter  *padapter, u8 modem, u8 ch);
- u8 rtw_setstakey_cmd(struct adapter *padapter, u8 *psta, u8 unicast_key);
- u8 rtw_clearstakey_cmd(struct adapter *padapter, u8 *psta, u8 entry, u8 enqueue);
+@@ -760,7 +760,6 @@ u8 rtw_setdatarate_cmd(struct adapter  *padapter, u8 *rateset);
+ u8 rtw_setbasicrate_cmd(struct adapter  *padapter, u8 *rateset);
+ u8 rtw_setbbreg_cmd(struct adapter * padapter, u8 offset, u8 val);
+ u8 rtw_setrfreg_cmd(struct adapter * padapter, u8 offset, u32 val);
+-u8 rtw_getbbreg_cmd(struct adapter * padapter, u8 offset, u8 * pval);
+ u8 rtw_getrfreg_cmd(struct adapter * padapter, u8 offset, u8 * pval);
+ u8 rtw_setrfintfs_cmd(struct adapter  *padapter, u8 mode);
+ u8 rtw_setrttbl_cmd(struct adapter  *padapter, struct setratable_parm *prate_table);
 -- 
 2.33.0
 
