@@ -1,592 +1,173 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01DA272
-	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 06:36:25 +0000 (UTC)
-Received: by mail-vk1-f173.google.com with SMTP id f73so2174108vkf.6
-        for <linux-staging@lists.linux.dev>; Wed, 22 Sep 2021 23:36:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C622972
+	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 07:30:04 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18N6WZYP003039;
+	Thu, 23 Sep 2021 07:29:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=vIkZ5qBAcqAZM3SHxcSjT/eHfz+b8nDiEmOYjfE48ik=;
+ b=gjSb4grBATQWB28KnrKqEDDZ+jgZbKecPtMoUWoi/Ep9fWa+o7iHwfldGotCZVrH7cbC
+ 6MDJOQraa3TtyfIqcIc1UbDmJElYgNLBbSA5MI46xQeMVC395S5pprCkFMxZYLdvNyqZ
+ OCNsS6WAZDXkNjmLn+q5xGkoJJvI9BLH+MVqoqwWHYBs8fKGfo2+z3g1d/FPUbA5cH2r
+ R4Tz00vlw98w1IQZntuD4xj8e+Xk5KdZDpO8c0fEbxnOIWv9GBGs4j0x3eKWsbfVM6kC
+ OZPxBGfMEFPRj5/SwOF1A4GzjQy0SFyrye8aNh1aMFG3mvsrj7mKNkCqIzb7AmpCTpu7 Uw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3b8mdbg7y4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 23 Sep 2021 07:29:51 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18N7ErEf058655;
+	Thu, 23 Sep 2021 07:29:50 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
+	by aserp3020.oracle.com with ESMTP id 3b7q5bt7rv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 23 Sep 2021 07:29:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NRoDP+QaIcxMPrhdauyuIMi6huPpUhz5/I4ernxlmIFmbdBaCKvimBZ18/ImzD1/MPwbSZTpCFgXQRZu882j0OUOu71C4zI1KKkT2Qa0bPpDQaJo3zuTFh5FWaQZInhOcDjP98t57DtfaSBgZPKZtbyeUxovaZfLhdeGWBLxxFDTVG7UkXqfLqsq/qmq1O9lJKvw+9z+8DjHRWPbBMosy5YKrR7rsZ7I7Ic+LXj7ygWurFl/H7hr332TSRwISlhzXVM5TtqylQlgBV2AU5zI5vlBgQSWCLTjvtdf3KnnZxo+MXbTUnlWTBnWrbagkvL4ykwoWiqdkezOHeViEGhzkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=vIkZ5qBAcqAZM3SHxcSjT/eHfz+b8nDiEmOYjfE48ik=;
+ b=kVF0F61UdGtAVx75P2h51G4frp2/0zWHL9AYSrz5IOA/WEE+mi4kDWifhWGVU3l15HqHsCuAVX3FaM0ZfAS6iEvn2FCunkNq3es1NFMnVjsOTaQNmDq4N+4l65khY0Nmu1COGyEpyXmCdRy64dL0TX69TJMfY8zMZ3VyenzngVCMXkoKQQ7mcb2G2a669ujlsIi2ugrxfj55MYIi6puhEOMbt64FdMVmSx31x865GSmUuy79e2K24CTF88ve0pJxl+7IZl8lr9X5wI9dCinLYfXq+sCwWBBkGSjMWZZ7SfQmD0gZff6D2Qw9FTwJszz92IWa+psrGkU51hpkFpoWrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=25IgOf1O4ZVDx2LprE1oHj1su6SjDD3lXVLj93fp81o=;
-        b=Aws9oKc7uPMf4Oxzkp/feQQHWxFXSXmNZjhgUBgEOre/ApbhbHwcxwnkDHVFwL6ZBH
-         8pqssne+8upvNj9SOa5y4uwE1JOTARkWbcok9YqzMxX/Ic7GqwoskQMmJABwm/X8J3O4
-         v+PF+5r4pY5Z95deAfF0L5YbODnbku5aObGeaOywActTTcHo75IRpELyVv0N1+hyjC2A
-         rGTDINGWk04hM9dQwJZSqOy80OLG1NtmfV3nuQC7Obwh1KRMpafmsjdVBLir6raUPCsa
-         Gg6lFhoYu6JccQ7pQKE6VyWzo65af0rZzy2eSja9371vrSBNLYW9q/NpGlpy2ueyIMyJ
-         yJVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=25IgOf1O4ZVDx2LprE1oHj1su6SjDD3lXVLj93fp81o=;
-        b=dWlMG4wBD6/NiUUQiXlDlxPJ0K8PPw9QlvRNbjWBuxcnZCmZYpgV0ratL//rKUOfHb
-         QdGNZfzKxrJYRWKKo5lSmTUxxbx8NaE2Ks0gqKxM3qeid3DY7qaPtSVwA7umCZdMveXg
-         j+k3sQEZk8SDkhCF8O/4Zf1R4/24lIZQREOhC2ZEwFnoy8qAG+BGFufoo9a0VDOmgXUO
-         g46ej/4gCiHU0A6PzHpIiRF5wtSasEA7CTZWq8aco8zCKF+s7TsoKjOkTeLa4ewY0b/b
-         LRst9GCMeKRBcYn6lFxFJcw5CQtt8vgCGCaGUJXDdnSma5B509W+nJx1rtgoOdKk6+zd
-         HrsA==
-X-Gm-Message-State: AOAM532WzGPRXucKCQOfgbmAMvYuwUizQvYF5dB7YRMPR8DGwi/Pbo56
-	b5BpOxWLK0tCRBm9lw04Xb8xgLSbDutpSCCsMTA=
-X-Google-Smtp-Source: ABdhPJxC5zU4dUCVE508GCNo1eKHjihyte8Vco3i6URbFEo2T6PcI8867izoHmLRdN48GlaG+tgNBmzzt3ZgDG5sZOM=
-X-Received: by 2002:a1f:9d09:: with SMTP id g9mr2105070vke.4.1632378984749;
- Wed, 22 Sep 2021 23:36:24 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vIkZ5qBAcqAZM3SHxcSjT/eHfz+b8nDiEmOYjfE48ik=;
+ b=psnnH2+GucUkN5CHUh2jqHpethdnevf9Id9VejgsZWARhdCuNRUVe0xruw7CXqUlDSmlSChAdMVkqRc3bEiEHQrCo9ESloaO84rx1Kp1lfXiG54qeYnkzHBmdst+Ff8PlQP73xwzyTTdU4ypSvPugobKnlPGSTT7ORoxwzBRFnw=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1886.namprd10.prod.outlook.com
+ (2603:10b6:300:10e::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Thu, 23 Sep
+ 2021 07:29:48 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4523.018; Thu, 23 Sep 2021
+ 07:29:47 +0000
+Date: Thu, 23 Sep 2021 10:29:29 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+        phil@philpotter.co.uk, martin@kaiser.cx, fmdefrancesco@gmail.com,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/8] staging: r8188eu: remove dead code from
+ rtl8188e_rf6052.c
+Message-ID: <20210923072929.GA2048@kadam>
+References: <20210921194658.10654-1-straube.linux@gmail.com>
+ <20210921194658.10654-7-straube.linux@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210921194658.10654-7-straube.linux@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::36)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
- <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
- <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
- <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
- <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
- <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
- <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com> <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
-In-Reply-To: <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 23 Sep 2021 08:36:13 +0200
-Message-ID: <CAMhs-H8kH7CMXENqDW_6GLTjeMMyk+ynehMmyBr=kFZPFHpM0A@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
+Received: from kadam (62.8.83.99) by JNXP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 07:29:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 85fcfda9-0ba8-455d-13f3-08d97e63ebc9
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1886:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR10MB1886505625261840EB2E0A468EA39@MWHPR10MB1886.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	NCEha0fFPUSbkF1ZiyFl/mWSPkt3RXyA01DbGEbZ8UNOKzA3QInM8H2iyt542Bj09IyJwAzceg6fqbDP2cfwHy5t/5/YAjstzNSERK0AUT3I2NSkYF54PTEdDtc6sxe+c+pkoX0KiTjChu/kpYdJGi2QXLum87rSG+RWwv+C1TilVndTruxaUTPjS9cSjIMJplkPp+iOTjmFGRqsfp0OcrQVsE6+z21ZA7m4pc1x68Aw6k/YAjV0fOkFfOAjnXXEd3TEp/y3cElpZHEZ20duYkTo0xmPsohtB32Wb8EIJ1iBlFC+vQpiDAMqB3yVXl3FDb8F85qho5k+DCOUxX//XNSLA3eNMzklNg/Zt3byvvFfA0U1tY92O6BQkDzrfK9X8PQKsZPNm07T/Mk8YUWHEStYyBKCqyMBoxZpz3T6hOP3aMkfPSQWuTAGrN2/XgSFGTqbeoGDmob8Qk5OCZrUbHzUBxtUfnTzUjtDDEZbp8d838wLMgKLqY2fL0WLG4QK0ISjYvSzIUr6Y2tf/kZFiPnrWWPdf5YS9SXZndz4hJFXkSeU+LTEn7/hKLYx6BfM9EaaEAz0PU30kvgzsP1oK+tIgf575ojWoEtS0yBp2Kc+qut4ds1Zh4FTdyW150FIfV4Kd3KleX1IPpn8Q1duITPJeBFzV/GdzkDeOuTuSImpk1WBduU1nKdhD/pTPFuvjM2n7yTcIb2Altw3FASEUw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(86362001)(316002)(55016002)(33656002)(9686003)(66946007)(5660300002)(9576002)(8936002)(52116002)(66476007)(66556008)(6496006)(83380400001)(956004)(8676002)(186003)(26005)(4326008)(508600001)(38100700002)(38350700002)(33716001)(2906002)(44832011)(1076003)(6666004)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?EcwlAIDVEp+M1dfavDivu5MwrhQjh92938OqRnE4mfV8Omiyh2e7B9gBI7Qi?=
+ =?us-ascii?Q?xtgWC1DASOzpoegP7Cph5KS1Kw3xVMMUAmAVnO8DHk6eN31JygOC6HZbUIzT?=
+ =?us-ascii?Q?ewARCd7Eu/82cvhMKIl6V1YRaCmKcAnFX3+yuCfGhf1XWuRYnGVBxfEXKXdx?=
+ =?us-ascii?Q?b9D+8mnCYv2t/M/8R540v3jDydVbR1xoY8qXspuqinaWz5unvgcT29GF7/xw?=
+ =?us-ascii?Q?xuq7+sWBv1weV//WH3t6N/5LlEb89xk30ZJ5w41z3mtQk85X+6zTtNCZWhrI?=
+ =?us-ascii?Q?FwhwnMqBt00Rssk1Sh0AaMYhwsbUkiziaPy6U73j8/Z0/2XpX819slRtpIBh?=
+ =?us-ascii?Q?Q+KJRUYHoJWeppuB61t1/aaaD1o0sEtR1iVo8QRSFhX0Lx+FN7GfeVoALCZd?=
+ =?us-ascii?Q?8BDuXo4XeTnjr96YhrOHbJu09RY5t82HkUCqP+3Q82LHVKUkQ6qtJdZFHmdy?=
+ =?us-ascii?Q?HLHnDJFPGHUK4nNS/wW4yRMNIcO9snMqmAHOUyXBg3t/EMWjGe+m7Sq7299s?=
+ =?us-ascii?Q?sH1bpPwK5pD8r+AG0aSXtnEPS6BXazgzKPsQMN8sLjP0pZVc5L6fVWM1x1o8?=
+ =?us-ascii?Q?cd8nykBif8m4/B0V3yCOxMb1HWN3TlRXch/4p2ghdezr5DDsELsV4DJpcSi1?=
+ =?us-ascii?Q?JEeEpHl6iD4I0InUP3h0kLWofKfQ0mMXzKfMUglLP/AfQfbyFpX+R7xkP+Cu?=
+ =?us-ascii?Q?zbP09acBOuPwiiIfc34WZ/0/Q5UEMRiEAhW+IAVIqEVxfvWCMOaOTUV4O2XZ?=
+ =?us-ascii?Q?uFdxBtP/+5aCDD4cnmBXY3toC68IhpeKj58r5VKghs6n5vtOv7Vz8bjZXKyE?=
+ =?us-ascii?Q?MKE5Kb2MYnJlhzWHoyaY/OKegljaQtWswyc212wJNsTeuWO22f5Ir8Eu/ihY?=
+ =?us-ascii?Q?/FGiKrC/jCxS7Ccj/NfzNBZ/FmfDKJTLlE7nhIK2LAQdkkd73EAoGgmh+FRc?=
+ =?us-ascii?Q?qYHC4ACD4aPH73VLVTovqU5FaUi2oWblHBCebpipFjidCSjDtXfm+UhC/A0a?=
+ =?us-ascii?Q?AOhhIxpF8CtI8Ao+sycdUWHH8GU52seQeQfDQDYXk2kMqVigA2TpQB648Pxo?=
+ =?us-ascii?Q?MgDP+itG0JJiX/kcixahsP+P85O6sLTpczYXWyyLTXdcYQa+RuIRiZXl9IFg?=
+ =?us-ascii?Q?79WFvaXaayy9i2XeiZ3VwuLdfHq5BMcnSNmlDmFjJUALE0vGEFzCprz2okyh?=
+ =?us-ascii?Q?lwkLGRIAf09gemjX1BipNpbeyJBfAXl/83u9c3Hb3ulRLf0qb4oNBkOXLAsi?=
+ =?us-ascii?Q?D5MRJsIdoB6cOoEWdRgRalVDyeSljYgU/bSg4XkNqUevy9g0Q5pawx6BUhgZ?=
+ =?us-ascii?Q?kvD7mPVG80IXkSJCPXQsHAre?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85fcfda9-0ba8-455d-13f3-08d97e63ebc9
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 07:29:47.8547
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5HpEZJFIufb70XRc/dvv+RD06wGePegadUV/eNxRjqPE6266Q4zGH76DuzZXdBQ5D7JceGxYpAl4HSIeoUbFXXfxOyNSjDPnXqpII2SnfpA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1886
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10115 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0
+ suspectscore=0 phishscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109200000 definitions=main-2109230044
+X-Proofpoint-ORIG-GUID: kAs7VAfktAznNyh_ee4NKZ_wmCCNCE0s
+X-Proofpoint-GUID: kAs7VAfktAznNyh_ee4NKZ_wmCCNCE0s
 
-Hi Arnd,
+On Tue, Sep 21, 2021 at 09:46:56PM +0200, Michael Straube wrote:
+> In this driver DynamicTxHighPowerLvl is set to TxHighPwrLevel_Normal
+> and never changed. In the file rtl8188e_rf6052.c there are some if
+> statements that check DynamicTxHighPowerLvl for other values than
+> TxHighPwrLevel_Normal. The code in the if blocks is never executed.
+> Remove the dead code.
+> 
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+> ---
+>  drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 57 +++++--------------
+>  1 file changed, 14 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> index edaa9a6dfdb1..946a1b97d96f 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_rf6052.c
+> @@ -85,7 +85,6 @@ rtl8188e_PHY_RF6052SetCckTxPower(
+>  		u8 *pPowerlevel)
+>  {
+>  	struct hal_data_8188e *pHalData = GET_HAL_DATA(Adapter);
+> -	struct dm_priv *pdmpriv = &pHalData->dmpriv;
+>  	struct mlme_ext_priv *pmlmeext = &Adapter->mlmeextpriv;
+>  	u32 TxAGC[2] = {0, 0}, tmpval = 0, pwrtrac_value;
+>  	bool TurboScanOff = false;
+> @@ -112,34 +111,19 @@ rtl8188e_PHY_RF6052SetCckTxPower(
+>  			}
+>  		}
+>  	} else {
+> -		/* Driver dynamic Tx power shall not affect Tx power.
+> -		 * It shall be determined by power training mechanism.
+> -i		 *  Currently, we cannot fully disable driver dynamic
+   ^
 
-On Thu, Sep 23, 2021 at 7:51 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
->  isOn Wed, Sep 22, 2021 at 10:55 PM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> > On Wed, Sep 22, 2021 at 9:57 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > >
-> > > On Wed, Sep 22, 2021 at 8:40 PM Sergio Paracuellos
-> > > <sergio.paracuellos@gmail.com> wrote:
-> > > > On Wed, Sep 22, 2021 at 8:07 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > On Wed, Sep 22, 2021 at 7:42 PM Sergio Paracuellos
-> > > > > Ok, thank you for the detailed explanation.
-> > > > >
-> > > > > I suppose you can use the generic infrastructure in asm-generic/io.h
-> > > > > if you "#define PCI_IOBASE mips_io_port_base". In this case, you
-> > > > > should have an architecture specific implementation of
-> > > > > pci_remap_iospace() that assigns mips_io_port_base.
-> > > >
-> > > > No, that is what I tried originally defining PCI_IOBASE as
-> > > > _AC(0xa0000000, UL) [0] which is the same as KSEG1 [1] that ends in
-> > > > 'mips_io_port_base'.
-> > >
-> > > Defining it as KSEG1 would be problematic because that means that
-> > > the Linux-visible port numbers are offset from the bus-visible ones.
-> > >
-> > > You really want PCI_IOBASE to point to the address of port 0.
-> >
-> > Do you mean that doing
-> >
-> > #define PCI_IOBASE mips_io_port_base
-> >
-> > would have different result that doing what I did
-> >
-> > #define PCI_IOBASE _AC(0xa0000000, UL)
-> >
-> > ?
-> >
-> > I am not really understanding this yet (I think I need a bit of sleep
-> > time :)), but I will test this tomorrow and come back to you again
-> > with results.
->
-> Both would let devices access the registers, but they are different
-> regarding the bus translations you have to program into the
-> host bridge, and how to access the hardcoded port numbers.
+You're a vimster.  :)
 
-I have tested this and I get initial invalidid BAR value errors on pci
-bus I/O enumeration an also bad addresses in /proc/ioports in the same
-way I got defining PCI_IOBASE as _AC(0xa0000000, UL):
+regards,
+dan carpenter
 
-root@gnubee:~# cat /proc/ioports
-00000000-0000ffff : pcie@1e140000
-  00000000-00000fff : PCI Bus 0000:01
-    00000000-0000000f : 0000:01:00.0
-      00000000-0000000f : ahci
-    00000010-00000017 : 0000:01:00.0
-      00000010-00000017 : ahci
-    00000018-0000001f : 0000:01:00.0
-      00000018-0000001f : ahci
-    00000020-00000023 : 0000:01:00.0
-      00000020-00000023 : ahci
-    00000024-00000027 : 0000:01:00.0
-      00000024-00000027 : ahci
-  00001000-00001fff : PCI Bus 0000:02
-    00001000-0000100f : 0000:02:00.0
-      00001000-0000100f : ahci
-    00001010-00001017 : 0000:02:00.0
-      00001010-00001017 : ahci
-    00001018-0000101f : 0000:02:00.0
-      00001018-0000101f : ahci
-    00001020-00001023 : 0000:02:00.0
-      00001020-00001023 : ahci
-    00001024-00001027 : 0000:02:00.0
-      00001024-00001027 : ahci
-  00002000-00002fff : PCI Bus 0000:03
-    00002000-0000200f : 0000:03:00.0
-      00002000-0000200f : ahci
-    00002010-00002017 : 0000:03:00.0
-      00002010-00002017 : ahci
-    00002018-0000201f : 0000:03:00.0
-      00002018-0000201f : ahci
-    00002020-00002023 : 0000:03:00.0
-      00002020-00002023 : ahci
-    00002024-00002027 : 0000:03:00.0
-      00002024-00002027 : ahci
-root@gnubee:~#
-
-This is the pci boot trace I get doing what you proposed (I have also
-added some traces for 'logic_pio_trans_cpuaddr' and
-'pci_address_to_pio'):
-
-diff --git a/lib/logic_pio.c b/lib/logic_pio.c
-index f32fe481b492..529e28aba74b 100644
---- a/lib/logic_pio.c
-+++ b/lib/logic_pio.c
-@@ -216,6 +218,7 @@ unsigned long logic_pio_trans_cpuaddr(resource_size_t addr)
-                        unsigned long cpuaddr;
-
-                        cpuaddr = addr - range->hw_start + range->io_start;
-+                       pr_info("PIO TO CPUADDR: ADDR: 0x%x -  addr
-HW_START: 0x%08x + RANGE IO: 0x%08x\n", addr, range->hw_start,
-range->io_start);
-
-                        rcu_read_unlock();
-                        return cpuaddr;
-
-diff --git a/drivers/of/address.c b/drivers/of/address.c
-index 1c3257a2d4e3..52b77b5defac 100644
---- a/drivers/of/address.c
-+++ b/drivers/of/address.c
-@@ -298,6 +298,8 @@ int of_pci_range_to_resource(struct of_pci_range *range,
-                res->start = range->cpu_addr;
-        }
-        res->end = res->start + range->size - 1;
-+       pr_info("IO START returned by pci_address_to_pio: 0x%x-0x%x\n",
-+               res->start, res->end);
-        return 0;
-
- invalid_range:
-
-
-mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x001e160000
-LOGIC PIO: PIO TO CPUADDR: ADDR: 0x1e160000 -  addr HW_START:
-0x1e160000 + RANGE IO: 0x00000000
-OF: IO START returned by pci_address_to_pio: 0x0-0xffff
-mt7621-pci 1e140000.pcie: PCIE0 enabled
-mt7621-pci 1e140000.pcie: PCIE1 enabled
-mt7621-pci 1e140000.pcie: PCIE2 enabled
-mt7621-pci 1e140000.pcie: PCI coherence region base: 0x60000000,
-mask/settings: 0xf0000002
-mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
-pci_bus 0000:00: root bus resource [bus 00-ff]
-pci_bus 0000:00: root bus resource [mem 0x60000000-0x6fffffff]
-pci_bus 0000:00: root bus resource [io  0x0000-0xffff] (bus address
-[0x1e160000-0x1e16ffff])
-pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:00.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:00.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:00.0: supports D1
-pci 0000:00:00.0: PME# supported from D0 D1 D3hot
-pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:01.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:01.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:01.0: supports D1
-pci 0000:00:01.0: PME# supported from D0 D1 D3hot
-pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:02.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:02.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:02.0: supports D1
-pci 0000:00:02.0: PME# supported from D0 D1 D3hot
-pci 0000:00:00.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:00:01.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:00:02.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:01:00.0: reg 0x10: initial BAR value 0x00000000 invalid
-pci 0000:01:00.0: reg 0x10: [io  size 0x0008]
-pci 0000:01:00.0: reg 0x14: initial BAR value 0x00000000 invalid
-pci 0000:01:00.0: reg 0x14: [io  size 0x0004]
-pci 0000:01:00.0: reg 0x18: initial BAR value 0x00000000 invalid
-pci 0000:01:00.0: reg 0x18: [io  size 0x0008]
-pci 0000:01:00.0: reg 0x1c: initial BAR value 0x00000000 invalid
-pci 0000:01:00.0: reg 0x1c: [io  size 0x0004]
-pci 0000:01:00.0: reg 0x20: initial BAR value 0x00000000 invalid
-pci 0000:01:00.0: reg 0x20: [io  size 0x0010]
-pci 0000:01:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:01:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:00.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:00.0: PCI bridge to [bus 01-ff]
-pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:01: busn_res: [bus 01-ff] end is updated to 01
-pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:02:00.0: reg 0x10: initial BAR value 0x00000000 invalid
-pci 0000:02:00.0: reg 0x10: [io  size 0x0008]
-pci 0000:02:00.0: reg 0x14: initial BAR value 0x00000000 invalid
-pci 0000:02:00.0: reg 0x14: [io  size 0x0004]
-pci 0000:02:00.0: reg 0x18: initial BAR value 0x00000000 invalid
-pci 0000:02:00.0: reg 0x18: [io  size 0x0008]
-pci 0000:02:00.0: reg 0x1c: initial BAR value 0x00000000 invalid
-pci 0000:02:00.0: reg 0x1c: [io  size 0x0004]
-pci 0000:02:00.0: reg 0x20: initial BAR value 0x00000000 invalid
-pci 0000:02:00.0: reg 0x20: [io  size 0x0010]
-pci 0000:02:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:02:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:01.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:01.0: PCI bridge to [bus 02-ff]
-pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:02: busn_res: [bus 02-ff] end is updated to 02
-pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:03:00.0: reg 0x10: initial BAR value 0x00000000 invalid
-pci 0000:03:00.0: reg 0x10: [io  size 0x0008]
-pci 0000:03:00.0: reg 0x14: initial BAR value 0x00000000 invalid
-pci 0000:03:00.0: reg 0x14: [io  size 0x0004]
-pci 0000:03:00.0: reg 0x18: initial BAR value 0x00000000 invalid
-pci 0000:03:00.0: reg 0x18: [io  size 0x0008]
-pci 0000:03:00.0: reg 0x1c: initial BAR value 0x00000000 invalid
-pci 0000:03:00.0: reg 0x1c: [io  size 0x0004]
-pci 0000:03:00.0: reg 0x20: initial BAR value 0x00000000 invalid
-pci 0000:03:00.0: reg 0x20: [io  size 0x0010]
-pci 0000:03:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:03:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:02.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:02.0: PCI bridge to [bus 03-ff]
-pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
-pci 0000:00:00.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:00.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:01.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:01.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:02.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:02.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:00.0: BAR 8: assigned [mem 0x60000000-0x600fffff]
-pci 0000:00:00.0: BAR 9: assigned [mem 0x60100000-0x601fffff pref]
-pci 0000:00:01.0: BAR 8: assigned [mem 0x60200000-0x602fffff]
-pci 0000:00:01.0: BAR 9: assigned [mem 0x60300000-0x603fffff pref]
-pci 0000:00:02.0: BAR 8: assigned [mem 0x60400000-0x604fffff]
-pci 0000:00:02.0: BAR 9: assigned [mem 0x60500000-0x605fffff pref]
-pci 0000:00:00.0: BAR 1: assigned [mem 0x60600000-0x6060ffff]
-pci 0000:00:01.0: BAR 1: assigned [mem 0x60610000-0x6061ffff]
-pci 0000:00:02.0: BAR 1: assigned [mem 0x60620000-0x6062ffff]
-pci 0000:00:00.0: BAR 7: assigned [io  0x0000-0x0fff]
-pci 0000:00:01.0: BAR 7: assigned [io  0x1000-0x1fff]
-pci 0000:00:02.0: BAR 7: assigned [io  0x2000-0x2fff]
-pci 0000:01:00.0: BAR 5: assigned [mem 0x60000000-0x600001ff]
-pci 0000:01:00.0: BAR 4: assigned [io  0x0000-0x000f]
-pci 0000:01:00.0: BAR 0: assigned [io  0x0010-0x0017]
-pci 0000:01:00.0: BAR 2: assigned [io  0x0018-0x001f]
-pci 0000:01:00.0: BAR 1: assigned [io  0x0020-0x0023]
-pci 0000:01:00.0: BAR 3: assigned [io  0x0024-0x0027]
-pci 0000:00:00.0: PCI bridge to [bus 01]
-pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
-pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
-pci 0000:02:00.0: BAR 5: assigned [mem 0x60200000-0x602001ff]
-pci 0000:02:00.0: BAR 4: assigned [io  0x1000-0x100f]
-pci 0000:02:00.0: BAR 0: assigned [io  0x1010-0x1017]
-pci 0000:02:00.0: BAR 2: assigned [io  0x1018-0x101f]
-pci 0000:02:00.0: BAR 1: assigned [io  0x1020-0x1023]
-pci 0000:02:00.0: BAR 3: assigned [io  0x1024-0x1027]
-pci 0000:00:01.0: PCI bridge to [bus 02]
-pci 0000:00:01.0:   bridge window [io  0x1000-0x1fff]
-pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
-pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
-pci 0000:03:00.0: BAR 5: assigned [mem 0x60400000-0x604001ff]
-pci 0000:03:00.0: BAR 4: assigned [io  0x2000-0x200f]
-pci 0000:03:00.0: BAR 0: assigned [io  0x2010-0x2017]
-pci 0000:03:00.0: BAR 2: assigned [io  0x2018-0x201f]
-pci 0000:03:00.0: BAR 1: assigned [io  0x2020-0x2023]
-pci 0000:03:00.0: BAR 3: assigned [io  0x2024-0x2027]
-pci 0000:00:02.0: PCI bridge to [bus 03]
-pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
-pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
-pci 0000:00:02.0:   bridge window [mem 0x60500000-0x605fffff pref]
-
-This other one (correct behaviour AFAICS) is what I get with this
-patch series setting IO_SPACE_LIMIT and ifdef to avoid the remapping:
-
-mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x001e160000
-OF: IO START returned by pci_address_to_pio: 0x1e160000-0x1e16ffff
-mt7621-pci 1e140000.pcie: PCIE0 enabled
-mt7621-pci 1e140000.pcie: PCIE1 enabled
-mt7621-pci 1e140000.pcie: PCIE2 enabled
-mt7621-pci 1e140000.pcie: PCI coherence region base: 0x60000000,
-mask/settings: 0xf0000002
-mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
-pci_bus 0000:00: root bus resource [bus 00-ff]
-pci_bus 0000:00: root bus resource [mem 0x60000000-0x6fffffff]
-pci_bus 0000:00: root bus resource [io  0x1e160000-0x1e16ffff]
-pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:00.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:00.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:00.0: supports D1
-pci 0000:00:00.0: PME# supported from D0 D1 D3hot
-pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:01.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:01.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:01.0: supports D1
-pci 0000:00:01.0: PME# supported from D0 D1 D3hot
-pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:02.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:02.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:02.0: supports D1
-pci 0000:00:02.0: PME# supported from D0 D1 D3hot
-pci 0000:00:00.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:00:01.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:00:02.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:01:00.0: reg 0x10: [io  0x0000-0x0007]
-pci 0000:01:00.0: reg 0x14: [io  0x0000-0x0003]
-pci 0000:01:00.0: reg 0x18: [io  0x0000-0x0007]
-pci 0000:01:00.0: reg 0x1c: [io  0x0000-0x0003]
-pci 0000:01:00.0: reg 0x20: [io  0x0000-0x000f]
-pci 0000:01:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:01:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:00.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:00.0: PCI bridge to [bus 01-ff]
-pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:01: busn_res: [bus 01-ff] end is updated to 01
-pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:02:00.0: reg 0x10: [io  0x0000-0x0007]
-pci 0000:02:00.0: reg 0x14: [io  0x0000-0x0003]
-pci 0000:02:00.0: reg 0x18: [io  0x0000-0x0007]
-pci 0000:02:00.0: reg 0x1c: [io  0x0000-0x0003]
-pci 0000:02:00.0: reg 0x20: [io  0x0000-0x000f]
-pci 0000:02:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:02:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:01.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:01.0: PCI bridge to [bus 02-ff]
-pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:02: busn_res: [bus 02-ff] end is updated to 02
-pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:03:00.0: reg 0x10: [io  0x0000-0x0007]
-pci 0000:03:00.0: reg 0x14: [io  0x0000-0x0003]
-pci 0000:03:00.0: reg 0x18: [io  0x0000-0x0007]
-pci 0000:03:00.0: reg 0x1c: [io  0x0000-0x0003]
-pci 0000:03:00.0: reg 0x20: [io  0x0000-0x000f]
-pci 0000:03:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:03:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:02.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:02.0: PCI bridge to [bus 03-ff]
-pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
-pci 0000:00:00.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:00.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:01.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:01.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:02.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:02.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:00.0: BAR 8: assigned [mem 0x60000000-0x600fffff]
-pci 0000:00:00.0: BAR 9: assigned [mem 0x60100000-0x601fffff pref]
-pci 0000:00:01.0: BAR 8: assigned [mem 0x60200000-0x602fffff]
-pci 0000:00:01.0: BAR 9: assigned [mem 0x60300000-0x603fffff pref]
-pci 0000:00:02.0: BAR 8: assigned [mem 0x60400000-0x604fffff]
-pci 0000:00:02.0: BAR 9: assigned [mem 0x60500000-0x605fffff pref]
-pci 0000:00:00.0: BAR 1: assigned [mem 0x60600000-0x6060ffff]
-pci 0000:00:01.0: BAR 1: assigned [mem 0x60610000-0x6061ffff]
-pci 0000:00:02.0: BAR 1: assigned [mem 0x60620000-0x6062ffff]
-pci 0000:00:00.0: BAR 7: assigned [io  0x1e160000-0x1e160fff]
-pci 0000:00:01.0: BAR 7: assigned [io  0x1e161000-0x1e161fff]
-pci 0000:00:02.0: BAR 7: assigned [io  0x1e162000-0x1e162fff]
-pci 0000:01:00.0: BAR 5: assigned [mem 0x60000000-0x600001ff]
-pci 0000:01:00.0: BAR 4: assigned [io  0x1e160000-0x1e16000f]
-pci 0000:01:00.0: BAR 0: assigned [io  0x1e160010-0x1e160017]
-pci 0000:01:00.0: BAR 2: assigned [io  0x1e160018-0x1e16001f]
-pci 0000:01:00.0: BAR 1: assigned [io  0x1e160020-0x1e160023]
-pci 0000:01:00.0: BAR 3: assigned [io  0x1e160024-0x1e160027]
-pci 0000:00:00.0: PCI bridge to [bus 01]
-pci 0000:00:00.0:   bridge window [io  0x1e160000-0x1e160fff]
-pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
-pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
-pci 0000:02:00.0: BAR 5: assigned [mem 0x60200000-0x602001ff]
-pci 0000:02:00.0: BAR 4: assigned [io  0x1e161000-0x1e16100f]
-pci 0000:02:00.0: BAR 0: assigned [io  0x1e161010-0x1e161017]
-pci 0000:02:00.0: BAR 2: assigned [io  0x1e161018-0x1e16101f]
-pci 0000:02:00.0: BAR 1: assigned [io  0x1e161020-0x1e161023]
-pci 0000:02:00.0: BAR 3: assigned [io  0x1e161024-0x1e161027]
-pci 0000:00:01.0: PCI bridge to [bus 02]
-pci 0000:00:01.0:   bridge window [io  0x1e161000-0x1e161fff]
-pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
-pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
-pci 0000:03:00.0: BAR 5: assigned [mem 0x60400000-0x604001ff]
-pci 0000:03:00.0: BAR 4: assigned [io  0x1e162000-0x1e16200f]
-pci 0000:03:00.0: BAR 0: assigned [io  0x1e162010-0x1e162017]
-pci 0000:03:00.0: BAR 2: assigned [io  0x1e162018-0x1e16201f]
-pci 0000:03:00.0: BAR 1: assigned [io  0x1e162020-0x1e162023]
-pci 0000:03:00.0: BAR 3: assigned [io  0x1e162024-0x1e162027]
-pci 0000:00:02.0: PCI bridge to [bus 03]
-pci 0000:00:02.0:   bridge window [io  0x1e162000-0x1e162fff]
-pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
-pci 0000:00:02.0:   bridge window [mem 0x60500000-0x605fffff pref]
-
->
-> > > > > pci_remap_iospace() was originally meant as an architecture
-> > > > > specific helper, but it moved into generic code after all architectures
-> > > > > had the same requirements. If MIPS has different requirements,
-> > > > > then it should not be shared.
-> > > >
-> > > > I see. So, if it can not be shared, would defining 'pci_remap_iospace'
-> > > > as 'weak' acceptable? Doing in this way I guess I can redefine the
-> > > > symbol for mips to have the same I currently have but without the
-> > > > ifdef in the core APIs...
-> > >
-> > > I would hope to kill off the __weak functions, and prefer using an #ifdef
-> > > around the generic implementation. One way to do it is to define
-> > > a macro with the same name, such as
-> > >
-> > > #define pci_remap_iospace pci_remap_iospace
-> >
-> > I guess this should be defined in arch/mips/include/asm/pci.h?
->
-> Yes, that would be a good place for that, possibly next to
-> the (static inline) definition.
->
-> > > and then use #ifdef around the C function to see if that's already defined.
-
-I don't know if I am following you properly... you mean to define:
-
-diff --git a/arch/mips/include/asm/pci.h b/arch/mips/include/asm/pci.h
-index 6f48649201c5..9a8ca258c68b 100644
---- a/arch/mips/include/asm/pci.h
-+++ b/arch/mips/include/asm/pci.h
-@@ -20,6 +20,12 @@
- #include <linux/list.h>
- #include <linux/of.h>
-
-+#define pci_remap_iospace pci_remap_iospace
-+static inline int pci_remap_iospace(const struct resource *res,
-phys_addr_t phys_addr)
-+{
-+       return 0;
-+}
-
-And then in the PCI core code do something like this?
-
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4044,6 +4044,8 @@ unsigned long __weak
-pci_address_to_pio(phys_addr_t address)
-  * architectures that have memory mapped IO functions defined (and the
-  * PCI_IOBASE value defined) should call this function.
-  */
-+#ifndef pci_remap_iospace
-+#define pci_remap_iospace pci_remap_iospace
- int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
- {
- #if defined(PCI_IOBASE) && defined(CONFIG_MMU)
-@@ -4067,6 +4069,7 @@ int pci_remap_iospace(const struct resource
-*res, phys_addr_t phys_addr)
- #endif
- }
- EXPORT_SYMBOL(pci_remap_iospace);
-+#endif
-
-But since this 'pci_remap_iospace' is already defined in
-'include/linux/pci.h' and is not static at all the compiler complains
-about doing such a thing. What am I missing here?
-
-> >
-> > I see. That would work, I guess. But I don't really understand why
-> > this approach would be better than this patch changes itself. Looks
-> > more hacky to me. As Bjorn pointed out in a previous version of this
-> > patch [0], this case is the same as the one in
-> > 'acpi_pci_root_remap_iospace' and the same approach is used there...
->
-> The acpi_pci_root_remap_iospace() does this because on that code is
-> shared with x86 and ia64, where the port numbers are accessed using
-> separate instructions that do not translate into MMIO addresses at all.
->
-> On MIPS, the port access eventually does translate into MMIO, and
-> you need a way to communicate the mapping between the host
-> bridge and the architecture specific code.
-
-Thanks for the explanation.
-
->
-> This is particularly important since we want the host bridge driver
-> to be portable. If you set up the mapping differently between e.g.
-> mt7621 and mt7623, they are not able to use the same driver
-> code for setting pci_host_bridge->io_offset and for programming
-> the inbound translation registers.
-
-mt7621 is only mips, mt7623 is arm based SoC. They cannot use the same
-driver at all. mt7620 or mt7628 which have drivers which are in
-'arch/mips/pci' using legacy pci code would use and would be tried to
-be ported to share the driver with mt7621 but those are also only mips
-and the I/O addresses for all of them are similar and have I/O higher
-than 0xffff as mt7621 has.
-
->
-> > > I only see one host bridge here though, and it has a single
-> > > I/O port range, so maybe all three ports are inside of
-> > > a single PCI domain?
-> >
-> > See this cover letter [1] with a fantastic ascii art :) to a better
-> > understanding of this pci topology. Yes, there is one host bridge and
-> > from here three virtual bridges where at most three endpoints can be
-> > connected.
->
-> Ok, so you don't have the problem I was referring to. A lot of
-> SoCs actually have multiple host bridges, but only one root
-> port per host bridge, because they are based on licensed IP
-> blocks that don't support a normal topology like the one you have.
->
-> > > Having high numbers for the I/O ports is definitely a
-> > > problem as I mentioned. Anything that tries to access
-> > > PC-style legacy devices on the low port numbers
-> > > will now directly go on the bus accessing MMIO
-> > > registers that it shouldn't, either causing a CPU exception
-> > > or (worse) undefined behavior from random register
-> > > accesses.
-> >
-> > All I/O port addresses for ralink SoCs are in higher addresses than
-> > default IO_SPACE_LIMIT 0xFFFF, that's why we have to also change this
-> > limit together with this patch changes. Nothing to do with this, is an
-> > architectural thing of these SoCs.
->
-> I don't understand. What I see above is that the host bridge
-> has the region 1e160000-1e16ffff registered, so presumably
-> 1e160000 is actually the start of the window into the host bridge.
-> If you set PCI_IOBASE to that location, the highest port number
-> would become 0x2027, which is under 0xffff.
-
-But 0x1e160000 is defined in the device tree as the I/O start address
-of the range and should not be hardcoded anywhere else since other
-ralink platforms don't use this address as PCI_IOBASE. And yes, 0x2027
-is the highest port number I get if I initially define PCI_IOBASE also
-as KSEG1 since at the end is the entry point for I/O in mips (see
-trace above).
-
-Thanks very much for your time and feedback.
-
-Best regards,
-     Sergio Paracuellos
->
->        Arnd
