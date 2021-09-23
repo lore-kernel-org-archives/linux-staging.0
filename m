@@ -1,143 +1,88 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E313FC7
-	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 11:13:28 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id m3so25297771lfu.2
-        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 04:13:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CDF3FC7
+	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 11:33:24 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id 194so20614004qkj.11
+        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 04:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=z0SFg5XPiL4WJby2z1leZXw+OOsnwhmSnsCcKEN4ygk=;
-        b=TceJ00O86yDAQeqnnk1WFSsXG+WQofeifCY5VdqnzSTOQqXfsfx3rp1cYjGB7c+CV0
-         7Niq6yY0S9iG0npsOQFU0PYswqr6MUMiZje8Z8po+9evq77oAse15QUFttiFaupZttjE
-         7ev5ZBmoeVe5TJeyBzRqPb3xoLM17s39airAjz/0dG/KMz/qyJPaPqMHZNPo8DQE1QNp
-         +i9ckLxp4jX656M6rBW+DPcsBT1cmiqJhCEYbNISAjGKTrwUyOqS9S8+jCw4SgvsnOSi
-         Xbi2L7O9eCrnhkFmGuuG3HS26y2zmO3N5+A/3HY9I9KAprie+0Rva/rt9n4CbLNk1bOw
-         Yi1Q==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KocIdb5jGuc17zu7Ll5xKBIwOSA5eG6mKrlgAJ0LxPk=;
+        b=jKGoPkObEigizFUz6D0Nb5woqSbqQAGmw9/51htmMj8HWAau+xga/3nbPrl3CPpvcq
+         wpVoYqgk2b0zTJawstauM+EqApBwi9vrq95W/ceXU0vUQOSbwwlQ4gsTZWtJBjMzTnM4
+         CPG3kdqfzNZ17Fd2Ti9Pnq3iVGwVe7aWAOhd1ofZkSd8lcLVl25NFDA33/sbAwyUe7ML
+         NpNvXGoUJdJlfXJzc27A3eTI0krPfyc8yOBxltFuMiuBWKzoEOjf48iFPTXAdp6MWhQ3
+         5eo/UQIgdatPHItWRLllFH8tzTpA9O9G7BIHWec3Hsz4bN8+TPZiJp3HrYIABwlgns//
+         i5cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=z0SFg5XPiL4WJby2z1leZXw+OOsnwhmSnsCcKEN4ygk=;
-        b=FW8yEBivsoAjTU7f1brsdYuKVpbFqZjycKPz0uAo67aOEkSc5BSgGkIjgVz3u05V3s
-         2AQo8vraRbhFBdv7PArFEWFDnyDo1QwVtHJT8OkfrWjR9sO1EPMBmRIR/kEtWO0pX7B5
-         oyHzpGx2E+ug0VuEoVhg1SoLZr3GEUijohfHnNCDzmxjPrOvVNqTnmlPS3kMo9qjr3o/
-         1XWPm0/br1j3Z+1hngRB8GcbcB8idIqUN1+OM4JZEM9qsPe8uCLj2wBwUNYiXjiv05kP
-         +OmMyYA0DGJE5djmKQDlTvH4119rS2ytlbPBxb+jKwS7XHKSXMgVmsRAoZWca5J8oQYO
-         bOfg==
-X-Gm-Message-State: AOAM532bHd4fj91NSsYDbUfkZOgpcW8zpOlduZGD/rtTv/gSVi9F6fY6
-	/XsyJMYY8wGQVME97MZxoNE=
-X-Google-Smtp-Source: ABdhPJygcHA8aODCwyu08fok6DpFLAp77494U9g/ZtlmPj1p5+Y305thcEH4TqTlc/GRwIYvaF65Iw==
-X-Received: by 2002:a05:651c:170e:: with SMTP id be14mr4340632ljb.487.1632395606947;
-        Thu, 23 Sep 2021 04:13:26 -0700 (PDT)
-Received: from [192.168.1.11] ([217.117.246.37])
-        by smtp.gmail.com with ESMTPSA id v8sm338366lfe.6.2021.09.23.04.13.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Sep 2021 04:13:26 -0700 (PDT)
-Message-ID: <4a556764-9a0a-b453-c2d5-16c1a8cbea61@gmail.com>
-Date: Thu, 23 Sep 2021 14:13:25 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KocIdb5jGuc17zu7Ll5xKBIwOSA5eG6mKrlgAJ0LxPk=;
+        b=8A9tQU1/d/TJ+JZsTutC01XbwHbMBk9MgX++ubBm2DyG2aK0XcRfYMX44aHRVbdi9C
+         koRWHkESO718zhyJEcq5g6hL/t1sIkNRblGixE5/7dl2GfYgwAw73UdZfvBDI/r0GiUV
+         Ue1q3RRPHVYaqM8hAoTkPp9SYuK/2IkGMrrimwNUofWf6IF3Ox1n4x/5Uy/ma3KcvVAw
+         MddFOBplTr8DTRt6F27gHXrdE6YeuNQ5zlpHPO3mj1zoex5FwFUhpS3rXz7+84+a4lb4
+         0gM2uMWKBBxY3AltbixPESqpx9HmY9kkJBT3d5J2O0yHhRD2XtymKorfZWwXNuSBgkxp
+         Yv6Q==
+X-Gm-Message-State: AOAM533jR7lf5fm5cGAxXj7GOyDXSX7lYyOxf7AB9bIaiAWo/UE/tLJO
+	vZBYWqI9k2eAhqbGf8+SkkHmJQ==
+X-Google-Smtp-Source: ABdhPJwLwFfPzjykD3Copu6BELIep6lzhOLkv+Q6ahS3Z1gWTVrd+LZwseEjX8HGZsp0xkALgkgwAA==
+X-Received: by 2002:a37:f615:: with SMTP id y21mr4154292qkj.523.1632396803762;
+        Thu, 23 Sep 2021 04:33:23 -0700 (PDT)
+Received: from fedora ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
+        by smtp.gmail.com with ESMTPSA id v5sm3996894qkh.17.2021.09.23.04.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Sep 2021 04:33:22 -0700 (PDT)
+Date: Thu, 23 Sep 2021 08:33:18 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: hantro: Constify static struct v4l2_m2m_ops
+Message-ID: <YUxl/r8P2/k13FQZ@fedora>
+References: <20210920200210.18935-1-rikard.falkeborn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v9 16/16] staging: r8188eu: remove usb_vendor_req_mutex
-Content-Language: en-US
-To: Greg KH <greg@kroah.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>,
- Dan Carpenter <dan.carpenter@oracle.com>, Martin Kaiser <martin@kaiser.cx>
-References: <20210921181834.29677-1-fmdefrancesco@gmail.com>
- <20210921181834.29677-17-fmdefrancesco@gmail.com>
- <dd99d40d-297e-8d27-dabe-d0e4c633d391@gmail.com>
- <4434c136-6bfc-9a25-d0ba-f989c655fa69@gmail.com>
- <dfa76ffe-2306-01b3-9746-c9aa43c03398@gmail.com> <YUxf5TD55Bf2v09v@kroah.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <YUxf5TD55Bf2v09v@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210920200210.18935-1-rikard.falkeborn@gmail.com>
 
-On 9/23/21 14:07, Greg KH wrote:
-> On Thu, Sep 23, 2021 at 01:12:53PM +0300, Pavel Skripkin wrote:
->> On 9/23/21 11:47, Pavel Skripkin wrote:
->> > On 9/22/21 16:21, Pavel Skripkin wrote:
->> > > On 9/21/21 21:18, Fabio M. De Francesco wrote:
->> > > > From: Pavel Skripkin <paskripkin@gmail.com>
->> > > > 
->> > > > This mutex was used to protect shared buffer for USB requests. Since
->> > > > buffer was removed in previous patch we can remove this mutex as well.
->> > > > 
->> > > > Furthermore, because it was used to serialize the calls to the Core USB
->> > > > API, we thoroughly tested the enabling of concurrent firing of USB requests
->> > > > without the mutex and found no problems of any kind in common use cases.
->> > > > 
->> > > > Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
->> > > > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
->> > > 
->> > > Hi, Greg!
->> > > 
->> > > If all is OK with previous 15 patches, please, do not take this one, it
->> > >    causes problems with connection... :)
->> > > 
->> > > I don't understand what went wrong after v8, but anyway, this one should
->> > > not be applied for now, since it's broken
->> > > 
->> > > 
->> > > Thank you
->> > > 
->> > > 
->> > 
->> > 
->> > Just to be clear: previous 15 patches _are_ tested and do not cause any
->> > misbehavior or bugs.
->> > 
->> > I guess, the stack buffer maybe the problem here, since it's the only
->> > change on this side since v8. I didn't have a chance to take a closer
->> > look, but I will do it on weekends, I hope :)
->> > 
->> 
->> Oh, I found the problem by just looking at the code with clear mind:
->> 
->> > -free_dvobj:
->> > -	if (status != _SUCCESS && pdvobjpriv) {
->> > +	if (pdvobjpriv) {
->> >  		usb_set_intfdata(usb_intf, NULL);
->> >  		kfree(pdvobjpriv);
->> >  		pdvobjpriv = NULL;
->> 
->> This if should be deleted completely, because we don't want to fail on every
->> probe :)
->> 
->> Sorry for noise... :(
->> 
->> Greg, can you take first 15 patches, if they look good and then I will send
->> fixed version of 16? AFAIU, you are ok with taking part of the series
+On Mon, Sep 20, 2021 at 10:02:10PM +0200, Rikard Falkeborn wrote:
+> The only usage of vpu_m2m_ops is to pass its address to v4l2_m2m_init()
+> which has a pointer to const struct v4l2_m2m_ops as argument. Make it
+> const to allow the compiler to put it in read-only memory.
 > 
-> Please fix up and resend the whole series as our tools work best by
-> taking the whole thing.
+> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> That way I "know" you tested them all :)
-
-It is true, but there was small error on testing side from me this time.
-
-I am testing with qemu and I forgot to copy new driver to qemu's shared 
-folder (it was busy day or I was already asleep, idk). It resulted to 
-testing old version of the driver. Next day I've tested new changes on 
-top of this series and found the problem :)
-
-I am sorry for kind of lying, i've already fixed it locally, so it won't 
-happen again
-
-
-
-With regards,
-Pavel Skripkin
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index f23fc14b3562..fb82b9297a2b 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -179,7 +179,7 @@ static void device_run(void *priv)
+>  	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
+>  }
+>  
+> -static struct v4l2_m2m_ops vpu_m2m_ops = {
+> +static const struct v4l2_m2m_ops vpu_m2m_ops = {
+>  	.device_run = device_run,
+>  };
+>  
+> -- 
+> 2.33.0
+> 
