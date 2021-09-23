@@ -1,88 +1,92 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp179.sjtu.edu.cn (smtp179.sjtu.edu.cn [202.120.2.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CDF3FC7
-	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 11:33:24 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id 194so20614004qkj.11
-        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 04:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=KocIdb5jGuc17zu7Ll5xKBIwOSA5eG6mKrlgAJ0LxPk=;
-        b=jKGoPkObEigizFUz6D0Nb5woqSbqQAGmw9/51htmMj8HWAau+xga/3nbPrl3CPpvcq
-         wpVoYqgk2b0zTJawstauM+EqApBwi9vrq95W/ceXU0vUQOSbwwlQ4gsTZWtJBjMzTnM4
-         CPG3kdqfzNZ17Fd2Ti9Pnq3iVGwVe7aWAOhd1ofZkSd8lcLVl25NFDA33/sbAwyUe7ML
-         NpNvXGoUJdJlfXJzc27A3eTI0krPfyc8yOBxltFuMiuBWKzoEOjf48iFPTXAdp6MWhQ3
-         5eo/UQIgdatPHItWRLllFH8tzTpA9O9G7BIHWec3Hsz4bN8+TPZiJp3HrYIABwlgns//
-         i5cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KocIdb5jGuc17zu7Ll5xKBIwOSA5eG6mKrlgAJ0LxPk=;
-        b=8A9tQU1/d/TJ+JZsTutC01XbwHbMBk9MgX++ubBm2DyG2aK0XcRfYMX44aHRVbdi9C
-         koRWHkESO718zhyJEcq5g6hL/t1sIkNRblGixE5/7dl2GfYgwAw73UdZfvBDI/r0GiUV
-         Ue1q3RRPHVYaqM8hAoTkPp9SYuK/2IkGMrrimwNUofWf6IF3Ox1n4x/5Uy/ma3KcvVAw
-         MddFOBplTr8DTRt6F27gHXrdE6YeuNQ5zlpHPO3mj1zoex5FwFUhpS3rXz7+84+a4lb4
-         0gM2uMWKBBxY3AltbixPESqpx9HmY9kkJBT3d5J2O0yHhRD2XtymKorfZWwXNuSBgkxp
-         Yv6Q==
-X-Gm-Message-State: AOAM533jR7lf5fm5cGAxXj7GOyDXSX7lYyOxf7AB9bIaiAWo/UE/tLJO
-	vZBYWqI9k2eAhqbGf8+SkkHmJQ==
-X-Google-Smtp-Source: ABdhPJwLwFfPzjykD3Copu6BELIep6lzhOLkv+Q6ahS3Z1gWTVrd+LZwseEjX8HGZsp0xkALgkgwAA==
-X-Received: by 2002:a37:f615:: with SMTP id y21mr4154292qkj.523.1632396803762;
-        Thu, 23 Sep 2021 04:33:23 -0700 (PDT)
-Received: from fedora ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id v5sm3996894qkh.17.2021.09.23.04.33.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Sep 2021 04:33:22 -0700 (PDT)
-Date: Thu, 23 Sep 2021 08:33:18 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: hantro: Constify static struct v4l2_m2m_ops
-Message-ID: <YUxl/r8P2/k13FQZ@fedora>
-References: <20210920200210.18935-1-rikard.falkeborn@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D2272
+	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 13:03:35 +0000 (UTC)
+Received: from mta04.sjtu.edu.cn (mta04.sjtu.edu.cn [202.121.179.8])
+	by smtp179.sjtu.edu.cn (Postfix) with ESMTPS id D3D03100B0956;
+	Thu, 23 Sep 2021 20:57:40 +0800 (CST)
+Received: from localhost (localhost [127.0.0.1])
+	by mta04.sjtu.edu.cn (Postfix) with ESMTP id A6EFD185F5217;
+	Thu, 23 Sep 2021 20:57:40 +0800 (CST)
+X-Virus-Scanned: amavisd-new at mta04.sjtu.edu.cn
+Received: from mta04.sjtu.edu.cn ([127.0.0.1])
+	by localhost (mta04.sjtu.edu.cn [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id RQH_rqVoKD0b; Thu, 23 Sep 2021 20:57:40 +0800 (CST)
+Received: from mstore105.sjtu.edu.cn (unknown [10.118.0.105])
+	by mta04.sjtu.edu.cn (Postfix) with ESMTP id 4D72C1804EE54;
+	Thu, 23 Sep 2021 20:57:40 +0800 (CST)
+Date: Thu, 23 Sep 2021 20:57:40 +0800 (CST)
+From: Guo Zhi <qtxuning1999@sjtu.edu.cn>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: nsaenz@kernel.org, peterz@infradead.org, maz@kernel.org, bsegall@google.com, 
+	rdunlap@infradead.org, airlied@redhat.com, 
+	kan liang <kan.liang@linux.intel.com>, odin@uged.al, 
+	bcm-kernel-feedback-list@broadcom.com, 
+	linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Message-ID: <590112814.393656.1632401860257.JavaMail.zimbra@sjtu.edu.cn>
+In-Reply-To: <YUwOZjr06RV2BUi6@kroah.com>
+References: <20210923035554.669434-1-qtxuning1999@sjtu.edu.cn> <YUwOZjr06RV2BUi6@kroah.com>
+Subject: Re: [PATCH] staging: vchip_arm: Fix misuse of %x
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210920200210.18935-1-rikard.falkeborn@gmail.com>
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [202.120.40.82]
+X-Mailer: Zimbra 8.8.15_GA_4125 (ZimbraWebClient - GC92 (Linux)/8.8.15_GA_3928)
+Thread-Topic: staging: vchip_arm: Fix misuse of %x
+Thread-Index: m/b7F6kEdO6ZCcPPUHN2BXNzlm0fqQ==
 
-On Mon, Sep 20, 2021 at 10:02:10PM +0200, Rikard Falkeborn wrote:
-> The only usage of vpu_m2m_ops is to pass its address to v4l2_m2m_init()
-> which has a pointer to const struct v4l2_m2m_ops as argument. Make it
-> const to allow the compiler to put it in read-only memory.
+We should restrict kernel pointer leakage issue by using kptr_restrict. 
+Therefore kernel pointers should be specified by %pK rather than %lx.
+
+Thanks.
+
+Guo
+
+----- Original Message -----
+From: "Greg KH" <gregkh@linuxfoundation.org>
+To: "Guo Zhi" <qtxuning1999@sjtu.edu.cn>
+Cc: nsaenz@kernel.org, peterz@infradead.org, maz@kernel.org, bsegall@google.com, rdunlap@infradead.org, airlied@redhat.com, "kan liang" <kan.liang@linux.intel.com>, odin@uged.al, bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, "linux-kernel" <linux-kernel@vger.kernel.org>
+Sent: Thursday, September 23, 2021 1:19:34 PM
+Subject: Re: [PATCH] staging: vchip_arm: Fix misuse of %x
+
+On Thu, Sep 23, 2021 at 11:55:54AM +0800, Guo Zhi wrote:
+> Pointers should be printed with %p or %px rather than
+> cast to (unsigned long) and printed with %lx.
+> Change %lx to %pK to print the pointers.
 > 
-> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-
+> Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
 > ---
->  drivers/staging/media/hantro/hantro_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index f23fc14b3562..fb82b9297a2b 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -179,7 +179,7 @@ static void device_run(void *priv)
->  	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
->  }
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index b5aac862a29..408e5fe710b 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -591,11 +591,11 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
+>  		return VCHIQ_SUCCESS;
 >  
-> -static struct v4l2_m2m_ops vpu_m2m_ops = {
-> +static const struct v4l2_m2m_ops vpu_m2m_ops = {
->  	.device_run = device_run,
->  };
->  
-> -- 
-> 2.33.0
-> 
+>  	vchiq_log_trace(vchiq_arm_log_level,
+> -		"%s - service %lx(%d,%p), reason %d, header %lx, instance %lx, bulk_userdata %lx",
+> -		__func__, (unsigned long)user_service,
+> +		"%s - service %pK(%d,%p), reason %d, header %pK, instance %pK, bulk_userdata %pK",
+> +		__func__, user_service,
+>  		service->localport, user_service->userdata,
+> -		reason, (unsigned long)header,
+> -		(unsigned long)instance, (unsigned long)bulk_userdata);
+> +		reason, header,
+> +		instance, bulk_userdata);
+
+Why print this out at all?  What uses this?  Can it just be deleted?
+
+thanks,
+
+greg k-h
