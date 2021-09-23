@@ -1,320 +1,143 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0D52FAE
-	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 11:08:37 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id c33so3982255uae.9
-        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 04:08:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E313FC7
+	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 11:13:28 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id m3so25297771lfu.2
+        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 04:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XQqpWVviKEj4WJe+MtD7lgXtITrOhqNTLUe13rfLXOw=;
-        b=ECLPrBifw/HRgH6y4VH2qefgVYqpODtpiNTq1cp71fncpAp2wGCOS3YY5dkRjB+IZT
-         cZO/zCnNKOlu/YZ9IOpVEcbsZcsIYbrDHEfrrv1Sk4TRn4y4Q2zCoxy6j7bJ0WJxGvor
-         ohS2ClaF0xfqU0sRjMf1kjGs/H2PUrnk+9ULBwjzrLQ6Ggf7Ul6wqhXeNc3XbBL1vsKo
-         pn53L81JeoM+YPcvkTWC4R2BZTU315xEpxtfCWrtuotX2rJytd9obWg1PKLubxq+utt3
-         dhpJbZRJs1BxCr2tLZn8qiSKTDAWmPeM5uguqpe0lP90TFyyLoViP9skuGCP2GLuCip4
-         lQgA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=z0SFg5XPiL4WJby2z1leZXw+OOsnwhmSnsCcKEN4ygk=;
+        b=TceJ00O86yDAQeqnnk1WFSsXG+WQofeifCY5VdqnzSTOQqXfsfx3rp1cYjGB7c+CV0
+         7Niq6yY0S9iG0npsOQFU0PYswqr6MUMiZje8Z8po+9evq77oAse15QUFttiFaupZttjE
+         7ev5ZBmoeVe5TJeyBzRqPb3xoLM17s39airAjz/0dG/KMz/qyJPaPqMHZNPo8DQE1QNp
+         +i9ckLxp4jX656M6rBW+DPcsBT1cmiqJhCEYbNISAjGKTrwUyOqS9S8+jCw4SgvsnOSi
+         Xbi2L7O9eCrnhkFmGuuG3HS26y2zmO3N5+A/3HY9I9KAprie+0Rva/rt9n4CbLNk1bOw
+         Yi1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XQqpWVviKEj4WJe+MtD7lgXtITrOhqNTLUe13rfLXOw=;
-        b=y0dmDYV/Qp9VCmJ3657cJ9U003v3J19SFdfostGyPPV1+D0UWENdDiHQISiisIVpfO
-         36eDcrJq2zFG7YtxEXn1pYkjklMBz/rsozPgCy8AZ8W8gLmxlKMfYJ22uqCRniaDlaEJ
-         xgCnpFGHgY8sEnQLBiDzGc8FBXVHBjRuGsKsVVWi1AcjTPvmrAskTPUCtXzGGGZb0Lgp
-         eHKhGHpnBurZ6AobSpr8ENq87Ag84QQ1oxbPODiKjPLoR7kK8UyVIwYdO3rubtwxFm0s
-         a5DgTF7QIeYDPuz9qFLamPOngFu+ro1vhBePvIV6/Xeq729QhncXFZGoFCfZIhQMTBvB
-         Z/Yw==
-X-Gm-Message-State: AOAM5303PWXg28IDEvQFkwWwU+LJx0MaQeHM/9vOoKn/8lgnvF5WC8B5
-	OMWjJ0zcu2z1baq9+kXGJ7yHb0mohNOQPoAkcvE=
-X-Google-Smtp-Source: ABdhPJyqVapu68wlw43ccuLek0Ly2cTPU8UlCMtIDIOP/6LzbIxN1lgSmbVGeBEUKIsIGwn1PWv4D+CvIVnzS4o2YvU=
-X-Received: by 2002:ab0:72cc:: with SMTP id g12mr3401808uap.98.1632395316177;
- Thu, 23 Sep 2021 04:08:36 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=z0SFg5XPiL4WJby2z1leZXw+OOsnwhmSnsCcKEN4ygk=;
+        b=FW8yEBivsoAjTU7f1brsdYuKVpbFqZjycKPz0uAo67aOEkSc5BSgGkIjgVz3u05V3s
+         2AQo8vraRbhFBdv7PArFEWFDnyDo1QwVtHJT8OkfrWjR9sO1EPMBmRIR/kEtWO0pX7B5
+         oyHzpGx2E+ug0VuEoVhg1SoLZr3GEUijohfHnNCDzmxjPrOvVNqTnmlPS3kMo9qjr3o/
+         1XWPm0/br1j3Z+1hngRB8GcbcB8idIqUN1+OM4JZEM9qsPe8uCLj2wBwUNYiXjiv05kP
+         +OmMyYA0DGJE5djmKQDlTvH4119rS2ytlbPBxb+jKwS7XHKSXMgVmsRAoZWca5J8oQYO
+         bOfg==
+X-Gm-Message-State: AOAM532bHd4fj91NSsYDbUfkZOgpcW8zpOlduZGD/rtTv/gSVi9F6fY6
+	/XsyJMYY8wGQVME97MZxoNE=
+X-Google-Smtp-Source: ABdhPJygcHA8aODCwyu08fok6DpFLAp77494U9g/ZtlmPj1p5+Y305thcEH4TqTlc/GRwIYvaF65Iw==
+X-Received: by 2002:a05:651c:170e:: with SMTP id be14mr4340632ljb.487.1632395606947;
+        Thu, 23 Sep 2021 04:13:26 -0700 (PDT)
+Received: from [192.168.1.11] ([217.117.246.37])
+        by smtp.gmail.com with ESMTPSA id v8sm338366lfe.6.2021.09.23.04.13.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Sep 2021 04:13:26 -0700 (PDT)
+Message-ID: <4a556764-9a0a-b453-c2d5-16c1a8cbea61@gmail.com>
+Date: Thu, 23 Sep 2021 14:13:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
- <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
- <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
- <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
- <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
- <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
- <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
- <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
- <CAMhs-H8kH7CMXENqDW_6GLTjeMMyk+ynehMmyBr=kFZPFHpM0A@mail.gmail.com> <CAK8P3a2WmNsV9fhSEjqwHZAGkwGc9HOurhQsza7JOM2Scts2XQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a2WmNsV9fhSEjqwHZAGkwGc9HOurhQsza7JOM2Scts2XQ@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 23 Sep 2021 13:08:24 +0200
-Message-ID: <CAMhs-H8fRnLavLfdw7jZO0tb8rWqdF81cGHhYT6gGp4UY1gChg@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v9 16/16] staging: r8188eu: remove usb_vendor_req_mutex
+Content-Language: en-US
+To: Greg KH <greg@kroah.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>, Martin Kaiser <martin@kaiser.cx>
+References: <20210921181834.29677-1-fmdefrancesco@gmail.com>
+ <20210921181834.29677-17-fmdefrancesco@gmail.com>
+ <dd99d40d-297e-8d27-dabe-d0e4c633d391@gmail.com>
+ <4434c136-6bfc-9a25-d0ba-f989c655fa69@gmail.com>
+ <dfa76ffe-2306-01b3-9746-c9aa43c03398@gmail.com> <YUxf5TD55Bf2v09v@kroah.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <YUxf5TD55Bf2v09v@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Arnd,
+On 9/23/21 14:07, Greg KH wrote:
+> On Thu, Sep 23, 2021 at 01:12:53PM +0300, Pavel Skripkin wrote:
+>> On 9/23/21 11:47, Pavel Skripkin wrote:
+>> > On 9/22/21 16:21, Pavel Skripkin wrote:
+>> > > On 9/21/21 21:18, Fabio M. De Francesco wrote:
+>> > > > From: Pavel Skripkin <paskripkin@gmail.com>
+>> > > > 
+>> > > > This mutex was used to protect shared buffer for USB requests. Since
+>> > > > buffer was removed in previous patch we can remove this mutex as well.
+>> > > > 
+>> > > > Furthermore, because it was used to serialize the calls to the Core USB
+>> > > > API, we thoroughly tested the enabling of concurrent firing of USB requests
+>> > > > without the mutex and found no problems of any kind in common use cases.
+>> > > > 
+>> > > > Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+>> > > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+>> > > > Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+>> > > 
+>> > > Hi, Greg!
+>> > > 
+>> > > If all is OK with previous 15 patches, please, do not take this one, it
+>> > >    causes problems with connection... :)
+>> > > 
+>> > > I don't understand what went wrong after v8, but anyway, this one should
+>> > > not be applied for now, since it's broken
+>> > > 
+>> > > 
+>> > > Thank you
+>> > > 
+>> > > 
+>> > 
+>> > 
+>> > Just to be clear: previous 15 patches _are_ tested and do not cause any
+>> > misbehavior or bugs.
+>> > 
+>> > I guess, the stack buffer maybe the problem here, since it's the only
+>> > change on this side since v8. I didn't have a chance to take a closer
+>> > look, but I will do it on weekends, I hope :)
+>> > 
+>> 
+>> Oh, I found the problem by just looking at the code with clear mind:
+>> 
+>> > -free_dvobj:
+>> > -	if (status != _SUCCESS && pdvobjpriv) {
+>> > +	if (pdvobjpriv) {
+>> >  		usb_set_intfdata(usb_intf, NULL);
+>> >  		kfree(pdvobjpriv);
+>> >  		pdvobjpriv = NULL;
+>> 
+>> This if should be deleted completely, because we don't want to fail on every
+>> probe :)
+>> 
+>> Sorry for noise... :(
+>> 
+>> Greg, can you take first 15 patches, if they look good and then I will send
+>> fixed version of 16? AFAIU, you are ok with taking part of the series
+> 
+> Please fix up and resend the whole series as our tools work best by
+> taking the whole thing.
+> 
+> That way I "know" you tested them all :)
 
-On Thu, Sep 23, 2021 at 11:07 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> ()On Thu, Sep 23, 2021 at 8:36 AM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> > On Thu, Sep 23, 2021 at 7:51 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > I am not really understanding this yet (I think I need a bit of sleep
-> > > > time :)), but I will test this tomorrow and come back to you again
-> > > > with results.
-> > >
-> > > Both would let devices access the registers, but they are different
-> > > regarding the bus translations you have to program into the
-> > > host bridge, and how to access the hardcoded port numbers.
-> >
-> > I have tested this and I get initial invalidid BAR value errors on pci
-> > bus I/O enumeration an also bad addresses in /proc/ioports in the same
-> > way I got defining PCI_IOBASE as _AC(0xa0000000, UL):
-> >
-> > root@gnubee:~# cat /proc/ioports
-> > 00000000-0000ffff : pcie@1e140000
-> >   00000000-00000fff : PCI Bus 0000:01
-> >     00000000-0000000f : 0000:01:00.0
-> >       00000000-0000000f : ahci
-> >     00000010-00000017 : 0000:01:00.0
-> >       00000010-00000017 : ahci
-> >     00000018-0000001f : 0000:01:00.0
-> >       00000018-0000001f : ahci
->
-> Ok, These look good to me now.
+It is true, but there was small error on testing side from me this time.
 
-This is the behaviour we already had with spaces.h [0] without any
-other change. See also comments of Thomas [1] about this being wrong
-which at the end are the motivation for this patch series.
+I am testing with qemu and I forgot to copy new driver to qemu's shared 
+folder (it was busy day or I was already asleep, idk). It resulted to 
+testing old version of the driver. Next day I've tested new changes on 
+top of this series and found the problem :)
 
-> > mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x001e160000
-> > LOGIC PIO: PIO TO CPUADDR: ADDR: 0x1e160000 -  addr HW_START:
-> > 0x1e160000 + RANGE IO: 0x00000000
+I am sorry for kind of lying, i've already fixed it locally, so it won't 
+happen again
 
-Why is my RANGE IO start transformed here to 0x0? Should not be the
-one defined in dts 0x001e160000?
 
-> > OF: IO START returned by pci_address_to_pio: 0x0-0xffff
-> > mt7621-pci 1e140000.pcie: PCIE0 enabled
-> > mt7621-pci 1e140000.pcie: PCIE1 enabled
-> > mt7621-pci 1e140000.pcie: PCIE2 enabled
-> > mt7621-pci 1e140000.pcie: PCI coherence region base: 0x60000000,
-> > mask/settings: 0xf0000002
-> > mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
-> > pci_bus 0000:00: root bus resource [bus 00-ff]
-> > pci_bus 0000:00: root bus resource [mem 0x60000000-0x6fffffff]
-> > pci_bus 0000:00: root bus resource [io  0x0000-0xffff] (bus address
-> > [0x1e160000-0x1e16ffff])
-> >
-> > This other one (correct behaviour AFAICS) is what I get with this
-> > patch series setting IO_SPACE_LIMIT and ifdef to avoid the remapping:
-> >
-> > mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x001e160000
-> > OF: IO START returned by pci_address_to_pio: 0x1e160000-0x1e16ffff
->
-> While these look wrong, the output should be in the 0-0ffff range.
-> I suppose you have set an incorrect io_offset now.
 
-Well, here I am only using IO_SPACE_LIMIT set to 0x1fffffff and no
-PCI_IOBASE defined and skipping the remap with this patch, so the
-address listed in the dts range is returned as it is. Thus the range
-'0x1e160000-0x1e16ffff'.
-
->
-> > diff --git a/arch/mips/include/asm/pci.h b/arch/mips/include/asm/pci.h
-> > index 6f48649201c5..9a8ca258c68b 100644
-> > --- a/arch/mips/include/asm/pci.h
-> > +++ b/arch/mips/include/asm/pci.h
-> > @@ -20,6 +20,12 @@
-> >  #include <linux/list.h>
-> >  #include <linux/of.h>
-> >
-> > +#define pci_remap_iospace pci_remap_iospace
-> > +static inline int pci_remap_iospace(const struct resource *res,
-> > phys_addr_t phys_addr)
-> > +{
-> > +       return 0;
-> > +}
-> >
-> > And then in the PCI core code do something like this?
->
-> This is not sufficient: pci_remap_iospace() has to tell the architecture
-> code where the start of the I/O space is, which normally means
-> ioremapping it, and in your case would mean setting the
-> mips_io_port_base variable to phys_addr.
-
-Understood.
-
->
-> > But since this 'pci_remap_iospace' is already defined in
-> > 'include/linux/pci.h' and is not static at all the compiler complains
-> > about doing such a thing. What am I missing here?
->
-> I think you have to have another #ifdef around the declaration in
-> this case, or alternatively move the mips definition back to a .c
-> file and leave only the #define
-
-Ok, so the following changes:
-
-diff --git a/arch/mips/pci/pci-generic.c b/arch/mips/pci/pci-generic.c
-index 95b00017886c..ee0e0951b800 100644
---- a/arch/mips/pci/pci-generic.c
-+++ b/arch/mips/pci/pci-generic.c
-@@ -46,3 +46,9 @@ void pcibios_fixup_bus(struct pci_bus *bus)
- {
-        pci_read_bridge_bases(bus);
- }
-+
-+int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
-+{
-+       mips_io_port_base = phys_addr;
-+       return 0;
-+}
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index e578d34095e9..8db76c3a4f67 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4044,6 +4044,7 @@ unsigned long __weak
-pci_address_to_pio(phys_addr_t address)
-  * architectures that have memory mapped IO functions defined (and the
-  * PCI_IOBASE value defined) should call this function.
-  */
-+#ifndef pci_remap_iospace
- int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
- {
- #if defined(PCI_IOBASE) && defined(CONFIG_MMU)
-@@ -4067,6 +4068,7 @@ int pci_remap_iospace(const struct resource
-*res, phys_addr_t phys_addr)
- #endif
- }
- EXPORT_SYMBOL(pci_remap_iospace);
-+#endif
-
-diff --git a/arch/mips/include/asm/pci.h b/arch/mips/include/asm/pci.h
-index 6f48649201c5..ac89354af651 100644
---- a/arch/mips/include/asm/pci.h
-+++ b/arch/mips/include/asm/pci.h
-@@ -20,6 +20,8 @@
- #include <linux/list.h>
- #include <linux/of.h>
-
-+#define pci_remap_iospace pci_remap_iospace
-+
- #ifdef CONFIG_PCI_DRIVERS_LEGACY
-
-These changes got me to the same behaviour that this patch pretends
-without the ifdef on this patch. But, this behaviour is wrong
-according to your explanations since I got
-
-OF: IO START returned by pci_address_to_pio: 0x1e160000-0x1e16ffff
-
-and ioports using this range address and not lower 0x0-0xffff.
-
-So all of these changes seem to be invalid: this patch and the already
-added to staging-tree two ones: [2] and [3], right?
-
->
-> > > This is particularly important since we want the host bridge driver
-> > > to be portable. If you set up the mapping differently between e.g.
-> > > mt7621 and mt7623, they are not able to use the same driver
-> > > code for setting pci_host_bridge->io_offset and for programming
-> > > the inbound translation registers.
-> >
-> > mt7621 is only mips, mt7623 is arm based SoC. They cannot use the same
-> > driver at all. mt7620 or mt7628 which have drivers which are in
-> > 'arch/mips/pci' using legacy pci code would use and would be tried to
-> > be ported to share the driver with mt7621 but those are also only mips
-> > and the I/O addresses for all of them are similar and have I/O higher
-> > than 0xffff as mt7621 has.
->
-> That was my point: the driver should never care what the I/O addresses
-> are, so as long as it gets the addresses from DT and passes them into
-> generic kernel interfaces, it must do the right thing on both MIPS and ARM.
->
-> The mt7620/28/80/88 driver is obviously not portable because it does
-> not attempt to be a generic PCI host bridge driver.
-
-Currently, no. But if they were ideally moved to work in the same way
-mt7621 would be the same case. Mt7621 is device tree based PCI host
-bridge driver that uses pci core apis but is still mips since it has
-to properly set IO coherency units which is a mips thing...
-
->
-> > > > All I/O port addresses for ralink SoCs are in higher addresses than
-> > > > default IO_SPACE_LIMIT 0xFFFF, that's why we have to also change this
-> > > > limit together with this patch changes. Nothing to do with this, is an
-> > > > architectural thing of these SoCs.
-> > >
-> > > I don't understand. What I see above is that the host bridge
-> > > has the region 1e160000-1e16ffff registered, so presumably
-> > > 1e160000 is actually the start of the window into the host bridge.
-> > > If you set PCI_IOBASE to that location, the highest port number
-> > > would become 0x2027, which is under 0xffff.
-> >
-> > But 0x1e160000 is defined in the device tree as the I/O start address
-> > of the range and should not be hardcoded anywhere else since other
-> > ralink platforms don't use this address as PCI_IOBASE. And yes, 0x2027
-> > is the highest port number I get if I initially define PCI_IOBASE also
-> > as KSEG1 since at the end is the entry point for I/O in mips (see
-> > trace above).
-> >
-> > Thanks very much for your time and feedback.
->
-> 0x1e160000 should not be listed as the I/O start address, it should
-> be listed in the 'ranges' property as the MMIO address that the I/O
-> window translates into, with the actual port numbers (on the bus)
-> being in the low range.
->
-> I realize this is very confusing, but there are indeed at least three
-> address spaces that you must not confuse here:
->
-> a) I/O port numbers as programmed into BAR registers and
->     used in PCIe transactions, normally 0 through 0xffff on each
->     bus.
-> b) Linux I/O port numbers as seen from user space, in the range
->      from 0 to IO_SPACE_LIMIT, these correspond to the
->      bus addresses from a) if io_offset is zero, but could be
->      different with a non-zero value passed into
->      pci_add_resource_offset() when the region is probed.
->      The offset may be different on each pci host bridge.
-
-This "offset" is the pci address configured in device tree range,
-right? This seems the part is not doing properly in my case since all
-of these changes are needed to at the end got BAR's as
-
-pci 0000:02:00.0: BAR 4: assigned [io  0x1e161000-0x1e16100f]
-pci 0000:02:00.0: BAR 0: assigned [io  0x1e161010-0x1e161017]
-pci 0000:02:00.0: BAR 2: assigned [io  0x1e161018-0x1e16101f]
-pci 0000:02:00.0: BAR 1: assigned [io  0x1e161020-0x1e161023]
-pci 0000:02:00.0: BAR 3: assigned [io  0x1e161024-0x1e161027]
-
-which I understand is correct.
-
-> c) MMIO address used to access ports, offset by PCI_IOBASE
->     from the Linux port numbers in b).
->     No other registers should be visible between PCI_IOBASE
->     and PCI_IOBASE+IO_SPACE_LIMIT
-
-mips_io_port_base + offset, right? KSEG1 addresses for mips by default.
-
-Thanks for your patience, BTW :)).
-
-Best regards,
-    Sergio Paracuellos
-
->
->           Arnd
-
-[0]: https://elixir.bootlin.com/linux/v5.15-rc2/source/arch/mips/include/asm/mach-ralink/spaces.h
-[1]: https://lore.kernel.org/linux-mips/20210729100146.GA8648@alpha.franken.de/
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=159697474db41732ef3b6c2e8d9395f09d1f659e
-[3]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=50fb34eca2944fd67493717c9fbda125336f1655
+With regards,
+Pavel Skripkin
