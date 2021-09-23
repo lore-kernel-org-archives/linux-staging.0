@@ -1,41 +1,41 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395C73FCF
-	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 19:09:43 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id i24so4198347wrc.9
-        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 12:09:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7E43FC7
+	for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 19:09:44 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id t7so20003730wrw.13
+        for <linux-staging@lists.linux.dev>; Thu, 23 Sep 2021 12:09:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pXCipzl9B56mKxod5ijOn6eiX+PEO+AJkhtqSl6kGI4=;
-        b=ZJzST3r+CA9lBGzY3CaQqlpPJx/tgcQlZpizV1JlmMNPOENwdZxOqZRHI81+0L1fd9
-         ATgQne5y0bS0a3y5j6vSkxcgEHBUVfaWZuKOmRIjSOU52YucmLCkdNsPr+m3nT3jL/ZB
-         9kfAsESrfYYi71qoW7cZkVLrgba8Hw+Qt6B0ubus5YKrRT7+koeaCI1xvHhTdL4o/Num
-         +A1aiGyZ08YdOMd/RH6qYS2X6CKf/hz8LNlhDgk5FaEQn//BAexgDhG9IlJRLPg/t6qg
-         jhrFJ1C25WdrN/1JD0W43e7tkMaTo2edroqUKKCr/BwisY2Cx4QJtuQnhHH2N69NSR/X
-         AREw==
+        bh=/zLW5/q9hznY+XgxCCcCfBzxU/PyaF17WOIkChCx4sE=;
+        b=qFS8mSKuV+hhm9BXS2Xmv3gKHj81OhKA7zEvWOmnf6MsBHuJSu5pfEqewPlSYTeB2y
+         RaGnH6BDsSS2LF6WTONxjJwuZHgzoDanq70OFzcH6Ael68kaVVB/1wXXZHtFsQvKA/Fc
+         3wDF0UFQtSmBoOAMd+stfuyTjFe3KypNoxSjdA/CxuvrjFKT2cvwTW8vcO4/bZryja1Q
+         gNI2XmSNNXfWisvlWGqnwg9c5cPSLQJcJxaEZw7+htqdSFcVDvIP6Ge8vht/L27WmvJy
+         Wu1pFpqhURLP10MY79qkcutEwZAkvOb7JQ7Z9gr0mGw+yjjoGU7WxkqBAbqYddCgIejf
+         3Cyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pXCipzl9B56mKxod5ijOn6eiX+PEO+AJkhtqSl6kGI4=;
-        b=wXRgMpnkY5h7G2fJyWRj9A33gcfiapPZsDv5kTePEZP+zBsrM7jOOr1+xAwNURuWd3
-         K5fxHAUwaaWqPvIznziIME+OVLGsxQXXEWIBb+4evg4XDNDcVze9ggiDnRioliI4PE/b
-         ek1fXwRPlXMbIdJ0OwQdsqPv85czyePBkX8Kx1UP8qvVX8YDbrVgVk9oz+Df55CwI3zO
-         cLdtBPJkQePasxUkEsdCsxwjf5wX0hnfAiCWoqqcnQkoiLaOISV7RlTMLj+mF/KJFlpT
-         oNtN5UQIzHgerZ7QKKQbjD7UR2QjEqDG5KIQmfmPjhvot+pqjD/ZEeeKuoTZPqFAu4Du
-         8wqQ==
-X-Gm-Message-State: AOAM531Hxdu+jRVr2EOk+6Q0PgWXt3508FfuG0iL1+NJE0RRL0+hEIq5
-	p1LkEDqPrVbYtXtWvTN7nxE=
-X-Google-Smtp-Source: ABdhPJwEve5TqBZzzuhVP3S+YKCIlu/pqB2yEWi+lrVE6jFUbCD/aCs2n+Uost4KUD7uZqe/18WTWw==
-X-Received: by 2002:a05:600c:2046:: with SMTP id p6mr18334524wmg.88.1632424181658;
-        Thu, 23 Sep 2021 12:09:41 -0700 (PDT)
+        bh=/zLW5/q9hznY+XgxCCcCfBzxU/PyaF17WOIkChCx4sE=;
+        b=spSrPSNVSYoSdjlaeYLlLyI5qTgU8PCoCUPvIRmVVd15F0ifDJmqGoSgvY6hxzPYwH
+         893866Bkb2EddbfQwsCiWDY4S4cl910fdg9lrXV+WZxxsBPhXsMBhJ/J1MLj/c8zdALv
+         b3Q9SOTiAI0mj/SOc22K49HXd9irUJJmRrBlH+79FdEJaKvjtiATkS3UKcDIGuU6I65F
+         +DRtMQGslLXrnqoLsaoT+rN4Xr1b5ANcV81B7iSHQtj+WPFAEVezgBBNC22wN2rxv0Cm
+         Cz7yY8Zr7mi8w2UKhLIMrpOz5M7Dcx5uPzvHcE4iFcjuIe30J2k93jY0Ftw67mDVOX6g
+         BahQ==
+X-Gm-Message-State: AOAM531YyyXSD1yekusDy6Iv4ZVFMaGGjLQEt+pg33IrJsigxnHNdUN4
+	vFk2IKzoEDMyjBMz85HANKI=
+X-Google-Smtp-Source: ABdhPJyejryliBu6e6AiSWQfvg5+/9qzatH+0aD9U35uLbmR82DaM0hR+D082pQ0ARbfcv88Rk/zBw==
+X-Received: by 2002:adf:fb50:: with SMTP id c16mr7247580wrs.120.1632424182491;
+        Thu, 23 Sep 2021 12:09:42 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::cad])
-        by smtp.gmail.com with ESMTPSA id e28sm6323591wrc.10.2021.09.23.12.09.40
+        by smtp.gmail.com with ESMTPSA id e28sm6323591wrc.10.2021.09.23.12.09.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Sep 2021 12:09:41 -0700 (PDT)
+        Thu, 23 Sep 2021 12:09:42 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 15/17] staging: r8188eu: remove rtw_setrttbl_cmd()
-Date: Thu, 23 Sep 2021 21:09:18 +0200
-Message-Id: <20210923190920.3580-16-straube.linux@gmail.com>
+Subject: [PATCH 16/17] staging: r8188eu: remove rtw_setstandby_cmd()
+Date: Thu, 23 Sep 2021 21:09:19 +0200
+Message-Id: <20210923190920.3580-17-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210923190920.3580-1-straube.linux@gmail.com>
 References: <20210923190920.3580-1-straube.linux@gmail.com>
@@ -57,67 +57,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Function rtw_setrttbl_cmd() is not used, remove it.
+Function rtw_setstandby_cmd() is not used, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c    | 30 -----------------------
+ drivers/staging/r8188eu/core/rtw_cmd.c    | 32 -----------------------
  drivers/staging/r8188eu/include/rtw_cmd.h |  1 -
- 2 files changed, 31 deletions(-)
+ 2 files changed, 33 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 52edf3def405..d8acc6701248 100644
+index d8acc6701248..8173756fdeb8 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -815,36 +815,6 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, u8 *psta, u8 entry, u8 enqueue)
- 	return res;
+@@ -334,38 +334,6 @@ int rtw_cmd_thread(void *context)
+ 	thread_exit();
  }
  
--u8 rtw_setrttbl_cmd(struct adapter  *padapter, struct setratable_parm *prate_table)
+-u8 rtw_setstandby_cmd(struct adapter *padapter, uint action)
 -{
 -	struct cmd_obj *ph2c;
--	struct setratable_parm *psetrttblparm;
+-	struct usb_suspend_parm *psetusbsuspend;
 -	struct cmd_priv	*pcmdpriv = &padapter->cmdpriv;
--	u8	res = _SUCCESS;
 -
--	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
+-	u8 ret = _SUCCESS;
+-
+-	ph2c = kzalloc(sizeof(struct cmd_obj), GFP_ATOMIC);
 -	if (!ph2c) {
--		res = _FAIL;
+-		ret = _FAIL;
 -		goto exit;
 -	}
--	psetrttblparm = kzalloc(sizeof(struct setratable_parm), GFP_KERNEL);
 -
--	if (!psetrttblparm) {
+-	psetusbsuspend = kzalloc(sizeof(struct usb_suspend_parm), GFP_ATOMIC);
+-	if (!psetusbsuspend) {
 -		kfree(ph2c);
--		res = _FAIL;
+-		ret = _FAIL;
 -		goto exit;
 -	}
 -
--	init_h2fwcmd_w_parm_no_rsp(ph2c, psetrttblparm, GEN_CMD_CODE(_SetRaTable));
+-	psetusbsuspend->action = action;
 -
--	memcpy(psetrttblparm, prate_table, sizeof(struct setratable_parm));
+-	init_h2fwcmd_w_parm_no_rsp(ph2c, psetusbsuspend, GEN_CMD_CODE(_SetUsbSuspend));
 -
--	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+-	ret = rtw_enqueue_cmd(pcmdpriv, ph2c);
+-
 -exit:
 -
--	return res;
+-	return ret;
 -}
 -
- u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
- {
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ /*
+ rtw_sitesurvey_cmd(~)
+ 	### NOTE:#### (!!!!)
 diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index 9ec0332e96f4..8895874a654b 100644
+index 8895874a654b..6ae0499cd81f 100644
 --- a/drivers/staging/r8188eu/include/rtw_cmd.h
 +++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -756,7 +756,6 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
- u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infra networktype);
- u8 rtw_setdatarate_cmd(struct adapter  *padapter, u8 *rateset);
- u8 rtw_setrfintfs_cmd(struct adapter  *padapter, u8 mode);
--u8 rtw_setrttbl_cmd(struct adapter  *padapter, struct setratable_parm *prate_table);
+@@ -744,7 +744,6 @@ struct TDLSoption_param
+ #define H2C_CMD_OVERFLOW	0x06
+ #define H2C_RESERVED		0x07
  
- u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset,u8 *pval);
- u8 rtw_setfwdig_cmd(struct adapter*padapter, u8 type);
+-u8 rtw_setstandby_cmd(struct adapter *padapter, uint action);
+ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 		      int ssid_num, struct rtw_ieee80211_channel *ch,
+ 		      int ch_num);
 -- 
 2.33.0
 
