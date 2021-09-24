@@ -1,378 +1,105 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FD63FC8
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 10:15:54 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id f18so9505612vsp.2
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 03:15:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kWzAuoAx0x6C60oqvQg3+s0A8XB5lYSbm0D79M0PHIg=;
-        b=akE98d7KNnUB8ou3yG6z1OiQn9dha9VDA4dSwqUy+KIk/72FRJnP3rBi2XdUpxJsmF
-         GR6GRtnBoAFtyhiaq94zyrwZ6BjEw8Fc08eqDBBcBogKNLUqQnGnq3DZlGSbXboJs8E9
-         8nl0rT0otbFPb/2QwqAzFIEfmsqkfNTRrPEXXPaWQUrNFyhkvBBbkXb1J8bZhXF9/c/H
-         1Ggp2RTCUbmo/U01jsEUsWtkDg5A+RkgTX2clcH5W2B8IzED42qdXf2QLil3haZOFqqh
-         Xh/DtHeb0NGJE7CEejJ0pdooLznconWoNQDgt4itP8cpI3ditgSz2eVKUWKJ7gzez0MI
-         hQuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kWzAuoAx0x6C60oqvQg3+s0A8XB5lYSbm0D79M0PHIg=;
-        b=Vd9JTTSxKYD419e33W6i26gYlx8iXYW3fk35dBkbQ7U6Nv4xjYAcGoHUcCVY9Ihm4Y
-         gswNzwgbT+irtRpKu6xK6hqyYb1UtsM9tHSqaPfEIVg/s6f962rLaAr5MFjoKLY8k+Zy
-         mXZ9KnSI+7sKvHa3ChZV0jkweIK+1XdQarKNRUutqDYIvJmdosnaVxKLfpAOzH72WldE
-         QlULjQJ3Ar8+spqTGu3K7a+j/ok8zUyUlbxwavnzXySp53W/K/wpkBBgh9heGGvrJ4dv
-         xfv3mNMTls61+NPYxIIsyya2es5H1tgDxqblfF4BGoOIrt43/6XKJ0G6n4MW2VuuK/j3
-         DfIQ==
-X-Gm-Message-State: AOAM5313XK7il3ZL1vVHvVs/Du8loUDfelWVxWtEFwCh2lUbr3BUdj8E
-	hwXkj0GdaVDLhMfRZBeqrsdISdRGaXmMLjzTyz4=
-X-Google-Smtp-Source: ABdhPJzWegOgiE/K3REHF6d11Pfy37b8qwo5XxjAMWi+6A1LzKFZkPF+rR+COwm5Ux3G2EwymXtmdI8nWV1th49GVco=
-X-Received: by 2002:a67:3204:: with SMTP id y4mr8041976vsy.28.1632478553713;
- Fri, 24 Sep 2021 03:15:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5653329CA
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 10:16:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id A7B1DDF4E2;
+	Fri, 24 Sep 2021 03:06:38 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id K32DZ-SiYatL; Fri, 24 Sep 2021 03:06:38 -0700 (PDT)
+Date: Fri, 24 Sep 2021 12:06:31 +0200
+From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: [PATCH] media: imx: Fix rounding
+Message-ID: <20210924120631.7060da0f.dorota.czaplejewicz@puri.sm>
+Organization: Purism
+Content-Type: multipart/signed; boundary="Sig_/UUZqa0L2d=8613N2HL_AjKP";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
- <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
- <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
- <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
- <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
- <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
- <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
- <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
- <CAMhs-H8kH7CMXENqDW_6GLTjeMMyk+ynehMmyBr=kFZPFHpM0A@mail.gmail.com>
- <CAK8P3a2WmNsV9fhSEjqwHZAGkwGc9HOurhQsza7JOM2Scts2XQ@mail.gmail.com>
- <CAMhs-H8fRnLavLfdw7jZO0tb8rWqdF81cGHhYT6gGp4UY1gChg@mail.gmail.com>
- <CAK8P3a2MJO--xmAZ_71h1QQ5_b8WXgyo-=LaT7r7yMMBUHoPfQ@mail.gmail.com>
- <CAMhs-H_xdkpinyj-Y1u==ievpGWZ2Ze-_U7aCUcfu0=NKBq2xQ@mail.gmail.com>
- <CAK8P3a0OWyW9Wk0kHXsj_7qTd0fVXQnszzun+HacHeTKYETXhw@mail.gmail.com>
- <CAMhs-H9xrXgbuwYe2STzuq0aBwj0onJGc0Oka6+pzgoHb0j8rA@mail.gmail.com> <CAK8P3a1AwaSi_J9p4tKwNKxENHhwofDu=Ma=F29ajSmMXoC7RA@mail.gmail.com>
-In-Reply-To: <CAK8P3a1AwaSi_J9p4tKwNKxENHhwofDu=Ma=F29ajSmMXoC7RA@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Fri, 24 Sep 2021 12:15:42 +0200
-Message-ID: <CAMhs-H_wxoJC7ZVnkhXNfAcP-P9BNN99ogszM_iJhErHLq8Rdg@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Arnd,
+--Sig_/UUZqa0L2d=8613N2HL_AjKP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 24, 2021 at 10:53 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Thu, Sep 23, 2021 at 10:33 PM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> > On Thu, Sep 23, 2021 at 7:55 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Thu, Sep 23, 2021 at 4:55 PM Sergio Paracuellos
-> > >
-> > > Ok, got it. So the memory space uses a normal zero offset with cpu address
-> > > equal to bus address, but the I/O space has a rather usual mapping of
-> > > bus address equal to the window into the mmio space, with an offset of
-> > > 0x1e160000.
-> > >
-> > > The normal way to do this would be map the PCI port range 0-0x10000
-> > > into CPU address 0x1e160000, like:
-> > >
-> > > ranges = <0x02000000 0 0x60000000 0x60000000 0 0x10000000>,  /* pci memory */
-> > >                <0x01000000 0 0x1e160000 0 0 0x00010000>;
-> >
-> > This change as it is got into the same behaviour:
-> >
-> > mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
-> > mt7621-pci 1e140000.pcie:   No bus range found for /pcie@1e140000,
-> > using [bus 00-ff]
-> > mt7621-pci 1e140000.pcie:      MEM 0x0060000000..0x006fffffff -> 0x0060000000
-> > mt7621-pci 1e140000.pcie:       IO 0x0000000000..0x000000ffff -> 0x001e160000
-> >                                                    ^^^^^^
-> >                                                     This is the only
-> > change I appreciate in all the trace with the range change.
->
-> Oops, my mistake, I mixed up the CPU address and the PCI address.
->
-> The correct notation should be
->
-> <0x01000000 0 0  0 0x1e160000 0x00010000>;
->
-> i.e. bus address 0 to cpu address 0x1e160000, rather than the other
-> way around as I wrote it.
+Change rounding to the minimal burst size from 2^n to n.
 
-Mmmm... Do you mean <0x01000000 0 0  0x1e160000 0 0x00010000>; instead?
+This fixes images with sizes that are a multiple of 8 pixels.
 
-In any case both of them ends up in a similar trace (the one listed
-here is using your last range as it is):
+See section 13.7.6.13 CSI Image Parameter Register of the
+i.MX 8M Quad Applications Processors Reference Manual.
 
-mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
-mt7621-pci 1e140000.pcie:   No bus range found for /pcie@1e140000,
-using [bus 00-ff]
-mt7621-pci 1e140000.pcie:      MEM 0x0060000000..0x006fffffff -> 0x0060000000
-mt7621-pci 1e140000.pcie:       IO 0x0000000000..0x1e1600000000ffff ->
-0x0000000000
-                                                   ^^^^
-                                                    This is the part
-that change between both traces (t7621-pci 1e140000.pcie:       IO
-0x001e160000..0x001e16ffff -> 0x0000000000 in the one I have just put
-above)
-mt7621-pci 1e140000.pcie: Writing 0x0 in RALINK_PCI_IOBASE
-                                                  ^^^
-                                                     This is the
-current value written in bridge register as IOBASE for the window
-which is IORESOURCE_IO -> res.start address (in both traces).
+Fixes: 451a7b7815d0b ("media: imx: lift CSI and PRP ENC/VF width
+alignment restriction")
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
+Hi,
 
-mt7621-pci 1e140000.pcie: PCIE0 enabled
-mt7621-pci 1e140000.pcie: PCIE1 enabled
-mt7621-pci 1e140000.pcie: PCIE2 enabled
-mt7621-pci 1e140000.pcie: PCI coherence region base: 0x60000000,
-mask/settings: 0xf0000002
-mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
-pci_bus 0000:00: root bus resource [bus 00-ff]
-pci_bus 0000:00: root bus resource [mem 0x60000000-0x6fffffff]
-pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
-pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:00.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:00.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:00.0: supports D1
-pci 0000:00:00.0: PME# supported from D0 D1 D3hot
-pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:01.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:01.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:01.0: supports D1
-pci 0000:00:01.0: PME# supported from D0 D1 D3hot
-pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
-pci 0000:00:02.0: reg 0x10: [mem 0x00000000-0x7fffffff]
-pci 0000:00:02.0: reg 0x14: [mem 0x00000000-0x0000ffff]
-pci 0000:00:02.0: supports D1
-pci 0000:00:02.0: PME# supported from D0 D1 D3hot
-pci 0000:00:00.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:00:01.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:00:02.0: bridge configuration invalid ([bus 00-00]), reconfiguring
-pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:01:00.0: reg 0x10: [io  0x0000-0x0007]
-pci 0000:01:00.0: reg 0x14: [io  0x0000-0x0003]
-pci 0000:01:00.0: reg 0x18: [io  0x0000-0x0007]
-pci 0000:01:00.0: reg 0x1c: [io  0x0000-0x0003]
-pci 0000:01:00.0: reg 0x20: [io  0x0000-0x000f]
-pci 0000:01:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:01:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:00.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:00.0: PCI bridge to [bus 01-ff]
-pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:01: busn_res: [bus 01-ff] end is updated to 01
-pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:02:00.0: reg 0x10: [io  0x0000-0x0007]
-pci 0000:02:00.0: reg 0x14: [io  0x0000-0x0003]
-pci 0000:02:00.0: reg 0x18: [io  0x0000-0x0007]
-pci 0000:02:00.0: reg 0x1c: [io  0x0000-0x0003]
-pci 0000:02:00.0: reg 0x20: [io  0x0000-0x000f]
-pci 0000:02:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:02:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:01.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:01.0: PCI bridge to [bus 02-ff]
-pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:02: busn_res: [bus 02-ff] end is updated to 02
-pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
-pci 0000:03:00.0: reg 0x10: [io  0x0000-0x0007]
-pci 0000:03:00.0: reg 0x14: [io  0x0000-0x0003]
-pci 0000:03:00.0: reg 0x18: [io  0x0000-0x0007]
-pci 0000:03:00.0: reg 0x1c: [io  0x0000-0x0003]
-pci 0000:03:00.0: reg 0x20: [io  0x0000-0x000f]
-pci 0000:03:00.0: reg 0x24: [mem 0x00000000-0x000001ff]
-pci 0000:03:00.0: 2.000 Gb/s available PCIe bandwidth, limited by 2.5
-GT/s PCIe x1 link at 0000:00:02.0 (capable of 4.000 Gb/s with 5.0 GT/s
-PCIe x1 link)
-pci 0000:00:02.0: PCI bridge to [bus 03-ff]
-pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
-pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
-pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
-pci 0000:00:00.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:00.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:01.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:01.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:02.0: BAR 0: no space for [mem size 0x80000000]
-pci 0000:00:02.0: BAR 0: failed to assign [mem size 0x80000000]
-pci 0000:00:00.0: BAR 8: assigned [mem 0x60000000-0x600fffff]
-pci 0000:00:00.0: BAR 9: assigned [mem 0x60100000-0x601fffff pref]
-pci 0000:00:01.0: BAR 8: assigned [mem 0x60200000-0x602fffff]
-pci 0000:00:01.0: BAR 9: assigned [mem 0x60300000-0x603fffff pref]
-pci 0000:00:02.0: BAR 8: assigned [mem 0x60400000-0x604fffff]
-pci 0000:00:02.0: BAR 9: assigned [mem 0x60500000-0x605fffff pref]
-pci 0000:00:00.0: BAR 1: assigned [mem 0x60600000-0x6060ffff]
-pci 0000:00:01.0: BAR 1: assigned [mem 0x60610000-0x6061ffff]
-pci 0000:00:02.0: BAR 1: assigned [mem 0x60620000-0x6062ffff]
-pci 0000:00:00.0: BAR 7: assigned [io  0x0000-0x0fff]
-pci 0000:00:01.0: BAR 7: assigned [io  0x1000-0x1fff]
-pci 0000:00:02.0: BAR 7: assigned [io  0x2000-0x2fff]
-pci 0000:01:00.0: BAR 5: assigned [mem 0x60000000-0x600001ff]
-pci 0000:01:00.0: BAR 4: assigned [io  0x0000-0x000f]
-pci 0000:01:00.0: BAR 0: assigned [io  0x0010-0x0017]
-pci 0000:01:00.0: BAR 2: assigned [io  0x0018-0x001f]
-pci 0000:01:00.0: BAR 1: assigned [io  0x0020-0x0023]
-pci 0000:01:00.0: BAR 3: assigned [io  0x0024-0x0027]
-pci 0000:00:00.0: PCI bridge to [bus 01]
-pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
-pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
-pci 0000:02:00.0: BAR 5: assigned [mem 0x60200000-0x602001ff]
-pci 0000:02:00.0: BAR 4: assigned [io  0x1000-0x100f]
-pci 0000:02:00.0: BAR 0: assigned [io  0x1010-0x1017]
-pci 0000:02:00.0: BAR 2: assigned [io  0x1018-0x101f]
-pci 0000:02:00.0: BAR 1: assigned [io  0x1020-0x1023]
-pci 0000:02:00.0: BAR 3: assigned [io  0x1024-0x1027]
-pci 0000:00:01.0: PCI bridge to [bus 02]
-pci 0000:00:01.0:   bridge window [io  0x1000-0x1fff]
-pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
-pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
-pci 0000:03:00.0: BAR 5: assigned [mem 0x60400000-0x604001ff]
-pci 0000:03:00.0: BAR 4: assigned [io  0x2000-0x200f]
-pci 0000:03:00.0: BAR 0: assigned [io  0x2010-0x2017]
-pci 0000:03:00.0: BAR 2: assigned [io  0x2018-0x201f]
-pci 0000:03:00.0: BAR 1: assigned [io  0x2020-0x2023]
-pci 0000:03:00.0: BAR 3: assigned [io  0x2024-0x2027]
-pci 0000:00:02.0: PCI bridge to [bus 03]
-pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
-pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
-pci 0000:00:02.0:   bridge window [mem 0x60500000-0x605fffff pref]
+I tested this patch on the Librem 5 with the main camera.
 
-Also, I noticed that all of these messages have disappeared from the trace:
+--Dorota
+ drivers/staging/media/imx/imx-media-utils.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-pci 0000:03:00.0: reg 0x20: initial BAR value 0x00000000 invalid
-
-and now the first tested value seems to be valid....
-
-No changes in ioports also:
-
-root@gnubee:~# cat /proc/ioports
-00000000-0000ffff : pcie@1e140000
-  00000000-00000fff : PCI Bus 0000:01
-    00000000-0000000f : 0000:01:00.0
-      00000000-0000000f : ahci
-    00000010-00000017 : 0000:01:00.0
-      00000010-00000017 : ahci
-    00000018-0000001f : 0000:01:00.0
-      00000018-0000001f : ahci
-    00000020-00000023 : 0000:01:00.0
-      00000020-00000023 : ahci
-    00000024-00000027 : 0000:01:00.0
-      00000024-00000027 : ahci
-  00001000-00001fff : PCI Bus 0000:02
-    00001000-0000100f : 0000:02:00.0
-      00001000-0000100f : ahci
-    00001010-00001017 : 0000:02:00.0
-      00001010-00001017 : ahci
-    00001018-0000101f : 0000:02:00.0
-      00001018-0000101f : ahci
-    00001020-00001023 : 0000:02:00.0
-      00001020-00001023 : ahci
-    00001024-00001027 : 0000:02:00.0
-      00001024-00001027 : ahci
-  00002000-00002fff : PCI Bus 0000:03
-    00002000-0000200f : 0000:03:00.0
-      00002000-0000200f : ahci
-    00002010-00002017 : 0000:03:00.0
-      00002010-00002017 : ahci
-    00002018-0000201f : 0000:03:00.0
-      00002018-0000201f : ahci
-    00002020-00002023 : 0000:03:00.0
-      00002020-00002023 : ahci
-    00002024-00002027 : 0000:03:00.0
-      00002024-00002027 : ahci
-root@gnubee:~#
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
+media/imx/imx-media-utils.c
+index 5128915a5d6f..a2d8fab32a39 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_for=
+mat *pix,
+ 	}
+=20
+ 	/* Round up width for minimum burst size */
+-	width =3D round_up(mbus->width, 8);
++	width =3D round_up(mbus->width, 3);
+=20
+ 	/* Round up stride for IDMAC line start address alignment */
+ 	if (cc->planar)
+-		stride =3D round_up(width, 16);
++		stride =3D round_up(width, 4);
+ 	else
+-		stride =3D round_up((width * cc->bpp) >> 3, 8);
++		stride =3D round_up((width * cc->bpp) >> 3, 3);
+=20
+ 	pix->width =3D width;
+ 	pix->height =3D mbus->height;
+--=20
+2.31.1
 
 
->
-> > pci 0000:00:02.0: PCI bridge to [bus 03-ff]
-> > pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
-> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
-> ...
-> > pci 0000:00:02.0: PCI bridge to [bus 03]
-> > pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
-> > pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
-> > pci 0000:00:02.0:   bridge window [mem 0x60500000-0x605fffff pref
-> >
-> > # cat /proc/ioports
-> > 00000000-0000ffff : pcie@1e140000
-> >   00000000-00000fff : PCI Bus 0000:01
-> >     00000000-0000000f : 0000:01:00.0
-> >       00000000-0000000f : ahci
-> >     00000010-00000017 : 0000:01:00.0
-> ...
->
-> These are all what I would expect, but that should just be
-> based on the PCI_IOBASE value, not the mapping behind that.
->
-> > > Do you know where that mapping is set up? Is this a hardware setting,
-> > > or is there a way to change the inbound I/O port ranges to the
-> > > normal mapping?
-> >
-> > The only thing related is the IOBASE register which is the base
-> > address for the IO space window. Driver code is setting this up to pci
-> > IO resource start address [0].
->
-> So this line:
->       pcie_write(pcie, entry->res->start, RALINK_PCI_IOBASE);
->
-> That does sound like it is the bus address you are writing, not
-> the CPU address. Some host bridges allow you to configure both,
-> some only one of them, but the sensible assumption here would
-> be that this is the bus address if only one is configurable.
->
-> If my assumption is correct here, then you must write the value
-> that you have read from the DT property, which would be
-> 0x001e160000 or 0 in the two versions of the DT property we
-> have listed, but in theory any (properly aligned) number ought
-> to work here, as long as the BAR values, the RALINK_PCI_IOBASE
-> and the io_offset all agree what it is.
+--Sig_/UUZqa0L2d=8613N2HL_AjKP
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-RALINK_PCI_IOBASE in that line, is the bridge register you write with
-value from the IO resource created from DT property, yes. So I guess
-you meant PCI_IOBASE for ralink in this sentence, right?
+-----BEGIN PGP SIGNATURE-----
 
-(Prototype of the function -> static inline void pcie_write(struct
-mt7621_pcie *pcie, u32 val, u32 reg))
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFNoycACgkQADBpX4S8
+ZnfWxQ/7Bsgm4pW+bgC74d2aR9/Qr3fJvkaOaUvTwkTzUCFpgmYKVXSCMSDHAJfY
+akNsFylqSMo5s0KfaKZnhvqSuH/7USaOdETm2K79AitzY1dyTWNZ/SD3ef8hrCe0
+LEkCdX0LIU6z0o3bTFnVo1Sq5uN0LZ2rrZ66CPaapqe8W6Fhn2FRy0CoB2m+vwII
+MiwsE/kZnaXSyhN+QpkMD+f1RuvVBtg8iYN3vNxLVdo3s1KBqKYy2M8Q0xy7hOWx
+JQ2WNVZtv8V4m193HwEUKmhQt9Pa4G4Ds4bwvX1qr4dv7kJCVjK6xYAo83Qptnjy
+otkyky3FcKN2hs6lkuw1Z5nQWM3iEVykqX43APqiiUrZEOHkLuO11PZfFoK173g7
+953xofK7fxCyWWYghzoOBFNJZApUFRd30yCye7HGLtAeLCOmw0DgVd47kp24E58E
+9DCiP/zNtEqxWzYwlt5ZoJZvvXmlZmhEHeQps4CBV/QVz9oIfEvrUzr/1pCBp+1e
+aXG6gaLwm1xRyZbWmxVJC3/+rQ8SjCETLbg6+Bykm4tfQi9xq0qwuMcqsCkX8O9N
+UkA0wkx9krr36h7cWXfEIuOZVb91yrL3K4c12IeJOw9DKeqDom+XS4vtZNCztuIa
+3AFQNbZ/BpC3GYbhbSNxMESJERl0gKB0DJ0InhWpdc4NdXrkhto=
+=FBdR
+-----END PGP SIGNATURE-----
 
->
-> The line just before this is
->
-> pcie_write(pcie, 0xffffffff, RALINK_PCI_MEMBASE)
->
-> Can you clarify what this does? I would have expected an
-> identity-map for the memory space, which would mean writing
-> the third cell from the ranges property (0x60000000)
-> into this. Is -1 a special value for identity mapping, or does
-> this register do something else?
-
-That was also my understanding at first when I took this code and
-started playing with it since the register is the base address for the
-memory space window. Setting the value you pointed out worked for me
-(and makes sense), but some people seem to have problems with some
-cards when accessing PCI memory resources. That's the only reason I
-have maintained the original value but I don't really understand what
-it means. The same value is used in mt7620 which has a pretty similar
-topology but with one only virtual bridge behind the host-bridge [0].
-However there is no documentation for mt7621 PCI subsystem and the one
-that exists for mt7620 PCI does not clarify much more [1].
-
-Thanks,
-     Sergio Paracuellos
->
->           Arnd
-
-[0]: https://elixir.bootlin.com/linux/latest/source/arch/mips/pci/pci-mt7620.c#L342
-[1]: https://usermanual.wiki/Pdf/MT7620ProgrammingGuideE220120815.111503371
+--Sig_/UUZqa0L2d=8613N2HL_AjKP--
