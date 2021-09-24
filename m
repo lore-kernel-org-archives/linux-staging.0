@@ -1,41 +1,41 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76053FCC
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:27:38 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id u27so34853403edi.9
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 05:27:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281473FCC
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:27:40 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id eg28so35660781edb.1
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 05:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XcIedgRKd4A/e9/Vk0iYyZm/XbgKRfJOO6XAQxSeG7Y=;
-        b=YuZvnUUSmVCb3vxkpGs6qUEG9jhB3yRhpRsoB3F+EKLGJDD+rQoqlEa0Zt6p+7tNZT
-         JxziWlPx2D5CuPy/4S9zcXxaYK0KP6ncnPX04B154l/2uQ6seiF8qHkESdtKD8KSeNP7
-         Xxnfu8XK2i6nixRt3Jt5/rvHbgayQBO47bHElcju9ttnzn7Jvihv5CCjy/HtCY90pUgg
-         tcrrLvF97OCZu3824HRZYeGsRGAevQJw23a+yRw53JnAq8jvukFy7eN3mRUTZrdskPDW
-         iVKc6tOK/39qkujf2DDy5r/rvSpMuRetphZSno33pU8dGpTXEBC8R9z5NsAtoy4FRTX9
-         vbbg==
+        bh=Qi+zf2bdvOa9UR9wFZCL3fbUpqToUUKmha/pjGTdTMQ=;
+        b=CnN9oEj+J4GtMs6JYBo5rmZzvjKY4yNBYe54W5lmAvc0Xy2wU34PuOpsoKVkby7AxW
+         gki2tyHhV6eDm0oXJBPvaINVNx23xmt4zk3m5khvp1mN8+/3BYySQBdMvWqkUhtt956m
+         kfAuxxVnS2W/Ofs0ObTWZDNev0JL7/C/MM3x7R7uWOMpsqwdCES5PelLz4VckjGJyCtn
+         4GacBH4bX9ssrvOepLHo7aDDbjGK0xd0spY3R7o15kRKgQw0op4MEdvejgfa7rCZ9obS
+         AMeZwI04TDCfXs5WTWRJYhxG5oYF760kB8qSXQoendnBTxhX7HnexugnKcNts1HBJqJ/
+         sWig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XcIedgRKd4A/e9/Vk0iYyZm/XbgKRfJOO6XAQxSeG7Y=;
-        b=NVZBKctNJfcKcx/NyycqveOApX9UHtieaW6HazwxvHk3lDZd6Lmfnx146ZK6KNGU5a
-         4z7Cv0S+fJ4N2ckc4+4le7rlzmCRGkYHlE1+bUwiEzTCD9OXzN7pXhT2FjX00olkuzfU
-         9ouRHtsiP4Atu5DM/mWZjLQitMJreRnmbvAl2E9b7q6VLsivz7niOwnPGVrj+RVHWkx9
-         YZCl28f5cYJocsMb61w36kdNzn4HSN8nbnvTAAiABzg1+NVwPZII3LpYRvfLjeWgL1Dq
-         nDScHD7HMWeilmPxnHP8ZIY9z0xZ83J+bcGMxhyhZb18O/nKlG04zmKlLNI83nJLIs/P
-         6AWQ==
-X-Gm-Message-State: AOAM530mXPHPug5zLH4DVoL8NlycA0XXqb2BbfQvLfKkCmE0E4rguaXc
-	3hus85uYrkJMRJhoqu7mPR8=
-X-Google-Smtp-Source: ABdhPJxuO9TM+vll1WneXs8MBnfPZ4DyGqCotBs43lRFt5JYEPZuQlVi5kx6gwbfNgLDCcySz5hRBQ==
-X-Received: by 2002:a17:906:fc0b:: with SMTP id ov11mr10878057ejb.22.1632486457160;
-        Fri, 24 Sep 2021 05:27:37 -0700 (PDT)
+        bh=Qi+zf2bdvOa9UR9wFZCL3fbUpqToUUKmha/pjGTdTMQ=;
+        b=ByrSv9iSvbfr8qvUo+xG4dOJdzMc+TrKI1roYdLcAjbDXtKcP5drj8WnS8nW40ilmm
+         oxK9vUeczsPyzJBNGOYDp8SDKiuedtQJLKs6p0QZjN3EBjc2VzMPsjS00l2ONC0ULrfT
+         0XiQfll1ftawcRvrekfaMVPL9jACqtYXAi8T2Qn9b2kap+bHRbcLOP8OinJVbEr2DBSQ
+         3lJdvTPXGoSHiG1ud72svLralWSN9TFcGLpJEShYTWEJb7cdl/avwzD6FuZFK6KiNRnH
+         mOcKrxE+01Y4hHdBlKs3lROVI1SyTfDKCilQ8qoLPDhZitjqSrq5MFsQnEOsZku5SlET
+         +XIQ==
+X-Gm-Message-State: AOAM532lnnPIkqkcl5PbJtx0nN13v9iSb7baDdnzwEvcFL+PVOA9iaHD
+	6qjThMj1gE+8RVUDlBHl7KA=
+X-Google-Smtp-Source: ABdhPJyN07c2oeIsr7KQYYz0nlPDopZ9R2gAH964rMRYs68ZkL6BcP35HRLqBw6Gc5kVBSXWqJ1MxA==
+X-Received: by 2002:a17:906:c246:: with SMTP id bl6mr10741802ejb.80.1632486458506;
+        Fri, 24 Sep 2021 05:27:38 -0700 (PDT)
 Received: from localhost.localdomain.it (host-212-171-30-160.retail.telecomitalia.it. [212.171.30.160])
-        by smtp.gmail.com with ESMTPSA id v13sm4882522ejh.62.2021.09.24.05.27.35
+        by smtp.gmail.com with ESMTPSA id v13sm4882522ejh.62.2021.09.24.05.27.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 05:27:36 -0700 (PDT)
+        Fri, 24 Sep 2021 05:27:38 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
@@ -48,9 +48,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v10 08/16] staging: r8188eu: change the type of a variable in rtw_write16()
-Date: Fri, 24 Sep 2021 14:26:57 +0200
-Message-Id: <20210924122705.3781-9-fmdefrancesco@gmail.com>
+Subject: [PATCH v10 09/16] staging: r8188eu: remove a buffer from rtw_writeN()
+Date: Fri, 24 Sep 2021 14:26:58 +0200
+Message-Id: <20210924122705.3781-10-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210924122705.3781-1-fmdefrancesco@gmail.com>
 References: <20210924122705.3781-1-fmdefrancesco@gmail.com>
@@ -62,32 +62,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change the type of "data" from __le32 to __le16 in rtw_write16(). The
-argument "val", which is u16, after being conditionally swapped to little
-endian, is assigned to "data"; therefore, __le16 is the most suitable type
-for "data". Remove the bitwise AND of "val" with 0xffff because it is
-redundant. Use cpu_to_le16() because "data" is __le16.
+Remove the unnecessary buffer "u8 buf[VENDOR_CMD_MAX_DATA_LEN]" and
+pass directly "data" to usbctrl_vendorreq().
 
 Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 95cd7a6bc28b..5dcab1ee4be0 100644
+index 5dcab1ee4be0..8e4e578ed60b 100644
 --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -145,7 +145,7 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+@@ -171,14 +171,12 @@ int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *data)
  	struct io_priv *io_priv = &adapter->iopriv;
  	struct intf_hdl *intf = &io_priv->intf;
  	u16 value = addr & 0xffff;
--	__le32 data = cpu_to_le32(val & 0x0000ffff);
-+	__le16 data = cpu_to_le16(val);
+-	u8 buf[VENDOR_CMD_MAX_DATA_LEN] = {0};
  	int ret;
  
- 	ret = usbctrl_vendorreq(intf, value, &data, 2, REALTEK_USB_VENQT_WRITE);
+ 	if (length > VENDOR_CMD_MAX_DATA_LEN)
+ 		return _FAIL;
+ 
+-	memcpy(buf, data, length);
+-	ret = usbctrl_vendorreq(intf, value, buf, (length & 0xffff), REALTEK_USB_VENQT_WRITE);
++	ret = usbctrl_vendorreq(intf, value, data, (length & 0xffff), REALTEK_USB_VENQT_WRITE);
+ 
+ 	return RTW_STATUS_CODE(ret);
+ }
 -- 
 2.33.0
 
