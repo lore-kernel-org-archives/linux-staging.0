@@ -1,245 +1,209 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB333FCB
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 14:48:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=dbaedf251592; t=1632494881;
-	bh=BzlUt9Xoxf80BIN5jJgcV7RyKPyglvJA26rX64Gy8AY=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=TxtoO8zAxYLvTaDlISzulZfUT10zN0elorBXW+icGQvnYHxisv9vOV2AqREvk8NBI
-	 9X0F6GxpNhX8FAMSlVNB2twUMMbnw+MfuEIu+kVl2SbFh0hbDbB/0wz5xu5+XQrw+2
-	 knfFqXj3VuBu6d5VM3Rv6fXHrZuT3wfze9iMAAY0=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from michael-LIFEBOOK-E751.fritz.box ([94.134.119.126]) by
- smtp.web.de (mrweb003 [213.165.67.108]) with ESMTPSA (Nemesis) id
- 0M6V2p-1mnfzu0l0V-00yUPN; Fri, 24 Sep 2021 16:48:01 +0200
-From: Michael Estner <michaelestner@web.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: michaelestner@web.de,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7863FCB
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 16:23:32 +0000 (UTC)
+Received: by mail-qk1-f174.google.com with SMTP id 72so28498510qkk.7
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 09:23:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8RykFUS+zIQyPPrYlPKKvEG+geEoI9vSseHxlpcXrKQ=;
+        b=h989I/HASgZ7AIF7P/YOMqX4kXGgqJNzuOzQ0waHkcENUVdEHqlLKXODhzloVPZyi9
+         4yi/EHzKbdhBlwbwiQMwvvfG/crbxB9VqCyfzmdA6LCF/qtofzrlvsiFneZTNytlGw64
+         28AXtt3FZGWF9nkU8gCoDB1+iSRlNh/u7sjLteAlpCYVw7YNrFv8DCW51PeI4HhbLxUy
+         eazO1xqYZWg8/7Ya6YO3jiEpycDfVY/jd9VD+cvtqoPPqY7GsAA/+TCPmhc2CzQsdaPm
+         7Yz/lOrDVk1yqzdfNfqK74DbsztAbMasJW4726PtaVVC2Yay7X2CIS22QXGHfxCRcE0U
+         AjYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8RykFUS+zIQyPPrYlPKKvEG+geEoI9vSseHxlpcXrKQ=;
+        b=DpOCyTDDDAkNQEYy8GWSbp8KhZktqsGSotC6jxzK8J8VG2O7Mn7aT0LE/atwMgBEov
+         WecKVmS1/KOCr/LP3xHZc0+6I9dp9bMSqOUqmsWPKT8ULU+eLfyGuQkZoA414KADR3pX
+         mkn+YB+8ZSPuNh1IwZ7LpR9UnYwhRdpd5VzLXQRNepRAsdkAtNfhRm0k4IEy5wsuU/ak
+         DgoZPM/NwDlepfW3wrvGVzQJ97VTCFqyJ/4J7Kp86ooYkWE873IBg7JSnAiP8e7WLn5G
+         pyoq3LElHy/Ev5wpTSwtdmvVJi/kCPEnpPt7sr+2YqIXENUJtmwql2A9OHC1s2u8+JcU
+         wmyQ==
+X-Gm-Message-State: AOAM531tElkQY2Tr4If4RbBPL6/pbvytFUWG9rAcTjEVenVlc0je+zID
+	6+N4Iv65j6uHbZUlcsjcgMskzw==
+X-Google-Smtp-Source: ABdhPJw1kkgVb6LnRxSEtDqPeAhQjar+Ov9byHFml/Xm3S236dE4glk6vx5O+A7pJWzwQivL/2QSSw==
+X-Received: by 2002:ae9:eb84:: with SMTP id b126mr11137072qkg.67.1632500611095;
+        Fri, 24 Sep 2021 09:23:31 -0700 (PDT)
+Received: from fedora ([196.32.91.248])
+        by smtp.gmail.com with ESMTPSA id g13sm615144qkk.22.2021.09.24.09.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 09:23:29 -0700 (PDT)
+Date: Fri, 24 Sep 2021 13:23:23 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Remove blank lines and whitespaces
-Date: Fri, 24 Sep 2021 16:47:41 +0200
-Message-Id: <20210924144750.6020-1-michaelestner@web.de>
-X-Mailer: git-send-email 2.25.1
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
+	Ezequiel Garcia <ezequiel@collabora.com>,
+	Adrian Ratiu <adrian.ratiu@collabora.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>
+Subject: Re: [PATCH v5 05/10] media: uapi: Add VP9 stateless decoder controls
+Message-ID: <YU37e90gldL7zHke@fedora>
+References: <20210922101146.13762-1-andrzej.p@collabora.com>
+ <20210922101146.13762-6-andrzej.p@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:AaLzsh9OHcYP5E4RKRwkDx295xrdUB93/YjatXKYnKQuMdIYAqC
- zqp24oZqMz1yQ2Mu3nDzQPXZJn8GjNZgBicPXLNfJLmLd2dxcKpqdpoDvjrhf0n0DOUCsps
- qs5OEX1poS2s2Byo0FFaFH+UCc1W+BrZKMfVlKP4EXV7Expy7xSIYuFRXtnqd5F6Nbv5+M8
- iiyhKTNEGGBcQOitlmIiQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uj7yb3oyG6s=:Fli+c8cgpf9zJ9vHAzyM5j
- VYCEvEfuyLTyNnR7r8CvGKmdZTMF7aE3+uSuQZ+80/oOpRX0t0nlVZbOEAFSpEgIm6IrbCgJ8
- XMLO85BdPE1XLQ3PKJP99hx0kypzoi7HLtcmAU/7bjIupnn7NFMZLAg0gVLLSk4wF74ABhSmA
- zt7c6oMyLIlff8clMVXF5m4j12a3AvML7kyLtywD7h3qY5T4lL9G+D29Kx4nYCx4edh3AvTa3
- f5hi7ELTziMimh8h6kzWRU4a4CLk4UE5fx/85kxPUvwNcEN+4XWgeRN/mKuurDtwFmmsezZdH
- 8/k7c6NPLI6KX/ki9Wd+KJ93WmOr/Ifbo3DXQTdMe4ZRnjnxMfWCYNCKJ88s2zNGAjVg7pYgs
- rnZtprfddSxcdFZaXAQvwF34oGBOCFD29U6l5o26vYizc6cHO20VTBoGjbyNLLTS68C6h5vrV
- IgKriehpOb8C3Ye5g14DAVx5Yr/gBd0msRFYR4EZOG480b7z31wZhUTGM2D5p77UV2UWaYt5P
- 4XiK51KwojRsqxGdeR+i++MsjBDo5Dship9jqtzugORjSTFQoymuY4BsWBLzYTcg0RD9YA19q
- kL3fEUCxxmDkSixGvjCr7hf9KW8HliFjWVpu3nI+hjadg9a9k5Rs/rVqdlZtxEtu4NvdSLTs+
- hL4nYs3RiIhjYFgZsVnk5QtrjXKd83zBVm8+GC26Nmh4oPQ6+y7JZn6h6C/U2PkFfLJQPxAtE
- dBS0UYvqKu3Zv9ENFpGOfL5yNdHTd3jSbdWHziqRaGZFz2VBmoXmxlu23nnp5iKMKgYTszT1e
- dghk4pHf0NH9A4Yefa5BxCaoj5utSSjALxZ0FKFegxWGRqP8X2DFHcilmRpxi/qnYwrmWLx22
- AFAnqHPb8xqwomiihFzSzPttxQ8P686SIhw7/hgoVO6P5uusbx9cg8IbHCFkw4h36ojW8SVgx
- HPjc+ZdEnPN5BRZ7wTSEATPYVFlrjGDdy44XvkjacBkCr7u7Jz47zoFEUfxAhlDwhPWCFUK5J
- dXgWlYd4vVx+fl4xv4aq8NekZuXycWQ3Y1oC+K1IHI0EUKVaEQV5PR0hFWvCyZ/jwrGMOkCkg
- 9SFpBihIrVfKQM=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210922101146.13762-6-andrzej.p@collabora.com>
 
-Removed blank lines and whitespaces to clean up code.
+Hi Andrzej, 
 
-Signed-off-by: Michael Estner <michaelestner@web.de>
-=2D--
- drivers/staging/r8188eu/core/rtw_io.c | 65 ++++++++++-----------------
- 1 file changed, 24 insertions(+), 41 deletions(-)
+On Wed, Sep 22, 2021 at 12:11:41PM +0200, Andrzej Pietrasiewicz wrote:
+> Add the VP9 stateless decoder controls plus the documentation that goes
+> with it.
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> ---
+[snip]
+> +
+> +#define V4L2_VP9_FRAME_FLAG_KEY_FRAME			0x001
+> +#define V4L2_VP9_FRAME_FLAG_SHOW_FRAME			0x002
+> +#define V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT		0x004
+> +#define V4L2_VP9_FRAME_FLAG_INTRA_ONLY			0x008
+> +#define V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV		0x010
+> +#define V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX		0x020
+> +#define V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE		0x040
+> +#define V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING		0x080
+> +#define V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING		0x100
+> +#define V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING	0x200
+> +
+> +#define V4L2_VP9_SIGN_BIAS_LAST				0x1
+> +#define V4L2_VP9_SIGN_BIAS_GOLDEN			0x2
+> +#define V4L2_VP9_SIGN_BIAS_ALT				0x4
+> +
+> +#define V4L2_VP9_RESET_FRAME_CTX_NONE			0
+> +#define V4L2_VP9_RESET_FRAME_CTX_SPEC			1
+> +#define V4L2_VP9_RESET_FRAME_CTX_ALL			2
+> +
+> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP			0
+> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SMOOTH		1
+> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SHARP		2
+> +#define V4L2_VP9_INTERP_FILTER_BILINEAR			3
+> +#define V4L2_VP9_INTERP_FILTER_SWITCHABLE		4
+> +
+> +#define V4L2_VP9_REFERENCE_MODE_SINGLE_REFERENCE	0
+> +#define V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE	1
+> +#define V4L2_VP9_REFERENCE_MODE_SELECT			2
+> +
+> +#define V4L2_VP9_PROFILE_MAX				3
+> +
+> +#define V4L2_CID_STATELESS_VP9_FRAME	(V4L2_CID_CODEC_STATELESS_BASE + 300)
+> +/**
+> + * struct v4l2_ctrl_vp9_frame - VP9 frame decoding control
+> + *
+> + * @lf: loop filter parameters. See &v4l2_vp9_loop_filter for more details
 
-diff --git a/drivers/staging/r8188eu/core/rtw_io.c b/drivers/staging/r8188=
-eu/core/rtw_io.c
-index cde0205816b1..4abbd551db81 100644
-=2D-- a/drivers/staging/r8188eu/core/rtw_io.c
-+++ b/drivers/staging/r8188eu/core/rtw_io.c
-@@ -2,25 +2,25 @@
- /* Copyright(c) 2007 - 2011 Realtek Corporation. */
+Seems these documentation is missing an ending period for many fields.
 
- /*
--
--The purpose of rtw_io.c
--
--a. provides the API
--
--b. provides the protocol engine
--
--c. provides the software interface between caller and the hardware interf=
-ace
--
--Compiler Flag Option:
--
--USB:
--   a. USE_ASYNC_IRP: Both sync/async operations are provided.
--
--Only sync read/rtw_write_mem operations are provided.
--
--jackson@realtek.com.tw
--
--*/
-+ *
-+ * The purpose of rtw_io.c
-+ *
-+ * a. provides the API
-+ *
-+ * b. provides the protocol engine
-+ *
-+ * c. provides the software interface between caller and the hardware int=
-erface
-+ *
-+ * Compiler Flag Option:
-+ *
-+ * USB:
-+ *    a. USE_ASYNC_IRP: Both sync/async operations are provided.
-+ *
-+ * Only sync read/rtw_write_mem operations are provided.
-+ *
-+ * jackson@realtek.com.tw
-+ *
-+ */
+> + * @quant: quantization parameters. See &v4l2_vp9_quantization for more details
+> + * @seg: segmentation parameters. See &v4l2_vp9_segmentation for more details
+> + * @flags: combination of V4L2_VP9_FRAME_FLAG_* flags
+> + * @compressed_header_size: compressed header size in bytes
+> + * @uncompressed_header_size: uncompressed header size in bytes
+> + * @frame_width_minus_1: add 1 to it and you'll get the frame width expressed in pixels
+> + * @frame_height_minus_1: add 1 to it and you'll get the frame height expressed in pixels
+> + * @render_width_minus_1: add 1 to it and you'll get the expected render width expressed in
+> + *	pixels. This is not used during the decoding process but might be used by HW scalers
+> + *	to prepare a frame that's ready for scanout
+> + * @render_height_minus_1: add 1 to it and you'll get the expected render height expressed in
+> + *	pixels. This is not used during the decoding process but might be used by HW scalers
+> + *	to prepare a frame that's ready for scanout
+> + * @last_frame_ts: "last" reference buffer timestamp.
+> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+> + * @golden_frame_ts: "golden" reference buffer timestamp.
+> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+> + * @alt_frame_ts: "alt" reference buffer timestamp.
+> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+> + * @ref_frame_sign_bias: a bitfield specifying whether the sign bias is set for a given
+> + *	reference frame. Either of V4L2_VP9_SIGN_BIAS_*.
+> + * @reset_frame_context: specifies whether the frame context should be reset to default values.
+> + *	Either of V4L2_VP9_RESET_FRAME_CTX_*.
+> + * @frame_context_idx: frame context that should be used/updated
+> + * @profile: VP9 profile. Can be 0, 1, 2 or 3
+> + * @bit_depth: bits per components. Can be 8, 10 or 12. Note that not all profiles support
+> + *	10 and/or 12 bits depths
+> + * @interpolation_filter: specifies the filter selection used for performing inter prediction.
+> + *	Either of V4L2_VP9_INTERP_FILTER_*
+> + * @tile_cols_log2: specifies the base 2 logarithm of the width of each tile (where the width
+> + *	is measured in units of 8x8 blocks). Shall be less than or equal to 6
+> + * @tile_rows_log2: specifies the base 2 logarithm of the height of each tile (where the height
+> + *	is measured in units of 8x8 blocks)
+> + * @reference_mode: specifies the type of inter prediction to be used. See
 
- #define _RTW_IO_C_
- #include "../include/osdep_service.h"
-@@ -41,7 +41,6 @@ u8 _rtw_read8(struct adapter *adapter, u32 addr)
- 	struct	intf_hdl *pintfhdl =3D &pio_priv->intf;
- 	u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
+See what? :-)
 
--
- 	_read8 =3D pintfhdl->io_ops._read8;
- 	r_val =3D _read8(pintfhdl, addr);
+> + *	Either of V4L2_VP9_REFERENCE_MODE_*
 
-@@ -87,7 +86,6 @@ int _rtw_write8(struct adapter *adapter, u32 addr, u8 va=
-l)
+Other controls use V4L2_VP9_REFERENCE_MODE_{}, {} instead of *.
+The same applies to all the documentation.
 
- 	ret =3D _write8(pintfhdl, addr, val);
+> + * @reserved: padding field. Should be zeroed by applications.
+> + */
+> +struct v4l2_ctrl_vp9_frame {
+> +	struct v4l2_vp9_loop_filter lf;
+> +	struct v4l2_vp9_quantization quant;
+> +	struct v4l2_vp9_segmentation seg;
+> +	__u32 flags;
+> +	__u16 compressed_header_size;
+> +	__u16 uncompressed_header_size;
+> +	__u16 frame_width_minus_1;
+> +	__u16 frame_height_minus_1;
+> +	__u16 render_width_minus_1;
+> +	__u16 render_height_minus_1;
+> +	__u64 last_frame_ts;
+> +	__u64 golden_frame_ts;
+> +	__u64 alt_frame_ts;
+> +	__u8 ref_frame_sign_bias;
+> +	__u8 reset_frame_context;
+> +	__u8 frame_context_idx;
+> +	__u8 profile;
+> +	__u8 bit_depth;
+> +	__u8 interpolation_filter;
+> +	__u8 tile_cols_log2;
+> +	__u8 tile_rows_log2;
+> +	__u8 reference_mode;
+> +	__u8 reserved[7];
+> +};
+> +
 
--
- 	return RTW_STATUS_CODE(ret);
- }
+Also, have you checked html and pdf docs and make sure
+it looks as you expect?
 
-@@ -102,9 +100,9 @@ int _rtw_write16(struct adapter *adapter, u32 addr, u1=
-6 val)
-
- 	ret =3D _write16(pintfhdl, addr, val);
-
--
- 	return RTW_STATUS_CODE(ret);
- }
-+
- int _rtw_write32(struct adapter *adapter, u32 addr, u32 val)
- {
- 	struct io_priv *pio_priv =3D &adapter->iopriv;
-@@ -116,7 +114,6 @@ int _rtw_write32(struct adapter *adapter, u32 addr, u3=
-2 val)
-
- 	ret =3D _write32(pintfhdl, addr, val);
-
--
- 	return RTW_STATUS_CODE(ret);
- }
-
-@@ -131,9 +128,9 @@ int _rtw_writeN(struct adapter *adapter, u32 addr, u32=
- length, u8 *pdata)
-
- 	ret =3D _writeN(pintfhdl, addr, length, pdata);
-
--
- 	return RTW_STATUS_CODE(ret);
- }
-+
- int _rtw_write8_async(struct adapter *adapter, u32 addr, u8 val)
- {
- 	struct io_priv *pio_priv =3D &adapter->iopriv;
-@@ -145,7 +142,6 @@ int _rtw_write8_async(struct adapter *adapter, u32 add=
-r, u8 val)
-
- 	ret =3D _write8_async(pintfhdl, addr, val);
-
--
- 	return RTW_STATUS_CODE(ret);
- }
-
-@@ -181,12 +177,11 @@ void _rtw_read_mem(struct adapter *adapter, u32 addr=
-, u32 cnt, u8 *pmem)
- 	struct io_priv *pio_priv =3D &adapter->iopriv;
- 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
-
--
- 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
--	     return;
-+		return;
-+
- 	_read_mem =3D pintfhdl->io_ops._read_mem;
- 	_read_mem(pintfhdl, addr, cnt, pmem);
--
- }
-
- void _rtw_write_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
-@@ -195,13 +190,9 @@ void _rtw_write_mem(struct adapter *adapter, u32 addr=
-, u32 cnt, u8 *pmem)
- 	struct io_priv *pio_priv =3D &adapter->iopriv;
- 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
-
--
--
- 	_write_mem =3D pintfhdl->io_ops._write_mem;
-
- 	_write_mem(pintfhdl, addr, cnt, pmem);
--
--
- }
-
- void _rtw_read_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
-@@ -210,16 +201,12 @@ void _rtw_read_port(struct adapter *adapter, u32 add=
-r, u32 cnt, u8 *pmem)
- 	struct io_priv *pio_priv =3D &adapter->iopriv;
- 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
-
--
--
- 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
--	     return;
-+		return;
-
- 	_read_port =3D pintfhdl->io_ops._read_port;
-
- 	_read_port(pintfhdl, addr, cnt, pmem);
--
--
- }
-
- void _rtw_read_port_cancel(struct adapter *adapter)
-@@ -241,14 +228,10 @@ u32 _rtw_write_port(struct adapter *adapter, u32 add=
-r, u32 cnt, u8 *pmem)
- 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
- 	u32 ret =3D _SUCCESS;
-
--
--
- 	_write_port =3D pintfhdl->io_ops._write_port;
-
- 	ret =3D _write_port(pintfhdl, addr, cnt, pmem);
-
--
--
- 	return ret;
- }
-
-=2D-
-2.25.1
-
+Thanks,
+Ezequiel
