@@ -1,123 +1,245 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A779D72
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 13:33:23 +0000 (UTC)
-Received: from mail-wr1-f53.google.com ([209.85.221.53]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MBltK-1mZJ933BbY-00CBXz for <linux-staging@lists.linux.dev>; Fri, 24 Sep
- 2021 15:28:09 +0200
-Received: by mail-wr1-f53.google.com with SMTP id t8so27672029wri.1
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 06:28:09 -0700 (PDT)
-X-Gm-Message-State: AOAM533J+MahPCryxW+1juvxlFVL23VSIinX+F/cwd7oDw0wE4LUk7FS
-	MuYyyIyWVxqo9APlo0R09A3IuCZ9SdCbGfnqEPo=
-X-Google-Smtp-Source: ABdhPJzM3QVWlDWl9O9PVMbkk54ItVxgQmlG7vgvUmkivSCUC8cK58oe7WVemGT0uxg3hhg7v6G/Qeb1GuFgaELom84=
-X-Received: by 2002:a05:600c:3209:: with SMTP id r9mr2123128wmp.35.1632490089268;
- Fri, 24 Sep 2021 06:28:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB333FCB
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 14:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=dbaedf251592; t=1632494881;
+	bh=BzlUt9Xoxf80BIN5jJgcV7RyKPyglvJA26rX64Gy8AY=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=TxtoO8zAxYLvTaDlISzulZfUT10zN0elorBXW+icGQvnYHxisv9vOV2AqREvk8NBI
+	 9X0F6GxpNhX8FAMSlVNB2twUMMbnw+MfuEIu+kVl2SbFh0hbDbB/0wz5xu5+XQrw+2
+	 knfFqXj3VuBu6d5VM3Rv6fXHrZuT3wfze9iMAAY0=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from michael-LIFEBOOK-E751.fritz.box ([94.134.119.126]) by
+ smtp.web.de (mrweb003 [213.165.67.108]) with ESMTPSA (Nemesis) id
+ 0M6V2p-1mnfzu0l0V-00yUPN; Fri, 24 Sep 2021 16:48:01 +0200
+From: Michael Estner <michaelestner@web.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: michaelestner@web.de,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Remove blank lines and whitespaces
+Date: Fri, 24 Sep 2021 16:47:41 +0200
+Message-Id: <20210924144750.6020-1-michaelestner@web.de>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
- <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
- <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
- <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
- <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
- <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
- <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
- <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
- <CAMhs-H8kH7CMXENqDW_6GLTjeMMyk+ynehMmyBr=kFZPFHpM0A@mail.gmail.com>
- <CAK8P3a2WmNsV9fhSEjqwHZAGkwGc9HOurhQsza7JOM2Scts2XQ@mail.gmail.com>
- <CAMhs-H8fRnLavLfdw7jZO0tb8rWqdF81cGHhYT6gGp4UY1gChg@mail.gmail.com>
- <CAK8P3a2MJO--xmAZ_71h1QQ5_b8WXgyo-=LaT7r7yMMBUHoPfQ@mail.gmail.com>
- <CAMhs-H_xdkpinyj-Y1u==ievpGWZ2Ze-_U7aCUcfu0=NKBq2xQ@mail.gmail.com>
- <CAK8P3a0OWyW9Wk0kHXsj_7qTd0fVXQnszzun+HacHeTKYETXhw@mail.gmail.com>
- <CAMhs-H9xrXgbuwYe2STzuq0aBwj0onJGc0Oka6+pzgoHb0j8rA@mail.gmail.com>
- <CAK8P3a1AwaSi_J9p4tKwNKxENHhwofDu=Ma=F29ajSmMXoC7RA@mail.gmail.com>
- <CAMhs-H_wxoJC7ZVnkhXNfAcP-P9BNN99ogszM_iJhErHLq8Rdg@mail.gmail.com>
- <CAK8P3a3dvhWT=Xq22xTNn_VbX29s3t9wrw1DbffPbWuHxtTTmg@mail.gmail.com> <CAMhs-H9OhXHA3_mq2PSoaPvYCstqqHL7TfL0zf=OFNeFmWVTRQ@mail.gmail.com>
-In-Reply-To: <CAMhs-H9OhXHA3_mq2PSoaPvYCstqqHL7TfL0zf=OFNeFmWVTRQ@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 24 Sep 2021 15:27:53 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a36jiomsqSr0rP8_BL8HwceKvV78bT2Ym+iomSGyYuOGA@mail.gmail.com>
-Message-ID: <CAK8P3a36jiomsqSr0rP8_BL8HwceKvV78bT2Ym+iomSGyYuOGA@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-pci <linux-pci@vger.kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:QvwKTh2fVIeSXGvJveOyFGtXuSu0c7BzXBlSIVqGrxJEzl2e4OZ
- TjmcFxBfw0MvGLj9jh/4JmMW9m31KbzkvM6NYIOZAgLdwLma2vMoO8PquR4/18g6OifXN0Y
- aQA6QcZKrySOZEAvbelbyde6IWe7Iqi3nxlEL0WAzqpVHCieOVJbmTSxxtbcdAtW1/4w+xy
- gATMEWIN6Q/bxYy5I70ZA==
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:AaLzsh9OHcYP5E4RKRwkDx295xrdUB93/YjatXKYnKQuMdIYAqC
+ zqp24oZqMz1yQ2Mu3nDzQPXZJn8GjNZgBicPXLNfJLmLd2dxcKpqdpoDvjrhf0n0DOUCsps
+ qs5OEX1poS2s2Byo0FFaFH+UCc1W+BrZKMfVlKP4EXV7Expy7xSIYuFRXtnqd5F6Nbv5+M8
+ iiyhKTNEGGBcQOitlmIiQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wTp7eHPUbhI=:JGgZbG4a9kCqXCWICIaSdK
- JfbZ3eafg+X7f10DWGL3+dtNO1B1k478MhQwwOscQ54LBZaiaxyGt0y6Wd0xzIEwEpk5PRm8T
- hDWd9YWVoF2K9Jj1nadi7JaHmSl3HROlA2Rfmmgw+pLJKvkDCDduHiMTus7tzi+1882b6inUL
- B4+a8VungwNSyMHbii/eniAKM+pIKbC5uGSH4A1F3EwvFfZEFedMxCmHJfYfehtHuMrTNahiG
- Pj7i0aAmQQlIe1X+8kf3l96BKENU3KMxBH1/I0bBfpG2YrHgereTJ2uBI/njFH8CrPLNz0Zt3
- DVx1eBbDROv45eBEd17E3Yk2f29NKnxriozWGRKZxg3vziXsQdBdrvV/11WCA2Vn4n5HF/yUP
- LdvGeSMfblGUhcCgI7fFt/6gORIKOnBV3iHo52UczO1pf9t9pwsLfd5p/hY3QabxpPvCAgl+J
- mED/pqd4qK6PVNd4tcOIyhWR1QbJc/omFF7nvQnBrkk7wFsiytJpjZVN9KGqh8TJU2B9QONBS
- ayoGF3x+D/z9J2vIrk30fJm5aJEBJQwfR+q1o4li6F7e4HlZpg2iNpnkXcbY4YxQleNxxnXIn
- k7gFkB/esVIWtibU7rnR+Bqdt36Dtp6pxd0Exwj6qlZuPlkbDh3+IPi08N+1V7Axil7fAc9Fw
- YaG6ovgdUHErDQqNQGxm6BH7vAq1lBbNPkFApFHg0qikUVGeyeAUQzEvk05sL1TdZH4FJ7Z7o
- pbVdIZ1xRP8kc4Z7tj7VLTlz0XyapCQ/qrfFX3t0aCKMARvcE8FritOC1IOeEQHGE7dktcAcM
- 7yb7O6NemBER0DK6IQmUkAP+eNvBWfvRYqi3mbl7aS94Q5qFZSN/xE1Osv7W6rWKJuMhadgYA
- k1D6VYVWHHaD8SqRgyYA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uj7yb3oyG6s=:Fli+c8cgpf9zJ9vHAzyM5j
+ VYCEvEfuyLTyNnR7r8CvGKmdZTMF7aE3+uSuQZ+80/oOpRX0t0nlVZbOEAFSpEgIm6IrbCgJ8
+ XMLO85BdPE1XLQ3PKJP99hx0kypzoi7HLtcmAU/7bjIupnn7NFMZLAg0gVLLSk4wF74ABhSmA
+ zt7c6oMyLIlff8clMVXF5m4j12a3AvML7kyLtywD7h3qY5T4lL9G+D29Kx4nYCx4edh3AvTa3
+ f5hi7ELTziMimh8h6kzWRU4a4CLk4UE5fx/85kxPUvwNcEN+4XWgeRN/mKuurDtwFmmsezZdH
+ 8/k7c6NPLI6KX/ki9Wd+KJ93WmOr/Ifbo3DXQTdMe4ZRnjnxMfWCYNCKJ88s2zNGAjVg7pYgs
+ rnZtprfddSxcdFZaXAQvwF34oGBOCFD29U6l5o26vYizc6cHO20VTBoGjbyNLLTS68C6h5vrV
+ IgKriehpOb8C3Ye5g14DAVx5Yr/gBd0msRFYR4EZOG480b7z31wZhUTGM2D5p77UV2UWaYt5P
+ 4XiK51KwojRsqxGdeR+i++MsjBDo5Dship9jqtzugORjSTFQoymuY4BsWBLzYTcg0RD9YA19q
+ kL3fEUCxxmDkSixGvjCr7hf9KW8HliFjWVpu3nI+hjadg9a9k5Rs/rVqdlZtxEtu4NvdSLTs+
+ hL4nYs3RiIhjYFgZsVnk5QtrjXKd83zBVm8+GC26Nmh4oPQ6+y7JZn6h6C/U2PkFfLJQPxAtE
+ dBS0UYvqKu3Zv9ENFpGOfL5yNdHTd3jSbdWHziqRaGZFz2VBmoXmxlu23nnp5iKMKgYTszT1e
+ dghk4pHf0NH9A4Yefa5BxCaoj5utSSjALxZ0FKFegxWGRqP8X2DFHcilmRpxi/qnYwrmWLx22
+ AFAnqHPb8xqwomiihFzSzPttxQ8P686SIhw7/hgoVO6P5uusbx9cg8IbHCFkw4h36ojW8SVgx
+ HPjc+ZdEnPN5BRZ7wTSEATPYVFlrjGDdy44XvkjacBkCr7u7Jz47zoFEUfxAhlDwhPWCFUK5J
+ dXgWlYd4vVx+fl4xv4aq8NekZuXycWQ3Y1oC+K1IHI0EUKVaEQV5PR0hFWvCyZ/jwrGMOkCkg
+ 9SFpBihIrVfKQM=
 
-On Fri, Sep 24, 2021 at 2:46 PM Sergio Paracuellos
-<sergio.paracuellos@gmail.com> wrote:
-> On Fri, Sep 24, 2021 at 1:39 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Fri, Sep 24, 2021 at 12:15 PM Sergio Paracuellos
->
-> > I meant RALINK_PCI_IOBASE. We do need to write both, to clarify:
-> >
-> > RALINK_PCI_IOBASE must be set to match the *bus* address in DT,
-> > so ideally '0', but any value should work as long as these two match.
-> >
-> > PCI_IOBASE/mips_io_port_base must be set to the *CPU* address
-> > in DT, so that must be 0x1e160000, possibly converted from
-> > physical to a virtual __iomem address (this is where my MIPS
-> > knowledge ends).
->
-> Understood. I have tried the following:
->
-> I have added the following at the beggining of the pci host driver to
-> match what you are describing above:
->
-> unsigned long vaddr = (unsigned long)ioremap(PCI_IOBASE, 0x10000);
-> set_io_port_base(vaddr);
->
-> dev_info(dev, "Setting base to PCI_IOBASE: 0x%x -> mips_io_port_base
-> 0x%lx", PCI_IOBASE, mips_io_port_base);
->
-> PCI_IOBASE is the physical cpu address. Hence, 0x1e160000
-> set_io_port_base sets 'mips_io_port_base' to the virtual address where
-> 'PCI_IOBASE' has been mapped (vaddr).
+Removed blank lines and whitespaces to clean up code.
 
-Ok, sounds good. I would still suggest using
-"#define PCI_IOBASE mips_io_port_base", so it has the same meaning
-as on other architectures (the virtual address of port 0), and replace
-the hardcoded base with the CPU address you read from DT to
-make that code more portable. As a general rule, DT-enabled drivers
-should contain no hardcoded addresses.
+Signed-off-by: Michael Estner <michaelestner@web.de>
+=2D--
+ drivers/staging/r8188eu/core/rtw_io.c | 65 ++++++++++-----------------
+ 1 file changed, 24 insertions(+), 41 deletions(-)
 
-> However, nothing seems to change:
->
-> mt7621-pci 1e140000.pcie: Setting base to PCI_IOBASE: 0x1e160000 ->
-> mips_io_port_base 0xbe160000
->                                                 ^^^
->                                                  This seems aligned
-> with what you are saying. mips_io_port_base have now a proper virtual
-> addr for 0x1e160000
+diff --git a/drivers/staging/r8188eu/core/rtw_io.c b/drivers/staging/r8188=
+eu/core/rtw_io.c
+index cde0205816b1..4abbd551db81 100644
+=2D-- a/drivers/staging/r8188eu/core/rtw_io.c
++++ b/drivers/staging/r8188eu/core/rtw_io.c
+@@ -2,25 +2,25 @@
+ /* Copyright(c) 2007 - 2011 Realtek Corporation. */
 
-Ok.
+ /*
+-
+-The purpose of rtw_io.c
+-
+-a. provides the API
+-
+-b. provides the protocol engine
+-
+-c. provides the software interface between caller and the hardware interf=
+ace
+-
+-Compiler Flag Option:
+-
+-USB:
+-   a. USE_ASYNC_IRP: Both sync/async operations are provided.
+-
+-Only sync read/rtw_write_mem operations are provided.
+-
+-jackson@realtek.com.tw
+-
+-*/
++ *
++ * The purpose of rtw_io.c
++ *
++ * a. provides the API
++ *
++ * b. provides the protocol engine
++ *
++ * c. provides the software interface between caller and the hardware int=
+erface
++ *
++ * Compiler Flag Option:
++ *
++ * USB:
++ *    a. USE_ASYNC_IRP: Both sync/async operations are provided.
++ *
++ * Only sync read/rtw_write_mem operations are provided.
++ *
++ * jackson@realtek.com.tw
++ *
++ */
 
-            Arnd
+ #define _RTW_IO_C_
+ #include "../include/osdep_service.h"
+@@ -41,7 +41,6 @@ u8 _rtw_read8(struct adapter *adapter, u32 addr)
+ 	struct	intf_hdl *pintfhdl =3D &pio_priv->intf;
+ 	u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
+
+-
+ 	_read8 =3D pintfhdl->io_ops._read8;
+ 	r_val =3D _read8(pintfhdl, addr);
+
+@@ -87,7 +86,6 @@ int _rtw_write8(struct adapter *adapter, u32 addr, u8 va=
+l)
+
+ 	ret =3D _write8(pintfhdl, addr, val);
+
+-
+ 	return RTW_STATUS_CODE(ret);
+ }
+
+@@ -102,9 +100,9 @@ int _rtw_write16(struct adapter *adapter, u32 addr, u1=
+6 val)
+
+ 	ret =3D _write16(pintfhdl, addr, val);
+
+-
+ 	return RTW_STATUS_CODE(ret);
+ }
++
+ int _rtw_write32(struct adapter *adapter, u32 addr, u32 val)
+ {
+ 	struct io_priv *pio_priv =3D &adapter->iopriv;
+@@ -116,7 +114,6 @@ int _rtw_write32(struct adapter *adapter, u32 addr, u3=
+2 val)
+
+ 	ret =3D _write32(pintfhdl, addr, val);
+
+-
+ 	return RTW_STATUS_CODE(ret);
+ }
+
+@@ -131,9 +128,9 @@ int _rtw_writeN(struct adapter *adapter, u32 addr, u32=
+ length, u8 *pdata)
+
+ 	ret =3D _writeN(pintfhdl, addr, length, pdata);
+
+-
+ 	return RTW_STATUS_CODE(ret);
+ }
++
+ int _rtw_write8_async(struct adapter *adapter, u32 addr, u8 val)
+ {
+ 	struct io_priv *pio_priv =3D &adapter->iopriv;
+@@ -145,7 +142,6 @@ int _rtw_write8_async(struct adapter *adapter, u32 add=
+r, u8 val)
+
+ 	ret =3D _write8_async(pintfhdl, addr, val);
+
+-
+ 	return RTW_STATUS_CODE(ret);
+ }
+
+@@ -181,12 +177,11 @@ void _rtw_read_mem(struct adapter *adapter, u32 addr=
+, u32 cnt, u8 *pmem)
+ 	struct io_priv *pio_priv =3D &adapter->iopriv;
+ 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
+
+-
+ 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
+-	     return;
++		return;
++
+ 	_read_mem =3D pintfhdl->io_ops._read_mem;
+ 	_read_mem(pintfhdl, addr, cnt, pmem);
+-
+ }
+
+ void _rtw_write_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
+@@ -195,13 +190,9 @@ void _rtw_write_mem(struct adapter *adapter, u32 addr=
+, u32 cnt, u8 *pmem)
+ 	struct io_priv *pio_priv =3D &adapter->iopriv;
+ 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
+
+-
+-
+ 	_write_mem =3D pintfhdl->io_ops._write_mem;
+
+ 	_write_mem(pintfhdl, addr, cnt, pmem);
+-
+-
+ }
+
+ void _rtw_read_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
+@@ -210,16 +201,12 @@ void _rtw_read_port(struct adapter *adapter, u32 add=
+r, u32 cnt, u8 *pmem)
+ 	struct io_priv *pio_priv =3D &adapter->iopriv;
+ 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
+
+-
+-
+ 	if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
+-	     return;
++		return;
+
+ 	_read_port =3D pintfhdl->io_ops._read_port;
+
+ 	_read_port(pintfhdl, addr, cnt, pmem);
+-
+-
+ }
+
+ void _rtw_read_port_cancel(struct adapter *adapter)
+@@ -241,14 +228,10 @@ u32 _rtw_write_port(struct adapter *adapter, u32 add=
+r, u32 cnt, u8 *pmem)
+ 	struct	intf_hdl		*pintfhdl =3D &pio_priv->intf;
+ 	u32 ret =3D _SUCCESS;
+
+-
+-
+ 	_write_port =3D pintfhdl->io_ops._write_port;
+
+ 	ret =3D _write_port(pintfhdl, addr, cnt, pmem);
+
+-
+-
+ 	return ret;
+ }
+
+=2D-
+2.25.1
+
