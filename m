@@ -1,95 +1,262 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD7D3FC7
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:02:05 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <pza@pengutronix.de>)
-	id 1mTjej-0003Uj-Tv; Fri, 24 Sep 2021 13:46:17 +0200
-Received: from pza by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <pza@pengutronix.de>)
-	id 1mTjeh-00065F-Rv; Fri, 24 Sep 2021 13:46:15 +0200
-Date: Fri, 24 Sep 2021 13:46:15 +0200
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel@puri.sm,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH] media: imx: Fix rounding
-Message-ID: <20210924114615.GA21343@pengutronix.de>
-References: <20210924120631.7060da0f.dorota.czaplejewicz@puri.sm>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA32B3FC7
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:27:27 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id ee50so35456223edb.13
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 05:27:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=85DTZ6nXXMkHYkD5g7M203wU5w8Lip8La1SQcqg9VRc=;
+        b=XagkbawzKJSEQu/Q77LA6GGoDxjpbG+5t01DsRVVIxvNGmn4OUsCo53S7uDQrd7YRj
+         U55rBK2ohU4l2yYIseAAf4iKZCVyTfq70moWQtCYNrY/0TmDS0Vu8LlmlHYyYmyrcFbK
+         7DnKn1ujLcBLQ4HeHPGOV1RbAGYKcL/3EKgHecJhaAptFeJu3pieDjP41Un4EnaUOpms
+         nnvflgIopU87wtjjLWGlZlM9E0mpdR7R+EfpLz09x8gc2G4mVhzcNuieKriVWMcOiJVS
+         8jrL1p0t+X1M7V6eZVFmPN9S6gGdCohexWnw6+5LRlX0oRerUsgD2rxc3A+CgBoV1RhL
+         HfRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=85DTZ6nXXMkHYkD5g7M203wU5w8Lip8La1SQcqg9VRc=;
+        b=hDeKjbErw0AUHU66P41DZ3Oa+sXXrQSTXrmQGnVT6Alw/SWlK20BmVsn1o4b2HunRb
+         AZwBPcYRLo28pAHOLoNlviiFlX1pe47vuQwLzoP7vLoFOCz1Gqofe3tizpR3jOnmi2iV
+         +eE0AzpTffJqHx00vupUJqL5bze6YilFMVH9aH/WGyrvTyYdp1eDFIU+yu7LUTyf4UbV
+         FEkVkRheu8dLyDfI2fuf8x/dv7YoY5/sz6/lXh12xdnAhLcWxAGt8X6hKCnu3YFHyH3b
+         NVzoT5j+H15R7IJolUtiDcme0Otd9Bi95w+KIlaTil2XYgkpx228cOmpZuJoV5kNtRdX
+         WzBw==
+X-Gm-Message-State: AOAM5320V/k8CvTmnl2byBCoZoFp1VKD5KQUpJQqVUDMuqMZBb0BO3/K
+	+z26StS0kMzPjXjdF45rlrE=
+X-Google-Smtp-Source: ABdhPJxcYmuRrQ5asMufJRFVuU9Dumund7oIJBhU0oVtx1iDRNdOpR2iJNrga3vCebp/TMNIga+dMA==
+X-Received: by 2002:a17:906:8151:: with SMTP id z17mr10669181ejw.468.1632486446175;
+        Fri, 24 Sep 2021 05:27:26 -0700 (PDT)
+Received: from localhost.localdomain.it (host-212-171-30-160.retail.telecomitalia.it. [212.171.30.160])
+        by smtp.gmail.com with ESMTPSA id v13sm4882522ejh.62.2021.09.24.05.27.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 05:27:25 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	David Laight <david.Laight@aculab.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v9 10/16] staging: r8188eu: shorten and simplify calls chains
+Date: Fri, 24 Sep 2021 14:26:49 +0200
+Message-Id: <20210924122705.3781-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210924120631.7060da0f.dorota.czaplejewicz@puri.sm>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 13:34:50 up 218 days, 14:58, 111 users,  load average: 0.12, 0.18,
- 0.17
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: pza@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
-Hi Dorota,
+--- Preface ---
 
-On Fri, Sep 24, 2021 at 12:06:31PM +0200, Dorota Czaplejewicz wrote:
-> Change rounding to the minimal burst size from 2^n to n.
-> 
-> This fixes images with sizes that are a multiple of 8 pixels.
+This is v10 of "shorten and simplify calls chain". The 14 (v7) + 2 (v8) 
+patches have already been applied to staging-testing, so we have been 
+requested to reset the numbering of the remaining patches to 01/16, while 
+discarding from v9 the above-mentioned 16 patches (otherwise we would
+have submitted a series containing 32 patches, that is 1 patch less than
+v8 because it has been dropped by us in what we considered it
+unnecessary - it was about fixing a misspelled word in a comment).
 
-Could you elaborate on what is currently wrong with images that are a
-multiple of 8 pixels wide? Or are you rather trying to add support
-for images that are not a multiple of 8 pixels wide?
+The following commit message is provided as it was in v8, both for the
+purpose of presenting the whole picture to Maintainers, Reviewers, and to
+anybody else who may be interested in knowing the entire design and the
+evolution since v1 to the current v10.
 
-> 
-> See section 13.7.6.13 CSI Image Parameter Register of the
-> i.MX 8M Quad Applications Processors Reference Manual.
-> 
-> Fixes: 451a7b7815d0b ("media: imx: lift CSI and PRP ENC/VF width
-> alignment restriction")
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
-> Hi,
-> 
-> I tested this patch on the Librem 5 with the main camera.
-> 
-> --Dorota
->  drivers/staging/media/imx/imx-media-utils.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 5128915a5d6f..a2d8fab32a39 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
->  	}
->  
->  	/* Round up width for minimum burst size */
-> -	width = round_up(mbus->width, 8);
-> +	width = round_up(mbus->width, 3);
+--- Commit message ---
 
-That is not a valid use of the round_up() macro anymore.
-The second parameter must be a power of 2.
+io_ops abstraction is useless in this driver, since there is only one ops
+registration. Without io_ops we can get rid of indirect calls mess and
+shorten the calls chain.
 
-regards
-Philipp
+Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+For this purpose unify the three usb_read8/16/32 into the new
+usb_read(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_read() and use in it the new
+usb_control_msg_recv() API of USB Core.
+
+Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+For this purpose unify the four usb_write8/16/32/N() into the new
+usb_write(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_write() and use in it the new
+usb_control_msg_send() API of USB Core.
+
+The code with the modifications was thoroughly tested by Pavel Skripkin
+using a TP-Link TL-WN722N v2 / v3 [Realtek RTL8188EUS] and by Fabio M.
+De Francesco using a ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano].
+
+--- Changelog ---
+
+v9-v10:
+	- 1-15: 
+		No changes;
+	- 16:
+		Fix a bug inadvertently introduced in v8.
+
+v8->v9 (after numbering reset in v8):
+	- 1-7,9,10,12:
+		Clean-up patches with no significant changes in code.
+		We've applied some fixes required by Greg Kroah-Hartman:
+		(1) rename of an argument (intfhdl => intf), (2)
+		explanation of why "!io_buf" test is redundant and
+		unnecessary, (3) deletion of comments for single line
+		'if' statements, (4) fix of a coding style issue by
+		removing unnecessary braces;
+	- 8,11:
+		Add more detailed motivation in support of changing the
+		type of two variables, one in rtw_read16() and the other
+		in rtw_write16();
+	- 13,14:
+		No significant changes in the code; just rebase on top of
+		minor changes introduced by the patches 1-12;
+	- 15,16:
+		No changes.
+
+v7->v8 (old numbering):
+        - 1-14:
+                Patches applied to staging-testing, so they are dropped
+                from the current v8;
+
+        - 15-19:
+                Split into 19 patches. Numbering reset to 01. After this
+                reset, 15-19/19 become 01-19/19 (so we have a total of 33
+                patches in this series.
+
+v7->v8 (new numbering for the old 15-19/19):
+        - 1-15:
+                Old 15/19 and 16/19 are split into 15 patches (as it is
+                required by Greg Kroah-Hartman) in order to make them
+                more easily reviewable and for checking that the logic
+                is not broken; no significant changes to the resulting
+                code;
+        - 16-17:
+                Old 17/19 and 18/19 become 16/19 and 17/19: There are
+                no significant changes to the code, with the sole
+                exception of moving the acquiring of a mutex before
+                the test for "bSurpriseRemoved" being 'true';
+        - 18-19:
+                Old 19/19 is split into new 18/19 and 19/19. The changes
+                are split into a first patch that remove a shared buffer
+                and a second that remove the mutex protecting the receiving
+                (in usb_read()) and sending (in usb_write()) of the
+                USB control messages.
+
+v6->v7:
+        - 1-14:
+                Add Dan Carpenter's "Reviewed-by" tag. No code changes;
+        - 15:
+                Add a list of clean-up changes to the commit messages
+                and restore an empty line inadvertently deleted in a
+                previous version;
+        - 16:
+                Add a list of clean-up changes to the commit messages;
+        - 17-18:
+                No changes;
+        - 19:
+                Delete an unnecessary test.
+
+v5->v6:
+        - 1-14:
+                Minimal changes to patch subjects to achieve consistent
+                style;
+        - 15:
+                Fix a mistake in the checks of values returned by
+                usb_control_msg();
+        - 16-19:
+                No changes.
+
+v4->v5:
+        - 1-14:
+                No changes;
+        - 15-16:
+                Fix minor formatting issues and use "Reverse Xmas Tree" style,
+	        according to suggestions by David Laight and Dan Carpenter;
+        - 17-18:
+                Pavel Skripkin found logical errors in the checks of the
+                values returned by usb_control_msg_{recv,send}(), so fix them;
+                Dan Carpenter suggested to do error handling before success
+                handling, so change the code accordingly;
+        - 19:
+                Add this patch in order to get rid of the shared buffer in
+                usb_read() and usb_write() and remove this field from struct
+                "dvobj_priv".
+
+v3->v4:
+        - 1-14:
+                Split a patch into fourteen;
+        - 15-16:
+                Add these patches for clean-ups of the code that is going to be
+                reused in 17-18/18;
+        - 17-18:
+                Make some changes according to a first review of Greg
+                Kroah-Hartman; furthermore, remove the unnecessary while loop
+                and a couple of if' test; handle the errors returned by
+                usb_control_msg_recv().
+
+v2->v3:
+        - 1-2:
+                No changes;
+        - 3:
+                Fix the version number of the patch.
+
+v1->v2:
+        - 1-2:
+                No changes;
+        - 3:
+                Replace parameter REALTEK_USB_VENQT_READ with REALTEK_USB_VENQT_WRITE
+                in usb_control_msg_send().
+
+--- List of links to previous versions of the cover letters ---
+
+v1: https://lore.kernel.org/lkml/20210904150447.14659-1-fmdefrancesco@gmail.com/
+v2: https://lore.kernel.org/lkml/20210904212719.11426-1-fmdefrancesco@gmail.com/
+v3: https://lore.kernel.org/lkml/20210904220048.12822-1-fmdefrancesco@gmail.com/
+v4: https://lore.kernel.org/lkml/20210913181002.16651-1-fmdefrancesco@gmail.com/
+v5: https://lore.kernel.org/lkml/20210915124149.27543-1-fmdefrancesco@gmail.com/
+v6: https://lore.kernel.org/lkml/20210915211103.18001-1-fmdefrancesco@gmail.com/
+v7: https://lore.kernel.org/lkml/20210917071837.10926-1-fmdefrancesco@gmail.com/
+v8: https://lore.kernel.org/lkml/20210919235356.4151-1-fmdefrancesco@gmail.com/
+v9: https://lore.kernel.org/lkml/20210921181834.29677-1-fmdefrancesco@gmail.com/
+
+--- List of patches not yet applied, authorship, diff stats ---
+
+Fabio M. De Francesco (14):
+  staging: r8188eu: clean up symbols in usbctrl_vendorreq()
+  staging: r8188eu: reorder declarations in usbctrl_vendorreq()
+  staging: r8188eu: remove unnecessary test in usbctrl_vendorreq()
+  staging: r8188eu: reorder comments in usbctrl_vendorreq()
+  staging: r8188eu: remove a comment from usbctrl_vendorreq()
+  staging: r8188eu: rename symbols in rtw_read*() and rtw_write*()
+  staging: r8188eu: remove casts from rtw_{read,write}*()
+  staging: r8188eu: change the type of a variable in rtw_write16()
+  staging: r8188eu: remove an buffer from rtw_writeN()
+  staging: r8188eu: remove a bitwise AND from rtw_writeN()
+  staging: r8188eu: change the type of a variable in rtw_read16()
+  staging: r8188eu: Remove a test from usbctrl_vendorreq()
+  staging: r8188eu: call new usb_read() from rtw_read{8,16,32}()
+  staging: r8188eu: call new usb_write() from rtw_write{8,16,32,N}()
+
+Pavel Skripkin (2):
+  staging: r8188eu: remove shared buffer for USB requests
+  staging: r8188eu: remove usb_vendor_req_mutex
+
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 213 ++++++++++----------
+ drivers/staging/r8188eu/include/drv_types.h |   3 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c   |  36 ----
+ 3 files changed, 107 insertions(+), 145 deletions(-)
+
+--
+2.33.0
+
