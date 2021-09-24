@@ -1,80 +1,187 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ECEC3FC8
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 17:05:58 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id w29so29382559wra.8
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 10:05:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87983FC8
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 17:15:25 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id h30so10792435vsq.3
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 10:15:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=PY4KsopAnhFuuxcCGlkV29I1qc5kit5PQGjKdrKsIBI=;
-        b=PZXQUf5V1LcDI72rtn5I4icEufwVsEW7f3qY0d6NJEyiuv0En6/eUQFnfi7kJapB47
-         uVYnaynBcHNYSa99wRNhcKVn1vZzZFo7bKgGc9IBywCBznCF63y2W3f9RGjUgukI3H6G
-         YGPnVXQrYUWob+uNPzfDwrPXbubpGM7bdzl8yOuFDjIVIKn1S6A3GQV7LfmkcNPFHLit
-         HlYLvOJszVVYXOFxxauLesUxAdq55Vd1AJuhix8LFa2P4rKD0g3vQS/J3uKzH6ab/Kif
-         2Xpc/9U0/iimSrPTNMpXF6kM0hAFwQJKZD76QhfNbrFJioIA9iSd2MjcmhtJ0guoFACX
-         8x8A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mLOVPkbb6ECoKcpkmYSADyBlj3sV6kuH9YGw3xBQ1kM=;
+        b=X5jAre5v4H0IAu3qxsXVyeTconJerzwkD8OXX7Bmol7LWy5RSbW8jXExDMUICumvF3
+         26ECm6akmiLvnnNaRnUJC5h0MGLIKMTmYfF/jQoAKsAnSdLslu38qWOC+5POKlr54648
+         LHEEFTwLCKAcb7CWl6fGOteUUj1zCp+iHAm4NAv27SqXf08NEeDUTJ+4papu1uB41x96
+         orz1dtuVz/4C0rGEe299aeRifFIpFsRlfDH/KF27IdU3lBE6Ep+Jj62Fs+O76/muZbIN
+         BMlD7CYimjV0uRNmKC3WpU+qM2OpQM30YepnIQibXWvf7LDIPKAfh4yxQZdjaKUznNMV
+         G0SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=PY4KsopAnhFuuxcCGlkV29I1qc5kit5PQGjKdrKsIBI=;
-        b=YynyP00QRAvG6XQu1HvbkJlTcfa8G/uk9m7iVac62JIWN8sVpVi567IGVuMr16Uue7
-         AbaOyEbFkqVyLAojGedw6M9nKTjtplNV5+Db3F+YavsWt5HdkveCqxFQvvXQHZaIYGj7
-         r2e/F9x6SISaXFg5G4RUOIH75ewbuFO3IDEHn6/usfyfUjD431M4PWY1ZdbpUWKji6yq
-         6urdA9/gMy0IvWwCv6tuXaqhZfGFFumG6Gqehh4/Zfsd/UXs+SNKks57u3RfAfMu91M1
-         wTsxcr6j3Ff1BKqijEpX3gNu+N7f051iMzWs+T3DpBzTuDVr9cpGe43/LWHI7EZqEdU8
-         3PTA==
-X-Gm-Message-State: AOAM531D8kuQ4B5tm8nnXETg1NmsyPULfxs+pSyyau+M2V38byCXrALg
-	G453tVeGluIitUA/DxvLoT4=
-X-Google-Smtp-Source: ABdhPJzg2xGoR/EOMzF98e/e3XNtLAJyiGcJrpcpxL1Itovxb7ER/nfMoDcS9i4dXQcnAjdKw6zfnw==
-X-Received: by 2002:a05:600c:206:: with SMTP id 6mr3318450wmi.114.1632503156361;
-        Fri, 24 Sep 2021 10:05:56 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::cde? ([2a02:8108:96c0:3b88::cde])
-        by smtp.gmail.com with ESMTPSA id r27sm7767173wrr.70.2021.09.24.10.05.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Sep 2021 10:05:55 -0700 (PDT)
-Message-ID: <29184a95-c676-79d6-bb9a-88d37d44a80c@gmail.com>
-Date: Fri, 24 Sep 2021 19:05:55 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mLOVPkbb6ECoKcpkmYSADyBlj3sV6kuH9YGw3xBQ1kM=;
+        b=1otXbR5kelYKMOJoE/Vexk2IEUW9rLJ+JE+VdhNvqqdcAbPq0yutX1+bnxYGppPM0E
+         xMTcQo407QpzMDRABc5p/SAmTU6nS3209pjyGxc5lfREokrAdXZYZ0ZYu2VbqkWMGgMi
+         8rQDk4FKB3G35hZbxacTZCXUVA+gDdpTXBf2WnjI8IrAMLDgVpSH9Rwrr5WasPPfcVYL
+         nyFWWV6mEz5I4kJ/8WSctNaIqgR1XiBoM/oRByKsBUdSd9G/G0+JibZuv1mKyc1oTz2Z
+         i3aReFNqd87VP5wrgvO3M1A7bIjE8m17dYrFOOEcAz3jZB3PCgqhWZVQlTcj1PTYFXt6
+         loqg==
+X-Gm-Message-State: AOAM531McML+ThtO7XuIooit/WsGOJfzf80VmXjnN/+Fxf+27NMO9wi7
+	01MBQi8AryM4cs0ZN2srSdt3ueNW4jVR/W6GwqM=
+X-Google-Smtp-Source: ABdhPJywWiswdk3HK0sfiWAq8uByawS3SPIVWYRjecJkZJkdlnLKrPkGCyZZknqZSOjwngkCRlhpPZL0p4QwElLlmJk=
+X-Received: by 2002:a67:42c2:: with SMTP id p185mr10767724vsa.41.1632503724726;
+ Fri, 24 Sep 2021 10:15:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] Remove blank lines and whitespaces
-Content-Language: en-US
-To: Michael Estner <michaelestner@web.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210924144750.6020-1-michaelestner@web.de>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20210924144750.6020-1-michaelestner@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
+ <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
+ <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
+ <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
+ <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
+ <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
+ <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
+ <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
+ <CAMhs-H8kH7CMXENqDW_6GLTjeMMyk+ynehMmyBr=kFZPFHpM0A@mail.gmail.com>
+ <CAK8P3a2WmNsV9fhSEjqwHZAGkwGc9HOurhQsza7JOM2Scts2XQ@mail.gmail.com>
+ <CAMhs-H8fRnLavLfdw7jZO0tb8rWqdF81cGHhYT6gGp4UY1gChg@mail.gmail.com>
+ <CAK8P3a2MJO--xmAZ_71h1QQ5_b8WXgyo-=LaT7r7yMMBUHoPfQ@mail.gmail.com>
+ <CAMhs-H_xdkpinyj-Y1u==ievpGWZ2Ze-_U7aCUcfu0=NKBq2xQ@mail.gmail.com>
+ <CAK8P3a0OWyW9Wk0kHXsj_7qTd0fVXQnszzun+HacHeTKYETXhw@mail.gmail.com>
+ <CAMhs-H9xrXgbuwYe2STzuq0aBwj0onJGc0Oka6+pzgoHb0j8rA@mail.gmail.com>
+ <CAK8P3a1AwaSi_J9p4tKwNKxENHhwofDu=Ma=F29ajSmMXoC7RA@mail.gmail.com>
+ <CAMhs-H_wxoJC7ZVnkhXNfAcP-P9BNN99ogszM_iJhErHLq8Rdg@mail.gmail.com>
+ <CAK8P3a3dvhWT=Xq22xTNn_VbX29s3t9wrw1DbffPbWuHxtTTmg@mail.gmail.com>
+ <CAMhs-H9OhXHA3_mq2PSoaPvYCstqqHL7TfL0zf=OFNeFmWVTRQ@mail.gmail.com>
+ <CAK8P3a36jiomsqSr0rP8_BL8HwceKvV78bT2Ym+iomSGyYuOGA@mail.gmail.com>
+ <CAMhs-H_hGeGZN_-1GhkhD5wahSoJFd+PrEMXx3C7zvJireJ=xg@mail.gmail.com> <CAK8P3a0vFvn_KUQAT8MuOQuopWmiUrSX4bSP0zorjoBJwTTLWA@mail.gmail.com>
+In-Reply-To: <CAK8P3a0vFvn_KUQAT8MuOQuopWmiUrSX4bSP0zorjoBJwTTLWA@mail.gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Fri, 24 Sep 2021 19:15:13 +0200
+Message-ID: <CAMhs-H-JKPpWBAURD3NrTtxcXqqB1TM=o4n32+7sjoUYMpZyuQ@mail.gmail.com>
+Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
+	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/24/21 16:47, Michael Estner wrote:
-> Removed blank lines and whitespaces to clean up code.
-> 
-> Signed-off-by: Michael Estner <michaelestner@web.de>
-> ---
->   drivers/staging/r8188eu/core/rtw_io.c | 65 ++++++++++-----------------
->   1 file changed, 24 insertions(+), 41 deletions(-)
-> 
+Hi Arnd,
 
-Hi Michael,
+On Fri, Sep 24, 2021 at 7:04 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Fri, Sep 24, 2021 at 6:45 PM Sergio Paracuellos
+> <sergio.paracuellos@gmail.com> wrote:
+> > On Fri, Sep 24, 2021 at 3:28 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > On Fri, Sep 24, 2021 at 2:46 PM Sergio Paracuellos
+> > >
+> > > Ok, sounds good. I would still suggest using
+> > > "#define PCI_IOBASE mips_io_port_base", so it has the same meaning
+> > > as on other architectures (the virtual address of port 0), and replace
+> > > the hardcoded base with the CPU address you read from DT to
+> > > make that code more portable. As a general rule, DT-enabled drivers
+> > > should contain no hardcoded addresses.
+> >
+> > Yes, it must be cleaned. I was only explaining a possible way to proceed.
+>
+> Ok
+>
+> > So, the changes would be:
+> > 1) Reverting already added two commits in staging-tree [0] and [1].
+> > (two revert patches)
+> > 2) Setting PCI_IOBASE to 'mips_io_port_base' so the spaces.h become: (one patch)
+> >
+> > $ cat arch/mips/include/asm/mach-ralink/spaces.h
+> > /* SPDX-License-Identifier: GPL-2.0 */
+> > #ifndef __ASM_MACH_RALINK_SPACES_H_
+> > #define __ASM_MACH_RALINK_SPACES_H_
+> >
+> > #define PCI_IOBASE    mips_io_port_base
+> > #define PCI_IOSIZE    SZ_16M
+> > #define IO_SPACE_LIMIT  (PCI_IOSIZE - 1)
+>
+> As a minor comment, I would make the PCI_IOSIZE only 64KB in this
+> case, unless plan to support ralink/mediatek SoCs that have a multiple
+> PCIe domains with distinct 64KB windows.
 
-the file rtw_io.c was removed entirely with commit
-06c38fef11bc ("staging: r8188eu: remove core/rtw_io.c").
+Ok, I will adjust to SZ_64K , then.
 
-You should work against the latest staging-next tree.
+>
+> > 3) Change the value written in RALINK_PCI_IOBASE to be sure the value
+> > written takes into account address before linux port translation (one
+> > patch):
+> >
+> > pcie_write(pcie, entry->res->start - entry->offset, RALINK_PCI_IOBASE);
+>
+> ok
+>
+> > 4) Virtually Map cpu physical address 0x1e160000 and set
+> > 'mips_io_port_base' to that virtual address. Something like the
+> > following (one patch):
+> >
+> > static int mt7621_set_io(struct device *dev)
+> > {
+> >     struct device_node *node = dev->of_node;
+> >     struct of_pci_range_parser parser;
+> >     struct of_pci_range range;
+> >     unsigned long vaddr;
+> >     int ret = -EINVAL;
+> >
+> >     ret = of_pci_range_parser_init(&parser, node);
+> >     if (ret)
+> >         return ret;
+> >
+> >     for_each_of_pci_range(&parser, &range) {
+> >         switch (range.flags & IORESOURCE_TYPE_BITS) {
+> >         case IORESOURCE_IO:
+> >             vaddr = (unsigned long)ioremap(range.cpu_addr, range.size);
+> >             set_io_port_base(vaddr);
+> >             ret = 0;
+> >             break;
+> >         }
+> >     }
+> >
+> >     return ret;
+> > }
+>
+> This looks like it does the right thing, but conceptually this would belong into
+> the mips specific pci_remap_iospace() as we discussed a few emails back,
+> not inside the driver. pci_remap_iospace() does get the CPU address
+> as an argument, so it just needs to ioremap()/set_io_port_base() it.
+
+Ok, this is what I had in mind, but since this change also needs to
+add the #ifdef to the whole 'pci_remap_iospace' function of core apis,
+just to be sure that would be a valid approach. Thanks for
+clarification.
+
+>
+> > And now my concerns:
+> > 1) We have to read DT range IO values in the driver and those values
+> > will be also parsed by core apis but converting them to linux io
+> > ports. Should this be done by the driver or is there a better way to
+> > abstract this to don't do things twice?
+> > 2) 'set_io_port_base()' function does what we want but it is only
+> > mips. We already have the iocu stuff there and the driver is mips
+> > anyway, but it is worth to comment this just in case.
+>
+> I think in both cases the core APIs should do what we need, with the
+> change to the mips pci_remap_iospace() I mention. If there is anything
+> missing in the core API that you need, we can discuss extending those,
+> e.g. to store additional data in the pci_host_bridge structure.
+
+Understood. I'll try to test all of these changes during this weekend
+and hopefully send these patches during next week.
+
+Thank you very much for your time and support.
 
 Best regards,
-Michael
+    Sergio Paracuellos
+
+>
+>          Arnd
