@@ -1,41 +1,41 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC593FD1
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:27:50 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id dj4so35530808edb.5
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 05:27:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D448872
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:31:52 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id bx4so35581376edb.4
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 05:31:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sBjmp+TdyCNRpmkBBM6vbsQ1ywbXn3Qo6qFKStjh4lE=;
-        b=oU0NVcP9eafIOjc22+oWqAFJVOIm3vWT69oEKuBqNFdBkdNa8HD20hg65xm6kWO/GO
-         xcRY2z0iwPhfYWxFXdrY7BKgdtn8FhuBbbEzwBRMJGmdnF/fo4OybwymemoLAK+CWog4
-         bXN5XT5OwBXc/Uhu26/EZeGtuQzUALLq4WC1RgUrbJ/PRRfMm8poh1FfR1HZpWMB37z4
-         sWEOdK0+OD260W72/lVo13tmwVHzs2u06iGXazR9j3haiQyfWPN/BkGL3tHzKxBmlL3K
-         C6V/rg+ycpP1rW0GyR73upUsFnvJywHFwQFXWHilzCD12v32Zr4OSaAWJ3ecUPXOM/mn
-         WaOQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=85DTZ6nXXMkHYkD5g7M203wU5w8Lip8La1SQcqg9VRc=;
+        b=YgghRzcLrkepjQSruC27d5zNQZfAbRRpHMChS7y91U6oq5UrLYUcByLjFTHGiL/e9/
+         I2gQ07YYtimYCVW0HsaAf7d9b+uzOeFmxaxRz1U1o70nLfjfEuGnNLBdYo344q7z3OP0
+         MaIi8xcMTbHNF+fD1JfBXLDZyvsM94fFaDthv2p7w9ydr5AM6bSmy56yAkSBycN6t9A2
+         KHBj6xTRetB18QCtfQJ7yzSOQdTEOMREBy0XbgU0nxyTzCdbLHAOh0deIPlqh0Nf/oVE
+         5xSZLQyGMMzNC13Cl944ylqaMOdeXYsgRPYc64ncoYi5/5Mv/MIRqsmSTuGJ1qHabw6i
+         tyXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sBjmp+TdyCNRpmkBBM6vbsQ1ywbXn3Qo6qFKStjh4lE=;
-        b=swZMM8f6Thv08Un+uoaBNBHAYZaQWfUxb6sbhcqSQ/VWKMsVE+5LktPoCC3EAPkX4/
-         jOL/G6GgWMlepJMhEnadEVq123fg3beHsnK49mctg3GrxeE3lhGQe+1q69k6obrsKpOa
-         7RMWkfDOIAf32lvjB5HF5Pe4EVGDJXbvJrLL+B/4raplSufxBd+enkJBLbCNHG/BlPVi
-         OP7Q76rHif/ZX9bgd6tsdeCTRhs8nhYoi+IHZZi02mYzX/xuHLrfiBX4oEDvaE8uyq/i
-         RuuweqBAfgHi4Lj5bPE4JBjejKQIjBjcc5nvYYlmGjCg/iRRMA2Z11kbNYR0JDP1wk/R
-         wpWA==
-X-Gm-Message-State: AOAM531gCLO/iAfxGKm63zn5a7EI3eCzynzfOWVdtZWekWVtlw9WJx6+
-	MhkBqbFQwtrRNV3SBMihKAA=
-X-Google-Smtp-Source: ABdhPJwIJeZ61yVikAO01doJXhH+drHjzLX5Mdlp5hVh2z9OYb2PC1kkMxP+2wUPfXF8Fn0Q92XmoQ==
-X-Received: by 2002:a50:bec8:: with SMTP id e8mr4738289edk.231.1632486468586;
-        Fri, 24 Sep 2021 05:27:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=85DTZ6nXXMkHYkD5g7M203wU5w8Lip8La1SQcqg9VRc=;
+        b=OMaOK23tEtDsErfs6GIw8eVIMRH9Z1n15UNcKNI3M5vhKoJppxEf0Oa3ZLvft/H0LA
+         8xhAh0jfHVsRK6SqsvSv3WX6tmTJDhGbA+c1rTIfHHlwno/lnFAeFRZJ66OQJFBYUBz5
+         9Hy+exi6ZTvKZ21+uNdVPOtyBROvc8ZDhZ2NJoH+uXZvO6jJb2Mx75q2K5B3S+39t4jj
+         fFDd3BpZUkwtWvBbvOKL5qoph+SJN9wRfMcsbSMQg+7y3RzEpw6tSGNeavxOjK6xJ68h
+         Jbwm7xLztCnpbZJVHOcVN5fsOi4/WMHPxqVSnn44n8WM4/iNiHZRT3L79zQAGaA492+l
+         +Tvg==
+X-Gm-Message-State: AOAM533URAmDPGfPLWRj096R4svOn9e8pWm94JKbWDntAuWKt/6vHgM/
+	eFtUnu6HAGmEquR82Otn4vg=
+X-Google-Smtp-Source: ABdhPJw9/8k0U034bI3MuFTZcWpN6NQuC+QQ5WWCkSTCnXpB2R30waScE0//PnjlaEzKbITiCBR+bA==
+X-Received: by 2002:a17:906:5d6:: with SMTP id t22mr10946965ejt.98.1632486711114;
+        Fri, 24 Sep 2021 05:31:51 -0700 (PDT)
 Received: from localhost.localdomain.it (host-212-171-30-160.retail.telecomitalia.it. [212.171.30.160])
-        by smtp.gmail.com with ESMTPSA id v13sm4882522ejh.62.2021.09.24.05.27.47
+        by smtp.gmail.com with ESMTPSA id d11sm4901501ejw.8.2021.09.24.05.31.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 05:27:48 -0700 (PDT)
+        Fri, 24 Sep 2021 05:31:50 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
@@ -47,13 +47,11 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dan Carpenter <dan.carpenter@oracle.com>,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>
-Cc: "Fabio M . De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v10 16/16] staging: r8188eu: remove mutex 'usb_vendor_req_mutex'
-Date: Fri, 24 Sep 2021 14:27:05 +0200
-Message-Id: <20210924122705.3781-17-fmdefrancesco@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v10 00/16] staging: r8188eu: shorten and simplify calls chains
+Date: Fri, 24 Sep 2021 14:31:29 +0200
+Message-Id: <20210924123129.3951-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210924122705.3781-1-fmdefrancesco@gmail.com>
-References: <20210924122705.3781-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,168 +60,203 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Pavel Skripkin <paskripkin@gmail.com>
+--- Preface ---
 
-Remove mutex 'usb_vendor_req_mutex'.
+This is v10 of "shorten and simplify calls chain". The 14 (v7) + 2 (v8) 
+patches have already been applied to staging-testing, so we have been 
+requested to reset the numbering of the remaining patches to 01/16, while 
+discarding from v9 the above-mentioned 16 patches (otherwise we would
+have submitted a series containing 32 patches, that is 1 patch less than
+v8 because it has been dropped by us in what we considered it
+unnecessary - it was about fixing a misspelled word in a comment).
 
-It was used to protect a shared buffer for USB requests and, since that
-buffer is removed in previous patch, this mutex is now useless.
+The following commit message is provided as it was in v8, both for the
+purpose of presenting the whole picture to Maintainers, Reviewers, and to
+anybody else who may be interested in knowing the entire design and the
+evolution since v1 to the current v10.
 
-Furthermore, because it was used to serialize the calls to the Core USB
-API, we thoroughly tested the enabling of concurrent firing of USB requests
-without the mutex and found no problems of any kind in common use cases.
+--- Commit message ---
 
-Co-developed-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 30 ++++++---------------
- drivers/staging/r8188eu/os_dep/usb_intf.c   | 24 -----------------
- 2 files changed, 8 insertions(+), 46 deletions(-)
+io_ops abstraction is useless in this driver, since there is only one ops
+registration. Without io_ops we can get rid of indirect calls mess and
+shorten the calls chain.
 
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 3ede93cd68d6..c15a75513c8c 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -16,12 +16,8 @@ static int usb_read(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 	int status;
- 	u8 io_buf[4];
- 
--	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
--
--	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
--		status = -EPERM;
--		goto mutex_unlock;
--	}
-+	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
-+		return -EPERM;
- 
- 	status = usb_control_msg_recv(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
- 				      REALTEK_USB_VENQT_READ, value,
-@@ -39,7 +35,7 @@ static int usb_read(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		 * exist or is not enabled.
- 		 */
- 		adapt->bSurpriseRemoved = true;
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	if (status < 0) {
-@@ -49,15 +45,12 @@ static int usb_read(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
- 			adapt->bSurpriseRemoved = true;
- 
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	rtw_reset_continual_urb_error(dvobjpriv);
- 	memcpy(data, io_buf, size);
- 
--mutex_unlock:
--	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
--
- 	return status;
- }
- 
-@@ -69,12 +62,8 @@ static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 	int status;
- 	u8 io_buf[VENDOR_CMD_MAX_DATA_LEN];
- 
--	mutex_lock(&dvobjpriv->usb_vendor_req_mutex);
--
--	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx) {
--		status = -EPERM;
--		goto mutex_unlock;
--	}
-+	if (adapt->bSurpriseRemoved || adapt->pwrctrlpriv.pnp_bstop_trx)
-+		return -EPERM;
- 
- 	memcpy(io_buf, data, size);
- 	status = usb_control_msg_send(udev, 0, REALTEK_USB_VENQT_CMD_REQ,
-@@ -93,7 +82,7 @@ static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		 * exist or is not enabled.
- 		 */
- 		adapt->bSurpriseRemoved = true;
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	if (status < 0) {
-@@ -103,14 +92,11 @@ static int usb_write(struct intf_hdl *intf, u16 value, void *data, u8 size)
- 		if (rtw_inc_and_chk_continual_urb_error(dvobjpriv))
- 			adapt->bSurpriseRemoved = true;
- 
--		goto mutex_unlock;
-+		return status;
- 	}
- 
- 	rtw_reset_continual_urb_error(dvobjpriv);
- 
--mutex_unlock:
--	mutex_unlock(&dvobjpriv->usb_vendor_req_mutex);
--
- 	return status;
- }
- 
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 5ab42d55207f..1f51f96e4dfe 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -73,21 +73,9 @@ static struct rtw_usb_drv rtl8188e_usb_drv = {
- 
- static struct rtw_usb_drv *usb_drv = &rtl8188e_usb_drv;
- 
--static u8 rtw_init_intf_priv(struct dvobj_priv *dvobj)
--{
--	mutex_init(&dvobj->usb_vendor_req_mutex);
--	return _SUCCESS;
--}
--
--static void rtw_deinit_intf_priv(struct dvobj_priv *dvobj)
--{
--	mutex_destroy(&dvobj->usb_vendor_req_mutex);
--}
--
- static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- {
- 	int	i;
--	int	status = _FAIL;
- 	struct dvobj_priv *pdvobjpriv;
- 	struct usb_host_config		*phost_conf;
- 	struct usb_config_descriptor	*pconf_desc;
-@@ -146,23 +134,12 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 		DBG_88E("NON USB_SPEED_HIGH\n");
- 	}
- 
--	if (rtw_init_intf_priv(pdvobjpriv) == _FAIL)
--		goto free_dvobj;
--
- 	/* 3 misc */
- 	sema_init(&pdvobjpriv->usb_suspend_sema, 0);
- 	rtw_reset_continual_urb_error(pdvobjpriv);
- 
- 	usb_get_dev(pusbd);
- 
--	status = _SUCCESS;
--
--free_dvobj:
--	if (status != _SUCCESS && pdvobjpriv) {
--		usb_set_intfdata(usb_intf, NULL);
--		kfree(pdvobjpriv);
--		pdvobjpriv = NULL;
--	}
- exit:
- 	return pdvobjpriv;
- }
-@@ -188,7 +165,6 @@ static void usb_dvobj_deinit(struct usb_interface *usb_intf)
- 				usb_reset_device(interface_to_usbdev(usb_intf));
- 			}
- 		}
--		rtw_deinit_intf_priv(dvobj);
- 		kfree(dvobj);
- 	}
- 
--- 
+Shorten the calls chain of rtw_read8/16/32() down to the actual reads.
+For this purpose unify the three usb_read8/16/32 into the new
+usb_read(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_read() and use in it the new
+usb_control_msg_recv() API of USB Core.
+
+Shorten the calls chain of rtw_write8/16/32() down to the actual writes.
+For this purpose unify the four usb_write8/16/32/N() into the new
+usb_write(); make the latter parameterizable with 'size'; embed most of
+the code of usbctrl_vendorreq() into usb_write() and use in it the new
+usb_control_msg_send() API of USB Core.
+
+The code with the modifications was thoroughly tested by Pavel Skripkin
+using a TP-Link TL-WN722N v2 / v3 [Realtek RTL8188EUS] and by Fabio M.
+De Francesco using a ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano].
+
+--- Changelog ---
+
+v9-v10:
+	- 1-15: 
+		No changes;
+	- 16:
+		Fix a bug inadvertently introduced in v8.
+
+v8->v9 (after numbering reset in v8):
+	- 1-7,9,10,12:
+		Clean-up patches with no significant changes in code.
+		We've applied some fixes required by Greg Kroah-Hartman:
+		(1) rename of an argument (intfhdl => intf), (2)
+		explanation of why "!io_buf" test is redundant and
+		unnecessary, (3) deletion of comments for single line
+		'if' statements, (4) fix of a coding style issue by
+		removing unnecessary braces;
+	- 8,11:
+		Add more detailed motivation in support of changing the
+		type of two variables, one in rtw_read16() and the other
+		in rtw_write16();
+	- 13,14:
+		No significant changes in the code; just rebase on top of
+		minor changes introduced by the patches 1-12;
+	- 15,16:
+		No changes.
+
+v7->v8 (old numbering):
+        - 1-14:
+                Patches applied to staging-testing, so they are dropped
+                from the current v8;
+
+        - 15-19:
+                Split into 19 patches. Numbering reset to 01. After this
+                reset, 15-19/19 become 01-19/19 (so we have a total of 33
+                patches in this series.
+
+v7->v8 (new numbering for the old 15-19/19):
+        - 1-15:
+                Old 15/19 and 16/19 are split into 15 patches (as it is
+                required by Greg Kroah-Hartman) in order to make them
+                more easily reviewable and for checking that the logic
+                is not broken; no significant changes to the resulting
+                code;
+        - 16-17:
+                Old 17/19 and 18/19 become 16/19 and 17/19: There are
+                no significant changes to the code, with the sole
+                exception of moving the acquiring of a mutex before
+                the test for "bSurpriseRemoved" being 'true';
+        - 18-19:
+                Old 19/19 is split into new 18/19 and 19/19. The changes
+                are split into a first patch that remove a shared buffer
+                and a second that remove the mutex protecting the receiving
+                (in usb_read()) and sending (in usb_write()) of the
+                USB control messages.
+
+v6->v7:
+        - 1-14:
+                Add Dan Carpenter's "Reviewed-by" tag. No code changes;
+        - 15:
+                Add a list of clean-up changes to the commit messages
+                and restore an empty line inadvertently deleted in a
+                previous version;
+        - 16:
+                Add a list of clean-up changes to the commit messages;
+        - 17-18:
+                No changes;
+        - 19:
+                Delete an unnecessary test.
+
+v5->v6:
+        - 1-14:
+                Minimal changes to patch subjects to achieve consistent
+                style;
+        - 15:
+                Fix a mistake in the checks of values returned by
+                usb_control_msg();
+        - 16-19:
+                No changes.
+
+v4->v5:
+        - 1-14:
+                No changes;
+        - 15-16:
+                Fix minor formatting issues and use "Reverse Xmas Tree" style,
+	        according to suggestions by David Laight and Dan Carpenter;
+        - 17-18:
+                Pavel Skripkin found logical errors in the checks of the
+                values returned by usb_control_msg_{recv,send}(), so fix them;
+                Dan Carpenter suggested to do error handling before success
+                handling, so change the code accordingly;
+        - 19:
+                Add this patch in order to get rid of the shared buffer in
+                usb_read() and usb_write() and remove this field from struct
+                "dvobj_priv".
+
+v3->v4:
+        - 1-14:
+                Split a patch into fourteen;
+        - 15-16:
+                Add these patches for clean-ups of the code that is going to be
+                reused in 17-18/18;
+        - 17-18:
+                Make some changes according to a first review of Greg
+                Kroah-Hartman; furthermore, remove the unnecessary while loop
+                and a couple of if' test; handle the errors returned by
+                usb_control_msg_recv().
+
+v2->v3:
+        - 1-2:
+                No changes;
+        - 3:
+                Fix the version number of the patch.
+
+v1->v2:
+        - 1-2:
+                No changes;
+        - 3:
+                Replace parameter REALTEK_USB_VENQT_READ with REALTEK_USB_VENQT_WRITE
+                in usb_control_msg_send().
+
+--- List of links to previous versions of the cover letters ---
+
+v1: https://lore.kernel.org/lkml/20210904150447.14659-1-fmdefrancesco@gmail.com/
+v2: https://lore.kernel.org/lkml/20210904212719.11426-1-fmdefrancesco@gmail.com/
+v3: https://lore.kernel.org/lkml/20210904220048.12822-1-fmdefrancesco@gmail.com/
+v4: https://lore.kernel.org/lkml/20210913181002.16651-1-fmdefrancesco@gmail.com/
+v5: https://lore.kernel.org/lkml/20210915124149.27543-1-fmdefrancesco@gmail.com/
+v6: https://lore.kernel.org/lkml/20210915211103.18001-1-fmdefrancesco@gmail.com/
+v7: https://lore.kernel.org/lkml/20210917071837.10926-1-fmdefrancesco@gmail.com/
+v8: https://lore.kernel.org/lkml/20210919235356.4151-1-fmdefrancesco@gmail.com/
+v9: https://lore.kernel.org/lkml/20210921181834.29677-1-fmdefrancesco@gmail.com/
+
+--- List of patches not yet applied, authorship, diff stats ---
+
+Fabio M. De Francesco (14):
+  staging: r8188eu: clean up symbols in usbctrl_vendorreq()
+  staging: r8188eu: reorder declarations in usbctrl_vendorreq()
+  staging: r8188eu: remove unnecessary test in usbctrl_vendorreq()
+  staging: r8188eu: reorder comments in usbctrl_vendorreq()
+  staging: r8188eu: remove a comment from usbctrl_vendorreq()
+  staging: r8188eu: rename symbols in rtw_read*() and rtw_write*()
+  staging: r8188eu: remove casts from rtw_{read,write}*()
+  staging: r8188eu: change the type of a variable in rtw_write16()
+  staging: r8188eu: remove an buffer from rtw_writeN()
+  staging: r8188eu: remove a bitwise AND from rtw_writeN()
+  staging: r8188eu: change the type of a variable in rtw_read16()
+  staging: r8188eu: Remove a test from usbctrl_vendorreq()
+  staging: r8188eu: call new usb_read() from rtw_read{8,16,32}()
+  staging: r8188eu: call new usb_write() from rtw_write{8,16,32,N}()
+
+Pavel Skripkin (2):
+  staging: r8188eu: remove shared buffer for USB requests
+  staging: r8188eu: remove usb_vendor_req_mutex
+
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 213 ++++++++++----------
+ drivers/staging/r8188eu/include/drv_types.h |   3 -
+ drivers/staging/r8188eu/os_dep/usb_intf.c   |  36 ----
+ 3 files changed, 107 insertions(+), 145 deletions(-)
+
+--
 2.33.0
 
