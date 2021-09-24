@@ -1,209 +1,208 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7863FCB
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 16:23:32 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id 72so28498510qkk.7
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 09:23:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A403FC8
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 16:45:56 +0000 (UTC)
+Received: by mail-vs1-f50.google.com with SMTP id k10so10611215vsp.12
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 09:45:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8RykFUS+zIQyPPrYlPKKvEG+geEoI9vSseHxlpcXrKQ=;
-        b=h989I/HASgZ7AIF7P/YOMqX4kXGgqJNzuOzQ0waHkcENUVdEHqlLKXODhzloVPZyi9
-         4yi/EHzKbdhBlwbwiQMwvvfG/crbxB9VqCyfzmdA6LCF/qtofzrlvsiFneZTNytlGw64
-         28AXtt3FZGWF9nkU8gCoDB1+iSRlNh/u7sjLteAlpCYVw7YNrFv8DCW51PeI4HhbLxUy
-         eazO1xqYZWg8/7Ya6YO3jiEpycDfVY/jd9VD+cvtqoPPqY7GsAA/+TCPmhc2CzQsdaPm
-         7Yz/lOrDVk1yqzdfNfqK74DbsztAbMasJW4726PtaVVC2Yay7X2CIS22QXGHfxCRcE0U
-         AjYg==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Aey3Ir3uqjk8gb95A/hRtx7PNoNUWrClD8I2LqTum84=;
+        b=E8yc5dcLNHt8vnx8Lz6SUxZjb/cl9lshUPieLgcwLknLaEwdXQMvA3d9NdaaWCW/Ap
+         xQYIwtiOA9j1REUj1qeLPsfQn5w09UciDAq/DyAnEzggaO0tXahvYytz63MLZJq44X5J
+         fOtNff5AtoTiPChH9mgeVzsNcepfaiwNsAKFV9dH7fkzPbV82hagUGgWIXejT2tuQaJ5
+         sWxjcyk3DPj0j8HflNlwVPTlQejiklolJyAyXJWJMh8TIgDTaKHdnINFIcW4H67SBboR
+         LEWa7roGawh2h+CYnKWDM/UTAWW28tZB0FjSHMsCZt27MG7EDOcCNLkVBwINUla2J4JX
+         Sqeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8RykFUS+zIQyPPrYlPKKvEG+geEoI9vSseHxlpcXrKQ=;
-        b=DpOCyTDDDAkNQEYy8GWSbp8KhZktqsGSotC6jxzK8J8VG2O7Mn7aT0LE/atwMgBEov
-         WecKVmS1/KOCr/LP3xHZc0+6I9dp9bMSqOUqmsWPKT8ULU+eLfyGuQkZoA414KADR3pX
-         mkn+YB+8ZSPuNh1IwZ7LpR9UnYwhRdpd5VzLXQRNepRAsdkAtNfhRm0k4IEy5wsuU/ak
-         DgoZPM/NwDlepfW3wrvGVzQJ97VTCFqyJ/4J7Kp86ooYkWE873IBg7JSnAiP8e7WLn5G
-         pyoq3LElHy/Ev5wpTSwtdmvVJi/kCPEnpPt7sr+2YqIXENUJtmwql2A9OHC1s2u8+JcU
-         wmyQ==
-X-Gm-Message-State: AOAM531tElkQY2Tr4If4RbBPL6/pbvytFUWG9rAcTjEVenVlc0je+zID
-	6+N4Iv65j6uHbZUlcsjcgMskzw==
-X-Google-Smtp-Source: ABdhPJw1kkgVb6LnRxSEtDqPeAhQjar+Ov9byHFml/Xm3S236dE4glk6vx5O+A7pJWzwQivL/2QSSw==
-X-Received: by 2002:ae9:eb84:: with SMTP id b126mr11137072qkg.67.1632500611095;
-        Fri, 24 Sep 2021 09:23:31 -0700 (PDT)
-Received: from fedora ([196.32.91.248])
-        by smtp.gmail.com with ESMTPSA id g13sm615144qkk.22.2021.09.24.09.23.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 09:23:29 -0700 (PDT)
-Date: Fri, 24 Sep 2021 13:23:23 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
-	Ezequiel Garcia <ezequiel@collabora.com>,
-	Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>
-Subject: Re: [PATCH v5 05/10] media: uapi: Add VP9 stateless decoder controls
-Message-ID: <YU37e90gldL7zHke@fedora>
-References: <20210922101146.13762-1-andrzej.p@collabora.com>
- <20210922101146.13762-6-andrzej.p@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Aey3Ir3uqjk8gb95A/hRtx7PNoNUWrClD8I2LqTum84=;
+        b=BptuJh8GNbnu+94/qTd4jByhW3dPI5vqxpwBZ8IzBH1eZWSHSjwiVrhkxCq85aaSCc
+         XwcB8Slh0xQ3O6mmeYnKnj5vZzuZ0pmMqDZRjt8a94kXEVjYF/G0hDqsG762mEswVnom
+         edK6iURom/J78NGM4zcSu66FLWY/mjae2Ig7kYeyifgdQpwZr6jgXfnxu6T0w+kM5kH1
+         VlAcx5Jq0PdIugMPbZ7MNybmtrfFG4+5pgTBmS3klGubsbtIzpqe/GQjel0jsGLvb5fw
+         /zsb9Gkyd7WEPrYiC8RhWcOc0dLvx1f5R0PqR8xvwr2/i8Evkzkm1OalMagfy+JpuFkM
+         sWJw==
+X-Gm-Message-State: AOAM531sjd5lqB7nzLfJnGT3MzMVLQNbS3iaE815t1hYGcMAKinSELd3
+	9LMK1OQrKaFkhnwdSxg97H5couBMUkfXMsc4Wig=
+X-Google-Smtp-Source: ABdhPJyT3guRAOTOGlxgyxBu61CdgcPdyS/khd/KPxaRqYy2YuM+YaJ+MF6by/R7aMkopIAfULM7xbJm1mlMg1DoIsk=
+X-Received: by 2002:a05:6102:ac6:: with SMTP id m6mr10541009vsh.55.1632501955217;
+ Fri, 24 Sep 2021 09:45:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210922101146.13762-6-andrzej.p@collabora.com>
+References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
+ <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
+ <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
+ <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
+ <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
+ <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
+ <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
+ <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
+ <CAMhs-H8kH7CMXENqDW_6GLTjeMMyk+ynehMmyBr=kFZPFHpM0A@mail.gmail.com>
+ <CAK8P3a2WmNsV9fhSEjqwHZAGkwGc9HOurhQsza7JOM2Scts2XQ@mail.gmail.com>
+ <CAMhs-H8fRnLavLfdw7jZO0tb8rWqdF81cGHhYT6gGp4UY1gChg@mail.gmail.com>
+ <CAK8P3a2MJO--xmAZ_71h1QQ5_b8WXgyo-=LaT7r7yMMBUHoPfQ@mail.gmail.com>
+ <CAMhs-H_xdkpinyj-Y1u==ievpGWZ2Ze-_U7aCUcfu0=NKBq2xQ@mail.gmail.com>
+ <CAK8P3a0OWyW9Wk0kHXsj_7qTd0fVXQnszzun+HacHeTKYETXhw@mail.gmail.com>
+ <CAMhs-H9xrXgbuwYe2STzuq0aBwj0onJGc0Oka6+pzgoHb0j8rA@mail.gmail.com>
+ <CAK8P3a1AwaSi_J9p4tKwNKxENHhwofDu=Ma=F29ajSmMXoC7RA@mail.gmail.com>
+ <CAMhs-H_wxoJC7ZVnkhXNfAcP-P9BNN99ogszM_iJhErHLq8Rdg@mail.gmail.com>
+ <CAK8P3a3dvhWT=Xq22xTNn_VbX29s3t9wrw1DbffPbWuHxtTTmg@mail.gmail.com>
+ <CAMhs-H9OhXHA3_mq2PSoaPvYCstqqHL7TfL0zf=OFNeFmWVTRQ@mail.gmail.com> <CAK8P3a36jiomsqSr0rP8_BL8HwceKvV78bT2Ym+iomSGyYuOGA@mail.gmail.com>
+In-Reply-To: <CAK8P3a36jiomsqSr0rP8_BL8HwceKvV78bT2Ym+iomSGyYuOGA@mail.gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Fri, 24 Sep 2021 18:45:43 +0200
+Message-ID: <CAMhs-H_hGeGZN_-1GhkhD5wahSoJFd+PrEMXx3C7zvJireJ=xg@mail.gmail.com>
+Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
+	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Andrzej, 
+Hi Arnd,
 
-On Wed, Sep 22, 2021 at 12:11:41PM +0200, Andrzej Pietrasiewicz wrote:
-> Add the VP9 stateless decoder controls plus the documentation that goes
-> with it.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-> ---
-[snip]
-> +
-> +#define V4L2_VP9_FRAME_FLAG_KEY_FRAME			0x001
-> +#define V4L2_VP9_FRAME_FLAG_SHOW_FRAME			0x002
-> +#define V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT		0x004
-> +#define V4L2_VP9_FRAME_FLAG_INTRA_ONLY			0x008
-> +#define V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV		0x010
-> +#define V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX		0x020
-> +#define V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE		0x040
-> +#define V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING		0x080
-> +#define V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING		0x100
-> +#define V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING	0x200
-> +
-> +#define V4L2_VP9_SIGN_BIAS_LAST				0x1
-> +#define V4L2_VP9_SIGN_BIAS_GOLDEN			0x2
-> +#define V4L2_VP9_SIGN_BIAS_ALT				0x4
-> +
-> +#define V4L2_VP9_RESET_FRAME_CTX_NONE			0
-> +#define V4L2_VP9_RESET_FRAME_CTX_SPEC			1
-> +#define V4L2_VP9_RESET_FRAME_CTX_ALL			2
-> +
-> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP			0
-> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SMOOTH		1
-> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SHARP		2
-> +#define V4L2_VP9_INTERP_FILTER_BILINEAR			3
-> +#define V4L2_VP9_INTERP_FILTER_SWITCHABLE		4
-> +
-> +#define V4L2_VP9_REFERENCE_MODE_SINGLE_REFERENCE	0
-> +#define V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE	1
-> +#define V4L2_VP9_REFERENCE_MODE_SELECT			2
-> +
-> +#define V4L2_VP9_PROFILE_MAX				3
-> +
-> +#define V4L2_CID_STATELESS_VP9_FRAME	(V4L2_CID_CODEC_STATELESS_BASE + 300)
-> +/**
-> + * struct v4l2_ctrl_vp9_frame - VP9 frame decoding control
-> + *
-> + * @lf: loop filter parameters. See &v4l2_vp9_loop_filter for more details
+On Fri, Sep 24, 2021 at 3:28 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Fri, Sep 24, 2021 at 2:46 PM Sergio Paracuellos
+> <sergio.paracuellos@gmail.com> wrote:
+> > On Fri, Sep 24, 2021 at 1:39 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > On Fri, Sep 24, 2021 at 12:15 PM Sergio Paracuellos
+> >
+> > > I meant RALINK_PCI_IOBASE. We do need to write both, to clarify:
+> > >
+> > > RALINK_PCI_IOBASE must be set to match the *bus* address in DT,
+> > > so ideally '0', but any value should work as long as these two match.
+> > >
+> > > PCI_IOBASE/mips_io_port_base must be set to the *CPU* address
+> > > in DT, so that must be 0x1e160000, possibly converted from
+> > > physical to a virtual __iomem address (this is where my MIPS
+> > > knowledge ends).
+> >
+> > Understood. I have tried the following:
+> >
+> > I have added the following at the beggining of the pci host driver to
+> > match what you are describing above:
+> >
+> > unsigned long vaddr = (unsigned long)ioremap(PCI_IOBASE, 0x10000);
+> > set_io_port_base(vaddr);
+> >
+> > dev_info(dev, "Setting base to PCI_IOBASE: 0x%x -> mips_io_port_base
+> > 0x%lx", PCI_IOBASE, mips_io_port_base);
+> >
+> > PCI_IOBASE is the physical cpu address. Hence, 0x1e160000
+> > set_io_port_base sets 'mips_io_port_base' to the virtual address where
+> > 'PCI_IOBASE' has been mapped (vaddr).
+>
+> Ok, sounds good. I would still suggest using
+> "#define PCI_IOBASE mips_io_port_base", so it has the same meaning
+> as on other architectures (the virtual address of port 0), and replace
+> the hardcoded base with the CPU address you read from DT to
+> make that code more portable. As a general rule, DT-enabled drivers
+> should contain no hardcoded addresses.
 
-Seems these documentation is missing an ending period for many fields.
+Yes, it must be cleaned. I was only explaining a possible way to proceed.
 
-> + * @quant: quantization parameters. See &v4l2_vp9_quantization for more details
-> + * @seg: segmentation parameters. See &v4l2_vp9_segmentation for more details
-> + * @flags: combination of V4L2_VP9_FRAME_FLAG_* flags
-> + * @compressed_header_size: compressed header size in bytes
-> + * @uncompressed_header_size: uncompressed header size in bytes
-> + * @frame_width_minus_1: add 1 to it and you'll get the frame width expressed in pixels
-> + * @frame_height_minus_1: add 1 to it and you'll get the frame height expressed in pixels
-> + * @render_width_minus_1: add 1 to it and you'll get the expected render width expressed in
-> + *	pixels. This is not used during the decoding process but might be used by HW scalers
-> + *	to prepare a frame that's ready for scanout
-> + * @render_height_minus_1: add 1 to it and you'll get the expected render height expressed in
-> + *	pixels. This is not used during the decoding process but might be used by HW scalers
-> + *	to prepare a frame that's ready for scanout
-> + * @last_frame_ts: "last" reference buffer timestamp.
-> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
-> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
-> + * @golden_frame_ts: "golden" reference buffer timestamp.
-> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
-> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
-> + * @alt_frame_ts: "alt" reference buffer timestamp.
-> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
-> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
-> + * @ref_frame_sign_bias: a bitfield specifying whether the sign bias is set for a given
-> + *	reference frame. Either of V4L2_VP9_SIGN_BIAS_*.
-> + * @reset_frame_context: specifies whether the frame context should be reset to default values.
-> + *	Either of V4L2_VP9_RESET_FRAME_CTX_*.
-> + * @frame_context_idx: frame context that should be used/updated
-> + * @profile: VP9 profile. Can be 0, 1, 2 or 3
-> + * @bit_depth: bits per components. Can be 8, 10 or 12. Note that not all profiles support
-> + *	10 and/or 12 bits depths
-> + * @interpolation_filter: specifies the filter selection used for performing inter prediction.
-> + *	Either of V4L2_VP9_INTERP_FILTER_*
-> + * @tile_cols_log2: specifies the base 2 logarithm of the width of each tile (where the width
-> + *	is measured in units of 8x8 blocks). Shall be less than or equal to 6
-> + * @tile_rows_log2: specifies the base 2 logarithm of the height of each tile (where the height
-> + *	is measured in units of 8x8 blocks)
-> + * @reference_mode: specifies the type of inter prediction to be used. See
+So, the changes would be:
+1) Reverting already added two commits in staging-tree [0] and [1].
+(two revert patches)
+2) Setting PCI_IOBASE to 'mips_io_port_base' so the spaces.h become: (one patch)
 
-See what? :-)
+$ cat arch/mips/include/asm/mach-ralink/spaces.h
+/* SPDX-License-Identifier: GPL-2.0 */
+#ifndef __ASM_MACH_RALINK_SPACES_H_
+#define __ASM_MACH_RALINK_SPACES_H_
 
-> + *	Either of V4L2_VP9_REFERENCE_MODE_*
+#define PCI_IOBASE    mips_io_port_base
+#define PCI_IOSIZE    SZ_16M
+#define IO_SPACE_LIMIT  (PCI_IOSIZE - 1)
 
-Other controls use V4L2_VP9_REFERENCE_MODE_{}, {} instead of *.
-The same applies to all the documentation.
+#include <asm/mach-generic/spaces.h>
+#endif
 
-> + * @reserved: padding field. Should be zeroed by applications.
-> + */
-> +struct v4l2_ctrl_vp9_frame {
-> +	struct v4l2_vp9_loop_filter lf;
-> +	struct v4l2_vp9_quantization quant;
-> +	struct v4l2_vp9_segmentation seg;
-> +	__u32 flags;
-> +	__u16 compressed_header_size;
-> +	__u16 uncompressed_header_size;
-> +	__u16 frame_width_minus_1;
-> +	__u16 frame_height_minus_1;
-> +	__u16 render_width_minus_1;
-> +	__u16 render_height_minus_1;
-> +	__u64 last_frame_ts;
-> +	__u64 golden_frame_ts;
-> +	__u64 alt_frame_ts;
-> +	__u8 ref_frame_sign_bias;
-> +	__u8 reset_frame_context;
-> +	__u8 frame_context_idx;
-> +	__u8 profile;
-> +	__u8 bit_depth;
-> +	__u8 interpolation_filter;
-> +	__u8 tile_cols_log2;
-> +	__u8 tile_rows_log2;
-> +	__u8 reference_mode;
-> +	__u8 reserved[7];
-> +};
-> +
+3) Change the value written in RALINK_PCI_IOBASE to be sure the value
+written takes into account address before linux port translation (one
+patch):
 
-Also, have you checked html and pdf docs and make sure
-it looks as you expect?
+pcie_write(pcie, entry->res->start - entry->offset, RALINK_PCI_IOBASE);
 
-Thanks,
-Ezequiel
+4) Virtually Map cpu physical address 0x1e160000 and set
+'mips_io_port_base' to that virtual address. Something like the
+following (one patch):
+
+static int mt7621_set_io(struct device *dev)
+{
+    struct device_node *node = dev->of_node;
+    struct of_pci_range_parser parser;
+    struct of_pci_range range;
+    unsigned long vaddr;
+    int ret = -EINVAL;
+
+    ret = of_pci_range_parser_init(&parser, node);
+    if (ret)
+        return ret;
+
+    for_each_of_pci_range(&parser, &range) {
+        switch (range.flags & IORESOURCE_TYPE_BITS) {
+        case IORESOURCE_IO:
+            vaddr = (unsigned long)ioremap(range.cpu_addr, range.size);
+            set_io_port_base(vaddr);
+            ret = 0;
+            break;
+        }
+    }
+
+    return ret;
+}
+
+static int mt7621_pci_probe(struct platform_device *pdev)
+{
+  ...
+    err = mt7621_set_io(dev);
+    if (err) {
+        dev_err(dev, "error setting io\n");
+        return err;
+    }
+...
+    return 0;
+}
+
+And now my concerns:
+1) We have to read DT range IO values in the driver and those values
+will be also parsed by core apis but converting them to linux io
+ports. Should this be done by the driver or is there a better way to
+abstract this to don't do things twice?
+2) 'set_io_port_base()' function does what we want but it is only
+mips. We already have the iocu stuff there and the driver is mips
+anyway, but it is worth to comment this just in case.
+
+Thoughts?
+
+Thanks in advance for your time.
+
+Best regards,
+    Sergio Paracuellos
+
+>
+> > However, nothing seems to change:
+> >
+> > mt7621-pci 1e140000.pcie: Setting base to PCI_IOBASE: 0x1e160000 ->
+> > mips_io_port_base 0xbe160000
+> >                                                 ^^^
+> >                                                  This seems aligned
+> > with what you are saying. mips_io_port_base have now a proper virtual
+> > addr for 0x1e160000
+>
+> Ok.
+>
+>             Arnd
