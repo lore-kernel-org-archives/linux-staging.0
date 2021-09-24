@@ -1,95 +1,97 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D833FC8
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 21:11:50 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id t8so31340902wri.1
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 14:11:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E6B3FC8
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 21:12:22 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id x7so26242944edd.6
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 14:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iEHoU21DH841tx0qtRTz5FbDxLZko2mQ4Z33po9e6hg=;
-        b=ajfY7Ymmr+7cnGhJOtrjT2wVcAV/rxDc7B6NaEreAvLHCKzEacArwdGGhIes3F+dnH
-         754KCqC0DrJT4Guxwjfq02g08n5JTWpJhxggEebDGVe4iAJEWjBOKlTrwOnDoES05n1s
-         gi1tikCyks6F3pFbBEIqjzccnHxiruwRzYma9kwvIup0ywxIdtp2quLZwk+LOC4umEOm
-         SymSBx4WkYfbtbEfxyFHPvXb6wbWLlExxXEmIoZcwc8rZqUGz468JTdlL9hBX0JTlrQc
-         4ppqYtW2JKAPOpazd9Zhkcdy946u4ZpSArcYgW/WA42qqI1K3O/QFTayYuSRleMmNGOK
-         reUA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fln/GmzM5DcyRx7UwX874sUGXeT/rIbA9LYWk0Uly7s=;
+        b=Tz5laGboS2hQTVSuQZSQjRHkiVrCRzF837aWkMY2kE3Ijyoe494iuXfPDCcX8bho4p
+         cUPamznVW0ev+K+mE1b0/xLP2MMbngsmO5TOeIiPOcWxrXR/s3pTYYMblqVN2/1i27Ao
+         nQ+GqDY1at7vfhx8+0+e35ImaDIJeLTIHYvzH1zP+R9hSynhB7jn52M1bCEQTGyGus+R
+         e45MsyaFuR/6ZcuTEOeqZB8BXWCUpfnSFax1kOOx7KlbRV1dVG0Lbx1Mi78pfr272yhs
+         3M0oCCxpeYo0WIAAqnNiry6XQ24wLSV0CfeJoEEsREmIQNSjGVbNEJ6k4bVM5qrHNDCH
+         h3hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iEHoU21DH841tx0qtRTz5FbDxLZko2mQ4Z33po9e6hg=;
-        b=UeVdh7oAnB+rcMMAewP1B3GefKZD56nHM4Cui+kyZSmoAc+ZU4scybojeVgvhdr8eA
-         bYmtJM3h49IeFRXHo65MFzGLFHk5OEmM9N3Tv7L+HSToVbrWq3PYoHPESHRDYUvrh862
-         xFZyw00gg/FVoxSftzLfD8eur82wmkrArpA0UVnXSaY80XW8MbdBPqFWIfE+yaqzPz/b
-         14x7vz7/mshRt59t+hc3yKbZwa2beFXenBYr2pbXg184HIGbzUMylEFh1USEKy2Hy9j8
-         4F6vzBHrPjo378VY41beRK6okH/9snMwUH0taABTKObsp84/bmzpW/cIByyag9qWvS/W
-         Jang==
-X-Gm-Message-State: AOAM532bvld5d1yLNJeRSpOy8kQ0GEYE/+0+KhUQoXWLh2XjD8neChQm
-	YWlYkSu8M6o7tzzmC4u0COA=
-X-Google-Smtp-Source: ABdhPJxlUEJPYCJsNzawytHIOiH/45imW9bnZmTk3fyUFhDaECmpAeFTIfch/BNrkh6Bn7sAykByHg==
-X-Received: by 2002:adf:a549:: with SMTP id j9mr2799424wrb.353.1632517908646;
-        Fri, 24 Sep 2021 14:11:48 -0700 (PDT)
-Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id y64sm10344297wmc.38.2021.09.24.14.11.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Sep 2021 14:11:48 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: tsbogend@alpha.franken.de
-Cc: robh@kernel.org,
-	arnd@arndb.de,
-	catalin.marinas@arm.com,
-	Liviu.Dudau@arm.com,
-	bhelgaas@google.com,
-	matthias.bgg@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-mips@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	neil@brown.name,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] staging: mt7621-pci: properly adjust base address for the IO window
-Date: Fri, 24 Sep 2021 23:11:39 +0200
-Message-Id: <20210924211139.3477-7-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210924211139.3477-1-sergio.paracuellos@gmail.com>
-References: <20210924211139.3477-1-sergio.paracuellos@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fln/GmzM5DcyRx7UwX874sUGXeT/rIbA9LYWk0Uly7s=;
+        b=YbTtdqMewGRs595rXQ0cAaE7uQ4oovKUWEIHrmeuozZL8DVunA2YQ3WdE4uXUzEi3M
+         j1Xr75tfJ+GpfvWe4yFXeCoo7Qvaba/xlMFL5qbA7y3X2XT/N8Sed1aNh42rKBEdSDX0
+         lvGS5K+J5WleV0BEN7AFX4+15QgFSWiKQWBpGMlRO4vjw50RgEl9cxJpbjPostlFwTbW
+         /sZ8m++Pj2J96DawOK63ypinNuhh+Hw3t0CQdIh+6JOGOp/AJblE3dPbCvosFbPaYB3w
+         zHpgC8a1wIk1iBeuiHpJEQEkUFI3ImkCQVbrgsFxALPdzA4PXIdDRCfVTEUREtFfyf2S
+         JnzQ==
+X-Gm-Message-State: AOAM533dLX+gCu5AL619v+g/AveIq1UxmwF/KAVkol2j48KluQVRy+fw
+	Bz4heJj8lCvMMq0sxie/Pw8=
+X-Google-Smtp-Source: ABdhPJwhWCtAI9yRPrnORDj5ikTTLnZOAUjz0nP5i3BAGeMcZDOyzLfM4iEHZ9cQecZKSiaEnZWq1A==
+X-Received: by 2002:a17:906:19d8:: with SMTP id h24mr14009510ejd.490.1632517940373;
+        Fri, 24 Sep 2021 14:12:20 -0700 (PDT)
+Received: from tom-desktop (net-93-71-218-228.cust.vodafonedsl.it. [93.71.218.228])
+        by smtp.gmail.com with ESMTPSA id e13sm5589833eje.95.2021.09.24.14.12.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 14:12:19 -0700 (PDT)
+Date: Fri, 24 Sep 2021 23:12:17 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+	Yujia Qiao <rapiz@foxmail.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+	Edmundo Carmona Antoranz <eantoranz@gmail.com>,
+	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+	Deepak R Varma <mh12gx2825@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: vt6655: Replace camel case variable name
+Message-ID: <20210924211217.GC10906@tom-desktop>
+References: <20210922220802.584952-1-tomm.merciai@gmail.com>
+ <4972337.8pBPQsAWaL@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4972337.8pBPQsAWaL@localhost.localdomain>
 
-The value to adjust in the bridge register RALINK_PCI_IOBASE must take into
-account the raw value from DT, not only the translated linux port number.
-As long as io_offset is zero, the two are the same, but if you were to use
-multiple host bridge in the system, or pick a different bus address in DT,
-you can have a nonzero io_offset. At this means to take into account the
-bus address which is used to calculate this offset, substracting it from
-the IO resource start address.
+On Thu, Sep 23, 2021 at 09:54:12PM +0200, Fabio M. De Francesco wrote:
+> On Thursday, September 23, 2021 12:07:49 AM CEST Tommaso Merciai wrote:
+> > Work in progress: replace camel case variables
+> > 
+> > PortOffset -> port_off_set
+> > 
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > ---
+> >  drivers/staging/vt6655/baseband.c    |   6 +-
+> >  drivers/staging/vt6655/card.c        |  88 ++++++++--------
+> >  drivers/staging/vt6655/channel.c     |  10 +-
+> >  drivers/staging/vt6655/device.h      |   2 +-
+> >  drivers/staging/vt6655/device_main.c | 144 +++++++++++++--------------
+> >  drivers/staging/vt6655/mac.c         |  46 ++++-----
+> >  drivers/staging/vt6655/power.c       |  24 ++---
+> >  drivers/staging/vt6655/rf.c          |  12 +--
+> >  drivers/staging/vt6655/rxtx.c        |  12 +--
+> >  9 files changed, 172 insertions(+), 172 deletions(-)
+> 
+> If you split "Offset" into "Off set", you convey the message that something 
+> is "Off the set". Probably that's not what you want to express.
+> 
+> Regards,
+> 
+> Fabio
+  
+  Thanks, you're right. Resend V2.
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-pci/pci-mt7621.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
-index 6acfc94a16e7..503cb1fca2e0 100644
---- a/drivers/staging/mt7621-pci/pci-mt7621.c
-+++ b/drivers/staging/mt7621-pci/pci-mt7621.c
-@@ -482,7 +482,7 @@ static int mt7621_pcie_enable_ports(struct pci_host_bridge *host)
- 
- 	/* Setup MEMWIN and IOWIN */
- 	pcie_write(pcie, 0xffffffff, RALINK_PCI_MEMBASE);
--	pcie_write(pcie, entry->res->start, RALINK_PCI_IOBASE);
-+	pcie_write(pcie, entry->res->start - entry->offset, RALINK_PCI_IOBASE);
- 
- 	list_for_each_entry(port, &pcie->ports, list) {
- 		if (port->enabled) {
--- 
-2.25.1
-
+  Tommaso
+> 
+> 
