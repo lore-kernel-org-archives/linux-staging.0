@@ -1,41 +1,41 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517483FCC
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:27:37 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id y89so24665739ede.2
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 05:27:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76053FCC
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 12:27:38 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id u27so34853403edi.9
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 05:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0o7R1/of5Vu6517IGPX3lhQkbtC4VCfvh7d9Pkg94p8=;
-        b=UpTfTOx0pfLaZVB370SBT2TLnJBFC6nHj4KdrGc7j/W00NeGVrbktmrALvpYN02Xl2
-         QWZL9Zf8+gV79mkDZM4S7CaHy3PmBfiQiwbFPQP24IcOU/JUktM66Zyfv6lkdcpNo1Yv
-         Qi0eaSEDJNiZg97tBW4BxuFFmrYZi3sLQJIYvyT2fulzITT8kpLIvp9T192oh774FhpA
-         Ub4Nts0AYeLV53yjobOd1Kw+qsHjrD1FO1ShsYNlH/D1sxKNQWEOC7kAhRS8bkGUvmgu
-         1JGrrilBy9i+wd3mCfAxXej6Cn4Ae/quU0ubXQBeP8NQ5dXCELD1CWIXrvG0/CLpEYOf
-         bq7w==
+        bh=XcIedgRKd4A/e9/Vk0iYyZm/XbgKRfJOO6XAQxSeG7Y=;
+        b=YuZvnUUSmVCb3vxkpGs6qUEG9jhB3yRhpRsoB3F+EKLGJDD+rQoqlEa0Zt6p+7tNZT
+         JxziWlPx2D5CuPy/4S9zcXxaYK0KP6ncnPX04B154l/2uQ6seiF8qHkESdtKD8KSeNP7
+         Xxnfu8XK2i6nixRt3Jt5/rvHbgayQBO47bHElcju9ttnzn7Jvihv5CCjy/HtCY90pUgg
+         tcrrLvF97OCZu3824HRZYeGsRGAevQJw23a+yRw53JnAq8jvukFy7eN3mRUTZrdskPDW
+         iVKc6tOK/39qkujf2DDy5r/rvSpMuRetphZSno33pU8dGpTXEBC8R9z5NsAtoy4FRTX9
+         vbbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0o7R1/of5Vu6517IGPX3lhQkbtC4VCfvh7d9Pkg94p8=;
-        b=24Th3t8m7fkWxHp8EAbruy9hwuWFVpCy04F+JpO3CsAlLbvL1ytGInaxz90BJ547Vq
-         3Bes6WZ92Nb54E78Qc1g4h8iYU6GCRaheWe8SQgseiKgehd3bNzv03bi35BNn0GpS77b
-         53cJVRiTLmk/c71d2rCMjA16Jz+dOp2IP2VIidHu2AkP7Mr3Ke08m0T+U/InUgek4eY6
-         J0XCv5CFWIE2TPqlIYY3utOT5QE8PGnIgNG6ICv944lYBBlxmr07zm/3ZXpHOAQg9Uml
-         v+U77SfIzeBzsBuFtojj2NtoVKAJRUSqqGC/OmgxtRl9K5Qo5wlwStI6SY8PpqzZgcec
-         scUw==
-X-Gm-Message-State: AOAM53143eb77+99M0ooKmhxve+9p/Mglkm/rlI5j7C7pXIT6N62++ZH
-	L3wK7rVSC7edpX2B3HEpIAE=
-X-Google-Smtp-Source: ABdhPJzGEHDVUnpER+AjxCRY53gWAfByvHPAyrdf7ufclrroeOlbQAa5ZNV/ILj56FTvD07BhUx5WQ==
-X-Received: by 2002:a17:906:fa12:: with SMTP id lo18mr11107253ejb.296.1632486455749;
-        Fri, 24 Sep 2021 05:27:35 -0700 (PDT)
+        bh=XcIedgRKd4A/e9/Vk0iYyZm/XbgKRfJOO6XAQxSeG7Y=;
+        b=NVZBKctNJfcKcx/NyycqveOApX9UHtieaW6HazwxvHk3lDZd6Lmfnx146ZK6KNGU5a
+         4z7Cv0S+fJ4N2ckc4+4le7rlzmCRGkYHlE1+bUwiEzTCD9OXzN7pXhT2FjX00olkuzfU
+         9ouRHtsiP4Atu5DM/mWZjLQitMJreRnmbvAl2E9b7q6VLsivz7niOwnPGVrj+RVHWkx9
+         YZCl28f5cYJocsMb61w36kdNzn4HSN8nbnvTAAiABzg1+NVwPZII3LpYRvfLjeWgL1Dq
+         nDScHD7HMWeilmPxnHP8ZIY9z0xZ83J+bcGMxhyhZb18O/nKlG04zmKlLNI83nJLIs/P
+         6AWQ==
+X-Gm-Message-State: AOAM530mXPHPug5zLH4DVoL8NlycA0XXqb2BbfQvLfKkCmE0E4rguaXc
+	3hus85uYrkJMRJhoqu7mPR8=
+X-Google-Smtp-Source: ABdhPJxuO9TM+vll1WneXs8MBnfPZ4DyGqCotBs43lRFt5JYEPZuQlVi5kx6gwbfNgLDCcySz5hRBQ==
+X-Received: by 2002:a17:906:fc0b:: with SMTP id ov11mr10878057ejb.22.1632486457160;
+        Fri, 24 Sep 2021 05:27:37 -0700 (PDT)
 Received: from localhost.localdomain.it (host-212-171-30-160.retail.telecomitalia.it. [212.171.30.160])
-        by smtp.gmail.com with ESMTPSA id v13sm4882522ejh.62.2021.09.24.05.27.34
+        by smtp.gmail.com with ESMTPSA id v13sm4882522ejh.62.2021.09.24.05.27.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Sep 2021 05:27:35 -0700 (PDT)
+        Fri, 24 Sep 2021 05:27:36 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
@@ -48,9 +48,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Michael Straube <straube.linux@gmail.com>,
 	Martin Kaiser <martin@kaiser.cx>
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v10 07/16] staging: r8188eu: remove casts from rtw_{read,write}*()
-Date: Fri, 24 Sep 2021 14:26:56 +0200
-Message-Id: <20210924122705.3781-8-fmdefrancesco@gmail.com>
+Subject: [PATCH v10 08/16] staging: r8188eu: change the type of a variable in rtw_write16()
+Date: Fri, 24 Sep 2021 14:26:57 +0200
+Message-Id: <20210924122705.3781-9-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210924122705.3781-1-fmdefrancesco@gmail.com>
 References: <20210924122705.3781-1-fmdefrancesco@gmail.com>
@@ -62,83 +62,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary casts from rtw_read{8,16,32}() and from
-rtw_write{8,16,32,N}().
+Change the type of "data" from __le32 to __le16 in rtw_write16(). The
+argument "val", which is u16, after being conditionally swapped to little
+endian, is assigned to "data"; therefore, __le16 is the most suitable type
+for "data". Remove the bitwise AND of "val" with 0xffff because it is
+redundant. Use cpu_to_le16() because "data" is __le16.
 
 Co-developed-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/r8188eu/hal/usb_ops_linux.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 9ff57e114b04..95cd7a6bc28b 100644
+index 95cd7a6bc28b..5dcab1ee4be0 100644
 --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
 +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -96,7 +96,7 @@ u8 rtw_read8(struct adapter *adapter, u32 addr)
- {
+@@ -145,7 +145,7 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
  	struct io_priv *io_priv = &adapter->iopriv;
  	struct intf_hdl *intf = &io_priv->intf;
--	u16 value = (u16)(addr & 0x0000ffff);
-+	u16 value = addr & 0xffff;
- 	u8 data;
- 
- 	usbctrl_vendorreq(intf, value, &data, 1, REALTEK_USB_VENQT_READ);
-@@ -108,7 +108,7 @@ u16 rtw_read16(struct adapter *adapter, u32 addr)
- {
- 	struct io_priv *io_priv = &adapter->iopriv;
- 	struct intf_hdl *intf = &io_priv->intf;
--	u16 value = (u16)(addr & 0x0000ffff);
-+	u16 value = addr & 0xffff;
- 	__le32 data;
- 
- 	usbctrl_vendorreq(intf, value, &data, 2, REALTEK_USB_VENQT_READ);
-@@ -120,7 +120,7 @@ u32 rtw_read32(struct adapter *adapter, u32 addr)
- {
- 	struct io_priv *io_priv = &adapter->iopriv;
- 	struct intf_hdl *intf = &io_priv->intf;
--	u16 value = (u16)(addr & 0x0000ffff);
-+	u16 value = addr & 0xffff;
- 	__le32 data;
- 
- 	usbctrl_vendorreq(intf, value, &data, 4, REALTEK_USB_VENQT_READ);
-@@ -132,7 +132,7 @@ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
- {
- 	struct io_priv *io_priv = &adapter->iopriv;
- 	struct intf_hdl *intf = &io_priv->intf;
--	u16 value = (u16)(addr & 0x0000ffff);
-+	u16 value = addr & 0xffff;
+ 	u16 value = addr & 0xffff;
+-	__le32 data = cpu_to_le32(val & 0x0000ffff);
++	__le16 data = cpu_to_le16(val);
  	int ret;
  
- 	ret = usbctrl_vendorreq(intf, value, &val, 1, REALTEK_USB_VENQT_WRITE);
-@@ -144,7 +144,7 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
- {
- 	struct io_priv *io_priv = &adapter->iopriv;
- 	struct intf_hdl *intf = &io_priv->intf;
--	u16 value = (u16)(addr & 0x0000ffff);
-+	u16 value = addr & 0xffff;
- 	__le32 data = cpu_to_le32(val & 0x0000ffff);
- 	int ret;
- 
-@@ -157,7 +157,7 @@ int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
- {
- 	struct io_priv *io_priv = &adapter->iopriv;
- 	struct intf_hdl *intf = &io_priv->intf;
--	u16 value = (u16)(addr & 0x0000ffff);
-+	u16 value = addr & 0xffff;
- 	__le32 data = cpu_to_le32(val);
- 	int ret;
- 
-@@ -170,7 +170,7 @@ int rtw_writeN(struct adapter *adapter, u32 addr, u32 length, u8 *data)
- {
- 	struct io_priv *io_priv = &adapter->iopriv;
- 	struct intf_hdl *intf = &io_priv->intf;
--	u16 value = (u16)(addr & 0x0000ffff);
-+	u16 value = addr & 0xffff;
- 	u8 buf[VENDOR_CMD_MAX_DATA_LEN] = {0};
- 	int ret;
- 
+ 	ret = usbctrl_vendorreq(intf, value, &data, 2, REALTEK_USB_VENQT_WRITE);
 -- 
 2.33.0
 
