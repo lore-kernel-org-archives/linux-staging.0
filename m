@@ -1,187 +1,76 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87983FC8
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 17:15:25 +0000 (UTC)
-Received: by mail-vs1-f44.google.com with SMTP id h30so10792435vsq.3
-        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 10:15:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DF83FC8
+	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 20:49:30 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id w29so30960370wra.8
+        for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 13:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mLOVPkbb6ECoKcpkmYSADyBlj3sV6kuH9YGw3xBQ1kM=;
-        b=X5jAre5v4H0IAu3qxsXVyeTconJerzwkD8OXX7Bmol7LWy5RSbW8jXExDMUICumvF3
-         26ECm6akmiLvnnNaRnUJC5h0MGLIKMTmYfF/jQoAKsAnSdLslu38qWOC+5POKlr54648
-         LHEEFTwLCKAcb7CWl6fGOteUUj1zCp+iHAm4NAv27SqXf08NEeDUTJ+4papu1uB41x96
-         orz1dtuVz/4C0rGEe299aeRifFIpFsRlfDH/KF27IdU3lBE6Ep+Jj62Fs+O76/muZbIN
-         BMlD7CYimjV0uRNmKC3WpU+qM2OpQM30YepnIQibXWvf7LDIPKAfh4yxQZdjaKUznNMV
-         G0SQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wdgqtRpc9sO5oNDV8qMEuEdtDpa8CWTtIfeCG6MLKKE=;
+        b=UJr1/0VX7iWfrNdJ0ZBTDMXjpi0+Texx0ens2JfWS2BM7Du//txUvRaKrJpGzoO9ad
+         Gt5jxdeJAm2NK5N8FXOiCF43BVpVXE0OXMkz95qzws1ZaQiNRzSFx72MPp7JUPJk4QYx
+         0tsq+2HT8GuPupKgllCF/UVDcOhvbcm06t00yItAx2NSJ21bQmFOHF1ZjQT0CIvC/wFT
+         jk2BV42a6h/yiwK4gP74+JBipJQmGtrpJhe9YMyFA40gbLxbz8Q7KB4Yy9IHY542ZVk4
+         qAlHbdem78znbSwGV+tBM7B4PfesS3T2H57Z29oAO++9xDCxsySGIOWw/8S92gtA0ct5
+         E7hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mLOVPkbb6ECoKcpkmYSADyBlj3sV6kuH9YGw3xBQ1kM=;
-        b=1otXbR5kelYKMOJoE/Vexk2IEUW9rLJ+JE+VdhNvqqdcAbPq0yutX1+bnxYGppPM0E
-         xMTcQo407QpzMDRABc5p/SAmTU6nS3209pjyGxc5lfREokrAdXZYZ0ZYu2VbqkWMGgMi
-         8rQDk4FKB3G35hZbxacTZCXUVA+gDdpTXBf2WnjI8IrAMLDgVpSH9Rwrr5WasPPfcVYL
-         nyFWWV6mEz5I4kJ/8WSctNaIqgR1XiBoM/oRByKsBUdSd9G/G0+JibZuv1mKyc1oTz2Z
-         i3aReFNqd87VP5wrgvO3M1A7bIjE8m17dYrFOOEcAz3jZB3PCgqhWZVQlTcj1PTYFXt6
-         loqg==
-X-Gm-Message-State: AOAM531McML+ThtO7XuIooit/WsGOJfzf80VmXjnN/+Fxf+27NMO9wi7
-	01MBQi8AryM4cs0ZN2srSdt3ueNW4jVR/W6GwqM=
-X-Google-Smtp-Source: ABdhPJywWiswdk3HK0sfiWAq8uByawS3SPIVWYRjecJkZJkdlnLKrPkGCyZZknqZSOjwngkCRlhpPZL0p4QwElLlmJk=
-X-Received: by 2002:a67:42c2:: with SMTP id p185mr10767724vsa.41.1632503724726;
- Fri, 24 Sep 2021 10:15:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wdgqtRpc9sO5oNDV8qMEuEdtDpa8CWTtIfeCG6MLKKE=;
+        b=Wq32eiONOruINU7XiAkYMG1wCke7zair1UflikdlUnZNx305M0yfhBMUJDjjXNdk7I
+         1xOy97jolZrKO1HOHQQ72vVHtZm+1BjoKVtAMLVVC9dNhJfaf8iaQgzaTvcK6eIDRhYL
+         P31jXdXc4AInuo+ZwZdhYrNxIT/oluSjiWfoJDCngZ+Wn6/4eB7clBKBT3qq/3uP3eZT
+         IoqmmdK8J0CAkzeewDDczDxxQfxdqCwJmUKnc3eVhV4nvirH9q+8Z6JAmq94yYYSWbJT
+         Y2knNYCxGIzxAD1CHnLdcmM6Y7lhPSJUjjzrWGcQK/pKLteSQRZ+Eng5mEcaEOt4desg
+         tkTw==
+X-Gm-Message-State: AOAM531b/STS+cB6uldbUadeKcsU1uIJmnkj0ybBBEbpAiozBTwnRKIL
+	F3Y+LaWjLL2hSe78h2aQsrI=
+X-Google-Smtp-Source: ABdhPJzYKEcoKAOo9GMtejXGeZ+EdzpLVvd8n3ZmykcBMrgyzuYfWL2zCFuGNHIvYiMBg9DrhOKNJA==
+X-Received: by 2002:a1c:2246:: with SMTP id i67mr3982600wmi.157.1632516569444;
+        Fri, 24 Sep 2021 13:49:29 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::51da])
+        by smtp.gmail.com with ESMTPSA id j19sm9040292wra.92.2021.09.24.13.49.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Sep 2021 13:49:29 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: remove dead led code
+Date: Fri, 24 Sep 2021 22:49:12 +0200
+Message-Id: <20210924204917.6313-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210922042041.16326-1-sergio.paracuellos@gmail.com>
- <CAK8P3a2WPOYS7ra_epyZ_bBBpPK8+AgEynK0pKOUZ6ajubcHew@mail.gmail.com>
- <CAMhs-H8EyBmahhLsx+a0aoy+znY=PCm4BT97UBg4xcAy3x2oXg@mail.gmail.com>
- <CAK8P3a0fQZvpNCKF7OUy_krC_YPyigtd5Ak_AMXXpx84HKMswA@mail.gmail.com>
- <CAMhs-H-OCm1p6mTTV6s=vPx7FV8+1UMzx0X00wvXkW=5OgFQBQ@mail.gmail.com>
- <CAK8P3a1iN76A5ahTTQ6rCS4LjKHz8grkNGHGehLJnd0xQSnHXA@mail.gmail.com>
- <CAMhs-H_hZk3hruCaWRjKjUSj6vhVE+JZfk9nT7v1=mcc-H9wnw@mail.gmail.com>
- <CAK8P3a3C0rG_JWWCU6T4B=+j2-+6S6Gq+aw_9e6XeVun9LoF0w@mail.gmail.com>
- <CAMhs-H8kH7CMXENqDW_6GLTjeMMyk+ynehMmyBr=kFZPFHpM0A@mail.gmail.com>
- <CAK8P3a2WmNsV9fhSEjqwHZAGkwGc9HOurhQsza7JOM2Scts2XQ@mail.gmail.com>
- <CAMhs-H8fRnLavLfdw7jZO0tb8rWqdF81cGHhYT6gGp4UY1gChg@mail.gmail.com>
- <CAK8P3a2MJO--xmAZ_71h1QQ5_b8WXgyo-=LaT7r7yMMBUHoPfQ@mail.gmail.com>
- <CAMhs-H_xdkpinyj-Y1u==ievpGWZ2Ze-_U7aCUcfu0=NKBq2xQ@mail.gmail.com>
- <CAK8P3a0OWyW9Wk0kHXsj_7qTd0fVXQnszzun+HacHeTKYETXhw@mail.gmail.com>
- <CAMhs-H9xrXgbuwYe2STzuq0aBwj0onJGc0Oka6+pzgoHb0j8rA@mail.gmail.com>
- <CAK8P3a1AwaSi_J9p4tKwNKxENHhwofDu=Ma=F29ajSmMXoC7RA@mail.gmail.com>
- <CAMhs-H_wxoJC7ZVnkhXNfAcP-P9BNN99ogszM_iJhErHLq8Rdg@mail.gmail.com>
- <CAK8P3a3dvhWT=Xq22xTNn_VbX29s3t9wrw1DbffPbWuHxtTTmg@mail.gmail.com>
- <CAMhs-H9OhXHA3_mq2PSoaPvYCstqqHL7TfL0zf=OFNeFmWVTRQ@mail.gmail.com>
- <CAK8P3a36jiomsqSr0rP8_BL8HwceKvV78bT2Ym+iomSGyYuOGA@mail.gmail.com>
- <CAMhs-H_hGeGZN_-1GhkhD5wahSoJFd+PrEMXx3C7zvJireJ=xg@mail.gmail.com> <CAK8P3a0vFvn_KUQAT8MuOQuopWmiUrSX4bSP0zorjoBJwTTLWA@mail.gmail.com>
-In-Reply-To: <CAK8P3a0vFvn_KUQAT8MuOQuopWmiUrSX4bSP0zorjoBJwTTLWA@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Fri, 24 Sep 2021 19:15:13 +0200
-Message-ID: <CAMhs-H-JKPpWBAURD3NrTtxcXqqB1TM=o4n32+7sjoUYMpZyuQ@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: of: Avoid pci_remap_iospace() when PCI_IOBASE not defined
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: linux-pci <linux-pci@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev, 
-	gregkh <gregkh@linuxfoundation.org>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
+This series removes led related code that is not used in this driver.
 
-On Fri, Sep 24, 2021 at 7:04 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Fri, Sep 24, 2021 at 6:45 PM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> > On Fri, Sep 24, 2021 at 3:28 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Fri, Sep 24, 2021 at 2:46 PM Sergio Paracuellos
-> > >
-> > > Ok, sounds good. I would still suggest using
-> > > "#define PCI_IOBASE mips_io_port_base", so it has the same meaning
-> > > as on other architectures (the virtual address of port 0), and replace
-> > > the hardcoded base with the CPU address you read from DT to
-> > > make that code more portable. As a general rule, DT-enabled drivers
-> > > should contain no hardcoded addresses.
-> >
-> > Yes, it must be cleaned. I was only explaining a possible way to proceed.
->
-> Ok
->
-> > So, the changes would be:
-> > 1) Reverting already added two commits in staging-tree [0] and [1].
-> > (two revert patches)
-> > 2) Setting PCI_IOBASE to 'mips_io_port_base' so the spaces.h become: (one patch)
-> >
-> > $ cat arch/mips/include/asm/mach-ralink/spaces.h
-> > /* SPDX-License-Identifier: GPL-2.0 */
-> > #ifndef __ASM_MACH_RALINK_SPACES_H_
-> > #define __ASM_MACH_RALINK_SPACES_H_
-> >
-> > #define PCI_IOBASE    mips_io_port_base
-> > #define PCI_IOSIZE    SZ_16M
-> > #define IO_SPACE_LIMIT  (PCI_IOSIZE - 1)
->
-> As a minor comment, I would make the PCI_IOSIZE only 64KB in this
-> case, unless plan to support ralink/mediatek SoCs that have a multiple
-> PCIe domains with distinct 64KB windows.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Ok, I will adjust to SZ_64K , then.
+Michael Straube (5):
+  staging: r8188eu: remove dead led blink functions
+  staging: r8188eu: remove dead led control functions
+  staging: r8188eu: remove unnecessary comments
+  staging: r8188eu: remove _InitHWLed()
+  staging: r8188eu: remove LedStrategy from struct led_priv
 
->
-> > 3) Change the value written in RALINK_PCI_IOBASE to be sure the value
-> > written takes into account address before linux port translation (one
-> > patch):
-> >
-> > pcie_write(pcie, entry->res->start - entry->offset, RALINK_PCI_IOBASE);
->
-> ok
->
-> > 4) Virtually Map cpu physical address 0x1e160000 and set
-> > 'mips_io_port_base' to that virtual address. Something like the
-> > following (one patch):
-> >
-> > static int mt7621_set_io(struct device *dev)
-> > {
-> >     struct device_node *node = dev->of_node;
-> >     struct of_pci_range_parser parser;
-> >     struct of_pci_range range;
-> >     unsigned long vaddr;
-> >     int ret = -EINVAL;
-> >
-> >     ret = of_pci_range_parser_init(&parser, node);
-> >     if (ret)
-> >         return ret;
-> >
-> >     for_each_of_pci_range(&parser, &range) {
-> >         switch (range.flags & IORESOURCE_TYPE_BITS) {
-> >         case IORESOURCE_IO:
-> >             vaddr = (unsigned long)ioremap(range.cpu_addr, range.size);
-> >             set_io_port_base(vaddr);
-> >             ret = 0;
-> >             break;
-> >         }
-> >     }
-> >
-> >     return ret;
-> > }
->
-> This looks like it does the right thing, but conceptually this would belong into
-> the mips specific pci_remap_iospace() as we discussed a few emails back,
-> not inside the driver. pci_remap_iospace() does get the CPU address
-> as an argument, so it just needs to ioremap()/set_io_port_base() it.
+ drivers/staging/r8188eu/core/rtw_led.c    | 1364 ++-------------------
+ drivers/staging/r8188eu/hal/usb_halinit.c |   15 -
+ drivers/staging/r8188eu/include/rtw_led.h |   18 -
+ 3 files changed, 90 insertions(+), 1307 deletions(-)
 
-Ok, this is what I had in mind, but since this change also needs to
-add the #ifdef to the whole 'pci_remap_iospace' function of core apis,
-just to be sure that would be a valid approach. Thanks for
-clarification.
+-- 
+2.33.0
 
->
-> > And now my concerns:
-> > 1) We have to read DT range IO values in the driver and those values
-> > will be also parsed by core apis but converting them to linux io
-> > ports. Should this be done by the driver or is there a better way to
-> > abstract this to don't do things twice?
-> > 2) 'set_io_port_base()' function does what we want but it is only
-> > mips. We already have the iocu stuff there and the driver is mips
-> > anyway, but it is worth to comment this just in case.
->
-> I think in both cases the core APIs should do what we need, with the
-> change to the mips pci_remap_iospace() I mention. If there is anything
-> missing in the core API that you need, we can discuss extending those,
-> e.g. to store additional data in the pci_host_bridge structure.
-
-Understood. I'll try to test all of these changes during this weekend
-and hopefully send these patches during next week.
-
-Thank you very much for your time and support.
-
-Best regards,
-    Sergio Paracuellos
-
->
->          Arnd
