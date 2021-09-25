@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8672372
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:24:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C0A561350;
-	Sat, 25 Sep 2021 11:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B4072
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:24:18 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D1B0761352;
+	Sat, 25 Sep 2021 11:24:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632569055;
-	bh=7fuwMn0UcxFbiik3Z+N/XOLwJAq59/miUfWhpOwdqE0=;
+	s=k20201202; t=1632569058;
+	bh=iRLV6v3e7JYAyZzq3uX24jBWmOHmWur2DvK8Vt/2i+0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ge34eptxt6ik9tM4bBGWV+EhWY2pUsDmBrBnZIJGDR8WqRukI42+ESfMMMV9+gmyk
-	 NzOJ5DLBu2o6NL6oi1jrLFHILSXlbaTkjCziDiYsxegSE/Jrp/gGgvJVR7RaEimH2k
-	 u2KZhp8p3Q+odnSJGYZYpzbjUOdLrNqJ2GAMUiwsAT61gUQdMMmLpIZkJsjPKLDgja
-	 951E4DCRpAC2brIp9LRFyfkQegtVBAkmpGV+8JNtEYeEpLtKlgfwpF/3fdAikKH6yb
-	 0nLBFwTJ2r2zmbCo8w91OLQqyLpu05TcH/BXTltlVcbcWo+yMP4awblDvVJZGPBPj9
-	 feyG+jP8SLazQ==
+	b=pR22exCjUS7YCkjkCvD8Rnb9sosGeBFWlArr/YA3QFWWrtyauBEi7+Tuhqd4afoJR
+	 eRUaq5hWn2OMw9LPTV8rZEfeRlENaJNpc2E4GJnYKmRa7zvr8b5JTcEqZmvEYOvhf/
+	 2YLSW8fytAdZTjkgmt/8HJ/SHvzIf7/eRAOikZt9Oa1UDm8a+EloI0pZzg2GkXLWp/
+	 kbdu3Un5+qwR8prVYLnTt23VXb+LJjt7pgc76zL+oyZsh181Sb/7IqLOeqFUK9InuA
+	 voqdYkfrjahsfJjF/DzkF/YIBNWKLGBMyC3/4eZXseBdGBO3ITOoLCyUVllM0CXPr8
+	 8zF7KKkx596zg==
 From: Leon Romanovsky <leon@kernel.org>
 To: "David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>
@@ -69,9 +69,9 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Vadym Kochan <vkochan@marvell.com>,
 	Vivien Didelot <vivien.didelot@gmail.com>,
 	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: [PATCH net-next v1 18/21] net: wwan: iosm: Move devlink_register to be last devlink command
-Date: Sat, 25 Sep 2021 14:22:58 +0300
-Message-Id: <6a63d8f6484a46c9120155082a396b44ce86bd1c.1632565508.git.leonro@nvidia.com>
+Subject: [PATCH net-next v1 21/21] net: dsa: Move devlink registration to be last devlink command
+Date: Sat, 25 Sep 2021 14:23:01 +0300
+Message-Id: <66dd7979b44ac307711c382054f428f9287666a8.1632565508.git.leonro@nvidia.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632565508.git.leonro@nvidia.com>
 References: <cover.1632565508.git.leonro@nvidia.com>
@@ -85,69 +85,70 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-This change prevents from users to access device before devlink is
-fully configured. Indirectly this change fixes the commit mentioned
-below where devlink_unregister() was prematurely removed.
+This change prevents from users to access device before devlink
+is fully configured.
 
-Fixes: db4278c55fa5 ("devlink: Make devlink_register to be void")
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/net/wwan/iosm/iosm_ipc_devlink.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ net/dsa/dsa2.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/wwan/iosm/iosm_ipc_devlink.c b/drivers/net/wwan/iosm/iosm_ipc_devlink.c
-index 42dbe7fe663c..6fe56f73011b 100644
---- a/drivers/net/wwan/iosm/iosm_ipc_devlink.c
-+++ b/drivers/net/wwan/iosm/iosm_ipc_devlink.c
-@@ -305,7 +305,6 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
- 	ipc_devlink->devlink_ctx = devlink_ctx;
- 	ipc_devlink->pcie = ipc_imem->pcie;
- 	ipc_devlink->dev = ipc_imem->dev;
--	devlink_register(devlink_ctx);
+diff --git a/net/dsa/dsa2.c b/net/dsa/dsa2.c
+index a020339e1973..8ca6a1170c9d 100644
+--- a/net/dsa/dsa2.c
++++ b/net/dsa/dsa2.c
+@@ -848,7 +848,6 @@ static int dsa_switch_setup(struct dsa_switch *ds)
+ 	dl_priv = devlink_priv(ds->devlink);
+ 	dl_priv->ds = ds;
  
- 	rc = devlink_params_register(devlink_ctx, iosm_devlink_params,
- 				     ARRAY_SIZE(iosm_devlink_params));
-@@ -315,7 +314,6 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
- 		goto param_reg_fail;
+-	devlink_register(ds->devlink);
+ 	/* Setup devlink port instances now, so that the switch
+ 	 * setup() can register regions etc, against the ports
+ 	 */
+@@ -874,8 +873,6 @@ static int dsa_switch_setup(struct dsa_switch *ds)
+ 	if (err)
+ 		goto teardown;
+ 
+-	devlink_params_publish(ds->devlink);
+-
+ 	if (!ds->slave_mii_bus && ds->ops->phy_read) {
+ 		ds->slave_mii_bus = mdiobus_alloc();
+ 		if (!ds->slave_mii_bus) {
+@@ -891,7 +888,7 @@ static int dsa_switch_setup(struct dsa_switch *ds)
  	}
  
--	devlink_params_publish(devlink_ctx);
- 	ipc_devlink->cd_file_info = list;
+ 	ds->setup = true;
+-
++	devlink_register(ds->devlink);
+ 	return 0;
  
- 	rc = ipc_devlink_create_region(ipc_devlink);
-@@ -334,6 +332,7 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
- 	init_completion(&ipc_devlink->devlink_sio.read_sem);
- 	skb_queue_head_init(&ipc_devlink->devlink_sio.rx_list);
+ free_slave_mii_bus:
+@@ -906,7 +903,6 @@ static int dsa_switch_setup(struct dsa_switch *ds)
+ 	list_for_each_entry(dp, &ds->dst->ports, list)
+ 		if (dp->ds == ds)
+ 			dsa_port_devlink_teardown(dp);
+-	devlink_unregister(ds->devlink);
+ 	devlink_free(ds->devlink);
+ 	ds->devlink = NULL;
+ 	return err;
+@@ -919,6 +915,9 @@ static void dsa_switch_teardown(struct dsa_switch *ds)
+ 	if (!ds->setup)
+ 		return;
  
-+	devlink_register(devlink_ctx);
- 	dev_dbg(ipc_devlink->dev, "iosm devlink register success");
- 
- 	return ipc_devlink;
-@@ -341,7 +340,6 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
- chnl_get_fail:
- 	ipc_devlink_destroy_region(ipc_devlink);
- region_create_fail:
--	devlink_params_unpublish(devlink_ctx);
- 	devlink_params_unregister(devlink_ctx, iosm_devlink_params,
- 				  ARRAY_SIZE(iosm_devlink_params));
- param_reg_fail:
-@@ -358,8 +356,8 @@ void ipc_devlink_deinit(struct iosm_devlink *ipc_devlink)
- {
- 	struct devlink *devlink_ctx = ipc_devlink->devlink_ctx;
- 
-+	devlink_unregister(devlink_ctx);
- 	ipc_devlink_destroy_region(ipc_devlink);
--	devlink_params_unpublish(devlink_ctx);
- 	devlink_params_unregister(devlink_ctx, iosm_devlink_params,
- 				  ARRAY_SIZE(iosm_devlink_params));
- 	if (ipc_devlink->devlink_sio.devlink_read_pend) {
-@@ -370,6 +368,5 @@ void ipc_devlink_deinit(struct iosm_devlink *ipc_devlink)
- 		skb_queue_purge(&ipc_devlink->devlink_sio.rx_list);
- 
- 	ipc_imem_sys_devlink_close(ipc_devlink);
--	devlink_unregister(devlink_ctx);
- 	devlink_free(devlink_ctx);
- }
++	if (ds->devlink)
++		devlink_unregister(ds->devlink);
++
+ 	if (ds->slave_mii_bus && ds->ops->phy_read) {
+ 		mdiobus_unregister(ds->slave_mii_bus);
+ 		mdiobus_free(ds->slave_mii_bus);
+@@ -934,7 +933,6 @@ static void dsa_switch_teardown(struct dsa_switch *ds)
+ 		list_for_each_entry(dp, &ds->dst->ports, list)
+ 			if (dp->ds == ds)
+ 				dsa_port_devlink_teardown(dp);
+-		devlink_unregister(ds->devlink);
+ 		devlink_free(ds->devlink);
+ 		ds->devlink = NULL;
+ 	}
 -- 
 2.31.1
 
