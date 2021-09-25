@@ -1,58 +1,58 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA003FC7
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 08:34:11 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id c21so45148772edj.0
-        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 01:34:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC613FC7
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 08:34:19 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id ee50so45630637edb.13
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 01:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hsaAE8HlzAXVTBpCmEq8PUtA22C9vD/GKBl1wD0YUvc=;
-        b=ZVoWXZoAZL8GOtYeD+acu6cV0BqHiDwr8mT1gXhbE9HNHObw516FrkxdLwTWVAYiGr
-         TYJ3Ct6D3VjrVqXimMh/8k99f5yhXefSLQV2d/2XZfvk25Al+Wx3gMgMbOflLs6rc+2i
-         +iQNtUU8MIv+T3DZoKKe5i+SJIelC1GL5m6U0wL62cbiLbp25nh3b/ScsM7bUdjmWYot
-         GtO3uH2sg+l82no7ooyvrmJTHir8iHLp9jpaB2Su9V6KyXQV2/1+SrmK+BWbOme8nLyx
-         ZMjYzgy+EMSMp9sOwwqwdNxQ100d8WhDLdFuBdI9JFa2KZNaCwp1s5LVH31CE9RmZ6HG
-         YiPw==
+        bh=0h8SNrB6ZSalQlo6gdGZNK5MEkbEgZZaUasyB7Ca42g=;
+        b=TLZ3aCA4/bSooD14oszcnFzDmJS+TgPwEhsPlrvIEKRhLdU4kPzD1qTUlcwqC5AKf7
+         Bk8QD5Lax8uL7rwf/8ggapeSsJgC08M8WnfMFFiJhkwD6FuzcFpQYGWg+FNEBsyyG1yF
+         LQa0CDbU27G5Pp8MAL3y7xak1zAeMiCEIk5GIlE1XdsrPQJqwGR3oN4LSdbXdi7ZCPu/
+         ohckIj8mrdzVOLKdJ+zXoO+mB6bZgUKzCUpXEAhzFEocrWB3pshFDnAxagofI1cHyt6i
+         gCxsDLAwKBqFaGA4nU16C78tVZgo3QgRqu2cKnTUPS4f0rT7tPePHyFPmrIca8IG0Wpb
+         FVBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hsaAE8HlzAXVTBpCmEq8PUtA22C9vD/GKBl1wD0YUvc=;
-        b=mXO1+pufJUFGjsV6/0vBRDo0O3dMD6AZX2WPWFlRDxKDTN4zcTyAgPb2kXoIhuMCw9
-         PFbDvZg8p9zkPl0wPUa5QZLBv2Tdq64/FViKk/6Dmpd5k/F1o/D8ItRBBGEpOnGV2eDU
-         1d434P6iOPrtBSEJKdTm1aABQVmOWHxDpwD30hPNE2L8qdcug9k04j1BG0Y8RX3KACjx
-         E3RduOuOhSFS5MXiSW4jSnZtVhn/b3vPkOJWXJsJafqe/WLCKTpTt27ujjhHhXJN8iXl
-         40tSMqJvfABjRUeu8PDfPG9qwrBov+eA6297dThj+8PSxz6sa40OafONUfazXH4Ohadb
-         dgRA==
-X-Gm-Message-State: AOAM5315BrUzmY51v0q+eiT+s5oWcKZ7QsyNL7RhO3INYGvu6XR3y9a2
-	xwRZom+EdrPdfJ66rGDMXZs=
-X-Google-Smtp-Source: ABdhPJyxZYuYSKaA+bjoKIRc4ZBr6dBM6365oxxX+TjikzOH9L3DxfrI4i5BSSzc2RPEqaEO0b5DDQ==
-X-Received: by 2002:a17:906:e82:: with SMTP id p2mr15870157ejf.50.1632558849558;
-        Sat, 25 Sep 2021 01:34:09 -0700 (PDT)
+        bh=0h8SNrB6ZSalQlo6gdGZNK5MEkbEgZZaUasyB7Ca42g=;
+        b=RYiuGfgzSfMV9VKwygad/4syTR7TuvVj8tNueTDUxJvSo16D1YS+6qiWoH4ULw3GkI
+         goaW4G2NKMeQ+PLGw/AWuDAjVm7KXgDFLTWJRwT3LbIq/RjRztd7N2tWr+AWyrfLkDiS
+         2wvUGbKG7jg0gwWCSF4Y4GdrfMtGmyfVPb34PPg4iOctRBh4+q5c02XAnSl2XybyEZ97
+         ulazIXMsxDxCFgHjzO0xyXihKJdrHB1QQEzy4F3mjNMLRc34ay9W35NGlhWBayqoFajx
+         ozX8Q+pU4i7dn78My3XFjJIEAQ0vr5e1gBBIDrlxQW1bBuz2lE1QW1DslJLS8j/BuEIO
+         j4Jw==
+X-Gm-Message-State: AOAM533PDKrfZFD1P5Om6TO5R+g0TnY2CHSKpTw9nRYpcz17QEukGNvy
+	hS4KoKYoQd0LDzAlYC+7mwk=
+X-Google-Smtp-Source: ABdhPJwPjx1nmdHZSixhupr8b5uNAbkG80nQ/tm+b1wi7DyLeRaW3G6vmxhmZeEeU1iKEVSIfqdHXg==
+X-Received: by 2002:a50:e10f:: with SMTP id h15mr9908860edl.73.1632558857630;
+        Sat, 25 Sep 2021 01:34:17 -0700 (PDT)
 Received: from tom-desktop.station (net-93-71-218-228.cust.vodafonedsl.it. [93.71.218.228])
-        by smtp.gmail.com with ESMTPSA id p21sm6056514ejm.88.2021.09.25.01.34.08
+        by smtp.gmail.com with ESMTPSA id p21sm6056514ejm.88.2021.09.25.01.34.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Sep 2021 01:34:09 -0700 (PDT)
+        Sat, 25 Sep 2021 01:34:17 -0700 (PDT)
 From: Tommaso Merciai <tomm.merciai@gmail.com>
 To: 
 Cc: tomm.merciai@gmail.com,
 	Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
 	Yujia Qiao <rapiz@foxmail.com>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
 	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
-	Deepak R Varma <mh12gx2825@gmail.com>,
 	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Deepak R Varma <mh12gx2825@gmail.com>,
+	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/3] staging: vt6655: replace camel case b_short_slot_time instead of bShortSlotTime.
-Date: Sat, 25 Sep 2021 10:33:42 +0200
-Message-Id: <20210925083350.13996-2-tomm.merciai@gmail.com>
+Subject: [PATCH v4 2/3] staging: vt6655: replace camel case ld_bm_threshold instead of ldBmThreshold.
+Date: Sat, 25 Sep 2021 10:33:43 +0200
+Message-Id: <20210925083350.13996-3-tomm.merciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210925083350.13996-1-tomm.merciai@gmail.com>
 References: <20210925083350.13996-1-tomm.merciai@gmail.com>
@@ -75,76 +75,131 @@ Changes since v2:
 Changes since v1:
  - Make the commit message more clearer.
 
- drivers/staging/vt6655/baseband.c    | 4 ++--
- drivers/staging/vt6655/card.c        | 2 +-
- drivers/staging/vt6655/device.h      | 2 +-
- drivers/staging/vt6655/device_main.c | 4 ++--
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/vt6655/baseband.c    | 48 ++++++++++++++--------------
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c |  2 +-
+ 3 files changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index f73f3fad3e05..170c4056946f 100644
+index 170c4056946f..55bddbda50cd 100644
 --- a/drivers/staging/vt6655/baseband.c
 +++ b/drivers/staging/vt6655/baseband.c
-@@ -2200,7 +2200,7 @@ bb_set_short_slot_time(struct vnt_private *priv)
+@@ -2021,10 +2021,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		priv->abyBBVGA[1] = 0x0A;
+ 		priv->abyBBVGA[2] = 0x0;
+ 		priv->abyBBVGA[3] = 0x0;
+-		priv->ldBmThreshold[0] = -70;
+-		priv->ldBmThreshold[1] = -50;
+-		priv->ldBmThreshold[2] = 0;
+-		priv->ldBmThreshold[3] = 0;
++		priv->ld_bm_threshold[0] = -70;
++		priv->ld_bm_threshold[1] = -50;
++		priv->ld_bm_threshold[2] = 0;
++		priv->ld_bm_threshold[3] = 0;
+ 	} else if ((by_rf_type == RF_AIROHA) || (by_rf_type == RF_AL2230S)) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_AIROHA2230; ii++)
+ 			result &= bb_write_embedded(priv,
+@@ -2039,10 +2039,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		priv->abyBBVGA[1] = 0x10;
+ 		priv->abyBBVGA[2] = 0x0;
+ 		priv->abyBBVGA[3] = 0x0;
+-		priv->ldBmThreshold[0] = -70;
+-		priv->ldBmThreshold[1] = -48;
+-		priv->ldBmThreshold[2] = 0;
+-		priv->ldBmThreshold[3] = 0;
++		priv->ld_bm_threshold[0] = -70;
++		priv->ld_bm_threshold[1] = -48;
++		priv->ld_bm_threshold[2] = 0;
++		priv->ld_bm_threshold[3] = 0;
+ 	} else if (by_rf_type == RF_UW2451) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
+ 			result &= bb_write_embedded(priv,
+@@ -2061,10 +2061,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		priv->abyBBVGA[1] = 0x0A;
+ 		priv->abyBBVGA[2] = 0x0;
+ 		priv->abyBBVGA[3] = 0x0;
+-		priv->ldBmThreshold[0] = -60;
+-		priv->ldBmThreshold[1] = -50;
+-		priv->ldBmThreshold[2] = 0;
+-		priv->ldBmThreshold[3] = 0;
++		priv->ld_bm_threshold[0] = -60;
++		priv->ld_bm_threshold[1] = -50;
++		priv->ld_bm_threshold[2] = 0;
++		priv->ld_bm_threshold[3] = 0;
+ 	} else if (by_rf_type == RF_UW2452) {
+ 		for (ii = 0; ii < CB_VT3253B0_INIT_FOR_UW2451; ii++)
+ 			result &= bb_write_embedded(priv,
+@@ -2107,10 +2107,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		priv->abyBBVGA[1] = 0x0A;
+ 		priv->abyBBVGA[2] = 0x0;
+ 		priv->abyBBVGA[3] = 0x0;
+-		priv->ldBmThreshold[0] = -60;
+-		priv->ldBmThreshold[1] = -50;
+-		priv->ldBmThreshold[2] = 0;
+-		priv->ldBmThreshold[3] = 0;
++		priv->ld_bm_threshold[0] = -60;
++		priv->ld_bm_threshold[1] = -50;
++		priv->ld_bm_threshold[2] = 0;
++		priv->ld_bm_threshold[3] = 0;
+ 		/* }} RobertYu */
  
- 	bb_read_embedded(priv, 0x0A, &by_bb_rx_conf); /* CR10 */
- 
--	if (priv->bShortSlotTime)
-+	if (priv->b_short_slot_time)
- 		by_bb_rx_conf &= 0xDF; /* 1101 1111 */
- 	else
- 		by_bb_rx_conf |= 0x20; /* 0010 0000 */
-@@ -2223,7 +2223,7 @@ void bb_set_vga_gain_offset(struct vnt_private *priv, unsigned char by_data)
- 	/* patch for 3253B0 Baseband with Cardbus module */
- 	if (by_data == priv->abyBBVGA[0])
- 		by_bb_rx_conf |= 0x20; /* 0010 0000 */
--	else if (priv->bShortSlotTime)
-+	else if (priv->b_short_slot_time)
- 		by_bb_rx_conf &= 0xDF; /* 1101 1111 */
- 	else
- 		by_bb_rx_conf |= 0x20; /* 0010 0000 */
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 3ef3a6e0e6e1..7a08ea0c7692 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -258,7 +258,7 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 		bb_write_embedded(priv, 0x88, 0x08);
- 		bySIFS = C_SIFS_BG;
- 
--		if (priv->bShortSlotTime) {
-+		if (priv->b_short_slot_time) {
- 			bySlot = C_SLOT_SHORT;
- 			byDIFS = C_SIFS_BG + 2 * C_SLOT_SHORT;
- 		} else {
+ 	} else if (by_rf_type == RF_VT3226) {
+@@ -2127,10 +2127,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		priv->abyBBVGA[1] = 0x10;
+ 		priv->abyBBVGA[2] = 0x0;
+ 		priv->abyBBVGA[3] = 0x0;
+-		priv->ldBmThreshold[0] = -70;
+-		priv->ldBmThreshold[1] = -48;
+-		priv->ldBmThreshold[2] = 0;
+-		priv->ldBmThreshold[3] = 0;
++		priv->ld_bm_threshold[0] = -70;
++		priv->ld_bm_threshold[1] = -48;
++		priv->ld_bm_threshold[2] = 0;
++		priv->ld_bm_threshold[3] = 0;
+ 		/* Fix VT3226 DFC system timing issue */
+ 		MACvSetRFLE_LatchBase(iobase);
+ 		/* {{ RobertYu: 20050104 */
+@@ -2161,10 +2161,10 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 		priv->abyBBVGA[1] = 0x10;
+ 		priv->abyBBVGA[2] = 0x0;
+ 		priv->abyBBVGA[3] = 0x0;
+-		priv->ldBmThreshold[0] = -70;
+-		priv->ldBmThreshold[1] = -48;
+-		priv->ldBmThreshold[2] = 0;
+-		priv->ldBmThreshold[3] = 0;
++		priv->ld_bm_threshold[0] = -70;
++		priv->ld_bm_threshold[1] = -48;
++		priv->ld_bm_threshold[2] = 0;
++		priv->ld_bm_threshold[3] = 0;
+ 		/* }} RobertYu */
+ 	} else {
+ 		/* No VGA Table now */
 diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index 2af769174e33..63aa62e483c8 100644
+index 63aa62e483c8..876472862520 100644
 --- a/drivers/staging/vt6655/device.h
 +++ b/drivers/staging/vt6655/device.h
-@@ -215,7 +215,7 @@ struct vnt_private {
+@@ -253,7 +253,7 @@ struct vnt_private {
+ 	unsigned char byBBVGANew;
+ 	unsigned char byBBVGACurrent;
+ 	unsigned char abyBBVGA[BB_VGA_LEVEL];
+-	long                    ldBmThreshold[BB_VGA_LEVEL];
++	long                    ld_bm_threshold[BB_VGA_LEVEL];
  
- 	bool bEncryptionEnable;
- 	bool bLongHeader;
--	bool bShortSlotTime;
-+	bool b_short_slot_time;
- 	bool bProtectMode;
- 	bool bNonERPPresent;
- 	bool bBarkerPreambleMd;
+ 	unsigned char byBBPreEDRSSI;
+ 	unsigned char byBBPreEDIndex;
 diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index d40c2ac14928..8ae0fbfd134f 100644
+index 8ae0fbfd134f..c4384b232c33 100644
 --- a/drivers/staging/vt6655/device_main.c
 +++ b/drivers/staging/vt6655/device_main.c
-@@ -1440,9 +1440,9 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+@@ -986,7 +986,7 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 	RFvRSSITodBm(priv, (u8)priv->uCurrRSSI, &dbm);
  
- 	if (changed & BSS_CHANGED_ERP_SLOT) {
- 		if (conf->use_short_slot)
--			priv->bShortSlotTime = true;
-+			priv->b_short_slot_time = true;
- 		else
--			priv->bShortSlotTime = false;
-+			priv->b_short_slot_time = false;
- 
- 		CARDbSetPhyParameter(priv, priv->byBBType);
- 		bb_set_vga_gain_offset(priv, priv->abyBBVGA[0]);
+ 	for (i = 0; i < BB_VGA_LEVEL; i++) {
+-		if (dbm < priv->ldBmThreshold[i]) {
++		if (dbm < priv->ld_bm_threshold[i]) {
+ 			priv->byBBVGANew = priv->abyBBVGA[i];
+ 			break;
+ 		}
 -- 
 2.25.1
 
