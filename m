@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8643872
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:24:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 68AA66127C;
-	Sat, 25 Sep 2021 11:24:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01A372
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:24:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CC77061288;
+	Sat, 25 Sep 2021 11:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632569045;
-	bh=ghHAU3D0r/NE4ZoiVTD12PA4CEB5+DDXgtVw+z6KtRc=;
+	s=k20201202; t=1632569048;
+	bh=UGe1xR5nQjl5sitWRrZO39MCG615CkI/XgeO5EfkyHA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SwqFg7wTZGt5iCU3qK7f4wQnVFfowX010H/dNk0sKyf2Fpcrv5KOUcXlAIBhvhPoY
-	 /sJUWV49DzbUxeN8p6I3AF6ECdTN7PmNiEByCCKEnxzM+ANBeNrqDkUBsa8wvx7pjY
-	 l7gK1Mg98ck7OMfilfsXCN1BXu4T2LFhFzqSpS1+7D7Ik5V4yCfVtNXCTqVdBBLNgU
-	 RYeFsB5DtlzpqCfBNk5OFoaCcrIqNg2aZv4c8yF/fZrRpXnW24LDPNyQYqG2Q48wD7
-	 ygTcKaPuygBRzHa5ObPnkA9FWV/kwePaSjWQtO8VR3EO/b6nHsGW0c+0vdXzTYphjW
-	 eun1aIUbsGYZg==
+	b=eXJnTqgMbORVHaUsGV03ryKJr6A1PfdhYoeVsyCNEges2Dn9WZ7FE4+7QH3xqJvR9
+	 Mz5qz1HhsuOgoYQOxRRc2geSU+85mrlqpccGRTMS5HNtlTD9qpZiA6BDhj7DVZhKv7
+	 sj2HzVf0JYXhCn2l9u3cBQBv5vEik7dYiF8tPoahtV6EPb5DdE99UK8bicH0CXAY1W
+	 HNyqws6BMBbppxtt3484q7TdwfEfbBOeq/bgChcm6v6hSMl1crla5Ovo4z8W/DKqtc
+	 ElB0gliFBoCj4F940uxkATHVFsfX4EYpq0KC0xZ9LpCNrkxbV9d5shVyGsAIldIE1K
+	 SK3ShGOLcii1A==
 From: Leon Romanovsky <leon@kernel.org>
 To: "David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>
@@ -69,9 +69,9 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Vadym Kochan <vkochan@marvell.com>,
 	Vivien Didelot <vivien.didelot@gmail.com>,
 	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: [PATCH net-next v1 15/21] qed: Move devlink registration to be last devlink command
-Date: Sat, 25 Sep 2021 14:22:55 +0300
-Message-Id: <01bc35bd99dc5d2dcbf55bbf4a86f0bde1c50087.1632565508.git.leonro@nvidia.com>
+Subject: [PATCH net-next v1 19/21] ptp: ocp: Move devlink registration to be last devlink command
+Date: Sat, 25 Sep 2021 14:22:59 +0300
+Message-Id: <1541e7cd8262ce9db7544669438d0f4360068dd2.1632565508.git.leonro@nvidia.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632565508.git.leonro@nvidia.com>
 References: <cover.1632565508.git.leonro@nvidia.com>
@@ -90,51 +90,51 @@ fully configured.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/net/ethernet/qlogic/qed/qed_devlink.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/ptp/ptp_ocp.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/qlogic/qed/qed_devlink.c b/drivers/net/ethernet/qlogic/qed/qed_devlink.c
-index c51f9590fe19..6bb4e165b592 100644
---- a/drivers/net/ethernet/qlogic/qed/qed_devlink.c
-+++ b/drivers/net/ethernet/qlogic/qed/qed_devlink.c
-@@ -215,7 +215,6 @@ struct devlink *qed_devlink_register(struct qed_dev *cdev)
- 	qdevlink = devlink_priv(dl);
- 	qdevlink->cdev = cdev;
+diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
+index 4c25467198e3..34f943c8c9fd 100644
+--- a/drivers/ptp/ptp_ocp.c
++++ b/drivers/ptp/ptp_ocp.c
+@@ -2455,7 +2455,6 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		return -ENOMEM;
+ 	}
  
--	devlink_register(dl);
- 	rc = devlink_params_register(dl, qed_devlink_params,
- 				     ARRAY_SIZE(qed_devlink_params));
- 	if (rc)
-@@ -226,15 +225,13 @@ struct devlink *qed_devlink_register(struct qed_dev *cdev)
- 					   QED_DEVLINK_PARAM_ID_IWARP_CMT,
- 					   value);
+-	devlink_register(devlink);
+ 	err = pci_enable_device(pdev);
+ 	if (err) {
+ 		dev_err(&pdev->dev, "pci_enable_device\n");
+@@ -2497,7 +2496,7 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		goto out;
  
--	devlink_params_publish(dl);
- 	cdev->iwarp_cmt = false;
- 
- 	qed_fw_reporters_create(dl);
+ 	ptp_ocp_info(bp);
 -
-+	devlink_register(dl);
- 	return dl;
++	devlink_register(devlink);
+ 	return 0;
  
- err_unregister:
--	devlink_unregister(dl);
- 	devlink_free(dl);
- 
- 	return ERR_PTR(rc);
-@@ -245,11 +242,11 @@ void qed_devlink_unregister(struct devlink *devlink)
- 	if (!devlink)
- 		return;
+ out:
+@@ -2506,7 +2505,6 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ out_disable:
+ 	pci_disable_device(pdev);
+ out_unregister:
+-	devlink_unregister(devlink);
+ 	devlink_free(devlink);
+ 	return err;
+ }
+@@ -2517,11 +2515,11 @@ ptp_ocp_remove(struct pci_dev *pdev)
+ 	struct ptp_ocp *bp = pci_get_drvdata(pdev);
+ 	struct devlink *devlink = priv_to_devlink(bp);
  
 +	devlink_unregister(devlink);
- 	qed_fw_reporters_destroy(devlink);
- 
- 	devlink_params_unregister(devlink, qed_devlink_params,
- 				  ARRAY_SIZE(qed_devlink_params));
+ 	ptp_ocp_detach(bp);
+ 	pci_set_drvdata(pdev, NULL);
+ 	pci_disable_device(pdev);
  
 -	devlink_unregister(devlink);
  	devlink_free(devlink);
  }
+ 
 -- 
 2.31.1
 
