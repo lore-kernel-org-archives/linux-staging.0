@@ -1,104 +1,67 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0173.hostedemail.com [216.40.44.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5223FC7
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 09:04:16 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id bx4so45947713edb.4
-        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 02:04:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kPe7eruAntmWYArF3I0EPN4/ZWlqsPwMhUGBU3D+dvo=;
-        b=jvx1fApsAGsLZMK9vaJVnP9Z7QQ3/Vx/4WCa2bv29M8LSsfp3QVq5+Uc3p2XpLJsqO
-         cKIljeQnvV8JYxGAWBX/QoC6/8IOIPwUIwxJ2C+OBQrIrOW2UqMqpI4gFbNahqQDzIW0
-         J4ioESelWa4/HppAdeGeJCi51YSLUugzEq1NvbvoSg2bxRUYr6PwqEVu/+h5oi0rLo+P
-         C5Y1cnoQlWXHl39DofDLtN0e8C9ZpYT0pGfuClX14K4w5FZe87BxzPptstZF1uTS3APa
-         1gz0d8eSxg3W3GmQaukkyme/qyMItzzkDLmvuXne+xCSr70bcGV9jyUwJzB/FzTWsFG+
-         7PhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kPe7eruAntmWYArF3I0EPN4/ZWlqsPwMhUGBU3D+dvo=;
-        b=hlVOC5I1g4LpwDRVUA1uAAmyMUNPI3Zb8YycxaLdmYjZx++rSSrawSK/Ut99lhea/Q
-         q0Rddtoj87nv9Lj7wDMrThAQ5QrEq4j7Up92jYjiDevwpy2cnFhPFnWfvSN7wpGVahQB
-         x0qb0DyTSR8o/J4WsYFfOlJ0KyrKJQ0WNErQH+Of4xfplazbUUVgCWTUDY+FhhTaFZX/
-         XXg4ztoOFG3qeSlUZPmUIV6MR5Mhk3fYQ4lw8KNJPxLklgt7BlEaUXl9YkqFqWvWhIVK
-         1u6ofgNlYg+WMMsARVJu1ya/b2r0iejYF9JCobOQ7oFHhyAP1vRqlQYqbC/Th5Vm36pv
-         GdKw==
-X-Gm-Message-State: AOAM533wEJMxgpGYSiHUIVktC51fIHQoIWNiTWlqit7rTxwQZDdfHBOH
-	soyoyXA21ZIo0vU7DZfknFI=
-X-Google-Smtp-Source: ABdhPJxumk5Lhz7AznMan428nRWghjeaZun1PZxvQP+8m+K8I50tg8kNh2Eihl7c51a1yFs2L4YqSw==
-X-Received: by 2002:a50:da04:: with SMTP id z4mr9923281edj.52.1632560654748;
-        Sat, 25 Sep 2021 02:04:14 -0700 (PDT)
-Received: from tom-desktop (net-93-71-218-228.cust.vodafonedsl.it. [93.71.218.228])
-        by smtp.gmail.com with ESMTPSA id z12sm6886201edx.66.2021.09.25.02.04.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Sep 2021 02:04:14 -0700 (PDT)
-Date: Sat, 25 Sep 2021 11:04:12 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Yujia Qiao <rapiz@foxmail.com>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
-	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Deepak R Varma <mh12gx2825@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBAF3FC7
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 09:08:36 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave07.hostedemail.com (Postfix) with ESMTP id 0F5FF183F96CB
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 08:32:18 +0000 (UTC)
+Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay05.hostedemail.com (Postfix) with ESMTP id A1A701840406A;
+	Sat, 25 Sep 2021 08:32:10 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id B255318A612;
+	Sat, 25 Sep 2021 08:32:08 +0000 (UTC)
+Message-ID: <e70345785a0ffd019bdb769d6ac5f45c5549030a.camel@perches.com>
 Subject: Re: [PATCH v3 1/3] staging: vt6655: replace camel case
  b_short_slot_time instead of bShortSlotTime.
-Message-ID: <20210925090412.GB4727@tom-desktop>
+From: Joe Perches <joe@perches.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: Forest Bond <forest@alittletooquiet.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Yujia Qiao <rapiz@foxmail.com>, Lucas
+ Henneman <lucas.henneman@linaro.org>, Madhumitha Prabakaran
+ <madhumithabiw@gmail.com>,  Marcos Antonio de Jesus Filho
+ <mdejesusfilho@gmail.com>, Aldas =?UTF-8?Q?Tara=C5=A1kevi=C4=8Dius?=
+ <aldas60@gmail.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Deepak
+ R Varma <mh12gx2825@gmail.com>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Sat, 25 Sep 2021 01:32:07 -0700
+In-Reply-To: <20210925074531.10446-2-tomm.merciai@gmail.com>
 References: <20210925074531.10446-1-tomm.merciai@gmail.com>
- <20210925074531.10446-2-tomm.merciai@gmail.com>
- <YU7XBPzQAq2s7d4L@kroah.com>
- <20210925084134.GA4727@tom-desktop>
- <YU7iHvNQPI81WvsM@kroah.com>
+	 <20210925074531.10446-2-tomm.merciai@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YU7iHvNQPI81WvsM@kroah.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.77
+X-Stat-Signature: 7ossdcj131xwq5dwb9iqpk91sh1xgush
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: B255318A612
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18W0cFl2NZcQoH+7OKTIt+j7kjtXZj5Sag=
+X-HE-Tag: 1632558728-591224
 
-On Sat, Sep 25, 2021 at 10:47:26AM +0200, Greg Kroah-Hartman wrote:
-> On Sat, Sep 25, 2021 at 10:41:34AM +0200, Tommaso Merciai wrote:
-> > On Sat, Sep 25, 2021 at 10:00:04AM +0200, Greg Kroah-Hartman wrote:
-> > > On Sat, Sep 25, 2021 at 09:45:22AM +0200, Tommaso Merciai wrote:
-> > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > 
-> > > I can not take patches without any changelog text at all, sorry.
-> > > 
-> > > My bot pointed you at the instructions for how to write a good
-> > > changelog, please read that before resubmitting.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
-> >   
-> >   Hi,
-> >   Thanks for your time. Sorry but I'm trying to check what I'm missing
-> >   "Versioning one patch revision" as suggested by Gustavo A. R. Silva.
-> > 
-> >   https://kernelnewbies.org/Outreachyfirstpatch
-> > 
-> >   I put Changes since vN after git format-patch "---". Maybe I'm missing
-> >   other stuff?
+On Sat, 2021-09-25 at 09:45 +0200, Tommaso Merciai wrote:
+> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+[]
+> diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+[]
+> @@ -1440,9 +1440,9 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
 > 
-> You are missing other stuff :)
-> 
-> Notably the actual text that goes in the git changelog that explains
-> what this patch is doing and why it is needed.  Again, please read the
-> link that my bot pointed you at.
-> 
-> thanks,
-> 
-> greg k-h
-  
-  Thanks again.
-  Tommaso
+>  	if (changed & BSS_CHANGED_ERP_SLOT) {
+>  		if (conf->use_short_slot)
+> -			priv->bShortSlotTime = true;
+> +			priv->b_short_slot_time = true;
+>  		else
+> -			priv->bShortSlotTime = false;
+> +			priv->b_short_slot_time = false;
+
+A simple assignment works
+
+		priv->b_short_slot_time = conf->use_short_slot;
+
+
