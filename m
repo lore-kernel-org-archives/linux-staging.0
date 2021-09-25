@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2556C72
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:24:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0ACD06128E;
-	Sat, 25 Sep 2021 11:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8672372
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:24:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C0A561350;
+	Sat, 25 Sep 2021 11:24:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632569051;
-	bh=hIaU3zuCJ66VCcfkvkXkjfrXrZk0nBwoxqfW+xbNAI4=;
+	s=k20201202; t=1632569055;
+	bh=7fuwMn0UcxFbiik3Z+N/XOLwJAq59/miUfWhpOwdqE0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hBZGKXwn8MuXnfyIESlBTW1o1wITt4RwTx900BqVAekSocAOEd7gZDaIl7tnVZv6M
-	 q3Q21JYh+9eSN/awnLVNufvGKHgKSaIWRJy5ivfUktMueUS9g5/hLo0Uv9rxmHf4Ne
-	 211pPeYPpZMV6Ds75i05viWIuvhchW2NqqBhX4a07FEQj6wHLw3UpJKiYkdxkk0lFm
-	 bSZeh9Ke9vA+QngTRqW5Hu6S/Ti3v116zfBVCHrWYNiVgXRCmPHe0DYiSJ82TIpPaL
-	 C4vY9albBFHKQVnNf6fAbGot8HbEqBfjq0pJUTWDackF/nuQF7xemq0NLd1sc8oYoz
-	 jySHQjT6V/w9w==
+	b=Ge34eptxt6ik9tM4bBGWV+EhWY2pUsDmBrBnZIJGDR8WqRukI42+ESfMMMV9+gmyk
+	 NzOJ5DLBu2o6NL6oi1jrLFHILSXlbaTkjCziDiYsxegSE/Jrp/gGgvJVR7RaEimH2k
+	 u2KZhp8p3Q+odnSJGYZYpzbjUOdLrNqJ2GAMUiwsAT61gUQdMMmLpIZkJsjPKLDgja
+	 951E4DCRpAC2brIp9LRFyfkQegtVBAkmpGV+8JNtEYeEpLtKlgfwpF/3fdAikKH6yb
+	 0nLBFwTJ2r2zmbCo8w91OLQqyLpu05TcH/BXTltlVcbcWo+yMP4awblDvVJZGPBPj9
+	 feyG+jP8SLazQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: "David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>
@@ -69,9 +69,9 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Vadym Kochan <vkochan@marvell.com>,
 	Vivien Didelot <vivien.didelot@gmail.com>,
 	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: [PATCH net-next v1 20/21] staging: qlge: Move devlink registration to be last devlink command
-Date: Sat, 25 Sep 2021 14:23:00 +0300
-Message-Id: <87eb1893ae465eb0ec1ed726c9ca078edc8298ac.1632565508.git.leonro@nvidia.com>
+Subject: [PATCH net-next v1 18/21] net: wwan: iosm: Move devlink_register to be last devlink command
+Date: Sat, 25 Sep 2021 14:22:58 +0300
+Message-Id: <6a63d8f6484a46c9120155082a396b44ce86bd1c.1632565508.git.leonro@nvidia.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632565508.git.leonro@nvidia.com>
 References: <cover.1632565508.git.leonro@nvidia.com>
@@ -86,55 +86,67 @@ Content-Transfer-Encoding: 8bit
 From: Leon Romanovsky <leonro@nvidia.com>
 
 This change prevents from users to access device before devlink is
-fully configured.
+fully configured. Indirectly this change fixes the commit mentioned
+below where devlink_unregister() was prematurely removed.
 
+Fixes: db4278c55fa5 ("devlink: Make devlink_register to be void")
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/staging/qlge/qlge_main.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/net/wwan/iosm/iosm_ipc_devlink.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 33539f6c254d..1dc849378a0f 100644
---- a/drivers/staging/qlge/qlge_main.c
-+++ b/drivers/staging/qlge/qlge_main.c
-@@ -4614,10 +4614,9 @@ static int qlge_probe(struct pci_dev *pdev,
- 		goto netdev_free;
+diff --git a/drivers/net/wwan/iosm/iosm_ipc_devlink.c b/drivers/net/wwan/iosm/iosm_ipc_devlink.c
+index 42dbe7fe663c..6fe56f73011b 100644
+--- a/drivers/net/wwan/iosm/iosm_ipc_devlink.c
++++ b/drivers/net/wwan/iosm/iosm_ipc_devlink.c
+@@ -305,7 +305,6 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
+ 	ipc_devlink->devlink_ctx = devlink_ctx;
+ 	ipc_devlink->pcie = ipc_imem->pcie;
+ 	ipc_devlink->dev = ipc_imem->dev;
+-	devlink_register(devlink_ctx);
+ 
+ 	rc = devlink_params_register(devlink_ctx, iosm_devlink_params,
+ 				     ARRAY_SIZE(iosm_devlink_params));
+@@ -315,7 +314,6 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
+ 		goto param_reg_fail;
  	}
  
--	devlink_register(devlink);
- 	err = qlge_health_create_reporters(qdev);
- 	if (err)
--		goto devlink_unregister;
-+		goto netdev_free;
+-	devlink_params_publish(devlink_ctx);
+ 	ipc_devlink->cd_file_info = list;
  
- 	/* Start up the timer to trigger EEH if
- 	 * the bus goes dead
-@@ -4628,10 +4627,9 @@ static int qlge_probe(struct pci_dev *pdev,
- 	qlge_display_dev_info(ndev);
- 	atomic_set(&qdev->lb_count, 0);
- 	cards_found++;
-+	devlink_register(devlink);
- 	return 0;
+ 	rc = ipc_devlink_create_region(ipc_devlink);
+@@ -334,6 +332,7 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
+ 	init_completion(&ipc_devlink->devlink_sio.read_sem);
+ 	skb_queue_head_init(&ipc_devlink->devlink_sio.rx_list);
  
--devlink_unregister:
--	devlink_unregister(devlink);
- netdev_free:
- 	free_netdev(ndev);
- devlink_free:
-@@ -4656,13 +4654,13 @@ static void qlge_remove(struct pci_dev *pdev)
- 	struct net_device *ndev = qdev->ndev;
- 	struct devlink *devlink = priv_to_devlink(qdev);
++	devlink_register(devlink_ctx);
+ 	dev_dbg(ipc_devlink->dev, "iosm devlink register success");
  
-+	devlink_unregister(devlink);
- 	del_timer_sync(&qdev->timer);
- 	qlge_cancel_all_work_sync(qdev);
- 	unregister_netdev(ndev);
- 	qlge_release_all(pdev);
- 	pci_disable_device(pdev);
- 	devlink_health_reporter_destroy(qdev->reporter);
--	devlink_unregister(devlink);
- 	devlink_free(devlink);
- 	free_netdev(ndev);
+ 	return ipc_devlink;
+@@ -341,7 +340,6 @@ struct iosm_devlink *ipc_devlink_init(struct iosm_imem *ipc_imem)
+ chnl_get_fail:
+ 	ipc_devlink_destroy_region(ipc_devlink);
+ region_create_fail:
+-	devlink_params_unpublish(devlink_ctx);
+ 	devlink_params_unregister(devlink_ctx, iosm_devlink_params,
+ 				  ARRAY_SIZE(iosm_devlink_params));
+ param_reg_fail:
+@@ -358,8 +356,8 @@ void ipc_devlink_deinit(struct iosm_devlink *ipc_devlink)
+ {
+ 	struct devlink *devlink_ctx = ipc_devlink->devlink_ctx;
+ 
++	devlink_unregister(devlink_ctx);
+ 	ipc_devlink_destroy_region(ipc_devlink);
+-	devlink_params_unpublish(devlink_ctx);
+ 	devlink_params_unregister(devlink_ctx, iosm_devlink_params,
+ 				  ARRAY_SIZE(iosm_devlink_params));
+ 	if (ipc_devlink->devlink_sio.devlink_read_pend) {
+@@ -370,6 +368,5 @@ void ipc_devlink_deinit(struct iosm_devlink *ipc_devlink)
+ 		skb_queue_purge(&ipc_devlink->devlink_sio.rx_list);
+ 
+ 	ipc_imem_sys_devlink_close(ipc_devlink);
+-	devlink_unregister(devlink_ctx);
+ 	devlink_free(devlink_ctx);
  }
 -- 
 2.31.1
