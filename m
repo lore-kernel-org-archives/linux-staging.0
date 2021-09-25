@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B37572
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:23:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B42A61283;
-	Sat, 25 Sep 2021 11:23:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3C972
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:23:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 853346128B;
+	Sat, 25 Sep 2021 11:23:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632569000;
-	bh=xRgZ3AWYE+cjw+AzmeqCWdR+bIHtvensmJ8uaJBAUps=;
+	s=k20201202; t=1632569003;
+	bh=02xRTwet1c5l8qRgcXs4VCpKQJvqfYPSwFUrWIoc2cM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aymRkgQYkTzDBhqqTP79folPWNi8X49mHO2L2tqiqUk9wXUzZ0Di8bsa3ZfzLMbvC
-	 20CfstwEKU6FWZb2AL+7WZrvdgnkYyVG5xwv0JRAUCRnSchtrfU6SOBVeT0UU6dT8q
-	 AQSjWadd2bAEwdBC9j0iREfJ68uz9ce089/dDgLJag5I3c0/MQIHKZqVTSDDPSoLGq
-	 XJox5pp0mYvE261+05t8Gbg0v0NBQmbQa1XuS/MNhD8Zzaqbvnwk7Nc467F0ItXvao
-	 x7uUtwyzZoX4fJ2DL/t5c8uRX3UDaevYHaNGFK7uHak0Xh/vTGov1R5n1xA4TFKgsd
-	 doi+Oq+vIj9Rw==
+	b=eBdkOeQZAzQfx/m/yxFbsJIGBvkhRpE2hSfkJbHrHeRhC5LOGgZSfk4qdoFd5jXLC
+	 4cajFeDHROqHcKL6Uxo3t/x66TBMHadOtMGgbKbHUJLVc+EoKzRywI13DAUuwL4Nmy
+	 XdaiN+sF1pwhdlQ+uSs0w4bITD8GdZlM7wYUfcvrz8HaBW66RC6ITexIAdOoJUX2tS
+	 NdMaGkjmUePmj+YdIJxYmXTz6HRjqnWB052FPKJjeF22nVurS6AbIJA54sOsNoQIvo
+	 MozNtLmeX9dcJkGV28/X2nazhnG4nqa89dbG8o8cBxCkZF4jyGYcMvQtjkCR91Gadf
+	 06/PrR1PnbLsA==
 From: Leon Romanovsky <leon@kernel.org>
 To: "David S . Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>
@@ -69,9 +69,9 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Vadym Kochan <vkochan@marvell.com>,
 	Vivien Didelot <vivien.didelot@gmail.com>,
 	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: [PATCH net-next v1 05/21] net: hinic: Open device for the user access when it is ready
-Date: Sat, 25 Sep 2021 14:22:45 +0300
-Message-Id: <9956e9af5948084d725c547e307eb13656d569fc.1632565508.git.leonro@nvidia.com>
+Subject: [PATCH net-next v1 03/21] liquidio: Overcome missing device lock protection in init/remove flows
+Date: Sat, 25 Sep 2021 14:22:43 +0300
+Message-Id: <4e78bd8c6f45eef8093547a37c4d00ef0d1fef56.1632565508.git.leonro@nvidia.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1632565508.git.leonro@nvidia.com>
 References: <cover.1632565508.git.leonro@nvidia.com>
@@ -85,56 +85,83 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Move devlink registration to be the last command in device activation,
-so it opens the driver to accept such devlink commands from the user
-when it is fully initialized.
+The liquidio driver is broken by design. It initialize PCI devices
+in separate delayed works. It causes to the situation where device lock
+is dropped during initialize and remove sequences.
+
+That lock is part of driver/core and needed to protect from races during
+init, destroy and bus invocations.
+
+In addition to lack of locking protection, it has incorrect order of
+destroy flows and very questionable synchronization scheme based on
+atomic_t.
+
+This change doesn't fix that driver but makes sure that rest of the
+netdev subsystem doesn't suffer from such basic protection by adding
+device_lock over devlink_*() APIs and by moving devlink_register()
+to be last command in setup_nic_devices().
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/net/ethernet/huawei/hinic/hinic_hw_dev.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ .../net/ethernet/cavium/liquidio/lio_main.c   | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/net/ethernet/huawei/hinic/hinic_hw_dev.c b/drivers/net/ethernet/huawei/hinic/hinic_hw_dev.c
-index b2ece3adbc72..657a15447bd0 100644
---- a/drivers/net/ethernet/huawei/hinic/hinic_hw_dev.c
-+++ b/drivers/net/ethernet/huawei/hinic/hinic_hw_dev.c
-@@ -754,11 +754,9 @@ static int init_pfhwdev(struct hinic_pfhwdev *pfhwdev)
- 		return err;
- 	}
+diff --git a/drivers/net/ethernet/cavium/liquidio/lio_main.c b/drivers/net/ethernet/cavium/liquidio/lio_main.c
+index a34b3bb2dd4f..dafc79bd34f4 100644
+--- a/drivers/net/ethernet/cavium/liquidio/lio_main.c
++++ b/drivers/net/ethernet/cavium/liquidio/lio_main.c
+@@ -1279,6 +1279,14 @@ static int liquidio_stop_nic_module(struct octeon_device *oct)
+ 	struct lio *lio;
  
--	hinic_devlink_register(hwdev->devlink_dev);
- 	err = hinic_func_to_func_init(hwdev);
- 	if (err) {
- 		dev_err(&hwif->pdev->dev, "Failed to init mailbox\n");
--		hinic_devlink_unregister(hwdev->devlink_dev);
- 		hinic_pf_to_mgmt_free(&pfhwdev->pf_to_mgmt);
- 		return err;
- 	}
-@@ -781,7 +779,7 @@ static int init_pfhwdev(struct hinic_pfhwdev *pfhwdev)
- 	}
+ 	dev_dbg(&oct->pci_dev->dev, "Stopping network interfaces\n");
++	device_lock(&oct->pci_dev->dev);
++	if (oct->devlink) {
++		devlink_unregister(oct->devlink);
++		devlink_free(oct->devlink);
++		oct->devlink = NULL;
++	}
++	device_unlock(&oct->pci_dev->dev);
++
+ 	if (!oct->ifcount) {
+ 		dev_err(&oct->pci_dev->dev, "Init for Octeon was not completed\n");
+ 		return 1;
+@@ -1300,12 +1308,6 @@ static int liquidio_stop_nic_module(struct octeon_device *oct)
+ 	for (i = 0; i < oct->ifcount; i++)
+ 		liquidio_destroy_nic_device(oct, i);
  
- 	hinic_set_pf_action(hwif, HINIC_PF_MGMT_ACTIVE);
+-	if (oct->devlink) {
+-		devlink_unregister(oct->devlink);
+-		devlink_free(oct->devlink);
+-		oct->devlink = NULL;
+-	}
 -
-+	hinic_devlink_register(hwdev->devlink_dev);
+ 	dev_dbg(&oct->pci_dev->dev, "Network interfaces stopped\n");
  	return 0;
  }
+@@ -3749,10 +3751,12 @@ static int setup_nic_devices(struct octeon_device *octeon_dev)
+ 		}
+ 	}
  
-@@ -793,6 +791,7 @@ static void free_pfhwdev(struct hinic_pfhwdev *pfhwdev)
- {
- 	struct hinic_hwdev *hwdev = &pfhwdev->hwdev;
++	device_lock(&octeon_dev->pci_dev->dev);
+ 	devlink = devlink_alloc(&liquidio_devlink_ops,
+ 				sizeof(struct lio_devlink_priv),
+ 				&octeon_dev->pci_dev->dev);
+ 	if (!devlink) {
++		device_unlock(&octeon_dev->pci_dev->dev);
+ 		dev_err(&octeon_dev->pci_dev->dev, "devlink alloc failed\n");
+ 		goto setup_nic_dev_free;
+ 	}
+@@ -3760,9 +3764,10 @@ static int setup_nic_devices(struct octeon_device *octeon_dev)
+ 	lio_devlink = devlink_priv(devlink);
+ 	lio_devlink->oct = octeon_dev;
  
-+	hinic_devlink_unregister(hwdev->devlink_dev);
- 	hinic_set_pf_action(hwdev->hwif, HINIC_PF_MGMT_INIT);
+-	devlink_register(devlink);
+ 	octeon_dev->devlink = devlink;
+ 	octeon_dev->eswitch_mode = DEVLINK_ESWITCH_MODE_LEGACY;
++	devlink_register(devlink);
++	device_unlock(&octeon_dev->pci_dev->dev);
  
- 	if (!HINIC_IS_VF(hwdev->hwif)) {
-@@ -810,8 +809,6 @@ static void free_pfhwdev(struct hinic_pfhwdev *pfhwdev)
- 
- 	hinic_func_to_func_free(hwdev);
- 
--	hinic_devlink_unregister(hwdev->devlink_dev);
--
- 	hinic_pf_to_mgmt_free(&pfhwdev->pf_to_mgmt);
- }
+ 	return 0;
  
 -- 
 2.31.1
