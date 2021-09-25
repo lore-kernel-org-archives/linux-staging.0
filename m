@@ -1,52 +1,59 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066DC3FCB
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 07:40:19 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id t18so34328099wrb.0
-        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 00:40:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B03A3FCB
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 07:45:42 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id eg28so45573745edb.1
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 00:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zUoYPrdsXVCfbzQ591b/2xnz2JhbpgrLtyixMju3BfU=;
-        b=JgTWNgML8CCG9X/ioFZCJuF4ADZDlgFQ6WFCxzjM4MUHDxULwnQZOOBU8eRZbzRcW0
-         PfewMfMEhLogP4AfjaKTdwYSZUihvRwymPxLusSatfDV7OA33X/GBk+O8oQkRirb5Ccb
-         wfybw7VWLrKq/UdPdu9DUzu3ixdSgUzFt3kfnrMNH5MLTM0W1FmPra3GZkydjZimP79a
-         VOalmmHp+MFihh765UOhLQP5bMsp1sxmPlDz3ePscVFa4rvq9yJui5TaWyF0Xhz1AOWK
-         FdW4baHWumeRgYbHPdPd68/acoQS200Dwt3TKvSmeQm+F5y0Ultgre1KLovbr/GfnSr1
-         Hc2Q==
+        bh=+8PZXNRc5ZTxd7WuoBWNH6vWt+Frn9DdJuHENk685Rk=;
+        b=Psx/hbfu1CqLOthiaZaXLpBqk3e4CTjIH5etc4mTfLdbjMeIZR7yZEjrslCnXjsnH2
+         v7eLbPu50aTXzvj6W83uFmHmGChWYVSIZxIuW0VChbKzXlAELnQyGcw2D4igB6UFIx5E
+         xjH/4c7jxT3lIlv1cgq43TJU/djyxOTlnSKA27octQMlIMSZsF7OTvX5LIE82K8TDhP1
+         U8OHvetdqWHQCLaS+mLOeSCT7LWuwRTGRtd+LKINd7Lk8yFGK5hPp4WwFyvt0YIF6LMS
+         rGMxsqUR2oJ6NLwi5B0Kgq/1DKsTR19Imt04lOTu7JdGmkN50Qv2C5rKe/VoZVVziYAE
+         uLgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zUoYPrdsXVCfbzQ591b/2xnz2JhbpgrLtyixMju3BfU=;
-        b=ghaxSCxM03TKO9WcHQfOqrEeYKtWbX2n1t1z4ZimL3Luvda914+13Ba+IlbqvcA4Nz
-         2hNMKSlWGqialo988AMQTef1qhs2wQfZAcaOy3T4ZENnWXFPYrSvxTSKsbH0cq99Dvks
-         tHvaKBYurjSWOTSxZkrxf3y7yg3ahng0ojA+ug0B05EX2q8g8uQEnzIshxPqEmIC+wiu
-         ggG18KRLwqOP2Q3/dWD2f/XSdl4McrsKLpHtr/nqizueVm6dh/aVQvcngQxGQh2rUS1x
-         ZMr8LNjCMp/MMmWSsskt7Y8kSKbieZIyueg3M9aFBFA94/FfqPM1blghs8BYWiD9SyaJ
-         vkyQ==
-X-Gm-Message-State: AOAM531EDjUoVwq3Qfmh9300mKIZv9/VfZYshsaWsMi1Elh6xgGsLDi+
-	3loOSy1PvywtZxANhR6gBi8=
-X-Google-Smtp-Source: ABdhPJynZRqMQpXwkL44WXWe7A68HlzQIzz3d4ASIFGZaRcsxh7HZf1upHkFZSWa9szCLqhJToPlng==
-X-Received: by 2002:a05:6000:2cf:: with SMTP id o15mr15833269wry.364.1632555618376;
-        Sat, 25 Sep 2021 00:40:18 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::dc89])
-        by smtp.gmail.com with ESMTPSA id i187sm11343897wma.0.2021.09.25.00.40.17
+        bh=+8PZXNRc5ZTxd7WuoBWNH6vWt+Frn9DdJuHENk685Rk=;
+        b=JevAP4wKf+Zs0Ds/1ba8duXqpvq8trT7LYgvYfnHjSr5xZsb9PjyzBG86/24slTpRS
+         kn8ypwPC2bjhsc3UGE7iZui3bPMbERvRxcnmXdWDi/Mamdplkg5yYqn+m8PgPDY+aWZz
+         ZFDvpw7kyXeq3rNL4FEvyvMfp6x6h8s7tkAE0mWuRoO2C12zT0MSHQUyvv+uWxI+AUUi
+         lgo2fwB90H6kNlkdDwkdHUOv/Oyo5550BkoHu98NusgT1f+SHWRhgCz5q9VxPZtEJAdt
+         VN75T8JZOQPEr6ZVZIu3hax1nuMxCOcruk6IL6fulZKZVc1CSnTy1B2DBt5XD67FkwF5
+         0aUw==
+X-Gm-Message-State: AOAM533t1YN+ErezkXlKCV7E7OnLqQzRzhcwtNOy9fWgFp/G8aBxpz/A
+	UxOOtcSqRokIAQ6qPyEFYcw=
+X-Google-Smtp-Source: ABdhPJzKMjlmjwDx39EH55uunp2gbn19ryAemm8p6/GhD/A75doeBV+lv01hP7rUbTSUU1BVgsPe0g==
+X-Received: by 2002:a50:f60a:: with SMTP id c10mr9720290edn.250.1632555940453;
+        Sat, 25 Sep 2021 00:45:40 -0700 (PDT)
+Received: from tom-desktop.station (net-93-71-218-228.cust.vodafonedsl.it. [93.71.218.228])
+        by smtp.gmail.com with ESMTPSA id m14sm5949900ejl.74.2021.09.25.00.45.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Sep 2021 00:40:17 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Sat, 25 Sep 2021 00:45:40 -0700 (PDT)
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: 
+Cc: tomm.merciai@gmail.com,
+	Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+	Yujia Qiao <rapiz@foxmail.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Deepak R Varma <mh12gx2825@gmail.com>,
+	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove ODM_CheckPowerStatus()
-Date: Sat, 25 Sep 2021 09:40:13 +0200
-Message-Id: <20210925074013.14693-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] staging: vt6655: replace camel case variables
+Date: Sat, 25 Sep 2021 09:45:21 +0200
+Message-Id: <20210925074531.10446-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,52 +62,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function ODM_CheckPowerStatus() returns always true. Checking its
-return value is not necessary. Remove the function and related code.
+This series replace the following camel case variables for vt6655 driver:
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 14 --------------
- 1 file changed, 14 deletions(-)
+bShortSlotTime -> b_short_slot_time
+ldBmThreshold -> ld_bm_threshold
+PortOffset -> port_offset
 
-diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-index 34ca1d0066e8..f01ee3cd8795 100644
---- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-+++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
-@@ -627,24 +627,12 @@ static void pathb_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8], u
- 	}
- }
- 
--/*  */
--/*  2011/07/26 MH Add an API for testing IQK fail case. */
--/*  */
--/*  MP Already declare in odm.c */
--static bool ODM_CheckPowerStatus(struct adapter *Adapter)
--{
--	return	true;
--}
--
- void _PHY_SaveADDARegisters(struct adapter *adapt, u32 *ADDAReg, u32 *ADDABackup, u32 RegisterNum)
- {
- 	u32 i;
- 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(adapt);
- 	struct odm_dm_struct *dm_odm = &pHalData->odmpriv;
- 
--	if (!ODM_CheckPowerStatus(adapt))
--		return;
--
- 	for (i = 0; i < RegisterNum; i++) {
- 		ADDABackup[i] = ODM_GetBBReg(dm_odm, ADDAReg[i], bMaskDWord);
- 	}
-@@ -1074,8 +1062,6 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
- 	bool is2t;
- 
- 	is2t = (dm_odm->RFType == ODM_2T2R) ? true : false;
--	if (!ODM_CheckPowerStatus(adapt))
--		return;
- 
- 	if (!(dm_odm->SupportAbility & ODM_RF_CALIBRATION))
- 		return;
--- 
-2.33.0
+Tommaso Merciai (3):
+  staging: vt6655: replace camel case b_short_slot_time instead of
+    bShortSlotTime.
+  staging: vt6655: replace camel case ld_bm_threshold instead of
+    ldBmThreshold.
+  staging: vt6655: replace camel case port_offset instead of PortOffset.
+
+ drivers/staging/vt6655/baseband.c    |  58 +++++------
+ drivers/staging/vt6655/card.c        |  90 ++++++++--------
+ drivers/staging/vt6655/channel.c     |  10 +-
+ drivers/staging/vt6655/device.h      |   6 +-
+ drivers/staging/vt6655/device_main.c | 150 +++++++++++++--------------
+ drivers/staging/vt6655/mac.c         |  46 ++++----
+ drivers/staging/vt6655/power.c       |  24 ++---
+ drivers/staging/vt6655/rf.c          |  12 +--
+ drivers/staging/vt6655/rxtx.c        |  12 +--
+ 9 files changed, 204 insertions(+), 204 deletions(-)
+
+--
+2.25.1
 
