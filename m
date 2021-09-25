@@ -1,78 +1,106 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070FD3FC8
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 06:16:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 555CD61268;
-	Sat, 25 Sep 2021 06:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632550571;
-	bh=go5DPv5ugtKsesMi2pub5HTqRQmtQUYcn4XMZIgHLb0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VOdCsGovFS2Br8MQFuWFirLgD32yt7IYVT8Ceqaz119pVQ+1YHpQo2hG2QvupOKtg
-	 m+3N8ZnnEQ4upibstvJs1Zb2VdXwU91Xexa6f4S6K89SbJueqFQOI+AT1MznT7c0Xd
-	 nf2bV/pZ9r9KJmH+OxmvCuNS6Qqfrj1c6EXpjytc=
-Date: Sat, 25 Sep 2021 08:16:09 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Yujia Qiao <rapiz@foxmail.com>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
-	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Deepak R Varma <mh12gx2825@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] staging: vt6655: replace camel case
- b_short_slot_time instead of bShortSlotTime.
-Message-ID: <YU6+qSa1naaGLAk/@kroah.com>
-References: <20210924210008.106355-1-tomm.merciai@gmail.com>
- <20210924210008.106355-2-tomm.merciai@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066DC3FCB
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 07:40:19 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id t18so34328099wrb.0
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 00:40:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zUoYPrdsXVCfbzQ591b/2xnz2JhbpgrLtyixMju3BfU=;
+        b=JgTWNgML8CCG9X/ioFZCJuF4ADZDlgFQ6WFCxzjM4MUHDxULwnQZOOBU8eRZbzRcW0
+         PfewMfMEhLogP4AfjaKTdwYSZUihvRwymPxLusSatfDV7OA33X/GBk+O8oQkRirb5Ccb
+         wfybw7VWLrKq/UdPdu9DUzu3ixdSgUzFt3kfnrMNH5MLTM0W1FmPra3GZkydjZimP79a
+         VOalmmHp+MFihh765UOhLQP5bMsp1sxmPlDz3ePscVFa4rvq9yJui5TaWyF0Xhz1AOWK
+         FdW4baHWumeRgYbHPdPd68/acoQS200Dwt3TKvSmeQm+F5y0Ultgre1KLovbr/GfnSr1
+         Hc2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zUoYPrdsXVCfbzQ591b/2xnz2JhbpgrLtyixMju3BfU=;
+        b=ghaxSCxM03TKO9WcHQfOqrEeYKtWbX2n1t1z4ZimL3Luvda914+13Ba+IlbqvcA4Nz
+         2hNMKSlWGqialo988AMQTef1qhs2wQfZAcaOy3T4ZENnWXFPYrSvxTSKsbH0cq99Dvks
+         tHvaKBYurjSWOTSxZkrxf3y7yg3ahng0ojA+ug0B05EX2q8g8uQEnzIshxPqEmIC+wiu
+         ggG18KRLwqOP2Q3/dWD2f/XSdl4McrsKLpHtr/nqizueVm6dh/aVQvcngQxGQh2rUS1x
+         ZMr8LNjCMp/MMmWSsskt7Y8kSKbieZIyueg3M9aFBFA94/FfqPM1blghs8BYWiD9SyaJ
+         vkyQ==
+X-Gm-Message-State: AOAM531EDjUoVwq3Qfmh9300mKIZv9/VfZYshsaWsMi1Elh6xgGsLDi+
+	3loOSy1PvywtZxANhR6gBi8=
+X-Google-Smtp-Source: ABdhPJynZRqMQpXwkL44WXWe7A68HlzQIzz3d4ASIFGZaRcsxh7HZf1upHkFZSWa9szCLqhJToPlng==
+X-Received: by 2002:a05:6000:2cf:: with SMTP id o15mr15833269wry.364.1632555618376;
+        Sat, 25 Sep 2021 00:40:18 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::dc89])
+        by smtp.gmail.com with ESMTPSA id i187sm11343897wma.0.2021.09.25.00.40.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Sep 2021 00:40:17 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove ODM_CheckPowerStatus()
+Date: Sat, 25 Sep 2021 09:40:13 +0200
+Message-Id: <20210925074013.14693-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210924210008.106355-2-tomm.merciai@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 24, 2021 at 11:00:00PM +0200, Tommaso Merciai wrote:
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+The function ODM_CheckPowerStatus() returns always true. Checking its
+return value is not necessary. Remove the function and related code.
 
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-Hi,
+diff --git a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+index 34ca1d0066e8..f01ee3cd8795 100644
+--- a/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
++++ b/drivers/staging/r8188eu/hal/HalPhyRf_8188e.c
+@@ -627,24 +627,12 @@ static void pathb_fill_iqk(struct adapter *adapt, bool iqkok, s32 result[][8], u
+ 	}
+ }
+ 
+-/*  */
+-/*  2011/07/26 MH Add an API for testing IQK fail case. */
+-/*  */
+-/*  MP Already declare in odm.c */
+-static bool ODM_CheckPowerStatus(struct adapter *Adapter)
+-{
+-	return	true;
+-}
+-
+ void _PHY_SaveADDARegisters(struct adapter *adapt, u32 *ADDAReg, u32 *ADDABackup, u32 RegisterNum)
+ {
+ 	u32 i;
+ 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(adapt);
+ 	struct odm_dm_struct *dm_odm = &pHalData->odmpriv;
+ 
+-	if (!ODM_CheckPowerStatus(adapt))
+-		return;
+-
+ 	for (i = 0; i < RegisterNum; i++) {
+ 		ADDABackup[i] = ODM_GetBBReg(dm_odm, ADDAReg[i], bMaskDWord);
+ 	}
+@@ -1074,8 +1062,6 @@ void PHY_IQCalibrate_8188E(struct adapter *adapt, bool recovery)
+ 	bool is2t;
+ 
+ 	is2t = (dm_odm->RFType == ODM_2T2R) ? true : false;
+-	if (!ODM_CheckPowerStatus(adapt))
+-		return;
+ 
+ 	if (!(dm_odm->SupportAbility & ODM_RF_CALIBRATION))
+ 		return;
+-- 
+2.33.0
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
