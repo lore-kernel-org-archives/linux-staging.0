@@ -1,41 +1,41 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCB23FCF
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 20:32:33 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id d6so38129743wrc.11
-        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 13:32:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EDC3FCB
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 20:32:34 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id w17so38173493wrv.10
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 13:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yKlbIEgqwR0qKF8U+1Jmv4I3Uips5CrTskAfz926Lgw=;
-        b=X4MuI7BDwuEfS0kx+aSaMc/Oso11hkeMpr296AAfzuYHNay+DEGMlnw58azTBbTdOx
-         D0eIX133N+i//NgM4wovM29cPWfQWSiYXzPfFjo6XLs2GGeESmQRKBl/LQT0AdG6yCvx
-         VuL/ij3eJUsQIRoJqKi9OZaF9RkPfjeWniW38Uypp2ZoVnhYpyEyZTnHZp1MMV28N2jM
-         zqH2Q8Ejfp85vpppMvnQHcv/xuQwuNIAEoI5p8q7YAKCqwAVzgI3Hq4TIzAy/7QdKpkh
-         CoLyJieFkhioAT4oPsFejj5+O2IYoCIKf8IoclO1nL7rFQyUHj/cWQqdSJvvBX//ITnt
-         4hWg==
+        bh=YGJlwr2TgrXRfWneKRDsk4/Af6P1h7wSgc5Vc8J2024=;
+        b=PFdJIClUviW3KXuNKJE+H6ls1LLMZD8ZnRUiIzhy/EGpa5nuJfcuygtInTm9TxRddx
+         L/MN531XpjR64tFqU//TTmtzWx/AyzNYOQ8b/gA8//7KK+NiJqxz0HLCe2jerIkKhQ3l
+         BKHTYwb7LxJCaxyYtO5gRD2+22dP4UJ41Oc4xBNxtf+zpu0FaPAcMqqyuISDIUzlKLWO
+         C12rvZtUdByHjKXSqv5Rb6rULeUdOxTK555+QZeBjUC5T76LexM6mg1T5p6wMatzpH6l
+         mtcQFqO+ghZ2q2QvdgQkY7CWblLcnoZXENDN7LUZMqb18ZsPKYHKEVLjqzU7NaHG0P8K
+         UBSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yKlbIEgqwR0qKF8U+1Jmv4I3Uips5CrTskAfz926Lgw=;
-        b=41pfqrfnEHqN63vebqByz4UbJeX15mAIFNWtXM+IjDPBpdPHanqAMByyvoZruUoID7
-         EUlZLcrLRVb8WQILVKONZgdelztQh2QgBP+Z9nXlqWuLdmxDnBRxVaDYLGVM7JLH56fi
-         60WL2Cvm8VsNI6u+Nh3HWdavgLWi8bQvjt7SmvsK6AzGClDSu/Y/xLNJ0FOes5VKJqOU
-         +lVWrrnvHgXvuE0JRqe2YJznYv1836LIu7T7Max0raBGnKOnU+K0zxxDZl618JnypDCw
-         ylIY8GQ2LDQHq+SNIhkchLhJuW72UOVU0JsSW8GtBzXyqW5ePdzwlLLlrhMuFkeSAOrX
-         7CLw==
-X-Gm-Message-State: AOAM533SThauDrLCWG9BtP7QFs8eL50C7WMOKbypBlVyuz0neuG2H3oi
-	WzWV/vC6B4McxZwvrNElmCI=
-X-Google-Smtp-Source: ABdhPJyB5EAGRY414d65WgCtR2DA5/RQmVAZJ8drxqTB2g4Nnh94SBqW29tqzshSJ+0sTHFz9SbFdw==
-X-Received: by 2002:adf:9bdb:: with SMTP id e27mr18382224wrc.162.1632601951732;
-        Sat, 25 Sep 2021 13:32:31 -0700 (PDT)
+        bh=YGJlwr2TgrXRfWneKRDsk4/Af6P1h7wSgc5Vc8J2024=;
+        b=ZdlZjCC+mX1VVsXKsZYZPOEg97CgnhSl8HnDlOQQkrmTw+AOefWr4oTwTB3gg+Grpu
+         gB/es/X5OqC0Aw2/Xgjve6BIwK5hHdEn2gmQhVyjg7YX2BwiRHAOuHgc1eHILZer2Eel
+         3df+oHjKxtDloQcrdCwQWeOzR27thjZSwnmTJmdZJWL4qlh0BHjVontYvO6+2ZekpF/g
+         1TX+p3GN2oShCCGu2UmfeypaB9STG90OhlTWcFqKmKozGYX+kpSzSIlvC8mpOM9Zdbhh
+         Cg9soCFYQacQco1XmqVKzLQclNBzvkEBeXPN/V1qby1K1mDWqqK9cqt7t8XYOvr4zl4w
+         kppw==
+X-Gm-Message-State: AOAM533RFt4e0mnYAwvmpo25SlABFBO9zFTeATyBEfnhSnR929Kex9pE
+	L1Nrjv7B8TJF12n4qTKUWfs=
+X-Google-Smtp-Source: ABdhPJwIeSjsdRl4hxHnhQhhjCG31SKIMxpVNFgDBVktB0VGtnJwUeufSCGaKYc4FjlkTA8pYynJ/w==
+X-Received: by 2002:a5d:6450:: with SMTP id d16mr18209600wrw.40.1632601952804;
+        Sat, 25 Sep 2021 13:32:32 -0700 (PDT)
 Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id a202sm16703279wmd.15.2021.09.25.13.32.30
+        by smtp.gmail.com with ESMTPSA id a202sm16703279wmd.15.2021.09.25.13.32.31
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 25 Sep 2021 13:32:31 -0700 (PDT)
+        Sat, 25 Sep 2021 13:32:32 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: tsbogend@alpha.franken.de
 Cc: robh@kernel.org,
@@ -50,9 +50,9 @@ Cc: robh@kernel.org,
 	linux-staging@lists.linux.dev,
 	neil@brown.name,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/6] MIPS: implement architecture-specific 'pci_remap_iospace()'
-Date: Sat, 25 Sep 2021 22:32:23 +0200
-Message-Id: <20210925203224.10419-6-sergio.paracuellos@gmail.com>
+Subject: [PATCH v3 6/6] staging: mt7621-pci: properly adjust base address for the IO window
+Date: Sat, 25 Sep 2021 22:32:24 +0200
+Message-Id: <20210925203224.10419-7-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
 References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
@@ -64,52 +64,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To make PCI IO work we need to properly virtually map IO cpu physical address
-and set this virtual address as the address of the first PCI IO port which
-is set using function 'set_io_port_base()'.
+The value to adjust in the bridge register RALINK_PCI_IOBASE must take into
+account the raw value from DT, not only the translated linux port number.
+As long as io_offset is zero, the two are the same, but if you were to use
+multiple host bridge in the system, or pick a different bus address in DT,
+you can have a nonzero io_offset. At this means to take into account the
+bus address which is used to calculate this offset, substracting it from
+the IO resource start address.
 
 Acked-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- arch/mips/include/asm/pci.h |  2 ++
- arch/mips/pci/pci-generic.c | 14 ++++++++++++++
- 2 files changed, 16 insertions(+)
+ drivers/staging/mt7621-pci/pci-mt7621.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/mips/include/asm/pci.h b/arch/mips/include/asm/pci.h
-index 9ffc8192adae..35270984a5f0 100644
---- a/arch/mips/include/asm/pci.h
-+++ b/arch/mips/include/asm/pci.h
-@@ -20,6 +20,8 @@
- #include <linux/list.h>
- #include <linux/of.h>
+diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
+index 6acfc94a16e7..503cb1fca2e0 100644
+--- a/drivers/staging/mt7621-pci/pci-mt7621.c
++++ b/drivers/staging/mt7621-pci/pci-mt7621.c
+@@ -482,7 +482,7 @@ static int mt7621_pcie_enable_ports(struct pci_host_bridge *host)
  
-+#define pci_remap_iospace pci_remap_iospace
-+
- #ifdef CONFIG_PCI_DRIVERS_LEGACY
+ 	/* Setup MEMWIN and IOWIN */
+ 	pcie_write(pcie, 0xffffffff, RALINK_PCI_MEMBASE);
+-	pcie_write(pcie, entry->res->start, RALINK_PCI_IOBASE);
++	pcie_write(pcie, entry->res->start - entry->offset, RALINK_PCI_IOBASE);
  
- /*
-diff --git a/arch/mips/pci/pci-generic.c b/arch/mips/pci/pci-generic.c
-index 95b00017886c..18eb8a453a86 100644
---- a/arch/mips/pci/pci-generic.c
-+++ b/arch/mips/pci/pci-generic.c
-@@ -46,3 +46,17 @@ void pcibios_fixup_bus(struct pci_bus *bus)
- {
- 	pci_read_bridge_bases(bus);
- }
-+
-+int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
-+{
-+	unsigned long vaddr;
-+
-+	if (res->start != 0) {
-+		WARN_ONCE(1, "resource start address is not zero\n");
-+		return -ENODEV;
-+	}
-+
-+	vaddr = (unsigned long)ioremap(phys_addr, resource_size(res));
-+	set_io_port_base(vaddr);
-+	return 0;
-+}
+ 	list_for_each_entry(port, &pcie->ports, list) {
+ 		if (port->enabled) {
 -- 
 2.25.1
 
