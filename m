@@ -1,110 +1,83 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A930E3FC7
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 18:09:11 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id u11so8980697uaw.3
-        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WXQl6xYHyo7VmGkogOZ2uCBbLxqiVuqGmz8mDC3PsVE=;
-        b=RyN3JIcFIRv5HcRDNmaJXs0sPVG3iaG8G4p6T/woxXGgGDJyMVky1Qb/UdpUe30KJp
-         +hwj4SYJX0Tw1JdrdDpGF/QUcAK+lytw0/3KVJ9fUqYtKMmkuOFVTog++LIeIaMjRxS7
-         MZyJiwfHQKgjw8GA1vEN/Hl+oWlY0zowHuq/qzYf3/OFMlDArg8wn5JMV5u42l16ffzp
-         0ABIgaTD7jLtYx9l8N0BMAGl1kORu+SiMXzfANpYHmATBYEk8Um3/gLgPVnsbWycguiI
-         3qNezo/MTSpomvZBgS72bkv5xg9MStyz0oYiGvuAtJn2HxHVPU1uFS29ywB9WDpIQE8z
-         kNzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WXQl6xYHyo7VmGkogOZ2uCBbLxqiVuqGmz8mDC3PsVE=;
-        b=sowudRHFViQv+Ce46NB8yTYTW8SkmP4+TgzhJyWRBaWg3M1LO4kYzeY62TB8BBk2GG
-         DV/ZbHZ23pn7IJB2fwOT5kLl/94iegq0zQQw+m1ojKGZjvI815O2Ej0pQx/ZXIYZOCPI
-         aRWXhIGY4WYl0LHPwQIhR5ZaWOcBuTkkqJWjjZusoblkB4orVl/7eBVkjDUojM/k9Tmz
-         Adg7tL1taKx6BR30FyncYYQttu8Q2neq1lE6zBbciDZafeC3zzaq+ynI4nNMsIe0Ccrn
-         JtUIiZNmYnfUcgOWZ7OoJRTnIsZgd6Ss1wn/vFxca0D4xC4KjBsItIaFhQN3wKglsYH1
-         z9YA==
-X-Gm-Message-State: AOAM533i/Tl0MZgFFazCXtA2AEXLvbpS5eZkWS6+v6lag+JDWzjeoMO0
-	/idWGm1Y0/zY63bVUyA7yv9vRPPZnY2VDSW7+zk=
-X-Google-Smtp-Source: ABdhPJxwiExLM3hzBCAfYUgeYdy55lPTeSgDo0znsn0D+vbB/KiyL4ObpmWFiOfukFEJXqJwZjiYBdvVrKix1Is/cIc=
-X-Received: by 2002:ab0:538b:: with SMTP id k11mr11610115uaa.131.1632593350651;
- Sat, 25 Sep 2021 11:09:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECCF72
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 19:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=dbaedf251592; t=1632597943;
+	bh=k8iRB1HYotJ4xRYC5qXhCzYv80mMTq4bl+ffCv2R8VE=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=gu+D5DDk//saVGjyfkkwHMhsO++jYd+yS01SXFXA5AkBoNhTDs+LoY8luMo1TKAHn
+	 Y4we6DaRVt96cn/6iSq51Uuc7PmGdmyeezSnR4jisWlV60BTn1mp6P2e0C9W4DBdOG
+	 QFDwbLcH4LcGZXnMHFFJ02sK1eMZJz2/6fzmm/HQ=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from michael-LIFEBOOK-E751.fritz.box ([94.134.116.230]) by
+ smtp.web.de (mrweb105 [213.165.67.124]) with ESMTPSA (Nemesis) id
+ 1M1rP8-1mS1MQ3Ej2-002hLf; Sat, 25 Sep 2021 21:20:26 +0200
+From: Michael Estner <michaelestner@web.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: michaelestner@web.de,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Remove uneccessary parantheas
+Date: Sat, 25 Sep 2021 21:20:15 +0200
+Message-Id: <20210925192018.6745-1-michaelestner@web.de>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210924211139.3477-1-sergio.paracuellos@gmail.com>
- <20210924211139.3477-6-sergio.paracuellos@gmail.com> <CAK8P3a3SpuioCVBfQpHFGuNQoXG7g8w9VL+V8rYd8Q80Od89HA@mail.gmail.com>
-In-Reply-To: <CAK8P3a3SpuioCVBfQpHFGuNQoXG7g8w9VL+V8rYd8Q80Od89HA@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Sat, 25 Sep 2021 20:08:58 +0200
-Message-ID: <CAMhs-H8jF10NpTgCP=_FEaBcedTN75b6MoyrEVrrayJEAdufwA@mail.gmail.com>
-Subject: Re: [PATCH 5/6] MIPS: implement architecture dependent 'pci_remap_iospace()'
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Rob Herring <robh@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	gregkh <gregkh@linuxfoundation.org>, 
-	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:vG3rfyHjdsA70oWYuIu0rZ6gKYxwFE9HXxaNP6AKJS9e4l5/FJ1
+ /4LOaUhg927l0ZSjj0Uv5qE7ri01yQbf5rgwOAcZxU4RXUFr7PVzBzCXy6krGl544uJXB3Q
+ Vsaij6O0aOPSsgkP7hZM74IcQ2x9d49K8NLOMaI0lbb0rtGiM+y+8g9af1iUU3cELSyWdRD
+ aZOl+3w/ms/7DCdB8sJlg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oGikA8QyGGA=:y1qWwXNaVtrCiaOe1GQCVW
+ hAmhV0nAiuzUeZ81BGAa6am9caE9pj7faSZOvHPUg04Ocwunux7+ExJ4NaCABqCVxKV41mgWE
+ P/U/j6mXUzPEr+s7Oo77B1iAAGjcBgAuSXLXMLmW4wM24r8SsDLQWjClSJHX/1Zot31nxjPp1
+ nt9Dgy17sOYtYEhlN/ngX+ER7RY26djloirIXWJ3Gcx5MEWiPZJpkhDUKPgODHrdCUf8U8iEZ
+ cigRvpM20E7aeouDnd8GDmzRDO+96a4ER0WOKVRNuEfVSgDPUpGSOs4U4QQmV0TIz2YtZR/v9
+ qzezISm02GY0y2Bgk9PujCAMhYqOUJEaNjyGMv5PJGERcQvNUoFTvsz4qiVKuSHcp0LHI2/Rd
+ whcekDK4+26qbxYkr8PeQ47fSWUT8u0axDZCxNx3go0kJgV7r/z7ESqzt6jO7tYrNocjndqaH
+ Mj+S+0dMnfGScVdZhSpT6pMlIbZCbH8RWKMUxsYuHNYKTCD8K978OiR4XDTrXm0PXNyrKtkR2
+ FJ0spXL3Yzf0h6QLan64ziSadkRWodSTa9mm6qKxqo0Pk3lwNVvuu/l5QQ4CmGVfJZVNUPgHZ
+ Wec7K749tkMKduel2YasVeOs9OK+osRABOT2NJ9WGKhQ3RgKJHT9cMxPI8BWqqF74uHgUr2jF
+ CtrSSTjaa+gCoPHJKturDknhM21rYTzVGnQucleyFDl8uxlYlvVZj/l1Rr8gE1rLJbhXG/aFK
+ FlTIXegMS0JdKlno33emdNNdVpPXmydrv8dbnS+x607ELgVQS7vzKuSrXWgBqzMZm82/clOmr
+ TuT07VgGD2jUrfHQZmC4bG/uE6ngVwl94LvyZpgVIXOeZk7vuQjbWQ9aS5d5UymyDdN0OddNh
+ Q0r5Ek/fOomQXDt4y/shbEfKX/X0d1Mkp2JtRY7hiSswEbx0I4VUIEBHcd0t5tZntcMPXyUSz
+ mMEtSj16Pw/gzlQ7vltUYUUgaj6pCX1tNCBG2CW3isHfo9g8kn7cAgbQ7HEwj4va/9PnIx77O
+ mJa4tzvYSoYI4+sXm7l5wHHa1YBuZdzUUTQN+43NEt7fr8NX+LtS3cu9OvcC9LJB4WL386OKi
+ XTyCx7+poJJXXk=
 
-Hi Arnd,
+Fix to be conform with the checkpatch style requirements
 
-On Sat, Sep 25, 2021 at 7:32 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Fri, Sep 24, 2021 at 11:11 PM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> >
-> > To make PCI IO work we need to properly virtually map IO cpu physical address
-> > and set this virtual address as the address of the first PCI IO port which
-> > is set using function 'set_io_port_base()'.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
->
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Michael Estner <michaelestner@web.de>
+=2D--
+ drivers/staging/pi433/rf69.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thanks!
+diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
+index 7d86bb8be245..980afa801e08 100644
+=2D-- a/drivers/staging/pi433/rf69.c
++++ b/drivers/staging/pi433/rf69.c
+@@ -470,9 +470,9 @@ static int rf69_set_bandwidth_intern(struct spi_device=
+ *spi, u8 reg,
+ 		return -EINVAL;
+ 	}
 
->
-> > +int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
-> > +{
-> > +       size_t size = (res->end - res->start) + 1;
-> > +       unsigned long vaddr = (unsigned long)ioremap(phys_addr, size);
-> > +
-> > +       set_io_port_base(vaddr);
-> > +       return 0;
-> > +}
->
-> It might be good to check that res->start is zero here, otherwise
-> the io_port_base would be off. That could happen if you ever have more
-> than one bridge.
+-	if ((mantisse !=3D mantisse16) &&
+-	    (mantisse !=3D mantisse20) &&
+-	    (mantisse !=3D mantisse24)) {
++	if (mantisse !=3D mantisse16 &&
++	    mantisse !=3D mantisse20 &&
++	    mantisse !=3D mantisse24) {
+ 		dev_dbg(&spi->dev, "set: illegal input param");
+ 		return -EINVAL;
+ 	}
+=2D-
+2.25.1
 
-Do you mean something like the following?
-
-int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
-{
-    unsigned long vaddr;
-    size_t size;
-
-    if (res->start != 0) {
-         // Should I WARN_ONCE or just show an error/warning message??
-         WARN_ONCE(1, "resource start must be zero\n");
-         return -ENODEV;
-   }
-
-     size = (res->end - res->start) + 1;
-     vaddr = (unsigned long)ioremap(phys_addr, size);
-     return 0;
-}
-
-Thanks,
-    Sergio Paracuellos
->
->         Arnd
