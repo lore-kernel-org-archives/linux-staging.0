@@ -1,100 +1,94 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5074172
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 20:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-	s=dbaedf251592; t=1632600282;
-	bh=xl2lRXURmfHekOv7JY05eAY/G+InvVeaZ+l+7Ga9/uE=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=MfWoNYN0GKO9PI47KaYZYu7wrtsY/4ZXWnSA7u3S5Nv0zEgXpwKdvtwYXzmUW/NYu
-	 /pMFVGYogzXmVc7T9YPIyZ4Y3rnUgghvKuawBD4S2hg9EkrjKmaj5FtCbfragD0+PK
-	 FI+dVotWYGmYGUOdvukMZ6yPaDTMH2uBTIoPxsew=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from michael-LIFEBOOK-E751.fritz.box ([94.134.116.230]) by
- smtp.web.de (mrweb101 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 0MK1s1-1mSr0B1AG5-001TAp; Sat, 25 Sep 2021 22:04:42 +0200
-From: Michael Estner <michaelestner@web.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: michaelestner@web.de,
-	Lee Jones <lee.jones@linaro.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] avoid crashing the kernel
-Date: Sat, 25 Sep 2021 22:04:30 +0200
-Message-Id: <20210925200433.8329-1-michaelestner@web.de>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB13E72
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 20:17:09 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id q66so13777226vsa.4
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 13:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4avZOfZm1u+aKpvIhV7cRkLhBytvyCiQq+DzBLIetBs=;
+        b=it6CQquhgjOSghhWHwRoIUwOAD+aRreCPxbDO7PkRMkSIw2NvMDB0+f+JVFeEK5n2m
+         MxuZo13JOYgWlWgcC+nf0cwEk8VSac0XhMuriMMtXvn8WVp3cwpiQ3oGKrKI0c6FeAI8
+         yEdODJgWqqH8vMfnQI879t+Ly2l+kFgqjiEWvhp6dXl6KLb8nQ14ldlzs1G0jw7B1k4x
+         RAeeBpejv7kI6aAsHlojrCNgQYHc5o9doevgM5Eke/mjlypCKRIc+B1XK4j3EcDX19ry
+         frL8BY0p1OKP9WHmMQScvdVdILl/DBVffCG55YTfJyXbsbvfCrCPVQn5fKn5WSiTaORn
+         oRWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4avZOfZm1u+aKpvIhV7cRkLhBytvyCiQq+DzBLIetBs=;
+        b=ZnQWuceyGFP5eeh1fuT7Jqo+a83Tz/LS3nk2eeaAbRPHfJA49XRGA4jn89s0EAJ7YR
+         It+Qu81gckTMK4UDFCaIo6vuSBLQfDq4XWmTa3jBIz2SBVsGWGj+2cKiwnPCp+81ATdG
+         boRL1CmDda1z9W0op/mgoGS/RXyDKZTuysh9zT351Z1QxyyEWHkk05/d6rKannpjVhhX
+         b+vo0Usvkb2rgxiA7hDRWs0n0MPZVqY7ha9mxJY4MXT2yeVHL64XpiBsV8NtHzrw1Ljv
+         1p3XZGy5m85KSh/58JFpfW9m4tGWXzI4wJzAbFuX4nybDZdD7QJ/suOQ/K0NTDM7S2GA
+         hXMA==
+X-Gm-Message-State: AOAM530cPiQ9EctsySFaB/kfcu9RzpnhUf3l8l6cxem4C/7j1XvLe/Ro
+	1wGb3cHsg6Y35p1tEhsJtZomyhEJSmhBPWsqX1g=
+X-Google-Smtp-Source: ABdhPJzLJuTQR9VhMkKFf0u0aMjQ7yr2pVsPF9Qzym2EufI3G/6e9bCttp19+oR4uzeiAHO37n6qULIgp2/NGVk7qYY=
+X-Received: by 2002:a05:6102:3005:: with SMTP id s5mr15012307vsa.48.1632601028806;
+ Sat, 25 Sep 2021 13:17:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:8jhaTcO6SJ/aaZ1SCkfb4dQ6JRUmQznFIaqc2wc+ZIAaxoZUy2E
- x0S2rqNgDc+BNBEHXeJHbrBgqcv6yh0mXQhq1Bi2bSZwig6zzB44sR/YXOOGfIHiFd9AiiW
- V14xz1RdL32J0wMaRFRG5+AwCh5FzLMyEs8X04deuGZvE3W1xR3Igy7h1ipSnv78UNgsn6c
- l47wm+J98qtUv76CpsHPA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JlkwreOf+E4=:cLDzPzUrEPwo1DZtlDU9RS
- dBhaFvQ+aXVauXUveUpX3tf1XG1CKGvagrEspfBSFD38jDf2fgcAC1aNIzUNZgk8EQw9JruYv
- e0q7mkcPQaWYzaqRxE0f2IK+GfSE5IX8msAQlcv7EgA7gYq7t7xrQtT7AZ4uibbnB5VnXqdLb
- 7J+Xz2q7uFZL1FlLdbhhR6lZldAl3U9b7f9ivOz7NKIysfx6RmgfKdW4c4j/mYrIpEFtuhkQP
- ydGmZmluNrkrrQ2Ut6Gmv5QXk+XaSNKLKpKXNRwzbk7RzpoLu90V6GfLHpzzGg1CSUHiH1ulQ
- skG3zAv6abvtvkFU9WhHsNBKltY3N2yE+Af2N7aFyp4bXXebt33BxKugrDEe3sI760Qk4kMex
- 36hVyKTT8yYguNRNQkSVF6zjX8k+fx4E2/KE1iiSlPHyAANyPvobXkTNJ6ahHBzk0fukjgfRl
- HvRyQXbHftnilpVOWtF7xn93haFmCuNyu9UUos8HS1hLn35JwcA6HpeP7tewtbYB8buFp1ept
- qaK3CR+OtB+YN52NuP842510hTXIHJ9KxEKgAiskXJJVxL/jRYXz+aTeXN89/X8zqeckD0bTe
- lqOUPI/KKObuSo5sHhovBxwzorTzj4e9aVWPSrl7AuNYuo44W4T44iXd23ExyVANNFf3QgLOs
- rW06dtKPhuMkF3uepwyDbSA3lj9tL4gEwcl7/q5IT1Wimkxf6Cfz7ebZzaznXBdj1497IlIfO
- DKhx3NDVnx/LfiXROV8djikv7rkMCkhbwYv65vW3iXtO8WnLaMfIPjuRsfNWQKfZzCKYkBTSP
- dWFvWYW8TLAbCfY3bNCWDbwPLNJUZHbcp9IWKo3PzAoQL0rF+2RT8zsQJVbw+WQcTtBsf9X6S
- SDGlagfQut88cHHyyOWBUIZpfaiwNfxXebgJ0ozTgenuenX14S8gAsgDYmZMymH2woAvwpA84
- tkh4eBwRawvqln7mrc6Dx6rgDvlJkn56Ut8k8b5PxxEyir7sWsHNGMaUJsxleXEgzJhoQKJ++
- Kt+e6DBPwvzwQ6kP/QK40jDy9TnsdJ0D0Nn5Mnp3rJXec2d1whuFBHkYyCLQXalp1uoQ9QXS6
- eX7Sjg6xmv4xEo=
+References: <20210924211139.3477-1-sergio.paracuellos@gmail.com>
+ <20210924211139.3477-6-sergio.paracuellos@gmail.com> <CAK8P3a3SpuioCVBfQpHFGuNQoXG7g8w9VL+V8rYd8Q80Od89HA@mail.gmail.com>
+ <CAMhs-H8jF10NpTgCP=_FEaBcedTN75b6MoyrEVrrayJEAdufwA@mail.gmail.com> <CAK8P3a0p0YwsiG8NgZGPxGp=GwTLXfEO=D=CY3TtmYwiDSuaXg@mail.gmail.com>
+In-Reply-To: <CAK8P3a0p0YwsiG8NgZGPxGp=GwTLXfEO=D=CY3TtmYwiDSuaXg@mail.gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Sat, 25 Sep 2021 22:16:57 +0200
+Message-ID: <CAMhs-H9aSNF4qP1HUtwNkA9bhMzErN9jXnscNvbiWSY=kyce2Q@mail.gmail.com>
+Subject: Re: [PATCH 5/6] MIPS: implement architecture dependent 'pci_remap_iospace()'
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Rob Herring <robh@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	gregkh <gregkh@linuxfoundation.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-To avoid chrashing the kernel I use WARN_ON instead.
+Hi Arnd,
 
-Signed-off-by: Michael Estner <michaelestner@web.de>
-=2D--
- drivers/staging/most/i2c/i2c.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Sat, Sep 25, 2021 at 9:34 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Sat, Sep 25, 2021 at 8:10 PM Sergio Paracuellos
+> <sergio.paracuellos@gmail.com> wrote:
+> > > It might be good to check that res->start is zero here, otherwise
+> > > the io_port_base would be off. That could happen if you ever have more
+> > > than one bridge.
+> >
+> > Do you mean something like the following?
+>
+> Yes, exactly.
+>
+> > int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+> > {
+> >     unsigned long vaddr;
+> >     size_t size;
+> >
+> >     if (res->start != 0) {
+> >          // Should I WARN_ONCE or just show an error/warning message??
+> >          WARN_ONCE(1, "resource start must be zero\n");
+> >          return -ENODEV;
+> >    }
+>
+> I don't care if it's WARN(), WARN_ONCE() or pr_warn(). If we ever see the
+> message, the system is not working and the person who caused the problem
+> will figure it out.
 
-diff --git a/drivers/staging/most/i2c/i2c.c b/drivers/staging/most/i2c/i2c=
-.c
-index 7042f10887bb..e1edd892f9fd 100644
-=2D-- a/drivers/staging/most/i2c/i2c.c
-+++ b/drivers/staging/most/i2c/i2c.c
-@@ -68,7 +68,7 @@ static int configure_channel(struct most_interface *most=
-_iface,
- 	struct hdm_i2c *dev =3D to_hdm(most_iface);
- 	unsigned int delay, pr;
+Pretty clear, thanks. I will collect you Acked-by's and make this
+change and send v3.
 
--	BUG_ON(ch_idx < 0 || ch_idx >=3D NUM_CHANNELS);
-+	WARN_ON(ch_idx < 0 || ch_idx >=3D NUM_CHANNELS);
-
- 	if (channel_config->data_type !=3D MOST_CH_CONTROL) {
- 		pr_err("bad data type for channel %d\n", ch_idx);
-@@ -122,7 +122,7 @@ static int enqueue(struct most_interface *most_iface,
- 	struct hdm_i2c *dev =3D to_hdm(most_iface);
- 	int ret;
-
--	BUG_ON(ch_idx < 0 || ch_idx >=3D NUM_CHANNELS);
-+	WARN_ON(ch_idx < 0 || ch_idx >=3D NUM_CHANNELS);
-
- 	if (ch_idx =3D=3D CH_RX) {
- 		/* RX */
-@@ -167,7 +167,7 @@ static int poison_channel(struct most_interface *most_=
-iface,
- 	struct hdm_i2c *dev =3D to_hdm(most_iface);
- 	struct mbo *mbo;
-
--	BUG_ON(ch_idx < 0 || ch_idx >=3D NUM_CHANNELS);
-+	WARN_ON(ch_idx < 0 || ch_idx >=3D NUM_CHANNELS);
-
- 	if (ch_idx =3D=3D CH_RX) {
- 		if (!polling_rate)
-=2D-
-2.25.1
-
+Best regards,
+    Sergio Paracuellos
+>
+>         Arnd
