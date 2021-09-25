@@ -1,83 +1,86 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECCF72
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 19:25:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=dbaedf251592; t=1632597943;
-	bh=k8iRB1HYotJ4xRYC5qXhCzYv80mMTq4bl+ffCv2R8VE=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=gu+D5DDk//saVGjyfkkwHMhsO++jYd+yS01SXFXA5AkBoNhTDs+LoY8luMo1TKAHn
-	 Y4we6DaRVt96cn/6iSq51Uuc7PmGdmyeezSnR4jisWlV60BTn1mp6P2e0C9W4DBdOG
-	 QFDwbLcH4LcGZXnMHFFJ02sK1eMZJz2/6fzmm/HQ=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from michael-LIFEBOOK-E751.fritz.box ([94.134.116.230]) by
- smtp.web.de (mrweb105 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 1M1rP8-1mS1MQ3Ej2-002hLf; Sat, 25 Sep 2021 21:20:26 +0200
-From: Michael Estner <michaelestner@web.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: michaelestner@web.de,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Remove uneccessary parantheas
-Date: Sat, 25 Sep 2021 21:20:15 +0200
-Message-Id: <20210925192018.6745-1-michaelestner@web.de>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1D172
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 19:34:27 +0000 (UTC)
+Received: from mail-wr1-f46.google.com ([209.85.221.46]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1Macf4-1n0nIx45VK-00c8G0 for <linux-staging@lists.linux.dev>; Sat, 25 Sep
+ 2021 21:34:26 +0200
+Received: by mail-wr1-f46.google.com with SMTP id d6so37856741wrc.11
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 12:34:25 -0700 (PDT)
+X-Gm-Message-State: AOAM531aYtKXAmUZ40hrjhehqrjdlIUQ8GqMJVS0R9IuHebVMIElIjRF
+	KBRQODNP5/jgQElxce7gOCAsS9lDXKKfcCWithA=
+X-Google-Smtp-Source: ABdhPJwbpmHIdWFL4NwLB5kag/+wj+bWLQfp5Mtq/+97YD9kjJkKuMkhEupsEM0B7gpocdwbiU1czX+HWHnqtWzRS8w=
+X-Received: by 2002:a05:600c:3209:: with SMTP id r9mr8157627wmp.35.1632598465533;
+ Sat, 25 Sep 2021 12:34:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vG3rfyHjdsA70oWYuIu0rZ6gKYxwFE9HXxaNP6AKJS9e4l5/FJ1
- /4LOaUhg927l0ZSjj0Uv5qE7ri01yQbf5rgwOAcZxU4RXUFr7PVzBzCXy6krGl544uJXB3Q
- Vsaij6O0aOPSsgkP7hZM74IcQ2x9d49K8NLOMaI0lbb0rtGiM+y+8g9af1iUU3cELSyWdRD
- aZOl+3w/ms/7DCdB8sJlg==
+References: <20210924211139.3477-1-sergio.paracuellos@gmail.com>
+ <20210924211139.3477-6-sergio.paracuellos@gmail.com> <CAK8P3a3SpuioCVBfQpHFGuNQoXG7g8w9VL+V8rYd8Q80Od89HA@mail.gmail.com>
+ <CAMhs-H8jF10NpTgCP=_FEaBcedTN75b6MoyrEVrrayJEAdufwA@mail.gmail.com>
+In-Reply-To: <CAMhs-H8jF10NpTgCP=_FEaBcedTN75b6MoyrEVrrayJEAdufwA@mail.gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Sat, 25 Sep 2021 21:34:09 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0p0YwsiG8NgZGPxGp=GwTLXfEO=D=CY3TtmYwiDSuaXg@mail.gmail.com>
+Message-ID: <CAK8P3a0p0YwsiG8NgZGPxGp=GwTLXfEO=D=CY3TtmYwiDSuaXg@mail.gmail.com>
+Subject: Re: [PATCH 5/6] MIPS: implement architecture dependent 'pci_remap_iospace()'
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Liviu Dudau <Liviu.Dudau@arm.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, gregkh <gregkh@linuxfoundation.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:xrV4YbbRWYxz6MKfoTvWWG/ERwpOVJiZIAXkjPamSTwlpo1G6vs
+ B50yo5pVtWSkuD55+t0XYNjzr5QNNGJn6YsKaStJWeJfs4EKe1MJQujSn1Enc8JOGOLPXJo
+ gfHLKXDLjMr/fcdcj9iG9LQqqY8GCh9cmANyAcCjjvy1Ek3b4HvKm96CrDJnj+zzG2Bi1mD
+ sTxdz5bJ/9w7Q2driEn7A==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oGikA8QyGGA=:y1qWwXNaVtrCiaOe1GQCVW
- hAmhV0nAiuzUeZ81BGAa6am9caE9pj7faSZOvHPUg04Ocwunux7+ExJ4NaCABqCVxKV41mgWE
- P/U/j6mXUzPEr+s7Oo77B1iAAGjcBgAuSXLXMLmW4wM24r8SsDLQWjClSJHX/1Zot31nxjPp1
- nt9Dgy17sOYtYEhlN/ngX+ER7RY26djloirIXWJ3Gcx5MEWiPZJpkhDUKPgODHrdCUf8U8iEZ
- cigRvpM20E7aeouDnd8GDmzRDO+96a4ER0WOKVRNuEfVSgDPUpGSOs4U4QQmV0TIz2YtZR/v9
- qzezISm02GY0y2Bgk9PujCAMhYqOUJEaNjyGMv5PJGERcQvNUoFTvsz4qiVKuSHcp0LHI2/Rd
- whcekDK4+26qbxYkr8PeQ47fSWUT8u0axDZCxNx3go0kJgV7r/z7ESqzt6jO7tYrNocjndqaH
- Mj+S+0dMnfGScVdZhSpT6pMlIbZCbH8RWKMUxsYuHNYKTCD8K978OiR4XDTrXm0PXNyrKtkR2
- FJ0spXL3Yzf0h6QLan64ziSadkRWodSTa9mm6qKxqo0Pk3lwNVvuu/l5QQ4CmGVfJZVNUPgHZ
- Wec7K749tkMKduel2YasVeOs9OK+osRABOT2NJ9WGKhQ3RgKJHT9cMxPI8BWqqF74uHgUr2jF
- CtrSSTjaa+gCoPHJKturDknhM21rYTzVGnQucleyFDl8uxlYlvVZj/l1Rr8gE1rLJbhXG/aFK
- FlTIXegMS0JdKlno33emdNNdVpPXmydrv8dbnS+x607ELgVQS7vzKuSrXWgBqzMZm82/clOmr
- TuT07VgGD2jUrfHQZmC4bG/uE6ngVwl94LvyZpgVIXOeZk7vuQjbWQ9aS5d5UymyDdN0OddNh
- Q0r5Ek/fOomQXDt4y/shbEfKX/X0d1Mkp2JtRY7hiSswEbx0I4VUIEBHcd0t5tZntcMPXyUSz
- mMEtSj16Pw/gzlQ7vltUYUUgaj6pCX1tNCBG2CW3isHfo9g8kn7cAgbQ7HEwj4va/9PnIx77O
- mJa4tzvYSoYI4+sXm7l5wHHa1YBuZdzUUTQN+43NEt7fr8NX+LtS3cu9OvcC9LJB4WL386OKi
- XTyCx7+poJJXXk=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hNBwF+IYgpQ=:Rshc3SW6SrOngjuVMmpz/j
+ 8JvnrGO7wjBWSIhRPYrdxfvwXOyjRVwKMPanmr39CgQsb3i1D0O9ZEkxyYQIXIqtXckhkKdQY
+ 3IWpXABm6QJ5M18hz4sYI3lIuVWVGYiMvfnTNlYz09CThE3ranuXnezagfT90bBDSZulnNziu
+ TIJvnwvD1nTuIk/BclyOtDQy5OP2RnLSYRaAcA5w76ztA8TfeGTUr4phcV23LI6kMhh7U3C8V
+ PlX3MSfuVLpFZEY5Ghut2xFClPGynPc/wCeUfPafksUn5kTkE33Ri61NuP3rE25+LU1JXzuSo
+ OjQzFW+BWl+P41KGEyfWd0NgY195kzoYiyTxcfHov7HWqONbfvJc3AFhUg9T9gcVNg9xvpiFB
+ vlOfRJl9UkyKyp2F8ndOP/ziS8urlX7gVDvcXoikbBySOWeTXm9zXH+Cq2RDPV1rZTP84eY9c
+ YAD8kocU8NywADrra+r99SXLeJPaECAuZMDfY160FddaetXuCASfkbEicJ9I+ZRdy+qkapL8P
+ 2LxrXA5p+7pXG+hyX1XyfVmy2U1zlTIdHaCdbzCzslAoKh+QlcDydw7gqwVpoQmeDpQvrZbrk
+ +P10wvxoJxz0n79iWls6Y/aFZUMRc4QAfIsNZClIvXqiDXDpz8qAuXct2QHnbHrEqVy8C5ryD
+ YAFRmpMarYvUA41D2sNUMHPhJ8riXi4EabkB5WS6awDjxJEPLL1WfktTPw9FPIeDBcSMB3Uap
+ 5FmxNaCRISfcMQMQWTj2tUTrJfenX/4yUvlFU8T+QAMduW45jRWfeUSzeG6SHv1/67gv2zaaA
+ LvUsPuUPnOqlui64hxoivMX54aVbJj5gS6nBmLS2LUY6lxEXo4FtT7mfej+j6Yu/szldyTPpU
+ PjZb2k3HlzKAIedQecWQ==
 
-Fix to be conform with the checkpatch style requirements
+On Sat, Sep 25, 2021 at 8:10 PM Sergio Paracuellos
+<sergio.paracuellos@gmail.com> wrote:
+> > It might be good to check that res->start is zero here, otherwise
+> > the io_port_base would be off. That could happen if you ever have more
+> > than one bridge.
+>
+> Do you mean something like the following?
 
-Signed-off-by: Michael Estner <michaelestner@web.de>
-=2D--
- drivers/staging/pi433/rf69.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Yes, exactly.
 
-diff --git a/drivers/staging/pi433/rf69.c b/drivers/staging/pi433/rf69.c
-index 7d86bb8be245..980afa801e08 100644
-=2D-- a/drivers/staging/pi433/rf69.c
-+++ b/drivers/staging/pi433/rf69.c
-@@ -470,9 +470,9 @@ static int rf69_set_bandwidth_intern(struct spi_device=
- *spi, u8 reg,
- 		return -EINVAL;
- 	}
+> int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+> {
+>     unsigned long vaddr;
+>     size_t size;
+>
+>     if (res->start != 0) {
+>          // Should I WARN_ONCE or just show an error/warning message??
+>          WARN_ONCE(1, "resource start must be zero\n");
+>          return -ENODEV;
+>    }
 
--	if ((mantisse !=3D mantisse16) &&
--	    (mantisse !=3D mantisse20) &&
--	    (mantisse !=3D mantisse24)) {
-+	if (mantisse !=3D mantisse16 &&
-+	    mantisse !=3D mantisse20 &&
-+	    mantisse !=3D mantisse24) {
- 		dev_dbg(&spi->dev, "set: illegal input param");
- 		return -EINVAL;
- 	}
-=2D-
-2.25.1
+I don't care if it's WARN(), WARN_ONCE() or pr_warn(). If we ever see the
+message, the system is not working and the person who caused the problem
+will figure it out.
 
+        Arnd
