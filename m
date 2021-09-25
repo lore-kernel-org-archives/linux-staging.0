@@ -1,117 +1,91 @@
-Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com [192.185.146.210])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA602FAE
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 23:00:43 +0000 (UTC)
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
-	by gateway33.websitewelcome.com (Postfix) with ESMTP id 58B71109A348
-	for <linux-staging@lists.linux.dev>; Fri, 24 Sep 2021 17:11:53 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with SMTP
-	id TtQ9mYq5xIWzGTtQ9mdBNF; Fri, 24 Sep 2021 17:11:53 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=9Q0qgDyxKZKWKpblvkt7lUWUuHDvyt31RrTbtQxth/U=; b=M5VL8eWynBx5pkhxY/i+owuCjx
-	vSSt/EbFVRcpof2ibmfnaWs7edrNZZVcr3W9AUV2JB6Gg4sCNVUwDDNyNoH55fDy2kzLPNnZXG6YQ
-	zy4B78HL/gfzb77mCmcX9dv/C6ZcpXh5yxGZtgvfgEUj+dFWcZQCnYLGHsMAMW9toL281dUqru/kL
-	qoXSspKJP2ClrThZU76P9Pyh6ERaj8vRT3VsOi52EIdOSFpLQ6mkjJ5pSz+W0zsTyYRV8eO7WW517
-	tZuA0c0Somyrsv089Qm2Vu885ugMj9PXY7YPDmxTsnZeSN9a0AaFNI0cKOohQMYYZXUd3/McRaw82
-	A9WxH3+A==;
-Received: from 187-162-31-110.static.axtel.net ([187.162.31.110]:45326 helo=[192.168.15.9])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1mTtQ8-001M7Y-KW; Fri, 24 Sep 2021 17:11:52 -0500
-Subject: Re: [PATCH v2 3/3] staging: vt6655: replace camel case port_offset
- instead of PortOffset.
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Madhumitha Prabakaran <madhumithabiw@gmail.com>,
- Yujia Qiao <rapiz@foxmail.com>, Lucas Henneman <lucas.henneman@linaro.org>,
- Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
- Edmundo Carmona Antoranz <eantoranz@gmail.com>,
- =?UTF-8?B?QWxkYXMgVGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Deepak R Varma <mh12gx2825@gmail.com>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210924210008.106355-1-tomm.merciai@gmail.com>
- <20210924210008.106355-4-tomm.merciai@gmail.com>
- <58c61a30-c368-8e4f-d9c9-1f39cadda869@embeddedor.com>
- <20210924220142.GA4788@tom-desktop>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-ID: <cb4c2cfe-a2ad-a72d-16c2-02dcf4d32ab8@embeddedor.com>
-Date: Fri, 24 Sep 2021 17:15:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D02472
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 02:42:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5254B60F6D;
+	Sat, 25 Sep 2021 02:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1632537725;
+	bh=3qKrafgB+R9aRyaGwO41XzuxrHwCkhqpSPu2zki+01Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=nq/E5Tl8hN26pAjLMZx9l6bt3QGZdvGLZSB3OPXISzKglBhK0/b/vcUcseNhI6L/U
+	 t+hdZfH4Pps8t0EA+Litu66sWufsr5aR4u/Oa13MZAbEtf8U/nfukgezUI3MBtnkjm
+	 g1JjOvrQkX3SyVrRFsrTej4spU+wYVdRJl5BRoQXx2hKMNWEuT3POFGkB/vbVvMuwM
+	 fj4NS20JrdggcqqKe1tF8wrGG3JdDTBqOehwDtevHa/wtUU7Kl3k4Jh/FsNbTnBAvt
+	 CiumBeTCgRCF/J40Ur04jLsAvPxIsbFicf7ORh5qVwxBr2H/LimkLTwP6SMTV0gkTL
+	 fdqA4wLTjksDQ==
+Date: Fri, 24 Sep 2021 21:42:04 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: tsbogend@alpha.franken.de, robh@kernel.org, arnd@arndb.de,
+	catalin.marinas@arm.com, Liviu.Dudau@arm.com, bhelgaas@google.com,
+	matthias.bgg@gmail.com, gregkh@linuxfoundation.org,
+	linux-mips@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, neil@brown.name,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] PCI: allow architecture specific implementation of
+ pci_remap_iospace()
+Message-ID: <20210925024204.GA459123@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210924220142.GA4788@tom-desktop>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.31.110
-X-Source-L: No
-X-Exim-ID: 1mTtQ8-001M7Y-KW
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-31-110.static.axtel.net ([192.168.15.9]) [187.162.31.110]:45326
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 12
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210924211139.3477-5-sergio.paracuellos@gmail.com>
 
+s/PCI: allow architecture specific implementation of/
+  PCI: Allow architecture-specific pci_remap_iospace()/
 
+(in subject)
 
-On 9/24/21 17:01, Tommaso Merciai wrote:
-> On Fri, Sep 24, 2021 at 04:56:16PM -0500, Gustavo A. R. Silva wrote:
->>
->>
->> On 9/24/21 16:00, Tommaso Merciai wrote:
->>
->> Where is the changelog text? :/
->>
->> Sorry but I insist: take a look at this:
->>
->> https://kernelnewbies.org/Outreachyfirstpatch
->   
->   Hi Gustavo,
->   You mean the changelog in the cover letter?
+On Fri, Sep 24, 2021 at 11:11:37PM +0200, Sergio Paracuellos wrote:
+> pci_remap_iospace() was originally meant as an architecture specific helper,
+> but it moved into generic code after all architectures had the same requirements.
+> MIPS has different requirements so it should not be shared. The way for doing
+> this will be using a macro 'pci_remap_iospace' defined for those architectures
+> that need a special treatement. Hence, put core api function inside preprocesor
+> conditional code for 'pci_remap_iospace' definition.
 
-That's not how it works. :)
+Rewrap above to fit in 75 columns so "git log" output doesn't wrap.
+Add blank line between paragraphs.
 
-What's the hurry?
-Check section "Versioning one patch revision" and then read the
-whole thing, so you can learn how to smoothly land as many patches
-as you want:
+s/treatement/treatment/
+s/api/API/
 
-https://kernelnewbies.org/Outreachyfirstpatch
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
---
-Gustavo
+With above fixed,
 
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+
+> ---
+>  drivers/pci/pci.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
->   Thanks.
->   Tommaso
->>
->> Thanks
->> --
->> Gustavo
->>
->>> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index ce2ab62b64cf..0ec57bb01a88 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4123,6 +4123,7 @@ unsigned long __weak pci_address_to_pio(phys_addr_t address)
+>   * architectures that have memory mapped IO functions defined (and the
+>   * PCI_IOBASE value defined) should call this function.
+>   */
+> +#ifndef pci_remap_iospace
+>  int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+>  {
+>  #if defined(PCI_IOBASE) && defined(CONFIG_MMU)
+> @@ -4146,6 +4147,7 @@ int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+>  #endif
+>  }
+>  EXPORT_SYMBOL(pci_remap_iospace);
+> +#endif
+>  
+>  /**
+>   * pci_unmap_iospace - Unmap the memory mapped I/O space
+> -- 
+> 2.25.1
+> 
