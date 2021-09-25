@@ -1,53 +1,110 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E123FC7
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 17:47:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 6A2F4610A3;
-	Sat, 25 Sep 2021 17:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632592074;
-	bh=CYdQvtSs6vj67yvQNZeoFWmRKqqg0+dlPktBuYrHvvU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=HjfhnMCVjafeTi4QgvI3Vzv1/ntNa5R0fD268y03U7Uprz1CfsBL8km899LVMaq+2
-	 JeJniiqXD82lVrWPlsPA5Lb/Rd6gSCnkzH2jXYTgUs6u50MjAtO1mGTBdZGVedXW4k
-	 3nNoYM0VQdTMZ6Qm+WnL/6HEyPgkaao+7SvLXMBRjGssWVto8XMgjKbJsLwL3VpA0d
-	 qDGmcVFOime9UgFsrYPNEn4F6rsThyvbdGHwPOUvsf7b6KxLqmy8QjjoY6Gw68bmiq
-	 iuk2lmHe/DDpaLtp2vak6+5dEH0N3dIiKKA6sP8p/GoYy0rtvVQrJeWWafDZbS11dc
-	 1itcAz/VH4ULw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 5D7566097B;
-	Sat, 25 Sep 2021 17:47:54 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fixes for 5.15-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YU8umcrWhi65i8PU@kroah.com>
-References: <YU8umcrWhi65i8PU@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YU8umcrWhi65i8PU@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.15-rc3
-X-PR-Tracked-Commit-Id: aa3233ea7bdb6c4004f5032a3a07417ea51dc409
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 9cbef3088619286de66f587e0c770f83f524925b
-Message-Id: <163259207437.4008.7039754998169721859.pr-tracker-bot@kernel.org>
-Date: Sat, 25 Sep 2021 17:47:54 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A930E3FC7
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 18:09:11 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id u11so8980697uaw.3
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 11:09:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WXQl6xYHyo7VmGkogOZ2uCBbLxqiVuqGmz8mDC3PsVE=;
+        b=RyN3JIcFIRv5HcRDNmaJXs0sPVG3iaG8G4p6T/woxXGgGDJyMVky1Qb/UdpUe30KJp
+         +hwj4SYJX0Tw1JdrdDpGF/QUcAK+lytw0/3KVJ9fUqYtKMmkuOFVTog++LIeIaMjRxS7
+         MZyJiwfHQKgjw8GA1vEN/Hl+oWlY0zowHuq/qzYf3/OFMlDArg8wn5JMV5u42l16ffzp
+         0ABIgaTD7jLtYx9l8N0BMAGl1kORu+SiMXzfANpYHmATBYEk8Um3/gLgPVnsbWycguiI
+         3qNezo/MTSpomvZBgS72bkv5xg9MStyz0oYiGvuAtJn2HxHVPU1uFS29ywB9WDpIQE8z
+         kNzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WXQl6xYHyo7VmGkogOZ2uCBbLxqiVuqGmz8mDC3PsVE=;
+        b=sowudRHFViQv+Ce46NB8yTYTW8SkmP4+TgzhJyWRBaWg3M1LO4kYzeY62TB8BBk2GG
+         DV/ZbHZ23pn7IJB2fwOT5kLl/94iegq0zQQw+m1ojKGZjvI815O2Ej0pQx/ZXIYZOCPI
+         aRWXhIGY4WYl0LHPwQIhR5ZaWOcBuTkkqJWjjZusoblkB4orVl/7eBVkjDUojM/k9Tmz
+         Adg7tL1taKx6BR30FyncYYQttu8Q2neq1lE6zBbciDZafeC3zzaq+ynI4nNMsIe0Ccrn
+         JtUIiZNmYnfUcgOWZ7OoJRTnIsZgd6Ss1wn/vFxca0D4xC4KjBsItIaFhQN3wKglsYH1
+         z9YA==
+X-Gm-Message-State: AOAM533i/Tl0MZgFFazCXtA2AEXLvbpS5eZkWS6+v6lag+JDWzjeoMO0
+	/idWGm1Y0/zY63bVUyA7yv9vRPPZnY2VDSW7+zk=
+X-Google-Smtp-Source: ABdhPJxwiExLM3hzBCAfYUgeYdy55lPTeSgDo0znsn0D+vbB/KiyL4ObpmWFiOfukFEJXqJwZjiYBdvVrKix1Is/cIc=
+X-Received: by 2002:ab0:538b:: with SMTP id k11mr11610115uaa.131.1632593350651;
+ Sat, 25 Sep 2021 11:09:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20210924211139.3477-1-sergio.paracuellos@gmail.com>
+ <20210924211139.3477-6-sergio.paracuellos@gmail.com> <CAK8P3a3SpuioCVBfQpHFGuNQoXG7g8w9VL+V8rYd8Q80Od89HA@mail.gmail.com>
+In-Reply-To: <CAK8P3a3SpuioCVBfQpHFGuNQoXG7g8w9VL+V8rYd8Q80Od89HA@mail.gmail.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Sat, 25 Sep 2021 20:08:58 +0200
+Message-ID: <CAMhs-H8jF10NpTgCP=_FEaBcedTN75b6MoyrEVrrayJEAdufwA@mail.gmail.com>
+Subject: Re: [PATCH 5/6] MIPS: implement architecture dependent 'pci_remap_iospace()'
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Rob Herring <robh@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	gregkh <gregkh@linuxfoundation.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The pull request you sent on Sat, 25 Sep 2021 16:13:45 +0200:
+Hi Arnd,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.15-rc3
+On Sat, Sep 25, 2021 at 7:32 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Fri, Sep 24, 2021 at 11:11 PM Sergio Paracuellos
+> <sergio.paracuellos@gmail.com> wrote:
+> >
+> > To make PCI IO work we need to properly virtually map IO cpu physical address
+> > and set this virtual address as the address of the first PCI IO port which
+> > is set using function 'set_io_port_base()'.
+> >
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/9cbef3088619286de66f587e0c770f83f524925b
+Thanks!
 
-Thank you!
+>
+> > +int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+> > +{
+> > +       size_t size = (res->end - res->start) + 1;
+> > +       unsigned long vaddr = (unsigned long)ioremap(phys_addr, size);
+> > +
+> > +       set_io_port_base(vaddr);
+> > +       return 0;
+> > +}
+>
+> It might be good to check that res->start is zero here, otherwise
+> the io_port_base would be off. That could happen if you ever have more
+> than one bridge.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Do you mean something like the following?
+
+int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+{
+    unsigned long vaddr;
+    size_t size;
+
+    if (res->start != 0) {
+         // Should I WARN_ONCE or just show an error/warning message??
+         WARN_ONCE(1, "resource start must be zero\n");
+         return -ENODEV;
+   }
+
+     size = (res->end - res->start) + 1;
+     vaddr = (unsigned long)ioremap(phys_addr, size);
+     return 0;
+}
+
+Thanks,
+    Sergio Paracuellos
+>
+>         Arnd
