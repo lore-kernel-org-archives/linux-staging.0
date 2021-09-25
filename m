@@ -1,41 +1,41 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D0D2F80
-	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 08:46:46 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id t28so21172515wra.7
-        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 01:46:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D8A3FD6
+	for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 08:46:47 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id t18so34642108wrb.0
+        for <linux-staging@lists.linux.dev>; Sat, 25 Sep 2021 01:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/Wb71HqjEOUF7N4+48DrIALQ2aRBPLW7pWxHbo6fkmE=;
-        b=Qb6/ebapboRHy2oxDc5q5VKXIVMIzbT8rHvoiG93lXdmxmyV273iAip7+DFT0TVWM5
-         ThMCV4WQlTJfLBbPiCfXIXrJA+e96NvGpyT95pOLeR3cszXHWgK2d8/As056yObw/s6M
-         hBjmb5+F0HSPxeHaF0FLKZPtLGQozqNac0tueZCGYo7UOMd3hYdqcE6RuDodhjH/GXPj
-         yrP3re6Inavf+6pMuFQroemIGz8qiVLjKUDfqEPscF1uaWd2S0EoRyMplFmIPrxwEwj/
-         qnTWTlTcLcoAyrZFOJI1TGPOB1aOisEOkqccb1yPx/J3qng3JIS/vMOoJDNWnxHHfYVt
-         4/NQ==
+        bh=OyR/G6OXJUzzgXbsVp3sTRgTYQYfQEC/z3g1X2aYcVs=;
+        b=Ve5h4llJBbg+a9UGjsfI2LkC6Tty/m1yswQbTIaTUjASf3eUBFomFWIv3s1iqUj1zD
+         ks+oXPxs6vEk3iRog76+HBY29NElVilHQzVnA2+ecBRG/ODxFiDcT/LCUySr5YInBpfc
+         07MIIIXjHMPcuVM95jcPa9tVXJncbQe/mrU0uCLsyNMElvf0VIm37LmLNxAaFl3KqKs8
+         JYbl9IzgvhHzJho1rYgCh7CMm452s2dUwju59OMASmmCi/owxBnlUdmjnZff5kJcmCoL
+         i09EvltS53cK58I8lXQDfcNiiJwP/QqiB8iHqgUZWUtGUWJVw33ikXCudmh6YEZNG5tx
+         CsvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/Wb71HqjEOUF7N4+48DrIALQ2aRBPLW7pWxHbo6fkmE=;
-        b=dkGcwHYbuHSWuxrU6tgFeve8seaDEnI5e1FkYwDOat5KBJ6BsjlW3VSPAwyyOFNYmT
-         +w2cpLiyZI2dgDqNhqT4fvWUoHC7m4tR3fvZSq/mP9xCQnwtGxa9uTrLZyKDznm/PjZy
-         cdYYq5q3crNg06eHAgQCAOtyt97hArPkdB+vNnsaXuDdQ7z9wip2hfuynvU0iXqSnR99
-         zYB2oEEE1r9CXHT1NSekdm1m4+bb1Y5v5LlQbJcTPmhIWumjvMhmZ9/yLdeJSN/9jJky
-         /o8LoJbtl3juCl78z7qob4wXBsegBzw9JnMrL/ld2D6mwlJJRtwHdSdPX7/yCutgDHht
-         ZkfA==
-X-Gm-Message-State: AOAM533Agtzmy8Z4/6kZYQeXBTcZ7sI0JYha+0mJL+bnrmiqleS35lxt
-	vf/K+BQtttUnNaS7kOwwoL0=
-X-Google-Smtp-Source: ABdhPJyHw1n6sTAwD4+nW7+bDwyTqs/z8xs5p4MbTYREbctn6X5pxMdGperx/5q5l/rxf4lfJ0zo1A==
-X-Received: by 2002:a05:600c:17d1:: with SMTP id y17mr6282479wmo.135.1632559605031;
-        Sat, 25 Sep 2021 01:46:45 -0700 (PDT)
+        bh=OyR/G6OXJUzzgXbsVp3sTRgTYQYfQEC/z3g1X2aYcVs=;
+        b=QHSes5FUaTuyuAPiy3uCzt0mF1mYUbnTQTg6uGERy7FL7R6fOLzYJ678GUf4KBeZGw
+         CiaOtnJsYGsatNAPaT00zeGGWuP3sz4Ncvqfv62DErD+i7EGxRF4LFk/jXrdZdaxCrKF
+         oytJ2zqOmO1oRLSMUsBwdc8xq4TvZtH6nMCeOzh4Weq4yAxid3T4/xuYqQbqNrvhtqGZ
+         5tFIOVW7URaJRtDfX9wOfOz46TFwOysv5FqNNodxeKH/qP5bSsdu+1Pg0OmBC8sxR8zV
+         PGfNiq9atOkdoT57xdDu3fIcUFYJuSr2Ob73JBjBpsMwIHgXWBl7+q/8FMe4tkvw3fei
+         1SAg==
+X-Gm-Message-State: AOAM530Pq77T14u+YiKXDcuxxt+p7XHAJ6u2B6PGvUWd0Oy/tI5exRJI
+	erGvF0SnEgDWrhkC6XcxLic=
+X-Google-Smtp-Source: ABdhPJxrdMP9CEP1wL+ipHaMl9NqnnbgtNcHgIxgUCsjqPj7hjtBA5Xxk78r6uj30mhTf8XuyDbchg==
+X-Received: by 2002:a5d:64a7:: with SMTP id m7mr16103528wrp.171.1632559606127;
+        Sat, 25 Sep 2021 01:46:46 -0700 (PDT)
 Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id y9sm17222997wmj.36.2021.09.25.01.46.43
+        by smtp.gmail.com with ESMTPSA id y9sm17222997wmj.36.2021.09.25.01.46.45
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 25 Sep 2021 01:46:44 -0700 (PDT)
+        Sat, 25 Sep 2021 01:46:45 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: tsbogend@alpha.franken.de
 Cc: robh@kernel.org,
@@ -50,9 +50,9 @@ Cc: robh@kernel.org,
 	linux-staging@lists.linux.dev,
 	neil@brown.name,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/6] Revert "MIPS: ralink: don't define PC_IOBASE but increase IO_SPACE_LIMIT"
-Date: Sat, 25 Sep 2021 10:46:36 +0200
-Message-Id: <20210925084642.5642-2-sergio.paracuellos@gmail.com>
+Subject: [PATCH v2 2/6] Revert "staging: mt7621-pci: set end limit for 'ioport_resource'"
+Date: Sat, 25 Sep 2021 10:46:37 +0200
+Message-Id: <20210925084642.5642-3-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210925084642.5642-1-sergio.paracuellos@gmail.com>
 References: <20210925084642.5642-1-sergio.paracuellos@gmail.com>
@@ -64,32 +64,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This reverts commit 159697474db41732ef3b6c2e8d9395f09d1f659e.
+This reverts commit 50fb34eca2944fd67493717c9fbda125336f1655.
 
-There is no real need to increase IO_SPACE_LIMIT if PCI_IOBASE
-is properly set to 'mips_io_port_base'. Hence revert this commit
-first before doing anything else.
+Since IO_SPACE_LIMIT is not really being changed there is no
+real need to adjust the ioport_resource end limit.
 
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- arch/mips/include/asm/mach-ralink/spaces.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/mt7621-pci/pci-mt7621.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-index 31a3525213cf..87d085c9ad61 100644
---- a/arch/mips/include/asm/mach-ralink/spaces.h
-+++ b/arch/mips/include/asm/mach-ralink/spaces.h
-@@ -2,7 +2,9 @@
- #ifndef __ASM_MACH_RALINK_SPACES_H_
- #define __ASM_MACH_RALINK_SPACES_H_
+diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/staging/mt7621-pci/pci-mt7621.c
+index 86d9c3d122e2..6acfc94a16e7 100644
+--- a/drivers/staging/mt7621-pci/pci-mt7621.c
++++ b/drivers/staging/mt7621-pci/pci-mt7621.c
+@@ -526,8 +526,6 @@ static int mt7621_pci_probe(struct platform_device *pdev)
+ 	if (!dev->of_node)
+ 		return -ENODEV;
  
--#define IO_SPACE_LIMIT	0x1fffffff
-+#define PCI_IOBASE	_AC(0xa0000000, UL)
-+#define PCI_IOSIZE	SZ_16M
-+#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
- 
- #include <asm/mach-generic/spaces.h>
- #endif
+-	ioport_resource.end = IO_SPACE_LIMIT;
+-
+ 	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*pcie));
+ 	if (!bridge)
+ 		return -ENOMEM;
 -- 
 2.25.1
 
