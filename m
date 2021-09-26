@@ -1,96 +1,73 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from qq.com (smtpbg466.qq.com [59.36.132.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74D73FC7
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 08:39:01 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id s17so36530608edd.8
-        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 01:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FqZLHp6P5onDVzAVu1pnrTbH+41zot6j1xPu0nqk/aU=;
-        b=qWszrahJmuxMdIv6Am1sSQgwKsHLYjmvSrd5tXh/U0y60WoCkaERe35A/GKooWTJ1a
-         Fuo8wTKYwLAP80zpydWOx67sz0a3dv/LLAKd3GzOdm2qWjkjyX6mu0UfG0/H+krouamT
-         ihGCjXPm9oZJ0Chr/ABaftLl+oqyJrRJTsKbwcDYG4qu5qniiQAvxNDueMiY3PyoL8UY
-         mWYXUGYtqrNmKwabrmka0d7Jo3a6v7g+1mACK/8bAMjyg7Cfj6/uvD2S9vIVgPQBDxMz
-         i42YNB1xx1gcFSa4SvPtWMvZ6nMylHbQdoNADG8eSkMWesmd5dViwFNlVc7YWOUvn0iT
-         xbxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FqZLHp6P5onDVzAVu1pnrTbH+41zot6j1xPu0nqk/aU=;
-        b=sIBsdmSvUw5m1wJdPJzPUUkVud2EHrj2xrvGgJJ9Vc/6xXJvJsokzhWMwjbA8NtMMY
-         AHl4Tb6DKu78oluQ1NSU952z+Yke16AyCW9OkoDDpv6m7+aWY73V1y7SXlyRLvHH66xK
-         LLfMTFJtuI0eGWC2JPjpTVlDCifkeVHiqUDV7vMerttk7WLlFrPwH9tvk64xdvfsxVW9
-         7AdLDDYqepmtnWI7xHz/9a5RkpTDvRxFmjHTXQyNBdsSBHIVy/lfHk8CbZ/+wa2GC9JZ
-         FQSBvMlohgnRbCXb3A46MIyajnJ9t3D0EiKgExFkhbcAapbPmMU/DGQY3B/boFZprRZ7
-         V0KA==
-X-Gm-Message-State: AOAM531+MAs/XKJAdF4b7UUAu8hcSwnGaezRKIJyFCyzU/o5DeE5IJ5Y
-	iLsB4OuYj54KhlHJ0g3v/Kc=
-X-Google-Smtp-Source: ABdhPJzOKRUq/oNsXGrP3Z2Ivtj4lQMcgm0FHDN+WVD9K0bUezqU67bKccsmQYofOU7HCWpX7VmJ/Q==
-X-Received: by 2002:a17:906:1fc1:: with SMTP id e1mr20069380ejt.515.1632645540166;
-        Sun, 26 Sep 2021 01:39:00 -0700 (PDT)
-Received: from localhost.localdomain (host-212-171-30-160.pool212171.interbusiness.it. [212.171.30.160])
-        by smtp.gmail.com with ESMTPSA id dm8sm8502204edb.90.2021.09.26.01.38.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 01:38:59 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Estner <michaelestner@web.de>
-Cc: michaelestner@web.de, Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] avoid crashing the kernel
-Date: Sun, 26 Sep 2021 10:38:57 +0200
-Message-ID: <7598246.TGqz6ispmn@localhost.localdomain>
-In-Reply-To: <20210925200433.8329-1-michaelestner@web.de>
-References: <20210925200433.8329-1-michaelestner@web.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94F872
+	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 10:46:24 +0000 (UTC)
+X-QQ-mid: bizesmtp40t1632652218tezn9pwg
+Received: from localhost.localdomain (unknown [124.126.19.250])
+	by esmtp6.qq.com (ESMTP) with 
+	id ; Sun, 26 Sep 2021 18:30:17 +0800 (CST)
+X-QQ-SSF: 0140000000200020C000000F0000000
+X-QQ-FEAT: Mzskoac49Oi03Y9nzIB+fKO6AQ9MLo6Ds6JBHd8/Tqgg6NdsPYwV9PuIddPO9
+	AkJZUuNqPMrEdLI+czJZYjcX+gDVkHDC7tSj60SaPjWroemcCwKGO2S067fZ0dFFcMDXdIa
+	sJeaAKyAFl1gNY/S/sslJ0SAmA2bnPK34GpENp3TdYY1bCWWvFDPCQ+PVitBOO4uq23zSlJ
+	yLgi1i9CPVnIvoIxjiS4QPpV9v4YS4gxgSLSHFB9enq7eXBGeQYZdOMkWitnjWcJlR660j+
+	qoUEFbMx34LFc3yK42PWhxxK8eKBCV6Pf91Nbr5BiCZZ6SypJnlVz/VcBoZ5EZMtjYNXHzk
+	p1r+GZ6AlAju26jsunwRV3vOR1aDg==
+X-QQ-GoodBg: 1
+From: guolongji <guolongji@uniontech.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com
+Cc: ross.schm.dev@gmail.com,
+	marcocesati@gmail.com,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	guolongji <guolongji@uniontech.com>
+Subject: [PATCH] staging: rtl8723bs: remove meaningless pstat->passoc_req check in OnAssocReq()
+Date: Sun, 26 Sep 2021 18:30:14 +0800
+Message-Id: <20210926103014.30088-1-guolongji@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign2
+X-QQ-Bgrelay: 1
 
-On Saturday, September 25, 2021 10:04:30 PM CEST Michael Estner wrote:
-> To avoid chrashing the kernel I use WARN_ON instead.
+kfree(NULL) is safe and the check 'if (pstat->passoc_req)' before kfree
+is not possible.
 
-"[] I use WARN_ON instead". Instead of what? 
+Signed-off-by: guolongji <guolongji@uniontech.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Changelogs must be self-contained. I had to look at the diff to complete that 
-sentence in my mind.
-
-Please don't ask reviewers to go back and forth commit messages and code in 
-order to get the whole picture.
-
-However, my suggestion is only about the formal aspects of proper patch 
-construction. The actual top priority is to properly solve this problem using 
-the tips provided by Greg K-H with his review.
-Thanks,
-
-Fabio
-
-P.S.: "chrashing" => "crashing".
-
-> 
-> Signed-off-by: Michael Estner <michaelestner@web.de>
-> ---
->  drivers/staging/most/i2c/i2c.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/most/i2c/i2c.c b/drivers/staging/most/i2c/
-i2c.c
-> index 7042f10887bb..e1edd892f9fd 100644
-> --- a/drivers/staging/most/i2c/i2c.c
-> +++ b/drivers/staging/most/i2c/i2c.c
-> @@ -68,7 +68,7 @@ static int configure_channel(struct most_interface 
-*most_iface,
->  	struct hdm_i2c *dev = to_hdm(most_iface);
->  	unsigned int delay, pr;
-> 
-> -	BUG_ON(ch_idx < 0 || ch_idx >= NUM_CHANNELS);
-> +	WARN_ON(ch_idx < 0 || ch_idx >= NUM_CHANNELS);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 375d2a742dd2..a46ab97524aa 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1344,11 +1344,9 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 			issue_asocrsp(padapter, status, pstat, WIFI_REASSOCRSP);
+ 
+ 		spin_lock_bh(&pstat->lock);
+-		if (pstat->passoc_req) {
+-			kfree(pstat->passoc_req);
+-			pstat->passoc_req = NULL;
+-			pstat->assoc_req_len = 0;
+-		}
++		kfree(pstat->passoc_req);
++		pstat->passoc_req = NULL;
++		pstat->assoc_req_len = 0;
+ 
+ 		pstat->passoc_req =  rtw_zmalloc(pkt_len);
+ 		if (pstat->passoc_req) {
+-- 
+2.20.1
 
 
 
