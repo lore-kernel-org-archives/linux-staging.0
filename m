@@ -1,41 +1,41 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD6C3FC7
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 14:59:35 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id c21so14337201wrb.13
-        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 07:59:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58CF82FB2
+	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 14:59:36 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id c21so14337260wrb.13
+        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 07:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+aNtDTuzOAT+YuiF30Z3WS40pgPV+F0Fyu3AoNR9Jqc=;
-        b=BnzD6wDSAOJGpAE8g+zqjJ8lSPCNOBe1KfdAu3gg85bMB9cg7Mc5ojDS//WRtgDBMK
-         Mk280sBRIn+IeIumLrI246xdzCF5ApQ1VAgJhWczn9EHxJsNVftc0GPmZrO8R54AZ6qv
-         /tXXbvoe0Yqg49u/ePwVS/HLDGg2+CJ8ElQeLppgzebH6Q5fZtoCDRPtEiZ1X9m14iRm
-         o9RaAzwZFkH66txn+V9cvmKb7pHFjIXwfKqLKmS9PNBs91074OAgwQOSnnkuM3/H9UYW
-         99Ln0mb/YYknyhpnCojTF59XoKdpfeEt9+uULGVlsyGU+2URtQV5sjHPnmq2OnrPmFj/
-         GXIg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8xkO4wy2+3E/bRHxiF+Cv5z6Xhl/K+wMhVZfJg/wDmc=;
+        b=EO+MRnbUJhIWMxCoS8uOTSzbRCpm6oDifs8ih4CVNKOvxfCP5//CgH5Pbv0/0FYJWN
+         O/ADm6iMFv3ozd20PK2t8VE0t+Dfw4ZCg1k6DlQa/fLQdKSOukxrw6B6zzh0g9imzM8L
+         75nt0KnTxJE4FGPIYbHjrXPDkUr2wPDKtFjEZO/2X+XFl3SkQOVngYx1aXI/uq0SUyxR
+         MZ1nf2QPMBOgRcwv41z9ng01bmLxrGwtLZJ0+fr+1hodORyE8XbHOuKU4ikVZY8dU2/H
+         7kWZxKJNe4UIVTj0fFf4qIcJKwJRd3+ERlL8p9E46AcXrWX4UiH90rW8cGfN69kLff9/
+         XztA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+aNtDTuzOAT+YuiF30Z3WS40pgPV+F0Fyu3AoNR9Jqc=;
-        b=sgTajbwmLbdnEORcQAFqCU3t1CNWnx1+QIBkS8LSENTnTaOgOxpIuSIxbRHQTRgUGe
-         eiwpoHY97KXTXNLFKwu3+HQLjilNh31vyz/dcvX5X2eXiLlv4NTuvDFRredSpySBaWn+
-         +xVc3hWKHwA2ocXPvpEI1GMPj5StUEKBSsSCjiJ49DdmeVXdCTDDwqjuBmvCg5R9k3Oa
-         8rppuOUAS75F4OTFrMHhr2Ty6WSNfiuUhjMf/BOMQI4J0nMeZCHdPNior+4Lj3rGq/dm
-         QiYw5hb4llefzgWCb8P/oGmoiGYX50FFUhEli7X1nAjuuTrgMsmaJ8MTT+L2Htecnbu5
-         UqYg==
-X-Gm-Message-State: AOAM533vzJPvky9Xzi73h9m9nThBQ3b9PyYhsFXCXEsEO+6K1/Kbx/49
-	i/+X35kvn18GK0n3ixS3V8aE/mFxbto=
-X-Google-Smtp-Source: ABdhPJz5HQT/5F3ODgZeID6PuqLBe26fEAIMr57W/qTuVp+IPx1rwLYnD1Bpa/8/zbJ7jjZgR2XCTw==
-X-Received: by 2002:a1c:7e10:: with SMTP id z16mr11896994wmc.141.1632668373619;
-        Sun, 26 Sep 2021 07:59:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8xkO4wy2+3E/bRHxiF+Cv5z6Xhl/K+wMhVZfJg/wDmc=;
+        b=ln5QwEyNUkCoyPj0Nx48ju4xHC3UVKxjzl3HNcCCe+t1EDbMbSPem5Eri1LTaHOey2
+         WRbwRpyRvizaq8NbEQJ4208S3aOKoR3f4xIa9qIChzHlXWtR4i/HBVU72lvpS4fUCwzC
+         zSKFcdxrrW6aFLYHrpxnIJ23Iha3yEH8H5/Pia9zV/s3As7Tcnga2ePMiqRS1CAPym/S
+         i19xpCkyvO5Ol79AdJ+wpBV2uG5PDbKN6Aj9daGpT7ZrYfKZlLp1TZpVgaNldCWAMWs0
+         OSow/RObUUHsJ+L+YRUMObN5SBSnqwHqCuiTEY6RAnYPwP6hmSBNx/psZwCIOaHTb1YN
+         JB8g==
+X-Gm-Message-State: AOAM531aiv2sScoOZwgEgR507n+OKTGe2rmlBtJVENSzGskAqdMXEijx
+	muAcjHIzCzjr9JWn93/OXs3osj87aLo=
+X-Google-Smtp-Source: ABdhPJxBsp32YkM0y46bTL/Sw3B4+akzcO9XXCL6RyWk6kN7NFkkVCHOPvbubutg6cG0ORD2jbdPWw==
+X-Received: by 2002:adf:f946:: with SMTP id q6mr11250450wrr.437.1632668374530;
+        Sun, 26 Sep 2021 07:59:34 -0700 (PDT)
 Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id n7sm14143840wra.37.2021.09.26.07.59.32
+        by smtp.gmail.com with ESMTPSA id n7sm14143840wra.37.2021.09.26.07.59.33
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 26 Sep 2021 07:59:33 -0700 (PDT)
+        Sun, 26 Sep 2021 07:59:34 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: robh@kernel.org,
@@ -44,10 +44,12 @@ Cc: robh@kernel.org,
 	gregkh@linuxfoundation.org,
 	neil@brown.name,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] staging: mt7621-dts: complete reset missing stuff
-Date: Sun, 26 Sep 2021 16:59:28 +0200
-Message-Id: <20210926145931.14603-1-sergio.paracuellos@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: reset: add dt binding header for ralink RT2880 resets
+Date: Sun, 26 Sep 2021 16:59:29 +0200
+Message-Id: <20210926145931.14603-2-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210926145931.14603-1-sergio.paracuellos@gmail.com>
+References: <20210926145931.14603-1-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,36 +58,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Adds dt binding header for 'ralink,rt2880-reset' resets.
 
-Mt7621 SoC uses reset controller from ralink rt2880.
-
-In order to get 'mt7621.dtsi' file out of staging there are still
-some nodes which are not documented at all. This patch series
-add documentation for reset controller in ralink rt2880 derived
-SoCs which corresponds with 'ralink,rt2880-reset' compatible.
-
-It also align new binding documentation using defined reset bits
-along the device tree file itself.
-
-Thanks in advance for your time.
-
-Best regards,
-    Sergio Paracuellos
-
-Sergio Paracuellos (3):
-  dt-bindings: reset: add dt binding header for ralink RT2880 resets
-  dt: bindings: add ralink RT2880 resets device tree binding
-    documentation
-  staging: mt7621-dts: align resets with binding documentation
-
- .../bindings/reset/ralink,rt2880-reset.yaml   | 39 ++++++++++++++++++
- drivers/staging/mt7621-dts/mt7621.dtsi        | 23 ++++++-----
- include/dt-bindings/reset/ralink-rt2880.h     | 40 +++++++++++++++++++
- 3 files changed, 91 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+---
+ include/dt-bindings/reset/ralink-rt2880.h | 40 +++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
  create mode 100644 include/dt-bindings/reset/ralink-rt2880.h
 
+diff --git a/include/dt-bindings/reset/ralink-rt2880.h b/include/dt-bindings/reset/ralink-rt2880.h
+new file mode 100644
+index 000000000000..266ef521a584
+--- /dev/null
++++ b/include/dt-bindings/reset/ralink-rt2880.h
+@@ -0,0 +1,40 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2021 Sergio Paracuellos
++ * Author: Sergio Paracuellos <sergio.paracuellos@gmail.com>
++ */
++
++#ifndef DT_BINDING_RALINK_RT2880_RESET_H
++#define DT_BINDING_RALINK_RT2880_RESET_H
++
++/*
++ * Ralink RT2880 SoC reset controller register bits.
++ */
++#define RALINK_RT2880_SYS	0
++#define RALINK_RT2880_MCM	2
++#define RALINK_RT2880_HSDMA	5
++#define RALINK_RT2880_FE	6
++#define RALINK_RT2880_SPDIFTX	7
++#define RALINK_RT2880_TIMER	8
++#define RALINK_RT2880_INT	9
++#define RALINK_RT2880_MC	10
++#define RALINK_RT2880_PCM	11
++#define RALINK_RT2880_PIO	13
++#define RALINK_RT2880_GDMA	14
++#define RALINK_RT2880_NFI	15
++#define RALINK_RT2880_I2C	16
++#define RALINK_RT2880_I2S	17
++#define RALINK_RT2880_SPI	18
++#define RALINK_RT2880_UART1	19
++#define RALINK_RT2880_UART2	20
++#define RALINK_RT2880_UART3	21
++#define RALINK_RT2880_ETH	23
++#define RALINK_RT2880_PCIE0	24
++#define RALINK_RT2880_PCIE1	25
++#define RALINK_RT2880_PCIE2	26
++#define RALINK_RT2880_AUX_STCK	28
++#define RALINK_RT2880_CRYPTO	29
++#define RALINK_RT2880_SDXC	30
++#define RALINK_RT2880_PPE	31
++
++#endif /* DT_BINDING_RALINK_RT2880_RESET_H */
 -- 
 2.25.1
 
