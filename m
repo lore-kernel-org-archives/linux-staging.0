@@ -1,41 +1,41 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA74F3FC7
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 22:42:31 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id x27so68577506lfu.5
-        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 15:42:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D0D3FC7
+	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 22:42:33 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id e15so68609626lfr.10
+        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 15:42:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=azJO16PBS0aaEX5vOfJpmf9jn1x1mJqiJpQpMZ0azY4=;
-        b=CoucEmqsnHASEscWTvzWVMvPJx/TXgnqdGGuNIJPcO7mu88S+vh9AL8t1Ns9UQxBZI
-         XYyLpgOhCbVihPd7RcTvlnEoo65EfnV9OkGmOWggm/JcV3T1Fkb0hoAtZ6o6YKD3Npjs
-         H//NAJ7gp0wGVNHcKIrcVsCMNFUeMp9gBjixftFjxRLmL/Z2XsgUHsToJoIsQ91a9Rqp
-         oV4EC8FnuEN/OmtmYdJoT+oiy2ExskpbLunYJ0pVQgGZEgVTuEE0BW+mpUw7+stYklh+
-         wmG9/SuwJ+Co+IWoOjaOCa7e/0oMC36ZRTjBUO3zNyO8S7/jRGHaFUs2KkxQteQZYgcd
-         hiUQ==
+        bh=yMo8zD+Y4gBSxPVZ+67KkVYFkJ7TR9WX94Fb70e9izk=;
+        b=fcIYQRh9XxRIRXB/80/nSQZZbSclhF1IL2Ysssmz6UKjW/8VpVzXFUvmz9grBShsTu
+         VY5ke319Yg3BYCLYbFEy5O8IeLmQn9yib7lZ2ftgx2+fIKvsmLFpV0gXmKw3cSgiighL
+         z44ewmkuBPt55RT3SFFzXQ3xeJSsGDr0R4F5fmCAgEZ3Efq3SxBDHo37JYtEBEgNhF5e
+         sqYnRxIxZOHNZc31mQcCtuct8H5wSkbK0FZqVF2bFwuxog0VZwrjfcsus/XQPqBML4Qq
+         L8c/AYAqg5mMqw1TOVr8DG9+zLXCh6uEPr60TGhx0UtzFD0QyNg5T/qESzi3qS9Skfa2
+         9UHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=azJO16PBS0aaEX5vOfJpmf9jn1x1mJqiJpQpMZ0azY4=;
-        b=W4JEWqMHj/YkhqOlPQ18HxvBQb71IXogPx3NqenVRRG/I5s35vB5Ql4bBPigo8beW2
-         7P+ZV2O5R/jgblMYKYrBRPwUaFpzroGtBqtDz31mAh7jhKLwasLRsqEo294NG1dObA4v
-         54/2rSFL2i39U51gmHaz7aOoesGiNQVB8O4jkxpx8slZ1KRccm88gOiWGfMbj+btymg8
-         2huhVG1BKZ7NGXZZeuNq0WI4j51uIacQaqlXnNWNv3EVETs8+/eYQ+9wksT4HkDaxGxH
-         +MpJSzdZ8CVr2AfziosGwADNz8e4CEjMdnIx0eo+hphfR1XGatiOfQwdEldjptfruG+S
-         UsGQ==
-X-Gm-Message-State: AOAM532Rf5z+yi6xL/LoydS0RV99nG5SfGBQGDBA+74NDLftqtQGZbii
-	WBDOG122p/MDy8dLy0vkamI=
-X-Google-Smtp-Source: ABdhPJz0FoBQucMxJTKUygz8qqUX0VYeANYjoqsIq2ZxRXzP7B+OIO/7ur7ISRYBXcphepoeMGZavA==
-X-Received: by 2002:ac2:5458:: with SMTP id d24mr20907289lfn.385.1632696150192;
-        Sun, 26 Sep 2021 15:42:30 -0700 (PDT)
+        bh=yMo8zD+Y4gBSxPVZ+67KkVYFkJ7TR9WX94Fb70e9izk=;
+        b=57clqw1LHRVhKnWPLiMWgJWd8WFd25/+7c6RDAEKToJ92+T5pEF4nG0YGY+m4hPGY8
+         L9EK25xjhHCqucT19TgWkl1tj9G2tdAcx3h+F4JbxNiww9pGs5ai09z/7Q9wN010WihP
+         WQ4jwVMRVv3vZMXSyS7YrotF1WnpV0IdzUdDl/9M5WeVcZ09wyiI4byo5nwOcdHu5ok7
+         aZVdGyyP6aKQ+rVezkiG9KxeGGfbU61tqEy9Zy8y8EyQ37PoYT+4iipahedfWFseyZAB
+         Fsm8nYqGvAxUE/efzpT/MbjiuLGCSOrPFIurE9CpQx6EIt7BAAPI5weliCVzdai99GZa
+         Xqzw==
+X-Gm-Message-State: AOAM530XmsFl0pNz2E9kzCWpv/W+o55EQrN8rbXbU8b918DWTB2jzSni
+	9z4eSnM0j346pucrmw7kXos=
+X-Google-Smtp-Source: ABdhPJxo7iqkV9l9gRrhuOVZ5G8rPWWXpZNjmUEhYykmnabkYmPdy6DxYveMBgNr9BLYgvhEo0AjEQ==
+X-Received: by 2002:a2e:9a98:: with SMTP id p24mr25245378lji.55.1632696151415;
+        Sun, 26 Sep 2021 15:42:31 -0700 (PDT)
 Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru. [46.138.80.108])
-        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.29
+        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 15:42:29 -0700 (PDT)
+        Sun, 26 Sep 2021 15:42:31 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -68,9 +68,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Stefan Agner <stefan@agner.ch>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 04/35] soc/tegra: Don't print error message when OPPs not available
-Date: Mon, 27 Sep 2021 01:40:27 +0300
-Message-Id: <20210926224058.1252-5-digetx@gmail.com>
+Subject: [PATCH v13 05/35] dt-bindings: clock: tegra-car: Document new clock sub-nodes
+Date: Mon, 27 Sep 2021 01:40:28 +0300
+Message-Id: <20210926224058.1252-6-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
 References: <20210926224058.1252-1-digetx@gmail.com>
@@ -82,33 +82,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Previously we assumed that devm_tegra_core_dev_init_opp_table() will
-be used only by drivers that will always have device with OPP table,
-but this is not true anymore. For example now Tegra30 will have OPP table
-for PWM, but Tegra20 not and both use the same driver. Hence let's not
-print the error message about missing OPP table in the common helper,
-we can print it elsewhere.
+Document sub-nodes which describe Tegra SoC clocks that require a higher
+voltage of the core power domain in order to operate properly on a higher
+clock rates.  Each node contains a phandle to OPP table and power domain.
 
+The root PLLs and system clocks don't have any specific device dedicated
+to them, clock controller is in charge of managing power for them.
+
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/common.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../bindings/clock/nvidia,tegra20-car.yaml    | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
-index cd33e99249c3..a42d4f98c078 100644
---- a/drivers/soc/tegra/common.c
-+++ b/drivers/soc/tegra/common.c
-@@ -111,9 +111,7 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
- 	 */
- 	err = devm_pm_opp_of_add_table(dev);
- 	if (err) {
--		if (err == -ENODEV)
--			dev_err_once(dev, "OPP table not found, please update device-tree\n");
--		else
-+		if (err != -ENODEV)
- 			dev_err(dev, "failed to add OPP table: %d\n", err);
+diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+index 459d2a525393..f832abb7f11a 100644
+--- a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
++++ b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+@@ -42,6 +42,36 @@ properties:
+   "#reset-cells":
+     const: 1
  
- 		return err;
++patternProperties:
++  "^(sclk)|(pll-[cem])$":
++    type: object
++    properties:
++      compatible:
++        enum:
++          - nvidia,tegra20-sclk
++          - nvidia,tegra30-sclk
++          - nvidia,tegra30-pllc
++          - nvidia,tegra30-plle
++          - nvidia,tegra30-pllm
++
++      operating-points-v2: true
++
++      clocks:
++        items:
++          - description: node's clock
++
++      power-domains:
++        maxItems: 1
++        description: phandle to the core SoC power domain
++
++    required:
++      - compatible
++      - operating-points-v2
++      - clocks
++      - power-domains
++
++    additionalProperties: false
++
+ required:
+   - compatible
+   - reg
+@@ -59,6 +89,13 @@ examples:
+         reg = <0x60006000 0x1000>;
+         #clock-cells = <1>;
+         #reset-cells = <1>;
++
++        sclk {
++            compatible = "nvidia,tegra20-sclk";
++            operating-points-v2 = <&opp_table>;
++            clocks = <&tegra_car TEGRA20_CLK_SCLK>;
++            power-domains = <&domain>;
++        };
+     };
+ 
+     usb-controller@c5004000 {
 -- 
 2.32.0
 
