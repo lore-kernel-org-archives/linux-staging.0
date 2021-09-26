@@ -1,41 +1,41 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359C13FC7
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 22:43:02 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id i25so68980416lfg.6
-        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 15:43:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDBC3FCF
+	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 22:43:03 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id x27so68581668lfu.5
+        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 15:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=myD2habKvt7RXAHJbtKPfyU4WLnqnb1bLB54hjelw1E=;
-        b=mIfxe0TF/9Pcmy48yz0Fsm9ZchpGfpzi0SLlaP45hHx+C8LQ6p9xMjB3D70WA9M6r4
-         f9Aargip+FhmIUdB55HLiFKB+j0CuPHT9193U5qmsrnbn/Shc1W+Vlq4RScSptQph0b2
-         zgkvwA9uw/jspllbPLhMek7qZa3C+M4uXTPhgu+iJy9ui2A9cQvS5x86VDhpjfBZa516
-         68hec1KCKBc+8zQLs7jcGuH8GoDG8SM6R1dQGUDeR7s+JPShQDnHP4x9Fz7CwQzH2hyu
-         MW3MHHj7ACUbOHnjE0xhpImyVDrgU2Fi29vssm/QIqucYYRqM4SuFJTS04LbgtjS8oZZ
-         51Ng==
+        bh=ZDRA8PLugfMxJpXAqa8RlnWxOlWeZ2QqIDIb0I+7p08=;
+        b=kC+icNnnM68LagyRGGEkOQupTcNBYuDcSG0HFicRtIiTyC+plFKn3cvHTRDvYVnmx9
+         9V4KSaIw9OcWGcRp6dmsMjSj9hx8CjuFfzL+aBrmDRxvrIkmsHFwUroFsNPYCxkIr0W8
+         Un6+DO2AsKkUFSkduTD433sBrILi5ewzXGddooCqW4ze81GkzdjBtSNDQGSoiUnym8ad
+         N1NgQZMznEOZqBWAmCG8OIxTMeHgaW+T04Wpx7xvrjBn5mZ7xdlGJNzEihb1INyGjhjm
+         6frWTQTuXWYuHOzKv5qBDKA9bVBzQoAr3sO+ErQOFjvj+4iubRb1QmKTf0pI6PZjV3U+
+         NDWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=myD2habKvt7RXAHJbtKPfyU4WLnqnb1bLB54hjelw1E=;
-        b=V/Y5sWOwzicAoK8mKC6bBcJrQyFOKkx08wH0KHX/A6K1IqvbF9CG35JV+9t88Z067O
-         GLQQkC9QGqzinlAutP1NRhNg41bHiLNkYHYupw0NrKiu/iWQ1ANvIwsyUN2uEuXrBfb/
-         awVGwjKwcYQBhOdJo/NnwG2AoZmmxeVTXYj1Z6KbCijPpDk1goX+EBS0GjvJY2Jhw5sM
-         3wlGEbqQzuFfSl8TmvJ9+Q4/kJ27TEnPqr7pdv1DIeV1m64lGefIwzmInr8Ncujt+xnJ
-         WjJz0BMm02TH3kDmT6ZNCl6yletBW9tSpmGORTLIB2tfMh4nBqKgqodMKUrx4CHlPUmB
-         Zlcw==
-X-Gm-Message-State: AOAM531yZ2Ren9OceG6X3u97wUDXI1SXIX+cfc6fMcHVokW1GxAmmIaQ
-	MDh2YT92gGjCc3tQH4fzAfE=
-X-Google-Smtp-Source: ABdhPJz2GN71oCn5sxPfcYLYhElIbf9KK/DAi0VeYmiU+Ndj/lzTslJMlCVfBT6aWvUUtQxHZElN8g==
-X-Received: by 2002:a2e:88ce:: with SMTP id a14mr24867181ljk.96.1632696180464;
-        Sun, 26 Sep 2021 15:43:00 -0700 (PDT)
+        bh=ZDRA8PLugfMxJpXAqa8RlnWxOlWeZ2QqIDIb0I+7p08=;
+        b=ePP3G+i3Wg+PzVP3GS5hlI+xDABUDtnOtRAEk32rZ7OdGIBWV6P5TIcwL/++mWBb/n
+         IffnGhuwgAp4LJKQC65P/UEoJfwZpcfeYGgBwVE3hTXp5Mwr88mWnnV6GI2abggLapTy
+         qFUCqT3tfcrXM9KYpTi/014CTrW1YIm5WfwHf0Ioy3tprNrAfG+CgIYsBxpANyTxiQ1P
+         QLjWwz64eETSY8QD+bKSiJgD4aPujs1YCfGNHrrlt5d9o/01w8zTH/0lXdZAj9KPTri+
+         /6+HlF0uYPIHI2P7gc5i7ri+z14m9G1tlZug7otYHSoJpuqCypKBENUlO5S4WiP3OjO/
+         LwqQ==
+X-Gm-Message-State: AOAM533tscDp/iL5d+VKK0M/H4/dfBC3xLi4UZdDUhuDTbJ2vkPDXIyo
+	AyDMbrecvFuA1EUcvNAowOU=
+X-Google-Smtp-Source: ABdhPJxIGYEdLSAtK2lqAJBv7v5bdPEvftQGTGQC471A9Kq4ApP2a2tRiygRkUZI8l152v5eb2O61w==
+X-Received: by 2002:a2e:7d15:: with SMTP id y21mr25671483ljc.70.1632696181602;
+        Sun, 26 Sep 2021 15:43:01 -0700 (PDT)
 Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru. [46.138.80.108])
-        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.59
+        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.43.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 15:43:00 -0700 (PDT)
+        Sun, 26 Sep 2021 15:43:01 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -68,9 +68,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Stefan Agner <stefan@agner.ch>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 29/35] soc/tegra: pmc: Rename core power domain
-Date: Mon, 27 Sep 2021 01:40:52 +0300
-Message-Id: <20210926224058.1252-30-digetx@gmail.com>
+Subject: [PATCH v13 30/35] soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30
+Date: Mon, 27 Sep 2021 01:40:53 +0300
+Message-Id: <20210926224058.1252-31-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
 References: <20210926224058.1252-1-digetx@gmail.com>
@@ -82,27 +82,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-CORE power domain uses name of device-tree node, which is inconsistent with
-the names of PMC domains. Set the name to "core" to make it consistent.
+All device drivers got runtime PM and OPP support. Flip the core domain
+support status for Tegra20 and Tegra30 SoCs.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soc/tegra/pmc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 6759f19b9cd6..3e52ceada60c 100644
+index 3e52ceada60c..7c7aff8120d4 100644
 --- a/drivers/soc/tegra/pmc.c
 +++ b/drivers/soc/tegra/pmc.c
-@@ -1353,7 +1353,7 @@ static int tegra_pmc_core_pd_add(struct tegra_pmc *pmc, struct device_node *np)
- 	if (!genpd)
- 		return -ENOMEM;
+@@ -3042,7 +3042,7 @@ static void tegra20_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
+ }
  
--	genpd->name = np->name;
-+	genpd->name = "core";
- 	genpd->set_performance_state = tegra_pmc_core_pd_set_performance_state;
- 	genpd->opp_to_performance_state = tegra_pmc_core_pd_opp_to_performance_state;
+ static const struct tegra_pmc_soc tegra20_pmc_soc = {
+-	.supports_core_domain = false,
++	.supports_core_domain = true,
+ 	.num_powergates = ARRAY_SIZE(tegra20_powergates),
+ 	.powergates = tegra20_powergates,
+ 	.num_cpu_powergates = 0,
+@@ -3103,7 +3103,7 @@ static const char * const tegra30_reset_sources[] = {
+ };
  
+ static const struct tegra_pmc_soc tegra30_pmc_soc = {
+-	.supports_core_domain = false,
++	.supports_core_domain = true,
+ 	.num_powergates = ARRAY_SIZE(tegra30_powergates),
+ 	.powergates = tegra30_powergates,
+ 	.num_cpu_powergates = ARRAY_SIZE(tegra30_cpu_powergates),
 -- 
 2.32.0
 
