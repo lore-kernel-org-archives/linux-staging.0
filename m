@@ -1,91 +1,103 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95AE2FAE
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 13:16:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4059961019;
-	Sun, 26 Sep 2021 13:16:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632662171;
-	bh=UnFUQ3tDK4fMjGQnliWHdJvioYz9mkiO6swcBnoVrdA=;
-	h=Subject:To:Cc:From:Date:From;
-	b=Xd5E7Kk3CulKQ+dMGC5/MwxdTC039xMbSVO59e3fCN+ataF1K5UHO8GWDDUjpO38G
-	 22eLHorJrwYYfiiJ7knvtlV2QJO3LMl9/cD2QpETcCNVSpz3s/40TZYItTdMjZx8Ro
-	 4ApJ5qGPcSvxt6sc41sSnjxZkqLrD37wYPVQDicI=
-Subject: Patch "comedi: Fix memory leak in compat_insnlist()" has been added to the 5.14-stable tree
-To: abbotti@mev.co.uk,gregkh@linuxfoundation.org,linux-staging@lists.linux.dev,viro@zeniv.linux.org.uk
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Sun, 26 Sep 2021 15:15:48 +0200
-Message-ID: <1632662148153142@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CF83FC7
+	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 14:56:21 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 5A6CC580E5A;
+	Sun, 26 Sep 2021 10:56:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Sun, 26 Sep 2021 10:56:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1SwiLo
+	0OKzrgae4gARfd9XtQ8Pfr/C7RtDkZYQvq+Zg=; b=KBG2mbIWFypeGTDA9ukwZC
+	Savr3ve9ghFgzW+47++suGkjfTn8IUgdskA1e1Fmq+2Zq65GqH8vzvr/rp1w4zuF
+	WHyhzfZbYSwjgTImHz0ce55HU9h0rf0nI8lt+Xu6oLVTSUN+ZJdFlq3gZouTev6v
+	AZ50bV6l9xWh7R5PropJfcGY0I+40wasmcYkVCSl1fo6oGkEmmCGuSEYR3sMKkjt
+	S/WBzvQ4to7Ythk3Y+qj2OuS5EqRs8U8qfPDccFDg10R98P11jm0ThngMC0bWnRr
+	pT4oRUoxf4oztch6dNt4h3oiK2AIOib/gA49p0WDrMSSBDspfP54i03xpTpWCklg
+	==
+X-ME-Sender: <xms:EopQYZuKY-wnuTHI3n3YNNlj836zAWFflpNAqplVMrOL5Y2tNxWHkg>
+    <xme:EopQYSdiw41V7repoJJNFKpvgH4U2aBdDU5Pj0MNb3GrPksmrsPyf-jGHw2tJVSkB
+    gd1N5HMqXap-Yw>
+X-ME-Received: <xmr:EopQYcwstCsOU4Z_p68cMIlcEMb3hVnYwslc6YfFWgOB93fhDAaFtaha-7si25STMNqTY_HRq0425NLsRqbHBICeGlzqhg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejiedgkeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefkughoucfu
+    tghhihhmmhgvlhcuoehiughoshgthhesihguohhstghhrdhorhhgqeenucggtffrrghtth
+    gvrhhnpedtffekkeefudffveegueejffejhfetgfeuuefgvedtieehudeuueekhfduheel
+    teenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehiug
+    hoshgthhesihguohhstghhrdhorhhg
+X-ME-Proxy: <xmx:EopQYQPH6fS_kSAXkwpoRrga7m7P7o_kMYSgUegnKfpcyPV56t8etQ>
+    <xmx:EopQYZ8yXp1UBxlU1AWoyJrpuNoSGVm1Egd65OrtWZqGjWYuSr1yMA>
+    <xmx:EopQYQUEEbB_HClKbhfwf5wQ4Cqon53BsD1txQrhSArqcRAjYdcKKA>
+    <xmx:FIpQYeYCbRFkSd5u4Mh_xIjItI9js46gZfOLDMA8h_Pobpt2EHM_sA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Sep 2021 10:56:17 -0400 (EDT)
+Date: Sun, 26 Sep 2021 17:56:13 +0300
+From: Ido Schimmel <idosch@idosch.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,	Leon Romanovsky <leonro@nvidia.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
+	Bin Luo <luobin9@huawei.com>,	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Coiby Xu <coiby.xu@gmail.com>,	Derek Chickles <dchickles@marvell.com>,
+ drivers@pensando.io,	Felix Manlunas <fmanlunas@marvell.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
+	Intel Corporation <linuxwwan@intel.com>,
+	intel-wired-lan@lists.osuosl.org,	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Jerin Jacob <jerinj@marvell.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Jiri Pirko <jiri@nvidia.com>,	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
+	linux-staging@lists.linux.dev,	Loic Poulain <loic.poulain@linaro.org>,
+	Manish Chopra <manishc@marvell.com>,
+	M Chetan Kumar <m.chetan.kumar@intel.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Michael Guralnik <michaelgur@mellanox.com>, netdev@vger.kernel.org,
+	oss-drivers@corigine.com,	Richard Cochran <richardcochran@gmail.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,	Satanand Burla <sburla@marvell.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Shannon Nelson <snelson@pensando.io>,
+	Simon Horman <simon.horman@corigine.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Taras Chornyi <tchornyi@marvell.com>,	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,	UNGLinuxDriver@microchip.com,
+ Vadym Kochan <vkochan@marvell.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: Re: [PATCH net-next v1 11/21] mlxsw: core: Register devlink instance
+ last
+Message-ID: <YVCKDR1pyHaH2sR5@shredder>
+References: <cover.1632565508.git.leonro@nvidia.com>
+ <ca198a30949abb3bdf283ff87e6e718be355d0cf.1632565508.git.leonro@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ca198a30949abb3bdf283ff87e6e718be355d0cf.1632565508.git.leonro@nvidia.com>
 
+On Sat, Sep 25, 2021 at 02:22:51PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Make sure that devlink is open to receive user input when all
+> parameters are initialized.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
-This is a note to let you know that I've just added the patch titled
-
-    comedi: Fix memory leak in compat_insnlist()
-
-to the 5.14-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     comedi-fix-memory-leak-in-compat_insnlist.patch
-and it can be found in the queue-5.14 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From bb509a6ffed2c8b0950f637ab5779aa818ed1596 Mon Sep 17 00:00:00 2001
-From: Ian Abbott <abbotti@mev.co.uk>
-Date: Thu, 16 Sep 2021 15:50:23 +0100
-Subject: comedi: Fix memory leak in compat_insnlist()
-
-From: Ian Abbott <abbotti@mev.co.uk>
-
-commit bb509a6ffed2c8b0950f637ab5779aa818ed1596 upstream.
-
-`compat_insnlist()` handles the 32-bit version of the `COMEDI_INSNLIST`
-ioctl (whenwhen `CONFIG_COMPAT` is enabled).  It allocates memory to
-temporarily hold an array of `struct comedi_insn` converted from the
-32-bit version in user space.  This memory is only being freed if there
-is a fault while filling the array, otherwise it is leaked.
-
-Add a call to `kfree()` to fix the leak.
-
-Fixes: b8d47d881305 ("comedi: get rid of compat_alloc_user_space() mess in COMEDI_INSNLIST compat")
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Cc: <stable@vger.kernel.org> # 5.13+
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
-Link: https://lore.kernel.org/r/20210916145023.157479-1-abbotti@mev.co.uk
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/comedi/comedi_fops.c |    1 +
- 1 file changed, 1 insertion(+)
-
---- a/drivers/comedi/comedi_fops.c
-+++ b/drivers/comedi/comedi_fops.c
-@@ -3090,6 +3090,7 @@ static int compat_insnlist(struct file *
- 	mutex_lock(&dev->mutex);
- 	rc = do_insnlist_ioctl(dev, insns, insnlist32.n_insns, file);
- 	mutex_unlock(&dev->mutex);
-+	kfree(insns);
- 	return rc;
- }
- 
-
-
-Patches currently in stable-queue which might be from abbotti@mev.co.uk are
-
-queue-5.14/comedi-fix-memory-leak-in-compat_insnlist.patch
+Reviewed-by: Ido Schimmel <idosch@nvidia.com>
+Tested-by: Ido Schimmel <idosch@nvidia.com>
