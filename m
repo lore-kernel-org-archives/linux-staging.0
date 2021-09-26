@@ -1,41 +1,41 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DD03FCF
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 22:42:41 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id b15so67583537lfe.7
-        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 15:42:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157F63FC7
+	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 22:42:43 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id y26so29087846lfa.11
+        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 15:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=31z6ju9IxXkuW5YuopLRzoIoj/otNjt9+lw55F7t8U0=;
-        b=LLfiLqLR3Uv7MtvTYWmjc+gcUe3dYi7j5vfpS6/nXEonrzdADV499jnt5g3VHYmD2P
-         IaJ9zQyJW0W//HcMG4bBA5YT4Fr5lc1ID60Ts+UOEA9GovTWKNfpdh0YDJCPL44Z6Fg3
-         fJxIp994pumpxP8I7tQp1FOAcJkOoFY2+usFlO+SvVbk1/LGRkkmiMG3iaGgF4UAC2ql
-         0Ri9qBnHW1OOaczmHUjlOfjPGmyKdENaX5Dw0spWFIN7YfCE4HgZSBe2T0njdEUSsEJZ
-         nuNGVhBSXtbuozBRSxrfynWwPezZ2KvPJ2V+KcepW/7yyNDq4dqvqfngbeBJJgDmQpw2
-         /6DQ==
+        bh=i4Ar1sKgIFsBbBlQEbxczmgkR6jb9rRmAkGMRfPTYAk=;
+        b=JHPU2Kca1+QN2KgQCk5fxNWMjv0GyidVyLzYc1zHo6uI4WKbF+MpJW8N/ggDp7ZR1T
+         RePIWmnLYq14XdW1/KnviDUZ59mUlcJrLAVJLC9skmwTJZ/cU31ps3tw/ttGBR4lyWol
+         ULnGfzlUqbL9ZwsO3K3Vmy6U6SgZYvJgCiraBW+77+vS+2SvGVVTGewqxStiPz3xrSPI
+         eBXZWJO+Yn6drzJTEJkYKyGSw6BMyntRdxrfke4msBZohWyn2m0RQlh9MMnU47vs6VEj
+         cP1xkjxOnsVSURB7IrQpGW88Fjk0dOLIQRdhfwDONnFL9JIS0vuiD04vL8S8oqfTbxuE
+         b2Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=31z6ju9IxXkuW5YuopLRzoIoj/otNjt9+lw55F7t8U0=;
-        b=P/ueGJFtGwZRMd2Fk6jRBkuJR2rJwSQLbyWUQefHROVXjLeApxhvqYT1/aI770fT4A
-         g6DGlVxL8l5Go00UC7CACE+qhIt557jVJDYG8FiYymFyblK9XDH1bGpLRSXUXqw0MkrP
-         tEKeHUUO3nq/IfuW1KUgm+xr8GmSRU8wi5oKg6bvHbwNhd8gRI2fJIEPVGbb9H0PXmlf
-         l+sy948BQj2uPyTYDySuBp8zkWFq7QNboGuXJEZbmBLuX21FJEDN7pGPyDw0Spf/H/xF
-         mJzGTNzRkuYXp9ttaDFpLpIAJOUtzmJf/x9wAbTCJWNPwOqfKN40UB31sTo6lxGxWH50
-         DiTA==
-X-Gm-Message-State: AOAM531buEPkf7hAPE6mnep4Pir3YPt0YYeZXRWtb+3xmyKJ9vcDjYgv
-	hRIf2kzioI0MB6GSuHM42Pk=
-X-Google-Smtp-Source: ABdhPJylJVQRDOfsnswWdBhvajz1HdfChCZWUg3V/0pQG3UKT9LOlK10u4P3TFgY9egIg+K11N0IHA==
-X-Received: by 2002:a05:6512:3c92:: with SMTP id h18mr20860545lfv.656.1632696160164;
-        Sun, 26 Sep 2021 15:42:40 -0700 (PDT)
+        bh=i4Ar1sKgIFsBbBlQEbxczmgkR6jb9rRmAkGMRfPTYAk=;
+        b=L5knVR1iVYJrZgOltxqeZZ5g3ZmjUIZVQsC4/WdP9B0+XXGyPj4KtMGy5J2htzTk3a
+         YdHpokVIksF4kr0Z7Q5QDOeJ+kySVSqktgLgYDJIsUdYLV1o8eOc1rynE7WcCdEv+Kf2
+         1Tf0+A6O6ri6D0KFxkg1kl71t4M1iYGvFwI8Dxes4wyepEgMhXIBQ68ihSbGeWl5sids
+         0JRaQfBNlP6iaUKabMsyIdioX6Xn2ClwAuKCqgwPHJaO8+PF5J9Buk/+nzV9N6t1Scm6
+         rdSGupKvpEOerQdy6wou8WZuDAL1q/5Px5laJroKg5te0EoYCRLfjsHUmi3UcOuZN8QT
+         vxxw==
+X-Gm-Message-State: AOAM532YNi9hkURXbApaO22rJtDyUvVlc5pWXWGMk2QdztHe7A68zNyW
+	Vz8eyulpo14ePC5LM88Y044=
+X-Google-Smtp-Source: ABdhPJxm/9SGTpXmIU6KOUW8nx7f+qRgzeye8oo59aTJA/2lTZoJ+DqEFdLAgXZPM8PJsX7e7lNUUw==
+X-Received: by 2002:a2e:a22a:: with SMTP id i10mr24713382ljm.464.1632696161310;
+        Sun, 26 Sep 2021 15:42:41 -0700 (PDT)
 Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru. [46.138.80.108])
-        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.39
+        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 15:42:39 -0700 (PDT)
+        Sun, 26 Sep 2021 15:42:41 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -68,9 +68,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Stefan Agner <stefan@agner.ch>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 12/35] drm/tegra: hdmi: Add OPP support
-Date: Mon, 27 Sep 2021 01:40:35 +0300
-Message-Id: <20210926224058.1252-13-digetx@gmail.com>
+Subject: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain and runtime PM
+Date: Mon, 27 Sep 2021 01:40:36 +0300
+Message-Id: <20210926224058.1252-14-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
 References: <20210926224058.1252-1-digetx@gmail.com>
@@ -82,69 +82,267 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The HDMI on Tegra belongs to the core power domain and we're going to
-enable GENPD support for the core domain. Now HDMI driver must use
-OPP API for driving the controller's clock rate because OPP API takes
-care of reconfiguring the domain's performance state based on HDMI clock
-rate. Add OPP support to the HDMI driver.
+Add runtime power management and support generic power domains.
 
+Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
+Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
+Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/hdmi.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 147 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
-index e5d2a4026028..9a87d351a828 100644
---- a/drivers/gpu/drm/tegra/hdmi.c
-+++ b/drivers/gpu/drm/tegra/hdmi.c
-@@ -11,10 +11,13 @@
- #include <linux/math64.h>
+diff --git a/drivers/gpu/drm/tegra/gr2d.c b/drivers/gpu/drm/tegra/gr2d.c
+index de288cba3905..13df8f118f75 100644
+--- a/drivers/gpu/drm/tegra/gr2d.c
++++ b/drivers/gpu/drm/tegra/gr2d.c
+@@ -7,11 +7,21 @@
+ #include <linux/iommu.h>
  #include <linux/module.h>
  #include <linux/of_device.h>
-+#include <linux/pm_opp.h>
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- #include <linux/reset.h>
- 
-+#include <soc/tegra/common.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
 +
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_debugfs.h>
-@@ -1195,7 +1198,7 @@ static void tegra_hdmi_encoder_enable(struct drm_encoder *encoder)
- 	h_back_porch = mode->htotal - mode->hsync_end;
- 	h_front_porch = mode->hsync_start - mode->hdisplay;
++#include <soc/tegra/common.h>
  
--	err = clk_set_rate(hdmi->clk, hdmi->pixel_clock);
-+	err = dev_pm_opp_set_rate(hdmi->dev, hdmi->pixel_clock);
- 	if (err < 0) {
- 		dev_err(hdmi->dev, "failed to set HDMI clock frequency: %d\n",
- 			err);
-@@ -1732,7 +1735,14 @@ static int tegra_hdmi_probe(struct platform_device *pdev)
+ #include "drm.h"
+ #include "gem.h"
+ #include "gr2d.h"
+ 
++enum {
++	RST_MC,
++	RST_GR2D,
++	RST_GR2D_MAX,
++};
++
+ struct gr2d_soc {
+ 	unsigned int version;
+ };
+@@ -21,6 +31,9 @@ struct gr2d {
+ 	struct host1x_channel *channel;
+ 	struct clk *clk;
+ 
++	struct reset_control_bulk_data resets[RST_GR2D_MAX];
++	unsigned int nresets;
++
+ 	const struct gr2d_soc *soc;
+ 
+ 	DECLARE_BITMAP(addr_regs, GR2D_NUM_REGS);
+@@ -101,16 +114,24 @@ static int gr2d_open_channel(struct tegra_drm_client *client,
+ 			     struct tegra_drm_context *context)
+ {
+ 	struct gr2d *gr2d = to_gr2d(client);
++	int err;
+ 
+ 	context->channel = host1x_channel_get(gr2d->channel);
+ 	if (!context->channel)
+ 		return -ENOMEM;
+ 
++	err = pm_runtime_resume_and_get(client->base.dev);
++	if (err) {
++		host1x_channel_put(context->channel);
++		return err;
++	}
++
+ 	return 0;
+ }
+ 
+ static void gr2d_close_channel(struct tegra_drm_context *context)
+ {
++	pm_runtime_put_sync(context->client->base.dev);
+ 	host1x_channel_put(context->channel);
+ }
+ 
+@@ -190,6 +211,27 @@ static const u32 gr2d_addr_regs[] = {
+ 	GR2D_VA_BASE_ADDR_SB,
+ };
+ 
++static int gr2d_get_resets(struct device *dev, struct gr2d *gr2d)
++{
++	int err;
++
++	gr2d->resets[RST_MC].id = "mc";
++	gr2d->resets[RST_GR2D].id = "2d";
++	gr2d->nresets = RST_GR2D_MAX;
++
++	err = devm_reset_control_bulk_get_optional_exclusive_released(
++				dev, gr2d->nresets, gr2d->resets);
++	if (err) {
++		dev_err(dev, "failed to get reset: %d\n", err);
++		return err;
++	}
++
++	if (WARN_ON(!gr2d->resets[RST_GR2D].rstc))
++		return -ENOENT;
++
++	return 0;
++}
++
+ static int gr2d_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -202,6 +244,8 @@ static int gr2d_probe(struct platform_device *pdev)
+ 	if (!gr2d)
+ 		return -ENOMEM;
+ 
++	platform_set_drvdata(pdev, gr2d);
++
+ 	gr2d->soc = of_device_get_match_data(dev);
+ 
+ 	syncpts = devm_kzalloc(dev, sizeof(*syncpts), GFP_KERNEL);
+@@ -214,11 +258,9 @@ static int gr2d_probe(struct platform_device *pdev)
+ 		return PTR_ERR(gr2d->clk);
  	}
  
- 	platform_set_drvdata(pdev, hdmi);
--	pm_runtime_enable(&pdev->dev);
-+
-+	err = devm_pm_runtime_enable(&pdev->dev);
+-	err = clk_prepare_enable(gr2d->clk);
+-	if (err) {
+-		dev_err(dev, "cannot turn on clock\n");
++	err = gr2d_get_resets(dev, gr2d);
 +	if (err)
-+		return err;
+ 		return err;
+-	}
+ 
+ 	INIT_LIST_HEAD(&gr2d->client.base.list);
+ 	gr2d->client.base.ops = &gr2d_client_ops;
+@@ -231,20 +273,31 @@ static int gr2d_probe(struct platform_device *pdev)
+ 	gr2d->client.version = gr2d->soc->version;
+ 	gr2d->client.ops = &gr2d_ops;
+ 
++	pm_runtime_enable(dev);
++	pm_runtime_use_autosuspend(dev);
++	pm_runtime_set_autosuspend_delay(dev, 200);
 +
-+	err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
++	err = devm_tegra_core_dev_init_opp_table_common(dev);
 +	if (err)
-+		return err;
- 
- 	INIT_LIST_HEAD(&hdmi->client.list);
- 	hdmi->client.ops = &hdmi_client_ops;
-@@ -1753,8 +1763,6 @@ static int tegra_hdmi_remove(struct platform_device *pdev)
- 	struct tegra_hdmi *hdmi = platform_get_drvdata(pdev);
- 	int err;
- 
--	pm_runtime_disable(&pdev->dev);
--
- 	err = host1x_client_unregister(&hdmi->client);
++		goto disable_rpm;
++
+ 	err = host1x_client_register(&gr2d->client.base);
  	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to unregister host1x client: %d\n",
+ 		dev_err(dev, "failed to register host1x client: %d\n", err);
+-		clk_disable_unprepare(gr2d->clk);
+-		return err;
++		goto disable_rpm;
+ 	}
+ 
+ 	/* initialize address register map */
+ 	for (i = 0; i < ARRAY_SIZE(gr2d_addr_regs); i++)
+ 		set_bit(gr2d_addr_regs[i], gr2d->addr_regs);
+ 
+-	platform_set_drvdata(pdev, gr2d);
+-
+ 	return 0;
++
++disable_rpm:
++	pm_runtime_dont_use_autosuspend(dev);
++	pm_runtime_disable(dev);
++
++	return err;
+ }
+ 
+ static int gr2d_remove(struct platform_device *pdev)
+@@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
++	pm_runtime_dont_use_autosuspend(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++
++	return 0;
++}
++
++static int __maybe_unused gr2d_runtime_suspend(struct device *dev)
++{
++	struct gr2d *gr2d = dev_get_drvdata(dev);
++	int err;
++
++	host1x_channel_stop(gr2d->channel);
++	reset_control_bulk_release(gr2d->nresets, gr2d->resets);
++
++	/*
++	 * GR2D module shouldn't be reset while hardware is idling, otherwise
++	 * host1x's cmdproc will stuck on trying to access any G2 register
++	 * after reset. GR2D module could be either hot-reset or reset after
++	 * power-gating of the HEG partition. Hence we will put in reset only
++	 * the memory client part of the module, the HEG GENPD will take care
++	 * of resetting GR2D module across power-gating.
++	 *
++	 * On Tegra20 there is no HEG partition, but it's okay to have
++	 * undetermined h/w state since userspace is expected to reprogram
++	 * the state on each job submission anyways.
++	 */
++	err = reset_control_acquire(gr2d->resets[RST_MC].rstc);
++	if (err) {
++		dev_err(dev, "failed to acquire MC reset: %d\n", err);
++		goto acquire_reset;
++	}
++
++	err = reset_control_assert(gr2d->resets[RST_MC].rstc);
++	reset_control_release(gr2d->resets[RST_MC].rstc);
++	if (err) {
++		dev_err(dev, "failed to assert MC reset: %d\n", err);
++		goto acquire_reset;
++	}
++
+ 	clk_disable_unprepare(gr2d->clk);
+ 
+ 	return 0;
++
++acquire_reset:
++	reset_control_bulk_acquire(gr2d->nresets, gr2d->resets);
++	reset_control_bulk_deassert(gr2d->nresets, gr2d->resets);
++
++	return err;
+ }
+ 
++static int __maybe_unused gr2d_runtime_resume(struct device *dev)
++{
++	struct gr2d *gr2d = dev_get_drvdata(dev);
++	int err;
++
++	err = reset_control_bulk_acquire(gr2d->nresets, gr2d->resets);
++	if (err) {
++		dev_err(dev, "failed to acquire reset: %d\n", err);
++		return err;
++	}
++
++	err = clk_prepare_enable(gr2d->clk);
++	if (err) {
++		dev_err(dev, "failed to enable clock: %d\n", err);
++		goto release_reset;
++	}
++
++	/* this is a reset array which deasserts both 2D MC and 2D itself */
++	err = reset_control_bulk_deassert(gr2d->nresets, gr2d->resets);
++	if (err) {
++		dev_err(dev, "failed to deassert reset: %d\n", err);
++		goto disable_clk;
++	}
++
++	return 0;
++
++disable_clk:
++	clk_disable_unprepare(gr2d->clk);
++release_reset:
++	reset_control_bulk_release(gr2d->nresets, gr2d->resets);
++
++	return err;
++}
++
++static const struct dev_pm_ops tegra_gr2d_pm = {
++	SET_RUNTIME_PM_OPS(gr2d_runtime_suspend, gr2d_runtime_resume, NULL)
++	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
++				pm_runtime_force_resume)
++};
++
+ struct platform_driver tegra_gr2d_driver = {
+ 	.driver = {
+ 		.name = "tegra-gr2d",
+ 		.of_match_table = gr2d_match,
++		.pm = &tegra_gr2d_pm,
+ 	},
+ 	.probe = gr2d_probe,
+ 	.remove = gr2d_remove,
 -- 
 2.32.0
 
