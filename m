@@ -1,103 +1,91 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CF83FC7
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 14:56:21 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 5A6CC580E5A;
-	Sun, 26 Sep 2021 10:56:20 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 26 Sep 2021 10:56:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1SwiLo
-	0OKzrgae4gARfd9XtQ8Pfr/C7RtDkZYQvq+Zg=; b=KBG2mbIWFypeGTDA9ukwZC
-	Savr3ve9ghFgzW+47++suGkjfTn8IUgdskA1e1Fmq+2Zq65GqH8vzvr/rp1w4zuF
-	WHyhzfZbYSwjgTImHz0ce55HU9h0rf0nI8lt+Xu6oLVTSUN+ZJdFlq3gZouTev6v
-	AZ50bV6l9xWh7R5PropJfcGY0I+40wasmcYkVCSl1fo6oGkEmmCGuSEYR3sMKkjt
-	S/WBzvQ4to7Ythk3Y+qj2OuS5EqRs8U8qfPDccFDg10R98P11jm0ThngMC0bWnRr
-	pT4oRUoxf4oztch6dNt4h3oiK2AIOib/gA49p0WDrMSSBDspfP54i03xpTpWCklg
-	==
-X-ME-Sender: <xms:EopQYZuKY-wnuTHI3n3YNNlj836zAWFflpNAqplVMrOL5Y2tNxWHkg>
-    <xme:EopQYSdiw41V7repoJJNFKpvgH4U2aBdDU5Pj0MNb3GrPksmrsPyf-jGHw2tJVSkB
-    gd1N5HMqXap-Yw>
-X-ME-Received: <xmr:EopQYcwstCsOU4Z_p68cMIlcEMb3hVnYwslc6YfFWgOB93fhDAaFtaha-7si25STMNqTY_HRq0425NLsRqbHBICeGlzqhg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejiedgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefkughoucfu
-    tghhihhmmhgvlhcuoehiughoshgthhesihguohhstghhrdhorhhgqeenucggtffrrghtth
-    gvrhhnpedtffekkeefudffveegueejffejhfetgfeuuefgvedtieehudeuueekhfduheel
-    teenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehiug
-    hoshgthhesihguohhstghhrdhorhhg
-X-ME-Proxy: <xmx:EopQYQPH6fS_kSAXkwpoRrga7m7P7o_kMYSgUegnKfpcyPV56t8etQ>
-    <xmx:EopQYZ8yXp1UBxlU1AWoyJrpuNoSGVm1Egd65OrtWZqGjWYuSr1yMA>
-    <xmx:EopQYQUEEbB_HClKbhfwf5wQ4Cqon53BsD1txQrhSArqcRAjYdcKKA>
-    <xmx:FIpQYeYCbRFkSd5u4Mh_xIjItI9js46gZfOLDMA8h_Pobpt2EHM_sA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 26 Sep 2021 10:56:17 -0400 (EDT)
-Date: Sun, 26 Sep 2021 17:56:13 +0300
-From: Ido Schimmel <idosch@idosch.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,	Leon Romanovsky <leonro@nvidia.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,	Derek Chickles <dchickles@marvell.com>,
- drivers@pensando.io,	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	Intel Corporation <linuxwwan@intel.com>,
-	intel-wired-lan@lists.osuosl.org,	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-staging@lists.linux.dev,	Loic Poulain <loic.poulain@linaro.org>,
-	Manish Chopra <manishc@marvell.com>,
-	M Chetan Kumar <m.chetan.kumar@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Michael Guralnik <michaelgur@mellanox.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com,	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,	Satanand Burla <sburla@marvell.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Shannon Nelson <snelson@pensando.io>,
-	Simon Horman <simon.horman@corigine.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,	UNGLinuxDriver@microchip.com,
- Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: Re: [PATCH net-next v1 11/21] mlxsw: core: Register devlink instance
- last
-Message-ID: <YVCKDR1pyHaH2sR5@shredder>
-References: <cover.1632565508.git.leonro@nvidia.com>
- <ca198a30949abb3bdf283ff87e6e718be355d0cf.1632565508.git.leonro@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD6C3FC7
+	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 14:59:35 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id c21so14337201wrb.13
+        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 07:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+aNtDTuzOAT+YuiF30Z3WS40pgPV+F0Fyu3AoNR9Jqc=;
+        b=BnzD6wDSAOJGpAE8g+zqjJ8lSPCNOBe1KfdAu3gg85bMB9cg7Mc5ojDS//WRtgDBMK
+         Mk280sBRIn+IeIumLrI246xdzCF5ApQ1VAgJhWczn9EHxJsNVftc0GPmZrO8R54AZ6qv
+         /tXXbvoe0Yqg49u/ePwVS/HLDGg2+CJ8ElQeLppgzebH6Q5fZtoCDRPtEiZ1X9m14iRm
+         o9RaAzwZFkH66txn+V9cvmKb7pHFjIXwfKqLKmS9PNBs91074OAgwQOSnnkuM3/H9UYW
+         99Ln0mb/YYknyhpnCojTF59XoKdpfeEt9+uULGVlsyGU+2URtQV5sjHPnmq2OnrPmFj/
+         GXIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+aNtDTuzOAT+YuiF30Z3WS40pgPV+F0Fyu3AoNR9Jqc=;
+        b=sgTajbwmLbdnEORcQAFqCU3t1CNWnx1+QIBkS8LSENTnTaOgOxpIuSIxbRHQTRgUGe
+         eiwpoHY97KXTXNLFKwu3+HQLjilNh31vyz/dcvX5X2eXiLlv4NTuvDFRredSpySBaWn+
+         +xVc3hWKHwA2ocXPvpEI1GMPj5StUEKBSsSCjiJ49DdmeVXdCTDDwqjuBmvCg5R9k3Oa
+         8rppuOUAS75F4OTFrMHhr2Ty6WSNfiuUhjMf/BOMQI4J0nMeZCHdPNior+4Lj3rGq/dm
+         QiYw5hb4llefzgWCb8P/oGmoiGYX50FFUhEli7X1nAjuuTrgMsmaJ8MTT+L2Htecnbu5
+         UqYg==
+X-Gm-Message-State: AOAM533vzJPvky9Xzi73h9m9nThBQ3b9PyYhsFXCXEsEO+6K1/Kbx/49
+	i/+X35kvn18GK0n3ixS3V8aE/mFxbto=
+X-Google-Smtp-Source: ABdhPJz5HQT/5F3ODgZeID6PuqLBe26fEAIMr57W/qTuVp+IPx1rwLYnD1Bpa/8/zbJ7jjZgR2XCTw==
+X-Received: by 2002:a1c:7e10:: with SMTP id z16mr11896994wmc.141.1632668373619;
+        Sun, 26 Sep 2021 07:59:33 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id n7sm14143840wra.37.2021.09.26.07.59.32
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 26 Sep 2021 07:59:33 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: robh@kernel.org,
+	john@phrozen.org,
+	devicetree@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	neil@brown.name,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] staging: mt7621-dts: complete reset missing stuff
+Date: Sun, 26 Sep 2021 16:59:28 +0200
+Message-Id: <20210926145931.14603-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ca198a30949abb3bdf283ff87e6e718be355d0cf.1632565508.git.leonro@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 25, 2021 at 02:22:51PM +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Make sure that devlink is open to receive user input when all
-> parameters are initialized.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Hi all,
 
-Reviewed-by: Ido Schimmel <idosch@nvidia.com>
-Tested-by: Ido Schimmel <idosch@nvidia.com>
+Mt7621 SoC uses reset controller from ralink rt2880.
+
+In order to get 'mt7621.dtsi' file out of staging there are still
+some nodes which are not documented at all. This patch series
+add documentation for reset controller in ralink rt2880 derived
+SoCs which corresponds with 'ralink,rt2880-reset' compatible.
+
+It also align new binding documentation using defined reset bits
+along the device tree file itself.
+
+Thanks in advance for your time.
+
+Best regards,
+    Sergio Paracuellos
+
+Sergio Paracuellos (3):
+  dt-bindings: reset: add dt binding header for ralink RT2880 resets
+  dt: bindings: add ralink RT2880 resets device tree binding
+    documentation
+  staging: mt7621-dts: align resets with binding documentation
+
+ .../bindings/reset/ralink,rt2880-reset.yaml   | 39 ++++++++++++++++++
+ drivers/staging/mt7621-dts/mt7621.dtsi        | 23 ++++++-----
+ include/dt-bindings/reset/ralink-rt2880.h     | 40 +++++++++++++++++++
+ 3 files changed, 91 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
+ create mode 100644 include/dt-bindings/reset/ralink-rt2880.h
+
+-- 
+2.25.1
+
