@@ -1,62 +1,135 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345EC2FB2
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 15:50:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CB3066103B;
-	Mon, 27 Sep 2021 15:50:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632757858;
-	bh=UCCvAHzd6lqyG1Rjf5H7gKg4GmJepqO6vvcgkEy7RZk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XQ7PLdBdmuetfPXJ+PSPCgtbNt6QSQONep2sWIwT3Fl6uEyefMyjSyj9BXRQX8yND
-	 dUrCCIq3czIyt0u7FZSuEvl+Ul0WW8+nSiJZtoCo2IjtyUfnI+To5GVW4Ak4eNx17N
-	 eFYBEnHT8vGskYHaRBgzWwqebJv4TvJpwlOYcqXQ=
-Date: Mon, 27 Sep 2021 17:50:55 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc: Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: force fcnt=3 on Renesas GEN3
-Message-ID: <YVHoXyULqXsWktMN@kroah.com>
-References: <20210921165130.24178-1-nikita.yoush@cogentembedded.com>
- <YVHjQ95lbDjvVR73@kroah.com>
- <17e51208-18b9-56d8-e8e3-2e40d6e94438@cogentembedded.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDED3FCC
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 15:58:35 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id b15so78413299lfe.7
+        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 08:58:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mnBui/bq2DenTO0RzI30XkLpJ5ryphhFyB3vBxgNy3g=;
+        b=MsFXo0I6wLJKPx9iHv/XEWK/6o62hxZrp8RYlozF8o5/qDU2Sr+mmfPRC4E9+BtfNe
+         3XxksAjOsoaT8pEmG1VsgwpavT3Qq4U8UlXLbuV32Iwqzpr5SC4j19Z6Gr0segzjXZOF
+         5W6k0scXl1AQD6OqNw95LU4S1nwqANsVt6BNAGUMqMU7tGPdJlHO7dDC9z0iNoo9eDK+
+         +r/AVboWdImwi5XhOgsD5jL3Joj1pzLPwjckKukzZsH7CJZ5tgiLV/+F+8715SR/uOrY
+         vgJbh9o2zfrJQ1R6r2/IQtJPQ8nJWBjnp0yRt940xbA/89ic+6sCAcTg9QSIROXOhhc+
+         L6Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mnBui/bq2DenTO0RzI30XkLpJ5ryphhFyB3vBxgNy3g=;
+        b=simC0DpPJC4P24FRS1RW4zvcWe5xmrkvw3tfifsEQjAQAUkVbgzdOqNRQnCu1S1ExX
+         ZhnKqLqjtWCV+/vqBiZbcFAIjiZ2WbPqXfGi2kYW6OM1sSYJjMZ3Tiej4C6Jx0bNdeOn
+         3vtxY4fDK5X94W6RtNQpF5zG+IZldDJYpDPMRgP5QZEJgEZFjBiveshf9v2TyL6/P7T0
+         35btBKOgGcqGcLScoZsEM1gvzissiP+zlY/zoVHUWeDJUgaP9FVrD4dXbl7okO6khLFx
+         MUJC8imkjnhiEc9tyqudzTU5c6YEDNAG87wjHBGxJDSAMrD3iglPCyolVTd/OGn7d04y
+         Xtbg==
+X-Gm-Message-State: AOAM533QDtjVXVOlX1s4LzyDJBc28J7Q4hjMQr0irxjnURNIYF1ZVF9h
+	lbkWPIy7FHF/k6T9hNjldMPCyEz1fkS1Qgld
+X-Google-Smtp-Source: ABdhPJztNIfPvBJVgd+M5+SywC/TUunjVE+8HODRyIAx29XlY0BgFRxjT+6k/dTOxw4MmVYuY40TOA==
+X-Received: by 2002:a05:651c:1505:: with SMTP id e5mr597864ljf.9.1632758313119;
+        Mon, 27 Sep 2021 08:58:33 -0700 (PDT)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id c17sm1795730lfp.290.2021.09.27.08.58.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Sep 2021 08:58:32 -0700 (PDT)
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lee Jones <lee.jones@linaro.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH v2] staging: most: dim2: force fcnt=3 on Renesas GEN3
+Date: Mon, 27 Sep 2021 18:58:05 +0300
+Message-Id: <20210927155804.27877-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YVHoXyULqXsWktMN@kroah.com>
+References: <YVHoXyULqXsWktMN@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <17e51208-18b9-56d8-e8e3-2e40d6e94438@cogentembedded.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 27, 2021 at 06:40:13PM +0300, Nikita Yushchenko wrote:
-> > > +	dev_fcnt = pdata && pdata->fcnt ? pdata->fcnt : fcnt;
-> > 
-> > Please use a real if () statement here and do not bury real logic in a
-> > crazy line like this one, as that is all but impossible to maintain over
-> > time.
-> 
-> The same source file already uses the same form of conditional expressions several lines above:
-> 
-> > ret = pdata && pdata->enable ? pdata->enable(pdev) : 0;
+Per Renesas datasheet, MLBC0 register's fcnt field in the embedded
+dim2 module must be never set to value different from 3.
 
-It's not good there either.
+Enforce that, via an optional field in struct dim2_platform_data.
 
-There is a reason this code is still in drivers/staging/ and that is one
-of them.  Let's not duplicate bad code for no real reason please.
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+Changes from v1:
+- set dev_fcnt via if statement, not conditional expression
 
-> > dev->disable_platform = pdata ? pdata->disable : NULL;
-> 
-> Shall I use real if statement for my expression while keeping those as-is? This looks ... strange.
-> Or shall I convert all conditional expressions to if statements?
+ drivers/staging/most/dim2/dim2.c | 29 +++++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
-Do not add additional ? : statements in this patch.  I would be glad to
-take an add-on patch after this that fixes up the other uses in the
-driver, but that should be separate as that is a separate issue here.
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 093ef9a2b291..9300040ec84c 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -108,6 +108,7 @@ struct dim2_hdm {
+ struct dim2_platform_data {
+ 	int (*enable)(struct platform_device *pdev);
+ 	void (*disable)(struct platform_device *pdev);
++	u8 fcnt;
+ };
+ 
+ #define iface_to_hdm(iface) container_of(iface, struct dim2_hdm, most_iface)
+@@ -731,7 +732,7 @@ static int dim2_probe(struct platform_device *pdev)
+ 	struct dim2_hdm *dev;
+ 	struct resource *res;
+ 	int ret, i;
+-	u8 hal_ret;
++	u8 dev_fcnt, hal_ret;
+ 	int irq;
+ 
+ 	enum { MLB_INT_IDX, AHB0_INT_IDX };
+@@ -770,8 +771,14 @@ static int dim2_probe(struct platform_device *pdev)
+ 
+ 	dev->disable_platform = pdata ? pdata->disable : NULL;
+ 
+-	dev_info(&pdev->dev, "sync: num of frames per sub-buffer: %u\n", fcnt);
+-	hal_ret = dim_startup(dev->io_base, dev->clk_speed, fcnt);
++	if (pdata && pdata->fcnt)
++		dev_fcnt = pdata->fcnt;
++	else
++		dev_fcnt = fcnt;
++
++	dev_info(&pdev->dev, "sync: num of frames per sub-buffer: %u\n",
++		 dev_fcnt);
++	hal_ret = dim_startup(dev->io_base, dev->clk_speed, dev_fcnt);
+ 	if (hal_ret != DIM_NO_ERROR) {
+ 		dev_err(&pdev->dev, "dim_startup failed: %d\n", hal_ret);
+ 		ret = -ENODEV;
+@@ -1047,9 +1054,19 @@ static void rcar_m3_disable(struct platform_device *pdev)
+ enum dim2_platforms { FSL_MX6, RCAR_H2, RCAR_M3 };
+ 
+ static struct dim2_platform_data plat_data[] = {
+-	[FSL_MX6] = { .enable = fsl_mx6_enable, .disable = fsl_mx6_disable },
+-	[RCAR_H2] = { .enable = rcar_h2_enable, .disable = rcar_h2_disable },
+-	[RCAR_M3] = { .enable = rcar_m3_enable, .disable = rcar_m3_disable },
++	[FSL_MX6] = {
++		.enable = fsl_mx6_enable,
++		.disable = fsl_mx6_disable,
++	},
++	[RCAR_H2] = {
++		.enable = rcar_h2_enable,
++		.disable = rcar_h2_disable,
++	},
++	[RCAR_M3] = {
++		.enable = rcar_m3_enable,
++		.disable = rcar_m3_disable,
++		.fcnt = 3,
++	},
+ };
+ 
+ static const struct of_device_id dim2_of_match[] = {
+-- 
+2.30.2
 
-thanks,
-
-greg k-h
