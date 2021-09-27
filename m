@@ -1,85 +1,196 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837F172
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 09:14:50 +0000 (UTC)
-Received: by mail-vk1-f170.google.com with SMTP id g15so6643017vke.5
-        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 02:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WbaNXMBECXey7ELal8uMHHShxWFOFNevhVPa8lYniYY=;
-        b=RAemMbnGVpPW/DQd2waEBePc7ixfmJGa8M5Q4s3tmglGzdGIvF8j9/K+dnEt0H/cQZ
-         FaV0D9LcwiiHh3HgvZClJEkRNeRkOdJW9u4xPC0W5feThfZ1l0tQc25gPgiKt4PS+vin
-         2ZsM+1Ou3dJHWoN/2Fe6vv2NgrY+tf5OipUjplK9IVw7N7dn96qXfDkg5Uo0IVneo7jY
-         EeWDpUua9SjCMGrkwkRiN4z1HvVHIqEwJayb3FQLNbjFSbWQpZAjSYKDtulBb5X+xm/C
-         eRc1qLCgvQa1V677/HfypA114QyRcn5OPw86n3HEBM6eDsLzGorTIAH5GeZjrINsoMRG
-         QpKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WbaNXMBECXey7ELal8uMHHShxWFOFNevhVPa8lYniYY=;
-        b=sl9Gnazifo8hgZ5yXJZRAHyZQeMn0WWl+gn3tuGxrJhG2Jt7aZ8RfvMvcU4KQ6vg/m
-         ExWEBCpGZH7A0lO0USI9aLGXEu0dwEcKTn55u98X4paPczz2SKP/wHu6q/K+iH2ySUUu
-         i2IEOKgI+jGLcPfnc5YXQHfmwCfF8IqsPYKZnTJGs0fDegjOjmkzSlppb2ITWcs0cQDO
-         OBWqFwm3tAXvKeJiXAkICpn33X9xRZM7eqcfDuKrfb+WWoYUchZdnXj0gHHnna+QQxxt
-         7Kfnrreby0MPKv/ELA+CEfDv/+1vww7YkFd/iUT30cgxw9DQZf3BUQU7AexQXTjArleh
-         eyjA==
-X-Gm-Message-State: AOAM531mYldGleRV1qIkBRO16DnCUy0oZ05E0EmF6KGXV2bC6dNg18oI
-	H28oKBuTjm+m/PSsml20ah12eWbkdki8AdKcDTo=
-X-Google-Smtp-Source: ABdhPJwBqIxeWAX6bgr87UbnnhqSB8U3yyRByhoxX5/LWxHm2KmuWgE7NKQp4aPlSFAPKp/L5UzWU5/+0C6hYH08ImQ=
-X-Received: by 2002:a1f:900c:: with SMTP id s12mr14749733vkd.1.1632734089613;
- Mon, 27 Sep 2021 02:14:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26543FC8
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 11:20:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrzej.p)
+	with ESMTPSA id C678E1F42393
+Subject: Re: [PATCH v5 05/10] media: uapi: Add VP9 stateless decoder controls
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heiko Stuebner <heiko@sntech.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
+ Adrian Ratiu <adrian.ratiu@collabora.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>
+References: <20210922101146.13762-1-andrzej.p@collabora.com>
+ <20210922101146.13762-6-andrzej.p@collabora.com> <YU37e90gldL7zHke@fedora>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <e7f228bc-d8d5-5857-a892-df1deee4be3e@collabora.com>
+Date: Mon, 27 Sep 2021 13:20:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210925203224.10419-1-sergio.paracuellos@gmail.com> <CAK8P3a3+54S2=-=ch1+XWuNQRoOCDdQhtBhu3CKOdqcSNzu8YA@mail.gmail.com>
-In-Reply-To: <CAK8P3a3+54S2=-=ch1+XWuNQRoOCDdQhtBhu3CKOdqcSNzu8YA@mail.gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 27 Sep 2021 11:14:38 +0200
-Message-ID: <CAMhs-H9JyD8kBMJfjER1QQwDNmsy6gY6At+d-UOvAe_Q0FQs0w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] MIPS: ralink: fix PCI IO resources
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Rob Herring <robh@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	gregkh <gregkh@linuxfoundation.org>, 
-	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YU37e90gldL7zHke@fedora>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
+Hi Ezequiel,
 
-On Mon, Sep 27, 2021 at 9:51 AM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Sat, Sep 25, 2021 at 10:33 PM Sergio Paracuellos
-> <sergio.paracuellos@gmail.com> wrote:
-> >
-> > Patches related with reverts are from this merge cycle so they are only
-> > added to the staging git tree. So to have all stuff together I'd like to
-> > get everybody Ack's to get all of this series through staging tree if
-> > possible :).
-> >
-> > Thanks in advance for your time.
->
-> Looks all good to me now, just one general remark: Try to give a little more
-> time between respinning the entire series, otherwise you get the opposite
-> effect and reviewers start ignoring your emails after getting annoyed at the
-> number of emails. Once you are reasonably sure that no more comments are
-> coming in, or you have made substantial changes, it's time to resend the
-> series.
+Thank you for looking into the patch.
 
-Thanks for reviewing this and also for the advice. Will take it into
-account from now on.
+W dniu 24.09.2021 o 18:23, Ezequiel Garcia pisze:
+> Hi Andrzej,
+> 
+> On Wed, Sep 22, 2021 at 12:11:41PM +0200, Andrzej Pietrasiewicz wrote:
+>> Add the VP9 stateless decoder controls plus the documentation that goes
+>> with it.
+>>
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>> Co-developed-by: Daniel Almeida <daniel.almeida@collabora.com>
+>> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+>> ---
+> [snip]
+>> +
+>> +#define V4L2_VP9_FRAME_FLAG_KEY_FRAME			0x001
+>> +#define V4L2_VP9_FRAME_FLAG_SHOW_FRAME			0x002
+>> +#define V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT		0x004
+>> +#define V4L2_VP9_FRAME_FLAG_INTRA_ONLY			0x008
+>> +#define V4L2_VP9_FRAME_FLAG_ALLOW_HIGH_PREC_MV		0x010
+>> +#define V4L2_VP9_FRAME_FLAG_REFRESH_FRAME_CTX		0x020
+>> +#define V4L2_VP9_FRAME_FLAG_PARALLEL_DEC_MODE		0x040
+>> +#define V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING		0x080
+>> +#define V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING		0x100
+>> +#define V4L2_VP9_FRAME_FLAG_COLOR_RANGE_FULL_SWING	0x200
+>> +
+>> +#define V4L2_VP9_SIGN_BIAS_LAST				0x1
+>> +#define V4L2_VP9_SIGN_BIAS_GOLDEN			0x2
+>> +#define V4L2_VP9_SIGN_BIAS_ALT				0x4
+>> +
+>> +#define V4L2_VP9_RESET_FRAME_CTX_NONE			0
+>> +#define V4L2_VP9_RESET_FRAME_CTX_SPEC			1
+>> +#define V4L2_VP9_RESET_FRAME_CTX_ALL			2
+>> +
+>> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP			0
+>> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SMOOTH		1
+>> +#define V4L2_VP9_INTERP_FILTER_EIGHTTAP_SHARP		2
+>> +#define V4L2_VP9_INTERP_FILTER_BILINEAR			3
+>> +#define V4L2_VP9_INTERP_FILTER_SWITCHABLE		4
+>> +
+>> +#define V4L2_VP9_REFERENCE_MODE_SINGLE_REFERENCE	0
+>> +#define V4L2_VP9_REFERENCE_MODE_COMPOUND_REFERENCE	1
+>> +#define V4L2_VP9_REFERENCE_MODE_SELECT			2
+>> +
+>> +#define V4L2_VP9_PROFILE_MAX				3
+>> +
+>> +#define V4L2_CID_STATELESS_VP9_FRAME	(V4L2_CID_CODEC_STATELESS_BASE + 300)
+>> +/**
+>> + * struct v4l2_ctrl_vp9_frame - VP9 frame decoding control
+>> + *
+>> + * @lf: loop filter parameters. See &v4l2_vp9_loop_filter for more details
+> 
+> Seems these documentation is missing an ending period for many fields.
 
->
->         Arnd
+Thanks for catching punctuation mistakes :)
 
-Best regards,
-    Sergio Paracuellos
+> 
+>> + * @quant: quantization parameters. See &v4l2_vp9_quantization for more details
+>> + * @seg: segmentation parameters. See &v4l2_vp9_segmentation for more details
+>> + * @flags: combination of V4L2_VP9_FRAME_FLAG_* flags
+>> + * @compressed_header_size: compressed header size in bytes
+>> + * @uncompressed_header_size: uncompressed header size in bytes
+>> + * @frame_width_minus_1: add 1 to it and you'll get the frame width expressed in pixels
+>> + * @frame_height_minus_1: add 1 to it and you'll get the frame height expressed in pixels
+>> + * @render_width_minus_1: add 1 to it and you'll get the expected render width expressed in
+>> + *	pixels. This is not used during the decoding process but might be used by HW scalers
+>> + *	to prepare a frame that's ready for scanout
+>> + * @render_height_minus_1: add 1 to it and you'll get the expected render height expressed in
+>> + *	pixels. This is not used during the decoding process but might be used by HW scalers
+>> + *	to prepare a frame that's ready for scanout
+>> + * @last_frame_ts: "last" reference buffer timestamp.
+>> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+>> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+>> + * @golden_frame_ts: "golden" reference buffer timestamp.
+>> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+>> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+>> + * @alt_frame_ts: "alt" reference buffer timestamp.
+>> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
+>> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
+>> + * @ref_frame_sign_bias: a bitfield specifying whether the sign bias is set for a given
+>> + *	reference frame. Either of V4L2_VP9_SIGN_BIAS_*.
+>> + * @reset_frame_context: specifies whether the frame context should be reset to default values.
+>> + *	Either of V4L2_VP9_RESET_FRAME_CTX_*.
+>> + * @frame_context_idx: frame context that should be used/updated
+>> + * @profile: VP9 profile. Can be 0, 1, 2 or 3
+>> + * @bit_depth: bits per components. Can be 8, 10 or 12. Note that not all profiles support
+>> + *	10 and/or 12 bits depths
+>> + * @interpolation_filter: specifies the filter selection used for performing inter prediction.
+>> + *	Either of V4L2_VP9_INTERP_FILTER_*
+>> + * @tile_cols_log2: specifies the base 2 logarithm of the width of each tile (where the width
+>> + *	is measured in units of 8x8 blocks). Shall be less than or equal to 6
+>> + * @tile_rows_log2: specifies the base 2 logarithm of the height of each tile (where the height
+>> + *	is measured in units of 8x8 blocks)
+>> + * @reference_mode: specifies the type of inter prediction to be used. See
+> 
+> See what? :-)
+> 
+>> + *	Either of V4L2_VP9_REFERENCE_MODE_*
+> 
+> Other controls use V4L2_VP9_REFERENCE_MODE_{}, {} instead of *.
+> The same applies to all the documentation.
+
+Will update in v6.
+
+> 
+>> + * @reserved: padding field. Should be zeroed by applications.
+>> + */
+>> +struct v4l2_ctrl_vp9_frame {
+>> +	struct v4l2_vp9_loop_filter lf;
+>> +	struct v4l2_vp9_quantization quant;
+>> +	struct v4l2_vp9_segmentation seg;
+>> +	__u32 flags;
+>> +	__u16 compressed_header_size;
+>> +	__u16 uncompressed_header_size;
+>> +	__u16 frame_width_minus_1;
+>> +	__u16 frame_height_minus_1;
+>> +	__u16 render_width_minus_1;
+>> +	__u16 render_height_minus_1;
+>> +	__u64 last_frame_ts;
+>> +	__u64 golden_frame_ts;
+>> +	__u64 alt_frame_ts;
+>> +	__u8 ref_frame_sign_bias;
+>> +	__u8 reset_frame_context;
+>> +	__u8 frame_context_idx;
+>> +	__u8 profile;
+>> +	__u8 bit_depth;
+>> +	__u8 interpolation_filter;
+>> +	__u8 tile_cols_log2;
+>> +	__u8 tile_rows_log2;
+>> +	__u8 reference_mode;
+>> +	__u8 reserved[7];
+>> +};
+>> +
+> 
+> Also, have you checked html and pdf docs and make sure
+> it looks as you expect?
+> 
+
+Yes I did and it looks as I expected.
+
+> Thanks,
+> Ezequiel
+> 
+
