@@ -1,135 +1,138 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDED3FCC
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 15:58:35 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id b15so78413299lfe.7
-        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 08:58:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DBD13FCC
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 16:07:10 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id g184so18249942pgc.6
+        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 09:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mnBui/bq2DenTO0RzI30XkLpJ5ryphhFyB3vBxgNy3g=;
-        b=MsFXo0I6wLJKPx9iHv/XEWK/6o62hxZrp8RYlozF8o5/qDU2Sr+mmfPRC4E9+BtfNe
-         3XxksAjOsoaT8pEmG1VsgwpavT3Qq4U8UlXLbuV32Iwqzpr5SC4j19Z6Gr0segzjXZOF
-         5W6k0scXl1AQD6OqNw95LU4S1nwqANsVt6BNAGUMqMU7tGPdJlHO7dDC9z0iNoo9eDK+
-         +r/AVboWdImwi5XhOgsD5jL3Joj1pzLPwjckKukzZsH7CJZ5tgiLV/+F+8715SR/uOrY
-         vgJbh9o2zfrJQ1R6r2/IQtJPQ8nJWBjnp0yRt940xbA/89ic+6sCAcTg9QSIROXOhhc+
-         L6Rw==
+        d=pensando.io; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=XTLDjg6tKpXO0n3tGXRecJAHRamIK6iZPCPoGCwwYoA=;
+        b=n+WFlH5sDsKJBIqbhXBL0q86YID/cm95Hb4Pn7OgXho2+PQI0nSIdRbWypwC1UKBDc
+         DLGkfkLNRgU/4Jp5PtjVk8wlNcPXFV82TekHIAWzakfClYLV1up37fwMMsaFds99YrVu
+         hNhlWvvXJ7s5t7jexJWYFgrPnilemlVeEY6QOZlKBD8momja0/KMxsagYQWYBX3Swb0R
+         IBff6ti5Yo9g23SYXpecR6u2VLeocqeAEBuEh7d2TS0npVBk3zwvJ6xEwnVe9dM1BC3A
+         QwKM/wGB/13xUZ8eKf1kP0LtQtr2a4f5cOQEzBeZGmRFBfWO/kxwb9qc8cB5gj0PVpiy
+         36Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mnBui/bq2DenTO0RzI30XkLpJ5ryphhFyB3vBxgNy3g=;
-        b=simC0DpPJC4P24FRS1RW4zvcWe5xmrkvw3tfifsEQjAQAUkVbgzdOqNRQnCu1S1ExX
-         ZhnKqLqjtWCV+/vqBiZbcFAIjiZ2WbPqXfGi2kYW6OM1sSYJjMZ3Tiej4C6Jx0bNdeOn
-         3vtxY4fDK5X94W6RtNQpF5zG+IZldDJYpDPMRgP5QZEJgEZFjBiveshf9v2TyL6/P7T0
-         35btBKOgGcqGcLScoZsEM1gvzissiP+zlY/zoVHUWeDJUgaP9FVrD4dXbl7okO6khLFx
-         MUJC8imkjnhiEc9tyqudzTU5c6YEDNAG87wjHBGxJDSAMrD3iglPCyolVTd/OGn7d04y
-         Xtbg==
-X-Gm-Message-State: AOAM533QDtjVXVOlX1s4LzyDJBc28J7Q4hjMQr0irxjnURNIYF1ZVF9h
-	lbkWPIy7FHF/k6T9hNjldMPCyEz1fkS1Qgld
-X-Google-Smtp-Source: ABdhPJztNIfPvBJVgd+M5+SywC/TUunjVE+8HODRyIAx29XlY0BgFRxjT+6k/dTOxw4MmVYuY40TOA==
-X-Received: by 2002:a05:651c:1505:: with SMTP id e5mr597864ljf.9.1632758313119;
-        Mon, 27 Sep 2021 08:58:33 -0700 (PDT)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id c17sm1795730lfp.290.2021.09.27.08.58.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 08:58:32 -0700 (PDT)
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee.jones@linaro.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH v2] staging: most: dim2: force fcnt=3 on Renesas GEN3
-Date: Mon, 27 Sep 2021 18:58:05 +0300
-Message-Id: <20210927155804.27877-1-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YVHoXyULqXsWktMN@kroah.com>
-References: <YVHoXyULqXsWktMN@kroah.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=XTLDjg6tKpXO0n3tGXRecJAHRamIK6iZPCPoGCwwYoA=;
+        b=BtkFmsG+XFYyfE/xepN88F9Uxv6wvFfe75w/1p2g0NQl4rQRxiqQ2A8adv063qdogE
+         O5xfMb9Re2sYmjWVUVh0qJ9QnKZcJHRYrcaEpHwQTqVTX8LMpniOndigQpCMWpxTSXFQ
+         os6Bv/yLr8loKa0UJfYs0GbTmPokMKuWgyfjueyOHLDQlrzC4sNTNN5wdBYTyWWqZrKl
+         Z/Q+d+xvVSU+YCxcTMgvaDh7+t7yf7BTu+Gu8UnoI54rNTAlE3CvPBhdYk6bwZ/pk+xx
+         czWsP3/6YDrldhTd7zM6JczaE7/7ltyJ6IR8Oc1bq6wW9qgvOTtwupxKGAEN9aklYFlV
+         FPug==
+X-Gm-Message-State: AOAM532n+D6TBEv1E5weF6tib/fCVoRuc3CeJUEeep1fs8Nnp3O8nOFx
+	IQnBBnv7CdhnWK8YrlmB9YbRLg==
+X-Google-Smtp-Source: ABdhPJwR7BDUtOf/PI25/vpcHZm+mNUz7FflOv5PSidwcLqI4zYdDEmizFXZbBjNUgQkz/U1dIeC3A==
+X-Received: by 2002:aa7:94aa:0:b0:43e:2cf:d326 with SMTP id a10-20020aa794aa000000b0043e02cfd326mr447025pfl.62.1632758829714;
+        Mon, 27 Sep 2021 09:07:09 -0700 (PDT)
+Received: from Shannons-MacBook-Pro.local ([50.53.47.17])
+        by smtp.gmail.com with ESMTPSA id 77sm17358967pfu.219.2021.09.27.09.07.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Sep 2021 09:07:09 -0700 (PDT)
+Subject: Re: [PATCH net-next v1 14/21] ionic: Move devlink registration to be
+ last devlink command
+To: Leon Romanovsky <leon@kernel.org>, "David S . Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
+ Bin Luo <luobin9@huawei.com>, Claudiu Manoil <claudiu.manoil@nxp.com>,
+ Coiby Xu <coiby.xu@gmail.com>, Derek Chickles <dchickles@marvell.com>,
+ drivers@pensando.io, Felix Manlunas <fmanlunas@marvell.com>,
+ Florian Fainelli <f.fainelli@gmail.com>, Geetha sowjanya
+ <gakula@marvell.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+ hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
+ Intel Corporation <linuxwwan@intel.com>, intel-wired-lan@lists.osuosl.org,
+ Ioana Ciornei <ioana.ciornei@nxp.com>, Jerin Jacob <jerinj@marvell.com>,
+ Jesse Brandeburg <jesse.brandeburg@intel.com>, Jiri Pirko <jiri@nvidia.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-staging@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>,
+ Manish Chopra <manishc@marvell.com>,
+ M Chetan Kumar <m.chetan.kumar@intel.com>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Michael Guralnik <michaelgur@mellanox.com>, netdev@vger.kernel.org,
+ oss-drivers@corigine.com, Richard Cochran <richardcochran@gmail.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Satanand Burla <sburla@marvell.com>,
+ Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+ Simon Horman <simon.horman@corigine.com>,
+ Subbaraya Sundeep <sbhatta@marvell.com>, Sunil Goutham
+ <sgoutham@marvell.com>, Taras Chornyi <tchornyi@marvell.com>,
+ Tariq Toukan <tariqt@nvidia.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
+ Vivien Didelot <vivien.didelot@gmail.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>
+References: <cover.1632565508.git.leonro@nvidia.com>
+ <cb187a035b75dbcc27f6dd10d72f18f1101bad44.1632565508.git.leonro@nvidia.com>
+From: Shannon Nelson <snelson@pensando.io>
+Message-ID: <f1d3e167-a991-13cb-d263-6466110fa8c4@pensando.io>
+Date: Mon, 27 Sep 2021 09:07:03 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cb187a035b75dbcc27f6dd10d72f18f1101bad44.1632565508.git.leonro@nvidia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Per Renesas datasheet, MLBC0 register's fcnt field in the embedded
-dim2 module must be never set to value different from 3.
+On 9/25/21 4:22 AM, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+>
+> This change prevents from users to access device before devlink is
+> fully configured.
+>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
-Enforce that, via an optional field in struct dim2_platform_data.
+Thanks for the work,
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
----
-Changes from v1:
-- set dev_fcnt via if statement, not conditional expression
+Acked-by: Shannon Nelson <snelson@pensando.io>
 
- drivers/staging/most/dim2/dim2.c | 29 +++++++++++++++++++++++------
- 1 file changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index 093ef9a2b291..9300040ec84c 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -108,6 +108,7 @@ struct dim2_hdm {
- struct dim2_platform_data {
- 	int (*enable)(struct platform_device *pdev);
- 	void (*disable)(struct platform_device *pdev);
-+	u8 fcnt;
- };
- 
- #define iface_to_hdm(iface) container_of(iface, struct dim2_hdm, most_iface)
-@@ -731,7 +732,7 @@ static int dim2_probe(struct platform_device *pdev)
- 	struct dim2_hdm *dev;
- 	struct resource *res;
- 	int ret, i;
--	u8 hal_ret;
-+	u8 dev_fcnt, hal_ret;
- 	int irq;
- 
- 	enum { MLB_INT_IDX, AHB0_INT_IDX };
-@@ -770,8 +771,14 @@ static int dim2_probe(struct platform_device *pdev)
- 
- 	dev->disable_platform = pdata ? pdata->disable : NULL;
- 
--	dev_info(&pdev->dev, "sync: num of frames per sub-buffer: %u\n", fcnt);
--	hal_ret = dim_startup(dev->io_base, dev->clk_speed, fcnt);
-+	if (pdata && pdata->fcnt)
-+		dev_fcnt = pdata->fcnt;
-+	else
-+		dev_fcnt = fcnt;
-+
-+	dev_info(&pdev->dev, "sync: num of frames per sub-buffer: %u\n",
-+		 dev_fcnt);
-+	hal_ret = dim_startup(dev->io_base, dev->clk_speed, dev_fcnt);
- 	if (hal_ret != DIM_NO_ERROR) {
- 		dev_err(&pdev->dev, "dim_startup failed: %d\n", hal_ret);
- 		ret = -ENODEV;
-@@ -1047,9 +1054,19 @@ static void rcar_m3_disable(struct platform_device *pdev)
- enum dim2_platforms { FSL_MX6, RCAR_H2, RCAR_M3 };
- 
- static struct dim2_platform_data plat_data[] = {
--	[FSL_MX6] = { .enable = fsl_mx6_enable, .disable = fsl_mx6_disable },
--	[RCAR_H2] = { .enable = rcar_h2_enable, .disable = rcar_h2_disable },
--	[RCAR_M3] = { .enable = rcar_m3_enable, .disable = rcar_m3_disable },
-+	[FSL_MX6] = {
-+		.enable = fsl_mx6_enable,
-+		.disable = fsl_mx6_disable,
-+	},
-+	[RCAR_H2] = {
-+		.enable = rcar_h2_enable,
-+		.disable = rcar_h2_disable,
-+	},
-+	[RCAR_M3] = {
-+		.enable = rcar_m3_enable,
-+		.disable = rcar_m3_disable,
-+		.fcnt = 3,
-+	},
- };
- 
- static const struct of_device_id dim2_of_match[] = {
--- 
-2.30.2
+> ---
+>   drivers/net/ethernet/pensando/ionic/ionic_devlink.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/pensando/ionic/ionic_devlink.c b/drivers/net/ethernet/pensando/ionic/ionic_devlink.c
+> index 93282394d332..2267da95640b 100644
+> --- a/drivers/net/ethernet/pensando/ionic/ionic_devlink.c
+> +++ b/drivers/net/ethernet/pensando/ionic/ionic_devlink.c
+> @@ -82,7 +82,6 @@ int ionic_devlink_register(struct ionic *ionic)
+>   	struct devlink_port_attrs attrs = {};
+>   	int err;
+>   
+> -	devlink_register(dl);
+>   	attrs.flavour = DEVLINK_PORT_FLAVOUR_PHYSICAL;
+>   	devlink_port_attrs_set(&ionic->dl_port, &attrs);
+>   	err = devlink_port_register(dl, &ionic->dl_port, 0);
+> @@ -93,6 +92,7 @@ int ionic_devlink_register(struct ionic *ionic)
+>   	}
+>   
+>   	devlink_port_type_eth_set(&ionic->dl_port, ionic->lif->netdev);
+> +	devlink_register(dl);
+>   	return 0;
+>   }
+>   
+> @@ -100,6 +100,6 @@ void ionic_devlink_unregister(struct ionic *ionic)
+>   {
+>   	struct devlink *dl = priv_to_devlink(ionic);
+>   
+> -	devlink_port_unregister(&ionic->dl_port);
+>   	devlink_unregister(dl);
+> +	devlink_port_unregister(&ionic->dl_port);
+>   }
 
