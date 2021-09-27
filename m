@@ -1,88 +1,73 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351A73FCF
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 16:53:07 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id s17so53219087edd.8
-        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 09:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nMa3M1bs6F4XDDZsVandl5JemeFlfQBynfNRsq6BDAQ=;
-        b=j/wKp7D6FSZhZSwNHaN+/7yrcCHyNCLHO9LiQ7AItO19rTT3AEdAGjAO4PLFuEI43x
-         5WzAce1yY+R2sh/LE/m2qTq/KatnhCqhE5cuHJUM6H7N/sDcagUivWuH5yiD9qPai2jH
-         RHDG1SjnfKnuy3BB1Z3djAap+7QTMSwSxuMvfP51+P/JhAXlyFcxeCJN37aQW15vQD+y
-         kFnx6Ct42Kb/uf0NMX9N8IWUt88EE3QgnoIzjwOiSmjS30gre4WFS2JJBuE5dWlyFxxZ
-         LoPb5SljuSZDXeJkydsSvAneiqyjohnxAmAnMg4INzoRoTAYa6l1qN14/OmGG+rnY5t6
-         oFTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nMa3M1bs6F4XDDZsVandl5JemeFlfQBynfNRsq6BDAQ=;
-        b=iJWOkwx6JqMczOg7sV7d8HOYkmLy2z58LNpZsKPHzlN9/FLaiy483xYsWlhXPRfm2O
-         GKK52W+LLB+w5e0NjgaKnEoMLSLcbjWKPNeuVLeIdaiS7scSQnsg2+fqYB8p722JR7HW
-         J+fF0WdeOIkcV+zT8Jgl4joPq3q+KAvN83MppviFXYsjfUrkOgHAnRxGAXpTig+UoJUX
-         fdS4JGRpa4QA3ZbK7caXsRK8srZvOfJbO7d353tCJ4C7LhP5c3yn5+8BLFLj20Tj2Fab
-         5PCiyccjBYxsSB02RODhSAz9JzAxUFDQFzsgE72FD4hEtNRPusnbQ3M5+WDRiig2dm7a
-         cosg==
-X-Gm-Message-State: AOAM530ZlOgiG6xLlZ600d4CQ/y/bj4sgXNi96wejYs28D9RpwCkFZPY
-	cUHbDHfLNsY9qxuF6A3iF1U=
-X-Google-Smtp-Source: ABdhPJysvTphbDucZcDQxa0AnvAbpnjIbT24c+ysEFd9fsbh7unovF7upOwbsRV3h34ERGp5YSJx0g==
-X-Received: by 2002:a17:906:3a4d:: with SMTP id a13mr1199259ejf.220.1632761585538;
-        Mon, 27 Sep 2021 09:53:05 -0700 (PDT)
-Received: from localhost.localdomain (host-212-171-30-160.retail.telecomitalia.it. [212.171.30.160])
-        by smtp.gmail.com with ESMTPSA id p24sm10733641edq.27.2021.09.27.09.53.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Sep 2021 09:53:04 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, David Laight <david.Laight@aculab.com>, Dan Carpenter <dan.carpenter@oracle.com>, Michael Straube <straube.linux@gmail.com>, Martin Kaiser <martin@kaiser.cx>
-Subject: Re: [PATCH v9 10/16] staging: r8188eu: shorten and simplify calls chains
-Date: Mon, 27 Sep 2021 18:45:49 +0200
-Message-ID: <2224179.S7mhbqmIgH@localhost.localdomain>
-In-Reply-To: <YVHlRf7C6m+2Si+3@kroah.com>
-References: <20210924122705.3781-1-fmdefrancesco@gmail.com> <1836626.W0nMHyKdkH@localhost.localdomain> <YVHlRf7C6m+2Si+3@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BE22FAF
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 17:07:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 53F4C61356;
+	Mon, 27 Sep 2021 17:07:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1632762461;
+	bh=Bmn8bSktzQgWEoEGlaZkLZhVLVDbLwW0y7quV/rv3ZM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LkYMAGLfBIYS8bsgR1zA3BjRiyWASsWodrm4M7VPzIxSQK/RO/BSCqo0Pe/SLz7Ds
+	 jpEt0R4RFWIkHL1Rf4VUwVzc76ByrMsDxv0ijsNzhZuFD7e3ooDbdTgxzfw+5jAdoQ
+	 883ixK0ekqmyXWfEGfcgZcLrKygZcwKbbBrnMMWE=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-staging@lists.linux.dev,
+	Ian Abbott <abbotti@mev.co.uk>
+Subject: [PATCH 5.10 032/103] comedi: Fix memory leak in compat_insnlist()
+Date: Mon, 27 Sep 2021 19:02:04 +0200
+Message-Id: <20210927170226.851357259@linuxfoundation.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210927170225.702078779@linuxfoundation.org>
+References: <20210927170225.702078779@linuxfoundation.org>
+User-Agent: quilt/0.66
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Monday, September 27, 2021 5:37:41 PM CEST Greg Kroah-Hartman wrote:
-> On Fri, Sep 24, 2021 at 02:37:52PM +0200, Fabio M. De Francesco wrote:
-> > On Friday, September 24, 2021 2:26:49 PM CEST Fabio M. De Francesco 
-wrote:
-> > > --- Preface ---
-> > > 
-> > > This is v10 of "shorten and simplify calls chain". 
-> > > [...]
-> > [...]
-> 
-> Nah, I can figure it out, looks good, let's queue it up and see what
-> breaks :)
+From: Ian Abbott <abbotti@mev.co.uk>
 
-"[and] see what breaks :)". Interesting...
+commit bb509a6ffed2c8b0950f637ab5779aa818ed1596 upstream.
 
-This is the second or third time you have written me these words (I cannot 
-speak for Pavel). I guess I'll have to work on it :)
+`compat_insnlist()` handles the 32-bit version of the `COMEDI_INSNLIST`
+ioctl (whenwhen `CONFIG_COMPAT` is enabled).  It allocates memory to
+temporarily hold an array of `struct comedi_insn` converted from the
+32-bit version in user space.  This memory is only being freed if there
+is a fault while filling the array, otherwise it is leaked.
 
-All kidding aside, we seriously appreciate that you have decided to accept 
-the patches.
+Add a call to `kfree()` to fix the leak.
 
-Regards,
+Fixes: b8d47d881305 ("comedi: get rid of compat_alloc_user_space() mess in COMEDI_INSNLIST compat")
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Cc: <stable@vger.kernel.org> # 5.13+
+Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
+Link: https://lore.kernel.org/r/20210916145023.157479-1-abbotti@mev.co.uk
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/comedi/comedi_fops.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-Fabio
-
-> thanks,
-> 
-> greg k-h
-> 
-
-
+--- a/drivers/staging/comedi/comedi_fops.c
++++ b/drivers/staging/comedi/comedi_fops.c
+@@ -3090,6 +3090,7 @@ static int compat_insnlist(struct file *
+ 	mutex_lock(&dev->mutex);
+ 	rc = do_insnlist_ioctl(dev, insns, insnlist32.n_insns, file);
+ 	mutex_unlock(&dev->mutex);
++	kfree(insns);
+ 	return rc;
+ }
+ 
 
 
