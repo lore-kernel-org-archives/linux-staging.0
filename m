@@ -1,79 +1,34 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from qq.com (smtpbg456.qq.com [59.36.132.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A823FD4
-	for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 22:43:09 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id i4so68535942lfv.4
-        for <linux-staging@lists.linux.dev>; Sun, 26 Sep 2021 15:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
-        b=jVXoHlkHdIjsVQbhBj5b7uMh0ngrZd3PCHAddv4luagdEL6TKWeTpMQ+IO9TpBGwmy
-         OqQvnHuhgLV8SPGruk2d2EWD2vLnFE6Msgsn8BnapdN1stWZsEp4K6n+wsNoGJuD0IER
-         eY1LWvYENJqu2w8Z1eaDg5FloKTQR23sqI/yIxiBXAEfWx6ht/gAsrwPGcMdDDIih4IR
-         53Ke9Er+8K9h9BnEbwMKEj5fUz2VmOPrLqNBce5GdSlqhm/mW++3r8QPVHLtgOE4u7BK
-         mJd/qvmMNcdv6sNu8qxdNxkVxRx3ckDmC/TAeTmeShn6ADPvWSzoAPgxv8bX54iOtcSJ
-         NYfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
-        b=F2BiTLMyO0dZvMZWbkx/5jkYgPkrGAhxxFNSbE4iyCvEAbxz7HMQJ9W1tbhCn9JHh4
-         +REZa8+SIxGtmvT/cSu7Uy+GL+GOcjNzLRP3xNKZA1rZj2odz3BDRb1an+EfJK5q4RAp
-         gix0HY+5UWY/BU5HKX3UNn/pgDSa7wGQuHsAtomc6ke02VE7m5tafAMAj63XTk8J/TbI
-         bsTadVBFmPd6m4Y7b1MQRQsGaJ0juL6SSkLC4+B8aVyDV4Rt8fjNvzYHGYpVuAu4zj8M
-         d55xAG4hmORdcLkHspoSspUCVN1DOLYHDzp9AU4sNB+0fV223gVhVlPR1J82LGGFfigO
-         hDmg==
-X-Gm-Message-State: AOAM531uKzzPtufSxOSdaKL9HjI3TIXMq3kaYx7NZVgyhBDIGVagLCel
-	/+1s8nY6sQT4Z8EnI4e1aSQ=
-X-Google-Smtp-Source: ABdhPJzzD+Lqvq/0PXVYaK4xhRvgqBKhRcQUDKM/Bv8HOzifMLktWJTzFJ714BHPdsdFrCQQ0Hod7g==
-X-Received: by 2002:a05:651c:1549:: with SMTP id y9mr10261640ljp.105.1632696187659;
-        Sun, 26 Sep 2021 15:43:07 -0700 (PDT)
-Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru. [46.138.80.108])
-        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 15:43:07 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Michael Turquette <mturquette@baylibre.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FE23FCB
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 03:39:46 +0000 (UTC)
+X-QQ-mid: bizesmtp37t1632713460t1d43yo7
+Received: from localhost.localdomain (unknown [124.126.19.250])
+	by esmtp6.qq.com (ESMTP) with 
+	id ; Mon, 27 Sep 2021 11:30:58 +0800 (CST)
+X-QQ-SSF: 0140000000200040C000B00B0000000
+X-QQ-FEAT: 68rqSogMCG88dFhlqQRZlfXHgkbJHdgnvEUYpAKEeWduBDZVTOGMmfXjte4Iy
+	SpEho6jgy3A1sTREGkl9KsAQ0KFyGOAeIt8BGidM/EU5MoWw6TkHPvqJp5EVSejtzj7cMqA
+	t3zsHABn30auPMIyMfyOI0r8w66LXmoKNSUkoICb/0+Qi6PCEEKJ+vw+rbKXCqQgQKaAcS4
+	rp2PjR7+2ytV6eSHA1q/arbdrFB6ksH2H56D3RFSwRLZHuy55+ThkfZ15mqOaYyO0jf4O2/
+	YX8XOtBFo5+wD/VH8FfHe3CBXAxsy9GTMx2ZsdDYvMYf4qEobdpulH2HQdGVClnLXUZid3f
+	iYnVYvw3F1MQ8Vhlmxrzhw1BiU3FA==
+X-QQ-GoodBg: 2
+From: Longji Guo <guolongji@uniontech.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com
+Cc: ross.schm.dev@gmail.com,
+	marcocesati@gmail.com,
+	hdegoede@redhat.com,
+	fmdefrancesco@gmail.com,
 	linux-staging@lists.linux.dev,
-	linux-pwm@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>,
-	Stefan Agner <stefan@agner.ch>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 35/35] ARM: tegra20/30: Disable unused host1x hardware
-Date: Mon, 27 Sep 2021 01:40:58 +0300
-Message-Id: <20210926224058.1252-36-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
-References: <20210926224058.1252-1-digetx@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Longji Guo <guolongji@uniontech.com>
+Subject: [PATCH] staging: rtl8723bs: remove meaningless pstat->passoc_req check in OnAssocReq()
+Date: Mon, 27 Sep 2021 11:30:56 +0800
+Message-Id: <20210927033056.27503-1-guolongji@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,94 +36,36 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:uniontech.com:qybgweb:qybgweb16
 
-MPE, VI, EPP and ISP were never used and we don't have drivers for them.
-Since these modules are enabled by default in a device-tree, a device is
-created for them, blocking voltage scaling because there is no driver to
-bind, and thus, state of PMC driver is never synced. Disable them.
+kfree(NULL) is safe and the check 'if (pstat->passoc_req)' before kfree
+is not necessary.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Longji Guo <guolongji@uniontech.com>
 ---
- arch/arm/boot/dts/tegra20.dtsi | 4 ++++
- arch/arm/boot/dts/tegra30.dtsi | 8 ++++++++
- 2 files changed, 12 insertions(+)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index eb6e5518fb5f..05788c9cddc1 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -59,6 +59,7 @@ mpe@54040000 {
- 			reset-names = "mpe";
- 			operating-points-v2 = <&mpe_dvfs_opp_table>;
- 			power-domains = <&pd_mpe>;
-+			status = "disabled";
- 		};
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 375d2a742dd2..a46ab97524aa 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1344,11 +1344,9 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 			issue_asocrsp(padapter, status, pstat, WIFI_REASSOCRSP);
  
- 		vi@54080000 {
-@@ -70,6 +71,7 @@ vi@54080000 {
- 			reset-names = "vi";
- 			operating-points-v2 = <&vi_dvfs_opp_table>;
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
+ 		spin_lock_bh(&pstat->lock);
+-		if (pstat->passoc_req) {
+-			kfree(pstat->passoc_req);
+-			pstat->passoc_req = NULL;
+-			pstat->assoc_req_len = 0;
+-		}
++		kfree(pstat->passoc_req);
++		pstat->passoc_req = NULL;
++		pstat->assoc_req_len = 0;
  
- 		epp@540c0000 {
-@@ -81,6 +83,7 @@ epp@540c0000 {
- 			reset-names = "epp";
- 			operating-points-v2 = <&epp_dvfs_opp_table>;
- 			power-domains = <&pd_core>;
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -91,6 +94,7 @@ isp@54100000 {
- 			resets = <&tegra_car 23>;
- 			reset-names = "isp";
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index 09cb1ab75312..f9613384a487 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -145,6 +145,8 @@ mpe@54040000 {
- 			power-domains = <&pd_mpe>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_MPE>;
-+
-+			status = "disabled";
- 		};
- 
- 		vi@54080000 {
-@@ -158,6 +160,8 @@ vi@54080000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_VI>;
-+
-+			status = "disabled";
- 		};
- 
- 		epp@540c0000 {
-@@ -171,6 +175,8 @@ epp@540c0000 {
- 			power-domains = <&pd_heg>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_EPP>;
-+
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -183,6 +189,8 @@ isp@54100000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_ISP>;
-+
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
+ 		pstat->passoc_req =  rtw_zmalloc(pkt_len);
+ 		if (pstat->passoc_req) {
 -- 
-2.32.0
+2.20.1
 
