@@ -1,191 +1,186 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2106.outbound.protection.outlook.com [40.107.236.106])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC5B3FC8
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 12:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4B23FC8
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 12:27:48 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18RC3N1w004548;
+	Mon, 27 Sep 2021 12:27:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=FJ8yCBvcbzw5w8I0CYQ3p/wZAPDYsP6fldyXgTv4aOI=;
+ b=iycJBXfZAnf0bYFuzkX9Ri66VhqLXo1Xuh2vwJHGdCJyAAAeN/IuLmRjuZlOCbdkEwNo
+ mgrIITlJnKcVrQ4kiVrW/ec3Ljk14YpxGg6nNaoHicRCtjjBwfDnpLY0Nk70yZ+sLAfK
+ jukgwdXiLMlQ92Cm6KJwFG4hJL4quXNoWKTZH3vL8faCoToR6y4tzjaZOjSjGXzUSknU
+ NA/l3X0qKdwnrV1s6h2Jawjh6X7cN6tzQ8vQt1ar8DlrAMsZ3WmfIspb+fkCbd9tpOC8
+ d17rQ5uahKCJgcVP5UelrziIQHSXOnCibNaIHZZhJuf51qCTLQS9jK5JRWXHUvuzCzIs 7g== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3bam4cmgrw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 Sep 2021 12:27:29 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18RCF9PB058775;
+	Mon, 27 Sep 2021 12:27:28 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2041.outbound.protection.outlook.com [104.47.51.41])
+	by aserp3020.oracle.com with ESMTP id 3b9x50a9th-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 27 Sep 2021 12:27:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DiFEr884XeBlvlIR6ocDlc2616hGMt9AVPpkzET8qrhiAa+xnbcDUfq5O2MfDW0iNWLLKHTb7jbcKOyam8oEomeut/lzi715qTjq9flFbfR4eEPPAtFz4dYsxpdPBQe0goVmrNM2Jhu+J1D6uZroycXvZXawc3/lx+gQHRbpic9lJeTxGMSmibEEnlki0akdDsOAJlanjsnVcX0xZfQ045/zAeraNnVhnxzM6oRalxbyLtbjc5swlQ7u47ZVAlHuHqYo7mdoPB6uuZ/nYusFjyT8c8hxuTFNtRRX88Ew5Q7BqQSxaV5YUpi3LFzk0I7ewjIlgnw6vYMgrsf569QZSQ==
+ b=GzliowU4GpkR/Aj7c832KzatnBCrE8TgACEVPnWJBybtZqItjxsFaquS+upEgZh/7qupMbfDAUWRZXs2STX/osujUmyeMnSWDCCm1cbi6OhHp1lxWSa7k87b5hrnVEY6FaDeDoWOpFkMvhzssJTGv/kwh/4J5Gx/UX074vYgwFu3GiMSuHokbf0A6FCRNWAm0yLO45GH38M1AXzJmxiLHd5dZd2ErLk90qTSgLNXzYElS5e6wMPaxKV6vea/LErDddOr9Gwt9F5mNud6wS0rjmgrX3ZkOLbw0lKUCW4Yv1jGI6hDew+mJEtU7Y3Z7SLPXH4glHus+QsLHknqTr69mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O7e0fUKbKjWbWIQDOZlq+edoH9nwRJ8FJ1ng3AD9X2w=;
- b=eR3yrZNhX/b2ZKqCZD1n85+lH3FkpLbo58Vbx/Rs+kUuZ8J9HT1HVTNt/jng5AI04PijkdFj+VZb2/IepbNyJXKYHQYE6YQYpe1by1KwPS2dMD3UVg2vSK4tHJRXRjAhT3j+SY1NmFzJ6TXanXsepuKR28AQLPMNEw6HubnnNtI3tCpW1pnvy4l+L8yOWPKxbuNQDXEK0RwY0f9bHYScwBIzj2/lNGX1P05A7jw56Wi0tzUt5di+qrvUHTphL9VR+wGshYT8Pm1wKz2Dbxl9Bh+8b+Ho87rN5bXGBjiM4noaQaZeMr4/uzUHTKHX/Tl5gR80FPkrSEXT4ulMmx5j0g==
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=FJ8yCBvcbzw5w8I0CYQ3p/wZAPDYsP6fldyXgTv4aOI=;
+ b=VOhgWLXBsW2krgJuwD9BrlTGsIJCEBi8v0RThJgViFBLQBjaidnVC4dDTWS3n9tBsR+CzgxHTKyWeKOSeyWNypM6DJ0gIZ2qYPXekeQvWdGP0HB0PV65G30Ph2tGtItqZDFnJUwaWt0B7BqrcPN90qqCnmOi6zsNCvKNA2+qVFWjrhJsvlEKNUCqZvgsuY3LhjyT5xrtI3DVyyKr0tPpizKWlWCQQOb3YaPkk5uUcZKParGgfMkP0u0lqDg1twRcPddOxDBD/3OfXGKhN0c2k5NpieSi4czv03cbOSZdLlxKeBHzi66GYHcPQVJiPnl2MPEi5gT2AYX8abb7IGPw+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O7e0fUKbKjWbWIQDOZlq+edoH9nwRJ8FJ1ng3AD9X2w=;
- b=kY6ZN8HNHKBuCvUH67wFVpFJ8x84sXkfikkOwciDF3ouV12QaF6B6g/0YQejaICd+yTuBwllC0mhWBbBBDXCfJVkpzuijfAOz0kyS9dgmHVDZGdaBrw0WUiUNE/dVglVcfpp6r5w6Ju8/MOdBG1+Ypmjv6wUKbwAKYzWlBIPmRo=
+ bh=FJ8yCBvcbzw5w8I0CYQ3p/wZAPDYsP6fldyXgTv4aOI=;
+ b=OH27r91nuY+kHuqvUOb6oEOPc6P60bFwWPyfbUI0FsuL1VJf5mkUHAR3FjvE5nz2fyEPzE2UMXIxPJKQGMj+II8uckadrrnw89WgmhLUxZwnV3ZjrCC1Tm41Utmt2c3/0iKyLBxoabByNplr140Ov3+a423TxC+Wu+QktOkBdy8=
 Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by PH0PR13MB4777.namprd13.prod.outlook.com (2603:10b6:510:7a::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.9; Mon, 27 Sep
- 2021 12:20:55 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::e1d9:64d0:cb4f:3e90]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::e1d9:64d0:cb4f:3e90%9]) with mapi id 15.20.4566.012; Mon, 27 Sep 2021
- 12:20:55 +0000
-Date: Mon, 27 Sep 2021 14:20:42 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
-	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	Intel Corporation <linuxwwan@intel.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Manish Chopra <manishc@marvell.com>,
-	M Chetan Kumar <m.chetan.kumar@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Michael Guralnik <michaelgur@mellanox.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com,
-	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Satanand Burla <sburla@marvell.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Shannon Nelson <snelson@pensando.io>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Subject: Re: [PATCH net-next v1 13/21] nfp: Move delink_register to be last
- command
-Message-ID: <20210927122041.GA12315@corigine.com>
-References: <cover.1632565508.git.leonro@nvidia.com>
- <f393212ad3906808ee7eb5cff06ef2e053eb9d2b.1632565508.git.leonro@nvidia.com>
- <20210927083923.GC17484@corigine.com>
- <YVGwtNEcWSgYvyyV@unreal>
+ header.d=none;kernel.org; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1901.namprd10.prod.outlook.com
+ (2603:10b6:300:10c::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.18; Mon, 27 Sep
+ 2021 12:27:26 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4544.021; Mon, 27 Sep 2021
+ 12:27:24 +0000
+Date: Mon, 27 Sep 2021 15:26:58 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Stefan Wahren <stefan.wahren@i2se.com>,
+        Ojaswin Mujoo <ojaswin98@gmail.com>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Amarjargal Gundjalam <amarjargal16@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vc04_services: shut up out-of-range warning
+Message-ID: <20210927122658.GF2048@kadam>
+References: <20210927113702.3866843-1-arnd@kernel.org>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YVGwtNEcWSgYvyyV@unreal>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: AM0P190CA0010.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::20) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+In-Reply-To: <20210927113702.3866843-1-arnd@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0044.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::32)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from corigine.com (2001:982:756:703:d63d:7eff:fe99:ac9d) by AM0P190CA0010.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14 via Frontend Transport; Mon, 27 Sep 2021 12:20:46 +0000
+Received: from kadam (62.8.83.99) by JNXP275CA0044.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14 via Frontend Transport; Mon, 27 Sep 2021 12:27:14 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 39345651-ba2b-40b2-854f-08d981b1410f
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4777:
+X-MS-Office365-Filtering-Correlation-Id: 77c75ca8-85c5-4f0c-4797-08d981b228ee
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1901:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS:
-	<PH0PR13MB4777CD8C9ADCCFBD547CB97EE8A79@PH0PR13MB4777.namprd13.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:525;
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR10MB1901BD6303AABA9BE94E04968EA79@MWHPR10MB1901.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	EyhxYIJIuUVdVD9OZFra1Jk/tmWIUKd+I5tMoPJw2p2blAepXkwL6VUeD1gYzb0wbeHMHb7KB3U93m8+StceA56ovEGuSMPUFNau4arAje/is9BtSA18NGERUlZ6mLjbcW9J+T/6h24tdWE9+W5M4+wJZRuV6wO4glatd4vk3iUTNMK8lkB+y2Vnp6iVsHhX0YvXFcTl4lFbz3/uqBAFfqOt/uKsl8cpXO31sDSQvA5G4ZO59tsRQsJ4PPOcUhIhzYDhCg5TY3rmNIQys3nkOsY097DUrLry3ZD2q8hyH1wGO5qo9wT5/bCW3BhiDjWaEG3nYxUkbYobMgJrrmPv6TgQdhHDJZWmnGuAdxgqxNi+2LpZvhK5iNMzJ0ve64B4d6pFBi7T6+NiA4elM2c2Q0aLl2nAmB96PulgMH5QpgrqP4rifZWfoXGdFKXZruXRI/dlFna6iub54sOc4ygTqGbrB8UUzsBeASxvlu0yRfsOqC5E6sX4aOfmy+SNcaJ/oTVfm1cZ4KvL0+tBOUmVUcjWSV/J82G9IH4FmFtg/WNBQRCXrgxVOR8VavYrGGTkva4+4deoukiGfuAqYLHiwdrzWsX3s6Ui5e2JJN/BsU26FIJI4aqlCr1qPcfS09iCoNoAYfk5ltIXAt8yOd+/19IqzbrBA3sXiYwKk4Axctywbt+9jOeuzaJ/Fi/PhA6EieqLvBHKxBGe7jYB4l6rWLiBVTFlJj8fe+3/BB6fAjw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(346002)(396003)(366004)(39840400004)(136003)(2906002)(7696005)(186003)(52116002)(508600001)(33656002)(6916009)(5660300002)(316002)(36756003)(4326008)(83380400001)(55016002)(8936002)(8676002)(7416002)(6666004)(54906003)(966005)(7366002)(8886007)(1076003)(66556008)(66946007)(66476007)(38100700002)(7406005)(86362001)(2616005)(44832011);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: 
+	RQeInRiHH8uxqu3NZ+w+cVy8ArcisrUWRR6an8EJng49t4M/vCgLSuC/Zy+13OttosqAT47tRLsaLEamH4YbJbpBtQg1y8tpoJjOg5hYNHSgPu09qvt2i9Dl9zDyxb3E5XiA2LI897opYNumOsizGy26vK0dQNq0eR6F1Pfaotmv0gtKBO9SW5YlMbywpY0/KpBRlabFBLbk04Zh+Fv3CXfZnRrEN7F21+PWdCrBdpthjHt6RzMUDW+oh2hkZMjTsSVdkuqRtkYFBAGjeZyqXFooN/dVDAa2rLnrm/U1w48/pd0eHjI1j7KiKiG8Opf1KlOZkFKen35k23mfHHSjXcnqsJsRLKHcYpxBxJ4xxVs7DKrbZCSu1TaXkm8Asl83OUVvMk66+EEiaIP3PAMU5wJJjXP8QSL6CA9HS45GH7RmwGygiTa0SLUUd7OlXWR6JW7nZZduyW54EC1yHQEh8AgOqvmIrTp2kFYPpJrnjzjftnBoRRvGR0XpJz7fgmxqlFQiWEPiD5bx+12e4DBBNobyka4qM+7ue29cxV0sc48IouaXUvHwX5xZv1mJqBaE2zc0tMwpyJQOy4KM5GiI4HHIyTLzHdScK+nDxEMMDb63rU9sqL0CuhXpxtMk0OA2f6xofmQos3d2nE5zQlCODFV9YueKuywWEZ6D5JfTrWe79q0E5W7qxMZOek5ywNBOItQkaJ73gI/pcAtXflqEZQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(38350700002)(9576002)(8936002)(1076003)(38100700002)(956004)(33716001)(55016002)(7416002)(33656002)(26005)(2906002)(316002)(6666004)(86362001)(8676002)(508600001)(52116002)(66946007)(5660300002)(6496006)(83380400001)(186003)(44832011)(6916009)(4326008)(9686003)(54906003)(66556008)(66476007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Kb8KYVmr60hFAzEw/zQxnfcvfo/BbO44vGlVApIexPmrejJow74QdWPGq5j6?=
- =?us-ascii?Q?t7E6+WkkQkLBT/Ow6yppzAI1AvEFJKjvwcfhFCZHYA43si464RQJOTgsWFa7?=
- =?us-ascii?Q?yTTmTQ6YRtH9f8Z43+D8k2HGQLaiIJ1hBJH5H6fu1jzJUegQT6+0/FkBYgvm?=
- =?us-ascii?Q?imnvPixke9sWAFfFLPzpI13I5HUFTJLSNAGL4UxYGHbXqfr+X0b6t5krxqLm?=
- =?us-ascii?Q?0WOPNg7nMRQhbWF0WsnTaYHAHpfXxsa3lo6cfN2zJErBF2yom/y++z3Dj89Q?=
- =?us-ascii?Q?f2nUBbkOVffqA6JdGS+yzeEZLhP8zaUrZBg5DEPhjmnp950OZXiJCC05EBjV?=
- =?us-ascii?Q?l3vjergtfFhZuJ+i1KyMwOVWOPuhNY1KaJuVYOCAJ3WznZeA/KUeQimjzLT3?=
- =?us-ascii?Q?o8kQopFLoq66OauErVSqiPhGtGMlEe1/+lgZfnzJGSgvkbn4n+ms2jSZFQbg?=
- =?us-ascii?Q?yRTbu+8dWoWoJCvRVeK9PaqHph1cxBP4BLzJD9UWVhF5Q0dgU1fs9SM9FjcN?=
- =?us-ascii?Q?/AIOUSgR+0yTLcYUbM7uOyJPTZDS1G6daGDNZEn6KSItEzLfj5PR/2ivuRIU?=
- =?us-ascii?Q?zhfKqz5EyqpE5FJgM5+XDHUkUhijZG791zAP53LaPKWpYnmGhDtHbPEK4+Qt?=
- =?us-ascii?Q?sh6R/O4sAb1IP0b27UPV1D9ujoZ42nB2MevfD6ch4PPypS6T25NnpdTlxPnf?=
- =?us-ascii?Q?/Zw6PLJuFJtss53lGQni4qei/IZqMitx4uJlPJo1O6S4lrMBDy7e+NVdtxWd?=
- =?us-ascii?Q?NVfAtV7Yi9o73FBrj4b063WhH62cKnLh+R4lb/6X1M7r8f2tGbsLwyrfn+9S?=
- =?us-ascii?Q?5//XOz0AhqUhlrdKthlcfCcUvQgEIlTgGXtFfXNQORGBQYlZwwFl94etEH6O?=
- =?us-ascii?Q?978soaVbYMhiZp5pDOyPFvyIZzz6Px2KSSeWaLoeelIUDdXeiIqsl2UTnGio?=
- =?us-ascii?Q?/sza7X5Z+FxwBVpWZHRRj4y5dnbqS1fvwnLa7ZiMDN91PE+8CpT3ThR2UOC+?=
- =?us-ascii?Q?ByQ6tGernrWRdsQzTWG6KWGG1ZpmFntnGvYJLNkv2cOwzoWCN9mpBmuo0jOl?=
- =?us-ascii?Q?ahvkPQ9xooFTznbLr/dF2nrrJMJ6NUiz+/VKRXibtR+6++ptV5nJxLD4hGXh?=
- =?us-ascii?Q?l/UkZmV7KEIq44yIKgyy87GDu34uEfzhyT+KDY2P2vjpx2Cvgs+fC4tr7Kd1?=
- =?us-ascii?Q?oscQ5ngLlOAdZ/V6L1E3GDJHz/n/djNyP25RDro8u30JTq8BoMjNffBYuLUL?=
- =?us-ascii?Q?KXXAqb7I3rRdLBfobZxXPWwhydj/0UL3opR+pH01RFMSENL7A2uDNOpk3MJv?=
- =?us-ascii?Q?fiffuQJD3vI2p23pH7uAlZFDrTtGIVWbSV0FUDiNhvKBs3zJ4WPnZeSVjTBn?=
- =?us-ascii?Q?M8axTsHD5p0zMYx4ArMdApz15Psj?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39345651-ba2b-40b2-854f-08d981b1410f
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?HwWSPPjP3ya49T9s2ZaBENgkNxCKNUjp4wDMLM1HjB/7A+YTgWNyB6llWa6I?=
+ =?us-ascii?Q?LMItLKLbPeKd1iZoAoWc6GeNXa6I0ZIT4SOyoDH7DZLdwFk+cvy7dAc3offC?=
+ =?us-ascii?Q?+Dlm0Cpir9jUj5XcgRF2E/Ecjuguk7BtusHzob7mDyNwHBKRbORyskx+BIbJ?=
+ =?us-ascii?Q?qjbTjCil1pymvZoeypriLhSoYBCGQRbzk1Xe/DboY24JIvcgTDumb9fJ0siE?=
+ =?us-ascii?Q?QyfMDTWjl0pG8YVJfl9Waca5cGysrzOv7TnsUKwKXcrhc/464ReBoTRMOz8x?=
+ =?us-ascii?Q?NRQdVruzQ4oO7ejtcAGyptQOW1TPx1UmMa60YcItVOJ/vmZyWhW2T/8wAOzJ?=
+ =?us-ascii?Q?GRlzV+mNc7ScKBIyu00q9OpTVX4/vLZllz9SVVrrQQIh0jjGuCaS66JCQ/Z8?=
+ =?us-ascii?Q?sZhfILyK0NfCGXt44cDsmcPEquApfAp7Z/1EIDr6V9rUnZbCn+VETpRpZwPi?=
+ =?us-ascii?Q?k/rI+ZkpzU3IbQCxN3JIQLWOmDwnu0/Ke8CXgwzQmYBHXIJhy7FwQ/P5KtGM?=
+ =?us-ascii?Q?XVOzqutPveJspsCOL7n4WvWU7b3tv2BchjUWdp7UopAlGrzasGQQ4sgfBNrM?=
+ =?us-ascii?Q?j5623CHvefC5JLu6lwT80HZplnkguT0o3dMtvt8qJXFJUVtHYKDHUnj/spaF?=
+ =?us-ascii?Q?vBtbTfK0bD9jDthCY6BIUW4wgps+G8Hvfc5sbNfwwA+31CCtGAJ3OwKUa536?=
+ =?us-ascii?Q?rKPzs/j3dMvC8ymKHyo8pXe3q64OghHqO9YMGvy609b7U/a4K2KxmFpWxUqO?=
+ =?us-ascii?Q?wAr+ns9OCxgf9sF9e4w+00tRLu6/EByY1lfM0BKIZ2dXoGeDowVXFIYgrnz2?=
+ =?us-ascii?Q?d4p+A8ZoVdrHpS8zOacgmgJLO8Nv1tLTnVqjzYPfIp080SpYPFFd8qiaR/Cr?=
+ =?us-ascii?Q?ncOohbHZWCHh5JjUDtMSq8uuPUfMFskHm7SLIf67+DjcmrEOZQ6N5ob3bC4Z?=
+ =?us-ascii?Q?o+EqkhtbJQx5pH80KHqogZacyXN29CJD6f4cSZHtxbLKrasFzfIUIpUacaGV?=
+ =?us-ascii?Q?nmo+a+n6PN/z6H0WzB4Ej+t870F7H4a9ytrlXlJvxeLV/QnrRU79rhbms9pb?=
+ =?us-ascii?Q?SsaufK/rSTuksgx+sthqkb+5g/uFJx1Baet3TT2E+pa3maFDdbOiZHjzW9eR?=
+ =?us-ascii?Q?RJzyYM1QMLLbczVGpTd+nyKCRYrXHt8Z5nRx5QRuQNBbUwq2el8xPnZlBciP?=
+ =?us-ascii?Q?XquBjT1LNn9YYIIwNCpGzlI1u6YrZ78asjilgxsYqchQf7c576XKIjd1p5y9?=
+ =?us-ascii?Q?WR7bno0qlWYfDI0jjaDFzh9+nYdc3GvGorLgvviixLOfJ0jbEKnxj8xipI4a?=
+ =?us-ascii?Q?78Wm6UN2t21MVoivepkyV6d4?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77c75ca8-85c5-4f0c-4797-08d981b228ee
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2021 12:20:55.2825
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2021 12:27:24.1771
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ul8ACsjmDCk49ktQ7Hl6PGtdQB2D0mmJBNzYOWn2DsR/jppM/pMUyhwtazg/GprcUE/tgSzpEKfCaGN1QJRL+8v+pXlUSvv49Y1ja2K7WsY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR13MB4777
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qv8cWcDhU6zudd3RTQuraixWiUcfczxv/ySH2jym42bvHP/kvBF/qVl2+ZCzdK28CIc3+e4y7KCn6zVwvJy0t+kSYJKo+2UDHAnbP3KElP8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1901
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10119 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 adultscore=0
+ mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2109270085
+X-Proofpoint-GUID: q7mtb31NJY2tHIElIPJleB-czchtj2Ps
+X-Proofpoint-ORIG-GUID: q7mtb31NJY2tHIElIPJleB-czchtj2Ps
 
-On Mon, Sep 27, 2021 at 02:53:24PM +0300, Leon Romanovsky wrote:
-> On Mon, Sep 27, 2021 at 10:39:24AM +0200, Simon Horman wrote:
-> > On Sat, Sep 25, 2021 at 02:22:53PM +0300, Leon Romanovsky wrote:
-> > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > 
-> > > Open user space access to the devlink after driver is probed.
-> > 
-> > Hi Leon,
-> > 
-> > I think a description of why is warranted here.
+On Mon, Sep 27, 2021 at 01:36:56PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> After devlink_register(), users can send GET and SET netlink commands to
-> the uninitialized driver. In some cases, nothing will happen, but not in
-> all and hard to prove that ALL drivers are safe with such early access.
+> The comparison against SIZE_MAX produces a harmless warning on 64-bit
+> architectures:
 > 
-> It means that local users can (in theory for some and in practice for
-> others) crash the system (or leverage permissions) with early devlink_register()
-> by accessing internal to driver pointers that are not set yet.
+> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:185:16: error: result of comparison of constant 419244183493398898 with expression of type 'unsigned int' is always false [-Werror,-Wtautological-constant-out-of-range-compare]
+>         if (num_pages > (SIZE_MAX - sizeof(struct pagelist) -
+>             ~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
-> Like I said in the commit message, I'm not fixing all drivers.
-> https://lore.kernel.org/netdev/cover.1632565508.git.leonro@nvidia.com/T/#m063eb4e67389bafcc3b3ddc07197bf43181b7209
+> Shut up that warning by adding a cast to a longer type.
 > 
-> Because some of the driver authors made a wonderful job to obfuscate their
-> driver and write completely unmanageable code.
+> Fixes: ca641bae6da9 ("staging: vc04_services: prevent integer overflow in create_pagelist()")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I do move devlink_register() to be last devlink command for all drivers,
-> to allow me to clean devlink core locking and API in next series.
-> 
-> This series should raise your eyebrow and trigger a question: "is my
-> driver vulnerable too?". And the answer will depend on devlink_register()
-> position in the .probe() call.
-> 
-> Thanks
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index b25369a13452..967f10b9582a 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -182,7 +182,7 @@ create_pagelist(char *buf, char __user *ubuf,
+>  		offset = (uintptr_t)ubuf & (PAGE_SIZE - 1);
+>  	num_pages = DIV_ROUND_UP(count + offset, PAGE_SIZE);
+>  
+> -	if (num_pages > (SIZE_MAX - sizeof(struct pagelist) -
+> +	if ((size_t)num_pages > (SIZE_MAX - sizeof(struct pagelist) -
+>  			 sizeof(struct vchiq_pagelist_info)) /
+>  			(sizeof(u32) + sizeof(pages[0]) +
+>  			 sizeof(struct scatterlist)))
 
-Thanks for the explanation.
-And thanks for taking time to update the NFP driver.
+The temptation would be to declare "num_pages" as size_t instead of
+adding this cost.  But then something will complain about the
+"pagelistinfo->num_pages = num_pages;" assignment because
+"pagelistinfo->num_pages" is a u32.
 
-> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+The next temptation is to change the SIZE_MAX to UINT_MAX.  I didn't
+do that originally because I can't test this and I was trying not to
+break things...  We probably still don't want to break things, but maybe
+there is someone who is more familiar with this who knows if UINT_MAX is
+okay?
 
-Acked-by: Simon Horman <simon.horman@corigine.com>
+regards,
+dan carpenter
 
