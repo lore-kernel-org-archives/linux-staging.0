@@ -1,115 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02on2105.outbound.protection.outlook.com [40.107.96.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CC73FCF
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 08:27:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1632731252;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xd2B5fP8mQFJBNajYxsw0M/C64aAXorv26cE9NMuxUI=;
-	b=iuzbM2/UWEPuYgQUnGbZf1NUMdvvw6hYgron9pF95WauHu1qE8d68K7MiguONV9abBNTQN
-	KcrnjX1v/VftkIbLF9yjjtUySQ25ycGdHqCYTRcCCxJ1EzkVeO0HTbQdU1tR5/OgGeofth
-	3wyOU+ETEnsDQiQ1b6RZvS/wFHAeOko=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-t64YGtxhP62xv-DnIdLWfQ-1; Mon, 27 Sep 2021 04:27:23 -0400
-X-MC-Unique: t64YGtxhP62xv-DnIdLWfQ-1
-Received: by mail-ed1-f72.google.com with SMTP id a7-20020a509e87000000b003da71d1b065so2941404edf.4
-        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 01:27:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Xd2B5fP8mQFJBNajYxsw0M/C64aAXorv26cE9NMuxUI=;
-        b=tF4MZV8vuKFwZ5AuE1hNwPLLpeD+lvvi4uDqFZM/Dd94X5s69sQOOe/M55H0FX7IJu
-         ASBCXdGJb1vPDHs0FHnJfUeWCFVXQLctGugxFuXO0xBPw5k/FCvly1h2sn4OWnakLCxB
-         +jTOeFhFzV47chFg8Fn2D2fdx0VoJbrLVcRKzKYhoHAbChNcyrJX/38z6ZBwVsX+6m2v
-         m+LYS1VzXmn4ONh9BucQosMlXA8h0QSJ/g5KG0FMvNXMEKYco2aRfqRpQMXvvKaNqK5v
-         RPL9liNJXVxCGPMQcTuyrUiVEGFs9+5S8tXwJYFtevInIyGhNYA355VNVzANdnzGztkj
-         0ILg==
-X-Gm-Message-State: AOAM5301yoXXiDamlXvIyTVjPbE+e6jVXGZa1/LNP6efWqF5uA2NnBB/
-	eRaJKMUAQPFWRxQDTukmTZZjpKGMJ0sSFeJrS9iCOqxK0LVdzA/LSCXMmHy+AURGdHHAKrZ+Pui
-	YdOqHnrnlKgtzGp/S4GMPwfanGQ==
-X-Received: by 2002:a05:6402:21ef:: with SMTP id ce15mr21341504edb.19.1632731242832;
-        Mon, 27 Sep 2021 01:27:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnaUDH9Y9p6JlmlVpo4at+7c8OOuBUxcgBd+LF71OeobsFVs6GkDkwTlUHXfTat8CiCOUYcQ==
-X-Received: by 2002:a05:6402:21ef:: with SMTP id ce15mr21341496edb.19.1632731242641;
-        Mon, 27 Sep 2021 01:27:22 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id w5sm8445816ejz.25.2021.09.27.01.27.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Sep 2021 01:27:22 -0700 (PDT)
-Subject: Re: [PATCH] staging: rtl8723bs: remove meaningless pstat->passoc_req
- check in OnAssocReq()
-To: Longji Guo <guolongji@uniontech.com>, gregkh@linuxfoundation.org,
- fabioaiuto83@gmail.com
-Cc: ross.schm.dev@gmail.com, marcocesati@gmail.com, fmdefrancesco@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210927033056.27503-1-guolongji@uniontech.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <13ccfad4-ed3c-5cff-653f-1c78ca0af883@redhat.com>
-Date: Mon, 27 Sep 2021 10:27:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2765172
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 08:39:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h6w61T+XDjAtn6LWt1Yqe4zQL7o/b/NPx4psigNFsdIPb6YYL6BvjaV8Ts1fAtpqSpkjQCXJ8xPc4Adm+vdZ0BZzFyjbIlfoQiNFPA706gW0CnCV3QYXU7Ve2J406DRMtj42fWDN+dXiEBk7hjWA3wgY4EhcYaO1hiY5mtLoQ1T8Epe9dw0ZmXaOXogs0Pu5bqpD368KPmZPPoBi56oKKRyDwXfMeLzch3Y6hecS0mGGl8D1Wr78D0ws/wDCUobPsTbXXvgm0o3kwfgAHv8BGeW/eYCBzPbSmeEyt9AVghyF+dKclw2bmycPyLp9QuSdV8pffOChK/X4tR4WOiMRYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gIdmZOQCjDpO+zPvkEM5TmdlkH14ENLfJqaVvBh+bMY=;
+ b=btuvwUPuW4mQRGrF2o8OmPczDsds3L6SaanbWn6HIZbAEfMvWM4S7LE9lKTRME9J3wJ2EpYB41cawuyarAh+md0/tBXPDPV52L+GrpJQhs3ExV6429PFBR4P4d6e4ssM1rowIqylvYx95j6W9IR1mEnG+zJXmUE743+zT+5UgScrGJlnD1V1NPnyjMIHfxjs4j9htFjCnDzuZyE5v6QobmPjgxCIZh0Cwkfe2c216CvaNThqyJBExpXt9v/nI0KgqnCXI3Xn85DN6Pi/eanPwyguwqavnTHy7DRJQu/REYWYwSRbj1Jhqwm7EX7i3QoE8//3/imdCa9U9kLXAU4CHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gIdmZOQCjDpO+zPvkEM5TmdlkH14ENLfJqaVvBh+bMY=;
+ b=ThIwLqOTvKqhVZ0vg+C9ysQkVHWUl3MUK0mTUvLNfVnwqBw6ErdDdcEe/keVYqfScigStqzDrMCC2AkULtTthN06gOfUGoUsOLZLiI+TQaGwUhuzRbsPfmOiR6HTom6ECKMa6V39AzDg2zRi8fKkiL8bLyS4aIeN/dUrUJNtllk=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by PH7PR13MB5552.namprd13.prod.outlook.com (2603:10b6:510:131::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.7; Mon, 27 Sep
+ 2021 08:39:37 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::e1d9:64d0:cb4f:3e90]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::e1d9:64d0:cb4f:3e90%9]) with mapi id 15.20.4566.012; Mon, 27 Sep 2021
+ 08:39:36 +0000
+Date: Mon, 27 Sep 2021 10:39:24 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
+	Bin Luo <luobin9@huawei.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
+	Felix Manlunas <fmanlunas@marvell.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
+	Intel Corporation <linuxwwan@intel.com>,
+	intel-wired-lan@lists.osuosl.org,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Jerin Jacob <jerinj@marvell.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Jiri Pirko <jiri@nvidia.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Manish Chopra <manishc@marvell.com>,
+	M Chetan Kumar <m.chetan.kumar@intel.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Michael Guralnik <michaelgur@mellanox.com>, netdev@vger.kernel.org,
+	oss-drivers@corigine.com,
+	Richard Cochran <richardcochran@gmail.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Satanand Burla <sburla@marvell.com>,
+	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+	Shannon Nelson <snelson@pensando.io>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Taras Chornyi <tchornyi@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: Re: [PATCH net-next v1 13/21] nfp: Move delink_register to be last
+ command
+Message-ID: <20210927083923.GC17484@corigine.com>
+References: <cover.1632565508.git.leonro@nvidia.com>
+ <f393212ad3906808ee7eb5cff06ef2e053eb9d2b.1632565508.git.leonro@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f393212ad3906808ee7eb5cff06ef2e053eb9d2b.1632565508.git.leonro@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: AM0PR01CA0120.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::25) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210927033056.27503-1-guolongji@uniontech.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: from corigine.com (2001:982:756:703:d63d:7eff:fe99:ac9d) by AM0PR01CA0120.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15 via Frontend Transport; Mon, 27 Sep 2021 08:39:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 73a8042b-dc1b-4068-935c-08d98192565c
+X-MS-TrafficTypeDiagnostic: PH7PR13MB5552:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS:
+	<PH7PR13MB55523D49A228A31C33B1A01DE8A79@PH7PR13MB5552.namprd13.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	50r4QUSBOxNDjWfUa1gtTG5JU0Vq4LuJU56Mp2/XLvqP7oXv3b6JfDq6W0jhn8bZdcvnqcQ3Vp4Sj7e10r0TSnL9jwZmind7QdI898XN6Sx24uJ0d0Bnq/x5hZQvGZDj0xP4gCbzH98zPwiY3RLx/B6xLtzTcYEla8JCBa2Rulkq4Lu1jeLAa6mt9e72SBKe+Khg4IR43oXcJUj9UoduCXpwd/Yq9+wWPnGZ+urpfvDPY5k2mzB2GO6ETIRqWfuDEHucQ7FmIn4IfVCOKMvWakTcI3OuwQexw1IEDfHon8On5+Ort2ydvs3UxmFAjzOKPxAxzOfxJzerNVsyf89fZDyUI91OJTPJXEKdURZgcfrThsNJPz/yvtQLUgR6naELfR+7XUdZZtvcXmboUHU1z0SweoGTSTEy8FGjlmBnE08P2nDbOyRYTUoL0z4+XTLU7Zz75JmitlxhNxxWgDW9Du1BHHgQWRw8g5dZ2pRBw64nGGT3oafjJFpx6dxa0e1rizVxpozmH2HNwA1LTliujmlHOuQCUw4xuYTPGOvfvicAdoi6eEP6YZhapFjeeRXWFenU7tK2n9AvRcoNgJl3MK0LUtnRTYrCHY/wNvxkqRv5rQ9wKL0PQ2rdolXw3EGS1WmrjroBx1sstj13NrPXoA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(136003)(346002)(396003)(39830400003)(366004)(6916009)(66946007)(55016002)(66556008)(2616005)(508600001)(8886007)(4326008)(186003)(8676002)(33656002)(8936002)(7696005)(66476007)(52116002)(6666004)(2906002)(83380400001)(558084003)(1076003)(7366002)(5660300002)(36756003)(7416002)(86362001)(7406005)(44832011)(54906003)(38100700002)(316002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?MR1z9KoG+kajsxH185xcnkq9AgYihKkrXTsPol9YCizp9UyVcAoGsUMnT+51?=
+ =?us-ascii?Q?5ufrrgMkLqhUAc6Y36WeCaXq78PSH9vhu/5O3/6JJN8bAHgyaHCvuC9R0sis?=
+ =?us-ascii?Q?1/Ep3gx8Hg0iybk9j1sA+6uC9XhW6Iy9PEhEed/tMM8biPQv3BSfklCpECUn?=
+ =?us-ascii?Q?8LENrreAk3LyDoWuieSMVMB2Hc7wcB0ErrVWmKwPbuVEUXEy72gHNR7G+6OA?=
+ =?us-ascii?Q?CIeYM4+loxThVxdumQb/Se2+u1JRRmand11QEe1Ot4VIzXlcqrVNz2M+XxoS?=
+ =?us-ascii?Q?9AA+5+lObbghalIdXZAtCvx5SNN0Yq+gLZMTKZe0CiS3PWltj8VGowt4aJ6t?=
+ =?us-ascii?Q?+420IrmglFA+72bTDEayGE0BwTJBjGVvRMwaPZSkR41DjEHKmiLOr0HBsiJA?=
+ =?us-ascii?Q?MEpheuWSNkp7WzTOSwWvc3fr7fotJHZxFWcmQWoNgy4/xT8F3GlxveH2z+we?=
+ =?us-ascii?Q?sNLu/xWc0VxWRtgRVw5OrwcSZOz/6JlJ97yLL8tiJKzULweCOfah0aSgM4O2?=
+ =?us-ascii?Q?RxKdAaEB8olel9D7qNoehnGItTGkLgMB8laDht9zpyuEzSJT4tG/k2Ms4HJO?=
+ =?us-ascii?Q?hwFCXmdjVNu4EW+vB1pNfQUqc1bMWZ+z60vByPRHS/YZAj0jucWxNFw5ogxy?=
+ =?us-ascii?Q?pNZuyTLS+4Ps/emdQTNjIXeW1Ib4oK527TRT8kRPjA7EKIrecGFpiHqAEfNZ?=
+ =?us-ascii?Q?WxI/9HZtsj3rnsHbqIprwR/iZwg66l7fTIGMNSumo5PdatXYbNlHlpdhw0ok?=
+ =?us-ascii?Q?UOBQBojBL5aN39tif3BN/GiCxe6S30HCIVdUVDL453GLQ7FhZ6ffRqFmgLzo?=
+ =?us-ascii?Q?eryuRbvDlHGB8Nh5Qv6seeF4ksfxaiDxYKynaJvuNMAvxlUSRp3mryvUGlIJ?=
+ =?us-ascii?Q?zHBD9yu0v2+1ulbauswzaucC+/RTKm66DaNdzXe4KagSKBNxu4a9ok9E1ad/?=
+ =?us-ascii?Q?TvVyhYVXoUvcGVMnMfnbN4oLHusMYeE2VMGDosrG2SwKpByCoMEMBqJChpnh?=
+ =?us-ascii?Q?EIp/76lP0NyTX6fxl1qEpUG5BXR7QZ+kjuE5k4D7dcX891nP8ic2ADEctCHS?=
+ =?us-ascii?Q?/3Zjk+jUh/G4Z7dCP3JqfUQjQ9mRMcH2kJaV7YsiMITGt2T85QjdKk+KTih4?=
+ =?us-ascii?Q?GVb8VjZ+CEB2moJI+lwTZZgDPJUpOsCCzkrPh9GmfS+8oCG2oh3ZBVBG1VEf?=
+ =?us-ascii?Q?XVjxX9g9cN21Xr327zkhqgdknyjpWzQ/KNBAXetiDMxgnUF90t27Fy8+2rPk?=
+ =?us-ascii?Q?jA9OxFBHSL39MPNFn2EMAbGZLBJbxf1JIVgf8nmd+AUGsBj5OdmwFaA2PNhj?=
+ =?us-ascii?Q?uJNZt1PKZqbTR6t4lqyojfFwZ4SoTQyBxDlZyN+/FgUUY9IzETG1cte2WnS6?=
+ =?us-ascii?Q?S5kOaZpTUGmm/VGA8GSuDOWDHwAv?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73a8042b-dc1b-4068-935c-08d98192565c
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2021 08:39:36.6260
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HbD8PMEUDDXemMgJZpsAhRriXOPllWXSJK/YfPEi+lU9comg/zhgPgMLgdhfh7Cuc9Lf2kjj2o7vEWB1SltNrAE8d0/S/DgKGN7+Rvm8fm8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR13MB5552
 
-Hi,
-
-On 9/27/21 5:30 AM, Longji Guo wrote:
-> kfree(NULL) is safe and the check 'if (pstat->passoc_req)' before kfree
-> is not necessary.
+On Sat, Sep 25, 2021 at 02:22:53PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> Signed-off-by: Longji Guo <guolongji@uniontech.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 375d2a742dd2..a46ab97524aa 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1344,11 +1344,9 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  			issue_asocrsp(padapter, status, pstat, WIFI_REASSOCRSP);
->  
->  		spin_lock_bh(&pstat->lock);
-> -		if (pstat->passoc_req) {
-> -			kfree(pstat->passoc_req);
-> -			pstat->passoc_req = NULL;
-> -			pstat->assoc_req_len = 0;
-> -		}
-> +		kfree(pstat->passoc_req);
-> +		pstat->passoc_req = NULL;
+> Open user space access to the devlink after driver is probed.
 
-This "pstat->passoc_req = NULL;" is not necessary, since directly afterwards
-pstat->passoc_req gets overwritten with the return value from rtw_zmalloc()
-so please drop this line too.
+Hi Leon,
 
-Regards,
+I think a description of why is warranted here.
 
-Hans
-
-
-
-> +		pstat->assoc_req_len = 0;
->  
->  		pstat->passoc_req =  rtw_zmalloc(pkt_len);
->  		if (pstat->passoc_req) {
-> 
-
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
