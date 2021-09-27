@@ -1,71 +1,76 @@
-Received: from qq.com (smtpbg456.qq.com [59.36.132.123])
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FE23FCB
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 03:39:46 +0000 (UTC)
-X-QQ-mid: bizesmtp37t1632713460t1d43yo7
-Received: from localhost.localdomain (unknown [124.126.19.250])
-	by esmtp6.qq.com (ESMTP) with 
-	id ; Mon, 27 Sep 2021 11:30:58 +0800 (CST)
-X-QQ-SSF: 0140000000200040C000B00B0000000
-X-QQ-FEAT: 68rqSogMCG88dFhlqQRZlfXHgkbJHdgnvEUYpAKEeWduBDZVTOGMmfXjte4Iy
-	SpEho6jgy3A1sTREGkl9KsAQ0KFyGOAeIt8BGidM/EU5MoWw6TkHPvqJp5EVSejtzj7cMqA
-	t3zsHABn30auPMIyMfyOI0r8w66LXmoKNSUkoICb/0+Qi6PCEEKJ+vw+rbKXCqQgQKaAcS4
-	rp2PjR7+2ytV6eSHA1q/arbdrFB6ksH2H56D3RFSwRLZHuy55+ThkfZ15mqOaYyO0jf4O2/
-	YX8XOtBFo5+wD/VH8FfHe3CBXAxsy9GTMx2ZsdDYvMYf4qEobdpulH2HQdGVClnLXUZid3f
-	iYnVYvw3F1MQ8Vhlmxrzhw1BiU3FA==
-X-QQ-GoodBg: 2
-From: Longji Guo <guolongji@uniontech.com>
-To: gregkh@linuxfoundation.org,
-	fabioaiuto83@gmail.com
-Cc: ross.schm.dev@gmail.com,
-	marcocesati@gmail.com,
-	hdegoede@redhat.com,
-	fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Longji Guo <guolongji@uniontech.com>
-Subject: [PATCH] staging: rtl8723bs: remove meaningless pstat->passoc_req check in OnAssocReq()
-Date: Mon, 27 Sep 2021 11:30:56 +0800
-Message-Id: <20210927033056.27503-1-guolongji@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C2F3FC7
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 07:51:28 +0000 (UTC)
+Received: from mail-wr1-f48.google.com ([209.85.221.48]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MfqGN-1n1c7k1n7h-00gIhy for <linux-staging@lists.linux.dev>; Mon, 27 Sep
+ 2021 09:51:21 +0200
+Received: by mail-wr1-f48.google.com with SMTP id v17so6294071wrv.9
+        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 00:51:21 -0700 (PDT)
+X-Gm-Message-State: AOAM53020JuNE2hCGSJOuR1YrYse1ut11pYSm8BCeWkLEiEEkWYAg2gf
+	QYOzlvNIXjJxAkNWzT5Q+u6HRY25ODQamahuAi0=
+X-Google-Smtp-Source: ABdhPJwNcwXck71rNE1/gI90KB/Jti/UtvWTFzI7YuAuJdYp1B3gd5+yHJu01In4gT34cm6LdQkR+GmwiEb9qD7ilRE=
+X-Received: by 2002:a5d:6a08:: with SMTP id m8mr25539649wru.336.1632729081037;
+ Mon, 27 Sep 2021 00:51:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgweb:qybgweb16
+References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
+In-Reply-To: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 27 Sep 2021 09:51:05 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3+54S2=-=ch1+XWuNQRoOCDdQhtBhu3CKOdqcSNzu8YA@mail.gmail.com>
+Message-ID: <CAK8P3a3+54S2=-=ch1+XWuNQRoOCDdQhtBhu3CKOdqcSNzu8YA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] MIPS: ralink: fix PCI IO resources
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Rob Herring <robh@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Liviu Dudau <Liviu.Dudau@arm.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, gregkh <gregkh@linuxfoundation.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:ZmO8lEosbt6Vss5TAj+9EFyv/jFY3X6SGWyXkEP9Rgmq6PilFiZ
+ Akn64IWCRg78wiBw+JXsu8GzQpXEi1PB+XLf5h5dU0J8LfkuGUePDWkJ0CPfspwkJNbp7Ui
+ dWFT1hXET16eYNDVA4xhoOJ5xzjjphIWqEqnI5gNaDL6RSYeql0NUfXc9YSGlvlTCHCL5hd
+ RAgboElRit2ZD9Lf5adJw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vIJfllUGadM=:P3GyOx3r36rYzUH5oQX2MG
+ Dn2gKrOfPwj6XWN7B6egk6/GQF1W4QW6ct7KnXDeStYuETCr6bI/ygiK2qkAbIU73k1fB0nC5
+ bl8P2Ivsu3nm8Eb6HLP4lKlA1bCyRoezqoGMS7UY4B2Momu0kf942Jcc/ZIkd5e3pf64Iuqem
+ 2dDhVtfozeidHasQPR9IYey8HfrtkAZqobLuw/HfO8oSjMDU+RLm1wn7G8NbgioB9/WHTKADY
+ 07rYRFxlj4LiiPpxb0q2wECOMhoUxuV2EFe2BmuByihlpopyYbPovn1cEyifo0WB9IMKYqJF2
+ Oh49r4dqqM318cI8uZrT+gSo5Ilmngae9ilXHCUrk1Q1fCRBi3pHEV1NzS1OB1Ze2xggYUw/y
+ 4XLCZVgbMKfWmMNGak4m3/BynASgJOUXbeou5gcXvD01xdMZ5shDeeaoCg7teUp+JHveUJd2r
+ sPMiXWjGSj98PFtaTvDbCruA/7Egexi5UIw2smT5JXhc3m41HuIqhqvS0F2stK6BAvxL6R2PK
+ bd0VBP9U5p8LmBLpcZVOTSWjF05JgNq5EnE0JieGcYr3Kb15iFye7h8gV0mvYVAE6tcqjdaN2
+ NkH+DalnC1ohJv73i9vDGEWwzOqBM5t2tsjJ+icvaZywB4HzQV2EIj4ISgJ/KdQHcnGDt16KV
+ Q9lvab3X9FO15r7n5ZG4fjBidn3l29DspvLTxSgbDzbhh6XIa+QnKYQ7p8tzYFURv/P6+jvtk
+ X5LW0vdrhO5nmoqSYA+Taxe8UBYXLVswPMAXDAdR6wb3nJtIEji+5gO9rkA6CtxBF7onvq8yP
+ STQQUH15rT18i6Xois5csLJILmjU1G/fEiwxAFJyliRFkr9jAZPtrGLKNJoYzJKcgSpBpapWJ
+ m6aWNfmOOfCPPxuxhTgg==
 
-kfree(NULL) is safe and the check 'if (pstat->passoc_req)' before kfree
-is not necessary.
+On Sat, Sep 25, 2021 at 10:33 PM Sergio Paracuellos
+<sergio.paracuellos@gmail.com> wrote:
+>
+> Patches related with reverts are from this merge cycle so they are only
+> added to the staging git tree. So to have all stuff together I'd like to
+> get everybody Ack's to get all of this series through staging tree if
+> possible :).
+>
+> Thanks in advance for your time.
 
-Signed-off-by: Longji Guo <guolongji@uniontech.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Looks all good to me now, just one general remark: Try to give a little more
+time between respinning the entire series, otherwise you get the opposite
+effect and reviewers start ignoring your emails after getting annoyed at the
+number of emails. Once you are reasonably sure that no more comments are
+coming in, or you have made substantial changes, it's time to resend the
+series.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 375d2a742dd2..a46ab97524aa 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1344,11 +1344,9 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 			issue_asocrsp(padapter, status, pstat, WIFI_REASSOCRSP);
- 
- 		spin_lock_bh(&pstat->lock);
--		if (pstat->passoc_req) {
--			kfree(pstat->passoc_req);
--			pstat->passoc_req = NULL;
--			pstat->assoc_req_len = 0;
--		}
-+		kfree(pstat->passoc_req);
-+		pstat->passoc_req = NULL;
-+		pstat->assoc_req_len = 0;
- 
- 		pstat->passoc_req =  rtw_zmalloc(pkt_len);
- 		if (pstat->passoc_req) {
--- 
-2.20.1
-
+        Arnd
