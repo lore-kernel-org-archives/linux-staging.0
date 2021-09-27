@@ -1,30 +1,33 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C303FCC
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 15:35:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4579360EE0;
-	Mon, 27 Sep 2021 15:35:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612993FCC
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 15:38:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D7736103B;
+	Mon, 27 Sep 2021 15:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632756910;
-	bh=LBNb1z5QaCJTM2OuTGM0Hcf47QA9DIsNFaN3K8X3lTg=;
+	s=korg; t=1632757087;
+	bh=01pncTuL6mO/zCZjIXlbG8UzM8/W78TrZdnq4pIw33o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zswsIbzjQWilZ3pgfKg8+ji4buPHogYuGj/UHtkk87UWAXLCZMvIMWWCcAlxrvkcF
-	 41qD7JQU6geYMGsqL+hCeep/AZGAKx+UPhatJRToT+TIG4WHfA4LAUmhHvxHHQv5a4
-	 Kh+hlU/F8phGiO6vxmApCR9+Z1w5X5yt6QQrqcg4=
-Date: Mon, 27 Sep 2021 17:35:07 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Guo Zhi <qtxuning1999@sjtu.edu.cn>
-Cc: nsaenz@kernel.org, peterz@infradead.org, maz@kernel.org,
-	bsegall@google.com, rdunlap@infradead.org, airlied@redhat.com,
-	kan.liang@linux.intel.com, odin@uged.al,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vchip_arm: Fix misuse of %x
-Message-ID: <YVHkq1bLrz365ZwE@kroah.com>
-References: <20210923035554.669434-1-qtxuning1999@sjtu.edu.cn>
+	b=WEyrA67ttikhX6GLVEUDRcYmxqD9leWM5LJz6W62G+Du840GRcEsMo+hCrNx107XE
+	 LO0OVd+DcdRgfhWDVnHRut1UEKtXlwCWi83DsF+Lz9Ww1Svn9AoZtvYQ0ro/qGm220
+	 9Z7ttoqdls5NZWyrDMe5mUY+X6JSGPexQxm4BSvA=
+Date: Mon, 27 Sep 2021 17:37:41 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Pavel Skripkin <paskripkin@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	David Laight <david.Laight@aculab.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: Re: [PATCH v9 10/16] staging: r8188eu: shorten and simplify calls
+ chains
+Message-ID: <YVHlRf7C6m+2Si+3@kroah.com>
+References: <20210924122705.3781-1-fmdefrancesco@gmail.com>
+ <1836626.W0nMHyKdkH@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,21 +36,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210923035554.669434-1-qtxuning1999@sjtu.edu.cn>
+In-Reply-To: <1836626.W0nMHyKdkH@localhost.localdomain>
 
-On Thu, Sep 23, 2021 at 11:55:54AM +0800, Guo Zhi wrote:
-> Pointers should be printed with %p or %px rather than
-> cast to (unsigned long) and printed with %lx.
-> Change %lx to %pK to print the pointers.
+On Fri, Sep 24, 2021 at 02:37:52PM +0200, Fabio M. De Francesco wrote:
+> On Friday, September 24, 2021 2:26:49 PM CEST Fabio M. De Francesco wrote:
+> > --- Preface ---
+> > 
+> > This is v10 of "shorten and simplify calls chain". The 14 (v7) + 2 (v8) 
+> > patches have already been applied to staging-testing, so we have been 
+> > requested to reset the numbering of the remaining patches to 01/16, while 
+> > discarding from v9 the above-mentioned 16 patches (otherwise we would
+> > have submitted a series containing 32 patches, that is 1 patch less than
+> > v8 because it has been dropped by us in what we considered it
+> > unnecessary - it was about fixing a misspelled word in a comment).
 > 
-> Signed-off-by: Guo Zhi <qtxuning1999@sjtu.edu.cn>
-> ---
->  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> Hello all,
+> 
+> Please disregard this weird cover. I don't know how I've been able to make 
+> the mess you see in the subject. The good one has been sent soon after this.
+> And please, let me know if it is necessary to resend in order to have the 
+> cover letter as the first email of the thread.
 
-Does not apply to my tree :(
-
-Please rebase and resend.
+Nah, I can figure it out, looks good, let's queue it up and see what
+breaks :)
 
 thanks,
 
