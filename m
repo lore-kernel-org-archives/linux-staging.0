@@ -1,77 +1,92 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CBA3FE7
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 20:37:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A08E1611ED
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 20:37:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632775057;
-	bh=NeUUzwH/N8Mxr/MptmnO1QpXNuxBYMSvWijcnRAB0rs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dM7a5n6bKskDFm+rcd423iRtrg5HlMw5RYVivLUvqi2jbLSmcL+mOVQXMdd/Qd0C8
-	 tlgYFY6w0DR9YZVjij4dWFj258tIDdI8NN0eZIJqLpDs35C4+TygQGLcUkOFYvxv4g
-	 u8yCP/FG/vMBxWCbSv05voHX52ygh8V2EJJZ8rYXV56/YGnCXQUp6J4uTiqJd+NFYJ
-	 IjU8p2KZ/0ebKvc0M7PptMKv89TOpIuBhfTfBnOfy0XdcXzYeCtiEMheMDRG1yN2vk
-	 cSJhlzSz7WgN6eQxB/WzgOhO48d/m7ufBt88PYvtDOlplgxL3sSESwBAXOPWRT67Ce
-	 iO4qUs9sTVBbA==
-Received: by mail-wr1-f43.google.com with SMTP id g16so54115968wrb.3
-        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 13:37:37 -0700 (PDT)
-X-Gm-Message-State: AOAM531rCb9PyezEay2A+y+0jcixbZJb1BXFWmEAT4BCIMuLLXf0zSJu
-	sJ5ZK3yC26irqw/qGieZOejCOtzJ9TDnUyLeURI=
-X-Google-Smtp-Source: ABdhPJyUjAenq8joWGQ+N3TX7sXIr6eIaAVJ4XnFudXXN00YfpEG4fWYLlCkpjLBJK0bxVz4FkbyqI3WSSR4KdJleDM=
-X-Received: by 2002:adf:f481:: with SMTP id l1mr2122067wro.411.1632775056188;
- Mon, 27 Sep 2021 13:37:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF173FE7
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 21:35:19 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id g7so15376614edv.1
+        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 14:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8fIXLZFZklwKHdl3exETI4xeMDjaDuEQ0orstMQkXZ8=;
+        b=KFMkzIwwW9lciMmKWfm/MpAQJ6JqEt/ksgk2f/1SvIkeFMEIvhj60x/DWbYbwAfO/H
+         idNDXi5BqH5uEPUnIalkGHyrLcfhSy+z/HzkFvMTPb4u3ePTjCOZelxEBqpS7I6zsLfj
+         xacHCczi8D5TEbeakKFZAc2tpWZxan4TrPD9EKsn98hAIQZaKHWeWCYOo1x+tmySvpS9
+         PQSDjQj39h3V2GYzvMA1JWGCNQ1H/AUmL5HbG54eTrL/MceB8C1shpvGCXzvy2OhGT80
+         NkhcBg7QW/PfCir9zP3b4j01WFg8c6E7WyuoM0WnBeAfNZLsGAGUU7Sz1dsx2rrZhHr/
+         26/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=8fIXLZFZklwKHdl3exETI4xeMDjaDuEQ0orstMQkXZ8=;
+        b=z0u0cAXqRMd6bH8JX41A4IA873myl7GqfzqiZfV8/6uWgixC2Ll1gKh6gfrOF+syGR
+         NrE3Ll2Nk2LzYhTE8LYhTNHiqkelHix9mXF0xZYqJ+2+JLc6n9IF5oCxlivbtSyn7ICe
+         NH1t3VNvZyazEngwod0q3Y/kW5Hy7boOGY/GzK8aYq6ZF2CTIYjsuEcogL1L0W04DJ8z
+         Fme0gUMZB8sGfexU7rkQWynHFCGik6jt4LOvhp2OfmAva10B+fJsgP9XErzQCfAZcM4r
+         LjJECDy2o2AMRdG3uH7dZyuzmH6rSGWyvYyU2iQA8PI7jdQQehusGGr6EM4/l6bfGSJM
+         JkfA==
+X-Gm-Message-State: AOAM5305Qt5rhlBGRMYdtyHPs6PeM80Cf0z8epU3kMUqyt5Y21K0helW
+	uaUhIXQwLQjOBeO8X8IR9UA=
+X-Google-Smtp-Source: ABdhPJyokOtj5LXsKCcHluXvkmPQJmOhWxMhYJg0G/H019iApTB5xDAZDVX0f8AgPrwz+OiMB+Oq/w==
+X-Received: by 2002:a50:d8cf:: with SMTP id y15mr3014927edj.66.1632778517759;
+        Mon, 27 Sep 2021 14:35:17 -0700 (PDT)
+Received: from tom-desktop (net-93-71-218-228.cust.vodafonedsl.it. [93.71.218.228])
+        by smtp.gmail.com with ESMTPSA id ck10sm11591740edb.43.2021.09.27.14.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Sep 2021 14:35:17 -0700 (PDT)
+Date: Mon, 27 Sep 2021 23:35:15 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	Yujia Qiao <rapiz@foxmail.com>,
+	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Deepak R Varma <mh12gx2825@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] staging: vt6655: fix camelcase in bShortSlotTime
+Message-ID: <20210927213515.GA6953@tom-desktop>
+References: <20210926162527.21462-1-tomm.merciai@gmail.com>
+ <20210926162527.21462-2-tomm.merciai@gmail.com>
+ <YVHilhCk3cgGhXrZ@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210927113702.3866843-1-arnd@kernel.org> <20210927122658.GF2048@kadam>
- <011c53e6-d628-02b7-fc18-ca3165a45f98@raspberrypi.com>
-In-Reply-To: <011c53e6-d628-02b7-fc18-ca3165a45f98@raspberrypi.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 27 Sep 2021 22:37:20 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0_RBc6dCzzGcxzC=g5ODDia-9nQcKROWSPm4jVAJgEnA@mail.gmail.com>
-Message-ID: <CAK8P3a0_RBc6dCzzGcxzC=g5ODDia-9nQcKROWSPm4jVAJgEnA@mail.gmail.com>
-Subject: Re: [PATCH] staging: vc04_services: shut up out-of-range warning
-To: Phil Elwell <phil@raspberrypi.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Stefan Wahren <stefan.wahren@i2se.com>, Ojaswin Mujoo <ojaswin98@gmail.com>, 
-	Amarjargal Gundjalam <amarjargal16@gmail.com>, 
-	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, 
-	"moderated list:BROADCOM BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YVHilhCk3cgGhXrZ@kroah.com>
 
-On Mon, Sep 27, 2021 at 3:22 PM Phil Elwell <phil@raspberrypi.com> wrote:
-> On 27/09/2021 13:26, Dan Carpenter wrote:
-> > On Mon, Sep 27, 2021 at 01:36:56PM +0200, Arnd Bergmann wrote:
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >>
-> >> -    if (num_pages > (SIZE_MAX - sizeof(struct pagelist) -
-> >> +    if ((size_t)num_pages > (SIZE_MAX - sizeof(struct pagelist) -
-> >>                       sizeof(struct vchiq_pagelist_info)) /
-> >>                      (sizeof(u32) + sizeof(pages[0]) +
-> >>                       sizeof(struct scatterlist)))
-> >
-> > The temptation would be to declare "num_pages" as size_t instead of
-> > adding this cost.  But then something will complain about the
-> > "pagelistinfo->num_pages = num_pages;" assignment because
-> > "pagelistinfo->num_pages" is a u32.
-> >
-> > The next temptation is to change the SIZE_MAX to UINT_MAX.  I didn't
-> > do that originally because I can't test this and I was trying not to
-> > break things...  We probably still don't want to break things, but maybe
-> > there is someone who is more familiar with this who knows if UINT_MAX is
-> > okay?
->
-> The VPU can't address more than 1GB directly, so UINT_MAX is more than sufficient.
+On Mon, Sep 27, 2021 at 05:26:14PM +0200, Greg Kroah-Hartman wrote:
+> On Sun, Sep 26, 2021 at 06:25:18PM +0200, Tommaso Merciai wrote:
+> > Replace camel case variable bShortSlotTime with snake case
+> > variable b_short_slot_time.
+> 
+> That is a very odd variable name.  Why did you pick that one?
+> 
+> What deos it mean?
+> 
+> You do understand where the original naming format came from here, and
+> what it was trying to represent, right?  If not, please go read up on
+> it:
+> 	https://en.wikipedia.org/wiki/Hungarian_notation
+> 
+> That style is not used in Linux, and so, when converting from it, do not
+> attempt to keep the same style present here, that is kind of pointless,
+> don't you agree?
 
-Is there a macro that already defines that 1GB size, or maybe an even smaller
-value that makes sense as an upper bound?
-
-         Arnd
+  You are definitely right. What do you think about "short_slot_time"?
+  
+  Thanks,
+  
+  Tommaso
+> 
+> thanks,
+> 
+> greg k-h
