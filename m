@@ -1,65 +1,77 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612993FCC
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 15:38:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D7736103B;
-	Mon, 27 Sep 2021 15:38:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632757087;
-	bh=01pncTuL6mO/zCZjIXlbG8UzM8/W78TrZdnq4pIw33o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WEyrA67ttikhX6GLVEUDRcYmxqD9leWM5LJz6W62G+Du840GRcEsMo+hCrNx107XE
-	 LO0OVd+DcdRgfhWDVnHRut1UEKtXlwCWi83DsF+Lz9Ww1Svn9AoZtvYQ0ro/qGm220
-	 9Z7ttoqdls5NZWyrDMe5mUY+X6JSGPexQxm4BSvA=
-Date: Mon, 27 Sep 2021 17:37:41 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Pavel Skripkin <paskripkin@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Laight <david.Laight@aculab.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: Re: [PATCH v9 10/16] staging: r8188eu: shorten and simplify calls
- chains
-Message-ID: <YVHlRf7C6m+2Si+3@kroah.com>
-References: <20210924122705.3781-1-fmdefrancesco@gmail.com>
- <1836626.W0nMHyKdkH@localhost.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D712F80
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 15:40:18 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id z24so80245097lfu.13
+        for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 08:40:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7uZ+gRol/KIudEZLw050U1sUe4rvi6xJlQLIYjTorQM=;
+        b=rL77yan5j9TgD01AEbbvHMzXYMfKv4dJ26BM4zP8IZ6+cYTvwMuBGNfRQNDgT3Vzex
+         FvKQUR6kkwiGaWS3YX3PuKuzKCjqUZA/1JTOtA/NMrNf7MzJxTXh9PB/SUx5RFdf5j5v
+         vKtH6iN3iIxJogpizrlG0WYQMZfruwlFZloIxakBRsyQZ8dp2FWYE1XNuah5bcGiHHeN
+         pJL/uLYuj8HUHG6ecfHIMiF74aIM1QTyi9+v07MM/c8HfztymCExC4sw8pdEeKArKFaF
+         Acy4Lz3Q6W5Ksg2voyH0oTeyCHijuaah5Rle+Cr2nPjawOYm+lTXJ2YJfSkG8ZDAZdCn
+         iWeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7uZ+gRol/KIudEZLw050U1sUe4rvi6xJlQLIYjTorQM=;
+        b=WLdZtfw24bHMHQUDd5zU6J7zSeXU6qmOdQpD+05EL9H2LUILkNpFoo0yzUABFKoDoI
+         uGbhjvMNJIi/dZ1cUjPi1rmh0GciP11tLcyBvYGNjzwDdBGI3Ve6AUQNhUATkUYKQMyV
+         8jbuTQNghRn+PFAwfhNfvmgv9uwY9jpQSysWwJuDp+5RiUWFwSBWIPg5VhmBXAGol2zt
+         jHnXKzP/NQpA8rQR0EAkmMQU0PWrmxRwNNb2163xIoIiZs7kryAzEje9aiq7rE0FXoCt
+         yBZgBxIHPwO2bqyK/X8T3vLA+yEgA34ZnyRhQbhVyl9qAYkKXQMjd/7+QV8NgE7KJb5l
+         UaLw==
+X-Gm-Message-State: AOAM532fo59D5zb8bNmwh9geOCZmTsxdG02YsptvcyI4VHcTTlFX2WnQ
+	VWU5oItvuqGgs166KQbVUeznTw==
+X-Google-Smtp-Source: ABdhPJzghrKub0OezplaDpxg3KRDVv3kVAzRjV6EiLmXpfkTimU7SUxOcd+xcDA9Cc5G16NdaS3K2w==
+X-Received: by 2002:a05:651c:21b:: with SMTP id y27mr547301ljn.106.1632757215039;
+        Mon, 27 Sep 2021 08:40:15 -0700 (PDT)
+Received: from [192.168.112.17] (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id a11sm1635394lfo.5.2021.09.27.08.40.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Sep 2021 08:40:14 -0700 (PDT)
+Subject: Re: [PATCH] staging: most: dim2: force fcnt=3 on Renesas GEN3
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210921165130.24178-1-nikita.yoush@cogentembedded.com>
+ <YVHjQ95lbDjvVR73@kroah.com>
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-ID: <17e51208-18b9-56d8-e8e3-2e40d6e94438@cogentembedded.com>
+Date: Mon, 27 Sep 2021 18:40:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1836626.W0nMHyKdkH@localhost.localdomain>
+In-Reply-To: <YVHjQ95lbDjvVR73@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 24, 2021 at 02:37:52PM +0200, Fabio M. De Francesco wrote:
-> On Friday, September 24, 2021 2:26:49 PM CEST Fabio M. De Francesco wrote:
-> > --- Preface ---
-> > 
-> > This is v10 of "shorten and simplify calls chain". The 14 (v7) + 2 (v8) 
-> > patches have already been applied to staging-testing, so we have been 
-> > requested to reset the numbering of the remaining patches to 01/16, while 
-> > discarding from v9 the above-mentioned 16 patches (otherwise we would
-> > have submitted a series containing 32 patches, that is 1 patch less than
-> > v8 because it has been dropped by us in what we considered it
-> > unnecessary - it was about fixing a misspelled word in a comment).
+>> +	dev_fcnt = pdata && pdata->fcnt ? pdata->fcnt : fcnt;
 > 
-> Hello all,
-> 
-> Please disregard this weird cover. I don't know how I've been able to make 
-> the mess you see in the subject. The good one has been sent soon after this.
-> And please, let me know if it is necessary to resend in order to have the 
-> cover letter as the first email of the thread.
+> Please use a real if () statement here and do not bury real logic in a
+> crazy line like this one, as that is all but impossible to maintain over
+> time.
 
-Nah, I can figure it out, looks good, let's queue it up and see what
-breaks :)
+The same source file already uses the same form of conditional expressions several lines above:
 
-thanks,
+ > ret = pdata && pdata->enable ? pdata->enable(pdev) : 0;
 
-greg k-h
+ > dev->disable_platform = pdata ? pdata->disable : NULL;
+
+Shall I use real if statement for my expression while keeping those as-is? This looks ... strange.
+Or shall I convert all conditional expressions to if statements?
+
+Nikita
