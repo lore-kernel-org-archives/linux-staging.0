@@ -1,17 +1,17 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BE22FAF
-	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 17:07:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 53F4C61356;
-	Mon, 27 Sep 2021 17:07:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED46A3FCF
+	for <linux-staging@lists.linux.dev>; Mon, 27 Sep 2021 17:12:54 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D357C61207;
+	Mon, 27 Sep 2021 17:12:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632762461;
-	bh=Bmn8bSktzQgWEoEGlaZkLZhVLVDbLwW0y7quV/rv3ZM=;
+	s=korg; t=1632762774;
+	bh=jLCJhns9HTI4rMD7nvi9gKB9VSysCzapuFOzmrO6FsY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LkYMAGLfBIYS8bsgR1zA3BjRiyWASsWodrm4M7VPzIxSQK/RO/BSCqo0Pe/SLz7Ds
-	 jpEt0R4RFWIkHL1Rf4VUwVzc76ByrMsDxv0ijsNzhZuFD7e3ooDbdTgxzfw+5jAdoQ
-	 883ixK0ekqmyXWfEGfcgZcLrKygZcwKbbBrnMMWE=
+	b=aBOopX1AJNDwGCRQO20NJi6hhr07kWKyJZo1A4ZzxRivYZz95ELBfGk/g9rD/HQ9d
+	 r2vtEpkU3sXAn/EyDqx8+CzLO4nKACS8E4E6AW6WzTRCmpsrE8J8jdg0h5hfZRkyAc
+	 4aVzan3xdjEW+DrnFlReZ72y9sAorUjKkOnrQSJo=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -19,12 +19,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Al Viro <viro@zeniv.linux.org.uk>,
 	linux-staging@lists.linux.dev,
 	Ian Abbott <abbotti@mev.co.uk>
-Subject: [PATCH 5.10 032/103] comedi: Fix memory leak in compat_insnlist()
-Date: Mon, 27 Sep 2021 19:02:04 +0200
-Message-Id: <20210927170226.851357259@linuxfoundation.org>
+Subject: [PATCH 5.14 046/162] comedi: Fix memory leak in compat_insnlist()
+Date: Mon, 27 Sep 2021 19:01:32 +0200
+Message-Id: <20210927170235.094133935@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210927170225.702078779@linuxfoundation.org>
-References: <20210927170225.702078779@linuxfoundation.org>
+In-Reply-To: <20210927170233.453060397@linuxfoundation.org>
+References: <20210927170233.453060397@linuxfoundation.org>
 User-Agent: quilt/0.66
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -56,11 +56,11 @@ Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
 Link: https://lore.kernel.org/r/20210916145023.157479-1-abbotti@mev.co.uk
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/comedi/comedi_fops.c |    1 +
+ drivers/comedi/comedi_fops.c |    1 +
  1 file changed, 1 insertion(+)
 
---- a/drivers/staging/comedi/comedi_fops.c
-+++ b/drivers/staging/comedi/comedi_fops.c
+--- a/drivers/comedi/comedi_fops.c
++++ b/drivers/comedi/comedi_fops.c
 @@ -3090,6 +3090,7 @@ static int compat_insnlist(struct file *
  	mutex_lock(&dev->mutex);
  	rc = do_insnlist_ioctl(dev, insns, insnlist32.n_insns, file);
