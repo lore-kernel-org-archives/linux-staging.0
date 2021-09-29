@@ -1,132 +1,85 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 347C772
-	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 19:11:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AEB456152B;
-	Wed, 29 Sep 2021 19:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632942665;
-	bh=KLrloZPzLW18c3xvNXLpZsRmlo/8Db+xpwDUJ6mpspw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g/Y6B1hsAFTG9hM7y/eREJP0dV2b20GYaTs3YeZ4KaTMtiHknXZf3ADcL0bTTnWPC
-	 Kc76CU3P4x3ye3SQjW+Pz7UeT6FmOn/m5jNHrqgZ560+HE8bsAQ8BBtbm9rDGctA43
-	 z4EuglKmsLwW9FSKlZXsxGNWqFa9pmBQpUbVw/3cgO1TEMKo1I+QBzUgSkcyDYGWYt
-	 3pE7btqaH0EXIoQ5/Zo3bI28GzOczDegU7PsSamKO0GVRCuqOObO+AxpPsm56Ko141
-	 MrQS2LRnvXbbElRArzKioa6wZC6QSjnirE8DucXayN16mJfNEc1BpHjXI3nFBMB9Lc
-	 kXMFaYz3zTNMw==
-Date: Wed, 29 Sep 2021 22:11:01 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
-	Eric Dumazet <eric.dumazet@gmail.com>,
-	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-staging@lists.linux.dev, Manish Chopra <manishc@marvell.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Moshe Shemesh <moshe@nvidia.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com,
-	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Satanand Burla <sburla@marvell.com>,
-	Shannon Nelson <snelson@pensando.io>, Shay Drory <shayd@nvidia.com>,
-	Simon Horman <simon.horman@corigine.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next v1 0/5] Devlink reload and missed notifications
- fix
-Message-ID: <YVS6RQfcp2YVxrv3@unreal>
-References: <cover.1632916329.git.leonro@nvidia.com>
- <20210929064004.3172946e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <YVR0iKIRYDXQbD+o@unreal>
- <20210929073940.5d7ed022@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <YVSG55i75awUpAmn@unreal>
- <20210929105537.758d5d85@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4B672
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 19:27:06 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id dj4so13150976edb.5
+        for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 12:27:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y488e6CDLwLyyYkVkTYy429bQEA/xkkUxIrk51eKMFQ=;
+        b=B8Hid2T3zOSBobHK4/2b3MBnfmp50HXZypbsZsvwJ0G5HeSXfHCwjyepk+hlQuxqaM
+         G4dBioCuCVrFrLDDOC3tZcZBwpSdl8egDoOizvXmlmOQRd87m8lje6kxHee0i6O3Xiwb
+         /A38Hu5Rhry3IRk4EmXu4l7eOpDOZnessX2nr4O7PUbdNdg1glDuARR7+E1MEgaTruqo
+         YQEoai50XfrBNdeYxWDKxpX5kTn2SJk+5IOgaD4t6xF0eO6DxnmmlD8s30krfxCrZg2o
+         /Jn4dqzpoEiqNbvaVvJaAtXgyT81rgAjdwikK7XySZ8cMa3XWHNSt69MmTzLsZUPS/c9
+         ejdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y488e6CDLwLyyYkVkTYy429bQEA/xkkUxIrk51eKMFQ=;
+        b=WcnyVslCAiOo+mCLh721L1MgTZZCD46XmzCw72hzaPeHjgzcBei3lBHMODX7bY4cBc
+         xcBC5o+uWZLOLrkSbf1ldLEKhYolRwuGyUsU/D8KD5PFLIrSyeApMiFANvL2WVBst6/J
+         jD0NfBFkEOMjQO8MBPLd6XbBNfC4DsFHXW7rruYOraHsRNKdXNkipGIWKhK6J+JBXM8k
+         lafQnf7/DtcpWQQ7E8pTguRiCoUSS+6jmi+0PAvGpnXEVxh92sGRfUm3NUVQNUjuu6F3
+         QCgOS+5YoSR282rZ9lbg4GWdWB5WcY118w1vE08qiD7Nq2UwFgOtOf/kO3tHhg5pM3Mv
+         +Bww==
+X-Gm-Message-State: AOAM531NPDBwebRCQwkdS2HsDRxVuorTt9LOS9qN7ry+m3zOtGbOA/Vw
+	jL8OV95Y0Z5JaDu25Idhw4Y=
+X-Google-Smtp-Source: ABdhPJx+psJXY9PhCGxcGtwgnSI+CYXay0ul45XOPMp/fo+7y+MBowaKa4fzL4PxouYpqZr8v4Os0A==
+X-Received: by 2002:a17:906:7ac4:: with SMTP id k4mr1924983ejo.430.1632943625192;
+        Wed, 29 Sep 2021 12:27:05 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::bfc8])
+        by smtp.gmail.com with ESMTPSA id f10sm449019edu.70.2021.09.29.12.27.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Sep 2021 12:27:04 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/7] staging: r8188eu: remove some pointers from struct hal_ops
+Date: Wed, 29 Sep 2021 21:26:50 +0200
+Message-Id: <20210929192657.9569-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210929105537.758d5d85@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 29, 2021 at 10:55:37AM -0700, Jakub Kicinski wrote:
-> On Wed, 29 Sep 2021 18:31:51 +0300 Leon Romanovsky wrote:
-> > On Wed, Sep 29, 2021 at 07:39:40AM -0700, Jakub Kicinski wrote:
-> > > On Wed, 29 Sep 2021 17:13:28 +0300 Leon Romanovsky wrote:  
-> > > > We don't need to advertise counters for feature that is not supported.
-> > > > In multiport mlx5 devices, the reload functionality is not supported, so
-> > > > this change at least make that device to behave like all other netdev
-> > > > devices that don't support devlink reload.
-> > > > 
-> > > > The ops structure is set very early to make sure that internal devlink
-> > > > routines will be able access driver back during initialization (btw very
-> > > > questionable design choice)  
-> > > 
-> > > Indeed, is this fixable? Or now that devlink_register() was moved to 
-> > > the end of probe netdev can call ops before instance is registered?
-> > >   
-> > > > and at that stage the driver doesn't know
-> > > > yet which device type it is going to drive.
-> > > > 
-> > > > So the answer is:
-> > > > 1. Can't have two structures.  
-> > > 
-> > > I still don't understand why. To be clear - swapping full op structures
-> > > is probably acceptable if it's a pure upgrade (existing pointers match).
-> > > Poking new ops into a structure (in alphabetical order if I understand
-> > > your reply to Greg, not destructor-before-contructor) is what I deem
-> > > questionable.  
-> > 
-> > It is sorted simply for readability and not for any other technical
-> > reason.
-> > 
-> > Regarding new ops, this is how we are setting callbacks in RDMA based on
-> > actual device support. It works like a charm.
-> > 
-> > > > 2. Same behaviour across all netdev devices.  
-> > > 
-> > > Unclear what this is referring to.  
-> > 
-> > If your device doesn't support devlink reload, it won't print any
-> > reload counters at all. It is not the case for the multiport mlx5
-> > device. It doesn't support, but still present these counters.
-> 
-> There's myriad ways you can hide features.
-> 
-> Swapping ops is heavy handed and prone to data races, I don't like it.
+This series removes some more pointers from struct hal_ops.
 
-I'm not swapping, but setting only in supported devices.
+Tested on x86_64 with Inter-Tech DMG-02.
 
-Anyway, please give me a chance to present improved version of this
-mechanism and we will continue from there.
+Michael Straube (7):
+  staging: r8188eu: remove SetHalDefVarHandler from struct hal_ops
+  staging: r8188eu: remove GetHalDefVarHandler from struct hal_ops
+  staging: r8188eu: remove init_xmit_priv from struct hal_ops
+  staging: r8188eu: remove init_recv_priv from struct hal_ops
+  staging: r8188eu: remove free_recv_priv from struct hal_ops
+  staging: r8188eu: remove inirp_init from struct hal_ops
+  staging: r8188eu: remove inirp_deinit from struct hal_ops
 
-Thanks
+ drivers/staging/r8188eu/core/rtw_cmd.c       |  2 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c      | 14 ++---
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c  |  8 +--
+ drivers/staging/r8188eu/core/rtw_recv.c      |  7 +--
+ drivers/staging/r8188eu/core/rtw_xmit.c      |  2 +-
+ drivers/staging/r8188eu/hal/hal_intf.c       | 56 --------------------
+ drivers/staging/r8188eu/hal/usb_halinit.c    | 38 ++-----------
+ drivers/staging/r8188eu/include/hal_intf.h   | 33 ++----------
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 10 ++--
+ drivers/staging/r8188eu/os_dep/usb_intf.c    |  4 +-
+ 10 files changed, 34 insertions(+), 140 deletions(-)
+
+-- 
+2.33.0
+
