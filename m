@@ -1,87 +1,117 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34032FAF
-	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 11:29:04 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id b192-20020a1c1bc9000000b0030cfaf18864so1479923wmb.4
-        for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 04:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=uFr7uJ6KTmQJHmnmWVFZMG4UoPxJgzcyn7oJlR9xeQQ=;
-        b=Exknt2Km+rOM24URy9Y39g26h2kaTHwcxVisGHzVDjAJ7Vf8/upcldVViHRyeMClU2
-         nmdmI39qk6t5WV3WNYa+uQnRDsywFT6jzgfMqpJrH3IsbhXRlabKklsYpVto/x48KdtY
-         z8ZhbDHKXaHMhm4xC/I/6BU+RnZQjrIToyfumbUE03iIKKYYdTjKS3ZOWp2Ol//fO16Q
-         nizCSIhcbvPcYzhhffyPZ9QMHJiA5kdWp9bPKPGgmZb4jpvATaG3uQd56mYL9u0IikEp
-         sbfUWIeAuHRBjdnA3OWNAWVbJYH/CcUthyRvsqPlhFYAEJBl44zXbmqDiI2qsmbDmEzp
-         8Deg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02DB2FAF
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 11:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1632915240;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0TDRiIXZN1zosmX7RqwZWk2E8c4y64StnkfwR3/9VP4=;
+	b=ilNcFynUmyHLX2mOYOingzIlghkAGWlMx+WmtWRi8sSeeAa2N8XgQFLhPwMgSey6I2/wRH
+	P8t409F9hqVI4+0Stf6TFb8JC+mRKqWgwsBqao7OdCw+wN/GPOhAbY2FklmRLMoobEyEDU
+	We6QF0zddGpg2M2CsMpKT/bsptKBXCw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-WUVpaupEP3OmWKktVrnYFg-1; Wed, 29 Sep 2021 07:33:59 -0400
+X-MC-Unique: WUVpaupEP3OmWKktVrnYFg-1
+Received: by mail-ed1-f70.google.com with SMTP id 2-20020a508e02000000b003d871759f5dso2072765edw.10
+        for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 04:33:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=uFr7uJ6KTmQJHmnmWVFZMG4UoPxJgzcyn7oJlR9xeQQ=;
-        b=rM0w7VzDYbfhYkxDdO9eark30EdvahkevumOegn15uKJyF5IELFnYQA8pUk6ngSXCC
-         Z+p/qUIsroFpzngERdKbumqpi+55JXXd/0OwGz3naJRZewKPUO6Ue6DBmDl85S/T368V
-         xtV1SFuMH3U7A5D2rUdGJulNYzdKgPtZcLf57UGfhUMB/HO1RzD+1PdbwyqiGUVkUEWU
-         di37VgYd6X0smbcpThXLTjtHK+PdR6mXDhd18x9k2KdyJKG2bktLQ1a/6FqZs9zKLSIe
-         kv2fs2M6CRISbh6SnSmP6CUv6pMPZ/SQIMxYRykB3zG8tRqYU+VAP7iJ/vNqFM4UfdrM
-         jVew==
-X-Gm-Message-State: AOAM530a7z+ND6UfI90c8G11hHp3V8ZyQ783VKLAPCmCSltVLmHgojIN
-	0ggik8CxkMXhxAU31u0v2rg0Im9ZX8kBshuK
-X-Google-Smtp-Source: ABdhPJywcrVgiD8Y+ZTWWUhoN9oSXmGDrjkJ9TwTYfQdV2oskhgQdVd4Q9KSswaIr3YzdnQO5grqqg==
-X-Received: by 2002:a1c:1f10:: with SMTP id f16mr9837890wmf.179.1632914942977;
-        Wed, 29 Sep 2021 04:29:02 -0700 (PDT)
-Received: from ?IPv6:2a02:8084:20c7:8d80:b92e:b532:3d37:f10b? ([2a02:8084:20c7:8d80:b92e:b532:3d37:f10b])
-        by smtp.gmail.com with ESMTPSA id j5sm2095159wrw.39.2021.09.29.04.29.01
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0TDRiIXZN1zosmX7RqwZWk2E8c4y64StnkfwR3/9VP4=;
+        b=78NERy1VAY1ZiEkL4moMsI4LAWzstQNiYiNb+5K352Wru5sf1gm+aLiZObEW4P1ZyL
+         SGipSipME9Sj0yWRbGxVes8oov5osErDJig0gd2eJXd/mm61F1Wxp5Nsy38uzvq3KuE9
+         Mi6CwRq+T5Kn9WYLRepgk4BZqQtXTjYbAG3ktY7UvfjQ0M+x+1npnoDsPU59/yKC9n9V
+         gpTVRQ1YivyrwJx0+UUZBlGJcV8p94ZRoRwxLugs2mDYvjbLTyiYLD4ynxjgQLaJrnoD
+         fsCnFUKBYwmiYTWQaTlPwgKLL+4ADZsvvE+aevKthx0WOPjNzG0IeE8t9DcHXx/Teryq
+         auAw==
+X-Gm-Message-State: AOAM532DyVR/Zl/8vv2NYbr0dd7EQw5aI4MPVe65f9cmGFJXuXYsj74C
+	dNgoXCzya1O050PLwomQVniauS5VadsJ209i/fMbYKx7LypEpg1hdDMVGvJ/Ln1p27j1bI+g2+A
+	8NfOueBisqDrpxZI6/HTl1BV7Xw==
+X-Received: by 2002:a17:907:3d9f:: with SMTP id he31mr10470201ejc.255.1632915238432;
+        Wed, 29 Sep 2021 04:33:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGzoOekWUWSH10+foP6Atye3miQirqqP2m3uVeNkgVSEskW9nh2h4pxkwH9rxpVIG70C5Q/Q==
+X-Received: by 2002:a17:907:3d9f:: with SMTP id he31mr10470183ejc.255.1632915238217;
+        Wed, 29 Sep 2021 04:33:58 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id h18sm29081ejt.29.2021.09.29.04.33.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Sep 2021 04:29:02 -0700 (PDT)
-To: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wed, 29 Sep 2021 04:33:57 -0700 (PDT)
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove meaningless
+ pstat->passoc_req check in OnAssocReq()
+To: Longji Guo <guolongji@uniontech.com>, gregkh@linuxfoundation.org,
+ fabioaiuto83@gmail.com
+Cc: ross.schm.dev@gmail.com, marcocesati@gmail.com, fmdefrancesco@gmail.com,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-From: hallblazzar <hallblazzar@gmail.com>
-Subject: [PATCH v2] staging: r8188eu: Fix misspelling in comment
-Message-ID: <7bc392d5-11e4-7ad0-dab6-295ccadf63b9@gmail.com>
-Date: Wed, 29 Sep 2021 12:29:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+References: <20210929110613.29979-1-guolongji@uniontech.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <bc804876-4ca7-453a-b54d-bf7e1b067738@redhat.com>
+Date: Wed, 29 Sep 2021 13:33:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20210929110613.29979-1-guolongji@uniontech.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-As format check raised by scripts/checkpatch.pl, comment in the rtw_ap.c
-looks misspelled by accident. Help fix it.
+Hi,
 
-The original error is as below shows:
+On 9/29/21 1:06 PM, Longji Guo wrote:
+> kfree(NULL) is safe and the check 'if (pstat->passoc_req)' before kfree
+> is not necessary.
+> 
+> Signed-off-by: Longji Guo <guolongji@uniontech.com>
+> ---
+> Changes in v2:
+> - Drop unnecessary "pstat->passoc_req = NULL;"
 
-CHECK: 'followign' may be misspelled - perhaps 'following'?
-+Set to 0 (HT pure) under the followign conditions
+Thanks, patch looks good to me:
 
-Signed-off-by: Siou-Jhih, Guo <hallblazzar@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_ap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 94e02aad96b7..205168f960f6 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -744,7 +744,7 @@ void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx)
- 
- /*
- op_mode
--Set to 0 (HT pure) under the followign conditions
-+Set to 0 (HT pure) under the following conditions
-     - all STAs in the BSS are 20/40 MHz HT in 20/40 MHz BSS or
-     - all STAs in the BSS are 20 MHz HT in 20 MHz BSS
- Set to 1 (HT non-member protection) if there may be non-HT STAs
--- 
-2.25.1
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index 375d2a742dd2..51390a30fa55 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -1344,12 +1344,8 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+>  			issue_asocrsp(padapter, status, pstat, WIFI_REASSOCRSP);
+>  
+>  		spin_lock_bh(&pstat->lock);
+> -		if (pstat->passoc_req) {
+> -			kfree(pstat->passoc_req);
+> -			pstat->passoc_req = NULL;
+> -			pstat->assoc_req_len = 0;
+> -		}
+> -
+> +		kfree(pstat->passoc_req);
+> +		pstat->assoc_req_len = 0;
+>  		pstat->passoc_req =  rtw_zmalloc(pkt_len);
+>  		if (pstat->passoc_req) {
+>  			memcpy(pstat->passoc_req, pframe, pkt_len);
+> 
 
