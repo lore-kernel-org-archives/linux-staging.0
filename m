@@ -1,167 +1,150 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1FD29CA
-	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 13:07:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B56C613DA;
-	Wed, 29 Sep 2021 13:07:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632920872;
-	bh=Yukjau1sHLA6B/N3xjvNRV9Olu/CU/SlHx+B5dO3Emw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cCEGI93aXv71iUXZzEJTr2TRq+w3ofeLRCnVE3mfUAwTgmo43LOO/x8xfal4Yn1Ze
-	 5X71y4uQ8YRh7OnS2bZh3zt5QGH/d+GE6zboUgNaYqlOLi52ms5UVyyxV39ka0MEOc
-	 Czm7DZiGEiitUVSNqCGOAnAaUcGcngUKxn7fUwdUbP4McZrhBmNWkEdjvdPSpoJgij
-	 Op8x6hXOiS0e+qrOEdpoSZZBHRkELZgQJCbCuJYraJ3HdQU2dXmtZGQZ7z6+pf+E9p
-	 00gA9nJxmMWYATc3ehdXmsvfP3HTePMl+KEh7MA/OvrjrQdLZyAiE5oQqMPds3v/pB
-	 D+ilhSmpvuSsQ==
-Date: Wed, 29 Sep 2021 16:07:49 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Derek Chickles <dchickles@marvell.com>,
-	"drivers@pensando.io" <drivers@pensando.io>,
-	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"GR-everest-linux-l2@marvell.com" <GR-everest-linux-l2@marvell.com>,
-	"GR-Linux-NIC-Dev@marvell.com" <GR-Linux-NIC-Dev@marvell.com>,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	Intel Corporation <linuxwwan@intel.com>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Manish Chopra <manishc@marvell.com>,
-	M Chetan Kumar <m.chetan.kumar@intel.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Michael Guralnik <michaelgur@mellanox.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"oss-drivers@corigine.com" <oss-drivers@corigine.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Satanand Burla <sburla@marvell.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Shannon Nelson <snelson@pensando.io>,
-	Simon Horman <simon.horman@corigine.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-	Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>
-Subject: Re: [PATCH net-next v1 21/21] net: dsa: Move devlink registration to
- be last devlink command
-Message-ID: <YVRlJagqFInXCgGZ@unreal>
-References: <cover.1632565508.git.leonro@nvidia.com>
- <66dd7979b44ac307711c382054f428f9287666a8.1632565508.git.leonro@nvidia.com>
- <20210929130226.j53fcztm6utpt3tu@skbuf>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D683729CA
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 13:12:26 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18TCUINV017401;
+	Wed, 29 Sep 2021 13:12:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=Lr+0rXU0KKO/D3xpaJU5OOUmoDV6OtOP4UioJpDSvyo=;
+ b=ZSK66PaH2o5sRpV3ynHn7Ht37O55D8g/OP3qMPEksHc+cs2TnDvXczzv3qAAcbUE7vpm
+ 4Sji0d7mBKGdl+/SMPgdAEXa7TuIcOHjXvAk2VnBuT0kRYgBC+mSQKX9xBDln/NilGJ8
+ cgbogzHALMqWr/0uepAry+n2kBA8IMzm9dyr8Gj7PXKcBooH0su0d2OUHQHNn47Y98lp
+ M7fTJCPD3kBiZMw9LiJCticK+DlH7TVQJsCQhPse/S2Qu3rZy2NtbbiFqKfJi69CD5vO
+ crkZXqOx1b7zHxG25tpNFxB3dPFywegv3khtFsdrDioZXHlQ1SQ/c1QsGAv0oWd+zNyU Mw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3bcg3hk1e6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Sep 2021 13:12:16 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18TDB8bK190823;
+	Wed, 29 Sep 2021 13:12:02 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2044.outbound.protection.outlook.com [104.47.74.44])
+	by aserp3030.oracle.com with ESMTP id 3bc4k985td-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 29 Sep 2021 13:12:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iwfCT8RAxKesF+QQLhCltEmvXrKAzA3UckEquSCPCKhl/JQwAuBGcmU1PFx/87hod189aNGo84S1EUDBrQxEwLB8OluCK99ZLH4V/64Oj9S5k4qtTP97ovmyfa1FqQFAgoRGE9c4GWMV4b+Tm02NR9O4yyfVY9gaVuyteSAP0HWThp5N2mFz2t4Bu0V27Vk+L7Wfvnw9SCVWvHdaofVg9xMAAXJixGJEsvnmMU5rQ+SN8/S9tqlIB2F/HshJgU0XbOdgnTuyTBujU+F+J9yO93wEVsYZydn2fykts4MWRg3v8R4SdQYvBbyr8WsnzTPtGIiqm3WyEx/5Z9bgd5SbIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+ bh=Lr+0rXU0KKO/D3xpaJU5OOUmoDV6OtOP4UioJpDSvyo=;
+ b=nyyEPIwfnu2LEvuU4SSeG+KleLtNIQwjbc16fflVxiiVzarjIPlCLilp5bIWQW2WSMgEOM4exRxtLxTK860NHAK8mTTD1FM+VWRv1Fn8k9HnT0iNeNP2uuQralW0cRMetUUooo9rCM/zxFa4a3RGvKyGFNsHpO6bkbVspY0WMnsirFsYn36LSf9wtxC0DWTlpbKuYP0gW2HQxELi5pd9yRt7JhOWqucwHv3trMyMYy8b0pouRDEMWPwfa2jBN9WR8Bp2aKUyKl2xCLU5A7UCeYyDH5ytiv1KzvNCwPk3hbc7D7ICQv2vy6VCTGoqAwj5Sx0rtqrDXXVKmhbI3+7oSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Lr+0rXU0KKO/D3xpaJU5OOUmoDV6OtOP4UioJpDSvyo=;
+ b=XF4RaeoR/juNh3zsFQ6exHlx8qimktngn/02Z5Wygz14TqsyrRsuyE6wefU9pcZ4Ys0gVmaIIjaXLlJV1eQC3ZZiQrIehcLuuWGns3wOGF/rCvzPQJpj3NM/O34qCugwtPbxvLuriM/L0GQojNPAO6TtgWERUkxpvf5gXcIEXpQ=
+Authentication-Results: canonical.com; dkim=none (message not signed)
+ header.d=none;canonical.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1422.namprd10.prod.outlook.com
+ (2603:10b6:300:22::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Wed, 29 Sep
+ 2021 13:12:00 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4544.021; Wed, 29 Sep 2021
+ 13:12:00 +0000
+Date: Wed, 29 Sep 2021 16:11:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Paolo Pisati <paolo.pisati@canonical.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pavel Skripkin <paskripkin@gmail.com>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: add missing return type (fix
+ -Werror=return-type)
+Message-ID: <20210929131136.GL2048@kadam>
+References: <20210929122638.58623-1-paolo.pisati@canonical.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210929122638.58623-1-paolo.pisati@canonical.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0010.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::15)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210929130226.j53fcztm6utpt3tu@skbuf>
+Received: from kadam (62.8.83.99) by JNAP275CA0010.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15 via Frontend Transport; Wed, 29 Sep 2021 13:11:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f58e2a35-ccc4-4ac3-6779-08d9834ab8e8
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1422:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR10MB14223F4403FAACF41CB881688EA99@MWHPR10MB1422.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:923;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	k3mPigLJgZ4SqDL+oxDOMAWUtNTgtk5rQZt8E6QTB7KfZw74IGFQ0HBHRr24Z+WaOKoYMDA73Dd+XOmnc1M4X8WP94jSHKix+K9uJ8jx3F2BZGwifu8jnySDKXBNnSTmUnMcU4qD3TmJPYOdjq4ugxzBRtNRQObw/ZSS204Ks+QIppvyTMwcZdfD0N4ndSOnJWdupLqOOHwUmcLAoruAu8cqR/UzRUCneFsIU+vNp773uXyqTkAUn1hY1kH0eQYOQu96QGFRsmQyBXvlFCMSP6shBb2NeD2gZldiP5q0jxMxPVyZopyXMZUcmaj26SK29keFvL/6mSYH0PpCO/F8HDiYkPUl2NeDOm4IS0Lf8nDNtN/PM42gLie3HyfcJS57qCGbzvRcgyY2ZwfsnPxmbf7QZ666HeM6DErSYBdpWOxuOSuv7ptbDPxFXFYhWQ0XW8AZGaHsIMvDZeq8jtIBmh7hBbC1WRJ6GudrFJO2+jDQhPnhtYtQEJvocObUxyUTvJttdMIGVi9E+AStSSAf6UquK4q/ELAe/DCbrxza8KCeT7J55FzQjqrmCMsx9hM7HRx2+OFzMLwIlOkTNSPVCrm+oRpbXTv03m7UbTWMIRQRwvwdOyRrzX3VE4+JyuUBmACXa4q1CM0mmLkZM/Zk19rWbLYAY4sx7dlyHMiMdJoB/GzB0M/ZQebgXSwljnxnQKZMSf8uflA07ZSssCN57Q==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(55016002)(54906003)(9686003)(316002)(33716001)(2906002)(6916009)(508600001)(44832011)(4326008)(33656002)(38350700002)(38100700002)(5660300002)(86362001)(26005)(6666004)(1076003)(186003)(8936002)(6496006)(8676002)(4744005)(66476007)(66556008)(52116002)(83380400001)(66946007)(956004)(9576002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?fKNHBwl+l3/40MyQX37DtEygOCby8g86z1XjYFSHaknc3liVNyYzKsS1Z7Bs?=
+ =?us-ascii?Q?8QpZlQ/cc+T9WyibdJbVCFm1mdKA8za1cCrIApj79NqNO0icUF1weulLAX60?=
+ =?us-ascii?Q?ZtD1gUUId7p0hQl4BRchiOA6Ur6EkRAyinvO4cPfNevsIvEQ1BNZqz6PKvmJ?=
+ =?us-ascii?Q?C1iq3WRVKbjDyrYEQ7LS+jPvAMfAiOEuWAQtRzmuGxji5Wmekcc1ft/yMkfT?=
+ =?us-ascii?Q?Vfk2r+9VEvBW5M7VvBgXwXGLBb8lo0eCZjT7IVeSO8UckWQVPifKBVuTDydQ?=
+ =?us-ascii?Q?HNtvr74uIhoqjR/BEJ+KLI6/5nE8SUK9iy+9VyHU6j7MUqcttReIXHvaq7j/?=
+ =?us-ascii?Q?OV04tG+FQ2+Y6leLrit8fybAzUGRiE5+JqYwp+5JxU9WcGhjaK/awesyukuz?=
+ =?us-ascii?Q?3rQEfkYpRNvuyKAeyj1j8RxDelR2MuVfjDY6xXFc2SWMWg8h8dkzb2JONG1Y?=
+ =?us-ascii?Q?MfDDBfUXCjTOD8n2AR5AOTVWFQXrXMaQyx2AIajf2gLIFFpP51PKXBzFXQ0s?=
+ =?us-ascii?Q?anOstM7PC6cnwy9BU5HkowyY/0YY0XQ40lcCQwBbTY38w3jjBR3Cbnn0A21N?=
+ =?us-ascii?Q?KDW7ePsLQv2As7CACVmiUCJC0rC1gypFuH7meyrGvy3STaMHpOE/UHlLFKuy?=
+ =?us-ascii?Q?EWY5Ywatm5RxtzwR/TQLcQSULa7gGV9HuWsTQBbdOAYb8xfPrNI1cmIRRz7H?=
+ =?us-ascii?Q?lxR83hUQOcddRFUNM0pRzbZz34fRTTkts7Y/9SKbu+j1erokXmDRw+ygw+6g?=
+ =?us-ascii?Q?mnqYqOSDJfy1tWaEyeWeGVwl+l9QZcTY3/bC/StLhn5Ay2C+Inf8/yaAna4A?=
+ =?us-ascii?Q?TnpFgeQ9iBgzmRux6l7+wdWzj55zEDTf+OZ34T6DQjJ4pf8zm3cEaHoNRBYk?=
+ =?us-ascii?Q?ES/2zzda/vSFhdvrkPRs46oyEBxfZ2BAVXGiSruYQ3WjX2IlcJI3VscpcUBC?=
+ =?us-ascii?Q?46bjuEp6gACfPV5zC3oeo+jNpW2MgnpdmTW8aVHr64Db/HZO1OmcEDynWerO?=
+ =?us-ascii?Q?+1CksqDaR2StcD3+C2PzaHR0Oocagihd1qPNdwmTOR//tU94NEKIhgkzJwnh?=
+ =?us-ascii?Q?TYH6gpVaxCJyZ1lNUuddloSDSFnewwKnkJGthxQOw9tQEhyaFC7edDwPM3Mj?=
+ =?us-ascii?Q?hhEF8xTq3JCR/WFOWyy0Qw2o54A4GbqRAhvVS8BmxLOB1CnNyPulGYql+x/i?=
+ =?us-ascii?Q?fmkuKaUKXa0tqWnXYZ3tViig1JKK2lsY7/66wGrKkSLkf3GyiGdP6qZR7chb?=
+ =?us-ascii?Q?lcJieRAbQeZ9h3sz8ISPLBROHTTcBM/F1iKur/ElV4tvzZXVA/hR9ijZVFsP?=
+ =?us-ascii?Q?Q3YHr8pGxK6LyKbdwoN39MsP?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f58e2a35-ccc4-4ac3-6779-08d9834ab8e8
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2021 13:12:00.6220
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pXZq5vGs6bzEGMV6IN3RauJbGmyOu8skssnMva1gDOY9Uj3H9g/+imI7HYQpeMvdN2/z+0FMPPmzryyLNnHPu+OFOvw7LUZhhXbxXEYPQs4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1422
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10122 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 mlxscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2109290081
+X-Proofpoint-GUID: pgmqmkX_20BvdlWAn532GCWZ4_qXnsqq
+X-Proofpoint-ORIG-GUID: pgmqmkX_20BvdlWAn532GCWZ4_qXnsqq
 
-On Wed, Sep 29, 2021 at 01:02:27PM +0000, Vladimir Oltean wrote:
-> Hi Leon,
+On Wed, Sep 29, 2021 at 02:26:38PM +0200, Paolo Pisati wrote:
+> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
+> drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+>  1649 | }
+>       | ^
+> cc1: some warnings being treated as errors
 > 
-> On Sat, Sep 25, 2021 at 02:23:01PM +0300, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> >
-> > This change prevents from users to access device before devlink
-> > is fully configured.
-> >
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  net/dsa/dsa2.c | 10 ++++------
-> >  1 file changed, 4 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/net/dsa/dsa2.c b/net/dsa/dsa2.c
-> > index a020339e1973..8ca6a1170c9d 100644
-> > --- a/net/dsa/dsa2.c
-> > +++ b/net/dsa/dsa2.c
-> > @@ -848,7 +848,6 @@ static int dsa_switch_setup(struct dsa_switch *ds)
-> >  	dl_priv = devlink_priv(ds->devlink);
-> >  	dl_priv->ds = ds;
-> >
-> > -	devlink_register(ds->devlink);
-> >  	/* Setup devlink port instances now, so that the switch
-> >  	 * setup() can register regions etc, against the ports
-> >  	 */
-> > @@ -874,8 +873,6 @@ static int dsa_switch_setup(struct dsa_switch *ds)
-> >  	if (err)
-> >  		goto teardown;
-> >
-> > -	devlink_params_publish(ds->devlink);
-> > -
-> >  	if (!ds->slave_mii_bus && ds->ops->phy_read) {
-> >  		ds->slave_mii_bus = mdiobus_alloc();
-> >  		if (!ds->slave_mii_bus) {
-> > @@ -891,7 +888,7 @@ static int dsa_switch_setup(struct dsa_switch *ds)
-> >  	}
-> >
-> >  	ds->setup = true;
-> > -
-> > +	devlink_register(ds->devlink);
-> >  	return 0;
-> >
-> >  free_slave_mii_bus:
-> > @@ -906,7 +903,6 @@ static int dsa_switch_setup(struct dsa_switch *ds)
-> >  	list_for_each_entry(dp, &ds->dst->ports, list)
-> >  		if (dp->ds == ds)
-> >  			dsa_port_devlink_teardown(dp);
-> > -	devlink_unregister(ds->devlink);
-> >  	devlink_free(ds->devlink);
-> >  	ds->devlink = NULL;
-> >  	return err;
-> > @@ -919,6 +915,9 @@ static void dsa_switch_teardown(struct dsa_switch *ds)
-> >  	if (!ds->setup)
-> >  		return;
-> >
-> > +	if (ds->devlink)
-> > +		devlink_unregister(ds->devlink);
-> > +
-> >  	if (ds->slave_mii_bus && ds->ops->phy_read) {
-> >  		mdiobus_unregister(ds->slave_mii_bus);
-> >  		mdiobus_free(ds->slave_mii_bus);
-> > @@ -934,7 +933,6 @@ static void dsa_switch_teardown(struct dsa_switch *ds)
-> >  		list_for_each_entry(dp, &ds->dst->ports, list)
-> >  			if (dp->ds == ds)
-> >  				dsa_port_devlink_teardown(dp);
-> > -		devlink_unregister(ds->devlink);
-> >  		devlink_free(ds->devlink);
-> >  		ds->devlink = NULL;
-> >  	}
-> > --
-> > 2.31.1
-> >
-> 
-> Sorry, I did not have time to review/test this change earlier.
-> I now see this WARN_ON being triggered when I boot a board:
+> Signed-off-by: Paolo Pisati <paolo.pisati@canonical.com>
 
-Sorry about that, it was missed in one of my rebases.
-The fix was posted here.
-https://lore.kernel.org/all/2ed1159291f2a589b013914f2b60d8172fc525c1.1632916329.git.leonro@nvidia.com
+This was fixed a long time ago.  Please work against an up-to-date tree.
 
-Thanks
+regards,
+dan carpenter
+
