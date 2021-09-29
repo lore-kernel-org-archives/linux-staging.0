@@ -1,141 +1,85 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F4A2F80
-	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 15:31:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 87BE661159;
-	Wed, 29 Sep 2021 15:31:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632929515;
-	bh=HXwoS1HjJA1S0yfWFpWczWoEmqeqJ8/hI4qGlsQfiLE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a8sMw03Rp6PGGokI/cGFo4lnq8A92MECDtnNRH0qAYiC9K1Vj5DaLvJfztY1rEwx2
-	 J3FjihL9ii52e8Zfc1LoVAXfQPLIFtkcWyusSyw6hrLPxYhHTnB49JgfL17mN5pY50
-	 8YPYUUzVPu6Gkd6TA90y1EU7fcrWlEMBwJGhL7hOX7n7IYjBvJbjvmnzc7myNa6TOJ
-	 xOL0M+HYncEtqnaVZr7i4ot3tZbMpp7lbMxXHKZaRL6OYsWT1I2t1Q0jXuKcshj3+i
-	 EhRojJsY7u7SHu6Llx2j3/ql9Ac0a4DTztxk62AfY9CPj7ePahwroyGlhgI7Xfabug
-	 yDOSXw/s46Y1Q==
-Date: Wed, 29 Sep 2021 18:31:51 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
-	Eric Dumazet <eric.dumazet@gmail.com>,
-	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBF23FD3
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 16:04:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrzej.p)
+	with ESMTPSA id 6ACC71F4466C
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To: linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Fabio Estevam <festevam@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-staging@lists.linux.dev, Manish Chopra <manishc@marvell.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Moshe Shemesh <moshe@nvidia.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com,
-	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Satanand Burla <sburla@marvell.com>,
-	Shannon Nelson <snelson@pensando.io>, Shay Drory <shayd@nvidia.com>,
-	Simon Horman <simon.horman@corigine.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next v1 0/5] Devlink reload and missed notifications
- fix
-Message-ID: <YVSG55i75awUpAmn@unreal>
-References: <cover.1632916329.git.leonro@nvidia.com>
- <20210929064004.3172946e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <YVR0iKIRYDXQbD+o@unreal>
- <20210929073940.5d7ed022@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	kernel@collabora.com,
+	Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v7 01/11] hantro: postproc: Fix motion vector space size
+Date: Wed, 29 Sep 2021 18:04:29 +0200
+Message-Id: <20210929160439.6601-2-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210929160439.6601-1-andrzej.p@collabora.com>
+References: <20210929160439.6601-1-andrzej.p@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210929073940.5d7ed022@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 
-On Wed, Sep 29, 2021 at 07:39:40AM -0700, Jakub Kicinski wrote:
-> On Wed, 29 Sep 2021 17:13:28 +0300 Leon Romanovsky wrote:
-> > On Wed, Sep 29, 2021 at 06:40:04AM -0700, Jakub Kicinski wrote:
-> > > On Wed, 29 Sep 2021 15:00:41 +0300 Leon Romanovsky wrote:  
-> > > > This series starts from the fixing the bug introduced by implementing
-> > > > devlink delayed notifications logic, where I missed some of the
-> > > > notifications functions.
-> > > > 
-> > > > The rest series provides a way to dynamically set devlink ops that is
-> > > > needed for mlx5 multiport device and starts cleanup by removing
-> > > > not-needed logic.
-> > > > 
-> > > > In the next series, we will delete various publish API, drop general
-> > > > lock, annotate the code and rework logic around devlink->lock.
-> > > > 
-> > > > All this is possible because driver initialization is separated from the
-> > > > user input now.  
-> > > 
-> > > Swapping ops is a nasty hack in my book.
-> > > 
-> > > And all that to avoid having two op structures in one driver.
-> > > Or to avoid having counters which are always 0?  
-> > 
-> > We don't need to advertise counters for feature that is not supported.
-> > In multiport mlx5 devices, the reload functionality is not supported, so
-> > this change at least make that device to behave like all other netdev
-> > devices that don't support devlink reload.
-> > 
-> > The ops structure is set very early to make sure that internal devlink
-> > routines will be able access driver back during initialization (btw very
-> > questionable design choice)
-> 
-> Indeed, is this fixable? Or now that devlink_register() was moved to 
-> the end of probe netdev can call ops before instance is registered?
-> 
-> > and at that stage the driver doesn't know
-> > yet which device type it is going to drive.
-> > 
-> > So the answer is:
-> > 1. Can't have two structures.
-> 
-> I still don't understand why. To be clear - swapping full op structures
-> is probably acceptable if it's a pure upgrade (existing pointers match).
-> Poking new ops into a structure (in alphabetical order if I understand
-> your reply to Greg, not destructor-before-contructor) is what I deem
-> questionable.
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-It is sorted simply for readability and not for any other technical
-reason.
+When the post-processor hardware block is enabled, the driver
+allocates an internal queue of buffers for the decoder enginer,
+and uses the vb2 queue for the post-processor engine.
 
-Regarding new ops, this is how we are setting callbacks in RDMA based on
-actual device support. It works like a charm.
+For instance, on a G1 core, the decoder engine produces NV12 buffers
+and the post-processor engine can produce YUY2 buffers. The decoder
+engine expects motion vectors to be appended to the NV12 buffers,
+but this is only required for CODECs that need motion vectors,
+such as H.264.
 
-> 
-> > 2. Same behaviour across all netdev devices.
-> 
-> Unclear what this is referring to.
+Fix the post-processor logic accordingly.
 
-If your device doesn't support devlink reload, it won't print any
-reload counters at all. It is not the case for the multiport mlx5
-device. It doesn't support, but still present these counters.
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+---
+ drivers/staging/media/hantro/hantro_postproc.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Thanks
+diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+index ed8916c950a4..07842152003f 100644
+--- a/drivers/staging/media/hantro/hantro_postproc.c
++++ b/drivers/staging/media/hantro/hantro_postproc.c
+@@ -132,9 +132,10 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 	unsigned int num_buffers = cap_queue->num_buffers;
+ 	unsigned int i, buf_size;
+ 
+-	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage +
+-		   hantro_h264_mv_size(ctx->dst_fmt.width,
+-				       ctx->dst_fmt.height);
++	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
++	if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
++		buf_size += hantro_h264_mv_size(ctx->dst_fmt.width,
++						ctx->dst_fmt.height);
+ 
+ 	for (i = 0; i < num_buffers; ++i) {
+ 		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
+-- 
+2.17.1
+
