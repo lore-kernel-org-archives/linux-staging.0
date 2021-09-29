@@ -1,98 +1,150 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681E92FAF
-	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 11:46:15 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id g19-20020a1c9d13000000b003075062d4daso1555624wme.0
-        for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 04:46:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=SWXVwTQRJHBBCNW1cozXs7nMfXfaPPeM3zo56GxdwE0=;
-        b=YAC/yGPyE2OF1VstCfmO5tA+s1p0v+YfIGzmKydEr8lVsQEGvRuyLp03dWVwWwJaAB
-         qZ1BvsvlrFE6dHIzjEzE8cmP/2RIeZPdHcIKC1bJ1V/47kmLzyoMov6kLNJXJ9TTAUjw
-         zd0syKBZIEPv4Tqn4M2ssPSkX+1SJTRFsIAAj7X7Mkyl/fwgtvcwg4iXCzBQjDgnE2qS
-         JV/dm3jgA3TztxRITopEyHsnRHu0tH8HO9Bc9NxMwSDAliSg5nIQtnZcMwSiIR0TeOvG
-         8xRBgeuDqNZIWjZ/w+39bMojdD5RorEwEX+pGaPael01QMiTdtbPpE8R5b2Ws0o2eF05
-         Zr9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=SWXVwTQRJHBBCNW1cozXs7nMfXfaPPeM3zo56GxdwE0=;
-        b=ebr1+037kf5gIPutD5WJqdWsVtSOq5iqOiCynwOVFwuuhx3yVsrtKTnFNBBUoIxPCu
-         ncOZkrDez20UAQhChxudwGZ+d7VGZY75IGTIBf9ZimXoIis9x5a019jNAmMvFRo6PfTU
-         biXDYmVL3uC3hGIoUkqhtqVavIFkoPil384g6hCvsAhYP20tz65Qw6adPvJG7Jyg/D3H
-         /UndJh7zplHOv4d77ef4HxQC0ao3lwgnhFcXLCxETkhKH5+Pp1YzCigAQBd2qDI37tgU
-         fjgVvNaq/3zA7AN5QaLuQPoOcLUgR0nEC/Ds96pPKSNvHggtgJgyzeWkwNfgbghfDPzS
-         E3WQ==
-X-Gm-Message-State: AOAM531j3/kHD28mj/ESV7qr8A+RhnMGJ3jBceuV3paP0dFDrLkHxQ7D
-	xe5xxnB4h8IFzUZxckcCe0g=
-X-Google-Smtp-Source: ABdhPJx4yAZ6/VxBAeivP5vIdcJoKdZCE3kmZccldVQ3sYVTpLaEuWqfvmJEy9XdQAwhEF5jHN6PXw==
-X-Received: by 2002:a1c:149:: with SMTP id 70mr9695860wmb.187.1632915973631;
-        Wed, 29 Sep 2021 04:46:13 -0700 (PDT)
-Received: from ?IPv6:2a02:8084:20c7:8d80:b92e:b532:3d37:f10b? ([2a02:8084:20c7:8d80:b92e:b532:3d37:f10b])
-        by smtp.gmail.com with ESMTPSA id z12sm2117400wrv.31.2021.09.29.04.46.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Sep 2021 04:46:13 -0700 (PDT)
-Subject: Re: Subject: [PATCH] staging: r8188eu: Fix misspelling in comment
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <5174112d-d0a5-e908-aee8-7d494914e89b@gmail.com>
- <YVP8CYJ6MpWCjRB0@kroah.com>
-From: hallblazzar <hallblazzar@gmail.com>
-Message-ID: <24ecdbbd-aa05-8d67-99af-f7bbb7cfcfed@gmail.com>
-Date: Wed, 29 Sep 2021 12:46:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71132FAF
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 12:00:51 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 96DCF61409;
+	Wed, 29 Sep 2021 12:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1632916851;
+	bh=hZUZHfgfiTNNYSpnegZKCRZ4rkRJapfY17ImCztFpso=;
+	h=From:To:Cc:Subject:Date:From;
+	b=noEJzrN8+a7bB2Ia3WV/RbudWF03qf8/UhZ3QzTdnCN1X5OLGFysMqcf1SkC3DZWG
+	 drQm3kpAV2CfhKxC2Q0FDh+hNwzaK2MApcI1pvoLamseqt8tsBOTXDEV7SBnXlC4Aj
+	 Zlb0BbN6MFK4TTJN7yJZKyDQZcHKM/InshW14ECHmH8AX8+hb8+j6GapFI8b438cdX
+	 MFYahDhd59cBpE3tQ2NufCayJdtET2WSuwk3xi7RNb7VwmgXcWKv9521E7WZfXdlas
+	 5Q3F8diYv/2raIFAG7sdhp4nnl/UggE6K0ia4pimnsBGxu1jrJjSQkF/W7Ox59ka87
+	 aBlDM9L2fCvWw==
+From: Leon Romanovsky <leon@kernel.org>
+To: "David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Ariel Elior <aelior@marvell.com>,
+	Bin Luo <luobin9@huawei.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Coiby Xu <coiby.xu@gmail.com>,
+	Derek Chickles <dchickles@marvell.com>,
+	drivers@pensando.io,
+	Eric Dumazet <eric.dumazet@gmail.com>,
+	Felix Manlunas <fmanlunas@marvell.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	GR-everest-linux-l2@marvell.com,
+	GR-Linux-NIC-Dev@marvell.com,
+	hariprasad <hkelam@marvell.com>,
+	Ido Schimmel <idosch@nvidia.com>,
+	intel-wired-lan@lists.osuosl.org,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Jerin Jacob <jerinj@marvell.com>,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Jiri Pirko <jiri@nvidia.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Linu Cherian <lcherian@marvell.com>,
+	linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Manish Chopra <manishc@marvell.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Moshe Shemesh <moshe@nvidia.com>,
+	netdev@vger.kernel.org,
+	oss-drivers@corigine.com,
+	Richard Cochran <richardcochran@gmail.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Satanand Burla <sburla@marvell.com>,
+	Shannon Nelson <snelson@pensando.io>,
+	Shay Drory <shayd@nvidia.com>,
+	Simon Horman <simon.horman@corigine.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Taras Chornyi <tchornyi@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	UNGLinuxDriver@microchip.com,
+	Vadym Kochan <vkochan@marvell.com>,
+	Vivien Didelot <vivien.didelot@gmail.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>
+Subject: [PATCH net-next v1 0/5] Devlink reload and missed notifications fix
+Date: Wed, 29 Sep 2021 15:00:41 +0300
+Message-Id: <cover.1632916329.git.leonro@nvidia.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YVP8CYJ6MpWCjRB0@kroah.com>
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
+From: Leon Romanovsky <leonro@nvidia.com>
 
-On 29/09/2021 06:39, Greg KH wrote:
-> On Tue, Sep 28, 2021 at 06:49:48PM +0100, hallblazzar wrote:
->> As format check raised by scripts/checkpatch.pl, comment in the rtw_ap.c
->> looks misspelled by accident. Help fix it.
->>
->> The original error is as below shows:
->>
->> CHECK: 'followign' may be misspelled - perhaps 'following'?
->> +Set to 0 (HT pure) under the followign conditions
->>
->> Signed-off-by: Siou-Jhih, Guo <hallblazzar@gmail.com>
->> ---
->>  drivers/staging/r8188eu/core/rtw_ap.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> Your subject line has "Subject:" in it twice for some reason :(
->
-> Please fix up and send a v2.
->
-> thanks,
->
-> greg k-h
+Changelog:
+v1:
+ * Missed removal of extra WARN_ON
+ * Added "ops parameter to macro as Dan suggested.
+v0: https://lore.kernel.org/all/cover.1632909221.git.leonro@nvidia.com
 
-Hello Greg,
+-------------------------------------------------------------------
+Hi,
 
-Thanks for point that out.
-It should be my mail client issue. I've fixed it and re-sent
-new v2 patch
+This series starts from the fixing the bug introduced by implementing
+devlink delayed notifications logic, where I missed some of the
+notifications functions.
 
-    [PATCH v2] staging: r8188eu: Fix misspelling in comment
+The rest series provides a way to dynamically set devlink ops that is
+needed for mlx5 multiport device and starts cleanup by removing
+not-needed logic.
 
-If anything should I additionally aware, I'd like to fix them.
+In the next series, we will delete various publish API, drop general
+lock, annotate the code and rework logic around devlink->lock.
 
-Regards,
-Bill G.
+All this is possible because driver initialization is separated from the
+user input now.
+
+Thanks
+
+Leon Romanovsky (5):
+  devlink: Add missed notifications iterators
+  devlink: Allow modification of devlink ops
+  devlink: Allow set specific ops callbacks dynamically
+  net/mlx5: Register separate reload devlink ops for multiport device
+  devlink: Delete reload enable/disable interface
+
+ .../net/ethernet/broadcom/bnxt/bnxt_devlink.c |   6 +-
+ .../net/ethernet/cavium/liquidio/lio_main.c   |   2 +-
+ .../freescale/dpaa2/dpaa2-eth-devlink.c       |   2 +-
+ .../hisilicon/hns3/hns3pf/hclge_devlink.c     |   5 +-
+ .../hisilicon/hns3/hns3vf/hclgevf_devlink.c   |   5 +-
+ .../net/ethernet/huawei/hinic/hinic_devlink.c |   2 +-
+ drivers/net/ethernet/intel/ice/ice_devlink.c  |   2 +-
+ .../marvell/octeontx2/af/rvu_devlink.c        |   2 +-
+ .../marvell/prestera/prestera_devlink.c       |   2 +-
+ drivers/net/ethernet/mellanox/mlx4/main.c     |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/devlink.c |  15 +-
+ .../net/ethernet/mellanox/mlx5/core/main.c    |   3 -
+ .../mellanox/mlx5/core/sf/dev/driver.c        |   5 +-
+ drivers/net/ethernet/mellanox/mlxsw/core.c    |  12 +-
+ drivers/net/ethernet/mscc/ocelot.h            |   2 +-
+ drivers/net/ethernet/mscc/ocelot_net.c        |   2 +-
+ .../net/ethernet/netronome/nfp/nfp_devlink.c  |   2 +-
+ drivers/net/ethernet/netronome/nfp/nfp_main.h |   2 +-
+ .../ethernet/pensando/ionic/ionic_devlink.c   |   2 +-
+ drivers/net/ethernet/qlogic/qed/qed_devlink.c |   2 +-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   2 +-
+ drivers/net/ethernet/ti/cpsw_new.c            |   2 +-
+ drivers/net/netdevsim/dev.c                   |   5 +-
+ drivers/ptp/ptp_ocp.c                         |   2 +-
+ drivers/staging/qlge/qlge_main.c              |   2 +-
+ include/net/devlink.h                         |  15 +-
+ net/core/devlink.c                            | 156 ++++++++++--------
+ net/dsa/dsa2.c                                |   2 +-
+ 28 files changed, 131 insertions(+), 134 deletions(-)
+
+-- 
+2.31.1
 
