@@ -1,41 +1,41 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9CF72
-	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 19:27:10 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id l8so13051942edw.2
-        for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 12:27:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FED972
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 19:27:13 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id x7so12448997edd.6
+        for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 12:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GWWBBMK+dhPCf+tLzn30tL9ZHRbmxU5D+2YHd8HF5y4=;
-        b=hOfBsJQHroPbQFFh72JbnBLkEizmFts389lgJJ6yABX0/PL+nhs6bBsUzlcEXUC5iv
-         fcvyJmAAoJ2qIFu2E80F2ebt5BUjzEx7SNDxdEx0C4CcmlBMCxK/udzEeBTtDj9fIh5T
-         6U7YwSnAjf8j+NedZixN4RSl2Ndfq3flxQnDi4a1sVZrzcDmnWynhjnRg3mUySacuMsv
-         nhCpba09+G2EZVR0RgqTUgHeZVKPYfNWlJvRSuGJ9LYX51+3n2/6V5qy4pRxnLoAY4dx
-         Gx1mcZ7/9TJaxi+v2yzgVNDyQXmBYgLE0XtZ5rGCc3v2nVKgl99PGG8nXhjJEFRNqAS4
-         ovFQ==
+        bh=y5WEMTKAqj3+GDD4wcjFKaCDi51DYCzL5pRQuPBSMlA=;
+        b=GcNbsg6CCm2AhFiBVDD5YGpjpd1sRjQcaQamo8h6vlb+WpbS6TPi3pl96YUEDTWVzE
+         85julXKIBnWHtVzpZeB81RcJ/IRIYQuhCjzxdK8p3uGvKBY2jlay8yddH2ufKG+yQzsg
+         njWFFJ5j5gvfB+zVstfdcK1qePuWRvJp2OieSObziKSpXuF75a1PcDvcLM1yFZPFfIBW
+         V4SLVbjW050kG6RiaqcCkZuqI+LM4ATohEGUgBV75BXmMKG/x6a/Ty8/5haV0qS9S20j
+         Bc1nAk3DDwhpX7LFqJFc8536UMQMgKX15OvWnoISadeF3QHI0XWyF9oxeTEs7MNgje0w
+         rqdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GWWBBMK+dhPCf+tLzn30tL9ZHRbmxU5D+2YHd8HF5y4=;
-        b=faQ1AygJD9JNKKDRhkKj/PTKgjIM2RW8oqHyI/Gldp+r80JdK1EYjSvIi13eEAaLGB
-         qsRDQzwxz9QatNlo4aSmLEQeD8dZd4BCDp57McTwl+qHCqyVnpoNj4vuiiEl5H0VvPZE
-         6cDw6HtBhzP2mMl0kV4QlGmJirLty4rCx1GtOieaUuDMDmvCo+EwyVpBoYr5iot4EMql
-         dO4vFarMllqoou87qG3gLzCdl45ULiN4do5Kt/Gc9DwnJKAra2OJK2ZssApzQ+op9/vS
-         7jINPHU3UnQcLCgxJk9rRTJ6tfEWOZHhkyP4enWRNpPHKUT856vOoeqk6E/KfkepTMvN
-         Um2A==
-X-Gm-Message-State: AOAM533pupLGERyfE0mO6sNji/xSIcSt0cWYOGjSWcYC/M4iz2Yk+2fT
-	9a2iVP7sV+nNtS5i/vZ611E=
-X-Google-Smtp-Source: ABdhPJzBxOZo0vcKgGNajKEhqnzprgFV8+WoDiT0mY6zvcIsvIh3psJt1Lna46aZfHRxL3nEOZijLA==
-X-Received: by 2002:a05:6402:2889:: with SMTP id eg9mr2128624edb.384.1632943628577;
-        Wed, 29 Sep 2021 12:27:08 -0700 (PDT)
+        bh=y5WEMTKAqj3+GDD4wcjFKaCDi51DYCzL5pRQuPBSMlA=;
+        b=2YyfrNq5NCGX6FYgiKdUSz266K+eeHxTf9aOP9rbZB/LmDmpOy+/siYSbCNedegX7H
+         XvaoJTdZDR0iiwagt3lOIYYVG+v3SvB1Tly3Fw6fZPC2tbNPwB/XOTJMSrz4RFTOYq2o
+         jJCGn+p1Ptu8PU40zCZ4i9VVwBMva1wT2emXszdgRyrO69apZQHyEcANZTisoUCprOAq
+         +VcfGwVTRsYprMmZSHQQ+ce8qIB2CtQQ+fTeiZ7lN7cQvHeVG1ZJv2F7i5vs+bXEsbhn
+         xfh5DrArnZRwjgPyb0LJij1YKjEImaXIjOd26Ij6VZAB64zoxnoi4HBkvbid5ltWcJ1u
+         zULw==
+X-Gm-Message-State: AOAM533EOT6iOv/K0hbwVIITLBOaX8kQTOikM2p5FI9+F8MiqoeCD9ll
+	g4Ws/tLy4Q1g5N1p7GcC4O9XPwejHk0=
+X-Google-Smtp-Source: ABdhPJyM0+A8PZgUR1I/JmxUBGerGJvWQ3WGK3J84RuQlLV/gZwkaTulTFfOC9N5W5p+mAjl5gaTsQ==
+X-Received: by 2002:a50:cd06:: with SMTP id z6mr2102579edi.12.1632943631445;
+        Wed, 29 Sep 2021 12:27:11 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::bfc8])
-        by smtp.gmail.com with ESMTPSA id f10sm449019edu.70.2021.09.29.12.27.07
+        by smtp.gmail.com with ESMTPSA id f10sm449019edu.70.2021.09.29.12.27.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Sep 2021 12:27:08 -0700 (PDT)
+        Wed, 29 Sep 2021 12:27:11 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/7] staging: r8188eu: remove free_recv_priv from struct hal_ops
-Date: Wed, 29 Sep 2021 21:26:55 +0200
-Message-Id: <20210929192657.9569-6-straube.linux@gmail.com>
+Subject: [PATCH 6/7] staging: r8188eu: remove inirp_init from struct hal_ops
+Date: Wed, 29 Sep 2021 21:26:56 +0200
+Message-Id: <20210929192657.9569-7-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210929192657.9569-1-straube.linux@gmail.com>
 References: <20210929192657.9569-1-straube.linux@gmail.com>
@@ -57,83 +57,101 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove free_recv_priv from struct hal_ops and remove its wrapper
-rtw_hal_free_recv_priv(). Call rtl8188eu_free_recv_priv() directly
-instead.
+Remove inirp_init from struct hal_ops and remove its wrapper
+rtw_hal_inirp_init(). Call rtl8188eu_inirp_init() directly instead.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_recv.c    | 2 +-
- drivers/staging/r8188eu/hal/hal_intf.c     | 6 ------
- drivers/staging/r8188eu/hal/usb_halinit.c  | 2 --
- drivers/staging/r8188eu/include/hal_intf.h | 4 ----
- 4 files changed, 1 insertion(+), 13 deletions(-)
+ drivers/staging/r8188eu/hal/hal_intf.c     | 11 -----------
+ drivers/staging/r8188eu/hal/usb_halinit.c  |  3 +--
+ drivers/staging/r8188eu/include/hal_intf.h |  4 ++--
+ drivers/staging/r8188eu/os_dep/usb_intf.c  |  2 +-
+ 4 files changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
-index 3054cc6459c5..51a13262a226 100644
---- a/drivers/staging/r8188eu/core/rtw_recv.c
-+++ b/drivers/staging/r8188eu/core/rtw_recv.c
-@@ -104,7 +104,7 @@ void _rtw_free_recv_priv(struct recv_priv *precvpriv)
- 
- 	vfree(precvpriv->pallocated_frame_buf);
- 
--	rtw_hal_free_recv_priv(padapter);
-+	rtl8188eu_free_recv_priv(padapter);
- }
- 
- struct recv_frame *_rtw_alloc_recvframe(struct __queue *pfree_recv_queue)
 diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index ad327c495b5d..039723d62ae1 100644
+index 039723d62ae1..ca7f0bcdb4d5 100644
 --- a/drivers/staging/r8188eu/hal/hal_intf.c
 +++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -72,12 +72,6 @@ u32 rtw_hal_inirp_deinit(struct adapter *adapt)
- 	return _FAIL;
+@@ -53,17 +53,6 @@ void rtw_hal_get_hwreg(struct adapter *adapt, u8 variable, u8 *val)
+ 		adapt->HalFunc.GetHwRegHandler(adapt, variable, val);
  }
  
--void rtw_hal_free_recv_priv(struct adapter *adapt)
+-u32 rtw_hal_inirp_init(struct adapter *adapt)
 -{
--	if (adapt->HalFunc.free_recv_priv)
--		adapt->HalFunc.free_recv_priv(adapt);
+-	u32 rst = _FAIL;
+-
+-	if (adapt->HalFunc.inirp_init)
+-		rst = adapt->HalFunc.inirp_init(adapt);
+-	else
+-		DBG_88E(" %s HalFunc.inirp_init is NULL!!!\n", __func__);
+-	return rst;
 -}
 -
- void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
+ u32 rtw_hal_inirp_deinit(struct adapter *adapt)
  {
- 	struct mlme_priv *pmlmepriv = &adapt->mlmepriv;
+ 	if (adapt->HalFunc.inirp_deinit)
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 6465be895574..bdadd801693f 100644
+index bdadd801693f..621158900918 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -2153,8 +2153,6 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
- 	halfunc->inirp_init = &rtl8188eu_inirp_init;
+@@ -997,7 +997,7 @@ static u32 rtl8188eu_hal_deinit(struct adapter *Adapter)
+ 	return _SUCCESS;
+  }
+ 
+-static unsigned int rtl8188eu_inirp_init(struct adapter *Adapter)
++unsigned int rtl8188eu_inirp_init(struct adapter *Adapter)
+ {
+ 	u8 i;
+ 	struct recv_buf *precvbuf;
+@@ -2150,7 +2150,6 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
+ 	halfunc->hal_init = &rtl8188eu_hal_init;
+ 	halfunc->hal_deinit = &rtl8188eu_hal_deinit;
+ 
+-	halfunc->inirp_init = &rtl8188eu_inirp_init;
  	halfunc->inirp_deinit = &rtl8188eu_inirp_deinit;
  
--	halfunc->free_recv_priv = &rtl8188eu_free_recv_priv;
--
  	halfunc->SetHwRegHandler = &SetHwReg8188EU;
- 	halfunc->GetHwRegHandler = &GetHwReg8188EU;
- }
 diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index a74250f6d9dd..2f8c62ebf6b7 100644
+index 2f8c62ebf6b7..4eb9fb81f168 100644
 --- a/drivers/staging/r8188eu/include/hal_intf.h
 +++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -128,8 +128,6 @@ struct hal_ops {
- 	u32	(*inirp_init)(struct adapter *padapter);
+@@ -125,7 +125,6 @@ struct hal_ops {
+ 	u32	(*hal_init)(struct adapter *padapter);
+ 	u32	(*hal_deinit)(struct adapter *padapter);
+ 
+-	u32	(*inirp_init)(struct adapter *padapter);
  	u32	(*inirp_deinit)(struct adapter *padapter);
  
--	void	(*free_recv_priv)(struct adapter *padapter);
--
  	void	(*SetHwRegHandler)(struct adapter *padapter, u8	variable,
- 				   u8 *val);
- 	void	(*GetHwRegHandler)(struct adapter *padapter, u8	variable,
-@@ -185,8 +183,6 @@ void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val);
- u32	rtw_hal_inirp_init(struct adapter *padapter);
+@@ -174,13 +173,14 @@ int rtl8188e_IOL_exec_cmds_sync(struct adapter *adapter,
+ u8 SetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
+ u8 GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
+ 
++unsigned int rtl8188eu_inirp_init(struct adapter *Adapter);
++
+ uint rtw_hal_init(struct adapter *padapter);
+ uint rtw_hal_deinit(struct adapter *padapter);
+ void rtw_hal_stop(struct adapter *padapter);
+ void rtw_hal_set_hwreg(struct adapter *padapter, u8 variable, u8 *val);
+ void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val);
+ 
+-u32	rtw_hal_inirp_init(struct adapter *padapter);
  u32	rtw_hal_inirp_deinit(struct adapter *padapter);
  
--void	rtw_hal_free_recv_priv(struct adapter *padapter);
--
  void rtw_hal_update_ra_mask(struct adapter *padapter, u32 mac_id, u8 level);
- void	rtw_hal_clone_data(struct adapter *dst_adapt,
- 			   struct adapter *src_adapt);
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index b2cc9060b8ce..a36398774ee5 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -180,7 +180,7 @@ static void chip_by_usb_id(struct adapter *padapter)
+ 
+ static void usb_intf_start(struct adapter *padapter)
+ {
+-	rtw_hal_inirp_init(padapter);
++	rtl8188eu_inirp_init(padapter);
+ }
+ 
+ static void usb_intf_stop(struct adapter *padapter)
 -- 
 2.33.0
 
