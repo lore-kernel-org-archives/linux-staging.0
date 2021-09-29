@@ -1,11 +1,11 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2B93FE1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131DF3FD6
 	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 16:04:57 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: andrzej.p)
-	with ESMTPSA id 871131F44676
+	with ESMTPSA id E677C1F4468F
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -28,11 +28,10 @@ Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Shawn Guo <shawnguo@kernel.org>,
-	kernel@collabora.com,
-	Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v7 04/11] hantro: Add quirk for NV12/NV12_4L4 capture format
-Date: Wed, 29 Sep 2021 18:04:32 +0200
-Message-Id: <20210929160439.6601-5-andrzej.p@collabora.com>
+	kernel@collabora.com
+Subject: [PATCH v7 08/11] media: hantro: Rename registers
+Date: Wed, 29 Sep 2021 18:04:36 +0200
+Message-Id: <20210929160439.6601-9-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210929160439.6601-1-andrzej.p@collabora.com>
 References: <20210929160439.6601-1-andrzej.p@collabora.com>
@@ -42,67 +41,128 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-From: Ezequiel Garcia <ezequiel@collabora.com>
+Add more consistency in the way registers are named.
 
-The G2 core decoder engine produces NV12_4L4 format,
-which is a simple NV12 4x4 tiled format. The driver currently
-hides this format by always enabling the post-processor engine,
-and therefore offering NV12 directly.
-
-This is done without using the logic in hantro_postproc.c
-and therefore makes it difficult to add VP9 cleanly.
-
-Since fixing this is not easy, add a small quirk to force
-NV12 if HEVC was configured, but otherwise declare NV12_4L4
-as the pixel format in imx8mq_vpu_g2_variant.dec_fmts.
-
-This will be used by the VP9 decoder which will be added soon.
-
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- drivers/staging/media/hantro/hantro_v4l2.c  | 14 ++++++++++++++
- drivers/staging/media/hantro/imx8m_vpu_hw.c |  2 +-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 38 +++++++++----------
+ drivers/staging/media/hantro/hantro_g2_regs.h | 28 +++++++-------
+ 2 files changed, 33 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index bcb0bdff4a9a..d1f060c55fed 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -150,6 +150,20 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
- 	unsigned int num_fmts, i, j = 0;
- 	bool skip_mode_none;
+diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+index 340efb57fd18..97da719a9844 100644
+--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+@@ -448,9 +448,9 @@ static int set_ref(struct hantro_ctx *ctx)
+ 		if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
+ 			dpb_longterm_e |= BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
  
-+	/*
-+	 * The HEVC decoder on the G2 core needs a little quirk to offer NV12
-+	 * only on the capture side. Once the post-processor logic is used,
-+	 * we will be able to expose NV12_4L4 and NV12 as the other cases,
-+	 * and therefore remove this quirk.
-+	 */
-+	if (capture && ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_HEVC_SLICE) {
-+		if (f->index == 0) {
-+			f->pixelformat = V4L2_PIX_FMT_NV12;
-+			return 0;
-+		}
-+		return -EINVAL;
-+	}
-+
- 	/*
- 	 * When dealing with an encoder:
- 	 *  - on the capture side we want to filter out all MODE_NONE formats.
-diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-index 02e61438220a..a40b161e5956 100644
---- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-+++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-@@ -134,7 +134,7 @@ static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+-		hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
+-		hantro_write_addr(vpu, G2_REG_CHR_REF(i), chroma_addr);
+-		hantro_write_addr(vpu, G2_REG_DMV_REF(i), mv_addr);
++		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), luma_addr);
++		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), chroma_addr);
++		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), mv_addr);
+ 	}
  
- static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] = {
- 	{
--		.fourcc = V4L2_PIX_FMT_NV12,
-+		.fourcc = V4L2_PIX_FMT_NV12_4L4,
- 		.codec_mode = HANTRO_MODE_NONE,
- 	},
- 	{
+ 	luma_addr = hantro_hevc_get_ref_buf(ctx, decode_params->pic_order_cnt_val);
+@@ -460,20 +460,20 @@ static int set_ref(struct hantro_ctx *ctx)
+ 	chroma_addr = luma_addr + cr_offset;
+ 	mv_addr = luma_addr + mv_offset;
+ 
+-	hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
+-	hantro_write_addr(vpu, G2_REG_CHR_REF(i), chroma_addr);
+-	hantro_write_addr(vpu, G2_REG_DMV_REF(i++), mv_addr);
++	hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), luma_addr);
++	hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), chroma_addr);
++	hantro_write_addr(vpu, G2_REF_MV_ADDR(i++), mv_addr);
+ 
+-	hantro_write_addr(vpu, G2_ADDR_DST, luma_addr);
+-	hantro_write_addr(vpu, G2_ADDR_DST_CHR, chroma_addr);
+-	hantro_write_addr(vpu, G2_ADDR_DST_MV, mv_addr);
++	hantro_write_addr(vpu, G2_OUT_LUMA_ADDR, luma_addr);
++	hantro_write_addr(vpu, G2_OUT_CHROMA_ADDR, chroma_addr);
++	hantro_write_addr(vpu, G2_OUT_MV_ADDR, mv_addr);
+ 
+ 	hantro_hevc_ref_remove_unused(ctx);
+ 
+ 	for (; i < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; i++) {
+-		hantro_write_addr(vpu, G2_REG_ADDR_REF(i), 0);
+-		hantro_write_addr(vpu, G2_REG_CHR_REF(i), 0);
+-		hantro_write_addr(vpu, G2_REG_DMV_REF(i), 0);
++		hantro_write_addr(vpu, G2_REF_LUMA_ADDR(i), 0);
++		hantro_write_addr(vpu, G2_REF_CHROMA_ADDR(i), 0);
++		hantro_write_addr(vpu, G2_REF_MV_ADDR(i), 0);
+ 	}
+ 
+ 	hantro_reg_write(vpu, &g2_refer_lterm_e, dpb_longterm_e);
+@@ -499,7 +499,7 @@ static void set_buffers(struct hantro_ctx *ctx)
+ 	src_len = vb2_get_plane_payload(&src_buf->vb2_buf, 0);
+ 	src_buf_len = vb2_plane_size(&src_buf->vb2_buf, 0);
+ 
+-	hantro_write_addr(vpu, G2_ADDR_STR, src_dma);
++	hantro_write_addr(vpu, G2_STREAM_ADDR, src_dma);
+ 	hantro_reg_write(vpu, &g2_stream_len, src_len);
+ 	hantro_reg_write(vpu, &g2_strm_buffer_len, src_buf_len);
+ 	hantro_reg_write(vpu, &g2_strm_start_offset, 0);
+@@ -508,12 +508,12 @@ static void set_buffers(struct hantro_ctx *ctx)
+ 	/* Destination (decoded frame) buffer. */
+ 	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
+ 
+-	hantro_write_addr(vpu, G2_RASTER_SCAN, dst_dma);
+-	hantro_write_addr(vpu, G2_RASTER_SCAN_CHR, dst_dma + cr_offset);
+-	hantro_write_addr(vpu, G2_ADDR_TILE_SIZE, ctx->hevc_dec.tile_sizes.dma);
+-	hantro_write_addr(vpu, G2_TILE_FILTER, ctx->hevc_dec.tile_filter.dma);
+-	hantro_write_addr(vpu, G2_TILE_SAO, ctx->hevc_dec.tile_sao.dma);
+-	hantro_write_addr(vpu, G2_TILE_BSD, ctx->hevc_dec.tile_bsd.dma);
++	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
++	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + cr_offset);
++	hantro_write_addr(vpu, G2_TILE_SIZES_ADDR, ctx->hevc_dec.tile_sizes.dma);
++	hantro_write_addr(vpu, G2_TILE_FILTER_ADDR, ctx->hevc_dec.tile_filter.dma);
++	hantro_write_addr(vpu, G2_TILE_SAO_ADDR, ctx->hevc_dec.tile_sao.dma);
++	hantro_write_addr(vpu, G2_TILE_BSD_ADDR, ctx->hevc_dec.tile_bsd.dma);
+ }
+ 
+ static void hantro_g2_check_idle(struct hantro_dev *vpu)
+diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+index bb22fa921914..24b18f839ff8 100644
+--- a/drivers/staging/media/hantro/hantro_g2_regs.h
++++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+@@ -177,20 +177,20 @@
+ #define G2_REG_CONFIG_DEC_CLK_GATE_E		BIT(16)
+ #define G2_REG_CONFIG_DEC_CLK_GATE_IDLE_E	BIT(17)
+ 
+-#define G2_ADDR_DST		(G2_SWREG(65))
+-#define G2_REG_ADDR_REF(i)	(G2_SWREG(67)  + ((i) * 0x8))
+-#define G2_ADDR_DST_CHR		(G2_SWREG(99))
+-#define G2_REG_CHR_REF(i)	(G2_SWREG(101) + ((i) * 0x8))
+-#define G2_ADDR_DST_MV		(G2_SWREG(133))
+-#define G2_REG_DMV_REF(i)	(G2_SWREG(135) + ((i) * 0x8))
+-#define G2_ADDR_TILE_SIZE	(G2_SWREG(167))
+-#define G2_ADDR_STR		(G2_SWREG(169))
+-#define HEVC_SCALING_LIST	(G2_SWREG(171))
+-#define G2_RASTER_SCAN		(G2_SWREG(175))
+-#define G2_RASTER_SCAN_CHR	(G2_SWREG(177))
+-#define G2_TILE_FILTER		(G2_SWREG(179))
+-#define G2_TILE_SAO		(G2_SWREG(181))
+-#define G2_TILE_BSD		(G2_SWREG(183))
++#define G2_OUT_LUMA_ADDR		(G2_SWREG(65))
++#define G2_REF_LUMA_ADDR(i)		(G2_SWREG(67)  + ((i) * 0x8))
++#define G2_OUT_CHROMA_ADDR		(G2_SWREG(99))
++#define G2_REF_CHROMA_ADDR(i)		(G2_SWREG(101) + ((i) * 0x8))
++#define G2_OUT_MV_ADDR			(G2_SWREG(133))
++#define G2_REF_MV_ADDR(i)		(G2_SWREG(135) + ((i) * 0x8))
++#define G2_TILE_SIZES_ADDR		(G2_SWREG(167))
++#define G2_STREAM_ADDR			(G2_SWREG(169))
++#define G2_HEVC_SCALING_LIST_ADDR	(G2_SWREG(171))
++#define G2_RS_OUT_LUMA_ADDR		(G2_SWREG(175))
++#define G2_RS_OUT_CHROMA_ADDR		(G2_SWREG(177))
++#define G2_TILE_FILTER_ADDR		(G2_SWREG(179))
++#define G2_TILE_SAO_ADDR		(G2_SWREG(181))
++#define G2_TILE_BSD_ADDR		(G2_SWREG(183))
+ 
+ #define g2_strm_buffer_len	G2_DEC_REG(258, 0, 0xffffffff)
+ #define g2_strm_start_offset	G2_DEC_REG(259, 0, 0xffffffff)
 -- 
 2.17.1
 
