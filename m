@@ -1,99 +1,93 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914DB2FAF
-	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 12:25:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F09DB6134F;
-	Wed, 29 Sep 2021 12:25:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1632918304;
-	bh=wWhYoJmf5o0goYtd67yiGvYSKB/JovKlR7TP3Zqi99g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FOgYB8oD4xLYiT0MCbtWOdRGH09IaQNPSb9EOFkBWsnpoxLHGflJa7ENoq5BBegTA
-	 /idNuAQ88djuyX6GEANEa3D9oBEdUuEjGy3rDzcd4GQcWFa+2U/Gw+KtNXffW4v0Ud
-	 7oDuoKWmOB12QpwjmS0H8zNQahoQsoL0nRw6FaFU=
-Date: Wed, 29 Sep 2021 14:25:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, Ariel Elior <aelior@marvell.com>,
-	Bin Luo <luobin9@huawei.com>,
-	Claudiu Manoil <claudiu.manoil@nxp.com>,
-	Coiby Xu <coiby.xu@gmail.com>,
-	Derek Chickles <dchickles@marvell.com>, drivers@pensando.io,
-	Eric Dumazet <eric.dumazet@gmail.com>,
-	Felix Manlunas <fmanlunas@marvell.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-	hariprasad <hkelam@marvell.com>, Ido Schimmel <idosch@nvidia.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	Jerin Jacob <jerinj@marvell.com>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Linu Cherian <lcherian@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-staging@lists.linux.dev, Manish Chopra <manishc@marvell.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Moshe Shemesh <moshe@nvidia.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com,
-	Richard Cochran <richardcochran@gmail.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Salil Mehta <salil.mehta@huawei.com>,
-	Satanand Burla <sburla@marvell.com>,
-	Shannon Nelson <snelson@pensando.io>, Shay Drory <shayd@nvidia.com>,
-	Simon Horman <simon.horman@corigine.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Taras Chornyi <tchornyi@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	UNGLinuxDriver@microchip.com, Vadym Kochan <vkochan@marvell.com>,
-	Vivien Didelot <vivien.didelot@gmail.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next v1 3/5] devlink: Allow set specific ops
- callbacks dynamically
-Message-ID: <YVRbHMODzcciHa2p@kroah.com>
-References: <cover.1632916329.git.leonro@nvidia.com>
- <aac64d4861d6207a90a6d45245ee5ed59114659a.1632916329.git.leonro@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18D629CA
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 12:32:25 +0000 (UTC)
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 1405640255
+	for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 12:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1632918401;
+	bh=iH/cPXldDgnABS8nEn4aJPP/G7VcHOpg5XHI2afeaZ4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+	b=VEKG1nbo7OlTcPK1Pxtq8HjW9RaUlo1HALJ+JxR9nbMiaBDy5zQFDW1k2Aq1xI7p0
+	 zBeabpCzq1rJ49udDW+VlJ75mdKzl4tpFg/roCaB8FGvdDGTzl5OXr8qoounBVTqjw
+	 bkYJJMxa7hI8zUcdV60aMUB1RQaNiCrmFEvhIPOl+BApUwus8eHWASbYyb7OZqt8j+
+	 u/UU/XtEt5KgEd7D/jXf7fdOYc9tLiH5s5C4le70WVx/Lb6kA9d1wFryo3OqNdk7Sp
+	 yPj3eqprso79d6PN9zECEdkPBRyx7MzIW37JHb61wMkZ/yJThO2LXz0YheURA9cnaj
+	 Lu0DAAHDDqY8w==
+Received: by mail-ed1-f72.google.com with SMTP id ec14-20020a0564020d4e00b003cf5630c190so2263872edb.3
+        for <linux-staging@lists.linux.dev>; Wed, 29 Sep 2021 05:26:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iH/cPXldDgnABS8nEn4aJPP/G7VcHOpg5XHI2afeaZ4=;
+        b=fRW3S144raR816cO9MUi/g/AMIemEL0hGKSSD56RCgiUFtLZMPJHwdeCkV0Cz/vRda
+         M+bJ2zJ1BFulivkk5pSU1hfK+hMitLTYCCKl660eCiQUYGbBHp0VtOjGwe2ZQIsn7CqI
+         Uh4XCCGd3qGYpIqp+rvIcQZ6xHL96cou4RuFPC1Tx2JUe5iFV96PJOzUVk3gjPOg4FR5
+         2pF9XWSYqP/j58EwQZh559Ds1FG8dxBq5+AHN9Umu/E5YKn+T/0JkSxc6dp/RsMwPESS
+         1xSX2WXgWXKaeL7SVw1endJmRJJExyTBAtR6/ug+GVLhdtNoUOtKu40WiaVVvIhgP3yI
+         VgrQ==
+X-Gm-Message-State: AOAM530jFqtr0h6rqxj34yboZApPpQFoTKXtZjHdJQcnOl2Xd1+osRDX
+	PhtOKDncf0d+qXbOnGrl61nTqYFU7tF9S9GdPkquhzstkLBc2Uq2C/hIzjqHj+TEa6SlKriya/6
+	ACwYDT60/e4O8omIxfZzVDm0guf0LpNW/lXIuVl0T2wI=
+X-Received: by 2002:a17:906:3012:: with SMTP id 18mr14286935ejz.136.1632918400409;
+        Wed, 29 Sep 2021 05:26:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzic6knnSwMhuoN2x1g6dBpy/Loh23z6fNTkl6oz7ai61L9d1KUxkiRLK88oLwsTMQgB0XUg==
+X-Received: by 2002:a17:906:3012:: with SMTP id 18mr14286914ejz.136.1632918400184;
+        Wed, 29 Sep 2021 05:26:40 -0700 (PDT)
+Received: from canonical.com (net-188-153-155-161.cust.vodafonedsl.it. [188.153.155.161])
+        by smtp.gmail.com with ESMTPSA id w26sm1415972edu.59.2021.09.29.05.26.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Sep 2021 05:26:39 -0700 (PDT)
+From: Paolo Pisati <paolo.pisati@canonical.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pavel Skripkin <paskripkin@gmail.com>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: add missing return type (fix -Werror=return-type)
+Date: Wed, 29 Sep 2021 14:26:38 +0200
+Message-Id: <20210929122638.58623-1-paolo.pisati@canonical.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aac64d4861d6207a90a6d45245ee5ed59114659a.1632916329.git.leonro@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 29, 2021 at 03:00:44PM +0300, Leon Romanovsky wrote:
-> +void devlink_set_ops(struct devlink *devlink, struct devlink_ops *ops)
-> +{
-> +	struct devlink_ops *dev_ops = devlink->ops;
-> +
-> +	WARN_ON(!devlink_reload_actions_valid(ops));
-> +
-> +#define SET_DEVICE_OP(ptr, op, name)                                           \
-> +	do {                                                                   \
-> +		if ((op)->name)                                                \
-> +			if (!((ptr)->name))                                    \
-> +				(ptr)->name = (op)->name;                      \
-> +	} while (0)
-> +
-> +	/* Keep sorted */
-> +	SET_DEVICE_OP(dev_ops, ops, reload_actions);
-> +	SET_DEVICE_OP(dev_ops, ops, reload_down);
-> +	SET_DEVICE_OP(dev_ops, ops, reload_limits);
-> +	SET_DEVICE_OP(dev_ops, ops, reload_up);
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function 'input_system_configure_channel_sensor':
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+ 1649 | }
+      | ^
+cc1: some warnings being treated as errors
 
-Keep sorted in what order?  And why?
+Signed-off-by: Paolo Pisati <paolo.pisati@canonical.com>
+---
+ .../media/atomisp/pci/hive_isp_css_common/host/input_system.c   | 2 ++
+ 1 file changed, 2 insertions(+)
 
-thanks,
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+index 8e085dda0c18..f36dadb5230a 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+@@ -1646,6 +1646,8 @@ static input_system_err_t input_system_configure_channel_sensor(
+ 	default:
+ 		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+ 	}
++
++	return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+ }
+ 
+ // Test flags and set structure.
+-- 
+2.30.2
 
-greg k-h
