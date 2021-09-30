@@ -1,111 +1,143 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B0672
-	for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 16:49:18 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id oj16so1354682pjb.1
-        for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 09:49:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A89C72
+	for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 17:55:55 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id w29so11454969wra.8
+        for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 10:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2I7JkxI5MtVO/SyPk3TCAjamGg2Qcc2s2nk2OwgS+3M=;
-        b=ngwDdmByPwIgkkXgFt4PuFRkQs+EX+S4DN8pih1MtZr0R+zQ2oYxwEhx9xLBVrV1g7
-         ooSCyl3JWt1hC16qYly/ZhJFHKvMMif/udNuIgtJGabd4OXnCbaZ0+4I0ryizbkVLY/h
-         5bso0MtXrSg1ZVkgO2mynN3ZPQRQP0dW0+kL2pwbtxajoGLB5cTjPpjN33Mzg/MixN3v
-         tRsxOjnm+gJCuCFyaolzbaEHhlOU+WWdi7x5/GzUjoVFsYFz/KWM1iobnYnxecJuzMAi
-         7QBPr5I6asPaThNLRPjDnDkwmYfMLjLOJoVj4vzFI3t4c8dTORPwU2M/Ar4lt0OMlpWF
-         7wkw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LbVxM8mxOXwgCWrpKBMnbYActDzjYnGg34O6XPMbP2M=;
+        b=Kt73KgoFAiWY7u8VwTebeZP9VkfahBqa+BHGL9r89cqFD9xpDQWuzicd9d5rYy5yqU
+         3HFG4Nzbn2jAN4+UGWtl7LRcVnVYxqQGUVt4qHhtLIirT/zFRLPSJrOmHKXB54NNt+wX
+         OfXL+FEv+l5exUtI3cicFCt5a7sYvMNiCSD4Vns2Kt2QRRSaCwDXgbCdbSXNZFl61Ppx
+         xzez6q7qoHgi25fP7dRn0QqKKK1BnOoZKXILLS/aQTIvCWuhjBC7yuMZLi3Kl0gUl1zU
+         0Y/63UfjFHqTvG/4qzne/4yQdnf6RRtscfw7ca2fbo/PPjvpakFn5qtK/eH9f/jaKBpw
+         MmAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2I7JkxI5MtVO/SyPk3TCAjamGg2Qcc2s2nk2OwgS+3M=;
-        b=3VoPVVJd+6ogKznh2Bjs7uSzvT8g4OhqoB5/FEO0MzNEOwBfgB7rv9cl/DB1H6jihN
-         EFaa1N0NIiTkmRBSceGWEBWTjK+iSvYqk1dYEV0pZLy1nWSGihtapkW1I5YUvOeQPR5q
-         7rhETmP8/sXccgxYpFA6XP6XiqwHyJkN0G4nmX55C7s1mvnmU1kereuC7/dKW74Dz2ih
-         Qyd7+U3AFFavf875BAygmhl2iww/p+Ez7gkmg0AHR6yYI5XFmgq6QVYcMaU6ui4welFK
-         3GRekF03xPpC+Gq1GAwZlBJ5n7KaGR73nxXNmtqRZwxnmJnD+IHGw/llG9MJHKBMOAV0
-         Mzfw==
-X-Gm-Message-State: AOAM533wmqCkKtLTgt+o4g/LY6xD3ffcS5d6P+VH702dxVRaqJLro8FD
-	+zyBwzgoqU+WLXeewMWffdE=
-X-Google-Smtp-Source: ABdhPJw9f0dIAgX81zXwy3xIgo0j+HskjqhZyObvNTVqJ5QhNKZFIf8DsBaSOscyvMaaR8VD4NnGUg==
-X-Received: by 2002:a17:90b:946:: with SMTP id dw6mr7680100pjb.41.1633020557621;
-        Thu, 30 Sep 2021 09:49:17 -0700 (PDT)
-Received: from ojas ([122.161.49.24])
-        by smtp.gmail.com with ESMTPSA id y3sm3728261pfr.140.2021.09.30.09.49.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LbVxM8mxOXwgCWrpKBMnbYActDzjYnGg34O6XPMbP2M=;
+        b=UGsu9+YxT0mtmenzb6JX5RSR2gvDCbNZZWjGm+VmahXGioezGpvaUpebwhzVbepK9U
+         4GjTw8zYV1p9Evq5Kd3EF/k+yJIQAEMo6eJE6+QTpl0A+NxPKEu49ZmvkUK6WaozwnTK
+         L62Gd6sOHvPE4jRZG+Ah+kkWmVSZPzvdEtbIauDPIlsH4lUzCx+0mz1IsM+335dHd1bN
+         uDKOFJ7rjLBXbeWiwPTcp4gV4P41OWoAev3+SK5tvVg5+s6twLcaCEQtRqyMOXldHL3s
+         GADtd0h+YephKfWyf9gkf8QU/q9JWDq2obYyweS9PknCow5THVm0NNK+hqMK7X0BOyMu
+         hRkg==
+X-Gm-Message-State: AOAM531Jcvg+oELHb0Wb00tYCcx/DSIu6Ktmf4mWc7oPMD1WhXtUYM/R
+	TiRxPbxI9280toyhHmRQA5E=
+X-Google-Smtp-Source: ABdhPJy6pTuA1TmvWcwTWIw7ViCetbLmvca8QBXgWjhc7gFCQz5XT9LWs3TQyUkY22c4JYtdAcpMOQ==
+X-Received: by 2002:adf:db0c:: with SMTP id s12mr7868824wri.322.1633024554411;
+        Thu, 30 Sep 2021 10:55:54 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::dc89])
+        by smtp.gmail.com with ESMTPSA id y11sm4391820wrg.18.2021.09.30.10.55.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Sep 2021 09:49:17 -0700 (PDT)
-Date: Thu, 30 Sep 2021 22:19:11 +0530
-From: Ojaswin Mujoo <ojaswin98@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, dan.carpenter@oracle.com,
-	phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vchiq: Update TODO file
-Message-ID: <20210930164911.GA4746@ojas>
-References: <20210927181323.10931-1-ojaswin98@gmail.com>
- <YVK/9AIRQ5yzxpzb@kroah.com>
+        Thu, 30 Sep 2021 10:55:54 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v2] staging: r8188eu: remove rtl8188e_silentreset_for_specific_platform()
+Date: Thu, 30 Sep 2021 19:55:46 +0200
+Message-Id: <20210930175546.11175-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YVK/9AIRQ5yzxpzb@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 28, 2021 at 09:10:44AM +0200, Greg KH wrote:
-> On Mon, Sep 27, 2021 at 11:43:23PM +0530, Ojaswin Mujoo wrote:
-> > Remove completed tasks from TODO and add some relevant details to task
-> > 14.
-> > 
-> > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
-> > ---
-> >  drivers/staging/vc04_services/interface/TODO | 43 ++++----------------
-> >  1 file changed, 7 insertions(+), 36 deletions(-)
-> > 
-> > diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-> > index 39810ce017cd..5a6b3fc2663a 100644
-> > --- a/drivers/staging/vc04_services/interface/TODO
-> > +++ b/drivers/staging/vc04_services/interface/TODO
-> > @@ -16,23 +16,6 @@ some of the ones we want:
-> >    to manage these buffers as dmabufs so that we can zero-copy import
-> >    camera images into vc4 for rendering/display.
-> >  
-> > -2) Garbage-collect unused code
-> > -
-> > -One of the reasons this driver wasn't upstreamed previously was that
-> > -there's a lot code that got built that's probably unnecessary these
-> > -days.  Once we have the set of VCHI-using drivers we want in tree, we
-> > -should be able to do a sweep of the code to see what's left that's
-> > -unused.
-> > -
-> > -3) Make driver more portable
-> > -
-> > -Building this driver with arm/multi_v7_defconfig or arm64/defconfig
-> > -leads to data corruption during the following command:
-> > -
-> > -  vchiq_test -f 1
-> > -
-> > -This should be fixed.
-> > -
-> >  4) Fix kernel module support
-Hi Greg,
-> 
-> Now the numbering is out of order?
-It was already out of order (No point 11). I assumed it was so that references to the
-tasks nos in discussion that took place before this patch will make sense.
-> 
-> How about a first patch to remove the numbering and just replace it with
-> a list of items that are not numbered, and then remove the tasks that
-> are already done?
-Sure I can do that.
+Function rtl8188e_silentreset_for_specific_platform() is empty.
+Remove it and remove code that does nothing other than using the
+unwanted DBG_88E macro now.
 
-Thanks for the review.
-ojaswin
-> 
-> thanks,
-> 
-> greg k-h
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+v1 -> v2
+Remove code that just uses DBG_88E after removing the function.
+
+ drivers/staging/r8188eu/hal/rtl8188e_sreset.c     | 14 +-------------
+ drivers/staging/r8188eu/include/rtl8188e_sreset.h |  1 -
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c      |  6 ------
+ 3 files changed, 1 insertion(+), 20 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_sreset.c b/drivers/staging/r8188eu/hal/rtl8188e_sreset.c
+index 16fa249e35d3..ea793fef6f10 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_sreset.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_sreset.c
+@@ -6,10 +6,6 @@
+ #include "../include/rtl8188e_sreset.h"
+ #include "../include/rtl8188e_hal.h"
+ 
+-void rtl8188e_silentreset_for_specific_platform(struct adapter *padapter)
+-{
+-}
+-
+ void rtl8188e_sreset_xmit_status_check(struct adapter *padapter)
+ {
+ 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(padapter);
+@@ -24,7 +20,6 @@ void rtl8188e_sreset_xmit_status_check(struct adapter *padapter)
+ 	if (txdma_status != 0x00) {
+ 		DBG_88E("%s REG_TXDMA_STATUS:0x%08x\n", __func__, txdma_status);
+ 		rtw_write32(padapter, REG_TXDMA_STATUS, txdma_status);
+-		rtl8188e_silentreset_for_specific_platform(padapter);
+ 	}
+ 	/* total xmit irp = 4 */
+ 	current_time = jiffies;
+@@ -32,15 +27,8 @@ void rtl8188e_sreset_xmit_status_check(struct adapter *padapter)
+ 		diff_time = jiffies_to_msecs(current_time - psrtpriv->last_tx_time);
+ 
+ 		if (diff_time > 2000) {
+-			if (psrtpriv->last_tx_complete_time == 0) {
++			if (psrtpriv->last_tx_complete_time == 0)
+ 				psrtpriv->last_tx_complete_time = current_time;
+-			} else {
+-				diff_time = jiffies_to_msecs(current_time - psrtpriv->last_tx_complete_time);
+-				if (diff_time > 4000) {
+-					DBG_88E("%s tx hang\n", __func__);
+-					rtl8188e_silentreset_for_specific_platform(padapter);
+-				}
+-			}
+ 		}
+ 	}
+ }
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_sreset.h b/drivers/staging/r8188eu/include/rtl8188e_sreset.h
+index 880c5792d5dd..5d7fec78a27b 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_sreset.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_sreset.h
+@@ -8,7 +8,6 @@
+ #include "drv_types.h"
+ #include "rtw_sreset.h"
+ 
+-void rtl8188e_silentreset_for_specific_platform(struct adapter *padapter);
+ void rtl8188e_sreset_xmit_status_check(struct adapter *padapter);
+ void rtl8188e_sreset_linked_status_check(struct adapter *padapter);
+ 
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index dd47098ed1e5..78c260d83725 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -4002,12 +4002,6 @@ static int rtw_dbg_port(struct net_device *dev,
+ 				SetHalDefVar8188EUsb(padapter, HAL_DEF_DBG_DUMP_TXPKT, &extra_arg);
+ 			}
+ 			break;
+-		case 0x0f:
+-			if (extra_arg == 0) {
+-				DBG_88E("###### silent reset test.......#####\n");
+-				rtl8188e_silentreset_for_specific_platform(padapter);
+-			}
+-			break;
+ 		case 0x15:
+ 			{
+ 				struct pwrctrl_priv *pwrpriv = &padapter->pwrctrlpriv;
+-- 
+2.33.0
+
