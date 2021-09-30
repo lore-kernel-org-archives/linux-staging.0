@@ -1,48 +1,51 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E946029CA
-	for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 14:17:36 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id b26so22985117edt.0
-        for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 07:17:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B0672
+	for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 16:49:18 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id oj16so1354682pjb.1
+        for <linux-staging@lists.linux.dev>; Thu, 30 Sep 2021 09:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=Qs8ocYYWIoKCUwNvO6ccY6ArZAl7WcN4rLzhCGCErNs=;
-        b=NDK7BxfZQG92fJR1PY3ARzwBJg2lnYIV2v23oDGJpOMeNr5tY1OcQuYt+hDtUYKads
-         Uo7c0X3aZXmRRDEhDpY4QZmPHyOk4Vp65W3fzxClEroY2DYlJ4XUQjqMIKFK52vfvC3r
-         iqvYi/S/LJjTLSpwDqah2kxShsWtmI+Tb3xVuTxu2D/QPs0/3AqnpnI/wbdP8pdFX08o
-         DGt+fTwxPIWikeOAlSOsD4jrPUCcijSRmcwd+mtgOBMvvEW5CRGCQHAD+QTxCuYzmR4z
-         I0rbqNosrEC1MTMmwfZ6bzWhdQ0JGocnnQr9gOGMwuzIJssSFNVVPn6cp4AD9zq2S5Ks
-         Jf3w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=2I7JkxI5MtVO/SyPk3TCAjamGg2Qcc2s2nk2OwgS+3M=;
+        b=ngwDdmByPwIgkkXgFt4PuFRkQs+EX+S4DN8pih1MtZr0R+zQ2oYxwEhx9xLBVrV1g7
+         ooSCyl3JWt1hC16qYly/ZhJFHKvMMif/udNuIgtJGabd4OXnCbaZ0+4I0ryizbkVLY/h
+         5bso0MtXrSg1ZVkgO2mynN3ZPQRQP0dW0+kL2pwbtxajoGLB5cTjPpjN33Mzg/MixN3v
+         tRsxOjnm+gJCuCFyaolzbaEHhlOU+WWdi7x5/GzUjoVFsYFz/KWM1iobnYnxecJuzMAi
+         7QBPr5I6asPaThNLRPjDnDkwmYfMLjLOJoVj4vzFI3t4c8dTORPwU2M/Ar4lt0OMlpWF
+         7wkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=Qs8ocYYWIoKCUwNvO6ccY6ArZAl7WcN4rLzhCGCErNs=;
-        b=b+Z05d0wccWA10N6h/ZXxC6Ix08Uyc0nRj2vqxvd/UawX7LO+lSdWh2Z4bp4oAdL/5
-         JtroPSaq0PvhpTDTnS9H0dERbFoarwTj9tboyonrl5XLLeqcLYhnj2SSq8A3gL8YI3E8
-         Bp+A+7pB1WEU/hDVAstt9XHh7EYQ46oy8DV4UeqmaFDhuoOo/ndBsu0fSeBhDJ/+jVEy
-         6eaTEf0sZfgT5tsovAr2mYM4OBS/5E3OMVT+bFPfj3GLhI2vRPybd1PvJ29RvehNxKij
-         MtdRgNGT2xA4xUtgdKOMFyA3DfXcq2ljXW+9oJ8bZcS1jYqLHyqSTkcEEsRZrGdTYX4K
-         Uh2w==
-X-Gm-Message-State: AOAM533uls3tqK2bUXtmNlbzF8gqnk5avUP4+F+xAl5k8gPshzSDjlKj
-	036IlkLCVowNttY495DPt6s=
-X-Google-Smtp-Source: ABdhPJzKztxn3aPGBZFDU/ZZGBgHWlkEtVRdG5CYj5erUk732ieUZ7p4U+5bFyzuPShRgw92S6EPTQ==
-X-Received: by 2002:a50:c04e:: with SMTP id u14mr2860973edd.235.1633011379453;
-        Thu, 30 Sep 2021 07:16:19 -0700 (PDT)
-Received: from kkobus.whirley.local (94-214-33-179.cable.dynamic.v4.ziggo.nl. [94.214.33.179])
-        by smtp.gmail.com with ESMTPSA id cf16sm1536708edb.51.2021.09.30.07.16.17
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2I7JkxI5MtVO/SyPk3TCAjamGg2Qcc2s2nk2OwgS+3M=;
+        b=3VoPVVJd+6ogKznh2Bjs7uSzvT8g4OhqoB5/FEO0MzNEOwBfgB7rv9cl/DB1H6jihN
+         EFaa1N0NIiTkmRBSceGWEBWTjK+iSvYqk1dYEV0pZLy1nWSGihtapkW1I5YUvOeQPR5q
+         7rhETmP8/sXccgxYpFA6XP6XiqwHyJkN0G4nmX55C7s1mvnmU1kereuC7/dKW74Dz2ih
+         Qyd7+U3AFFavf875BAygmhl2iww/p+Ez7gkmg0AHR6yYI5XFmgq6QVYcMaU6ui4welFK
+         3GRekF03xPpC+Gq1GAwZlBJ5n7KaGR73nxXNmtqRZwxnmJnD+IHGw/llG9MJHKBMOAV0
+         Mzfw==
+X-Gm-Message-State: AOAM533wmqCkKtLTgt+o4g/LY6xD3ffcS5d6P+VH702dxVRaqJLro8FD
+	+zyBwzgoqU+WLXeewMWffdE=
+X-Google-Smtp-Source: ABdhPJw9f0dIAgX81zXwy3xIgo0j+HskjqhZyObvNTVqJ5QhNKZFIf8DsBaSOscyvMaaR8VD4NnGUg==
+X-Received: by 2002:a17:90b:946:: with SMTP id dw6mr7680100pjb.41.1633020557621;
+        Thu, 30 Sep 2021 09:49:17 -0700 (PDT)
+Received: from ojas ([122.161.49.24])
+        by smtp.gmail.com with ESMTPSA id y3sm3728261pfr.140.2021.09.30.09.49.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Sep 2021 07:16:18 -0700 (PDT)
-Date: Thu, 30 Sep 2021 16:16:16 +0200
-From: Dawid Esterhuizen <desterhuizen@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu, 30 Sep 2021 09:49:17 -0700 (PDT)
+Date: Thu, 30 Sep 2021 22:19:11 +0530
+From: Ojaswin Mujoo <ojaswin98@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: nsaenz@kernel.org, stefan.wahren@i2se.com, dan.carpenter@oracle.com,
+	phil@raspberrypi.com, linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: rtl8712: Statements should start on a tabstop
-Message-ID: <YVXGsMZDGmdGjErJ@kkobus.whirley.local>
+Subject: Re: [PATCH] staging: vchiq: Update TODO file
+Message-ID: <20210930164911.GA4746@ojas>
+References: <20210927181323.10931-1-ojaswin98@gmail.com>
+ <YVK/9AIRQ5yzxpzb@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,45 +54,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <YVK/9AIRQ5yzxpzb@kroah.com>
 
-This path fixes four checkpatch.pl warnings:
+On Tue, Sep 28, 2021 at 09:10:44AM +0200, Greg KH wrote:
+> On Mon, Sep 27, 2021 at 11:43:23PM +0530, Ojaswin Mujoo wrote:
+> > Remove completed tasks from TODO and add some relevant details to task
+> > 14.
+> > 
+> > Signed-off-by: Ojaswin Mujoo <ojaswin98@gmail.com>
+> > ---
+> >  drivers/staging/vc04_services/interface/TODO | 43 ++++----------------
+> >  1 file changed, 7 insertions(+), 36 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
+> > index 39810ce017cd..5a6b3fc2663a 100644
+> > --- a/drivers/staging/vc04_services/interface/TODO
+> > +++ b/drivers/staging/vc04_services/interface/TODO
+> > @@ -16,23 +16,6 @@ some of the ones we want:
+> >    to manage these buffers as dmabufs so that we can zero-copy import
+> >    camera images into vc4 for rendering/display.
+> >  
+> > -2) Garbage-collect unused code
+> > -
+> > -One of the reasons this driver wasn't upstreamed previously was that
+> > -there's a lot code that got built that's probably unnecessary these
+> > -days.  Once we have the set of VCHI-using drivers we want in tree, we
+> > -should be able to do a sweep of the code to see what's left that's
+> > -unused.
+> > -
+> > -3) Make driver more portable
+> > -
+> > -Building this driver with arm/multi_v7_defconfig or arm64/defconfig
+> > -leads to data corruption during the following command:
+> > -
+> > -  vchiq_test -f 1
+> > -
+> > -This should be fixed.
+> > -
+> >  4) Fix kernel module support
+Hi Greg,
+> 
+> Now the numbering is out of order?
+It was already out of order (No point 11). I assumed it was so that references to the
+tasks nos in discussion that took place before this patch will make sense.
+> 
+> How about a first patch to remove the numbering and just replace it with
+> a list of items that are not numbered, and then remove the tasks that
+> are already done?
+Sure I can do that.
 
-Statements should start on a tabstop
-
-Signed-off-by: Dawid Esterhuizen <desterhuizen@gmail.com>
----
-Changes since v2:
-	- Fixed the patch comments to comply to standard
-
-Changes since v1:
-	- Removed the volatile comments as they served no purpose
-	- Fixed the styling with corrected spacing as per checkpatch.pl
-        for easier reading
-
- drivers/staging/rtl8712/rtl871x_xmit.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/rtl8712/rtl871x_xmit.h b/drivers/staging/rtl8712/rtl871x_xmit.h
-index 2e6afc7bb0a1..cdcbc87a3cad 100644
---- a/drivers/staging/rtl8712/rtl871x_xmit.h
-+++ b/drivers/staging/rtl8712/rtl871x_xmit.h
-@@ -182,11 +182,11 @@ struct sta_xmit_priv {
- };
- 
- struct	hw_txqueue {
--	/*volatile*/ sint	head;
--	/*volatile*/ sint	tail;
--	/*volatile*/ sint	free_sz;	/*in units of 64 bytes*/
--	/*volatile*/ sint      free_cmdsz;
--	/*volatile*/ sint	 txsz[8];
-+	sint	head;
-+	sint	tail;
-+	sint	free_sz;	/* in units of 64 bytes */
-+	sint	free_cmdsz;
-+	sint	txsz[8];
- 	uint	ff_hwaddr;
- 	uint	cmd_hwaddr;
- 	sint	ac_tag;
--- 
-2.33.0
-
+Thanks for the review.
+ojaswin
+> 
+> thanks,
+> 
+> greg k-h
