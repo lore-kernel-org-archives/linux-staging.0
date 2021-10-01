@@ -1,55 +1,54 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8952C3FCA
-	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 12:33:00 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id x27so38263577lfu.5
-        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 05:33:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F43D3FCA
+	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 12:51:03 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id y23so3771508lfj.7
+        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 05:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MxegWTUqAg1wAtIssrheLi+x+LfQCMxJV5C3e9zY/So=;
-        b=vcJ2g2ALAm0IVx2Fp7EMGVafelLUrjG16muU1pmyzR8hwXe/c7kdMENPYG2cKj/WKw
-         BS+ZaaO+G4Uj5tvnRpwbititOE3WauKhPQkREVycG/Hvn9PHucIwhkZ/YUGB6qkv1U7f
-         1ae2JiP2HDu+Leu75eZhP4gJWxxvYNIu0f5oDf3KGrt2A4kayT/47nyueEjFDqAxQPI0
-         iTzo6lbag1DiAzbQ9jnlxf6WV5LlF4BTHECcT3A4vBoHPDuEldBEhV/YpniL1bV6yy2m
-         l7uOA4/tbztxL4Zph+77Sg+DntIuch0Ry+Gguy/mz8lrNGeYY+1Vyk1/7itYYlfM8hOX
-         BDkQ==
+        bh=U3g3FVHcAfq2CjS/tDBEgPrTjvgAlik1UmRsepWrO/M=;
+        b=AzjhIKsGc5F00nF8gT49XgOerH2kylziofl1fTWdcLRpswV4wNz8DKK5xJ7On0pP/7
+         FUfZ1Wgbt1/fuaxVdMYCvvgTtIGVXfv0UoK33+IzBB+zOi+jh2jn6j2wyaLjswS/IOzw
+         SQjTg3BAouTPEqyD9JFdD9cYzi69CQhCoGH5fKvFHMMepL7XM0KGl/OrspTiy4mR9WhP
+         foe5FrlQSoXx4OG2RW+Mn3fWJuth6XGpzQJ4ILLPGQ/0+fTYG3YwXfmnYk9SirlbmFbB
+         VWqNGRy6BMbC7o4y9fE4zK6CBmWtNh3bv3/HT2LLpsFmdOSr7meyX9U8IJw0f7EYsu6v
+         RPYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MxegWTUqAg1wAtIssrheLi+x+LfQCMxJV5C3e9zY/So=;
-        b=p0UGMcuPTsqjHEQaepTxreScshBfFrS93qYIcWmcWex3xuijcpl8baKaI1ZRIiihiZ
-         9ZBdxe0hBKxMHWTSPERtw0RiZf03Y+zLL7DPyz7B03vo6gakiqNVedkTMJYwb9h6e4lM
-         s7G/GH5C6aaws58oYeSl7wD+AmL+jx12Hdye08Gdx5wgIRfrrJ675qxMH6yZ4EhlqCvk
-         5s1PbOwoJoDSn4LMO2lznGj8dqe68gKsKDpkB2mLYWwEv4JIQKSGkMtawni1KXyu9J/E
-         33Ra1eLbpgXXtAgkrN7B4CnaK+TpHxvUKb0MX7Hf38CUo9RcDYTMTEXia9C6Ih4VjrRt
-         v7JQ==
-X-Gm-Message-State: AOAM533rh9DnfAmu+u4+I03B4TVc4q/uxwojFFa3Jh+sxiz+JzRwgcwl
-	ThEjju45kfy+WNyO4dODTokrbGtE6u5b3x8mWZcerg==
-X-Google-Smtp-Source: ABdhPJyfBm1RgU4LIN5CLjaq/tOmRfulY+xvfoc1wBqdFGGV+40L5VEoXJW9NfDQ0sTovAsPIzZgtcS+Jd2OZrom1nQ=
-X-Received: by 2002:a05:6512:3fa5:: with SMTP id x37mr5557500lfa.233.1633091578379;
- Fri, 01 Oct 2021 05:32:58 -0700 (PDT)
+        bh=U3g3FVHcAfq2CjS/tDBEgPrTjvgAlik1UmRsepWrO/M=;
+        b=k52LlqTwtf55jkMM8Rh5GmvIM+RzDHLHqe1P4QzJqkuF8JlswuTYUdntnmQsT/m36t
+         6lSqGDWDWtQEvA6zhdxcrP6NK8ZYCR0w+WOJKY6WjjyWNWUXV/3348EDhB8ZeKRNSYqR
+         iwCOjEm5Cqfdrjiexhj94GkzBCeuiMsxn3o9fpB5Bk1angRQc5QesHeCabC6fBczfWP9
+         GZFTC7wGMc3QhSpdPuTKUBElUP5Whaqm3UbpK2HsCCYnaYZnTE0wauony7qnl7UXZMc3
+         my0U/o/kV0cDbzg4Jmjymq/PfCdASzrfhqSI8iMZwXSiTnUbstON3u7sOWvtcgNiZO8n
+         aFLA==
+X-Gm-Message-State: AOAM530KLZ2R8eoYUU/UTH2idz/KImxQJMYLZ/moflaRr/YBk2mmBgAB
+	aINCtt16Uv59Q3+Sat/XdxP63w3/vj8WTm7Iq8UBKw==
+X-Google-Smtp-Source: ABdhPJwqqw8e12Oj8Mbs+ZBogohxgciqSKBUNXiyR2zo3nKqwCJ61Gsrw5pb7r1VVcKkZcvnXQuH+1x0Dzep9YUsgPg=
+X-Received: by 2002:a19:5f4b:: with SMTP id a11mr5158365lfj.373.1633092661107;
+ Fri, 01 Oct 2021 05:51:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-7-digetx@gmail.com>
-In-Reply-To: <20210926224058.1252-7-digetx@gmail.com>
+References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-3-digetx@gmail.com>
+In-Reply-To: <20210926224058.1252-3-digetx@gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 1 Oct 2021 14:32:21 +0200
-Message-ID: <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-To: Dmitry Osipenko <digetx@gmail.com>
+Date: Fri, 1 Oct 2021 14:50:25 +0200
+Message-ID: <CAPDyKFrtE75Tf-vefM0isj52PJ5_v525AjqU2TMUpc4__rYLhA@mail.gmail.com>
+Subject: Re: [PATCH v13 02/35] soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
+To: Dmitry Osipenko <digetx@gmail.com>, Viresh Kumar <vireshk@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
+	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
 	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
 	Michael Turquette <mturquette@baylibre.com>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
@@ -64,322 +63,67 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
 >
-> The Clock-and-Reset controller resides in a core power domain on NVIDIA
-> Tegra SoCs.  In order to support voltage scaling of the core power domain,
-> we hook up DVFS-capable clocks to the core GENPD for managing of the
-> GENPD's performance state based on the clock changes.
+> Only couple drivers need to get the -ENODEV error code and majority of
+> drivers need to explicitly initialize the performance state. Add new
+> common helper which sets up OPP table for these drivers.
 >
-> Some clocks don't have any specific physical hardware unit that backs
-> them, like root PLLs and system clock and they have theirs own voltage
-> requirements.  This patch adds new clk-device driver that backs the clocks
-> and provides runtime PM functionality for them.  A virtual clk-device is
-> created for each such DVFS-capable clock at the clock's registration time
-> by the new tegra_clk_register() helper.  Driver changes clock's device
-> GENPD performance state based on clk-rate notifications.
->
-> In result we have this sequence of events:
->
->   1. Clock driver creates virtual device for selective clocks, enables
->      runtime PM for the created device and registers the clock.
->   2. Clk-device driver starts to listen to clock rate changes.
->   3. Something changes clk rate or enables/disables clk.
->   4. CCF core propagates the change through the clk tree.
->   5. Clk-device driver gets clock rate-change notification or GENPD core
->      handles prepare/unprepare of the clock.
->   6. Clk-device driver changes GENPD performance state on clock rate
->      change.
->   7. GENPD driver changes voltage regulator state change.
->   8. The regulator state is committed to hardware via I2C.
->
-> We rely on fact that DVFS is not needed for Tegra I2C and that Tegra I2C
-> driver already keeps clock always-prepared.  Hence I2C subsystem stays
-> independent from the clk power management and there are no deadlock spots
-> in the sequence.
->
-> Currently all clocks are registered very early during kernel boot when the
-> device driver core isn't available yet.  The clk-device can't be created
-> at that time.  This patch splits the registration of the clocks in two
-> phases:
->
->   1. Register all essential clocks which don't use RPM and are needed
->      during early boot.
->
->   2. Register at a later boot time the rest of clocks.
->
-> This patch adds power management support for Tegra20 and Tegra30 clocks.
->
-> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/clk/tegra/Makefile      |   1 +
->  drivers/clk/tegra/clk-device.c  | 230 ++++++++++++++++++++++++++++++++
->  drivers/clk/tegra/clk-pll.c     |   2 +-
->  drivers/clk/tegra/clk-super.c   |   2 +-
->  drivers/clk/tegra/clk-tegra20.c |  77 ++++++++---
->  drivers/clk/tegra/clk-tegra30.c | 116 +++++++++++-----
->  drivers/clk/tegra/clk.c         |  75 ++++++++++-
->  drivers/clk/tegra/clk.h         |   2 +
->  8 files changed, 451 insertions(+), 54 deletions(-)
->  create mode 100644 drivers/clk/tegra/clk-device.c
+>  include/soc/tegra/common.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 >
-> diff --git a/drivers/clk/tegra/Makefile b/drivers/clk/tegra/Makefile
-> index 7b1816856eb5..a0715cdfc1a4 100644
-> --- a/drivers/clk/tegra/Makefile
-> +++ b/drivers/clk/tegra/Makefile
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-y                                  += clk.o
->  obj-y                                  += clk-audio-sync.o
-> +obj-y                                  += clk-device.o
->  obj-y                                  += clk-dfll.o
->  obj-y                                  += clk-divider.o
->  obj-y                                  += clk-periph.o
-> diff --git a/drivers/clk/tegra/clk-device.c b/drivers/clk/tegra/clk-device.c
-> new file mode 100644
-> index 000000000000..830bc0ba25d3
-> --- /dev/null
-> +++ b/drivers/clk/tegra/clk-device.c
-> @@ -0,0 +1,230 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/clk.h>
-> +#include <linux/clk-provider.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_opp.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/slab.h>
-> +
-> +#include <soc/tegra/common.h>
-> +
-> +#include "clk.h"
-> +
+> diff --git a/include/soc/tegra/common.h b/include/soc/tegra/common.h
+> index af41ad80ec21..5b4a042f60fb 100644
+> --- a/include/soc/tegra/common.h
+> +++ b/include/soc/tegra/common.h
+> @@ -39,4 +39,28 @@ devm_tegra_core_dev_init_opp_table(struct device *dev,
+>  }
+>  #endif
+>
 > +/*
-> + * This driver manages performance state of the core power domain for the
-> + * independent PLLs and system clocks.  We created a virtual clock device
-> + * for such clocks, see tegra_clk_dev_register().
+> + * This function should be invoked with the enabled runtime PM of the device
+> + * in order to initialize performance state properly. Most of Tegra devices
+> + * are assumed to be suspended at a probe time and GENPD require RPM to be
+> + * enabled to set up the rpm-resume state, otherwise device is active and
+> + * performance state is applied immediately. Note that it will initialize
+> + * OPP bandwidth if it's wired in a device-tree for this device, which is
+> + * undesirable for a suspended device.
 > + */
-> +
-> +struct tegra_clk_device {
-> +       struct notifier_block clk_nb;
-> +       struct device *dev;
-> +       struct clk_hw *hw;
-> +       struct mutex lock;
-> +};
-> +
-> +static int tegra_clock_set_pd_state(struct tegra_clk_device *clk_dev,
-> +                                   unsigned long rate)
-> +{
-> +       struct device *dev = clk_dev->dev;
-> +       struct dev_pm_opp *opp;
-> +       unsigned int pstate;
-> +
-> +       opp = dev_pm_opp_find_freq_ceil(dev, &rate);
-> +       if (opp == ERR_PTR(-ERANGE)) {
-> +               dev_dbg(dev, "failed to find ceil OPP for %luHz\n", rate);
-> +               opp = dev_pm_opp_find_freq_floor(dev, &rate);
-> +       }
-> +
-> +       if (IS_ERR(opp)) {
-> +               dev_err(dev, "failed to find OPP for %luHz: %pe\n", rate, opp);
-> +               return PTR_ERR(opp);
-> +       }
-> +
-> +       pstate = dev_pm_opp_get_required_pstate(opp, 0);
-> +       dev_pm_opp_put(opp);
-> +
-> +       return dev_pm_genpd_set_performance_state(dev, pstate);
-
-The above code certainly looks like it can be made generic through a
-common opp helper. I know we have discussed this before, so I am not
-saying you should change right now.
-
-Let's instead see what I think (and Viresh), when I have reviewed the
-entire series.
-
-> +}
-> +
-> +static int tegra_clock_change_notify(struct notifier_block *nb,
-> +                                    unsigned long msg, void *data)
-> +{
-> +       struct clk_notifier_data *cnd = data;
-> +       struct tegra_clk_device *clk_dev;
-> +       int err = 0;
-> +
-> +       clk_dev = container_of(nb, struct tegra_clk_device, clk_nb);
-> +
-> +       mutex_lock(&clk_dev->lock);
-> +       switch (msg) {
-> +       case PRE_RATE_CHANGE:
-> +               if (cnd->new_rate > cnd->old_rate)
-> +                       err = tegra_clock_set_pd_state(clk_dev, cnd->new_rate);
-> +               break;
-> +
-> +       case ABORT_RATE_CHANGE:
-> +               err = tegra_clock_set_pd_state(clk_dev, cnd->old_rate);
-> +               break;
-> +
-> +       case POST_RATE_CHANGE:
-> +               if (cnd->new_rate < cnd->old_rate)
-> +                       err = tegra_clock_set_pd_state(clk_dev, cnd->new_rate);
-> +               break;
-> +
-> +       default:
-> +               break;
-> +       }
-> +       mutex_unlock(&clk_dev->lock);
-> +
-> +       return notifier_from_errno(err);
-> +}
-> +
-> +static int tegra_clock_sync_pd_state(struct tegra_clk_device *clk_dev)
-> +{
-> +       unsigned long rate;
-> +       int ret = 0;
-> +
-> +       mutex_lock(&clk_dev->lock);
-> +
-> +       if (!pm_runtime_status_suspended(clk_dev->dev)) {
-> +               rate = clk_hw_get_rate(clk_dev->hw);
-> +               ret = tegra_clock_set_pd_state(clk_dev, rate);
-
-Don't we need to sync the performance state even when the device is
-runtime suspended?
-
-Perhaps the clock, via a child-clock for example, can get
-prepared/enabled (hence its device gets runtime resumed) before there
-is a clock rate update for it. Then there is no performance state set
-for it, right? Or maybe that isn't a problem?
-
-> +       }
-> +
-> +       mutex_unlock(&clk_dev->lock);
-> +
-> +       return ret;
-> +}
-> +
-> +static int tegra_clock_probe(struct platform_device *pdev)
+> +static inline int
+> +devm_tegra_core_dev_init_opp_table_common(struct device *dev)
 > +{
 > +       struct tegra_core_opp_params opp_params = {};
-> +       struct tegra_clk_device *clk_dev;
-> +       struct device *dev = &pdev->dev;
-> +       struct clk *clk;
 > +       int err;
 > +
-> +       if (!dev->pm_domain)
-> +               return -EINVAL;
+> +       opp_params.init_state = true;
 > +
-> +       clk_dev = devm_kzalloc(dev, sizeof(*clk_dev), GFP_KERNEL);
-> +       if (!clk_dev)
-> +               return -ENOMEM;
-> +
-> +       clk = devm_clk_get(dev, NULL);
-> +       if (IS_ERR(clk))
-> +               return PTR_ERR(clk);
-> +
-> +       clk_dev->dev = dev;
-> +       clk_dev->hw = __clk_get_hw(clk);
-> +       clk_dev->clk_nb.notifier_call = tegra_clock_change_notify;
-> +       mutex_init(&clk_dev->lock);
-> +
-> +       platform_set_drvdata(pdev, clk_dev);
-> +
-> +       /*
-> +        * Runtime PM was already enabled for this device by the parent clk
-> +        * driver and power domain state should be synced under clk_dev lock,
-> +        * hence we don't use the common OPP helper that initializes OPP
-> +        * state. For some clocks common OPP helper may fail to find ceil
-> +        * rate, it's handled by this driver.
-> +        */
 > +       err = devm_tegra_core_dev_init_opp_table(dev, &opp_params);
-> +       if (err)
+> +       if (err != -ENODEV)
 > +               return err;
-> +
-> +       err = clk_notifier_register(clk, &clk_dev->clk_nb);
-> +       if (err) {
-> +               dev_err(dev, "failed to register clk notifier: %d\n", err);
-> +               return err;
-> +       }
-> +
-> +       /*
-> +        * The driver is attaching to a potentially active/resumed clock, hence
-> +        * we need to sync the power domain performance state in a accordance to
-> +        * the clock rate if clock is resumed.
-> +        */
-> +       err = tegra_clock_sync_pd_state(clk_dev);
-> +       if (err)
-> +               goto unreg_clk;
-> +
-> +       return 0;
-> +
-> +unreg_clk:
-> +       clk_notifier_unregister(clk, &clk_dev->clk_nb);
-> +
-> +       return err;
-> +}
-> +
-> +static __maybe_unused int tegra_clock_pm_suspend(struct device *dev)
-> +{
-> +       struct tegra_clk_device *clk_dev = dev_get_drvdata(dev);
-> +
-> +       /*
-> +        * Power management of the clock is entangled with the Tegra PMC
-> +        * GENPD because PMC driver enables/disables clocks for toggling
-> +        * of the PD's on/off state.
-> +        *
-> +        * The PMC GENPD is resumed in NOIRQ phase, before RPM of the clocks
-> +        * becomes available, hence PMC can't use clocks at the early resume
-> +        * phase if RPM is involved. For example when 3d clock is enabled,
-> +        * it may enable the parent PLL clock that needs to be RPM-resumed.
-> +        *
-> +        * Secondly, the PLL clocks may be enabled by the low level suspend
-> +        * code, so we need to assume that PLL is in enabled state during
-> +        * suspend.
-> +        *
-> +        * We will keep PLLs and system clock resumed during suspend time.
-> +        * All PLLs on all SoCs are low power and system clock is always-on,
-> +        * so practically not much is changed here.
-> +        */
-> +
-> +       return clk_prepare(clk_dev->hw->clk);
-
-I am trying to understand, more exactly, what you intend to achieve
-with the clk_prepare() here. It looks a bit weird, to me. Can you try
-to elaborate a bit more on the use case?
-
-Is this rather about making sure that the clock's corresponding PM
-domain stays powered on during system suspend? In that case, I think
-there may be an alternative option....
-
-> +}
-> +
-> +static __maybe_unused int tegra_clock_pm_resume(struct device *dev)
-> +{
-> +       struct tegra_clk_device *clk_dev = dev_get_drvdata(dev);
-> +
-> +       clk_unprepare(clk_dev->hw->clk);
 > +
 > +       return 0;
 > +}
-> +
-> +static void tegra_clock_shutdown(struct platform_device *pdev)
-> +{
-> +       struct tegra_clk_device *clk_dev = platform_get_drvdata(pdev);
-> +
-> +       clk_prepare(clk_dev->hw->clk);
-> +}
-> +
-> +static const struct dev_pm_ops tegra_clock_pm = {
-> +       SET_SYSTEM_SLEEP_PM_OPS(tegra_clock_pm_suspend,
-> +                               tegra_clock_pm_resume)
-> +};
 
-[...]
+Just want to share a few thoughts around these functions.
+
+So, I assume it's fine to call
+devm_tegra_core_dev_init_opp_table_common() or
+devm_tegra_core_dev_init_opp_table() from consumer drivers during
+->probe(), as long as those drivers are tegra specific, which I assume
+all are in the series!?
+
+My point is, a cross SoC consumer driver that needs to initiate OPP
+tables can get rather messy, if it would need to make one specific
+function call per SoC.
+
+That said, I hope we can tackle this as a separate/future problem, so
+the series can get merged as is.
+
+> +
+>  #endif /* __SOC_TEGRA_COMMON_H__ */
+> --
+> 2.32.0
+>
 
 Kind regards
 Uffe
