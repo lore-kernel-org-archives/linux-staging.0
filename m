@@ -1,50 +1,49 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B512FB3
-	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 19:15:32 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id u18so42809180lfd.12
-        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 12:15:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224673FE5
+	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 19:50:08 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id m3so42376079lfu.2
+        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 12:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=niNmxAk0ssHAm3Elvv3RJuw0kSncCioQpK+Dv1hLMfQ=;
-        b=ompAaqfUP2nwflwfZymbIWdbQcFcOFoC+2uqB/pw0Y1WeA0ZFgZBrXXroc1D9iZE/3
-         r+IPUa14hP8aLxdvlyxUGLG/sRpD1eVdY6HINGphhODSA8qi/WKmBF/Y4qJmjtqG9i5c
-         QteCTEwJ3FXZQIQOvZg/gr4YarMpWJqOQByuYB3PUiBYUJEXrfcuahtdb4hIBH9fyTNN
-         mNv1yfewQHiWqoHrX0awqEd0Tl6wD/YvrU5uk1BErj6tECORNnLLUEEmHb+sWMY3uVV3
-         Di3gYCH1EFMU7aOskMvk2sJ93QZxwOrUh/JeZf7kFffGHX478Gg8fj5Vh9nZ5d15M/9/
-         cQ9w==
+        bh=+3tCCW1vf690/4T30qcUTSO03STgS9Zq/gOdQmsNyEY=;
+        b=lY0wpPfvEJC3ODP4sRKgGKoG8Swu6fLZXyhOhUQdBtt8vAmwxCUggKysIiRbfpVECz
+         Cd3ipKChxLyI1Zlljt9jBoTItp7HmkRZNf+eWjSo0rRzLJpIXZuZSpuczURL7aSNbaxj
+         i27N4TFDl5jVrgoDNEymG3WJmbBn2a47R0QIsqRS8kEVT2EURQYnYf+OZQh4u5X906wS
+         OP71a4OED8ggbpaM9F9WPD+jQS6co7bb2ujJRxsbNvD0guBE62JtB6hzhNKWUuRSoEPm
+         eED+tROxrUYQsEDU12h+rkOJTDJ9NZqCO/m7egmIDgFRlkZFJ+0EKU6mPddmAv9siSJx
+         aPHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=niNmxAk0ssHAm3Elvv3RJuw0kSncCioQpK+Dv1hLMfQ=;
-        b=2urZ9e29gtNmX/yxTW/sMYocK5CEOapPnYMQhbn9qjyjmVJmsjKyaXt20V++N6a+Ic
-         +c9kHwQolA2U+DysxM00/Hj+n9P3LyWcN7SvORcHVsXEHOb/oWzd2mRKhTVmNXbsoyQE
-         koDAhVhxL++iXGxTxZTta9yfUMsjDcZbkUIRF15Sv9rA+jM/TClk0HrQ8fOachq1Go7W
-         /I9uVX12goVJse6jfa46g/kXndYLqZjUL0zFCZRd4y0cVVJlqDebX+g8xS7kjG3O5in9
-         bsvf/DIytgmdhlJSnpePsNHkd6FHOPKNR9tk902Gyr3QziD+yu1kv1js+GZMdu48AVO0
-         vdIA==
-X-Gm-Message-State: AOAM532RfkEIC7ChX6i4sANeFMleRZNeeRUxzr5b0zE+nzCySLJQjB31
-	0rtMKIYs6nLvWZ24TbI+Ha4=
-X-Google-Smtp-Source: ABdhPJy3ghoTNAi0Jb2SiS3hsWYw15h3Vk93zN4ib7q8hKhDd5DWUUMwX4Q7U3/o0nn9oofd85xS+Q==
-X-Received: by 2002:a2e:4e11:: with SMTP id c17mr13093513ljb.19.1633115730771;
-        Fri, 01 Oct 2021 12:15:30 -0700 (PDT)
+        bh=+3tCCW1vf690/4T30qcUTSO03STgS9Zq/gOdQmsNyEY=;
+        b=HtPgzgs7kmgN6HeDjAS/dfb2dlv5JbvwyNPckSLMHJMxk9p0uE5d3ysrsfDaCDXNEv
+         65bEe9Omn7JyOf070azo9JikDiSHi4BlvniCQ8IbIpMKIeLObN5etp48avJ1mqnrv/k9
+         FJ9yhJTJ8B2vfL6emEqeOyBSs57oTuNX+Ie7oCYEd4qqfZvxSgC9AIphpvp0c6IJ0ukO
+         BQXMM+XX7n38v9BCBxNNYo5hvHh81MranZdWgttZiHBjPaV18d0YUC5BYyic9JorpDrn
+         H7Gof3Hv4VzbSqJMcWT750hkkjYt++0XRcU+WQB1AOmfID+VntsbGQK5pcDaP0y2cNHf
+         jFBQ==
+X-Gm-Message-State: AOAM530AhOUuyrsI+R8lrXNBt3iu4aC6dQI8JELaH9+5hYBEy6ELOQaY
+	Z67N49QDTFvzo77EDFEdkx4=
+X-Google-Smtp-Source: ABdhPJxYsYCCBKlCSGLAzxa6BXsGbqcTjHWvgb7beKpP4WisArOt1AAHN4vdv1Oz4AuVBT+h3gaDUA==
+X-Received: by 2002:a2e:924d:: with SMTP id v13mr13579672ljg.380.1633117806218;
+        Fri, 01 Oct 2021 12:50:06 -0700 (PDT)
 Received: from [192.168.2.145] (79-139-163-198.dynamic.spd-mgts.ru. [79.139.163.198])
-        by smtp.googlemail.com with ESMTPSA id d6sm820684lfi.137.2021.10.01.12.15.29
+        by smtp.googlemail.com with ESMTPSA id d26sm835708ljj.45.2021.10.01.12.50.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Oct 2021 12:15:30 -0700 (PDT)
-Subject: Re: [PATCH v13 02/35] soc/tegra: Add
- devm_tegra_core_dev_init_opp_table_common()
-To: Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>
+        Fri, 01 Oct 2021 12:50:05 -0700 (PDT)
+Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
+To: Ulf Hansson <ulf.hansson@linaro.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
  =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
  Michael Turquette <mturquette@baylibre.com>,
@@ -61,11 +60,11 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
  Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  David Heidelberg <david@ixit.cz>
 References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-3-digetx@gmail.com>
- <CAPDyKFrtE75Tf-vefM0isj52PJ5_v525AjqU2TMUpc4__rYLhA@mail.gmail.com>
+ <20210926224058.1252-7-digetx@gmail.com>
+ <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ab874e0c-903a-fc3b-d33b-54a7a9f0e109@gmail.com>
-Date: Fri, 1 Oct 2021 22:15:29 +0300
+Message-ID: <7386079f-0dfe-9f55-6297-1f9ee67cd9d6@gmail.com>
+Date: Fri, 1 Oct 2021 22:50:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 Precedence: bulk
@@ -74,74 +73,32 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFrtE75Tf-vefM0isj52PJ5_v525AjqU2TMUpc4__rYLhA@mail.gmail.com>
+In-Reply-To: <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-01.10.2021 15:50, Ulf Hansson пишет:
-> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> Only couple drivers need to get the -ENODEV error code and majority of
->> drivers need to explicitly initialize the performance state. Add new
->> common helper which sets up OPP table for these drivers.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  include/soc/tegra/common.h | 24 ++++++++++++++++++++++++
->>  1 file changed, 24 insertions(+)
->>
->> diff --git a/include/soc/tegra/common.h b/include/soc/tegra/common.h
->> index af41ad80ec21..5b4a042f60fb 100644
->> --- a/include/soc/tegra/common.h
->> +++ b/include/soc/tegra/common.h
->> @@ -39,4 +39,28 @@ devm_tegra_core_dev_init_opp_table(struct device *dev,
->>  }
->>  #endif
->>
->> +/*
->> + * This function should be invoked with the enabled runtime PM of the device
->> + * in order to initialize performance state properly. Most of Tegra devices
->> + * are assumed to be suspended at a probe time and GENPD require RPM to be
->> + * enabled to set up the rpm-resume state, otherwise device is active and
->> + * performance state is applied immediately. Note that it will initialize
->> + * OPP bandwidth if it's wired in a device-tree for this device, which is
->> + * undesirable for a suspended device.
->> + */
->> +static inline int
->> +devm_tegra_core_dev_init_opp_table_common(struct device *dev)
+01.10.2021 15:32, Ulf Hansson пишет:
+>> +static int tegra_clock_sync_pd_state(struct tegra_clk_device *clk_dev)
 >> +{
->> +       struct tegra_core_opp_params opp_params = {};
->> +       int err;
+>> +       unsigned long rate;
+>> +       int ret = 0;
 >> +
->> +       opp_params.init_state = true;
+>> +       mutex_lock(&clk_dev->lock);
 >> +
->> +       err = devm_tegra_core_dev_init_opp_table(dev, &opp_params);
->> +       if (err != -ENODEV)
->> +               return err;
->> +
->> +       return 0;
->> +}
+>> +       if (!pm_runtime_status_suspended(clk_dev->dev)) {
+>> +               rate = clk_hw_get_rate(clk_dev->hw);
+>> +               ret = tegra_clock_set_pd_state(clk_dev, rate);
+> Don't we need to sync the performance state even when the device is
+> runtime suspended?
 > 
-> Just want to share a few thoughts around these functions.
+> Perhaps the clock, via a child-clock for example, can get
+> prepared/enabled (hence its device gets runtime resumed) before there
+> is a clock rate update for it. Then there is no performance state set
+> for it, right? Or maybe that isn't a problem?
 > 
-> So, I assume it's fine to call
-> devm_tegra_core_dev_init_opp_table_common() or
-> devm_tegra_core_dev_init_opp_table() from consumer drivers during
-> ->probe(), as long as those drivers are tegra specific, which I assume
-> all are in the series!?
 
-That is correct, all drivers are tegra-specific in this series. External
-devices are attached to the internal SoC devices and this series is
-about the SoC power management.
-
-> My point is, a cross SoC consumer driver that needs to initiate OPP
-> tables can get rather messy, if it would need to make one specific
-> function call per SoC.
-> 
-> That said, I hope we can tackle this as a separate/future problem, so
-> the series can get merged as is.
-
-Yes, as we already have seen, it's not an easy problem to make PD core
-to handle it in a generic way. If there will be a similar demand from
-other SoCs, then we may try to solve that problem again.
+Good catch! Older versions of this patch had a special handling for clk
+enable/disable. I just forgot to update this function, it's now not a
+problem to change performance state of a suspended device and it
+actually needs to be done. I'll correct it, thanks!
