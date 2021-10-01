@@ -1,54 +1,56 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6033FCA
-	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 13:27:59 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id i25so38766583lfg.6
-        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 06:27:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF6A3FCA
+	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 13:39:50 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id g41so38691460lfv.1
+        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 06:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=xnpGYuY4J1MVx4KDnwBO9exyn8J4DWmp5PYIqZLE1ug=;
-        b=soKJl7cwWQ3W4UwDFjN+58V2v5RYuIU0YxRyxYMaINgwEK5Kb355awQUMWcroWHbJo
-         Me+RUP02Enm/bzqDvehZEy7fQWF2sFk9LJqMd5m/oBPklwKMhRK7hJMny9eAuGu48VPg
-         MSymtPMTr3GkgTLH1I0AnDMIx+ROIV7T3NCdZ0xbue3PhEXGHJsxVY0jL8xMzXcrMbrF
-         kX9nrs5tMRkTdxtvQynLy7JVj76hAaAk5aVHedbxGyXGBw0WCCM+yzL88UZ1fDKJWz6p
-         2U52t9cbC9WvtuCg3In2JTTZikJOCaAF8ZLYIYIgSv9a8V8aXXGALPL3LrFK+MyO1ntj
-         GZzw==
+        bh=EjEzezsR+/PambgN+lAAYZ1z9rojBWgi6PT34tsYxbI=;
+        b=C6fV4yWw1ceIqlo3pLFwCxKnhVCw/kuzIb7ecScYvV7TNg4eT2p4ZPgCXRjlPQxuCS
+         Wdr/7z3822oHu/gKY7pb2CMDmwChG2MImExZ3SoiaWINyTtW1mjxzlIHKKJVuIYKx8hL
+         XXDlmZ7O6Q9suRQD3j6+xskiuv0wxvOHMTdBDNCKErUgilJvcT2E9jxQ+bUfhhOn3Zl2
+         PegGBhq5uW1fZcmpSDj8XwDwrskqlXtJCleoq2gIF4EIY51y2Y2nzExVxEGZFUBtMPZS
+         64vraK/EdUmAWqAarHFzUdqeZf01jrOztwUyhU1RKUkqlXcaOnw2/6iNrgizwk96n/W6
+         ZSQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xnpGYuY4J1MVx4KDnwBO9exyn8J4DWmp5PYIqZLE1ug=;
-        b=p+mRnBT15Axf3+hnDek1in1qJxjHHG+vZ9aJ4bpBG1re6QIkK02zMdBKE9pZ473/79
-         qji0uVf4ASrjHP5Su8j778mZF59WcAVGlajxvx+Ogr0owcC3OGuj5tseOyhFakYq1wcv
-         QyQ+pu0ws/XoTupr73Zrv03UabHDh84Ki6vgyuCG8D5k8mLCix73rTgjOqBSl/DysrM5
-         hLPWhEFogcLPDDCxe0hXsVFcLHm95vZAVZ3jRNm6Iln7T5iL/UnI8kG2yd/BMJDGOWxY
-         G+QGpKGu/ZCM1k75N89eEwCM30X61rTL3jq6klZMgZ5o/gZNrZryKumoP2BfVACYG75j
-         lvJA==
-X-Gm-Message-State: AOAM5338HEItOXJdfPQgiw+rx5XCGzyB+Xk6XDCctPp6usB78md2glcS
-	QWDfJwXQ257qKk8pDEBPycp2+qZn2gl+4QUvT07G0w==
-X-Google-Smtp-Source: ABdhPJxX1GobNBTGZAnR139s5Ubq3WBZYj+/TS7clunNypQi+CGy+oUt/x9SJI6rsK1E9roKL3hS5JPL62b+VvMRdQw=
-X-Received: by 2002:a05:651c:20b:: with SMTP id y11mr12340667ljn.463.1633094876449;
- Fri, 01 Oct 2021 06:27:56 -0700 (PDT)
+        bh=EjEzezsR+/PambgN+lAAYZ1z9rojBWgi6PT34tsYxbI=;
+        b=eFwYKnOWGdIaIP/hIr2dvKXA9Iy/PbcI3SxIZ9ML4h1hPfxG4YCkGcR6/z5G2HPi2l
+         uTAFz2OXFtUou/wiCqYtWMKBiB8GBQexb60AJJ/vBMaBde1ZPD+pFzRkX7vf1doGTtgd
+         uJaogfSkt2PqFi9c1GVrXpmn2oXlDs8t/w9+y2HVNTfNjnebut5VcnNwUF/29Vd5JtTI
+         mT62Q4yNbmG/oAOQz7bq2ml6lM0l09FB+W8PJfl4u6qVpT0BLq5BxW+P6boxU/6r3iDJ
+         uhRwaIyxuS2oBstK4bZTTiOHI6o93guoaFCttBs4sAtJK5qaBtO/m/K0PTejyQ6rjUet
+         st/Q==
+X-Gm-Message-State: AOAM532nBRsX3MPTy4IaFmeqa0PuvaWHzdw/pfre/c67gRLXFyFzKOb1
+	vWjgQzd4a+BApkNap77UnznDR50V45tMTNNm2z4pSw==
+X-Google-Smtp-Source: ABdhPJxp4p0UQRRIw2z72BWkWXdCGpyRnefweou3T6S9p6407CeSYXpm2W/gIhkCapLJ10cfY553xwNF/HrJa5MfNR0=
+X-Received: by 2002:a05:651c:2006:: with SMTP id s6mr12122181ljo.4.1633095586851;
+ Fri, 01 Oct 2021 06:39:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-12-digetx@gmail.com>
-In-Reply-To: <20210926224058.1252-12-digetx@gmail.com>
+References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-14-digetx@gmail.com>
+In-Reply-To: <20210926224058.1252-14-digetx@gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 1 Oct 2021 15:27:20 +0200
-Message-ID: <CAPDyKFobSsFOnmFc4BG353uYgECGD1U1U020oQwB7pX0mfCfvw@mail.gmail.com>
-Subject: Re: [PATCH v13 11/35] drm/tegra: dc: Support OPP and SoC core voltage scaling
-To: Dmitry Osipenko <digetx@gmail.com>, Viresh Kumar <vireshk@kernel.org>
+Date: Fri, 1 Oct 2021 15:39:10 +0200
+Message-ID: <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
+Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: Dmitry Osipenko <digetx@gmail.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
-	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
 	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
 	Michael Turquette <mturquette@baylibre.com>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
@@ -63,9 +65,7 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
 >
-> Add OPP and SoC core voltage scaling support to the display controller
-> driver. This is required for enabling system-wide DVFS on pre-Tegra186
-> SoCs.
+> Add runtime power management and support generic power domains.
 >
 > Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
 > Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
@@ -73,77 +73,24 @@ On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
 > Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/gpu/drm/tegra/dc.c | 74 ++++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/tegra/dc.h |  2 ++
->  2 files changed, 76 insertions(+)
->
-> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> index a29d64f87563..d4047a14e2b6 100644
-> --- a/drivers/gpu/drm/tegra/dc.c
-> +++ b/drivers/gpu/drm/tegra/dc.c
-> @@ -11,9 +11,12 @@
->  #include <linux/interconnect.h>
->  #include <linux/module.h>
->  #include <linux/of_device.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/reset.h>
->
-> +#include <soc/tegra/common.h>
->  #include <soc/tegra/pmc.h>
->
->  #include <drm/drm_atomic.h>
-> @@ -1762,6 +1765,47 @@ int tegra_dc_state_setup_clock(struct tegra_dc *dc,
->         return 0;
->  }
->
-> +static void tegra_dc_update_voltage_state(struct tegra_dc *dc,
-> +                                         struct tegra_dc_state *state)
-> +{
-> +       unsigned long rate, pstate;
-> +       struct dev_pm_opp *opp;
-> +       int err;
-> +
-> +       if (!dc->has_opp_table)
-> +               return;
-> +
-> +       /* calculate actual pixel clock rate which depends on internal divider */
-> +       rate = DIV_ROUND_UP(clk_get_rate(dc->clk) * 2, state->div + 2);
-> +
-> +       /* find suitable OPP for the rate */
-> +       opp = dev_pm_opp_find_freq_ceil(dc->dev, &rate);
-> +
-> +       if (opp == ERR_PTR(-ERANGE))
-> +               opp = dev_pm_opp_find_freq_floor(dc->dev, &rate);
-> +
-> +       if (IS_ERR(opp)) {
-> +               dev_err(dc->dev, "failed to find OPP for %luHz: %pe\n",
-> +                       rate, opp);
-> +               return;
-> +       }
-> +
-> +       pstate = dev_pm_opp_get_required_pstate(opp, 0);
-> +       dev_pm_opp_put(opp);
-> +
-> +       /*
-> +        * The minimum core voltage depends on the pixel clock rate (which
-> +        * depends on internal clock divider of the CRTC) and not on the
-> +        * rate of the display controller clock. This is why we're not using
-> +        * dev_pm_opp_set_rate() API and instead controlling the power domain
-> +        * directly.
-> +        */
-> +       err = dev_pm_genpd_set_performance_state(dc->dev, pstate);
-> +       if (err)
-> +               dev_err(dc->dev, "failed to set power domain state to %lu: %d\n",
-> +                       pstate, err);
+>  drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++--
 
-Yeah, the above code looks very similar to the code I pointed to in
-patch6. Perhaps we need to discuss with Viresh, whether it makes sense
-to fold in a patch adding an opp helper function after all, to avoid
-the open coding.
+[...]
 
-Viresh?
+>  static int gr2d_remove(struct platform_device *pdev)
+> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *pdev)
+>                 return err;
+>         }
+>
+> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
+> +       pm_runtime_disable(&pdev->dev);
+
+There is no guarantee that the ->runtime_suspend() has been invoked
+here, which means that clock may be left prepared/enabled beyond this
+point.
+
+I suggest you call pm_runtime_force_suspend(), instead of
+pm_runtime_disable(), to make sure that gets done.
 
 [...]
 
