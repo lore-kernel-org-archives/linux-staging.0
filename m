@@ -1,109 +1,129 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C7D2F80
-	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 14:41:03 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id e15so39691791lfr.10
-        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 07:41:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4832F80
+	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 14:55:49 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id b20so40137090lfv.3
+        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 07:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UwoFVO+dO6njxeQ0bgYN0BE5nPQzR3DQc5Vpm1mPWnk=;
-        b=bB/u42AJ2XXQN1gkrv2XrgFEHLsC9tr/msHwyleZGinleVLXGT0sIc7aRIobWDsdwK
-         rYmP4xYIZrNx7FEjW8gkOF8XTaA28F6hB3+xTDBkrNXJOvKvSI21l/YBsLJfAMXkio4C
-         7NBXTCI3sn5+W+w+KtLJbYC5LP/97qksxgR3TZpUuIT9/yB0xDHeE0X8HrFFuSBN5wey
-         fT+imhtqpDUqwLIYCsyUuYHelYzGIbIc8IYVegIWx4SYR+EJqWy+zvJfTDe+HvKK5tRH
-         rVcL57VEZmSs3NnnC1O6JVmftNWEqb6OgGHKsrZ00QxGboCARiFAeuOAtKXvFG/eeYSH
-         tzBw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HF8DBMItzWWxaU367RAPSYKUXH5BnlS9jAZczRe4ePU=;
+        b=aqXBI8UqLDWeTuVHGIBErjDsxio9yrdPfisehV9T9mJJk+ppF2b/RSy8QKzqoblHaJ
+         hktrYJaeXtvLqskrzNnGhVJzexc6aEdc98fBbQvK69Gb12EAMd3ESJqlkrS5oD7OvNgG
+         P97muReS34kLGu9NjHY+j5dwj2WyCWNHYTaed7xbvTrI2JzTGDs8qi8N0Qw7LkdjcWZX
+         LXXkcViUSEK9vm+haTULi+cNSHJvU7ahpKWlcRMN7cX+R5RpA0/f3OUd7Bkg7+NCE+Fi
+         1p1K49QgqzjgYEL1VL7M/h/E3btzs6Z5y5Av95Pp0dtJLF67v2p4aNsixGXoHBfrryKU
+         UTgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UwoFVO+dO6njxeQ0bgYN0BE5nPQzR3DQc5Vpm1mPWnk=;
-        b=UrzS1tpefYYDTn8gjRBUAajK/Aac97lb6UNmnS1ErQQJWmjjoF79Fcl/Nc/Xn6Yny5
-         U5UpI9tQZhC/tjWz1EjB+bdni8fNEKlYTSxi1UyHBj01p+vFeCCUJZxH4g3xputUgS9S
-         3syKqEEMXLmgSn/pXVESSn0/9wntFWpTkuIDB9AXw+u0O2Pokz3mrj4ALyzqgafRhhIS
-         vnDLARzzblU2fDIDgy6VB649T7VEzqfdsKJAaTYVMVBxIc1a30LEe2SLS5f5Ro9AnYui
-         qbgXtqx0bB5pUq9is7950HApMJ4j0P9SQITc8U8oM4ubDC1aDf9MurP2C5OXRx/74Epn
-         E9yA==
-X-Gm-Message-State: AOAM5304u6MNPjAptSr8/IYWsMHvEeytPGURyhyV6hb8bAxSTvvHFZD8
-	IOdjZ/se5hpclnPH7KT4LE4=
-X-Google-Smtp-Source: ABdhPJxN+K58baeAMtHludWtY5/aoUpfpV69UhD5D2HxeBWOVS2Xyit1TAYk0S1tQsqKv+wvTGH+kA==
-X-Received: by 2002:a19:4802:: with SMTP id v2mr5884316lfa.12.1633099261566;
-        Fri, 01 Oct 2021 07:41:01 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-198.dynamic.spd-mgts.ru. [79.139.163.198])
-        by smtp.googlemail.com with ESMTPSA id z12sm754221lfd.283.2021.10.01.07.41.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Oct 2021 07:41:01 -0700 (PDT)
-Subject: Re: [PATCH v13 00/35] NVIDIA Tegra power management patches for 5.16
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <CAPDyKFog31OatzU0fHUMfN5FRsX+8Thm8TfipA4QisgFepU+rA@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <662251e0-d1e4-97ce-16f9-703521cc2600@gmail.com>
-Date: Fri, 1 Oct 2021 17:40:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HF8DBMItzWWxaU367RAPSYKUXH5BnlS9jAZczRe4ePU=;
+        b=HbBQhCFUyfTFgry5QmTLAhGU53iPEDH64WGvIj3xvG4y3DU+onVPh+P3spDK38tqaj
+         P9aHq6CwuZaQD37lAQ07Lbb529EgXLnXWM8j81FeVNwDzNshdOfb+X7voJuqK+2H1HLW
+         Qizc0HOcZN2AKnpO3Yu/2x20+vHnqws7eWXxM5Yi1XD0XMPXHUvXY3GCVx8ATiFF9GQw
+         W8sC60XEpkK1r7KX3WhT/XD60wHlbVItlngrqdj3uktXZPQMOWmR9sY7gOow4gYi/nhz
+         sNQIp0MZWyXY7G8afxqN9upUcPAZqSu60C7NA2EbNkxElXMXMEoW5ch7T/Zzx+eKBAR5
+         YIrw==
+X-Gm-Message-State: AOAM5324jnMP9TUr6WV1d+LloFVdN7OT7YZGUhlNB+t4kSc8ju5XyyhD
+	vDrZDW0LqC08/mx5xGaRXR4y7SSH3yYi05+CtKcdSQ==
+X-Google-Smtp-Source: ABdhPJy2ug8Cm3POxLOQxU+SWQ8ZDieYeZsYoVZxo62Idbb6vc9hck4xUmbalsRsefa0nQdQjDMqTs5I8HVxPDG4gAE=
+X-Received: by 2002:a05:6512:3095:: with SMTP id z21mr5935006lfd.167.1633100147608;
+ Fri, 01 Oct 2021 07:55:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFog31OatzU0fHUMfN5FRsX+8Thm8TfipA4QisgFepU+rA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-14-digetx@gmail.com>
+ <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com> <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
+In-Reply-To: <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 1 Oct 2021 16:55:11 +0200
+Message-ID: <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
+Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Michael Turquette <mturquette@baylibre.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
+	linux-mmc <linux-mmc@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
+	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
+	Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>, David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-01.10.2021 17:36, Ulf Hansson пишет:
-> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> This series adds runtime PM support to Tegra drivers and enables core
->> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
->>
->> All patches in this series are interdependent and should go via Tegra tree.
->>
->> Changelog:
->>
->> v13: - Fixed compile-test error reported by build bot by reverting the
->>        mmc/ patch to v11. The sdhci_suspend/resume_host() functions aren't
->>        available with the disabled CONFIG_PM_SLEEP, some code needs the
->>        ifdef.
->>
->>      - Added last r-b from Rob Herring for the DT patches.
->>
->>      - Corrected clk/ PM domain-support patch by not using the
->>        devm_tegra_core_dev_init_opp_table_common() helper, which I
->>        utilized in v12. The clk driver implements its own power domain
->>        state syncing and common helper shouldn't be used. This fixes driver
->>        probing for some clocks on some devices. It was reported by
->>        Svyatoslav Ryhel for PLLE OPP error on T30 Asus Transformer tablet.
-> 
-> Dmitry, I have looked through the series and besides those comments
-> that I have posted, I have nothing more to add. Overall it looks good
-> to me.
+On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 01.10.2021 16:39, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote=
+:
+> >>
+> >> Add runtime power management and support generic power domains.
+> >>
+> >> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+> >> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
+> >> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T12=
+4
+> >> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++-=
+-
+> >
+> > [...]
+> >
+> >>  static int gr2d_remove(struct platform_device *pdev)
+> >> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *=
+pdev)
+> >>                 return err;
+> >>         }
+> >>
+> >> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
+> >> +       pm_runtime_disable(&pdev->dev);
+> >
+> > There is no guarantee that the ->runtime_suspend() has been invoked
+> > here, which means that clock may be left prepared/enabled beyond this
+> > point.
+> >
+> > I suggest you call pm_runtime_force_suspend(), instead of
+> > pm_runtime_disable(), to make sure that gets done.
+>
+> The pm_runtime_disable() performs the final synchronization, please see [=
+1].
+>
+> [1]
+> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/runt=
+ime.c#L1412
 
-Ulf, thank you very much! Yours input is invaluable. I'm happy that this
-series moving steadily to the final stage.
+pm_runtime_disable() end up calling _pm_runtime_barrier(), which calls
+cancel_work_sync() if dev->power.request_pending has been set.
+
+If the work that was punted to the pm_wq in rpm_idle() has not been
+started yet, we end up just canceling it. In other words, there are no
+guarantees it runs to completion.
+
+Moreover, use space may have bumped the usage count via sysfs for the
+device (pm_runtime_forbid()) to keep the device runtime resumed.
+
+>
+> Calling pm_runtime_force_suspend() isn't correct because each 'enable'
+> must have the corresponding 'disable'. Hence there is no problem here.
+
+pm_runtime_force_suspend() calls pm_runtime_disable(), so I think that
+should be fine. No?
+
+Kind regards
+Uffe
