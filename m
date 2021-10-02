@@ -1,103 +1,110 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F007B3FCC
-	for <linux-staging@lists.linux.dev>; Fri,  1 Oct 2021 21:25:34 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id x27so43215090lfa.9
-        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 14:25:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7B23FDE
+	for <linux-staging@lists.linux.dev>; Sat,  2 Oct 2021 06:07:10 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id z184-20020a1c7ec1000000b003065f0bc631so12958656wmc.0
+        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 23:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=PCx+Mv1g2fXDWZ1yxKCufXcb8CGDrVVRus80Eavv7Ms=;
-        b=AoOrU/vzFMh0SeboIlXMtpNDGkYKn1nagDBoSx7YjB/QehXjY148G9jNUrxWmj+VLS
-         thqf3WTWyv2KgzuCKJgAZtvLfuVTKHVZvxZ6W/v3MpnV1knnxoAKmsgMXbYc8hQX6L4m
-         27bTEIknYqodxO1P46g5y8th3QuIbfdgGpCEWEBjBEI0bRGm4qAhzegrULVaAiivY+Mh
-         x+t6HwqOhcQgQuTMWHPo+FtI3bPeA65O68izCkj0O0dmOktC4XPdYvSp/C5mg+rlwHvZ
-         baqhRxdt1w4rGWw9l8GTpQxhVXx3W19ivPNG/b+kFePi3tvLX4ZgYZ2jb6Li8kajTdY4
-         hAdA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/f3cET730JLDMY36uwaulpDPaVnp+c77Wg4eA5v2Om8=;
+        b=QNb1H4oQn/EZNVzn2DPSmKT1Yyxg1xtu+tUIU29mQdWvlNq6CWUthtxLH66KyUPHfB
+         LP+ztW6JXQvQ6TSb7n8xui92QN65Jx4Fgyp4OtJSwKZVtV+o+9Dk6o62FD3K/atUYjZY
+         Sc9y3kOxvfsHyJ6VVpGV3KxEIgAO2FHsjVeRsyBY1+JTGyYC7pLpY3ODDEbLJBynQIrO
+         iXsXjY7bNV3IRARZsr5ZBHYnZXWDEQ3nPw39PxMBah+ZIY7JIkdK7CnZk1RdLBBheEdp
+         KUebJGxI2C1VsV9vD62L1sLSpmQ4kV7eA35FqO1sGi/4wWSLIHK0VT/0lW0kRWFyHJ7n
+         9ELg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PCx+Mv1g2fXDWZ1yxKCufXcb8CGDrVVRus80Eavv7Ms=;
-        b=biXz4bcZdP5vIt1HsPL/osf7IdHOzJggH2SgAy/OjWxYDsN5e2w2X/atOUMMYm5D/K
-         7kOTJUEm/eVk7nNDops5YidaXQQ1yc7B/wjmha2TB26TRVQw9ZMU4Mmb9sXQobhwudSk
-         07xHHoqnDoqJhOCp79u+gDDL40DVJJ9SaUc2Ixb+rLYTOyCxaEAMQqnRVP3mOfDPDnjO
-         2X4sJHPEWFfyPeHpGSXHmaqaNu/HbqdLHNlX0XyYMTz2YaOVo2kL26R4pIJxmxCMAqds
-         UBq0k/k3vj/eemNKETLbyvsQyAElH57HtTsL2YLW8/QlY4mtsQMfZFcxqqEgXRgcROCh
-         K4lw==
-X-Gm-Message-State: AOAM530WKzuGiK6rMp3wYV0xNB6WI8PKFQ57fVgUHcQ70uuuZfdFnX7E
-	hTU8F2RhDsdgwaAW28GcuTE=
-X-Google-Smtp-Source: ABdhPJyBKnVQGEy++56pE3HiXi9tWCycvRfw9hdTpeQ3zwv+9sj//Y/axLqWUGErfO2svv3m5cLJIA==
-X-Received: by 2002:ac2:51a6:: with SMTP id f6mr310738lfk.150.1633123533086;
-        Fri, 01 Oct 2021 14:25:33 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-198.dynamic.spd-mgts.ru. [79.139.163.198])
-        by smtp.googlemail.com with ESMTPSA id u4sm927755lfu.200.2021.10.01.14.25.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Oct 2021 14:25:32 -0700 (PDT)
-Subject: Re: [PATCH v13 14/35] drm/tegra: gr3d: Support generic power domain
- and runtime PM
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-15-digetx@gmail.com>
- <CAPDyKFoZdmnmcdoWsD36uQesSjz8KJOq0JxY5tNbHgO_xMy+_g@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4281a6db-9875-7266-268a-a1639e7d01ff@gmail.com>
-Date: Sat, 2 Oct 2021 00:25:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        bh=/f3cET730JLDMY36uwaulpDPaVnp+c77Wg4eA5v2Om8=;
+        b=sU2pqjB2QYFp8NtGd+PlCFBPWhos6shyZFZb5xxHqn2w2dvb6lNwvVY+MUBFckW7JK
+         cGCrCZfsFEflNCudZr/l7xoY8MyGp+BH3/QvNko+/i6Dx1Oixh1lb8wTri7x99g7uw+5
+         zUvc3wKBRzBir+CEv0vn2k1CHR2+0drc+uuzr+4/AcQYXpO277XKcD7/wUD3LWr9ijDK
+         q/VMLD0oMQLCwt4O+5W9TGiwoYCvDd+fhEdv4xonHMpihRoym4RsKvSvWSYAKqccTo+R
+         +p4PPw9ITcuU2jTYt9vGqeVtk5akukXwbVneL/G2j7b/fh0mcOME3YDdDyGbyuvSEl7K
+         DP5w==
+X-Gm-Message-State: AOAM532Eq8tYmY6C008s5ICK357bwd/LGIK4jEWixPj3RtzYFH4SvASu
+	beIGxl3eFXibLm+SVaU9Zwm3WWJNlvA=
+X-Google-Smtp-Source: ABdhPJw5tX+f1aPpHSxdOxNJrqI0kJjNNocU2eBQrcQ7H4M81Jppt4xC4GBtqMcaMdCz9iBFzQZE2Q==
+X-Received: by 2002:a1c:2785:: with SMTP id n127mr7742498wmn.155.1633154828694;
+        Fri, 01 Oct 2021 23:07:08 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id l18sm7594822wrp.56.2021.10.01.23.07.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 01 Oct 2021 23:07:08 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	neil@brown.name
+Subject: [PATCH] staging: mt7621-dts: properly define 'cpc' and 'mc' nodes
+Date: Sat,  2 Oct 2021 08:07:06 +0200
+Message-Id: <20211002060706.30511-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFoZdmnmcdoWsD36uQesSjz8KJOq0JxY5tNbHgO_xMy+_g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-01.10.2021 17:06, Ulf Hansson пишет:
-> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
->> Add runtime power management and support generic power domains.
->>
->> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
->> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
->> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
->> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/gpu/drm/tegra/gr3d.c | 388 ++++++++++++++++++++++++++++++-----
-> [...]
+'cpc' and 'mc' nodes correspond with the MIPS 'Cluster Power Controller'
+and 'MIPS Common Device Memory Map' which are present in some MIPS related
+boards. There is already bindings documentation for these two located in:
+- Documentation/devicetree/bindings/power/mti,mips-cpc.yaml
+- Documentation/devicetree/bindings/bus/mti,mips-cdmm.yaml
 
-> 
-> I was looking for a call to dev_pm_opp_set_rate(), but couldn't find
-> it. Isn't that needed when changing the rate of the clock?
+Hence, properly update compatible strings and align nodes with already
+mainlined bindings documentation. Also, move their definition to a proper
+place since both of them are not related with the palmbus at all.
 
-That is another good catch! Previous versions of this patch were
-changing the rate, while the current version not. So the
-set_opp_helper() isn't needed for this patch anymore. It may become
-needed sometime later, but not for this series. I'll remove it in the
-next version, thanks!
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+---
+ drivers/staging/mt7621-dts/mt7621.dtsi | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
+index 40c594fdad5f..c0fcbbe72e64 100644
+--- a/drivers/staging/mt7621-dts/mt7621.dtsi
++++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+@@ -128,16 +128,6 @@ memc: syscon@5000 {
+ 			reg = <0x5000 0x1000>;
+ 		};
+ 
+-		cpc: cpc@1fbf0000 {
+-			     compatible = "mediatek,mt7621-cpc";
+-			     reg = <0x1fbf0000 0x8000>;
+-		};
+-
+-		mc: mc@1fbf8000 {
+-			    compatible = "mediatek,mt7621-mc";
+-			    reg = <0x1fbf8000 0x8000>;
+-		};
+-
+ 		uartlite: uartlite@c00 {
+ 			compatible = "ns16550a";
+ 			reg = <0xc00 0x100>;
+@@ -359,6 +349,16 @@ timer {
+ 		};
+ 	};
+ 
++	cpc: cpc@1fbf0000 {
++		compatible = "mti,mips-cpc";
++		reg = <0x1fbf0000 0x8000>;
++	};
++
++	cdmm: cdmm@1fbf8000 {
++		compatible = "mti,mips-cdmm";
++		reg = <0x1fbf8000 0x8000>;
++	};
++
+ 	nand: nand@1e003000 {
+ 		status = "disabled";
+ 
+-- 
+2.25.1
+
