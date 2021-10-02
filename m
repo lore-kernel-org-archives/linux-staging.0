@@ -1,110 +1,109 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7B23FDE
-	for <linux-staging@lists.linux.dev>; Sat,  2 Oct 2021 06:07:10 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id z184-20020a1c7ec1000000b003065f0bc631so12958656wmc.0
-        for <linux-staging@lists.linux.dev>; Fri, 01 Oct 2021 23:07:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865FD29CA
+	for <linux-staging@lists.linux.dev>; Sat,  2 Oct 2021 14:13:33 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id s16so10586607pfk.0
+        for <linux-staging@lists.linux.dev>; Sat, 02 Oct 2021 07:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/f3cET730JLDMY36uwaulpDPaVnp+c77Wg4eA5v2Om8=;
-        b=QNb1H4oQn/EZNVzn2DPSmKT1Yyxg1xtu+tUIU29mQdWvlNq6CWUthtxLH66KyUPHfB
-         LP+ztW6JXQvQ6TSb7n8xui92QN65Jx4Fgyp4OtJSwKZVtV+o+9Dk6o62FD3K/atUYjZY
-         Sc9y3kOxvfsHyJ6VVpGV3KxEIgAO2FHsjVeRsyBY1+JTGyYC7pLpY3ODDEbLJBynQIrO
-         iXsXjY7bNV3IRARZsr5ZBHYnZXWDEQ3nPw39PxMBah+ZIY7JIkdK7CnZk1RdLBBheEdp
-         KUebJGxI2C1VsV9vD62L1sLSpmQ4kV7eA35FqO1sGi/4wWSLIHK0VT/0lW0kRWFyHJ7n
-         9ELg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=GmWwwc/7x5Zt6Q9LrNLIvEiUYEg4AjgxYm4UNuFf9Ig=;
+        b=i1HJZNUFFGNOjpzYrPGS487erP/Dutkcy538JXmzDZ9BuDeIe/r1sGe+SCkueYIROW
+         sP91bmwvjhpc6Vo9cZ43jAlWN63S1FmGdy0gg5CgLoRK3ELNxUfbCDgBdm5uV3hmvppP
+         FL3kmrPQ5M3ZcdbYWg+dI5+H1o+MCUq0UNOn0w/tbpyRrKoT6xnqZ6Aygaag4oaecrIy
+         swkwAEukFOMaEtRvXecg7nF0X+A/5JyjvCKLLe+EE5qZnsiMopsxGuIw1ug6CEfvT4ob
+         IjxEUrLDOe4qeWW3jePZQSL+eNycVW0qwzAkkdaeGGeI8yUsaXrQLKDOpqOPsLY+RtIE
+         nRhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/f3cET730JLDMY36uwaulpDPaVnp+c77Wg4eA5v2Om8=;
-        b=sU2pqjB2QYFp8NtGd+PlCFBPWhos6shyZFZb5xxHqn2w2dvb6lNwvVY+MUBFckW7JK
-         cGCrCZfsFEflNCudZr/l7xoY8MyGp+BH3/QvNko+/i6Dx1Oixh1lb8wTri7x99g7uw+5
-         zUvc3wKBRzBir+CEv0vn2k1CHR2+0drc+uuzr+4/AcQYXpO277XKcD7/wUD3LWr9ijDK
-         q/VMLD0oMQLCwt4O+5W9TGiwoYCvDd+fhEdv4xonHMpihRoym4RsKvSvWSYAKqccTo+R
-         +p4PPw9ITcuU2jTYt9vGqeVtk5akukXwbVneL/G2j7b/fh0mcOME3YDdDyGbyuvSEl7K
-         DP5w==
-X-Gm-Message-State: AOAM532Eq8tYmY6C008s5ICK357bwd/LGIK4jEWixPj3RtzYFH4SvASu
-	beIGxl3eFXibLm+SVaU9Zwm3WWJNlvA=
-X-Google-Smtp-Source: ABdhPJw5tX+f1aPpHSxdOxNJrqI0kJjNNocU2eBQrcQ7H4M81Jppt4xC4GBtqMcaMdCz9iBFzQZE2Q==
-X-Received: by 2002:a1c:2785:: with SMTP id n127mr7742498wmn.155.1633154828694;
-        Fri, 01 Oct 2021 23:07:08 -0700 (PDT)
-Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id l18sm7594822wrp.56.2021.10.01.23.07.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 01 Oct 2021 23:07:08 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	neil@brown.name
-Subject: [PATCH] staging: mt7621-dts: properly define 'cpc' and 'mc' nodes
-Date: Sat,  2 Oct 2021 08:07:06 +0200
-Message-Id: <20211002060706.30511-1-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=GmWwwc/7x5Zt6Q9LrNLIvEiUYEg4AjgxYm4UNuFf9Ig=;
+        b=Sn11gZLfemkrOX/241yGKvOUGfkQAo8+OPufi3pODXUV94KoDH/cZtC5r608jton57
+         sd6cNNURj+kMWfi6a1z0BczdeoedtBuYm+1uGXuKkJHoUmaut9gCK6gqIUwyxZNf2Jps
+         9nI5xLVgDg8StLPnHmx1qXvJuTpSSRslc/qxPDQCjVXd/1jBt9R/GoplnlE+dBfwXXtw
+         7sYCdZ+grrxqe1CR87sJew4aO1JEsF3LEI72t//a2MUzwCyxcNMAl4Xx3iJMeCJyiU9F
+         E55MD7mqglMGcEhoOdUJgWib6by5VlxU25WJBEInv9cpDSsPV83C12fNPpWrMEhmSg1x
+         ERog==
+X-Gm-Message-State: AOAM531m18BzVe9VM1zVMuNFNJP4iGVmbEAg20tY+FIblKpIExV5G4vU
+	l9Gh5b7gUX4cX4sZrTnJvwo=
+X-Google-Smtp-Source: ABdhPJxL3P/OBvBoNSKbjJ71tJMJERPJcFe+QbVr8EnjkA4fcsksLk89hxLzrnxT9iAB6PnHTYYZtw==
+X-Received: by 2002:a63:950f:: with SMTP id p15mr3013366pgd.265.1633184012883;
+        Sat, 02 Oct 2021 07:13:32 -0700 (PDT)
+Received: from user ([223.230.105.60])
+        by smtp.gmail.com with ESMTPSA id l185sm9308237pfd.29.2021.10.02.07.13.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Oct 2021 07:13:32 -0700 (PDT)
+Date: Sat, 2 Oct 2021 19:43:25 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, fmdefrancesco@gmail.com,
+	straube.linux@gmail.com, saurav.girepunje@gmail.com,
+	linux@roeck-us.net, dan.carpenter@oracle.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: core: remove unused variable local variable
+Message-ID: <YVhpBWhNt7mwfNKU@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-'cpc' and 'mc' nodes correspond with the MIPS 'Cluster Power Controller'
-and 'MIPS Common Device Memory Map' which are present in some MIPS related
-boards. There is already bindings documentation for these two located in:
-- Documentation/devicetree/bindings/power/mti,mips-cpc.yaml
-- Documentation/devicetree/bindings/bus/mti,mips-cdmm.yaml
+Remove unused local variable macAddr.
 
-Hence, properly update compatible strings and align nodes with already
-mainlined bindings documentation. Also, move their definition to a proper
-place since both of them are not related with the palmbus at all.
-
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 ---
- drivers/staging/mt7621-dts/mt7621.dtsi | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/r8188eu/core/rtw_br_ext.c    | 3 +--
+ drivers/staging/r8188eu/core/rtw_xmit.c      | 2 +-
+ drivers/staging/r8188eu/include/usb_osintf.h | 3 +--
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 40c594fdad5f..c0fcbbe72e64 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -128,16 +128,6 @@ memc: syscon@5000 {
- 			reg = <0x5000 0x1000>;
- 		};
- 
--		cpc: cpc@1fbf0000 {
--			     compatible = "mediatek,mt7621-cpc";
--			     reg = <0x1fbf0000 0x8000>;
--		};
--
--		mc: mc@1fbf8000 {
--			    compatible = "mediatek,mt7621-mc";
--			    reg = <0x1fbf8000 0x8000>;
--		};
--
- 		uartlite: uartlite@c00 {
- 			compatible = "ns16550a";
- 			reg = <0xc00 0x100>;
-@@ -359,6 +349,16 @@ timer {
- 		};
- 	};
- 
-+	cpc: cpc@1fbf0000 {
-+		compatible = "mti,mips-cpc";
-+		reg = <0x1fbf0000 0x8000>;
-+	};
-+
-+	cdmm: cdmm@1fbf8000 {
-+		compatible = "mti,mips-cdmm";
-+		reg = <0x1fbf8000 0x8000>;
-+	};
-+
- 	nand: nand@1e003000 {
- 		status = "disabled";
- 
--- 
-2.25.1
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index 62a672243696..bcd0f9dd64b1 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -695,8 +695,7 @@ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb)
+ 	}
+ }
+
+-void *scdb_findEntry(struct adapter *priv, unsigned char *macAddr,
+-				unsigned char *ipAddr)
++void *scdb_findEntry(struct adapter *priv, unsigned char *ipAddr)
+ {
+ 	unsigned char networkAddr[MAX_NETWORK_ADDR_LEN];
+ 	struct nat25_network_db_entry *db;
+diff --git a/drivers/staging/r8188eu/core/rtw_xmit.c b/drivers/staging/r8188eu/core/rtw_xmit.c
+index f9ae48f73cdf..b34cb5b97df1 100644
+--- a/drivers/staging/r8188eu/core/rtw_xmit.c
++++ b/drivers/staging/r8188eu/core/rtw_xmit.c
+@@ -1593,7 +1593,7 @@ static int rtw_br_client_tx(struct adapter *padapter, struct sk_buff **pskb)
+ 		if (*((__be16 *)(skb->data + MACADDRLEN * 2)) == __constant_htons(ETH_P_IP)) {
+ 			if (memcmp(padapter->scdb_mac, skb->data + MACADDRLEN, MACADDRLEN)) {
+ 				padapter->scdb_entry = (struct nat25_network_db_entry *)scdb_findEntry(padapter,
+-							skb->data + MACADDRLEN, skb->data + WLAN_ETHHDR_LEN + 12);
++							skb->data + WLAN_ETHHDR_LEN + 12);
+ 				if (padapter->scdb_entry) {
+ 					memcpy(padapter->scdb_mac, skb->data + MACADDRLEN, MACADDRLEN);
+ 					memcpy(padapter->scdb_ip, skb->data + WLAN_ETHHDR_LEN + 12, 4);
+diff --git a/drivers/staging/r8188eu/include/usb_osintf.h b/drivers/staging/r8188eu/include/usb_osintf.h
+index 34229b1cb081..624298b4bd0b 100644
+--- a/drivers/staging/r8188eu/include/usb_osintf.h
++++ b/drivers/staging/r8188eu/include/usb_osintf.h
+@@ -19,8 +19,7 @@ u8 usbvendorrequest(struct dvobj_priv *pdvobjpriv, enum bt_usb_request brequest,
+ int pm_netdev_open(struct net_device *pnetdev, u8 bnormal);
+ void netdev_br_init(struct net_device *netdev);
+ void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb);
+-void *scdb_findEntry(struct adapter *priv, unsigned char *macAddr,
+-		     unsigned char *ipAddr);
++void *scdb_findEntry(struct adapter *priv, unsigned char *ipAddr);
+ void nat25_db_expire(struct adapter *priv);
+ int nat25_db_handle(struct adapter *priv, struct sk_buff *skb, int method);
+
+--
+2.32.0
 
