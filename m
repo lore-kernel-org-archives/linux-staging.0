@@ -1,134 +1,82 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315C33FED
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 16:21:34 +0000 (UTC)
-Received: by mail-vk1-f175.google.com with SMTP id u66so809152vku.4
-        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 09:21:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E8C3FEA
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 16:55:46 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id i30so16846736vsj.13
+        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 09:55:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4qRRfwZJhmxqi+2+u51qjiYBwGnqaigXoaasxBjBoXM=;
-        b=eU3IOaOfGUBKRGL01mmNBtatdgLAThBzQygaEg2nojL5I3fcIM4hDJIBBXPyTpPbcf
-         tf7RgHJc5Uym8beolT86Enl4lq00cNlryN5j8UIOB1miFrS7ElgzSKMOyVG0DFlhoE2s
-         IQUYiTQ/skgV5HOOoCfaQ6/YnsZyclubnECM3XfAXNdrNEut691HKDdq+toxDNp6kbbN
-         9inWayh6k+h3HyYV8r9TBecU1tkOTqFKj7t8b6qdNE6K8u4CSo/HAfj2WbE8xdCnrZcE
-         UsHcVQJOYf5da7cwM5UWDAX6tMGR+5ij5KvsK7CbGb748ckt3F8f50wSxAzk0oL1XNI9
-         fT9A==
+        bh=hFtEl8S10zL/n9vo1k1ZM/Rpdozvd/xX5yiKs0GwGUU=;
+        b=LorWYhqsx2crztXC7e03nWh/YejEJa5hD6+IpyuxY6lIlOmrqBySlqtIEYmblGpOTA
+         OTKXi+EojGSBwhDWhPI5UDSLbtZZGkhULp4AsFxRHg5JItYl8GhsNkxcknz0Ev9U/PhI
+         vQX1NXmBjdeUaJ14Q5UeuQobXWCsjG7O4e92MEFOLNKGk7PuRpzvojkv1xRjkY8qHsnY
+         T+l/D1zv5PKPuLx4fhzRF9eRGwIkzbCamLPzjHGU1DDBUNsZnyVc5TCU50Iws/L5oIkT
+         LpXibcTsIEM9zJ+kdQyAESFSE5tMcbRqFbW+iqoLQ/cfG2wWLNMHAkz+T675NRc2dXXZ
+         RUDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4qRRfwZJhmxqi+2+u51qjiYBwGnqaigXoaasxBjBoXM=;
-        b=oYoTF1S7A+uvxf4Du87uYOcN962onTokL/aNAN4qhMfqTfthQx0/wgQObSRCEzu+1C
-         ThPBi9urR1AJuy6vkTUuWwnk4tCMMM4+quZI2OtmYmWqnT/CCbStR/379GSiwIXt3E1J
-         tekoPt+t8u8Ckcrsl6t3g40PME6xlsZfy+igeBRrt41CcaVHPNp0SsbJ138MZG6dXd3b
-         DI7S4aXlAPveCM6J0m5t/rg/sMGhxALs3G4x+jVEO9NFG36UNF+Bhk99qAIC7rvftu2P
-         DKAnuofKdZyLt/gIld6mK4WB/EGREd34+P6hKuSk424MFx43PFucxGY5WdRcNtIW0OU7
-         hr4g==
-X-Gm-Message-State: AOAM533Na/hqPsy2GQiNICJnUdGwmh2s/pIb9rqbjrVo1TYyRL74zKmF
-	/lY3+PAQ3+40MOcWkXXrfuuVx8BNbw39UIYPGPU=
-X-Google-Smtp-Source: ABdhPJxIZ8XYcpRKD5CmGahKwC2rLWUaIZzEBxfK9VvV+gVjRUFAErPJc3kLFKGfmEE+1JRpNf9Drt6ivnXuIAKrqpA=
-X-Received: by 2002:a1f:1c57:: with SMTP id c84mr12626251vkc.22.1633278093113;
- Sun, 03 Oct 2021 09:21:33 -0700 (PDT)
+        bh=hFtEl8S10zL/n9vo1k1ZM/Rpdozvd/xX5yiKs0GwGUU=;
+        b=o7U9/Vz8bD/hsq6/Z0FMc6NBFW6lLLOj+sLoCngD5f7QM0HGvlfRsCgMlfbGXjt8zw
+         MgjNozPeoi7+ODhlJNshBwazzDcRhrLHGUPILuuReg2z2jxPuc8u0gxqfXIz4RhUUYEZ
+         aQEyWyy+ksPp4uCZ4vYApBGyyovmvW69UETEPAQw47W/XDGCoQPQfTsnUm6xyrnTTw9Q
+         UXUPGPJkvcbDv31ja4cJxAbsPCyH0XR5DDRoFfdydktVZinFxw9y1vlQSN9fBChUbRf6
+         lmiXuKjXayBTfxEjm7Als7LejqHe8O3vCVATi4FygCne2qJBvCFd5Bc7uLWsa2E+c0c+
+         9KKQ==
+X-Gm-Message-State: AOAM533ndlh2qwsrwoodYx0NizAgJ1BAumIBgkFe5twdXAN3UT9OM1o+
+	BLM+JdVDF6POz6AeW4IrTb73pakHPVyV3v78Hk8=
+X-Google-Smtp-Source: ABdhPJxSiyXNfs3bBalwZBhKxEV1wxQFc8AoojgOrPVCE/jtNgs2qdDlQvTnTAOC+nMXt5+HYx8/SAtEYYX3d7pwQ7Q=
+X-Received: by 2002:a05:6102:20c1:: with SMTP id i1mr10273822vsr.28.1633280145424;
+ Sun, 03 Oct 2021 09:55:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
-In-Reply-To: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
+References: <20210922050035.18162-1-sergio.paracuellos@gmail.com>
+ <20210922050035.18162-4-sergio.paracuellos@gmail.com> <06500d9d-4156-f9df-956c-7306a2984a3e@gmail.com>
+In-Reply-To: <06500d9d-4156-f9df-956c-7306a2984a3e@gmail.com>
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Sun, 3 Oct 2021 18:21:21 +0200
-Message-ID: <CAMhs-H9p4xmPO2F_byk4DQncTGZayW1HwAzrPn_W0eEW5UUn9A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] MIPS: ralink: fix PCI IO resources
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Liviu Dudau <Liviu.Dudau@arm.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Greg KH <gregkh@linuxfoundation.org>, "open list:MIPS" <linux-mips@vger.kernel.org>, 
-	linux-pci <linux-pci@vger.kernel.org>, linux-staging@lists.linux.dev, 
+Date: Sun, 3 Oct 2021 18:55:34 +0200
+Message-ID: <CAMhs-H-JWCX6cr+t4ca=o=C1rzL-NNMDjcrYy5eifbMyfpXJGw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] MAINTAINERS: add myself as maintainer of the
+ MT7621 PCI controller driver
+To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc: linux-pci <linux-pci@vger.kernel.org>, 
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, John Crispin <john@phrozen.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, 
+	"open list:MIPS" <linux-mips@vger.kernel.org>, linux-staging@lists.linux.dev, 
 	NeilBrown <neil@brown.name>, linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Greg,
+Hi Sergei,
 
-On Sat, Sep 25, 2021 at 10:32 PM Sergio Paracuellos
-<sergio.paracuellos@gmail.com> wrote:
+On Wed, Sep 22, 2021 at 11:05 AM Sergei Shtylyov
+<sergei.shtylyov@gmail.com> wrote:
 >
-> MIPs ralink need a special tratement regarding the way it handles PCI IO
-> resources. On MIPS I/O ports are memory mapped, so we access them using normal
-> load/store instructions. MIPS 'plat_mem_setup()' function does a call to
-> 'set_io_port_base(KSEG1)'. There, variable 'mips_io_port_base'
-> is set then using this address which is a virtual address to which all
-> ports are being mapped. Ralink I/O space has a mapping of bus address
-> equal to the window into the mmio space, with an offset of IO start range
-> cpu address. This means that to have this working we need:
-> - linux port numbers in the range 0-0xffff.
-> - pci port numbers in the range 0-0xffff.
-> - io_offset being zero.
+> On 22.09.2021 8:00, Sergio Paracuellos wrote:
 >
-> These means at the end to have bus address 0 mapped to IO range cpu address.
-> We need a way of properly set 'mips_io_port_base' with a virtually mapped
-> value of the IO cpu address.
+> > Add myself as maintainer of the PCie Controlller driver for
 >
-> This series do the following approach:
-> 1) Revert two bad commit from a previous attempt of make this work [0].
-> 2) Set PCI_IOBASE to mips 'mips_io_port_base'.
-> 3) Allow architecture dependent 'pci_remap_iospace'.
-> 4) Implement 'pci_remap_iospace' for MIPS.
-> 5) Be sure IOBASE address for IO window is set with correct value.
->
-> More context about this series appoach in this mail thread [1].
->
-> Patches related with reverts are from this merge cycle so they are only
-> added to the staging git tree. So to have all stuff together I'd like to
-> get everybody Ack's to get all of this series through staging tree if
-> possible :).
->
-> Thanks in advance for your time.
->
-> Changes in v3:
->  - Collect Arnd's Acked-by for the patches.
->  - Be sure IO resource start address is zero and WARN_ONCE if it is not
->    on MIPS pci_remap_iospace() patch. Also make use of 'resource_size'
->    instead of do the logic explicitly again.
+>      PCIe Controller. :-)
 
-I think nothing is missing to get this added through the staging tree.
-
-Thanks in advance for your time.
+Ups, true :) I will send v4 with this fixed if more changes are needed.
 
 Best regards,
-   Sergio Paracuellos
+    Sergio Paracuellos
 
 >
-> Changes in v2:
->  - re-do commit messages for PCI patch as Bjorn pointed out in previous series.
->  - Add Bjorn's Acked-by for PCI subsystem patch.
->  - Re-do commit message of MIPS 'pci_remap_iospace()' patch to align with changes
->    in the PCI patch (s/architecture dependent/architecture-specific/)
->  - Add Fixes-by tag for MIPS set PCI_IOBASE patch.
+> > MT7621 SoCs.
+> >
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> [...]
 >
-> [0]: https://www.spinics.net/lists/kernel/msg4051474.html
-> [1]: https://lkml.org/lkml/2021/9/22/6
-> Sergio Paracuellos (6):
->   Revert "MIPS: ralink: don't define PC_IOBASE but increase
->     IO_SPACE_LIMIT"
->   Revert "staging: mt7621-pci: set end limit for 'ioport_resource'"
->   MIPS: ralink: set PCI_IOBASE to 'mips_io_port_base'
->   PCI: Allow architecture-specific pci_remap_iospace()
->   MIPS: implement architecture-specific 'pci_remap_iospace()'
->   staging: mt7621-pci: properly adjust base address for the IO window
->
->  arch/mips/include/asm/mach-ralink/spaces.h |  4 +++-
->  arch/mips/include/asm/pci.h                |  2 ++
->  arch/mips/pci/pci-generic.c                | 14 ++++++++++++++
->  drivers/pci/pci.c                          |  2 ++
->  drivers/staging/mt7621-pci/pci-mt7621.c    |  4 +---
->  5 files changed, 22 insertions(+), 4 deletions(-)
->
-> --
-> 2.25.1
+> MBR, Sergei
 >
