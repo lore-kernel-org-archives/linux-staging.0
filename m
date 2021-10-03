@@ -1,81 +1,122 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F333FED
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 16:18:35 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id y1so9491397plk.10
-        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 09:18:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410653FED
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 16:19:23 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id y23so21802798lfb.0
+        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 09:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=wiTJBRq4UGMODPvYEyNV3oB8d3MZ6hINzZgUpTIRnFg=;
-        b=IGbTGR7afZSkCOXJtiwKxmYnVPo/YCvglOkp8k+Idl5bj3Nx33PZAKES7kGhM8sr+P
-         24JXDMRDwgaYISibW5B6jV1QN1YT5Ne0hvrSwoNO/EzxX8jrgo7z7S+vvchMLumyrIbi
-         NKJbzfMFAjz8Gg6Yn0PH2v9PbJ20n8mxtQ84jLlPKAXIv5sYGZST6zS0G4BcmVLbLT6h
-         2ai+1WmyO9XbCxTuR0pO/V4mUQna8jW/Ybc0mfNkBcISSHvxzrh7k4FlNVqxMjNOV6a4
-         cqtu99qOjMO42zyV+bLV6p5gP7mtHVCXvGtnNQSzYdwkKZDY98T1g5Mw6i9VmGDYV+2d
-         c0FA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=llNEIxhbTSZcUz/lPANGAqOblDCi/UrFP7kaAKP4keU=;
+        b=iMBm8AwapfDJTBhIZYAwPszSAxnzFsOVLZ+j8Uyli8khiCJhULvx8qM7JmI/KKUK2f
+         EzP8bV6h8QYSevFDyf0DMcJOT+o48h1b8uJsvRfP1Z76mM9ZXQfZAuNgqMDUNrbXWvm4
+         2aUVqbWVeCNfJKNRLLulqkem+/oNsS6RcRXJ10rZr+ZovkXH5Ko3wAPAtts1B6EBRhbK
+         I/R3Q+P1toK8ptlGvXGYcXm5aomTnTTJ8sbmWJ2BSdQEtc1+WOqyg2FhYeMwB1/+qqbp
+         j2zsgZzWgCzzIUhbScMj6xZjXYKQOFMjK74hnGq7+SxILDl4IguVnHw2+qdw/sfp5YY2
+         VVWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=wiTJBRq4UGMODPvYEyNV3oB8d3MZ6hINzZgUpTIRnFg=;
-        b=cKIBKvCxaaG7qk7CispfGHloxeh+V+djg+pWI4uUzs7EgLoAU5MQolNPsGXQvsQEBt
-         1Y6Fdvbq3SUaAzZP0VYXnd8iVFqGpCJ4LjROHQZGYAFxU7dHmaoLnPnjt4bSwqDPPm/G
-         O+4EbWGWzJLJ4iIgySbH2B3sKTxbTlYtG5IBDi+gExX1gqGML0E6Lp2Cmd6JOec6PWdf
-         cSfdNTzuIuX1IuxSc0YPTwb2THwkpgubptUV6aYJG0H/auJTnukFQODGELU70XJy/jTM
-         u1ix1y6T7NE6i0JgUbaXJzhlrW9YPvI5R1JZkG6AehPDjQkP9cNcYRnX0Pcy1++WYost
-         1IPw==
-X-Gm-Message-State: AOAM531OT33b2b6bEEvqlR1B1VTZ/rStOGVk3BBT7k7l6jP15fJptYn5
-	RLltw9g5L03L0+6rLCCnwaw=
-X-Google-Smtp-Source: ABdhPJz9pjwAe9gvabiDAnDEiwL4XOcxppxKmiMf3zIyhLzVJ9TemVfVQcAvo1qW1L2B2ABPQ1wAYg==
-X-Received: by 2002:a17:902:7d89:b0:13c:a5e1:f0f1 with SMTP id a9-20020a1709027d8900b0013ca5e1f0f1mr20512815plm.24.1633277914803;
-        Sun, 03 Oct 2021 09:18:34 -0700 (PDT)
-Received: from user ([223.230.43.197])
-        by smtp.gmail.com with ESMTPSA id h13sm11364173pgf.14.2021.10.03.09.18.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 09:18:34 -0700 (PDT)
-Date: Sun, 3 Oct 2021 21:48:28 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-	ross.schm.dev@gmail.com, hdegoede@redhat.com, marcocesati@gmail.com,
-	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8723bs: core: remove reassignment of same value
- to variable
-Message-ID: <YVnX1HIYoisW621x@user>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=llNEIxhbTSZcUz/lPANGAqOblDCi/UrFP7kaAKP4keU=;
+        b=A8IpbWDOLKRgYjIzlLJm6iDnkDDEzo9URSFlnHPeaS6d6sN9KcXYiYXlodrYKbt9mZ
+         9zSn3hdOjPdjeKSfAijCtmXY7JDvw0LEYfK0f3wgeY5z9cJDml/3GK075VXFCMCstgZz
+         cTpgIUMpw+9ohxruzsYaZUp8HPO2JCRsuA8WCXf6V8Yf4S9KncTXmUJwl0StFS4qSpc/
+         gP/K2Hg+PqiCSKp5NxOxeWIQk0PgmUNGtcH6VZgnw4xD80z9S9IPSsqETvuKD1uR3CiA
+         JzQgx8KsvrJEBmDB6xA2nRHQmeGobnb2HmfqClLTqRWQPOJkSL5yhT7hfygL1ExmOdEp
+         5v9w==
+X-Gm-Message-State: AOAM530u55e5sQxNXQGLJ+tb2iEbKiU/Se5MqP82pu0Bc9IYCaG0xmdU
+	UINfrQk445mnJPNciotRIuM=
+X-Google-Smtp-Source: ABdhPJz9BjYRvkt6eRG7+7adWwZUvWuFcpNGUlKEL2xMti3oEMnwTfmWXA6Kv8Fq/UwxgF1mHJRSRg==
+X-Received: by 2002:a05:6512:344f:: with SMTP id j15mr4527384lfr.521.1633277961257;
+        Sun, 03 Oct 2021 09:19:21 -0700 (PDT)
+Received: from [192.168.1.11] ([94.103.235.120])
+        by smtp.gmail.com with ESMTPSA id u21sm1292162lju.26.2021.10.03.09.19.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Oct 2021 09:19:20 -0700 (PDT)
+Message-ID: <1bad16dc-e11e-4096-2014-a0eae92686e8@gmail.com>
+Date: Sun, 3 Oct 2021 19:19:19 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH] media: atomisp: fix `-Werror=return-type`
+Content-Language: en-US
+To: Ammar Faizi <ammar.faizi@students.amikom.ac.id>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Bedirhan KURT <windowz414@gnuweeb.org>
+References: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Remove reassignment of same value to variable pstat->auth_seq.
-On if (seq == 1) assigning the value 2. At the end of if statement
-also assigning the value pstat->auth_seq = seq + 1 that is again
-assigning the value 2.
+On 10/3/21 02:17, Ammar Faizi wrote:
+> Bedirhan reported build error:
+> ```
+>    drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
+>    drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+>     1649 | }
+>          | ^
+>    cc1: some warnings being treated as errors
+>    make[4]: *** [scripts/Makefile.build:277: drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o] Error 1
+>    make[3]: *** [scripts/Makefile.build:540: drivers/staging/media/atomisp] Error 2
+>    make[2]: *** [scripts/Makefile.build:540: drivers/staging/media] Error 2
+>    make[1]: *** [scripts/Makefile.build:540: drivers/staging] Error 2
+>    make: *** [Makefile:1868: drivers] Error 2
+> ```
+> 
+> Commit 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp:
+> remove useless returns") incorrectly removed a required return results
+> in the above build error. Reinstate it.
+> 
+> Cc: Pavel Skripkin <paskripkin@gmail.com>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-staging@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> Reported-by: Bedirhan KURT <windowz414@gnuweeb.org>
+> Fixes: 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp: remove useless returns")
+> Signed-off-by: Ammar Faizi <ammar.faizi@students.amikom.ac.id>
+> ---
+>   .../media/atomisp/pci/hive_isp_css_common/host/input_system.c    | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> index 8e085dda0c18..1bd917e81743 100644
+> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
+> @@ -1646,6 +1646,7 @@ static input_system_err_t input_system_configure_channel_sensor(
+>   	default:
+>   		return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+>   	}
+> +	return INPUT_SYSTEM_ERR_NO_ERROR;
+>   }
+>   
+>   // Test flags and set structure.
+> 
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 1 -
- 1 file changed, 1 deletion(-)
+Hi, Ammar!
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 3ee4d35ca8d7..059cd85f4b03 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -808,7 +808,6 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 			pstat->state &= ~WIFI_FW_AUTH_NULL;
- 			pstat->state |= WIFI_FW_AUTH_STATE;
- 			pstat->authalg = algorithm;
--			pstat->auth_seq = 2;
- 		} else if (seq == 3) {
 
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + 4 + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&ie_len,
---
-2.32.0
+Thank you for fixing this, but it's already fixed in linux-next tree. 
+See commit 05344a1d2ea7 ("media: atomisp: restore missing 'return' 
+statement").
 
+Again, I am sorry for introducing this bug :(
+
+
+
+
+With regards,
+Pavel Skripkin
