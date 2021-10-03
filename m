@@ -1,113 +1,134 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B333FDE
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 20:01:33 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id v4so2581945vsg.12
-        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 13:01:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDAD2F80
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 23:25:06 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id l7so34099964edq.3
+        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 16:25:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PWnB5K1Grj0xQyY5Skv45XzlXt4yBMt+nMNlhoq0dAk=;
-        b=kxcwQ5isTHdCrmNEqg2mueB/somw/dnSZ172BkV66GxYsy4NpfHzCbJ2Fx8N9vmf1o
-         8nJnAbaCA/cJR6C3dStiK3GIxyYE4rsaL1gV35KDBjX2Ep6luZs2ne5giXf0UoZdzinW
-         BBBxq38jFMTTe2ur8J2U3rr8svCoVYMfVrHgWNQLTz17nyqzjP2bN+zK7PWl8UThXCM/
-         p8dq1o5C7OI7Z+4qUXFzx3GmUISc/YcsVNa1fUHhvvweN3DL5vo2DC42eoswbV8sUiiL
-         nqcIeGambAq/IawRxXDD7TfsojNg3NiUvL1mr5nw9HnqQaq/HBYm4ERkt8eAw+QHX7o+
-         /NRg==
+        d=amikom.ac.id; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=GSCXqxIA1o807PK6C5J2wuYzWvo/IRAhFGJYC3Av3vU=;
+        b=Y/PSYvM7+k9cj4P4gwtvnHz+ZogB6+5zu/W4Av/04ZU9AcbOBuyF05JNsJL5NRsdog
+         AraEq8Jyj7dpz+iYH5kc4Q8lh8QOq1Kr887D686efcFO4tVqYPqOyZwJcn4FlZF2SGs6
+         3quETLnmkKbJn5ssxNmIDAm+lDx6OGfOF8dZayARYoCepwtxvQlUVcdB7lI8zG0pZeBF
+         VqaDu8SYOt/m9iSUqb+HryyQ4lY3BmQtvMpz/AG7uuva/uAggGbqhlCoSlc0+woS+ZC+
+         5sRNiczOWVr2tSy9yNL64DgyNBTBKNqg67T0R/MKw+ut8VHAyiogCOr8g/0tvb611std
+         jfTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PWnB5K1Grj0xQyY5Skv45XzlXt4yBMt+nMNlhoq0dAk=;
-        b=BeJttGae2enlZRciDWeoz6iHqzFfIN73eP22FUxAoVmCst1hw8VdtYCC7vDxo1W7hr
-         GTRKbJfq9EewzjRuMhNYLTc4EhWaz76nXjqRMNH/Fuhlc7K4BzhmPnrpV7Fxbg3Bfesl
-         XKvlmk5nnbr7vKpsnaJAUtlbWVRmjTDoYr6HnjbldNhITjS2OtW8LyFjUWP3o3u+gJjP
-         HqQ3T5jC+2QBcehlmIomO8DXdOXOwD0VvKL+4VMGb43AYbW6nxJMbhCxfSqrlDrNS6u4
-         aNFYhcknL4EwzR5e3xYyW0/v3rqlJYRUS+81e5nSHYw2jytWTkBwow2O+jxu2iAuov60
-         brAQ==
-X-Gm-Message-State: AOAM530rDuwcKJTX7QF4vcMhRa6dPREH7VLyBXqjFMvqroN3VZ7X+qYZ
-	ea90FYwOB8sMXmKBH3IZRWjzvobSrZjUnA==
-X-Google-Smtp-Source: ABdhPJwGIuGvigJRC8FTrma9fSmPm3wosjqCuei6Z9n0gA9efbcU/0UCPT24xg+3XkmSv6NApARWJg==
-X-Received: by 2002:a05:6102:3593:: with SMTP id h19mr10540551vsu.23.1633291292266;
-        Sun, 03 Oct 2021 13:01:32 -0700 (PDT)
-Received: from localhost.localdomain ([181.23.73.135])
-        by smtp.gmail.com with ESMTPSA id x21sm6691019uao.2.2021.10.03.13.01.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 13:01:31 -0700 (PDT)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	nsaenz@kernel.org,
-	stefan.wahren@i2se.com,
-	arnd@arndb.de,
-	dan.carpenter@oracle.com,
-	ojaswin98@gmail.com,
-	amarjargal16@gmail.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: [PATCH 9/9] staging: vchiq_core: fix quoted strings split across lines
-Date: Sun,  3 Oct 2021 16:58:02 -0300
-Message-Id: <20211003195758.36572-10-gascoar@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211003195758.36572-1-gascoar@gmail.com>
-References: <20211003195758.36572-1-gascoar@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=GSCXqxIA1o807PK6C5J2wuYzWvo/IRAhFGJYC3Av3vU=;
+        b=MDTvSsztnE2AIbQHZjPoVezkOyTu7atYt1sHOlyse1GiFcG5t9iyrCjuzVYMPtxayQ
+         R4i9/FbBVmnIGYvvGBZYAj+WHgFah2WFP7IrFPuxVPYd3ImEuT5FHDihgW0fa2GXRSUv
+         5pmPWSIfDCv62l4nS9ANHe/7aP3GRNWDOYPBCL01R8MSzhV0OJxqCeoVuSyHqrpVH3Am
+         Gn8XpAAkjT8JV6hQriYu4bsrEiz0bC9byWYuKsmQC9tvqA13bc8aKSbQ5ONc8v2uQsyV
+         4ZgaPMUmQqdtBwqTZh3CBoAKlxduhQAHsU9RIbMyZEMmx1PRAJiyhwXx0SlkFmE+Rnbk
+         t6yA==
+X-Gm-Message-State: AOAM530yOPpAL6Oo5VxGAIbXe+WJJ4Y8e+VfTZUSG5P3LlRCCj/1aCJ1
+	CCokw8jVeVit3h/XJUtdu5Fip0KRPUdL8GWINws7iralAsXxYvB67iU=
+X-Google-Smtp-Source: ABdhPJwlXghwRiHVLqNgde12Z99mmV7noD5vKOvj8fqS+t1n0MgWrz9xYYiT4DFgmZVqaxsnlqW7f0hZFg8M0ej9xNw=
+X-Received: by 2002:a17:906:1757:: with SMTP id d23mr13761971eje.102.1633303504459;
+ Sun, 03 Oct 2021 16:25:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id> <1bad16dc-e11e-4096-2014-a0eae92686e8@gmail.com>
+In-Reply-To: <1bad16dc-e11e-4096-2014-a0eae92686e8@gmail.com>
+From: Ammar Faizi <ammar.faizi@students.amikom.ac.id>
+Date: Mon, 4 Oct 2021 06:24:52 +0700
+Message-ID: <CAGzmLMWehxhp7L7Ye+ERjZPRxAaVu=pYmV6Zr-Q78dzruu2qaA@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: fix `-Werror=return-type`
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Bedirhan KURT <windowz414@gnuweeb.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Quoted strings should not be split across lines. As put it in [1]:
-"never break user-visible strings such as printk messages because that
-breaks the ability to grep for them."
+On Sun, Oct 3, 2021 at 11:19 PM Pavel Skripkin <paskripkin@gmail.com> wrote=
+:
+>
+> On 10/3/21 02:17, Ammar Faizi wrote:
+> > Bedirhan reported build error:
+> > ```
+> >    drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_sys=
+tem.c: In function =E2=80=98input_system_configure_channel_sensor=E2=80=99:
+> >    drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_sys=
+tem.c:1649:1: error: control reaches end of non-void function [-Werror=3Dre=
+turn-type]
+> >     1649 | }
+> >          | ^
+> >    cc1: some warnings being treated as errors
+> >    make[4]: *** [scripts/Makefile.build:277: drivers/staging/media/atom=
+isp/pci/hive_isp_css_common/host/input_system.o] Error 1
+> >    make[3]: *** [scripts/Makefile.build:540: drivers/staging/media/atom=
+isp] Error 2
+> >    make[2]: *** [scripts/Makefile.build:540: drivers/staging/media] Err=
+or 2
+> >    make[1]: *** [scripts/Makefile.build:540: drivers/staging] Error 2
+> >    make: *** [Makefile:1868: drivers] Error 2
+> > ```
+> >
+> > Commit 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp:
+> > remove useless returns") incorrectly removed a required return results
+> > in the above build error. Reinstate it.
+> >
+> > Cc: Pavel Skripkin <paskripkin@gmail.com>
+> > Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linux-staging@lists.linux.dev
+> > Cc: linux-kernel@vger.kernel.org
+> > Reported-by: Bedirhan KURT <windowz414@gnuweeb.org>
+> > Fixes: 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp: remov=
+e useless returns")
+> > Signed-off-by: Ammar Faizi <ammar.faizi@students.amikom.ac.id>
+> > ---
+> >   .../media/atomisp/pci/hive_isp_css_common/host/input_system.c    | 1 =
++
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host=
+/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/hos=
+t/input_system.c
+> > index 8e085dda0c18..1bd917e81743 100644
+> > --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_=
+system.c
+> > +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_=
+system.c
+> > @@ -1646,6 +1646,7 @@ static input_system_err_t input_system_configure_=
+channel_sensor(
+> >       default:
+> >               return INPUT_SYSTEM_ERR_PARAMETER_NOT_SUPPORTED;
+> >       }
+> > +     return INPUT_SYSTEM_ERR_NO_ERROR;
+> >   }
+> >
+> >   // Test flags and set structure.
+> >
+>
+> Hi, Ammar!
+>
+>
+> Thank you for fixing this, but it's already fixed in linux-next tree.
+> See commit 05344a1d2ea7 ("media: atomisp: restore missing 'return'
+> statement").
+>
+> Again, I am sorry for introducing this bug :(
+>
+>
+>
+>
+> With regards,
+> Pavel Skripkin
 
-While at it, fix the alignment of the arguments in the sentence.
+No worries, thanks for the update :D
 
-Note: as the line now is:
-
- vchiq_loud_error("%d: service %d (%c%c%c%c) version mismatch - local (%d, min %d) vs. remote (%d, min %d)",
-
-checkpatch.pl emits a CHECK: line length of 123 exceeds 100 columns.
-
-But now the string is grep-able and the whole function call is more clear.
-
-Reported by checkpatch.pl
-
-[1] Documentation/process/coding-style.rst
-
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
----
- .../vc04_services/interface/vchiq_arm/vchiq_core.c     | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 416110bf20fa..fa65a99ae54a 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1499,13 +1499,9 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
- 	if ((service->version < version_min) || (version < service->version_min)) {
- 		/* Version mismatch */
- 		vchiq_loud_error_header();
--		vchiq_loud_error("%d: service %d (%c%c%c%c) "
--			"version mismatch - local (%d, min %d)"
--			" vs. remote (%d, min %d)",
--			state->id, service->localport,
--			VCHIQ_FOURCC_AS_4CHARS(fourcc),
--			service->version, service->version_min,
--			version, version_min);
-+		vchiq_loud_error("%d: service %d (%c%c%c%c) version mismatch - local (%d, min %d) vs. remote (%d, min %d)",
-+				 state->id, service->localport, VCHIQ_FOURCC_AS_4CHARS(fourcc),
-+				 service->version, service->version_min, version, version_min);
- 		vchiq_loud_error_footer();
- 		vchiq_service_put(service);
- 		service = NULL;
--- 
-2.33.0
-
+--=20
+Ammar Faizi
