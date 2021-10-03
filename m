@@ -1,41 +1,41 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872CF3FDE
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 20:01:23 +0000 (UTC)
-Received: by mail-vk1-f174.google.com with SMTP id z202so6737438vkd.1
-        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 13:01:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF49D3FDE
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 20:01:25 +0000 (UTC)
+Received: by mail-vk1-f180.google.com with SMTP id y74so6721383vky.12
+        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 13:01:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uSkH/ZagQntPkG0C2DpHNBonj7Wo9RInBQiBWcy5XFE=;
-        b=FSO1rIOGJgjGiv0ApTs5p11TPMuTpriYaPVgrHJ3Ymoy4Vmr4Mj1Iv+ZJ08WnQQ36M
-         oFKPlsXpEsA7zdaSMkxh+eXEPtBVTvQ42QMZaGizQ2zDiIYghKJFs7rvufnuH6uHqgEw
-         5t1wuryuuIyReaU9YGRcPdrtP9PdpycpZIX/xk2214nQNa5Hcs78RBMT4qFsdy5QmpR6
-         g51yVi5hsXjkkqiuLWGS3yMOnZrnbk/aoYn7ZM6UFPPWqXOnyEel9h31qlWqDpw83SQi
-         /GCUwj2gMtOyK+ngDLMus1oGLT80ovzWGh8izppnMoeK25xeqBByhZ0RTFHE/AGqOKD3
-         mbQw==
+        bh=d2/W18IRRr+MCGYPxXwCA4Xe9jbsY9mJx5CTn4+TVlk=;
+        b=Bgare4OzVdITE+F0Xw0Dp+o+LtUtRbqhCKt+JbGEtlOyOu45qgaHqH+OvTpG1Hu2OF
+         3UgqmG5McaQn87E6H9W2oQb1XDEszt6APSHvn5uk45a3wN2/dlVCa+eI32VA/9WN0lWy
+         Vm9U42Ty0WdmS0wtEuB4aNe/tU7KwVIVQIKY0ydWx0zW0sdnAEVECGUrnx/mrQYlUH/4
+         1D2XFfZKK2kqTqAHeB3TvVIkltBTmfClS3kB+9nqwg1ZOBD+ggdS7ulwmmy+Y6vLheoa
+         3EvWoRCWKtZoIrUmy0GDSpwPi55zgNv5aiTO5SJesX9MfiClq/H/Z5Hz5J+sNfIWILq/
+         wSeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uSkH/ZagQntPkG0C2DpHNBonj7Wo9RInBQiBWcy5XFE=;
-        b=2RZPTUa6erCoerDAFsLE1SAToTFS6SlwtcW1BgeARTTBmtL3UdnjwQP3hzUIhlyoS8
-         eqPllOW2fmO4TNEpbPx+MNaENwlsW6H/ZPvKO/jxDO9dZ9XudAy8cmgE2IaSgDTCbv1A
-         /6qYAifka70sKKI2xKy0BI6HPnR5uo1Q9CTz+XT8RuEJnbyg12WcknafkoUrYEz+KfOi
-         MkQaHwhi86wGj0U1CCy9+Bj0Yky01aJg6HFdls1nSd+BfanJ4ansBzfJSLukYXY/ARo9
-         bxqS8SIY2kxzomealS9zv5gamcChmXOpb3dg4jSt1NNm/K9D2IreVZYc7sI2rVj8d0hr
-         1OpA==
-X-Gm-Message-State: AOAM533LN8kTVCRdONgY2XqCU4hREwQ2SOsNZw7EnUgkZzFNaZwTEk68
-	jS6TxFfXIO9RdyifVgviod2p2kM1mi7rAw==
-X-Google-Smtp-Source: ABdhPJzU68BmIDYtHfc0+zSQmhGaxNeqKRjgG2+yjrVl4QCsdCZRiqlgrdrml8y6cL4VTEDQDqInGA==
-X-Received: by 2002:a1f:c602:: with SMTP id w2mr13384373vkf.26.1633291282261;
-        Sun, 03 Oct 2021 13:01:22 -0700 (PDT)
+        bh=d2/W18IRRr+MCGYPxXwCA4Xe9jbsY9mJx5CTn4+TVlk=;
+        b=KYvlq/ZgDHgdekN+JS/LWIKtfuqABtsx/HNKwQNfKpCgvMJAYaq9m4Ck1WOpzDWzZ5
+         Ix5of0AQ/EauGFXOgd2gDPzo6mhqBlowrnrZi6h1WUKbJtCtNq5YZmLP9462XaLenTEZ
+         dfq0/fXW6ej7MS56xz8U5rxi9uqk2+d0Thv1UIVmxq8Nz19XwL4ykk/jBTksYB4bsgTm
+         pdJYbFwG9/fbm9LBHQA/Q5SGV3oAk8iEMVPuoJSL1b/dGBs1vmQ2snSEKs6dvJcwCI5q
+         37AO4TVFrtzXG2HcxBMy6rc/tMYRfXaKBOqjb/EYpM57XudgngTTgdR4UimvAqoFX8py
+         Ylyg==
+X-Gm-Message-State: AOAM530RUQVdza+04fSMU4SHlkcuxQyJBfUNw+MxujedyfcqTVrEGa/V
+	G3dJT7PxvowpvrMd9gUMZqRw8xE09xutTg==
+X-Google-Smtp-Source: ABdhPJwVtM/uMninbsURZpUiTRrMK9ZrsH0TH4Cj4HNHt2DZefpLEd3TuXCeredbiXXXLuFvPymoiw==
+X-Received: by 2002:ac5:cbd5:: with SMTP id h21mr14355711vkn.1.1633291284689;
+        Sun, 03 Oct 2021 13:01:24 -0700 (PDT)
 Received: from localhost.localdomain ([181.23.73.135])
-        by smtp.gmail.com with ESMTPSA id x21sm6691019uao.2.2021.10.03.13.01.19
+        by smtp.gmail.com with ESMTPSA id x21sm6691019uao.2.2021.10.03.13.01.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 13:01:21 -0700 (PDT)
+        Sun, 03 Oct 2021 13:01:24 -0700 (PDT)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -50,9 +50,9 @@ Cc: gregkh@linuxfoundation.org,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH 5/9] staging: vchiq: drop trailing semicolon in macro definition
-Date: Sun,  3 Oct 2021 16:57:58 -0300
-Message-Id: <20211003195758.36572-6-gascoar@gmail.com>
+Subject: [PATCH 6/9] staging: vchiq_core: drop extern prefix in function declarations
+Date: Sun,  3 Oct 2021 16:57:59 -0300
+Message-Id: <20211003195758.36572-7-gascoar@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211003195758.36572-1-gascoar@gmail.com>
 References: <20211003195758.36572-1-gascoar@gmail.com>
@@ -64,104 +64,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As reported by checkpatch.pl, macro should not use a trailing semicolon.
+Remove unnecessary extern prefix in function declarations.
+
+While at it, remove a now outdated comment and realign the function
+declarations in order to improve readability.
 
 Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c   | 4 ++--
- .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c  | 6 +++---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h  | 2 +-
- .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c   | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ .../interface/vchiq_arm/vchiq_core.h          | 76 ++++++-------------
+ 1 file changed, 25 insertions(+), 51 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index fcff2e5bd73f..08c03acd8592 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -930,7 +930,7 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
- 	struct vchiq_completion_data_kernel *completion;
- 	int insert;
- 
--	DEBUG_INITIALISE(g_state.local)
-+	DEBUG_INITIALISE(g_state.local);
- 
- 	insert = instance->completion_insert;
- 	while ((insert - instance->completion_remove) >= MAX_COMPLETIONS) {
-@@ -998,7 +998,7 @@ service_callback(enum vchiq_reason reason, struct vchiq_header *header,
- 	struct vchiq_instance *instance;
- 	bool skip_completion = false;
- 
--	DEBUG_INITIALISE(g_state.local)
-+	DEBUG_INITIALISE(g_state.local);
- 
- 	DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index e327393800da..026c7c775e40 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -1585,7 +1585,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
- 	unsigned int localport, remoteport;
- 	int msgid, size, type, ret = -EINVAL;
- 
--	DEBUG_INITIALISE(state->local)
-+	DEBUG_INITIALISE(state->local);
- 
- 	DEBUG_VALUE(PARSE_HEADER, (int)(long)header);
- 	msgid = header->msgid;
-@@ -1856,7 +1856,7 @@ parse_rx_slots(struct vchiq_state *state)
- 	struct vchiq_shared_state *remote = state->remote;
- 	int tx_pos;
- 
--	DEBUG_INITIALISE(state->local)
-+	DEBUG_INITIALISE(state->local);
- 
- 	tx_pos = remote->tx_pos;
- 
-@@ -1961,7 +1961,7 @@ slot_handler_func(void *v)
- 	struct vchiq_state *state = v;
- 	struct vchiq_shared_state *local = state->local;
- 
--	DEBUG_INITIALISE(local)
-+	DEBUG_INITIALISE(local);
- 
- 	while (1) {
- 		DEBUG_COUNT(SLOT_HANDLER_COUNT);
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index a107c72ce3a6..e54e9d80bd7f 100644
+index e54e9d80bd7f..3e50910ecba3 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -104,7 +104,7 @@ enum {
+@@ -559,79 +559,53 @@ vchiq_queue_message(unsigned int handle,
+ 		    void *context,
+ 		    size_t size);
  
- #if VCHIQ_ENABLE_DEBUG
+-/*
+- * The following functions are called from vchiq_core, and external
+- * implementations must be provided.
+- */
++int vchiq_prepare_bulk_data(struct vchiq_bulk *bulk, void *offset, void __user *uoffset,
++			    int size, int dir);
  
--#define DEBUG_INITIALISE(local) int *debug_ptr = (local)->debug;
-+#define DEBUG_INITIALISE(local) int *debug_ptr = (local)->debug
- #define DEBUG_TRACE(d) \
- 	do { debug_ptr[DEBUG_ ## d] = __LINE__; dsb(sy); } while (0)
- #define DEBUG_VALUE(d, v) \
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 32aa1e62450d..2325844b0880 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -210,7 +210,7 @@ static int vchiq_ioc_dequeue_message(struct vchiq_instance *instance,
- 	struct vchiq_header *header;
- 	int ret;
+-extern int
+-vchiq_prepare_bulk_data(struct vchiq_bulk *bulk, void *offset,
+-			void __user *uoffset, int size, int dir);
++void vchiq_complete_bulk(struct vchiq_bulk *bulk);
  
--	DEBUG_INITIALISE(g_state.local)
-+	DEBUG_INITIALISE(g_state.local);
- 	DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
- 	service = find_service_for_instance(instance, args->handle);
- 	if (!service)
-@@ -439,7 +439,7 @@ static int vchiq_ioc_await_completion(struct vchiq_instance *instance,
- 	int remove;
- 	int ret;
+-extern void
+-vchiq_complete_bulk(struct vchiq_bulk *bulk);
++void remote_event_signal(struct remote_event *event);
  
--	DEBUG_INITIALISE(g_state.local)
-+	DEBUG_INITIALISE(g_state.local);
+-extern void
+-remote_event_signal(struct remote_event *event);
++int vchiq_dump(void *dump_context, const char *str, int len);
  
- 	DEBUG_TRACE(AWAIT_COMPLETION_LINE);
- 	if (!instance->connected)
+-extern int
+-vchiq_dump(void *dump_context, const char *str, int len);
++int vchiq_dump_platform_state(void *dump_context);
+ 
+-extern int
+-vchiq_dump_platform_state(void *dump_context);
++int vchiq_dump_platform_instances(void *dump_context);
+ 
+-extern int
+-vchiq_dump_platform_instances(void *dump_context);
++int vchiq_dump_platform_service_state(void *dump_context, struct vchiq_service *service);
+ 
+-extern int
+-vchiq_dump_platform_service_state(void *dump_context, struct vchiq_service *service);
++int vchiq_use_service_internal(struct vchiq_service *service);
+ 
+-extern int
+-vchiq_use_service_internal(struct vchiq_service *service);
++int vchiq_release_service_internal(struct vchiq_service *service);
+ 
+-extern int
+-vchiq_release_service_internal(struct vchiq_service *service);
++void vchiq_on_remote_use(struct vchiq_state *state);
+ 
+-extern void
+-vchiq_on_remote_use(struct vchiq_state *state);
++void vchiq_on_remote_release(struct vchiq_state *state);
+ 
+-extern void
+-vchiq_on_remote_release(struct vchiq_state *state);
++int vchiq_platform_init_state(struct vchiq_state *state);
+ 
+-extern int
+-vchiq_platform_init_state(struct vchiq_state *state);
++enum vchiq_status vchiq_check_service(struct vchiq_service *service);
+ 
+-extern enum vchiq_status
+-vchiq_check_service(struct vchiq_service *service);
++void vchiq_on_remote_use_active(struct vchiq_state *state);
+ 
+-extern void
+-vchiq_on_remote_use_active(struct vchiq_state *state);
++enum vchiq_status vchiq_send_remote_use(struct vchiq_state *state);
+ 
+-extern enum vchiq_status
+-vchiq_send_remote_use(struct vchiq_state *state);
++enum vchiq_status vchiq_send_remote_use_active(struct vchiq_state *state);
+ 
+-extern enum vchiq_status
+-vchiq_send_remote_use_active(struct vchiq_state *state);
+-
+-extern void
+-vchiq_platform_conn_state_changed(struct vchiq_state *state,
+-				  enum vchiq_connstate oldstate,
++void vchiq_platform_conn_state_changed(struct vchiq_state *state,
++				       enum vchiq_connstate oldstate,
+ 				  enum vchiq_connstate newstate);
+ 
+-extern void
+-vchiq_set_conn_state(struct vchiq_state *state, enum vchiq_connstate newstate);
++void vchiq_set_conn_state(struct vchiq_state *state, enum vchiq_connstate newstate);
+ 
+-extern void
+-vchiq_log_dump_mem(const char *label, u32 addr, const void *void_mem, size_t num_bytes);
++void vchiq_log_dump_mem(const char *label, u32 addr, const void *void_mem, size_t num_bytes);
+ 
+-extern enum vchiq_status vchiq_remove_service(unsigned int service);
++enum vchiq_status vchiq_remove_service(unsigned int service);
+ 
+-extern int vchiq_get_client_id(unsigned int service);
++int vchiq_get_client_id(unsigned int service);
+ 
+-extern void vchiq_get_config(struct vchiq_config *config);
++void vchiq_get_config(struct vchiq_config *config);
+ 
+-extern int
+-vchiq_set_service_option(unsigned int service, enum vchiq_service_option option,
+-			 int value);
++int vchiq_set_service_option(unsigned int service, enum vchiq_service_option option, int value);
+ 
+ #endif
 -- 
 2.33.0
 
