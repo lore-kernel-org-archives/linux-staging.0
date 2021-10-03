@@ -1,49 +1,49 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378CC3FD1
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 11:42:35 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id q23so12058204pfs.9
-        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 04:42:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ACE3FD1
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 12:15:33 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id r201so8005191pgr.4
+        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 05:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=xXApb6NRig/lg8urEyRo67pliSVusKbNvAl4dBAOwkk=;
-        b=W4kG1o9WxPZBYouKnHpaaJj59/XRZq4qTuO6fHHAlbk46x/7LF4eGO1fxOULiTtzXr
-         QC4Xb5b5PHZa2o0R/IH5PILzpaI/yB3POLNLbVm2J/aBRIE6dDCj7aKnH3D9skqoz0C+
-         F/Eix/0VxcLShWD1CQSm6d6MNtCN/KbBn2hMCrvxxV3SKwgVRJg9iGpG5B44e13c/XaD
-         pYJDUkZX41hgzK1HHyy9YPl40FQsgx4wooPngVurQx5QrbRkNozFTCedOaHZGt6CI7Z/
-         Tu4IIP0HqNtCq9iH4AaoucY2Tij7go2lUA0OloU0DZ9R51xuaBOQN8eTlrgOw1ZQZlvt
-         GGxg==
+        bh=GISa/5YWim1dL4gwKmc0fTZB94/Tkhhvffj3A4gtCN4=;
+        b=YtuExd2hljo/eVPf5MDPEXB9sfmS1N0rJz9fbit3XIyKWwBHvpKC/Mbna6CIZtdAzJ
+         loZ55T5I1hqsXuWVEsLOhBXPvAazBQUTe5IxKTm8P/c0ZH+yiyHHUEESz34gcF0Aar+l
+         ZwHvdhh9S5qa8QtPFQkhJuM4CAf9Us4wu7udZpCwTrmXgZuo1mXjxuylNKYce01hLkAD
+         cQiNw665YcuEI6fFKJY6IL7+cZnGv0FqwABYxo0tV7xEegv2GdqaSsIqhsx4+csxeL7K
+         s4f8nXHP3ipC7KGvqaPLezIqfQPIwfquIZNmJTftoI9qhfg2IeaSo2u7X1LBLpZohyYp
+         e6tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition;
-        bh=xXApb6NRig/lg8urEyRo67pliSVusKbNvAl4dBAOwkk=;
-        b=dbU39sZSQIRze0B1HDIUZM4pj8fvCc2ZxPMZlHhmVpiMSliiWKBVwFmEDikfQKej4+
-         1ERZPsv1mHlx0jijDGYgCjqIQEdnMh77Rb1QAUlzIFk735BkMJJ5iUjupjoxvH7Ev/sS
-         rdKvf1Nc2o/RhPxMs+8szXf34ZeVuIZfPAOTmVXqSCdlwqptNU0+eWUn/1HJ3T/RbYOb
-         FWnHJbRh+Dov+LLBenl1N7F3/HVFfwOFvmI58zZQM+CPHyfNYgWDyD4aAhzm8gTuTXug
-         IEyIMiOwGH8RAbMiHMk648GW1Nu4DL1nvSh6fAxK6mwqLCSGFLlelrWf3altHbrj694d
-         5xBw==
-X-Gm-Message-State: AOAM531D6uwEVMLnx7xwxN8/JWORylzcvAflUACIC9xvV8+L6y5LdsZD
-	iTPQTLlmODVhBAJ9txMieaQQvWuRLhs=
-X-Google-Smtp-Source: ABdhPJx6dmSQ7zrR1f4sK6ixw8q7sHk5qXAm5WkmvdzgdoI9gbKUBF3OdLLp7LSEm3c95H9y126Lzw==
-X-Received: by 2002:aa7:93c9:0:b0:43c:f4f5:aac2 with SMTP id y9-20020aa793c9000000b0043cf4f5aac2mr19054960pff.11.1633261354624;
-        Sun, 03 Oct 2021 04:42:34 -0700 (PDT)
+        bh=GISa/5YWim1dL4gwKmc0fTZB94/Tkhhvffj3A4gtCN4=;
+        b=G/kppCPR7QU/ZgGfsz39t1+TAAQXh0GbQ66n2QtqvOhuqnf5Yh7zVvHJTQzamrAsiX
+         3Sg/sxclmtalnSVEGVdvbPLFJdvTIgn8HkxkZIqNBqO7ZNDVw5vfYpdL18l2F9QcOLWn
+         SGg944VFlL7CEwFwV0wVZxWCULmBUscl3DmISzWu9gzbVgn/qDqe6dCEDze53MLVCUCw
+         2ue1n45wVBlqa/Zl/Kqxbpi6e59ssbyYa6JOPtXJZjGuVJaOUQFKKPYYFvN18pvUAuKE
+         PZzluG7/DWden5WBT73zzIlesSsWUUzol20P/DPlm6nqdt6n4akKL3X75PncfkS4bI5g
+         /DEg==
+X-Gm-Message-State: AOAM531KJn0jPwTmVvdNAsIYbqADJ/UYhCjx9AwulIKu8qb8R3d5sfcS
+	khZYGVU1AWY/+fZsBpnSjIQ=
+X-Google-Smtp-Source: ABdhPJyZwLdjjb7qfu6aCgCoxk/5yYeqIjvYnhu03K8VaD8JxNm41YGMBAosllXfs9qOQ07497+I6g==
+X-Received: by 2002:a05:6a00:c8c:b0:447:bddb:c83 with SMTP id a12-20020a056a000c8c00b00447bddb0c83mr20853105pfv.1.1633263333250;
+        Sun, 03 Oct 2021 05:15:33 -0700 (PDT)
 Received: from user ([223.230.43.197])
-        by smtp.gmail.com with ESMTPSA id b142sm5962282pfb.5.2021.10.03.04.42.31
+        by smtp.gmail.com with ESMTPSA id g22sm13519394pfj.15.2021.10.03.05.15.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 04:42:34 -0700 (PDT)
-Date: Sun, 3 Oct 2021 17:12:28 +0530
+        Sun, 03 Oct 2021 05:15:32 -0700 (PDT)
+Date: Sun, 3 Oct 2021 17:45:27 +0530
 From: Saurav Girepunje <saurav.girepunje@gmail.com>
 To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	nathan@kernel.org, fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: hal: remove assignment to itself
-Message-ID: <YVmXJFSCCU3cvG6y@user>
+Subject: [PATCH] staging: r8188eu: core: remove duplicate condition check
+Message-ID: <YVme3xtnCHN/hOjS@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,25 +53,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Remove assignment of 'pHalData->TRxAntDivType' to itself.
+Remove the same expression (!memcmp(pIE->data, BROADCOM_OUI2, 3))
+on both the side of "||" .
 
 Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 1 -
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index ef165ad98269..bb92bebc63bc 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -2101,7 +2101,6 @@ void Hal_ReadAntennaDiversity88E(struct adapter *pAdapter, u8 *PROMContent, bool
- 			pHalData->AntDivCfg = 1; /*  0xC1[3] is ignored. */
- 	} else {
- 		pHalData->AntDivCfg = 0;
--		pHalData->TRxAntDivType = pHalData->TRxAntDivType; /*  The value in the driver setting of device manager. */
- 	}
- 	DBG_88E("EEPROM : AntDivCfg = %x, TRxAntDivType = %x\n", pHalData->AntDivCfg, pHalData->TRxAntDivType);
- }
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 3d1d8c198e53..8db68cf1e11c 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -1271,7 +1271,6 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
+ 				DBG_88E("link to Artheros AP\n");
+ 				return HT_IOT_PEER_ATHEROS;
+ 			} else if ((!memcmp(pIE->data, BROADCOM_OUI1, 3)) ||
+-				   (!memcmp(pIE->data, BROADCOM_OUI2, 3)) ||
+ 				   (!memcmp(pIE->data, BROADCOM_OUI2, 3))) {
+ 				DBG_88E("link to Broadcom AP\n");
+ 				return HT_IOT_PEER_BROADCOM;
 --
 2.32.0
 
