@@ -1,41 +1,41 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFE63FDE
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 20:01:30 +0000 (UTC)
-Received: by mail-vk1-f171.google.com with SMTP id t200so6754296vkt.0
-        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 13:01:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B333FDE
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 20:01:33 +0000 (UTC)
+Received: by mail-vs1-f45.google.com with SMTP id v4so2581945vsg.12
+        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 13:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RISxD/viKv7LKWmGTkIKr7KI+2YT0D1VIuZdPYzWbkQ=;
-        b=mK35pTDRYFtojim+7uEt2qb/XHjO9IUDlkrkpTyOiCyT/+ut31qa6u2yF6u3X/RpD4
-         /sSnSGlP4vR2d5T3uJdemDAdsA37nfGzlmE6C6y6BeNGYKGMaM2Df//aSVwVJB8ysDH7
-         8Yf11VrUu0cEzP40wHLn6h2CQi2PRNExp1CiCWT+ylcn6HRd3JSDGL9Y9Pu7EdiWRHaQ
-         Q+Ahln10F7uVBh9sZEJGY05amLqaH5zMJSrG0BscWalCvpPPnxzMniOdpKwo+jBmsA3a
-         z3To9KfWiirah9Wly8IhfnB3XJ+/KCDpBzjUFaewKhh1mhMQZB2LGKHvq/xzJhyGULua
-         gxIg==
+        bh=PWnB5K1Grj0xQyY5Skv45XzlXt4yBMt+nMNlhoq0dAk=;
+        b=kxcwQ5isTHdCrmNEqg2mueB/somw/dnSZ172BkV66GxYsy4NpfHzCbJ2Fx8N9vmf1o
+         8nJnAbaCA/cJR6C3dStiK3GIxyYE4rsaL1gV35KDBjX2Ep6luZs2ne5giXf0UoZdzinW
+         BBBxq38jFMTTe2ur8J2U3rr8svCoVYMfVrHgWNQLTz17nyqzjP2bN+zK7PWl8UThXCM/
+         p8dq1o5C7OI7Z+4qUXFzx3GmUISc/YcsVNa1fUHhvvweN3DL5vo2DC42eoswbV8sUiiL
+         nqcIeGambAq/IawRxXDD7TfsojNg3NiUvL1mr5nw9HnqQaq/HBYm4ERkt8eAw+QHX7o+
+         /NRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RISxD/viKv7LKWmGTkIKr7KI+2YT0D1VIuZdPYzWbkQ=;
-        b=jyOGNI2CzAl/qKjBm4o15ks6gu85WA8J3Y2NjWsAuSkkrr2WkeudlVKaMr21cDK7uX
-         DChyc+QPRbtQkjTTtNEILyjc4Ohs6YnpML1kMUyLLLeCr3yH9byg/CEN9G6ZeIczIzd+
-         w6euHl81QRkt68866JXFMbklpquUKvMamcp+ZgI9ts08uDPKEBcfahxlS1ynZ/KRoQ0q
-         /K4/n8wD5pjbyQGVL9mvnwWNPXUEhms49/JVMixp61hC+zgt/X0vZO1j5Wm89sURcP9j
-         7EN00fGxGUc8EoN6WXbylkMJhkhwKfgFSpkn0oLMxrow6Jpqaa+WMdJHdg9TVIbTPkjs
-         ge5Q==
-X-Gm-Message-State: AOAM5339T9u39gBERFVIxvtFaXOUtZ/es8Jjp2r1VmZZOoTGPM1revl0
-	67pR/r/VnqjEFDgVnxza1iV+ZdB+/F9jhQ==
-X-Google-Smtp-Source: ABdhPJxHXNALxamC78pDf3kPboNu+0yUjARPw/Vj6beyUnoITXaBEkpTgEC6aMpZkDJxGHqmyzIZFg==
-X-Received: by 2002:ac5:c24c:: with SMTP id n12mr7474711vkk.10.1633291289737;
-        Sun, 03 Oct 2021 13:01:29 -0700 (PDT)
+        bh=PWnB5K1Grj0xQyY5Skv45XzlXt4yBMt+nMNlhoq0dAk=;
+        b=BeJttGae2enlZRciDWeoz6iHqzFfIN73eP22FUxAoVmCst1hw8VdtYCC7vDxo1W7hr
+         GTRKbJfq9EewzjRuMhNYLTc4EhWaz76nXjqRMNH/Fuhlc7K4BzhmPnrpV7Fxbg3Bfesl
+         XKvlmk5nnbr7vKpsnaJAUtlbWVRmjTDoYr6HnjbldNhITjS2OtW8LyFjUWP3o3u+gJjP
+         HqQ3T5jC+2QBcehlmIomO8DXdOXOwD0VvKL+4VMGb43AYbW6nxJMbhCxfSqrlDrNS6u4
+         aNFYhcknL4EwzR5e3xYyW0/v3rqlJYRUS+81e5nSHYw2jytWTkBwow2O+jxu2iAuov60
+         brAQ==
+X-Gm-Message-State: AOAM530rDuwcKJTX7QF4vcMhRa6dPREH7VLyBXqjFMvqroN3VZ7X+qYZ
+	ea90FYwOB8sMXmKBH3IZRWjzvobSrZjUnA==
+X-Google-Smtp-Source: ABdhPJwGIuGvigJRC8FTrma9fSmPm3wosjqCuei6Z9n0gA9efbcU/0UCPT24xg+3XkmSv6NApARWJg==
+X-Received: by 2002:a05:6102:3593:: with SMTP id h19mr10540551vsu.23.1633291292266;
+        Sun, 03 Oct 2021 13:01:32 -0700 (PDT)
 Received: from localhost.localdomain ([181.23.73.135])
-        by smtp.gmail.com with ESMTPSA id x21sm6691019uao.2.2021.10.03.13.01.27
+        by smtp.gmail.com with ESMTPSA id x21sm6691019uao.2.2021.10.03.13.01.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 13:01:29 -0700 (PDT)
+        Sun, 03 Oct 2021 13:01:31 -0700 (PDT)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -50,9 +50,9 @@ Cc: gregkh@linuxfoundation.org,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH 8/9] staging: vchiq_core: cleanup unnecessary blank line
-Date: Sun,  3 Oct 2021 16:58:01 -0300
-Message-Id: <20211003195758.36572-9-gascoar@gmail.com>
+Subject: [PATCH 9/9] staging: vchiq_core: fix quoted strings split across lines
+Date: Sun,  3 Oct 2021 16:58:02 -0300
+Message-Id: <20211003195758.36572-10-gascoar@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211003195758.36572-1-gascoar@gmail.com>
 References: <20211003195758.36572-1-gascoar@gmail.com>
@@ -64,27 +64,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove blank line before close brace.
+Quoted strings should not be split across lines. As put it in [1]:
+"never break user-visible strings such as printk messages because that
+breaks the ability to grep for them."
+
+While at it, fix the alignment of the arguments in the sentence.
+
+Note: as the line now is:
+
+ vchiq_loud_error("%d: service %d (%c%c%c%c) version mismatch - local (%d, min %d) vs. remote (%d, min %d)",
+
+checkpatch.pl emits a CHECK: line length of 123 exceeds 100 columns.
+
+But now the string is grep-able and the whole function call is more clear.
 
 Reported by checkpatch.pl
 
+[1] Documentation/process/coding-style.rst
+
 Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 1 -
- 1 file changed, 1 deletion(-)
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c     | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index b4ad68ff42db..416110bf20fa 100644
+index 416110bf20fa..fa65a99ae54a 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -3193,7 +3193,6 @@ vchiq_queue_message(unsigned int handle,
- 	if (!size) {
- 		VCHIQ_SERVICE_STATS_INC(service, error_count);
- 		goto error_exit;
--
- 	}
- 
- 	if (size > VCHIQ_MAX_MSG_SIZE) {
+@@ -1499,13 +1499,9 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
+ 	if ((service->version < version_min) || (version < service->version_min)) {
+ 		/* Version mismatch */
+ 		vchiq_loud_error_header();
+-		vchiq_loud_error("%d: service %d (%c%c%c%c) "
+-			"version mismatch - local (%d, min %d)"
+-			" vs. remote (%d, min %d)",
+-			state->id, service->localport,
+-			VCHIQ_FOURCC_AS_4CHARS(fourcc),
+-			service->version, service->version_min,
+-			version, version_min);
++		vchiq_loud_error("%d: service %d (%c%c%c%c) version mismatch - local (%d, min %d) vs. remote (%d, min %d)",
++				 state->id, service->localport, VCHIQ_FOURCC_AS_4CHARS(fourcc),
++				 service->version, service->version_min, version, version_min);
+ 		vchiq_loud_error_footer();
+ 		vchiq_service_put(service);
+ 		service = NULL;
 -- 
 2.33.0
 
