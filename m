@@ -1,12 +1,12 @@
 Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DB9C3FF4
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 16:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FBB53FED
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 16:14:14 +0000 (UTC)
 Received: from uucp (helo=alpha)
 	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-	id 1mX43M-0005aq-01; Sun, 03 Oct 2021 18:09:28 +0200
+	id 1mX43M-0005aq-00; Sun, 03 Oct 2021 18:09:28 +0200
 Received: by alpha.franken.de (Postfix, from userid 1000)
-	id E8311C1D2B; Sun,  3 Oct 2021 18:07:20 +0200 (CEST)
-Date: Sun, 3 Oct 2021 18:07:20 +0200
+	id 3F223C1D2A; Sun,  3 Oct 2021 18:07:05 +0200 (CEST)
+Date: Sun, 3 Oct 2021 18:07:05 +0200
 From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 Cc: robh@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
@@ -14,11 +14,11 @@ Cc: robh@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
 	gregkh@linuxfoundation.org, linux-mips@vger.kernel.org,
 	linux-pci@vger.kernel.org, linux-staging@lists.linux.dev,
 	neil@brown.name, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/6] MIPS: ralink: set PCI_IOBASE to
- 'mips_io_port_base'
-Message-ID: <20211003160720.GB4984@alpha.franken.de>
+Subject: Re: [PATCH v3 1/6] Revert "MIPS: ralink: don't define PC_IOBASE but
+ increase IO_SPACE_LIMIT"
+Message-ID: <20211003160705.GA4984@alpha.franken.de>
 References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
- <20210925203224.10419-4-sergio.paracuellos@gmail.com>
+ <20210925203224.10419-2-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -27,38 +27,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210925203224.10419-4-sergio.paracuellos@gmail.com>
+In-Reply-To: <20210925203224.10419-2-sergio.paracuellos@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sat, Sep 25, 2021 at 10:32:21PM +0200, Sergio Paracuellos wrote:
-> By default MIPS architecture use function 'set_io_port_base()' to set the
-> virtual address of the first IO port. This function at the end sets variable
-> 'mips_io_port_base' with the desired address. To align things and allow
-> to change first IO port location address for PCI, set PCI_IOBASE definition
-> as 'mips_io_port_base'.
+On Sat, Sep 25, 2021 at 10:32:19PM +0200, Sergio Paracuellos wrote:
+> This reverts commit 159697474db41732ef3b6c2e8d9395f09d1f659e.
 > 
-> Fixes: 222b27713d7f ("MIPS: ralink: Define PCI_IOBASE")
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> There is no real need to increase IO_SPACE_LIMIT if PCI_IOBASE
+> is properly set to 'mips_io_port_base'. Hence revert this commit
+> first before doing anything else.
+> 
 > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 > ---
->  arch/mips/include/asm/mach-ralink/spaces.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  arch/mips/include/asm/mach-ralink/spaces.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 > diff --git a/arch/mips/include/asm/mach-ralink/spaces.h b/arch/mips/include/asm/mach-ralink/spaces.h
-> index 87d085c9ad61..05d14c21c417 100644
+> index 31a3525213cf..87d085c9ad61 100644
 > --- a/arch/mips/include/asm/mach-ralink/spaces.h
 > +++ b/arch/mips/include/asm/mach-ralink/spaces.h
-> @@ -2,8 +2,8 @@
+> @@ -2,7 +2,9 @@
 >  #ifndef __ASM_MACH_RALINK_SPACES_H_
 >  #define __ASM_MACH_RALINK_SPACES_H_
 >  
-> -#define PCI_IOBASE	_AC(0xa0000000, UL)
-> -#define PCI_IOSIZE	SZ_16M
-> +#define PCI_IOBASE	mips_io_port_base
-> +#define PCI_IOSIZE	SZ_64K
->  #define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
+> -#define IO_SPACE_LIMIT	0x1fffffff
+> +#define PCI_IOBASE	_AC(0xa0000000, UL)
+> +#define PCI_IOSIZE	SZ_16M
+> +#define IO_SPACE_LIMIT	(PCI_IOSIZE - 1)
 >  
 >  #include <asm/mach-generic/spaces.h>
+>  #endif
 
 Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
