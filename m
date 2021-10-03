@@ -1,78 +1,83 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6ACE3FD1
-	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 12:15:33 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id r201so8005191pgr.4
-        for <linux-staging@lists.linux.dev>; Sun, 03 Oct 2021 05:15:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=GISa/5YWim1dL4gwKmc0fTZB94/Tkhhvffj3A4gtCN4=;
-        b=YtuExd2hljo/eVPf5MDPEXB9sfmS1N0rJz9fbit3XIyKWwBHvpKC/Mbna6CIZtdAzJ
-         loZ55T5I1hqsXuWVEsLOhBXPvAazBQUTe5IxKTm8P/c0ZH+yiyHHUEESz34gcF0Aar+l
-         ZwHvdhh9S5qa8QtPFQkhJuM4CAf9Us4wu7udZpCwTrmXgZuo1mXjxuylNKYce01hLkAD
-         cQiNw665YcuEI6fFKJY6IL7+cZnGv0FqwABYxo0tV7xEegv2GdqaSsIqhsx4+csxeL7K
-         s4f8nXHP3ipC7KGvqaPLezIqfQPIwfquIZNmJTftoI9qhfg2IeaSo2u7X1LBLpZohyYp
-         e6tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=GISa/5YWim1dL4gwKmc0fTZB94/Tkhhvffj3A4gtCN4=;
-        b=G/kppCPR7QU/ZgGfsz39t1+TAAQXh0GbQ66n2QtqvOhuqnf5Yh7zVvHJTQzamrAsiX
-         3Sg/sxclmtalnSVEGVdvbPLFJdvTIgn8HkxkZIqNBqO7ZNDVw5vfYpdL18l2F9QcOLWn
-         SGg944VFlL7CEwFwV0wVZxWCULmBUscl3DmISzWu9gzbVgn/qDqe6dCEDze53MLVCUCw
-         2ue1n45wVBlqa/Zl/Kqxbpi6e59ssbyYa6JOPtXJZjGuVJaOUQFKKPYYFvN18pvUAuKE
-         PZzluG7/DWden5WBT73zzIlesSsWUUzol20P/DPlm6nqdt6n4akKL3X75PncfkS4bI5g
-         /DEg==
-X-Gm-Message-State: AOAM531KJn0jPwTmVvdNAsIYbqADJ/UYhCjx9AwulIKu8qb8R3d5sfcS
-	khZYGVU1AWY/+fZsBpnSjIQ=
-X-Google-Smtp-Source: ABdhPJyZwLdjjb7qfu6aCgCoxk/5yYeqIjvYnhu03K8VaD8JxNm41YGMBAosllXfs9qOQ07497+I6g==
-X-Received: by 2002:a05:6a00:c8c:b0:447:bddb:c83 with SMTP id a12-20020a056a000c8c00b00447bddb0c83mr20853105pfv.1.1633263333250;
-        Sun, 03 Oct 2021 05:15:33 -0700 (PDT)
-Received: from user ([223.230.43.197])
-        by smtp.gmail.com with ESMTPSA id g22sm13519394pfj.15.2021.10.03.05.15.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Oct 2021 05:15:32 -0700 (PDT)
-Date: Sun, 3 Oct 2021 17:45:27 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	nathan@kernel.org, fmdefrancesco@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: core: remove duplicate condition check
-Message-ID: <YVme3xtnCHN/hOjS@user>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C917B3FE6
+	for <linux-staging@lists.linux.dev>; Sun,  3 Oct 2021 12:33:21 +0000 (UTC)
+Received: from localhost.localdomain ([37.4.249.122]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MsqMq-1mmLjg47qq-00tFK9; Sun, 03 Oct 2021 14:33:17 +0200
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Gaston Gonzalez <gascoar@gmail.com>,
+	Ojaswin Mujoo <ojaswin98@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH 2/3] staging: vchiq_arm: drop unnecessary declarations
+Date: Sun,  3 Oct 2021 14:32:48 +0200
+Message-Id: <1633264369-998-3-git-send-email-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1633264369-998-1-git-send-email-stefan.wahren@i2se.com>
+References: <1633264369-998-1-git-send-email-stefan.wahren@i2se.com>
+X-Provags-ID: V03:K1:EKeX7yZsRaCLW9q6rjJEZmn6SGJsCn3BWElMB5PtzlcLIkczheC
+ gzsGvuZn5tjfIAgjhVRJBCfYX1p74usr3kcZI/FvLAl/BUHQpyi/pNsErUbLlFEeR6j3R9L
+ 1KC+faxDzYGq8dWK/393ByVTyQafmpuoOKt5+94kbQIEm8+h30sIKRT0GC2JelwR7hOyoj9
+ I6BhxZ02FVsKgwgZzjPmw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LoiznvltjgM=:rNeV1AewqgG/1jB00zSJv9
+ AbkQHFIqWoptig+g+/M8/3dxwwVb4leZcAc3JmYmPSJk2t7eHwozfMZPpBuWlS/NRW5n6CPOk
+ 90OMMu89qN6IO3ljtezai3T76Cv4vVAKwBI+BtFEVJGKrW3hKMqZFHvCbTAajHnS1E0/gffAi
+ P1s7PH80OpK4ugN9KoECOtI3GKLKOB0vFxOAjnE8lsVYShFDyau2TvRRVto/CyPw+KXRN4wEK
+ TMlh0l7VRq7o5M/ma/kcQNy5WOd6OVSGXZF7Jn6AWxHXcw0V14/IPh3MH5Sl8BZdjE63kdekQ
+ sDRWLH1JEI7v253J//jaib4Yhaiq50Ef12Y/f7akQnWawjpwJ2VV7zf4oGvP8PD5z9204nIu5
+ IT3OM9jMY9X8xhHmFGMJPn7SuvZLOAGmLRUdxVNnb35H96HxUyUHdSiLjoeeuDmwEy6AmdIT1
+ t9Dwby/tonunepTkBZKGyDQVRe9XVC28IOl52wARNji9uLB0QLdFcXWfpACGhBqhG59YCEjQ9
+ 0/gOy9rWhNg1YOp2y7tM/oK5zYa2vDoksJ+0sgaPepFZyn9L/qkAbu7eeCR8FGYNQP0w8AZNY
+ o0E8d00cJKBfHslWRJVNOD0tMVOgBkcqj5JcBNRYsS+AM1DD6hdbhMbyPuYzKJYBfHD6rBisE
+ 4QZFj2SFt8TfeLxCnjOtFv5dPjo2cS6gUqb0L1oSK3GOgRyOZkz5GhGzPFgpCDIF97NIsjdTb
+ J6WQ1YdS1I9pGH4a5MszrYIeEfIYURYeRExKej1Z+auZeiCBrmy+DPQh01w=
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Remove the same expression (!memcmp(pIE->data, BROADCOM_OUI2, 3))
-on both the side of "||" .
+vchiq_arm.h contains some unnecessary declarations, so drop them.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/r8188eu/core/rtw_wlan_util.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 3d1d8c198e53..8db68cf1e11c 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -1271,7 +1271,6 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- 				DBG_88E("link to Artheros AP\n");
- 				return HT_IOT_PEER_ATHEROS;
- 			} else if ((!memcmp(pIE->data, BROADCOM_OUI1, 3)) ||
--				   (!memcmp(pIE->data, BROADCOM_OUI2, 3)) ||
- 				   (!memcmp(pIE->data, BROADCOM_OUI2, 3))) {
- 				DBG_88E("link to Broadcom AP\n");
- 				return HT_IOT_PEER_BROADCOM;
---
-2.32.0
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+index 28f94b6..c77d5ab 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+@@ -121,14 +121,9 @@ extern int vchiq_susp_log_level;
+ extern spinlock_t msg_queue_spinlock;
+ extern struct vchiq_state g_state;
+ 
+-int vchiq_platform_init(struct platform_device *pdev,
+-			struct vchiq_state *state);
+-
+ extern struct vchiq_state *
+ vchiq_get_state(void);
+ 
+-extern void
+-vchiq_check_suspend(struct vchiq_state *state);
+ enum vchiq_status
+ vchiq_use_service(unsigned int handle);
+ 
+@@ -144,9 +139,6 @@ vchiq_dump_platform_use_state(struct vchiq_state *state);
+ extern void
+ vchiq_dump_service_use_state(struct vchiq_state *state);
+ 
+-extern struct vchiq_arm_state*
+-vchiq_platform_get_arm_state(struct vchiq_state *state);
+-
+ extern enum vchiq_status
+ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+ 		   enum USE_TYPE_E use_type);
+-- 
+2.7.4
 
