@@ -1,84 +1,101 @@
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898CB3FC9
-	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 18:26:23 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id o124so20725271vsc.6
-        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 11:26:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B6D3FE6
+	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 19:55:41 +0000 (UTC)
+Received: by mail-vk1-f181.google.com with SMTP id x207so8275274vke.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 12:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6n/vts0PyHmoxi8oEBeOuVoVdH7tRF+8eeP06Mq4yWA=;
-        b=NuDtgVLsxGgAxPAHdWpFc8G6LW+l550GL9Nh06oO17X1ulv4GnhPCUdBjx+zU4LSyH
-         Lse4QOm89izzccTGHht3YRE4BXD12YPzgpcUFqqUG/Vu0p2LIJQKubFN4zmlqKNwdyG7
-         qNmTA1rh02vDf6WggG/IYDve1KWSYW+jM9Vc1U/CIfj7okQO7UbHnsgBNeoFw0WPom/k
-         /VwHya7SSczwtL1tixVNZaILyrKuFNAlS3P1BhwgqLhEANIuDYfTMZtKO62LU2jeXiK8
-         kWZdMMqClpOq1da2IhvLtAPlP8DAPFbIm7Hpu9fpeB7ubx5iLHYfkzBIBeS0lEkxVH5m
-         04ng==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=1cjW8j5qiFKWJTLZksv9J4aCIUECPaF+CluJ5OjAoO4=;
+        b=BCMocplaoN34MWnOC9nIj6WfSV3dZcA3yccvdaPUSi8I/M46gKsAaGeKg+/KXNWClo
+         umo83kURwYXemruins5LXTs5Xh4+JD7CQdVuIOj467QWs94PjvANEj9ReVGm7JUeY9F+
+         kuoG7YU7WrIVlnr2cQk0ckmj3MeuAB5F2Gb5Vn7eVC/stVyb3xmyfr9bkSlvg9+Bf+uB
+         UsHfMrpnolvQIOp4h1RmoU8Z2q9Ii1Nkd7IPIfnmZWPi1SwgaNleHPgWUcnBheRnpES4
+         aUz2wCF1ySTJxvtl+512zX9hIiRj/gXDiKPqT2EJywMEn6qVILLjxVVwNuXBpYfJhgBF
+         8t7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6n/vts0PyHmoxi8oEBeOuVoVdH7tRF+8eeP06Mq4yWA=;
-        b=QHN6z4qjYG2aZKz34xTFLNpmdCIukEYmDlcbN8S2VSjcb6i80ijyZYAbApvpMoPHX2
-         oHs8MgjszvYrEuGQmUhni6so2nna5OaMAYnwyX7hzpHoSePBU+1tq1enrrtj3ECrzmlf
-         tqdZXbkZhdkp5k0J+a9cwbuw0KtVZdFb+ZWaTfm63XnuHeFkRUbpB5xypkLMjmuWC1ex
-         mYvYY4ilsuolxhC+8TaYaShjh7oX5iR39Kp1ZSGPheO5nmDffCfjE1e0+u9VSGFdKdXt
-         rCpdd0Z775KS0ObFQ3RbJm4e8a51a+A343atDCZaKGDjz6r04KnF7tk0zJOagkWzOePy
-         dL4Q==
-X-Gm-Message-State: AOAM530r67/CZAGX6xJ2Nh8800tFvWYKJcOrov5E4uFZH9Gw3xTeuWBW
-	kbx6yQfBAbLhTLLqDOTCsM1eeuscsEPafAiBtIFboCHn
-X-Google-Smtp-Source: ABdhPJyWkVxkzj24O9IbQ07+XhO2ovB+390tYNmw0/qcOFn04pnzmeGJsny1QYwPGB1Z3BUS7aR0Sa6NBsE2uQoC/w4=
-X-Received: by 2002:a67:d189:: with SMTP id w9mr14525515vsi.55.1633371982514;
- Mon, 04 Oct 2021 11:26:22 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1cjW8j5qiFKWJTLZksv9J4aCIUECPaF+CluJ5OjAoO4=;
+        b=zsEyv2ym8rXFBC/V9OPTLA1MneoBu1HxlrVC1t19xk81O7Cg2/cgOgbtaGihZRN4fv
+         8aJB7/UwZoD8col2q7Dcbo947g1C0Pjvelraux9QT1ugxqIjb23eKtpGFKq7Z+LMN0Kf
+         BLz0FUmlCtyT6l/D3oxMgOd0e9E1+aVAx9dxRodkYNvX6uTGYzIpNfQMd7vWMcqAxAuT
+         4QJPmmJ4wKhRCVsFYLARTZJnUpNlpoJWeFJ8GJjXVdtABt2JoO9dX+y7YcXpOwukpurI
+         gM2sBHr4R+frTGU6TWxllkBOD31l36yDCOyyATZiNI7LujZLUb4qqfdhOW1KxSGt4OVw
+         FzDg==
+X-Gm-Message-State: AOAM531nj+o5wC5szhqVexO4Fx9R7W7lAySsTKBqtmL7JqVyAADf/7ao
+	NttX7dIxGgh4f2TmyFnReT4=
+X-Google-Smtp-Source: ABdhPJz2klPrPO+0amQazno69BogkeOH6HwuIBxJ6Sad4/cSUyBUFKEKAi0EqQDPYgi/4UHeeaRU2g==
+X-Received: by 2002:a05:6122:658:: with SMTP id h24mr6894381vkp.15.1633377340222;
+        Mon, 04 Oct 2021 12:55:40 -0700 (PDT)
+Received: from localhost.localdomain ([181.166.206.110])
+        by smtp.gmail.com with ESMTPSA id w186sm6416147vkd.51.2021.10.04.12.55.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 12:55:39 -0700 (PDT)
+Date: Mon, 4 Oct 2021 16:55:17 -0300
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+	nsaenz@kernel.org, stefan.wahren@i2se.com, arnd@arndb.de,
+	ojaswin98@gmail.com, amarjargal16@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: Re: [PATCH 1/9] staging: vchiq_core: cleanup blank lines
+Message-ID: <YVtcJZ16FknbVp3E@localhost.localdomain>
+References: <20211003195758.36572-1-gascoar@gmail.com>
+ <20211003195758.36572-2-gascoar@gmail.com>
+ <20211004065511.GC2083@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210926145931.14603-1-sergio.paracuellos@gmail.com>
- <20210926145931.14603-2-sergio.paracuellos@gmail.com> <YVtBsrmCDk/sLsRJ@robh.at.kernel.org>
-In-Reply-To: <YVtBsrmCDk/sLsRJ@robh.at.kernel.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 4 Oct 2021 20:26:11 +0200
-Message-ID: <CAMhs-H_qBkQhzwvcVyFbegf412ecvweOBOYq8NW2hBNYUUCE-w@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: reset: add dt binding header for ralink
- RT2880 resets
-To: Rob Herring <robh@kernel.org>
-Cc: linux-staging@lists.linux.dev, John Crispin <john@phrozen.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>, linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211004065511.GC2083@kadam>
 
-On Mon, Oct 4, 2021 at 8:02 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Sun, Sep 26, 2021 at 04:59:29PM +0200, Sergio Paracuellos wrote:
-> > Adds dt binding header for 'ralink,rt2880-reset' resets.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+On Mon, Oct 04, 2021 at 09:55:11AM +0300, Dan Carpenter wrote:
+> On Sun, Oct 03, 2021 at 04:57:51PM -0300, Gaston Gonzalez wrote:
+> > Remove unnecessary blank lines.
+> > 
+> > Reported by checkpatch.pl
+> > 
+> > Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 > > ---
-> >  include/dt-bindings/reset/ralink-rt2880.h | 40 +++++++++++++++++++++++
-> >  1 file changed, 40 insertions(+)
-> >  create mode 100644 include/dt-bindings/reset/ralink-rt2880.h
-> >
-> > diff --git a/include/dt-bindings/reset/ralink-rt2880.h b/include/dt-bindings/reset/ralink-rt2880.h
-> > new file mode 100644
-> > index 000000000000..266ef521a584
-> > --- /dev/null
-> > +++ b/include/dt-bindings/reset/ralink-rt2880.h
-> > @@ -0,0 +1,40 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
+> 
+> [ snip ]
+> 
+> > @@ -3207,7 +3206,6 @@ enum vchiq_status vchiq_bulk_transfer(unsigned int handle,
+> >  	}
+> >  
+> >  	state = service->state;
+> > -
+> >  	queue = (dir == VCHIQ_BULK_TRANSMIT) ?
+> >  		&service->bulk_tx : &service->bulk_rx;
+> >  
+> 
+> 
+> I don't care one way or the other about the blank line, but it's
+> not a checkpatch warning.
 >
-> Dual license please.
 
-Ah, ok. I thought the dual license was only for binding yaml files but
-not for headers since there are a lot of already mainlined files with
-only GPL-2.0. I will take into account from now that binding headers
-also need dual license.
+Thanks for the review Dan.
 
-Thanks for the review and clarification.
+Of course you are right... This was not supposed to be here, I'm sorry.
 
-Best regards,
-    Sergio Paracuellos
+Please drop the series, I'll a send a v2.
+
+Thanks,
+
+Gaston
+
+> regards,
+> dan carpenter
+>
