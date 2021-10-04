@@ -1,67 +1,76 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A37E3FCC
-	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 14:53:01 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id i24so23774818lfj.13
-        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 07:53:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBED3FCC
+	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 15:57:22 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id i24so24378875lfj.13
+        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 08:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=e9mEC7vyz6aYS5ipxJsTFX2kQTkmdkM9KeZtG855BT0=;
-        b=j0Ur3IU22Dtc5kFnP/nXkoktbxHcZFHOAKKskIoJgXkwGHYXbbkyALnAz04dfcCoVV
-         0Mi+yf7x6bLdauQEAwTnqbWC6yASn3DvUmQzjLsswUxGTTKJ6s/CRmffsVicfj4H/JdQ
-         c/LIIg0L7rv8lHs1sW2K5rZwgSx57ZXcHyto17YWq5qqGR+KdrUM8a/vBIQevrz7MKqt
-         4+fAAMP0uH9K8IRIrKtcrYu5d1hJt2gQAndx84DW2UalqWNKhO6AnDeKmZJUWZRpcZPy
-         CmjMAchXyeOg4QY//26g7aMb6W3U/7YeGFmXOquN7S/42F7Yuv5Wu7Qw7InfGjWugPr7
-         q3/A==
+        bh=oXxI7X/1bkoyfWLqsQl0b8N5L2M43qDxOhyRLjNgwgs=;
+        b=pH5gGGqkZlMuFnRyIJAXiewuWBbmrXc4nrj48Dzw+Xc6gukr3JlL4bc0XqPdYPe5DQ
+         NDB4vv+qA4gvKAo7lM0mnIDk8dHTj89Skv+bi+CnIwKoB0GbtflokeLFAGWMWBkGuUwO
+         vnV+cxSUarX4fvwMNp98YdWmdtdCmVfrq9kQiTD/iscLYeiALsQL/FGXMsD8gWDMtQgb
+         SdntlSYjQY8VC2aw+ENPn0LFmLD5mx6hdBsOFMb8vi+SpeKciwoN3fNZiNgmP/61OVVQ
+         wnD2qG3x98rXnlrsSFT8O6Xj/b7E6uaK2TJJmtNceUOe0ut/Z6O07eTqHqNZmJmGlly8
+         1zZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=e9mEC7vyz6aYS5ipxJsTFX2kQTkmdkM9KeZtG855BT0=;
-        b=JuhuKP67UoaMy6BTU+9DMe3YzJ5ySy35yz3TONWIe2aW+4tHLQQf1BoHfVMrZdrp+S
-         vss3SIaHpibYNqKnygpNZBZYpflC+7aVWlVhPS6SjvUpVNh0FYoSS2G5/+Z4yeqSrE1f
-         r2D31B4YI8nHvnz19CuJ0pXgGqbzJ/hIPVB2NHf4TJOAwxfol0O78Rfs2zz9DpkXChjV
-         MVJl/WC+lTC/G71k0Vr9fF5Gm+vJuInhumt9MXmDHAUewKMjj67ztLV91lDAefJostp3
-         j6Saz96xY8+kvTumkDRSF6hbZ22Lw0dfhIk68eKsSUJnxOJ0KzkRW4Mz28KYsejz4CqM
-         6XCQ==
-X-Gm-Message-State: AOAM531rL2gOOF9JVtdF8MhiB8z4cREnUZqDcWNyUKn9Qyou/JnELgBM
-	7eh3dxuHZEJleInSkhGN5Ak=
-X-Google-Smtp-Source: ABdhPJwZpF/pb309DarSmG6340t8JrbcT7IOPdU/tSH1oTe/CJm/C7yaYY6kTpK2zLUPD04MKNAKqg==
-X-Received: by 2002:a2e:5450:: with SMTP id y16mr16673360ljd.21.1633359167035;
-        Mon, 04 Oct 2021 07:52:47 -0700 (PDT)
+        bh=oXxI7X/1bkoyfWLqsQl0b8N5L2M43qDxOhyRLjNgwgs=;
+        b=ksfRxk48tf56ddLY46qqFIY4YXcu361nlq/lryUKL/t1bn4hZiLhkHoH1QRcgIwnlo
+         427hlqheHYObK4zQ2VC9C4PTrJqQUAhvE27SNT/3Vh+/F7zAubSRtjbAoMKqlRDUjchD
+         P4VMZdsNPSMF69BlFQgDOqpXoq9pXvEeP3jTGo998QEuf+83H6ZDlepHSjVclh6FAIvp
+         EAbzqfprZZbK0WqBjKPq1R5utsflGG+8yS03O94wi9+2sQp835tZxMHU+NJH5N4GC0Sj
+         wDz+vW5m1nyuJrgcTQhYo9Ga/oRNFjPfYNI4wnn+TPfRYMvee8JFHxgxCarva5oWyDs/
+         0oXw==
+X-Gm-Message-State: AOAM5326N0b55pkIM7bcmcdjGFg2D/lNcVFQu3izUaWNLPIP12p+Dc3O
+	hyuDMQrB7THbrWihwJXnTgc=
+X-Google-Smtp-Source: ABdhPJwVBnc7vV9bh5UvETfiXZp05qVUc3d2AIsNbe2sLzFhSwuNlbIJLQFDdKH2jbPpxZ0FciK83w==
+X-Received: by 2002:a05:6512:31c1:: with SMTP id j1mr15924982lfe.442.1633363033096;
+        Mon, 04 Oct 2021 08:57:13 -0700 (PDT)
 Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru. [79.139.163.57])
-        by smtp.googlemail.com with ESMTPSA id o19sm1632148lfg.68.2021.10.04.07.52.45
+        by smtp.googlemail.com with ESMTPSA id l9sm886038lje.32.2021.10.04.08.57.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Oct 2021 07:52:46 -0700 (PDT)
-Subject: Re: [PATCH v13 00/35] NVIDIA Tegra power management patches for 5.16
-To: Viresh Kumar <viresh.kumar@linaro.org>
+        Mon, 04 Oct 2021 08:57:12 -0700 (PDT)
+Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
- <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
  Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
  <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
  Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
  =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
  Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
  Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  David Heidelberg <david@ixit.cz>
 References: <20210926224058.1252-1-digetx@gmail.com>
- <20211004091129.fhlfhsddzk5fakuj@vireshk-i7>
+ <20210926224058.1252-14-digetx@gmail.com>
+ <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
+ <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
+ <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
+ <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
+ <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
 From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <80e0e5a9-7987-a334-7a2b-a7b09b591414@gmail.com>
-Date: Mon, 4 Oct 2021 17:52:45 +0300
+Message-ID: <f5b5e06a-71ed-1250-f0ad-692062e00e01@gmail.com>
+Date: Mon, 4 Oct 2021 18:57:11 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 Precedence: bulk
@@ -70,22 +79,127 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211004091129.fhlfhsddzk5fakuj@vireshk-i7>
+In-Reply-To: <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-04.10.2021 12:11, Viresh Kumar пишет:
-> On 27-09-21, 01:40, Dmitry Osipenko wrote:
->> This series adds runtime PM support to Tegra drivers and enables core
->> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+04.10.2021 14:01, Ulf Hansson пишет:
+> On Fri, 1 Oct 2021 at 21:00, Dmitry Osipenko <digetx@gmail.com> wrote:
 >>
->> All patches in this series are interdependent and should go via Tegra tree.
+>> 01.10.2021 17:55, Ulf Hansson пишет:
+>>> On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>
+>>>> 01.10.2021 16:39, Ulf Hansson пишет:
+>>>>> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>>>
+>>>>>> Add runtime power management and support generic power domains.
+>>>>>>
+>>>>>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+>>>>>> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
+>>>>>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
+>>>>>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+>>>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>>>> ---
+>>>>>>  drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++--
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>>  static int gr2d_remove(struct platform_device *pdev)
+>>>>>> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *pdev)
+>>>>>>                 return err;
+>>>>>>         }
+>>>>>>
+>>>>>> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
+>>>>>> +       pm_runtime_disable(&pdev->dev);
+>>>>>
+>>>>> There is no guarantee that the ->runtime_suspend() has been invoked
+>>>>> here, which means that clock may be left prepared/enabled beyond this
+>>>>> point.
+>>>>>
+>>>>> I suggest you call pm_runtime_force_suspend(), instead of
+>>>>> pm_runtime_disable(), to make sure that gets done.
+>>>>
+>>>> The pm_runtime_disable() performs the final synchronization, please see [1].
+>>>>
+>>>> [1]
+>>>> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/runtime.c#L1412
+>>>
+>>> pm_runtime_disable() end up calling _pm_runtime_barrier(), which calls
+>>> cancel_work_sync() if dev->power.request_pending has been set.
+>>>
+>>> If the work that was punted to the pm_wq in rpm_idle() has not been
+>>> started yet, we end up just canceling it. In other words, there are no
+>>> guarantees it runs to completion.
+>>
+>> You're right. Although, in a case of this particular patch, the syncing
+>> is actually implicitly done by pm_runtime_dont_use_autosuspend().
+>>
+>> But for drivers which don't use auto-suspend, there is no sync. This
+>> looks like a disaster, it's a very common pattern for drivers to
+>> 'put+disable'.
+>>
+>>> Moreover, use space may have bumped the usage count via sysfs for the
+>>> device (pm_runtime_forbid()) to keep the device runtime resumed.
+>>
+>> Right, this is also a disaster in a case of driver removal.
+>>
+>>>> Calling pm_runtime_force_suspend() isn't correct because each 'enable'
+>>>> must have the corresponding 'disable'. Hence there is no problem here.
+>>>
+>>> pm_runtime_force_suspend() calls pm_runtime_disable(), so I think that
+>>> should be fine. No?
+>>
+>> [adding Rafael]
+>>
+>> Rafael, could you please explain how drivers are supposed to properly
+>> suspend and disable RPM to cut off power and reset state that was
+>> altered by the driver's resume callback? What we're missing? Is Ulf's
+>> suggestion acceptable?
+>>
+>> The RPM state of a device is getting reset on driver's removal, hence
+>> all refcounts that were bumped by the rpm-resume callback of the device
+>> driver will be screwed up if device is kept resumed after removal. I
+>> just verified that it's true in practice.
 > 
-> So you don't need any OPP changes anymore ? I just came back from
-> vacation, don't know what you guys discussed in between :)
+> Note that, what makes the Tegra drivers a bit special is that they are
+> always built with CONFIG_PM being set (selected from the "SoC"
+> Kconfig).
 > 
+> Therefore, pm_runtime_force_suspend() can work for some of these
+> cases. Using this, would potentially avoid the driver from having to
+> runtime resume the device in ->remove(), according to the below
+> generic sequence, which is used in many drivers.
+> 
+> pm_runtime_get_sync()
+> clk_disable_unprepare() (+ additional things to turn off the device)
+> pm_runtime_disable()
+> pm_runtime_put_noidle()
 
-We discussed it and decided that we don't need more OPP/domain core
-changes. It's already good enough for the starter and making it all
-absolutely ideal doesn't worth the effort for now.
+It's not a problem to change this patchset. The problem is that if
+you'll grep mainline for 'pm_runtime_disable', you will find that there
+are a lot of drivers in a potential trouble.
+
+I'm proposing that we should change pm_runtime_disable() to perform the
+syncing with this oneliner:
+
+diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+index ec94049442b9..5c9f28165824 100644
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -1380,6 +1380,8 @@ EXPORT_SYMBOL_GPL(pm_runtime_barrier);
+  */
+ void __pm_runtime_disable(struct device *dev, bool check_resume)
+ {
++	flush_work(&dev->power.work);
++
+ 	spin_lock_irq(&dev->power.lock);
+
+ 	if (dev->power.disable_depth > 0) {
+
+Objections?
+
+The sysfs rpm-forbid is a separate problem and it's less troublesome
+since it requires root privileges. It's also not something that
+userspace touches casually. For now I don't know what could be done
+about it.
