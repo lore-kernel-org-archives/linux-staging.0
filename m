@@ -1,101 +1,84 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B6D3FE6
-	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 19:55:41 +0000 (UTC)
-Received: by mail-vk1-f181.google.com with SMTP id x207so8275274vke.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 12:55:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E9229CA
+	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 22:32:07 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id p11so17830477edy.10
+        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 15:32:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1cjW8j5qiFKWJTLZksv9J4aCIUECPaF+CluJ5OjAoO4=;
-        b=BCMocplaoN34MWnOC9nIj6WfSV3dZcA3yccvdaPUSi8I/M46gKsAaGeKg+/KXNWClo
-         umo83kURwYXemruins5LXTs5Xh4+JD7CQdVuIOj467QWs94PjvANEj9ReVGm7JUeY9F+
-         kuoG7YU7WrIVlnr2cQk0ckmj3MeuAB5F2Gb5Vn7eVC/stVyb3xmyfr9bkSlvg9+Bf+uB
-         UsHfMrpnolvQIOp4h1RmoU8Z2q9Ii1Nkd7IPIfnmZWPi1SwgaNleHPgWUcnBheRnpES4
-         aUz2wCF1ySTJxvtl+512zX9hIiRj/gXDiKPqT2EJywMEn6qVILLjxVVwNuXBpYfJhgBF
-         8t7Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Eng+Zc+HfX4OrCQY5S7dCIwJB13LaLzXgwv+0bs9o/I=;
+        b=QcolBkIEDg2+Lk6ufeObq+SQa+xNNRbFfNAF5IQmvN3OuuPF5KC4AMsAUI9Xr3hYn+
+         wQ14b1zBbUSEaT/m+/REbOFGQIuDjquakozT1Evc+c3XW8cJpoPrrZIFay/pv99L/UUO
+         X/Zh3nE7YSXOHC0Bp9jJ+ifzsbbp/NQIX4sKMjGVzjD9rD3ScgmDOSxHBzs7/QDSvdYj
+         QucZLg2GEuWbiD3A+An/Q1kjYoALJTOndXcKx/dwqSIQeyu5VuG4DYyj1VEGPpEDW+X5
+         /HkIRsFb6Qw0x/DG6uPHpFMzhL/fEkaAtjuZ6RJdbtulKR5U4Yi/GL/Dhp13gC2dEbC3
+         +vLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1cjW8j5qiFKWJTLZksv9J4aCIUECPaF+CluJ5OjAoO4=;
-        b=zsEyv2ym8rXFBC/V9OPTLA1MneoBu1HxlrVC1t19xk81O7Cg2/cgOgbtaGihZRN4fv
-         8aJB7/UwZoD8col2q7Dcbo947g1C0Pjvelraux9QT1ugxqIjb23eKtpGFKq7Z+LMN0Kf
-         BLz0FUmlCtyT6l/D3oxMgOd0e9E1+aVAx9dxRodkYNvX6uTGYzIpNfQMd7vWMcqAxAuT
-         4QJPmmJ4wKhRCVsFYLARTZJnUpNlpoJWeFJ8GJjXVdtABt2JoO9dX+y7YcXpOwukpurI
-         gM2sBHr4R+frTGU6TWxllkBOD31l36yDCOyyATZiNI7LujZLUb4qqfdhOW1KxSGt4OVw
-         FzDg==
-X-Gm-Message-State: AOAM531nj+o5wC5szhqVexO4Fx9R7W7lAySsTKBqtmL7JqVyAADf/7ao
-	NttX7dIxGgh4f2TmyFnReT4=
-X-Google-Smtp-Source: ABdhPJz2klPrPO+0amQazno69BogkeOH6HwuIBxJ6Sad4/cSUyBUFKEKAi0EqQDPYgi/4UHeeaRU2g==
-X-Received: by 2002:a05:6122:658:: with SMTP id h24mr6894381vkp.15.1633377340222;
-        Mon, 04 Oct 2021 12:55:40 -0700 (PDT)
-Received: from localhost.localdomain ([181.166.206.110])
-        by smtp.gmail.com with ESMTPSA id w186sm6416147vkd.51.2021.10.04.12.55.30
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Eng+Zc+HfX4OrCQY5S7dCIwJB13LaLzXgwv+0bs9o/I=;
+        b=VX+gGf/OcTkxu/CP2uUhcFv44KyH7aHHPUnWvO2MEiRa9O6WUGzrrkJZlpzs2FsB4O
+         ygsYV9d9nHIa0nfhW6cgLqEvi0VtxF4/cm/B44kdo2KBooRgDKUWIbanyzsqtbmnOwfU
+         ArZDumryLn6pUCKHzkcuU/EqlwQOZkZHba7muonVPmTm6S54MNSSFcsWBPTeIWLcIHju
+         16X+6mnJMUl4NdUIvrr5EVnIKYS03RdYrbMZ1CQhR/2K35m1jKyPzZLs84wpzNYk73Q1
+         aE5xfDVg2qHOpcZ2b2Dc0f2xoB1xUS78tcv3xFA2XLtR8IpGBooTaSPQExj3G9Sdk8vP
+         sbHg==
+X-Gm-Message-State: AOAM533TcZhgBYsysNSXGhkGHzTu4bPqUxsUNjedSvvZ+FeV5YpqZGOd
+	2mdQrImOs/Nd7rzGs/5ni9GGhqSSIoE=
+X-Google-Smtp-Source: ABdhPJzXfMnM+C83Zh2R+7b6lODQPmv9RMYWH8ZtVXm9u7lxCYTzB8u1Ichz4xBTyxnfLGkK9voIdQ==
+X-Received: by 2002:a17:906:70c5:: with SMTP id g5mr20991222ejk.63.1633386726262;
+        Mon, 04 Oct 2021 15:32:06 -0700 (PDT)
+Received: from tom-desktop.station (net-2-42-54-217.cust.vodafonedsl.it. [2.42.54.217])
+        by smtp.gmail.com with ESMTPSA id dc8sm7780919edb.28.2021.10.04.15.32.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 12:55:39 -0700 (PDT)
-Date: Mon, 4 Oct 2021 16:55:17 -0300
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
-	nsaenz@kernel.org, stefan.wahren@i2se.com, arnd@arndb.de,
-	ojaswin98@gmail.com, amarjargal16@gmail.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: Re: [PATCH 1/9] staging: vchiq_core: cleanup blank lines
-Message-ID: <YVtcJZ16FknbVp3E@localhost.localdomain>
-References: <20211003195758.36572-1-gascoar@gmail.com>
- <20211003195758.36572-2-gascoar@gmail.com>
- <20211004065511.GC2083@kadam>
+        Mon, 04 Oct 2021 15:32:05 -0700 (PDT)
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: 
+Cc: tomm.merciai@gmail.com,
+	Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/3] staging: vt6655: replace camel case variables
+Date: Tue,  5 Oct 2021 00:31:55 +0200
+Message-Id: <20211004223200.70524-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211004065511.GC2083@kadam>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 04, 2021 at 09:55:11AM +0300, Dan Carpenter wrote:
-> On Sun, Oct 03, 2021 at 04:57:51PM -0300, Gaston Gonzalez wrote:
-> > Remove unnecessary blank lines.
-> > 
-> > Reported by checkpatch.pl
-> > 
-> > Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
-> > ---
-> 
-> [ snip ]
-> 
-> > @@ -3207,7 +3206,6 @@ enum vchiq_status vchiq_bulk_transfer(unsigned int handle,
-> >  	}
-> >  
-> >  	state = service->state;
-> > -
-> >  	queue = (dir == VCHIQ_BULK_TRANSMIT) ?
-> >  		&service->bulk_tx : &service->bulk_rx;
-> >  
-> 
-> 
-> I don't care one way or the other about the blank line, but it's
-> not a checkpatch warning.
->
+This series replace the following camel case variables into
+equivalent snake case variable for vt6655 driver.
 
-Thanks for the review Dan.
+bShortSlotTime -> short_slot_time
+ldBmThreshold -> dbm_threshold
+PortOffset -> port_offset
 
-Of course you are right... This was not supposed to be here, I'm sorry.
+Tommaso Merciai (3):
+  staging: vt6655: fix camelcase in bShortSlotTime
+  staging: vt6655: fix camelcase in ldBmThreshold
+  staging: vt6655: fix camelcase in PortOffset
 
-Please drop the series, I'll a send a v2.
+ drivers/staging/vt6655/baseband.c    |  58 +++++------
+ drivers/staging/vt6655/card.c        |  90 ++++++++--------
+ drivers/staging/vt6655/channel.c     |  10 +-
+ drivers/staging/vt6655/device.h      |   4 +-
+ drivers/staging/vt6655/device_main.c | 150 +++++++++++++--------------
+ drivers/staging/vt6655/mac.c         |  46 ++++----
+ drivers/staging/vt6655/power.c       |  24 ++---
+ drivers/staging/vt6655/rf.c          |  12 +--
+ drivers/staging/vt6655/rxtx.c        |  12 +--
+ 9 files changed, 203 insertions(+), 203 deletions(-)
 
-Thanks,
+-- 
+2.25.1
 
-Gaston
-
-> regards,
-> dan carpenter
->
