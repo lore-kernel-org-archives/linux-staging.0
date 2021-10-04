@@ -1,41 +1,41 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5303B3FC9
-	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 18:02:29 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id h9-20020a9d2f09000000b005453f95356cso22672521otb.11
-        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 11:02:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F71E3FC9
+	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 18:06:47 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id s69so22687167oie.13
+        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 11:06:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=M/SGga67jN2G7/llzVrub5qhFrk1aFwuQmWZS4qHJnU=;
-        b=okrlIaaft0HU8UhZS2NjMM6QYFIkb4WkeY0AuTBtzRM1ZE+8DZPsHi4pJOg7ozcYVm
-         yClrmtdmiE9MfbTt0FmRYLCCxM2Wz+G0SUYGpyl6W3f/jcXTmDEexZKelsIIPI7v4cdk
-         eHy402etn6Pj1rigGHitBw/gqfV0uzbzb6yFBqkBfIDQLz6jChte/pMpVzj5k53MJyzm
-         pyew4J6e8kuaaGAF6PS27osaO+PAwGjrrylu67byoTq5Izo6D4Sda9E7dUfv0dYFUDB3
-         /GYbhrwUbWAvs4z1N9uuso4e/esX5QEDl1ez+ZXzpVGvanpzeQvp49YhWJq4XPTKuxlZ
-         GAsw==
-X-Gm-Message-State: AOAM5337PagFY2bMdam/ovaIwuMkPackc8sqLZ6yzvyV+HnvPOs1a/Jz
-	uEWd9Bxoj2Ua9OICy0zDJQ==
-X-Google-Smtp-Source: ABdhPJxRFQOGJe/1Gc8YPX/AbyB8SwC/3eUvlri6WIZ7hLGxw4bR0uSlc2koc4irHc7tVC7tGlyNSQ==
-X-Received: by 2002:a9d:1783:: with SMTP id j3mr11058382otj.366.1633370548465;
-        Mon, 04 Oct 2021 11:02:28 -0700 (PDT)
+        bh=0nglCwSmLkqWcDDYbgeQI0Rj6hImnZUh6ykmGdkaXq8=;
+        b=lIBN24BrsidQLQZez2jCpc1gQ0/ZJM1F/rpBZly5NOxNk56SgHrs8aXFEzsqiUyEO0
+         NNvS0pweV0uTJYA2j8KwiT7NezDGuZutFbnyFQc7vkLL/lnZKuxXaDNTUQi05LUJIR+S
+         hj2zWJwwlZZ5OGYzU3lAtZ00rZnxwMhjUghLVoPU+NGAMB2UKG+S2JXluelufdfWLkNt
+         0lsLnSLQCGi3ww1faKAMy2A82qAZbDrXDBL0NDV3GnXT08166Xk/gxaZqu2hw2nkGXbW
+         BFrGuBf8PEGjC0L3auMJI/5okbAqQNFq/Hzem4wMJ2FUH8ry6pDwF6G9gngAqrq3awnR
+         zn+g==
+X-Gm-Message-State: AOAM531m4AQHSFxR5kcNUUJtmSzvSjXEikBQVddEnDsNlstepVmxOVwi
+	GnTv0gh7NoAT8eXyElpK0w==
+X-Google-Smtp-Source: ABdhPJzc6i6SjUk6crMunB3I6rcO8tJCZQ3N0J3WDSTRxPs5tV4XPfPSZZeDN54KEpyM2WQoVndhDw==
+X-Received: by 2002:aca:e143:: with SMTP id y64mr14547898oig.21.1633370806633;
+        Mon, 04 Oct 2021 11:06:46 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id l19sm3029186ota.17.2021.10.04.11.02.27
+        by smtp.gmail.com with ESMTPSA id w14sm3032395oth.5.2021.10.04.11.06.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 11:02:27 -0700 (PDT)
-Received: (nullmailer pid 1570795 invoked by uid 1000);
-	Mon, 04 Oct 2021 18:02:26 -0000
-Date: Mon, 4 Oct 2021 13:02:26 -0500
+        Mon, 04 Oct 2021 11:06:46 -0700 (PDT)
+Received: (nullmailer pid 1577410 invoked by uid 1000);
+	Mon, 04 Oct 2021 18:06:44 -0000
+Date: Mon, 4 Oct 2021 13:06:44 -0500
 From: Rob Herring <robh@kernel.org>
 To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 Cc: linux-staging@lists.linux.dev, john@phrozen.org, devicetree@vger.kernel.org, gregkh@linuxfoundation.org, neil@brown.name, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: reset: add dt binding header for ralink
- RT2880 resets
-Message-ID: <YVtBsrmCDk/sLsRJ@robh.at.kernel.org>
+Subject: Re: [PATCH 2/3] dt: bindings: add ralink RT2880 resets device tree
+ binding documentation
+Message-ID: <YVtCtGcLjNcO2NJ0@robh.at.kernel.org>
 References: <20210926145931.14603-1-sergio.paracuellos@gmail.com>
- <20210926145931.14603-2-sergio.paracuellos@gmail.com>
+ <20210926145931.14603-3-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,23 +44,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210926145931.14603-2-sergio.paracuellos@gmail.com>
+In-Reply-To: <20210926145931.14603-3-sergio.paracuellos@gmail.com>
 
-On Sun, Sep 26, 2021 at 04:59:29PM +0200, Sergio Paracuellos wrote:
-> Adds dt binding header for 'ralink,rt2880-reset' resets.
+On Sun, Sep 26, 2021 at 04:59:30PM +0200, Sergio Paracuellos wrote:
+> Adds device tree binding documentation for resets in the ralink RT2880 SoCs.
 > 
 > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 > ---
->  include/dt-bindings/reset/ralink-rt2880.h | 40 +++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
->  create mode 100644 include/dt-bindings/reset/ralink-rt2880.h
+>  .../bindings/reset/ralink,rt2880-reset.yaml   | 39 +++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
 > 
-> diff --git a/include/dt-bindings/reset/ralink-rt2880.h b/include/dt-bindings/reset/ralink-rt2880.h
+> diff --git a/Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml b/Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
 > new file mode 100644
-> index 000000000000..266ef521a584
+> index 000000000000..88eddeb4ee45
 > --- /dev/null
-> +++ b/include/dt-bindings/reset/ralink-rt2880.h
-> @@ -0,0 +1,40 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+> +++ b/Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
+> @@ -0,0 +1,39 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/reset/ralink,rt2880-reset.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Ralink RT2880 Reset Controller Device Tree Bindings
+> +
+> +maintainers:
+> +  - Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> +
+> +description: |
+> +  Ralink RT2880 reset controller driver which supports the SoC
+> +  system controller supplied reset registers for the various peripherals
+> +  of the SoC.
+> +
+> +  See also:
+> +  - dt-bindings/reset/ralink-rt2880.h
+> +
+> +properties:
+> +  compatible:
+> +    const: ralink,rt2880-reset
+> +
+> +  '#reset-cells':
+> +    const: 1
+> +
+> +required:
+> +  - '#reset-cells'
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/reset/ralink-rt2880.h>
+> +    rstctrl: reset-controller {
+> +      compatible = "ralink,rt2880-reset";
+> +      #reset-cells = <1>;
 
-Dual license please.
+How is this h/w controlled? If this is part of a system controller, then 
+it needs to be documented as such. IOW, you need to document the binding 
+for the whole block.
+
+Do you really need a child node here? All you need to make a system 
+controller a reset provider is add '#reset-cells' to it.
+
+Rob
