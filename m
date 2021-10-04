@@ -1,336 +1,180 @@
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [194.109.24.28])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE153FED;
-	Mon,  4 Oct 2021 08:12:08 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id XJ3nmn8Ch3tiGXJ3qmgbxb; Mon, 04 Oct 2021 10:11:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1633335060; bh=bKjOBDJpshLMetjuil3udBnbogUC1cEVU3iYd0ovcNU=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=U5mhqHA8NmLhpHMkM+KVrVRk3WJH3be49kQ4xZ+WMalOwBnxJmNG1Kie29gJHUtz9
-	 uIuB2VOnHW+ccaV/HhLKM/eorrFAZ/W3POxfTZxLMtF+ZcUNeysQdsHUmedZEGqudu
-	 grbbwztBfw+Gjsy1pg1Vwxp84qlanXOL/bMirQDKYu7HJ0HJgtXLAhLkmbQP4AIOSv
-	 63XRuOFm824B9jM147+pQ5aRb87oQTT1z2JCxzlACD3a8i7L84ySg9EvrcDcvoW1tf
-	 zyrjZ+ms0aQ+w6TX/5RfwUL16oSp8MGdkWQ75f72qNbIW8DMQo2Bwua+2iMZV6KcLK
-	 q2ww92ooaasxA==
-Subject: Re: [PATCH] media: cedrus: Don't kernel map most buffers
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
- paul.kocialkowski@bootlin.com
-Cc: wens@csie.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210912060812.222996-1-jernej.skrabec@gmail.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <0cb81145-16d9-fd28-832e-4010646e9512@xs4all.nl>
-Date: Mon, 4 Oct 2021 10:10:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90FC429CA
+	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 09:05:59 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1947o0iL025114;
+	Mon, 4 Oct 2021 09:05:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type :
+ content-transfer-encoding : in-reply-to : mime-version; s=corp-2021-07-09;
+ bh=p4ERYWfCH+DJtEREdeOnn9P0BuvR8RRSwvVmtF9Aa6M=;
+ b=jTT3/VH7WcK2GQ8/lS554rTW1dsZugzoSwpmGNM4TZQ+S6nEb0Y3D55TQ5eqqfw2YKco
+ hzgw7uMDTc4DsuQ53pjPxU09wwwLdQSLFIzkG9kDGoyoib/7IPuO9S/t7AmSs8Oyxwse
+ a0W96wwo1va+V7wmSKunKxZeT+DHkbV6YvT6kO19mjm6SKJnu7AFY5Mf1oLBeoE6z756
+ +FtnXlgjjag2n45axboKJgzGqXTak+ZFVpfbglLuBpH9sVTMXabOabq8qpzXXB5whBBg
+ Jz8WueM+5ZyMHyhdDuaPKFzSljKBRXWo7GDYAd+A/b5DKWHKjCom35T7SI1cN/7H4RKa XQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3bfabhttnb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 04 Oct 2021 09:05:45 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19494dre172667;
+	Mon, 4 Oct 2021 09:05:44 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2047.outbound.protection.outlook.com [104.47.51.47])
+	by userp3020.oracle.com with ESMTP id 3bf16r4be8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 04 Oct 2021 09:05:44 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bt4bs9d51PGvjz6Ut+DMDfx5QA0T/7WBlC/5JJb8OaYUx753xeIxRjnV/tLikwfp163F+v5TZOZfj/sV1n8ymYazMpifeSE0o9KR4po5VdmLnSLuLZ9zsXW8ViE1M5a98if9TIUKfnKj4RJKjdjdFNsGSl7/bU2MZp/+CAdlDj4RDb0qF4z8VHXbkDc3MY8G0d2rFofIACMUlh4vsjZnDv9GX7xTI9ZpBNdkp7TA06S4UrnmtlJ0AJZdN4iAfDK+A673iDsFVTcXoI6tpj2QGJ4Po6VdzIlY2NIxlCHx7+V9w+AkxdZU2mXMCkKlX61mpYGy5Ylni8/2iznzZijk0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p4ERYWfCH+DJtEREdeOnn9P0BuvR8RRSwvVmtF9Aa6M=;
+ b=Y0SFs3G3jbmBzOSE2GlXe/sERZVrpc+lzaT/E6u4sshy3LXZpfyzx8UDNSEFjyk0acNYMNOnMLCTNvWlEMB/uzVxPTsZa78VWQOGttemHeNwU8hw/SLp0Ha/xaAY4cQdt28p8PUt5c/H+1KgnwN4gDghA3M0YBm83FKjWzPcrbiODqX5Urdk5ObEV2mllbIXuTyVTfNuMB+7l7MBWKsN1JDf69aSoXo1dKNsbd3szbhyw40/4iV9f1ygnhYaYht+tVrW3NpTbpP4yOZ+/JPL1klV/45YkfV/uN+HxzqaK0uESKT9mQwkBPt2Zu4r5+QUJZTiqzHmknGJP/Ab5vWSsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p4ERYWfCH+DJtEREdeOnn9P0BuvR8RRSwvVmtF9Aa6M=;
+ b=vJdTBnfmxLr8CYvDbS9ghuwTUZMj/Mi0NhUa9udCH6jjONJm44XfEjct4u2fOKs2HRG3xKSde8AKwALvqOLWfFeWuPRC8aLeCPcO2UGs3238OLFMg626GJrXP0MutG+ZGZ//thBXL4aIBsBCIePY3wI7DaE0ECu0++KIt4NhSUo=
+Authentication-Results: students.amikom.ac.id; dkim=none (message not signed)
+ header.d=none;students.amikom.ac.id; dmarc=none action=none
+ header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4547.namprd10.prod.outlook.com
+ (2603:10b6:303:96::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.17; Mon, 4 Oct
+ 2021 09:05:42 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
+ 09:05:42 +0000
+Date: Mon, 4 Oct 2021 12:05:24 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Ammar Faizi <ammar.faizi@students.amikom.ac.id>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Pavel Skripkin <paskripkin@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Bedirhan KURT <windowz414@gnuweeb.org>
+Subject: Re: [PATCH] media: atomisp: fix `-Werror=return-type`
+Message-ID: <20211004090524.GS2048@kadam>
+References: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211002231723.29019-1-ammar.faizi@students.amikom.ac.id>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::31)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210912060812.222996-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfBMt3TknJanoRj5XaDGvKAbA5J/Kc0TpqWWzZwsBzxIw5qT5LVovXcL9S+TdvZWxi2Y23IlM9kaJvh8A/fHRh+FsMiprApVRDZS16anWExhy56qgjEzA
- xbZ0pUA46ok7+HdpN77jXyuRRWx1qZBPQUQBjMzWv7nM918pIOnjVWxY/R4j+1ywUtYbEQct8C1k6pRQzbvrXNsgKlaGp3XkDmvzCdVQai+xnMl+ZAFVgHqN
- 2ACyYq+6B4j68M6fEji2wXq0i4UyH4o5owpAjlXYJ262obS6srW9+G7f0BKOaulozzuLn17gfbUnCu37a49SHVdxNW/4DD7wjqRDq07XcFw6rgEhHBu5aH+Z
- MRehKXl+qpP9Q76R82LNaqmO+CozjOOrjnca8gal26j2omSljJT0W4wxFCXrsEpH7M4Grqd0Q2JMrZkAfpkTV5lJcdSQgziXdNkalvXNPPFQeMukFPSAkIzO
- 1Ul0UrxCLmFc8YcVuIUF2YQjQ0Xo9NHkGDkyAC26A+rIpZdW5sbUhiQ6oao16DjZ84Axk0E730nnOPKrSwebXvQfJSB/ChWvT6VhnApcF0brW3JeZUefqhzE
- Oik=
+Received: from kadam (62.8.83.99) by JN2P275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.16 via Frontend Transport; Mon, 4 Oct 2021 09:05:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c533d4e3-9597-4841-d8c6-08d987162415
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4547:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<CO1PR10MB45474AD3DD019B660DF465AB8EAE9@CO1PR10MB4547.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	sUkcy6CcCBvZuc0TRxeOEexVKsxiE7Bi/u+4c5FBUsHYbQ/kLy7+9f/V7HhA8zLy+DB7IrU3fDsw0j/K5xQ+UuMf+Wo+ES2IrQeRYm4EmrTkjsKcC2Lgwhi2Ky8OI4yNZWX9gsBaLTOUkFvqlLDf3ncrX28Bk5JnD9C7wvu+nhbplXcf/ivlC/nFsuWp8jBR4q9S4ywQ2Me1WgAkRsmavFWFRKEnl90xbCGe0HLvurDcyA7b3XrPATAs45E32C8UaGsmqc6CCbLZNbUa21tVP8rpDddWyemrWEwVkAY8hD9Bpwq863BN8PrHUAHRuc+zOU0pdjMdE0KFrYsSitEvgunSgoGSBL0jdKwetpQZqrAL4hZt3vuksUYeVxeSbuGdqcS9JNI/8LuYeP0mydgd45a6zQ6xQjP6V+TPlsaC7DbHJqzpS+ta6tiITQCdoDFpqHrWv0bg7Uy44I5vnmaVMpk1zGlsJr/1zqN54/kAaow4mJEhHpSR/gICbGc9+qWt+bSTHTaQkyzGqhRVgWWPftCl+pl9jdHWUU/sguSp35I8ILQfDbmWONvgXlq/Q62272uC/HD7fX7pzLB/6UHM7zEy4ZOGEGqwgpDqLzySAisc0jnNrsctk46s1hzTSdTIQ6VKUoZZ7HYy9PK3dMtP88/+CmK076XCdohyRdmmszvrBmyyiSdXZrRw7IZGTYjybd86eQYubDbFKCOI5Bbw5ZhhpQmnaN1Xyv8uF59ZIgs=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6496006)(55016002)(9686003)(83380400001)(38350700002)(508600001)(5660300002)(38100700002)(186003)(33656002)(52116002)(86362001)(4326008)(54906003)(44832011)(2906002)(66946007)(33716001)(26005)(6666004)(8936002)(66476007)(316002)(66556008)(956004)(6916009)(1076003)(9576002)(8676002)(81973001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?bTBFOXlYeWNwMnFrblJDSU8wSS9yY1VoREZ0WHZ4dGdpTmEwbHNJdmFQZWRy?=
+ =?utf-8?B?SStWNTJsK202a2Z3bmN1M0ZaMHRhTnZRT2dDR1RpcDVXZVVEMUo5T3NqbllZ?=
+ =?utf-8?B?UnA2bWlmUG04aCt6MGYrTG5GcGFEMDBZQm1KQ1ZWSHk1eWMwSFBSYWw5SHFP?=
+ =?utf-8?B?K0xFeGxObjMzREdsRnN5Q1RxaFg2d1hxZ2lTMFpJM25DU0E2K2pMR2FWanEy?=
+ =?utf-8?B?QTZ3NDZhb2YxbHlNTExTb3MzQjRQaitwTDdzc0M0RDNVOUt4NCtjTGNjTXNv?=
+ =?utf-8?B?Q0doK0NWZ3ZycXNwUDZoclF6V2lxOTFndjd6YTl6REFEbjlncUg4NlhRYTdk?=
+ =?utf-8?B?TkpNU1VRWFNuZXpEY2JleTJHeGM4NzNLOTBTbzR5bWN4QXAxZFE4bFFsTjhD?=
+ =?utf-8?B?dWJzV3QxTU5SN3d0S2pOanVta3JQUE9weSs1bWcxbGd5RXYzcE1wcnFZVGww?=
+ =?utf-8?B?Z3lQWUttclhZY1lOQi9KeHRFUGpsMmxlcll0YVNmYk9KN1p6L1NqOWNXbTVt?=
+ =?utf-8?B?SXYxTDhhdUdvZWpuT0xNS1FUbWp3Z0s1cnFBb1BxaDZISlMzQWFzT2VNeFZv?=
+ =?utf-8?B?VTllVXI5d0J3V08xdUdMYnE2bWR5SEdXdEFsR1dqQjZOSW1uWWVLOWdhNkRQ?=
+ =?utf-8?B?VTI5bkNKQTMzSnR2dmZ4blk5SU1aOTNUTmtMdHd6U2hibTZLNlV3ekxHTDNi?=
+ =?utf-8?B?R3Y4ZmpsVk50M0ZqN05WSGY5dkVNYjlyYnVPdHFrSUZzbW93OEhQZm11Rzhw?=
+ =?utf-8?B?VFg2eTBOYUNKSjZTSkc3SDdXcU1pZEI0MlFUVTFuMFVPeE4xb3gzQnBmcFRz?=
+ =?utf-8?B?eE93bHd3RStUdXF0VmlLNnh2V3luRDJFQ1J6MjhuTUhkVUVEODFSTGRjRGRH?=
+ =?utf-8?B?dVJ5a0tTQ0tjeFRKNjdackx0MmZZYmk1VXNJdGtvcVIwd2hXdzRQQ3ZiczZG?=
+ =?utf-8?B?RzJjVUhUMllmK1FxYTZXTUhIWE9sUm1TOGNnUVgrc3VkNWwreEo5aVIzWThz?=
+ =?utf-8?B?QVROcnQ0bUE4aUo5MkxBU2NQU25YVldEY1B1bzlzdnlsaW9zZldwVzJjczF1?=
+ =?utf-8?B?MkFKd1I3QnFrT3hZc0xIaGh5SllZRjV4WlFZc1JOUjZFSldsRVRDVU9ETHRw?=
+ =?utf-8?B?NWkraW9tWXRxb1BDTXhCNVg3U2YvbDAxQk45TzZyTUJ0bWl2SERvS2FpdkFV?=
+ =?utf-8?B?dk9OT204Q3JHUms3SWVJVHp1QUlIQ2QvRDBMYXR6NmhSWUM5clBLenhKNGFB?=
+ =?utf-8?B?QlUwQklVQjEwSjFMNkpDeTM2Wlk2QmpwQmM0TlE3VEdmR2p5eVZuSFhpZEl6?=
+ =?utf-8?B?WlNNMGRkR2NJelE2Sy83Zk5FRldlcGwvUzFzSlBhMm1GSTZ6NldJLy9BaXhk?=
+ =?utf-8?B?YlVaVS8yTWR4QXFTUGtwZmxEOW9pSFpXaFdXOVA0T3JId1B3OGFqcUFkNkdH?=
+ =?utf-8?B?QTVCNGx4RW84T0p0UW10RHU1S2RXTnJYVmptL1hZSnF4dWpMRXIwc3pyRXF4?=
+ =?utf-8?B?MHRYUHdVbWdheVlQelkvMmVOekkwYmRIcE45YWgya1hwQXNuMGRHZk1BTXBO?=
+ =?utf-8?B?V2lVeU40Nnh6cFVab0NyRU9PdHNKWVoyREFYMU1oUVZjay9Ybjl1MnRaR3lq?=
+ =?utf-8?B?dG1QS214WFNPd1BQalpOSmRHc0tIdEFFNXZHZnF0NDkrQnYvYU5ZTFRnSFZu?=
+ =?utf-8?B?MlVoMURWRzBwUHZjRFlvNFlEM3ZoZzVaQmZZYVI3eWlrVjBaaHFKZG1kVmZk?=
+ =?utf-8?Q?VqnRGdjapJrqhcWuX2drSh449SQbBwY1j/UXbfi?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c533d4e3-9597-4841-d8c6-08d987162415
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 09:05:41.9864
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZueWW6y372k2SoH6fILJjXTsPPk2aOFzNoITbojBlpHK4+xqgzGWlouzRvwIPeGH96ijqvcc39D6YxZ40U32w3tZaU+yx94jlXmJDDuYKag=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4547
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10126 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
+ phishscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109230001 definitions=main-2110040063
+X-Proofpoint-GUID: o7sKt3S-0OpeqIDWePpb1kG0Od2PiKhG
+X-Proofpoint-ORIG-GUID: o7sKt3S-0OpeqIDWePpb1kG0Od2PiKhG
 
-Hi Jernej,
-
-Some comments below:
-
-On 12/09/2021 08:08, Jernej Skrabec wrote:
-> Except VP8 probability coefficients buffer, all other buffers are never
-
-Except -> Except for
-
-> accessed by CPU. That allows us to mark them with DMA_ATTR_NO_KERNEL_MAPPING
-> flag. This helps with decoding big (like 4k) videos on 32-bit ARM
-> platforms where default vmalloc size is relatively small - 240 MiB.
-> Since auxiliary buffer are not yet efficiently allocated, this can be
-> easily exceeded. Even if allocation is optimized, 4k videos will still
-> often exceed this limit.
+On Sun, Oct 03, 2021 at 06:17:23AM +0700, Ammar Faizi wrote:
+> Bedirhan reported build error:
+> ```
+>   drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c: In function ‘input_system_configure_channel_sensor’:
+>   drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c:1649:1: error: control reaches end of non-void function [-Werror=return-type]
+>    1649 | }
+>         | ^
+>   cc1: some warnings being treated as errors
+>   make[4]: *** [scripts/Makefile.build:277: drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.o] Error 1
+>   make[3]: *** [scripts/Makefile.build:540: drivers/staging/media/atomisp] Error 2
+>   make[2]: *** [scripts/Makefile.build:540: drivers/staging/media] Error 2
+>   make[1]: *** [scripts/Makefile.build:540: drivers/staging] Error 2
+>   make: *** [Makefile:1868: drivers] Error 2
+> ```
 > 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 102 ++++++++++--------
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  28 ++---
->  .../staging/media/sunxi/cedrus/cedrus_video.c |   2 +
->  3 files changed, 73 insertions(+), 59 deletions(-)
+> Commit 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp:
+> remove useless returns") incorrectly removed a required return results
+> in the above build error. Reinstate it.
 > 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> index de7442d4834d..6e38b37d9fe1 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -538,23 +538,23 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
->  
->  	ctx->codec.h264.pic_info_buf_size = pic_info_size;
->  	ctx->codec.h264.pic_info_buf =
-> -		dma_alloc_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> -				   &ctx->codec.h264.pic_info_buf_dma,
-> -				   GFP_KERNEL);
-> +		dma_alloc_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> +				&ctx->codec.h264.pic_info_buf_dma,
-> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
->  	if (!ctx->codec.h264.pic_info_buf)
->  		return -ENOMEM;
->  
->  	/*
->  	 * That buffer is supposed to be 16kiB in size, and be aligned
-> -	 * on 16kiB as well. However, dma_alloc_coherent provides the
-> +	 * on 16kiB as well. However, dma_alloc_attrs provides the
->  	 * guarantee that we'll have a CPU and DMA address aligned on
+> Cc: Pavel Skripkin <paskripkin@gmail.com>
+> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-staging@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> Reported-by: Bedirhan KURT <windowz414@gnuweeb.org>
+> Fixes: 264f590899146baa19e0ab5689e55fadbc292333 ("media: atomisp: remove useless returns")
+> Signed-off-by: Ammar Faizi <ammar.faizi@students.amikom.ac.id>
 
-Does the 'CPU' part of this sentence still make sense since the CPU
-won't access the buffer?
+What's going on with this?  It's like the seventh time people have sent
+a fix for it?  Why are you not using against a current tree?
 
->  	 * the smallest page order that is greater to the requested
->  	 * size, so we don't have to overallocate.
->  	 */
->  	ctx->codec.h264.neighbor_info_buf =
-> -		dma_alloc_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> -				   &ctx->codec.h264.neighbor_info_buf_dma,
-> -				   GFP_KERNEL);
-> +		dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> +				&ctx->codec.h264.neighbor_info_buf_dma,
-> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
-
-I think it would be good to have a comment for all these dma_alloc_attrs
-calls where you note that these buffers are used by the HW only, and
-never by the CPU, hence the use of DMA_ATTR_NO_KERNEL_MAPPING.
-
->  	if (!ctx->codec.h264.neighbor_info_buf) {
->  		ret = -ENOMEM;
->  		goto err_pic_buf;
-> @@ -582,10 +582,11 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
->  
->  	mv_col_size = field_size * 2 * CEDRUS_H264_FRAME_NUM;
->  	ctx->codec.h264.mv_col_buf_size = mv_col_size;
-> -	ctx->codec.h264.mv_col_buf = dma_alloc_coherent(dev->dev,
-> -							ctx->codec.h264.mv_col_buf_size,
-> -							&ctx->codec.h264.mv_col_buf_dma,
-> -							GFP_KERNEL);
-> +	ctx->codec.h264.mv_col_buf =
-> +		dma_alloc_attrs(dev->dev,
-> +				ctx->codec.h264.mv_col_buf_size,
-> +				&ctx->codec.h264.mv_col_buf_dma,
-> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
->  	if (!ctx->codec.h264.mv_col_buf) {
->  		ret = -ENOMEM;
->  		goto err_neighbor_buf;
-> @@ -600,10 +601,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
->  		ctx->codec.h264.deblk_buf_size =
->  			ALIGN(ctx->src_fmt.width, 32) * 12;
->  		ctx->codec.h264.deblk_buf =
-> -			dma_alloc_coherent(dev->dev,
-> -					   ctx->codec.h264.deblk_buf_size,
-> -					   &ctx->codec.h264.deblk_buf_dma,
-> -					   GFP_KERNEL);
-> +			dma_alloc_attrs(dev->dev,
-> +					ctx->codec.h264.deblk_buf_size,
-> +					&ctx->codec.h264.deblk_buf_dma,
-> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
->  		if (!ctx->codec.h264.deblk_buf) {
->  			ret = -ENOMEM;
->  			goto err_mv_col_buf;
-> @@ -616,10 +617,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
->  		ctx->codec.h264.intra_pred_buf_size =
->  			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
->  		ctx->codec.h264.intra_pred_buf =
-> -			dma_alloc_coherent(dev->dev,
-> -					   ctx->codec.h264.intra_pred_buf_size,
-> -					   &ctx->codec.h264.intra_pred_buf_dma,
-> -					   GFP_KERNEL);
-> +			dma_alloc_attrs(dev->dev,
-> +					ctx->codec.h264.intra_pred_buf_size,
-> +					&ctx->codec.h264.intra_pred_buf_dma,
-> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
->  		if (!ctx->codec.h264.intra_pred_buf) {
->  			ret = -ENOMEM;
->  			goto err_deblk_buf;
-> @@ -629,24 +630,28 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
->  	return 0;
->  
->  err_deblk_buf:
-> -	dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
-> -			  ctx->codec.h264.deblk_buf,
-> -			  ctx->codec.h264.deblk_buf_dma);
-> +	dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
-> +		       ctx->codec.h264.deblk_buf,
-> +		       ctx->codec.h264.deblk_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
->  
->  err_mv_col_buf:
-> -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
-> -			  ctx->codec.h264.mv_col_buf,
-> -			  ctx->codec.h264.mv_col_buf_dma);
-> +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
-> +		       ctx->codec.h264.mv_col_buf,
-> +		       ctx->codec.h264.mv_col_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
->  
->  err_neighbor_buf:
-> -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> -			  ctx->codec.h264.neighbor_info_buf,
-> -			  ctx->codec.h264.neighbor_info_buf_dma);
-> +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> +		       ctx->codec.h264.neighbor_info_buf,
-> +		       ctx->codec.h264.neighbor_info_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
->  
->  err_pic_buf:
-> -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> -			  ctx->codec.h264.pic_info_buf,
-> -			  ctx->codec.h264.pic_info_buf_dma);
-> +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> +		       ctx->codec.h264.pic_info_buf,
-> +		       ctx->codec.h264.pic_info_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
->  	return ret;
->  }
->  
-> @@ -654,23 +659,28 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
->  {
->  	struct cedrus_dev *dev = ctx->dev;
->  
-> -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
-> -			  ctx->codec.h264.mv_col_buf,
-> -			  ctx->codec.h264.mv_col_buf_dma);
-> -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> -			  ctx->codec.h264.neighbor_info_buf,
-> -			  ctx->codec.h264.neighbor_info_buf_dma);
-> -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> -			  ctx->codec.h264.pic_info_buf,
-> -			  ctx->codec.h264.pic_info_buf_dma);
-> +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
-> +		       ctx->codec.h264.mv_col_buf,
-> +		       ctx->codec.h264.mv_col_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
-> +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> +		       ctx->codec.h264.neighbor_info_buf,
-> +		       ctx->codec.h264.neighbor_info_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
-> +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> +		       ctx->codec.h264.pic_info_buf,
-> +		       ctx->codec.h264.pic_info_buf_dma,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
->  	if (ctx->codec.h264.deblk_buf_size)
-> -		dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
-> -				  ctx->codec.h264.deblk_buf,
-> -				  ctx->codec.h264.deblk_buf_dma);
-> +		dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
-> +			       ctx->codec.h264.deblk_buf,
-> +			       ctx->codec.h264.deblk_buf_dma,
-> +			       DMA_ATTR_NO_KERNEL_MAPPING);
->  	if (ctx->codec.h264.intra_pred_buf_size)
-> -		dma_free_coherent(dev->dev, ctx->codec.h264.intra_pred_buf_size,
-> -				  ctx->codec.h264.intra_pred_buf,
-> -				  ctx->codec.h264.intra_pred_buf_dma);
-> +		dma_free_attrs(dev->dev, ctx->codec.h264.intra_pred_buf_size,
-> +			       ctx->codec.h264.intra_pred_buf,
-> +			       ctx->codec.h264.intra_pred_buf_dma,
-> +			       DMA_ATTR_NO_KERNEL_MAPPING);
->  }
->  
->  static void cedrus_h264_trigger(struct cedrus_ctx *ctx)
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> index 3d9561d4aadb..bb7eb56106c5 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -351,10 +351,10 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
->  			ctx->codec.h265.mv_col_buf_unit_size;
->  
->  		ctx->codec.h265.mv_col_buf =
-> -			dma_alloc_coherent(dev->dev,
-> -					   ctx->codec.h265.mv_col_buf_size,
-> -					   &ctx->codec.h265.mv_col_buf_addr,
-> -					   GFP_KERNEL);
-> +			dma_alloc_attrs(dev->dev,
-> +					ctx->codec.h265.mv_col_buf_size,
-> +					&ctx->codec.h265.mv_col_buf_addr,
-> +					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
->  		if (!ctx->codec.h265.mv_col_buf) {
->  			ctx->codec.h265.mv_col_buf_size = 0;
->  			// TODO: Abort the process here.
-> @@ -668,9 +668,9 @@ static int cedrus_h265_start(struct cedrus_ctx *ctx)
->  	ctx->codec.h265.mv_col_buf_size = 0;
->  
->  	ctx->codec.h265.neighbor_info_buf =
-> -		dma_alloc_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
-> -				   &ctx->codec.h265.neighbor_info_buf_addr,
-> -				   GFP_KERNEL);
-> +		dma_alloc_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
-> +				&ctx->codec.h265.neighbor_info_buf_addr,
-> +				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
->  	if (!ctx->codec.h265.neighbor_info_buf)
->  		return -ENOMEM;
->  
-> @@ -682,16 +682,18 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
->  	struct cedrus_dev *dev = ctx->dev;
->  
->  	if (ctx->codec.h265.mv_col_buf_size > 0) {
-> -		dma_free_coherent(dev->dev, ctx->codec.h265.mv_col_buf_size,
-> -				  ctx->codec.h265.mv_col_buf,
-> -				  ctx->codec.h265.mv_col_buf_addr);
-> +		dma_free_attrs(dev->dev, ctx->codec.h265.mv_col_buf_size,
-> +			       ctx->codec.h265.mv_col_buf,
-> +			       ctx->codec.h265.mv_col_buf_addr,
-> +			       DMA_ATTR_NO_KERNEL_MAPPING);
->  
->  		ctx->codec.h265.mv_col_buf_size = 0;
->  	}
->  
-> -	dma_free_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
-> -			  ctx->codec.h265.neighbor_info_buf,
-> -			  ctx->codec.h265.neighbor_info_buf_addr);
-> +	dma_free_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
-> +		       ctx->codec.h265.neighbor_info_buf,
-> +		       ctx->codec.h265.neighbor_info_buf_addr,
-> +		       DMA_ATTR_NO_KERNEL_MAPPING);
->  }
->  
->  static void cedrus_h265_trigger(struct cedrus_ctx *ctx)
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> index 66714609b577..800ffa5382de 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -568,6 +568,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
->  
->  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
->  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-> +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
->  	src_vq->drv_priv = ctx;
->  	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
->  	src_vq->ops = &cedrus_qops;
-> @@ -584,6 +585,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
->  
->  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
->  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-> +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
-
-This should be dst_vq!
-
-I'm also not quite sure that it is right to use this for the destination
-buffer. Could this cause problems if this buffer is exported to a dmabuf
-and another driver will be using it and requiring a kernel mapping.
-
-Regards,
-
-	Hans
-
->  	dst_vq->drv_priv = ctx;
->  	dst_vq->buf_struct_size = sizeof(struct cedrus_buffer);
->  	dst_vq->ops = &cedrus_qops;
-> 
+regards,
+dan carpenter
 
