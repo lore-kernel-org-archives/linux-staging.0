@@ -1,168 +1,123 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541403FC7
-	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 11:01:42 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id y15so4087646lfk.7
-        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 04:01:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C115D2F80
+	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 12:58:24 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id x7so63010240edd.6
+        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 05:58:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=URCJeJ//i21kt2HQZuP4+ONPAa0mUFJTP/rOPl6nrkU=;
-        b=hDM2Ru5ICrroBNDxLmX0If6DCGiyxNrOCxoYD447SPukcHDmbBPLNisrdhOLXQ0z+O
-         XAGpgeNiSLvK62mVR4ycyTMTlxOUILWm5ec3jHIazC1TTcmE73Wiu6Uw4vHsUObQZ88A
-         VxG8L26gqN1qrB2CE408IFuJmANo6HHn/LiqpAKVqjl4+Fv6k7ICtg/O46hugliGIxbi
-         S/OxLLbFm/pg/rjpCfpNW1Knl+/16xjrIofQdoho7b+zWsc33s3wkXlvS7VH5BYU8/rA
-         bq9k2sPB1ak/yK37C/Nh9dpokzhoA+CoGOF3/o+k0JQbg3KEE7GgAczasadRr+Ip1+pd
-         ujCg==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zk3O9TQK1//WOIi/ON/RZazwkSzy3/FmBE6nDyw0bjA=;
+        b=NwMfp26g1X7dGKbFyR8xTBwpDjzyWstmGs+tQh3LZk7hidJW862ga3YGOUvg765+gv
+         +pvPXaZppmPgZ6W9E69h+w4St+RK0aGbD4Ks2UcUDbBAanw76vOfQD5A8ezniQovc9pl
+         0e+qWB47IjGuAQ9Xi7fz+x4CEaMeu4O/ezN5flF8p6yVbcvuqgMCkpspzKfBG8jiS486
+         JSzFkn7CCWJcS2HAEtTPDiT39A/aCq1l3FHA0NqZ8gX+A87YK19G5wy4sEax9p3HTKJq
+         tDqsOw+NPgfnn/EfRG+tqEO7Ix4Z0dlIxwbMqze8owUBxAXc697U3OrmDf/hC9MvZ0+w
+         HpaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=URCJeJ//i21kt2HQZuP4+ONPAa0mUFJTP/rOPl6nrkU=;
-        b=drV29+DoKf5p5wmwf5W7LNSTdQef/cq+EAAoLPPTjRYFl3c9rQI/SfBAt2kOUX7TNX
-         yoA7KiJRtlMxQTDos3DdwSweew8CvgzovGkbg8lElLGC06IaHakHekRowB9qFVI0E8sR
-         Aj05b9txu/hAEesLEts/t+Bq7psXg7kzr///iyUl5CDhO2u2LUh5GgIdHbr+w9bMRfU0
-         JMCQMrgz54KCeRb0ICBgvIuNQptKZNvx2Qr1UjTq9ru3kKO7yIdEgAD7/cwDUoOzNumR
-         qWyz7oqdDygsS08Wh9Z2hQDPqslVjbfmU01j6ego865Z/CF7wh/hKcq8iYita593bBMv
-         dCRw==
-X-Gm-Message-State: AOAM5305fqjcKIAs/xVJZP/KmdXaAQ2ouLZI2m1K56FoC+HNM8lw/LJB
-	Xl9U99IVKMLjpMlR5KyK67guWvCwnTOHQikdz+b+VQ==
-X-Google-Smtp-Source: ABdhPJyFugIk4Tybq6G/fbOCCDLI0zDDe0OJLAEmCzaWz2xcRwlwVNqSWwGjRpZKOyrDmly1b2n9Ta2aR7jygzrrPNg=
-X-Received: by 2002:a05:6512:2397:: with SMTP id c23mr13296805lfv.358.1633345298337;
- Mon, 04 Oct 2021 04:01:38 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zk3O9TQK1//WOIi/ON/RZazwkSzy3/FmBE6nDyw0bjA=;
+        b=zzqMKc7ByKXA10HYeY42iVqSlAKxGS9kf7ppiHL4p5sEjHv1g6itntg+HShWhxOXtf
+         kgKivDqMr8VaznvPm9veG/dXK0NdmOqMS7FGpUa+nNCLjTS3N575tIjrRDVgkcKXfR8D
+         SBONuhZxC2bGMTe1aL39NQsAZh0lnfSRk6YZRAtoevMXprCUTOOJth/KIzbDIrDS0YP/
+         outAagcQ89bEMZL6gPNEVewJ1Ullle0kY2YiBV5BvIRGuUGjnOhK8nih/fasol9CVUko
+         XIpwIupXTUCpJXKE5MfNoPI4Y/eiFagLdbFVUO0uS5yBu1ofHH38IU9bZ03RSTCMR9/N
+         rglQ==
+X-Gm-Message-State: AOAM532OEDXEJad4Q2P8J+P5/VjOLj7tNbmfA2SjepFxEbsZa33sZLrG
+	MkLkwuTpifv3Q6ZT3t6Ut3w=
+X-Google-Smtp-Source: ABdhPJwgyb7vTCgDaVtSlZQiQwlz2Ek5XxE8H4ZXmw1WqRDb1MAQZKF5KfNvzbXMMwQa2Q5yQPa99w==
+X-Received: by 2002:a17:906:7016:: with SMTP id n22mr4649614ejj.567.1633352289790;
+        Mon, 04 Oct 2021 05:58:09 -0700 (PDT)
+Received: from tom-ThinkBook-14-G2-ARE (net-5-94-68-71.cust.vodafonedsl.it. [5.94.68.71])
+        by smtp.gmail.com with ESMTPSA id r1sm1386256edp.56.2021.10.04.05.58.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 05:58:08 -0700 (PDT)
+Date: Mon, 4 Oct 2021 14:58:06 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Forest Bond <forest@alittletooquiet.net>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	Yujia Qiao <rapiz@foxmail.com>,
+	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Deepak R Varma <mh12gx2825@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] staging: vt6655: fix camelcase in bShortSlotTime
+Message-ID: <20211004125806.GA140797@tom-ThinkBook-14-G2-ARE>
+References: <20210926162527.21462-1-tomm.merciai@gmail.com>
+ <20210926162527.21462-2-tomm.merciai@gmail.com>
+ <YVHilhCk3cgGhXrZ@kroah.com>
+ <20210927213515.GA6953@tom-desktop>
+ <YVKdVCaVwmPG7DVx@kroah.com>
+ <20210930214929.GB45822@tom-desktop>
+ <20211004102632.GT2048@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-14-digetx@gmail.com>
- <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
- <aad7a508-7fb5-3418-f902-def80c365094@gmail.com> <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
- <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
-In-Reply-To: <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 4 Oct 2021 13:01:01 +0200
-Message-ID: <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
-Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
- and runtime PM
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
-	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Michael Turquette <mturquette@baylibre.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
-	linux-mmc <linux-mmc@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>, David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211004102632.GT2048@kadam>
 
-On Fri, 1 Oct 2021 at 21:00, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 01.10.2021 17:55, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote:
-> >>
-> >> 01.10.2021 16:39, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wro=
-te:
-> >>>>
-> >>>> Add runtime power management and support generic power domains.
-> >>>>
-> >>>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> >>>> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> >>>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T=
-124
-> >>>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-> >>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/tegra/gr2d.c | 155 ++++++++++++++++++++++++++++++++=
-+--
-> >>>
-> >>> [...]
-> >>>
-> >>>>  static int gr2d_remove(struct platform_device *pdev)
-> >>>> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device=
- *pdev)
-> >>>>                 return err;
-> >>>>         }
-> >>>>
-> >>>> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
-> >>>> +       pm_runtime_disable(&pdev->dev);
-> >>>
-> >>> There is no guarantee that the ->runtime_suspend() has been invoked
-> >>> here, which means that clock may be left prepared/enabled beyond this
-> >>> point.
-> >>>
-> >>> I suggest you call pm_runtime_force_suspend(), instead of
-> >>> pm_runtime_disable(), to make sure that gets done.
-> >>
-> >> The pm_runtime_disable() performs the final synchronization, please se=
-e [1].
-> >>
-> >> [1]
-> >> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/r=
-untime.c#L1412
-> >
-> > pm_runtime_disable() end up calling _pm_runtime_barrier(), which calls
-> > cancel_work_sync() if dev->power.request_pending has been set.
-> >
-> > If the work that was punted to the pm_wq in rpm_idle() has not been
-> > started yet, we end up just canceling it. In other words, there are no
-> > guarantees it runs to completion.
->
-> You're right. Although, in a case of this particular patch, the syncing
-> is actually implicitly done by pm_runtime_dont_use_autosuspend().
->
-> But for drivers which don't use auto-suspend, there is no sync. This
-> looks like a disaster, it's a very common pattern for drivers to
-> 'put+disable'.
->
-> > Moreover, use space may have bumped the usage count via sysfs for the
-> > device (pm_runtime_forbid()) to keep the device runtime resumed.
->
-> Right, this is also a disaster in a case of driver removal.
->
-> >> Calling pm_runtime_force_suspend() isn't correct because each 'enable'
-> >> must have the corresponding 'disable'. Hence there is no problem here.
-> >
-> > pm_runtime_force_suspend() calls pm_runtime_disable(), so I think that
-> > should be fine. No?
->
-> [adding Rafael]
->
-> Rafael, could you please explain how drivers are supposed to properly
-> suspend and disable RPM to cut off power and reset state that was
-> altered by the driver's resume callback? What we're missing? Is Ulf's
-> suggestion acceptable?
->
-> The RPM state of a device is getting reset on driver's removal, hence
-> all refcounts that were bumped by the rpm-resume callback of the device
-> driver will be screwed up if device is kept resumed after removal. I
-> just verified that it's true in practice.
+On Mon, Oct 04, 2021 at 01:26:32PM +0300, Dan Carpenter wrote:
+> On Thu, Sep 30, 2021 at 11:49:29PM +0200, Tommaso Merciai wrote:
+> > On Tue, Sep 28, 2021 at 06:43:00AM +0200, Greg Kroah-Hartman wrote:
+> > > On Mon, Sep 27, 2021 at 11:35:15PM +0200, Tommaso Merciai wrote:
+> > > > On Mon, Sep 27, 2021 at 05:26:14PM +0200, Greg Kroah-Hartman wrote:
+> > > > > On Sun, Sep 26, 2021 at 06:25:18PM +0200, Tommaso Merciai wrote:
+> > > > > > Replace camel case variable bShortSlotTime with snake case
+> > > > > > variable b_short_slot_time.
+> > > > > 
+> > > > > That is a very odd variable name.  Why did you pick that one?
+> > > > > 
+> > > > > What deos it mean?
+> > > > > 
+> > > > > You do understand where the original naming format came from here, and
+> > > > > what it was trying to represent, right?  If not, please go read up on
+> > > > > it:
+> > > > > 	https://en.wikipedia.org/wiki/Hungarian_notation
+> > > > > 
+> > > > > That style is not used in Linux, and so, when converting from it, do not
+> > > > > attempt to keep the same style present here, that is kind of pointless,
+> > > > > don't you agree?
+> > > > 
+> > > >   You are definitely right. What do you think about "short_slot_time"?
+> > > 
+> > > "time" implies that this will hold a value of time, right?
+> > > 
+> > > What exactly does this variable do?  That might help in naming it
+> > > better.
+> > 
+> >   Is a boolean variable, if true short slot time mode is enabled, false 
+> >   not right?
+> >   A good solution could be: "short_slot_mode"? What do you think about?
+> 
+> No.  That's a confusing name.  What is a short slot mode anyway?
+> 
+> regards,
+> dan carpenter
 
-Note that, what makes the Tegra drivers a bit special is that they are
-always built with CONFIG_PM being set (selected from the "SoC"
-Kconfig).
+  Hi Dan,
+  My bad sorry, "short_slot_time_en".
 
-Therefore, pm_runtime_force_suspend() can work for some of these
-cases. Using this, would potentially avoid the driver from having to
-runtime resume the device in ->remove(), according to the below
-generic sequence, which is used in many drivers.
+  "Use the short-slot-time configuration interface command to enable short slot
+  time on the 802.11g, 2.4-GHz radio. Short slot time reduces the slot time
+  from 20 microseconds to 9 microseconds, thereby increasing throughput."
 
-pm_runtime_get_sync()
-clk_disable_unprepare() (+ additional things to turn off the device)
-pm_runtime_disable()
-pm_runtime_put_noidle()
+  Reference:
+  http://cciew.blogspot.com/2011/02/short-slot-time.html
 
-Kind regards
-Uffe
+  Let me know.
+
+  Thanks,
+  Tommaso
+> 
