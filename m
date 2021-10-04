@@ -1,205 +1,416 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBED3FCC
-	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 15:57:22 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id i24so24378875lfj.13
-        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 08:57:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB513FCC;
+	Mon,  4 Oct 2021 16:06:36 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id z20so15368365edc.13;
+        Mon, 04 Oct 2021 09:06:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oXxI7X/1bkoyfWLqsQl0b8N5L2M43qDxOhyRLjNgwgs=;
-        b=pH5gGGqkZlMuFnRyIJAXiewuWBbmrXc4nrj48Dzw+Xc6gukr3JlL4bc0XqPdYPe5DQ
-         NDB4vv+qA4gvKAo7lM0mnIDk8dHTj89Skv+bi+CnIwKoB0GbtflokeLFAGWMWBkGuUwO
-         vnV+cxSUarX4fvwMNp98YdWmdtdCmVfrq9kQiTD/iscLYeiALsQL/FGXMsD8gWDMtQgb
-         SdntlSYjQY8VC2aw+ENPn0LFmLD5mx6hdBsOFMb8vi+SpeKciwoN3fNZiNgmP/61OVVQ
-         wnD2qG3x98rXnlrsSFT8O6Xj/b7E6uaK2TJJmtNceUOe0ut/Z6O07eTqHqNZmJmGlly8
-         1zZw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GqpwaHcYLWxKjnZgog6w5RyFafP586fBMegQAr62NIY=;
+        b=QHqHkuI29B7ysAsKw3DIQtMpkDe2IVUsf2mPVI1tuSQczP83Om194FDjMbL035HJEp
+         +97UN/SmVU9e4K5PhrDyR2lP+pKHeZUsiQTY/WZNayt46flF8OW7m1+WNRB7kq1scb3C
+         cZBteAEGktBh+Lp9YjVp8KqmGSjKDLxykRAEPL/zr0kTaXfaWr3utY4re7T08wraYNmX
+         mXH4xoYa49n7so495p8mkAEvW1BsxCIdmJEz6SvhneLxyiBt2fRvLhNR0mf2dEWJTgvK
+         Ffjq2BQiN5EhrU6ImaLSxnrqCIUPAQcHEtSVecLdRPxDMLGGnNThFiOsaz7y9nwvTPGl
+         4RYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oXxI7X/1bkoyfWLqsQl0b8N5L2M43qDxOhyRLjNgwgs=;
-        b=ksfRxk48tf56ddLY46qqFIY4YXcu361nlq/lryUKL/t1bn4hZiLhkHoH1QRcgIwnlo
-         427hlqheHYObK4zQ2VC9C4PTrJqQUAhvE27SNT/3Vh+/F7zAubSRtjbAoMKqlRDUjchD
-         P4VMZdsNPSMF69BlFQgDOqpXoq9pXvEeP3jTGo998QEuf+83H6ZDlepHSjVclh6FAIvp
-         EAbzqfprZZbK0WqBjKPq1R5utsflGG+8yS03O94wi9+2sQp835tZxMHU+NJH5N4GC0Sj
-         wDz+vW5m1nyuJrgcTQhYo9Ga/oRNFjPfYNI4wnn+TPfRYMvee8JFHxgxCarva5oWyDs/
-         0oXw==
-X-Gm-Message-State: AOAM5326N0b55pkIM7bcmcdjGFg2D/lNcVFQu3izUaWNLPIP12p+Dc3O
-	hyuDMQrB7THbrWihwJXnTgc=
-X-Google-Smtp-Source: ABdhPJwVBnc7vV9bh5UvETfiXZp05qVUc3d2AIsNbe2sLzFhSwuNlbIJLQFDdKH2jbPpxZ0FciK83w==
-X-Received: by 2002:a05:6512:31c1:: with SMTP id j1mr15924982lfe.442.1633363033096;
-        Mon, 04 Oct 2021 08:57:13 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru. [79.139.163.57])
-        by smtp.googlemail.com with ESMTPSA id l9sm886038lje.32.2021.10.04.08.57.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Oct 2021 08:57:12 -0700 (PDT)
-Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
- and runtime PM
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-14-digetx@gmail.com>
- <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
- <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
- <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
- <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
- <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f5b5e06a-71ed-1250-f0ad-692062e00e01@gmail.com>
-Date: Mon, 4 Oct 2021 18:57:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GqpwaHcYLWxKjnZgog6w5RyFafP586fBMegQAr62NIY=;
+        b=NusnN0gqTZ+H8J+dT+cpkwm+OiHHxaonHwBB/dgUitE8FI6CM1TMzfP0OVAWntIPIJ
+         raWAHhObekUz0pllh3xdnYbJ6dLLqZ36Ne5UPIWvnlud32cUg5iUN7GV24uDHvQ0nyIK
+         PwSFXAojjK0KW0/DLmOT7F/ZtEuApd3DZz/d8NBjn1MsB+2RHc0fPr3BcuddV0P23ciG
+         0qoz0Ps7kIlhDg2sjxBXt6NiURda3EMRMSG5YLuSYIvK2DZbD+5gcS/X4N0HyixbKuPu
+         DA8cmxeNypcVghbgY3N1ARHUoG/reikrPUOzFUPq2APLcqQh/DOcjYm1sTTfnYWev/+k
+         WXBQ==
+X-Gm-Message-State: AOAM532lWHLXRYC6PID6N1pf9b1dT75pJDH3b+uLkt1NIwAXRm4cMi44
+	VEhdfB20o1uuTHGvLwlx9t4=
+X-Google-Smtp-Source: ABdhPJyBAp9owrsAfLgtmeoTzk6EGj3S9yhX24KyVsty+2JN9PWNljDsMFTcAhhxDmedLBudzk9ZHg==
+X-Received: by 2002:a50:d8cf:: with SMTP id y15mr19412186edj.66.1633363499052;
+        Mon, 04 Oct 2021 09:04:59 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id p10sm2240068ejf.45.2021.10.04.09.04.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 09:04:58 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, paul.kocialkowski@bootlin.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: wens@csie.org, mchehab@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] media: cedrus: Don't kernel map most buffers
+Date: Mon, 04 Oct 2021 18:04:56 +0200
+Message-ID: <2933502.8iB9r8yIO8@kista>
+In-Reply-To: <0cb81145-16d9-fd28-832e-4010646e9512@xs4all.nl>
+References: <20210912060812.222996-1-jernej.skrabec@gmail.com> <0cb81145-16d9-fd28-832e-4010646e9512@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-04.10.2021 14:01, Ulf Hansson пишет:
-> On Fri, 1 Oct 2021 at 21:00, Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> 01.10.2021 17:55, Ulf Hansson пишет:
->>> On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote:
->>>>
->>>> 01.10.2021 16:39, Ulf Hansson пишет:
->>>>> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
->>>>>>
->>>>>> Add runtime power management and support generic power domains.
->>>>>>
->>>>>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
->>>>>> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
->>>>>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
->>>>>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
->>>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->>>>>> ---
->>>>>>  drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++--
->>>>>
->>>>> [...]
->>>>>
->>>>>>  static int gr2d_remove(struct platform_device *pdev)
->>>>>> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *pdev)
->>>>>>                 return err;
->>>>>>         }
->>>>>>
->>>>>> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
->>>>>> +       pm_runtime_disable(&pdev->dev);
->>>>>
->>>>> There is no guarantee that the ->runtime_suspend() has been invoked
->>>>> here, which means that clock may be left prepared/enabled beyond this
->>>>> point.
->>>>>
->>>>> I suggest you call pm_runtime_force_suspend(), instead of
->>>>> pm_runtime_disable(), to make sure that gets done.
->>>>
->>>> The pm_runtime_disable() performs the final synchronization, please see [1].
->>>>
->>>> [1]
->>>> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/runtime.c#L1412
->>>
->>> pm_runtime_disable() end up calling _pm_runtime_barrier(), which calls
->>> cancel_work_sync() if dev->power.request_pending has been set.
->>>
->>> If the work that was punted to the pm_wq in rpm_idle() has not been
->>> started yet, we end up just canceling it. In other words, there are no
->>> guarantees it runs to completion.
->>
->> You're right. Although, in a case of this particular patch, the syncing
->> is actually implicitly done by pm_runtime_dont_use_autosuspend().
->>
->> But for drivers which don't use auto-suspend, there is no sync. This
->> looks like a disaster, it's a very common pattern for drivers to
->> 'put+disable'.
->>
->>> Moreover, use space may have bumped the usage count via sysfs for the
->>> device (pm_runtime_forbid()) to keep the device runtime resumed.
->>
->> Right, this is also a disaster in a case of driver removal.
->>
->>>> Calling pm_runtime_force_suspend() isn't correct because each 'enable'
->>>> must have the corresponding 'disable'. Hence there is no problem here.
->>>
->>> pm_runtime_force_suspend() calls pm_runtime_disable(), so I think that
->>> should be fine. No?
->>
->> [adding Rafael]
->>
->> Rafael, could you please explain how drivers are supposed to properly
->> suspend and disable RPM to cut off power and reset state that was
->> altered by the driver's resume callback? What we're missing? Is Ulf's
->> suggestion acceptable?
->>
->> The RPM state of a device is getting reset on driver's removal, hence
->> all refcounts that were bumped by the rpm-resume callback of the device
->> driver will be screwed up if device is kept resumed after removal. I
->> just verified that it's true in practice.
+Hi!
+
+Dne ponedeljek, 04. oktober 2021 ob 10:10:55 CEST je Hans Verkuil napisal(a):
+> Hi Jernej,
 > 
-> Note that, what makes the Tegra drivers a bit special is that they are
-> always built with CONFIG_PM being set (selected from the "SoC"
-> Kconfig).
+> Some comments below:
 > 
-> Therefore, pm_runtime_force_suspend() can work for some of these
-> cases. Using this, would potentially avoid the driver from having to
-> runtime resume the device in ->remove(), according to the below
-> generic sequence, which is used in many drivers.
+> On 12/09/2021 08:08, Jernej Skrabec wrote:
+> > Except VP8 probability coefficients buffer, all other buffers are never
 > 
-> pm_runtime_get_sync()
-> clk_disable_unprepare() (+ additional things to turn off the device)
-> pm_runtime_disable()
-> pm_runtime_put_noidle()
+> Except -> Except for
+> 
 
-It's not a problem to change this patchset. The problem is that if
-you'll grep mainline for 'pm_runtime_disable', you will find that there
-are a lot of drivers in a potential trouble.
+Ok.
 
-I'm proposing that we should change pm_runtime_disable() to perform the
-syncing with this oneliner:
+> > accessed by CPU. That allows us to mark them with 
+DMA_ATTR_NO_KERNEL_MAPPING
+> > flag. This helps with decoding big (like 4k) videos on 32-bit ARM
+> > platforms where default vmalloc size is relatively small - 240 MiB.
+> > Since auxiliary buffer are not yet efficiently allocated, this can be
+> > easily exceeded. Even if allocation is optimized, 4k videos will still
+> > often exceed this limit.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 102 ++++++++++--------
+> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  28 ++---
+> >  .../staging/media/sunxi/cedrus/cedrus_video.c |   2 +
+> >  3 files changed, 73 insertions(+), 59 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/
+staging/media/sunxi/cedrus/cedrus_h264.c
+> > index de7442d4834d..6e38b37d9fe1 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > @@ -538,23 +538,23 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  
+> >  	ctx->codec.h264.pic_info_buf_size = pic_info_size;
+> >  	ctx->codec.h264.pic_info_buf =
+> > -		dma_alloc_coherent(dev->dev, ctx-
+>codec.h264.pic_info_buf_size,
+> > -				   &ctx-
+>codec.h264.pic_info_buf_dma,
+> > -				   GFP_KERNEL);
+> > +		dma_alloc_attrs(dev->dev, ctx-
+>codec.h264.pic_info_buf_size,
+> > +				&ctx-
+>codec.h264.pic_info_buf_dma,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (!ctx->codec.h264.pic_info_buf)
+> >  		return -ENOMEM;
+> >  
+> >  	/*
+> >  	 * That buffer is supposed to be 16kiB in size, and be aligned
+> > -	 * on 16kiB as well. However, dma_alloc_coherent provides the
+> > +	 * on 16kiB as well. However, dma_alloc_attrs provides the
+> >  	 * guarantee that we'll have a CPU and DMA address aligned on
+> 
+> Does the 'CPU' part of this sentence still make sense since the CPU
+> won't access the buffer?
+> 
 
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index ec94049442b9..5c9f28165824 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -1380,6 +1380,8 @@ EXPORT_SYMBOL_GPL(pm_runtime_barrier);
-  */
- void __pm_runtime_disable(struct device *dev, bool check_resume)
- {
-+	flush_work(&dev->power.work);
-+
- 	spin_lock_irq(&dev->power.lock);
+Good catch! I'll remove it.
 
- 	if (dev->power.disable_depth > 0) {
+> >  	 * the smallest page order that is greater to the requested
+> >  	 * size, so we don't have to overallocate.
+> >  	 */
+> >  	ctx->codec.h264.neighbor_info_buf =
+> > -		dma_alloc_coherent(dev->dev, 
+CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > -				   &ctx-
+>codec.h264.neighbor_info_buf_dma,
+> > -				   GFP_KERNEL);
+> > +		dma_alloc_attrs(dev->dev, 
+CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > +				&ctx-
+>codec.h264.neighbor_info_buf_dma,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> 
+> I think it would be good to have a comment for all these dma_alloc_attrs
+> calls where you note that these buffers are used by the HW only, and
+> never by the CPU, hence the use of DMA_ATTR_NO_KERNEL_MAPPING.
+> 
 
-Objections?
+Ok.
 
-The sysfs rpm-forbid is a separate problem and it's less troublesome
-since it requires root privileges. It's also not something that
-userspace touches casually. For now I don't know what could be done
-about it.
+> >  	if (!ctx->codec.h264.neighbor_info_buf) {
+> >  		ret = -ENOMEM;
+> >  		goto err_pic_buf;
+> > @@ -582,10 +582,11 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  
+> >  	mv_col_size = field_size * 2 * CEDRUS_H264_FRAME_NUM;
+> >  	ctx->codec.h264.mv_col_buf_size = mv_col_size;
+> > -	ctx->codec.h264.mv_col_buf = dma_alloc_coherent(dev->dev,
+> > -							
+ctx->codec.h264.mv_col_buf_size,
+> > -							
+&ctx->codec.h264.mv_col_buf_dma,
+> > -							
+GFP_KERNEL);
+> > +	ctx->codec.h264.mv_col_buf =
+> > +		dma_alloc_attrs(dev->dev,
+> > +				ctx->codec.h264.mv_col_buf_size,
+> > +				&ctx->codec.h264.mv_col_buf_dma,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (!ctx->codec.h264.mv_col_buf) {
+> >  		ret = -ENOMEM;
+> >  		goto err_neighbor_buf;
+> > @@ -600,10 +601,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  		ctx->codec.h264.deblk_buf_size =
+> >  			ALIGN(ctx->src_fmt.width, 32) * 12;
+> >  		ctx->codec.h264.deblk_buf =
+> > -			dma_alloc_coherent(dev->dev,
+> > -					   ctx-
+>codec.h264.deblk_buf_size,
+> > -					   &ctx-
+>codec.h264.deblk_buf_dma,
+> > -					   GFP_KERNEL);
+> > +			dma_alloc_attrs(dev->dev,
+> > +					ctx-
+>codec.h264.deblk_buf_size,
+> > +					&ctx-
+>codec.h264.deblk_buf_dma,
+> > +					GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  		if (!ctx->codec.h264.deblk_buf) {
+> >  			ret = -ENOMEM;
+> >  			goto err_mv_col_buf;
+> > @@ -616,10 +617,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  		ctx->codec.h264.intra_pred_buf_size =
+> >  			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
+> >  		ctx->codec.h264.intra_pred_buf =
+> > -			dma_alloc_coherent(dev->dev,
+> > -					   ctx-
+>codec.h264.intra_pred_buf_size,
+> > -					   &ctx-
+>codec.h264.intra_pred_buf_dma,
+> > -					   GFP_KERNEL);
+> > +			dma_alloc_attrs(dev->dev,
+> > +					ctx-
+>codec.h264.intra_pred_buf_size,
+> > +					&ctx-
+>codec.h264.intra_pred_buf_dma,
+> > +					GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  		if (!ctx->codec.h264.intra_pred_buf) {
+> >  			ret = -ENOMEM;
+> >  			goto err_deblk_buf;
+> > @@ -629,24 +630,28 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  	return 0;
+> >  
+> >  err_deblk_buf:
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
+> > -			  ctx->codec.h264.deblk_buf,
+> > -			  ctx->codec.h264.deblk_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
+> > +		       ctx->codec.h264.deblk_buf,
+> > +		       ctx->codec.h264.deblk_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  err_mv_col_buf:
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > -			  ctx->codec.h264.mv_col_buf,
+> > -			  ctx->codec.h264.mv_col_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > +		       ctx->codec.h264.mv_col_buf,
+> > +		       ctx->codec.h264.mv_col_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  err_neighbor_buf:
+> > -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > -			  ctx->codec.h264.neighbor_info_buf,
+> > -			  ctx->codec.h264.neighbor_info_buf_dma);
+> > +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > +		       ctx->codec.h264.neighbor_info_buf,
+> > +		       ctx->codec.h264.neighbor_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  err_pic_buf:
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > -			  ctx->codec.h264.pic_info_buf,
+> > -			  ctx->codec.h264.pic_info_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > +		       ctx->codec.h264.pic_info_buf,
+> > +		       ctx->codec.h264.pic_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	return ret;
+> >  }
+> >  
+> > @@ -654,23 +659,28 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+> >  {
+> >  	struct cedrus_dev *dev = ctx->dev;
+> >  
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > -			  ctx->codec.h264.mv_col_buf,
+> > -			  ctx->codec.h264.mv_col_buf_dma);
+> > -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > -			  ctx->codec.h264.neighbor_info_buf,
+> > -			  ctx->codec.h264.neighbor_info_buf_dma);
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > -			  ctx->codec.h264.pic_info_buf,
+> > -			  ctx->codec.h264.pic_info_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > +		       ctx->codec.h264.mv_col_buf,
+> > +		       ctx->codec.h264.mv_col_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> > +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > +		       ctx->codec.h264.neighbor_info_buf,
+> > +		       ctx->codec.h264.neighbor_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > +		       ctx->codec.h264.pic_info_buf,
+> > +		       ctx->codec.h264.pic_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (ctx->codec.h264.deblk_buf_size)
+> > -		dma_free_coherent(dev->dev, ctx-
+>codec.h264.deblk_buf_size,
+> > -				  ctx->codec.h264.deblk_buf,
+> > -				  ctx->codec.h264.deblk_buf_dma);
+> > +		dma_free_attrs(dev->dev, ctx-
+>codec.h264.deblk_buf_size,
+> > +			       ctx->codec.h264.deblk_buf,
+> > +			       ctx->codec.h264.deblk_buf_dma,
+> > +			       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (ctx->codec.h264.intra_pred_buf_size)
+> > -		dma_free_coherent(dev->dev, ctx-
+>codec.h264.intra_pred_buf_size,
+> > -				  ctx->codec.h264.intra_pred_buf,
+> > -				  ctx-
+>codec.h264.intra_pred_buf_dma);
+> > +		dma_free_attrs(dev->dev, ctx-
+>codec.h264.intra_pred_buf_size,
+> > +			       ctx->codec.h264.intra_pred_buf,
+> > +			       ctx->codec.h264.intra_pred_buf_dma,
+> > +			       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  }
+> >  
+> >  static void cedrus_h264_trigger(struct cedrus_ctx *ctx)
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/
+staging/media/sunxi/cedrus/cedrus_h265.c
+> > index 3d9561d4aadb..bb7eb56106c5 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > @@ -351,10 +351,10 @@ static void cedrus_h265_setup(struct cedrus_ctx 
+*ctx,
+> >  			ctx->codec.h265.mv_col_buf_unit_size;
+> >  
+> >  		ctx->codec.h265.mv_col_buf =
+> > -			dma_alloc_coherent(dev->dev,
+> > -					   ctx-
+>codec.h265.mv_col_buf_size,
+> > -					   &ctx-
+>codec.h265.mv_col_buf_addr,
+> > -					   GFP_KERNEL);
+> > +			dma_alloc_attrs(dev->dev,
+> > +					ctx-
+>codec.h265.mv_col_buf_size,
+> > +					&ctx-
+>codec.h265.mv_col_buf_addr,
+> > +					GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  		if (!ctx->codec.h265.mv_col_buf) {
+> >  			ctx->codec.h265.mv_col_buf_size = 0;
+> >  			// TODO: Abort the process here.
+> > @@ -668,9 +668,9 @@ static int cedrus_h265_start(struct cedrus_ctx *ctx)
+> >  	ctx->codec.h265.mv_col_buf_size = 0;
+> >  
+> >  	ctx->codec.h265.neighbor_info_buf =
+> > -		dma_alloc_coherent(dev->dev, 
+CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > -				   &ctx-
+>codec.h265.neighbor_info_buf_addr,
+> > -				   GFP_KERNEL);
+> > +		dma_alloc_attrs(dev->dev, 
+CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > +				&ctx-
+>codec.h265.neighbor_info_buf_addr,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (!ctx->codec.h265.neighbor_info_buf)
+> >  		return -ENOMEM;
+> >  
+> > @@ -682,16 +682,18 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+> >  	struct cedrus_dev *dev = ctx->dev;
+> >  
+> >  	if (ctx->codec.h265.mv_col_buf_size > 0) {
+> > -		dma_free_coherent(dev->dev, ctx-
+>codec.h265.mv_col_buf_size,
+> > -				  ctx->codec.h265.mv_col_buf,
+> > -				  ctx-
+>codec.h265.mv_col_buf_addr);
+> > +		dma_free_attrs(dev->dev, ctx-
+>codec.h265.mv_col_buf_size,
+> > +			       ctx->codec.h265.mv_col_buf,
+> > +			       ctx->codec.h265.mv_col_buf_addr,
+> > +			       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  		ctx->codec.h265.mv_col_buf_size = 0;
+> >  	}
+> >  
+> > -	dma_free_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > -			  ctx->codec.h265.neighbor_info_buf,
+> > -			  ctx->codec.h265.neighbor_info_buf_addr);
+> > +	dma_free_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > +		       ctx->codec.h265.neighbor_info_buf,
+> > +		       ctx->codec.h265.neighbor_info_buf_addr,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  }
+> >  
+> >  static void cedrus_h265_trigger(struct cedrus_ctx *ctx)
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/
+staging/media/sunxi/cedrus/cedrus_video.c
+> > index 66714609b577..800ffa5382de 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > @@ -568,6 +568,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue 
+*src_vq,
+> >  
+> >  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> >  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> > +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+> >  	src_vq->drv_priv = ctx;
+> >  	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+> >  	src_vq->ops = &cedrus_qops;
+> > @@ -584,6 +585,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue 
+*src_vq,
+> >  
+> >  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> >  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> > +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+> 
+> This should be dst_vq!
+> 
+> I'm also not quite sure that it is right to use this for the destination
+> buffer. Could this cause problems if this buffer is exported to a dmabuf
+> and another driver will be using it and requiring a kernel mapping.
+
+Hm, if I fix this, it actually breaks DRM mapping. For some reason it expects 
+vmap to be valid. I'll drop this for now.
+
+Thanks for review!
+
+Best regards,
+Jernej
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> >  	dst_vq->drv_priv = ctx;
+> >  	dst_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+> >  	dst_vq->ops = &cedrus_qops;
+> > 
+> 
+> 
+
+
