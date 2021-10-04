@@ -1,157 +1,183 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6090A29CA
-	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 09:12:00 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id c29so3543263pfp.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 Oct 2021 02:12:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F62D29CA
+	for <linux-staging@lists.linux.dev>; Mon,  4 Oct 2021 10:27:06 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 194AAjlR019301;
+	Mon, 4 Oct 2021 10:26:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=mNJKjMYb0Jo+1+gUzUMWqPvS0qQ7n2rz/eGr4sxycQU=;
+ b=Y18CHbNNojWOFjwqVyaGWJrgYGpG155QOVL/VQMhVAqB0ghZ/fO0lmn2lhs2daZouKjX
+ qLnJWLYBIlQyqVSmV/KNA2a/nLj1wR4Rdfc+rABnorBo1XV1d2/qCXhakReXCsECa9Jz
+ zPcgno7oIOkH2Ov7g43+X+/KfhJ/nN8QzsxS7umfU+UrYXINisvTtyv8UcjJ28lulgEy
+ jRRbrYrYc1k41VoIjLjRrPEdI5LXHPLNGneWK6g0Z9lEUWdig0NcKMlyFcNop95AsKix
+ Qi8gX6knpNgLgBIw2XtG+gop9n1bdVYgW9la34csBSJ0PRLh2tVPftvQwc+VrCV8lp4l rQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3bf9m03buv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 04 Oct 2021 10:26:56 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 194AGapu084935;
+	Mon, 4 Oct 2021 10:26:54 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
+	by userp3030.oracle.com with ESMTP id 3bf0s4p7ps-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 04 Oct 2021 10:26:54 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=euUqvlXRjKLMHeOp5ADoNN/3s4stD7Glht7+1L9XKE8jJxiNwIu1wcIGpgKifD+Gej4pZM9yyL7glG6lPMgYOVmgfWxeG4IJIq4k7Wpv8fI/HWX2pEa2UH3JXlHuNr+lEl3IzHXeO1Q6nLCmHL7NTguY/gWyrWen/3NfFuagbYwTKYdHccHUNO0XITYcIoUyYldmvRYabGcPkFbQMHJ87TWf86X4hnkdLF+tvBwfPCd4Pe/WG+98y25RtnxAPfkeSDgVswhABET5EDiyYShmWrf+rXUWPr/c+BxcKxQvJA9FrvkqcxMRr0hb5+aoHJjPNpJnWFXXnC2RaPJHbRRFqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mNJKjMYb0Jo+1+gUzUMWqPvS0qQ7n2rz/eGr4sxycQU=;
+ b=SqvU4MIv1gW9XHs1owc+aJmmt5GtJMG3Xc2NjNFaqkeSi1gn1xhZqyMvln6lfwYwVAMsAiqyPsh5Cb/4zsnrADiK1nsXbRGJ9leqXyzBcHR7gK85kqpM4R626q34cJFIiPT9wVAT/n+F6CkGotERRbEQxxEQyiowMz1cgaFvx6w9ZwnFf0RhlGvB3JfvCxcdkxV4lkrScXU7ZXGk5JpS+PX3BTU2KLDQ1giN0wXus/qeZRggl/EHiCD+eqatv4voHLKkdo3S1LVo6EVuhO2ohDVUJZ7iIYvRs85+tOz7oNnCdI84VqnIlXycjYwrtxvnWK5nZjo0dVKOzygAN4ZxCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=p/zt6Ihrdo7Rv/qMfG//6nHW1vz4Z3xHHD5M5I4jbOQ=;
-        b=oEtv2Uyiaed2bmjIbuF/vB0QG9ocT4iPqv/zNYk4oCpeZ3YHAbxSLDzHY++HcFaeBW
-         UmfNPQHY0UjD4ITXwNi3bpvEPUmYZANyXj8kPQ+yd9YpDZh/EuZJUYXqrJXbMXIgqOHs
-         MOJwMYfTXWFXJFNMIvr0ESA5Rgotq1aXgXjBbgqndwCbKQdFUtx7/X+2FB67HXqo4EUM
-         D0fejXbVrkt/jYQXA55NgdwmIRTOYC7jUSKdWhSNcqkUjvK4R8DENenI50eKlclRv3jJ
-         zXCfmfV9tYeO303doLc9HPBs6G9mR7PD5vkndfNd5uijzfIEbNOfEC5aAEDG3D3j3LiK
-         Gg1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=p/zt6Ihrdo7Rv/qMfG//6nHW1vz4Z3xHHD5M5I4jbOQ=;
-        b=ntxypY3GUvSKcDpJvbbDcorxbwNBx5mgo1Zsxg8KHBO6Y3zpZ07LI0FqgoScCHuj9X
-         KXVXkWhpMB86u8tJO8sKfvPOnJSj1LdIzC6h27udWbHe4eP5VjnEkadMAfjNztBmLNRS
-         8MPXZsN+Kft+3512+K2z1nUjJVHtxFkieiVqREJBXyew0UrYI11N+22mOuTbQ9W85rdh
-         YRiJ0hDk6UY7Q2AmB7i0HMK51nvA55cAOco8UNOZKMmNs92DGJZLzPL0TuiKJsQkBNfK
-         edxfsFUO7TuWXZJNOFBcrf/XRLiTQE6JsaFTifFd+75I2DYnFi8ZO1b9UDD1nbyvU5Mx
-         BXCQ==
-X-Gm-Message-State: AOAM532C/UYsZBk1Ib0jy0trpNi378VaNwe1AihaqjZ5ZgDjm+aeM+jo
-	hdVQdOiGAovpsrH5ub6A3aIJrQ==
-X-Google-Smtp-Source: ABdhPJy0W8ugEcJOIW4QoiueG/Yc3HmOK62CHjUdLDNNiCUoCf91AnhaDt2fgr98vS9LG2/AQVVStQ==
-X-Received: by 2002:a62:1610:0:b0:447:53fa:a27 with SMTP id 16-20020a621610000000b0044753fa0a27mr24163749pfw.39.1633338719957;
-        Mon, 04 Oct 2021 02:11:59 -0700 (PDT)
-Received: from localhost ([122.171.247.18])
-        by smtp.gmail.com with ESMTPSA id o2sm14351598pja.7.2021.10.04.02.11.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 02:11:59 -0700 (PDT)
-Date: Mon, 4 Oct 2021 14:41:57 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Peter Chen <peter.chen@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
-	linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Weinberger <richard@nod.at>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	David Heidelberg <david@ixit.cz>
-Subject: Re: [PATCH v13 01/35] opp: Change type of
- dev_pm_opp_attach_genpd(names) argument
-Message-ID: <20211004091157.uidbtrhpsl264xjs@vireshk-i7>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-2-digetx@gmail.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mNJKjMYb0Jo+1+gUzUMWqPvS0qQ7n2rz/eGr4sxycQU=;
+ b=QgFOCYQDJRnO8icizp5HmFpy/5qLRihuhYlDkU4f7Q6ZYW78PYk39s32/n9m7C2YZ30YJEwIoVQQuXDVb98b0zDcAlk0tmSdrexfHCoCzcgv9LMKB/gNRdvsvShT4yg8un3vZBUA/p81hlQrYHhuXugSGS7vOBdGlRf9j2bRhxA=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2398.namprd10.prod.outlook.com
+ (2603:10b6:301:2f::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.19; Mon, 4 Oct
+ 2021 10:26:51 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
+ 10:26:51 +0000
+Date: Mon, 4 Oct 2021 13:26:32 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Forest Bond <forest@alittletooquiet.net>,
+        Lucas Henneman <lucas.henneman@linaro.org>,
+        Yujia Qiao <rapiz@foxmail.com>,
+        Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+        Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+        Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Deepak R Varma <mh12gx2825@gmail.com>, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] staging: vt6655: fix camelcase in bShortSlotTime
+Message-ID: <20211004102632.GT2048@kadam>
+References: <20210926162527.21462-1-tomm.merciai@gmail.com>
+ <20210926162527.21462-2-tomm.merciai@gmail.com>
+ <YVHilhCk3cgGhXrZ@kroah.com>
+ <20210927213515.GA6953@tom-desktop>
+ <YVKdVCaVwmPG7DVx@kroah.com>
+ <20210930214929.GB45822@tom-desktop>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210930214929.GB45822@tom-desktop>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0040.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::28)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210926224058.1252-2-digetx@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Received: from kadam (62.8.83.99) by JNXP275CA0040.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend Transport; Mon, 4 Oct 2021 10:26:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e6c68d04-09b6-47d1-2af8-08d987217abd
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2398:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR1001MB2398A2D367E7995AB27E964D8EAE9@MWHPR1001MB2398.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	thm0QxcA/sPyqTSxbf9hQl0VUJukKw3KBuJ6LblpcrH8YZGFx8tRaLJJ/SpwPc8CoWC9T2LPpZ2fN20WI/keELZLCUmX4t8PkSRoNpko2bkyN3tQUpI4bn5AGcYooY674nLV6nuJB2thM3awVLINSDAiCoe1GElYkiARiuMg+ckLNiadm4Nu2Uui5omI1WuIUq8p9l5SdMTBOpqEmPw+1IRQPDJXvtyWKUWwFLNs+Io5pq/wKSu/XmeAngJRH6MsH5rK6w20ePIi4GARUoG6KS0EtirBMKABdrrUuoq4gRJsjHlCMuaEs12GB1AmTyLtH3WFC7KSPnkrjr0Po4bN+vTCw2l1PUU2JpvoOlOqPZ2HcixtdmVVutjp2DAGc/W7YMfzZsvnAJh6JBkYKEkWwiP7ZcsRfbF7Kn597KgvHDImn1xq9sPw4HyLtnCE0tkX+xxq9AaY/4l1iTaVS8dr33z/tS9n3fUd9MaZWRmL1tclwgzbmOGq+qHGJNKnwUVrNldlQuUa0nA3zTQeb821xo2xQz0u0sJWpF2CszGX5Xp2A0kUw0ZYRURY37eEemZMUGu7EtDsDiyeEV2fzgA6AwumC1uUqTaoxOTaWIwluq0Z2lUWcp2VOnr3PNwHkNjDDuTX8TS1pf2rhJaS7Ul3QtphKIKfmElJf3H2eM47VJlWd53hZSsQDcewFZn4ZHHNFp9XAiLEw7O9uR+f2+5BVix4wJjCOcvmvSbzRRaJrJ+hh9/4b6nuqVbEZlm4AaE4kMAzJ76sw30uDokJBMatEg4N6ZIWCGrLJjdouCu6BStXksfAAftaZRsYf3GrFhOpj419mzRMvdrC7up+t2ie7g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(54906003)(316002)(33716001)(4326008)(2906002)(86362001)(44832011)(7416002)(6916009)(508600001)(55016002)(26005)(8936002)(966005)(956004)(66476007)(66556008)(52116002)(66946007)(9686003)(6666004)(33656002)(5660300002)(1076003)(6496006)(8676002)(38350700002)(186003)(38100700002)(9576002)(145543001)(145603002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?0Eg6+N5A1lhoW8iiaNwR9GTUnWebcGGSH5s0zDfgDdILz7gwLjkPdxE2b1+T?=
+ =?us-ascii?Q?LliiH/GgnpRoxyJy7GHOimnk4aMws0KP92jjDww98YygScgAyOV5V8L9L6Ig?=
+ =?us-ascii?Q?sOgZgxC70SlUEItO8gZWfEZvh9tILdaOhJ/q2Bqa+p/dOtKx1qwoErrkYX0t?=
+ =?us-ascii?Q?Oo99ArsqInLg393Wrht2m9Ptm5ml50E9q+TZd6g6suD6DULviFB8hRYbkvk0?=
+ =?us-ascii?Q?EvS2EkRaeTtys137iqRFdLZX5QX2woc/XPqbrpddYT930iD19IPOljDeUGk3?=
+ =?us-ascii?Q?NwbeM+92UWUVx+JIWA2Sccfbe1kbIhseBjvOsiwKiBPYPqFCgooene7lsMi3?=
+ =?us-ascii?Q?UuxdHHVshJEeYUJcg6WMUqYXS7qbgrUd95R6oeTTVx5Zytn70awrR5XxAXdq?=
+ =?us-ascii?Q?GTCbJFwzaE0dDCa9jHCyT8aZY5io8f+eTDjamZ1efXPcgQSbQc7vF3IA07BT?=
+ =?us-ascii?Q?T0IgrV/8/12BQCd0afLPQOq8Hfjic8acrmOKuDw3vsywiqiH7IoVqnSfzgy2?=
+ =?us-ascii?Q?cTePFbHQm9xVHBmRUN5DC/ycCtqIol+OUyCGQhZsMgL9A8id5bPLjHuOBd52?=
+ =?us-ascii?Q?0YiGFVY0IoXgzGD9/aP59zqqdm5raTUFtGcxKLs/Lb1tKanSEBdDzX4lRi/z?=
+ =?us-ascii?Q?RrfBkP7NJ9hYVEq6ynhMt0EbT1gvySaQY9ts1R9trlxoUSa3f79DBG2/ZY9L?=
+ =?us-ascii?Q?HK8QTCDc98JTjh68SXFh0APHqqrNIIHv03RQp7bHM4ybjniQdUclHTX2q7/R?=
+ =?us-ascii?Q?86fTr05lh5aIaf0J/a+PHkA0b5THfo/hOzSS7rQ/l69d8IF0WGVGUgC0Iju1?=
+ =?us-ascii?Q?9V7gkWfz/To+vI/UTdQVVTUGJng6VMpwVDbvWOy/mPbtjMY5utsL2TUBGgl4?=
+ =?us-ascii?Q?VHZ7/kqBT70MJrdNkAE4CkkYzQ2wOJQPDayw5s2d5nRkVNjJwQRJJPbEQXO4?=
+ =?us-ascii?Q?yC3THXLg8EyHlKjRyR22/8Ekyy4BDHhtcd0bOvKadIsZt9oNyo3rKzgGncIJ?=
+ =?us-ascii?Q?elonlpKN1C55Qaxz7A/JzpJDXN6vYAVypeyMmL2EcDAWS6GUcgVT0nGNSE+H?=
+ =?us-ascii?Q?iIDXkFW0y7pdYsSsBX3+LbjlK9Nq3pF3ZfWQJJHOHhzOxr2aQVc/hIsLed9J?=
+ =?us-ascii?Q?SPXbA+ZF+xmVCCLn8wluX3Qj0uzqjL23OI3TpV4Mddz9L1CPXnF2ShtLFlwM?=
+ =?us-ascii?Q?joDa57HcQKQTa+4Dmu65hyxG9gJsjqKw6eDQBkVCRWPZeG6YDVnnXEetnAjF?=
+ =?us-ascii?Q?VAFbO3jjaSv4mb+FJdEZkbAk9Ga3d0OhUIbhRG+t7wStjscB41K1vLkyM8t5?=
+ =?us-ascii?Q?XyZ/wID+699dTYr6g/QIGfDD?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6c68d04-09b6-47d1-2af8-08d987217abd
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 10:26:51.4732
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2ObSork7CVxlYbFZgRPoJ5M+AxQyjL28UzU0GQX7jSPmAvzi+yFMeBzmD3u6g8rgb//4wlog/HkEmGTkQYSdpHpbhFi8f29yPXB7ZglcyY4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2398
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10126 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 phishscore=0 bulkscore=0 mlxlogscore=913 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110040071
+X-Proofpoint-ORIG-GUID: LIdw6L79gxyT5eLTUQwfT8Dts2nD5MJk
+X-Proofpoint-GUID: LIdw6L79gxyT5eLTUQwfT8Dts2nD5MJk
 
-On 27-09-21, 01:40, Dmitry Osipenko wrote:
-> Elements of the 'names' array are not changed by the code, constify them
-> for consistency.
+On Thu, Sep 30, 2021 at 11:49:29PM +0200, Tommaso Merciai wrote:
+> On Tue, Sep 28, 2021 at 06:43:00AM +0200, Greg Kroah-Hartman wrote:
+> > On Mon, Sep 27, 2021 at 11:35:15PM +0200, Tommaso Merciai wrote:
+> > > On Mon, Sep 27, 2021 at 05:26:14PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Sun, Sep 26, 2021 at 06:25:18PM +0200, Tommaso Merciai wrote:
+> > > > > Replace camel case variable bShortSlotTime with snake case
+> > > > > variable b_short_slot_time.
+> > > > 
+> > > > That is a very odd variable name.  Why did you pick that one?
+> > > > 
+> > > > What deos it mean?
+> > > > 
+> > > > You do understand where the original naming format came from here, and
+> > > > what it was trying to represent, right?  If not, please go read up on
+> > > > it:
+> > > > 	https://en.wikipedia.org/wiki/Hungarian_notation
+> > > > 
+> > > > That style is not used in Linux, and so, when converting from it, do not
+> > > > attempt to keep the same style present here, that is kind of pointless,
+> > > > don't you agree?
+> > > 
+> > >   You are definitely right. What do you think about "short_slot_time"?
+> > 
+> > "time" implies that this will hold a value of time, right?
+> > 
+> > What exactly does this variable do?  That might help in naming it
+> > better.
 > 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/opp/core.c     | 6 +++---
->  include/linux/pm_opp.h | 8 ++++----
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-> index 04b4691a8aac..3057beabd370 100644
-> --- a/drivers/opp/core.c
-> +++ b/drivers/opp/core.c
-> @@ -2348,12 +2348,12 @@ static void _opp_detach_genpd(struct opp_table *opp_table)
->   * "required-opps" are added in DT.
->   */
->  struct opp_table *dev_pm_opp_attach_genpd(struct device *dev,
-> -		const char **names, struct device ***virt_devs)
-> +		const char * const *names, struct device ***virt_devs)
->  {
->  	struct opp_table *opp_table;
->  	struct device *virt_dev;
->  	int index = 0, ret = -EINVAL;
-> -	const char **name = names;
-> +	const char * const *name = names;
->  
->  	opp_table = _add_opp_table(dev, false);
->  	if (IS_ERR(opp_table))
-> @@ -2457,7 +2457,7 @@ static void devm_pm_opp_detach_genpd(void *data)
->   *
->   * Return: 0 on success and errorno otherwise.
->   */
-> -int devm_pm_opp_attach_genpd(struct device *dev, const char **names,
-> +int devm_pm_opp_attach_genpd(struct device *dev, const char * const *names,
->  			     struct device ***virt_devs)
->  {
->  	struct opp_table *opp_table;
-> diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-> index a95d6fdd20b6..879c138c7b8e 100644
-> --- a/include/linux/pm_opp.h
-> +++ b/include/linux/pm_opp.h
-> @@ -156,9 +156,9 @@ int devm_pm_opp_set_clkname(struct device *dev, const char *name);
->  struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
->  void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table);
->  int devm_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
-> -struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
-> +struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs);
->  void dev_pm_opp_detach_genpd(struct opp_table *opp_table);
-> -int devm_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
-> +int devm_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs);
->  struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table *src_table, struct opp_table *dst_table, struct dev_pm_opp *src_opp);
->  int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate);
->  int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq);
-> @@ -376,7 +376,7 @@ static inline int devm_pm_opp_set_clkname(struct device *dev, const char *name)
->  	return -EOPNOTSUPP;
->  }
->  
-> -static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs)
-> +static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs)
->  {
->  	return ERR_PTR(-EOPNOTSUPP);
->  }
-> @@ -384,7 +384,7 @@ static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, cons
->  static inline void dev_pm_opp_detach_genpd(struct opp_table *opp_table) {}
->  
->  static inline int devm_pm_opp_attach_genpd(struct device *dev,
-> -					   const char **names,
-> +					   const char * const *names,
->  					   struct device ***virt_devs)
->  {
->  	return -EOPNOTSUPP;
+>   Is a boolean variable, if true short slot time mode is enabled, false 
+>   not right?
+>   A good solution could be: "short_slot_mode"? What do you think about?
 
-Applied. Thanks.
+No.  That's a confusing name.  What is a short slot mode anyway?
 
--- 
-viresh
+regards,
+dan carpenter
+
