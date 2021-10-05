@@ -1,44 +1,44 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C4C2C8E
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 22:07:17 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id e12so2341346wra.4
-        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 15:07:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390CC2C8E
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 22:07:34 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id t8so2406513wri.1
+        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 15:07:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=CjObwV75ehLZnSVmvWOQDxCfMBy93mRCI9CdS9ZUuPM=;
-        b=kZRfKZLR2kUhIkrcfWq8NG8RvmLNgsDDLFWg7rAQVIajuJBm0f3H9W9wALXJsnJyF/
-         WO4H2P4OGrc6NTPZpgVL1sFzKgxDvYjsT+2hjNlRutgtF6epWxBVLQEZACzkzZqJrLZ3
-         YC4psS3LF9c8gEKJH2BPCHk1YnrM3+LbLwhCtM9H5/w1r7KCqNur182fwDhSv70kne2e
-         cyHXO+p2PNlGrSYJ+HCqcOczCIK7x2F4iaTNR6WmcHfK1YtnrfI11Bilzp4GTUeXlbwU
-         Y6ORqnfZL/SDJfgLCEx8iggvlvY942PkpH7ZnEDpeEBWSDAkbEGruxtLDO4YOCtXFzPC
-         NCVQ==
+        bh=h9BC/lpH9+H/+LNBCuOS7nJFIHUjUqzgDBt5IUM8lc0=;
+        b=n/R5zpFrmW148ixEmxyWlSX0QOdrBkmTIe4bEVIZqKJuYcypBzmbigsMQWOPtF6v7Q
+         4LVNOS3gE4vgJuEqxbDaLN+tcVuHdvS2v1AJZV+Mt3Xq6VCE7040+db84qczr3xVBGIt
+         UzTIwJVVEBReN8NECb/DiGzZ+zeRGWnLcL5MFNAICYubgXFQCG+P0CN569FmWm7bB0hm
+         zLU/T+8dmaa5y+o6h4g22FY95NQBpFK3gWOO/fW9SB4azoVdFr6GRPkNFmNYLtg51ZeD
+         sRQ3J/0V6skZMa8+JOIOxbbzjEeELlha2VVcXtLChGOOOhLDvOTKhYU1EDKruAw6Xre3
+         wPOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=CjObwV75ehLZnSVmvWOQDxCfMBy93mRCI9CdS9ZUuPM=;
-        b=uLOxoQoFYvx9U1dJ0+74O2MAFF7SvBgeZ06TOQBWBjoouc9QKdDKETJsQy/K0/NmNQ
-         T8fmuDkx1SxPaLtEkrczu6OfRKq2QEFduoKDgTcIPDU7KUpxffO+yvV6SC0r33MaphJv
-         TGkcc1uZ0ROtPs0e3NG4ej3fQMHEaQkJeSZZfY3xRW/mr0lhdAxiJNtnMpveCFlfwzip
-         03HSc8hZVNqr0Nf91q3f15IgxPs1qAUtir+eH2ZZ2EwcuBlsks6cCuGWxCHv6YeIUnpp
-         8Z140xZs6JndlkHXKC9KlH5vPpp7ZHrac404hN14srK3m3nXgsYrwfSfw5HpoFM8a8Pa
-         WgMQ==
-X-Gm-Message-State: AOAM531yof5GssyxMrNhLJGpUHBdMv4hCmSBQgnVajIYr6x1sVPzqxwY
-	7OWTKrM2HG8UiWlcOWLJuHU=
-X-Google-Smtp-Source: ABdhPJzW0B+WPl5TW1fUjnGL1QDYWkAFKxMrkYbA4YGfjOvokBhLTAxNwsXmGZzwzH0JjQiUJb07QQ==
-X-Received: by 2002:a05:600c:35c6:: with SMTP id r6mr6132695wmq.24.1633471635962;
-        Tue, 05 Oct 2021 15:07:15 -0700 (PDT)
+        bh=h9BC/lpH9+H/+LNBCuOS7nJFIHUjUqzgDBt5IUM8lc0=;
+        b=lTqGRUfS1CoUbYcSDpfUTSLDp13xVOGz8p7l5wUDPMq0iyeX0/lgr/btztka0G29km
+         iSbAx2DfgAC3W0ghoh0GYNpb3KM/gu9A2JBROOAjPDvLCiVi7IpcI0N90WVFDfWAruBN
+         cFwr+9xjslwIk3BOPNov0N+7U2p1voZtiRSZdesvSyaCQgym3ZQtN43E/JOECBcKUyPA
+         PQC2eppqzqMvcN6YgIOyQtT94/IIvrH9ehJTjqEpM3X0fSGSgWYUBvscbzJhBXtNPzyu
+         I/AR1WarFpb0XBjXdpILvd+22IeXrGJt2YsXjvVLJkL9so/AIHFUwaHiOYmLrhrGY+H9
+         cbYA==
+X-Gm-Message-State: AOAM533MBKtwrKk3SSoSTdabQ9t0YZM9sDYuNyw22nP64EUvIsyC83l0
+	d/b3VSOfDwo69sAlPUn89js=
+X-Google-Smtp-Source: ABdhPJz6mJVjopPeUFWczfV1BSj4iWUIBZEoVDXII1Xba0+M0dBTDn8dHWymgv6tWSvUm50cqRmLGA==
+X-Received: by 2002:a05:600c:2256:: with SMTP id a22mr4839667wmm.61.1633471652695;
+        Tue, 05 Oct 2021 15:07:32 -0700 (PDT)
 Received: from ?IPV6:2a02:8108:96c0:3b88::f816? ([2a02:8108:96c0:3b88::f816])
-        by smtp.gmail.com with ESMTPSA id x21sm3339148wmc.14.2021.10.05.15.07.15
+        by smtp.gmail.com with ESMTPSA id c204sm3313398wme.11.2021.10.05.15.07.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Oct 2021 15:07:15 -0700 (PDT)
-Message-ID: <fc896fc5-3c1e-ccaf-06c2-345ad2c2e063@gmail.com>
-Date: Wed, 6 Oct 2021 00:07:15 +0200
+        Tue, 05 Oct 2021 15:07:32 -0700 (PDT)
+Message-ID: <67971ba2-ac6c-6ad8-a568-740846222fff@gmail.com>
+Date: Wed, 6 Oct 2021 00:07:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.1
-Subject: Re: [PATCH 7/9] staging: r8188eu: chip_type is write-only
+Subject: Re: [PATCH 8/9] staging: r8188eu: interface type is always usb
 Content-Language: en-US
 To: Martin Kaiser <martin@kaiser.cx>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -55,111 +55,85 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
  Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20211005200821.19783-1-martin@kaiser.cx>
- <20211005200821.19783-7-martin@kaiser.cx>
+ <20211005200821.19783-8-martin@kaiser.cx>
 From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20211005200821.19783-7-martin@kaiser.cx>
+In-Reply-To: <20211005200821.19783-8-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 10/5/21 22:08, Martin Kaiser wrote:
-> chip_type in struct adapter is never read. Remove the component
-> and the code to initialise it.
+> This driver only supports chips that connect via usb. Remove
+> interface_type from struct adapter, use a constant in the one
+> place where the interface type is needed.
 > 
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->   drivers/staging/r8188eu/hal/usb_ops_linux.c |  6 ------
->   drivers/staging/r8188eu/include/drv_types.h |  1 -
->   drivers/staging/r8188eu/include/hal_intf.h  | 10 ----------
->   drivers/staging/r8188eu/include/usb_ops.h   |  3 ---
->   drivers/staging/r8188eu/os_dep/usb_intf.c   |  7 -------
->   5 files changed, 27 deletions(-)
+>   drivers/staging/r8188eu/hal/rtl8188e_dm.c   | 5 +----
+>   drivers/staging/r8188eu/include/drv_types.h | 1 -
+>   drivers/staging/r8188eu/include/hal_intf.h  | 7 -------
+>   drivers/staging/r8188eu/os_dep/usb_intf.c   | 3 ---
+>   4 files changed, 1 insertion(+), 15 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> index 9544300fab65..4c1974cc9a16 100644
-> --- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> +++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-> @@ -558,9 +558,3 @@ void rtl8188eu_xmit_tasklet(unsigned long priv)
->   			break;
->   	}
->   }
-> -
-> -void rtl8188eu_set_hw_type(struct adapter *adapt)
-> -{
-> -	adapt->chip_type = RTL8188E;
-> -	DBG_88E("CHIP TYPE: RTL8188E\n");
-> -}
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> index 21494adf2a19..1a0176a60704 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> @@ -40,10 +40,7 @@ static void Init_ODM_ComInfo_88E(struct adapter *Adapter)
+>   
+>   	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_PLATFORM, ODM_CE);
+>   
+> -	if (Adapter->interface_type == RTW_GSPI)
+> -		ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_INTERFACE, ODM_ITRF_SDIO);
+> -	else
+> -		ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_INTERFACE, Adapter->interface_type);/* RTL871X_HCI_TYPE */
+> +	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_INTERFACE, ODM_ITRF_USB);
+>   
+>   	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_IC_TYPE, ODM_RTL8188E);
+>   
 > diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-> index 9fa561ad340b..9b9f7d89519c 100644
+> index 9b9f7d89519c..3c972acf329c 100644
 > --- a/drivers/staging/r8188eu/include/drv_types.h
 > +++ b/drivers/staging/r8188eu/include/drv_types.h
 > @@ -205,7 +205,6 @@ struct adapter {
 >   			     * replace module. */
 >   	int	pid[3];/* process id from UI, 0:wps, 1:hostapd, 2:dhcpcd */
 >   	int	bDongle;/* build-in module or external dongle */
-> -	u16	chip_type;
->   	u16	interface_type;/* USB,SDIO,SPI,PCI */
+> -	u16	interface_type;/* USB,SDIO,SPI,PCI */
 >   
 >   	struct dvobj_priv *dvobj;
+>   	struct	mlme_priv mlmepriv;
 > diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-> index ee8e67dafe7c..89bd6f4b06e2 100644
+> index 89bd6f4b06e2..ffed6ddadd3f 100644
 > --- a/drivers/staging/r8188eu/include/hal_intf.h
 > +++ b/drivers/staging/r8188eu/include/hal_intf.h
-> @@ -15,16 +15,6 @@ enum RTL871X_HCI_TYPE {
->   	RTW_GSPI	= BIT(3),
->   };
+> @@ -8,13 +8,6 @@
+>   #include "drv_types.h"
+>   #include "Hal8188EPhyCfg.h"
 >   
-> -enum _CHIP_TYPE {
-> -	NULL_CHIP_TYPE,
-> -	RTL8712_8188S_8191S_8192S,
-> -	RTL8188C_8192C,
-> -	RTL8192D,
-> -	RTL8723A,
-> -	RTL8188E,
-> -	MAX_CHIP_TYPE
+> -enum RTL871X_HCI_TYPE {
+> -	RTW_PCIE	= BIT(0),
+> -	RTW_USB		= BIT(1),
+> -	RTW_SDIO	= BIT(2),
+> -	RTW_GSPI	= BIT(3),
 > -};
 > -
 >   enum hw_variables {
 >   	HW_VAR_MEDIA_STATUS,
 >   	HW_VAR_MEDIA_STATUS1,
-> diff --git a/drivers/staging/r8188eu/include/usb_ops.h b/drivers/staging/r8188eu/include/usb_ops.h
-> index 1939b781b097..0a1155bbc7b8 100644
-> --- a/drivers/staging/r8188eu/include/usb_ops.h
-> +++ b/drivers/staging/r8188eu/include/usb_ops.h
-> @@ -19,9 +19,6 @@
->   
->   #include "usb_ops_linux.h"
->   
-> -void rtl8188eu_set_hw_type(struct adapter *padapter);
-> -#define hal_set_hw_type rtl8188eu_set_hw_type
-> -
->   /*
->    * Increase and check if the continual_urb_error of this @param dvobjprivei
->    * is larger than MAX_CONTINUAL_URB_ERR
 > diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index b5e0c6561108..193b5faac56a 100644
+> index 193b5faac56a..5699c44a722b 100644
 > --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
 > +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -172,12 +172,6 @@ static void usb_dvobj_deinit(struct usb_interface *usb_intf)
+> @@ -379,9 +379,6 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
 >   
->   }
+>   	padapter->hw_init_mutex = &usb_drv->hw_init_mutex;
 >   
-> -static void chip_by_usb_id(struct adapter *padapter)
-> -{
-> -	padapter->chip_type = NULL_CHIP_TYPE;
-> -	hal_set_hw_type(padapter);
-> -}
+> -	/* step 1-1., decide the chip_type via vid/pid */
+> -	padapter->interface_type = RTW_USB;
 > -
->   static void usb_intf_start(struct adapter *padapter)
->   {
->   	rtl8188eu_inirp_init(padapter);
-> @@ -387,7 +381,6 @@ static struct adapter *rtw_usb_if1_init(struct dvobj_priv *dvobj,
->   
->   	/* step 1-1., decide the chip_type via vid/pid */
->   	padapter->interface_type = RTW_USB;
-> -	chip_by_usb_id(padapter);
->   
 >   	if (rtw_handle_dualmac(padapter, 1) != _SUCCESS)
 >   		goto free_adapter;
+>   
 > 
 
 Looks good to me.
