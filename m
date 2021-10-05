@@ -1,28 +1,29 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227666D18
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 13:49:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 46852613D5;
-	Tue,  5 Oct 2021 13:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214BF2C80
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 14:07:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 421FA6115B;
+	Tue,  5 Oct 2021 14:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1633441751;
-	bh=+C0YLW1DnbAUg8pMS0qPoTsSFohiDLdMz6pftEU0/sI=;
+	s=korg; t=1633442828;
+	bh=cnL/sf+hUo4gm74iG3lE21vurF1Az8bAampwQ7TaiAc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=we9T7zb78SUDZU/jwEPC39nkre4Qr9mtpRSuUY/lv48QLL1n6nHoTg6T1ICviqIJV
-	 n31cFHRO9DSZc+huAmcAXn4aJCZjczWMy1SxENMSak0fIOPh8Q/hxofaUfbmRQJ3cE
-	 5jf0JKpW11MtaR/SRXWwc1QiaZGf5qsu27cleyMU=
-Date: Tue, 5 Oct 2021 15:49:09 +0200
+	b=hhvWtXGKLs/EcIil4Qn1gria7uNWcxsINfw0mkwTdbaeLFIdI7kHGp/ZuY+UMZG7l
+	 TKTCwk17ziUxoS7W6ULVtfbtH4Bs3pxlc+CrDShWqjpmleZ48sZdWrqjbFUF3xfF4C
+	 LWE+Ph7lAO/Zc4QP+OlmfUNR0KT/n03HPGO8SOUI=
+Date: Tue, 5 Oct 2021 16:07:06 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 Cc: Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Christian Gromm <christian.gromm@microchip.com>
 Subject: Re: [PATCH] staging: most: dim2: fix device registration
-Message-ID: <YVxX1f6sgYjTVYt7@kroah.com>
+Message-ID: <YVxcCpuz9C6XpEex@kroah.com>
 References: <20210929205619.2800-1-nikita.yoush@cogentembedded.com>
  <YVwofSvwGTv3kHjh@kroah.com>
  <d309b4cf-12f5-5f49-fcbe-3141dff9e73f@cogentembedded.com>
+ <YVxX1f6sgYjTVYt7@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,89 +32,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d309b4cf-12f5-5f49-fcbe-3141dff9e73f@cogentembedded.com>
+In-Reply-To: <YVxX1f6sgYjTVYt7@kroah.com>
 
-On Tue, Oct 05, 2021 at 04:33:02PM +0300, Nikita Yushchenko wrote:
-> > > Commit 723de0f9171e ("staging: most: remove device from interface
-> > > structure") moved registration of driver-provided struct device to
-> > > the most subsystem, but did not properly update dim2 driver to
-> > > work with that change.
+On Tue, Oct 05, 2021 at 03:49:09PM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Oct 05, 2021 at 04:33:02PM +0300, Nikita Yushchenko wrote:
+> > > > Commit 723de0f9171e ("staging: most: remove device from interface
+> > > > structure") moved registration of driver-provided struct device to
+> > > > the most subsystem, but did not properly update dim2 driver to
+> > > > work with that change.
+> > > > 
+> > > > After most subsystem passes driver's dev to register_device(), it
+> > > > becomes refcounted, and can be only deallocated in the release method.
+> > > > Provide that by:
+> > > > - not using devres to allocate the device,
+> > > > - moving shutdown actions from _remove() to the device release method,
+> > > > - not calling shutdown actions in _probe() after the device becomes
+> > > >    refcounted.
 > > > 
-> > > After most subsystem passes driver's dev to register_device(), it
-> > > becomes refcounted, and can be only deallocated in the release method.
-> > > Provide that by:
-> > > - not using devres to allocate the device,
-> > > - moving shutdown actions from _remove() to the device release method,
-> > > - not calling shutdown actions in _probe() after the device becomes
-> > >    refcounted.
+> > > Should this be 3 patches?
 > > 
-> > Should this be 3 patches?
+> > But these three items are deeply interconnected, and fix the issue together.
+> > Must not manually free device structure passed to register_device(), thus
+> > must not allocate via devres (because otherwise, devres will free it). Once
+> > not using devres for it, must deallocate it somehow else, thus must rework
+> > the release paths.
 > 
-> But these three items are deeply interconnected, and fix the issue together.
-> Must not manually free device structure passed to register_device(), thus
-> must not allocate via devres (because otherwise, devres will free it). Once
-> not using devres for it, must deallocate it somehow else, thus must rework
-> the release paths.
+> Ok, but that was obvious.
 
-Ok, but that was obvious.
-
-> > > Also, driver used to register it's dev itself, to provide a custom
-> > > attribute. With the modified most subsystem, this causes duplicate
-> > > registration of the same device object. Fix that by adding that custom
-> > > attribute to the platform device - that is a better location for
-> > > a platform-specific attribute anyway.
-> > 
-> > Nope, it should be 4 patches.
-> 
-> Unlike the above three, this item could be separated.
-> Will split into two patches now - the first for this (and with fix to the
-> attributes issue noted below) and the second for proper device releasing.
-> 
-> > Also, why have you not cc:ed the original author of the commit you are
-> > "fixing" here?   They are the maintainer of this code, right?
-> 
-> I was under impression that "git send-email" does that automatically...
-
-Nope.
-
-> CCing them now.
-
-They don't see the change :(
-
-> > One note on your change that would keep me from accepting it even if all
-> > of the above was not an issue:
-> > 
-> > > diff --git a/drivers/staging/most/dim2/sysfs.c b/drivers/staging/most/dim2/sysfs.c
-> > > index c85b2cdcdca3..22836c8ed554 100644
-> > > --- a/drivers/staging/most/dim2/sysfs.c
-> > > +++ b/drivers/staging/most/dim2/sysfs.c
-> > > @@ -39,11 +39,10 @@ static const struct attribute_group *dev_attr_groups[] = {
-> > >   int dim2_sysfs_probe(struct device *dev)
-> > >   {
-> > > -	dev->groups = dev_attr_groups;
-> > > -	return device_register(dev);
-> > > +	return sysfs_create_groups(&dev->kobj, dev_attr_groups);
-> > 
-> > No driver code should ever be calling a sysfs_* function, which is a
-> > huge hint that this is incorrect.
-> > 
-> > You also just raced with userspace and lost, please use the default
-> > attributes for the driver or bus for this, but NEVER manually add and
-> > remove sysfs files, that way lies madness and hard to maintain code.
-> I'm aware of this race, but still creating attributes on device probe is under wide use in the kernel:
-> 
-> nikita@cobook:~/kernel$ grep -r device_create_file drivers | wc -l
-> 448
-
-Just because there are bad examples, does not mean you should add more.
-
-And not all of these are wrong, but do you know when they are not wrong?
-
-> Still, in case of dim2 driver, moving to driver's dev_groups is
-> trivial. Preparing that patch now.
-
-That should have already been done, right?
-
-thanks,
-
-greg k-h
+That was *not* obvious.
