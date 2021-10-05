@@ -1,103 +1,86 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACED2C8E
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 21:16:36 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id k7so1869523wrd.13
-        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 14:16:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB6B2C8E
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 21:45:09 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id m3so1820085lfu.2
+        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 14:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=PlGyYXdHnRb3uBFBFPOmPhSz+6CwwP78f00acOXfK5s=;
-        b=Fi0qjIZLQ52mrZjTeuH3S5xGIaUaG45rRcYdiWsbBgwLYSEJJEZYSIzCeVoWkQoP0v
-         +ZtUBxkeftA3Btr//ExtEXledeE4O6sQh/pbNB/V3NFwntHK92Hir126Lrp3SQBvv2ht
-         pymBZIh4Nz/aBWxGUVt0YdBj9TPN3jkyy2S8H778TW2WcLsL3QRHja9S6mNiQwVe+lFg
-         1hEHNc1pcYnzLuXnr5iW6B9SOBYHgqWaIaFeq2qz5bhFPN1KMgH559SUP/4J1Nb1ysRB
-         2C5tXnfYjkSA6UPDg8yrEl5Vr4zR36jihiRIlfk7fjipdz2ZEnN7VVcbKnPGkogkjTQl
-         gkgg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7rbxU13hCRR7VNtMghpdfjVdrshNjD4ry7dhfbLByAY=;
+        b=Q07ixe2MgbpweeYDtyXyEgv+dP3TG4SAB2MVNy3uKo6iAMn45i0rJ2u0KfHq4jQjz8
+         uWXEAcovrKFjfsscARzCjN519xmJBcGIsjmB7z2qB5H4Bo64DoKbZC2ZsDUcyBvA09WZ
+         RoGEvtWEQIyKYXllb8FDo7EJTw6ZJkxOv0DNkh3Pui5BLs0OEJ9Nx2cyyrCsL3I9SkA9
+         UrvCkjUp/we0WCusUniFj+PmkrWfaPyN3Et0riar2OQJASlbqb6glkoOkfIMbMQWK+dU
+         FlQCplymi/p/jOKB2DmQaeeEvk3+iKVaoyhCs7SIYKngdWdVwqGLydZ5ebvPDLlW834C
+         E6mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=PlGyYXdHnRb3uBFBFPOmPhSz+6CwwP78f00acOXfK5s=;
-        b=WoQpflgYjyjHfCb0b4PCckknElufNmZaVzOzviUk5FI3MjMLq3IObfmNbnNbfqUIT6
-         hlfcfD5MU+doNhAuiABjJQf5IqxsKtSkS/KART5Tshjh2y+Zi5XJ6yOnxkPPv4qqOT/Q
-         dadXuO3CkV838M2T4zWWEpvfalR6YvG3bUgoWW4yxF1vxAiqqaywiAahYOEGNL16KgcD
-         Ru4NrsZlK689r6n11OVZSG8/y+NRthurkKYfpV1pGm2/L/4tcY8M+atiR1zS7gbUzCXR
-         k2CEC0fWd+7RIfBUL8TI40xfHZwuUK2HMQr75qJ86YPra8GlEt9VBbN7d6YqW2voeqOC
-         F/Lg==
-X-Gm-Message-State: AOAM533t30AhSMtBPZr2uv1/ylRBrJ/86uY0jtoJUWpGxxK7qG6wGFtK
-	1lo63bgjuK7xd8wlyJQ4S+DQND3TNA3QFgcF
-X-Google-Smtp-Source: ABdhPJxbk1T7tbndW0Vc+vuX6+xaIh20l7NhzfmeUzYXGzp6pgzr7ZjpEs1oMLR/YXzDB7d9SDWP7Q==
-X-Received: by 2002:adf:906a:: with SMTP id h97mr23666547wrh.220.1633468594592;
-        Tue, 05 Oct 2021 14:16:34 -0700 (PDT)
-Received: from ?IPv6:2a02:8084:20c7:8d80:d71c:ed62:e10a:e7ca? ([2a02:8084:20c7:8d80:d71c:ed62:e10a:e7ca])
-        by smtp.gmail.com with ESMTPSA id s13sm3177074wmc.47.2021.10.05.14.16.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Oct 2021 14:16:34 -0700 (PDT)
-Subject: Re: [PATCH v2] staging: r8188eu: Fix misspelling in comment
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <7bc392d5-11e4-7ad0-dab6-295ccadf63b9@gmail.com>
- <YVwpEa5T4HnOX5/g@kroah.com>
-From: "Siou-Jhih, Guo" <hallblazzar@gmail.com>
-Message-ID: <f1569e97-8996-e538-182c-cc5f6510dc35@gmail.com>
-Date: Tue, 5 Oct 2021 22:16:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7rbxU13hCRR7VNtMghpdfjVdrshNjD4ry7dhfbLByAY=;
+        b=51nF9ylkjnNewBMMf3qyPHKHaSOfH3pplWmDI34WSjiIKY8iNX9ysrsBkmjcylQwf6
+         oHPe1ikwwAIn5iIs8ajtCaA2IS7MoZLITaoWwMPlTWlhcEGGo5E25vcj9/8vB/kyZKId
+         e/qU+ZGgi9eRTcZsBcuSinfBgI6dQsZGv+P5VV8xaPkaEXedgMgjmViTecuP9CQpnwA8
+         1xHut1COy+uemJDewrVmfGgGef8eyMVHxrxkgr9Q4IVA0YDGs0pAQ1CZtZ442e33Mue5
+         J/qUrV45C/2WNn1v4Sz5SWqqw2OKtXqXG/Wer212fCdoTOiz4DAhRKudOXETYjMTAxqW
+         /Ufw==
+X-Gm-Message-State: AOAM531w6fTDxoCWDqGFZeJSeKR4Srz0Qf27PSlDJUHLMjbh0ZfoV83n
+	NXpEoeAIIcJGefQKljBjl64=
+X-Google-Smtp-Source: ABdhPJxQJgy3ahinA6WXe6sRnhSDKJuz6wSeiHzxPvCpY95PBROuNKZOmtWb6XrZSoh0MaoAvOTPwQ==
+X-Received: by 2002:a05:6512:6c9:: with SMTP id u9mr5582410lff.319.1633470307383;
+        Tue, 05 Oct 2021 14:45:07 -0700 (PDT)
+Received: from localhost.localdomain (h-155-4-129-96.NA.cust.bahnhof.se. [155.4.129.96])
+        by smtp.gmail.com with ESMTPSA id h10sm1054046lfp.7.2021.10.05.14.45.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Oct 2021 14:45:07 -0700 (PDT)
+From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] media: staging/intel-ipu3: Constify static struct v4l2_subdev_internal_ops
+Date: Tue,  5 Oct 2021 23:45:01 +0200
+Message-Id: <20211005214501.15453-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YVwpEa5T4HnOX5/g@kroah.com>
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
+The only usage of imgu_subdev_internal_ops is to assign its address to
+the internal_ops field in the v4l2_subdev struct, which is a pointer to
+const v4l2_subdev_internal_ops. Make it const to allow the compiler to
+put it in read-only memory.
 
-On 05/10/2021 11:29, Greg Kroah-Hartman wrote:
-> On Wed, Sep 29, 2021 at 12:29:01PM +0100, hallblazzar wrote:
->> As format check raised by scripts/checkpatch.pl, comment in the rtw_ap.c
->> looks misspelled by accident. Help fix it.
->>
->> The original error is as below shows:
->>
->> CHECK: 'followign' may be misspelled - perhaps 'following'?
->> +Set to 0 (HT pure) under the followign conditions
->>
->> Signed-off-by: Siou-Jhih, Guo <hallblazzar@gmail.com>
->
-> This does not match with your "From" line in your email header :(
->
->> ---
->>  drivers/staging/r8188eu/core/rtw_ap.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> What changed from v1?  That always has to go below the --- line as per
-> the documentation, right?
->
-> Please fix up and send a v3.
->
-> thanks,
->
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> greg k-h
-
-Hello Greg,
-
-Really thankful for your time and point those issues out. I've fixed
-the issues and re-sent v3 patch
-
-  [PATCH v2] staging: r8188eu: Fix misspelling in comment   
-
-If anything should I additionally aware, I'd like to fix them.
-
-Regards,
-Bill G.
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index 38a240764509..b723186d2134 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -864,7 +864,7 @@ static int imgu_vidioc_g_meta_fmt(struct file *file, void *fh,
+ 
+ /******************** function pointers ********************/
+ 
+-static struct v4l2_subdev_internal_ops imgu_subdev_internal_ops = {
++static const struct v4l2_subdev_internal_ops imgu_subdev_internal_ops = {
+ 	.open = imgu_subdev_open,
+ };
+ 
+-- 
+2.33.0
 
