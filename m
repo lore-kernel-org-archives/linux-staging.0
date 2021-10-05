@@ -1,199 +1,131 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4955A2C86
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 14:35:48 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id g41so86927904lfv.1
-        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 07:35:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D772C89
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 17:16:15 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id i4so90144692lfv.4
+        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 10:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7ziF/R1LISi9m0sMghR9TEp0K4nRAOLPcUVkKeZiW1E=;
-        b=wfLeaxd3hmQqpgznnrtbMLgnbIebWgUsbQ1kRxDbUE0gXUdPmL74xD+q85fTc8v/q0
-         wo/F8kdo8OIcbydmubHikA6xkNyv6Vcb5Iat7kAbx9EdQZNoSrc90GSkGkC6Q2bywrlR
-         2OwsHjYiNuD+wfZT+PmxCZTB2pbpD647w8aDzfra2qmmdo0lVEIVL0UJUG8SOIYfdJIm
-         fVWPK3CIYzDy/mMqJYp8phMao3ZyYb8W4LjvwjU5SMaWMeu5Vvkj/kfEKwtwcnpOCvS3
-         j/vsGeYeiynXl9XDXIkuYbkiNLBeFNnDK3GXdoMpTE3Kx7lIK2+RgdLX5o7zHkuP9wig
-         8LuQ==
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=v4VMlYai/5OJD6I0jXVUBp7T7QQDEKF1EDfzlyrXPNg=;
+        b=W2HYfURkJzDMqxvMvdLnaSxyL8uT7r1csfbSZPSbXORQw+cwWFtMynJRUEG4LiQrHQ
+         y3v5acYIRN1Eb0FbSRLCSIRtUZRGATp/wXu0GpAF7MIKkyEe30yYqs44aRZ5hx7PQUf8
+         KTIq6kvEdh07WxUJ9lahyZFbc91AomDi579Y3/gpCjlzb6mopUwQ7ho2PCW0cuccDWMY
+         /i99LFk5tTWbSOuutGf0fRJHd37tPZRn46J6NSoa+sUFqOvBAVR+EQT9iPI/71vRNDUs
+         E1DUIcTLGVE0YH8x38A9SKJivF5TQbdR1jagf785PZye81GIeWabHB+XUJ5q/1UXW+WG
+         AQEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7ziF/R1LISi9m0sMghR9TEp0K4nRAOLPcUVkKeZiW1E=;
-        b=blHOeG+i576a05YlFb+w8E1my6zslx2rRds3pn54bfuN87MlghlWT56m3wOf7HEpMu
-         Xk9i4O2+jYTV6RJaXEFKrTOAgzMHVBpVoS4GNArEfN7L3gAV/4vrlK8gVGbUmnNHFpGT
-         5xxYKJyYucyxHmf/1H0WicU7U3eKZMn6SfCESybwuZuhtDaxDi+jIlK6FsZunx2sQqRC
-         0E+w0HkE+siDQ6ORAqDy4y9a2u+qoLa1gfsYEUKS8WIQqAACbV3XVFjnD9M4XnHSnZaz
-         Vsjh/whYJa3hzJRfjEVNHLiQv38klBzr4BAs1IhiJM+eM9kfSsvt20pzXOceR27h4wmx
-         Uewg==
-X-Gm-Message-State: AOAM530JLBuzGci6VagjyycumifGx6+GpOB7r/wcGtYODtlGifn12uDz
-	YoNitm8SfncpPr2Vz5Hrkqy9KQ==
-X-Google-Smtp-Source: ABdhPJx7kuRooYbFcBOabMZUbCnACo88UphCNfI9sBuLpIbR9wIQWeTaByEmax2QO++B8GtouFAKXA==
-X-Received: by 2002:a19:6a16:: with SMTP id u22mr3996901lfu.444.1633444540799;
-        Tue, 05 Oct 2021 07:35:40 -0700 (PDT)
-Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
-        by smtp.gmail.com with ESMTPSA id q5sm1969931lfo.225.2021.10.05.07.35.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Oct 2021 07:35:40 -0700 (PDT)
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Lee Jones <lee.jones@linaro.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Subject: [PATCH 2/2] staging: most: dim2: use device release method
-Date: Tue,  5 Oct 2021 17:34:50 +0300
-Message-Id: <20211005143448.8660-2-nikita.yoush@cogentembedded.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <YVwofSvwGTv3kHjh@kroah.com>
-References: <YVwofSvwGTv3kHjh@kroah.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=v4VMlYai/5OJD6I0jXVUBp7T7QQDEKF1EDfzlyrXPNg=;
+        b=U6rjqsBNYobE1ctvTm0xhqOhQ8Wd15fgfe8ZAwtlfu9jeEL5+nF5ANc2ZerQiTeZ06
+         DHaOIUyvvWWwr2MidCYbq/wq44/aTi5Ae80M2LOLozyyBGXYbPTdR02DNG6EphyK387P
+         GstxPx5OQEa4Eh+/p/omAoO9zNHFip4j7wujbeVhh3YP2NyzbrzNLiCvk+1hFO9Q/v+O
+         u2F0R/2SD336kbafs+8G0syH6fYov4eakJyoB1phj9ACrIqjOyG2up3sAEYA8rjlnfPN
+         dNS3HWEWpQUsH4rJR73bzFsFy8NJAerrdfFjc0j4D1YcWJMinr2JCBQG06bgxaEqo/CJ
+         cWMA==
+X-Gm-Message-State: AOAM531s9BRELvrSws6ORV8ipJDY/5M5FtfPf/lJvKNUkpD2v7FQ+hOU
+	mhps+3a2biXVKz4tu4pu2RA=
+X-Google-Smtp-Source: ABdhPJzFxn+EEvAfXINlDGqbDWfWJzkpl0QRwm+Z1jKxlyPCyoz5MyhKfZrnAr2zjaXtazuDCKJIlw==
+X-Received: by 2002:a05:6512:10d0:: with SMTP id k16mr4573650lfg.530.1633454173285;
+        Tue, 05 Oct 2021 10:16:13 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru. [79.139.163.57])
+        by smtp.googlemail.com with ESMTPSA id o12sm2013505lft.254.2021.10.05.10.16.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 10:16:12 -0700 (PDT)
+Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20210926224058.1252-14-digetx@gmail.com>
+ <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
+ <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
+ <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
+ <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
+ <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
+ <f5b5e06a-71ed-1250-f0ad-692062e00e01@gmail.com>
+ <CAPDyKFpWzLdKr0bYX4VYwNpPuJNEs=weEpNpDH6zfv9e8SaxJQ@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <65f5ea6a-5d04-57cc-f4e4-bf29f22af7f0@gmail.com>
+Date: Tue, 5 Oct 2021 20:16:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPDyKFpWzLdKr0bYX4VYwNpPuJNEs=weEpNpDH6zfv9e8SaxJQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Commit 723de0f9171e ("staging: most: remove device from interface
-structure") moved registration of driver-provided struct device to
-the most subsystem. This updated dim2 driver as well.
+...
+>> It's not a problem to change this patchset. The problem is that if
+>> you'll grep mainline for 'pm_runtime_disable', you will find that there
+>> are a lot of drivers in a potential trouble.
+> 
+> Let's start by fixing this patchset, please - then we can consider
+> what to do with the other cases separately.
 
-However, struct device passed to register_device() becomes refcounted,
-and must not be explicitly deallocated, but must provide release method
-instead. Which is incompatible with managing it via devres.
+Yeah, should be better to discuss it separately.
 
-This patch makes the device structure allocated without devres, adds
-device release method, and moves device destruction there.
+...
+>>  void __pm_runtime_disable(struct device *dev, bool check_resume)
+>>  {
+>> +       flush_work(&dev->power.work);
+>> +
+> 
+> What about the latency this may introduce? I am not sure that is
+> acceptable here!?
 
-Fixes: 723de0f9171e ("staging: most: remove device from interface structure")
-Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
----
- drivers/staging/most/dim2/dim2.c | 55 +++++++++++++++++---------------
- 1 file changed, 30 insertions(+), 25 deletions(-)
+I'm not aware about any code which relies on the original 'cancelling'
+behaviour, perhaps Rafael should have more insight.
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index bb6dd508e531..4c0c3bc91ac0 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -734,6 +734,23 @@ static int get_dim2_clk_speed(const char *clock_speed, u8 *val)
- 	return -EINVAL;
- }
- 
-+static void dim2_release(struct device *d)
-+{
-+	struct dim2_hdm *dev = container_of(d, struct dim2_hdm, dev);
-+	unsigned long flags;
-+
-+	kthread_stop(dev->netinfo_task);
-+
-+	spin_lock_irqsave(&dim_lock, flags);
-+	dim_shutdown();
-+	spin_unlock_irqrestore(&dim_lock, flags);
-+
-+	if (dev->disable_platform)
-+		dev->disable_platform(to_platform_device(d->parent));
-+
-+	kfree(dev);
-+}
-+
- /*
-  * dim2_probe - dim2 probe handler
-  * @pdev: platform device structure
-@@ -755,7 +772,7 @@ static int dim2_probe(struct platform_device *pdev)
- 
- 	enum { MLB_INT_IDX, AHB0_INT_IDX };
- 
--	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-+	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
- 		return -ENOMEM;
- 
-@@ -767,19 +784,21 @@ static int dim2_probe(struct platform_device *pdev)
- 				      "microchip,clock-speed", &clock_speed);
- 	if (ret) {
- 		dev_err(&pdev->dev, "missing dt property clock-speed\n");
--		return ret;
-+		goto err_free_dev;
- 	}
- 
- 	ret = get_dim2_clk_speed(clock_speed, &dev->clk_speed);
- 	if (ret) {
- 		dev_err(&pdev->dev, "bad dt property clock-speed\n");
--		return ret;
-+		goto err_free_dev;
- 	}
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	dev->io_base = devm_ioremap_resource(&pdev->dev, res);
--	if (IS_ERR(dev->io_base))
--		return PTR_ERR(dev->io_base);
-+	if (IS_ERR(dev->io_base)) {
-+		ret = PTR_ERR(dev->io_base);
-+		goto err_free_dev;
-+	}
- 
- 	of_id = of_match_node(dim2_of_match, pdev->dev.of_node);
- 	pdata = of_id->data;
-@@ -787,7 +806,7 @@ static int dim2_probe(struct platform_device *pdev)
- 		if (pdata->enable) {
- 			ret = pdata->enable(pdev);
- 			if (ret)
--				return ret;
-+				goto err_free_dev;
- 		}
- 		dev->disable_platform = pdata->disable;
- 		if (pdata->fcnt)
-@@ -882,24 +901,19 @@ static int dim2_probe(struct platform_device *pdev)
- 	dev->most_iface.request_netinfo = request_netinfo;
- 	dev->most_iface.driver_dev = &pdev->dev;
- 	dev->most_iface.dev = &dev->dev;
--	dev->dev.init_name = "dim2_state";
-+	dev->dev.init_name = dev->name;
- 	dev->dev.parent = &pdev->dev;
-+	dev->dev.release = dim2_release;
- 
--	ret = most_register_interface(&dev->most_iface);
--	if (ret) {
--		dev_err(&pdev->dev, "failed to register MOST interface\n");
--		goto err_stop_thread;
--	}
--
--	return 0;
-+	return most_register_interface(&dev->most_iface);
- 
--err_stop_thread:
--	kthread_stop(dev->netinfo_task);
- err_shutdown_dim:
- 	dim_shutdown();
- err_disable_platform:
- 	if (dev->disable_platform)
- 		dev->disable_platform(pdev);
-+err_free_dev:
-+	kfree(dev);
- 
- 	return ret;
- }
-@@ -913,17 +927,8 @@ static int dim2_probe(struct platform_device *pdev)
- static int dim2_remove(struct platform_device *pdev)
- {
- 	struct dim2_hdm *dev = platform_get_drvdata(pdev);
--	unsigned long flags;
- 
- 	most_deregister_interface(&dev->most_iface);
--	kthread_stop(dev->netinfo_task);
--
--	spin_lock_irqsave(&dim_lock, flags);
--	dim_shutdown();
--	spin_unlock_irqrestore(&dim_lock, flags);
--
--	if (dev->disable_platform)
--		dev->disable_platform(pdev);
- 
- 	return 0;
- }
--- 
-2.30.2
+...
+>> The sysfs rpm-forbid is a separate problem and it's less troublesome
+>> since it requires root privileges. It's also not something that
+>> userspace touches casually. For now I don't know what could be done
+>> about it.
+> 
+> As I said, the common method to address this problem is to run the
+> following sequence:
+> 
+> pm_runtime_get_sync()
+> "power off the device"
+> pm_runtime_disable()
+> pm_runtime_put_noidle()
+> 
+> This works even if user space, via sysfs, has triggered a call to
+> pm_runtime_forbid(). Or doesn't it?
+> 
+> If you don't like it, pm_runtime_force_suspend() should work too, at
+> least for your cases, I believe.
 
+I'll update the patches, thank you.
