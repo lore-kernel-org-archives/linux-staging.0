@@ -1,86 +1,106 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB6B2C8E
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 21:45:09 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id m3so1820085lfu.2
-        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 14:45:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303F72C8E
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 22:04:42 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id s15so2281781wrv.11
+        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 15:04:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7rbxU13hCRR7VNtMghpdfjVdrshNjD4ry7dhfbLByAY=;
-        b=Q07ixe2MgbpweeYDtyXyEgv+dP3TG4SAB2MVNy3uKo6iAMn45i0rJ2u0KfHq4jQjz8
-         uWXEAcovrKFjfsscARzCjN519xmJBcGIsjmB7z2qB5H4Bo64DoKbZC2ZsDUcyBvA09WZ
-         RoGEvtWEQIyKYXllb8FDo7EJTw6ZJkxOv0DNkh3Pui5BLs0OEJ9Nx2cyyrCsL3I9SkA9
-         UrvCkjUp/we0WCusUniFj+PmkrWfaPyN3Et0riar2OQJASlbqb6glkoOkfIMbMQWK+dU
-         FlQCplymi/p/jOKB2DmQaeeEvk3+iKVaoyhCs7SIYKngdWdVwqGLydZ5ebvPDLlW834C
-         E6mw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=wWGT6wyYNrHQcVjKvvDi6depYNBPBPoEJbTYnS4YHRE=;
+        b=oMaqA3o9QB94TpF7CppOdrcV4haz930ZF4+Q3iSjOXfqsmWCdei2kltW3OvQJU19kd
+         /V59SHINqQjwDzbyAYjjrf4QWS5WUlsx8P3x9EXaatOnSqxvbEoepxQzx2stjYfASETq
+         BUVIcAZvX2YPsATGazdGcy2Z3bnQxTYFcv4AMI7z55NhgW9pRgad2/PlOkB1Gw8p3NO0
+         gB2f/Fr1QhgZTdCrnC3bIXpAqdllyjpvErazZEXE9l4pePYmnNroUlbFuvKibj+7197V
+         HF0WJEU4IfhNkmwDqBhilfR/zAJIaHcHYgWMxYL8Nf4ZKIJKDkRFFGPbcdVXnIKxomtr
+         xO1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=7rbxU13hCRR7VNtMghpdfjVdrshNjD4ry7dhfbLByAY=;
-        b=51nF9ylkjnNewBMMf3qyPHKHaSOfH3pplWmDI34WSjiIKY8iNX9ysrsBkmjcylQwf6
-         oHPe1ikwwAIn5iIs8ajtCaA2IS7MoZLITaoWwMPlTWlhcEGGo5E25vcj9/8vB/kyZKId
-         e/qU+ZGgi9eRTcZsBcuSinfBgI6dQsZGv+P5VV8xaPkaEXedgMgjmViTecuP9CQpnwA8
-         1xHut1COy+uemJDewrVmfGgGef8eyMVHxrxkgr9Q4IVA0YDGs0pAQ1CZtZ442e33Mue5
-         J/qUrV45C/2WNn1v4Sz5SWqqw2OKtXqXG/Wer212fCdoTOiz4DAhRKudOXETYjMTAxqW
-         /Ufw==
-X-Gm-Message-State: AOAM531w6fTDxoCWDqGFZeJSeKR4Srz0Qf27PSlDJUHLMjbh0ZfoV83n
-	NXpEoeAIIcJGefQKljBjl64=
-X-Google-Smtp-Source: ABdhPJxQJgy3ahinA6WXe6sRnhSDKJuz6wSeiHzxPvCpY95PBROuNKZOmtWb6XrZSoh0MaoAvOTPwQ==
-X-Received: by 2002:a05:6512:6c9:: with SMTP id u9mr5582410lff.319.1633470307383;
-        Tue, 05 Oct 2021 14:45:07 -0700 (PDT)
-Received: from localhost.localdomain (h-155-4-129-96.NA.cust.bahnhof.se. [155.4.129.96])
-        by smtp.gmail.com with ESMTPSA id h10sm1054046lfp.7.2021.10.05.14.45.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Oct 2021 14:45:07 -0700 (PDT)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH] media: staging/intel-ipu3: Constify static struct v4l2_subdev_internal_ops
-Date: Tue,  5 Oct 2021 23:45:01 +0200
-Message-Id: <20211005214501.15453-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        bh=wWGT6wyYNrHQcVjKvvDi6depYNBPBPoEJbTYnS4YHRE=;
+        b=6A4m5dV0xtz4PJI+GyxivnZv38lH5nIa+cziHqlADztXBvTNWGutJ42vqDQhCBMEJ0
+         dEdYdW2tySYc2XqccHDQGig8tD1KOOPtXmm6p/AmGt/s/vvs9O7hdFBK1OM43XYmGq6v
+         yYMaNUfUgs+RSGCaatUK11ZAyz7S08Wlfe2MxAe8nTK8QdyyKBm2VUyBg00ozimrNowS
+         bF94UyjHL0HAogK7AD2WpWW9vo2E578AVp7iVfUE7KFWhQ00BzRnFqO6KSG4ijf1Jq28
+         JCvzIEFA02iCjWWBFMYLSzjeIbBn2U6Z8EWcNTABfUhsuj0n2ttuBCtvJyKzdZ1hOwtF
+         GdAg==
+X-Gm-Message-State: AOAM532Xd9FywiFd+o9e4eYWRZS2Pm/4wgKUaVZXEWyCH1vKeP190YiR
+	Hi8yCy9PuM/25oCb7k7Tz/8=
+X-Google-Smtp-Source: ABdhPJy9S4jOKQChoQmLTDTvyvbf/rfKtqtNfqEC4t7BRNUobE80G3hGH22bvz5nxHqCc9dzxqYnuw==
+X-Received: by 2002:adf:a292:: with SMTP id s18mr5861731wra.42.1633471480523;
+        Tue, 05 Oct 2021 15:04:40 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::f816? ([2a02:8108:96c0:3b88::f816])
+        by smtp.gmail.com with ESMTPSA id z79sm3216353wmc.17.2021.10.05.15.04.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 15:04:40 -0700 (PDT)
+Message-ID: <82be310c-6e8f-8ec8-fbb0-a08ee62ae220@gmail.com>
+Date: Wed, 6 Oct 2021 00:04:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH 1/9] staging: r8188eu: remove an obsolete comment
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20211005200821.19783-1-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20211005200821.19783-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The only usage of imgu_subdev_internal_ops is to assign its address to
-the internal_ops field in the v4l2_subdev struct, which is a pointer to
-const v4l2_subdev_internal_ops. Make it const to allow the compiler to
-put it in read-only memory.
+On 10/5/21 22:08, Martin Kaiser wrote:
+> The function that this comment describes is not present in the
+> r8188eu driver. The comment can be removed.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>   drivers/staging/r8188eu/hal/usb_halinit.c | 15 ---------------
+>   1 file changed, 15 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+> index 83813388de24..ab7b80144403 100644
+> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
+> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+> @@ -624,21 +624,6 @@ static void _InitAntenna_Selection(struct adapter *Adapter)
+>   	DBG_88E("%s,Cur_ant:(%x)%s\n", __func__, haldata->CurAntenna, (haldata->CurAntenna == Antenna_A) ? "Antenna_A" : "Antenna_B");
+>   }
+>   
+> -/*-----------------------------------------------------------------------------
+> - * Function:	HwSuspendModeEnable92Cu()
+> - *
+> - * Overview:	HW suspend mode switch.
+> - *
+> - * Input:		NONE
+> - *
+> - * Output:	NONE
+> - *
+> - * Return:	NONE
+> - *
+> - * Revised History:
+> - *	When		Who		Remark
+> - *	08/23/2010	MHC		HW suspend mode switch test..
+> - *---------------------------------------------------------------------------*/
+>   enum rt_rf_power_state RfOnOffDetect(struct adapter *adapt)
+>   {
+>   	u8 val8;
+> 
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
----
- drivers/staging/media/ipu3/ipu3-v4l2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Martin,
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index 38a240764509..b723186d2134 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -864,7 +864,7 @@ static int imgu_vidioc_g_meta_fmt(struct file *file, void *fh,
- 
- /******************** function pointers ********************/
- 
--static struct v4l2_subdev_internal_ops imgu_subdev_internal_ops = {
-+static const struct v4l2_subdev_internal_ops imgu_subdev_internal_ops = {
- 	.open = imgu_subdev_open,
- };
- 
--- 
-2.33.0
+patch looks good, just one note. The function RfOnOffDetect() is not
+used and could be removed as well.
 
+Regards,
+Michael
