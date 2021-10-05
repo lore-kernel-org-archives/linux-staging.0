@@ -1,59 +1,90 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD17D3FE6
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 10:29:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D43D0611AE;
-	Tue,  5 Oct 2021 10:29:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F9A3FD1
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 10:36:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A34D6124F;
+	Tue,  5 Oct 2021 10:36:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1633429779;
-	bh=E0WwExfLjdxHIUiA5gdbo/w28j/Ic5yr/TkBTwl0/oc=;
+	s=korg; t=1633430181;
+	bh=7IHAoNDtwUnipee3OL2fgVGFmswEGIi2rXrg8IrZjYM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZBEPshrw8bYoxNsaxCH3VMKSU/o3XclKZ1IG/aqTj561YDEAf7Y2i4mIPnbZ3oLww
-	 XeJgCdNNGAvViy2PxQdw8zzihA66qUvIquC6mrJ4PBNKY0IUCispsd+W+wB8CPSZ25
-	 wqM5YJb9ysHx/kNTSlv7iq86ktylzRzrmhxmOYmg=
-Date: Tue, 5 Oct 2021 12:29:37 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: hallblazzar <hallblazzar@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: Fix misspelling in comment
-Message-ID: <YVwpEa5T4HnOX5/g@kroah.com>
-References: <7bc392d5-11e4-7ad0-dab6-295ccadf63b9@gmail.com>
+	b=wy1SczWqqBOs6aGrPN1HEcDd0Z4f4m/TkPixhpjvStyx3RtLMBBIU9kHFaiOa3zsX
+	 fQVQOUCfPRSXe03Zm6un0AZm4MjMWddCdCVqo21CWqnG64uL2y107/eRQV5sPk2NdI
+	 B69ckeATvm4tpoALz5gyUkWR2SkpZd23sOAh9JN8=
+Date: Tue, 5 Oct 2021 12:36:20 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Liviu Dudau <Liviu.Dudau@arm.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	"open list:MIPS" <linux-mips@vger.kernel.org>,
+	linux-pci <linux-pci@vger.kernel.org>,
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 0/6] MIPS: ralink: fix PCI IO resources
+Message-ID: <YVwqpCbYzxUWm5LJ@kroah.com>
+References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
+ <CAMhs-H9p4xmPO2F_byk4DQncTGZayW1HwAzrPn_W0eEW5UUn9A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7bc392d5-11e4-7ad0-dab6-295ccadf63b9@gmail.com>
+In-Reply-To: <CAMhs-H9p4xmPO2F_byk4DQncTGZayW1HwAzrPn_W0eEW5UUn9A@mail.gmail.com>
 
-On Wed, Sep 29, 2021 at 12:29:01PM +0100, hallblazzar wrote:
-> As format check raised by scripts/checkpatch.pl, comment in the rtw_ap.c
-> looks misspelled by accident. Help fix it.
+On Sun, Oct 03, 2021 at 06:21:21PM +0200, Sergio Paracuellos wrote:
+> Hi Greg,
 > 
-> The original error is as below shows:
+> On Sat, Sep 25, 2021 at 10:32 PM Sergio Paracuellos
+> <sergio.paracuellos@gmail.com> wrote:
+> >
+> > MIPs ralink need a special tratement regarding the way it handles PCI IO
+> > resources. On MIPS I/O ports are memory mapped, so we access them using normal
+> > load/store instructions. MIPS 'plat_mem_setup()' function does a call to
+> > 'set_io_port_base(KSEG1)'. There, variable 'mips_io_port_base'
+> > is set then using this address which is a virtual address to which all
+> > ports are being mapped. Ralink I/O space has a mapping of bus address
+> > equal to the window into the mmio space, with an offset of IO start range
+> > cpu address. This means that to have this working we need:
+> > - linux port numbers in the range 0-0xffff.
+> > - pci port numbers in the range 0-0xffff.
+> > - io_offset being zero.
+> >
+> > These means at the end to have bus address 0 mapped to IO range cpu address.
+> > We need a way of properly set 'mips_io_port_base' with a virtually mapped
+> > value of the IO cpu address.
+> >
+> > This series do the following approach:
+> > 1) Revert two bad commit from a previous attempt of make this work [0].
+> > 2) Set PCI_IOBASE to mips 'mips_io_port_base'.
+> > 3) Allow architecture dependent 'pci_remap_iospace'.
+> > 4) Implement 'pci_remap_iospace' for MIPS.
+> > 5) Be sure IOBASE address for IO window is set with correct value.
+> >
+> > More context about this series appoach in this mail thread [1].
+> >
+> > Patches related with reverts are from this merge cycle so they are only
+> > added to the staging git tree. So to have all stuff together I'd like to
+> > get everybody Ack's to get all of this series through staging tree if
+> > possible :).
+> >
+> > Thanks in advance for your time.
+> >
+> > Changes in v3:
+> >  - Collect Arnd's Acked-by for the patches.
+> >  - Be sure IO resource start address is zero and WARN_ONCE if it is not
+> >    on MIPS pci_remap_iospace() patch. Also make use of 'resource_size'
+> >    instead of do the logic explicitly again.
 > 
-> CHECK: 'followign' may be misspelled - perhaps 'following'?
-> +Set to 0 (HT pure) under the followign conditions
-> 
-> Signed-off-by: Siou-Jhih, Guo <hallblazzar@gmail.com>
+> I think nothing is missing to get this added through the staging tree.
 
-This does not match with your "From" line in your email header :(
-
-> ---
->  drivers/staging/r8188eu/core/rtw_ap.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-What changed from v1?  That always has to go below the --- line as per
-the documentation, right?
-
-Please fix up and send a v3.
-
-thanks,
+Great, thanks for sticking with this, will go queue it up now.
 
 greg k-h
