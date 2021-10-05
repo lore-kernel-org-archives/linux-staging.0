@@ -1,156 +1,144 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8312729CA
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 13:11:08 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id u18so86214529lfd.12
-        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 06:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jjr/5gs80cWEm3vhyk3aM1mKvl135EXltar2PLrRZ/k=;
-        b=P2GJcTPd6Kk45HZ8Ezt3mOStexgciMfR/ERjqn7quus9WPj7c0pgJ31TVKDyKIyFGw
-         Y+F7WGFBzXS/vp5jDxxMyzTz/hmBB5xPYGuEv6qEQ23KVdyCACYcfsWUkcNmRV/ofYHS
-         vE4LfuNllox/XGETXWlqstK2Q0L/vr7oXCynROhlgtpi4vvXnVvj6wEyBllh0eoIaYn8
-         f40td9gch4cO2Jp1h51EkJPAQ6/xwpwREWWIr5YIzLYLVQSBM9my6mb9NpueANAdQfBZ
-         CLGXLy2HZcaqGOasKeUtPNXPs47D7ubFHOmVm/lx2TuvCwySuEvv9iGf+AtaMpafWnSk
-         y69w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jjr/5gs80cWEm3vhyk3aM1mKvl135EXltar2PLrRZ/k=;
-        b=cpLz9cM4j1vqkjju+XyzpFPg7lfQ1VIhk+9RiRKF6g0qvNaHmeLKfi3jXqaIH/KYLM
-         3Sflt2GUQCvMRLJZiQZtk/i9fiC8kkaeOpjU/syEkHgtyx+oKh1bETdoobCYfpkAbMCz
-         PqgDu2BB+KDAWhKiRuOqCwKzyjGby2qbIvXLhgQsPP+YgiVmJuSVXgqNc4PzuiasvzaP
-         xhvzd6eJs/9zbYVZh3qX8IPqBcW31ikp6zphv6XlWPDI+wTx4yoREPJMtshEWIudYi6u
-         YP/quqOj8ncFUGk6jMWcrMrKoM8CXhNxdcCZLwlW8RhFiWZ33jQhGrd/tkvo73ID3ZIA
-         WR5Q==
-X-Gm-Message-State: AOAM533WlncV6qci5JnZpOu+Yo59hbKwSa/RoNtD+x/vacbg2xpjdOps
-	W3F5goPGY8QKlr+xua+G2LcpRBDsJhxu6uDe2+XUeQ==
-X-Google-Smtp-Source: ABdhPJzhN75cYX0QdxPZZrVkTo8LNm3eo8IzoivQ7mSAH2J9FquztKwBCIMLaRlaWOOdBUUox7ZGcX1wvMYGNrjgk1w=
-X-Received: by 2002:a05:651c:20b:: with SMTP id y11mr22911109ljn.463.1633439466354;
- Tue, 05 Oct 2021 06:11:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19DD29CA
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 13:27:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 564F260FD9
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 13:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1633440461;
+	bh=MOH/wIgGZg6o0CoLkFJQmfzWGtCwlnQSYLFTb25uQlE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OSXc2LRUI4jwymWNkorUMTx3IFqUVd8nGbunxnV4tDHJIzKX/UmPIEKW1LZC+dqhg
+	 fj4xIOWMU+FrFQnf8liB/iuwu8aPd7Ebrrqu/+/2D/tbDLdnBGDQ/iLWqGIAIoGQAj
+	 dhBY9itF4VbZYAQV87Cj+YGui9E4aYT6LvtQz6cibckn3yYskVxxMsYwLpKQR/WjQc
+	 540JNRJwmIx/zi16917RkiXb4UjmQs9RGD25YrwBNJNfICyVjI6Ft639964CpbVSWz
+	 bVZ1dR7Px+wZgFhhrlNWlWiWIfgXYUpOMu2wzqtoHCp+OF7MmyAhxPBvxmLK2ItSIe
+	 8awC367gFY1fA==
+Received: by mail-qt1-f171.google.com with SMTP id m26so19038497qtn.1
+        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 06:27:41 -0700 (PDT)
+X-Gm-Message-State: AOAM532poJOjlj7Nr+2hK4VuDE6iSJVbMXGDhYIdsWNxfjvBHJsORY73
+	ktzZJ0CYhUGD3NXbAXp5dBw76cus88WI+QHXMw==
+X-Google-Smtp-Source: ABdhPJxQAFhHe4+av141S3+5nqxD6ijBY6lLkb+QsF2zqe+Qv+Dlzut6+e0uaRWT3UFTk7nE4P0ehgvDvleY8Qztn3c=
+X-Received: by 2002:ac8:1090:: with SMTP id a16mr19819375qtj.297.1633440459286;
+ Tue, 05 Oct 2021 06:27:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com> <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
-In-Reply-To: <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 5 Oct 2021 15:10:30 +0200
-Message-ID: <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Michael Turquette <mturquette@baylibre.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
-	linux-mmc <linux-mmc@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>, David Heidelberg <david@ixit.cz>
+References: <20210926145931.14603-1-sergio.paracuellos@gmail.com>
+ <20210926145931.14603-3-sergio.paracuellos@gmail.com> <YVtCtGcLjNcO2NJ0@robh.at.kernel.org>
+ <CAMhs-H9TDEWEffDn7hBQxT127RNU4eUtPxaSciuiis0fPqTN_w@mail.gmail.com>
+In-Reply-To: <CAMhs-H9TDEWEffDn7hBQxT127RNU4eUtPxaSciuiis0fPqTN_w@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 5 Oct 2021 08:27:25 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+U_0JnCoJVaHH0T+kdmxX_OosD9=OT0dWyNdwbe=CLoQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+U_0JnCoJVaHH0T+kdmxX_OosD9=OT0dWyNdwbe=CLoQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt: bindings: add ralink RT2880 resets device tree
+ binding documentation
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-staging@lists.linux.dev, John Crispin <john@phrozen.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>, linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 2 Oct 2021 at 22:44, Dmitry Osipenko <digetx@gmail.com> wrote:
+On Mon, Oct 4, 2021 at 1:23 PM Sergio Paracuellos
+<sergio.paracuellos@gmail.com> wrote:
 >
-> 01.10.2021 15:32, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >> +static __maybe_unused int tegra_clock_pm_suspend(struct device *dev)
-> >> +{
-> >> +       struct tegra_clk_device *clk_dev =3D dev_get_drvdata(dev);
-> >> +
-> >> +       /*
-> >> +        * Power management of the clock is entangled with the Tegra P=
-MC
-> >> +        * GENPD because PMC driver enables/disables clocks for toggli=
-ng
-> >> +        * of the PD's on/off state.
-> >> +        *
-> >> +        * The PMC GENPD is resumed in NOIRQ phase, before RPM of the =
-clocks
-> >> +        * becomes available, hence PMC can't use clocks at the early =
-resume
-> >> +        * phase if RPM is involved. For example when 3d clock is enab=
-led,
-> >> +        * it may enable the parent PLL clock that needs to be RPM-res=
-umed.
-> >> +        *
-> >> +        * Secondly, the PLL clocks may be enabled by the low level su=
-spend
-> >> +        * code, so we need to assume that PLL is in enabled state dur=
-ing
-> >> +        * suspend.
-> >> +        *
-> >> +        * We will keep PLLs and system clock resumed during suspend t=
-ime.
-> >> +        * All PLLs on all SoCs are low power and system clock is alwa=
-ys-on,
-> >> +        * so practically not much is changed here.
-> >> +        */
-> >> +
-> >> +       return clk_prepare(clk_dev->hw->clk);
-> > I am trying to understand, more exactly, what you intend to achieve
-> > with the clk_prepare() here. It looks a bit weird, to me. Can you try
-> > to elaborate a bit more on the use case?
+> Hi Rob,
 >
-> The Tegra GENPD driver enable/disable clocks when domain is turned on.
-
-Okay. I noticed that in tegra_genpd_power_on(). And the same clocks
-are enabled/disabled also in tegra_genpd_power_off(), when powering
-off the PM domain.
-
-So I guess the problem kind of exists for tegra_genpd_power_off() too?
-
-> This can't be done during early system resume, when domains are getting
-> turned on by the drivers core, because when clock is enabled, it's
-> getting prepared (RPM-resumed) and this preparation fails because
-> performance state of the clock goes up and it doesn't work during the
-> early resume time since I2C, which applies the state to hardware, is
-> suspended and can't work at that early time.
-
-This sounds complicated and I still don't quite follow all of it, sorry.
-
-So, tegra_genpd_power_on() gets called from genpd_resume_noirq(), when
-the first device of the attached devices to genpd gets resumed. And
-vice versa for tegra_genpd_power_off() and genpd_suspend_noirq().
-
-Are you saying that trying to enable/disable clocks from
-tegra_genpd_power_on|off() in these paths doesn't work, because it
-would also require the performance state to be changed, which would
-fail because the I2C bus/driver is suspended?
-
->
-> Secondly, Tegra has arch-specific low level assembly which touches
-> clocks during last phase of system suspend and in the beginning of
-> resume. Hence, clocks should stay prepared during suspend just because
-> technically clock should be prepared before it can be enabled.
-
-So the low level code is gating and ungating the clock behind the back
-of the clock driver then? Why is that done like that, more exactly?
-
->
-> > Is this rather about making sure that the clock's corresponding PM
-> > domain stays powered on during system suspend? In that case, I think
-> > there may be an alternative option....
+> On Mon, Oct 4, 2021 at 8:06 PM Rob Herring <robh@kernel.org> wrote:
 > >
+> > On Sun, Sep 26, 2021 at 04:59:30PM +0200, Sergio Paracuellos wrote:
+> > > Adds device tree binding documentation for resets in the ralink RT2880 SoCs.
+> > >
+> > > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > ---
+> > >  .../bindings/reset/ralink,rt2880-reset.yaml   | 39 +++++++++++++++++++
+> > >  1 file changed, 39 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml b/Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
+> > > new file mode 100644
+> > > index 000000000000..88eddeb4ee45
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/reset/ralink,rt2880-reset.yaml
+> > > @@ -0,0 +1,39 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/reset/ralink,rt2880-reset.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Ralink RT2880 Reset Controller Device Tree Bindings
+> > > +
+> > > +maintainers:
+> > > +  - Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > > +
+> > > +description: |
+> > > +  Ralink RT2880 reset controller driver which supports the SoC
+> > > +  system controller supplied reset registers for the various peripherals
+> > > +  of the SoC.
+> > > +
+> > > +  See also:
+> > > +  - dt-bindings/reset/ralink-rt2880.h
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: ralink,rt2880-reset
+> > > +
+> > > +  '#reset-cells':
+> > > +    const: 1
+> > > +
+> > > +required:
+> > > +  - '#reset-cells'
+> > > +  - compatible
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/reset/ralink-rt2880.h>
+> > > +    rstctrl: reset-controller {
+> > > +      compatible = "ralink,rt2880-reset";
+> > > +      #reset-cells = <1>;
+> >
+> > How is this h/w controlled? If this is part of a system controller, then
+> > it needs to be documented as such. IOW, you need to document the binding
+> > for the whole block.
+> >
+> > Do you really need a child node here? All you need to make a system
+> > controller a reset provider is add '#reset-cells' to it.
 >
-> This is not about domain staying powered on, this is about keeping the
-> performance state of the domain high during suspend.
+> I am just documenting what is already mainlined (see [0]) in order to
+> get mt7621-dts out of staging at some point of my life. What am I
+> supposed to do? Should I rewrite all already mainlined code? Because
+> if that is the case we need to rewrite tons of things from the ralink
+> platform...
 
-Right, so the PM domain managed in tegra_genpd_power_on|off() can
-still be powered on/off, as long as the clock remains ungated?
+On the flip side, am I not supposed to review bindings because the dts
+is already in staging? Code dependent on DT bindings shouldn't have
+been mainlined without any documented binding.
 
-Kind regards
-Uffe
+Looks like the resets are part of "mediatek,mt7621-sysc" to answer my
+question. Add a #reset-cell to that node (and binding) and then change
+this line to "mediatek,mt7621-sysc":
+
+        reset_dev.of_node = of_find_compatible_node(NULL, NULL,
+                                                "ralink,rt2880-reset");
+
+That's the minimal change, but really I would move the reset code to
+the clock driver as that is what handles the sysc node.
+
+
+> I'd also like to know what we should do with those nodes already added
+> to the dtsi file that have not got associated compatible driver
+> mainlined. Can we just get rid of them?
+
+Yes. Typically dts files start with minimal support.
+
+A dts file in staging is odd. We shouldn't be adding them there.
+
+Rob
