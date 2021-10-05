@@ -1,160 +1,231 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F5C3FE6
-	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 08:40:06 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19585APf029448;
-	Tue, 5 Oct 2021 08:39:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=QOS2UfD5+Xnte1lsH6cUptsfuYmZjzy4Pt0RetUIgT8=;
- b=cyunpQDJAn1CSWqaQIlDiAnv3UERcmATerTQCvcwaZtI2r7jsmSpka7Bx6ZA7wm02XvR
- F4/atgVW79S18reuxCrDvShr4Fk+SWmq6bochrudx4EDxXm7T8KzTxlwsSBjEKY5+Kpz
- /SXOdhLVLyWPLb0/R9kERTp9s+JckTf1eBId4N365/chWw8LyNCIpHjdSfwjPazhian0
- CNNvuWDFYQ/stRwdrEwv91My4P5Xw2DajrtyVIF+zzlUN094A6oUklG+Q67Yo23Oy11X
- UfmDYrdvMcC7qiNkbUtlBSpVaURQXFHg45I63HYMRIjUyFekoU54W432f8iErdnbgxzj QA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3bg42knrc1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 05 Oct 2021 08:39:58 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1958YdVZ099471;
-	Tue, 5 Oct 2021 08:39:57 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2045.outbound.protection.outlook.com [104.47.73.45])
-	by userp3030.oracle.com with ESMTP id 3bf0s64g7w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 05 Oct 2021 08:39:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DOo1KpBSlXfla0vYemAvgY3auhHtyNYD392OVWaDPcYZoL9ZElM+8c4pJDxdvWtQ5kl/O/Pf3WgOl4eKkux/B8rZYvpjGCYu4gOx8rfLC0RBqbUSycvGJk1Rt7CnP0g7XQZxpcQeBTk76uaUByhBDL0KL4lBfB9vWIgjyk4qBFOdHtwWwMa7owJ7mYirXbwqsw6L1qEMbJ+Nc509eccfOK1VL84KmaxqAJkh8XgL3s6CJsH8RYd2/5IH9W0bw8B8uIE9EzmVRci2o1hmc7r9Umq+eCJ6HF9uOvXZ/WKH5APjFKvcwcWXbQmSAlxsEnSJq+iqGtsjVl8fHX43Ld2DZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QOS2UfD5+Xnte1lsH6cUptsfuYmZjzy4Pt0RetUIgT8=;
- b=II5wKpSAe6i0xc6VkIal9FfU4qm6ciRmIcU+h+vkGQ/KBEx37DqW72K7hC52FAecMkoOnaPgt4ulAROPXQcm/xE7bV0Vm2bQaIKJ4/cykeroSmRD/2oyAbUsolnv45PCeL1TDzTrO6clzrTYnSra/YGAkQYNVQPCaktQ4jRR/imhJlDi193gdvGe0qxHL81RMf80Rcwzm8oHjTTbwEuA+vlx1vtXkgO927wrfjb4fEjFVp/DynJaxVaMUM1k6Q9kbvN16N2/AiGMhDy10Tp5OBtkOky2WZMizhh8Tcs5HrClyx344BpkGXjaTTG8MTMCATTZBi7n8pQMsOIADj+HNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6823F3FE6
+	for <linux-staging@lists.linux.dev>; Tue,  5 Oct 2021 08:46:17 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id m3so82117432lfu.2
+        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 01:46:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QOS2UfD5+Xnte1lsH6cUptsfuYmZjzy4Pt0RetUIgT8=;
- b=F0xTBkiq5hHKDxWyexIMzdYgPjfSbp1YzVI5xyOSf5OXMs3DuCUfvba3pJLTho9o8+ymSTH+2gvenBTDSS02q3IdS8Tr+kOZZj5SAOSx8C0i8G/FvlmSS7RBK/qv+ShrVHUBc67Jy8Nv0xB2JbbwRkXPjPc2CHFQqyl3aW1U47A=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4513.namprd10.prod.outlook.com
- (2603:10b6:303:93::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Tue, 5 Oct
- 2021 08:39:55 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
- 08:39:55 +0000
-Date: Tue, 5 Oct 2021 11:39:36 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Madhumitha Prabakaran <madhumithabiw@gmail.com>,
-        Yujia Qiao <rapiz@foxmail.com>,
-        Lucas Henneman <lucas.henneman@linaro.org>,
-        Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
-        Deepak R Varma <mh12gx2825@gmail.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] staging: vt6655: fix camelcase in ldBmThreshold
-Message-ID: <20211005083936.GW2048@kadam>
-References: <20211004223200.70524-1-tomm.merciai@gmail.com>
- <20211004223200.70524-3-tomm.merciai@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211004223200.70524-3-tomm.merciai@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0046.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::34)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2XcUpJPfTy5QEwAH/Xm2eJXv/Zjhn/CbqgwcIVdR3Ko=;
+        b=StXvAQCBgcoX52kszMxZz5N8R1x7Jgws/vzvdghPVQAxrXcGRe2RV40TtiBs01cHvb
+         4a5hw6zBLLU11txa6ewFuW9GpUN94HGnLOEV6ABOkN/9NWcwu7jcjaojZzLlNklwrgPD
+         dpIvqQ39l/x1H3aGnXsOZUFdHRyasRBY5NQd8N8R3/OV70vtN1crrVBsGUPIpB2iOyv0
+         UZx+tqDe1nAs0yHDAToyTIIFcp9uipa16SSJ3+3DlZT3pK7Ak8o+tJ1Rnlf5JuyuntNb
+         XAyihgpLL6GB1mGseG20od2eroj4LTOulwyKeLzypAzWsA4UW3y49HvFCk9klXyRwvmI
+         pPbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2XcUpJPfTy5QEwAH/Xm2eJXv/Zjhn/CbqgwcIVdR3Ko=;
+        b=U5/fLzg/J7Wh9SF8+QakuonrmvA2Ih/+iZy3iQ27SuG3PjPaZkElaii1qLOzr23XAr
+         yaiJ/TkcYw5Xu+dx/M6Ex1+W+CKWIQxeykkaTZ0fL8CAurPLBpcK7CKgqnYlg5pIWK/H
+         kXsjQqZT41hxzE1dF7Tzu+UveH1Ymlna9c86tESgBJC+3vMvJPgSowMJ6yfEjYmofRqg
+         kF5N4iNNsA7IHYv9LR7tE/Q4dr6+4cqWVsj/SAOhu2BaWkpRpK/4zfFm0jKTiUhobtHb
+         +ABKCi563qxRZv1FQU+6DRlIrloaizRuO2z+nGn3eZQdhnofESKMkODLfn5/lMeJ6t3x
+         OF2A==
+X-Gm-Message-State: AOAM5331jlnoOKHT4W7htF7xHGvpg8M7nECZoytCy9QlzPqmqAGByXd2
+	KszjRZ3gGTHOdGAP1xDGYzodZQIvcQJMkoutZXxduw==
+X-Google-Smtp-Source: ABdhPJykqgW510fRv0PXxhEsYvLSC1wn3+yBs/rj2+Acwz1tRjhApok8H3vRKI1vEzEqYcUMDwpiGAqI/4xOyfOJSWs=
+X-Received: by 2002:a19:e307:: with SMTP id a7mr1560996lfh.358.1633423575163;
+ Tue, 05 Oct 2021 01:46:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.99) by JN2P275CA0046.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend Transport; Tue, 5 Oct 2021 08:39:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: faaad7fa-8ac1-4c90-81c3-08d987dbb4ca
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4513:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB4513482505701B9C39E28CA48EAF9@CO1PR10MB4513.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:586;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	D340Gz6360FeIG9IflmE4fjDO75tCl2aCjKNndMPvhglyXTQsBXOqHoWWAMzp4VthEPyCBwWP5CaUUheM/3v0CCAwpekP5Yl0XeJQ68Xz1wk3/K5fW/9LOi6K0vZkulymYm+OZtOBo+D/M31pmhicrhuy6LMZGCvwo3C+zZoHAr1d1mMONbo4sp8HDxH1/nCJGlG2xQ9xvfYMGKbNBiBZesOFzFHZgrrLW8uyGae76pCMR9w3e3GiJkYgDz3S383//K5xhNRU5dln0O1atSpUJssZIzQzLUFdLTcve7BEwpCkAk+VXFd55MKVAiea1vvGjT2CkW1kC4bxceH49HyocZNcyPhrjgHZwy+FF19RlBp1O44E9mXAZY8Ga1WtWKPSQfQpB1ooD96hfL7BpsYF4MxzB7Cx/HVnpmg2dJC/l2fuK4Mrhb8MvWOhW2rhHoVHj00LCwgHXtIpG5ZnGXp5+QWo5I3aVhH60mFOSVpuOVXmUOBeY3nwL39sAvkYhwdtbVm/CPbJf+/ZtIfh9uqwmVB2ESjLcaiZdqw+71yT9usAwKL8rols4aJXQTNkE7QAkBIEXRTQCDFY/SqEFcoBo40edITjVzqePO5dhQ1TN/e8/eV5Z7QcCMhNj/yTv7ZRUvbZhx3e/QLzw490ZcDxUplMd9bkB7pWIl6fOUtJrawZYU7G9T123UCdrzVeeSA1jT44YOEdMAMfMAWH40Y2lxlxyisOnZpDa+WoCr4Z3OqwUnKxiMqRh88XDQ3iDSoNxtcrvIIOkIoqqB8h5Qkm+AY6cHPB3Fr/G4lKLce4PTWTOIwAzY8eGllUEm+5QfA
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(6029001)(366004)(33656002)(38100700002)(55016002)(38350700002)(9686003)(508600001)(966005)(86362001)(316002)(4326008)(8936002)(8676002)(6916009)(52116002)(186003)(5660300002)(7416002)(26005)(6496006)(956004)(9576002)(54906003)(44832011)(2906002)(6666004)(4744005)(66476007)(66946007)(33716001)(66556008)(1076003)(156123004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?bEGjdx+9QFFtC6R1c8vBijNdvf9pVwvTp2mMI/g+cGeT5PyxtwJ1ijVI7Brg?=
- =?us-ascii?Q?49l7EHnsBqUlDpV5xZX5u07YutNsshlMpE7dBkrjLugRNkY45vFh3a1n79rK?=
- =?us-ascii?Q?jctzq421HGqU+SRdXZwavyUHy2qhE9r6KU7x+uqLlvHcT4Yucyex5HCO3rfs?=
- =?us-ascii?Q?owqlXyujZL6rfivRjSAesfpUv2l37mSKz0QjCrP0NVUYZ+3Hi2LI0N8t+fWq?=
- =?us-ascii?Q?Xj7r9oNIeJBEX+6ngF8G80zQ83eTdJlWWKo87tdgZJDyt1cKyvZmyzT6BOSP?=
- =?us-ascii?Q?xCYMEtsAEW5hFjjgaQbPF1YgHYAXI5kX6wuOuUkydctwjCSwBT07NQ0e832m?=
- =?us-ascii?Q?z1ydUx+85U746vkpXTYLihZK644CJpCUIaLfN9qc6TGYH70FpxqHQhGAa5yu?=
- =?us-ascii?Q?A0EmJVmfYQtADCtKDK5MClnEUPqTgJR0cg70PZPF1slRX+tYnccv+rdTIj8+?=
- =?us-ascii?Q?wvgTZmwUiHBO2ZoQZ/unKDmSkwPAKR53sbq6a3KXaP7qgIXzLIGVm7b1gl+w?=
- =?us-ascii?Q?YIyZEIfHnHcH3zaVB9zgIFhXRE0ssV9V4KY4wNeNlZ6rYtzJhhtmdDSdO1hW?=
- =?us-ascii?Q?Dbq0v5JRB+YI8xJPcejyZ036qRFbneSvj3SXmGRlg8qRMZMh6PsWKKs2FO+m?=
- =?us-ascii?Q?COrtdYzHujK3y83RcUuIrH5FfHclS7o9JQv+glcyY3Cjc5GWnggUKFxAWtIf?=
- =?us-ascii?Q?Jaj3/bQzKywBf0NtwIICdRoCV5hL4koh2otcj7K9F2edA2Hqsxg7pHJhJ64o?=
- =?us-ascii?Q?q6ZrebO8sqfcCNCJFF3LvehrwYK96WzO9D+CjVUbJ9wiUfdnr28RQoNvkXKg?=
- =?us-ascii?Q?SF1XStIVeZSnTqGXrwhG0BLQ7vk44LT3z9lKOHiIVlWki8nGoXQ67DBfHoIJ?=
- =?us-ascii?Q?sEP8SP3FTP73ZlHMdb1dgYKoovNsMOymF3f4dIqYB6anDhy/gqNu68ojrwFE?=
- =?us-ascii?Q?mCiuk4JxyO74j531ubpnRd2/b7zRolFIkxn6dFoM3osm0/IhKQiqlph7HWgv?=
- =?us-ascii?Q?aYFF9GzyqtgjMOFjVFDthyNfbF295v1+2hZRqKdklVviWvCPDWHOz0u/FyZX?=
- =?us-ascii?Q?xBapQB0VXtdjv8rRhrJ6xdYDo6s7o1Ti8tg6z5BjFl23neigChcsyJLmh/l5?=
- =?us-ascii?Q?u/pa9WBgB8TRYw2pzd4SgOAGcZBSjH7fB/hDvuSUqpECzdE6hNd3KiDD4/Fn?=
- =?us-ascii?Q?7KVr6tR/Fz3ZCIS4osffdNF6t7dHncL/HbD5jLsD2DRLCs4b080jv0KEYWZU?=
- =?us-ascii?Q?CZ/HuYp2KoJRQDT22hGKs0cb/ZkcHKKmo3OH4rWmT/LBVXtK+qYO5t0d4QxC?=
- =?us-ascii?Q?0cNVll2RUXVzWhyURsLoaE3s?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: faaad7fa-8ac1-4c90-81c3-08d987dbb4ca
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 08:39:55.6450
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UaZ5b2Xe90XqVKX953eVk4qHXQIvlCkngqPqzOB65mJjAdZUpTlDrrNGTRt/w5u5qr8QVTdQvoVP5lKG+xEh78m1ojS/UhVi+UKOgnyCXNY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4513
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10127 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0 adultscore=0
- mlxscore=0 phishscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110050049
-X-Proofpoint-GUID: d5N4sMJiFKF0WWyg8cSmRpxAFHjhWWCB
-X-Proofpoint-ORIG-GUID: d5N4sMJiFKF0WWyg8cSmRpxAFHjhWWCB
+References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-14-digetx@gmail.com>
+ <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
+ <aad7a508-7fb5-3418-f902-def80c365094@gmail.com> <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
+ <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com> <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
+ <f5b5e06a-71ed-1250-f0ad-692062e00e01@gmail.com>
+In-Reply-To: <f5b5e06a-71ed-1250-f0ad-692062e00e01@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 5 Oct 2021 10:45:38 +0200
+Message-ID: <CAPDyKFpWzLdKr0bYX4VYwNpPuJNEs=weEpNpDH6zfv9e8SaxJQ@mail.gmail.com>
+Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
+	Lee Jones <lee.jones@linaro.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Michael Turquette <mturquette@baylibre.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
+	linux-mmc <linux-mmc@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
+	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
+	Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>, David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 05, 2021 at 12:31:57AM +0200, Tommaso Merciai wrote:
-> diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-> index 49e3d09480f2..e74372263e14 100644
-> --- a/drivers/staging/vt6655/device.h
-> +++ b/drivers/staging/vt6655/device.h
-> @@ -215,7 +215,7 @@ struct vnt_private {
->  
->  	bool bEncryptionEnable;
->  	bool bLongHeader;
-> -	bool short_slot_time;
-> +	bool bShortSlotTime;
+On Mon, 4 Oct 2021 at 17:57, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 04.10.2021 14:01, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Fri, 1 Oct 2021 at 21:00, Dmitry Osipenko <digetx@gmail.com> wrote:
+> >>
+> >> 01.10.2021 17:55, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote=
+:
+> >>>>
+> >>>> 01.10.2021 16:39, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> w=
+rote:
+> >>>>>>
+> >>>>>> Add runtime power management and support generic power domains.
+> >>>>>>
+> >>>>>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+> >>>>>> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
+> >>>>>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1=
+ T124
+> >>>>>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+> >>>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >>>>>> ---
+> >>>>>>  drivers/gpu/drm/tegra/gr2d.c | 155 ++++++++++++++++++++++++++++++=
++++--
+> >>>>>
+> >>>>> [...]
+> >>>>>
+> >>>>>>  static int gr2d_remove(struct platform_device *pdev)
+> >>>>>> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_devi=
+ce *pdev)
+> >>>>>>                 return err;
+> >>>>>>         }
+> >>>>>>
+> >>>>>> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
+> >>>>>> +       pm_runtime_disable(&pdev->dev);
+> >>>>>
+> >>>>> There is no guarantee that the ->runtime_suspend() has been invoked
+> >>>>> here, which means that clock may be left prepared/enabled beyond th=
+is
+> >>>>> point.
+> >>>>>
+> >>>>> I suggest you call pm_runtime_force_suspend(), instead of
+> >>>>> pm_runtime_disable(), to make sure that gets done.
+> >>>>
+> >>>> The pm_runtime_disable() performs the final synchronization, please =
+see [1].
+> >>>>
+> >>>> [1]
+> >>>> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power=
+/runtime.c#L1412
+> >>>
+> >>> pm_runtime_disable() end up calling _pm_runtime_barrier(), which call=
+s
+> >>> cancel_work_sync() if dev->power.request_pending has been set.
+> >>>
+> >>> If the work that was punted to the pm_wq in rpm_idle() has not been
+> >>> started yet, we end up just canceling it. In other words, there are n=
+o
+> >>> guarantees it runs to completion.
+> >>
+> >> You're right. Although, in a case of this particular patch, the syncin=
+g
+> >> is actually implicitly done by pm_runtime_dont_use_autosuspend().
+> >>
+> >> But for drivers which don't use auto-suspend, there is no sync. This
+> >> looks like a disaster, it's a very common pattern for drivers to
+> >> 'put+disable'.
+> >>
+> >>> Moreover, use space may have bumped the usage count via sysfs for the
+> >>> device (pm_runtime_forbid()) to keep the device runtime resumed.
+> >>
+> >> Right, this is also a disaster in a case of driver removal.
+> >>
+> >>>> Calling pm_runtime_force_suspend() isn't correct because each 'enabl=
+e'
+> >>>> must have the corresponding 'disable'. Hence there is no problem her=
+e.
+> >>>
+> >>> pm_runtime_force_suspend() calls pm_runtime_disable(), so I think tha=
+t
+> >>> should be fine. No?
+> >>
+> >> [adding Rafael]
+> >>
+> >> Rafael, could you please explain how drivers are supposed to properly
+> >> suspend and disable RPM to cut off power and reset state that was
+> >> altered by the driver's resume callback? What we're missing? Is Ulf's
+> >> suggestion acceptable?
+> >>
+> >> The RPM state of a device is getting reset on driver's removal, hence
+> >> all refcounts that were bumped by the rpm-resume callback of the devic=
+e
+> >> driver will be screwed up if device is kept resumed after removal. I
+> >> just verified that it's true in practice.
+> >
+> > Note that, what makes the Tegra drivers a bit special is that they are
+> > always built with CONFIG_PM being set (selected from the "SoC"
+> > Kconfig).
+> >
+> > Therefore, pm_runtime_force_suspend() can work for some of these
+> > cases. Using this, would potentially avoid the driver from having to
+> > runtime resume the device in ->remove(), according to the below
+> > generic sequence, which is used in many drivers.
+> >
+> > pm_runtime_get_sync()
+> > clk_disable_unprepare() (+ additional things to turn off the device)
+> > pm_runtime_disable()
+> > pm_runtime_put_noidle()
+>
+> It's not a problem to change this patchset. The problem is that if
+> you'll grep mainline for 'pm_runtime_disable', you will find that there
+> are a lot of drivers in a potential trouble.
 
-Trolololol....
+Let's start by fixing this patchset, please - then we can consider
+what to do with the other cases separately.
 
-https://www.youtube.com/watch?v=2Z4m4lnjxkY
+>
+> I'm proposing that we should change pm_runtime_disable() to perform the
+> syncing with this oneliner:
+>
+> diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+> index ec94049442b9..5c9f28165824 100644
+> --- a/drivers/base/power/runtime.c
+> +++ b/drivers/base/power/runtime.c
+> @@ -1380,6 +1380,8 @@ EXPORT_SYMBOL_GPL(pm_runtime_barrier);
+>   */
+>  void __pm_runtime_disable(struct device *dev, bool check_resume)
+>  {
+> +       flush_work(&dev->power.work);
+> +
 
-regards,
-dan carpenter
+What about the latency this may introduce? I am not sure that is
+acceptable here!?
 
+>         spin_lock_irq(&dev->power.lock);
+>
+>         if (dev->power.disable_depth > 0) {
+>
+> Objections?
+>
+> The sysfs rpm-forbid is a separate problem and it's less troublesome
+> since it requires root privileges. It's also not something that
+> userspace touches casually. For now I don't know what could be done
+> about it.
+
+As I said, the common method to address this problem is to run the
+following sequence:
+
+pm_runtime_get_sync()
+"power off the device"
+pm_runtime_disable()
+pm_runtime_put_noidle()
+
+This works even if user space, via sysfs, has triggered a call to
+pm_runtime_forbid(). Or doesn't it?
+
+If you don't like it, pm_runtime_force_suspend() should work too, at
+least for your cases, I believe.
+
+Kind regards
+Uffe
