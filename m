@@ -1,120 +1,106 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7709E2C80
-	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 02:40:06 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id y15so3954897lfk.7
-        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 19:40:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E8D2C85
+	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 06:12:08 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id t8so5300735wri.1
+        for <linux-staging@lists.linux.dev>; Tue, 05 Oct 2021 23:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jBjl2SKIDUWdGGNNCdNQzm0sXvagxduES6I98oCU5Y8=;
-        b=chv8eTFsLZvhIeL+hkzvYI0WTv6C1hQt4IbTe+2xmGQkTHoN3MvZ0Jtjaf5nJ60yH8
-         Qll610va/L7nfzXyHi9q5H18Ow+SshG+eVNj+gSdDfOq3y7RXIcXU17IFSrdKUsqMGDl
-         Bns94mjB430lIX1L+jpyb63pJy7SuBLUq2Zz5gUmkoa+ld9TdVOzDhd/itLWhWEQUYh6
-         w/ij/t35/Agn1d9bEjw9KP0FJwCJbX0TIcoQQ9rohRXEEbOoZw69in/qeyGnWiJ4R/RF
-         +DxmiKiv3q4SpB4Czd0/XkoQ7itREY7Ra4KeHWPZGr13fZLG2O0bWXrsMD3HPPH5buvd
-         Yn0g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hY7mBaE1rfc79Xt1tO6nEvrIJo4wYzKOrnrvEzqBGbI=;
+        b=kfFT9hj5OWPpI8H6w2EX92FLH0+5ndq19A/vjdlRucIRQD8riSsBvBQdmbWGTPH3rg
+         N49nq+J77k1pCf/s1H2Z8HGOZSyXuGuME9zcEJuCAVaJgXiIv9lvPrnlPEnewnPH2L98
+         4X9S7nucDxHChp9ojz5sAIKBYCfEX1RHnE+mmb+H1PeU4Zidq6CaVLUSld74omNb1i8H
+         2kTWqVEE5sKNuwF24I7QND0jZlpBoOGL/j+6Fj/UaS1ZOsb8rJpUKYZ+RRtTU7nftqtb
+         0V9KbjOuJ0j6x5Lbl0mw7iWKDwkxKrSRmLz10tNvBdeW2+Yq1Kx7iQYOWlce2PZI+9ET
+         bkPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=jBjl2SKIDUWdGGNNCdNQzm0sXvagxduES6I98oCU5Y8=;
-        b=7Y2H72I+fKzgEpiXHbR9AXpt2biux/qXt14yZxiSFZcbXDO/6xx71u9Hyt8aOCGMUq
-         1RUI8hloJwUEUFtfenps7jBSOhV3X5ndu3gn7K5Hz2SDpoc3A++KKfIYf37FYROJyqXe
-         4DLMo/DkGXr0DSFwc5L5S6PlFAr6MDeqHrksnFAvwVQQfSIAUGU9WOOYv1Te0GOicEsF
-         lSUykLfmMfDk5MwVSnLhhwqP4jj/O/lkLz9eTaiPsKBvVTC8iH3ChZuY9fo/CKDrnGyF
-         ztQYhsOue8sVCcQbO82kXFQjfaWYFDbakv/1eg3j3DiW4ot45gxKPfcZRhy26Wk6i9sQ
-         +q3w==
-X-Gm-Message-State: AOAM5327zeA89fHWuVdPSCvvaFCBwAELdkWkW205MtR1BqOiQtixfekk
-	zJorzaCN0rSmRSKOdFyCZnU=
-X-Google-Smtp-Source: ABdhPJz5nDf5e1lLckhTPfcq8ws67JWhBNrPmg70PycmaRWuWT397hKxpbU2YgDLYDLc8supNRztWA==
-X-Received: by 2002:a2e:91d4:: with SMTP id u20mr25686467ljg.81.1633488004426;
-        Tue, 05 Oct 2021 19:40:04 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru. [79.139.163.57])
-        by smtp.googlemail.com with ESMTPSA id o19sm2137695lfg.68.2021.10.05.19.40.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Oct 2021 19:40:03 -0700 (PDT)
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
- <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
- <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
- <4bdba8a2-4b9b-ed7d-e6ca-9218d8200a85@gmail.com>
- <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
-Message-ID: <8597d539-311b-4f04-481c-b48e6a5a882a@gmail.com>
-Date: Wed, 6 Oct 2021 05:40:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        bh=hY7mBaE1rfc79Xt1tO6nEvrIJo4wYzKOrnrvEzqBGbI=;
+        b=ByEjEKu1wV+6lrF+ZDtilEsStYw06vG6jiwC9ipw45AQzC7+tUtJeXYnC0ddYTHzCt
+         lOryEHvDLzFs3i73kPYIh8jiSCH/ItQHYO1zh1xPi8F3dACWpHvgOa6mKNrWnKzJmvwv
+         shYD5QCjXqRgSSfQWfR+/pyUlZiQBvUfSiUbqeAJatfzprnDKpn8T9TGFShcS2zhHjHZ
+         TX1jkAVJ06ftc2FdDN+hXarUTZXlCj7IlKx5Mq5o6r6VSEdZ3OD+jzNibunJ7jr8NXr6
+         0Fjm3kXsKu5SwmlNgAcpS7h+VY+07CuXH7AveaQY3R1N+kaTWhsz+niiB0VIh3BqsUYC
+         5uiA==
+X-Gm-Message-State: AOAM5302+NRDx9EXkS1uAgTRpsIy22nvMOD3xeMZKKTruSoULf0oYa6z
+	9G8+OQqT9KUgLtENEknxkaY=
+X-Google-Smtp-Source: ABdhPJxO1g0hZP/rindHKZdsa6Ep9hQS8U+nTlR8t2sm8gOLLKyDW25wBNMh6LbL2aV5XmPAdWStFg==
+X-Received: by 2002:a05:600c:2057:: with SMTP id p23mr7782941wmg.25.1633500726733;
+        Tue, 05 Oct 2021 23:12:06 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id e8sm3893071wme.46.2021.10.05.23.12.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 Oct 2021 23:12:06 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: sboyd@kernel.org
+Cc: linux-clk@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	devicetree@vger.kernel.org,
+	robh+dt@kernel.org,
+	linux-staging@lists.linux.dev,
+	neil@brown.name,
+	linux-kernel@vger.kernel.org,
+	john@phrozen.org
+Subject: [PATCH 0/4] clk: ralink: make system controller a reset provider
+Date: Wed,  6 Oct 2021 08:12:00 +0200
+Message-Id: <20211006061204.2854-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-06.10.2021 01:43, Dmitry Osipenko пишет:
-> 06.10.2021 01:19, Dmitry Osipenko пишет:
-> ...
->> I reproduced the OFF problem by removing the clk prepare/unprepare from
->> the suspend/resume of the clk driver and making some extra changes to
->> clock tree topology and etc to trigger the problem on Nexus 7.
->>
->> tegra-pmc 7000e400.pmc: failed to turn off PM domain heg: -13
->>
->> It happens from genpd_suspend_noirq() -> tegra_genpd_power_off() -> clk
->> -> GENPD -> I2C -> runtime-pm.
->>
->> -13 is EACCES, it comes from the runtime PM of I2C device. RPM is
->> prohibited/disabled during late (NOIRQ) suspend by the drivers core.
-> 
-> My bad, I double-checked and it's not I2C RPM that is failing now, but
-> the clock's RPM [1], which is also unavailable during NOIRQ.
-> 
-> [1]
-> https://elixir.free-electrons.com/linux/v5.15-rc4/source/drivers/clk/clk.c#L116
-> 
-> Previously it was I2C RPM that was failing in a similar way, but code
-> changed a tad since that time.
-> 
+Hi all,
 
-Just in case, I checked that the suspension order isn't somehow the
-source of the problem by adding links to device tree in order to always
-suspend clocks after the rest of devices and still GENPD gets -EACCESS
-from clk_pm_runtime_get().
+This patch series add minimal change to provide mt7621 resets properly
+defining them in the 'mediatek,mt7621-sysc' node which is the system
+controller of the SoC and is already providing clocks to the rest of
+the world.
 
-RPM is disabled by dpm_suspend_late(), which is invoked before
-dpm_suspend_noirq() [1]. Hence RPM is unavailable in NOIRQ phase in any
-case.
+There is shared architecture code for all ralink platforms in 'reset.c'
+file located in 'arch/mips/ralink' but the correct thing to do to align
+hardware with software seems to define and add related reset code to the 
+already mainlined clock driver.
 
-[1]
-https://elixir.bootlin.com/linux/v5.15-rc4/source/kernel/power/suspend.c#L399
+After this changes, we can get rid of the useless reset controller node
+in the device tree and use system controller node instead where the property
+'#reset-cells' has been added. Binding documentation for this nodeq has
+been updated with the new property accordly.
+
+This series also provide a bindings include header where all related
+reset bits for the MT7621 SoC are defined.
+
+Also, please take a look to this review [0] to understand better motivation
+for this series.
+
+Thanks in advance for your feedback.
+
+Best regards,
+    Sergio Paracuellos
+
+[0]: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210926145931.14603-3-sergio.paracuellos@gmail.com/ 
+
+Sergio Paracuellos (4):
+  dt-bindings: reset: add dt binding header for Mediatek MT7621 resets
+  dt-bindings: clock: mediatek,mt7621-sysc: add '#reset-cells' property
+  clk: ralink: make system controller node a reset provider
+  staging: mt7621-dts: align resets with binding documentation
+
+ .../bindings/clock/mediatek,mt7621-sysc.yaml  | 12 +++
+ drivers/clk/ralink/clk-mt7621.c               | 79 +++++++++++++++++++
+ drivers/staging/mt7621-dts/mt7621.dtsi        | 27 +++----
+ include/dt-bindings/reset/mt7621-reset.h      | 37 +++++++++
+ 4 files changed, 140 insertions(+), 15 deletions(-)
+ create mode 100644 include/dt-bindings/reset/mt7621-reset.h
+
+-- 
+2.33.0
+
