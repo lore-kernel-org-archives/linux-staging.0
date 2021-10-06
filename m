@@ -1,326 +1,133 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680892C93
-	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 20:35:28 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id k7so12313015wrd.13
-        for <linux-staging@lists.linux.dev>; Wed, 06 Oct 2021 13:35:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7F52C83
+	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 21:14:33 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id j5so15854191lfg.8
+        for <linux-staging@lists.linux.dev>; Wed, 06 Oct 2021 14:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GiH9t/SFxpMKdiK3x2qqgNXItsmPKdOUVlby149dByw=;
-        b=nKEvrp0kktrH6/XwbpJKbVSbg8DHempBZASxDmSicSQdh2IQq9nqGJ6ob4N0+dXNm5
-         WhwC3zmd7mqRQTybQrpQflXdfihbz9KhIEayI+e3UTjqZpPwDC6eJEuht6dEfcjzGcf8
-         oX7z5aNBJDq6exzMy4iJjsYBrIBKE7H4WiF5FKbhRmtCNnbLkcnBAGjwzKrE+fC6r6t6
-         0IQD7p3UCLJAyLlCzi4Bx8yz1shuPlvFFwDJErq5RN7V2zp9MYWJpLy/qymDis+/dc7M
-         lAXJyao9L+QDWzCVwqxxkl9lAhXlEfqAXOGQiFf12Wba78sYnD3upuStwe+8p4SVZB+T
-         hgcQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=o0cs0AX5nwq+IUf+CKObBfgaJgmuJRgoStffvFAIT10=;
+        b=OAAHbT16tXECghgQaYpBDvaBg2nyBCHmtuMyvDSLSTbuObskqWOWorhnE8GXhvyO1P
+         Bn8A+jUBY+Hq5L0nIx22XuRHtWkBK8UW1aLeRHBCefSUfXdhaYPQAKLssy6jZKCTDPxq
+         OuYscwLfHiEBxKSN7pEAEtHJlzcaimxesa44SVQW0YCpj0qYJNneKlMBzctNoocz4ITJ
+         VLxjAWxLdAX08DniG2ajG9YPUowE5Inf0Vtvp7bs6ZdboMQY6blXurlo0smoYncTZQ5t
+         rw5V35NzcSMJgcQCw0DJs/tH0fAF9zeUo7FIdEgb52Z5b5ZJr0WNe8OnId+CPYq6ATlB
+         3Q5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GiH9t/SFxpMKdiK3x2qqgNXItsmPKdOUVlby149dByw=;
-        b=O+gwNvpUZ+XjbytVQQRdyItLvAS6lUKV6aCuf1u1IDsingC9QotVWsDjLESVYDrAbv
-         kUaiBl3R1xl2SUJHhe5RC3z+5ziUM7Z1IrMD4xgJOpmzkCPRDeoH/eUiyouvI6ML6O0l
-         /uByEge5Fei1f40aV2hlSy1M08QkbWa2BpNcybeXQFz3jqU4reU16DTcKW0X0Nf7ZhnF
-         h2vNt7V+98LG6oQ1hL5RteJkwpkCEbcwMggB3XMgW161YEKCye/Rb3rym7Lb+UZSEu7k
-         D7O/+L+lisRYezGPKW6/XzGmK/W18cIoM4Djn+wFhIn9lV82OgiZ7VXIYokdXjPLWji6
-         P9fg==
-X-Gm-Message-State: AOAM531Z+cG2zpWSIKZo9+zKdZxsprrZHeQmb8rUGgaJUdtr60EiD1AM
-	D/ehZDpqA3DZ/D5x9w7APzXT5TULWXY=
-X-Google-Smtp-Source: ABdhPJwULI7w1OOPgzb9eSa7Vh/MP2aQO3ejzGsYTX6a98Rlh068Z8t1YZ9/RhbTvGRXFkAL7ihNtQ==
-X-Received: by 2002:adf:8b84:: with SMTP id o4mr312408wra.108.1633552526734;
-        Wed, 06 Oct 2021 13:35:26 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5d0b])
-        by smtp.gmail.com with ESMTPSA id z16sm6442982wmk.6.2021.10.06.13.35.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Oct 2021 13:35:26 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/2] staging: r8188eu: remove GetHwRegHandler from hal_ops
-Date: Wed,  6 Oct 2021 22:35:10 +0200
-Message-Id: <20211006203510.9083-2-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211006203510.9083-1-straube.linux@gmail.com>
-References: <20211006203510.9083-1-straube.linux@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=o0cs0AX5nwq+IUf+CKObBfgaJgmuJRgoStffvFAIT10=;
+        b=63pkvnNMxo9Yy1JWx1ZjS67WHJgSCy/mo9Bbxt/hli5wmoF0GQRGJSBHYo/HHq7ZuE
+         PfU+Fd7Fe2XV1UV7V1KFbeDsPA7IQQKoYYmDCRWuuTz8gSsI+zA3OLjwOBwJeQztrVKj
+         /ULsa8idmMGMO99ruRhr0CeQi1jTRqQBWvGia6caCTN7JVDU4sBfov/haq6TADG34vwb
+         v3lbXTEu6PSHX4iRLIW9pNjtfm1+a02HLKmp2yr2HOBDCJe2Jlo5hqBCFQLebQSMP+TS
+         mz8cO5xHhfHwQNlO9HTwdZ1a2FG4nj1GQw3vvmsImjSx9av9Rbg+fLeSFklN6Wzzdfhn
+         +w+Q==
+X-Gm-Message-State: AOAM530egPZmKUpts6LUGiPagYf/F3FYB7sbNlilnkdCgKXhY1NI005y
+	nQ9PocWJ05PvLz9NQkmSu+0=
+X-Google-Smtp-Source: ABdhPJxZLAYAk0xCkFO9EYine6/BQhvLLzwYgf3qj0g/KgNEzyhgPVdePU/+7HeABS0slrCmP/BOEw==
+X-Received: by 2002:a05:6512:3c95:: with SMTP id h21mr371551lfv.128.1633554871471;
+        Wed, 06 Oct 2021 14:14:31 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru. [79.139.163.57])
+        by smtp.googlemail.com with ESMTPSA id t18sm2356186lfl.219.2021.10.06.14.14.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Oct 2021 14:14:31 -0700 (PDT)
+Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20210926224058.1252-7-digetx@gmail.com>
+ <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
+ <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
+ <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
+ <4bdba8a2-4b9b-ed7d-e6ca-9218d8200a85@gmail.com>
+ <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
+ <CAPDyKFr2-f1wM+6jF9vWJ-Nq80Zg1Z3qFP6saULOrBi1270HGw@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b06bf794-b8b3-417b-58ef-4d815ca86c95@gmail.com>
+Date: Thu, 7 Oct 2021 00:14:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <CAPDyKFr2-f1wM+6jF9vWJ-Nq80Zg1Z3qFP6saULOrBi1270HGw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Remove GetHwRegHandler from struct hal_ops and remove the wrapper
-rtw_hal_get_hwreg(). Call GetHwReg8188EU() directly instead.
+06.10.2021 15:43, Ulf Hansson пишет:
+> On Wed, 6 Oct 2021 at 00:43, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> 06.10.2021 01:19, Dmitry Osipenko пишет:
+>> ...
+>>> I reproduced the OFF problem by removing the clk prepare/unprepare from
+>>> the suspend/resume of the clk driver and making some extra changes to
+>>> clock tree topology and etc to trigger the problem on Nexus 7.
+>>>
+>>> tegra-pmc 7000e400.pmc: failed to turn off PM domain heg: -13
+>>>
+>>> It happens from genpd_suspend_noirq() -> tegra_genpd_power_off() -> clk
+>>> -> GENPD -> I2C -> runtime-pm.
+>>>
+>>> -13 is EACCES, it comes from the runtime PM of I2C device. RPM is
+>>> prohibited/disabled during late (NOIRQ) suspend by the drivers core.
+>>
+>> My bad, I double-checked and it's not I2C RPM that is failing now, but
+>> the clock's RPM [1], which is also unavailable during NOIRQ.
+> 
+> Yes, that sounds reasonable.
+> 
+> You would then need a similar patch for the tegra clock driver as I
+> suggested for tegra I2C driver. That should solve the problem, I
+> think.
+> 
+>>
+>> [1]
+>> https://elixir.free-electrons.com/linux/v5.15-rc4/source/drivers/clk/clk.c#L116
+>>
+>> Previously it was I2C RPM that was failing in a similar way, but code
+>> changed a tad since that time.
+> 
+> Alright. In any case, as long as the devices gets suspended in the
+> correct order, I think it should be fine to cook a patch along the
+> lines of what I suggest for the I2C driver as well.
+> 
+> It should work, I think. Although, maybe you want to avoid runtime
+> resuming the I2C device, unless it's the device belonging to the PMIC
+> interface, if there is a way to distinguish that for the driver.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_ap.c           | 2 +-
- drivers/staging/r8188eu/core/rtw_cmd.c          | 4 ++--
- drivers/staging/r8188eu/core/rtw_ioctl_set.c    | 2 +-
- drivers/staging/r8188eu/core/rtw_mlme.c         | 2 +-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c     | 4 ++--
- drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 2 +-
- drivers/staging/r8188eu/core/rtw_wlan_util.c    | 2 +-
- drivers/staging/r8188eu/hal/hal_intf.c          | 6 ------
- drivers/staging/r8188eu/hal/rtl8188e_cmd.c      | 2 +-
- drivers/staging/r8188eu/hal/rtl8188e_dm.c       | 2 +-
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 4 ++--
- drivers/staging/r8188eu/hal/usb_halinit.c       | 4 +---
- drivers/staging/r8188eu/include/hal_intf.h      | 5 +----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c    | 4 ++--
- 14 files changed, 17 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
-index 94e02aad96b7..eea1307768a0 100644
---- a/drivers/staging/r8188eu/core/rtw_ap.c
-+++ b/drivers/staging/r8188eu/core/rtw_ap.c
-@@ -342,7 +342,7 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
- 	}
- 	/* n mode ra_bitmap */
- 	if (psta_ht->ht_option) {
--		rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-+		GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
- 		if (rf_type == RF_2T2R)
- 			limit = 16;/*  2R */
- 		else
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index 66349fed31cf..e17332677daa 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -1234,7 +1234,7 @@ static void rtw_chk_hi_queue_hdl(struct adapter *padapter)
- 		/* while ((rtw_read32(padapter, 0x414)&0x00ffff00)!= 0) */
- 		/* while ((rtw_read32(padapter, 0x414)&0x0000ff00)!= 0) */
- 
--		rtw_hal_get_hwreg(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &val);
-+		GetHwReg8188EU(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &val);
- 
- 		while (!val) {
- 			msleep(100);
-@@ -1244,7 +1244,7 @@ static void rtw_chk_hi_queue_hdl(struct adapter *padapter)
- 			if (cnt > 10)
- 				break;
- 
--			rtw_hal_get_hwreg(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &val);
-+			GetHwReg8188EU(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &val);
- 		}
- 
- 		if (cnt <= 10) {
-diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-index 21ba2873919d..2b54cdfa9d6e 100644
---- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-+++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-@@ -483,7 +483,7 @@ u16 rtw_get_cur_max_rate(struct adapter *adapter)
- 			short_GI_20 = (le16_to_cpu(pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info) & IEEE80211_HT_CAP_SGI_20) ? 1 : 0;
- 			short_GI_40 = (le16_to_cpu(pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info) & IEEE80211_HT_CAP_SGI_40) ? 1 : 0;
- 
--			rtw_hal_get_hwreg(adapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-+			GetHwReg8188EU(adapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
- 			max_rate = rtw_mcs_rate(
- 				rf_type,
- 				bw_40MHz & (pregistrypriv->cbw40_enable),
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 408c9f8c6f6d..8d14aff32f61 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -2001,7 +2001,7 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len)
- 		int i;
- 		u8	rf_type;
- 
--		padapter->HalFunc.GetHwRegHandler(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-+		GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
- 
- 		/* update the MCS rates */
- 		for (i = 0; i < 16; i++) {
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 3aa5d9a0d361..995a0248c26f 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -5188,7 +5188,7 @@ void issue_assocreq(struct adapter *padapter)
- 			/* todo: disable SM power save mode */
- 			pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info |= cpu_to_le16(0x000c);
- 
--			rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-+			GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
- 			switch (rf_type) {
- 			case RF_1T1R:
- 				if (pregpriv->rx_stbc)
-@@ -6037,7 +6037,7 @@ unsigned int send_beacon(struct adapter *padapter)
- 		issue++;
- 		do {
- 			yield();
--			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bxmitok));
-+			GetHwReg8188EU(padapter, HW_VAR_BCN_VALID, (u8 *)(&bxmitok));
- 			poll++;
- 		} while ((poll % 10) != 0 && !bxmitok && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
- 	} while (!bxmitok && issue < 100 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
-diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-index 20654f2df07a..19cac5814ea4 100644
---- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-+++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-@@ -246,7 +246,7 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
- 
- 	start_time = jiffies;
- 	while (1) {
--		rtw_hal_get_hwreg(padapter, HW_VAR_FWLPS_RF_ON, &bAwake);
-+		GetHwReg8188EU(padapter, HW_VAR_FWLPS_RF_ON, &bAwake);
- 		if (bAwake)
- 			break;
- 
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 323f0ee1f8e6..6d4e21a16783 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -730,7 +730,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
- 		}
- 	}
- 
--	rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-+	GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
- 
- 	/* update the MCS rates */
- 	for (i = 0; i < 16; i++) {
-diff --git a/drivers/staging/r8188eu/hal/hal_intf.c b/drivers/staging/r8188eu/hal/hal_intf.c
-index 8caf67b594a7..6f39fc04df9b 100644
---- a/drivers/staging/r8188eu/hal/hal_intf.c
-+++ b/drivers/staging/r8188eu/hal/hal_intf.c
-@@ -41,12 +41,6 @@ uint rtw_hal_deinit(struct adapter *adapt)
- 	return status;
- }
- 
--void rtw_hal_get_hwreg(struct adapter *adapt, u8 variable, u8 *val)
--{
--	if (adapt->HalFunc.GetHwRegHandler)
--		adapt->HalFunc.GetHwRegHandler(adapt, variable, val);
--}
--
- void rtw_hal_update_ra_mask(struct adapter *adapt, u32 mac_id, u8 rssi_level)
- {
- 	struct mlme_priv *pmlmepriv = &adapt->mlmepriv;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-index 4dc3fae1a0cd..c5f9353fe3e6 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
-@@ -604,7 +604,7 @@ void rtl8188e_set_FwJoinBssReport_cmd(struct adapter *adapt, u8 mstatus)
- 				yield();
- 				/* mdelay(10); */
- 				/*  check rsvd page download OK. */
--				rtw_hal_get_hwreg(adapt, HW_VAR_BCN_VALID, (u8 *)(&bcn_valid));
-+				GetHwReg8188EU(adapt, HW_VAR_BCN_VALID, (u8 *)(&bcn_valid));
- 				poll++;
- 			} while (!bcn_valid && (poll % 10) != 0 && !adapt->bSurpriseRemoved && !adapt->bDriverStopped);
- 		} while (!bcn_valid && DLBcnCount <= 100 && !adapt->bSurpriseRemoved && !adapt->bDriverStopped);
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index 21494adf2a19..26765144c5ae 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -142,7 +142,7 @@ void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
- 		return;
- 
- 	fw_cur_in_ps = Adapter->pwrctrlpriv.bFwCurrentInPSMode;
--	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&fw_ps_awake));
-+	GetHwReg8188EU(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&fw_ps_awake));
- 
- 	/*  Fw is under p2p powersaving mode, driver should stop dynamic mechanism. */
- 	/*  modifed by thomas. 2011.06.11. */
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 83744f6896d7..dd8d6b4a9d48 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -1102,7 +1102,7 @@ static u16 hal_EfuseGetCurrentSize_8188e(struct adapter *pAdapter, bool bPseudoT
- 	if (bPseudoTest)
- 		efuse_addr = (u16)(fakeEfuseUsedBytes);
- 	else
--		rtw_hal_get_hwreg(pAdapter, HW_VAR_EFUSE_BYTES, (u8 *)&efuse_addr);
-+		GetHwReg8188EU(pAdapter, HW_VAR_EFUSE_BYTES, (u8 *)&efuse_addr);
- 
- 	while (bContinual &&
- 	       efuse_OneByteRead(pAdapter, efuse_addr, &efuse_data, bPseudoTest) &&
-@@ -1490,7 +1490,7 @@ static bool hal_EfusePartialWriteCheck(struct adapter *pAdapter, u8 efuseType, u
- 		if (bPseudoTest) {
- 			startAddr = (u16)(fakeEfuseUsedBytes % EFUSE_REAL_CONTENT_LEN);
- 		} else {
--			rtw_hal_get_hwreg(pAdapter, HW_VAR_EFUSE_BYTES, (u8 *)&startAddr);
-+			GetHwReg8188EU(pAdapter, HW_VAR_EFUSE_BYTES, (u8 *)&startAddr);
- 			startAddr %= EFUSE_REAL_CONTENT_LEN;
- 		}
- 	} else {
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index dced9b74b9a4..f6b90de1d063 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1798,7 +1798,7 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- 
- }
- 
--static void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
-+void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
- {
- 	struct hal_data_8188e	*haldata = GET_HAL_DATA(Adapter);
- 	struct odm_dm_struct *podmpriv = &haldata->odmpriv;
-@@ -2142,6 +2142,4 @@ void rtl8188eu_set_hal_ops(struct adapter *adapt)
- 
- 	halfunc->hal_init = &rtl8188eu_hal_init;
- 	halfunc->hal_deinit = &rtl8188eu_hal_deinit;
--
--	halfunc->GetHwRegHandler = &GetHwReg8188EU;
- }
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 4447b81a6af8..7d892bf496cc 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -124,9 +124,6 @@ typedef s32 (*c2h_id_filter)(u8 id);
- struct hal_ops {
- 	u32	(*hal_init)(struct adapter *padapter);
- 	u32	(*hal_deinit)(struct adapter *padapter);
--
--	void	(*GetHwRegHandler)(struct adapter *padapter, u8	variable,
--				   u8 *val);
- };
- 
- #define RF_CHANGE_BY_INIT	0
-@@ -172,11 +169,11 @@ u8 GetHalDefVar8188EUsb(struct adapter *Adapter, enum hal_def_variable eVariable
- unsigned int rtl8188eu_inirp_init(struct adapter *Adapter);
- 
- void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val);
-+void GetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val);
- 
- uint rtw_hal_init(struct adapter *padapter);
- uint rtw_hal_deinit(struct adapter *padapter);
- void rtw_hal_stop(struct adapter *padapter);
--void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val);
- 
- void rtw_hal_update_ra_mask(struct adapter *padapter, u32 mac_id, u8 level);
- void	rtw_hal_clone_data(struct adapter *dst_adapt,
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index f5377b92412a..0201f6fbeb25 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -3619,7 +3619,7 @@ static void rf_reg_dump(struct adapter *padapter)
- 	int i, j = 1, path;
- 	u32 value;
- 	u8 rf_type, path_nums = 0;
--	rtw_hal_get_hwreg(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
-+	GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
- 
- 	pr_info("\n ======= RF REG =======\n");
- 	if ((RF_1T2R == rf_type) || (RF_1T1R == rf_type))
-@@ -3926,7 +3926,7 @@ static int rtw_dbg_port(struct net_device *dev,
- 		case 0x06:
- 			{
- 				u32	ODMFlag;
--				rtw_hal_get_hwreg(padapter, HW_VAR_DM_FLAG, (u8 *)(&ODMFlag));
-+				GetHwReg8188EU(padapter, HW_VAR_DM_FLAG, (u8 *)(&ODMFlag));
- 				DBG_88E("(B)DMFlag = 0x%x, arg = 0x%x\n", ODMFlag, arg);
- 				ODMFlag = (u32)(0x0f & arg);
- 				DBG_88E("(A)DMFlag = 0x%x\n", ODMFlag);
--- 
-2.33.0
-
+Ulf, thank you very much for the suggestions! I was thinking about this
+all once again and concluded that the simplest variant will be to just
+remove the suspend ops from the clk driver since neither of PLLs require
+high voltage. We now have voltage bumped to a nominal level during
+suspend by Tegra's regulator-coupler driver and it's much higher than
+voltage needed by PLLs. So the problem I was trying to work around
+doesn't really exist anymore.
