@@ -1,196 +1,128 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F332C89
-	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 11:23:13 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id s15so7747087wrv.11
-        for <linux-staging@lists.linux.dev>; Wed, 06 Oct 2021 04:23:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ffRV1lgCZH4SUcwisTjt7KS+V4NY1XyWgQczanLiSKI=;
-        b=AmO/WdSrVVzmz3eIuRFZdU6tZOPf6qAcPLEIznqiulf/Dc+r9+9GMsBc4J97s54N0B
-         2vnRSQtGx8ul5J7YfgVz53mFmMcbkdfQIM3wn/rtJ60nBjgTFOsQ7arVAe/Dk8QmHB/4
-         ox6ToBZIBm2pTvIR3uBxM1+mVhOb9W1dHS56XHwOaT3i0Y/ln2PEY+fA3iB41tsLctXA
-         7zkm+dU0GMBgssQLHXyYfT9nP7WortWEUuFPlsT+6JhzKS+gnnaQSym818qCMMqobTdK
-         bR0NTjywDvjtNMLN0/OtkKmobwikgYGXEdgDEJpbK4FRE2QE5hLE2D1++WFZJoVyzvG8
-         YeSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ffRV1lgCZH4SUcwisTjt7KS+V4NY1XyWgQczanLiSKI=;
-        b=79MPjjtH7DByA1LY4QyzHoELk45nzi5Y9YutPKunBSfFTBfTn8Z2e0V12ntW3fU5Mm
-         WZUfLKn55wLZwxB/rB0l4aTCF6dJ93BNWdY37j+nQMbQWuS/SaOcCcKX34ltoGw9SOLA
-         1MgEy0iYU9ArIz1FaTXFWWcuMh5ZStVZCkyLGoKELrYtTGejbpo4ouYuxNTLVVgeBJ+j
-         m0neCTVJZVp4Qh0IxVEq/f1+LOZkGKSudbexkdZBlBXIuQYIZIpst0N1ukbhblqpIGBX
-         4CmoyzDNn21RZdwsDymXF/kcLGujsvEF1o0IbUZEBZLV1VMhZt//hdeZBSDYQ3IZTVr5
-         nmSg==
-X-Gm-Message-State: AOAM532dEYvWH57ekSRE0ysB05zGvHB/XH6AdK45uKK3O4EV907itc+z
-	2u5J1ldqw//7BMFL+ch0Yno=
-X-Google-Smtp-Source: ABdhPJzzhguOEY1DXT0UTKpsGkb5UY/wEblts5XqclGyygkkZMTw/GrMByM0bvcJVIxSm6QjhEvrUQ==
-X-Received: by 2002:a1c:1dcb:: with SMTP id d194mr8868510wmd.161.1633519391730;
-        Wed, 06 Oct 2021 04:23:11 -0700 (PDT)
-Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id e14sm10801985wrw.33.2021.10.06.04.23.10
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 06 Oct 2021 04:23:11 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: sboyd@kernel.org
-Cc: linux-clk@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	devicetree@vger.kernel.org,
-	robh+dt@kernel.org,
-	linux-staging@lists.linux.dev,
-	neil@brown.name,
-	linux-kernel@vger.kernel.org,
-	john@phrozen.org
-Subject: [PATCH v2 4/4] staging: mt7621-dts: align resets with binding documentation
-Date: Wed,  6 Oct 2021 13:23:06 +0200
-Message-Id: <20211006112306.4691-5-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211006112306.4691-1-sergio.paracuellos@gmail.com>
-References: <20211006112306.4691-1-sergio.paracuellos@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B9D2C89
+	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 11:45:02 +0000 (UTC)
+From: Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+To: Philipp Zabel <p.zabel@pengutronix.de>, Steve Longerbeam
+ <slongerbeam@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux
+ Team <linux-imx@nxp.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2] i.MX6: Support 16-bit BT.1120 video input
+Date: Wed, 06 Oct 2021 08:13:48 +0200
+Message-ID: <m34k9uml6s.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Binding documentation for compatible 'mediatek,mt7621-sysc' has been updated
-to be used as a reset provider. Align reset related bits and system controller
-node with binding documentation along the dtsi file.
+Confirmed to work with ADV7610 HDMI receiver.
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/mt7621.dtsi | 27 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+Signed-off-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 719ef28171f4..72b99d8b4647 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -1,6 +1,7 @@
- #include <dt-bindings/interrupt-controller/mips-gic.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/clock/mt7621-clk.h>
-+#include <dt-bindings/reset/mt7621-reset.h>
- 
- / {
- 	#address-cells = <1>;
-@@ -59,6 +60,7 @@ sysc: syscon@0 {
- 			compatible = "mediatek,mt7621-sysc", "syscon";
- 			reg = <0x0 0x100>;
- 			#clock-cells = <1>;
-+			#reset-cells = <1>;
- 			ralink,memctl = <&memc>;
- 			clock-output-names = "xtal", "cpu", "bus",
- 					     "50m", "125m", "150m",
-@@ -88,7 +90,7 @@ i2c: i2c@900 {
- 
- 			clocks = <&sysc MT7621_CLK_I2C>;
- 			clock-names = "i2c";
--			resets = <&rstctrl 16>;
-+			resets = <&sysc MT7621_RST_I2C>;
- 			reset-names = "i2c";
- 
- 			#address-cells = <1>;
-@@ -106,7 +108,7 @@ i2s: i2s@a00 {
- 
- 			clocks = <&sysc MT7621_CLK_I2S>;
- 			clock-names = "i2s";
--			resets = <&rstctrl 17>;
-+			resets = <&sysc MT7621_RST_I2S>;
- 			reset-names = "i2s";
- 
- 			interrupt-parent = <&gic>;
-@@ -151,7 +153,7 @@ spi0: spi@b00 {
- 			clocks = <&sysc MT7621_CLK_SPI>;
- 			clock-names = "spi";
- 
--			resets = <&rstctrl 18>;
-+			resets = <&sysc MT7621_RST_SPI>;
- 			reset-names = "spi";
- 
- 			#address-cells = <1>;
-@@ -167,7 +169,7 @@ gdma: gdma@2800 {
- 
- 			clocks = <&sysc MT7621_CLK_GDMA>;
- 			clock-names = "gdma";
--			resets = <&rstctrl 14>;
-+			resets = <&sysc MT7621_RST_GDMA>;
- 			reset-names = "dma";
- 
- 			interrupt-parent = <&gic>;
-@@ -186,7 +188,7 @@ hsdma: hsdma@7000 {
- 
- 			clocks = <&sysc MT7621_CLK_HSDMA>;
- 			clock-names = "hsdma";
--			resets = <&rstctrl 5>;
-+			resets = <&sysc MT7621_RST_HSDMA>;
- 			reset-names = "hsdma";
- 
- 			interrupt-parent = <&gic>;
-@@ -286,11 +288,6 @@ pinmux {
- 		};
- 	};
- 
--	rstctrl: rstctrl {
--		compatible = "ralink,rt2880-reset";
--		#reset-cells = <1>;
--	};
--
- 	sdhci: sdhci@1E130000 {
- 		status = "disabled";
- 
-@@ -383,7 +380,7 @@ ethernet: ethernet@1e100000 {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
- 
--		resets = <&rstctrl 6 &rstctrl 23>;
-+		resets = <&sysc MT7621_CLK_FE &sysc MT7621_CLK_ETH>;
- 		reset-names = "fe", "eth";
- 
- 		interrupt-parent = <&gic>;
-@@ -428,7 +425,7 @@ switch0: switch0@0 {
- 				#size-cells = <0>;
- 				reg = <0>;
- 				mediatek,mcm;
--				resets = <&rstctrl 2>;
-+				resets = <&sysc MT7621_RST_MCM>;
- 				reset-names = "mcm";
- 				interrupt-controller;
- 				#interrupt-cells = <1>;
-@@ -514,7 +511,7 @@ pcie@0,0 {
- 			#interrupt-cells = <1>;
- 			interrupt-map-mask = <0 0 0 0>;
- 			interrupt-map = <0 0 0 0 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>;
--			resets = <&rstctrl 24>;
-+			resets = <&sysc MT7621_RST_PCIE0>;
- 			clocks = <&sysc MT7621_CLK_PCIE0>;
- 			phys = <&pcie0_phy 1>;
- 			phy-names = "pcie-phy0";
-@@ -529,7 +526,7 @@ pcie@1,0 {
- 			#interrupt-cells = <1>;
- 			interrupt-map-mask = <0 0 0 0>;
- 			interrupt-map = <0 0 0 0 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>;
--			resets = <&rstctrl 25>;
-+			resets = <&sysc MT7621_RST_PCIE1>;
- 			clocks = <&sysc MT7621_CLK_PCIE1>;
- 			phys = <&pcie0_phy 1>;
- 			phy-names = "pcie-phy1";
-@@ -544,7 +541,7 @@ pcie@2,0 {
- 			#interrupt-cells = <1>;
- 			interrupt-map-mask = <0 0 0 0>;
- 			interrupt-map = <0 0 0 0 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
--			resets = <&rstctrl 26>;
-+			resets = <&sysc MT7621_RST_PCIE2>;
- 			clocks = <&sysc MT7621_CLK_PCIE2>;
- 			phys = <&pcie2_phy 0>;
- 			phy-names = "pcie-phy2";
--- 
-2.33.0
+diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
+index 658c173bebdf..2893b68f1f7a 100644
+--- a/drivers/gpu/ipu-v3/ipu-csi.c
++++ b/drivers/gpu/ipu-v3/ipu-csi.c
+@@ -261,10 +261,24 @@ static int mbus_code_to_bus_cfg(struct ipu_csi_bus_co=
+nfig *cfg, u32 mbus_code,
+ 		cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
+ 		break;
+ 	case MEDIA_BUS_FMT_UYVY8_1X16:
++		if (mbus_type =3D=3D V4L2_MBUS_BT656) {
++			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_YUV422_UYVY;
++			cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
++		} else {
++			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_BAYER;
++			cfg->data_width =3D IPU_CSI_DATA_WIDTH_16;
++		}
++		cfg->mipi_dt =3D MIPI_DT_YUV422;
++		break;
+ 	case MEDIA_BUS_FMT_YUYV8_1X16:
+-		cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_BAYER;
++		if (mbus_type =3D=3D V4L2_MBUS_BT656) {
++			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_YUV422_YUYV;
++			cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
++		} else {
++			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_BAYER;
++			cfg->data_width =3D IPU_CSI_DATA_WIDTH_16;
++		}
+ 		cfg->mipi_dt =3D MIPI_DT_YUV422;
+-		cfg->data_width =3D IPU_CSI_DATA_WIDTH_16;
+ 		break;
+ 	case MEDIA_BUS_FMT_SBGGR8_1X8:
+ 	case MEDIA_BUS_FMT_SGBRG8_1X8:
+@@ -352,7 +366,7 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *=
+csicfg,
+ 			    const struct v4l2_mbus_config *mbus_cfg,
+ 			    const struct v4l2_mbus_framefmt *mbus_fmt)
+ {
+-	int ret;
++	int ret, is_bt1120;
+=20
+ 	memset(csicfg, 0, sizeof(*csicfg));
+=20
+@@ -373,11 +387,18 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config=
+ *csicfg,
+ 		break;
+ 	case V4L2_MBUS_BT656:
+ 		csicfg->ext_vsync =3D 0;
++		/* UYVY10_1X20 etc. should be supported as well */
++		is_bt1120 =3D mbus_fmt->code =3D=3D MEDIA_BUS_FMT_UYVY8_1X16 ||
++			    mbus_fmt->code =3D=3D MEDIA_BUS_FMT_YUYV8_1X16;
+ 		if (V4L2_FIELD_HAS_BOTH(mbus_fmt->field) ||
+ 		    mbus_fmt->field =3D=3D V4L2_FIELD_ALTERNATE)
+-			csicfg->clk_mode =3D IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
++			csicfg->clk_mode =3D is_bt1120 ?
++				IPU_CSI_CLK_MODE_CCIR1120_INTERLACED_SDR :
++				IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
+ 		else
+-			csicfg->clk_mode =3D IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
++			csicfg->clk_mode =3D is_bt1120 ?
++				IPU_CSI_CLK_MODE_CCIR1120_PROGRESSIVE_SDR :
++				IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
+ 		break;
+ 	case V4L2_MBUS_CSI2_DPHY:
+ 		/*
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/me=
+dia/imx/imx-media-csi.c
+index 45f9d797b9da..ba93512f8c71 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -139,6 +139,8 @@ static inline bool is_parallel_16bit_bus(struct v4l2_fw=
+node_endpoint *ep)
+  * Check for conditions that require the IPU to handle the
+  * data internally as generic data, aka passthrough mode:
+  * - raw bayer media bus formats, or
++ * - BT.656 and BT.1120 (8/10-bit YUV422) data can always be processed
++ *   on-the-fly
+  * - the CSI is receiving from a 16-bit parallel bus, or
+  * - the CSI is receiving from an 8-bit parallel bus and the incoming
+  *   media bus format is other than UYVY8_2X8/YUYV8_2X8.
+@@ -147,6 +149,9 @@ static inline bool requires_passthrough(struct v4l2_fwn=
+ode_endpoint *ep,
+ 					struct v4l2_mbus_framefmt *infmt,
+ 					const struct imx_media_pixfmt *incc)
+ {
++	if (ep->bus_type =3D=3D V4L2_MBUS_BT656) // including BT.1120
++		return 0;
++
+ 	return incc->bayer || is_parallel_16bit_bus(ep) ||
+ 		(is_parallel_bus(ep) &&
+ 		 infmt->code !=3D MEDIA_BUS_FMT_UYVY8_2X8 &&
 
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
