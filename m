@@ -1,109 +1,113 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A132C89
-	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 11:11:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 6C431E1339;
-	Wed,  6 Oct 2021 04:05:59 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TEq-cT8BT5Xw; Wed,  6 Oct 2021 04:05:58 -0700 (PDT)
-Date: Wed, 6 Oct 2021 13:05:44 +0200
-From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-To: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel 
- <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
-  Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo 
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix 
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: kernel@puri.sm, phone-devel@vger.kernel.org
-Subject: [PATCH] media: imx: Round line size to 4 bytes
-Message-ID: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
-Organization: Purism
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6C12C89
+	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 11:23:09 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id m22so7854073wrb.0
+        for <linux-staging@lists.linux.dev>; Wed, 06 Oct 2021 04:23:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=47s/bZHvgq69ktivg5JJy6fUXMerQl2jUwwg3kpWhpE=;
+        b=g1QA2+UjfP3hztVr1sVD8MWAB6aunYsFT2KalsjBUEvAk3VvWMKn0W9UZ8byMcobWs
+         ao8H4xXe914XRE4bMNt7FAsQXCl8p5gO/uQ9SRBQOC7l92/aQjSrf/BQhlOI19dqUM3j
+         oZwk22G51nlNTL59CVUt1xx/B/x/wFoToPdAxOsNL/BjCUHw69Dw7fn8Ez9uotXGJS4Y
+         XPqVsYnyzzNBsicY0FLxjVEZsMhjuuLR2NtwX3mcxa9Pp2lBZrJW7E5L10aZxVbu2UW4
+         4olTHkGlmzesj+dVnQdLEC5gB4XjV1dwFpjL6FP6ZKIpbcT5lSKSWxR3lj23sgGrxIsO
+         PuZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=47s/bZHvgq69ktivg5JJy6fUXMerQl2jUwwg3kpWhpE=;
+        b=HUf9jVEAmQbccAYozQ2Wem4HpEoP4rVqa3Rjf3NbGcCkBf4cULoTX6qjG2PGWPg9HY
+         htmzONaxuOxTGAcvjsSC7d7umlX1HI5c/gIvD4WO0TUGFXjRb8kKUmWyM1VJ8DBXs7tJ
+         KNDsRQwE7+8W39TLDnfAMCVorCVfM1XzoPSGt5SU8Dm1gQb3EUJi6KtkAYxTMXf3/XsK
+         9JCBAKbgI81OaQ8JG5ZY9ahmQ9S2KZHkDhxUly3ylq9Y1JG5YXaYyDG+zirJgpIMcg+0
+         GMnNrqmkPNy1S7yivvFAMBrtIVJD1XNRUznhcxFfkauPcQHrOSfSTccjrDCuSPucR4Xz
+         ZJGw==
+X-Gm-Message-State: AOAM5305OG6HxWI3/A0+pidPR2tcsfF05uNk0rWfcXGd6N5CAIsQNQG5
+	Mbq4zgncK3cTIG+y+pDmhyA=
+X-Google-Smtp-Source: ABdhPJxO8m46fxb9zABvCoD+pMl/Q0dgsharY/sFYhpKLR4z8Rul9+G4k+vwxTx1LRFFmTI+0V9YeA==
+X-Received: by 2002:a1c:f310:: with SMTP id q16mr9556452wmq.145.1633519387985;
+        Wed, 06 Oct 2021 04:23:07 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id e14sm10801985wrw.33.2021.10.06.04.23.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 06 Oct 2021 04:23:07 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: sboyd@kernel.org
+Cc: linux-clk@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	devicetree@vger.kernel.org,
+	robh+dt@kernel.org,
+	linux-staging@lists.linux.dev,
+	neil@brown.name,
+	linux-kernel@vger.kernel.org,
+	john@phrozen.org
+Subject: [PATCH v2 0/4] clk: ralink: make system controller a reset provider
+Date: Wed,  6 Oct 2021 13:23:02 +0200
+Message-Id: <20211006112306.4691-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/c0QfgXQ3Vn.SH0LtEafw=gY";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 
---Sig_/c0QfgXQ3Vn.SH0LtEafw=gY
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi all,
 
-Section 13.7.6.13 "CSI Image Parameter Register" of the
-i.MX 8M Quad Applications Processors Reference Manual
-states that the line size should be divisible by 8 bytes.
-However, the hardware also accepts sizes divisible by 4 bytes.
+This patch series add minimal change to provide mt7621 resets properly
+defining them in the 'mediatek,mt7621-sysc' node which is the system
+controller of the SoC and is already providing clocks to the rest of
+the world.
 
-This patch accepts line sizes divisible 4-bytes in non-planar mode.
+There is shared architecture code for all ralink platforms in 'reset.c'
+file located in 'arch/mips/ralink' but the correct thing to do to align
+hardware with software seems to define and add related reset code to the 
+already mainlined clock driver.
 
-Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
----
+After this changes, we can get rid of the useless reset controller node
+in the device tree and use system controller node instead where the property
+'#reset-cells' has been added. Binding documentation for this nodeq has
+been updated with the new property accordly.
 
-Hello,
+This series also provide a bindings include header where all related
+reset bits for the MT7621 SoC are defined.
 
-my previous patch identified something that was not a problem,
-so I'm sending a different one.
+Also, please take a look to this review [0] to understand better motivation
+for this series.
 
-This has been tested on the Librem 5.
+Thanks in advance for your feedback.
 
-Cheers,
-Dorota
+Changes in v2:
+ - Address review comments of Dan Carpenter [1]:
+    + Avoid 'inline' in function definition.
+    + Return proper error codes (-EINVAL) instead of '-1'. 
+    + Make use of 'devm_kzalloc' instead of 'kzalloc'.
 
- drivers/staging/media/imx/imx-media-utils.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Best regards,
+    Sergio Paracuellos
 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
-media/imx/imx-media-utils.c
-index 5128915a5d6f..a303003929e3 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_for=
-mat *pix,
- 	}
-=20
- 	/* Round up width for minimum burst size */
--	width =3D round_up(mbus->width, 8);
-+	width =3D round_up(mbus->width, 4);
-=20
- 	/* Round up stride for IDMAC line start address alignment */
- 	if (cc->planar)
- 		stride =3D round_up(width, 16);
- 	else
--		stride =3D round_up((width * cc->bpp) >> 3, 8);
-+		stride =3D round_up((width * cc->bpp) >> 3, 4);
-=20
- 	pix->width =3D width;
- 	pix->height =3D mbus->height;
---=20
-2.31.1
+[0]: https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20210926145931.14603-3-sergio.paracuellos@gmail.com/ 
+[1]: https://lkml.org/lkml/2021/10/6/204
 
+Sergio Paracuellos (4):
+  dt-bindings: reset: add dt binding header for Mediatek MT7621 resets
+  dt-bindings: clock: mediatek,mt7621-sysc: add '#reset-cells' property
+  clk: ralink: make system controller node a reset provider
+  staging: mt7621-dts: align resets with binding documentation
 
---Sig_/c0QfgXQ3Vn.SH0LtEafw=gY
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+ .../bindings/clock/mediatek,mt7621-sysc.yaml  | 12 +++
+ drivers/clk/ralink/clk-mt7621.c               | 79 +++++++++++++++++++
+ drivers/staging/mt7621-dts/mt7621.dtsi        | 27 +++----
+ include/dt-bindings/reset/mt7621-reset.h      | 37 +++++++++
+ 4 files changed, 140 insertions(+), 15 deletions(-)
+ create mode 100644 include/dt-bindings/reset/mt7621-reset.h
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.33.0
 
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFdgwgACgkQADBpX4S8
-ZneTgA/8CbO6LOy5XYlOp9HtcO+gJkFF9YLeRQpRapSy3H9017+x7DeCvPIm/xsl
-wn8T+ONTMCZZ7gRy5BnQUzUAANauc6Wn+lRgEaPrXYV/B+jx8IxWbMX/w15ajTDP
-D5p7J0+D1RrEmJ5aemm9KoaT4e2RHGG7EwdmRaHrpnFX/yGr2y3H5wZSceS/5EU6
-nl55XEq5GpsJ5m/7ZpdVDjesEFSOmFfCfH0NLXdFlXmKUwT/WAntFni/LPNSnNWl
-Ul1GWU/EQXJ/YOwY0wexfuNqTS+9s8zJHawQOYwdViOsPRIG6J2jdtVyab+kjl6n
-u8+RZqdKPiQAb6+NZezpMvf1KPU/gZVeRj4+Gr7puczHp3rgb86VKTpDoQ48yVY2
-Z8ayOkioHt/WGXnJvK7iyQT5dgr7ND/7VPD/j2E0k+ev0ViB+i052+HBdfErWNxv
-QSmpPGaEYB6qEFEcCiZhqExLo5W1hW81d06NuXPO3WUI6B/3mZGClJUdKFnV3D+M
-pjrSURr8ejy0wah3VH+jiYoo33rrDbX0+254m3mNeFO+ExPxvw4Sgg/6A2UrkQSX
-4auLKo2xxORsXQwkT8dZ/92eap5C1zsvgRHMqV5FDzzbvGp2Af9F3Pis/T9+9L1C
-h3ef3CaUHr5xgQvr8MtwCdPHIV/6eiFdQTLkgEUDT6vShMfSCwY=
-=XGed
------END PGP SIGNATURE-----
-
---Sig_/c0QfgXQ3Vn.SH0LtEafw=gY--
