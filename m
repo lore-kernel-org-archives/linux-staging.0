@@ -1,144 +1,177 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20E22C81
-	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 09:52:11 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mY3M1-0006PB-OZ; Wed, 06 Oct 2021 11:36:49 +0200
-Received: from pza by lupine with local (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mY3Lz-00081L-Vx; Wed, 06 Oct 2021 11:36:47 +0200
-Message-ID: <568f79774cc148c58b9045da7b94b4e9e500810b.camel@pengutronix.de>
-Subject: Re: [PATCH] i.MX6: Support 16-bit BT.1120 video input
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>, Steve Longerbeam
-	 <slongerbeam@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-kernel@vger.kernel.org,  linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-arm-kernel@lists.infradead.org
-Date: Wed, 06 Oct 2021 11:36:47 +0200
-In-Reply-To: <m3o882n0ir.fsf@t19.piap.pl>
-References: <m3o882n0ir.fsf@t19.piap.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC392C81
+	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 10:02:24 +0000 (UTC)
+Received: by mail-ua1-f52.google.com with SMTP id e7so1343150ual.11
+        for <linux-staging@lists.linux.dev>; Wed, 06 Oct 2021 03:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Uau9/pR+8X0YYImoS0Wg4cgXBZAlRqGIWfRwQoTAlIs=;
+        b=FqojcO+6S1vzBTjYbWbeynWCuPHepeTAT1FG+f7XggYRcYHFl2NcgAaFsGUz/WQF/J
+         osO5xGm/MsCLkelJrr/BzPvAv8HIa84pyjyLbs0KX3evk7wEGs80Qhe3mYmEiIgcN5uG
+         TaThcXRoYFOIrfAFeFAgD12BzFzzmH/YHX8Zzmwd4remXoiWpHXVDeVD920edl5SR896
+         rWR/pWGkDTTjHxc9pjNmdFsNB4Ikvq75kYEliY3zH58Wau8goW+mNCBtJwWynW42Jk2/
+         hJeKDbd0ttf7WP1sTQqhwM5oZf7bBp7ZtULYYJQtBbSP+Ki7cmrSVGEdLKts7ivbVwXe
+         uMzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Uau9/pR+8X0YYImoS0Wg4cgXBZAlRqGIWfRwQoTAlIs=;
+        b=kQjisKPpj1cgkNv1U9MlVRRbEdrnPW6Oho44R4bR5grsIZtjC6DUCylhQgOTEoSqA/
+         QFCa9e0aQBje97AdU1QhLTfA0f4bkrJ6OVv7kMpA7TEb2dWBtgdBUuUF2wfC9MYBNxgn
+         a960r6z9/XWUXd/zSmCWKNDMT5UvhFmEpu+1mOb7CFshGSByTv/wQgonE6N/e55z8CFk
+         QbvCbDEKh6Xd4zuPo7Wls9SdBAEkNGvQr7fMc9yFBHF98iUsUoxjcgJMA4zZOFl327rW
+         xYsCwGBcgjT/eHEz5Wbi7UZIgdKqdbFrIQmlHHFevwqSYTePiX10f7I7uVYZXy4xv/fP
+         guxA==
+X-Gm-Message-State: AOAM5315CxjEMD9mmRkx7gViXC8cwAS5yN0EL1EUS1/Hpoyy5XQrW3mb
+	B3/eiEPFnJxTCL3vmr7ZoyBf0cFk+kGvYVbAsUk=
+X-Google-Smtp-Source: ABdhPJzfTPCIqF75XYHBa+La5Pd+QBvj9phqUfquQvBKUdk8ClsF1hEHLmwPcrVcniX/f0yPaOZWmW7JcncYMW+6iPI=
+X-Received: by 2002:ab0:5548:: with SMTP id u8mr16315316uaa.0.1633514543473;
+ Wed, 06 Oct 2021 03:02:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+References: <20211006061204.2854-1-sergio.paracuellos@gmail.com>
+ <20211006061204.2854-4-sergio.paracuellos@gmail.com> <20211006082903.GZ2048@kadam>
+In-Reply-To: <20211006082903.GZ2048@kadam>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Wed, 6 Oct 2021 12:02:12 +0200
+Message-ID: <CAMhs-H_qb=goRmfhO1P+mt_NKhJFuJgH6a483-6Wk8M9MA1cJQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] clk: ralink: make system controller node a reset provider
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, 
+	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, John Crispin <john@phrozen.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Krzysztof,
+Hi Dan,
 
-On Wed, 2021-10-06 at 08:13 +0200, Krzysztof Ha=C5=82asa wrote:
-> Confirmed to work with ADV7610 HDMI receiver.
->=20
-> Signed-off-by: Krzysztof Ha=C5=82asa <khalasa@piap.pl>
->=20
-> diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
-> index 658c173bebdf..2893b68f1f7a 100644
-> --- a/drivers/gpu/ipu-v3/ipu-csi.c
-> +++ b/drivers/gpu/ipu-v3/ipu-csi.c
-> @@ -261,10 +261,24 @@ static int mbus_code_to_bus_cfg(struct ipu_csi_bus_=
-config *cfg, u32 mbus_code,
->  		cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
->  		break;
->  	case MEDIA_BUS_FMT_UYVY8_1X16:
-> +		if (mbus_type =3D=3D V4L2_MBUS_BT656) {
-> +			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_YUV422_UYVY;
-> +			cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
-> +		} else {
-> +			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_BAYER;
-> +			cfg->data_width =3D IPU_CSI_DATA_WIDTH_16;
-> +		}
-> +		cfg->mipi_dt =3D MIPI_DT_YUV422;
-> +		break;
->  	case MEDIA_BUS_FMT_YUYV8_1X16:
-> -		cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_BAYER;
-> +		if (mbus_type =3D=3D V4L2_MBUS_BT656) {
-> +			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_YUV422_YUYV;
-> +			cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
-> +		} else {
-> +			cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_BAYER;
-> +			cfg->data_width =3D IPU_CSI_DATA_WIDTH_16;
-> +		}
->  		cfg->mipi_dt =3D MIPI_DT_YUV422;
-> -		cfg->data_width =3D IPU_CSI_DATA_WIDTH_16;
->  		break;
->  	case MEDIA_BUS_FMT_SBGGR8_1X8:
->  	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> @@ -352,7 +366,7 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config=
- *csicfg,
->  			    const struct v4l2_mbus_config *mbus_cfg,
->  			    const struct v4l2_mbus_framefmt *mbus_fmt)
->  {
-> -	int ret;
-> +	int ret, is_bt1120;
-> =20
->  	memset(csicfg, 0, sizeof(*csicfg));
-> =20
-> @@ -373,11 +387,18 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_conf=
-ig *csicfg,
->  		break;
->  	case V4L2_MBUS_BT656:
->  		csicfg->ext_vsync =3D 0;
-> +		/* UYVY10_1X20 etc. should be supported as well */
-> +		is_bt1120 =3D mbus_fmt->code =3D=3D MEDIA_BUS_FMT_UYVY8_1X16 ||
-> +			mbus_fmt->code =3D=3D MEDIA_BUS_FMT_YUYV8_1X16;
->  		if (V4L2_FIELD_HAS_BOTH(mbus_fmt->field) ||
->  		    mbus_fmt->field =3D=3D V4L2_FIELD_ALTERNATE)
-> -			csicfg->clk_mode =3D IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
-> +			csicfg->clk_mode =3D is_bt1120 ?
-> +				IPU_CSI_CLK_MODE_CCIR1120_INTERLACED_SDR :
-> +				IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
->  		else
-> -			csicfg->clk_mode =3D IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
-> +			csicfg->clk_mode =3D is_bt1120 ?
-> +				IPU_CSI_CLK_MODE_CCIR1120_PROGRESSIVE_SDR :
-> +				IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
->  		break;
->  	case V4L2_MBUS_CSI2_DPHY:
->  		/*
-> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/=
-media/imx/imx-media-csi.c
-> index 45f9d797b9da..ba93512f8c71 100644
-> --- a/drivers/staging/media/imx/imx-media-csi.c
-> +++ b/drivers/staging/media/imx/imx-media-csi.c
-> @@ -139,6 +139,8 @@ static inline bool is_parallel_16bit_bus(struct v4l2_=
-fwnode_endpoint *ep)
->   * Check for conditions that require the IPU to handle the
->   * data internally as generic data, aka passthrough mode:
->   * - raw bayer media bus formats, or
-> + * - BT.656 and BT.1120 (8/10-bit YUV422) data can always be processed
-> + *   on-the-fly (converted to YUV420)
+Thanks for the review. Comments below.
 
-This comment seems misleading. The CSI converts to YUV 4:4:4 internally.
+On Wed, Oct 6, 2021 at 10:29 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Wed, Oct 06, 2021 at 08:12:03AM +0200, Sergio Paracuellos wrote:
+> > @@ -398,6 +401,76 @@ static void __init mt7621_clk_init(struct device_node *node)
+> >  }
+> >  CLK_OF_DECLARE_DRIVER(mt7621_clk, "mediatek,mt7621-sysc", mt7621_clk_init);
+> >
+> > +struct mt7621_rst {
+> > +     struct reset_controller_dev rcdev;
+> > +     struct regmap *sysc;
+> > +};
+> > +
+> > +static inline struct mt7621_rst *to_mt7621_rst(struct reset_controller_dev *dev)
+>
+> No need to mark this as inline.  The compiler should do it automatically
+> or it will ignore the inline.
 
->   * - the CSI is receiving from a 16-bit parallel bus, or
->   * - the CSI is receiving from an 8-bit parallel bus and the incoming
->   *   media bus format is other than UYVY8_2X8/YUYV8_2X8.
-> @@ -147,6 +149,9 @@ static inline bool requires_passthrough(struct v4l2_f=
-wnode_endpoint *ep,
->  					struct v4l2_mbus_framefmt *infmt,
->  					const struct imx_media_pixfmt *incc)
->  {
-> +	if (ep->bus_type =3D=3D V4L2_MBUS_BT656) // including BT.1120
-> +		return 0;
-> +
->  	return incc->bayer || is_parallel_16bit_bus(ep) ||
->  		(is_parallel_bus(ep) &&
->  		 infmt->code !=3D MEDIA_BUS_FMT_UYVY8_2X8 &&
+Ok, I have other functions to_* with the same inline syntax, that's
+why I have added also here. I think I will maintain it to be coherent
+and can be removed afterwards with another patch not belonging to this
+series.
 
-regards
-Philipp
+>
+> > +{
+> > +     return container_of(dev, struct mt7621_rst, rcdev);
+> > +}
+> > +
+> > +static int mt7621_assert_device(struct reset_controller_dev *rcdev,
+> > +                             unsigned long id)
+> > +{
+> > +     struct mt7621_rst *data = to_mt7621_rst(rcdev);
+> > +     struct regmap *sysc = data->sysc;
+> > +
+> > +     if (id == MT7621_RST_SYS)
+> > +             return -1;
+>
+> Please, return proper error codes.
+
+Current code at 'reset.c' of the arch was returning -1 in this case. I
+guess it is better to change it to -EINVAL.
+
+>
+> > +
+> > +     return regmap_update_bits(sysc, SYSC_REG_RESET_CTRL, BIT(id), BIT(id));
+> > +}
+> > +
+> > +static int mt7621_deassert_device(struct reset_controller_dev *rcdev,
+> > +                               unsigned long id)
+> > +{
+> > +     struct mt7621_rst *data = to_mt7621_rst(rcdev);
+> > +     struct regmap *sysc = data->sysc;
+> > +
+> > +     if (id == MT7621_RST_SYS)
+> > +             return -1;
+>
+> Here too.
+
+Will change to -EINVAL.
+
+>
+> > +
+> > +     return regmap_update_bits(sysc, SYSC_REG_RESET_CTRL, BIT(id), 0);
+> > +}
+> > +
+> > +static int mt7621_reset_device(struct reset_controller_dev *rcdev,
+> > +                            unsigned long id)
+> > +{
+> > +     int ret;
+> > +
+> > +     ret = mt7621_assert_device(rcdev, id);
+> > +     if (ret < 0)
+> > +             return ret;
+> > +
+> > +     return mt7621_deassert_device(rcdev, id);
+> > +}
+> > +
+> > +static const struct reset_control_ops reset_ops = {
+> > +     .reset = mt7621_reset_device,
+> > +     .assert = mt7621_assert_device,
+> > +     .deassert = mt7621_deassert_device
+> > +};
+> > +
+> > +static int mt7621_reset_init(struct device *dev, struct regmap *sysc)
+> > +{
+> > +     struct mt7621_rst *rst_data;
+> > +
+> > +     rst_data = kzalloc(sizeof(*rst_data), GFP_KERNEL);
+>
+>
+> Can we use devm_ to allocate this or do we need to clean up if
+> devm_reset_controller_register() fails?  Also a free in the release
+> function I suppose.  (Please, use devm_).
+
+True, yes we can use devm_ for this. Will change it, thanks.
+
+>
+>
+> > +     if (!rst_data)
+> > +             return -ENOMEM;
+> > +
+> > +     rst_data->sysc = sysc;
+> > +     rst_data->rcdev.ops = &reset_ops;
+> > +     rst_data->rcdev.owner = THIS_MODULE;
+> > +     rst_data->rcdev.nr_resets = 32;
+> > +     rst_data->rcdev.of_reset_n_cells = 1;
+> > +     rst_data->rcdev.of_node = dev_of_node(dev);
+> > +
+> > +     return devm_reset_controller_register(dev, &rst_data->rcdev);
+> > +}
+>
+>
+> regards,
+> dan carpenter
+>
+I will properly take into account your comments and send v2.
+
+Thanks,
+     Sergio Paracuellos
