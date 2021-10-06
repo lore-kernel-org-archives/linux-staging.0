@@ -1,68 +1,91 @@
-Received: from smtprelay.hostedemail.com (smtprelay0178.hostedemail.com [216.40.44.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4672C86
-	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 16:18:13 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave01.hostedemail.com (Postfix) with ESMTP id 6DA781839B993
-	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 01:02:32 +0000 (UTC)
-Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay06.hostedemail.com (Postfix) with ESMTP id 5DF31180DF721;
-	Wed,  6 Oct 2021 01:02:25 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 52D9018A608;
-	Wed,  6 Oct 2021 01:02:24 +0000 (UTC)
-Message-ID: <35a358c67c6220825b37e64c6aa2978741565bdd.camel@perches.com>
-Subject: Re: [PATCH v2] staging: r8188eu: Fix misspelling in comment
-From: Joe Perches <joe@perches.com>
-To: "Siou-Jhih, Guo" <hallblazzar@gmail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter
-	 <phil@philpotter.co.uk>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 05 Oct 2021 18:02:22 -0700
-In-Reply-To: <f1569e97-8996-e538-182c-cc5f6510dc35@gmail.com>
-References: <7bc392d5-11e4-7ad0-dab6-295ccadf63b9@gmail.com>
-	 <YVwpEa5T4HnOX5/g@kroah.com>
-	 <f1569e97-8996-e538-182c-cc5f6510dc35@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.0-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21CC52C85
+	for <linux-staging@lists.linux.dev>; Wed,  6 Oct 2021 18:39:58 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id r10so11610542wra.12
+        for <linux-staging@lists.linux.dev>; Wed, 06 Oct 2021 11:39:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=C5j6gIA1b8ePCYuZs/fRrcTl474BqZvsLpDMgivFPTc=;
+        b=eMc7erGqAsArHnHro5uxw6FkWtPXMGgdhckYWOORIUjwHhEpLdH4GzAOI+0daofj5S
+         4vTBASYwXNWj7vcfWYCHOBmi8SolWNSu6d2osH6Yt4yDo9BcS5vidGe0EZwaPMgQNmOY
+         nenSaKRCdofVL9JQ6Bm6Xb5OWhUaGatBajCD1JVZ89NW1QOGZ19fueqA4TfoLdRwvlSE
+         Mcr7nD+aAdbJnJczWM516n974DYVdNv/N8C63MO4Gw0tw+JHWbFICQo84zjMM01N32Ii
+         S90TiCLxizpKiRyDNk9Y2I24aUu7EhC0WOLuCrbRGjOw0LL2Tvb4TPTilRNx+zB3QrLC
+         SE3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=C5j6gIA1b8ePCYuZs/fRrcTl474BqZvsLpDMgivFPTc=;
+        b=rVyEkF5RqM+MnlGUuvf8ScSFr1awBMn2SCPs6D0xHIx1h6g2Wjukl+5txcQxQzV/3Z
+         UKfiR//eYc7Hqe8HNSxKWf0vpqvAAMv7bdsowBg7mJCrK1q59kcrKxdraZcstD7yHaCO
+         rWUQ/Hb7Wh/taXe8D9SuWIfTn1Jwe4gxlsiTF/Ac/Zxzg+/KI8GOyekoUjgfu81WfHye
+         eDm3hzkb58N7F7eFvubYjRibfLK9ZSKS1qe8p9iGtB5YWcTdT6YyBhTC569SzBfjndBj
+         hZO5g3ueZA3hDf5V2/Jh+G2r5PkSRXMB0XCFLG5vAYpw3CjXZhaCedzizXr7+J5QXeBg
+         qY2g==
+X-Gm-Message-State: AOAM531urv0qt0K6drOaatayuMsyP/kSVfVYk9TZ6jufLmyAEo29pGBi
+	7APVvSkMRu0rp0S14eLWCimXIW0POtE=
+X-Google-Smtp-Source: ABdhPJyYHMBq4cKuzyRFnzbxPFTlNfHvjRoE2xRmQvpYKa0jfahIqhRGhMO4fafmYkDBv3/RKOk6Rw==
+X-Received: by 2002:adf:9bce:: with SMTP id e14mr23811694wrc.353.1633545596502;
+        Wed, 06 Oct 2021 11:39:56 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::f816? ([2a02:8108:96c0:3b88::f816])
+        by smtp.gmail.com with ESMTPSA id t126sm5773113wma.4.2021.10.06.11.39.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Oct 2021 11:39:55 -0700 (PDT)
+Message-ID: <15f5374a-c52c-434e-1d6c-78f1d6d3552b@gmail.com>
+Date: Wed, 6 Oct 2021 20:39:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH 0/3] staging: r8188eu: clean up PatchID / customer id
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20211006090949.1694-1-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20211006090949.1694-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 52D9018A608
-X-Spam-Status: No, score=0.03
-X-Stat-Signature: did5ktcsude1wpognowhts9fsc58zaz8
-X-Rspamd-Server: rspamout02
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19i4mQEPjDli2/8f8gwqFKRCAmqH/tGfDI=
-X-HE-Tag: 1633482144-645194
 
-On Tue, 2021-10-05 at 22:16 +0100, Siou-Jhih, Guo wrote:
-> If anything should I additionally aware, I'd like to fix them.
+On 10/6/21 11:09, Martin Kaiser wrote:
+> This series should be applied on top of the series I sent yesterday
+> (starting with Message-Id: <20211005200821.19783-1-martin@kaiser.cx>)
+> 
+> Thanks,
+> Martin
+> 
+> Martin Kaiser (3):
+>    staging: r8188eu: hal data's customer id is always 0
+>    staging: r8188eu: Odm PatchID is always 0
+>    staging: r8188eu: merge two signal scale mapping functions
+> 
+>   drivers/staging/r8188eu/hal/odm.c             |  7 --
+>   drivers/staging/r8188eu/hal/odm_HWConfig.c    | 65 +++++--------------
+>   drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  1 -
+>   drivers/staging/r8188eu/hal/usb_halinit.c     |  2 +-
+>   drivers/staging/r8188eu/include/odm.h         |  2 -
+>   .../staging/r8188eu/include/rtl8188e_hal.h    |  2 -
+>   drivers/staging/r8188eu/include/rtw_eeprom.h  | 55 ----------------
+>   7 files changed, 19 insertions(+), 115 deletions(-)
+> 
 
-Maybe fix these too?
+Builds and looks good to me.
+For all 3 patches:
 
-$ git grep -w -i -P -n 'issuign|fittign|settign|enablign|followign|chargign|beign|startign|accordign|runnign'
-arch/arm/mach-s3c/sleep-s3c64xx.S:33:    * requires to get the kernel runnign again. This code expects to be
-drivers/crypto/ccree/cc_driver.c:278:   /* AXI interrupt config are obsoleted startign at cc7x3 */
-drivers/hid/hid-thrustmaster.c:80: * beign conducted yet. The position and meaning of fields are a
-drivers/net/ethernet/chelsio/cxgb4/t4fw_api.h:809: * our own HELLO may get lost if it happens right as the MASTER is issuign a
-drivers/net/ethernet/qlogic/qede/qede_filter.c:2029:    /* Translate the flow specification into something fittign our DB */
-drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c:1158: * Overview:   88E change all channel tx power accordign to flag.
-drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c:1837: * Overview:   88E change all channel tx power accordign to flag.
-drivers/power/supply/ab8500_charger.c:1325: * ab8500_charger_led_en() - turn on/off chargign led
-drivers/power/supply/ab8500_charger.c:1327: * @on:              flag to turn on/off the chargign led
-drivers/spi/spi-tegra20-slink.c:543:            /* HW need small delay after settign Packed mode */
-drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c:412:   * by some test apps. Enablign logging here floods the log
-drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c:434:   * by some test apps. Enablign logging here floods the log
-drivers/staging/r8188eu/core/rtw_ap.c:747:Set to 0 (HT pure) under the followign conditions
-drivers/staging/r8188eu/hal/HalPhyRf_8188e.c:72: * Overview:    88E change all channel tx power accordign to flag.
-drivers/thermal/tegra/soctherm.c:844:    * programmed on a different one. This beign a LEVEL interrupt won't
-drivers/usb/gadget/function/f_hid.c:312:         * Remove this from list to protect it from beign free()
-net/mac80211/mesh_plink.c:1077:                  * B's peer link establishment or B beign
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
-
+Thanks,
+Michael
