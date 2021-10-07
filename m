@@ -1,125 +1,96 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DDD2C83
-	for <linux-staging@lists.linux.dev>; Thu,  7 Oct 2021 10:36:46 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id n8so22116207lfk.6
-        for <linux-staging@lists.linux.dev>; Thu, 07 Oct 2021 03:36:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921102C83
+	for <linux-staging@lists.linux.dev>; Thu,  7 Oct 2021 10:39:49 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id m22so17735206wrb.0
+        for <linux-staging@lists.linux.dev>; Thu, 07 Oct 2021 03:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ykOpkcPay17tN46aJsTbBt/EvOAhIOt9Ph+3e4w9jz0=;
-        b=afTh3cKAR41VV1PzE4qeHfwMWxfp0/pcOp3Da/PudAOrW+6HBuKX/lfLd/NzTKwNma
-         ufMSpUrFcOojZcWaNgGv/bI92xdz4jP055eLah+Isfxcq9LZlZV+5o92WFw3nhfNIg8b
-         03bp6aqODY9zL3GDYaXmZzLqH18tsLd3UGA6I028Q9FYLwMrPtUMobVZldWX5ovYkl/B
-         oo9VaiP6FWirRUX6Y9X3ZVnPRAS6CDzQxIR2EGXUbTMdVa0/YNXVWMQ1SAgebOktiGWK
-         Pk8o3odzNbqyAuC2/RW72o9N5r/lduG7vF09Bj9DjozW/EkST+ugoVGToScUwpVWnDFo
-         Plkw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IEr5pxyTFkXS8HPGn33416aSarN9buK1uX6Uaq4RTo0=;
+        b=MToOgZx0Nfd1WywTkyUgTlFTxGlcWHQ/JBCjAa1hAERXLgaFTqT8IuWGGOhok1Wrff
+         U5AFa1NioXGrLbMGj2FI9t4pvQ8VgkpmE/0loTli2AZGegTsbzMeYIcK2xPNXBVCAQBz
+         L8edq+pQ3ILumZGK7cyBFtedi1nXT4Ze78X3e9gTHZfWlellivr9lPSgmxzP5rRMpv4k
+         UDg6r3PvPYfiqFGXeXW/09MB0RKJ/wpIXEtliYI+1281yfd5KKMi7xV44sGNCjR6gkH4
+         NqT8jcfPOvBUqLWFJzrykFII2Se/vAj8bURONJLnGQ9Bwjoi9Qzc5FuKsqqYmBKqlrt1
+         nUqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ykOpkcPay17tN46aJsTbBt/EvOAhIOt9Ph+3e4w9jz0=;
-        b=Zy8CWqex8FXTBbWNEGn/k+YU9NFvYeNbRQ6OKB71Gq7jf0bbqCuLryMLVMtzV25P+q
-         eX+gSQYUfBZgoKZr+p9sX5mGyVJY9CWMAziJ1EMLaGm5m7On6VYswTCx788nY3EeUzpF
-         sYmDGdCElZ8EalO6l2WmYrDeexarcE3oHx5RhNMRGHRHlQQ6OmZy7aVyYmMRbotXV12N
-         BXzbtwyaGLR3RaO49JKpCgsn3zQ/AVDvEUi4eIK5jJ3jpa2/oP5qoKN0/MuWC9ifGQii
-         BaRVZoHS9oqdAQIW8xsCs6xqT7g4/SeNSkzL748egG/eruVnelg5qAcg/ZO4w8fHoFTX
-         skDw==
-X-Gm-Message-State: AOAM532uwWdorVzEcYq5kXKXyycqxaYehGhfPVBK4gg0hRm+9mf2vGU1
-	NEAkLNUfiwcuOMJdGEwGY14=
-X-Google-Smtp-Source: ABdhPJyE8Q56+BzF1am4IROAPlSkQQYH4pyokUqMf5GkrZE9wtSrOR5LeCuCqwdD3O56FQleQsf4qg==
-X-Received: by 2002:a05:6512:39d3:: with SMTP id k19mr1115363lfu.258.1633603001431;
-        Thu, 07 Oct 2021 03:36:41 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru. [79.139.163.57])
-        by smtp.googlemail.com with ESMTPSA id k10sm2601041ljj.24.2021.10.07.03.36.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Oct 2021 03:36:41 -0700 (PDT)
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
- <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
- <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
- <4bdba8a2-4b9b-ed7d-e6ca-9218d8200a85@gmail.com>
- <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
- <CAPDyKFr2-f1wM+6jF9vWJ-Nq80Zg1Z3qFP6saULOrBi1270HGw@mail.gmail.com>
- <b06bf794-b8b3-417b-58ef-4d815ca86c95@gmail.com>
- <4c7b1a4c-c136-3650-8f77-9f98caa506f7@gmail.com>
- <2dd6bffc-9817-f4b1-0b92-f82f22fcf79a@gmail.com>
- <CAPDyKFox6THcxDouW2T7F2W__ZcoJP5GeG+H_a4NQmSqAFZ_oQ@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <81ce6f35-acb0-fe34-1efc-537c058a2160@gmail.com>
-Date: Thu, 7 Oct 2021 13:36:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        bh=IEr5pxyTFkXS8HPGn33416aSarN9buK1uX6Uaq4RTo0=;
+        b=ToGNjZRZFSlPZaqfUPrpeFh5iocuRNqAjVTOimCY/kfXwIeq8Yck31NA/hqWX0ZNWH
+         AHtt1Xot1llfEsZa9sQ5Vv1nsMYLJKfPIbPgCdUC3RpL90xeVmUrr5SN5rZS+1zRuHq9
+         22Fpy0kbD3W988GH90/vE2DkTSAPHbgBxaTOvMTg4s7frkH/0FgOBGnAvk1QHx+yI0uJ
+         qBr70DIjjuk2g61prnSPO6aLqDDa4XlqcxL4gFduF8ixN/wEMyVmI+WDVnuHNFk3tNxz
+         xvrKhVk1cZr4sEgBlembsaJFKd7RZ8ALy9XkeE8cNHixxu+VSYp3xGBxopyy3cbydo+Z
+         VMjA==
+X-Gm-Message-State: AOAM530YltIPT7OrJS/kjIpUp/mwFAvR9mqEy8kqykud6Wk9rNwXV52g
+	Vtiy3J0otIz15e4RitndOvY=
+X-Google-Smtp-Source: ABdhPJwTmmmMH17pR4EJlSlFMlMqFDlo/ZTX7rrRVhtjDItdi3QxvMmLHoRUQRKE/1drAdktPjq0WQ==
+X-Received: by 2002:a5d:58ea:: with SMTP id f10mr3344312wrd.188.1633603187891;
+        Thu, 07 Oct 2021 03:39:47 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5d0b])
+        by smtp.gmail.com with ESMTPSA id n14sm10224853wms.0.2021.10.07.03.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Oct 2021 03:39:47 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: remove struct hal_ops
+Date: Thu,  7 Oct 2021 12:39:38 +0200
+Message-Id: <20211007103943.8433-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFox6THcxDouW2T7F2W__ZcoJP5GeG+H_a4NQmSqAFZ_oQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-07.10.2021 12:18, Ulf Hansson пишет:
->> Please let me iterate once again. The problem we currently have is that
->> clock may be enabled during NOIRQ time. In order to enable clock, it
->> needs to be prepared. In order to prepare clock, the clock's device
->> needs to be runtime-resumed. The runtime PM is unavailable at the NOIRQ
->> time.
->>
->> To solve this problem we need to prepare clock beforehand.
->>
->> The clock will stay prepared during suspend, but this is not a problem
->> since all the clocks we care about don't require high voltage and
->> voltage is guaranteed to be bumped high during suspend by Tegra's
->> regulator-coupler driver anyways.
->>
->> So everything we need to do is to keep clocks prepared. There are two
->> options how to do that:
->>
->> [1] this patch which explicitly prepares clocks using clk API.
->>
->> [2] Use runtime PM API, like this:
->>
->> static const struct dev_pm_ops tegra_clock_pm = {
->>         SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_resume_and_get, pm_runtime_put)
->> };
->>
->> Ulf, are you now okay with the current variant [1] of the patch or you
->> prefer the second [2] option more?
-> I prefer option [2]. The clock_prepare|unprepare() thingy in option
-> [1], looks more like an odd workaround to me.
-> 
-> Does that make sense to you as well?
+This series removes the remaining pointers from struct hal_ops and
+the struct itself.
 
-I don't have a strong preference since both variants give the same
-effect. I'll keep testing option [2] and will use it in the next version
-if no problem will be found. Thank you!
+Note that I sent the first two patches separately yesterday, so this
+series makes the separately sent patches obsolete.
+
+Tested with Inter-Tech DMG-02 on x86_64.
+
+Michael Straube (5):
+  staging: r8188eu: remove SetHwRegHandler from hal_ops
+  staging: r8188eu: remove GetHwRegHandler from hal_ops
+  staging: r8188eu: remove hal_init from hal_ops
+  staging: r8188eu: remove hal_ops
+  staging: r8188eu: rename rtl8188eu_set_hal_ops()
+
+ drivers/staging/r8188eu/core/rtw_ap.c         |  2 +-
+ drivers/staging/r8188eu/core/rtw_cmd.c        | 12 +--
+ drivers/staging/r8188eu/core/rtw_ioctl_set.c  |  2 +-
+ drivers/staging/r8188eu/core/rtw_mlme.c       | 13 ++--
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 73 ++++++++-----------
+ drivers/staging/r8188eu/core/rtw_p2p.c        | 16 ++--
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c    |  6 +-
+ drivers/staging/r8188eu/core/rtw_wlan_util.c  | 44 +++++------
+ drivers/staging/r8188eu/hal/hal_com.c         |  3 +-
+ drivers/staging/r8188eu/hal/hal_intf.c        | 16 +---
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c    |  6 +-
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |  2 +-
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  8 +-
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 18 ++---
+ drivers/staging/r8188eu/include/drv_types.h   |  1 -
+ drivers/staging/r8188eu/include/hal_intf.h    | 20 ++---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  6 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  2 +-
+ drivers/staging/r8188eu/os_dep/usb_intf.c     |  4 +-
+ 19 files changed, 106 insertions(+), 148 deletions(-)
+
+-- 
+2.33.0
 
