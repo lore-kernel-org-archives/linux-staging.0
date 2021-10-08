@@ -1,52 +1,52 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74D62C85
-	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 10:02:17 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id v17so28016390wrv.9
-        for <linux-staging@lists.linux.dev>; Fri, 08 Oct 2021 03:02:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC192C85
+	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 10:06:07 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id nn3-20020a17090b38c300b001a03bb6c4ebso4951189pjb.1
+        for <linux-staging@lists.linux.dev>; Fri, 08 Oct 2021 03:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uKJo8PQ8qCZ+w5l5NjxKVTa4Y5qVORlljgfVPolx7L0=;
-        b=RM3zE3hhW+l1SbxfWPHkQ2Lh+ybH6D74fTeSry17W7mQLFy/X/KptWvzEBvuqQMdUT
-         ZCJ7j+y3OHSd/E3XBmQA/SWDHWEwiqitv9U9QshyGG/uvgiyljJjqo6zmHdAvLTotOQO
-         F65UFtWqbrD+GSXUIi8bkjFfCeaEjIS21E9VaDf9Ge/Pr1JS8JExMnruX7jzIamVSFo9
-         Ao11pXwc73uFV/alESBLQutMjaeYhUkYNTmwneYdT2Kaj7mRutu1RSwkkfHW68DFH3DB
-         c5lk5TaB9c2hyTbiW8TmzSKuOpSS0RKZV9jbqt+5DvjDesxWZxt5OgbSUjr2wd43+e+x
-         jPcg==
+        bh=OzoTpc5FXnHcSloTlGi/7AXCgf7dBEC1jkxAe77KXeE=;
+        b=LpauymSNX9w1tBNgyes0/5NF8kSaIGg2a8v9QUXm3LfmX6BZi2lrszHYLztN3+N9IQ
+         Y6qkh4YrIAzDiF4g9Tr8AKSLLK/UP94QF5qqqZWmTKRwS60+cdl4GdvAzoWSNlScmDbg
+         gK9gsL5va9SYEExcIy1UcpTF84Ay4Kx0pzZrg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uKJo8PQ8qCZ+w5l5NjxKVTa4Y5qVORlljgfVPolx7L0=;
-        b=TbLLCZpkMJfr3SlUZVDS5UjDEDAhytSeeFjzJDyAZRAVXt9DItxfrK1yUtHGVrsOrX
-         KVlhfL7ggKmSGvuAzI0Ii9XDWvEQHacqKyqDUZrJ38VYkTjaBouvwhfMFmVjUIOWeU5I
-         xDPXqdr6fFbIOde5S7K2t4AKjNZAuHSP+fEIn20a+a2LzZnU+twvRZroBH2njrCsjrLA
-         Rc1kRetqtT7Nclk/0xWEKAmOIJnZgBc6T5dJStuXoWn/tizCHxqboQOvIGxaXoGkAow8
-         hVccw2OU6IR5VT+CpACPmhPLdjx3rRII64JYil4/bYoO+NtHtL5dgfHNbHwCt8IG8Au2
-         z+iA==
-X-Gm-Message-State: AOAM530QLw5ruLJcfnuO5OxzudvrduMw2dm9VdNqYE7rjTg/+TI8xpxB
-	85AYrj0O1wKzuVo3rkovtoU=
-X-Google-Smtp-Source: ABdhPJxj0gUM5/SprLYHHOJcPozOmnsMYc59x50iLkKK9ukRj2QwRj8koLY8IDCHvlLM6iHqc9roHA==
-X-Received: by 2002:a1c:4484:: with SMTP id r126mr2413166wma.150.1633687335920;
-        Fri, 08 Oct 2021 03:02:15 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::40c9])
-        by smtp.gmail.com with ESMTPSA id k10sm1998249wrh.64.2021.10.08.03.02.14
+        bh=OzoTpc5FXnHcSloTlGi/7AXCgf7dBEC1jkxAe77KXeE=;
+        b=cGY6FerPE5hpheayZ/LL5+hjH6ENtqqOZWk8ghY+8vgnI7YRiDqaMBDGDCeRTrHwyX
+         kL91XVtm/FV+l6dcDRTUaC0eNOZ6iHsKGg5j+8aCszxv0m9pt77T/UW+iJR0G/pcdi3p
+         qfY5kRhffvK1lkj0mCYvDHGT2CHb7Rn8V4dPOGbJRct0XAn2FTL/1laALrV8KanGk2Ir
+         rUzloEmCF76iyvKfdVchf0PAGncl0FOUC0eJRclxJs4eCOxOtmmZQwIVqDRZkVgKWZdF
+         cOIPzQqxIDKGEOpmUVzTSTInCY5TOpDzjD/5nYN9Sp4mah1ZpT9LU3W9Yyy5cBr82wpS
+         FhDg==
+X-Gm-Message-State: AOAM530w/T76mlEgYcJRc3O/dGNIft+CqTBFacLKoG7LJMA+g1Bt+K7M
+	m/Jyen8uQ7Ah4UXAfJ2ODG5JJJn4i7cz9w==
+X-Google-Smtp-Source: ABdhPJzJVsYPcjlZMl4UGYSd/jIzybZRW4K3X481JHpKP8/MszRBdV0Jexrh0L7avTtIStwZrTWy8A==
+X-Received: by 2002:a17:902:7ec8:b0:13b:9d7a:6396 with SMTP id p8-20020a1709027ec800b0013b9d7a6396mr8603898plb.86.1633687567030;
+        Fri, 08 Oct 2021 03:06:07 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2401:fa00:1:10:ad8d:f936:2048:d735])
+        by smtp.gmail.com with ESMTPSA id a7sm2082255pfn.150.2021.10.08.03.06.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 03:02:15 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Fri, 08 Oct 2021 03:06:06 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove unused defines from rtw_sreset.h
-Date: Fri,  8 Oct 2021 12:02:09 +0200
-Message-Id: <20211008100209.28801-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: [PATCH 0/2] media: rkvdec: Align decoder behavior with Hantro and Cedrus
+Date: Fri,  8 Oct 2021 18:04:21 +0800
+Message-Id: <20211008100423.739462-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.33.0.882.g93a45727a2-goog
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,28 +55,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unused defines from rtw_sreset.h.
+Hi everyone,
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/include/rtw_sreset.h | 4 ----
- 1 file changed, 4 deletions(-)
+While working on the rkvdec H.264 decoder for ChromeOS, I noticed some
+behavioral differences compared to Hantro and Cedrus:
 
-diff --git a/drivers/staging/r8188eu/include/rtw_sreset.h b/drivers/staging/r8188eu/include/rtw_sreset.h
-index 47ad185c755f..45bc227d088a 100644
---- a/drivers/staging/r8188eu/include/rtw_sreset.h
-+++ b/drivers/staging/r8188eu/include/rtw_sreset.h
-@@ -21,10 +21,6 @@ struct sreset_priv {
- #define	USB_VEN_REQ_CMD_FAIL	BIT(0)
- #define	USB_READ_PORT_FAIL		BIT(1)
- #define	USB_WRITE_PORT_FAIL		BIT(2)
--#define	WIFI_MAC_TXDMA_ERROR	BIT(3)
--#define   WIFI_TX_HANG				BIT(4)
--#define	WIFI_RX_HANG				BIT(5)
--#define		WIFI_IF_NOT_EXIST			BIT(6)
- 
- void sreset_init_value(struct adapter *padapter);
- void sreset_reset_value(struct adapter *padapter);
+1. The driver always overrides the sizeimage setting given by userspace
+   for the output format. This results in insufficient buffer space when
+   running the ChromeOS video_decode_accelerator_tests test program,
+   likely due to a small initial resolution followed by dynamic
+   resolution change.
+
+2. Doesn't support dynamic resolution change.
+
+This small series fixes both and aligns the behavior with the other two
+stateless decoder drivers. This was tested on the downstream ChromeOS
+5.10 kernel with ChromeOS. Also compiled tested on mainline but I don't
+have any other RK3399 devices set up to test video stuff, so testing
+would be very much appreciated.
+
+Also, I'm not sure if user applications are required to check the value
+of sizeimage upon S_FMT return. If the value is different or too small,
+what can the application do besides fail? AFAICT it can't split the
+data of one frame (or slice) between different buffers.
+
+Andrzej, I believe the second patch would conflict with your VP9 series.
+
+
+Regards
+ChenYu
+
+Chen-Yu Tsai (2):
+  media: rkvdec: Do not override sizeimage for output format
+  media: rkvdec: Support dynamic resolution changes
+
+ drivers/staging/media/rkvdec/rkvdec-h264.c |  5 +--
+ drivers/staging/media/rkvdec/rkvdec.c      | 40 +++++++++++-----------
+ 2 files changed, 23 insertions(+), 22 deletions(-)
+
 -- 
-2.33.0
+2.33.0.882.g93a45727a2-goog
 
