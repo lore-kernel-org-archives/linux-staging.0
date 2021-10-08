@@ -1,54 +1,52 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A53F2C81
-	for <linux-staging@lists.linux.dev>; Thu,  7 Oct 2021 16:15:40 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id a25so9367111edx.8
-        for <linux-staging@lists.linux.dev>; Thu, 07 Oct 2021 09:15:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74D62C85
+	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 10:02:17 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id v17so28016390wrv.9
+        for <linux-staging@lists.linux.dev>; Fri, 08 Oct 2021 03:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9E5Szjn+y7W/3JHY/8PTahKiMyq3oOWBAZ37nmcUVU8=;
-        b=qXYAbdR7JJWmXd1JWxs3ydPa4FebAJP2Jn4T9o88kWDcWNggwOkNK2M3MUAkfjl5G+
-         5SAmqZxPkho0WLsFStgsERMh+zVqp3mPpUQPbcILfCc4BuKppCRolpKYe1ZYEFaNBhis
-         cZDnx/Mn2h5tE7WGkyA0+gMlSOZZkfOl8nWSkc9KhEHDE9RX7GX9OSbDWOowERrBlyEV
-         BSzvbo3D12Ktj2pqv+uWSVxFvVNhfm5Y6JqOIR+L76yEhxG+pIJqaX6zNzbSJKcUKipn
-         dzqI/Xu2w0o4O/nromJkRFHdBGTtGNTmKZSPY0WgCXnLZVoW4FP2UxUJD7QF0Sx5Ku4T
-         Om6g==
+        bh=uKJo8PQ8qCZ+w5l5NjxKVTa4Y5qVORlljgfVPolx7L0=;
+        b=RM3zE3hhW+l1SbxfWPHkQ2Lh+ybH6D74fTeSry17W7mQLFy/X/KptWvzEBvuqQMdUT
+         ZCJ7j+y3OHSd/E3XBmQA/SWDHWEwiqitv9U9QshyGG/uvgiyljJjqo6zmHdAvLTotOQO
+         F65UFtWqbrD+GSXUIi8bkjFfCeaEjIS21E9VaDf9Ge/Pr1JS8JExMnruX7jzIamVSFo9
+         Ao11pXwc73uFV/alESBLQutMjaeYhUkYNTmwneYdT2Kaj7mRutu1RSwkkfHW68DFH3DB
+         c5lk5TaB9c2hyTbiW8TmzSKuOpSS0RKZV9jbqt+5DvjDesxWZxt5OgbSUjr2wd43+e+x
+         jPcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9E5Szjn+y7W/3JHY/8PTahKiMyq3oOWBAZ37nmcUVU8=;
-        b=uhXlTRRu2Hal6ZzuCOIVGa13b/NFwLYLmyoIHuDn+Lc6FZdbgLemymRmldcSxrqkMN
-         8a0jrvvSm0SPCuYymzMlwKQWj/MIiweFxPBBnGg6kcHBvCXisIoMyghb+Ti0moAphkYQ
-         WNW8hnFROQ0VlDSPKkSq8Pg9i6QMTTwlqL5Rzx7E3SxnLO6GjrRUSen/N4ozitGGMsVd
-         uN3RDKiA4IiQHO2EjLj3d3D3K1MNLGAsHDEe4xfNm6nGyDXTBWp+AsBlEdnbWZfdCtc5
-         Q6ekFRav/rG9B3gIeqyDYWFzxU+neB7UGSTLliAMbDFWrnceUY39LQRYWbGTNECVB15k
-         Y8mg==
-X-Gm-Message-State: AOAM5304u9jtM9IgD/r2BGdJoOgAVXIWkf/TdBNHl1Ck9Bzo4xtUS2aK
-	jBGYZAdDfHqX3Hyex52zZ80=
-X-Google-Smtp-Source: ABdhPJyor8yu4eAvavDwJUzhzTnifar3Llb/UAcCLRUKrYYKtan60NQgKRK9eAepC7DDaxHVjIbD+A==
-X-Received: by 2002:a17:906:53c8:: with SMTP id p8mr6644978ejo.422.1633623339151;
-        Thu, 07 Oct 2021 09:15:39 -0700 (PDT)
-Received: from tom-desktop.station (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
-        by smtp.gmail.com with ESMTPSA id z19sm17859ejp.97.2021.10.07.09.15.38
+        bh=uKJo8PQ8qCZ+w5l5NjxKVTa4Y5qVORlljgfVPolx7L0=;
+        b=TbLLCZpkMJfr3SlUZVDS5UjDEDAhytSeeFjzJDyAZRAVXt9DItxfrK1yUtHGVrsOrX
+         KVlhfL7ggKmSGvuAzI0Ii9XDWvEQHacqKyqDUZrJ38VYkTjaBouvwhfMFmVjUIOWeU5I
+         xDPXqdr6fFbIOde5S7K2t4AKjNZAuHSP+fEIn20a+a2LzZnU+twvRZroBH2njrCsjrLA
+         Rc1kRetqtT7Nclk/0xWEKAmOIJnZgBc6T5dJStuXoWn/tizCHxqboQOvIGxaXoGkAow8
+         hVccw2OU6IR5VT+CpACPmhPLdjx3rRII64JYil4/bYoO+NtHtL5dgfHNbHwCt8IG8Au2
+         z+iA==
+X-Gm-Message-State: AOAM530QLw5ruLJcfnuO5OxzudvrduMw2dm9VdNqYE7rjTg/+TI8xpxB
+	85AYrj0O1wKzuVo3rkovtoU=
+X-Google-Smtp-Source: ABdhPJxj0gUM5/SprLYHHOJcPozOmnsMYc59x50iLkKK9ukRj2QwRj8koLY8IDCHvlLM6iHqc9roHA==
+X-Received: by 2002:a1c:4484:: with SMTP id r126mr2413166wma.150.1633687335920;
+        Fri, 08 Oct 2021 03:02:15 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::40c9])
+        by smtp.gmail.com with ESMTPSA id k10sm1998249wrh.64.2021.10.08.03.02.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Oct 2021 09:15:38 -0700 (PDT)
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: tomm.merciai@gmail.com,
-	Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+        Fri, 08 Oct 2021 03:02:15 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] vt6655: fix camelcase in byRate
-Date: Thu,  7 Oct 2021 18:15:32 +0200
-Message-Id: <20211007161535.7563-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove unused defines from rtw_sreset.h
+Date: Fri,  8 Oct 2021 12:02:09 +0200
+Message-Id: <20211008100209.28801-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,42 +55,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace camel case function parameter name byRate (hungarian notation)
-with snake case equivalent, in card.c
+Remove unused defines from rtw_sreset.h.
 
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/vt6655/card.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/r8188eu/include/rtw_sreset.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 3ef3a6e0e6e1..2b2255b3147c 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -56,7 +56,7 @@ static const unsigned short cwRXBCNTSFOff[MAX_RATE] = {
+diff --git a/drivers/staging/r8188eu/include/rtw_sreset.h b/drivers/staging/r8188eu/include/rtw_sreset.h
+index 47ad185c755f..45bc227d088a 100644
+--- a/drivers/staging/r8188eu/include/rtw_sreset.h
++++ b/drivers/staging/r8188eu/include/rtw_sreset.h
+@@ -21,10 +21,6 @@ struct sreset_priv {
+ #define	USB_VEN_REQ_CMD_FAIL	BIT(0)
+ #define	USB_READ_PORT_FAIL		BIT(1)
+ #define	USB_WRITE_PORT_FAIL		BIT(2)
+-#define	WIFI_MAC_TXDMA_ERROR	BIT(3)
+-#define   WIFI_TX_HANG				BIT(4)
+-#define	WIFI_RX_HANG				BIT(5)
+-#define		WIFI_IF_NOT_EXIST			BIT(6)
  
- /*---------------------  Static Functions  --------------------------*/
- 
--static void s_vCalculateOFDMRParameter(unsigned char byRate, u8 bb_type,
-+static void s_vCalculateOFDMRParameter(unsigned char rate, u8 bb_type,
- 				       unsigned char *pbyTxRate,
- 				       unsigned char *pbyRsvTime);
- 
-@@ -75,12 +75,12 @@ static void s_vCalculateOFDMRParameter(unsigned char byRate, u8 bb_type,
-  *
-  * Return Value: none
-  */
--static void s_vCalculateOFDMRParameter(unsigned char byRate,
-+static void s_vCalculateOFDMRParameter(unsigned char rate,
- 				       u8 bb_type,
- 				       unsigned char *pbyTxRate,
- 				       unsigned char *pbyRsvTime)
- {
--	switch (byRate) {
-+	switch (rate) {
- 	case RATE_6M:
- 		if (bb_type == BB_TYPE_11A) { /* 5GHZ */
- 			*pbyTxRate = 0x9B;
+ void sreset_init_value(struct adapter *padapter);
+ void sreset_reset_value(struct adapter *padapter);
 -- 
-2.25.1
+2.33.0
 
