@@ -1,32 +1,31 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CE72C88
-	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 11:53:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0C62C88
+	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 12:19:49 +0000 (UTC)
 Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mYoRa-0001Fw-GR; Fri, 08 Oct 2021 13:53:42 +0200
+	id 1mYoql-0003zx-DP; Fri, 08 Oct 2021 14:19:43 +0200
 Received: from pza by lupine with local (Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mYoRZ-00063g-Kv; Fri, 08 Oct 2021 13:53:41 +0200
-Message-ID: <c3d2e56b83b8b78b867089a5c815e30248c4f2e1.camel@pengutronix.de>
-Subject: Re: [PATCH] i.MX6: Support 16-bit BT.1120 video input
+	id 1mYoqj-0007MI-Ji; Fri, 08 Oct 2021 14:19:41 +0200
+Message-ID: <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
+Subject: Re: [PATCH] media: imx: Round line size to 4 bytes
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Date: Fri, 08 Oct 2021 13:53:41 +0200
-In-Reply-To: <m37deqmnli.fsf@t19.piap.pl>
-References: <m3o882n0ir.fsf@t19.piap.pl>
-	 <568f79774cc148c58b9045da7b94b4e9e500810b.camel@pengutronix.de>
-	 <m37deqmnli.fsf@t19.piap.pl>
+To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>, Steve Longerbeam
+ <slongerbeam@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+Cc: kernel@puri.sm, phone-devel@vger.kernel.org
+Date: Fri, 08 Oct 2021 14:19:41 +0200
+In-Reply-To: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
+References: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.30.5-1.1 
@@ -41,72 +40,70 @@ X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Hi Krzysztof,
+Hi Dorota,
 
-On Wed, 2021-10-06 at 12:52 +0200, Krzysztof Ha=C5=82asa wrote:
-> Hi Philipp,
+On Wed, 2021-10-06 at 13:05 +0200, Dorota Czaplejewicz wrote:
+> Section 13.7.6.13 "CSI Image Parameter Register" of the
+> i.MX 8M Quad Applications Processors Reference Manual
+> states that the line size should be divisible by 8 bytes.
+> However, the hardware also accepts sizes divisible by 4 bytes.
 >=20
-> Philipp Zabel <p.zabel@pengutronix.de> writes:
+> This patch accepts line sizes divisible 4-bytes in non-planar mode.
+
+Thank you, this makes it much clearer. I see two issues with this,
+though, one small and one a bit bigger:
+
+First, I'd be wary of disregarding the reference manual - unless we know
+better, and then it should be well documented in the code. It might be
+that the 8-byte alignment requirement stems from the fact that the FIFO
+operates in double-word units, which might cause the CSI to write over
+the end of the buffer if the line width is odd (in 32-bit words).
+Or maybe it's just that the FBUF_STRIDE conflicts with this, I'm unclear
+on whether that is only given in units of dwords (although the driver
+currently doesn't support this anyway).
+
+I wonder: if you use 4-byte aligned width and odd height, does the CSI
+write over the end of the buffer?
+
+> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+> ---
 >=20
-> > > + * - BT.656 and BT.1120 (8/10-bit YUV422) data can always be process=
-ed
-> > > + *   on-the-fly (converted to YUV420)
-> >=20
-> > This comment seems misleading. The CSI converts to YUV 4:4:4 internally=
-.
+> Hello,
 >=20
-> Well... this is surprising. You mean "on the internal bus", don't you?
-
-Yes, anything apart from the bayer/generic data modes, internally
-everything is converted into 32-bit YUVA/RGBA pixels (according to the
-Reference Manual, 37.4.2.3 FCW & FCR). That is represented by the
-MEDIA_BUS_FMT_AYUV8_1X32 media bus format at the CSI source pads.
-
-> Please correct me if the following is wrong:
+> my previous patch identified something that was not a problem,
+> so I'm sending a different one.
 >=20
-> I always though that the "on-the-fly processing", in case of YUV422,
-> means in practice I can get YUV420 out of the IPU, without a need to do
-> e.g. NEON conversion.
-
-That is done in the IDMAC, which can write any supported YUV format from
-the internal YUV pixels (if not in bayer/generic data mode).
-
-> I know I can get the original YUV422 as well,
-> using the "generic data" mode, but it's incompatible with the CODA H.264
-> encoder.
-
-You should also be able to store the YUV formatted pixels as NV12, NV16,
-YUYV, etc.
-
-> Ok, the DQRM (37.4.3.2.1) states that for parallel YUV the output from
-> CSI is always YUV444.
-
-Ack.
-
-> Then 37.4.3.9 says that the only YUV422 way is to use 16-bit "generic
-> data". This doesn't seem to be very true, however I'm not exactly sure
-> about the "on-the-fly" thing.
-
-I think that statement is limited to the parallel 16-bit interface in
-hsync/vsync mode, whereas in bt.656 / bt.1120 mode the interface
-operates as if the two components were clocked in as two separate 8-bit
-(or 10-bit) values.
-
-> The fact is the patch works.
-> Also, the CSIx_SENS_DATA_FORMAT field in IPUx_CSIx_SENS_CONF register
-> shows YUV422 YUYV and UYVY input data formats, clearly separate from
-> "Bayer of Generic data".
+> This has been tested on the Librem 5.
 >=20
-> DQIEC, 4.12.10.1, isn't very clear either:
-> 8) YCbCr 20-bit (10-bit Y + 10-bit U/V) is supported with BT.1120 only
-> 7) YCbCr 16-bit is supported under the same conditions as 8)
-> 6) YCbCr 16-bit (=3D YUV422) is also supported as "generic-data"
->    (no on-the-fly processing). This seems to imply 8) and 7) are
->    supported WITH o-t-f-p (and obviously I have tested it, 16-bit only).
->
-> I think I will just remove the comment :-)
+> Cheers,
+> Dorota
+>=20
+>  drivers/staging/media/imx/imx-media-utils.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/stagin=
+g/media/imx/imx-media-utils.c
+> index 5128915a5d6f..a303003929e3 100644
+> --- a/drivers/staging/media/imx/imx-media-utils.c
+> +++ b/drivers/staging/media/imx/imx-media-utils.c
+> @@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_f=
+ormat *pix,
+>  	}
+> =20
+>  	/* Round up width for minimum burst size */
+> -	width =3D round_up(mbus->width, 8);
+> +	width =3D round_up(mbus->width, 4);
+> =20
+>  	/* Round up stride for IDMAC line start address alignment */
+>  	if (cc->planar)
+>  		stride =3D round_up(width, 16);
+>  	else
+> -		stride =3D round_up((width * cc->bpp) >> 3, 8);
+> +		stride =3D round_up((width * cc->bpp) >> 3, 4);
 
-That sounds good to me.
+Second, even if this works fine on the i.MX7/8M CSI, the alignment is
+still required for the i.MX5/6 IPU, for which this code and the comments
+were written. So we need a way to differentiate the two cases here.
 
 regards
 Philipp
