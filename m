@@ -1,52 +1,60 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620B22C83
-	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 17:26:30 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id o20so31845558wro.3
-        for <linux-staging@lists.linux.dev>; Fri, 08 Oct 2021 10:26:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EA12C83
+	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 17:45:21 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id t8so32260779wri.1
+        for <linux-staging@lists.linux.dev>; Fri, 08 Oct 2021 10:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fah6fMg3qj46qR+RN20MjI9vCGiqxDv/9mCcKXLHlzU=;
-        b=qEBIWBGsMqbjtO+6chLcT7CNx4AIvrqniID3DIg4cZqWDsqvVU/rZuFNc7Z1bjYwsz
-         GtNJtOx7k7JUhDgAKz5bRnGdHSZr2Io4h09AhVCw7ZZjDR7zZVje6gi0j9qLaBSYAd4T
-         AcQa0UZjetlmWQkjIQtZY88fUjWi0UjcVzVnf1EVZIutuuNi20pCoQRNyRnJy3k0MhJH
-         T+iQUvp8CNVhI4BM8dMg0tHf6clkrLY81CtpMH8jqZgJygvyD3ub33L30M05u32ZidG0
-         +XMyWi8chHA2Dw2sa43U9ipk6rgd5IVHSix4vnPVUk10Hmn9bXeLn4d+xLIPN/qZPOA2
-         j/zQ==
+        bh=NhZIKSl99b3rJCmOtrCxLsBnbbwrUR85VN1YJ/hrO1I=;
+        b=oJTqJLC6SGQk19PW+PwRiVXN+GKywtpO325delzTsvTSFew3rBbRlW//onRPeUdTVD
+         h6E2Qcq0PTpb82dc/YIiX/JMu5VV0nHJfN/u8e3dUT90yIIL4p5qhw30bf4VzXYM+H8d
+         qhULs2JhhTul/L+MNMpN9zLrdl6UZsVcm34DDD8r9SkoTZ6Bb1UA1gp6jd0xgeJ2fRLC
+         /Bgn2dd9nu6Qxj1chRS/8bdTq8p5YHcLZAr1PqBNTWdnpOMPyVLHUkLJvOmicaO8saLM
+         nLbPWv9Gwas7N0wuC/2cn3lLZbt8Kg5gXFPBw1ABWUt5HLXzN4QE/z/nNKShpThtKTW1
+         4QBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fah6fMg3qj46qR+RN20MjI9vCGiqxDv/9mCcKXLHlzU=;
-        b=nmWCLEU7WKvuFUB4ESZT6JiFr5w8ViQBHDFjoHwtfv9KMLBJVr5jXO46eqWkRY366G
-         7J3/N3AdX0GN7k2gb8/cSC5RMKPkLj0vuJSl4C3oSvHnNbs5UlrBL9dTuUIj7EFmr8zQ
-         MuN2w0Zg5TlTJE4QjxOVtp77GcLYFfdxTbz+BT3KkbDjENq2PkdDPM6WIiGGWZx2eGAv
-         dyIpRnxcndvJx0sB8FlpdCfWWL2GWqUZcD8ZA1zipDDTwXkDG/dZrSxMuWRRePxs0WZB
-         PQF64389G42RVoucYws+CmmjvL4q2KGk8SmE1itnF4gOoEMl0maeb8Wo4vbtofz/4dQH
-         sr1A==
-X-Gm-Message-State: AOAM532My/XDxvcZeRXnRmdBYamAeRjcAtJ3muqxZ+KM0vc+xNQiSTkG
-	rZ6B9hCG9igyFkbX7gPJQ7A=
-X-Google-Smtp-Source: ABdhPJwL/0AmBXev2xD93BuHSliY7tqUR4qWFZvht8EafV6HhK29M/t7wRT82QC30LmkHgh8vnOCOA==
-X-Received: by 2002:a05:600c:35d0:: with SMTP id r16mr4849133wmq.26.1633713988669;
-        Fri, 08 Oct 2021 10:26:28 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5d0b])
-        by smtp.gmail.com with ESMTPSA id 61sm3212780wrl.94.2021.10.08.10.26.27
+        bh=NhZIKSl99b3rJCmOtrCxLsBnbbwrUR85VN1YJ/hrO1I=;
+        b=ZImRJ79r8uSXRZ+ht8FajI7GbaN8M2cnA/os77A1pNntCLBx4KpAzICO/c6mTXUzw+
+         lGlYMZN3F6r4kzBPMGJFQgWX/xs2C6Y97RAD0Q9PuF6kzsQJwI3rqc6vUXcrs8P/Y98w
+         7H65QVMjJHkCGClUtakzboPj/VvW1K9Px9HA7DcfEjh12rdrBVvkMVo6xpssXhbkLE+6
+         gZoyXQ2hHO6cXNIJGFTsZ1X0OL2Xg4MjKSTc7+L3QaLjGaL6qzTnKdQuCAe5DKJasiVZ
+         ouu933KJEF3VU00KyWi6UYGDI5M0ru9dDQU8IkUvaWXfx4nPnFu12UkF2d0aY6wro27r
+         A73Q==
+X-Gm-Message-State: AOAM532lgXbBzxLy/kaRyOHyAGuXsABlQJTqAquHx+i+H8L19KHcpoR9
+	f2+AAsM9otssud3AlLRZSEk=
+X-Google-Smtp-Source: ABdhPJw5n+J3Swujsw7j8iOlJODzKdGldgHt3JeXpvQq/5O2F7hc7Nn0fThZbim2JgUoqeqhKLylRQ==
+X-Received: by 2002:a1c:27c3:: with SMTP id n186mr4968119wmn.192.1633715119689;
+        Fri, 08 Oct 2021 10:45:19 -0700 (PDT)
+Received: from tom-desktop.station (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
+        by smtp.gmail.com with ESMTPSA id q12sm3022153wmj.6.2021.10.08.10.45.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 10:26:28 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
+        Fri, 08 Oct 2021 10:45:19 -0700 (PDT)
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: 
+Cc: tomm.merciai@gmail.com,
+	Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	Yujia Qiao <rapiz@foxmail.com>,
+	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+	Edmundo Carmona Antoranz <eantoranz@gmail.com>,
+	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
+	Deepak R Varma <mh12gx2825@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: remove some dead code
-Date: Fri,  8 Oct 2021 19:26:21 +0200
-Message-Id: <20211008172621.8721-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vt6655: fix camelcase in byLocalID
+Date: Fri,  8 Oct 2021 19:44:57 +0200
+Message-Id: <20211008174512.36617-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,127 +63,179 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In this driver SupportICType is ODM_RTL8188E and SupportInterface is
-ODM_ITRF_USB. Remove an if statement that is never true and remove
-function odm_DIGbyRSSI_LPS() which is used only in this dead if block.
+Replace camel case variable name for variable byLocalID
+with snake case equivalent.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
 ---
-Tested on x86_64 with Inter-Tech DMG-02.
+ drivers/staging/vt6655/baseband.c    | 2 +-
+ drivers/staging/vt6655/card.c        | 2 +-
+ drivers/staging/vt6655/channel.c     | 2 +-
+ drivers/staging/vt6655/device.h      | 2 +-
+ drivers/staging/vt6655/device_main.c | 6 +++---
+ drivers/staging/vt6655/dpc.c         | 2 +-
+ drivers/staging/vt6655/key.c         | 2 +-
+ drivers/staging/vt6655/mac.c         | 4 ++--
+ drivers/staging/vt6655/mac.h         | 2 +-
+ drivers/staging/vt6655/rxtx.c        | 2 +-
+ 10 files changed, 13 insertions(+), 13 deletions(-)
 
- drivers/staging/r8188eu/hal/odm.c     | 59 +--------------------------
- drivers/staging/r8188eu/include/odm.h | 14 -------
- 2 files changed, 1 insertion(+), 72 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index bc49dc856a60..d3f8c7442daf 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -186,17 +186,7 @@ void ODM_DMWatchdog(struct odm_dm_struct *pDM_Odm)
- 	odm_FalseAlarmCounterStatistics(pDM_Odm);
- 	odm_RSSIMonitorCheck(pDM_Odm);
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index f73f3fad3e05..6afb571cac63 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -1994,7 +1994,7 @@ bool bb_vt3253_init(struct vnt_private *priv)
+ 	int        ii;
+ 	void __iomem *iobase = priv->PortOffset;
+ 	unsigned char by_rf_type = priv->byRFType;
+-	unsigned char by_local_id = priv->byLocalID;
++	unsigned char by_local_id = priv->local_id;
  
--	/* For CE Platform(SPRD or Tablet) */
--	/* 8723A or 8189ES platform */
--	/* NeilChen--2012--08--24-- */
--	/* Fix Leave LPS issue */
--	if ((pDM_Odm->Adapter->pwrctrlpriv.pwr_mode != PS_MODE_ACTIVE) &&/*  in LPS mode */
--	    ((pDM_Odm->SupportICType & (ODM_RTL8723A)) ||
--	    (pDM_Odm->SupportICType & (ODM_RTL8188E) &&
--	    ((pDM_Odm->SupportInterface  == ODM_ITRF_SDIO)))))
--		odm_DIGbyRSSI_LPS(pDM_Odm);
--	else
--		odm_DIG(pDM_Odm);
-+	odm_DIG(pDM_Odm);
- 	odm_CCKPacketDetectionThresh(pDM_Odm);
+ 	if (by_rf_type == RF_RFMD2959) {
+ 		if (by_local_id <= REV_ID_VT3253_A1) {
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 2b2255b3147c..94d5fa8ea3c5 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -427,7 +427,7 @@ void CARDbRadioPowerOff(struct vnt_private *priv)
  
- 	if (*pDM_Odm->pbPowerSaving)
-@@ -456,53 +446,6 @@ void ODM_Write_DIG(struct odm_dm_struct *pDM_Odm, u8 CurrentIGI)
+ 	MACvRegBitsOff(priv->PortOffset, MAC_REG_HOSTCR, HOSTCR_RXON);
+ 
+-	bb_set_deep_sleep(priv, priv->byLocalID);
++	bb_set_deep_sleep(priv, priv->local_id);
+ 
+ 	priv->bRadioOff = true;
+ 	pr_debug("chester power off\n");
+diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
+index 52b6538a201a..59a3c4990f12 100644
+--- a/drivers/staging/vt6655/channel.c
++++ b/drivers/staging/vt6655/channel.c
+@@ -193,7 +193,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
+ 
+ 	bb_software_reset(priv);
+ 
+-	if (priv->byLocalID > REV_ID_VT3253_B1) {
++	if (priv->local_id > REV_ID_VT3253_B1) {
+ 		unsigned long flags;
+ 
+ 		spin_lock_irqsave(&priv->lock, flags);
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 2af769174e33..afdcf2cfcca0 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -154,7 +154,7 @@ struct vnt_private {
+ 	u32                         rx_bytes;
+ 
+ 	/* Version control */
+-	unsigned char byLocalID;
++	unsigned char local_id;
+ 	unsigned char byRFType;
+ 
+ 	unsigned char byMaxPwrLevel;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index d40c2ac14928..9b772e4747fd 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -219,7 +219,7 @@ static void device_init_registers(struct vnt_private *priv)
+ 	MACvInitialize(priv);
+ 
+ 	/* Get Local ID */
+-	VNSvInPortB(priv->PortOffset + MAC_REG_LOCALID, &priv->byLocalID);
++	VNSvInPortB(priv->PortOffset + MAC_REG_LOCALID, &priv->local_id);
+ 
+ 	spin_lock_irqsave(&priv->lock, flags);
+ 
+@@ -331,7 +331,7 @@ static void device_init_registers(struct vnt_private *priv)
+ 					   (unsigned char)(ii + EEP_OFS_OFDMA_PWR_dBm));
  	}
+ 
+-	if (priv->byLocalID > REV_ID_VT3253_B1) {
++	if (priv->local_id > REV_ID_VT3253_B1) {
+ 		MACvSelectPage1(priv->PortOffset);
+ 
+ 		VNSvOutPortB(priv->PortOffset + MAC_REG_MSRCTL + 1,
+@@ -398,7 +398,7 @@ static void device_init_registers(struct vnt_private *priv)
+ 	/* reset Rx pointer */
+ 	CARDvSafeResetTx(priv);
+ 
+-	if (priv->byLocalID <= REV_ID_VT3253_A1)
++	if (priv->local_id <= REV_ID_VT3253_A1)
+ 		MACvRegBitsOn(priv->PortOffset, MAC_REG_RCR, RCR_WPAERR);
+ 
+ 	/* Turn On Rx DMA */
+diff --git a/drivers/staging/vt6655/dpc.c b/drivers/staging/vt6655/dpc.c
+index 2d06cecc0307..a7d1d35de5d4 100644
+--- a/drivers/staging/vt6655/dpc.c
++++ b/drivers/staging/vt6655/dpc.c
+@@ -100,7 +100,7 @@ static bool vnt_rx_data(struct vnt_private *priv, struct sk_buff *skb,
+ 	rx_status.rate_idx = rate_idx;
+ 
+ 	if (ieee80211_has_protected(fc)) {
+-		if (priv->byLocalID > REV_ID_VT3253_A1)
++		if (priv->local_id > REV_ID_VT3253_A1)
+ 			rx_status.flag |= RX_FLAG_DECRYPTED;
+ 
+ 		/* Drop packet */
+diff --git a/drivers/staging/vt6655/key.c b/drivers/staging/vt6655/key.c
+index 20881cf2f394..f843966a3ea4 100644
+--- a/drivers/staging/vt6655/key.c
++++ b/drivers/staging/vt6655/key.c
+@@ -81,7 +81,7 @@ static int vnt_set_keymode(struct ieee80211_hw *hw, u8 *mac_addr,
+ 	}
+ 
+ 	MACvSetKeyEntry(priv, key_mode, entry, key_inx,
+-			bssid, (u32 *)key->key, priv->byLocalID);
++			bssid, (u32 *)key->key, priv->local_id);
+ 
+ 	return 0;
  }
- 
--/* Need LPS mode for CE platform --2012--08--24--- */
--/* 8723AS/8189ES */
--void odm_DIGbyRSSI_LPS(struct odm_dm_struct *pDM_Odm)
--{
--	struct adapter *pAdapter = pDM_Odm->Adapter;
--	struct false_alarm_stats *pFalseAlmCnt = &pDM_Odm->FalseAlmCnt;
--
--	u8 RSSI_Lower = DM_DIG_MIN_NIC;   /* 0x1E or 0x1C */
--	u8 bFwCurrentInPSMode = false;
--	u8 CurrentIGI = pDM_Odm->RSSI_Min;
--
--	if (!(pDM_Odm->SupportICType & (ODM_RTL8723A | ODM_RTL8188E)))
--		return;
--
--	CurrentIGI = CurrentIGI + RSSI_OFFSET_DIG;
--	bFwCurrentInPSMode = pAdapter->pwrctrlpriv.bFwCurrentInPSMode;
--
--	/*  Using FW PS mode to make IGI */
--	if (bFwCurrentInPSMode) {
--		/* Adjust by  FA in LPS MODE */
--		if (pFalseAlmCnt->Cnt_all > DM_DIG_FA_TH2_LPS)
--			CurrentIGI = CurrentIGI + 2;
--		else if (pFalseAlmCnt->Cnt_all > DM_DIG_FA_TH1_LPS)
--			CurrentIGI = CurrentIGI + 1;
--		else if (pFalseAlmCnt->Cnt_all < DM_DIG_FA_TH0_LPS)
--			CurrentIGI = CurrentIGI - 1;
--	} else {
--		CurrentIGI = RSSI_Lower;
--	}
--
--	/* Lower bound checking */
--
--	/* RSSI Lower bound check */
--	if ((pDM_Odm->RSSI_Min - 10) > DM_DIG_MIN_NIC)
--		RSSI_Lower = (pDM_Odm->RSSI_Min - 10);
--	else
--		RSSI_Lower = DM_DIG_MIN_NIC;
--
--	/* Upper and Lower Bound checking */
--	if (CurrentIGI > DM_DIG_MAX_NIC)
--		CurrentIGI = DM_DIG_MAX_NIC;
--	else if (CurrentIGI < RSSI_Lower)
--		CurrentIGI = RSSI_Lower;
--
--	ODM_Write_DIG(pDM_Odm, CurrentIGI);/* ODM_Write_DIG(pDM_Odm, pDM_DigTable->CurIGValue); */
--}
--
- void odm_DIGInit(struct odm_dm_struct *pDM_Odm)
+diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
+index 9721c2234bf2..4d5fec897d23 100644
+--- a/drivers/staging/vt6655/mac.c
++++ b/drivers/staging/vt6655/mac.c
+@@ -763,14 +763,14 @@ bool MACbPSWakeup(struct vnt_private *priv)
+ void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
+ 		     unsigned int uEntryIdx, unsigned int uKeyIdx,
+ 		     unsigned char *pbyAddr, u32 *pdwKey,
+-		     unsigned char byLocalID)
++		     unsigned char local_id)
  {
- 	struct rtw_dig *pDM_DigTable = &pDM_Odm->DM_DigTable;
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 48d383f91c16..ac053312d817 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -4,18 +4,6 @@
- #ifndef	__HALDMOUTSRC_H__
- #define __HALDMOUTSRC_H__
+ 	void __iomem *io_base = priv->PortOffset;
+ 	unsigned short offset;
+ 	u32 data;
+ 	int     ii;
  
--/*  */
--/* 3 PSD Handler */
--/* 3============================================================ */
--
--/*  LPS define */
--#define DM_DIG_FA_TH0_LPS		4 /*  4 in lps */
--#define DM_DIG_FA_TH1_LPS		15 /*  15 lps */
--#define DM_DIG_FA_TH2_LPS		30 /*  30 lps */
--#define RSSI_OFFSET_DIG			0x05;
--
--/*  structure and define */
--
- /*  Add for AP/ADSLpseudo DM structuer requirement. */
- /*  We need to remove to other position??? */
- struct rtl8192cd_priv {
-@@ -972,8 +960,6 @@ u32 ConvertTo_dB(u32 Value);
- u32 GetPSDData(struct odm_dm_struct *pDM_Odm, unsigned int point,
- 	       u8 initial_gain_psd);
+-	if (byLocalID <= 1)
++	if (local_id <= 1)
+ 		return;
  
--void odm_DIGbyRSSI_LPS(struct odm_dm_struct *pDM_Odm);
--
- u32 ODM_Get_Rate_Bitmap(struct odm_dm_struct *pDM_Odm, u32 macid,
- 			u32 ra_mask, u8 rssi_level);
+ 	offset = MISCFIFO_KEYETRY0;
+diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
+index 9797eddaea01..bd8deff7f206 100644
+--- a/drivers/staging/vt6655/mac.h
++++ b/drivers/staging/vt6655/mac.h
+@@ -921,7 +921,7 @@ bool MACbPSWakeup(struct vnt_private *priv);
+ void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
+ 		     unsigned int uEntryIdx, unsigned int uKeyIdx,
+ 		     unsigned char *pbyAddr, u32 *pdwKey,
+-		     unsigned char byLocalID);
++		     unsigned char local_id);
+ void MACvDisableKeyEntry(struct vnt_private *priv, unsigned int uEntryIdx);
  
+ #endif /* __MAC_H__ */
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index 5395c3a3e35a..89b88dbef77f 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -1012,7 +1012,7 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+ 
+ 		cbFrameSize += info->control.hw_key->icv_len;
+ 
+-		if (pDevice->byLocalID > REV_ID_VT3253_A1) {
++		if (pDevice->local_id > REV_ID_VT3253_A1) {
+ 			/* MAC Header should be padding 0 to DW alignment. */
+ 			uPadding = 4 - (ieee80211_get_hdrlen_from_skb(skb) % 4);
+ 			uPadding %= 4;
 -- 
-2.33.0
+2.25.1
 
