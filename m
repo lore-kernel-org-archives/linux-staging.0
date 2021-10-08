@@ -1,109 +1,84 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0C62C88
-	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 12:19:49 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mYoql-0003zx-DP; Fri, 08 Oct 2021 14:19:43 +0200
-Received: from pza by lupine with local (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mYoqj-0007MI-Ji; Fri, 08 Oct 2021 14:19:41 +0200
-Message-ID: <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
-Subject: Re: [PATCH] media: imx: Round line size to 4 bytes
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>, Steve Longerbeam
- <slongerbeam@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-Cc: kernel@puri.sm, phone-devel@vger.kernel.org
-Date: Fri, 08 Oct 2021 14:19:41 +0200
-In-Reply-To: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
-References: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197642C81
+	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 15:01:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrzej.p)
+	with ESMTPSA id A4F701F45ABA
+Subject: Re: [PATCH 0/2] media: rkvdec: Align decoder behavior with Hantro and
+ Cedrus
+To: Chen-Yu Tsai <wenst@chromium.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20211008100423.739462-1-wenst@chromium.org>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <c5393cf3-e2d1-4000-3bd1-00a09bb0ee8f@collabora.com>
+Date: Fri, 8 Oct 2021 17:01:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+In-Reply-To: <20211008100423.739462-1-wenst@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi Dorota,
+Hi Chen-Yu Tsai,
 
-On Wed, 2021-10-06 at 13:05 +0200, Dorota Czaplejewicz wrote:
-> Section 13.7.6.13 "CSI Image Parameter Register" of the
-> i.MX 8M Quad Applications Processors Reference Manual
-> states that the line size should be divisible by 8 bytes.
-> However, the hardware also accepts sizes divisible by 4 bytes.
->=20
-> This patch accepts line sizes divisible 4-bytes in non-planar mode.
+W dniu 08.10.2021 o 12:04, Chen-Yu Tsai pisze:
+> Hi everyone,
+> 
+> While working on the rkvdec H.264 decoder for ChromeOS, I noticed some
+> behavioral differences compared to Hantro and Cedrus:
+> 
+> 1. The driver always overrides the sizeimage setting given by userspace
+>     for the output format. This results in insufficient buffer space when
+>     running the ChromeOS video_decode_accelerator_tests test program,
+>     likely due to a small initial resolution followed by dynamic
+>     resolution change.
+> 
+> 2. Doesn't support dynamic resolution change.
+> 
+> This small series fixes both and aligns the behavior with the other two
+> stateless decoder drivers. This was tested on the downstream ChromeOS
+> 5.10 kernel with ChromeOS. Also compiled tested on mainline but I don't
+> have any other RK3399 devices set up to test video stuff, so testing
+> would be very much appreciated.
+> 
+> Also, I'm not sure if user applications are required to check the value
+> of sizeimage upon S_FMT return. If the value is different or too small,
+> what can the application do besides fail? AFAICT it can't split the
+> data of one frame (or slice) between different buffers.
+> 
+> Andrzej, I believe the second patch would conflict with your VP9 series.
+> 
 
-Thank you, this makes it much clearer. I see two issues with this,
-though, one small and one a bit bigger:
+The conflict is rather trivial to solve. Adopting your version does not
+change in any way (neither for better nor for worse) the fluster score
+I get for vp9 with rkvdec on a rockpi4 using my vp9 series.
 
-First, I'd be wary of disregarding the reference manual - unless we know
-better, and then it should be well documented in the code. It might be
-that the 8-byte alignment requirement stems from the fact that the FIFO
-operates in double-word units, which might cause the CSI to write over
-the end of the buffer if the line width is odd (in 32-bit words).
-Or maybe it's just that the FBUF_STRIDE conflicts with this, I'm unclear
-on whether that is only given in units of dwords (although the driver
-currently doesn't support this anyway).
+Regards,
 
-I wonder: if you use 4-byte aligned width and odd height, does the CSI
-write over the end of the buffer?
+Andrzej
 
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
->=20
-> Hello,
->=20
-> my previous patch identified something that was not a problem,
-> so I'm sending a different one.
->=20
-> This has been tested on the Librem 5.
->=20
-> Cheers,
-> Dorota
->=20
->  drivers/staging/media/imx/imx-media-utils.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/stagin=
-g/media/imx/imx-media-utils.c
-> index 5128915a5d6f..a303003929e3 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -545,13 +545,13 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_f=
-ormat *pix,
->  	}
-> =20
->  	/* Round up width for minimum burst size */
-> -	width =3D round_up(mbus->width, 8);
-> +	width =3D round_up(mbus->width, 4);
-> =20
->  	/* Round up stride for IDMAC line start address alignment */
->  	if (cc->planar)
->  		stride =3D round_up(width, 16);
->  	else
-> -		stride =3D round_up((width * cc->bpp) >> 3, 8);
-> +		stride =3D round_up((width * cc->bpp) >> 3, 4);
+> 
+> Regards
+> ChenYu
+> 
+> Chen-Yu Tsai (2):
+>    media: rkvdec: Do not override sizeimage for output format
+>    media: rkvdec: Support dynamic resolution changes
+> 
+>   drivers/staging/media/rkvdec/rkvdec-h264.c |  5 +--
+>   drivers/staging/media/rkvdec/rkvdec.c      | 40 +++++++++++-----------
+>   2 files changed, 23 insertions(+), 22 deletions(-)
+> 
 
-Second, even if this works fine on the i.MX7/8M CSI, the alignment is
-still required for the i.MX5/6 IPU, for which this code and the comments
-were written. So we need a way to differentiate the two cases here.
-
-regards
-Philipp
