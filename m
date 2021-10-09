@@ -1,241 +1,85 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EA12C83
-	for <linux-staging@lists.linux.dev>; Fri,  8 Oct 2021 17:45:21 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id t8so32260779wri.1
-        for <linux-staging@lists.linux.dev>; Fri, 08 Oct 2021 10:45:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE5C2C83
+	for <linux-staging@lists.linux.dev>; Sat,  9 Oct 2021 05:06:19 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id cs11-20020a17090af50b00b0019fe3df3dddso8136838pjb.0
+        for <linux-staging@lists.linux.dev>; Fri, 08 Oct 2021 22:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NhZIKSl99b3rJCmOtrCxLsBnbbwrUR85VN1YJ/hrO1I=;
-        b=oJTqJLC6SGQk19PW+PwRiVXN+GKywtpO325delzTsvTSFew3rBbRlW//onRPeUdTVD
-         h6E2Qcq0PTpb82dc/YIiX/JMu5VV0nHJfN/u8e3dUT90yIIL4p5qhw30bf4VzXYM+H8d
-         qhULs2JhhTul/L+MNMpN9zLrdl6UZsVcm34DDD8r9SkoTZ6Bb1UA1gp6jd0xgeJ2fRLC
-         /Bgn2dd9nu6Qxj1chRS/8bdTq8p5YHcLZAr1PqBNTWdnpOMPyVLHUkLJvOmicaO8saLM
-         nLbPWv9Gwas7N0wuC/2cn3lLZbt8Kg5gXFPBw1ABWUt5HLXzN4QE/z/nNKShpThtKTW1
-         4QBg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=RCPTshEDJD1Y+rfEbp8XH1g9vPebJXz3+gWAjl+hT5g=;
+        b=EIJ5Mz+icS1YZj8r0R1Nc8L1pvrdj0GhkTBuGyuhtY2XcPQDw48WeA3M2t8AcrjNPO
+         7sGDkLLKNqvqXNdUZXW27u44R/xEJS06uTOYFTx5v4PFtcmdm2XmW34rhHpOwfuSYElO
+         VgAAH2C8NT0pshjoqZ4wfKGFuoL8m1Wqu9Uyp4r49xQZwKmuq169yLQZqqIyw2VNOKN7
+         mxWampOIacsBfGY92ms76f97AZvX4T/chjTi/pov3q07MwUhv+zKAFrv5+0bVntpDvkF
+         vfRBabI66ToZ4R2JUABelFWkdin2LB0Y7UBKcomjF/qZjEHJQ76FND/JUFASsYE/KQlw
+         HIjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NhZIKSl99b3rJCmOtrCxLsBnbbwrUR85VN1YJ/hrO1I=;
-        b=ZImRJ79r8uSXRZ+ht8FajI7GbaN8M2cnA/os77A1pNntCLBx4KpAzICO/c6mTXUzw+
-         lGlYMZN3F6r4kzBPMGJFQgWX/xs2C6Y97RAD0Q9PuF6kzsQJwI3rqc6vUXcrs8P/Y98w
-         7H65QVMjJHkCGClUtakzboPj/VvW1K9Px9HA7DcfEjh12rdrBVvkMVo6xpssXhbkLE+6
-         gZoyXQ2hHO6cXNIJGFTsZ1X0OL2Xg4MjKSTc7+L3QaLjGaL6qzTnKdQuCAe5DKJasiVZ
-         ouu933KJEF3VU00KyWi6UYGDI5M0ru9dDQU8IkUvaWXfx4nPnFu12UkF2d0aY6wro27r
-         A73Q==
-X-Gm-Message-State: AOAM532lgXbBzxLy/kaRyOHyAGuXsABlQJTqAquHx+i+H8L19KHcpoR9
-	f2+AAsM9otssud3AlLRZSEk=
-X-Google-Smtp-Source: ABdhPJw5n+J3Swujsw7j8iOlJODzKdGldgHt3JeXpvQq/5O2F7hc7Nn0fThZbim2JgUoqeqhKLylRQ==
-X-Received: by 2002:a1c:27c3:: with SMTP id n186mr4968119wmn.192.1633715119689;
-        Fri, 08 Oct 2021 10:45:19 -0700 (PDT)
-Received: from tom-desktop.station (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
-        by smtp.gmail.com with ESMTPSA id q12sm3022153wmj.6.2021.10.08.10.45.18
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=RCPTshEDJD1Y+rfEbp8XH1g9vPebJXz3+gWAjl+hT5g=;
+        b=6TsmkIw2/7yvuCRU7mb2QBlP071u2FoWo3OWtE0LTOjpUe4QgJTkxXhAgooC0r9ZUS
+         5V3Ku8JQOEYd2yU9tq7NCAjYdf6susW1RliVP67PGsvRZIu5QcHJ/cO2TfhpahTZxTk+
+         QcPGIjCD7CsIeviBUOePJdCIJYchmw2uVQbDueS4+ObCj4zgxEkeovmVLDeXupVIrPCn
+         rswKODYOQ1MUdI/bnxk3465yBK4iIb3bF+tl3WtOBKyx1sEsIVXUShvY+fVLS2kY1Sjj
+         84dRtQNP4eo8KSJEqGYRApceF0i6UkJazhzZANUogsjSIIhXJLE4EPa0+lEGlBOvHh3y
+         CtyA==
+X-Gm-Message-State: AOAM530leHmaM1qxCT0V10X1m0GZAqc4dMuSzLYaPGofn7+38yfePVgF
+	ONun8s66+zrLetRrzLHqAqk=
+X-Google-Smtp-Source: ABdhPJzgoC5KXNuVzYu5qXB78+uaAonwDHIH4jd5tYu5LZcw6KKPu8qR9I8vCVr3IY3n9CRAWpUSAA==
+X-Received: by 2002:a17:902:a40c:b029:12c:17cf:ab6f with SMTP id p12-20020a170902a40cb029012c17cfab6fmr13119033plq.71.1633755978416;
+        Fri, 08 Oct 2021 22:06:18 -0700 (PDT)
+Received: from user ([223.230.43.197])
+        by smtp.gmail.com with ESMTPSA id w15sm829770pfc.220.2021.10.08.22.06.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Oct 2021 10:45:19 -0700 (PDT)
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: tomm.merciai@gmail.com,
-	Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Yujia Qiao <rapiz@foxmail.com>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
-	Edmundo Carmona Antoranz <eantoranz@gmail.com>,
-	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
-	Deepak R Varma <mh12gx2825@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-staging@lists.linux.dev,
+        Fri, 08 Oct 2021 22:06:17 -0700 (PDT)
+Date: Sat, 9 Oct 2021 10:36:12 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com, fmdefrancesco@gmail.com,
+	zhansayabagdaulet@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: vt6655: fix camelcase in byLocalID
-Date: Fri,  8 Oct 2021 19:44:57 +0200
-Message-Id: <20211008174512.36617-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: rtl8723bs: core: merge the if conditions
+Message-ID: <YWEjRHU5FCoVphmu@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Replace camel case variable name for variable byLocalID
-with snake case equivalent.
+merge the two consecutive if conditions in rtw_set_rpwm().
+Both are having same condition to check.
 
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 ---
- drivers/staging/vt6655/baseband.c    | 2 +-
- drivers/staging/vt6655/card.c        | 2 +-
- drivers/staging/vt6655/channel.c     | 2 +-
- drivers/staging/vt6655/device.h      | 2 +-
- drivers/staging/vt6655/device_main.c | 6 +++---
- drivers/staging/vt6655/dpc.c         | 2 +-
- drivers/staging/vt6655/key.c         | 2 +-
- drivers/staging/vt6655/mac.c         | 4 ++--
- drivers/staging/vt6655/mac.h         | 2 +-
- drivers/staging/vt6655/rxtx.c        | 2 +-
- 10 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index f73f3fad3e05..6afb571cac63 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -1994,7 +1994,7 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	int        ii;
- 	void __iomem *iobase = priv->PortOffset;
- 	unsigned char by_rf_type = priv->byRFType;
--	unsigned char by_local_id = priv->byLocalID;
-+	unsigned char by_local_id = priv->local_id;
- 
- 	if (by_rf_type == RF_RFMD2959) {
- 		if (by_local_id <= REV_ID_VT3253_A1) {
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 2b2255b3147c..94d5fa8ea3c5 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -427,7 +427,7 @@ void CARDbRadioPowerOff(struct vnt_private *priv)
- 
- 	MACvRegBitsOff(priv->PortOffset, MAC_REG_HOSTCR, HOSTCR_RXON);
- 
--	bb_set_deep_sleep(priv, priv->byLocalID);
-+	bb_set_deep_sleep(priv, priv->local_id);
- 
- 	priv->bRadioOff = true;
- 	pr_debug("chester power off\n");
-diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
-index 52b6538a201a..59a3c4990f12 100644
---- a/drivers/staging/vt6655/channel.c
-+++ b/drivers/staging/vt6655/channel.c
-@@ -193,7 +193,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
- 
- 	bb_software_reset(priv);
- 
--	if (priv->byLocalID > REV_ID_VT3253_B1) {
-+	if (priv->local_id > REV_ID_VT3253_B1) {
- 		unsigned long flags;
- 
- 		spin_lock_irqsave(&priv->lock, flags);
-diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index 2af769174e33..afdcf2cfcca0 100644
---- a/drivers/staging/vt6655/device.h
-+++ b/drivers/staging/vt6655/device.h
-@@ -154,7 +154,7 @@ struct vnt_private {
- 	u32                         rx_bytes;
- 
- 	/* Version control */
--	unsigned char byLocalID;
-+	unsigned char local_id;
- 	unsigned char byRFType;
- 
- 	unsigned char byMaxPwrLevel;
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index d40c2ac14928..9b772e4747fd 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -219,7 +219,7 @@ static void device_init_registers(struct vnt_private *priv)
- 	MACvInitialize(priv);
- 
- 	/* Get Local ID */
--	VNSvInPortB(priv->PortOffset + MAC_REG_LOCALID, &priv->byLocalID);
-+	VNSvInPortB(priv->PortOffset + MAC_REG_LOCALID, &priv->local_id);
- 
- 	spin_lock_irqsave(&priv->lock, flags);
- 
-@@ -331,7 +331,7 @@ static void device_init_registers(struct vnt_private *priv)
- 					   (unsigned char)(ii + EEP_OFS_OFDMA_PWR_dBm));
- 	}
- 
--	if (priv->byLocalID > REV_ID_VT3253_B1) {
-+	if (priv->local_id > REV_ID_VT3253_B1) {
- 		MACvSelectPage1(priv->PortOffset);
- 
- 		VNSvOutPortB(priv->PortOffset + MAC_REG_MSRCTL + 1,
-@@ -398,7 +398,7 @@ static void device_init_registers(struct vnt_private *priv)
- 	/* reset Rx pointer */
- 	CARDvSafeResetTx(priv);
- 
--	if (priv->byLocalID <= REV_ID_VT3253_A1)
-+	if (priv->local_id <= REV_ID_VT3253_A1)
- 		MACvRegBitsOn(priv->PortOffset, MAC_REG_RCR, RCR_WPAERR);
- 
- 	/* Turn On Rx DMA */
-diff --git a/drivers/staging/vt6655/dpc.c b/drivers/staging/vt6655/dpc.c
-index 2d06cecc0307..a7d1d35de5d4 100644
---- a/drivers/staging/vt6655/dpc.c
-+++ b/drivers/staging/vt6655/dpc.c
-@@ -100,7 +100,7 @@ static bool vnt_rx_data(struct vnt_private *priv, struct sk_buff *skb,
- 	rx_status.rate_idx = rate_idx;
- 
- 	if (ieee80211_has_protected(fc)) {
--		if (priv->byLocalID > REV_ID_VT3253_A1)
-+		if (priv->local_id > REV_ID_VT3253_A1)
- 			rx_status.flag |= RX_FLAG_DECRYPTED;
- 
- 		/* Drop packet */
-diff --git a/drivers/staging/vt6655/key.c b/drivers/staging/vt6655/key.c
-index 20881cf2f394..f843966a3ea4 100644
---- a/drivers/staging/vt6655/key.c
-+++ b/drivers/staging/vt6655/key.c
-@@ -81,7 +81,7 @@ static int vnt_set_keymode(struct ieee80211_hw *hw, u8 *mac_addr,
- 	}
- 
- 	MACvSetKeyEntry(priv, key_mode, entry, key_inx,
--			bssid, (u32 *)key->key, priv->byLocalID);
-+			bssid, (u32 *)key->key, priv->local_id);
- 
- 	return 0;
- }
-diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index 9721c2234bf2..4d5fec897d23 100644
---- a/drivers/staging/vt6655/mac.c
-+++ b/drivers/staging/vt6655/mac.c
-@@ -763,14 +763,14 @@ bool MACbPSWakeup(struct vnt_private *priv)
- void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
- 		     unsigned int uEntryIdx, unsigned int uKeyIdx,
- 		     unsigned char *pbyAddr, u32 *pdwKey,
--		     unsigned char byLocalID)
-+		     unsigned char local_id)
- {
- 	void __iomem *io_base = priv->PortOffset;
- 	unsigned short offset;
- 	u32 data;
- 	int     ii;
- 
--	if (byLocalID <= 1)
-+	if (local_id <= 1)
- 		return;
- 
- 	offset = MISCFIFO_KEYETRY0;
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 9797eddaea01..bd8deff7f206 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -921,7 +921,7 @@ bool MACbPSWakeup(struct vnt_private *priv);
- void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
- 		     unsigned int uEntryIdx, unsigned int uKeyIdx,
- 		     unsigned char *pbyAddr, u32 *pdwKey,
--		     unsigned char byLocalID);
-+		     unsigned char local_id);
- void MACvDisableKeyEntry(struct vnt_private *priv, unsigned int uEntryIdx);
- 
- #endif /* __MAC_H__ */
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 5395c3a3e35a..89b88dbef77f 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -1012,7 +1012,7 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
- 
- 		cbFrameSize += info->control.hw_key->icv_len;
- 
--		if (pDevice->byLocalID > REV_ID_VT3253_A1) {
-+		if (pDevice->local_id > REV_ID_VT3253_A1) {
- 			/* MAC Header should be padding 0 to DW alignment. */
- 			uPadding = 4 - (ieee80211_get_hdrlen_from_skb(skb) % 4);
- 			uPadding %= 4;
--- 
-2.25.1
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index a392d5b4caf2..5292f90251e0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -272,11 +272,11 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
+ 	pwrpriv->rpwm = pslv;
+
+ 	cpwm_orig = 0;
+-	if (rpwm & PS_ACK)
++	if (rpwm & PS_ACK) {
+ 		rtw_hal_get_hwreg(padapter, HW_VAR_CPWM, &cpwm_orig);
+-
+-	if (rpwm & PS_ACK)
+ 		_set_timer(&pwrpriv->pwr_rpwm_timer, LPS_RPWM_WAIT_MS);
++	}
++
+ 	rtw_hal_set_hwreg(padapter, HW_VAR_SET_RPWM, (u8 *)(&rpwm));
+
+ 	pwrpriv->tog += 0x80;
+--
+2.32.0
 
