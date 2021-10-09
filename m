@@ -1,155 +1,210 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFBE2C80
-	for <linux-staging@lists.linux.dev>; Sat,  9 Oct 2021 17:00:01 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id g10so47861361edj.1
-        for <linux-staging@lists.linux.dev>; Sat, 09 Oct 2021 10:00:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593222C80
+	for <linux-staging@lists.linux.dev>; Sat,  9 Oct 2021 18:14:17 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id q7-20020a17090a2e0700b001a01027dd88so7327122pjd.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 Oct 2021 11:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/S4TbbqJ23OevpDNdzwilAgRc7Ey8vFjn4B+yO7I0Mw=;
-        b=C5blQcDoRVGc7Qc2UZMBCbYfGNIZv8pfo+giJTKSvuxFodG3Bh2wK31THiF3WfLErY
-         aqv3lYUkQV89b48xIqs45qS+oio7ltBpe77myIkrv+obSYV+LfKPQQOsA87POcAg7j8A
-         wTTF0UbOXIB9t8DVGg6l+0oki7UJNnJTLMfdGrvKkBV3/wUBwVAPF0HtzIvxYYY+hf/I
-         yptLeafL4yc5ru57Jgl2vrNSkNzg1bJcnndZqXgtp0RKlxEzI2TM/92sFSfZoc6H5gDN
-         6hT/qQqC+eMzbznIeAzyJV53Cx6l4vCQgaaYmLW3GekWMUnmiL06ij8DvoMWoCvHRRxD
-         59wQ==
+        h=message-id:date:mime-version:user-agent:cc:subject:content-language
+         :to:references:from:in-reply-to:content-transfer-encoding;
+        bh=CWTfgGVMFavm0exUxVdTkCtIcKrvf9YPDx3Ir4BnYtw=;
+        b=c1eo5pMoZ8D3d5OHrwfUmncEOTMBHFRzaKZ0bSlOKbTxdp8alBrJKYkUW+bvweZC5H
+         AgDGZi7KpbzygMqVoloF4WMpJ6crGC6SouYMPf6sIwynandTcsPUIpn7731SoK8xRskd
+         ibavPN/k5OvtkDTDUChlxoWGRnIxH5/WaMfGN9m71tjNxZ5mtNSK+AlN6GSVK8kjIH+H
+         hrL1pGpn65Zwex6ZixlJgcZcaXvptbIwJE5ErPNkCiv4aXMmIuJ+3bYxV8MiGstIHB2O
+         IgY9ox2OTzL7U8cAVPLEls9a6fZ9X2r5IRW53i8KBmDBHZKdEUlvuhkpdPuwoOKgrVza
+         xWvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/S4TbbqJ23OevpDNdzwilAgRc7Ey8vFjn4B+yO7I0Mw=;
-        b=7+7jjv43QS8gjMqDp5mHHHQd5Q2yI5sluQKZTCm8KFo51pm/0fRUnSZpodhEEMbnaW
-         xCQ4DD4xjso9bHl7+a06cmZLuVWQQYRawHRtT/4Rpjas0PQlRFjNlzr0mmtlrvYk/xTH
-         u4Ht4B/tHj3oqrhXebvYCE3SOE0oGyM01wtKWiMFNbe8bK1i4lr6ITygdE3ELlhSjNkJ
-         ocQPhcxy6Zc7r5uJKgXmqY36oKiNiHklPHFmPClEFts/8xYFWtFvDXKplS09UL6WAhkp
-         5kZosWCCH1YrneMkEdQ1llev9++3fobx0ChLnz93QdKaNYihCKilQ4mVtza61SrkB/Fo
-         mmJg==
-X-Gm-Message-State: AOAM5308041MMY1rXH/XzH/FI5hd7ciDDzgpr0jRmflF0RwFhGrii3cf
-	x5jqhy8kzDJhINoxFZC8ano=
-X-Google-Smtp-Source: ABdhPJwGim2sAuUJjOOzubQDgq0virRWDQidwhYrTcrDP2Ve43aANTc3khREkOgXW8xlGIEUyyCG+A==
-X-Received: by 2002:a17:906:5cf:: with SMTP id t15mr12924046ejt.375.1633798799908;
-        Sat, 09 Oct 2021 09:59:59 -0700 (PDT)
-Received: from localhost.localdomain (host-79-43-109-12.retail.telecomitalia.it. [79.43.109.12])
-        by smtp.gmail.com with ESMTPSA id c11sm1482502edw.5.2021.10.09.09.59.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Oct 2021 09:59:59 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, marcocesati@gmail.com, insafonov@gmail.com, linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: os_dep: simplify the return statement.
-Date: Sat, 09 Oct 2021 18:59:57 +0200
-Message-ID: <1661874.ovfstkzlfj@localhost.localdomain>
-In-Reply-To: <YWG3oIchovDZnPl8@user>
-References: <YWG3oIchovDZnPl8@user>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:cc
+         :subject:content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=CWTfgGVMFavm0exUxVdTkCtIcKrvf9YPDx3Ir4BnYtw=;
+        b=CW9o9wuw/W2DLxAD0z4u52OkQjJsd109yvtwhkNtRDoMv7svjZHrhuhFHgibGdJCvc
+         kSLbrXmUc5x+P/C7qqx47qKynJ4xNog5n+ldG5TzjHTpj357cOD4W+Uy5wQej297viR+
+         SYbVh8DXlqUFXra/oNTKow3dWCjiEVBSE9xt5snb80kdD/uVmx9O+kbmj1rGelTyCDPW
+         2XMIcOmbh/3TViZ8JJzvVn0gGuJpvCSF5qmsHxo0zH2Y+1jTeP5RuJwd15auizCB5i0p
+         KJEEWwKaBPQ6iIpWQBeP1EtblVytnt4Wj1zoZRbNcMcbhbVsd3Rb2vh2Zm+RIMNyGv03
+         8H2A==
+X-Gm-Message-State: AOAM530Uwn4Fw9YBsjDYbH3cMG9G5hVCCCelQLIsVZ3CFLpJonJcZWUz
+	9VDG70INuYSsOpuNBGxkNRU=
+X-Google-Smtp-Source: ABdhPJx2PaxFMJ+bGQ+4Yd1uSd6YhKMjs/22VwAMQrP9jIODuUeH+oor6WlHrnHzc9gsGb3QXDaC7w==
+X-Received: by 2002:a17:90a:ad46:: with SMTP id w6mr3569886pjv.68.1633803256542;
+        Sat, 09 Oct 2021 11:14:16 -0700 (PDT)
+Received: from [192.168.1.6] ([223.230.43.197])
+        by smtp.gmail.com with ESMTPSA id k3sm14416293pjg.43.2021.10.09.11.14.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Oct 2021 11:14:16 -0700 (PDT)
+Message-ID: <b9dcf405-3436-983f-143c-a429ce9598cf@gmail.com>
+Date: Sat, 9 Oct 2021 23:44:12 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-On Saturday, October 9, 2021 5:39:12 PM CEST Saurav Girepunje wrote:
-> Remove the unneeded and redundant check of variable on goto out.
-> Simplify the return using multiple goto label to avoid
-> unneeded check.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 29 ++++++++++---------
->  1 file changed, 15 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/
-staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 0868f56e2979..574fdb6adce7 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2282,18 +2282,18 @@ static int rtw_cfg80211_add_monitor_if(struct 
-adapter *padapter, char *name, str
-> 
->  	if (!name) {
->  		ret = -EINVAL;
-> -		goto out;
-> +		goto err_out;
->  	}
-> 
->  	if (pwdev_priv->pmon_ndev) {
->  		ret = -EBUSY;
-> -		goto out;
-> +		goto err_out;
->  	}
-> 
->  	mon_ndev = alloc_etherdev(sizeof(struct 
-rtw_netdev_priv_indicator));
->  	if (!mon_ndev) {
->  		ret = -ENOMEM;
-> -		goto out;
-> +		goto err_out;
->  	}
-> 
->  	mon_ndev->type = ARPHRD_IEEE80211_RADIOTAP;
-> @@ -2312,7 +2312,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter 
-*padapter, char *name, str
->  	mon_wdev = rtw_zmalloc(sizeof(struct wireless_dev));
->  	if (!mon_wdev) {
->  		ret = -ENOMEM;
-> -		goto out;
-> +		goto err_zmalloc;
->  	}
-> 
->  	mon_wdev->wiphy = padapter->rtw_wdev->wiphy;
-> @@ -2322,22 +2322,23 @@ static int rtw_cfg80211_add_monitor_if(struct 
-adapter *padapter, char *name, str
-> 
->  	ret = cfg80211_register_netdevice(mon_ndev);
->  	if (ret) {
-> -		goto out;
-> +		goto err_register;
->  	}
-> 
->  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
->  	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
-> 
-> -out:
-> -	if (ret && mon_wdev) {
-> -		kfree(mon_wdev);
-> -		mon_wdev = NULL;
-> -	}
-> +err_register:
-> 
-> -	if (ret && mon_ndev) {
-> -		free_netdev(mon_ndev);
-> -		*ndev = mon_ndev = NULL;
-> -	}
-> +	kfree(mon_wdev);
-> +	mon_wdev = NULL;
-> +
-> +err_zmalloc:
-> +
-> +	free_netdev(mon_ndev);
-> +	*ndev = mon_ndev = NULL;
-> +
-> +err_out:
-> 
->  	return ret;
->  }
-> --
-> 2.32.0
-> 
-At a quick look it seems that now you unconditionally free memory and free a 
-network device immediately after the last memcpy(). 
-
-Why are you doing this even if no errors are returned from device and memory 
-allocations (i.e., while "ret" is still equal to zero)?
-
-Thanks,
-
-Fabio
- 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.2
+Cc: saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: core: simplify the if condition
+Content-Language: en-US
+To: Hans de Goede <hdegoede@redhat.com>, gregkh@linuxfoundation.org,
+ fabioaiuto83@gmail.com, ross.schm.dev@gmail.com,
+ deborahbrouwer3563@gmail.com, marcocesati@gmail.com, phil@philpotter.co.uk,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <YWEwFf0YMi4W1xKN@user>
+ <94cb79ea-1952-c92c-f5c9-f03f7b1a892c@redhat.com>
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+In-Reply-To: <94cb79ea-1952-c92c-f5c9-f03f7b1a892c@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
+On 09/10/21 10:21 pm, Hans de Goede wrote:
+> Hi,
+> 
+> On 10/9/21 8:00 AM, Saurav Girepunje wrote:
+>> if psta is NULL, function is returning with fail. On next if condition
+>> again checking if psta is not a NULL. Remove multiple if condition check.
+>>
+>> Function is already using goto exit statement to exit.Replace multiple
+>> return with goto exit statement.
+>>
+>> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+>> ---
+>>   drivers/staging/rtl8723bs/core/rtw_xmit.c | 61 ++++++++++-------------
+>>   1 file changed, 26 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+>> index 34505b35a7f3..4e4a1bed882b 100644
+>> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+>> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+>> @@ -932,49 +932,40 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+>>   		/* TODO: fill HT Control Field */
+>>
+>>   		/* Update Seq Num will be handled by f/w */
+>> -		{
+>> -			struct sta_info *psta;
+>> -
+>> -			psta = rtw_get_stainfo(&padapter->stapriv, pattrib->ra);
+>> -			if (pattrib->psta != psta)
+>> -				return _FAIL;
+>> -
+>> -			if (!psta)
+>> -				return _FAIL;
+>> +		struct sta_info *psta;
+> 
+> You are now declaring a variable after some statements, this will
+> cause a compiler warning in some cases. Please move this variable
+> declaration up, grouping it together with the other variable
+> declarations.
+> 
+Yes, I will move variable declaration to up.
+>>
+>> -			if (!(psta->state & _FW_LINKED))
+>> -				return _FAIL;
+>> +		psta = rtw_get_stainfo(&padapter->stapriv, pattrib->ra);
+>> +		if (!psta || pattrib->psta != psta || !(psta->state & _FW_LINKED))
+>> +			res = _FAIL;
+>> +			goto exit;
+> 
+> You are both removing an identation level here because you are removing
+> the compound statement which contained the psta declaration as well
+> as refactoring the code.
+> 
+> Please split this into 2 separate commits, 1 where you only drop the
+> extra indentation level (and move the psta declaration up).
+> 
+> And then a separate commit which just the actual code changes.
+> 
+> Your current patch is very hard to review because you are doing
+> 2 things at once.
+> 
+> Also it looks like this patch depends on your previous patch:
+> "[PATCH] staging: rtl8723bs: core: remove empty else section"
+> 
+> When patches depend on each other please send them together
+> as a single patch series. E.g. for version 2 (v2) of a 3 patch
+> series consisting of the last 3 commits in your local tree use
+> (so the next version of these patches) use:
+> 
+> git format-patch -v2 --cover-letter HEAD~3
+> $editor v2-0000-cover-letter.patch
+>   <describe series contents + what was changed in the cover-letter>
+> git send-email v2-00*.patch
+> 
+> Regards,
+> 
+> Hans
+>
+Sure, I will split this patch and resend all of them as a single patch 
+series including my previous patch.
+
+> 
+>>
+>> -			if (psta) {
+>> -				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
+>> -				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
+>> -				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+>> +		psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
+>> +		psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
+>> +		pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+>>
+>> -				SetSeqNum(hdr, pattrib->seqnum);
+>> +		SetSeqNum(hdr, pattrib->seqnum);
+>>
+>> -				/* check if enable ampdu */
+>> -				if (pattrib->ht_en && psta->htpriv.ampdu_enable)
+>> -					if (psta->htpriv.agg_enable_bitmap & BIT(pattrib->priority))
+>> -						pattrib->ampdu_en = true;
+>> +		/* check if enable ampdu */
+>> +		if (pattrib->ht_en && psta->htpriv.ampdu_enable)
+>> +			if (psta->htpriv.agg_enable_bitmap & BIT(pattrib->priority))
+>> +				pattrib->ampdu_en = true;
+>>
+>> -				/* re-check if enable ampdu by BA_starting_seqctrl */
+>> -				if (pattrib->ampdu_en == true) {
+>> -					u16 tx_seq;
+>> +		/* re-check if enable ampdu by BA_starting_seqctrl */
+>> +		if (pattrib->ampdu_en == true) {
+>> +			u16 tx_seq;
+>>
+>> -					tx_seq = psta->BA_starting_seqctrl[pattrib->priority & 0x0f];
+>> +			tx_seq = psta->BA_starting_seqctrl[pattrib->priority & 0x0f];
+>>
+>> -					/* check BA_starting_seqctrl */
+>> -					if (SN_LESS(pattrib->seqnum, tx_seq)) {
+>> -						pattrib->ampdu_en = false;/* AGG BK */
+>> -					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
+>> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
+>> +			/* check BA_starting_seqctrl */
+>> +			if (SN_LESS(pattrib->seqnum, tx_seq)) {
+>> +				pattrib->ampdu_en = false;/* AGG BK */
+>> +			} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
+>> +				psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
+>>
+>> -						pattrib->ampdu_en = true;/* AGG EN */
+>> -					} else {
+>> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
+>> -						pattrib->ampdu_en = true;/* AGG EN */
+>> -					}
+>> -				}
+>> +				pattrib->ampdu_en = true;/* AGG EN */
+>> +			} else {
+>> +				psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
+>> +				pattrib->ampdu_en = true;/* AGG EN */
+>>   			}
+>>   		}
+>>   	}
+>> --
+>> 2.32.0
+>>
+> 
+
+Thanks Hans for review.
+
+Regards,
+Saurav
