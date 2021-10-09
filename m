@@ -1,91 +1,135 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1E02C88
-	for <linux-staging@lists.linux.dev>; Sat,  9 Oct 2021 10:44:36 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id r10so37627148wra.12
-        for <linux-staging@lists.linux.dev>; Sat, 09 Oct 2021 03:44:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EF872
+	for <linux-staging@lists.linux.dev>; Sat,  9 Oct 2021 15:39:18 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id o133so4482179pfg.7
+        for <linux-staging@lists.linux.dev>; Sat, 09 Oct 2021 08:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eeHYn5tnLdQcq9Fqd1snlk2LyN3sqtAimn27J8fXZ8M=;
-        b=XiCmyyBwIJtD3mlwUT43KN5+igYcBd/QlQGUGFuq3qxu+BTIWdb/rz2s67HfR5PM6U
-         U6gCYfYLrVRyzltlNviNS3ICiPr1ILdmVpu3Dk/sn2GX1hgDjHt/m646CxmSjpFH5KiS
-         KweCz9JqycPCqBV+oyX9EGEIQhQZvvTAF/pBqjWHck5ZQD+sa4Dc05idVMlI5xSocvXL
-         7q/bCc/t4ShBybX/OBXNyOCRFhcskLEM0dFXZzUIPGkFF/KgD4XmnsnPN5MKlVLJ3zC9
-         eimDUu8y7QhaO2B+TUc4ObNdoUjkHtlkLOH30+rwEEtQntKqvaQuJV3pdcnSJ3hj9Hvl
-         Q06A==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=xn3cZFmsRkEBphig5j0Fjp/Shbu/DV7lATpJ+tppRws=;
+        b=I65/gN9VXJyrTgtS9X2dyUj2il1coHyZyab1Wy4IojdCqRUWrytic7fYUURUp2ljaV
+         g3DkawOXbe2ClE2ta1jdpPKZX239GAq1dP5OJ9xPumNmP9xcJkkv/oChtWNbUeBb5S3w
+         OY86igjXcsIixfzDakmLK/8ShFAyu5zLw4K1rIZs7jvEzVM35fnwtWBY4kLcO/rPEyUc
+         HZaTgiPk1m+Mc8SKZO3IX1xA2xM8S0c1Y+1B8uwbdYGkhWZF2FSwac0Rra9ZeusEWcPi
+         aADR758y7cT4Mg47QuPR21cNe5oMzl3ud9sCf+jbUIaNqWB8x8vG9JWvK8A97sZxIvYV
+         3xSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=eeHYn5tnLdQcq9Fqd1snlk2LyN3sqtAimn27J8fXZ8M=;
-        b=gAg16U/6pz1II/VBI+URFRjH6zMaPcLVl1lYrzfpvn1vS1PZ86Z+ZUolzKENMUVf9/
-         v6AYlz4/iU04hD9ERrNDGm2fkXt3ioo//tXgzNgu26WGZql4xQQKW6mpWmsKAYNqQCKS
-         3Yzirg/cbgF+QzQnBdePOr0bzgubtcVfDuGjHqdBW+/0Z9rB251Ri9sKwy2c5ibnnh9q
-         jIAB+cmAcGc96rBnELbjCsHS6ImvQqUhLMGqF6Ok5TVywsbJjmyiCr7eUOSnhrCoacBu
-         6ZAIq1MwHc64gH2UmFx+3qwkUG3UwKWQs5H2v81Rrco9/kINLmrmKHdgNWxmNOZsasKN
-         gzXw==
-X-Gm-Message-State: AOAM531za5s8sVnZanNgKE+ezuLDCwWFOkwYJ+VBrq54s0zOUMxlP0PF
-	yVLInPYSsV4WsOEVH03bbIE=
-X-Google-Smtp-Source: ABdhPJyplmLbI1TAqIyFfApqUyRfzKNin1jP5mjIvDfYR3OpTc6Mc43GoEBtjDSLf4SnFDW/pls33Q==
-X-Received: by 2002:a5d:6dce:: with SMTP id d14mr10636990wrz.363.1633776275191;
-        Sat, 09 Oct 2021 03:44:35 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5d0b])
-        by smtp.gmail.com with ESMTPSA id a81sm1905431wmd.30.2021.10.09.03.44.34
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=xn3cZFmsRkEBphig5j0Fjp/Shbu/DV7lATpJ+tppRws=;
+        b=kMqdxBLxqWxQIU9fg2Eg1hrFLArDVy5Cq8OGc0X2XUc+9sL0yW7jruOsWdIh6+8Ip7
+         ZAeERc9WfJU/BS3hj1SQBag4lpeAnF4NwhOChX3p1njn9AA3I8OxMcPXDiBPa6Uhc2SP
+         Jf/zN5RicSMip2bejt6skqFSolT5zTO4S3sG/tY8PFHpcnNsfFPV7qT3fKKJS/eHlc5W
+         q4RKFbJsYMQ96tA/fgZY8R8zW5h6/OCi1DzhUCc3ndmSTPh+Pm2tgN+bJ2Y+DNHI5f+6
+         DmIaYkteBkPXw3F1p+60dzsBRe0a5qex2+kuhk0BTiwx7jokTwWQjvl0D5P9usAgb8Kq
+         wh9w==
+X-Gm-Message-State: AOAM5309zpvxn1e2Nn++k56QcYgBenhaqcvHcdFi7N1h+YPcrU/OnY8Q
+	H8NjicJGB2hsOjwVKzDY/Ms=
+X-Google-Smtp-Source: ABdhPJy37wMBE/ZvwJCG4r4p1qVkUAyHu1kF4A5stn8oRkLvqOd3NOPV7yICAlD+ybVTepC9IIdFAw==
+X-Received: by 2002:a63:b04c:: with SMTP id z12mr9923338pgo.371.1633793958266;
+        Sat, 09 Oct 2021 08:39:18 -0700 (PDT)
+Received: from user ([223.230.43.197])
+        by smtp.gmail.com with ESMTPSA id a17sm2730058pfd.54.2021.10.09.08.39.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Oct 2021 03:44:34 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 3/3] staging: r8188eu: remove enum _RTL8712_RF_MIMO_CONFIG_
-Date: Sat,  9 Oct 2021 12:44:19 +0200
-Message-Id: <20211009104419.8811-3-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211009104419.8811-1-straube.linux@gmail.com>
-References: <20211009104419.8811-1-straube.linux@gmail.com>
+        Sat, 09 Oct 2021 08:39:17 -0700 (PDT)
+Date: Sat, 9 Oct 2021 21:09:12 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com, marcocesati@gmail.com, insafonov@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: rtl8723bs: os_dep: simplify the return statement.
+Message-ID: <YWG3oIchovDZnPl8@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The enum _RTL8712_RF_MIMO_CONFIG_ is not used, remove it.
+Remove the unneeded and redundant check of variable on goto out.
+Simplify the return using multiple goto label to avoid
+unneeded check.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 ---
- drivers/staging/r8188eu/include/rtw_rf.h | 11 -----------
- 1 file changed, 11 deletions(-)
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 29 ++++++++++---------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/include/rtw_rf.h b/drivers/staging/r8188eu/include/rtw_rf.h
-index fadb141c6945..7ec252fec054 100644
---- a/drivers/staging/r8188eu/include/rtw_rf.h
-+++ b/drivers/staging/r8188eu/include/rtw_rf.h
-@@ -69,17 +69,6 @@ enum	_REG_PREAMBLE_MODE {
- 	PREAMBLE_SHORT	= 3,
- };
- 
--enum _RTL8712_RF_MIMO_CONFIG_ {
--	RTL8712_RFCONFIG_1T = 0x10,
--	RTL8712_RFCONFIG_2T = 0x20,
--	RTL8712_RFCONFIG_1R = 0x01,
--	RTL8712_RFCONFIG_2R = 0x02,
--	RTL8712_RFCONFIG_1T1R = 0x11,
--	RTL8712_RFCONFIG_1T2R = 0x12,
--	RTL8712_RFCONFIG_TURBO = 0x92,
--	RTL8712_RFCONFIG_2T2R = 0x22
--};
--
- enum rf90_radio_path {
- 	RF90_PATH_A = 0,		/* Radio Path A */
- 	RF90_PATH_B = 1,		/* Radio Path B */
--- 
-2.33.0
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 0868f56e2979..574fdb6adce7 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2282,18 +2282,18 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+
+ 	if (!name) {
+ 		ret = -EINVAL;
+-		goto out;
++		goto err_out;
+ 	}
+
+ 	if (pwdev_priv->pmon_ndev) {
+ 		ret = -EBUSY;
+-		goto out;
++		goto err_out;
+ 	}
+
+ 	mon_ndev = alloc_etherdev(sizeof(struct rtw_netdev_priv_indicator));
+ 	if (!mon_ndev) {
+ 		ret = -ENOMEM;
+-		goto out;
++		goto err_out;
+ 	}
+
+ 	mon_ndev->type = ARPHRD_IEEE80211_RADIOTAP;
+@@ -2312,7 +2312,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+ 	mon_wdev = rtw_zmalloc(sizeof(struct wireless_dev));
+ 	if (!mon_wdev) {
+ 		ret = -ENOMEM;
+-		goto out;
++		goto err_zmalloc;
+ 	}
+
+ 	mon_wdev->wiphy = padapter->rtw_wdev->wiphy;
+@@ -2322,22 +2322,23 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+
+ 	ret = cfg80211_register_netdevice(mon_ndev);
+ 	if (ret) {
+-		goto out;
++		goto err_register;
+ 	}
+
+ 	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
+ 	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
+
+-out:
+-	if (ret && mon_wdev) {
+-		kfree(mon_wdev);
+-		mon_wdev = NULL;
+-	}
++err_register:
+
+-	if (ret && mon_ndev) {
+-		free_netdev(mon_ndev);
+-		*ndev = mon_ndev = NULL;
+-	}
++	kfree(mon_wdev);
++	mon_wdev = NULL;
++
++err_zmalloc:
++
++	free_netdev(mon_ndev);
++	*ndev = mon_ndev = NULL;
++
++err_out:
+
+ 	return ret;
+ }
+--
+2.32.0
 
