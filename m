@@ -1,99 +1,86 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AED72
-	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 12:59:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 269AB60EE2;
-	Sun, 10 Oct 2021 12:59:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1633870786;
-	bh=y5o3VL+L2WCSJzi+THrtiLwwL5wOwfs4P9ZJzLqt3BA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M8BTJbAir/a/OOMRttLa9+1bctVcuwkKJ6h98SLiEx1EPD0T4zCSTlBk8IVR3RkcL
-	 bCZKmyu1InBtHmYcW/xCD9QJVJFiI1izrjqZp1Qp57fdogix3oXuV3mlApaclCg/Qz
-	 neLwBqDn+TFwVuOz0v7Q/5gR+tVfBYhEgAwhhXTk=
-Date: Sun, 10 Oct 2021 14:59:43 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, marcocesati@gmail.com,
-	insafonov@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: os_dep: simplify the return
- statement.
-Message-ID: <YWLjv3zaSGBoGh3q@kroah.com>
-References: <YWJ0vSrgsiKK7suE@user>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFA02C80
+	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 17:52:34 +0000 (UTC)
+Received: from dslb-188-104-061-167.188.104.pools.vodafone-ip.de ([188.104.61.167] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mZczv-0001WC-Ih; Sun, 10 Oct 2021 19:52:31 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 03/11] staging: r8188eu: RfOnOffDetect is unused
+Date: Sun, 10 Oct 2021 19:51:56 +0200
+Message-Id: <20211010175204.24029-3-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211010175204.24029-1-martin@kaiser.cx>
+References: <20211010175204.24029-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YWJ0vSrgsiKK7suE@user>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Oct 10, 2021 at 10:36:05AM +0530, Saurav Girepunje wrote:
-> Remove the unneeded and redundant check of variable on goto out.
-> Simplify the return using multiple goto label to avoid
-> unneeded check.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
-> 
-> ChangeLog V2:
-> 	-Add goto out after the memcpy for no error case return with
-> 	 ret only. Free is not required on no error case.
-> 
-> ChangeLog V1:
-> 	-Remove the unneeded and redundant check of variable on
-> 	 goto out.
-> 	-Simplify the return using multiple goto label to avoid
-> 	 unneeded check.
-> 
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 22 +++++++++----------
->  1 file changed, 10 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 0868f56e2979..ae9579dc0848 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2312,7 +2312,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
->  	mon_wdev = rtw_zmalloc(sizeof(struct wireless_dev));
->  	if (!mon_wdev) {
->  		ret = -ENOMEM;
-> -		goto out;
-> +		goto err_zmalloc;
->  	}
-> 
->  	mon_wdev->wiphy = padapter->rtw_wdev->wiphy;
-> @@ -2322,23 +2322,21 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
-> 
->  	ret = cfg80211_register_netdevice(mon_ndev);
->  	if (ret) {
-> -		goto out;
-> +		goto err_register;
->  	}
-> 
->  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
->  	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
-> +	goto out;
-> 
-> -out:
-> -	if (ret && mon_wdev) {
-> -		kfree(mon_wdev);
-> -		mon_wdev = NULL;
-> -	}
-> -
-> -	if (ret && mon_ndev) {
-> -		free_netdev(mon_ndev);
-> -		*ndev = mon_ndev = NULL;
-> -	}
-> +err_register:
-> +	kfree(mon_wdev);
-> +	mon_wdev = NULL;
+Remove the RfOnOffDetect function, which is not used.
 
-There is no need to set a local variable like this to NULL.
+Suggested-by: Michael Straube <straube.linux@gmail.com>
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 18 ------------------
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h |  2 --
+ 2 files changed, 20 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 94a2b3e32fe7..f6db5b05e6e7 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -599,24 +599,6 @@ static void _InitAntenna_Selection(struct adapter *Adapter)
+ 	DBG_88E("%s,Cur_ant:(%x)%s\n", __func__, haldata->CurAntenna, (haldata->CurAntenna == Antenna_A) ? "Antenna_A" : "Antenna_B");
+ }
+ 
+-enum rt_rf_power_state RfOnOffDetect(struct adapter *adapt)
+-{
+-	u8 val8;
+-	enum rt_rf_power_state rfpowerstate = rf_off;
+-
+-	if (adapt->pwrctrlpriv.bHWPowerdown) {
+-		val8 = rtw_read8(adapt, REG_HSISR);
+-		DBG_88E("pwrdown, 0x5c(BIT(7))=%02x\n", val8);
+-		rfpowerstate = (val8 & BIT(7)) ? rf_off : rf_on;
+-	} else { /*  rf on/off */
+-		rtw_write8(adapt, REG_MAC_PINMUX_CFG, rtw_read8(adapt, REG_MAC_PINMUX_CFG) & ~(BIT(3)));
+-		val8 = rtw_read8(adapt, REG_GPIO_IO_SEL);
+-		DBG_88E("GPIO_IN=%02x\n", val8);
+-		rfpowerstate = (val8 & BIT(3)) ? rf_on : rf_off;
+-	}
+-	return rfpowerstate;
+-}	/*  HalDetectPwrDownMode */
+-
+ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ {
+ 	u8 value8 = 0;
+diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
+index e412ef71b54b..47a20702e376 100644
+--- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
++++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
+@@ -143,8 +143,6 @@ int ips_leave(struct adapter *padapter);
+ 
+ void rtw_ps_processor(struct adapter *padapter);
+ 
+-enum rt_rf_power_state RfOnOffDetect(struct adapter *iadapter);
+-
+ s32 LPS_RF_ON_check(struct adapter *adapter, u32 delay_ms);
+ void LPS_Enter(struct adapter *adapter);
+ void LPS_Leave(struct adapter *adapter);
+-- 
+2.20.1
 
-greg k-h
