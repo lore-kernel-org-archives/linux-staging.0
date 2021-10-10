@@ -1,28 +1,49 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963B22C83
-	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 06:27:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 715B160EBD;
-	Sun, 10 Oct 2021 06:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1633847236;
-	bh=vCnFyg7canN42mdsHkanNiVAESAJuv9PTNd0CNc46Yc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hacgzfcl3I/VAx5sHgppfAvIYKfho33lLH9/83aZCBQ61aa3YnQjY5qkV4x8vH3qP
-	 N5eoBu/gTk10Kxw35Q7hp9BFfhcapj8S/4KHQm8nfUHn69R8jAJTEIIe0VxQaZjhZf
-	 gZrAq1mby0BpU9uxitlOBJBgCFnD9Ys/kLEROxow=
-Date: Sun, 10 Oct 2021 08:27:10 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-Cc: Christian Gromm <christian.gromm@microchip.com>,
-	Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: most: dim2: do not double-register the same
- device
-Message-ID: <YWKHvvLtb0MSJy2X@kroah.com>
-References: <YVwofSvwGTv3kHjh@kroah.com>
- <20211005143448.8660-1-nikita.yoush@cogentembedded.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544FD72
+	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 07:08:52 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id k26so11965470pfi.5
+        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 00:08:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=NnvNITiJrBSPHawLF3zDlRAc4rrEXIDC7UHTgO1Ku1I=;
+        b=q12ZZL84Tkbasfna4BmFiJlCpPt18tKqcP6uP2W9BOXWKfV1gurpiQYaWra73AzouX
+         VpCyCWrPiGING82efBBsZMAeEAgsk1iYeLCqHQrHNXyLNrPRwQJSxSzxrf/hickh+FiP
+         dErt4DFQh83+V9ocCx0FRnwn49CkaCj+a8vNAbVLWamQqQ2tvoJYR0oGZO7lq35lJNR0
+         5B8YQapoguD9wrYFWDbeUW9W3Sh7SXnYisZAytcCRuPL/BxEsllS1m/aiyMx+M1TCAyH
+         MTrhvX7H73CcpSdlbYsKunl1WAwMhoR/Oj3hEGc2S/ZIlFaMKG5UbvyMrExbiRLrBrW+
+         BF8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=NnvNITiJrBSPHawLF3zDlRAc4rrEXIDC7UHTgO1Ku1I=;
+        b=AXi8SJkzTEYK+y9yk7QKBspd/4UYzmeqfkhx22x9qvyMFo6vBAAuUGsm3JaUmM9nWa
+         CcQsT6EiFTJoAlfOxp57tC71zQvCTmbyvcb+4d4M1RFolLWW5++RB9ZuOwTqhkZ0xSL+
+         waizmAiyhN49BSLOsSjmxMvC8Zr2kGAyAqI7k5YP4sPjdjZQdp0a2j0ZezoUT6a+2kVu
+         5QF1RYDh4awRTGC4vChtoJCUysw4yTVQ9S1UKn7P19sfwBrNwKlHzTwB1IkFCWKmyRIZ
+         ubZvbmLUeHBUT5bZfAEPg4OOWUcF6NhOyxtTpt1XbMgCfv2cLoIulhiUr2EYMDOHOJd5
+         7Nfw==
+X-Gm-Message-State: AOAM533WG2QT8AaM5aj1izyAJ8ryobQ88BpRsQjEnbEvDck2Q8NFMDVo
+	InwfTU1bdTTWhLQBnimrMc4=
+X-Google-Smtp-Source: ABdhPJxmema94gfSVmx7Z5qkzmZ8GJKpcNBrAq+qgHtEunarpfEtV8sKR3ZN5n+giEId3FhFp9zRcg==
+X-Received: by 2002:a63:d19:: with SMTP id c25mr12667130pgl.393.1633849731682;
+        Sun, 10 Oct 2021 00:08:51 -0700 (PDT)
+Received: from user ([223.230.43.197])
+        by smtp.gmail.com with ESMTPSA id u24sm3844457pfm.81.2021.10.10.00.08.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Oct 2021 00:08:51 -0700 (PDT)
+Date: Sun, 10 Oct 2021 12:38:45 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	marcocesati@gmail.com, dan.carpenter@oracle.com,
+	hdegoede@redhat.com, saurav.girepunje@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: rtl8723bs: hal: remove duplicate check
+Message-ID: <YWKRfYpTioAmTWa0@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,83 +52,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211005143448.8660-1-nikita.yoush@cogentembedded.com>
 
-On Tue, Oct 05, 2021 at 05:34:48PM +0300, Nikita Yushchenko wrote:
-> Commit 723de0f9171e ("staging: most: remove device from interface
-> structure") moved registration of driver-provided struct device to
-> the most subsystem.
-> 
-> Dim2 used to register the same struct device to provide a custom device
-> attribute. This causes double-registration of the same struct device.
-> 
-> Fix that by moving the custom attribute to driver's dev_groups.
-> This moves attribute to the platform_device object, which is a better
-> location for platform-specific attributes anyway.
-> 
-> Fixes: 723de0f9171e ("staging: most: remove device from interface structure")
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-> ---
->  drivers/staging/most/dim2/Makefile |  2 +-
->  drivers/staging/most/dim2/dim2.c   | 31 ++++++++++++-------
->  drivers/staging/most/dim2/sysfs.c  | 49 ------------------------------
->  drivers/staging/most/dim2/sysfs.h  | 11 -------
->  4 files changed, 21 insertions(+), 72 deletions(-)
->  delete mode 100644 drivers/staging/most/dim2/sysfs.c
-> 
-> diff --git a/drivers/staging/most/dim2/Makefile b/drivers/staging/most/dim2/Makefile
-> index 861adacf6c72..5f9612af3fa3 100644
-> --- a/drivers/staging/most/dim2/Makefile
-> +++ b/drivers/staging/most/dim2/Makefile
-> @@ -1,4 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_MOST_DIM2) += most_dim2.o
->  
-> -most_dim2-objs := dim2.o hal.o sysfs.o
-> +most_dim2-objs := dim2.o hal.o
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index e8b03fa90e80..bb6dd508e531 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -118,7 +118,8 @@ struct dim2_platform_data {
->  	(((p)[1] == 0x18) && ((p)[2] == 0x05) && ((p)[3] == 0x0C) && \
->  	 ((p)[13] == 0x3C) && ((p)[14] == 0x00) && ((p)[15] == 0x0A))
->  
-> -bool dim2_sysfs_get_state_cb(void)
-> +static ssize_t state_show(struct device *dev, struct device_attribute *attr,
-> +			  char *buf)
->  {
->  	bool state;
->  	unsigned long flags;
-> @@ -127,9 +128,25 @@ bool dim2_sysfs_get_state_cb(void)
->  	state = dim_get_lock_state();
->  	spin_unlock_irqrestore(&dim_lock, flags);
->  
-> -	return state;
-> +	return sprintf(buf, "%s\n", state ? "locked" : "");
+Remove 'bPerformance' from if condition check. As on previous
+if condition it is already check for same variable.
 
-sysfs_emit()?
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm_DIG.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  }
->  
-> +static DEVICE_ATTR_RO(state);
-> +
-> +static struct attribute *dim2_dev_attrs[] = {
-> +	&dev_attr_state.attr,
-> +	NULL,
-> +};
-> +
-> +static struct attribute_group dim2_attr_group = {
-> +	.attrs = dim2_dev_attrs,
-> +};
-> +
-> +static const struct attribute_group *dim2_attr_groups[] = {
-> +	&dim2_attr_group,
-> +	NULL,
-> +};
+diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+index beda7b8a7c6a..7e92c373cddb 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
++++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+@@ -544,7 +544,7 @@ void odm_DIG(void *pDM_VOID)
+ 	/* 1 Adjust initial gain by false alarm */
+ 	if (pDM_Odm->bLinked && bPerformance) {
 
-ATTRIBUTE_GROUPS()?
+-		if (bFirstTpTarget || (FirstConnect && bPerformance)) {
++		if (bFirstTpTarget || FirstConnect) {
+ 			pDM_DigTable->LargeFAHit = 0;
 
-Other than these minor things, looks good, thanks for doing this!
+ 			if (pDM_Odm->RSSI_Min < DIG_MaxOfMin) {
+--
+2.32.0
 
-greg k-h
