@@ -1,156 +1,89 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9C572
-	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 07:25:03 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id i20so37702640edj.10
-        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 00:25:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA22A72
+	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 07:33:02 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id a11so9106006plm.0
+        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 00:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cKfkGh414B/iRXkK8RbjxGaH4QllS+6UvmAmMf9vRl0=;
-        b=lSOMmnyZ1kYF70+Uvy8gOq2A87O2XTg6onjugrMc6BKu51iDGFzKcPRqqgP1FtV4E+
-         y5NW/Usep2TaGLRPGWQjcXLiL7aDU3dpJPF6XqWrCQOv6MdYt6Wfz+ntLhsKqcyeVrtv
-         mLHdwI2PxPbgzLWMVVEFEvW7bikK/pb6mjlb+9qOD5YaSt3oyeDWrpGMRR5v9mddgf5U
-         INVEaumXGAIbzZUTwvWvH7Byi3QZFz0xVY96c1MzXbqgHS6LIBZThn0ZJWJWLu/23pck
-         y8nKXnEKxC+t9cwJr5IHP8cFpePoyLMZPPc5XPAUYf8hFQ3kaMRvEJig9NYYL+8m2zoU
-         /jqg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=ykKHrA/r2EJEyEbkVUzjv11eom1VFrBiZ2DCTiavQzo=;
+        b=Hb/Ifoo2P85nAkYyM1k9huuKSfcZ5dXqO0RwtNc4j0IL05RnvQoitTnjX4nVoYPH28
+         UG3GWkEZSra0ygkWG7XZdtWayY2qEPBDGGsYb1+olWIz2q8DkLotxcwCPLGBQAor3cQ2
+         BvVBqZV7yBvojMEhrBTMTshx69f1SseJxynNMyYfKUnXrc1WQehZLQXd0e5a0tqcgZNK
+         apb1Z2mMN3V5MazcRP/A6/PU+4/preXy/k644n7BO52PDc3hXPNt9BIjLvMQ65FrPBW6
+         f+09qr8V03hTdVyI9PTZdWiWov9VwQgCk2BBn5ouqAUxTwhvG+T7UW+kSscqrS25BTJS
+         hMwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cKfkGh414B/iRXkK8RbjxGaH4QllS+6UvmAmMf9vRl0=;
-        b=m1MPAWVMQuT4Ho+KGjB9IuVatCT24puDkwjNBMNHFd6X3blQSm0BWQc1Vr6CEwReP/
-         jSXhyw5z+MzlILzQCkKjGIiBAEmUnrXkiUvJcgcc3oNRUduA9EQJIyOg/gxhJ1nFBFHE
-         nMmZYS7ln0OUsNRj5r6N8P2B/S2v1THhBqCz4Hp0FgD7zS49JMcovtSkvYhMDQMW1ktM
-         bsgtzeQ5dkH115dGt1xKWH4+3IY/Veb0/VkJ+kkYuRU3SiNyneRu4YMx0o3KeCD3j7NZ
-         5buykEEoNt2UJCMAXgDkPwfiXj7jOKr/Xq3cM12OwDhY34MKryseC9hXUNsptk1KZZ0D
-         AhKA==
-X-Gm-Message-State: AOAM532EnRH874PKA0niLcNs6EirZldR/IRLEHfQc8BhxdDAvTBmo2kt
-	YvwBfX+AjtNA2YJMjXhlWAY=
-X-Google-Smtp-Source: ABdhPJwlWnqyUQH7uAsnYIo5cIkre1x/GmihkXFuZOqhpsHQyA1Mw4c0eBlB0ZWnMXHYXFpeAs1LAQ==
-X-Received: by 2002:a17:906:318b:: with SMTP id 11mr17107979ejy.493.1633850701293;
-        Sun, 10 Oct 2021 00:25:01 -0700 (PDT)
-Received: from localhost.localdomain (host-79-43-109-12.retail.telecomitalia.it. [79.43.109.12])
-        by smtp.gmail.com with ESMTPSA id eg42sm2131384edb.61.2021.10.10.00.24.59
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=ykKHrA/r2EJEyEbkVUzjv11eom1VFrBiZ2DCTiavQzo=;
+        b=0D2cT1nCgMo/hVyd60JNeoZdc9qRcvAOrxF6hiQ+WT0DSVnn6cLHKEQpLknKCcmyJs
+         NLwz4NlVaYU9hEJGix19a6SmiHIFWSnC1nb4/Wyt5SY5CH5XgjM+pFIsnKc/+/MjyK1K
+         KjfgZkUFhysLpxSA7ZPDyAE1QYqGh5oZW6L5mz678LynHgzQww44nxnSWrBmiCwloOdI
+         hDDnirfHEZt6Bbpdja8xNAvFFRizIw+GhjWvGLgtQVF9Cw6ZXNN2UV1HWhINvyMNz6ol
+         LE/Z86HAsPIRP/9WgFon0m4/dX9Ua0pU0L4CAUPeScynX7Ac3n5KNtmquXPEH7Y4euZJ
+         mSRA==
+X-Gm-Message-State: AOAM532Kn3cvSlgP72XUd88G8jWkxYJyMQTn6uCD4zr33VNvMqEO7VUg
+	etqdtR0dhZ+aI4ARqwh0a/e1e1N0zCY=
+X-Google-Smtp-Source: ABdhPJyaBp/q4QLGz16KTew7U5mk6UQ/Tzhv3gHfJhX+TdLkxX9fWtvzGMYTlmsaua+7XZ3VtmslyQ==
+X-Received: by 2002:a17:902:e544:b0:13e:e863:6cd2 with SMTP id n4-20020a170902e54400b0013ee8636cd2mr17885504plf.41.1633851182186;
+        Sun, 10 Oct 2021 00:33:02 -0700 (PDT)
+Received: from user ([223.230.43.197])
+        by smtp.gmail.com with ESMTPSA id 184sm3981317pfw.49.2021.10.10.00.32.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Oct 2021 00:25:00 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org, saurav.girepunje@gmail.com, Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, marcocesati@gmail.com, insafonov@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: os_dep: simplify the return statement.
-Date: Sun, 10 Oct 2021 09:24:58 +0200
-Message-ID: <5843476.m7FxXixzUK@localhost.localdomain>
-In-Reply-To: <YWJ0vSrgsiKK7suE@user>
-References: <YWJ0vSrgsiKK7suE@user>
+        Sun, 10 Oct 2021 00:33:01 -0700 (PDT)
+Date: Sun, 10 Oct 2021 13:02:56 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	marcocesati@gmail.com, dan.carpenter@oracle.com,
+	lee.jones@linaro.org, saurav.girepunje@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: rtl8723bs: hal: remove if condition which is always
+ false
+Message-ID: <YWKXKGuA/Io9sEjf@user>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sunday, October 10, 2021 7:06:05 AM CEST Saurav Girepunje wrote:
-> Remove the unneeded and redundant check of variable on goto out.
-> Simplify the return using multiple goto label to avoid
-> unneeded check.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
-> 
-> ChangeLog V2:
-> 	-Add goto out after the memcpy for no error case return with
-> 	 ret only. Free is not required on no error case.
-> 
-> ChangeLog V1:
-> 	-Remove the unneeded and redundant check of variable on
-> 	 goto out.
-> 	-Simplify the return using multiple goto label to avoid
-> 	 unneeded check.
-> 
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 22 +++++++++----------
->  1 file changed, 10 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/
-staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 0868f56e2979..ae9579dc0848 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2312,7 +2312,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter 
-*padapter, char *name, str
->  	mon_wdev = rtw_zmalloc(sizeof(struct wireless_dev));
->  	if (!mon_wdev) {
->  		ret = -ENOMEM;
-> -		goto out;
-> +		goto err_zmalloc;
->  	}
-> 
->  	mon_wdev->wiphy = padapter->rtw_wdev->wiphy;
-> @@ -2322,23 +2322,21 @@ static int rtw_cfg80211_add_monitor_if(struct 
-adapter *padapter, char *name, str
-> 
->  	ret = cfg80211_register_netdevice(mon_ndev);
->  	if (ret) {
-> -		goto out;
-> +		goto err_register;
->  	}
-> 
->  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
->  	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
-> +	goto out;
+Remove the if condition which is always false. The last update on
+variable max_rf_path is value 1. It's value is not changing after that.
+So if condition check for value 2 will be always false only.
 
-I think this is the right thing to do in order to remove the bug you 
-introduced in v1. Well done.
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-> 
-> -out:
-> -	if (ret && mon_wdev) {
-> -		kfree(mon_wdev);
-> -		mon_wdev = NULL;
-> -	}
-> -
-> -	if (ret && mon_ndev) {
-> -		free_netdev(mon_ndev);
-> -		*ndev = mon_ndev = NULL;
-> -	}
-> +err_register:
-> +	kfree(mon_wdev);
-> +	mon_wdev = NULL;
-> 
-> +err_zmalloc:
-> +	free_netdev(mon_ndev);
-> +	*ndev = mon_ndev = NULL;
+diff --git a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
+index 392cc8a398f5..612575ba961a 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
++++ b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
+@@ -106,12 +106,10 @@ static s16 odm_InbandNoise_Monitor_NSeries(
+ 	pDM_Odm->noise_level.noise[RF_PATH_A] = -110 + reg_c50 + noise_data.sum[RF_PATH_A];
+ 	pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_A];
 
-Not sure about what the Linux coding guidelines say, but I think that 
-assigning NULL to local (on stack) pointers (mon_wdev, mon_ndev) at this 
-point is unnecessary. There is no risk of reusing them after the "out" 
-labelled block, because at function exit they are destroyed when the stack is 
-unwound.
+-	if (max_rf_path == 2) {
+-		reg_c58 = (s32)PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBAGCCore1, bMaskByte0);
+-		reg_c58 &= ~BIT7;
+-		pDM_Odm->noise_level.noise[RF_PATH_B] = -110 + reg_c58 + noise_data.sum[RF_PATH_B];
+-		pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_B];
+-	}
++	reg_c58 = (s32)PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBAGCCore1, bMaskByte0);
++	reg_c58 &= ~BIT7;
++	pDM_Odm->noise_level.noise[RF_PATH_B] = -110 + reg_c58 + noise_data.sum[RF_PATH_B];
++	pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_B];
+ 	pDM_Odm->noise_level.noise_all /= max_rf_path;
 
-If you decide to remove these assignments, take care to leave "*ndev = NULL;" 
-as-is (why?).
-
-Aside from this minor objection...
-
-Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-
-Thanks,
-
-Fabio
-
-> +out:
->  	return ret;
->  }
-> 
-> --
-> 2.32.0
-> 
-> 
-> 
-
-
-
+ 	/*  */
+--
+2.32.0
 
