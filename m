@@ -1,49 +1,28 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97542C83
-	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 05:06:11 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id 187so11758863pfc.10
-        for <linux-staging@lists.linux.dev>; Sat, 09 Oct 2021 22:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=dM074y++lE+8ycfGWmkuR8//9HdPqcSHLfhb3QYeN40=;
-        b=nOII8D7OGVKWvJsvhJeHKmcFnb6jyU+FXn9kyzIkfXgeLp7kjzo6Ag+505vaK505FS
-         iBngUdAnNHTk/SlHolIV33oxOLbeEyJBcL8crFcpdh+UP8tq9BPAan7srq/hv5XY2ew3
-         XKoj2NGX5RfpxXM+9cTo56uSDFmjHPNI2oX5d0kfYfJtbQpebpuWYA299EmSi24rwGYA
-         qQdY30tQc+uCp7tZYO9hUbPOIrGzlNxZXdkcByBqvvU7bKkcIysbz2Q3hTkHRL9RdFtW
-         bQLSVoSxUxh26pCElvbABa3YH4XMzNoc0KeuNcWTA4icYxHb5hHxNi1nJBo3p6DXYe3/
-         x1bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=dM074y++lE+8ycfGWmkuR8//9HdPqcSHLfhb3QYeN40=;
-        b=q2mVHoP5Edcmlh9IyrH4EHWF2Z+lVlRiMaHn9YuSsFuyaHmbMzMV19j/BBYLSl8rT8
-         Yd6rNiekDPOc/YjQ+TVZ3P1AZghKKOCALLPakad7fpWaEzZbzF1tBFRmyCzV0jLN31Wf
-         gqhugCu7owhodOkhdhaNiQFriRpo4c2cWpBGe+qahqlKST5mSEPNKp2LP/O+LROGfuSu
-         jWJv6TiSC2AFvr8KlldhMARo9cPhZqgIsgHmICVP186J/zmDpv7UQDP3D1g7yvoQLTGb
-         JSNQvpBHfvVN/gNcXYbrUjiuK1PhimIfsnk27UtpUAoUmrzVByrSawaJeP2REV3Gn/3p
-         uamQ==
-X-Gm-Message-State: AOAM533NW8FfO3dsnzY/IUMfjAmajAzJRxqrsqOe86pc/QY6M+dnhKkx
-	sppWINhJnjLROYQdhjuYAOg=
-X-Google-Smtp-Source: ABdhPJyoXtUr+pUjqFCmRuG4VkqqOnxm94iHyfw2sUdXDaVekhD8AYmCsukNZE8takZb7s9uWK5DwA==
-X-Received: by 2002:a05:6a00:1945:b0:44c:a955:35ea with SMTP id s5-20020a056a00194500b0044ca95535eamr18709447pfk.85.1633842371256;
-        Sat, 09 Oct 2021 22:06:11 -0700 (PDT)
-Received: from user ([223.230.43.197])
-        by smtp.gmail.com with ESMTPSA id i2sm3548309pfa.34.2021.10.09.22.06.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Oct 2021 22:06:10 -0700 (PDT)
-Date: Sun, 10 Oct 2021 10:36:05 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-	ross.schm.dev@gmail.com, marcocesati@gmail.com,
-	saurav.girepunje@gmail.com, insafonov@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH v2] staging: rtl8723bs: os_dep: simplify the return statement.
-Message-ID: <YWJ0vSrgsiKK7suE@user>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963B22C83
+	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 06:27:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 715B160EBD;
+	Sun, 10 Oct 2021 06:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1633847236;
+	bh=vCnFyg7canN42mdsHkanNiVAESAJuv9PTNd0CNc46Yc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hacgzfcl3I/VAx5sHgppfAvIYKfho33lLH9/83aZCBQ61aa3YnQjY5qkV4x8vH3qP
+	 N5eoBu/gTk10Kxw35Q7hp9BFfhcapj8S/4KHQm8nfUHn69R8jAJTEIIe0VxQaZjhZf
+	 gZrAq1mby0BpU9uxitlOBJBgCFnD9Ys/kLEROxow=
+Date: Sun, 10 Oct 2021 08:27:10 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Cc: Christian Gromm <christian.gromm@microchip.com>,
+	Lee Jones <lee.jones@linaro.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: most: dim2: do not double-register the same
+ device
+Message-ID: <YWKHvvLtb0MSJy2X@kroah.com>
+References: <YVwofSvwGTv3kHjh@kroah.com>
+ <20211005143448.8660-1-nikita.yoush@cogentembedded.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,73 +31,83 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20211005143448.8660-1-nikita.yoush@cogentembedded.com>
 
-Remove the unneeded and redundant check of variable on goto out.
-Simplify the return using multiple goto label to avoid
-unneeded check.
+On Tue, Oct 05, 2021 at 05:34:48PM +0300, Nikita Yushchenko wrote:
+> Commit 723de0f9171e ("staging: most: remove device from interface
+> structure") moved registration of driver-provided struct device to
+> the most subsystem.
+> 
+> Dim2 used to register the same struct device to provide a custom device
+> attribute. This causes double-registration of the same struct device.
+> 
+> Fix that by moving the custom attribute to driver's dev_groups.
+> This moves attribute to the platform_device object, which is a better
+> location for platform-specific attributes anyway.
+> 
+> Fixes: 723de0f9171e ("staging: most: remove device from interface structure")
+> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> ---
+>  drivers/staging/most/dim2/Makefile |  2 +-
+>  drivers/staging/most/dim2/dim2.c   | 31 ++++++++++++-------
+>  drivers/staging/most/dim2/sysfs.c  | 49 ------------------------------
+>  drivers/staging/most/dim2/sysfs.h  | 11 -------
+>  4 files changed, 21 insertions(+), 72 deletions(-)
+>  delete mode 100644 drivers/staging/most/dim2/sysfs.c
+> 
+> diff --git a/drivers/staging/most/dim2/Makefile b/drivers/staging/most/dim2/Makefile
+> index 861adacf6c72..5f9612af3fa3 100644
+> --- a/drivers/staging/most/dim2/Makefile
+> +++ b/drivers/staging/most/dim2/Makefile
+> @@ -1,4 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_MOST_DIM2) += most_dim2.o
+>  
+> -most_dim2-objs := dim2.o hal.o sysfs.o
+> +most_dim2-objs := dim2.o hal.o
+> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+> index e8b03fa90e80..bb6dd508e531 100644
+> --- a/drivers/staging/most/dim2/dim2.c
+> +++ b/drivers/staging/most/dim2/dim2.c
+> @@ -118,7 +118,8 @@ struct dim2_platform_data {
+>  	(((p)[1] == 0x18) && ((p)[2] == 0x05) && ((p)[3] == 0x0C) && \
+>  	 ((p)[13] == 0x3C) && ((p)[14] == 0x00) && ((p)[15] == 0x0A))
+>  
+> -bool dim2_sysfs_get_state_cb(void)
+> +static ssize_t state_show(struct device *dev, struct device_attribute *attr,
+> +			  char *buf)
+>  {
+>  	bool state;
+>  	unsigned long flags;
+> @@ -127,9 +128,25 @@ bool dim2_sysfs_get_state_cb(void)
+>  	state = dim_get_lock_state();
+>  	spin_unlock_irqrestore(&dim_lock, flags);
+>  
+> -	return state;
+> +	return sprintf(buf, "%s\n", state ? "locked" : "");
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
+sysfs_emit()?
 
-ChangeLog V2:
-	-Add goto out after the memcpy for no error case return with
-	 ret only. Free is not required on no error case.
+>  }
+>  
+> +static DEVICE_ATTR_RO(state);
+> +
+> +static struct attribute *dim2_dev_attrs[] = {
+> +	&dev_attr_state.attr,
+> +	NULL,
+> +};
+> +
+> +static struct attribute_group dim2_attr_group = {
+> +	.attrs = dim2_dev_attrs,
+> +};
+> +
+> +static const struct attribute_group *dim2_attr_groups[] = {
+> +	&dim2_attr_group,
+> +	NULL,
+> +};
 
-ChangeLog V1:
-	-Remove the unneeded and redundant check of variable on
-	 goto out.
-	-Simplify the return using multiple goto label to avoid
-	 unneeded check.
+ATTRIBUTE_GROUPS()?
 
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 22 +++++++++----------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+Other than these minor things, looks good, thanks for doing this!
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 0868f56e2979..ae9579dc0848 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2312,7 +2312,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
- 	mon_wdev = rtw_zmalloc(sizeof(struct wireless_dev));
- 	if (!mon_wdev) {
- 		ret = -ENOMEM;
--		goto out;
-+		goto err_zmalloc;
- 	}
-
- 	mon_wdev->wiphy = padapter->rtw_wdev->wiphy;
-@@ -2322,23 +2322,21 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
-
- 	ret = cfg80211_register_netdevice(mon_ndev);
- 	if (ret) {
--		goto out;
-+		goto err_register;
- 	}
-
- 	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
- 	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
-+	goto out;
-
--out:
--	if (ret && mon_wdev) {
--		kfree(mon_wdev);
--		mon_wdev = NULL;
--	}
--
--	if (ret && mon_ndev) {
--		free_netdev(mon_ndev);
--		*ndev = mon_ndev = NULL;
--	}
-+err_register:
-+	kfree(mon_wdev);
-+	mon_wdev = NULL;
-
-+err_zmalloc:
-+	free_netdev(mon_ndev);
-+	*ndev = mon_ndev = NULL;
-+out:
- 	return ret;
- }
-
---
-2.32.0
-
+greg k-h
