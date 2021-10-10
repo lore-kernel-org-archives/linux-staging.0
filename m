@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5082C86
-	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 17:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6728B2C81
+	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 17:52:37 +0000 (UTC)
 Received: from dslb-188-104-061-167.188.104.pools.vodafone-ip.de ([188.104.61.167] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mZczx-0001WC-J3; Sun, 10 Oct 2021 19:52:33 +0200
+	id 1mZczs-0001WC-IT; Sun, 10 Oct 2021 19:52:28 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 04/11] staging: r8188eu: remove odm fab version info
-Date: Sun, 10 Oct 2021 19:51:57 +0200
-Message-Id: <20211010175204.24029-4-martin@kaiser.cx>
+Subject: [PATCH 02/11] staging: r8188eu: remove specific device table
+Date: Sun, 10 Oct 2021 19:51:55 +0200
+Message-Id: <20211010175204.24029-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211010175204.24029-1-martin@kaiser.cx>
 References: <20211010175204.24029-1-martin@kaiser.cx>
@@ -30,87 +30,96 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The fab version info is set but not used. Remove it.
+This driver implements a mechanism to set additional configuration flags
+per supported usb device.
+
+None of the supported devices uses these additional flags. Remove the data
+types and the code to process the flags.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/odm.c         | 3 ---
- drivers/staging/r8188eu/hal/rtl8188e_dm.c | 4 +---
- drivers/staging/r8188eu/include/odm.h     | 9 ---------
- 3 files changed, 1 insertion(+), 15 deletions(-)
+ drivers/staging/r8188eu/include/drv_types.h | 13 ---------
+ drivers/staging/r8188eu/os_dep/usb_intf.c   | 29 ---------------------
+ 2 files changed, 42 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index acab7ddb9e99..17427bec9832 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -231,9 +231,6 @@ void ODM_CmnInfoInit(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
- 	case	ODM_CMNINFO_CUT_VER:
- 		pDM_Odm->CutVersion = (u8)Value;
- 		break;
--	case	ODM_CMNINFO_FAB_VER:
--		pDM_Odm->FabVersion = (u8)Value;
--		break;
- 	case	ODM_CMNINFO_RF_TYPE:
- 		pDM_Odm->RFType = (u8)Value;
- 		break;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index f4b69e5a632c..c752c106980a 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -31,7 +31,7 @@ static void Init_ODM_ComInfo_88E(struct adapter *Adapter)
- 	struct hal_data_8188e *hal_data = GET_HAL_DATA(Adapter);
- 	struct dm_priv	*pdmpriv = &hal_data->dmpriv;
- 	struct odm_dm_struct *dm_odm = &hal_data->odmpriv;
--	u8 cut_ver, fab_ver;
-+	u8 cut_ver;
+diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+index ce88575a8726..3e4928320f17 100644
+--- a/drivers/staging/r8188eu/include/drv_types.h
++++ b/drivers/staging/r8188eu/include/drv_types.h
+@@ -37,19 +37,6 @@
  
- 	/*  Init Value */
- 	memset(dm_odm, 0, sizeof(*dm_odm));
-@@ -44,10 +44,8 @@ static void Init_ODM_ComInfo_88E(struct adapter *Adapter)
+ #define DRIVERVERSION	"v4.1.4_6773.20130222"
  
- 	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_IC_TYPE, ODM_RTL8188E);
- 
--	fab_ver = ODM_TSMC;
- 	cut_ver = ODM_CUT_A;
- 
--	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_FAB_VER, fab_ver);
- 	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_CUT_VER, cut_ver);
- 
- 	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_MP_TEST_CHIP, IS_NORMAL_CHIP(hal_data->VersionID));
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 398038d5252d..527898571a54 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -267,7 +267,6 @@ enum odm_common_info_def {
- 	ODM_CMNINFO_MP_TEST_CHIP,
- 	ODM_CMNINFO_IC_TYPE,		/* ODM_IC_TYPE_E */
- 	ODM_CMNINFO_CUT_VER,		/* ODM_CUT_VERSION_E */
--	ODM_CMNINFO_FAB_VER,		/* ODM_FAB_E */
- 	ODM_CMNINFO_RF_TYPE,		/* RF_PATH_E or ODM_RF_TYPE_E? */
- 	ODM_CMNINFO_BOARD_TYPE,		/* ODM_BOARD_TYPE_E */
- 	ODM_CMNINFO_EXT_LNA,		/* true */
-@@ -384,12 +383,6 @@ enum odm_cut_version {
- 	ODM_CUT_TEST	=	7,
- };
- 
--/*  ODM_CMNINFO_FAB_VER */
--enum odm_fab_Version {
--	ODM_TSMC	=	0,
--	ODM_UMC		=	1,
+-#define SPEC_DEV_ID_NONE		BIT(0)
+-#define SPEC_DEV_ID_DISABLE_HT		BIT(1)
+-#define SPEC_DEV_ID_ENABLE_PS		BIT(2)
+-#define SPEC_DEV_ID_RF_CONFIG_1T1R	BIT(3)
+-#define SPEC_DEV_ID_RF_CONFIG_2T2R	BIT(4)
+-#define SPEC_DEV_ID_ASSIGN_IFNAME	BIT(5)
+-
+-struct specific_device_id {
+-	u32		flags;
+-	u16		idVendor;
+-	u16		idProduct;
 -};
 -
- /*  ODM_CMNINFO_RF_TYPE */
- /*  For example 1T2R (A+AB = BIT(0)|BIT(4)|BIT(5)) */
- enum odm_rf_path {
-@@ -668,8 +661,6 @@ struct odm_dm_struct {
- 	u32	SupportICType;
- 	/*  Cut Version TestChip/A-cut/B-cut... = 0/1/2/3/... */
- 	u8	CutVersion;
--	/*  Fab Version TSMC/UMC = 0/1 */
--	u8	FabVersion;
- 	/*  RF Type 4T4R/3T3R/2T2R/1T2R/1T1R/... */
- 	u8	RFType;
- 	/*  Board Type Normal/HighPower/MiniCard/SLIM/Combo/. = 0/1/2/3/4/. */
+ struct registry_priv {
+ 	u8	chip_version;
+ 	u8	rfintfs;
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 664ffaba589b..4b8a3e821b74 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -49,10 +49,6 @@ static struct usb_device_id rtw_usb_id_tbl[] = {
+ 
+ MODULE_DEVICE_TABLE(usb, rtw_usb_id_tbl);
+ 
+-static struct specific_device_id specific_device_id_tbl[] = {
+-	{}		/* empty table for now */
+-};
+-
+ struct rtw_usb_drv {
+ 	struct usb_driver usbdrv;
+ 	int drv_registered;
+@@ -212,28 +208,6 @@ static void rtw_dev_unload(struct adapter *padapter)
+ 	DBG_88E("<=== rtw_dev_unload\n");
+ }
+ 
+-static void process_spec_devid(const struct usb_device_id *pdid)
+-{
+-	u16 vid, pid;
+-	u32 flags;
+-	int i;
+-	int num = sizeof(specific_device_id_tbl) /
+-		  sizeof(struct specific_device_id);
+-
+-	for (i = 0; i < num; i++) {
+-		vid = specific_device_id_tbl[i].idVendor;
+-		pid = specific_device_id_tbl[i].idProduct;
+-		flags = specific_device_id_tbl[i].flags;
+-
+-		if ((pdid->idVendor == vid) && (pdid->idProduct == pid) &&
+-		    (flags & SPEC_DEV_ID_DISABLE_HT)) {
+-			rtw_ht_enable = 0;
+-			rtw_cbw40_enable = 0;
+-			rtw_ampdu_enable = 0;
+-		}
+-	}
+-}
+-
+ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
+ {
+ 	struct dvobj_priv *dvobj = usb_get_intfdata(pusb_intf);
+@@ -499,9 +473,6 @@ static int rtw_drv_init(struct usb_interface *pusb_intf, const struct usb_device
+ 	struct adapter *if1 = NULL;
+ 	struct dvobj_priv *dvobj;
+ 
+-	/* step 0. */
+-	process_spec_devid(pdid);
+-
+ 	/* Initialize dvobj_priv */
+ 	dvobj = usb_dvobj_init(pusb_intf);
+ 	if (!dvobj)
 -- 
 2.20.1
 
