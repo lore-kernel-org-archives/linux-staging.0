@@ -1,342 +1,191 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB652C80;
-	Sun, 10 Oct 2021 10:45:20 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id y3so12387763wrl.1;
-        Sun, 10 Oct 2021 03:45:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09902C80
+	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 10:45:26 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id z20so55012561edc.13
+        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 03:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vemhJN2zSsmO94aJp4J6LI64yj7A84fvslxbcqYE0vU=;
-        b=Tazt2S8JA1NikbBTZIK6CwhX3G4Y9dj1ZQymX8M8teEFuu6RvdYnsH39KGaO5aMHmc
-         vwpKim3WM4E4GjCVeRwf1+PTITUOJfis0Z3egaU+KAUE8hyfEjF9km0UudfSxs593BiB
-         gzfkIYs5M/GAMzfOkwj8GDPtKoxMY0maQNSK15eiUebVPVVYbSX66ByevZPwndOJmT8I
-         HjAZsLZju35Aus9koBC/WaCN1QoKZZlEJgexpTVUGkOPsLX4XBzPuphEFvmsWxyj3SFU
-         ggkofU3Trx4a1WUfzCRI4TPk4RVcqnx8j1b/sKd9v+2SfNb4mGAIIaeuzikPm0fO2/M0
-         7bdQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=K46PU/CtevSIz6UOLXirJuDMgf7mx0ZTMbKdIpAc0wg=;
+        b=EmSrTebprvFUzgekyD5eCrSNSztWMIjm8q2EKJhgeh5/l6rjpZF2k0cg7ZWhkHxvqu
+         g8rQVOlFBvyDdTE8CBmCFqp0+E7lVIUhY/XVAsTHU+XUmHuI9UCCFUmCa21jwXgFRZLm
+         t4h9DjSKWxWyCsOPCnNfy5UcPA9WqHWTwWnnQVRQbc2sSOGhbfufx0Uj1Xy3B/nKw1tx
+         hIMhuUceoUAX1Z6U8Eqq0bL2XCDgnlC8XYbc5I3u2sh9gDRO5vg77Djr178I9E6FXyi6
+         cSByHbatiKqrQIimIKQeswwqZQfXUElVQ4qqSOl2C3lVaKXUZ2/ciyYpygxF/e+S5IgM
+         j6Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vemhJN2zSsmO94aJp4J6LI64yj7A84fvslxbcqYE0vU=;
-        b=F1xPszMVh2YqAAvd/X0O6HKOsMTLGqqd1R/L6ifmNP16O55N2RlaPUcpcsAcHXtuWD
-         aCyo/NdKivZXBpfcaW4/0MbVqWWywAwj8T7JFu+moh0TAVcjoe7JguTWqmL9pKORW5iQ
-         XBo6I6RuNeXyJsHP6STu/FUa2KTYDe3a/P0EKRn4NznTG87i5WqPDrSzc7qIfsXOtUpb
-         NqYbID3GOZFhQMw6XvAOtuTgSlhvo+lVm3aog2cYMLnsAqVyaBE9SdaqxifoIsGmLDqU
-         LljhpsMLsumboXthKHWHcEBuI3thwIs8C+6I9oca1kIcMjv4Y7nPTAsBW//9CLQTLItP
-         nu9w==
-X-Gm-Message-State: AOAM532Cl0cdNgZmc1S1WeqjnNCjylS1DWccpWOq0ngD6qGkKCPENLcG
-	0H4urO8br4gFW0Ca9vxzUrY=
-X-Google-Smtp-Source: ABdhPJz79MIOdOzbnEdCBc3vxz7k9Cn5abyAY2ezoI0da7DKVMkYXF38Ef2BrRfSttay8Nsmva5NAA==
-X-Received: by 2002:a5d:6481:: with SMTP id o1mr17550165wri.140.1633862718759;
-        Sun, 10 Oct 2021 03:45:18 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id n7sm4660863wra.37.2021.10.10.03.45.17
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=K46PU/CtevSIz6UOLXirJuDMgf7mx0ZTMbKdIpAc0wg=;
+        b=e4VjPoDDocOVfpllm+y+3dtdgdWxb5FSD0ur7vukTju7nLWw2eBw/gpmv2sFwxw12u
+         Ij7e79CV991/gZShYiFyBFAPx49BgXZnxLkuBU1SXzZRnA8b3EPoo8YgZJh4OGqxPAlH
+         5EEZttDgXdivrIMf+NXk9RnGbrSFom9sKqwQgk5qIrkjSz1UQAdLaNWNoYfZ+xJ2rAcQ
+         D0oauPTSH8XDm47pWx5aBfr9MB43FSQgHAeWhj+PC3KxmQnqy4V5UYfZr5Np1VRm74nZ
+         x129kv4fbaMp+1zU5HvQnxean6lIG6lgPrdEJlmRxiR0+gie6rbL4YeK6gR2fvnX8KjN
+         47nw==
+X-Gm-Message-State: AOAM532PgUj5FP+LP6AV3hZJsxih7quNHl+9NS7G7bTIbvc9dLu8Z2Iq
+	mT/AeEBe+sKg21YF8FRfZwk=
+X-Google-Smtp-Source: ABdhPJzHdIaOJ4ELl1ldbOo7M3rSrRyIGihnstctUXkwl2j5ZQ/DwAoLbJizm9vX9KxMwmFSv2hIKw==
+X-Received: by 2002:aa7:c2da:: with SMTP id m26mr3306303edp.89.1633862725193;
+        Sun, 10 Oct 2021 03:45:25 -0700 (PDT)
+Received: from agape.jhs ([5.171.72.142])
+        by smtp.gmail.com with ESMTPSA id h11sm1934657eji.96.2021.10.10.03.45.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Oct 2021 03:45:18 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	hverkuil-cisco@xs4all.nl
-Cc: mchehab@kernel.org,
-	wens@csie.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2] media: cedrus: Don't kernel map most buffers
-Date: Sun, 10 Oct 2021 12:45:14 +0200
-Message-Id: <20211010104514.2311284-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        Sun, 10 Oct 2021 03:45:24 -0700 (PDT)
+Date: Sun, 10 Oct 2021 12:45:21 +0200
+From: Fabio Aiuto <fabioaiuto83@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: hdegoede@redhat.com, linux-staging@lists.linux.dev
+Subject: Re: [bug report] staging: Add rtl8723bs sdio wifi driver
+Message-ID: <YWLEQcxMY3sX1soJ@agape.jhs>
+References: <20211005090646.GA18431@kili>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211005090646.GA18431@kili>
 
-Except for VP8 probability coefficients buffer, all other buffers are
-never accessed by CPU. That allows us to mark them with
-DMA_ATTR_NO_KERNEL_MAPPING flag. This helps with decoding big (like 4k)
-videos on 32-bit ARM platforms where default vmalloc size is relatively
-small - 240 MiB. Since auxiliary buffer are not yet efficiently
-allocated, this can be easily exceeded. Even if allocation is optimized,
-4k videos will still often exceed this limit.
+Hi Dan,
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
+thank you for your report,
 
-Changes from v1:
-- added notes that buffers are accessed only by HW
-- adjusted comment
-- removed DMA_ATTR_NO_KERNEL_MAPPING flag for capture buffers
-- fixed commit message
+On Tue, Oct 05, 2021 at 12:06:46PM +0300, Dan Carpenter wrote:
+> Hello Hans de Goede,
+> 
+> The patch 554c0a3abf21: "staging: Add rtl8723bs sdio wifi driver"
+> from Mar 29, 2017, leads to the following Smatch static checker
+> warnings:
+> 
+>     drivers/staging/rtl8723bs/core/rtw_security.c:1404 rtw_BIP_verify()
+>     warn: not copying enough bytes for '&le_tmp64' (8 vs 6 bytes)
+> 
+>     drivers/staging/rtl8723bs/core/rtw_mlme_ext.c:4058 collect_bss_info()
+>     warn: not copying enough bytes for '&le32_tmp' (4 vs 2 bytes)
+> 
+> drivers/staging/rtl8723bs/core/rtw_security.c
+>     1372 u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
+>     1373 {
+>     1374         struct rx_pkt_attrib *pattrib = &((union recv_frame *)precvframe)->u.hdr.attrib;
+>     1375         u8 *pframe;
+>     1376         u8 *BIP_AAD, *p;
+>     1377         u32 res = _FAIL;
+>     1378         uint len, ori_len;
+>     1379         struct ieee80211_hdr *pwlanhdr;
+>     1380         u8 mic[16];
+>     1381         struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+>     1382         __le16 le_tmp;
+>     1383         __le64 le_tmp64;
+>                  ^^^^^^^^^^^^^^^
+> 
+>     1384 
+>     1385         ori_len = pattrib->pkt_len-WLAN_HDR_A3_LEN+BIP_AAD_SIZE;
+>     1386         BIP_AAD = rtw_zmalloc(ori_len);
+>     1387 
+>     1388         if (!BIP_AAD)
+>     1389                 return _FAIL;
+>     1390 
+>     1391         /* PKT start */
+>     1392         pframe = (unsigned char *)((union recv_frame *)precvframe)->u.hdr.rx_data;
+>     1393         /* mapping to wlan header */
+>     1394         pwlanhdr = (struct ieee80211_hdr *)pframe;
+>     1395         /* save the frame body + MME */
+>     1396         memcpy(BIP_AAD+BIP_AAD_SIZE, pframe+WLAN_HDR_A3_LEN, pattrib->pkt_len-WLAN_HDR_A3_LEN);
+>     1397         /* find MME IE pointer */
+>     1398         p = rtw_get_ie(BIP_AAD+BIP_AAD_SIZE, WLAN_EID_MMIE, &len, pattrib->pkt_len-WLAN_HDR_A3_LEN);
+>     1399         /* Baron */
+>     1400         if (p) {
+>     1401                 u16 keyid = 0;
+>     1402                 u64 temp_ipn = 0;
+>     1403                 /* save packet number */
+> --> 1404                 memcpy(&le_tmp64, p+4, 6);
+>                                 ^^^^^^^^^^^^^^^^^
+>     1405                 temp_ipn = le64_to_cpu(le_tmp64);
+>                                                 ^^^^^^^^
+> This code is copying 6 bytes into a u64 and then treating it as little
+> endian data.  The problem is that the last two bytes are uninitialized
+> garbage data.  I think if we set "__le64 le_tmp64 = 0;" at the top that
+> would probably work, right?
+> 
+> I could have sent a patch but this code is weird enough that I was
+> hoping for a second opinion.
+> 
+> The bug in collect_bss_info() is a similar uninitialized data issue.
 
- .../staging/media/sunxi/cedrus/cedrus_h264.c  | 113 ++++++++++--------
- .../staging/media/sunxi/cedrus/cedrus_h265.c  |  30 +++--
- .../staging/media/sunxi/cedrus/cedrus_video.c |   1 +
- 3 files changed, 82 insertions(+), 62 deletions(-)
+You are right I think that it's safer to intitalize to zero
+le_tmp64 and le32_tmp.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index de7442d4834d..b4173a8926d6 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -520,6 +520,11 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 	unsigned int mv_col_size;
- 	int ret;
- 
-+	/*
-+	 * NOTE: All buffers allocated here are only used by HW, so we
-+	 * can add DMA_ATTR_NO_KERNEL_MAPPING flag when allocating them.
-+	 */
-+
- 	/* Formula for picture buffer size is taken from CedarX source. */
- 
- 	if (ctx->src_fmt.width > 2048)
-@@ -538,23 +543,23 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 
- 	ctx->codec.h264.pic_info_buf_size = pic_info_size;
- 	ctx->codec.h264.pic_info_buf =
--		dma_alloc_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
--				   &ctx->codec.h264.pic_info_buf_dma,
--				   GFP_KERNEL);
-+		dma_alloc_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
-+				&ctx->codec.h264.pic_info_buf_dma,
-+				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 	if (!ctx->codec.h264.pic_info_buf)
- 		return -ENOMEM;
- 
- 	/*
- 	 * That buffer is supposed to be 16kiB in size, and be aligned
--	 * on 16kiB as well. However, dma_alloc_coherent provides the
--	 * guarantee that we'll have a CPU and DMA address aligned on
--	 * the smallest page order that is greater to the requested
--	 * size, so we don't have to overallocate.
-+	 * on 16kiB as well. However, dma_alloc_attrs provides the
-+	 * guarantee that we'll have a DMA address aligned on the
-+	 * smallest page order that is greater to the requested size,
-+	 * so we don't have to overallocate.
- 	 */
- 	ctx->codec.h264.neighbor_info_buf =
--		dma_alloc_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
--				   &ctx->codec.h264.neighbor_info_buf_dma,
--				   GFP_KERNEL);
-+		dma_alloc_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-+				&ctx->codec.h264.neighbor_info_buf_dma,
-+				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 	if (!ctx->codec.h264.neighbor_info_buf) {
- 		ret = -ENOMEM;
- 		goto err_pic_buf;
-@@ -582,10 +587,11 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 
- 	mv_col_size = field_size * 2 * CEDRUS_H264_FRAME_NUM;
- 	ctx->codec.h264.mv_col_buf_size = mv_col_size;
--	ctx->codec.h264.mv_col_buf = dma_alloc_coherent(dev->dev,
--							ctx->codec.h264.mv_col_buf_size,
--							&ctx->codec.h264.mv_col_buf_dma,
--							GFP_KERNEL);
-+	ctx->codec.h264.mv_col_buf =
-+		dma_alloc_attrs(dev->dev,
-+				ctx->codec.h264.mv_col_buf_size,
-+				&ctx->codec.h264.mv_col_buf_dma,
-+				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 	if (!ctx->codec.h264.mv_col_buf) {
- 		ret = -ENOMEM;
- 		goto err_neighbor_buf;
-@@ -600,10 +606,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 		ctx->codec.h264.deblk_buf_size =
- 			ALIGN(ctx->src_fmt.width, 32) * 12;
- 		ctx->codec.h264.deblk_buf =
--			dma_alloc_coherent(dev->dev,
--					   ctx->codec.h264.deblk_buf_size,
--					   &ctx->codec.h264.deblk_buf_dma,
--					   GFP_KERNEL);
-+			dma_alloc_attrs(dev->dev,
-+					ctx->codec.h264.deblk_buf_size,
-+					&ctx->codec.h264.deblk_buf_dma,
-+					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 		if (!ctx->codec.h264.deblk_buf) {
- 			ret = -ENOMEM;
- 			goto err_mv_col_buf;
-@@ -616,10 +622,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 		ctx->codec.h264.intra_pred_buf_size =
- 			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
- 		ctx->codec.h264.intra_pred_buf =
--			dma_alloc_coherent(dev->dev,
--					   ctx->codec.h264.intra_pred_buf_size,
--					   &ctx->codec.h264.intra_pred_buf_dma,
--					   GFP_KERNEL);
-+			dma_alloc_attrs(dev->dev,
-+					ctx->codec.h264.intra_pred_buf_size,
-+					&ctx->codec.h264.intra_pred_buf_dma,
-+					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 		if (!ctx->codec.h264.intra_pred_buf) {
- 			ret = -ENOMEM;
- 			goto err_deblk_buf;
-@@ -629,24 +635,28 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
- 	return 0;
- 
- err_deblk_buf:
--	dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
--			  ctx->codec.h264.deblk_buf,
--			  ctx->codec.h264.deblk_buf_dma);
-+	dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
-+		       ctx->codec.h264.deblk_buf,
-+		       ctx->codec.h264.deblk_buf_dma,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
- 
- err_mv_col_buf:
--	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
--			  ctx->codec.h264.mv_col_buf,
--			  ctx->codec.h264.mv_col_buf_dma);
-+	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
-+		       ctx->codec.h264.mv_col_buf,
-+		       ctx->codec.h264.mv_col_buf_dma,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
- 
- err_neighbor_buf:
--	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
--			  ctx->codec.h264.neighbor_info_buf,
--			  ctx->codec.h264.neighbor_info_buf_dma);
-+	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-+		       ctx->codec.h264.neighbor_info_buf,
-+		       ctx->codec.h264.neighbor_info_buf_dma,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
- 
- err_pic_buf:
--	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
--			  ctx->codec.h264.pic_info_buf,
--			  ctx->codec.h264.pic_info_buf_dma);
-+	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
-+		       ctx->codec.h264.pic_info_buf,
-+		       ctx->codec.h264.pic_info_buf_dma,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
- 	return ret;
- }
- 
-@@ -654,23 +664,28 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
- {
- 	struct cedrus_dev *dev = ctx->dev;
- 
--	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
--			  ctx->codec.h264.mv_col_buf,
--			  ctx->codec.h264.mv_col_buf_dma);
--	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
--			  ctx->codec.h264.neighbor_info_buf,
--			  ctx->codec.h264.neighbor_info_buf_dma);
--	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
--			  ctx->codec.h264.pic_info_buf,
--			  ctx->codec.h264.pic_info_buf_dma);
-+	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
-+		       ctx->codec.h264.mv_col_buf,
-+		       ctx->codec.h264.mv_col_buf_dma,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
-+	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-+		       ctx->codec.h264.neighbor_info_buf,
-+		       ctx->codec.h264.neighbor_info_buf_dma,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
-+	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
-+		       ctx->codec.h264.pic_info_buf,
-+		       ctx->codec.h264.pic_info_buf_dma,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
- 	if (ctx->codec.h264.deblk_buf_size)
--		dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
--				  ctx->codec.h264.deblk_buf,
--				  ctx->codec.h264.deblk_buf_dma);
-+		dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
-+			       ctx->codec.h264.deblk_buf,
-+			       ctx->codec.h264.deblk_buf_dma,
-+			       DMA_ATTR_NO_KERNEL_MAPPING);
- 	if (ctx->codec.h264.intra_pred_buf_size)
--		dma_free_coherent(dev->dev, ctx->codec.h264.intra_pred_buf_size,
--				  ctx->codec.h264.intra_pred_buf,
--				  ctx->codec.h264.intra_pred_buf_dma);
-+		dma_free_attrs(dev->dev, ctx->codec.h264.intra_pred_buf_size,
-+			       ctx->codec.h264.intra_pred_buf,
-+			       ctx->codec.h264.intra_pred_buf_dma,
-+			       DMA_ATTR_NO_KERNEL_MAPPING);
- }
- 
- static void cedrus_h264_trigger(struct cedrus_ctx *ctx)
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 3d9561d4aadb..8829a7bab07e 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -350,11 +350,12 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 		ctx->codec.h265.mv_col_buf_size = num_buffers *
- 			ctx->codec.h265.mv_col_buf_unit_size;
- 
-+		/* Buffer is never accessed by CPU, so we can skip kernel mapping. */
- 		ctx->codec.h265.mv_col_buf =
--			dma_alloc_coherent(dev->dev,
--					   ctx->codec.h265.mv_col_buf_size,
--					   &ctx->codec.h265.mv_col_buf_addr,
--					   GFP_KERNEL);
-+			dma_alloc_attrs(dev->dev,
-+					ctx->codec.h265.mv_col_buf_size,
-+					&ctx->codec.h265.mv_col_buf_addr,
-+					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 		if (!ctx->codec.h265.mv_col_buf) {
- 			ctx->codec.h265.mv_col_buf_size = 0;
- 			// TODO: Abort the process here.
-@@ -667,10 +668,11 @@ static int cedrus_h265_start(struct cedrus_ctx *ctx)
- 	/* The buffer size is calculated at setup time. */
- 	ctx->codec.h265.mv_col_buf_size = 0;
- 
-+	/* Buffer is never accessed by CPU, so we can skip kernel mapping. */
- 	ctx->codec.h265.neighbor_info_buf =
--		dma_alloc_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
--				   &ctx->codec.h265.neighbor_info_buf_addr,
--				   GFP_KERNEL);
-+		dma_alloc_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
-+				&ctx->codec.h265.neighbor_info_buf_addr,
-+				GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
- 	if (!ctx->codec.h265.neighbor_info_buf)
- 		return -ENOMEM;
- 
-@@ -682,16 +684,18 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
- 	struct cedrus_dev *dev = ctx->dev;
- 
- 	if (ctx->codec.h265.mv_col_buf_size > 0) {
--		dma_free_coherent(dev->dev, ctx->codec.h265.mv_col_buf_size,
--				  ctx->codec.h265.mv_col_buf,
--				  ctx->codec.h265.mv_col_buf_addr);
-+		dma_free_attrs(dev->dev, ctx->codec.h265.mv_col_buf_size,
-+			       ctx->codec.h265.mv_col_buf,
-+			       ctx->codec.h265.mv_col_buf_addr,
-+			       DMA_ATTR_NO_KERNEL_MAPPING);
- 
- 		ctx->codec.h265.mv_col_buf_size = 0;
- 	}
- 
--	dma_free_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
--			  ctx->codec.h265.neighbor_info_buf,
--			  ctx->codec.h265.neighbor_info_buf_addr);
-+	dma_free_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
-+		       ctx->codec.h265.neighbor_info_buf,
-+		       ctx->codec.h265.neighbor_info_buf_addr,
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
- }
- 
- static void cedrus_h265_trigger(struct cedrus_ctx *ctx)
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 66714609b577..33726175d980 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -568,6 +568,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
- 
- 	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
- 	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-+	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
- 	src_vq->drv_priv = ctx;
- 	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
- 	src_vq->ops = &cedrus_qops;
--- 
-2.33.0
+> 
+>     1406                 /* BIP packet number should bigger than previous BIP packet */
+>     1407                 if (temp_ipn <= pmlmeext->mgnt_80211w_IPN_rx)
+>     1408                         goto BIP_exit;
+>     1409 
+>     1410                 /* copy key index */
+>     1411                 memcpy(&le_tmp, p+2, 2);
+> 
+> But this part seems totally wrong again because we haven't incremented
+> p.  p + 10?
 
+I don't know what you mean. I guess that you are adressing the code above
+(lines 1406-1411).
+
+Anyway I think the code it's right. MMIE layout is:
+
+	1 byte element_id;
+	1 byte length;
+	2 byte key_id;
+	6 byte IPN;
+	8 byte MIC;
+
+so to access key_id I have to increment p by 2.
+
+> 
+>     1412                 keyid = le16_to_cpu(le_tmp);
+>     1413                 if (keyid != padapter->securitypriv.dot11wBIPKeyid)
+>     1414                         goto BIP_exit;
+>     1415 
+>     1416                 /* clear the MIC field of MME to zero */
+>     1417                 memset(p+2+len-8, 0, 8);
+>     1418 
+>     1419                 /* conscruct AAD, copy frame control field */
+>     1420                 memcpy(BIP_AAD, &pwlanhdr->frame_control, 2);
+>     1421                 ClearRetry(BIP_AAD);
+>     1422                 ClearPwrMgt(BIP_AAD);
+>     1423                 ClearMData(BIP_AAD);
+>     1424                 /* conscruct AAD, copy address 1 to address 3 */
+>     1425                 memcpy(BIP_AAD+2, pwlanhdr->addr1, 18);
+>     1426 
+>     1427                 if (omac1_aes_128(padapter->securitypriv.dot11wBIPKey[padapter->securitypriv.dot11wBIPKeyid].skey
+>     1428                         , BIP_AAD, ori_len, mic))
+>     1429                         goto BIP_exit;
+>     1430 
+>     1431                 /* MIC field should be last 8 bytes of packet (packet without FCS) */
+>     1432                 if (!memcmp(mic, pframe+pattrib->pkt_len-8, 8)) {
+>     1433                         pmlmeext->mgnt_80211w_IPN_rx = temp_ipn;
+>     1434                         res = _SUCCESS;
+>     1435                 } else {
+>     1436                 }
+>     1437 
+>     1438         } else {
+>     1439                 res = RTW_RX_HANDLED;
+>     1440         }
+>     1441 BIP_exit:
+>     1442 
+>     1443         kfree(BIP_AAD);
+>     1444         return res;
+>     1445 }
+> 
+> regards,
+> dan carpenter
+> 
+
+thank you,
+
+fabio
