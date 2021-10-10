@@ -1,122 +1,109 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1872C80
-	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 11:02:13 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id e7so8051735pgk.2
-        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 04:02:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:cc:subject:content-language
-         :to:references:from:in-reply-to:content-transfer-encoding;
-        bh=mGt9AjRyz59TKgLh09y9NCFfjgPuJll6eNqrTFHEAzw=;
-        b=P8XtbNXAFvT1qDgRluJ3jMCie2isFNR6WZD79lKOdqcphRLa2g9ihFMtk1GZ8DcMYI
-         IS4eblrL3XuNwYblQGkjzVdVvB+oRImzEhCydaSXP77oi3U+c5KNvQhU83Paumo2ReOA
-         BxmOexVPl6o/Ot9KoseSDgUHUN6VnbwuFWXJ0jqkoi6j/67kgEklVK/HcHVibnPn4he1
-         +388Q7rBEQdXfY9v1kCbDHmbXWI/sLMwDk4w1HJRqqVWuH678OyBBm0Lz9remLblPDxv
-         0EmMIsZ+M+hBJi/VDDbmLtUCKdkyp3QUpwQyEplFDhxYvwUejc0briWDtP4LdxIH+yc7
-         93HQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1919072
+	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 12:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1633869927;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hGzveYbUBicRzug96qwjzZADX2Wt9eAHz5hNvkN82fY=;
+	b=TXQ+h/dlTJGqV33hL/H71QLplMGRmVypkBYWQAgR+w7ztgf8VBRV/XDE62ifXCSyDmlbdu
+	K6Joz3ZBOYYaPb5HVFsLkKLTEOpoKoYDGhbFvGi1sZxLSoF9wS8SgHI6BTE74ZY5cG8M6f
+	tIHECgNpaSZbO9ahtxTd5Vb/Wh9kXI0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-pffY-mZYPC2HnqMLpTMFmA-1; Sun, 10 Oct 2021 08:45:23 -0400
+X-MC-Unique: pffY-mZYPC2HnqMLpTMFmA-1
+Received: by mail-ed1-f71.google.com with SMTP id d3-20020a056402516300b003db863a248eso1334171ede.16
+        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 05:45:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:cc
-         :subject:content-language:to:references:from:in-reply-to
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=mGt9AjRyz59TKgLh09y9NCFfjgPuJll6eNqrTFHEAzw=;
-        b=4fmo/PCxuU7AXxi7hoafta3dFkBa3FkOXk0HQjB6iD4BTBybTSzvO3FnsfTBPXPpkF
-         1T/18WFz+C5z25wojVsd4lQfgRMt3IML4qWlIdO+Cd1Ynw6DhkVkYwBq/Cz954PuApb1
-         DsKnFNwvwbctcPDhBACOVnBTb8nAIvh2tcOb9JRHRXnztMzKpeOhfX+gCLvbkkVfhfeg
-         FnX3arwAkl5O4Y5IBoX+aG69GXxyuZ7z+mIaO9GaJ2x2L3KVdtLSiEtQh6V+EgwAldZe
-         Ve/dXSJg+YHfLnUOtHef45eWsrylQUzzXAtbIUkS+vnWgtCQAYZZ5w2naG7kb7095Y5D
-         7HVA==
-X-Gm-Message-State: AOAM533cKw3WJRyPFVItTnE1BUUVbem4vTorXhQNBrlMUUg9kqgSaniu
-	Mccb4BRbT5YAncB4ShoPED4=
-X-Google-Smtp-Source: ABdhPJy930qii06q21V5rCtyuW9c0etlhTpXJyVEyPtZM8q5RW0ySqU1O/+IJNKeL7H8+EwB0DJKvA==
-X-Received: by 2002:aa7:9285:0:b0:44c:caf5:341 with SMTP id j5-20020aa79285000000b0044ccaf50341mr17327648pfa.1.1633863733066;
-        Sun, 10 Oct 2021 04:02:13 -0700 (PDT)
-Received: from [192.168.1.6] ([223.230.43.197])
-        by smtp.gmail.com with ESMTPSA id d22sm5073571pgi.73.2021.10.10.04.02.10
+        bh=hGzveYbUBicRzug96qwjzZADX2Wt9eAHz5hNvkN82fY=;
+        b=A6VO9ai+ltLRGHpKc4Y/RWv5MedKrVfgDXi+IYPse1BTqXHrQ6KDAfchLr98EHwXlT
+         qPNYqCIizQP/D4h2+S1gFEEWZp5kEPUwr0NvoFdeDW1Y4cvPnGuX9TWnn9tUZzsW1pnw
+         lTznY2oWnyLL65L3jGX7Rp2h7gitEGzCs3lWDSRm6rQJuoA15P01Sflbf6gBE6Pj3u2M
+         QKVZpAm+WMS13yK0TLJbAQZj2R3b8RDEl4+AUgwPTPT5etUcBp8zkpWKLxta10W6fFkv
+         zpSg+0E4mTQIvslmmOoPNf1tVvXXp/QM7np7pF32gcPlcY6QCgIT/YhDIwSDOBJw3Byu
+         teWA==
+X-Gm-Message-State: AOAM530PZuaetZ3GWyaRhAzZICIBUxVqajtwro61IQCXXH6jw6z96OOj
+	WN5Tt294kLZgVe85CbLNn+Zr7fF68HtoeM5llWY8/Tn41eKZ1iZpYy9m4Xx5qSJTrrBogv2MlFU
+	nTuH/E31pgxYXtKEpm9ez0EwEYg==
+X-Received: by 2002:a05:6402:268c:: with SMTP id w12mr31316107edd.376.1633869922640;
+        Sun, 10 Oct 2021 05:45:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx5R81f51iOnHvmeJnqpJ7elPHbjPZqqu58M/bMxC5dmnMuMA5wa5cZk8kiknyGER654My7eg==
+X-Received: by 2002:a05:6402:268c:: with SMTP id w12mr31316077edd.376.1633869922440;
+        Sun, 10 Oct 2021 05:45:22 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id oz11sm2036382ejc.72.2021.10.10.05.45.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Oct 2021 04:02:12 -0700 (PDT)
-Message-ID: <9dca9f7e-f987-5be5-9523-7dd08c2b364e@gmail.com>
-Date: Sun, 10 Oct 2021 16:32:08 +0530
+        Sun, 10 Oct 2021 05:45:22 -0700 (PDT)
+Subject: Re: [PATCH] staging: rtl8723bs: hal: remove duplicate check
+To: Saurav Girepunje <saurav.girepunje@gmail.com>,
+ gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, marcocesati@gmail.com,
+ dan.carpenter@oracle.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YWKRfYpTioAmTWa0@user>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <6c589c93-b224-1490-5f38-63947f02ff6a@redhat.com>
+Date: Sun, 10 Oct 2021 14:45:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Cc: saurav.girepunje@hotmail.com, gregkh@linuxfoundation.org,
- marcocesati@gmail.com, dan.carpenter@oracle.com, lee.jones@linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: hal: remove if condition which is
- always false
+In-Reply-To: <YWKRfYpTioAmTWa0@user>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Fabio Aiuto <fabioaiuto83@gmail.com>
-References: <YWKXKGuA/Io9sEjf@user> <YWLFf1zPvK9gz+7+@agape.jhs>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <YWLFf1zPvK9gz+7+@agape.jhs>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi,
 
+On 10/10/21 9:08 AM, Saurav Girepunje wrote:
+> Remove 'bPerformance' from if condition check. As on previous
+> if condition it is already check for same variable.
+> 
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 
-On 10/10/21 4:20 pm, Fabio Aiuto wrote:
-> Hello Surav,
-> 
-> thanks for your patch, see a comment below,
-> 
-> On Sun, Oct 10, 2021 at 01:02:56PM +0530, Saurav Girepunje wrote:
->> Remove the if condition which is always false. The last update on
->> variable max_rf_path is value 1. It's value is not changing after that.
->> So if condition check for value 2 will be always false only.
->>
->> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
->> ---
->>   drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c | 10 ++++------
->>   1 file changed, 4 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
->> index 392cc8a398f5..612575ba961a 100644
->> --- a/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
->> +++ b/drivers/staging/rtl8723bs/hal/odm_NoiseMonitor.c
->> @@ -106,12 +106,10 @@ static s16 odm_InbandNoise_Monitor_NSeries(
->>   	pDM_Odm->noise_level.noise[RF_PATH_A] = -110 + reg_c50 + noise_data.sum[RF_PATH_A];
->>   	pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_A];
->>
->> -	if (max_rf_path == 2) {
->> -		reg_c58 = (s32)PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBAGCCore1, bMaskByte0);
->> -		reg_c58 &= ~BIT7;
->> -		pDM_Odm->noise_level.noise[RF_PATH_B] = -110 + reg_c58 + noise_data.sum[RF_PATH_B];
->> -		pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_B];
->> -	}
->> +	reg_c58 = (s32)PHY_QueryBBReg(pDM_Odm->Adapter, rOFDM0_XBAGCCore1, bMaskByte0);
->> +	reg_c58 &= ~BIT7;
->> +	pDM_Odm->noise_level.noise[RF_PATH_B] = -110 + reg_c58 + noise_data.sum[RF_PATH_B];
->> +	pDM_Odm->noise_level.noise_all += pDM_Odm->noise_level.noise[RF_PATH_B];
->>   	pDM_Odm->noise_level.noise_all /= max_rf_path;
-> 
-> If the condition is always false the whole block can be wiped out,
-> why did you keep it? Did you change the logic here?
-> 
->>
->>   	/*  */
->> --
->> 2.32.0
->>
-> 
-> thank you,
-> 
-> fabio
-> 
+Thanks, patch looks good to me:
 
-Thanks for review Fabio.
-It is changing the logic . I should be careful for this. whole block of 
-if statement should also be removed.
-
-
-Please ignore this patch.
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
-Saurav
+
+Hans
+
+> ---
+>  drivers/staging/rtl8723bs/hal/odm_DIG.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> index beda7b8a7c6a..7e92c373cddb 100644
+> --- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> +++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> @@ -544,7 +544,7 @@ void odm_DIG(void *pDM_VOID)
+>  	/* 1 Adjust initial gain by false alarm */
+>  	if (pDM_Odm->bLinked && bPerformance) {
+> 
+> -		if (bFirstTpTarget || (FirstConnect && bPerformance)) {
+> +		if (bFirstTpTarget || FirstConnect) {
+>  			pDM_DigTable->LargeFAHit = 0;
+> 
+>  			if (pDM_Odm->RSSI_Min < DIG_MaxOfMin) {
+> --
+> 2.32.0
+> 
+
