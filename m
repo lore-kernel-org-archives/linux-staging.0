@@ -1,49 +1,49 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E31E2C81
-	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 08:54:20 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id y12so51874671eda.4
-        for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 01:54:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29442C81
+	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 09:53:44 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id d3so38060346edp.3
+        for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 02:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bm3wXMJ4rfAFeHpv39wPQyGuIwFIJmid7Nqz8YDvf6o=;
-        b=TVRxYTOg9IKOYxMjmO5BVUckr++KoEUEpL954fJ9Q7NgyJXNDkssAFnXWfqVFzgKYf
-         DjxjEd7Ec6/4L395nQagHYjuFowEXREwc9rLmjwqvqgdMpPzuKUKu+cl+yRujtVoMXhb
-         T3Jhz4g71lBjVk5PNpSzj4t7kvkZOjoajD2YHimdniVsBaqlm0rKqBOsRg1+pFFCM3mu
-         IsrfY1bibm86Y8/XiDfxJnZXmwMl6iJnkvUlueUJZ8TOoxFnyqEevUDz9IPfscJ6gZi4
-         WgUnDVxnCrU4bI3id8zPxLFn4GUiUDTIDwyLrzhIP7ncYTJQuXkarYbidsKGVdBx/Fqv
-         LliQ==
+        bh=xJnQ1oTbprGYdIkFA4ySIUQFtDTFkncKqirdWOx0uac=;
+        b=kRBvoqhKzNcoEEhEkPE6VTinGN5nfG0M2/tZNXFf7S+CG04r3Kz2wsO2CbwToW1+qb
+         L7/S8W9iZZB/cTigI89EJwsdPG8PdrAo5xhrDl7636XCAAvXQm4CnFkIWeKIpcjMTL51
+         35NUt88qI1kTElspZnE1tmqNfzW/2ZPoKjwGfAiiz6vd4xyN/i/JSl4wXqKu+JDA6hX8
+         cUHLRbJVz9CVAc3KKIJ7coi6odbhRYt7gMGDVgNMn3B/uf6AHHRtrALuUillPxxEfIFn
+         lH43TFd2U7HM9m+JA/PgVzQbMdaA1yNqV2y5Rf5T7IgViUKZhNrzmzirGVhPZmys9CL3
+         085Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bm3wXMJ4rfAFeHpv39wPQyGuIwFIJmid7Nqz8YDvf6o=;
-        b=FuVacmjbf0Xd33Xkq+3+UEViTFLQE0Ju7Ht91akMHlEoJdq5y3hD1SbAGz2Fpp8wil
-         MWhsYdhhXL1D7N4q9w/g5bMQDVrlxCzoAzaEOXpIaHmSQsIGVApOr4rWxwCOGLi/2+T4
-         o6PYwG060c8g1RpgK/gaqrclrGCtcTBH9cSmpuGU7frYY7A+XLFsUwRevDjm5sHrhEgu
-         sn0UL7mdzFqGf0XCkAJSU1eMlafDLl4NEQs7IYqJ5Pg4BPez0VyWmoq8Y4/K89GrqxAV
-         SSCa6hqurbBRwa0FmL2clyBFx5Z3D+c56Yl4F+7bpbJQ60x5/sEQAx592YW9FAE/SxsR
-         d6uQ==
-X-Gm-Message-State: AOAM532gHT8qwE3yBUNQbEHsTfUyB42yCgFhye3o6gmbKte702npIr+v
-	xM/Xsm1q3stJ2CZqfIgiuPI=
-X-Google-Smtp-Source: ABdhPJwoKQm0lAofAm+QORUkmLZV/tOjW5jc9AD61qOM7PvkhRw+HXESI56q0RrVqNH9qI8svNtOTg==
-X-Received: by 2002:a17:907:7752:: with SMTP id kx18mr25119293ejc.276.1633942458632;
-        Mon, 11 Oct 2021 01:54:18 -0700 (PDT)
+        bh=xJnQ1oTbprGYdIkFA4ySIUQFtDTFkncKqirdWOx0uac=;
+        b=bGiheFmSekGbvzHShpesQ/nEvYwMKpKq0z33X8btatGtVwvSrlu7/r2z5yXxH6R+dn
+         2qIihQP8J49xAcXBN1v6iHRu5u3/Dpi1sIdWowTz0hQh1OaA+KIjv5RYaVMVdH1CoOcu
+         cpE6QxoDONFkUS8nst6+Pam1OSWS8HXn/+8R7jStno8y27V8X4P5Bi8lVTemb+l4SgYe
+         DXt/EBiYQIC5KBBDBT3M6UUWKTQ1l0eaDGB1UrEVQawafiFu4lY0XrlW53NpIW/S2HMI
+         pHe3BGCfu1+kDEpuKq1jg6gntX9kcX61n56h7XVEvrsDGwgmn2GZzbb5I+HJYU2nKopE
+         bNjQ==
+X-Gm-Message-State: AOAM531OD/Q7UNf/BVFlfZEU6LytUUnjNNVkooiuxeNKxpffW6+6pWyt
+	PSvSN8p0CKijXUrUDHWjb74=
+X-Google-Smtp-Source: ABdhPJwFKNBO/z+f5x/qmFDF3FynFeR0KZ2BJRvFUxzICuqd3Qeg4CND1yB+Bf+9aJnT8HqVKc1Yqw==
+X-Received: by 2002:a17:906:c041:: with SMTP id bm1mr24613535ejb.280.1633946022806;
+        Mon, 11 Oct 2021 02:53:42 -0700 (PDT)
 Received: from localhost.localdomain (host-79-43-109-12.retail.telecomitalia.it. [79.43.109.12])
-        by smtp.gmail.com with ESMTPSA id h11sm3130942eji.96.2021.10.11.01.54.17
+        by smtp.gmail.com with ESMTPSA id e13sm3226167eje.95.2021.10.11.02.53.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 01:54:18 -0700 (PDT)
+        Mon, 11 Oct 2021 02:53:42 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, marcocesati@gmail.com, saurav.girepunje@gmail.com, insafonov@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: saurav.girepunje@hotmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: os_dep: simplify the return statement.
-Date: Mon, 11 Oct 2021 10:54:11 +0200
-Message-ID: <2482197.HNbSr4JpUv@localhost.localdomain>
-In-Reply-To: <YWJ0vSrgsiKK7suE@user>
-References: <YWJ0vSrgsiKK7suE@user>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, julia.lawall@inria.fr
+Subject: Re: [PATCH v2] staging: r8188eu: Provide a TODO file for this driver
+Date: Mon, 11 Oct 2021 11:53:40 +0200
+Message-ID: <3132934.4g9fEnOrTt@localhost.localdomain>
+In-Reply-To: <20211011082134.GM2083@kadam>
+References: <20210826130342.9552-1-fmdefrancesco@gmail.com> <2664974.42EkL7omyK@localhost.localdomain> <20211011082134.GM2083@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,110 +53,99 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Sunday, October 10, 2021 7:06:05 AM CEST Saurav Girepunje wrote:
-> Remove the unneeded and redundant check of variable on goto out.
-> Simplify the return using multiple goto label to avoid
-> unneeded check.
+On Monday, October 11, 2021 10:21:34 AM CEST Dan Carpenter wrote:
+> On Sun, Oct 10, 2021 at 11:21:49AM +0200, Fabio M. De Francesco wrote:
+> > On Saturday, October 9, 2021 6:31:12 PM CEST Fabio M. De Francesco wrote:
+> > > On Thursday, August 26, 2021 3:54:13 PM CEST Dan Carpenter wrote:
+> > > > Another thing to fix are some of the sleeping in atomic bugs.
+> > > > 
+> > > > drivers/staging/r8188eu/core/rtw_ap.c:139 update_BCNTIM() warn: 
+sleeping
+> > > > in atomic context
+> > > > drivers/staging/r8188eu/core/rtw_ap.c:1296 update_bcn_wps_ie() warn: 
+> > > > sleeping in atomic context
+> > > >
+> > > > [...]
+> > > >
+> > > Hello Dan,
+> > > 
+> > > I'd like to address these kind of bugs, but I have a couple of 
+questions 
+> > > about them.
+> > > 
+> > > 1) You've listed what looks like the output of a compiler or static
+> > > analyzer. 
+> > > How did you get the warnings you copy-pasted above?
+> > > 
+> > > 2) I know that both the execution of interrupt handlers (ISRs) as well 
+as
+> > > any 
+> > > code blocks that are executed holding spinlocks are "atomic contexts". 
+In 
+> > > these cases, "sleeping" is not allowed (for obvious reasons). Besides 
+the
+> > > two 
+> > > mentioned above, are there any further cases of "atomic contexts" in 
+the 
+> > > kernel?
+> > 
+> > After some research, I've found that Softirqs and Tasklets are also 
+executed 
+> > in "atomic context", as hardware interrupt service routines are.
+> > 
+> > Furthermore, I've also found a .config option named DEBUG_ATOMIC_SLEEP
+> > that should warn if some code is sleeping in "atomic context". However, 
+the 
+> > documentation of that option does not explain where the output of these 
+> > checks can be read.
+> > 
+> > I would appreciate any help on this matter.
 > 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
+> These are a new Smatch warning.
 > 
-> ChangeLog V2:
-> 	-Add goto out after the memcpy for no error case return with
-> 	 ret only. Free is not required on no error case.
+> https://lkml.org/lkml/2021/9/1/950
+> 
+> You would need to rebuild the Smatch database probably around five times
+> to see the warnings.  It takes a long time to build...  It's probably
+> not that hard to figure out just from looking at the code without the
+> generating the warning.
 
-Please write versions logs that reflect clearly and unequivocally what you 
-changed between revisions and why. Subjects, Commit messages (Changelogs), 
-and Versions logs are the "specifics" of your work. There must be no 
-inconsistencies between these and the code or the history of the changes of 
-the code.
+I must confess that, since I started to submit patches to the Kernel this 
+year in April and until now, I have not ever used Smatch. I thought that 
+building with GCC and setting C=2 and W=1 were enough. Sometimes I've 
+also used Coccinelle. That's all.
 
-You may think that I'm pedantic, but since I acked your patch, I don't want 
-to be misunderstood to be a promoter of approximate or clearly incorrect 
-messages.
+Now I admit that I was plainly wrong. My _big_ fault, sorry :(
 
-"Free is not required on no error case" conveys the message that you have 
-changed something that is not required but that is still potentially allowed.
+This morning I have taken a quick look at your code at https://github.com/
+error27/smatch. Obviously, what I could see is only the overall design and it 
+looks quite impressive. I'll start using Smatch soon.
 
-This is not the case because the problem that you fix with v2 is _not_ 
-something that is merely not required and unnecessary. You have fixed a bug 
-that is introduced in v1. Introducing bugs is not allowed. If you do 
-something that is not allowed you cannot simply say that it is not required. 
+> So spin locks can't sleep.  Mutexes can.  There are read/write locks,
+> built on both mutexes and spin locks.  Rcu_read/write cannot sleep.
 
-> 
-> ChangeLog V1:
-> 	-Remove the unneeded and redundant check of variable on
-> 	 goto out.
-> 	-Simplify the return using multiple goto label to avoid
-> 	 unneeded check.
-> 
->  .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 22 +++++++++----------
->  1 file changed, 10 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/
-staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 0868f56e2979..ae9579dc0848 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2312,7 +2312,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter 
-*padapter, char *name, str
->  	mon_wdev = rtw_zmalloc(sizeof(struct wireless_dev));
->  	if (!mon_wdev) {
->  		ret = -ENOMEM;
-> -		goto out;
-> +		goto err_zmalloc;
->  	}
-> 
->  	mon_wdev->wiphy = padapter->rtw_wdev->wiphy;
-> @@ -2322,23 +2322,21 @@ static int rtw_cfg80211_add_monitor_if(struct 
-adapter *padapter, char *name, str
-> 
->  	ret = cfg80211_register_netdevice(mon_ndev);
->  	if (ret) {
-> -		goto out;
-> +		goto err_register;
->  	}
-> 
->  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
->  	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
-> +	goto out;
-> 
-> -out:
-> -	if (ret && mon_wdev) {
-> -		kfree(mon_wdev);
-> -		mon_wdev = NULL;
-> -	}
-> -
-> -	if (ret && mon_ndev) {
-> -		free_netdev(mon_ndev);
-> -		*ndev = mon_ndev = NULL;
-> -	}
-> +err_register:
-> +	kfree(mon_wdev);
-> +	mon_wdev = NULL;
+Oh, right. RCU were missing from my lists.
 
-Probably you have already read a message by Greg Kroah-Hartman that confirms 
-what I wrote in another message: "There is no need to set a local variable 
-like this to NULL.".
+Thanks very much for Smatch and for your kind replies.
 
-So please submit a v3. With the two changes requested above, my "acked-by" 
-tag is confirmed again.
+Regards,
 
-Thanks,
+Fabio M. De Francesco
 
-Fabio
+P.S.: Yesterday I read the first one third of a paper co-authored by Julia 
+Lawall (Effective Detection of Sleep-in-atomic-context Bugs
+in the Linux Kernel - https://doi.org/10.1145/3381990). 
 
-> 
-> +err_zmalloc:
-> +	free_netdev(mon_ndev);
-> +	*ndev = mon_ndev = NULL;
-> +out:
->  	return ret;
->  }
-> 
-> --
-> 2.32.0
-> 
+It talks about a practical static approach named DSAC. It looks really 
+interesting, but it seems that their tool is not yet available to the public. 
+
+Do you know something about it? I've found an old message by Greg K-H that 
+asked for where to find that tool but, as far as I know, he have not yet had 
+that information. With this message I've Cc'd Julia in case she has time to 
+reply.
+
+> regards,
+> dan carpenter
 > 
 > 
 
