@@ -1,44 +1,44 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40842C81
-	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 17:32:13 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id oa4so13071114pjb.2
-        for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 10:32:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0D12C81
+	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 18:10:23 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id i65so12559440pfe.12
+        for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 11:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=+KsewVMapVnqjNR+FmWVZGUP3TdIM7SDkQ2+XhYe4P0=;
-        b=UdH2GouGVsj4bLMhrkV4J4QokQTPkRsVIj19Ny4XVx5bodcgh8ZSUzu8c0KocL8s/z
-         tEZLlcRNQgJj2t3GIV3zPoylE+xwzCXv3CdCXFotgBZY95lglheHFq+LZjY7/Kp7Sd8Y
-         lR/oOSyxVNKCsPjZF5Wwh0q5B+lsGe7yargrOsx23cf1oEx2Zzzt6HYkIkwUOPTAzuJX
-         veyXzCdD4YiJYpTpihXFKv3a4y9ScuPzfWfbwT2VP0NOb+pt9SJqqPLdaqJmicqP7aoc
-         a7ytL28igF/w3rIaJ+WnXSGqZa8pXdQw4QtFDvjJyJ6Xgl9tnoGTz7tNUfBmYzWXcA8u
-         qi3A==
+        bh=V2qwMwE4Z/z5csEUUB1Fs1TS8L6+ma70mWZapSc+y34=;
+        b=XXFoI4eJfByYgGHb1AA2jcV93WtzuMR+I8tx+jmMDXycaVhRVoTZQUvN/DZ5xbyx5v
+         HLjdG5C+AgK/OvlAJYelaDy9iuXhGdMbiU2+A7J7uaFC7LzyJOu2xZffkrGQTHhEzzYg
+         T2tF0w1195FGS57pfu87ET20WmB5b2KYRYLDpudBlMmsd0WG6SVdoO5RymOMGN/5znti
+         zXlA0n+vVEWGG7PNN889cQ3tzPiZmUnUw0mr/Ws8ysQ/0e2FQ2OekxyV1CsZeYc3Q9Nf
+         QQFJ8PtLH9n02fwF0LveJa+o5P+9FvoP+WEKG1B8GQVy0NPrRH9enUtu8RNWk3zS2eyl
+         o6hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=+KsewVMapVnqjNR+FmWVZGUP3TdIM7SDkQ2+XhYe4P0=;
-        b=BtCODLAAuPKoQBp2EVa9arnMKapT79XCrYGljqNQxfOdT2WAifGZ3sYW9ZBz3Bk9Do
-         6lkJLVnOyhnw589R+XHll01HQVPuXgYqPfs/vz0AkrZl6G9L0hFYPzqgXM3Dh/J+2fAH
-         YlItsOpNn9HUHabaYW3YT942MWgv3CEioqK22lx/aVOKaovxcjQ+IXKcXRZyyATxl96v
-         Jsg0K6noC59DaDUNrSqBDNgOfXzu3T+gT4LBr8M6e6vVOKHcEn2rPkYZly9GlXdfqg+5
-         nJEScFpm1K4n0BGOZYirsV2RBZDg6mANfJv407IxQxj/B7EyLpl4RkmlQ9AGbSuRUZyE
-         FFpw==
-X-Gm-Message-State: AOAM531UbcyqHTzRd+DkD1VtUiskTjZPY38Z46LV9xhDMKRAxRjwculd
-	SHeUHjvWhoBUhgqcfVcxvqI=
-X-Google-Smtp-Source: ABdhPJzMR1EoMqDfqoj1liajzybAJpHD3VNqw4qjhDRh4KQFXVfPn/a24QObYlSqmZyCZvdjl6/JSA==
-X-Received: by 2002:a17:902:760b:b0:13b:122:5ff0 with SMTP id k11-20020a170902760b00b0013b01225ff0mr25756599pll.22.1633973533266;
-        Mon, 11 Oct 2021 10:32:13 -0700 (PDT)
+        bh=V2qwMwE4Z/z5csEUUB1Fs1TS8L6+ma70mWZapSc+y34=;
+        b=WY4znRjxPanC4aNCwfmT4v/ntO5CS0XMFz/6ZJ/J274n9bTXGlB8zZUThOye+mjY9z
+         MIUKXwC/GZWagpBt/Uc4fAv2LvL9imXNoxU3iYH3Zp14+Sns359B/qZnYXvLQtF1CS3H
+         U78zJYAWqONQBzoRMcwfWtMgFiSy/XPGl1S+yFTjbEGAr8SYSvDqQiSiiwAGOnjC0snu
+         KuCHMC0CLKjm50IL1bnvol6+Jwidnhg2Vt3Pu7+mA/pjUWUz8fUORtrUmKfLvQpegz5N
+         PBIswac73DqigeEQVSctlIR7CdWP0WnkB2VOKwA6L06FudByl0LERDfLHwlCmiPMpiXN
+         1lXQ==
+X-Gm-Message-State: AOAM530EIbFjR7PxqSUikX3UFv8vh4JvBfqz5otUBrPv6jneyDw+qls6
+	IJ7s6CHhIbOKT2/TW62gvBo=
+X-Google-Smtp-Source: ABdhPJxsGpDd9BpkUbq67Ww5VPBW1wkU6AGOdcamfPFt9XqttFJ/Q9GFxn28yRAyZLAOT2KmRAuhaw==
+X-Received: by 2002:aa7:843d:0:b0:44d:2199:3ecb with SMTP id q29-20020aa7843d000000b0044d21993ecbmr7007871pfn.78.1633975822873;
+        Mon, 11 Oct 2021 11:10:22 -0700 (PDT)
 Received: from [192.168.1.14] ([223.230.99.151])
-        by smtp.gmail.com with ESMTPSA id e12sm9153728pgv.82.2021.10.11.10.32.10
+        by smtp.gmail.com with ESMTPSA id k35sm124402pjc.53.2021.10.11.11.10.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Oct 2021 10:32:12 -0700 (PDT)
-Message-ID: <71f1c0bc-08d1-7b0f-8000-e23a9bd88ba9@gmail.com>
-Date: Mon, 11 Oct 2021 23:02:08 +0530
+        Mon, 11 Oct 2021 11:10:22 -0700 (PDT)
+Message-ID: <b9ba5a6f-ac0c-de0f-d105-90c50235ea5c@gmail.com>
+Date: Mon, 11 Oct 2021 23:40:17 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,19 +51,19 @@ Subject: Re: [PATCH v2] staging: rtl8723bs: os_dep: simplify the return
  statement.
 Content-Language: en-GB
 To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, ross.schm.dev@gmail.com,
- marcocesati@gmail.com, insafonov@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YWJ0vSrgsiKK7suE@user> <2482197.HNbSr4JpUv@localhost.localdomain>
+ gregkh@linuxfoundation.org
+Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, marcocesati@gmail.com,
+ insafonov@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+References: <YWJ0vSrgsiKK7suE@user> <5843476.m7FxXixzUK@localhost.localdomain>
 From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <2482197.HNbSr4JpUv@localhost.localdomain>
+In-Reply-To: <5843476.m7FxXixzUK@localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/10/21 2:24 pm, Fabio M. De Francesco wrote:
+On 10/10/21 12:54 pm, Fabio M. De Francesco wrote:
 > On Sunday, October 10, 2021 7:06:05 AM CEST Saurav Girepunje wrote:
 >> Remove the unneeded and redundant check of variable on goto out.
 >> Simplify the return using multiple goto label to avoid
@@ -75,25 +75,6 @@ On 11/10/21 2:24 pm, Fabio M. De Francesco wrote:
 >> ChangeLog V2:
 >> 	-Add goto out after the memcpy for no error case return with
 >> 	 ret only. Free is not required on no error case.
-> 
-> Please write versions logs that reflect clearly and unequivocally what you 
-> changed between revisions and why. Subjects, Commit messages (Changelogs), 
-> and Versions logs are the "specifics" of your work. There must be no 
-> inconsistencies between these and the code or the history of the changes of 
-> the code.
-> 
-> You may think that I'm pedantic, but since I acked your patch, I don't want 
-> to be misunderstood to be a promoter of approximate or clearly incorrect 
-> messages> "Free is not required on no error case" conveys the message that you have 
-> changed something that is not required but that is still potentially allowed.
-> 
-> This is not the case because the problem that you fix with v2 is _not_ 
-> something that is merely not required and unnecessary. You have fixed a bug 
-> that is introduced in v1. Introducing bugs is not allowed. If you do 
-> something that is not allowed you cannot simply say that it is not required. 
-> 
-My intension was to mention changes done on V2 with respect to V1. 
-I will try to be more clear on changelog messages. 
 >>
 >> ChangeLog V1:
 >> 	-Remove the unneeded and redundant check of variable on
@@ -131,6 +112,12 @@ I will try to be more clear on changelog messages.
 >>  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
 >>  	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ+1);
 >> +	goto out;
+> 
+> I think this is the right thing to do in order to remove the bug you 
+> introduced in v1. Well done.
+> 
+Most of the people suggesting to use return 0 from here instead of goto.
+I will send another patch.
 >>
 >> -out:
 >> -	if (ret && mon_wdev) {
@@ -145,24 +132,29 @@ I will try to be more clear on changelog messages.
 >> +err_register:
 >> +	kfree(mon_wdev);
 >> +	mon_wdev = NULL;
-> 
-> Probably you have already read a message by Greg Kroah-Hartman that confirms 
-> what I wrote in another message: "There is no need to set a local variable 
-> like this to NULL.".
-> 
-Yes, Agree this is another improvement possible on this function.
-> So please submit a v3. With the two changes requested above, my "acked-by" 
-> tag is confirmed again.
-> 
-> Thanks,
-> 
-> Fabio
->
-I will submit a v3.
 >>
 >> +err_zmalloc:
 >> +	free_netdev(mon_ndev);
 >> +	*ndev = mon_ndev = NULL;
+> 
+> Not sure about what the Linux coding guidelines say, but I think that 
+> assigning NULL to local (on stack) pointers (mon_wdev, mon_ndev) at this 
+> point is unnecessary. There is no risk of reusing them after the "out" 
+> labelled block, because at function exit they are destroyed when the stack is 
+> unwound.
+> 
+> If you decide to remove these assignments, take care to leave "*ndev = NULL;" 
+> as-is (why?).
+> 
+Yes, This is also improvement needed on this function.
+> Aside from this minor objection...
+> 
+> Acked-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> 
+> Thanks,
+> 
+> Fabio
+> 
 >> +out:
 >>  	return ret;
 >>  }
@@ -176,3 +168,5 @@ I will submit a v3.
 > 
 > 
 > 
+Regards,
+Saurav
