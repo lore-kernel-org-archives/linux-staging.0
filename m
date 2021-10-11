@@ -1,61 +1,54 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADC22C80
-	for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 22:00:21 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id d9so35790737edh.5
-        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 15:00:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8A72C80
+	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 06:12:00 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id y15so69094302lfk.7
+        for <linux-staging@lists.linux.dev>; Sun, 10 Oct 2021 23:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hfl07gjWDXgXi0hSHdZBMygqSznqPoJkaRR5PLe9DvA=;
-        b=TQ99+sExC+MxhycGeQPD+ndI2FvdwTK4UzSqgZZdkIc0jjHdrNhuAQjBjxJsm24w+t
-         zk+AVWGSMDVt3E1PQvaz78zYQc4kK5oCwCmHkBlL6ZGJZVAP7Yrrm7M5yDXKOG6LZ28D
-         f7ngUxhllDf5LhtK9J/+MasiCwfEUTmedgkq+HNMcR9MUdhhwspIHbW/+xoCa/kRwwhJ
-         Mjl/Gq/yXtwobcaRnAG+L20OvHihYwOxir91RaCKnU5i7uucWEOW951Frbva/BUUc+np
-         BOVhmcMB3U4uizlrlLvGEyAZj153J2z8+gNDXKDS5JRjcasqaflrLWtr1NFlOIQczePG
-         zNow==
+        d=cogentembedded-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/dVgWc6+4MzoWRK42TiPE1G1HBCkwWERwf3JbfzTOpA=;
+        b=7aoGcbgNBOSTaqyC1LCqGB78lTC9nWO3xXom9SeY39lkmSrxwAkkbJbzOxy8Qw8Lax
+         dq71WZDQIp7PWLpawviuWd5bbdNuTCmJkusQ1RsQ+cEGIYx8BsPhcLRa+AOQ+zEvNeQF
+         ciSxCmpjiUSYU+mZYnlXGhl6L0zgaVvOd76F/o/9PZ0DJUAW9m9ZuS0OuSq8M4+nNs8w
+         NFt5wPhczFDKGSUpWWw+YahiAwvi88Vt+bcp+A/9qmzQ5/viOsmlYZKrDFCNeVqu42zG
+         hDdmLdTkb08DZfWl05O28Ks2urAH2YDG2Gg6kdr7Ew2+8KNlmZZSR/iyMvLt/27O4p9m
+         FYWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hfl07gjWDXgXi0hSHdZBMygqSznqPoJkaRR5PLe9DvA=;
-        b=TmRx+iregKWwNTinpwKEX9lSa2maU9zV80R3+lE1Msre9c3mo2E+abHuq21ROST2dw
-         y7US7wir5q/WB1MFB2YJKLXEhIH08dvveIRGHe6Xg3sY2eqjj2rJa0Ybqo3NkGob+wyE
-         4nbUc/liS8VJAbT/scRzmDXA/GJgoiD2ReKXPfbGZyiHML78ztjQ62/WIlyRpgRC5Zw7
-         O/sSW0LYlvzBMoq9YW+1PtMjr7FXieraMba4EFAREB855VX+G02IldWdu+a1eYQlwmRE
-         vzpcLvukAfOLh8WA0YJdWIPH0wIJhw4wZAKTCDF+wW1+DIiWqz6+OFBpdgBLU+WusbJo
-         KMkA==
-X-Gm-Message-State: AOAM531mBMp4QHMocA6sJLMsGanvwdB9YJZJUacIf70VdncmwZgsnWoG
-	S7AHHzf8BiI1MEJRd5sdpdw=
-X-Google-Smtp-Source: ABdhPJzK3AB/td0fJF4ACgDpDjxbLw5WHW3//c/oTXObDTmU8WcERE+iOBcHzvg0hXlFxrIftan99g==
-X-Received: by 2002:a17:906:2890:: with SMTP id o16mr21025795ejd.161.1633903219865;
-        Sun, 10 Oct 2021 15:00:19 -0700 (PDT)
-Received: from tom-desktop.station (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
-        by smtp.gmail.com with ESMTPSA id ck9sm2534875ejb.56.2021.10.10.15.00.18
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/dVgWc6+4MzoWRK42TiPE1G1HBCkwWERwf3JbfzTOpA=;
+        b=F4TAE09JYeJNhhht2k99clEmRPlg+WIqqBbO8wE5F8scwO3zS82HEfapBMNhcHCOo2
+         NvKvJarykoKTUaBvM8O8c9kzIwEz9ofXrfjtt5sL6ttjrCUVxvLXaY5TzYrNljxiXUvu
+         PbAl4JMRI0npw+T9HB3+uyXJEcNtp9TGifeIeehH039N+YG02m/0p9oTOathHemt5Euz
+         5MgDnhYizWR4Im+mADrpmUCUabxB9olyZaAmq6jszj4c3I1JW7hg1mUe/+EyzLN5BLX4
+         W3Opo17Td0KFDBcNUvp4aLavd3BLJR/9GDMpF0lsT1g5VeH6NwGs/Jn8yoKL1MbULvpR
+         4ydw==
+X-Gm-Message-State: AOAM531pchAgZzbMyOInmZgWzswwBd6jXvpF0FSAyhLd4/DF+Fk7Lzxh
+	SdMRchiqW7vPMZBlXO/U7X+LAw==
+X-Google-Smtp-Source: ABdhPJwllDyi9j3CEsK92cAQqYD4fdLr2nawUkaHJluQK2QqkkjEe4KiLN7CpgfD6kjM10KVxKHsAA==
+X-Received: by 2002:a05:6512:39c5:: with SMTP id k5mr22647652lfu.230.1633932718217;
+        Sun, 10 Oct 2021 23:11:58 -0700 (PDT)
+Received: from cobook.home (nikaet.starlink.ru. [94.141.168.29])
+        by smtp.gmail.com with ESMTPSA id b22sm638438lfv.286.2021.10.10.23.11.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Oct 2021 15:00:19 -0700 (PDT)
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: tomm.merciai@gmail.com,
-	Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Yujia Qiao <rapiz@foxmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Madhumitha Prabakaran <madhumithabiw@gmail.com>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
-	Edmundo Carmona Antoranz <eantoranz@gmail.com>,
-	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Deepak R Varma <mh12gx2825@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: vt6655: fix camelcase in byLocalID
-Date: Sun, 10 Oct 2021 23:59:45 +0200
-Message-Id: <20211010220014.148785-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 10 Oct 2021 23:11:57 -0700 (PDT)
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	Lee Jones <lee.jones@linaro.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH v2 1/2] staging: most: dim2: do not double-register the same device
+Date: Mon, 11 Oct 2021 09:11:18 +0300
+Message-Id: <20211011061117.21435-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <YWKHvvLtb0MSJy2X@kroah.com>
+References: <YWKHvvLtb0MSJy2X@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,182 +57,183 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace camel case variable name for variable byLocalID
-with snake case equivalent.
+Commit 723de0f9171e ("staging: most: remove device from interface
+structure") moved registration of driver-provided struct device to
+the most subsystem.
 
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+Dim2 used to register the same struct device to provide a custom device
+attribute. This causes double-registration of the same struct device.
+
+Fix that by moving the custom attribute to driver's dev_groups.
+This moves attribute to the platform_device object, which is a better
+location for platform-specific attributes anyway.
+
+Fixes: 723de0f9171e ("staging: most: remove device from interface structure")
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 ---
-Changes since v1:
- - Rebased as suggested by gregkh
+Changes from v1:
+- use ATTRIBUTE_GROUPS()
+- use sysfs_emit()
 
- drivers/staging/vt6655/baseband.c    | 2 +-
- drivers/staging/vt6655/card.c        | 2 +-
- drivers/staging/vt6655/channel.c     | 2 +-
- drivers/staging/vt6655/device.h      | 2 +-
- drivers/staging/vt6655/device_main.c | 6 +++---
- drivers/staging/vt6655/dpc.c         | 2 +-
- drivers/staging/vt6655/key.c         | 2 +-
- drivers/staging/vt6655/mac.c         | 4 ++--
- drivers/staging/vt6655/mac.h         | 2 +-
- drivers/staging/vt6655/rxtx.c        | 2 +-
- 10 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/staging/most/dim2/Makefile |  2 +-
+ drivers/staging/most/dim2/dim2.c   | 24 ++++++++-------
+ drivers/staging/most/dim2/sysfs.c  | 49 ------------------------------
+ drivers/staging/most/dim2/sysfs.h  | 11 -------
+ 4 files changed, 14 insertions(+), 72 deletions(-)
+ delete mode 100644 drivers/staging/most/dim2/sysfs.c
 
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index d6e114f25685..0bae35af6e0f 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -1994,7 +1994,7 @@ bool bb_vt3253_init(struct vnt_private *priv)
- 	int        ii;
- 	void __iomem *iobase = priv->port_offset;
- 	unsigned char by_rf_type = priv->byRFType;
--	unsigned char by_local_id = priv->byLocalID;
-+	unsigned char by_local_id = priv->local_id;
+diff --git a/drivers/staging/most/dim2/Makefile b/drivers/staging/most/dim2/Makefile
+index 861adacf6c72..5f9612af3fa3 100644
+--- a/drivers/staging/most/dim2/Makefile
++++ b/drivers/staging/most/dim2/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_MOST_DIM2) += most_dim2.o
  
- 	if (by_rf_type == RF_RFMD2959) {
- 		if (by_local_id <= REV_ID_VT3253_A1) {
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index b5e6880555fd..834b9db05dff 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -427,7 +427,7 @@ void CARDbRadioPowerOff(struct vnt_private *priv)
+-most_dim2-objs := dim2.o hal.o sysfs.o
++most_dim2-objs := dim2.o hal.o
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index e8b03fa90e80..96cb5280a385 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -118,7 +118,8 @@ struct dim2_platform_data {
+ 	(((p)[1] == 0x18) && ((p)[2] == 0x05) && ((p)[3] == 0x0C) && \
+ 	 ((p)[13] == 0x3C) && ((p)[14] == 0x00) && ((p)[15] == 0x0A))
  
- 	MACvRegBitsOff(priv->port_offset, MAC_REG_HOSTCR, HOSTCR_RXON);
- 
--	bb_set_deep_sleep(priv, priv->byLocalID);
-+	bb_set_deep_sleep(priv, priv->local_id);
- 
- 	priv->bRadioOff = true;
- 	pr_debug("chester power off\n");
-diff --git a/drivers/staging/vt6655/channel.c b/drivers/staging/vt6655/channel.c
-index 76ee3146b865..b550a1a0844e 100644
---- a/drivers/staging/vt6655/channel.c
-+++ b/drivers/staging/vt6655/channel.c
-@@ -193,7 +193,7 @@ bool set_channel(struct vnt_private *priv, struct ieee80211_channel *ch)
- 
- 	bb_software_reset(priv);
- 
--	if (priv->byLocalID > REV_ID_VT3253_B1) {
-+	if (priv->local_id > REV_ID_VT3253_B1) {
- 		unsigned long flags;
- 
- 		spin_lock_irqsave(&priv->lock, flags);
-diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index ea6f9568f112..92d6f82f939f 100644
---- a/drivers/staging/vt6655/device.h
-+++ b/drivers/staging/vt6655/device.h
-@@ -154,7 +154,7 @@ struct vnt_private {
- 	u32                         rx_bytes;
- 
- 	/* Version control */
--	unsigned char byLocalID;
-+	unsigned char local_id;
- 	unsigned char byRFType;
- 
- 	unsigned char byMaxPwrLevel;
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 3683a9d65017..24f0e346da12 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -219,7 +219,7 @@ static void device_init_registers(struct vnt_private *priv)
- 	MACvInitialize(priv);
- 
- 	/* Get Local ID */
--	VNSvInPortB(priv->port_offset + MAC_REG_LOCALID, &priv->byLocalID);
-+	VNSvInPortB(priv->port_offset + MAC_REG_LOCALID, &priv->local_id);
- 
- 	spin_lock_irqsave(&priv->lock, flags);
- 
-@@ -331,7 +331,7 @@ static void device_init_registers(struct vnt_private *priv)
- 					   (unsigned char)(ii + EEP_OFS_OFDMA_PWR_dBm));
- 	}
- 
--	if (priv->byLocalID > REV_ID_VT3253_B1) {
-+	if (priv->local_id > REV_ID_VT3253_B1) {
- 		MACvSelectPage1(priv->port_offset);
- 
- 		VNSvOutPortB(priv->port_offset + MAC_REG_MSRCTL + 1,
-@@ -398,7 +398,7 @@ static void device_init_registers(struct vnt_private *priv)
- 	/* reset Rx pointer */
- 	CARDvSafeResetTx(priv);
- 
--	if (priv->byLocalID <= REV_ID_VT3253_A1)
-+	if (priv->local_id <= REV_ID_VT3253_A1)
- 		MACvRegBitsOn(priv->port_offset, MAC_REG_RCR, RCR_WPAERR);
- 
- 	/* Turn On Rx DMA */
-diff --git a/drivers/staging/vt6655/dpc.c b/drivers/staging/vt6655/dpc.c
-index 2d06cecc0307..a7d1d35de5d4 100644
---- a/drivers/staging/vt6655/dpc.c
-+++ b/drivers/staging/vt6655/dpc.c
-@@ -100,7 +100,7 @@ static bool vnt_rx_data(struct vnt_private *priv, struct sk_buff *skb,
- 	rx_status.rate_idx = rate_idx;
- 
- 	if (ieee80211_has_protected(fc)) {
--		if (priv->byLocalID > REV_ID_VT3253_A1)
-+		if (priv->local_id > REV_ID_VT3253_A1)
- 			rx_status.flag |= RX_FLAG_DECRYPTED;
- 
- 		/* Drop packet */
-diff --git a/drivers/staging/vt6655/key.c b/drivers/staging/vt6655/key.c
-index 20881cf2f394..f843966a3ea4 100644
---- a/drivers/staging/vt6655/key.c
-+++ b/drivers/staging/vt6655/key.c
-@@ -81,7 +81,7 @@ static int vnt_set_keymode(struct ieee80211_hw *hw, u8 *mac_addr,
- 	}
- 
- 	MACvSetKeyEntry(priv, key_mode, entry, key_inx,
--			bssid, (u32 *)key->key, priv->byLocalID);
-+			bssid, (u32 *)key->key, priv->local_id);
- 
- 	return 0;
- }
-diff --git a/drivers/staging/vt6655/mac.c b/drivers/staging/vt6655/mac.c
-index 1ae7148b4092..80cced7dfda8 100644
---- a/drivers/staging/vt6655/mac.c
-+++ b/drivers/staging/vt6655/mac.c
-@@ -763,14 +763,14 @@ bool MACbPSWakeup(struct vnt_private *priv)
- void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
- 		     unsigned int uEntryIdx, unsigned int uKeyIdx,
- 		     unsigned char *pbyAddr, u32 *pdwKey,
--		     unsigned char byLocalID)
-+		     unsigned char local_id)
+-bool dim2_sysfs_get_state_cb(void)
++static ssize_t state_show(struct device *dev, struct device_attribute *attr,
++			  char *buf)
  {
- 	void __iomem *io_base = priv->port_offset;
- 	unsigned short offset;
- 	u32 data;
- 	int     ii;
+ 	bool state;
+ 	unsigned long flags;
+@@ -127,9 +128,18 @@ bool dim2_sysfs_get_state_cb(void)
+ 	state = dim_get_lock_state();
+ 	spin_unlock_irqrestore(&dim_lock, flags);
  
--	if (byLocalID <= 1)
-+	if (local_id <= 1)
- 		return;
+-	return state;
++	return sysfs_emit(buf, "%s\n", state ? "locked" : "");
+ }
  
- 	offset = MISCFIFO_KEYETRY0;
-diff --git a/drivers/staging/vt6655/mac.h b/drivers/staging/vt6655/mac.h
-index 3043d2813074..550dc4da80a9 100644
---- a/drivers/staging/vt6655/mac.h
-+++ b/drivers/staging/vt6655/mac.h
-@@ -921,7 +921,7 @@ bool MACbPSWakeup(struct vnt_private *priv);
- void MACvSetKeyEntry(struct vnt_private *priv, unsigned short wKeyCtl,
- 		     unsigned int uEntryIdx, unsigned int uKeyIdx,
- 		     unsigned char *pbyAddr, u32 *pdwKey,
--		     unsigned char byLocalID);
-+		     unsigned char local_id);
- void MACvDisableKeyEntry(struct vnt_private *priv, unsigned int uEntryIdx);
++static DEVICE_ATTR_RO(state);
++
++static struct attribute *dim2_attrs[] = {
++	&dev_attr_state.attr,
++	NULL,
++};
++
++ATTRIBUTE_GROUPS(dim2);
++
+ /**
+  * dimcb_on_error - callback from HAL to report miscommunication between
+  * HDM and HAL
+@@ -874,16 +884,8 @@ static int dim2_probe(struct platform_device *pdev)
+ 		goto err_stop_thread;
+ 	}
  
- #endif /* __MAC_H__ */
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index 7ec7fd309329..ff0b5391ea0b 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -1012,7 +1012,7 @@ s_cbFillTxBufHead(struct vnt_private *pDevice, unsigned char byPktType,
+-	ret = dim2_sysfs_probe(&dev->dev);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to create sysfs attribute\n");
+-		goto err_unreg_iface;
+-	}
+-
+ 	return 0;
  
- 		cbFrameSize += info->control.hw_key->icv_len;
+-err_unreg_iface:
+-	most_deregister_interface(&dev->most_iface);
+ err_stop_thread:
+ 	kthread_stop(dev->netinfo_task);
+ err_shutdown_dim:
+@@ -906,7 +908,6 @@ static int dim2_remove(struct platform_device *pdev)
+ 	struct dim2_hdm *dev = platform_get_drvdata(pdev);
+ 	unsigned long flags;
  
--		if (pDevice->byLocalID > REV_ID_VT3253_A1) {
-+		if (pDevice->local_id > REV_ID_VT3253_A1) {
- 			/* MAC Header should be padding 0 to DW alignment. */
- 			uPadding = 4 - (ieee80211_get_hdrlen_from_skb(skb) % 4);
- 			uPadding %= 4;
+-	dim2_sysfs_destroy(&dev->dev);
+ 	most_deregister_interface(&dev->most_iface);
+ 	kthread_stop(dev->netinfo_task);
+ 
+@@ -1100,6 +1101,7 @@ static struct platform_driver dim2_driver = {
+ 	.driver = {
+ 		.name = "hdm_dim2",
+ 		.of_match_table = dim2_of_match,
++		.dev_groups = dim2_groups,
+ 	},
+ };
+ 
+diff --git a/drivers/staging/most/dim2/sysfs.c b/drivers/staging/most/dim2/sysfs.c
+deleted file mode 100644
+index c85b2cdcdca3..000000000000
+--- a/drivers/staging/most/dim2/sysfs.c
++++ /dev/null
+@@ -1,49 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * sysfs.c - MediaLB sysfs information
+- *
+- * Copyright (C) 2015, Microchip Technology Germany II GmbH & Co. KG
+- */
+-
+-/* Author: Andrey Shvetsov <andrey.shvetsov@k2l.de> */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/kernel.h>
+-#include "sysfs.h"
+-#include <linux/device.h>
+-
+-static ssize_t state_show(struct device *dev, struct device_attribute *attr,
+-			  char *buf)
+-{
+-	bool state = dim2_sysfs_get_state_cb();
+-
+-	return sprintf(buf, "%s\n", state ? "locked" : "");
+-}
+-
+-static DEVICE_ATTR_RO(state);
+-
+-static struct attribute *dev_attrs[] = {
+-	&dev_attr_state.attr,
+-	NULL,
+-};
+-
+-static struct attribute_group dev_attr_group = {
+-	.attrs = dev_attrs,
+-};
+-
+-static const struct attribute_group *dev_attr_groups[] = {
+-	&dev_attr_group,
+-	NULL,
+-};
+-
+-int dim2_sysfs_probe(struct device *dev)
+-{
+-	dev->groups = dev_attr_groups;
+-	return device_register(dev);
+-}
+-
+-void dim2_sysfs_destroy(struct device *dev)
+-{
+-	device_unregister(dev);
+-}
+diff --git a/drivers/staging/most/dim2/sysfs.h b/drivers/staging/most/dim2/sysfs.h
+index 24277a17cff3..09115cf4ed00 100644
+--- a/drivers/staging/most/dim2/sysfs.h
++++ b/drivers/staging/most/dim2/sysfs.h
+@@ -16,15 +16,4 @@ struct medialb_bus {
+ 	struct kobject kobj_group;
+ };
+ 
+-struct device;
+-
+-int dim2_sysfs_probe(struct device *dev);
+-void dim2_sysfs_destroy(struct device *dev);
+-
+-/*
+- * callback,
+- * must deliver MediaLB state as true if locked or false if unlocked
+- */
+-bool dim2_sysfs_get_state_cb(void);
+-
+ #endif	/* DIM2_SYSFS_H */
 -- 
-2.25.1
+2.30.2
 
