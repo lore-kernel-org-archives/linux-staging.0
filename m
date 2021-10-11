@@ -1,145 +1,83 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CBF2C85
-	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 13:28:36 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1mZvLZ-0006fi-Rm; Mon, 11 Oct 2021 15:28:05 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1mZvLV-0003nd-8g; Mon, 11 Oct 2021 15:28:01 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1mZvLV-0000Re-6O; Mon, 11 Oct 2021 15:28:01 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Wolfram Sang <wsa@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Jason Gunthorpe linux-integrity @ vger . kernel . org" <jgg@ziepe.ca>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	dri-devel@lists.freedesktop.org,
-	kernel@pengutronix.de,
-	linux-hwmon@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 00/13] Make some spi device drivers return zero in .remove()
-Date: Mon, 11 Oct 2021 15:27:41 +0200
-Message-Id: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147DD72
+	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 15:32:38 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19BEfLTw032253;
+	Mon, 11 Oct 2021 15:32:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2021-07-09; bh=NWuNPwAE3ej56Is8nN/XujJ+yffNmSzprTRX3FpQCik=;
+ b=Vmjz1BQRE0AnzNWGK1+B5JRU/HeEBTn6WWTB1g94jt7+56YhjyxqBzc1hntUGboU7yiQ
+ 9rVda9WaIypNnR1E8diqnawaq//xfXxNycDkLCNfmUCDCdW/fgJkfjqaw7pOE/uTJdon
+ geTXIdWj8ujz8S0WjublOWKbfHKABOzUv9BBGPEJVgQB4DqN1GK9DrcMFyrR6o2lMn5E
+ SdAee34w9f+nErfUkwK2NIs9mVbqnN7t0aDMH84DqhHuKccB3emegAYZ6H6e9keYxMES
+ lO/mY0yG8Cy0JJIMHepwUns9OjuLzklq8edWuCv8nssqaXZtJdnmicLRDoBpBolHwRu2 6Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3bmq29gh1j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 11 Oct 2021 15:32:27 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19BFEgAw091717;
+	Mon, 11 Oct 2021 15:32:15 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by aserp3020.oracle.com with ESMTP id 3bmadwe2x1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 11 Oct 2021 15:32:15 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 19BFWETu174897;
+	Mon, 11 Oct 2021 15:32:14 GMT
+Received: from t460.home (dhcp-10-175-30-45.vpn.oracle.com [10.175.30.45])
+	by aserp3020.oracle.com with ESMTP id 3bmadwe2ue-1;
+	Mon, 11 Oct 2021 15:32:14 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
+Subject: [PATCH] staging: ks7010: select CRYPTO_HASH/CRYPTO_MICHAEL_MIC
+Date: Mon, 11 Oct 2021 17:29:41 +0200
+Message-Id: <20211011152941.12847-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.23.0.718.g5ad94255a8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+X-Proofpoint-ORIG-GUID: 25PLLqA_6KuwNlmXa0FklCm0hqWWSR1_
+X-Proofpoint-GUID: 25PLLqA_6KuwNlmXa0FklCm0hqWWSR1_
 
-Hello,
+Fix the following build/link errors:
 
-this series is part of my new quest to make spi remove callbacks return
-void. Today they return an int, but the only result of returning a
-non-zero value is a warning message. So it's a bad idea to return an
-error code in the expectation that not freeing some resources is ok
-then. The same holds true for i2c and platform devices which benefit en
-passant for a few drivers.
+  ld: drivers/staging/ks7010/ks_hostif.o: in function `michael_mic.constprop.0':
+  ks_hostif.c:(.text+0x95b): undefined reference to `crypto_alloc_shash'
+  ld: ks_hostif.c:(.text+0x97a): undefined reference to `crypto_shash_setkey'
+  ld: ks_hostif.c:(.text+0xa13): undefined reference to `crypto_shash_update'
+  ld: ks_hostif.c:(.text+0xa28): undefined reference to `crypto_shash_update'
+  ld: ks_hostif.c:(.text+0xa48): undefined reference to `crypto_shash_finup'
+  ld: ks_hostif.c:(.text+0xa6d): undefined reference to `crypto_destroy_tfm'
 
-The patches in this series address some of the spi drivers that might
-return non-zero and adapt them accordingly to return zero instead. For
-most drivers it's just about not hiding the fact that they already
-return zero.
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ drivers/staging/ks7010/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Given that there are quite some more patches of this type to create
-before I can change the spi remove callback, I suggest the respecive
-subsystem maintainers pick up these patches. There are no
-interdependencies in this series.
-
-Uwe Kleine-König (13):
-  drm/panel: s6e63m0: Make s6e63m0_remove() return void
-  hwmon: adt7x10: Make adt7x10_remove() return void
-  hwmon: max31722: Warn about failure to put device in stand-by in
-    .remove()
-  input: adxl34xx: Make adxl34x_remove() return void
-  input: touchscreen: tsc200x: Make tsc200x_remove() return void
-  media: cxd2880: Eliminate dead code
-  mfd: mc13xxx: Make mc13xxx_common_exit() return void
-  mfd: stmpe: Make stmpe_remove() return void
-  mfd: tps65912: Make tps65912_device_exit() return void
-  serial: max310x: Make max310x_remove() return void
-  serial: sc16is7xx: Make sc16is7xx_remove() return void
-  staging: fbtft: Make fbtft_remove_common() return void
-  tpm: st33zp24: Make st33zp24_remove() return void
-
- drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
- drivers/char/tpm/st33zp24/spi.c                   |  5 +----
- drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
- drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
- drivers/hwmon/adt7310.c                           |  3 ++-
- drivers/hwmon/adt7410.c                           |  3 ++-
- drivers/hwmon/adt7x10.c                           |  3 +--
- drivers/hwmon/adt7x10.h                           |  2 +-
- drivers/hwmon/max31722.c                          |  8 +++++++-
- drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
- drivers/input/misc/adxl34x-spi.c                  |  4 +++-
- drivers/input/misc/adxl34x.c                      |  4 +---
- drivers/input/misc/adxl34x.h                      |  2 +-
- drivers/input/touchscreen/tsc2004.c               |  4 +++-
- drivers/input/touchscreen/tsc2005.c               |  4 +++-
- drivers/input/touchscreen/tsc200x-core.c          |  4 +---
- drivers/input/touchscreen/tsc200x-core.h          |  2 +-
- drivers/media/spi/cxd2880-spi.c                   | 13 +------------
- drivers/mfd/mc13xxx-core.c                        |  4 +---
- drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
- drivers/mfd/mc13xxx-spi.c                         |  3 ++-
- drivers/mfd/mc13xxx.h                             |  2 +-
- drivers/mfd/stmpe-i2c.c                           |  4 +++-
- drivers/mfd/stmpe-spi.c                           |  4 +++-
- drivers/mfd/stmpe.c                               |  4 +---
- drivers/mfd/stmpe.h                               |  2 +-
- drivers/mfd/tps65912-core.c                       |  4 +---
- drivers/mfd/tps65912-i2c.c                        |  4 +++-
- drivers/mfd/tps65912-spi.c                        |  4 +++-
- drivers/staging/fbtft/fbtft-core.c                |  8 +-------
- drivers/staging/fbtft/fbtft.h                     |  6 ++++--
- drivers/tty/serial/max310x.c                      |  7 +++----
- drivers/tty/serial/sc16is7xx.c                    | 10 +++++++---
- include/linux/mfd/tps65912.h                      |  2 +-
- 38 files changed, 77 insertions(+), 81 deletions(-)
-
-
-base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+diff --git a/drivers/staging/ks7010/Kconfig b/drivers/staging/ks7010/Kconfig
+index 0987fdc2f70db..8ea6c09286798 100644
+--- a/drivers/staging/ks7010/Kconfig
++++ b/drivers/staging/ks7010/Kconfig
+@@ -5,6 +5,9 @@ config KS7010
+ 	select WIRELESS_EXT
+ 	select WEXT_PRIV
+ 	select FW_LOADER
++	select CRYPTO
++	select CRYPTO_HASH
++	select CRYPTO_MICHAEL_MIC
+ 	help
+ 	  This is a driver for KeyStream KS7010 based SDIO WIFI cards. It is
+ 	  found on at least later Spectec SDW-821 (FCC-ID "S2Y-WLAN-11G-K" only,
 -- 
-2.30.2
+2.23.0.718.g5ad94255a8
 
