@@ -1,34 +1,55 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A5E2C85
-	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 13:28:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CBF2C85
+	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 13:28:36 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1mZvLZ-0006g4-Rm; Mon, 11 Oct 2021 15:28:05 +0200
+	id 1mZvLZ-0006fi-Rm; Mon, 11 Oct 2021 15:28:05 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1mZvLY-0003ny-EI; Mon, 11 Oct 2021 15:28:04 +0200
+	id 1mZvLV-0003nd-8g; Mon, 11 Oct 2021 15:28:01 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1mZvLX-0000TQ-Cg; Mon, 11 Oct 2021 15:28:03 +0200
+	id 1mZvLV-0000Re-6O; Mon, 11 Oct 2021 15:28:01 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
 Cc: Mark Brown <broonie@kernel.org>,
-	linux-spi@vger.kernel.org,
-	kernel@pengutronix.de,
+	Wolfram Sang <wsa@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"Jason Gunthorpe linux-integrity @ vger . kernel . org" <jgg@ziepe.ca>,
+	Sam Ravnborg <sam@ravnborg.org>,
 	dri-devel@lists.freedesktop.org,
+	kernel@pengutronix.de,
+	linux-hwmon@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-spi@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	"Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH 12/13] staging: fbtft: Make fbtft_remove_common() return void
-Date: Mon, 11 Oct 2021 15:27:53 +0200
-Message-Id: <20211011132754.2479853-13-u.kleine-koenig@pengutronix.de>
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH 00/13] Make some spi device drivers return zero in .remove()
+Date: Mon, 11 Oct 2021 15:27:41 +0200
+Message-Id: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
-References: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,82 +57,89 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=/RLR4bDyADQRwzANF6ER5sKrX+JFDYSh90Q0J5N84UY=; m=6FiNYI6au9uFB2IoKzr/cKU1LkGxlwoXSYCPM/+GX+Y=; p=19a0XOl3ZNoBogBHt63wtoEAqL9C5QZcMx0lWBBcXvs=; g=3740c58a50a748d6ac2559b325ee4fcd79372ba0
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de; s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6; b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkO4IACgkQwfwUeK3K7AmPFAgAi2j +ekzLBUvvkSW1V7aAZ7NxSqFgWZ8q7dgSdTwOKmsCZCyNbQsT02lQhdQnxam0NAMjaxhPzaEVAUf9 cjqtzjNApl7RfLYR7nGLh2XuJ4EqX7uUlOzAdeoEe3r1T4eqGrWC+7AfBINYA992Q6zFAZRqNXZrY PBfjEYtKmJ0IAO/Qx4tDgVISz0GQsn+8JJ01P4udY1sud6QjhaO+87wCpCXT7qwQa9q8WN+fIsSYs 0Ut+4ptQh7WDuG+Qb09CIIf4Bk9nAi/X3gofxHs97omC6x3ldQlraHCrNuUHUe77brVawa8/TR38j SEFRvmVk4U0dYlvaiuLXguJP8IRqcVA==
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-fbtft_remove_common() is only called with a non-NULL fb_info. (All
-callers are in remove callbacks and the matching probe callbacks set
-driver data accordingly.) So fbtft_remove_common() always returns zero.
-Make it return void instead which makes it easier to see in the callers
-that there is no error to handle.
+Hello,
 
-Also the return value of platform and spi remove callbacks is ignored
-anyway and not freeing resources in .remove() is a bad idea.
+this series is part of my new quest to make spi remove callbacks return
+void. Today they return an int, but the only result of returning a
+non-zero value is a warning message. So it's a bad idea to return an
+error code in the expectation that not freeing some resources is ok
+then. The same holds true for i2c and platform devices which benefit en
+passant for a few drivers.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/staging/fbtft/fbtft-core.c | 8 +-------
- drivers/staging/fbtft/fbtft.h      | 6 ++++--
- 2 files changed, 5 insertions(+), 9 deletions(-)
+The patches in this series address some of the spi drivers that might
+return non-zero and adapt them accordingly to return zero instead. For
+most drivers it's just about not hiding the fact that they already
+return zero.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index ed992ca605eb..9c9eab1182a6 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1318,23 +1318,17 @@ EXPORT_SYMBOL(fbtft_probe_common);
-  * @info: Framebuffer
-  *
-  * Unregisters and releases the framebuffer
-- *
-- * Return: 0 if successful, negative if error
-  */
--int fbtft_remove_common(struct device *dev, struct fb_info *info)
-+void fbtft_remove_common(struct device *dev, struct fb_info *info)
- {
- 	struct fbtft_par *par;
- 
--	if (!info)
--		return -EINVAL;
- 	par = info->par;
- 	if (par)
- 		fbtft_par_dbg(DEBUG_DRIVER_INIT_FUNCTIONS, par,
- 			      "%s()\n", __func__);
- 	fbtft_unregister_framebuffer(info);
- 	fbtft_framebuffer_release(info);
--
--	return 0;
- }
- EXPORT_SYMBOL(fbtft_remove_common);
- 
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 76f8c090a837..68eba6c71b0f 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -283,7 +283,8 @@ static int fbtft_driver_remove_spi(struct spi_device *spi)                 \
- {                                                                          \
- 	struct fb_info *info = spi_get_drvdata(spi);                       \
- 									   \
--	return fbtft_remove_common(&spi->dev, info);                       \
-+	fbtft_remove_common(&spi->dev, info);                              \
-+	return 0;                                                          \
- }                                                                          \
- 									   \
- static int fbtft_driver_probe_pdev(struct platform_device *pdev)           \
-@@ -295,7 +296,8 @@ static int fbtft_driver_remove_pdev(struct platform_device *pdev)          \
- {                                                                          \
- 	struct fb_info *info = platform_get_drvdata(pdev);                 \
- 									   \
--	return fbtft_remove_common(&pdev->dev, info);                      \
-+	fbtft_remove_common(&pdev->dev, info);                             \
-+	return 0;                                                          \
- }                                                                          \
- 									   \
- static const struct of_device_id dt_ids[] = {                              \
+Given that there are quite some more patches of this type to create
+before I can change the spi remove callback, I suggest the respecive
+subsystem maintainers pick up these patches. There are no
+interdependencies in this series.
+
+Uwe Kleine-König (13):
+  drm/panel: s6e63m0: Make s6e63m0_remove() return void
+  hwmon: adt7x10: Make adt7x10_remove() return void
+  hwmon: max31722: Warn about failure to put device in stand-by in
+    .remove()
+  input: adxl34xx: Make adxl34x_remove() return void
+  input: touchscreen: tsc200x: Make tsc200x_remove() return void
+  media: cxd2880: Eliminate dead code
+  mfd: mc13xxx: Make mc13xxx_common_exit() return void
+  mfd: stmpe: Make stmpe_remove() return void
+  mfd: tps65912: Make tps65912_device_exit() return void
+  serial: max310x: Make max310x_remove() return void
+  serial: sc16is7xx: Make sc16is7xx_remove() return void
+  staging: fbtft: Make fbtft_remove_common() return void
+  tpm: st33zp24: Make st33zp24_remove() return void
+
+ drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
+ drivers/char/tpm/st33zp24/spi.c                   |  5 +----
+ drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
+ drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
+ drivers/hwmon/adt7310.c                           |  3 ++-
+ drivers/hwmon/adt7410.c                           |  3 ++-
+ drivers/hwmon/adt7x10.c                           |  3 +--
+ drivers/hwmon/adt7x10.h                           |  2 +-
+ drivers/hwmon/max31722.c                          |  8 +++++++-
+ drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
+ drivers/input/misc/adxl34x-spi.c                  |  4 +++-
+ drivers/input/misc/adxl34x.c                      |  4 +---
+ drivers/input/misc/adxl34x.h                      |  2 +-
+ drivers/input/touchscreen/tsc2004.c               |  4 +++-
+ drivers/input/touchscreen/tsc2005.c               |  4 +++-
+ drivers/input/touchscreen/tsc200x-core.c          |  4 +---
+ drivers/input/touchscreen/tsc200x-core.h          |  2 +-
+ drivers/media/spi/cxd2880-spi.c                   | 13 +------------
+ drivers/mfd/mc13xxx-core.c                        |  4 +---
+ drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
+ drivers/mfd/mc13xxx-spi.c                         |  3 ++-
+ drivers/mfd/mc13xxx.h                             |  2 +-
+ drivers/mfd/stmpe-i2c.c                           |  4 +++-
+ drivers/mfd/stmpe-spi.c                           |  4 +++-
+ drivers/mfd/stmpe.c                               |  4 +---
+ drivers/mfd/stmpe.h                               |  2 +-
+ drivers/mfd/tps65912-core.c                       |  4 +---
+ drivers/mfd/tps65912-i2c.c                        |  4 +++-
+ drivers/mfd/tps65912-spi.c                        |  4 +++-
+ drivers/staging/fbtft/fbtft-core.c                |  8 +-------
+ drivers/staging/fbtft/fbtft.h                     |  6 ++++--
+ drivers/tty/serial/max310x.c                      |  7 +++----
+ drivers/tty/serial/sc16is7xx.c                    | 10 +++++++---
+ include/linux/mfd/tps65912.h                      |  2 +-
+ 38 files changed, 77 insertions(+), 81 deletions(-)
+
+
+base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
 -- 
 2.30.2
 
