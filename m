@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DF92C86
-	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 20:12:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FE02C86
+	for <linux-staging@lists.linux.dev>; Mon, 11 Oct 2021 20:12:34 +0000 (UTC)
 Received: from dslb-188-097-046-226.188.097.pools.vodafone-ip.de ([188.97.46.226] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1ma1ep-0004mk-MW; Mon, 11 Oct 2021 22:12:23 +0200
+	id 1ma1ew-0004mk-Vf; Mon, 11 Oct 2021 22:12:31 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 2/8] staging: r8188eu: simplify rtl8188e_HalDmWatchDog
-Date: Mon, 11 Oct 2021 22:11:53 +0200
-Message-Id: <20211011201159.10252-3-martin@kaiser.cx>
+Subject: [PATCH 8/8] staging: r8188eu: odm SupportPlatform is always ODM_CE
+Date: Mon, 11 Oct 2021 22:11:59 +0200
+Message-Id: <20211011201159.10252-9-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211011201159.10252-1-martin@kaiser.cx>
 References: <20211011201159.10252-1-martin@kaiser.cx>
@@ -28,76 +28,434 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Now that we don't call dm_CheckStatistics any more, we don't need
-fw_cur_in_ps and fw_ps_awake.
+Remove the SupportPlatform entry of struct odm_dm_struct and any code
+that depends on SupportPlatform != ODM_CE.
+
+Merge functions in places where there was a "top-level function" that
+would select a "sub-function" based on SupportPlatform.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_dm.c | 43 +++++++----------------
- 1 file changed, 13 insertions(+), 30 deletions(-)
+ .../staging/r8188eu/hal/HalHWImg8188E_BB.c    |   9 +-
+ .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |   3 +-
+ .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |   3 +-
+ drivers/staging/r8188eu/hal/odm.c             | 141 ++----------------
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   2 -
+ drivers/staging/r8188eu/include/odm.h         |   3 -
+ drivers/staging/r8188eu/include/odm_precomp.h |  10 --
+ drivers/staging/r8188eu/include/odm_types.h   |   6 -
+ 8 files changed, 19 insertions(+), 158 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index af8b2752b664..90b30606fe13 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -113,42 +113,25 @@ void rtl8188e_InitHalDm(struct adapter *Adapter)
- 
- void rtl8188e_HalDmWatchDog(struct adapter *Adapter)
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+index 78c93e87edb3..17b55c31f6eb 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
+@@ -176,7 +176,6 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
  {
--	bool fw_cur_in_ps = false;
--	bool fw_ps_awake = true;
--	u8 hw_init_completed = false;
-+	u8 hw_init_completed = Adapter->hw_init_completed;
- 	struct hal_data_8188e *hal_data = GET_HAL_DATA(Adapter);
--
--
--	hw_init_completed = Adapter->hw_init_completed;
-+	struct mlme_priv *pmlmepriv = &Adapter->mlmepriv;
-+	u8 bLinked = false;
+ 	u32     hex         = 0;
+ 	u32     i           = 0;
+-	u8     platform    = dm_odm->SupportPlatform;
+ 	u8     interfaceValue   = dm_odm->SupportInterface;
+ 	u32     arraylen    = sizeof(array_agc_tab_1t_8188e) / sizeof(u32);
+ 	u32    *array       = array_agc_tab_1t_8188e;
+@@ -187,7 +186,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
+ 	enum HAL_STATUS rst = HAL_STATUS_SUCCESS;
  
- 	if (!hw_init_completed)
+ 	hex += interfaceValue << 8;
+-	hex += platform << 16;
++	hex += ODM_CE << 16;
+ 	hex += 0xFF000000;
+ 	biol = rtw_IOL_applied(adapter);
+ 
+@@ -454,7 +453,6 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
+ {
+ 	u32     hex         = 0;
+ 	u32     i           = 0;
+-	u8     platform    = dm_odm->SupportPlatform;
+ 	u8     interfaceValue   = dm_odm->SupportInterface;
+ 	u32     arraylen    = sizeof(array_phy_reg_1t_8188e) / sizeof(u32);
+ 	u32    *array       = array_phy_reg_1t_8188e;
+@@ -464,7 +462,7 @@ enum HAL_STATUS ODM_ReadAndConfig_PHY_REG_1T_8188E(struct odm_dm_struct *dm_odm)
+ 	u8 bndy_cnt = 1;
+ 	enum HAL_STATUS rst = HAL_STATUS_SUCCESS;
+ 	hex += interfaceValue << 8;
+-	hex += platform << 16;
++	hex += ODM_CE << 16;
+ 	hex += 0xFF000000;
+ 	biol = rtw_IOL_applied(adapter);
+ 
+@@ -661,13 +659,12 @@ void ODM_ReadAndConfig_PHY_REG_PG_8188E(struct odm_dm_struct *dm_odm)
+ {
+ 	u32  hex;
+ 	u32  i           = 0;
+-	u8  platform    = dm_odm->SupportPlatform;
+ 	u8  interfaceValue   = dm_odm->SupportInterface;
+ 	u32  arraylen    = sizeof(array_phy_reg_pg_8188e) / sizeof(u32);
+ 	u32 *array       = array_phy_reg_pg_8188e;
+ 
+ 	hex = interfaceValue << 8;
+-	hex += (platform << 16) + 0xFF000000;
++	hex += (ODM_CE << 16) + 0xFF000000;
+ 
+ 	for (i = 0; i < arraylen; i += 3) {
+ 		u32 v1 = array[i];
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
+index 2fd86c660b82..bb57e93eb959 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c
+@@ -133,7 +133,6 @@ enum HAL_STATUS ODM_ReadAndConfig_MAC_REG_8188E(struct odm_dm_struct *dm_odm)
+ 
+ 	u32     hex         = 0;
+ 	u32     i;
+-	u8     platform    = dm_odm->SupportPlatform;
+ 	u8     interface_val   = dm_odm->SupportInterface;
+ 	u32     array_len    = sizeof(array_MAC_REG_8188E) / sizeof(u32);
+ 	u32    *array       = array_MAC_REG_8188E;
+@@ -144,7 +143,7 @@ enum HAL_STATUS ODM_ReadAndConfig_MAC_REG_8188E(struct odm_dm_struct *dm_odm)
+ 	u8 bndy_cnt = 1;
+ 	enum HAL_STATUS rst = HAL_STATUS_SUCCESS;
+ 	hex += interface_val << 8;
+-	hex += platform << 16;
++	hex += ODM_CE << 16;
+ 	hex += 0xFF000000;
+ 
+ 	biol = rtw_IOL_applied(adapt);
+diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+index d41f65a2a829..7a8faa7885a1 100644
+--- a/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
++++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c
+@@ -144,7 +144,6 @@ enum HAL_STATUS ODM_ReadAndConfig_RadioA_1T_8188E(struct odm_dm_struct *pDM_Odm)
+ 
+ 	u32     hex         = 0;
+ 	u32     i           = 0;
+-	u8     platform    = pDM_Odm->SupportPlatform;
+ 	u8     interfaceValue   = pDM_Odm->SupportInterface;
+ 	u32     ArrayLen    = sizeof(Array_RadioA_1T_8188E) / sizeof(u32);
+ 	u32    *Array       = Array_RadioA_1T_8188E;
+@@ -155,7 +154,7 @@ enum HAL_STATUS ODM_ReadAndConfig_RadioA_1T_8188E(struct odm_dm_struct *pDM_Odm)
+ 	enum HAL_STATUS rst = HAL_STATUS_SUCCESS;
+ 
+ 	hex += interfaceValue << 8;
+-	hex += platform << 16;
++	hex += ODM_CE << 16;
+ 	hex += 0xFF000000;
+ 	biol = rtw_IOL_applied(Adapter);
+ 
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index 712ec380a90d..2178ffe41bb3 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -214,9 +214,6 @@ void ODM_CmnInfoInit(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
+ 	case	ODM_CMNINFO_ABILITY:
+ 		pDM_Odm->SupportAbility = (u32)Value;
+ 		break;
+-	case	ODM_CMNINFO_PLATFORM:
+-		pDM_Odm->SupportPlatform = (u8)Value;
+-		break;
+ 	case	ODM_CMNINFO_INTERFACE:
+ 		pDM_Odm->SupportInterface = (u8)Value;
+ 		break;
+@@ -460,15 +457,10 @@ void odm_DIG(struct odm_dm_struct *pDM_Odm)
+ 	FirstDisConnect = (!pDM_Odm->bLinked) && (pDM_DigTable->bMediaConnect_0);
+ 
+ 	/* 1 Boundary Decision */
+-	if (pDM_Odm->SupportPlatform & (ODM_AP | ODM_ADSL)) {
+-		dm_dig_max = DM_DIG_MAX_AP;
+-		dm_dig_min = DM_DIG_MIN_AP;
+-		DIG_MaxOfMin = dm_dig_max;
+-	} else {
+-		dm_dig_max = DM_DIG_MAX_NIC;
+-		dm_dig_min = DM_DIG_MIN_NIC;
+-		DIG_MaxOfMin = DM_DIG_MAX_AP;
+-	}
++	dm_dig_max = DM_DIG_MAX_NIC;
++	dm_dig_min = DM_DIG_MIN_NIC;
++	DIG_MaxOfMin = DM_DIG_MAX_AP;
++
+ 	if (pDM_Odm->bLinked) {
+ 		/* 2 8723A Series, offset need to be 10 */
+ 		/* 2 Modify DIG upper bound */
+@@ -844,37 +836,13 @@ u32 ODM_Get_Rate_Bitmap(struct odm_dm_struct *pDM_Odm, u32 macid, u32 ra_mask, u
+  *
+  *---------------------------------------------------------------------------*/
+ void odm_RefreshRateAdaptiveMask(struct odm_dm_struct *pDM_Odm)
+-{
+-	if (!(pDM_Odm->SupportAbility & ODM_BB_RA_MASK))
+-		return;
+-	/*  */
+-	/*  2011/09/29 MH In HW integration first stage, we provide 4 different handle to operate */
+-	/*  at the same time. In the stage2/3, we need to prive universal interface and merge all */
+-	/*  HW dynamic mechanism. */
+-	/*  */
+-	switch	(pDM_Odm->SupportPlatform) {
+-	case	ODM_MP:
+-		odm_RefreshRateAdaptiveMaskMP(pDM_Odm);
+-		break;
+-	case	ODM_CE:
+-		odm_RefreshRateAdaptiveMaskCE(pDM_Odm);
+-		break;
+-	case	ODM_AP:
+-	case	ODM_ADSL:
+-		odm_RefreshRateAdaptiveMaskAPADSL(pDM_Odm);
+-		break;
+-	}
+-}
+-
+-void odm_RefreshRateAdaptiveMaskMP(struct odm_dm_struct *pDM_Odm)
+-{
+-}
+-
+-void odm_RefreshRateAdaptiveMaskCE(struct odm_dm_struct *pDM_Odm)
+ {
+ 	u8 i;
+ 	struct adapter *pAdapter = pDM_Odm->Adapter;
+ 
++	if (!(pDM_Odm->SupportAbility & ODM_BB_RA_MASK))
++		return;
++
+ 	if (pAdapter->bDriverStopped)
  		return;
  
--	fw_cur_in_ps = Adapter->pwrctrlpriv.bFwCurrentInPSMode;
--	GetHwReg8188EU(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&fw_ps_awake));
--
--	/*  Fw is under p2p powersaving mode, driver should stop dynamic mechanism. */
--	/*  modifed by thomas. 2011.06.11. */
--	if (Adapter->wdinfo.p2p_ps_mode)
--		fw_ps_awake = false;
--
--	/* ODM */
--	if (hw_init_completed) {
--		struct mlme_priv *pmlmepriv = &Adapter->mlmepriv;
--		u8 bLinked = false;
--
--		if ((check_fwstate(pmlmepriv, WIFI_AP_STATE)) ||
--		    (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE))) {
--			if (Adapter->stapriv.asoc_sta_count > 2)
--				bLinked = true;
--		} else {/* Station mode */
--			if (check_fwstate(pmlmepriv, _FW_LINKED))
--				bLinked = true;
--		}
--
--		ODM_CmnInfoUpdate(&hal_data->odmpriv, ODM_CMNINFO_LINK, bLinked);
--		ODM_DMWatchdog(&hal_data->odmpriv);
-+	if ((check_fwstate(pmlmepriv, WIFI_AP_STATE)) ||
-+	    (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE))) {
-+		if (Adapter->stapriv.asoc_sta_count > 2)
-+			bLinked = true;
-+	} else {/* Station mode */
-+		if (check_fwstate(pmlmepriv, _FW_LINKED))
-+			bLinked = true;
+@@ -890,10 +858,6 @@ void odm_RefreshRateAdaptiveMaskCE(struct odm_dm_struct *pDM_Odm)
  	}
-+
-+	ODM_CmnInfoUpdate(&hal_data->odmpriv, ODM_CMNINFO_LINK, bLinked);
-+	ODM_DMWatchdog(&hal_data->odmpriv);
  }
  
- void rtl8188e_init_dm_priv(struct adapter *Adapter)
+-void odm_RefreshRateAdaptiveMaskAPADSL(struct odm_dm_struct *pDM_Odm)
+-{
+-}
+-
+ /*  Return Value: bool */
+ /*  - true: RATRState is changed. */
+ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate, u8 *pRATRState)
+@@ -941,37 +905,6 @@ bool ODM_RAStateCheck(struct odm_dm_struct *pDM_Odm, s32 RSSI, bool bForceUpdate
+ /* 3 RSSI Monitor */
+ /* 3============================================================ */
+ 
+-void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
+-{
+-	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
+-		return;
+-
+-	/*  */
+-	/*  2011/09/29 MH In HW integration first stage, we provide 4 different handle to operate */
+-	/*  at the same time. In the stage2/3, we need to prive universal interface and merge all */
+-	/*  HW dynamic mechanism. */
+-	/*  */
+-	switch	(pDM_Odm->SupportPlatform) {
+-	case	ODM_MP:
+-		odm_RSSIMonitorCheckMP(pDM_Odm);
+-		break;
+-	case	ODM_CE:
+-		odm_RSSIMonitorCheckCE(pDM_Odm);
+-		break;
+-	case	ODM_AP:
+-		odm_RSSIMonitorCheckAP(pDM_Odm);
+-		break;
+-	case	ODM_ADSL:
+-		/* odm_DIGAP(pDM_Odm); */
+-		break;
+-	}
+-
+-}	/*  odm_RSSIMonitorCheck */
+-
+-void odm_RSSIMonitorCheckMP(struct odm_dm_struct *pDM_Odm)
+-{
+-}
+-
+ static void FindMinimumRSSI(struct adapter *pAdapter)
+ {
+ 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(pAdapter);
+@@ -986,7 +919,7 @@ static void FindMinimumRSSI(struct adapter *pAdapter)
+ 	pdmpriv->MinUndecoratedPWDBForDM = pdmpriv->EntryMinUndecoratedSmoothedPWDB;
+ }
+ 
+-void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
++void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
+ {
+ 	struct adapter *Adapter = pDM_Odm->Adapter;
+ 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(Adapter);
+@@ -998,6 +931,9 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
+ 	struct sta_info *psta;
+ 	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 
++	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
++		return;
++
+ 	if (!check_fwstate(&Adapter->mlmepriv, _FW_LINKED))
+ 		return;
+ 
+@@ -1042,10 +978,6 @@ void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm)
+ 	ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_RSSI_MIN, pdmpriv->MinUndecoratedPWDBForDM);
+ }
+ 
+-void odm_RSSIMonitorCheckAP(struct odm_dm_struct *pDM_Odm)
+-{
+-}
+-
+ /* 3============================================================ */
+ /* 3 Tx Power Tracking */
+ /* 3============================================================ */
+@@ -1066,26 +998,6 @@ void odm_TXPowerTrackingThermalMeterInit(struct odm_dm_struct *pDM_Odm)
+ }
+ 
+ void ODM_TXPowerTrackingCheck(struct odm_dm_struct *pDM_Odm)
+-{
+-	/*  2011/09/29 MH In HW integration first stage, we provide 4 different handle to operate */
+-	/*  at the same time. In the stage2/3, we need to prive universal interface and merge all */
+-	/*  HW dynamic mechanism. */
+-	switch	(pDM_Odm->SupportPlatform) {
+-	case	ODM_MP:
+-		odm_TXPowerTrackingCheckMP(pDM_Odm);
+-		break;
+-	case	ODM_CE:
+-		odm_TXPowerTrackingCheckCE(pDM_Odm);
+-		break;
+-	case	ODM_AP:
+-		odm_TXPowerTrackingCheckAP(pDM_Odm);
+-		break;
+-	case	ODM_ADSL:
+-		break;
+-	}
+-}
+-
+-void odm_TXPowerTrackingCheckCE(struct odm_dm_struct *pDM_Odm)
+ {
+ 	struct adapter *Adapter = pDM_Odm->Adapter;
+ 
+@@ -1103,14 +1015,6 @@ void odm_TXPowerTrackingCheckCE(struct odm_dm_struct *pDM_Odm)
+ 	}
+ }
+ 
+-void odm_TXPowerTrackingCheckMP(struct odm_dm_struct *pDM_Odm)
+-{
+-}
+-
+-void odm_TXPowerTrackingCheckAP(struct odm_dm_struct *pDM_Odm)
+-{
+-}
+-
+ /* antenna mapping info */
+ /*  1: right-side antenna */
+ /*  2/0: left-side antenna */
+@@ -1190,26 +1094,6 @@ void ODM_EdcaTurboInit(struct odm_dm_struct *pDM_Odm)
+ }	/*  ODM_InitEdcaTurbo */
+ 
+ void odm_EdcaTurboCheck(struct odm_dm_struct *pDM_Odm)
+-{
+-	/*  2011/09/29 MH In HW integration first stage, we provide 4 different handle to operate */
+-	/*  at the same time. In the stage2/3, we need to prive universal interface and merge all */
+-	/*  HW dynamic mechanism. */
+-	if (!(pDM_Odm->SupportAbility & ODM_MAC_EDCA_TURBO))
+-		return;
+-
+-	switch	(pDM_Odm->SupportPlatform) {
+-	case	ODM_MP:
+-		break;
+-	case	ODM_CE:
+-		odm_EdcaTurboCheckCE(pDM_Odm);
+-		break;
+-	case	ODM_AP:
+-	case	ODM_ADSL:
+-		break;
+-	}
+-}	/*  odm_CheckEdcaTurbo */
+-
+-void odm_EdcaTurboCheckCE(struct odm_dm_struct *pDM_Odm)
+ {
+ 	struct adapter *Adapter = pDM_Odm->Adapter;
+ 	u32	trafficIndex;
+@@ -1224,6 +1108,9 @@ void odm_EdcaTurboCheckCE(struct odm_dm_struct *pDM_Odm)
+ 	struct mlme_ext_priv	*pmlmeext = &Adapter->mlmeextpriv;
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+ 
++	if (!(pDM_Odm->SupportAbility & ODM_MAC_EDCA_TURBO))
++		return;
++
+ 	if (pregpriv->wifi_spec == 1)
+ 		goto dm_CheckEdcaTurbo_EXIT;
+ 
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+index 3a7e01540516..1ca24a507d6d 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+@@ -33,8 +33,6 @@ static void Init_ODM_ComInfo_88E(struct adapter *Adapter)
+ 
+ 	dm_odm->Adapter = Adapter;
+ 
+-	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_PLATFORM, ODM_CE);
+-
+ 	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_INTERFACE, ODM_ITRF_USB);
+ 
+ 	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_MP_TEST_CHIP, IS_NORMAL_CHIP(hal_data->VersionID));
+diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
+index ef859bab7489..187f872d09b5 100644
+--- a/drivers/staging/r8188eu/include/odm.h
++++ b/drivers/staging/r8188eu/include/odm.h
+@@ -261,7 +261,6 @@ enum odm_common_info_def {
+ 	/*  Fixed value: */
+ 
+ 	/* HOOK BEFORE REG INIT----------- */
+-	ODM_CMNINFO_PLATFORM = 0,
+ 	ODM_CMNINFO_ABILITY,		/* ODM_ABILITY_E */
+ 	ODM_CMNINFO_INTERFACE,		/* ODM_INTERFACE_E */
+ 	ODM_CMNINFO_MP_TEST_CHIP,
+@@ -610,8 +609,6 @@ struct odm_dm_struct {
+ /* 1  COMMON INFORMATION */
+ 	/*  Init Value */
+ /* HOOK BEFORE REG INIT----------- */
+-	/*  ODM Platform info AP/ADSL/CE/MP = 1/2/3/4 */
+-	u8	SupportPlatform;
+ 	/*  ODM Support Ability DIG/RATR/TX_PWR_TRACK/ �K�K = 1/2/3/�K */
+ 	u32	SupportAbility;
+ 	/*  ODM PCIE/USB/SDIO/GSPI = 0/1/2/3 */
+diff --git a/drivers/staging/r8188eu/include/odm_precomp.h b/drivers/staging/r8188eu/include/odm_precomp.h
+index aa1328abdfcc..892a2501f05a 100644
+--- a/drivers/staging/r8188eu/include/odm_precomp.h
++++ b/drivers/staging/r8188eu/include/odm_precomp.h
+@@ -43,22 +43,12 @@ void odm_CommonInfoSelfUpdate(struct odm_dm_struct *pDM_Odm);
+ void odm_FalseAlarmCounterStatistics(struct odm_dm_struct *pDM_Odm);
+ void odm_DIG(struct odm_dm_struct *pDM_Odm);
+ void odm_CCKPacketDetectionThresh(struct odm_dm_struct *pDM_Odm);
+-void odm_RefreshRateAdaptiveMaskMP(struct odm_dm_struct *pDM_Odm);
+ void odm_SwAntDivChkAntSwitch(struct odm_dm_struct *pDM_Odm, u8 Step);
+ void odm_EdcaTurboCheck(struct odm_dm_struct *pDM_Odm);
+ void odm_CommonInfoSelfInit(struct odm_dm_struct *pDM_Odm);
+ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm);
+ void odm_RefreshRateAdaptiveMask(struct odm_dm_struct *pDM_Odm);
+-void odm_RefreshRateAdaptiveMaskCE(struct odm_dm_struct *pDM_Odm);
+-void odm_RefreshRateAdaptiveMaskAPADSL(struct odm_dm_struct *pDM_Odm);
+-void odm_RSSIMonitorCheckMP(struct odm_dm_struct *pDM_Odm);
+-void odm_RSSIMonitorCheckCE(struct odm_dm_struct *pDM_Odm);
+-void odm_RSSIMonitorCheckAP(struct odm_dm_struct *pDM_Odm);
+ void odm_TXPowerTrackingThermalMeterInit(struct odm_dm_struct *pDM_Odm);
+-void odm_EdcaTurboCheckCE(struct odm_dm_struct *pDM_Odm);
+-void odm_TXPowerTrackingCheckCE(struct odm_dm_struct *pDM_Odm);
+-void odm_TXPowerTrackingCheckMP(struct odm_dm_struct *pDM_Odm);
+-void odm_TXPowerTrackingCheckAP(struct odm_dm_struct *pDM_Odm);
+ void odm_SwAntDivChkAntSwitchCallback(struct timer_list *t);
+ void odm_InitHybridAntDiv(struct odm_dm_struct *pDM_Odm);
+ void odm_HwAntDiv(struct odm_dm_struct *pDM_Odm);
+diff --git a/drivers/staging/r8188eu/include/odm_types.h b/drivers/staging/r8188eu/include/odm_types.h
+index 7b6a3c392f2a..08ba7a418ba8 100644
+--- a/drivers/staging/r8188eu/include/odm_types.h
++++ b/drivers/staging/r8188eu/include/odm_types.h
+@@ -4,13 +4,7 @@
+ #ifndef __ODM_TYPES_H__
+ #define __ODM_TYPES_H__
+ 
+-/*  */
+-/*  Define Different SW team support */
+-/*  */
+-#define	ODM_AP			0x01	 /* BIT(0) */
+-#define	ODM_ADSL		0x02	/* BIT(1) */
+ #define	ODM_CE			0x04	/* BIT(2) */
+-#define	ODM_MP			0x08	/* BIT(3) */
+ 
+ enum HAL_STATUS {
+ 	HAL_STATUS_SUCCESS,
 -- 
 2.20.1
 
