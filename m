@@ -1,91 +1,90 @@
-Received: from newton.telenet-ops.be (newton.telenet-ops.be [195.130.132.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEC172
-	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 18:23:06 +0000 (UTC)
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-	by newton.telenet-ops.be (Postfix) with ESMTPS id 4HTP283lbMzMr38j
-	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 20:14:24 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9c93:91ff:d58:ecfb])
-	by laurent.telenet-ops.be with bizsmtp
-	id 56EE2600J0KW32a016EEoF; Tue, 12 Oct 2021 20:14:17 +0200
-Received: from geert (helo=localhost)
-	by ramsan.of.borg with local-esmtp (Exim 4.93)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1maMI2-004QmP-Cm; Tue, 12 Oct 2021 20:14:14 +0200
-Date: Tue, 12 Oct 2021 20:14:14 +0200 (CEST)
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-X-X-Sender: geert@ramsan.of.borg
-To: Christian Gromm <christian.gromm@microchip.com>, 
-    gregkh@linuxfoundation.org
-cc: Rob Herring <robh+dt@kernel.org>, 
-    Nikita Yushchenko <nikita.yoush@cogentembedded.com>, 
-    linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
-    linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 23/28] staging: most: dim2: use device tree
-In-Reply-To: <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
-Message-ID: <alpine.DEB.2.22.394.2110121749450.1045463@ramsan.of.borg>
-References: <1525772716-15742-1-git-send-email-christian.gromm@microchip.com> <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BCE2C83
+	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 21:47:29 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id t9so2813298lfd.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 14:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VUVv9MTjN3o4lS4ubMPiD1BExy7qbG6BXOOhNOMCzhI=;
+        b=FooP3E8Nhhx6bq4Jp1qsHB6rl4d1cGpg9dHHqtC1eQENLPUqhufHKiJR6HmpbYKC89
+         XSE8KQaTXvhRjA/reL/kDv65k3lly5oXpuHojoitApvUH1j9P30m/xoT5DVMt3uY3KPA
+         K85kr9uxfKRh2+QAhf7RgCgqtywUce9NvEGeI1jfd2ymCjL4A4H79UzpNBHN82U/uVTd
+         yjkobqhckq8ffxdniBD0lMPELsPoTGzrZ5A6TXmoP/zgVDBUOwlsJKLs+dlSAd0b8xEp
+         mUTMU+LhlMNYw8hMb+gisSs5R7XvuID1vOkjDLpxS5GhaSUzN3QJQ0AA8YtMJsceGEvE
+         8WgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VUVv9MTjN3o4lS4ubMPiD1BExy7qbG6BXOOhNOMCzhI=;
+        b=4FkWR9h99/T1FYdJce18MrtKEzY8Ag6VyGoCAt2RnUmaXsrm0VYxPvE4+p5EAacftL
+         0iWHBcySvlLgYKKq8BQ1EAbWP5d7wK/OEoMRwgP+QA4fT2nPAHmCgZ9McyUFDjuFhGOt
+         fPZzoRbcbrxinj/V5OUoAYhrNW0w3hohr7xROHm+KgjSLFhP/vHhXSIvJYih0KWV5son
+         3QX0BSwpRKqpRUacV0XfsCxEs0oecD+UqFzJzf+p8PNyUZfnkQbB6cM3Eru+hGOJT6xh
+         AHg/ZJe0uPnaOVR75LR8hRzDF9P2pOTkklx4Eu1sql+2QnOOCDi86P8BicVmsv+dxfkh
+         FALQ==
+X-Gm-Message-State: AOAM530rLbTg2/3YD3sjst8rju/EJ5EA+9BxeZa2q20JC0sjnZTgnGwP
+	hr6fpQ6Yg0IQe1Q2N9jYP5c=
+X-Google-Smtp-Source: ABdhPJyRBMDkpJFUTFQS7G+4/N1LZlZozF2NmOFa4a06BCK87fLlm7HZcfaClFpk+h1lXvzKFoozXQ==
+X-Received: by 2002:a05:6512:10c5:: with SMTP id k5mr4758736lfg.617.1634075247497;
+        Tue, 12 Oct 2021 14:47:27 -0700 (PDT)
+Received: from localhost.localdomain (h-158-174-22-5.NA.cust.bahnhof.se. [158.174.22.5])
+        by smtp.gmail.com with ESMTPSA id e15sm344837lfs.35.2021.10.12.14.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Oct 2021 14:47:27 -0700 (PDT)
+From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To: Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] media: imx: Constify static struct v4l2_m2m_ops
+Date: Tue, 12 Oct 2021 23:47:03 +0200
+Message-Id: <20211012214703.25433-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Transfer-Encoding: 8bit
 
- 	Hi Christian, Greg,
+The only usage of m2m_ops is to pass its address to v4l2_m2m_init(),
+which  takes a pointer to const v4l2_m2m_ops as argument. Make it const
+to allow the compiler to put it in read-only memory.
 
-CC devicetree, linux-renesas-soc
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-csc-scaler.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, 8 May 2018, Christian Gromm wrote:
-> This patch removes the dependency to platform specific source files
-> that do platform specific initialization and supply the IRQ number.
-> Instead DT code is added
->
-> Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index eb6da9b9d8ba..1fd39a2fca98 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -820,7 +820,7 @@ static const struct v4l2_file_operations ipu_csc_scaler_fops = {
+ 	.mmap		= v4l2_m2m_fop_mmap,
+ };
+ 
+-static struct v4l2_m2m_ops m2m_ops = {
++static const struct v4l2_m2m_ops m2m_ops = {
+ 	.device_run	= device_run,
+ 	.job_abort	= job_abort,
+ };
+-- 
+2.33.0
 
-This patch bypassed review by the DT people, and ended up in v4.18 as
-commit 21e57ff086056c01 ("staging: most: dim2: use device tree").
-
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> +static const struct of_device_id dim2_of_match[] = {
-> +	{
-> +		.compatible = "fsl,imx6q-mlb150",
-> +		.data = plat_data + FSL_MX6
-> +	},
-> +	{
-> +		.compatible = "renesas,mlp",
-> +		.data = plat_data + RCAR_H2
-> +	},
-> +	{
-> +		.compatible = "rcar,medialb-dim2",
-> +		.data = plat_data + RCAR_M3
-> +	},
-> +	{
-> +		.compatible = "xlnx,axi4-os62420_3pin-1.00.a",
-> +	},
-> +	{
-> +		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
-> +	},
-> +	{},
-> };
-
-There are no documented DT bindings for this hardware block, nor any
-upstream example users.  Given some compatible values do not follow
-standard practises (no idea about the other parts), it's very likely
-these de facto bindings, and all their out-of-tree users, will have to
-be changed.
-
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
