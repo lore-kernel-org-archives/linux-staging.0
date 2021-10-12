@@ -1,59 +1,53 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BCE2C83
-	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 21:47:29 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id t9so2813298lfd.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 14:47:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FACE2C83
+	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 22:11:50 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id i24so2762431lfj.13
+        for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 15:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VUVv9MTjN3o4lS4ubMPiD1BExy7qbG6BXOOhNOMCzhI=;
-        b=FooP3E8Nhhx6bq4Jp1qsHB6rl4d1cGpg9dHHqtC1eQENLPUqhufHKiJR6HmpbYKC89
-         XSE8KQaTXvhRjA/reL/kDv65k3lly5oXpuHojoitApvUH1j9P30m/xoT5DVMt3uY3KPA
-         K85kr9uxfKRh2+QAhf7RgCgqtywUce9NvEGeI1jfd2ymCjL4A4H79UzpNBHN82U/uVTd
-         yjkobqhckq8ffxdniBD0lMPELsPoTGzrZ5A6TXmoP/zgVDBUOwlsJKLs+dlSAd0b8xEp
-         mUTMU+LhlMNYw8hMb+gisSs5R7XvuID1vOkjDLpxS5GhaSUzN3QJQ0AA8YtMJsceGEvE
-         8WgA==
+        bh=PB0eDMKhk86i0GI1+A0jAKhTWNFDGyw5uusrHp5qJ1o=;
+        b=S1OiTP1dWe72LOR+oSOBC80jt1H1zlBIVX4x6c0VO9fYYYYlJV9jIoBJcmiir1CgZa
+         n/UUUUjfYZoqNE0vw4ZzgPB03GAJ/j3ffCDPLwoImscEzNeP1RHSPBBEzZPgSdiGdqte
+         3t0C6qwdCyPPsdinRhIx5a2du9iE4zGl3E4Xfo95x6xJsFA+w+0t3ocBUBxxYcBfdP7V
+         XSKTRGeldYrhJ66ILf7kPHtvZOAgZAXqCn6r0T04NxuMnKbeDnqo9wj9Dy31ydqxc1k2
+         qSTFz71PGVYfV0nBypO0UDPSUH69CV6KxE2YRgrwtk9TZZUxfOgq2cZcJ80d6UdaEaPa
+         Fg3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VUVv9MTjN3o4lS4ubMPiD1BExy7qbG6BXOOhNOMCzhI=;
-        b=4FkWR9h99/T1FYdJce18MrtKEzY8Ag6VyGoCAt2RnUmaXsrm0VYxPvE4+p5EAacftL
-         0iWHBcySvlLgYKKq8BQ1EAbWP5d7wK/OEoMRwgP+QA4fT2nPAHmCgZ9McyUFDjuFhGOt
-         fPZzoRbcbrxinj/V5OUoAYhrNW0w3hohr7xROHm+KgjSLFhP/vHhXSIvJYih0KWV5son
-         3QX0BSwpRKqpRUacV0XfsCxEs0oecD+UqFzJzf+p8PNyUZfnkQbB6cM3Eru+hGOJT6xh
-         AHg/ZJe0uPnaOVR75LR8hRzDF9P2pOTkklx4Eu1sql+2QnOOCDi86P8BicVmsv+dxfkh
-         FALQ==
-X-Gm-Message-State: AOAM530rLbTg2/3YD3sjst8rju/EJ5EA+9BxeZa2q20JC0sjnZTgnGwP
-	hr6fpQ6Yg0IQe1Q2N9jYP5c=
-X-Google-Smtp-Source: ABdhPJyRBMDkpJFUTFQS7G+4/N1LZlZozF2NmOFa4a06BCK87fLlm7HZcfaClFpk+h1lXvzKFoozXQ==
-X-Received: by 2002:a05:6512:10c5:: with SMTP id k5mr4758736lfg.617.1634075247497;
-        Tue, 12 Oct 2021 14:47:27 -0700 (PDT)
+        bh=PB0eDMKhk86i0GI1+A0jAKhTWNFDGyw5uusrHp5qJ1o=;
+        b=ogLuRWl3m7g69w1sHcxPTmDDg5tCEWzvYMdfsra4Ig92Ue7PRBa7NcQpibgXTCc31t
+         6SG/BIncCFrOcOEwv8/vdL92dkYidTtQysa+btDuLdgrg2MhOD6rOXABj4qTo2WRqqA6
+         v7iBtqPLqejFX2eBIwewaqJwKDoUEkboIiG9hOTes8rYcnlpJeKcFuPtXZX6eHd8yHKp
+         GReIMzo+j1e+QPOxOy74xL2rplDMb9m5PuLSjn7a9x0jFgLKTIbIwjWwv6KjYC6/P3M5
+         oc5cWIPhALRnWLg9eLOqSydQ8vS24Qy85bGbFKK8pT2/ns7AyAwNaBUSpEbkxCw7p7xU
+         8M8Q==
+X-Gm-Message-State: AOAM531N0i0UBeBbCc9HypOe108W5B5nv3eiQNEM/pGTaoS+jCfYe0Os
+	4lZGiUjpfr5wZTJvAdGTr/Q=
+X-Google-Smtp-Source: ABdhPJzhfBx5c1yogIsQxrarVmSKN6V4lDQZbMNMVOMA7DFH4f6xxS3aIqwHk7TFuKFe4AJ/YqRnpQ==
+X-Received: by 2002:a2e:8756:: with SMTP id q22mr24920778ljj.271.1634076708253;
+        Tue, 12 Oct 2021 15:11:48 -0700 (PDT)
 Received: from localhost.localdomain (h-158-174-22-5.NA.cust.bahnhof.se. [158.174.22.5])
-        by smtp.gmail.com with ESMTPSA id e15sm344837lfs.35.2021.10.12.14.47.26
+        by smtp.gmail.com with ESMTPSA id v2sm645467lfo.119.2021.10.12.15.11.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 14:47:27 -0700 (PDT)
+        Tue, 12 Oct 2021 15:11:47 -0700 (PDT)
 From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
 	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH] media: imx: Constify static struct v4l2_m2m_ops
-Date: Tue, 12 Oct 2021 23:47:03 +0200
-Message-Id: <20211012214703.25433-1-rikard.falkeborn@gmail.com>
+Subject: [PATCH] staging: media: rkvdec: Constify static struct v4l2_m2m_ops
+Date: Wed, 13 Oct 2021 00:11:44 +0200
+Message-Id: <20211012221144.30638-1-rikard.falkeborn@gmail.com>
 X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -63,28 +57,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The only usage of m2m_ops is to pass its address to v4l2_m2m_init(),
-which  takes a pointer to const v4l2_m2m_ops as argument. Make it const
+The only usage of rkvdec_m2m_ops is to pass its address to v4l2_m2m_init(),
+which takes a pointer to const v4l2_m2m_ops as argument. Make it const
 to allow the compiler to put it in read-only memory.
 
 Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
 ---
- drivers/staging/media/imx/imx-media-csc-scaler.c | 2 +-
+ drivers/staging/media/rkvdec/rkvdec.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
-index eb6da9b9d8ba..1fd39a2fca98 100644
---- a/drivers/staging/media/imx/imx-media-csc-scaler.c
-+++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
-@@ -820,7 +820,7 @@ static const struct v4l2_file_operations ipu_csc_scaler_fops = {
- 	.mmap		= v4l2_m2m_fop_mmap,
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index bf00fe6534a3..28aab5c7fe33 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -677,7 +677,7 @@ static void rkvdec_device_run(void *priv)
+ 		rkvdec_job_finish(ctx, VB2_BUF_STATE_ERROR);
+ }
+ 
+-static struct v4l2_m2m_ops rkvdec_m2m_ops = {
++static const struct v4l2_m2m_ops rkvdec_m2m_ops = {
+ 	.device_run = rkvdec_device_run,
  };
  
--static struct v4l2_m2m_ops m2m_ops = {
-+static const struct v4l2_m2m_ops m2m_ops = {
- 	.device_run	= device_run,
- 	.job_abort	= job_abort,
- };
 -- 
 2.33.0
 
