@@ -1,74 +1,62 @@
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEDA2C83
-	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 07:52:34 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id aCZEm6H77k3b0aCZHmPQ6C; Tue, 12 Oct 2021 09:51:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1634025086; bh=hUa4Afqd5gg+cquL4Lyv8KpPDbtL0wmho/7jZ8PFIWU=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=tNeF8x+t2GYOTo2hqqG6/MyC3upJSR2SYjwkLIe9D3vRISYjGiWBGP9Ebx1C8/iBT
-	 YwLVkjmIo9sf2VJ7Pa5s+oyWebiBHJOjm6fpIsr3wlbwYYRNGqQqQWUsFbFAqxKPpW
-	 gCuvgzgcuz5RtL+sKc/Y0/n0pXXFsOJ9F1a50d3nTLj2FwdXXH2CI4anIq294Il17Q
-	 wWnSTxlmat2A+FoOnGwgXny5QWsEiaQkLQSDAnuTMcJ9MgfFsBmPsmZG7Cjn1aioc/
-	 FnDSzpABEXE6OqxNUjbrIsWom3V6BgeH3/qcze84UYtnxRv8o+koRlsNIbVqB1RklK
-	 2p5d7iUsmfcTQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2092C83
+	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 08:12:32 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1maCta-0002e4-Ow; Tue, 12 Oct 2021 10:12:22 +0200
+Received: from pza by lupine with local (Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1maCtZ-0003zX-4a; Tue, 12 Oct 2021 10:12:21 +0200
+Message-ID: <7542e44fdb0a86e26eab3331215694e286b54adc.camel@pengutronix.de>
 Subject: Re: [PATCH v2] i.MX6: Support 16-bit BT.1120 video input
-To: Philipp Zabel <p.zabel@pengutronix.de>, =?UTF-8?Q?Krzysztof_Ha=c5=82asa?=
- <khalasa@piap.pl>, Steve Longerbeam <slongerbeam@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Hans Verkuil <hverkuil@xs4all.nl>, Krzysztof =?UTF-8?Q?Ha=C5=82asa?=
+	 <khalasa@piap.pl>, Steve Longerbeam <slongerbeam@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
  Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org,  linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev,  linux-arm-kernel@lists.infradead.org
+Date: Tue, 12 Oct 2021 10:12:21 +0200
+In-Reply-To: <3a638276-8a1b-835e-1728-669bbd49a1ac@xs4all.nl>
 References: <m34k9uml6s.fsf@t19.piap.pl>
- <07f22ee105dd8d3eaa47cbb27428032f5b9e3043.camel@pengutronix.de>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3a638276-8a1b-835e-1728-669bbd49a1ac@xs4all.nl>
-Date: Tue, 12 Oct 2021 09:51:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+	 <07f22ee105dd8d3eaa47cbb27428032f5b9e3043.camel@pengutronix.de>
+	 <3a638276-8a1b-835e-1728-669bbd49a1ac@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.30.5-1.1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <07f22ee105dd8d3eaa47cbb27428032f5b9e3043.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfFBykBnb47KwmOMm4EBR7GXoDmMfMKdKmTpO2i0lJ9mTg8IddA/s/X8673oOlGMvnUSqBzBBMws7G/nTXkhxogsVGrxpp3IYrM3SIeJLQzMTrmClrnMR
- HdGkSOiXUu2kXFdhlPg6y+h9+PXCn003MZQO/+epVf6NSPJxTAtOeXduklh7OoZftoA6J9LJ20f7VjFtnZc6qxylIrrjfplHXNA7q+tJ8aMeIE8+WidTDPeY
- pdZ7bBl1/AYYjR8dUJ/AsGasTd1ONXMuZ9mC6YnHcr1ejnR5hpBQpCsFcD25rFTdeIGWz3egotziVrjwzl3uPlNMgjkuhcEMz0ZTdj5jPkWKIWPAhN96CEG0
- ECj6P/9IjTwulCrUDcx4Hbh2ygkYzWmT27dhiiD0Ucb5eL5mQPbxDxQKt+j9NxVfasBIJTfxya/rOtB+AAbAbd484BfC4Qbp2gi6BfjKo0LAAR218HFJeLQ1
- chTqMmt6jo9ugma1fSFRZojdZVVVru2tfjbYcHbl7uKsVzSMD6j95mZdVHzA6Xg57WZpeBZrcdVTtb120rqb06OfZ8oCd24DnBZEs8Wv/6M+RjpxB2afDdWu
- w4bhWoizFxDygqgi48MaLlIV2PWFvRh/HDlS53h5/23XW9oxnYm7zbwlxWX1PavG1aY=
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Hi Philipp,
+Hi Hans,
 
-I can take this patch and merge it, right? Even though it mostly changes
-drivers/gpu/ipu-v3/ipu-csi.c, it is still something for the media tree to pick
-up, I think. Just checking to avoid this patch going in via two subsystems...
+On Tue, 2021-10-12 at 09:51 +0200, Hans Verkuil wrote:
+> Hi Philipp,
+>=20
+> I can take this patch and merge it, right? Even though it mostly changes
+> drivers/gpu/ipu-v3/ipu-csi.c, it is still something for the media tree to=
+ pick
+> up, I think. Just checking to avoid this patch going in via two subsystem=
+s...
 
-Regards,
+Yes, thank you.
 
-	Hans
+Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-On 08/10/2021 13:31, Philipp Zabel wrote:
-> On Wed, 2021-10-06 at 08:13 +0200, Krzysztof Hałasa wrote:
->> Confirmed to work with ADV7610 HDMI receiver.
->>
->> Signed-off-by: Krzysztof Hałasa <khalasa@piap.pl>
-> 
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> 
-> regards
-> Philipp
-> 
+to merge via the media tree.
 
+regards
+Philipp
