@@ -1,172 +1,91 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from newton.telenet-ops.be (newton.telenet-ops.be [195.130.132.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02342C80;
-	Tue, 12 Oct 2021 16:08:51 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id r18so68549268wrg.6;
-        Tue, 12 Oct 2021 09:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8iTn6JCetRXd4IT612o9kFxWnkw0z7CnatM7cjVZeCw=;
-        b=VWmxe1rkc0SyCEnv6WESlmQl4KwCG/9Ve7fPdhu0kMByCPv7NAVfpPamI9IdcNWGMT
-         ipqW8UYh6yzkpwjgWmFIya7VXL40v0YXl/CVJTtXq25v5eL8NskoVzx8n3zI1mBrNgkD
-         CqXrB4oTKkvdg015w7SMxcYVe+XWQsrsiB4e9BEIiSJRyHVHE50BeTMjE9CoF9MnT5lS
-         3npz7WEyxAoh9Zj7CXKMfE7OBfFH+gGK0uzMMfZJ+LmFBZKZ1WMk2jR76EuP/NwtGsAO
-         7BCoyBjbvjdP42PjEkXl3GM20zpH/sJ0RaPwh87anEucKurtIuoE2RwquwoYKRVbh8WC
-         nKEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8iTn6JCetRXd4IT612o9kFxWnkw0z7CnatM7cjVZeCw=;
-        b=kHr14Yw8qn/inEUe/qczqJydbBgQCZnuX8hIocv7vO04lRH0b0uwtmXpy4TxIUujLO
-         YAQfaCgNsyRZCOHZ2PQL4y4LuIApFJzXyZqUygy769d5mnOYzoCV/fQCAi7ertkj75+Q
-         eCXARwpCDc4GB5PgCEJxIDVQfGqXWnth6AQa5VmAZF8VJMZgakpFrdvkvqyLKTYO9qI8
-         FPypIzUDVEm+NFITxgbISm4ZPC6jAydfJQBqUzJFUatTz+xSmkk8GW4dBxLTbW6N3iBR
-         bCIJqK801WFHHAoNQqkKE5UqUqXGOfktbXRizk0fVD+ipa2OvD3U5qZ4SxH8VsdCWS3b
-         W4qg==
-X-Gm-Message-State: AOAM531PdSEAnKwLFix41CesfsoABAhRk1jZXL89bvNW16E3PQSJpuR9
-	kiydNTqVC740yWLJKWPCXT0=
-X-Google-Smtp-Source: ABdhPJyCW/aSSXgGlpCvgSSH1yQrJXNiVnC7SeluZxb7rKiMZjvpzOnH5ye7V3mz1ZiHn4cmsLywnw==
-X-Received: by 2002:adf:979a:: with SMTP id s26mr33782239wrb.2.1634054930069;
-        Tue, 12 Oct 2021 09:08:50 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id s186sm3172217wme.14.2021.10.12.09.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 09:08:49 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
-Date: Tue, 12 Oct 2021 18:08:48 +0200
-Message-ID: <1705005.VLH7GnMWUR@kista>
-In-Reply-To: <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com> <21222555.EfDdHjke4D@kista> <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEC172
+	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 18:23:06 +0000 (UTC)
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+	by newton.telenet-ops.be (Postfix) with ESMTPS id 4HTP283lbMzMr38j
+	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 20:14:24 +0200 (CEST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:9c93:91ff:d58:ecfb])
+	by laurent.telenet-ops.be with bizsmtp
+	id 56EE2600J0KW32a016EEoF; Tue, 12 Oct 2021 20:14:17 +0200
+Received: from geert (helo=localhost)
+	by ramsan.of.borg with local-esmtp (Exim 4.93)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1maMI2-004QmP-Cm; Tue, 12 Oct 2021 20:14:14 +0200
+Date: Tue, 12 Oct 2021 20:14:14 +0200 (CEST)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+X-X-Sender: geert@ramsan.of.borg
+To: Christian Gromm <christian.gromm@microchip.com>, 
+    gregkh@linuxfoundation.org
+cc: Rob Herring <robh+dt@kernel.org>, 
+    Nikita Yushchenko <nikita.yoush@cogentembedded.com>, 
+    linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
+    linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 23/28] staging: most: dim2: use device tree
+In-Reply-To: <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
+Message-ID: <alpine.DEB.2.22.394.2110121749450.1045463@ramsan.of.borg>
+References: <1525772716-15742-1-git-send-email-christian.gromm@microchip.com> <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 
-CC: Alex Bee
+ 	Hi Christian, Greg,
 
-Alex, please take a look to these patches too.
+CC devicetree, linux-renesas-soc
 
-Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard napisal(a=
-):
->=20
-> Le 12/10/2021 =C3=A0 17:34, Jernej =C5=A0krabec a =C3=A9crit :
-> > Hi Benjamin!
-> >
-> > Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard=20
-napisal(a):
-> >> This series aims to clean up Reference Picture Set usage and flags.
-> >>
-> >> Long term flag was named with RPS prefix while it is not used for RPS
-> >> but for mark long term references in DBP. Remane it and remove the two
-> >> other useless RPS flags.
-> >>
-> >> Clarify documentation about RPS lists content and make sure that Hantro
-> >> driver use them correctly (i.e without look up in DBP).
-> >>
-> >> These patches are the last in my backlog impacting HEVC uAPI.
-> >>  From my point of view, once they get merged, you could start talking
-> >> about how move HEVC uAPI to stable.
-> > With your changes, HEVC uAPI controls still won't be complete. Cedrus=20
-needs
-> > entry point control, which in turn needs dynamic array support. I'm a b=
-it=20
-lazy
-> > implementing that control, but I guess I can take a look in a month or =
-so.
-> > rkvdec also needs more fields for HEVC. With patches collected here:
-> > https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/
-> > patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
-> > fluster HEVC test score is reportedly 121/135 (8-bit tests only).
->=20
-> Hi Jernej,
->=20
-> Thanks for your feedback, getting a list of missing items in HEVC uAPI
-> will definitively help to fill the hope.
-> The patch you mention for rkvdec are already merged in mainline kernel (at
-> least for uAPI part).
+On Tue, 8 May 2018, Christian Gromm wrote:
+> This patch removes the dependency to platform specific source files
+> that do platform specific initialization and supply the IRQ number.
+> Instead DT code is added
+>
+> Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
 
-Are they? What about:
-video_parameter_set_id
-seq_parameter_set_id
-pic_parameter_set_id
-short_term_ref_pic_set_size
-long_term_ref_pic_set_size
+This patch bypassed review by the DT people, and ended up in v4.18 as
+commit 21e57ff086056c01 ("staging: most: dim2: use device tree").
 
-At least I don't see them in linux-next. Maybe that information can be=20
-obtained in some other way?
+> --- a/drivers/staging/most/dim2/dim2.c
+> +++ b/drivers/staging/most/dim2/dim2.c
+> +static const struct of_device_id dim2_of_match[] = {
+> +	{
+> +		.compatible = "fsl,imx6q-mlb150",
+> +		.data = plat_data + FSL_MX6
+> +	},
+> +	{
+> +		.compatible = "renesas,mlp",
+> +		.data = plat_data + RCAR_H2
+> +	},
+> +	{
+> +		.compatible = "rcar,medialb-dim2",
+> +		.data = plat_data + RCAR_M3
+> +	},
+> +	{
+> +		.compatible = "xlnx,axi4-os62420_3pin-1.00.a",
+> +	},
+> +	{
+> +		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
+> +	},
+> +	{},
+> };
 
-> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and=20
-entry_point_offset_minus1[ i ]
-> in HEVC specifications ?
+There are no documented DT bindings for this hardware block, nor any
+upstream example users.  Given some compatible values do not follow
+standard practises (no idea about the other parts), it's very likely
+these de facto bindings, and all their out-of-tree users, will have to
+be changed.
 
-Yes, Cedrus needs to know whole list of entry points. I don't think we need=
- to=20
-worry about offset_len_minus1, list could be pre-processed - just number of=
-=20
-entry points and their values.
+Gr{oetje,eeting}s,
 
-Best regards,
-Jernej
+ 						Geert
 
->=20
-> Regards,
-> Benjamin
->=20
-> >
-> > I would certainly wait with moving HEVC uAPI to stable.
-> >
-> > Best regards,
-> > Jernej
-> >
-> >> version 2:
-> >> - change DPB field name from rps to flags
-> >>
-> >> Please note that the only purpose of commits 3 and 4 is to allow to te=
-st
-> >> G2 hardware block for IMX8MQ until a proper solution isuing power doma=
-in
-> >> can be found. Do not merge them.
-> >>
-> >> GStreamer HEVC plugin merge request can be found here:
-> >> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/10=
-79
-> >>
-> >> With those piece of code fluster score is 77/147.
-> >>
-> >> Benjamin
-> >>
-> >> Benjamin Gaignard (4):
-> >>    media: hevc: Remove RPS named flags
-> >>    media: hevc: Embedded indexes in RPS
-> >>    media: hantro: Use syscon instead of 'ctrl' register
-> >>    arm64: dts: imx8mq: Add node to G2 hardware
-> >>
-> >>   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
-> >>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
-> >>   drivers/staging/media/hantro/hantro.h         |  5 +-
-> >>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
-> >>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-----=
-=2D-
-> >>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
-> >>   include/media/hevc-ctrls.h                    |  6 +--
-> >>   7 files changed, 84 insertions(+), 61 deletions(-)
-> >>
-> >> --=20
-> >> 2.30.2
-> >>
-> >>
-> >
->=20
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
