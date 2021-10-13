@@ -1,136 +1,154 @@
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-eopbgr1310109.outbound.protection.outlook.com [40.107.131.109])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FBC2C85
-	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 07:02:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WH+Fj+vTg64EHGEyB/5BOfPNB76yeSuiGjO+rBGPZl8MXH6L7UqUKztnKODGvt76BADwIg3QWoItcUZTQb4A+WpccfOqOUjGZKimYvww/H7+uWZfzTQimfJpXD31ZtbJhA5JBiiXjy5p9od6gFSe1oY/O/laVcYG3KsA10K7LI/fFes3Ve9zRE4Mpmn3yOoe93WZR3RRVMM7FF5IEQ87ZMTrUmhw6fbpFqUNMNppkKDKfdDIoXT8RSTz6RtIcp7GADvRstGA1eqSNlLw5cG53sQpH1C0DqMuY1SoLXcDTreL2xjgKbldXQPvZJKDJl30aGkJ0NWStn7kxYWhtniOPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qo9GlYrhkYre3CmliqtCG8fgOpGRKa9+ZbQW2orPQyI=;
- b=fZGiBgnSea5KrKSvCRQGou4FhBx3QvpSameuqU3+Km+QwRSKvxeWIF5Cb+Cl/zTLn658ndgqGY74Fid66ZqLpES6RKQrPJWGw8XplL+ArQGcwxzzWtb7cuIjT9LEVt0BpgMo6kBmIGAAhlEvy5n8ZH4pUAijnI8Ezp8z3gfh2k4GtpHmGQiC3Ak2rReh2nTQiOAGshc3jCRDteGiVEEW6vwJsqqR+uv2vEdXSb1/4WD2e1cVeMAcYwGHfbPqfVR56jX4xVpYddsS8o+Ae/cmpxTJbGtUkLrR2PU69osYTX9o9gTCG924KZqx8bMd5lyyNNErfarRkbSghfuASx7GeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qo9GlYrhkYre3CmliqtCG8fgOpGRKa9+ZbQW2orPQyI=;
- b=KsXZEPb8j4zOHTibhR1a5LoeBKjxfeV2qS9NhnRthgw+S2qYHeLEalmbPMS5XH4TUglG75Ma8v8sK+TaBMCGULuCfKC8OaQyBX3/z3n94vnwBfsFIybqc86IZtI/QqH32RykvMZGHGNQSQDMfMfjPYRvCLQG0eiM3VDRag/tlyc=
-Authentication-Results: lwfinger.net; dkim=none (message not signed)
- header.d=none;lwfinger.net; dmarc=none action=none header.from=vivo.com;
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
- SG2PR06MB3822.apcprd06.prod.outlook.com (2603:1096:4:dd::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.15; Wed, 13 Oct 2021 07:02:48 +0000
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::fc12:4e1b:cc77:6c0]) by SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::fc12:4e1b:cc77:6c0%6]) with mapi id 15.20.4608.015; Wed, 13 Oct 2021
- 07:02:48 +0000
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: kael_w@yeah.net,
-	Wan Jiabing <wanjiabing@vivo.com>
-Subject: [PATCH] staging: r8188eu: use kzalloc instead of kmalloc and memset
-Date: Wed, 13 Oct 2021 03:01:28 -0400
-Message-Id: <20211013070149.349-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.20.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK0PR01CA0062.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::26) To SG2PR06MB3367.apcprd06.prod.outlook.com
- (2603:1096:4:78::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1132C85
+	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 07:05:24 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id i24so7238860lfj.13
+        for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 00:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=PfnVX7fs5mOAIg5g0IqUeD9+3NCJp4mY90XboBsyTc0=;
+        b=PJn70qZ0of/CLO+ZxZI67bYUqZTq5pvu4J69Nxw34dbToC6iLbo2ubHihqjbU+KWvU
+         jT02ga161bl+/F27IiyaK0qLauaVLgIhgN5hOmgGgxjZ+XoUH49428zf2pNFYPHFfaCR
+         bplSjSXtd3xozXnXz7wtrKc5ZFxoqxM+9OoRo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=PfnVX7fs5mOAIg5g0IqUeD9+3NCJp4mY90XboBsyTc0=;
+        b=1x9SJkSWLgPSbmg0CPXdUkKyMfWMS0Go5f8l2SkcyqiKhwsxS5Njwyv2LGIIjfZMBj
+         cexCnQoI3yYjXCCbNzhRK4T/cjl5T/4uhITH+P3hlTUsvppiyA3SCdi19s0p494sMXXN
+         wwrC4tE0jlw8ocGxSCI/XQ/Kmj4r/GkJKwUdHnhJq7inOjCmxXfuwTNP/H0VNopO/ZKG
+         IAmqxfx27HMWAVUayA3ZEnZiQ+DeN6g/AM4YelCWjgycT5PV3zlvK89XO2O2ed+GKAMA
+         7QdPNedxctSAlv2ibjuYSgtlgMFAzr80nzUvnO5O/T4w/pSx3sNbXERl7Rema2449GN9
+         SoMw==
+X-Gm-Message-State: AOAM531a9w37P04oP3yiXgtYSHePSnzbpDR7iQqTBHhQXe4f7ROhgmkg
+	ztqpwT08MW2FUakZxj7NFAJeQ+GhrBdul6LLLxI2gg==
+X-Google-Smtp-Source: ABdhPJxYjLoBprzSyIXGzP7xjmn68PtGM7ruxdJkHX33kuYTv8KEpFlP6xZXAhM7paKE8nSoUpMNEuk3fyQqHBpe0pM=
+X-Received: by 2002:ac2:4e07:: with SMTP id e7mr1074589lfr.308.1634108722948;
+ Wed, 13 Oct 2021 00:05:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from localhost.localdomain (203.90.234.87) by HK0PR01CA0062.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend Transport; Wed, 13 Oct 2021 07:02:47 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 14dbd822-c295-45bd-98a9-08d98e1776e9
-X-MS-TrafficTypeDiagnostic: SG2PR06MB3822:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS:
-	<SG2PR06MB3822A3710CCEF8EA12B5A107ABB79@SG2PR06MB3822.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	V8HHWqyLsq1OHRuvrk0vwVpkJcMUx5aqkWf79pR/Jw0LfaSFk6vQ32I5FOqeEaLUBzzSV/xfbUeiDFNFwdyNozHE7GBB1llJimAgU1fA6w55N1lwNUV12kXKSYGeA+xoBfbeXxgk1tZANx8MqwOG5JjSesHtZLNXGFzi9Qw4uMUVd6sWOOHDSYoC4lLNPyZABLbxTJWLopt2S++Rjt2grxjxT36F9BRaiMz5TAfKQiDRmoAIcvq7eksFjFnZpRBVIsYqxQMrb3ixoCg2FDiMp+D+Kdo/IozZXoX4jEepJRjC+OgUzZ4XzpFTlhFpA4zSsGhJf3YcLV+xb0eQipgv5s8voKp3FWEsNcygJ6+MdiHECRCl+Cqm51/pcKvaRZ16pxN3c/MSKrvZ4mb/aXndJeE5QUNiQLE2JT/kwDTRd16129XoUurNU+uBdPsfh5NRj8WitUoDJnEjLGDCe+rb3GX4CGoI3rJs1dYjggQ3i4DzmJv3bmqczJgy7JDvysjLiNEAxPY+xaDeUpmPBhxk3rRs6LbCUADkByeYSUGYvyVrSf8GK0FyF4xg/RxztoXMMhCg9cGTPptMu9JIk+RnbJAUWLILHO09gz4Cy46qOUE/jaqoZzrGAtdUfXn9/hwah2CfFHMeh2feOym3S/htlPsNrxyBpjY87YYUAJ0KEMI5bqrQvDD9Cr3GU2poArHangAU3Pl4W8j2Wa0cO+Q5tg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(107886003)(66476007)(5660300002)(66946007)(6506007)(2906002)(26005)(1076003)(6666004)(6512007)(52116002)(8936002)(66556008)(956004)(2616005)(186003)(8676002)(110136005)(316002)(38100700002)(38350700002)(86362001)(36756003)(508600001)(6486002)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MEHLliqrX+pi/jbPjkDDCrilgM1L/z9InRj3OgNEB9Qfm901u3a6zgIdAQ29?=
- =?us-ascii?Q?/Na4nPsjt1rdJ0AKh9ACiUvAaupGuH4o7ctMMPq3cERsTwI/h3w7a9rnWRhD?=
- =?us-ascii?Q?102MMmmm3yFQPqZtyQcmdDiz/ydntcDUWeQRwiENdqy8srm52qaS+2+BEgb6?=
- =?us-ascii?Q?aH6T6O2p1QKfRPQ8f/dF7/xqv7nZLcsQyHt5+eqFo2mxMYcEftrpuj0zsX/K?=
- =?us-ascii?Q?ARCxEvuqSDUlUcy2TAXQtC8MS6edAq67Zm5I5s7J3yy43LWR2KF5mNdd/MDz?=
- =?us-ascii?Q?8AQoWZr6Ig0IBrDnjv+zwPIDvydpcgl7DYkfm15qywqERdEdRjGQlkuYO5rt?=
- =?us-ascii?Q?TQQndUiMNk27uEJkiBWqbsqCAjxT5QF0lXBR7/7Mg2/PT+B1pe2iDn6S4ciG?=
- =?us-ascii?Q?RBkz4rvpEQqVHiTGKJJ2aC3d4IP8KkvKChqSMnTt3SC9NhIxMEb9t0XSSyps?=
- =?us-ascii?Q?9L3x6nx6y6nMoZA1ZQ9JNFTJ7knVWs1Hvxwo/b+nlSMAUv25z738OuBI+BGv?=
- =?us-ascii?Q?OdHgMD3a68CDHHUb9Lo3XEMmBF0hI4KM9TqYuh0oYeXpYl/vsPGZXn21xOac?=
- =?us-ascii?Q?Tp2TzAg/0buZVV/vw94P+If3h8AnzjI38ojo2i1DZGow8oRaZ84wpBVmckLA?=
- =?us-ascii?Q?jPIMFxNmRAGZU+pxpb6Pu6d/tTLw2xUQr82mmfS8ASESQR3R66b6Mqt7o/Q6?=
- =?us-ascii?Q?sMt2ULNeVtSONMrwV7ud2QQUsVq0wwyEV2mYy1145VmLbnc+SGqeF10kM/+J?=
- =?us-ascii?Q?YN097Pp6GXU6lXDG4wCcri8s4GcuLQkfc6ITPIDlpu4X6OqzaU6ZXghrOj/5?=
- =?us-ascii?Q?VLfqv8B/DqwK4WYTIPxHhYccMk0ExGgWhe87IrmKicpFgwuGhFvcIJ9TjCoB?=
- =?us-ascii?Q?9/SuchNpRGbV+Ec7OV3sktQO1tRSemaCLmqfn96eiLV+sH8QYzlUd3R1PtGn?=
- =?us-ascii?Q?3SS8aLc/+wchIpiNKAIUNGk5othJ0UyAI34rdSUAVPnljXqqBaknhVpzTllA?=
- =?us-ascii?Q?W+ZKBKeD0M8NvyPV9S1Yh0z+shfjGmhKv5xr+Ia9GBZBhbdcD0SJfCGb0LU7?=
- =?us-ascii?Q?jGRkz4Dvc3DPCTf8B/UF0XyiHdNxAeru5CSDIdDZlM6VzueB5LIgHWl/hQeZ?=
- =?us-ascii?Q?/MkE33WcMBHGtB5CG9W+W7gqQXYKaFWP/hIN2DcIcgLYrAjwgKwwaFKiBocx?=
- =?us-ascii?Q?AeQbqnvp92qJu6g1Hu5f9nBWPhyKEJ6A787vrG+TTUSMQYCRhsCBjDmy76Qj?=
- =?us-ascii?Q?g3tTFX/PNoA7NDEqmbfVMaGPA5FaGmxaFPq6YK/jMJNbiNv0IxwEBEHKzHvG?=
- =?us-ascii?Q?x+JSVH55gcMmGrC0o1VNql8A?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14dbd822-c295-45bd-98a9-08d98e1776e9
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2021 07:02:48.2346
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cM6+WsZHXdAayfbe5zeJa8iZm9DkMQQV983cKAImHsQBz9DJvhOC6Txevi7VTDdFCqMLzAi4fQma2288MtBmqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB3822
+References: <20211008100423.739462-1-wenst@chromium.org> <f108f23dadc846222c63c88af826dae9c5082d83.camel@ndufresne.ca>
+In-Reply-To: <f108f23dadc846222c63c88af826dae9c5082d83.camel@ndufresne.ca>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 13 Oct 2021 15:05:11 +0800
+Message-ID: <CAGXv+5FnFq1mN79sqUp-o6pHirYvp55gurnsUCgqYvEAX2=4oQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] media: rkvdec: Align decoder behavior with Hantro and Cedrus
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, linux-staging@lists.linux.dev, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix following coccicheck warning:
-./drivers/staging/r8188eu/os_dep/ioctl_linux.c:422:10-17:
-WARNING: kzalloc should be used for pwep, instead of kmalloc/memset
+Hi,
 
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On Fri, Oct 8, 2021 at 11:42 PM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Hi Chen-Yu,
+>
+> thanks for looking into this.
+>
+> Le vendredi 08 octobre 2021 =C3=A0 18:04 +0800, Chen-Yu Tsai a =C3=A9crit=
+ :
+> > Hi everyone,
+> >
+> > While working on the rkvdec H.264 decoder for ChromeOS, I noticed some
+> > behavioral differences compared to Hantro and Cedrus:
+> >
+> > 1. The driver always overrides the sizeimage setting given by userspace
+> >    for the output format. This results in insufficient buffer space whe=
+n
+> >    running the ChromeOS video_decode_accelerator_tests test program,
+> >    likely due to a small initial resolution followed by dynamic
+> >    resolution change.
+> >
+> > 2. Doesn't support dynamic resolution change.
+> >
+> > This small series fixes both and aligns the behavior with the other two
+> > stateless decoder drivers. This was tested on the downstream ChromeOS
+> > 5.10 kernel with ChromeOS. Also compiled tested on mainline but I don't
+> > have any other RK3399 devices set up to test video stuff, so testing
+> > would be very much appreciated.
+> >
+> > Also, I'm not sure if user applications are required to check the value
+> > of sizeimage upon S_FMT return. If the value is different or too small,
+> > what can the application do besides fail? AFAICT it can't split the
+> > data of one frame (or slice) between different buffers.
+>
+> While most software out there just assumes that driver will do it right a=
+nd
+> crash when it's not the case, application that do map the buffer to CPU m=
+ust
+> read back the fmt structure as the drivers are all fail-safe and will mod=
+ify
+> that structure to a set of valid value s for the context.
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 0201f6fbeb25..51f46696a593 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -419,11 +419,10 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
- 		if (wep_key_len > 0) {
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
- 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
--			pwep = kmalloc(wep_total_len, GFP_KERNEL);
-+			pwep = kzalloc(wep_total_len, GFP_KERNEL);
- 			if (!pwep)
- 				goto exit;
- 
--			memset(pwep, 0, wep_total_len);
- 			pwep->KeyLength = wep_key_len;
- 			pwep->Length = wep_total_len;
- 			if (wep_key_len == 13) {
--- 
-2.20.1
+I believe what is happening in Chromium is that the decoder is opened with
+some default settings, including the smallest viable resolution for the
+output side, and the buffers allocated accordingly. When dynamic resolution
+change happens, the decoder does not check if the current buffers are
+sufficiently sized; it just assumes that they are. And when it starts
+pushing data into the buffers, it realizes they are too small and fails.
 
+The spec also says:
+
+    Clients are allowed to set the sizeimage field for variable length
+    compressed data flagged with V4L2_FMT_FLAG_COMPRESSED at ioctl
+    VIDIOC_ENUM_FMT, but the driver may ignore it and set the value itself,
+    or it may modify the provided value based on alignment requirements or
+    minimum/maximum size requirements.
+
+The spec only guarantees that the buffers are of sufficient size for the
+resolution configured at the time they were allocated/requested.
+
+So I think my first patch is a workaround for a somewhat broken userspace.
+But it seems the other stateless drivers are providing similar behavior,
+as I previously mentioned.
+
+> As for opposite direction (output vs capture) format being changed, this =
+should
+> be documented in the spec, if you find it too unclear or missing for sate=
+less
+> codec (I know it's there for stateful but can't remember, would have to r=
+e-read,
+> for stateless) let us know.
+
+AFAICT the capture side is working OK and to spec.
+
+
+Regards
+ChenYu
+
+> regards,
+> Nicolas
+>
+> >
+> > Andrzej, I believe the second patch would conflict with your VP9 series=
+.
+> >
+> >
+> > Regards
+> > ChenYu
+> >
+> > Chen-Yu Tsai (2):
+> >   media: rkvdec: Do not override sizeimage for output format
+> >   media: rkvdec: Support dynamic resolution changes
+> >
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c |  5 +--
+> >  drivers/staging/media/rkvdec/rkvdec.c      | 40 +++++++++++-----------
+> >  2 files changed, 23 insertions(+), 22 deletions(-)
+> >
+>
+>
