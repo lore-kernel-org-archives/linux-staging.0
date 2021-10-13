@@ -1,84 +1,136 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-eopbgr1310109.outbound.protection.outlook.com [40.107.131.109])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FACE2C83
-	for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 22:11:50 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id i24so2762431lfj.13
-        for <linux-staging@lists.linux.dev>; Tue, 12 Oct 2021 15:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PB0eDMKhk86i0GI1+A0jAKhTWNFDGyw5uusrHp5qJ1o=;
-        b=S1OiTP1dWe72LOR+oSOBC80jt1H1zlBIVX4x6c0VO9fYYYYlJV9jIoBJcmiir1CgZa
-         n/UUUUjfYZoqNE0vw4ZzgPB03GAJ/j3ffCDPLwoImscEzNeP1RHSPBBEzZPgSdiGdqte
-         3t0C6qwdCyPPsdinRhIx5a2du9iE4zGl3E4Xfo95x6xJsFA+w+0t3ocBUBxxYcBfdP7V
-         XSKTRGeldYrhJ66ILf7kPHtvZOAgZAXqCn6r0T04NxuMnKbeDnqo9wj9Dy31ydqxc1k2
-         qSTFz71PGVYfV0nBypO0UDPSUH69CV6KxE2YRgrwtk9TZZUxfOgq2cZcJ80d6UdaEaPa
-         Fg3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PB0eDMKhk86i0GI1+A0jAKhTWNFDGyw5uusrHp5qJ1o=;
-        b=ogLuRWl3m7g69w1sHcxPTmDDg5tCEWzvYMdfsra4Ig92Ue7PRBa7NcQpibgXTCc31t
-         6SG/BIncCFrOcOEwv8/vdL92dkYidTtQysa+btDuLdgrg2MhOD6rOXABj4qTo2WRqqA6
-         v7iBtqPLqejFX2eBIwewaqJwKDoUEkboIiG9hOTes8rYcnlpJeKcFuPtXZX6eHd8yHKp
-         GReIMzo+j1e+QPOxOy74xL2rplDMb9m5PuLSjn7a9x0jFgLKTIbIwjWwv6KjYC6/P3M5
-         oc5cWIPhALRnWLg9eLOqSydQ8vS24Qy85bGbFKK8pT2/ns7AyAwNaBUSpEbkxCw7p7xU
-         8M8Q==
-X-Gm-Message-State: AOAM531N0i0UBeBbCc9HypOe108W5B5nv3eiQNEM/pGTaoS+jCfYe0Os
-	4lZGiUjpfr5wZTJvAdGTr/Q=
-X-Google-Smtp-Source: ABdhPJzhfBx5c1yogIsQxrarVmSKN6V4lDQZbMNMVOMA7DFH4f6xxS3aIqwHk7TFuKFe4AJ/YqRnpQ==
-X-Received: by 2002:a2e:8756:: with SMTP id q22mr24920778ljj.271.1634076708253;
-        Tue, 12 Oct 2021 15:11:48 -0700 (PDT)
-Received: from localhost.localdomain (h-158-174-22-5.NA.cust.bahnhof.se. [158.174.22.5])
-        by smtp.gmail.com with ESMTPSA id v2sm645467lfo.119.2021.10.12.15.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 15:11:47 -0700 (PDT)
-From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FBC2C85
+	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 07:02:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WH+Fj+vTg64EHGEyB/5BOfPNB76yeSuiGjO+rBGPZl8MXH6L7UqUKztnKODGvt76BADwIg3QWoItcUZTQb4A+WpccfOqOUjGZKimYvww/H7+uWZfzTQimfJpXD31ZtbJhA5JBiiXjy5p9od6gFSe1oY/O/laVcYG3KsA10K7LI/fFes3Ve9zRE4Mpmn3yOoe93WZR3RRVMM7FF5IEQ87ZMTrUmhw6fbpFqUNMNppkKDKfdDIoXT8RSTz6RtIcp7GADvRstGA1eqSNlLw5cG53sQpH1C0DqMuY1SoLXcDTreL2xjgKbldXQPvZJKDJl30aGkJ0NWStn7kxYWhtniOPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qo9GlYrhkYre3CmliqtCG8fgOpGRKa9+ZbQW2orPQyI=;
+ b=fZGiBgnSea5KrKSvCRQGou4FhBx3QvpSameuqU3+Km+QwRSKvxeWIF5Cb+Cl/zTLn658ndgqGY74Fid66ZqLpES6RKQrPJWGw8XplL+ArQGcwxzzWtb7cuIjT9LEVt0BpgMo6kBmIGAAhlEvy5n8ZH4pUAijnI8Ezp8z3gfh2k4GtpHmGQiC3Ak2rReh2nTQiOAGshc3jCRDteGiVEEW6vwJsqqR+uv2vEdXSb1/4WD2e1cVeMAcYwGHfbPqfVR56jX4xVpYddsS8o+Ae/cmpxTJbGtUkLrR2PU69osYTX9o9gTCG924KZqx8bMd5lyyNNErfarRkbSghfuASx7GeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qo9GlYrhkYre3CmliqtCG8fgOpGRKa9+ZbQW2orPQyI=;
+ b=KsXZEPb8j4zOHTibhR1a5LoeBKjxfeV2qS9NhnRthgw+S2qYHeLEalmbPMS5XH4TUglG75Ma8v8sK+TaBMCGULuCfKC8OaQyBX3/z3n94vnwBfsFIybqc86IZtI/QqH32RykvMZGHGNQSQDMfMfjPYRvCLQG0eiM3VDRag/tlyc=
+Authentication-Results: lwfinger.net; dkim=none (message not signed)
+ header.d=none;lwfinger.net; dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ SG2PR06MB3822.apcprd06.prod.outlook.com (2603:1096:4:dd::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4608.15; Wed, 13 Oct 2021 07:02:48 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::fc12:4e1b:cc77:6c0]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::fc12:4e1b:cc77:6c0%6]) with mapi id 15.20.4608.015; Wed, 13 Oct 2021
+ 07:02:48 +0000
+From: Wan Jiabing <wanjiabing@vivo.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Subject: [PATCH] staging: media: rkvdec: Constify static struct v4l2_m2m_ops
-Date: Wed, 13 Oct 2021 00:11:44 +0200
-Message-Id: <20211012221144.30638-1-rikard.falkeborn@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	linux-kernel@vger.kernel.org
+Cc: kael_w@yeah.net,
+	Wan Jiabing <wanjiabing@vivo.com>
+Subject: [PATCH] staging: r8188eu: use kzalloc instead of kmalloc and memset
+Date: Wed, 13 Oct 2021 03:01:28 -0400
+Message-Id: <20211013070149.349-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.20.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK0PR01CA0062.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::26) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from localhost.localdomain (203.90.234.87) by HK0PR01CA0062.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.15 via Frontend Transport; Wed, 13 Oct 2021 07:02:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14dbd822-c295-45bd-98a9-08d98e1776e9
+X-MS-TrafficTypeDiagnostic: SG2PR06MB3822:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS:
+	<SG2PR06MB3822A3710CCEF8EA12B5A107ABB79@SG2PR06MB3822.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	V8HHWqyLsq1OHRuvrk0vwVpkJcMUx5aqkWf79pR/Jw0LfaSFk6vQ32I5FOqeEaLUBzzSV/xfbUeiDFNFwdyNozHE7GBB1llJimAgU1fA6w55N1lwNUV12kXKSYGeA+xoBfbeXxgk1tZANx8MqwOG5JjSesHtZLNXGFzi9Qw4uMUVd6sWOOHDSYoC4lLNPyZABLbxTJWLopt2S++Rjt2grxjxT36F9BRaiMz5TAfKQiDRmoAIcvq7eksFjFnZpRBVIsYqxQMrb3ixoCg2FDiMp+D+Kdo/IozZXoX4jEepJRjC+OgUzZ4XzpFTlhFpA4zSsGhJf3YcLV+xb0eQipgv5s8voKp3FWEsNcygJ6+MdiHECRCl+Cqm51/pcKvaRZ16pxN3c/MSKrvZ4mb/aXndJeE5QUNiQLE2JT/kwDTRd16129XoUurNU+uBdPsfh5NRj8WitUoDJnEjLGDCe+rb3GX4CGoI3rJs1dYjggQ3i4DzmJv3bmqczJgy7JDvysjLiNEAxPY+xaDeUpmPBhxk3rRs6LbCUADkByeYSUGYvyVrSf8GK0FyF4xg/RxztoXMMhCg9cGTPptMu9JIk+RnbJAUWLILHO09gz4Cy46qOUE/jaqoZzrGAtdUfXn9/hwah2CfFHMeh2feOym3S/htlPsNrxyBpjY87YYUAJ0KEMI5bqrQvDD9Cr3GU2poArHangAU3Pl4W8j2Wa0cO+Q5tg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(107886003)(66476007)(5660300002)(66946007)(6506007)(2906002)(26005)(1076003)(6666004)(6512007)(52116002)(8936002)(66556008)(956004)(2616005)(186003)(8676002)(110136005)(316002)(38100700002)(38350700002)(86362001)(36756003)(508600001)(6486002)(83380400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?MEHLliqrX+pi/jbPjkDDCrilgM1L/z9InRj3OgNEB9Qfm901u3a6zgIdAQ29?=
+ =?us-ascii?Q?/Na4nPsjt1rdJ0AKh9ACiUvAaupGuH4o7ctMMPq3cERsTwI/h3w7a9rnWRhD?=
+ =?us-ascii?Q?102MMmmm3yFQPqZtyQcmdDiz/ydntcDUWeQRwiENdqy8srm52qaS+2+BEgb6?=
+ =?us-ascii?Q?aH6T6O2p1QKfRPQ8f/dF7/xqv7nZLcsQyHt5+eqFo2mxMYcEftrpuj0zsX/K?=
+ =?us-ascii?Q?ARCxEvuqSDUlUcy2TAXQtC8MS6edAq67Zm5I5s7J3yy43LWR2KF5mNdd/MDz?=
+ =?us-ascii?Q?8AQoWZr6Ig0IBrDnjv+zwPIDvydpcgl7DYkfm15qywqERdEdRjGQlkuYO5rt?=
+ =?us-ascii?Q?TQQndUiMNk27uEJkiBWqbsqCAjxT5QF0lXBR7/7Mg2/PT+B1pe2iDn6S4ciG?=
+ =?us-ascii?Q?RBkz4rvpEQqVHiTGKJJ2aC3d4IP8KkvKChqSMnTt3SC9NhIxMEb9t0XSSyps?=
+ =?us-ascii?Q?9L3x6nx6y6nMoZA1ZQ9JNFTJ7knVWs1Hvxwo/b+nlSMAUv25z738OuBI+BGv?=
+ =?us-ascii?Q?OdHgMD3a68CDHHUb9Lo3XEMmBF0hI4KM9TqYuh0oYeXpYl/vsPGZXn21xOac?=
+ =?us-ascii?Q?Tp2TzAg/0buZVV/vw94P+If3h8AnzjI38ojo2i1DZGow8oRaZ84wpBVmckLA?=
+ =?us-ascii?Q?jPIMFxNmRAGZU+pxpb6Pu6d/tTLw2xUQr82mmfS8ASESQR3R66b6Mqt7o/Q6?=
+ =?us-ascii?Q?sMt2ULNeVtSONMrwV7ud2QQUsVq0wwyEV2mYy1145VmLbnc+SGqeF10kM/+J?=
+ =?us-ascii?Q?YN097Pp6GXU6lXDG4wCcri8s4GcuLQkfc6ITPIDlpu4X6OqzaU6ZXghrOj/5?=
+ =?us-ascii?Q?VLfqv8B/DqwK4WYTIPxHhYccMk0ExGgWhe87IrmKicpFgwuGhFvcIJ9TjCoB?=
+ =?us-ascii?Q?9/SuchNpRGbV+Ec7OV3sktQO1tRSemaCLmqfn96eiLV+sH8QYzlUd3R1PtGn?=
+ =?us-ascii?Q?3SS8aLc/+wchIpiNKAIUNGk5othJ0UyAI34rdSUAVPnljXqqBaknhVpzTllA?=
+ =?us-ascii?Q?W+ZKBKeD0M8NvyPV9S1Yh0z+shfjGmhKv5xr+Ia9GBZBhbdcD0SJfCGb0LU7?=
+ =?us-ascii?Q?jGRkz4Dvc3DPCTf8B/UF0XyiHdNxAeru5CSDIdDZlM6VzueB5LIgHWl/hQeZ?=
+ =?us-ascii?Q?/MkE33WcMBHGtB5CG9W+W7gqQXYKaFWP/hIN2DcIcgLYrAjwgKwwaFKiBocx?=
+ =?us-ascii?Q?AeQbqnvp92qJu6g1Hu5f9nBWPhyKEJ6A787vrG+TTUSMQYCRhsCBjDmy76Qj?=
+ =?us-ascii?Q?g3tTFX/PNoA7NDEqmbfVMaGPA5FaGmxaFPq6YK/jMJNbiNv0IxwEBEHKzHvG?=
+ =?us-ascii?Q?x+JSVH55gcMmGrC0o1VNql8A?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14dbd822-c295-45bd-98a9-08d98e1776e9
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2021 07:02:48.2346
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cM6+WsZHXdAayfbe5zeJa8iZm9DkMQQV983cKAImHsQBz9DJvhOC6Txevi7VTDdFCqMLzAi4fQma2288MtBmqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB3822
 
-The only usage of rkvdec_m2m_ops is to pass its address to v4l2_m2m_init(),
-which takes a pointer to const v4l2_m2m_ops as argument. Make it const
-to allow the compiler to put it in read-only memory.
+Fix following coccicheck warning:
+./drivers/staging/r8188eu/os_dep/ioctl_linux.c:422:10-17:
+WARNING: kzalloc should be used for pwep, instead of kmalloc/memset
 
-Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index bf00fe6534a3..28aab5c7fe33 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -677,7 +677,7 @@ static void rkvdec_device_run(void *priv)
- 		rkvdec_job_finish(ctx, VB2_BUF_STATE_ERROR);
- }
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 0201f6fbeb25..51f46696a593 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -419,11 +419,10 @@ static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param,
+ 		if (wep_key_len > 0) {
+ 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
+ 			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, KeyMaterial);
+-			pwep = kmalloc(wep_total_len, GFP_KERNEL);
++			pwep = kzalloc(wep_total_len, GFP_KERNEL);
+ 			if (!pwep)
+ 				goto exit;
  
--static struct v4l2_m2m_ops rkvdec_m2m_ops = {
-+static const struct v4l2_m2m_ops rkvdec_m2m_ops = {
- 	.device_run = rkvdec_device_run,
- };
- 
+-			memset(pwep, 0, wep_total_len);
+ 			pwep->KeyLength = wep_key_len;
+ 			pwep->Length = wep_total_len;
+ 			if (wep_key_len == 13) {
 -- 
-2.33.0
+2.20.1
 
