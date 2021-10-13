@@ -1,115 +1,346 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B3E2C81
-	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 13:11:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 75D69610FC;
-	Wed, 13 Oct 2021 13:11:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634130662;
-	bh=teGcBvjkKcvW58YVaruBcXJovWJTtD1vxXWTSxfLepM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mXPe2vE1fb9Pn6GDKQbsAJEAsUG/rxFjdlElS6D7bjH5kak9/st7J7N15QfVPIlU/
-	 jv/fD1vsHF6BENDGR6WV3qft2teF0clFGxJAkT2IrD7m4lQJHh9fGTz5ZJl5kWSqu6
-	 iVnt+ASwodVsiaxj0Ex+MLzz8F8/aH5Oc53Xdasg=
-Date: Wed, 13 Oct 2021 15:11:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Vegard Nossum <vegard.nossum@oracle.com>, linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	"open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>
-Subject: Re: [PATCH] staging: ks7010: select CRYPTO_HASH/CRYPTO_MICHAEL_MIC
-Message-ID: <YWba5CIZNpFkRKEm@kroah.com>
-References: <20211011152941.12847-1-vegard.nossum@oracle.com>
- <YWbQd51r8R3BprMi@kroah.com>
- <1bfd3945-3487-31ab-5489-9c12c759276b@oracle.com>
- <CAK8P3a05E2muUiy0KcRgzhGef-Xg99_pY3gnDpWt7uHmbTxVGg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20FD2C81
+	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 13:35:15 +0000 (UTC)
+Received: by mail-ua1-f53.google.com with SMTP id h4so4563265uaw.1
+        for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 06:35:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2Rz/QnFxuSPhGTlVTlZwY7VpCUitdMoDh4exGgbRPXE=;
+        b=AcnKRVaingRB+kcu/J13G1AKDGGkeUyHxcDVMLJ5f6ULa5KkCp0SXWLY6KHqJQ2zrv
+         zFXBaLzDQhxgyqFCWGYWP9k1l7R+TJIpLibVmR8ZP0QdtrIIksJOIuleMT2pG8kUpeOA
+         Qh4t5PIEoblVy6Hv6pgQX82FgbpTim19sWVNcpB11xyHzA6bOKNVBV1EGZXG9opw8uM+
+         mAh1BexBG7YcKXTkIE89WNuuNz7ewddM783dBrmBkuCbPTaHVx4lroLmdCGUEG0HCEgF
+         ql0F2D/51lQ3BjvTgqWu1ZFwGrs6qvYNCUGmgbQ5N+FN2UtYIlmsYnhlR7io6xr2hFWD
+         qicA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2Rz/QnFxuSPhGTlVTlZwY7VpCUitdMoDh4exGgbRPXE=;
+        b=b48aWK9UWaIOC9cNHRt4uVyGrWBy/ZiKj44fbKDrisOgVOx2nDj3DjLuQ5obhW4UXq
+         YwRmjSN0lh/zl3RMfG7XO3jkzO+Iz+18KZb0uMEeyreWgwN1ObStWOIXEbYwuaEamkHy
+         3U8v255UV/PKasb831990DK1UvfHJs6Pjla/G8jht8sJJVsbike+EtFAYVMDl12gXBSY
+         GAKaUYqi+piSNFK5zc4BrQuEERk2N9V0kJ0iGVTN3sLCyE6/nKJqgYt1US/8hJwRzbld
+         F/VHRA0tha8mCHFptRnINvNrS8HkNUMY680r92Al5AAFLS1s8Ary8SM97yhdY7omH3ye
+         Da7Q==
+X-Gm-Message-State: AOAM533FWb/J1cZXu3v7bXikjmaTH2hv47goUoQB7agMf7sGV3bD9A6J
+	K2okvMnHzOVH2w4rknMPa5HIau0xW/vu7L3VW+Y=
+X-Google-Smtp-Source: ABdhPJzvp37V2QEH/eThwzmC9Ld2Laf3bZ1GzgikSbrhs0RvmlSRnCNsOFxgQQ/IxW2vxfDhdehLPPSLfJ3nixBnmZE=
+X-Received: by 2002:ab0:30ce:: with SMTP id c14mr29923067uam.46.1634132114742;
+ Wed, 13 Oct 2021 06:35:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a05E2muUiy0KcRgzhGef-Xg99_pY3gnDpWt7uHmbTxVGg@mail.gmail.com>
+References: <20210922050035.18162-1-sergio.paracuellos@gmail.com>
+ <20210922050035.18162-3-sergio.paracuellos@gmail.com> <20211013130511.GB11036@lpieralisi>
+In-Reply-To: <20211013130511.GB11036@lpieralisi>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Wed, 13 Oct 2021 15:35:03 +0200
+Message-ID: <CAMhs-H8MV+RdL1cgjhBW=wUJm8Nfhe4h4GSC-DH0eLjbtz6wbg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] PCI: mt7621: Add MediaTek MT7621 PCIe host
+ controller driver
+To: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: linux-pci <linux-pci@vger.kernel.org>, John Crispin <john@phrozen.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Greg KH <gregkh@linuxfoundation.org>, 
+	"open list:MIPS" <linux-mips@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	NeilBrown <neil@brown.name>, linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Oct 13, 2021 at 03:03:41PM +0200, Arnd Bergmann wrote:
-> On Wed, Oct 13, 2021 at 2:51 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> > On 10/13/21 2:26 PM, Greg Kroah-Hartman wrote:
-> > > On Mon, Oct 11, 2021 at 05:29:41PM +0200, Vegard Nossum wrote:
-> > >> Fix the following build/link errors:
-> > >>
-> > >>   ld: drivers/staging/ks7010/ks_hostif.o: in function `michael_mic.constprop.0':
-> > >>   ks_hostif.c:(.text+0x95b): undefined reference to `crypto_alloc_shash'
-> > >>   ld: ks_hostif.c:(.text+0x97a): undefined reference to `crypto_shash_setkey'
-> > >>   ld: ks_hostif.c:(.text+0xa13): undefined reference to `crypto_shash_update'
-> > >>   ld: ks_hostif.c:(.text+0xa28): undefined reference to `crypto_shash_update'
-> > >>   ld: ks_hostif.c:(.text+0xa48): undefined reference to `crypto_shash_finup'
-> > >>   ld: ks_hostif.c:(.text+0xa6d): undefined reference to `crypto_destroy_tfm'
-> > >>
-> > >> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
-> > >> ---
-> > >>  drivers/staging/ks7010/Kconfig | 3 +++
-> > >>  1 file changed, 3 insertions(+)
-> > >>
-> > >> diff --git a/drivers/staging/ks7010/Kconfig b/drivers/staging/ks7010/Kconfig
-> > >> index 0987fdc2f70db..8ea6c09286798 100644
-> > >> --- a/drivers/staging/ks7010/Kconfig
-> > >> +++ b/drivers/staging/ks7010/Kconfig
-> > >> @@ -5,6 +5,9 @@ config KS7010
-> > >>      select WIRELESS_EXT
-> > >>      select WEXT_PRIV
-> > >>      select FW_LOADER
-> > >> +    select CRYPTO
-> > >> +    select CRYPTO_HASH
-> > >> +    select CRYPTO_MICHAEL_MIC
-> > >
-> > > Let's try to rely on 'depend' and not 'select' please.
-> >
-> > I used 'select' because it seemed to be the established pattern for
-> > these options.
-> 
-> Yes, this is the correct way to do it here. In general, using "depends on"
-> is better than "select", especially when crossing subsystem boundaries,
-> however mixing the two is what really hurts because of the circular
-> dependencies you'd get.
-> 
-> The only way we could use 'depends on' here would be to change all
-> the other drivers to do the same.
-> 
-> > Compare:
-> >
-> > $ find -name '*Kconfig*' | xargs git grep 'depends on CRYPTO$' | wc --lines
-> > 1
-> >
-> > $ find -name '*Kconfig*' | xargs git grep 'select CRYPTO$' | wc --lines
-> > 66
-> >
-> > $ find -name '*Kconfig*' | xargs git grep 'depends on CRYPTO' | wc --lines
-> > 87
-> >
-> > $ find -name '*Kconfig*' | xargs git grep 'select CRYPTO' | wc --lines
-> > 1005
-> >
-> > That said, I have found several other cases where CRYPTO_* algorithms
-> > are getting 'select'-ed without also selecting CRYPTO/CRYPTO_HASH, so I
-> > definitely see the problem you're trying to address.
-> >
-> > I've added some more people on Cc to see if there is a consensus on the
-> > best way to do this for the CRYPTO* options going forwards. Thoughts,
-> > anybody?
-> 
-> I don't think there is much point in trying to change the
-> existing pattern for crypto. We might want to change some of those
-> that use 'depends on' at the moment for consistency, though most of
-> those look correct as well.
+Hi Lorenzo,
 
-Ok, I'll take this as-is then.
+Thanks for the review. See my comments below.
 
-thanks,
+On Wed, Oct 13, 2021 at 3:05 PM Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
+>
+> On Wed, Sep 22, 2021 at 07:00:34AM +0200, Sergio Paracuellos wrote:
+> > Add driver for the PCIe controller of the MT7621 SoC.
+> >
+> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > ---
+> >  arch/mips/ralink/Kconfig                      |   3 +-
+> >  drivers/pci/controller/Kconfig                |   8 ++
+> >  drivers/pci/controller/Makefile               |   1 +
+> >  .../controller}/pci-mt7621.c                  |   0
+> >  drivers/staging/Kconfig                       |   2 -
+> >  drivers/staging/Makefile                      |   1 -
+> >  drivers/staging/mt7621-pci/Kconfig            |   8 --
+> >  drivers/staging/mt7621-pci/Makefile           |   2 -
+> >  drivers/staging/mt7621-pci/TODO               |   4 -
+> >  .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 ------------------
+> >  10 files changed, 11 insertions(+), 122 deletions(-)
+> >  rename drivers/{staging/mt7621-pci => pci/controller}/pci-mt7621.c (100%)
+> >  delete mode 100644 drivers/staging/mt7621-pci/Kconfig
+> >  delete mode 100644 drivers/staging/mt7621-pci/Makefile
+> >  delete mode 100644 drivers/staging/mt7621-pci/TODO
+> >  delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> >
+> > diff --git a/arch/mips/ralink/Kconfig b/arch/mips/ralink/Kconfig
+> > index c800bf5559b5..120adad51d6a 100644
+> > --- a/arch/mips/ralink/Kconfig
+> > +++ b/arch/mips/ralink/Kconfig
+> > @@ -51,7 +51,8 @@ choice
+> >               select SYS_SUPPORTS_HIGHMEM
+> >               select MIPS_GIC
+> >               select CLKSRC_MIPS_GIC
+> > -             select HAVE_PCI if PCI_MT7621
+> > +             select HAVE_PCI
+> > +             select PCI_DRIVERS_GENERIC
+> >               select SOC_BUS
+> >  endchoice
+> >
+> > diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+> > index 326f7d13024f..b76404be0360 100644
+> > --- a/drivers/pci/controller/Kconfig
+> > +++ b/drivers/pci/controller/Kconfig
+> > @@ -312,6 +312,14 @@ config PCIE_HISI_ERR
+> >         Say Y here if you want error handling support
+> >         for the PCIe controller's errors on HiSilicon HIP SoCs
+> >
+> > +config PCI_MT7621
+> > +     tristate "MediaTek MT7621 PCI Controller"
+> > +     depends on (RALINK && SOC_MT7621) || (MIPS && COMPILE_TEST)
+>
+> - Is there a chance we can remove the MIPS dependency from the
+>   COMPILE_TEST conditional ?
 
-greg k-h
+Driver make use of the following functions to properly configure MIPS
+IO coherency regions for used pci addresses:
+- 'mips_cps_numiocu()'
+- 'write_gcr_reg1_base()'
+- 'write_gcr_reg1_mask()'
+
+Without configuring this, the PCI subsystem won't work.
+These three are a MIPS thing and we want at the very least to make
+COMPILE_TEST available for MIPS. To avoid this I guess we will need
+stubs for all the other architectures and I am not really sure it is
+really worthly and makes sense.
+
+> - I am not a big fan of "SOC_XXX" config options dependencies, actually
+>   there is none in pci/controller. Is there a way to remove it ?
+
+I am not a Kconfig expert, so I am not sure :). This PCI driver needs
+only to be available for MIPS RALINK architecture for MT7621 SoCs and
+ideally enabled by default for SOC_MT7621. So I don't know if just
+doing the following is enough:
+
+config PCI_MT7621
+    tristate "MediaTek MT7621 PCI Controller"
+    depends on RALINK || (MIPS && COMPILE_TEST)
+    select PHY_MT7621_PCI
+    default SOC_MT7621
+    help
+        This selects a driver for the MediaTek MT7621 PCI Controller.
+
+Thanks in advance for clarification.
+
+Best regards,
+    Sergio Paracuellos
+
+>
+> Lorenzo
+>
+> > +     select PHY_MT7621_PCI
+> > +     default SOC_MT7621
+> > +     help
+> > +       This selects a driver for the MediaTek MT7621 PCI Controller.
+> > +
+> >  source "drivers/pci/controller/dwc/Kconfig"
+> >  source "drivers/pci/controller/mobiveil/Kconfig"
+> >  source "drivers/pci/controller/cadence/Kconfig"
+> > diff --git a/drivers/pci/controller/Makefile b/drivers/pci/controller/Makefile
+> > index aaf30b3dcc14..f42a566353cb 100644
+> > --- a/drivers/pci/controller/Makefile
+> > +++ b/drivers/pci/controller/Makefile
+> > @@ -37,6 +37,7 @@ obj-$(CONFIG_VMD) += vmd.o
+> >  obj-$(CONFIG_PCIE_BRCMSTB) += pcie-brcmstb.o
+> >  obj-$(CONFIG_PCI_LOONGSON) += pci-loongson.o
+> >  obj-$(CONFIG_PCIE_HISI_ERR) += pcie-hisi-error.o
+> > +obj-$(CONFIG_PCI_MT7621) += pci-mt7621.o
+> >  # pcie-hisi.o quirks are needed even without CONFIG_PCIE_DW
+> >  obj-y                                += dwc/
+> >  obj-y                                += mobiveil/
+> > diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/pci/controller/pci-mt7621.c
+> > similarity index 100%
+> > rename from drivers/staging/mt7621-pci/pci-mt7621.c
+> > rename to drivers/pci/controller/pci-mt7621.c
+> > diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+> > index e03627ad4460..59af251e7576 100644
+> > --- a/drivers/staging/Kconfig
+> > +++ b/drivers/staging/Kconfig
+> > @@ -86,8 +86,6 @@ source "drivers/staging/vc04_services/Kconfig"
+> >
+> >  source "drivers/staging/pi433/Kconfig"
+> >
+> > -source "drivers/staging/mt7621-pci/Kconfig"
+> > -
+> >  source "drivers/staging/mt7621-dma/Kconfig"
+> >
+> >  source "drivers/staging/ralink-gdma/Kconfig"
+> > diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+> > index c7f8d8d8dd11..76f413470bc8 100644
+> > --- a/drivers/staging/Makefile
+> > +++ b/drivers/staging/Makefile
+> > @@ -33,7 +33,6 @@ obj-$(CONFIG_KS7010)                += ks7010/
+> >  obj-$(CONFIG_GREYBUS)                += greybus/
+> >  obj-$(CONFIG_BCM2835_VCHIQ)  += vc04_services/
+> >  obj-$(CONFIG_PI433)          += pi433/
+> > -obj-$(CONFIG_PCI_MT7621)     += mt7621-pci/
+> >  obj-$(CONFIG_SOC_MT7621)     += mt7621-dma/
+> >  obj-$(CONFIG_DMA_RALINK)     += ralink-gdma/
+> >  obj-$(CONFIG_SOC_MT7621)     += mt7621-dts/
+> > diff --git a/drivers/staging/mt7621-pci/Kconfig b/drivers/staging/mt7621-pci/Kconfig
+> > deleted file mode 100644
+> > index ce58042f2f21..000000000000
+> > --- a/drivers/staging/mt7621-pci/Kconfig
+> > +++ /dev/null
+> > @@ -1,8 +0,0 @@
+> > -# SPDX-License-Identifier: GPL-2.0
+> > -config PCI_MT7621
+> > -     tristate "MediaTek MT7621 PCI Controller"
+> > -     depends on RALINK
+> > -     select PCI_DRIVERS_GENERIC
+> > -     help
+> > -       This selects a driver for the MediaTek MT7621 PCI Controller.
+> > -
+> > diff --git a/drivers/staging/mt7621-pci/Makefile b/drivers/staging/mt7621-pci/Makefile
+> > deleted file mode 100644
+> > index f4e651cf7ce3..000000000000
+> > --- a/drivers/staging/mt7621-pci/Makefile
+> > +++ /dev/null
+> > @@ -1,2 +0,0 @@
+> > -# SPDX-License-Identifier: GPL-2.0
+> > -obj-$(CONFIG_PCI_MT7621)       += pci-mt7621.o
+> > diff --git a/drivers/staging/mt7621-pci/TODO b/drivers/staging/mt7621-pci/TODO
+> > deleted file mode 100644
+> > index d674a9ac85c1..000000000000
+> > --- a/drivers/staging/mt7621-pci/TODO
+> > +++ /dev/null
+> > @@ -1,4 +0,0 @@
+> > -
+> > -- general code review and cleanup
+> > -
+> > -Cc: NeilBrown <neil@brown.name>
+> > diff --git a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt b/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> > deleted file mode 100644
+> > index 327a68267309..000000000000
+> > --- a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> > +++ /dev/null
+> > @@ -1,104 +0,0 @@
+> > -MediaTek MT7621 PCIe controller
+> > -
+> > -Required properties:
+> > -- compatible: "mediatek,mt7621-pci"
+> > -- device_type: Must be "pci"
+> > -- reg: Base addresses and lengths of the PCIe subsys and root ports.
+> > -- bus-range: Range of bus numbers associated with this controller.
+> > -- #address-cells: Address representation for root ports (must be 3)
+> > -- pinctrl-names : The pin control state names.
+> > -- pinctrl-0: The "default" pinctrl state.
+> > -- #size-cells: Size representation for root ports (must be 2)
+> > -- ranges: Ranges for the PCI memory and I/O regions.
+> > -- #interrupt-cells: Must be 1
+> > -- interrupt-map-mask and interrupt-map: Standard PCI IRQ mapping properties.
+> > -  Please refer to the standard PCI bus binding document for a more detailed
+> > -  explanation.
+> > -- status: either "disabled" or "okay".
+> > -- resets: Must contain an entry for each entry in reset-names.
+> > -  See ../reset/reset.txt for details.
+> > -- reset-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+> > -  root ports.
+> > -- clocks: Must contain an entry for each entry in clock-names.
+> > -  See ../clocks/clock-bindings.txt for details.
+> > -- clock-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+> > -  root ports.
+> > -- reset-gpios: GPIO specs for the reset pins.
+> > -
+> > -In addition, the device tree node must have sub-nodes describing each PCIe port
+> > -interface, having the following mandatory properties:
+> > -
+> > -Required properties:
+> > -- reg: Only the first four bytes are used to refer to the correct bus number
+> > -      and device number.
+> > -- #address-cells: Must be 3
+> > -- #size-cells: Must be 2
+> > -- ranges: Sub-ranges distributed from the PCIe controller node. An empty
+> > -  property is sufficient.
+> > -- bus-range: Range of bus numbers associated with this port.
+> > -
+> > -Example for MT7621:
+> > -
+> > -     pcie: pcie@1e140000 {
+> > -             compatible = "mediatek,mt7621-pci";
+> > -        reg = <0x1e140000 0x100    /* host-pci bridge registers */
+> > -               0x1e142000 0x100    /* pcie port 0 RC control registers */
+> > -               0x1e143000 0x100    /* pcie port 1 RC control registers */
+> > -               0x1e144000 0x100>;  /* pcie port 2 RC control registers */
+> > -
+> > -             #address-cells = <3>;
+> > -             #size-cells = <2>;
+> > -
+> > -             pinctrl-names = "default";
+> > -             pinctrl-0 = <&pcie_pins>;
+> > -
+> > -             device_type = "pci";
+> > -
+> > -             bus-range = <0 255>;
+> > -             ranges = <
+> > -                     0x02000000 0 0x00000000 0x60000000 0 0x10000000 /* pci memory */
+> > -                     0x01000000 0 0x00000000 0x1e160000 0 0x00010000 /* io space */
+> > -             >;
+> > -
+> > -             #interrupt-cells = <1>;
+> > -             interrupt-map-mask = <0xF0000 0 0 1>;
+> > -             interrupt-map = <0x10000 0 0 1 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
+> > -                             <0x20000 0 0 1 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
+> > -                             <0x30000 0 0 1 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
+> > -
+> > -             status = "disabled";
+> > -
+> > -             resets = <&rstctrl 24 &rstctrl 25 &rstctrl 26>;
+> > -             reset-names = "pcie0", "pcie1", "pcie2";
+> > -             clocks = <&clkctrl 24 &clkctrl 25 &clkctrl 26>;
+> > -             clock-names = "pcie0", "pcie1", "pcie2";
+> > -
+> > -             reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>,
+> > -                             <&gpio 8 GPIO_ACTIVE_LOW>,
+> > -                             <&gpio 7 GPIO_ACTIVE_LOW>;
+> > -
+> > -             pcie@0,0 {
+> > -                     reg = <0x0000 0 0 0 0>;
+> > -                     #address-cells = <3>;
+> > -                     #size-cells = <2>;
+> > -                     ranges;
+> > -                     bus-range = <0x00 0xff>;
+> > -             };
+> > -
+> > -             pcie@1,0 {
+> > -                     reg = <0x0800 0 0 0 0>;
+> > -                     #address-cells = <3>;
+> > -                     #size-cells = <2>;
+> > -                     ranges;
+> > -                     bus-range = <0x00 0xff>;
+> > -             };
+> > -
+> > -             pcie@2,0 {
+> > -                     reg = <0x1000 0 0 0 0>;
+> > -                     #address-cells = <3>;
+> > -                     #size-cells = <2>;
+> > -                     ranges;
+> > -                     bus-range = <0x00 0xff>;
+> > -             };
+> > -     };
+> > -
+> > --
+> > 2.25.1
+> >
