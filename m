@@ -1,201 +1,283 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AE22C81
-	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 12:56:51 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19DCKvPR028299;
-	Wed, 13 Oct 2021 12:52:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=HTuwds795mY8svuvtTnRLxPcf0TWDMwnemYCJdEu9Ps=;
- b=MLyD8Bp314wFjTo9XNFmaZSlvNCOXho46LnjCijgrTVRR+bcZJWZg6zkcfJccUON9pxg
- 3nX4SqOIZbrW5usRksl9g5b3ZGeqapuwgx+2Xsuy2r1TbC+TlnDQX1r2BZNhAqm2HVS2
- TmtMtlzA/oZ4nKBICY/7Fqw48nd5rgeRCFrXZbyh+lCEN1WaOSDaxmE7NeWACFDBAuEf
- ZX+bdaYFZ2+yHSZWsPZiz/bQSEL4pLF5A4SMrpgyHoUIRWzpkxz4Fdv286j7AP02oJVK
- QZALnNi+pXqMdB95FPIDFuFUWerqv1I+YWNJM/Ik+S11baSc7RC20ho/bwhRMaTaLs5v dQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3bnkbjbvbb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Oct 2021 12:52:08 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19DCp905113913;
-	Wed, 13 Oct 2021 12:52:07 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
-	by userp3030.oracle.com with ESMTP id 3bkyvaq93x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Oct 2021 12:52:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EikYpX94lCVzBYArADHsxfyAAjlhIgz7TuJm5HqDjcqIAatgehEDv7CeRzXMxwfwXMZyPek/tKsJynBkhvqw30JUNWs+qQvpdJERPRoKhtFFIL3rptt6pPWBQ4B5vJje5v74exlnFcWkp9Ekv1rW6mljLr68yfBoRCL68sPlIGpyiIS+CJC3A8bW7yhIiCumnfvFF0EDPGkzv5XwOxAUzi8aPGQcl93Iej4IU7P6X2npdB8Oige6U77dm+h6eB0qJ/xsXWwp1us6lmLI9RHcKUY+WaAIpPfzWVSyVwBIa2ampIuhF9JCoHs/EuU0oCgllNh88CurAInBcc4ELp6dVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HTuwds795mY8svuvtTnRLxPcf0TWDMwnemYCJdEu9Ps=;
- b=Q+3/u+Fz07Z/2giRmVFCd6F+oiXK2NUnJQHFjfWVZ2BfI6HQYzbwlon1L8kMiSkleTTS5ne3j5ZqZ4quK7iZ5N1cMYurL/lau9y3Fcy+Nq8GIkrXEYX8Kh35SL5NXisR1YYR58CN0Xug0iylSsAPG7rwIntwtmy6KOS5wYHweph94f1GOipew6CPkmJ8aQaoHXRrtNXZlRmOaWr8mHKQ8P1vgWIYfZ4lM+pLpLe5VwwvqaMq8cJM16+XL6GZgzRVQl0xwUxDOHCZ6du87n1tEct2DZui34u8i6fy5jVymHrpznagSqMR3nNAAdqhsCnWpNdWG/38f/dc6Ag7Ml0vTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HTuwds795mY8svuvtTnRLxPcf0TWDMwnemYCJdEu9Ps=;
- b=REGUG/vv82WjfUgpGImXQnIP6+ZMbSlwAhmY8BBGk6a9Z795UPQnXCC3L8iEJYSCzJyQ38haCxnuzu+YaENJ7+HepHjZgzn2UheB3XVJQSc/0oOiRZ4A4ycE/yo7puNoAI8sLWbRZ6K9obPetxG4RdPRCH6M07lkQ9kfed11CMY=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
- by PH0PR10MB4567.namprd10.prod.outlook.com (2603:10b6:510:33::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16; Wed, 13 Oct
- 2021 12:52:05 +0000
-Received: from PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::958c:1aaa:ad5:40c6]) by PH0PR10MB5433.namprd10.prod.outlook.com
- ([fe80::958c:1aaa:ad5:40c6%8]) with mapi id 15.20.4587.026; Wed, 13 Oct 2021
- 12:52:05 +0000
-Subject: Re: [PATCH] staging: ks7010: select CRYPTO_HASH/CRYPTO_MICHAEL_MIC
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>, linux-crypto@vger.kernel.org
-References: <20211011152941.12847-1-vegard.nossum@oracle.com>
- <YWbQd51r8R3BprMi@kroah.com>
-From: Vegard Nossum <vegard.nossum@oracle.com>
-Message-ID: <1bfd3945-3487-31ab-5489-9c12c759276b@oracle.com>
-Date: Wed, 13 Oct 2021 14:51:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <YWbQd51r8R3BprMi@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR2P264CA0011.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::23)
- To PH0PR10MB5433.namprd10.prod.outlook.com (2603:10b6:510:e0::9)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03A5F2C81
+	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 13:05:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1B2DD1FB;
+	Wed, 13 Oct 2021 06:05:15 -0700 (PDT)
+Received: from lpieralisi (e121166-lin.cambridge.arm.com [10.1.196.255])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 898BA3F66F;
+	Wed, 13 Oct 2021 06:05:13 -0700 (PDT)
+Date: Wed, 13 Oct 2021 14:05:11 +0100
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: linux-pci@vger.kernel.org, john@phrozen.org, devicetree@vger.kernel.org,
+	tsbogend@alpha.franken.de, bhelgaas@google.com,
+	matthias.bgg@gmail.com, gregkh@linuxfoundation.org,
+	linux-mips@vger.kernel.org, linux-staging@lists.linux.dev,
+	neil@brown.name, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/3] PCI: mt7621: Add MediaTek MT7621 PCIe host
+ controller driver
+Message-ID: <20211013130511.GB11036@lpieralisi>
+References: <20210922050035.18162-1-sergio.paracuellos@gmail.com>
+ <20210922050035.18162-3-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from [192.168.1.13] (86.217.161.200) by PR2P264CA0011.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.14 via Frontend Transport; Wed, 13 Oct 2021 12:52:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dba94633-d4d0-4f84-e01a-08d98e484286
-X-MS-TrafficTypeDiagnostic: PH0PR10MB4567:
-X-Microsoft-Antispam-PRVS: 
-	<PH0PR10MB4567D6911B9F5B669161F8AE97B79@PH0PR10MB4567.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	2zABE2gAtk9oXCls1MIkf4M0jAhVviX76jVEN48ovjKlUbNyu+NwEbkSeD4Y+PDBJbyRjbwUtlu1Kp/5JTQmQtRPvmLcsVnP+TrpugqDvQlhv8ioRScRCF/kzX8JCJNdT6Yco5UXsAERWcuhYTunHG1VZXdnAnUjk9E8tPGYiNx3zBHZ3FY0gC0dnITkZLS8ob98XxeSX5TI/ezpFUBA4R6+4dNNgGLW5by4wh5Am8S5i1FSNV3EPwWIUTy2QOETHcz822sz807dN+IIuK1MkY8b/Urx2L/nMuCdgvCe8BX/ZggvvgEYRSDwCkvl81eyaIBIZAODNz94I56kvIw6/lCPZS5w4PGip/pxv9IhEYqi0eDFKAOmzwHbf7efY3Qp9iJgn2nBZCXrmZZj/UT4HC+qbtHe2C2m1M0zqWHAeDPdZHkbqYhmE/An+6mHoMfSW4d/o7rUdUzIFit9CWDZBJAl66JI3c+kBFHOdEhhdFnkXptUq7bsZavZV4n3X/nR4sYi/gRHwR0xTk+ab2+N21brLzF/fOQtNgKEkRnHWce3NHGAfyUe6G9U/ZKAVzeDGaEDWVgmWd/1F3BNrnceZ0S6m/fxGxyGLLsxEJdfDphjL/gVV7REMvLftU+xjyO03gZ2hZoeHUiMbMlgtuMUN/Jme++4TpiEA5WLMamWtVfJFQgIFXKvfuKm0laal6pAX8QMIIhVFnvXXB6MMoK5BTNK0dMqfR+UwAruvI68ZVvFXCqO+mmfnS44kB7VyChsKco1Tw7EIVD4Pu7PfY8QFg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5433.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(54906003)(83380400001)(16576012)(6916009)(26005)(8676002)(4326008)(31696002)(316002)(86362001)(53546011)(508600001)(186003)(5660300002)(52116002)(36756003)(6486002)(31686004)(38100700002)(44832011)(6666004)(66556008)(38350700002)(956004)(66946007)(66476007)(2906002)(8936002)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?S05FOEdJY2pNQkpOM1dLUVlzSFhqYlJXVXJlL1dKK0hYOUpGeEVnbTR5ZUIx?=
- =?utf-8?B?NG5RMWtuVGxQdC81UXlBYWdWNUhlNFN2ZjhKRWk3TWt4L3JCS3J1Z2RrZ0hh?=
- =?utf-8?B?QWxlR09VdWNacGxQTzUwZG1saVpxK3RSYmRWc0IvZXJFcmpmVXdUbWRPYVBu?=
- =?utf-8?B?UGwxcU44aGJqS2o0VytCa0t6NUZQbDBlY045TXZsTUxhOVdISnpVWEo1aDJF?=
- =?utf-8?B?aUE0bDkrTmtEL1V3OWJJaDRRN3RyeVd3TDZGYTltRFBrcHRlaUE2QmZPcDEz?=
- =?utf-8?B?dkxsQ3NHZ0k5dUNtSmg3KzNTRFlnNkloN0dHak0yakhLQlZSNjJ6a0FxLzh5?=
- =?utf-8?B?QzRla2lZUEttM3JSc3UrV2hlbXR0QTdsbFpuSFFLblZNZXlDUVZ2VitISXg2?=
- =?utf-8?B?NXpQMXRabjJheG82SkVFMDV4eEFUa0hYY0k0S1RuVVM3L2J3NUlVTHA0bFV4?=
- =?utf-8?B?RWMvZ0RwR3ZvTTlib0RyMlN2d2lSeHljRFdMZWpGeEhZakJ2WUN6TXAxY3Uy?=
- =?utf-8?B?ZysrdXRDaER4RkplMlNaUk9hTmp3VXVmWVFnQkRrUGlPZkhhNnJhVEZnSDVp?=
- =?utf-8?B?QzZMeDlGVkx6YlVrSTA1UHBJVFFsd0FvSUg5czcrSnZVSnFCaUZqSGc5NVdo?=
- =?utf-8?B?bzY4WXVSYUNjcEFvc3diZERsWktwdFZXWWF5djNTVzhvNlZFbE04VUx2dGti?=
- =?utf-8?B?TFdJdTByaVNrbnNJaEdOdVhqVXFRbjZxdVpERnh0Um44VEZNd0EwR1FkTnhw?=
- =?utf-8?B?cGpldU9xUkhpREo2L3hxNlhKejdqZ1RvVDV6V0o4eEJqN1dLMG9GNzc4MUtX?=
- =?utf-8?B?c0M0SVl5ajF5N3lQc0ZVNjIxRkdPblp5ZWVHdXlKblh5Y0JmN2JhdjVRcU1V?=
- =?utf-8?B?SUdFRFNVWXVBYjBoNHR4b055K3k3WXFVQkdDMHpRZTlkVFl6RVZJbzJ0c0tq?=
- =?utf-8?B?ZU1sOFBsYVc1V3kwMkNqY1pZYnBBdm1IQ1lBdXJ1TkUya0tzcThiN0x5eEVY?=
- =?utf-8?B?UzYzeWhrdkFhK1hiRnVWTzZpODIrUk1wQkRHeWFQSzhQQXY3Rno3VVJOZi9l?=
- =?utf-8?B?OXN4bHJ3ZG9maFNWYTJEbFQ0U096WW5odERib3dGMHdxSk9BNERNdzhaUzFX?=
- =?utf-8?B?SG5MaGN4aGp3QTVuZXV5ZWd5aHlqMXBGSWhObjlYaHN6UHl1QVdDdVlsRGoy?=
- =?utf-8?B?azJrby9SNjhKckpTZnhuenczS3lDTmZmbHZRUEFjaVdRSUJ2RGZIYm1JdytX?=
- =?utf-8?B?b0Z1RE5BQnFTRXVNVUloejQ0cU1ZQVBYVG9uUENhWWZ6N2Rwaml0RnB5VUFM?=
- =?utf-8?B?d2JROUpQVnh0N0Q0V0VkSXc2SkZleXczVklNZldkcG5ZOEtGcityZjJoMXBG?=
- =?utf-8?B?aVZEc0M4cldZWlhRZE5jZTJCcFpEdENtWXFoK2VOY3BRc3ZZdkx6R0lnNU1L?=
- =?utf-8?B?TlZLWDgveXZmaDdUMXZlMEhDeThLMlFWbXp0U0h0WlBDcmdmTTJwZ2VBRVVG?=
- =?utf-8?B?MDRaSThZVWxOQjRXV2t4U3B1cmRvL1VaUjFjbkFlNXVZNk5PNERCZU5xd1NT?=
- =?utf-8?B?NGNlaXd1Zk9OY2JpUk1jWEpxQTRDVXEwdXJySTN0UVJSUDNneDBibjlMOFRz?=
- =?utf-8?B?MGVJYWx5bFRDeW1pS1VoaE1zTVN3ZFFvSFN3bldNcEZUWkM0NThCQ2U1QU1l?=
- =?utf-8?B?Z2JjVUlDUVVyRU9SQ2Q5azAyc01VVDZERWVNRDh6S0RYN3U1dWdpSmpFdTBp?=
- =?utf-8?Q?8lEfK5FPjVKvfBTOOs48GbhtxLFyslPUJ/Om/tN?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dba94633-d4d0-4f84-e01a-08d98e484286
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5433.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2021 12:52:05.6402
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mIAB485OELIULiDr48TJAILI2rNNCdb35BYZa/XRmOOS6/kJvZ6ce+SBqeK/NkTj6r8VFiP8d1evg0fnPG1IKOmS1lPK310gmvoW1ezThBg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4567
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10135 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 bulkscore=0
- malwarescore=0 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110130086
-X-Proofpoint-GUID: kP6L6sOwViXMB-6Om0hNxpIFQ_cKth4N
-X-Proofpoint-ORIG-GUID: kP6L6sOwViXMB-6Om0hNxpIFQ_cKth4N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210922050035.18162-3-sergio.paracuellos@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-
-On 10/13/21 2:26 PM, Greg Kroah-Hartman wrote:
-> On Mon, Oct 11, 2021 at 05:29:41PM +0200, Vegard Nossum wrote:
->> Fix the following build/link errors:
->>
->>   ld: drivers/staging/ks7010/ks_hostif.o: in function `michael_mic.constprop.0':
->>   ks_hostif.c:(.text+0x95b): undefined reference to `crypto_alloc_shash'
->>   ld: ks_hostif.c:(.text+0x97a): undefined reference to `crypto_shash_setkey'
->>   ld: ks_hostif.c:(.text+0xa13): undefined reference to `crypto_shash_update'
->>   ld: ks_hostif.c:(.text+0xa28): undefined reference to `crypto_shash_update'
->>   ld: ks_hostif.c:(.text+0xa48): undefined reference to `crypto_shash_finup'
->>   ld: ks_hostif.c:(.text+0xa6d): undefined reference to `crypto_destroy_tfm'
->>
->> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
->> ---
->>  drivers/staging/ks7010/Kconfig | 3 +++
->>  1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/staging/ks7010/Kconfig b/drivers/staging/ks7010/Kconfig
->> index 0987fdc2f70db..8ea6c09286798 100644
->> --- a/drivers/staging/ks7010/Kconfig
->> +++ b/drivers/staging/ks7010/Kconfig
->> @@ -5,6 +5,9 @@ config KS7010
->>  	select WIRELESS_EXT
->>  	select WEXT_PRIV
->>  	select FW_LOADER
->> +	select CRYPTO
->> +	select CRYPTO_HASH
->> +	select CRYPTO_MICHAEL_MIC
+On Wed, Sep 22, 2021 at 07:00:34AM +0200, Sergio Paracuellos wrote:
+> Add driver for the PCIe controller of the MT7621 SoC.
 > 
-> Let's try to rely on 'depend' and not 'select' please.
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> ---
+>  arch/mips/ralink/Kconfig                      |   3 +-
+>  drivers/pci/controller/Kconfig                |   8 ++
+>  drivers/pci/controller/Makefile               |   1 +
+>  .../controller}/pci-mt7621.c                  |   0
+>  drivers/staging/Kconfig                       |   2 -
+>  drivers/staging/Makefile                      |   1 -
+>  drivers/staging/mt7621-pci/Kconfig            |   8 --
+>  drivers/staging/mt7621-pci/Makefile           |   2 -
+>  drivers/staging/mt7621-pci/TODO               |   4 -
+>  .../mt7621-pci/mediatek,mt7621-pci.txt        | 104 ------------------
+>  10 files changed, 11 insertions(+), 122 deletions(-)
+>  rename drivers/{staging/mt7621-pci => pci/controller}/pci-mt7621.c (100%)
+>  delete mode 100644 drivers/staging/mt7621-pci/Kconfig
+>  delete mode 100644 drivers/staging/mt7621-pci/Makefile
+>  delete mode 100644 drivers/staging/mt7621-pci/TODO
+>  delete mode 100644 drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> 
+> diff --git a/arch/mips/ralink/Kconfig b/arch/mips/ralink/Kconfig
+> index c800bf5559b5..120adad51d6a 100644
+> --- a/arch/mips/ralink/Kconfig
+> +++ b/arch/mips/ralink/Kconfig
+> @@ -51,7 +51,8 @@ choice
+>  		select SYS_SUPPORTS_HIGHMEM
+>  		select MIPS_GIC
+>  		select CLKSRC_MIPS_GIC
+> -		select HAVE_PCI if PCI_MT7621
+> +		select HAVE_PCI
+> +		select PCI_DRIVERS_GENERIC
+>  		select SOC_BUS
+>  endchoice
+>  
+> diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
+> index 326f7d13024f..b76404be0360 100644
+> --- a/drivers/pci/controller/Kconfig
+> +++ b/drivers/pci/controller/Kconfig
+> @@ -312,6 +312,14 @@ config PCIE_HISI_ERR
+>  	  Say Y here if you want error handling support
+>  	  for the PCIe controller's errors on HiSilicon HIP SoCs
+>  
+> +config PCI_MT7621
+> +	tristate "MediaTek MT7621 PCI Controller"
+> +	depends on (RALINK && SOC_MT7621) || (MIPS && COMPILE_TEST)
 
-I used 'select' because it seemed to be the established pattern for
-these options. Compare:
+- Is there a chance we can remove the MIPS dependency from the
+  COMPILE_TEST conditional ?
+- I am not a big fan of "SOC_XXX" config options dependencies, actually
+  there is none in pci/controller. Is there a way to remove it ?
 
-$ find -name '*Kconfig*' | xargs git grep 'depends on CRYPTO$' | wc --lines
-1
+Lorenzo
 
-$ find -name '*Kconfig*' | xargs git grep 'select CRYPTO$' | wc --lines
-66
-
-$ find -name '*Kconfig*' | xargs git grep 'depends on CRYPTO' | wc --lines
-87
-
-$ find -name '*Kconfig*' | xargs git grep 'select CRYPTO' | wc --lines
-1005
-
-That said, I have found several other cases where CRYPTO_* algorithms
-are getting 'select'-ed without also selecting CRYPTO/CRYPTO_HASH, so I
-definitely see the problem you're trying to address.
-
-I've added some more people on Cc to see if there is a consensus on the
-best way to do this for the CRYPTO* options going forwards. Thoughts,
-anybody?
-
-
-Vegard
+> +	select PHY_MT7621_PCI
+> +	default SOC_MT7621
+> +	help
+> +	  This selects a driver for the MediaTek MT7621 PCI Controller.
+> +
+>  source "drivers/pci/controller/dwc/Kconfig"
+>  source "drivers/pci/controller/mobiveil/Kconfig"
+>  source "drivers/pci/controller/cadence/Kconfig"
+> diff --git a/drivers/pci/controller/Makefile b/drivers/pci/controller/Makefile
+> index aaf30b3dcc14..f42a566353cb 100644
+> --- a/drivers/pci/controller/Makefile
+> +++ b/drivers/pci/controller/Makefile
+> @@ -37,6 +37,7 @@ obj-$(CONFIG_VMD) += vmd.o
+>  obj-$(CONFIG_PCIE_BRCMSTB) += pcie-brcmstb.o
+>  obj-$(CONFIG_PCI_LOONGSON) += pci-loongson.o
+>  obj-$(CONFIG_PCIE_HISI_ERR) += pcie-hisi-error.o
+> +obj-$(CONFIG_PCI_MT7621) += pci-mt7621.o
+>  # pcie-hisi.o quirks are needed even without CONFIG_PCIE_DW
+>  obj-y				+= dwc/
+>  obj-y				+= mobiveil/
+> diff --git a/drivers/staging/mt7621-pci/pci-mt7621.c b/drivers/pci/controller/pci-mt7621.c
+> similarity index 100%
+> rename from drivers/staging/mt7621-pci/pci-mt7621.c
+> rename to drivers/pci/controller/pci-mt7621.c
+> diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
+> index e03627ad4460..59af251e7576 100644
+> --- a/drivers/staging/Kconfig
+> +++ b/drivers/staging/Kconfig
+> @@ -86,8 +86,6 @@ source "drivers/staging/vc04_services/Kconfig"
+>  
+>  source "drivers/staging/pi433/Kconfig"
+>  
+> -source "drivers/staging/mt7621-pci/Kconfig"
+> -
+>  source "drivers/staging/mt7621-dma/Kconfig"
+>  
+>  source "drivers/staging/ralink-gdma/Kconfig"
+> diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
+> index c7f8d8d8dd11..76f413470bc8 100644
+> --- a/drivers/staging/Makefile
+> +++ b/drivers/staging/Makefile
+> @@ -33,7 +33,6 @@ obj-$(CONFIG_KS7010)		+= ks7010/
+>  obj-$(CONFIG_GREYBUS)		+= greybus/
+>  obj-$(CONFIG_BCM2835_VCHIQ)	+= vc04_services/
+>  obj-$(CONFIG_PI433)		+= pi433/
+> -obj-$(CONFIG_PCI_MT7621)	+= mt7621-pci/
+>  obj-$(CONFIG_SOC_MT7621)	+= mt7621-dma/
+>  obj-$(CONFIG_DMA_RALINK)	+= ralink-gdma/
+>  obj-$(CONFIG_SOC_MT7621)	+= mt7621-dts/
+> diff --git a/drivers/staging/mt7621-pci/Kconfig b/drivers/staging/mt7621-pci/Kconfig
+> deleted file mode 100644
+> index ce58042f2f21..000000000000
+> --- a/drivers/staging/mt7621-pci/Kconfig
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0
+> -config PCI_MT7621
+> -	tristate "MediaTek MT7621 PCI Controller"
+> -	depends on RALINK
+> -	select PCI_DRIVERS_GENERIC
+> -	help
+> -	  This selects a driver for the MediaTek MT7621 PCI Controller.
+> -
+> diff --git a/drivers/staging/mt7621-pci/Makefile b/drivers/staging/mt7621-pci/Makefile
+> deleted file mode 100644
+> index f4e651cf7ce3..000000000000
+> --- a/drivers/staging/mt7621-pci/Makefile
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -# SPDX-License-Identifier: GPL-2.0
+> -obj-$(CONFIG_PCI_MT7621)       += pci-mt7621.o
+> diff --git a/drivers/staging/mt7621-pci/TODO b/drivers/staging/mt7621-pci/TODO
+> deleted file mode 100644
+> index d674a9ac85c1..000000000000
+> --- a/drivers/staging/mt7621-pci/TODO
+> +++ /dev/null
+> @@ -1,4 +0,0 @@
+> -
+> -- general code review and cleanup
+> -
+> -Cc: NeilBrown <neil@brown.name>
+> diff --git a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt b/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> deleted file mode 100644
+> index 327a68267309..000000000000
+> --- a/drivers/staging/mt7621-pci/mediatek,mt7621-pci.txt
+> +++ /dev/null
+> @@ -1,104 +0,0 @@
+> -MediaTek MT7621 PCIe controller
+> -
+> -Required properties:
+> -- compatible: "mediatek,mt7621-pci"
+> -- device_type: Must be "pci"
+> -- reg: Base addresses and lengths of the PCIe subsys and root ports.
+> -- bus-range: Range of bus numbers associated with this controller.
+> -- #address-cells: Address representation for root ports (must be 3)
+> -- pinctrl-names : The pin control state names.
+> -- pinctrl-0: The "default" pinctrl state.
+> -- #size-cells: Size representation for root ports (must be 2)
+> -- ranges: Ranges for the PCI memory and I/O regions.
+> -- #interrupt-cells: Must be 1
+> -- interrupt-map-mask and interrupt-map: Standard PCI IRQ mapping properties.
+> -  Please refer to the standard PCI bus binding document for a more detailed
+> -  explanation.
+> -- status: either "disabled" or "okay".
+> -- resets: Must contain an entry for each entry in reset-names.
+> -  See ../reset/reset.txt for details.
+> -- reset-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+> -  root ports.
+> -- clocks: Must contain an entry for each entry in clock-names.
+> -  See ../clocks/clock-bindings.txt for details.
+> -- clock-names: Must be "pcie0", "pcie1", "pcieN"... based on the number of
+> -  root ports.
+> -- reset-gpios: GPIO specs for the reset pins.
+> -
+> -In addition, the device tree node must have sub-nodes describing each PCIe port
+> -interface, having the following mandatory properties:
+> -
+> -Required properties:
+> -- reg: Only the first four bytes are used to refer to the correct bus number
+> -      and device number.
+> -- #address-cells: Must be 3
+> -- #size-cells: Must be 2
+> -- ranges: Sub-ranges distributed from the PCIe controller node. An empty
+> -  property is sufficient.
+> -- bus-range: Range of bus numbers associated with this port.
+> -
+> -Example for MT7621:
+> -
+> -	pcie: pcie@1e140000 {
+> -		compatible = "mediatek,mt7621-pci";
+> -        reg = <0x1e140000 0x100    /* host-pci bridge registers */
+> -               0x1e142000 0x100    /* pcie port 0 RC control registers */
+> -               0x1e143000 0x100    /* pcie port 1 RC control registers */
+> -               0x1e144000 0x100>;  /* pcie port 2 RC control registers */
+> -
+> -		#address-cells = <3>;
+> -		#size-cells = <2>;
+> -
+> -		pinctrl-names = "default";
+> -		pinctrl-0 = <&pcie_pins>;
+> -
+> -		device_type = "pci";
+> -
+> -		bus-range = <0 255>;
+> -		ranges = <
+> -			0x02000000 0 0x00000000 0x60000000 0 0x10000000 /* pci memory */
+> -			0x01000000 0 0x00000000 0x1e160000 0 0x00010000 /* io space */
+> -		>;
+> -
+> -		#interrupt-cells = <1>;
+> -		interrupt-map-mask = <0xF0000 0 0 1>;
+> -		interrupt-map = <0x10000 0 0 1 &gic GIC_SHARED 4 IRQ_TYPE_LEVEL_HIGH>,
+> -				<0x20000 0 0 1 &gic GIC_SHARED 24 IRQ_TYPE_LEVEL_HIGH>,
+> -				<0x30000 0 0 1 &gic GIC_SHARED 25 IRQ_TYPE_LEVEL_HIGH>;
+> -
+> -		status = "disabled";
+> -
+> -		resets = <&rstctrl 24 &rstctrl 25 &rstctrl 26>;
+> -		reset-names = "pcie0", "pcie1", "pcie2";
+> -		clocks = <&clkctrl 24 &clkctrl 25 &clkctrl 26>;
+> -		clock-names = "pcie0", "pcie1", "pcie2";
+> -
+> -		reset-gpios = <&gpio 19 GPIO_ACTIVE_LOW>,
+> -				<&gpio 8 GPIO_ACTIVE_LOW>,
+> -				<&gpio 7 GPIO_ACTIVE_LOW>;
+> -
+> -		pcie@0,0 {
+> -			reg = <0x0000 0 0 0 0>;
+> -			#address-cells = <3>;
+> -			#size-cells = <2>;
+> -			ranges;
+> -			bus-range = <0x00 0xff>;
+> -		};
+> -
+> -		pcie@1,0 {
+> -			reg = <0x0800 0 0 0 0>;
+> -			#address-cells = <3>;
+> -			#size-cells = <2>;
+> -			ranges;
+> -			bus-range = <0x00 0xff>;
+> -		};
+> -
+> -		pcie@2,0 {
+> -			reg = <0x1000 0 0 0 0>;
+> -			#address-cells = <3>;
+> -			#size-cells = <2>;
+> -			ranges;
+> -			bus-range = <0x00 0xff>;
+> -		};
+> -	};
+> -
+> -- 
+> 2.25.1
+> 
