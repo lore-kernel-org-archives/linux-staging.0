@@ -1,30 +1,25 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6669772
-	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 12:24:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9AF6A60F23;
-	Wed, 13 Oct 2021 12:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E443E72
+	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 12:26:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2138A610C8;
+	Wed, 13 Oct 2021 12:26:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634127892;
-	bh=4s6wU6xVKQAR878cEXhPsqNrnWGlU/+dyX5KTUREZ18=;
+	s=korg; t=1634127993;
+	bh=2fq6zyYLD+W6dU0Wn2WXwU+KmGA4y3AuDF93YE5DFww=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S4umREiHN43ck0bJtS5IRQc0Hf0stWqeWleSpMWn3iSIeP/bdGO8xsT0+JWIxLs+N
-	 z7t0n7C+46wOreMyY5MtU9w9c1d+JcnbAnT6YWDcQQr6BtwS4UJZEPBRKt6KlwFZfz
-	 T++70qYJgZK6yVJod1zvCaGaTM2uPd56fvopHfeg=
-Date: Wed, 13 Oct 2021 14:24:49 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Christian Gromm <christian.gromm@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 23/28] staging: most: dim2: use device tree
-Message-ID: <YWbQEQBYTrfmzq4N@kroah.com>
-References: <1525772716-15742-1-git-send-email-christian.gromm@microchip.com>
- <1525772716-15742-24-git-send-email-christian.gromm@microchip.com>
- <alpine.DEB.2.22.394.2110121749450.1045463@ramsan.of.borg>
+	b=R45cB/hxFwHK2zjDvx34BSH21obPkrwh03BP8PwhTvV2f0onhVE2O3vSb3/OJvrS/
+	 YY0wf2ueBt0keXWnXy/ryyQtN+ZEVBptuucVVwLgL4TZ5cuOsnOo3IZUVEKKHVRbVn
+	 D0oKfVxyiVBxzx3z9vhUjZ7l1z6z3dxzcfnTyjzg=
+Date: Wed, 13 Oct 2021 14:26:31 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: ks7010: select CRYPTO_HASH/CRYPTO_MICHAEL_MIC
+Message-ID: <YWbQd51r8R3BprMi@kroah.com>
+References: <20211011152941.12847-1-vegard.nossum@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,58 +28,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2110121749450.1045463@ramsan.of.borg>
+In-Reply-To: <20211011152941.12847-1-vegard.nossum@oracle.com>
 
-On Tue, Oct 12, 2021 at 08:14:14PM +0200, Geert Uytterhoeven wrote:
-> 	Hi Christian, Greg,
+On Mon, Oct 11, 2021 at 05:29:41PM +0200, Vegard Nossum wrote:
+> Fix the following build/link errors:
 > 
-> CC devicetree, linux-renesas-soc
+>   ld: drivers/staging/ks7010/ks_hostif.o: in function `michael_mic.constprop.0':
+>   ks_hostif.c:(.text+0x95b): undefined reference to `crypto_alloc_shash'
+>   ld: ks_hostif.c:(.text+0x97a): undefined reference to `crypto_shash_setkey'
+>   ld: ks_hostif.c:(.text+0xa13): undefined reference to `crypto_shash_update'
+>   ld: ks_hostif.c:(.text+0xa28): undefined reference to `crypto_shash_update'
+>   ld: ks_hostif.c:(.text+0xa48): undefined reference to `crypto_shash_finup'
+>   ld: ks_hostif.c:(.text+0xa6d): undefined reference to `crypto_destroy_tfm'
 > 
-> On Tue, 8 May 2018, Christian Gromm wrote:
-> > This patch removes the dependency to platform specific source files
-> > that do platform specific initialization and supply the IRQ number.
-> > Instead DT code is added
-> > 
-> > Signed-off-by: Christian Gromm <christian.gromm@microchip.com>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  drivers/staging/ks7010/Kconfig | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> This patch bypassed review by the DT people, and ended up in v4.18 as
-> commit 21e57ff086056c01 ("staging: most: dim2: use device tree").
+> diff --git a/drivers/staging/ks7010/Kconfig b/drivers/staging/ks7010/Kconfig
+> index 0987fdc2f70db..8ea6c09286798 100644
+> --- a/drivers/staging/ks7010/Kconfig
+> +++ b/drivers/staging/ks7010/Kconfig
+> @@ -5,6 +5,9 @@ config KS7010
+>  	select WIRELESS_EXT
+>  	select WEXT_PRIV
+>  	select FW_LOADER
+> +	select CRYPTO
+> +	select CRYPTO_HASH
+> +	select CRYPTO_MICHAEL_MIC
 
-Yeah, staging-only dt changes are not usually run by the dt maintainers.
-
-> 
-> > --- a/drivers/staging/most/dim2/dim2.c
-> > +++ b/drivers/staging/most/dim2/dim2.c
-> > +static const struct of_device_id dim2_of_match[] = {
-> > +	{
-> > +		.compatible = "fsl,imx6q-mlb150",
-> > +		.data = plat_data + FSL_MX6
-> > +	},
-> > +	{
-> > +		.compatible = "renesas,mlp",
-> > +		.data = plat_data + RCAR_H2
-> > +	},
-> > +	{
-> > +		.compatible = "rcar,medialb-dim2",
-> > +		.data = plat_data + RCAR_M3
-> > +	},
-> > +	{
-> > +		.compatible = "xlnx,axi4-os62420_3pin-1.00.a",
-> > +	},
-> > +	{
-> > +		.compatible = "xlnx,axi4-os62420_6pin-1.00.a",
-> > +	},
-> > +	{},
-> > };
-> 
-> There are no documented DT bindings for this hardware block, nor any
-> upstream example users.  Given some compatible values do not follow
-> standard practises (no idea about the other parts), it's very likely
-> these de facto bindings, and all their out-of-tree users, will have to
-> be changed.
-
-Great, fix the bindings and anything in-kernel here please.  We don't
-care about out-of-kernel stuff for drivers/staging/ at all.
+Let's try to rely on 'depend' and not 'select' please.
 
 thanks,
 
