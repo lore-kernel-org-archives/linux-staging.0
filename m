@@ -1,170 +1,87 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313872C81
-	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 14:27:51 +0000 (UTC)
-Received: by mail-ua1-f41.google.com with SMTP id h19so4854835uax.5
-        for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 07:27:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Bj1qNEG+5FP9GKXBmM4kufW+uVF44PKuB8CVz9DjaKc=;
-        b=gRlcFYjDdxION0Qyby/akwGm75WSXINStyTQHZZuBBF2RIGoipgwpbONDCZzUuhSr+
-         1CtJI5NfddIfHkuRkTJ3QSLnJFns92TUxaOOXLQRCrS8PCV/mAopiiz1ktRZN4hiMhHL
-         ONOGYv4jqBzR9hcQiavr5d1cIRmjA/7PfIKjm84KYRf8FgXSwuuGS/J/UNfs9bbDoeI1
-         9c5cEUkU+uYHFms0MChAkU9AMdC8bbSkYsLM30Empx/KBSV9vdpQSDGxK9mI8n0YeSfB
-         gqi7v/FIqH0F3J7NkhSw2VpGE2QAAVTPg41ty5iHRUfQbYMqFzQeM6LXfO3d/zjG7mK8
-         getA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Bj1qNEG+5FP9GKXBmM4kufW+uVF44PKuB8CVz9DjaKc=;
-        b=X8khGzhb59ihNEqo6eetRcFRyOtuzNy+U8UkrUAkOOCq8SiewNDMVUl8JqLRc4r8qB
-         tgr0dD1ISKIn9x7HqIxPXpN8TMh0dcOWiBl2HG6qz2LaB9ev5SwxoE9SYqAy76KtuBN3
-         U4zeb8udoltDYnJmNPurPtsSoPV8iMK/AhpHRqQpi46poDarzii4NU9lN9wVXeEcg76D
-         e4zrA0buk1munnFDZDiO2/BK4xjzMwplubeXBgfdd9DfODM9mDAVwFE15OSheDsE1BWy
-         Xv+kXHqDTRsefTTp28paQwWO2ocYmgkH9O2fb0QgW1WoZLGHqWZnMVw4Mnpl/TROC3y2
-         2VwQ==
-X-Gm-Message-State: AOAM533VtTfK8oac/SyrISuHvB8FuXm6mnX4mjqX4AH9lmXTQCbKEpx/
-	OHv5tFJQ1Bnhu3lMFQKcuXTV1A==
-X-Google-Smtp-Source: ABdhPJyeFIGcjygyszMEknoRPsLumSj93t/Zso1VLa1Hm6InMKEqO7C3740GLJxdppAFCA5swk/HJg==
-X-Received: by 2002:ab0:7a50:: with SMTP id a16mr29932206uat.92.1634135270072;
-        Wed, 13 Oct 2021 07:27:50 -0700 (PDT)
-Received: from fedora ([196.32.91.248])
-        by smtp.gmail.com with ESMTPSA id j11sm5825138uaa.6.2021.10.13.07.27.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 07:27:49 -0700 (PDT)
-Date: Wed, 13 Oct 2021 11:27:44 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rkvdec: Support dynamic resolution changes
-Message-ID: <YWbs4Ng/mDQpIoiK@fedora>
-References: <20211008100423.739462-1-wenst@chromium.org>
- <20211008100423.739462-3-wenst@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94112C80
+	for <linux-staging@lists.linux.dev>; Wed, 13 Oct 2021 15:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Sender:Reply-To:Content-ID:Content-Description;
+	bh=wLKFl9hJovma3HR1JQUfzFV4dSW0MXFKvmPEDZSEdrw=; b=ZH2RJkVXauMhi5VttRQ3IPzAlc
+	G5OAV4VS/VFJbAP0AHqJcJaLBXIdN42F3co5T7Si3Lz84xyCh5m0F86d2/iJ4IKQlQUvqPretTmcB
+	/WV6r6iEMjSkq6+Z9GaoOolYxiTaFivy+6Rd3KSnE/Gshi2e/Elh9QDJCTF0HotaHc1btqRgC05Yw
+	4IyKUel7pECtsBgKGvjTzeaVFk8YMOzNJiSv2KzNaVBYZVdHOrbSZroTl7i9HjDWRKkQiulOwb//Z
+	gcLDJl9mCOCoGnBy8KwaW40aqY13RhK0rKhN97hjy1pXQqjn0NDWjsRT0Rn6NwwjG94qj31NlDKKj
+	F1zFWdVw==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1mag8M-00HLgm-Vm; Wed, 13 Oct 2021 15:25:35 +0000
+Subject: Re: [PATCH v2 3/6] staging: media: wave5: Add the v4l2 layer
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+ linux-media@vger.kernel.org
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>, laurent.pinchart@ideasonboard.com,
+ hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+ kiril.bicevski@collabora.com, Nas Chung <nas.chung@chipsnmedia.com>,
+ lafley.kim@chipsnmedia.com, scott.woo@chipsnmedia.com,
+ olivier.crete@collabora.com
+References: <20211013105609.21457-1-dafna.hirschfeld@collabora.com>
+ <20211013105609.21457-4-dafna.hirschfeld@collabora.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ad36b166-ed51-5192-c12e-d6c86d7ad083@infradead.org>
+Date: Wed, 13 Oct 2021 08:25:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211008100423.739462-3-wenst@chromium.org>
+In-Reply-To: <20211013105609.21457-4-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Chen-Yu,
+Hi,
 
-On Fri, Oct 08, 2021 at 06:04:23PM +0800, Chen-Yu Tsai wrote:
-> The mem-to-mem stateless decoder API specifies support for dynamic
-> resolution changes. In particular, the decoder should accept format
-> changes on the OUTPUT queue even when buffers have been allocated,
-> as long as it is not streaming.
-> 
-> Relax restrictions for S_FMT as described in the previous paragraph,
-> and as long as the codec format remains the same. This aligns it with
-> the Hantro and Cedrus decoders. This change was mostly based on commit
-> ae02d49493b5 ("media: hantro: Fix s_fmt for dynamic resolution changes").
-> 
-> Since rkvdec_s_fmt() is now just a wrapper around the output/capture
-> variants without any additional shared functionality, drop the wrapper
-> and call the respective functions directly.
-> 
-> Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+On 10/13/21 3:56 AM, Dafna Hirschfeld wrote:
+> diff --git a/drivers/staging/media/wave5/Kconfig b/drivers/staging/media/wave5/Kconfig
+> new file mode 100644
+> index 000000000000..efaacf391e01
+> --- /dev/null
+> +++ b/drivers/staging/media/wave5/Kconfig
+> @@ -0,0 +1,12 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +config VIDEO_WAVE_VPU
+> +        tristate "Chips&Media Wave Codec Driver"
+> +        depends on VIDEO_DEV && VIDEO_V4L2 && OF
+> +        select VIDEOBUF2_DMA_CONTIG
+> +        select VIDEOBUF2_VMALLOC
+> +        select V4L2_MEM2MEM_DEV
+> +        help
+> +          Chips&Media stateful encoder and decoder driver.
+> +	  The driver supports HEVC and H264 formats.
+> +          To compile this driver as modules, choose M here: the
+> +          modules will be called wave5.
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Please follow coding-style for Kconfig files:
 
-Seems we forgot to port Hantro changes over here, so thanks a lot
-for picking this up.
+(from Documentation/process/coding-style.rst, section 10):
 
-Ezequiel
+For all of the Kconfig* configuration files throughout the source tree,
+the indentation is somewhat different.  Lines under a ``config`` definition
+are indented with one tab, while help text is indented an additional two
+spaces.
 
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 40 +++++++++++++--------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 7131156c1f2c..3f3f96488d74 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -280,31 +280,20 @@ static int rkvdec_try_output_fmt(struct file *file, void *priv,
->  	return 0;
->  }
->  
-> -static int rkvdec_s_fmt(struct file *file, void *priv,
-> -			struct v4l2_format *f,
-> -			int (*try_fmt)(struct file *, void *,
-> -				       struct v4l2_format *))
-> +static int rkvdec_s_capture_fmt(struct file *file, void *priv,
-> +				struct v4l2_format *f)
->  {
->  	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
->  	struct vb2_queue *vq;
-> +	int ret;
->  
-> -	if (!try_fmt)
-> -		return -EINVAL;
-> -
-> -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-> +	/* Change not allowed if queue is busy */
-> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->  	if (vb2_is_busy(vq))
->  		return -EBUSY;
->  
-> -	return try_fmt(file, priv, f);
-> -}
-> -
-> -static int rkvdec_s_capture_fmt(struct file *file, void *priv,
-> -				struct v4l2_format *f)
-> -{
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> -	int ret;
-> -
-> -	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_capture_fmt);
-> +	ret = rkvdec_try_capture_fmt(file, priv, f);
->  	if (ret)
->  		return ret;
->  
-> @@ -319,9 +308,20 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
->  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
->  	const struct rkvdec_coded_fmt_desc *desc;
->  	struct v4l2_format *cap_fmt;
-> -	struct vb2_queue *peer_vq;
-> +	struct vb2_queue *peer_vq, *vq;
->  	int ret;
->  
-> +	/*
-> +	 * In order to support dynamic resolution change, the decoder admits
-> +	 * a resolution change, as long as the pixelformat remains. Can't be
-> +	 * done if streaming.
-> +	 */
-> +	vq = v4l2_m2m_get_vq(m2m_ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +	if (vb2_is_streaming(vq) ||
-> +	    (vb2_is_busy(vq) &&
-> +	     f->fmt.pix_mp.pixelformat != ctx->coded_fmt.fmt.pix_mp.pixelformat))
-> +		return -EBUSY;
-> +
->  	/*
->  	 * Since format change on the OUTPUT queue will reset the CAPTURE
->  	 * queue, we can't allow doing so when the CAPTURE queue has buffers
-> @@ -331,7 +331,7 @@ static int rkvdec_s_output_fmt(struct file *file, void *priv,
->  	if (vb2_is_busy(peer_vq))
->  		return -EBUSY;
->  
-> -	ret = rkvdec_s_fmt(file, priv, f, rkvdec_try_output_fmt);
-> +	ret = rkvdec_try_output_fmt(file, priv, f);
->  	if (ret)
->  		return ret;
->  
-> -- 
-> 2.33.0.882.g93a45727a2-goog
-> 
+
+Also, depending on OF is usually not necessary since there are stubs
+for non-CONFIG_OF functions.  That may even allow you to add
+COMPILE_TEST here.
+
+thanks.
+-- 
+~Randy
