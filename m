@@ -1,333 +1,208 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCFA2C81
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 10:25:12 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t2so25685259wrb.8
-        for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 03:25:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A79972;
+	Fri, 15 Oct 2021 10:33:30 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id t2so25724547wrb.8;
+        Fri, 15 Oct 2021 03:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mOeWi5xlnFBCPH8jc/sRj3hBmUj29//1OlvUdvjSAE8=;
-        b=nuEN8rNjdWBltTDQVyfRBNyAJhEKcMcm7+qpr/o6hzeZuYt6ADY7X7a/q1tY+v1umf
-         zuHgPtJzzLznAWjIotWOKZYVhu8T6QvrF+n8BcOYuHC5nXui5WYGJ0mAL6q3ORjuMyD/
-         Ne8OhgFfwyKMf+Ie2I2E8jLnyEXuiYm05YT6VMITcIUC+E021BPVNELKLkx2X4517H6E
-         xLxFW3Okl+sgYb7P6Rs5GHLnIZmObN4Hyg6Ac2K5BQN4p5wAjnh0F3Y82lZO3/uIZ8ir
-         H+xkkBDhn1dLQEHztzQLeMBVgZVTBNjYORQgXATDEsAWdhCES1CdEhhF7zEUWXyYJG7T
-         Vdvw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Q/m7Gr8n0zuK0aOcQb53oByaeENAR90+6+QHf9J6DSM=;
+        b=TXDzd3zQdeIQoWQ77fpiYlS7z59J6VV05QiogjrBw4247LxWZ57PND9ZXiFOwGvfBO
+         PGJI3poPd1nsaOTF4JNueLozKXv+2d50bPhbp5CQ5UooKWHZ4cD3XULb5FV6IBPuL2nG
+         +jYNtyG8Ku7/r4X3S4sKNju4mL2XmskqCDfoXJlTsQv3idNT2/UFbLDQ09S9tKl8AqHs
+         34HzNX/NxwxTn/6WnWKFEMZL4/KQ4RtFxnRH16HiJxeE9/sMndOLPHkNPZUmbIFexxBD
+         BCeRspUPZpEuQGgNec4HtpNcbTzPlzlHsWf/NDZkYJcFKkODhtYXRynRfnAB+zCNwykk
+         LwCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=mOeWi5xlnFBCPH8jc/sRj3hBmUj29//1OlvUdvjSAE8=;
-        b=GeN4dmrW7efX/tMTYoxf1mFdTeKcifjf65vbpStmTSiX/3HRunNrE1TPt7UlPu9u/B
-         d4Ky642RWwRtiXcxncAuwztyEQYtqyDQIRKuvuvvJbQsBwlh8uU1cvnGUn8hgR5WqhJ4
-         fuTE5EXdzn0pyCVtuKZAzhfufvIztogQT3wbEBNFU/hq3wS2zWUTiHZG9RKBbkPDOK9r
-         FgVPHmnFBzoN8ANk6QCEYhqrFxwAnTQmB9OTs1HhAOA00AWQ8IjI9oqOwe9OYEVAVu/P
-         ajWmDfwESwaJP817j6WqYXIexWhAEJRC3zEvZnUkZ0KruHbMrYaoPz0CL416TlIdSzBh
-         HifQ==
-X-Gm-Message-State: AOAM532uLCq4LFVkMBK/srhyTrzifwJh93X0i+wihcZbfo/lCl5T43Z5
-	RU7+UdF9ikEe52QU4r0phN4=
-X-Google-Smtp-Source: ABdhPJxdhaUzHO6LgewogIoSNm8ck61Jl4xucFiS46/EMBLjYjWgJ6hLfiRxE1QBuQvC1TE8doSYMQ==
-X-Received: by 2002:adf:fd4d:: with SMTP id h13mr12919823wrs.391.1634293511073;
-        Fri, 15 Oct 2021 03:25:11 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id o23sm4541024wms.18.2021.10.15.03.25.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Oct 2021 03:25:10 -0700 (PDT)
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: outreachy-kernel@googlegroups.com
-Cc: gregkh@linuxfoundation.org,
-	forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: [PATCH v2] staging: vt6655: Rename byPreambleType field
-Date: Fri, 15 Oct 2021 11:24:44 +0100
-Message-Id: <20211015102444.90753-1-karolinadrobnik@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        bh=Q/m7Gr8n0zuK0aOcQb53oByaeENAR90+6+QHf9J6DSM=;
+        b=jv86ueKBMG9RrSxrLpFqNcx9O9aWMYyCdoUVODum+0QD0I7k8MYL8VTJzsFsRUrqrj
+         eUyTpxnmOERiwS4TjUJRgGV+XaQk3zpCZlGi5osxGGGfmq1Nn2voWtnf6bGh9yJ5fhR9
+         jMj09Jp09wV93N2SamgJ74I4jF/0JWVnulbK3NabAm+UlD/XVYMHciD7iSo0yaM6Ij9Y
+         CVNtzViU9s3qO1K+vRqThuix634d9HQfyPBJl7VP9Mi9sg/ryZ0I/ozvIpR6egIVYIIj
+         SvtDvE1DTOn1+rc1qoxW+Bw2M6ef95pKTISnf9maOeCIrbq4T/oQbcRCRkE1iomIIANE
+         hP3w==
+X-Gm-Message-State: AOAM530d2EWvvZmd6AuWOV67J38nfgt7QhdqriDSiYCjWVOlfBfg0WX9
+	N3DWMJCY45VSZLPPGNtyZCY0wWBmiDpY
+X-Google-Smtp-Source: ABdhPJzvQyuR8eS8meMNbWy6UhnS7ytKLdQcqebigSr/Ico0kVVTZpgTOZXQpY1KjPPNdBXCyqTkMw==
+X-Received: by 2002:a05:6000:1567:: with SMTP id 7mr13495413wrz.408.1634294008512;
+        Fri, 15 Oct 2021 03:33:28 -0700 (PDT)
+Received: from [192.168.200.23] (ip5b435a69.dynamic.kabel-deutschland.de. [91.67.90.105])
+        by smtp.gmail.com with ESMTPSA id o6sm6016884wri.49.2021.10.15.03.33.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Oct 2021 03:33:28 -0700 (PDT)
+Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+ hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+ <21222555.EfDdHjke4D@kista>
+ <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
+ <1705005.VLH7GnMWUR@kista>
+From: Alex Bee <knaerzche@gmail.com>
+Message-ID: <4f8f6da3-70b1-5dd8-27b7-c9f9fd37920b@gmail.com>
+Date: Fri, 15 Oct 2021 12:33:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <1705005.VLH7GnMWUR@kista>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Drop Hungarian notation prefix in `byPreambleType` member of
-struct vnt_private. Change it to use snake case. Update
-comment for `bb_get_frame_time` to reflect that change.
+Hi Benjamin, Jernej
+Am 12.10.21 um 18:08 schrieb Jernej Škrabec:
+> CC: Alex Bee
+> 
+> Alex, please take a look to these patches too.
+These patches don't remove anything that would be need for rkvdec hevc - 
+but indeed - we need some more:
+https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch#L242-L305
 
-Fix issue detected by checkpatch.pl:
-  CHECK: Avoid CamelCase: <byPreambleType>
+v4l2_ctrl_hevc_sps:
+__u8	video_parameter_set_id
+__u8	seq_parameter_set_id
 
-Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
----
- drivers/staging/vt6655/baseband.c    |  8 ++---
- drivers/staging/vt6655/baseband.h    |  2 +-
- drivers/staging/vt6655/device.h      |  2 +-
- drivers/staging/vt6655/device_main.c |  8 ++---
- drivers/staging/vt6655/rxtx.c        | 50 ++++++++++++++--------------
- 5 files changed, 35 insertions(+), 35 deletions(-)
+v4l2_ctrl_hevc_pps:
+__u8	pic_parameter_set_id
+__u16	short_term_ref_pic_set_size
+__u16	long_term_ref_pic_set_size
 
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index 0bae35af6e0f..7a5f186f2598 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -1691,7 +1691,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
-  *
-  * Parameters:
-  *  In:
-- *      by_preamble_type  - Preamble Type
-+ *      preamble_type     - Preamble Type
-  *      by_pkt_type        - PK_TYPE_11A, PK_TYPE_11B, PK_TYPE_11GB, PK_TYPE_11GA
-  *      cb_frame_length   - Baseband Type
-  *      tx_rate           - Tx Rate
-@@ -1700,7 +1700,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
-  * Return Value: FrameTime
-  *
-  */
--unsigned int bb_get_frame_time(unsigned char by_preamble_type,
-+unsigned int bb_get_frame_time(unsigned char preamble_type,
- 			       unsigned char by_pkt_type,
- 			       unsigned int cb_frame_length,
- 			       unsigned short tx_rate)
-@@ -1717,7 +1717,7 @@ unsigned int bb_get_frame_time(unsigned char by_preamble_type,
- 	rate = (unsigned int)awc_frame_time[rate_idx];
- 
- 	if (rate_idx <= 3) {		    /* CCK mode */
--		if (by_preamble_type == 1) /* Short */
-+		if (preamble_type == 1)     /* Short */
- 			preamble = 96;
- 		else
- 			preamble = 192;
-@@ -1764,7 +1764,7 @@ void vnt_get_phy_field(struct vnt_private *priv, u32 frame_length,
- 	u32 count = 0;
- 	u32 tmp;
- 	int ext_bit;
--	u8 preamble_type = priv->byPreambleType;
-+	u8 preamble_type = priv->preamble_type;
- 
- 	bit_count = frame_length * 8;
- 	ext_bit = false;
-diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
-index 0a30afaa7cc3..15b2802ed727 100644
---- a/drivers/staging/vt6655/baseband.h
-+++ b/drivers/staging/vt6655/baseband.h
-@@ -44,7 +44,7 @@
- #define TOP_RATE_2M         0x00200000
- #define TOP_RATE_1M         0x00100000
- 
--unsigned int bb_get_frame_time(unsigned char by_preamble_type,
-+unsigned int bb_get_frame_time(unsigned char preamble_type,
- 			       unsigned char by_pkt_type,
- 			       unsigned int cb_frame_length,
- 			       unsigned short w_rate);
-diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index 92d6f82f939f..4706bde1ec1d 100644
---- a/drivers/staging/vt6655/device.h
-+++ b/drivers/staging/vt6655/device.h
-@@ -203,7 +203,7 @@ struct vnt_private {
- 	unsigned char byMinChannel;
- 	unsigned char byMaxChannel;
- 
--	unsigned char byPreambleType;
-+	unsigned char preamble_type;
- 	unsigned char byShortPreamble;
- 
- 	unsigned short wCurrentRate;
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 24f0e346da12..212d2a287b2c 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -177,11 +177,11 @@ device_set_options(struct vnt_private *priv)
- 	priv->byPacketType = priv->byBBType;
- 	priv->byAutoFBCtrl = AUTO_FB_0;
- 	priv->bUpdateBBVGA = true;
--	priv->byPreambleType = 0;
-+	priv->preamble_type = 0;
- 
- 	pr_debug(" byShortRetryLimit= %d\n", (int)priv->byShortRetryLimit);
- 	pr_debug(" byLongRetryLimit= %d\n", (int)priv->byLongRetryLimit);
--	pr_debug(" byPreambleType= %d\n", (int)priv->byPreambleType);
-+	pr_debug(" preamble_type= %d\n", (int)priv->preamble_type);
- 	pr_debug(" byShortPreamble= %d\n", (int)priv->byShortPreamble);
- 	pr_debug(" byBBType= %d\n", (int)priv->byBBType);
- }
-@@ -1424,10 +1424,10 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
- 	if (changed & BSS_CHANGED_ERP_PREAMBLE) {
- 		if (conf->use_short_preamble) {
- 			MACvEnableBarkerPreambleMd(priv->port_offset);
--			priv->byPreambleType = true;
-+			priv->preamble_type = true;
- 		} else {
- 			MACvDisableBarkerPreambleMd(priv->port_offset);
--			priv->byPreambleType = false;
-+			priv->preamble_type = false;
- 		}
- 	}
- 
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index ff0b5391ea0b..0de801b666da 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -142,7 +142,7 @@ s_uFillDataHead(
- 
- static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
- {
--	return cpu_to_le16(wTimeStampOff[priv->byPreambleType % 2]
-+	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
- 							[rate % MAX_RATE]);
- }
- 
-@@ -163,7 +163,7 @@ s_uGetTxRsvTime(
- {
- 	unsigned int uDataTime, uAckTime;
- 
--	uDataTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, cbFrameLength, wRate);
-+	uDataTime = bb_get_frame_time(pDevice->preamble_type, byPktType, cbFrameLength, wRate);
- 
- 	if (!bNeedAck)
- 		return uDataTime;
-@@ -172,7 +172,7 @@ s_uGetTxRsvTime(
- 	 * CCK mode  - 11b
- 	 * OFDM mode - 11g 2.4G & 11a 5G
- 	 */
--	uAckTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14,
-+	uAckTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14,
- 				     byPktType == PK_TYPE_11B ?
- 				     pDevice->byTopCCKBasicRate :
- 				     pDevice->byTopOFDMBasicRate);
-@@ -200,22 +200,22 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
- 	unsigned int ack_time = 0;
- 	unsigned int data_time = 0;
- 
--	data_time = bb_get_frame_time(priv->byPreambleType, pkt_type, frame_length, current_rate);
-+	data_time = bb_get_frame_time(priv->preamble_type, pkt_type, frame_length, current_rate);
- 	if (rts_rsvtype == 0) { /* RTSTxRrvTime_bb */
--		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
-+		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
- 		cts_time = ack_time;
- 	} else if (rts_rsvtype == 1) { /* RTSTxRrvTime_ba, only in 2.4GHZ */
--		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
--		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
-+		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
-+		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
- 	} else if (rts_rsvtype == 2) { /* RTSTxRrvTime_aa */
--		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopOFDMBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
-+		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopOFDMBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
- 		cts_time = ack_time;
- 	} else if (rts_rsvtype == 3) { /* CTSTxRrvTime_ba, only in 2.4GHZ */
--		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
-+		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
- 		rrv_time = cts_time + ack_time + data_time + 2 * priv->uSIFS;
- 		return cpu_to_le16((u16)rrv_time);
- 	}
-@@ -255,7 +255,7 @@ s_uGetDataDuration(
- 	switch (byDurType) {
- 	case DATADUR_B:    /* DATADUR_B */
- 		if (bNeedAck) {
--			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
-+			uAckTime = bb_get_frame_time(pDevice->preamble_type,
- 						     byPktType, 14,
- 						     pDevice->byTopCCKBasicRate);
- 		}
-@@ -273,7 +273,7 @@ s_uGetDataDuration(
- 
- 	case DATADUR_A:    /* DATADUR_A */
- 		if (bNeedAck) {
--			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
-+			uAckTime = bb_get_frame_time(pDevice->preamble_type,
- 						     byPktType, 14,
- 						     pDevice->byTopOFDMBasicRate);
- 		}
-@@ -292,7 +292,7 @@ s_uGetDataDuration(
- 	case DATADUR_A_F0:    /* DATADUR_A_F0 */
- 	case DATADUR_A_F1:    /* DATADUR_A_F1 */
- 		if (bNeedAck) {
--			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
-+			uAckTime = bb_get_frame_time(pDevice->preamble_type,
- 						     byPktType, 14,
- 						     pDevice->byTopOFDMBasicRate);
- 		}
-@@ -344,17 +344,17 @@ s_uGetRTSCTSDuration(
- 
- 	switch (byDurType) {
- 	case RTSDUR_BB:    /* RTSDuration_bb */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
- 		break;
- 
- 	case RTSDUR_BA:    /* RTSDuration_ba */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
- 		break;
- 
- 	case RTSDUR_AA:    /* RTSDuration_aa */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
- 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
- 		break;
- 
-@@ -363,7 +363,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -372,7 +372,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_AA_F0: /* RTSDuration_aa_f0 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -381,7 +381,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_BA_F1: /* RTSDuration_ba_f1 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -390,7 +390,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_AA_F1: /* RTSDuration_aa_f1 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -1289,9 +1289,9 @@ int vnt_generate_fifo_header(struct vnt_private *priv, u32 dma_idx,
- 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_LRETRY);
- 
- 	if (tx_rate->flags & IEEE80211_TX_RC_USE_SHORT_PREAMBLE)
--		priv->byPreambleType = PREAMBLE_SHORT;
-+		priv->preamble_type = PREAMBLE_SHORT;
- 	else
--		priv->byPreambleType = PREAMBLE_LONG;
-+		priv->preamble_type = PREAMBLE_LONG;
- 
- 	if (tx_rate->flags & IEEE80211_TX_RC_USE_RTS_CTS)
- 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_RTS);
--- 
-2.30.2
+As far as I can see, they are all part of the spec and should be 
+therefore good to go in the uapi.
+
+As you might now, even rkvdec is a frame-based decoder, it doesn't fully 
+parse slice headers in HW for HEVC and we need to set references in SW 
+which requires looping over the slices. Downstream we have a hack to 
+give num_slices in v4l2_ctrl_hevc_sps for doing that.
+That could fully go away, if V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS could 
+get dynamic array control support and would make upstreaming this a lot 
+easier - as far as I'm concered this would be required for RPi HEVC 
+decoder as well.
+As a last resort we could also implement a HW specifc control à la
+V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP - but I'd like to avoid that, 
+knowing it would certainly be better from performance pov.
+
+Alex.
+> 
+> Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard napisal(a):
+>>
+>> Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
+>>> Hi Benjamin!
+>>>
+>>> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard
+> napisal(a):
+>>>> This series aims to clean up Reference Picture Set usage and flags.
+>>>>
+>>>> Long term flag was named with RPS prefix while it is not used for RPS
+>>>> but for mark long term references in DBP. Remane it and remove the two
+>>>> other useless RPS flags.
+>>>>
+>>>> Clarify documentation about RPS lists content and make sure that Hantro
+>>>> driver use them correctly (i.e without look up in DBP).
+>>>>
+>>>> These patches are the last in my backlog impacting HEVC uAPI.
+>>>>   From my point of view, once they get merged, you could start talking
+>>>> about how move HEVC uAPI to stable.
+>>> With your changes, HEVC uAPI controls still won't be complete. Cedrus
+> needs
+>>> entry point control, which in turn needs dynamic array support. I'm a bit
+> lazy
+>>> implementing that control, but I guess I can take a look in a month or so.
+>>> rkvdec also needs more fields for HEVC. With patches collected here:
+>>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/
+>>> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
+>>> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
+>>
+>> Hi Jernej,
+>>
+>> Thanks for your feedback, getting a list of missing items in HEVC uAPI
+>> will definitively help to fill the hope.
+>> The patch you mention for rkvdec are already merged in mainline kernel (at
+>> least for uAPI part).
+> 
+> Are they? What about:
+> video_parameter_set_id
+> seq_parameter_set_id
+> pic_parameter_set_id
+> short_term_ref_pic_set_size
+> long_term_ref_pic_set_size
+> 
+> At least I don't see them in linux-next. Maybe that information can be
+> obtained in some other way?
+> 
+>> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and
+> entry_point_offset_minus1[ i ]
+>> in HEVC specifications ?
+> 
+> Yes, Cedrus needs to know whole list of entry points. I don't think we need to
+> worry about offset_len_minus1, list could be pre-processed - just number of
+> entry points and their values.
+> 
+> Best regards,
+> Jernej
+> 
+>>
+>> Regards,
+>> Benjamin
+>>
+>>>
+>>> I would certainly wait with moving HEVC uAPI to stable.
+>>>
+>>> Best regards,
+>>> Jernej
+>>>
+>>>> version 2:
+>>>> - change DPB field name from rps to flags
+>>>>
+>>>> Please note that the only purpose of commits 3 and 4 is to allow to test
+>>>> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+>>>> can be found. Do not merge them.
+>>>>
+>>>> GStreamer HEVC plugin merge request can be found here:
+>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>>>>
+>>>> With those piece of code fluster score is 77/147.
+>>>>
+>>>> Benjamin
+>>>>
+>>>> Benjamin Gaignard (4):
+>>>>     media: hevc: Remove RPS named flags
+>>>>     media: hevc: Embedded indexes in RPS
+>>>>     media: hantro: Use syscon instead of 'ctrl' register
+>>>>     arm64: dts: imx8mq: Add node to G2 hardware
+>>>>
+>>>>    .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>>>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>>>>    drivers/staging/media/hantro/hantro.h         |  5 +-
+>>>>    .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>>>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>>>>    include/media/hevc-ctrls.h                    |  6 +--
+>>>>    7 files changed, 84 insertions(+), 61 deletions(-)
+>>>>
+>>>> -- 
+>>>> 2.30.2
+>>>>
+>>>>
+>>>
+>>
+> 
+> 
 
