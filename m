@@ -1,92 +1,82 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D302C83
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 00:02:36 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id y3so23373266wrl.1
-        for <linux-staging@lists.linux.dev>; Thu, 14 Oct 2021 17:02:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NJ9h42EZq8V8uTouqjvpCukohjQ9nZfHHgB0TycmMIw=;
-        b=R0zAUSmojL5KI/7M53aTElLzbIT3uHUA22GUriEBCrFpOfsheRN0osk804I/tADXz5
-         2VZrqgitHi8VxW+iPFwo4Aikx7BpA57/BcnNNaaXtWo3RmxMCGQxZaHgamkVX9YzJmHZ
-         Pvg0iTpIx4pg/sFrrbRa9k07pcBrkF0BAeBt3ADjVhW2992+px1ht2ZER/3n5dG+EDff
-         IJvjV/djYlunF46NjPu1L+IGD/eHEfqZSQ5qHCkLblB4kKMNZrodmSg91UQwcNPfGzZm
-         zlWDaPQThPQgTe7dfnbO+h+GhOEduzBBRCsBWYozfpm8xG121Bxz3gr/G5l3EKNHDmBa
-         sN/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NJ9h42EZq8V8uTouqjvpCukohjQ9nZfHHgB0TycmMIw=;
-        b=JtkJbOOLJqQI4L+utA0hcWx4xJmJaCOPXEbN92jbtHrUdo7lVcMg0YP8zX9j5andB/
-         0s7S++hwhztGjDa2PnutdOi1zIQUSVX8xwCgtmw+CrJDuUJNLxou2EhZU5UJAqhFKX5z
-         moGQD2WXqL/cVHteRRMjSdys2O8RyoKujvxvoAEe0G/FxPEhNsceTsSGEJy9N74jkzmK
-         8ERwIMdlZFBe1YAxdPrQp5FiFqruwu/yk2i8I5NfWtyFz948AQzC2e+Lbm26InhxMdB3
-         APvtP7D8ML1QrN+hG8xUyun7mQIvbe93UVNp3SpPOVIkQECcGqYfRl7unw5a1Pql3RTp
-         IAmg==
-X-Gm-Message-State: AOAM5304GXsV2v9h3bDGE4J3Ts8al9TodsQqJP+iVbBH9CwoR9gqplBq
-	3ufqC7KyKdgztVRY4Ot+pYZxVw==
-X-Google-Smtp-Source: ABdhPJy6u3Pn1Ya+r5+UZe7oicb5emKBZw0WhCRDptFGPB4wevvGZLR6bbEUcnppFwAmSgSaYp19og==
-X-Received: by 2002:adf:de0e:: with SMTP id b14mr10451098wrm.271.1634256155106;
-        Thu, 14 Oct 2021 17:02:35 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id l16sm3534684wmj.33.2021.10.14.17.02.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Oct 2021 17:02:34 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com,
-	martin@kaiser.cx,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove MSG_88E calls from hal/usb_halinit.c
-Date: Fri, 15 Oct 2021 01:02:33 +0100
-Message-Id: <20211015000233.842-1-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F022C83
+	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 00:16:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8CD660FDC;
+	Fri, 15 Oct 2021 00:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1634257009;
+	bh=y921IoviWP7ArGzf/NBOMznO7PDvJ8OxA3PyazLbsOc=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=pCi7obhE30Iv7WDLzDrA4nCqMpadPw7MZJ4gYnNOHFAEalPk0tCfXZ+HvEgIia54U
+	 k5+ll1GaVAyg84eUhAyLwhqHOdQKc5j/bZAGSbmkH6qti6sgp8m0qd4S+tgooJBsvi
+	 Bfo88sZs4vrSNE0j56eripPvUMf3IBWonfEc+HLOFZ9sxVGaJL8DzHHzYEXwRxWl0r
+	 A4rwIYS+vtYWACJUmQ03lxppfSC74ZnEnhHDw/NZDVscNhabCkz2muTRcVOXPhQEjA
+	 PJXP+VLbj7pUdDQo23ONQeh2EGBx+EfEgtxggBF7Ue2zJiXRQWWbLOdD60/739HnJ8
+	 A6nKTZXjxBrOA==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210920181145.19543-6-digetx@gmail.com>
+References: <20210920181145.19543-1-digetx@gmail.com> <20210920181145.19543-6-digetx@gmail.com>
+Subject: Re: [PATCH v12 05/35] dt-bindings: clock: tegra-car: Document new clock sub-nodes
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-clk@vger.kernel.org, Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>, David Heidelberg <david@ixit.cz>
+To: Adrian Hunter <adrian.hunter@intel.com>, Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Lee Jones <lee.jones@linaro.org>, Michael Turquette <mturquette@baylibre.com>, Mikko Perttunen <mperttunen@nvidia.com>, Nishanth Menon <nm@ti.com>, Peter Chen <peter.chen@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>, Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Viresh Kumar <vireshk@kernel.org>
+Date: Thu, 14 Oct 2021 17:16:47 -0700
+Message-ID: <163425700766.1688384.4481739110941660602@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 
-Remove both MSG_88E calls from hal/usb_halinit.c, as these calls serve
-no purpose other than to print the name of the function they are in
-(_ReadAdapterInfo8188EU) on entry and on exit, with a timing of the
-function, which is better accomplished by other means. Also remove
-the jiffies assignment at the start of the function, as it is no
-longer used.
+Quoting Dmitry Osipenko (2021-09-20 11:11:15)
+> diff --git a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.y=
+aml b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+> index 459d2a525393..f832abb7f11a 100644
+> --- a/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+> +++ b/Documentation/devicetree/bindings/clock/nvidia,tegra20-car.yaml
+> @@ -42,6 +42,36 @@ properties:
+>    "#reset-cells":
+>      const: 1
+> =20
+> +patternProperties:
+> +  "^(sclk)|(pll-[cem])$":
+> +    type: object
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - nvidia,tegra20-sclk
+> +          - nvidia,tegra30-sclk
+> +          - nvidia,tegra30-pllc
+> +          - nvidia,tegra30-plle
+> +          - nvidia,tegra30-pllm
+> +
+> +      operating-points-v2: true
+> +
+> +      clocks:
+> +        items:
+> +          - description: node's clock
+> +
+> +      power-domains:
+> +        maxItems: 1
+> +        description: phandle to the core SoC power domain
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/r8188eu/hal/usb_halinit.c | 6 ------
- 1 file changed, 6 deletions(-)
+Is this done to associate the power domain with a particular clk? And an
+OPP table with a particular clk?
 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index f6db5b05e6e7..abbd107ad3c1 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1073,15 +1073,9 @@ static void _ReadRFType(struct adapter *Adapter)
- 
- static int _ReadAdapterInfo8188EU(struct adapter *Adapter)
- {
--	u32 start = jiffies;
--
--	MSG_88E("====> %s\n", __func__);
--
- 	_ReadRFType(Adapter);/* rf_chip -> _InitRFType() */
- 	_ReadPROMContent(Adapter);
- 
--	MSG_88E("<==== %s in %d ms\n", __func__, rtw_get_passing_time_ms(start));
--
- 	return _SUCCESS;
- }
- 
--- 
-2.31.1
-
+> +
+> +    required:
+> +      - compatible
+> +      - operating-points-v2
+> +      - clocks
+> +      - power-domains
+> +
+> +    additionalProperties: false
+> +
+>  required:
+>    - compatible
+>    - reg
