@@ -1,200 +1,204 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266B62C80
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 12:50:47 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19FBmPMA001745;
-	Fri, 15 Oct 2021 12:50:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=RZmKaoLVswghVtKbGJiGW2YPPbvW1gipQZJo8DzXmuY=;
- b=D7fymdxuQN9KJH6uTt4HseuyQyqxJ56eWOvWSMH3dC/KwdQN54en7sIlHHRQQYcAZQum
- V1Js+7Y+iQv8DvpjQswu1OysHPOLisgHH2xl8qHoizBc08k6hQKHQ1uphsQluvQpk9d1
- 0Mylp/nxUeJ106G2QPZ6fuY+enWKP1ofJOvtLraww46bO/ESoLKlXAnnm2lkFmVWxWWx
- 08QTBlpz1OpZsZ9w3vijpwyC1V8Q6OVp6eEJ1r0Wp8Bn605vaRlJ29DWSuTkcTfLEBFq
- LMTCLMDQZSPwjxOUNmVcU11TaUSFGz6UlnOXgymILGcNWOJeJXCWslB58RW00JWKdEyE 0g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3bpfy68jpk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Oct 2021 12:50:44 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19FCfHtG150945;
-	Fri, 15 Oct 2021 12:50:40 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2103.outbound.protection.outlook.com [104.47.70.103])
-	by userp3020.oracle.com with ESMTP id 3bkyvfp59t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Oct 2021 12:50:40 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K17a1UvEuaCTxqI+CqrR6IWpXiTXtvRD6veitVwbFoOTLbFqEa9Ena5FojmJpAZPXm30Qh2ROjewMmIxJIQLtgnZHzlB0+UDgmeFdHNhMlDHoGJTxi1kQQL68Ul6QNI3R/Bf0O4LLcjfZ1GVBMou+DkNtKxnbweYDxkEeGAwlTjNyeH/mW6Je8tESMn6eqxTDTpmeEm4Wm1ODdnedTD69iPQG8d+b+ioilFeizl9nP+UsSCFF+tbzANRq67ysFW1wnx8c5AS5ByW7UvDo/+m4K4LkSQ7E4+L2QDjIhDldmOFd7wD4Ssf8h2ysLHkVSMQNGykdekCwt0G41pNX049ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RZmKaoLVswghVtKbGJiGW2YPPbvW1gipQZJo8DzXmuY=;
- b=dgWEI81ctwvg7tpLbvilFT6OP6DIWa4caQHy8CqN1EvtdpB0gVTEra2sg5wKwJ4jOf9aJjbqKV/tY3xw35Zio4Pn4FVjDeuaJROXhUXCkHiOq8tAgjBvwdtVLDx/AU9Mq70R7JWffuxrXwuGV0/wJ4z598taUsbZ3G0JQP/DVtoabyVxsPiSdCo3BbpI8YMMyhpvAthu9vfUYM6lpHxtlTtNNRT4mI7+D5LTAubRDhijZqvMR0KezMd1EpCVJj3JCoMaJQsdF3cHHkSUFjjHxizUmmKw3OeM3vlP6AK6mSvlTf0+WthgJKxUaIY9M9aXR7DhJ1Gxg6W3Z7h2p5IDwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RZmKaoLVswghVtKbGJiGW2YPPbvW1gipQZJo8DzXmuY=;
- b=AL55qMJukEFk/CXuxkgw3x9OMiYD6rv/QydiK5CYYi3QE0xWFTWAUEvOQEdBrTyxuJ3WcAa3x0u9yXpncPZOnkNSke35CwF4fKH8RveQB7/VXxuxxsL+MaHNCXDV0BJgyc9rTmiin+x+kz7uIxD0sMQsMQWtKrkeYt8vnlcMR74=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4724.namprd10.prod.outlook.com
- (2603:10b6:303:96::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.17; Fri, 15 Oct
- 2021 12:50:38 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4608.016; Fri, 15 Oct 2021
- 12:50:38 +0000
-Date: Fri, 15 Oct 2021 15:50:20 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] staging: r8188eu: Use completions instead of
- semaphores
-Message-ID: <20211015125020.GS8429@kadam>
-References: <20211015110238.1819-1-fmdefrancesco@gmail.com>
- <20211015113715.GR8429@kadam>
- <2060953.sJFZD89sIB@localhost.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2060953.sJFZD89sIB@localhost.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::15)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66E42C82;
+	Fri, 15 Oct 2021 14:07:05 +0000 (UTC)
+Received: from [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b] (unknown [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 141ED1F45370;
+	Fri, 15 Oct 2021 15:06:57 +0100 (BST)
+Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
+To: Alex Bee <knaerzche@gmail.com>, =?UTF-8?Q?Jernej_=c5=a0krabec?=
+ <jernej.skrabec@gmail.com>, mchehab@kernel.org, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl,
+ jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+ <21222555.EfDdHjke4D@kista>
+ <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
+ <1705005.VLH7GnMWUR@kista> <4f8f6da3-70b1-5dd8-27b7-c9f9fd37920b@gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <9d9645a1-9d44-4fec-55e7-5b0a1c69e7ab@collabora.com>
+Date: Fri, 15 Oct 2021 16:06:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.22) by JNAP275CA0024.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.16 via Frontend Transport; Fri, 15 Oct 2021 12:50:34 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 83b7e758-6e08-4880-f2c5-08d98fda630f
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4724:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB47240261554FF2367FFC977F8EB99@CO1PR10MB4724.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4+NrLSvNn7etRG/ZCRo6dgA7zfuOh+LbS2d6CFugUcYrUt7QKgTEnslenUSqMwge3oftkOgqUgwjiyJpaKMhCphFzTryN4uO67V4AYthAy5GmpkZd6w8Ephi5erRVKBKD8Wjgy1OSBT+lqEuZG2A/Zv6VBnKy1reyZTQQeQq6KC+/oYpRqMgzwzL4dslZE6G68lVlynbPPchh01G5W99JSi6FTOJcIOe8obt87a2QV0hiOAUVn8/SZX3T9Fup3y1PRXKW66IeEMZZXACkIeN2DEEdNDqK8lzBSsUa7qV1YIfa7sgFN8M7aLrhyU55gGvwOSTeA4HTrT3mbfRsRmrp/cIh7KcDLRDJer6WykzL+F5W1C/fxdITRYRjR6enMnMlXF02qtXJdTo7GgqDPqWf2gEL/KMrdXZPd8u6F4wqjMLJgL503FX2X8avaByKv9dFBlmbpEeMoC6/mT1N+QphFCQzVDtr1XaA7mtvkB2J8/Y8JgUbZoP/C5prUk3iKGv5AB980yVQFiS3+tEGHq1uKTzvWgYMXPCS5XkeeJC4DHoUlqlRoqwgH7hme4wabSFpmjdsAvLKw/gZZNOqZNsHgUSw4N1WMi4RIg5BYZ13fXj1iADthdAQeiTEWguKB1adeuY7UEq/rVeB8+Ia0O0QnhmokhR4pDIReWEEpgyIgZKrCFJXD3wmBTSLQncxY0N5Y7bzGab02f99rFvVFylBQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(9686003)(38100700002)(38350700002)(316002)(6666004)(6916009)(4326008)(86362001)(55016002)(83380400001)(508600001)(54906003)(5660300002)(66946007)(66556008)(9576002)(66476007)(2906002)(53546011)(44832011)(8936002)(956004)(6496006)(186003)(52116002)(33656002)(1076003)(8676002)(33716001)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?VndTPAnsCWYdQDGd7/jw2bfxvW4EJWY9F2cl9v+C+dXqtW6O6iXd5e1SSU1c?=
- =?us-ascii?Q?nKFVbERquwi2kld8HyJ4FRArDT2IDqi7jfvqAIi/O+Ck38ua3pM6YwaZR44P?=
- =?us-ascii?Q?56QWTBnZh64yaKTIMjOgH8tB3+D0pEacYYhsxEAK66CwBdlqWFbve/BtxkET?=
- =?us-ascii?Q?FX9hEwx3EgAN5qE88u3ml1NGcD/UuEuOjrVdaX0N9a2gWVq/bNjx89IS/kuk?=
- =?us-ascii?Q?osTvhfHbfRfzccEYaLKYjCMUs7qjvrKAEDR6NUQ09rTpRazua+riVyfZXvKN?=
- =?us-ascii?Q?Gk8JpN0QObbGbmGgTUjFCkAf8kSub7ir+U+ygeXSBwn4zJ25uskMf0cak3eQ?=
- =?us-ascii?Q?oUHUWe85SOUlcF7NquwdCOK8r9g7FVB3mTzDHVoU83I33fGbmK7GnjOfXWJn?=
- =?us-ascii?Q?QF2de+91x5bNTMo3K1cKqobhxY7MvATdPgpk7+nfuDCctxQBSPqW2RGTIVne?=
- =?us-ascii?Q?dO6dNlY7X1jJ2ju3HuZBjDaOHXt9pWIUyVv4lKRzu4HzAkGfjndPehInXyb8?=
- =?us-ascii?Q?4roF1OY/239gkbxrB/PL30Jn5h5+q/SMNfFsE2JnnWITa68ILa3ZCmoilH6v?=
- =?us-ascii?Q?sKBIHsIS9qZCyZiY/tp9CenS544r1WNyHHkZEFf2hydwgHADzio0cU9TslNY?=
- =?us-ascii?Q?XwBzfsNJOhdZ+bQceH8BaHQ7Eb0aLhmCuxXV+rKu42Q3eXz3AUq+ak8wlTN6?=
- =?us-ascii?Q?E77+VsclVxsjb2pZ73H4NJC5NwslE5k6nMhdPwkdavp/x+iNGUhF8ik3BYTA?=
- =?us-ascii?Q?LtKfP8L5QLGOcHon85QIYfz4VqlLX9wqSJY8NTLw0cmhW4Iw22jgEWOwZ19T?=
- =?us-ascii?Q?Xxu2wP4q2ZjmZ9pWP/M7QzeSGGJxMaChvRbiyINxmr4EzVTpH72dvKp2mCCP?=
- =?us-ascii?Q?TVv4At60dFNqG5cKG9rI3PJuTDoWpM/ZVDsYi1kPyYwjbcWaZZ8t0shp2Z4L?=
- =?us-ascii?Q?rFNktorn/at4T9Zly2whfIZDVFfGFQMt1DVAc8oFgrZb+nT6ehzIhh0e7g5Z?=
- =?us-ascii?Q?Mhee3V/Wuif+ConEX2OPGre1SDv82YIBjQKIe3Km8HgtgllfHyBBT8LvKHEq?=
- =?us-ascii?Q?xo0pWZxuNdUymQOJnrNKgRUYOw7B/gqSha0+LaypZs5IBbZuejxasZkGj7pn?=
- =?us-ascii?Q?5pMK/1BDWI5JdUTP/5eKt1yZ23RDAyyW2dOtBQREmHcVvTfA4TuTJg/3po/D?=
- =?us-ascii?Q?O0ygkzOAib991PBijSBxN525Z/RyvrbFEsi+5itkfL80QdDCTKFSgSf5Wdv9?=
- =?us-ascii?Q?tr2ZtwnGn89Ka0VR4oAXyz2XLQFxBqCtGzesf/fCkzQyuEE4VC8iCqTRjZOw?=
- =?us-ascii?Q?D4z+fKnVpH7rqwQqymLzpiqq?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83b7e758-6e08-4880-f2c5-08d98fda630f
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 12:50:37.9426
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rN3kobM8kAkmk8MjrSyz957eqvC2CQUxVYf8QSfmuT7BXV/MuThfHLz+TH4KSH6C5swOPyg1Bp5u3Sa/lmmWqnhQnObjmya1sOB1SmQGvxo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4724
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10137 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- adultscore=0 bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109230001 definitions=main-2110150077
-X-Proofpoint-GUID: uS2b3tOk8P_Oe3MrW2elzxslqFeAwvOr
-X-Proofpoint-ORIG-GUID: uS2b3tOk8P_Oe3MrW2elzxslqFeAwvOr
+In-Reply-To: <4f8f6da3-70b1-5dd8-27b7-c9f9fd37920b@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Fri, Oct 15, 2021 at 02:11:41PM +0200, Fabio M. De Francesco wrote:
-> On Friday, October 15, 2021 1:37:15 PM CEST Dan Carpenter wrote:
-> > On Fri, Oct 15, 2021 at 01:02:38PM +0200, Fabio M. De Francesco wrote:
-> > > rtw_cmd_thread() "up(s)" a semaphore twice, first to notify callers when
-> > > its execution is started and then to notify when it is about to end.
-> > > 
-> > > It makes the same semaphore go "up" twice in the same thread. This
-> > > construct makes Smatch to warn of duplicate "up(s)".
-> > >
-> > > [...]
-> > >
-> > > I'm waiting for Maintainers and other Reviewers to say if this patch is
-> > > actually needed and, if so, also for suggestions about how to improve
-> > > it. In particular I'm interested to know what they think of using the
-> > > uninterruptible version of wait_for_completion*().
-> > > 
-> > > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > 
-> > This is basically what Arnd did to rtl8723bs in commit:
-> > 
-> > commit 09a8ea34cf431bfb77159197e46753d101c528c5
-> > Author: Arnd Bergmann <arnd@arndb.de>
-> > Date:   Mon Dec 10 22:40:30 2018 +0100
-> > 
-> >     staging: rtl8723bs: change semaphores to completions
-> > 
-> > But there are some differences.  His patch is a little bit cleaner
-> > because it gets rid of "pcmdpriv->cmd_queue_sema".  Could you basically
-> > just ports Arnd's patch for this driver?
-> > 
-> > His patch goes quite a bit further as well, and change some other
-> > semaphors but we could do it piece meal and just change the
-> > rtw_cmd_thread() related ones.
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> Hi Dan,
-> 
-> Thanks for your review. 
-> 
-> I wasn't aware of Arnd's patch. If I were I would have sent a "normal" patch.
-> 
-> Beyond this, I noticed that other semaphore (pcmdpriv->cmd_queue_sema) but, 
-> since I was not 100% sure that my changes would be accepted, I decided to 
-> leave it as-is for now and wait for reviews like yours.
-> 
-> Now that I know that this changes are welcome I'll also make the other 
-> changes. 
-> 
-> I guess that I have to change one semaphore per patch and make a series. 
-> However, now I see that Arnd's patch makes all the necessary changes in a 
-> single patch. What is the correct approach? Is one patch per semaphore 
-> preferred or one big patch for all of those that need to be changed?
-> 
 
-The two semaphores used in that function are very connected so I don't
-think it makes sense to split those up.  The others are less connected.
+Le 15/10/2021 à 12:33, Alex Bee a écrit :
+> Hi Benjamin, Jernej
+> Am 12.10.21 um 18:08 schrieb Jernej Škrabec:
+>> CC: Alex Bee
+>>
+>> Alex, please take a look to these patches too.
+> These patches don't remove anything that would be need for rkvdec hevc 
+> - but indeed - we need some more:
+> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch#L242-L305 
+>
+>
+> v4l2_ctrl_hevc_sps:
+> __u8    video_parameter_set_id
+> __u8    seq_parameter_set_id
+>
+> v4l2_ctrl_hevc_pps:
+> __u8    pic_parameter_set_id
+> __u16    short_term_ref_pic_set_size
+> __u16    long_term_ref_pic_set_size
+>
+> As far as I can see, they are all part of the spec and should be 
+> therefore good to go in the uapi.
 
-regards,
-dan carpenter
+Do you have any plan to upstream these fields in HEVC uAPI ?
 
+Regards,
+Benjamin
+
+>
+> As you might now, even rkvdec is a frame-based decoder, it doesn't 
+> fully parse slice headers in HW for HEVC and we need to set references 
+> in SW which requires looping over the slices. Downstream we have a 
+> hack to give num_slices in v4l2_ctrl_hevc_sps for doing that.
+> That could fully go away, if V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS 
+> could get dynamic array control support and would make upstreaming 
+> this a lot easier - as far as I'm concered this would be required for 
+> RPi HEVC decoder as well.
+> As a last resort we could also implement a HW specifc control à la
+> V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP - but I'd like to avoid that, 
+> knowing it would certainly be better from performance pov.
+>
+> Alex.
+>>
+>> Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard 
+>> napisal(a):
+>>>
+>>> Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
+>>>> Hi Benjamin!
+>>>>
+>>>> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard
+>> napisal(a):
+>>>>> This series aims to clean up Reference Picture Set usage and flags.
+>>>>>
+>>>>> Long term flag was named with RPS prefix while it is not used for RPS
+>>>>> but for mark long term references in DBP. Remane it and remove the 
+>>>>> two
+>>>>> other useless RPS flags.
+>>>>>
+>>>>> Clarify documentation about RPS lists content and make sure that 
+>>>>> Hantro
+>>>>> driver use them correctly (i.e without look up in DBP).
+>>>>>
+>>>>> These patches are the last in my backlog impacting HEVC uAPI.
+>>>>>   From my point of view, once they get merged, you could start 
+>>>>> talking
+>>>>> about how move HEVC uAPI to stable.
+>>>> With your changes, HEVC uAPI controls still won't be complete. Cedrus
+>> needs
+>>>> entry point control, which in turn needs dynamic array support. I'm 
+>>>> a bit
+>> lazy
+>>>> implementing that control, but I guess I can take a look in a month 
+>>>> or so.
+>>>> rkvdec also needs more fields for HEVC. With patches collected here:
+>>>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/ 
+>>>>
+>>>> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
+>>>> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
+>>>
+>>> Hi Jernej,
+>>>
+>>> Thanks for your feedback, getting a list of missing items in HEVC uAPI
+>>> will definitively help to fill the hope.
+>>> The patch you mention for rkvdec are already merged in mainline 
+>>> kernel (at
+>>> least for uAPI part).
+>>
+>> Are they? What about:
+>> video_parameter_set_id
+>> seq_parameter_set_id
+>> pic_parameter_set_id
+>> short_term_ref_pic_set_size
+>> long_term_ref_pic_set_size
+>>
+>> At least I don't see them in linux-next. Maybe that information can be
+>> obtained in some other way?
+>>
+>>> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and
+>> entry_point_offset_minus1[ i ]
+>>> in HEVC specifications ?
+>>
+>> Yes, Cedrus needs to know whole list of entry points. I don't think 
+>> we need to
+>> worry about offset_len_minus1, list could be pre-processed - just 
+>> number of
+>> entry points and their values.
+>>
+>> Best regards,
+>> Jernej
+>>
+>>>
+>>> Regards,
+>>> Benjamin
+>>>
+>>>>
+>>>> I would certainly wait with moving HEVC uAPI to stable.
+>>>>
+>>>> Best regards,
+>>>> Jernej
+>>>>
+>>>>> version 2:
+>>>>> - change DPB field name from rps to flags
+>>>>>
+>>>>> Please note that the only purpose of commits 3 and 4 is to allow 
+>>>>> to test
+>>>>> G2 hardware block for IMX8MQ until a proper solution isuing power 
+>>>>> domain
+>>>>> can be found. Do not merge them.
+>>>>>
+>>>>> GStreamer HEVC plugin merge request can be found here:
+>>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079 
+>>>>>
+>>>>>
+>>>>> With those piece of code fluster score is 77/147.
+>>>>>
+>>>>> Benjamin
+>>>>>
+>>>>> Benjamin Gaignard (4):
+>>>>>     media: hevc: Remove RPS named flags
+>>>>>     media: hevc: Embedded indexes in RPS
+>>>>>     media: hantro: Use syscon instead of 'ctrl' register
+>>>>>     arm64: dts: imx8mq: Add node to G2 hardware
+>>>>>
+>>>>>    .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>>>>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 
+>>>>> +++++++++++++----
+>>>>>    drivers/staging/media/hantro/hantro.h         |  5 +-
+>>>>>    .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>>>>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 
+>>>>> ++++++++++++-------
+>>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>>>>>    include/media/hevc-ctrls.h                    |  6 +--
+>>>>>    7 files changed, 84 insertions(+), 61 deletions(-)
+>>>>>
+>>>>> -- 
+>>>>> 2.30.2
+>>>>>
+>>>>>
+>>>>
+>>>
+>>
+>>
+>
