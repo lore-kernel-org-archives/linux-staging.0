@@ -1,153 +1,333 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B5B2C81;
-	Fri, 15 Oct 2021 09:44:28 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19F86EjR001724;
-	Fri, 15 Oct 2021 09:44:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=DzTqS9vZ6SnImbZYd3I7Di5MNOzfJygXgusXLoDOcwE=;
- b=BQtAatkJVdBYMOdWiiXWRrDh3c0iAv+EJ+qUMe1kgSaib4BPJ6CY9Imbk1Jbx0trEBjz
- o8RtY2LX468cCvdLZJ/ai9xOOO1uP9V3RQLIIQzLyBgIuEK8u4gORnf1A90I99oYIZnK
- NM+IkuOJPUTe0jwkjdIKXEh9k+ER9OQLqydRyZBGfOZ7p3eW+l7pmIXLSb9An8z15bz/
- AK/2zj0h7jVGM+krJsmvv7aa2tDl5Tq/T/ZgLABeHn/llRteb1oqM+xgJ/AhdiYsRfYz
- hUPGth3fPr1nLAw+wErz/AkBDsNtxkbM1CydF5i+0qh1UxlT9Y9PPJE2Xcyi7EqixyqW TA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3bpfy67sfk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Oct 2021 09:44:15 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19F9FFo2037290;
-	Fri, 15 Oct 2021 09:44:03 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by userp3030.oracle.com with ESMTP id 3bkyve6s2u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 15 Oct 2021 09:44:03 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eVDSU+gjOGL/wpm9zuyQkQ+XN1GHgvcUIKOA/I6TyWIyDSQo5cO4sWGOII4pyqPy/hi3Q/219g2lVaodDiuqPDWnvq0Di9cTh1FvOuPmoVpPIiw/BVxfrP8CQCcNkt9BXnoU5Rwh7xHdnSO2iF9yT5QYm1JlP9Yp+4z2nt37aUy2CXILBCQfQmtRRQTkrMq7rnj9IH/NQABmfyRitUg37N+qZUJMb4rT09JnG1OMDPAitegTCwaH9lGt2YQWefvza8odm2lHchII9nlaEoHm4DDadSPva/Co59JBVeqUckxpMIMTAXuFdWLfFFH8MhV5xmepV/ZCGHNXRh6Gcvy0eQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DzTqS9vZ6SnImbZYd3I7Di5MNOzfJygXgusXLoDOcwE=;
- b=PURFgBXzFR0GWVUwwm8yS5vSJ6jMDINZYJuej9mz2NbNuy42Bdbl9d5D6wAKKxUbRf1OW7r4C92O+XToZNVXSzPiPIBanl6r5iKPKFfif9mW7hQ1a7iLPYA8tisVPPkUZg09sASiS05uwuWwY1DZoV7U6mmd9iqVMB/esHkxdosxKTqiS9h2q79Pji2MXu7odweqWedfnrVqbsIuRipPUXjkxvejnmIf/+76jtSXVxHNJcqjVmfIH9IZdSAuLfsdQMKum7SRqU2HBm7q7JYO8P/Iyfa+5UFKj6Jj5TVmnntffyg+4E5ajg0C8P4Q5ah2OYZmgtRFVYGbzs6fPfPWLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCFA2C81
+	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 10:25:12 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id t2so25685259wrb.8
+        for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 03:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DzTqS9vZ6SnImbZYd3I7Di5MNOzfJygXgusXLoDOcwE=;
- b=CjOi8DnTZ1gSIJun817yKDY0Wyn4B+pPIBdUWqV65Am18u/kSdgGRTTJS8yAgc2Tz/6w4rrxSI3CFcyvHKpbuxExzMxVm+nPL1Mtw6AkvU9u4STSwUlIFbzdaVcmWYfpAfPgqTiqbec42wualZlBzenD42MFTp8Vm88YiaYLFmk=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1888.namprd10.prod.outlook.com
- (2603:10b6:300:113::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.22; Fri, 15 Oct
- 2021 09:44:01 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4608.016; Fri, 15 Oct 2021
- 09:44:00 +0000
-Date: Fri, 15 Oct 2021 12:43:44 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH] staging: wlan-ng: Avoid bitwise vs logical OR warning in
- hfa384x_usb_throttlefn()
-Message-ID: <20211015094344.GQ8429@kadam>
-References: <20211014215703.3705371-1-nathan@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211014215703.3705371-1-nathan@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0044.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::21)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mOeWi5xlnFBCPH8jc/sRj3hBmUj29//1OlvUdvjSAE8=;
+        b=nuEN8rNjdWBltTDQVyfRBNyAJhEKcMcm7+qpr/o6hzeZuYt6ADY7X7a/q1tY+v1umf
+         zuHgPtJzzLznAWjIotWOKZYVhu8T6QvrF+n8BcOYuHC5nXui5WYGJ0mAL6q3ORjuMyD/
+         Ne8OhgFfwyKMf+Ie2I2E8jLnyEXuiYm05YT6VMITcIUC+E021BPVNELKLkx2X4517H6E
+         xLxFW3Okl+sgYb7P6Rs5GHLnIZmObN4Hyg6Ac2K5BQN4p5wAjnh0F3Y82lZO3/uIZ8ir
+         H+xkkBDhn1dLQEHztzQLeMBVgZVTBNjYORQgXATDEsAWdhCES1CdEhhF7zEUWXyYJG7T
+         Vdvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mOeWi5xlnFBCPH8jc/sRj3hBmUj29//1OlvUdvjSAE8=;
+        b=GeN4dmrW7efX/tMTYoxf1mFdTeKcifjf65vbpStmTSiX/3HRunNrE1TPt7UlPu9u/B
+         d4Ky642RWwRtiXcxncAuwztyEQYtqyDQIRKuvuvvJbQsBwlh8uU1cvnGUn8hgR5WqhJ4
+         fuTE5EXdzn0pyCVtuKZAzhfufvIztogQT3wbEBNFU/hq3wS2zWUTiHZG9RKBbkPDOK9r
+         FgVPHmnFBzoN8ANk6QCEYhqrFxwAnTQmB9OTs1HhAOA00AWQ8IjI9oqOwe9OYEVAVu/P
+         ajWmDfwESwaJP817j6WqYXIexWhAEJRC3zEvZnUkZ0KruHbMrYaoPz0CL416TlIdSzBh
+         HifQ==
+X-Gm-Message-State: AOAM532uLCq4LFVkMBK/srhyTrzifwJh93X0i+wihcZbfo/lCl5T43Z5
+	RU7+UdF9ikEe52QU4r0phN4=
+X-Google-Smtp-Source: ABdhPJxdhaUzHO6LgewogIoSNm8ck61Jl4xucFiS46/EMBLjYjWgJ6hLfiRxE1QBuQvC1TE8doSYMQ==
+X-Received: by 2002:adf:fd4d:: with SMTP id h13mr12919823wrs.391.1634293511073;
+        Fri, 15 Oct 2021 03:25:11 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id o23sm4541024wms.18.2021.10.15.03.25.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Oct 2021 03:25:10 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH v2] staging: vt6655: Rename byPreambleType field
+Date: Fri, 15 Oct 2021 11:24:44 +0100
+Message-Id: <20211015102444.90753-1-karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.22) by JNAP275CA0044.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.14 via Frontend Transport; Fri, 15 Oct 2021 09:43:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef027e86-d7bd-4df4-80d9-08d98fc050ec
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1888:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB18889D71453485A54B4B02268EB99@MWHPR10MB1888.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	mFRctfjPQbflyazBL0IyJC5q64OPi6OWtQ0fOCchYdJ27gs8laZgsDDMbDKaKeODQbQPd4QzmepNawS+crwuo9x0xwzCOKeoX7QRLztQYydmLp9PqopOYEqh2Gk6FipQztsAAR6mPv/DoQ+KkujLHa4BKpdWJTJYw3LXfUesoL8I2rC2B4Pk0DdDXElzFVybF2dzFsR+2dLhWMcg1RXhd4P+L+Aqd1XhnCiqvLUaYBMRvdmoSoz7U++r7u7VqlCupoFGSw/f0W2ZgTu/Tv23D7T3fRw9IpZYHh99EJAB4KXPymYcw4BTj6GseAPxiXGNBMRGw2F+duY+6PGP+I8Wjdb78RmB9n0HeSWwjnjQXdG3PE3AwQQ1Qeaz8+q53uPv7aqT4waBlXGdRaQbJNM2B9N3aIki0MPlYdfgedindBEhdidEwq8Jvgb+ufSnomMjaHUQIjrwFZADxXLcE64b9xFHcXqkHs0hvqrHd0fag49jFqtLOWLBzTqlw2b2chOVjHv91jMVN9N+wPnEocrzHW9+J5ax8k+GtYKzVoKq6Zle7Fmcokx4A+tbd0AoBrjCUzQto+BfiOaacJOkwm0FvTw+XRz9bVKGbbl2OW4qm+XvSm0v5kYabfozeV/7ELkYtaHT+bg/pEec6dD3bW1BCYOZtul+V3+Y+7q67oFSZ8mSO8/PnMmOJhQwuURfwGmRHxt0SXc7Ddv/zBHMBdicXQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(9686003)(86362001)(55016002)(316002)(54906003)(83380400001)(33656002)(33716001)(66946007)(9576002)(1076003)(8676002)(4326008)(6916009)(186003)(6666004)(508600001)(26005)(66476007)(8936002)(2906002)(66556008)(5660300002)(4744005)(38350700002)(44832011)(52116002)(38100700002)(956004)(6496006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?SvkZMQ/BUkPxIyLIgkElO6odrk6HxR4VKrs5wAGq6loiCf5JRb4wHHA2UXal?=
- =?us-ascii?Q?/SxectQzvm8oT4JcHdpQqHYd/5oEge9iXKW4kKl4C3a3L3dUJkB/WvOz4BRl?=
- =?us-ascii?Q?3j05oqnEKLY2V0J0laaiWc5O4Yn16MVnhBydnJVsqTTrmTt47+zuAMJ4mr5e?=
- =?us-ascii?Q?/+DVptoU6Xto9upCtyHGwTBQG25Jocz7G15sGLfvdsIP04cMdWU/8CG8lRKx?=
- =?us-ascii?Q?PIKrYPVnr7+klkDkL0M34RBg3KaED8VVZGPTLazeSym24A1vj1O6dz5UoLSL?=
- =?us-ascii?Q?K3Mu9cL8oLaltcpmH2YzCuQXuR/z2iNde+DeEronN4TMH5pR5dfr0iEC1hen?=
- =?us-ascii?Q?mTpLQww4estfJqfwcD4OEXXrnFSggvFuHEEvZ4I5Zi3ueVwa1dEBU6BsP6UF?=
- =?us-ascii?Q?sF8qAkKTPGrmlEn/ZazyPbOyAi2by4p6oy8eQUuwvcW9pfNSKr9DPbTkIW8c?=
- =?us-ascii?Q?LoA6/g00zSb0Nc/iyYoceGqQoU5aPV4Pap4n2bC4K2svSk+JobLQRLBNERb+?=
- =?us-ascii?Q?n+EEE+eC0tw9KR8Z2RYAGT+9LiR8V2X2tPtgFrY/o0VWFg3AIyAJ5g5sLKVR?=
- =?us-ascii?Q?EAEmWzA09s7p9kjkMhOAl0q7r+YXDwPPafrYN/y7XsyqfM+a6q6Ecz1OmRMv?=
- =?us-ascii?Q?nnboJOf8QqzvUC01h5bXqG8U2wE5TLi/ztkwAxuNFgJVVfoZ7JbJL2nVpmzT?=
- =?us-ascii?Q?N8E3bpP7pNr2Mp/xJmjINb9rCKrF6iBLWGmmvpxtw5phIqdsSi1iGcrsZ84O?=
- =?us-ascii?Q?+mSjE5v2rsc8WBgSJ8RTH2xQUEtl4GXeMDdu5Ta0ac11EAGu7hX7cLxFoXf/?=
- =?us-ascii?Q?oQTppJg8EtDYvtMygiVs7MJDivLJbd6HAqzyS4Y7bGrMRuJtTMZIfB8DH/Kd?=
- =?us-ascii?Q?lY9Re09raIGXb+SkZCYOx0fnUkI0my+bcCSR8ItoOTB0fJ9yeVhY3h55GEU6?=
- =?us-ascii?Q?ojBXv0Vo0NFgKTNFs6E9UUpoAn1kggQ1xJHMeq0NW2U+OsWBbHXHVrqmiuq1?=
- =?us-ascii?Q?IVNNrpA3V3p2+ELybQs94R3Ox/+NrnyNwISqHhhZr6JoXd+/A9zM8o5wnNTA?=
- =?us-ascii?Q?rvJX7mbweWSM3x2Z1Zun+EVLdeoJYtrb5kFcQYmCTos21h9StGrU+Xk1idOr?=
- =?us-ascii?Q?3Scs38BZO1C4Jj+lkk04Vwj79ulVCsJ5MmV9enDHsFAP3pBRNkyjKh2C/lmo?=
- =?us-ascii?Q?KjFIfMXKmjDIj9Vf0ddAR9TdAwOdrS3qOdUmNHk8GfEyg2TIueO90HKVW9op?=
- =?us-ascii?Q?r2QLEN3sEbQeAkegmLbEujO/T7oa59ZjoWkgSa+pRR0h+wQDNEoGUvhsiLDV?=
- =?us-ascii?Q?RnarGRPQerkVGhiQvj1RTpOs?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef027e86-d7bd-4df4-80d9-08d98fc050ec
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2021 09:44:00.7573
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5eWyFC3Tc422fWlwoHMuYEdlH+onBBG9LRf7cYC1zXXg72/y6FPohTC5HWf2+qaUsXCpKIECAvJofQF4u7Lv7T2WXw825eJjtsA+/yxdDDE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1888
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10137 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0 bulkscore=0
- malwarescore=0 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=974
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110150058
-X-Proofpoint-GUID: 1nSXDdkPCQZ4VNIgrqps8rfaWTksFGsZ
-X-Proofpoint-ORIG-GUID: 1nSXDdkPCQZ4VNIgrqps8rfaWTksFGsZ
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 14, 2021 at 02:57:03PM -0700, Nathan Chancellor wrote:
-> A new warning in clang points out a place in this file where a bitwise
-> OR is being used with boolean expressions:
-> 
-> In file included from drivers/staging/wlan-ng/prism2usb.c:2:
-> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
->             ((test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
->             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: note: cast one or both operands to int to silence this warning
-> 1 warning generated.
+Drop Hungarian notation prefix in `byPreambleType` member of
+struct vnt_private. Change it to use snake case. Update
+comment for `bb_get_frame_time` to reflect that change.
 
-Both sides of this bitwise OR are bool, so | and || are equivalent
-logically.  Clang should not warn about it.
+Fix issue detected by checkpatch.pl:
+  CHECK: Avoid CamelCase: <byPreambleType>
 
-regards,
-dan carpenter
+Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+---
+ drivers/staging/vt6655/baseband.c    |  8 ++---
+ drivers/staging/vt6655/baseband.h    |  2 +-
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c |  8 ++---
+ drivers/staging/vt6655/rxtx.c        | 50 ++++++++++++++--------------
+ 5 files changed, 35 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 0bae35af6e0f..7a5f186f2598 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -1691,7 +1691,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
+  *
+  * Parameters:
+  *  In:
+- *      by_preamble_type  - Preamble Type
++ *      preamble_type     - Preamble Type
+  *      by_pkt_type        - PK_TYPE_11A, PK_TYPE_11B, PK_TYPE_11GB, PK_TYPE_11GA
+  *      cb_frame_length   - Baseband Type
+  *      tx_rate           - Tx Rate
+@@ -1700,7 +1700,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
+  * Return Value: FrameTime
+  *
+  */
+-unsigned int bb_get_frame_time(unsigned char by_preamble_type,
++unsigned int bb_get_frame_time(unsigned char preamble_type,
+ 			       unsigned char by_pkt_type,
+ 			       unsigned int cb_frame_length,
+ 			       unsigned short tx_rate)
+@@ -1717,7 +1717,7 @@ unsigned int bb_get_frame_time(unsigned char by_preamble_type,
+ 	rate = (unsigned int)awc_frame_time[rate_idx];
+ 
+ 	if (rate_idx <= 3) {		    /* CCK mode */
+-		if (by_preamble_type == 1) /* Short */
++		if (preamble_type == 1)     /* Short */
+ 			preamble = 96;
+ 		else
+ 			preamble = 192;
+@@ -1764,7 +1764,7 @@ void vnt_get_phy_field(struct vnt_private *priv, u32 frame_length,
+ 	u32 count = 0;
+ 	u32 tmp;
+ 	int ext_bit;
+-	u8 preamble_type = priv->byPreambleType;
++	u8 preamble_type = priv->preamble_type;
+ 
+ 	bit_count = frame_length * 8;
+ 	ext_bit = false;
+diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
+index 0a30afaa7cc3..15b2802ed727 100644
+--- a/drivers/staging/vt6655/baseband.h
++++ b/drivers/staging/vt6655/baseband.h
+@@ -44,7 +44,7 @@
+ #define TOP_RATE_2M         0x00200000
+ #define TOP_RATE_1M         0x00100000
+ 
+-unsigned int bb_get_frame_time(unsigned char by_preamble_type,
++unsigned int bb_get_frame_time(unsigned char preamble_type,
+ 			       unsigned char by_pkt_type,
+ 			       unsigned int cb_frame_length,
+ 			       unsigned short w_rate);
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 92d6f82f939f..4706bde1ec1d 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -203,7 +203,7 @@ struct vnt_private {
+ 	unsigned char byMinChannel;
+ 	unsigned char byMaxChannel;
+ 
+-	unsigned char byPreambleType;
++	unsigned char preamble_type;
+ 	unsigned char byShortPreamble;
+ 
+ 	unsigned short wCurrentRate;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 24f0e346da12..212d2a287b2c 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -177,11 +177,11 @@ device_set_options(struct vnt_private *priv)
+ 	priv->byPacketType = priv->byBBType;
+ 	priv->byAutoFBCtrl = AUTO_FB_0;
+ 	priv->bUpdateBBVGA = true;
+-	priv->byPreambleType = 0;
++	priv->preamble_type = 0;
+ 
+ 	pr_debug(" byShortRetryLimit= %d\n", (int)priv->byShortRetryLimit);
+ 	pr_debug(" byLongRetryLimit= %d\n", (int)priv->byLongRetryLimit);
+-	pr_debug(" byPreambleType= %d\n", (int)priv->byPreambleType);
++	pr_debug(" preamble_type= %d\n", (int)priv->preamble_type);
+ 	pr_debug(" byShortPreamble= %d\n", (int)priv->byShortPreamble);
+ 	pr_debug(" byBBType= %d\n", (int)priv->byBBType);
+ }
+@@ -1424,10 +1424,10 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+ 	if (changed & BSS_CHANGED_ERP_PREAMBLE) {
+ 		if (conf->use_short_preamble) {
+ 			MACvEnableBarkerPreambleMd(priv->port_offset);
+-			priv->byPreambleType = true;
++			priv->preamble_type = true;
+ 		} else {
+ 			MACvDisableBarkerPreambleMd(priv->port_offset);
+-			priv->byPreambleType = false;
++			priv->preamble_type = false;
+ 		}
+ 	}
+ 
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index ff0b5391ea0b..0de801b666da 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -142,7 +142,7 @@ s_uFillDataHead(
+ 
+ static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
+ {
+-	return cpu_to_le16(wTimeStampOff[priv->byPreambleType % 2]
++	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
+ 							[rate % MAX_RATE]);
+ }
+ 
+@@ -163,7 +163,7 @@ s_uGetTxRsvTime(
+ {
+ 	unsigned int uDataTime, uAckTime;
+ 
+-	uDataTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, cbFrameLength, wRate);
++	uDataTime = bb_get_frame_time(pDevice->preamble_type, byPktType, cbFrameLength, wRate);
+ 
+ 	if (!bNeedAck)
+ 		return uDataTime;
+@@ -172,7 +172,7 @@ s_uGetTxRsvTime(
+ 	 * CCK mode  - 11b
+ 	 * OFDM mode - 11g 2.4G & 11a 5G
+ 	 */
+-	uAckTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14,
++	uAckTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14,
+ 				     byPktType == PK_TYPE_11B ?
+ 				     pDevice->byTopCCKBasicRate :
+ 				     pDevice->byTopOFDMBasicRate);
+@@ -200,22 +200,22 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
+ 	unsigned int ack_time = 0;
+ 	unsigned int data_time = 0;
+ 
+-	data_time = bb_get_frame_time(priv->byPreambleType, pkt_type, frame_length, current_rate);
++	data_time = bb_get_frame_time(priv->preamble_type, pkt_type, frame_length, current_rate);
+ 	if (rts_rsvtype == 0) { /* RTSTxRrvTime_bb */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
+ 		cts_time = ack_time;
+ 	} else if (rts_rsvtype == 1) { /* RTSTxRrvTime_ba, only in 2.4GHZ */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
+-		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
++		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 	} else if (rts_rsvtype == 2) { /* RTSTxRrvTime_aa */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopOFDMBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopOFDMBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 		cts_time = ack_time;
+ 	} else if (rts_rsvtype == 3) { /* CTSTxRrvTime_ba, only in 2.4GHZ */
+-		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 		rrv_time = cts_time + ack_time + data_time + 2 * priv->uSIFS;
+ 		return cpu_to_le16((u16)rrv_time);
+ 	}
+@@ -255,7 +255,7 @@ s_uGetDataDuration(
+ 	switch (byDurType) {
+ 	case DATADUR_B:    /* DATADUR_B */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopCCKBasicRate);
+ 		}
+@@ -273,7 +273,7 @@ s_uGetDataDuration(
+ 
+ 	case DATADUR_A:    /* DATADUR_A */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopOFDMBasicRate);
+ 		}
+@@ -292,7 +292,7 @@ s_uGetDataDuration(
+ 	case DATADUR_A_F0:    /* DATADUR_A_F0 */
+ 	case DATADUR_A_F1:    /* DATADUR_A_F1 */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopOFDMBasicRate);
+ 		}
+@@ -344,17 +344,17 @@ s_uGetRTSCTSDuration(
+ 
+ 	switch (byDurType) {
+ 	case RTSDUR_BB:    /* RTSDuration_bb */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+ 	case RTSDUR_BA:    /* RTSDuration_ba */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+ 	case RTSDUR_AA:    /* RTSDuration_aa */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+@@ -363,7 +363,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -372,7 +372,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_AA_F0: /* RTSDuration_aa_f0 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -381,7 +381,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_BA_F1: /* RTSDuration_ba_f1 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -390,7 +390,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_AA_F1: /* RTSDuration_aa_f1 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -1289,9 +1289,9 @@ int vnt_generate_fifo_header(struct vnt_private *priv, u32 dma_idx,
+ 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_LRETRY);
+ 
+ 	if (tx_rate->flags & IEEE80211_TX_RC_USE_SHORT_PREAMBLE)
+-		priv->byPreambleType = PREAMBLE_SHORT;
++		priv->preamble_type = PREAMBLE_SHORT;
+ 	else
+-		priv->byPreambleType = PREAMBLE_LONG;
++		priv->preamble_type = PREAMBLE_LONG;
+ 
+ 	if (tx_rate->flags & IEEE80211_TX_RC_USE_RTS_CTS)
+ 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_RTS);
+-- 
+2.30.2
 
