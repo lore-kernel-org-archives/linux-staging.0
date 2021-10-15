@@ -1,104 +1,68 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59DE2C82
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 08:19:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6028760249;
-	Fri, 15 Oct 2021 08:19:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1634285959;
-	bh=ZtB79vn0N+nDpFFIfpwm8g6mWwuaDQm7mVlJLNDK7nY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=l6xJIVZQLzDcy+1R0WUSiieiyp674YTinwCtDARIUvlSRKlLeFA68sOGYLhHIUPFw
-	 W/9jgsQTsh1xELW5qOnSpfBDer61gUVrp3Mzazvypls8lIfab1INUyODnezZfshRwZ
-	 RkxucAwgtUbUjEEzJekRkQzB+Q8ek2+bOyjt/fmwXkkDugGOFAzpJH1xoVCq8ydund
-	 xb2rQD/gpPUl8DQDB+U2v5Y3+ndi3FoE7m8FwTpN7gIAWEdjYmUEucGYR3klRhKXti
-	 gw5KYdg3+Icx3SAbJdskGoILaYcCIB2o2CdGXwNv2VX/VMQxPLuNt39FdVcwu4GJ4r
-	 728cxCySUaypA==
-Message-ID: <747ce6bf4b3511fd13408a52a301f63e37210883.camel@kernel.org>
-Subject: Re: [PATCH] staging: vchiq_arm: Add 36-bit address support
-From: nicolas saenz julienne <nsaenz@kernel.org>
-To: Mwesigwa Guma <mguma@redhat.com>, linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stefan Wahren
- <stefan.wahren@i2se.com>, Ojaswin Mujoo <ojaswin98@gmail.com>, Dan
- Carpenter <dan.carpenter@oracle.com>, Amarjargal Gundjalam
- <amarjargal16@gmail.com>,  Phil Elwell <phil@raspberrypi.com>,
- bcm-kernel-feedback-list@broadcom.com, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-  linux-staging@lists.linux.dev, fedora-rpi@googlegroups.com, Joel Savitz
- <jsavitz@redhat.com>, Chukpozohn Toe <ctoe@redhat.com>, Clark Williams
- <clark@redhat.com>
-Date: Fri, 15 Oct 2021 10:19:13 +0200
-In-Reply-To: <20211014223230.451659-1-mguma@redhat.com>
-References: <20211014223230.451659-1-mguma@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C9E2C81
+	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 08:32:22 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1mbIdP-0001aj-JY; Fri, 15 Oct 2021 10:32:11 +0200
+Date: Fri, 15 Oct 2021 10:32:11 +0200
+From: Martin Kaiser <lists@kaiser.cx>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: remove MSG_88E calls from
+ hal/usb_halinit.c
+Message-ID: <20211015083211.ngbgtmhkh3lh5kzj@viti.kaiser.cx>
+References: <20211015000233.842-1-phil@philpotter.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211015000233.842-1-phil@philpotter.co.uk>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-Hi Mwesigwa,
+Thus wrote Phillip Potter (phil@philpotter.co.uk):
 
-On Thu, 2021-10-14 at 18:32 -0400, Mwesigwa Guma wrote:
-> Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Stefan Wahren <stefan.wahren@i2se.com>
-> Cc: Ojaswin Mujoo <ojaswin98@gmail.com>
-> Cc: Dan Carpenter <dan.carpenter@oracle.com>
-> Cc: Amarjargal Gundjalam <amarjargal16@gmail.com>
-> Cc: Phil Elwell <phil@raspberrypi.com>
-> Cc: bcm-kernel-feedback-list@broadcom.com
-> Cc: linux-rpi-kernel@lists.infradead.org 
-> Cc: linux-arm-kernel@lists.infradead.org 
-> Cc: linux-staging@lists.linux.dev 
-> Cc: fedora-rpi@googlegroups.com
-> Cc: Joel Savitz <jsavitz@redhat.com>
-> Cc: Chukpozohn Toe <ctoe@redhat.com>
-> Cc: Clark Williams <clark@redhat.com>
-> 
-> This is a forward port of Phil Elwell's commit from the Raspberry Pi
-> Linux fork described as follows [1]:
-> 
->     Conditional on a new compatible string, change the pagelist encoding
->     such that the top 24 bits are the pfn, leaving 8 bits for run length
->     (-1), giving a 36-bit address range.
->     
->     Manage the split between addresses for the VPU and addresses for the
->     40-bit DMA controller with a dedicated DMA device pointer that on non-
->     BCM2711 platforms is the same as the main VCHIQ device. This allows
->     the VCHIQ node to stay in the usual place in the DT.
-> 
-> This commit enables VCHIQ device access on a Raspberry Pi 4B running the 
-> mainline Linux kernel.
-> 
-> Tested on Fedora Linux running on a Raspberry Pi 4B.
-> 
-> [1]: https://github.com/raspberrypi/linux/commit/97268fd23eb8d08dc74eac5e3fd697303de26610
-> 
-> Signed-off-by: Mwesigwa Guma <mguma@redhat.com>
+> Remove both MSG_88E calls from hal/usb_halinit.c, as these calls serve
+> no purpose other than to print the name of the function they are in
+> (_ReadAdapterInfo8188EU) on entry and on exit, with a timing of the
+> function, which is better accomplished by other means. Also remove
+> the jiffies assignment at the start of the function, as it is no
+> longer used.
 
-I see a lot happening on this patch. You're:
+> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+> ---
+>  drivers/staging/r8188eu/hal/usb_halinit.c | 6 ------
+>  1 file changed, 6 deletions(-)
 
- - Registering a number of child devices that don't seem to exist upstream
-   ('vcsm-cma', 'bcm2835-codec', and 'bcm2825-isp').
- - Updating vchiq_register_child(). 
- - Adding brcm,bcm2711-vchiq's compatible string (no dt bindings? see
-   Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt).
- - Looking for 'brcm,bcm2711-dma' in the devicetree.
- - Using 'brcm,bcm2711-dma's' device node to re-generate the page lists.
+> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+> index f6db5b05e6e7..abbd107ad3c1 100644
+> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
+> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+> @@ -1073,15 +1073,9 @@ static void _ReadRFType(struct adapter *Adapter)
 
-Each one of these should at least be a separate patch, which proper
-justification[1]. You can't just take downstream fixes, rebase them and send
-them upstream. You really have to own them, undestand what's happening and
-repurpose everything so it's up to standard even if it means diverging from
-what downstream is doing.
+>  static int _ReadAdapterInfo8188EU(struct adapter *Adapter)
+>  {
+> -	u32 start = jiffies;
+> -
+> -	MSG_88E("====> %s\n", __func__);
+> -
+>  	_ReadRFType(Adapter);/* rf_chip -> _InitRFType() */
+>  	_ReadPROMContent(Adapter);
 
-Regards,
-Nicolas
+> -	MSG_88E("<==== %s in %d ms\n", __func__, rtw_get_passing_time_ms(start));
+> -
+>  	return _SUCCESS;
+>  }
 
-[1] Have a look at Documentation/process/submitting-patches.rst.
+Makes sense to me. We should get rid of the prints that show only the
+function name.
 
+Acked-by: Martin Kaiser <martin@kaiser.cx>
