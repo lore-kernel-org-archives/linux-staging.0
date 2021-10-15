@@ -1,227 +1,49 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DDF2C81;
-	Fri, 15 Oct 2021 14:53:23 +0000 (UTC)
-Received: from [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b] (unknown [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C23A41F453E9;
-	Fri, 15 Oct 2021 15:53:20 +0100 (BST)
-Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
-To: Alex Bee <knaerzche@gmail.com>, =?UTF-8?Q?Jernej_=c5=a0krabec?=
- <jernej.skrabec@gmail.com>, mchehab@kernel.org, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl,
- jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
- <21222555.EfDdHjke4D@kista>
- <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
- <1705005.VLH7GnMWUR@kista> <4f8f6da3-70b1-5dd8-27b7-c9f9fd37920b@gmail.com>
- <9d9645a1-9d44-4fec-55e7-5b0a1c69e7ab@collabora.com>
- <7d6df94a-e0bb-b364-5ab1-3ef4d02803dc@gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <302e317c-451e-eb1d-46d9-c4f6e5245c47@collabora.com>
-Date: Fri, 15 Oct 2021 16:53:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59162C81
+	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 15:11:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D86516120A;
+	Fri, 15 Oct 2021 15:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1634310661;
+	bh=3jYoDtUPdFBEUryZYNHsyBzPurObUQOppTxdHPamp+Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SifqW+tmi83vgBOT/JG7an3SFgEf3U28avuIKl5gdn4/f/gwrbRGm3iB33QKZMh2h
+	 l/YFf6zbXWcmWmBz3JoYpQacXmxoGeDyp2fEr9h6qQ+iY5x6Y7R9Jxum9CMNImVdbE
+	 Z9xC2Ny5MQVrzuUhc/r9+Pk5Rp1Nl1N+SSUMezPA=
+Date: Fri, 15 Oct 2021 17:10:58 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Karolina Drobnik <karolinadrobnik@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: vt6655: Rename byPreambleType field
+Message-ID: <YWmaAqf8pusZGoBd@kroah.com>
+References: <20211015102444.90753-1-karolinadrobnik@gmail.com>
+ <YWlj9x6kwYUT1jlQ@kroah.com>
+ <85dfe2c18e7ec4bd5ae67f7a81ab6197a82e0d86.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <7d6df94a-e0bb-b364-5ab1-3ef4d02803dc@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <85dfe2c18e7ec4bd5ae67f7a81ab6197a82e0d86.camel@gmail.com>
 
+On Fri, Oct 15, 2021 at 03:47:46PM +0100, Karolina Drobnik wrote:
+> Hi Greg,
+> 
+> On Fri, 2021-10-15 at 13:20 +0200, Greg KH wrote:
+> > Do not do multiple different things in the same commit and especially
+> > when you do not describe them in the changelog text.
+> 
+> I wasn't aware that changing this preamble-related variable would be
+> counted as a different thing. It makes sense, my bad.
+> 
+> Would you like me to amend the message to say that I also changed
+> `bb_get_frame_time` parameter or just drop this change completely?
 
-Le 15/10/2021 à 16:14, Alex Bee a écrit :
->
-> Am 15.10.21 um 16:06 schrieb Benjamin Gaignard:
->>
->> Le 15/10/2021 à 12:33, Alex Bee a écrit :
->>> Hi Benjamin, Jernej
->>> Am 12.10.21 um 18:08 schrieb Jernej Škrabec:
->>>> CC: Alex Bee
->>>>
->>>> Alex, please take a look to these patches too.
->>> These patches don't remove anything that would be need for rkvdec 
->>> hevc - but indeed - we need some more:
->>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch#L242-L305 
->>>
->>>
->>> v4l2_ctrl_hevc_sps:
->>> __u8    video_parameter_set_id
->>> __u8    seq_parameter_set_id
->>>
->>> v4l2_ctrl_hevc_pps:
->>> __u8    pic_parameter_set_id
->>> __u16    short_term_ref_pic_set_size
->>> __u16    long_term_ref_pic_set_size
->>>
->>> As far as I can see, they are all part of the spec and should be 
->>> therefore good to go in the uapi.
->>
->> Do you have any plan to upstream these fields in HEVC uAPI ?
->
-> I might be upstreaming them at some point, yes.
->
-> With this I just wanted to underline Jernej said: HEVC uapi is NOT ready
-> to get unstaged yet.
+I think I already answered this :)
 
-Ok but the question is how to get it unstaged ?
-Should we continue to do changes in staged uAPI ?
-or send a RFC to move it to stable and review all the missing parts at that time ?
-
-Regards,
-Benjamin
-
->
->>
->> Regards,
->> Benjamin
->>
->>>
->>> As you might now, even rkvdec is a frame-based decoder, it doesn't 
->>> fully parse slice headers in HW for HEVC and we need to set 
->>> references in SW which requires looping over the slices. Downstream 
->>> we have a hack to give num_slices in v4l2_ctrl_hevc_sps for doing that.
->>> That could fully go away, if V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS 
->>> could get dynamic array control support and would make upstreaming 
->>> this a lot easier - as far as I'm concered this would be required 
->>> for RPi HEVC decoder as well.
->>> As a last resort we could also implement a HW specifc control à la
->>> V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP - but I'd like to avoid that, 
->>> knowing it would certainly be better from performance pov.
->>>
->>> Alex.
->>>>
->>>> Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard 
->>>> napisal(a):
->>>>>
->>>>> Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
->>>>>> Hi Benjamin!
->>>>>>
->>>>>> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard
->>>> napisal(a):
->>>>>>> This series aims to clean up Reference Picture Set usage and flags.
->>>>>>>
->>>>>>> Long term flag was named with RPS prefix while it is not used 
->>>>>>> for RPS
->>>>>>> but for mark long term references in DBP. Remane it and remove 
->>>>>>> the two
->>>>>>> other useless RPS flags.
->>>>>>>
->>>>>>> Clarify documentation about RPS lists content and make sure that 
->>>>>>> Hantro
->>>>>>> driver use them correctly (i.e without look up in DBP).
->>>>>>>
->>>>>>> These patches are the last in my backlog impacting HEVC uAPI.
->>>>>>>   From my point of view, once they get merged, you could start 
->>>>>>> talking
->>>>>>> about how move HEVC uAPI to stable.
->>>>>> With your changes, HEVC uAPI controls still won't be complete. 
->>>>>> Cedrus
->>>> needs
->>>>>> entry point control, which in turn needs dynamic array support. 
->>>>>> I'm a bit
->>>> lazy
->>>>>> implementing that control, but I guess I can take a look in a 
->>>>>> month or so.
->>>>>> rkvdec also needs more fields for HEVC. With patches collected here:
->>>>>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/ 
->>>>>>
->>>>>> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
->>>>>> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
->>>>>
->>>>> Hi Jernej,
->>>>>
->>>>> Thanks for your feedback, getting a list of missing items in HEVC 
->>>>> uAPI
->>>>> will definitively help to fill the hope.
->>>>> The patch you mention for rkvdec are already merged in mainline 
->>>>> kernel (at
->>>>> least for uAPI part).
->>>>
->>>> Are they? What about:
->>>> video_parameter_set_id
->>>> seq_parameter_set_id
->>>> pic_parameter_set_id
->>>> short_term_ref_pic_set_size
->>>> long_term_ref_pic_set_size
->>>>
->>>> At least I don't see them in linux-next. Maybe that information can be
->>>> obtained in some other way?
->>>>
->>>>> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and
->>>> entry_point_offset_minus1[ i ]
->>>>> in HEVC specifications ?
->>>>
->>>> Yes, Cedrus needs to know whole list of entry points. I don't think 
->>>> we need to
->>>> worry about offset_len_minus1, list could be pre-processed - just 
->>>> number of
->>>> entry points and their values.
->>>>
->>>> Best regards,
->>>> Jernej
->>>>
->>>>>
->>>>> Regards,
->>>>> Benjamin
->>>>>
->>>>>>
->>>>>> I would certainly wait with moving HEVC uAPI to stable.
->>>>>>
->>>>>> Best regards,
->>>>>> Jernej
->>>>>>
->>>>>>> version 2:
->>>>>>> - change DPB field name from rps to flags
->>>>>>>
->>>>>>> Please note that the only purpose of commits 3 and 4 is to allow 
->>>>>>> to test
->>>>>>> G2 hardware block for IMX8MQ until a proper solution isuing 
->>>>>>> power domain
->>>>>>> can be found. Do not merge them.
->>>>>>>
->>>>>>> GStreamer HEVC plugin merge request can be found here:
->>>>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079 
->>>>>>>
->>>>>>>
->>>>>>> With those piece of code fluster score is 77/147.
->>>>>>>
->>>>>>> Benjamin
->>>>>>>
->>>>>>> Benjamin Gaignard (4):
->>>>>>>     media: hevc: Remove RPS named flags
->>>>>>>     media: hevc: Embedded indexes in RPS
->>>>>>>     media: hantro: Use syscon instead of 'ctrl' register
->>>>>>>     arm64: dts: imx8mq: Add node to G2 hardware
->>>>>>>
->>>>>>>    .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
->>>>>>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 
->>>>>>> +++++++++++++----
->>>>>>>    drivers/staging/media/hantro/hantro.h         |  5 +-
->>>>>>>    .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
->>>>>>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 
->>>>>>> ++++++++++++-------
->>>>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
->>>>>>>    include/media/hevc-ctrls.h                    |  6 +--
->>>>>>>    7 files changed, 84 insertions(+), 61 deletions(-)
->>>>>>>
->>>>>>> -- 
->>>>>>> 2.30.2
->>>>>>>
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>>
->>>
