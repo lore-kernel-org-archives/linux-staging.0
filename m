@@ -1,102 +1,104 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1DF2C82
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 07:55:24 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id k7so24791242wrd.13
-        for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 00:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Az2xgl/hqgMdBeapdM+S02nJjvIpkUB+Xfp9egegKmk=;
-        b=TuBAsa+PAiwlc3R6RMz71TDggPdL0gRU5iOxKDpcj9fsaFxF2sRxBrAu2tYSkRCWvE
-         5thcX96h3Clsr9aGJMh6aIappjnXdXiCY/Cq4SF2cXuAHnzryElDFUfkJTTGtNbPWfyM
-         ANYPILq8tFctt3YyII9vgcPzUeLbag+Bsu40crrmha/MIODxphP2L78VlsE57UOUNkEU
-         mcMl1truMLyyrf2fTXSN2uQ1Ny9r70sUaACikT5WvHyCHiyv3LT3J+p57Pdu7YLuDKMI
-         9kgMeANUW0MkC9szJdDJSfsEvGlQ96Au95kb82A7/WkrIkLpMywsMCtnap3nskRK4rat
-         QwhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Az2xgl/hqgMdBeapdM+S02nJjvIpkUB+Xfp9egegKmk=;
-        b=i/eyzb6sKEvpxM915NfyDGyrAhQPU1i3LOUZP49DGYyeChbNj65ZL8JBRMzt0wDSob
-         uqqOYUpZ2thIlrrkCBRcy5coSdrw0JwRG2PfLJvnX5aAdvK7T4gT7BhJo84WzB6e9FL3
-         bIDUzKJFNknExWmwJPzoY4a+uopvVCb7n5TSZU8yDmzqrpBlLqJpBNcnx59dss6IjRWP
-         /UuXb8STTd8WQzbyJThv2bSs0VVnwxoBToie9t7pdn8Q0yVVV+BByPMc2RXtyO3CLvog
-         SlIQaopBfcOt8N2hv4Qp5ixEljRvBt9jZ+hIRUTL0UHA6+eSYnI+s4TfBZdXkhJ6io9L
-         8iSg==
-X-Gm-Message-State: AOAM530dpTHAODW1ZwZ4DddfhIiM9EcFgbgGVY0xNczIYUrHBgqFEw+x
-	+iNZGjqnAcZP2ZPj00KABOY=
-X-Google-Smtp-Source: ABdhPJxv7R034R/SUDdZKI6hxGD+U1s9d3IXvIGVHhT9qiWfdnY/JRWE1BwLNYF5dZaGUqkL8lSYuA==
-X-Received: by 2002:adf:a48f:: with SMTP id g15mr12003376wrb.259.1634284522895;
-        Fri, 15 Oct 2021 00:55:22 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::40c9? ([2a02:8108:96c0:3b88::40c9])
-        by smtp.gmail.com with ESMTPSA id p12sm849530wrr.67.2021.10.15.00.55.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Oct 2021 00:55:22 -0700 (PDT)
-Message-ID: <6c637ef5-79dd-5503-d445-e7a768f528a6@gmail.com>
-Date: Fri, 15 Oct 2021 09:55:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59DE2C82
+	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 08:19:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6028760249;
+	Fri, 15 Oct 2021 08:19:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1634285959;
+	bh=ZtB79vn0N+nDpFFIfpwm8g6mWwuaDQm7mVlJLNDK7nY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=l6xJIVZQLzDcy+1R0WUSiieiyp674YTinwCtDARIUvlSRKlLeFA68sOGYLhHIUPFw
+	 W/9jgsQTsh1xELW5qOnSpfBDer61gUVrp3Mzazvypls8lIfab1INUyODnezZfshRwZ
+	 RkxucAwgtUbUjEEzJekRkQzB+Q8ek2+bOyjt/fmwXkkDugGOFAzpJH1xoVCq8ydund
+	 xb2rQD/gpPUl8DQDB+U2v5Y3+ndi3FoE7m8FwTpN7gIAWEdjYmUEucGYR3klRhKXti
+	 gw5KYdg3+Icx3SAbJdskGoILaYcCIB2o2CdGXwNv2VX/VMQxPLuNt39FdVcwu4GJ4r
+	 728cxCySUaypA==
+Message-ID: <747ce6bf4b3511fd13408a52a301f63e37210883.camel@kernel.org>
+Subject: Re: [PATCH] staging: vchiq_arm: Add 36-bit address support
+From: nicolas saenz julienne <nsaenz@kernel.org>
+To: Mwesigwa Guma <mguma@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Stefan Wahren
+ <stefan.wahren@i2se.com>, Ojaswin Mujoo <ojaswin98@gmail.com>, Dan
+ Carpenter <dan.carpenter@oracle.com>, Amarjargal Gundjalam
+ <amarjargal16@gmail.com>,  Phil Elwell <phil@raspberrypi.com>,
+ bcm-kernel-feedback-list@broadcom.com, 
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+  linux-staging@lists.linux.dev, fedora-rpi@googlegroups.com, Joel Savitz
+ <jsavitz@redhat.com>, Chukpozohn Toe <ctoe@redhat.com>, Clark Williams
+ <clark@redhat.com>
+Date: Fri, 15 Oct 2021 10:19:13 +0200
+In-Reply-To: <20211014223230.451659-1-mguma@redhat.com>
+References: <20211014223230.451659-1-mguma@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-2.fc34) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH] staging: r8188eu: remove MSG_88E calls from
- hal/usb_halinit.c
-Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, martin@kaiser.cx,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211015000233.842-1-phil@philpotter.co.uk>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20211015000233.842-1-phil@philpotter.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/15/21 02:02, Phillip Potter wrote:
-> Remove both MSG_88E calls from hal/usb_halinit.c, as these calls serve
-> no purpose other than to print the name of the function they are in
-> (_ReadAdapterInfo8188EU) on entry and on exit, with a timing of the
-> function, which is better accomplished by other means. Also remove
-> the jiffies assignment at the start of the function, as it is no
-> longer used.
-> 
-> Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
-> ---
->   drivers/staging/r8188eu/hal/usb_halinit.c | 6 ------
->   1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-> index f6db5b05e6e7..abbd107ad3c1 100644
-> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
-> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-> @@ -1073,15 +1073,9 @@ static void _ReadRFType(struct adapter *Adapter)
->   
->   static int _ReadAdapterInfo8188EU(struct adapter *Adapter)
->   {
-> -	u32 start = jiffies;
-> -
-> -	MSG_88E("====> %s\n", __func__);
-> -
->   	_ReadRFType(Adapter);/* rf_chip -> _InitRFType() */
->   	_ReadPROMContent(Adapter);
->   
-> -	MSG_88E("<==== %s in %d ms\n", __func__, rtw_get_passing_time_ms(start));
-> -
->   	return _SUCCESS;
->   }
->   
-> 
+Hi Mwesigwa,
 
-Looks good to me.
+On Thu, 2021-10-14 at 18:32 -0400, Mwesigwa Guma wrote:
+> Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Stefan Wahren <stefan.wahren@i2se.com>
+> Cc: Ojaswin Mujoo <ojaswin98@gmail.com>
+> Cc: Dan Carpenter <dan.carpenter@oracle.com>
+> Cc: Amarjargal Gundjalam <amarjargal16@gmail.com>
+> Cc: Phil Elwell <phil@raspberrypi.com>
+> Cc: bcm-kernel-feedback-list@broadcom.com
+> Cc: linux-rpi-kernel@lists.infradead.org 
+> Cc: linux-arm-kernel@lists.infradead.org 
+> Cc: linux-staging@lists.linux.dev 
+> Cc: fedora-rpi@googlegroups.com
+> Cc: Joel Savitz <jsavitz@redhat.com>
+> Cc: Chukpozohn Toe <ctoe@redhat.com>
+> Cc: Clark Williams <clark@redhat.com>
+> 
+> This is a forward port of Phil Elwell's commit from the Raspberry Pi
+> Linux fork described as follows [1]:
+> 
+>     Conditional on a new compatible string, change the pagelist encoding
+>     such that the top 24 bits are the pfn, leaving 8 bits for run length
+>     (-1), giving a 36-bit address range.
+>     
+>     Manage the split between addresses for the VPU and addresses for the
+>     40-bit DMA controller with a dedicated DMA device pointer that on non-
+>     BCM2711 platforms is the same as the main VCHIQ device. This allows
+>     the VCHIQ node to stay in the usual place in the DT.
+> 
+> This commit enables VCHIQ device access on a Raspberry Pi 4B running the 
+> mainline Linux kernel.
+> 
+> Tested on Fedora Linux running on a Raspberry Pi 4B.
+> 
+> [1]: https://github.com/raspberrypi/linux/commit/97268fd23eb8d08dc74eac5e3fd697303de26610
+> 
+> Signed-off-by: Mwesigwa Guma <mguma@redhat.com>
 
-Acked-by: Michael Straube <straube.linux@gmail.com>
+I see a lot happening on this patch. You're:
 
-Thanks,
-Michael
+ - Registering a number of child devices that don't seem to exist upstream
+   ('vcsm-cma', 'bcm2835-codec', and 'bcm2825-isp').
+ - Updating vchiq_register_child(). 
+ - Adding brcm,bcm2711-vchiq's compatible string (no dt bindings? see
+   Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt).
+ - Looking for 'brcm,bcm2711-dma' in the devicetree.
+ - Using 'brcm,bcm2711-dma's' device node to re-generate the page lists.
+
+Each one of these should at least be a separate patch, which proper
+justification[1]. You can't just take downstream fixes, rebase them and send
+them upstream. You really have to own them, undestand what's happening and
+repurpose everything so it's up to standard even if it means diverging from
+what downstream is doing.
+
+Regards,
+Nicolas
+
+[1] Have a look at Documentation/process/submitting-patches.rst.
+
