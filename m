@@ -1,184 +1,95 @@
-Received: from bizcloud-send.auscott.com.au (unknown [134.209.245.138])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42CFA2C81
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 08:35:04 +0000 (UTC)
-Received: by bizcloud-send.auscott.com.au (Postfix)
-	id 0B1D576488; Fri, 15 Oct 2021 08:31:38 +0000 (UTC)
-Date: Fri, 15 Oct 2021 08:31:38 +0000 (UTC)
-From: MAILER-DAEMON@bizcloud-send.auscott.com.au (Mail Delivery System)
-Subject: Undelivered Mail Returned to Sender
-To: linux-staging@lists.linux.dev
-Auto-Submitted: auto-replied
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C240C2C81
+	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 09:15:18 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id ec8so35516331edb.6
+        for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 02:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=MijKcoywXZiJ/TAfeUQvoBq2vYQe9FT8lGZbL7eVuLY=;
+        b=jvtwlXyyqaCw9x0aEvTBt7y6s84PRxF46I0emgA39mxfA7bFuDxXxAopNRUhpfbxLl
+         EKopmJ6o07eI0CrDG+EKGfo2J7bW4/gfgRccfn6y8UVzgDvBXEJWP8t1ULDwvWWOiWPn
+         JjQVEqXi8WNFBvFz8KPKogxnrYl2gpdrcb9BqUc1eUJSvXQzM0FmqYB4oUWTP4UYClec
+         2hgwlFvSb6JB0F8o1djx1ixYKVVi7DJENMbE0/4zxtL1X0I8bO5S6aJPE5DPuSuPzKfs
+         +aTzTos5uoct8EDjsqmXihpSpvK9OYhxTRCS+irHfdzXBkM2E9WzcyksHm0a6bVdatUU
+         sXcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=MijKcoywXZiJ/TAfeUQvoBq2vYQe9FT8lGZbL7eVuLY=;
+        b=c+nnnWCM/V81qi+24s/4+Al4shTO3g8SrJ6i7ItE8JVtJGQQSphM+Pp18c9joMRv/f
+         R/JgKz8YO2SaJUAMxwpDuMkgjQyzXPmJvqJ43tJjucd74SfQzKS0W+eoL4XMarNpLbEJ
+         H/1tMZoJk1Mtac3QMmuYF1L0M3ZyBD9PXyZT4zGO2x2ZuZuKC6DQsn47hsNgdZixP8ej
+         KiZucrJoT+QISFVEwQjbmoBAwol1ehVWfp3Wd6gkrNm28l1kaBJCWIDX/KuLvS/Dip12
+         Ke5odMPJut2I0Kaz0fyq8glcgfaoBcHaMnviWFsJrF+EK+OaGixdkwT+aIDQReXUGTQa
+         x0dw==
+X-Gm-Message-State: AOAM532EszhzZ0k9i3XiNDb0KxlU+coTyus/Y1QpjJ16qjhVW17wdhMX
+	PrGp+ZQXJZyjVfqIbz5Horg=
+X-Google-Smtp-Source: ABdhPJxsgjWRkOd/eO86fZAyEQf5utZhJf1Qc0pJgU4Nnm6X+m9zGccqf2t6wooVtvvk4+YQPvUq1A==
+X-Received: by 2002:a17:907:6e2a:: with SMTP id sd42mr2770842ejc.333.1634289317029;
+        Fri, 15 Oct 2021 02:15:17 -0700 (PDT)
+Received: from localhost.localdomain (host-79-47-104-180.retail.telecomitalia.it. [79.47.104.180])
+        by smtp.gmail.com with ESMTPSA id i19sm1205273ejo.101.2021.10.15.02.15.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Oct 2021 02:15:16 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, marcocesati@gmail.com, saurav.girepunje@gmail.com, insafonov@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Saurav Girepunje <saurav.girepunje@gmail.com>
+Cc: saurav.girepunje@hotmail.com
+Subject: Re: [PATCH v3] staging: rtl8723bs: os_dep: simplify the return statement
+Date: Fri, 15 Oct 2021 11:15:14 +0200
+Message-ID: <13289545.LovHZTAFgE@localhost.localdomain>
+In-Reply-To: <YWhBQF4yUH0/r53A@Sauravs-MacBook-Air.local>
+References: <YWhBQF4yUH0/r53A@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status;
-	boundary="C6D69738D8.1634286698/bizcloud-send.auscott.com.au"
-Message-Id: <20211015083138.0B1D576488@bizcloud-send.auscott.com.au>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This is a MIME-encapsulated message.
+On Thursday, October 14, 2021 4:40:00 PM CEST Saurav Girepunje wrote:
+> Remove goto statement where function simply return value without doing
+> any cleanup action.
+> 
+> Simplify the return using goto label to avoid unneeded 'if' condition
+> check.
+> 
+> Remove the unneeded and redundant check of variable on goto.
+> 
+> Remove the assignment of NULL on local variable.
+> 
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+> 
+> ChangeLog V3:
+> 
+> 	-Remove goto statement where function simply return value
+> 	 without doing any cleanup action.
+> 	-Remove the assignment of NULL on local variable.
+> 	-Replace the goto statement added after the memcpy on V2.
+> 	 with return 0 statement.
+> 
+> ChangeLog V2:
+> 
+> 	-Add goto out after the memcpy for no error case return with
+> 	 ret only. On V1 doing free, which was not required for no error
+> 	 case.
 
---C6D69738D8.1634286698/bizcloud-send.auscott.com.au
-Content-Description: Notification
-Content-Type: text/plain; charset=us-ascii
+You still don't explain why you changed v1. You had freed resources on 
+success path. That was not allowed because you introduced a change in the 
+logic and a huge bug. Therefore, in v2, you are not merely changing something 
+that "was not required". Instead you are changing something that is not 
+permitted.
 
-This is the mail system at host bizcloud-send.auscott.com.au.
+Thanks,
 
-I'm sorry to have to inform you that your message could not
-be delivered to one or more recipients. It's attached below.
+Fabio
 
-For further assistance, please send mail to postmaster.
 
-If you do so, please include this problem report. You can
-delete your own text from the attached returned message.
 
-                   The mail system
-
-<linux-staging@lists.linux.dev>: host smtp.subspace.kernel.org[44.238.234.78]
-    said: 550 5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
-
---C6D69738D8.1634286698/bizcloud-send.auscott.com.au
-Content-Description: Delivery report
-Content-Type: message/delivery-status
-
-Reporting-MTA: dns; bizcloud-send.auscott.com.au
-X-Postfix-Queue-ID: C6D69738D8
-X-Postfix-Sender: rfc822; linux-staging@lists.linux.dev
-Arrival-Date: Fri, 15 Oct 2021 08:20:32 +0000 (UTC)
-
-Final-Recipient: rfc822; linux-staging@lists.linux.dev
-Original-Recipient: rfc822;linux-staging@lists.linux.dev
-Action: failed
-Status: 5.7.1
-Remote-MTA: dns; smtp.subspace.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
-
---C6D69738D8.1634286698/bizcloud-send.auscott.com.au
-Content-Description: Undelivered Message
-Content-Type: message/rfc822
-
-Return-Path: <linux-staging@lists.linux.dev>
-Received: from linuxfoundation.org (bizcloud-send.auscott.com.au [IPv6:::1])
-	by bizcloud-send.auscott.com.au (Postfix) with ESMTP id C6D69738D8
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 08:20:32 +0000 (UTC)
-From: IT HelpDesk lists.linux.dev <linux-staging@lists.linux.dev>
-To: linux-staging@lists.linux.dev
-Subject: Password for linux-staging@lists.linux.dev expires today 15-10-2021
-Date: 15 Oct 2021 01:20:31 -0700
-Message-ID: <20211015012031.8AF45A6C39D603DF@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/html;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/htm=
-l4/strict.dtd">
-
-<HTML><HEAD><TITLE>linkdn msg</TITLE>
-<META name=3DGENERATOR content=3D"MSHTML 11.00.9600.20045"></HEAD>
-<body>
-<P style=3D'WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; C=
-OLOR: rgb(34,34,34); TEXT-ALIGN: center; FONT: 400 14px Helvetica, "Microso=
-ft Yahei", verdana; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-IND=
-ENT: 0px; text-decoration-color: initial; text-decoration-style: initial; -=
-webkit-text-stroke-width: 0px; text-decoration-thickness: initial'><FONT fa=
-ce=3D"Segoe UI"><SPAN style=3D"FONT-SIZE: xx-large"><FONT style=3D"VERTICAL=
--ALIGN: inherit">
-<FONT style=3D"VERTICAL-ALIGN: inherit" color=3D#274e13 size=3D7>lists.linu=
-x.dev</FONT></FONT></SPAN></FONT></P>
-<DIV style=3D"BORDER-LEFT-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px; VERTICAL-ALI=
-GN: baseline; WHITE-SPACE: normal; BORDER-BOTTOM-WIDTH: 0px; WORD-SPACING: =
-0px; TEXT-TRANSFORM: none; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; TEXT-ALI=
-GN: center; PADDING-TOP: 0px; FONT: 400 14px Arial, Helvetica, sans-serif; =
-PADDING-LEFT: 0px; MARGIN: 0px; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: norm=
-al; PADDING-RIGHT: 0px; BORDER-TOP-WIDTH: 0px; TEXT-INDENT: 0px; text-decor=
-ation-color: initial; text-decoration-style:=20
-initial; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial=
-"><FONT face=3D"trebuchet ms, sans-serif"><FONT style=3D"VERTICAL-ALIGN: in=
-herit"><FONT style=3D"VERTICAL-ALIGN: inherit">Hello linux-staging</FONT></=
-FONT><FONT style=3D"VERTICAL-ALIGN: inherit"><FONT style=3D"VERTICAL-ALIGN:=
- inherit">,</FONT></FONT></FONT></DIV>
-<P style=3D"WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; C=
-OLOR: rgb(0,0,0); FONT: 400 14px Arial, Helvetica, sans-serif; ORPHANS: 2; =
-WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px; text-decoration-color:=
- initial; text-decoration-style: initial; -webkit-text-stroke-width: 0px; t=
-ext-decoration-thickness: initial"><FONT face=3D"trebuchet ms, sans-serif">=
-<SPAN style=3D"TEXT-ALIGN: center"></SPAN></FONT></P>
-<DIV style=3D"BORDER-LEFT-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px; VERTICAL-ALI=
-GN: baseline; WHITE-SPACE: normal; BORDER-BOTTOM-WIDTH: 0px; WORD-SPACING: =
-0px; TEXT-TRANSFORM: none; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; TEXT-ALI=
-GN: center; PADDING-TOP: 0px; FONT: 400 14px Arial, Helvetica, sans-serif; =
-PADDING-LEFT: 0px; MARGIN: 0px; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: norm=
-al; PADDING-RIGHT: 0px; BORDER-TOP-WIDTH: 0px; TEXT-INDENT: 0px; text-decor=
-ation-color: initial; text-decoration-style:=20
-initial; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial=
-"><FONT style=3D"VERTICAL-ALIGN: inherit"><FONT style=3D"VERTICAL-ALIGN: in=
-herit" face=3D"comic sans ms, sans-serif">The password for linux-staging@li=
-sts.linux.dev expires today 15th October 2021,</FONT></FONT></DIV>
-<DIV style=3D"BORDER-LEFT-WIDTH: 0px; BORDER-RIGHT-WIDTH: 0px; VERTICAL-ALI=
-GN: baseline; WHITE-SPACE: normal; BORDER-BOTTOM-WIDTH: 0px; WORD-SPACING: =
-0px; TEXT-TRANSFORM: none; COLOR: rgb(0,0,0); PADDING-BOTTOM: 0px; TEXT-ALI=
-GN: center; PADDING-TOP: 0px; FONT: 400 small Arial, Helvetica, sans-serif;=
- PADDING-LEFT: 0px; MARGIN: 0px; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: nor=
-mal; PADDING-RIGHT: 0px; BORDER-TOP-WIDTH: 0px; TEXT-INDENT: 0px; text-deco=
-ration-color: initial; text-decoration-style:=20
-initial; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial=
-">
-<P style=3D"FONT-SIZE: 14px"><FONT style=3D"VERTICAL-ALIGN: inherit"><FONT =
-style=3D"VERTICAL-ALIGN: inherit" face=3D"comic sans ms, sans-serif">Please=
- use the button below to continue with the current password</FONT><FONT sty=
-le=3D"VERTICAL-ALIGN: inherit" face=3D"trebuchet ms, sans-serif">&nbsp;</FO=
-NT></FONT></P>
-<P style=3D'FONT-SIZE: 14px; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", "=
-Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont'>&nbsp;</P>
-<P style=3D'FONT-SIZE: 14px; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", "=
-Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont'>
-<A id=3Dm_7004669918159003293m_281385292834308919m_-7950086529039153351m_37=
-25751460835595546m_4876295139780212405m_5240700639468817227m_-1949553833232=
-266104m_585487378285746526m_-7055366240007926309m_4783935919937863220gmail-=
-v1m_925336413650070806m_-6860040071042019113gmail-x_Z591S style=3D"BORDER-L=
-EFT-WIDTH: 0px; FONT-SIZE: 16px; FONT-FAMILY: Arial; BORDER-RIGHT-WIDTH: 0p=
-x; WIDTH: 290px; VERTICAL-ALIGN: baseline; BORDER-BOTTOM-WIDTH: 0px; FONT-W=
-EIGHT: bolder; COLOR: rgb(248,248,248);=20
-PADDING-BOTTOM: 10px; PADDING-TOP: 10px; PADDING-LEFT: 10px; MARGIN: 0px au=
-to; PADDING-RIGHT: 10px; BORDER-TOP-WIDTH: 0px; BACKGROUND-COLOR: rgb(0,0,0=
-); font-stretch: inherit; text-decoration-line: none" href=3D"https://notes=
-fromnorthwest.pl/notesfrom/new-update21/#linux-staging@lists.linux.dev" rel=
-=3Dnoreferrer target=3D_blank=20
-data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://blcsantinike=
-tan.com/blcsantiniketan-21/blcsantiniketan-21/%23%5B%5B-Email-%5D%5D&amp;so=
-urce=3Dgmail&amp;ust=3D1634284709034000&amp;usg=3DAFQjCNEwP6K73bTRkskcfEGiF=
-6SwRlQrqw"><FONT style=3D"VERTICAL-ALIGN: inherit"><FONT style=3D"VERTICAL-=
-ALIGN: inherit">Keep the same password</FONT></FONT></A></P>
-<DIV style=3D'BORDER-LEFT-WIDTH: 0px; FONT-SIZE: 14px; FONT-FAMILY: wf_sego=
-e-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif, serif, Emoj=
-iFont; BORDER-RIGHT-WIDTH: 0px; VERTICAL-ALIGN: baseline; BORDER-BOTTOM-WID=
-TH: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: =
-0px; PADDING-RIGHT: 0px; BORDER-TOP-WIDTH: 0px'>&nbsp;</DIV>
-<DIV style=3D"BORDER-LEFT-WIDTH: 0px; FONT-SIZE: 14px; BORDER-RIGHT-WIDTH: =
-0px; VERTICAL-ALIGN: baseline; BORDER-BOTTOM-WIDTH: 0px; PADDING-BOTTOM: 0p=
-x; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px; BO=
-RDER-TOP-WIDTH: 0px"><FONT style=3D"VERTICAL-ALIGN: inherit"><FONT style=3D=
-"VERTICAL-ALIGN: inherit" face=3D"trebuchet ms, sans-serif">lists.linux.dev=
--Web- Support.</FONT></FONT></DIV>
-<DIV style=3D'BORDER-LEFT-WIDTH: 0px; FONT-SIZE: 14px; FONT-FAMILY: wf_sego=
-e-ui_normal, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif, serif, Emoj=
-iFont; BORDER-RIGHT-WIDTH: 0px; VERTICAL-ALIGN: baseline; BORDER-BOTTOM-WID=
-TH: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: =
-0px; PADDING-RIGHT: 0px; BORDER-TOP-WIDTH: 0px'><FONT style=3D"VERTICAL-ALI=
-GN: inherit"><FONT style=3D"VERTICAL-ALIGN: inherit"><BR></FONT></FONT></DI=
-V>
-<DIV style=3D'BORDER-LEFT-WIDTH: 0px; FONT-FAMILY: wf_segoe-ui_normal, "Seg=
-oe UI", "Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; BORDER-RIG=
-HT-WIDTH: 0px; VERTICAL-ALIGN: baseline; BORDER-BOTTOM-WIDTH: 0px; PADDING-=
-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGH=
-T: 0px; BORDER-TOP-WIDTH: 0px'><FONT style=3D"VERTICAL-ALIGN: inherit"><FON=
-T style=3D"VERTICAL-ALIGN: inherit"><SPAN style=3D'FONT-FAMILY: "comic sans=
- ms", sans-serif; COLOR: rgb(44,54,58)'>
-Note: This is a user verification, designed to shut down malicious users an=
-d other fraudulent activities of the robot.&nbsp;</SPAN></FONT></FONT></DIV=
-></DIV></BODY></HTML>
-
---C6D69738D8.1634286698/bizcloud-send.auscott.com.au--
