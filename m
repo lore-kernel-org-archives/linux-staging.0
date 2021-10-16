@@ -1,21 +1,21 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE412C81
-	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 09:46:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB34A2C81
+	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 09:56:09 +0000 (UTC)
 Received: from martin by viti.kaiser.cx with local (Exim 4.89)
 	(envelope-from <martin@viti.kaiser.cx>)
-	id 1mbgGN-0003BM-0X; Sat, 16 Oct 2021 11:45:59 +0200
-Date: Sat, 16 Oct 2021 11:45:58 +0200
+	id 1mbgQA-0003HW-Jj; Sat, 16 Oct 2021 11:56:06 +0200
+Date: Sat, 16 Oct 2021 11:56:06 +0200
 From: Martin Kaiser <lists@kaiser.cx>
 To: Michael Straube <straube.linux@gmail.com>
 Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
 	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/7] staging: r8188eu: pMacPhyMode is not used
-Message-ID: <20211016094558.wxgjy4t7k6lslwqb@viti.kaiser.cx>
+Subject: Re: [PATCH 7/7] staging: r8188eu: remove ODM_CmnInfoPtrArrayHook()
+Message-ID: <20211016095606.3bnntfllbbdomgfu@viti.kaiser.cx>
 References: <20211015163507.9091-1-straube.linux@gmail.com>
- <20211015163507.9091-7-straube.linux@gmail.com>
+ <20211015163507.9091-8-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -24,56 +24,113 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211015163507.9091-7-straube.linux@gmail.com>
+In-Reply-To: <20211015163507.9091-8-straube.linux@gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
 Thus wrote Michael Straube (straube.linux@gmail.com):
 
-> pMacPhyMode is not used. Remove it from odm_dm_struct and remove
-> related dead code.
+> In ODM_CmnInfoPtrArrayHook() there is only the case
+> ODM_CMNINFO_STA_STATUS and the function is called only with this value.
+> Remove ODM_CmnInfoPtrArrayHook() and fix the three places where it is
+> called.
 
 > Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->  drivers/staging/r8188eu/hal/odm.c     | 3 ---
->  drivers/staging/r8188eu/include/odm.h | 3 ---
->  2 files changed, 6 deletions(-)
+>  drivers/staging/r8188eu/hal/odm.c               | 15 ---------------
+>  drivers/staging/r8188eu/hal/rtl8188e_dm.c       |  2 +-
+>  drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  5 +++--
+>  drivers/staging/r8188eu/include/odm.h           | 10 ----------
+>  4 files changed, 4 insertions(+), 28 deletions(-)
 
 > diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-> index 85bc5050cda5..a2cbe727f6e0 100644
+> index a2cbe727f6e0..0987ff3e382a 100644
 > --- a/drivers/staging/r8188eu/hal/odm.c
 > +++ b/drivers/staging/r8188eu/hal/odm.c
-> @@ -231,9 +231,6 @@ void ODM_CmnInfoHook(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
->  	/*  */
->  	switch	(CmnInfo) {
->  	/*  Dynamic call by reference pointer. */
-> -	case	ODM_CMNINFO_MAC_PHY_MODE:
-> -		pDM_Odm->pMacPhyMode = (u8 *)pValue;
+> @@ -292,21 +292,6 @@ void ODM_CmnInfoHook(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
+>  	}
+>  }
+
+> -void ODM_CmnInfoPtrArrayHook(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def CmnInfo, u16 Index, void *pValue)
+> -{
+> -	/*  Hook call by reference pointer. */
+> -	switch	(CmnInfo) {
+> -	/*  Dynamic call by reference pointer. */
+> -	case	ODM_CMNINFO_STA_STATUS:
+> -		pDM_Odm->pODM_StaInfo[Index] = (struct sta_info *)pValue;
 > -		break;
->  	case	ODM_CMNINFO_TX_UNI:
->  		pDM_Odm->pNumTxBytesUnicast = (u64 *)pValue;
+> -	/* To remove the compiler warning, must add an empty default statement to handle the other values. */
+> -	default:
+> -		/* do nothing */
+> -		break;
+> -	}
+> -}
+> -
+>  /*  Update Band/CHannel/.. The values are dynamic but non-per-packet. */
+>  void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value)
+>  {
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> index 1ca24a507d6d..f1a1015eedfb 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> @@ -90,7 +90,7 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
+>  	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_RF_ANTENNA_TYPE, hal_data->TRxAntDivType);
+
+>  	for (i = 0; i < NUM_STA; i++)
+> -		ODM_CmnInfoPtrArrayHook(dm_odm, ODM_CMNINFO_STA_STATUS, i, NULL);
+> +		dm_odm->pODM_StaInfo[i] = NULL;
+>  }
+
+>  void rtl8188e_InitHalDm(struct adapter *Adapter)
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+> index dd8d6b4a9d48..8c00f2dd67da 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+> @@ -1671,13 +1671,14 @@ void rtl8188e_SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVaria
+>  	case HAL_ODM_STA_INFO:
+>  		{
+>  			struct sta_info *psta = (struct sta_info *)pValue1;
+> +
+>  			if (bSet) {
+>  				DBG_88E("### Set STA_(%d) info\n", psta->mac_id);
+> -				ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, psta);
+> +				podmpriv->pODM_StaInfo[psta->mac_id] = psta;
+>  				ODM_RAInfo_Init(podmpriv, psta->mac_id);
+>  			} else {
+>  				DBG_88E("### Clean STA_(%d) info\n", psta->mac_id);
+> -				ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, NULL);
+> +				podmpriv->pODM_StaInfo[psta->mac_id] = NULL;
+>  		       }
+>  		}
 >  		break;
 > diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-> index 9745069060d7..6cbf64df9be7 100644
+> index 6cbf64df9be7..841603b341bd 100644
 > --- a/drivers/staging/r8188eu/include/odm.h
 > +++ b/drivers/staging/r8188eu/include/odm.h
-> @@ -269,7 +269,6 @@ enum odm_common_info_def {
+> @@ -305,12 +305,6 @@ enum odm_common_info_def {
+>  	ODM_CMNINFO_BT_BUSY,			/* Check Bt is using or not */
+>  	ODM_CMNINFO_BT_DISABLE_EDCA,
+>  /* CALL BY VALUE-------------*/
+> -
+> -	/*  Dynamic ptr array hook itms. */
+> -	ODM_CMNINFO_STA_STATUS,
+> -	ODM_CMNINFO_PHY_STATUS,
+> -	ODM_CMNINFO_MAC_STATUS,
+> -	ODM_CMNINFO_MAX,
+>  };
 
->  	/*  Dynamic value: */
->  /*  POINTER REFERENCE-----------  */
-> -	ODM_CMNINFO_MAC_PHY_MODE,	/*  ODM_MAC_PHY_MODE_E */
->  	ODM_CMNINFO_TX_UNI,
->  	ODM_CMNINFO_RX_UNI,
->  	ODM_CMNINFO_WM_MODE,		/*  ODM_WIRELESS_MODE_E */
-> @@ -621,8 +620,6 @@ struct odm_dm_struct {
->  	bool	bool_temp;
->  	struct adapter *adapter_temp;
+>  /*  2011/10/20 MH Define ODM support ability.  ODM_CMNINFO_ABILITY */
+> @@ -882,10 +876,6 @@ void ODM_CmnInfoInit(struct odm_dm_struct *pDM_Odm,
+>  void ODM_CmnInfoHook(struct odm_dm_struct *pDM_Odm,
+>  		     enum odm_common_info_def CmnInfo, void *pValue);
 
-> -	/*  MAC PHY Mode SMSP/DMSP/DMDP = 0/1/2 */
-> -	u8	*pMacPhyMode;
->  	/* TX Unicast byte count */
->  	u64	*pNumTxBytesUnicast;
->  	/* RX Unicast byte count */
+> -void ODM_CmnInfoPtrArrayHook(struct odm_dm_struct *pDM_Odm,
+> -			     enum odm_common_info_def CmnInfo,
+> -			     u16 Index, void *pValue);
+> -
+>  void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value);
+
+>  #endif
 > -- 
 > 2.33.0
 
