@@ -1,110 +1,143 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8C02C82
-	for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 18:19:48 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id b189-20020a1c1bc6000000b0030da052dd4fso2993261wmb.3
-        for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 11:19:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C132C82
+	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 06:43:37 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id y12so48506163eda.4
+        for <linux-staging@lists.linux.dev>; Fri, 15 Oct 2021 23:43:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=R/dz9+WiCzlF7Mip7NpDVh0nc3yRnz/ch3JiE8P+Gec=;
-        b=n9ZhygoEwy6GIbJWEKJbPGMoh4j1vFIJRpHwMe+FzMGv7A3ZowubZZxgNQCjo/BN8k
-         poFov7qVco1ERmPYhEkEcLKwIapVzTPC/2L7ED4zGJfv/0JtEVj6+7xUheXnSKS3hsxA
-         0QLfKpCJHrTQ6i8B9SlktCeWLw4s+BE3OXKodW0Hg3yTZhjWXY4FdRvLCCwos49oe6An
-         ZMhVXfs5YKUfzUhc9oLFcFk/eEuSEpHiVKJiA1/bxopPAyquB/1wTb/oQdbvTfEFEyPo
-         umwnVIsUW5vD5D66JmV+fQKB4jPRMd+8T88tK8hp7DbXiZx8Og/7HtbXj+9eMnu706hU
-         ij4w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UWFffkeFsvPwNFOpRilez5i6fSLHTsRHCrNltfWljkA=;
+        b=gbzE8SBRDWEglez5cXZkfgNp94px/0RmnitbdvFxh9MlAoz7bsETB29sFrr8XUoYEf
+         mEOym4OcdM6Xdm9WbHqVOQ1qWfWt63rI9vvbrzfALAa44qoC0ywkXYStwqFflhjL9KMl
+         43jNueEw6KsstHEw6K85z3LsmwB0mSrpQlPZLJa0P4CTnYylqwpaDriScI+xxvnteda7
+         p3WZnC8T0HVXwM7CdKopisTSUmI7ZCGCixYhx4qKXT8RxA2/2NtFSJAOJYq1E8TmbFbM
+         aXU9h2TaaueqPNyPLt+/jKvDguB+QuuHbCK5Hj8rnEfd8xGWMCmWvAGLghT449v2mNHk
+         jvMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=R/dz9+WiCzlF7Mip7NpDVh0nc3yRnz/ch3JiE8P+Gec=;
-        b=h3dxEa/QgH3eimX+JEWzZe+kByg1wKQ3BdFRaJNzPn8grlN6dz1JK/XL/dbfUxRKnO
-         Z72tp/SlIOv/JUIM5trgY+eOtqM0UQs3cWewossDgxenE9tLFh50T1smwwWpsRu4mu6e
-         cTf99sZ7WT/dKvlnlwTVJscBnguTj23NkFW55Arz2M3NhR4z4iiuhKvx0BJ2QCdG5g9g
-         logWjB2PrePf9BcrGHJCeVMpUSdLZU8ayCLQiA6NWJnLut6n6VSkmIUYhi3jB0r+/CA0
-         pCKx9bqJa1N6kqNGamexsAZNAVykUk3O6qTDIJCgqOhgHNGdrI86CV6o+oXJ+bPkMyt6
-         8JIg==
-X-Gm-Message-State: AOAM533KS4ToULMErD0AKkKPxkl/T/6dbOZjMJF5pY/0+n86SUc9OiW+
-	CsoOiZdS2vqz8HpZd7CwBWc=
-X-Google-Smtp-Source: ABdhPJxOLZD9ADgpllTByySgB7oz5wprdBfEFUcsccB1dnwRDJNjkkkVhPn9CUt1zJxj0VvvhW1eXg==
-X-Received: by 2002:a1c:e915:: with SMTP id q21mr27810416wmc.180.1634321986864;
-        Fri, 15 Oct 2021 11:19:46 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::ad78? ([2a02:8108:96c0:3b88::ad78])
-        by smtp.gmail.com with ESMTPSA id s13sm11448168wmc.47.2021.10.15.11.19.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Oct 2021 11:19:46 -0700 (PDT)
-Message-ID: <2c826db6-dab1-2135-14b1-d9fda25951d9@gmail.com>
-Date: Fri, 15 Oct 2021 20:19:45 +0200
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UWFffkeFsvPwNFOpRilez5i6fSLHTsRHCrNltfWljkA=;
+        b=NoTt57cXtp4tKRencYrPrkVBt8TOX6ZbL08Afn4VIAssVoSjqH5d1he5YPYt7uyBc6
+         T+kTaqiYnAlaHE8Jra3VR9SqsWslT3RnnXgqgBkESs4yc1AHNDchbFmTmLN3Y6zkLWPC
+         fl3CM+o4OaxyhMKv8RMF64rPSw5JZsn8GXrCEjFF8nWqOqeJXyOQ/344/fCmRTBHIVxl
+         fYhAP/Ac+UtsCpDWfImgt4I/XQTlfVNe/fb+50SvLZASWJr/bVjFncQG5szW2US9wqH0
+         8HNcKeNbJmPsazt3o3vRR8eylw1HREgsR6m43DyiVDN7ZZLFB1Wg5Qss5pefTDykL6Si
+         e6qw==
+X-Gm-Message-State: AOAM5320ZoTvx7NjNntZArQRF6j++HVmS45cIJmpz9zFwx5ChTAvEFE/
+	AcJZBCAiRTDlH0r3gAMVTic=
+X-Google-Smtp-Source: ABdhPJxLUukgcXIKo8A2H/JXFIq6srtPP7f3N0iQ+1yFRV679FBwEND3UICUa43rks039X5+VHsplQ==
+X-Received: by 2002:a05:6402:1b90:: with SMTP id cc16mr24643352edb.2.1634366615887;
+        Fri, 15 Oct 2021 23:43:35 -0700 (PDT)
+Received: from localhost.localdomain (host-79-47-104-180.retail.telecomitalia.it. [79.47.104.180])
+        by smtp.gmail.com with ESMTPSA id f4sm5761908ejf.61.2021.10.15.23.43.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Oct 2021 23:43:35 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] staging: r8188eu: Use completions instead of semaphores
+Date: Sat, 16 Oct 2021 08:43:32 +0200
+Message-ID: <2097763.mHcV3lrXRZ@localhost.localdomain>
+In-Reply-To: <20211015125020.GS8429@kadam>
+References: <20211015110238.1819-1-fmdefrancesco@gmail.com> <2060953.sJFZD89sIB@localhost.localdomain> <20211015125020.GS8429@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH 0/7] staging: r8188eu: odm cleanups
-Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org
-References: <20211015163507.9091-1-straube.linux@gmail.com>
- <YWnDVkwcnVEEoxm4@equinox>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <YWnDVkwcnVEEoxm4@equinox>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 10/15/21 20:07, Phillip Potter wrote:
-> On Fri, Oct 15, 2021 at 06:35:00PM +0200, Michael Straube wrote:
->> This series removes:
->> - empty / unused functions from odm.c
->> - two never set / unused fields from odm_dm_struct
->> - the function ODM_CmnInfoPtrArrayHook()
->>
->> Tested on x86_64 with Inter-Tech DMG-02.
->>
->> Michael Straube (7):
->>    staging: r8188eu: remove empty functions from odm.c
->>    staging: r8188eu: remove ODM_SingleDualAntennaDefaultSetting()
->>    staging: r8188eu: remove GetPSDData()
->>    staging: r8188eu: remove ODM_AntselStatistics_88C()
->>    staging: r8188eu: pBandType is never set
->>    staging: r8188eu: pMacPhyMode is not used
->>    staging: r8188eu: remove ODM_CmnInfoPtrArrayHook()
->>
->>   drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |   2 +-
->>   drivers/staging/r8188eu/hal/odm.c             | 144 ------------------
->>   drivers/staging/r8188eu/hal/odm_HWConfig.c    |   7 +-
->>   drivers/staging/r8188eu/hal/odm_interface.c   |   5 -
->>   drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   2 +-
->>   .../staging/r8188eu/hal/rtl8188e_hal_init.c   |   5 +-
->>   drivers/staging/r8188eu/include/odm.h         |  38 -----
->>   .../staging/r8188eu/include/odm_interface.h   |   2 -
->>   drivers/staging/r8188eu/include/odm_precomp.h |   2 -
->>   9 files changed, 6 insertions(+), 201 deletions(-)
->>
->> -- 
->> 2.33.0
->>
-> 
-> Dear Michael,
-> 
-> Looks good to me. Built and tested on my USB-N10 Nano, works well. Many
-> thanks.
-> 
-> For whole series:
-> Acked-by: Phillip Potter <phil@philpotter.co.uk>
-> 
-> Regards,
-> Phil
-> 
+On Friday, October 15, 2021 2:50:20 PM CEST Dan Carpenter wrote:
+> On Fri, Oct 15, 2021 at 02:11:41PM +0200, Fabio M. De Francesco wrote:
 
-Thank you for testing and your ack Phillip.
+[...]
+
+> > Hi Dan,
+> > 
+> > Thanks for your review. 
+> > 
+> > I wasn't aware of Arnd's patch. If I were I would have sent a "normal" 
+patch.
+> > 
+> > Beyond this, I noticed that other semaphore (pcmdpriv->cmd_queue_sema) 
+but, 
+> > since I was not 100% sure that my changes would be accepted, I decided to 
+> > leave it as-is for now and wait for reviews like yours.
+> > 
+> > Now that I know that this changes are welcome I'll also make the other 
+> > changes. 
+> > 
+> > I guess that I have to change one semaphore per patch and make a series. 
+> > However, now I see that Arnd's patch makes all the necessary changes in a 
+> > single patch. What is the correct approach? Is one patch per semaphore 
+> > preferred or one big patch for all of those that need to be changed?
+> > 
+> 
+> The two semaphores used in that function are very connected so I don't
+> think it makes sense to split those up.
+
+I agree with you: the two semaphores in rtw_cmd_thread() are (somewhat) 
+connected. However they serve different purposes. 
+
+The first is used in to signal start and end of command thread 
+(rtw_cmd_thread()). The second is used to notify that same thread that some 
+commands have been enqueued. They serve two different purposes.
+
+I prefer to make a series of three patches that I'll call "staging: r8188eu: 
+use conditions variables and clean rtw_cmd_thread()". This choice is based on 
+the above-mentioned fact that the two semaphores are there for different 
+purposes. Let me explain what I'll put in each of the three patches... 
+
+1) The first semaphore came to my attention because of a Smatch warning about 
+duplicate releases ("up(s)) of the same semaphore in the same function. While 
+addressing that problem I noticed that completions variables are more suited 
+than semaphores for doing the work. 
+
+So I didn't merely change the names of the semaphores in order to silence 
+Smatch, instead I chose a more radical approach that is to replace semaphores 
+with condition variables.
+
+The first patch is there, I have the commit message ready to be re-used, and  
+it is self-contained even if we still have a second semaphore that is there 
+for servicing another purpose.
+
+2) The second semaphore came to my attention while working on the first and 
+trying to understand what rtw_cmd_thread() is meant for. It is there for very 
+different reasons. There is only one relation between them, that is that they 
+are used into the same function. Nothing else.
+
+So I prefer to write a second commit message (in patch 2/3) that explains 
+what the semaphore does and why it is better to replace it with a condition 
+variable. Obviously, this "why are you changing it?" has a different answer 
+with respect of what I say in patch 1/3.
+
+3) With 3/3 there is the "clean" part of "staging: r8188eu: use conditions 
+variables and clean rtw_cmd_thread()". While reading rtw_cmd_thread(), I 
+noticed that there is an unnecessary duplicate of an 'if' statement. I want 
+to remove the first (the one before the "_next:" label.
+
+Other semaphores is r8188eu (if there are more) will be eventually addressed 
+in future patches.
+
+I hope that you and Phillip agree with me on this step by step approach.
 
 Regards,
-Michael
+
+Fabio M. De Francesco
+
+> The others are less connected.
+> 
+> regards,
+> dan carpenter
+> 
+> 
+
+
+
+
