@@ -1,169 +1,79 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F9F2C83
-	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 15:36:39 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id p16so55779373lfa.2
-        for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 08:36:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iXmHQbdUUEj7iD9UdLGIRExPe2SbeX0x9hgeURTYmuQ=;
-        b=gy+a/5BSaOUZjjMeREUgCptM2ybr7PF148YGvG+CqztuyGq8LBhigc7vHDIIyQZ4RR
-         nCkxVRmxG6APD0+J/FGkfKxkl0tNsjzP7W5/HDgmaFfOHmvbOI3WCtMY70n8umX8yEJV
-         FJGDPXjLDrI9pGt9cpA+/Wo5Ds2dyHODEA9wSoRG9q3PsnHlqMpubsdtzMh+a+j199o6
-         sBrVM5rVaDlfadaBelsLV+JFBxj2s8A9ruw+Th0rjBkgDfinqABq4j1GP6WbYKhHhnWW
-         e25hnD271Cbz3yMZERuOiAdnU4nILxFmsh9aOU6cSv/0XCWbnrMGgN49CuZqdBiLmYgo
-         PhGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iXmHQbdUUEj7iD9UdLGIRExPe2SbeX0x9hgeURTYmuQ=;
-        b=awmzJ/oHDX/rGTn/ZtEY8K+zoSF8UtmYuTfgHcOxp3fU6yYOgbP0jxg56VZxnco47P
-         KqGeX5XCQY7m1KeWX7+CACnpal5TCfIx6H8wf45j2P/EAxFs0HCIwXlPyC5KP4Fz7TF7
-         On2bS7OJVBygWoQZn5kfLSYQVX/hTC2FxcwYp/HMtyX6/1eITBQpBmeMFoWooPilTuWa
-         3mHj0GlEjuEuz96mKHP4dwHVQiA3p63tqtXV2EUwY22yyf6h1/wdluhLLv5ReKi4e9Cb
-         3bw2jUPBlWgVaf6j4IFkiOBar0DI6k2NjqJcDHK12TiYlY3vmiNfH8TN3RHSc6mECIFx
-         TAwA==
-X-Gm-Message-State: AOAM531xksElcgiVJwzggBx51Y0/ZhUZCfJmP81y4ldbxkEacZ8HwUaR
-	yURCUhaws2jdgBV0uI9uLJI=
-X-Google-Smtp-Source: ABdhPJxtvgN0MWJt4cva3KTlHcgZzj89zboYkD6ihnqr+bNLevlFAbbJkDz7ATXU/w01SNAG8MS09Q==
-X-Received: by 2002:a2e:a544:: with SMTP id e4mr15585258ljn.225.1634398597937;
-        Sat, 16 Oct 2021 08:36:37 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-48-94.dynamic.spd-mgts.ru. [46.138.48.94])
-        by smtp.googlemail.com with ESMTPSA id w26sm1021100ljh.18.2021.10.16.08.36.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Oct 2021 08:36:37 -0700 (PDT)
-Subject: Re: [PATCH v13 11/35] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-To: Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-12-digetx@gmail.com>
- <CAPDyKFobSsFOnmFc4BG353uYgECGD1U1U020oQwB7pX0mfCfvw@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <9bb95684-de30-697a-139c-1e3e54dade2a@gmail.com>
-Date: Sat, 16 Oct 2021 18:36:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50212C81
+	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 16:33:05 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1mbmcG-00068K-JN; Sat, 16 Oct 2021 18:33:00 +0200
+Date: Sat, 16 Oct 2021 18:33:00 +0200
+From: Martin Kaiser <lists@kaiser.cx>
+To: Phillip Potter <phil@philpotter.co.uk>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 0/8] staging: r8188eu: another round of removals
+Message-ID: <20211016163300.xlu2zsroe3frocpc@viti.kaiser.cx>
+References: <20211016113008.27549-1-martin@kaiser.cx>
+ <YWrxIllg1fMkV1/5@equinox>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFobSsFOnmFc4BG353uYgECGD1U1U020oQwB7pX0mfCfvw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YWrxIllg1fMkV1/5@equinox>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-01.10.2021 16:27, Ulf Hansson пишет:
-> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
->>
->> Add OPP and SoC core voltage scaling support to the display controller
->> driver. This is required for enabling system-wide DVFS on pre-Tegra186
->> SoCs.
->>
->> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
->> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
->> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
->> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/gpu/drm/tegra/dc.c | 74 ++++++++++++++++++++++++++++++++++++++
->>  drivers/gpu/drm/tegra/dc.h |  2 ++
->>  2 files changed, 76 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
->> index a29d64f87563..d4047a14e2b6 100644
->> --- a/drivers/gpu/drm/tegra/dc.c
->> +++ b/drivers/gpu/drm/tegra/dc.c
->> @@ -11,9 +11,12 @@
->>  #include <linux/interconnect.h>
->>  #include <linux/module.h>
->>  #include <linux/of_device.h>
->> +#include <linux/pm_domain.h>
->> +#include <linux/pm_opp.h>
->>  #include <linux/pm_runtime.h>
->>  #include <linux/reset.h>
->>
->> +#include <soc/tegra/common.h>
->>  #include <soc/tegra/pmc.h>
->>
->>  #include <drm/drm_atomic.h>
->> @@ -1762,6 +1765,47 @@ int tegra_dc_state_setup_clock(struct tegra_dc *dc,
->>         return 0;
->>  }
->>
->> +static void tegra_dc_update_voltage_state(struct tegra_dc *dc,
->> +                                         struct tegra_dc_state *state)
->> +{
->> +       unsigned long rate, pstate;
->> +       struct dev_pm_opp *opp;
->> +       int err;
->> +
->> +       if (!dc->has_opp_table)
->> +               return;
->> +
->> +       /* calculate actual pixel clock rate which depends on internal divider */
->> +       rate = DIV_ROUND_UP(clk_get_rate(dc->clk) * 2, state->div + 2);
->> +
->> +       /* find suitable OPP for the rate */
->> +       opp = dev_pm_opp_find_freq_ceil(dc->dev, &rate);
->> +
->> +       if (opp == ERR_PTR(-ERANGE))
->> +               opp = dev_pm_opp_find_freq_floor(dc->dev, &rate);
->> +
->> +       if (IS_ERR(opp)) {
->> +               dev_err(dc->dev, "failed to find OPP for %luHz: %pe\n",
->> +                       rate, opp);
->> +               return;
->> +       }
->> +
->> +       pstate = dev_pm_opp_get_required_pstate(opp, 0);
->> +       dev_pm_opp_put(opp);
->> +
->> +       /*
->> +        * The minimum core voltage depends on the pixel clock rate (which
->> +        * depends on internal clock divider of the CRTC) and not on the
->> +        * rate of the display controller clock. This is why we're not using
->> +        * dev_pm_opp_set_rate() API and instead controlling the power domain
->> +        * directly.
->> +        */
->> +       err = dev_pm_genpd_set_performance_state(dc->dev, pstate);
->> +       if (err)
->> +               dev_err(dc->dev, "failed to set power domain state to %lu: %d\n",
->> +                       pstate, err);
-> 
-> Yeah, the above code looks very similar to the code I pointed to in
-> patch6. Perhaps we need to discuss with Viresh, whether it makes sense
-> to fold in a patch adding an opp helper function after all, to avoid
-> the open coding.
-> 
-> Viresh?
+Thus wrote Phillip Potter (phil@philpotter.co.uk):
 
-I'll keep it open-coded for now. This code is specific to Tegra because
-normally ceil error shouldn't fall back to the floor, but for Tegra it's
-expected to happen and it's a normal condition.
+> On Sat, Oct 16, 2021 at 01:30:00PM +0200, Martin Kaiser wrote:
+> > Remove some more dead code and unused definitions.
+
+> > Martin Kaiser (8):
+> >   staging: r8188eu: remove empty trigger gpio code
+> >   staging: r8188eu: interface type is always usb
+> >   staging: r8188eu: remove two checks that are always false
+> >   staging: r8188eu: remove unused function prototypes
+> >   staging: r8188eu: PHY_SetRFPathSwitch_8188E is not used
+> >   staging: r8188eu: clean up Hal8188EPhyCfg.h
+> >   staging: r8188eu: remove procfs functions
+> >   staging: r8188eu: CurrentWirelessMode is not used
+
+> >  drivers/staging/r8188eu/Makefile              |   1 -
+> >  drivers/staging/r8188eu/core/rtw_debug.c      | 886 ------------------
+> >  .../staging/r8188eu/hal/HalHWImg8188E_BB.c    |  14 +-
+> >  .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |   3 +-
+> >  .../staging/r8188eu/hal/HalHWImg8188E_RF.c    |   8 +-
+> >  drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  38 -
+> >  drivers/staging/r8188eu/hal/odm.c             |   3 -
+> >  drivers/staging/r8188eu/hal/rtl8188e_dm.c     |   2 -
+> >  drivers/staging/r8188eu/hal/usb_halinit.c     |   8 -
+> >  .../staging/r8188eu/include/Hal8188EPhyCfg.h  |  78 --
+> >  drivers/staging/r8188eu/include/hal_intf.h    |   1 -
+> >  drivers/staging/r8188eu/include/odm.h         |  11 +-
+> >  .../staging/r8188eu/include/rtl8188e_hal.h    |   1 -
+> >  drivers/staging/r8188eu/include/rtw_debug.h   | 148 ---
+> >  14 files changed, 6 insertions(+), 1196 deletions(-)
+> >  delete mode 100644 drivers/staging/r8188eu/core/rtw_debug.c
+
+> > -- 
+> > 2.20.1
+
+
+Hi Phil,
+
+> Looks good from what I can see, many thanks. Built and tested on my
+> USB-N10 Nano.
+
+> For whole series:
+> Acked-by: Phillip Potter <phil@philpotter.co.uk>
+
+thanks for reviewing and testing.
+
+Best regards,
+Martin
