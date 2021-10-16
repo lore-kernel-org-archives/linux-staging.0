@@ -1,41 +1,41 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8102C82
-	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 09:11:14 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id i20so46947114edj.10
-        for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 02:11:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148802C82
+	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 09:11:17 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id y30so30181557edi.0
+        for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 02:11:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lZr1SNSUmJxs5qbwVaLzSk5qFj0BWBKgzlDwaUzb+9k=;
-        b=S1bNDQ4QsMHlxND9MrxLqBDsOgLMeZUnLS3kGI0bOnUHgAR563TxnD3Sba8ZxZy/PP
-         oygex4cb/0NJtdh9ZANK2l/KdvqqaZkyau5Sevu+v+dOE5w9MiaAHGgTYF6w0gxWt1/b
-         BW5gItwbLl05L9wYUazDzr5BNluwvimw3gSbKd4NHP9oQVoLXYIVs68mYV1cFnI+nyJA
-         JLR24RogjHF/3I3fbW9qLI8fiLjr8Lh7e8K9aB8aw2DEoG1RX4kE8Lohgy7LjAHlSCmW
-         JnEyy46ECWGG+G+HjWC5xcGK5jrjyXFabfqJh7gSpPxnqLdwejV/d9uP8lx48Oq7NZw4
-         qB6g==
+        bh=noJ+6MKLd69BWpaEP9lhlln8+JP2/hnwsE/lE4s1R4A=;
+        b=hAbkhCFWAX7ZcYR2Iwl7rrsHi3KZgssOx5hSqAISpjEfzUDQnC7WWC8okObl4O8QOw
+         fVwcMXz04CAdTfH5L+UaH5PcHOc5n74YxST47vVUqlkokBf61d2SeM/sPQmYfTnBmrMr
+         5oiALLyUGmD0J7njzLbBs1xexB45dRCji4E76nS21S1p8SatI57+mfqBsZ/VMEZAZlNi
+         vyzn7LcSjSD29Iy3jsQafDBg23nvRZBHfGGirqU5xEFWrNTQI0mt6ja3KQTQVMA4wqZ/
+         CyMFtDf/zvyLTJDrTFHTsBtfyLOdHyRywyeN+zbCiVHZ2DaxZ8i1b+WDYK0duUgOi4sQ
+         iuuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lZr1SNSUmJxs5qbwVaLzSk5qFj0BWBKgzlDwaUzb+9k=;
-        b=YEI9Kd+piaORKUSd0pXOgSCN4Dcyqw6/pZb24mptLFpxiIgewylwq0TR8uRiYRAmd6
-         0p7CnrxQA53NMaush9ssC5pb9a8wN2LmJPjmlFQ+WQr8zR4Q7W7q5iWsA/LA21JPFI0v
-         B3UuRhH91BqwD9QHd+gnn2Ui/fMyuv0wf217s7BmkK8CpxMMpuiHsr5Us6SG5NHDdWAv
-         qW4lwAR3j8L8SkHsKiPBLTCCvnnHQ83FVSd6FsJmZIDiCa1y6MeqUK1mNLWcepPSIyB5
-         qPVcBDrLDH5kYo0PqviuThPrqpIGUt32JGRD/vxWNILB6BapNxaGp3l89B6ddQt2p7VY
-         5SrQ==
-X-Gm-Message-State: AOAM530m9hKHp2IRLRJ2bXSyLGGlB7vikqNzt4R30I++LQNXm9QD5eIm
-	Ii+CamafNuMiPuico7c/jbBBIrSSdoI=
-X-Google-Smtp-Source: ABdhPJyNOR1pIOw4gy6uHxOjUrsoSYTNCzKpMO6z21BMs4dIhlkc4ID9fdZFi9kmfDher0qQcLi5TA==
-X-Received: by 2002:a17:906:4a09:: with SMTP id w9mr13158522eju.419.1634375473168;
-        Sat, 16 Oct 2021 02:11:13 -0700 (PDT)
+        bh=noJ+6MKLd69BWpaEP9lhlln8+JP2/hnwsE/lE4s1R4A=;
+        b=YzyrXE42+PBMM626g1dgwOWs9vrfBBCut4+Aic+rumItw6yhgY9qyoytfNzano3I4f
+         ZVL9gbG6L2W1BBxM5XOb9ydaxUy8ZXELCiTROXWMBqOmcGIBqT6n4owfvpOUQn1wWxd/
+         acN248ZISdbs6EfsqhrOacYIiOOjcIWlW5f6yBmafHqY2RP93orz7kf0X52M5OhcLbWz
+         6LW7WIJ0m/XeJI1uP4vQOeciA+sOlmW72TAkCstRvx9DaRivxeAYA/cZbvLDfpy/cJm9
+         5tVv6Bd9jB87WR/EeiMd3lnvRcRH2si80vf1bsLyEZmpkF5a5/p5Rjd7t5K/m/HNpzse
+         qDxQ==
+X-Gm-Message-State: AOAM532o6Mko7Cqf+tfL4N+NHnR8jyQ73JMRtl7s7anNxjorvDu37llo
+	0aKlReL94RABM+8/NbkxMDI=
+X-Google-Smtp-Source: ABdhPJyu5VCnQPGUXhI8dJhImZ4FNIma94RgXDPr3XRZQTwVZUmNvCkHB/mZsxEEjh1my7JlgcxU/w==
+X-Received: by 2002:a05:6402:254e:: with SMTP id l14mr24663445edb.199.1634375475472;
+        Sat, 16 Oct 2021 02:11:15 -0700 (PDT)
 Received: from localhost.localdomain.it (host-79-47-104-180.retail.telecomitalia.it. [79.47.104.180])
-        by smtp.gmail.com with ESMTPSA id o15sm5934723ejj.10.2021.10.16.02.11.11
+        by smtp.gmail.com with ESMTPSA id o15sm5934723ejj.10.2021.10.16.02.11.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 02:11:12 -0700 (PDT)
+        Sat, 16 Oct 2021 02:11:14 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -44,9 +44,9 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH 1/3] staging: r8188eu: Use completions for signaling start and end kthread
-Date: Sat, 16 Oct 2021 11:10:40 +0200
-Message-Id: <20211016091042.19614-2-fmdefrancesco@gmail.com>
+Subject: [PATCH 2/3] staging: r8188eu: Use completions for signaling enqueueing
+Date: Sat, 16 Oct 2021 11:10:41 +0200
+Message-Id: <20211016091042.19614-3-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211016091042.19614-1-fmdefrancesco@gmail.com>
 References: <20211016091042.19614-1-fmdefrancesco@gmail.com>
@@ -58,100 +58,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_cmd_thread() "up(s)" a semaphore twice, first to notify callers when
-its execution has started and then to notify when it is about to end.
+rtw_enqueue_cmd() uses a semaphore to notify rtw_cmd_thread() that it
+has enqueued commands. rtw_cmd_thread() "down(s)" in interruptible mode
+to wait to be notified.
 
-It makes the same semaphore go "up" twice in the same kthread. This
-construct makes Smatch to warn of duplicate "up(s)".
+Use completion variables because they are better suited for the purpose.
 
-This kthread uses interruptible semaphores where instead completions are
-more suitable. For this purpose it calls an helper (_rtw_down_sema())
-that returns values that are never checked. It may lead to bugs.
-
-To address the above-mentioned issues, use two completions variables
-instead of semaphores. Use the uninterruptible versions of
-wait_for_completion*() because the interruptible / killable versions are
-not necessary.
-
-Tested with "ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano]".
+In rtw_cmd_thread(), wait in killable mode because there are no other
+reasons to interrupt waiting if not for killing.
 
 Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_cmd.c    | 7 ++++---
- drivers/staging/r8188eu/include/rtw_cmd.h | 3 ++-
- drivers/staging/r8188eu/os_dep/os_intfs.c | 6 ++++--
- 3 files changed, 10 insertions(+), 6 deletions(-)
+ drivers/staging/r8188eu/core/rtw_cmd.c    | 6 +++---
+ drivers/staging/r8188eu/include/rtw_cmd.h | 2 +-
+ drivers/staging/r8188eu/os_dep/os_intfs.c | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index e17332677daa..195390449502 100644
+index 195390449502..2900c31d8ec9 100644
 --- a/drivers/staging/r8188eu/core/rtw_cmd.c
 +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -23,7 +23,8 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+@@ -21,7 +21,7 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ {
+ 	int res = _SUCCESS;
  
- 	sema_init(&pcmdpriv->cmd_queue_sema, 0);
+-	sema_init(&pcmdpriv->cmd_queue_sema, 0);
++	init_completion(&pcmdpriv->enqueue_cmd);
  	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
--	sema_init(&pcmdpriv->terminate_cmdthread_sema, 0);
-+	init_completion(&pcmdpriv->start_cmd_thread);
-+	init_completion(&pcmdpriv->stop_cmd_thread);
+ 	init_completion(&pcmdpriv->start_cmd_thread);
+ 	init_completion(&pcmdpriv->stop_cmd_thread);
+@@ -198,7 +198,7 @@ u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+ 	res = _rtw_enqueue_cmd(&pcmdpriv->cmd_queue, cmd_obj);
  
- 	rtw_init_queue(&pcmdpriv->cmd_queue);
+ 	if (res == _SUCCESS)
+-		up(&pcmdpriv->cmd_queue_sema);
++		complete(&pcmdpriv->enqueue_cmd);
  
-@@ -248,7 +249,7 @@ int rtw_cmd_thread(void *context)
- 	pcmdbuf = pcmdpriv->cmd_buf;
+ exit:
  
- 	pcmdpriv->cmdthd_running = true;
--	up(&pcmdpriv->terminate_cmdthread_sema);
-+	complete(&pcmdpriv->start_cmd_thread);
+@@ -252,7 +252,7 @@ int rtw_cmd_thread(void *context)
+ 	complete(&pcmdpriv->start_cmd_thread);
  
  	while (1) {
- 		if (_rtw_down_sema(&pcmdpriv->cmd_queue_sema) == _FAIL)
-@@ -329,7 +330,7 @@ int rtw_cmd_thread(void *context)
- 		rtw_free_cmd_obj(pcmd);
- 	} while (1);
+-		if (_rtw_down_sema(&pcmdpriv->cmd_queue_sema) == _FAIL)
++		if (wait_for_completion_killable(&pcmdpriv->enqueue_cmd))
+ 			break;
  
--	up(&pcmdpriv->terminate_cmdthread_sema);
-+	complete(&pcmdpriv->stop_cmd_thread);
- 
- 	thread_exit();
- }
+ 		if (padapter->bDriverStopped ||
 diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index 83fbb922db2c..b6266e3e2c40 100644
+index b6266e3e2c40..47c3c80cc24a 100644
 --- a/drivers/staging/r8188eu/include/rtw_cmd.h
 +++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -34,7 +34,8 @@ struct cmd_obj {
+@@ -33,7 +33,7 @@ struct cmd_obj {
+ };
  
  struct cmd_priv {
- 	struct semaphore cmd_queue_sema;
--	struct semaphore terminate_cmdthread_sema;
-+	struct completion start_cmd_thread;
-+	struct completion stop_cmd_thread;
+-	struct semaphore cmd_queue_sema;
++	struct completion enqueue_cmd;
+ 	struct completion start_cmd_thread;
+ 	struct completion stop_cmd_thread;
  	struct __queue cmd_queue;
- 	u8	cmd_seq;
- 	u8	*cmd_buf;	/* shall be non-paged, and 4 bytes aligned */
 diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index e7964a048c99..0bcea66f550b 100644
+index 0bcea66f550b..96e9897085fe 100644
 --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
 +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -385,7 +385,8 @@ u32 rtw_start_drv_threads(struct adapter *padapter)
- 	if (IS_ERR(padapter->cmdThread))
- 		_status = _FAIL;
- 	else
--		_rtw_down_sema(&padapter->cmdpriv.terminate_cmdthread_sema); /* wait for cmd_thread to run */
-+		/* wait for rtw_cmd_thread() to start running */
-+		wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
- 
- 	return _status;
- }
-@@ -395,7 +396,8 @@ void rtw_stop_drv_threads(struct adapter *padapter)
+@@ -394,7 +394,7 @@ u32 rtw_start_drv_threads(struct adapter *padapter)
+ void rtw_stop_drv_threads(struct adapter *padapter)
+ {
  	/* Below is to termindate rtw_cmd_thread & event_thread... */
- 	up(&padapter->cmdpriv.cmd_queue_sema);
+-	up(&padapter->cmdpriv.cmd_queue_sema);
++	complete(&padapter->cmdpriv.enqueue_cmd);
  	if (padapter->cmdThread)
--		_rtw_down_sema(&padapter->cmdpriv.terminate_cmdthread_sema);
-+		/* wait for rtw_cmd_thread() to stop running */
-+		wait_for_completion(&padapter->cmdpriv.stop_cmd_thread);
- }
- 
- static u8 rtw_init_default_value(struct adapter *padapter)
+ 		/* wait for rtw_cmd_thread() to stop running */
+ 		wait_for_completion(&padapter->cmdpriv.stop_cmd_thread);
 -- 
 2.33.0
 
