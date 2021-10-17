@@ -1,82 +1,242 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383982C81
-	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:25:03 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so12828043pjc.3
-        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=va1wOEK7prq0g6xbMM0ouEtB510a8wuP54vz2v0aIcY=;
-        b=GcLww3LN2g8DJDDSHxZm7EUvgM99s3wD5LI+OpFaDduYIS7FQuENACFR/JWHyduY1W
-         HHbFm4kQRYm0hYGCnccoMoVroZFbGjBMwS2Vh7MtEOyinyjwqhNtqgqs7eF/QVT8pYeR
-         gq9UGBjhFMZ6eECqIzaNzLdXKRGOhwCk+w6gTJA6CrMhj1M7Ta0KAqQvQv0FSA9b7tVG
-         hpf6bwTLOox2Mh88rJsl2vj6me9HCOMp8BAyzOZ+qYVdPGsyogvFaFsTp5N/lFTFCZLi
-         c6mh8MYxG185HiaqxlhgXCI97ZTo40XSacdHoSWQtXzXon2WTw00MVBJ8OiSn6X0o3aR
-         xnbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=va1wOEK7prq0g6xbMM0ouEtB510a8wuP54vz2v0aIcY=;
-        b=xU4Vn0Ot2sG3vq6bVrp1rnKAqlsGNSpuAhwHozfvSWLXcz/m7OHiRcFyJ8wcDeI0F5
-         64S2mb8mJI85a7iPvRiTqZqQZgLTcbve+XLhikcN/5df0+ukNaJ7kSFS3x3Dmyv0f5pl
-         Asc7538AahvnWIxaIsO42pzj3i1QkbAGsCJLlXY727bPZzq5R8dP78v9YJK9xuLllaxn
-         Xmk62ljxnqWdvlcbVj+pyf1Brbo1JN/vBEjrue6/SnSgHmrRvfbk546nPYL315zZdzmT
-         pTWhmK4DFcj4hHBXJJ/mTrN7LS7R65/bSltRaVQer/C4N2LHvsWak5FoerW6rpHbCGgB
-         b+Uw==
-X-Gm-Message-State: AOAM530xOcwc8IwEiW6iu2rtvL1zPMKfhOarCvaZrtYKryznlmVoDDj6
-	CAAqC176PFhv3yfDgJKq4Tg=
-X-Google-Smtp-Source: ABdhPJwrgPLl1nNNQaWQMXtYN4uy23b/Hi1FG6PMsJgEmMSwZ6zbKOqr+ApFspjeujU5Ii3v0lU/HA==
-X-Received: by 2002:a17:90b:3588:: with SMTP id mm8mr42281447pjb.238.1634487902794;
-        Sun, 17 Oct 2021 09:25:02 -0700 (PDT)
-Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id f30sm10814332pfq.142.2021.10.17.09.24.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:25:02 -0700 (PDT)
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: 
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Patrik Gfeller <patrik.gfeller@gmail.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Kaixu Xia <kaixuxia@tencent.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [BUG 5/5] [BUG] media: atomisp: atomisp causes touchscreen to stop working on Microsoft Surface 3
-Date: Mon, 18 Oct 2021 01:23:36 +0900
-Message-Id: <20211017162337.44860-6-kitakar@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211017162337.44860-1-kitakar@gmail.com>
-References: <20211017162337.44860-1-kitakar@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A542C80
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:31:38 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.122]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MZl1l-1mFqYx1D1D-00WkCu; Sun, 17 Oct 2021 18:31:20 +0200
+Subject: Re: [PATCH 2/2] dt-bindings: soc: bcm: Convert brcm, bcm2835-vchiq to
+ json-schema
+To: Rob Herring <robh@kernel.org>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Ojaswin Mujoo <ojaswin98@gmail.com>, Mwesigwa Guma <mguma@redhat.com>,
+ linux-staging@lists.linux.dev, Scott Branden <sbranden@broadcom.com>,
+ linux-arm-kernel@lists.infradead.org, Ray Jui <rjui@broadcom.com>,
+ devicetree@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ Phil Elwell <phil@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>
+References: <1634475996-6809-1-git-send-email-stefan.wahren@i2se.com>
+ <1634475996-6809-3-git-send-email-stefan.wahren@i2se.com>
+ <1634484570.846584.60704.nullmailer@robh.at.kernel.org>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Autocrypt: addr=stefan.wahren@i2se.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
+ CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
+ bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
+ TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
+ NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
+ MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
+ by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
+ MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
+ VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
+ aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
+ OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
+ bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
+ Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
+ ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
+ bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
+ dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
+ QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
+ UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
+ SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
+ VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
+ akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
+ NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
+ RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
+ QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
+ ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
+ cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
+ R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
+ aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
+ NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
+ SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
+ TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
+ TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
+ NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
+ YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
+ SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
+ KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
+ ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
+ VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
+ SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
+ d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
+ UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
+ c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
+ a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
+ anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
+ WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
+ Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
+ QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
+ Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
+ K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
+ aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
+ dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
+ TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
+ SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
+ U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
+ VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
+ OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
+ Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
+ eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
+ MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
+ SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
+ Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
+ WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
+ Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
+ OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
+ TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
+ eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
+ WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
+ cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
+ QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
+ Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
+ RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
+ SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
+ cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
+ dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
+ RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
+ SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
+ WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
+ VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
+ am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
+ OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
+ L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
+ aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
+ cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
+ WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
+ MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
+ RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
+ RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
+ TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
+ SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
+ M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
+ VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
+ MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
+ bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
+ NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
+ ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
+ Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
+ eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
+ QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
+ TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
+ dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
+ S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
+ VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
+ QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
+ ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
+ UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
+ SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
+ UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
+ N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
+ dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
+ MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
+ d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
+ WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
+ MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
+ MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
+ TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
+ NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
+ MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
+ RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
+ VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
+ WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
+ ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
+ SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
+ MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
+ M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
+ dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
+ CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
+ VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
+ bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
+ LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
+Message-ID: <c88489a9-53f3-cae2-48bc-5afcf4ca5256@i2se.com>
+Date: Sun, 17 Oct 2021 18:31:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1634484570.846584.60704.nullmailer@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Provags-ID: V03:K1:WbDMR1X7dAegsM96tQup16+/jrSvhZRXyE4+mRKCcawMDddx2SI
+ jVYLzWwFi3SMmc20Rl/2K+QJPSXmBs3VDct8Y94+Q6r1OCMW6YX0ve+jPAB3IGE08USSQEk
+ tRAJy4VJIig2SgeYdnInuZ5t54/EQldmzClnfQwFzM9YExGOgyqLnBfKAw0F/LHGRPplffs
+ kmyiFvUaQXe3uxv/FDE/g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kgoNmlXHhl4=:7F3Fx/uQDG62rf1W50QT+G
+ SKWqVriIFAjpjZ+PcL72dU+F5V4GvtWL7wOFR/kIUHL3DUqCxpyi1Tnoj0fcSq88qCxOF/oWn
+ CTGVbdyUZE8ij+JZV23kcFxhw2vv3dWbuw/U79Zcr/d+BHJiQiR8XppKX9bBvNu7pLwUw+77I
+ 9I6il0sP2e4JewgNejLcLKM47vmBG76f1SJyxVPbTebCDetHD8q2+SFH8Htv7oHbu7IQI7g16
+ nB2e3/s284Oifz5Vp3Xw/uhBbu21K9g4k5PulHLbFS1eRLgx6ZV2XOLwylZhSSlLfH3ZGD5or
+ /WRxHfSLs2g/aC7FqajXk38q+3aCrdDE/7hs2qe2sq4gNI+PK3kyKquJq+hZ4UDf0glPi9W9G
+ zTLyWP/n3LntUuas5KF2J3/jDkayQWNrQG5m9dd2Eu8+Rs02DJ1IfW401G/Aqv96mR9myh3RA
+ DLymSYSL0T2I8cCDNyIyo3Ec0NzmCXBtT27zX365w+cqxa6wCVJFOE/POTznR1faP4uQ8/6u5
+ 3+jj9yjHwi9A1CUi4ZkxvZih7C9O7ckfod1jRVT6Gw7N1JITORYjSvOdb1VIXOxWB3so7y4Eg
+ 78yoQVEfueW2vlwJtTDiK2xlD7jroLRsJfuKZ1JlcaydjN/iX9oQoTTrXTTIfpgWY03QKyTRy
+ NQ3t4ZSe7PR85KUyZkh2wp2nFHYEhAdNa8we7VsVvBW3bkBlCUpcj+Is8t/UdfCT6NlVEITXI
+ 64Htm31BquzKfx3M1G4spS+upY0SOApSgBCoiCK3E3NPR7rCVkVz7+yk6CI=
 
-Touchscreen input works fine before loading atomisp driver on Surface 3.
+Hi Rob,
 
-However, after loading atomisp driver, touchscreen works only when
-capturing images. This sounds like atomisp turns off something needed
-for touchscreen when atomisp is idle.
+Am 17.10.21 um 17:29 schrieb Rob Herring:
+> On Sun, 17 Oct 2021 15:06:36 +0200, Stefan Wahren wrote:
+>> This converts the VCHIQ bindings to YAML format.
+>>
+>> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+>> ---
+>>  .../bindings/soc/bcm/brcm,bcm2835-vchiq.txt        | 17 --------
+>>  .../bindings/soc/bcm/brcm,bcm2835-vchiq.yaml       | 47 ++++++++++++++++++++++
+>>  2 files changed, 47 insertions(+), 17 deletions(-)
+>>  delete mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt
+>>  create mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+>>
+> Running 'make dtbs_check' with the schema in this patch gives the
+> following warnings. Consider if they are expected or the schema is
+> incorrect. These may not be new warnings.
+>
+> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+> This will change in the future.
+>
+> Full log is available here: https://patchwork.ozlabs.org/patch/1542230
+>
+>
+> mailbox@7e00b840: compatible: Additional items are not allowed ('brcm,bcm2835-vchiq' was unexpected)
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dt.yaml
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dt.yaml
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dt.yaml
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dt.yaml
+> 	arch/arm/boot/dts/bcm2836-rpi-2-b.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-3-a-plus.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-3-b.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-3-b-plus.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-cm3-io3.dt.yaml
+>
+> mailbox@7e00b840: compatible: ['brcm,bcm2836-vchiq', 'brcm,bcm2835-vchiq'] is too long
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dt.yaml
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dt.yaml
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dt.yaml
+> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dt.yaml
+> 	arch/arm/boot/dts/bcm2836-rpi-2-b.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-3-a-plus.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-3-b.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-3-b-plus.dt.yaml
+> 	arch/arm/boot/dts/bcm2837-rpi-cm3-io3.dt.yaml
 
-There is no useful kernel log. Just the touchscreen stops working
-with no log.
+i'm confused patch 1/2 ( "ARM: dts: bcm283x: Drop fallback compatible
+for vchiq" ) of this series should prevent this warning. Was it applied
+before running dtbs_check?
 
-I'll update if I find something further. First of all, can someone
-reproduce this issue on the other devices?
--- 
-2.33.1
+Best regards
 
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
