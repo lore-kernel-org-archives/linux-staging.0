@@ -1,119 +1,88 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B942C83
-	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 12:18:33 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id u18so35876231wrg.5
-        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 05:18:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB702C83
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 12:27:16 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id e3so35541095wrc.11
+        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 05:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7DhS3xtuHzWs9QFl24FwJLyWw4/xQqInsj4QCIIJh1M=;
-        b=hfqh5imm8xBcObv8zzNvDJf0CPixtc+OiYm7Pmulk2GUF73IcUMg8bCyRAWwQfqVeC
-         cBmyZs5v8w+Xo8UmL8nrCgIxNRBntW+MMthZ4lPq/Au0lg1SebjM6pBW7I9ydeEUoe7j
-         PEeRaAl97ndUEshNHBejYMWAtpw21IdsqAxGg11AW07D5LCShV5nnx2Q1wtpJdCEmngN
-         TLHpA1fvJbMdcW+Yghp/riRGRwLXqFAxESeNE5TcP2IBQSvpUf6MIYQR4vS8w1xawCBQ
-         P77llcvI1y5cBdtL/SAOf6G9Xsf8wZVJ3LloHgSfAsRr+2xCMKYDIiwgj4EnvQOeOvV6
-         YfZQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=caezwCrYl8J1Db0QePppJD41dRvS6Lu7c4xekHw9rc4=;
+        b=ogmUBzFMtrtluJm3LUTqmaT3xo5LmNaCfiKBDJfpkOna8f++9MsCVdJN50yligWLWW
+         hEm3iq2vrBpiP2gERFUx9lJh/6lpuevO2zC29sADMUWrP0nWnEZiSAB5L1TXZrh3Uds0
+         XWc4TkTPNc5LXYW7N4biGbzW1GdjvskA9F7tc4JE3PBLM+knEMGA232U23+XehALgJnx
+         midr0kGTqtt4mVvi0WbsXIxdQ+dFlFX8Sos/HWGjyh2Zc10DHjYNS+ZgRNf5SnlxBbDH
+         En5nPcptw02TFAlnGI/8JrcX5hWlzPcm/UFp4Z9F9DbLCzDdPgFvPxD/ZnJ3YeawQ5VS
+         3jzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7DhS3xtuHzWs9QFl24FwJLyWw4/xQqInsj4QCIIJh1M=;
-        b=fion5fs/sMUKA5C+0zkGa9/SWlv+AfzSmZGyClrMf7VYK4UH3ZIKJ82aBXbuGFig5P
-         Cx9mFsc99S41mkpLT6Fzp/wNrjxLb45YIuN+JfvjthGT4bwmFmr6xiazgnPT4BaZTLwl
-         ye1q4W2FOEyWUpMgmdBZ+SaIEbhNKEGmCyJzzmJEe6jrNGQNRWd6dIc3DdnXv5m7cw5h
-         hF0D4KRBGrTTWFKdTk/bkenP3Cr7xubfJzFyN90E3b9KBVDNW/OBK+fNJVJzvtDrvfjd
-         kCwfaNSZYfjuORTwmD6agVE/1uDd/aDJaEPcsI26bVwt3HuUzdIvSeFNPpZ61YXFSdOi
-         wkxw==
-X-Gm-Message-State: AOAM531fdeXxzLCtP+MEZVL8omMawhhC3ihGvbAcSaRcYiW4m89HlThw
-	G5zsVJaF0hPkWNevoA8Q1ec=
-X-Google-Smtp-Source: ABdhPJzvF+3lwjBeblRFndrqh1FPhC4J83Ycrrcf7GJLrnmvnfaXZiANaC7NSmEa2O01+MTfvQd63Q==
-X-Received: by 2002:adf:bb08:: with SMTP id r8mr29415642wrg.247.1634473112164;
-        Sun, 17 Oct 2021 05:18:32 -0700 (PDT)
-Received: from ?IPV6:2a02:8108:96c0:3b88::d7f0? ([2a02:8108:96c0:3b88::d7f0])
-        by smtp.gmail.com with ESMTPSA id i203sm12329666wma.48.2021.10.17.05.18.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Oct 2021 05:18:31 -0700 (PDT)
-Message-ID: <c66442a2-51fd-70bf-d9cf-5991c0d88a76@gmail.com>
-Date: Sun, 17 Oct 2021 14:18:30 +0200
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=caezwCrYl8J1Db0QePppJD41dRvS6Lu7c4xekHw9rc4=;
+        b=i1ABNm7lNa8ptaMMZNaXmLJVl5TbwbdHdR2eThdi3MDdeVDABb2rB8bo7NryQrfGEU
+         eB8l22fCl64BtCjWNnqPvIgSSpJlCRputQhjVHe/PxeFuwxZyUVNRKTMyntjrZhYNCCY
+         zBGf5pdoXroomk64m4Xv9ZdEl8TOx0mO4MdV9hpWLquWB3zddy4ZXZtt67kjR78U4QeK
+         5MmEM8Ja/9PC7Xts5rZPZOUKZZH5Be4YBh2PssYLGhTNKiwQfIK3kqZvjE/2/EN/GvB5
+         XE+ml/YG7qqgyavqcUUzrkhXv32HULqBIxbGsSMCqj2yM2knNWPry/CEPkorwBTyo0IN
+         Xs5A==
+X-Gm-Message-State: AOAM530NdMzcWvZ28R+jKE0gsQOUhCqXOdJTBZ/rZ9eFBrGTXqIvECN9
+	WrYMLwYi91nPyoeDLj+bmO0=
+X-Google-Smtp-Source: ABdhPJzvGs5Kt+CDR6iUtIq0Pynnn7nw1r8K/anNW4nGI6k1FzSzZBcNGXx9uPVf0gRWbUHvA5OC8Q==
+X-Received: by 2002:adf:aad7:: with SMTP id i23mr27699723wrc.209.1634473634405;
+        Sun, 17 Oct 2021 05:27:14 -0700 (PDT)
+Received: from Mononoke (56.red-88-27-247.staticip.rima-tde.net. [88.27.247.56])
+        by smtp.gmail.com with ESMTPSA id o12sm9713965wrv.78.2021.10.17.05.27.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Oct 2021 05:27:13 -0700 (PDT)
+Date: Sun, 17 Oct 2021 14:27:12 +0200
+From: Sebastian Luchetti <luchetti.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rts5208: ms.c: Remove two udelay calls and use
+ usleep_range instead
+Message-ID: <YWwWoB3+4HQTD4/t@Mononoke>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 2/3] staging: r8188eu: Makefile: don't overwrite global
- settings
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20211016173544.25376-1-martin@kaiser.cx>
- <20211016173544.25376-3-martin@kaiser.cx>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20211016173544.25376-3-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/16/21 19:35, Martin Kaiser wrote:
-> Remove settings from the Makefile that are set by higher-level Makefiles.
-> 
-> Some of those settings might have been useful when the driver was
-> maintained out of tree.
-> 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->   drivers/staging/r8188eu/Makefile | 14 --------------
->   1 file changed, 14 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
-> index fccf7e6d1520..8294fb69ecf9 100644
-> --- a/drivers/staging/r8188eu/Makefile
-> +++ b/drivers/staging/r8188eu/Makefile
-> @@ -1,8 +1,3 @@
-> -SHELL := /bin/bash
-> -EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
-> -EXTRA_CFLAGS += -O1
-> -
-> -ccflags-y += -D__CHECK_ENDIAN__
->   
->   OUTSRC_FILES :=				\
->   		hal/HalHWImg8188E_MAC.o	\
-> @@ -46,15 +41,6 @@ _OS_INTFS_FILES :=				\
->   
->   _HAL_INTFS_FILES += $(OUTSRC_FILES)
->   
-> -SUBARCH := $(shell uname -m | sed -e "s/i.86/i386/; s/ppc.*/powerpc/; s/armv.l/arm/; s/aarch64/arm64/;")
-> -
-> -ARCH ?= $(SUBARCH)
-> -CROSS_COMPILE ?=
-> -KVER  ?= $(if $(KERNELRELEASE),$(KERNELRELEASE),$(shell uname -r))
-> -KSRC ?= $(if $(KERNEL_SRC),$(KERNEL_SRC),/lib/modules/$(KVER)/build)
-> -MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless
-> -INSTALL_PREFIX :=
-> -
->   rtk_core :=				\
->   		core/rtw_ap.o		\
->   		core/rtw_br_ext.o	\
-> 
+This patch fixes the issue:
+CHECK: usleep_range is preferred over udelay; see
+Documentation/timers/timers-howto.txt
+in two occurrences.
 
-Hi Martin, this patch introduces a GCC warning on my system.
+Signed-off-by: Sebastian Luchetti <luchetti.linux@gmail.com>
+---
+ drivers/staging/rts5208/ms.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function 
-'rtw_wx_set_enc_ext':
-drivers/staging/r8188eu/os_dep/ioctl_linux.c:1929:9: warning: 'strncpy' 
-specified bound 16 equals destination size [-Wstringop-truncation]
-  1929 |         strncpy((char *)param->u.crypt.alg, alg_name, 
-IEEE_CRYPT_ALG_NAME_LEN);
-       | 
-^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.c
+index 2a6fab5c117a..7292c8f013fd 100644
+--- a/drivers/staging/rts5208/ms.c
++++ b/drivers/staging/rts5208/ms.c
+@@ -3236,7 +3236,7 @@ static int ms_write_multiple_pages(struct rtsx_chip *chip, u16 old_blk,
+ 			return STATUS_FAIL;
+ 		}
+ 
+-		udelay(30);
++		usleep_range(27, 32);
+ 
+ 		rtsx_init_cmd(chip);
+ 
+@@ -4158,7 +4158,7 @@ int mg_set_ICV(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 
+ #ifdef MG_SET_ICV_SLOW
+ 	for (i = 0; i < 2; i++) {
+-		udelay(50);
++		usleep_range(47, 52);
+ 
+ 		rtsx_init_cmd(chip);
+ 
+-- 
+2.30.2
 
-Regards,
-Michael
