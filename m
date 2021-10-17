@@ -1,41 +1,41 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38B52C81
-	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:21:58 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id g5so9631921plg.1
-        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:21:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8E72C81
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:22:06 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id f21so9623345plb.3
+        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:22:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=c0uj44wPnm4Y8EmOSQ7wX2rnL2hUC4B+oFq2A5I3XW8=;
-        b=gHW/xdCf4O5ataZNMASb4FqO5OtZLEAfMXLgvb3KfA8G9Wb8SifR2tqO3HnRBGUTMX
-         Bzjn8HBva1HmJ4tI/yZ9fL+P4AfMWcGIkIR8vY16mA/IT+2sLF9dW1/qBhiuzygmnCBO
-         /jP3EMYkNpWT41zbAixcQEtWR8VtlrtVXn4N6VpP3fUDJ2hNvf/9ZK4ulRj7pMfnZlmB
-         qB5p7mlorxxe0Hg0zwnZU3TVM08eYgA7XpYJ7eghRmqPentgtSDygwvXAAKuHp8Wb5Ah
-         mCj3qpyQPPbyfV2Yk5X6uTQ5JYB5jM5XPxavSRhMGL9saZXS6I6FBNyP/VaGKGrL9hZ8
-         r1LA==
+        bh=RDW1qPcMGAawLXHmgm47THBGVsh6BGW4tVw5OGbgQzw=;
+        b=RA5UgqeMGTQqGE4ruXYKtsCSlgdXXh/ujrF1Ehe+txdjqx/bbKJ/u+TMmTnjO6V0/v
+         o0zkRTPAh5VPRTLaG6VtYfUkxjkh8ARa5JVdAcyDGZ2Hmgblo7Kn6vlUCDZJSqar/fh1
+         HTXgwpeGOrueE0iYcrJXtdUEuXxCmHL/Zr0VB/i0ZLVOxfhkrHHdigxjv5hE0iHVd2ah
+         3Bc0XynN7qWoaEySzBwE8nT7G1ShRyE7ByJFCR1rRU4rOCZ4q/I/4a2cenQyMehEACWQ
+         zISp/jcG2OrCLHgAM8tFazprO/mtqfZ93UL37qB0oqoLrdS0aNPXu+lbgVe2jehiOKil
+         6l0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=c0uj44wPnm4Y8EmOSQ7wX2rnL2hUC4B+oFq2A5I3XW8=;
-        b=GKeCfHm8v6ue4RhZWWrer/oo4uARLdXxU2qWhibDjB76OjcQsEtVCLlJYZ2KMcYn9M
-         MBljbE2PnARzOUYPjdKDgu33EpwltdicpCB26+SmCi2EKCYiTjeZ3NlHIE8Gj2KUINLa
-         oFG4CXW7wEKQc7LZVZ9cMiHbcGUHfF8zrvQIDgD0Bcin8TKu2kxU0nUY5nVQyVxiDesO
-         Ct/qRXPeCXwNSr3EYHKzJIZKUQQRbmefbpQtra79xCvqQXg8rWkwDfmTUF70+Ra9BwMn
-         Q50LuqGfj95HAoKkv1z6fm1Ivi+Ldnv5BFGEEgz2nZTzuTKzAqvKyjJt1qAvnJE1PqE9
-         vBvA==
-X-Gm-Message-State: AOAM531wco3p/Iyh1oYZuQIkpBQAy0jUf1cRiyyafZsxjWe6kqKs5p+D
-	B0mED42FcPZeC2vYlzWc3B8=
-X-Google-Smtp-Source: ABdhPJzefsfYf8SoqkFHZLPasa2qVn76OAgJBgiN4KjzWniBOMnfJzQkZ/8wAmf5Pbg4IcPBsbMiAQ==
-X-Received: by 2002:a17:90a:a386:: with SMTP id x6mr27461650pjp.56.1634487718185;
-        Sun, 17 Oct 2021 09:21:58 -0700 (PDT)
+        bh=RDW1qPcMGAawLXHmgm47THBGVsh6BGW4tVw5OGbgQzw=;
+        b=WOdFcHHsByyv3yKoPElCePNHk6cQ2LPuWrI8M0FXtb4qd2DZDKDGW3pr9nGqhsjwGd
+         Xq96pR7EiutyHq8uV4PCS6/PimtQm1aQgILf9b2wZWcNtozw3IzfR8yJzM7g4rRo0UOB
+         6btte3XhcRhvUg3O5ZfOFUnJ3t7w8nSlQ3vuXr9KuwwGfHx4oT9Ke8IhR6aqZ0McGteA
+         1n63XpN6eUK+K54R+ToGKVyxeW2RdGHruS5pBRdzKnDcNxQn9gGx5UgXLOKjqPWMewuV
+         XCdD5i5ZkxeX/wSiEXyDLPut50wZeKnT7b2uRZjpJoBjP9i8R78qGEH9jQ43ahdGSFp2
+         ZpvQ==
+X-Gm-Message-State: AOAM532KcA1XPW/gxuUsmp3Y38u6lDg3UpbrXtX2/8Oc7zNxIQwUYj5n
+	GuGcBCdQz/Mqk7K123CKB2M=
+X-Google-Smtp-Source: ABdhPJzRqiG5mLXwiAbDEtxsYZI4Qydocucua6z0Dib7/APOAQWQZ0Rt8E7j7OA9PLn3LUQOwBsZMw==
+X-Received: by 2002:a17:90b:e07:: with SMTP id ge7mr42525003pjb.75.1634487726433;
+        Sun, 17 Oct 2021 09:22:06 -0700 (PDT)
 Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.21.54
+        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.22.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:21:57 -0700 (PDT)
+        Sun, 17 Oct 2021 09:22:06 -0700 (PDT)
 From: Tsuchiya Yuto <kitakar@gmail.com>
 To: 
 Cc: Hans de Goede <hdegoede@redhat.com>,
@@ -47,17 +47,19 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
 	Yang Yingliang <yangyingliang@huawei.com>,
-	Dinghao Liu <dinghao.liu@zju.edu.cn>,
 	Alan <alan@linux.intel.com>,
-	Aditya Srivastava <yashsri421@gmail.com>,
-	Martiros Shakhzadyan <vrzh@vrzh.net>,
-	Kees Cook <keescook@chromium.org>,
+	Dinghao Liu <dinghao.liu@zju.edu.cn>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Deepak R Varma <drv@mailo.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/17] media: atomisp: pci: make fw ver irci_stable_candrpv_0415_20150521_0458 work - 4/5
-Date: Mon, 18 Oct 2021 01:19:51 +0900
-Message-Id: <20211017161958.44351-12-kitakar@gmail.com>
+Subject: [PATCH 12/17] media: atomisp: pci: make fw ver irci_stable_candrpv_0415_20150521_0458 work - 5/5
+Date: Mon, 18 Oct 2021 01:19:52 +0900
+Message-Id: <20211017161958.44351-13-kitakar@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
@@ -79,10 +81,8 @@ same as css version irci_stable_candrpv_0415_20150521_0458 to make atomisp
 work for firmware made for such css version since we don't have firmware
 made for the current css version.
 
-This patch removes polling_mode and subscr_index from
-`struct virtual_input_system_stream_s` as well as its usage [1]. Note
-that for subscr_index, only the definition were removed because it was
-not used anywhere.
+This patch removes the unnamed struct `shading` from
+`struct sh_css_sp_pipeline` as well as its usage [1].
 
 [1] added on updating css version to irci_master_20150701_0213
     https://raw.githubusercontent.com/intel/ProductionKernelQuilts/cht-m1stable-2016_ww31/uefi/cht-m1stable/patches/cam-0439-atomisp2-css2401-and-2401_legacy-irci_master_2015070.patch
@@ -90,97 +90,58 @@ not used anywhere.
 
 Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 ---
- .../atomisp/pci/isp2401_input_system_global.h      | 12 ------------
- .../atomisp/pci/runtime/isys/src/virtual_isys.c    | 11 -----------
- drivers/staging/media/atomisp/pci/sh_css.c         | 14 ++------------
- 3 files changed, 2 insertions(+), 35 deletions(-)
+ .../media/atomisp/pci/sh_css_internal.h        |  8 --------
+ drivers/staging/media/atomisp/pci/sh_css_sp.c  | 18 ------------------
+ 2 files changed, 26 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
-index f38773842646..e3c86069b390 100644
---- a/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
-+++ b/drivers/staging/media/atomisp/pci/isp2401_input_system_global.h
-@@ -44,11 +44,6 @@ typedef enum {
- 	N_INPUT_SYSTEM_SOURCE_TYPE
- } input_system_source_type_t;
- 
--typedef enum {
--	INPUT_SYSTEM_POLL_ON_WAIT_FOR_FRAME,
--	INPUT_SYSTEM_POLL_ON_CAPTURE_REQUEST,
--} input_system_polling_mode_t;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+index 496faa7297a5..92fb7e67610c 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+@@ -551,14 +551,6 @@ struct sh_css_sp_pipeline {
+ 			u32	raw_bit_depth;
+ 		} raw;
+ 	} copy;
 -
- typedef struct input_system_channel_s input_system_channel_t;
- struct input_system_channel_s {
- 	stream2mmio_ID_t	stream2mmio_id;
-@@ -111,9 +106,6 @@ struct isp2401_input_system_cfg_s {
- 
- 	input_system_source_type_t	mode;
- 
--	/* ISP2401 */
--	input_system_polling_mode_t	polling_mode;
+-/* ISP2401 */
 -
- 	bool online;
- 	bool raw_packed;
- 	s8 linked_isys_stream_id;
-@@ -165,10 +157,6 @@ struct virtual_input_system_stream_s {
- 	u8 online;
- 	s8 linked_isys_stream_id;
- 	u8 valid;
--
--	/* ISP2401 */
--	input_system_polling_mode_t	polling_mode;
--	s32 subscr_index;
+-	/* Parameters passed to Shading Correction kernel. */
+-	struct {
+-		u32 internal_frame_origin_x_bqs_on_sctbl; /* Origin X (bqs) of internal frame on shading table */
+-		u32 internal_frame_origin_y_bqs_on_sctbl; /* Origin Y (bqs) of internal frame on shading table */
+-	} shading;
  };
  
- typedef struct virtual_input_system_stream_cfg_s
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-index 82f3c19dc455..8fc7746f8639 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-@@ -189,17 +189,6 @@ ia_css_isys_error_t ia_css_isys_stream_create(
- 		return false;
+ /*
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+index 13b15a5a33bc..fa74ac172f94 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+@@ -1308,24 +1308,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
  	}
+ #endif
  
--#ifdef ISP2401
--	/*
--	 * Early polling is required for timestamp accuracy in certain cause.
--	 * The ISYS HW polling is started on
--	 * ia_css_isys_stream_capture_indication() instead of
--	 * ia_css_pipeline_sp_wait_for_isys_stream_N() as isp processing of
--	 * capture takes longer than getting an ISYS frame
--	 */
--	isys_stream->polling_mode = isys_stream_descr->polling_mode;
--
--#endif
- 	/* create metadata channel */
- 	if (isys_stream_descr->metadata.enable) {
- 		rc = create_input_system_channel(isys_stream_descr, true,
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index ba25d0da8b81..79003077f390 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -1000,20 +1000,10 @@ static bool sh_css_translate_stream_cfg_to_isys_stream_descr(
- 	isys_stream_descr->raw_packed = stream_cfg->pack_raw_pixels;
- 	isys_stream_descr->linked_isys_stream_id = (int8_t)
- 		stream_cfg->isys_config[isys_stream_idx].linked_isys_stream_id;
--	/*
--	 * Early polling is required for timestamp accuracy in certain case.
--	 * The ISYS HW polling is started on
--	 * ia_css_isys_stream_capture_indication() instead of
--	 * ia_css_pipeline_sp_wait_for_isys_stream_N() as isp processing of
--	 * capture takes longer than getting an ISYS frame
--	 */
 -	if (IS_ISP2401) {
--		isys_stream_descr->polling_mode
--		    = early_polling ? INPUT_SYSTEM_POLL_ON_CAPTURE_REQUEST
--		      : INPUT_SYSTEM_POLL_ON_WAIT_FOR_FRAME;
-+
-+	if (IS_ISP2401)
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "sh_css_translate_stream_cfg_to_isys_stream_descr() leave:\n");
+-		/* For the shading correction type 1 (the legacy shading table conversion in css is not used),
+-		* the parameters are passed to the isp for the shading table centering.
+-		*/
+-		if (internal_frame_origin_bqs_on_sctbl &&
+-		    params && params->shading_settings.enable_shading_table_conversion == 0) {
+-			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_x_bqs_on_sctbl
+-			= (uint32_t)internal_frame_origin_bqs_on_sctbl->x;
+-			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_y_bqs_on_sctbl
+-			= (uint32_t)internal_frame_origin_bqs_on_sctbl->y;
+-		} else {
+-			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_x_bqs_on_sctbl =
+-			0;
+-			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_y_bqs_on_sctbl =
+-			0;
+-		}
 -	}
+-
+ 	IA_CSS_LOG("pipe_id %d port_config %08x",
+ 		   pipe_id, sh_css_sp_group.pipe[thread_id].inout_port_config);
  
- 	return rc;
- }
 -- 
 2.33.1
 
