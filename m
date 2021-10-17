@@ -1,41 +1,41 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9FA2C81
-	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:22:25 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id q5so13533498pgr.7
-        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:22:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0962C81
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:22:31 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id ls14-20020a17090b350e00b001a00e2251c8so10839498pjb.4
+        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LF01EYAfQlQ9A212iuObd6nlomq8Vqrehwo7xoax5fI=;
-        b=aSGcy++sObLMyyEeXAUtsLHBZrl7tTdxSwa2fHaZLQjMAXE6zl6phOU/hpxOhKlxEM
-         bdwji5vTHDbt/k2Y4DuQwLNlkxc1wz3EA9l410ctVxvgL5ncebWLkvSegSX9id7IfA26
-         9LqtLU5N12yg/Kf/5ElVvkKDLdm5DUyhpCg1o0qpp/9HMbRtjzzyoyBuAEzX1/Eg8J3z
-         A4fg4tMHLLGWBDtG53U90GuvOJVqM0UFmQD0TgndRFv7h4ivzybgaBr/cpqsguU9OrlT
-         mDCVU5hE86IOtkzJkth/IC4COFuCp92N4ZPVcxB0mVviajV2kh6g9wIHSGECvCKkFSn+
-         fijA==
+        bh=CCRIijo2PoToFaAc7zQPed85KYSfqIFEBvsodoq8LHk=;
+        b=k3T++MKGgxWrWsGO4lMsHWh7oHoeUjVFHlFvkZSM7t4PdX+T1kQ5wKGZxJuaduMa4l
+         SsP4FJyH4YXPDL1CdpVyCm/j5d+KLwoI+KwozrHXSwNAJnWObMwZRVJX8EO6fiDzmmDE
+         mz2ETABVsAUARamqXNmxaHMJkoSKKk/uogeJfh62X7Ldf3LIkx0jpJcs78Df3YJVrr5z
+         1k2GwIZTNQzLK5lwY4Pauuz0CyVBeiQ09OW7x6kKMvDGWMnG+AFacnKUZgVeghPLPBYF
+         sU/sd+dFKdccwRcdPwHrQ+p7KzB1E7J0fx/XVAphVni6xXswcMyHggNul9Huza5hCtFO
+         JgKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LF01EYAfQlQ9A212iuObd6nlomq8Vqrehwo7xoax5fI=;
-        b=KeCSK23p/U2n/lH0h4KdpC6gczkl6okyoT8FVHnz6TSzfDcdXkU/TmzR5Fa71+BzRk
-         qIwRI5XB2YiRgj14df9v5MO7PuX6XaxtMvPjlVxn1lXSdJnAo+IUtmoX3iVU6PiC724R
-         KN2gDlovXQWz99npW6wtUomONsxBINt7LKSNrjqCxPQcUgpeXeK/sHTeCJ3ItiJqmxVP
-         19c87Zmde/ftCGXYgSv8yNW8vvr9UwMCBk2ktDraMyaqQGYHj0/k+XtQOofTQXrn7Use
-         QBzvhPNQPvs7EhKD1uhHyIL5c6RU8cuR81Yt17pl4WbBIwnYdB20KNYEkCsSBoi3T7Xs
-         IxEA==
-X-Gm-Message-State: AOAM530ShNVSoPbQVT0V1TfIrcgj3LpRgISP/W+MV6FqlYToDmgAcQtt
-	9BLlyeNKtoFnqX01nYH0eX4=
-X-Google-Smtp-Source: ABdhPJyb3mjSvz4Zg7cVCazraJbrmriYpk15grovOcf11UCBGUS2HaoBFgw9MvuvF7yyBuIVyyoM5Q==
-X-Received: by 2002:a05:6a00:731:b0:44c:7c1b:fe6a with SMTP id 17-20020a056a00073100b0044c7c1bfe6amr23728440pfm.44.1634487744957;
-        Sun, 17 Oct 2021 09:22:24 -0700 (PDT)
+        bh=CCRIijo2PoToFaAc7zQPed85KYSfqIFEBvsodoq8LHk=;
+        b=TErjTNcDTBhq2D4o3PzIhRCqWe4pb8reFdiZ0tqTv6L3my0l+hWgdvyqCBHu4WVNqW
+         fIvqdBRpLmHPCi5IPDE+PBIg+3JGM8gHmQaqfXBEu384+2kAlIMkca7GEA9tSReH/ds8
+         fW5ecJc9DrfkYgZMPnqw1TtFCZhyK9kXuyzbF63rI7PWDA7HHx1SVfD77QK8cigBmdkZ
+         EJr2haz0RXQB4QhZ3VpD+Rlft8g3FVYaTx+5bBuBCRmRK/WL5NZjv58Mw5q7vzJ9yZTa
+         85YDZO/XjjLHeYDJvMiYu+rrkCKdCs9Bt9ItirekYL2lf8Em2HaE/2/yss9RM3si+bou
+         BOWQ==
+X-Gm-Message-State: AOAM530Tii3/e3xbimlB6xtREFRMr7DZS4lsoNtZ7aG1xeJ46GTivHoo
+	MwqAFwY6nZ8A+ayrk69tqo0=
+X-Google-Smtp-Source: ABdhPJz/AvWxDLcRzfrwl8E2zFEn8+bBE+zHTB4btQnYdKJUFs4l6SxFAlyvHiWQ/jtmkTBZvHUrsg==
+X-Received: by 2002:a17:90a:af86:: with SMTP id w6mr28405602pjq.8.1634487751185;
+        Sun, 17 Oct 2021 09:22:31 -0700 (PDT)
 Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.22.21
+        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.22.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:22:24 -0700 (PDT)
+        Sun, 17 Oct 2021 09:22:30 -0700 (PDT)
 From: Tsuchiya Yuto <kitakar@gmail.com>
 To: 
 Cc: Hans de Goede <hdegoede@redhat.com>,
@@ -44,20 +44,18 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kaixu Xia <kaixuxia@tencent.com>,
-	Baokun Li <libaokun1@huawei.com>,
+	Aniket Bhattacharyea <aniketmail669@gmail.com>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Aditya Srivastava <yashsri421@gmail.com>,
-	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
 	Yang Yingliang <yangyingliang@huawei.com>,
-	Alan <alan@linux.intel.com>,
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
 	Dinghao Liu <dinghao.liu@zju.edu.cn>,
+	Alan <alan@linux.intel.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 14/17] media: atomisp: pci: Remove remaining instance of call to trace_printk
-Date: Mon, 18 Oct 2021 01:19:54 +0900
-Message-Id: <20211017161958.44351-15-kitakar@gmail.com>
+Subject: [PATCH 15/17] media: atomsip: pci: add Microsoft Surface 3 ACPI vars
+Date: Mon, 18 Oct 2021 01:19:55 +0900
+Message-Id: <20211017161958.44351-16-kitakar@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
@@ -69,92 +67,102 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-(patch based on intel-aero kernel patch:
- https://github.com/intel-aero/meta-intel-aero-base/commit/26fc9fe5030b63bc9dcf0b5f32981948911ca272)
+Microsoft Surface 3 does not describe CsiPort/CsiLanes in DSDT [1] or
+EFI, or at least not desctibed in the forms the current atomisp driver
+expects. This results in the default values (port: 0 lanes: 1) to be
+used, which does not work.
 
-Here is the original commit message from the aforementioned patch:
+So, define them ourselves in the driver.
 
-	From 26fc9fe5030b63bc9dcf0b5f32981948911ca272 Mon Sep 17 00:00:00 2001
-	From: Lucas De Marchi <lucas.demarchi@intel.com>
-	Date: Fri, 7 Jul 2017 14:23:53 -0700
-	Subject: [PATCH] linux-yocto: Remove remaining instance of call to
-	 trace_printk
+The user-facing camera is AR0330 (2-lane) and the world-facing camera
+is OV8835 (4-lane).
 
-	It's not sufficient to leave trace_printk() out of "normal call chains" since
-	the way trace infrastructure works is that it will allocate the trace_printk
-	buffers if the symbol is there (by using a separate section for the function
-	and checking if __start_* and __stop_* symbols are different.
+According to the portconfigs definition in atomisp_csi_lane_config()
+[atomisp_v4l2.c]:
 
-	Therefore, even if the default value for the param tells the module to use
-	printk(), just the fact that it can be changed to trace_printk() means the
-	initialization code will be called.
+	} portconfigs[] = {
+		/* Tangier/Merrifield available lane configurations */
+		{ 0x00, { 4, 1, 0 } },		/* 00000 */
+		{ 0x01, { 3, 1, 0 } },		/* 00001 */
+		{ 0x02, { 2, 1, 0 } },		/* 00010 */
+		{ 0x03, { 1, 1, 0 } },		/* 00011 */
+		{ 0x04, { 2, 1, 2 } },		/* 00100 */
+		{ 0x08, { 3, 1, 1 } },		/* 01000 */
+		{ 0x09, { 2, 1, 1 } },		/* 01001 */
+		{ 0x0a, { 1, 1, 1 } },		/* 01010 */
 
-The trace_printk() was replaced by pr_info() on commit 3d81099c75a6
-("media: atomisp: Replace trace_printk by pr_info") for the upstreamed
-atomisp, too. However, as the aforementioned commit message says, there
-is still a remaining instance. This causes the "trace_printk() being
-used" kernel warning message to still appear on the first driver load.
+		/* Anniedale/Moorefield only configurations */
+		{ 0x10, { 4, 2, 0 } },		/* 10000 */
+		{ 0x11, { 3, 2, 0 } },		/* 10001 */
+		{ 0x12, { 2, 2, 0 } },		/* 10010 */
+		{ 0x13, { 1, 2, 0 } },		/* 10011 */
+		{ 0x14, { 2, 2, 2 } },		/* 10100 */
+		{ 0x18, { 3, 2, 1 } },		/* 11000 */
+		{ 0x19, { 2, 2, 1 } },		/* 11001 */
+		{ 0x1a, { 1, 2, 1 } },		/* 11010 */
+	};
 
-Based on the aforementioned patch, this patch removes the call to
-ftrace_vprintk(). This removes that kernel warning.
+4-lane camera is always connected to the PRIMARY (port1) port [2]. In
+this case, 2-lane camera can be connected to the only SECONDARY (port0)
+port.
 
-In addition to this, this patch also removes the following now unused
-things:
+So, add these data accordingly as the gmin_cfg_var ACPI variables for
+Surface 3.
 
-    - now empty atomisp_css2_dbg_ftrace_print()
-    - trace_printk option from dbg_func kernel parameter
+[1] https://github.com/linux-surface/acpidumps/blob/7da48a392b4085c2021952290def1fc28505a643/surface_3/dsdt.dsl#L5879-L6278
+
+[2] Yes, the PRIMARY port is port1 according to atomisp_camera_port
+    [atomisp.h]:
+
+	enum atomisp_camera_port {
+		ATOMISP_CAMERA_PORT_SECONDARY,
+		ATOMISP_CAMERA_PORT_PRIMARY,
+		ATOMISP_CAMERA_PORT_TERTIARY,
+		ATOMISP_CAMERA_NR_PORTS
+	};
 
 Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 ---
- .../staging/media/atomisp/pci/atomisp_compat_css20.c   | 10 ----------
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c       |  4 ++--
- 2 files changed, 2 insertions(+), 12 deletions(-)
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 99a632f33d2d..d81d55c6f1fa 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -159,13 +159,6 @@ static void atomisp_css2_hw_load(hrt_address addr, void *to, uint32_t n)
- 	spin_unlock_irqrestore(&mmio_lock, flags);
- }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index d8c9e31314b2..948eb6f809f5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -321,6 +321,18 @@ static struct gmin_cfg_var i8880_vars[] = {
+ 	{},
+ };
  
--static int  __printf(1, 0) atomisp_css2_dbg_ftrace_print(const char *fmt,
--							 va_list args)
--{
--	ftrace_vprintk(fmt, args);
--	return 0;
--}
--
- static int  __printf(1, 0) atomisp_vprintk(const char *fmt, va_list args)
- {
- 	vprintk(fmt, args);
-@@ -860,9 +853,6 @@ static inline int __set_css_print_env(struct atomisp_device *isp, int opt)
- 	if (opt == 0)
- 		isp->css_env.isp_css_env.print_env.debug_print = NULL;
- 	else if (opt == 1)
--		isp->css_env.isp_css_env.print_env.debug_print =
--		    atomisp_css2_dbg_ftrace_print;
--	else if (opt == 2)
- 		isp->css_env.isp_css_env.print_env.debug_print = atomisp_vprintk;
- 	else
- 		ret = -EINVAL;
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index f5362554638e..720963156d24 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -87,10 +87,10 @@ module_param(dbg_level, int, 0644);
- MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
++/*
++ * Surface 3 does not describe CsiPort/CsiLanes in both DSDT and EFI.
++ */
++static struct gmin_cfg_var surface3_vars[] = {
++	{"APTA0330:00_CsiPort", "0"},
++	{"APTA0330:00_CsiLanes", "2"},
++
++	{"OVTI8835:00_CsiPort", "1"},
++	{"OVTI8835:00_CsiLanes", "4"},
++	{},
++};
++
+ static const struct dmi_system_id gmin_vars[] = {
+ 	{
+ 		.ident = "BYT-T FFD8",
+@@ -358,6 +370,13 @@ static const struct dmi_system_id gmin_vars[] = {
+ 		},
+ 		.driver_data = i8880_vars,
+ 	},
++	{
++		.ident = "Surface 3",
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "Surface 3"),
++		},
++		.driver_data = surface3_vars,
++	},
+ 	{}
+ };
  
- /* log function switch */
--int dbg_func = 2;
-+int dbg_func = 1;
- module_param(dbg_func, int, 0644);
- MODULE_PARM_DESC(dbg_func,
--		 "log function switch non/trace_printk/printk (default:printk)");
-+		 "log function switch non/printk (default:printk)");
- 
- int mipicsi_flag;
- module_param(mipicsi_flag, int, 0644);
 -- 
 2.33.1
 
