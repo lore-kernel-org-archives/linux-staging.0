@@ -1,242 +1,81 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A542C80
-	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:31:38 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.122]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MZl1l-1mFqYx1D1D-00WkCu; Sun, 17 Oct 2021 18:31:20 +0200
-Subject: Re: [PATCH 2/2] dt-bindings: soc: bcm: Convert brcm, bcm2835-vchiq to
- json-schema
-To: Rob Herring <robh@kernel.org>
-Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Ojaswin Mujoo <ojaswin98@gmail.com>, Mwesigwa Guma <mguma@redhat.com>,
- linux-staging@lists.linux.dev, Scott Branden <sbranden@broadcom.com>,
- linux-arm-kernel@lists.infradead.org, Ray Jui <rjui@broadcom.com>,
- devicetree@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- Phil Elwell <phil@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>,
- Florian Fainelli <f.fainelli@gmail.com>
-References: <1634475996-6809-1-git-send-email-stefan.wahren@i2se.com>
- <1634475996-6809-3-git-send-email-stefan.wahren@i2se.com>
- <1634484570.846584.60704.nullmailer@robh.at.kernel.org>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Autocrypt: addr=stefan.wahren@i2se.com; keydata=
- LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tClZlcnNpb246IEdudVBHIHYy
- CgptUUlOQkZ0NmdCTUJFQUN1Yi9wQmV2SHhidkplZnlaRzMySklObW4yYnNFUFgyNVY2ZmVq
- bXlZd21DR0tqRnRMCi9Eb1VNRVZIRHhDSjQ3Qk1YbzM0NGZIVjFDM0FudWRnTjFCZWhMb0J0
- TEh4bW5lQ3pnSDNLY1B0V1c3cHRqNEcKdEp2OUNRRFp5MjdTS29FUHh5YUk4Q0YweWdSeEpj
- NzJNOUk5d21zUFo1YlVIc0x1WVdNcVE3SmNSbVBzNkQ4ZwpCa2srOC95bmdFeU5FeHd4SnBS
- MXlsajVianhXREh5WVF2dUo1THpaS3VPOUxCM2xYVnNjNGJxWEVqYzZWRnVaCkZDQ2svc3lp
- by9ZaHNlOE4rUXN4N01RYWd6NHdLVWtRUWJmWGcxVnFrVG5BaXZYczQyVm5Ja211NWd6SXcv
- MHQKUkp2NTBGUmhIaHhweUtBSThCOG5oTjhRdng3TVZrUGM1dkRmZDN1R1lXNDdKUGhWUUJj
- VXdKd05rLzQ5RjllQQp2ZzJtdE1QRm5GT1JrV1VSdlArRzZGSmZtNitDdk92N1lmUDF1ZXdB
- aTRsbitKTzFnK2dqVklXbC9XSnB5MG5UCmlwZGZlSDlkSGtnU2lmUXVuWWN1Y2lzTXlvUmJG
- OTU1dENna0VZOUVNRWRZMXQ4aUdEaUNnWDZzNTBMSGJpM2sKNDUzdWFjcHhmUVhTYUF3UGtz
- bDhNa0NPc3YyZUVyNElOQ0hZUUR5WmljbEJ1dUNnOEVOYlI2QUdWdFpTUGNRYgplbnpTektS
- Wm9POUNhcUlEK2ZhdkxpQi9kaHptSEErOWJnSWhtWGZ2WFJMRFp6ZThwbzFkeXQzRTFzaFhp
- ZGRaClBBOE51SlZ6RUl0MmxtSTZWOHBaRHBuMjIxcmZLaml2UlFpYW9zNTRUZ1pqak1ZSTdu
- bko3ZTZ4endBUkFRQUIKdENCVGRHVm1ZVzRnVjJGb2NtVnVJRHgzWVdoeVpXNXpkRUJuYlhn
- dWJtVjBQb2tDTndRVEFRZ0FJUVVDWElkYwo0Z0liQXdVTENRZ0hBZ1lWQ0FrS0N3SUVGZ0lE
- QVFJZUFRSVhnQUFLQ1JDVWdld1BFWkR5MjFPVEQvOUdpWkxkCnRSWWNteVJKZ2x0aVFRekFp
- UWRjSUQ3OGxHb1dwL3grci92Y1U2YjZqdVl1ZVR3Z1Iwclc3djdsMklSQnlEN24KSEp4YSt0
- SVNvUVpCZ2hvbE1JZmI5TXRoR09KTENZNzdrL1FoQWhuMzJOR1prZWp3OXR6a3MvNDBtclpT
- VVQ4NApaeWJzUVhyTE0vSFI2VElJL0RlUEIwbktEM0ppcHBzMlVIUUQ5cUQySWpFd1NRUGxI
- akNPckVaaDQ1UFo3bTkrClo5M0x6aVRlc1dabFlRdUxpSndzNHJLcHRIVzFkL3dSZWxzaG1t
- NlFxY0wybDRDL2U0MGVEQjlncTRkU1poOVgKUEVZbGxpeU5RaDdhMkxTZHVtRTFyK2NTd0lq
- RS91ZHRSdmRPOWFLb0psT2JVSzVkTmpTUEg3d0tUYndkWGRZRApHUHdEaFhkNThOQXdyK1BY
- QmxQajB0STFMQ3ErTEJ4ZUt6aFdYK0dWcTlEb2pWanlVREV4Rk5Ga1h1b0M3ZzhtClY5VDB0
- ZUJpdVpSbm91WEt3VjJGcHRaT0hIN0JVRVd0a0t0aGgxZXRmT1dwaWdCemtVN2JQc2ZJWVQr
- cnk5dGIKMW9KK3Y0MVBOYXFaRW1QVXBKeHZmek5UN3Ayd01lRDdaajlmMHJ1YlJQdExBSjJR
- R2pyRkhzdVh3QU9xcHl6ZQoxOEVidHNZazBOMHp1SEVoY2orUEJJQmZoMFlJWWQ1MW9mNkdJ
- aU95UjlxMFhYdHBsVUo3VDIvSDF1UXFrWGxwCitnVzRWa2lmc2NJckl1eWZueFpXMTJlSXZq
- NnlicVdMN2FZS0dZbVQ2aUxDUGJIWXlZY2F5bDRFa0ZjckNGN0UKZTBXVC9zY1ZNaE8vNVgv
- SGFOQTVIQngvcjUycGdMY3Y0aTlNeExRbVUzUmxabUZ1SUZkaGFISmxiaUE4YzNSbApabUZ1
- TG5kaGFISmxia0JwTW5ObExtTnZiVDZKQWpnRUV3RUNBQ0lGQWx0NmdCTUNHd01HQ3drSUJ3
- TUNCaFVJCkFna0tDd1FXQWdNQkFoNEJBaGVBQUFvSkVKU0I3QThSa1BMYmpic1AvamdqYVNz
- NUh0bGtBSXZXUytGcm15N2MKaG5jT0F4TFRWL0Q2UkV3SU95R0poRkt3d29pck55UTJnOXZV
- YTNZQ1lDZjFmSjh3RWhhS09COWQwTHBNUm5MNApkRVQ4ZDgyMzhFL3BLK0hxTktpSXNKaHM2
- SnNLOFpnalZRR3JtbWZua0dyWisxdjBIQnV4ZGljZ0duUC9XdHVBClVsOGw2Mi9BTGJheXlq
- KzYxQ2xyc0V0UklhcU82N0xJWXdQaVBEUkkrWGlNek5pR3pIRi8xUTZHUjAyUkg2YTMKRjg5
- ejhhUHhjSGkxWnZDdDJ5a3o2VUVjaHpQMHI1Z3FGSisvTC9VcHU4ME1YaVk0djVlSWFCNTJn
- VlBnaXlNQQpsTDJkRHMxbUladm5yUkxSWTJ0YjNtQVlOa1Y1QjVJRFQzcGtXeTZrS281T0Nn
- SytZZFlPUjhGTloyb04ydDhPCnJLK1ZudGFLN01NU0tIbG1ZL3NPd3RSbEVoMU9CbXJjQ3dH
- d21wLzA1R2tSNDZmL0lzaFJWZUZPUmF3K0dBcXQKUDIrQ0ZhMkNOQS9JSG5aTm95aWtsRHpQ
- UUhVVUdzck5wcERyaFg5Sm1oQm1nMXYyeXdIMU5YdTFpRGZQMUJBdwpLZ29rdDVmNVVhUkY5
- c0FBNTN2V0V2YlVVTjllZXNGR0x6UFdkSkdRNWhwZC9WSDVJUXk5U0JyaC93SWNla3E1Cm4w
- a042cGJUSHhHRTUyU2kvTVZJa05UdURaM2FwbjJqbERaNHBPdHBCWEkydlAzYlBPK05pcUJa
- anNVM3R4TGkKV2R2MkZqeXp6NlhMUndlV1JZVkw1SGE2TER0eG9yMnZ1NlVQMDdwOXh6MXhS
- WmFPRFczb1lsSEZ6WXBhNFc1ZwpMSGIybEVrSXVVZlNjaWNHYmpqQXRDbFRkR1ZtWVc0Z1Yy
- Rm9jbVZ1SUR4emRHVm1ZVzR1ZDJGb2NtVnVRR2x1CkxYUmxZMmd1WTI5dFBva0NOd1FUQVFn
- QUlRVUNYSWRlaHdJYkF3VUxDUWdIQWdZVkNBa0tDd0lFRmdJREFRSWUKQVFJWGdBQUtDUkNV
- Z2V3UEVaRHkyeUhURC85VUY3UWxEa0d4elE3QWFDSTZOOTVpUWY4LzFvU1VhRE51Mlk2SQpL
- K0R6UXBiMVRiVE9yM1ZKd3dZOGEzT1d6NU5MU09MTVdlVnh0K29zTW1sUUlHdWJEM09EWko4
- aXpQbEcvSnJOCnQ1elNkbU41SUE1ZjNlc1dXUVZLdmdoWkFnVERxZHB2K1pIVzJFbXhuQUox
- dUxGWFhlUWQzVVpjQzVyMy9nL3YKU2FNbzl4ZWszSjVtTnVEbTcxbEVXc0FzL0JBY0ZjK3lu
- TGh4d0JXQld3c3Z3UjhiSHRKNURPTVd2YUt1RHNrcApJR0ZVZS9LYjJCK2pyYXZRM1RuNnMv
- SHFKTTBjZXhTSHo1cGUrMHNHdlArdDlKNzIzNEJGUXdlRkV4cmlleThVCkl4T3I0WEFiYWFi
- U3J5WW5VL3pWSDlVMWkyQUlRWk1XSkFldkN2VmdRL1UrTmVSaFh1ZGU5WVVtRE1EbzJzQjIK
- VkFGRUFxaUYyUVVIUEEybThhN0VPM3lmTDRyTWswaUh6TElLdmg2L3JIOFFDWThpM1h4VE5M
- OWlDTHpCV3UvTgpPbkNBYlMremx2TFphaVNNaDVFZnV4VHR2NFBsVmRFamY2MlArWkhJRDE2
- Z1VEd0VtYXpMQU1yeDY2NmpINWt1ClVDVFZ5bWJMMFR2Qis2TDZBUmw4QU55TTRBRG1rV2tw
- eU0yMmtDdUlTWUFFZlFSM3VXWFo5WWd4YVBNcWJWK3cKQnJoSmc0SGFONkM2eFRxR3YzcjRC
- MmFxYjc3L0NWb1JKMVo5Y3BIQ3dpT3pJYUFtdnl6UFU2TXhDRFhaOEZnWQpsVDR2MjNHNWlt
- SlAyemdYNXMrRjZBQ1VKOVVRUEQwdVRmK0o5RGEycitza2gvc1dPbloreWNvSE5CUXZvY1pF
- Ck5BSFFmN2tDRFFSYmVvQVRBUkFBMkhkMGZzRFZLNzJSTFNESGJ5ME9oZ0RjRGxWQk0yTSto
- WVlwTzNmWDFyKysKc2hpcVBLQ0hWQXNRNWJ4ZTdIbUppbUhhNEtLWXMya3YvbWx0L0NhdUNK
- Ly9wbWN5Y0JNN0d2d25Lem11WHp1QQpHbVZUWkM2V1I1TGtha0ZydEhPelZtc0VHcE52NVJj
- OWw2SFlGcExrYlNrVmk1U1BRWkp5K0VNZ01DRmdqclpmClZGNnlvdHdFMWFmN0hOdE1oTlBh
- TEROMW9VS0Y1aitSeVJnNWl3SnVDRGtuSGp3QlFWNHBndzIvNXZTOEE3WlEKdjJNYlcvVExF
- eXBLWGlmNzhJaGdBelh0RTJYck0xbi9vNlpINzFvUkZGS096NDJsRmR6ZHJTWDBZc3FYZ0hD
- WAo1Z0l0TGZxemoxcHNNYTlvMWVpTlRFbTFkVlFyVHFueXMwbDE4b2FsUk5zd1lsUW1uWUJ3
- cHdDa2FUSExNSHdLCmZHQmJvNWRMUEVzaHRWb3dJNm5zZ3FMVHlRSG1xSFlxVVpZSXBpZ21t
- QzNTd0JXWTFWNmZmVUVta3FwQUFDRW4KTDQvZ1Vnbjd5US81ZDBzZXFuQXEycFNCSE1VVW9D
- Y1R6RVFVV1ZraUR2M1JrN2hURm1oVHNNcTc4eHYyWFJzWApNUjZ5UWhTVFBGWkNZRFVFeEVs
- RXNTbzlGV0hXcjZ6SHlZY2M4cURMRnZHOUZQaG1RdVQyczlCbHg2Z0kzMjNHCm5FcTFsd1dQ
- SlZ6UDRqUWtKS0lBWHdGcHYrVzhDV0xxekRXT3ZkbHJEYVRhVk1zY0ZUZUg1VzZVcHJsNjVq
- cUYKUUdNcGNSR0NzOEdDVVcxM0gwSXlPdFF0d1dYQTRueStTTDgxcHZpQW1hU1hVOGxhS2FS
- dTkxVk9WYUY5ZjRzQQpFUUVBQVlrQ0h3UVlBUUlBQ1FVQ1czcUFFd0liREFBS0NSQ1VnZXdQ
- RVpEeTIrb1hELzljSEhSa0JaT2ZrbVNxCjE0U3Z4MDYyUHRVMEtWNDcwVFNucC9qV29ZSm5L
- SXczRzBtWElSZ3J0SDJkUHdwSWdWanNZeVJTVk1LbVNwdDUKWnJEZjlOdFRiTldnazhWb0xl
- WnpZRW8rSjNvUHFGclRNczNhWVl2N2U0K0pLNjk1WW5tUSttT0Q5bmlhOTE1dApyNUFaajk1
- VWZTVGx5VW15aWMxZDhvdnNmMWZQN1hDVVZSRmNSamZOZkRGMW9ML3BEZ01QNUdaMk93YVRl
- am15CkN1SGpNOElSMUNpYXZCcFlEbUJuVFlrN1B0aHk2YXRXdllsMGZ5L0NxYWpUS3N4Nytw
- OXh6aXU4WmZWWCtpS0IKQ2MrSGUrRURFZEdJRGh2TlovSVFIZk9CMlBVWFdHUytzOUZOVHhy
- L0E2bkxHWG5BOVk2dzkzaVBkWUl3eFM3SwpYTG9LSmVlMTBEamx6c1lzUmZsRk9XMFpPaVNp
- aElDWGlRVjF1cU02dHpGRzlndFJjaXVzNVVBdGhXYU8xT3dVClNDUW1mQ09tNGZ2TUlKSUE5
- cnh0b1M2T3FSUWNpRjNjcm1vMHJKQ3ROMmF3WmZnaThYRWlmN2Q2aGp2MEVLTTkKWFpvaUFa
- WVpEKy9pTG01VGFLV042b0dJdGkwVmpKdjhaWk9aT2ZDYjZ2cUZJa0pXK2FPdTRvclRMRk16
- MjhhbwpVM1F5V3BOQzhGRm1kWXNWdWE4czZnTjFOSWE2eTNxYS9aQjhiQS9pa3k1OUFFejRp
- RElScmdVek1FZzhBazdUCmZtMUtpWWVpVHRCRENvMjVCdlhqYnFzeXhrUUQxbmtSbTZGQVZ6
- RXVPUEllOEp1cVcyeEQ5aXhHWXZqVTVoa1IKZ0pwM2dQNWIrY25HM0xQcXF1UTJFNmdvS1VN
- TEFia0NEUVJiZmw5REFSQUFzRExjYStMbFAydm5mdEVHaHBjQQpCR1ZOUUVGbkdQckNhdVU2
- SGhOODA1V3RQVHRtc1JPdUp6cWdVVDBtcHFXSWZacTZzTXd5dkhLOVRzL0tIM0paClVWYlJD
- M3oyaDNLZmhIL0RhZjk1cGQ2bVBjL2g5dkYvT3kzK2VUV2hnR25QNmNBNWtsUitmTzFXaEc4
- VnJpWHYKck5lUkcyMHN6emplSG9jblNJY1Q1WHVaUjB1REhPaUd4T2l6MXNNUkZUR3h6R095
- MTlSOXJ2dTYzdGlJM2Q3dgpnYzc1T0NBZGtlQi9TZUNFbGFSdzBUZjdMWmJQampzRjI2M0JZ
- bk1mNGtrTkVLdnFXY1UyaWNNcCtxZXpqeW5CCnB2ZXVlMHJDVFFCWUFRbG9GQ1ZUR0hyV1dB
- NkQ0VzVPMkFmSWRJYzF1MUpDWnAyZjVMV1ZvVUZUVklyUW5RUVUKU0hDaWZyOU1aeExUdFBK
- ZFU1Mm9TUHczZGs0aExQOGlKSUx1dnYvYXZhakNzUVlIRXR3WXNiZUZaeGl1TGdscApBN1lj
- Sk5ObXBnQ3BNRDR3VWh2bEN0QUtOQlFXeXIyOTc2OThFUVRuNDZlQmVVNkttMkNpaFhrZ3dD
- eWY4ZXlLCkxFM3NYZXdhcTVrZ1pXdk5xNml1NXFZSVJCOXl3K2NYYzYwZE9aRE9scTkzWDVT
- QVJZemFvZXBrSHo0cmtMa1AKUG8rdENIeUhRUHNHblBYYzlXVDgwREM5Tm5KR2R2VWx5NXJk
- TUk0eHBaeWdlb2tqd293VlFsUFV1Y1M2TXluNwpmOHc4Y2dmQjdDMklBSWNEeDJwUC9IendY
- dmtDT1FOQTdtVjFsTTA4bitnVmtUcnpweGlwNURicTRDSW9ZeDJNCkpaVDhiR1JINlhqY1VE
- S2EwOVFoeVpzQUVRRUFBWWtFUkFRWUFRZ0FEd1VDVzM1ZlF3SWJBZ1VKQThKbkFBSXAKQ1JD
- VWdld1BFWkR5MjhGZElBUVpBUWdBQmdVQ1czNWZRd0FLQ1JCVnhETFBjVk1NamNkc0QvMFJo
- QXN1UVlPeQpyMTNCbDNOaFhrWUFaR3AyWkZER3VrZTdPU2tWOG9qT09UZFR5ei9jT1JHQ2J5
- ZEQrRGd2cUZ5VmRuT1hLZ08wCmxKbUd3ckdlTGRnZ0F2aDBpaHJwNU8wWVVKOWJCU1htR01t
- UVRZSC9BbUxUR2FkYnVqQ1dqNWZGVWtDeXd4aW0KSHV5MFBiMjRwelR2UzUwR1k1WStxSDBG
- SE5haWdka2tpV04zcnVnN0haRXUvQ3lsUFpqT1h6K0QxUVBNckV4dwo3ZC9NS2FiVis5YU5i
- UVlabGRJajk4UXd2VUYxS1N6YThqbFVJdnBoUnEyN0FUOGZER1lHUGZERU1nMmNCT2FlCkty
- N29uUXM0YjdhV082aWZEbHhRVHB6c3pvK0FuODA3Tk1TdFZFRmYrczNBaFZEM2U3bmY4SkJh
- dmJWckFlMGsKb20yNm96elBubnh6K2xxVlZ0dzZVazRYTUl6dGl4L0h3SFl3dUNuY1VYWndL
- MEkzeUFKd2pZd29vck9DaEozUwpFVWJKUVB0R3NneFJERXhWQkZlNk5MUC82MnhQOU82dGFj
- d09kYjBNbVAxYjM5cFJBVEM3YmdkMWxkVUxpNzVaCmxKckowL1NpVkVyb3FOWXk3OXRmbWdB
- WjJVeFptczlTckV5Nm85UVNmc24xYVh2K01QTDlKYUNHbWtQNnpiTFEKTm5kajBKY2FRbmtD
- MHZneWRPMUJtNk11OTZQOXVmbEtaY0FTNndtTE01SWRIT3lqTDg4d0h3anVjakFPQnRjdwpw
- MG9HVG5WT25Sc05ZU084VzhZWi9LZGJ1Nzg1ZGF6TXFKMmlOakFEdUJiZG02TjRqNUVkTW5r
- TG4wQklmUEpwCmRnbTR2bDJVcExqd1JHci9NM3dtbTVwdnMrNnVCN2hrL0ZKaUQvNGxsRU5Q
- NGVNMWg3U200aitWcTZOMSt6VEIKSVhKQWViSXFhc0RwNXlaUzdYcnk0STM2bjg1WEVZZkcw
- MWx0QXlob05WMkRPOFNJUlFwdWkydHErOVJQM1JLMQpKREJ4eEVKWTJFTzVKWjhNeGFQSFEw
- RFQwNWxSRmpLMkFsaGRFSXRqTGpwSjNmVW05c3FMeE1XeHpQNlV6M2lpCjJ1YTR1bnJ0Nk9D
- VHFRd2lqRi8zYlRXaXd2VkFBSG5NRlVpb1hzaEhhb2hWRGNWZm5lSU1mVjBiUUNYWWkzTnAK
- WTB2MFp3Y2lGSCtnU0M3cUQ2WE51aHBWR1NMNElpbGlGeS9TemNhSkV6QUhlTERTaFpQMkNX
- ZG5DNHZnbDM3dApocHg4aDU1WWhKbjZIU3VVelBnaGFLdFZCMmsrajdaZXlaK1NGeHA3SXVi
- SEN3TEhsUWhUNzVSd1EzaUF4S242CjBxajUxY1lUbnF4ZFpYVzZmSDNQa3VNellVNUdwcVIv
- MU9sNWMvd2ZJNmc2QW04eUtXLzBFVUx0K0tuNExGc1MKbTdZM201SDV2MTJVNkpCWXZWK3Ix
- M2paaW9zNEVFREU5M0Q1c05IMk1JeVJ6Q0RxMXpkZHQ0WHV5S0ZqUEtXMQo5aWJaRGZGVjdL
- dUNzdnVMMjNzQmMxc0NNb3ArRTFtVC9ReE9JQTZvRFQxTVFzdHdPVnVReURDdi9PdktTZ2Z6
- CjhGWEdMNkFQY2xqQ3FqOEFKaHhReXN4ZG9pUVA4bS92dStialdHR3Z4dzVzMWxncGlSRFRS
- VVBnY0pKTmFHWTIKVklEclpRaTROU2lOUTBOSWkrZGp1NGZOTW1DcFFxZzh0YkMzY0FhNnl3
- bTZvUUIxU0JobURYMmUxMWdSbGx1SQpPblRHUEUwSFRvM2w3MmxoYmc9PQo9cVpNVgotLS0t
- LUVORCBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCg==
-Message-ID: <c88489a9-53f3-cae2-48bc-5afcf4ca5256@i2se.com>
-Date: Sun, 17 Oct 2021 18:31:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318512C80
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:51:00 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id j10-20020a1c230a000000b0030d523b6693so8017986wmj.2
+        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UZeVnNCmW5EyaPMj60KfsQo7kwwc+3LgC2qvi+RyQlo=;
+        b=I10ALzmYuQSVIkoaVW9ciNkm/ET7sZtHXyT51uXtjXLZZIPpWNAwizgV62EnyDFjUN
+         B3POG3muifaAleDji4ORbqlsBMATCUo+4tvSDN4FfDs2Ys/VJLZXIajKfMIsHs3z/7x9
+         KG8CiJFYC6RadgmZT9xUObOXzUNN6msDl3sYcFOIq0uzxaWF7JQIv46nH4+A6OFZ2BYV
+         bJGiFZciPBdKawTA6DjlOMgMZ8fcCC+40qP1dUKcrGrqXsKLIzFXdHDlsWdEwg7QUjDJ
+         dcj9Culszto3GfUeHwlNHyFWGIi7gVgfh2OBE9/5FMnyT3kxcY5iHaYVKz3mMyhPctL7
+         pwEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UZeVnNCmW5EyaPMj60KfsQo7kwwc+3LgC2qvi+RyQlo=;
+        b=XWcsTZQkEo3NuG4WEUeFC+8V6olWLOJiwFuSFLPCnymA5XFK/p7RJBaypVIG9pdSwq
+         3sbhShoERv9JC0hbQgB+Sy5NHP34AHLgMMW00Cww0DOZznOqo+n2ZX/pnLg9ouHdat36
+         n7t52kwYB/+XkywSemYNaCXiLy4Tx2356XdajMsVHOFS81olTkW/MXkEJPi7Y9yTNbQ/
+         Viz0/po3TO/dyS0+3NAWR+Kx8Pbw9j7JGgVltynPD8GHx7E1YmKXPyeXnzYNAM1lTyzL
+         c1oEzOg34JCJGj52pftWuzb2fp0QIesM8elQl1KsDCG7+viv/aj3FXArf1r5JMbd0nmF
+         kFCg==
+X-Gm-Message-State: AOAM530kk/EJQbS/irYuDAImC+96JbKrjGgRuZeCtvBgNXRwXo2zK8ma
+	zTGbyIFLKPGX0RwyRMhjPPs=
+X-Google-Smtp-Source: ABdhPJwycNnkDcN6ezgCoYR+2+ScM82E0WaX2bP2GyDF9tKW1sNC49D3xGRV3D7sHvBWB54JCyzdDA==
+X-Received: by 2002:a05:600c:4fcd:: with SMTP id o13mr40360450wmq.158.1634489458610;
+        Sun, 17 Oct 2021 09:50:58 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::3de4])
+        by smtp.gmail.com with ESMTPSA id p18sm11249489wrt.54.2021.10.17.09.50.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Oct 2021 09:50:58 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: remove unnecessary asignment
+Date: Sun, 17 Oct 2021 18:50:49 +0200
+Message-Id: <20211017165049.8061-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1634484570.846584.60704.nullmailer@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Provags-ID: V03:K1:WbDMR1X7dAegsM96tQup16+/jrSvhZRXyE4+mRKCcawMDddx2SI
- jVYLzWwFi3SMmc20Rl/2K+QJPSXmBs3VDct8Y94+Q6r1OCMW6YX0ve+jPAB3IGE08USSQEk
- tRAJy4VJIig2SgeYdnInuZ5t54/EQldmzClnfQwFzM9YExGOgyqLnBfKAw0F/LHGRPplffs
- kmyiFvUaQXe3uxv/FDE/g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kgoNmlXHhl4=:7F3Fx/uQDG62rf1W50QT+G
- SKWqVriIFAjpjZ+PcL72dU+F5V4GvtWL7wOFR/kIUHL3DUqCxpyi1Tnoj0fcSq88qCxOF/oWn
- CTGVbdyUZE8ij+JZV23kcFxhw2vv3dWbuw/U79Zcr/d+BHJiQiR8XppKX9bBvNu7pLwUw+77I
- 9I6il0sP2e4JewgNejLcLKM47vmBG76f1SJyxVPbTebCDetHD8q2+SFH8Htv7oHbu7IQI7g16
- nB2e3/s284Oifz5Vp3Xw/uhBbu21K9g4k5PulHLbFS1eRLgx6ZV2XOLwylZhSSlLfH3ZGD5or
- /WRxHfSLs2g/aC7FqajXk38q+3aCrdDE/7hs2qe2sq4gNI+PK3kyKquJq+hZ4UDf0glPi9W9G
- zTLyWP/n3LntUuas5KF2J3/jDkayQWNrQG5m9dd2Eu8+Rs02DJ1IfW401G/Aqv96mR9myh3RA
- DLymSYSL0T2I8cCDNyIyo3Ec0NzmCXBtT27zX365w+cqxa6wCVJFOE/POTznR1faP4uQ8/6u5
- 3+jj9yjHwi9A1CUi4ZkxvZih7C9O7ckfod1jRVT6Gw7N1JITORYjSvOdb1VIXOxWB3so7y4Eg
- 78yoQVEfueW2vlwJtTDiK2xlD7jroLRsJfuKZ1JlcaydjN/iX9oQoTTrXTTIfpgWY03QKyTRy
- NQ3t4ZSe7PR85KUyZkh2wp2nFHYEhAdNa8we7VsVvBW3bkBlCUpcj+Is8t/UdfCT6NlVEITXI
- 64Htm31BquzKfx3M1G4spS+upY0SOApSgBCoiCK3E3NPR7rCVkVz7+yk6CI=
+Content-Transfer-Encoding: 8bit
 
-Hi Rob,
+The asignment "pLed->BlinkTimes = 0" is in a code path that is
+executed only if pLed->BlinkTimes is 0. Remove this unnecessary
+asignment.
 
-Am 17.10.21 um 17:29 schrieb Rob Herring:
-> On Sun, 17 Oct 2021 15:06:36 +0200, Stefan Wahren wrote:
->> This converts the VCHIQ bindings to YAML format.
->>
->> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
->> ---
->>  .../bindings/soc/bcm/brcm,bcm2835-vchiq.txt        | 17 --------
->>  .../bindings/soc/bcm/brcm,bcm2835-vchiq.yaml       | 47 ++++++++++++++++++++++
->>  2 files changed, 47 insertions(+), 17 deletions(-)
->>  delete mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt
->>  create mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
->>
-> Running 'make dtbs_check' with the schema in this patch gives the
-> following warnings. Consider if they are expected or the schema is
-> incorrect. These may not be new warnings.
->
-> Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-> This will change in the future.
->
-> Full log is available here: https://patchwork.ozlabs.org/patch/1542230
->
->
-> mailbox@7e00b840: compatible: Additional items are not allowed ('brcm,bcm2835-vchiq' was unexpected)
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dt.yaml
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dt.yaml
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dt.yaml
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dt.yaml
-> 	arch/arm/boot/dts/bcm2836-rpi-2-b.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-3-a-plus.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-3-b.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-3-b-plus.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-cm3-io3.dt.yaml
->
-> mailbox@7e00b840: compatible: ['brcm,bcm2836-vchiq', 'brcm,bcm2835-vchiq'] is too long
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-a-plus.dt.yaml
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b.dt.yaml
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-3-b-plus.dt.yaml
-> 	arch/arm64/boot/dts/broadcom/bcm2837-rpi-cm3-io3.dt.yaml
-> 	arch/arm/boot/dts/bcm2836-rpi-2-b.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-3-a-plus.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-3-b.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-3-b-plus.dt.yaml
-> 	arch/arm/boot/dts/bcm2837-rpi-cm3-io3.dt.yaml
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_led.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-i'm confused patch 1/2 ( "ARM: dts: bcm283x: Drop fallback compatible
-for vchiq" ) of this series should prevent this warning. Was it applied
-before running dtbs_check?
+diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+index 09d8c4e85863..0e3453639a8b 100644
+--- a/drivers/staging/r8188eu/core/rtw_led.c
++++ b/drivers/staging/r8188eu/core/rtw_led.c
+@@ -142,7 +142,6 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 					pLed->BlinkingLedState = RTW_LED_ON;
+ 				_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
+ 			}
+-			pLed->BlinkTimes = 0;
+ 			pLed->bLedBlinkInProgress = false;
+ 		} else {
+ 			if (pLed->bLedOn)
+-- 
+2.33.0
 
-Best regards
-
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
