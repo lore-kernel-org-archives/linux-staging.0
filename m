@@ -1,41 +1,41 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8E72C81
-	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:22:06 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id f21so9623345plb.3
-        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:22:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE7329CA
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 16:22:18 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id m26so12845387pff.3
+        for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RDW1qPcMGAawLXHmgm47THBGVsh6BGW4tVw5OGbgQzw=;
-        b=RA5UgqeMGTQqGE4ruXYKtsCSlgdXXh/ujrF1Ehe+txdjqx/bbKJ/u+TMmTnjO6V0/v
-         o0zkRTPAh5VPRTLaG6VtYfUkxjkh8ARa5JVdAcyDGZ2Hmgblo7Kn6vlUCDZJSqar/fh1
-         HTXgwpeGOrueE0iYcrJXtdUEuXxCmHL/Zr0VB/i0ZLVOxfhkrHHdigxjv5hE0iHVd2ah
-         3Bc0XynN7qWoaEySzBwE8nT7G1ShRyE7ByJFCR1rRU4rOCZ4q/I/4a2cenQyMehEACWQ
-         zISp/jcG2OrCLHgAM8tFazprO/mtqfZ93UL37qB0oqoLrdS0aNPXu+lbgVe2jehiOKil
-         6l0w==
+        bh=RCEoG8Wj2tmwZyFp/O9zov7pfmqwLlm4/WHvu/B4JGg=;
+        b=Z1p4eOchvxAp5l+wigxWGKeDDJs8rgMtFBNZtjv2J79ZwStYOkwddbXjidCjEoiOxr
+         PLHcnizsaha8B1bh3YH2i2ceEn5Y2XUQ0JFSxn2/rgtsvb/Vrvipfrxmprh18Qpzl5bk
+         uGdcaHwqzwqVgu7eGFOJCVJSiJ+/AgP8nfMrTjEuh/KfpetwxbxfbkQZjiEICI67kGb8
+         ZrgQWnGzNRS/xmylnO6Aylzw1F+roEm3lplVBMuQGNwuoH2raAmV4zq/69uALDB6QP11
+         HLOcFjzPjdd8UIvcf6D6+0/l61vMuh/MCllsWkIFfSMVz54VtTXmmaud9ylCV6YQLEnx
+         kmSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RDW1qPcMGAawLXHmgm47THBGVsh6BGW4tVw5OGbgQzw=;
-        b=WOdFcHHsByyv3yKoPElCePNHk6cQ2LPuWrI8M0FXtb4qd2DZDKDGW3pr9nGqhsjwGd
-         Xq96pR7EiutyHq8uV4PCS6/PimtQm1aQgILf9b2wZWcNtozw3IzfR8yJzM7g4rRo0UOB
-         6btte3XhcRhvUg3O5ZfOFUnJ3t7w8nSlQ3vuXr9KuwwGfHx4oT9Ke8IhR6aqZ0McGteA
-         1n63XpN6eUK+K54R+ToGKVyxeW2RdGHruS5pBRdzKnDcNxQn9gGx5UgXLOKjqPWMewuV
-         XCdD5i5ZkxeX/wSiEXyDLPut50wZeKnT7b2uRZjpJoBjP9i8R78qGEH9jQ43ahdGSFp2
-         ZpvQ==
-X-Gm-Message-State: AOAM532KcA1XPW/gxuUsmp3Y38u6lDg3UpbrXtX2/8Oc7zNxIQwUYj5n
-	GuGcBCdQz/Mqk7K123CKB2M=
-X-Google-Smtp-Source: ABdhPJzRqiG5mLXwiAbDEtxsYZI4Qydocucua6z0Dib7/APOAQWQZ0Rt8E7j7OA9PLn3LUQOwBsZMw==
-X-Received: by 2002:a17:90b:e07:: with SMTP id ge7mr42525003pjb.75.1634487726433;
-        Sun, 17 Oct 2021 09:22:06 -0700 (PDT)
+        bh=RCEoG8Wj2tmwZyFp/O9zov7pfmqwLlm4/WHvu/B4JGg=;
+        b=mbApw/mvm7K52tHZy7Ki9Gs2u9gYdf04v/mZhZ240DEZikrcmAT5kv1rsF/uFdiebw
+         F9XX0vYlByHSK/ii2R1gl00mPXyAvhFQs6CmnWTPG3vqm7YWNpMi4jQVCKFJOHHONzR6
+         7B4iza9eS+qQxkku5YeJ+p8qg8WWJvZU6bM+YP/5shdXmMQDTd5uMUYxIFN+mtTU8GLi
+         DLUtwPeOENbc5wpy2XOODnOVx02KODI8ezcm0myiuk2cLibWDNJFEeFfRGLTut8xbJYm
+         X9czhUER93Tf4Ck5qd4rcQKAAs6/q2DFpMLRcK28fa/zBaq1zcTW3iZUjCbQPwbKHo01
+         UFXA==
+X-Gm-Message-State: AOAM530xG7DSd35/4vSP++VL6vB5neajCke0uquxY31WXhTL7YA6J7/y
+	JbmloDm54fqkuMWOqhW0tlE=
+X-Google-Smtp-Source: ABdhPJy8wEdxruvSGQ5pt9lgh0xLrvT4JJBQmL2x3YAjOBh+L38/MudY/thtGQOoNk43Ibawc5PrJw==
+X-Received: by 2002:a05:6a00:23d6:b0:44d:8426:e2bb with SMTP id g22-20020a056a0023d600b0044d8426e2bbmr19956794pfc.30.1634487738125;
+        Sun, 17 Oct 2021 09:22:18 -0700 (PDT)
 Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.22.02
+        by smtp.gmail.com with ESMTPSA id mu11sm5155444pjb.20.2021.10.17.09.22.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Oct 2021 09:22:06 -0700 (PDT)
+        Sun, 17 Oct 2021 09:22:17 -0700 (PDT)
 From: Tsuchiya Yuto <kitakar@gmail.com>
 To: 
 Cc: Hans de Goede <hdegoede@redhat.com>,
@@ -49,17 +49,14 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Yang Yingliang <yangyingliang@huawei.com>,
 	Alan <alan@linux.intel.com>,
 	Dinghao Liu <dinghao.liu@zju.edu.cn>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Deepak R Varma <drv@mailo.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 12/17] media: atomisp: pci: make fw ver irci_stable_candrpv_0415_20150521_0458 work - 5/5
-Date: Mon, 18 Oct 2021 01:19:52 +0900
-Message-Id: <20211017161958.44351-13-kitakar@gmail.com>
+Subject: [PATCH 13/17] media: atomisp: pci: release_version is now irci_stable_candrpv_0415_20150521_0458
+Date: Mon, 18 Oct 2021 01:19:53 +0900
+Message-Id: <20211017161958.44351-14-kitakar@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
 References: <20211017161958.44351-1-kitakar@gmail.com>
@@ -71,77 +68,113 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is one of the patches which partially revert incompatible changes
-in the current css version for ISP2401 (irci_ecr-master_20150911_0724)
-back to irci_stable_candrpv_0415_20150521_0458.
+Now that we made atomisp work with firmware version
+irci_stable_candrpv_0415_20150521_0458 also for ISP2401, the
+release_version for ISP2401 is not irci_ecr-master_20150911_0724
+anymore.
 
-Some `struct`s are `sizeof()`ed in sh_css_firmware.c file. So, I guess
-issues will happen if these sizes are changed. Therefore, keep them the
-same as css version irci_stable_candrpv_0415_20150521_0458 to make atomisp
-work for firmware made for such css version since we don't have firmware
-made for the current css version.
+So, use the same release_version for both ISP2400 and ISP2401 (i.e.,
+irci_stable_candrpv_0415_20150521_0458).
 
-This patch removes the unnamed struct `shading` from
-`struct sh_css_sp_pipeline` as well as its usage [1].
-
-[1] added on updating css version to irci_master_20150701_0213
-    https://raw.githubusercontent.com/intel/ProductionKernelQuilts/cht-m1stable-2016_ww31/uefi/cht-m1stable/patches/cam-0439-atomisp2-css2401-and-2401_legacy-irci_master_2015070.patch
-    ("atomisp2: css2401 and 2401_legacy-irci_master_20150701_0213")
+Referred to the following diff to make this patch:
+- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/diff/drivers/staging/media/atomisp/pci/sh_css_firmware.c?id=3c0538fbad9f1d07d588f631e380256d941e3d3a
+  ("media: atomisp: get rid of most checks for ISP2401 version")
+  changes for file sh_css_firmware.c
 
 Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 ---
- .../media/atomisp/pci/sh_css_internal.h        |  8 --------
- drivers/staging/media/atomisp/pci/sh_css_sp.c  | 18 ------------------
- 2 files changed, 26 deletions(-)
+ .../pci/isp/kernels/hdr/ia_css_hdr.host.c        |  1 -
+ .../pci/isp/kernels/hdr/ia_css_hdr.host.h        |  1 -
+ .../pci/isp/kernels/hdr/ia_css_hdr_param.h       |  1 -
+ .../pci/isp/kernels/hdr/ia_css_hdr_types.h       |  1 -
+ .../staging/media/atomisp/pci/sh_css_firmware.c  | 16 +---------------
+ 5 files changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-index 496faa7297a5..92fb7e67610c 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-@@ -551,14 +551,6 @@ struct sh_css_sp_pipeline {
- 			u32	raw_bit_depth;
- 		} raw;
- 	} copy;
--
--/* ISP2401 */
--
--	/* Parameters passed to Shading Correction kernel. */
--	struct {
--		u32 internal_frame_origin_x_bqs_on_sctbl; /* Origin X (bqs) of internal frame on shading table */
--		u32 internal_frame_origin_y_bqs_on_sctbl; /* Origin Y (bqs) of internal frame on shading table */
--	} shading;
- };
- 
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.c
+index 698550cc2fcc..85a02b6adb52 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.c
+@@ -1,6 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /* Release Version: irci_stable_candrpv_0415_20150521_0458 */
+-/* Release Version: irci_ecr-master_20150911_0724 */
  /*
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 13b15a5a33bc..fa74ac172f94 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1308,24 +1308,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 	}
- #endif
+  * Support for Intel Camera Imaging ISP subsystem.
+  * Copyright (c) 2015, Intel Corporation.
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.h b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.h
+index 04599ab590cd..83277b683c47 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr.host.h
+@@ -1,6 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /* Release Version: irci_stable_candrpv_0415_20150521_0458 */
+-/* Release Version: irci_ecr-master_20150911_0724 */
+ /*
+  * Support for Intel Camera Imaging ISP subsystem.
+  * Copyright (c) 2015, Intel Corporation.
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_param.h b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_param.h
+index 97a89fd3cfda..998c6d801756 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_param.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_param.h
+@@ -1,6 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /* Release Version: irci_stable_candrpv_0415_20150521_0458 */
+-/* Release Version: irci_ecr-master_20150911_0724 */
+ /*
+  * Support for Intel Camera Imaging ISP subsystem.
+  * Copyright (c) 2015, Intel Corporation.
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
+index 1b4090880201..175c301ee96a 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
+@@ -1,6 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /* Release Version: irci_stable_candrpv_0415_20150521_0458 */
+-/* Release Version: irci_ecr-master_20150911_0724 */
+ /*
+  * Support for Intel Camera Imaging ISP subsystem.
+  * Copyright (c) 2015, Intel Corporation.
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.c b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+index e1a16a50e588..94149647b98b 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_firmware.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.c
+@@ -56,8 +56,7 @@ static struct firmware_header *firmware_header;
+  * which will be replaced with the actual RELEASE_VERSION
+  * during package generation. Please do not modify
+  */
+-static const char *isp2400_release_version = STR(irci_stable_candrpv_0415_20150521_0458);
+-static const char *isp2401_release_version = STR(irci_ecr - master_20150911_0724);
++static const char *release_version = STR(irci_stable_candrpv_0415_20150521_0458);
  
--	if (IS_ISP2401) {
--		/* For the shading correction type 1 (the legacy shading table conversion in css is not used),
--		* the parameters are passed to the isp for the shading table centering.
--		*/
--		if (internal_frame_origin_bqs_on_sctbl &&
--		    params && params->shading_settings.enable_shading_table_conversion == 0) {
--			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_x_bqs_on_sctbl
--			= (uint32_t)internal_frame_origin_bqs_on_sctbl->x;
--			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_y_bqs_on_sctbl
--			= (uint32_t)internal_frame_origin_bqs_on_sctbl->y;
--		} else {
--			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_x_bqs_on_sctbl =
--			0;
--			sh_css_sp_group.pipe[thread_id].shading.internal_frame_origin_y_bqs_on_sctbl =
--			0;
--		}
--	}
+ #define MAX_FW_REL_VER_NAME	300
+ static char FW_rel_ver_name[MAX_FW_REL_VER_NAME] = "---";
+@@ -190,13 +189,6 @@ sh_css_check_firmware_version(struct device *dev, const char *fw_data)
+ {
+ 	struct sh_css_fw_bi_file_h *file_header;
+ 
+-	const char *release_version;
 -
- 	IA_CSS_LOG("pipe_id %d port_config %08x",
- 		   pipe_id, sh_css_sp_group.pipe[thread_id].inout_port_config);
+-	if (!IS_ISP2401)
+-		release_version = isp2400_release_version;
+-	else
+-		release_version = isp2401_release_version;
+-
+ 	firmware_header = (struct firmware_header *)fw_data;
+ 	file_header = &firmware_header->file_header;
  
+@@ -232,12 +224,6 @@ sh_css_load_firmware(struct device *dev, const char *fw_data,
+ 	struct ia_css_fw_info *binaries;
+ 	struct sh_css_fw_bi_file_h *file_header;
+ 	int ret;
+-	const char *release_version;
+-
+-	if (!IS_ISP2401)
+-		release_version = isp2400_release_version;
+-	else
+-		release_version = isp2401_release_version;
+ 
+ 	firmware_header = (struct firmware_header *)fw_data;
+ 	file_header = &firmware_header->file_header;
 -- 
 2.33.1
 
