@@ -1,111 +1,123 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F06D72
-	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 09:52:10 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Ads00EKr/4iry/VVJ+OseFNkaV5oseYIsimQD?=
- =?us-ascii?q?101hICG9E/bo8/xG885x6faZslwssTQb+OxoW5PwJE80l6QU3WB5B97LYOClgh?=
- =?us-ascii?q?rKEGgI1+XfKlPbdxEWutQtt5tIQuxOTOf9ClV3lq/BjTWQGdxI+ra6zJw=3D?=
-X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
-   d="scan'208";a="396157498"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Oct 2021 11:52:07 +0200
-Date: Sun, 17 Oct 2021 11:52:07 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Kushal-kothari <kushalkothari285@gmail.com>
-cc: linux-arm-kernel@lists.infradead.org, mike.rapoport@gmail.com, 
-    kushalkothari2850@gmail.com, outreachy-kernel@googlegroups.com, 
-    gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-    linux-staging@lists.linux.dev, nsaenz@kernel.org, 
-    bcm-kernel-feedback-list@broadcom.com
-Subject: Re: [Outreachy kernel] [PATCH v2] staging: vc04_services: replace
- msleep() by usleep_range()
-In-Reply-To: <20211017092900.134752-1-kushalkothari285@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2110171140040.3026@hadrien>
-References: <20211017092900.134752-1-kushalkothari285@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FBA72
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 10:06:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C23EF61054;
+	Sun, 17 Oct 2021 10:06:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1634465189;
+	bh=LLsZemof81lU+lesF80hZEG0WEZN7RiatSlBKGKxGbk=;
+	h=Date:From:To:Cc:Subject:From;
+	b=krn8pSqnOWloufqahI7/eZDxUmkolTTUPfbEnm16rR2vsAsGFHKUDzXPYgmyinEvd
+	 KtUtRWGJiTrM8u6eQW29SsK0Cd+c20FLhGwSI8cvj6iBjnMVPsay7N5k86q3VlqZBw
+	 oh9+FgF6HF8dAGFtSsJC4gSwz0oeSpr/WJLT/HCU=
+Date: Sun, 17 Oct 2021 12:06:26 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 5.15-rc6
+Message-ID: <YWv1ojsgySFtQr5J@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
 
+  Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
 
-On Sun, 17 Oct 2021, Kushal-kothari wrote:
+are available in the Git repository at:
 
-> Fixed the warning:-msleep < 20ms can sleep for up to 20ms by replacing
-> msleep(unsigned long msecs) by usleep_range(unsigned long min, unsigned long max)
-> in usecs as msleep(1ms~20ms) can sleep for upto 20 ms.
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.15-rc6
 
-In addition to Greg's comments, the log message is still not really ideal.
-There is still the word Fix that doesn't really contribute anything.  The
-prototypes of msleep and usleep are also not useful - the reader either
-knows them or can easily find them.  A better messge could be something
-like:
+for you to fetch changes up to 37f12202c5d28291ba5f83ce229771447ce9148f:
 
-"Checkpatch warns that an msleep of less than 20ms can sleep for up to
-20ms.  Replace msleep(1) by a call to usleep_range that makes the possible
-range (1ms - 20ms) explicit."
+  staging: r8188eu: prevent array underflow in rtw_hal_update_ra_mask() (2021-10-05 12:35:30 +0200)
 
-But the argument to msleep is in milliseconds.  If the appropriate first
-argument to usleep_range is 1000, then it would seem that the second
-argument should be 20000?
+----------------------------------------------------------------
+Staging/IIO driver fixes for 5.15-rc6
 
-One thing that you can do to try to understand such a problem better is to
-see what others have done before to resolve it.  You could try a command
-like
+Here are a number of small IIO and staging driver fixes for 5.15-rc6.
 
-git log -S msleep -p
+They include:
+	- vc04_services bugfix for reported problem
+	- r8188eu array underflow fix
+	- iio driver fixes for a lot of tiny reported issues.
 
-to see commits that have changed the number of calls to msleep.
+All of these have been in linux-next for a while with no reported
+issues.
 
-I reiterate Greg's comments that making these timing changes without being
-able to test the result is risky.  These are just suggestions of some
-methodologies that you could follow for a change where it is more clear
-that the change is correct.
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-julia
+----------------------------------------------------------------
+Alexandru Tachici (3):
+      iio: adc: ad7192: Add IRQ flag
+      iio: adc: ad7780: Fix IRQ flag
+      iio: adc: ad7793: Fix IRQ flag
 
->
-> Signed-off-by: Kushal-kothari <kushalkothari285@gmail.com>
-> ---
->
-> Changes from v1: Reword both the subject and the log message.
->
->  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 6fbafdfe340f..80a7898c5331 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -857,7 +857,7 @@ vchiq_bulk_transmit(unsigned int handle, const void *data, unsigned int size,
->  		if (status != VCHIQ_RETRY)
->  			break;
->
-> -		msleep(1);
-> +		usleep_range(1000, 2000);
->  	}
->
->  	return status;
-> @@ -894,7 +894,7 @@ enum vchiq_status vchiq_bulk_receive(unsigned int handle, void *data,
->  		if (status != VCHIQ_RETRY)
->  			break;
->
-> -		msleep(1);
-> +		usleep_range(1000, 2000);
->  	}
->
->  	return status;
-> --
-> 2.25.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/20211017092900.134752-1-kushalkothari285%40gmail.com.
->
+Arnd Bergmann (1):
+      staging: vc04_services: shut up out-of-range warning
+
+Billy Tsai (1):
+      iio: adc: aspeed: set driver data when adc probe.
+
+Christophe JAILLET (1):
+      iio: adc128s052: Fix the error handling path of 'adc128_probe()'
+
+Colin Ian King (1):
+      iio: adc: rzg2l_adc: Fix -EBUSY timeout error return
+
+Dan Carpenter (4):
+      iio: dac: ti-dac5571: fix an error code in probe()
+      iio: ssp_sensors: fix error code in ssp_print_mcu_debug()
+      iio: ssp_sensors: add more range checking in ssp_parse_dataframe()
+      staging: r8188eu: prevent array underflow in rtw_hal_update_ra_mask()
+
+Greg Kroah-Hartman (1):
+      Merge tag 'iio-fixes-for-5.15a' of https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio into staging-next
+
+Hui Liu (1):
+      iio: mtk-auxadc: fix case IIO_CHAN_INFO_PROCESSED
+
+Jiri Valek - 2N (1):
+      iio: light: opt3001: Fixed timeout error when 0 lux
+
+Miquel Raynal (2):
+      iio: adc: max1027: Fix wrong shift with 12-bit devices
+      iio: adc: max1027: Fix the number of max1X31 channels
+
+Nuno Sá (2):
+      iio: adis16475: fix deadlock on frequency set
+      iio: adis16480: fix devices that do not support sleep mode
+
+Sean Nyekjaer (1):
+      iio: accel: fxls8962af: return IRQ_HANDLED when fifo is flushed
+
+Yang Yingliang (1):
+      iio: adc: rzg2l_adc: add missing clk_disable_unprepare() in rzg2l_adc_pm_runtime_resume()
+
+ drivers/iio/accel/fxls8962af-core.c                        |  2 +-
+ drivers/iio/adc/ad7192.c                                   |  1 +
+ drivers/iio/adc/ad7780.c                                   |  2 +-
+ drivers/iio/adc/ad7793.c                                   |  2 +-
+ drivers/iio/adc/aspeed_adc.c                               |  1 +
+ drivers/iio/adc/max1027.c                                  |  3 +--
+ drivers/iio/adc/mt6577_auxadc.c                            |  8 ++++++++
+ drivers/iio/adc/rzg2l_adc.c                                |  6 ++++--
+ drivers/iio/adc/ti-adc128s052.c                            |  6 ++++++
+ drivers/iio/common/ssp_sensors/ssp_spi.c                   | 11 +++++++++--
+ drivers/iio/dac/ti-dac5571.c                               |  1 +
+ drivers/iio/imu/adis16475.c                                |  3 ++-
+ drivers/iio/imu/adis16480.c                                | 14 +++++++++++---
+ drivers/iio/light/opt3001.c                                |  6 +++---
+ drivers/staging/r8188eu/hal/hal_intf.c                     |  2 +-
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  |  2 +-
+ 16 files changed, 52 insertions(+), 18 deletions(-)
