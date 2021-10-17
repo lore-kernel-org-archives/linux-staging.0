@@ -1,91 +1,90 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B82C81
-	for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 21:57:18 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id oa4so9674866pjb.2
-        for <linux-staging@lists.linux.dev>; Sat, 16 Oct 2021 14:57:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lR7v2SeiI/rPTDpitBfRCXahGE0ZCHzarZSpq+/okuQ=;
-        b=O/rj1uASFAU7AVI7upqHkb/IgntAN0O5+JJqCM+1f7zJqD5BfrRhNWYIW77zzwENlr
-         CKiPr/inPoD1hARjNIKkZBzNsT7DJ7Yg91HSAMfVDXgLdGDoEzSTZ7XQ8qfWKZzCg18Y
-         5LEONqJDaVEjTjKN02SJJn/7D+kDM99lU5UbAAeiFazUSi7fNC3ZrDz4lCFRn0/VCvs1
-         XTi4uT9Q29IENgEH+dmyU/FlGv4aQcTUfSUIoBslMqW6NoOEWOQP7vUULDiF1m7ph5MH
-         /uGAzmXg08Yn94H5zB9TdELb3OwHrYSEXBlLkMMpoJeh36nbgvCEtIWDjbF/dtH6DxvN
-         RHhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lR7v2SeiI/rPTDpitBfRCXahGE0ZCHzarZSpq+/okuQ=;
-        b=1mtiEGIKfz0juQRyGhNZ83lk/qxA+qiaJV4OsEByj3pKx2+V17zAcforvTsDjfPZjP
-         3dxwtQLoU4G8B73KZhcqnB2LTVfQKowQYcINA5rOeYM8Z2OblAfsoSrnc2bDAfnwV1GE
-         C05BeRPZrA5j1terjRlDXIXzazosqpYq4zUXnLRobTMhH1zxqqFz7dwa5bEBphzd73U1
-         QYia9x+l8LvSZGHohT3wBFZN06w1HAzxaT/R/NnyLBXqqYxn92/Ay1VJ5721n7yTfRpW
-         kSz+YAjmOSC6O3sA8aFLS8yZQCyjji5FjhuRlCZ2iV5Z+iIKLUlkZvJlrGIRtdUybqJc
-         pQww==
-X-Gm-Message-State: AOAM531P9Y8gDzqlqFxuHomviefGYPHC5jf3N5RzL5LcfhiFUQ2lUV33
-	S48NLwoWKzjHXg5wFVkQau4=
-X-Google-Smtp-Source: ABdhPJxLq4+FJHPQaRNEEuI8Y2uczN276b3TXoygp2NtPHHqEResNravQTmRhPjApKGg3CtJgkT82Q==
-X-Received: by 2002:a17:90a:71c5:: with SMTP id m5mr37000621pjs.105.1634421437722;
-        Sat, 16 Oct 2021 14:57:17 -0700 (PDT)
-Received: from localhost.localdomain ([115.96.219.100])
-        by smtp.googlemail.com with ESMTPSA id y3sm8630080pjg.7.2021.10.16.14.57.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Oct 2021 14:57:17 -0700 (PDT)
-From: Kushal-kothari <kushalkothari285@gmail.com>
-To: linux-arm-kernel@lists.infradead.org,
-	mike.rapoport@gmail.com,
-	kushalkothari2850@gmail.com,
-	kushalkothari285@gmail.com,
-	outreachy-kernel@googlegroups.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	nsaenz@kernel.org,
-	bcm-kernel-feedback-list@broadcom.com
-Subject: [PATCH] staging: vc04_services: Fixed checkpatch warning: MSLEEP: msleep < 20ms can sleep for up to 20ms.
-Date: Sun, 17 Oct 2021 03:25:27 +0530
-Message-Id: <20211016215527.119189-1-kushalkothari285@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415832C82
+	for <linux-staging@lists.linux.dev>; Sun, 17 Oct 2021 06:18:57 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AFoPTaaEH1yAEJnI+pLqE78eALOsnbusQ8zAX?=
+ =?us-ascii?q?PiFKOHhom6Oj/PxG8M5w6fawslcssRIb6LW90cu7IU80nKQdibX5f43SPzUO01?=
+ =?us-ascii?q?HHEGgN1+ffKnHbak/D398Y5ONbf69yBMaYNzVHpMzxiTPWL+od?=
+X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
+   d="scan'208";a="396145444"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Oct 2021 08:17:45 +0200
+Date: Sun, 17 Oct 2021 08:17:45 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Kushal-kothari <kushalkothari285@gmail.com>
+cc: linux-arm-kernel@lists.infradead.org, mike.rapoport@gmail.com, 
+    kushalkothari2850@gmail.com, outreachy-kernel@googlegroups.com, 
+    gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+    linux-staging@lists.linux.dev, nsaenz@kernel.org, 
+    bcm-kernel-feedback-list@broadcom.com
+Subject: Re: [Outreachy kernel] [PATCH] staging: vc04_services: Fixed checkpatch
+ warning: MSLEEP: msleep < 20ms can sleep for up to 20ms.
+In-Reply-To: <20211016215527.119189-1-kushalkothari285@gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2110170813570.3026@hadrien>
+References: <20211016215527.119189-1-kushalkothari285@gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Signed-off-by: Kushal-kothari <kushalkothari285@gmail.com>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 6fbafdfe340f..80a7898c5331 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -857,7 +857,7 @@ vchiq_bulk_transmit(unsigned int handle, const void *data, unsigned int size,
- 		if (status != VCHIQ_RETRY)
- 			break;
- 
--		msleep(1);
-+		usleep_range(1000, 2000);
- 	}
- 
- 	return status;
-@@ -894,7 +894,7 @@ enum vchiq_status vchiq_bulk_receive(unsigned int handle, void *data,
- 		if (status != VCHIQ_RETRY)
- 			break;
- 
--		msleep(1);
-+		usleep_range(1000, 2000);
- 	}
- 
- 	return status;
--- 
-2.25.1
 
+On Sun, 17 Oct 2021, Kushal-kothari wrote:
+
+> Signed-off-by: Kushal-kothari <kushalkothari285@gmail.com>
+
+You need a log message.  The whole thing should not be in the subject
+line.  The description of the change should be written in the imperative,
+that is Fix instead of Fixed.  But in any case Fix is not a good word to
+use because it does not explain what you have done.  What fix have you
+implemented.  The log message should explain what you have done and why.
+
+Please carefully read the entire page:
+
+https://kernelnewbies.org/PatchPhilosophy
+
+Please check your patch against what is suggested.
+
+julia
+
+
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 6fbafdfe340f..80a7898c5331 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -857,7 +857,7 @@ vchiq_bulk_transmit(unsigned int handle, const void *data, unsigned int size,
+>  		if (status != VCHIQ_RETRY)
+>  			break;
+>
+> -		msleep(1);
+> +		usleep_range(1000, 2000);
+>  	}
+>
+>  	return status;
+> @@ -894,7 +894,7 @@ enum vchiq_status vchiq_bulk_receive(unsigned int handle, void *data,
+>  		if (status != VCHIQ_RETRY)
+>  			break;
+>
+> -		msleep(1);
+> +		usleep_range(1000, 2000);
+>  	}
+>
+>  	return status;
+> --
+> 2.25.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/20211016215527.119189-1-kushalkothari285%40gmail.com.
+>
