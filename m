@@ -1,151 +1,102 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4512C81
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 08:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1634545809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lR6lHYfqRurTTNb2hz8P0iYHasRUVyst8KmFnIo9LRo=;
-	b=GBqLHUdx8g4cQSbDXTDDlvXzbJ88wtoaeR7IX9Bu5ucNZwRfG/XzzaVtG/IAmIa77HATcS
-	H4XgJAKiRELg4w3+Auo40zIbcuMThDSlDuzWvNGdrA8JH+tpr+rwbR/nAsGXARu2fJY6Pp
-	ro5RSpErSq19vR0FROUsj5EKV5L0Ibs=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-KNY0PHYJND-u26rl0_hBeg-1; Mon, 18 Oct 2021 04:30:06 -0400
-X-MC-Unique: KNY0PHYJND-u26rl0_hBeg-1
-Received: by mail-ed1-f69.google.com with SMTP id d3-20020a056402516300b003db863a248eso13626497ede.16
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 01:30:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=lR6lHYfqRurTTNb2hz8P0iYHasRUVyst8KmFnIo9LRo=;
-        b=c6tHWD22o1+fnaPn5kHgepYum9NDLP8psKKxAnYuWK1/io94wRL2TUO92V7NysxIkJ
-         06Zl/lpRZ8ClS8k2YjUGdnmKbxrZ5vgLjAqV4HBFuzQ5AoDJU0zOsWDELCjYeIBHa0SM
-         DW/0H8hmZt3dSIzbHPsP/wmlEsToqNuvDtOkcHA54Zamw0OmDAaL+McMQvvpYWg/Nw1d
-         wsDO+Sz4IDMfhg6nlQXM2A8L4nP1/ka3/PU/YMX5XuXAdAsIQaFlP7Nvlbts5SDWJLVS
-         SNXk/gP2riKQJ+Y3SDsgaolVRs2bfdbX511va2I1RmrqWlIVeIlzf87sbVHUD7ZMQBYn
-         TETA==
-X-Gm-Message-State: AOAM531RB/d9ol0ZufuiZBKOOUFZydXayfEzynREw5QvmmX6sgCN9FnE
-	98IxOqh29zb3t8zJHaAmPXZ0bmS4BITm59O2i8oU0upLJYI3p1XlKayNlmCX3UHxjNbSOiJA7K/
-	EWnGv1VpkttuWvX/fD0PZTh1EUw==
-X-Received: by 2002:a50:fc17:: with SMTP id i23mr41133541edr.213.1634545805609;
-        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwrMhc7vcU2jV67qg01VSMajYU77IH44uhxXbXszh8rSXTGCseftvgmQJ1sKU52iD4gsvpnIg==
-X-Received: by 2002:a50:fc17:: with SMTP id i23mr41133507edr.213.1634545805463;
-        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
-Received: from [10.40.1.223] ([81.30.35.201])
-        by smtp.gmail.com with ESMTPSA id q23sm8925974ejr.0.2021.10.18.01.30.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
-Message-ID: <103b5438-9f7c-7e89-28b9-29fe11eb818c@redhat.com>
-Date: Mon, 18 Oct 2021 10:30:04 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60522C81
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 09:55:51 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud7.xs4all.net with ESMTPA
+	id cPMqmtvAyk3b0cPMtmhFmf; Mon, 18 Oct 2021 11:55:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1634550944; bh=hZHvQDSjUd8uW3oRdpn55CUce4TBNbqxu4Un/iM6Hic=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=s3GGNa29SESwabTksdMf/5josVX9HhU3ePTNA246K69Yd3XDAITe9bvm313pDt+lA
+	 aat4e/vbTGP8jAP3mhHO232WBsR0Fa1Aawidgcu/PL/oAI/Ubv2Xw1obHAN9CamE7u
+	 DSqW79QI22E2hVg3NC9DK4invFPwMoWlZY0drYCZmLylxgLQrxGiN9k7dN1jMgUSn1
+	 YuHV3YlOhL+ViAYNIHNID7fukzTx87+MNDchi7VwqICd1Ysyu9kQyZjIjpw0DWD7kP
+	 NdMcObb4Ur0NGgl7DgdFybqt5t67E+9CUmF1TFLdi87tgXex6IZUQ5ILlajrzL1gge
+	 89oFSv83ZDUdg==
+Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
+To: Corentin Labbe <clabbe@baylibre.com>, mchehab@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+References: <20211013185812.590931-1-clabbe@baylibre.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
+Date: Mon, 18 Oct 2021 11:55:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [BUG 5/5] [BUG] media: atomisp: atomisp causes touchscreen to
- stop working on Microsoft Surface 3
-To: Tsuchiya Yuto <kitakar@gmail.com>
-Cc: Patrik Gfeller <patrik.gfeller@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Kaixu Xia <kaixuxia@tencent.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211017162337.44860-1-kitakar@gmail.com>
- <20211017162337.44860-6-kitakar@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20211017162337.44860-6-kitakar@gmail.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211013185812.590931-1-clabbe@baylibre.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfABpTiDbIOWqhv/J0KgHGejzgKsf74X+dQmYcsnG5aGEDJ2FA6OqGsDMvag3VOhBTkdexTPFa2yBDbLg8ONSLHsP4VKJGynHGfctWki387MdEc5UqsZz
+ XlUENWwO2mW8uj2mdYo/IJECKp2EvM2IKe3+flx+UsqDcqkrct4B7j62CscVc4HSqTHGCb9IGAgP2o75qBUBstZ71HfpoGcfmaU5V0SFnUYoF5CvYz/Z7IEk
+ uYRbugx0l3E8e8ZkskU+sCt2/8xOG8XVCQ0n1k/6dBBgsAHYYbBxUM4J3vWtLNFkn1cp1A9rtAVlZX500Lfk78vNnAIarVhibjRO5Mqp/QFFWtUB5Pg/6+j+
+ YSJjPN4cPvz+mzRjjCTJCy30AZGycLBu/n6/lR0xfpcBHZGql6bqYirh3XpNM5ilE+uW6AIOmGDny01E93w4wFaVU6BDwQ==
 
-Hi,
+Hi Corentin,
 
-On 10/17/21 18:23, Tsuchiya Yuto wrote:
-> Touchscreen input works fine before loading atomisp driver on Surface 3.
-> 
-> However, after loading atomisp driver, touchscreen works only when
-> capturing images. This sounds like atomisp turns off something needed
-> for touchscreen when atomisp is idle.
-> 
-> There is no useful kernel log. Just the touchscreen stops working
-> with no log.
-> 
-> I'll update if I find something further. First of all, can someone
-> reproduce this issue on the other devices?
+I noticed some code review comments from Dan and a kernel test robot issue.
+Can you post a v3 fixing those by the end of the week? Next week I will have
+access again to my zoran board, so then I can test the v3 series.
 
-My first bet would be some regulator getting turned off.
-
-What you can do is:
-
-1. ls -l /dev/bus/i2c/devices
-
-And then write down the number of the i2c-bus to which the
-CRC PMIC is connected, lets say it is number "4". Then:
-
-2. Before loading the atomisp drivers run:
-   "sudo i2cdump -y -f 4 0x6e > crc-regs-good"
-
-3. After loading the atomisp drivers run:
-   "sudo i2cdump -y -f 4 0x6e > crc-regs-bad
-
-4. "diff -u crc-regs-good crc-regs-bad"
-
-And see what changed.
-
-There are 2 possible root causes here:
-
-1. Some regulator is shared between the cameras and
-touchscreen
-
-2. The crc code in atomisp which you are using is
-poking registers assuming the Bay Trail version of
-the Crystal Cove PMIC (aka CRC PMIC) but your
-Surface 3 has the Cherry Trail version and we know
-that the regulators are add different register
-addresses there, see the comment in:
-drivers/acpi/pmic/intel_pmic_chtcrc.c
-so it is possible that the atomisp code is simply
-poking the wrong register for one of the regulators
-
-I also wonder if this goes away if you do the
-
-	hrv = 0x03;
-
-Hack inside drivers/mfd/intel_soc_pmic_core.c ?
-
-Without that we end up using the wrong PMIC
-OpRegion driver which also uses the wrong
-regulator addresses.
+BTW, I agree with Dan, just drop the 'Enable zoran debugfs' config option. It's
+not worth the additional complexity. Instead, just #ifdef CONFIG_DEBUG_FS
+where necessary (in most cases you shouldn't even have to do that since the
+since you have dummy debug_fs_* functions if CONFIG_DEBUG_FS isn't set).
 
 Regards,
 
-Hans
+	Hans
 
-
-p.s.
-
-Here are the 2 different regulator drivers the
-comment in drivers/acpi/pmic/intel_pmic_chtcrc.c
-refers to:
-
-https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove.c
-https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove_plus.c
+On 13/10/2021 20:58, Corentin Labbe wrote:
+> Hello
+> 
+> The main change of this serie is to fusion all zoran related modules in
+> one.
+> This fixes the load order problem when everything is built-in.
+> 
+> Regards
+> 
+> Changes since v1:
+> - add missing debugfs cleaning
+> - clean some remaining module_get/put functions which made impossible to
+>   remove the zoran module
+> - added the two latest patchs
+> 
+> Corentin Labbe (10):
+>   staging: media: zoran: move module parameter checks to zoran_probe
+>   staging: media: zoran: use module_pci_driver
+>   staging: media: zoran: rename debug module parameter
+>   staging: media: zoran: add debugfs
+>   staging: media: zoran: videocode: remove procfs
+>   staging: media: zoran: fusion all modules
+>   staging: media: zoran: remove vidmem
+>   staging: media: zoran: move videodev alloc
+>   staging: media: zoran: move config select on primary kconfig
+>   staging: media: zoran: introduce zoran_i2c_init
+> 
+>  drivers/staging/media/zoran/Kconfig        |  46 +--
+>  drivers/staging/media/zoran/Makefile       |   8 +-
+>  drivers/staging/media/zoran/videocodec.c   |  68 +----
+>  drivers/staging/media/zoran/videocodec.h   |   6 +-
+>  drivers/staging/media/zoran/zoran.h        |   6 +-
+>  drivers/staging/media/zoran/zoran_card.c   | 328 ++++++++++++++-------
+>  drivers/staging/media/zoran/zoran_driver.c |   5 +-
+>  drivers/staging/media/zoran/zr36016.c      |  24 +-
+>  drivers/staging/media/zoran/zr36016.h      |   2 +
+>  drivers/staging/media/zoran/zr36050.c      |  21 +-
+>  drivers/staging/media/zoran/zr36050.h      |   2 +
+>  drivers/staging/media/zoran/zr36060.c      |  21 +-
+>  drivers/staging/media/zoran/zr36060.h      |   2 +
+>  13 files changed, 291 insertions(+), 248 deletions(-)
+> 
 
