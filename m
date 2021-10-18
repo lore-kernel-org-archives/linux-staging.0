@@ -1,90 +1,75 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519092C81
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 10:21:20 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mcPlb-0000YE-Kn; Mon, 18 Oct 2021 12:21:15 +0200
-Received: from pza by lupine with local (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mcPlb-0005J3-76; Mon, 18 Oct 2021 12:21:15 +0200
-Message-ID: <b99705233d4a79c22d99c41568477491a51f48c6.camel@pengutronix.de>
-Subject: Re: [PATCH] media: imx: Round line size to 4 bytes
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- kernel@puri.sm, phone-devel@vger.kernel.org
-Date: Mon, 18 Oct 2021 12:21:15 +0200
-In-Reply-To: <20211017130713.4668c616.dorota.czaplejewicz@puri.sm>
-References: <20211006110207.256325-1-dorota.czaplejewicz@puri.sm>
-	 <7d61fdbd161fce40874766bde5f95c3b73f1a96d.camel@pengutronix.de>
-	 <20211013112636.6963344d.dorota.czaplejewicz@puri.sm>
-	 <1d8878e86b862ae8d551b6796e86c4fb1eb5d671.camel@pengutronix.de>
-	 <20211017130713.4668c616.dorota.czaplejewicz@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED1B2C81
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 10:29:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 835AA6103B;
+	Mon, 18 Oct 2021 10:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1634552981;
+	bh=Jcbd/etLUj/HfkH8N0e/t0Az9xZmyi7KDPMq9txQmdQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CePeyJnzwLvCgD5QZ+i5f9z05hRqHI6cxEW4cAwCrO7qF3m/0SEk9fF959Jb0KS4K
+	 /BmqY9yR84VjPXWaI+9B9fhnzWgIHSOIvKzo6crbdRxq/0/k6UDSoLjfnv+UJdkcWW
+	 iH0TI2MiZ3WKWq7qS2MPc/TnrH8igaptyCMwaypk=
+Date: Mon, 18 Oct 2021 12:29:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Karolina Drobnik <karolinadrobnik@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: vt6655: Rename byPreambleType field
+Message-ID: <YW1Mkse3AgUsyvWx@kroah.com>
+References: <20211018101713.3599-1-karolinadrobnik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211018101713.3599-1-karolinadrobnik@gmail.com>
 
-On Sun, 2021-10-17 at 13:07 +0200, Dorota Czaplejewicz wrote:
-> Hello,
->=20
-> On Thu, 14 Oct 2021 13:26:26 +0200
-> Philipp Zabel <p.zabel@pengutronix.de> wrote:
->=20
-> > Hi Dorota,
-> >=20
-> > On Wed, 2021-10-13 at 11:26 +0200, Dorota Czaplejewicz wrote:
-> > > On Fri, 08 Oct 2021 14:19:41 +0200 Philipp Zabel <p.zabel@pengutronix=
-.de> wrote: =20
-> > [...]
-> > > > I wonder: if you use 4-byte aligned width and odd height, does the =
-CSI
-> > > > write over the end of the buffer? =20
-> > >=20
-> > > I tested this case, and found a glitch which suggests the last 4 byte=
-s are ignored:
-> > >=20
-> > > https://source.puri.sm/Librem5/linux-next/uploads/cfb59e3832431aaa3a6=
-9549455502568/image.png =20
-> >=20
-> > Thank you for testing, so it appears that at least without FBUF_STRIDE
-> > the only requirement is that the whole image size must be a multiple of
-> > 8 bytes.
-> >=20
-> > > That would be taken care of rounding up towards a number decided at r=
-untime, like:
-> > >=20
-> > > divisor =3D 8 >> (mbus->height % 2); =20
-> >=20
-> > Which would then cause the CSI to write past the end of the buffer?
-> >=20
-> I'm not sure if you point out the mistake here (should be "4 <<"), or
-> the fact that rounding is happening. If it's the latter, then it's of
-> no concern: the values derived here are used to calculate buffer size.
->=20
-> I'm submitting a new series where this is fixed.
+On Mon, Oct 18, 2021 at 11:17:13AM +0100, Karolina Drobnik wrote:
+> Drop Hungarian notation prefix in `byPreambleType` member of
+> struct vnt_private. Change it to use snake case.
+> 
+> Fix issue detected by checkpatch.pl:
+>   CHECK: Avoid CamelCase: <byPreambleType>
+> 
+> Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+> ---
+>  drivers/staging/vt6655/baseband.c    |  2 +-
+>  drivers/staging/vt6655/device.h      |  2 +-
+>  drivers/staging/vt6655/device_main.c |  8 ++---
+>  drivers/staging/vt6655/rxtx.c        | 50 ++++++++++++++--------------
+>  4 files changed, 31 insertions(+), 31 deletions(-)
+> 
 
-Thanks, I just didn't understand your intention. The name "divisor"
-threw me off, see the comment in the new series.
+Hi,
 
-regards
-Philipp
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
