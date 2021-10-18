@@ -1,126 +1,159 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202F52C88
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:48:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E09C60F48;
-	Mon, 18 Oct 2021 15:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634572084;
-	bh=fVM7VYh6GwhcCvUTr9ZTX10z+M+c+eH/Hr0nK1garIY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ml9uJg1SLCZqNyqFeB7KezXmrUlnpADxrJzN7v/Y2XPUfb0jYRitsaxCcJ5fsH6bQ
-	 j9Sc5VpKRxCr9Jpg3BzUbfGI6Df+LHa6CXbqr4DpLngt+RvbLLVNwo4NGDFeHhJZ6t
-	 tPBRS58PzR/QC0eppknYvDWLc/tfs4DXKllyjiWI=
-Date: Mon, 18 Oct 2021 17:48:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: linux-staging@lists.linux.dev, neil@brown.name
-Subject: Re: [PATCH] staging: mt7621-dts: get rid of nodes with no in-tree
- driver
-Message-ID: <YW2XMkfAdbQm75j+@kroah.com>
-References: <20211018153554.10471-1-sergio.paracuellos@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05562C88
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 16:20:16 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id ec8so1266264edb.6
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 09:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6a8FvhaU3LoJd61Y7dd7nMTqRhhLF9T/evHMY4HHQ+s=;
+        b=eH6QRPgTukPjQ4/AJR6IQGiVgYSotYIC8UHFV1SARhdx+dQmUB1hjmLDfMWx6RWi04
+         8akRPiOp/d5JpV4NWKiXh8T23jwYruIzLiqwvw3/2b/uPdiTFQb5j6nH9EIyZm0Zr28l
+         F7jWlWpREE0/fJr+XrKIa37hiXftKB+8znuUmNMcLE0tA5rqV84PngdwX+I27DVgbOtA
+         KudyJ4+8RD50P6CoT47deD9GIe7TYgz58xB++IM6a1xYSwzckxlzXN0bSZ9GZHNSnaab
+         G4LEgemt+ug7Lby5F5V/cTVtgKMbDaWFPnBmscrc5SKjODSjWqVrLNXx6PYzR3S0p3cY
+         FWiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6a8FvhaU3LoJd61Y7dd7nMTqRhhLF9T/evHMY4HHQ+s=;
+        b=KOyTJiYYvNVDcvMyrk70W9+RPrlgBS4Vv68UuHTNmRAqxmI0kRt484vOylHxp35eVi
+         4R5FsvXYRPz4HWdMXpcxUBbc7ZHPm9BKUq0+5IkabhC+PIkCfqPlslINmFtregyYrWhy
+         HEOPHTtbqddGagyCzQfhzfOJ9YAJ1uUjeXaDXC3Cf4vAXkJUZMYeJieX5A9Ygewz/ec8
+         qleFpt8SkJIEdFASLKyLuAkQOYZAOB2y6ML/Et5lcOb8dxBMcOVNi6mJu9LX7jWt+4/D
+         cuFykjjA5q9lFBAnLC5p0rPYAG+/9ePpEK8knGcxHZuv5wHh6XLlAEt7tG0Nu3qcM1xs
+         JvdA==
+X-Gm-Message-State: AOAM531Y13UaqiRY/FUgHE9s5SaChm0ZwdLVNZG/5QvttCZ7skhIny6V
+	zHH3ChQirVRQHWmPEGSZsgw=
+X-Google-Smtp-Source: ABdhPJyWYYndXJUSND3rAO+YbNhcCnbZB5VJZp0qZf/K8hs99FaTi8rC+/qcyT1VRea7aff8mGuPJQ==
+X-Received: by 2002:a17:907:9727:: with SMTP id jg39mr30912883ejc.271.1634574011852;
+        Mon, 18 Oct 2021 09:20:11 -0700 (PDT)
+Received: from localhost.localdomain (host-79-47-104-180.retail.telecomitalia.it. [79.47.104.180])
+        by smtp.gmail.com with ESMTPSA id p7sm10045791edr.6.2021.10.18.09.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 09:20:11 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Martin Kaiser <martin@kaiser.cx>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v3 1/3] staging: r8188eu: Use completions for signaling start / end kthread
+Date: Mon, 18 Oct 2021 18:20:04 +0200
+Message-Id: <20211018162006.5527-2-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211018162006.5527-1-fmdefrancesco@gmail.com>
+References: <20211018162006.5527-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211018153554.10471-1-sergio.paracuellos@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 18, 2021 at 05:35:53PM +0200, Sergio Paracuellos wrote:
-> Nodes for 'i2s' and 'nand' have no driver present inside the linux tree.
-> The normal approach for a dts file to be mainlined is start with those stuff
-> which is already mainlined and get rid of the other stuff. If needed it will
-> be properly added afterwards together with the suitable device driver. Hence,
-> remove both nodes from the device tree include file.
-> 
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> ---
->  drivers/staging/mt7621-dts/mt7621.dtsi | 36 --------------------------
->  1 file changed, 36 deletions(-)
-> 
-> diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-> index dd7d06c5f234..787220d4d3b4 100644
-> --- a/drivers/staging/mt7621-dts/mt7621.dtsi
-> +++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-> @@ -102,28 +102,6 @@ i2c: i2c@900 {
->  			pinctrl-0 = <&i2c_pins>;
->  		};
->  
-> -		i2s: i2s@a00 {
-> -			compatible = "mediatek,mt7621-i2s";
-> -			reg = <0xa00 0x100>;
-> -
-> -			clocks = <&sysc MT7621_CLK_I2S>;
-> -			clock-names = "i2s";
-> -			resets = <&sysc MT7621_RST_I2S>;
-> -			reset-names = "i2s";
-> -
-> -			interrupt-parent = <&gic>;
-> -			interrupts = <GIC_SHARED 16 IRQ_TYPE_LEVEL_HIGH>;
-> -
-> -			txdma-req = <2>;
-> -			rxdma-req = <3>;
-> -
-> -			dmas = <&gdma 4>,
-> -				<&gdma 6>;
-> -			dma-names = "tx", "rx";
-> -
-> -			status = "disabled";
-> -		};
-> -
->  		memc: syscon@5000 {
->  			compatible = "mediatek,mt7621-memc", "syscon";
->  			reg = <0x5000 0x1000>;
-> @@ -355,20 +333,6 @@ cdmm: cdmm@1fbf8000 {
->  		reg = <0x1fbf8000 0x8000>;
->  	};
->  
-> -	nand: nand@1e003000 {
-> -		status = "disabled";
-> -
-> -		compatible = "mediatek,mt7621-nand";
-> -		bank-width = <2>;
-> -		reg = <0x1e003000 0x800
-> -			0x1e003800 0x800>;
-> -		#address-cells = <1>;
-> -		#size-cells = <1>;
-> -
-> -		clocks = <&sysc MT7621_CLK_NAND>;
-> -		clock-names = "nand";
-> -	};
-> -
->  	ethernet: ethernet@1e100000 {
->  		compatible = "mediatek,mt7621-eth";
->  		reg = <0x1e100000 0x10000>;
-> -- 
-> 2.33.0
+rtw_cmd_thread() "up(s)" a semaphore twice, first to notify callers when
+its execution is started and then to notify when it is about to end.
 
-When trying to apply this I get:
+It makes the same semaphore go "up" twice in the same thread. This
+construct makes Smatch to warn of duplicate "up(s)".
 
-checking file drivers/staging/mt7621-dts/mt7621.dtsi
-Reversed (or previously applied) patch detected!  Assume -R? [n]
-Apply anyway? [n]
-Skipping patch.
-2 out of 2 hunks ignored
+This thread uses interruptible semaphores where instead completions are
+more suitable. For this purpose it calls an helper (_rtw_down_sema())
+that returns values that are never checked. It may lead to bugs.
 
-Are you sure you rebased?
+To address the above-mentioned issues, use two completions variables
+instead of semaphores. Use the uninterruptible versions of
+wake_for_completion*() because the interruptible / killable versions are
+not necessary.
 
-Hm, ah, I can handle this with fuzz maybe:
-patching file drivers/staging/mt7621-dts/mt7621.dtsi
-Reversed (or previously applied) patch detected!  Assume -R? [n] n
-Apply anyway? [n] y
-Hunk #1 FAILED at 102.
-Hunk #2 succeeded at 358 (offset 3 lines).
-1 out of 2 hunks FAILED -- saving rejects to file drivers/staging/mt7621-dts/mt7621.dtsi.rej
+Tested with "ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano]".
 
-Nope, that didn't work.
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c    | 7 ++++---
+ drivers/staging/r8188eu/include/rtw_cmd.h | 3 ++-
+ drivers/staging/r8188eu/os_dep/os_intfs.c | 6 ++++--
+ 3 files changed, 10 insertions(+), 6 deletions(-)
 
-Again, are you sure you rebased?  Against what tree?
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index b834fac41627..bdf0d0160070 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -23,7 +23,8 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 
+ 	sema_init(&pcmdpriv->cmd_queue_sema, 0);
+ 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
+-	sema_init(&pcmdpriv->terminate_cmdthread_sema, 0);
++	init_completion(&pcmdpriv->start_cmd_thread);
++	init_completion(&pcmdpriv->stop_cmd_thread);
+ 
+ 	rtw_init_queue(&pcmdpriv->cmd_queue);
+ 
+@@ -246,7 +247,7 @@ int rtw_cmd_thread(void *context)
+ 	pcmdbuf = pcmdpriv->cmd_buf;
+ 
+ 	pcmdpriv->cmdthd_running = true;
+-	up(&pcmdpriv->terminate_cmdthread_sema);
++	complete(&pcmdpriv->start_cmd_thread);
+ 
+ 	while (1) {
+ 		if (_rtw_down_sema(&pcmdpriv->cmd_queue_sema) == _FAIL)
+@@ -327,7 +328,7 @@ int rtw_cmd_thread(void *context)
+ 		rtw_free_cmd_obj(pcmd);
+ 	} while (1);
+ 
+-	up(&pcmdpriv->terminate_cmdthread_sema);
++	complete(&pcmdpriv->stop_cmd_thread);
+ 
+ 	thread_exit();
+ }
+diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
+index 83fbb922db2c..b6266e3e2c40 100644
+--- a/drivers/staging/r8188eu/include/rtw_cmd.h
++++ b/drivers/staging/r8188eu/include/rtw_cmd.h
+@@ -34,7 +34,8 @@ struct cmd_obj {
+ 
+ struct cmd_priv {
+ 	struct semaphore cmd_queue_sema;
+-	struct semaphore terminate_cmdthread_sema;
++	struct completion start_cmd_thread;
++	struct completion stop_cmd_thread;
+ 	struct __queue cmd_queue;
+ 	u8	cmd_seq;
+ 	u8	*cmd_buf;	/* shall be non-paged, and 4 bytes aligned */
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index e7964a048c99..0bcea66f550b 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -385,7 +385,8 @@ u32 rtw_start_drv_threads(struct adapter *padapter)
+ 	if (IS_ERR(padapter->cmdThread))
+ 		_status = _FAIL;
+ 	else
+-		_rtw_down_sema(&padapter->cmdpriv.terminate_cmdthread_sema); /* wait for cmd_thread to run */
++		/* wait for rtw_cmd_thread() to start running */
++		wait_for_completion(&padapter->cmdpriv.start_cmd_thread);
+ 
+ 	return _status;
+ }
+@@ -395,7 +396,8 @@ void rtw_stop_drv_threads(struct adapter *padapter)
+ 	/* Below is to termindate rtw_cmd_thread & event_thread... */
+ 	up(&padapter->cmdpriv.cmd_queue_sema);
+ 	if (padapter->cmdThread)
+-		_rtw_down_sema(&padapter->cmdpriv.terminate_cmdthread_sema);
++		/* wait for rtw_cmd_thread() to stop running */
++		wait_for_completion(&padapter->cmdpriv.stop_cmd_thread);
+ }
+ 
+ static u8 rtw_init_default_value(struct adapter *padapter)
+-- 
+2.33.0
 
-thanks,
-
-greg k-h
