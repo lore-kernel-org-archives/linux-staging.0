@@ -1,41 +1,41 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E9E2C88
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:04:04 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id n40-20020a05600c3ba800b0030da2439b21so10685551wms.0
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 08:04:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602B02C88
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:06:38 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id b189-20020a1c1bc6000000b0030da052dd4fso250320wmb.3
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 08:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=L7BiP3smelTLM2yROa2YM08nmUrzbiL9g5dwi2F+x2g=;
-        b=SUn359++wbQizyVzVodHn0es10MpYihj1GzEUukImsbddB2uVctZxipCbC3rRbmUtn
-         2hoKvVE6bp1z5+BfA+FHlVbfnopKqWIgBcc6DqaaeHghUnd9WaWsAX2lQLph1lFDqJBc
-         EZFJFvJhK0pHFuy5NGGT7qhHFxzwbAxq7/3IkA8emZu9b/+pCcJxhz0Jd9rCyii0lzTv
-         GbUF+u8JwRhMO7atxucWrE+tchfuTvA1PVGjdMwBAbaLnWe7qPwoH0lR/bsTjzG0kqWZ
-         2edZ2B62QrMppMQVW8zNSlQhgAdarQrwBUm2Ug/LK98mLkQplk1Dcb2mhJQeP6VVDWb6
-         WbxQ==
+        bh=2lpX8MzHrofB767bBYDr4EpmpygqZoVr7h7+rRjUfhk=;
+        b=IasgMAV6elCuzOLnYMKqhANSzWVEPIhSizJDwNbvzrKq1kU1xnURIlII5tsZDotTWu
+         mViYQeckGsLA8b+2lieuSLvz/wyUpK9ePCEo3yjNzXLC37+pTSFAMuEhnL6YpJdeCwRE
+         h7srdipUdcG4ZUVNV/vHbcKSXq4ZEt1L6ufKNmBubuKwtfraSnD+pzMpFTLu+CENm09X
+         fo9/aWJvbaYD7ez9zdGI27DpLcDTjCtvyP7yZAYfEBWKfa0SC91hL6WKIcQEc/ESeZUe
+         RD70Omx2GzeWhnhz7n9+uiU51QWf04XFddYw3LL+tNSwIYjwawZr5O5rzjeEOK50r5KD
+         NUsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=L7BiP3smelTLM2yROa2YM08nmUrzbiL9g5dwi2F+x2g=;
-        b=0DPX0oWQIyl/zbBQhMcVjN/eQ1ZIvuVzM4GMxEIvZOBL7edxZ1TbN6hNoVqlAPmevc
-         hh1IwoTbmJi/PanPLxBs8H1ZYY4+OvWuKsbAB13FOiYbYZvrlA7e5atpNuXrT2POdSLJ
-         hUvoJqeOSvbM7QPYGoQIqMxMaYG8RRFtvtOjeloP4OeVxLFVvClnY3UtQ+fiDat30L2J
-         yC99n7adNhCM4h6dhRkiRfFQ2VRGwL6OIS3F+egghvpp4+qp1pdIz4u0WaWHagPh3KfG
-         tJ6/jKswrSHVOmFtWc0apn44xb6HZJ0A9EQIUHNVnvVwZCd3p0OOTdpB8nZ0MnkBB662
-         RRiQ==
-X-Gm-Message-State: AOAM532Ue2PZpbN1e9aM1sAh6cK7sCnOVTi5FYCnlj26oGy4u37werke
-	PHmnfLYf5crVCeA8Mn1lg8Q=
-X-Google-Smtp-Source: ABdhPJy4SJyu7XYoVi/6RJBQlQ1nhzNHio38iwT3krM/Mthm1bl85vctaB5rf0UacKxR0rku/ocwlQ==
-X-Received: by 2002:a05:600c:1989:: with SMTP id t9mr30684791wmq.48.1634569442828;
-        Mon, 18 Oct 2021 08:04:02 -0700 (PDT)
+        bh=2lpX8MzHrofB767bBYDr4EpmpygqZoVr7h7+rRjUfhk=;
+        b=I4jUuf2DaH5VhlDwrPl2k3UhBNEABi1PlANllFFbwXPnS4Zen1BQGIoYQomvzuw3BR
+         L8W+aLuJBMPDth1XSRtDo7Y+VS2dzTvjfnWZaD/jA0/RIdqUAIi25JW5vVGPLmE7u0Gf
+         JCjuJJ/G0Q7JHlXhVcO872lgifGqlTkt2w5oaS6XkcIQt7V9EvtmmKiticpJVkLzP6ll
+         nvi8QGEc9E+IQvJpxqibv1OyPsMwIorSnrN4C9GTRQy2aOXnlRvzaNOLquDbBMXZWB+s
+         40xidwaPJyzLDu9mCUfJRh/bpUQqLMIg2OdJV3wJPtcThR0Qb/eFPu59rYFq7CEUnv38
+         3DGA==
+X-Gm-Message-State: AOAM531+2k1Hc/+JLwNAZv6Dgb/i1jgbT1yFPOmTR8VlDfD/3oqc5IZO
+	jB0+ZW/9dvoMu18ESQrDTLs=
+X-Google-Smtp-Source: ABdhPJy1+lA+Qhlp5oMGMVMjJUVdoRviC1k/IeyjpzGcdZwcvl8Md958DtDadR24K29v7y06hFaJ3Q==
+X-Received: by 2002:a1c:2b81:: with SMTP id r123mr22101493wmr.136.1634569596688;
+        Mon, 18 Oct 2021 08:06:36 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id g70sm11872138wme.29.2021.10.18.08.04.02
+        by smtp.gmail.com with ESMTPSA id u13sm4543646wri.50.2021.10.18.08.06.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 08:04:02 -0700 (PDT)
+        Mon, 18 Oct 2021 08:06:36 -0700 (PDT)
 From: Karolina Drobnik <karolinadrobnik@gmail.com>
 To: outreachy-kernel@googlegroups.com
 Cc: gregkh@linuxfoundation.org,
@@ -43,9 +43,9 @@ Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: [RESEND PATCH v3] staging: vt6655: Rename byPreambleType field
-Date: Mon, 18 Oct 2021 16:03:17 +0100
-Message-Id: <20211018150317.9590-1-karolinadrobnik@gmail.com>
+Subject: [PATCH] staging: vt6655: Fix line wrapping in rf.c file
+Date: Mon, 18 Oct 2021 16:05:26 +0100
+Message-Id: <20211018150526.9718-1-karolinadrobnik@gmail.com>
 X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -55,244 +55,143 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop Hungarian notation prefix in `byPreambleType` member of
-struct vnt_private. Change it to use snake case.
-
-Fix issue detected by checkpatch.pl:
-  CHECK: Avoid CamelCase: <byPreambleType>
+Fix line length warnings raised by checkpatch.pl in
+rf.c file for `RFvWriteWakeProgSyn`,`RFbRawSetPower`
+and `RFbAL7230SelectChannelPostProcess`functions.
 
 Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
 ---
-v3:
-* Revert parameter name change in `bb_get_frame_time` function,
-  update patch description
+ drivers/staging/vt6655/rf.c | 66 +++++++++++++++++++++++++++----------
+ 1 file changed, 49 insertions(+), 17 deletions(-)
 
-v2:
-* Revert whitespace comment change for `by_pkt_type` parameter
-
- drivers/staging/vt6655/baseband.c    |  2 +-
- drivers/staging/vt6655/device.h      |  2 +-
- drivers/staging/vt6655/device_main.c |  8 ++---
- drivers/staging/vt6655/rxtx.c        | 50 ++++++++++++++--------------
- 4 files changed, 31 insertions(+), 31 deletions(-)
-
-diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
-index 0bae35af6e0f..5efca92f1f18 100644
---- a/drivers/staging/vt6655/baseband.c
-+++ b/drivers/staging/vt6655/baseband.c
-@@ -1764,7 +1764,7 @@ void vnt_get_phy_field(struct vnt_private *priv, u32 frame_length,
- 	u32 count = 0;
- 	u32 tmp;
- 	int ext_bit;
--	u8 preamble_type = priv->byPreambleType;
-+	u8 preamble_type = priv->preamble_type;
+diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+index a6f17162d017..206d34b555bc 100644
+--- a/drivers/staging/vt6655/rf.c
++++ b/drivers/staging/vt6655/rf.c
+@@ -699,11 +699,17 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
+ 			return false;
  
- 	bit_count = frame_length * 8;
- 	ext_bit = false;
-diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index 92d6f82f939f..4706bde1ec1d 100644
---- a/drivers/staging/vt6655/device.h
-+++ b/drivers/staging/vt6655/device.h
-@@ -203,7 +203,7 @@ struct vnt_private {
- 	unsigned char byMinChannel;
- 	unsigned char byMaxChannel;
+ 		for (ii = 0; ii < CB_AL2230_INIT_SEQ; ii++)
+-			MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL2230InitTable[ii]);
++			MACvSetMISCFifo(priv,
++					(unsigned short)(MISCFIFO_SYNDATA_IDX + ii),
++					dwAL2230InitTable[ii]);
  
--	unsigned char byPreambleType;
-+	unsigned char preamble_type;
- 	unsigned char byShortPreamble;
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL2230ChannelTable0[uChannel - 1]);
++		MACvSetMISCFifo(priv,
++				(unsigned short)(MISCFIFO_SYNDATA_IDX + ii),
++				dwAL2230ChannelTable0[uChannel - 1]);
+ 		ii++;
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL2230ChannelTable1[uChannel - 1]);
++		MACvSetMISCFifo(priv,
++				(unsigned short)(MISCFIFO_SYNDATA_IDX + ii),
++				dwAL2230ChannelTable1[uChannel - 1]);
+ 		break;
  
- 	unsigned short wCurrentRate;
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 24f0e346da12..212d2a287b2c 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -177,11 +177,11 @@ device_set_options(struct vnt_private *priv)
- 	priv->byPacketType = priv->byBBType;
- 	priv->byAutoFBCtrl = AUTO_FB_0;
- 	priv->bUpdateBBVGA = true;
--	priv->byPreambleType = 0;
-+	priv->preamble_type = 0;
+ 		/* Need to check, PLLON need to be low for channel setting */
+@@ -716,17 +722,28 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
  
- 	pr_debug(" byShortRetryLimit= %d\n", (int)priv->byShortRetryLimit);
- 	pr_debug(" byLongRetryLimit= %d\n", (int)priv->byLongRetryLimit);
--	pr_debug(" byPreambleType= %d\n", (int)priv->byPreambleType);
-+	pr_debug(" preamble_type= %d\n", (int)priv->preamble_type);
- 	pr_debug(" byShortPreamble= %d\n", (int)priv->byShortPreamble);
- 	pr_debug(" byBBType= %d\n", (int)priv->byBBType);
- }
-@@ -1424,10 +1424,10 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
- 	if (changed & BSS_CHANGED_ERP_PREAMBLE) {
- 		if (conf->use_short_preamble) {
- 			MACvEnableBarkerPreambleMd(priv->port_offset);
--			priv->byPreambleType = true;
-+			priv->preamble_type = true;
+ 		if (uChannel <= CB_MAX_CHANNEL_24G) {
+ 			for (ii = 0; ii < CB_AL7230_INIT_SEQ; ii++)
+-				MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL7230InitTable[ii]);
++				MACvSetMISCFifo(priv,
++						(unsigned short)(MISCFIFO_SYNDATA_IDX
++						+ ii), dwAL7230InitTable[ii]);
  		} else {
- 			MACvDisableBarkerPreambleMd(priv->port_offset);
--			priv->byPreambleType = false;
-+			priv->preamble_type = false;
+ 			for (ii = 0; ii < CB_AL7230_INIT_SEQ; ii++)
+-				MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL7230InitTableAMode[ii]);
++				MACvSetMISCFifo(priv,
++						(unsigned short)(MISCFIFO_SYNDATA_IDX
++						+ ii),
++					dwAL7230InitTableAMode[ii]);
  		}
+ 
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL7230ChannelTable0[uChannel - 1]);
++		MACvSetMISCFifo(priv,
++				(unsigned short)(MISCFIFO_SYNDATA_IDX + ii),
++				dwAL7230ChannelTable0[uChannel - 1]);
+ 		ii++;
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL7230ChannelTable1[uChannel - 1]);
++		MACvSetMISCFifo(priv,
++				(unsigned short)(MISCFIFO_SYNDATA_IDX + ii),
++				dwAL7230ChannelTable1[uChannel - 1]);
+ 		ii++;
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL7230ChannelTable2[uChannel - 1]);
++		MACvSetMISCFifo(priv,
++				(unsigned short)(MISCFIFO_SYNDATA_IDX + ii),
++				dwAL7230ChannelTable2[uChannel - 1]);
+ 		break;
+ 
+ 	case RF_NOTHING:
+@@ -736,7 +753,8 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
+ 		return false;
  	}
  
-diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
-index ff0b5391ea0b..0de801b666da 100644
---- a/drivers/staging/vt6655/rxtx.c
-+++ b/drivers/staging/vt6655/rxtx.c
-@@ -142,7 +142,7 @@ s_uFillDataHead(
+-	MACvSetMISCFifo(priv, MISCFIFO_SYNINFO_IDX, (unsigned long)MAKEWORD(bySleepCount, byInitCount));
++	MACvSetMISCFifo(priv, MISCFIFO_SYNINFO_IDX,
++			(unsigned long)MAKEWORD(bySleepCount, byInitCount));
  
- static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
- {
--	return cpu_to_le16(wTimeStampOff[priv->byPreambleType % 2]
-+	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
- 							[rate % MAX_RATE]);
+ 	return true;
  }
+@@ -836,20 +854,32 @@ bool RFbRawSetPower(struct vnt_private *priv, unsigned char byPwr,
+ 	case RF_AIROHA:
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL2230PowerTable[byPwr]);
+ 		if (rate <= RATE_11M)
+-			ret &= IFRFbWriteEmbedded(priv, 0x0001B400 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW);
++			ret &= IFRFbWriteEmbedded(priv, 0x0001B400
++					+ (BY_AL2230_REG_LEN << 3)
++					+ IFREGCTL_REGW);
+ 		else
+-			ret &= IFRFbWriteEmbedded(priv, 0x0005A400 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW);
++			ret &= IFRFbWriteEmbedded(priv, 0x0005A400
++					+ (BY_AL2230_REG_LEN << 3)
++					+ IFREGCTL_REGW);
  
-@@ -163,7 +163,7 @@ s_uGetTxRsvTime(
- {
- 	unsigned int uDataTime, uAckTime;
+ 		break;
  
--	uDataTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, cbFrameLength, wRate);
-+	uDataTime = bb_get_frame_time(pDevice->preamble_type, byPktType, cbFrameLength, wRate);
+ 	case RF_AL2230S:
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL2230PowerTable[byPwr]);
+ 		if (rate <= RATE_11M) {
+-			ret &= IFRFbWriteEmbedded(priv, 0x040C1400 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW);
+-			ret &= IFRFbWriteEmbedded(priv, 0x00299B00 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW);
++			ret &= IFRFbWriteEmbedded(priv, 0x040C1400
++					+ (BY_AL2230_REG_LEN << 3)
++					+ IFREGCTL_REGW);
++			ret &= IFRFbWriteEmbedded(priv, 0x00299B00
++					+ (BY_AL2230_REG_LEN << 3)
++					+ IFREGCTL_REGW);
+ 		} else {
+-			ret &= IFRFbWriteEmbedded(priv, 0x0005A400 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW);
+-			ret &= IFRFbWriteEmbedded(priv, 0x00099B00 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW);
++			ret &= IFRFbWriteEmbedded(priv, 0x0005A400
++					+ (BY_AL2230_REG_LEN << 3)
++					+ IFREGCTL_REGW);
++			ret &= IFRFbWriteEmbedded(priv, 0x00099B00
++					+ (BY_AL2230_REG_LEN << 3)
++					+ IFREGCTL_REGW);
+ 		}
  
- 	if (!bNeedAck)
- 		return uDataTime;
-@@ -172,7 +172,7 @@ s_uGetTxRsvTime(
- 	 * CCK mode  - 11b
- 	 * OFDM mode - 11g 2.4G & 11a 5G
+ 		break;
+@@ -921,7 +951,8 @@ bool RFbAL7230SelectChannelPostProcess(struct vnt_private *priv,
+ 	 * register
+ 	 * Channel Index 1~14
  	 */
--	uAckTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14,
-+	uAckTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14,
- 				     byPktType == PK_TYPE_11B ?
- 				     pDevice->byTopCCKBasicRate :
- 				     pDevice->byTopOFDMBasicRate);
-@@ -200,22 +200,22 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
- 	unsigned int ack_time = 0;
- 	unsigned int data_time = 0;
- 
--	data_time = bb_get_frame_time(priv->byPreambleType, pkt_type, frame_length, current_rate);
-+	data_time = bb_get_frame_time(priv->preamble_type, pkt_type, frame_length, current_rate);
- 	if (rts_rsvtype == 0) { /* RTSTxRrvTime_bb */
--		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
-+		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
- 		cts_time = ack_time;
- 	} else if (rts_rsvtype == 1) { /* RTSTxRrvTime_ba, only in 2.4GHZ */
--		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
--		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
-+		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
-+		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
- 	} else if (rts_rsvtype == 2) { /* RTSTxRrvTime_aa */
--		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopOFDMBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
-+		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopOFDMBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
- 		cts_time = ack_time;
- 	} else if (rts_rsvtype == 3) { /* CTSTxRrvTime_ba, only in 2.4GHZ */
--		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
--		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
-+		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
-+		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
- 		rrv_time = cts_time + ack_time + data_time + 2 * priv->uSIFS;
- 		return cpu_to_le16((u16)rrv_time);
- 	}
-@@ -255,7 +255,7 @@ s_uGetDataDuration(
- 	switch (byDurType) {
- 	case DATADUR_B:    /* DATADUR_B */
- 		if (bNeedAck) {
--			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
-+			uAckTime = bb_get_frame_time(pDevice->preamble_type,
- 						     byPktType, 14,
- 						     pDevice->byTopCCKBasicRate);
- 		}
-@@ -273,7 +273,7 @@ s_uGetDataDuration(
- 
- 	case DATADUR_A:    /* DATADUR_A */
- 		if (bNeedAck) {
--			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
-+			uAckTime = bb_get_frame_time(pDevice->preamble_type,
- 						     byPktType, 14,
- 						     pDevice->byTopOFDMBasicRate);
- 		}
-@@ -292,7 +292,7 @@ s_uGetDataDuration(
- 	case DATADUR_A_F0:    /* DATADUR_A_F0 */
- 	case DATADUR_A_F1:    /* DATADUR_A_F1 */
- 		if (bNeedAck) {
--			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
-+			uAckTime = bb_get_frame_time(pDevice->preamble_type,
- 						     byPktType, 14,
- 						     pDevice->byTopOFDMBasicRate);
- 		}
-@@ -344,17 +344,17 @@ s_uGetRTSCTSDuration(
- 
- 	switch (byDurType) {
- 	case RTSDUR_BB:    /* RTSDuration_bb */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
- 		break;
- 
- 	case RTSDUR_BA:    /* RTSDuration_ba */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
- 		break;
- 
- 	case RTSDUR_AA:    /* RTSDuration_aa */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
- 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
- 		break;
- 
-@@ -363,7 +363,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -372,7 +372,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_AA_F0: /* RTSDuration_aa_f0 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -381,7 +381,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_BA_F1: /* RTSDuration_ba_f1 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -390,7 +390,7 @@ s_uGetRTSCTSDuration(
- 		break;
- 
- 	case RTSDUR_AA_F1: /* RTSDuration_aa_f1 */
--		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
-+		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
- 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
- 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
- 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
-@@ -1289,9 +1289,9 @@ int vnt_generate_fifo_header(struct vnt_private *priv, u32 dma_idx,
- 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_LRETRY);
- 
- 	if (tx_rate->flags & IEEE80211_TX_RC_USE_SHORT_PREAMBLE)
--		priv->byPreambleType = PREAMBLE_SHORT;
-+		priv->preamble_type = PREAMBLE_SHORT;
- 	else
--		priv->byPreambleType = PREAMBLE_LONG;
-+		priv->preamble_type = PREAMBLE_LONG;
- 
- 	if (tx_rate->flags & IEEE80211_TX_RC_USE_RTS_CTS)
- 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_RTS);
+-	if ((byOldChannel <= CB_MAX_CHANNEL_24G) && (byNewChannel > CB_MAX_CHANNEL_24G)) {
++	if ((byOldChannel <= CB_MAX_CHANNEL_24G) &&
++	    (byNewChannel > CB_MAX_CHANNEL_24G)) {
+ 		/* Change from 2.4G to 5G [Reg] */
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTableAMode[2]);
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTableAMode[3]);
+@@ -930,7 +961,8 @@ bool RFbAL7230SelectChannelPostProcess(struct vnt_private *priv,
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTableAMode[10]);
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTableAMode[12]);
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTableAMode[15]);
+-	} else if ((byOldChannel > CB_MAX_CHANNEL_24G) && (byNewChannel <= CB_MAX_CHANNEL_24G)) {
++	} else if ((byOldChannel > CB_MAX_CHANNEL_24G) &&
++		   (byNewChannel <= CB_MAX_CHANNEL_24G)) {
+ 		/* Change from 5G to 2.4G [Reg] */
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[2]);
+ 		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[3]);
 -- 
 2.30.2
 
