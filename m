@@ -1,126 +1,89 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836E72C89
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 20:24:38 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id z11so2368596lfj.4
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 13:24:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB992C88
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 22:13:29 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id k7so43772236wrd.13
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=har/4/PWCEMpvFWOprxG/fUyVmDaaJDKHIOQGS8ro1Y=;
-        b=RC1Rv/7TptVAnpkImcwF4xhmo0n6qZszmDbsH02tz700VcnBX+keKWXyZLeDSNdQeg
-         QofqJbxydbk5MT1p9KQzLevm2K0uArGlXyBgW94Npszr4ggM4yxsxNsqHgPeIsA0yi1J
-         nZdFIma4dyZqhnveC+zuxxVnvmpz3I82nv26Yo/STGZzT5A/Z4RmKbYj3b/eH9zz+eal
-         i2WoC5O4wrSBwucaOpg2frFyjtNucQA1XObeUmSvVddELtsuI1kEqAzBMIwV4AP/l3Bx
-         N8FHIxAgUXqad6hmzoNxzcrDsv1CQI4KzKDGfRzn0SolIlxIdffWuwl+gwL9Au6VTxdX
-         xrFA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kRNm4UtdNQv+PW99X+CVETEWwDBlU3O2UZG+/c3QddE=;
+        b=fjddBJEW/OkoB4qQL4Ro5vzCDwC5h26o38XOXzIXpMrj+5Y94xMarSYrsvrtNgpqzV
+         ky9pUmp3W3Udw9FlAxLn3WpiOvedgGeXEBYOrUsozjpKd0ClhQQ0vkpdKLY9a+CyxTgt
+         FTqE3vknxO5C0UrpM2NNTLi0E3smsUkapmlnge7HbaPwEgdr0cT2r49+aQBsHBJ38dmx
+         Y7qHre0tRD/ZlaOucPUdVZSe5kmU3COgtyoC1mbbh/1PRfsx64wKXlMFeYSDuQh6aKGT
+         yywRXTU/GrwD1q+HVLtiCZJ/n1cd9YkbcoDpIAbg88qOGO54RVH2QiOTH1PhGn6cWIVb
+         xF4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=har/4/PWCEMpvFWOprxG/fUyVmDaaJDKHIOQGS8ro1Y=;
-        b=P83EoOeVkYvpmJsvoCHHojz0+Am+Lw4dVWE42O8TUnHfyElfg1eiUfGlmcAOU0Mgrv
-         c9xkjGFG50Gy/Zokkdowl4Zwy0CVxksFSsN+Nn/nEeILlNSxN7AbSW9P1irnx0pxZbVM
-         8IWa01wsJ0tW1MI01Go4Y1n00GtKBZ27DEC6TGwq3r0+dhavwmIGaFiby8TBPDabc7VX
-         Y42ItVL/FYKqM/YE/CTQBYD0ogh6S5isULib+fv48VRzA866TNqOmo5BfCvD+74LHVI1
-         p+oYAipdRVzXSAWmTCPJbW8nb78HSJz6A+yUBuWQGZ4Li6//UjtdfNEWDQzNuah19YW7
-         4SkA==
-X-Gm-Message-State: AOAM531FU1UM7v5Bu2Ob1gLJV8Jjh7b7PLmUqeUoZawRaEN40AB7ZKOA
-	IJrivyb3vPF/H9mUugyECLni/9vaXa4kQcnCNduTDQ==
-X-Google-Smtp-Source: ABdhPJzN5CnBieZu138lO+MKY18OyxyMgt6Xi8QmLZNGOYuis8q2+HoLn/+zrwQAVMqxgws+jp75ootjmnQtp4JKMDQ=
-X-Received: by 2002:a05:6512:4c7:: with SMTP id w7mr1953520lfq.444.1634588676542;
- Mon, 18 Oct 2021 13:24:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kRNm4UtdNQv+PW99X+CVETEWwDBlU3O2UZG+/c3QddE=;
+        b=b8TlX2WGtVO1nPaHNyN/mNTi+j8BV1w9zX/iV2lOO1Bx9GvlQgJ2Op+4JrKuwHVkWY
+         KYS+B4X3rtDYuPHP+KSAN9JvAjDFOBBOkZhMKg0W+hfAwpPbNxsjD2TdYXgbb23MAGIn
+         y8wTPHbYoWBs4LpIt2BQVQASxLp+RD7bOFg9BOKe73TIwZ29jkcuw9nlWqrIsyXO8jbS
+         bpRJZE6A5VwKzUeg3MYQCp04jXB0npFQJ/lZuVIhJTdT0ISd51N8O1pYezXD60OtrVje
+         o7ZxvdnR4VJYdbHuNINLQ5YAZyt17vpCG0scO2eHHh3K9iFcLfy0IumslNix5Rx/t/yk
+         WjxQ==
+X-Gm-Message-State: AOAM530AtafBVCap+iJZgXWL4VzXuU4LEQl2qzPB0eNhGKeik08qym+v
+	4OCJr0W71IadxTDGZYFCzlg=
+X-Google-Smtp-Source: ABdhPJylOQCdtsGopOI5UCn+0xnPACYs2rc0/Oh50iHHgDQ72g983PEMwdSlggVivRWyGD0vdyWw1Q==
+X-Received: by 2002:adf:f60e:: with SMTP id t14mr18554206wrp.373.1634595207440;
+        Mon, 18 Oct 2021 15:13:27 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::3de4])
+        by smtp.gmail.com with ESMTPSA id k8sm683484wmr.32.2021.10.18.15.13.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 15:13:27 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: fix a gcc warning
+Date: Tue, 19 Oct 2021 00:12:31 +0200
+Message-Id: <20211018221231.7837-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211014215703.3705371-1-nathan@kernel.org>
-In-Reply-To: <20211014215703.3705371-1-nathan@kernel.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 18 Oct 2021 13:24:25 -0700
-Message-ID: <CAKwvOd=gqDM=i=RRSgPEtkqYEDBod8C=FTf1SZ1V4U4KMLgGJA@mail.gmail.com>
-Subject: Re: [PATCH] staging: wlan-ng: Avoid bitwise vs logical OR warning in hfa384x_usb_throttlefn()
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 14, 2021 at 2:57 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> A new warning in clang points out a place in this file where a bitwise
-> OR is being used with boolean expressions:
->
-> In file included from drivers/staging/wlan-ng/prism2usb.c:2:
-> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
->             ((test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
->             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: note: cast one or both operands to int to silence this warning
-> 1 warning generated.
->
-> The comment explains that short circuiting here is undesirable, as the
-> calls to test_and_{clear,set}_bit() need to happen for both sides of the
-> expression.
->
-> Clang's suggestion would work to silence the warning but the readability
-> of the expression would suffer even more. To clean up the warning and
-> make the block more readable, use a variable for each side of the
-> bitwise expression.
+Replace strncpy with strlcpy to fix the following gcc warning.
 
-Sure. Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function 'rtw_wx_set_enc_ext':
+drivers/staging/r8188eu/os_dep/ioctl_linux.c:1929:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+ 1929 |         strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1478
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/staging/wlan-ng/hfa384x_usb.c | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
-> index 59aa84d1837d..938e11a1a0b6 100644
-> --- a/drivers/staging/wlan-ng/hfa384x_usb.c
-> +++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-> @@ -3778,18 +3778,18 @@ static void hfa384x_usb_throttlefn(struct timer_list *t)
->
->         spin_lock_irqsave(&hw->ctlxq.lock, flags);
->
-> -       /*
-> -        * We need to check BOTH the RX and the TX throttle controls,
-> -        * so we use the bitwise OR instead of the logical OR.
-> -        */
->         pr_debug("flags=0x%lx\n", hw->usb_flags);
-> -       if (!hw->wlandev->hwremoved &&
-> -           ((test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
-> -             !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags)) |
-> -            (test_and_clear_bit(THROTTLE_TX, &hw->usb_flags) &&
-> -             !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags))
-> -           )) {
-> -               schedule_work(&hw->usb_work);
-> +       if (!hw->wlandev->hwremoved) {
-> +               bool rx_throttle = test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
-> +                                  !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags);
-> +               bool tx_throttle = test_and_clear_bit(THROTTLE_TX, &hw->usb_flags) &&
-> +                                  !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags);
-> +               /*
-> +                * We need to check BOTH the RX and the TX throttle controls,
-> +                * so we use the bitwise OR instead of the logical OR.
-> +                */
-> +               if (rx_throttle | tx_throttle)
-> +                       schedule_work(&hw->usb_work);
->         }
->
->         spin_unlock_irqrestore(&hw->ctlxq.lock, flags);
->
-> base-commit: 6ac113f741a7674e4268eea3eb13972732d83571
-> --
-> 2.33.1.637.gf443b226ca
->
+The destination buffer size is IEEE_CRYPT_ALG_NAME_LEN and the length
+of the string to copy is always < IEEE_CRYPT_ALG_NAME_LEN. So strlcpy
+will never truncate the string.
 
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 51f46696a593..4f0ae821d193 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -1926,7 +1926,7 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
+ 		return -1;
+ 	}
+ 
+-	strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
++	strlcpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+ 
+ 	if (pext->ext_flags & IW_ENCODE_EXT_SET_TX_KEY)
+ 		param->u.crypt.set_tx = 1;
 -- 
-Thanks,
-~Nick Desaulniers
+2.33.0
+
