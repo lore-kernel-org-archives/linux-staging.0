@@ -1,41 +1,41 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C24129CA
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 16:20:17 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id t16so1311255eds.9
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 09:20:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173F92C88
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 16:20:23 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id d3so1387069edp.3
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 09:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DfDWDFeFGdgMNaeAlke/qLDYd5627lfl/99SW8lb31M=;
-        b=HUJhR5sNHN7Lf8SrLlhjko+hMTXYzj+Ze63SxuBIkeKPP1pOE+W5DZINNvaAHZHn98
-         guViZl9wHeOzZH3ZQ/aTbL4VLIHx2tr4ra+uZBI742UHJrrpUZw/ihVo56P7prF9fkiL
-         kmpuxW6qpzb0kY9PEOlqHojQhxOqk7h7BhdvlistUd+Q2Uc/54iUgzGO+ON3tbj4VuuL
-         ZEfgpV8+fwnai6N8tc1qkVz5Lj4IDIzPt40eeXJiJerGJ9XJ0fumCYlKUs6tctP03HGC
-         YssnNIUWFCd0O1Zvqin6XTL+10KhRW+OUef0iCXjc9xsBwkKOHyscfuBV+cClCWMbgXx
-         0jDg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1a1lZasOkjsVLxfEpqTRh9pWlKYrLyxR2OKNtm8b7Fs=;
+        b=Us82Pzpe+3m6oR50xgihLqygKNRpNOSPw7IvpLcNGvtbXm0SP40NLABqu+mwj+tvPu
+         UABGBqx7KwmerklKb6Lc9HHz3nEJSWli7DTeqSIEYxZfvWuv5WbCQ08qJDVWI9K31kLR
+         4Oja2GYz0UXjGaN3WJlXCGvbGXIn0WQQuRmr2L++vWxLwuLEMsJ7fIuit3EzmRUPj++R
+         K1nAhMIxDQ3xBP2kYGPj5KkFXPAOe9d8tXcBLEaTxF7gnfKawqEWKTCt2sQBRUDCojV5
+         FnlH99DimX7Inp54r+apIIdUwHsU64r2LX6s7JPHUr4C2bCBvoR+6a18Ey1B7GDLvIbs
+         R3mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DfDWDFeFGdgMNaeAlke/qLDYd5627lfl/99SW8lb31M=;
-        b=DLn1WZoBa5fNENQbvjjHDy6nhRflh0SdaqfnsEpVYJMu44QzIjvy21fMq7rJda2T3t
-         JXa8RUBs2vGIxPzXE0jXjFYLTF57qAXxYbLHJLRrExlhB9v85wSrG7XV0fMQwOa+Tazz
-         JQPvHdg4TAi88cMeQnddC5f3YyW+QmkVDzef6cA3VavCb8cgl+8Sf3lWajJsuaPLoVS/
-         TQ763QwCKd686ArOad4l3FWaqk6/8PHaZ9uV8W9LlLwUDuJfEQxZV26R1lmrZC11Q5P6
-         X71sJFX0PJrLJI9zHFBbUv2KqhFuyM0hgG7xT4hU+x9Kfv9exJGHO0XUFRqqJ8LDSrXp
-         gKAQ==
-X-Gm-Message-State: AOAM532UZswTcUoM0nLymxUG+FqmRDb2LgRNCMlCn6SeV2j1/qOOJ7M8
-	4ZciQdO2GBUhwcKOmabO3os=
-X-Google-Smtp-Source: ABdhPJyshXgYjnNcEYwVb/JeHOD4oq2wETO7bA7IiR6MPsRzpn4yE8Rzxi84G0JU++t0jXwFtYX4jw==
-X-Received: by 2002:a17:907:e8a:: with SMTP id ho10mr17870365ejc.440.1634574013135;
-        Mon, 18 Oct 2021 09:20:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1a1lZasOkjsVLxfEpqTRh9pWlKYrLyxR2OKNtm8b7Fs=;
+        b=NqxckdoKivoZKpQLzkEw2ZO/CgdjtGpm0YlVbq+g+AUG6uJsSZ0LDsdNFC5YH9fKsy
+         Avl3DjDcdHnF3y6PM++y6LLcbeW88xIZEAb+uw0oQGBGMi5mtSMbFyfatll7CEJY5eV5
+         +fAvhI/wJevKBVonpIogtsUWgH88HX+UkIj/jPdNO9GCtT8Ov23/wVAv7Y/UQyMxw8bm
+         xwAYLzUpWV9QNshVVl8Wyi/Y9V9meUh2LAPLtmAAuLlMq8VAIx083E2xPLZrglLHsYI0
+         XaIRLc99BaD6N06N+U/RgQEnuTT40oH78bB8DS3Wria69oTD03q9QnscfaIOO/HkwEgh
+         901A==
+X-Gm-Message-State: AOAM532BsgsdNQsBd/Kz6f/xDvo8cQWkqc7fAPDGvZXQHo9nU3tK8Wdu
+	uiIt1YMUTCw/wU5E3s60vmU=
+X-Google-Smtp-Source: ABdhPJw21c2ayrDkQVBjS5Sqyoc1IQMcDs1mlQMHYciYGzmRmoEseEDu0ubOVWjadPFsr77DnIEW+g==
+X-Received: by 2002:a17:906:5a8d:: with SMTP id l13mr32442600ejq.95.1634574010476;
+        Mon, 18 Oct 2021 09:20:10 -0700 (PDT)
 Received: from localhost.localdomain (host-79-47-104-180.retail.telecomitalia.it. [79.47.104.180])
-        by smtp.gmail.com with ESMTPSA id p7sm10045791edr.6.2021.10.18.09.20.11
+        by smtp.gmail.com with ESMTPSA id p7sm10045791edr.6.2021.10.18.09.20.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 09:20:12 -0700 (PDT)
+        Mon, 18 Oct 2021 09:20:10 -0700 (PDT)
 From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 To: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
@@ -45,12 +45,10 @@ To: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v3 2/3] staging: r8188eu: Use completions for signaling enqueueing
-Date: Mon, 18 Oct 2021 18:20:05 +0200
-Message-Id: <20211018162006.5527-3-fmdefrancesco@gmail.com>
+Subject: [PATCH v3 0/3] staging: r8188eu: use completions and clean rtw_cmd_thread()
+Date: Mon, 18 Oct 2021 18:20:03 +0200
+Message-Id: <20211018162006.5527-1-fmdefrancesco@gmail.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211018162006.5527-1-fmdefrancesco@gmail.com>
-References: <20211018162006.5527-1-fmdefrancesco@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,84 +57,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_enqueue_cmd() uses a semaphore to notify rtw_cmd_thread() that it
-has enqueued commands. rtw_cmd_thread() "down(s)" in interruptible mode
-to wait to be notified.
+This series replaces two semaphores with three completion variables
+in rtw_cmd_thread(). Completions variables are better suited for the
+purposes that are explained in detail in the commit messages of patches
+1/3 and 2/3. Furthermore, patch 3/3 removes a redundant 'if' statement
+from that same rtw_cmd_thread().
 
-Use completion variables because they are better suited for the purpose.
+Tested with ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano]
 
-In rtw_cmd_thread(), wait in uninterruptible mode, even if the original
-code uses down_interruptible(), because the interruption of
-rtw_cmd_thread() is not allowed and unwanted.
+Many thanks to Dan Carpenter <dan.carpenter@oracle.com> who helped with
+his review of the RFC Patch.
 
-Tested with "ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano]".
+v2 => v3:
+	Patch 1/3:
+		No changes;
+	Patch 2/3:
+		No changes;
+	Patch 3/3:
+		Furher process the commit message according to a review
+		by Greg Kroah-Hartman <gregkh@linuxfoundation.org>>.
 
-Acked-by: Phillip Potter <phil@philpotter.co.uk>
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_cmd.c    | 7 +++----
- drivers/staging/r8188eu/include/rtw_cmd.h | 2 +-
- drivers/staging/r8188eu/os_dep/os_intfs.c | 2 +-
- 3 files changed, 5 insertions(+), 6 deletions(-)
+v1 => v2:
+        Patch 1/3: 
+		No changes;
+        Patch 2/3: 
+		Replace wait_for_completion_killable() with
+		wait_for_completion() because killing the kthread is
+                not allowed and so there is no need for killable
+                wait;
+        Patch 3/3: 
+		No changes.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index bdf0d0160070..3b07328704bb 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -21,7 +21,7 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- {
- 	int res = _SUCCESS;
- 
--	sema_init(&pcmdpriv->cmd_queue_sema, 0);
-+	init_completion(&pcmdpriv->enqueue_cmd);
- 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
- 	init_completion(&pcmdpriv->start_cmd_thread);
- 	init_completion(&pcmdpriv->stop_cmd_thread);
-@@ -198,7 +198,7 @@ u32 rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- 	res = _rtw_enqueue_cmd(&pcmdpriv->cmd_queue, cmd_obj);
- 
- 	if (res == _SUCCESS)
--		up(&pcmdpriv->cmd_queue_sema);
-+		complete(&pcmdpriv->enqueue_cmd);
- 
- exit:
- 
-@@ -250,8 +250,7 @@ int rtw_cmd_thread(void *context)
- 	complete(&pcmdpriv->start_cmd_thread);
- 
- 	while (1) {
--		if (_rtw_down_sema(&pcmdpriv->cmd_queue_sema) == _FAIL)
--			break;
-+		wait_for_completion(&pcmdpriv->enqueue_cmd);
- 
- 		if (padapter->bDriverStopped ||
- 		    padapter->bSurpriseRemoved) {
-diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index b6266e3e2c40..47c3c80cc24a 100644
---- a/drivers/staging/r8188eu/include/rtw_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -33,7 +33,7 @@ struct cmd_obj {
- };
- 
- struct cmd_priv {
--	struct semaphore cmd_queue_sema;
-+	struct completion enqueue_cmd;
- 	struct completion start_cmd_thread;
- 	struct completion stop_cmd_thread;
- 	struct __queue cmd_queue;
-diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-index 0bcea66f550b..96e9897085fe 100644
---- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-+++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-@@ -394,7 +394,7 @@ u32 rtw_start_drv_threads(struct adapter *padapter)
- void rtw_stop_drv_threads(struct adapter *padapter)
- {
- 	/* Below is to termindate rtw_cmd_thread & event_thread... */
--	up(&padapter->cmdpriv.cmd_queue_sema);
-+	complete(&padapter->cmdpriv.enqueue_cmd);
- 	if (padapter->cmdThread)
- 		/* wait for rtw_cmd_thread() to stop running */
- 		wait_for_completion(&padapter->cmdpriv.stop_cmd_thread);
+Fabio M. De Francesco (3):
+  staging: r8188eu: Use completions for signaling start / end kthread
+  staging: r8188eu: Use completions for signaling enqueueing
+  staging: r8188eu: Remove redundant 'if' statement
+
+ drivers/staging/r8188eu/core/rtw_cmd.c    | 20 +++++++-------------
+ drivers/staging/r8188eu/include/rtw_cmd.h |  5 +++--
+ drivers/staging/r8188eu/os_dep/os_intfs.c |  8 +++++---
+ 3 files changed, 15 insertions(+), 18 deletions(-)
+
 -- 
 2.33.0
 
