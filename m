@@ -1,102 +1,291 @@
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60522C81
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 09:55:51 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id cPMqmtvAyk3b0cPMtmhFmf; Mon, 18 Oct 2021 11:55:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1634550944; bh=hZHvQDSjUd8uW3oRdpn55CUce4TBNbqxu4Un/iM6Hic=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=s3GGNa29SESwabTksdMf/5josVX9HhU3ePTNA246K69Yd3XDAITe9bvm313pDt+lA
-	 aat4e/vbTGP8jAP3mhHO232WBsR0Fa1Aawidgcu/PL/oAI/Ubv2Xw1obHAN9CamE7u
-	 DSqW79QI22E2hVg3NC9DK4invFPwMoWlZY0drYCZmLylxgLQrxGiN9k7dN1jMgUSn1
-	 YuHV3YlOhL+ViAYNIHNID7fukzTx87+MNDchi7VwqICd1Ysyu9kQyZjIjpw0DWD7kP
-	 NdMcObb4Ur0NGgl7DgdFybqt5t67E+9CUmF1TFLdi87tgXex6IZUQ5ILlajrzL1gge
-	 89oFSv83ZDUdg==
-Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
-To: Corentin Labbe <clabbe@baylibre.com>, mchehab@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211013185812.590931-1-clabbe@baylibre.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
-Date: Mon, 18 Oct 2021 11:55:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A952C81
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 10:18:43 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id z77-20020a1c7e50000000b0030db7b70b6bso9822967wmc.1
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 03:18:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VrpG3O8aFUjp17yTwxrPM4IKV9ZV92KkRTuziSyn93I=;
+        b=mhMbtsLUaaKnanhDah8J3evPwarsG3YJvfg+IA+M7exagzYthn6fmhg6V2PbRhrSZE
+         46SO4PVcyiD6SF+n1MKI4XTkbTyAmqmtTtPIiEryfV7Hb1r2+AyolLhOwute0dq2Z0CU
+         W8XcqHSArfKntUzres/OdYhI8Mk7/DIMGNtgObu8tR+gyB0UKJJBbeBwl3kTCXAg0KDw
+         TtAJAeC5A2F2C9Y9AgMzPwpC8rv52m9BMU0OiwSKNBatb1KhyLucxq+V2SnhPRVtKHKq
+         6SY+EGVLRTN4S4/cSbdmeNWeLFXzrxa78eKvlyM6hkrlAH2cmvxqbboqauZ4XHbMVW0z
+         27Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VrpG3O8aFUjp17yTwxrPM4IKV9ZV92KkRTuziSyn93I=;
+        b=BeX5eUsoMeItpHetX7wA4eOLj4XE9ZSv9Znd0giYEi/t0WtotxsyMO2aUGRpUHWNB8
+         QQoDhf66AAb0DwBq0KS7WjcUGsSAAGsELTdrm5LXEyYPLj+3Ol5AF6RZDDdbNByjnFDL
+         ruCLOTAfDXHdLXAJj3B2Rx15O7TcHW7EAdDjPpDjgns/pWt4Q2jTYrruCVvlWqZfUUFm
+         fHLknUajnSmbK3fGZdd4BlMxWIbjxsUzVY6qCP2CKQ9hiQ/NOhvbCnhM35mYVrNVwJjN
+         Z7Cc6k50OyDtXHmiM+5KHiK+GTqfAPDacPB82IKWwMzuCko+eiEAnpupOByGh13arXUQ
+         PpcA==
+X-Gm-Message-State: AOAM5324UQyEGiuxZG7FGSG469EV8vJZpTwTtoEcq2vzHmZ1JlRAzJnV
+	WH1ZrRyro6XochorM3ISlI8=
+X-Google-Smtp-Source: ABdhPJx8ysIdP/WHxhe5t5OqTE3jojgMdgtmbh2uVAb5XeUZ4YwQfj6jNmqSNBzVBnd5jJYqNMEkDg==
+X-Received: by 2002:a05:600c:3511:: with SMTP id h17mr154099wmq.144.1634552321824;
+        Mon, 18 Oct 2021 03:18:41 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id o6sm15307864wri.49.2021.10.18.03.18.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 03:18:41 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH v3] staging: vt6655: Rename byPreambleType field
+Date: Mon, 18 Oct 2021 11:17:13 +0100
+Message-Id: <20211018101713.3599-1-karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211013185812.590931-1-clabbe@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfABpTiDbIOWqhv/J0KgHGejzgKsf74X+dQmYcsnG5aGEDJ2FA6OqGsDMvag3VOhBTkdexTPFa2yBDbLg8ONSLHsP4VKJGynHGfctWki387MdEc5UqsZz
- XlUENWwO2mW8uj2mdYo/IJECKp2EvM2IKe3+flx+UsqDcqkrct4B7j62CscVc4HSqTHGCb9IGAgP2o75qBUBstZ71HfpoGcfmaU5V0SFnUYoF5CvYz/Z7IEk
- uYRbugx0l3E8e8ZkskU+sCt2/8xOG8XVCQ0n1k/6dBBgsAHYYbBxUM4J3vWtLNFkn1cp1A9rtAVlZX500Lfk78vNnAIarVhibjRO5Mqp/QFFWtUB5Pg/6+j+
- YSJjPN4cPvz+mzRjjCTJCy30AZGycLBu/n6/lR0xfpcBHZGql6bqYirh3XpNM5ilE+uW6AIOmGDny01E93w4wFaVU6BDwQ==
+Content-Transfer-Encoding: 8bit
 
-Hi Corentin,
+Drop Hungarian notation prefix in `byPreambleType` member of
+struct vnt_private. Change it to use snake case.
 
-I noticed some code review comments from Dan and a kernel test robot issue.
-Can you post a v3 fixing those by the end of the week? Next week I will have
-access again to my zoran board, so then I can test the v3 series.
+Fix issue detected by checkpatch.pl:
+  CHECK: Avoid CamelCase: <byPreambleType>
 
-BTW, I agree with Dan, just drop the 'Enable zoran debugfs' config option. It's
-not worth the additional complexity. Instead, just #ifdef CONFIG_DEBUG_FS
-where necessary (in most cases you shouldn't even have to do that since the
-since you have dummy debug_fs_* functions if CONFIG_DEBUG_FS isn't set).
+Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+---
+ drivers/staging/vt6655/baseband.c    |  2 +-
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c |  8 ++---
+ drivers/staging/vt6655/rxtx.c        | 50 ++++++++++++++--------------
+ 4 files changed, 31 insertions(+), 31 deletions(-)
 
-Regards,
-
-	Hans
-
-On 13/10/2021 20:58, Corentin Labbe wrote:
-> Hello
-> 
-> The main change of this serie is to fusion all zoran related modules in
-> one.
-> This fixes the load order problem when everything is built-in.
-> 
-> Regards
-> 
-> Changes since v1:
-> - add missing debugfs cleaning
-> - clean some remaining module_get/put functions which made impossible to
->   remove the zoran module
-> - added the two latest patchs
-> 
-> Corentin Labbe (10):
->   staging: media: zoran: move module parameter checks to zoran_probe
->   staging: media: zoran: use module_pci_driver
->   staging: media: zoran: rename debug module parameter
->   staging: media: zoran: add debugfs
->   staging: media: zoran: videocode: remove procfs
->   staging: media: zoran: fusion all modules
->   staging: media: zoran: remove vidmem
->   staging: media: zoran: move videodev alloc
->   staging: media: zoran: move config select on primary kconfig
->   staging: media: zoran: introduce zoran_i2c_init
-> 
->  drivers/staging/media/zoran/Kconfig        |  46 +--
->  drivers/staging/media/zoran/Makefile       |   8 +-
->  drivers/staging/media/zoran/videocodec.c   |  68 +----
->  drivers/staging/media/zoran/videocodec.h   |   6 +-
->  drivers/staging/media/zoran/zoran.h        |   6 +-
->  drivers/staging/media/zoran/zoran_card.c   | 328 ++++++++++++++-------
->  drivers/staging/media/zoran/zoran_driver.c |   5 +-
->  drivers/staging/media/zoran/zr36016.c      |  24 +-
->  drivers/staging/media/zoran/zr36016.h      |   2 +
->  drivers/staging/media/zoran/zr36050.c      |  21 +-
->  drivers/staging/media/zoran/zr36050.h      |   2 +
->  drivers/staging/media/zoran/zr36060.c      |  21 +-
->  drivers/staging/media/zoran/zr36060.h      |   2 +
->  13 files changed, 291 insertions(+), 248 deletions(-)
-> 
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 0bae35af6e0f..5efca92f1f18 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -1764,7 +1764,7 @@ void vnt_get_phy_field(struct vnt_private *priv, u32 frame_length,
+ 	u32 count = 0;
+ 	u32 tmp;
+ 	int ext_bit;
+-	u8 preamble_type = priv->byPreambleType;
++	u8 preamble_type = priv->preamble_type;
+ 
+ 	bit_count = frame_length * 8;
+ 	ext_bit = false;
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 92d6f82f939f..4706bde1ec1d 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -203,7 +203,7 @@ struct vnt_private {
+ 	unsigned char byMinChannel;
+ 	unsigned char byMaxChannel;
+ 
+-	unsigned char byPreambleType;
++	unsigned char preamble_type;
+ 	unsigned char byShortPreamble;
+ 
+ 	unsigned short wCurrentRate;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 24f0e346da12..212d2a287b2c 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -177,11 +177,11 @@ device_set_options(struct vnt_private *priv)
+ 	priv->byPacketType = priv->byBBType;
+ 	priv->byAutoFBCtrl = AUTO_FB_0;
+ 	priv->bUpdateBBVGA = true;
+-	priv->byPreambleType = 0;
++	priv->preamble_type = 0;
+ 
+ 	pr_debug(" byShortRetryLimit= %d\n", (int)priv->byShortRetryLimit);
+ 	pr_debug(" byLongRetryLimit= %d\n", (int)priv->byLongRetryLimit);
+-	pr_debug(" byPreambleType= %d\n", (int)priv->byPreambleType);
++	pr_debug(" preamble_type= %d\n", (int)priv->preamble_type);
+ 	pr_debug(" byShortPreamble= %d\n", (int)priv->byShortPreamble);
+ 	pr_debug(" byBBType= %d\n", (int)priv->byBBType);
+ }
+@@ -1424,10 +1424,10 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+ 	if (changed & BSS_CHANGED_ERP_PREAMBLE) {
+ 		if (conf->use_short_preamble) {
+ 			MACvEnableBarkerPreambleMd(priv->port_offset);
+-			priv->byPreambleType = true;
++			priv->preamble_type = true;
+ 		} else {
+ 			MACvDisableBarkerPreambleMd(priv->port_offset);
+-			priv->byPreambleType = false;
++			priv->preamble_type = false;
+ 		}
+ 	}
+ 
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index ff0b5391ea0b..0de801b666da 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -142,7 +142,7 @@ s_uFillDataHead(
+ 
+ static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
+ {
+-	return cpu_to_le16(wTimeStampOff[priv->byPreambleType % 2]
++	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
+ 							[rate % MAX_RATE]);
+ }
+ 
+@@ -163,7 +163,7 @@ s_uGetTxRsvTime(
+ {
+ 	unsigned int uDataTime, uAckTime;
+ 
+-	uDataTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, cbFrameLength, wRate);
++	uDataTime = bb_get_frame_time(pDevice->preamble_type, byPktType, cbFrameLength, wRate);
+ 
+ 	if (!bNeedAck)
+ 		return uDataTime;
+@@ -172,7 +172,7 @@ s_uGetTxRsvTime(
+ 	 * CCK mode  - 11b
+ 	 * OFDM mode - 11g 2.4G & 11a 5G
+ 	 */
+-	uAckTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14,
++	uAckTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14,
+ 				     byPktType == PK_TYPE_11B ?
+ 				     pDevice->byTopCCKBasicRate :
+ 				     pDevice->byTopOFDMBasicRate);
+@@ -200,22 +200,22 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
+ 	unsigned int ack_time = 0;
+ 	unsigned int data_time = 0;
+ 
+-	data_time = bb_get_frame_time(priv->byPreambleType, pkt_type, frame_length, current_rate);
++	data_time = bb_get_frame_time(priv->preamble_type, pkt_type, frame_length, current_rate);
+ 	if (rts_rsvtype == 0) { /* RTSTxRrvTime_bb */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
+ 		cts_time = ack_time;
+ 	} else if (rts_rsvtype == 1) { /* RTSTxRrvTime_ba, only in 2.4GHZ */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
+-		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
++		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 	} else if (rts_rsvtype == 2) { /* RTSTxRrvTime_aa */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopOFDMBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopOFDMBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 		cts_time = ack_time;
+ 	} else if (rts_rsvtype == 3) { /* CTSTxRrvTime_ba, only in 2.4GHZ */
+-		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 		rrv_time = cts_time + ack_time + data_time + 2 * priv->uSIFS;
+ 		return cpu_to_le16((u16)rrv_time);
+ 	}
+@@ -255,7 +255,7 @@ s_uGetDataDuration(
+ 	switch (byDurType) {
+ 	case DATADUR_B:    /* DATADUR_B */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopCCKBasicRate);
+ 		}
+@@ -273,7 +273,7 @@ s_uGetDataDuration(
+ 
+ 	case DATADUR_A:    /* DATADUR_A */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopOFDMBasicRate);
+ 		}
+@@ -292,7 +292,7 @@ s_uGetDataDuration(
+ 	case DATADUR_A_F0:    /* DATADUR_A_F0 */
+ 	case DATADUR_A_F1:    /* DATADUR_A_F1 */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopOFDMBasicRate);
+ 		}
+@@ -344,17 +344,17 @@ s_uGetRTSCTSDuration(
+ 
+ 	switch (byDurType) {
+ 	case RTSDUR_BB:    /* RTSDuration_bb */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+ 	case RTSDUR_BA:    /* RTSDuration_ba */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+ 	case RTSDUR_AA:    /* RTSDuration_aa */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+@@ -363,7 +363,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -372,7 +372,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_AA_F0: /* RTSDuration_aa_f0 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -381,7 +381,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_BA_F1: /* RTSDuration_ba_f1 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -390,7 +390,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_AA_F1: /* RTSDuration_aa_f1 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -1289,9 +1289,9 @@ int vnt_generate_fifo_header(struct vnt_private *priv, u32 dma_idx,
+ 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_LRETRY);
+ 
+ 	if (tx_rate->flags & IEEE80211_TX_RC_USE_SHORT_PREAMBLE)
+-		priv->byPreambleType = PREAMBLE_SHORT;
++		priv->preamble_type = PREAMBLE_SHORT;
+ 	else
+-		priv->byPreambleType = PREAMBLE_LONG;
++		priv->preamble_type = PREAMBLE_LONG;
+ 
+ 	if (tx_rate->flags & IEEE80211_TX_RC_USE_RTS_CTS)
+ 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_RTS);
+-- 
+2.30.2
 
