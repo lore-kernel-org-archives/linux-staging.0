@@ -1,118 +1,125 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D402B2C88
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 16:28:50 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id r18so1419381edv.12
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 09:28:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6142C81
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 17:02:10 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 67-20020a1c1946000000b0030d4c90fa87so566554wmz.2
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 10:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=m6QZSMKoKsWpgmNXk4KkFREjG4V6YJq4oDohc3s6X4w=;
-        b=cWMxKm5wkNY9gqpYEuN3n6dOF60JnOX/VtrvHQSW9l/JuLwr/TJy2FkFJQ0RANo3Py
-         cxNGRoumeNBzNcweC0ZdU/mgQvYfY0aYEQxeGVOvPquE7EDal147QYovR8HgNA6v16Rm
-         aGO5qOkGaIAbdnoSWQ1ZOy591s4sii1NEF3hFTwPayFxcY19iAxS2VkwUbNzpyzjgEwt
-         1OERlU4naKcXkumWlKn7fCF37PyDEWwrbpw4sOQoteAf6RhXD2LehitYI1gkYhjj5xL2
-         huZeQaZEW0oEQxHukaVEQoNXciw12/dzfNdSE9GpKzG0dhJSfug58fFihZetJbbePYKw
-         VX7g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0H3Y3uO/s/r8ysABt99h8Ah8DOWdDP7a3rvEdW2NVck=;
+        b=GqzDZbFNESz5s3nJze6trTIqqEw7vVhvCjMHoWMx6jKQHw5uHWCYvKQKy83jQNj4jV
+         xBHRIW2lYISI4vbg3VtjZgY46r6udnJrDKGZ8dYMelTjhgLlri1yvJD9v5fdAJqP/nTB
+         TF1oEnTgJJlZ0/D9lWSRP8uHH9inyN+LTVWUVBMBcUy6o3ZqrxZpK0A9MFz6l73fb++m
+         MFzpAt72OekGCGovfV23Yj5IXJ8pe/4gLC4CWxDo+UNyRQKAkOvTFdajCCaETgMW0Q3z
+         0iQJgxPv0+BEAbQ8MFQGHAM4ohVl038k123LJ1QVpi1v3LEeY9ymoneCH5ssAaCuUhw3
+         FinA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=m6QZSMKoKsWpgmNXk4KkFREjG4V6YJq4oDohc3s6X4w=;
-        b=jbj1RJ8FaRh8eFixJOm/D6qy5l5w0Jq3ovpXrcmOh+JdTijeX7XV1DeGTdV5R8NIvN
-         lA7aR7edIlTCssm26IPGe5EvJPRejsRIgP1Gjdc6kZ/QWPlUr9gnx6kEZ4Cr+xh3pyxk
-         kgv4PpV9xhm15sq0N4NF0ByJIHDRrVjhINPxzTes3NApYZUCu0G1Ddg9hgLVygHD1wOd
-         wkmPua4xAsKHnzwQDR1OvdsredGXYBuVSZ7SmOoXVhEZGWleJsHgZFdqxI10zWCUM9mx
-         f4VKfsOBjuTrF1aXvMJcBy0UPONtnSrjZBQn2a5Ll0uK+VJSKheiNiA1TxHIg000JxPn
-         ixZQ==
-X-Gm-Message-State: AOAM531saM7ViU3Ceecru8GUax+y0X7e4RI1SbO/X/dMsnSHJsBozFEX
-	Pojw/c6Vn6+ihJUqTDsyuB4=
-X-Google-Smtp-Source: ABdhPJxHvpqk4QP5TnrUda93FNK1XRS/AfXf1iG6QvZ4YKxGPm5MIQ7vJJeWkPvfiwdeA7ED/M81Nw==
-X-Received: by 2002:a05:6402:1778:: with SMTP id da24mr44822850edb.318.1634574528943;
-        Mon, 18 Oct 2021 09:28:48 -0700 (PDT)
-Received: from localhost.localdomain (host-79-47-104-180.retail.telecomitalia.it. [79.47.104.180])
-        by smtp.gmail.com with ESMTPSA id f12sm10665948edx.90.2021.10.18.09.28.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 09:28:48 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Dan Carpenter <dan.carpenter@oracle.com>, Martin Kaiser <martin@kaiser.cx>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: r8188eu: Remove redundant 'if' statement
-Date: Mon, 18 Oct 2021 18:28:46 +0200
-Message-ID: <2162009.ybMk9oByy7@localhost.localdomain>
-In-Reply-To: <YW2H63JAWKcM6+hL@kroah.com>
-References: <20211017142812.4656-1-fmdefrancesco@gmail.com> <20211017142812.4656-4-fmdefrancesco@gmail.com> <YW2H63JAWKcM6+hL@kroah.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0H3Y3uO/s/r8ysABt99h8Ah8DOWdDP7a3rvEdW2NVck=;
+        b=TPV4G5FRo3IlAcc13T0m7IjD5ujpky6k5pJyoNkti9k74WAf7kAQVsHKBIIDlv6/GP
+         7VnorE6OWzQhYmRWRHGgDRB0y4pBclqgvT8jmQrZUPcHMmEl2p0ycPJA1XMrMFpIkwqh
+         IyAePVmZNXg3V4h5JsqsTpLUTQ0ZmRGDfeyhw5DbKvrQpeU6Fi+f9dMP+YX7wtjtTwvh
+         OQrn/z+vNrdbY+qkKEf5eqXKypdATWCwqbiW8tUoMifUtJ+8FDdHDIOyXFSQ27ZDVcxQ
+         +Naw14M45jSRG7cXtvpj5uXBepdWgLEKlTDcQeoGPiky4UNL6Wy/UGYjHJSpSbH5yRLt
+         78kw==
+X-Gm-Message-State: AOAM533B/zq9WW1nat1OOymDVL2tQVhoKLjnhKm2YklOeP5EQFX70gcO
+	UqTuyiFi2roaYbBXu3Uappu2q1C8Z98=
+X-Google-Smtp-Source: ABdhPJx43bJ/z3fp1sl708FNJ3zgy4AZzGpUHNGE5nwmiSxWjcGefQAU7C6qrShA7DhkoMoVgkqy8g==
+X-Received: by 2002:a05:600c:2104:: with SMTP id u4mr22616wml.195.1634576528287;
+        Mon, 18 Oct 2021 10:02:08 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id e15sm12879703wrv.74.2021.10.18.10.02.07
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 18 Oct 2021 10:02:07 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	neil@brown.name
+Subject: [PATCH v2] staging: mt7621-dts: get rid of nodes with no in-tree driver
+Date: Mon, 18 Oct 2021 19:02:06 +0200
+Message-Id: <20211018170206.11959-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-On Monday, October 18, 2021 4:42:51 PM CEST Greg Kroah-Hartman wrote:
-> On Sun, Oct 17, 2021 at 04:28:12PM +0200, Fabio M. De Francesco wrote:
-> > Remove a redundant 'if' statement.
-> > 
-> > Acked-by: Martin Kaiser <martin@kaiser.cx>
-> > Acked-by: Phillip Potter <phil@philpotter.co.uk>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  drivers/staging/r8188eu/core/rtw_cmd.c | 6 ------
-> >  1 file changed, 6 deletions(-)
-> 
-> Why is there not a "v2" in the subject line like the other patches in
-> this series?
+Nodes for 'i2s' and 'nand' have no driver present inside the linux tree.
+The normal approach for a dts file to be mainlined is start with those stuff
+which is already mainlined and get rid of the other stuff. If needed it will
+be properly added afterwards together with the suitable device driver. Hence,
+remove both nodes from the device tree include file.
 
-Simply because I edited manually the "Subject" and overlooked to write "v2".
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+---
+Changes in v2:
+ - Properly rebased on the top of staging-testing
 
-> 
-> > 
-> > diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/
-r8188eu/core/rtw_cmd.c
-> > index 6fb79d711692..42084b029473 100644
-> > --- a/drivers/staging/r8188eu/core/rtw_cmd.c
-> > +++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-> > @@ -254,12 +254,6 @@ int rtw_cmd_thread(void *context)
-> >  	while (1) {
-> >  		wait_for_completion(&pcmdpriv->enqueue_cmd);
-> >  
-> > -		if (padapter->bDriverStopped ||
-> > -		    padapter->bSurpriseRemoved) {
-> > -			DBG_88E("%s: DriverStopped(%d) 
-SurpriseRemoved(%d) break at line %d\n",
-> > -				__func__, padapter-
->bDriverStopped, padapter->bSurpriseRemoved, __LINE__);
-> > -			break;
-> > -		}
-> 
-> 
-> Why is this redundant?
-> 
-> It is not obvious from the diff what is going on so you should say a bit
-> more in the changelog text please.
+ drivers/staging/mt7621-dts/mt7621.dtsi | 36 --------------------------
+ 1 file changed, 36 deletions(-)
 
-Yes you are right. I wrongly thought that is was "obvious", but re-reading my 
-own text I noticed that it is not. 
-
-In 1/3 and 2/3 I was particularly careful in writing changelogs. Instead in 
-3/3 I forgot that commit messages _must_ explain "what" and "why" :(
-
-I've just sent version 3 of the series.
-
-Thanks for reviewing my work,
-
-Fabio
-
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
-
-
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
+index 509b4883f42c..ea9cbc6b92cf 100644
+--- a/drivers/staging/mt7621-dts/mt7621.dtsi
++++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+@@ -100,28 +100,6 @@ i2c: i2c@900 {
+ 			pinctrl-0 = <&i2c_pins>;
+ 		};
+ 
+-		i2s: i2s@a00 {
+-			compatible = "mediatek,mt7621-i2s";
+-			reg = <0xa00 0x100>;
+-
+-			clocks = <&sysc MT7621_CLK_I2S>;
+-			clock-names = "i2s";
+-			resets = <&rstctrl 17>;
+-			reset-names = "i2s";
+-
+-			interrupt-parent = <&gic>;
+-			interrupts = <GIC_SHARED 16 IRQ_TYPE_LEVEL_HIGH>;
+-
+-			txdma-req = <2>;
+-			rxdma-req = <3>;
+-
+-			dmas = <&gdma 4>,
+-				<&gdma 6>;
+-			dma-names = "tx", "rx";
+-
+-			status = "disabled";
+-		};
+-
+ 		memc: syscon@5000 {
+ 			compatible = "mediatek,mt7621-memc", "syscon";
+ 			reg = <0x5000 0x1000>;
+@@ -358,20 +336,6 @@ cdmm: cdmm@1fbf8000 {
+ 		reg = <0x1fbf8000 0x8000>;
+ 	};
+ 
+-	nand: nand@1e003000 {
+-		status = "disabled";
+-
+-		compatible = "mediatek,mt7621-nand";
+-		bank-width = <2>;
+-		reg = <0x1e003000 0x800
+-			0x1e003800 0x800>;
+-		#address-cells = <1>;
+-		#size-cells = <1>;
+-
+-		clocks = <&sysc MT7621_CLK_NAND>;
+-		clock-names = "nand";
+-	};
+-
+ 	ethernet: ethernet@1e100000 {
+ 		compatible = "mediatek,mt7621-eth";
+ 		reg = <0x1e100000 0x10000>;
+-- 
+2.33.0
 
