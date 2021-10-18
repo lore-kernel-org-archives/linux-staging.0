@@ -1,49 +1,298 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A248D29CA
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 14:53:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B176E60E0B;
-	Mon, 18 Oct 2021 14:52:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634568780;
-	bh=/5CgXtVv/3GIxEMurkQWBSAadZn1nHoUiimdgKpASPs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jpYYBp1GTllaNTapDskkC4PLDgTlbUy2beQU4mnZxBj4GDt6a+N9E7K3dSKMNjY64
-	 jPeZq2+do9gBuwXIIC2hFqFf0w5cuEB0CwwJ75kawPu2OPVgFmkqQg5ho+mP4EtSAj
-	 0x0LRbOGhtx5WnitFu50UKrCmBAx8dqt5aeG0C5c=
-Date: Mon, 18 Oct 2021 16:52:57 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vt6655: fix camelcase byData in card.c
-Message-ID: <YW2KSVbZUhmcZu/P@kroah.com>
-References: <20211018082042.15814-1-tomm.merciai@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E9E2C88
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:04:04 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id n40-20020a05600c3ba800b0030da2439b21so10685551wms.0
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 08:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L7BiP3smelTLM2yROa2YM08nmUrzbiL9g5dwi2F+x2g=;
+        b=SUn359++wbQizyVzVodHn0es10MpYihj1GzEUukImsbddB2uVctZxipCbC3rRbmUtn
+         2hoKvVE6bp1z5+BfA+FHlVbfnopKqWIgBcc6DqaaeHghUnd9WaWsAX2lQLph1lFDqJBc
+         EZFJFvJhK0pHFuy5NGGT7qhHFxzwbAxq7/3IkA8emZu9b/+pCcJxhz0Jd9rCyii0lzTv
+         GbUF+u8JwRhMO7atxucWrE+tchfuTvA1PVGjdMwBAbaLnWe7qPwoH0lR/bsTjzG0kqWZ
+         2edZ2B62QrMppMQVW8zNSlQhgAdarQrwBUm2Ug/LK98mLkQplk1Dcb2mhJQeP6VVDWb6
+         WbxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=L7BiP3smelTLM2yROa2YM08nmUrzbiL9g5dwi2F+x2g=;
+        b=0DPX0oWQIyl/zbBQhMcVjN/eQ1ZIvuVzM4GMxEIvZOBL7edxZ1TbN6hNoVqlAPmevc
+         hh1IwoTbmJi/PanPLxBs8H1ZYY4+OvWuKsbAB13FOiYbYZvrlA7e5atpNuXrT2POdSLJ
+         hUvoJqeOSvbM7QPYGoQIqMxMaYG8RRFtvtOjeloP4OeVxLFVvClnY3UtQ+fiDat30L2J
+         yC99n7adNhCM4h6dhRkiRfFQ2VRGwL6OIS3F+egghvpp4+qp1pdIz4u0WaWHagPh3KfG
+         tJ6/jKswrSHVOmFtWc0apn44xb6HZJ0A9EQIUHNVnvVwZCd3p0OOTdpB8nZ0MnkBB662
+         RRiQ==
+X-Gm-Message-State: AOAM532Ue2PZpbN1e9aM1sAh6cK7sCnOVTi5FYCnlj26oGy4u37werke
+	PHmnfLYf5crVCeA8Mn1lg8Q=
+X-Google-Smtp-Source: ABdhPJy4SJyu7XYoVi/6RJBQlQ1nhzNHio38iwT3krM/Mthm1bl85vctaB5rf0UacKxR0rku/ocwlQ==
+X-Received: by 2002:a05:600c:1989:: with SMTP id t9mr30684791wmq.48.1634569442828;
+        Mon, 18 Oct 2021 08:04:02 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id g70sm11872138wme.29.2021.10.18.08.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Oct 2021 08:04:02 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [RESEND PATCH v3] staging: vt6655: Rename byPreambleType field
+Date: Mon, 18 Oct 2021 16:03:17 +0100
+Message-Id: <20211018150317.9590-1-karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211018082042.15814-1-tomm.merciai@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 18, 2021 at 10:20:40AM +0200, Tommaso Merciai wrote:
-> Replace camelcase variable byData in card.c
+Drop Hungarian notation prefix in `byPreambleType` member of
+struct vnt_private. Change it to use snake case.
 
-Replace it with what?
+Fix issue detected by checkpatch.pl:
+  CHECK: Avoid CamelCase: <byPreambleType>
 
-And why?
+Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+---
+v3:
+* Revert parameter name change in `bb_get_frame_time` function,
+  update patch description
 
-Please read the section entitled "The canonical patch format" in the
-kernel file, Documentation/SubmittingPatches for what is needed in order
-to properly describe the change.
+v2:
+* Revert whitespace comment change for `by_pkt_type` parameter
 
-thanks,
+ drivers/staging/vt6655/baseband.c    |  2 +-
+ drivers/staging/vt6655/device.h      |  2 +-
+ drivers/staging/vt6655/device_main.c |  8 ++---
+ drivers/staging/vt6655/rxtx.c        | 50 ++++++++++++++--------------
+ 4 files changed, 31 insertions(+), 31 deletions(-)
 
-greg k-h
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 0bae35af6e0f..5efca92f1f18 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -1764,7 +1764,7 @@ void vnt_get_phy_field(struct vnt_private *priv, u32 frame_length,
+ 	u32 count = 0;
+ 	u32 tmp;
+ 	int ext_bit;
+-	u8 preamble_type = priv->byPreambleType;
++	u8 preamble_type = priv->preamble_type;
+ 
+ 	bit_count = frame_length * 8;
+ 	ext_bit = false;
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 92d6f82f939f..4706bde1ec1d 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -203,7 +203,7 @@ struct vnt_private {
+ 	unsigned char byMinChannel;
+ 	unsigned char byMaxChannel;
+ 
+-	unsigned char byPreambleType;
++	unsigned char preamble_type;
+ 	unsigned char byShortPreamble;
+ 
+ 	unsigned short wCurrentRate;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 24f0e346da12..212d2a287b2c 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -177,11 +177,11 @@ device_set_options(struct vnt_private *priv)
+ 	priv->byPacketType = priv->byBBType;
+ 	priv->byAutoFBCtrl = AUTO_FB_0;
+ 	priv->bUpdateBBVGA = true;
+-	priv->byPreambleType = 0;
++	priv->preamble_type = 0;
+ 
+ 	pr_debug(" byShortRetryLimit= %d\n", (int)priv->byShortRetryLimit);
+ 	pr_debug(" byLongRetryLimit= %d\n", (int)priv->byLongRetryLimit);
+-	pr_debug(" byPreambleType= %d\n", (int)priv->byPreambleType);
++	pr_debug(" preamble_type= %d\n", (int)priv->preamble_type);
+ 	pr_debug(" byShortPreamble= %d\n", (int)priv->byShortPreamble);
+ 	pr_debug(" byBBType= %d\n", (int)priv->byBBType);
+ }
+@@ -1424,10 +1424,10 @@ static void vnt_bss_info_changed(struct ieee80211_hw *hw,
+ 	if (changed & BSS_CHANGED_ERP_PREAMBLE) {
+ 		if (conf->use_short_preamble) {
+ 			MACvEnableBarkerPreambleMd(priv->port_offset);
+-			priv->byPreambleType = true;
++			priv->preamble_type = true;
+ 		} else {
+ 			MACvDisableBarkerPreambleMd(priv->port_offset);
+-			priv->byPreambleType = false;
++			priv->preamble_type = false;
+ 		}
+ 	}
+ 
+diff --git a/drivers/staging/vt6655/rxtx.c b/drivers/staging/vt6655/rxtx.c
+index ff0b5391ea0b..0de801b666da 100644
+--- a/drivers/staging/vt6655/rxtx.c
++++ b/drivers/staging/vt6655/rxtx.c
+@@ -142,7 +142,7 @@ s_uFillDataHead(
+ 
+ static __le16 vnt_time_stamp_off(struct vnt_private *priv, u16 rate)
+ {
+-	return cpu_to_le16(wTimeStampOff[priv->byPreambleType % 2]
++	return cpu_to_le16(wTimeStampOff[priv->preamble_type % 2]
+ 							[rate % MAX_RATE]);
+ }
+ 
+@@ -163,7 +163,7 @@ s_uGetTxRsvTime(
+ {
+ 	unsigned int uDataTime, uAckTime;
+ 
+-	uDataTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, cbFrameLength, wRate);
++	uDataTime = bb_get_frame_time(pDevice->preamble_type, byPktType, cbFrameLength, wRate);
+ 
+ 	if (!bNeedAck)
+ 		return uDataTime;
+@@ -172,7 +172,7 @@ s_uGetTxRsvTime(
+ 	 * CCK mode  - 11b
+ 	 * OFDM mode - 11g 2.4G & 11a 5G
+ 	 */
+-	uAckTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14,
++	uAckTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14,
+ 				     byPktType == PK_TYPE_11B ?
+ 				     pDevice->byTopCCKBasicRate :
+ 				     pDevice->byTopOFDMBasicRate);
+@@ -200,22 +200,22 @@ static __le16 get_rtscts_time(struct vnt_private *priv,
+ 	unsigned int ack_time = 0;
+ 	unsigned int data_time = 0;
+ 
+-	data_time = bb_get_frame_time(priv->byPreambleType, pkt_type, frame_length, current_rate);
++	data_time = bb_get_frame_time(priv->preamble_type, pkt_type, frame_length, current_rate);
+ 	if (rts_rsvtype == 0) { /* RTSTxRrvTime_bb */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
+ 		cts_time = ack_time;
+ 	} else if (rts_rsvtype == 1) { /* RTSTxRrvTime_ba, only in 2.4GHZ */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopCCKBasicRate);
+-		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopCCKBasicRate);
++		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 	} else if (rts_rsvtype == 2) { /* RTSTxRrvTime_aa */
+-		rts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 20, priv->byTopOFDMBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		rts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 20, priv->byTopOFDMBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 		cts_time = ack_time;
+ 	} else if (rts_rsvtype == 3) { /* CTSTxRrvTime_ba, only in 2.4GHZ */
+-		cts_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopCCKBasicRate);
+-		ack_time = bb_get_frame_time(priv->byPreambleType, pkt_type, 14, priv->byTopOFDMBasicRate);
++		cts_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopCCKBasicRate);
++		ack_time = bb_get_frame_time(priv->preamble_type, pkt_type, 14, priv->byTopOFDMBasicRate);
+ 		rrv_time = cts_time + ack_time + data_time + 2 * priv->uSIFS;
+ 		return cpu_to_le16((u16)rrv_time);
+ 	}
+@@ -255,7 +255,7 @@ s_uGetDataDuration(
+ 	switch (byDurType) {
+ 	case DATADUR_B:    /* DATADUR_B */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopCCKBasicRate);
+ 		}
+@@ -273,7 +273,7 @@ s_uGetDataDuration(
+ 
+ 	case DATADUR_A:    /* DATADUR_A */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopOFDMBasicRate);
+ 		}
+@@ -292,7 +292,7 @@ s_uGetDataDuration(
+ 	case DATADUR_A_F0:    /* DATADUR_A_F0 */
+ 	case DATADUR_A_F1:    /* DATADUR_A_F1 */
+ 		if (bNeedAck) {
+-			uAckTime = bb_get_frame_time(pDevice->byPreambleType,
++			uAckTime = bb_get_frame_time(pDevice->preamble_type,
+ 						     byPktType, 14,
+ 						     pDevice->byTopOFDMBasicRate);
+ 		}
+@@ -344,17 +344,17 @@ s_uGetRTSCTSDuration(
+ 
+ 	switch (byDurType) {
+ 	case RTSDUR_BB:    /* RTSDuration_bb */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+ 	case RTSDUR_BA:    /* RTSDuration_ba */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+ 	case RTSDUR_AA:    /* RTSDuration_aa */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wRate, bNeedAck);
+ 		break;
+ 
+@@ -363,7 +363,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_BA_F0: /* RTSDuration_ba_f0 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -372,7 +372,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_AA_F0: /* RTSDuration_aa_f0 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE0][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -381,7 +381,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_BA_F1: /* RTSDuration_ba_f1 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopCCKBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopCCKBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -390,7 +390,7 @@ s_uGetRTSCTSDuration(
+ 		break;
+ 
+ 	case RTSDUR_AA_F1: /* RTSDuration_aa_f1 */
+-		uCTSTime = bb_get_frame_time(pDevice->byPreambleType, byPktType, 14, pDevice->byTopOFDMBasicRate);
++		uCTSTime = bb_get_frame_time(pDevice->preamble_type, byPktType, 14, pDevice->byTopOFDMBasicRate);
+ 		if ((byFBOption == AUTO_FB_0) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+ 			uDurTime = uCTSTime + 2 * pDevice->uSIFS + s_uGetTxRsvTime(pDevice, byPktType, cbFrameLength, wFB_Opt0[FB_RATE1][wRate - RATE_18M], bNeedAck);
+ 		else if ((byFBOption == AUTO_FB_1) && (wRate >= RATE_18M) && (wRate <= RATE_54M))
+@@ -1289,9 +1289,9 @@ int vnt_generate_fifo_header(struct vnt_private *priv, u32 dma_idx,
+ 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_LRETRY);
+ 
+ 	if (tx_rate->flags & IEEE80211_TX_RC_USE_SHORT_PREAMBLE)
+-		priv->byPreambleType = PREAMBLE_SHORT;
++		priv->preamble_type = PREAMBLE_SHORT;
+ 	else
+-		priv->byPreambleType = PREAMBLE_LONG;
++		priv->preamble_type = PREAMBLE_LONG;
+ 
+ 	if (tx_rate->flags & IEEE80211_TX_RC_USE_RTS_CTS)
+ 		tx_buffer_head->fifo_ctl |= cpu_to_le16(FIFOCTL_RTS);
+-- 
+2.30.2
+
