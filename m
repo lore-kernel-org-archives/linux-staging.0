@@ -1,89 +1,149 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB992C88
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 22:13:29 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id k7so43772236wrd.13
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:13:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0953772
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 22:33:06 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id k7so43840829wrd.13
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 15:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kRNm4UtdNQv+PW99X+CVETEWwDBlU3O2UZG+/c3QddE=;
-        b=fjddBJEW/OkoB4qQL4Ro5vzCDwC5h26o38XOXzIXpMrj+5Y94xMarSYrsvrtNgpqzV
-         ky9pUmp3W3Udw9FlAxLn3WpiOvedgGeXEBYOrUsozjpKd0ClhQQ0vkpdKLY9a+CyxTgt
-         FTqE3vknxO5C0UrpM2NNTLi0E3smsUkapmlnge7HbaPwEgdr0cT2r49+aQBsHBJ38dmx
-         Y7qHre0tRD/ZlaOucPUdVZSe5kmU3COgtyoC1mbbh/1PRfsx64wKXlMFeYSDuQh6aKGT
-         yywRXTU/GrwD1q+HVLtiCZJ/n1cd9YkbcoDpIAbg88qOGO54RVH2QiOTH1PhGn6cWIVb
-         xF4w==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xBrHKx5MlDJhM1Fjd8a1chOOO8qrN1C7K+G5IYkgtk0=;
+        b=FVJ38wshuhiEMGZnG9xJ6dbiV6m2JwHT1aKqPQHsHrxm6imeslk/ThnFHLwAjjphnP
+         m5neceYs+svCu17i2lBCSNHeAQF+Uodti/KCDM8R3/JD31p1Qd8LzlN9j8her/kRvr0C
+         FIpVX1gRVsf+igOAhdVTBJTyjQREhFzM0/v+yiEqo9ovRCxEFj7N+mXCihDCo34ZHDK6
+         cfFEMemuSjq7HAAFz1B+W2IDNMVt01+/+PHBP/bHW4LcPArfDbEh8kJ4qmofjcjANbXL
+         LvRZ9w5mZJqyWJYAT1L4kmRXL3gIR/utDvVGY3zb0DiOQxJI5mjy4mdnF9eWeXRpFfcQ
+         fiYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=kRNm4UtdNQv+PW99X+CVETEWwDBlU3O2UZG+/c3QddE=;
-        b=b8TlX2WGtVO1nPaHNyN/mNTi+j8BV1w9zX/iV2lOO1Bx9GvlQgJ2Op+4JrKuwHVkWY
-         KYS+B4X3rtDYuPHP+KSAN9JvAjDFOBBOkZhMKg0W+hfAwpPbNxsjD2TdYXgbb23MAGIn
-         y8wTPHbYoWBs4LpIt2BQVQASxLp+RD7bOFg9BOKe73TIwZ29jkcuw9nlWqrIsyXO8jbS
-         bpRJZE6A5VwKzUeg3MYQCp04jXB0npFQJ/lZuVIhJTdT0ISd51N8O1pYezXD60OtrVje
-         o7ZxvdnR4VJYdbHuNINLQ5YAZyt17vpCG0scO2eHHh3K9iFcLfy0IumslNix5Rx/t/yk
-         WjxQ==
-X-Gm-Message-State: AOAM530AtafBVCap+iJZgXWL4VzXuU4LEQl2qzPB0eNhGKeik08qym+v
-	4OCJr0W71IadxTDGZYFCzlg=
-X-Google-Smtp-Source: ABdhPJylOQCdtsGopOI5UCn+0xnPACYs2rc0/Oh50iHHgDQ72g983PEMwdSlggVivRWyGD0vdyWw1Q==
-X-Received: by 2002:adf:f60e:: with SMTP id t14mr18554206wrp.373.1634595207440;
-        Mon, 18 Oct 2021 15:13:27 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::3de4])
-        by smtp.gmail.com with ESMTPSA id k8sm683484wmr.32.2021.10.18.15.13.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 15:13:27 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: fix a gcc warning
-Date: Tue, 19 Oct 2021 00:12:31 +0200
-Message-Id: <20211018221231.7837-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        bh=xBrHKx5MlDJhM1Fjd8a1chOOO8qrN1C7K+G5IYkgtk0=;
+        b=VJp0Vq/fjI4tVc6i0FytvpgQ2jM6/DEZiXkjoXbhXy/IyqbOn9E1ULJwfGbnCNxLkK
+         cWXvmBiRpddKwfVAi61TrT6+AdMZapQatg5TumMbmcCiuK0puFjIrmJRNEGaUfKZRlV1
+         FTTkWUc0pYy7OLuQ1PJQAzHcjV/jba7AVRifb9BMunO6zesCnIEJK8m3pG6BYHICUffG
+         C/NSycusx9DUpvOwW8ZRWuqnZhnRHndmM7zDsBABRGxToOM0IvuF+fRUOONVz7v5Vv7n
+         +iKJnbPS8jG4Gt8uAeUEgngGIBxzoSyOBdXiwRz168R5hzXTHpCRxbG7NP/Rzx+YQNLW
+         LAJw==
+X-Gm-Message-State: AOAM5327e59elcuTnfBwgN7eJPpHv70gCZMPlgABgYWRN9IW0e6KWeTv
+	FlkOGFisqRHtl2+5slFcxhg=
+X-Google-Smtp-Source: ABdhPJyGvQO9mNXYnlXjU1fpfLr81rrYr+4yqWGrq53TNhfv/Ap/TMlLzgv3jVdz6m+cgfJmqglR8Q==
+X-Received: by 2002:adf:de0e:: with SMTP id b14mr39019740wrm.271.1634596385433;
+        Mon, 18 Oct 2021 15:33:05 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::3de4? ([2a02:8108:96c0:3b88::3de4])
+        by smtp.gmail.com with ESMTPSA id i203sm610308wma.48.2021.10.18.15.33.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Oct 2021 15:33:05 -0700 (PDT)
+Message-ID: <5880bb1e-46b5-4c90-294f-8a5f5f20a4df@gmail.com>
+Date: Tue, 19 Oct 2021 00:33:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 2/3] staging: r8188eu: Makefile: don't overwrite global
+ settings
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Martin Kaiser <martin@kaiser.cx>, Larry Finger
+ <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20211016173544.25376-1-martin@kaiser.cx>
+ <20211016173544.25376-3-martin@kaiser.cx>
+ <c66442a2-51fd-70bf-d9cf-5991c0d88a76@gmail.com>
+ <20211017174621.dkunl2xhjg4yn2at@viti.kaiser.cx>
+ <54987f44-cabf-c12c-ae3b-341ff6b1ed98@gmail.com> <YW2KGZ6+ZdQzwQu4@kroah.com>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YW2KGZ6+ZdQzwQu4@kroah.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Replace strncpy with strlcpy to fix the following gcc warning.
+On 10/18/21 16:52, Greg Kroah-Hartman wrote:
+> On Sun, Oct 17, 2021 at 10:46:11PM +0200, Michael Straube wrote:
+>> On 10/17/21 19:46, Martin Kaiser wrote:
+>>> Thus wrote Michael Straube (straube.linux@gmail.com):
+>>>
+>>>> On 10/16/21 19:35, Martin Kaiser wrote:
+>>>>> Remove settings from the Makefile that are set by higher-level Makefiles.
+>>>
+>>>>> Some of those settings might have been useful when the driver was
+>>>>> maintained out of tree.
+>>>
+>>>>> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+>>>>> ---
+>>>>>     drivers/staging/r8188eu/Makefile | 14 --------------
+>>>>>     1 file changed, 14 deletions(-)
+>>>
+>>>>> diff --git a/drivers/staging/r8188eu/Makefile b/drivers/staging/r8188eu/Makefile
+>>>>> index fccf7e6d1520..8294fb69ecf9 100644
+>>>>> --- a/drivers/staging/r8188eu/Makefile
+>>>>> +++ b/drivers/staging/r8188eu/Makefile
+>>>>> @@ -1,8 +1,3 @@
+>>>>> -SHELL := /bin/bash
+>>>>> -EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
+>>>>> -EXTRA_CFLAGS += -O1
+>>>>> -
+>>>>> -ccflags-y += -D__CHECK_ENDIAN__
+>>>>>     OUTSRC_FILES :=				\
+>>>>>     		hal/HalHWImg8188E_MAC.o	\
+>>>>> @@ -46,15 +41,6 @@ _OS_INTFS_FILES :=				\
+>>>>>     _HAL_INTFS_FILES += $(OUTSRC_FILES)
+>>>>> -SUBARCH := $(shell uname -m | sed -e "s/i.86/i386/; s/ppc.*/powerpc/; s/armv.l/arm/; s/aarch64/arm64/;")
+>>>>> -
+>>>>> -ARCH ?= $(SUBARCH)
+>>>>> -CROSS_COMPILE ?=
+>>>>> -KVER  ?= $(if $(KERNELRELEASE),$(KERNELRELEASE),$(shell uname -r))
+>>>>> -KSRC ?= $(if $(KERNEL_SRC),$(KERNEL_SRC),/lib/modules/$(KVER)/build)
+>>>>> -MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless
+>>>>> -INSTALL_PREFIX :=
+>>>>> -
+>>>>>     rtk_core :=				\
+>>>>>     		core/rtw_ap.o		\
+>>>>>     		core/rtw_br_ext.o	\
+>>>
+>>>
+>>>> Hi Martin, this patch introduces a GCC warning on my system.
+>>>
+>>>> drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function
+>>>> 'rtw_wx_set_enc_ext':
+>>>> drivers/staging/r8188eu/os_dep/ioctl_linux.c:1929:9: warning: 'strncpy'
+>>>> specified bound 16 equals destination size [-Wstringop-truncation]
+>>>>    1929 |         strncpy((char *)param->u.crypt.alg, alg_name,
+>>>> IEEE_CRYPT_ALG_NAME_LEN);
+>>>>         |
+>>>
+>>>
+>>> Hi Michael,
+>>>
+>>> thanks for reporting this. So far, I can't reproduce the warning, even
+>>> if I enable -Wstringop-truncation explicitly. I tried this with gcc
+>>> 8.3.0 (Debian buster) on x86_64.
+>>
+>> Hi Martin,
+>>
+>> probably only newer gcc versions produce this warning. On my system
+>> the gcc version is 11.2.1 (openSUSE Tumbleweed).
+> 
+> I have gcc 11.1.0 here and I can not duplicate this warning.  And it
+> looks like the code matches other places in the kernel where this
+> happens, so I'll just take this for now and see if someone wants to send
+> me a real fix for it, as it is independent of this Makefile change.
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function 'rtw_wx_set_enc_ext':
-drivers/staging/r8188eu/os_dep/ioctl_linux.c:1929:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
- 1929 |         strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I totally forgot that I have an alias for building that sets W=1.
+That's why I got this warning...
 
-The destination buffer size is IEEE_CRYPT_ALG_NAME_LEN and the length
-of the string to copy is always < IEEE_CRYPT_ALG_NAME_LEN. So strlcpy
-will never truncate the string.
+However, I sent a patch to fix it.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 51f46696a593..4f0ae821d193 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -1926,7 +1926,7 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
- 		return -1;
- 	}
- 
--	strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
-+	strlcpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
- 
- 	if (pext->ext_flags & IW_ENCODE_EXT_SET_TX_KEY)
- 		param->u.crypt.set_tx = 1;
--- 
-2.33.0
-
+Thanks,
+Michael
