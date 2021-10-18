@@ -1,157 +1,151 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6657A2C88
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 08:20:57 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id w19so67480422edd.2
-        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 01:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=SoA1Yn8aH9TCjRrBoEN0Rv/9mSQgefs3J4mUTn03mx8=;
-        b=XN5jcUuOsK2t3ZiIgA+J6ntqeRK9k7zU487nY3lPfZfpZ4EWvGw9Y/rqgqaTxsguPR
-         B16tK0SeXYHkULuO5lriJVae4YrJqF/lRjWVFBwaOD2RGKilHNO96TxWg8Bb5Ii5Z67B
-         tHZy7gHZ6hBRWmflTDf9acfyPg/7M3StxHA7Ndj9G3xGTSjZY4d1mTVXUAf0eRAmZIgh
-         tpLoysSpxj5P5FLwKbD6LO7o1E9kWVTNUyEfwDpYSB0tbeuffOL2g4z+VfrfmEHdZ1ri
-         PJOSLeurdLoePdfd/Np0Tv/pKt4m7equkFDk6iuBRd62gH3R1wfH+UyQHVKaMC10RzEH
-         1NkQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4512C81
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 08:30:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1634545809;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lR6lHYfqRurTTNb2hz8P0iYHasRUVyst8KmFnIo9LRo=;
+	b=GBqLHUdx8g4cQSbDXTDDlvXzbJ88wtoaeR7IX9Bu5ucNZwRfG/XzzaVtG/IAmIa77HATcS
+	H4XgJAKiRELg4w3+Auo40zIbcuMThDSlDuzWvNGdrA8JH+tpr+rwbR/nAsGXARu2fJY6Pp
+	ro5RSpErSq19vR0FROUsj5EKV5L0Ibs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-KNY0PHYJND-u26rl0_hBeg-1; Mon, 18 Oct 2021 04:30:06 -0400
+X-MC-Unique: KNY0PHYJND-u26rl0_hBeg-1
+Received: by mail-ed1-f69.google.com with SMTP id d3-20020a056402516300b003db863a248eso13626497ede.16
+        for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 01:30:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=SoA1Yn8aH9TCjRrBoEN0Rv/9mSQgefs3J4mUTn03mx8=;
-        b=Hmmv/JVlk6xHvzwJ3drWsAh/EBjxjy1GYagMzks49E+ZDVx27eDLYnM7qKOh/VmRbe
-         2bjDVBXRQ18UGdPJ8pf+grVhnikkqaFRWsEqlYWkG41hWXPI2EVoHrh8zXOnwK8qG7YQ
-         GZi0K5o2sl9/i6P3nnzn9+4CaNYyhD51nqv26D1X3pGOKZzMz4ZeVh/cvmdEEX6oN2WX
-         YW3wCD+I7gFi3udNpMb72ncIb8D52uaiZieSYdMaIgcDnVnBftZ6ABxaypjN3cWOTlOA
-         IS4BtKr8y9UkqAHZb+yBIbKQe9IrkQOqX1biNl0b/If0meVPizeVnaDEgl+ydbpjRRRe
-         RpGw==
-X-Gm-Message-State: AOAM533SGnDtsFjV4l3gdSORYsEz1kFQhjXVFPUVyG68JrQHe+dSKcP2
-	z7lysAismeHe6Ixnp9uFurk=
-X-Google-Smtp-Source: ABdhPJyNsVxXVstuxbVwkGRmTFbLj38JGAhNYRuOZ0hLeghkMx3ZeP0v03ggiLjSGrOJn4EqsJOu7A==
-X-Received: by 2002:aa7:cd13:: with SMTP id b19mr1642125edw.219.1634545254126;
-        Mon, 18 Oct 2021 01:20:54 -0700 (PDT)
-Received: from tom-ThinkBook-14-G2-ARE.seco.it ([89.42.6.254])
-        by smtp.gmail.com with ESMTPSA id h7sm10803457ede.19.2021.10.18.01.20.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Oct 2021 01:20:53 -0700 (PDT)
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: tomm.merciai@gmail.com,
-	Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: vt6655: fix camelcase byData in card.c
-Date: Mon, 18 Oct 2021 10:20:40 +0200
-Message-Id: <20211018082042.15814-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        bh=lR6lHYfqRurTTNb2hz8P0iYHasRUVyst8KmFnIo9LRo=;
+        b=c6tHWD22o1+fnaPn5kHgepYum9NDLP8psKKxAnYuWK1/io94wRL2TUO92V7NysxIkJ
+         06Zl/lpRZ8ClS8k2YjUGdnmKbxrZ5vgLjAqV4HBFuzQ5AoDJU0zOsWDELCjYeIBHa0SM
+         DW/0H8hmZt3dSIzbHPsP/wmlEsToqNuvDtOkcHA54Zamw0OmDAaL+McMQvvpYWg/Nw1d
+         wsDO+Sz4IDMfhg6nlQXM2A8L4nP1/ka3/PU/YMX5XuXAdAsIQaFlP7Nvlbts5SDWJLVS
+         SNXk/gP2riKQJ+Y3SDsgaolVRs2bfdbX511va2I1RmrqWlIVeIlzf87sbVHUD7ZMQBYn
+         TETA==
+X-Gm-Message-State: AOAM531RB/d9ol0ZufuiZBKOOUFZydXayfEzynREw5QvmmX6sgCN9FnE
+	98IxOqh29zb3t8zJHaAmPXZ0bmS4BITm59O2i8oU0upLJYI3p1XlKayNlmCX3UHxjNbSOiJA7K/
+	EWnGv1VpkttuWvX/fD0PZTh1EUw==
+X-Received: by 2002:a50:fc17:: with SMTP id i23mr41133541edr.213.1634545805609;
+        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrMhc7vcU2jV67qg01VSMajYU77IH44uhxXbXszh8rSXTGCseftvgmQJ1sKU52iD4gsvpnIg==
+X-Received: by 2002:a50:fc17:: with SMTP id i23mr41133507edr.213.1634545805463;
+        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
+Received: from [10.40.1.223] ([81.30.35.201])
+        by smtp.gmail.com with ESMTPSA id q23sm8925974ejr.0.2021.10.18.01.30.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Oct 2021 01:30:05 -0700 (PDT)
+Message-ID: <103b5438-9f7c-7e89-28b9-29fe11eb818c@redhat.com>
+Date: Mon, 18 Oct 2021 10:30:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [BUG 5/5] [BUG] media: atomisp: atomisp causes touchscreen to
+ stop working on Microsoft Surface 3
+To: Tsuchiya Yuto <kitakar@gmail.com>
+Cc: Patrik Gfeller <patrik.gfeller@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Kaixu Xia <kaixuxia@tencent.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20211017162337.44860-1-kitakar@gmail.com>
+ <20211017162337.44860-6-kitakar@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20211017162337.44860-6-kitakar@gmail.com>
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Replace camelcase variable byData in card.c
+Hi,
 
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
----
- drivers/staging/vt6655/card.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+On 10/17/21 18:23, Tsuchiya Yuto wrote:
+> Touchscreen input works fine before loading atomisp driver on Surface 3.
+> 
+> However, after loading atomisp driver, touchscreen works only when
+> capturing images. This sounds like atomisp turns off something needed
+> for touchscreen when atomisp is idle.
+> 
+> There is no useful kernel log. Just the touchscreen stops working
+> with no log.
+> 
+> I'll update if I find something further. First of all, can someone
+> reproduce this issue on the other devices?
 
-diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-index 26e08fec6e6a..fac2d0566d2e 100644
---- a/drivers/staging/vt6655/card.c
-+++ b/drivers/staging/vt6655/card.c
-@@ -183,7 +183,7 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 	unsigned char bySlot = 0;
- 	unsigned char bySIFS = 0;
- 	unsigned char byDIFS = 0;
--	unsigned char byData;
-+	unsigned char data;
- 	int i;
- 
- 	/* Set SIFS, DIFS, EIFS, SlotTime, CwMin */
-@@ -194,15 +194,15 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 			priv->abyBBVGA[0] = 0x20;
- 			priv->abyBBVGA[2] = 0x10;
- 			priv->abyBBVGA[3] = 0x10;
--			bb_read_embedded(priv, 0xE7, &byData);
--			if (byData == 0x1C)
-+			bb_read_embedded(priv, 0xE7, &data);
-+			if (data == 0x1C)
- 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
- 
- 		} else if (priv->byRFType == RF_UW2452) {
- 			MACvSetBBType(priv->port_offset, BB_TYPE_11A);
- 			priv->abyBBVGA[0] = 0x18;
--			bb_read_embedded(priv, 0xE7, &byData);
--			if (byData == 0x14) {
-+			bb_read_embedded(priv, 0xE7, &data);
-+			if (data == 0x14) {
- 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
- 				bb_write_embedded(priv, 0xE1, 0x57);
- 			}
-@@ -220,14 +220,14 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 			priv->abyBBVGA[0] = 0x1C;
- 			priv->abyBBVGA[2] = 0x00;
- 			priv->abyBBVGA[3] = 0x00;
--			bb_read_embedded(priv, 0xE7, &byData);
--			if (byData == 0x20)
-+			bb_read_embedded(priv, 0xE7, &data);
-+			if (data == 0x20)
- 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
- 
- 		} else if (priv->byRFType == RF_UW2452) {
- 			priv->abyBBVGA[0] = 0x14;
--			bb_read_embedded(priv, 0xE7, &byData);
--			if (byData == 0x18) {
-+			bb_read_embedded(priv, 0xE7, &data);
-+			if (data == 0x18) {
- 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
- 				bb_write_embedded(priv, 0xE1, 0xD3);
- 			}
-@@ -243,14 +243,14 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
- 			priv->abyBBVGA[0] = 0x1C;
- 			priv->abyBBVGA[2] = 0x00;
- 			priv->abyBBVGA[3] = 0x00;
--			bb_read_embedded(priv, 0xE7, &byData);
--			if (byData == 0x20)
-+			bb_read_embedded(priv, 0xE7, &data);
-+			if (data == 0x20)
- 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
- 
- 		} else if (priv->byRFType == RF_UW2452) {
- 			priv->abyBBVGA[0] = 0x14;
--			bb_read_embedded(priv, 0xE7, &byData);
--			if (byData == 0x18) {
-+			bb_read_embedded(priv, 0xE7, &data);
-+			if (data == 0x18) {
- 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
- 				bb_write_embedded(priv, 0xE1, 0xD3);
- 			}
-@@ -798,12 +798,12 @@ bool CARDbGetCurrentTSF(struct vnt_private *priv, u64 *pqwCurrTSF)
- {
- 	void __iomem *iobase = priv->port_offset;
- 	unsigned short ww;
--	unsigned char byData;
-+	unsigned char data;
- 
- 	MACvRegBitsOn(iobase, MAC_REG_TFTCTL, TFTCTL_TSFCNTRRD);
- 	for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
--		VNSvInPortB(iobase + MAC_REG_TFTCTL, &byData);
--		if (!(byData & TFTCTL_TSFCNTRRD))
-+		VNSvInPortB(iobase + MAC_REG_TFTCTL, &data);
-+		if (!(data & TFTCTL_TSFCNTRRD))
- 			break;
- 	}
- 	if (ww == W_MAX_TIMEOUT)
--- 
-2.33.1
+My first bet would be some regulator getting turned off.
+
+What you can do is:
+
+1. ls -l /dev/bus/i2c/devices
+
+And then write down the number of the i2c-bus to which the
+CRC PMIC is connected, lets say it is number "4". Then:
+
+2. Before loading the atomisp drivers run:
+   "sudo i2cdump -y -f 4 0x6e > crc-regs-good"
+
+3. After loading the atomisp drivers run:
+   "sudo i2cdump -y -f 4 0x6e > crc-regs-bad
+
+4. "diff -u crc-regs-good crc-regs-bad"
+
+And see what changed.
+
+There are 2 possible root causes here:
+
+1. Some regulator is shared between the cameras and
+touchscreen
+
+2. The crc code in atomisp which you are using is
+poking registers assuming the Bay Trail version of
+the Crystal Cove PMIC (aka CRC PMIC) but your
+Surface 3 has the Cherry Trail version and we know
+that the regulators are add different register
+addresses there, see the comment in:
+drivers/acpi/pmic/intel_pmic_chtcrc.c
+so it is possible that the atomisp code is simply
+poking the wrong register for one of the regulators
+
+I also wonder if this goes away if you do the
+
+	hrv = 0x03;
+
+Hack inside drivers/mfd/intel_soc_pmic_core.c ?
+
+Without that we end up using the wrong PMIC
+OpRegion driver which also uses the wrong
+regulator addresses.
+
+Regards,
+
+Hans
+
+
+p.s.
+
+Here are the 2 different regulator drivers the
+comment in drivers/acpi/pmic/intel_pmic_chtcrc.c
+refers to:
+
+https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove.c
+https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove_plus.c
 
