@@ -1,25 +1,37 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED1B2C81
-	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 10:29:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 835AA6103B;
-	Mon, 18 Oct 2021 10:29:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634552981;
-	bh=Jcbd/etLUj/HfkH8N0e/t0Az9xZmyi7KDPMq9txQmdQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CePeyJnzwLvCgD5QZ+i5f9z05hRqHI6cxEW4cAwCrO7qF3m/0SEk9fF959Jb0KS4K
-	 /BmqY9yR84VjPXWaI+9B9fhnzWgIHSOIvKzo6crbdRxq/0/k6UDSoLjfnv+UJdkcWW
-	 iH0TI2MiZ3WKWq7qS2MPc/TnrH8igaptyCMwaypk=
-Date: Mon, 18 Oct 2021 12:29:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Karolina Drobnik <karolinadrobnik@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: vt6655: Rename byPreambleType field
-Message-ID: <YW1Mkse3AgUsyvWx@kroah.com>
-References: <20211018101713.3599-1-karolinadrobnik@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF00F2C80
+	for <linux-staging@lists.linux.dev>; Mon, 18 Oct 2021 11:05:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10140"; a="215152129"
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; 
+   d="scan'208";a="215152129"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2021 04:05:10 -0700
+X-IronPort-AV: E=Sophos;i="5.85,381,1624345200"; 
+   d="scan'208";a="462289320"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.72.159])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2021 04:05:07 -0700
+Received: from andy by smile with local (Exim 4.95)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1mcQRl-00025D-6H;
+	Mon, 18 Oct 2021 14:04:49 +0300
+Date: Mon, 18 Oct 2021 14:04:49 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Tsuchiya Yuto <kitakar@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Patrik Gfeller <patrik.gfeller@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Yang Yingliang <yangyingliang@huawei.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+	Dinghao Liu <dinghao.liu@zju.edu.cn>, Alan <alan@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
+Message-ID: <YW1U0UtNpA9DYZ56@smile.fi.intel.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,48 +40,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211018101713.3599-1-karolinadrobnik@gmail.com>
+In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Oct 18, 2021 at 11:17:13AM +0100, Karolina Drobnik wrote:
-> Drop Hungarian notation prefix in `byPreambleType` member of
-> struct vnt_private. Change it to use snake case.
-> 
-> Fix issue detected by checkpatch.pl:
->   CHECK: Avoid CamelCase: <byPreambleType>
-> 
-> Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
-> ---
->  drivers/staging/vt6655/baseband.c    |  2 +-
->  drivers/staging/vt6655/device.h      |  2 +-
->  drivers/staging/vt6655/device_main.c |  8 ++---
->  drivers/staging/vt6655/rxtx.c        | 50 ++++++++++++++--------------
->  4 files changed, 31 insertions(+), 31 deletions(-)
-> 
+On Mon, Oct 18, 2021 at 01:19:40AM +0900, Tsuchiya Yuto wrote:
 
-Hi,
+Just a remark, your To is not filled. At some point I had written a script [1]
+to help me with patch series sending, It also tries to be smart to include
+necessary people and mailing lists (you can always alter it by adding more).
+[1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-You are receiving this message because of the following common error(s)
-as indicated below:
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
