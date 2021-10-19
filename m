@@ -1,130 +1,70 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AA12C94
-	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 18:58:07 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AvLn2Aa395PT2t2q323qPGQqjBK0kLtp133Aq?=
- =?us-ascii?q?2lEZdPUnSKOlfqeV7ZYmPH7P+VUssR4b8+xoVJPgfZq+z/NICOsqVotKNTOO0F?=
- =?us-ascii?q?dAR7sD0WKN+VPd8mHFmtJg6Q=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
-   d="scan'208";a="396421478"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Oct 2021 20:57:59 +0200
-Date: Tue, 19 Oct 2021 20:57:59 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Kushal Kothari <kushalkothari285@gmail.com>
-cc: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, marcocesati@gmail.com, 
-    dan.carpenter@oracle.com, ross.schm.dev@gmail.com, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    outreachy-kernel@googlegroups.com, mike.rapoport@gmail.com
-Subject: Re: [Outreachy kernel] [PATCH] staging: rtl8723bs: core:  Remove
- true and false comparison
-In-Reply-To: <20211019172359.63583-1-kushalkothari285@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2110192057200.4042@hadrien>
-References: <20211019172359.63583-1-kushalkothari285@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870372C94
+	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 20:13:19 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1mcvTx-0003cz-34; Tue, 19 Oct 2021 22:13:09 +0200
+Date: Tue, 19 Oct 2021 22:13:09 +0200
+From: Martin Kaiser <lists@kaiser.cx>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: fix a gcc warning
+Message-ID: <20211019201309.ezngvhoddsiyms5h@viti.kaiser.cx>
+References: <20211018221231.7837-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211018221231.7837-1-straube.linux@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
+Thus wrote Michael Straube (straube.linux@gmail.com):
 
+> Replace strncpy with strlcpy to fix the following gcc warning.
 
-On Tue, 19 Oct 2021, Kushal Kothari wrote:
+> drivers/staging/r8188eu/os_dep/ioctl_linux.c: In function 'rtw_wx_set_enc_ext':
+> drivers/staging/r8188eu/os_dep/ioctl_linux.c:1929:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+>  1929 |         strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+>       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-> Remove comparison to true and false in if statement.
-> Issue found with checkpatch.pl.
-> CHECK: Using comparison to true is error prone
-> CHECK: Using comparison to false is error prone
->
-> Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
+> The destination buffer size is IEEE_CRYPT_ALG_NAME_LEN and the length
+> of the string to copy is always < IEEE_CRYPT_ALG_NAME_LEN. So strlcpy
+> will never truncate the string.
+
+> Signed-off-by: Michael Straube <straube.linux@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index efc9b1974e38..b473f1d1ce08 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -309,8 +309,8 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
->  	if (cmd_obj->cmdcode == GEN_CMD_CODE(_SetChannelPlan))
->  		bAllow = true;
->
-> -	if ((pcmdpriv->padapter->hw_init_completed == false && bAllow == false)
-> -		|| atomic_read(&(pcmdpriv->cmdthd_running)) == false	/* com_thread not running */
-> +	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow)
-> +		|| !atomic_read(&(pcmdpriv->cmdthd_running))	/* com_thread not running */
->  	)
->  		return _FAIL;
->
-> @@ -407,7 +407,7 @@ int rtw_cmd_thread(void *context)
->  			break;
->  		}
->
-> -		if ((padapter->bDriverStopped == true) || (padapter->bSurpriseRemoved == true)) {
-> +		if ((padapter->bDriverStopped) || (padapter->bSurpriseRemoved)) {
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-The parentheses are pretty useless once you have removed the comparison.
-
-julia
-
->  			netdev_dbg(padapter->pnetdev,
->  				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
->  				   __func__, padapter->bDriverStopped,
-> @@ -430,7 +430,7 @@ int rtw_cmd_thread(void *context)
->  			continue;
->
->  _next:
-> -		if ((padapter->bDriverStopped == true) || (padapter->bSurpriseRemoved == true)) {
-> +		if ((padapter->bDriverStopped) || (padapter->bSurpriseRemoved)) {
->  			netdev_dbg(padapter->pnetdev,
->  				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
->  				   __func__, padapter->bDriverStopped,
-> @@ -927,7 +927,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
->  	else
->  		GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false);
->
-> -	if (unicast_key == true)
-> +	if (unicast_key)
->  		memcpy(&psetstakey_para->key, &sta->dot118021x_UncstKey, 16);
->  	else
->  		memcpy(&psetstakey_para->key, &psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey, 16);
-> @@ -1283,7 +1283,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
->  			(pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
->  			bEnterPS = false;
->
-> -			if (bBusyTraffic == true) {
-> +			if (bBusyTraffic) {
->  				if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount <= 4)
->  					pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 4;
->
-> @@ -1619,7 +1619,7 @@ static void rtw_chk_hi_queue_hdl(struct adapter *padapter)
->
->  	rtw_hal_get_hwreg(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &empty);
->
-> -	while (false == empty && jiffies_to_msecs(jiffies - start) < g_wait_hiq_empty) {
-> +	while (!empty && jiffies_to_msecs(jiffies - start) < g_wait_hiq_empty) {
->  		msleep(100);
->  		rtw_hal_get_hwreg(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &empty);
+> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> index 51f46696a593..4f0ae821d193 100644
+> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+> @@ -1926,7 +1926,7 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
+>  		return -1;
 >  	}
-> @@ -2054,7 +2054,7 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
->
->  	spin_lock_bh(&pmlmepriv->lock);
->
-> -	if ((check_fwstate(pmlmepriv, WIFI_MP_STATE) == true) && (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true))
-> +	if ((check_fwstate(pmlmepriv, WIFI_MP_STATE)) && (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)))
->  		_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
->
->  	set_fwstate(pmlmepriv, _FW_LINKED);
-> --
-> 2.25.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/20211019172359.63583-1-kushalkothari285%40gmail.com.
->
+
+> -	strncpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+> +	strlcpy((char *)param->u.crypt.alg, alg_name, IEEE_CRYPT_ALG_NAME_LEN);
+
+>  	if (pext->ext_flags & IW_ENCODE_EXT_SET_TX_KEY)
+>  		param->u.crypt.set_tx = 1;
+> -- 
+> 2.33.0
+
+Hi Michael,
+
+it's too late for another ack as Greg has already taken the patch.
+
+Anyway, thanks for fixing the mess I created with my Makefile patches.
+
+   Martin
