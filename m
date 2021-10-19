@@ -1,41 +1,41 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36192C88
-	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 13:51:45 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id r7so47978324wrc.10
-        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 06:51:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC202C95
+	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 13:51:46 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id i12so47792054wrb.7
+        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 06:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DQLYM1tjWYzX8if24IRLux/H2YDXzxiO/vti4eG5S14=;
-        b=WxkhPGjGJuxJVxjPrr+7i0A0LxJoB/2hPtjBwwUj2HBUAbvZOsGxam/l7iEBlzSKw0
-         tvjct9qIpkWNKEu6S0XJ+Q6MZnrTzFxIT8XR4q6meNu63bv4NjypHc2vh4S3KU28v/5C
-         Y2wUKRvzcvTSIBlXGlConVqzs9ygCbF88VeRVV1JvqOn+PUiGa97FwZafcz7rvoUrga/
-         v+5hNEMfMpBTw2RvtcRD+436L0RbyC/PPAj6qV/xZ/53U2VcpwICRlPZm3D3tUrY4Eir
-         nz4lUXF0Z5zIfKcYhhxH0GznnoV31K5891i9GnGMXJnTeTFK79IwBnVDqsx6+K+zjXcU
-         CY3A==
+        bh=Ok68sRc2xOIfCvTBrCJZswQdaMM1ovxmj3Sg5Olbf3c=;
+        b=e/vQ8OpNsvfaGotJlFLTgx6var/MTxcCatXICfK6E5blUuPFGygomPgaUZ0NXyuepF
+         Yhvo+L5BPULwjPDbaZwLpCffrDjiMUqY5+NtND8oKzWdFQ5hPteTUu1BeHiQda9pM8/m
+         G5tDbVYFJJkn4r0e93Ltv389u4Yp/IX9PkBDeVCjZIaFMlvzK73gc/C+Ig9jrrnYWjf7
+         5bnQlKVjVO1BzJnEr1C5nzW2TSLBHCw/2+2eAo+3YrVpigsdbUv25lAlmBei04DvH0Gp
+         VDcYBYSZvuOxIGKsNWxq3LUaVBqgXaJ4JQzbER+7F80dCpfzrzMzvIfG5UoINyDEDIo+
+         dEQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DQLYM1tjWYzX8if24IRLux/H2YDXzxiO/vti4eG5S14=;
-        b=uoYMSfGnDWKpK1tMMiU2jnYn/qk38hmhiUFI9xWrG/vKkh3uIPts6kj6D2YF7jhD3h
-         UGmoe+rTOuwexNEju6m5hSKCzP3v6HNw/VGMHv3XY850u2KbW63GMyGWWBQobbE8SMC3
-         +Llr0VHoTPvlq/OZmXON6i9JqUa6W3o9SSG5uwWvgizjD0JbhGK9sjT503zJYD9HTd8L
-         Ly3QDxPWAnp1VD+O0Qo4HcypNNCN1TeSOivOJF0xE+B5gI67n3qqquK0PpCDD/S0Ima7
-         hSCS01T8sO/4sH62m4hlbrpCjtz01S4llPHiGvejalKK4Les49QO3RVUiP3pALVI4yVc
-         95sw==
-X-Gm-Message-State: AOAM5322E0uaggw96w/mxuVoznZ3g7G2qcf1vgS+SSX4yS3d//2TH52i
-	0sxJQc1T/yWUUqiDBnkO1l/0wF3nECo=
-X-Google-Smtp-Source: ABdhPJysi2Tcxp6qmDat3XL3iEY4DZyE5otBdjezxTUuvlzkQfLHJ0FSXPRIFrBLqXm0b1RdIS7K1w==
-X-Received: by 2002:adf:a2d7:: with SMTP id t23mr45481741wra.156.1634651504104;
+        bh=Ok68sRc2xOIfCvTBrCJZswQdaMM1ovxmj3Sg5Olbf3c=;
+        b=MTPEMJkbSiaiLVepCeYjYeQNq7M3Q/ATK91zkXrlveGEVxPwjVJuHINpJvGJRi8Ooo
+         gJYSaZqpOc6dMjBmZm1DdWnwGzs59syNu2Yqtoa2VI9WpUQKxaqH6EVeOBoOX8DhL/a+
+         rcUCga1p4pBT+dV7vl4kChssD9Urkv8m0Nr5+eRzYngcpV0nAbPd6CrzsjiadI72h3Qv
+         ax0DmSJ39EG7f8haCrbplYGbhxyc/0uldbRhRC66f3pJgrnCAkquDhrFCiZRsMGeCCFn
+         UYZzSf2HEfeh91NjFdqHKyzo8h5K1ZCzssEtHnf9MxFJZ7AcEJOmBi/v+O+a56fPbiPA
+         z7Nw==
+X-Gm-Message-State: AOAM532sVdq97FSMC+2Gv6c4TL1u4Frregg13ZM927yb3o5dVdTL5m1X
+	ko+ciqBLKqW3dnDe0I0za6k=
+X-Google-Smtp-Source: ABdhPJxI5tXOwAS/0+QSOzjvfJ4wOUNEcAE9QKwg3PIhaf9BXN9yKQDpW/DxgF19mQl37H9cb23EQQ==
+X-Received: by 2002:adf:9784:: with SMTP id s4mr45905989wrb.277.1634651504774;
         Tue, 19 Oct 2021 06:51:44 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::3de4])
-        by smtp.gmail.com with ESMTPSA id i203sm2280699wma.48.2021.10.19.06.51.43
+        by smtp.gmail.com with ESMTPSA id i203sm2280699wma.48.2021.10.19.06.51.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 06:51:43 -0700 (PDT)
+        Tue, 19 Oct 2021 06:51:44 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/7] staging: r8188eu: BTRxRSSIPercentage is set but never used
-Date: Tue, 19 Oct 2021 15:51:32 +0200
-Message-Id: <20211019135137.9893-3-straube.linux@gmail.com>
+Subject: [PATCH 3/7] staging: r8188eu: rename ODM_PhyStatusQuery_92CSeries()
+Date: Tue, 19 Oct 2021 15:51:33 +0200
+Message-Id: <20211019135137.9893-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211019135137.9893-1-straube.linux@gmail.com>
 References: <20211019135137.9893-1-straube.linux@gmail.com>
@@ -57,59 +57,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-BTRxRSSIPercentage is set but never used, remove it from structure
-phy_info.
+ODM_PhyStatusQuery() is just a wrapper around
+ODM_PhyStatusQuery_92CSeries().
+
+Rename ODM_PhyStatusQuery_92CSeries to ODM_PhyStatusQuery()
+and remove the wrapper.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm_HWConfig.c | 5 +----
- drivers/staging/r8188eu/include/rtw_recv.h | 1 -
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/staging/r8188eu/hal/odm_HWConfig.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index d83ef15c2cb6..4772c2c0d50d 100644
+index 4772c2c0d50d..3125886e6731 100644
 --- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
 +++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -60,7 +60,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+@@ -362,11 +362,11 @@ static void odm_Process_RSSIForDM(struct odm_dm_struct *dm_odm,
+ }
+ 
+ /*  Endianness before calling this API */
+-static void ODM_PhyStatusQuery_92CSeries(struct odm_dm_struct *dm_odm,
+-					 struct phy_info *pPhyInfo,
+-					 u8 *pPhyStatus,
+-					 struct odm_per_pkt_info *pPktinfo,
+-					 struct adapter *adapt)
++void ODM_PhyStatusQuery(struct odm_dm_struct *dm_odm,
++			struct phy_info *pPhyInfo,
++			u8 *pPhyStatus,
++			struct odm_per_pkt_info *pPktinfo,
++			struct adapter *adapt)
  {
- 	u8 i, Max_spatial_stream;
- 	s8 rx_pwr[4], rx_pwr_all = 0;
--	u8 EVM, PWDB_ALL = 0, PWDB_ALL_BT;
-+	u8 EVM, PWDB_ALL = 0;
- 	u8 RSSI, total_rssi = 0;
- 	u8 isCCKrate = 0;
- 	u8 rf_rx_num = 0;
-@@ -136,7 +136,6 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 		}
+ 	odm_RxPhyStatus92CSeries_Parsing(dm_odm, pPhyInfo, pPhyStatus,
+ 					 pPktinfo, adapt);
+@@ -374,14 +374,6 @@ static void ODM_PhyStatusQuery_92CSeries(struct odm_dm_struct *dm_odm,
+ 		odm_Process_RSSIForDM(dm_odm, pPhyInfo, pPktinfo);
+ }
  
- 		pPhyInfo->RxPWDBAll = PWDB_ALL;
--		pPhyInfo->BTRxRSSIPercentage = PWDB_ALL;
- 		pPhyInfo->recvpower = rx_pwr_all;
- 		/*  (3) Get Signal Quality (EVM) */
- 		if (pPktinfo->bPacketMatchBSSID) {
-@@ -188,10 +187,8 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- 		rx_pwr_all = (((pPhyStaRpt->cck_sig_qual_ofdm_pwdb_all) >> 1) & 0x7f) - 110;
- 
- 		PWDB_ALL = odm_QueryRxPwrPercentage(rx_pwr_all);
--		PWDB_ALL_BT = PWDB_ALL;
- 
- 		pPhyInfo->RxPWDBAll = PWDB_ALL;
--		pPhyInfo->BTRxRSSIPercentage = PWDB_ALL_BT;
- 		pPhyInfo->RxPower = rx_pwr_all;
- 		pPhyInfo->recvpower = rx_pwr_all;
- 
-diff --git a/drivers/staging/r8188eu/include/rtw_recv.h b/drivers/staging/r8188eu/include/rtw_recv.h
-index 0b1fc752b0c1..1e28ec731547 100644
---- a/drivers/staging/r8188eu/include/rtw_recv.h
-+++ b/drivers/staging/r8188eu/include/rtw_recv.h
-@@ -78,7 +78,6 @@ struct phy_info {
- /*  Real power in dBm for this packet, no beautification and aggregation.
-  * Keep this raw info to be used for the other procedures. */
- 	s8	recvpower;
--	u8	BTRxRSSIPercentage;
- 	u8	SignalStrength; /*  in 0-100 index. */
- 	u8	RxPwr[MAX_PATH_NUM_92CS];/* per-path's pwdb */
- 	u8	RxSNR[MAX_PATH_NUM_92CS];/* per-path's SNR */
+-void ODM_PhyStatusQuery(struct odm_dm_struct *dm_odm,
+-			struct phy_info *pPhyInfo,
+-			u8 *pPhyStatus, struct odm_per_pkt_info *pPktinfo,
+-			struct adapter *adapt)
+-{
+-	ODM_PhyStatusQuery_92CSeries(dm_odm, pPhyInfo, pPhyStatus, pPktinfo, adapt);
+-}
+-
+ enum HAL_STATUS ODM_ConfigRFWithHeaderFile(struct odm_dm_struct *dm_odm,
+ 					   enum rf_radio_path content,
+ 					   enum rf_radio_path rfpath)
 -- 
 2.33.1
 
