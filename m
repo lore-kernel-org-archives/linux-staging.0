@@ -1,198 +1,161 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D922C81
-	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 11:40:55 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id x27so6792223lfu.5
-        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 04:40:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=p/y6DgAZycykowwrleZpy70Yak++qIhNqJ9ImugcYMs=;
-        b=gbZb/rIEkq16uEpMdDfbn531uPXxDE2vXRTZ1At7zc8FyijjHf+TaWP9WSCNsx9CRl
-         Ax+uAwkmd3zCdbRdDaM3dpQ6QH2wtz6LdoMLA6+gjkzDI8FsGa3Gg4WLu7V9K5SrUrby
-         y6A+UktAxyprVLbdSpurxxaZ8mnWtv03QgVC25vrqwdz6F5CjpkyH0G67ZL5o2xSalbx
-         z2YLwvEkGXJDZVRENSUyiANgZXnd7Hl65An187cV1TSi/tcYxCoWRVEqIP0BwzqCyQr0
-         hoZBxk1g0lrSFu4sw+cYxe+pvM8G9j1I2iiX+c9B9ryltLhmQtiX2zDR77yR1QolGdKK
-         MOng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=p/y6DgAZycykowwrleZpy70Yak++qIhNqJ9ImugcYMs=;
-        b=AscMYCmS+dQp+k8oYDQRCrUEezhfP/+Ipxn8JghDT9AjY7Y21LP6IpKRjWSf371U5g
-         jNF6xuu/rU136VwlDldCpRLfUxpg1CfQHAIGihU3d5j+IUuRXlqBAXWIonvzkWsgYgKm
-         w6zG3Gu5dlUcMFdXbYAPIXhXj0Mlszm4KQBamUgfJzAg6xyR1xYHMp0fYnpns+o9vSqa
-         fTYyV/f10zt7ZTfQUD2Vz4DkYpfWfRGMTUqrp9iw/i5Thz+tTRTtfuxq39IZssM/3ij1
-         5774rF95aLVSVY4OMPVGt55dPwmB1qLeWcTjTN+NU8zWyvNOiaC3lFn0IGkARgpfiunk
-         UvIA==
-X-Gm-Message-State: AOAM531OaeKjGcJAv4XGWUfstB9F2bYsPkXHe9d9+PXODs05qwemWjXi
-	f9e9+LDrzUmJyaAr4MBWryi0fZ9Tld5di9PFDvX95w==
-X-Google-Smtp-Source: ABdhPJyiZ8hxPaWs5ZGwktR/58DXEHsnrg2iCZG7+dtLEFQZezq+DvEjCTIwbhL0fm341kLJAfk/05h60QX3kuXQ9G4=
-X-Received: by 2002:a05:6512:3084:: with SMTP id z4mr5314051lfd.167.1634643653278;
- Tue, 19 Oct 2021 04:40:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957012C81
+	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 12:13:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id C756CDF854;
+	Tue, 19 Oct 2021 05:13:35 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id u6hY7IWskrw3; Tue, 19 Oct 2021 05:13:35 -0700 (PDT)
+Date: Tue, 19 Oct 2021 14:13:22 +0200
+From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel   
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+    Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo   
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix 
+   Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: [PATCHv3 1/4] media: imx: Remove unused functions
+Message-ID: <20211019120047.827915-1-dorota.czaplejewicz@puri.sm>
+Organization: Purism
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com> <20210926224058.1252-21-digetx@gmail.com>
- <CAPDyKFoF2QxZss_h9B1NFqOqgeF=TQ6LajCedGiJ9_P8X5M0NA@mail.gmail.com>
- <0bcbcd3d-2154-03d2-f572-dc9032125c26@gmail.com> <CAPDyKFohA9iu2UQfwoc0pCrCGupdwnUTWjKOtP09_C2KaFSo8w@mail.gmail.com>
- <073114ea-490b-89a9-e82d-852b34cb11df@gmail.com>
-In-Reply-To: <073114ea-490b-89a9-e82d-852b34cb11df@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 19 Oct 2021 13:40:16 +0200
-Message-ID: <CAPDyKFoOMvEW0o6=-_bYKhwUcbfeTD4qu-K2tfkdXiR0bErHsw@mail.gmail.com>
-Subject: Re: [PATCH v13 20/35] mtd: rawnand: tegra: Add runtime PM and OPP support
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Michael Turquette <mturquette@baylibre.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-tegra <linux-tegra@vger.kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
-	linux-mmc <linux-mmc@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>, 
-	Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>, David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/zE61Nvhg4oWy18kcbGp8hJ/";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/zE61Nvhg4oWy18kcbGp8hJ/
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 17 Oct 2021 at 10:38, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 01.10.2021 18:01, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Fri, 1 Oct 2021 at 16:35, Dmitry Osipenko <digetx@gmail.com> wrote:
-> >>
-> >> 01.10.2021 17:24, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wro=
-te:
-> >>>>
-> >>>> The NAND on Tegra belongs to the core power domain and we're going t=
-o
-> >>>> enable GENPD support for the core domain. Now NAND must be resumed u=
-sing
-> >>>> runtime PM API in order to initialize the NAND power state. Add runt=
-ime PM
-> >>>> and OPP support to the NAND driver.
-> >>>>
-> >>>> Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> >>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >>>> ---
-> >>>>  drivers/mtd/nand/raw/tegra_nand.c | 55 ++++++++++++++++++++++++++--=
+Neither imx_media_mbus_fmt_to_ipu_image nor imx_media_ipu_image_to_mbus_fmt
+were used anywhere.
+
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
 ---
-> >>>>  1 file changed, 47 insertions(+), 8 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/mtd/nand/raw/tegra_nand.c b/drivers/mtd/nand/ra=
-w/tegra_nand.c
-> >>>> index 32431bbe69b8..098fcc9cb9df 100644
-> >>>> --- a/drivers/mtd/nand/raw/tegra_nand.c
-> >>>> +++ b/drivers/mtd/nand/raw/tegra_nand.c
-> >>>> @@ -17,8 +17,11 @@
-> >>>>  #include <linux/mtd/rawnand.h>
-> >>>>  #include <linux/of.h>
-> >>>>  #include <linux/platform_device.h>
-> >>>> +#include <linux/pm_runtime.h>
-> >>>>  #include <linux/reset.h>
-> >>>>
-> >>>> +#include <soc/tegra/common.h>
-> >>>> +
-> >>>>  #define COMMAND                                        0x00
-> >>>>  #define   COMMAND_GO                           BIT(31)
-> >>>>  #define   COMMAND_CLE                          BIT(30)
-> >>>> @@ -1151,6 +1154,7 @@ static int tegra_nand_probe(struct platform_de=
-vice *pdev)
-> >>>>                 return -ENOMEM;
-> >>>>
-> >>>>         ctrl->dev =3D &pdev->dev;
-> >>>> +       platform_set_drvdata(pdev, ctrl);
-> >>>>         nand_controller_init(&ctrl->controller);
-> >>>>         ctrl->controller.ops =3D &tegra_nand_controller_ops;
-> >>>>
-> >>>> @@ -1166,14 +1170,22 @@ static int tegra_nand_probe(struct platform_=
-device *pdev)
-> >>>>         if (IS_ERR(ctrl->clk))
-> >>>>                 return PTR_ERR(ctrl->clk);
-> >>>>
-> >>>> -       err =3D clk_prepare_enable(ctrl->clk);
-> >>>> +       err =3D devm_pm_runtime_enable(&pdev->dev);
-> >>>> +       if (err)
-> >>>> +               return err;
-> >>>> +
-> >>>> +       err =3D devm_tegra_core_dev_init_opp_table_common(&pdev->dev=
-);
-> >>>> +       if (err)
-> >>>> +               return err;
-> >>>> +
-> >>>> +       err =3D pm_runtime_resume_and_get(&pdev->dev);
-> >>>>         if (err)
-> >>>>                 return err;
-> >>>>
-> >>>>         err =3D reset_control_reset(rst);
-> >>>>         if (err) {
-> >>>>                 dev_err(ctrl->dev, "Failed to reset HW: %d\n", err);
-> >>>> -               goto err_disable_clk;
-> >>>> +               goto err_put_pm;
-> >>>>         }
-> >>>>
-> >>>>         writel_relaxed(HWSTATUS_CMD_DEFAULT, ctrl->regs + HWSTATUS_C=
-MD);
-> >>>> @@ -1188,21 +1200,19 @@ static int tegra_nand_probe(struct platform_=
-device *pdev)
-> >>>>                                dev_name(&pdev->dev), ctrl);
-> >>>>         if (err) {
-> >>>>                 dev_err(ctrl->dev, "Failed to get IRQ: %d\n", err);
-> >>>> -               goto err_disable_clk;
-> >>>> +               goto err_put_pm;
-> >>>>         }
-> >>>>
-> >>>>         writel_relaxed(DMA_MST_CTRL_IS_DONE, ctrl->regs + DMA_MST_CT=
-RL);
-> >>>>
-> >>>>         err =3D tegra_nand_chips_init(ctrl->dev, ctrl);
-> >>>>         if (err)
-> >>>> -               goto err_disable_clk;
-> >>>> -
-> >>>> -       platform_set_drvdata(pdev, ctrl);
-> >>>> +               goto err_put_pm;
-> >>>>
-> >>>
-> >>> There is no corresponding call pm_runtime_put() here. Is it
-> >>> intentional to always leave the device runtime resumed after ->probe(=
-)
-> >>> has succeeded?
-> >>>
-> >>> I noticed you included some comments about this for some other
-> >>> drivers, as those needed more tweaks. Is that also the case for this
-> >>> driver?
-> >>
-> >> Could you please clarify? There is pm_runtime_put() in both probe-erro=
-r
-> >> and remove() code paths here.
-> >
-> > I was not considering the error path of ->probe() (or ->remove()), but
-> > was rather thinking about when ->probe() completes successfully. Then
-> > you keep the device runtime resumed, because you have called
-> > pm_runtime_resume_and_get() for it.
-> >
-> > Shouldn't you have a corresponding pm_runtime_put() in ->probe(),
-> > allowing it to be runtime suspended, until the device is really needed
-> > later on. No?
->
-> This driver doesn't support active power management. I don't have Tegra
-> hardware that uses NAND storage for testing, so it's up to somebody else
-> to implement dynamic power management. NAND doesn't require high
-> voltages, so it's fine to keep the old driver behaviour by keeping
-> hardware resumed since the probe time.
+Hello,
 
-Alright, fair enough and thanks for clarifying!
+In this revision, the big change is in the 4th patch, where I followed Phil=
+ipp Zabel's suggestions for i.MX7/8. The biggest change comes from the use =
+of `v4l2_fill_pixfmt` to fill out the pixel format. Thanks to that, I could=
+ simplify the logic to select between 8-pixel- and 4-pixel-divisible line l=
+engths. Thanks Philipp for pointing out this function, this is closer to wh=
+at I originally hoped to do.
 
-Kind regards
-Uffe
+The use of `v4l2_fill_pixfmt` comes with the downside of breaking 10-bit Ba=
+yer formats, or at least until my other series gets accepted (Subject: "med=
+ia: Add 16-bit Bayer formats". Sorry, I don't have the message id.).
+
+Regards,
+Dorota Czaplejewicz
+
+
+ drivers/staging/media/imx/imx-media-utils.c | 42 ---------------------
+ drivers/staging/media/imx/imx-media.h       |  4 --
+ 2 files changed, 46 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
+media/imx/imx-media-utils.c
+index 5128915a5d6f..afa96e05ea7f 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -569,48 +569,6 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_form=
+at *pix,
+ }
+ EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
+=20
+-int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+-				    const struct v4l2_mbus_framefmt *mbus)
+-{
+-	int ret;
+-
+-	memset(image, 0, sizeof(*image));
+-
+-	ret =3D imx_media_mbus_fmt_to_pix_fmt(&image->pix, mbus, NULL);
+-	if (ret)
+-		return ret;
+-
+-	image->rect.width =3D mbus->width;
+-	image->rect.height =3D mbus->height;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_ipu_image);
+-
+-int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+-				    const struct ipu_image *image)
+-{
+-	const struct imx_media_pixfmt *fmt;
+-
+-	fmt =3D imx_media_find_pixel_format(image->pix.pixelformat,
+-					  PIXFMT_SEL_ANY);
+-	if (!fmt || !fmt->codes || !fmt->codes[0])
+-		return -EINVAL;
+-
+-	memset(mbus, 0, sizeof(*mbus));
+-	mbus->width =3D image->pix.width;
+-	mbus->height =3D image->pix.height;
+-	mbus->code =3D fmt->codes[0];
+-	mbus->field =3D image->pix.field;
+-	mbus->colorspace =3D image->pix.colorspace;
+-	mbus->xfer_func =3D image->pix.xfer_func;
+-	mbus->ycbcr_enc =3D image->pix.ycbcr_enc;
+-	mbus->quantization =3D image->pix.quantization;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(imx_media_ipu_image_to_mbus_fmt);
+-
+ void imx_media_free_dma_buf(struct device *dev,
+ 			    struct imx_media_dma_buf *buf)
+ {
+diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/=
+imx/imx-media.h
+index 492d9a64e704..d2a150aac6cd 100644
+--- a/drivers/staging/media/imx/imx-media.h
++++ b/drivers/staging/media/imx/imx-media.h
+@@ -199,10 +199,6 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framef=
+mt *tryfmt,
+ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+ 				  const struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *cc);
+-int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+-				    const struct v4l2_mbus_framefmt *mbus);
+-int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+-				    const struct ipu_image *image);
+ void imx_media_grp_id_to_sd_name(char *sd_name, int sz,
+ 				 u32 grp_id, int ipu_id);
+ struct v4l2_subdev *
+--=20
+2.31.1
+
+
+--Sig_/zE61Nvhg4oWy18kcbGp8hJ/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmFutmIACgkQADBpX4S8
+ZndV0g/+JN9tNswLpyPjd8h1b0p6RtIR7vg2TwWVv5VDhIJCbf2S0dOKlyFFwT15
+SuJhXGrJsKo+NYcT6jbRe99UEjHU1duxGbQHue6+g1d7BmFMG87z+pb23RP8fIBH
+t7tXEJ7HQ1gKKmQVctdQlB5Ey8D1tufikZWpH0+HLArzDzVUMf3QQFAN7Npmsosf
+VKk6Yh9YuqqNs8gDGMjRFnrtUGUlG0+1BLAAfXj2DmDxnT/P9+B8u342bLFCUFTQ
+GMdBOG+PHsIvjN5jajgr7Y1j6YZLQdeE1BlKG6aOhuPiQK4YjmaE69F+YH3FsJAz
+q9LPa5+B9zmRU+hoanNUjb+5dgYGYT9XyilcytWNkavgIhEhf3irWGe0ufLMj6jb
+qr2BlYgLcg5lY/WmBuer3H8wZGWo+GOt1my+KhhHyQVDNMacJm929c5QNczYKzAy
+cTsxEbOuUA3iucBbxgeHPFTI5t5Z9EUqpfiMrxGz7r6nfd0TG8g4LIVkqpompDXN
+0Fr8U0dRvdPr6rNTPYbbu+C2LvUUB99ix97vdmxJpZfItAVlh5meE24oFz/OZ6Un
+KhslGjKdPbNvXB3Bbz+isrlUC8zgzkDlVHDGTunOHGJpg/+GZ3P+AkArmIjlX8zy
+FukQaS0mTnkueQv59Rig74qz66IJVAc+NrbXAt+f8l4Ti+HflSI=
+=Lsmm
+-----END PGP SIGNATURE-----
+
+--Sig_/zE61Nvhg4oWy18kcbGp8hJ/--
