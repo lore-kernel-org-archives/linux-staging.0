@@ -1,118 +1,220 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808072C80
-	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 15:08:28 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id a140-20020a1c7f92000000b0030d8315b593so3117566wmd.5
-        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 08:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=gcQrXOybNP4D8/Nco8U5T3IxRjktElzEEGrbggjgINQ=;
-        b=HRsuf+PktFjntEg75/IjEX1kOFv+6WgmeqVWzTJLm+FeZDiEz0Etm+WwvXDf/qri1q
-         /ad3Kcxl2Eh9U+pLG0F8i1O1zATGX3hXty9GndO9jK9w+5ya2J5iLkZSYQOa6EUJSrUZ
-         kEmfR5Jf20TvRd53OXajRY8RKwOiKVuVQ+8tgcHtvoJoFrAJLnJJozP2733OnDQP0YuT
-         ZrY4GuW9BUrY8VhVZbFdOraPJ3B6/o6cCuyaAltJWeeOajSA3TQ9ypfr/16f2stmL3tq
-         fiRlOPwieaVD85ICcKiQE9UnTriu40mYqewpgDkZRAA8DsyYVODCcurWdsIo28s0g8Xj
-         Oruw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491682C80
+	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 15:29:24 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id r15-20020a6b600f000000b005dde03edc0cso12056160iog.6
+        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 08:29:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=gcQrXOybNP4D8/Nco8U5T3IxRjktElzEEGrbggjgINQ=;
-        b=tIGvm+6yMRwbBOg8Dx/didK8a175Hap1DQZbYeksivBax1LjMqC4gznzP3NRVmUJjv
-         vqQGEA9RLxDBBb6RP6n+VywAco7ekpiuDOsoyFemHXY3/8sZ+HePL+YShxad+TfqCtAH
-         Q4HcfAI8rRvNVJ37Ck8GbIzFEj0ew6G/HUAsnODYMAwySn0/u3pX88x6g2oXbwNArksl
-         Csvj7awwdRFFEZ4icci8BKY4WvZvrY5ya2JRevVyQMdwMBy+BUBzj9/ZZbb66Gy0wCeM
-         bJNjDnOpayxd7SPtHE4oKFsgvaCyfKu0Y2apxD6tLSpvFTPPmruBPb73YU9xC5/t6rBr
-         QBdw==
-X-Gm-Message-State: AOAM531VsgotwcIxCKkhiVIc7ip6JWY3Ya6US6D1s581v3PkGwVpIPXT
-	aTMITQJ0lDaf3iPj98/voq4=
-X-Google-Smtp-Source: ABdhPJzCyaDf2Mgin+1KAcpcIB7A4XE5TNMNvzt8X8Xk5XdvxgQWirDLgrLQz21FDc7ii565QFF9nw==
-X-Received: by 2002:a05:6000:552:: with SMTP id b18mr7987543wrf.112.1634656106768;
-        Tue, 19 Oct 2021 08:08:26 -0700 (PDT)
-Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id o8sm2577439wme.38.2021.10.19.08.08.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Oct 2021 08:08:26 -0700 (PDT)
-Message-ID: <a11249f8eaefb22896c7702ab6eb594fc40795e1.camel@gmail.com>
-Subject: Re: [Outreachy kernel] Re: [PATCH] staging: vt6655: Fix line
- wrapping in rf.c file
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, Joe Perches
-	 <joe@perches.com>, outreachy-kernel@googlegroups.com
-Cc: forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Date: Tue, 19 Oct 2021 16:08:25 +0100
-In-Reply-To: <1647209.5AoB3rP6bQ@localhost.localdomain>
-References: <20211018150526.9718-1-karolinadrobnik@gmail.com>
-	 <84f3c940fedb961e6e7e88d47c3d15e598bc32c3.camel@perches.com>
-	 <810a4e29b0c54520a30cae4d37fde0a59ea3d83b.camel@gmail.com>
-	 <1647209.5AoB3rP6bQ@localhost.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=K1HutfgURzvvD5hyC0nHEmKEekjLe2BfBHvMni2B8aE=;
+        b=NQS+UKfoAeJjiMg3I5W6Nc27Nj8PAZ/K0FIfta5nPViE5v+QjFk7bogRlKh1wSUkFL
+         vmMITJRYnA8bRvbWkOkhYT8z1PpKxYRnD7m+2HqUquVl0giuQ5mbEaCIhg+hsy3nGNgh
+         KJxXKG/l/RjnfRp5xnbCut568ejxL7seRjFGFu8PBX2R94pRW6u9SD03pKL0G14Ui7Tg
+         tRTXex5fjHSQoTd+FV+2AJwCv4F6ZF3xkMSVaUAcS4hAeR6D9WfoLf5dkqK12UArPDpQ
+         wKfcqh1lJRASoOU6XKzh4nafE4gZJMHZOh/ToP4IhsCVwHFtxOGtvb+8/c66B/WLhnp6
+         B7Mw==
+X-Gm-Message-State: AOAM531ZCGibV+eIJ7ucJ6Dc7aPvAAkByGhhNNfD4GqQ9iXiHyiusTzr
+	hOFj7alCBzSTnpnfn9SiYW+acRjXzI3tOPqy+Mnj6r9A6UbM
+X-Google-Smtp-Source: ABdhPJwYq3yHE78JsV2t2FkWdrQmQC0uwyE44V+cuUFK16jXRSlxzkVxVrNpZl2SNYu6h/FlHR9tNxfToJuoz45OfxRvAExgUZCD
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6638:2724:: with SMTP id m36mr4735996jav.49.1634657363269;
+ Tue, 19 Oct 2021 08:29:23 -0700 (PDT)
+Date: Tue, 19 Oct 2021 08:29:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000779cb105ceb65376@google.com>
+Subject: [syzbot] KASAN: use-after-free Read in rtl8712_dl_fw
+From: syzbot <syzbot+c55162be492189fb4f51@syzkaller.appspotmail.com>
+To: Larry.Finger@lwfinger.net, agamkohli9@gmail.com, 
+	florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-usb@vger.kernel.org, paskripkin@gmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 2021-10-19 at 05:26 -0700, Joe Perches wrote:
-> What I suggested is not a patch it's just an example.
+Hello,
 
-Sure, I understand. In this case, I'll take some inspiration from
-your example and break down the changes into smaller chunks, thank you.
+syzbot found the following issue on:
 
-> There's quite a lot of code in that driver that _could_
-> be updated/refined/refactored (none of which _I_ will submit),
-> but it's up to you do whatever _you_ want.
+HEAD commit:    8ef1e58783b9 usb: typec: STUSB160X should select REGMAP_I2C
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1106dcfb300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c27d285bdb7457e2
+dashboard link: https://syzkaller.appspot.com/bug?extid=c55162be492189fb4f51
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12725770b00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1168c158b00000
 
-Indeed there is, I'm trying to tackle one thing at a time. I thought
-I could fix a couple of line length warnings in an easy way but I was
-wrong.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+c55162be492189fb4f51@syzkaller.appspotmail.com
 
-Ok, I'll come back to CamelCase squashing and removing the Hungarian
-notation before working on this refactor. I think this is a good
-candidate for a patchset.
+==================================================================
+BUG: KASAN: use-after-free in rtl871x_open_fw drivers/staging/rtl8712/hal_init.c:83 [inline]
+BUG: KASAN: use-after-free in rtl8712_dl_fw+0xd95/0xe10 drivers/staging/rtl8712/hal_init.c:170
+Read of size 8 at addr ffff88810e25c9c0 by task dhcpcd/1204
 
-On Tue, 2021-10-19 at 15:07 +0200, Fabio M. De Francesco wrote:
-> Hi Karolina,
+CPU: 0 PID: 1204 Comm: dhcpcd Not tainted 5.15.0-rc6-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description.constprop.0.cold+0x6c/0x309 mm/kasan/report.c:256
+ __kasan_report mm/kasan/report.c:442 [inline]
+ kasan_report.cold+0x83/0xdf mm/kasan/report.c:459
+ rtl871x_open_fw drivers/staging/rtl8712/hal_init.c:83 [inline]
+ rtl8712_dl_fw+0xd95/0xe10 drivers/staging/rtl8712/hal_init.c:170
+ rtl8712_hal_init drivers/staging/rtl8712/hal_init.c:330 [inline]
+ rtl871x_hal_init+0xae/0x180 drivers/staging/rtl8712/hal_init.c:394
+ netdev_open+0xe6/0x6c0 drivers/staging/rtl8712/os_intfs.c:380
+ __dev_open+0x2bc/0x4d0 net/core/dev.c:1484
+ __dev_change_flags+0x583/0x750 net/core/dev.c:8761
+ dev_change_flags+0x93/0x170 net/core/dev.c:8832
+ devinet_ioctl+0x15d1/0x1ca0 net/ipv4/devinet.c:1142
+ inet_ioctl+0x1e6/0x320 net/ipv4/af_inet.c:971
+ sock_do_ioctl+0xcc/0x230 net/socket.c:1118
+ sock_ioctl+0x2f1/0x640 net/socket.c:1235
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:874 [inline]
+ __se_sys_ioctl fs/ioctl.c:860 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:860
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7ff4004a20e7
+Code: 3c 1c e8 1c ff ff ff 85 c0 79 87 49 c7 c4 ff ff ff ff 5b 5d 4c 89 e0 41 5c c3 66 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 61 9d 0c 00 f7 d8 64 89 01 48
+RSP: 002b:00007fffba0f8738 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ff4003b46c8 RCX: 00007ff4004a20e7
+RDX: 00007fffba108928 RSI: 0000000000008914 RDI: 0000000000000005
+RBP: 00007fffba118ad8 R08: 00007fffba1088e8 R09: 00007fffba108898
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fffba108928 R14: 0000000000000028 R15: 0000000000008914
 
-Hi Fabio,
-Thank you for describing everything in such detail, really appreciate
-it.
+Allocated by task 1128:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:46 [inline]
+ set_alloc_info mm/kasan/common.c:434 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:513 [inline]
+ __kasan_kmalloc+0x7c/0x90 mm/kasan/common.c:522
+ kmalloc include/linux/slab.h:591 [inline]
+ kzalloc include/linux/slab.h:721 [inline]
+ _request_firmware_prepare drivers/base/firmware_loader/main.c:732 [inline]
+ _request_firmware+0x192/0x1440 drivers/base/firmware_loader/main.c:808
+ request_firmware_work_func+0xdd/0x230 drivers/base/firmware_loader/main.c:1079
+ process_one_work+0x9bf/0x1620 kernel/workqueue.c:2297
+ worker_thread+0x658/0x11f0 kernel/workqueue.c:2444
+ kthread+0x3c2/0x4a0 kernel/kthread.c:319
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
 
-> No, there is no problem in using a[i - 1]. Personally I prefer the
-> former when 1 <= index <= ARRAY_SIZE(a). 
+Freed by task 1306:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
+ kasan_set_track+0x1c/0x30 mm/kasan/common.c:46
+ kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:360
+ ____kasan_slab_free mm/kasan/common.c:366 [inline]
+ ____kasan_slab_free mm/kasan/common.c:328 [inline]
+ __kasan_slab_free+0xe0/0x110 mm/kasan/common.c:374
+ kasan_slab_free include/linux/kasan.h:230 [inline]
+ slab_free_hook mm/slub.c:1700 [inline]
+ slab_free_freelist_hook mm/slub.c:1725 [inline]
+ slab_free mm/slub.c:3483 [inline]
+ kfree+0xd9/0x460 mm/slub.c:4543
+ release_firmware+0x1b/0x30 drivers/base/firmware_loader/main.c:1053
+ r871xu_dev_remove+0xcc/0x2c0 drivers/staging/rtl8712/usb_intf.c:599
+ usb_unbind_interface+0x1d8/0x8d0 drivers/usb/core/driver.c:458
+ __device_release_driver+0x5d7/0x700 drivers/base/dd.c:1205
+ device_release_driver_internal drivers/base/dd.c:1236 [inline]
+ device_release_driver+0x26/0x40 drivers/base/dd.c:1259
+ bus_remove_device+0x2eb/0x5a0 drivers/base/bus.c:529
+ device_del+0x502/0xd60 drivers/base/core.c:3583
+ usb_disable_device+0x35b/0x7b0 drivers/usb/core/message.c:1419
+ usb_disconnect.cold+0x27a/0x78e drivers/usb/core/hub.c:2225
+ hub_port_connect drivers/usb/core/hub.c:5199 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5488 [inline]
+ port_event drivers/usb/core/hub.c:5634 [inline]
+ hub_event+0x1c9c/0x4330 drivers/usb/core/hub.c:5716
+ process_one_work+0x9bf/0x1620 kernel/workqueue.c:2297
+ worker_thread+0x658/0x11f0 kernel/workqueue.c:2444
+ kthread+0x3c2/0x4a0 kernel/kthread.c:319
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
 
-I see, thanks for explaining this.
+The buggy address belongs to the object at ffff88810e25c9c0
+ which belongs to the cache kmalloc-32 of size 32
+The buggy address is located 0 bytes inside of
+ 32-byte region [ffff88810e25c9c0, ffff88810e25c9e0)
+The buggy address belongs to the page:
+page:ffffea0004389700 refcount:1 mapcount:0 mapping:0000000000000000 index:0xffff88810e25c900 pfn:0x10e25c
+flags: 0x200000000000200(slab|node=0|zone=2)
+raw: 0200000000000200 ffffea000418e000 0000000c0000000c ffff888100041500
+raw: ffff88810e25c900 000000008040003f 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x12c40(GFP_NOFS|__GFP_NOWARN|__GFP_NORETRY), pid 1165, ts 7264636375, free_ts 7245803911
+ prep_new_page mm/page_alloc.c:2424 [inline]
+ get_page_from_freelist+0x11d2/0x28b0 mm/page_alloc.c:4153
+ __alloc_pages+0x1b2/0x4e0 mm/page_alloc.c:5375
+ alloc_pages+0x1a7/0x300 mm/mempolicy.c:2197
+ alloc_slab_page mm/slub.c:1763 [inline]
+ allocate_slab mm/slub.c:1900 [inline]
+ new_slab+0x319/0x490 mm/slub.c:1963
+ ___slab_alloc+0xa4b/0x1170 mm/slub.c:2994
+ __slab_alloc mm/slub.c:3081 [inline]
+ slab_alloc_node mm/slub.c:3172 [inline]
+ slab_alloc mm/slub.c:3214 [inline]
+ __kmalloc+0x303/0x320 mm/slub.c:4387
+ kmalloc include/linux/slab.h:596 [inline]
+ tomoyo_add_entry security/tomoyo/common.c:2031 [inline]
+ tomoyo_supervisor+0xce8/0xf00 security/tomoyo/common.c:2103
+ tomoyo_audit_path_log security/tomoyo/file.c:168 [inline]
+ tomoyo_path_permission security/tomoyo/file.c:587 [inline]
+ tomoyo_path_permission+0x270/0x3a0 security/tomoyo/file.c:573
+ tomoyo_check_open_permission+0x33e/0x380 security/tomoyo/file.c:777
+ tomoyo_file_open security/tomoyo/tomoyo.c:311 [inline]
+ tomoyo_file_open+0xa3/0xd0 security/tomoyo/tomoyo.c:306
+ security_file_open+0x45/0xb0 security/security.c:1634
+ do_dentry_open+0x34e/0x1110 fs/open.c:809
+ do_open fs/namei.c:3428 [inline]
+ path_openat+0x1c9a/0x2740 fs/namei.c:3561
+ do_filp_open+0x1aa/0x400 fs/namei.c:3588
+ do_sys_openat2+0x16d/0x4d0 fs/open.c:1200
+ do_sys_open fs/open.c:1216 [inline]
+ __do_sys_openat fs/open.c:1232 [inline]
+ __se_sys_openat fs/open.c:1227 [inline]
+ __x64_sys_openat+0x13f/0x1f0 fs/open.c:1227
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1338 [inline]
+ free_pcp_prepare+0x2b3/0x670 mm/page_alloc.c:1389
+ free_unref_page_prepare mm/page_alloc.c:3315 [inline]
+ free_unref_page+0x19/0x490 mm/page_alloc.c:3394
+ __vunmap+0x783/0xb70 mm/vmalloc.c:2621
+ free_work+0x58/0x70 mm/vmalloc.c:95
+ process_one_work+0x9bf/0x1620 kernel/workqueue.c:2297
+ worker_thread+0x658/0x11f0 kernel/workqueue.c:2444
+ kthread+0x3c2/0x4a0 kernel/kthread.c:319
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
 
-> If you code "index = index -1;" or 
-> "index--;" (that is the same) and then you use 'index' many lines
-> below that decrement in "a[index]" it may be not immediately clear
-> that you are not indexing past the end of the array.
-
-That's what I thought as well.
-
-> I prefer to state it again: if you choose to do such kind of works,
-> be careful to split self-contained patches in a series and explain
-> each change you make and why you make it.
-> Each patch must do only one logical change.
-
-Will definitely do so, thank you.
-
-> Each patch of a series must be self-contained also in the sense that
-> it must build without introducing errors or warnings at any point:
-> for instance, five patches => five clean builds.
-
-Makes sense, will keep that in mind. Also, I think it would be good to
-mention it on the FPT page. I can suggest adding such comment in later
-on.
+Memory state around the buggy address:
+ ffff88810e25c880: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+ ffff88810e25c900: fb fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+>ffff88810e25c980: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+                                           ^
+ ffff88810e25ca00: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+ ffff88810e25ca80: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+==================================================================
 
 
-Thanks,
-Karolina
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
