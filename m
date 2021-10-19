@@ -1,39 +1,39 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F8C12C8B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36192C88
 	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 13:51:45 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id y3so48063536wrl.1
-        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 06:51:44 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id r7so47978324wrc.10
+        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 06:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=M/DmGSjL5YYc0m+ILoDVmj5IL0+TiD4NKKwKxMYwOv4=;
-        b=Wq24puAM6Qpi0KzblwlS7MNqLTAT7a5s+ryG0njuP55JeeuXUYhRdUeoBvp6fTBjf4
-         4YwaLj+aeSy4A5o+EXykaCEC/iwfs51HUlAINLQa7Jdry7OrGWqEbIeORxpYkurBB0jC
-         UqFNrmMEsTTQkw9O8rl0emYISXCIlgWTeipVaHGXf5pMiLk6rEckTohm+25GEIW0bC8o
-         wfL6jlJ5Yk7xED6FADafeo2tU1k5nvbo1dyzIkqTF+c9VXFtGoO8lKxEAu85PKttaVQ3
-         jfMT/M2AbXadcbp4v71UW8snHiV9hiFfsYcyR+mZrS3Zd9Q2oiLgLCFppGw4R+6JNfqj
-         a2WQ==
+        bh=DQLYM1tjWYzX8if24IRLux/H2YDXzxiO/vti4eG5S14=;
+        b=WxkhPGjGJuxJVxjPrr+7i0A0LxJoB/2hPtjBwwUj2HBUAbvZOsGxam/l7iEBlzSKw0
+         tvjct9qIpkWNKEu6S0XJ+Q6MZnrTzFxIT8XR4q6meNu63bv4NjypHc2vh4S3KU28v/5C
+         Y2wUKRvzcvTSIBlXGlConVqzs9ygCbF88VeRVV1JvqOn+PUiGa97FwZafcz7rvoUrga/
+         v+5hNEMfMpBTw2RvtcRD+436L0RbyC/PPAj6qV/xZ/53U2VcpwICRlPZm3D3tUrY4Eir
+         nz4lUXF0Z5zIfKcYhhxH0GznnoV31K5891i9GnGMXJnTeTFK79IwBnVDqsx6+K+zjXcU
+         CY3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=M/DmGSjL5YYc0m+ILoDVmj5IL0+TiD4NKKwKxMYwOv4=;
-        b=EGVQOR/+NPF8zt/4etmnX/o6Ak4pJcnE4D8dNjm8gxwZdSfVMqr8U7q/02sDq3CwUC
-         aAyInLTMCKym6ujYIpQhqUupO1SDGSH+tYCHNLeedW4WiaEICl4gyeSfaAQ9hg+tJElm
-         PquQHsE6Uucn8X8XAn4d1BrriQqUOqIJ6Kkp+9DxqiD6eFy9SBRx+adHkUNgvdwTpv1Y
-         mU8YzeB8SKpS93kS8j5OsUbiHyYI8o0jT9gaEFVXCJEkbS9RUL0ThvLjujGo5i/LwMvn
-         MP/yHpbdNViwg5fN+Y+G6WID4wWdUrKrqsIZbPkBqfXWOARsFpWuuAiaCVcvmrB8/cPc
-         DwsQ==
-X-Gm-Message-State: AOAM532gMqzf5wCBYuD9Ew4HZ9iEK3uQhMbTF3+mAtX22ncRv9GnkOfP
-	di0PSoBh0r9WMg8hzZm6Tmc=
-X-Google-Smtp-Source: ABdhPJyKSIvZ19t44O8h/XJeYPqLDiuqraqiPRauNQKJnMpE3IX+Ld8Bi9F13E+z5MUNijCtzjmKeg==
-X-Received: by 2002:adf:a15c:: with SMTP id r28mr43618707wrr.287.1634651503410;
-        Tue, 19 Oct 2021 06:51:43 -0700 (PDT)
+        bh=DQLYM1tjWYzX8if24IRLux/H2YDXzxiO/vti4eG5S14=;
+        b=uoYMSfGnDWKpK1tMMiU2jnYn/qk38hmhiUFI9xWrG/vKkh3uIPts6kj6D2YF7jhD3h
+         UGmoe+rTOuwexNEju6m5hSKCzP3v6HNw/VGMHv3XY850u2KbW63GMyGWWBQobbE8SMC3
+         +Llr0VHoTPvlq/OZmXON6i9JqUa6W3o9SSG5uwWvgizjD0JbhGK9sjT503zJYD9HTd8L
+         Ly3QDxPWAnp1VD+O0Qo4HcypNNCN1TeSOivOJF0xE+B5gI67n3qqquK0PpCDD/S0Ima7
+         hSCS01T8sO/4sH62m4hlbrpCjtz01S4llPHiGvejalKK4Les49QO3RVUiP3pALVI4yVc
+         95sw==
+X-Gm-Message-State: AOAM5322E0uaggw96w/mxuVoznZ3g7G2qcf1vgS+SSX4yS3d//2TH52i
+	0sxJQc1T/yWUUqiDBnkO1l/0wF3nECo=
+X-Google-Smtp-Source: ABdhPJysi2Tcxp6qmDat3XL3iEY4DZyE5otBdjezxTUuvlzkQfLHJ0FSXPRIFrBLqXm0b1RdIS7K1w==
+X-Received: by 2002:adf:a2d7:: with SMTP id t23mr45481741wra.156.1634651504104;
+        Tue, 19 Oct 2021 06:51:44 -0700 (PDT)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::3de4])
-        by smtp.gmail.com with ESMTPSA id i203sm2280699wma.48.2021.10.19.06.51.42
+        by smtp.gmail.com with ESMTPSA id i203sm2280699wma.48.2021.10.19.06.51.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 19 Oct 2021 06:51:43 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/7] staging: r8188eu: remove duplicate structure
-Date: Tue, 19 Oct 2021 15:51:31 +0200
-Message-Id: <20211019135137.9893-2-straube.linux@gmail.com>
+Subject: [PATCH 2/7] staging: r8188eu: BTRxRSSIPercentage is set but never used
+Date: Tue, 19 Oct 2021 15:51:32 +0200
+Message-Id: <20211019135137.9893-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211019135137.9893-1-straube.linux@gmail.com>
 References: <20211019135137.9893-1-straube.linux@gmail.com>
@@ -57,129 +57,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The structures odm_phy_status_info and phy_info are redundant.
-Keep phy_info and remove odm_phy_status_info.
+BTRxRSSIPercentage is set but never used, remove it from structure
+phy_info.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm_HWConfig.c     | 12 ++++++------
- drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c  |  2 +-
- drivers/staging/r8188eu/include/odm.h          | 17 -----------------
- drivers/staging/r8188eu/include/odm_HWConfig.h |  2 +-
- 4 files changed, 8 insertions(+), 25 deletions(-)
+ drivers/staging/r8188eu/hal/odm_HWConfig.c | 5 +----
+ drivers/staging/r8188eu/include/rtw_recv.h | 1 -
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm_HWConfig.c b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-index af28af6f66d7..d83ef15c2cb6 100644
+index d83ef15c2cb6..4772c2c0d50d 100644
 --- a/drivers/staging/r8188eu/hal/odm_HWConfig.c
 +++ b/drivers/staging/r8188eu/hal/odm_HWConfig.c
-@@ -53,7 +53,7 @@ static u8 odm_evm_db_to_percentage(s8 value)
- }
- 
- static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
--			struct odm_phy_status_info *pPhyInfo,
-+			struct phy_info *pPhyInfo,
- 			u8 *pPhyStatus,
- 			struct odm_per_pkt_info *pPktinfo,
- 			struct adapter *adapt)
-@@ -137,7 +137,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+@@ -60,7 +60,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+ {
+ 	u8 i, Max_spatial_stream;
+ 	s8 rx_pwr[4], rx_pwr_all = 0;
+-	u8 EVM, PWDB_ALL = 0, PWDB_ALL_BT;
++	u8 EVM, PWDB_ALL = 0;
+ 	u8 RSSI, total_rssi = 0;
+ 	u8 isCCKrate = 0;
+ 	u8 rf_rx_num = 0;
+@@ -136,7 +136,6 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+ 		}
  
  		pPhyInfo->RxPWDBAll = PWDB_ALL;
- 		pPhyInfo->BTRxRSSIPercentage = PWDB_ALL;
--		pPhyInfo->RecvSignalPower = rx_pwr_all;
-+		pPhyInfo->recvpower = rx_pwr_all;
+-		pPhyInfo->BTRxRSSIPercentage = PWDB_ALL;
+ 		pPhyInfo->recvpower = rx_pwr_all;
  		/*  (3) Get Signal Quality (EVM) */
  		if (pPktinfo->bPacketMatchBSSID) {
- 			u8 SQ, SQ_rpt;
-@@ -193,7 +193,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+@@ -188,10 +187,8 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
+ 		rx_pwr_all = (((pPhyStaRpt->cck_sig_qual_ofdm_pwdb_all) >> 1) & 0x7f) - 110;
+ 
+ 		PWDB_ALL = odm_QueryRxPwrPercentage(rx_pwr_all);
+-		PWDB_ALL_BT = PWDB_ALL;
+ 
  		pPhyInfo->RxPWDBAll = PWDB_ALL;
- 		pPhyInfo->BTRxRSSIPercentage = PWDB_ALL_BT;
+-		pPhyInfo->BTRxRSSIPercentage = PWDB_ALL_BT;
  		pPhyInfo->RxPower = rx_pwr_all;
--		pPhyInfo->RecvSignalPower = rx_pwr_all;
-+		pPhyInfo->recvpower = rx_pwr_all;
+ 		pPhyInfo->recvpower = rx_pwr_all;
  
- 		/*  (3)EVM of HT rate */
- 		if (pPktinfo->Rate >= DESC92C_RATEMCS8 && pPktinfo->Rate <= DESC92C_RATEMCS15)
-@@ -230,7 +230,7 @@ static void odm_RxPhyStatus92CSeries_Parsing(struct odm_dm_struct *dm_odm,
- }
- 
- static void odm_Process_RSSIForDM(struct odm_dm_struct *dm_odm,
--				  struct odm_phy_status_info *pPhyInfo,
-+				  struct phy_info *pPhyInfo,
- 				  struct odm_per_pkt_info *pPktinfo)
- {
- 	s32 UndecoratedSmoothedPWDB, UndecoratedSmoothedCCK;
-@@ -366,7 +366,7 @@ static void odm_Process_RSSIForDM(struct odm_dm_struct *dm_odm,
- 
- /*  Endianness before calling this API */
- static void ODM_PhyStatusQuery_92CSeries(struct odm_dm_struct *dm_odm,
--					 struct odm_phy_status_info *pPhyInfo,
-+					 struct phy_info *pPhyInfo,
- 					 u8 *pPhyStatus,
- 					 struct odm_per_pkt_info *pPktinfo,
- 					 struct adapter *adapt)
-@@ -378,7 +378,7 @@ static void ODM_PhyStatusQuery_92CSeries(struct odm_dm_struct *dm_odm,
- }
- 
- void ODM_PhyStatusQuery(struct odm_dm_struct *dm_odm,
--			struct odm_phy_status_info *pPhyInfo,
-+			struct phy_info *pPhyInfo,
- 			u8 *pPhyStatus, struct odm_per_pkt_info *pPktinfo,
- 			struct adapter *adapt)
- {
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
-index 244286789b6d..053d9549873d 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_rxdesc.c
-@@ -127,7 +127,7 @@ void update_recvframe_phyinfo_88e(struct recv_frame *precvframe, struct phy_stat
- 	struct adapter *padapter = precvframe->adapter;
- 	struct rx_pkt_attrib *pattrib = &precvframe->attrib;
- 	struct hal_data_8188e *pHalData = GET_HAL_DATA(padapter);
--	struct odm_phy_status_info *pPHYInfo  = (struct odm_phy_status_info *)(&pattrib->phy_info);
-+	struct phy_info *pPHYInfo  = &pattrib->phy_info;
- 	u8 *wlanhdr;
- 	struct odm_per_pkt_info	pkt_info;
- 	u8 *sa = NULL;
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 3c08d33f0dd0..6aac90fcf3cc 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -168,23 +168,6 @@ struct odm_rate_adapt {
- 
- #define	DM_Type_ByDriver	1
- 
--/*  Declare for common info */
--
--struct odm_phy_status_info {
--	u8	RxPWDBAll;
--	u8	SignalQuality;	 /*  in 0-100 index. */
--	u8	RxMIMOSignalQuality[MAX_PATH_NUM_92CS]; /* EVM */
--	u8	RxMIMOSignalStrength[MAX_PATH_NUM_92CS];/*  in 0~100 index */
--	s8	RxPower; /*  in dBm Translate from PWdB */
--	s8	RecvSignalPower;/*  Real power in dBm for this packet, no
--				 * beautification and aggregation. Keep this raw
--				 * info to be used for the other procedures. */
+diff --git a/drivers/staging/r8188eu/include/rtw_recv.h b/drivers/staging/r8188eu/include/rtw_recv.h
+index 0b1fc752b0c1..1e28ec731547 100644
+--- a/drivers/staging/r8188eu/include/rtw_recv.h
++++ b/drivers/staging/r8188eu/include/rtw_recv.h
+@@ -78,7 +78,6 @@ struct phy_info {
+ /*  Real power in dBm for this packet, no beautification and aggregation.
+  * Keep this raw info to be used for the other procedures. */
+ 	s8	recvpower;
 -	u8	BTRxRSSIPercentage;
--	u8	SignalStrength; /*  in 0-100 index. */
--	u8	RxPwr[MAX_PATH_NUM_92CS];/* per-path's pwdb */
--	u8	RxSNR[MAX_PATH_NUM_92CS];/* per-path's SNR */
--};
--
- struct odm_phy_dbg_info {
- 	/* ODM Write,debug info */
- 	s8	RxSNRdB[MAX_PATH_NUM_92CS];
-diff --git a/drivers/staging/r8188eu/include/odm_HWConfig.h b/drivers/staging/r8188eu/include/odm_HWConfig.h
-index e2edcb7dbad6..3ed265e00ac1 100644
---- a/drivers/staging/r8188eu/include/odm_HWConfig.h
-+++ b/drivers/staging/r8188eu/include/odm_HWConfig.h
-@@ -90,7 +90,7 @@ struct phy_status_rpt {
- };
- 
- void ODM_PhyStatusQuery(struct odm_dm_struct *pDM_Odm,
--			struct odm_phy_status_info *pPhyInfo,
-+			struct phy_info *pPhyInfo,
- 			u8 *pPhyStatus,
- 			struct odm_per_pkt_info *pPktinfo,
- 			struct adapter *adapt);
+ 	u8	SignalStrength; /*  in 0-100 index. */
+ 	u8	RxPwr[MAX_PATH_NUM_92CS];/* per-path's pwdb */
+ 	u8	RxSNR[MAX_PATH_NUM_92CS];/* per-path's SNR */
 -- 
 2.33.1
 
