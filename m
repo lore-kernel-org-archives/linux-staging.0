@@ -1,27 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42342C9E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33662C9D
 	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 17:12:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9AEE36136A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6746661360;
 	Tue, 19 Oct 2021 17:12:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1634663569;
-	bh=WfIwmh371a8qkk02UGe3MsTA+uaLWt338ofwUGG7Hh8=;
+	bh=svQ0ahSZqsMI0cKh8fG9fO7eJge4gE0eA3I1ktkVzI4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D8NBMvrT/8skkCL+xeK2BA67XeI6a5ApeBWp3fGsdpQr5WQNgjzXbmBL01BxvGSKD
-	 pjs2Sj3vmQQagptn3Uuo/1ztFOUGIaUBpTTCRY2G78SmuLnYfSr5c26Il+BSDfZFG5
-	 O5wyUj/HerZAl1rqgZ5r+2T77VeLRYyH3Fw4VmXkSbC4BTMGrGQK9gQ+yEA7D3hHUI
-	 i+BMY66yyMXoxClvg7w8GJXxLxnBny/oRN/WcjCQMMX0dMnfNvff0ecoMtZvJy86yO
-	 aWMs30Qx/Iq1xQ+CpxrZfKtt1fcIY0fgqkXlulsIshQbBQ8l6pMNiHcgV557PQptQW
-	 efDaY4jDno+QA==
+	b=fqZsZ6/8mcOjxvCx6cfvZIidEbeo/KcVfXKYUTlxpu2QdrRnM6IqMzX5lA3RSx3/P
+	 Gs0RBqZFUfshSoDeEx39eLFPFS4tY4oWG0zcLqBpstMS2wfMVJgG4Ys6pQ62F2NGbu
+	 1KBcHCRI4GwwjLt+rrlt3mv6s9P1P9YdWyhe1yYUxeFwlFkksXiTlAbTUYUM64nNFp
+	 pIqcQOuS/5hSY7QDNpLEeRgOOpTX6D/oyeojhZyO6IW/0a1ILHDMldguOF0nv99IT+
+	 cpZbd1rzMsX/ozVaLymEXQVOs5kpowFTgoPOgjrAsrQ+BcUfDh2zR6GxQTANQJk339
+	 VB2vNGx9fo6Cg==
 From: Jakub Kicinski <kuba@kernel.org>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH 3/8] staging: use eth_hw_addr_set() for dev->addr_len cases
-Date: Tue, 19 Oct 2021 10:12:38 -0700
-Message-Id: <20211019171243.1412240-4-kuba@kernel.org>
+Subject: [PATCH 2/8] staging: use eth_hw_addr_set() instead of ether_addr_copy()
+Date: Tue, 19 Oct 2021 10:12:37 -0700
+Message-Id: <20211019171243.1412240-3-kuba@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211019171243.1412240-1-kuba@kernel.org>
 References: <20211019171243.1412240-1-kuba@kernel.org>
@@ -33,85 +33,135 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert all staging drivers from memcpy(... dev->addr_len)
-to eth_hw_addr_set():
+Commit 406f42fa0d3c ("net-next: When a bond have a massive amount
+of VLANs...") introduced a rbtree for faster Ethernet address look
+up. To maintain netdev->dev_addr in this tree we need to make all
+the writes to it got through appropriate helpers.
+
+Convert staging from ether_addr_copy() to eth_hw_addr_set():
 
   @@
   expression dev, np;
   @@
-  - memcpy(dev->dev_addr, np, dev->addr_len)
+  - ether_addr_copy(dev->dev_addr, np)
   + eth_hw_addr_set(dev, np)
-
-Manually confirmed these are all etherdevices.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- drivers/staging/ks7010/ks_wlan_net.c   |  2 +-
- drivers/staging/qlge/qlge_main.c       | 10 +++-------
- drivers/staging/wlan-ng/p80211netdev.c |  2 +-
- 3 files changed, 5 insertions(+), 9 deletions(-)
+ drivers/staging/ks7010/ks_hostif.c             | 2 +-
+ drivers/staging/ks7010/ks_wlan_net.c           | 2 +-
+ drivers/staging/most/net/net.c                 | 2 +-
+ drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 2 +-
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 2 +-
+ drivers/staging/rtl8192u/r8192U_core.c         | 2 +-
+ drivers/staging/rtl8712/os_intfs.c             | 2 +-
+ drivers/staging/rtl8712/usb_intf.c             | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/staging/ks7010/ks_hostif.c b/drivers/staging/ks7010/ks_hostif.c
+index eaa70893224a..1c63d595313d 100644
+--- a/drivers/staging/ks7010/ks_hostif.c
++++ b/drivers/staging/ks7010/ks_hostif.c
+@@ -541,7 +541,7 @@ void hostif_mib_get_confirm(struct ks_wlan_private *priv)
+ 		hostif_sme_enqueue(priv, SME_GET_MAC_ADDRESS);
+ 		ether_addr_copy(priv->eth_addr, priv->rxp);
+ 		priv->mac_address_valid = true;
+-		ether_addr_copy(dev->dev_addr, priv->eth_addr);
++		eth_hw_addr_set(dev, priv->eth_addr);
+ 		netdev_info(dev, "MAC ADDRESS = %pM\n", priv->eth_addr);
+ 		break;
+ 	case DOT11_PRODUCT_VERSION:
 diff --git a/drivers/staging/ks7010/ks_wlan_net.c b/drivers/staging/ks7010/ks_wlan_net.c
-index 61d8f40e2739..7e8d37c169f0 100644
+index 631ad769c3d5..61d8f40e2739 100644
 --- a/drivers/staging/ks7010/ks_wlan_net.c
 +++ b/drivers/staging/ks7010/ks_wlan_net.c
-@@ -2490,7 +2490,7 @@ int ks_wlan_set_mac_address(struct net_device *dev, void *addr)
+@@ -2625,7 +2625,7 @@ int ks_wlan_net_start(struct net_device *dev)
  
- 	if (netif_running(dev))
- 		return -EBUSY;
--	memcpy(dev->dev_addr, mac_addr->sa_data, dev->addr_len);
-+	eth_hw_addr_set(dev, mac_addr->sa_data);
- 	ether_addr_copy(priv->eth_addr, mac_addr->sa_data);
+ 	/* dummy address set */
+ 	ether_addr_copy(priv->eth_addr, dummy_addr);
+-	ether_addr_copy(dev->dev_addr, priv->eth_addr);
++	eth_hw_addr_set(dev, priv->eth_addr);
  
- 	priv->mac_address_valid = false;
-diff --git a/drivers/staging/qlge/qlge_main.c b/drivers/staging/qlge/qlge_main.c
-index 8fcdf89da8aa..abb7844f92fb 100644
---- a/drivers/staging/qlge/qlge_main.c
-+++ b/drivers/staging/qlge/qlge_main.c
-@@ -724,9 +724,7 @@ static int qlge_get_8000_flash_params(struct qlge_adapter *qdev)
- 		goto exit;
- 	}
- 
--	memcpy(qdev->ndev->dev_addr,
--	       mac_addr,
--	       qdev->ndev->addr_len);
-+	eth_hw_addr_set(qdev->ndev, mac_addr);
- 
- exit:
- 	qlge_sem_unlock(qdev, SEM_FLASH_MASK);
-@@ -774,9 +772,7 @@ static int qlge_get_8012_flash_params(struct qlge_adapter *qdev)
- 		goto exit;
- 	}
- 
--	memcpy(qdev->ndev->dev_addr,
--	       qdev->flash.flash_params_8012.mac_addr,
--	       qdev->ndev->addr_len);
-+	eth_hw_addr_set(qdev->ndev, qdev->flash.flash_params_8012.mac_addr);
- 
- exit:
- 	qlge_sem_unlock(qdev, SEM_FLASH_MASK);
-@@ -4214,7 +4210,7 @@ static int qlge_set_mac_address(struct net_device *ndev, void *p)
- 
- 	if (!is_valid_ether_addr(addr->sa_data))
- 		return -EADDRNOTAVAIL;
--	memcpy(ndev->dev_addr, addr->sa_data, ndev->addr_len);
-+	eth_hw_addr_set(ndev, addr->sa_data);
- 	/* Update local copy of current mac address. */
- 	memcpy(qdev->current_mac_addr, ndev->dev_addr, ndev->addr_len);
- 
-diff --git a/drivers/staging/wlan-ng/p80211netdev.c b/drivers/staging/wlan-ng/p80211netdev.c
-index 07ed6c4cfdcc..255500448ad3 100644
---- a/drivers/staging/wlan-ng/p80211netdev.c
-+++ b/drivers/staging/wlan-ng/p80211netdev.c
-@@ -616,7 +616,7 @@ static int p80211knetdev_set_mac_address(struct net_device *dev, void *addr)
- 		result = -EADDRNOTAVAIL;
+ 	/* The ks_wlan-specific entries in the device structure. */
+ 	dev->netdev_ops = &ks_wlan_netdev_ops;
+diff --git a/drivers/staging/most/net/net.c b/drivers/staging/most/net/net.c
+index a5fd14246046..47039f0d262f 100644
+--- a/drivers/staging/most/net/net.c
++++ b/drivers/staging/most/net/net.c
+@@ -564,7 +564,7 @@ static void on_netinfo(struct most_interface *iface,
+ 	if (m && is_valid_ether_addr(m)) {
+ 		if (!is_valid_ether_addr(dev->dev_addr)) {
+ 			netdev_info(dev, "set mac %pM\n", m);
+-			ether_addr_copy(dev->dev_addr, m);
++			eth_hw_addr_set(dev, m);
+ 			netif_dormant_off(dev);
+ 		} else if (!ether_addr_equal(dev->dev_addr, m)) {
+ 			netdev_warn(dev, "reject mac %pM\n", m);
+diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+index 358b629d2cc6..cfeaa9c1542f 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
++++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
+@@ -366,7 +366,7 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
+ 			*(u16 *)(&dev->dev_addr[i]) = usValue;
+ 		}
  	} else {
- 		/* everything's ok, change the addr in netdev */
--		memcpy(dev->dev_addr, new_addr->sa_data, dev->addr_len);
-+		eth_hw_addr_set(dev, new_addr->sa_data);
+-		ether_addr_copy(dev->dev_addr, bMac_Tmp_Addr);
++		eth_hw_addr_set(dev, bMac_Tmp_Addr);
  	}
  
- 	return result;
+ 	RT_TRACE(COMP_INIT, "Permanent Address = %pM\n",
+diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+index a7dd1578b2c6..d2e9df60e9ba 100644
+--- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
++++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
+@@ -2235,7 +2235,7 @@ static int _rtl92e_set_mac_adr(struct net_device *dev, void *mac)
+ 
+ 	mutex_lock(&priv->wx_mutex);
+ 
+-	ether_addr_copy(dev->dev_addr, addr->sa_data);
++	eth_hw_addr_set(dev, addr->sa_data);
+ 
+ 	schedule_work(&priv->reset_wq);
+ 	mutex_unlock(&priv->wx_mutex);
+diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+index 2aaba44d84e2..3718d72e217e 100644
+--- a/drivers/staging/rtl8192u/r8192U_core.c
++++ b/drivers/staging/rtl8192u/r8192U_core.c
+@@ -3454,7 +3454,7 @@ static int r8192_set_mac_adr(struct net_device *dev, void *mac)
+ 
+ 	mutex_lock(&priv->wx_mutex);
+ 
+-	ether_addr_copy(dev->dev_addr, addr->sa_data);
++	eth_hw_addr_set(dev, addr->sa_data);
+ 
+ 	schedule_work(&priv->reset_wq);
+ 	mutex_unlock(&priv->wx_mutex);
+diff --git a/drivers/staging/rtl8712/os_intfs.c b/drivers/staging/rtl8712/os_intfs.c
+index 2d3233a650fc..beb9137c198c 100644
+--- a/drivers/staging/rtl8712/os_intfs.c
++++ b/drivers/staging/rtl8712/os_intfs.c
+@@ -166,7 +166,7 @@ static int r871x_net_set_mac_address(struct net_device *pnetdev, void *p)
+ 	struct sockaddr *addr = p;
+ 
+ 	if (!padapter->bup)
+-		ether_addr_copy(pnetdev->dev_addr, addr->sa_data);
++		eth_hw_addr_set(pnetdev, addr->sa_data);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/staging/rtl8712/usb_intf.c b/drivers/staging/rtl8712/usb_intf.c
+index 505ebeb643dc..17e705411e64 100644
+--- a/drivers/staging/rtl8712/usb_intf.c
++++ b/drivers/staging/rtl8712/usb_intf.c
+@@ -563,7 +563,7 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,
+ 			dev_info(&udev->dev,
+ 				"r8712u: MAC Address from efuse = %pM\n", mac);
+ 		}
+-		ether_addr_copy(pnetdev->dev_addr, mac);
++		eth_hw_addr_set(pnetdev, mac);
+ 	}
+ 	/* step 6. Load the firmware asynchronously */
+ 	if (rtl871x_load_fw(padapter))
 -- 
 2.31.1
 
