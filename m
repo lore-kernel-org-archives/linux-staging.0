@@ -1,51 +1,54 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB242C88
-	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 10:29:30 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id o24so3998413wms.0
-        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 03:29:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B6E2C81
+	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 11:00:02 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id p21so11468985wmq.1
+        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 04:00:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Q4BQwnakirc9W0Aj2C9ToESoORO99Cacuij7TLf/+IU=;
-        b=Udy9fpTdndssgO8T0B4TMgUAVtwPcelbUE6NFCY3LnMihptQdlIjtGmh2TPajzXyIF
-         ekYMNCW4Gfx+8xHu7z1SmPF6tiBagPg79PLTcALtezCWrdQ8/Bdaw2hLrNdBqnj3nuvi
-         v1Y4PBzQybA0nkdzTPQp3mwpBPwEaOT0bjsH+AYa0W19a4FT6b80QgWhpxQgxYe6bAFl
-         MFO1fgweD23BivI2HM10b7GAmcZWhV92Hzd7dxBJNex+8mRStiApDDqoba07bXeaF8PH
-         HtZcpBYI684pjvJu7LZ66G3qeKquTrKGpzWf2RzkzOBQ/3NlY6N53vNMsvawarwe6kJx
-         2ZNw==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=LRkSXvKU2H3yNWwYA1Dskm2+OrbMFIykkcsNX7x6JHY=;
+        b=Zt2uGQFq89/yImCzTMOWBObDDJ+N0WvJuq2vzZdU7jm5QFQ2bWNIwpcpk8ntJm4ObN
+         c32YtN4Q6/M5U1hWk1mk1q1NMyyNhngTCvObm87r56pGDyZZISgO8okr84/D8n+jCrlo
+         d6zbLFYEIedMaf832hRSwdhxMtj6LSCM0yFOadMoZiupMSHA/IWjs10H3i2rcY+wJeGh
+         ZnVfasLZ+BrlNdMBQ9FAgJg7MLwz41pM8ZUz1W7vSZMQEQEBpjJ87ewcogAAhov6qLb3
+         03Xb5ahEFx2wR7J9gYU2PRQONGhN6VOo/ZFKoMhR9IBkrA6jc3RLJRsaniZZGaFOc9Tw
+         wgyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Q4BQwnakirc9W0Aj2C9ToESoORO99Cacuij7TLf/+IU=;
-        b=N3YkxglgWUTsWuX3oYjnp0YxI94KqSKIh98AbXbrhA8aMHd1GSRloEfQQbyqS7HLqA
-         ICdi1xnI8T2bvGSUT+HorqBWuGhXNQv36vDZAdxHBACygrTYr2ZpZn9mw4YSK9BUN4Od
-         w5WI76e14/+BzQEjdvR4B+4jWT7NfeGGLCvgzJYsnJ1+MCLxGVYyfvvyK1WkfnJYqm+Y
-         JmBP+fvEExRYx7OlbQYaEe/NNqmf9Y5U/aR/Bogk+OYlMaSxcQgrE/Daw/R2iCOtbIVx
-         yjbDeU+MRZ+A9xKJgzNmGJOI2vMGP01rjYuni18//IOeP/AXM7Ps5bKgzAFfvzZ5R5oh
-         aC9w==
-X-Gm-Message-State: AOAM5300nPnif1LM4HfFTpr0ikWJYD8A+GDdb+afXIe9oNCHORbiouLZ
-	m87HLpSYrde5BUl8Fm4AsBCsCH54CcM=
-X-Google-Smtp-Source: ABdhPJyTOGfRBosWdoMn1u4u7ZGb9m5YkEJlJlOq8NeUYhA6vy6JJi+volKNLFP4MSx21uUCGhTTsw==
-X-Received: by 2002:a05:600c:3b11:: with SMTP id m17mr5224135wms.157.1634639368637;
-        Tue, 19 Oct 2021 03:29:28 -0700 (PDT)
-Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id i8sm11365026wrv.47.2021.10.19.03.29.26
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Oct 2021 03:29:27 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	neil@brown.name
-Subject: [PATCH 2/2] staging: mt7621-dts: make use of 'IRQ_TYPE_LEVEL_HIGH' instead of magic numbers
-Date: Tue, 19 Oct 2021 12:29:15 +0200
-Message-Id: <20211019102915.15409-2-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211019102915.15409-1-sergio.paracuellos@gmail.com>
-References: <20211019102915.15409-1-sergio.paracuellos@gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=LRkSXvKU2H3yNWwYA1Dskm2+OrbMFIykkcsNX7x6JHY=;
+        b=J0x6p8KyfFvkPOqQdNqaXvB9ObJpx+M+CekBa3ccpGbMv854cXdz5p6Z9il/1LqRZH
+         l9UahzTTUlhBf3K700hTtQ1VQL8xYaBEHX7k9QwvOin773izKTd+V3t+as5wL/mLnlb7
+         kLmjdSC4MHkPgiOGFFBIIW0Z7zeYRqXDIeUSzkLGDJu+A/2Rzm1VSlxchnjcvfWyec4n
+         DsThWLjaB5Nizry3hQI18oYQ6ozMgOOPXulMrIpX7uGvyAHcxtmnKNSAbC3vNGPuoRmf
+         p7V+seoou9fMPdH9Q2aW1AjZoJu1lEX8ch0opG84UUiAv3hbvSc0cRtx6c6XbbQHIA16
+         FeWQ==
+X-Gm-Message-State: AOAM531wpT8XY32Qo8Hy/BIyv9udiB42u/S/txGJ7O7mH57lv5EKZntE
+	E5zegju2XMzNDynP3hJoEfg=
+X-Google-Smtp-Source: ABdhPJwgtsT9xA/ypF8QJmoBh1ux1sOfUKyjGJHXsWAnhKW7ahbqyu4PvzrB9hSizgmpl2IS5SYkTw==
+X-Received: by 2002:a7b:cf03:: with SMTP id l3mr5210548wmg.25.1634641201313;
+        Tue, 19 Oct 2021 04:00:01 -0700 (PDT)
+Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id v3sm15097529wrg.23.2021.10.19.04.00.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Oct 2021 04:00:00 -0700 (PDT)
+Message-ID: <810a4e29b0c54520a30cae4d37fde0a59ea3d83b.camel@gmail.com>
+Subject: Re: [PATCH] staging: vt6655: Fix line wrapping in rf.c file
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: Joe Perches <joe@perches.com>, Greg KH <gregkh@linuxfoundation.org>
+Cc: outreachy-kernel@googlegroups.com, forest@alittletooquiet.net, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Tue, 19 Oct 2021 11:59:56 +0100
+In-Reply-To: <84f3c940fedb961e6e7e88d47c3d15e598bc32c3.camel@perches.com>
+References: <20211018150526.9718-1-karolinadrobnik@gmail.com>
+	 <YW2O3wC8wMEKS3Ub@kroah.com>
+	 <84f3c940fedb961e6e7e88d47c3d15e598bc32c3.camel@perches.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,37 +57,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Nodes 'gdma' and 'hsdma' are using magic number '4' in interrupts property.
-Use 'IRQ_TYPE_LEVEL_HIGH' instead to align with the rest of the nodes in
-the file.
+Hi,
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/mt7621.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Thank you very much for your comments.
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index ea9cbc6b92cf..82b64d4aab2e 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -149,7 +149,7 @@ gdma: gdma@2800 {
- 			reset-names = "dma";
- 
- 			interrupt-parent = <&gic>;
--			interrupts = <0 13 4>;
-+			interrupts = <0 13 IRQ_TYPE_LEVEL_HIGH>;
- 
- 			#dma-cells = <1>;
- 			#dma-channels = <16>;
-@@ -168,7 +168,7 @@ hsdma: hsdma@7000 {
- 			reset-names = "hsdma";
- 
- 			interrupt-parent = <&gic>;
--			interrupts = <0 11 4>;
-+			interrupts = <0 11 IRQ_TYPE_LEVEL_HIGH>;
- 
- 			#dma-cells = <1>;
- 			#dma-channels = <1>;
--- 
-2.33.0
+On Mon, 2021-10-18 at 17:12 +0200, Greg KH wrote:
+> Also, these are all just fine as-is for now.  A better way to make
+> these lines smaller is to use better variable and function names 
+> that are shorter and make sense :)
+
+I have v2 ready but I'm not sure, given the Joe's patch, if my solution
+is a satisfactory one. I didn't jump on such refactoring as I'm still
+learning about the codebase/process and didn't want to muddle the
+waters (...more than I do already).
+
+Greg, what would you prefer? Should I back up with my patch, pick
+something else and let Joe's patch be merged?
+
+
+Also, I have a question about the patch if that's ok :)
+
+On Mon, 2021-10-18 at 22:56 -0700, Joe Perches wrote:
+> Maybe some refactoring like:
+> ---
+>  drivers/staging/vt6655/rf.c | 38
+> ++++++++++++++++++--------------------
+>  1 file changed, 18 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/rf.c
+> b/drivers/staging/vt6655/rf.c
+> index 0dae593c6944f..7beb0cd5a62df 100644
+> --- a/drivers/staging/vt6655/rf.c
+> +++ b/drivers/staging/vt6655/rf.c
+> @@ -680,16 +680,19 @@ bool RFvWriteWakeProgSyn(struct vnt_private
+> *priv, unsigned char byRFType,
+>                          u16 uChannel)
+>  {
+>         void __iomem *iobase = priv->PortOffset;
+> -       int   ii;
+> +       int i;
+> +       unsigned short idx = MISCFIFO_SYNDATA_IDX;
+>         unsigned char byInitCount = 0;
+>         unsigned char bySleepCount = 0;
+> +       const unsigned long *data;
+>  
+> +       uChannel--;
+>         VNSvOutPortW(iobase + MAC_REG_MISCFFNDEX, 0);
+
+I see that you introduced `uChannel--` to further tidy up the lines
+with `[uChannel - 1]`. In general, is there anything wrong with
+indexing like `i - 1`? What's the preference here? DRY things up as
+much as possible?
+
+I'm asking because when I was reading this line, at first, it wasn't
+clear to me why we could decrement it (example though: "Was this
+modified earlier? Do we need to "correct" it?").
+
+
+Thanks,
+Karolina
+
 
