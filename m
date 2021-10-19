@@ -1,40 +1,56 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A832C9A
-	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 17:12:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A33116137C;
-	Tue, 19 Oct 2021 17:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1634663571;
-	bh=rFTDGS0t3qykZ52pVf5B6teR6anayPTflMm8aSH6qjo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i3mXQ3MfQwlB0lPQoWvuXDsDUkNPFl4GrNCLZerCxdGnAs4MLi70AL7VO/lq4JRXE
-	 3CiE+Oct4aTPOMxf8rcCszomPfasESGC85ChFvJLwNmEoEdqfwO0ExS7ZK4OWaMKer
-	 WdjqhOnW43I9asifrybF0ZV6lDkaAMWVzXbbcZVypc/cu/XuEtXHzkSTWnHc8GKQlE
-	 /bJRJi92QjpVDN37ASZhZQ4o8OlHvBiXLVk29ZWRq6vHv/soFwki6QgJIis0SusDvV
-	 9Y3kIBfnbwWiZr8vZnyQWVkta0iyuTBsn0VIyY17kbEp1xTdqcD258Q3rCIk53cbp2
-	 n1ylAMMhtrYzg==
-From: Jakub Kicinski <kuba@kernel.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	knv418@gmail.com,
-	jiapeng.chong@linux.alibaba.com,
-	ojaswin98@gmail.com,
-	arnd@arndb.de,
-	lee.jones@linaro.org,
-	clrrm@isep.ipp.pt,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8485872
+	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 17:24:42 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id t184so7011984pgd.8
+        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 10:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5kvyUu/ou5/zjB+qAPejgXQ9ckRr2OTQAJI3Yt7aNfk=;
+        b=Bb6h49qMbdOzJlZS1zXLlVZp/5Q7KCs1ve2qL9ZJ5qIjpR2IhPxwyHH64KNcZQjlEk
+         0sCI99712I7mmpie62XQINyMfM1rh4+ztTivnOke2FaDEvOUmxKdI0K+Ib/vVjrgC+2g
+         ZLrluHFki65ByTgu49Q5gn6X81xi4CeHfopPJjYrcbCVOwebj0EOg5crA+lVBxbH31YG
+         cCUd2VeAm/3Y7DIe+mt19/ET0tC8xEB9gnS270I05Qwmhp+xiCbGS0iftpzp4t3+eMTC
+         8c6nju39PzeUEyweBCgInixov1gNok/KXiqakoJakZxf+XOjwM4Y3vZKPxz6kc1IfsaX
+         kkRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5kvyUu/ou5/zjB+qAPejgXQ9ckRr2OTQAJI3Yt7aNfk=;
+        b=DID0D8kSnEc6BcDsXGRpWtkdU9GRVp/uqLjHdpUbp2VlSn2lv5BFK650TCov5xwJrR
+         5B8SiQm9iL6yN5aTSPxC8EguFoastzfdyV72WZhE9Zh8r+99Gz4GnMIVd7Oe2fVtbuUj
+         04qzqP1XV4UVmX12Upl0zeeY1dMt+H4hdD0vQfzc52NmSx85j0RdxMFMTCkNbel9MSGY
+         6//dltipYNwDF2VAFYrkI4H4u+93FlAGp45aAlbTKXybTj047kVy3YoQc9bL8HCfS+YZ
+         wmW2fVv5l6goxxIU+knLCD1rSYRZdDl5fxnQTZltcpt2R0PtGfXvwdEBpyUC+ezLmIo/
+         Qgrw==
+X-Gm-Message-State: AOAM5326Q8aYhibExK6hAbCaFP+JDrMVXsrEmdDvRYjg+mDv74hu7v8C
+	hyHWpMtAp110WDylELnSRKQ=
+X-Google-Smtp-Source: ABdhPJz3X39Tz5/B5FgZiomUPTOJigkTxJNs00vWzKkRwkOBkFZoBklrQmI+x4VYDok+CadYouO1mA==
+X-Received: by 2002:a65:62c4:: with SMTP id m4mr30125512pgv.453.1634664281808;
+        Tue, 19 Oct 2021 10:24:41 -0700 (PDT)
+Received: from localhost.localdomain ([115.96.219.100])
+        by smtp.googlemail.com with ESMTPSA id q8sm3132468pfu.167.2021.10.19.10.24.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Oct 2021 10:24:41 -0700 (PDT)
+From: Kushal Kothari <kushalkothari285@gmail.com>
+To: gregkh@linuxfoundation.org,
 	fabioaiuto83@gmail.com,
-	hdegoede@redhat.com,
+	marcocesati@gmail.com,
+	dan.carpenter@oracle.com,
 	ross.schm.dev@gmail.com,
-	insafonov@gmail.com
-Subject: [PATCH 7/8] staging: rtl: use eth_hw_addr_set()
-Date: Tue, 19 Oct 2021 10:12:42 -0700
-Message-Id: <20211019171243.1412240-8-kuba@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211019171243.1412240-1-kuba@kernel.org>
-References: <20211019171243.1412240-1-kuba@kernel.org>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy-kernel@googlegroups.com,
+	mike.rapoport@gmail.com
+Cc: Kushal Kothari <kushalkothari285@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: core:  Remove true and false comparison
+Date: Tue, 19 Oct 2021 22:53:59 +0530
+Message-Id: <20211019172359.63583-1-kushalkothari285@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,148 +59,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 406f42fa0d3c ("net-next: When a bond have a massive amount
-of VLANs...") introduced a rbtree for faster Ethernet address look
-up. To maintain netdev->dev_addr in this tree we need to make all
-the writes to it got through appropriate helpers.
+Remove comparison to true and false in if statement.
+Issue found with checkpatch.pl.
+CHECK: Using comparison to true is error prone
+CHECK: Using comparison to false is error prone
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
 ---
-CC: gregkh@linuxfoundation.org
-CC: knv418@gmail.com
-CC: jiapeng.chong@linux.alibaba.com
-CC: ojaswin98@gmail.com
-CC: arnd@arndb.de
-CC: lee.jones@linaro.org
-CC: clrrm@isep.ipp.pt
-CC: fabioaiuto83@gmail.com
-CC: hdegoede@redhat.com
-CC: ross.schm.dev@gmail.com
-CC: insafonov@gmail.com
-CC: linux-staging@lists.linux.dev
----
- drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c |  5 ++++-
- drivers/staging/rtl8192e/rtl8192e/rtl_cam.c    |  4 ++--
- drivers/staging/rtl8192u/r8192U.h              |  3 ++-
- drivers/staging/rtl8192u/r8192U_core.c         | 11 +++++++----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c    |  2 +-
- 5 files changed, 16 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-index cfeaa9c1542f..7f9dee42a04d 100644
---- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-@@ -360,11 +360,14 @@ static void _rtl92e_read_eeprom_info(struct net_device *dev)
- 		 priv->eeprom_CustomerID);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index efc9b1974e38..b473f1d1ce08 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -309,8 +309,8 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+ 	if (cmd_obj->cmdcode == GEN_CMD_CODE(_SetChannelPlan))
+ 		bAllow = true;
  
- 	if (!priv->AutoloadFailFlag) {
-+		u8 addr[ETH_ALEN];
-+
- 		for (i = 0; i < 6; i += 2) {
- 			usValue = rtl92e_eeprom_read(dev,
- 				 (EEPROM_NODE_ADDRESS_BYTE_0 + i) >> 1);
--			*(u16 *)(&dev->dev_addr[i]) = usValue;
-+			*(u16 *)(&addr[i]) = usValue;
+-	if ((pcmdpriv->padapter->hw_init_completed == false && bAllow == false)
+-		|| atomic_read(&(pcmdpriv->cmdthd_running)) == false	/* com_thread not running */
++	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow)
++		|| !atomic_read(&(pcmdpriv->cmdthd_running))	/* com_thread not running */
+ 	)
+ 		return _FAIL;
+ 
+@@ -407,7 +407,7 @@ int rtw_cmd_thread(void *context)
+ 			break;
  		}
-+		eth_hw_addr_set(dev, addr);
- 	} else {
- 		eth_hw_addr_set(dev, bMac_Tmp_Addr);
+ 
+-		if ((padapter->bDriverStopped == true) || (padapter->bSurpriseRemoved == true)) {
++		if ((padapter->bDriverStopped) || (padapter->bSurpriseRemoved)) {
+ 			netdev_dbg(padapter->pnetdev,
+ 				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
+ 				   __func__, padapter->bDriverStopped,
+@@ -430,7 +430,7 @@ int rtw_cmd_thread(void *context)
+ 			continue;
+ 
+ _next:
+-		if ((padapter->bDriverStopped == true) || (padapter->bSurpriseRemoved == true)) {
++		if ((padapter->bDriverStopped) || (padapter->bSurpriseRemoved)) {
+ 			netdev_dbg(padapter->pnetdev,
+ 				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
+ 				   __func__, padapter->bDriverStopped,
+@@ -927,7 +927,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 	else
+ 		GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false);
+ 
+-	if (unicast_key == true)
++	if (unicast_key)
+ 		memcpy(&psetstakey_para->key, &sta->dot118021x_UncstKey, 16);
+ 	else
+ 		memcpy(&psetstakey_para->key, &psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey, 16);
+@@ -1283,7 +1283,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
+ 			(pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 2)) {
+ 			bEnterPS = false;
+ 
+-			if (bBusyTraffic == true) {
++			if (bBusyTraffic) {
+ 				if (pmlmepriv->LinkDetectInfo.TrafficTransitionCount <= 4)
+ 					pmlmepriv->LinkDetectInfo.TrafficTransitionCount = 4;
+ 
+@@ -1619,7 +1619,7 @@ static void rtw_chk_hi_queue_hdl(struct adapter *padapter)
+ 
+ 	rtw_hal_get_hwreg(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &empty);
+ 
+-	while (false == empty && jiffies_to_msecs(jiffies - start) < g_wait_hiq_empty) {
++	while (!empty && jiffies_to_msecs(jiffies - start) < g_wait_hiq_empty) {
+ 		msleep(100);
+ 		rtw_hal_get_hwreg(padapter, HW_VAR_CHK_HI_QUEUE_EMPTY, &empty);
  	}
-diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-index f75a12543781..d7630f02a910 100644
---- a/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-+++ b/drivers/staging/rtl8192e/rtl8192e/rtl_cam.c
-@@ -184,7 +184,7 @@ void rtl92e_cam_restore(struct net_device *dev)
- 		if (priv->rtllib->iw_mode == IW_MODE_ADHOC) {
- 			rtl92e_set_key(dev, 4, 0,
- 				       priv->rtllib->pairwise_key_type,
--				       (u8 *)dev->dev_addr, 0,
-+				       (const u8 *)dev->dev_addr, 0,
- 				       (u32 *)(&priv->rtllib->swcamtable[4].key_buf[0]));
- 		} else {
- 			rtl92e_set_key(dev, 4, 0,
-@@ -197,7 +197,7 @@ void rtl92e_cam_restore(struct net_device *dev)
- 		if (priv->rtllib->iw_mode == IW_MODE_ADHOC) {
- 			rtl92e_set_key(dev, 4, 0,
- 				       priv->rtllib->pairwise_key_type,
--				       (u8 *)dev->dev_addr, 0,
-+				       (const u8 *)dev->dev_addr, 0,
- 				       (u32 *)(&priv->rtllib->swcamtable[4].key_buf[0]));
- 		} else {
- 			rtl92e_set_key(dev, 4, 0,
-diff --git a/drivers/staging/rtl8192u/r8192U.h b/drivers/staging/rtl8192u/r8192U.h
-index 4013107cd93a..14ca00a2789b 100644
---- a/drivers/staging/rtl8192u/r8192U.h
-+++ b/drivers/staging/rtl8192u/r8192U.h
-@@ -1114,6 +1114,7 @@ void rtl8192_set_rxconf(struct net_device *dev);
- void rtl819xusb_beacon_tx(struct net_device *dev, u16 tx_rate);
+@@ -2054,7 +2054,7 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
  
- void EnableHWSecurityConfig8192(struct net_device *dev);
--void setKey(struct net_device *dev, u8 EntryNo, u8 KeyIndex, u16 KeyType, u8 *MacAddr, u8 DefaultKey, u32 *KeyContent);
-+void setKey(struct net_device *dev, u8 EntryNo, u8 KeyIndex, u16 KeyType,
-+	    const u8 *MacAddr, u8 DefaultKey, u32 *KeyContent);
+ 	spin_lock_bh(&pmlmepriv->lock);
  
- #endif
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index 3718d72e217e..cfbd9d79baa7 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -2300,12 +2300,15 @@ static int rtl8192_read_eeprom_info(struct net_device *dev)
- 	/* set channelplan from eeprom */
- 	priv->ChannelPlan = priv->eeprom_ChannelPlan;
- 	if (bLoad_From_EEPOM) {
-+		u8 addr[ETH_ALEN];
-+
- 		for (i = 0; i < 6; i += 2) {
- 			ret = eprom_read(dev, (u16)((EEPROM_NODE_ADDRESS_BYTE_0 + i) >> 1));
- 			if (ret < 0)
- 				return ret;
--			*(u16 *)(&dev->dev_addr[i]) = (u16)ret;
-+			*(u16 *)(&addr[i]) = (u16)ret;
- 		}
-+		eth_hw_addr_set(dev, addr);
- 	} else {
- 		eth_hw_addr_set(dev, bMac_Tmp_Addr);
- 		/* should I set IDR0 here? */
-@@ -3045,14 +3048,14 @@ static void CamRestoreAllEntry(struct net_device *dev)
- 	} else if (priv->ieee80211->pairwise_key_type == KEY_TYPE_TKIP) {
- 		if (priv->ieee80211->iw_mode == IW_MODE_ADHOC)
- 			setKey(dev, 4, 0, priv->ieee80211->pairwise_key_type,
--			       (u8 *)dev->dev_addr, 0, NULL);
-+			       (const u8 *)dev->dev_addr, 0, NULL);
- 		else
- 			setKey(dev, 4, 0, priv->ieee80211->pairwise_key_type,
- 			       MacAddr, 0, NULL);
- 	} else if (priv->ieee80211->pairwise_key_type == KEY_TYPE_CCMP) {
- 		if (priv->ieee80211->iw_mode == IW_MODE_ADHOC)
- 			setKey(dev, 4, 0, priv->ieee80211->pairwise_key_type,
--			       (u8 *)dev->dev_addr, 0, NULL);
-+			       (const u8 *)dev->dev_addr, 0, NULL);
- 		else
- 			setKey(dev, 4, 0, priv->ieee80211->pairwise_key_type,
- 			       MacAddr, 0, NULL);
-@@ -4868,7 +4871,7 @@ void EnableHWSecurityConfig8192(struct net_device *dev)
- }
+-	if ((check_fwstate(pmlmepriv, WIFI_MP_STATE) == true) && (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true))
++	if ((check_fwstate(pmlmepriv, WIFI_MP_STATE)) && (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)))
+ 		_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
  
- void setKey(struct net_device *dev, u8 entryno, u8 keyindex, u16 keytype,
--	    u8 *macaddr, u8 defaultkey, u32 *keycontent)
-+	    const u8 *macaddr, u8 defaultkey, u32 *keycontent)
- {
- 	u32 target_command = 0;
- 	u32 target_content = 0;
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 719e75ee3fb2..05482341eefe 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -283,7 +283,7 @@ static int rtw_net_set_mac_address(struct net_device *pnetdev, void *p)
- 	if (!padapter->bup) {
- 		/* addr->sa_data[4], addr->sa_data[5]); */
- 		memcpy(padapter->eeprompriv.mac_addr, addr->sa_data, ETH_ALEN);
--		/* memcpy(pnetdev->dev_addr, addr->sa_data, ETH_ALEN); */
-+		/* eth_hw_addr_set(pnetdev, addr->sa_data); */
- 		/* padapter->bset_hwaddr = true; */
- 	}
- 
+ 	set_fwstate(pmlmepriv, _FW_LINKED);
 -- 
-2.31.1
+2.25.1
 
