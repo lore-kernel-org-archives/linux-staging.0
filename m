@@ -1,127 +1,125 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4B22C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:08:51 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id m42so18843756wms.2
-        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:08:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6292C81
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:17:57 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id y7so2939574pfg.8
+        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=4P4AVlRuS+D8nRRZwY7bESCy+/9tZLn5inc7/Sy4z+g=;
-        b=XyzvrgVNkV/afwxqMkX5uoSxL3qX4Hb0sTQfo44r6x/QtqVKaSBK/7OlAuOIAlRrjE
-         NbszUB0kB50R4XBwLdOENLmlQwexDnDhOIiN8oHs/7y5FuGrOP2Pw1Tv40oDTytAfNlj
-         UojVZ8UMguW/TueF7aeKl98cY0wfwMpOz68CfC9J2FaUNv4gLTvEiycezbR7+mwP7Ar5
-         L4+KJTZX12i7L+QMgyMMOlZX94fFMefhocAyip/fGcy5wK+T9hgV8G1mFITiq57Kx55+
-         Uc3wIW/aNMGxTIyxRNXhc89sMuKPJICdcNFWY0lu6WW9WjQQyGk9i7JUEMuyPxgLNuCy
-         RjgA==
+        bh=WYRpv8N66/W2Mu0ccRwKp1YVNKPZWgSDjisZQyVjEx8=;
+        b=W7d9Dw6Txw6qqYUs29sbgFaYzX9bi87F7VBdCMsJ7mqOOp1beirt0jPgR760Fsbo31
+         ARnz7IgGxXpmQkeYXMcC+J7APY+AY949Cy+jACf/xmVirGjFqmIl6XKIZMefr0xhk6jr
+         sIT/i/ItkQRC3aDS3xqVIqXWEH2ceL85jd7D/JiWdVjEhP6nHRZEDeYByF1t1glBKhzb
+         JV5lolicYYlivX3A1evtWUA+SDhjBluj98VeL2/pXV9SDwnjz7myfjfd80sfItG7uJox
+         Qkq1FBaSEBuOR6rWwNUcUUyy1EYSQf5cyG3+eLg+0IEyppyWvfkGb163lsHZ/wMS9KqP
+         /vUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4P4AVlRuS+D8nRRZwY7bESCy+/9tZLn5inc7/Sy4z+g=;
-        b=pApIPCHlefo4TkCD41mSol/2R8m4g4Qa1ZJ5CHXy0UlFxjrhCmZC37TkQdmPKia/H6
-         03BZfGF9mvmYc3UqWaLPVZ7pTamWK8IALWSpoa38wHZV9uVjUe6pSNT7QgWaeqCwz9gk
-         5TRfaPB4Ehbu80c8mHuZc8QvvMXvFLnPKypW5nylBXeiB1aOR+tPgzzyXniKsrkvIpCI
-         Nf8KkkHlDYDOwK2g8g3j3mr6DUhP22OsWycB5xSTAdzJp0iXAD/nJ0J86PSKRqOV+bul
-         ZmFtMjmton1BTOYu347cGHO4V+4N4Z3vnxHjMuiHzXqKRmmlcxyzkQ3JDxcD+cooNDbL
-         H76A==
-X-Gm-Message-State: AOAM532RMlHyX5pHNuAO/qFRmYH9nEDqHcdm3WVBFfg4mFsVgzk3gR60
-	5Z66vigv2Ox86WFtZWG8EYk=
-X-Google-Smtp-Source: ABdhPJyBxaVbJZpais0T6mHisqa9q1uhVgD3hlebgRYc6WsQ0a5As2/UOlqoeZF29HBhlvSZhyQgHQ==
-X-Received: by 2002:adf:e7d0:: with SMTP id e16mr51195752wrn.283.1634735329623;
-        Wed, 20 Oct 2021 06:08:49 -0700 (PDT)
-Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id g25sm2012944wrc.88.2021.10.20.06.08.48
+        bh=WYRpv8N66/W2Mu0ccRwKp1YVNKPZWgSDjisZQyVjEx8=;
+        b=PcsHVQl5vVjN2Kuqv2hkYpMiuogfhcLhWAzb0GZINEoYWoupDQnS9zb7Y6dpMNfIZE
+         RUJT/9i6CSixi/0jFrZpFPleMLxXXA4B8bjtLFSX15XixhKgwh5HLBcTtXvupX9ibli8
+         tAzW18cZMqsowHBJHzyw4l+7c155xBmb85WL6htjaLCx1xUHACVDFTUIlSwmDAPvfYZr
+         tSTRtTlhZocTdwLm5EozDu7kDsi1Du8J90eBJ/2kNl5yIe+pZz4UKcCX2wJHb0eiM1Nq
+         t5mdXeU4GZPIVX7/dwMYZHpIhkJy3cluDqQf3bw63/KWwTGEDa7CzuoaKuMAP+LElSYN
+         c8JQ==
+X-Gm-Message-State: AOAM532APJppDiXBP8wuKBe7SLr0Yg9xtxAhPsBB1MO4yIPonovfSLmt
+	+AW9kSKiSSijvQBIXBL2QI4=
+X-Google-Smtp-Source: ABdhPJwe4OyYxZBBcTwn+Hoa8n9DNA0H7qO1dEf5kLqG6ddUb7u9Cp/PGSHNHAEg0gfmGXqe8ZgTYw==
+X-Received: by 2002:a63:b241:: with SMTP id t1mr33828806pgo.154.1634735876518;
+        Wed, 20 Oct 2021 06:17:56 -0700 (PDT)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id b10sm2848145pfl.200.2021.10.20.06.17.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 06:08:49 -0700 (PDT)
-Message-ID: <c89758e11e9d159135b7bc0f16b76b99b34a3ba8.camel@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH] staging: vt6655: Rename
- `by_preamble_type` parameter
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
-	forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 20 Oct 2021 14:08:47 +0100
-In-Reply-To: <alpine.DEB.2.22.394.2110201456190.2930@hadrien>
-References: <20211020084033.414994-1-karolinadrobnik@gmail.com>
-	  <alpine.DEB.2.22.394.2110201051300.2930@hadrien>
-	 <6089e564f89ceaa7303bf3a4b4c864bf1389ac25.camel@gmail.com>
-	 <alpine.DEB.2.22.394.2110201456190.2930@hadrien>
+        Wed, 20 Oct 2021 06:17:56 -0700 (PDT)
+Message-ID: <9459d5dd265675d20905f4a02687cc08c31ee2fe.camel@gmail.com>
+Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
+From: Tsuchiya Yuto <kitakar@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Aline Santana Cordeiro
+ <alinesantanacordeiro@gmail.com>, Dinghao Liu <dinghao.liu@zju.edu.cn>, 
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Nable <nable.maininbox@googlemail.com>, Fabio
+ Aiuto <fabioaiuto83@gmail.com>, "andrey.i.trufanov"
+ <andrey.i.trufanov@gmail.com>
+Date: Wed, 20 Oct 2021 22:17:51 +0900
+In-Reply-To: <YW70KzXJ8q1ksEx5@smile.fi.intel.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+	 <bc7f699d-d77d-83ad-ce5b-6082f30881c1@redhat.com>
+	 <7550e3359471726cf14572dd4860c238f166dde8.camel@gmail.com>
+	 <YW70KzXJ8q1ksEx5@smile.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+User-Agent: Evolution 3.40.4 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2021-10-20 at 14:59 +0200, Julia Lawall wrote:
-> On Wed, 20 Oct 2021, Karolina Drobnik wrote:
+On Tue, 2021-10-19 at 19:36 +0300, Andy Shevchenko wrote:
+> On Tue, Oct 19, 2021 at 10:50:27PM +0900, Tsuchiya Yuto wrote:
+> > On Mon, 2021-10-18 at 09:48 +0200, Hans de Goede wrote:
+> > > On 10/17/21 18:19, Tsuchiya Yuto wrote:
 > 
-> > On Wed, 2021-10-20 at 10:54 +0200, Julia Lawall wrote:
-> > > On Wed, 20 Oct 2021, Karolina Drobnik wrote:
-> > > 
-> > > > Drop `by` prefix in the first parameter of `bb_get_frame_time`
-> > > > function.
-> > > > As the original argument, `byPreambleType`, was renamed to
-> > > > `preamble_type`,
-> > > > the parameter referring to it is now renamed to match the new
-> > > > naming
-> > > > convention.
-> > > > Update `bb_get_frame_time` comment to reflect that change.
+> ...
+> 
+> > > >   ## for mipad2 (and whiskey cove pmic based devices)
 > > > > 
-> > > > This patch is a follow-up work to this commit:
-> > > >     Commit 548b6d7ebfa4 ("staging: vt6655: Rename
-> > > > byPreambleType
-> > > > field")
+> > > > For devices which equip whiskey cove PMIC, you need to add non-upstream
+> > > > regulator driver [1].
+> > > > 
+> > > > [1] work done by jekhor, which seems to be from intel-aero or old
+> > > >     Android kernel
+> > > >     https://github.com/jekhor/yogabook-linux-kernel/commit/11c05b365fb2eeb4fced5aa66b362c511be32a34
+> > > >     ("intel_soc_pmic_chtwc: Add regulator driver and definition for VPROG1B")
 > > > 
-> > > This is not going to be practical.  If the previous patch is
-> > > accepted, then this it not needed.
+> > > Interesting I recently bought a 2nd hand mipad2 myself too. I still need
+> > > to put Linux on there. I'm definitely motivated to do that now :)
 > > 
-> > This change was there before but Greg told me to do only one
-> > logical
-> > change per patch (which was a struct member rename), so I reverted
-> > it.
-> > I believe this is needed because this parameter still uses
-> > Hungarian
-> > notation, which is against the LK coding style. Also, it makes
-> > sense to
-> > update the name given my previous change.
+> > I'm glad to hear that you also got a mipad2 :) It might be a interesting
+> > device to look into. It even won't boot without nomodeset, no battery
+> > charging/status on mainline kernel.
+> > 
+> > By the way, instead of adding whiskey cove regulator driver, we may also
+> > add a "hack" like the other PMIC in atomisp_gmin_platform to control
+> > regulators [1].
 > 
-> Sorry, I think I was not clear.  It's not practical to explain
-> constraints
-> on other patches in the log message.
-
-Oh, I see. I thought about this log message as "why" but now, when I
-come think of it, just saying it's about the Hungarian notation should
-be enough. I'll correct the log message, thank you.
-
+> I looked briefly into the code and if we indeed need to turn off or on
+> the regulators it should be a driver.
 > 
-> The important thing is
-> that if you want to make two different changes on the same file,
-> either
-> the first one has to be accepted before you submit the second one, or
-> they
-> have to be in a series.
+> I don't like having hacks outside of driver/staging to satisfy the one from
+> the staging.
 
-I see, thanks for clarification.
+Yeah, if "reading" from the PMIC can't be achieved with the current
+mainline kernel, it does not make sense to add code for "reading" just
+for the hack inside atomisp. Rather, in this case, adding the regulator
+driver is a straightforward way.
 
-> > > 
-> > I can add this in but will that still count as a one logical
-> > change?
+We can already write with intel_soc_pmic_exec_mipi_pmic_seq_element(),
+so what I wondered is, is there equivalent for "read"?
+
+But yes, we should eventually use regulator driver anyway.
+
+Regards,
+Tsuchiya Yuto
+
+> I.o.w. having a regulator driver is a right thing to do in my opinion.
 > 
-> No.  It's a different change.  It's just a small whitespace issue,
-> but
-> it's not triggered by the other changes you have made.
-
-Ok, I'll submit a separate patch for it later on.
-
-
-Thanks,
-Karolina
+> > It seems that to do so, it needs to "read" value from the PMIC before
+> > writing. So, I'm not sure if this can be achieved easily with the current
+> > mainline kernel though.
+> > 
+> > [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/commit/6204d4b7aeefc4db622f8ac57b87bf2c76c6c8aa
+> >     ("atomisp_platform: add whiskey cove pmic support")
+> 
 
