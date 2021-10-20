@@ -1,111 +1,70 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0157.hostedemail.com [216.40.44.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66C52C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:28:43 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id u8-20020a05600c440800b0030d90076dabso5052441wmn.1
-        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:28:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1Bd0wj+p+9TRlN1ZXP/TSahnjo8YS2SPX8pyBePDyCc=;
-        b=F0ZS43EWDOllEFrcmG5QFNCOD6Xo2np6Nh2MDNP76gKqkXmn/cjijdlZAhmtSXOzHd
-         07ev4RT9ZJgGD7KhM2zVgUwrZvJSQLBXwv1qvOwErvRr3bSlXlrylvZtKSB4CaFL0MTs
-         UNxyHYTpwLS/AxALC//Kz6+G6u93fvqVmSi2eljeOhhyJUpsjIFjuOiFehxQnkd7ZYlj
-         tk1wAq3JVnUpPVyqMbHYmoT96BwsdQ2oFnIY0tXcvE92vDjSsmrGlT10bBMrTLuwiyDA
-         M2Bt8/Nu8j9UlrY/b9fGFzXHnEJizPAhCWoV9B2sLz6kK1V+t0+DrD0YGHZyC4YXc6wg
-         chuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1Bd0wj+p+9TRlN1ZXP/TSahnjo8YS2SPX8pyBePDyCc=;
-        b=KZTAvfE4bBTrqSoxOxHcsYdnzszkuhe1+HFWw9F39qjuWfopEc8NEMn9eHlg4D10zc
-         h0XONBqIPGVux4DdydrGmkzxFDqoJOL0hqScSzPjdkdRkRWCNi9jOLfpMjIyYGfu040P
-         erMbchTuA7KeSCxjo084nMDWB/m7bMF7gG7XhH9gki/KqjfXYGJJPOg2bLmfDRf1azMD
-         KGEhbR4754kfvzBWx1irsjiy/cIkiJUBfR9klT9X5nqiCjc0tDx+Rz1M8ny8/p8WKRzE
-         U/I5BAs18hszZZlSgKFDf4/G1yNREExC0jKYYbz5xwC0fLBQXkZVAfIF1K9JNk+lZXgu
-         PC1w==
-X-Gm-Message-State: AOAM531x50Ntgd79DNrIRk/N2DMqOUUdcW6izKryytijZDA9lWTKyXtv
-	p6GhEun1pwnt+dmuW6+7z4U=
-X-Google-Smtp-Source: ABdhPJwBIundAVhXSa2XBj9FIMgfaHwj18HTzkFmuT+0+SI3LetT79OI4bq2J7OEBJpmhhd2pf1yGg==
-X-Received: by 2002:a7b:c007:: with SMTP id c7mr13816618wmb.101.1634736522212;
-        Wed, 20 Oct 2021 06:28:42 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id n26sm3323115wmi.16.2021.10.20.06.28.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 06:28:41 -0700 (PDT)
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: outreachy-kernel@googlegroups.com
-Cc: gregkh@linuxfoundation.org,
-	forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: [PATCH] staging: vt6655: Rename `dwAL2230InitTable` array
-Date: Wed, 20 Oct 2021 14:28:11 +0100
-Message-Id: <20211020132811.417341-1-karolinadrobnik@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479662C81
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:44:35 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave06.hostedemail.com (Postfix) with ESMTP id E341880339C0
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:44:27 +0000 (UTC)
+Received: from omf12.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay07.hostedemail.com (Postfix) with ESMTP id 6E03D181D3058;
+	Wed, 20 Oct 2021 13:44:21 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf12.hostedemail.com (Postfix) with ESMTPA id 56A8A240234;
+	Wed, 20 Oct 2021 13:44:20 +0000 (UTC)
+Message-ID: <16db455b46f130300b5c346160aa434616e4f6b4.camel@perches.com>
+Subject: Re: [PATCH] staging: vt6655: Rename `dwAL2230InitTable` array
+From: Joe Perches <joe@perches.com>
+To: Karolina Drobnik <karolinadrobnik@gmail.com>, 
+	outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org, forest@alittletooquiet.net, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Wed, 20 Oct 2021 06:44:19 -0700
+In-Reply-To: <20211020132811.417341-1-karolinadrobnik@gmail.com>
+References: <20211020132811.417341-1-karolinadrobnik@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 56A8A240234
+X-Spam-Status: No, score=0.09
+X-Stat-Signature: oo3h5kbqswjdmb7acbiqk8tbkpj89guo
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/eiOfcbBMvL+7NHov4EFM1SyAS5JwxoKw=
+X-HE-Tag: 1634737460-597000
 
-Drop Hungarian notation prefix in `dwAL2230InitTable` array.
-Change it to use snake case.
+On Wed, 2021-10-20 at 14:28 +0100, Karolina Drobnik wrote:
+> Drop Hungarian notation prefix in `dwAL2230InitTable` array.
+> Change it to use snake case.
+> 
+> Fix issue detected by checkpatch.pl:
+>   CHECK: Avoid CamelCase: <dwAL2230InitTable>
 
-Fix issue detected by checkpatch.pl:
-  CHECK: Avoid CamelCase: <dwAL2230InitTable>
+Seems fine.
 
-Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
----
- drivers/staging/vt6655/rf.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+trivial suggestion:
 
-diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-index a6f17162d017..6bdacf8fbc27 100644
---- a/drivers/staging/vt6655/rf.c
-+++ b/drivers/staging/vt6655/rf.c
-@@ -33,7 +33,7 @@
- #define SWITCH_CHANNEL_DELAY_AL7230 200 /* us */
- #define AL7230_PWR_IDX_LEN    64
- 
--static const unsigned long dwAL2230InitTable[CB_AL2230_INIT_SEQ] = {
-+static const unsigned long al2230_init_table[CB_AL2230_INIT_SEQ] = {
- 	0x03F79000 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
- 	0x03333100 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
- 	0x01A00200 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
-@@ -545,7 +545,7 @@ static bool RFbAL2230Init(struct vnt_private *priv)
- 	IFRFbWriteEmbedded(priv, (0x07168700 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW));
- 
- 	for (ii = 0; ii < CB_AL2230_INIT_SEQ; ii++)
--		ret &= IFRFbWriteEmbedded(priv, dwAL2230InitTable[ii]);
-+		ret &= IFRFbWriteEmbedded(priv, al2230_init_table[ii]);
- 	MACvTimer0MicroSDelay(priv, 30); /* delay 30 us */
- 
- 	/* PLL On */
-@@ -557,7 +557,7 @@ static bool RFbAL2230Init(struct vnt_private *priv)
- 	ret &= IFRFbWriteEmbedded(priv, (0x00780f00 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW));
- 	MACvTimer0MicroSDelay(priv, 30);/* 30us */
- 	ret &= IFRFbWriteEmbedded(priv,
--				  dwAL2230InitTable[CB_AL2230_INIT_SEQ - 1]);
-+				  al2230_init_table[CB_AL2230_INIT_SEQ - 1]);
- 
- 	MACvWordRegBitsOn(iobase, MAC_REG_SOFTPWRCTL, (SOFTPWRCTL_SWPE3    |
- 							 SOFTPWRCTL_SWPE2    |
-@@ -699,7 +699,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
- 			return false;
- 
- 		for (ii = 0; ii < CB_AL2230_INIT_SEQ; ii++)
--			MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL2230InitTable[ii]);
-+			MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), al2230_init_table[ii]);
- 
- 		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + ii), dwAL2230ChannelTable0[uChannel - 1]);
- 		ii++;
--- 
-2.30.2
+> diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+[]
+> @@ -33,7 +33,7 @@
+>  #define SWITCH_CHANNEL_DELAY_AL7230 200 /* us */
+>  #define AL7230_PWR_IDX_LEN    64
+>  
+> -static const unsigned long dwAL2230InitTable[CB_AL2230_INIT_SEQ] = {
+> +static const unsigned long al2230_init_table[CB_AL2230_INIT_SEQ] = {
+>  	0x03F79000 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
+>  	0x03333100 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
+>  	0x01A00200 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
+
+In this file there are more than 100 uses of
+
+	(BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW
+
+Maybe add a define for it and substitute the uses for the define.
+
 
