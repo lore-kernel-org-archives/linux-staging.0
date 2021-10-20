@@ -1,74 +1,70 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720B12C94
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 19:54:38 +0000 (UTC)
-Received: from dslb-188-096-142-022.188.096.pools.vodafone-ip.de ([188.96.142.22] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mdHfX-0007Cd-EC; Wed, 20 Oct 2021 21:54:35 +0200
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 5/5] staging: r8188eu: remove unused defines and enums
-Date: Wed, 20 Oct 2021 21:54:01 +0200
-Message-Id: <20211020195401.12931-5-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211020195401.12931-1-martin@kaiser.cx>
-References: <20211020195401.12931-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E8372
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 20:26:56 +0000 (UTC)
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 4AAB361354;
+	Wed, 20 Oct 2021 20:26:54 +0000 (UTC)
+Date: Wed, 20 Oct 2021 21:31:12 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: sesankm <sesank.mallikarjuna@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, sesankm
+ <26676400+sesankm@users.noreply.github.com>
+Subject: Re: [PATCH] Staging: iio: adc: ad7280a: fixed coding style
+Message-ID: <20211020213112.6084a04c@jic23-huawei>
+In-Reply-To: <20211020061027.34148-1-26676400+sesankm@users.noreply.github.com>
+References: <20211020061027.34148-1-26676400+sesankm@users.noreply.github.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Remove a couple of unused defines and an unused enum
-from rtl8188e_cmd.h.
+On Wed, 20 Oct 2021 01:10:27 -0500
+sesankm <sesank.mallikarjuna@gmail.com> wrote:
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/include/rtl8188e_cmd.h | 13 -------------
- 1 file changed, 13 deletions(-)
+> fixed issue with coding style
+> 
+> Signed-off-by: sesankm <26676400+sesankm@users.noreply.github.com>
 
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_cmd.h b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
-index 01404b774ebd..1e01c1662f9a 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_cmd.h
-@@ -27,15 +27,6 @@ enum RTL8188E_H2C_CMD_ID {
- 	/* Class DM */
- 	H2C_DM_MACID_CFG		= 0x40,
- 	H2C_DM_TXBF			= 0x41,
--
--	/* Class BT */
--	H2C_BT_COEX_MASK		= 0x60,
--	H2C_BT_COEX_GPIO_MODE		= 0x61,
--	H2C_BT_DAC_SWING_VAL		= 0x62,
--	H2C_BT_PSD_RST			= 0x63,
--
--	/* Class */
--	 H2C_RESET_TSF			= 0xc0,
- };
- 
- struct cmd_msg_parm {
-@@ -44,10 +35,6 @@ struct cmd_msg_parm {
- 	u8 buf[6];
- };
- 
--enum {
--	PWRS
--};
--
- struct setpwrmode_parm {
- 	u8 Mode;/* 0:Active,1:LPS,2:WMMPS */
- 	u8 SmartPS_RLBM;/* LPS= 0:PS_Poll,1:PS_Poll,2:NullData,WMM= 0:PS_Poll,1:NullData */
--- 
-2.20.1
+Ah. Our 'favourite' false positive.  Take a look at what that macro
+is doing..
+
+There is a series waiting for review that removes this code anyway...
+https://patchwork.kernel.org/project/linux-iio/list/?series=499867
+
+> ---
+>  drivers/staging/iio/adc/ad7280a.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/adc/ad7280a.c b/drivers/staging/iio/adc/ad7280a.c
+> index fef0055b8990..473f95118214 100644
+> --- a/drivers/staging/iio/adc/ad7280a.c
+> +++ b/drivers/staging/iio/adc/ad7280a.c
+> @@ -829,14 +829,14 @@ static irqreturn_t ad7280_event_handler(int irq, void *private)
+>   * The function argument is stringified and doesn't need a fix
+>   */
+>  static IIO_DEVICE_ATTR_NAMED(in_thresh_low_value,
+> -			     in_voltage-voltage_thresh_low_value,
+> +			     in_voltage - voltage_thresh_low_value,
+>  			     0644,
+>  			     ad7280_read_channel_config,
+>  			     ad7280_write_channel_config,
+>  			     AD7280A_CELL_UNDERVOLTAGE);
+>  
+>  static IIO_DEVICE_ATTR_NAMED(in_thresh_high_value,
+> -			     in_voltage-voltage_thresh_high_value,
+> +			     in_voltage - voltage_thresh_high_value,
+>  			     0644,
+>  			     ad7280_read_channel_config,
+>  			     ad7280_write_channel_config,
 
