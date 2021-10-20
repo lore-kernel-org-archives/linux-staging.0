@@ -1,44 +1,44 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DD772
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 09:48:16 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id j190so15271661pgd.0;
-        Wed, 20 Oct 2021 02:48:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE98072
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 09:51:30 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id t7so7575560pgl.9;
+        Wed, 20 Oct 2021 02:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :references:from:in-reply-to:content-transfer-encoding;
-        bh=NUxRW7fqD+7h9FNXnAUbVGq3Yz7ElzK6RCQA7Y5NoBs=;
-        b=XEIfcuWZcnGZols3cvNhdggc7M+/qf+bjI4H3z2fKtehoXl2MfSwk/dHO+ak8lEi6j
-         j0Ca1a0VuPa/OpVdkLPsaLb6irFfvo2Iil98UZ94ucwhKwCdpJxxmwqI1TCazcYzvTFv
-         XlDV8mZi+3ezS+WUVZ5UAItXir+oiPVJFbrWSCqGxG1VHZkdlzpSSOGek2pV0t0azm3c
-         5gmHSehIySxMNR/fLz9rzZ3KPTvEt7aQETOWHH/fYJYVk8Z26kj56kf0k9FLVLPHuyn/
-         FhTkIjYNLVA+hFGQ0NG2tza9854E+2AmlkvmqBbevoSEJaEy5bTlXD8+IZzg3KBFT07Y
-         9DOA==
+        bh=j4WlK2hOFHNCDGbyNuqEGjx1ER9zvNdVKUnQngZATS0=;
+        b=Qm1PZYICeYlQbT8TaxFLElQoIXgzW5G2AnD3Gc4EY23N/Y8TghR0aTarDyQth7DQRc
+         /LGP+OFxyOzhU1cGoRIqg1CVG45WZy1vEuYRfZRhvbwTIpciffawhg+ANDlpMKMJ/WSs
+         uybWD8eg650GxSVogdkJov4lA/KUVCwwLliUJXUzEIwgLAbDEBoO4EdLzVargytDT6rL
+         gYnk18mCfnh1hkEeo75VKaSUWgiWCYPHQIIskwnu0EH8SGGVBSCDkSvxB2jZ2lXr4yhK
+         Pqh6m6+la/4UlEkonqf97/+t/tFgg0bgfMMzdp2kVg/Fs4c0AdzMN1sVlQlxeY4Vxmio
+         getg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=NUxRW7fqD+7h9FNXnAUbVGq3Yz7ElzK6RCQA7Y5NoBs=;
-        b=ZWY9ql0Ab+AL0dgKSE71+4BZEsAQpUZqIhu1VqCwrvqNaFpAEN400OAbXz8Ytpa5n/
-         nK8t96HkF0bNz9GH46gyDfCwK7SEC0XRRs5xSpo3Ya3Iix2/B8GzdzAOhEWa2WxNRo3i
-         1ob7Im8XHZTqPj6mNxVl/5ll5AcalK8Zol2RGfw7A+0o7pgQ6Pt8zOVhCxeKTXHic/yW
-         zhs+Rul4xPuRrkAOMYBnIRnCcw8TLrTX1B/KK3SkpvGfs9H/aoS+YX75vUOm1ZB9M4hi
-         3i5i4JLb7U+8rr4RmfjiW+rbVq6fj4nbSvuROSp0vXu6xyQmegDet+b5TPuyqwTmey7X
-         AJew==
-X-Gm-Message-State: AOAM532w38AbpuEXecz9sH/wojWy5wml+ypvZCv85ICdP/VNRQb2bLfa
-	lc9PpvH99ybaDBOws+gIoFs=
-X-Google-Smtp-Source: ABdhPJz/KVTQgRMoz464Bvx6v0lQam/19wYSDIBtBKSknWNv1BsMOWmTy5vt0rsYzlDf1qKpiibFdQ==
-X-Received: by 2002:aa7:96ab:0:b0:44c:f3e2:a7d1 with SMTP id g11-20020aa796ab000000b0044cf3e2a7d1mr5354472pfk.78.1634723295553;
-        Wed, 20 Oct 2021 02:48:15 -0700 (PDT)
+        bh=j4WlK2hOFHNCDGbyNuqEGjx1ER9zvNdVKUnQngZATS0=;
+        b=FvSLwc+Min9bvMBQbjLgJ4npgBgGH7YeOWKczgwMArDOCJAMmjsCf7XPqfM2jhX8Rg
+         DJvmj0W22low6PGqN3BKRhhYwJ0RnzOZB2P14KiYcBiF36kUOGGNogTpJjjdgva83x0J
+         7DmtnniGfqtVG7HcidBcRsjlnIpFfsd32VUPqOxKbGoTVZlP+r9J1rO1gX7CY7U7ASNI
+         3WHMYVpjkOxLLNVkkm0Q8vm6eifG6P06nkT2z4qF9Qpkp5kTYinxBHJC52DESKn0p0Sb
+         mEWSuMBabscd1rSBMZqbbxHEkVzfO9uQKiPxMJmxZYFyTmFerzbhysGjz6+vhcyod1Vu
+         M9OA==
+X-Gm-Message-State: AOAM532hg1qZmUWyfiFELKIZpXWQ7+5Fwwp2BkVyPLO4o+O9b399OwFZ
+	AD01OxU+tXLpYUO/wtlFFP0=
+X-Google-Smtp-Source: ABdhPJzlYlBgGnf1resealPTHgwxbDRUsrC1NyB/D1I0BDZ2WCfp1gJIUbc9dKFSrLts70h6jV7j9w==
+X-Received: by 2002:a05:6a00:815:b0:44d:2193:f688 with SMTP id m21-20020a056a00081500b0044d2193f688mr5294132pfk.4.1634723490207;
+        Wed, 20 Oct 2021 02:51:30 -0700 (PDT)
 Received: from [192.168.1.122] ([122.171.220.247])
-        by smtp.gmail.com with ESMTPSA id h13sm1643282pgf.14.2021.10.20.02.48.12
+        by smtp.gmail.com with ESMTPSA id b8sm1849206pfi.103.2021.10.20.02.51.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Oct 2021 02:48:15 -0700 (PDT)
-Message-ID: <497cce54-ed95-0fd3-b9b7-41a7aa4db6b4@gmail.com>
-Date: Wed, 20 Oct 2021 15:18:11 +0530
+        Wed, 20 Oct 2021 02:51:29 -0700 (PDT)
+Message-ID: <3e8b8712-72bd-2d3f-e3d3-16b912706a4e@gmail.com>
+Date: Wed, 20 Oct 2021 15:21:25 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,6 +66,10 @@ On 20-10-2021 15:04, Kushal Kothari wrote:
 > Issue found with checkpatch.pl.
 > CHECK: Using comparison to true is error prone
 > CHECK: Using comparison to false is error prone
+
+Request to please document the modification / comments handled from the previous patch sent.
+Also, please update [PATCH V*] in the Subject, that will help keeping track of versions. Thanks.
+
 > CHECK: Unnecessary parentheses
 > 
 > Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
@@ -86,14 +90,6 @@ On 20-10-2021 15:04, Kushal Kothari wrote:
 > +	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
 > +		!atomic_read(&pcmdpriv->cmdthd_running) 	/* com_thread not running */
 >  	)
-
-Please move ')' something like this.
-
-> +	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
-> +		!atomic_read(&pcmdpriv->cmdthd_running)) 	/* com_thread not running */
-
-
-
 >  		return _FAIL;
 >  
 > @@ -372,7 +372,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
@@ -147,10 +143,6 @@ Please move ')' something like this.
 >  
 > -		if (mutex_lock_interruptible(&(pcmd->padapter->cmdpriv.sctx_mutex)) == 0) {
 > +		if (mutex_lock_interruptible(&pcmd->padapter->cmdpriv.sctx_mutex) == 0) {
-
-Is this change required ? This is not inline with the v1 patch summary as well.
-If required, I would request to make it in a different patch.
-
 >  			if (pcmd->sctx) {
 >  				netdev_dbg(padapter->pnetdev,
 >  					   FUNC_ADPT_FMT " pcmd->sctx\n",
@@ -305,4 +297,3 @@ If required, I would request to make it in a different patch.
 Regards,
 
 ~Praveen.
-
