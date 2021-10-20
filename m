@@ -1,92 +1,131 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BAB2C8B
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 20:46:15 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-115-nfpx-aVSOSaqIrh6sNXYUQ-1; Wed, 20 Oct 2021 21:46:13 +0100
-X-MC-Unique: nfpx-aVSOSaqIrh6sNXYUQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Wed, 20 Oct 2021 21:46:11 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Wed, 20 Oct 2021 21:46:11 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Greg KH' <gregkh@linuxfoundation.org>, Sebastian Luchetti
-	<luchetti.linux@gmail.com>
-CC: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] staging: rts5208: ms.c: Remove two udelay calls and use
- usleep_range instead
-Thread-Topic: [PATCH] staging: rts5208: ms.c: Remove two udelay calls and use
- usleep_range instead
-Thread-Index: AQHXxCaBnEk8xGF8+EezDebeqGnpw6vcXlsg
-Date: Wed, 20 Oct 2021 20:46:11 +0000
-Message-ID: <15e2c625c8004534a3394271d49a3ba6@AcuMS.aculab.com>
-References: <YWwWoB3+4HQTD4/t@Mononoke> <YWwoCuBIBc/xTPIu@kroah.com>
-In-Reply-To: <YWwoCuBIBc/xTPIu@kroah.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5542C8B
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 21:05:38 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id i12so156747wrb.7
+        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 14:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=T77iytDqhp9H0uodyxGcNpBMzkLQE3z2HpWpG8HbcZ4=;
+        b=sSOED3ext07+4nJWteaYcNEQpXkMHR+7NP8nSkpFJJ+PCQ5xTB7Lc4baz8r86FngQ7
+         RdFKodfn+ciAlrGMUXxrpRUggJrLLwdUXAjhRLj8xlyjoJ9wcELO9poiNoNdo8Z4gdLJ
+         5pfKmNG8Ce576vBNrPQaueaD1KkweblneiD5WnFM07LyieOUqPX6v2qwSxvYy32n+yTi
+         1CJotex6FafvIj/UKJA2MuuLVvziYRHFZHExEm1WQXJsgAh4CHxZXAQK8RFm64CjSyMs
+         ZpRML0V3oEBt0RhSxn7I8uk50fsBXEbDCPRnspva8Cb+4ecJTjnfHsOzJVg6yvVcaB7O
+         ic5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=T77iytDqhp9H0uodyxGcNpBMzkLQE3z2HpWpG8HbcZ4=;
+        b=XiPcsORrkGS1Q2N+TN3AXaoshUELGwx+wd5m2EKr/zXGaonRbFYruEXUCDXeheF6KS
+         k+lXTQgncpMViVphjUmbq/2Q7GSdiRktFaL7X2Ns9bx6ldQx7Z9bg7UJpAi9emsRN1WO
+         jKp0WvEhOHqM7OKTXA2pa6CzC7zQGrstFBif+xYbr+D+epowcBWp1wUK6DUHaSAOJ7RO
+         447MxEbExMKtCmt0+ST6QqhHDZ6LnnyzOB/0JWQ06KTPHvCehoETp/XjG8hCTyiIjt07
+         COpl2gDhVq0rKEJiXWgVW27aAob7UX8EKskFEpp37I4tQBiHAK2bPLOcFSWySbq+IKaB
+         Wl8Q==
+X-Gm-Message-State: AOAM530jPMcakdErjo2hMKfINa/V6tZ0rFEbi3xdmISw9Y5Zbe5IaWxU
+	2L+CH32nHajFbTQUGcb7X84rtQ==
+X-Google-Smtp-Source: ABdhPJyzhaESlmMmaDyssgwpQ833qQsnwkKEQjQHodZ7elzBJAnWEQaqACu1XYq1NWVkDlfQDXLG7g==
+X-Received: by 2002:adf:a48e:: with SMTP id g14mr2008477wrb.11.1634763936696;
+        Wed, 20 Oct 2021 14:05:36 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id o10sm3398416wmq.46.2021.10.20.14.05.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 14:05:35 -0700 (PDT)
+Date: Wed, 20 Oct 2021 22:05:34 +0100
+From: Phillip Potter <phil@philpotter.co.uk>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] staging: r8188eu: remove unused dm_priv components
+Message-ID: <YXCEnhapnJEl9KZo@equinox>
+References: <20211020195401.12931-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211020195401.12931-1-martin@kaiser.cx>
 
-From: Greg KH
-> Sent: 17 October 2021 14:42
->=20
-> On Sun, Oct 17, 2021 at 02:27:12PM +0200, Sebastian Luchetti wrote:
-> > This patch fixes the issue:
-> > CHECK: usleep_range is preferred over udelay; see
-> > Documentation/timers/timers-howto.txt
-> > in two occurrences.
-> >
-> > Signed-off-by: Sebastian Luchetti <luchetti.linux@gmail.com>
-> > ---
-> >  drivers/staging/rts5208/ms.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/rts5208/ms.c b/drivers/staging/rts5208/ms.=
-c
-> > index 2a6fab5c117a..7292c8f013fd 100644
-> > --- a/drivers/staging/rts5208/ms.c
-> > +++ b/drivers/staging/rts5208/ms.c
-> > @@ -3236,7 +3236,7 @@ static int ms_write_multiple_pages(struct rtsx_ch=
-ip *chip, u16 old_blk,
-> >  =09=09=09return STATUS_FAIL;
-> >  =09=09}
-> >
-> > -=09=09udelay(30);
-> > +=09=09usleep_range(27, 32);
->=20
-> These are very odd choices of a number, where did they come from?
->=20
-> And as the other thread on this mailing list a few hours ago describes,
-> for this same type of change, you need to test this with the actual
-> hardware to know if this works properly or not.  Have you done so?
+On Wed, Oct 20, 2021 at 09:53:57PM +0200, Martin Kaiser wrote:
+> Remove unused components from struct dm_priv.
+> 
+> DMFlag is only written to, but never read.
+> InitDMFlag is assigned to DMFlag and not used elsewhere.
+> DM_Type is also write-only.
+> UndecoratedSmoothedPWDB and UndecoratedSmoothedCCK are not used at all.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>  drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 3 ---
+>  drivers/staging/r8188eu/hal/usb_halinit.c     | 1 -
+>  drivers/staging/r8188eu/include/rtl8188e_dm.h | 5 -----
+>  3 files changed, 9 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> index 4ce2c3749665..5d76f6ea91c4 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> @@ -87,12 +87,9 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
+>  void rtl8188e_InitHalDm(struct adapter *Adapter)
+>  {
+>  	struct hal_data_8188e *hal_data = GET_HAL_DATA(Adapter);
+> -	struct dm_priv	*pdmpriv = &hal_data->dmpriv;
+>  	struct odm_dm_struct *dm_odm = &hal_data->odmpriv;
+>  
+>  	dm_InitGPIOSetting(Adapter);
+> -	pdmpriv->DM_Type = DM_Type_ByDriver;
+> -	pdmpriv->DMFlag = DYNAMIC_FUNC_DISABLE;
+>  	Update_ODM_ComInfo_88E(Adapter);
+>  	ODM_DMInit(dm_odm);
+>  	Adapter->fix_rate = 0xFF;
+> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+> index cdc602fa9af8..ef1ae95d7db0 100644
+> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
+> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+> @@ -1469,7 +1469,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+>  		break;
+>  	case HW_VAR_DM_FUNC_SET:
+>  		if (*((u32 *)val) == DYNAMIC_ALL_FUNC_ENABLE) {
+> -			pdmpriv->DMFlag = pdmpriv->InitDMFlag;
+>  			podmpriv->SupportAbility =	pdmpriv->InitODMFlag;
+>  		} else {
+>  			podmpriv->SupportAbility |= *((u32 *)val);
+> diff --git a/drivers/staging/r8188eu/include/rtl8188e_dm.h b/drivers/staging/r8188eu/include/rtl8188e_dm.h
+> index 4a0608313f7a..208bea050f6f 100644
+> --- a/drivers/staging/r8188eu/include/rtl8188e_dm.h
+> +++ b/drivers/staging/r8188eu/include/rtl8188e_dm.h
+> @@ -15,14 +15,9 @@ enum{
+>  #define HP_THERMAL_NUM		8
+>  /*  duplicate code,will move to ODM ######### */
+>  struct	dm_priv {
+> -	u8	DM_Type;
+> -	u8	DMFlag;
+> -	u8	InitDMFlag;
+>  	u32	InitODMFlag;
+>  
+>  	/*  Upper and Lower Signal threshold for Rate Adaptive*/
+> -	int	UndecoratedSmoothedPWDB;
+> -	int	UndecoratedSmoothedCCK;
+>  	int	EntryMinUndecoratedSmoothedPWDB;
+>  	int	EntryMaxUndecoratedSmoothedPWDB;
+>  	int	MinUndecoratedPWDBForDM;
+> -- 
+> 2.20.1
+> 
 
-You also need to check that it is actually safe to sleep.
-The style of the commit messages doesn't give massive
-confidence that you have checked.
+Looks good.
 
-=09David
+Acked-by: Phillip Potter <phil@philpotter.co.uk>
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
-
+Regards,
+Phil
