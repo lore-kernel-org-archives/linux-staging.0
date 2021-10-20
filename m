@@ -1,31 +1,55 @@
-Received: from smtprelay.hostedemail.com (smtprelay0153.hostedemail.com [216.40.44.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1935672
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 01:24:05 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave05.hostedemail.com (Postfix) with ESMTP id EA8E01808F56E
-	for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 12:26:14 +0000 (UTC)
-Received: from omf07.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay01.hostedemail.com (Postfix) with ESMTP id B7607100CD86D;
-	Tue, 19 Oct 2021 12:26:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf07.hostedemail.com (Postfix) with ESMTPA id C18ED315D74;
-	Tue, 19 Oct 2021 12:26:06 +0000 (UTC)
-Message-ID: <4c6a85a4934ef977eee07fb7e38b07b8061bfce4.camel@perches.com>
-Subject: Re: [PATCH] staging: vt6655: Fix line wrapping in rf.c file
-From: Joe Perches <joe@perches.com>
-To: Karolina Drobnik <karolinadrobnik@gmail.com>, Greg KH
-	 <gregkh@linuxfoundation.org>
-Cc: outreachy-kernel@googlegroups.com, forest@alittletooquiet.net, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Tue, 19 Oct 2021 05:26:05 -0700
-In-Reply-To: <810a4e29b0c54520a30cae4d37fde0a59ea3d83b.camel@gmail.com>
-References: <20211018150526.9718-1-karolinadrobnik@gmail.com>
-	 <YW2O3wC8wMEKS3Ub@kroah.com>
-	 <84f3c940fedb961e6e7e88d47c3d15e598bc32c3.camel@perches.com>
-	 <810a4e29b0c54520a30cae4d37fde0a59ea3d83b.camel@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68142C8B
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:10:41 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id p6-20020a9d7446000000b0054e6bb223f3so4601326otk.3
+        for <linux-staging@lists.linux.dev>; Tue, 19 Oct 2021 23:10:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xKg9EjzdwjkynYiQFahq3nQ5iPSpRZ4rXkfIYG32xcw=;
+        b=TsuadMfgh/GFJNDD+k45aJlv52+kHcCKwEXHJoS/wOkW24o3bmT4AnuEqdjINH0iqG
+         yxAzJIG63NN5uIwszW4PrJmXXDQ+5nJKzwoEPWGe2g3mvfglPZD9PwDHFQki0L7lvXgK
+         MdSpCf6RGy7ynFQMbVGGfxlSNI01l7SpS8AZ3AFny4208jr56lO+aDetEI8UWQayzF8C
+         A9dd+aen++mEe8DILo1Ca1HA8uOiz7TyhQrBKvdi94ocup16AcYLEcXzacMxHQQvAkUx
+         WEVgMMmhMa0oWOogwkMZhQXP5xTku3XOWBt7hMGG7P4W5IInXO+Z5cs312MyJQS9Hvv+
+         y+hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xKg9EjzdwjkynYiQFahq3nQ5iPSpRZ4rXkfIYG32xcw=;
+        b=qG+rmAxn2xm07TTI2rdn+2yGykB3TBbsR8XPf42C0MYIvX/Lfjxn+ECN8MD6VrDjEZ
+         AIuvAYAo+bqPij88ZJqIUA32aSvgqRQGtXsUVYeYuo7ZmWad7oreZvET/Gcj/o7Wh5lu
+         17aBxnpGaZ78DFQCbtelQ9EDnLydhlshO+qh8Ys9D6BqIupj9TwdDbiO48r7Z8Pv+iNF
+         fAUfPc9yNQ881N96mCs7JPpyHO8fqvbeJ2Kokh8sXQvevLafyDjrPTFud8X8N0jfVgTa
+         pvC+9jhvDsUyO4CDByznC1ePLCvtTttsrJNA9TPj8X71QxYh9531qRNZpcLsnqTQn4x3
+         +xIA==
+X-Gm-Message-State: AOAM531bp9iJrJ2eEu5YqBcC54+mDntNXC1ykfiV5q9qYwvAq3qj3il+
+	BzjR2sq2gfSkXz0gF7hlINw=
+X-Google-Smtp-Source: ABdhPJwAs2Mu3y2pfrcfs4Vpe07BG3d7WnB1Nn1kNYu1Uo1TTQKAzUkY80nETMmR50KRsypXYO5OFA==
+X-Received: by 2002:a05:6830:23ac:: with SMTP id m12mr9518853ots.357.1634710240717;
+        Tue, 19 Oct 2021 23:10:40 -0700 (PDT)
+Received: from localhost.localdomain (c-76-30-1-35.hsd1.tx.comcast.net. [76.30.1.35])
+        by smtp.gmail.com with ESMTPSA id c21sm288182oiy.18.2021.10.19.23.10.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Oct 2021 23:10:40 -0700 (PDT)
+From: sesankm <sesank.mallikarjuna@gmail.com>
+X-Google-Original-From: sesankm <26676400+sesankm@users.noreply.github.com>
+To: lars@metafoo.de
+Cc: Michael.Hennerich@analog.com,
+	jic23@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	sesankm <26676400+sesankm@users.noreply.github.com>
+Subject: [PATCH] Staging: iio: adc: ad7280a: fixed coding style
+Date: Wed, 20 Oct 2021 01:10:27 -0500
+Message-Id: <20211020061027.34148-1-26676400+sesankm@users.noreply.github.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -33,84 +57,35 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C18ED315D74
-X-Spam-Status: No, score=-2.90
-X-Stat-Signature: 87uixfj7rnyqhe7tuq9g4m97zeze61wg
-X-Rspamd-Server: rspamout01
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1//BRstIUjWag0uUzgJvaEENDABgRIeRoI=
-X-HE-Tag: 1634646366-419216
 
-On Tue, 2021-10-19 at 11:59 +0100, Karolina Drobnik wrote:
-> Hi,
-> 
-> Thank you very much for your comments.
-> 
-> On Mon, 2021-10-18 at 17:12 +0200, Greg KH wrote:
-> > Also, these are all just fine as-is for now.  A better way to make
-> > these lines smaller is to use better variable and function names 
-> > that are shorter and make sense :)
-> 
-> I have v2 ready but I'm not sure, given the Joe's patch, if my solution
-> is a satisfactory one. I didn't jump on such refactoring as I'm still
-> learning about the codebase/process and didn't want to muddle the
-> waters (...more than I do already).
-> 
-> Greg, what would you prefer? Should I back up with my patch, pick
-> something else and let Joe's patch be merged?
+fixed issue with coding style
 
-What I suggested is not a patch it's just an example.
+Signed-off-by: sesankm <26676400+sesankm@users.noreply.github.com>
+---
+ drivers/staging/iio/adc/ad7280a.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-There's quite a lot of code in that driver that _could_
-be updated/refined/refactored (none of which _I_ will
-submit), but it's up to you do whatever _you_ want.
-
-You could:
-
-o remove the Hungarian notation
-o convert the mixed case variables to snake case
-o remove unnecessary function definitions and make them static
-o refactor various functions
-
-Generally, I prefer refactoring code to make it simpler or
-more like the generally preferred kernel styles.
-
-Another option would be to submit a completely new driver for
-this device based on this existing driver as what's there isn't
-particularly great IMO, but read the vt6655 TODO file and see if
-there's something you actually want to do there.
-
-> Also, I have a question about the patch if that's ok :)
-
-It's OK to ask.
-
-> On Mon, 2021-10-18 at 22:56 -0700, Joe Perches wrote:
-> > Maybe some refactoring like:
-> > ---
-[]
-> > diff --git a/drivers/staging/vt6655/rf.c
-[]
-> > +       uChannel--;
-> 
-> I see that you introduced `uChannel--` to further tidy up the lines
-> with `[uChannel - 1]`. In general, is there anything wrong with
-> indexing like `i - 1`?
-
-Depends on how often it's used and if it's ever missed accidentally.
-
-> What's the preference here? DRY things up as much as possible?
-
-Up to you
-
-> I'm asking because when I was reading this line, at first, it wasn't
-> clear to me why we could decrement it (example though: "Was this
-> modified earlier? Do we need to "correct" it?").
-
-Generally, just try to make code clear for a reader.
-
-When you do that, the compiler will also do a better job
-at what it does.
-
-If you look at the callers of the function, see if it's better
-to decrement the argument instead.
+diff --git a/drivers/staging/iio/adc/ad7280a.c b/drivers/staging/iio/adc/ad7280a.c
+index fef0055b8990..473f95118214 100644
+--- a/drivers/staging/iio/adc/ad7280a.c
++++ b/drivers/staging/iio/adc/ad7280a.c
+@@ -829,14 +829,14 @@ static irqreturn_t ad7280_event_handler(int irq, void *private)
+  * The function argument is stringified and doesn't need a fix
+  */
+ static IIO_DEVICE_ATTR_NAMED(in_thresh_low_value,
+-			     in_voltage-voltage_thresh_low_value,
++			     in_voltage - voltage_thresh_low_value,
+ 			     0644,
+ 			     ad7280_read_channel_config,
+ 			     ad7280_write_channel_config,
+ 			     AD7280A_CELL_UNDERVOLTAGE);
+ 
+ static IIO_DEVICE_ATTR_NAMED(in_thresh_high_value,
+-			     in_voltage-voltage_thresh_high_value,
++			     in_voltage - voltage_thresh_high_value,
+ 			     0644,
+ 			     ad7280_read_channel_config,
+ 			     ad7280_write_channel_config,
+-- 
+2.33.1
 
