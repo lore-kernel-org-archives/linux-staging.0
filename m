@@ -1,65 +1,95 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBB22C85
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 16:53:52 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id u6-20020a17090a3fc600b001a00250584aso938744pjm.4
-        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 09:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VV4gKjb5q3InvQuFZgN/2M6NLR7nDDUQM+TD7K15UaU=;
-        b=PoBWa8vFnCFDDKBuS9w7pF1Z0Ik82845JKkhUa0cRh1sSNGcy9q9d8l5JheDt/EzgS
-         w33brJalTFQYM3mnlwzZ2QvW/2UvVcisEBuGtrRxhs74k1xttaSAaFgudbXPTUUqRb/L
-         KNcFNF74DCcF2shFELVjedIMzeTYJalytaS0o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VV4gKjb5q3InvQuFZgN/2M6NLR7nDDUQM+TD7K15UaU=;
-        b=f+Ah3ERtm+b+gcIBBke8UjHLorc6gMRlAFDNjuHafrRrGVAOLnwChWvMZNdYXQUmHq
-         5NBT+QQG5U3NgDY39NZFGpA9sIgliydIKKjfJ1H6UiKx/4Eds0WiZMSz45zmKmp9Rr07
-         7nqcXqCT60jm51riY5kvWoZbRNmR5zC2gkI9/han9s1Us+F5yASyURKjXxqqNE9E065b
-         Yzxcg5O0WDt3MfP/duKbU/L/we4inYMmRrTlA2GgNDcXH+UrjdNi3iIEril459KQBeKv
-         xaAV9YuFq9m0i06FzjmK6ioWJKYol9vmLu32rTemjyVTPwdBxIci/qeoHxuRJTzt3SB1
-         KnVA==
-X-Gm-Message-State: AOAM5321GPwCtlp1yOM4djdmqRezxWoGcu5xKKgClPuHmSM7kyvRd6i6
-	DX7ci4PvgqAHVgMntFlh80gvzt4jRTYnpg==
-X-Google-Smtp-Source: ABdhPJy2Tr3Ix6ysLcBpNlUFmI7xxn2/3s/Gqkbn4COgLy35uemPtJplobdvWOyP/3ACMtZat0ALJg==
-X-Received: by 2002:a17:90b:1e01:: with SMTP id pg1mr112240pjb.81.1634748832371;
-        Wed, 20 Oct 2021 09:53:52 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id h22sm3054058pfc.116.2021.10.20.09.53.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 09:53:52 -0700 (PDT)
-Date: Wed, 20 Oct 2021 09:53:51 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 8/8] staging: use eth_hw_addr_set() in orphan drivers
-Message-ID: <202110200953.EC9629A0@keescook>
-References: <20211019171243.1412240-1-kuba@kernel.org>
- <20211019171243.1412240-9-kuba@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D1872
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 19:54:34 +0000 (UTC)
+Received: from dslb-188-096-142-022.188.096.pools.vodafone-ip.de ([188.96.142.22] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mdHfR-0007Cd-Vs; Wed, 20 Oct 2021 21:54:30 +0200
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 1/5] staging: r8188eu: remove unused dm_priv components
+Date: Wed, 20 Oct 2021 21:53:57 +0200
+Message-Id: <20211020195401.12931-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211019171243.1412240-9-kuba@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 19, 2021 at 10:12:43AM -0700, Jakub Kicinski wrote:
-> Commit 406f42fa0d3c ("net-next: When a bond have a massive amount
-> of VLANs...") introduced a rbtree for faster Ethernet address look
-> up. To maintain netdev->dev_addr in this tree we need to make all
-> the writes to it got through appropriate helpers.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Remove unused components from struct dm_priv.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+DMFlag is only written to, but never read.
+InitDMFlag is assigned to DMFlag and not used elsewhere.
+DM_Type is also write-only.
+UndecoratedSmoothedPWDB and UndecoratedSmoothedCCK are not used at all.
 
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 3 ---
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 1 -
+ drivers/staging/r8188eu/include/rtl8188e_dm.h | 5 -----
+ 3 files changed, 9 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+index 4ce2c3749665..5d76f6ea91c4 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+@@ -87,12 +87,9 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
+ void rtl8188e_InitHalDm(struct adapter *Adapter)
+ {
+ 	struct hal_data_8188e *hal_data = GET_HAL_DATA(Adapter);
+-	struct dm_priv	*pdmpriv = &hal_data->dmpriv;
+ 	struct odm_dm_struct *dm_odm = &hal_data->odmpriv;
+ 
+ 	dm_InitGPIOSetting(Adapter);
+-	pdmpriv->DM_Type = DM_Type_ByDriver;
+-	pdmpriv->DMFlag = DYNAMIC_FUNC_DISABLE;
+ 	Update_ODM_ComInfo_88E(Adapter);
+ 	ODM_DMInit(dm_odm);
+ 	Adapter->fix_rate = 0xFF;
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index cdc602fa9af8..ef1ae95d7db0 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -1469,7 +1469,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+ 		break;
+ 	case HW_VAR_DM_FUNC_SET:
+ 		if (*((u32 *)val) == DYNAMIC_ALL_FUNC_ENABLE) {
+-			pdmpriv->DMFlag = pdmpriv->InitDMFlag;
+ 			podmpriv->SupportAbility =	pdmpriv->InitODMFlag;
+ 		} else {
+ 			podmpriv->SupportAbility |= *((u32 *)val);
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_dm.h b/drivers/staging/r8188eu/include/rtl8188e_dm.h
+index 4a0608313f7a..208bea050f6f 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_dm.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_dm.h
+@@ -15,14 +15,9 @@ enum{
+ #define HP_THERMAL_NUM		8
+ /*  duplicate code,will move to ODM ######### */
+ struct	dm_priv {
+-	u8	DM_Type;
+-	u8	DMFlag;
+-	u8	InitDMFlag;
+ 	u32	InitODMFlag;
+ 
+ 	/*  Upper and Lower Signal threshold for Rate Adaptive*/
+-	int	UndecoratedSmoothedPWDB;
+-	int	UndecoratedSmoothedCCK;
+ 	int	EntryMinUndecoratedSmoothedPWDB;
+ 	int	EntryMaxUndecoratedSmoothedPWDB;
+ 	int	MinUndecoratedPWDBForDM;
 -- 
-Kees Cook
+2.20.1
+
