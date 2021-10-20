@@ -1,83 +1,354 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40942C8B
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 11:03:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B2C61613A7;
-	Wed, 20 Oct 2021 11:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634727817;
-	bh=f8Lhl6mKTN67y6PmZ1jxu5lUkqjWdReY/Zc4Ljiid30=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gmEfXtL79/x0McMbGKjYTAyrQtrnRA0L51KbagBD9VaMI0GUfTiyjT8bmVRyN97l8
-	 PPRA0ia9CTILPeI/dKA3q/wDzdOFpwbM04/aHf6lDnzBQDRYM9lxXb5MGjEdCGh35+
-	 +KxIO2Ift22K328aJIu2x9yRbTEvt/aN4p+z7LDQ=
-Date: Wed, 20 Oct 2021 13:03:34 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kushal Kothari <kushalkothari285@gmail.com>
-Cc: fabioaiuto83@gmail.com, marcocesati@gmail.com, dan.carpenter@oracle.com,
-	ross.schm.dev@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
-	mike.rapoport@gmail.com, staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: core: Remove true and false
- comparison
-Message-ID: <YW/3hsflTpx3dSLK@kroah.com>
-References: <20211020105401.131254-1-kushalkothari285@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA9D2C8B
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 11:07:13 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id 5so24030209edw.7
+        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 04:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=1ws8ir5ko7b0963hak0dKo3NQDeBkVKurbFdaZzXm40=;
+        b=XX4I+Zqs/y42xREnKW33FnJsaDsPetXdcY/7GGlC90XtyZU+q0bY5l687mIPUxv7j2
+         DyerOXdh/LMpsQ0EgxNZlUQlzDWXdeKzfdgmM+6Uv7FqNP3/qi/p58U0NfDejq9dhuCf
+         k2M0RhUDDnGBZaAAoMQDOnyiXQvh0YF+WieyYnCLouQTjiVFmyKIKjs8jLOBCo5DVeDZ
+         Ti/kpyFvrVJ6rfajCvVYRIfyh4FtnjhVGOUDDSRxMa9aBJU1ddLv9E35dc4WqU59mCO4
+         VNa0UDF/lKtcZNBWLLM8VQhz+MkroCG/et2MfxxggLlXoxBodVEjSsEOZD94svYGOxCW
+         0pbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1ws8ir5ko7b0963hak0dKo3NQDeBkVKurbFdaZzXm40=;
+        b=j99UKj0MW1qBigeSJ3jEMPOfgkKZJfwdnV/it+rhCmtw/nixLj+8rep/ytZOkQlRwh
+         65JhZXh6osCGPpXwn4FTv5PTRPeunKz/w+f9+fpAy/ftYaQ+lsuROCF2Y2t2bXdie5iK
+         R7TCsgAuobrkdchFkCQrfGkvGcop1Poyz9wOA/d75Sh2uEFGkqvUlz9p8tqYtOGpL+/2
+         6IB3aeKrHnDtn8LPa664zwOQy42HyIu0V0BorLt1hpMUJu+AhFa6nvbyibkd1mBlrtHo
+         bExcFEFp74XJ6zrAatTjMlwpmxJ5xGezsGjjVWh4cEwYCqGB61lBXvwjXJQ/WCawXa/Y
+         bMjQ==
+X-Gm-Message-State: AOAM532WkcYtXQaiZjM1H2SocBByIWgHG5Tbd5M8Q4LLTfYJC318PPMQ
+	gYvRugLrT+r1sURsUNFG0dnf2HelyD5pc7UnYugVDRYJZEsN68+g
+X-Google-Smtp-Source: ABdhPJxtvbwU5/cek1swkiwSJlnKeKc0aRlKBlFXx+3wtzS/wsdMQAOZjGPJ5fdvUyy9ZqsH1yof6w52yPU+GPQX5PE=
+X-Received: by 2002:a17:906:3944:: with SMTP id g4mr46487185eje.426.1634728031784;
+ Wed, 20 Oct 2021 04:07:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211020105401.131254-1-kushalkothari285@gmail.com>
+References: <20210929160439.6601-1-andrzej.p@collabora.com>
+ <3448839.R56niFO833@kista> <84fd4395-5cac-c933-7639-dd3cd844a9cf@collabora.com>
+ <11847752.O9o76ZdvQC@kista>
+In-Reply-To: <11847752.O9o76ZdvQC@kista>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Wed, 20 Oct 2021 08:06:59 -0300
+Message-ID: <CAAEAJfBYwbUrjUFvs70u8YkuBgrCK6LuYdT9Y2Om7OLo6_cV1g@mail.gmail.com>
+Subject: Re: Re: [PATCH v7 11/11] media: hantro: Support NV12 on the G2 core
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-media <linux-media@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Boris Brezillon <boris.brezillon@collabora.com>, Fabio Estevam <festevam@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Heiko Stuebner <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Collabora Kernel ML <kernel@collabora.com>, Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 20, 2021 at 04:24:01PM +0530, Kushal Kothari wrote:
-> Remove comparison to true and false in if statement.
-> Issue found with checkpatch.pl.
-> CHECK: Using comparison to true is error prone
-> CHECK: Using comparison to false is error prone
-> 
-> Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
-> ---
-> 
-> Changes in v2: Remove unnecessary parentheses.
-> 
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 50 ++++++++++++------------
->  1 file changed, 25 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index efc9b1974e38..3e0b910114da 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -309,8 +309,8 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
->  	if (cmd_obj->cmdcode == GEN_CMD_CODE(_SetChannelPlan))
->  		bAllow = true;
->  
-> -	if ((pcmdpriv->padapter->hw_init_completed == false && bAllow == false)
-> -		|| atomic_read(&(pcmdpriv->cmdthd_running)) == false	/* com_thread not running */
-> +	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
-> +		!atomic_read(&pcmdpriv->cmdthd_running) 	/* com_thread not running */
->  	)
->  		return _FAIL;
->  
-> @@ -372,7 +372,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
->  void rtw_stop_cmd_thread(struct adapter *adapter)
->  {
->  	if (adapter->cmdThread &&
-> -		atomic_read(&(adapter->cmdpriv.cmdthd_running)) == true &&
-> +		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
->  		adapter->cmdpriv.stop_req == 0) {
->  		adapter->cmdpriv.stop_req = 1;
->  		complete(&adapter->cmdpriv.cmd_queue_comp);
-> @@ -388,7 +388,7 @@ int rtw_cmd_thread(void *context)
->  	u8 (*cmd_hdl)(struct adapter *padapter, u8 *pbuf);
->  	void (*pcmd_callback)(struct adapter *dev, struct cmd_obj *pcmd);
->  	struct adapter *padapter = context;
-> -	struct cmd_priv *pcmdpriv = &(padapter->cmdpriv);
-> +	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+Hi Jernej,
 
-This is not described in your changelog text and has nothing to do with
-booleans :(
+On Tue, 19 Oct 2021 at 13:38, Jernej =C5=A0krabec <jernej.skrabec@gmail.com=
+> wrote:
+>
+> Hi Andrzej!
+>
+> Dne petek, 15. oktober 2021 ob 19:19:47 CEST je Andrzej Pietrasiewicz
+> napisal(a):
+> > Hi Jernej,
+> >
+> > W dniu 14.10.2021 o 19:42, Jernej =C5=A0krabec pisze:
+> > > Hi Andrzej!
+> > >
+> > > Dne sreda, 29. september 2021 ob 18:04:39 CEST je Andrzej Pietrasiewi=
+cz
+> > > napisal(a):
+> > >> The G2 decoder block produces NV12 4x4 tiled format (NV12_4L4).
+> > >> Enable the G2 post-processor block, in order to produce regular NV12=
+.
+> > >>
+> > >> The logic in hantro_postproc.c is leveraged to take care of allocati=
+ng
+> > >> the extra buffers and configure the post-processor, which is
+> > >> significantly simpler than the one on the G1.
+> > >
+> > > Quick summary of discussion on LibreELEC Slack:
+> > > When using NV12 format on Allwinner H6 variant of G2 (needs some driv=
+er
+> > > changes), I get frames out of order. If I use native NV12 tiled forma=
+t,
+> frames
+> > > are ordered correctly.
+> > >
+> > > Currently I'm not sure if this is issue with my changes or is this ge=
+neral
+> > > issue.
+> > >
+> > > I would be grateful if anyone can test frame order with and without
+> > > postprocessing enabled on imx8. Take some dynamic video with a lot of
+> short
+> > > scenes. It's pretty obvious when frames are out of order.
+> > >
+> >
+> > I checked on imx8 and cannot observe any such artifacts.
+>
+> I finally found the issue. As you mentioned on Slack, register write orde=
+r once
+> already affected decoding. Well, it's the case again. I made hacky test a=
+nd
+> moved postproc enable call after output buffers are set and it worked. So=
+, this
+> is actually core quirk which is obviously fixed in newer variants.
+>
 
+Ugh, good catch.
+
+What happens if you move all the calls to HANTRO_PP_REG_WRITE_S
+(HANTRO_PP_REG_WRITE does a relaxed write)?
+
+Or what happens if the HANTRO_PP_REG_WRITE(vpu, out_luma_base, dst_dma)
+is moved to be done after all the other registers?
+
+> This makes this series with minor adaptations completely working on H6. I=
+ see
+> no reason not to merge whole series.
+>
+
+Do you have plans to submit your H6 work on top of this?
+
+Thanks,
+Ezequiel
+
+
+> Thanks for testing.
+>
+> Best regards,
+> Jernej
+>
+> >
+> > Andrzej
+> >
+> > > However, given that frames themself are correctly decoded and without
+> > > postprocessing in right order, that shouldn't block merging previous
+> patches.
+> > > I tried few different videos and frames were all decoded correctly.
+> > >
+> > > Best regards,
+> > > Jernej
+> > >
+> > >>
+> > >> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > >> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> > >> ---
+> > >>   .../staging/media/hantro/hantro_g2_vp9_dec.c  |  6 ++--
+> > >>   drivers/staging/media/hantro/hantro_hw.h      |  1 +
+> > >>   .../staging/media/hantro/hantro_postproc.c    | 31 +++++++++++++++=
+++++
+> > >>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 11 +++++++
+> > >>   4 files changed, 46 insertions(+), 3 deletions(-)
+> > >>
+> > >> diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/driv=
+ers/
+> > > staging/media/hantro/hantro_g2_vp9_dec.c
+> > >> index 7f827b9f0133..1a26be72c878 100644
+> > >> --- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> > >> +++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> > >> @@ -152,7 +152,7 @@ static void config_output(struct hantro_ctx *ctx=
+,
+> > >>    hantro_reg_write(ctx->dev, &g2_out_dis, 0);
+> > >>    hantro_reg_write(ctx->dev, &g2_output_format, 0);
+> > >>
+> > >> -  luma_addr =3D vb2_dma_contig_plane_dma_addr(&dst->base.vb.vb2_buf=
+,
+> > > 0);
+> > >> +  luma_addr =3D hantro_get_dec_buf_addr(ctx, &dst->base.vb.vb2_buf)=
+;
+> > >>    hantro_write_addr(ctx->dev, G2_OUT_LUMA_ADDR, luma_addr);
+> > >>
+> > >>    chroma_addr =3D luma_addr + chroma_offset(ctx, dec_params);
+> > >> @@ -191,7 +191,7 @@ static void config_ref(struct hantro_ctx *ctx,
+> > >>    hantro_reg_write(ctx->dev, &ref_reg->hor_scale, (refw << 14) /
+> > > dst->vp9.width);
+> > >>    hantro_reg_write(ctx->dev, &ref_reg->ver_scale, (refh << 14) /
+> > > dst->vp9.height);
+> > >>
+> > >> -  luma_addr =3D vb2_dma_contig_plane_dma_addr(&buf->base.vb.vb2_buf=
+,
+> > > 0);
+> > >> +  luma_addr =3D hantro_get_dec_buf_addr(ctx, &buf->base.vb.vb2_buf)=
+;
+> > >>    hantro_write_addr(ctx->dev, ref_reg->y_base, luma_addr);
+> > >>
+> > >>    chroma_addr =3D luma_addr + chroma_offset(ctx, dec_params);
+> > >> @@ -236,7 +236,7 @@ static void config_ref_registers(struct hantro_c=
+tx
+> *ctx,
+> > >>    config_ref(ctx, dst, &ref_regs[1], dec_params, dec_params-
+> > >> golden_frame_ts);
+> > >>    config_ref(ctx, dst, &ref_regs[2], dec_params, dec_params-
+> > >> alt_frame_ts);
+> > >>
+> > >> -  mv_addr =3D vb2_dma_contig_plane_dma_addr(&mv_ref->base.vb.vb2_bu=
+f,
+> > > 0) +
+> > >> +  mv_addr =3D hantro_get_dec_buf_addr(ctx, &mv_ref->base.vb.vb2_buf=
+) +
+> > >>              mv_offset(ctx, dec_params);
+> > >>    hantro_write_addr(ctx->dev, G2_REF_MV_ADDR(0), mv_addr);
+> > >>
+> > >> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/stag=
+ing/
+> > > media/hantro/hantro_hw.h
+> > >> index 2961d399fd60..3d4a5dc1e6d5 100644
+> > >> --- a/drivers/staging/media/hantro/hantro_hw.h
+> > >> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > >> @@ -274,6 +274,7 @@ extern const struct hantro_variant
+> rk3399_vpu_variant;
+> > >>   extern const struct hantro_variant sama5d4_vdec_variant;
+> > >>
+> > >>   extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
+> > >> +extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
+> > >>
+> > >>   extern const u32 hantro_vp8_dec_mc_filter[8][6];
+> > >>
+> > >> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/driver=
+s/
+> > > staging/media/hantro/hantro_postproc.c
+> > >> index 4549aec08feb..79a66d001738 100644
+> > >> --- a/drivers/staging/media/hantro/hantro_postproc.c
+> > >> +++ b/drivers/staging/media/hantro/hantro_postproc.c
+> > >> @@ -11,6 +11,7 @@
+> > >>   #include "hantro.h"
+> > >>   #include "hantro_hw.h"
+> > >>   #include "hantro_g1_regs.h"
+> > >> +#include "hantro_g2_regs.h"
+> > >>
+> > >>   #define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+> > >>   { \
+> > >> @@ -99,6 +100,21 @@ static void hantro_postproc_g1_enable(struct
+> hantro_ctx
+> > > *ctx)
+> > >>    HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
+> > >>   }
+> > >>
+> > >> +static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
+> > >> +{
+> > >> +  struct hantro_dev *vpu =3D ctx->dev;
+> > >> +  struct vb2_v4l2_buffer *dst_buf;
+> > >> +  size_t chroma_offset =3D ctx->dst_fmt.width * ctx->dst_fmt.height=
+;
+> > >> +  dma_addr_t dst_dma;
+> > >> +
+> > >> +  dst_buf =3D hantro_get_dst_buf(ctx);
+> > >> +  dst_dma =3D vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+> > >> +
+> > >> +  hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
+> > >> +  hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma +
+> > > chroma_offset);
+> > >> +  hantro_reg_write(vpu, &g2_out_rs_e, 1);
+> > >> +}
+> > >> +
+> > >>   void hantro_postproc_free(struct hantro_ctx *ctx)
+> > >>   {
+> > >>    struct hantro_dev *vpu =3D ctx->dev;
+> > >> @@ -127,6 +143,9 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx=
+)
+> > >>    if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_H264_SLICE)
+> > >>            buf_size +=3D hantro_h264_mv_size(ctx->dst_fmt.width,
+> > >>                                            ctx-
+> > >> dst_fmt.height);
+> > >> +  else if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_VP9_FRAME)
+> > >> +          buf_size +=3D hantro_vp9_mv_size(ctx->dst_fmt.width,
+> > >> +                                         ctx-
+> > >> dst_fmt.height);
+> > >>
+> > >>    for (i =3D 0; i < num_buffers; ++i) {
+> > >>            struct hantro_aux_buf *priv =3D &ctx->postproc.dec_q[i];
+> > >> @@ -152,6 +171,13 @@ static void hantro_postproc_g1_disable(struct
+> > > hantro_ctx *ctx)
+> > >>    HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
+> > >>   }
+> > >>
+> > >> +static void hantro_postproc_g2_disable(struct hantro_ctx *ctx)
+> > >> +{
+> > >> +  struct hantro_dev *vpu =3D ctx->dev;
+> > >> +
+> > >> +  hantro_reg_write(vpu, &g2_out_rs_e, 0);
+> > >> +}
+> > >> +
+> > >>   void hantro_postproc_disable(struct hantro_ctx *ctx)
+> > >>   {
+> > >>    struct hantro_dev *vpu =3D ctx->dev;
+> > >> @@ -172,3 +198,8 @@ const struct hantro_postproc_ops
+> hantro_g1_postproc_ops
+> > > =3D {
+> > >>    .enable =3D hantro_postproc_g1_enable,
+> > >>    .disable =3D hantro_postproc_g1_disable,
+> > >>   };
+> > >> +
+> > >> +const struct hantro_postproc_ops hantro_g2_postproc_ops =3D {
+> > >> +  .enable =3D hantro_postproc_g2_enable,
+> > >> +  .disable =3D hantro_postproc_g2_disable,
+> > >> +};
+> > >> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/
+> staging/
+> > > media/hantro/imx8m_vpu_hw.c
+> > >> index 455a107ffb02..1a43f6fceef9 100644
+> > >> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > >> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > >> @@ -132,6 +132,14 @@ static const struct hantro_fmt imx8m_vpu_dec_fm=
+ts[]
+> =3D {
+> > >>    },
+> > >>   };
+> > >>
+> > >> +static const struct hantro_fmt imx8m_vpu_g2_postproc_fmts[] =3D {
+> > >> +  {
+> > >> +          .fourcc =3D V4L2_PIX_FMT_NV12,
+> > >> +          .codec_mode =3D HANTRO_MODE_NONE,
+> > >> +          .postprocessed =3D true,
+> > >> +  },
+> > >> +};
+> > >> +
+> > >>   static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] =3D {
+> > >>    {
+> > >>            .fourcc =3D V4L2_PIX_FMT_NV12_4L4,
+> > >> @@ -301,6 +309,9 @@ const struct hantro_variant imx8mq_vpu_g2_varian=
+t =3D {
+> > >>    .dec_offset =3D 0x0,
+> > >>    .dec_fmts =3D imx8m_vpu_g2_dec_fmts,
+> > >>    .num_dec_fmts =3D ARRAY_SIZE(imx8m_vpu_g2_dec_fmts),
+> > >> +  .postproc_fmts =3D imx8m_vpu_g2_postproc_fmts,
+> > >> +  .num_postproc_fmts =3D ARRAY_SIZE(imx8m_vpu_g2_postproc_fmts),
+> > >> +  .postproc_ops =3D &hantro_g2_postproc_ops,
+> > >>    .codec =3D HANTRO_HEVC_DECODER | HANTRO_VP9_DECODER,
+> > >>    .codec_ops =3D imx8mq_vpu_g2_codec_ops,
+> > >>    .init =3D imx8mq_vpu_hw_init,
+> > >> --
+> > >> 2.17.1
+> > >>
+> > >>
+> > >
+> > >
+> >
+> >
+>
+>
