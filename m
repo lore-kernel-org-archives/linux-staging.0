@@ -1,125 +1,118 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6292C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:17:57 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id y7so2939574pfg.8
-        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:17:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B702C81
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:23:52 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id g2so19001456wme.4
+        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=WYRpv8N66/W2Mu0ccRwKp1YVNKPZWgSDjisZQyVjEx8=;
-        b=W7d9Dw6Txw6qqYUs29sbgFaYzX9bi87F7VBdCMsJ7mqOOp1beirt0jPgR760Fsbo31
-         ARnz7IgGxXpmQkeYXMcC+J7APY+AY949Cy+jACf/xmVirGjFqmIl6XKIZMefr0xhk6jr
-         sIT/i/ItkQRC3aDS3xqVIqXWEH2ceL85jd7D/JiWdVjEhP6nHRZEDeYByF1t1glBKhzb
-         JV5lolicYYlivX3A1evtWUA+SDhjBluj98VeL2/pXV9SDwnjz7myfjfd80sfItG7uJox
-         Qkq1FBaSEBuOR6rWwNUcUUyy1EYSQf5cyG3+eLg+0IEyppyWvfkGb163lsHZ/wMS9KqP
-         /vUA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xK9DNZI2WxuIz+Ctgl2vXcWcIENDorkB7WicrZ5sMlw=;
+        b=D2jt52BW4x4UxWlPWIeJILigF+dk35bbQBWylH2BYt9nYqPexh7mFTEru41QxZwN+O
+         UHut3BOS91CHPbXg07iVYWFqs4M6XrrjFpzFzxaA63EkYAIR8VM4vwdns8mZVepmfonc
+         Joshy7f06L3vP1zPh1ybGSHok0GjxN+1KHpeOnqs6fEDuDAJQW2MusejKeaEZgK0KKk/
+         RjlcisnP4yilFg5Nq5xZlYkmHCguyJQDikhfTTtXCUrNGUPPrRkOhUCyImEf8xmHYEpA
+         qDHcnnEgZCFfvYYpj/ZwGY6JVWcMhpte1zpejzNRmuTDcjIrwt2j797AS7szY+pCNQAM
+         Qbtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WYRpv8N66/W2Mu0ccRwKp1YVNKPZWgSDjisZQyVjEx8=;
-        b=PcsHVQl5vVjN2Kuqv2hkYpMiuogfhcLhWAzb0GZINEoYWoupDQnS9zb7Y6dpMNfIZE
-         RUJT/9i6CSixi/0jFrZpFPleMLxXXA4B8bjtLFSX15XixhKgwh5HLBcTtXvupX9ibli8
-         tAzW18cZMqsowHBJHzyw4l+7c155xBmb85WL6htjaLCx1xUHACVDFTUIlSwmDAPvfYZr
-         tSTRtTlhZocTdwLm5EozDu7kDsi1Du8J90eBJ/2kNl5yIe+pZz4UKcCX2wJHb0eiM1Nq
-         t5mdXeU4GZPIVX7/dwMYZHpIhkJy3cluDqQf3bw63/KWwTGEDa7CzuoaKuMAP+LElSYN
-         c8JQ==
-X-Gm-Message-State: AOAM532APJppDiXBP8wuKBe7SLr0Yg9xtxAhPsBB1MO4yIPonovfSLmt
-	+AW9kSKiSSijvQBIXBL2QI4=
-X-Google-Smtp-Source: ABdhPJwe4OyYxZBBcTwn+Hoa8n9DNA0H7qO1dEf5kLqG6ddUb7u9Cp/PGSHNHAEg0gfmGXqe8ZgTYw==
-X-Received: by 2002:a63:b241:: with SMTP id t1mr33828806pgo.154.1634735876518;
-        Wed, 20 Oct 2021 06:17:56 -0700 (PDT)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id b10sm2848145pfl.200.2021.10.20.06.17.52
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xK9DNZI2WxuIz+Ctgl2vXcWcIENDorkB7WicrZ5sMlw=;
+        b=z55L98ERxxe/pMqJOogbTnW21amFA5dNNcCbp1e0FYZt2FOTbHeU8mnDSpMppb8RR4
+         l9plU9CMW1rFoqpRpDLAroHv6J8YutEOWkRoJnxcWIrEugFycw6AcnE2plhObyow/lFu
+         dy08exOJKj72fXrpoq9ENLVdKygaLpUsfgNAAbYVXdfL5zZKZ8IrHvLHU2XEbmBX6tar
+         4cKuPnyEIVqqXNxflxcoedLagIT/fjm+6aytdh4sRTN6xICit6T/jyNIcC3Qxd3Kr1uP
+         2W8bq2tg8BqDDrf9sD/W1AZn5qKU2suXfBTL6V01rQOaPG/ikJZTisqIdTo37Yn1pS7V
+         yGCg==
+X-Gm-Message-State: AOAM530DP8a/6L3cHml9GipvYxPNbHI5lqZpjrWV8zV8KohnTGAkWCxb
+	RmdygDajVitd1ozFswQgehw=
+X-Google-Smtp-Source: ABdhPJzA1mhv83/9w7/Y0vUlp7/KoKz3Whha9WKlXxhTN+u0wOhzDSF+ciF2aRR4xM8TA5VKHzYNzA==
+X-Received: by 2002:adf:bc42:: with SMTP id a2mr52925368wrh.4.1634736231141;
+        Wed, 20 Oct 2021 06:23:51 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id l5sm2064106wru.24.2021.10.20.06.23.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 06:17:56 -0700 (PDT)
-Message-ID: <9459d5dd265675d20905f4a02687cc08c31ee2fe.camel@gmail.com>
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Aline Santana Cordeiro
- <alinesantanacordeiro@gmail.com>, Dinghao Liu <dinghao.liu@zju.edu.cn>, 
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Nable <nable.maininbox@googlemail.com>, Fabio
- Aiuto <fabioaiuto83@gmail.com>, "andrey.i.trufanov"
- <andrey.i.trufanov@gmail.com>
-Date: Wed, 20 Oct 2021 22:17:51 +0900
-In-Reply-To: <YW70KzXJ8q1ksEx5@smile.fi.intel.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	 <bc7f699d-d77d-83ad-ce5b-6082f30881c1@redhat.com>
-	 <7550e3359471726cf14572dd4860c238f166dde8.camel@gmail.com>
-	 <YW70KzXJ8q1ksEx5@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        Wed, 20 Oct 2021 06:23:50 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH v2] staging: vt6655: Rename `by_preamble_type` parameter
+Date: Wed, 20 Oct 2021 14:23:26 +0100
+Message-Id: <20211020132326.417059-1-karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-10-19 at 19:36 +0300, Andy Shevchenko wrote:
-> On Tue, Oct 19, 2021 at 10:50:27PM +0900, Tsuchiya Yuto wrote:
-> > On Mon, 2021-10-18 at 09:48 +0200, Hans de Goede wrote:
-> > > On 10/17/21 18:19, Tsuchiya Yuto wrote:
-> 
-> ...
-> 
-> > > >   ## for mipad2 (and whiskey cove pmic based devices)
-> > > > 
-> > > > For devices which equip whiskey cove PMIC, you need to add non-upstream
-> > > > regulator driver [1].
-> > > > 
-> > > > [1] work done by jekhor, which seems to be from intel-aero or old
-> > > >     Android kernel
-> > > >     https://github.com/jekhor/yogabook-linux-kernel/commit/11c05b365fb2eeb4fced5aa66b362c511be32a34
-> > > >     ("intel_soc_pmic_chtwc: Add regulator driver and definition for VPROG1B")
-> > > 
-> > > Interesting I recently bought a 2nd hand mipad2 myself too. I still need
-> > > to put Linux on there. I'm definitely motivated to do that now :)
-> > 
-> > I'm glad to hear that you also got a mipad2 :) It might be a interesting
-> > device to look into. It even won't boot without nomodeset, no battery
-> > charging/status on mainline kernel.
-> > 
-> > By the way, instead of adding whiskey cove regulator driver, we may also
-> > add a "hack" like the other PMIC in atomisp_gmin_platform to control
-> > regulators [1].
-> 
-> I looked briefly into the code and if we indeed need to turn off or on
-> the regulators it should be a driver.
-> 
-> I don't like having hacks outside of driver/staging to satisfy the one from
-> the staging.
+Drop Hungarian notation prefix in the first parameter of
+`bb_get_frame_time` function. Update the comment to
+reflect that change.
 
-Yeah, if "reading" from the PMIC can't be achieved with the current
-mainline kernel, it does not make sense to add code for "reading" just
-for the hack inside atomisp. Rather, in this case, adding the regulator
-driver is a straightforward way.
+Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+---
+v2:
+* Update the change log: delete description of why `byPreambleType`
+  rename influenced that change and reference to an already merged commit
 
-We can already write with intel_soc_pmic_exec_mipi_pmic_seq_element(),
-so what I wondered is, is there equivalent for "read"?
+ drivers/staging/vt6655/baseband.c | 6 +++---
+ drivers/staging/vt6655/baseband.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-But yes, we should eventually use regulator driver anyway.
-
-Regards,
-Tsuchiya Yuto
-
-> I.o.w. having a regulator driver is a right thing to do in my opinion.
-> 
-> > It seems that to do so, it needs to "read" value from the PMIC before
-> > writing. So, I'm not sure if this can be achieved easily with the current
-> > mainline kernel though.
-> > 
-> > [1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/commit/6204d4b7aeefc4db622f8ac57b87bf2c76c6c8aa
-> >     ("atomisp_platform: add whiskey cove pmic support")
-> 
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 5efca92f1f18..8f9177db6663 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -1691,7 +1691,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
+  *
+  * Parameters:
+  *  In:
+- *      by_preamble_type  - Preamble Type
++ *      preamble_type     - Preamble Type
+  *      by_pkt_type        - PK_TYPE_11A, PK_TYPE_11B, PK_TYPE_11GB, PK_TYPE_11GA
+  *      cb_frame_length   - Baseband Type
+  *      tx_rate           - Tx Rate
+@@ -1700,7 +1700,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
+  * Return Value: FrameTime
+  *
+  */
+-unsigned int bb_get_frame_time(unsigned char by_preamble_type,
++unsigned int bb_get_frame_time(unsigned char preamble_type,
+ 			       unsigned char by_pkt_type,
+ 			       unsigned int cb_frame_length,
+ 			       unsigned short tx_rate)
+@@ -1717,7 +1717,7 @@ unsigned int bb_get_frame_time(unsigned char by_preamble_type,
+ 	rate = (unsigned int)awc_frame_time[rate_idx];
+ 
+ 	if (rate_idx <= 3) {		    /* CCK mode */
+-		if (by_preamble_type == 1) /* Short */
++		if (preamble_type == 1) /* Short */
+ 			preamble = 96;
+ 		else
+ 			preamble = 192;
+diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
+index 0a30afaa7cc3..15b2802ed727 100644
+--- a/drivers/staging/vt6655/baseband.h
++++ b/drivers/staging/vt6655/baseband.h
+@@ -44,7 +44,7 @@
+ #define TOP_RATE_2M         0x00200000
+ #define TOP_RATE_1M         0x00100000
+ 
+-unsigned int bb_get_frame_time(unsigned char by_preamble_type,
++unsigned int bb_get_frame_time(unsigned char preamble_type,
+ 			       unsigned char by_pkt_type,
+ 			       unsigned int cb_frame_length,
+ 			       unsigned short w_rate);
+-- 
+2.30.2
 
