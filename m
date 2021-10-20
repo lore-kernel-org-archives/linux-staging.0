@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B88C2C94
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 19:54:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9265D2C95
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 19:54:37 +0000 (UTC)
 Received: from dslb-188-096-142-022.188.096.pools.vodafone-ip.de ([188.96.142.22] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mdHfU-0007Cd-7b; Wed, 20 Oct 2021 21:54:32 +0200
+	id 1mdHfW-0007Cd-H6; Wed, 20 Oct 2021 21:54:34 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 2/5] staging: r8188eu: odm_rate_adapt Type is constant
-Date: Wed, 20 Oct 2021 21:53:58 +0200
-Message-Id: <20211020195401.12931-2-martin@kaiser.cx>
+Subject: [PATCH 4/5] staging: r8188eu: use helper to set broadcast address
+Date: Wed, 20 Oct 2021 21:54:00 +0200
+Message-Id: <20211020195401.12931-4-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211020195401.12931-1-martin@kaiser.cx>
 References: <20211020195401.12931-1-martin@kaiser.cx>
@@ -30,75 +30,94 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Type in struct odm_rate_adapt is always DM_Type_ByDriver.
-Therefore, bUseRAMask is always true.
-
-Remove the constant components, unused defines and dead code.
+The eth_broadcast_addr helper assigns the broadcast address to an address
+array. Call this function instead of copying the address bytes manually.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/odm.c     | 9 ---------
- drivers/staging/r8188eu/include/odm.h | 6 ------
- 2 files changed, 15 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 13 +++++--------
+ drivers/staging/r8188eu/hal/rtl8188e_cmd.c  |  3 +--
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 47d8cdf1c3e8..67cf8f7baba5 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -669,12 +669,6 @@ void odm_RateAdaptiveMaskInit(struct odm_dm_struct *pDM_Odm)
- {
- 	struct odm_rate_adapt *pOdmRA = &pDM_Odm->RateAdaptive;
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index b0dfafe526f7..7b372374e638 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -3409,7 +3409,6 @@ static int _issue_probereq_p2p(struct adapter *padapter, u8 *da, int wait_ack)
+ 	unsigned char			*mac;
+ 	struct xmit_priv		*pxmitpriv = &padapter->xmitpriv;
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+-	u8 bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 	struct wifidirect_info	*pwdinfo = &padapter->wdinfo;
+ 	u8 wpsie[255] = { 0x00 }, p2pie[255] = { 0x00 };
+ 	u16 wpsielen = 0, p2pielen = 0;
+@@ -3443,8 +3442,8 @@ static int _issue_probereq_p2p(struct adapter *padapter, u8 *da, int wait_ack)
+ 			memcpy(pwlanhdr->addr3, pwdinfo->p2p_peer_interface_addr, ETH_ALEN);
+ 		} else {
+ 			/*	broadcast probe request frame */
+-			memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
+-			memcpy(pwlanhdr->addr3, bc_addr, ETH_ALEN);
++			eth_broadcast_addr(pwlanhdr->addr1);
++			eth_broadcast_addr(pwlanhdr->addr3);
+ 		}
+ 	}
+ 	memcpy(pwlanhdr->addr2, mac, ETH_ALEN);
+@@ -4311,7 +4310,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
+-	u8	bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 	struct wifidirect_info	*pwdinfo = &padapter->wdinfo;
  
--	pOdmRA->Type = DM_Type_ByDriver;
--	if (pOdmRA->Type == DM_Type_ByDriver)
--		pDM_Odm->bUseRAMask = true;
--	else
--		pDM_Odm->bUseRAMask = false;
--
- 	pOdmRA->RATRState = DM_RATR_STA_INIT;
- 	pOdmRA->HighRSSIThresh = 50;
- 	pOdmRA->LowRSSIThresh = 20;
-@@ -755,9 +749,6 @@ void odm_RefreshRateAdaptiveMask(struct odm_dm_struct *pDM_Odm)
- 	if (pAdapter->bDriverStopped)
- 		return;
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+@@ -4334,7 +4332,7 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+ 	fctrl = &pwlanhdr->frame_ctl;
+ 	*(fctrl) = 0;
  
--	if (!pDM_Odm->bUseRAMask)
--		return;
--
- 	for (i = 0; i < ODM_ASSOCIATE_ENTRY_NUM; i++) {
- 		struct sta_info *pstat = pDM_Odm->pODM_StaInfo[i];
- 		if (IS_STA_VALID(pstat)) {
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 1fc90a8dc063..f08655208b32 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -150,7 +150,6 @@ struct edca_turbo {
- };
+-	memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
++	eth_broadcast_addr(pwlanhdr->addr1);
+ 	memcpy(pwlanhdr->addr2, myid(&padapter->eeprompriv), ETH_ALEN);
+ 	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
  
- struct odm_rate_adapt {
--	u8	Type;		/*  DM_Type_ByFW/DM_Type_ByDriver */
- 	u8	HighRSSIThresh;	/*  if RSSI > HighRSSIThresh	=> RATRState is DM_RATR_STA_HIGH */
- 	u8	LowRSSIThresh;	/*  if RSSI <= LowRSSIThresh	=> RATRState is DM_RATR_STA_LOW */
- 	u8	RATRState;	/*  Current RSSI level, DM_RATR_STA_HIGH/DM_RATR_STA_MIDDLE/DM_RATR_STA_LOW */
-@@ -165,8 +164,6 @@ struct odm_rate_adapt {
- #define AVG_THERMAL_NUM		8
- #define IQK_Matrix_REG_NUM	8
+@@ -4676,7 +4674,6 @@ static int _issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *ps
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+ 	int	bssrate_len = 0;
+-	u8	bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
  
--#define	DM_Type_ByDriver	1
--
- struct odm_phy_dbg_info {
- 	/* ODM Write,debug info */
- 	s8	RxSNRdB[MAX_PATH_NUM_92CS];
-@@ -586,9 +583,6 @@ struct odm_dm_struct {
- 	bool	bPSDinProcess;
- 	bool	bDMInitialGainEnable;
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+ 	if (!pmgntframe)
+@@ -4702,8 +4699,8 @@ static int _issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *ps
+ 		memcpy(pwlanhdr->addr3, da, ETH_ALEN);
+ 	} else {
+ 		/*	broadcast probe request frame */
+-		memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
+-		memcpy(pwlanhdr->addr3, bc_addr, ETH_ALEN);
++		eth_broadcast_addr(pwlanhdr->addr1);
++		eth_broadcast_addr(pwlanhdr->addr3);
+ 	}
  
--	/* for rate adaptive, in fact,  88c/92c fw will handle this */
--	u8	bUseRAMask;
--
- 	struct odm_rate_adapt RateAdaptive;
+ 	memcpy(pwlanhdr->addr2, mac, ETH_ALEN);
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+index c5f9353fe3e6..14eed14a4c6a 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+@@ -226,14 +226,13 @@ static void ConstructBeacon(struct adapter *adapt, u8 *pframe, u32 *pLength)
+ 	struct mlme_ext_priv *pmlmeext = &adapt->mlmeextpriv;
+ 	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
+-	u8 bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
  
- 	struct odm_rf_cal RFCalibrateInfo;
+ 	pwlanhdr = (struct rtw_ieee80211_hdr *)pframe;
+ 
+ 	fctrl = &pwlanhdr->frame_ctl;
+ 	*(fctrl) = 0;
+ 
+-	memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
++	eth_broadcast_addr(pwlanhdr->addr1);
+ 	memcpy(pwlanhdr->addr2, myid(&adapt->eeprompriv), ETH_ALEN);
+ 	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
+ 
 -- 
 2.20.1
 
