@@ -1,100 +1,59 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8892C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 14:16:48 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AHVsaF630E9OvsxVBhXdDqwqjBLUkLtp133Aq?=
- =?us-ascii?q?2lEZdPU1SL3/qynKpp536faaslcssR0b+exoQZPvfZq+z+8T3WByB8bGYOCOgg?=
- =?us-ascii?q?LBR72Ki7GSoAEIcxeTygc379YFT0ERMqyTMbCk5fyU3OHee+xQueW6zA=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
-   d="scan'208";a="535002300"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Oct 2021 16:16:43 +0200
-Date: Wed, 20 Oct 2021 16:16:42 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Joe Perches <joe@perches.com>
-cc: Karolina Drobnik <karolinadrobnik@gmail.com>, 
-    outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
-    forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] Re: [PATCH] staging: vt6655: Rename
- `dwAL2230InitTable` array
-In-Reply-To: <157ee66fd0e3304c238e7ad8123277892e0d1132.camel@perches.com>
-Message-ID: <alpine.DEB.2.22.394.2110201615590.2930@hadrien>
-References: <20211020132811.417341-1-karolinadrobnik@gmail.com>  <16db455b46f130300b5c346160aa434616e4f6b4.camel@perches.com> <157ee66fd0e3304c238e7ad8123277892e0d1132.camel@perches.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB1992C81
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 14:23:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23BA9D6E;
+	Wed, 20 Oct 2021 07:23:54 -0700 (PDT)
+Received: from e123427-lin.arm.com (unknown [10.57.45.139])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5132A3F73D;
+	Wed, 20 Oct 2021 07:23:52 -0700 (PDT)
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: linux-pci@vger.kernel.org,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	john@phrozen.org,
+	neil@brown.name,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	matthias.bgg@gmail.com,
+	tsbogend@alpha.franken.de,
+	devicetree@vger.kernel.org,
+	bhelgaas@google.com
+Subject: Re: [PATCH v3 0/3] PCI: mt7621: Add MediaTek MT7621 PCIe host controller driver
+Date: Wed, 20 Oct 2021 15:23:45 +0100
+Message-Id: <163473978253.23166.3894301849923362863.b4-ty@arm.com>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20210922050035.18162-1-sergio.paracuellos@gmail.com>
+References: <20210922050035.18162-1-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Wed, 22 Sep 2021 07:00:32 +0200, Sergio Paracuellos wrote:
+> MediaTek MT7621 PCIe subsys supports single Root complex (RC)
+> with 3 Root Ports. Each Root Ports supports a Gen1 1-lane Link.
+> Topology is as follows:
+> 
+> 
+>                           MT7621 PCIe HOST Topology
+> 
+> [...]
 
+Applied to pci/mt7621, thanks!
 
-On Wed, 20 Oct 2021, Joe Perches wrote:
+[1/3] dt-bindings: mt7621-pci: PCIe binding documentation for MT7621 SoCs
+      https://git.kernel.org/lpieralisi/pci/c/e5bc5605e7
+[2/3] PCI: mt7621: Add MediaTek MT7621 PCIe host controller driver
+      https://git.kernel.org/lpieralisi/pci/c/5797a2b2bc
+[3/3] MAINTAINERS: add myself as maintainer of the MT7621 PCI controller driver
+      https://git.kernel.org/lpieralisi/pci/c/eb1d7d438c
 
-> On Wed, 2021-10-20 at 06:44 -0700, Joe Perches wrote:
-> > trivial suggestion:
-> >
-> > > diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-> > []
-> > > @@ -33,7 +33,7 @@
-> > >  #define SWITCH_CHANNEL_DELAY_AL7230 200 /* us */
-> > >  #define AL7230_PWR_IDX_LEN    64
-> > >
-> > > -static const unsigned long dwAL2230InitTable[CB_AL2230_INIT_SEQ] = {
-> > > +static const unsigned long al2230_init_table[CB_AL2230_INIT_SEQ] = {
-> > >  	0x03F79000 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
-> > >  	0x03333100 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
-> > >  	0x01A00200 + (BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW,
-> >
-> > In this file there are more than 100 uses of
-> >
-> > 	(BY_AL2230_REG_LEN << 3) + IFREGCTL_REGW
-> >
-> > Maybe add a define for it and substitute the uses for the define.
->
-> Look at the code too.
->
-> It looks as if every use of IFRFbWriteEmbedded() has this added to
-> the 2nd argument and that the 2nd argument isn't used anywhere else.
->
-> Maybe remove it altogether and add it to IFRFbWriteEmbedded().
->
-> And it looks as if the + uses for these should logically be |
->
-> Something like:
->
-> diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-> index 0dae593c6944f..26803f6f9a27b 100644
-> --- a/drivers/staging/vt6655/rf.c
-> +++ b/drivers/staging/vt6655/rf.c
-> @@ -498,7 +498,8 @@ bool IFRFbWriteEmbedded(struct vnt_private *priv, unsigned long dwData)
->         unsigned short ww;
->         unsigned long dwValue;
->
-> -       VNSvOutPortD(iobase + MAC_REG_IFREGCTL, dwData);
-> +       VNSvOutPortD(iobase + MAC_REG_IFREGCTL,
-> +                    dwData | (BY_AL2230_REG_LEN << 3) | IFREGCTL_REGW);
->
->         /* W_MAX_TIMEOUT is the timeout period */
->         for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
-
-Karolina,
-
-If more than a hundred such changes are necessary, you may find Coccinelle
-useful:  https://coccinelle.gitlabpages.inria.fr/website/
-
-julia
-
-
->
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/157ee66fd0e3304c238e7ad8123277892e0d1132.camel%40perches.com.
->
+Thanks,
+Lorenzo
