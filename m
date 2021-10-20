@@ -1,108 +1,61 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD3A2C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:33:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 62F3A6113D;
-	Wed, 20 Oct 2021 06:33:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634711626;
-	bh=TqEhTY9SGdNuwM4vGWlDt8DbKph99TsAe7fkBvXA1v8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iQ4yiaqktnvykMG8rwXM4txdGFqJ58FzWeiGvWIefvkH/Sa8C1LnsKH2F95KExfbh
-	 bX0AFufQ5W14LHINEOs9heeG2x9JOdVieNoMLsc2Dwxim8Ep0EMTz3BYzbV/JX3KN4
-	 gbFq6qb4A2+2Cf8KV1XuvWx8nvwnmMlT1HSlp9VQ=
-Date: Wed, 20 Oct 2021 08:33:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: sesankm <sesank.mallikarjuna@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	sesankm <26676400+sesankm@users.noreply.github.com>
-Subject: Re: [PATCH] Staging: iio: adc: ad7280a: fixed coding style
-Message-ID: <YW+4SPoI9HZZg8x2@kroah.com>
-References: <20211020061027.34148-1-26676400+sesankm@users.noreply.github.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EA82C81
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:48:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A6B38610CB;
+	Wed, 20 Oct 2021 06:48:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1634712523;
+	bh=MNfb1++EYpc9JxhagAgZLPvO4LJwE7gvMKEM/LbN6i8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=u9MygGq8/TTQ25w1YPANrQUCmrRNQPVHQg08ROhbft6I7cd09LGuGuUN98+XgSbKb
+	 d39fbfycs9YExiWCN8xM36SsKNUnooDMyWASm/LDXcuBVan2sJscq7bIsDtLA7IZi6
+	 DgRpJzAhq7bokFh/ZcgXXwuodBZewVva2VZgCEXmEl/8ZAW0ocmhHcEbf9ubbbZXjl
+	 5w3u3xWZ8gw4x+9axAoO4/fOp5SFOX/VZGVXuGt3llQZgaXXLzv9JeCNIVLmhUVcNT
+	 t0IaQpOs+mV2sVqVeRaxo7GlQOmaO7G83cdd04v0JP1gp3HgI6ytQ2JiteEJXhMmWI
+	 byVHMk1rJlw3Q==
+Date: Wed, 20 Oct 2021 07:48:36 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Tsuchiya Yuto <kitakar@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra
+ <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Arnd Bergmann
+ <arnd@arndb.de>, Kaixu Xia <kaixuxia@tencent.com>, Dan Carpenter
+ <dan.carpenter@oracle.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [BUG 0/5] bug reports for atomisp to make it work
+Message-ID: <20211020074836.42476792@sal.lan>
+In-Reply-To: <20211017162337.44860-1-kitakar@gmail.com>
+References: <20211017162337.44860-1-kitakar@gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211020061027.34148-1-26676400+sesankm@users.noreply.github.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 20, 2021 at 01:10:27AM -0500, sesankm wrote:
-> fixed issue with coding style
+Em Mon, 18 Oct 2021 01:23:31 +0900
+Tsuchiya Yuto <kitakar@gmail.com> escreveu:
+
+> Hi all,
 > 
-> Signed-off-by: sesankm <26676400+sesankm@users.noreply.github.com>
-> ---
->  drivers/staging/iio/adc/ad7280a.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/adc/ad7280a.c b/drivers/staging/iio/adc/ad7280a.c
-> index fef0055b8990..473f95118214 100644
-> --- a/drivers/staging/iio/adc/ad7280a.c
-> +++ b/drivers/staging/iio/adc/ad7280a.c
-> @@ -829,14 +829,14 @@ static irqreturn_t ad7280_event_handler(int irq, void *private)
->   * The function argument is stringified and doesn't need a fix
->   */
->  static IIO_DEVICE_ATTR_NAMED(in_thresh_low_value,
-> -			     in_voltage-voltage_thresh_low_value,
-> +			     in_voltage - voltage_thresh_low_value,
->  			     0644,
->  			     ad7280_read_channel_config,
->  			     ad7280_write_channel_config,
->  			     AD7280A_CELL_UNDERVOLTAGE);
->  
->  static IIO_DEVICE_ATTR_NAMED(in_thresh_high_value,
-> -			     in_voltage-voltage_thresh_high_value,
-> +			     in_voltage - voltage_thresh_high_value,
->  			     0644,
->  			     ad7280_read_channel_config,
->  			     ad7280_write_channel_config,
-> -- 
-> 2.33.1
-> 
-> 
+> These mails contain RFC patches, which are almost bug report and some
+> are just bug report, for atomisp to work (again). Tested on Microsoft
+> Surface 3 (Windows) and Xiaomi Mi Pad 2 (Android model) with v5.15-rc5.
+> Both are Cherry Trail (ISP2401) devices.
 
-Hi,
+Before start looking at the patches, let me check if I got it right:
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Should this series be applied after the series you sent earlier[1]?
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+[1] The series which starts with this one:
+	 [PATCH 00/17] various fixes for atomisp to make it work
 
-- Your patch breaks the build.
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file, Documentation/SubmittingPatches
-  for how to do this correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Regards,
+Mauro
