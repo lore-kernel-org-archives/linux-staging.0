@@ -1,59 +1,55 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804D72C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 12:48:20 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id y7so2870133pfg.8
-        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 05:48:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442C82C81
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 12:54:35 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id g2so18787461wme.4
+        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 05:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=/8aZ4SK2m8/sLSKz111lgbTcgtIRMhqxBR7wyJ7Da4o=;
-        b=fKBhoibSLqY2GF6nDhYN4xEhIBuJFvkjGY7GOVBHY+RuQ5iFg91hg3ClbhpUKgAmqp
-         fqTy0iOwiu2Gb1spscCi9NGNIB1Lai/O6ws4Lf/XYmqu/wh+ZeWWJVZL5ar0BMQvv5VT
-         fsc56U39si2lWQOlDKnwzlgagL9dK8ZmKxaRe9vL2VZZwKUhKd4Fwq42lCpw/KQlboKz
-         ubfC5HeuvS8YCLPbvCxswHB9eKj4QQ2HYQJ72nmplm5zyUIfCZfAo9lckrGNVtGKKcy2
-         fMBuHTo1Ib+78juabqOtCXJD67qVfbT5DvUReHY8S7QGQvcdyDv65DJ1ZV8R3DILgsgT
-         36QA==
+        bh=RaJru0LeJpp+5gdjew/h/QiM8NOqvMypszVPqMO2bps=;
+        b=oZ6IDXUlY7cvhwSvrcAq7EeqRaqyNFERA30XsAN/R0atKAg0QxWlzqduJ8bvkKfzaL
+         iFFJGIU/gYoi2smwZmc4C4EZ3jD0zqqcq6U+TQwNzyWSqBuJuMvxi8KFz1Lg1GRB6Tmg
+         2T5ACUdq32UKsj+mrEjUOFsFabxxO0uB+Py89RayddZv+QOZohytvuCcV3OpQ/zpWGAP
+         mGREZkfqely9KNwtznFnGyz4VITMXlIcrN0HP63rXc1s3Gb1MAFQ7b+CJkkYW5n8g+Ii
+         fVUu1u1IHOb3Xu80Ym1Bhp9IOoEQNIPULF4sWksWawHUaOgfD8O+4N6grDZVaf42RGkU
+         aVeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=/8aZ4SK2m8/sLSKz111lgbTcgtIRMhqxBR7wyJ7Da4o=;
-        b=wol2gesd/2st2HcXX0+5QmdS4IfzgpjoU2tK0HrMAsQ34B76gOGGw4MtHV9IPamP8y
-         QwxjvUE2xYz/aNNrGVeOqDa+lb0Gn3GPQgIzj1ZNU3U/xqDjlIhSqQbI0izA093/mm5c
-         yF7JmJdBul6BJ/vZXw5iHDK4fr/pipSr1av9HfLwdHa4YydSzyuDe/Vi2XHGZG/Bj6uR
-         GJn8vN/QVtjRsMGRD71rah75+IEi2y7yb1G034iLueegn38qB399l47DKIahU34h3Lo4
-         VfsFopkYBIWJWgBdanC+6dEQl9zHtL+GkDHst39/fZUJPtqPjU+dsBnINk937yb5YY0J
-         yNNw==
-X-Gm-Message-State: AOAM532+Ks7e4hepNzEz6HGNpJgGJoY5psi4ckBzVMLFSk54OKP6zQIU
-	pFgICPCB7mSjcSuTKZZ+kTq5sGhdcAvxig==
-X-Google-Smtp-Source: ABdhPJwCOENoENYrA36VDJAwEewKW8FoJuumxo9secHYYu7z+3x8Kt/e0IVX10vzhKOCXoculCQS6w==
-X-Received: by 2002:a63:794b:: with SMTP id u72mr34325043pgc.191.1634734100009;
-        Wed, 20 Oct 2021 05:48:20 -0700 (PDT)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id t4sm2784125pfj.13.2021.10.20.05.48.16
+        bh=RaJru0LeJpp+5gdjew/h/QiM8NOqvMypszVPqMO2bps=;
+        b=KRcwSvi0aFQJJ8uvUf68LEh9xN2QV3xmZH6PNZuFUWFMjrN2BvHztJQugiFid2j5qF
+         yHfYz7M3bnJ4NYnm1Cz+fjwA7KFfqGmJy6fSKsnbcUvs0VuJDc4fj/N+0409o3bbIBqI
+         l+SOmV22xqjzFngpwdnjb57hH6IdFlALyRsrj2g2sXnNkUUQ7l4axFiL6LJRCEGBN2hj
+         TieDG+uzAMR0+GoQe8deoEAC96/cpWqmLyLrl57ksfGf7ZTeP7MGJi3YnKj1sYGX4jXY
+         g5whPQ/V/OXua8RkwZvri8FMAW2mWf9uJZbdOdNR+4QDOx7ZDodjy+wkiNPUDtzfCWS2
+         LJYA==
+X-Gm-Message-State: AOAM533LdpWCk9PJEzFkkty+lqsyZuAM9Zeptphf2agLa/6MGHLQZITn
+	Ja1IpbDkT/NvnBz/cKR+y1j7PcwcA5FRSCZ+FOA=
+X-Google-Smtp-Source: ABdhPJweDfWhprqQZ9TXfiXrLPD5b+5FrmVKVr2vfhA4Lm4MbMQzCfLjd2D/qdn6gs98pMAtb6L5iw==
+X-Received: by 2002:a5d:6d51:: with SMTP id k17mr51031912wri.233.1634734473573;
+        Wed, 20 Oct 2021 05:54:33 -0700 (PDT)
+Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id j16sm2253167wms.16.2021.10.20.05.54.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 05:48:19 -0700 (PDT)
-Message-ID: <fa4ec49ac7abda3ef24c58bae1ee498e11bebc9a.camel@gmail.com>
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, Yang Yingliang
- <yangyingliang@huawei.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Aline
- Santana Cordeiro <alinesantanacordeiro@gmail.com>, Dinghao Liu
- <dinghao.liu@zju.edu.cn>, Alan <alan@linux.intel.com>,
- linux-media@vger.kernel.org,  linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Wed, 20 Oct 2021 21:48:10 +0900
-In-Reply-To: <YW1U0UtNpA9DYZ56@smile.fi.intel.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	 <YW1U0UtNpA9DYZ56@smile.fi.intel.com>
+        Wed, 20 Oct 2021 05:54:33 -0700 (PDT)
+Message-ID: <6089e564f89ceaa7303bf3a4b4c864bf1389ac25.camel@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH] staging: vt6655: Rename
+ `by_preamble_type` parameter
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
+	forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 20 Oct 2021 13:54:27 +0100
+In-Reply-To: <alpine.DEB.2.22.394.2110201051300.2930@hadrien>
+References: <20211020084033.414994-1-karolinadrobnik@gmail.com>
+	 <alpine.DEB.2.22.394.2110201051300.2930@hadrien>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,18 +58,94 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2021-10-18 at 14:04 +0300, Andy Shevchenko wrote:
-> On Mon, Oct 18, 2021 at 01:19:40AM +0900, Tsuchiya Yuto wrote:
+On Wed, 2021-10-20 at 10:54 +0200, Julia Lawall wrote:
+> On Wed, 20 Oct 2021, Karolina Drobnik wrote:
 > 
-> Just a remark, your To is not filled. At some point I had written a script [1]
-> to help me with patch series sending, It also tries to be smart to include
-> necessary people and mailing lists (you can always alter it by adding more).
-> [1]: https://github.com/andy-shev/home-bin-tools/blob/master/ge2maintainer.sh
+> > Drop `by` prefix in the first parameter of `bb_get_frame_time`
+> > function.
+> > As the original argument, `byPreambleType`, was renamed to
+> > `preamble_type`,
+> > the parameter referring to it is now renamed to match the new
+> > naming
+> > convention.
+> > Update `bb_get_frame_time` comment to reflect that change.
+> > 
+> > This patch is a follow-up work to this commit:
+> >     Commit 548b6d7ebfa4 ("staging: vt6655: Rename byPreambleType
+> > field")
+> 
+> This is not going to be practical.  If the previous patch is
+> accepted, then this it not needed.
 
-Ah thanks. I didn't use To but just used `--cc-cmd` with
-scripts/get_maintainer.pl without thinking deeply...
-I'll definitely try your script next time I send patches.
+This change was there before but Greg told me to do only one logical
+change per patch (which was a struct member rename), so I reverted it.
+I believe this is needed because this parameter still uses Hungarian
+notation, which is against the LK coding style. Also, it makes sense to
+update the name given my previous change.
 
-Regards,
-Tsuchiya Yuto
+> there needs to be a vn+1 putting the patches together into a series.
+
+I didn't know that it should be send this way, especially given the
+fact that Outreachy applicants should first get 3-5 patches out before
+creating a patchset. Or has something changed in this regard?
+
+> > @@ -1691,7 +1691,7 @@ static const unsigned short
+> > awc_frame_time[MAX_RATE] = {
+> >   *
+> >   * Parameters:
+> >   *  In:
+> > - *      by_preamble_type  - Preamble Type
+> > + *      preamble_type     - Preamble Type
+> >   *      by_pkt_type        - PK_TYPE_11A, PK_TYPE_11B,
+> > PK_TYPE_11GB, PK_TYPE_11GA
+> 
+> In the realm of small cleanups to this driver, the extra space in
+> front of the - above is a bit annoying.
+
+I can add this in but will that still count as a one logical change? 
+I described the comment update, will that suffice?
+
+> > @@ -1717,7 +1717,7 @@ unsigned int bb_get_frame_time(unsigned char
+> > by_preamble_type,
+> >         rate = (unsigned int)awc_frame_time[rate_idx];
+> > 
+> >         if (rate_idx <= 3) {                /* CCK mode */
+> > -               if (by_preamble_type == 1) /* Short */
+> > +               if (preamble_type == 1) /* Short */
+> 
+> I hope you will get around to replacing the 1 by the appropriate
+> constant and removing the "Short" comment.
+
+I plan to do so after correcting the name variable.
+
+
+On Wed, 2021-10-20 at 10:55 +0200, Greg KH wrote:
+> On Wed, Oct 20, 2021 at 09:40:33AM +0100, Karolina Drobnik wrote:
+> > Drop `by` prefix in the first parameter of `bb_get_frame_time`
+> > function.
+> > As the original argument, `byPreambleType`, was renamed to
+> > `preamble_type`,
+> > the parameter referring to it is now renamed to match the new
+> > naming
+> > convention.
+> > Update `bb_get_frame_time` comment to reflect that change.
+> > 
+> > This patch is a follow-up work to this commit:
+> >     Commit 548b6d7ebfa4 ("staging: vt6655: Rename byPreambleType
+> > field")
+> 
+> There is no need for these two lines in the changelog text.  They can
+> go
+> below --- if you want to have them.
+
+Thank you for clarifying this. I've been following the Submitting
+Patches docs[1] and thought this is needed.
+
+
+Thanks,
+Karolina
+-------------------------------------------------------------------
+[1]:
+https://elixir.bootlin.com/linux/latest/source/Documentation/process/submitting-patches.rst#L106
+
 
