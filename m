@@ -1,66 +1,134 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2722C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 06:50:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 47E5361074;
-	Wed, 20 Oct 2021 06:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1634712621;
-	bh=PURJ57CDCK1CRMg4ZPPC0Zof7vbwM57cPumF7fbuLJI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OuVNV+doiltxzOI0vzzO8N6FQkXjkSceYpUTO7khRcAoIZArPDbOgjk1B2/rkogrb
-	 5b2VDMahz1vFawbpLSCTRd2p85ljk35uaTE1nNkDHK6sHEn4/gmuJ+bQUzR4fZfE3b
-	 +H29T1khuTJAuz40cIpzEM9zD80kZM/aoQUb0o8AYidFlRELcKA9yklToJOloggdPR
-	 V7IVUaqBR4SBOdys4AvRBqzftmLRr90AHIZJ3uL4NNcmRkXeURqXjKwT1S7EuNsQ0S
-	 1lgJ2pPc7OZMkIaZrBasATzOlBmTO4ae4ycC5HNPrvKigSYwoWobvNAtFvJo3nky0D
-	 P7ZCVBjCEh2bQ==
-Date: Wed, 20 Oct 2021 07:50:15 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Tsuchiya Yuto <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Patrik Gfeller <patrik.gfeller@gmail.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Aline Santana Cordeiro
- <alinesantanacordeiro@gmail.com>, Dinghao Liu <dinghao.liu@zju.edu.cn>,
- Alan <alan@linux.intel.com>, Linux Media Mailing List
- <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
-Message-ID: <20211020075015.316d827c@sal.lan>
-In-Reply-To: <CAHp75VcDZQ1M2iNKewxqcG3C+bzSEGV05dTmYp3xXhnhNGdviw@mail.gmail.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	<CAHp75VcDZQ1M2iNKewxqcG3C+bzSEGV05dTmYp3xXhnhNGdviw@mail.gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF0129CA
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 08:14:47 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-264-cXpa1CEUN6Sk8MILzfGu8g-1; Wed, 20 Oct 2021 09:14:44 +0100
+X-MC-Unique: cXpa1CEUN6Sk8MILzfGu8g-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.23; Wed, 20 Oct 2021 09:14:42 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.023; Wed, 20 Oct 2021 09:14:42 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Nathan Chancellor' <nathan@kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>
+Subject: RE: [PATCH] staging: wlan-ng: Avoid bitwise vs logical OR warning in
+ hfa384x_usb_throttlefn()
+Thread-Topic: [PATCH] staging: wlan-ng: Avoid bitwise vs logical OR warning in
+ hfa384x_usb_throttlefn()
+Thread-Index: AQHXwUZ2FnqdAiWt8EaCTgFmgVgUJ6vbkYrw
+Date: Wed, 20 Oct 2021 08:14:42 +0000
+Message-ID: <e1a8f7b746944ccaabe6b610e7922b54@AcuMS.aculab.com>
+References: <20211014215703.3705371-1-nathan@kernel.org>
+In-Reply-To: <20211014215703.3705371-1-nathan@kernel.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Em Mon, 18 Oct 2021 10:56:40 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+From: Nathan Chancellor
+> Sent: 14 October 2021 22:57
+>=20
+> A new warning in clang points out a place in this file where a bitwise
+> OR is being used with boolean expressions:
+>=20
+> In file included from drivers/staging/wlan-ng/prism2usb.c:2:
+> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: warning: use of bitwise '|'=
+ with boolean operands [-
+> Wbitwise-instead-of-logical]
+>             ((test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
+>             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: note: cast one or both oper=
+ands to int to silence this
+> warning
+> 1 warning generated.
+>=20
+> The comment explains that short circuiting here is undesirable, as the
+> calls to test_and_{clear,set}_bit() need to happen for both sides of the
+> expression.
+>=20
+> Clang's suggestion would work to silence the warning but the readability
+> of the expression would suffer even more. To clean up the warning and
+> make the block more readable, use a variable for each side of the
+> bitwise expression.
+>=20
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1478
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/staging/wlan-ng/hfa384x_usb.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan=
+-ng/hfa384x_usb.c
+> index 59aa84d1837d..938e11a1a0b6 100644
+> --- a/drivers/staging/wlan-ng/hfa384x_usb.c
+> +++ b/drivers/staging/wlan-ng/hfa384x_usb.c
+> @@ -3778,18 +3778,18 @@ static void hfa384x_usb_throttlefn(struct timer_l=
+ist *t)
+>=20
+>  =09spin_lock_irqsave(&hw->ctlxq.lock, flags);
+>=20
+> -=09/*
+> -=09 * We need to check BOTH the RX and the TX throttle controls,
+> -=09 * so we use the bitwise OR instead of the logical OR.
+> -=09 */
+>  =09pr_debug("flags=3D0x%lx\n", hw->usb_flags);
+> -=09if (!hw->wlandev->hwremoved &&
+> -=09    ((test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
+> -=09      !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags)) |
+> -=09     (test_and_clear_bit(THROTTLE_TX, &hw->usb_flags) &&
+> -=09      !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags))
+> -=09    )) {
+> -=09=09schedule_work(&hw->usb_work);
+> +=09if (!hw->wlandev->hwremoved) {
+> +=09=09bool rx_throttle =3D test_and_clear_bit(THROTTLE_RX, &hw->usb_flag=
+s) &&
+> +=09=09=09=09   !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags);
+> +=09=09bool tx_throttle =3D test_and_clear_bit(THROTTLE_TX, &hw->usb_flag=
+s) &&
+> +=09=09=09=09   !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags);
+> +=09=09/*
+> +=09=09 * We need to check BOTH the RX and the TX throttle controls,
+> +=09=09 * so we use the bitwise OR instead of the logical OR.
+> +=09=09 */
+> +=09=09if (rx_throttle | tx_throttle)
+> +=09=09=09schedule_work(&hw->usb_work);
 
-> On Mon, Oct 18, 2021 at 6:45 AM Tsuchiya Yuto <kitakar@gmail.com> wrote:
-> >
-> > Hi all,
-> >
-> > This patch series contains fixes for atomisp to work (again). Tested on
-> > Microsoft Surface 3 (Windows) and Xiaomi Mi Pad 2 (Android model) with
-> > v5.15-rc5. Both are Cherry Trail (ISP2401) devices.
-> >
-> > I'm still not used to Linux patch sending flow. Sorry in advance
-> > if there is some weirdness :-) but I did my best.  
-> 
-> I agree with Hans, you did an excellent job!
-> I will try to find time to look into this. In any case it seems to me
-> that this is a material more likely for v5.17-rc1, rather than v5.16.
+Why not the slightly simpler:
+=09=09bool throttle =3D test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
+=09=09=09=09   !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags);
+=09=09throttle |=3D test_and_clear_bit(THROTTLE_TX, &hw->usb_flags) &&
+=09=09=09=09   !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags);
+=09=09if (throttle)
+=09=09=09schedule_work(&hw->usb_work);
+or with s/throttle/throttle_silly_compiler_warning/ :-)
 
-Yeah, it sounds to late to apply it for 5.16.
+=09David
 
-Regards,
-Mauro
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
