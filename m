@@ -1,134 +1,119 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF0129CA
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 08:14:47 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-264-cXpa1CEUN6Sk8MILzfGu8g-1; Wed, 20 Oct 2021 09:14:44 +0100
-X-MC-Unique: cXpa1CEUN6Sk8MILzfGu8g-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.23; Wed, 20 Oct 2021 09:14:42 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.023; Wed, 20 Oct 2021 09:14:42 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Nathan Chancellor' <nathan@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>
-Subject: RE: [PATCH] staging: wlan-ng: Avoid bitwise vs logical OR warning in
- hfa384x_usb_throttlefn()
-Thread-Topic: [PATCH] staging: wlan-ng: Avoid bitwise vs logical OR warning in
- hfa384x_usb_throttlefn()
-Thread-Index: AQHXwUZ2FnqdAiWt8EaCTgFmgVgUJ6vbkYrw
-Date: Wed, 20 Oct 2021 08:14:42 +0000
-Message-ID: <e1a8f7b746944ccaabe6b610e7922b54@AcuMS.aculab.com>
-References: <20211014215703.3705371-1-nathan@kernel.org>
-In-Reply-To: <20211014215703.3705371-1-nathan@kernel.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE4472
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 08:41:03 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id l38-20020a05600c1d2600b0030d80c3667aso8295787wms.5
+        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 01:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0DxiQ6TI/H+Bup1Rn6Wt67LAOz/W7N5QmWO1MsPbNPg=;
+        b=hk9EFm6Ew7/OwTOILie+GA5vHO1+XXROBxMTy0GYFycHK16AAuIKgfwOauIM9zhSoT
+         iNyaXuY0zIlwORFLZ2Jn4WR4UdQ2HEUgjwoVudlGjMCkYLXVzsJh3xzXwLCOKQY0xHeE
+         ION4kdrI9I/wwG+fHY2eN5Js8chUiGO56m2+OYdOojZrLn6Ipw/dw1Wxph5PsBB48aAI
+         NgDUa9XVtwa1qAOOeO8LbZtahrUKm2BLEoHwAHF7NokfQzDFvYsIXOfYjKm5ixEDcaAL
+         dHUGxQBsrIKchpo+QJ/yM2dv5zeWcmVM7UX1Jtrg9/09qlEqD5etSvOm6TdWrZawFu04
+         L5Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0DxiQ6TI/H+Bup1Rn6Wt67LAOz/W7N5QmWO1MsPbNPg=;
+        b=ocs3O7vR9g/W34iwpRNWkm9WJPDYb7N371DftW8X+xZbzgNoa7jv1B32JWZkrMrcT4
+         1AgZQghxbNBlNcgPq84ddFU7WGta382GS2sf+SiGESjIOKSUnqgtMfANKk6MT0cHBaWS
+         1oB164ua1Pr3UIOjHUgt+HkbTjPYIlvx1v6budbGUC3q5N4lkp+lsMIlKwJVfxanx9vN
+         brIoqrhKlLUZB1qXqo716+f/RPsoEDDCjy9Nyxfe4I4dXyilNIQuBuwZNbuEfyjkqiIT
+         qqk09VtziCbsCb0sD7TmSB/dnSFc/90i6sXkGhhvYAL5dVoSRp7IsI+P8foCPG0cE2as
+         CqWw==
+X-Gm-Message-State: AOAM5334E7hrMeL/vXB76jwyhv7VV1jyfKuS9wY6hYXYm8//TOS+6oO7
+	mkPDSkviRNqGjRRpTVTBhnI=
+X-Google-Smtp-Source: ABdhPJy2PDjuqRp+g9ERz9QKvam31pZxlBxQEt2dG+zVJYs9p8Euwqqiib7deD9G9KBmhre8peMfFA==
+X-Received: by 2002:adf:ead0:: with SMTP id o16mr18972262wrn.106.1634719261399;
+        Wed, 20 Oct 2021 01:41:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id l13sm1348612wrn.79.2021.10.20.01.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Oct 2021 01:41:00 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH] staging: vt6655: Rename `by_preamble_type` parameter
+Date: Wed, 20 Oct 2021 09:40:33 +0100
+Message-Id: <20211020084033.414994-1-karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Nathan Chancellor
-> Sent: 14 October 2021 22:57
->=20
-> A new warning in clang points out a place in this file where a bitwise
-> OR is being used with boolean expressions:
->=20
-> In file included from drivers/staging/wlan-ng/prism2usb.c:2:
-> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: warning: use of bitwise '|'=
- with boolean operands [-
-> Wbitwise-instead-of-logical]
->             ((test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
->             ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/staging/wlan-ng/hfa384x_usb.c:3787:7: note: cast one or both oper=
-ands to int to silence this
-> warning
-> 1 warning generated.
->=20
-> The comment explains that short circuiting here is undesirable, as the
-> calls to test_and_{clear,set}_bit() need to happen for both sides of the
-> expression.
->=20
-> Clang's suggestion would work to silence the warning but the readability
-> of the expression would suffer even more. To clean up the warning and
-> make the block more readable, use a variable for each side of the
-> bitwise expression.
->=20
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1478
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/staging/wlan-ng/hfa384x_usb.c | 22 +++++++++++-----------
->  1 file changed, 11 insertions(+), 11 deletions(-)
->=20
-> diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan=
--ng/hfa384x_usb.c
-> index 59aa84d1837d..938e11a1a0b6 100644
-> --- a/drivers/staging/wlan-ng/hfa384x_usb.c
-> +++ b/drivers/staging/wlan-ng/hfa384x_usb.c
-> @@ -3778,18 +3778,18 @@ static void hfa384x_usb_throttlefn(struct timer_l=
-ist *t)
->=20
->  =09spin_lock_irqsave(&hw->ctlxq.lock, flags);
->=20
-> -=09/*
-> -=09 * We need to check BOTH the RX and the TX throttle controls,
-> -=09 * so we use the bitwise OR instead of the logical OR.
-> -=09 */
->  =09pr_debug("flags=3D0x%lx\n", hw->usb_flags);
-> -=09if (!hw->wlandev->hwremoved &&
-> -=09    ((test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
-> -=09      !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags)) |
-> -=09     (test_and_clear_bit(THROTTLE_TX, &hw->usb_flags) &&
-> -=09      !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags))
-> -=09    )) {
-> -=09=09schedule_work(&hw->usb_work);
-> +=09if (!hw->wlandev->hwremoved) {
-> +=09=09bool rx_throttle =3D test_and_clear_bit(THROTTLE_RX, &hw->usb_flag=
-s) &&
-> +=09=09=09=09   !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags);
-> +=09=09bool tx_throttle =3D test_and_clear_bit(THROTTLE_TX, &hw->usb_flag=
-s) &&
-> +=09=09=09=09   !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags);
-> +=09=09/*
-> +=09=09 * We need to check BOTH the RX and the TX throttle controls,
-> +=09=09 * so we use the bitwise OR instead of the logical OR.
-> +=09=09 */
-> +=09=09if (rx_throttle | tx_throttle)
-> +=09=09=09schedule_work(&hw->usb_work);
+Drop `by` prefix in the first parameter of `bb_get_frame_time` function.
+As the original argument, `byPreambleType`, was renamed to `preamble_type`,
+the parameter referring to it is now renamed to match the new naming
+convention.
+Update `bb_get_frame_time` comment to reflect that change.
 
-Why not the slightly simpler:
-=09=09bool throttle =3D test_and_clear_bit(THROTTLE_RX, &hw->usb_flags) &&
-=09=09=09=09   !test_and_set_bit(WORK_RX_RESUME, &hw->usb_flags);
-=09=09throttle |=3D test_and_clear_bit(THROTTLE_TX, &hw->usb_flags) &&
-=09=09=09=09   !test_and_set_bit(WORK_TX_RESUME, &hw->usb_flags);
-=09=09if (throttle)
-=09=09=09schedule_work(&hw->usb_work);
-or with s/throttle/throttle_silly_compiler_warning/ :-)
+This patch is a follow-up work to this commit:
+    Commit 548b6d7ebfa4 ("staging: vt6655: Rename byPreambleType field")
 
-=09David
+Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+---
+ drivers/staging/vt6655/baseband.c | 6 +++---
+ drivers/staging/vt6655/baseband.h | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/drivers/staging/vt6655/baseband.c b/drivers/staging/vt6655/baseband.c
+index 5efca92f1f18..8f9177db6663 100644
+--- a/drivers/staging/vt6655/baseband.c
++++ b/drivers/staging/vt6655/baseband.c
+@@ -1691,7 +1691,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
+  *
+  * Parameters:
+  *  In:
+- *      by_preamble_type  - Preamble Type
++ *      preamble_type     - Preamble Type
+  *      by_pkt_type        - PK_TYPE_11A, PK_TYPE_11B, PK_TYPE_11GB, PK_TYPE_11GA
+  *      cb_frame_length   - Baseband Type
+  *      tx_rate           - Tx Rate
+@@ -1700,7 +1700,7 @@ static const unsigned short awc_frame_time[MAX_RATE] = {
+  * Return Value: FrameTime
+  *
+  */
+-unsigned int bb_get_frame_time(unsigned char by_preamble_type,
++unsigned int bb_get_frame_time(unsigned char preamble_type,
+ 			       unsigned char by_pkt_type,
+ 			       unsigned int cb_frame_length,
+ 			       unsigned short tx_rate)
+@@ -1717,7 +1717,7 @@ unsigned int bb_get_frame_time(unsigned char by_preamble_type,
+ 	rate = (unsigned int)awc_frame_time[rate_idx];
+ 
+ 	if (rate_idx <= 3) {		    /* CCK mode */
+-		if (by_preamble_type == 1) /* Short */
++		if (preamble_type == 1) /* Short */
+ 			preamble = 96;
+ 		else
+ 			preamble = 192;
+diff --git a/drivers/staging/vt6655/baseband.h b/drivers/staging/vt6655/baseband.h
+index 0a30afaa7cc3..15b2802ed727 100644
+--- a/drivers/staging/vt6655/baseband.h
++++ b/drivers/staging/vt6655/baseband.h
+@@ -44,7 +44,7 @@
+ #define TOP_RATE_2M         0x00200000
+ #define TOP_RATE_1M         0x00100000
+ 
+-unsigned int bb_get_frame_time(unsigned char by_preamble_type,
++unsigned int bb_get_frame_time(unsigned char preamble_type,
+ 			       unsigned char by_pkt_type,
+ 			       unsigned int cb_frame_length,
+ 			       unsigned short w_rate);
+-- 
+2.30.2
 
