@@ -1,145 +1,158 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22B82C81
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 12:59:57 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3Aa/cxzankGqqFbF57j6JneJGJz3HpDfIr3DAb?=
- =?us-ascii?q?v31ZSRFFG/Fw9vre+MjzuiWetN98YhsdcJW7WZVoIkmskKKdg7NwAV7KZmCPhI?=
- =?us-ascii?q?LrFvAA0WKI+VPd8kPFmtK1mZ0QEZRWOZnASWJ3isv3+2CDfuoIytPvys+Vuds?=
- =?us-ascii?q?=3D?=
-X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
-   d="scan'208";a="396505127"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Oct 2021 14:59:55 +0200
-Date: Wed, 20 Oct 2021 14:59:55 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Karolina Drobnik <karolinadrobnik@gmail.com>
-cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
-    forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH] staging: vt6655: Rename `by_preamble_type`
- parameter
-In-Reply-To: <6089e564f89ceaa7303bf3a4b4c864bf1389ac25.camel@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2110201456190.2930@hadrien>
-References: <20211020084033.414994-1-karolinadrobnik@gmail.com>  <alpine.DEB.2.22.394.2110201051300.2930@hadrien> <6089e564f89ceaa7303bf3a4b4c864bf1389ac25.camel@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800962C81
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 13:07:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrzej.p)
+	with ESMTPSA id 4645D1F43A1E
+Subject: Re: [PATCH v7 07/11] media: rkvdec: Add the VP9 backend
+To: Alex Bee <knaerzche@gmail.com>, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Fabio Estevam <festevam@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heiko Stuebner <heiko@sntech.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>,
+ Adrian Ratiu <adrian.ratiu@collabora.com>
+References: <20210929160439.6601-1-andrzej.p@collabora.com>
+ <20210929160439.6601-8-andrzej.p@collabora.com>
+ <966b04a7-421a-a592-2e17-ea5ecdb76b00@gmail.com>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <91ba5098-2528-1e63-3a1a-b908db8d6f2a@collabora.com>
+Date: Wed, 20 Oct 2021 15:07:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <966b04a7-421a-a592-2e17-ea5ecdb76b00@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
+Hi Alex,
 
+W dniu 20.10.2021 o 01:24, Alex Bee pisze:
+> Hi Andrzej,
+> 
+> Am 29.09.21 um 18:04 schrieb Andrzej Pietrasiewicz:
+>> From: Boris Brezillon <boris.brezillon@collabora.com>
+>>
+>> The Rockchip VDEC supports VP9 profile 0 up to 4096x2304@30fps. Add
+>> a backend for this new format.
+>>
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+>> Co-developed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>> ---
+>>   drivers/staging/media/rkvdec/Kconfig      |    1 +
+>>   drivers/staging/media/rkvdec/Makefile     |    2 +-
+>>   drivers/staging/media/rkvdec/rkvdec-vp9.c | 1078 +++++++++++++++++++++
+>>   drivers/staging/media/rkvdec/rkvdec.c     |   52 +-
+>>   drivers/staging/media/rkvdec/rkvdec.h     |   12 +-
+>>   5 files changed, 1137 insertions(+), 8 deletions(-)
+>>   create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
 
-On Wed, 20 Oct 2021, Karolina Drobnik wrote:
+<snip>
 
-> On Wed, 2021-10-20 at 10:54 +0200, Julia Lawall wrote:
-> > On Wed, 20 Oct 2021, Karolina Drobnik wrote:
-> >
-> > > Drop `by` prefix in the first parameter of `bb_get_frame_time`
-> > > function.
-> > > As the original argument, `byPreambleType`, was renamed to
-> > > `preamble_type`,
-> > > the parameter referring to it is now renamed to match the new
-> > > naming
-> > > convention.
-> > > Update `bb_get_frame_time` comment to reflect that change.
-> > >
-> > > This patch is a follow-up work to this commit:
-> > >     Commit 548b6d7ebfa4 ("staging: vt6655: Rename byPreambleType
-> > > field")
-> >
-> > This is not going to be practical.  If the previous patch is
-> > accepted, then this it not needed.
->
-> This change was there before but Greg told me to do only one logical
-> change per patch (which was a struct member rename), so I reverted it.
-> I believe this is needed because this parameter still uses Hungarian
-> notation, which is against the LK coding style. Also, it makes sense to
-> update the name given my previous change.
+>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c 
+>> b/drivers/staging/media/rkvdec/rkvdec.c
+>> index 7131156c1f2c..6aa8aca66547 100644
+>> --- a/drivers/staging/media/rkvdec/rkvdec.c
+>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+>> @@ -99,10 +99,30 @@ static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
+>>       .num_ctrls = ARRAY_SIZE(rkvdec_h264_ctrl_descs),
+>>   };
+>> -static const u32 rkvdec_h264_decoded_fmts[] = {
+>> +static const u32 rkvdec_h264_vp9_decoded_fmts[] = {
+>>       V4L2_PIX_FMT_NV12,
+> 
+> For H.264 rkvdec HW supports additional formats: V4L2_PIX_FMT_NV15, 
+> V4L2_PIX_FMT_NV16 and V4L2_PIX_FMT_NV20. Not all of those are upstreamed yet and 
+> thus not supported by rkvdec driver - but I think we should introduce a seperate 
+> rkvdec_vp9_decoded_fmts already a this point. (To avoid unnecessary diff 
+> afterwards)
 
-Sorry, I think I was not clear.  It's not practical to explain constraints
-on other patches in the log message.
+I will do it if I get to re-spinning the series for other reasons.
 
->
-> > there needs to be a vn+1 putting the patches together into a series.
->
-> I didn't know that it should be send this way, especially given the
-> fact that Outreachy applicants should first get 3-5 patches out before
-> creating a patchset. Or has something changed in this regard?
+> 
+>>   };
+>> +static const struct rkvdec_ctrl_desc rkvdec_vp9_ctrl_descs[] = {
+>> +    {
+>> +        .cfg.id = V4L2_CID_STATELESS_VP9_FRAME,
+>> +    },
+>> +    {
+>> +        .cfg.id = V4L2_CID_STATELESS_VP9_COMPRESSED_HDR,
+>> +    },
+>> +    {
+>> +        .cfg.id = V4L2_CID_MPEG_VIDEO_VP9_PROFILE,
+>> +        .cfg.min = V4L2_MPEG_VIDEO_VP9_PROFILE_0,
+>> +        .cfg.max = V4L2_MPEG_VIDEO_VP9_PROFILE_0,
+>> +        .cfg.def = V4L2_MPEG_VIDEO_VP9_PROFILE_0,
+>> +    },
+>> +};
+>> +
+>> +static const struct rkvdec_ctrls rkvdec_vp9_ctrls = {
+>> +    .ctrls = rkvdec_vp9_ctrl_descs,
+>> +    .num_ctrls = ARRAY_SIZE(rkvdec_vp9_ctrl_descs),
+>> +};
+>> +
+>>   static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>>       {
+>>           .fourcc = V4L2_PIX_FMT_H264_SLICE,
+>> @@ -116,8 +136,23 @@ static const struct rkvdec_coded_fmt_desc 
+>> rkvdec_coded_fmts[] = {
+>>           },
+>>           .ctrls = &rkvdec_h264_ctrls,
+>>           .ops = &rkvdec_h264_fmt_ops,
+>> -        .num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_decoded_fmts),
+>> -        .decoded_fmts = rkvdec_h264_decoded_fmts,
+>> +        .num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
+>> +        .decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
+>> +    },
+>> +    {
+>> +        .fourcc = V4L2_PIX_FMT_VP9_FRAME,
+>> +        .frmsize = {
+>> +            .min_width = 64,
+>> +            .max_width = 4096,
+>> +            .step_width = 64,
+>> +            .min_height = 64,
+>> +            .max_height = 2304,
+>> +            .step_height = 64,
+>> +        },
+> I checked (available) documentation and couldn't find any hint to the 
+> .step_width and .step_height, but I'm not sure that's correct: taking
+> this values here neither framesize of 3840x2160 nor 1280x720 would be possible - 
+> but the HW seems to have no problem with those, i.e. decoding works fine.
+> Given the output format is the same as the (only) currently supported H.264 
+> output format (NV12) and those steps are usually for alignment purposes need by 
+> the HW , I strongly guess .step_height and .step_width are the same as 
+> V4L2_PIX_FMT_H264_SLICE has.
+> 
 
-I think that the 3-5 rule is not that important.  The important thing is
-that if you want to make two different changes on the same file, either
-the first one has to be accepted before you submit the second one, or they
-have to be in a series.
+Aren't these used primarily by v4l2_apply_frmsize_constraints()? Doesn't
+this merely mean that even though userspace requests, say, 48x48,
+it will get 64x64 instead?
 
-> > > @@ -1691,7 +1691,7 @@ static const unsigned short
-> > > awc_frame_time[MAX_RATE] = {
-> > >   *
-> > >   * Parameters:
-> > >   *  In:
-> > > - *      by_preamble_type  - Preamble Type
-> > > + *      preamble_type     - Preamble Type
-> > >   *      by_pkt_type        - PK_TYPE_11A, PK_TYPE_11B,
-> > > PK_TYPE_11GB, PK_TYPE_11GA
-> >
-> > In the realm of small cleanups to this driver, the extra space in
-> > front of the - above is a bit annoying.
->
-> I can add this in but will that still count as a one logical change?
+I tried decoding a 720p video with gstreamer and it worked fine
+(I got a properly sized 1280x720 output).
 
-No.  It's a different change.  It's just a small whitespace issue, but
-it's not triggered by the other changes you have made.
+Regards,
 
-julia
-
-> I described the comment update, will that suffice?
->
-> > > @@ -1717,7 +1717,7 @@ unsigned int bb_get_frame_time(unsigned char
-> > > by_preamble_type,
-> > >         rate = (unsigned int)awc_frame_time[rate_idx];
-> > >
-> > >         if (rate_idx <= 3) {                /* CCK mode */
-> > > -               if (by_preamble_type == 1) /* Short */
-> > > +               if (preamble_type == 1) /* Short */
-> >
-> > I hope you will get around to replacing the 1 by the appropriate
-> > constant and removing the "Short" comment.
->
-> I plan to do so after correcting the name variable.
->
->
-> On Wed, 2021-10-20 at 10:55 +0200, Greg KH wrote:
-> > On Wed, Oct 20, 2021 at 09:40:33AM +0100, Karolina Drobnik wrote:
-> > > Drop `by` prefix in the first parameter of `bb_get_frame_time`
-> > > function.
-> > > As the original argument, `byPreambleType`, was renamed to
-> > > `preamble_type`,
-> > > the parameter referring to it is now renamed to match the new
-> > > naming
-> > > convention.
-> > > Update `bb_get_frame_time` comment to reflect that change.
-> > >
-> > > This patch is a follow-up work to this commit:
-> > >     Commit 548b6d7ebfa4 ("staging: vt6655: Rename byPreambleType
-> > > field")
-> >
-> > There is no need for these two lines in the changelog text.  They can
-> > go
-> > below --- if you want to have them.
->
-> Thank you for clarifying this. I've been following the Submitting
-> Patches docs[1] and thought this is needed.
->
->
-> Thanks,
-> Karolina
-> -------------------------------------------------------------------
-> [1]:
-> https://elixir.bootlin.com/linux/latest/source/Documentation/process/submitting-patches.rst#L106
->
->
->
+Andrzej
