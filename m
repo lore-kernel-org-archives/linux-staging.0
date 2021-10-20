@@ -1,53 +1,52 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17A12C8B
-	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 21:07:36 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id e3so480372wrc.11
-        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 14:07:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCBD2C8B
+	for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 21:08:33 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id z11-20020a1c7e0b000000b0030db7b70b6bso4119805wmc.1
+        for <linux-staging@lists.linux.dev>; Wed, 20 Oct 2021 14:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=ohYCIyy+Dg3rq+4HCCIZxRKa6UI684YVUwrDR60CBhs=;
-        b=OfBibdOCbT+5xvLAr41Q715Sv7B2KJVyP+lz/c+zha7EkMtORGNxvTUjcMpzjRDqD2
-         kNYQbpFkeCE7pO0w/Eqq0KNais10wWQVCyDMszhoMeSm5HYrtx42rXaEGiG5mLvEhubx
-         IZMhzSC8e/RzDoqcmchTllDXMYyD38kYljXZrgsdym7LLz4ibLZ0CbNxuDBgWtSBrH34
-         70FYmdfiIWksfZ2zZv8kORsB19+WDQ1cH+Qx0LvtkidA/Vdey+0Wc36RYAuGJJI8Ea55
-         Qpj6qMDhgThXj7KAi1DJs3oeHc+WNWxWFHgwfn3Y1F1quaUU1UZ8YhT2wgGZOzPu+hzk
-         f75w==
+        bh=737iJuMi9Zni8oopNt+lYZQ6z/VWdYa1IwGd68uPj8A=;
+        b=ftxK2hbMp0LzrQoWpB2SePGkWqx3rwaWoPNsUPvdiatOPgyQ4tfEzvlMmVLGaW78Vg
+         neOY57a1aYwiRDzawvm47AFNzw6hUGwJM/qtkyLFj+dthvHhDw9aSSXWnJ0iI/v/HHxO
+         5H/6JZ1kvr201ErkWlQdJCj7Sqo7f8NwvDxYwvE1e1MAYwfqHkq0sB0jFRXmXsAD+95r
+         iNUl1V17XY/Jl+UA8hNTAD2P6pCg4uYW8+8fwVeRGLNxJ4xs/FBXRkpioY6Pt+ERmRL5
+         79uynBdFMEfP9myWuJsBKPTOsQ6F9K886M+3P+2PUzfQAzgIOm4cOv5x62cF8fZzfIKF
+         um7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=ohYCIyy+Dg3rq+4HCCIZxRKa6UI684YVUwrDR60CBhs=;
-        b=OzK0JZRVbClx/OwqMOuLjtU+krr2E8q3LDTf/E32O847/jByAbidPRtYYDMVG/AsFg
-         wPhfZmNH6rXBFG8FimcYVoWIY0+jSriCQhyvJpvjUNOjgp2LdFZZe88ffj279j40ax4y
-         aI2YZ9XzgzhUNM+BmfSZeC1ne5pnSWHC3vdWYM/5l2xLc9g72o3RD5An6Mzu660pzj1g
-         O5oGE0wlvHUYIv2VRWmzLlTPNOFDDKOAGLjKCeb926O6FnNTaPTPz9G9ctpOB4hH4UB4
-         AGqGmvfeTiB0hFdk1u+XngSENXJRW5HMJrjZjqpbPB7WihNrhsMziCk3KTN3bdRejDnM
-         cEbQ==
-X-Gm-Message-State: AOAM530CSo8QKrbXwBtj/dvruWjYNmzb4glqG6zrbVLbrPNTepzVvHsG
-	vuAjTpA0/qKI47vVOEQ0ln18MA==
-X-Google-Smtp-Source: ABdhPJy79d1J8ZuoapuiU8rKlw5S5Q+09Xc1kIFGeT1KhhIagRhF/LebZ6puOPHb/QK8U1ngA8uepw==
-X-Received: by 2002:a5d:508b:: with SMTP id a11mr1987052wrt.417.1634764055251;
-        Wed, 20 Oct 2021 14:07:35 -0700 (PDT)
+        bh=737iJuMi9Zni8oopNt+lYZQ6z/VWdYa1IwGd68uPj8A=;
+        b=z1tiuC91zN6EcoT4H/MFyUhCCt7cCIwATU7CaQF1QJuTmY5kzgAU+H1WpPr1d+Opnf
+         9LM38IRw0H2AFOQK39NI7/JcJVOqr601K7woTFSzDYim73Clun0cwq/Wa9W4YafYv8Yj
+         to7hPqxBzeFoORbtdLAETGuBuYJtJt/4zhmsTVUjxS36VfEc5bXyYIjzOYob1YQdD+GZ
+         PGKiBvGcZWfKdg2rSLKXytvK13NUtGstR7zzlly1ImqNWcfUUR6bv49q+vnD66snmlyJ
+         x05Vrc5NSa64taa/V31bIFTuvQUfsPOcjEG0F7rUIjCHBs5mCBt/8xZQiLzgyKWyPdn8
+         n1Cg==
+X-Gm-Message-State: AOAM531R042/QguFa0yUueqQAj2nNRni7mjkFNn+tKI55Hp6F0ohR/ya
+	Pqp7ob5tzDtw4TS+hee3awYXRQ==
+X-Google-Smtp-Source: ABdhPJyJJBCfAM80Lm7nchOtKkeR2MEAq0YehC4wbAubB3EIN0kWqCHfbP7Zp3ZH9x1lfw6z057agQ==
+X-Received: by 2002:a1c:7201:: with SMTP id n1mr16092870wmc.176.1634764112272;
+        Wed, 20 Oct 2021 14:08:32 -0700 (PDT)
 Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id k10sm2915553wrh.64.2021.10.20.14.07.34
+        by smtp.gmail.com with ESMTPSA id s3sm2976555wrm.40.2021.10.20.14.08.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Oct 2021 14:07:34 -0700 (PDT)
-Date: Wed, 20 Oct 2021 22:07:32 +0100
+        Wed, 20 Oct 2021 14:08:31 -0700 (PDT)
+Date: Wed, 20 Oct 2021 22:08:30 +0100
 From: Phillip Potter <phil@philpotter.co.uk>
 To: Martin Kaiser <martin@kaiser.cx>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Larry Finger <Larry.Finger@lwfinger.net>,
 	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] staging: r8188eu: use helper to check for broadcast
- address
-Message-ID: <YXCFFO//n9N6MZXv@equinox>
+Subject: Re: [PATCH 4/5] staging: r8188eu: use helper to set broadcast address
+Message-ID: <YXCFToOeWveWDVXp@equinox>
 References: <20211020195401.12931-1-martin@kaiser.cx>
- <20211020195401.12931-3-martin@kaiser.cx>
+ <20211020195401.12931-4-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,78 +55,100 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211020195401.12931-3-martin@kaiser.cx>
+In-Reply-To: <20211020195401.12931-4-martin@kaiser.cx>
 
-On Wed, Oct 20, 2021 at 09:53:59PM +0200, Martin Kaiser wrote:
-> Use the is_broadcast_ether_addr function to check for a
-> broadcast address.
+On Wed, Oct 20, 2021 at 09:54:00PM +0200, Martin Kaiser wrote:
+> The eth_broadcast_addr helper assigns the broadcast address to an address
+> array. Call this function instead of copying the address bytes manually.
 > 
 > Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 > ---
->  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ++----
->  drivers/staging/r8188eu/hal/odm.c           | 3 +--
->  2 files changed, 3 insertions(+), 6 deletions(-)
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 13 +++++--------
+>  drivers/staging/r8188eu/hal/rtl8188e_cmd.c  |  3 +--
+>  2 files changed, 6 insertions(+), 10 deletions(-)
 > 
 > diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index 995a0248c26f..b0dfafe526f7 100644
+> index b0dfafe526f7..7b372374e638 100644
 > --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
 > +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -392,13 +392,12 @@ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
->  
->  static void _mgt_dispatcher(struct adapter *padapter, struct mlme_handler *ptable, struct recv_frame *precv_frame)
->  {
-> -	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
->  	u8 *pframe = precv_frame->rx_data;
->  
->  	if (ptable->func) {
->  	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
->  		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
-> -		    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
-> +		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
->  			return;
->  		ptable->func(padapter, precv_frame);
+> @@ -3409,7 +3409,6 @@ static int _issue_probereq_p2p(struct adapter *padapter, u8 *da, int wait_ack)
+>  	unsigned char			*mac;
+>  	struct xmit_priv		*pxmitpriv = &padapter->xmitpriv;
+>  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+> -	u8 bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+>  	struct wifidirect_info	*pwdinfo = &padapter->wdinfo;
+>  	u8 wpsie[255] = { 0x00 }, p2pie[255] = { 0x00 };
+>  	u16 wpsielen = 0, p2pielen = 0;
+> @@ -3443,8 +3442,8 @@ static int _issue_probereq_p2p(struct adapter *padapter, u8 *da, int wait_ack)
+>  			memcpy(pwlanhdr->addr3, pwdinfo->p2p_peer_interface_addr, ETH_ALEN);
+>  		} else {
+>  			/*	broadcast probe request frame */
+> -			memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
+> -			memcpy(pwlanhdr->addr3, bc_addr, ETH_ALEN);
+> +			eth_broadcast_addr(pwlanhdr->addr1);
+> +			eth_broadcast_addr(pwlanhdr->addr3);
+>  		}
 >  	}
-> @@ -409,7 +408,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
->  	int index;
->  	struct mlme_handler *ptable;
+>  	memcpy(pwlanhdr->addr2, mac, ETH_ALEN);
+> @@ -4311,7 +4310,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+>  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+>  	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
+> -	u8	bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+>  	struct wifidirect_info	*pwdinfo = &padapter->wdinfo;
+>  
+>  	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+> @@ -4334,7 +4332,7 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
+>  	fctrl = &pwlanhdr->frame_ctl;
+>  	*(fctrl) = 0;
+>  
+> -	memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
+> +	eth_broadcast_addr(pwlanhdr->addr1);
+>  	memcpy(pwlanhdr->addr2, myid(&padapter->eeprompriv), ETH_ALEN);
+>  	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
+>  
+> @@ -4676,7 +4674,6 @@ static int _issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *ps
 >  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-> -	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
->  	u8 *pframe = precv_frame->rx_data;
->  	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
+>  	struct mlme_ext_priv	*pmlmeext = &padapter->mlmeextpriv;
+>  	int	bssrate_len = 0;
+> -	u8	bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 >  
-> @@ -418,7 +416,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+>  	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+>  	if (!pmgntframe)
+> @@ -4702,8 +4699,8 @@ static int _issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *ps
+>  		memcpy(pwlanhdr->addr3, da, ETH_ALEN);
+>  	} else {
+>  		/*	broadcast probe request frame */
+> -		memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
+> -		memcpy(pwlanhdr->addr3, bc_addr, ETH_ALEN);
+> +		eth_broadcast_addr(pwlanhdr->addr1);
+> +		eth_broadcast_addr(pwlanhdr->addr3);
+>  	}
 >  
->  	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
->  	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
-> -	    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
-> +	    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
->  		return;
+>  	memcpy(pwlanhdr->addr2, mac, ETH_ALEN);
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+> index c5f9353fe3e6..14eed14a4c6a 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_cmd.c
+> @@ -226,14 +226,13 @@ static void ConstructBeacon(struct adapter *adapt, u8 *pframe, u32 *pLength)
+>  	struct mlme_ext_priv *pmlmeext = &adapt->mlmeextpriv;
+>  	struct mlme_ext_info	*pmlmeinfo = &pmlmeext->mlmext_info;
+>  	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
+> -	u8 bc_addr[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 >  
->  	ptable = mlme_sta_tbl;
-> diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-> index 67cf8f7baba5..21f115194df8 100644
-> --- a/drivers/staging/r8188eu/hal/odm.c
-> +++ b/drivers/staging/r8188eu/hal/odm.c
-> @@ -829,7 +829,6 @@ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
->  	u8	sta_cnt = 0;
->  	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
->  	struct sta_info *psta;
-> -	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+>  	pwlanhdr = (struct rtw_ieee80211_hdr *)pframe;
 >  
->  	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
->  		return;
-> @@ -841,7 +840,7 @@ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
->  		psta = pDM_Odm->pODM_StaInfo[i];
->  		if (IS_STA_VALID(psta) &&
->  		    (psta->state & WIFI_ASOC_STATE) &&
-> -		    memcmp(psta->hwaddr, bcast_addr, ETH_ALEN) &&
-> +		    !is_broadcast_ether_addr(psta->hwaddr) &&
->  		    memcmp(psta->hwaddr, myid(&Adapter->eeprompriv), ETH_ALEN)) {
->  			if (psta->rssi_stat.UndecoratedSmoothedPWDB < tmpEntryMinPWDB)
->  				tmpEntryMinPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
+>  	fctrl = &pwlanhdr->frame_ctl;
+>  	*(fctrl) = 0;
+>  
+> -	memcpy(pwlanhdr->addr1, bc_addr, ETH_ALEN);
+> +	eth_broadcast_addr(pwlanhdr->addr1);
+>  	memcpy(pwlanhdr->addr2, myid(&adapt->eeprompriv), ETH_ALEN);
+>  	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
+>  
 > -- 
 > 2.20.1
->
+> 
 
 Looks good.
 
