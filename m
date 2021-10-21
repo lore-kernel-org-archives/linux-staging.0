@@ -1,106 +1,80 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3B92C80
-	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:23:47 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id u5so3210073uao.13
-        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 12:23:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26AB29CA
+	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:58:28 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id ls14-20020a17090b350e00b001a00e2251c8so1370429pjb.4
+        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 12:58:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/iZOrd1VHON6EXEVnr2OGsIIn2iCBQ+KTNa7mjlDUM0=;
-        b=oxB1oSOsP0sTjaOmhjon770YW0M1lJJYpt6kycMBP4ougazTjT4o4QoXDq6Lu79V2S
-         hjfZ+0HAa+wQ3rbYJ02VZQpNntDOWduBrCMRiT8+7CxerTMUTtIztOyT/oS/pdduADuV
-         NjeLE7OR3qqPYyrhR0gzYFzM6rSU6kKOVnNjaT6c/eiRNHvJ1AkRZxr6imxPRMEJsjk6
-         vy4+mZ/dXprzxb4DiQbaACRAW+3Q8NKkcPGqXO2xk98sOl08oX6Eo5Ftm9DZnkGJrtQT
-         IxCvjQorWaca5/mxyq5+P3Cloteu4eXEI7h5v8/L7Xgr+VyDcUAbGMTKMJGAS7vjxjzY
-         f2/A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HtAnGb9XvJP+SUKtVNc4/aYf5/Kl26imun3S9nDbKeo=;
+        b=qeWR2w7jUQwHd/Sf/jNXm6upvsSuphLttWjerFG8fsYDXifng/VYjAFD0r/W7dtlWl
+         wLL9TX0UKjsYyinNj58nCHIpPDxTcRGVeEihR5L0+5dfk6aSUfzn8B87jQqb059Zr/DB
+         T2pWhtmJIXSYArsUCQEGI7JLdFGmUttQWmxyZBWYhkgx9p/dzrDs9gpReEznVBaoYm+Q
+         e551KCBCiuS7NOb2UHKMxIB6sc2lU0ZoRn+drnoe8f6H9eE1QyW2Jv4fgEWmkskHDP++
+         p3nuQjOBHU4qw6yXWg8SvFd3YHN16piL6SU8Ze+p2PV0NVgMPvFQFYR0Nu9x3/mcbeOA
+         OCoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/iZOrd1VHON6EXEVnr2OGsIIn2iCBQ+KTNa7mjlDUM0=;
-        b=1FuwE85Xr6THV4sEdeL9luiE1DX5av64COxdUJ85oZrI89u01+VOK2pKP1B2v7CBlb
-         QwypqwlT+n8TJz41WcHZq8XBabzdK+UowPZD1nXhzaTMaOERpsEE3A/EH0eWLFGlYGzi
-         pmjFuDcZTivLlXq29qjyFiImyelWiygtN0HKTvsKr/uvyJQJ3Xnqp0nk+ebfee8/ZvzA
-         dt2GjEwxT770toWUb5Kwosi2c+Whsin5wSUFNOpkvSnTutTe7fxFkBhDf0HuT824Aort
-         qj2NU7auNM6paX7oTviBjdtEq5woJZDeGk78K+VUzVs3H0fwj7KeDlXtf89ZSZWZtm2j
-         Ub2Q==
-X-Gm-Message-State: AOAM530dFFrdsAm2nARwF15Gpz+K9LYIH8WcVe4+KsoQ2mjyzNteOmC+
-	Ib6nj4P50rn8XNJJYkLi/QCMfd8BTGlHMQqIRMc=
-X-Google-Smtp-Source: ABdhPJyl+qrRv/nOh0WSig9UsFs43pWf6wVkaq74TeHbHFuOzbysXm1dvud4VyCuBvqj0AKn04lPsWGHcuy+eAYMdrA=
-X-Received: by 2002:a05:6102:e11:: with SMTP id o17mr8846106vst.55.1634844226344;
- Thu, 21 Oct 2021 12:23:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HtAnGb9XvJP+SUKtVNc4/aYf5/Kl26imun3S9nDbKeo=;
+        b=j3iUFnFh04yFYIhNOYJ1akiyR4h4D0BVr1x3z4cOlV1AeyAUYr0K+lyVT35ZuBLVRI
+         BhUQNQ87jNN16ekjwFNZZKY9PzNgxdI0WTyzc8QuLNB1HUcjY4nkf5ghPEu/jq59wart
+         y7rqiAgwGgHC7o4iV5O+MiyrFYJMfFgk0q40+931PbJsJJQEWe+wBqjA81HPZBsJQRmi
+         LIW4Br/SeSdOQ9598ZTkqUrIsBRpgjVv2lDGrfGVtQQev0Mx20QEwzddzz3Tnjg71+NR
+         yUkhnNQ657uye8goMDtqa643NPJbZ9wsJJNm5RfXWOkYhUaSEhPU32G20sv7xlh4mnFz
+         0mfQ==
+X-Gm-Message-State: AOAM5339Tyd4Zbh5AOiDihnlK1db6E2jCA6sFIXR1xwyHDz3Am22dmL1
+	0qYDPQraZttTJEMYKtQXyXY=
+X-Google-Smtp-Source: ABdhPJz01i1ABc8WWSYIUSF7MS3R4eN6tYdC8edzLdQD2c8THGdZzSKi2kjM+2UsexItK3Tzpdeq1g==
+X-Received: by 2002:a17:902:c40b:b0:13f:68f:6750 with SMTP id k11-20020a170902c40b00b0013f068f6750mr7099779plk.58.1634846308278;
+        Thu, 21 Oct 2021 12:58:28 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:1fee:e3e7:7dfb:56c1:efef:3c0f])
+        by smtp.googlemail.com with ESMTPSA id v9sm7198898pfc.23.2021.10.21.12.58.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Oct 2021 12:58:27 -0700 (PDT)
+From: Kushal Kothari <kushalkothari285@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: fabioaiuto83@gmail.com,
+	kushalkothari285@gmail.com,
+	ross.schm.dev@gmail.com,
+	fmdefrancesco@gmail.com,
+	marcocesati@gmail.com,
+	straube.linux@gmail.com,
+	philippesdixon@gmail.com,
+	manuelpalenzuelamerino@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	mike.rapoport@gmail.com,
+	kushalkotharitest@googlegroups.com,
+	outreachy-kernel@googlegroups.com
+Subject: [PATCH 0/4] staging: rtl8723bs: core: Cleanup patchset for style issues in rtw_cmd.c
+Date: Fri, 22 Oct 2021 01:27:49 +0530
+Message-Id: <cover.1634845504.git.kushalkothari285@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com>
- <20211021181145.GA2708516@bhelgaas>
-In-Reply-To: <20211021181145.GA2708516@bhelgaas>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 21 Oct 2021 21:23:35 +0200
-Message-ID: <CAMhs-H8pTmbG0idbPWjnW4faFj0F4TKwSSK6wzwepbqWSEtx4w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] PCI: mt7621: Add MediaTek MT7621 PCIe host
- controller driver
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-pci <linux-pci@vger.kernel.org>, 
-	"open list:MIPS" <linux-mips@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
-	John Crispin <john@phrozen.org>, NeilBrown <neil@brown.name>, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-staging@lists.linux.dev, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 21, 2021 at 8:11 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Thu, Oct 21, 2021 at 07:27:21PM +0200, Sergio Paracuellos wrote:
-> > On Thu, Oct 21, 2021 at 5:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > Since this is a PCIe (not conventional PCI) controller, I vote for
-> > > renaming these from:
-> > >
-> > >   PCI_MT7621
-> > >   Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > >   drivers/pci/controller/pci-mt7621.c
-> > >
-> > > to:
-> > >
-> > >   PCIE_MT7621
-> > >   Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-> > >   drivers/pci/controller/pcie-mt7621.c
-> > >
-> > > We have a mix of these, with many of the early PCIe drivers being
-> > > named "pci", but I think that was my mistake and there's no reason to
-> > > continue it.
-> >
-> > I see.
-> >
-> > >
-> > > I can do this locally unless somebody objects.
-> >
-> > I have no problem at all. Only one question. Do you mean to change
-> > compatible string also, or only the name of the file? Let me know if I
-> > have to do anything.
->
-> I didn't change the compatible string, to avoid a DT incompatibility.
-> But I *did* change the Kconfig symbol to PCIE_MT7621, which could
-> require changes to out-of-tree .configs.  I'm open to suggestions
-> either way for both things.
+These patches make changes to clean up style issues identified
+by checkpatch. 
 
-IMHO, I do think we should not worry about out-of-tree stuff at all.
-If the correct way to define the Kconfig symbol or the compatible
-string is to change them, just do that. MT7621 SoC is extensively used
-by openWRT community. As far as I have seen until now, the way of
-doing things there is to take the latest long term kernel (now they
-are using 5.4 as stable and 5.10 as testing kernel), apply a bunch of
-patches they have and do a complete build of both kernel, device tree
-and rootfs. So I guess it is not a big problem if we also change
-compatible string since when an update is performed for a device all
-of the stuff is just replaced. Maybe I am wrong and John has a
-different opinion... John, any comments on this?
+Kushal Kothari (4):
+  staging: rtl8723bs: core: Remove true and false comparison
+  staging: rtl8723bs: core: Remove unnecessary parentheses
+  staging: rtl8723bs: core: Remove unnecessary space after a cast
+  staging: rtl8723bs: core: Remove unnecessary blank lines
 
-Best regards,
-    Sergio Paracuellos
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 75 +++++++++++-------------
+ 1 file changed, 35 insertions(+), 40 deletions(-)
+
+-- 
+2.25.1
+
