@@ -1,41 +1,41 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2272C80
-	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:59:04 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id t184so1265228pgd.8
-        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 12:59:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C41A2C80
+	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:59:12 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id na16-20020a17090b4c1000b0019f5bb661f9so1414479pjb.0
+        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 12:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yhB4mSvRCSPt5nKbZ7JtOxkpWZ8DUrHFAW9kstQCtDU=;
-        b=AAAQXcYS4Dwa5cXJ0AsuPY1prSnzBTUxtMO0SbpW3dQ4LLAAx84Blg1CD6W0BmrCH4
-         ZEeb6V2h4PloL5ciBnk7+A9IeCQX/NC5OYvbGcm6lT4b5rLgtb+ZmUQDKQkyGOUDmiUU
-         oj+XzGFhEETurm4YwSi6LcmQn/fcHiRgxMk/CdjaBwSGllxC95uUkvxDzQ+4FLHmWIGF
-         9M1JnzBRFj2gMk8ucjmiP7Ym7STNy/Y7IWAI6krLIcNhaa86lvcz0sSlcHP2im7FSPrs
-         PAUiJWVy/dS0WVdej/luVMXK2nYrXxQpvfp8TYNyKpPcKVLX1fIwgCY5taMxukQHiYcS
-         4sTA==
+        bh=BbvyX6jPLK5zSg2NVxfybp0y/nnILy7522O+U1Y7hXo=;
+        b=PuDZ/KAlnQ8ek2j/6dOR9sHRIIrOPuC3UXhSPavRp5Xm7jfSoPhMLeNzU5ShysHefZ
+         Vguxz2bCtQxm/JbeKX9z80UqVV463tJOmbodktoV8sDVrX6hz8BbsN0GA4Zhzdp6stZ3
+         p/uNRKKxD10DtUNu3hMc128tbP8dSU1DRKKtCcn0a7ozgEwNIOwdCJ8gBx7skR2hQYhM
+         zRDNs7CEsb9oYDtFFZhcdqTJNPrsvVU2oQHTtirderms5swugJigQMIJFqkdwxUH+hZD
+         dKNrK0+AbesMeLmngEgPBPQXESrQ7hFncycjAeiN4VPXdajfAvx2y/9jKsuM/6JgozNl
+         incg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yhB4mSvRCSPt5nKbZ7JtOxkpWZ8DUrHFAW9kstQCtDU=;
-        b=JbzPXpQq5JD6LBPhD4MOh99he6IjNeSXbpTZMLPb6GQwsS4e3zIJlCshPF1Va5jpGB
-         M9Iz8pgNS3evDq1+kpBYl/Th2yc0kMj/nhbbDErH428l9tLDD8omOPcDyViJ52JOJcSQ
-         3ui1Wiz/ziKvBcAVptEBhRIRirLN4DD4AKiJiwwgZMko7Ze0rohjhYx7Jb2LBkV409VG
-         lgw0vguhMpo6Hk1yGdz2G2OeCkBzk0lN9OUcYPDAmhtjezssY2aQ4VPCuMIs3fpFP8WS
-         7WFvlm3wT+yagq8QA2n4dGmjYLmTOA2/n1bGGNdOrtinspK+0YoB3m1z71iGn2Jy9UWB
-         sxpw==
-X-Gm-Message-State: AOAM533xkj95g5Ep3yUcN6AQghqB4DvFc45CcYRoP8YVkfpN4j9DAG9u
-	RbgU6nIdzi7c6F5W8EqcX4E=
-X-Google-Smtp-Source: ABdhPJw33+KbBlBAljAa0x1n5ovfNQXeAAeyFlPC6oEcs5wKRTgLX3/d+NprSSO4m0gspKNu8Y6Fyg==
-X-Received: by 2002:a62:6206:0:b0:44c:bc1f:aa5a with SMTP id w6-20020a626206000000b0044cbc1faa5amr7620355pfb.5.1634846344131;
-        Thu, 21 Oct 2021 12:59:04 -0700 (PDT)
+        bh=BbvyX6jPLK5zSg2NVxfybp0y/nnILy7522O+U1Y7hXo=;
+        b=mea8y6okjFpimyJWp1az6TXWWlF/nRWEaOsQRWdH5XfFZsv4KdeZEJcSC0u3J93QHu
+         NC1ErvpyQQzNuLuFpMN2/xkYRfpf8ki1PoIb/MHgV75l2wzYRfnwQoipQT8+MJQ4yYua
+         Qraegw4+WVNA24zQYu9o/bZX3VkdXImbrUBi8/lIdOdvlCrH3KtKWsSs2cJ8fyDQywzU
+         ZVQSQN+/h9tGlZdb3f6e8PgT5vwovidMFBqGVqPO6g7V/vO+lUWyHUnUWtfvkAVb2Bjm
+         CynXy5QT/kWMggOqBNXfVVTzGfCokVvH+inBQL6pIEvCUyFpGzupw4w97lVvqzwcncV/
+         zyRg==
+X-Gm-Message-State: AOAM530a8G69TOb0kYAskBA4LyQBJYz35gJAmF4PceBlhW/dZ1rq6rf7
+	/iAbmJLxLQ7gUGYlC2PRp1w=
+X-Google-Smtp-Source: ABdhPJwIIPbNTkKHDoOLQuWXGA9lHyPcMuT+g/z8z3MFZg/tsD8OSlfh6l+vhOUqCZmvM54PhIsaWw==
+X-Received: by 2002:a17:902:758b:b0:13f:974a:959f with SMTP id j11-20020a170902758b00b0013f974a959fmr7091047pll.40.1634846352200;
+        Thu, 21 Oct 2021 12:59:12 -0700 (PDT)
 Received: from localhost.localdomain ([2401:4900:1fee:e3e7:7dfb:56c1:efef:3c0f])
-        by smtp.googlemail.com with ESMTPSA id v9sm7198898pfc.23.2021.10.21.12.58.57
+        by smtp.googlemail.com with ESMTPSA id v9sm7198898pfc.23.2021.10.21.12.59.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 12:59:03 -0700 (PDT)
+        Thu, 21 Oct 2021 12:59:11 -0700 (PDT)
 From: Kushal Kothari <kushalkothari285@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: fabioaiuto83@gmail.com,
@@ -51,9 +51,9 @@ Cc: fabioaiuto83@gmail.com,
 	mike.rapoport@gmail.com,
 	kushalkotharitest@googlegroups.com,
 	outreachy-kernel@googlegroups.com
-Subject: [PATCH 3/4] staging: rtl8723bs: core: Remove unnecessary space after a cast
-Date: Fri, 22 Oct 2021 01:27:52 +0530
-Message-Id: <f350e30b1e09332dff896b6588d962aab9800a52.1634845504.git.kushalkothari285@gmail.com>
+Subject: [PATCH 4/4] staging: rtl8723bs: core: Remove unnecessary blank lines
+Date: Fri, 22 Oct 2021 01:27:53 +0530
+Message-Id: <f6d2ba1d544c70519bad5c04f012cba0214b379a.1634845504.git.kushalkothari285@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634845504.git.kushalkothari285@gmail.com>
 References: <cover.1634845504.git.kushalkothari285@gmail.com>
@@ -65,63 +65,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Issue found with checkpatch.pl.
-Space after cast is not needes
+Remove useless blank lines
 
 Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 88f6b7405106..fce3256cc275 100644
+index fce3256cc275..690e4627663c 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -922,7 +922,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
- 	memcpy(psetstakey_para->addr, sta->hwaddr, ETH_ALEN);
+@@ -316,8 +316,6 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+ 	return _SUCCESS;
+ }
  
- 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
--		psetstakey_para->algorithm = (unsigned char) psecuritypriv->dot11PrivacyAlgrthm;
-+		psetstakey_para->algorithm = (unsigned char)psecuritypriv->dot11PrivacyAlgrthm;
- 	else
- 		GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false);
- 
-@@ -951,7 +951,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
- 		}
- 
- 		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
--		ph2c->rsp = (u8 *) psetstakey_rsp;
-+		ph2c->rsp = (u8 *)psetstakey_rsp;
- 		ph2c->rspsz = sizeof(struct set_stakey_rsp);
- 		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
- 	} else {
-@@ -1002,7 +1002,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
- 		}
- 
- 		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
--		ph2c->rsp = (u8 *) psetstakey_rsp;
-+		ph2c->rsp = (u8 *)psetstakey_rsp;
- 		ph2c->rspsz = sizeof(struct set_stakey_rsp);
- 
- 		memcpy(psetstakey_para->addr, sta->hwaddr, ETH_ALEN);
-@@ -2027,7 +2027,7 @@ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pc
+-
+-
+ int rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
  {
+ 	int res = _FAIL;
+@@ -367,7 +365,6 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+ 	kfree(pcmd);
+ }
  
- 	struct sta_priv *pstapriv = &padapter->stapriv;
--	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *) (pcmd->rsp);
-+	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *)(pcmd->rsp);
- 	struct sta_info *psta = rtw_get_stainfo(pstapriv, psetstakey_rsp->addr);
+-
+ void rtw_stop_cmd_thread(struct adapter *adapter)
+ {
+ 	if (adapter->cmdThread &&
+@@ -735,8 +732,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	}
+ 	/* for ies is fix buf size */
+ 	t_len = sizeof(struct wlan_bssid_ex);
+-
+-
++	
+ 	/* for hidden ap to set fw_state here */
+ 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE|WIFI_ADHOC_STATE) != true) {
+ 		switch (ndis_network_mode) {
+@@ -1080,7 +1076,6 @@ u8 rtw_reset_securitypriv_cmd(struct adapter *padapter)
  
- 	if (!psta)
-@@ -2042,7 +2042,7 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct set_assocsta_parm *passocsta_parm = (struct set_assocsta_parm *)(pcmd->parmbuf);
--	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *) (pcmd->rsp);
-+	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *)(pcmd->rsp);
- 	struct sta_info *psta = rtw_get_stainfo(pstapriv, passocsta_parm->addr);
- 
- 	if (!psta)
+ 	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+-
+ exit:
+ 	return res;
+ }
 -- 
 2.25.1
 
