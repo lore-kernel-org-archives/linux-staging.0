@@ -1,44 +1,44 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B274E2C80
-	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 10:12:30 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id r18so219513wrg.6
-        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 03:12:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B942C80
+	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 10:17:21 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id d3so210322wrh.8
+        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 03:17:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=cxW8Qi2mKQUYAF0K1wxKT6X8BPUa9h+hQltko1tGH/g=;
-        b=bwgWzj8KQokqxmJSmg0ttTFcvaX4cPw7InVp3zgB6WYRMaWQwjUg5EDvOgXbX6gn4z
-         +tEiJXlP56YB6SzTZ9IuP1DgZBlghPT28PhPtknW+zYTJnSCmxC5W1Mm7ymljChDOwWH
-         JEmfH5ad2iYFbyB1JZ8QW6cbbhzvzcMI3MB83WaWFFC1MJU7QflcyggsjQO6HJjLlfYN
-         +j5ZcAkg6X2UGxwXL4BIMHUjxCn/347j5VDTbjccqXsisCtsxXqhZJJ1QikyqHWKXucO
-         7cLmSzrJXXEC8WouG+m+ypNfpLj4l8Bh99NSYBZYLrIY14IWoBjjt0N6Xc2mQ2My3/vF
-         67jw==
+        bh=1eulVtgnBse6T07v3i1s5Tmo6HHXX3u1XOsvEFwTjqI=;
+        b=bOscBNW6BzvTWF1npFjKU35mUMZogJ8SypjvwFkSQ78EwxsaG5yXPvQsTimzP5LlgZ
+         y4sJHUdmY5VJ4xlztxaj1ijB0L6ePopmMejNIh3XfTWuSTK+DTptyogmoheiFcrU8ydZ
+         fVirY2s71iXx+peQOulGx4gZjZqRfbjiCQXdP2SplXCt8Zw4svCCUf3pYDCu+kdIxrJ5
+         5hQumIpYKkFnpaKoQKEgA1klNO6XVedgGxVoKIQM8+mtCadYFmA8uA9al/JNqEZf4E0i
+         jM4+pni/a91cs8zHIgakspMB6/N83N3UFsmPD/PLgFS+H5AgsvDgpmOEYY0jwNXxLDn6
+         1ZpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=cxW8Qi2mKQUYAF0K1wxKT6X8BPUa9h+hQltko1tGH/g=;
-        b=T8h7HqzbccjyaZpImS5GSjyXtt+OLYutFSidygHJhXulJ985fQQ9amahnDeydPMJsM
-         eMazBuoP0x8a+bVnTI1mhvDpwCQKPIFTZfIUo57lwp33zc737e5dDmqq1umQjlPR4TP1
-         gtLSfkVWcqERWGjGaJY+yTxhOzNJYWPMo3coGizk/2Cz/O1lZfcKUzAMCANOGUmLV9+g
-         71aiPqhNxrJXBWevVBPfORkje94JksGuWFYxpNF5Lg9ewjPLm+vcXxuPpch4s/yGw/Q2
-         ifZ8Wz6Mo5axGvRokWSJSiY1M9fMWyI5CfPuY0KZkbuHKXldIjzVz2+2lsjQef4lNI5N
-         aJzQ==
-X-Gm-Message-State: AOAM530RiFFeBrp/e1VbWVgoisK6Tkv14GNJ87ZQzbvDEDLn5cvzNz9M
-	lUQ4abxYPRzl/vYpW2KpqqvmsryXYEc=
-X-Google-Smtp-Source: ABdhPJyiNmA280qR7HaQ2miTiw/MNm2D/wRSbEWbyAIFH1MN6WiVfPr9MyTxqaVeLNwIJrpiuXZFvw==
-X-Received: by 2002:adf:f486:: with SMTP id l6mr6005457wro.375.1634811149127;
-        Thu, 21 Oct 2021 03:12:29 -0700 (PDT)
+        bh=1eulVtgnBse6T07v3i1s5Tmo6HHXX3u1XOsvEFwTjqI=;
+        b=xMnKDtXotrr/Imb+5oGJPtKqcvmAZYiyYlpiy9YoytqxR25CA5eX2KRcJpgAGMk6DP
+         A3gfR22XbPyvNkb6zqbT1zM0WI8efgFOsXUkmNJy0SocWG/hnQJ6RgqPfUApVXKcbDZ2
+         zYzc0U1LIxB/gooHud8oyi6TmKJR0dsZqCO9fgAvP9jddjvoqMhXriaP3fqixHJ65OYt
+         QXdY1lJG96GWZugyPu+7qjfPuLVzIZ34iYyLnklKMyrmvqiBgsulNT6TjBSAzZPSkrVf
+         AB41EiRrmicON0suZ2kl2nVFL5GWpK09UwRR6tfJguiuZxGZF60irvpsmtAhhZZytyPm
+         zF1A==
+X-Gm-Message-State: AOAM530+Iz5oxcUTGwNGIwc2QUHGLmU8sz1nuV9r5G10OMh2Cer/pqD0
+	UqHn7U6BO7HTIrKaxe0Lw5s=
+X-Google-Smtp-Source: ABdhPJy8FI6uWBSB3kvM0sQ1+NJPGq5YDrc9WQNCn08d0g+SrTN3pI8Qha9VQuCB0kTC35VKeTF0ew==
+X-Received: by 2002:adf:b348:: with SMTP id k8mr6034289wrd.435.1634811439870;
+        Thu, 21 Oct 2021 03:17:19 -0700 (PDT)
 Received: from ?IPV6:2a02:8108:96c0:3b88::d7f0? ([2a02:8108:96c0:3b88::d7f0])
-        by smtp.gmail.com with ESMTPSA id f15sm4434594wrt.38.2021.10.21.03.12.28
+        by smtp.gmail.com with ESMTPSA id q12sm4550935wrp.13.2021.10.21.03.17.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 03:12:28 -0700 (PDT)
-Message-ID: <f5657f12-e20e-5cd9-e872-32e294741e88@gmail.com>
-Date: Thu, 21 Oct 2021 12:12:27 +0200
+        Thu, 21 Oct 2021 03:17:19 -0700 (PDT)
+Message-ID: <243e691c-4fb5-6cb0-1a46-c27c1fbb218a@gmail.com>
+Date: Thu, 21 Oct 2021 12:17:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,109 +47,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 3/5] staging: r8188eu: use helper to check for broadcast
- address
+Subject: Re: [PATCH 1/5] staging: r8188eu: remove unused dm_priv components
 Content-Language: en-US
-To: Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
 References: <20211020195401.12931-1-martin@kaiser.cx>
- <20211020195401.12931-3-martin@kaiser.cx> <YXCFFO//n9N6MZXv@equinox>
 From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <YXCFFO//n9N6MZXv@equinox>
+In-Reply-To: <20211020195401.12931-1-martin@kaiser.cx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/20/21 23:07, Phillip Potter wrote:
-> On Wed, Oct 20, 2021 at 09:53:59PM +0200, Martin Kaiser wrote:
->> Use the is_broadcast_ether_addr function to check for a
->> broadcast address.
->>
->> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
->> ---
->>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ++----
->>   drivers/staging/r8188eu/hal/odm.c           | 3 +--
->>   2 files changed, 3 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
->> index 995a0248c26f..b0dfafe526f7 100644
->> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
->> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
->> @@ -392,13 +392,12 @@ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
->>   
->>   static void _mgt_dispatcher(struct adapter *padapter, struct mlme_handler *ptable, struct recv_frame *precv_frame)
->>   {
->> -	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
->>   	u8 *pframe = precv_frame->rx_data;
->>   
->>   	if (ptable->func) {
->>   	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
->>   		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
->> -		    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
->> +		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
+Am 20.10.21 um 21:53 schrieb Martin Kaiser:
+> Remove unused components from struct dm_priv.
+> 
+> DMFlag is only written to, but never read.
+> InitDMFlag is assigned to DMFlag and not used elsewhere.
+> DM_Type is also write-only.
+> UndecoratedSmoothedPWDB and UndecoratedSmoothedCCK are not used at all.
+> 
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>   drivers/staging/r8188eu/hal/rtl8188e_dm.c     | 3 ---
+>   drivers/staging/r8188eu/hal/usb_halinit.c     | 1 -
+>   drivers/staging/r8188eu/include/rtl8188e_dm.h | 5 -----
+>   3 files changed, 9 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> index 4ce2c3749665..5d76f6ea91c4 100644
+> --- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> +++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
+> @@ -87,12 +87,9 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
+>   void rtl8188e_InitHalDm(struct adapter *Adapter)
+>   {
+>   	struct hal_data_8188e *hal_data = GET_HAL_DATA(Adapter);
+> -	struct dm_priv	*pdmpriv = &hal_data->dmpriv;
+>   	struct odm_dm_struct *dm_odm = &hal_data->odmpriv;
+>   
+>   	dm_InitGPIOSetting(Adapter);
+> -	pdmpriv->DM_Type = DM_Type_ByDriver;
+> -	pdmpriv->DMFlag = DYNAMIC_FUNC_DISABLE;
+>   	Update_ODM_ComInfo_88E(Adapter);
+>   	ODM_DMInit(dm_odm);
+>   	Adapter->fix_rate = 0xFF;
+> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+> index cdc602fa9af8..ef1ae95d7db0 100644
+> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
+> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+> @@ -1469,7 +1469,6 @@ void SetHwReg8188EU(struct adapter *Adapter, u8 variable, u8 *val)
+>   		break;
+>   	case HW_VAR_DM_FUNC_SET:
+>   		if (*((u32 *)val) == DYNAMIC_ALL_FUNC_ENABLE) {
+> -			pdmpriv->DMFlag = pdmpriv->InitDMFlag;
+>   			podmpriv->SupportAbility =	pdmpriv->InitODMFlag;
+>   		} else {
+>   			podmpriv->SupportAbility |= *((u32 *)val);
+> diff --git a/drivers/staging/r8188eu/include/rtl8188e_dm.h b/drivers/staging/r8188eu/include/rtl8188e_dm.h
+> index 4a0608313f7a..208bea050f6f 100644
+> --- a/drivers/staging/r8188eu/include/rtl8188e_dm.h
+> +++ b/drivers/staging/r8188eu/include/rtl8188e_dm.h
+> @@ -15,14 +15,9 @@ enum{
+>   #define HP_THERMAL_NUM		8
+>   /*  duplicate code,will move to ODM ######### */
+>   struct	dm_priv {
+> -	u8	DM_Type;
+> -	u8	DMFlag;
+> -	u8	InitDMFlag;
+>   	u32	InitODMFlag;
+>   
+>   	/*  Upper and Lower Signal threshold for Rate Adaptive*/
+> -	int	UndecoratedSmoothedPWDB;
+> -	int	UndecoratedSmoothedCCK;
+>   	int	EntryMinUndecoratedSmoothedPWDB;
+>   	int	EntryMaxUndecoratedSmoothedPWDB;
+>   	int	MinUndecoratedPWDBForDM;
+> 
 
-Hi Martin,
+Looks good, thanks.
 
-I'm not an expert regarding alignment. Is GetAddr1Ptr(pframe) always 
-__aligned(2) as required by is_broadcast_ether_addr?
-
->>   			return;
->>   		ptable->func(padapter, precv_frame);
->>   	}
->> @@ -409,7 +408,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
->>   	int index;
->>   	struct mlme_handler *ptable;
->>   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
->> -	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
->>   	u8 *pframe = precv_frame->rx_data;
->>   	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
->>   
->> @@ -418,7 +416,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
->>   
->>   	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
->>   	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
->> -	    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
->> +	    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
->>   		return;
-
-Same here.
-
->>   
->>   	ptable = mlme_sta_tbl;
->> diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
->> index 67cf8f7baba5..21f115194df8 100644
->> --- a/drivers/staging/r8188eu/hal/odm.c
->> +++ b/drivers/staging/r8188eu/hal/odm.c
->> @@ -829,7 +829,6 @@ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
->>   	u8	sta_cnt = 0;
->>   	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
->>   	struct sta_info *psta;
->> -	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
->>   
->>   	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
->>   		return;
->> @@ -841,7 +840,7 @@ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
->>   		psta = pDM_Odm->pODM_StaInfo[i];
->>   		if (IS_STA_VALID(psta) &&
->>   		    (psta->state & WIFI_ASOC_STATE) &&
->> -		    memcmp(psta->hwaddr, bcast_addr, ETH_ALEN) &&
->> +		    !is_broadcast_ether_addr(psta->hwaddr) &&
-
-Perhaps we should add __aligned(2) to the hwaddr variable in struct
-sta_info to be safe?
-
-u8	hwaddr[ETH_ALEN] __aligned(2);
-
-
->>   		    memcmp(psta->hwaddr, myid(&Adapter->eeprompriv), ETH_ALEN)) {
->>   			if (psta->rssi_stat.UndecoratedSmoothedPWDB < tmpEntryMinPWDB)
->>   				tmpEntryMinPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
->> -- 
->> 2.20.1
->>
-
-Other than that the patch looks good, thanks.
-
-Michael
+Acked-by: Michael Straube <straube.linux@gmail.com>
 
