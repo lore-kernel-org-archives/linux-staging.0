@@ -1,41 +1,41 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9B02C80
-	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:58:44 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id x66so1572520pfx.13
-        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 12:58:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B982C80
+	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:58:56 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id s1so1147257plg.12
+        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 12:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TxKGTuMCuJLnvIu5nwkmdwEyk7NIVzbX0WovkNaI9bc=;
-        b=clLG4MEObZ11hc1ypRMrbijIktbe0i04RyctFNG7R6xYHQdCzi1Lp9+TjaoZF93SPu
-         uRIjU/onyY6zJOSBcLKx3fvNFqAVD947HHWffIVkgfweMg6renFvXTLbNOxz9d7jLltl
-         1xuCbkkJsOrmxD4F0Qyvul6VJ2cIPzAuRXZhChqAqCbRe5EIfbwj+hUAasB3JPgHXc2Q
-         Ey3iWKbqFf7OIBEK9oYCgKGZ+ID9tPcFUbRxG4sZDUcpC61qltmqRJ4FE/Olj4Kob9T5
-         4igcaSJl64TD4C4MSm8XNISIStPw+Daglm924PSOdjQsw2LwURIdj9oKdWayVF2y5FCE
-         qtCg==
+        bh=hunu8VIKXcNrny3j2pos7KO6PvXPc5Dvy1fU9vz7EX0=;
+        b=Z85SMHoXuvWe+8C9rzFW61Goo/2S+JbB4l5H/QEvINyMCyy1hGSvIpXw2QP/7L5qGo
+         cfvwbEZUqwdk2ITr7mj2qvEonU4cFVtu+75X7/JuKQcGrZabyz1bDhDspdW85khUhlOa
+         hh5v7OSEGd84iECT3Ihf1sGzxcsN23GMLNVYwKmBU4eOHQWwN+eHAUBycRKxLf9dpZfr
+         EOxhXVDIm1QALM3dZdlx8hrV9EjxQkM1H46eTuquxN1ILsS/4PW2gDAplITB+bIs+6JV
+         7mAd3wQ2XpqBl647fqyWa3WEFlTJ/FM0Hrue8wPbWMJmvj4YWLKup4YnZ15EnhFdcLUO
+         t0+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TxKGTuMCuJLnvIu5nwkmdwEyk7NIVzbX0WovkNaI9bc=;
-        b=jIHjXAHp9gmS4Vqj6ZmMv3ORhQVa8WuC7gHfenaSPeA00U8I7f0ktemycOFelUR1V5
-         hIgLeZWQGhqTqQI4IHdYpj6qsve12s48YIVVH+WMKGnippO0QyhdC61YIQEd2foTLG8M
-         cce8C8nxdyTA37cQfmfih8UrhyTL3YFGzKuheoAoP6o4AGxCyl/7CDGbMUZYIhsHwyOx
-         nt32Rvnzp6+7myrYNqe3Le01Ty5EX+NMcn4rPsUagJZtiBA4Xno5WbdUipk3o54H5WQS
-         0yELCoi2z+uTquQ10Mn0Vh5U+li2v5+z0dJ4r5xse7IlmILApKZF2Hk436xqa3FGfDZk
-         sp6w==
-X-Gm-Message-State: AOAM5305OU0r+rkGI0siNoav/nQ2sOSKf9N6JjLoORR25saRRxTyoDMq
-	c3BGWXfOQaIDpv1OxPFGdw8=
-X-Google-Smtp-Source: ABdhPJyHT7/ysXgWHCnlgLnXnbAUUm36cbrvVK8KY4P5vtRXHGc47SprbrFjtyA+bZr2hOnuwS7PPQ==
-X-Received: by 2002:a05:6a00:1911:b0:44d:7f2d:4184 with SMTP id y17-20020a056a00191100b0044d7f2d4184mr7722960pfi.17.1634846324155;
-        Thu, 21 Oct 2021 12:58:44 -0700 (PDT)
+        bh=hunu8VIKXcNrny3j2pos7KO6PvXPc5Dvy1fU9vz7EX0=;
+        b=dW3GO+TPbiNij5tnEJm/d2/muCw+0ifTVy6fzI7fVSQqxxzoYZxZO5Lw6pr8EV1nG5
+         jPQwNyRswPlQCIhBkaKwr7USgGYmZAFRxhs7VVCiJ+yHqAHCj0zCuqCeTMP9wGwHTWTY
+         t4aUmc1SSswZ/Brt9QFNr6PRcPhhuBNg0cdlxH3XEyPZ5S/axZr49wvixp3MMskLRc3c
+         6b/+NGcLVesbFqz8vDRFeMw7gfdvqf3UT0XAt9dqn6uLJxNTjp3t30o7qhDhWtaqMJWs
+         2eeNpFeiIktN2OQ1Ddo2WBG8yWaEBV41XaeIlOXTIvKVcUHtKFp6ckJVWRPtpzi/4Ecy
+         ePvg==
+X-Gm-Message-State: AOAM530mOidddSXN8rGJ06tFFw5mwtoIKZaFg9PhpS4H1YHW7uOaO3ae
+	eGsTESbOTeqijBQrgO2n+ITeLoq53gI+Vw==
+X-Google-Smtp-Source: ABdhPJzyiHmZqaS+okaCbNJDaNQ5QRMs4unzgukYBnjtfL8we85BxTuToQdvwRV6SuZTrhkXYyZDVw==
+X-Received: by 2002:a17:902:7246:b0:138:a6ed:66cc with SMTP id c6-20020a170902724600b00138a6ed66ccmr7380499pll.22.1634846335830;
+        Thu, 21 Oct 2021 12:58:55 -0700 (PDT)
 Received: from localhost.localdomain ([2401:4900:1fee:e3e7:7dfb:56c1:efef:3c0f])
-        by smtp.googlemail.com with ESMTPSA id v9sm7198898pfc.23.2021.10.21.12.58.38
+        by smtp.googlemail.com with ESMTPSA id v9sm7198898pfc.23.2021.10.21.12.58.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 12:58:43 -0700 (PDT)
+        Thu, 21 Oct 2021 12:58:55 -0700 (PDT)
 From: Kushal Kothari <kushalkothari285@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: fabioaiuto83@gmail.com,
@@ -51,9 +51,9 @@ Cc: fabioaiuto83@gmail.com,
 	mike.rapoport@gmail.com,
 	kushalkotharitest@googlegroups.com,
 	outreachy-kernel@googlegroups.com
-Subject: [PATCH 1/4] staging: rtl8723bs: core: Remove true and false comparison
-Date: Fri, 22 Oct 2021 01:27:50 +0530
-Message-Id: <a9b75b3ab7c83dc5cef541301263fe17a704f026.1634845504.git.kushalkothari285@gmail.com>
+Subject: [PATCH 2/4] staging: rtl8723bs: core: Remove unnecessary parentheses
+Date: Fri, 22 Oct 2021 01:27:51 +0530
+Message-Id: <b97b81ff67867d564dca07a1737b2c53549b1fc5.1634845504.git.kushalkothari285@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634845504.git.kushalkothari285@gmail.com>
 References: <cover.1634845504.git.kushalkothari285@gmail.com>
@@ -65,112 +65,164 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove comparison to true and false in if statement.
 Issue found with checkpatch.pl.
-CHECK: Using comparison to true is error prone
-CHECK: Using comparison to false is error prone
+CHECK: Remove unnecessary parentheses
 
 Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 36 ++++++++++++------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 2624e994513f..0be3a8dbeec8 100644
+index 0be3a8dbeec8..88f6b7405106 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -371,7 +371,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
- void rtw_stop_cmd_thread(struct adapter *adapter)
- {
- 	if (adapter->cmdThread &&
--		atomic_read(&(adapter->cmdpriv.cmdthd_running)) == true &&
-+		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
- 		adapter->cmdpriv.stop_req == 0) {
- 		adapter->cmdpriv.stop_req = 1;
- 		complete(&adapter->cmdpriv.cmd_queue_comp);
-@@ -542,7 +542,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
- 	struct cmd_priv 	*pcmdpriv = &padapter->cmdpriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+@@ -278,10 +278,10 @@ struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue)
  
--	if (check_fwstate(pmlmepriv, _FW_LINKED) == true)
-+	if (check_fwstate(pmlmepriv, _FW_LINKED))
- 		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_SCAN, 1);
- 
- 	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
-@@ -775,7 +775,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 	/*  If not,  we have to copy the connecting AP's MAC address to it so that */
- 	/*  the driver just has the bssid information for PMKIDList searching. */
- 
--	if (pmlmepriv->assoc_by_bssid == false)
-+	if (!pmlmepriv->assoc_by_bssid)
- 		memcpy(&pmlmepriv->assoc_bssid[0], &pnetwork->network.mac_address[0], ETH_ALEN);
- 
- 	psecnetwork->ie_length = rtw_restruct_sec_ie(padapter, &pnetwork->network.ies[0], &psecnetwork->ies[0], pnetwork->network.ie_length);
-@@ -1164,7 +1164,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue, u8 swconf
- 	u8 res = _SUCCESS;
- 
- 	/*  check if allow software config */
--	if (swconfig && rtw_hal_is_disable_sw_channel_plan(padapter) == true) {
-+	if (swconfig && rtw_hal_is_disable_sw_channel_plan(padapter)) {
- 		res = _FAIL;
- 		goto exit;
+ 	/* spin_lock_bh(&(queue->lock)); */
+ 	spin_lock_irqsave(&queue->lock, irqL);
+-	if (list_empty(&(queue->queue)))
++	if (list_empty(&queue->queue))
+ 		obj = NULL;
+ 	else {
+-		obj = container_of(get_next(&(queue->queue)), struct cmd_obj, list);
++		obj = container_of(get_next(&queue->queue), struct cmd_obj, list);
+ 		list_del_init(&obj->list);
  	}
-@@ -1250,7 +1250,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 	/*  */
- 	/*  Determine if our traffic is busy now */
- 	/*  */
--	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true)
-+	if ((check_fwstate(pmlmepriv, _FW_LINKED))
- 		/*&& !MgntInitAdapterInProgress(pMgntInfo)*/) {
- 		/*  if we raise bBusyTraffic in last watchdog, using lower threshold. */
- 		if (pmlmepriv->LinkDetectInfo.bBusyTraffic)
-@@ -1342,7 +1342,7 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter)
  
- 	pmlmepriv = &(padapter->mlmepriv);
+@@ -387,7 +387,7 @@ int rtw_cmd_thread(void *context)
+ 	u8 (*cmd_hdl)(struct adapter *padapter, u8 *pbuf);
+ 	void (*pcmd_callback)(struct adapter *dev, struct cmd_obj *pcmd);
+ 	struct adapter *padapter = context;
+-	struct cmd_priv *pcmdpriv = &(padapter->cmdpriv);
++	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	struct drvextra_cmd_parm *extra_parm = NULL;
  
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
-+	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+ 	thread_enter("RTW_CMD_THREAD");
+@@ -395,7 +395,7 @@ int rtw_cmd_thread(void *context)
+ 	pcmdbuf = pcmdpriv->cmd_buf;
+ 
+ 	pcmdpriv->stop_req = 0;
+-	atomic_set(&(pcmdpriv->cmdthd_running), true);
++	atomic_set(&pcmdpriv->cmdthd_running, true);
+ 	complete(&pcmdpriv->terminate_cmdthread_comp);
+ 
+ 	while (1) {
+@@ -471,7 +471,7 @@ int rtw_cmd_thread(void *context)
+ 
+ post_process:
+ 
+-		if (mutex_lock_interruptible(&(pcmd->padapter->cmdpriv.sctx_mutex)) == 0) {
++		if (mutex_lock_interruptible(&pcmd->padapter->cmdpriv.sctx_mutex) == 0) {
+ 			if (pcmd->sctx) {
+ 				netdev_dbg(padapter->pnetdev,
+ 					   FUNC_ADPT_FMT " pcmd->sctx\n",
+@@ -482,7 +482,7 @@ int rtw_cmd_thread(void *context)
+ 				else
+ 					rtw_sctx_done_err(&pcmd->sctx, RTW_SCTX_DONE_CMD_ERROR);
+ 			}
+-			mutex_unlock(&(pcmd->padapter->cmdpriv.sctx_mutex));
++			mutex_unlock(&pcmd->padapter->cmdpriv.sctx_mutex);
+ 		}
+ 
+ 		/* call callback function for post-processed */
+@@ -522,7 +522,7 @@ int rtw_cmd_thread(void *context)
+ 	} while (1);
+ 
+ 	complete(&pcmdpriv->terminate_cmdthread_comp);
+-	atomic_set(&(pcmdpriv->cmdthd_running), false);
++	atomic_set(&pcmdpriv->cmdthd_running, false);
+ 
+ 	thread_exit();
+ }
+@@ -724,7 +724,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	struct ht_priv 		*phtpriv = &pmlmepriv->htpriv;
+ 	enum ndis_802_11_network_infrastructure ndis_network_mode = pnetwork->network.infrastructure_mode;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	u32 tmp_len;
+ 	u8 *ptmp = NULL;
+ 
+@@ -1243,7 +1243,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
+ 	u8 bBusyTraffic = false, bTxBusyTraffic = false, bRxBusyTraffic = false;
+ 	u8 bHigherBusyTraffic = false, bHigherBusyRxTraffic = false, bHigherBusyTxTraffic = false;
+ 
+-	struct mlme_priv 	*pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
+ 
+ 	collect_traffic_statistics(padapter);
+ 
+@@ -1315,7 +1315,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
+ 		struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
+ 		int n_assoc_iface = 0;
+ 
+-		if (check_fwstate(&(dvobj->padapters->mlmepriv), WIFI_ASOC_STATE))
++		if (check_fwstate(&dvobj->padapters->mlmepriv, WIFI_ASOC_STATE))
+ 			n_assoc_iface++;
+ 
+ 		if (!from_timer && n_assoc_iface == 0)
+@@ -1340,7 +1340,7 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter)
+ {
+ 	struct mlme_priv *pmlmepriv;
+ 
+-	pmlmepriv = &(padapter->mlmepriv);
++	pmlmepriv = &padapter->mlmepriv;
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
  		expire_timeout_chk(padapter);
- 
- 	/* for debug purpose */
-@@ -1377,8 +1377,8 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
- 	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+@@ -1374,7 +1374,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type);
+ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+ {
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
  	u8 mstatus;
  
--	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)
--		|| (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
-+	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
-+		check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		return;
+ 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
+@@ -1959,7 +1959,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 	struct wlan_network *pwlan = NULL;
+ 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_bssid_ex *pnetwork = (struct wlan_bssid_ex *)pcmd->parmbuf;
+-	struct wlan_network *tgt_network = &(pmlmepriv->cur_network);
++	struct wlan_network *tgt_network = &pmlmepriv->cur_network;
+ 
+ 	if (!pcmd->parmbuf)
+ 		goto exit;
+@@ -1983,20 +1983,20 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 		rtw_indicate_connect(padapter);
+ 	} else {
+ 		pwlan = rtw_alloc_network(pmlmepriv);
+-		spin_lock_bh(&(pmlmepriv->scanned_queue.lock));
++		spin_lock_bh(&pmlmepriv->scanned_queue.lock);
+ 		if (!pwlan) {
+ 			pwlan = rtw_get_oldest_wlan_network(&pmlmepriv->scanned_queue);
+ 			if (!pwlan) {
+-				spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
++				spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
+ 				goto createbss_cmd_fail;
+ 			}
+ 			pwlan->last_scanned = jiffies;
+ 		} else {
+-			list_add_tail(&(pwlan->list), &pmlmepriv->scanned_queue.queue);
++			list_add_tail(&pwlan->list, &pmlmepriv->scanned_queue.queue);
+ 		}
+ 
+ 		pnetwork->length = get_wlan_bssid_ex_sz(pnetwork);
+-		memcpy(&(pwlan->network), pnetwork, pnetwork->length);
++		memcpy(&pwlan->network, pnetwork, pnetwork->length);
+ 		/* pwlan->fixed = true; */
+ 
+ 		/* list_add_tail(&(pwlan->list), &pmlmepriv->scanned_queue.queue); */
+@@ -2009,7 +2009,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 
+ 		_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+ 
+-		spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
++		spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
+ 		/*  we will set _FW_LINKED when there is one more sat to join us (rtw_stassoc_event_callback) */
+ 
  	}
- 
-@@ -1386,7 +1386,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
- 	case LPS_CTRL_SCAN:
- 		hal_btcoex_ScanNotify(padapter, true);
- 
--		if (check_fwstate(pmlmepriv, _FW_LINKED) == true) {
-+		if (check_fwstate(pmlmepriv, _FW_LINKED)) {
- 			/*  connect */
- 			LPS_Leave(padapter, "LPS_CTRL_SCAN");
- 		}
-@@ -1512,7 +1512,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
- 	if (dtim <= 0 || dtim > 16)
- 		return;
- 
--	if (hal_btcoex_IsBtControlLps(padapter) == true)
-+	if (hal_btcoex_IsBtControlLps(padapter))
- 		return;
- 
- 	mutex_lock(&pwrpriv->lock);
-@@ -1840,7 +1840,7 @@ static void c2h_wk_callback(struct work_struct *work)
- 			continue;
- 		}
- 
--		if (ccx_id_filter(c2h_evt) == true) {
-+		if (ccx_id_filter(c2h_evt)) {
- 			/* Handle CCX report here */
- 			rtw_hal_c2h_handler(adapter, c2h_evt);
- 			kfree(c2h_evt);
 -- 
 2.25.1
 
