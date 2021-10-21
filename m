@@ -1,216 +1,155 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF472C80
-	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 09:52:33 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id q187so1702689pgq.2
-        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 02:52:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B274E2C80
+	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 10:12:30 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id r18so219513wrg.6
+        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 03:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=S9bjOuI45h65wf/JkcoaH7lZSurcv8d3EkWiJ/rqemw=;
-        b=X2WJ0nm0wGkHjb9BvIMcKvk5nj7GEOQju3JVFq3xdfM9fyL6zIbYqSF8jiXAfTnUDK
-         Rec3GHEw5n/lkjifMaPJn83G0Pq5VRc6EBtWPi8e8JUNN+58KyQoX+lKBoaGzd+/EU8+
-         oTm75y7I3NlqE1ie3Sw56MmJmt1rUoZPElOXX75SBpjwgYa/0LsuUZ/dQcsBhsi25m2e
-         FxLenE7HNxD7egFH+DR1150PchOutWJBjKxvoOiLSr5+S+1XDQrCDfMI7LOzd5KtVmxu
-         7/XIF6uPVG+W9jfhgYKEs1HQ3lmTt3r/bGMWJryVf/BTXJRK7LN0ug4iuoyMR3uFAOds
-         7ozg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=cxW8Qi2mKQUYAF0K1wxKT6X8BPUa9h+hQltko1tGH/g=;
+        b=bwgWzj8KQokqxmJSmg0ttTFcvaX4cPw7InVp3zgB6WYRMaWQwjUg5EDvOgXbX6gn4z
+         +tEiJXlP56YB6SzTZ9IuP1DgZBlghPT28PhPtknW+zYTJnSCmxC5W1Mm7ymljChDOwWH
+         JEmfH5ad2iYFbyB1JZ8QW6cbbhzvzcMI3MB83WaWFFC1MJU7QflcyggsjQO6HJjLlfYN
+         +j5ZcAkg6X2UGxwXL4BIMHUjxCn/347j5VDTbjccqXsisCtsxXqhZJJ1QikyqHWKXucO
+         7cLmSzrJXXEC8WouG+m+ypNfpLj4l8Bh99NSYBZYLrIY14IWoBjjt0N6Xc2mQ2My3/vF
+         67jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=S9bjOuI45h65wf/JkcoaH7lZSurcv8d3EkWiJ/rqemw=;
-        b=UqtMF2KyHv53u4BZysckZLeKpyK4x9wepoGoOP8J0cIimwDSfHnaENdlptzb7HHfAn
-         S5rRkRlGc2tIn8YgNbIkw0q20mCL+jFNWMbfY5G6gd8RiRfwBMX+QgoBkloLnQHHkavw
-         rO7tSymDXWy/JOBJqhyqvyBVNSIeDVmOHQdZs7mCXlkuGjImgBlsG9wXMuRK97ecSB9u
-         Hlj96F268wURliNToIHZF0q9YCb+UC0gAwvdABKxPvLH1xTqwprxTNEt1q269YqsMzqY
-         4ypfgQ+TgWJekfVfpYwqPOHIenh1zxnARZoTnzjtZ2SwS9R3UDlQlQ8YQbvBYHVIbxDY
-         V1pw==
-X-Gm-Message-State: AOAM533UwaLRMidGkybAy1Ncua4GeK/hqxncWyhG+b6eyKGD4oe5Jgsu
-	UYFf5qz2UfW/B9j4sZeYJQc=
-X-Google-Smtp-Source: ABdhPJyMsUXCyOhdHOms+3btsP8mkOiltp5y7vgF9NmBloHfWejT8e3uQEkA5Tm7cx3yTMQ8SVJ4WA==
-X-Received: by 2002:a62:d11e:0:b0:446:d705:7175 with SMTP id z30-20020a62d11e000000b00446d7057175mr4480842pfg.74.1634809953248;
-        Thu, 21 Oct 2021 02:52:33 -0700 (PDT)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id s7sm5669395pfu.139.2021.10.21.02.52.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 02:52:32 -0700 (PDT)
-Message-ID: <cfad27a4bfdd94417305e1519e2f450a4422844d.camel@gmail.com>
-Subject: Re: [BUG 5/5] [BUG] media: atomisp: atomisp causes touchscreen to
- stop working on Microsoft Surface 3
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Patrik Gfeller <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Kaixu Xia
- <kaixuxia@tencent.com>, Dan Carpenter <dan.carpenter@oracle.com>, Arnd
- Bergmann <arnd@arndb.de>,  linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Thu, 21 Oct 2021 18:52:28 +0900
-In-Reply-To: <103b5438-9f7c-7e89-28b9-29fe11eb818c@redhat.com>
-References: <20211017162337.44860-1-kitakar@gmail.com>
-	 <20211017162337.44860-6-kitakar@gmail.com>
-	 <103b5438-9f7c-7e89-28b9-29fe11eb818c@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=cxW8Qi2mKQUYAF0K1wxKT6X8BPUa9h+hQltko1tGH/g=;
+        b=T8h7HqzbccjyaZpImS5GSjyXtt+OLYutFSidygHJhXulJ985fQQ9amahnDeydPMJsM
+         eMazBuoP0x8a+bVnTI1mhvDpwCQKPIFTZfIUo57lwp33zc737e5dDmqq1umQjlPR4TP1
+         gtLSfkVWcqERWGjGaJY+yTxhOzNJYWPMo3coGizk/2Cz/O1lZfcKUzAMCANOGUmLV9+g
+         71aiPqhNxrJXBWevVBPfORkje94JksGuWFYxpNF5Lg9ewjPLm+vcXxuPpch4s/yGw/Q2
+         ifZ8Wz6Mo5axGvRokWSJSiY1M9fMWyI5CfPuY0KZkbuHKXldIjzVz2+2lsjQef4lNI5N
+         aJzQ==
+X-Gm-Message-State: AOAM530RiFFeBrp/e1VbWVgoisK6Tkv14GNJ87ZQzbvDEDLn5cvzNz9M
+	lUQ4abxYPRzl/vYpW2KpqqvmsryXYEc=
+X-Google-Smtp-Source: ABdhPJyiNmA280qR7HaQ2miTiw/MNm2D/wRSbEWbyAIFH1MN6WiVfPr9MyTxqaVeLNwIJrpiuXZFvw==
+X-Received: by 2002:adf:f486:: with SMTP id l6mr6005457wro.375.1634811149127;
+        Thu, 21 Oct 2021 03:12:29 -0700 (PDT)
+Received: from ?IPV6:2a02:8108:96c0:3b88::d7f0? ([2a02:8108:96c0:3b88::d7f0])
+        by smtp.gmail.com with ESMTPSA id f15sm4434594wrt.38.2021.10.21.03.12.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Oct 2021 03:12:28 -0700 (PDT)
+Message-ID: <f5657f12-e20e-5cd9-e872-32e294741e88@gmail.com>
+Date: Thu, 21 Oct 2021 12:12:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 3/5] staging: r8188eu: use helper to check for broadcast
+ address
+Content-Language: en-US
+To: Phillip Potter <phil@philpotter.co.uk>, Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Larry Finger <Larry.Finger@lwfinger.net>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20211020195401.12931-1-martin@kaiser.cx>
+ <20211020195401.12931-3-martin@kaiser.cx> <YXCFFO//n9N6MZXv@equinox>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <YXCFFO//n9N6MZXv@equinox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Thank you for your comment :-)
+On 10/20/21 23:07, Phillip Potter wrote:
+> On Wed, Oct 20, 2021 at 09:53:59PM +0200, Martin Kaiser wrote:
+>> Use the is_broadcast_ether_addr function to check for a
+>> broadcast address.
+>>
+>> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+>> ---
+>>   drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ++----
+>>   drivers/staging/r8188eu/hal/odm.c           | 3 +--
+>>   2 files changed, 3 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+>> index 995a0248c26f..b0dfafe526f7 100644
+>> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+>> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+>> @@ -392,13 +392,12 @@ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
+>>   
+>>   static void _mgt_dispatcher(struct adapter *padapter, struct mlme_handler *ptable, struct recv_frame *precv_frame)
+>>   {
+>> -	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+>>   	u8 *pframe = precv_frame->rx_data;
+>>   
+>>   	if (ptable->func) {
+>>   	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+>>   		if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
+>> -		    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
+>> +		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
 
-First, I need to correct what I said in the previous mail. I later found
-that loading only "atomisp" (as well as its dependency,
-atomisp_gmin_platform) does not cause this issue.
+Hi Martin,
 
-What causes this issue is rather, loading sensor drivers (as well as its
-dependency, atomisp_gmin_platform).
+I'm not an expert regarding alignment. Is GetAddr1Ptr(pframe) always 
+__aligned(2) as required by is_broadcast_ether_addr?
 
-These sensor drivers for surface3 are both not upstream, but I made them
-as similar as possible to the upstreamed ones. So, I guess this issue
-can still be reproducible on some other devices.
+>>   			return;
+>>   		ptable->func(padapter, precv_frame);
+>>   	}
+>> @@ -409,7 +408,6 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+>>   	int index;
+>>   	struct mlme_handler *ptable;
+>>   	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>> -	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+>>   	u8 *pframe = precv_frame->rx_data;
+>>   	struct sta_info *psta = rtw_get_stainfo(&padapter->stapriv, GetAddr2Ptr(pframe));
+>>   
+>> @@ -418,7 +416,7 @@ void mgt_dispatcher(struct adapter *padapter, struct recv_frame *precv_frame)
+>>   
+>>   	/* receive the frames that ra(a1) is my address or ra(a1) is bc address. */
+>>   	if (memcmp(GetAddr1Ptr(pframe), myid(&padapter->eeprompriv), ETH_ALEN) &&
+>> -	    memcmp(GetAddr1Ptr(pframe), bc_addr, ETH_ALEN))
+>> +	    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
+>>   		return;
 
-I can't (easily) try touchscreen on mipad2 because it won't boot without
-nomodeset and somehow GNOME won't start if it's using nomodeset (on Arch
-Linux).
+Same here.
 
-On Mon, 2021-10-18 at 10:30 +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 10/17/21 18:23, Tsuchiya Yuto wrote:
-> > Touchscreen input works fine before loading atomisp driver on Surface 3.
-> > 
-> > However, after loading atomisp driver, touchscreen works only when
-> > capturing images. This sounds like atomisp turns off something needed
-> > for touchscreen when atomisp is idle.
-> > 
-> > There is no useful kernel log. Just the touchscreen stops working
-> > with no log.
-> > 
-> > I'll update if I find something further. First of all, can someone
-> > reproduce this issue on the other devices?
-> 
-> My first bet would be some regulator getting turned off.
-> 
-> What you can do is:
-> 
-> 1. ls -l /dev/bus/i2c/devices
-> 
-> And then write down the number of the i2c-bus to which the
-> CRC PMIC is connected, lets say it is number "4". Then:
-> 
-> 2. Before loading the atomisp drivers run:
->    "sudo i2cdump -y -f 4 0x6e > crc-regs-good"
-> 
-> 3. After loading the atomisp drivers run:
->    "sudo i2cdump -y -f 4 0x6e > crc-regs-bad
-> 
-> 4. "diff -u crc-regs-good crc-regs-bad"
-> 
-> And see what changed.
+>>   
+>>   	ptable = mlme_sta_tbl;
+>> diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+>> index 67cf8f7baba5..21f115194df8 100644
+>> --- a/drivers/staging/r8188eu/hal/odm.c
+>> +++ b/drivers/staging/r8188eu/hal/odm.c
+>> @@ -829,7 +829,6 @@ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
+>>   	u8	sta_cnt = 0;
+>>   	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
+>>   	struct sta_info *psta;
+>> -	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+>>   
+>>   	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
+>>   		return;
+>> @@ -841,7 +840,7 @@ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
+>>   		psta = pDM_Odm->pODM_StaInfo[i];
+>>   		if (IS_STA_VALID(psta) &&
+>>   		    (psta->state & WIFI_ASOC_STATE) &&
+>> -		    memcmp(psta->hwaddr, bcast_addr, ETH_ALEN) &&
+>> +		    !is_broadcast_ether_addr(psta->hwaddr) &&
 
-Here is the diff. The "good" one is before loading sensor driver, the
-"bad" one is from after loading sensor driver:
+Perhaps we should add __aligned(2) to the hwaddr variable in struct
+sta_info to be safe?
 
-        $ diff -u crc-regs-good crc-regs-bad
-        --- crc-regs-good	2021-10-21 18:04:57.853396866 +0900
-        +++ crc-regs-bad	2021-10-21 18:06:13.755738054 +0900
-        @@ -4,14 +4,14 @@
-         20: 00 00 01 c8 68 07 0a 10 10 01 1f 10 10 10 10 10    ..??h???????????
-         30: 10 10 00 20 21 20 20 20 20 20 00 2a 1c 1c 14 10    ??. !     .*????
-         40: 10 10 10 28 20 20 28 2e 2f 20 20 83 00 00 4c 00    ???(  (./  ?..L.
-        -50: 00 01 01 01 00 00 60 00 60 00 00 02 02 03 60 60    .???..`.`..???``
-        +50: 00 01 01 01 00 00 60 02 60 00 00 02 02 62 60 60    .???..`?`..??b``
-         60: 60 01 03 00 00 00 00 00 00 00 30 04 00 00 00 00    `??.......0?....
-        -70: 00 03 00 00 02 7b 02 6c 02 71 02 55 02 7c 02 9d    .?..?{?l?q?U?|??
-        +70: 00 03 00 00 02 7b 02 6d 02 73 02 58 02 7f 02 9e    .?..?{?m?s?X????
-         80: 00 00 00 00 00 00 00 00 00 00 00 02 08 00 0b 02    ...........??.??
-         90: 3f 07 00 00 00 00 4c 00 4e 00 00 4c 00 23 01 b4    ??....L.N..L.#??
-         a0: 4c 00 4e 00 00 3d ca 6a f0 00 00 3d ca 6a f0 00    L.N..=?j?..=?j?.
-         b0: 00 7e 2a ff 02 04 06 00 00 00 00 00 00 20 00 00    .~*.???...... ..
-         c0: 00 00 00 cd 08 00 00 4c 00 00 00 4c 00 00 00 3d    ...??..L...L...=
-        -d0: 97 00 00 3d 97 00 00 fe 17 00 ff 02 01 07 94 03    ?..=?..??..?????
-        -e0: 9a 00 27 00 00 00 00 00 00 00 00 00 00 00 00 00    ?.'.............
-        +d0: 97 00 00 3d 97 00 00 fe 17 00 ff 02 01 07 ec 03    ?..=?..??..?????
-        +e0: 96 00 21 00 00 00 00 00 00 00 00 00 00 00 00 00    ?.!.............
-         f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ................
+u8	hwaddr[ETH_ALEN] __aligned(2);
 
-Note that lines "70:" and "d0:"/"e0:" change over time. So, the actual
-change caused by loading sensor driver is line "50:"
 
-        -50: 00 01 01 01 00 00 60 00 60 00 00 02 02 03 60 60    .???..`.`..???``
-        +50: 00 01 01 01 00 00 60 02 60 00 00 02 02 62 60 60    .???..`?`..??b``
+>>   		    memcmp(psta->hwaddr, myid(&Adapter->eeprompriv), ETH_ALEN)) {
+>>   			if (psta->rssi_stat.UndecoratedSmoothedPWDB < tmpEntryMinPWDB)
+>>   				tmpEntryMinPWDB = psta->rssi_stat.UndecoratedSmoothedPWDB;
+>> -- 
+>> 2.20.1
+>>
 
-and in atomisp_gmin_platform.c file,
+Other than that the patch looks good, thanks.
 
-        /* CRYSTAL COVE PMIC register set */
-        #define CRYSTAL_1P8V_REG	0x57
-        #define CRYSTAL_2P8V_REG	0x5d
-        #define CRYSTAL_ON		0x63
-        #define CRYSTAL_OFF		0x62
-
-indeed we're poking at 0x57 and 0x5d. So, maybe this issue is caused by
-regulators? I tried what would happen if I kept sensor power on before
-in sensor drivers, but there was no effect. But I feel I need to look
-into it again further.
-
-> There are 2 possible root causes here:
-> 
-> 1. Some regulator is shared between the cameras and
-> touchscreen
-> 
-> 2. The crc code in atomisp which you are using is
-> poking registers assuming the Bay Trail version of
-> the Crystal Cove PMIC (aka CRC PMIC) but your
-> Surface 3 has the Cherry Trail version and we know
-> that the regulators are add different register
-> addresses there, see the comment in:
-> drivers/acpi/pmic/intel_pmic_chtcrc.c
-> so it is possible that the atomisp code is simply
-> poking the wrong register for one of the regulators
-
-According to this Android kernel commit [1], the address for 1P8V and
-2P8V are updated to the CRC+ ones (the upstreamed atomisp already has
-this change)
-
-[1] https://github.com/MiCode/Xiaomi_Kernel_OpenSource/commit/2f8221ba9a3770aed1ecfad2d04db61b95f30394
-    ("update PMIC v1p8/v2p8 address")
-
-> I also wonder if this goes away if you do the
-> 
-> 	hrv = 0x03;
-> 
-> Hack inside drivers/mfd/intel_soc_pmic_core.c ?
-> 
-> Without that we end up using the wrong PMIC
-> OpRegion driver which also uses the wrong
-> regulator addresses.
-
-I'm now using cht one with your patch, but the situation is the same
-as before.
-
-Regards,
-Tsuchiya Yuto
-
-> Regards,
-> 
-> Hans
-> 
-> 
-> p.s.
-> 
-> Here are the 2 different regulator drivers the
-> comment in drivers/acpi/pmic/intel_pmic_chtcrc.c
-> refers to:
-> 
-> https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove.c
-> https://github.com/Zenfone2-Dev/android_kernel_asus_moorefield-1/blob/stock/drivers/regulator/pmic_crystal_cove_plus.c
-> 
-
+Michael
 
