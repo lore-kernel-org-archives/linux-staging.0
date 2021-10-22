@@ -1,85 +1,76 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0E272
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 09:21:21 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1mdqje-0001HT-GL; Fri, 22 Oct 2021 11:21:10 +0200
-Date: Fri, 22 Oct 2021 11:21:10 +0200
-From: Martin Kaiser <lists@kaiser.cx>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] staging: r8188eu: use helper to check for broadcast
- address
-Message-ID: <20211022092110.d2mcmf2qe2jtkld4@viti.kaiser.cx>
-References: <20211020195401.12931-1-martin@kaiser.cx>
- <20211020195401.12931-3-martin@kaiser.cx>
- <YXCFFO//n9N6MZXv@equinox>
- <f5657f12-e20e-5cd9-e872-32e294741e88@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8DB72
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 09:37:43 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id y3so1215165wrl.1
+        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 02:37:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TrLGl5J1Fh0jBQ3bl4JSYt92D3B2FEdMHUQ1wG7PfLM=;
+        b=BtXoJwbcssnAYaQiLN8TVnM1N6szpyGOWkHG+klTa3lYOOK7SD3bPMJDQKr6ugldKa
+         X/h9RaNBWNhhtyeBkwfFRal8W/0PQ0B1mjP30ce/cPPuEnL+LUG2uZ0BGGd/WpRsvEsz
+         xSq4RWDb7IShOmcOz6hISkeHC+11R/RMrUa0JM6YjQ7tSkoiMKzbWaUJMntFOzobl+K9
+         Kq/K9KupUqJMp7dGpN9sKIcvsAUSl1s8QTvOvXIKgHAGDYj9wOF1jpQLRR6BBDchJnkF
+         ZB+T/8hxFtpE9CB8ICqjQ97sWQ3fZDDTpe8II5D/pzZRslyedOQbrqsWTZ5MXW6eIfuP
+         vgfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TrLGl5J1Fh0jBQ3bl4JSYt92D3B2FEdMHUQ1wG7PfLM=;
+        b=QnGgWXPt1ZBDGOVhkjQJQqY3nijrPOb4gBOp8blSMFJjz6LuCTtCqUt2ucDDvEGtCb
+         vhR4kpwnCltEgiBONyAjw22zSQu3sv62dJ3klcYyr48cfU6dQkHD9odyful2s3iwOZdo
+         tfUCv9zMrwiemTDdO4g5dyj1qbBvmXEpzKAhv6ylORknp7K/tCDJtoZlcV/vUrm06eBN
+         WAEjOhGnIIOZiK0dEV+huX3h3kEE63VrSL52TICjzXuVbmYIQqPEpAjX1DKsacwcSIwx
+         58o/5YGqHlTCi+j/Mev+Tt/DFvnPUlw4IFXWilzn0v/DBClS7ktHzr47e89GaZWXGMfQ
+         /vtg==
+X-Gm-Message-State: AOAM530+xsboTULcpAiKG1XU6Q8hBx+7YJ1KFNJHBbpjhUXQd+nsqD8S
+	5AOaRZzNyBdO9hFfm62QtAI=
+X-Google-Smtp-Source: ABdhPJy23x8Y3fnkzITNiQKGVTYLReIhfCXxeOtizg8lIJkcKVMmu/UXzVLHBvyi2TOdL7Whq6Pfkg==
+X-Received: by 2002:a5d:4481:: with SMTP id j1mr15034248wrq.6.1634895461773;
+        Fri, 22 Oct 2021 02:37:41 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id r15sm1643602wru.9.2021.10.22.02.37.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Oct 2021 02:37:41 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH 0/5] staging: vt6655: `RFvWriteWakeProgSyn` variables rename
+Date: Fri, 22 Oct 2021 10:37:13 +0100
+Message-Id: <cover.1634826774.git.karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5657f12-e20e-5cd9-e872-32e294741e88@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
+Content-Transfer-Encoding: 8bit
 
-Thus wrote Michael Straube (straube.linux@gmail.com):
+This patch set is a preparation work for `RFvWriteWakeProgSyn`
+refactoring. It includes removal of Hungarian notation in
+local variables and function parameters and changing them
+to use snake case.
 
-> > > +		    !is_broadcast_ether_addr(GetAddr1Ptr(pframe)))
+Karolina Drobnik (5):
+  staging: vt6655: Rename `ii` variable
+  staging: vt6655: Rename `byInitCount` variable
+  staging: vt6655: Rename `bySleepCount` variable
+  staging: vt6655: Rename `uChannel` variable
+  staging: vt6655: Rename `byRFType` variable
 
-> Hi Martin,
+ drivers/staging/vt6655/rf.c | 60 ++++++++++++++++++-------------------
+ drivers/staging/vt6655/rf.h |  2 +-
+ 2 files changed, 31 insertions(+), 31 deletions(-)
 
-> I'm not an expert regarding alignment. Is GetAddr1Ptr(pframe) always
-> __aligned(2) as required by is_broadcast_ether_addr?
+-- 
+2.30.2
 
-Hi Michael,
-
-thanks for spotting this. To be honest, I didn't look at this in much
-detail when I wrote the patch.
-
-I suppose the pframe comes from recvbuf2recvframe().
-precvframe = rtw_alloc_recvframe(pfree_recv_queue);
-with
-struct __queue *pfree_recv_queue = &precvpriv->free_recv_queue; 
-
-This should be initialised in _rtw_init_recv_priv().
-rtw_init_queue(&precvpriv->free_recv_queue);
-...
-precvpriv->precv_frame_buf = (u8 *)N_BYTE_ALIGMENT((size_t)(precvpriv->pallocated_frame_buf), RXFRAME_ALIGN_SZ);
-precvframe = (struct recv_frame *)precvpriv->precv_frame_buf;
-and the frames are added to the free_recv_queue.
-RXFRAME_ALIGN_SZ is 1<<8.
-
-So pframe should be 256-byte aligned.
-GetAddr1Ptr adds 4 to the start of pframe.
-
-I guess we're safe here.
-
-> > > @@ -841,7 +840,7 @@ void odm_RSSIMonitorCheck(struct odm_dm_struct *pDM_Odm)
-> > >   		psta = pDM_Odm->pODM_StaInfo[i];
-> > >   		if (IS_STA_VALID(psta) &&
-> > >   		    (psta->state & WIFI_ASOC_STATE) &&
-> > > -		    memcmp(psta->hwaddr, bcast_addr, ETH_ALEN) &&
-> > > +		    !is_broadcast_ether_addr(psta->hwaddr) &&
-
-> Perhaps we should add __aligned(2) to the hwaddr variable in struct
-> sta_info to be safe?
-
-> u8	hwaddr[ETH_ALEN] __aligned(2);
-
-Hmm, some of those arrays in other parts of the kernel have
-__aligned(2), others don't...
-
-Can anyone else give some guidance?
-
-Thanks,
-Martin
