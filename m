@@ -1,41 +1,41 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A601C2C98
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 13:14:00 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id v20so2665307plo.7
-        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 06:14:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4BF2C98
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 13:14:07 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id q2-20020a17090a2e0200b001a0fd4efd49so7661744pjd.1
+        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 06:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IPldoHFvSzZS1OyvZf8W3u7WywXXgBcROErdpGE37cU=;
-        b=ga4C0E/jQD9gb7y60ZW6c3/VWZHIhwnRlWycI7VydFJv4GJavQfm6eOTQBizqO+ggN
-         nDCmYSmI5vYq5BBoeyZAC1MlOTmalVa3vx9lU/0whNAXJexriZXoaHo8MoNZRT0CQ6nM
-         ybbmy9c6gcSBLCml/jULAV2n0Z6QDLgP7X6hjudPsKTllWuZaBM3F4xjme7kRiRh5ipo
-         P9ZlVJVbTpy9qwm3ctfPCZxG44m48K3PtUC1paWqqI8LtRoaw8Tz27j9wlFC1ueioXNo
-         1MOdxgxL4lb/UzEtjmc7Sd8goHzVLhKMMSys9dQENyTgWGk7WIE3qNFzDf38D7//OuTd
-         a2ag==
+        bh=QweeGM4aqSjgNfs+asUhXTu86Il96HRIIEZ/a5PtZnc=;
+        b=NT/km3+Yigt6OoB3H5RMs83c7Xs53jjfJWSfp3YsEmB7d21FlEhj6UDGVL+1qxPZOZ
+         rreraVJGG5bJb8Cag8FMSLF+kiMNBJwOl3M98H0iXngcM0rl4rwjM1UiI3OGlwtb+Mbz
+         LWqCDuUg7RRZ9uiWxilThsJQnIWMuxloomtrJGE8vfDTo51Ee4Fx6PAsRa5h8NboGVLz
+         SUkZG2Km1ARlwGczRbDNYza/u1rFnkUDkafCan06JQTKQY8tziq9LZERoVUBlPRqbIbD
+         XeS6Qedoy2HxmK33ecPec9hEQLjkTPtI2+6X1VyvPSqEbsPyHhQIvRsPY01KFWIq9jAB
+         b3pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IPldoHFvSzZS1OyvZf8W3u7WywXXgBcROErdpGE37cU=;
-        b=aWAfmZRYFJ41uJq7rD6L5jkuBuhWFGx4VOKg60OBk2HjPHQO94bX23CaGyZThpovOX
-         B6vI/Rub61menk7KYHrqelGzjgXMqCpWJCjccDhm9cC7YtLVN1mOhDiA3TK52wcHKob6
-         gfXpVrayXlY6ArQ2V47J89WGikOGWW0WfpdM6eUjnai5mM0KKYWL7rSGbW060LOdtVij
-         OFKLFvcGqUob2CQcTvxqXvRXQrGJz8bTGGPPaFXwO1PUMaZvHVN+yd4zHJ4iK+1KTj5O
-         nwz8XgU1FHNTEGeJawBzbZqOFox/97f5nme4vfO5vQdr3AGZMojhiKzRZl41OfpmlKMy
-         ZTXw==
-X-Gm-Message-State: AOAM532+qW25eknaJMmzxdVFTujWjhOmqXqXn+ba1EmdxGUOws0Sg1LN
-	h0acnBZEjDNoMb1I1TbWiilJJCVTh1VzXw==
-X-Google-Smtp-Source: ABdhPJyf2M1QbBCmp2rTLwBb/IJZckyjJRQHWdWfqvqnfpJzOPveDt7jTZlOT3ts6GKKyJovju3tGA==
-X-Received: by 2002:a17:90b:ecc:: with SMTP id gz12mr14607388pjb.241.1634908440186;
-        Fri, 22 Oct 2021 06:14:00 -0700 (PDT)
+        bh=QweeGM4aqSjgNfs+asUhXTu86Il96HRIIEZ/a5PtZnc=;
+        b=nlFysRMrv362r/H5IERaKJdgHLmPrynSDRE7UEd16C7/66H+HF40Eaq8FKUKLRUPTV
+         36slS2LHVrPIboiW8OELVeMe5JfpQ9ykrnEMjvMrIM3jfG4LS+kfLsssX42oWC1kTtIq
+         N1Z43mmrXj4328INSbfphuOjxUL274XV8+Lo/tAR+LNJykEIeEEMETlkSoPFdNvlsWWv
+         YpmAvrPhuYN6v2uwnFF30y6FAgmJa6E+KAT0ODfiwVk7WjQv0qhLsRLjWyxpwZRzgBY6
+         lGJmBbMlwlQFFompLQAeRferoAdIGrrHJhfIKoCa5JR+P1QBR1cfZKc8fYJt065k2ZjN
+         Ys3A==
+X-Gm-Message-State: AOAM532+lZkGyqPlUoSx7NMSRuMOIoihDSnn9MH6+DK9jhZ3e8lC3viF
+	GdEOC/8s8F17u2OMhu2WptVDw2Xek8jqyQ==
+X-Google-Smtp-Source: ABdhPJx81G2JMJus9PahAl92Dd51u6CIUCMLFeBrW5Z7J1nbTqnAGzQDagcI/XDRnMm/l9qDEdDb3A==
+X-Received: by 2002:a17:902:c410:b0:13e:cfac:45ad with SMTP id k16-20020a170902c41000b0013ecfac45admr11505841plk.68.1634908447432;
+        Fri, 22 Oct 2021 06:14:07 -0700 (PDT)
 Received: from localhost.localdomain ([115.96.219.100])
-        by smtp.googlemail.com with ESMTPSA id mq3sm11932413pjb.33.2021.10.22.06.13.53
+        by smtp.googlemail.com with ESMTPSA id mq3sm11932413pjb.33.2021.10.22.06.14.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Oct 2021 06:13:59 -0700 (PDT)
+        Fri, 22 Oct 2021 06:14:07 -0700 (PDT)
 From: Kushal Kothari <kushalkothari285@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: kushalkothari285@gmail.com,
@@ -52,9 +52,9 @@ Cc: kushalkothari285@gmail.com,
 	linux-kernel@vger.kernel.org,
 	mike.rapoport@gmail.com,
 	kushalkotharitest@googlegroups.com
-Subject: [PATCH v3 2/4] staging: rtl8723bs: core: Remove unnecessary parentheses
-Date: Fri, 22 Oct 2021 18:43:19 +0530
-Message-Id: <1bf516ef08ac0a41502a339ad52176f3da12d948.1634906059.git.kushalkothari285@gmail.com>
+Subject: [PATCH v3 3/4] staging: rtl8723bs: core: Remove unnecessary space after a cast
+Date: Fri, 22 Oct 2021 18:43:20 +0530
+Message-Id: <528ac3f0fa7b164fe3c2a86d2476dad0f23f7181.1634906059.git.kushalkothari285@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634906059.git.kushalkothari285@gmail.com>
 References: <cover.1634906059.git.kushalkothari285@gmail.com>
@@ -66,182 +66,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Issue found with checkpatch.pl.
-CHECK: Remove unnecessary parentheses
-
 Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
 
 Changes in v3: Enclose the version number inside the square bracket.
-Changes in v2: Handled all previous parentheses in this patch
+Changes in v2: No changes
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 42 ++++++++++++------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index acd4e8b1fad5..88f6b7405106 100644
+index 88f6b7405106..fce3256cc275 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -278,10 +278,10 @@ struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue)
+@@ -922,7 +922,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 	memcpy(psetstakey_para->addr, sta->hwaddr, ETH_ALEN);
  
- 	/* spin_lock_bh(&(queue->lock)); */
- 	spin_lock_irqsave(&queue->lock, irqL);
--	if (list_empty(&(queue->queue)))
-+	if (list_empty(&queue->queue))
- 		obj = NULL;
- 	else {
--		obj = container_of(get_next(&(queue->queue)), struct cmd_obj, list);
-+		obj = container_of(get_next(&queue->queue), struct cmd_obj, list);
- 		list_del_init(&obj->list);
- 	}
+ 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
+-		psetstakey_para->algorithm = (unsigned char) psecuritypriv->dot11PrivacyAlgrthm;
++		psetstakey_para->algorithm = (unsigned char)psecuritypriv->dot11PrivacyAlgrthm;
+ 	else
+ 		GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false);
  
-@@ -371,7 +371,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
- void rtw_stop_cmd_thread(struct adapter *adapter)
- {
- 	if (adapter->cmdThread &&
--		atomic_read(&(adapter->cmdpriv.cmdthd_running)) &&
-+		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
- 		adapter->cmdpriv.stop_req == 0) {
- 		adapter->cmdpriv.stop_req = 1;
- 		complete(&adapter->cmdpriv.cmd_queue_comp);
-@@ -387,7 +387,7 @@ int rtw_cmd_thread(void *context)
- 	u8 (*cmd_hdl)(struct adapter *padapter, u8 *pbuf);
- 	void (*pcmd_callback)(struct adapter *dev, struct cmd_obj *pcmd);
- 	struct adapter *padapter = context;
--	struct cmd_priv *pcmdpriv = &(padapter->cmdpriv);
-+	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 	struct drvextra_cmd_parm *extra_parm = NULL;
- 
- 	thread_enter("RTW_CMD_THREAD");
-@@ -395,7 +395,7 @@ int rtw_cmd_thread(void *context)
- 	pcmdbuf = pcmdpriv->cmd_buf;
- 
- 	pcmdpriv->stop_req = 0;
--	atomic_set(&(pcmdpriv->cmdthd_running), true);
-+	atomic_set(&pcmdpriv->cmdthd_running, true);
- 	complete(&pcmdpriv->terminate_cmdthread_comp);
- 
- 	while (1) {
-@@ -471,7 +471,7 @@ int rtw_cmd_thread(void *context)
- 
- post_process:
- 
--		if (mutex_lock_interruptible(&(pcmd->padapter->cmdpriv.sctx_mutex)) == 0) {
-+		if (mutex_lock_interruptible(&pcmd->padapter->cmdpriv.sctx_mutex) == 0) {
- 			if (pcmd->sctx) {
- 				netdev_dbg(padapter->pnetdev,
- 					   FUNC_ADPT_FMT " pcmd->sctx\n",
-@@ -482,7 +482,7 @@ int rtw_cmd_thread(void *context)
- 				else
- 					rtw_sctx_done_err(&pcmd->sctx, RTW_SCTX_DONE_CMD_ERROR);
- 			}
--			mutex_unlock(&(pcmd->padapter->cmdpriv.sctx_mutex));
-+			mutex_unlock(&pcmd->padapter->cmdpriv.sctx_mutex);
+@@ -951,7 +951,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
  		}
  
- 		/* call callback function for post-processed */
-@@ -522,7 +522,7 @@ int rtw_cmd_thread(void *context)
- 	} while (1);
- 
- 	complete(&pcmdpriv->terminate_cmdthread_comp);
--	atomic_set(&(pcmdpriv->cmdthd_running), false);
-+	atomic_set(&pcmdpriv->cmdthd_running, false);
- 
- 	thread_exit();
- }
-@@ -724,7 +724,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 	struct ht_priv 		*phtpriv = &pmlmepriv->htpriv;
- 	enum ndis_802_11_network_infrastructure ndis_network_mode = pnetwork->network.infrastructure_mode;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	u32 tmp_len;
- 	u8 *ptmp = NULL;
- 
-@@ -1243,7 +1243,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 	u8 bBusyTraffic = false, bTxBusyTraffic = false, bRxBusyTraffic = false;
- 	u8 bHigherBusyTraffic = false, bHigherBusyRxTraffic = false, bHigherBusyTxTraffic = false;
- 
--	struct mlme_priv 	*pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
- 
- 	collect_traffic_statistics(padapter);
- 
-@@ -1315,7 +1315,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
- 		struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
- 		int n_assoc_iface = 0;
- 
--		if (check_fwstate(&(dvobj->padapters->mlmepriv), WIFI_ASOC_STATE))
-+		if (check_fwstate(&dvobj->padapters->mlmepriv, WIFI_ASOC_STATE))
- 			n_assoc_iface++;
- 
- 		if (!from_timer && n_assoc_iface == 0)
-@@ -1340,7 +1340,7 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter)
- {
- 	struct mlme_priv *pmlmepriv;
- 
--	pmlmepriv = &(padapter->mlmepriv);
-+	pmlmepriv = &padapter->mlmepriv;
- 
- 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 		expire_timeout_chk(padapter);
-@@ -1374,11 +1374,11 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type);
- void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
- {
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	u8 mstatus;
- 
--	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) ||
--		(check_fwstate(pmlmepriv, WIFI_ADHOC_STATE))) {
-+	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
-+		check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		return;
- 	}
- 
-@@ -1959,7 +1959,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 	struct wlan_network *pwlan = NULL;
- 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct wlan_bssid_ex *pnetwork = (struct wlan_bssid_ex *)pcmd->parmbuf;
--	struct wlan_network *tgt_network = &(pmlmepriv->cur_network);
-+	struct wlan_network *tgt_network = &pmlmepriv->cur_network;
- 
- 	if (!pcmd->parmbuf)
- 		goto exit;
-@@ -1983,20 +1983,20 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 		rtw_indicate_connect(padapter);
+ 		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
+-		ph2c->rsp = (u8 *) psetstakey_rsp;
++		ph2c->rsp = (u8 *)psetstakey_rsp;
+ 		ph2c->rspsz = sizeof(struct set_stakey_rsp);
+ 		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
  	} else {
- 		pwlan = rtw_alloc_network(pmlmepriv);
--		spin_lock_bh(&(pmlmepriv->scanned_queue.lock));
-+		spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 		if (!pwlan) {
- 			pwlan = rtw_get_oldest_wlan_network(&pmlmepriv->scanned_queue);
- 			if (!pwlan) {
--				spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
-+				spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
- 				goto createbss_cmd_fail;
- 			}
- 			pwlan->last_scanned = jiffies;
- 		} else {
--			list_add_tail(&(pwlan->list), &pmlmepriv->scanned_queue.queue);
-+			list_add_tail(&pwlan->list, &pmlmepriv->scanned_queue.queue);
+@@ -1002,7 +1002,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
  		}
  
- 		pnetwork->length = get_wlan_bssid_ex_sz(pnetwork);
--		memcpy(&(pwlan->network), pnetwork, pnetwork->length);
-+		memcpy(&pwlan->network, pnetwork, pnetwork->length);
- 		/* pwlan->fixed = true; */
+ 		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
+-		ph2c->rsp = (u8 *) psetstakey_rsp;
++		ph2c->rsp = (u8 *)psetstakey_rsp;
+ 		ph2c->rspsz = sizeof(struct set_stakey_rsp);
  
- 		/* list_add_tail(&(pwlan->list), &pmlmepriv->scanned_queue.queue); */
-@@ -2009,7 +2009,7 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 		memcpy(psetstakey_para->addr, sta->hwaddr, ETH_ALEN);
+@@ -2027,7 +2027,7 @@ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pc
+ {
  
- 		_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+-	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *) (pcmd->rsp);
++	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *)(pcmd->rsp);
+ 	struct sta_info *psta = rtw_get_stainfo(pstapriv, psetstakey_rsp->addr);
  
--		spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
-+		spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
- 		/*  we will set _FW_LINKED when there is one more sat to join us (rtw_stassoc_event_callback) */
+ 	if (!psta)
+@@ -2042,7 +2042,7 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct set_assocsta_parm *passocsta_parm = (struct set_assocsta_parm *)(pcmd->parmbuf);
+-	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *) (pcmd->rsp);
++	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *)(pcmd->rsp);
+ 	struct sta_info *psta = rtw_get_stainfo(pstapriv, passocsta_parm->addr);
  
- 	}
+ 	if (!psta)
 -- 
 2.25.1
 
