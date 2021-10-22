@@ -1,54 +1,49 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B5072
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 09:37:58 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id g141so2243235wmg.4
-        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 02:37:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D9872
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 09:52:06 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id z14so2900722wrg.6
+        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 02:52:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=d7RhWPpiRn/6eZuKuWb4Qykp0WF6NU3VTuWhWe9FJ/U=;
-        b=aEiwYxvHkMqgB/wRsY+LIGPnCe88NCRnXH9E+51HXkCDsYrk6Tzg9YiFqae1LplibJ
-         YEYKKydIb3hqz0IFnemc/4jAd8mzTfXJ+tNtLA3uS60oF3SVxx2jvWPY5aEgWRgWo4Pu
-         n1XJZVeeQfUs5WMoloq8gvNir2osPFl1hj9oBwVPfSN9/LMSy9RF/gv8wjxesYrw+Jix
-         nvz/KJFvIXtYuOBLBRHECnu4PpU9uwf9iY0K73LjhXfe3E0JDEqd33aNzBB21KwFv8+F
-         va6QqlVcmsfLrE8VXPUc0XGzPp5TD8k914RcMn2Zw60ZF9cLUWgv7HIIozUDiITt3+SB
-         Bcbg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f+V5SiVl2kkOy/yYlwXKZzNOprDKJ5dTKmoAKTfv3aM=;
+        b=bucdP24HYxlT6TWEjXyUPvONVNb0JpxiZu8/loONFSZ92rvIOC1x0BjqvMLT2LPYBX
+         TBRLmgHfnOPZHqyZVHM5j05x58PuBHzojsDhVKzF1zzIS9RbbplR7cUMkhepW1fqaGRZ
+         q2IjGoL2zoXHvm4nu3zXkAedks01nR5nIRvXhMKEL4uXM9PJ9N7S9YuvSbRS+Q55LoJ1
+         j/EloDcX2+iQNZzotF3dLzVEnw/P9Xan03UEtIGrPDo336jNCXF/cVRuYhTqv7Kc2Ul7
+         I/8AvgC37NOnfmp4E0w84tnuVzH9ADTN4Htyk4uWcsAqfb003qmDp0vUqnWVmRTCydVx
+         GwJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=d7RhWPpiRn/6eZuKuWb4Qykp0WF6NU3VTuWhWe9FJ/U=;
-        b=uzasyom7ase50mshC8/6E2MTbBTBzB1l5WNy965E0XmzSOK9a5hKPUK8ub18oI5G1h
-         SVffN6Q8TUQOWnoysHYyO4BcMOvjk/d+NSK2/anOyy5p70E8wr81OZB/qfQnZVDSkRXW
-         CKGvqJAhYTz3CM8kbVALzs5LO9kl0GE/F5dj+JUGff3Q7CMcdbK76HRgiCPsc4HOB8fD
-         JuEYVCOe0WFxXcHfyGwL/S9f1LyGAA4ZpszO1ARrxmJUG6s7GDpNdemaT/KPLgOnRuyl
-         +mLrsTaU2Qoc1cSrcSC/ryljah9xW9oPbJ/1626zi/NfHqGj8FQ2ku4cXda9C0lydl8l
-         lJeQ==
-X-Gm-Message-State: AOAM531QNM+nCwnbFKu40Wg7HUrq0MelNFUx564M4tDEjIe52WIC+dam
-	tpUtwGJsS4c9PmT71vbBP7c=
-X-Google-Smtp-Source: ABdhPJz9G2VqTbk75Af5yZurK7wFd4k3dntxX793Ol0qZVDbUCxikNYu9AL0NIWBey6vAZ8CCAJZBQ==
-X-Received: by 2002:a05:600c:1990:: with SMTP id t16mr13231229wmq.124.1634895476586;
-        Fri, 22 Oct 2021 02:37:56 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id r15sm1643602wru.9.2021.10.22.02.37.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Oct 2021 02:37:56 -0700 (PDT)
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: outreachy-kernel@googlegroups.com
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f+V5SiVl2kkOy/yYlwXKZzNOprDKJ5dTKmoAKTfv3aM=;
+        b=IKCuRde9z9+KNAEtR5NsR3hF3HzqMvzY0tuGZpmEwyXTk5Dcb74fVbP3sIN+/cmFmO
+         pQHRH83ZSdJ9KESuh2XITb5A9jyf0BZmtu5qKcFQpZhjOUHw/RgX+75+7Bbogwj6SrSv
+         IUL62vmT+h7XKVm0fGKOJe6PDJxthDkqJGK/mqFNmginQi/LQJX83vrAutpTtWWDPxve
+         +BcyJAbShIgRBeQVeO2DtnIaQgvnkQ6YpXZpsnmTVpiRVUw+n6avLStXqFU7PPx46qTV
+         59DiFG6VvYnOYcTqrW1r7xF9uuqWz524ChAn/7Vaj5i8heiyNDEbvtvXFzfD3u1KJsUY
+         1lZw==
+X-Gm-Message-State: AOAM532Kis0O0IpEkmDTJt7ROxqsWZRuxWXbghzdeu+1eGdi9/AHdEs4
+	URAw8iFrgK6TGkrurNKT/KLH2NJIms8=
+X-Google-Smtp-Source: ABdhPJyZwEbzW/If1+5CApn4tyveHXYMBuh4Z6UsMNKJKSztWOBa1HTT6VG8T6x/6yttPUTnlpAcgg==
+X-Received: by 2002:a05:6000:1689:: with SMTP id y9mr14277946wrd.52.1634896325011;
+        Fri, 22 Oct 2021 02:52:05 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id v3sm7738140wrg.23.2021.10.22.02.52.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 22 Oct 2021 02:52:04 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
-	forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: [PATCH 5/5] staging: vt6655: Rename `byRFType` variable
-Date: Fri, 22 Oct 2021 10:37:18 +0100
-Message-Id: <f0b6818d2b15982081bebaf14f830f4646f61fe2.1634826774.git.karolinadrobnik@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1634826774.git.karolinadrobnik@gmail.com>
-References: <cover.1634826774.git.karolinadrobnik@gmail.com>
+	neil@brown.name
+Subject: [PATCH] staging: mt7621-dts: complete 'cpus' node
+Date: Fri, 22 Oct 2021 11:52:03 +0200
+Message-Id: <20211022095203.9343-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,53 +52,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop Hungarian notation in `byRFType` variable in
-`RFvWriteWakeProgSyn` function. Change it to use snake case.
+There are some properties missing in 'cpus' node for this SoC:
+- '#address-cells'
+- '#size-cells'
+- 'device_type' and 'reg' in child cpu nodes.
 
-Fix issue detected by checkpatch.pl:
-  CHECK: Avoid CamelCase: <byRFType>
+Hence, add them all to the device tree file.
 
-Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
- drivers/staging/vt6655/rf.c | 4 ++--
- drivers/staging/vt6655/rf.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/mt7621-dts/mt7621.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-index 0dd91b0433f6..3f57834901a6 100644
---- a/drivers/staging/vt6655/rf.c
-+++ b/drivers/staging/vt6655/rf.c
-@@ -676,7 +676,7 @@ bool RFbSelectChannel(struct vnt_private *priv, unsigned char byRFType,
-  * Return Value: None.
-  *
-  */
--bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
-+bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
- 			 u16 channel)
- {
- 	void __iomem *iobase = priv->port_offset;
-@@ -685,7 +685,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
- 	unsigned char sleep_count = 0;
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
+index 82b64d4aab2e..f5c0df78fa6b 100644
+--- a/drivers/staging/mt7621-dts/mt7621.dtsi
++++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+@@ -8,12 +8,19 @@ / {
+ 	compatible = "mediatek,mt7621-soc";
  
- 	VNSvOutPortW(iobase + MAC_REG_MISCFFNDEX, 0);
--	switch (byRFType) {
-+	switch (rf_type) {
- 	case RF_AIROHA:
- 	case RF_AL2230S:
+ 	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
+ 		cpu@0 {
++			device_type = "cpu";
+ 			compatible = "mips,mips1004Kc";
++			reg = <0>;
+ 		};
  
-diff --git a/drivers/staging/vt6655/rf.h b/drivers/staging/vt6655/rf.h
-index d3f2b8dd6afc..0939937d47a8 100644
---- a/drivers/staging/vt6655/rf.h
-+++ b/drivers/staging/vt6655/rf.h
-@@ -60,7 +60,7 @@
- bool IFRFbWriteEmbedded(struct vnt_private *priv, unsigned long dwData);
- bool RFbSelectChannel(struct vnt_private *priv, unsigned char byRFType, u16 byChannel);
- bool RFbInit(struct vnt_private *priv);
--bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType, u16 channel);
-+bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type, u16 channel);
- bool RFbSetPower(struct vnt_private *priv, unsigned int rate, u16 uCH);
- bool RFbRawSetPower(struct vnt_private *priv, unsigned char byPwr,
- 		    unsigned int rate);
+ 		cpu@1 {
++			device_type = "cpu";
+ 			compatible = "mips,mips1004Kc";
++			reg = <1>;
+ 		};
+ 	};
+ 
 -- 
-2.30.2
+2.33.0
 
