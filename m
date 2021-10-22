@@ -1,32 +1,31 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843D72C81
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 06:03:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D9C0E610CF;
-	Fri, 22 Oct 2021 06:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634882620;
-	bh=JzgnnT1vFNgovNqLd0ix+p3ErAjwejA4YDXOJPW46DY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gP4eMK/D/5vCVwIvgd2zAttaYuMFnHtCLmZpd1H506OMwbnAOo/VXsYOw34oPxeSb
-	 Wk4A28bCoQy/XAVs2Xhb1xoB9DcJj2t68x8gK/qAQRpS5Nh+jMzzKCre3XevUKSdRN
-	 aTAKYkAI9E4YWXy6V9UTCnHQ+J0UUl3KOXJa+tgk=
-Date: Fri, 22 Oct 2021 08:03:35 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kushal Kothari <kushalkothari285@gmail.com>
-Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com,
-	fmdefrancesco@gmail.com, marcocesati@gmail.com,
-	straube.linux@gmail.com, philippesdixon@gmail.com,
-	manuelpalenzuelamerino@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, mike.rapoport@gmail.com,
-	kushalkotharitest@googlegroups.com,
-	outreachy-kernel@googlegroups.com
-Subject: Re: [PATCH 4/4] staging: rtl8723bs: core: Remove unnecessary blank
- lines
-Message-ID: <YXJUNy0VXEwxeBe+@kroah.com>
-References: <cover.1634845504.git.kushalkothari285@gmail.com>
- <f6d2ba1d544c70519bad5c04f012cba0214b379a.1634845504.git.kushalkothari285@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E6F2C86
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 08:35:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 75708ED1;
+	Fri, 22 Oct 2021 01:35:02 -0700 (PDT)
+Received: from lpieralisi (e121166-lin.cambridge.arm.com [10.1.196.255])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB6EB3F70D;
+	Fri, 22 Oct 2021 01:35:00 -0700 (PDT)
+Date: Fri, 22 Oct 2021 09:34:55 +0100
+From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>, robh+dt@kernel.org
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+	linux-pci <linux-pci@vger.kernel.org>,
+	"open list:MIPS" <linux-mips@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	John Crispin <john@phrozen.org>, NeilBrown <neil@brown.name>,
+	Greg KH <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH v3 0/3] PCI: mt7621: Add MediaTek MT7621 PCIe host
+ controller driver
+Message-ID: <20211022083455.GA20345@lpieralisi>
+References: <CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com>
+ <20211021181145.GA2708516@bhelgaas>
+ <CAMhs-H8pTmbG0idbPWjnW4faFj0F4TKwSSK6wzwepbqWSEtx4w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,49 +34,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f6d2ba1d544c70519bad5c04f012cba0214b379a.1634845504.git.kushalkothari285@gmail.com>
+In-Reply-To: <CAMhs-H8pTmbG0idbPWjnW4faFj0F4TKwSSK6wzwepbqWSEtx4w@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Fri, Oct 22, 2021 at 01:27:53AM +0530, Kushal Kothari wrote:
-> Remove useless blank lines
+On Thu, Oct 21, 2021 at 09:23:35PM +0200, Sergio Paracuellos wrote:
+> On Thu, Oct 21, 2021 at 8:11 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> >
+> > On Thu, Oct 21, 2021 at 07:27:21PM +0200, Sergio Paracuellos wrote:
+> > > On Thu, Oct 21, 2021 at 5:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > Since this is a PCIe (not conventional PCI) controller, I vote for
+> > > > renaming these from:
+> > > >
+> > > >   PCI_MT7621
+> > > >   Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
+> > > >   drivers/pci/controller/pci-mt7621.c
+> > > >
+> > > > to:
+> > > >
+> > > >   PCIE_MT7621
+> > > >   Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+> > > >   drivers/pci/controller/pcie-mt7621.c
+> > > >
+> > > > We have a mix of these, with many of the early PCIe drivers being
+> > > > named "pci", but I think that was my mistake and there's no reason to
+> > > > continue it.
+> > >
+> > > I see.
+> > >
+> > > >
+> > > > I can do this locally unless somebody objects.
+> > >
+> > > I have no problem at all. Only one question. Do you mean to change
+> > > compatible string also, or only the name of the file? Let me know if I
+> > > have to do anything.
+> >
+> > I didn't change the compatible string, to avoid a DT incompatibility.
+> > But I *did* change the Kconfig symbol to PCIE_MT7621, which could
+> > require changes to out-of-tree .configs.  I'm open to suggestions
+> > either way for both things.
 > 
-> Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+> IMHO, I do think we should not worry about out-of-tree stuff at all.
+
+For Kconfig I tend to agree. For DT I see some "bindings" in the staging
+tree are being deleted and published as official DT bindings with this
+patchset but I believe we still have to keep the compatible string
+backward compatibility regardless because there may be firmware out
+there using it.
+
+Rob, what's the standard policy that should be used in this case ?
+
+Thanks,
+Lorenzo
+
+> If the correct way to define the Kconfig symbol or the compatible
+> string is to change them, just do that. MT7621 SoC is extensively used
+> by openWRT community. As far as I have seen until now, the way of
+> doing things there is to take the latest long term kernel (now they
+> are using 5.4 as stable and 5.10 as testing kernel), apply a bunch of
+> patches they have and do a complete build of both kernel, device tree
+> and rootfs. So I guess it is not a big problem if we also change
+> compatible string since when an update is performed for a device all
+> of the stuff is just replaced. Maybe I am wrong and John has a
+> different opinion... John, any comments on this?
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index fce3256cc275..690e4627663c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -316,8 +316,6 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
->  	return _SUCCESS;
->  }
->  
-> -
-> -
->  int rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
->  {
->  	int res = _FAIL;
-> @@ -367,7 +365,6 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
->  	kfree(pcmd);
->  }
->  
-> -
->  void rtw_stop_cmd_thread(struct adapter *adapter)
->  {
->  	if (adapter->cmdThread &&
-> @@ -735,8 +732,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
->  	}
->  	/* for ies is fix buf size */
->  	t_len = sizeof(struct wlan_bssid_ex);
-> -
-> -
-> +	
-
-Please do not add new whitespace errors :(
-
-Always run your patches through checkpatch.pl to ensure this.
-
-thanks,
-
-greg k-h
+> Best regards,
+>     Sergio Paracuellos
