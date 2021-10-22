@@ -1,44 +1,44 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C0D2C8B
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 02:46:09 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id t184so2415985pfd.0
-        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:46:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460922C8B
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 02:48:52 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id v8so2341189pfu.11
+        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=y8CVbuJdv6pcQlvqtBOqCo8DJXJOq4fCIL+NtdfhBGM=;
-        b=cftdgf3yXhUa5cMUgwewdt14ugyS+jkcnj2eELRaNzj6L8DX2rXdE65uRu/ZEWExJS
-         aropop8bBJ0KYZyaAu0zj+4CeQlTp7FHbIfwqeit+uM6GKxwfasRcx4zhPuyRS+mwOww
-         BmrDYvbhwFM5Y7eTF7QW72dFy7/cIjwnP6eoxJeXBIYA4Vm91a7xL8ZLeupdfw3VJK1F
-         79ysaUnW8BOvRj5il1bkkD8fextqBA/okoI19VmYTcRGEZKVvZxGWXoiec5GfIwLCT9f
-         +XcF1BhJyNnd1s4tIyy38XYNa1VzJ/EJ1zOgNMMGkZ1lD9jQiPQK90aMI4VLkUEslt5M
-         n/1Q==
+        bh=oh7BegofVIUn5uB2hKbuYfRyYWicxbDsuoabRMJIstA=;
+        b=CL+cAVkpVDXC2pkIpAb7W6WCAzaAtqc02ZKsFFqoAHVj/pBU7pzaKPFo+NgW9zO/78
+         QKWfTl4n+wt1VZDBwgvO70q5PwZyGagAjnS/JhGg6BH/tVIgTiNoYfVMGBvXYzKBs6y7
+         AC5rjRlJjuzjM6deHBARUs5yMaM6gEXmyEpXHlDXnoidg+hlN1HQV7DdofBzlzr1oJwQ
+         l+TiYBYNJF7kg2D4WPv7v0gr0vvWNTFRtKWGMs2ViKutkMcw9acg7Z1VPcQM3kpz70q3
+         5AVNxd88srfNwINJe4JgZHMrgxz3vG7N0WsiWwE9HDGWVxEUkrgJjk7p0NnZUKNs8XDB
+         rKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=y8CVbuJdv6pcQlvqtBOqCo8DJXJOq4fCIL+NtdfhBGM=;
-        b=n1k5wmKb21JR0QvZi9kwu1utS9NlNCrtJM0eLZWAmoU0+2SrB0HiWjyObRu7scwz4f
-         TgA9VlS7Yc1Wd1VKGpYoSDpxA2LzbDfmQw0pkoKw+91khFIMk64UkW8MYTIRxPVzHGQq
-         znhKVksLBaB3fqEQHWAXjZEtgmLJNJExXRKBb2QJpCsbF551vffw+2YIHCWV9vhjJqB3
-         VvT8ECXOySAbSVK8J9Mhk3KkKCD7ndYBYWu39lV3iI5Z1YJrFhoCh64Huegw2BhCfdu8
-         Mf8RNutHT6DBI3WUmhn5JQmjvznWBIFjvIwy48SszzcOdtG/XmtHNAE+JV/8rMph1uuX
-         CF6g==
-X-Gm-Message-State: AOAM533IEIvVvOZ+jj6dVntwhEd+mWJ9oSntwlzC+r65w5PmoesJDlbr
-	8zwsGtm2n5VgJ1Yj0Oqfx/4BHDBESYM=
-X-Google-Smtp-Source: ABdhPJx9EcbcCW71a8YRsTc0x4Qwz1p6/OkqR6GKBaDKwAiEYKD21xM2xRzjGcxZYWBd1RovCW1G5w==
-X-Received: by 2002:a63:ef58:: with SMTP id c24mr7225301pgk.299.1634870769622;
-        Thu, 21 Oct 2021 19:46:09 -0700 (PDT)
+        bh=oh7BegofVIUn5uB2hKbuYfRyYWicxbDsuoabRMJIstA=;
+        b=RU+wedTEYb5UP9mSXgLy6B2g0r8P7Oq2W9Ix+CL9IeqMURL2eCnpQ6UvQKIXBTEEHv
+         V8iCSD2ndlAq168mudlFuDCObA3zhjMahok35XiIPKI5vpocngdyt22ZrIGMIYCdxAFq
+         IMqyhA6HuM9/Ak8i+ufabjGdSREOOZW1dRA7ijDUM0QSg8wFkprvMgEtv9ohqGE7TZsC
+         7TsiMT6OU4oR+MF02+6qpOmPuiyOo7q6uXELnpNLf7/yiZ0XIEITW6v2Cyc+mw1p9UWc
+         vFihyPZLO/gk6ouhs7+0sKQ7boqZ31fprcVE4YPGY9KtfujfNmzVXTt7ZrnuBnKbGPep
+         gOdA==
+X-Gm-Message-State: AOAM5312PpInAbTLM17vo6GxPGOhQ1PZ/pk9KVdnwiYQZ18HUCjga21v
+	a6Tea83XuWYrkbRhh+lT4UY=
+X-Google-Smtp-Source: ABdhPJzAGcu0FU7tOKWY7i/7VAwzZhhpWSqUYsNKG9qb3qnudsixR/km8pwdnzRGYAYqqHt0g1xP9A==
+X-Received: by 2002:aa7:9212:0:b0:47b:aefd:2cc4 with SMTP id 18-20020aa79212000000b0047baefd2cc4mr41640pfo.47.1634870931730;
+        Thu, 21 Oct 2021 19:48:51 -0700 (PDT)
 Received: from ?IPV6:2405:201:d007:e827:d9ab:a6dc:54b8:e75d? ([2405:201:d007:e827:d9ab:a6dc:54b8:e75d])
-        by smtp.gmail.com with ESMTPSA id x20sm7138393pjp.48.2021.10.21.19.46.00
+        by smtp.gmail.com with ESMTPSA id t3sm6494286pgo.51.2021.10.21.19.48.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Oct 2021 19:46:09 -0700 (PDT)
-Message-ID: <9f205c0b-2684-eab3-caa3-8222060723ad@gmail.com>
-Date: Fri, 22 Oct 2021 08:15:54 +0530
+        Thu, 21 Oct 2021 19:48:51 -0700 (PDT)
+Message-ID: <4cfb2624-4e64-2d7f-a1e7-5032a3078ec9@gmail.com>
+Date: Fri, 22 Oct 2021 08:18:43 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,8 +47,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [Outreachy kernel] [PATCH 0/4] staging: rtl8723bs: core: Cleanup
- patchset for style issues in rtw_cmd.c
+Subject: Re: [Outreachy kernel] [PATCH 3/4] staging: rtl8723bs: core: Remove
+ unnecessary space after a cast
 Content-Language: en-US
 To: Kushal Kothari <kushalkothari285@gmail.com>, gregkh@linuxfoundation.org
 Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, fmdefrancesco@gmail.com,
@@ -57,27 +57,75 @@ Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, fmdefrancesco@gmail.com,
  linux-kernel@vger.kernel.org, mike.rapoport@gmail.com,
  kushalkotharitest@googlegroups.com, outreachy-kernel@googlegroups.com
 References: <cover.1634845504.git.kushalkothari285@gmail.com>
+ <f350e30b1e09332dff896b6588d962aab9800a52.1634845504.git.kushalkothari285@gmail.com>
 From: Praveen Kumar <kpraveen.lkml@gmail.com>
-In-Reply-To: <cover.1634845504.git.kushalkothari285@gmail.com>
+In-Reply-To: <f350e30b1e09332dff896b6588d962aab9800a52.1634845504.git.kushalkothari285@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 22-10-2021 01:27, Kushal Kothari wrote:
-> These patches make changes to clean up style issues identified
-> by checkpatch. 
-> 
-> Kushal Kothari (4):
->   staging: rtl8723bs: core: Remove true and false comparison
->   staging: rtl8723bs: core: Remove unnecessary parentheses
->   staging: rtl8723bs: core: Remove unnecessary space after a cast
->   staging: rtl8723bs: core: Remove unnecessary blank lines
-> 
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 75 +++++++++++-------------
->  1 file changed, 35 insertions(+), 40 deletions(-)
-> 
+> Issue found with checkpatch.pl.
+> Space after cast is not needes
 
-Please update the history against these patches and whats new in this series.
+*needed
+
+> 
+> Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index 88f6b7405106..fce3256cc275 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -922,7 +922,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+>  	memcpy(psetstakey_para->addr, sta->hwaddr, ETH_ALEN);
+>  
+>  	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
+> -		psetstakey_para->algorithm = (unsigned char) psecuritypriv->dot11PrivacyAlgrthm;
+> +		psetstakey_para->algorithm = (unsigned char)psecuritypriv->dot11PrivacyAlgrthm;
+>  	else
+>  		GET_ENCRY_ALGO(psecuritypriv, sta, psetstakey_para->algorithm, false);
+>  
+> @@ -951,7 +951,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+>  		}
+>  
+>  		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
+> -		ph2c->rsp = (u8 *) psetstakey_rsp;
+> +		ph2c->rsp = (u8 *)psetstakey_rsp;
+>  		ph2c->rspsz = sizeof(struct set_stakey_rsp);
+>  		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+>  	} else {
+> @@ -1002,7 +1002,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
+>  		}
+>  
+>  		init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, _SetStaKey_CMD_);
+> -		ph2c->rsp = (u8 *) psetstakey_rsp;
+> +		ph2c->rsp = (u8 *)psetstakey_rsp;
+>  		ph2c->rspsz = sizeof(struct set_stakey_rsp);
+>  
+>  		memcpy(psetstakey_para->addr, sta->hwaddr, ETH_ALEN);
+> @@ -2027,7 +2027,7 @@ void rtw_setstaKey_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pc
+>  {
+>  
+>  	struct sta_priv *pstapriv = &padapter->stapriv;
+> -	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *) (pcmd->rsp);
+> +	struct set_stakey_rsp *psetstakey_rsp = (struct set_stakey_rsp *)(pcmd->rsp);
+>  	struct sta_info *psta = rtw_get_stainfo(pstapriv, psetstakey_rsp->addr);
+>  
+>  	if (!psta)
+> @@ -2042,7 +2042,7 @@ void rtw_setassocsta_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *
+>  	struct sta_priv *pstapriv = &padapter->stapriv;
+>  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>  	struct set_assocsta_parm *passocsta_parm = (struct set_assocsta_parm *)(pcmd->parmbuf);
+> -	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *) (pcmd->rsp);
+> +	struct set_assocsta_rsp *passocsta_rsp = (struct set_assocsta_rsp *)(pcmd->rsp);
+>  	struct sta_info *psta = rtw_get_stainfo(pstapriv, passocsta_parm->addr);
+>  
+>  	if (!psta)
+> 
 
 Regards,
 
-~Praveen
+~Praveen.
