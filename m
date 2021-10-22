@@ -1,68 +1,83 @@
-Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE4A2C8B
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 03:02:48 +0000 (UTC)
-Received: from ([60.208.111.195])
-        by ssh248.corpemail.net ((LNX1044)) with ASMTP (SSL) id PCA00130;
-        Fri, 22 Oct 2021 10:56:30 +0800
-Received: from localhost.localdomain (10.200.104.119) by
- jtjnmail201604.home.langchao.com (10.100.2.4) with Microsoft SMTP Server id
- 15.1.2308.14; Fri, 22 Oct 2021 10:55:57 +0800
-From: Kai Song <songkai01@inspur.com>
-To: <gregkh@linuxfoundation.org>
-CC: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
-	<straube.linux@gmail.com>, <linux-staging@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Kai Song <songkai01@inspur.com>
-Subject: [PATCH] staging: r8188eu: Use memdup_user instead of kmalloc/copy_from_user
-Date: Fri, 22 Oct 2021 10:55:55 +0800
-Message-ID: <20211022025555.6612-1-songkai01@inspur.com>
-X-Mailer: git-send-email 2.27.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843D72C81
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 06:03:40 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D9C0E610CF;
+	Fri, 22 Oct 2021 06:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1634882620;
+	bh=JzgnnT1vFNgovNqLd0ix+p3ErAjwejA4YDXOJPW46DY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gP4eMK/D/5vCVwIvgd2zAttaYuMFnHtCLmZpd1H506OMwbnAOo/VXsYOw34oPxeSb
+	 Wk4A28bCoQy/XAVs2Xhb1xoB9DcJj2t68x8gK/qAQRpS5Nh+jMzzKCre3XevUKSdRN
+	 aTAKYkAI9E4YWXy6V9UTCnHQ+J0UUl3KOXJa+tgk=
+Date: Fri, 22 Oct 2021 08:03:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kushal Kothari <kushalkothari285@gmail.com>
+Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com,
+	fmdefrancesco@gmail.com, marcocesati@gmail.com,
+	straube.linux@gmail.com, philippesdixon@gmail.com,
+	manuelpalenzuelamerino@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, mike.rapoport@gmail.com,
+	kushalkotharitest@googlegroups.com,
+	outreachy-kernel@googlegroups.com
+Subject: Re: [PATCH 4/4] staging: rtl8723bs: core: Remove unnecessary blank
+ lines
+Message-ID: <YXJUNy0VXEwxeBe+@kroah.com>
+References: <cover.1634845504.git.kushalkothari285@gmail.com>
+ <f6d2ba1d544c70519bad5c04f012cba0214b379a.1634845504.git.kushalkothari285@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.200.104.119]
-tUid: 20211022105630129e2bae6274888de4809c42d710a487
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f6d2ba1d544c70519bad5c04f012cba0214b379a.1634845504.git.kushalkothari285@gmail.com>
 
-Use memdup_user helper instead of open-coding to simplify
-the code.
+On Fri, Oct 22, 2021 at 01:27:53AM +0530, Kushal Kothari wrote:
+> Remove useless blank lines
+> 
+> Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index fce3256cc275..690e4627663c 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -316,8 +316,6 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>  	return _SUCCESS;
+>  }
+>  
+> -
+> -
+>  int rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>  {
+>  	int res = _FAIL;
+> @@ -367,7 +365,6 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+>  	kfree(pcmd);
+>  }
+>  
+> -
+>  void rtw_stop_cmd_thread(struct adapter *adapter)
+>  {
+>  	if (adapter->cmdThread &&
+> @@ -735,8 +732,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+>  	}
+>  	/* for ies is fix buf size */
+>  	t_len = sizeof(struct wlan_bssid_ex);
+> -
+> -
+> +	
 
-Signed-off-by: Kai Song <songkai01@inspur.com>
----
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Please do not add new whitespace errors :(
 
-diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 0201f6fbeb25..96a08cc5a1ed 100644
---- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -1984,14 +1984,10 @@ static int rtw_wx_read32(struct net_device *dev,
- 	padapter = (struct adapter *)rtw_netdev_priv(dev);
- 	p = &wrqu->data;
- 	len = p->length;
--	ptmp = kmalloc(len, GFP_KERNEL);
--	if (!ptmp)
--		return -ENOMEM;
- 
--	if (copy_from_user(ptmp, p->pointer, len)) {
--		kfree(ptmp);
--		return -EFAULT;
--	}
-+	ptmp = memdup_user(p->pointer, len);
-+	if (IS_ERR(ptmp))
-+		return PTR_ERR(ptmp);
- 
- 	bytes = 0;
- 	addr = 0;
--- 
-2.27.0
+Always run your patches through checkpatch.pl to ensure this.
 
+thanks,
+
+greg k-h
