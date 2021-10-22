@@ -1,61 +1,30 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2304029CA
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 15:28:16 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 0BF8F581028;
-	Fri, 22 Oct 2021 11:28:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 22 Oct 2021 11:28:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	bryanbrattlof.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=fm1; bh=jm5
-	35Za6sh/ySynJN8Vk1XMpgk0ttaD5Sc5KIyeAwPQ=; b=a1omWhWo1sT+IDYU/jO
-	GIv46zn8YU0s8oXLnjvMUip+LvFzqdW33UxAatwl+dYIu8lb7MinkPzLC6Khpzu1
-	0IpABxSavnxgH1H3gDTdmUS9FZzTTlZx6TBgP7MvmnqfHC04vb1HQ6PUw8GMkqFE
-	cq6kVIDgOZaNnd0htE+6djFeOyr8VrIOs8tqp7q7aPm1j/nmyn5NbbV+25YNmnIh
-	VL0gzT3ZnGJXMOzq5iTE6NHmUEfZaidPCYR4+rHb74PJaCZVEBhc2OSL9HVHQ4ra
-	Cx1nHJpEsjavaC6ucASUUx7ZM2sJnZH4FuN0zZFGynVbxeT2h5BGg6jNpTqjycoJ
-	fHg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jm535Z
-	a6sh/ySynJN8Vk1XMpgk0ttaD5Sc5KIyeAwPQ=; b=ByjeSmQaP2WWIcTbfk0Xm2
-	ELXFLDT78IgM0kXEwNJ8KNoD6m8D7nKHpO+cUChwVVh781ZwuYjSrGgkgEyuzsJz
-	XRBJ0HUP3lOobx6cTMB7ZrWa6Mobe0/8ZKsMoclkPJvawB+XGNM/ASALZFuHiWFG
-	JZa2HLTtDVOEwyU+cFKHvYOnPqlatrzy0Du4HWZBjPiqgl6jnUwZJ8f5WxedQWob
-	+poguGtVbORsFdUCdklGE7FjaL9Ek90S+T3KhxVz9r3y3pdLsIgUGtJOIO0HOd03
-	8nCkTOYzHLpdIGKYKGRp9x8eIPbhzouoIfUXLEJli3BIPf4r3TDsysoUkSyjYsuQ
-	==
-X-ME-Sender: <xms:jthyYUUwPxzGRJX81yXjAr9CfM_MnQq4pZVcTWroL-qHMGX8TZ8WQw>
-    <xme:jthyYYmn12kw47e9Y_mNTbjYN5GZeuKgKtoL4a2ku7b7yPWRMuFPZVZIgkdewIKeD
-    7WX_WWB8t-ypu9dCSk>
-X-ME-Received: <xmr:jthyYYbDAwntvrH0hREK817orT-S6Vas21-YsLGvTNefAxGzEKcC1QYRMQBoOKiOpwFbejI5ltEt2xG8Pgns>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvkedgjedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeeurhihrghn
-    uceurhgrthhtlhhofhcuoehhvghllhhosegsrhihrghnsghrrghtthhlohhfrdgtohhmqe
-    enucggtffrrghtthgvrhhnpeevtdelgfefjeduvddvgfefhfeggfdvheejhfdvhfegudev
-    gfeitddtjeffkeejheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehhvghllhhosegsrhihrghnsghrrghtthhlohhfrdgtohhm
-X-ME-Proxy: <xmx:jthyYTUQsPD6uzA0loqM2LzbjhfBe-fSrM14Pss67JwAFiCeSNtKGg>
-    <xmx:jthyYelIpswmJ0ezXSJpLhIWLbXmNFlWcTxYRoCeYAXos_3pXWLa0g>
-    <xmx:jthyYYf9AE5t7baleMY6akL_hZagsLmF-2heWaKzTC2UYEBZe00RQQ>
-    <xmx:jthyYUmpqvIuccOr1x_ctufQNX53llFjsU7PLRk2oBcYs2Hq_GDRk8H4HNo>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 Oct 2021 11:28:13 -0400 (EDT)
-Received: (nullmailer pid 3724631 invoked by uid 1000);
-	Fri, 22 Oct 2021 15:28:12 -0000
-Date: Fri, 22 Oct 2021 11:28:12 -0400
-From: Bryan Brattlof <hello@bryanbrattlof.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C38B2C8B
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 15:40:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10144"; a="209427291"
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; 
+   d="scan'208";a="209427291"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2021 08:40:33 -0700
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; 
+   d="scan'208";a="663226109"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2021 08:40:33 -0700
+Date: Fri, 22 Oct 2021 08:48:21 -0700
+From: Alison Schofield <alison.schofield@intel.com>
 To: Kushal Kothari <kushalkothari285@gmail.com>
-Cc: gregkh@linuxfoundation.org, kush19992810@gmail.com, outreachy-kernel@googlegroups.com, fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, fmdefrancesco@gmail.com, marcocesati@gmail.com, straube.linux@gmail.com, philippesdixon@gmail.com, manuelpalenzuelamerino@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, mike.rapoport@gmail.com, kushalkotharitest@googlegroups.com
-Subject: Re: [PATCH v3 1/4] staging: rtl8723bs: core: Remove true and false
- comparison
-Message-ID: <20211022152812.yv4nicwpzmwggn25@h510>
+Cc: gregkh@linuxfoundation.org, kush19992810@gmail.com,
+	outreachy-kernel@googlegroups.com, fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com, fmdefrancesco@gmail.com,
+	marcocesati@gmail.com, straube.linux@gmail.com,
+	philippesdixon@gmail.com, manuelpalenzuelamerino@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mike.rapoport@gmail.com, kushalkotharitest@googlegroups.com
+Subject: Re: [Outreachy kernel] [PATCH v3 1/4] staging: rtl8723bs: core:
+ Remove true and false comparison
+Message-ID: <20211022154821.GA464812@alison-desk>
 References: <cover.1634906059.git.kushalkothari285@gmail.com>
  <7d5df4b8aacd961d0de367cbd73a8b75272652a8.1634906059.git.kushalkothari285@gmail.com>
 Precedence: bulk
@@ -64,13 +33,11 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <7d5df4b8aacd961d0de367cbd73a8b75272652a8.1634906059.git.kushalkothari285@gmail.com>
 
-Hi Kushal,
-
-On this day, October 22, 2021, thus sayeth Kushal Kothari:
+On Fri, Oct 22, 2021 at 06:43:18PM +0530, Kushal Kothari wrote:
 > Remove comparison to true and false in if statement.
 > Issue found with checkpatch.pl.
 > CHECK: Using comparison to true is error prone
@@ -80,13 +47,17 @@ On this day, October 22, 2021, thus sayeth Kushal Kothari:
 > 
 > Changes in v3: Enclose the version number inside the square bracket.
 > Changes in v2: Unnecessary parantheses handled in *v2 staging: rtl8723bs: core: Remove unnecessary parentheses*
-
-You may want to move these version notes below the cutoff so they won't 
-be included in the body of your commit message. 
-
 > ---
 
-[here]
+Hi Kushal,
+
+See "Versioning one patch revision" and "Versioning patchsets" in
+https://kernelnewbies.org/Outreachyfirstpatch
+
+Either remove the changelogs in Patch 1-4 or put them below the --- in each
+patch. 
+
+Alison
 
 >  drivers/staging/rtl8723bs/core/rtw_cmd.c | 22 +++++++++++-----------
 >  1 file changed, 11 insertions(+), 11 deletions(-)
@@ -96,5 +67,101 @@ be included in the body of your commit message.
 > --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 > +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
 > @@ -371,7 +371,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
-
-~Bryan
+>  void rtw_stop_cmd_thread(struct adapter *adapter)
+>  {
+>  	if (adapter->cmdThread &&
+> -		atomic_read(&(adapter->cmdpriv.cmdthd_running)) == true &&
+> +		atomic_read(&(adapter->cmdpriv.cmdthd_running)) &&
+>  		adapter->cmdpriv.stop_req == 0) {
+>  		adapter->cmdpriv.stop_req = 1;
+>  		complete(&adapter->cmdpriv.cmd_queue_comp);
+> @@ -542,7 +542,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+>  	struct cmd_priv 	*pcmdpriv = &padapter->cmdpriv;
+>  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>  
+> -	if (check_fwstate(pmlmepriv, _FW_LINKED) == true)
+> +	if (check_fwstate(pmlmepriv, _FW_LINKED))
+>  		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_SCAN, 1);
+>  
+>  	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
+> @@ -775,7 +775,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+>  	/*  If not,  we have to copy the connecting AP's MAC address to it so that */
+>  	/*  the driver just has the bssid information for PMKIDList searching. */
+>  
+> -	if (pmlmepriv->assoc_by_bssid == false)
+> +	if (!pmlmepriv->assoc_by_bssid)
+>  		memcpy(&pmlmepriv->assoc_bssid[0], &pnetwork->network.mac_address[0], ETH_ALEN);
+>  
+>  	psecnetwork->ie_length = rtw_restruct_sec_ie(padapter, &pnetwork->network.ies[0], &psecnetwork->ies[0], pnetwork->network.ie_length);
+> @@ -1164,7 +1164,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue, u8 swconf
+>  	u8 res = _SUCCESS;
+>  
+>  	/*  check if allow software config */
+> -	if (swconfig && rtw_hal_is_disable_sw_channel_plan(padapter) == true) {
+> +	if (swconfig && rtw_hal_is_disable_sw_channel_plan(padapter)) {
+>  		res = _FAIL;
+>  		goto exit;
+>  	}
+> @@ -1250,7 +1250,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
+>  	/*  */
+>  	/*  Determine if our traffic is busy now */
+>  	/*  */
+> -	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true)
+> +	if ((check_fwstate(pmlmepriv, _FW_LINKED))
+>  		/*&& !MgntInitAdapterInProgress(pMgntInfo)*/) {
+>  		/*  if we raise bBusyTraffic in last watchdog, using lower threshold. */
+>  		if (pmlmepriv->LinkDetectInfo.bBusyTraffic)
+> @@ -1342,7 +1342,7 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter)
+>  
+>  	pmlmepriv = &(padapter->mlmepriv);
+>  
+> -	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
+> +	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+>  		expire_timeout_chk(padapter);
+>  
+>  	/* for debug purpose */
+> @@ -1377,8 +1377,8 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+>  	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+>  	u8 mstatus;
+>  
+> -	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)
+> -		|| (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
+> +	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) ||
+> +		(check_fwstate(pmlmepriv, WIFI_ADHOC_STATE))) {
+>  		return;
+>  	}
+>  
+> @@ -1386,7 +1386,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+>  	case LPS_CTRL_SCAN:
+>  		hal_btcoex_ScanNotify(padapter, true);
+>  
+> -		if (check_fwstate(pmlmepriv, _FW_LINKED) == true) {
+> +		if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+>  			/*  connect */
+>  			LPS_Leave(padapter, "LPS_CTRL_SCAN");
+>  		}
+> @@ -1512,7 +1512,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
+>  	if (dtim <= 0 || dtim > 16)
+>  		return;
+>  
+> -	if (hal_btcoex_IsBtControlLps(padapter) == true)
+> +	if (hal_btcoex_IsBtControlLps(padapter))
+>  		return;
+>  
+>  	mutex_lock(&pwrpriv->lock);
+> @@ -1840,7 +1840,7 @@ static void c2h_wk_callback(struct work_struct *work)
+>  			continue;
+>  		}
+>  
+> -		if (ccx_id_filter(c2h_evt) == true) {
+> +		if (ccx_id_filter(c2h_evt)) {
+>  			/* Handle CCX report here */
+>  			rtw_hal_c2h_handler(adapter, c2h_evt);
+>  			kfree(c2h_evt);
+> -- 
+> 2.25.1
+> 
+> -- 
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/7d5df4b8aacd961d0de367cbd73a8b75272652a8.1634906059.git.kushalkothari285%40gmail.com.
