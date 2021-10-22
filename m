@@ -1,116 +1,182 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C41A2C80
-	for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:59:12 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id na16-20020a17090b4c1000b0019f5bb661f9so1414479pjb.0
-        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 12:59:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8862C8B
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 02:44:36 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id t184so2413183pfd.0
+        for <linux-staging@lists.linux.dev>; Thu, 21 Oct 2021 19:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BbvyX6jPLK5zSg2NVxfybp0y/nnILy7522O+U1Y7hXo=;
-        b=PuDZ/KAlnQ8ek2j/6dOR9sHRIIrOPuC3UXhSPavRp5Xm7jfSoPhMLeNzU5ShysHefZ
-         Vguxz2bCtQxm/JbeKX9z80UqVV463tJOmbodktoV8sDVrX6hz8BbsN0GA4Zhzdp6stZ3
-         p/uNRKKxD10DtUNu3hMc128tbP8dSU1DRKKtCcn0a7ozgEwNIOwdCJ8gBx7skR2hQYhM
-         zRDNs7CEsb9oYDtFFZhcdqTJNPrsvVU2oQHTtirderms5swugJigQMIJFqkdwxUH+hZD
-         dKNrK0+AbesMeLmngEgPBPQXESrQ7hFncycjAeiN4VPXdajfAvx2y/9jKsuM/6JgozNl
-         incg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=q9J8i6Oqi3Nvd9zUswhsYqfhpvCKVlNc8BWk095FDAU=;
+        b=lJwxMYf9CwG56NQtiiSYnkT6kXackF8N/Wz6fmmNtssgd1MttrspLPK1+83CkGWOYy
+         o19WWe/YnwTvyDQ7RMm0mjRxo1D40YdypZ9TrFgLKa2FO2ea5aP1nlUJCHy2h0HHK7IA
+         y1kvVvTGKqDYWzxIHKuNv5COgnFeMgUxTjePNq6FZ7jNRZCGxv8u9xwqz2SnJOaeJcRD
+         +pvpOO27DCEjGPwX+U+28Weq7YthX89JRrvdTIx8isCuBow2Khu1UwHHm1xecrfgp7qM
+         0yTuBU7RstrIVc8EpZBnhxnQU3ZUGroJko1bZDbVKtuAV6k2R7ZORsKKMlVkKJ+dRDxq
+         h8Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BbvyX6jPLK5zSg2NVxfybp0y/nnILy7522O+U1Y7hXo=;
-        b=mea8y6okjFpimyJWp1az6TXWWlF/nRWEaOsQRWdH5XfFZsv4KdeZEJcSC0u3J93QHu
-         NC1ErvpyQQzNuLuFpMN2/xkYRfpf8ki1PoIb/MHgV75l2wzYRfnwQoipQT8+MJQ4yYua
-         Qraegw4+WVNA24zQYu9o/bZX3VkdXImbrUBi8/lIdOdvlCrH3KtKWsSs2cJ8fyDQywzU
-         ZVQSQN+/h9tGlZdb3f6e8PgT5vwovidMFBqGVqPO6g7V/vO+lUWyHUnUWtfvkAVb2Bjm
-         CynXy5QT/kWMggOqBNXfVVTzGfCokVvH+inBQL6pIEvCUyFpGzupw4w97lVvqzwcncV/
-         zyRg==
-X-Gm-Message-State: AOAM530a8G69TOb0kYAskBA4LyQBJYz35gJAmF4PceBlhW/dZ1rq6rf7
-	/iAbmJLxLQ7gUGYlC2PRp1w=
-X-Google-Smtp-Source: ABdhPJwIIPbNTkKHDoOLQuWXGA9lHyPcMuT+g/z8z3MFZg/tsD8OSlfh6l+vhOUqCZmvM54PhIsaWw==
-X-Received: by 2002:a17:902:758b:b0:13f:974a:959f with SMTP id j11-20020a170902758b00b0013f974a959fmr7091047pll.40.1634846352200;
-        Thu, 21 Oct 2021 12:59:12 -0700 (PDT)
-Received: from localhost.localdomain ([2401:4900:1fee:e3e7:7dfb:56c1:efef:3c0f])
-        by smtp.googlemail.com with ESMTPSA id v9sm7198898pfc.23.2021.10.21.12.59.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Oct 2021 12:59:11 -0700 (PDT)
-From: Kushal Kothari <kushalkothari285@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: fabioaiuto83@gmail.com,
-	kushalkothari285@gmail.com,
-	ross.schm.dev@gmail.com,
-	fmdefrancesco@gmail.com,
-	marcocesati@gmail.com,
-	straube.linux@gmail.com,
-	philippesdixon@gmail.com,
-	manuelpalenzuelamerino@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	mike.rapoport@gmail.com,
-	kushalkotharitest@googlegroups.com,
-	outreachy-kernel@googlegroups.com
-Subject: [PATCH 4/4] staging: rtl8723bs: core: Remove unnecessary blank lines
-Date: Fri, 22 Oct 2021 01:27:53 +0530
-Message-Id: <f6d2ba1d544c70519bad5c04f012cba0214b379a.1634845504.git.kushalkothari285@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1634845504.git.kushalkothari285@gmail.com>
-References: <cover.1634845504.git.kushalkothari285@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=q9J8i6Oqi3Nvd9zUswhsYqfhpvCKVlNc8BWk095FDAU=;
+        b=lac3IanptryOBItM7LDASwDBe7LEpc72EVb8PVNzjVOrRs7x03gpOmdmiH5T57I9B4
+         BnOUhtSbkjCWfMqqv1IbkH/XKbmc5ej6KQbt6jrRHNYa+GtgJGEKDOMhmWGo9SAW5kkd
+         np0WQc26GhvqdY2ISV3oJ0lVmfavhc6rp+4dZfD7Sp3GUzWB8LII94xbNY39i0eVfbn7
+         NvfPuUJTiysbwuwDrMxUXkfRZ/bQgKyAhZnxJooOcJjg6CSZRnDhxyUN3CZ+GByyxaUo
+         X6sxcPsg1BQ0hqXy/nOU2oQVQmohpJfzx2lEy3ZZkZsFgXVvaurbHx/ZdNVMPbFiP6vq
+         a6aQ==
+X-Gm-Message-State: AOAM5332kRm/pRpZgmbGuyBE7QsuKSDn8QSucGtIWCaXySI+NwWIunOi
+	mloZucyGi0CH4M20Np4nT7w=
+X-Google-Smtp-Source: ABdhPJw34Peasou5/YcGLPUXQ/L8wadWy4s5NOmtNJCSyl2NmlbFGDgcvjFFcvEs0lJxad3q/EZ3YQ==
+X-Received: by 2002:a62:1d46:0:b0:44d:1a4d:5d03 with SMTP id d67-20020a621d46000000b0044d1a4d5d03mr9857794pfd.55.1634870676074;
+        Thu, 21 Oct 2021 19:44:36 -0700 (PDT)
+Received: from ?IPV6:2405:201:d007:e827:d9ab:a6dc:54b8:e75d? ([2405:201:d007:e827:d9ab:a6dc:54b8:e75d])
+        by smtp.gmail.com with ESMTPSA id k14sm6727244pga.65.2021.10.21.19.44.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Oct 2021 19:44:35 -0700 (PDT)
+Message-ID: <32059290-6c59-1cee-5edc-563fe5c2f18b@gmail.com>
+Date: Fri, 22 Oct 2021 08:14:29 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [Outreachy kernel] [PATCH 1/4] staging: rtl8723bs: core: Remove
+ true and false comparison
+Content-Language: en-US
+To: Kushal Kothari <kushalkothari285@gmail.com>, gregkh@linuxfoundation.org
+Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, fmdefrancesco@gmail.com,
+ marcocesati@gmail.com, straube.linux@gmail.com, philippesdixon@gmail.com,
+ manuelpalenzuelamerino@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, mike.rapoport@gmail.com,
+ kushalkotharitest@googlegroups.com, outreachy-kernel@googlegroups.com
+References: <cover.1634845504.git.kushalkothari285@gmail.com>
+ <a9b75b3ab7c83dc5cef541301263fe17a704f026.1634845504.git.kushalkothari285@gmail.com>
+From: Praveen Kumar <kpraveen.lkml@gmail.com>
+In-Reply-To: <a9b75b3ab7c83dc5cef541301263fe17a704f026.1634845504.git.kushalkothari285@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Remove useless blank lines
+On 22-10-2021 01:27, Kushal Kothari wrote:
+> Remove comparison to true and false in if statement.
+> Issue found with checkpatch.pl.
+> CHECK: Using comparison to true is error prone
+> CHECK: Using comparison to false is error prone
+> 
+> Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index 2624e994513f..0be3a8dbeec8 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -371,7 +371,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+>  void rtw_stop_cmd_thread(struct adapter *adapter)
+>  {
+>  	if (adapter->cmdThread &&
+> -		atomic_read(&(adapter->cmdpriv.cmdthd_running)) == true &&
+> +		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
 
-Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+Lets keep it "atomic_read(&(adapter->cmdpriv.cmdthd_running))"
+and remove the parentheses in next patch.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index fce3256cc275..690e4627663c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -316,8 +316,6 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- 	return _SUCCESS;
- }
- 
--
--
- int rtw_enqueue_cmd(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- {
- 	int res = _FAIL;
-@@ -367,7 +365,6 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
- 	kfree(pcmd);
- }
- 
--
- void rtw_stop_cmd_thread(struct adapter *adapter)
- {
- 	if (adapter->cmdThread &&
-@@ -735,8 +732,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
- 	}
- 	/* for ies is fix buf size */
- 	t_len = sizeof(struct wlan_bssid_ex);
--
--
-+	
- 	/* for hidden ap to set fw_state here */
- 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE|WIFI_ADHOC_STATE) != true) {
- 		switch (ndis_network_mode) {
-@@ -1080,7 +1076,6 @@ u8 rtw_reset_securitypriv_cmd(struct adapter *padapter)
- 
- 	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
- 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
--
- exit:
- 	return res;
- }
--- 
-2.25.1
+>  		adapter->cmdpriv.stop_req == 0) {
+>  		adapter->cmdpriv.stop_req = 1;
+>  		complete(&adapter->cmdpriv.cmd_queue_comp);
+> @@ -542,7 +542,7 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+>  	struct cmd_priv 	*pcmdpriv = &padapter->cmdpriv;
+>  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>  
+> -	if (check_fwstate(pmlmepriv, _FW_LINKED) == true)
+> +	if (check_fwstate(pmlmepriv, _FW_LINKED))
+>  		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_SCAN, 1);
+>  
+>  	ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
+> @@ -775,7 +775,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+>  	/*  If not,  we have to copy the connecting AP's MAC address to it so that */
+>  	/*  the driver just has the bssid information for PMKIDList searching. */
+>  
+> -	if (pmlmepriv->assoc_by_bssid == false)
+> +	if (!pmlmepriv->assoc_by_bssid)
+>  		memcpy(&pmlmepriv->assoc_bssid[0], &pnetwork->network.mac_address[0], ETH_ALEN);
+>  
+>  	psecnetwork->ie_length = rtw_restruct_sec_ie(padapter, &pnetwork->network.ies[0], &psecnetwork->ies[0], pnetwork->network.ie_length);
+> @@ -1164,7 +1164,7 @@ u8 rtw_set_chplan_cmd(struct adapter *padapter, u8 chplan, u8 enqueue, u8 swconf
+>  	u8 res = _SUCCESS;
+>  
+>  	/*  check if allow software config */
+> -	if (swconfig && rtw_hal_is_disable_sw_channel_plan(padapter) == true) {
+> +	if (swconfig && rtw_hal_is_disable_sw_channel_plan(padapter)) {
+>  		res = _FAIL;
+>  		goto exit;
+>  	}
+> @@ -1250,7 +1250,7 @@ u8 traffic_status_watchdog(struct adapter *padapter, u8 from_timer)
+>  	/*  */
+>  	/*  Determine if our traffic is busy now */
+>  	/*  */
+> -	if ((check_fwstate(pmlmepriv, _FW_LINKED) == true)
+> +	if ((check_fwstate(pmlmepriv, _FW_LINKED))
+>  		/*&& !MgntInitAdapterInProgress(pMgntInfo)*/) {
+>  		/*  if we raise bBusyTraffic in last watchdog, using lower threshold. */
+>  		if (pmlmepriv->LinkDetectInfo.bBusyTraffic)
+> @@ -1342,7 +1342,7 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter)
+>  
+>  	pmlmepriv = &(padapter->mlmepriv);
+>  
+> -	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
+> +	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+>  		expire_timeout_chk(padapter);
+>  
+>  	/* for debug purpose */
+> @@ -1377,8 +1377,8 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+>  	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+>  	u8 mstatus;
+>  
+> -	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)
+> -		|| (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
+> +	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
+> +		check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
+>  		return;
+>  	}
+>  
+> @@ -1386,7 +1386,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+>  	case LPS_CTRL_SCAN:
+>  		hal_btcoex_ScanNotify(padapter, true);
+>  
+> -		if (check_fwstate(pmlmepriv, _FW_LINKED) == true) {
+> +		if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+>  			/*  connect */
+>  			LPS_Leave(padapter, "LPS_CTRL_SCAN");
+>  		}
+> @@ -1512,7 +1512,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
+>  	if (dtim <= 0 || dtim > 16)
+>  		return;
+>  
+> -	if (hal_btcoex_IsBtControlLps(padapter) == true)
+> +	if (hal_btcoex_IsBtControlLps(padapter))
+>  		return;
+>  
+>  	mutex_lock(&pwrpriv->lock);
+> @@ -1840,7 +1840,7 @@ static void c2h_wk_callback(struct work_struct *work)
+>  			continue;
+>  		}
+>  
+> -		if (ccx_id_filter(c2h_evt) == true) {
+> +		if (ccx_id_filter(c2h_evt)) {
+>  			/* Handle CCX report here */
+>  			rtw_hal_c2h_handler(adapter, c2h_evt);
+>  			kfree(c2h_evt);
+> 
 
+
+Regards,
+
+~Praveen.
