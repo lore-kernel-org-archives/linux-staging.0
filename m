@@ -1,87 +1,133 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A232C8B
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 15:58:06 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id o24so3378201wms.0
-        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 08:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=oxg7wtYVb2I8ZNupHXd2gl7ipYhOJwG6Q/eeUjge9ic=;
-        b=mObrmk3neCUnsocnuZ1ARAuQDBLO2Pv0jgshOruwD4Pp1dH5du/dxLfpPtLC/BK8EK
-         gkrEHLoo32P5ycx9wBLj8bRKBIBLeexPKSM0epgdp1a/fcAmHkIltMNndDtKcvzGBPDL
-         KPPAuyn+L/K5FiL6s/mWb6aA9hXCS/GVW7VwzuSyJp2M0aKTSy65rO1Z6tpQWZOe9vpm
-         aGZ6hr96qqs3V+dcTjqezDAyQtuv4k/Vld1b/dbRObxiLYrFcsxNSiqw8dJMycqfnWpW
-         skkg7umXzpJATMSqK2EPoHMaP+qFuwTniSJeCI5nF/6BLbXqVClv7sz3R2URE3Pv5wd7
-         uNvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=oxg7wtYVb2I8ZNupHXd2gl7ipYhOJwG6Q/eeUjge9ic=;
-        b=fMdr1r3Rhx4rqG04wBFd18LIA3q0vV0riFOyjlkmPCXQBdkX1xYouKt/6PYtq22H0y
-         e2iB1n1UvRHrGr5nCSTDgI4ksq5hte8BVFm+sQqFzYZTHo/RDX5XYW0NlvXZSajXuIha
-         Po7BXNZ7y5ihswlQK+Yq0KLYfdptv5MXMc4nExaL9lheKADeiwPKOxJTfd5RspQHG2NS
-         UV8wNueU3xTCQf65Csek+qAHPjut85j+CeU/MJEmmEGT7DAxJWD/HDAlpoKG90O0YieK
-         R2x4ZkU0qCWIz9VkFaSZ2lVIusmxvDXVOJm8lf4T1kLxCZ3E8XpSNwKC37mzQrukhYZg
-         8qhw==
-X-Gm-Message-State: AOAM53355PTxoWJhVvsvXk2DovUCMu8ysPWnNDXsH0O4XModR4hTkQjs
-	2foIIjyIoBy+wrOyaGuHhUk=
-X-Google-Smtp-Source: ABdhPJyuX+UxDE43oOxLtTPF+QzO5lezSDRse91WnwSQJocAbTWj/Pta2ldHRGdH3fuIR8C0LSUAqw==
-X-Received: by 2002:a1c:cc0f:: with SMTP id h15mr587438wmb.37.1634918284369;
-        Fri, 22 Oct 2021 08:58:04 -0700 (PDT)
-Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id k17sm8152897wrq.7.2021.10.22.08.58.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Oct 2021 08:58:04 -0700 (PDT)
-Message-ID: <bf2a82e5a5f296ea66bda0cef84acbf78e88ffe3.camel@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH 5/5] staging: vt6655: Rename
- `byRFType` variable
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: Praveen Kumar <kpraveen.lkml@gmail.com>, 
-	outreachy-kernel@googlegroups.com
-Cc: gregkh@linuxfoundation.org, forest@alittletooquiet.net, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Fri, 22 Oct 2021 16:58:02 +0100
-In-Reply-To: <049d4b3e-ed32-9b48-0c2e-19f9af95ca37@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6951572
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 16:32:25 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10145"; a="216252895"
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; 
+   d="scan'208";a="216252895"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2021 09:32:24 -0700
+X-IronPort-AV: E=Sophos;i="5.87,173,1631602800"; 
+   d="scan'208";a="534986075"
+Received: from alison-desk.jf.intel.com (HELO alison-desk) ([10.54.74.41])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2021 09:32:23 -0700
+Date: Fri, 22 Oct 2021 09:40:11 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Karolina Drobnik <karolinadrobnik@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [Outreachy kernel] [PATCH 2/5] staging: vt6655: Rename
+ `byInitCount` variable
+Message-ID: <20211022164011.GB464908@alison-desk>
 References: <cover.1634826774.git.karolinadrobnik@gmail.com>
-	 <f0b6818d2b15982081bebaf14f830f4646f61fe2.1634826774.git.karolinadrobnik@gmail.com>
-	 <049d4b3e-ed32-9b48-0c2e-19f9af95ca37@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+ <53430b1183324f6a715999792a15df2ea6a3e206.1634826774.git.karolinadrobnik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <53430b1183324f6a715999792a15df2ea6a3e206.1634826774.git.karolinadrobnik@gmail.com>
 
-Hi Praveen,
-
-Thanks for taking a look at my patch.
-
-On Fri, 2021-10-22 at 19:56 +0530, Praveen Kumar wrote:
-> IMO, probably we can sync RFbSelectChannel as well with similar
-> notation in another patch.
+On Fri, Oct 22, 2021 at 10:37:15AM +0100, Karolina Drobnik wrote:
+> Drop Hungarian notation in `byInitCount` variable in
+> `RFvWriteWakeProgSyn` function. Change it to use snake case.
 > 
-> >  bool RFbInit(struct vnt_private *priv);
-> > -bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char
-> > byRFType, u16 channel);
-> > +bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char
-> > rf_type, u16 channel);
-> >  bool RFbSetPower(struct vnt_private *priv, unsigned int rate, u16
-> > uCH);
-> >  bool RFbRawSetPower(struct vnt_private *priv, unsigned char byPwr,
-> >                     unsigned int rate);
+> Fix issue detected by checkpatch.pl:
+>   CHECK: Avoid CamelCase: <byInitCount>
 
-That's a good idea. I plan to clean up `RFvWriteWakeProgSyn` completely
-first and then I can move on to this one.
+Hi Karolina,
 
+This comment is for all the patches.
 
-Thanks,
-Karolina
+Commit msg:
+We've got plenty of space on that line, how about:
+"Rename byInitCount init_count"
+
+(I say this because when someone searches by the oneliners it's
+nice to give as many keywords as possible - within the line limit)
 
 
+Commit log:
+The log (why this patch is important) seems to be saying that
+snake case is the fix for Hungarian notation. I don't think that
+is completely true. Snake case avoids the camel case of Hungarian
+notation, but we are also dropping the type descriptor which is
+another signature of Hungarian notation.
+
+Perhaps this would be more direct:
+
+To align with the kernel coding style, remove the type from
+the variable name and do not use CamelCase.
+
+Reported by checkpatch.pl:
+	CHECK: Avoid CamelCase: <byInitCount>
+
+(Not for the log, but a ref if you don't have:
+https://www.kernel.org/doc/html/v4.10/process/coding-style.html)
+
+Alison
+
+> 
+> Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+> ---
+>  drivers/staging/vt6655/rf.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+> index 7e441309dd9c..36708af7d612 100644
+> --- a/drivers/staging/vt6655/rf.c
+> +++ b/drivers/staging/vt6655/rf.c
+> @@ -681,7 +681,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
+>  {
+>  	void __iomem *iobase = priv->port_offset;
+>  	int i;
+> -	unsigned char byInitCount = 0;
+> +	unsigned char init_count = 0;
+>  	unsigned char bySleepCount = 0;
+>  
+>  	VNSvOutPortW(iobase + MAC_REG_MISCFFNDEX, 0);
+> @@ -693,9 +693,9 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
+>  			return false;
+>  
+>  		 /* Init Reg + Channel Reg (2) */
+> -		byInitCount = CB_AL2230_INIT_SEQ + 2;
+> +		init_count = CB_AL2230_INIT_SEQ + 2;
+>  		bySleepCount = 0;
+> -		if (byInitCount > (MISCFIFO_SYNDATASIZE - bySleepCount))
+> +		if (init_count > (MISCFIFO_SYNDATASIZE - bySleepCount))
+>  			return false;
+>  
+>  		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
+> @@ -709,9 +709,9 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
+>  		/* Need to check, PLLON need to be low for channel setting */
+>  	case RF_AIROHA7230:
+>  		 /* Init Reg + Channel Reg (3) */
+> -		byInitCount = CB_AL7230_INIT_SEQ + 3;
+> +		init_count = CB_AL7230_INIT_SEQ + 3;
+>  		bySleepCount = 0;
+> -		if (byInitCount > (MISCFIFO_SYNDATASIZE - bySleepCount))
+> +		if (init_count > (MISCFIFO_SYNDATASIZE - bySleepCount))
+>  			return false;
+>  
+>  		if (uChannel <= CB_MAX_CHANNEL_24G) {
+> @@ -736,7 +736,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char byRFType,
+>  		return false;
+>  	}
+>  
+> -	MACvSetMISCFifo(priv, MISCFIFO_SYNINFO_IDX, (unsigned long)MAKEWORD(bySleepCount, byInitCount));
+> +	MACvSetMISCFifo(priv, MISCFIFO_SYNINFO_IDX, (unsigned long)MAKEWORD(bySleepCount, init_count));
+>  
+>  	return true;
+>  }
+> -- 
+> 2.30.2
+> 
+> -- 
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/53430b1183324f6a715999792a15df2ea6a3e206.1634826774.git.karolinadrobnik%40gmail.com.
