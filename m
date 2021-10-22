@@ -1,27 +1,29 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5799B72
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 09:01:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BFF1610EA;
-	Fri, 22 Oct 2021 09:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E320572
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 09:03:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 38078610EA;
+	Fri, 22 Oct 2021 09:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1634893304;
-	bh=4bMvhQPX6/fDL7Lv2GrhBhjdUgYTkWIOQGwWTJp8Mus=;
+	s=korg; t=1634893427;
+	bh=P+ywsJ2Bf8sf28DpGW5jUByITYwueQM+FB+Y2KKGxR0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aGa/DdEgrvkc6gENd9RQfXyxyQVdC2u8DToYV85zHurQ7I0EeGnarmUBjqdcqSIpk
-	 QELa4uJi4lc1Q3Ln3uzocv2RFYMdEBKzqwN/F77kvqSWQhvyp9c0w11EV8gM5NrkAI
-	 YcoyJOJo6bkwCkvqepJD+ZJBvnicHbjWk1FX7s8Q=
-Date: Fri, 22 Oct 2021 11:01:41 +0200
+	b=T25fqf7kExb+0NMwyMFXXxoW+vgqg4v2zUzXpgvr7oV3AEtBdXy0JrW4EOp5NfL57
+	 +OIPMPbtPlL2wdJH5PB7S1ga1aXzaHkK1KUACx9zopTI68lqjlf4yr9CcYEQAuWErb
+	 lTSfnUs///IRu1TvVOF7ziHNIXe1AkzEmCLPVyUg=
+Date: Fri, 22 Oct 2021 11:03:45 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Remove unused semaphores
-Message-ID: <YXJ99WIRPOYa+Dk9@kroah.com>
-References: <20211022084727.28035-1-fmdefrancesco@gmail.com>
- <1905861.9EeI4ENUQp@localhost.localdomain>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vchiq_arm: Make use of the helper macro
+ kthread_run()
+Message-ID: <YXJ+cfWj6NBIuUS5@kroah.com>
+References: <20211021084328.2395-1-caihuoqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,25 +32,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1905861.9EeI4ENUQp@localhost.localdomain>
+In-Reply-To: <20211021084328.2395-1-caihuoqing@baidu.com>
 
-On Fri, Oct 22, 2021 at 10:54:26AM +0200, Fabio M. De Francesco wrote:
-> On Friday, October 22, 2021 10:47:25 AM CEST Fabio M. De Francesco wrote:
-> > Remove two unused semaphores.
-> > 
-> > Fabio M. De Francesco (2):
-> >   staging: r8188eu: Remove initialized but unused semaphore
-> >   staging: r8188eu: Remove unused semaphore "io_retevt"
-> > 
-> >  drivers/staging/r8188eu/core/rtw_xmit.c      | 1 -
-> >  drivers/staging/r8188eu/include/osdep_intf.h | 1 -
-> >  drivers/staging/r8188eu/include/rtw_xmit.h   | 1 -
-> >  3 files changed, 3 deletions(-)
-> > 
-> > -- 
-> > 2.33.1
+On Thu, Oct 21, 2021 at 04:43:27PM +0800, Cai Huoqing wrote:
+> Repalce kthread_create/wake_up_process() with kthread_run()
+> to simplify the code.
 > 
-> I'm sorry but I overlooked the name of the driver in this cover letter :(
-> Am I required to send a v2?
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> ---
+>  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index a5e33da74726..6130b95aaca3 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1717,15 +1717,12 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+>  	write_unlock_bh(&arm_state->susp_res_lock);
+>  	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
+>  		 state->id);
+> -	arm_state->ka_thread = kthread_create(&vchiq_keepalive_thread_func,
+> -					      (void *)state,
+> -					      threadname);
+> +	arm_state->ka_thread = kthread_run(&vchiq_keepalive_thread_func,
+> +					   (void *)state, threadname);
+>  	if (IS_ERR(arm_state->ka_thread)) {
+>  		vchiq_log_error(vchiq_susp_log_level,
+>  				"vchiq: FATAL: couldn't create thread %s",
+>  				threadname);
+> -	} else {
+> -		wake_up_process(arm_state->ka_thread);
+>  	}
+>  }
+>  
 
-Please do.
+As others have pointed out for other busses where you sent this patch,
+this is _VERY_ racy and probably wrong.  Be more careful when sending
+changes like this that can modify functionality without testing the
+code.
+
+thanks,
+
+greg k-h
