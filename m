@@ -1,110 +1,90 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103C62C9F
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 12:18:55 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A0TmYvKprIPZbn3W674J/tD8aV5tWL9V00zEX?=
- =?us-ascii?q?/kB9WHVpm5qj5r+TdZMgpHrJYVcqKRMdcL+7U5VoLUm3yXcx2+cs1J2ZLXDbUR?=
- =?us-ascii?q?KTXflfBOnZrAEIaheOldK1vJ0IG5SWSueQMbEdt6vHCWKDc+rIruPqzEmAv5ah?=
- =?us-ascii?q?815dCS9rdoRp5ENcBh2UHnZ7XBVLH4d8NLf03Ls9mxOQPVoWc+GyDT0gU/PMq+?=
- =?us-ascii?q?bGjI7rewNDJz4LgTP+9w+A2frVEwW81hxbdDVTwbgj+2DZkwr/3amqqfe9oyWs?=
- =?us-ascii?q?qlP73tB5mMbFwtAGPdeLicQeN1zX+2KVTbUkdb2emTg/5Ni17lUnmsSJgxpIBb?=
- =?us-ascii?q?UV11rhOk+0vD7k0E3YyzAs53X+jWaRnHqLm72eeBsKT+RAmKdQeV/j51MkrJVf?=
- =?us-ascii?q?3LIj5RPki6Zq?=
-X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
-   d="scan'208";a="397071971"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Oct 2021 14:18:46 +0200
-Date: Fri, 22 Oct 2021 14:18:46 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: kushal kothari <kushalkothari285@gmail.com>
-cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kush19992810@gmail.com, 
-    outreachy-kernel@googlegroups.com, fabioaiuto83@gmail.com, 
-    ross.schm.dev@gmail.com, marcocesati@gmail.com, straube.linux@gmail.com, 
-    philippesdixon@gmail.com, manuelpalenzuelamerino@gmail.com, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-    Mike Rapoport <mike.rapoport@gmail.com>, 
-    kushalkotharitest@googlegroups.com
-Subject: Re: [Outreachy kernel] Re: [PATCH 0/4] v2 staging: rtl8723bs: core:
- Cleanup patchset for style issues in rtw_cmd.c
-In-Reply-To: <CALtHPQt5jzcn4Obw8UCmz2XZK0FFZbEt6ebXEaTa5rwbAyHVOQ@mail.gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2110221418400.7321@hadrien>
-References: <cover.1634899405.git.kushalkothari285@gmail.com> <7977747.61zFHCMloo@localhost.localdomain> <CALtHPQt5jzcn4Obw8UCmz2XZK0FFZbEt6ebXEaTa5rwbAyHVOQ@mail.gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBF02C98
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 13:13:43 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id n11so2674067plf.4
+        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 06:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gthT7Vq77opBc/rSgVQR3VqXY4Alj06CFLF17FWMuIY=;
+        b=En2gcfJ9Ru+zVl0TwpHEs5pyKOGRbt1GMa7imWuY4HgR3Yl9auatghwvmBLRFEkmLb
+         Sci9S6TlpqOLHMeusZ9UngOP3p7qHuAhKCAIPKZYttR1rQVAv46ZDJ/Y3W/VH9zrZWfK
+         cqmB0YpE9d8IdqDwQNstkODz/1kpCcLDt1AhQrCftVBsgyDy2DySzoXP3DhvEtnD9GdG
+         Sn9rF/9eTCoPQkF9L4FZG94aWdMyiJnSIIBHtJzWze7/Jo9w/EL3ZRbfoEeBoKwYwT97
+         oC5AIjUXacawMexdTVNnjEi2kqUm8csbhKJugHm1EE33AF6spmmtcLQu8ZbzBDHTUipa
+         EvSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gthT7Vq77opBc/rSgVQR3VqXY4Alj06CFLF17FWMuIY=;
+        b=xzJb4hlBxtIGp5aYvoQyITrysKqvHXRCOzlGxe1psvyUBBVNCUdooRyV1sDOIQ+vUU
+         jzG5n4F9mLtaGP7NIvzEi4wKrBPdfpd/sjQODyoD5IW99Alb1298WTm48jBZmd0EGPH2
+         nyYLCV1Kyjhk+XmmVQXQkjwUuzmKkosCnRGQO5EURbIj2vr9qmwRR0Le1a6k2i4iz0Mh
+         3n7wdGuGlMpi3YQ0z/KKffqLY3eRhaODBtfZfM+E65hPY7tOa/h+IyMslqvacCckHbs/
+         pUSgvhYzL4eKTGegr6hg4BjoCstJy8nSwfMKnsFhEM9gl56Vz3iZGnUB6B/U36iqe4Du
+         2huQ==
+X-Gm-Message-State: AOAM532e/iRGSPDlvTk6FObO7Be4cLvUE9t+v3jVYNFNB0ifIq6VUQny
+	XG7Vdk1/pM/P7lrFYj3mlHM=
+X-Google-Smtp-Source: ABdhPJxrMM6Ff65aYDgRfbdlr6m89hp34LDzrCVzxEHOGVdkhNvkQ9rUXGQN9hEdMcmqXdyIIETMHA==
+X-Received: by 2002:a17:90a:784a:: with SMTP id y10mr6678931pjl.211.1634908423193;
+        Fri, 22 Oct 2021 06:13:43 -0700 (PDT)
+Received: from localhost.localdomain ([115.96.219.100])
+        by smtp.googlemail.com with ESMTPSA id mq3sm11932413pjb.33.2021.10.22.06.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Oct 2021 06:13:42 -0700 (PDT)
+From: Kushal Kothari <kushalkothari285@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: kushalkothari285@gmail.com,
+	kush19992810@gmail.com,
+	outreachy-kernel@googlegroups.com,
+	fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	fmdefrancesco@gmail.com,
+	marcocesati@gmail.com,
+	straube.linux@gmail.com,
+	philippesdixon@gmail.com,
+	manuelpalenzuelamerino@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	mike.rapoport@gmail.com,
+	kushalkotharitest@googlegroups.com
+Subject: [PATCH v3 0/4] staging: rtl8723bs: core: Cleanup patchset for style issues in rtw_cmd.c
+Date: Fri, 22 Oct 2021 18:43:17 +0530
+Message-Id: <cover.1634906059.git.kushalkothari285@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1273979325-1634905126=:7321"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+These patches make changes to clean up style issues identified
+by checkpatch. 
 
---8323329-1273979325-1634905126=:7321
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Kushal Kothari (4):
+  v3 staging: rtl8723bs: core: Remove true and false comparison
+  v3 staging: rtl8723bs: core: Remove unnecessary parentheses
+  v3 staging: rtl8723bs: core: Remove unnecessary space after a cast
+  v3 staging: rtl8723bs: core: Remove unnecessary blank lines
 
+Changes in v3:
+Enclose the version number inside the square bracket in all the subjects
 
+Changes in v2:
+[PATCH 1/4]: Moved unnecessary parentheses change in PATCH 2/4
+[PATCH 2/4]: Added the extra parentheses change from PATCH 1/4 here.
+[PATCH 3/4]: No Changes
+[PATCH 4/4]: Fix whitespace error. 
 
-On Fri, 22 Oct 2021, kushal kothari wrote:
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 94 +++++++++---------------
+ 1 file changed, 34 insertions(+), 60 deletions(-)
 
-> >Hi Kushal,
->
-> >Version numbers ("v2" in this case) must be enclosed in square brackets,
-> >between "PATCH" and "n/N".
->
-> >Thanks,
->
-> >Fabio
->
-> Hi Fabio,
-> Err, I made a mistake. :(
-> So should I correct it now as v3?
+-- 
+2.25.1
 
-Yes.
-
->
-> On Fri, Oct 22, 2021 at 5:17 PM Fabio M. De Francesco <fmdefrancesco@gmail.com> wrote:
->       On Friday, October 22, 2021 1:37:34 PM CEST Kushal Kothari wrote:
->       > Kushal Kothari (4):
->       >   v2 staging: rtl8723bs: core: Remove true and false comparison
->       >   v2 staging: rtl8723bs: core: Remove unnecessary parentheses
->       >   v2 staging: rtl8723bs: core: Remove unnecessary space after a cast
->       >   v2 staging: rtl8723bs: core: Remove unnecessary blank lines
->       >
->       > Changes from v1:
->       >   [PATCH 1/4]: Moved unnecessary parentheses change in PATCH 2/4
->       >   [PATCH 2/4]: Added the extra parentheses change from PATCH 1/4 here.
->       >   [PATCH 3/4]: No Changes
->       >   [PATCH 4/4]: Fix whitespace error.
->       >
->       >
->       >
->       >  drivers/staging/rtl8723bs/core/rtw_cmd.c | 94 +++++++++---------------
->       >  1 file changed, 34 insertions(+), 60 deletions(-)
->       >
->       > --
->       > 2.25.1
->       >
->       Hi Kushal,
->
->       Version numbers ("v2" in this case) must be enclosed in square brackets,
->       between "PATCH" and "n/N".
->
->       Thanks,
->
->       Fabio
->
->
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/CALtHPQt5jzcn4Obw8UCmz2XZK0FFZbEt6ebXEaTa5rwbAyHVOQ%40mail.gmail.com.
->
->
---8323329-1273979325-1634905126=:7321--
