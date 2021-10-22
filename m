@@ -1,113 +1,243 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFFF72
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 17:18:58 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id ls18so3423516pjb.3
-        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 10:18:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC4E72
+	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 17:19:38 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id l13so4316686edi.8
+        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 10:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=IbuYUzyzR2NfoAmhq9teREBRNFXaM5sLqZfNr1gDcCw=;
-        b=TrcFljLQlJUA71rdwkk+ukFi5+yijWlbu5qUDqlIdRpyn+eCuE1Vn5xUwiyo3YdBTx
-         z8eCaEbLvlvv6qY+bcbiypwaBkhPPfcI+sfCgfpzw1pim9mnJNuf22pbTx1ejD6js961
-         w5rxEUyN3ZaLBOir+0hEdmGj2KLQ/QW8DMkjYFXsPJMzylU4fcZLd76MaOYaRyLEPpWg
-         6AJwG0rt6nOKR+9D9Iw3l8S2yPel0/BIsCg2LC3lHs8fQKq6CvwHCAB7qFhuioHc2V+9
-         u+zy3FBu0DwgM6O6iX9olTW+UEk9RqK4CxDuL7Oy7NwEBDYJyVjwEX7BDN6mYyOcfRJw
-         ibag==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Fc2M2n/Ujvx3JC5y1BrKvmu6wHRj6aoeAosOblV9VJM=;
+        b=IXVS0wkk+tc70BvFj8qo4HpjBaFtU+hpDI6eSbtzKsZn0LQaFZ0oaN381B/5zVZH7u
+         MghqDZY8IlxAAm9Ys+HHyQhj91owXV7pfL87fXewgTAYq4u1LdqKq8lkOaZOYVbjLbXj
+         2Lnuj9c1LRFv70pFzpWW0ut6TVoJMKzNQZlnJQACSk0rxckH1S7Gn2M2g9b79p/Fksm4
+         2T1KKWpvfU5hWXY3rj3yKDuXXwIbZyaG2KzflGQwflWQGOn0Obah/FU9h98KiXhLc1+4
+         Qleb9NXSjyWNlNhjBr3uDaVIoSOWVGdp5LHbMMZ3P7rG++Q4igloevGFBeNoSAJGSTD8
+         qeuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=IbuYUzyzR2NfoAmhq9teREBRNFXaM5sLqZfNr1gDcCw=;
-        b=1noONt18t4LsbhlbC30fxAKZ0gvWUl2BFge8gnvwSygZYiO0vVV/gMraQ3ALzS7ckN
-         /urC1gfOwQnPACS0bxBthbV5OL2eJrNfoeuZSlcOGIJh9GWY602BFRMGB49mfR2265KQ
-         Fl2P92/P46eI0XAkdFprMOFDcnySwmyGAGJB0kv8msgwGv0tLmkGRTZKFcm7WPGqOhMT
-         43Z72M7VEeB7DSsFOSKjtr7i59urXGejElBylCo7JNvi+PY6pkMnFGS4wFXcoX90+8gS
-         AOgJzKUls63pP7XIArN26FMmDLhaFvovMCALpFQyo6kcZNfQNU0GHVXLkfVHPpMEFHzz
-         fVvw==
-X-Gm-Message-State: AOAM530vmun2EGsn9Rj/dxYFFGy7AZHQLxPLGol3MIrqaC05MlCIWpXD
-	jkHUVoztDZEaaw1HJz3zwqE=
-X-Google-Smtp-Source: ABdhPJw5xdH8peKLPo6OE8Ox5LwLBxRYV8iAsWiT2BqOcAoP9wINrxn/voQXypOvcvOmKVZcSjqntw==
-X-Received: by 2002:a17:90b:1c81:: with SMTP id oo1mr1272557pjb.97.1634923137614;
-        Fri, 22 Oct 2021 10:18:57 -0700 (PDT)
-Received: from ?IPV6:2001:4490:4409:eb7d:758a:6a46:39c:b254? ([2001:4490:4409:eb7d:758a:6a46:39c:b254])
-        by smtp.gmail.com with ESMTPSA id t28sm10301594pfq.158.2021.10.22.10.18.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Oct 2021 10:18:57 -0700 (PDT)
-Message-ID: <4354b890-28df-6f0e-d206-9b31307e48dd@gmail.com>
-Date: Fri, 22 Oct 2021 22:48:50 +0530
+        bh=Fc2M2n/Ujvx3JC5y1BrKvmu6wHRj6aoeAosOblV9VJM=;
+        b=bolUZyo2VHkG2O6CpmXP5XcjgjPiiO9fyuBOWq/6ePm9ZHSngWrKp3cFB5vQRqzXS4
+         Dc2oaw8sIZ46M2GoU7lxE4SPvX8e35OPDi2lx7rBv2ypSeBJu5InKM9v4v147bfJFFMQ
+         T1IGcCoiWkR8WyplNpnEyVpeVa9Z5YuabegGbctt1xKVf96VidFUADMoX7hEfLJE+Ce7
+         pTD9VrVuRC2h50J2NJmsEIVZT78crx7b/Qa/VP6tdBDELnlGNDhGINa+DCSyvegJWSTJ
+         bUY5AeyFP8X3szR2eMEhxnTQD13+J/6AetlEi+kNZaqhHeXKB8hc3Yc9uIzMpMKGPHg4
+         oUdg==
+X-Gm-Message-State: AOAM532pGzGpfgwf1177hl8ZUkj27RYdBnmWJllCY2O4hcGi28csttiH
+	oE5ClG790YAo1MlhzZR3ux0=
+X-Google-Smtp-Source: ABdhPJz5V/REUPGOqVcWfrlMz3cTMrkpBfJzEqLpjTs+k7PbAGcRvB7vkyx9VHXhD5hH1LLb6sgYuQ==
+X-Received: by 2002:a05:6402:34d0:: with SMTP id w16mr1658824edc.98.1634923177164;
+        Fri, 22 Oct 2021 10:19:37 -0700 (PDT)
+Received: from localhost.localdomain.it (host-80-181-148-119.pool80181.interbusiness.it. [80.181.148.119])
+        by smtp.gmail.com with ESMTPSA id dd3sm3995446ejb.55.2021.10.22.10.19.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Oct 2021 10:19:36 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH] staging: r8188eu: Use a Mutex instead of a binary Semaphore
+Date: Fri, 22 Oct 2021 19:19:17 +0200
+Message-Id: <20211022171917.24363-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.0
-Subject: Re: [PATCH v3] staging: rtl8723bs: os_dep: simplify the return
- statement
-Content-Language: en-GB
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, ross.schm.dev@gmail.com,
- marcocesati@gmail.com, insafonov@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YWhBQF4yUH0/r53A@Sauravs-MacBook-Air.local>
- <13289545.LovHZTAFgE@localhost.localdomain>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <13289545.LovHZTAFgE@localhost.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Use a Mutex instead of a binary Semaphore for the purpose of enforcing
+mutual exclusive access to the "pwrctrl_priv" structure.
 
+Mutexes are sleeping locks similar to Semaphores with a 'count' of one
+(like binary Semaphores), however they have a simpler interface, more
+efficient performance, and additional constraints.
 
-On 15/10/21 2:45 pm, Fabio M. De Francesco wrote:
-> On Thursday, October 14, 2021 4:40:00 PM CEST Saurav Girepunje wrote:
->> Remove goto statement where function simply return value without doing
->> any cleanup action.
->>
->> Simplify the return using goto label to avoid unneeded 'if' condition
->> check.
->>
->> Remove the unneeded and redundant check of variable on goto.
->>
->> Remove the assignment of NULL on local variable.
->>
->> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
->> ---
->>
->> ChangeLog V3:
->>
->> 	-Remove goto statement where function simply return value
->> 	 without doing any cleanup action.
->> 	-Remove the assignment of NULL on local variable.
->> 	-Replace the goto statement added after the memcpy on V2.
->> 	 with return 0 statement.
->>
->> ChangeLog V2:
->>
->> 	-Add goto out after the memcpy for no error case return with
->> 	 ret only. On V1 doing free, which was not required for no error
->> 	 case.
-> 
-> You still don't explain why you changed v1. You had freed resources on 
-> success path. 
-"On V1 doing free" I will add more information on changelog.
-That was not allowed because you introduced a change in the 
-> logic and a huge bug. Therefore, in v2, you are not merely changing something 
-> that "was not required". Instead you are changing something that is not 
-> permitted.
-> 
-> Thanks,
-> 
-> Fabio
-> 
-> 
-> 
-Thanks Fabio for review.
+There is no change in the logic of the new code; however it is more
+simple because it gets rid of four unnecessary wrappers:
+_init_pwrlock(), _enter_pwrlock(),_exit_pwrlock(), _rtw_down_sema().
 
-Regards,
-Saurav
+Actually, there is a change in the state in which the code waits for
+acquiring locks, because it makes it in an uninterruptible state
+(instead the old code used down_interruptibe()). Interruptible
+waits are neither required nor wanted in this driver.
+
+Tested with ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano].
+
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 10 +++++-----
+ drivers/staging/r8188eu/include/osdep_service.h |  2 --
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h   | 17 +----------------
+ drivers/staging/r8188eu/os_dep/osdep_service.c  |  8 --------
+ drivers/staging/r8188eu/os_dep/usb_intf.c       |  8 ++++----
+ 5 files changed, 10 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+index 19cac5814ea4..5d595cf2a47e 100644
+--- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
++++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
+@@ -21,7 +21,7 @@ void ips_enter(struct adapter *padapter)
+ 		return;
+ 	}
+ 
+-	_enter_pwrlock(&pwrpriv->lock);
++	mutex_lock(&pwrpriv->lock);
+ 
+ 	pwrpriv->bips_processing = true;
+ 
+@@ -42,7 +42,7 @@ void ips_enter(struct adapter *padapter)
+ 	}
+ 	pwrpriv->bips_processing = false;
+ 
+-	_exit_pwrlock(&pwrpriv->lock);
++	mutex_unlock(&pwrpriv->lock);
+ }
+ 
+ int ips_leave(struct adapter *padapter)
+@@ -53,7 +53,7 @@ int ips_leave(struct adapter *padapter)
+ 	int result = _SUCCESS;
+ 	int keyid;
+ 
+-	_enter_pwrlock(&pwrpriv->lock);
++	mutex_lock(&pwrpriv->lock);
+ 
+ 	if ((pwrpriv->rf_pwrstate == rf_off) && (!pwrpriv->bips_processing)) {
+ 		pwrpriv->bips_processing = true;
+@@ -87,7 +87,7 @@ int ips_leave(struct adapter *padapter)
+ 		pwrpriv->bpower_saving = false;
+ 	}
+ 
+-	_exit_pwrlock(&pwrpriv->lock);
++	mutex_unlock(&pwrpriv->lock);
+ 
+ 	return result;
+ }
+@@ -337,7 +337,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
+ {
+ 	struct pwrctrl_priv *pwrctrlpriv = &padapter->pwrctrlpriv;
+ 
+-	_init_pwrlock(&pwrctrlpriv->lock);
++	mutex_init(&pwrctrlpriv->lock);
+ 	pwrctrlpriv->rf_pwrstate = rf_on;
+ 	pwrctrlpriv->ips_enter_cnts = 0;
+ 	pwrctrlpriv->ips_leave_cnts = 0;
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index 886a1b6f30b4..efab3a97eb46 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -141,8 +141,6 @@ extern unsigned char RSN_TKIP_CIPHER[4];
+ 
+ void *rtw_malloc2d(int h, int w, int size);
+ 
+-u32  _rtw_down_sema(struct semaphore *sema);
+-
+ #define rtw_init_queue(q)					\
+ 	do {							\
+ 		INIT_LIST_HEAD(&((q)->queue));			\
+diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
+index 04236e42fbf9..b19ef796ab54 100644
+--- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
++++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
+@@ -27,21 +27,6 @@ enum power_mgnt {
+ 	PS_MODE_NUM
+ };
+ 
+-static inline void _init_pwrlock(struct semaphore  *plock)
+-{
+-	sema_init(plock, 1);
+-}
+-
+-static inline void _enter_pwrlock(struct semaphore  *plock)
+-{
+-	_rtw_down_sema(plock);
+-}
+-
+-static inline void _exit_pwrlock(struct semaphore  *plock)
+-{
+-	up(plock);
+-}
+-
+ #define LPS_DELAY_TIME	1*HZ /*  1 sec */
+ 
+ /*  RF state. */
+@@ -60,7 +45,7 @@ enum { /*  for ips_mode */
+ };
+ 
+ struct pwrctrl_priv {
+-	struct semaphore lock;
++	struct mutex lock; /* Mutex used to protect struct pwrctrl_priv */
+ 
+ 	u8	pwr_mode;
+ 	u8	smart_ps;
+diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
+index 6bee194fc35d..59bdd0abea7e 100644
+--- a/drivers/staging/r8188eu/os_dep/osdep_service.c
++++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
+@@ -42,14 +42,6 @@ Otherwise, there will be racing condition.
+ Caller must check if the list is empty before calling rtw_list_delete
+ */
+ 
+-u32 _rtw_down_sema(struct semaphore *sema)
+-{
+-	if (down_interruptible(sema))
+-		return _FAIL;
+-	else
+-		return _SUCCESS;
+-}
+-
+ inline u32 rtw_systime_to_ms(u32 systime)
+ {
+ 	return systime * 1000 / HZ;
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 7ed9f5f54472..fc74c93272a8 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -233,7 +233,7 @@ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
+ 	rtw_cancel_all_timer(padapter);
+ 	LeaveAllPowerSaveMode(padapter);
+ 
+-	_enter_pwrlock(&pwrpriv->lock);
++	mutex_lock(&pwrpriv->lock);
+ 	/* s1. */
+ 	if (pnetdev) {
+ 		netif_carrier_off(pnetdev);
+@@ -262,7 +262,7 @@ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
+ 	rtw_free_network_queue(padapter, true);
+ 
+ 	rtw_dev_unload(padapter);
+-	_exit_pwrlock(&pwrpriv->lock);
++	mutex_unlock(&pwrpriv->lock);
+ 
+ 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+ 		rtw_indicate_scan_done(padapter, 1);
+@@ -291,7 +291,7 @@ static int rtw_resume(struct usb_interface *pusb_intf)
+ 	pnetdev = padapter->pnetdev;
+ 	pwrpriv = &padapter->pwrctrlpriv;
+ 
+-	_enter_pwrlock(&pwrpriv->lock);
++	mutex_lock(&pwrpriv->lock);
+ 	rtw_reset_drv_sw(padapter);
+ 	if (pwrpriv)
+ 		pwrpriv->bkeepfwalive = false;
+@@ -303,7 +303,7 @@ static int rtw_resume(struct usb_interface *pusb_intf)
+ 	netif_device_attach(pnetdev);
+ 	netif_carrier_on(pnetdev);
+ 
+-	_exit_pwrlock(&pwrpriv->lock);
++	mutex_unlock(&pwrpriv->lock);
+ 
+ 	if (padapter->pid[1] != 0) {
+ 		DBG_88E("pid[1]:%d\n", padapter->pid[1]);
+-- 
+2.33.1
+
