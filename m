@@ -1,255 +1,93 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED80772
-	for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 17:52:36 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id g62-20020a9d2dc4000000b0054752cfbc59so5355721otb.1
-        for <linux-staging@lists.linux.dev>; Fri, 22 Oct 2021 10:52:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6952C98
+	for <linux-staging@lists.linux.dev>; Sat, 23 Oct 2021 07:37:14 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id k26so5675702pfi.5
+        for <linux-staging@lists.linux.dev>; Sat, 23 Oct 2021 00:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9vRoK9NkDaSIDvw/bJU45bxhOuhdHLOM+rxxkRdX9bg=;
-        b=hykyvAVzLMHeyTkdLudPSVmsn69bZf3bAmyw69b0Zd/6Ajk0v5YzjT57QyODaDscc+
-         bT26vtWej1qk6z7CvD1v+xpRtEHLmasJRcHNLWwIl9VUVRUuBKHRh7JNq03DUqlEanaN
-         l8ANQXybBpnJfGU1vhzQWy8YSQgzGbXrLLbF3cTgu9aq+wB9ouud88r2lMr5K0KxNPP2
-         ZGTOlUPVjZhYIvPFiYnopmPoUtUOeXKHIQ0BZPrz73QNv6KJ3HZeiYwMKoZBx1UQtddF
-         0IN/ociWhrkdNTyYpB107hR2vAcouirqmtDoj1cdpClOBBathmjUyUoG4YHuLFyc0lI+
-         ntOA==
+        bh=P+5ziw6NsyhF53DNCK8sntvKXOSlWURctQDb8KvB3dQ=;
+        b=m9lRHPRyDfHhdaCjSgkwRrfTDVO1ixInKtfSwv2eH2tCgk8kmaAzxnUlw8xzYdYBZu
+         eMMkbLD0EZRIgWK9IeZSfPWMM8wKV1XGYot0HLPpP3AFny7nCR3ZggzUKy9x4K4MJoel
+         LxB3+xCZKSIpsNiDTmx2A5TupFhUDD37tjNJe51qP9tR0V38mLjHbIPkC+wPGy2OdoW/
+         wRjSbIZhWmsTsIVnA4lEdOHGLTV4Brg9aTmDPYoHzLs5SoxiLhCjLNQ4jLAgoEfCvXpv
+         qH+tWIYM6NxwAcNA6lfZS3dTYW8SNbraPmN6sd7+VDgTzH1WtaMTa/1AzblWZAjiJkOt
+         8lyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9vRoK9NkDaSIDvw/bJU45bxhOuhdHLOM+rxxkRdX9bg=;
-        b=MkiDOk261tn/ljjRTaNxTH7NMWykOBq1YNCZphnlKR2R4U9Es06Ypu2ZKAkw2zsNRI
-         9zcQW6AfjpSVym7GMx3MWxoEJMfUDolJmjDqws/pm4z8cm7osRDpaykxKzbD73ti+KKy
-         LVF9yQlTA8qUZpGATg/eD6qc4+uUOEXLOzrpIpL/G3XVxK5Zu+2cawHlunrVxVT0ehLw
-         sORgjUaeZpcXqxLhzx/LMBG3GpYOIZGAhm7ERRLG2dFJ38B0hQhHB3w4nJ3Q2+HtP6Dn
-         sKd6kQ7ER35omFDo5wDPkmppHdW+a2iFTY33xotWKMQt3krKMVgBujLF1M7Wl3xH+ERu
-         0HWA==
-X-Gm-Message-State: AOAM531FjMstlwYxxdxU9KVdHFk5F1OHMTSRTsXjMN7MbSis3Oo8Noje
-	YY92C1Ex1vpN9HAZHR6uUXc=
-X-Google-Smtp-Source: ABdhPJyHkkESposILbSCliuNV7iNvg11W4nD+u+AelReARLoAeDeu6FXHtF17BBqmTujq+Omv0jiBA==
-X-Received: by 2002:a05:6830:4426:: with SMTP id q38mr1048193otv.303.1634925156046;
-        Fri, 22 Oct 2021 10:52:36 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::101e? (2603-8090-2005-39b3-0000-0000-0000-101e.res6.spectrum.com. [2603:8090:2005:39b3::101e])
-        by smtp.gmail.com with ESMTPSA id w141sm1980640oif.20.2021.10.22.10.52.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Oct 2021 10:52:35 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <0e327ca3-7caa-e904-c3f7-45ae28dea367@lwfinger.net>
-Date: Fri, 22 Oct 2021 12:52:33 -0500
+        bh=P+5ziw6NsyhF53DNCK8sntvKXOSlWURctQDb8KvB3dQ=;
+        b=62YZX1UVlllyRAA3ZK9md4xKAOFMP65uXieXZtD+OJxi43L5lNVDgkJ3G6Qr6RHEqQ
+         wnsU6htVQCzhl2yplnDQsFoFE5/gJckbsN1VZeGeR9nuNq//ZrBU9jZohJXmB9nw0eRW
+         L/tqbBAC18chOGet3bY9uUZObYAK+ALDUvtEqW8nyp4exmzATQ6XeL/Yl5gdZ/TV7lZs
+         JptVvnI3uOJ44AUMUjnpEpo2xHQfCDzsJkDHiAOo4s28nn4Hdqgy2MAJhLxbPO2VA8dr
+         JJefdXeRW1bpfgLiEEPR6cfVYNOFmluLpjckfDmud8qO4Qu7cFCXkDYPTR53SCTNhRza
+         Wb7g==
+X-Gm-Message-State: AOAM532qUd6gX6cDYZxty4/9S5LX4fW6qwzNTQIOH4ZmTIQjaKXjxSHI
+	nuaO4JTsC4oy9n2JOUtIW2s=
+X-Google-Smtp-Source: ABdhPJw1Q+E8/yFh/Fk+CPb15rQs05FtKFPhSb44WTtKV8+iCQA2zVaPxNJ11FLf+RkpfZW5PD+XOg==
+X-Received: by 2002:a05:6a00:1148:b0:47b:c0c6:75da with SMTP id b8-20020a056a00114800b0047bc0c675damr3649320pfm.61.1634974633691;
+        Sat, 23 Oct 2021 00:37:13 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:5173:67c9:d8e4:2819:8ee8:8de4])
+        by smtp.googlemail.com with ESMTPSA id c4sm13949791pfv.144.2021.10.23.00.37.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Oct 2021 00:37:13 -0700 (PDT)
+From: Kushal Kothari <kushalkothari285@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: kushalkothari285@gmail.com,
+	kush19992810@gmail.com,
+	outreachy-kernel@googlegroups.com,
+	fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	fmdefrancesco@gmail.com,
+	marcocesati@gmail.com,
+	straube.linux@gmail.com,
+	philippesdixon@gmail.com,
+	manuelpalenzuelamerino@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	mike.rapoport@gmail.com,
+	kushalkotharitest@googlegroups.com
+Subject: [PATCH v4 0/4] staging: rtl8723bs: core: Cleanup patchset for style issues in rtw_cmd.c
+Date: Sat, 23 Oct 2021 13:05:46 +0530
+Message-Id: <cover.1634967010.git.kushalkothari285@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] staging: r8188eu: Use a Mutex instead of a binary
- Semaphore
-Content-Language: en-US
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Phillip Potter <phil@philpotter.co.uk>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211022171917.24363-1-fmdefrancesco@gmail.com>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <20211022171917.24363-1-fmdefrancesco@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/22/21 12:19, Fabio M. De Francesco wrote:
-> Use a Mutex instead of a binary Semaphore for the purpose of enforcing
-> mutual exclusive access to the "pwrctrl_priv" structure.
-> 
-> Mutexes are sleeping locks similar to Semaphores with a 'count' of one
-> (like binary Semaphores), however they have a simpler interface, more
-> efficient performance, and additional constraints.
-> 
-> There is no change in the logic of the new code; however it is more
-> simple because it gets rid of four unnecessary wrappers:
-> _init_pwrlock(), _enter_pwrlock(),_exit_pwrlock(), _rtw_down_sema().
-> 
-> Actually, there is a change in the state in which the code waits for
-> acquiring locks, because it makes it in an uninterruptible state
-> (instead the old code used down_interruptibe()). Interruptible
-> waits are neither required nor wanted in this driver.
-> 
-> Tested with ASUSTek Computer, Inc. Realtek 8188EUS [USB-N10 Nano].
-> 
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+These patches make changes to clean up style issues identified
+by checkpatch.
 
-Well done.
+Kushal Kothari (4):
+  staging: rtl8723bs: core: Remove true and false comparison
+  staging: rtl8723bs: core: Remove unnecessary parentheses
+  staging: rtl8723bs: core: Remove unnecessary space after a cast
+  staging: rtl8723bs: core: Remove unnecessary blank lines
 
-Acked-by: Larry Finger <Larry.Finger@lwfinger.net>
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 94 +++++++++---------------
+ 1 file changed, 34 insertions(+), 60 deletions(-)
 
-> ---
->   drivers/staging/r8188eu/core/rtw_pwrctrl.c      | 10 +++++-----
->   drivers/staging/r8188eu/include/osdep_service.h |  2 --
->   drivers/staging/r8188eu/include/rtw_pwrctrl.h   | 17 +----------------
->   drivers/staging/r8188eu/os_dep/osdep_service.c  |  8 --------
->   drivers/staging/r8188eu/os_dep/usb_intf.c       |  8 ++++----
->   5 files changed, 10 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_pwrctrl.c b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> index 19cac5814ea4..5d595cf2a47e 100644
-> --- a/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> +++ b/drivers/staging/r8188eu/core/rtw_pwrctrl.c
-> @@ -21,7 +21,7 @@ void ips_enter(struct adapter *padapter)
->   		return;
->   	}
->   
-> -	_enter_pwrlock(&pwrpriv->lock);
-> +	mutex_lock(&pwrpriv->lock);
->   
->   	pwrpriv->bips_processing = true;
->   
-> @@ -42,7 +42,7 @@ void ips_enter(struct adapter *padapter)
->   	}
->   	pwrpriv->bips_processing = false;
->   
-> -	_exit_pwrlock(&pwrpriv->lock);
-> +	mutex_unlock(&pwrpriv->lock);
->   }
->   
->   int ips_leave(struct adapter *padapter)
-> @@ -53,7 +53,7 @@ int ips_leave(struct adapter *padapter)
->   	int result = _SUCCESS;
->   	int keyid;
->   
-> -	_enter_pwrlock(&pwrpriv->lock);
-> +	mutex_lock(&pwrpriv->lock);
->   
->   	if ((pwrpriv->rf_pwrstate == rf_off) && (!pwrpriv->bips_processing)) {
->   		pwrpriv->bips_processing = true;
-> @@ -87,7 +87,7 @@ int ips_leave(struct adapter *padapter)
->   		pwrpriv->bpower_saving = false;
->   	}
->   
-> -	_exit_pwrlock(&pwrpriv->lock);
-> +	mutex_unlock(&pwrpriv->lock);
->   
->   	return result;
->   }
-> @@ -337,7 +337,7 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
->   {
->   	struct pwrctrl_priv *pwrctrlpriv = &padapter->pwrctrlpriv;
->   
-> -	_init_pwrlock(&pwrctrlpriv->lock);
-> +	mutex_init(&pwrctrlpriv->lock);
->   	pwrctrlpriv->rf_pwrstate = rf_on;
->   	pwrctrlpriv->ips_enter_cnts = 0;
->   	pwrctrlpriv->ips_leave_cnts = 0;
-> diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
-> index 886a1b6f30b4..efab3a97eb46 100644
-> --- a/drivers/staging/r8188eu/include/osdep_service.h
-> +++ b/drivers/staging/r8188eu/include/osdep_service.h
-> @@ -141,8 +141,6 @@ extern unsigned char RSN_TKIP_CIPHER[4];
->   
->   void *rtw_malloc2d(int h, int w, int size);
->   
-> -u32  _rtw_down_sema(struct semaphore *sema);
-> -
->   #define rtw_init_queue(q)					\
->   	do {							\
->   		INIT_LIST_HEAD(&((q)->queue));			\
-> diff --git a/drivers/staging/r8188eu/include/rtw_pwrctrl.h b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-> index 04236e42fbf9..b19ef796ab54 100644
-> --- a/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-> +++ b/drivers/staging/r8188eu/include/rtw_pwrctrl.h
-> @@ -27,21 +27,6 @@ enum power_mgnt {
->   	PS_MODE_NUM
->   };
->   
-> -static inline void _init_pwrlock(struct semaphore  *plock)
-> -{
-> -	sema_init(plock, 1);
-> -}
-> -
-> -static inline void _enter_pwrlock(struct semaphore  *plock)
-> -{
-> -	_rtw_down_sema(plock);
-> -}
-> -
-> -static inline void _exit_pwrlock(struct semaphore  *plock)
-> -{
-> -	up(plock);
-> -}
-> -
->   #define LPS_DELAY_TIME	1*HZ /*  1 sec */
->   
->   /*  RF state. */
-> @@ -60,7 +45,7 @@ enum { /*  for ips_mode */
->   };
->   
->   struct pwrctrl_priv {
-> -	struct semaphore lock;
-> +	struct mutex lock; /* Mutex used to protect struct pwrctrl_priv */
->   
->   	u8	pwr_mode;
->   	u8	smart_ps;
-> diff --git a/drivers/staging/r8188eu/os_dep/osdep_service.c b/drivers/staging/r8188eu/os_dep/osdep_service.c
-> index 6bee194fc35d..59bdd0abea7e 100644
-> --- a/drivers/staging/r8188eu/os_dep/osdep_service.c
-> +++ b/drivers/staging/r8188eu/os_dep/osdep_service.c
-> @@ -42,14 +42,6 @@ Otherwise, there will be racing condition.
->   Caller must check if the list is empty before calling rtw_list_delete
->   */
->   
-> -u32 _rtw_down_sema(struct semaphore *sema)
-> -{
-> -	if (down_interruptible(sema))
-> -		return _FAIL;
-> -	else
-> -		return _SUCCESS;
-> -}
-> -
->   inline u32 rtw_systime_to_ms(u32 systime)
->   {
->   	return systime * 1000 / HZ;
-> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index 7ed9f5f54472..fc74c93272a8 100644
-> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -233,7 +233,7 @@ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
->   	rtw_cancel_all_timer(padapter);
->   	LeaveAllPowerSaveMode(padapter);
->   
-> -	_enter_pwrlock(&pwrpriv->lock);
-> +	mutex_lock(&pwrpriv->lock);
->   	/* s1. */
->   	if (pnetdev) {
->   		netif_carrier_off(pnetdev);
-> @@ -262,7 +262,7 @@ static int rtw_suspend(struct usb_interface *pusb_intf, pm_message_t message)
->   	rtw_free_network_queue(padapter, true);
->   
->   	rtw_dev_unload(padapter);
-> -	_exit_pwrlock(&pwrpriv->lock);
-> +	mutex_unlock(&pwrpriv->lock);
->   
->   	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
->   		rtw_indicate_scan_done(padapter, 1);
-> @@ -291,7 +291,7 @@ static int rtw_resume(struct usb_interface *pusb_intf)
->   	pnetdev = padapter->pnetdev;
->   	pwrpriv = &padapter->pwrctrlpriv;
->   
-> -	_enter_pwrlock(&pwrpriv->lock);
-> +	mutex_lock(&pwrpriv->lock);
->   	rtw_reset_drv_sw(padapter);
->   	if (pwrpriv)
->   		pwrpriv->bkeepfwalive = false;
-> @@ -303,7 +303,7 @@ static int rtw_resume(struct usb_interface *pusb_intf)
->   	netif_device_attach(pnetdev);
->   	netif_carrier_on(pnetdev);
->   
-> -	_exit_pwrlock(&pwrpriv->lock);
-> +	mutex_unlock(&pwrpriv->lock);
->   
->   	if (padapter->pid[1] != 0) {
->   		DBG_88E("pid[1]:%d\n", padapter->pid[1]);
-> 
+-- 
+2.25.1
+
+Changes in v4:
+move version notes below the cutoff
+
+Changes in v3:
+Enclose the version number inside the square bracket in the subject.
+
+Changes in v2:
+[PATCH 1/4]: Moved unnecessary parentheses change in PATCH 2/4
+[PATCH 2/4]: Added the extra parentheses change from PATCH 1/4 here.
+[PATCH 3/4]: No Changes
+[PATCH 4/4]: Fix whitespace error.
 
