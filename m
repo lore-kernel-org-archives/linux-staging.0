@@ -1,84 +1,90 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E122C8B
-	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 18:43:49 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id a26so8582016edy.11
-        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 11:43:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3D02C98
+	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 21:25:42 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id b4so6060738uaq.9
+        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 14:25:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PLo2wPZ3sr8u/YMmfsE81ITzb2gWI/ZlBw1GMaku9Tc=;
-        b=CFKJXauMo5jd0vAv6qp4CeyWsOcWCS8QQp71I5fmYmWbzCK45jxRLlYq1Xf6evAl/c
-         pHwQgGhuHqf6BR9Jtn2EvGxnb7IyZULt3r417XlD/3NSCZofHfHy0RQRlR41sr/QXCxf
-         xNeb0vtjaAaWkgID5qa8K0Gr14IQr3KZV1GfmBgRYoDlCTsssuFgwLKtM56SHHTa2eHo
-         GD67keayVQDfnsCGmLwGJ9s0hDQcE/gS4SN6bbPL4CiHUC++9lTJhZxHOFUtZH8eWVrI
-         uSrMOF3niuSlsPszGKIURwqH9W7UERmSC0XHreHo2SdDDsIN9VtfS7BL0Lo+/sy8DEqO
-         I9eQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DqiOv1p3LOB7EKypi/0mOrwTqn1iriyu35ZKspNjngg=;
+        b=DKvSVO+p/SFxE0r75HKW9OuNa3MhS2EvqtN+4jkFUbBPoib8QfYDoroxok9N3so9Hn
+         exhiDYfvK2JpmUiZ3PfYfOGMAhDkvjZa+gZMlmPsZy+IucG2AQO8nhm5Vwvz0TTVCyAH
+         /e8tl2ROV1EWMF1aVd5piqcoYTirX2dcwcX4hvabIBWQ7XoUnJD+mJntHWL/hYKCgBpw
+         F+u7+KJaujnOFFeebEBtc58FDEY8TqARz9MRaPik32iYwtL4Y/icdw2c71jJ3ol/zpcM
+         1Y1Fjl/u3r2/IydIaNAEyfSBll6J25biOQJwKRpwizoVoK6yv6PRZEiFqz+WcdD78tvG
+         4s9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PLo2wPZ3sr8u/YMmfsE81ITzb2gWI/ZlBw1GMaku9Tc=;
-        b=3OFDrr0TBQjDH34VnSiUfIUt/qbBlCJ3l/6mPhy/egbtkWxNKLZuaBzuEWpGqmL8Nk
-         YQVbkBbcklJKt6UR2MzdBpRbwqiww/r4ngaHjOND9W8yxWLELFtHtyFPdza9ow9yvp2O
-         OOHrsEl8Jsu7nc5l0+tmA/mOUbscqVg/eOzJXq77Dgyq8qoZvh9hHGg6Apil+cWAayOX
-         64UknTAk76PRyX3K/zZh0CpBh5a5Qz5wXMYEsQf4zRSobdhGtJd0DmecJUU7ppPHdz1h
-         PcrgbLQ7vh9b0dGpNoWFKCnsbxGRMHa6aRGZV20o1Z5IEOmWPWaS8sRZKel4R3PlD7KF
-         4WeA==
-X-Gm-Message-State: AOAM533Mhwv1gJt0kt2p7CWW+kQNN2jvxS5bWGeaikjff+kEMfbRrzKx
-	8IMHF4Rq0T3sOnU6Bm2DWiI=
-X-Google-Smtp-Source: ABdhPJxMh0UwooY8Fhupl3FToFhxvOqdRLyjq0rnk44fZPEnTi9jNe8YhI0+AvhF9L6MdQDPZWrEdA==
-X-Received: by 2002:a05:6402:1436:: with SMTP id c22mr19770675edx.153.1635101027553;
-        Sun, 24 Oct 2021 11:43:47 -0700 (PDT)
-Received: from tom-desktop (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
-        by smtp.gmail.com with ESMTPSA id qb15sm2106800ejc.108.2021.10.24.11.43.46
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DqiOv1p3LOB7EKypi/0mOrwTqn1iriyu35ZKspNjngg=;
+        b=pwOi1Irz1rCgGuvcw9irb16jBpTSR5u0eau/dROY/tm5wNID8Kj4n6YIhr3UJHaQhC
+         cpbXje5c1loFR/nfRl0nNbxOihl75Yc3BvqT1mrG3QZjDoVZyaYB1bMWhsVsKgu22G++
+         xFIme+p6gj/AmGmGOjEFDmpNGF1YrVszRg8hRSzhPiQaT7PCURtjkCWj1MngC+7J3vpd
+         wG6QE26Voq0pIFPrqrc+vanjEXjkYjiri0GWKmcGC7q8+z8DTO/lkFCcjdvbIHsfbdQ6
+         3D7FV3ePlKh3YlEYXaSMLY/+pt07q25z8NYRJ9KU0LBc8GoWna0gvkoep5s4nXR8VLXT
+         fxcA==
+X-Gm-Message-State: AOAM531MyUMcMpRz9GiFdmwKHtAL0xcoOHqr58nyjMdHKIoUsbQUQcfF
+	58cLrbhXZHQuSP8ALV8URgz/olWrt8poqw==
+X-Google-Smtp-Source: ABdhPJx5a3/eziA4Af2q1yZwIzzKVvrciYGyHTKBotRo8MHzV2NoNC5PYHiWoxrmggMICmrqgmm2pQ==
+X-Received: by 2002:a67:d81a:: with SMTP id e26mr11952472vsj.23.1635110740894;
+        Sun, 24 Oct 2021 14:25:40 -0700 (PDT)
+Received: from localhost.localdomain ([191.83.215.63])
+        by smtp.gmail.com with ESMTPSA id 45sm8847869uaq.8.2021.10.24.14.25.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Oct 2021 11:43:46 -0700 (PDT)
-Date: Sun, 24 Oct 2021 20:43:45 +0200
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vt6655: fix camelcase byData in card.c
-Message-ID: <20211024184345.GA7946@tom-desktop>
-References: <20211018192124.8738-1-tomm.merciai@gmail.com>
- <YW5ceCLSIRl5zJIm@kroah.com>
+        Sun, 24 Oct 2021 14:25:40 -0700 (PDT)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	nsaenz@kernel.org,
+	stefan.wahren@i2se.com,
+	arnd@arndb.de,
+	dan.carpenter@oracle.com,
+	ojaswin98@gmail.com,
+	amarjargal16@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH v2 0/8] vchiq_core: various style cleanups
+Date: Sun, 24 Oct 2021 18:25:16 -0300
+Message-Id: <20211024212524.370078-1-gascoar@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YW5ceCLSIRl5zJIm@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 19, 2021 at 07:49:44AM +0200, Greg Kroah-Hartman wrote:
-> On Mon, Oct 18, 2021 at 09:21:22PM +0200, Tommaso Merciai wrote:
-> > Replace camelcase variable "byData" into linux kernel coding style
-> > equivalent variable "data" in card.c.
-> > "by" prefix in hungarian notation stands for byte or unsigned char
-> > 
-> > References:
-> >  - https://www.cse.iitk.ac.in/users/dsrkg/cs245/html/Guide.htm
-> 
-> Don't provide web links in a changelog text, they might not endure.
-> 
-> >  - https://www.kernel.org/doc/html/v4.10/process/coding-style.html
-> 
-> Why the old and obsolete 4.10 kernel document?
-> 
-> thanks,
-> 
-> greg k-h
+This set of patches consists in some code style fixes.
 
-  Hi Greg,
-  I'll update and resend.
-  
-  Thanks,
-  Tommaso
+v1 -> v2:
+
+- Drop change wrongly attributed as a checkpatch fix.
+- Unify patches that fix unnecessary blank lines.
+
+Gaston Gonzalez (8):
+  staging: vchiq_core: cleanup blank lines
+  staging: vchiq_core: cleanup code alignment issues
+  staging: vchiq_core.h: fix CamelCase in function declaration
+  staging: vchiq_core.h: use preferred kernel types
+  staging: vchiq: drop trailing semicolon in macro definition
+  staging: vchiq_core: drop extern prefix in function declarations
+  staging: vchiq_core: cleanup lines that end with '(' or '['
+  staging: vchiq_core: fix quoted strings split across lines
+
+ .../interface/vchiq_arm/vchiq_arm.c           |   4 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 763 +++++++-----------
+ .../interface/vchiq_arm/vchiq_core.h          |  99 +--
+ .../interface/vchiq_arm/vchiq_dev.c           |   4 +-
+ 4 files changed, 335 insertions(+), 535 deletions(-)
+
+-- 
+2.33.1
+
