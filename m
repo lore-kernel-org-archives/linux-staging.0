@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273272C81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B9C2C9F
 	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 18:05:07 +0000 (UTC)
 Received: from dslb-178-004-201-201.178.004.pools.vodafone-ip.de ([178.4.201.201] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mehrd-00049p-Gw; Sun, 24 Oct 2021 20:04:57 +0200
+	id 1mehrj-00049p-OY; Sun, 24 Oct 2021 20:05:03 +0200
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,10 +16,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 0/5] staging: r8188eu: remove struct sreset_priv
-Date: Sun, 24 Oct 2021 20:04:43 +0200
-Message-Id: <20211024180448.20624-1-martin@kaiser.cx>
+Subject: [PATCH 4/5] staging: r8188eu: remove last_tx_complete_time
+Date: Sun, 24 Oct 2021 20:04:47 +0200
+Message-Id: <20211024180448.20624-5-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211024180448.20624-1-martin@kaiser.cx>
+References: <20211024180448.20624-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,30 +30,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sreset_priv structure is not used by the r8188eu driver. This patchset
-removes sreset_priv step by step.
+last_tx_complete_time from struct sreset_priv is set / calculated when a
+packet is sent out. Like other sreset_priv components, it is not read and
+can be removed.
 
-Martin Kaiser (5):
-  staging: r8188eu: silent_reset_inprogress is never read
-  staging: r8188eu: wifi_error_status is write-only
-  staging: r8188eu: silentreset_mutex is unused
-  staging: r8188eu: remove last_tx_complete_time
-  staging: r8188eu: remove the sreset_priv structure
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/core/rtw_sreset.c      |  2 --
+ drivers/staging/r8188eu/hal/rtl8188e_sreset.c  | 15 ---------------
+ drivers/staging/r8188eu/include/rtw_sreset.h   |  1 -
+ drivers/staging/r8188eu/os_dep/usb_ops_linux.c |  4 ----
+ 4 files changed, 22 deletions(-)
 
- drivers/staging/r8188eu/Makefile              |  1 -
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   |  2 ++
- drivers/staging/r8188eu/core/rtw_sreset.c     | 32 -------------------
- drivers/staging/r8188eu/hal/rtl8188e_sreset.c | 15 ---------
- drivers/staging/r8188eu/hal/usb_ops_linux.c   | 10 ------
- .../staging/r8188eu/include/rtl8188e_hal.h    |  1 -
- .../staging/r8188eu/include/rtl8188e_sreset.h |  1 -
- drivers/staging/r8188eu/include/rtw_sreset.h  | 29 -----------------
- drivers/staging/r8188eu/os_dep/os_intfs.c     |  4 ---
- .../staging/r8188eu/os_dep/usb_ops_linux.c    | 18 +++--------
- 10 files changed, 6 insertions(+), 107 deletions(-)
- delete mode 100644 drivers/staging/r8188eu/core/rtw_sreset.c
- delete mode 100644 drivers/staging/r8188eu/include/rtw_sreset.h
-
+diff --git a/drivers/staging/r8188eu/core/rtw_sreset.c b/drivers/staging/r8188eu/core/rtw_sreset.c
+index bf436a653c71..1df46673bddd 100644
+--- a/drivers/staging/r8188eu/core/rtw_sreset.c
++++ b/drivers/staging/r8188eu/core/rtw_sreset.c
+@@ -9,7 +9,6 @@ void sreset_init_value(struct adapter *padapter)
+ 	struct sreset_priv *psrtpriv = &pHalData->srestpriv;
+ 
+ 	psrtpriv->last_tx_time = 0;
+-	psrtpriv->last_tx_complete_time = 0;
+ }
+ void sreset_reset_value(struct adapter *padapter)
+ {
+@@ -17,5 +16,4 @@ void sreset_reset_value(struct adapter *padapter)
+ 	struct sreset_priv *psrtpriv = &pHalData->srestpriv;
+ 
+ 	psrtpriv->last_tx_time = 0;
+-	psrtpriv->last_tx_complete_time = 0;
+ }
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_sreset.c b/drivers/staging/r8188eu/hal/rtl8188e_sreset.c
+index ea793fef6f10..7b3ac6e306ce 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_sreset.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_sreset.c
+@@ -8,12 +8,6 @@
+ 
+ void rtl8188e_sreset_xmit_status_check(struct adapter *padapter)
+ {
+-	struct hal_data_8188e	*pHalData = GET_HAL_DATA(padapter);
+-	struct sreset_priv *psrtpriv = &pHalData->srestpriv;
+-
+-	unsigned long current_time;
+-	struct xmit_priv	*pxmitpriv = &padapter->xmitpriv;
+-	unsigned int diff_time;
+ 	u32 txdma_status;
+ 
+ 	txdma_status = rtw_read32(padapter, REG_TXDMA_STATUS);
+@@ -22,15 +16,6 @@ void rtl8188e_sreset_xmit_status_check(struct adapter *padapter)
+ 		rtw_write32(padapter, REG_TXDMA_STATUS, txdma_status);
+ 	}
+ 	/* total xmit irp = 4 */
+-	current_time = jiffies;
+-	if (0 == pxmitpriv->free_xmitbuf_cnt) {
+-		diff_time = jiffies_to_msecs(current_time - psrtpriv->last_tx_time);
+-
+-		if (diff_time > 2000) {
+-			if (psrtpriv->last_tx_complete_time == 0)
+-				psrtpriv->last_tx_complete_time = current_time;
+-		}
+-	}
+ }
+ 
+ void rtl8188e_sreset_linked_status_check(struct adapter *padapter)
+diff --git a/drivers/staging/r8188eu/include/rtw_sreset.h b/drivers/staging/r8188eu/include/rtw_sreset.h
+index f404cbd54f9f..ff84cdc02c2c 100644
+--- a/drivers/staging/r8188eu/include/rtw_sreset.h
++++ b/drivers/staging/r8188eu/include/rtw_sreset.h
+@@ -9,7 +9,6 @@
+ 
+ struct sreset_priv {
+ 	unsigned long last_tx_time;
+-	unsigned long last_tx_complete_time;
+ };
+ 
+ #include "rtl8188e_hal.h"
+diff --git a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+index 966fba50f73d..57a435138bf0 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/os_dep/usb_ops_linux.c
+@@ -53,7 +53,6 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
+ 	struct xmit_buf *pxmitbuf = (struct xmit_buf *)purb->context;
+ 	struct adapter	*padapter = pxmitbuf->padapter;
+ 	struct xmit_priv	*pxmitpriv = &padapter->xmitpriv;
+-	struct hal_data_8188e	*haldata;
+ 
+ 	switch (pxmitbuf->flags) {
+ 	case VO_QUEUE_INX:
+@@ -106,9 +105,6 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
+ 		}
+ 	}
+ 
+-	haldata = GET_HAL_DATA(padapter);
+-	haldata->srestpriv.last_tx_complete_time = jiffies;
+-
+ check_completion:
+ 	rtw_sctx_done_err(&pxmitbuf->sctx,
+ 			  purb->status ? RTW_SCTX_DONE_WRITE_PORT_ERR :
 -- 
 2.20.1
 
