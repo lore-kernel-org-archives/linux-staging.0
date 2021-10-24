@@ -1,41 +1,41 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3D02C98
-	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 21:25:42 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id b4so6060738uaq.9
-        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 14:25:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53582C98
+	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 21:25:44 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id o26so4335048uab.5
+        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 14:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DqiOv1p3LOB7EKypi/0mOrwTqn1iriyu35ZKspNjngg=;
-        b=DKvSVO+p/SFxE0r75HKW9OuNa3MhS2EvqtN+4jkFUbBPoib8QfYDoroxok9N3so9Hn
-         exhiDYfvK2JpmUiZ3PfYfOGMAhDkvjZa+gZMlmPsZy+IucG2AQO8nhm5Vwvz0TTVCyAH
-         /e8tl2ROV1EWMF1aVd5piqcoYTirX2dcwcX4hvabIBWQ7XoUnJD+mJntHWL/hYKCgBpw
-         F+u7+KJaujnOFFeebEBtc58FDEY8TqARz9MRaPik32iYwtL4Y/icdw2c71jJ3ol/zpcM
-         1Y1Fjl/u3r2/IydIaNAEyfSBll6J25biOQJwKRpwizoVoK6yv6PRZEiFqz+WcdD78tvG
-         4s9Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BUZrb/8Tu+o0w2Zrk3jfeV2yAEX/FiW+ydM/SILOmDc=;
+        b=mNmxG7ptRvHDkHl0zzqXCFzL6bfLkvmlWIcj44A07+YEnbRIvvLldDFyOem6ncngFo
+         VlfxdgBK9P7g5R6QLQBMhTQNPC4JMMuHAbt06IMjzl7QK7p/gOxuiCf8TDf4gR8RlBza
+         omp1hPLcSnp2nIrcoBowS0hpdvPl0pmEJ0R5bsRknNCrQSS9B2Ysa2deTBp7HhDgqqrc
+         v1o/F28cz/D+4rzAoC6uQa0uWSAihg9CYP5rJviR7zF3OlZwKweEdtnR1vFzmGn6zkUx
+         DKeSXDvrulPX8ZN4KFydTeLfMKmSs3A2PsxlsaRgpw9aE8XM+lY+EoV+/Y8WgrKGY/Y8
+         1m2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DqiOv1p3LOB7EKypi/0mOrwTqn1iriyu35ZKspNjngg=;
-        b=pwOi1Irz1rCgGuvcw9irb16jBpTSR5u0eau/dROY/tm5wNID8Kj4n6YIhr3UJHaQhC
-         cpbXje5c1loFR/nfRl0nNbxOihl75Yc3BvqT1mrG3QZjDoVZyaYB1bMWhsVsKgu22G++
-         xFIme+p6gj/AmGmGOjEFDmpNGF1YrVszRg8hRSzhPiQaT7PCURtjkCWj1MngC+7J3vpd
-         wG6QE26Voq0pIFPrqrc+vanjEXjkYjiri0GWKmcGC7q8+z8DTO/lkFCcjdvbIHsfbdQ6
-         3D7FV3ePlKh3YlEYXaSMLY/+pt07q25z8NYRJ9KU0LBc8GoWna0gvkoep5s4nXR8VLXT
-         fxcA==
-X-Gm-Message-State: AOAM531MyUMcMpRz9GiFdmwKHtAL0xcoOHqr58nyjMdHKIoUsbQUQcfF
-	58cLrbhXZHQuSP8ALV8URgz/olWrt8poqw==
-X-Google-Smtp-Source: ABdhPJx5a3/eziA4Af2q1yZwIzzKVvrciYGyHTKBotRo8MHzV2NoNC5PYHiWoxrmggMICmrqgmm2pQ==
-X-Received: by 2002:a67:d81a:: with SMTP id e26mr11952472vsj.23.1635110740894;
-        Sun, 24 Oct 2021 14:25:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BUZrb/8Tu+o0w2Zrk3jfeV2yAEX/FiW+ydM/SILOmDc=;
+        b=GYuEAFnwDu9iNxXQ0Q3aZfmSS5Epn1hj8QGKTuCi2cLM9tYiWJqoYMztKwitSv1V2P
+         pdXhBZwubIuTb1tPKLrJUAZHT5Cw8Wne2R87f7iB6eYgSb8lFznAuYyLAxMdQcFujlJa
+         vLhU+HvAM4JmkQp1R2o+3tbXr9WTd9JyC/052Lf7LVBbTg92snUVdXd0yw4zaAix1krL
+         M40Ohr7T++du8VJPXYVAA2ChN1fuwyMndS7dnXITPVK9v8L37jc7eVbcDCEaVP38ZKdp
+         3MSKaRQ3vTP5vzhi3NqOSXitfk2cgVxXYO+/82+8ZRVklvuprc0e9WxJt8xQM6Z3/Z/M
+         ltew==
+X-Gm-Message-State: AOAM530ZdQDpwXi8jpI+zhmkwQOrHpGzKp50e8nnPdGO0UBBTNTzi0+h
+	c3pyt1YS8cPnp+AB8x2+EH5I6654zoYGpQ==
+X-Google-Smtp-Source: ABdhPJxk/CNcqk31LoGeoNiFDolG+3j9ZXhJhPee+dhU51Z5ZSzZQwiWi1XR4dHLuCTCO5l7gt0V8g==
+X-Received: by 2002:a67:c217:: with SMTP id i23mr12323615vsj.52.1635110743707;
+        Sun, 24 Oct 2021 14:25:43 -0700 (PDT)
 Received: from localhost.localdomain ([191.83.215.63])
-        by smtp.gmail.com with ESMTPSA id 45sm8847869uaq.8.2021.10.24.14.25.38
+        by smtp.gmail.com with ESMTPSA id 45sm8847869uaq.8.2021.10.24.14.25.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Oct 2021 14:25:40 -0700 (PDT)
+        Sun, 24 Oct 2021 14:25:43 -0700 (PDT)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -50,10 +50,12 @@ Cc: gregkh@linuxfoundation.org,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH v2 0/8] vchiq_core: various style cleanups
-Date: Sun, 24 Oct 2021 18:25:16 -0300
-Message-Id: <20211024212524.370078-1-gascoar@gmail.com>
+Subject: [PATCH v2 1/8] staging: vchiq_core: cleanup blank lines
+Date: Sun, 24 Oct 2021 18:25:17 -0300
+Message-Id: <20211024212524.370078-2-gascoar@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211024212524.370078-1-gascoar@gmail.com>
+References: <20211024212524.370078-1-gascoar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,29 +64,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This set of patches consists in some code style fixes.
+Remove unnecessary blank lines.
 
-v1 -> v2:
+Reported by checkpatch.pl
 
-- Drop change wrongly attributed as a checkpatch fix.
-- Unify patches that fix unnecessary blank lines.
+Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+---
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c | 2 --
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 3 ---
+ 2 files changed, 5 deletions(-)
 
-Gaston Gonzalez (8):
-  staging: vchiq_core: cleanup blank lines
-  staging: vchiq_core: cleanup code alignment issues
-  staging: vchiq_core.h: fix CamelCase in function declaration
-  staging: vchiq_core.h: use preferred kernel types
-  staging: vchiq: drop trailing semicolon in macro definition
-  staging: vchiq_core: drop extern prefix in function declarations
-  staging: vchiq_core: cleanup lines that end with '(' or '['
-  staging: vchiq_core: fix quoted strings split across lines
-
- .../interface/vchiq_arm/vchiq_arm.c           |   4 +-
- .../interface/vchiq_arm/vchiq_core.c          | 763 +++++++-----------
- .../interface/vchiq_arm/vchiq_core.h          |  99 +--
- .../interface/vchiq_arm/vchiq_dev.c           |   4 +-
- 4 files changed, 335 insertions(+), 535 deletions(-)
-
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 083abfd8e212..a205f769d5d3 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -257,7 +257,6 @@ find_service_by_handle(unsigned int handle)
+ struct vchiq_service *
+ find_service_by_port(struct vchiq_state *state, int localport)
+ {
+-
+ 	if ((unsigned int)localport <= VCHIQ_PORT_MAX) {
+ 		struct vchiq_service *service;
+ 
+@@ -3338,7 +3337,6 @@ vchiq_queue_message(unsigned int handle,
+ 	if (!size) {
+ 		VCHIQ_SERVICE_STATS_INC(service, error_count);
+ 		goto error_exit;
+-
+ 	}
+ 
+ 	if (size > VCHIQ_MAX_MSG_SIZE) {
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 3ef4cbe1053c..de1e861c4ed3 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -14,7 +14,6 @@
+ 
+ #include "vchiq_cfg.h"
+ 
+-
+ /* Do this so that we can test-build the code on non-rpi systems */
+ #if IS_ENABLED(CONFIG_RASPBERRYPI_FIRMWARE)
+ 
+@@ -260,7 +259,6 @@ struct vchiq_service_quota {
+ };
+ 
+ struct vchiq_shared_state {
+-
+ 	/* A non-zero value here indicates that the content is valid. */
+ 	int initialised;
+ 
+@@ -449,7 +447,6 @@ struct vchiq_config {
+ 	short version_min;  /* The minimum compatible version of VCHIQ */
+ };
+ 
+-
+ extern spinlock_t bulk_waiter_spinlock;
+ 
+ extern int vchiq_core_log_level;
 -- 
 2.33.1
 
