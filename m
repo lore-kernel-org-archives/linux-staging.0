@@ -1,50 +1,53 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598DF2C8B
-	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 18:35:44 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id v16so995755ple.9
-        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 11:35:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E122C8B
+	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 18:43:49 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id a26so8582016edy.11
+        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 11:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=0mujV0YU/cPDCUxwyNfnmQlQiFEVg2B7mgv7g4IgXvs=;
-        b=WbxKS55mTdOt2c8LaZWqEss4RjELhj6nYAaMb3ZE/1prdDrKPwWUm30D8yDsIvuUqP
-         gyAaYiMCzYMISXFC6FNp1XGk/gOCTrnudrM8HCtWiZIttxx0Qg+uGsYxeFVDdwEdXHOg
-         So9N2MIr/PeW3waefDTzY7qlx1Dk4cP0yXRVp+F2z0SBISBQONAANu3PK/onm++9SiDL
-         1hdsDDVQXjv5zROlc8Ng56VjOHO55ZItpPhJmIw5ThhHoWi0MTQ9iHvNkQoGE5Fo+l6v
-         p5D8OgTTAxkaarZ6m9PEVkQyPBtvU6Tj1qllr2TRu9twHpGMz6T8UNSdcLgv+U4DECwU
-         bzbA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PLo2wPZ3sr8u/YMmfsE81ITzb2gWI/ZlBw1GMaku9Tc=;
+        b=CFKJXauMo5jd0vAv6qp4CeyWsOcWCS8QQp71I5fmYmWbzCK45jxRLlYq1Xf6evAl/c
+         pHwQgGhuHqf6BR9Jtn2EvGxnb7IyZULt3r417XlD/3NSCZofHfHy0RQRlR41sr/QXCxf
+         xNeb0vtjaAaWkgID5qa8K0Gr14IQr3KZV1GfmBgRYoDlCTsssuFgwLKtM56SHHTa2eHo
+         GD67keayVQDfnsCGmLwGJ9s0hDQcE/gS4SN6bbPL4CiHUC++9lTJhZxHOFUtZH8eWVrI
+         uSrMOF3niuSlsPszGKIURwqH9W7UERmSC0XHreHo2SdDDsIN9VtfS7BL0Lo+/sy8DEqO
+         I9eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=0mujV0YU/cPDCUxwyNfnmQlQiFEVg2B7mgv7g4IgXvs=;
-        b=N4FZwDBlOESe6SPYsSkalcPvU7i1OA7Y1NFU8dzwLZrm64j6kd1i5zK+IqKkM8z+xI
-         2h+bAMrf1XoZ08RV/35G0Jtd1MksfAr+kkSIdUp+85g86Zocnm+iGn4tHEI3S6tj7+C8
-         rVNRziofnYX4X6R2cbJWF3M4BJ0HC/LUgXu7teHLJfTH0rwzZRyadrYD/WjMsMBFWeNx
-         uCAZr69f6saI6gdo6A0qbmlCxC1z8ZEhM8F8mylI5Px8NSlraNmMgkyKiIaS9yOyZZi8
-         89MXy5EkJet2F56DlGR+Ke6+VeIL6d8FYxA8oFA/Hoxi8C0MxVdhHqwLu9XO2IGqUzva
-         A61g==
-X-Gm-Message-State: AOAM532Yfc5KfK0rmg+aEU/f4TPL9CY8puxNaV6kRYjvo+AbEBFZsFA5
-	desq8LH1AlqLQfENrsi+ZGw=
-X-Google-Smtp-Source: ABdhPJyoDNSQz4xepj5zV89A96UJXq5lGe0Jsx4xhvZNYf1Mc06yr5x5KhBzND5Ox4w+wdwLEUsdDQ==
-X-Received: by 2002:a17:902:db02:b0:140:581e:6eb5 with SMTP id m2-20020a170902db0200b00140581e6eb5mr929816plx.46.1635100543701;
-        Sun, 24 Oct 2021 11:35:43 -0700 (PDT)
-Received: from Sauravs-MacBook-Air.local ([59.95.95.3])
-        by smtp.gmail.com with ESMTPSA id b16sm16930936pfm.58.2021.10.24.11.35.38
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PLo2wPZ3sr8u/YMmfsE81ITzb2gWI/ZlBw1GMaku9Tc=;
+        b=3OFDrr0TBQjDH34VnSiUfIUt/qbBlCJ3l/6mPhy/egbtkWxNKLZuaBzuEWpGqmL8Nk
+         YQVbkBbcklJKt6UR2MzdBpRbwqiww/r4ngaHjOND9W8yxWLELFtHtyFPdza9ow9yvp2O
+         OOHrsEl8Jsu7nc5l0+tmA/mOUbscqVg/eOzJXq77Dgyq8qoZvh9hHGg6Apil+cWAayOX
+         64UknTAk76PRyX3K/zZh0CpBh5a5Qz5wXMYEsQf4zRSobdhGtJd0DmecJUU7ppPHdz1h
+         PcrgbLQ7vh9b0dGpNoWFKCnsbxGRMHa6aRGZV20o1Z5IEOmWPWaS8sRZKel4R3PlD7KF
+         4WeA==
+X-Gm-Message-State: AOAM533Mhwv1gJt0kt2p7CWW+kQNN2jvxS5bWGeaikjff+kEMfbRrzKx
+	8IMHF4Rq0T3sOnU6Bm2DWiI=
+X-Google-Smtp-Source: ABdhPJxMh0UwooY8Fhupl3FToFhxvOqdRLyjq0rnk44fZPEnTi9jNe8YhI0+AvhF9L6MdQDPZWrEdA==
+X-Received: by 2002:a05:6402:1436:: with SMTP id c22mr19770675edx.153.1635101027553;
+        Sun, 24 Oct 2021 11:43:47 -0700 (PDT)
+Received: from tom-desktop (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
+        by smtp.gmail.com with ESMTPSA id qb15sm2106800ejc.108.2021.10.24.11.43.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Oct 2021 11:35:43 -0700 (PDT)
-Date: Mon, 25 Oct 2021 00:05:35 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	saurav.girepunje@gmail.com, paskripkin@gmail.com,
-	fmdefrancesco@gmail.com, dan.carpenter@oracle.com, martin@kaiser.cx,
+        Sun, 24 Oct 2021 11:43:46 -0700 (PDT)
+Date: Sun, 24 Oct 2021 20:43:45 +0200
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Marcos Antonio de Jesus Filho <mdejesusfilho@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: remove unused local variable
-Message-ID: <YXWnd5X9+p0X+1EB@Sauravs-MacBook-Air.local>
+Subject: Re: [PATCH v2] staging: vt6655: fix camelcase byData in card.c
+Message-ID: <20211024184345.GA7946@tom-desktop>
+References: <20211018192124.8738-1-tomm.merciai@gmail.com>
+ <YW5ceCLSIRl5zJIm@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,56 +56,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <YW5ceCLSIRl5zJIm@kroah.com>
 
-Remove unused local variable padapter from rtl8188eu_init_recvbuf().
-Function is not using this variable.
+On Tue, Oct 19, 2021 at 07:49:44AM +0200, Greg Kroah-Hartman wrote:
+> On Mon, Oct 18, 2021 at 09:21:22PM +0200, Tommaso Merciai wrote:
+> > Replace camelcase variable "byData" into linux kernel coding style
+> > equivalent variable "data" in card.c.
+> > "by" prefix in hungarian notation stands for byte or unsigned char
+> > 
+> > References:
+> >  - https://www.cse.iitk.ac.in/users/dsrkg/cs245/html/Guide.htm
+> 
+> Don't provide web links in a changelog text, they might not endure.
+> 
+> >  - https://www.kernel.org/doc/html/v4.10/process/coding-style.html
+> 
+> Why the old and obsolete 4.10 kernel document?
+> 
+> thanks,
+> 
+> greg k-h
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/r8188eu/hal/rtl8188eu_recv.c    | 2 +-
- drivers/staging/r8188eu/hal/usb_ops_linux.c     | 2 +-
- drivers/staging/r8188eu/include/rtl8188e_recv.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-index 9c191b7ffbf1..8031ac9f9d43 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_recv.c
-@@ -12,7 +12,7 @@
-
- #include "../include/rtl8188e_hal.h"
-
--void rtl8188eu_init_recvbuf(struct adapter *padapter, struct recv_buf *precvbuf)
-+void rtl8188eu_init_recvbuf(struct recv_buf *precvbuf)
- {
- 	precvbuf->transfer_len = 0;
-
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index 4c1974cc9a16..7912d7a6c31a 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -483,7 +483,7 @@ u32 rtw_read_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *rmem)
- 			precvbuf->reuse = true;
- 	}
-
--	rtl8188eu_init_recvbuf(adapter, precvbuf);
-+	rtl8188eu_init_recvbuf(precvbuf);
-
- 	/* re-assign for linux based on skb */
- 	if (!precvbuf->reuse || !precvbuf->pskb) {
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_recv.h b/drivers/staging/r8188eu/include/rtl8188e_recv.h
-index a91daf84d6c3..2ab395ef579b 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_recv.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_recv.h
-@@ -40,7 +40,7 @@ enum rx_packet_type {
- };
-
- #define INTERRUPT_MSG_FORMAT_LEN 60
--void rtl8188eu_init_recvbuf(struct adapter *padapter, struct recv_buf *buf);
-+void rtl8188eu_init_recvbuf(struct recv_buf *buf);
- s32 rtl8188eu_init_recv_priv(struct adapter *padapter);
- void rtl8188eu_free_recv_priv(struct adapter * padapter);
- void rtl8188eu_recv_hdl(struct adapter * padapter, struct recv_buf *precvbuf);
---
-2.33.0
-
+  Hi Greg,
+  I'll update and resend.
+  
+  Thanks,
+  Tommaso
