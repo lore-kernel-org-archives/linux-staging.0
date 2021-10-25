@@ -1,52 +1,52 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806202C9F
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 14:07:01 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id u18so9682313wrg.5
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 07:07:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B592C9F
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 14:21:16 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id z11-20020a1c7e0b000000b0030db7b70b6bso13331770wmc.1
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 07:21:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=YE/NzH8qBpbjmAapzAwapgPnCPKetXqI0pgiy9yOdQE=;
-        b=L2dGHyNoFi2z+4ecIyz89lYHwy1pDFUGrmT7X6ovQeMSwRJjiNQ1ptux181OyYZQ89
-         4CcnKb0YmJUuZ1HItQyP1HB1NQDmPVHLsnCXUJlC5kmnW3/QKBtREawB1ppLZmxjD3W3
-         nK/ZDxQDTMsjonxm1NySHvHsi3s+6J/djsF8TXOyaTMq+oYq+ViWg+iLzctDo76SY4yU
-         T9e20DiJrwxC8jHC/f+dgjyeGEsNRkFlDgiV8fq/pY4tCuYE+D7hDLQTRE1NZ+xFqERf
-         DmozuhP74V822Q2Y3bOfywpz6WtJnuI/qrlGayFvw6TqdbbWOVty+m+8BgUVn4tQGojm
-         /msA==
+        bh=M2t/ljyMrSuXJkPKEqRg6rIEcIkhDvv9y02qHL6/vSA=;
+        b=HnJfizDONe/3Ah4LArAtk4rNpri4e/nd+R022uQwk6uOK/euQFILctLpRi0WoJC+Rv
+         akNDcgmWu3b0WFc814xw9EFbPyGunTCw34CqooWBboOE2KGXGPEkaPE3dgHFnBQ37h9K
+         CsB0DyUz4zdOv96Ah7h7TdpDr0RlVkMhLsXgPFVjeVsGIxEZ6qi8TcIDyp9lAIGdkoxQ
+         ZpX9LrM5qHGPjLVL+U5nssVoJ24QfpGMJvvwp6UTAdyJwdAk/+cJ6hCLb9OR4SuoBIn4
+         uBCjWggLsLNpLi/5rpTRH+vNBuE+Pl5d9gdVEo/RzOaxcjJLb8c80XcUofkTIQ6kjwwV
+         BuLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=YE/NzH8qBpbjmAapzAwapgPnCPKetXqI0pgiy9yOdQE=;
-        b=HzAgigyLvordZx/ej7rj9b8IP5T6Ee9Y+dlaGHfb71XzI3stKKDEezk9optYOp0V0L
-         hpjuZLfHsRehAakzmhyffNcoajD0gDyuNQDt2yAiF8owufW0uQFNvHRDQ3k8vOgLh1g8
-         owFXtGkLvl2hVFs3iNIvvJUcpHqVJ1pMIjaCD/3czsLmRdXzhOQ+VBCCaOc3vcmv1gNw
-         dame/ANcER8VdpQh6T3iAHh0UggmfZRLQmsrGYIpYR53eD7sgoUtkDUaA2UCrwouskHu
-         NDw1BBkug6k7aVLLRyMav7hEmydZi2EQgqNULh4+rsr+yjb9AMM5MmQr8O9fnq2cMi1W
-         IuQQ==
-X-Gm-Message-State: AOAM531AlVHnIqXOMWer8k8PKYLU/qdL43Bo+VB4RU4UgkEv/wvW3JDj
-	6VoqLUZzpLlkOitY2E5FhBTTeA==
-X-Google-Smtp-Source: ABdhPJyRYFvibtgc8IKqIHYknb4PmyxGSQKD0RMQUpWrP7fkWuU1HAthN9l4r9nE/QnuRmGJqgGJBQ==
-X-Received: by 2002:adf:e607:: with SMTP id p7mr23358297wrm.30.1635170819465;
-        Mon, 25 Oct 2021 07:06:59 -0700 (PDT)
+        bh=M2t/ljyMrSuXJkPKEqRg6rIEcIkhDvv9y02qHL6/vSA=;
+        b=lv/tL5r9BhHww7YqqzEUHMQp2fAetkR2eJKKRXBumQ7Lvhn/ap+9QQhqQlrvtbCBdy
+         TE/Pjcwtow/RvVMleoZQVeM+dRPsW2uKrapcshBvtxMEQ9uisVX9XrUEzr6dsf+U0eLl
+         9YWtmpvDxwleZtu0CYDWmgXv0Ix54TGP/yXsp2Ry2T/rSt/DEhHoo1MdTTTu/RLl99Xq
+         HOES+i8gAbBndCBL/vII7qSOO/WrQHuKg1reNSpkilpGmhPmcxFfivp2GIcSufnOqcAJ
+         1kwX70JVhexIhXz7HaohaUZ57qERjshLH0f/wceXH2WZyaSdoCmrXOcroW3JJkbixJrz
+         95Wg==
+X-Gm-Message-State: AOAM532k1gprqG+THbT6O8k87c2Nt3GbADJ7wCjWKZZEOMbFmjxuj3im
+	sMthmrIqAOY3tWQqkgLVfmLXHw==
+X-Google-Smtp-Source: ABdhPJxZdvPCuvpV6tREqY0nQE+UB8Cnxc1p8PDS1uJcZgD/pQ7VS7MzXqg1nnKjYeohcPySiJe9iw==
+X-Received: by 2002:a1c:4d08:: with SMTP id o8mr17787192wmh.35.1635171674960;
+        Mon, 25 Oct 2021 07:21:14 -0700 (PDT)
 Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id p1sm5762489wmq.23.2021.10.25.07.06.58
+        by smtp.googlemail.com with ESMTPSA id u2sm15907155wrr.35.2021.10.25.07.21.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 07:06:59 -0700 (PDT)
-Date: Mon, 25 Oct 2021 16:06:57 +0200
+        Mon, 25 Oct 2021 07:21:14 -0700 (PDT)
+Date: Mon, 25 Oct 2021 16:21:12 +0200
 From: LABBE Corentin <clabbe@baylibre.com>
 To: Hans Verkuil <hverkuil@xs4all.nl>
 Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
 Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
-Message-ID: <YXa6AVRmkkEuE+XZ@Red>
+Message-ID: <YXa9WGs7ewyaHmI9@Red>
 References: <20211013185812.590931-1-clabbe@baylibre.com>
- <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
+ <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,23 +56,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
+In-Reply-To: <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
 
-Le Mon, Oct 18, 2021 at 11:55:40AM +0200, Hans Verkuil a écrit :
+Le Mon, Oct 25, 2021 at 02:45:02PM +0200, Hans Verkuil a écrit :
 > Hi Corentin,
 > 
-> I noticed some code review comments from Dan and a kernel test robot issue.
-> Can you post a v3 fixing those by the end of the week? Next week I will have
-> access again to my zoran board, so then I can test the v3 series.
+> On 13/10/2021 20:58, Corentin Labbe wrote:
+> > Hello
+> > 
+> > The main change of this serie is to fusion all zoran related modules in
+> > one.
+> > This fixes the load order problem when everything is built-in.
+> > 
+> > Regards
+> > 
+> > Changes since v1:
+> > - add missing debugfs cleaning
+> > - clean some remaining module_get/put functions which made impossible to
+> >   remove the zoran module
+> > - added the two latest patchs
 > 
-> BTW, I agree with Dan, just drop the 'Enable zoran debugfs' config option. It's
-> not worth the additional complexity. Instead, just #ifdef CONFIG_DEBUG_FS
-> where necessary (in most cases you shouldn't even have to do that since the
-> since you have dummy debug_fs_* functions if CONFIG_DEBUG_FS isn't set).
+> Something weird is wrong with this series. I have a DC30, but loading this with:
 > 
+> modprobe zr36067 card=3
+> 
+> results in this error message in the kernel log:
+> 
+> [   58.645557] zr36067: module is from the staging directory, the quality is unknown, you have been warned.
+> [   58.646658] zr36067 0000:03:00.0: Zoran MJPEG board driver version 0.10.1
+> [   58.646793] zr36067 0000:03:00.0: Zoran ZR36057 (rev 1), irq: 18, memory: 0xf4000000
+> [   58.648821] zr36067 0000:03:00.0: Initializing i2c bus...
+> [   58.662420] vpx3220 22-0047: vpx3216b found @ 0x8e (DC30[0])
+> [   58.737445] zr36067 0000:03:00.0: Fail to get encoder
+> 
+> This works before, so why this is now failing is not clear to me.
+> 
+> It does work with 'card=0', but I really have a DC30.
+> 
+> If I test with 'card=0' then the rmmod issue is now solved.
 
-Hello
+Everything normal, since card 0 does not have encoder.
+Could you check that adv7175 is compiled ?
 
-Ok I started fixing issues and will send V3 this week.
+I got the same problem with my DC10+ where saa7110 was not compiled.
+This issue was reproduced randomly and I have no explanation. (kconfig problem ?)
 
 Regards
