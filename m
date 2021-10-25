@@ -1,95 +1,114 @@
-Received: from smtprelay.hostedemail.com (smtprelay0196.hostedemail.com [216.40.44.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2BD2CA5
-	for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 23:57:04 +0000 (UTC)
-Received: from omf15.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay08.hostedemail.com (Postfix) with ESMTP id 43DB8182CED2A;
-	Sun, 24 Oct 2021 23:56:58 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id 2016CC417C;
-	Sun, 24 Oct 2021 23:56:56 +0000 (UTC)
-Message-ID: <a7d1136e22bdb37170a0fe9a9443ba0cdf5dcd32.camel@perches.com>
-Subject: Re: [PATCH v2 8/8] staging: vchiq_core: fix quoted strings split
- across lines
-From: Joe Perches <joe@perches.com>
-To: Gaston Gonzalez <gascoar@gmail.com>, linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org, nsaenz@kernel.org, stefan.wahren@i2se.com, 
- arnd@arndb.de, dan.carpenter@oracle.com, ojaswin98@gmail.com, 
- amarjargal16@gmail.com, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com,  linux-kernel@vger.kernel.org
-Date: Sun, 24 Oct 2021 16:56:55 -0700
-In-Reply-To: <20211024213839.370830-1-gascoar@gmail.com>
-References: <20211024212844.370379-1-gascoar@gmail.com>
-	 <20211024213839.370830-1-gascoar@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C9C2CA0
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 04:59:04 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id oa4so7320724pjb.2
+        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 21:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=Oj6YG+UlK0BMEsdxLQ+T4Tix49m1GM1wb9CYFVKaWKs=;
+        b=Xs/SmSSe9dVc+xLlPgbcLjZwe1Qt2jRxYUfaenKnlQLSWEzGYl3A3BQ0SeP4NRPhUL
+         YwOpI5IJub93JnWyb3mmMobKtuTQjItwtU+Dl1Iv9Fb8VkILoohNNMkCwmgCQf71m+DS
+         /powvxRclzw+zYfh2RFctqFzFPFGSootaFM9+A0ViRhGaPrAe/3NkXQAidATfPcVTGD7
+         cvqlqpfo2ZzfOBlQBDq685ZHMZnU3ES/NoTprV2/+/pF007L/cdZTL2AvvYgfztTSXtD
+         Armm+nUa1AZpAE5lmcSvFU0LXIFMdSEa/3WYDlkYGfc0gu8s+9aOdKRbrxS5nZw2sRMJ
+         NS6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=Oj6YG+UlK0BMEsdxLQ+T4Tix49m1GM1wb9CYFVKaWKs=;
+        b=aEDPUYlTTa0742LbWYnxQ6NrJcOTMofQPGGCvAJAdGngb++hQRvrIjTG00JCVLVHuy
+         Md+6lQkl8VWAUoezD8AdxZhe5Htv0ffMDSuT6/Y5MBSWZMtXBptGS8lfoiauHNSTpY18
+         6CkQwbH4un2n2oYiUMlzIb3CMF5jHkFJDRnQ+300m4C+ggPLW1AuZz0lSEED5YjxUQkd
+         4e2Ai9ZhCNgC2gI0lHIVFQ8SMvJ/GzWXLLx8EDtjIsYLEY51abwC1KiNpkuLrMo6l1ss
+         Hus/i67h8+FE6aMMVttG/YThjYnzaT4rAutO99ptLFDbkGhzKGlP1mnv75Slj/XcsmNR
+         NWgg==
+X-Gm-Message-State: AOAM532BAXCF1JH1vU2+dhYVfBcctdBrpgpAdUQuB+zqo4DvDIQq50WL
+	TvUKbg8QezSGhmpQMD1mjis=
+X-Google-Smtp-Source: ABdhPJyjYb/DGDbMmIHgrxoGNgXujXBJlrSpqm+WDbSqOpr/weri4sUBP3gcRbXO6tA98JtdfOJz5g==
+X-Received: by 2002:a17:90a:7e93:: with SMTP id j19mr33055907pjl.172.1635137944352;
+        Sun, 24 Oct 2021 21:59:04 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.95.3])
+        by smtp.gmail.com with ESMTPSA id q16sm19639434pfu.36.2021.10.24.21.59.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Oct 2021 21:59:04 -0700 (PDT)
+Date: Mon, 25 Oct 2021 10:28:54 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: avoid use of goto statement
+Message-ID: <YXY5jtR6neQ+ad+C@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 2016CC417C
-X-Spam-Status: No, score=-2.25
-X-Stat-Signature: yr4qrywder1hotmtejquq6bkcb6snz94
-X-Rspamd-Server: rspamout01
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+ByG/C+1voGOqhYuSK4/VprHDSFEyHuBk=
-X-HE-Tag: 1635119816-195226
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 2021-10-24 at 18:38 -0300, Gaston Gonzalez wrote:
-> Quoted strings should not be split across lines. As put it in [1]:
-> "never break user-visible strings such as printk messages because that
-> breaks the ability to grep for them."
-> 
-> While at it, fix the alignment of the arguments in the sentence.
-> 
-> Note: this introduce a checkpatch CHECK: line length of 123 exceeds 100
-> columns, as the line now is:
-> 
->  vchiq_loud_error("%d: service %d (%c%c%c%c) version mismatch - local (%d, min %d) vs. remote (%d, min %d)",
-> 
-> But now the string is grep-able and the whole function call more
-> clear.
+Remove the goto statement from _rtw_init_cmd_priv(). In this function
+goto statement can be replace by return statement. By replacing the
+goto statement with return statement local variable "res" is also
+not required.As on goto label exit, function only return it is not
+performing any cleanup.Avoiding goto will simplify the function.
 
-IMO: All of these should be changed
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_cmd.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:#define VCHIQ_LOG_PREFIX   KERN_INFO "vchiq: "
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#ifndef vchiq_log_error
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#define vchiq_log_error(cat, fmt, ...) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h- do { if (cat >= VCHIQ_LOG_ERROR) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:         printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#endif
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#ifndef vchiq_log_warning
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#define vchiq_log_warning(cat, fmt, ...) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h- do { if (cat >= VCHIQ_LOG_WARNING) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:          printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#endif
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#ifndef vchiq_log_info
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#define vchiq_log_info(cat, fmt, ...) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h- do { if (cat >= VCHIQ_LOG_INFO) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:         printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#endif
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#ifndef vchiq_log_trace
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#define vchiq_log_trace(cat, fmt, ...) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h- do { if (cat >= VCHIQ_LOG_TRACE) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:         printk(VCHIQ_LOG_PREFIX fmt "\n", ##__VA_ARGS__); } while (0)
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#endif
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-#define vchiq_loud_error(...) \
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h- vchiq_log_error(vchiq_core_log_level, "===== " __VA_ARGS__)
-drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h-
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index e17332677daa..22046bd5cf82 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -19,7 +19,6 @@ No irqsave is necessary.
 
-I suggest using the rather more common vchiq_err, vchiq_warn, vchiq_info
-and if necessary vchiq_trace.  Also the cat >= test is unnecessary and
-this should just use the more common standard logging facilities.
+ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ {
+-	int res = _SUCCESS;
 
-vchiq_loud_error is IMO unnecessary.
+ 	sema_init(&pcmdpriv->cmd_queue_sema, 0);
+ 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
+@@ -34,28 +33,23 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ,
+ 					      GFP_KERNEL);
 
-Also several of the uses of these macros already have '\n' terminations
-so that just adds unnecessary blank lines in the logging.
+-	if (!pcmdpriv->cmd_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!pcmdpriv->cmd_allocated_buf)
++		return _FAIL;
 
+ 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((size_t)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
+
+ 	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_KERNEL);
+
+-	if (!pcmdpriv->rsp_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!pcmdpriv->rsp_allocated_buf)
++		return _FAIL;
+
+ 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((size_t)(pcmdpriv->rsp_allocated_buf) & 3);
+
+ 	pcmdpriv->cmd_issued_cnt = 0;
+ 	pcmdpriv->cmd_done_cnt = 0;
+ 	pcmdpriv->rsp_cnt = 0;
+-exit:
+
+-	return res;
++	return _SUCCESS;
+ }
+
+ static void c2h_wk_callback(struct work_struct *work);
+--
+2.33.0
 
