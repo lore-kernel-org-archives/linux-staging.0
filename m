@@ -1,114 +1,68 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C9C2CA0
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 04:59:04 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id oa4so7320724pjb.2
-        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 21:59:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB0E2C81
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 05:59:40 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id o26so5913080uab.5
+        for <linux-staging@lists.linux.dev>; Sun, 24 Oct 2021 22:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=Oj6YG+UlK0BMEsdxLQ+T4Tix49m1GM1wb9CYFVKaWKs=;
-        b=Xs/SmSSe9dVc+xLlPgbcLjZwe1Qt2jRxYUfaenKnlQLSWEzGYl3A3BQ0SeP4NRPhUL
-         YwOpI5IJub93JnWyb3mmMobKtuTQjItwtU+Dl1Iv9Fb8VkILoohNNMkCwmgCQf71m+DS
-         /powvxRclzw+zYfh2RFctqFzFPFGSootaFM9+A0ViRhGaPrAe/3NkXQAidATfPcVTGD7
-         cvqlqpfo2ZzfOBlQBDq685ZHMZnU3ES/NoTprV2/+/pF007L/cdZTL2AvvYgfztTSXtD
-         Armm+nUa1AZpAE5lmcSvFU0LXIFMdSEa/3WYDlkYGfc0gu8s+9aOdKRbrxS5nZw2sRMJ
-         NS6g==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=RuvzlfukE67G/bE78HD8E3x3H683hittFC0ADYk7uRw=;
+        b=KcV121LLb1pDqiLt77bJK4hpiIA0hrtOUBqVAM6bXlsoR3llEQ7ssfyI9G3E0R7Mzh
+         T9hpOMaiKSr6J3VHZPyGsVxp8TMo2APZ6zbU7j5z8rBGkQqZ5IOz7xe0il9/D1/ZnHRL
+         eUX0xG1auyUPcb7mf+73g3engf+nDI0IgHBMAaMzu6JEWZS7EyblPtlS0Ebrb+p+ixAo
+         q42gf6gaSta65Z54VBpvLU5LTbOAVnPRvLw23vkqqvoGJJwKXa/Z6VeWVG/o/uplxukk
+         r48Eo8v15f2f5GP2rFieNNtaZ0N+cWZ5Cvw32GwEYA7oqqiEhrWeFOdvGqNI9ye9htmp
+         JZEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=Oj6YG+UlK0BMEsdxLQ+T4Tix49m1GM1wb9CYFVKaWKs=;
-        b=aEDPUYlTTa0742LbWYnxQ6NrJcOTMofQPGGCvAJAdGngb++hQRvrIjTG00JCVLVHuy
-         Md+6lQkl8VWAUoezD8AdxZhe5Htv0ffMDSuT6/Y5MBSWZMtXBptGS8lfoiauHNSTpY18
-         6CkQwbH4un2n2oYiUMlzIb3CMF5jHkFJDRnQ+300m4C+ggPLW1AuZz0lSEED5YjxUQkd
-         4e2Ai9ZhCNgC2gI0lHIVFQ8SMvJ/GzWXLLx8EDtjIsYLEY51abwC1KiNpkuLrMo6l1ss
-         Hus/i67h8+FE6aMMVttG/YThjYnzaT4rAutO99ptLFDbkGhzKGlP1mnv75Slj/XcsmNR
-         NWgg==
-X-Gm-Message-State: AOAM532BAXCF1JH1vU2+dhYVfBcctdBrpgpAdUQuB+zqo4DvDIQq50WL
-	TvUKbg8QezSGhmpQMD1mjis=
-X-Google-Smtp-Source: ABdhPJyjYb/DGDbMmIHgrxoGNgXujXBJlrSpqm+WDbSqOpr/weri4sUBP3gcRbXO6tA98JtdfOJz5g==
-X-Received: by 2002:a17:90a:7e93:: with SMTP id j19mr33055907pjl.172.1635137944352;
-        Sun, 24 Oct 2021 21:59:04 -0700 (PDT)
-Received: from Sauravs-MacBook-Air.local ([59.95.95.3])
-        by smtp.gmail.com with ESMTPSA id q16sm19639434pfu.36.2021.10.24.21.59.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Oct 2021 21:59:04 -0700 (PDT)
-Date: Mon, 25 Oct 2021 10:28:54 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: avoid use of goto statement
-Message-ID: <YXY5jtR6neQ+ad+C@Sauravs-MacBook-Air.local>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=RuvzlfukE67G/bE78HD8E3x3H683hittFC0ADYk7uRw=;
+        b=lcWtoTQ8cLII5rTyrWaZPP7f+vhwozLOlgZcfvCPvR3GTtanLNIs/UhtdM1rfnETUE
+         FGvnoai11xvcjPgsPh+bhjlZ4m9UW4bO1Tj/3zQH0QD31LOO7rvoywE8O/Aqeobt6Zhv
+         i2pKki4CyFZDMbhAM1yXc276UttvJ8Jss/y3teK3EqIi5HzSzPT9hyhA1y5Cuh06OMYZ
+         S4WXmwkRMslDSUorQAsbfxz1Wc7YWi7oRYViJJqUIwxGQ19BXDMqsgXPBvEsQrdimZgH
+         b1n/2uVCTcfud4tgzb3KLRuaEqmEwvir7ao7OlugBrQElnsC2i/DO5TBfABYTqz/8zq0
+         dXrA==
+X-Gm-Message-State: AOAM532/R+7Nv7Nmup1GEH/WfVR8PHLy3I0I0xHvlF6sp2Mca074Gr9I
+	lq4tj+7VVfGBL0mUiHCGM9ThCbHXXQvGd9OV07BxL1qVY2E=
+X-Google-Smtp-Source: ABdhPJwsdOp4cCSEY1bbQtWY1Z9A4Zd8I18SwhsaZqFVSMXOETYlDz9xSK78B87f/yaOWiCYAtyq9FNufTilZK0MvB0=
+X-Received: by 2002:ab0:ec:: with SMTP id 99mr13061856uaj.46.1635141579101;
+ Sun, 24 Oct 2021 22:59:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Mon, 25 Oct 2021 07:59:28 +0200
+Message-ID: <CAMhs-H_StRmvmRZKYdsWXsXBDY1-e0zF32OfsBHyOH=2hrXKvA@mail.gmail.com>
+Subject: staging: ralink-gdma/mt7621-dma: some doubts about this two drivers
+To: linux-staging@lists.linux.dev
+Cc: Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
+	DENG Qingfang <dqfext@gmail.com>, =?UTF-8?Q?Ren=C3=A9_van_Dorst?= <opensource@vdorst.com>, 
+	Ilya Lipnitskiy <ilya.lipnitskiy@gmail.com>, Chuanhong Guo <gch981213@gmail.com>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Remove the goto statement from _rtw_init_cmd_priv(). In this function
-goto statement can be replace by return statement. By replacing the
-goto statement with return statement local variable "res" is also
-not required.As on goto label exit, function only return it is not
-performing any cleanup.Avoiding goto will simplify the function.
+Hi all,
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_cmd.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+I'd like to know if somebody is really using / has real interest in
+Ralink/Mt7621 drivers related to DMA: 'mt7621-dma' and 'ralink-gdma'.
+I haven't seen any kind of effort (more than achieve trivial
+checkpatch issues) to get these two mainlined. Personally, I am not
+using these in any of my mt762X related boards. I think these two were
+added by Neil because he thought they might become needed for gnubee,
+but they are not (Neil, please, correct me if I am wrong). I am asking
+because I am attempting to properly mainline mt7621-dts and if nobody
+wants to take care of these drivers I will submit a patch for removing
+them and clean their nodes from the device tree file. When there is
+real interest, a driver with the proper dts node can be properly
+submitted.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
-index e17332677daa..22046bd5cf82 100644
---- a/drivers/staging/r8188eu/core/rtw_cmd.c
-+++ b/drivers/staging/r8188eu/core/rtw_cmd.c
-@@ -19,7 +19,6 @@ No irqsave is necessary.
+Please, let me know your thoughts.
 
- static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- {
--	int res = _SUCCESS;
-
- 	sema_init(&pcmdpriv->cmd_queue_sema, 0);
- 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
-@@ -34,28 +33,23 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
- 	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ,
- 					      GFP_KERNEL);
-
--	if (!pcmdpriv->cmd_allocated_buf) {
--		res = _FAIL;
--		goto exit;
--	}
-+	if (!pcmdpriv->cmd_allocated_buf)
-+		return _FAIL;
-
- 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((size_t)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
-
- 	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_KERNEL);
-
--	if (!pcmdpriv->rsp_allocated_buf) {
--		res = _FAIL;
--		goto exit;
--	}
-+	if (!pcmdpriv->rsp_allocated_buf)
-+		return _FAIL;
-
- 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((size_t)(pcmdpriv->rsp_allocated_buf) & 3);
-
- 	pcmdpriv->cmd_issued_cnt = 0;
- 	pcmdpriv->cmd_done_cnt = 0;
- 	pcmdpriv->rsp_cnt = 0;
--exit:
-
--	return res;
-+	return _SUCCESS;
- }
-
- static void c2h_wk_callback(struct work_struct *work);
---
-2.33.0
-
+Best regards,
+    Sergio Paracuellos
