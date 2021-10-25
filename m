@@ -1,104 +1,77 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B592C9F
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 14:21:16 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id z11-20020a1c7e0b000000b0030db7b70b6bso13331770wmc.1
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 07:21:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7868229CA
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 14:32:05 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id p14so7254068wrd.10
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 07:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=M2t/ljyMrSuXJkPKEqRg6rIEcIkhDvv9y02qHL6/vSA=;
-        b=HnJfizDONe/3Ah4LArAtk4rNpri4e/nd+R022uQwk6uOK/euQFILctLpRi0WoJC+Rv
-         akNDcgmWu3b0WFc814xw9EFbPyGunTCw34CqooWBboOE2KGXGPEkaPE3dgHFnBQ37h9K
-         CsB0DyUz4zdOv96Ah7h7TdpDr0RlVkMhLsXgPFVjeVsGIxEZ6qi8TcIDyp9lAIGdkoxQ
-         ZpX9LrM5qHGPjLVL+U5nssVoJ24QfpGMJvvwp6UTAdyJwdAk/+cJ6hCLb9OR4SuoBIn4
-         uBCjWggLsLNpLi/5rpTRH+vNBuE+Pl5d9gdVEo/RzOaxcjJLb8c80XcUofkTIQ6kjwwV
-         BuLA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IIGRvhXmp/ODidkCDs+qSECALH/6ezkCoaRxNQbD8+M=;
+        b=PuA9ttglf9ol8ctfnt2c1N7mXBmSb7L2A0tTnjH70sDRFU5XpU+WY9UPb0Y7pVjknG
+         Ici7wgBsyKjTxQiVO0KvRxrC5a3JkeNJfjv6pyXoakHiiyemnQQXZcEjvJg46RUth5Ym
+         eCWWxxhhJozVftBqn2f5DqfMjBRCoTAURCin9JIW/el1MKvkSnHjRY95fInzg4UB/7aX
+         jzuPZr+a83uwEsCAQEo3eIVUMZIdobsNFT6czFmAn9tGclc4uKQA21MIrqAtO8BdhW/w
+         oqrfIWRGR5eIsR0vH/9rvi0oyLb550TML9i860qOBWMUTPMQOVgwuj84T4U925afc5IK
+         QGSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=M2t/ljyMrSuXJkPKEqRg6rIEcIkhDvv9y02qHL6/vSA=;
-        b=lv/tL5r9BhHww7YqqzEUHMQp2fAetkR2eJKKRXBumQ7Lvhn/ap+9QQhqQlrvtbCBdy
-         TE/Pjcwtow/RvVMleoZQVeM+dRPsW2uKrapcshBvtxMEQ9uisVX9XrUEzr6dsf+U0eLl
-         9YWtmpvDxwleZtu0CYDWmgXv0Ix54TGP/yXsp2Ry2T/rSt/DEhHoo1MdTTTu/RLl99Xq
-         HOES+i8gAbBndCBL/vII7qSOO/WrQHuKg1reNSpkilpGmhPmcxFfivp2GIcSufnOqcAJ
-         1kwX70JVhexIhXz7HaohaUZ57qERjshLH0f/wceXH2WZyaSdoCmrXOcroW3JJkbixJrz
-         95Wg==
-X-Gm-Message-State: AOAM532k1gprqG+THbT6O8k87c2Nt3GbADJ7wCjWKZZEOMbFmjxuj3im
-	sMthmrIqAOY3tWQqkgLVfmLXHw==
-X-Google-Smtp-Source: ABdhPJxZdvPCuvpV6tREqY0nQE+UB8Cnxc1p8PDS1uJcZgD/pQ7VS7MzXqg1nnKjYeohcPySiJe9iw==
-X-Received: by 2002:a1c:4d08:: with SMTP id o8mr17787192wmh.35.1635171674960;
-        Mon, 25 Oct 2021 07:21:14 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id u2sm15907155wrr.35.2021.10.25.07.21.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IIGRvhXmp/ODidkCDs+qSECALH/6ezkCoaRxNQbD8+M=;
+        b=gNwC9iI3vwheUJomLirH95g3Nqzw2aFqNGz2QMYMYEk/OQ56qlB1Pml9EaCbsaBkK3
+         cKNyPdZSWiaNghsAlRR3n1oa3iQGQD9SIEIgx0OMrkDtjmIrzEnmNaRmaDy8gaisq6C8
+         CNWrcUJBlggvYKrZ93ldhY9sgW95P64/tZnF90X487bzLp7hCfmfgejP5uFPfvY24PQI
+         IG9OcQak5MuFxnP8ZGOeiDgEzh8LYyfumSbXv5gYyvjE2tKth8LUzc6DhHEY2wmLzKOe
+         0gTpkdpcibaaeH3EELQMXwPze2pcC0t1q11XDIzvVEDI5Qfdxbqb1byEP8PxINyfz9cU
+         eN5Q==
+X-Gm-Message-State: AOAM531TPVvfML2YpCUL8//4AWfSwV6MNOiR5r/BrAvpq8NM8D78u/RL
+	xWkFSWtdPik/bZxCYt2naog=
+X-Google-Smtp-Source: ABdhPJxeSMHkprsiBO0a8tVDkozdP5fElEXvnQrPcy4zvyEYPgDM1j6mikQ1YNf8nJchkLecYi88Gg==
+X-Received: by 2002:adf:c78d:: with SMTP id l13mr23111243wrg.134.1635172323900;
+        Mon, 25 Oct 2021 07:32:03 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id x8sm13011500wrr.53.2021.10.25.07.32.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 07:21:14 -0700 (PDT)
-Date: Mon, 25 Oct 2021 16:21:12 +0200
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
-Message-ID: <YXa9WGs7ewyaHmI9@Red>
-References: <20211013185812.590931-1-clabbe@baylibre.com>
- <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
+        Mon, 25 Oct 2021 07:32:03 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH 0/8] staging: vt6655: Rename channel, init and power tables
+Date: Mon, 25 Oct 2021 15:31:26 +0100
+Message-Id: <cover.1635171518.git.karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
 
-Le Mon, Oct 25, 2021 at 02:45:02PM +0200, Hans Verkuil a écrit :
-> Hi Corentin,
-> 
-> On 13/10/2021 20:58, Corentin Labbe wrote:
-> > Hello
-> > 
-> > The main change of this serie is to fusion all zoran related modules in
-> > one.
-> > This fixes the load order problem when everything is built-in.
-> > 
-> > Regards
-> > 
-> > Changes since v1:
-> > - add missing debugfs cleaning
-> > - clean some remaining module_get/put functions which made impossible to
-> >   remove the zoran module
-> > - added the two latest patchs
-> 
-> Something weird is wrong with this series. I have a DC30, but loading this with:
-> 
-> modprobe zr36067 card=3
-> 
-> results in this error message in the kernel log:
-> 
-> [   58.645557] zr36067: module is from the staging directory, the quality is unknown, you have been warned.
-> [   58.646658] zr36067 0000:03:00.0: Zoran MJPEG board driver version 0.10.1
-> [   58.646793] zr36067 0000:03:00.0: Zoran ZR36057 (rev 1), irq: 18, memory: 0xf4000000
-> [   58.648821] zr36067 0000:03:00.0: Initializing i2c bus...
-> [   58.662420] vpx3220 22-0047: vpx3216b found @ 0x8e (DC30[0])
-> [   58.737445] zr36067 0000:03:00.0: Fail to get encoder
-> 
-> This works before, so why this is now failing is not clear to me.
-> 
-> It does work with 'card=0', but I really have a DC30.
-> 
-> If I test with 'card=0' then the rmmod issue is now solved.
+This patch set renames global arrays of settings for AL2230 and AL7320
+transceivers so they adhere to the kernel coding style. It includes removal 
+of the Hungarian notation and changing variable names to use snake case.
 
-Everything normal, since card 0 does not have encoder.
-Could you check that adv7175 is compiled ?
+Karolina Drobnik (8):
+  staging: vt6655: Rename `dwAL2230ChannelTable0` array
+  staging: vt6655: Rename `dwAL2230ChannelTable1` array
+  staging: vt6655: Rename `dwAL7230ChannelTable0` array
+  staging: vt6655: Rename `dwAL7230ChannelTable1` array
+  staging: vt6655: Rename `dwAL7230ChannelTable2` array
+  staging: vt6655: Rename `dwAL7230InitTableAMode` array
+  staging: vt6655: Rename `dwAL2230PowerTable` array
+  staging: vt6655: Rename `dwAL7230InitTable` array
 
-I got the same problem with my DC10+ where saa7110 was not compiled.
-This issue was reproduced randomly and I have no explanation. (kconfig problem ?)
+ drivers/staging/vt6655/rf.c | 76 ++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 38 deletions(-)
 
-Regards
+-- 
+2.30.2
+
