@@ -1,99 +1,124 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E7172
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 17:46:55 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id r28so7345808pga.0
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 10:46:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC4172
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 18:25:50 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id a16so13211068wrh.12
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 11:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=lRCLonp2m0ZX/kiQpm22eJ4VdDoH6ZXlTAQKw42QYHM=;
-        b=BkvodgijNEcYV6LipVkdNO7Uk4Gx5XoOY1SvowNsr2pVsYsfL8JLEnIE0jMiw407lz
-         4m4sCoHuxvK/rByGutr3rZokoqC60KIr11xvgf1chF8oP286qMReKqjJ7mdLwfEltm86
-         nwxmTqxC5KIM+lEVFg76qtEUn4pyVk9V2pj8LU6iJ1zXIgXoy/DqoBUsIE3V6M/sOYSF
-         uspWDNr5qUJJr2wLPtdOcsr7VUmEhwEzPIYMqPzrjXCb6af5oN+gVW9GXY159fmy7kul
-         Jqwkl0zQtkklB7JCtKH+ZQjH5piDGedizoE6FirWiAedgse2zc+Ds3CO2eCqz/Dr0eGc
-         v3fA==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=9HKZ3WHs39Ll1KFWQ7mEVgrxMfllF9VNmXJhWSD6zbg=;
+        b=eGWi6BKNAikOTbSn81Sa7AREWjMIxOWCW6giZfRNlMcPV+2EmLigPFn+O2Z62O0sYa
+         iV0pfEifAhHfWukClZSiKZWUtW6KfA7KRV1ZDicdiR3B8Sti9c4fE1nIPwnUH2j2+yy7
+         CgbPrMSi7sMfeIugSlIidXNRbM0IBSpjeIFgbji9Hlzij/fQbDLUW6hA78f7gB7wW0sh
+         hdnUjbbgGjOghJEuveE8BUrJhuo37fkdHCNOCAypzkv6cD2ED+omeKUvRLDqTFZ9dh6M
+         fECVzVUsc+MnoY5NLk4U5AI8Mgr9mJEWB5ALlZ9FiHJ7gBZ6yAXbyhgvuYQRMS/29qp6
+         LSTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=lRCLonp2m0ZX/kiQpm22eJ4VdDoH6ZXlTAQKw42QYHM=;
-        b=kQkySWRBxbYY7UCFss9vXswbf2EKli1kcjLAunNhEkIBbppWH+PVm1pxivgUCTr5OF
-         dWRMpAg1XhehQdbUSXu4cKCsu5mkxYe7tnVo4rF6H2OcKOjXta1ScaCNV/Y9622A7JN1
-         KJqc9KvdOxop/1MGui3l6lP6bVoMGoMOK7DbO+RsLzaKURxl3ByJBOJQc7iZJi45eR9o
-         pqdV/sxhnBQ2PgOq+Gp1WM6+SDow4eHSB22nxWqYdSYZdurdPKotqOvIVXFu7ZHADsOw
-         FLQdBzh4ERc5dIFS1o4lO1F0LO2twxmHDtJmw1lJaCWKovi8AwD4A28vN1oJUjiSNUvY
-         dgqA==
-X-Gm-Message-State: AOAM531rM5rjCxF/v7gQ2XcGw4+AdBeFpQFGGLbzjrD4Ge8m5mhFBk9H
-	GuLOG4UzViIKRfeP0coWTaw=
-X-Google-Smtp-Source: ABdhPJzQWu/Q2DLK/fUyYZu+CvIe9LlEWeg7Z5LQxaYwtsg8Ymyq1d9sYVLhL3DGgCunbixrc1IkKQ==
-X-Received: by 2002:a05:6a00:198b:b0:47b:ac2d:68f4 with SMTP id d11-20020a056a00198b00b0047bac2d68f4mr19545483pfl.1.1635184014896;
-        Mon, 25 Oct 2021 10:46:54 -0700 (PDT)
-Received: from [192.168.1.4] ([59.95.95.35])
-        by smtp.gmail.com with ESMTPSA id b10sm20770695pfl.200.2021.10.25.10.46.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Oct 2021 10:46:54 -0700 (PDT)
-Message-ID: <896901f9-7659-7e05-ab61-2a76b76e999e@gmail.com>
-Date: Mon, 25 Oct 2021 23:16:50 +0530
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=9HKZ3WHs39Ll1KFWQ7mEVgrxMfllF9VNmXJhWSD6zbg=;
+        b=aa8gDZLuBn7k23EnZvwFXagFfRQ19ZNjmEKD01N5MvIbGYhaCQldoKDQTwqGJVFcFD
+         sMiSKE/xiqJMW0GO+Ocpeq/169ZEC0geBB6itKrLXzpI66BYIIy4KdQSsyvHsuIQlaTx
+         aS3V3MZpskfOQEA+FKSwXLl15p1h8JrpiNJ6qm7Mwpi4uHQ36pcBT//6ZgkOfu4qt30o
+         M+5Nrzgg3gOHJvSjBEwQRd/jpVTxfgWAo7a7C/6w5X34JybsDQBwIael0sM24Cpqf1Aq
+         OYYbwDLX9FlHw0Jy9OiGf1+goEQ1sMxAD3741DG2VojFefIOSEVOpMQNyw+o16U4UPCk
+         6D4w==
+X-Gm-Message-State: AOAM532me/oKIt4g6iWdUNG2WGM2jxgCPuNz7LD2hqLClS7/JJoEhlYg
+	82bI1fj5TYGRq3EINN3kEB94mw==
+X-Google-Smtp-Source: ABdhPJwsdj/Ufj88FsRkYCdm3EHNUiDfxilc2w021XdzcMTc2/IYksh4yPlv764YLumxYKv43oMz1A==
+X-Received: by 2002:adf:f9d2:: with SMTP id w18mr12644602wrr.86.1635186348799;
+        Mon, 25 Oct 2021 11:25:48 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id l1sm7730050wrb.73.2021.10.25.11.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 11:25:48 -0700 (PDT)
+Date: Mon, 25 Oct 2021 20:25:46 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
+Message-ID: <YXb2quNLuUTKtjux@Red>
+References: <20211013185812.590931-1-clabbe@baylibre.com>
+ <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
+ <YXa9WGs7ewyaHmI9@Red>
+ <71b72175-538e-87e4-d662-e59fd4131a43@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH] staging: r8188eu: core: remove goto statement
-Content-Language: en-GB
-To: Larry Finger <Larry.Finger@lwfinger.net>, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YXafzp5F8T7/+tk2@Sauravs-MacBook-Air.local>
- <7dc4eba4-c009-b8b7-bc08-5b608bdf86a0@lwfinger.net>
- <e2020caf-1b0c-ce0e-3d94-d105be85ed38@gmail.com>
- <de1bddd8-8e09-4b8f-1fd8-ae9047e60269@lwfinger.net>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <de1bddd8-8e09-4b8f-1fd8-ae9047e60269@lwfinger.net>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <71b72175-538e-87e4-d662-e59fd4131a43@xs4all.nl>
 
-
-
-On 25/10/21 10:56 pm, Larry Finger wrote:
-> On 10/25/21 12:00, Saurav Girepunje wrote:
->>
->>
->> On 25/10/21 8:45 pm, Larry Finger wrote:
->>> On 10/25/21 07:15, Saurav Girepunje wrote:
->>>> Remove the goto statement from rtw_do_join(). In this function goto
->>>> can be replace by return statement. As on goto label exit, function only
->>>> return it is not performing any cleanup. Avoiding goto will improve
->>>> the function readability.
->>>>
->>>> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
->>>> ---
->>>
->> Hi Larry,
->> Â 
->>> You need to read section 14 of Documentation/process/submitting-patches.rst to learn how to submit a revised patch.
->> Resubmitting such a revision using the same subject line is likely to confuse reviewers and maintainers alike, if not patchworks.
->>>
->> This is original patch (v1). I haven't get any review comment for this patch.
+Le Mon, Oct 25, 2021 at 05:13:04PM +0200, Hans Verkuil a écrit :
+> On 25/10/2021 16:21, LABBE Corentin wrote:
+> > Le Mon, Oct 25, 2021 at 02:45:02PM +0200, Hans Verkuil a écrit :
+> >> Hi Corentin,
+> >>
+> >> On 13/10/2021 20:58, Corentin Labbe wrote:
+> >>> Hello
+> >>>
+> >>> The main change of this serie is to fusion all zoran related modules in
+> >>> one.
+> >>> This fixes the load order problem when everything is built-in.
+> >>>
+> >>> Regards
+> >>>
+> >>> Changes since v1:
+> >>> - add missing debugfs cleaning
+> >>> - clean some remaining module_get/put functions which made impossible to
+> >>>   remove the zoran module
+> >>> - added the two latest patchs
+> >>
+> >> Something weird is wrong with this series. I have a DC30, but loading this with:
+> >>
+> >> modprobe zr36067 card=3
+> >>
+> >> results in this error message in the kernel log:
+> >>
+> >> [   58.645557] zr36067: module is from the staging directory, the quality is unknown, you have been warned.
+> >> [   58.646658] zr36067 0000:03:00.0: Zoran MJPEG board driver version 0.10.1
+> >> [   58.646793] zr36067 0000:03:00.0: Zoran ZR36057 (rev 1), irq: 18, memory: 0xf4000000
+> >> [   58.648821] zr36067 0000:03:00.0: Initializing i2c bus...
+> >> [   58.662420] vpx3220 22-0047: vpx3216b found @ 0x8e (DC30[0])
+> >> [   58.737445] zr36067 0000:03:00.0: Fail to get encoder
+> >>
+> >> This works before, so why this is now failing is not clear to me.
+> >>
+> >> It does work with 'card=0', but I really have a DC30.
+> >>
+> >> If I test with 'card=0' then the rmmod issue is now solved.
+> > 
+> > Everything normal, since card 0 does not have encoder.
+> > Could you check that adv7175 is compiled ?
 > 
-> Why did I get it twice? At least I got two messages with that subject line.
+> Yes, and it loaded as well (I see it with lsmod).
 > 
-> Larry
+> However, there is no adv7175 on my board, instead it appears to have an ITT MSE3000.
+> There is no driver for this one (and I don't even think it is an i2c device), so
+> I suspect that before the driver just continued without encoder support, whereas now
+> it fails when it can't load the encoder.
+> 
+> Could that be the reason? In the absence of an encoder, I think it should just
+> continue, esp. since the driver doesn't use the encoder anyway.
+> 
 
-I checked on lore.kernel.org . It is one patch with subject "[PATCH] staging: r8188eu: core: remove goto statement"
+So probably the card list is wrong against DC30.
+I checked high resolution photo of DC30 on internet, and it confirms the fact that DC30 does not have adv7175.
 
-https://lore.kernel.org/all/?q=Saurav+Girepunje
+Since DC30 and DC30+ are identical in the card list, perhaps it is a very old copy/paste error.
 
-Regards,
-Saurav
+So I will add a patch removing adv7175 from DC30.
 
+Thanks for the report
+Regards
