@@ -1,123 +1,71 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517C72CA4
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 15:15:53 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id z5-20020a9d4685000000b005537cbe6e5aso8680077ote.1
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 08:15:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=bvVtz/dG5wpXJrVUlsjEtf4jIyUq5VXwh2yzvFXtufg=;
-        b=JAR+ck8VcTN6+TbYv38Sl0ec6sGWbrO0u2FXw6t9cPYgzXiuixwbHl6G0W77vAN1ea
-         UDm+zpnZLfFnhKfCbF48pBSRYGQJjv1hBLAZM+Ri8otUeRgRjproZtjFtYLNdo2PV+X6
-         zlTG8VgUplF3eDa5tcKSNv8S8accNJSwZ6UmW/dCjC3d36xfkfx6V+0aWmvXYeQT+c/7
-         ONDyAe7prv/ayvqfiLPnI39jREHiaPxmIHFeGu9jFx4+FIlDitmhsBvrPb5Tx0bdkBUW
-         fBMDl5MC4+rq7WZy97PTXIScqACWRDihpg1Ii+sC2K3yHPP9fvryoKiB/oE4fybNzIcL
-         JHMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=bvVtz/dG5wpXJrVUlsjEtf4jIyUq5VXwh2yzvFXtufg=;
-        b=xwCVGpdQ78DTOjByvaa2D2cDEQp/zhiljssDI0HkGTAz8axlCchT0KMJVKDtc53RME
-         UApDqOWu9wQFGsqd9ToEZ3mq6tNKGyInC+zalR4jvYXoFR6eTuybwg499zHuaO32+Rgs
-         w7FoHPLF5HlU1/JSD9tuha+XKioLw7o2qaIGIwbVkwFohRCAqv/W5lPMiFxiALPgLLOV
-         C3XnDzBiT/nwxsSj57hwNP284T4yUVdPJ8eTYiYpjdAWciQDreAthZ2BXlv0Q3Xz1aBP
-         5YhOcJjuRe3n7X4U7WtE4fupx0sDRO3OtzGxZsWzoadnFrGSUkS/ELhaBWtqoHKCWD1u
-         ZGlg==
-X-Gm-Message-State: AOAM530GPB2qh7eYoF7OarU6wdGVrWw0RjNWyxiIW/KfTYwPMOtdZCHG
-	60TPTsIedYzIgC7iq4qbhm0=
-X-Google-Smtp-Source: ABdhPJzs9If2C/jeXxW9RWTxvvyexAy7zBi0YZjsATZ9PGaUaZEPe5fu64jXzj+GXwIOcddZeNPtTQ==
-X-Received: by 2002:a9d:6483:: with SMTP id g3mr13968208otl.105.1635174952481;
-        Mon, 25 Oct 2021 08:15:52 -0700 (PDT)
-Received: from ?IPV6:2603:8090:2005:39b3::101e? (2603-8090-2005-39b3-0000-0000-0000-101e.res6.spectrum.com. [2603:8090:2005:39b3::101e])
-        by smtp.gmail.com with ESMTPSA id t11sm3074948otp.68.2021.10.25.08.15.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Oct 2021 08:15:52 -0700 (PDT)
-Sender: Larry Finger <larry.finger@gmail.com>
-Message-ID: <7dc4eba4-c009-b8b7-bc08-5b608bdf86a0@lwfinger.net>
-Date: Mon, 25 Oct 2021 10:15:50 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401512CA4
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 15:51:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 528E260184;
+	Mon, 25 Oct 2021 15:51:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1635177087;
+	bh=HxdPjBPnGIttkaa3TypuRSPZtcG6/Elr6j35miiBv0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p/rfnLtAj+aDZSBD1rToQvk7RUgp+D3YaJn3fhiBkTlqO5gGOO2z0EhV4ADY30z6C
+	 pRx6Pb4ovHkC2xRtg5bT6+rAABaKfDE6rxwXe2jEnMG9QBUyEjopT1s6E4J3i7xpWj
+	 BLcIsJa+IhraWkjOrX8OcFwCanpkiY/Uql9DeZbQ=
+Date: Mon, 25 Oct 2021 17:51:25 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Joe Perches <joe@perches.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Johan Hovold <johan@kernel.org>, cocci@inria.fr,
+	Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: rtl8192u: fix control-message timeouts
+Message-ID: <YXbSfYIuyj3PI6pm@kroah.com>
+References: <20211025120910.6339-1-johan@kernel.org>
+ <20211025120910.6339-2-johan@kernel.org>
+ <fdb677be-6e06-fef9-811d-bb2c71246197@lwfinger.net>
+ <094a8f50ccef81e0317c89d0a605c327c825d5cb.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] staging: r8188eu: core: remove goto statement
-Content-Language: en-US
-To: Saurav Girepunje <saurav.girepunje@gmail.com>, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com,
- fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YXafzp5F8T7/+tk2@Sauravs-MacBook-Air.local>
-From: Larry Finger <Larry.Finger@lwfinger.net>
-In-Reply-To: <YXafzp5F8T7/+tk2@Sauravs-MacBook-Air.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <094a8f50ccef81e0317c89d0a605c327c825d5cb.camel@perches.com>
 
-On 10/25/21 07:15, Saurav Girepunje wrote:
-> Remove the goto statement from rtw_do_join(). In this function goto
-> can be replace by return statement. As on goto label exit, function only
-> return it is not performing any cleanup. Avoiding goto will improve
-> the function readability.
+On Mon, Oct 25, 2021 at 08:41:36AM -0700, Joe Perches wrote:
+> On Mon, 2021-10-25 at 10:06 -0500, Larry Finger wrote:
+> > On 10/25/21 07:09, Johan Hovold wrote:
+> > > USB control-message timeouts are specified in milliseconds and should
+> > > specifically not vary with CONFIG_HZ.
 > 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
+> There appears to be more than a few of these in the kernel.
+> 
+> $ cat usb_hz.cocci
+> @@
+> expression e;
+> @@
+> * usb_control_msg(..., HZ * e)
+> 
+> @@
+> expression e;
+> @@
+> * usb_control_msg(..., HZ / e)
+> 
+> @@
+> @@
+> * usb_control_msg(..., HZ)
+> 
+> $ spatch --very-quiet -U 0 -sp-file usb_hz.cocci .
+> warning: line 4: should HZ be a metavariable?
+> warning: line 9: should HZ be a metavariable?
+> warning: line 13: should HZ be a metavariable?
+> 50 files match
 
-You need to read section 14 of Documentation/process/submitting-patches.rst to 
-learn how to submit a revised patch. Resubmitting such a revision using the same 
-subject line is likely to confuse reviewers and maintainers alike, if not 
-patchworks.
+Look at the lists, he's sent a bunch of fixes for this today to all the
+subsystems...
 
-Larry
-
->   drivers/staging/r8188eu/core/rtw_ioctl_set.c | 11 ++++-------
->   1 file changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-> index 2b54cdfa9d6e..411b06e135be 100644
-> --- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-> +++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
-> @@ -51,7 +51,7 @@ u8 rtw_do_join(struct adapter *padapter)
->   			ret = _FAIL;
->   		}
-> 
-> -		goto exit;
-> +		return ret;
->   	} else {
->   		int select_ret;
-> 
-> @@ -78,10 +78,9 @@ u8 rtw_do_join(struct adapter *padapter)
-> 
->   				rtw_generate_random_ibss(pibss);
-> 
-> -				if (rtw_createbss_cmd(padapter) != _SUCCESS) {
-> -					ret =  false;
-> -					goto exit;
-> -				}
-> +				if (rtw_createbss_cmd(padapter) != _SUCCESS)
-> +					return false;
-> +
->   				pmlmepriv->to_join = false;
->   			} else {
->   				/*  can't associate ; reset under-linking */
-> @@ -102,8 +101,6 @@ u8 rtw_do_join(struct adapter *padapter)
->   		}
->   	}
-> 
-> -exit:
-> -
->   	return ret;
->   }
-> 
-> --
-> 2.33.0
-> 
-
+greg k-h
