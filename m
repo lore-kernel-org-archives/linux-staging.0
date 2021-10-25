@@ -1,134 +1,132 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30832CA4
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 14:32:29 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 71-20020a1c014a000000b0032cafd23b1dso168349wmb.4
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 07:32:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372492CA4
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 14:36:08 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id l186so4677086pge.7
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 07:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RAj0aiWl+Hji1MErAOm7QfqsGTlwZNUkSUsTTflQ6nc=;
-        b=czlC5k1WkXToJ+m2VHFI27g7tQ3OxyiA3rL2Yq4a+KMUhEOAgXei30wU1sGBisPT+z
-         vh0cIZnHRn2JCE23Zs3Azd2GrEqWdb2NVeLV9UZGIKdykjJRYXXnkjKq6lm5qe9FzIhf
-         Rr2nlL/Lg74QzynpN+ffYQ+MKRZA6vqWTIJ4B/Bvvics4eSusk9iEAlReengHJl3GV18
-         QwwV7o/a9z/sxk9vw33VRn4cEQqF9J8reBi1W42T3LRB6bDh74K5fqBiVo1YfKX9z0WL
-         o02tWsvG+p5f++FAbVfpxJV/P/dD2HPvu+GSPvReGWdrY8vhrvB2VrXfEAidzO0kex+Q
-         ezsQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=t4OQ66ZvBHAyhJ9uVXpAWQYYGEql5QgeKqi/VqWJk5A=;
+        b=ns7WA1FnYweLTagGyjWNWbcw/2lrTx9JxiO/LTCLl5ud8GGsBGFhNc1covjTQoCyhc
+         fMRzqFPA9+9qjWToypMCQU1oxCmhueld5xoARON/OTXMpfkFNtw/pEoWvzazch4EQlYW
+         q5Mvad7YuoLqaUy9C7PaQxpR24y/NSOh28hDh19t3B8PzdpTcgPN7RpO15j0mi/KuHsR
+         eAhnzyP4zN/DazCZFxnP0CHMPhHtvLjLvMfULrM9Zl07eb5EocL7y+HLzR8eJIxHs0mV
+         Qh8NaDK2tJdL0qVpcn55LY1mV9yrUXgnpN54NxRIh+JkW0Os1K/jn2j6qPa47085cwej
+         b1Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RAj0aiWl+Hji1MErAOm7QfqsGTlwZNUkSUsTTflQ6nc=;
-        b=g4y5pwl2v1xmNI8E71uWplUUKJG44HTUCS/OAWn63bh/+5gMQIVj4Ll4LTLANTrWLi
-         uddsNIlBLNJhWw9ktd5jOC15XDMycvaaatHs9BgadP9tZpFVjP9MIF9wAr4Qx+C1nY7S
-         lhUvxt4PZiDRbDsM33wnzNyQbjmAr4+EcZ3kc/FabJA4PXHU1KOxj+vTM91D41xbItUy
-         yWXR8cV932yOpJM/YaM3KLJjVCrHHQDMt5xeqBtC+UI4VudRsbhKmDTVBcAeyoWUCtM+
-         mirNBlKBjZZuboa1lkexOP4ReAtcjzJQCo/EHhOCsuZGNffsvFMFW41DOIrBafdQ8SR9
-         NQPw==
-X-Gm-Message-State: AOAM531R/ESkOcprhuQ62oRXv0jvI0GyOstdLzHcoMg7Vo+Sc6ZUifFw
-	goWzIXowZarLCgUO7QAnFtI=
-X-Google-Smtp-Source: ABdhPJxr9ESgn+40Y9hxhGj5zHGF83DSmBOBVIvzFIlnBzxa7DWjGPRdRU3n0+UmcmKC0uejYFmLYA==
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr49988880wmi.131.1635172348279;
-        Mon, 25 Oct 2021 07:32:28 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id x8sm13011500wrr.53.2021.10.25.07.32.27
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=t4OQ66ZvBHAyhJ9uVXpAWQYYGEql5QgeKqi/VqWJk5A=;
+        b=Khhm4P0h3a8mSC0+s+7QuosH2rfzJ7Ha7Xn4YCIjwKJcAsK6Nq7uOYP2//5CIzPyiZ
+         mTZj6ow0jo7lLEjdZuYFIzMUxW7ZriRr6BhTDiWZ7rM6pmRdQ9Vms3IJ+QsN5NmyzBAc
+         JoPAEMZ8jtjxTLdiNNWBsyRz5aO4Ms2j083/4vfqAchzqQuEog2yrR9U9PPacqSvsvVS
+         FWvc2TtbBV8JpAnbyL/sxbhqtFfUZ7zv22IpjeUUlrLcKhjcSE9orlCJagjqzinLUKFP
+         +mS3UkkN75cTBuNvzUD+PxWruFNAuceNcS3/2Fq95s0gyU+7bDIuV2i0gl3QTxr4aovO
+         UCLA==
+X-Gm-Message-State: AOAM531mVIMUxLqfDBSakVZ2aERQUjeQz60OiKsWYz2K+7trJjjCUfur
+	SLuL9iGmAnRCK234sSpX6mU=
+X-Google-Smtp-Source: ABdhPJxCyITT8b6HYMi39pH3t62DjoZV7i4NB5MGXRnJ8apjStyMCwhEVmSOglqnd2Jp2IWLbrnAxA==
+X-Received: by 2002:a63:9212:: with SMTP id o18mr14147341pgd.392.1635172567564;
+        Mon, 25 Oct 2021 07:36:07 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.95.35])
+        by smtp.gmail.com with ESMTPSA id d19sm1320789pgk.81.2021.10.25.07.36.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 07:32:27 -0700 (PDT)
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: outreachy-kernel@googlegroups.com
-Cc: gregkh@linuxfoundation.org,
-	forest@alittletooquiet.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: [PATCH 8/8] staging: vt6655: Rename `dwAL7230InitTable` array
-Date: Mon, 25 Oct 2021 15:31:34 +0100
-Message-Id: <4e78c4628ba75d9793bd8a60d69a1b0cc4d2a073.1635171519.git.karolinadrobnik@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1635171518.git.karolinadrobnik@gmail.com>
-References: <cover.1635171518.git.karolinadrobnik@gmail.com>
+        Mon, 25 Oct 2021 07:36:07 -0700 (PDT)
+Date: Mon, 25 Oct 2021 20:06:00 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH v2] staging: r8188eu: avoid use of goto statement
+Message-ID: <YXbA0BgvKZKXApaW@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-To align with the kernel coding style, remove the type from
-the variable name and do not use CamelCase.
+Remove the goto statement from _rtw_init_cmd_priv(). In this function
+goto statement can be replace by return statement. By replacing the
+goto statement with return statement local variable "res" is also not
+required. As on goto label exit, function only return it is not
+performing any cleanup. Avoiding goto statement will simplify the function.
 
-Fix issue detected by checkpatch.pl:
-  CHECK: Avoid CamelCase: <dwAL7230InitTable>
-
-Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 ---
- drivers/staging/vt6655/rf.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-index 1c81c44f086c..bc4abe77db7b 100644
---- a/drivers/staging/vt6655/rf.c
-+++ b/drivers/staging/vt6655/rf.c
-@@ -155,7 +155,7 @@ static unsigned long al2230_power_table[AL2230_PWR_IDX_LEN] = {
- /* 40MHz reference frequency
-  * Need to Pull PLLON(PE3) low when writing channel registers through 3-wire.
-  */
--static const unsigned long dwAL7230InitTable[CB_AL7230_INIT_SEQ] = {
-+static const unsigned long al7230_init_table[CB_AL7230_INIT_SEQ] = {
- 	0x00379000 + (BY_AL7230_REG_LEN << 3) + IFREGCTL_REGW, /* Channel1 // Need modify for 11a */
- 	0x13333100 + (BY_AL7230_REG_LEN << 3) + IFREGCTL_REGW, /* Channel1 // Need modify for 11a */
- 	0x841FF200 + (BY_AL7230_REG_LEN << 3) + IFREGCTL_REGW, /* Need modify for 11a: 451FE2 */
-@@ -420,7 +420,7 @@ static bool s_bAL7230Init(struct vnt_private *priv)
- 	bb_power_save_mode_off(priv); /* RobertYu:20050106, have DC value for Calibration */
- 
- 	for (ii = 0; ii < CB_AL7230_INIT_SEQ; ii++)
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[ii]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[ii]);
- 
- 	/* PLL On */
- 	MACvWordRegBitsOn(iobase, MAC_REG_SOFTPWRCTL, SOFTPWRCTL_SWPE3);
-@@ -434,7 +434,7 @@ static bool s_bAL7230Init(struct vnt_private *priv)
- 	ret &= IFRFbWriteEmbedded(priv, (0x3ABA8F00 + (BY_AL7230_REG_LEN << 3) + IFREGCTL_REGW));
- 	MACvTimer0MicroSDelay(priv, 30);/* 30us */
- 	/* TXDCOC:disable, RCK:disable */
--	ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[CB_AL7230_INIT_SEQ - 1]);
-+	ret &= IFRFbWriteEmbedded(priv, al7230_init_table[CB_AL7230_INIT_SEQ - 1]);
- 
- 	MACvWordRegBitsOn(iobase, MAC_REG_SOFTPWRCTL, (SOFTPWRCTL_SWPE3    |
- 							 SOFTPWRCTL_SWPE2    |
-@@ -716,7 +716,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
- 
- 		if (channel <= CB_MAX_CHANNEL_24G) {
- 			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
--				MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), dwAL7230InitTable[i]);
-+				MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al7230_init_table[i]);
- 		} else {
- 			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
- 				MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al7230_init_table_a_mode[i]);
-@@ -932,13 +932,13 @@ bool RFbAL7230SelectChannelPostProcess(struct vnt_private *priv,
- 		ret &= IFRFbWriteEmbedded(priv, al7230_init_table_a_mode[15]);
- 	} else if ((byOldChannel > CB_MAX_CHANNEL_24G) && (byNewChannel <= CB_MAX_CHANNEL_24G)) {
- 		/* Change from 5G to 2.4G [Reg] */
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[2]);
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[3]);
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[5]);
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[7]);
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[10]);
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[12]);
--		ret &= IFRFbWriteEmbedded(priv, dwAL7230InitTable[15]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[2]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[3]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[5]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[7]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[10]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[12]);
-+		ret &= IFRFbWriteEmbedded(priv, al7230_init_table[15]);
- 	}
- 
- 	return ret;
--- 
-2.30.2
+ChangeLog V2:
+
+	-Add space after line end on changelog.
+	-Remove addition blank link after the local variable res
+	 as per the coding guidelines for linux kernel.
+
+ChangeLog V1:
+
+	-Remove the goto statement from _rtw_init_cmd_priv(). In this
+	 function goto statement can be replace by return statement.
+	 By replacing the goto statement with return statement local
+	 variable "res" is also not required. As on goto label exit,
+	 function only return it is not performing any cleanup.
+	 Avoiding goto statement will simplify the function.
+
+ drivers/staging/r8188eu/core/rtw_cmd.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_cmd.c b/drivers/staging/r8188eu/core/rtw_cmd.c
+index e17332677daa..c94b9559b5e4 100644
+--- a/drivers/staging/r8188eu/core/rtw_cmd.c
++++ b/drivers/staging/r8188eu/core/rtw_cmd.c
+@@ -19,8 +19,6 @@ No irqsave is necessary.
+
+ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ {
+-	int res = _SUCCESS;
+-
+ 	sema_init(&pcmdpriv->cmd_queue_sema, 0);
+ 	/* sema_init(&(pcmdpriv->cmd_done_sema), 0); */
+ 	sema_init(&pcmdpriv->terminate_cmdthread_sema, 0);
+@@ -34,28 +32,23 @@ static int _rtw_init_cmd_priv(struct cmd_priv *pcmdpriv)
+ 	pcmdpriv->cmd_allocated_buf = kzalloc(MAX_CMDSZ + CMDBUFF_ALIGN_SZ,
+ 					      GFP_KERNEL);
+
+-	if (!pcmdpriv->cmd_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!pcmdpriv->cmd_allocated_buf)
++		return _FAIL;
+
+ 	pcmdpriv->cmd_buf = pcmdpriv->cmd_allocated_buf  +  CMDBUFF_ALIGN_SZ - ((size_t)(pcmdpriv->cmd_allocated_buf) & (CMDBUFF_ALIGN_SZ - 1));
+
+ 	pcmdpriv->rsp_allocated_buf = kzalloc(MAX_RSPSZ + 4, GFP_KERNEL);
+
+-	if (!pcmdpriv->rsp_allocated_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!pcmdpriv->rsp_allocated_buf)
++		return _FAIL;
+
+ 	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf  +  4 - ((size_t)(pcmdpriv->rsp_allocated_buf) & 3);
+
+ 	pcmdpriv->cmd_issued_cnt = 0;
+ 	pcmdpriv->cmd_done_cnt = 0;
+ 	pcmdpriv->rsp_cnt = 0;
+-exit:
+
+-	return res;
++	return _SUCCESS;
+ }
+
+ static void c2h_wk_callback(struct work_struct *work);
+--
+2.33.0
 
