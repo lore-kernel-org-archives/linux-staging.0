@@ -1,108 +1,123 @@
-Received: from lb1-smtp-cloud8.xs4all.net (lb1-smtp-cloud8.xs4all.net [194.109.24.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79D22CA4
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 15:14:14 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud8.xs4all.net with ESMTPA
-	id f1eqmGoUiFfMif1ermUucr; Mon, 25 Oct 2021 17:13:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1635174785; bh=fIY1GIaSVdj5U3XrMAxDyWv4KHAUORx2wUkdkjhqXC8=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=aQWf8mKI/N+PtAuoDrZ04aYbmjcG+AVRujs+lv+EPoaW0Jd4kZ7nxAWRIehWqjPym
-	 IjRZZKVeZ6jNUY/gnKntbtfxPxzwz5IrEaAzcbba35fQ6SVLdPElqYITmJKxahxgHF
-	 1mFqwIhxTVvpr0LQHa+s+CHQzaCUZAiyiewyG5b5aY/P1bDBhZp6aqlW/utymYoYQY
-	 /BbWK5u8sE9Ub5UCs8V9x/niNdwSWr1RWHayQpz9BO/Y8plwQoNboM44E2uxelpEWW
-	 cUrZW0T3y9+x/6PUT74qw9s7fk3YMwOz2waNgvvnryid60AV2EuhYNDLd+n6oMaL3k
-	 iOWMOKf//suMQ==
-Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
-To: LABBE Corentin <clabbe@baylibre.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211013185812.590931-1-clabbe@baylibre.com>
- <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl> <YXa9WGs7ewyaHmI9@Red>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <71b72175-538e-87e4-d662-e59fd4131a43@xs4all.nl>
-Date: Mon, 25 Oct 2021 17:13:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517C72CA4
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 15:15:53 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id z5-20020a9d4685000000b005537cbe6e5aso8680077ote.1
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 08:15:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=bvVtz/dG5wpXJrVUlsjEtf4jIyUq5VXwh2yzvFXtufg=;
+        b=JAR+ck8VcTN6+TbYv38Sl0ec6sGWbrO0u2FXw6t9cPYgzXiuixwbHl6G0W77vAN1ea
+         UDm+zpnZLfFnhKfCbF48pBSRYGQJjv1hBLAZM+Ri8otUeRgRjproZtjFtYLNdo2PV+X6
+         zlTG8VgUplF3eDa5tcKSNv8S8accNJSwZ6UmW/dCjC3d36xfkfx6V+0aWmvXYeQT+c/7
+         ONDyAe7prv/ayvqfiLPnI39jREHiaPxmIHFeGu9jFx4+FIlDitmhsBvrPb5Tx0bdkBUW
+         fBMDl5MC4+rq7WZy97PTXIScqACWRDihpg1Ii+sC2K3yHPP9fvryoKiB/oE4fybNzIcL
+         JHMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :subject:content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=bvVtz/dG5wpXJrVUlsjEtf4jIyUq5VXwh2yzvFXtufg=;
+        b=xwCVGpdQ78DTOjByvaa2D2cDEQp/zhiljssDI0HkGTAz8axlCchT0KMJVKDtc53RME
+         UApDqOWu9wQFGsqd9ToEZ3mq6tNKGyInC+zalR4jvYXoFR6eTuybwg499zHuaO32+Rgs
+         w7FoHPLF5HlU1/JSD9tuha+XKioLw7o2qaIGIwbVkwFohRCAqv/W5lPMiFxiALPgLLOV
+         C3XnDzBiT/nwxsSj57hwNP284T4yUVdPJ8eTYiYpjdAWciQDreAthZ2BXlv0Q3Xz1aBP
+         5YhOcJjuRe3n7X4U7WtE4fupx0sDRO3OtzGxZsWzoadnFrGSUkS/ELhaBWtqoHKCWD1u
+         ZGlg==
+X-Gm-Message-State: AOAM530GPB2qh7eYoF7OarU6wdGVrWw0RjNWyxiIW/KfTYwPMOtdZCHG
+	60TPTsIedYzIgC7iq4qbhm0=
+X-Google-Smtp-Source: ABdhPJzs9If2C/jeXxW9RWTxvvyexAy7zBi0YZjsATZ9PGaUaZEPe5fu64jXzj+GXwIOcddZeNPtTQ==
+X-Received: by 2002:a9d:6483:: with SMTP id g3mr13968208otl.105.1635174952481;
+        Mon, 25 Oct 2021 08:15:52 -0700 (PDT)
+Received: from ?IPV6:2603:8090:2005:39b3::101e? (2603-8090-2005-39b3-0000-0000-0000-101e.res6.spectrum.com. [2603:8090:2005:39b3::101e])
+        by smtp.gmail.com with ESMTPSA id t11sm3074948otp.68.2021.10.25.08.15.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Oct 2021 08:15:52 -0700 (PDT)
+Sender: Larry Finger <larry.finger@gmail.com>
+Message-ID: <7dc4eba4-c009-b8b7-bc08-5b608bdf86a0@lwfinger.net>
+Date: Mon, 25 Oct 2021 10:15:50 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YXa9WGs7ewyaHmI9@Red>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] staging: r8188eu: core: remove goto statement
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKXsBZKZjWokjLzBUxVr/rlum1dMNHkXzuENEFfg6JbvVbzYGvw51c/XiE9qdH7QayonRkvslocJlN2TO65u3IEbETfbPC5AAscqAB7vmwlKUZOCQkrj
- NVyvRNnzcgzX6ZidqYF2R7xlTzbOL/I7c1uon5WmiiCiJ1uDJ3UEYTqWrE7AMkhycfqBECWYc9xWHiUOdEF0TWvXOe62sDWn1kpczQDyWyh8RpJ9OGSjS7qj
- zBz80kwslj7Z4Mh8z9Kjq7AMfyp2GJ+2tt709rTB2m1XVvTFGVB1agtjRLB6ZFZLDeTShk0nTxrHCvL5NUCpJTe0mi4ANgCVA1W5QMfDglEq0eRQZcDBb2Qk
- bdJE+sLv9HQfIy/4lL+Tgv6nqQcgUtpIQevsf0QPV6Q/imzqDUUiB4tMvX52/qd9MTJWhnGopfvZl28d1WSArALQtA0Nn4Cz5Xx2MbehNFPSdP7pcE8d9rGc
- jsbZ0Pyu1CFnbL1X4R2lrhUvD26XC1Yxb/EnzJrfwXJkpNXq7mf5WW1+M4E=
+To: Saurav Girepunje <saurav.girepunje@gmail.com>, phil@philpotter.co.uk,
+ gregkh@linuxfoundation.org, straube.linux@gmail.com,
+ fmdefrancesco@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YXafzp5F8T7/+tk2@Sauravs-MacBook-Air.local>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+In-Reply-To: <YXafzp5F8T7/+tk2@Sauravs-MacBook-Air.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 25/10/2021 16:21, LABBE Corentin wrote:
-> Le Mon, Oct 25, 2021 at 02:45:02PM +0200, Hans Verkuil a écrit :
->> Hi Corentin,
->>
->> On 13/10/2021 20:58, Corentin Labbe wrote:
->>> Hello
->>>
->>> The main change of this serie is to fusion all zoran related modules in
->>> one.
->>> This fixes the load order problem when everything is built-in.
->>>
->>> Regards
->>>
->>> Changes since v1:
->>> - add missing debugfs cleaning
->>> - clean some remaining module_get/put functions which made impossible to
->>>   remove the zoran module
->>> - added the two latest patchs
->>
->> Something weird is wrong with this series. I have a DC30, but loading this with:
->>
->> modprobe zr36067 card=3
->>
->> results in this error message in the kernel log:
->>
->> [   58.645557] zr36067: module is from the staging directory, the quality is unknown, you have been warned.
->> [   58.646658] zr36067 0000:03:00.0: Zoran MJPEG board driver version 0.10.1
->> [   58.646793] zr36067 0000:03:00.0: Zoran ZR36057 (rev 1), irq: 18, memory: 0xf4000000
->> [   58.648821] zr36067 0000:03:00.0: Initializing i2c bus...
->> [   58.662420] vpx3220 22-0047: vpx3216b found @ 0x8e (DC30[0])
->> [   58.737445] zr36067 0000:03:00.0: Fail to get encoder
->>
->> This works before, so why this is now failing is not clear to me.
->>
->> It does work with 'card=0', but I really have a DC30.
->>
->> If I test with 'card=0' then the rmmod issue is now solved.
+On 10/25/21 07:15, Saurav Girepunje wrote:
+> Remove the goto statement from rtw_do_join(). In this function goto
+> can be replace by return statement. As on goto label exit, function only
+> return it is not performing any cleanup. Avoiding goto will improve
+> the function readability.
 > 
-> Everything normal, since card 0 does not have encoder.
-> Could you check that adv7175 is compiled ?
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
 
-Yes, and it loaded as well (I see it with lsmod).
+You need to read section 14 of Documentation/process/submitting-patches.rst to 
+learn how to submit a revised patch. Resubmitting such a revision using the same 
+subject line is likely to confuse reviewers and maintainers alike, if not 
+patchworks.
 
-However, there is no adv7175 on my board, instead it appears to have an ITT MSE3000.
-There is no driver for this one (and I don't even think it is an i2c device), so
-I suspect that before the driver just continued without encoder support, whereas now
-it fails when it can't load the encoder.
+Larry
 
-Could that be the reason? In the absence of an encoder, I think it should just
-continue, esp. since the driver doesn't use the encoder anyway.
-
-Regards,
-
-	Hans
-
+>   drivers/staging/r8188eu/core/rtw_ioctl_set.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 > 
-> I got the same problem with my DC10+ where saa7110 was not compiled.
-> This issue was reproduced randomly and I have no explanation. (kconfig problem ?)
+> diff --git a/drivers/staging/r8188eu/core/rtw_ioctl_set.c b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> index 2b54cdfa9d6e..411b06e135be 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ioctl_set.c
+> @@ -51,7 +51,7 @@ u8 rtw_do_join(struct adapter *padapter)
+>   			ret = _FAIL;
+>   		}
 > 
-> Regards
+> -		goto exit;
+> +		return ret;
+>   	} else {
+>   		int select_ret;
+> 
+> @@ -78,10 +78,9 @@ u8 rtw_do_join(struct adapter *padapter)
+> 
+>   				rtw_generate_random_ibss(pibss);
+> 
+> -				if (rtw_createbss_cmd(padapter) != _SUCCESS) {
+> -					ret =  false;
+> -					goto exit;
+> -				}
+> +				if (rtw_createbss_cmd(padapter) != _SUCCESS)
+> +					return false;
+> +
+>   				pmlmepriv->to_join = false;
+>   			} else {
+>   				/*  can't associate ; reset under-linking */
+> @@ -102,8 +101,6 @@ u8 rtw_do_join(struct adapter *padapter)
+>   		}
+>   	}
+> 
+> -exit:
+> -
+>   	return ret;
+>   }
+> 
+> --
+> 2.33.0
 > 
 
