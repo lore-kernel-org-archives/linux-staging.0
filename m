@@ -1,94 +1,115 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A362A2C8B
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 09:42:44 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id e4so11714128wrc.7
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 02:42:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909B82C8B
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 10:02:32 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id 5so24383806edw.7
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 03:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C+Z8QswGGJCsabXMOKG3gspjqoJwtDOj3+Y1Gg6rw6Y=;
-        b=lLF1XIy2gmou/0F1aDarf8kjlh2Px35n4OPUF7YcQlSOB/2ng0lyIjn+BHoMz4D4DJ
-         DZIKaAoTVpa4wgBuFyPvqGFfcpmEwdHURFnHw4pN/PREL5oTdxWk2VUiX+0GVkD6HQap
-         tb0A2eowUDibIma66W8GTRFgq+ULsfeWokOPBPbKv5hY19AlwkypUF95olC/woVqQ0as
-         zIkSf/gfSEJ/fd2sTBKRPKFJNpYUIa3+jU+a+Eb10ly/JzYdq6DX4KKEKLK0MSZcNTky
-         cj1HdclncvAlHu+PR/3ki+B3datcNcR0QePTj10b8JmYk9epo3/fNrFGa4Vkc08te+yr
-         mByQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=66S15h2BChIH5efEJ1O2/Dq6oRoO6DFpUA1AaJu7EyI=;
+        b=WdJsrfX4qv58ER5mDlLoQaTWORtGDBHWuB/0toUEw6L9yw5hBg7FfUqMBhhSRjj1ow
+         cTIAAAiDSj7j7/XqTi/lj3me01aF4cbDE3Szpwh1yQxgJC8KEeyv5yY23xzrQYOtjLRt
+         vEf248rYO2u9wMXuw8pJedS3usmaqq1MufyuCE/HDDXQskB9x2ScRnkLhZCWCow8gV/b
+         hvYvIR1GTaULgYddVAj9yXIXqbtc4hmm+zeM9zY/rCESs1PpyTpOVlyt4hJHB2GSBjJS
+         1W9qYaX4LsLLc6ir4Nsp2mmnfI43v/VhbydTbtxJMWinXjZq86pTlyW2MSfqMPD1RgA7
+         NJsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C+Z8QswGGJCsabXMOKG3gspjqoJwtDOj3+Y1Gg6rw6Y=;
-        b=Alrekd/A75uHwewIbV0yyIJKjHpGIYEycGLFGMN9I0BYwptxM4NJHRsH7BX0h5ONph
-         l07Qs9qlL6+FFylKNiJxubZcVitHEY/hIYTtJOxGOjhfB7WQ91BHk+cPQGgonHm8LGzP
-         KTNYjVS6fgzakBXbZEzJ3pIogDZz3mjSxjIVts8LvVD9t5XSky9ys8bixZlj5XgYeIje
-         zbELD/WAZTXarUwOOk8kmU+8bsc9lBsege/34gk4T/0VeZ8c+/9hrLAgOKphYGcB44TA
-         6DFREin6e009dHdDPd4CQqQv66z+tHn3wdI+aRmvCejYsP3S7X3neNdapJf/4WNLWFCk
-         8MQw==
-X-Gm-Message-State: AOAM5334yFNVGhWRz9LtmY/PViduOrSFiABrH/0yxJYm4yX0i+hTy6D0
-	r555LjiofzLNYC1vbCyI7ifjLw2dykc=
-X-Google-Smtp-Source: ABdhPJxOr8pHAApwutsjJ2JW1f/swEREiBYyC5FkqOPJ7PbUglnn/vWvQ1NRMfXK4gbwCNlqobpLWg==
-X-Received: by 2002:adf:e0cc:: with SMTP id m12mr22751832wri.62.1635154962676;
-        Mon, 25 Oct 2021 02:42:42 -0700 (PDT)
-Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id g14sm1939469wro.12.2021.10.25.02.42.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Oct 2021 02:42:42 -0700 (PDT)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	neil@brown.name
-Subject: [PATCH] staging: mt7621-dts: add missing SPDX license to files
-Date: Mon, 25 Oct 2021 11:42:40 +0200
-Message-Id: <20211025094240.4356-1-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.33.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=66S15h2BChIH5efEJ1O2/Dq6oRoO6DFpUA1AaJu7EyI=;
+        b=QO4jv2GoSuWu8VmmQ7ve6L+bC5zPUO2bCIa1vXejr9y/9YSk6eh4tbR55E8CIPDdn0
+         5oVNBZgjHdR8BqlUE3RZdV8kl6nzexaO3sN8xs2hgoDW13zALJvMsGu6Eqz9ukNSF2ui
+         uwnKyAt2cIK1ks4YuaADYTxkHT2ultvnkkMXycfUtb21+8OIsgcxnfExP+vJgWz0ZUMx
+         2HetB3s8Vwo3E9TU6rUamf9uKWtabippysX5CnpYmLOzBCo8MEAon35f16yMOzldr6Dz
+         gYwSQKixH86a7AdRuraNNhWF/CeWfetvEc2Xje5qP16zXZ1xHv2t70ququZ/Wjqlzkzp
+         7DzA==
+X-Gm-Message-State: AOAM531LWmTgo0/+e1MfsOLSCZRAANQwcnvfBDFfFRFN8gHhtQZU1g9T
+	XvtYjOIjDjtiixcxC+n9asNK10DgtLw=
+X-Google-Smtp-Source: ABdhPJyehztEVg3aQrRPxVPv/paDlNewPxneJekrg5dlnj91FYmgmk04MdK1vyDP7hQSjbMQrqsU8g==
+X-Received: by 2002:aa7:cc96:: with SMTP id p22mr25067132edt.91.1635156150870;
+        Mon, 25 Oct 2021 03:02:30 -0700 (PDT)
+Received: from localhost.localdomain (host-80-181-148-119.retail.telecomitalia.it. [80.181.148.119])
+        by smtp.gmail.com with ESMTPSA id hc18sm5147357ejc.4.2021.10.25.03.02.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 03:02:30 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>, kushal kothari <kushalkothari285@gmail.com>
+Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com, hdegoede@redhat.com, marcocesati@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com, Mike Rapoport <mike.rapoport@gmail.com>, kushalkothari2850@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: core: Refactor nested if-else
+Date: Mon, 25 Oct 2021 12:02:27 +0200
+Message-ID: <2475218.nDWPeaHJO9@localhost.localdomain>
+In-Reply-To: <CALtHPQsQe06MhSvgs25TVbsjEvfU=ELbK3eFfKunRHXM1+HDxA@mail.gmail.com>
+References: <20211025072528.152028-1-kushalkothari285@gmail.com> <YXZdvdj6EQsrfhqt@kroah.com> <CALtHPQsQe06MhSvgs25TVbsjEvfU=ELbK3eFfKunRHXM1+HDxA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="ISO-8859-1"
 
-Device tree files included here haven't got SPDX license header at all.
-Hence, add it to all of them.
+On Monday, October 25, 2021 9:56:00 AM CEST kushal kothari wrote:
+> >Very long line, please break it up at 72 columns.
+> 
+> >And your space around the '.' is odd :(
+> 
+> Yes,fixing it.
+>
+^^^^^^^^^^^^^^^^^^^^
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/gbpc1.dts   | 1 +
- drivers/staging/mt7621-dts/gbpc2.dts   | 1 +
- drivers/staging/mt7621-dts/mt7621.dtsi | 1 +
- 3 files changed, 3 insertions(+)
+You are still using spaces the wrong way :) 
 
-diff --git a/drivers/staging/mt7621-dts/gbpc1.dts b/drivers/staging/mt7621-dts/gbpc1.dts
-index 36e1e507f241..e38a083811e5 100644
---- a/drivers/staging/mt7621-dts/gbpc1.dts
-+++ b/drivers/staging/mt7621-dts/gbpc1.dts
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- /dts-v1/;
- 
- #include "mt7621.dtsi"
-diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/drivers/staging/mt7621-dts/gbpc2.dts
-index 52760e7351f6..6fe603c7711d 100644
---- a/drivers/staging/mt7621-dts/gbpc2.dts
-+++ b/drivers/staging/mt7621-dts/gbpc2.dts
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- /dts-v1/;
- 
- #include "gbpc1.dts"
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index f5c0df78fa6b..6d158e4f4b8c 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- #include <dt-bindings/interrupt-controller/mips-gic.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/clock/mt7621-clk.h>
--- 
-2.33.0
+English, as well as all natural languages that use Latin characters, use 
+punctuation and a strict style that dictates how to use the spaces around it. 
+Please read correctly written English texts, learn and use conventions
+
+Thanks,
+
+Fabio 
+> 
+> >> checkpatch warning : Too many leading tabs - consider code refactoring
+> 
+> >What does this mean?
+> Asking about the warning ,correct?
+> The current code is using very deep indentations (which can be avoided) and
+> due to this there are many leading tabs. So the checkpatch.pl warns of  
+"Too
+> many leading tabs - consider code refactoring"
+> <http://checkpatch.pl>
+> 
+> On Mon, Oct 25, 2021 at 1:03 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Mon, Oct 25, 2021 at 12:55:28PM +0530, Kushal Kothari wrote:
+> > > Refactor nested if else by combining nested if into a single if
+> > condition and removing unnecessary else conditionals which leads to
+> > removing unnecessary tabs .There is no change in logic of new code.
+> >
+> > Very long line, please break it up at 72 columns.
+> >
+> > And your space around the '.' is odd :(
+> >
+> > > checkpatch warning : Too many leading tabs - consider code refactoring
+> >
+> > What does this mean?
+> >
+> > >
+> > > Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
+> > > ---
+> > >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 65 ++++++++-----------
+> > >  1 file changed, 26 insertions(+), 39 deletions(-)
+> > >
+> >
+> > thanks,
+> >
+> > greg k-h
+> >
+> 
+
+
+
 
