@@ -1,102 +1,94 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F69B2C8B
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 09:38:54 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id z14so10549835wrg.6
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 02:38:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A362A2C8B
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 09:42:44 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id e4so11714128wrc.7
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 02:42:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=j2/0T+iSdDtcRBJSHhWbXXR9G0R0VHtIn5iZtNGvdpY=;
-        b=O8IHmCxEqS6oDsG6t3xo1/CJc/mKQKQrKBE5I0MDKkQGd03S7OqsFskcTN/dsmOWNR
-         zTybvOnp12d3zvtbq0kzMNc80oUxNQlH6SiLR4G4PUQe+9fyKLHiE+QjHnxB2LT1uDZM
-         aMeiJaIIwsjLS1pRgtWUeFfZOyZGA2P7T6lx3YFlIVWFCaA4gbSZHwYulHYFELdB+YPU
-         4ZhqrdqRwXram+3kTOs+Pctv8HtyIeM3xcbOkEwZjL9FA7AwVhobHrMR0pSwObfT990U
-         qQQKhYLDr6/gONsRQZcKMb3gGBND4mxKesrP2atjQclfE/kHB7OtEb4gQ6YYl6JBUk2z
-         CHXg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C+Z8QswGGJCsabXMOKG3gspjqoJwtDOj3+Y1Gg6rw6Y=;
+        b=lLF1XIy2gmou/0F1aDarf8kjlh2Px35n4OPUF7YcQlSOB/2ng0lyIjn+BHoMz4D4DJ
+         DZIKaAoTVpa4wgBuFyPvqGFfcpmEwdHURFnHw4pN/PREL5oTdxWk2VUiX+0GVkD6HQap
+         tb0A2eowUDibIma66W8GTRFgq+ULsfeWokOPBPbKv5hY19AlwkypUF95olC/woVqQ0as
+         zIkSf/gfSEJ/fd2sTBKRPKFJNpYUIa3+jU+a+Eb10ly/JzYdq6DX4KKEKLK0MSZcNTky
+         cj1HdclncvAlHu+PR/3ki+B3datcNcR0QePTj10b8JmYk9epo3/fNrFGa4Vkc08te+yr
+         mByQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=j2/0T+iSdDtcRBJSHhWbXXR9G0R0VHtIn5iZtNGvdpY=;
-        b=J1HK1kpwiL4tZvRe9n90lVJpDS3InSyxEZo0cdczr2O5L2giUyDlWYGlxwQPyNlN/E
-         24jE9+BV/ga7VkdGfW+c1F27z8PN2Gzhx+HzQ+/Ytsc8fmvK+JRxVwOMziY4dpPqGtU8
-         FsufnN7Ogk+EfvaiFJ6qpy5Q1W/tMMwMfm+9T1B9k1iOgQ8X19VhAym10jTK2duEvP/F
-         mF6Dm+SvXfRYPLTA2xc68k8iqGa8ATXQpQqvC5ss0YC2pvhKyPydqr7GRlDEP99OGcmJ
-         Me+ZScm/1vTyT+i3Mg15rCaYDx4zb+bt7LlG1K3i3nBAbItXYN5rlDb4lUqmRwDwouB9
-         adtg==
-X-Gm-Message-State: AOAM5324DlPWf8WCv/HnSRfIewUYu0ngwCSW0T1iXyUrZANaSGJ5oOgx
-	u8KI8xPxa7sKyCEBDXOTYEQ=
-X-Google-Smtp-Source: ABdhPJyT9OntxpUvacaEwsTC1z3GP1l6mwKWW3rKtPLofWcuMSnvX3hOCI66pnpi/WPjiHdyhtVY+Q==
-X-Received: by 2002:adf:8bce:: with SMTP id w14mr7800346wra.391.1635154732530;
-        Mon, 25 Oct 2021 02:38:52 -0700 (PDT)
-Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id l20sm21094729wmq.42.2021.10.25.02.38.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 02:38:51 -0700 (PDT)
-Message-ID: <4a0993774f75323c803f7b07ff9825d7beb6d95b.camel@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH 2/5] staging: vt6655: Rename
- `byInitCount` variable
-From: Karolina Drobnik <karolinadrobnik@gmail.com>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
-	forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 25 Oct 2021 10:38:46 +0100
-In-Reply-To: <20211022164011.GB464908@alison-desk>
-References: <cover.1634826774.git.karolinadrobnik@gmail.com>
-	 <53430b1183324f6a715999792a15df2ea6a3e206.1634826774.git.karolinadrobnik@gmail.com>
-	 <20211022164011.GB464908@alison-desk>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C+Z8QswGGJCsabXMOKG3gspjqoJwtDOj3+Y1Gg6rw6Y=;
+        b=Alrekd/A75uHwewIbV0yyIJKjHpGIYEycGLFGMN9I0BYwptxM4NJHRsH7BX0h5ONph
+         l07Qs9qlL6+FFylKNiJxubZcVitHEY/hIYTtJOxGOjhfB7WQ91BHk+cPQGgonHm8LGzP
+         KTNYjVS6fgzakBXbZEzJ3pIogDZz3mjSxjIVts8LvVD9t5XSky9ys8bixZlj5XgYeIje
+         zbELD/WAZTXarUwOOk8kmU+8bsc9lBsege/34gk4T/0VeZ8c+/9hrLAgOKphYGcB44TA
+         6DFREin6e009dHdDPd4CQqQv66z+tHn3wdI+aRmvCejYsP3S7X3neNdapJf/4WNLWFCk
+         8MQw==
+X-Gm-Message-State: AOAM5334yFNVGhWRz9LtmY/PViduOrSFiABrH/0yxJYm4yX0i+hTy6D0
+	r555LjiofzLNYC1vbCyI7ifjLw2dykc=
+X-Google-Smtp-Source: ABdhPJxOr8pHAApwutsjJ2JW1f/swEREiBYyC5FkqOPJ7PbUglnn/vWvQ1NRMfXK4gbwCNlqobpLWg==
+X-Received: by 2002:adf:e0cc:: with SMTP id m12mr22751832wri.62.1635154962676;
+        Mon, 25 Oct 2021 02:42:42 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id g14sm1939469wro.12.2021.10.25.02.42.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Oct 2021 02:42:42 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	neil@brown.name
+Subject: [PATCH] staging: mt7621-dts: add missing SPDX license to files
+Date: Mon, 25 Oct 2021 11:42:40 +0200
+Message-Id: <20211025094240.4356-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Alison,
+Device tree files included here haven't got SPDX license header at all.
+Hence, add it to all of them.
 
-On Fri, 2021-10-22 at 09:40 -0700, Alison Schofield wrote:
-> On Fri, Oct 22, 2021 at 10:37:15AM +0100, Karolina Drobnik wrote:
-> > Drop Hungarian notation in `byInitCount` variable in
-> > `RFvWriteWakeProgSyn` function. Change it to use snake case.
-> > 
-> > Fix issue detected by checkpatch.pl:
-> >   CHECK: Avoid CamelCase: <byInitCount>
-> 
-> Hi Karolina,
-> 
-> This comment is for all the patches.
-> 
-> Commit msg:
-> We've got plenty of space on that line, how about:
-> "Rename byInitCount init_count"
-> 
-> (I say this because when someone searches by the oneliners it's
-> nice to give as many keywords as possible - within the line limit)
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+---
+ drivers/staging/mt7621-dts/gbpc1.dts   | 1 +
+ drivers/staging/mt7621-dts/gbpc2.dts   | 1 +
+ drivers/staging/mt7621-dts/mt7621.dtsi | 1 +
+ 3 files changed, 3 insertions(+)
 
-Ok, will do my best to include it in my upcoming patchset.
-
-> Commit log:
-> The log (why this patch is important) seems to be saying that
-> snake case is the fix for Hungarian notation. I don't think that
-> is completely true. Snake case avoids the camel case of Hungarian
-> notation, but we are also dropping the type descriptor which is
-> another signature of Hungarian notation.
-> 
-> Perhaps this would be more direct:
-> 
-> To align with the kernel coding style, remove the type from
-> the variable name and do not use CamelCase.
-
-Ok, I'll use this format from now on.
-
-
-Thanks,
-Karolina
+diff --git a/drivers/staging/mt7621-dts/gbpc1.dts b/drivers/staging/mt7621-dts/gbpc1.dts
+index 36e1e507f241..e38a083811e5 100644
+--- a/drivers/staging/mt7621-dts/gbpc1.dts
++++ b/drivers/staging/mt7621-dts/gbpc1.dts
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ /dts-v1/;
+ 
+ #include "mt7621.dtsi"
+diff --git a/drivers/staging/mt7621-dts/gbpc2.dts b/drivers/staging/mt7621-dts/gbpc2.dts
+index 52760e7351f6..6fe603c7711d 100644
+--- a/drivers/staging/mt7621-dts/gbpc2.dts
++++ b/drivers/staging/mt7621-dts/gbpc2.dts
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ /dts-v1/;
+ 
+ #include "gbpc1.dts"
+diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
+index f5c0df78fa6b..6d158e4f4b8c 100644
+--- a/drivers/staging/mt7621-dts/mt7621.dtsi
++++ b/drivers/staging/mt7621-dts/mt7621.dtsi
+@@ -1,3 +1,4 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ #include <dt-bindings/interrupt-controller/mips-gic.h>
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/clock/mt7621-clk.h>
+-- 
+2.33.0
 
