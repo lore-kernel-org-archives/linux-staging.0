@@ -1,114 +1,78 @@
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D7C2C9F
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 12:45:11 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id ezLamN9JyUo2HezLbmIfLC; Mon, 25 Oct 2021 14:45:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1635165903; bh=MIrPmlZMXbntaIfNzNiL+53Ms2d0qAt5qT61zPsRcbQ=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=m+LHcJME2HJ9EGk9IY8grmg1yD4Ju2weXMHpTdctYcDZ1f3MIo8GHOYiT9xJuM20z
-	 PGrgbqcIvJ1DmiN8w5eNx+gMw91DBp6MV6Ucjx+sAxdP/bKcAoRWHLoSAHeMvXCu92
-	 cTVk4gumwFPGp+LzJxVZqPz++WMsNK2xRhnCfOl1NLlihSCI55nj0UZPPA4XqGEdZV
-	 BMOQnyUq1DhLZMCvK3hdB2D+/ioyZ05F58mjr+4WM2IkMMsUSSPUqMtu12vArOiIwl
-	 2AFCXK/tkY7TiKyJYEjZesB+hH0drxjYZc3RPxUTdT1tq9UBkS7IgRSARxNBhOhi1+
-	 bMqRvvK/XbmsA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806202C9F
+	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 14:07:01 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id u18so9682313wrg.5
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 07:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=YE/NzH8qBpbjmAapzAwapgPnCPKetXqI0pgiy9yOdQE=;
+        b=L2dGHyNoFi2z+4ecIyz89lYHwy1pDFUGrmT7X6ovQeMSwRJjiNQ1ptux181OyYZQ89
+         4CcnKb0YmJUuZ1HItQyP1HB1NQDmPVHLsnCXUJlC5kmnW3/QKBtREawB1ppLZmxjD3W3
+         nK/ZDxQDTMsjonxm1NySHvHsi3s+6J/djsF8TXOyaTMq+oYq+ViWg+iLzctDo76SY4yU
+         T9e20DiJrwxC8jHC/f+dgjyeGEsNRkFlDgiV8fq/pY4tCuYE+D7hDLQTRE1NZ+xFqERf
+         DmozuhP74V822Q2Y3bOfywpz6WtJnuI/qrlGayFvw6TqdbbWOVty+m+8BgUVn4tQGojm
+         /msA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YE/NzH8qBpbjmAapzAwapgPnCPKetXqI0pgiy9yOdQE=;
+        b=HzAgigyLvordZx/ej7rj9b8IP5T6Ee9Y+dlaGHfb71XzI3stKKDEezk9optYOp0V0L
+         hpjuZLfHsRehAakzmhyffNcoajD0gDyuNQDt2yAiF8owufW0uQFNvHRDQ3k8vOgLh1g8
+         owFXtGkLvl2hVFs3iNIvvJUcpHqVJ1pMIjaCD/3czsLmRdXzhOQ+VBCCaOc3vcmv1gNw
+         dame/ANcER8VdpQh6T3iAHh0UggmfZRLQmsrGYIpYR53eD7sgoUtkDUaA2UCrwouskHu
+         NDw1BBkug6k7aVLLRyMav7hEmydZi2EQgqNULh4+rsr+yjb9AMM5MmQr8O9fnq2cMi1W
+         IuQQ==
+X-Gm-Message-State: AOAM531AlVHnIqXOMWer8k8PKYLU/qdL43Bo+VB4RU4UgkEv/wvW3JDj
+	6VoqLUZzpLlkOitY2E5FhBTTeA==
+X-Google-Smtp-Source: ABdhPJyRYFvibtgc8IKqIHYknb4PmyxGSQKD0RMQUpWrP7fkWuU1HAthN9l4r9nE/QnuRmGJqgGJBQ==
+X-Received: by 2002:adf:e607:: with SMTP id p7mr23358297wrm.30.1635170819465;
+        Mon, 25 Oct 2021 07:06:59 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id p1sm5762489wmq.23.2021.10.25.07.06.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 07:06:59 -0700 (PDT)
+Date: Mon, 25 Oct 2021 16:06:57 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
 Subject: Re: [PATCH v2 00/10] staging: media: zoran: fusion in one module
-To: Corentin Labbe <clabbe@baylibre.com>, mchehab@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+Message-ID: <YXa6AVRmkkEuE+XZ@Red>
 References: <20211013185812.590931-1-clabbe@baylibre.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <da925d73-fdf0-3962-3841-a1dd53b5c5dd@xs4all.nl>
-Date: Mon, 25 Oct 2021 14:45:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211013185812.590931-1-clabbe@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfG4yLNWqnYNBP9/1n40nSetLdb+rU3jaz1ZDe2tK5Z8747Kg5+iSFSKeNp69iojMjYf8Q/XAlZFW9QUFkOnWaqd2etvO+PbYJnYieGVwd8wTN8u2qkYx
- mE7RyI7qYfdNTklpdzSqQu8kVhzm9pouB45Zri1vUBhJHecpHSxod+pWetwy/s8ZuFk73+mIGFNNs8aX+Eb+0Qirm5iRU9oZsmjFzCoyLr+3qn9W95FEvtSr
- pMPKYMFwnJj0Blv2b+B/xZ50TH1ePxcwO2yY39MAjBK/xNC33xO2P0JJEHc5PwMGCNjzWI5kbwvZFL5QkrTJEzodM5Ihi1hpSTairWzdb0VDLxo2e72IXCr8
- 33mE1IkGRoqlTjgeBbF/k6thPWfylWpHm+Pzhomptk0dbV/zSkVPue7AKq5wLzlzk1zwyW0HMQP8FfKV1WboMs4UJjYWKte/TcDXUH8ck1FO55j21dOZYCOx
- wRrmcoxHlCgNsJyVrltcdi+Hdq35o9Ud8N6IjdvzC5Hw7beS97rfl24OqXw=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c2474663-3fe0-b0cd-ecb5-57ec370481e3@xs4all.nl>
 
-Hi Corentin,
-
-On 13/10/2021 20:58, Corentin Labbe wrote:
-> Hello
+Le Mon, Oct 18, 2021 at 11:55:40AM +0200, Hans Verkuil a écrit :
+> Hi Corentin,
 > 
-> The main change of this serie is to fusion all zoran related modules in
-> one.
-> This fixes the load order problem when everything is built-in.
+> I noticed some code review comments from Dan and a kernel test robot issue.
+> Can you post a v3 fixing those by the end of the week? Next week I will have
+> access again to my zoran board, so then I can test the v3 series.
 > 
-> Regards
-> 
-> Changes since v1:
-> - add missing debugfs cleaning
-> - clean some remaining module_get/put functions which made impossible to
->   remove the zoran module
-> - added the two latest patchs
-
-Something weird is wrong with this series. I have a DC30, but loading this with:
-
-modprobe zr36067 card=3
-
-results in this error message in the kernel log:
-
-[   58.645557] zr36067: module is from the staging directory, the quality is unknown, you have been warned.
-[   58.646658] zr36067 0000:03:00.0: Zoran MJPEG board driver version 0.10.1
-[   58.646793] zr36067 0000:03:00.0: Zoran ZR36057 (rev 1), irq: 18, memory: 0xf4000000
-[   58.648821] zr36067 0000:03:00.0: Initializing i2c bus...
-[   58.662420] vpx3220 22-0047: vpx3216b found @ 0x8e (DC30[0])
-[   58.737445] zr36067 0000:03:00.0: Fail to get encoder
-
-This works before, so why this is now failing is not clear to me.
-
-It does work with 'card=0', but I really have a DC30.
-
-If I test with 'card=0' then the rmmod issue is now solved.
-
-Regards,
-
-	Hans
-
-> 
-> Corentin Labbe (10):
->   staging: media: zoran: move module parameter checks to zoran_probe
->   staging: media: zoran: use module_pci_driver
->   staging: media: zoran: rename debug module parameter
->   staging: media: zoran: add debugfs
->   staging: media: zoran: videocode: remove procfs
->   staging: media: zoran: fusion all modules
->   staging: media: zoran: remove vidmem
->   staging: media: zoran: move videodev alloc
->   staging: media: zoran: move config select on primary kconfig
->   staging: media: zoran: introduce zoran_i2c_init
-> 
->  drivers/staging/media/zoran/Kconfig        |  46 +--
->  drivers/staging/media/zoran/Makefile       |   8 +-
->  drivers/staging/media/zoran/videocodec.c   |  68 +----
->  drivers/staging/media/zoran/videocodec.h   |   6 +-
->  drivers/staging/media/zoran/zoran.h        |   6 +-
->  drivers/staging/media/zoran/zoran_card.c   | 328 ++++++++++++++-------
->  drivers/staging/media/zoran/zoran_driver.c |   5 +-
->  drivers/staging/media/zoran/zr36016.c      |  24 +-
->  drivers/staging/media/zoran/zr36016.h      |   2 +
->  drivers/staging/media/zoran/zr36050.c      |  21 +-
->  drivers/staging/media/zoran/zr36050.h      |   2 +
->  drivers/staging/media/zoran/zr36060.c      |  21 +-
->  drivers/staging/media/zoran/zr36060.h      |   2 +
->  13 files changed, 291 insertions(+), 248 deletions(-)
+> BTW, I agree with Dan, just drop the 'Enable zoran debugfs' config option. It's
+> not worth the additional complexity. Instead, just #ifdef CONFIG_DEBUG_FS
+> where necessary (in most cases you shouldn't even have to do that since the
+> since you have dummy debug_fs_* functions if CONFIG_DEBUG_FS isn't set).
 > 
 
+Hello
+
+Ok I started fixing issues and will send V3 this week.
+
+Regards
