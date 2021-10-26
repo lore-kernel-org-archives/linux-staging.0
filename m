@@ -1,41 +1,41 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AAF2CAB
-	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 19:34:24 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id o14so88061wra.12
-        for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 12:34:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F25A2CAA
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 19:34:26 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id k7so80874wrd.13
+        for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 12:34:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=UWYtJJBsa0LLLZRoFXWiICK8It/s64t7LfobsR7d4kA=;
-        b=mHg6JWVGv0Hyjpfx5x4LAqhJOIUpphBSvF1n6SV1kNP0jfnfvt2J+ueZJnR419jBxm
-         gu1Iz3d8XsmsydRZnC4y5qe0zj6FjveV4ubv6+dRsvf3K/F1XqAFVY5mT3PvgCw83S7J
-         MVl/xecgHOfyY4bGw/IUwYttTR0DUpz7eQmqctGMUmXz6MRwgj+cPNn62qHIDLiEwu/W
-         1Tn+iwcV3EyGb1yi3YjWFaN8X2zWmeBtvIiYK/sACk8Z/N7YTzwr9bYwmJ4OBKV79dGc
-         j8g5vu0o4nAaGMR+tvkQyflIJ8vp0bCXWxGVEL1rg1NPX/02yYzyTkxBiLcKXT+GPpd/
-         Gk2A==
+        bh=9d00CQxtuLbmKfZQEqLshscWS8poY4p1Q3lozDp6W9U=;
+        b=fwv8aNrAyxe5i4jWD2gyV34JjH6qiFTlYo6cq78FdY5nK0+ENvJK3+FNm3tUg5CsyU
+         9lRgtpXzBBrJzHYLNcXPmluXFkl+l3x85YlyGCgnhKep5poYJyLtvi7RGq87oCdU5MHZ
+         b1y2c/v7XQspwenObvtlvlViThjGrHj1SzK7TUvMyT7KyNVXvAkMwbJQ6UuzbiV3HpB9
+         sz6jcP7JedYXu/ZLeMsp1HBmLEVDzsJGBhdoB/HqXci500wXC4CrAN67PUGqz37dsNxs
+         YEIaopFIw8AYIFKV0TJgwflH0js0FyNztAazfKYD6QOJlOjR8XW8IxTNXEd7cXT+wY05
+         ZxDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=UWYtJJBsa0LLLZRoFXWiICK8It/s64t7LfobsR7d4kA=;
-        b=dS/IuD3zKJlVyHP8pfXv/M6JJ51yjRWln1WcYuX9PlU3H/v7PdHJVKAO5aEzJT0FHi
-         tXzvHO2yPa9CvsHI3YbzQTC93vBcHzG/lwWmkxkFbAd3HV6xnuQUnbFBc6+4J0f6Hxma
-         YAsRtK6PlIIjYj9JVE+sY3IyhLxV+XuRqqq1TRURGo/GwkNxtBTP5V7chKmUjNXMvIFg
-         IGO9P+12TIa3Vdct0nukZmm+1diJ08Xx2PsA9P4dgjcDXtjplhfajGEmaRihsNpeKHVf
-         gdqNlRmdgqNxdO66WCJF3w6c4I6Wf4omITJV6pA40EAhoW+VEEo1dUBbFfNYy1H3ZItM
-         LoxA==
-X-Gm-Message-State: AOAM531KMzxmlJsyiAn7I+yvdR/jRlkTiIH4kpc8f9xDv81VTZRXFYFy
-	d1EZ0zYuiU077lxngELSrCAjEQ==
-X-Google-Smtp-Source: ABdhPJxYsNRRms/AI/Y9I8Gg9sXY5v1D1D+iZ2d8LjB2jS648shjttJo6aJkXsZprXlkyuEeY9YJHw==
-X-Received: by 2002:adf:fe45:: with SMTP id m5mr34964502wrs.197.1635276863354;
-        Tue, 26 Oct 2021 12:34:23 -0700 (PDT)
+        bh=9d00CQxtuLbmKfZQEqLshscWS8poY4p1Q3lozDp6W9U=;
+        b=uvBE/SwoNawcMSeWdbd3N4avxpbM3gzSCR3sxdnKAA1mBdGp9h9hcfLUMA8mMD+J6T
+         vDPsSsHrGXC1RAeFvr/eIAXnFatfZMLNq5x83FwR5y9ZIxqN+RW3PKua24ZJvZS7dHcl
+         90ymruIrs1NUXSaeW3PeqlTKEBCWLX8qqfULnjDPysN09Fss69Br94BLuYQrVUTVFvuG
+         mxOkIXCIgXeoA/XZCXgN51wVUcSDn28H8zNf72XuTFAhd7Sdyph/l8qp5PyLiCZy7SP+
+         OqGOQFISt1HDbMS7no+W5Rqt6av6JW12REqusVCHzIgnPmQy4uXCqqhmHQfUzCko4h3J
+         Q/VA==
+X-Gm-Message-State: AOAM532tGXZtzw5bVOOb46WPI07L8g95Jm4Uhm3xay0UU2rfJp3S0cGR
+	G815lJda9fMa7lFTEUH+PNsxrQ==
+X-Google-Smtp-Source: ABdhPJxU/WKHVOZDz+CIGYlrw+MJsmcdLc1hfny2+jhN0CPjdH6F+7ffTEAwgY9SpTm6WU1EwI+Z6g==
+X-Received: by 2002:adf:f38a:: with SMTP id m10mr10727726wro.126.1635276864545;
+        Tue, 26 Oct 2021 12:34:24 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id s18sm17676123wrb.95.2021.10.26.12.34.22
+        by smtp.googlemail.com with ESMTPSA id s18sm17676123wrb.95.2021.10.26.12.34.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 12:34:23 -0700 (PDT)
+        Tue, 26 Oct 2021 12:34:24 -0700 (PDT)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -45,9 +45,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	mjpeg-users@lists.sourceforge.net,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v3 03/14] staging: media: zoran: rename debug module parameter
-Date: Tue, 26 Oct 2021 19:34:05 +0000
-Message-Id: <20211026193416.1176797-4-clabbe@baylibre.com>
+Subject: [PATCH v3 05/14] staging: media: zoran: videocode: remove procfs
+Date: Tue, 26 Oct 2021 19:34:07 +0000
+Message-Id: <20211026193416.1176797-6-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211026193416.1176797-1-clabbe@baylibre.com>
 References: <20211026193416.1176797-1-clabbe@baylibre.com>
@@ -59,117 +59,96 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All zoran module will be merged, so to prevent conflict, the debug
-module parameter need to be renamed
+Now we have a debugfs, we can remove all PROCFS stuff.
+We keep videocodec_debugfs_show(), it will be used later
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/videocodec.c |  8 ++++----
- drivers/staging/media/zoran/zr36016.c    | 12 ++++++------
- drivers/staging/media/zoran/zr36050.c    |  8 ++++----
- drivers/staging/media/zoran/zr36060.c    |  9 ++++-----
- 4 files changed, 18 insertions(+), 19 deletions(-)
+ drivers/staging/media/zoran/videocodec.c | 24 +-----------------------
+ drivers/staging/media/zoran/videocodec.h |  3 +++
+ 2 files changed, 4 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/staging/media/zoran/videocodec.c b/drivers/staging/media/zoran/videocodec.c
-index 28031d3fd757..31019b5f377e 100644
+index 31019b5f377e..5bab7ba56257 100644
 --- a/drivers/staging/media/zoran/videocodec.c
 +++ b/drivers/staging/media/zoran/videocodec.c
-@@ -26,13 +26,13 @@
+@@ -16,14 +16,6 @@
+ #include <linux/types.h>
+ #include <linux/slab.h>
  
+-// kernel config is here (procfs flag)
+-
+-#ifdef CONFIG_PROC_FS
+-#include <linux/proc_fs.h>
+-#include <linux/seq_file.h>
+-#include <linux/uaccess.h>
+-#endif
+-
  #include "videocodec.h"
  
--static int debug;
--module_param(debug, int, 0);
--MODULE_PARM_DESC(debug, "Debug level (0-4)");
-+static int videocodec_debug;
-+module_param(videocodec_debug, int, 0);
-+MODULE_PARM_DESC(videocodec_debug, "Debug level (0-4)");
+ static int videocodec_debug;
+@@ -265,8 +257,7 @@ int videocodec_unregister(const struct videocodec *codec)
+ }
+ EXPORT_SYMBOL(videocodec_unregister);
  
- #define dprintk(num, format, args...) \
- 	do { \
--		if (debug >= num) \
-+		if (videocodec_debug >= num) \
- 			printk(format, ##args); \
- 	} while (0)
- 
-diff --git a/drivers/staging/media/zoran/zr36016.c b/drivers/staging/media/zoran/zr36016.c
-index 9b350a885879..50605460a44b 100644
---- a/drivers/staging/media/zoran/zr36016.c
-+++ b/drivers/staging/media/zoran/zr36016.c
-@@ -22,14 +22,14 @@
- /* amount of chips attached via this driver */
- static int zr36016_codecs;
- 
--/* debugging is available via module parameter */
--static int debug;
--module_param(debug, int, 0);
--MODULE_PARM_DESC(debug, "Debug level (0-4)");
-+static int zr36016_debug;
-+module_param(zr36016_debug, int, 0);
-+MODULE_PARM_DESC(zr36016_debug, "Debug level (0-4)");
-+
- 
- #define dprintk(num, format, args...) \
- 	do { \
--		if (debug >= num) \
-+		if (zr36016_debug >= num) \
- 			printk(format, ##args); \
- 	} while (0)
- 
-@@ -120,7 +120,7 @@ static u8 zr36016_read_version(struct zr36016 *ptr)
- 
- static int zr36016_basic_test(struct zr36016 *ptr)
+-#ifdef CONFIG_PROC_FS
+-static int proc_videocodecs_show(struct seq_file *m, void *v)
++int videocodec_debugfs_show(struct seq_file *m)
  {
--	if (debug) {
-+	if (zr36016_debug) {
- 		int i;
+ 	struct codec_list *h = codeclist_top;
+ 	struct attached_list *a;
+@@ -293,32 +284,19 @@ static int proc_videocodecs_show(struct seq_file *m, void *v)
  
- 		zr36016_writei(ptr, ZR016I_PAX_LO, 0x55);
-diff --git a/drivers/staging/media/zoran/zr36050.c b/drivers/staging/media/zoran/zr36050.c
-index c62af27f2683..4dc7927fefc3 100644
---- a/drivers/staging/media/zoran/zr36050.c
-+++ b/drivers/staging/media/zoran/zr36050.c
-@@ -32,13 +32,13 @@
- static int zr36050_codecs;
+ 	return 0;
+ }
+-#endif
  
- /* debugging is available via module parameter */
--static int debug;
--module_param(debug, int, 0);
--MODULE_PARM_DESC(debug, "Debug level (0-4)");
-+static int zr36050_debug;
-+module_param(zr36050_debug, int, 0);
-+MODULE_PARM_DESC(zr36050_debug, "Debug level (0-4)");
+ /* ===================== */
+ /* hook in driver module */
+ /* ===================== */
+ static int __init videocodec_init(void)
+ {
+-#ifdef CONFIG_PROC_FS
+-	static struct proc_dir_entry *videocodec_proc_entry;
+-#endif
+-
+ 	pr_info("Linux video codec intermediate layer: %s\n", VIDEOCODEC_VERSION);
  
- #define dprintk(num, format, args...) \
- 	do { \
--		if (debug >= num) \
-+		if (zr36050_debug >= num) \
- 			printk(format, ##args); \
- 	} while (0)
+-#ifdef CONFIG_PROC_FS
+-	videocodec_proc_entry = proc_create_single("videocodecs", 0, NULL, proc_videocodecs_show);
+-	if (!videocodec_proc_entry)
+-		pr_err("videocodec: can't init procfs.\n");
+-#endif
+ 	return 0;
+ }
  
-diff --git a/drivers/staging/media/zoran/zr36060.c b/drivers/staging/media/zoran/zr36060.c
-index 1c3af11b5f24..7904d5b1f402 100644
---- a/drivers/staging/media/zoran/zr36060.c
-+++ b/drivers/staging/media/zoran/zr36060.c
-@@ -34,14 +34,13 @@ static bool low_bitrate;
- module_param(low_bitrate, bool, 0);
- MODULE_PARM_DESC(low_bitrate, "Buz compatibility option, halves bitrate");
+ static void __exit videocodec_exit(void)
+ {
+-#ifdef CONFIG_PROC_FS
+-	remove_proc_entry("videocodecs", NULL);
+-#endif
+ }
  
--/* debugging is available via module parameter */
--static int debug;
--module_param(debug, int, 0);
--MODULE_PARM_DESC(debug, "Debug level (0-4)");
-+static int zr36060_debug;
-+module_param(zr36060_debug, int, 0);
-+MODULE_PARM_DESC(zr36060_debug, "Debug level (0-4)");
+ module_init(videocodec_init);
+diff --git a/drivers/staging/media/zoran/videocodec.h b/drivers/staging/media/zoran/videocodec.h
+index 8a5003dda9f4..3a508d326049 100644
+--- a/drivers/staging/media/zoran/videocodec.h
++++ b/drivers/staging/media/zoran/videocodec.h
+@@ -123,6 +123,7 @@ M                       zr36055[1] 0001 0000c001 00000000 (zr36050[1])
+ #ifndef __LINUX_VIDEOCODEC_H
+ #define __LINUX_VIDEOCODEC_H
  
- #define dprintk(num, format, args...) \
- 	do { \
--		if (debug >= num) \
-+		if (zr36060_debug >= num) \
- 			printk(format, ##args); \
- 	} while (0)
++#include <linux/debugfs.h>
+ #include <linux/videodev2.h>
  
+ #define CODEC_DO_COMPRESSION 0
+@@ -305,4 +306,6 @@ extern int videocodec_unregister(const struct videocodec *);
+ 
+ /* the other calls are directly done via the videocodec structure! */
+ 
++int videocodec_debugfs_show(struct seq_file *m);
++
+ #endif				/*ifndef __LINUX_VIDEOCODEC_H */
 -- 
 2.32.0
 
