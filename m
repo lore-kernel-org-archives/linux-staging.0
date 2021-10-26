@@ -1,121 +1,146 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473FA2CA4
-	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 21:28:27 +0000 (UTC)
-Received: by mail-oi1-f174.google.com with SMTP id g125so528325oif.9
-        for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 14:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=otYjN9az6nPkaATonKfc0dOSOmU88ZE1cbGt7BRctxc=;
-        b=LkZysTXZ1DLHHxC1+y//iILNS0jCdiDf7gt/eQBdMPlBlkZAdvOEIWTkIy+ccCp3SA
-         189WXdO1AIjmaqPRr5f69d9/nUo9mTV7e/lZQAbvbHgR1xCEQcUThTgoJ6Iea+VxovNi
-         Iku5ecZisAZ6fwmNDF0Dtg0sudQM6QbkhdzOsBmyBqnJVa6D46+cyk/kzeRZJxv1gpBL
-         KsePun7Y0iarfnQDyj0G5XpomLbA71q4PSK9WiP+iUAicjTS5hzMa65Ki6o+aPyZLHLw
-         50L5eYIHN3qEZLQJ8+vSErXxsCt9GGl8/pAoqPZlyXCISCCWLiPk/dG8s2F9zoFuUxeE
-         MrdA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3192CA8
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 23:30:39 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id d21-20020a9d4f15000000b0054e677e0ac5so981910otl.11
+        for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 16:30:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=otYjN9az6nPkaATonKfc0dOSOmU88ZE1cbGt7BRctxc=;
-        b=UwaSNRZzO0u/jbbwo2INLKP4ONQYEkJReD2fUPf31MOH6K9O72SDKJ/sVqgXlv1CCC
-         OFQf+KB0GznZV8x1/601VTxfmK59us67PiJB9b+NSF1VteI8u3cXJDMwoDobF/n1aMa3
-         h/SXwQLAmC9JWG8m8in/05V39e4uEdFapsbsqcsaygdxfl1p8HzFZXw8HcO2LGP5JPTo
-         IBtRlJlivB4HGnmP/JXl/bTRhVdLxYlrdrEtlseOzcd3p9Z74HOdNAztN7+Cl20pigtT
-         5G20c3f2breNKx/QM7GmzVItYH1lalmkOYjsV5ozpQoz3lYneuTcuhQEjl+YKYWhBSLY
-         5uPA==
-X-Gm-Message-State: AOAM531ZvgVMOptIFuYcu9OYHo5kJssqNp8UOpz3rVybTeJD152Xa2/W
-	BPoHDDXTwoCz0nZ53elNLBHd6BQFvEIzsg==
-X-Google-Smtp-Source: ABdhPJwy5RmaUkFv5Tt+YnFiDI9CTREkD2Bnd8jXOqWsQLf1wpGJQ+IMxbzdNO5ggIyDyFrpK/iA3g==
-X-Received: by 2002:aca:4356:: with SMTP id q83mr953667oia.157.1635283706144;
-        Tue, 26 Oct 2021 14:28:26 -0700 (PDT)
-Received: from localhost.localdomain ([181.23.91.138])
-        by smtp.gmail.com with ESMTPSA id l26sm5002623oti.45.2021.10.26.14.28.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YdfJTAEtCAhSe+3h4tTe52kE6X+7iJoFuwPhPxv4gX8=;
+        b=6cfjVm2FGzxfoVRsXqmjH5zFnJ/XfttfjNe5fThEvmV2qwOr7HTLfPnSj8wmDbe8Cg
+         Dpc8GJV7kTsNmk8IY1W+0spqAwkW26/DSX5ryi075Bw23tqonrg0iJ1NuZfP0L5ONSDm
+         x9z4V8DEawdLF+XUMkIKJh0w24bXZNL7qmpQ0aKrnMWxzx3FydzuZdPUXQaBMRa+JCrM
+         F35kM8127eMW/f2V3oKRJgWIy5TRx/GpLFqJb1rQhnxheiTMg+dvqCXvGF1eP3ksHYUF
+         qs1fr5buOOIhYUDlzoLf07ptqvakotvTdgED6sa+y7jpBeJuh33JMtdKTOIQd/jQXibD
+         /gfg==
+X-Gm-Message-State: AOAM530E9ydyEZ1kLfj2WJCvMP4MHkYHQDXepRBlh7111xowiOF87JGw
+	wRZl6MOaK9qPDlFgKALdHA==
+X-Google-Smtp-Source: ABdhPJycDdDfw2IphwJoJ9Qcr+cynsM1VQ1injCkHewZ9/51wcYtIag+y+i3rfiH0uhANUwonyEXTQ==
+X-Received: by 2002:a05:6830:19c2:: with SMTP id p2mr21993981otp.27.1635291038361;
+        Tue, 26 Oct 2021 16:30:38 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id s39sm5224402otv.18.2021.10.26.16.30.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 14:28:25 -0700 (PDT)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	nsaenz@kernel.org,
-	stefan.wahren@i2se.com,
-	arnd@arndb.de,
-	dan.carpenter@oracle.com,
-	ojaswin98@gmail.com,
-	amarjargal16@gmail.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: [PATCH] staging: vchiq_core: get rid of typedef
-Date: Tue, 26 Oct 2021 18:27:56 -0300
-Message-Id: <20211026212756.25557-1-gascoar@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        Tue, 26 Oct 2021 16:30:37 -0700 (PDT)
+Received: (nullmailer pid 3519654 invoked by uid 1000);
+	Tue, 26 Oct 2021 23:30:36 -0000
+Date: Tue, 26 Oct 2021 18:30:36 -0500
+From: Rob Herring <robh@kernel.org>
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Florian Fainelli <f.fainelli@gmail.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, bcm-kernel-feedback-list@broadcom.com, Mwesigwa Guma <mguma@redhat.com>, Ojaswin Mujoo <ojaswin98@gmail.com>, Phil Elwell <phil@raspberrypi.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] dt-bindings: soc: bcm: Convert brcm,bcm2835-vchiq to
+ json-schema
+Message-ID: <YXiPnO4B9Za43ZDN@robh.at.kernel.org>
+References: <1634475996-6809-1-git-send-email-stefan.wahren@i2se.com>
+ <1634475996-6809-3-git-send-email-stefan.wahren@i2se.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1634475996-6809-3-git-send-email-stefan.wahren@i2se.com>
 
-Get rid of typedef and use proper kernel type instead.
+On Sun, Oct 17, 2021 at 03:06:36PM +0200, Stefan Wahren wrote:
+> This converts the VCHIQ bindings to YAML format.
+> 
+> Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+> ---
+>  .../bindings/soc/bcm/brcm,bcm2835-vchiq.txt        | 17 --------
+>  .../bindings/soc/bcm/brcm,bcm2835-vchiq.yaml       | 47 ++++++++++++++++++++++
+>  2 files changed, 47 insertions(+), 17 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt
+>  create mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt
+> deleted file mode 100644
+> index f331316..0000000
+> --- a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -Broadcom VCHIQ firmware services
+> -
+> -Required properties:
+> -
+> -- compatible:	Should be "brcm,bcm2835-vchiq" on BCM2835, otherwise
+> -		"brcm,bcm2836-vchiq".
+> -- reg:		Physical base address and length of the doorbell register pair
+> -- interrupts:	The interrupt number
+> -		  See bindings/interrupt-controller/brcm,bcm2835-armctrl-ic.txt
+> -
+> -Example:
+> -
+> -mailbox@7e00b840 {
+> -	compatible = "brcm,bcm2835-vchiq";
+> -	reg = <0x7e00b840 0xf>;
+> -	interrupts = <0 2>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+> new file mode 100644
+> index 0000000..2ef6b21
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+> @@ -0,0 +1,47 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/soc/bcm/brcm,bcm2835-vchiq.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Broadcom VCHIQ firmware services
+> +
+> +maintainers:
+> +  - Nicolas Saenz Julienne <nsaenz@kernel.org>
+> +
+> +description: |
 
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c  | 6 +++---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h  | 4 +---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+Don't need '|' if there is no formatting to preserve.
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index ab97a35e63f9..7fe20d4b7ba2 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -711,7 +711,7 @@ reserve_space(struct vchiq_state *state, size_t space, int is_blocking)
- }
- 
- static void
--process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
-+process_free_data_message(struct vchiq_state *state, u32 *service_found,
- 			  struct vchiq_header *header)
- {
- 	int msgid = header->msgid;
-@@ -767,7 +767,7 @@ process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
- 
- /* Called by the recycle thread. */
- static void
--process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
-+process_free_queue(struct vchiq_state *state, u32 *service_found,
- 		   size_t length)
- {
- 	struct vchiq_shared_state *local = state->local;
-@@ -1981,7 +1981,7 @@ recycle_func(void *v)
- {
- 	struct vchiq_state *state = v;
- 	struct vchiq_shared_state *local = state->local;
--	BITSET_T *found;
-+	u32 *found;
- 	size_t length;
- 
- 	length = sizeof(*found) * BITSET_SIZE(VCHIQ_MAX_SERVICES);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index 3e50910ecba3..53a98949b294 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -74,9 +74,7 @@
- 	((fourcc) >>  8) & 0xff, \
- 	(fourcc) & 0xff
- 
--typedef u32 BITSET_T;
--
--static_assert((sizeof(BITSET_T) * 8) == 32);
-+static_assert((sizeof(u32) * 8) == 32);
- 
- #define BITSET_SIZE(b)        ((b + 31) >> 5)
- #define BITSET_WORD(b)        (b >> 5)
--- 
-2.33.1
+> +  The VCHIQ communication channel can be provided by BCM283x and Capri SoCs,
+> +  to communicate with the VPU-side OS services.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - brcm,bcm2835-vchiq
+> +      - brcm,bcm2836-vchiq
+> +
+> +  reg:
+> +    description: Physical base address and length of the doorbell register pair
+> +    minItems: 1
+> +
+> +  interrupts:
+> +    description: |
+> +      Interrupt number of the doorbell interrupt
+> +      see bindings/interrupt-controller/brcm,bcm2835-armctrl-ic.txt
 
+What interrupt controller you are attached to is outside the scope of a 
+binding, so drop the ref. Plus, then we don't have to update it later.
+
+> +    minItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    mailbox@7e00b840 {
+> +      compatible = "brcm,bcm2835-vchiq";
+> +      reg = <0x7e00b840 0xf>;
+> +      interrupts = <0 2>;
+> +    };
+> +
+> +...
+> -- 
+> 2.7.4
+> 
+> 
