@@ -1,41 +1,41 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D332CAD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90012CAA
 	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 19:34:30 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id o14so88389wra.12
+Received: by mail-wr1-f50.google.com with SMTP id p14so103801wrd.10
         for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 12:34:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Cc85KOSJveTQ5eUslKSoOpG1/P3POvZ1CMxkHgm/5RE=;
-        b=a+Tw8M7KiCpS/uDFd7J9rLnYg5xQG+jIr8gHWlt7uBoI2Ze2b529Ooc8auhvLEBw2J
-         U9uwY3Z169oyZTp9rk7nyosnea1+4NUTBkVXClvA+4EuoIWCOKFUqQ2LJ+rqJSveyCjF
-         RhruVOlM/5zqpnMr5hnfzpQEnVC5pefBRa/n2XtluPjW7L+cBjSS0B25LqPcoin/VQoB
-         krlSlhffMJZKfwWfuqyaBKiiyzoAddrLpoFbeRoYOB6/tefaWxXgMFaxCcUr98wji4TS
-         5xp4Q+wzJBGjtectV8G3RmkfufOhz5merWf3RxJlGiTOMEUq7/hrXelqgIaaNksJxTrB
-         MSiw==
+        bh=5DMKsH1cCiElIcvlchVrud05bdBtUx8WxuBusFpvIlQ=;
+        b=6CjYEZ3CK1EqlDI0t9dOdnu+cEXmTY48mhlJAD2Y6dEbYN3h17xoHRuCjK5us/YsyH
+         zUoh1FykakIYHSs9TTp1cDHyhFdnW83GJ9SD05thlpOlTeXqu7NU801GNQSGOOLSIo30
+         B4P4N7mCDYFFDLHgLcXeHpx7mMMN4eE2taQ9+hErGyWpQI1komcrm9HnTHge0jExbOXv
+         3/Oji8Y7Int6PI/He22xbDcY6Fj/Xg5844j83Q2At/w/vXq08JEhY9+F3N9b+XkR5TcU
+         UlzhncqYhjEvfp7KWC6ah+Th+2pRgQN1JH365RkEW58LQrstcYYD1KdZedGTZUcCt4Ss
+         h9Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Cc85KOSJveTQ5eUslKSoOpG1/P3POvZ1CMxkHgm/5RE=;
-        b=2k6XcOWx4NNolkuJ7sX2l8XN1nrSUFm8l9M/ds7q2Mdq+/hMrhH/pWNRZnvoFTkfKG
-         Tt/aksD/htsY2AQiPG89PZcvqdZmwhuJj9nStR/3QuczAq/BBYlN/ErVIjv2UDj+r1ey
-         U4+HLbTnRdb/K5qEkgVjCToVZCCbvdj0WfXp5vmiid9PhSVuTrkDyyhnifkDtMJJV47+
-         a/hc9QAEO6+ARYnBhALQZ49J/OmU1qpYi+SM5yhO5DjkbAkFYMdKXXOD+kCVmyQIY8r/
-         LjLmtqJBIu0x+emvJMEmdukGl+nPLNK3y6KYIM/xBGw8nzcc1fc7H7BkV0JVi9/lUvCF
-         JgCQ==
-X-Gm-Message-State: AOAM531KHTiGXpvzJe/2HhmGYw6rdyv/eacBuwVI+z/fJIDVti5YLmya
-	CLY0HqsUSTZyIAOpqKy3Qgc1ng==
-X-Google-Smtp-Source: ABdhPJwbZ1HH6HexlbirMtB7l7gse7d6xFzByPgFEx1knA/2CtOxerTTlACrZAh3dncNeE4NahIf3A==
-X-Received: by 2002:adf:9c02:: with SMTP id f2mr34769077wrc.201.1635276868867;
-        Tue, 26 Oct 2021 12:34:28 -0700 (PDT)
+        bh=5DMKsH1cCiElIcvlchVrud05bdBtUx8WxuBusFpvIlQ=;
+        b=VKNKuyMBBwt1PiFfNdTIMpQdIyIWvDkGF7sxe2dcE65dV833Nm0L4Hc8lOuNn3SITo
+         vQLtgrgdK8jCx6t1NjKK8prDSCRoR4Wty6mQ1+25WsXqZLfOiW1Uyq3V0fkI9TmNL1gP
+         Jkys82upL5kTCFODIulFhvPTI9DvUBwtnDBcJBGp9xdbA2JzFW6l2jjoi83Oc+VEJ5ml
+         PehUFDObFs9fuHkq7V5QhD16rbjdXnkbWMtrScdccF0p+3sDOKkpI8Rhry9pEzO7wxPc
+         6LUkHFzJtoqNHTZ2QX1FAUAXUZGhCMVxeYJnJWyhxkxNKz0wEdaYXRhNA5KypDfqQTMm
+         GCAA==
+X-Gm-Message-State: AOAM532+YI+HlMLUYRD2cz/wYDmzfyQWAN6srVa3xv8Mb1/JwQSnc8pX
+	qQBjih4GjEKGfvaYh5uhr7Lh2A==
+X-Google-Smtp-Source: ABdhPJwpDrxahnldZNraYy8KvooyJn1BfvcSwn+IV16qVBBvx/SeqaLGvIMJfKdV+KIXuJDy4wCttA==
+X-Received: by 2002:a05:6000:15c6:: with SMTP id y6mr34034952wry.382.1635276869433;
+        Tue, 26 Oct 2021 12:34:29 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
         by smtp.googlemail.com with ESMTPSA id s18sm17676123wrb.95.2021.10.26.12.34.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 12:34:28 -0700 (PDT)
+        Tue, 26 Oct 2021 12:34:29 -0700 (PDT)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -45,9 +45,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	mjpeg-users@lists.sourceforge.net,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v3 12/14] staging: media: zoran: clean unused code
-Date: Tue, 26 Oct 2021 19:34:14 +0000
-Message-Id: <20211026193416.1176797-13-clabbe@baylibre.com>
+Subject: [PATCH v3 13/14] staging: media: zoran: fix counting buffer in reserve
+Date: Tue, 26 Oct 2021 19:34:15 +0000
+Message-Id: <20211026193416.1176797-14-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211026193416.1176797-1-clabbe@baylibre.com>
 References: <20211026193416.1176797-1-clabbe@baylibre.com>
@@ -59,125 +59,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It remains some unused code from old zoran buffer handling.
-Let's remove them.
+After each capture, zoran driver complains that it remains some unused
+buffer. This is due to a missing count handling.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran.h        | 14 ---------
- drivers/staging/media/zoran/zoran_card.c   | 36 ----------------------
- drivers/staging/media/zoran/zoran_device.h |  2 --
- drivers/staging/media/zoran/zoran_driver.c |  2 --
- 4 files changed, 54 deletions(-)
+ drivers/staging/media/zoran/zoran_driver.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
-index c36b33f42b16..654c95fa5aba 100644
---- a/drivers/staging/media/zoran/zoran.h
-+++ b/drivers/staging/media/zoran/zoran.h
-@@ -54,22 +54,8 @@ static inline struct zr_buffer *vb2_to_zr_buffer(struct vb2_buffer *vb)
- #define BUZ_NUM_STAT_COM    4
- #define BUZ_MASK_STAT_COM   3
- 
--#define BUZ_MAX_FRAME     256	/* Must be a power of 2 */
--#define BUZ_MASK_FRAME    255	/* Must be BUZ_MAX_FRAME-1 */
--
- #define BUZ_MAX_INPUT       16
- 
--#if VIDEO_MAX_FRAME <= 32
--#   define   V4L_MAX_FRAME   32
--#elif VIDEO_MAX_FRAME <= 64
--#   define   V4L_MAX_FRAME   64
--#else
--#   error   "Too many video frame buffers to handle"
--#endif
--#define   V4L_MASK_FRAME   (V4L_MAX_FRAME - 1)
--
--#define MAX_FRAME (BUZ_MAX_FRAME > VIDEO_MAX_FRAME ? BUZ_MAX_FRAME : VIDEO_MAX_FRAME)
--
- #include "zr36057.h"
- 
- enum card_type {
-diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index 4ea2fbf189b9..59df1e7691f9 100644
---- a/drivers/staging/media/zoran/zoran_card.c
-+++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -60,20 +60,6 @@ static int video_nr[BUZ_MAX] = { [0 ... (BUZ_MAX - 1)] = -1 };
- module_param_array(video_nr, int, NULL, 0444);
- MODULE_PARM_DESC(video_nr, "Video device number (-1=Auto)");
- 
--int v4l_nbufs = 4;
--int v4l_bufsize = 864;		/* Everybody should be able to work with this setting */
--module_param(v4l_nbufs, int, 0644);
--MODULE_PARM_DESC(v4l_nbufs, "Maximum number of V4L buffers to use");
--module_param(v4l_bufsize, int, 0644);
--MODULE_PARM_DESC(v4l_bufsize, "Maximum size per V4L buffer (in kB)");
--
--int jpg_nbufs = 32;
--int jpg_bufsize = 512;		/* max size for 100% quality full-PAL frame */
--module_param(jpg_nbufs, int, 0644);
--MODULE_PARM_DESC(jpg_nbufs, "Maximum number of JPG buffers to use");
--module_param(jpg_bufsize, int, 0644);
--MODULE_PARM_DESC(jpg_bufsize, "Maximum size per JPG buffer (in kB)");
--
- /* 1=Pass through TV signal when device is not used */
- /* 0=Show color bar when device is not used (LML33: only if lml33dpath=1) */
- int pass_through;
-@@ -1253,28 +1239,6 @@ static int zoran_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	pci_info(pdev, "Zoran MJPEG board driver version %s\n", ZORAN_VERSION);
- 
--	/* check the parameters we have been given, adjust if necessary */
--	if (v4l_nbufs < 2)
--		v4l_nbufs = 2;
--	if (v4l_nbufs > VIDEO_MAX_FRAME)
--		v4l_nbufs = VIDEO_MAX_FRAME;
--	/* The user specifies the in KB, we want them in byte (and page aligned) */
--	v4l_bufsize = PAGE_ALIGN(v4l_bufsize * 1024);
--	if (v4l_bufsize < 32768)
--		v4l_bufsize = 32768;
--	/* 2 MB is arbitrary but sufficient for the maximum possible images */
--	if (v4l_bufsize > 2048 * 1024)
--		v4l_bufsize = 2048 * 1024;
--	if (jpg_nbufs < 4)
--		jpg_nbufs = 4;
--	if (jpg_nbufs > BUZ_MAX_FRAME)
--		jpg_nbufs = BUZ_MAX_FRAME;
--	jpg_bufsize = PAGE_ALIGN(jpg_bufsize * 1024);
--	if (jpg_bufsize < 8192)
--		jpg_bufsize = 8192;
--	if (jpg_bufsize > (512 * 1024))
--		jpg_bufsize = 512 * 1024;
--
- 	/* some mainboards might not do PCI-PCI data transfer well */
- 	if (pci_pci_problems & (PCIPCI_FAIL | PCIAGP_FAIL | PCIPCI_ALIMAGIK))
- 		pci_warn(pdev, "%s: chipset does not support reliable PCI-PCI DMA\n",
-diff --git a/drivers/staging/media/zoran/zoran_device.h b/drivers/staging/media/zoran/zoran_device.h
-index 6c5d70238228..322b04c55d41 100644
---- a/drivers/staging/media/zoran/zoran_device.h
-+++ b/drivers/staging/media/zoran/zoran_device.h
-@@ -47,9 +47,7 @@ extern void zr36057_restart(struct zoran *zr);
- 
- extern const struct zoran_format zoran_formats[];
- 
--extern int v4l_nbufs;
- extern int v4l_bufsize;
--extern int jpg_nbufs;
- extern int jpg_bufsize;
- extern int pass_through;
- 
 diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index 551db338c7f7..31993c266976 100644
+index 31993c266976..32d76876c683 100644
 --- a/drivers/staging/media/zoran/zoran_driver.c
 +++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -153,8 +153,6 @@ static __u32 zoran_v4l2_calc_bufsize(struct zoran_jpg_settings *settings)
- 		result <<= 1;
+@@ -887,6 +887,7 @@ int zr_set_buf(struct zoran *zr)
+ 		return -EINVAL;
  	}
+ 	list_del(&buf->queue);
++	zr->buf_in_reserve--;
+ 	spin_unlock_irqrestore(&zr->queued_bufs_lock, flags);
  
--	if (result > jpg_bufsize)
--		return jpg_bufsize;
- 	if (result < 8192)
- 		return 8192;
- 
+ 	vbuf = &buf->vbuf;
 -- 
 2.32.0
 
