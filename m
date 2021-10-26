@@ -1,94 +1,77 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtprelay.hostedemail.com (smtprelay0246.hostedemail.com [216.40.44.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00B572
-	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 04:24:25 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id f8so2610145plo.12
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 21:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=8fRa6CBKBdS9xSCRdr3VRDYDNn+53KcgyCR1kCegMck=;
-        b=lYAwi2DhCCM6KybejKaTcd1LPmTiEvzBA2TftM/UYgxOixgrJqY1vlIV5KxOCAaqAw
-         IzZ2GrdLRxvd9aEcK2ElbThTfW3y+pMMLdno9lePomJdolFZqGSIvqcWjD+BBaXomIIY
-         8Z+DiOgCXn51Ao4oBm0Ez2fXCqnv9UrxW+YNCrQffwqOG/SbjOvy8s9VzXJa1pDRidtl
-         R0+6Csz0rOx5KjKsdMt0sWj+AP3CPqoy4/i5jxNsCvWSe0YiGb/IIY0Vf15gwX+YGnZB
-         p5nQf+KJPO/hQ8ikOTS4LeKLxAJZ37LwIvu66Du1WmeLI2R4YGcn83aZ3GFshbARUY17
-         P4ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=8fRa6CBKBdS9xSCRdr3VRDYDNn+53KcgyCR1kCegMck=;
-        b=LvG2YmYJDFRzD+FMDa3VL9gx+U9qU8NLPYY60a81bZpcHOa7W6oog4wFF6ExcDSJ8I
-         ymS8bfYv+PCDJjrCZTg9lEVKnaUEKHZSe42KCD5u6Izts8A91sRCDSxyGlBxd7Gugzug
-         oYKTvROZCUSKSD5QEsoYxI7CQW84jU9i+DP6znumnkxQdpz1rwQ0mFp6IYMOE/EWsC+B
-         SDShpNj9/BBYO3nOSvG0Orges4lpkOndj9gDr1LLim/VxFWOyXjwpCDeqt8Yv/jUxeaz
-         Yd049sLlaWKyZXqmVclPeSipEd7ZnHigHQuqhDo3OxTrbtn9Bq+hC1r2OIIEYGXvYDNZ
-         rfaQ==
-X-Gm-Message-State: AOAM5302CwZjbcNy2dv7Tsg5D8MWOWX4MBkWY+Os5TaN852RQIaJC7CV
-	zY9vRcGFgaMeSMTcxyyEzF8=
-X-Google-Smtp-Source: ABdhPJwi2AhN9rYoVCJgNz7CjYf6mRMBu9SFpIJcbzohAfzXNIw6mbIeU2o2M7t4RWcaUrLod8m1bQ==
-X-Received: by 2002:a17:90b:3809:: with SMTP id mq9mr25961664pjb.7.1635222265258;
-        Mon, 25 Oct 2021 21:24:25 -0700 (PDT)
-Received: from Sauravs-MacBook-Air.local ([59.95.95.35])
-        by smtp.gmail.com with ESMTPSA id s22sm19993535pfe.76.2021.10.25.21.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Oct 2021 21:24:24 -0700 (PDT)
-Date: Tue, 26 Oct 2021 09:54:18 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
-	ross.schm.dev@gmail.com, marcocesati@gmail.com,
-	matthew.v.deangelis@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26762CA4
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 04:30:30 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave06.hostedemail.com (Postfix) with ESMTP id 51B2E8075E92
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 04:30:23 +0000 (UTC)
+Received: from omf01.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay05.hostedemail.com (Postfix) with ESMTP id 0B9871829805C;
+	Tue, 26 Oct 2021 04:30:16 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf01.hostedemail.com (Postfix) with ESMTPA id 9DC7917276;
+	Tue, 26 Oct 2021 04:30:14 +0000 (UTC)
+Message-ID: <8a28c2abf1857c631bd6af52364d7f055a6c0ee9.camel@perches.com>
+Subject: Re: [PATCH] staging: rtl8723bs: core: remove local variable and
+ goto statement
+From: Joe Perches <joe@perches.com>
+To: Saurav Girepunje <saurav.girepunje@gmail.com>,
+ gregkh@linuxfoundation.org,  fabioaiuto83@gmail.com,
+ ross.schm.dev@gmail.com, marcocesati@gmail.com, 
+ matthew.v.deangelis@gmail.com, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
 Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8723bs: core: remove local variable and goto
- statement
-Message-ID: <YXeC8q6IooA4N1ZF@Sauravs-MacBook-Air.local>
+Date: Mon, 25 Oct 2021 21:30:13 -0700
+In-Reply-To: <YXeC8q6IooA4N1ZF@Sauravs-MacBook-Air.local>
+References: <YXeC8q6IooA4N1ZF@Sauravs-MacBook-Air.local>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 9DC7917276
+X-Spam-Status: No, score=1.60
+X-Stat-Signature: rqs99ogcamans6mwa5jtuzrr116szy8u
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19mwDJx49hqd+DvWov5aICK54jupwZnYlQ=
+X-HE-Tag: 1635222614-65343
 
-In the function rtw_validate_bssid() remove the goto statement.
-As on goto exit label, function is returning without any cleanup.
-In this function goto statement can be replace by simple return
-statement, which will improve readability. After replacing
-the goto statement local variable ret is also not needed. So
-remove the ret local variable.
+On Tue, 2021-10-26 at 09:54 +0530, Saurav Girepunje wrote:
+> In the function rtw_validate_bssid() remove the goto statement.
+> As on goto exit label, function is returning without any cleanup.
+> In this function goto statement can be replace by simple return
+> statement, which will improve readability. After replacing
+> the goto statement local variable ret is also not needed. So
+> remove the ret local variable.
+[]
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+[]
+> @@ -24,15 +24,10 @@ u8 rtw_validate_bssid(u8 *bssid)
+> 
+>  u8 rtw_validate_ssid(struct ndis_802_11_ssid *ssid)
+>  {
+> -	u8 ret = true;
+> -
+> -	if (ssid->ssid_length > 32) {
+> -		ret = false;
+> -		goto exit;
+> -	}
+> +	if (ssid->ssid_length > 32)
+> +		return false;
+> 
+> -exit:
+> -	return ret;
+> +	return true;
+>  }
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+bool rtw_validate_ssid(const struct ndis_802_11_ssid *ssid)
+{
+	return ssid->ssid_length <= 32;
+}
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index 8c11daff2d59..11e9421cad58 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -24,15 +24,10 @@ u8 rtw_validate_bssid(u8 *bssid)
-
- u8 rtw_validate_ssid(struct ndis_802_11_ssid *ssid)
- {
--	u8 ret = true;
--
--	if (ssid->ssid_length > 32) {
--		ret = false;
--		goto exit;
--	}
-+	if (ssid->ssid_length > 32)
-+		return false;
-
--exit:
--	return ret;
-+	return true;
- }
-
- u8 rtw_do_join(struct adapter *padapter)
---
-2.33.0
 
