@@ -1,52 +1,105 @@
-Received: from smtprelay.hostedemail.com (smtprelay0132.hostedemail.com [216.40.44.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411B52C9F
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 23:28:18 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave01.hostedemail.com (Postfix) with ESMTP id 06F1A1830BB48
-	for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 16:20:20 +0000 (UTC)
-Received: from omf04.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay02.hostedemail.com (Postfix) with ESMTP id F1E1330C9F;
-	Mon, 25 Oct 2021 16:20:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id 872D5D1513;
-	Mon, 25 Oct 2021 16:20:11 +0000 (UTC)
-Message-ID: <a1e76a303ec4dc1ffd53e1d22634363bdb0ffcd0.camel@perches.com>
-Subject: Re: [PATCH 1/2] staging: rtl8192u: fix control-message timeouts
-From: Joe Perches <joe@perches.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>, Johan Hovold
- <johan@kernel.org>,  cocci@inria.fr, Florian Schilhabel
- <florian.c.schilhabel@googlemail.com>,  linux-staging@lists.linux.dev,
- linux-usb@vger.kernel.org,  linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Date: Mon, 25 Oct 2021 09:20:10 -0700
-In-Reply-To: <YXbSfYIuyj3PI6pm@kroah.com>
-References: <20211025120910.6339-1-johan@kernel.org>
-	 <20211025120910.6339-2-johan@kernel.org>
-	 <fdb677be-6e06-fef9-811d-bb2c71246197@lwfinger.net>
-	 <094a8f50ccef81e0317c89d0a605c327c825d5cb.camel@perches.com>
-	 <YXbSfYIuyj3PI6pm@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6505E72
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 03:55:54 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id q2-20020a17090a2e0200b001a0fd4efd49so489853pjd.1
+        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 20:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=jT56R8thic/ZxbSI8kRsJDsnZUfYJtsBr78ZdkZB++g=;
+        b=KTXsGqDUekb/etDelz3qvN9JZR/TMLaUheLzeZvpokHqY+rDelz+x8QQqMnuSxo8vx
+         IahoSrHuzbmRjQvRie7WfRxB/bBQHTgBYDcYDrbayZlydlPEK9iCfjXmHJHuVxU51YS+
+         3ZhH3UZNITCYZDcg4fh6rQwE6KjQ12f5sOakxfv4YGHKCjkea8VmZ9ZJW3yabbP7uFxr
+         FFPgIC6YpffjvJSi55IoTT7aOpg+E6V1cwjJxDs6AZFmuYtYdYuItkSmCGmjxvGLDHQY
+         RNH7RPOsH35KEqcMIOsAG+x5AwP7hUipnQyUlYbYjQooJIKU/zoVUFT6r8XWMqR9P/aW
+         lY2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=jT56R8thic/ZxbSI8kRsJDsnZUfYJtsBr78ZdkZB++g=;
+        b=QlrGKSbh9iNKtX99TnXrunYuPcptK7yf9qtB+2hcQqr2GCMLaEQ5CCWJWiiKYIOV2O
+         wfBOj/h/O+4G3o2QlTTWXNpDMPm/YsZ11bI7U31g5dKGi2tOa/Tzy6/Jf+csH/RgLq29
+         9Wz9cCP2QEQLDLw7t4ZlCj1mIuSzb0UqM+TOwyuQorzZmSrtvU+1sOVFexWRM/cdjNTf
+         onfID7a+AEqfynw7OsUT/9Qlzm5jUEoNUS5XkH/wmqsFcPDSprRELmblyqGVtQ+0cgBm
+         YKMBRQvDMn/EVUBOTwAy4oZRMDTsO0R4UvL3R9fRSMNdkA99kLFS7ODlGOX9eFcBzuis
+         SE4Q==
+X-Gm-Message-State: AOAM532C4L5BC2EWTsu8vLAgafxHzs5XbMtiSP1NQmlSdCO/44ODKcZT
+	Y9j9+gpMOGXoBA4B2RrS4yM=
+X-Google-Smtp-Source: ABdhPJx/tbq495MTTzwmabiKX0Rxbwvklp7Cbb+CJPJE5IPtAdBBLA/Y0DNZDBiyWzY0pKSuAfuljw==
+X-Received: by 2002:a17:902:7e4b:b0:13d:b90d:cdc1 with SMTP id a11-20020a1709027e4b00b0013db90dcdc1mr20615321pln.72.1635220553779;
+        Mon, 25 Oct 2021 20:55:53 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.95.35])
+        by smtp.gmail.com with ESMTPSA id t40sm5167291pfg.142.2021.10.25.20.55.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Oct 2021 20:55:53 -0700 (PDT)
+Date: Tue, 26 Oct 2021 09:25:45 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: core: remove the goto from
+ rtw_IOL_accquire_xmit_frame
+Message-ID: <YXd8QdhiNX3B1nqe@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.61
-X-Stat-Signature: s57wnjk3sazm6ya3cfjfmqterpgjdyme
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 872D5D1513
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18H09QZhcxyfnc+dKXrrgxF7zoOKHJVloU=
-X-HE-Tag: 1635178811-876912
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2021-10-25 at 17:51 +0200, Greg Kroah-Hartman wrote:
-> Look at the lists, he's sent a bunch of fixes for this today to all the
-> subsystems...
+Remove the goto statement from rtw_IOL_accquire_xmit_frame(). In this
+function goto can be replace by return statement. As on goto label
+exit, function only return it is not performing any cleanup. Avoiding
+goto will improve the function readability.
 
-Yay Johan. Thanks for doing all of them...
+Remove the assignment of NULL to local variable xmit_frame just before
+return of function. As function return, local variable will be not
+available on memory. So assigning a NULL value to local variable just
+before function return does not required.
+
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_iol.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_iol.c b/drivers/staging/r8188eu/core/rtw_iol.c
+index fe6078864158..7e78b47c1284 100644
+--- a/drivers/staging/r8188eu/core/rtw_iol.c
++++ b/drivers/staging/r8188eu/core/rtw_iol.c
+@@ -13,15 +13,14 @@ struct xmit_frame	*rtw_IOL_accquire_xmit_frame(struct adapter  *adapter)
+ 	xmit_frame = rtw_alloc_xmitframe(pxmitpriv);
+ 	if (!xmit_frame) {
+ 		DBG_88E("%s rtw_alloc_xmitframe return null\n", __func__);
+-		goto exit;
++		return NULL;
+ 	}
+
+ 	xmitbuf = rtw_alloc_xmitbuf(pxmitpriv);
+ 	if (!xmitbuf) {
+ 		DBG_88E("%s rtw_alloc_xmitbuf return null\n", __func__);
+ 		rtw_free_xmitframe(pxmitpriv, xmit_frame);
+-		xmit_frame = NULL;
+-		goto exit;
++		return NULL;
+ 	}
+
+ 	xmit_frame->frame_tag = MGNT_FRAMETAG;
+@@ -35,7 +34,7 @@ struct xmit_frame	*rtw_IOL_accquire_xmit_frame(struct adapter  *adapter)
+ 	pattrib->subtype = WIFI_BEACON;
+ 	pattrib->pktlen = 0;
+ 	pattrib->last_txcmdsz = 0;
+-exit:
++
+ 	return xmit_frame;
+ }
+
+--
+2.33.0
 
