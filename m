@@ -1,48 +1,58 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB482CA8
-	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 11:59:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 539C5601FC;
-	Tue, 26 Oct 2021 11:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635249581;
-	bh=o+N5IbGsPKkryrRuzBEiPgm3mJYskObI6+XvUx6Tjh0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fLa5o+qHF0NpCbB0f5KzhCXqhBqzLxKNXZO0P3n/naL4FPk5Bf42WwaLY+ak06sX9
-	 YawG0ahpC4kT5N47xViTrFhsSd2oTHblnEFeezsypXU0nEGfAfmsI/zUwTz7RmqDkg
-	 UTdvJUKu58M2ZAkXwZDqNAaWP4ZkKI9V+wCSqsttXmsra+Pd33MH/EX5FAr0TGMn0M
-	 GxvrJL8qclWDBYeHxuyvzBpAhIsAjiAbtE5D7LcEyHvSX4+YVhi6di93mLZs35BgTB
-	 boTbYEo5rqYc4u+D6l6THg7CHa6RPa9mY6iFv4SDIBVYncz0mNYBB6Jt+Q1qjiq+2U
-	 nFcNizBDSxtUQ==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mfL7C-00CBtT-7P; Tue, 26 Oct 2021 12:59:38 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Hans de Goede" <hdegoede@redhat.com>,
-	"Nable" <nable.maininbox@googlemail.com>,
-	"Tsuchiya Yuto" <kitakar@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Kaixu Xia <kaixuxia@tencent.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF302C81
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 13:43:12 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id f11so14351190pfc.12
+        for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 06:43:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JwzvnEtQyFzINH8lrQUN82IVP9LOJxQIr47i06O+OtU=;
+        b=HdYCeMf81a8N+pUWVFHfIQSCcxlHrwBfZlUQeZ4JyooMtF9ug68RWnwbg8WZPsuF6A
+         u7m1fyfzrReBF93Sl6ssvbnhYSlmlJebvX5420PBgCreVLAwDHGTtkpukUjmu+l7UZ2y
+         YPH/pj/RqZCTrPNFmjnB+t9WdHrG4vBj9z96O9movWQuZMv2qBIBnqmWGeimYUDpR9ZX
+         DeP3+cJslFQEQPtLR4//9HtQGhOarmEGeWUF3s+A4fy281NvM2KeNV1AQnYgddaPXWk5
+         21IEFfgQvJWLHfVsP17imCowSUlf7d44DpibSAGCHRsomCgQbLJ7+m99s6YDNWA1tVJI
+         T5fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JwzvnEtQyFzINH8lrQUN82IVP9LOJxQIr47i06O+OtU=;
+        b=UxmsuB2TGrcmXKS5uIRaX5ZkN8chfvIME9qDpum34y4bWnVyDO5FADecZcG8XYGBNq
+         wxXZ6QCXsGn4YEvqrT4fErxSwKClEo3B4KE4TZNwCF+Hm0pIv7dUoH3MNz4Xb1SHEqYr
+         LskAxb1mJ+I1zkfyr7vordNQNyMsQcda+jHLtjbRYMmADLJByj3VCGe3Naw2XfDhrEry
+         esMdoEOWpgKB2JdDeoanLqOf712pryGNWK3h2PSdmwy67dscSOAM+dVWEsnSOivTpFWu
+         2eaWSIAFKH8xkQWjtKB8Sv28ASRZ5C+QwqE/VBQC0UnEVD3kB6dSHTOV8SQzhYDvzQqN
+         jgmA==
+X-Gm-Message-State: AOAM530xC14Z48QScAf0mNMJUo3CHhlGOT5DchZNW773iNeDPZ/mV/XW
+	6NsBTw7wJn0iiXYpgvT3sx8=
+X-Google-Smtp-Source: ABdhPJzoj0kvpHRxoTcjkPZO9BW2iW8gCKlYY/TxwhYww0PmpXsQ/bpgiVYkIeOJMqAZA/Yl3bPrTw==
+X-Received: by 2002:a63:9d0b:: with SMTP id i11mr16378932pgd.429.1635255791737;
+        Tue, 26 Oct 2021 06:43:11 -0700 (PDT)
+Received: from kushal ([2401:4900:1d67:6055:69c2:a862:1f6e:c9e4])
+        by smtp.gmail.com with ESMTPSA id m10sm1000844pjs.21.2021.10.26.06.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Oct 2021 06:43:11 -0700 (PDT)
+From: Kushal Kothari <kushalkothari285@gmail.com>
+To: gregkh@linuxfoundation.org,
+	fabioaiuto83@gmail.com,
+	ross.schm.dev@gmail.com,
+	hdegoede@redhat.com,
+	marcocesati@gmail.com,
+	fmdefrancesco@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: fix enum formats logic
-Date: Tue, 26 Oct 2021 12:59:37 +0100
-Message-Id: <6ce3630152cbd9ab29e02d560c6e80fb72d0fd81.1635249567.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+	outreachy-kernel@googlegroups.com,
+	mike.rapoport@gmail.com,
+	kushalkothari2850@gmail.com
+Cc: Kushal Kothari <kushalkothari285@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: core: Refactor nested if-else
+Date: Tue, 26 Oct 2021 19:12:53 +0530
+Message-Id: <20211026134253.7868-1-kushalkothari285@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,77 +60,108 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Changeset 374d62e7aa50 ("media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument")
-added an extra verification for a pads parameter for enum mbus
-format code.
+Refactor nested if-else to avoid deep indentations. There is no change
+in the logic of the new code, however, now it is simple because it gets
+rid of five unnecessary else conditionals and it combines nested if into
+single if-else-if. This refactor also leads to fix warning detected by
+checkpatch.pl:
+WARNING: Too many leading tabs - consider code refactoring
 
-Such change broke atomisp, because now the V4L2 core
-refuses to enum MBUS formats if the state is empty.
-
-So, add .which field in order to select the active formats,
-in order to make it work again.
-
-While here, improve error messages.
-
-Fixes: 374d62e7aa50 ("media: v4l2-subdev: Verify v4l2_subdev_call() pad config argument")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
 ---
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 23 ++++++++++++++-----
- 1 file changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 01c6eda2c3cc..03f53515ce36 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -773,7 +773,10 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 	struct video_device *vdev = video_devdata(file);
- 	struct atomisp_device *isp = video_get_drvdata(vdev);
- 	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
--	struct v4l2_subdev_mbus_code_enum code = { 0 };
-+	struct v4l2_subdev_mbus_code_enum code = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+	};
-+	struct v4l2_subdev *camera;
- 	unsigned int i, fi = 0;
- 	int rval;
- 
-@@ -783,14 +786,20 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 		return -EINVAL;
- 	}
- 
-+	camera = isp->inputs[asd->input_curr].camera;
-+	if(!camera) {
-+		dev_err(isp->dev, "%s(): camera is NULL, device is %s\n",
-+			__func__, vdev->name);
-+		return -EINVAL;
-+	}
+Changes in v2: Fix the bug of not handling properly the else logic
+when p is not null in else-if. Also, reword the subject line and break 
+it up at 72 columns.
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 69 ++++++++-----------
+ 1 file changed, 29 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 0f82f5031c43..267d853b1514 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1192,50 +1192,39 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		p = pframe + WLAN_HDR_A3_LEN + ie_offset; ie_len = 0;
+ 		for (;;) {
+ 			p = rtw_get_ie(p, WLAN_EID_VENDOR_SPECIFIC, &ie_len, pkt_len - WLAN_HDR_A3_LEN - ie_offset);
+-			if (p) {
+-				if (!memcmp(p+2, WMM_IE, 6)) {
+-
+-					pstat->flags |= WLAN_STA_WME;
+-
+-					pstat->qos_option = 1;
+-					pstat->qos_info = *(p+8);
+-
+-					pstat->max_sp_len = (pstat->qos_info>>5)&0x3;
+-
+-					if ((pstat->qos_info&0xf) != 0xf)
+-						pstat->has_legacy_ac = true;
+-					else
+-						pstat->has_legacy_ac = false;
+-
+-					if (pstat->qos_info&0xf) {
+-						if (pstat->qos_info&BIT(0))
+-							pstat->uapsd_vo = BIT(0)|BIT(1);
+-						else
+-							pstat->uapsd_vo = 0;
+-
+-						if (pstat->qos_info&BIT(1))
+-							pstat->uapsd_vi = BIT(0)|BIT(1);
+-						else
+-							pstat->uapsd_vi = 0;
+-
+-						if (pstat->qos_info&BIT(2))
+-							pstat->uapsd_bk = BIT(0)|BIT(1);
+-						else
+-							pstat->uapsd_bk = 0;
+-
+-						if (pstat->qos_info&BIT(3))
+-							pstat->uapsd_be = BIT(0)|BIT(1);
+-						else
+-							pstat->uapsd_be = 0;
+-
+-					}
+-
+-					break;
++			if (p && memcmp(p+2, WMM_IE, 6)) {
++				p = p + ie_len + 2;
++			} else if (p && !memcmp(p+2, WMM_IE, 6)) {
++				pstat->flags |= WLAN_STA_WME;
++				pstat->qos_option = 1;
++				pstat->qos_info = *(p+8);
++				pstat->max_sp_len = (pstat->qos_info>>5)&0x3;
 +
- 	rt_mutex_lock(&isp->mutex);
--	rval = v4l2_subdev_call(isp->inputs[asd->input_curr].camera, pad,
--				enum_mbus_code, NULL, &code);
++				pstat->has_legacy_ac = false;
++				if ((pstat->qos_info&0xf) != 0xf)
++					pstat->has_legacy_ac = true;
 +
-+	rval = v4l2_subdev_call(camera, pad, enum_mbus_code, NULL, &code);
- 	if (rval == -ENOIOCTLCMD) {
- 		dev_warn(isp->dev,
--			 "enum_mbus_code pad op not supported. Please fix your sensor driver!\n");
--		//	rval = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
--		//				video, enum_mbus_fmt, 0, &code.code);
-+			 "enum_mbus_code pad op not supported by %s. Please fix your sensor driver!\n",
-+			 camera->name);
++				if (pstat->qos_info&0xf) {
++					pstat->uapsd_vo = 0;
++					if (pstat->qos_info&BIT(0))
++						pstat->uapsd_vo = BIT(0)|BIT(1);
++
++					pstat->uapsd_vi = 0;
++					if (pstat->qos_info&BIT(1))
++						pstat->uapsd_vi = BIT(0)|BIT(1);
++
++					pstat->uapsd_bk = 0;
++					if (pstat->qos_info&BIT(2))
++						pstat->uapsd_bk = BIT(0)|BIT(1);
++
++					pstat->uapsd_be = 0;
++					if (pstat->qos_info&BIT(3))
++						pstat->uapsd_be = BIT(0)|BIT(1);
+ 				}
++				break;
+ 			} else {
+ 				break;
+ 			}
+-			p = p + ie_len + 2;
+ 		}
  	}
- 	rt_mutex_unlock(&isp->mutex);
  
-@@ -820,6 +829,8 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 		f->pixelformat = format->pixelformat;
- 		return 0;
- 	}
-+	dev_err(isp->dev, "%s(): format for code %x not found.\n",
-+		__func__, code.code);
- 
- 	return -EINVAL;
- }
 -- 
-2.31.1
+2.25.1
 
