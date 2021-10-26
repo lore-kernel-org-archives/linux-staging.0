@@ -1,148 +1,107 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6632CA4
-	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 05:49:29 +0000 (UTC)
-Received: by mail-ua1-f48.google.com with SMTP id f24so7757377uav.12
-        for <linux-staging@lists.linux.dev>; Mon, 25 Oct 2021 22:49:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Bt8gnFZ7zRXlSxTO50E3NK4ULqXSpvY8WAtWfScUzG0=;
-        b=XvlFPA3yn+iFCXaotivzTIsO+qWlf16GeSElUXWhG3T3M9m/Cj9lW+Yis0yZVM7Cli
-         vKCdl96OEhYMK1MTRZawjaTvU6V4HpDmET0j42lb6aoehCLXEEFXiZ2MeNJteE/GGM7o
-         9mQsk2a1v+CRVPTfZblzsemULBqhRmIKc89xxSl9927Sg0jgb3sKpwM3FnEcPd/RJa7Z
-         nV7eA2eiYNuGBo6WxrF0ARaFqnkRGFn/OQRspkOZO0TLHN3fOJkXFr0LNIgw3kN+i55d
-         UIa5jCN2Xz0OQEeYBxiXb1zz2oYugJ41JVM93ww9jae/5a/JfwWAvARto7/adB/1YE9c
-         +h1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Bt8gnFZ7zRXlSxTO50E3NK4ULqXSpvY8WAtWfScUzG0=;
-        b=cpQv9+XqrhApev+0YoZtCFJHjejTJGxwfIU0FiVhhB6fm6KAZH/75U+bqq6jvNsfio
-         uB2DTS1cRsBttlioFp+rz81Upxg5b6bqSYYdRfXDXVzRM58eiSyhW6sFQDcT9FAeYjq2
-         uWu7/6oxmK5Gt+pSLj1ji3Yn4AA2IYvn1tNSE1dKWlP1S7YWUA1295nDNfe91OWcPaD0
-         AyhH6l2n9aWEYnUJ+ZRgmAZBCtFLOHRqZWP6UJsMs0mF38w0m5bGO6KWE6HyfBqpdMhF
-         yuLVamCHn6cuCQYAncQ5zAZqjK7NAIUaWXwylrgseX33Z9cT42EsKFAbY0kfD6K+izuD
-         kmjQ==
-X-Gm-Message-State: AOAM531KkaqUM8XFYq2UWTF0vDYBNBxNfT1HlS7L6fWTt4HcYZaGYimX
-	KUTNHxYJ5NF5phowDuRo9uJzXPyq3qqXwVZdPb/BricpN0o=
-X-Google-Smtp-Source: ABdhPJwwQ1QduqebQ2QK3PagmHcpgq321TdFHCBaZL1Z8yoc0Ad/iVuajzcpNOgd85uNPT6zLUnZgT57V0K/7wzLMZM=
-X-Received: by 2002:a9f:3523:: with SMTP id o32mr13839895uao.131.1635227368384;
- Mon, 25 Oct 2021 22:49:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11B02CA8
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 08:26:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0928A60F92;
+	Tue, 26 Oct 2021 08:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1635236804;
+	bh=wm89hxmA4nHA2pHltk+Mqa3H67nOz08tsufmlDhKPS8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dZZvqoIaVw3K7Je2UwOh/V1gZ6JGdPvmpYL8B/DoRdfTrHyWpF9L1uQnqSfXezGpq
+	 Cpxvrrni4edbrd6yf90cJGHpPEIlhROfAsOxpSYMHV2XrvvlqZP1EbkA0UUp9ZzBLX
+	 Nn7nxjepW77jaRwDWUsQunugj6QOYW/okV1eu6OO1EPf23LlyM/qZWlDEt0CsdvTn8
+	 7WgHojeHcCrsM48y/E0uzzAvPgSC5HOjcnUMIZneDXwTypggYI8t6NyApJZBVThWeY
+	 tPpVBT37WnC9TYLjHxwLjMyGqkxz+2TUua6VgL6qUsOtd6hh/o5ECbhis6gwp0WUKO
+	 Sy5fMlQPPLGlg==
+Date: Tue, 26 Oct 2021 09:26:37 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Tsuchiya Yuto <kitakar@gmail.com>
+Cc: unlisted-recipients:; (no To-header on input)@bombadil.infradead.org,
+ Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Yang Yingliang
+ <yangyingliang@huawei.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Aline
+ Santana Cordeiro <alinesantanacordeiro@gmail.com>, Alan
+ <alan@linux.intel.com>, Dinghao Liu <dinghao.liu@zju.edu.cn>, Deepak R
+ Varma <drv@mailo.com>, Alex Dewar <alex.dewar90@gmail.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
+ checking port validity for ISP2400
+Message-ID: <20211026092637.196447aa@sal.lan>
+In-Reply-To: <20211017161958.44351-5-kitakar@gmail.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+	<20211017161958.44351-5-kitakar@gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAMhs-H90rD8aHJ+txDzFZ62Ej9_TY=BZMT+1058d=Pm_LfYwPA@mail.gmail.com>
- <20211025211236.GA31293@bhelgaas>
-In-Reply-To: <20211025211236.GA31293@bhelgaas>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Tue, 26 Oct 2021 07:49:16 +0200
-Message-ID: <CAMhs-H_HL3OxfN7dCwbeqjwwufaNWEJJCfQeYk+42CVK8=69Ew@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] PCI: mt7621: Add MediaTek MT7621 PCIe host
- controller driver
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Rob Herring <robh+dt@kernel.org>, 
-	linux-pci <linux-pci@vger.kernel.org>, "open list:MIPS" <linux-mips@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, John Crispin <john@phrozen.org>, 
-	NeilBrown <neil@brown.name>, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-staging@lists.linux.dev, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 25, 2021 at 11:12 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Fri, Oct 22, 2021 at 11:13:39AM +0200, Sergio Paracuellos wrote:
-> > On Fri, Oct 22, 2021 at 10:35 AM Lorenzo Pieralisi
-> > <lorenzo.pieralisi@arm.com> wrote:
-> > >
-> > > On Thu, Oct 21, 2021 at 09:23:35PM +0200, Sergio Paracuellos wrote:
-> > > > On Thu, Oct 21, 2021 at 8:11 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > > >
-> > > > > On Thu, Oct 21, 2021 at 07:27:21PM +0200, Sergio Paracuellos wrote:
-> > > > > > On Thu, Oct 21, 2021 at 5:52 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > > > > > Since this is a PCIe (not conventional PCI) controller, I
-> > > > > > > vote for renaming these from:
-> > > > > > >
-> > > > > > >   PCI_MT7621
-> > > > > > >   Documentation/devicetree/bindings/pci/mediatek,mt7621-pci.yaml
-> > > > > > >   drivers/pci/controller/pci-mt7621.c
-> > > > > > >
-> > > > > > > to:
-> > > > > > >
-> > > > > > >   PCIE_MT7621
-> > > > > > >   Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-> > > > > > >   drivers/pci/controller/pcie-mt7621.c
-> > > > > > >
-> > > > > > > We have a mix of these, with many of the early PCIe
-> > > > > > > drivers being named "pci", but I think that was my mistake
-> > > > > > > and there's no reason to continue it.
-> > > > > >
-> > > > > > I see.
-> > > > > >
-> > > > > > > I can do this locally unless somebody objects.
-> > > > > >
-> > > > > > I have no problem at all. Only one question. Do you mean to
-> > > > > > change compatible string also, or only the name of the file?
-> > > > > > Let me know if I have to do anything.
-> > > > >
-> > > > > I didn't change the compatible string, to avoid a DT
-> > > > > incompatibility.  But I *did* change the Kconfig symbol to
-> > > > > PCIE_MT7621, which could require changes to out-of-tree
-> > > > > .configs.  I'm open to suggestions either way for both things.
-> > > >
-> > > > IMHO, I do think we should not worry about out-of-tree stuff at
-> > > > all.
-> > >
-> > > For Kconfig I tend to agree. For DT I see some "bindings" in the
-> > > staging tree are being deleted and published as official DT
-> > > bindings with this patchset but I believe we still have to keep
-> > > the compatible string backward compatibility regardless because
-> > > there may be firmware out there using it.
-> >
-> > The bindings txt file removed in staging with this patchset was also
-> > added by me three years ago[0], and has been changing until the YAML
-> > bindings are reviewed by Rob and driver updated accordly in this
-> > patchset.
-> >
-> > OpenWRT maintains its own file[1] which I don't know is updated or
-> > not according to the one in staging which I am pretending to
-> > properly mainline for 5.17. But yes, I agree there might be firmware
-> > out there using current compatible string.
-> >
-> > [0]: Commit 5451e22618b8 ("staging: mt7621-pci: dt-bindings: add dt
-> > bindings for mt7621 pcie controller")
-> > [1]: https://github.com/openwrt/openwrt/blob/master/target/linux/ramips/dts/mt7621.dtsi
->
-> OK, for now I left my rework as-is:
->
->   - changed CONFIG_PCI_MT7621 to CONFIG_PCIE_MT7621
->   - renamed mediatek,mt7621-pci.yaml to mediatek,mt7621-pcie.yaml
->   - renamed pci-mt7621.c to pcie-mt7621.c
->   - kept DT compatible string "mediatek,mt7621-pci" in .yaml and .c
->
-> I reason that the Kconfig and filename changes only affect people
-> building kernels or DTs, but a compatible string change would force a
-> DT update to be synchronized with a kernel update.
+Em Mon, 18 Oct 2021 01:19:44 +0900
+Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 
-This is all ok for me, Bjorn. Thanks for doing this. I guess even if
-we don't force people to a DT update to synchronize things, since
-bindings have been changed until they have been approved, I guess most
-people must upgrade from early not approved DT early versions in any
-case. But in any case I guess that maintaining the compatible string
-is the safest thing to do.
+> Currently, the `port >= N_CSI_PORTS || err` checks for ISP2400 are always
+> evaluated as true because the err variable is set to `-EINVAL` on
+> declaration but the variable is never used until the evaluation.
+> 
+> Looking at the diff of commit 3c0538fbad9f ("media: atomisp: get rid of
+> most checks for ISP2401 version"), the `port >= N_CSI_PORTS` check is
+> for ISP2400 and the err variable check is for ISP2401. Fix this issue
+> by adding ISP version test there accordingly.
+> 
+> Yes, there are other better ways to fix this issue, like adding support
+> for ISP2400 to ia_css_mipi_is_source_port_valid(). In this way, we can
+> unify the following test:
+> 
+> 	if (!IS_ISP2401)
+> 		port = (unsigned int)pipe->stream->config.source.port.port;
+> 	else
+> 		err = ia_css_mipi_is_source_port_valid(pipe, &port);
+> 
+> However, the IS_ISP2401 test here (formerly `ifdef ISP2401`) is not
+> a result of real hardware difference, but just a result of the following
+> two different versions of driver merged by tools [1]:
+> 
+>   - ISP2400: irci_stable_candrpv_0415_20150521_0458
+>   - ISP2401: irci_ecr-master_20150911_0724
 
->
-> Happy to change this if necessary.
+No.
 
-Best regards,
-    Sergio Paracuellos
+While I don't have any internal information from the hardware manufacturer,
+I guess you misinterpreted things here. 2400 and 2401 are different
+hardware versions. See atomisp_pci_probe() logic.
 
->
-> Bjorn
+Basically, Cherrytail and Anniedale comes with 2401. Older Atom CPUs
+(Merrifield and Baytrail) comes with 2400.
+
+> We should eventually remove (not unify) such tests caused by just a
+> driver version difference and use just one version of driver. So, for
+> now, let's avoid further unification.
+> 
+> [1] The function ia_css_mipi_is_source_port_valid() and its usage is
+>     added on updating css version to irci_master_20150701_0213
+>     https://raw.githubusercontent.com/intel/ProductionKernelQuilts/cht-m1stable-2016_ww31/uefi/cht-m1stable/patches/cam-0439-atomisp2-css2401-and-2401_legacy-irci_master_2015070.patch
+>     ("atomisp2: css2401 and 2401_legacy-irci_master_20150701_0213")
+
+What happens is that there is a 2401 and a 2401 "legacy". It sounds
+that this due to some different software stacks that are reflected both
+at the firmware and at the driver.
+
+-
+
+On other words, this patch requires some rework, as otherwise it will break
+support for Baytrail.
+
+Also, patch 13 should be dropped, as the firmware versions for 2400 are
+different - and maybe patches 8 to 12 may need more work in order to not
+touch 2400.
+
+Regards,
+Mauro
