@@ -1,56 +1,59 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BB172
-	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 19:34:31 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 131-20020a1c0489000000b0032cca9883b5so2899845wme.0
-        for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 12:34:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473FA2CA4
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 21:28:27 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id g125so528325oif.9
+        for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 14:28:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=l5F4vx0AkZXpsFveRw1mgakCBS1yTrfmQWwkFAyxoJk=;
-        b=h6cRGWDDMndhFqDU+VxYwQIuMq09S7Yz1BmE6h4kA3AFZcosvD174mYt5UTLrY4R6w
-         0MSzdoaPeidADEqUzPhjAJvzcXN51u9T/CUpoTnpnIYcn/vBGjMEAf9KtP5m5w2/JpJd
-         +pkhLVFYdbwkfbdeg9WAa9ur/hRxbTm/ZFxlQsu0WFoPql9thj1F2ajyXytLkrHpNei9
-         en3qKlV6A60Phj8XxaiqlmYh2pGwNcQk0RU1GIh4XJoyeXdqsnnqoLs86j6nLWtVEDN6
-         ueVuSo6V+HCwH0BNNUj9KdPm0g0wcBW23S+8D3M2fRuxLwwcZHRY5Ye2uYS7Ix8kEMAk
-         ecyA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=otYjN9az6nPkaATonKfc0dOSOmU88ZE1cbGt7BRctxc=;
+        b=LkZysTXZ1DLHHxC1+y//iILNS0jCdiDf7gt/eQBdMPlBlkZAdvOEIWTkIy+ccCp3SA
+         189WXdO1AIjmaqPRr5f69d9/nUo9mTV7e/lZQAbvbHgR1xCEQcUThTgoJ6Iea+VxovNi
+         Iku5ecZisAZ6fwmNDF0Dtg0sudQM6QbkhdzOsBmyBqnJVa6D46+cyk/kzeRZJxv1gpBL
+         KsePun7Y0iarfnQDyj0G5XpomLbA71q4PSK9WiP+iUAicjTS5hzMa65Ki6o+aPyZLHLw
+         50L5eYIHN3qEZLQJ8+vSErXxsCt9GGl8/pAoqPZlyXCISCCWLiPk/dG8s2F9zoFuUxeE
+         MrdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=l5F4vx0AkZXpsFveRw1mgakCBS1yTrfmQWwkFAyxoJk=;
-        b=z9wbkhZMnPOQSvhDb1PSPLowGwpKwlAe6cXDpcCrapAhKgmMD6+an5dCXa+ZWDxKAR
-         wZNbmwGOqdC9Se7Ih/fcB+j35aWg2dNCtDc/1KEYUCQWU+C4AjOzHvAnToD2Eid+o43P
-         /lNboy61RhmTyWWgrZjGXsAf7jZuo32NdLFwsDgaVv9m4caFvYmmFPPd/UmPOT1yQjRY
-         OsDkvZyDSS8y7sa+wL0ZqJgX2fmHe150skCkPqGcd9cIjhmjrRrvFFVpiya3aHvejnNe
-         vfl0LECvccmBPIPu0NG06zJp/axwCELTXVVZz8ag4L1rHqi+Xb4SU4GQICu5YONSOJG/
-         P5Vg==
-X-Gm-Message-State: AOAM532aRidd31nrKfYA2NllHIhgOcjqsmgRvx5yoN6yS9DCscOejoVh
-	i1AwTAzBt0iWoVr3MgFkCWWxdA==
-X-Google-Smtp-Source: ABdhPJxmbWyIAsI7MI/43OP+WBu0p58TWdJOybmOiVLe296pRgKDBrvmoQB0t00t+mS+rxF1belH6w==
-X-Received: by 2002:a05:600c:ac2:: with SMTP id c2mr742197wmr.194.1635276869996;
-        Tue, 26 Oct 2021 12:34:29 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id s18sm17676123wrb.95.2021.10.26.12.34.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=otYjN9az6nPkaATonKfc0dOSOmU88ZE1cbGt7BRctxc=;
+        b=UwaSNRZzO0u/jbbwo2INLKP4ONQYEkJReD2fUPf31MOH6K9O72SDKJ/sVqgXlv1CCC
+         OFQf+KB0GznZV8x1/601VTxfmK59us67PiJB9b+NSF1VteI8u3cXJDMwoDobF/n1aMa3
+         h/SXwQLAmC9JWG8m8in/05V39e4uEdFapsbsqcsaygdxfl1p8HzFZXw8HcO2LGP5JPTo
+         IBtRlJlivB4HGnmP/JXl/bTRhVdLxYlrdrEtlseOzcd3p9Z74HOdNAztN7+Cl20pigtT
+         5G20c3f2breNKx/QM7GmzVItYH1lalmkOYjsV5ozpQoz3lYneuTcuhQEjl+YKYWhBSLY
+         5uPA==
+X-Gm-Message-State: AOAM531ZvgVMOptIFuYcu9OYHo5kJssqNp8UOpz3rVybTeJD152Xa2/W
+	BPoHDDXTwoCz0nZ53elNLBHd6BQFvEIzsg==
+X-Google-Smtp-Source: ABdhPJwy5RmaUkFv5Tt+YnFiDI9CTREkD2Bnd8jXOqWsQLf1wpGJQ+IMxbzdNO5ggIyDyFrpK/iA3g==
+X-Received: by 2002:aca:4356:: with SMTP id q83mr953667oia.157.1635283706144;
+        Tue, 26 Oct 2021 14:28:26 -0700 (PDT)
+Received: from localhost.localdomain ([181.23.91.138])
+        by smtp.gmail.com with ESMTPSA id l26sm5002623oti.45.2021.10.26.14.28.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Oct 2021 12:34:29 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mjpeg-users@lists.sourceforge.net,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v3 14/14] staging: media: zoran: DC30 encoder is not adv7175
-Date: Tue, 26 Oct 2021 19:34:16 +0000
-Message-Id: <20211026193416.1176797-15-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211026193416.1176797-1-clabbe@baylibre.com>
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
+        Tue, 26 Oct 2021 14:28:25 -0700 (PDT)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	nsaenz@kernel.org,
+	stefan.wahren@i2se.com,
+	arnd@arndb.de,
+	dan.carpenter@oracle.com,
+	ojaswin98@gmail.com,
+	amarjargal16@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH] staging: vchiq_core: get rid of typedef
+Date: Tue, 26 Oct 2021 18:27:56 -0300
+Message-Id: <20211026212756.25557-1-gascoar@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,28 +62,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DC30 uses a non-i2c ITT MSE3000 encoder and not an adv7175 as stated
-in the card list.
-So remove adv7175 from DC30.
+Get rid of typedef and use proper kernel type instead.
 
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 ---
- drivers/staging/media/zoran/zoran_card.c | 2 --
- 1 file changed, 2 deletions(-)
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c  | 6 +++---
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h  | 4 +---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index 59df1e7691f9..a9b0316cd688 100644
---- a/drivers/staging/media/zoran/zoran_card.c
-+++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -472,8 +472,6 @@ static struct card_info zoran_cards[NUM_CARDS] = {
- 		.name = "DC30",
- 		.i2c_decoder = "vpx3220a",
- 		.addrs_decoder = vpx3220_addrs,
--		.i2c_encoder = "adv7175",
--		.addrs_encoder = adv717x_addrs,
- 		.video_codec = CODEC_TYPE_ZR36050,
- 		.video_vfe = CODEC_TYPE_ZR36016,
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index ab97a35e63f9..7fe20d4b7ba2 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -711,7 +711,7 @@ reserve_space(struct vchiq_state *state, size_t space, int is_blocking)
+ }
  
+ static void
+-process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
++process_free_data_message(struct vchiq_state *state, u32 *service_found,
+ 			  struct vchiq_header *header)
+ {
+ 	int msgid = header->msgid;
+@@ -767,7 +767,7 @@ process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
+ 
+ /* Called by the recycle thread. */
+ static void
+-process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
++process_free_queue(struct vchiq_state *state, u32 *service_found,
+ 		   size_t length)
+ {
+ 	struct vchiq_shared_state *local = state->local;
+@@ -1981,7 +1981,7 @@ recycle_func(void *v)
+ {
+ 	struct vchiq_state *state = v;
+ 	struct vchiq_shared_state *local = state->local;
+-	BITSET_T *found;
++	u32 *found;
+ 	size_t length;
+ 
+ 	length = sizeof(*found) * BITSET_SIZE(VCHIQ_MAX_SERVICES);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 3e50910ecba3..53a98949b294 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -74,9 +74,7 @@
+ 	((fourcc) >>  8) & 0xff, \
+ 	(fourcc) & 0xff
+ 
+-typedef u32 BITSET_T;
+-
+-static_assert((sizeof(BITSET_T) * 8) == 32);
++static_assert((sizeof(u32) * 8) == 32);
+ 
+ #define BITSET_SIZE(b)        ((b + 31) >> 5)
+ #define BITSET_WORD(b)        (b >> 5)
 -- 
-2.32.0
+2.33.1
 
