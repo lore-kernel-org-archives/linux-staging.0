@@ -1,67 +1,50 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85F02C9F
-	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 17:50:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D49BA60F24;
-	Tue, 26 Oct 2021 17:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635270652;
-	bh=iCVmFN9H6OTgsfDSH4k0BDSm2Da0RWMIQ7h+0LMCCwc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ChE86XzNP0H7IWMu9g2ZVa13veaaPTImTRW5izZZVInyWEwdp9JwhIr5zXH0Rzpdu
-	 4u+ibc1qy8pkOmNEn7M0xAjBxhzfmxeUpxL+HlAPcIWPBV9jpHgOjES4KNpXbwCUHj
-	 +niUYURAexeeyNSEAaumPXZ1gB4LsiljV5xCjhtGIJq8HTdmccyX7ngk/82jA7gPu4
-	 oE6RLfkEK9yz6aPeFwLGfa1/88AXXCfRCM6UrpWZTpxVxjFtyAhoDbcSnJtdAn/kE7
-	 ajOlmacG37mWXZgo0vraeWRs8g3mA6OtmAQxmALd24J+KpGWmYEB7YgFsXrEqsnIXv
-	 s1NN/arRGtCtA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net-next] staging: use of_get_ethdev_address()
-Date: Tue, 26 Oct 2021 10:50:38 -0700
-Message-Id: <20211026175038.3197397-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A9D72
+	for <linux-staging@lists.linux.dev>; Tue, 26 Oct 2021 19:12:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 411056108D;
+	Tue, 26 Oct 2021 19:12:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1635275579;
+	bh=VHYkKyvnA6mMb891JpWFq+i3U7jSXk1ZXJNgw0mug/M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BzD1QQR9YLS9yCGVUAR7NKkzEkoIahg7EU6BK7WNBJy2IVdLYHrX6vYDn5CUgDC5f
+	 4Lwnlf8xNZDfDg0rl6h8kWEZK4xZtGRYss/E84uLjSqECpekUE4zUVtbNqx3vRxDtw
+	 qLQvr/N739diFcy0XrY00N71uBP7ALhH6RGm9mno=
+Date: Tue, 26 Oct 2021 21:12:54 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH net-next] staging: use of_get_ethdev_address()
+Message-ID: <YXhTNtwjjU+VjEB/@kroah.com>
+References: <20211026175038.3197397-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211026175038.3197397-1-kuba@kernel.org>
 
-Use the new of_get_ethdev_address() helper for the cases
-where dev->dev_addr is passed in directly as the destination.
+On Tue, Oct 26, 2021 at 10:50:38AM -0700, Jakub Kicinski wrote:
+> Use the new of_get_ethdev_address() helper for the cases
+> where dev->dev_addr is passed in directly as the destination.
+> 
+>   @@
+>   expression dev, np;
+>   @@
+>   - of_get_mac_address(np, dev->dev_addr)
+>   + of_get_ethdev_address(np, dev)
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> Hi Greg, this needs to go to net-next, the helper is new.
+> ---
+>  drivers/staging/octeon/ethernet.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-  @@
-  expression dev, np;
-  @@
-  - of_get_mac_address(np, dev->dev_addr)
-  + of_get_ethdev_address(np, dev)
-
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-Hi Greg, this needs to go to net-next, the helper is new.
----
- drivers/staging/octeon/ethernet.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index bf8c5443a218..f662739137b5 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -409,7 +409,7 @@ int cvm_oct_common_init(struct net_device *dev)
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	int ret;
- 
--	ret = of_get_mac_address(priv->of_node, dev->dev_addr);
-+	ret = of_get_ethdev_address(priv->of_node, dev);
- 	if (ret)
- 		eth_hw_addr_random(dev);
- 
--- 
-2.31.1
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
