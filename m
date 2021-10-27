@@ -1,236 +1,113 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C544172
-	for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 16:08:01 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id 127so3185604pfu.1
-        for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 09:08:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E9E2C82
+	for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 18:34:53 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id 83so3775152pgc.8
+        for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 11:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=T5um0+Z/h58K04BGvHwe9k2ukenVuoAbZVOpduSLzrE=;
-        b=gmNgYVj9qBTFvFWs0Tg5C01Q7vn0sdj9SgsiWlCZf3vDCryuyWSq9jIQ12rLVP94lh
-         jh9h3ICer1H2EYuM+zogs/Y8OgcArWCuQG/665TJXadzXZ2er1L8fs0Z9cmfKZYLcDZb
-         kW0JqWh66BI2kLNvlpsTDmBp2nE88POn+06u/ohL2P2fy9GLwkw/RsEzotFRdlPIvXxY
-         ounSMSZ4LP0Ujf0nj4NIJupn0azrRXI2DYLdPnF8dY0J5Deaq0Ts7rXFZK2H4736iibh
-         4fpxU8fWHFFRp6JPSapNfSVWO/oBV2DrbS4zSG+m4JUWsctZbHz8rcSZs7BAlB2h6ZiA
-         d9Dw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=rZ1FB3CWtcfDgjKcIVRiQbXOzmz1nIz649iaBjymSHo=;
+        b=mrbbF+vgf43ds9NpeoL/+XuV3Xfrdr6jd3L521mLardiqMytamE3RyxWtCFwhN/0Ft
+         wHgvxePuJ/275+kqYouKBlRHPAApF9e6vLWbVAGo26/rB+YWRlHJvoF9tg8mPSc997O1
+         fJiDIHm7ytyi+X+p6ScerhojaTKizMdoKurHDzHAUDpiLJkqHk9DF+MmlOguCUSGSEgy
+         4NtDDd5NWoBZHCJZv6Oou0GMlYh/Hb5nX4FYCZb4Q+AmcYgVeJl/rGbB6y5JqAT2n4fP
+         ML/q1PkhKWOQ2aVt6E5gwLzysXU7j+JUBVqPaXw7EVN+zd/Je4g5qP31PVnt6b8ehaZ3
+         zVGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=T5um0+Z/h58K04BGvHwe9k2ukenVuoAbZVOpduSLzrE=;
-        b=7VjuMZ1PFq9gqU6KkCDWQTPbJ5nij4j4eEfQI6SD+DV9wQdNiokFFmIDaECS5WAvFQ
-         D6mTQedKMRMuEv2qbgLzIbEr3DW/KaiAIx+LZTOPTJ4eMTtfCWFICEUbJ6n+XJB48MG0
-         VNaXDfl1hpJbbfmmn7vmEe+lNBcZzTTOGARMwf2Ikb2b8DVh1MMq6pGqzhEXgl3261qY
-         uc9FQJNSWLvQeILAC5jjBU0ZTPR0qBWP3K1S7D8iBM6c8gqrf4PBCL36S6yJSEyxvroB
-         zUWXaipWiTSqdI9PW/DCp+ch0oEfujzNGqQ2+qgQ4OJOlL2d7Yn5s3LftVH6aZ+6SwWt
-         co3w==
-X-Gm-Message-State: AOAM533AxT+zZqkjhzAkLajIWJHowUKoqOEXQ9Eae/DMp6upyhLW1Y8U
-	I6dl4gKix3qANjFBEehQErg=
-X-Google-Smtp-Source: ABdhPJxrqNDKN0r4cjymY3KWZLabpBnBDjJbXaj4t+RZaoABzvqUzp6kk6ZcSlOHqW0ahHHcB0nNqA==
-X-Received: by 2002:a62:ab14:0:b0:47b:e126:ea50 with SMTP id p20-20020a62ab14000000b0047be126ea50mr27329713pff.58.1635350881010;
-        Wed, 27 Oct 2021 09:08:01 -0700 (PDT)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id s30sm465267pfg.17.2021.10.27.09.07.57
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=rZ1FB3CWtcfDgjKcIVRiQbXOzmz1nIz649iaBjymSHo=;
+        b=gfThtQvROrtAI3izVj1/6UWo++EF0frlB5f5BZM+dRKGttRnofyxnXPTt1NTvLrLto
+         00agX0KtpKnWlFr7/qEXGsr1i+R2SnIIm/a3Z0VsXdXCY7YQGZZWMTSsCjaa/mO6w0Ud
+         M0UNSBTcN+HGE3zg8erzGghtlc4V1Zh0r+h+SfXG7WyqwegOX2SpucbKcbgBozcY/Ndr
+         BOkvhNuCsusk/B2vxtDQkyvbi1MjD8SrNj+/bfOfmDUCVhADk6vE70N3tZ0l9Gn2coCN
+         /qIxKas3hZGN+fbTrtR+WnM6rdgILL4sBiTVDqxA94Bt2OQSFagrkp21RDXyrLMlKnEq
+         kUlA==
+X-Gm-Message-State: AOAM530Ohp0g561nkueMGac+zkXKvA58yCR+3GSkn8oLqOrYr6pv/IR7
+	ZxWtC/A1PaKV8r/tn4Q8sRpEBi1B5zvi4w==
+X-Google-Smtp-Source: ABdhPJyGnmA2pc2Astk74/frWI2/SMTiF094cWxXNalcN9sUhHtVsSOPu/xxYGoE57wt6MqhIHVOuQ==
+X-Received: by 2002:a63:2cd8:: with SMTP id s207mr25375160pgs.312.1635359692896;
+        Wed, 27 Oct 2021 11:34:52 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.83.133])
+        by smtp.gmail.com with ESMTPSA id k14sm419556pji.45.2021.10.27.11.34.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 09:08:00 -0700 (PDT)
-Message-ID: <b535d09d606cc45544c00207467354eeb2fcfa24.camel@gmail.com>
-Subject: Re: [BUG 5/5] [BUG] media: atomisp: atomisp causes touchscreen to
- stop working on Microsoft Surface 3
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Patrik Gfeller <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Kaixu Xia
- <kaixuxia@tencent.com>, Dan Carpenter <dan.carpenter@oracle.com>, Arnd
- Bergmann <arnd@arndb.de>,  linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Thu, 28 Oct 2021 01:07:56 +0900
-In-Reply-To: <4da3cd96-33ee-fd6e-9405-9047d2f39545@redhat.com>
-References: <20211017162337.44860-1-kitakar@gmail.com>
-	 <20211017162337.44860-6-kitakar@gmail.com>
-	 <103b5438-9f7c-7e89-28b9-29fe11eb818c@redhat.com>
-	 <cfad27a4bfdd94417305e1519e2f450a4422844d.camel@gmail.com>
-	 <552baf68-8fed-9a6f-d18c-5634f93a58f8@redhat.com>
-	 <b86b8c1257d535cd03e6ded145aa0467b91929e7.camel@gmail.com>
-	 <4da3cd96-33ee-fd6e-9405-9047d2f39545@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        Wed, 27 Oct 2021 11:34:51 -0700 (PDT)
+Date: Thu, 28 Oct 2021 00:04:43 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: gregkh@linuxfoundation.org, dan.carpenter@oracle.com, will+git@drnd.me,
+	mitaliborkar810@gmail.com, eduard.vintila47@gmail.com,
+	saurav.girepunje@gmail.com, zhaoxiao@uniontech.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: rtl8192e: remove condition with no effect
+Message-ID: <YXmap8VIxfOpqeEY@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2021-10-26 at 17:41 +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 10/26/21 11:35, Tsuchiya Yuto wrote:
-> > On Sun, 2021-10-24 at 10:32 +0200, Hans de Goede wrote:
-> > > Hi,
-> > > 
-> > > [...]
-> > > 
-> > > <note going a bit offtopic from atomisp here>
-> > > 
-> > > Friday I've resized the Android data partition on my Mi Pad 2 Android,
-> > > 16G eMMC model and installed Fedora 35 in the free space.
-> > > 
-> > > And yesterday I've been poking at the Mi Pad 2 the entire day,
-> > > both under Fedora and under the original Android install to figure
-> > > out which chips there are and how they are used, etc. This has
-> > > diverted me from looking into atomisp2 stuff, but it was fun :)
-> > > 
-> > > I've also managed to make the i915 driver work. It still gives one
-> > > warning during boot which I need to look into. But it works now.
-> > > ATM my i915 fix is just a hack. I plan to turn it into something
-> > > which I hope I can get upstream, I'll Cc you (Tsuchiya) on the
-> > > upstream submission of the i915 submission.
-> > 
-> > Thank you! I just tried your patch and now mipad2 can boot with GPU!
-> 
-> I'm happy to hear that it works for you to, is it ok if I add
-> a "Tested-by: Tsuchiya Yuto <kitakar@gmail.com>" to the next version
-> of the patch?
+Remove the if and else code section for variable pHTInfo->bRegBW40MHz.
+Just before the if condition variable is assign with value 1.
+So if condition check for pHTInfo->bRegBW40MHz is always true.
 
-Yes, no problem.
+Similarly for the variable pHTInfo->SelfMimoPs value '3' is assign.
+So if condition check with value '2' will never be true. Remove the
+if condition check for pHTInfo->SelfMimoPs.
 
-> > So, I tried if I can reproduce touchscreen issue with atomisp, but
-> > there was no such issue. Touchscreen works regardless of atomisp drivers.
-> > I guess this is maybe a PMIC difference (mipad2/wcove and surface3/ccove).
-> 
-> Yeah, I actually bought a 2nd hand Surface 3 this weekend so that
-> I have the same platforms as you to test on as we work on improving
-> the atomisp2 driver. I've not run any atomisp tests on either device
-> yet, but I hope to get around to that soon. Then I should also be
-> able to see if I can reproduce the touchscreen issue and try to
-> debug it.
+Remove the extra blank lines from HTUpdateDefaultSetting function.
 
-Welcome, and really appreciate it :-)
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/rtl8192e/rtl819x_HTProc.c | 16 +---------------
+ 1 file changed, 1 insertion(+), 15 deletions(-)
 
-> > > I've also figured out all the other chips used in the Mi Pad 2
-> > > and I believe I should be able to get things battery monitoring
-> > > and switching the USB plug between host <-> device mode to work
-> > > without too much issues (but it will take some time). This is
-> > > all pretty similar to all the special handling which I've already
-> > > added to the kernel for the GPD win / pocket devices which also
-> > > use the CHT Whiskey Cove PMIC.
-> > 
-> > Thanks. I haven't looked into anything other than atomisp yet, so I
-> > can't comment anything but it's really interesting to see how drivers
-> > are developed :-)
-> > 
-> > > Here are my notes about all the non standard chips used in the
-> > > Mi Pad 2:
-> > > 
-> > > PMIC/charger/fuel-gauge:
-> > > -The Type-C connector is used as / wired up as a regular micro-USB connector
-> > > 
-> > > -There is a Cherry Trail Whiskey Cove PMIC on the I2C7 i2c_designware ctrl
-> > >  -This is used for ID pin detection
-> > >  -Charger-type detection does not work though, because the USB-2 data-lines are
-> > >   not connected to it
-> > >  -The 2 GPIOs which are used to enable an external V5 boost converter for
-> > >   Vbus resp Vconn on other designs are both configured as inputs (register value 0x18)
-> > >  -The extcon-intel-cht-wc driver should control the USB mux according to the
-> > >   ID pin, identically to how the extcon-axp288 code does this
-> > >  -The extcon-intel-cht-wc driver should control the Vboost converter in the
-> > >   bq25890 charger IC based on the ID pin 
-> > > 
-> > > -There is a bq25890 charger hanging from the CHT-WC PMIC charger I2C-bus at addr 0x6a
-> > >  -At boot the BIOS clears bit 4 of register 3, disabling charging so the device
-> > >   will still be powered from an external supply, but it will not charge!
-> > >   Linux needs to fix this up
-> > >  -This charger is connected to the USB-2 data-lines and automatically sets its
-> > >   input-current-limit based on the detected charger
-> > >  -Bit 5 of register 3 controls the Vboost converter for sending 5V to attached
-> > >   USB-devices this bit needs to be controller by Linux based on the ID pin
-> > >   detection from the PMIC. The BIOS does leave this enabled when booting with
-> > >   a USB-device plugged in.
-> > > 
-> > > -There is a BQ27520 fuel-gauge at address 0x55 of the I2C1 i2c_designware ctrl
-> > > 
-> > > I2C1: addr 0x55 BQ27520 fuel-gauge
-> > > 
-> > > I2C2: addr 0x0e unknown
-> > > I2C2: addr 0x1b Realtek 5659 codec ? (not detected by i2cdetect)
-> > > I2C2: addr 0x2c TI lp855x backlight controller:
-> > >  https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/latte-l-oss/drivers/video/backlight/lp855x_bl.c
-> > > I2C2: addr 0x34 NXP9890 audio amplifier
-> > > I2C2: addr 0x37 NXP9890 audio amplifier
-> > > I2C2: addr 0x3e unknown
-> > > 
-> > > I2C3: addr 0x30 KTD2026 RGB LED driver, controlling the status LED
-> > >  https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/latte-l-oss/drivers/leds/leds-ktd2026.c
-> > > 
-> > > I2C4: addr 0x36? OVTI5693 camera sensor
-> > > I2C4: addr 0x37 t3ka3 camera sensor
-> > > 
-> > > I2C5: addr 0x5a Motor DRV2604 Driver ? the tablet has no haptic feedback motor!
-> > >       Also nothing seen here by i2c-detect, probably bogus
-> > 
-> > This must be a motor for the world-facing camera! I see "DW9761" in DSDT.
-> 
-> Interesting I checked and the world facing camera indeed has
-> a variable focus length. But the VCM (Voice Coil Motor) for this likely
-> sits on the same bus as the sensors.
-> 
-> > Currently, I have no idea if motors are working with the upstreamed
-> > atomisp because there is no userspace driver for Linux that can use
-> > motors.
-> 
-> No the code attaching to the DRV2604 ACPI ID really is a motor driver
-> for haptic feedback, see:
-> https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/latte-l-oss/drivers/misc/tspdrv/ImmVibeSPI.c
-> (never mind the SPI in the name it is actually an I2C driver).
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index 3b8efaf9b88c..6925654dbc03 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -72,34 +72,20 @@ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
+ 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
 
-Um, I spoke too soon. It may be possible that there is no such device
-but just it's written in DSDT. There is one instance. On my mipad2, there
-is no S5K4H8 camera but shows up anyway (when `OSID == 0x04`).
-
-Regards,
-Tsuchiya Yuto
-
-> I also noticed that the driver is using an enable GPIO, but even
-> if I drive that high i2cdetect still does not see anything and
-> AFAIK the Mi Pad 2 does not have haptics / a buzzer motor.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> > 
-> > Regards,
-> > Tsuchiya Yuto
-> > 
-> > > I2C6: addr 0x38 FTSC touchscreen
-> > > 
-> > > I2C7: PMIC bus
-> > > 
-> > > -TPS61158: LED controller for menu keys LEDS, driven by PWM controller, max brightness
-> > >  80/255 !!!!
-> > >  https://github.com/MiCode/Xiaomi_Kernel_OpenSource/blob/latte-l-oss/drivers/leds/leds-tps61158.c
-> > >  Android behavior: light up menu keys for 5 seconds on any human input:
-> > >  -Write a special HID driver for mainline linux to fix the key-events send by the
-> > >   touchscreen and to light up the keys for 5 seconds on any HID input reports
-> > > 
-> > > -Sensors (accel, als) through hid-ishtp
-> > > 
-> > > -Panel 1536x2048 on card0-DSI-1
-> > >  https://bugs.freedesktop.org/show_bug.cgi?id=108714
-> > > 
-> > > -DSDT: Android: OSID == 0x04, Windows OSID == 0x01
-> > > 
-> > > Regards,
-> > > 
-> > > Hans
-> > 
-> > 
-> 
+ 	pHTInfo->bAcceptAddbaReq = 1;
+-
+ 	pHTInfo->bRegShortGI20MHz = 1;
+ 	pHTInfo->bRegShortGI40MHz = 1;
+-
+ 	pHTInfo->bRegBW40MHz = 1;
+-
+-	if (pHTInfo->bRegBW40MHz)
+-		pHTInfo->bRegSuppCCK = 1;
+-	else
+-		pHTInfo->bRegSuppCCK = true;
+-
++	pHTInfo->bRegSuppCCK = 1;
+ 	pHTInfo->nAMSDU_MaxSize = 7935UL;
+ 	pHTInfo->bAMSDU_Support = 0;
+-
+ 	pHTInfo->bAMPDUEnable = 1;
+ 	pHTInfo->AMPDU_Factor = 2;
+ 	pHTInfo->MPDU_Density = 0;
+-
+ 	pHTInfo->SelfMimoPs = 3;
+-	if (pHTInfo->SelfMimoPs == 2)
+-		pHTInfo->SelfMimoPs = 3;
+ 	ieee->bTxDisableRateFallBack = 0;
+ 	ieee->bTxUseDriverAssingedRate = 0;
+-
+ 	ieee->bTxEnableFwCalcDur = 1;
+-
+ 	pHTInfo->bRegRT2RTAggregation = 1;
+-
+ 	pHTInfo->bRegRxReorderEnable = 1;
+ 	pHTInfo->RxReorderWinSize = 64;
+ 	pHTInfo->RxReorderPendingTime = 30;
+--
+2.33.0
 
