@@ -1,113 +1,77 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E9E2C82
-	for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 18:34:53 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id 83so3775152pgc.8
-        for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 11:34:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=rZ1FB3CWtcfDgjKcIVRiQbXOzmz1nIz649iaBjymSHo=;
-        b=mrbbF+vgf43ds9NpeoL/+XuV3Xfrdr6jd3L521mLardiqMytamE3RyxWtCFwhN/0Ft
-         wHgvxePuJ/275+kqYouKBlRHPAApF9e6vLWbVAGo26/rB+YWRlHJvoF9tg8mPSc997O1
-         fJiDIHm7ytyi+X+p6ScerhojaTKizMdoKurHDzHAUDpiLJkqHk9DF+MmlOguCUSGSEgy
-         4NtDDd5NWoBZHCJZv6Oou0GMlYh/Hb5nX4FYCZb4Q+AmcYgVeJl/rGbB6y5JqAT2n4fP
-         ML/q1PkhKWOQ2aVt6E5gwLzysXU7j+JUBVqPaXw7EVN+zd/Je4g5qP31PVnt6b8ehaZ3
-         zVGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=rZ1FB3CWtcfDgjKcIVRiQbXOzmz1nIz649iaBjymSHo=;
-        b=gfThtQvROrtAI3izVj1/6UWo++EF0frlB5f5BZM+dRKGttRnofyxnXPTt1NTvLrLto
-         00agX0KtpKnWlFr7/qEXGsr1i+R2SnIIm/a3Z0VsXdXCY7YQGZZWMTSsCjaa/mO6w0Ud
-         M0UNSBTcN+HGE3zg8erzGghtlc4V1Zh0r+h+SfXG7WyqwegOX2SpucbKcbgBozcY/Ndr
-         BOkvhNuCsusk/B2vxtDQkyvbi1MjD8SrNj+/bfOfmDUCVhADk6vE70N3tZ0l9Gn2coCN
-         /qIxKas3hZGN+fbTrtR+WnM6rdgILL4sBiTVDqxA94Bt2OQSFagrkp21RDXyrLMlKnEq
-         kUlA==
-X-Gm-Message-State: AOAM530Ohp0g561nkueMGac+zkXKvA58yCR+3GSkn8oLqOrYr6pv/IR7
-	ZxWtC/A1PaKV8r/tn4Q8sRpEBi1B5zvi4w==
-X-Google-Smtp-Source: ABdhPJyGnmA2pc2Astk74/frWI2/SMTiF094cWxXNalcN9sUhHtVsSOPu/xxYGoE57wt6MqhIHVOuQ==
-X-Received: by 2002:a63:2cd8:: with SMTP id s207mr25375160pgs.312.1635359692896;
-        Wed, 27 Oct 2021 11:34:52 -0700 (PDT)
-Received: from Sauravs-MacBook-Air.local ([59.95.83.133])
-        by smtp.gmail.com with ESMTPSA id k14sm419556pji.45.2021.10.27.11.34.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 11:34:51 -0700 (PDT)
-Date: Thu, 28 Oct 2021 00:04:43 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, dan.carpenter@oracle.com, will+git@drnd.me,
-	mitaliborkar810@gmail.com, eduard.vintila47@gmail.com,
-	saurav.girepunje@gmail.com, zhaoxiao@uniontech.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8192e: remove condition with no effect
-Message-ID: <YXmap8VIxfOpqeEY@Sauravs-MacBook-Air.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26D42C82
+	for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 19:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+	Subject:Sender:Reply-To:Content-ID:Content-Description;
+	bh=g0dH9lUH9vPuYQ5RBQpLLtCKZuNR2X5ACKtS00x71Kw=; b=PxUBtFESwlvjxxr6Dimbwj55Tl
+	eW5mYYUtBZSQwqGOGj647EFkxq6N6Znmn7EJYhiMZd2ZgrOngPZJkot34TISXBQbg4OK0I5sf66VN
+	LABs5hSzkQddb7+0GC1ZYeytLjXzCf45XXjkePzy0HEeO8ce0X3yZob7Z8uKfSGoowKKTMLhiFAQJ
+	gwNmPL9VIJIOZ2sNP06QvlTJywZOd+CUGxgEB6o8CAe9aSQlHwo57Vba6AMhUCJk9v7cjlT8x545C
+	7BuNJyH/0fCMqkEk+fkIrymdMpf6ZOPiGZ8P7Nd+iLGltiWJ9hyV0CcOBSnHowTDGLUliTjlpqQDA
+	y0jXwaoA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1mfoYX-005url-4B; Wed, 27 Oct 2021 19:25:49 +0000
+Subject: Re: [PATCH 2/3] fbdev: rework backlight dependencies
+To: Arnd Bergmann <arnd@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
+ Miguel Ojeda <ojeda@kernel.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jens Frederich <jfrederich@gmail.com>,
+ Jon Nettleton <jon.nettleton@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Lars Poeschel <poeschel@lemonage.de>,
+ Robin van der Gracht <robin@protonic.nl>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev
+References: <20211027132732.3993279-1-arnd@kernel.org>
+ <20211027132732.3993279-2-arnd@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <e19f3eeb-e1c4-ff0e-cf97-f98bd420f842@infradead.org>
+Date: Wed, 27 Oct 2021 12:25:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20211027132732.3993279-2-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Remove the if and else code section for variable pHTInfo->bRegBW40MHz.
-Just before the if condition variable is assign with value 1.
-So if condition check for pHTInfo->bRegBW40MHz is always true.
+On 10/27/21 6:27 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Rather than having CONFIG_FB_BACKLIGHT select CONFIG_BACKLIGHT_CLASS_DEVICE,
+> make any driver that needs it have a dependency on the class device
+> being available, to prevent circular dependencies.
+> 
+> This is the same way that the backlight is already treated for the DRM
+> subsystem.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/auxdisplay/Kconfig        |  1 +
+>   drivers/macintosh/Kconfig         |  1 +
+>   drivers/staging/fbtft/Kconfig     |  1 +
+>   drivers/staging/olpc_dcon/Kconfig |  2 +-
+>   drivers/video/fbdev/Kconfig       | 14 +++++++++++---
+>   5 files changed, 15 insertions(+), 4 deletions(-)
 
-Similarly for the variable pHTInfo->SelfMimoPs value '3' is assign.
-So if condition check with value '2' will never be true. Remove the
-if condition check for pHTInfo->SelfMimoPs.
+Acked-by: Randy Dunlap <rdunlap@infraded.org>
 
-Remove the extra blank lines from HTUpdateDefaultSetting function.
+Thanks.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/rtl8192e/rtl819x_HTProc.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
-
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index 3b8efaf9b88c..6925654dbc03 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -72,34 +72,20 @@ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
- 	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
-
- 	pHTInfo->bAcceptAddbaReq = 1;
--
- 	pHTInfo->bRegShortGI20MHz = 1;
- 	pHTInfo->bRegShortGI40MHz = 1;
--
- 	pHTInfo->bRegBW40MHz = 1;
--
--	if (pHTInfo->bRegBW40MHz)
--		pHTInfo->bRegSuppCCK = 1;
--	else
--		pHTInfo->bRegSuppCCK = true;
--
-+	pHTInfo->bRegSuppCCK = 1;
- 	pHTInfo->nAMSDU_MaxSize = 7935UL;
- 	pHTInfo->bAMSDU_Support = 0;
--
- 	pHTInfo->bAMPDUEnable = 1;
- 	pHTInfo->AMPDU_Factor = 2;
- 	pHTInfo->MPDU_Density = 0;
--
- 	pHTInfo->SelfMimoPs = 3;
--	if (pHTInfo->SelfMimoPs == 2)
--		pHTInfo->SelfMimoPs = 3;
- 	ieee->bTxDisableRateFallBack = 0;
- 	ieee->bTxUseDriverAssingedRate = 0;
--
- 	ieee->bTxEnableFwCalcDur = 1;
--
- 	pHTInfo->bRegRT2RTAggregation = 1;
--
- 	pHTInfo->bRegRxReorderEnable = 1;
- 	pHTInfo->RxReorderWinSize = 64;
- 	pHTInfo->RxReorderPendingTime = 30;
---
-2.33.0
-
+-- 
+~Randy
