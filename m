@@ -1,123 +1,133 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D892C81
-	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 10:58:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 71D5D610F8;
-	Thu, 28 Oct 2021 10:58:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635418687;
-	bh=Gkr2M7tmNtttpnmRIuF7dQ106RqzchtOjG7lRkrUzbw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sh7DFrbTAMUW7cRKsSXrUpXu05gMw4SzitY5VmvMI67cJemTsugL2zzQullaVuih/
-	 aHcXeI4Sq2M0qhye/vXevYvIekb07XcyNT9xMgQc72Jf4rkCyO3pNR2kCLaktFqyQi
-	 z9cyNkhoaQ/yaF3jFaQMDctOk8b1/g04ZPEePKiR2sgNV3T/mz9jjFPBKgH/MjCw4B
-	 bYf5HuuOdRiZtq7LnRzSWr7Ja0YCQ/GMkkTVV7SBqS3P9pNDLS9eWhHCTpHxIElbGw
-	 Ksam/z0SoiMf0Wnd56CX7Lad9jeq2iW9aM6KKtWmA94EBOi1hyho88Gnzw7KQdWvIu
-	 wqDpOt+OTdabQ==
-Date: Thu, 28 Oct 2021 11:58:02 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Tsuchiya Yuto <kitakar@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
- <nable.maininbox@googlemail.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>,
- "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
-Message-ID: <20211028115802.49258990@sal.lan>
-In-Reply-To: <00dd9a0286e194696f6cc083a98de47d709b1d9e.camel@gmail.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	<00dd9a0286e194696f6cc083a98de47d709b1d9e.camel@gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EBE2C81
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 11:21:19 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id r4so22795766edi.5
+        for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 04:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Op6C5+sI2HRkHLePoE/V+Eu4upF10actJBzQJBisYEY=;
+        b=IiBM5elO1GRwsifeUBbzlGsnrdnNe0MMKrHZbQV4qs9ibGLxvC1WEhSJdbrhfpCiCc
+         YSPsio769dLE37ClBW2keNGTu0+UnrbdNBhOAda5EJ9wEzyFafnkmx0P82n2IOjgcWQ+
+         z9pYjILQIJEsJUL6iW9rzaQsXNmkGsO8/wahUDnNfXMr4noL2A4P5Rq8faTSVHMQLSQR
+         KuAfTVH5lx+DTEs3ynk/3AhoXO3QnY1j61cgfrk65sToRFXJPfjCJGx7hkAl5iDy6g22
+         lY8r1XtMoexnt5PQsf+fSBKlWnrDv2AFlFxsz0bbgxbeYMZqmpVprOQx/unlC9BTbs/c
+         i/Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Op6C5+sI2HRkHLePoE/V+Eu4upF10actJBzQJBisYEY=;
+        b=4/JtTazR7bn4oc23RAMrl244UGqjxOn2TlUszhvyTuolw6foq+kacspdkYF8PF0xKc
+         ZrXFkeaKrwxh53KgXiBuKBEq8AQq0s4w2q7nI9DUlqiPMkLh9DKrxUvMP5mCFe82UnRW
+         pQky0aOx9lKj/+YiPWlv3IpDJOX01BrARXQ+cgCZLvRTr6sGHL2XIoP5/xs2PagrISR8
+         Euhyw0CFigUg3B0v7yUUFio5C5C/Q1dJpQnxL/jBf5Uny5f1JTjd2BJ859zkC2wH44kn
+         u3LBe8IsUAG3x+7Ft7xbXQwUO9j7N+xmryqgEJLJH2+MLWOfTPj4AsOT9L5OZaAAWWX2
+         Q64A==
+X-Gm-Message-State: AOAM531B6I9JoxZEFA8IXFJSGjGPJfFP7jFtV3zhHDAZ8w5hfwvfuC7L
+	9CxWFHeOkeTG43w5yf47M/o=
+X-Google-Smtp-Source: ABdhPJwO2z7zzpNUKDPjGWnGeh/nQymbrNIcxwE3Qx/2P0UOU7kNvL41RLmv0Efqnm2zTaSNCtdrWg==
+X-Received: by 2002:a17:906:16c9:: with SMTP id t9mr4706299ejd.104.1635420077776;
+        Thu, 28 Oct 2021 04:21:17 -0700 (PDT)
+Received: from localhost.localdomain (host-79-56-54-101.retail.telecomitalia.it. [79.56.54.101])
+        by smtp.gmail.com with ESMTPSA id q17sm1148529ejp.106.2021.10.28.04.21.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 04:21:17 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org, forest@alittletooquiet.net, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Karolina Drobnik <karolinadrobnik@gmail.com>, Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH 4/7] staging: vt6655: Introduce `data` temporary variable
+Date: Thu, 28 Oct 2021 13:21:16 +0200
+Message-ID: <2039159.k92FijXA2m@localhost.localdomain>
+In-Reply-To: <dc72a4c3539aed70569f66396ed3b51818bc2aea.1635415820.git.karolinadrobnik@gmail.com>
+References: <cover.1635415820.git.karolinadrobnik@gmail.com> <dc72a4c3539aed70569f66396ed3b51818bc2aea.1635415820.git.karolinadrobnik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
 
-Em Thu, 28 Oct 2021 13:32:29 +0900
-Tsuchiya Yuto <kitakar@gmail.com> escreveu:
+On Thursday, October 28, 2021 12:35:34 PM CEST Karolina Drobnik wrote:
+> Add a variable to store initialization tables. Use this variable
+> in AL2230 initialization.
+> 
+> Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+> ---
+>  drivers/staging/vt6655/rf.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+> index ea74701917e5..afd202ea3356 100644
+> --- a/drivers/staging/vt6655/rf.c
+> +++ b/drivers/staging/vt6655/rf.c
+> @@ -684,6 +684,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, 
+unsigned char rf_type,
+>  	unsigned short idx = MISCFIFO_SYNDATA_IDX;
+>  	unsigned char init_count = 0;
+>  	unsigned char sleep_count = 0;
+> +	const unsigned long *data;
+>  
+>  	VNSvOutPortW(iobase + MAC_REG_MISCFFNDEX, 0);
+>  	switch (rf_type) {
+> @@ -699,8 +700,9 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, 
+unsigned char rf_type,
+>  		if (init_count > (MISCFIFO_SYNDATASIZE - sleep_count))
+>  			return false;
+>  
+> +		data = al2230_init_table;
+>  		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
+> -			MACvSetMISCFifo(priv, idx++, 
+al2230_init_table[i]);
+> +			MACvSetMISCFifo(priv, idx++, *(data++));
 
-> <Fixed Cc list>
-> 
-> On Mon, 2021-10-18 at 01:19 +0900, Tsuchiya Yuto wrote:
-> > [...]
-> >   ## taking a picture with atomisp
-> > 
-> > Note that to try to take a picture, please also apply at least the
-> > this RFC patch ("[BUG][RFC] media: atomisp: pci: assume run_mode is
-> > PREVIEW") I'll send as almost a BUG report later.
-> > 
-> > You need to use firmware version irci_stable_candrpv_0415_20150521_0458,
-> > which is available from the intel-aero [1]  
-> 
-> Just in case, the hash (as well as version) of firmware which I
-> downloaded from intel-aero and I use to capture is the following:
-> 
->         $ sha256sum /lib/firmware/shisp_2401a0_v21.bin
->         e89359f4e4934c410c83d525e283f34c5fcce9cb5caa75ad8a32d66d3842d95c  /lib/firmware/shisp_2401a0_v21.bin
-> 
->         $ strings /lib/firmware/shisp_2401a0_v21.bin | grep 2015
->         irci_stable_candrpv_0415_20150521_0458
-> 
-> Regards,
-> Tsuchiya Yuto
-> 
-> > The atomisp (ipu2), like the ipu3, needs userspace support. The libcamera
-> > has now decent ipu3 support but does not have atomisp support yet.
-> > 
-> > I found some userspace tools for atomisp that run on Linux:
-> > 
-> >   - capturev4l2 from intel-aero/sample-apps
-> >     (https://github.com/intel-aero/sample-apps/tree/master/capturev4l2)
-> >   - hd-camera from intel-aero/sample-apps
-> >     (https://github.com/intel-aero/sample-apps/tree/master/hd-camera)
-> >   - intel/nvt
-> >     (https://github.com/intel/nvt)
-> > 
-> > It looks like the nvt is the most feature-rich, like exposure and white
-> > balance. Note that current upstreamed atomisp dropped 32-bit support.
-> > So, you need to build it with `-m64` (change it in Makefile). Here is
-> > the example of usage I use on mipad2:
-> > 
-> >         $ ./v4l2n -o testimage_@.raw \
-> >                 --device /dev/video2 \
-> >                 --input 0 \
-> >                 --exposure=30000,30000,30000,30000 \
-> >                 --parm type=1,capturemode=CI_MODE_PREVIEW \
-> >                 --fmt type=1,width=1920,height=1080,pixelformat=NV12 \
-> >                 --reqbufs count=2,memory=USERPTR \
-> >                 --parameters=wb_config.r=32768,wb_config.gr=21043,wb_config.gb=21043,wb_config.b=30863 \
-> >                 --capture=2 \
-> > 
-> >         ./raw2pnm -x1920 -y1080 -fNV12 testimage_001.raw testimage_001.pnm
-> >         feh *.pnm # open the converted image
-> >         rm testimage*
+Hi Karolina,
 
-Great! that worked for me too on Asus T101HA (CHT). I had to tweak the
-resolution, as ov2680 sensor has a max of 1616x1216 30fps. I had
-to use a number smaller than that, though (1600x1200).
+I think you are using redundant parentheses in "* (data ++)" but understand 
+that those increments and dereferences are equivalent to "* data ++" 
+(according to the C precedence rules).
 
-I guess the next step is to make a generic app to also work on it. 
+Some time ago I suggested that you use those redundant parentheses because
+Greg Kroah-Hartman had previously explained that he prefers not to see 
+"*foo++" because maintainers and reviewers are not required to remember the C 
+precedence rules.
 
-> > 
-> > Note that I see the following warn/err after capture:
-> > 
-> >         kern  :warn  : [72660.793335] atomisp-isp2 0000:00:03.0: stop stream timeout.
-> >         kern  :err   : [72660.973629] atomisp-isp2 0000:00:03.0: atomisp_reset
-> > 
-> > but I see the same message on the Android kernel, too. So, I think this
-> > is not a real issue (I hope).
+I hope my suggestion isn't based on a misunderstanding of what Greg wants 
+here and that your patch can be accepted as is.
 
-Same here.
+While we are at it, please notice that Maintainers of different subsystems 
+may see this topic from a different point of view and that they might very 
+well ask you for removing those redundant parentheses.
 
-> > 
-> > [1] https://github.com/intel-aero/meta-intel-aero-base/tree/master/recipes-kernel/linux/linux-yocto
-> >     filename shisp_2401a0_v21.bin  
+I'd suggest to use grep and find out what is preferred in other subsystems, 
+when you want to contribute to other parts of Linux.
+
+Thanks,
+
+Fabio
+
+>  		MACvSetMISCFifo(priv, idx++, 
+al2230_channel_table0[channel - 1]);
+>  		MACvSetMISCFifo(priv, idx++, 
+al2230_channel_table1[channel - 1]);
+> -- 
+> 2.30.2
 > 
+> -- 
+> You received this message because you are subscribed to the Google Groups 
+"outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an 
+email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/
+outreachy-kernel/dc72a4c3539aed70569f66396ed3b51818bc2aea.
+1635415820.git.karolinadrobnik%40gmail.com.
 > 
+
+
+
+
