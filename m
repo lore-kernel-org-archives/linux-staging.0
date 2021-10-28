@@ -1,41 +1,27 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CFE72;
-	Thu, 28 Oct 2021 09:25:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D2EC660E78;
-	Thu, 28 Oct 2021 09:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635413125;
-	bh=Y5mRnOfcpDHbrEcKPxOejw1RoXP9QeM+TxRILiKOfo0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pbmDGr6wOXPSBSdwgtUvZlsOLLxT5Ryzm7W5imGXKv/RDJG/gdBxA8lkpldGEG8rN
-	 T1lXwbiyM37gFySVp7kNCXXpRQYF7Nuyjjevmm5C7TY2dHjxtug96MWIXiO7uhk+Ug
-	 DpXZvmkeU1NZ/d5zSIbU+kxIffGSKMY5Er7LBQMOejALdrK21srwGlHG65HX+Ul6zb
-	 TKhKi5Y2DcHgP780spnrF0Utx3j1ZIvqGGfKALqSFPfBFSyu0riQG8UnXz6cSGVl8K
-	 PM1e764H8PFh3aMFLICnP6ohRwXjx2w62Ip/1xz8Sx2HGeFp/CTkbeFEmAXQ5Hq61a
-	 yur7LYkJL6wug==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mg1f0-0004Nk-Oz; Thu, 28 Oct 2021 10:25:22 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	llvm@lists.linux.dev
-Subject: [PATCH] media: atomisp: get rid of two unused functions
-Date: Thu, 28 Oct 2021 10:25:21 +0100
-Message-Id: <320510b91925e0ebdb5fdaa1d4843dc470067440.1635413116.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255D572
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 09:32:59 +0000 (UTC)
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Hg0ht4hjYz90Vh;
+	Thu, 28 Oct 2021 17:32:46 +0800 (CST)
+Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Thu, 28 Oct 2021 17:32:50 +0800
+Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
+ (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Thu, 28 Oct
+ 2021 17:32:50 +0800
+From: Yang Yingliang <yangyingliang@huawei.com>
+To: <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
+CC: <Larry.Finger@lwfinger.net>, <phil@philpotter.co.uk>,
+	<gregkh@linuxfoundation.org>
+Subject: [PATCH -next] staging: r8188eu: fix missing unlock in rtw_resume()
+Date: Thu, 28 Oct 2021 17:40:38 +0800
+Message-ID: <20211028094038.2877341-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,62 +29,37 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpeml500017.china.huawei.com (7.185.36.243)
+X-CFilter-Loop: Reflected
 
-Those cause build to break with -Werror with clang-12:
+Add the missing unlock before return from rtw_resume().
 
-	drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c:121:24: error: unused function 'gdc_reg_load' [-Werror,-Wunused-function]
-	drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c:33:1: error: unused function 'sh_css_elems_bytes_from_info' [-Werror,-Wunused-function]
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- .../media/atomisp/pci/hive_isp_css_common/host/gdc.c  | 11 -----------
- .../pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c     |  6 ------
- 2 files changed, 17 deletions(-)
+ drivers/staging/r8188eu/os_dep/usb_intf.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-index 8ed1cffc5384..25e082d6a94a 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-@@ -28,10 +28,6 @@ static inline void gdc_reg_store(
-     const unsigned int	reg,
-     const hrt_data		value);
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 6b93830130e7..5a35d9fe3fc9 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -298,8 +298,10 @@ static int rtw_resume(struct usb_interface *pusb_intf)
+ 		pwrpriv->bkeepfwalive = false;
  
--static inline hrt_data gdc_reg_load(
--    const gdc_ID_t		ID,
--    const unsigned int	reg);
--
- #ifndef __INLINE_GDC__
- #include "gdc_private.h"
- #endif /* __INLINE_GDC__ */
-@@ -117,10 +113,3 @@ static inline void gdc_reg_store(
- 	ia_css_device_store_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data), value);
- 	return;
- }
--
--static inline hrt_data gdc_reg_load(
--    const gdc_ID_t		ID,
--    const unsigned int	reg)
--{
--	return ia_css_device_load_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data));
--}
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-index c505c94a7241..f741beb9ed8a 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-@@ -29,12 +29,6 @@ static const struct ia_css_raw_configuration default_config = {
- 	.pipe = (struct sh_css_sp_pipeline *)NULL,
- };
+ 	DBG_88E("bkeepfwalive(%x)\n", pwrpriv->bkeepfwalive);
+-	if (pm_netdev_open(pnetdev, true) != 0)
++	if (pm_netdev_open(pnetdev, true) != 0) {
++		mutex_unlock(&pwrpriv->lock);
+ 		goto exit;
++	}
  
--static inline unsigned
--sh_css_elems_bytes_from_info(unsigned int raw_bit_depth)
--{
--	return CEIL_DIV(raw_bit_depth, 8);
--}
--
- /* MW: These areMIPI / ISYS properties, not camera function properties */
- static enum sh_stream_format
- css2isp_stream_format(enum atomisp_input_format from) {
+ 	netif_device_attach(pnetdev);
+ 	netif_carrier_on(pnetdev);
 -- 
-2.31.1
+2.25.1
 
