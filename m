@@ -1,93 +1,66 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from klopfer.dv.fh-frankfurt.de (klopfer.dv.fh-frankfurt.de [194.95.81.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A646F2C82
-	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 15:36:21 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id ee16so13534924edb.10
-        for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 08:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Km7RN9DuYhSgIdZd4vw5rE9R6RjCpFJ/7Jxi8UL+wpU=;
-        b=AlM+eueZXz8t3SOmFz7G6PaqrKh/8fZ7t4ebW1BfNzZVsiSmiuBcpXUbFbzFr80EPh
-         b3wK5Fp0Dah+Kr1sNSpyk3ND5UYWlrL/QOBud8eo4PQUE0gfQoRFuRqEgC+ZOIoJMKVD
-         4srzw4IwWjmkY1d/GYfmTHou9jwST8itfs7PmfHN/JidMIqJqyLQy1VyqeLduhjGFjyn
-         6XUaxx0+1udNHyqUeGnqhCwUy1wftttRahRagX9OMuFb4FiDStKPkPdoxEjwwkPgSmBg
-         CCcgJHeJRZtecoilsnWiJCaQtgJ/bzROBO8Pv3XJtxy4/e3M5GVe7t7ezA0qUiXdr1Cs
-         3CTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Km7RN9DuYhSgIdZd4vw5rE9R6RjCpFJ/7Jxi8UL+wpU=;
-        b=y4egjdmA7NbvZn3y9NwrxGIrGiAYtlE407PwxyK7m6zWQzFHQjNjF8AlOoZLXfhy6l
-         JDvIRpjNKypT8zBmzmnzucptZW0R1vikDVaDpmUEXU6J8Q6pZrKSjkTJ2sPtY/5C8p4M
-         dVsbNeg7jx0BPaZUuUkt3nollnrtfWo8xmiF4ELhBTDbFnr1fDYmHZECxrsrsp6WrZND
-         B7GRKp7j3F0cbQKpwvJ07V27IunPxiA0ZcWS3ODrERd/HigSa5xFvQilar4yvU4WfNVa
-         N8pbAExbwzuCbB1nqeE6f58Eml5bu9mfOyR9CTYWFpfrcR71/Rw3sDcAIsMzyVs2W3OX
-         vYQQ==
-X-Gm-Message-State: AOAM530v6vkeWrtuloC9i5XYEHnmndsqjo8VCPUr/evQir1mSNASbE9e
-	yxZBJrWE9cdAJfFbWXZ8llI=
-X-Google-Smtp-Source: ABdhPJw/Yo90kJQEQRr1eUujrIVd2cC+gKKUV9sZsn77IH1geIQKq/vGEVJuhyTYNpeKCW9Gy0hPKw==
-X-Received: by 2002:a17:906:1848:: with SMTP id w8mr6316533eje.485.1635435379975;
-        Thu, 28 Oct 2021 08:36:19 -0700 (PDT)
-Received: from localhost.localdomain (host-79-56-54-101.retail.telecomitalia.it. [79.56.54.101])
-        by smtp.gmail.com with ESMTPSA id hv9sm1604735ejc.51.2021.10.28.08.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 08:36:19 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Julia Lawall <julia.lawall@inria.fr>, Karolina Drobnik <karolinadrobnik@gmail.com>
-Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, forest@alittletooquiet.net, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Outreachy kernel] [PATCH 5/7] staging: vt6655: Rewrite conditional in AL7320 initialization
-Date: Thu, 28 Oct 2021 17:36:18 +0200
-Message-ID: <9038076.3kJb6oI6SG@localhost.localdomain>
-In-Reply-To: <6d2590b127499ba7ae1e7bc36d71064a5262659d.camel@gmail.com>
-References: <cover.1635415820.git.karolinadrobnik@gmail.com> <alpine.DEB.2.22.394.2110281505170.9518@hadrien> <6d2590b127499ba7ae1e7bc36d71064a5262659d.camel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0DA2C82
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 16:01:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fra-uas.de;
+	 s=klopfer; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+	Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=KmC2f4hzNEZiAJ2cWt0jfAJBpvzVIJKDeY9QVzfizCE=; b=C8PE2QFEf/bc+ICB+sT5imzsIl
+	zTaVbAzvu5WZHjH7wS9HYCABkpjN5Fn80QTtqlE9YufobcTscuEZZx3DN/Il59m78Qxg3SsOGXIMs
+	Rnkm/2mpJ3cFHKzyBOzZoIfzKCble+7rhgu+iit8RD+0fxZ0AEwTTJELXPM2qHEFUgwBoBmBPK7u9
+	PwyLHYNnQNhmHnwKrf+ucxDwrqMKZ071vhesqNbeMAC68DWqjoUgsqyyyZvhhwXdLxY2OGnb2Wnfb
+	eCMW8jVfIjimhlMe4SQhU4IyGgTY+OMt0VsTQszBGJ9XJ5v1wZOtZ6sCOFt8Q5NWzlInguX3YwILv
+	Yqy8ZUlQ==;
+Received: from p4fc1712c.dip0.t-ipconnect.de ([79.193.113.44] helo=localhost.localdomain)
+	by klopfer.dv.fh-frankfurt.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+	(Exim 4.89)
+	(envelope-from <ssivaraj@stud.fra-uas.de>)
+	id 1mg7Uy-00042I-4G; Thu, 28 Oct 2021 17:39:24 +0200
+From: Senthu Sivarajah <ssivaraj@stud.fra-uas.de>
+To: vaibhav.sr@gmail.com
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Senthuran Sivarajah <ssivaraj@stud.fra-uas.de>
+Subject: [PATCH] Staging: greybus: audio_codec: changed a void function to return 0
+Date: Thu, 28 Oct 2021 17:38:08 +0200
+Message-Id: <20211028153808.9509-1-ssivaraj@stud.fra-uas.de>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thursday, October 28, 2021 4:35:30 PM CEST Karolina Drobnik wrote:
-> On Thu, 2021-10-28 at 14:36 +0200, Fabio M. De Francesco wrote:
-> > As far as I know by reading some Greg K-H's replies to other
-> > developers, this 
-> > "<test> ? <true> : <false>" style is not well accepted here.
-> 
-> I thought that the expression is simple enough that it can be written
-> this way. Julia nicely summarised why I think it's a good usage of the
-> conditional operator. Still, there's no problem in changing it to "if-
-> else" statement if that's the preferred option.
+From: Senthuran Sivarajah <ssivaraj@stud.fra-uas.de>
 
-If I were you, I'd leave the patch as-is and wait for Greg review.
+Fixed a coding style issue.
 
-I was only reporting some words that I recall I read in some emails of Greg. 
-But it is highly probable that those contexts were a bit different or that 
-the statements were much more complex.
+Signed-off-by: Senthuran Sivarajah <ssivaraj@stud.fra-uas.de>
 
-As far as what my personal preference is, I think that you shouldn't care 
-because I'm not one of the maintainers. Above all, even if I were one of the 
-maintainers I'd never prevent developers to use their own style with this 
-kind of statements.
+---
+ drivers/staging/greybus/audio_codec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-To summarize, you'd better leave the patch as-is.
-
-Thanks,
-
-Fabio
-
-> 
-> Thanks,
-> Karolina
-> > 
-> 
-> 
-
-
-
+diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+index b589cf6b1d03..9f99862791dc 100644
+--- a/drivers/staging/greybus/audio_codec.c
++++ b/drivers/staging/greybus/audio_codec.c
+@@ -1028,7 +1028,7 @@ static int gbcodec_probe(struct snd_soc_component *comp)
+ static void gbcodec_remove(struct snd_soc_component *comp)
+ {
+ 	/* Empty function for now */
+-	return;
++	return 0;
+ }
+ 
+ static int gbcodec_write(struct snd_soc_component *comp, unsigned int reg,
+-- 
+2.27.0
 
