@@ -1,128 +1,101 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A572C83
-	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 13:06:41 +0000 (UTC)
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AoJA77qFbk/eKvKQepLqE9ceALOsnbusQ8zAX?=
- =?us-ascii?q?PiFKOH9om6Oj5qWTdZgguyMc6wxwZJhfo6HjBEDoexq1nvRICO8qXItKNzOLhI?=
- =?us-ascii?q?LHFuxfBPPZrAHdJw=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
-   d="scan'208";a="397636735"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2021 15:06:38 +0200
-Date: Thu, 28 Oct 2021 15:06:38 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
-    forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, Karolina Drobnik <karolinadrobnik@gmail.com>, 
-    Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: Re: [Outreachy kernel] [PATCH 5/7] staging: vt6655: Rewrite conditional
- in AL7320 initialization
-In-Reply-To: <1683328.aCfAWUeHFl@localhost.localdomain>
-Message-ID: <alpine.DEB.2.22.394.2110281505170.9518@hadrien>
-References: <cover.1635415820.git.karolinadrobnik@gmail.com> <948406a3e7d23f1cdf866aa4448d9428bdd32512.1635415820.git.karolinadrobnik@gmail.com> <1683328.aCfAWUeHFl@localhost.localdomain>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12BB2C82
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 14:31:58 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id p14so10527103wrd.10
+        for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 07:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=G1URQ8lQTbKqKyy5iIiPH2GPZERZgQDiwncSKKtO3yA=;
+        b=fBHmbjTKwbBV7gQItocG0wuyAy3bf5EBgQUyDfKMLm92xGS1KdK3ElxDwMrekIV/4E
+         18hPsWS+TZLWBXgxqV2DRCkEmPmmrhlQr7l17pJNdFgJnGJq7DCwbJ4wWX7+pbdvEryR
+         flIqtVwIMaUVc+HS+/siJkB7FS+4KrSgg18nvaVRFGw6phKW/ekqUUgDLQzJDvIubANZ
+         gPqWACUta8NJLoG+p33Dzh7cgf70VksltNhfBZDIPlKyt1ZG00r4MukiwYgHHo7YHMiy
+         YYp6EB0Q2GgmK7WVo3cxKv6F2V/PUcJ67OYqlVYWgUK5xbHlm4fGxO7HWHSpq5COJAzV
+         Q/1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=G1URQ8lQTbKqKyy5iIiPH2GPZERZgQDiwncSKKtO3yA=;
+        b=WTMWnpKYvuXUR/dsZJKva2TShzDW0O7todPdS4dlAr6RO97qZgbbDBT3c/jY8s/Ec5
+         kvIuT8Q1ahdhWsZwaym52p66KggJQWLP1Pp8tRsVE4pEjtfeJcGPzSDsjCR4kuw1f6mF
+         2Flanr0tX8Jubea1TlL4yxSeaszRcyvSz/5gcg1uXycj787qjrL/36eAE3SHdnsyX6Qm
+         D40k+9QfnOVFUbY5WG6VIsXECNxnFpgVANWBDraMPYxUfAlo/K4CJN5yW3kBiZolXVk8
+         vcKrpDEUpD8KorQYEqE4u6yDOR82kDF5kjuYRewfacTZRLCsnDa3N/Kh5YrmHJGFwi0/
+         950w==
+X-Gm-Message-State: AOAM532/0Lte+GRYikJHS6IH8qMr9L0mm76N6LcbReavTNTFr66RvBC/
+	1i7D2TeuZy0B3PqjTPUXcaE=
+X-Google-Smtp-Source: ABdhPJxHXS8cxJcuL94+fXL/rbO0pFVs3/yhI0DSigN5Eupyioy+0wUxoViDjj0DOECe+w3Vvem8SQ==
+X-Received: by 2002:a05:6000:18c7:: with SMTP id w7mr6074015wrq.411.1635431517243;
+        Thu, 28 Oct 2021 07:31:57 -0700 (PDT)
+Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id c16sm3211643wrm.46.2021.10.28.07.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Oct 2021 07:31:56 -0700 (PDT)
+Message-ID: <186358f460f2093dc8a60a8120be3dc6f830c81f.camel@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH 4/7] staging: vt6655: Introduce
+ `data` temporary variable
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>, Julia Lawall
+	 <julia.lawall@inria.fr>
+Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
+	forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Thu, 28 Oct 2021 15:31:55 +0100
+In-Reply-To: <39890856.3BBMun7449@localhost.localdomain>
+References: <cover.1635415820.git.karolinadrobnik@gmail.com>
+	 <2039159.k92FijXA2m@localhost.localdomain>
+	 <alpine.DEB.2.22.394.2110281332040.9518@hadrien>
+	 <39890856.3BBMun7449@localhost.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+
+Hi Fabio and Julia,
+
+Thank you very much for looking at my changes.
+
+On Thu, 2021-10-28 at 13:21 +0200, Fabio M. De Francesco wrote:
+> Hi Karolina,
+> 
+> I think you are using redundant parentheses in "* (data ++)" but
+> understand that those increments and dereferences are equivalent to 
+> "* data ++" (according to the C precedence rules).
+
+Yes, I added them on purpose to improve readability (+ that's also my
+preference anyway)
+
+> While we are at it, please notice that Maintainers of different
+> subsystems may see this topic from a different point of view and that
+> they might very well ask you for removing those redundant
+> parentheses.
+
+I understand, thanks for letting me know.
 
 
+On Thu, 2021-10-28 at 13:32 +0200, Julia Lawall wrote:
+> Would it be better as data[i] ?
+> 
+> Could there be a better name than "data"?  Perhaps "table"?
 
-On Thu, 28 Oct 2021, Fabio M. De Francesco wrote:
+Hmm, now when I'm thinking about, it indeed looks like a better option.
+I would even say that `data` (or `table`/`init_table`) can be only used
+in the AL7320 case and we can go with `al2230_init_table` for AL2230.
+The line would be 61 characters long, way below the limit.
 
-> On Thursday, October 28, 2021 12:35:35 PM CEST Karolina Drobnik wrote:
-> > Use conditional operator to determine which table for AL7320
-> > initialization should be used. Use `data` temporary value to
-> > store this value.
-> >
-> > Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
-> > ---
-> >  drivers/staging/vt6655/rf.c | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-> > index afd202ea3356..af4eb7eb8e7d 100644
-> > --- a/drivers/staging/vt6655/rf.c
-> > +++ b/drivers/staging/vt6655/rf.c
-> > @@ -716,13 +716,10 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv,
-> unsigned char rf_type,
-> >  		if (init_count > (MISCFIFO_SYNDATASIZE - sleep_count))
-> >  			return false;
-> >
-> > -		if (channel <= CB_MAX_CHANNEL_24G) {
-> > -			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
-> > -				MACvSetMISCFifo(priv, idx++,
-> al7230_init_table[i]);
-> > -		} else {
-> > -			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
-> > -				MACvSetMISCFifo(priv, idx++,
-> al7230_init_table_a_mode[i]);
-> > -		}
-> > +		data = (channel <= CB_MAX_CHANNEL_24G) ?
-> > +			al7230_init_table :
-> al7230_init_table_a_mode;
->
-> As far as I know by reading some Greg K-H's replies to other developers, this
-> "<test> ? <true> : <false>" style is not well accepted here.
->
-> I'd prefer to see an explicit "if-else" statement because with that style you
-> sacrifice readability and gain nothing here.
-
-Actually, I liked the ?: usage in this case.  We are making an alias, and
-it is one thing or another.  One can easily see that the same variable is
-assigned in both cases.
-
-Othes could have another opinion, though.
-
-julia
+What do you think?
 
 
->
-> > +		for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
-> > +			MACvSetMISCFifo(priv, idx++, *(data++));
->
-> Again, as Julia pointed out, "*data++" and "*(data++)" are syntactically
-> correct instructions but are not required here. I'm also pretty sure that, by
-> not reusing that index, you're adding additional unnecessary instructions to
-> the resulting assembly code (unless the compiler is able to optimize it).
->
-> "*foo++" and the like are powerful and compact instructions, but you should
-> use them in other, more suitable contexts.
->
-> Thanks,
->
-> Fabio
->
->
-> >
-> >  		MACvSetMISCFifo(priv, idx++,
-> al7230_channel_table0[channel - 1]);
-> >  		MACvSetMISCFifo(priv, idx++,
-> al7230_channel_table1[channel - 1]);
-> > --
-> > 2.30.2
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups
-> "outreachy-kernel" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an
-> email to outreachy-kernel+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/
-> outreachy-kernel/
-> 948406a3e7d23f1cdf866aa4448d9428bdd32512.1635415820.git.karolinadrobnik%40gmail.com.
-> >
->
->
->
->
-> --
-> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/1683328.aCfAWUeHFl%40localhost.localdomain.
->
+Many thanks,
+Karolina
+
