@@ -1,77 +1,66 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26D42C82
-	for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 19:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-	Subject:Sender:Reply-To:Content-ID:Content-Description;
-	bh=g0dH9lUH9vPuYQ5RBQpLLtCKZuNR2X5ACKtS00x71Kw=; b=PxUBtFESwlvjxxr6Dimbwj55Tl
-	eW5mYYUtBZSQwqGOGj647EFkxq6N6Znmn7EJYhiMZd2ZgrOngPZJkot34TISXBQbg4OK0I5sf66VN
-	LABs5hSzkQddb7+0GC1ZYeytLjXzCf45XXjkePzy0HEeO8ce0X3yZob7Z8uKfSGoowKKTMLhiFAQJ
-	gwNmPL9VIJIOZ2sNP06QvlTJywZOd+CUGxgEB6o8CAe9aSQlHwo57Vba6AMhUCJk9v7cjlT8x545C
-	7BuNJyH/0fCMqkEk+fkIrymdMpf6ZOPiGZ8P7Nd+iLGltiWJ9hyV0CcOBSnHowTDGLUliTjlpqQDA
-	y0jXwaoA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1mfoYX-005url-4B; Wed, 27 Oct 2021 19:25:49 +0000
-Subject: Re: [PATCH 2/3] fbdev: rework backlight dependencies
-To: Arnd Bergmann <arnd@kernel.org>, dri-devel@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
- Miguel Ojeda <ojeda@kernel.org>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jens Frederich <jfrederich@gmail.com>,
- Jon Nettleton <jon.nettleton@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Lars Poeschel <poeschel@lemonage.de>,
- Robin van der Gracht <robin@protonic.nl>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andy Shevchenko <andy.shevchenko@gmail.com>, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-staging@lists.linux.dev
-References: <20211027132732.3993279-1-arnd@kernel.org>
- <20211027132732.3993279-2-arnd@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e19f3eeb-e1c4-ff0e-cf97-f98bd420f842@infradead.org>
-Date: Wed, 27 Oct 2021 12:25:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DC82C87
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 01:10:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E7146610C7;
+	Thu, 28 Oct 2021 01:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1635383408;
+	bh=hEOR8Q3YtSb8zC9D7cWDTp1gxnO0aUh/PAlhZbXDr5E=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=Lpx0zuwIt72iCP4d6dHvg8CHyvVUq1W4befzuW/IzXsTI9+T7eFdXa+aXz/Sb+YoA
+	 Fxfkin5HVQbAUpojwaqN3WI63cDH9ogT0FcqeNFs5bJaei3+U0p3noYy5XrWvuDVQs
+	 q1imb1kCeI2A9SQsO9bRCx2Wqh0xxUjl4EdTMKjCxWEfR5KRqA6pAo1GoaHaRvf3QK
+	 WVRR0YXofLiJiYz/J7nIRxLkJ57h40JN6/mWQRtqYFswUHzYyTXsYG7KCnCeRxzLHH
+	 OX7OR8Z5EoR/aYoEbLtbYKTUjEVIH0Gjq3LrS28xLMGMA1Jqy1iKUlwdnCYd+9ONXI
+	 VewVCThRcRJ7Q==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id D586760A5A;
+	Thu, 28 Oct 2021 01:10:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211027132732.3993279-2-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] staging: use of_get_ethdev_address()
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <163538340787.2556.1122800068266015255.git-patchwork-notify@kernel.org>
+Date: Thu, 28 Oct 2021 01:10:07 +0000
+References: <20211026175038.3197397-1-kuba@kernel.org>
+In-Reply-To: <20211026175038.3197397-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, gregkh@linuxfoundation.org
 
-On 10/27/21 6:27 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+Hello:
+
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue, 26 Oct 2021 10:50:38 -0700 you wrote:
+> Use the new of_get_ethdev_address() helper for the cases
+> where dev->dev_addr is passed in directly as the destination.
 > 
-> Rather than having CONFIG_FB_BACKLIGHT select CONFIG_BACKLIGHT_CLASS_DEVICE,
-> make any driver that needs it have a dependency on the class device
-> being available, to prevent circular dependencies.
+>   @@
+>   expression dev, np;
+>   @@
+>   - of_get_mac_address(np, dev->dev_addr)
+>   + of_get_ethdev_address(np, dev)
 > 
-> This is the same way that the backlight is already treated for the DRM
-> subsystem.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   drivers/auxdisplay/Kconfig        |  1 +
->   drivers/macintosh/Kconfig         |  1 +
->   drivers/staging/fbtft/Kconfig     |  1 +
->   drivers/staging/olpc_dcon/Kconfig |  2 +-
->   drivers/video/fbdev/Kconfig       | 14 +++++++++++---
->   5 files changed, 15 insertions(+), 4 deletions(-)
+> [...]
 
-Acked-by: Randy Dunlap <rdunlap@infraded.org>
+Here is the summary with links:
+  - [net-next] staging: use of_get_ethdev_address()
+    https://git.kernel.org/netdev/net-next/c/8b6ce9b02672
 
-Thanks.
-
+You are awesome, thank you!
 -- 
-~Randy
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
