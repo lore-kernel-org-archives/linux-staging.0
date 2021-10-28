@@ -1,36 +1,29 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF7D2C83
-	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 12:52:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 805B0610C8;
-	Thu, 28 Oct 2021 12:52:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635425526;
-	bh=PD5OY0z4sq0WOWIWj8b1CoVUgNKxXKscJZlSI2MOXDA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IfwxoSG0rTD0yKW9KYigsR5p+YPzYc5DeTzHH+Elno9nmFqyDv4D3PTW/Qt/kBueQ
-	 sOrRqD0e+bTV3BRohyQ5GeAnK+zLGN8pDDOrbnLE+hEjpM3dFhMVcS6lgZGJaDfYzP
-	 f6M2jO1fdf8a+XVFOMUIUY2q0hUinQfHvwuY8tetwpmyoiEILqdKP0YA/slV4MF6Nh
-	 K5ssv7h1HtX1MO49jZy/vqC0POd+UDm7R8knNVGGFx9uDLGMYcgEPp6ejBUcFqSS57
-	 58E9GMcgIlAEMklk4M9cMGkU5FIamLjAZK9ov/UvlRpgFyAJnw1OWfCdn4HcQ6P0gC
-	 9BS2CP1eWxLaQ==
-Date: Thu, 28 Oct 2021 13:51:59 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Tsuchiya Yuto <kitakar@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Yang Yingliang
- <yangyingliang@huawei.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Aline
- Santana Cordeiro <alinesantanacordeiro@gmail.com>, Dinghao Liu
- <dinghao.liu@zju.edu.cn>, Alan <alan@linux.intel.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
-Message-ID: <20211028135159.7ac3f263@sal.lan>
-In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A572C83
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 13:06:41 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AoJA77qFbk/eKvKQepLqE9ceALOsnbusQ8zAX?=
+ =?us-ascii?q?PiFKOH9om6Oj5qWTdZgguyMc6wxwZJhfo6HjBEDoexq1nvRICO8qXItKNzOLhI?=
+ =?us-ascii?q?LHFuxfBPPZrAHdJw=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
+   d="scan'208";a="397636735"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2021 15:06:38 +0200
+Date: Thu, 28 Oct 2021 15:06:38 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
+    forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, Karolina Drobnik <karolinadrobnik@gmail.com>, 
+    Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH 5/7] staging: vt6655: Rewrite conditional
+ in AL7320 initialization
+In-Reply-To: <1683328.aCfAWUeHFl@localhost.localdomain>
+Message-ID: <alpine.DEB.2.22.394.2110281505170.9518@hadrien>
+References: <cover.1635415820.git.karolinadrobnik@gmail.com> <948406a3e7d23f1cdf866aa4448d9428bdd32512.1635415820.git.karolinadrobnik@gmail.com> <1683328.aCfAWUeHFl@localhost.localdomain>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,68 +31,98 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-Em Mon, 18 Oct 2021 01:19:40 +0900
-Tsuchiya Yuto <kitakar@gmail.com> escreveu:
-
-> Hi all,
-> 
-> This patch series contains fixes for atomisp to work (again). Tested on
-> Microsoft Surface 3 (Windows) and Xiaomi Mi Pad 2 (Android model) with
-> v5.15-rc5. Both are Cherry Trail (ISP2401) devices.
-> 
-After testing this series, I'm opting to merge most patches at the media 
-stage tree:
-
-	https://git.linuxtv.org/media_stage.git/log/
-
-That would allow more people to test the changes.
-
-It is probably too late to merge it for 5.16, so I'll likely postpone
-merging it at media_tree to happen after 5.16-rc1.
-
-Regards,
-Mauro
-
----
-
-I tested it on an Asus T101HA with:
-	https://github.com/intel/nvt
-
-compiled with -m64, and with the enclosed script:
 
 
-#!/bin/bash
-set -e
 
-FRAMES=10
+On Thu, 28 Oct 2021, Fabio M. De Francesco wrote:
 
-FORMAT=NV12
-WIDTH=1600
-HEIGHT=1200
+> On Thursday, October 28, 2021 12:35:35 PM CEST Karolina Drobnik wrote:
+> > Use conditional operator to determine which table for AL7320
+> > initialization should be used. Use `data` temporary value to
+> > store this value.
+> >
+> > Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+> > ---
+> >  drivers/staging/vt6655/rf.c | 11 ++++-------
+> >  1 file changed, 4 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+> > index afd202ea3356..af4eb7eb8e7d 100644
+> > --- a/drivers/staging/vt6655/rf.c
+> > +++ b/drivers/staging/vt6655/rf.c
+> > @@ -716,13 +716,10 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv,
+> unsigned char rf_type,
+> >  		if (init_count > (MISCFIFO_SYNDATASIZE - sleep_count))
+> >  			return false;
+> >
+> > -		if (channel <= CB_MAX_CHANNEL_24G) {
+> > -			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
+> > -				MACvSetMISCFifo(priv, idx++,
+> al7230_init_table[i]);
+> > -		} else {
+> > -			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
+> > -				MACvSetMISCFifo(priv, idx++,
+> al7230_init_table_a_mode[i]);
+> > -		}
+> > +		data = (channel <= CB_MAX_CHANNEL_24G) ?
+> > +			al7230_init_table :
+> al7230_init_table_a_mode;
+>
+> As far as I know by reading some Greg K-H's replies to other developers, this
+> "<test> ? <true> : <false>" style is not well accepted here.
+>
+> I'd prefer to see an explicit "if-else" statement because with that style you
+> sacrifice readability and gain nothing here.
 
-#FORMAT=NV12
-#WIDTH=1920
-#HEIGHT=1080
+Actually, I liked the ?: usage in this case.  We are making an alias, and
+it is one thing or another.  One can easily see that the same variable is
+assigned in both cases.
+
+Othes could have another opinion, though.
+
+julia
 
 
-./v4l2n -o testimage_@.raw \
-                 --device /dev/video2 \
-                 --input 0 \
-                 --exposure=30000,30000,30000,30000 \
-                 --parm type=1,capturemode=CI_MODE_PREVIEW \
-                 --fmt type=1,width=$WIDTH,height=$HEIGHT,pixelformat=$FORMAT \
-                 --reqbufs count=2,memory=USERPTR \
-                 --parameters=wb_config.r=32768,wb_config.gr=21043,wb_config.gb=21043,wb_config.b=30863 \
-                 --capture=$FRAMES
-
-for i in $(seq 0 $(($FRAMES - 1))); do
-	name="testimage_$(printf "%03i" $i)"
-
-	./raw2pnm -x$WIDTH -y$HEIGHT -f$FORMAT $name.raw $name.pnm
-
-	rm $name.raw
-done
-
-
+>
+> > +		for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
+> > +			MACvSetMISCFifo(priv, idx++, *(data++));
+>
+> Again, as Julia pointed out, "*data++" and "*(data++)" are syntactically
+> correct instructions but are not required here. I'm also pretty sure that, by
+> not reusing that index, you're adding additional unnecessary instructions to
+> the resulting assembly code (unless the compiler is able to optimize it).
+>
+> "*foo++" and the like are powerful and compact instructions, but you should
+> use them in other, more suitable contexts.
+>
+> Thanks,
+>
+> Fabio
+>
+>
+> >
+> >  		MACvSetMISCFifo(priv, idx++,
+> al7230_channel_table0[channel - 1]);
+> >  		MACvSetMISCFifo(priv, idx++,
+> al7230_channel_table1[channel - 1]);
+> > --
+> > 2.30.2
+> >
+> > --
+> > You received this message because you are subscribed to the Google Groups
+> "outreachy-kernel" group.
+> > To unsubscribe from this group and stop receiving emails from it, send an
+> email to outreachy-kernel+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/msgid/
+> outreachy-kernel/
+> 948406a3e7d23f1cdf866aa4448d9428bdd32512.1635415820.git.karolinadrobnik%40gmail.com.
+> >
+>
+>
+>
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/1683328.aCfAWUeHFl%40localhost.localdomain.
+>
