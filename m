@@ -1,131 +1,89 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4525D2C83
-	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 04:32:34 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id r2so5133709pgl.10
-        for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 21:32:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908322C83
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 04:45:20 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id 127so4833477pfu.1
+        for <linux-staging@lists.linux.dev>; Wed, 27 Oct 2021 21:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=CJbao7PWdbTf66MLx9/hBu9NO8YckP66z62UgG9S3Lc=;
-        b=lq3SQNjF25KMAqUd/hOJdOE8DkBPG5Y73rt764+YzehjNCi81b/JXOLVJk1CvseqTS
-         gpKcF6afNWoEYguEW8Vdd9kSTebIn/dvPPhmzNpikRF1Mx4iQNbcvwcBMXpoZN63HeQZ
-         tbIXWvsX/Nlfh5npBzpN8MNqWI8R3iNMmPrW8HPZRr5xMTPTobCkBlMs8i9ecLd66P2W
-         ryCBsrTuZwkZCM4Ct2I1WTR3rDcDhiiWaVqHQUygjXJvX8Jwv0rkL9E/qF9cK/toRXUJ
-         0QPRBMv3YfNiSCWpK4060G39ob3b7w9mUuvwTdN7LFLVX1FTklEDqMa4oGlPfK8PPqXi
-         wUkQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=4OISxA/W7Ea7fGLkHeskh3EaoItPM6YwHT8EDyfGs54=;
+        b=gu6/JH11MBZugObAKhGfQ7IriVDZqholcnkBpmp2QHiT7+bIhbb+6zaGFaMuWyXenB
+         u5D6p7x17K1yi+aJ9VH11WPUK35UoIzu/2sq3zyXiYDHNUBa9ruXhc6hKaBmJ0Nz/Vur
+         RJClnNJCMJfF70KebEqttu9pNh4IeIZrc9DCKrHYdeIoznA3UwYhgYUm+Cpkwv99fNQK
+         ZbIQTlcngfXm3h0qC6dZZExvjRG1S8gxr2go/l4Z5u/C6gAtEOsyxRDP1eBHx+fa0wd8
+         LdMqQP4Ig7iKRCWDEhY7oDWc6DmutuHDg0iC0rnUBC52JESDZuavKawfe/I/y4kRZkRN
+         8eiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=CJbao7PWdbTf66MLx9/hBu9NO8YckP66z62UgG9S3Lc=;
-        b=24mpUDAX1+qT9AhMTUDbGo+B64vXR48tR4Botvr/oZwdYEKm1EKzkwE+ZXopzdpEZQ
-         1DMqkg3JZ+7S2npv0As2QaNAa56dPm6vJ9YsxGFubC8nmJmg92svwKJxXHJxMfR8+oxn
-         UIF6jsgYvGA8oJvgKvSDn5jvfA/xT1zo2Azt/x9SjUgiGbPvTSxj635zv2dq4xacjBlZ
-         4bOWVHp57mvcPRJdPPiPq+cTmXxDCZ/fiaorqjcOyEDlaytlF2KkudOunp8t5HS1THAb
-         MVeQCzpE9CojDyCre65pxC9GViuA3SSyq5682KjrSFxdbKA7oIadtF13jNBzUXQ/erPR
-         0z1A==
-X-Gm-Message-State: AOAM532DAR5FCn2aArNdjw+zUposQcmadcXnLDuRRDhy5OgiejkhYbiu
-	8T0yQnihwaIfHDiyGzTP5UU=
-X-Google-Smtp-Source: ABdhPJy9qYBuTIK99v/KgpvuZwZX8l3gtC0Ktko1v9tNBSkA+ClLofat6rVA95UVWTDXJIz6ToZL3Q==
-X-Received: by 2002:a63:af44:: with SMTP id s4mr1503935pgo.219.1635395553461;
-        Wed, 27 Oct 2021 21:32:33 -0700 (PDT)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id g5sm1480994pfv.107.2021.10.27.21.32.30
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=4OISxA/W7Ea7fGLkHeskh3EaoItPM6YwHT8EDyfGs54=;
+        b=kDj+TyCjzC3swI43YC8oj2Z/KxoO6u3BaMb6FRKX3J9FR+f/SQvPxSJDlSuKJo52Ix
+         n+ybkZk91ZlEyKdbVeoko32jM8A9PK07QE5UId7VAteRiCQMq5iAhWrvOxqMd17pY9ed
+         6pUm0vYXDAIGITXPjSkhHvox5KeR2Ia/+y9JlwyDdFsFQ1pUuFX4/YhUteq8IC9xJ2A0
+         24/MVquU/Xy75CaxGVmoUEcNyluJ+b+TjZ0jorfRz4VRqXMmukcO0AolV8HC2ZI3XMT3
+         NHHjQCFcg9m5I0sqf2qlsEw3MJp+p5EJ9OuzjvttbkOEC7sh5dW/Ymfc5pwXBv0kv83g
+         QDyg==
+X-Gm-Message-State: AOAM533GSQnTzK4Wx8t4UMq8ij54kptYUI4K6mfrYLNCVJVDJSFXKuiP
+	u302z6SbGjQYVEWUyXC5R0k=
+X-Google-Smtp-Source: ABdhPJwPXaA5X0uwkTX41sHOwR8seDp1Vs0plHgCBExDwyhr8UdHIM93SlAc+teWEXuCTeq+L9psUg==
+X-Received: by 2002:a62:524a:0:b0:47b:e7ba:d9e with SMTP id g71-20020a62524a000000b0047be7ba0d9emr2011564pfb.53.1635396319990;
+        Wed, 27 Oct 2021 21:45:19 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.83.133])
+        by smtp.gmail.com with ESMTPSA id m6sm1665964pfk.110.2021.10.27.21.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 21:32:33 -0700 (PDT)
-Message-ID: <00dd9a0286e194696f6cc083a98de47d709b1d9e.camel@gmail.com>
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Tsuchiya Yuto <kitakar@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-kernel@vger.kernel.org, Nable
- <nable.maininbox@googlemail.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
- "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>
-Date: Thu, 28 Oct 2021 13:32:29 +0900
-In-Reply-To: <20211017161958.44351-1-kitakar@gmail.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        Wed, 27 Oct 2021 21:45:19 -0700 (PDT)
+Date: Thu, 28 Oct 2021 10:15:13 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	marcocesati@gmail.com, dan.carpenter@oracle.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: rtl8723bs: hal remove the assignment to itself
+Message-ID: <YXoq2ViLxPVwAgLq@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-<Fixed Cc list>
+Remove the assignment of variable to itself.
+Assigning the variable to itself not make any difference on value.
 
-On Mon, 2021-10-18 at 01:19 +0900, Tsuchiya Yuto wrote:
-> [...]
->   ## taking a picture with atomisp
-> 
-> Note that to try to take a picture, please also apply at least the
-> this RFC patch ("[BUG][RFC] media: atomisp: pci: assume run_mode is
-> PREVIEW") I'll send as almost a BUG report later.
-> 
-> You need to use firmware version irci_stable_candrpv_0415_20150521_0458,
-> which is available from the intel-aero [1]
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-Just in case, the hash (as well as version) of firmware which I
-downloaded from intel-aero and I use to capture is the following:
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index cce3e7e80953..f1fc077ed29c 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -2746,19 +2746,7 @@ void rtl8723b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
+ 	struct tx_desc *pdesc;
 
-        $ sha256sum /lib/firmware/shisp_2401a0_v21.bin
-        e89359f4e4934c410c83d525e283f34c5fcce9cb5caa75ad8a32d66d3842d95c  /lib/firmware/shisp_2401a0_v21.bin
+ 	rtl8723b_fill_default_txdesc(pxmitframe, pbuf);
+-
+ 	pdesc = (struct tx_desc *)pbuf;
+-	pdesc->txdw0 = pdesc->txdw0;
+-	pdesc->txdw1 = pdesc->txdw1;
+-	pdesc->txdw2 = pdesc->txdw2;
+-	pdesc->txdw3 = pdesc->txdw3;
+-	pdesc->txdw4 = pdesc->txdw4;
+-	pdesc->txdw5 = pdesc->txdw5;
+-	pdesc->txdw6 = pdesc->txdw6;
+-	pdesc->txdw7 = pdesc->txdw7;
+-	pdesc->txdw8 = pdesc->txdw8;
+-	pdesc->txdw9 = pdesc->txdw9;
+-
+ 	rtl8723b_cal_txdesc_chksum(pdesc);
+ }
 
-        $ strings /lib/firmware/shisp_2401a0_v21.bin | grep 2015
-        irci_stable_candrpv_0415_20150521_0458
-
-Regards,
-Tsuchiya Yuto
-
-> The atomisp (ipu2), like the ipu3, needs userspace support. The libcamera
-> has now decent ipu3 support but does not have atomisp support yet.
-> 
-> I found some userspace tools for atomisp that run on Linux:
-> 
->   - capturev4l2 from intel-aero/sample-apps
->     (https://github.com/intel-aero/sample-apps/tree/master/capturev4l2)
->   - hd-camera from intel-aero/sample-apps
->     (https://github.com/intel-aero/sample-apps/tree/master/hd-camera)
->   - intel/nvt
->     (https://github.com/intel/nvt)
-> 
-> It looks like the nvt is the most feature-rich, like exposure and white
-> balance. Note that current upstreamed atomisp dropped 32-bit support.
-> So, you need to build it with `-m64` (change it in Makefile). Here is
-> the example of usage I use on mipad2:
-> 
->         $ ./v4l2n -o testimage_@.raw \
->                 --device /dev/video2 \
->                 --input 0 \
->                 --exposure=30000,30000,30000,30000 \
->                 --parm type=1,capturemode=CI_MODE_PREVIEW \
->                 --fmt type=1,width=1920,height=1080,pixelformat=NV12 \
->                 --reqbufs count=2,memory=USERPTR \
->                 --parameters=wb_config.r=32768,wb_config.gr=21043,wb_config.gb=21043,wb_config.b=30863 \
->                 --capture=2 \
-> 
->         ./raw2pnm -x1920 -y1080 -fNV12 testimage_001.raw testimage_001.pnm
->         feh *.pnm # open the converted image
->         rm testimage*
-> 
-> Note that I see the following warn/err after capture:
-> 
->         kern  :warn  : [72660.793335] atomisp-isp2 0000:00:03.0: stop stream timeout.
->         kern  :err   : [72660.973629] atomisp-isp2 0000:00:03.0: atomisp_reset
-> 
-> but I see the same message on the Android kernel, too. So, I think this
-> is not a real issue (I hope).
-> 
-> [1] https://github.com/intel-aero/meta-intel-aero-base/tree/master/recipes-kernel/linux/linux-yocto
->     filename shisp_2401a0_v21.bin
-
+--
+2.33.0
 
