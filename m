@@ -1,41 +1,41 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5122C81
-	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 10:35:58 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id m22so9399737wrb.0
-        for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 03:35:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D4D2C81
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 10:35:59 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id z200so4457007wmc.1
+        for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 03:35:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IGvktVhPA6KMBN53Q9S7sFoN48GUfEwFvixIWYHV+nI=;
-        b=Sxm6VcJphDjRh8Me8C4V+iuxN95Imhe2VFw9dMiGYEPDnIANrGILveOFbbl5lffyBq
-         dB8d5n3t5HSZK+6nhvKr3YQ+YahQaX4k7yVF08/INr4GquIYITDKfXb/vlybNYyEZc3W
-         Y5u4HcDng50sSWYpb0P8h3c7RFxzRXLhCyF9AzGJTg4Ck1mFvb2DeNkwPlh+p9ogf4+h
-         Ugn+13kuXh4IoUBkTxeSOIPoZvDEn5kyDtZ3iORy9UhPX7+eMdKUxnBubHpL572ILA1u
-         AaTokTyYHdSAbGJ3N4IdI1wIQ9mQCHPVT0L9J6OoU/9YPlBJKRYQcCqby/BjgQFBzSPO
-         nm7Q==
+        bh=ccxJHQnZxwCRL5ALIeLwb3BTgkZUnkc6gC/ao5xjt48=;
+        b=gV7VI4mX3pwtcf/Alsr8MQkZKI8NXZeWkwWgiHPJklFk1is8HdzPxEN5JWEgGffT72
+         904acUeHt5rUn9cTaf1eq6++7wGJ+0HcKg6pDDUm6Z3ViTxlfokPTn+hz3CUIpB5VfcY
+         GCqbTi473jBvB3CuhzlEG//TlQt7YN6DXD1y2myGUX8ZH6yG9ueCCqzc4uxcj2IDTpsP
+         pxIf7I6lg1CxZM7uscQbd6SGaeW6c2g4FOYbfA5tLz1VC6Xc+v3BfFuEOXhWIkZF4iNB
+         neVXtnWEPHYm7FC/mi/VrPyu+dPK35V2GpgPGlLdjrapXeMGhXV74UG+7/u0nBx6v+K7
+         4bmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IGvktVhPA6KMBN53Q9S7sFoN48GUfEwFvixIWYHV+nI=;
-        b=1Vpd9ACxtsMDdj6Ta+HbzPVDsyrweZYnAOeGLpBZPWgZF1YXoyVf2BVs0TNnwJo/2S
-         Y2BnO9ZiShF1VcTNyzWgjrpbbcMpx8dNHpjXIXb2y5Wb6OaayO8UlMzGO+OIxGfHCqqO
-         gIomPaAtgXt8iNyvDlY2MVpc9auKKDIPGygDPS+g5Y22bbw0cnCqEEWjR1JM9vCOYTJw
-         XkYxBQb3CTcRs5BpdnPpeOJ3xwZ27WjJFZU6pSFFcu8S4nR8prNzyAqEwzRP9N9brawG
-         Ynb3DLrV6YjTj/UBUAIl53WAk4pUp/U+0xFCXzPOHeBGbLL+k9LQHN5CeGydbj4g3Ilv
-         qhjQ==
-X-Gm-Message-State: AOAM530lqf+8ELhTs3W3Dz6F9zWaNtiB4vpdmoTpO6BNI/QwCj3isZTW
-	5VG4BrGpDL2qHnYFAs4Itjo=
-X-Google-Smtp-Source: ABdhPJy0OHC/Z0pjoruA7fVybjLgRInXO+fCbCQ6mm2m62n6br5IuulLDNIS8la03WanY6gQB39Osg==
-X-Received: by 2002:adf:e0c1:: with SMTP id m1mr4558338wri.241.1635417356520;
-        Thu, 28 Oct 2021 03:35:56 -0700 (PDT)
+        bh=ccxJHQnZxwCRL5ALIeLwb3BTgkZUnkc6gC/ao5xjt48=;
+        b=wYj1onco+Tw13daaiipp8SGfqGFlzxE4Z08Er8JoEMnDw3zSmyUHO6Ta+hGVXlXVZ6
+         YnNj4VZu0SFHuc+GAEg9GBLevalltCm3o6SGoq35I0aB/e1B9nU50DWwjVy1Rydo5CDd
+         0ftU3fdeX4eS5smfNRqzipQjaHVOzqTXD/wEf/9kWoTxVsT7njTcQhWlZK5IJKEWiHGU
+         xhOlC47MqjbAheDbzwYQVoqxtPovyxsi+jWW8wcnaoGWF2vvvGmW0tzrpCp6BjUfD9mm
+         ufpLbHgutsK+g3Z1ixpAbPIX8Fp+7C3ilr85lXMh3frfJjOFs63xnLh0GetWIrEN/J9c
+         F+3A==
+X-Gm-Message-State: AOAM533QAjOE1vyyE3EGUXWJiG/8KOCXb5iMj7aEmEKh/VN1oUOjsnua
+	E9L6r5Eia6BXWwVAMOGdz0Q=
+X-Google-Smtp-Source: ABdhPJx44nRJDXX//9FTvonuvJfg3H56W1xivwDLJQMgsetriJw6XNHTXTolN6qEk63mFajNcAZCvw==
+X-Received: by 2002:a1c:3bd5:: with SMTP id i204mr3569575wma.46.1635417358324;
+        Thu, 28 Oct 2021 03:35:58 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id 13sm3768083wrz.38.2021.10.28.03.35.55
+        by smtp.gmail.com with ESMTPSA id 13sm3768083wrz.38.2021.10.28.03.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Oct 2021 03:35:56 -0700 (PDT)
+        Thu, 28 Oct 2021 03:35:57 -0700 (PDT)
 From: Karolina Drobnik <karolinadrobnik@gmail.com>
 To: outreachy-kernel@googlegroups.com
 Cc: gregkh@linuxfoundation.org,
@@ -43,9 +43,9 @@ Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: [PATCH 2/7] staging: vt6655: Use incrementation in `idx`
-Date: Thu, 28 Oct 2021 11:35:32 +0100
-Message-Id: <c569952d92ba51f32679c2fd87fd48ad8e49e3fc.1635415820.git.karolinadrobnik@gmail.com>
+Subject: [PATCH 3/7] staging: vt6655: Remove unused `i` increments
+Date: Thu, 28 Oct 2021 11:35:33 +0100
+Message-Id: <79a4f03c8f2bfa555ea149ddd1c0f938dd431a0b.1635415820.git.karolinadrobnik@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1635415820.git.karolinadrobnik@gmail.com>
 References: <cover.1635415820.git.karolinadrobnik@gmail.com>
@@ -57,57 +57,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Increment `idx` in a loop instead of adding the loop counter
-`i` to do so. Thanks to this change, the cast to unsigned short
-can be removed.
+Commit c569952d92ba ("staging: vt6655: Use incrementation in `idx`")
+rendered the incrementation of `i` outside of the loop unnecessary
+so it can be deleted.
 
 Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
 ---
- drivers/staging/vt6655/rf.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/vt6655/rf.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-index f195dafb6e63..c07653566d17 100644
+index c07653566d17..ea74701917e5 100644
 --- a/drivers/staging/vt6655/rf.c
 +++ b/drivers/staging/vt6655/rf.c
-@@ -700,11 +700,11 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
- 			return false;
+@@ -703,7 +703,6 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
+ 			MACvSetMISCFifo(priv, idx++, al2230_init_table[i]);
  
- 		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
--			MACvSetMISCFifo(priv, (unsigned short)(idx + i), al2230_init_table[i]);
-+			MACvSetMISCFifo(priv, idx++, al2230_init_table[i]);
- 
--		MACvSetMISCFifo(priv, (unsigned short)(idx + i), al2230_channel_table0[channel - 1]);
-+		MACvSetMISCFifo(priv, idx++, al2230_channel_table0[channel - 1]);
- 		i++;
--		MACvSetMISCFifo(priv, (unsigned short)(idx + i), al2230_channel_table1[channel - 1]);
-+		MACvSetMISCFifo(priv, idx++, al2230_channel_table1[channel - 1]);
+ 		MACvSetMISCFifo(priv, idx++, al2230_channel_table0[channel - 1]);
+-		i++;
+ 		MACvSetMISCFifo(priv, idx++, al2230_channel_table1[channel - 1]);
  		break;
  
- 		/* Need to check, PLLON need to be low for channel setting */
-@@ -717,17 +717,17 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
- 
- 		if (channel <= CB_MAX_CHANNEL_24G) {
- 			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
--				MACvSetMISCFifo(priv, (unsigned short)(idx + i), al7230_init_table[i]);
-+				MACvSetMISCFifo(priv, idx++, al7230_init_table[i]);
- 		} else {
- 			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
--				MACvSetMISCFifo(priv, (unsigned short)(idx + i), al7230_init_table_a_mode[i]);
-+				MACvSetMISCFifo(priv, idx++, al7230_init_table_a_mode[i]);
+@@ -724,9 +723,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
  		}
  
--		MACvSetMISCFifo(priv, (unsigned short)(idx + i), al7230_channel_table0[channel - 1]);
-+		MACvSetMISCFifo(priv, idx++, al7230_channel_table0[channel - 1]);
- 		i++;
--		MACvSetMISCFifo(priv, (unsigned short)(idx + i), al7230_channel_table1[channel - 1]);
-+		MACvSetMISCFifo(priv, idx++, al7230_channel_table1[channel - 1]);
- 		i++;
--		MACvSetMISCFifo(priv, (unsigned short)(idx + i), al7230_channel_table2[channel - 1]);
-+		MACvSetMISCFifo(priv, idx++, al7230_channel_table2[channel - 1]);
+ 		MACvSetMISCFifo(priv, idx++, al7230_channel_table0[channel - 1]);
+-		i++;
+ 		MACvSetMISCFifo(priv, idx++, al7230_channel_table1[channel - 1]);
+-		i++;
+ 		MACvSetMISCFifo(priv, idx++, al7230_channel_table2[channel - 1]);
  		break;
  
- 	case RF_NOTHING:
 -- 
 2.30.2
 
