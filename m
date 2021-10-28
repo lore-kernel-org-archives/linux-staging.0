@@ -1,113 +1,129 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380B62C81
-	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 11:26:48 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id 1so4172991ljv.2
-        for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 04:26:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=DDaBBkQmi/773KYoGIavcAYqBXm2wz4Ih2cpVAOAk8s=;
-        b=G0fImp+VuElLAwq6Vsl7qDm163/nN/9FFd4ugzlJdsXZ8HGxzgNey54ZOX0aUT3ozJ
-         9qP/0y6uV8z74Gy6iQXZAz+q0230b+QVD2SHi2QG+lhEwGrvtapEO5ykYuE+h3/TZhV0
-         7/Zj+Qhd6D1dyqunJ7NaNa1OM3ICXHdFQ9j0oAlHIW2TM2mqVoW7J0cdX0L2NoLs1EbA
-         VbMrDAqt8z2zpEJIQxSrnufzftCqT+/4PVrRrdFzfmnGUX2rZr+ZiwZ54LfyA4sXUFNW
-         FrGuScvQITlgrHqPyzu1/7G6ulJk5ewDa/qRg/amthwjdj35rDIzhyUeYRfOT2IqStFQ
-         YtJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=DDaBBkQmi/773KYoGIavcAYqBXm2wz4Ih2cpVAOAk8s=;
-        b=1N3mKQHS66BkA8Z0nePZ0JlW7UaXwFJYs+gWw5OUUwHgZ6L581e/lM8Cx0EPhSsHIM
-         LyuZmpculLBhuTrrW5ebQdMTkCBWnrAlQXHatUoKiDqmO+2MZ/OXetAG9eCS+auCsUNh
-         pxe5eT8NxDi7pI8Kx8X9ljM2SRMTy4Iok1Lr2mXZtnkiOmhXIBr8+EU3CDvRFnDj0Zki
-         eeDnW/UNOHtvHbfHxMf26g10e8ORDSi06XVPLoWuge6zHpuUL3WEYNV3avv7FvG5kJmd
-         6K0N0GdHSyO5CF0zFBwIjWHqUFuEzyQG4tbNHkYp0T9cSbP0xJQoeM4AtRHZJZXqBvS8
-         fZCA==
-X-Gm-Message-State: AOAM531wwC24rjWsfTDhhVJJWMZVeqwEiGdlfOAw+q4c4aZlif0/hJsM
-	rbaBPWfs4o0Cc2g/XVANitA=
-X-Google-Smtp-Source: ABdhPJyRYa4zS0AOK4ns2HYWruJSDGORUaZFQ4/JrHw4Tt4AdPujPJss9MxDEaQi2hr5R3kIBtHYOg==
-X-Received: by 2002:a2e:9d88:: with SMTP id c8mr4182608ljj.276.1635420406281;
-        Thu, 28 Oct 2021 04:26:46 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.235.8])
-        by smtp.gmail.com with ESMTPSA id h11sm287494lfv.86.2021.10.28.04.26.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Oct 2021 04:26:45 -0700 (PDT)
-Message-ID: <d4ee4591-0642-002b-ddd8-41693c0f1ccb@gmail.com>
-Date: Thu, 28 Oct 2021 14:26:44 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5935129CA
+	for <linux-staging@lists.linux.dev>; Thu, 28 Oct 2021 11:33:08 +0000 (UTC)
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AKu29D64TDQWXMYi7ggPXwM/XdLJyesId70hD?=
+ =?us-ascii?q?6qkRc20wTiX2rauTdZggvyMczQxxZJhCo6HkBEDjexPhHPdOiOEs1PWZLWrbUQ?=
+ =?us-ascii?q?CTQr2Kg7GP/9StIVydysdtkZYlSaR4BdHqZGIWse/x6mCDfOod/A=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.84,326,1620684000"; 
+   d="scan'208";a="397625768"
+Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Oct 2021 13:32:59 +0200
+Date: Thu, 28 Oct 2021 13:32:58 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
+    forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, Karolina Drobnik <karolinadrobnik@gmail.com>, 
+    Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: Re: [Outreachy kernel] [PATCH 4/7] staging: vt6655: Introduce `data`
+ temporary variable
+In-Reply-To: <2039159.k92FijXA2m@localhost.localdomain>
+Message-ID: <alpine.DEB.2.22.394.2110281332040.9518@hadrien>
+References: <cover.1635415820.git.karolinadrobnik@gmail.com> <dc72a4c3539aed70569f66396ed3b51818bc2aea.1635415820.git.karolinadrobnik@gmail.com> <2039159.k92FijXA2m@localhost.localdomain>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] staging: rtl8712: remove the condition with no effect
-Content-Language: en-US
-To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
- florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
- alec@vc-celle.de, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YXonpdnCatbuOo8H@Sauravs-MacBook-Air.local>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <YXonpdnCatbuOo8H@Sauravs-MacBook-Air.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 10/28/21 07:31, Saurav Girepunje wrote:
-> Remove the if condition check and else code section in
-> query_rx_phy_status(). As variable cck_highpwr is assign a value of '0'
-> after this assignment, if condition check !cck_highpwr is always
-> going to be true. So remove the if condition check as well as else
-> section which will be never true.
-> 
-> After removing the if condition there is no use of local variable
-> cck_highpwr. Remove the local variable cck_highpwr.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
-
-[code snip]
-
-> +		report = pcck_buf->cck_agc_rpt & 0xc0;
-> +		report >>= 6;
-> +		switch (report) {
-> +		/* Modify the RF RNA gain value to -40, -20,
-> +		 * -2, 14 by Jenyu's suggestion
-> +		 * Note: different RF with the different
-> +		 * RNA gain.
-> +		 */
-> +		case 0x3:
-> +			rx_pwr_all = -40 - (pcck_buf->cck_agc_rpt &
-> +				     0x3e);
-
-You can move "0x3e);" part on previous line, since it will fit even 80 
-characters boundary. It will improve readability, IMO
-
-Same below.
-
-> +			break;
-> +		case 0x2:
-> +			rx_pwr_all = -20 - (pcck_buf->cck_agc_rpt &
-> +				     0x3e);
-> +			break;
-> +		case 0x1:
-> +			rx_pwr_all = -2 - (pcck_buf->cck_agc_rpt &
-> +				     0x3e);
-> +			break;
-> +		case 0x0:
-> +			rx_pwr_all = 14 - (pcck_buf->cck_agc_rpt &
-> +				     0x3e);
-> +			break;
->   		}
-> +
+Content-Type: text/plain; charset=US-ASCII
 
 
 
-With regards,
-Pavel Skripkin
+On Thu, 28 Oct 2021, Fabio M. De Francesco wrote:
+
+> On Thursday, October 28, 2021 12:35:34 PM CEST Karolina Drobnik wrote:
+> > Add a variable to store initialization tables. Use this variable
+> > in AL2230 initialization.
+> >
+> > Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+> > ---
+> >  drivers/staging/vt6655/rf.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+> > index ea74701917e5..afd202ea3356 100644
+> > --- a/drivers/staging/vt6655/rf.c
+> > +++ b/drivers/staging/vt6655/rf.c
+> > @@ -684,6 +684,7 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv,
+> unsigned char rf_type,
+> >  	unsigned short idx = MISCFIFO_SYNDATA_IDX;
+> >  	unsigned char init_count = 0;
+> >  	unsigned char sleep_count = 0;
+> > +	const unsigned long *data;
+> >
+> >  	VNSvOutPortW(iobase + MAC_REG_MISCFFNDEX, 0);
+> >  	switch (rf_type) {
+> > @@ -699,8 +700,9 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv,
+> unsigned char rf_type,
+> >  		if (init_count > (MISCFIFO_SYNDATASIZE - sleep_count))
+> >  			return false;
+> >
+> > +		data = al2230_init_table;
+> >  		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
+> > -			MACvSetMISCFifo(priv, idx++,
+> al2230_init_table[i]);
+> > +			MACvSetMISCFifo(priv, idx++, *(data++));
+>
+> Hi Karolina,
+>
+> I think you are using redundant parentheses in "* (data ++)" but understand
+> that those increments and dereferences are equivalent to "* data ++"
+> (according to the C precedence rules).
+>
+> Some time ago I suggested that you use those redundant parentheses because
+> Greg Kroah-Hartman had previously explained that he prefers not to see
+> "*foo++" because maintainers and reviewers are not required to remember the C
+> precedence rules.
+>
+> I hope my suggestion isn't based on a misunderstanding of what Greg wants
+> here and that your patch can be accepted as is.
+>
+> While we are at it, please notice that Maintainers of different subsystems
+> may see this topic from a different point of view and that they might very
+> well ask you for removing those redundant parentheses.
+>
+> I'd suggest to use grep and find out what is preferred in other subsystems,
+> when you want to contribute to other parts of Linux.
+
+Would it be better as data[i] ?
+
+Could there be a better name than "data"?  Perhaps "table"?
+
+julia
+
+
+>
+> Thanks,
+>
+> Fabio
+>
+> >  		MACvSetMISCFifo(priv, idx++,
+> al2230_channel_table0[channel - 1]);
+> >  		MACvSetMISCFifo(priv, idx++,
+> al2230_channel_table1[channel - 1]);
+> > --
+> > 2.30.2
+> >
+> > --
+> > You received this message because you are subscribed to the Google Groups
+> "outreachy-kernel" group.
+> > To unsubscribe from this group and stop receiving emails from it, send an
+> email to outreachy-kernel+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/msgid/
+> outreachy-kernel/dc72a4c3539aed70569f66396ed3b51818bc2aea.
+> 1635415820.git.karolinadrobnik%40gmail.com.
+> >
+>
+>
+>
+>
+> --
+> You received this message because you are subscribed to the Google Groups "outreachy-kernel" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to outreachy-kernel+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/outreachy-kernel/2039159.k92FijXA2m%40localhost.localdomain.
+>
