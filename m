@@ -1,95 +1,75 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC032C82
-	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 21:42:46 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id g17so10426296qtk.8
-        for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 14:42:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Yf6d4tFUMz+8SkZEpTdu+gxrEQvTmfREX/srqZ/vu/0=;
-        b=GkcQfGnIqf26srXIX9vcdl6z1nhqOZMDJiR24QW5WWc+m3GzKjkVxNl9PJxo1lelxZ
-         NnjMbgOh1rkdXz3X1wSBsSJYnEpdTsjS75XE26qCu/WN1aPRK3HjWUI3841eKqh4nTBq
-         vJcPmDWn8kjNmXeEivXqS4SxwgOCbywnlRnGgg6YjiGdiSviFz5KbpgzNVtwSkViNs66
-         BIJUV5pTsR7l5qgmrq03t8waK62M3nendgEpze1OQd8cenq26NFmR4KCxTwWeKrvTaZe
-         bsanw8QyI5tveWECRIk8x6+qBBGzAvC8Wfg7fdOQo/4f5EbPJo0c7lACqtPoMcop7PAa
-         nx2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=Yf6d4tFUMz+8SkZEpTdu+gxrEQvTmfREX/srqZ/vu/0=;
-        b=T48+ASfx3czp1hmVz1v5HDXmPlDYbTC0PAF+jV5XvddLwwVeJateFS/l7sLmHMER3K
-         HNz88lWdjAGhPqskhqL5eqKr59iepf77EsE+NU42Wat/c1Eb/eA1GEs4+DIt9SyuqoOW
-         eZviq67KCFTvyYeekq8RvUanw15x0WgMOiG1SFeuNKU06wTYphVc5PT1GnugifR/lMke
-         G114566X0D9xhNN4QqKeH07XsqILJLbdv33AjMLQTZzE2gm8/HtLZJejWhRGg4PLeSVe
-         x+nYxVnus3XAUrkUNWFp+SNp5l3F4+vatTB4Cl+zeNwgQ2vS6EmqwFJPMI8VA3RnEIed
-         +yMA==
-X-Gm-Message-State: AOAM530J3ot+w7cSJeoWGjAklD8JM8kQljW1FGYnI+3xJVeS+dr9x5sl
-	gDyiav5EoN+rDwOdn6tnlBU=
-X-Google-Smtp-Source: ABdhPJz4CusR5kP4o08FRFyFWwgEIzwehzVtdZx/ajcMJGCs+E01cLEY/n04jG7cPXGSf+sbhLcieQ==
-X-Received: by 2002:a05:622a:1441:: with SMTP id v1mr14827659qtx.45.1635543765601;
-        Fri, 29 Oct 2021 14:42:45 -0700 (PDT)
-Received: from ubuntu-mate-laptop.eecs.ucf.edu ([132.170.15.255])
-        by smtp.gmail.com with ESMTPSA id q4sm5212760qtw.19.2021.10.29.14.42.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Oct 2021 14:42:45 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-From: Julian Braha <julianbraha@gmail.com>
-To: gregkh@linuxfoundation.org,
-	arnd@arndb.de,
-	fabioaiuto83@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	fazilyildiran@gmail.com
-Subject: [PATCH] staging: rtl8723bs: fix unmet dependency on CRYPTO for CRYPTO_LIB_ARC4
-Date: Fri, 29 Oct 2021 17:42:44 -0400
-Message-Id: <20211029214244.17341-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1F62C82
+	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 22:08:33 +0000 (UTC)
+Received: from mail-wr1-f50.google.com ([209.85.221.50]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MqsL3-1n2wMr0nOT-00mrzO for <linux-staging@lists.linux.dev>; Sat, 30 Oct
+ 2021 00:08:32 +0200
+Received: by mail-wr1-f50.google.com with SMTP id d27so884181wrb.6
+        for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 15:08:32 -0700 (PDT)
+X-Gm-Message-State: AOAM531QLFJJt3h2wYUX3EyrtB0WCUFOyol5exIxlGB+rhYBMc1IO/lZ
+	pAJ4UyJi5E1MXrKnOBIAp82m/yWExBw8rHvpzxI=
+X-Google-Smtp-Source: ABdhPJwDOca8ffBixEPllikPdfg5ONXLu8oOt6PFxJsramgRAu0zcyYo2Y06yib1kHBUHoxS+NxxOADS3pvm86qnK1A=
+X-Received: by 2002:a05:600c:4f42:: with SMTP id m2mr22891965wmq.82.1635545311718;
+ Fri, 29 Oct 2021 15:08:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211029214244.17341-1-julianbraha@gmail.com>
+In-Reply-To: <20211029214244.17341-1-julianbraha@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Sat, 30 Oct 2021 00:08:16 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0dOMOzP6GF-T4eR38=pG2OBNh20LOVZhvuSZ6EGVH0Sg@mail.gmail.com>
+Message-ID: <CAK8P3a0dOMOzP6GF-T4eR38=pG2OBNh20LOVZhvuSZ6EGVH0Sg@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: fix unmet dependency on CRYPTO for CRYPTO_LIB_ARC4
+To: Julian Braha <julianbraha@gmail.com>
+Cc: gregkh <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, fazilyildiran@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:IzLgmtxhPCMDcr1GMCOb/NlUZc400JmeNarOqVDIpDf4+Xn6bYi
+ OP8GdeOJAr44wkmyCtYGPoSTfBhgkuCLzFXPxV4ttGkS4ojeCynkBDXtBsDS2zWTQOZTUVo
+ 3ylMzwsF8Qe7BRvwB+bszxrNSA9VGIpICxy7wYRhp600iaf7WbFzFycmb2uQ/04WaHY16Vb
+ ZNbA/9MnsQUQjZz402veQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oneRjDq7oDE=:8MS56ME7GIgjfRTFtZvA2i
+ /aZx/539LYdQHChTWcYaZvEzMoSaIgax8eq2XiYFm0xtLhbzcD0i96gIV1IrkLTDiMKj69qq6
+ CVhOYgCOisyq4SJ6mwGEswdweeTnEWSXy7SoRo1U64gtBQciK0BTb2zK35VK2s376ODgGvKDc
+ f02Au7prXK687DyzuhTGriW3K+7x8uNjYN0I1W77srMOVlWkejmVjFN8jVuGeuUcxBtxarW3w
+ jNjM1T9BuP1nCnhTXxhxbSx15i6/gE9l4PJ1qi4yAfNMlk3ocZF2/B3Vl/h+r6q6oZUxuoDLM
+ J18rmeBrnSMdge4g1JKTCceYO/18CV4+0IWk6qmmnxag8fijQJRzKUQ4/r8zd665ffTOKXhsN
+ LVPcrdUbI7D+A1wAXndjRBb3dQNQcNpZ7PMGjLofuqdtS6AjA5WQhv5k00Fu1o5P0O5yfgdrD
+ lSXSvo7PRulVhAc2RxEFsO1zMPBG3jMzrpBHyuec+64WI3yypC2Gh3shgjgC2H6cbGbgZBzmw
+ Xt6MtoMsolyMn4TvPSh9nwIKsRGcppSsUBBX5JE+Sd/tVhKYV6ujg2LoGO6kK5As2oiE/cvqQ
+ qvYLaAbLJrrxaZs+vNaGBYhf05ZNyNO5/ouGXj3aw+fwULV+8RP/DCCdOoWWu6Xx1/ir4RW+c
+ TrTfCN9PAyQmQoMELOXySND1Yarr0iGmMiLAM6V9931nfI98O/8K1O3KADPfc01nH6KCRIl+5
+ 2UsKykuLiJzZyhU5rDfdGbDm0oshOFDUGx/Eg7ipokiM2cnG/OLtNUmkesCEkXJqP0doBc2gW
+ D4ULDYsNE4Zp30SW1ILi1VCFVo/0oZEifrOxmG9X18NtPSPJ8A=
 
-When RTL8723BS is selected, and CRYPTO is not selected,
-Kbuild gives the following warning:
+On Fri, Oct 29, 2021 at 11:42 PM Julian Braha <julianbraha@gmail.com> wrote:
+>
+> When RTL8723BS is selected, and CRYPTO is not selected,
+> Kbuild gives the following warning:
+>
+> WARNING: unmet direct dependencies detected for CRYPTO_LIB_ARC4
+>   Depends on [n]: CRYPTO [=n]
+>   Selected by [m]:
+>   - RTL8723BS [=m] && STAGING [=y] && WLAN [=y] && MMC [=y] && CFG80211 [=y] && m && MODULES [=y]
+>   - RTLLIB_CRYPTO_WEP [=m] && STAGING [=y] && RTLLIB [=m]
+>
+> This is because RTL8723BS selects CRYPTO_LIB_ARC4
+> without selecting CRYPTO, despite CRYPTO_LIB_ARC4
+> depending on CRYPTO.
+>
+> This unmet dependency bug was detected by Kismet,
+> a static analysis tool for Kconfig. Please advise
+> if this is not the appropriate solution.
+>
+> Signed-off-by: Julian Braha <julianbraha@gmail.com>
 
-WARNING: unmet direct dependencies detected for CRYPTO_LIB_ARC4
-  Depends on [n]: CRYPTO [=n]
-  Selected by [m]:
-  - RTL8723BS [=m] && STAGING [=y] && WLAN [=y] && MMC [=y] && CFG80211 [=y] && m && MODULES [=y]
-  - RTLLIB_CRYPTO_WEP [=m] && STAGING [=y] && RTLLIB [=m]
-
-This is because RTL8723BS selects CRYPTO_LIB_ARC4
-without selecting CRYPTO, despite CRYPTO_LIB_ARC4
-depending on CRYPTO.
-
-This unmet dependency bug was detected by Kismet,
-a static analysis tool for Kconfig. Please advise
-if this is not the appropriate solution.
-
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
----
- drivers/staging/rtl8723bs/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/staging/rtl8723bs/Kconfig b/drivers/staging/rtl8723bs/Kconfig
-index f40b3021fe8a..f23e29b679fb 100644
---- a/drivers/staging/rtl8723bs/Kconfig
-+++ b/drivers/staging/rtl8723bs/Kconfig
-@@ -4,6 +4,7 @@ config RTL8723BS
- 	depends on WLAN && MMC && CFG80211
- 	depends on m
- 	select CFG80211_WEXT
-+	select CRYPTO
- 	select CRYPTO_LIB_ARC4
- 	help
- 	This option enables support for RTL8723BS SDIO drivers, such as
--- 
-2.30.2
-
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
