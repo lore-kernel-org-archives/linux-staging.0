@@ -1,92 +1,106 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AA62C87
-	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 08:49:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D72CB61157;
-	Fri, 29 Oct 2021 08:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635497380;
-	bh=nHj/PtqTShC5DJeCKQQ6eaD/es2mjzAYoWFJcIhmDyQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=omM6eedfyGm8EOPeolv3AjpcpBnkgylGVXH0NDzaresfz2OK8yi5u/04BNzSu1ToZ
-	 AyOz/2aSChTYh5OIaDVRL2WJCzi3x9VP/Ihw3MHhA2d+wzUFqiOXMDn1cwKECD94yr
-	 9aViirPeb87jr/TvGbpwcAPWOSJezoO00R4xDaf3Oz7SMFLRx9BbjTp/ZBXOTp+mtU
-	 YMXtgQL2CPpsjVIfBn35EHV5eq+3w7K6rpsmBOPnjlP6K6otzggVH7n2Gyhso/R8tR
-	 NHdNJa9yggC3y6VjQcTC8BHMg8kaF8ypITbnfIp43grtkWiqFJS6FiM9kxVpdBQujA
-	 /59rfnQxw9AEQ==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mgNZx-002sAM-S6; Fri, 29 Oct 2021 09:49:37 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alan <alan@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 2/2] media: atomisp: set default mode
-Date: Fri, 29 Oct 2021 09:49:36 +0100
-Message-Id: <543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <750e50daa3ed65a7eb060cb0eb5cfc60dc9386be.1635497370.git.mchehab+huawei@kernel.org>
-References: <750e50daa3ed65a7eb060cb0eb5cfc60dc9386be.1635497370.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B462C87
+	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 09:02:35 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id 5so35536547edw.7
+        for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 02:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nS6jYz3cucdlFDbq8U4H9S+iq+KrEhV7Y5RCLPWPosQ=;
+        b=KYyQ+UCosdWW8cktMHLXpCWFab8PSevDJTpCqDaFhtfc7I2yFhh89rWYfyoU4A6puw
+         7TSL6WwBgPfhlG3vz+A782SK5LRvJB968inOI0Z4Rua30P8LeZ6YExu3x0Y0V25c5u1m
+         T2t7BZ20xwlTFeZQ71GUckB8SuwCoh6geXVxFXAN/CA2GBI8fgQQB6/p2OilcMPJhgNe
+         a2FdeFAT2qmZ5BPilVH1q3LhNfhLj2OVOLaggErYPk982qVn0pCIXTHtPEfm2EQJ5pD8
+         EoM1KI5mYXIPppAaxltzHVirRKUmU0/7LrsnzYNuY7ffs8VdJiYGs98qhZGF/t5wIV/H
+         O38Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nS6jYz3cucdlFDbq8U4H9S+iq+KrEhV7Y5RCLPWPosQ=;
+        b=wVPBAaHDTK3bjSBqeOdLwxLM7WpY2nIOa9lAI5bztZwjXomd912742JUhRB081Zriu
+         jvkLR3dXx8hwZBktoHPlscLRZYNnoCqKGpiPkTRr08ShtX0bic18vgwopeVLgBqYucUx
+         Gv9r1W4aXwPQGcx9QhZhIzgvYPjNwyqUJ8e/HUG6jMrTeJm4avKeIILVB0aSww5VMZ95
+         2FoqB2HXVPTdwpKWB/z18/zazaJdrpvxwgZJyBGAfk0QqoVfK5ffm2htFOGiZO/v2jw+
+         f7A+wWbwKIDtkAtjpeHjH7jUoedyM75/tRDGxtTB0zrSxOfr97ToUxVYo91tK/lSat9e
+         KoXA==
+X-Gm-Message-State: AOAM530QZ3ovdiVKGSrJUYv5r7HL8zF8jUbk64X6d3Zyine9IgSLADRk
+	Gw2h+zH1/LWWKjQcQxRLB363QQLW9nsSjYyLoew=
+X-Google-Smtp-Source: ABdhPJyLcuIsKbG0bGqnhJj0qA6UJfcpoDtHFA5pKI1/PedSJpot0rg1uyEzdU0A/2ZimDEByF+LX4XUhW5xZZtxzxY=
+X-Received: by 2002:a50:9ee3:: with SMTP id a90mr7723267edf.224.1635498153395;
+ Fri, 29 Oct 2021 02:02:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <750e50daa3ed65a7eb060cb0eb5cfc60dc9386be.1635497370.git.mchehab+huawei@kernel.org>
+In-Reply-To: <750e50daa3ed65a7eb060cb0eb5cfc60dc9386be.1635497370.git.mchehab+huawei@kernel.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 29 Oct 2021 12:01:57 +0300
+Message-ID: <CAHp75VdaTEOaGhA43O1==Deg_0Ej_ZzOp8AX5NKZB5zegN42Pg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: atomisp: better describe get_frame_info issues
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linuxarm <linuxarm@huawei.com>, mauro.chehab@huawei.com, 
+	Aditya Srivastava <yashsri421@gmail.com>, Alex Dewar <alex.dewar90@gmail.com>, 
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Baokun Li <libaokun1@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Kaixu Xia <kaixuxia@tencent.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Yang Li <abaci-bugfix@linux.alibaba.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Without setting a default mode at open(), applications that
-don't call VIDIOC_SET_PARM with a custom atomisp parameters
-won't work, as the pipeline won't be set:
+On Fri, Oct 29, 2021 at 11:50 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> When atomisp is used by a normal client, it fails to get
+> frame info. However, the information is confusing and misleading,
+> as there are several wrappers for such function, and the error
+> could be on different places.
+>
+> So, improve the error log in order to allow narrowing down
+> where the error is actually occuring.
 
-	atomisp-isp2 0000:00:03.0: can't create streams
-	atomisp-isp2 0000:00:03.0: __get_frame_info 1600x1200 (padded to 0) returned -22
+...
 
-So, as an step to allow generic apps to use this driver, put
-the device's run_mode in preview after open.
+> +       switch (type) {
+> +       case ATOMISP_CSS_VF_FRAME:
+> +               *info = p_info.vf_output_info[0];
+> +               dev_dbg(isp->dev, "getting vf frame info.\n");
+> +               break;
+> +       case ATOMISP_CSS_SECOND_VF_FRAME:
+> +               *info = p_info.vf_output_info[1];
+> +               dev_dbg(isp->dev, "getting second vf frame info.\n");
+> +               break;
+> +       case ATOMISP_CSS_OUTPUT_FRAME:
+> +               *info = p_info.output_info[0];
+> +               dev_dbg(isp->dev, "getting main frame info.\n");
+> +               break;
+> +       case ATOMISP_CSS_SECOND_OUTPUT_FRAME:
+> +               *info = p_info.output_info[1];
+> +               dev_dbg(isp->dev, "getting second main frame info.\n");
+> +               break;
+> +       case ATOMISP_CSS_RAW_FRAME:
+> +               *info = p_info.raw_output_info;
+> +               dev_dbg(isp->dev, "getting raw frame info.\n");
 
-After this patch, using v4l2grab starts to work:
+Can we get break; here followed by default case?
 
-	$ v4l2grab -D -f 'NV12' -x 1600 -y 1200 -d /dev/video2 -u
-	$ nvt/raw2pnm -x1600 -y1200 -f NV12 out017.raw out017.pnm
-	$ feh out017.pnm
+>         }
+> +       dev_dbg(isp->dev, "get frame info: w=%d, h=%d, num_invalid_frames %d.\n",
+> +               info->res.width, info->res.height, p_info.num_invalid_frames);
+> +
+> +       return 0;
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 72cbdce2142a..7df982c80b1a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -893,6 +893,11 @@ static int atomisp_open(struct file *file)
- 	else
- 		pipe->users++;
- 	rt_mutex_unlock(&isp->mutex);
-+
-+	/* Ensure that a mode is set */
-+	if (asd)
-+		v4l2_ctrl_s_ctrl(asd->run_mode, ATOMISP_RUN_MODE_PREVIEW);
-+
- 	return 0;
- 
- css_error:
 -- 
-2.31.1
-
+With Best Regards,
+Andy Shevchenko
