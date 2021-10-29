@@ -1,92 +1,127 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BF42C87
-	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 19:27:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 991A560D07;
-	Fri, 29 Oct 2021 19:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635535635;
-	bh=wrlLeaQdneJCXxuP2usLUeHJCtlIqSI7Y3L+CH69mxU=;
-	h=Date:From:Cc:Subject:In-Reply-To:References:From;
-	b=jXJ+MEO9tauSPjIXg/9z5IS4SEDkwJbPc4i/XBxCCUOrF2VlDxvo59AETs6OfWLbN
-	 03bgkgn1ZwDSwEeu5szeZGJVqIIK4Ln3yu1uJrDyxPpeli74+1iFZf3VuPTyhoNeWO
-	 YBmrtEMPi15YxRW7oMQphxzMV0pSEfv9gbeH2MV2KDPGs/OqwbHpSwKowO4cVRlZrd
-	 v9JYleR8pTx2wETYLVLORTVdIEfYVEEqRtI+AywcoI78zbnQGpBzy/rD7g21EfOY/V
-	 is+B7IXqRFEOFLooZulKzm9TKZ5fQlFa5HxySlXHf/cIFpjc7Gkh04af0eQnDTsKvX
-	 s5paGvJEmBBNw==
-Date: Fri, 29 Oct 2021 20:27:09 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Alan
- <alan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tomi
- Valkeinen <tomi.valkeinen@ideasonboard.com>, Tsuchiya Yuto
- <kitakar@gmail.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] media: atomisp: set default mode
-Message-ID: <20211029202709.755b9a6b@sal.lan>
-In-Reply-To: <543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org>
-References: <750e50daa3ed65a7eb060cb0eb5cfc60dc9386be.1635497370.git.mchehab+huawei@kernel.org>
-	<543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AAE2C87
+	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 20:01:13 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id o4so14907574oia.10
+        for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 13:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PHumhMIUr438aWWlrs+78cdgsF1iUwE1HgS3gt+l/Ls=;
+        b=qSwRjZWjohXQH7S/AeV/tL1D+waYUomj9nwx2FRu9gr84XTV+znEdx3TbITF/Fc3sz
+         RlulexcGv2ic9dbKiDvM786MBVDSLC0zfCO7j9q5kM8rHP0PDlr3sA0D7kt1hBvRtJd3
+         tHLUoGaCdkk3Q1M2aSeYi8TKIg9RkhTPevPa2equkrz0iPhp+ajmqcZKSZoP6Eg7zy8V
+         IcdlVxBvbpRmqQCZqdP3thsz14hIPaV+lHmidDNU9DKpj6T8vYZHHrppF5PXbUtHPz3O
+         UWyzrfLa19f3BLTKDOPCYrlasARJyQqML7Qi2A7yXi/qyNKiQyXhz7xmx+joEORhFvKW
+         Sgdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PHumhMIUr438aWWlrs+78cdgsF1iUwE1HgS3gt+l/Ls=;
+        b=sxFtrT4PsRse8cpVGtB8g/SY9c99aPi2la+uyvOt7VSiljrFS2dDdPWRzG5uJ/COWA
+         3IPFTnp6TCLjvkgIDBsD46FND2hkuqcNhafm1K/5TLo9Xm+ARiPfcWj49MA2l+tSZada
+         TJJZ8QW7IJXVeZgpf+XwK7QsAubgKwp+sZa1gUxjz+6/WrAB8BL2NrbK5b2BLLBixuRY
+         gRmX/fBthrmIXKNRAbA2OE8YuhZ1tySFwlxxqfWtCKhwS/3hp6TsKGeR9qG0BVfjnJGu
+         2IqedYTguLdHKnzl/8qX7AdgsP45LqAbBSPKhGo4BcKhyYKnYf874OwHSeRJmafpkwis
+         eS3g==
+X-Gm-Message-State: AOAM533E9pIjhpSWkfisDM1xKGbEw4DUe/NW/UH1Xvu5wjJZ6IRTMzGA
+	Sjn6MPRv1yP8GEKlZeZWX0ckWJQmR7s=
+X-Google-Smtp-Source: ABdhPJzeBQkPFaHl2wBYEVOxaarNNmQ1BtUFuNj4uSlEJXQcPIQL5Evmiu4WHVAMmvGxXGLHJPlR3Q==
+X-Received: by 2002:a05:6808:23ca:: with SMTP id bq10mr9944414oib.6.1635537672112;
+        Fri, 29 Oct 2021 13:01:12 -0700 (PDT)
+Received: from localhost.localdomain ([181.23.79.14])
+        by smtp.gmail.com with ESMTPSA id w5sm2180498otq.46.2021.10.29.13.01.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Oct 2021 13:01:11 -0700 (PDT)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	nsaenz@kernel.org,
+	stefan.wahren@i2se.com,
+	arnd@arndb.de,
+	dan.carpenter@oracle.com,
+	ojaswin98@gmail.com,
+	amarjargal16@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH v2] staging: vchiq_core: get rid of typedef
+Date: Fri, 29 Oct 2021 17:00:12 -0300
+Message-Id: <20211029200012.45986-1-gascoar@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Fri, 29 Oct 2021 09:49:36 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+The typedef BITSET_T is acting as a synonym of u32. However, using the type u32
+directly makes the code more readable. Furthermore, typedef should only be used
+in some cases, [1]. Hence, get rid of it.
 
-> Without setting a default mode at open(), applications that
-> don't call VIDIOC_SET_PARM with a custom atomisp parameters
-> won't work, as the pipeline won't be set:
-> 
-> 	atomisp-isp2 0000:00:03.0: can't create streams
-> 	atomisp-isp2 0000:00:03.0: __get_frame_info 1600x1200 (padded to 0) returned -22
-> 
-> So, as an step to allow generic apps to use this driver, put
-> the device's run_mode in preview after open.
-> 
-> After this patch, using v4l2grab starts to work:
-> 
-> 	$ v4l2grab -D -f 'NV12' -x 1600 -y 1200 -d /dev/video2 -u
-> 	$ nvt/raw2pnm -x1600 -y1200 -f NV12 out017.raw out017.pnm
-> 	$ feh out017.pnm
+[1] Documentation/process/coding-style.rst
 
-Added support for YUYV at v4l2grab (at contrib/test, under v4l-utils). 
-The above can now be just:
+Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+---
+v1 -> v2: improve changelog specifing which typedef is being removed.
 
-	$ v4l2grab -f YUYV  -x 1600 -y 1200 -d /dev/video2 -u
-	$ feh out017.pnm
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.c  | 6 +++---
+ .../staging/vc04_services/interface/vchiq_arm/vchiq_core.h  | 4 +---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
 
-(on a side note, the colorspace conversion from YUYV seems ackward,
-but this can be adjusted later on at the toolset and/or at atomisp)
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index ab97a35e63f9..7fe20d4b7ba2 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -711,7 +711,7 @@ reserve_space(struct vchiq_state *state, size_t space, int is_blocking)
+ }
+ 
+ static void
+-process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
++process_free_data_message(struct vchiq_state *state, u32 *service_found,
+ 			  struct vchiq_header *header)
+ {
+ 	int msgid = header->msgid;
+@@ -767,7 +767,7 @@ process_free_data_message(struct vchiq_state *state, BITSET_T *service_found,
+ 
+ /* Called by the recycle thread. */
+ static void
+-process_free_queue(struct vchiq_state *state, BITSET_T *service_found,
++process_free_queue(struct vchiq_state *state, u32 *service_found,
+ 		   size_t length)
+ {
+ 	struct vchiq_shared_state *local = state->local;
+@@ -1981,7 +1981,7 @@ recycle_func(void *v)
+ {
+ 	struct vchiq_state *state = v;
+ 	struct vchiq_shared_state *local = state->local;
+-	BITSET_T *found;
++	u32 *found;
+ 	size_t length;
+ 
+ 	length = sizeof(*found) * BITSET_SIZE(VCHIQ_MAX_SERVICES);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 3e50910ecba3..53a98949b294 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -74,9 +74,7 @@
+ 	((fourcc) >>  8) & 0xff, \
+ 	(fourcc) & 0xff
+ 
+-typedef u32 BITSET_T;
+-
+-static_assert((sizeof(BITSET_T) * 8) == 32);
++static_assert((sizeof(u32) * 8) == 32);
+ 
+ #define BITSET_SIZE(b)        ((b + 31) >> 5)
+ #define BITSET_WORD(b)        (b >> 5)
+-- 
+2.33.1
 
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_fops.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> index 72cbdce2142a..7df982c80b1a 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> @@ -893,6 +893,11 @@ static int atomisp_open(struct file *file)
->  	else
->  		pipe->users++;
->  	rt_mutex_unlock(&isp->mutex);
-> +
-> +	/* Ensure that a mode is set */
-> +	if (asd)
-> +		v4l2_ctrl_s_ctrl(asd->run_mode, ATOMISP_RUN_MODE_PREVIEW);
-> +
->  	return 0;
->  
->  css_error:
