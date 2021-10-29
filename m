@@ -1,129 +1,198 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BFA2C87
-	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 09:03:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D7E3461179;
-	Fri, 29 Oct 2021 09:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D432C81
+	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 13:25:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E5B561167;
+	Fri, 29 Oct 2021 13:25:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635498185;
-	bh=MBRBqnIahHscUii/Hqj9f4+8UuGf7NTR97e/S6KsWEM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sWo9oHoGwbh1PKR2KhlMKJ5WBY2+dDXY622nCsjZaJ05mtkiIliWzdUGpprc2GTUR
-	 ehIs5rb4CV0dnBRitpKsW8zdzAQOqcuWQCdIu31DccJ+dTPfx0g3tEs6ub0o8kiCms
-	 bWRKfuoT2nMbhI+8hXlp6tR6Uxm9cvUUR5VDECqsz/yfaRM4K9zsb6ENzyezg7vYkq
-	 gyMwkMgbkeC5LlubtrTs+K52+DwqAjxLxmfmnYeyZJfFv4OCst8y7ABAQQv7QK0B5t
-	 pj6OmzAchTJ731+goVsLgSu4Fh+cylA/1aunoqWItPBrD9pU7rQDxV6P1xLKEQhDvV
-	 jPsNanmLN51iw==
-Date: Fri, 29 Oct 2021 10:02:59 +0100
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Tsuchiya Yuto <kitakar@gmail.com>
-Cc: unlisted-recipients:; (no To-header on input)@bombadil.infradead.org,
- Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Dan Carpenter
- <dan.carpenter@oracle.com>, Arnd Bergmann <arnd@arndb.de>, Kaixu Xia
- <kaixuxia@tencent.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [BUG/RFC PATCH 1/5] [BUG][RFC] media: atomisp: pci: assume
- run_mode is PREVIEW
-Message-ID: <20211029100259.2cdfdfce@sal.lan>
-In-Reply-To: <20211017162337.44860-2-kitakar@gmail.com>
-References: <20211017162337.44860-1-kitakar@gmail.com>
-	<20211017162337.44860-2-kitakar@gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1635513930;
+	bh=+RnqNEo86g+pwCtg0yvYRDENv2czIXcrxcwDKdiKWQc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZHTmh4ANXu+8xmhlyByehrapbXIB9HbHpGKkqcVSSjt21DxYm/olgb8iVQvi7V2Xt
+	 QuGqY05qQjWaAZ+ewQPqWKGbMPZ80zIvmAkZDx49zaKiWz41xt6DLICQ5rgdBv3Zt2
+	 XrrulEiHtpSvrabRFuMesVf+99okZ5vT1o4cwzROLkMsOHytrtGoOQPUXS1uB51Am1
+	 w/hJRlRnDDvrAFFQQCMyErEEsP2uixOqyG3/jvyxEw6Uoczaw000O5lttF/PldDwAL
+	 9LqZDwWAXNTmVPS6Yv+4fSl4SrATU5HeiQH3Qm2VVOaJmoCj9hSttTne/hVTmaB4WY
+	 d9nlksYhQRpJw==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mgRst-0032Ic-DE; Fri, 29 Oct 2021 14:25:27 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Alex Dewar <alex.dewar90@gmail.com>,
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Kaixu Xia <kaixuxia@tencent.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yang Li <abaci-bugfix@linux.alibaba.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: properly implement g_fmt
+Date: Fri, 29 Oct 2021 14:25:23 +0100
+Message-Id: <7be615799148168ca454df998aaa1e0b224b4328.1635513916.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Em Mon, 18 Oct 2021 01:23:32 +0900
-Tsuchiya Yuto <kitakar@gmail.com> escreveu:
+The current logic only initializes pipe->pix after setting up a
+pipeline - e. g. after start streaming.
 
-> This is almost a BUG report with a patch to just make atomisp work
-> again with the current mainline kernel. Thus, prefixed with [BUG][RFC].
-> 
-> RFC:
->   1. When looking at the `case CI_MODE_NONE:`, it tries to do something.
->      So, it should rather work with CI_MODE_NONE, too? Just I don't know
->      how to configure userspace apps to use CI_MODE_NONE ?
->   2. How can we re-add the run mode support again without relying on
->      the s_parm ?
-> 
-> >8-----------------------------------------------------------------8<  
-> 
-> After the commit 8a7c5594c020 ("media: v4l2-ioctl: clear fields in s_parm")
-> added on v4.18 (backported to v4.9.182 and v4.14.127), the capture mode
-> flag is cleared (except for V4L2_MODE_HIGHQUALITY).
-> 
-> Due to this, it seems that now we can't use this flag to set atomisp
-> run_mode. This results in capture not working with the following message
-> (loaded atomisp driver with dbg_level=1):
-> 
-> 	kern  :warn  : [ 3658.776616] ia_css_pipe_get_info: ia_css_stream_create needs to be called before ia_css_[stream/pipe]_get_info
-> 	kern  :err   : [ 3658.776641] atomisp-isp2 0000:00:03.0: get_frame_info 1920x1080 (padded to 0)
-> 	kern  :warn  : [ 3658.776666] atomisp-isp2 0000:00:03.0: Can't set format on ISP. Error -22
-> 
-> So, when we can't detect run mode from the s_parm capturemode
-> (CI_MODE_NONE), let's assume the run mode is PREVIEW.
+While it makes sense to get the format of the pipeline, when
+it is set, this breaks support for generic applications, as they
+rely on getting the current sensor format (which is usually the
+highest resolution format).
 
-The run_mode on this driver is related to how camera works on Android.
-On such systems, camera have a preview mode, which is what the user
-views at the camera display. This is usually set to the display
-resolution (or to some other resolution that would allow a high
-fps rate). When the photo button is clicked, it sets the camera to
-the highest resolution mode (by default), which usually means a low
-fps rate.
+So, implement a call to the sensor's get_fmt, when this is called
+before setting up a pipeline.
 
-This doesn't make much sense on desktops, nor standard Linux apps
-support that.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 13 +-----
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |  4 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 44 +++++++++++++++++--
+ 3 files changed, 45 insertions(+), 16 deletions(-)
 
-Anyway, after looking on this patch, I guess the best is to apply
-this patch instead:
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 70c8e86c3205..6b308c81ef77 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -2034,7 +2034,7 @@ static int raw_output_format_match_input(u32 input, u32 output)
+ 	return -EINVAL;
+ }
+ 
+-static u32 get_pixel_depth(u32 pixelformat)
++u32 atomisp_get_pixel_depth(u32 pixelformat)
+ {
+ 	switch (pixelformat) {
+ 	case V4L2_PIX_FMT_YUV420:
+@@ -4816,15 +4816,6 @@ int atomisp_get_sensor_mode_data(struct atomisp_sub_device *asd,
+ 	return 0;
+ }
+ 
+-int atomisp_get_fmt(struct video_device *vdev, struct v4l2_format *f)
+-{
+-	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+-
+-	f->fmt.pix = pipe->pix;
+-
+-	return 0;
+-}
+-
+ static void __atomisp_update_stream_env(struct atomisp_sub_device *asd,
+ 					u16 stream_index, struct atomisp_input_stream_info *stream_info)
+ {
+@@ -4973,7 +4964,7 @@ atomisp_try_fmt_file(struct atomisp_device *isp, struct v4l2_format *f)
+ 		return -EINVAL;
+ 	}
+ 
+-	depth = get_pixel_depth(pixelformat);
++	depth = atomisp_get_pixel_depth(pixelformat);
+ 
+ 	if (field == V4L2_FIELD_ANY) {
+ 		field = V4L2_FIELD_NONE;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+index e8bdd264d31b..fb848d716947 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
+@@ -266,8 +266,6 @@ int atomisp_compare_grid(struct atomisp_sub_device *asd,
+ int atomisp_get_sensor_mode_data(struct atomisp_sub_device *asd,
+ 				 struct atomisp_sensor_mode_data *config);
+ 
+-int atomisp_get_fmt(struct video_device *vdev, struct v4l2_format *f);
+-
+ /* This function looks up the closest available resolution. */
+ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
+ 		    bool *res_overflow);
+@@ -341,6 +339,8 @@ enum atomisp_metadata_type
+ atomisp_get_metadata_type(struct atomisp_sub_device *asd,
+ 			  enum ia_css_pipe_id pipe_id);
+ 
++u32 atomisp_get_pixel_depth(u32 pixelformat);
++
+ /* Function for HAL to inject a fake event to wake up poll thread */
+ int atomisp_inject_a_fake_event(struct atomisp_sub_device *asd, int *event);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 29826f8e4143..37542ea17a38 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -838,15 +838,53 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
+ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 			     struct v4l2_format *f)
+ {
++	struct v4l2_subdev_format fmt = {
++		.which = V4L2_SUBDEV_FORMAT_ACTIVE
++	};
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct atomisp_device *isp = video_get_drvdata(vdev);
+-
++	struct v4l2_fmtdesc fmtdesc = { 0 };
++	struct atomisp_video_pipe *pipe;
++	struct atomisp_sub_device *asd;
++	struct v4l2_subdev *camera;
++	u32 depth;
+ 	int ret;
+ 
+ 	rt_mutex_lock(&isp->mutex);
+-	ret = atomisp_get_fmt(vdev, f);
++	pipe = atomisp_to_video_pipe(vdev);
+ 	rt_mutex_unlock(&isp->mutex);
+-	return ret;
++
++	f->fmt.pix = pipe->pix;
++	if (!f->fmt.pix.width) {
++		asd = atomisp_to_video_pipe(vdev)->asd;
++		if (!asd)
++		    return -EINVAL;
++
++		camera = isp->inputs[asd->input_curr].camera;
++		if(!camera)
++			return -EINVAL;
++
++		ret = atomisp_enum_fmt_cap(file, fh, &fmtdesc);
++		if (ret)
++			return ret;
++
++		rt_mutex_lock(&isp->mutex);
++		ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
++				       pad, get_fmt, NULL, &fmt);
++		rt_mutex_unlock(&isp->mutex);
++		if (ret)
++			return ret;
++
++		v4l2_fill_pix_format(&f->fmt.pix, &fmt.format);
++
++		f->fmt.pix.pixelformat = fmtdesc.pixelformat;
++	}
++
++	depth = atomisp_get_pixel_depth(f->fmt.pix.pixelformat);
++	f->fmt.pix.bytesperline = (f->fmt.pix.width * depth) >> 3;
++	f->fmt.pix.sizeimage = f->fmt.pix.height * f->fmt.pix.bytesperline;
++
++	return 0;
+ }
+ 
+ static int atomisp_g_fmt_file(struct file *file, void *fh,
+-- 
+2.31.1
 
-	https://lore.kernel.org/linux-media/543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org/T/#u
-
-As a plus side, it is also one step further to allow generic apps to
-use the atomisp driver.
-
-Applying it allowed me to do:
-
-	$ v4l2grab -D -f 'NV12' -x 1600 -y 1200 -d /dev/video2 -u
-	$ nvt/raw2pnm -x1600 -y1200 -f NV12 out017.raw out017.pnm
-	$ feh out017.pnm
-
-So, I'm dropping patch 1/5 from media_stage, replacing it by the one which
-sets the mode after open().
-
-Regards,
-Mauro
-
-> 
-> Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
-> ---
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> index c8a625667e81..6fc64f0ccc31 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> @@ -2638,7 +2638,11 @@ static int atomisp_s_parm(struct file *file, void *fh,
->  				asd->high_speed_mode = true;
->  		}
->  
-> -		goto out;
-> +		dev_warn(isp->dev,
-> +			 "setting run_mode using s_parm capturemode is not supported anymore\n");
-> +		dev_warn(isp->dev, "assuming run_mode is PREVIEW\n");
-> +		mode = ATOMISP_RUN_MODE_PREVIEW;
-> +		break;
->  	}
->  	case CI_MODE_VIDEO:
->  		mode = ATOMISP_RUN_MODE_VIDEO;
