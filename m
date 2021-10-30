@@ -1,75 +1,121 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1F62C82
-	for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 22:08:33 +0000 (UTC)
-Received: from mail-wr1-f50.google.com ([209.85.221.50]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MqsL3-1n2wMr0nOT-00mrzO for <linux-staging@lists.linux.dev>; Sat, 30 Oct
- 2021 00:08:32 +0200
-Received: by mail-wr1-f50.google.com with SMTP id d27so884181wrb.6
-        for <linux-staging@lists.linux.dev>; Fri, 29 Oct 2021 15:08:32 -0700 (PDT)
-X-Gm-Message-State: AOAM531QLFJJt3h2wYUX3EyrtB0WCUFOyol5exIxlGB+rhYBMc1IO/lZ
-	pAJ4UyJi5E1MXrKnOBIAp82m/yWExBw8rHvpzxI=
-X-Google-Smtp-Source: ABdhPJwDOca8ffBixEPllikPdfg5ONXLu8oOt6PFxJsramgRAu0zcyYo2Y06yib1kHBUHoxS+NxxOADS3pvm86qnK1A=
-X-Received: by 2002:a05:600c:4f42:: with SMTP id m2mr22891965wmq.82.1635545311718;
- Fri, 29 Oct 2021 15:08:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F8B2C82
+	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 07:19:50 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id j21so23338130edt.11
+        for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 00:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=QZsM46YrGJm/5fUEbq2ujELrMf3Xsmq+YBPh/ii7lZ0=;
+        b=WU8bqgaGoAJAfNKyJ39WCqStI+gp13hnO9XXyQD0I+7mMOyTtULBxVCj8cM7P7ztzR
+         wUjtFtRwjBSSO5f2IIW7Cu0czwiMSlFYR+5KMjZkMxxoxaegix69T87m0jBIdaPv0xUP
+         R2tQMLSJAhusotg9kZXOapml/i6yObm+xZERZ2rqT2iqPtHvb2fw5ew8sm7Y5rW+riT3
+         qzOoiqsomRSN6AYS9bECWonzRjobXvJg9TqB67nPSs5Gqc9YiAo0PfxofgfGautQs/bq
+         uqJ4A9h++4IeSxd+q3Wr0ncz6/NC4b5z3pHzviAuodXirBi97ZvcniyUwiAv7XCeAWn8
+         1E0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=QZsM46YrGJm/5fUEbq2ujELrMf3Xsmq+YBPh/ii7lZ0=;
+        b=b6yd49v0IpzP36KGY/NwbHzKvDIpvOZpl6uc/21Px01l+CD8ti8tSCOHN8+hgOtLC+
+         IaAZtXnw33w7BKN0YJjRGv4Nqr3hBNFqASAouhDZOtRO1Vs3NtaAMiZWTR4g/ZsDdnTC
+         bSHOFxE6TWGK+d7k6j9iCd1Wp9Zu3njag0OJkiy3x7qGX9OK3sQ8NtYiCEdIQaXh5X7r
+         pPArv9UbQhz9AylyAMdSEzEEHm7xtGhW0zINaziNqjA361bCJFwjdASdKhCRv0vT6l5q
+         c22hdzT2UVbXoBLL3PmMMlZfShavbjI2v3lNPOmRg90JGXn4cmeXrrLZzwVMqjOizWt2
+         vZig==
+X-Gm-Message-State: AOAM531KeTc5pQAKXg0UWLZHPw2uogVPqddkeIYVGZMS1IN7nEnLejPI
+	8nuDqS7O9aY0hUlqzx7CgzfwQ2fjOoCeInLh
+X-Google-Smtp-Source: ABdhPJwv+gx9YmD+fjrJL7aLyZtiNT5uh/CfXNnYiw3KuIkwSr0tGwduObJ1EiWqs4ViIz5xtt190A==
+X-Received: by 2002:a17:906:e011:: with SMTP id cu17mr20299891ejb.244.1635578388567;
+        Sat, 30 Oct 2021 00:19:48 -0700 (PDT)
+Received: from desktop (mob-5-90-201-67.net.vodafone.it. [5.90.201.67])
+        by smtp.gmail.com with ESMTPSA id f9sm4890001edt.7.2021.10.30.00.19.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Oct 2021 00:19:48 -0700 (PDT)
+Date: Sat, 30 Oct 2021 09:19:46 +0200
+From: Gabriel Goller <gabrielgoller123@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+Subject: [PATCH] staging: wlan-ng: formatting cleanup in cfg80211.c
+Message-ID: <YXzyEpmz1RZP4Ssw@desktop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211029214244.17341-1-julianbraha@gmail.com>
-In-Reply-To: <20211029214244.17341-1-julianbraha@gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Sat, 30 Oct 2021 00:08:16 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0dOMOzP6GF-T4eR38=pG2OBNh20LOVZhvuSZ6EGVH0Sg@mail.gmail.com>
-Message-ID: <CAK8P3a0dOMOzP6GF-T4eR38=pG2OBNh20LOVZhvuSZ6EGVH0Sg@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix unmet dependency on CRYPTO for CRYPTO_LIB_ARC4
-To: Julian Braha <julianbraha@gmail.com>
-Cc: gregkh <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Fabio Aiuto <fabioaiuto83@gmail.com>, linux-staging@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, fazilyildiran@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:IzLgmtxhPCMDcr1GMCOb/NlUZc400JmeNarOqVDIpDf4+Xn6bYi
- OP8GdeOJAr44wkmyCtYGPoSTfBhgkuCLzFXPxV4ttGkS4ojeCynkBDXtBsDS2zWTQOZTUVo
- 3ylMzwsF8Qe7BRvwB+bszxrNSA9VGIpICxy7wYRhp600iaf7WbFzFycmb2uQ/04WaHY16Vb
- ZNbA/9MnsQUQjZz402veQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oneRjDq7oDE=:8MS56ME7GIgjfRTFtZvA2i
- /aZx/539LYdQHChTWcYaZvEzMoSaIgax8eq2XiYFm0xtLhbzcD0i96gIV1IrkLTDiMKj69qq6
- CVhOYgCOisyq4SJ6mwGEswdweeTnEWSXy7SoRo1U64gtBQciK0BTb2zK35VK2s376ODgGvKDc
- f02Au7prXK687DyzuhTGriW3K+7x8uNjYN0I1W77srMOVlWkejmVjFN8jVuGeuUcxBtxarW3w
- jNjM1T9BuP1nCnhTXxhxbSx15i6/gE9l4PJ1qi4yAfNMlk3ocZF2/B3Vl/h+r6q6oZUxuoDLM
- J18rmeBrnSMdge4g1JKTCceYO/18CV4+0IWk6qmmnxag8fijQJRzKUQ4/r8zd665ffTOKXhsN
- LVPcrdUbI7D+A1wAXndjRBb3dQNQcNpZ7PMGjLofuqdtS6AjA5WQhv5k00Fu1o5P0O5yfgdrD
- lSXSvo7PRulVhAc2RxEFsO1zMPBG3jMzrpBHyuec+64WI3yypC2Gh3shgjgC2H6cbGbgZBzmw
- Xt6MtoMsolyMn4TvPSh9nwIKsRGcppSsUBBX5JE+Sd/tVhKYV6ujg2LoGO6kK5As2oiE/cvqQ
- qvYLaAbLJrrxaZs+vNaGBYhf05ZNyNO5/ouGXj3aw+fwULV+8RP/DCCdOoWWu6Xx1/ir4RW+c
- TrTfCN9PAyQmQoMELOXySND1Yarr0iGmMiLAM6V9931nfI98O/8K1O3KADPfc01nH6KCRIl+5
- 2UsKykuLiJzZyhU5rDfdGbDm0oshOFDUGx/Eg7ipokiM2cnG/OLtNUmkesCEkXJqP0doBc2gW
- D4ULDYsNE4Zp30SW1ILi1VCFVo/0oZEifrOxmG9X18NtPSPJ8A=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Oct 29, 2021 at 11:42 PM Julian Braha <julianbraha@gmail.com> wrote:
->
-> When RTL8723BS is selected, and CRYPTO is not selected,
-> Kbuild gives the following warning:
->
-> WARNING: unmet direct dependencies detected for CRYPTO_LIB_ARC4
->   Depends on [n]: CRYPTO [=n]
->   Selected by [m]:
->   - RTL8723BS [=m] && STAGING [=y] && WLAN [=y] && MMC [=y] && CFG80211 [=y] && m && MODULES [=y]
->   - RTLLIB_CRYPTO_WEP [=m] && STAGING [=y] && RTLLIB [=m]
->
-> This is because RTL8723BS selects CRYPTO_LIB_ARC4
-> without selecting CRYPTO, despite CRYPTO_LIB_ARC4
-> depending on CRYPTO.
->
-> This unmet dependency bug was detected by Kismet,
-> a static analysis tool for Kconfig. Please advise
-> if this is not the appropriate solution.
->
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
+Fixed bracket alignment and line-length issues.
 
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Gabriel Goller <gabrielgoller123@gmail.com>
+---
+ drivers/staging/wlan-ng/cfg80211.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
+index 7951bd63816f..b394afe8c3d7 100644
+--- a/drivers/staging/wlan-ng/cfg80211.c
++++ b/drivers/staging/wlan-ng/cfg80211.c
+@@ -324,12 +324,10 @@ static int prism2_scan(struct wiphy *wiphy,
+ 	}
+ 	msg1.probedelay.data = 0;
+ 
+-	for (i = 0;
+-		(i < request->n_channels) && i < ARRAY_SIZE(prism2_channels);
+-		i++)
++	for (i = 0; (i < request->n_channels) && i < ARRAY_SIZE(prism2_channels); i++)
+ 		msg1.channellist.data.data[i] =
+-			ieee80211_frequency_to_channel(
+-				request->channels[i]->center_freq);
++			ieee80211_frequency_to_channel(request->channels[i]->center_freq);
++
+ 	msg1.channellist.data.len = request->n_channels;
+ 
+ 	msg1.maxchanneltime.data = 250;
+@@ -369,7 +367,8 @@ static int prism2_scan(struct wiphy *wiphy,
+ 					  msg2->beaconperiod.data,
+ 					  ie_buf,
+ 					  ie_len,
+-					  (msg2->signal.data - 65536) * 100, /* Conversion to signed type */
++						/* Conversion to signed type */
++					  (msg2->signal.data - 65536) * 100,
+ 					  GFP_KERNEL);
+ 
+ 		if (!bss) {
+@@ -476,14 +475,13 @@ static int prism2_connect(struct wiphy *wiphy, struct net_device *dev,
+ 				return -EINVAL;
+ 
+ 			result = prism2_domibset_uint32(wlandev,
+-				DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
+-				sme->key_idx);
++							DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
++							sme->key_idx);
+ 			if (result)
+ 				goto exit;
+ 
+ 			/* send key to driver */
+-			did = didmib_dot11smt_wepdefaultkeystable_key(
+-					sme->key_idx + 1);
++			did = didmib_dot11smt_wepdefaultkeystable_key(sme->key_idx + 1);
+ 			result = prism2_domibset_pstr32(wlandev,
+ 							did, sme->key_len,
+ 							(u8 *)sme->key);
+@@ -589,8 +587,8 @@ static int prism2_set_tx_power(struct wiphy *wiphy, struct wireless_dev *wdev,
+ 		data = MBM_TO_DBM(mbm);
+ 
+ 	result = prism2_domibset_uint32(wlandev,
+-		DIDMIB_DOT11PHY_TXPOWERTABLE_CURRENTTXPOWERLEVEL,
+-		data);
++					DIDMIB_DOT11PHY_TXPOWERTABLE_CURRENTTXPOWERLEVEL,
++					data);
+ 
+ 	if (result) {
+ 		err = -EFAULT;
+-- 
+2.30.2
+
