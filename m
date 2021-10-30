@@ -1,27 +1,46 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18B42C81
-	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 09:15:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 270EE6101E;
-	Sat, 30 Oct 2021 09:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1635585330;
-	bh=7wYyNA1NqK7aFI5a4edIpfAUHN9xvgC5EA9OQH2Kvjc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZbVcbOYL0bNak9xJzGLyZa//TTebzPVAz2AtZL0vmq95jK7PXTqjo8LyCqdT+iT55
-	 +2IyMOfT5qm2jpBbBZH+yXo1XSvDH601v9CMk9n+X5L8DuJW0wguBdaoBYL+w602oz
-	 vKJTVVgT0jZtELaFTp8VYJ/wlQxFie3ZYTkOPw28=
-Date: Sat, 30 Oct 2021 11:15:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: dan.carpenter@oracle.com, will+git@drnd.me, mitaliborkar810@gmail.com,
-	eduard.vintila47@gmail.com, zhaoxiao@uniontech.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: rtl8192e: remove condition with no effect
-Message-ID: <YX0NMIuPUoX3GZB2@kroah.com>
-References: <YXmap8VIxfOpqeEY@Sauravs-MacBook-Air.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BBB2C81
+	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 09:47:38 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id m17so45697432edc.12
+        for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 02:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=c2/iQfGLj/BfZo3NqunRjAQVmBl6HspwKB+KC+UbGIE=;
+        b=BKb49zoF+AzrNFDWYyNt4T3J0c2JmRDvhbTIOQovepj44ytGoY4+Z9N+CWStgzVV9c
+         2AfP2hWUZ5cfGLntSmCqy8galNWsyn00eRxMoH45B8kgKjWvWLvgbcCTSMABKPcbwe8g
+         lr6jZ/nOBCQofQ1ydsp+10LtpXWaAgqe31hgLAb2OD64Pb12okNrgxR8lJe0w3uhXSWC
+         C8lpMUBP117e0X/YZWwwuoxFHmS95+2mU73FtJU6Op+U48h9zKraeWF3GP34VlSUiW6K
+         QjF0nsjGA6giIOuhKjkGgTPA/HjPM1sCUkGvnOi4whEcC4yQbO2v+cqbsvw0FZ4tYbSh
+         b1zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=c2/iQfGLj/BfZo3NqunRjAQVmBl6HspwKB+KC+UbGIE=;
+        b=SDkDKimyQsP0XLNvFosxXnqL7lgdl1alE+TJss0P1KCT/NKVYZFTTz94pD8+FXZmUa
+         QPy2bVR7EliQXA1N6B/b7jgpoPszv1YbUYiEMJJq/fqD5B60P62vIv9wHbLiy/sDgXB+
+         8YaVaiIA3ZLUXkpbZwZDsI9rbf2gM/m7GhxJfIqYy1ZxCQG3VVlHPYuGDTRm83C4iZCu
+         csvpblACmO0V+urJiMMQrRETi0QfHRx428dhnl+FgMlyCcCieO1i7MNxI1jJUJ+nHfHJ
+         ogSBc+goc6tW6ruVOx8+nQC/VKOpY0znNa7CSR5d+4stwcC5NhKCK/3Ike9oU38DHhcv
+         CYdA==
+X-Gm-Message-State: AOAM530LBOkI0DKsLazEOW8Y57WmscmZ/k5/J5DN84RTSh0GrYd+CXI9
+	r1Ikw+fQstCGtkLluotYL3P8bwZb3wQyYAIm
+X-Google-Smtp-Source: ABdhPJxgzucDPkLjiEEFJ9Yit75ZkFyR3PmGeBNJViqMXsFYl8OFLwNrACqeZTqVGrMRnV9IvLmkiQ==
+X-Received: by 2002:a17:907:7f11:: with SMTP id qf17mr20218118ejc.437.1635587257015;
+        Sat, 30 Oct 2021 02:47:37 -0700 (PDT)
+Received: from desktop (mob-5-90-201-67.net.vodafone.it. [5.90.201.67])
+        by smtp.gmail.com with ESMTPSA id hs8sm692637ejc.53.2021.10.30.02.47.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Oct 2021 02:47:36 -0700 (PDT)
+Date: Sat, 30 Oct 2021 11:47:35 +0200
+From: Gabriel Goller <gabrielgoller123@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev
+Subject: [PATCH] staging: wlan-ng: Cleanup fix parenthesis alignment
+Message-ID: <YX0Ut9BaVBQk5Z/g@desktop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,95 +49,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YXmap8VIxfOpqeEY@Sauravs-MacBook-Air.local>
 
-On Thu, Oct 28, 2021 at 12:04:43AM +0530, Saurav Girepunje wrote:
-> Remove the if and else code section for variable pHTInfo->bRegBW40MHz.
-> Just before the if condition variable is assign with value 1.
-> So if condition check for pHTInfo->bRegBW40MHz is always true.
-> 
-> Similarly for the variable pHTInfo->SelfMimoPs value '3' is assign.
-> So if condition check with value '2' will never be true. Remove the
-> if condition check for pHTInfo->SelfMimoPs.
-> 
-> Remove the extra blank lines from HTUpdateDefaultSetting function.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/rtl8192e/rtl819x_HTProc.c | 16 +---------------
->  1 file changed, 1 insertion(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> index 3b8efaf9b88c..6925654dbc03 100644
-> --- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> +++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-> @@ -72,34 +72,20 @@ void HTUpdateDefaultSetting(struct rtllib_device *ieee)
->  	struct rt_hi_throughput *pHTInfo = ieee->pHTInfo;
-> 
->  	pHTInfo->bAcceptAddbaReq = 1;
-> -
->  	pHTInfo->bRegShortGI20MHz = 1;
->  	pHTInfo->bRegShortGI40MHz = 1;
-> -
->  	pHTInfo->bRegBW40MHz = 1;
-> -
-> -	if (pHTInfo->bRegBW40MHz)
-> -		pHTInfo->bRegSuppCCK = 1;
-> -	else
-> -		pHTInfo->bRegSuppCCK = true;
-> -
-> +	pHTInfo->bRegSuppCCK = 1;
->  	pHTInfo->nAMSDU_MaxSize = 7935UL;
->  	pHTInfo->bAMSDU_Support = 0;
-> -
->  	pHTInfo->bAMPDUEnable = 1;
->  	pHTInfo->AMPDU_Factor = 2;
->  	pHTInfo->MPDU_Density = 0;
-> -
->  	pHTInfo->SelfMimoPs = 3;
-> -	if (pHTInfo->SelfMimoPs == 2)
-> -		pHTInfo->SelfMimoPs = 3;
->  	ieee->bTxDisableRateFallBack = 0;
->  	ieee->bTxUseDriverAssingedRate = 0;
-> -
->  	ieee->bTxEnableFwCalcDur = 1;
-> -
->  	pHTInfo->bRegRT2RTAggregation = 1;
-> -
->  	pHTInfo->bRegRxReorderEnable = 1;
->  	pHTInfo->RxReorderWinSize = 64;
->  	pHTInfo->RxReorderPendingTime = 30;
-> --
-> 2.33.0
-> 
-> 
+This patch fixes some style-warnings of checkpatch.pl:
+Alignment should match open parenthesis.
 
-Hi,
+Signed-off-by: Gabriel Goller <gabrielgoller123@gmail.com>
+---
+ drivers/staging/wlan-ng/cfg80211.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
+index 7951bd63816f..de2980c69711 100644
+--- a/drivers/staging/wlan-ng/cfg80211.c
++++ b/drivers/staging/wlan-ng/cfg80211.c
+@@ -476,8 +476,8 @@ static int prism2_connect(struct wiphy *wiphy, struct net_device *dev,
+ 				return -EINVAL;
+ 
+ 			result = prism2_domibset_uint32(wlandev,
+-				DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
+-				sme->key_idx);
++							DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
++							sme->key_idx);
+ 			if (result)
+ 				goto exit;
+ 
+@@ -589,8 +589,8 @@ static int prism2_set_tx_power(struct wiphy *wiphy, struct wireless_dev *wdev,
+ 		data = MBM_TO_DBM(mbm);
+ 
+ 	result = prism2_domibset_uint32(wlandev,
+-		DIDMIB_DOT11PHY_TXPOWERTABLE_CURRENTTXPOWERLEVEL,
+-		data);
++					DIDMIB_DOT11PHY_TXPOWERTABLE_CURRENTTXPOWERLEVEL,
++					data);
+ 
+ 	if (result) {
+ 		err = -EFAULT;
+-- 
+2.30.2
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
