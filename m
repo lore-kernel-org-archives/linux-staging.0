@@ -1,41 +1,41 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4826F2C85
-	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 14:20:12 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id v127so10198957wme.5
-        for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 07:20:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4E82C87
+	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 14:20:13 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id a20-20020a1c7f14000000b003231d13ee3cso13909056wmd.3
+        for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 07:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZFTYT6IC4NLo8CTX3uHADufxZSHsQHANfpdDkatrvm0=;
-        b=hJxH6Ugw++00fYcTpUDu9jMLnXmwJTbIkf95xjTu2Nr8Aq5KxRBgvwvSd0K3Xi2eXn
-         Ahq29tGkixhXxNXNQfJdDhasqP0vQfu/BU3WZM9mqXlsvOpSxXO+UQso12fDw6OwAqh/
-         oxcGiB26rfk6UfdUsMaZON0Ag84rISE72AabU3g33J+cx1HpcNaxEKH+LD8ddJHGP8gD
-         QsTkWqmqAbCIoNDv4E4rFSF0jti+EuaQcEK9eO3lf6v+S4KvwOnu4AeorzQ8W4wO2Tk1
-         5lHoKVwL7L+xvegGFXDGgIo1Zvf01wS28lfitbN1Rl9Wq5Hi52QzkC47lXbUnXKP+IUW
-         tYqw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=DToYAQHxf/EmU+9Qq/Jcp+BO8Gdd2Z8qCSR2az0OK88=;
+        b=lch/4hovwMuDOBS9A1cTb7nQndbyEguJ3+9lcAlXv1X9QT8JN53xNT2HkYxZVFRjmp
+         xywnmlU6TprkgBN1WEvKLxrGp2uRJiKaJpTNcMHVcz+7utONDz5PC4Oyxe1j5MbNl7wY
+         tjKVEXE35n75hm14SdqYhAkeDILX4WV0gtE0FEOnNzFXr/9eWGmO+4R2qZ6sdVzx4xdm
+         k0bq7Hc0iK42ulFXN2Kr6CULXefS8bwDUQhHNWxEV036BY4270T5PZU8hFdZwYj4gvH1
+         U/FR9IRiw8+J8WdPfaApjR/tWz2y+OeyTJnx/m2cLamYYsnCMs9DZUWeCKac6F+N43Ey
+         rDBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZFTYT6IC4NLo8CTX3uHADufxZSHsQHANfpdDkatrvm0=;
-        b=z/9mB4UAt4FfEqJk7dpRMaMvgxpTH/vZb0AZu5SQFxHfuhMh+UXWgKx7l+pe00ACbT
-         /NFKcEBftu96pbU7Ja56v64Q+JJWQOSXAFOMt7VpmJ6E9Zxww5V87/XW6Yp/KOQj6mYM
-         4ieyI0v7NvYQn2osl6wH1UTBf8nvQt4v1ytmNac90cOpdKrbUQ7MqS1a91s3IF1l2yiQ
-         Igg4V+yL7Z9Elr3nJI+2vnzZtDeSKRUlj/PYnSWLBFLYjsdk+tgBS6GbNCYZBqkh5mCS
-         Rhpb+IuaxyfImBC+Ir+hy4y0P4H2S2T9WLvtl8EyUBRnUII/LFniJ9p2AqthxH8LY97Z
-         D8wA==
-X-Gm-Message-State: AOAM530vlBU0uGUBLAArNNs2bXuaD02v2cZO0whZQrm6tf8sSAnCFqvR
-	MoOVnxdqOiesHTF55sJjQP4=
-X-Google-Smtp-Source: ABdhPJyLolcJnyhOlakjMd7/G2CYaY63bgSXRgSX++VpQLBOLJU7CiZ8qGTExh8xJ52gMaBhnQ/acg==
-X-Received: by 2002:a05:600c:354d:: with SMTP id i13mr18513917wmq.189.1635603610627;
-        Sat, 30 Oct 2021 07:20:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DToYAQHxf/EmU+9Qq/Jcp+BO8Gdd2Z8qCSR2az0OK88=;
+        b=KW74T9sr9xRvmkNVUXVgkhaGFibM0b6ne1x/ZRSOj5Da4pQfrcIP/q4OCZ+lPmb2Xk
+         9Uug2NOElRSQ/xiyet6HhD3AoBInJY0uoXaodnKb2pa5HsEK48tde6+REL9WazM/8P9n
+         XSBPrRzhnte/q3CMDnx560RJTd+BtKTlE9HWxuPUppTo5vyGSTQcsmGNnO2izW8TAoZ5
+         p/Mqv19w/HgV7fB01a4mck+H6kPfzvn8Xwmoc6kGhuQxE9aiA4kKMcp+riM3R9I5kIXF
+         AUQUZSnkfSsTTEAYzc7GnTKFKwp03z5jdb7e7TFemjySmtPxKHKEgwnLN42VgpNQonTc
+         64TQ==
+X-Gm-Message-State: AOAM530n4r2zfX6TUTkqv51HPks7clxVdNiHm81nxBKZFyBp610YOcUm
+	BKAG350K3DpPFvMY6Mo1fVM=
+X-Google-Smtp-Source: ABdhPJxYdplZsYeZu0kDBxVD5SD/C4Oi+ARiKw4LEdiCrHM5gXLecnRUd0iKipp6Y8Vu6fdKX+DQhA==
+X-Received: by 2002:a7b:cbc2:: with SMTP id n2mr21756186wmi.123.1635603611767;
+        Sat, 30 Oct 2021 07:20:11 -0700 (PDT)
 Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id m12sm8208521wrq.69.2021.10.30.07.20.08
+        by smtp.gmail.com with ESMTPSA id m12sm8208521wrq.69.2021.10.30.07.20.10
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 30 Oct 2021 07:20:09 -0700 (PDT)
+        Sat, 30 Oct 2021 07:20:11 -0700 (PDT)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-clk@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
@@ -43,11 +43,14 @@ Cc: linux-kernel@vger.kernel.org,
 	john@phrozen.org,
 	linux-staging@lists.linux.dev,
 	gregkh@linuxfoundation.org,
-	neil@brown.name
-Subject: [PATCH v3 0/4] clk: ralink: make system controller a reset provider
-Date: Sat, 30 Oct 2021 16:20:03 +0200
-Message-Id: <20211030142007.27085-1-sergio.paracuellos@gmail.com>
+	neil@brown.name,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 1/4] dt-bindings: reset: add dt binding header for Mediatek MT7621 resets
+Date: Sat, 30 Oct 2021 16:20:04 +0200
+Message-Id: <20211030142007.27085-2-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211030142007.27085-1-sergio.paracuellos@gmail.com>
+References: <20211030142007.27085-1-sergio.paracuellos@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,62 +59,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Add dt binding header for resets lines in Mediatek MT7621 SoCs.
 
-This patch series add minimal change to provide mt7621 resets properly
-defining them in the 'mediatek,mt7621-sysc' node which is the system
-controller of the SoC and is already providing clocks to the rest of
-the world.
-
-There is shared architecture code for all ralink platforms in 'reset.c'
-file located in 'arch/mips/ralink' but the correct thing to do to align
-hardware with software seems to define and add related reset code to the
-already mainlined clock driver.
-
-After this changes, we can get rid of the useless reset controller node
-in the device tree and use system controller node instead where the property
-'#reset-cells' has been added. Binding documentation for this nodeq has
-been updated with the new property accordly.
-
-This series also provide a bindings include header where all related
-reset bits for the MT7621 SoC are defined.
-
-Also, please take a look to this review [0] to understand better motivation
-for this series.
-
-Regarding the way of merging this:
- - I'd like patches 1 and 4 which are related going through staging tree.
- - The other two (patches 2 and 3) can perfectly go through the clock tree.
-
-Thanks in advance for your feedback.
-
-Changes in v3:
-  - Collect Rob's Acked-by for patches 1 and 2. 
-  - Rebase on the top of staging-next since there were already many
-    changes there and PATCH 4 of the series didn't apply cleanly.
-
-Changes in v2:
-  - Address review comments of Dan Carpenter [1]:
-     + Avoid 'inline' in function definition.
-     + Return proper error codes (-EINVAL) instead of '-1'.
-     + Make use of 'devm_kzalloc' instead of 'kzalloc'.
-
-Best regards,
-   Sergio Paracuellos
-
-Sergio Paracuellos (4):
-  dt-bindings: reset: add dt binding header for Mediatek MT7621 resets
-  dt-bindings: clock: mediatek,mt7621-sysc: add '#reset-cells' property
-  clk: ralink: make system controller node a reset provider
-  staging: mt7621-dts: align resets with binding documentation
-
- .../bindings/clock/mediatek,mt7621-sysc.yaml  | 12 +++
- drivers/clk/ralink/clk-mt7621.c               | 79 +++++++++++++++++++
- drivers/staging/mt7621-dts/mt7621.dtsi        | 25 +++---
- include/dt-bindings/reset/mt7621-reset.h      | 37 +++++++++
- 4 files changed, 139 insertions(+), 14 deletions(-)
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+---
+ include/dt-bindings/reset/mt7621-reset.h | 37 ++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
  create mode 100644 include/dt-bindings/reset/mt7621-reset.h
 
+diff --git a/include/dt-bindings/reset/mt7621-reset.h b/include/dt-bindings/reset/mt7621-reset.h
+new file mode 100644
+index 000000000000..7572c6b41453
+--- /dev/null
++++ b/include/dt-bindings/reset/mt7621-reset.h
+@@ -0,0 +1,37 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
++/*
++ * Copyright (c) 2021 Sergio Paracuellos
++ * Author: Sergio Paracuellos <sergio.paracuellos@gmail.com>
++ */
++
++#ifndef DT_BINDING_MT7621_RESET_H
++#define DT_BINDING_MT7621_RESET_H
++
++#define MT7621_RST_SYS		0
++#define MT7621_RST_MCM		2
++#define MT7621_RST_HSDMA	5
++#define MT7621_RST_FE		6
++#define MT7621_RST_SPDIFTX	7
++#define MT7621_RST_TIMER	8
++#define MT7621_RST_INT		9
++#define MT7621_RST_MC		10
++#define MT7621_RST_PCM		11
++#define MT7621_RST_PIO		13
++#define MT7621_RST_GDMA		14
++#define MT7621_RST_NFI		15
++#define MT7621_RST_I2C		16
++#define MT7621_RST_I2S		17
++#define MT7621_RST_SPI		18
++#define MT7621_RST_UART1	19
++#define MT7621_RST_UART2	20
++#define MT7621_RST_UART3	21
++#define MT7621_RST_ETH		23
++#define MT7621_RST_PCIE0	24
++#define MT7621_RST_PCIE1	25
++#define MT7621_RST_PCIE2	26
++#define MT7621_RST_AUX_STCK	28
++#define MT7621_RST_CRYPTO	29
++#define MT7621_RST_SDXC		30
++#define MT7621_RST_PPE		31
++
++#endif /* DT_BINDING_MT7621_RESET_H */
 -- 
 2.33.0
 
