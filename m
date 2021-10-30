@@ -1,83 +1,117 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFBA2C85
-	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 12:51:55 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id f8so26370708edy.4
-        for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 05:51:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4826F2C85
+	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 14:20:12 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id v127so10198957wme.5
+        for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 07:20:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=AqcWsB4FWsDe7NHoJQPl1nKY3ysaIWoyuuUKqbGAI8g=;
-        b=CGTzDM9jGaDPHLfAnk9OIMgJvsYI08RYQRlKSxhkK+hUHiq4bD5eI6XTMEuihoNyBu
-         ozm0BjTSpSoOT0ayGav+MvR28cmd02/cO9mNte5LpnFlJMa14KJTRZqnveH2wNWhPthZ
-         WgLWHPocrPEFIejK1WcCsmMQXp7NXhSjnbZrrU9A8BtoAgvORtrvODUkx3U4A7CP5xez
-         77qiO6Fnv7MsBhMyOjsU5PPIaK0QheQSOGRCjRcc90BKGsp2JtRiGxeok8/5Uzjp82uU
-         hgNV/oajUJq5ML0Zeun6HvF+8hXDCjCW0N3pvAdpreCiYz5/G/wW/iCTSu9pUcIxAaoG
-         BOtA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZFTYT6IC4NLo8CTX3uHADufxZSHsQHANfpdDkatrvm0=;
+        b=hJxH6Ugw++00fYcTpUDu9jMLnXmwJTbIkf95xjTu2Nr8Aq5KxRBgvwvSd0K3Xi2eXn
+         Ahq29tGkixhXxNXNQfJdDhasqP0vQfu/BU3WZM9mqXlsvOpSxXO+UQso12fDw6OwAqh/
+         oxcGiB26rfk6UfdUsMaZON0Ag84rISE72AabU3g33J+cx1HpcNaxEKH+LD8ddJHGP8gD
+         QsTkWqmqAbCIoNDv4E4rFSF0jti+EuaQcEK9eO3lf6v+S4KvwOnu4AeorzQ8W4wO2Tk1
+         5lHoKVwL7L+xvegGFXDGgIo1Zvf01wS28lfitbN1Rl9Wq5Hi52QzkC47lXbUnXKP+IUW
+         tYqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=AqcWsB4FWsDe7NHoJQPl1nKY3ysaIWoyuuUKqbGAI8g=;
-        b=wSPBm62B1vbWlPd4ADor2Am5mWPdnBZmGLT88vZ7hviapphlmbWeI6JcX5pywFSlaH
-         LBXH9Wo0B6KCaSRuNjKzP08H3kt6XnNkrtLLEEM1qt0vtSIfY0KeL8s0mifiH1upBPVE
-         RFzIDKrgg2ynyM3EojAk8Z+n5jK7x5nJDyQlNIl7wo9iob+nAR6kg9bzS9bcaV+Rx0VQ
-         Ncqhm8FgZjD/ni29c+92vEfFF7kuqiQxqLglcOlg8NoBDKz0kX4nIwDC0+qujcVHW6KC
-         J2b+7vB26fZRooWoUmrdTj81uyA2OoxWZi2jtYyMbaxBTZybuen1TP2+TDY2yVxWpEEP
-         dtuw==
-X-Gm-Message-State: AOAM532pstLIL/pRCOQwKDBfp42WhcrTnQaEPpXYmDfUEiY0vTmcH5IC
-	ynX9eZ/v23olXEX6/EGYTQps4kBjZGc6kyWB
-X-Google-Smtp-Source: ABdhPJzLihhoOFX+jA21xDRaW1ENtZi2ONgmvcvVZ9XbNHcnXxUFyKWux6LA1mm3qWXFnzzdPfD8DQ==
-X-Received: by 2002:a05:6402:22d6:: with SMTP id dm22mr22785536edb.67.1635598314137;
-        Sat, 30 Oct 2021 05:51:54 -0700 (PDT)
-Received: from desktop (mob-5-90-201-67.net.vodafone.it. [5.90.201.67])
-        by smtp.gmail.com with ESMTPSA id nb17sm4397335ejc.18.2021.10.30.05.51.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Oct 2021 05:51:53 -0700 (PDT)
-Date: Sat, 30 Oct 2021 14:51:52 +0200
-From: Gabriel Goller <gabrielgoller123@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev
-Subject: [PATCH] staging: wlan-ng: Removed unused comments
-Message-ID: <YX0/6GzhvIwJlx6n@desktop>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZFTYT6IC4NLo8CTX3uHADufxZSHsQHANfpdDkatrvm0=;
+        b=z/9mB4UAt4FfEqJk7dpRMaMvgxpTH/vZb0AZu5SQFxHfuhMh+UXWgKx7l+pe00ACbT
+         /NFKcEBftu96pbU7Ja56v64Q+JJWQOSXAFOMt7VpmJ6E9Zxww5V87/XW6Yp/KOQj6mYM
+         4ieyI0v7NvYQn2osl6wH1UTBf8nvQt4v1ytmNac90cOpdKrbUQ7MqS1a91s3IF1l2yiQ
+         Igg4V+yL7Z9Elr3nJI+2vnzZtDeSKRUlj/PYnSWLBFLYjsdk+tgBS6GbNCYZBqkh5mCS
+         Rhpb+IuaxyfImBC+Ir+hy4y0P4H2S2T9WLvtl8EyUBRnUII/LFniJ9p2AqthxH8LY97Z
+         D8wA==
+X-Gm-Message-State: AOAM530vlBU0uGUBLAArNNs2bXuaD02v2cZO0whZQrm6tf8sSAnCFqvR
+	MoOVnxdqOiesHTF55sJjQP4=
+X-Google-Smtp-Source: ABdhPJyLolcJnyhOlakjMd7/G2CYaY63bgSXRgSX++VpQLBOLJU7CiZ8qGTExh8xJ52gMaBhnQ/acg==
+X-Received: by 2002:a05:600c:354d:: with SMTP id i13mr18513917wmq.189.1635603610627;
+        Sat, 30 Oct 2021 07:20:10 -0700 (PDT)
+Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
+        by smtp.gmail.com with ESMTPSA id m12sm8208521wrq.69.2021.10.30.07.20.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 30 Oct 2021 07:20:09 -0700 (PDT)
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+To: linux-clk@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	sboyd@kernel.org,
+	john@phrozen.org,
+	linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	neil@brown.name
+Subject: [PATCH v3 0/4] clk: ralink: make system controller a reset provider
+Date: Sat, 30 Oct 2021 16:20:03 +0200
+Message-Id: <20211030142007.27085-1-sergio.paracuellos@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Removed commented-out code pieces that are unnecessary.
+Hi all,
 
-Signed-off-by: Gabriel Goller <gabrielgoller123@gmail.com>
----
- drivers/staging/wlan-ng/prism2mib.c | 8 --------
- 1 file changed, 8 deletions(-)
+This patch series add minimal change to provide mt7621 resets properly
+defining them in the 'mediatek,mt7621-sysc' node which is the system
+controller of the SoC and is already providing clocks to the rest of
+the world.
 
-diff --git a/drivers/staging/wlan-ng/prism2mib.c b/drivers/staging/wlan-ng/prism2mib.c
-index 24ba10d6bd0b..fcf8313870af 100644
---- a/drivers/staging/wlan-ng/prism2mib.c
-+++ b/drivers/staging/wlan-ng/prism2mib.c
-@@ -679,16 +679,8 @@ static int prism2mib_priv(struct mibrec *mib,
- 					       HFA384x_RID_CNFWPADATA,
- 					       (u8 *)&wpa,
- 					       sizeof(wpa));
--			/*
--			pstr->len = le16_to_cpu(wpa.datalen);
--			memcpy(pstr->data, wpa.data, pstr->len);
--			*/
- 			pstr->len = 0;
- 		} else {
--			/*
--			wpa.datalen = cpu_to_le16(pstr->len);
--			memcpy(wpa.data, pstr->data, pstr->len);
--			*/
- 			wpa.datalen = 0;
- 
- 			hfa384x_drvr_setconfig(hw,
+There is shared architecture code for all ralink platforms in 'reset.c'
+file located in 'arch/mips/ralink' but the correct thing to do to align
+hardware with software seems to define and add related reset code to the
+already mainlined clock driver.
+
+After this changes, we can get rid of the useless reset controller node
+in the device tree and use system controller node instead where the property
+'#reset-cells' has been added. Binding documentation for this nodeq has
+been updated with the new property accordly.
+
+This series also provide a bindings include header where all related
+reset bits for the MT7621 SoC are defined.
+
+Also, please take a look to this review [0] to understand better motivation
+for this series.
+
+Regarding the way of merging this:
+ - I'd like patches 1 and 4 which are related going through staging tree.
+ - The other two (patches 2 and 3) can perfectly go through the clock tree.
+
+Thanks in advance for your feedback.
+
+Changes in v3:
+  - Collect Rob's Acked-by for patches 1 and 2. 
+  - Rebase on the top of staging-next since there were already many
+    changes there and PATCH 4 of the series didn't apply cleanly.
+
+Changes in v2:
+  - Address review comments of Dan Carpenter [1]:
+     + Avoid 'inline' in function definition.
+     + Return proper error codes (-EINVAL) instead of '-1'.
+     + Make use of 'devm_kzalloc' instead of 'kzalloc'.
+
+Best regards,
+   Sergio Paracuellos
+
+Sergio Paracuellos (4):
+  dt-bindings: reset: add dt binding header for Mediatek MT7621 resets
+  dt-bindings: clock: mediatek,mt7621-sysc: add '#reset-cells' property
+  clk: ralink: make system controller node a reset provider
+  staging: mt7621-dts: align resets with binding documentation
+
+ .../bindings/clock/mediatek,mt7621-sysc.yaml  | 12 +++
+ drivers/clk/ralink/clk-mt7621.c               | 79 +++++++++++++++++++
+ drivers/staging/mt7621-dts/mt7621.dtsi        | 25 +++---
+ include/dt-bindings/reset/mt7621-reset.h      | 37 +++++++++
+ 4 files changed, 139 insertions(+), 14 deletions(-)
+ create mode 100644 include/dt-bindings/reset/mt7621-reset.h
+
 -- 
-2.30.2
+2.33.0
 
