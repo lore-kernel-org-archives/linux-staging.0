@@ -1,159 +1,59 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418552C81
-	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 09:50:19 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id k2-20020a17090ac50200b001a218b956aaso9090836pjt.2
-        for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 02:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=QR49tsHTkUyyQq199dvFub85jiGbHgS2uVvULKd7YCI=;
-        b=iSZ9jhIlksHfkkVSEw8XzTCeqfMWlpdN6+pAOCTgpnO2pc4BTiC7bIPdcvWk+LCJR1
-         H7urdezKLbNwYjNClde0K8rmwKs8Ru0I99ANDIARy0Ltcmfwts7e07RPCkRyh2Ob/1VO
-         2uZGm6EoHPXjP+HclPwtKri8xOrM6B9HBiZT4QRDAkS9prZzV+D0yck3JuXtdc/SVjnv
-         /4rBAp8vpPITPQaUD2IlLNWofeKPr+wifb/Ec75r1Dkojh7EtwU7ZibW785ltkopOyv7
-         dY+lFS6FCm9oxolAc9dtIRzl+tYj3pdQZYrLGyoPuak9Kb2eLbB+hRShHTwiC30Wyw7g
-         mPHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=QR49tsHTkUyyQq199dvFub85jiGbHgS2uVvULKd7YCI=;
-        b=makWVbJdQ6I97JGoCFjWf6jKII0nnAnqQ5EJIT2NbsnWRYev51q9oFoAoPSzlOum7R
-         ptDcqjW5RzMIWC00RNXpxDgz9aU/nN2yLiHuMVthTFzgXALjoolV8HgZOHCqiy1uIYUw
-         QaKIxoalhxvugZnFgqSiBGyEwMtJcg+oiW2lacerRmmTZ8HrCVcTCN9PDT0dHcRRz9bI
-         tvv3cuVJsrG4V+2Hl2R0MBCb+PiwXhNVtAcACPn3jikdOCF4yrC5ayvwyRTkL/zVovOg
-         az2DgB13m0j43Gx/kC73xhLCT8AhF9Aji7fA8r5Ma7eDfOBAzpC5WXuUtba+oifz3Y0P
-         lxHA==
-X-Gm-Message-State: AOAM531AEMv/NvnhH9WiRqH6k4fhFSmdKZIYCLgetT0I8dC0FOOgpdvk
-	UXFL4lYjfhvXuWIx7xeEfwoxIpOyhormnQ==
-X-Google-Smtp-Source: ABdhPJxkfv6TYT7etIr1qbadZkDfE8SgPxEOvDt6bU/jdK/b1ZvFqWl9D7Of4CLFRNbH469PES315A==
-X-Received: by 2002:a17:902:8bcc:b0:13f:ea68:a135 with SMTP id r12-20020a1709028bcc00b0013fea68a135mr14480067plo.41.1635587418651;
-        Sat, 30 Oct 2021 02:50:18 -0700 (PDT)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id y14sm8912178pfn.80.2021.10.30.02.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Oct 2021 02:50:18 -0700 (PDT)
-Message-ID: <1a1da60c4464bd163e9c401e04db3b58172ae7fc.camel@gmail.com>
-Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
- <nable.maininbox@googlemail.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
- "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>
-Date: Sat, 30 Oct 2021 18:50:14 +0900
-In-Reply-To: <20211028115802.49258990@sal.lan>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	 <00dd9a0286e194696f6cc083a98de47d709b1d9e.camel@gmail.com>
-	 <20211028115802.49258990@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C7D2C85
+	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 09:50:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E04E60F55;
+	Sat, 30 Oct 2021 09:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1635587444;
+	bh=KaftmMC1X4hMAlwADoIc7z1y1me8qGOYuUsoTWs6/NA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hQX7ddRMqM30ZGUlRlKs1t/idfM3xZgkUuuoW5VAI5TrnqiV5gS/d+HJ+NWpCbZBV
+	 3q/rEpvgXLn8w8CVY10dotju5vOwu7qbFJbrxUQER12zmf8p/c59qf7/kj265xXwMJ
+	 ltrBX7c78mf2Q4YBiSGtGef39ELw1rDqEmtwV8rs=
+Date: Sat, 30 Oct 2021 11:50:41 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Gabriel Goller <gabrielgoller123@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: wlan-ng: Cleanup fix parenthesis alignment
+Message-ID: <YX0VcfPnHTBAyMiZ@kroah.com>
+References: <YX0Ut9BaVBQk5Z/g@desktop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YX0Ut9BaVBQk5Z/g@desktop>
 
-On Thu, 2021-10-28 at 11:58 +0100, Mauro Carvalho Chehab wrote:
-> Em Thu, 28 Oct 2021 13:32:29 +0900
-> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
+On Sat, Oct 30, 2021 at 11:47:35AM +0200, Gabriel Goller wrote:
+> This patch fixes some style-warnings of checkpatch.pl:
+> Alignment should match open parenthesis.
 > 
-> > <Fixed Cc list>
-> > 
-> > On Mon, 2021-10-18 at 01:19 +0900, Tsuchiya Yuto wrote:
-> > > [...]
-> > >   ## taking a picture with atomisp
-> > > 
-> > > Note that to try to take a picture, please also apply at least the
-> > > this RFC patch ("[BUG][RFC] media: atomisp: pci: assume run_mode is
-> > > PREVIEW") I'll send as almost a BUG report later.
-> > > 
-> > > You need to use firmware version irci_stable_candrpv_0415_20150521_0458,
-> > > which is available from the intel-aero [1]  
-> > 
-> > Just in case, the hash (as well as version) of firmware which I
-> > downloaded from intel-aero and I use to capture is the following:
-> > 
-> >         $ sha256sum /lib/firmware/shisp_2401a0_v21.bin
-> >         e89359f4e4934c410c83d525e283f34c5fcce9cb5caa75ad8a32d66d3842d95c  /lib/firmware/shisp_2401a0_v21.bin
-> > 
-> >         $ strings /lib/firmware/shisp_2401a0_v21.bin | grep 2015
-> >         irci_stable_candrpv_0415_20150521_0458
-
-Also note that the firmware file from the intel-aero only supports
-hw_revision 2401a0_v21 as the filename implies. So, if someone have
-Bay Trail (ISP2400) device to test, you need to get a firmware file (from
-somewhere like Android installation/image as the initial commit of atomisp
-mentions) made for version irci_stable_candrpv_0415_20150521_0458 and
-hw_revision 2400b0_v21 then place it under /lib/firmware
-
-> > > The atomisp (ipu2), like the ipu3, needs userspace support. The libcamera
-> > > has now decent ipu3 support but does not have atomisp support yet.
-> > > 
-> > > I found some userspace tools for atomisp that run on Linux:
-> > > 
-> > >   - capturev4l2 from intel-aero/sample-apps
-> > >     (https://github.com/intel-aero/sample-apps/tree/master/capturev4l2)
-> > >   - hd-camera from intel-aero/sample-apps
-> > >     (https://github.com/intel-aero/sample-apps/tree/master/hd-camera)
-> > >   - intel/nvt
-> > >     (https://github.com/intel/nvt)
-> > > 
-> > > It looks like the nvt is the most feature-rich, like exposure and white
-> > > balance. Note that current upstreamed atomisp dropped 32-bit support.
-> > > So, you need to build it with `-m64` (change it in Makefile). Here is
-> > > the example of usage I use on mipad2:
-> > > 
-> > >         $ ./v4l2n -o testimage_@.raw \
-> > >                 --device /dev/video2 \
-> > >                 --input 0 \
-> > >                 --exposure=30000,30000,30000,30000 \
-> > >                 --parm type=1,capturemode=CI_MODE_PREVIEW \
-> > >                 --fmt type=1,width=1920,height=1080,pixelformat=NV12 \
-> > >                 --reqbufs count=2,memory=USERPTR \
-> > >                 --parameters=wb_config.r=32768,wb_config.gr=21043,wb_config.gb=21043,wb_config.b=30863 \
-> > >                 --capture=2 \
-> > > 
-> > >         ./raw2pnm -x1920 -y1080 -fNV12 testimage_001.raw testimage_001.pnm
-> > >         feh *.pnm # open the converted image
-> > >         rm testimage*
+> Signed-off-by: Gabriel Goller <gabrielgoller123@gmail.com>
+> ---
+>  drivers/staging/wlan-ng/cfg80211.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> Great! that worked for me too on Asus T101HA (CHT). I had to tweak the
-> resolution, as ov2680 sensor has a max of 1616x1216 30fps. I had
-> to use a number smaller than that, though (1600x1200).
+> diff --git a/drivers/staging/wlan-ng/cfg80211.c b/drivers/staging/wlan-ng/cfg80211.c
+> index 7951bd63816f..de2980c69711 100644
+> --- a/drivers/staging/wlan-ng/cfg80211.c
+> +++ b/drivers/staging/wlan-ng/cfg80211.c
+> @@ -476,8 +476,8 @@ static int prism2_connect(struct wiphy *wiphy, struct net_device *dev,
+>  				return -EINVAL;
+>  
+>  			result = prism2_domibset_uint32(wlandev,
+> -				DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
+> -				sme->key_idx);
+> +							DIDMIB_DOT11SMT_PRIVACYTABLE_WEPDEFAULTKEYID,
 
-Ah, glad to hear that!
+And now you added another checkpatch.pl warning?
 
-> I guess the next step is to make a generic app to also work on it. 
+Please do not make changes that do this.
 
-It's great if we can eventually add atomisp support to the libcamera.
-I think this is the easiest way to support generic apps (I mean, like
-cheese). Some ipu3 cameras already work on cheese with libcamera.
-I don't have any knowledge about userspace support though.
+thanks,
 
-> > > 
-> > > Note that I see the following warn/err after capture:
-> > > 
-> > >         kern  :warn  : [72660.793335] atomisp-isp2 0000:00:03.0: stop stream timeout.
-> > >         kern  :err   : [72660.973629] atomisp-isp2 0000:00:03.0: atomisp_reset
-> > > 
-> > > but I see the same message on the Android kernel, too. So, I think this
-> > > is not a real issue (I hope).
-> 
-> Same here.
-> 
-> > > 
-> > > [1] https://github.com/intel-aero/meta-intel-aero-base/tree/master/recipes-kernel/linux/linux-yocto
-> > >     filename shisp_2401a0_v21.bin  
-> > 
-> > 
-
-
+greg k-h
