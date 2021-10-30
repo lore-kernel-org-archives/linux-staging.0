@@ -1,74 +1,126 @@
-Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279402C81
-	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 16:37:16 +0000 (UTC)
-Received: from localhost.localdomain (211.81-166-168.customer.lyse.net [81.166.168.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: noralf.tronnes@ebnett.no)
-	by asav21.altibox.net (Postfix) with ESMTPSA id 3C0E08009D;
-	Sat, 30 Oct 2021 18:29:26 +0200 (CEST)
-From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	=?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] staging/fbtft: Fix backlight
-Date: Sat, 30 Oct 2021 18:29:01 +0200
-Message-Id: <20211030162901.17918-1-noralf@tronnes.org>
-X-Mailer: git-send-email 2.33.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58392C88
+	for <linux-staging@lists.linux.dev>; Sat, 30 Oct 2021 18:30:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DB7EE60F4C;
+	Sat, 30 Oct 2021 18:30:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1635618608;
+	bh=GCvYlMogk8txYwL+9NC3bnXRRwcr3NXeea9vsnhJU1Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=br+gC1SDt115ZfXwDj7s+bp7IKDa3Jd5Vb+YP4yIv9Pe+vCk8Tm78fF+wm4b3CK2x
+	 Z0PG8NwunfXgEioB5NJE6Q/bKoRTQDUBxNRjBocjP34zK0LZspHm3VDaDRYfSQt3S5
+	 7Mmecp5azJmfZxqEjBy9c4YQrq1MNsBeJBF3q30iifnMFWbYQEmC2IakzLbZwYrkXn
+	 ZLy5X/Ulm0tggwUSlacDrbh8yfJ/HUCLAj3LOAy9Dz/LBIRyX8pxHtovgmhcXs4PSV
+	 q97waa51d/QztTTj9SPKQJB3gYsvahXn1XhO8rVGg8CddET7GXgY4nPSR0AQFrHc5F
+	 qUVwK48L0PDrw==
+Date: Sat, 30 Oct 2021 19:30:01 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Tsuchiya Yuto <kitakar@gmail.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
+ <nable.maininbox@googlemail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>,
+ "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>
+Subject: Re: [PATCH 00/17] various fixes for atomisp to make it work
+Message-ID: <20211030193001.43c916e1@sal.lan>
+In-Reply-To: <CAHp75VexkxSx=aqB+a0LANR9ViMRX3z7jq9h8haR7BQojYqzuQ@mail.gmail.com>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+	<00dd9a0286e194696f6cc083a98de47d709b1d9e.camel@gmail.com>
+	<20211028115802.49258990@sal.lan>
+	<1a1da60c4464bd163e9c401e04db3b58172ae7fc.camel@gmail.com>
+	<20211030114923.4feb5a4d@sal.lan>
+	<CAHp75VexkxSx=aqB+a0LANR9ViMRX3z7jq9h8haR7BQojYqzuQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Dq54Bl3+ c=1 sm=1 tr=0
-	a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-	a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=VwQbUJbxAAAA:8 a=SJz97ENfAAAA:8
-	a=p9cCCTTYX0JvZlB5OkkA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
-	a=vFet0B0WnEQeilDPIY6i:22
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Commit b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate") forgot to
-update fbtft breaking its backlight support when FB_BACKLIGHT is a module.
+Em Sat, 30 Oct 2021 14:01:01 +0300
+Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
 
-Fix this by using IS_ENABLED().
+> On Sat, Oct 30, 2021 at 1:49 PM Mauro Carvalho Chehab
+> <mchehab@kernel.org> wrote:
+> > Em Sat, 30 Oct 2021 18:50:14 +0900
+> > Tsuchiya Yuto <kitakar@gmail.com> escreveu:  
+> 
+> ...
+> 
+> > What I'm saying is that, IMHO, we should:
+> >
+> > 1. Fix the ioctls in order to allow a normal app to use it. I'm
+> >    already doing some work on this sense. We should ensure that the
+> >    driver will pass v4l2-compliance tests on this step;
+> >
+> > 2. remove VIDEO_ATOMISP_ISP2401, making the driver to auto-detect the
+> >    register address differences between ISP2400 and ISP2401;
+> >
+> > 3. Cleanup the driver code, removing the abstraction layers inside it;
+> >
+> > 4. Migrate the sensor drivers out of staging (or re-using existing
+> >    drivers);
+> >
+> > 5. Remove the logic which sets up pipelines inside it, moving it to
+> >    libcamera and implement MC support;
+> >
+> > 6. Move it out of staging.
+> >
+> > This is easily said than done, as steps 2-6 are very complex and will
+> > require lots of work. Also, both ISP2400 and 2401 should be tested
+> > while doing some of those major reworks, in order to avoid breakages.  
+> 
+> This is a great roadmap nevertheless!
 
-Fixes: b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- drivers/staging/fbtft/fbtft-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> However, we missed one important step here, i.e. persuade Intel to
+> clarify license of the firmware (for distirbution) and make sure we
+> have it in Linux firmware project, so it won't get lost.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index ed992ca605eb..ff979f1eeee8 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -128,7 +128,7 @@ static int fbtft_request_gpios(struct fbtft_par *par)
- 	return 0;
- }
- 
--#ifdef CONFIG_FB_BACKLIGHT
-+#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
- static int fbtft_backlight_update_status(struct backlight_device *bd)
- {
- 	struct fbtft_par *par = bl_get_data(bd);
-@@ -853,7 +853,7 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 		 fb_info->fix.smem_len >> 10, text1,
- 		 HZ / fb_info->fbdefio->delay, text2);
- 
--#ifdef CONFIG_FB_BACKLIGHT
-+#if IS_ENABLED(CONFIG_FB_BACKLIGHT)
- 	/* Turn on backlight if available */
- 	if (fb_info->bl_dev) {
- 		fb_info->bl_dev->props.power = FB_BLANK_UNBLANK;
--- 
-2.33.0
+Heh, true!
 
+I suspect that the firmare for ISP2401, used on Intel Aero, is probably
+easier to make it available than the firmware for ISP2400.
+
+At least looking at the github repository for Intel Aero, it says at the 
+package metadata that its content is under GPL:
+
+	https://github.com/intel-aero/meta-intel-aero-base/blob/master/LICENSE
+
+The firmware itself is there, at:
+
+	https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes-kernel/linux/linux-yocto/shisp_2401a0_v21.bin
+
+
+The Yocto's meta package for the firmware blob is at:
+
+	https://github.com/intel-aero/packages/tree/master/firmware-atomisp
+
+Also says, on its copyright's notice:
+
+	https://github.com/intel-aero/packages/blob/master/firmware-atomisp/debian/copyright
+
+that:
+
+	Source: https://github.com/intel-aero/meta-intel-aero-base
+
+	Files: *
+	Copyright: 2016 Intel Corporation
+	License: GPL-2
+	 /usr/share/common-licenses/GPL-2
+
+Granted, it doesn't make sense to say that a firmware blob is under
+GPL. My reading is that the original intend was to allow GPL software
+to use/distribute such firmware, but yeah, someone at Intel should
+provide the community an explicit authorization to allow distros to
+start packaging such firmware.
+
+Regards,
+Mauro
