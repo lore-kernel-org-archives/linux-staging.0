@@ -1,98 +1,75 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF2629CA
-	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 11:25:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D18F60F58;
-	Sun, 31 Oct 2021 11:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635679506;
-	bh=/ba630/yMxIG0G/HrfuOl0TTd12zVAhW+3p5jt4O1qg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=oc2RO08dPHGJIm4glq6KAAnyX1wJ3BcD1+WsaqgNw7C5s7sWu6Qf4EUW2Vm6UsAsn
-	 QV2meBXVjguJoYt5SVMRQ1eoRT2pyC31iglV8D5F6Pkqg4/36ERdF7S/B6vdd8BsTg
-	 1gO8Nn8NZsVCHFf6ZF/ii+64U7GyKjRUqsCbIMP/6erYsHzEfiSTT8CUDZcCekLiA3
-	 /wDiP/+hf7Vq0OygRfpYk7Tke8GXHhvWOo7z4OkDjWm0D20Myxqsi3+Zns0U8bg9ST
-	 P1bOAn/Ircmq2S55sgWZNYpKDJfq45eyq/V/O7qUc8oRtZ3c5nY9z7fiplI4UsLq3v
-	 TKJh1orqxpkrw==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mh8xT-003wZJ-Cp; Sun, 31 Oct 2021 11:25:03 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kaixu Xia <kaixuxia@tencent.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 1/3] media: atomisp: don't print errors for ignored MBUS formats
-Date: Sun, 31 Oct 2021 11:25:00 +0000
-Message-Id: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70F72C80
+	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 12:08:53 +0000 (UTC)
+Received: from localhost.localdomain ([37.4.249.122]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MvsR7-1mxIoQ3yWl-00swQs; Sun, 31 Oct 2021 13:08:34 +0100
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>
+Cc: Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Mwesigwa Guma <mguma@redhat.com>,
+	Ojaswin Mujoo <ojaswin98@gmail.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	Stefan Wahren <stefan.wahren@i2se.com>
+Subject: [PATCH V2 1/2] ARM: dts: bcm283x: Drop fallback compatible for vchiq
+Date: Sun, 31 Oct 2021 13:08:05 +0100
+Message-Id: <1635682086-3200-2-git-send-email-stefan.wahren@i2se.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1635682086-3200-1-git-send-email-stefan.wahren@i2se.com>
+References: <1635682086-3200-1-git-send-email-stefan.wahren@i2se.com>
+X-Provags-ID: V03:K1:ulQB8P8DB86F6bZYbKr9KxNanL/NIBPH3ICHoUxDCXumR3GySzL
+ NSbAWqx5jb1vwvFL8TjwXY3x4hGAjlxviXgCj0DOX/fQxjVkWuTBeb2do8pfxFdA1XmMGMs
+ PRfxwZJNCal8lLQBK7Jk0AnWPzYA+3jfKlQdkerJcv4WYMhK+saXGZ2FpghmGeJGxULPwqK
+ /iTTuEwHuTerIWsAq6iMQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KOKz8qQmFC4=:1oDApW1xH5hyb3pjv6zDad
+ Sn05Ay6B3POwGxE+NfB6IlsC6kwByVcSNbBcc5E0tqCIHx4jcMSJghcCHT6i0saasu+mmjiEO
+ 4N8gt1eGow56JHnLZ5/mwIXzmGK/JVCSbKBUe/8sWOnI7q7damSq2kR0dnvfqORJAa4/a3gsl
+ gR5MPuD1I/fH4F21aImCRqLVb8i11tjMuPxPrLxht+KxzZmmkDQjfFVfTKeBJ6oBNx5I9CKQh
+ o52/jM1AczXT+okLuczHb7oijGnbMtpG39yU1gvorWdTJiJhL0axQk2ubkgoHgBmIB6TbQm/P
+ kCgtZHzXkRrZXU6Y2Q/1yxmKSrLL8dYzAB4k2gmov2IxoSOf+CGgYVcPVAYTY9lPjNPKxbSqU
+ 1saM6WQGsN14qizsJuHlVZXoH8frG2ROVEsgmx0/mPFN2ifRu7je/vLTmF3bjVvRuQc0vLSTm
+ l2AfYljX31oSQQ7zg7dSj/PMg93DTSexpAu9d3RAjt+wjHkHoJpTvfTEtC2QA4fU1WXY8z4wR
+ 1T+/BTrO6e2BOQaPsO+P3WJISQTjGggHp8QtmWaRBsJa7Y3mwjivdlXPgjf+VmXsQr5jvj/Na
+ QvltVr+76X9SE4X5HhKJWWMLQ1Ev3EHeCVPp0dhPD+5cFNBT3DHjiFbz8s80adTIjJmk/t3vc
+ C+TLAZt/bJK6EjB8LcjTykpwx/mkebR+oZ0OkF8hFlBPqc/a7MUz0mfuocAiG8DKT0GuTgMCk
+ iGwlOXPIuxUMvtux
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The bayer formats aren't currently available for userspace
-to select: those are marked as IA_CSS_FRAME_FORMAT_RAW and
-trying to get them result on binary firmware load errors:
+With introduction of SoC specific vchiq compatible in 2018, we kept the
+original "brcm,bcm2835-vchiq" as a fallback for older Kernel versions.
+Now this fallback isn't necessary anymore. So before we create a DT schema
+which also handles this fallback better fix this on the DTS side.
 
-	[74625.258097] atomisp-isp2 0000:00:03.0: Using binary isp_preview_var_isp2 (id 22), type 0, mode 1, continuous true
-	[74625.258146] atomisp-isp2 0000:00:03.0: Seeking for binary failed at:
-	[74625.258161] CPU: 3 PID: 2792 Comm: v4l2grab Tainted: G         C        5.15.0-rc4+ #77
-	[74625.258190] Hardware name: ASUSTeK COMPUTER INC. T101HA/T101HA, BIOS T101HA.306 04/23/2019
-	[74625.258208] Call Trace:
-	[74625.258231]  dump_stack_lvl+0x46/0x5a
-	[74625.258272]  ia_css_binary_find+0xa7d/0xcf0 [atomisp]
-	[74625.258570]  load_preview_binaries+0x323/0x3c0 [atomisp]
-	...
-	[74625.265892] atomisp-isp2 0000:00:03.0: can't create streams
-	[74625.265937] atomisp-isp2 0000:00:03.0: __get_frame_info 1604x1200 (padded to 0) returned -22
-	[74625.265962] atomisp-isp2 0000:00:03.0: Can't set format on ISP. Error -22
-
-As those formats are ignored by purpose, it doesn't make any sense
-to print a message like:
-
-	atomisp_enum_fmt_cap(): format for code 3007 not found.
-
-for those.
-
-Yet, some day it would be interesting to also report the bayer
-formats, letting userspace to decode them on a different way.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 --
- 1 file changed, 2 deletions(-)
+ arch/arm/boot/dts/bcm2836-rpi.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index f082d7a67875..8f0a9a69f075 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -829,8 +829,6 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
- 		f->pixelformat = format->pixelformat;
- 		return 0;
- 	}
--	dev_err(isp->dev, "%s(): format for code %x not found.\n",
--		__func__, code.code);
+diff --git a/arch/arm/boot/dts/bcm2836-rpi.dtsi b/arch/arm/boot/dts/bcm2836-rpi.dtsi
+index c4c858b..f98e0e4 100644
+--- a/arch/arm/boot/dts/bcm2836-rpi.dtsi
++++ b/arch/arm/boot/dts/bcm2836-rpi.dtsi
+@@ -2,5 +2,5 @@
+ #include "bcm2835-rpi.dtsi"
  
- 	return -EINVAL;
- }
+ &vchiq {
+-	compatible = "brcm,bcm2836-vchiq", "brcm,bcm2835-vchiq";
++	compatible = "brcm,bcm2836-vchiq";
+ };
 -- 
-2.31.1
+2.7.4
 
