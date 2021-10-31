@@ -1,101 +1,80 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD2168
-	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 18:44:01 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id d23so24555401ljj.10
-        for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 11:44:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE74968
+	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 18:51:10 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id e65so15233288pgc.5
+        for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 11:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=8aTAAkMuUs0RdOXiLwf4tJufUX7GuELy7Kv75supmqg=;
-        b=NzO9RbuDXUygHVtFmWZvfzoqrqwUuA4ZL4Nhh6EAP9yK8mx8dDS+mC2iRIe1w/Rld8
-         cdOw6sMP7+w7Fl5SHcprEiPsPEc7JadQT+mpuAS0FoFJvyJSCfyymR/UpIBJs43AS4Q0
-         bH3iombTNg++WzPjXmJVBVaVAqDbHya2Kdy0eLG/H8f+shW4mHfBBnkzkuDtEZBVhFQU
-         cYP/WOZIeTAphqymIpXycWHcTqmaYJ3APT7q44dv9gm+mTcVEFixIej95bZ1Yuv8NkG/
-         U73UgmH1yMq2TRUV4tTApyuhhsa+SCf8cEPCbrHi8v9DcOg3143q+frsRv1ddznSoJS+
-         s1jg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=LbOPgXUy+8K10GTePYW5RJJdGzLLV+FgjjdIr6/5xjQ=;
+        b=ekQrVjnFOzW517qgV1OkKXojdFZEzOGkYUB4Gs2vCL2VPStZMDZ3iOhPdg5tgkKz/F
+         Ohd93hnfsTh+jFngrZweEJUlmXjRQhndlOomveutXGdi19b/+qIxAV/Y9eITzTNk91VJ
+         eymE64euA7nPR6p7QNo635RhtcpZ8Nu8glhZXM10mr3MzPbqrFVBx4pUrP53tiE13T2x
+         c2yzXFjRjAX8IbnalZLXQVagbVBJfjAWAxBvqzYdgE15SfbDBbOsH6RucqhqiCO9ulPG
+         +ATVLqGS3oJUyKFsTLgsl9HsVvyVjoN0yld/UccSqWrC0ZABcj5w0WG6zUIpUOEH76sN
+         Lh6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=8aTAAkMuUs0RdOXiLwf4tJufUX7GuELy7Kv75supmqg=;
-        b=gLn9w5cs3/UaU6mfmJvl88yGK1x5mZUM4xdUebGcZMLDJ94cDoun7trhGKx1aTmBj0
-         kuagEMT6UHELpQnINkdPeYTSFeTmMgHjxi1bNZK/JDEiCgcOrrLGoWk3dm8p0Zb1rd58
-         Q4t1kgW6pjXlyGwjE43Z8ofoPDFmYm4QaULMptyXpeuc4J7garkJteQrk1iNZunCr2It
-         UrrwSvVVkoAv2reeu5F0HY6+623JuVSYWZomLUSy/xieoq7KVWF5KlwzGCuRkUhp1L0h
-         flEnMF2nXvBvOJMEdt2XGpunFX9TReHqVr8Jbpax40Pz4cUqVh+6BM/gdzqF00zz9sGZ
-         6rwg==
-X-Gm-Message-State: AOAM5337aBn4+X9cOLxuL2jQV2+X7geVz4i60APlER0Zbka11oDL9pvO
-	JxOscCT1OsMmjj/IYZMHj7Q=
-X-Google-Smtp-Source: ABdhPJxb7BEnnQRjcvQ1pw4Ug6ET4I1VThcTZvtnIpt3EgCITH57Nuk9wbPJh8Iqghw9kwW6zFJcPw==
-X-Received: by 2002:a05:651c:10a:: with SMTP id a10mr12059502ljb.335.1635705839276;
-        Sun, 31 Oct 2021 11:43:59 -0700 (PDT)
-Received: from [192.168.1.11] ([94.103.235.8])
-        by smtp.gmail.com with ESMTPSA id z12sm1213298lfs.101.2021.10.31.11.43.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Oct 2021 11:43:58 -0700 (PDT)
-Message-ID: <f26b4aec-c0a1-8c93-b34e-8b1a36ac81b3@gmail.com>
-Date: Sun, 31 Oct 2021 21:43:57 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=LbOPgXUy+8K10GTePYW5RJJdGzLLV+FgjjdIr6/5xjQ=;
+        b=a0iyS0GXjVMaWJOZX4IaXI/PPbFuDbM+AU30jtwGokRUFopwWnlm3viQv/+uBcK73a
+         FgyfhZsfP6dbRea6MsQd7cSRu/ssrkWk7kWCSXpaCvC/13IUoyvL5r1ESv9CAAWsN1xz
+         KVLk2NpRdlyxNTHc5V+vad8NM5cT+/ndeLPxQJBbuk5M5HgJI3lzU0MRt87CgAZb+0jU
+         l+EehhxQgK3Z1wDjbdll49gRv9GTIbc+6EXBm9p1MFS+S2SjFtZYxcL8D+7B/hTXOWum
+         mkGJ9kCoqIKhcfnCXuNAzb+LFZoR1oWeltaMVmxDUFmDOZrz5iKpbRlXxPu7LMVM+AhM
+         HHnQ==
+X-Gm-Message-State: AOAM533Dgv8QNFu6Iwy3I+ULQXg4pU9SLgGfQp/WcfY6L+X4LekQOD7K
+	QVHfn5ACJ3vz++64A4CZN8c=
+X-Google-Smtp-Source: ABdhPJxXrh5TZbwvJi0fdtXIUGAAX/T1jZeDtJHfJePYkeHV8g65ocAnk/IaznouNQbm+LfKqnt48Q==
+X-Received: by 2002:a63:88c8:: with SMTP id l191mr6919960pgd.369.1635706270243;
+        Sun, 31 Oct 2021 11:51:10 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.88.136])
+        by smtp.gmail.com with ESMTPSA id f10sm13037640pfe.82.2021.10.31.11.51.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 Oct 2021 11:51:09 -0700 (PDT)
+Date: Mon, 1 Nov 2021 00:21:03 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: hal: break after the return not useful
+Message-ID: <YX7ll4SbJ8oM7uef@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] staging: r8188eu: os_dep: remove the goto statement
-Content-Language: en-US
-To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com,
- martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YX7cCtVss2RWOJ/a@Sauravs-MacBook-Air.local>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <YX7cCtVss2RWOJ/a@Sauravs-MacBook-Air.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/31/21 21:10, Saurav Girepunje wrote:
-> Remove the goto statement from rtw_init_drv_sw(). In this function goto
-> can be replace by return statement. As on goto label exit, function
-> only return it is not performing any cleanup. Avoiding goto will
-> improve the function readability.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->   drivers/staging/r8188eu/os_dep/os_intfs.c | 39 +++++++----------------
->   1 file changed, 12 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 1418c9c4916c..4b409479108e 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -480,48 +480,34 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
->   {
->   	u8	ret8 = _SUCCESS;
-> 
+Remove the break after the return statement. As function is return
+break will never execute.
 
+issue detected by checkpatch.pl
 
-Btw, this variable can be removed completely then. It's used only for:
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/r8188eu/hal/HalPwrSeqCmd.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-ret8 = rtw_init_default_value(padapter);
+diff --git a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+index 0fd11aca7ac7..c88e10417100 100644
+--- a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
++++ b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
+@@ -83,7 +83,6 @@ u8 HalPwrSeqCmdParsing(struct adapter *padapter, u8 cut_vers, u8 fab_vers,
+ 			case PWR_CMD_END:
+ 				/*  When this command is parsed, end the process */
+ 				return true;
+-				break;
+ 			default:
+ 				break;
+ 			}
+--
+2.33.0
 
-with your patch applied, but rtw_init_default_value() always returns 
-_SUCCESS.
-
-
-> -exit:
->  	return ret8;
->  }
-
-
-And just `return _SUCCESS;` here.
-
-
-
-With regards,
-Pavel Skripkin
