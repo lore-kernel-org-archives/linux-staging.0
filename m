@@ -1,44 +1,44 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D1868
-	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 09:31:27 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id r5so9727814pls.1
-        for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 02:31:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE6D68
+	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 09:35:07 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id n36-20020a17090a5aa700b0019fa884ab85so13945788pji.5
+        for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 02:35:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=p4CdOaBb79UP5ICFne1K/YjK6ga1457gkGiduMDgE1g=;
-        b=AjZKa0pDOUbKoNsc+LnDgDuHJ4/8TzwK/rsnukwmkYiHccKx0mlJnassSwvcIg6eAC
-         UZ1wDijRgEQUfdIMa4N2o/0z7Zl2zJuBe8L4/nWHZWq4DueCifWbrW9qy3Pe8LrrzDdv
-         Ohy8noXjqt6FcL/Ocu5Xe/HdOJt22245azBEJTrtc4BYflUKNWQ1O1iGEdR9MwKanVvV
-         y6DxUH5cnYIuRMNEwpgf3mXHdsVBLK5ZS4FHYPCtGFzQZIISk12ofybR+GbkcamOC9vl
-         5xNmn0qM7hMVdeNaGxIfEOEq5jufjtPxWxTusWKoMaD5pEa4L/5KzGNCuKVYiMD0MLz8
-         +7BQ==
+        bh=6O98232Vij+PsyWFCpTQWglMqymNrueCAn1H0Rq6Bug=;
+        b=koMEyF2l4KOuOY8yk+asdHTlS30EB4Pibh5/aMNQAdYOtzKQaSJEtyxHomR9jTicqT
+         zDGh+XXRaqn2bvC9Nd6YclWNnfb767KLBT3Mxbs+EVECXtPucimW7K58irykND0JHREt
+         V+oJkNw6zDA+vzTwOqKdRfx+Zpb42tiSVJDAEyOykMnt0Vgze/4sgkBAbR2wvo0S0jn5
+         df+dPWbaqWe3a6yv/hvKE8lBwqoOQCB7oeC1b08D07MmchEmW4MZjHpZ7v0MPAxFufbR
+         KgOaChf2irAcWAT+Q7uWJBt+yK9DCUNwqztH7JOFtFjB+OjnTRs1YMRaTXtrOLrKo5wa
+         u6+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=p4CdOaBb79UP5ICFne1K/YjK6ga1457gkGiduMDgE1g=;
-        b=auJ+u0E8r84H49taHfP3w8y17ob2JzqYVYuzXW1SdNqCLjl9UwzTDWAhvmTO+tIVWZ
-         F4TYVhp8eXFGX3O5zMVpt6VFgW9DChP6ivr2FWaKHfLRxqKczk4DhhRNzC5Q9V5K8x2Q
-         +CR5o9BvPZwGW3/IBf9NquaaeFqAjIr37syqyFRrd5pLqRg8QQnDN91g+r93ZM49oNXA
-         369lXFi+rgEJcPVBFFd9ONndIVwY+1BclLYUG71wVJmrQUdv0FXPTI4UddskPlhWN9O3
-         XZTr52j+kM6YDmhZSzU4DJApyAkmH1kIMCeZSjRFOzaqz2cA1NtLx7TOXlcLaX6UHAK9
-         V9iw==
-X-Gm-Message-State: AOAM533fqBe3oT1qRLWQXVpUDh4z7/EmdxM32t+BeEW94rNd6bWpZky0
-	nHrHFOxqrgASBFMbRlwZHTA=
-X-Google-Smtp-Source: ABdhPJzUvDFCJc/gHSSbROzaT2bEkrMOQhGlUiv1oedVQwsjOaamHIpCaJahJj/NnuZbkLB+vefBcw==
-X-Received: by 2002:a17:90b:1e0b:: with SMTP id pg11mr30724844pjb.230.1635672686718;
-        Sun, 31 Oct 2021 02:31:26 -0700 (PDT)
+        bh=6O98232Vij+PsyWFCpTQWglMqymNrueCAn1H0Rq6Bug=;
+        b=GXxvJEbmMnot4QiFNFiay/1YJ5QcnvDir81gohWrKRNdhXA6II/M83Yn2/jb2UtJSA
+         4RmkX+4pQv4hzVFZa2E//Lm/28Z4OzAsdjcYVAj2VZ7+V04Zh7TcSM9B3MHwGEyfUG8a
+         bR4wV4SBJlIU0L7QbcezW7aLUGLrF+lub5KiH0vGCHx/dT0Dmr/o/DZfWTJ+M3ecWehx
+         iXM19aur5YxtF9uwY0ZU6nEDefXdAawgNF9S1+8cz6ldLn5Nea+zv5JqFc7U1fpev9S9
+         hBQ1Vuqn2tsIO1/Sufc6/w8gUjGFsali/pijMxf5Y+2q2b8Q0IGxylIPbRpBWtb7uHFv
+         kn+w==
+X-Gm-Message-State: AOAM531Lwjxb/DcUL4sEilXKZUKulNepkI8Lo2bnIN3LNvBeEBbrytZz
+	u+niVxAnWn2VfTqBVuBkuwTQP3EwF7s=
+X-Google-Smtp-Source: ABdhPJxcta6pHhrQyx7sf8tNpYU1FtyyZJX58/Bfpt9HLs5YyH0dXd0lLky2UZLkZLqDyjc8z+nBsg==
+X-Received: by 2002:a17:902:ce8f:b0:141:93d7:6bfb with SMTP id f15-20020a170902ce8f00b0014193d76bfbmr17358779plg.7.1635672907295;
+        Sun, 31 Oct 2021 02:35:07 -0700 (PDT)
 Received: from [192.168.160.115] ([217.146.10.210])
-        by smtp.gmail.com with ESMTPSA id d2sm13011730pfj.42.2021.10.31.02.31.23
+        by smtp.gmail.com with ESMTPSA id co4sm1920232pjb.2.2021.10.31.02.35.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Oct 2021 02:31:26 -0700 (PDT)
-Message-ID: <26a88652-0db7-6b85-565c-b7d002039cd9@gmail.com>
-Date: Sun, 31 Oct 2021 15:01:21 +0530
+        Sun, 31 Oct 2021 02:35:06 -0700 (PDT)
+Message-ID: <bf93fce2-6669-1e0e-3117-c84e7e7b4de9@gmail.com>
+Date: Sun, 31 Oct 2021 15:05:02 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,47 +47,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH v2] staging: r8188eu: avoid use of goto statement
+Subject: Re: [PATCH] staging: rtl8712: remove the condition with no effect
 Content-Language: en-GB
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- straube.linux@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
-References: <YXbA0BgvKZKXApaW@Sauravs-MacBook-Air.local>
- <YXgw7tOmgO3almYe@kroah.com>
+To: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
+ florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
+ alec@vc-celle.de, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YXonpdnCatbuOo8H@Sauravs-MacBook-Air.local>
+ <d4ee4591-0642-002b-ddd8-41693c0f1ccb@gmail.com>
 From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <YXgw7tOmgO3almYe@kroah.com>
+In-Reply-To: <d4ee4591-0642-002b-ddd8-41693c0f1ccb@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 26/10/21 10:16 pm, Greg KH wrote:
-> On Mon, Oct 25, 2021 at 08:06:00PM +0530, Saurav Girepunje wrote:
->> Remove the goto statement from _rtw_init_cmd_priv(). In this function
->> goto statement can be replace by return statement. By replacing the
->> goto statement with return statement local variable "res" is also not
->> required. As on goto label exit, function only return it is not
->> performing any cleanup. Avoiding goto statement will simplify the function.
+On 28/10/21 4:56 pm, Pavel Skripkin wrote:
+> On 10/28/21 07:31, Saurav Girepunje wrote:
+>> Remove the if condition check and else code section in
+>> query_rx_phy_status(). As variable cck_highpwr is assign a value of '0'
+>> after this assignment, if condition check !cck_highpwr is always
+>> going to be true. So remove the if condition check as well as else
+>> section which will be never true.
+>>
+>> After removing the if condition there is no use of local variable
+>> cck_highpwr. Remove the local variable cck_highpwr.
 >>
 >> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 >> ---
->>
->> ChangeLog V2:
->>
->> 	-Add space after line end on changelog.
->> 	-Remove addition blank link after the local variable res
->> 	 as per the coding guidelines for linux kernel.
->>
 > 
-> This does not apply to my tree, please rebase and resubmit.
+> [code snip]
 > 
-> thanks,
+>> +        report = pcck_buf->cck_agc_rpt & 0xc0;
+>> +        report >>= 6;
+>> +        switch (report) {
+>> +        /* Modify the RF RNA gain value to -40, -20,
+>> +         * -2, 14 by Jenyu's suggestion
+>> +         * Note: different RF with the different
+>> +         * RNA gain.
+>> +         */
+>> +        case 0x3:
+>> +            rx_pwr_all = -40 - (pcck_buf->cck_agc_rpt &
+>> +                     0x3e);
 > 
-> greg k-h
+> You can move "0x3e);" part on previous line, since it will fit even 80 characters boundary. It will improve readability, IMO
 > 
-
-OK,
+> Same below.
+> 
+Yes, This is also can be done on same patch.
+Thanks for review Pavel
+>> +            break;
+>> +        case 0x2:
+>> +            rx_pwr_all = -20 - (pcck_buf->cck_agc_rpt &
+>> +                     0x3e);
+>> +            break;
+>> +        case 0x1:
+>> +            rx_pwr_all = -2 - (pcck_buf->cck_agc_rpt &
+>> +                     0x3e);
+>> +            break;
+>> +        case 0x0:
+>> +            rx_pwr_all = 14 - (pcck_buf->cck_agc_rpt &
+>> +                     0x3e);
+>> +            break;
+>>           }
+>> +
+> 
+> 
+> 
+> With regards,
+> Pavel Skripkin
 
 Regards,
-Saurav
+Saurav 
