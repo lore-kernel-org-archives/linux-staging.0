@@ -1,121 +1,121 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE6D68
-	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 09:35:07 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id n36-20020a17090a5aa700b0019fa884ab85so13945788pji.5
-        for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 02:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=6O98232Vij+PsyWFCpTQWglMqymNrueCAn1H0Rq6Bug=;
-        b=koMEyF2l4KOuOY8yk+asdHTlS30EB4Pibh5/aMNQAdYOtzKQaSJEtyxHomR9jTicqT
-         zDGh+XXRaqn2bvC9Nd6YclWNnfb767KLBT3Mxbs+EVECXtPucimW7K58irykND0JHREt
-         V+oJkNw6zDA+vzTwOqKdRfx+Zpb42tiSVJDAEyOykMnt0Vgze/4sgkBAbR2wvo0S0jn5
-         df+dPWbaqWe3a6yv/hvKE8lBwqoOQCB7oeC1b08D07MmchEmW4MZjHpZ7v0MPAxFufbR
-         KgOaChf2irAcWAT+Q7uWJBt+yK9DCUNwqztH7JOFtFjB+OjnTRs1YMRaTXtrOLrKo5wa
-         u6+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=6O98232Vij+PsyWFCpTQWglMqymNrueCAn1H0Rq6Bug=;
-        b=GXxvJEbmMnot4QiFNFiay/1YJ5QcnvDir81gohWrKRNdhXA6II/M83Yn2/jb2UtJSA
-         4RmkX+4pQv4hzVFZa2E//Lm/28Z4OzAsdjcYVAj2VZ7+V04Zh7TcSM9B3MHwGEyfUG8a
-         bR4wV4SBJlIU0L7QbcezW7aLUGLrF+lub5KiH0vGCHx/dT0Dmr/o/DZfWTJ+M3ecWehx
-         iXM19aur5YxtF9uwY0ZU6nEDefXdAawgNF9S1+8cz6ldLn5Nea+zv5JqFc7U1fpev9S9
-         hBQ1Vuqn2tsIO1/Sufc6/w8gUjGFsali/pijMxf5Y+2q2b8Q0IGxylIPbRpBWtb7uHFv
-         kn+w==
-X-Gm-Message-State: AOAM531Lwjxb/DcUL4sEilXKZUKulNepkI8Lo2bnIN3LNvBeEBbrytZz
-	u+niVxAnWn2VfTqBVuBkuwTQP3EwF7s=
-X-Google-Smtp-Source: ABdhPJxcta6pHhrQyx7sf8tNpYU1FtyyZJX58/Bfpt9HLs5YyH0dXd0lLky2UZLkZLqDyjc8z+nBsg==
-X-Received: by 2002:a17:902:ce8f:b0:141:93d7:6bfb with SMTP id f15-20020a170902ce8f00b0014193d76bfbmr17358779plg.7.1635672907295;
-        Sun, 31 Oct 2021 02:35:07 -0700 (PDT)
-Received: from [192.168.160.115] ([217.146.10.210])
-        by smtp.gmail.com with ESMTPSA id co4sm1920232pjb.2.2021.10.31.02.35.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Oct 2021 02:35:06 -0700 (PDT)
-Message-ID: <bf93fce2-6669-1e0e-3117-c84e7e7b4de9@gmail.com>
-Date: Sun, 31 Oct 2021 15:05:02 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B822C80
+	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 11:25:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C39660F56;
+	Sun, 31 Oct 2021 11:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1635679506;
+	bh=5AQ4SFcPBrRu8r+f85REA1Qo7urIQufQynh/2GrVMLY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PminbNS/sScjp2Kr2IYaraoupgvxMecnhIyPC/YsRKar60GF/V2Hk+6IdS+hUFe4b
+	 ChDB+8uaoUzNsZfFKTpnzVjYR9hGs/G2ogqgC1tqN2tmhM5mVXJ1gT1qDstjA0JngV
+	 J9ykKaJCD/rhP965hzy1ES1o1UacHIoXlOOJCFHqBwdKyGkwhfDNfZhMJ9kHgb50os
+	 vdUlA7+7ldGvO9HPfoHLuAKxi9BxsOjoGXFxua9O92FJ041QCLKdzWzXdfRlChZ/2k
+	 Ww6EeP/ZNeAtv6Q/+Pr1sYPmGWzBPimR/3ERl1+2z7hylb4jT7GEyYrabpGkZW/kZl
+	 3AmcZ3SHo50Hg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mh8xT-003wZP-Em; Sun, 31 Oct 2021 11:25:03 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Alex Dewar <alex.dewar90@gmail.com>,
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Ingo Molnar <mingo@kernel.org>,
+	Kaixu Xia <kaixuxia@tencent.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 3/3] media: atomisp: comment-out JPEG format
+Date: Sun, 31 Oct 2021 11:25:02 +0000
+Message-Id: <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
+References: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH] staging: rtl8712: remove the condition with no effect
-Content-Language: en-GB
-To: Pavel Skripkin <paskripkin@gmail.com>, Larry.Finger@lwfinger.net,
- florian.c.schilhabel@googlemail.com, gregkh@linuxfoundation.org,
- alec@vc-celle.de, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YXonpdnCatbuOo8H@Sauravs-MacBook-Air.local>
- <d4ee4591-0642-002b-ddd8-41693c0f1ccb@gmail.com>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <d4ee4591-0642-002b-ddd8-41693c0f1ccb@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+This is already disabled on some parts of the code, and trying
+to use it with current firmware causes an error:
 
+[   53.799946] atomisp-isp2 0000:00:03.0: can't create streams
+[   53.799962] atomisp-isp2 0000:00:03.0: __get_frame_info 1600x900 (padded to 0) returned -22
 
-On 28/10/21 4:56 pm, Pavel Skripkin wrote:
-> On 10/28/21 07:31, Saurav Girepunje wrote:
->> Remove the if condition check and else code section in
->> query_rx_phy_status(). As variable cck_highpwr is assign a value of '0'
->> after this assignment, if condition check !cck_highpwr is always
->> going to be true. So remove the if condition check as well as else
->> section which will be never true.
->>
->> After removing the if condition there is no use of local variable
->> cck_highpwr. Remove the local variable cck_highpwr.
->>
->> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
->> ---
-> 
-> [code snip]
-> 
->> +        report = pcck_buf->cck_agc_rpt & 0xc0;
->> +        report >>= 6;
->> +        switch (report) {
->> +        /* Modify the RF RNA gain value to -40, -20,
->> +         * -2, 14 by Jenyu's suggestion
->> +         * Note: different RF with the different
->> +         * RNA gain.
->> +         */
->> +        case 0x3:
->> +            rx_pwr_all = -40 - (pcck_buf->cck_agc_rpt &
->> +                     0x3e);
-> 
-> You can move "0x3e);" part on previous line, since it will fit even 80 characters boundary. It will improve readability, IMO
-> 
-> Same below.
-> 
-Yes, This is also can be done on same patch.
-Thanks for review Pavel
->> +            break;
->> +        case 0x2:
->> +            rx_pwr_all = -20 - (pcck_buf->cck_agc_rpt &
->> +                     0x3e);
->> +            break;
->> +        case 0x1:
->> +            rx_pwr_all = -2 - (pcck_buf->cck_agc_rpt &
->> +                     0x3e);
->> +            break;
->> +        case 0x0:
->> +            rx_pwr_all = 14 - (pcck_buf->cck_agc_rpt &
->> +                     0x3e);
->> +            break;
->>           }
->> +
-> 
-> 
-> 
-> With regards,
-> Pavel Skripkin
+So, completely disable reporting it.
 
-Regards,
-Saurav 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 2 ++
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 7 +++----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index ff8640314f65..feb75491a273 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1980,9 +1980,11 @@ v4l2_fmt_to_sh_fmt(u32 fmt)
+ 		return IA_CSS_FRAME_FORMAT_RGBA888;
+ 	case V4L2_PIX_FMT_RGB565:
+ 		return IA_CSS_FRAME_FORMAT_RGB565;
++#if 0
+ 	case V4L2_PIX_FMT_JPEG:
+ 	case V4L2_PIX_FMT_CUSTOM_M10MO_RAW:
+ 		return IA_CSS_FRAME_FORMAT_BINARY_8;
++#endif
+ 	case V4L2_PIX_FMT_SBGGR16:
+ 	case V4L2_PIX_FMT_SBGGR10:
+ 	case V4L2_PIX_FMT_SGBRG10:
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index d92d41dd0ade..936516daec7d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -492,23 +492,22 @@ const struct atomisp_format_bridge atomisp_output_fmts[] = {
+ 		.mbus_code = MEDIA_BUS_FMT_BGR565_2X8_LE,
+ 		.sh_fmt = IA_CSS_FRAME_FORMAT_RGB565,
+ 		.description = "16 RGB 5-6-5"
++#if 0
+ 	}, {
+ 		.pixelformat = V4L2_PIX_FMT_JPEG,
+ 		.depth = 8,
+ 		.mbus_code = MEDIA_BUS_FMT_JPEG_1X8,
+ 		.sh_fmt = IA_CSS_FRAME_FORMAT_BINARY_8,
+ 		.description = "JPEG"
+-	},
+-#if 0
+-	{
++	}, {
+ 		/* This is a custom format being used by M10MO to send the RAW data */
+ 		.pixelformat = V4L2_PIX_FMT_CUSTOM_M10MO_RAW,
+ 		.depth = 8,
+ 		.mbus_code = V4L2_MBUS_FMT_CUSTOM_M10MO_RAW,
+ 		.sh_fmt = IA_CSS_FRAME_FORMAT_BINARY_8,
+ 		.description = "Custom RAW for M10MO"
+-	},
+ #endif
++	},
+ };
+ 
+ const struct atomisp_format_bridge *
+-- 
+2.31.1
+
