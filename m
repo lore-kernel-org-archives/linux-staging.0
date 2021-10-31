@@ -1,68 +1,82 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DD72C80
-	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 12:22:22 +0000 (UTC)
-Received: from localhost.localdomain ([37.4.249.122]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MEFrX-1mXYjU1zXx-00ADxg; Sun, 31 Oct 2021 13:08:33 +0100
-From: Stefan Wahren <stefan.wahren@i2se.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>
-Cc: Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	Mwesigwa Guma <mguma@redhat.com>,
-	Ojaswin Mujoo <ojaswin98@gmail.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	Stefan Wahren <stefan.wahren@i2se.com>
-Subject: [PATCH V2 0/2] dt-bindings: soc: bcm: Convert brcm,bcm2835-vchiq to json-schemas
-Date: Sun, 31 Oct 2021 13:08:04 +0100
-Message-Id: <1635682086-3200-1-git-send-email-stefan.wahren@i2se.com>
-X-Mailer: git-send-email 2.7.4
-X-Provags-ID: V03:K1:eqjFY6C7Np2lLLbNby1RAONQKssAEFOeH6WmUp9aERNlBYhm+tD
- RZeL5GXZ2V9vCNSo9KV+zvQcdkP3uW6tGi6NEnzJx51cfHUc5Br0cyWl8U8VEbb0XmxLy88
- BEF9f+6y452DV6grbEwEDqzB93Qg4xoVB/MGtnEw7c3+EQj2Gtl20fEo0FMpJHMf5yiQcUl
- jmffULX94O5rIOxqWkXjg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:33SO4Ti0OYo=:Fu1g5kG1I2NHRteYb6DWgX
- AdTS3aljp+L7guTbLd5l9FZjaLCWMplyHa6QMbBN66MgGIHWWDh6ZaESKTkHJMRKonvbJ+WRY
- YrIvLEZ+pT1xHTYEZp6lTGv23GF0shrjqXAY1dw2dDhNyy2lmpaeX+zvTdOpC9TGMiXQ+Z5wd
- VSPFXnpDAQXQomAdiyqbi5u0JlRKvOcxgs7Nu+hMUiD/Vw4YWLNnPHzch5zADCbMT18pywPJH
- Q/qkVV/8iHS+HidsfMb3GOTPywU0+nLyINrJxKEY6XwJ2YB+lfEEyGKBvL+kRKX4uCISwKPGq
- +wy5wm8FSQ5AYieZpl1ljZA2ZTT8Xwq5ogazrfeRhB3QPlTtlGSQ31YXsM/XhcTeG7hA7Vk49
- ZntZSACAWpBaE1TtDWr2eR2qt8d/Geg0TKz341IOwiQoUcsGhYI/a/hnmwMwuoKz3/kM+t7jZ
- /NPNEtDqK6PtNT9lays6l86cfvPqVQrCoPHoVxjgzlFxigcFh9Zed0ROVWVgVYt+CVym2YXCn
- idRvpQ0CFtfxpWMyRmZwujOhhR3BttRSxringRPPXnxj4meuEndrnXqxWB/+waJyvgi12XKN9
- pbEclW11EmkfzlZDg8/oGjVt9g8njgGKORwZBbXvnfxipH0ALyz/uNDBx2dSomGHS/42Q/qY5
- qnI/55Awrt+OLfaNa0aEWFguij4iil7IPyIYvcVNsjLwz/78bcUl3s3T7kxYmySrBoXoXIomA
- MLpKwEAJMWEni6D1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681A12C85
+	for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 13:04:17 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id h11so25016302ljk.1
+        for <linux-staging@lists.linux.dev>; Sun, 31 Oct 2021 06:04:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EMe2Z2587AVutQZvLwNBuhISbQ8pHURWp8p6vvRjrlc=;
+        b=a2iKCDA/nqe1HltLr9hVTTfl2+nGyDu2Z3sl5WvHKWffYUTP1PzdUqf468l1TtR5bK
+         KmOlJqV58zjINjRK+rB6IcQNIZR/GvPvBHBAxGJat4OVhs4SjudzbaHCVdf8yvrfeTKh
+         dn9SKK/iqD0p9ax7zF/mmifUJJ3Oq8mJw8pLMt00GX0O+idlBo+dcyUEFhac7YAUZlB5
+         vwQJhhZ77ixkgVrjKdlZryIabUtNaUjBfFcjb7+wgDy0beWPQSUzm+TkF2VWj42jgqSr
+         hR1Qic+nb+yJNXQKOW2qo8b0pttbT1IEJCGSNWaC/wimitqp0hmK6oE9fMoVJLbmNO/t
+         0SvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EMe2Z2587AVutQZvLwNBuhISbQ8pHURWp8p6vvRjrlc=;
+        b=UpExrgZ+rG7Vc4xbL7idyVYcPT/Cn6VTHskMwrxsiET+GTioun9aeonKQTmetH40QU
+         /R+wj+VQsK6MLrWEabtf9Z4i59yqrtMJIsS+P+JWGYmHBiQ4vFqOquIlhyWENN1yfVrY
+         /r0Q20BjvGahbrQdm+VhXFdBch9vKJ1KKe2vVw7Si+oSqBVBxZeHJ8SYhH1olAnLIaI9
+         0EEYJdGLhq5seCAk92GmzEZdKvDAxJUAT9Gvrei+uCXc5ug0hAhZp8ou1QZoisU1zzwn
+         LHWoFazoEwqR7lJOsANXFTRKG3tqvFxNYkQBvUKSuahb3jwitw2vd4j6GSlJSWTmT24C
+         pAJQ==
+X-Gm-Message-State: AOAM533w6ksakCwWtkMddIVjiRxeV6AYBIxICzCDHtD8bvXmybCCYBsA
+	eBha6QuMa3NwtM2PxUUUxwOgAwNsdQU0SQAV+ks=
+X-Google-Smtp-Source: ABdhPJwu7xlJgXcDLfBtqzUnE3+rerLqH1wzhSdAeqWlQfbNF5Kythz68RK7/JMcva/SffISoH67p1nJGkwCfHQG3eY=
+X-Received: by 2002:a2e:81c8:: with SMTP id s8mr18128016ljg.407.1635685455484;
+ Sun, 31 Oct 2021 06:04:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <dc24ab2a6c9bb0831e1bb732d3377529fb0ead87.1635679495.git.mchehab+huawei@kernel.org>
+ <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
+In-Reply-To: <b561275a4b10949ac06ff834e27243ec6ad6d546.1635679495.git.mchehab+huawei@kernel.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sun, 31 Oct 2021 15:03:39 +0200
+Message-ID: <CAHp75VcaWqeY2=13WE+ObQzjA1q83QPU4NGJnPR0H12m68uzVQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: atomisp: comment-out JPEG format
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linuxarm <linuxarm@huawei.com>, mauro.chehab@huawei.com, 
+	Alex Dewar <alex.dewar90@gmail.com>, 
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Dan Carpenter <dan.carpenter@oracle.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Ingo Molnar <mingo@kernel.org>, 
+	Kaixu Xia <kaixuxia@tencent.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Tsuchiya Yuto <kitakar@gmail.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-This series converts the VCHIQ bindings to YAML format.
+On Sun, Oct 31, 2021 at 1:30 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> This is already disabled on some parts of the code, and trying
+> to use it with current firmware causes an error:
+>
+> [   53.799946] atomisp-isp2 0000:00:03.0: can't create streams
+> [   53.799962] atomisp-isp2 0000:00:03.0: __get_frame_info 1600x900 (padded to 0) returned -22
+>
+> So, completely disable reporting it.
 
-Changes in V2:
-- drop some unnecessary points in the binding as suggested by Rob Herring
 
-Stefan Wahren (2):
-  ARM: dts: bcm283x: Drop fallback compatible for vchiq
-  dt-bindings: soc: bcm: Convert brcm,bcm2835-vchiq to json-schema
-
- .../bindings/soc/bcm/brcm,bcm2835-vchiq.txt        | 17 --------
- .../bindings/soc/bcm/brcm,bcm2835-vchiq.yaml       | 45 ++++++++++++++++++++++
- arch/arm/boot/dts/bcm2836-rpi.dtsi                 |  2 +-
- 3 files changed, 46 insertions(+), 18 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.txt
- create mode 100644 Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+Can't we simply remove all these pieces altogether?
+The rationale:
+ - code is still kept in the index of the Git
+ - avoid robots and humans of sending patches against dead code
+ - leaving dead code (even in staging) is not what we want in the long term
 
 -- 
-2.7.4
-
+With Best Regards,
+Andy Shevchenko
