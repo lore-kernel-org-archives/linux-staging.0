@@ -1,76 +1,263 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC37C2C82
-	for <linux-staging@lists.linux.dev>; Mon,  1 Nov 2021 13:02:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C498860FE8;
-	Mon,  1 Nov 2021 13:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1635771720;
-	bh=VYx73tcpjpexSamiB+yt/silKL4ndXPFt8SomZn4KFI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pw+pDF+OL6KL8IWekUsKbgEV3jgusKkgitoQORVYV7rVt0A1rhIrpeLo3pH4jW4f8
-	 joj49/RTG74cxZ6dadR0yYBf3QeHlnzOCLMxiXGF2a2QVfGtYFdQMyuykVGj4nEW9i
-	 soqIn/gOxUUlPVjb0nTUOPD+ZB5QC714N6kMbaY8=
-Date: Mon, 1 Nov 2021 14:01:56 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saurav Girepunje <saurav.girepunje@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	saurav.girepunje@hotmail.com
-Subject: Re: [PATCH] staging: r8188eu: hal: else is not useful after a return
-Message-ID: <YX/lRMNGsCZMKAV3@kroah.com>
-References: <YX7iBmKKNZfj8Gca@Sauravs-MacBook-Air.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C53F2C82
+	for <linux-staging@lists.linux.dev>; Mon,  1 Nov 2021 13:39:05 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id y14-20020a17090a2b4e00b001a5824f4918so9253453pjc.4
+        for <linux-staging@lists.linux.dev>; Mon, 01 Nov 2021 06:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=7pNh086pcwgCHT5Fv56tvovv3xja4CBwmxWgX1dG3jA=;
+        b=ZmrWRUHs6CzrNzkywbhvGGXD3ykx8er86M8FW4Suz0PWv/mELq3n41EIPFO3K/6GKt
+         XIk8xp8h3689UisjSu2x2eHvEKMxSssbssABUrbGy8FKhX+R+WlGlBR02eQk/q6Inaj1
+         EG9vyPWRuSZEPDm+rp/4JYdW8lXgt+S1fv1TjVuTrErDCo+N8Otc4nvqqb8XnPQpcpEg
+         vccHc5bGgUgD6P8qJYZyDqfBKwQu9Su02TBLulXbJXFmudkRTe+RmH+LWRUPM8XCJR2P
+         VyrF0XR14ZdKs9fxhedcF74tmsYB7OQuY1ucUEC5N8LXP1tNVUM4hdEeTB0dMfAL4cJD
+         vCxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=7pNh086pcwgCHT5Fv56tvovv3xja4CBwmxWgX1dG3jA=;
+        b=rAFUinabNuFb4bbXRlyrymuPYxKZaEzm96Z7jfwsDnwOztB5iDYetD6CsXMfPeizaM
+         WqSlmcllufDsgeximvTq1uwWCoW6tYjpfBu+aqNCjOTp/T5vMk46B12wUJq5Spgrfgai
+         4YNY9MXuPMWAkONfK5II3Yk/OiX/Pp/8eDHNAlkfvIE0NWzZrleEgnzv8wCN4LCqz7TY
+         s7F/QBEnCtxFoRebCPQjlLI+KC4UL7fSqVe08Atbm1oA8Eb81R4GByIrV2ihY/NfvlPZ
+         FGHRh77wS2jF5zZTKhORWbHinleYVyxKf92m2vR8gsvUBwro23zImqM774mKtg7pTDRi
+         /GeQ==
+X-Gm-Message-State: AOAM530ci5M1dSXNVAVlkFJgOk7bkpNKkv9FCIIZE6WcVJ9zYgIIBkwA
+	Ck0ZX8agCkKIcgSHGnuAEnU=
+X-Google-Smtp-Source: ABdhPJyVsU7iqBDqDs02C4ZXb/Nm9JHd+TpM78N0fQzo4xT/KXjg5hyVNs6Dg0dojv59x8jSBDwlsg==
+X-Received: by 2002:a17:902:ced1:b0:141:e15d:49e0 with SMTP id d17-20020a170902ced100b00141e15d49e0mr7372256plg.27.1635773944727;
+        Mon, 01 Nov 2021 06:39:04 -0700 (PDT)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id k22sm15181167pfi.149.2021.11.01.06.39.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Nov 2021 06:39:04 -0700 (PDT)
+Message-ID: <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
+Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
+ checking port validity for ISP2400
+From: Tsuchiya Yuto <kitakar@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
+ <nable.maininbox@googlemail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+ "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>
+Date: Mon, 01 Nov 2021 22:38:55 +0900
+In-Reply-To: <20211028123944.66c212c1@sal.lan>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+	 <20211017161958.44351-5-kitakar@gmail.com>
+	 <20211026092637.196447aa@sal.lan>
+	 <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+	 <20211028123944.66c212c1@sal.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YX7iBmKKNZfj8Gca@Sauravs-MacBook-Air.local>
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 01, 2021 at 12:05:50AM +0530, Saurav Girepunje wrote:
-> In the function rtl8188eu_hal_init() else after the return statement
-> of the if section is not useful. As if condition is true function will
-> return from if section, On the other case if condition is false
-> function will not return and statement after the if section will
-> execute, So there is no need to have else in this case. Remove the
-> else after a return statement of the if section.
+On Thu, 2021-10-28 at 12:39 +0100, Mauro Carvalho Chehab wrote:
+> Em Thu, 28 Oct 2021 13:12:45 +0900
+> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 > 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/r8188eu/hal/usb_halinit.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+> > <Adding back people/list to Cc>
+> > 
+> > On Tue, 2021-10-26 at 09:26 +0100, Mauro Carvalho Chehab wrote:
+> > > Em Mon, 18 Oct 2021 01:19:44 +0900
+> > > Tsuchiya Yuto <kitakar@gmail.com> escreveu:
+> > >   
+> > > > Currently, the `port >= N_CSI_PORTS || err` checks for ISP2400 are always
+> > > > evaluated as true because the err variable is set to `-EINVAL` on
+> > > > declaration but the variable is never used until the evaluation.
+> > > > 
+> > > > Looking at the diff of commit 3c0538fbad9f ("media: atomisp: get rid of
+> > > > most checks for ISP2401 version"), the `port >= N_CSI_PORTS` check is
+> > > > for ISP2400 and the err variable check is for ISP2401. Fix this issue
+> > > > by adding ISP version test there accordingly.
+> > > > 
+> > > > Yes, there are other better ways to fix this issue, like adding support
+> > > > for ISP2400 to ia_css_mipi_is_source_port_valid(). In this way, we can
+> > > > unify the following test:
+> > > > 
+> > > > 	if (!IS_ISP2401)
+> > > > 		port = (unsigned int)pipe->stream->config.source.port.port;
+> > > > 	else
+> > > > 		err = ia_css_mipi_is_source_port_valid(pipe, &port);
+> > > > 
+> > > > However, the IS_ISP2401 test here (formerly `ifdef ISP2401`) is not
+> > > > a result of real hardware difference, but just a result of the following
+> > > > two different versions of driver merged by tools [1]:
+> > > > 
+> > > >   - ISP2400: irci_stable_candrpv_0415_20150521_0458
+> > > >   - ISP2401: irci_ecr-master_20150911_0724  
+> > > 
+> > > No.
+> > > 
+> > > While I don't have any internal information from the hardware manufacturer,
+> > > I guess you misinterpreted things here. 2400 and 2401 are different
+> > > hardware versions. See atomisp_pci_probe() logic.
+> > > 
+> > > Basically, Cherrytail and Anniedale comes with 2401. Older Atom CPUs
+> > > (Merrifield and Baytrail) comes with 2400.  
+> > 
+> > Yes, indeed, 2400 and 2401 are different hardware. When they (I mean who
+> > originally wrote atomisp driver non-upstream) needed to distinguish
+> > between ISP2400 and ISP2401, they used the ifdefs like the following:
+> > 
+> >   - USE_INPUT_SYSTEM_VERSION_2    (for both ISP2400/ISP2401)
+> >   - USE_INPUT_SYSTEM_VERSION_2401 (for ISP2401)
+> >   ...
+> > 
+> > I think this is a sign that the atomisp driver supports both
+> > ISP2400/ISP2401 in a single version.
+> 
+> Actually, supporting both on a single version is part of Alan's work.
+> 
+> It seems he used the generation tool to produce a version for 2400, and
+> then re-used it to generate for 2401. It then used some scripting tool
+> to convert the differences on #ifdef ISP2401. See:
+> 
+> 	a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+> 
+> There are things there like:
+> 
+> 	+#ifdef ISP2401
+> 	+
+> 	+#endif
+> 
+> I did a large cleanup work to get rid of those ifdefs, replacing them
+> by runtime logic.
+> 
+> The end goal is to have a single compile-time driver that works for
+> both 2400 and 2401.
+> 
+> This is not possible yet, as there are some registers that are mapped
+> on different addresses, depending on the hardware version, and making
+> it generic requires a lot of work and tests. So, for now, we need to 
+> have a compile-time option to select between both.
+> 
+> > Indeed, the upstreamed atomisp uses irci_stable_candrpv_0415_20150521_0458
+> > for ISP2400 and IIUC it was working on Bay Trail. On the other hand,
+> > intel-aero is a kernel for Cherry Trail and uses the same version
+> > irci_stable_candrpv_0415_20150521_0458.
+> > 
+> > So, both ISP version ISP2400/ISP2401 can be supported by a single
+> > driver version.
+> 
+> I See. OK!
+> 
+> > > > We should eventually remove (not unify) such tests caused by just a
+> > > > driver version difference and use just one version of driver. So, for
+> > > > now, let's avoid further unification.
+> > > > 
+> > > > [1] The function ia_css_mipi_is_source_port_valid() and its usage is
+> > > >     added on updating css version to irci_master_20150701_0213
+> > > >     https://raw.githubusercontent.com/intel/ProductionKernelQuilts/cht-m1stable-2016_ww31/uefi/cht-m1stable/patches/cam-0439-atomisp2-css2401-and-2401_legacy-irci_master_2015070.patch
+> > > >     ("atomisp2: css2401 and 2401_legacy-irci_master_20150701_0213")  
+> > > 
+> > > What happens is that there is a 2401 and a 2401 "legacy". It sounds
+> > > that this due to some different software stacks that are reflected both
+> > > at the firmware and at the driver.  
+> > 
+> > Yeah, I'm not sure what the "legacy" is. It might be a reference of
+> > `ISP2401_NEW_INPUT_SYSTEM` (css_2401_csi2p_system) and
+> > non-`ISP2401_NEW_INPUT_SYSTEM` (css_2401_system).
+> > 
+> > > -
+> > > 
+> > > On other words, this patch requires some rework, as otherwise it will break
+> > > support for Baytrail.  
+> > 
+> > You mean "this patch"? then, I intended this patch is rather a fix for
+> > ISP2400 case! The err variable for ISP2400 case is always true because
+> > it is not used before the error check:
+> > 
+> >         int
+> >         allocate_mipi_frames(struct ia_css_pipe *pipe,
+> >         		     struct ia_css_stream_info *info)
+> >         {
+> >         	int err = -EINVAL;
+> > [...]
+> >         	if (!IS_ISP2401)
+> >         		port = (unsigned int)pipe->stream->config.source.port.port;
+> >         	else
+> >         		err = ia_css_mipi_is_source_port_valid(pipe, &port);
+> >         
+> >         	assert(port < N_CSI_PORTS);
+> >         
+> >         	if (port >= N_CSI_PORTS || err) {
+> >         		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+> >         				    "allocate_mipi_frames(%p) exit: error: port is not correct (port=%d).\n",
+> >         				    pipe, port);
+> >         		return -EINVAL;
+> >         	}
+> > 
+> > The first usage of err variable is ia_css_mipi_is_source_port_valid()
+> > for IS_ISP2401 case, but it's not used for ISP2400 case. This causes
+> > the evaluation `port >= N_CSI_PORTS || err` always true for ISP2400 case,
+> > meaning it will be always treated as a error.
+> 
+> Ok. Had you test the driver with Baytrail?
+
+Unfortunately, no. I don't have a Baytrail device to test (yet?). I
+noticed this issue anyway when I tried removing `#ifdef ISP2401`.
+
+This is not directly related to this series, but how we should reduce
+the ifdef usage in the future? Here are my two ideas:
+
+  1. (my initial idea) remove `#ifdef ISP2401` part and make ISP2401
+     part completely irci_stable_candrpv_0415_20150521_0458
+
+this way does not require (relatively) much human work I think.
+
+But as Mauro says, the `#ifdef ISP2401` part (irci_ecr-master_20150911_0724)
+is basically an improved version. So, we may also:
+
+  2. continue unifying `#ifdef ISP2401` and `#ifndef ISP2401` parts
+
+but this way needs more human work I think though. And if we go this
+way, I also need to rewrite this patch as mentioned in the commit
+message.
+
+> > 
+> > > Also, patch 13 should be dropped, as the firmware versions for 2400 are
+> > > different  
+> > 
+> > The firmware version for 2400 on the upstreamed atomisp is
+> > irci_stable_candrpv_0415_20150521_0458 :-)
+> > 
+> >         static const char *isp2400_release_version = STR(irci_stable_candrpv_0415_20150521_0458);
+> >         static const char *isp2401_release_version = STR(irci_ecr - master_20150911_0724);
+> > 
+> > The intention of that patch is rather, it clarifies ISP2401 is now using
+> > the same driver (css) version as ISP2400.
+> 
+> Ok.
+> 
+> > > - and maybe patches 8 to 12 may need more work in order to not
+> > > touch 2400.  
+> > 
+> > Those patches do not break ISP2400, because what they do for ISP2400
+> > is that, they remove members from `struct`s which were initially inside
+> > of `ifdef ISP2401`. And because these removed members were initially
+> > inside of the ifdefs, the usage was also inside the ifdefs.
+> 
+> Did you test on Baytrail (ISP2400), and with the compile-time option
+> enabled/disabled?
+
+Sorry, I should have clarified on the cover later. For ISP2400, I did
+compile test only (CONFIG_VIDEO_ATOMISP_ISP2401 enabled/disabled).
+
+> Regards,
+> Mauro
 
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You sent multiple patches, yet no indication of which ones should be
-  applied in which order.  Greg could just guess, but if you are
-  receiving this email, he guessed wrong and the patches didn't apply.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for a description of how
-  to do this so that Greg has a chance to apply these correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
