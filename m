@@ -1,171 +1,104 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0052C82
-	for <linux-staging@lists.linux.dev>; Mon,  1 Nov 2021 14:23:02 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id p18so8342033plf.13
-        for <linux-staging@lists.linux.dev>; Mon, 01 Nov 2021 07:23:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA152C82
+	for <linux-staging@lists.linux.dev>; Mon,  1 Nov 2021 14:27:45 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id g10so64738780edj.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Nov 2021 07:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=pABOAwIYQMze8nQIZIUhdW81X1WGRnol+21rW6EJ9Yg=;
-        b=L9rSMm76KCAcFvUrrvpgQan9oPa6eoR6Ib2OFN0HsWAxCvGK4wOhqTqhgKr7ZSLxZA
-         o0waiHWfhffMlipGefixqk8Ua/e2nZMfoxShVpK3vaJ57jNdpojfS2TThLpGHehBXd4C
-         BC1uoWtdkQhLMwLh4RBAN6xamzZF9Ww8qmBAwTgh9xsic7DdGo76z7JS6hGJmwq/AsA/
-         qjloXNaSl1cLbj0eQurQSTJ8GUT6ryzRJRPwTw7uo1rxsVTLerPCSdPTBstPqjfbkSvQ
-         1Zcwf4MbJbroSR7+4hQOErON8+P8F9U5vu2Ee70pOzxJdYi+02T7M3nMNPdn1KzpvXpQ
-         EOwQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uPf+iT4fwzI/SoUUxDbRDAYvExd9vocMw0cUgy57Zcc=;
+        b=Wp8btRtmJM41T7dOmTx8He6zSn3nMOtBeF3JbWpmcL42yQw/swcdCgwidUoGPdHpe7
+         uKR6AvYQI3w0ovKn0yGrzy/8UFn6TVtxnISkktWKB73KTQjsZLYmjUUpFjNvQR0qIwXR
+         a8wVwu2Pow7/t0bFDdfTAzjd5Xz9icOYGcnccE7tSfGua2sp9CvwE2qpo9rRPglur53Z
+         3S9Oh4O6P4DAlw0gZvrIaJvvBajkCRkFcHmZz8SFWLg5HAffR6gfWs4xbaeMC9Z6W3Wg
+         RZqqztClYP6uIPJfKMI9WrOwPhPvAtbIuoZkUpYnQGM6XI90HPIn/PuzEfb60TWxEOpP
+         u+Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=pABOAwIYQMze8nQIZIUhdW81X1WGRnol+21rW6EJ9Yg=;
-        b=3McCVyAGikwKBhSZ0ICazvjnkwIGzg5HuIBwRS1j1DqF+2OkUw6cYnF347DLo8FhVH
-         ezdb9YwXfyS9Dux1i6OedSVcNn5SK6vx9+SE4qRI1FvRc0lBMs8t5Kd7Q2a0lKhZPO7y
-         /ZPlPyncgS2BwkZ9We2G1c//rA1KeDzG+wXR6/c6GQ+80DHtHLgVdfsEr9JgH8ezAYR5
-         XcPDlxe0tpTXk1R68aMG2smOzingzUxPnorA+0YKd7M/FiuMVZd2BCTBi2MHSfTm+Etf
-         tRYVtWbKvxTJ1nrAZEpcyHUHRgb/jGjMBfJr8ZoGI+mxE8F09WjvArXosN9o+2LkTUQP
-         EwNg==
-X-Gm-Message-State: AOAM532ECOw0NmHcuGcOKoX7QSWuUqWxKmv6M76Q+05M5K+hMXOJ53m4
-	o2usC+lhY2KIytJF/ATivx4=
-X-Google-Smtp-Source: ABdhPJzRxh/fVWKdipx3BO8RwmisXp6j36e/l/MiDaxINsRbJfehFOnoCP3GYo8/kxuZc1QmaYl6Aw==
-X-Received: by 2002:a17:90b:4d92:: with SMTP id oj18mr1846182pjb.188.1635776581484;
-        Mon, 01 Nov 2021 07:23:01 -0700 (PDT)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id b8sm15210784pfi.103.2021.11.01.07.22.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uPf+iT4fwzI/SoUUxDbRDAYvExd9vocMw0cUgy57Zcc=;
+        b=HZSGLGJ54RHO/+1p6ydOZUwzrjb4sCB8CeIFcdNB1jrhfRkXVyr1E7OG9SADESOFzG
+         17Aj0/Use0gnkIS43v2iMkTphvIkc04FIHaxd0zzbiyEeEWUDwldGkxcTidAbUpPH3sU
+         NJdwwNnslej5tdNhytB4V1hQ8l9HWLOU5cvoYm1PaNgB53KKmBkw8s7Nx8RYgkmvrKRK
+         SsXOCm5cQmvCJDMF8jf44B0urKvbFNsuIpKCHVIw1fsHpmyPN5EqR5Rc2IdGt9vlfqPS
+         cLKW3fUlG/HOekKpHpZlQhzmPghIZARBETwoBe704zdX2bAgYG9mFihRn2ms+VVRzWq/
+         ovBw==
+X-Gm-Message-State: AOAM533kKhZSGZuwpB0zvQpoEP8TuK3ez3R170vJXcGtOQPLXL5KaJkH
+	UjJ+gjmNZobZ2dOISF8mXTa+7rVrxBE=
+X-Google-Smtp-Source: ABdhPJxgGsMjLYNHKTuzcpEvtW+OHHT5HqunzXh7mRoLUv4Il0LoTlbmmcQU7TDdKh4/N+lJmYo7ag==
+X-Received: by 2002:a17:906:a84a:: with SMTP id dx10mr17697421ejb.569.1635776863508;
+        Mon, 01 Nov 2021 07:27:43 -0700 (PDT)
+Received: from localhost.localdomain (host-79-56-54-101.retail.telecomitalia.it. [79.56.54.101])
+        by smtp.gmail.com with ESMTPSA id d3sm4133836edr.0.2021.11.01.07.27.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 07:23:01 -0700 (PDT)
-Message-ID: <d7b00fa4bb89d40f99d45066038bc91e8f9f3a7a.camel@gmail.com>
-Subject: Re: [PATCH 14/17] media: atomisp: pci: Remove remaining instance of
- call to trace_printk
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
- <nable.maininbox@googlemail.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
- "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>
-Date: Mon, 01 Nov 2021 23:22:52 +0900
-In-Reply-To: <20211028124217.394cc49b@sal.lan>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	 <20211017161958.44351-15-kitakar@gmail.com>
-	 <20211026093224.6c7f7fbf@sal.lan>
-	 <c55212feff3212c27360f2c49f5c4023a95f5b7c.camel@gmail.com>
-	 <20211028124217.394cc49b@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        Mon, 01 Nov 2021 07:27:43 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2] staging: r8188eu: Use kzalloc() with GFP_ATOMIC in  atomic context
+Date: Mon,  1 Nov 2021 15:27:32 +0100
+Message-Id: <20211101142732.5638-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-10-28 at 12:42 +0100, Mauro Carvalho Chehab wrote:
-> Em Thu, 28 Oct 2021 18:34:47 +0900
-> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
-> 
-> > <Adding back people/list to Cc>
-> > 
-> > On Tue, 2021-10-26 at 09:32 +0100, Mauro Carvalho Chehab wrote:
-> > > Em Mon, 18 Oct 2021 01:19:54 +0900
-> > > Tsuchiya Yuto <kitakar@gmail.com> escreveu:
-> > >   
-> > > > (patch based on intel-aero kernel patch:
-> > > >  https://github.com/intel-aero/meta-intel-aero-base/commit/26fc9fe5030b63bc9dcf0b5f32981948911ca272)
-> > > > 
-> > > > Here is the original commit message from the aforementioned patch:
-> > > > 
-> > > > 	From 26fc9fe5030b63bc9dcf0b5f32981948911ca272 Mon Sep 17 00:00:00 2001
-> > > > 	From: Lucas De Marchi <lucas.demarchi@intel.com>
-> > > > 	Date: Fri, 7 Jul 2017 14:23:53 -0700
-> > > > 	Subject: [PATCH] linux-yocto: Remove remaining instance of call to
-> > > > 	 trace_printk
-> > > > 
-> > > > 	It's not sufficient to leave trace_printk() out of "normal call chains" since
-> > > > 	the way trace infrastructure works is that it will allocate the trace_printk
-> > > > 	buffers if the symbol is there (by using a separate section for the function
-> > > > 	and checking if __start_* and __stop_* symbols are different.
-> > > > 
-> > > > 	Therefore, even if the default value for the param tells the module to use
-> > > > 	printk(), just the fact that it can be changed to trace_printk() means the
-> > > > 	initialization code will be called.
-> > > > 
-> > > > The trace_printk() was replaced by pr_info() on commit 3d81099c75a6
-> > > > ("media: atomisp: Replace trace_printk by pr_info") for the upstreamed
-> > > > atomisp, too. However, as the aforementioned commit message says, there
-> > > > is still a remaining instance. This causes the "trace_printk() being
-> > > > used" kernel warning message to still appear on the first driver load.
-> > > > 
-> > > > Based on the aforementioned patch, this patch removes the call to
-> > > > ftrace_vprintk(). This removes that kernel warning.
-> > > > 
-> > > > In addition to this, this patch also removes the following now unused
-> > > > things:
-> > > > 
-> > > >     - now empty atomisp_css2_dbg_ftrace_print()
-> > > >     - trace_printk option from dbg_func kernel parameter  
-> > > 
-> > > This patch is incomplete. I mean, if the idea is to drop support for
-> > > trace, dbg_func parameter becomes obsolete, and a lot of code can be
-> > > dropped/cleaned.  
-> > 
-> > I left __set_css_print_env() and dbg_func module parameter intentionally
-> > because there is still the option "non", which means do not use any
-> > function to log. Yes, I don't know if it's really useful since the module
-> > parameter dbg_level=0 (this is the default value) means no debug output.
-> > 
-> > However, they (those who originally wrote atomisp) added the option "non"
-> > anyway. So, I thought there is a use case for this.
-> > 
-> > If everyone thinks it's useless, I can additionally remove them. In this
-> > case, indeed a lot of code may be additionally removed (I haven't checked
-> > yet).
-> > 
-> > > That's said, I don't see a good reason to drop it, at least while
-> > > this driver is not 100%.  
-> > 
-> > This driver is not 100% yet, but at least it can capture images now
-> > (at least on ISP2401). So, I thought this is the right time to remove
-> > it when I wrote this patch.
-> > 
-> > But yes, we don't necessarily have to drop it. The other idea is hide
-> > it by default using a macro, and still can be enabled by manual edit.
-> > Here is the example from drivers/usb/dwc2/core.h:
-> > 
-> >         49-/*
-> >         50- * Suggested defines for tracers:
-> >         51- * - no_printk:    Disable tracing
-> >         52- * - pr_info:      Print this info to the console
-> >         53- * - trace_printk: Print this info to trace buffer (good for verbose logging)
-> >         54- */
-> >         55-
-> >         56:#define DWC2_TRACE_SCHEDULER		no_printk
-> >         57:#define DWC2_TRACE_SCHEDULER_VB		no_printk
-> >         58-
-> >         59-/* Detailed scheduler tracing, but won't overwhelm console */
-> >         60-#define dwc2_sch_dbg(hsotg, fmt, ...)					\
-> >         61:	DWC2_TRACE_SCHEDULER(pr_fmt("%s: SCH: " fmt),			\
-> >         62-			     dev_name(hsotg->dev), ##__VA_ARGS__)
-> >         63-
-> >         64-/* Verbose scheduler tracing */
-> >         65-#define dwc2_sch_vdbg(hsotg, fmt, ...)					\
-> >         66:	DWC2_TRACE_SCHEDULER_VB(pr_fmt("%s: SCH: " fmt),		\
-> >         67-				dev_name(hsotg->dev), ##__VA_ARGS__)
-> > 
-> > with using pr_info by default for atomisp (the parameter dbg_level is
-> > 0 by default, so still no output by default). If this sounds OK, I'd
-> > like to try this way.
-> 
-> Let's just postpone this change. It sounds a little early to start
-> cleaning up debug stuff. This can be done any time later, but let's
-> first test it on our devices and ensure that it is stable enough.
+Use the GFP_ATOMIC flag of kzalloc() with two memory allocation in
+report_del_sta_event(). This function is called while holding spinlocks,
+therefore it is not allowed to sleep. With the GFP_ATOMIC type flag, the
+allocation is high priority and must not sleep.
 
-Got it. First, let's focus on make atomisp work. But I still want to
-address this a little earlier after we made it work. That kernel warning
-message "trace_printk() being used" looks kinda scary...
+This issue is detected by Smatch which emits the following warning:
+"drivers/staging/r8188eu/core/rtw_mlme_ext.c:6848 report_del_sta_event()
+warn: sleeping in atomic context".
+
+After the change, the post-commit hook output the following message:
+"CHECK: Prefer kzalloc(sizeof(*pcmd_obj)...) over
+kzalloc(sizeof(struct cmd_obj)...)".
+
+According to the above "CHECK", use the preferred style in the first
+kzalloc().
+
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+---
+
+v1->v2: Fix an overlooked error due to an incorrect copy-paste
+	of the sizeof() operator.
+
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 55c3d4a6faeb..315902682292 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -6845,12 +6845,12 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
+ 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 
+-	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
++	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
+ 	if (!pcmd_obj)
+ 		return;
+ 
+ 	cmdsz = (sizeof(struct stadel_event) + sizeof(struct C2HEvent_Header));
+-	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
++	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
+ 	if (!pevtcmd) {
+ 		kfree(pcmd_obj);
+ 		return;
+-- 
+2.33.1
 
