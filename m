@@ -1,52 +1,52 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA152C82
-	for <linux-staging@lists.linux.dev>; Mon,  1 Nov 2021 14:27:45 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id g10so64738780edj.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Nov 2021 07:27:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6478668
+	for <linux-staging@lists.linux.dev>; Mon,  1 Nov 2021 14:32:19 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id a20-20020a1c7f14000000b003231d13ee3cso17294119wmd.3
+        for <linux-staging@lists.linux.dev>; Mon, 01 Nov 2021 07:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uPf+iT4fwzI/SoUUxDbRDAYvExd9vocMw0cUgy57Zcc=;
-        b=Wp8btRtmJM41T7dOmTx8He6zSn3nMOtBeF3JbWpmcL42yQw/swcdCgwidUoGPdHpe7
-         uKR6AvYQI3w0ovKn0yGrzy/8UFn6TVtxnISkktWKB73KTQjsZLYmjUUpFjNvQR0qIwXR
-         a8wVwu2Pow7/t0bFDdfTAzjd5Xz9icOYGcnccE7tSfGua2sp9CvwE2qpo9rRPglur53Z
-         3S9Oh4O6P4DAlw0gZvrIaJvvBajkCRkFcHmZz8SFWLg5HAffR6gfWs4xbaeMC9Z6W3Wg
-         RZqqztClYP6uIPJfKMI9WrOwPhPvAtbIuoZkUpYnQGM6XI90HPIn/PuzEfb60TWxEOpP
-         u+Cw==
+        bh=Nk+zvXAt/yARZGxNV8fi4WGClbaS5+zS5+rohIvR53Y=;
+        b=GUcjWsJLUg2Lf2WmjGU/RQeJcsua7eeLBxuChpYxP84Ylg2tZelUYkJxQv6ZXlVeO7
+         8mWWgVkxsk4XcBhKxmMdwwd7kC26Qzw/3/WLIqBwgFt6nMyOezDBclDAi/HkCCj9iK6Y
+         uZMweyotbPljtq08Efsdx4usDZu+iDk5BD/tfgZwAvNREUEcCu7TzLlMpX+ud5K0o+UQ
+         LxTioXUX0OAobNBRFNMQkQ2bEpgYthF+RKOdSGIw9V+6WoqJmvZjRo7MnNw1M0/Yx5C4
+         Ov65aJlQLKr6DrHSmrgecYBxlK6gGri5rS2rn8kKEB036vmgIC0dLcy3vtmz46+rI4CU
+         Gbwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=uPf+iT4fwzI/SoUUxDbRDAYvExd9vocMw0cUgy57Zcc=;
-        b=HZSGLGJ54RHO/+1p6ydOZUwzrjb4sCB8CeIFcdNB1jrhfRkXVyr1E7OG9SADESOFzG
-         17Aj0/Use0gnkIS43v2iMkTphvIkc04FIHaxd0zzbiyEeEWUDwldGkxcTidAbUpPH3sU
-         NJdwwNnslej5tdNhytB4V1hQ8l9HWLOU5cvoYm1PaNgB53KKmBkw8s7Nx8RYgkmvrKRK
-         SsXOCm5cQmvCJDMF8jf44B0urKvbFNsuIpKCHVIw1fsHpmyPN5EqR5Rc2IdGt9vlfqPS
-         cLKW3fUlG/HOekKpHpZlQhzmPghIZARBETwoBe704zdX2bAgYG9mFihRn2ms+VVRzWq/
-         ovBw==
-X-Gm-Message-State: AOAM533kKhZSGZuwpB0zvQpoEP8TuK3ez3R170vJXcGtOQPLXL5KaJkH
-	UjJ+gjmNZobZ2dOISF8mXTa+7rVrxBE=
-X-Google-Smtp-Source: ABdhPJxgGsMjLYNHKTuzcpEvtW+OHHT5HqunzXh7mRoLUv4Il0LoTlbmmcQU7TDdKh4/N+lJmYo7ag==
-X-Received: by 2002:a17:906:a84a:: with SMTP id dx10mr17697421ejb.569.1635776863508;
-        Mon, 01 Nov 2021 07:27:43 -0700 (PDT)
-Received: from localhost.localdomain (host-79-56-54-101.retail.telecomitalia.it. [79.56.54.101])
-        by smtp.gmail.com with ESMTPSA id d3sm4133836edr.0.2021.11.01.07.27.42
+        bh=Nk+zvXAt/yARZGxNV8fi4WGClbaS5+zS5+rohIvR53Y=;
+        b=jPeXHKYIvr7BBIqmpZFkRr8FHF+X3kANu5ikTcsULhCVPJegzoFc/y8EJdwyXtIopZ
+         EGYFgyPooNJYTVgWXnWApxGZaYGZo6MVuKnOsA3qt51jJ6MgY41o7xBcEPvL6X+8LKkw
+         1YDnZM/RXRQ/ko/TaQCBm0xmMlQMbLsLtR7fFfCwNR7GRA1lArInqL+pQm9gEXpJt34/
+         iL/WDWo3NlmUW9VetOYe5rW0uVQPzokTmvT2C2t+wB6C/clNiUaYdwiKSwIKKLZuL0gF
+         lEvZ8ZecG5t7dgnpKMZNRg700yWB1q79I+1+FMFerlPVqbHFVaNm3RVfE9CKw/VqkZM/
+         B47A==
+X-Gm-Message-State: AOAM532+nq5+Fvbm9X6cEAyr+lAWAaGz5d+YbzrOA/1ZTfB/q31MooLE
+	pYfJC5EBEoKPN+NRPjR6DQE=
+X-Google-Smtp-Source: ABdhPJzh/TukZxPlocC0fnpJzW8NxmJVcRR7+AL1erPqINggPG3XDXjtuK7yb/AS3p2jYC9Js1HIew==
+X-Received: by 2002:a1c:f405:: with SMTP id z5mr31418913wma.72.1635777137721;
+        Mon, 01 Nov 2021 07:32:17 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id l8sm17157721wry.43.2021.11.01.07.32.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 07:27:43 -0700 (PDT)
-From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mon, 01 Nov 2021 07:32:17 -0700 (PDT)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Subject: [PATCH v2] staging: r8188eu: Use kzalloc() with GFP_ATOMIC in  atomic context
-Date: Mon,  1 Nov 2021 15:27:32 +0100
-Message-Id: <20211101142732.5638-1-fmdefrancesco@gmail.com>
-X-Mailer: git-send-email 2.33.1
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH v2 0/8] subject: staging: vt6655: Fix line wrapping in `RFvWriteWakeProgSyn`
+Date: Mon,  1 Nov 2021 14:31:58 +0000
+Message-Id: <cover.1635773679.git.karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,50 +55,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the GFP_ATOMIC flag of kzalloc() with two memory allocation in
-report_del_sta_event(). This function is called while holding spinlocks,
-therefore it is not allowed to sleep. With the GFP_ATOMIC type flag, the
-allocation is high priority and must not sleep.
+This patch set is a series of small refactorings of the function
+`RFvWriteWakeProgSyn`, now renamed to `rf_write_wake_prog_syn`.
+The work here allowed to shorten lines marked by checkpatch.pl as
+being too long by:
+  * introducing two new temporary variables (`idx` and `init_table`)
+  * rewriting a conditional to switch between two modes of
+    AL7320 initialization.
 
-This issue is detected by Smatch which emits the following warning:
-"drivers/staging/r8188eu/core/rtw_mlme_ext.c:6848 report_del_sta_event()
-warn: sleeping in atomic context".
+In addition to this, the patch set renames the function to align it with
+the kernel coding style, updates the function description and removes two
+unnecessary conditionals checking if the value of `init_count` is lower than
+a predefined value.
 
-After the change, the post-commit hook output the following message:
-"CHECK: Prefer kzalloc(sizeof(*pcmd_obj)...) over
-kzalloc(sizeof(struct cmd_obj)...)".
+Changes in v2:
+  * drop "staging: vt6655: Introduce `data` temporary variable" patch, suggested
+    by Julia Lawall <julia.lawall@inria.fr> 
+  * amend "staging: vt6655: Rewrite conditional in AL7320 initialization" patch
+    to use indexing and `init_table` temporary variable
+  * add two new patches to remove unnecessary checks for init count, suggested
+    by Mike Rapoport <mike.rapoport@gmail.com>:
+      - "staging: vt6655: Delete bogus check for `init_count` in AL2230"
+      - "staging: vt6655: Delete bogus check for `init_count` in AL7230"
 
-According to the above "CHECK", use the preferred style in the first
-kzalloc().
+Karolina Drobnik (8):
+  staging: vt6655: Introduce `idx` temporary variable
+  staging: vt6655: Use incrementation in `idx`
+  staging: vt6655: Remove unused `i` increments
+  staging: vt6655: Rewrite conditional in AL7320 initialization
+  staging: vt6655: Rename `RFvWriteWakeProgSyn` function
+  staging: vt6655: Update comment for `rf_write_wake_prog_syn`
+  staging: vt6655: Delete bogus check for `init_count` in AL2230
+  staging: vt6655: Delete bogus check for `init_count` in AL7230
 
-Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
----
+ drivers/staging/vt6655/channel.c |  2 +-
+ drivers/staging/vt6655/rf.c      | 44 +++++++++++++-------------------
+ drivers/staging/vt6655/rf.h      |  2 +-
+ 3 files changed, 20 insertions(+), 28 deletions(-)
 
-v1->v2: Fix an overlooked error due to an incorrect copy-paste
-	of the sizeof() operator.
-
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 55c3d4a6faeb..315902682292 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -6845,12 +6845,12 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
- 	struct mlme_ext_priv		*pmlmeext = &padapter->mlmeextpriv;
- 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
- 
--	pcmd_obj = kzalloc(sizeof(struct cmd_obj), GFP_KERNEL);
-+	pcmd_obj = kzalloc(sizeof(*pcmd_obj), GFP_ATOMIC);
- 	if (!pcmd_obj)
- 		return;
- 
- 	cmdsz = (sizeof(struct stadel_event) + sizeof(struct C2HEvent_Header));
--	pevtcmd = kzalloc(cmdsz, GFP_KERNEL);
-+	pevtcmd = kzalloc(cmdsz, GFP_ATOMIC);
- 	if (!pevtcmd) {
- 		kfree(pcmd_obj);
- 		return;
 -- 
-2.33.1
+2.30.2
 
