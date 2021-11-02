@@ -1,73 +1,73 @@
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C192C8E
-	for <linux-staging@lists.linux.dev>; Tue,  2 Nov 2021 13:31:52 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A2DKfsB026634;
-	Tue, 2 Nov 2021 13:31:48 GMT
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1162C8E
+	for <linux-staging@lists.linux.dev>; Tue,  2 Nov 2021 13:49:05 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A2DPfAA001771;
+	Tue, 2 Nov 2021 13:49:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : references : content-type : in-reply-to :
  mime-version; s=corp-2021-07-09;
- bh=nz+oJ5JJlbqlvuFTsLu8o5+6v+wBaDCkQsY753b5fJM=;
- b=BKjsOHoPA9lNmyQizKpANcw4LdGja/26krUatMTwzZMHHmsF8zqJBtowA8DBqtdX8RJ7
- eCL3p3hSh1MokPEkt7bCWLKSXEUHlDqzQMglLTc1Kr9Z7h9Ypwqk554wtfVhkPCqsbus
- JmpIgiCMuJOYI6k+D38lOYTQu/jLYxfqebUXLJVb1wE9xGB+y1+ENU8QFFiVNJj4s5hC
- uJqa07yGJNBpXoWjlP09sv63xkIJxIalJMRj1prn+LwVlKXoc2bYgIf8qgoEnTTUkYj8
- 2WwosXTvJX59KhDLBEX0PKKPIIySAoWUi8Z7BQGQ93vnRPQ925y9HSVynEw/RVKw3OAq 4Q== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3c26e8fm8v-1
+ bh=t6mK7CdNAWeS1TrGnruXIBBD3cRcGk4v7jTcfTxJqIE=;
+ b=B/0ved1z2lmFfMHSRWm/pfAP6jSL/xBIAp+O0bzC/RoPUPBcspSZgT6TMNQuuGZu90d8
+ 8Htn3IPlDu6/kfeCbsyVOyQJJiMWbiFVmbFOvlF/GcgabjhGfr104MN/SvOwpoMCmT8g
+ +YOPwYQc2j2T1PGRStMu+kGArdkBc2PnupSo5VvsvSP4Z/cdIbQCV4ZoFiT1FJYe3ZNa
+ ISGKX+knqKy+jY3tUh2BWNKLwMA7mcN/Z8Hw3OpJ5MN2bivKC4NDldDGT8Kf4f6J8oqF
+ xFJK/yVsav/QRe41e3NQV82aU3W6rKESpWGBmwSDpXDX8jFxl0Ui2X+F9Ks2gkku6oxe fw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3c27r5f4aj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 02 Nov 2021 13:31:48 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A2DGHVC106740;
-	Tue, 2 Nov 2021 13:31:45 GMT
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam08lp2045.outbound.protection.outlook.com [104.47.74.45])
-	by userp3020.oracle.com with ESMTP id 3c1khtg49g-1
+	Tue, 02 Nov 2021 13:49:01 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A2DjcTj002766;
+	Tue, 2 Nov 2021 13:49:01 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
+	by aserp3030.oracle.com with ESMTP id 3c0v3dq9sy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 02 Nov 2021 13:31:45 +0000
+	Tue, 02 Nov 2021 13:49:00 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=du2P4p+k8ermuVrrY+5NuhgDPVFsWzr0RM21kRDCfwTOUgz/8KwP8iQ9xPRYXP92jyz81KXSbJycN/DpUOZoynLFS7gDDb3nZDi3MjYUJkAD/Hjb105Y0RvYoSG3KLAutXeIFyTCHQu88FXaItEAlaQbIwI20sla/ex2asn8LOhp0XpkOF0ndxHT9D3RXBYdX2zpP/TkIFFhF7NWZxm8YypgxOau3KG7KAX2CaXZi5I1xQEEzILzE/+Tlcu7C+cq9TKjIRBU75NRtLjf2LXkU2eVBDpMfDJD3QAc6OXORG7DuXYPMInCdlED2s4PO/sf/6QF0Tzo8fnkVDjip825GA==
+ b=jT7Pb5zcPYwBk6cd6ytxD3jZjmgXrfLypv45lVsWRMcFeK7U5xXkuBri1kXQMsLmyJ4gHipCHtXW1O3teVFrnihUeZoQ9OP8EpNHrEgO66UedYuIduyNDlHewSnbINXLNysFQWwnunSZUo8xWvyvHMvjb5HNoONmqANu8O2JZ4qDH54FmWKz+5FIooT5p0kyrlcgVCZEKTFomXVl/e7GHeVVAVpeo1Nh+lbKvpEB3u8r18LLnh/GMy9C/RqjfarNtuto8onN0PHDEQ7umZ+RY2HxLM3HjlkewmiFRyK79uNhA9QME2GLbISqUQKM8GNWO/LTo3h0e2DdznkAdHlNfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nz+oJ5JJlbqlvuFTsLu8o5+6v+wBaDCkQsY753b5fJM=;
- b=FixP3Yr6Sxct+wdWSSZpRHCpdt2gDXIlNVjI6GvgcmTXrIT5W3crCy0fpr/A5H1F5Y5/W/TRa4vkTUlQcGlFk8pumz+QuqDekAZiIJFI/5VacORv9i9PjkM/q71xelopgJHpwu48ln3qM0rpSvJm2xYNHCZrFREGuCoXb2vnFiGgE99FwcI0mHtNlqGk0fT642d39wasxZSX/doj1Z6uj3gys+d+JoTDyYhqEdKIlOblyAXPWqRSoduXd3ehH0pfwrmEzBmz6DWsusx2wmY1CDdm7MtZh1gvx3A/kVU2vSrWV/aJZ4fsWCopJ8lQAN/yzs8EXoVbjh3El5bPQvXeVA==
+ bh=t6mK7CdNAWeS1TrGnruXIBBD3cRcGk4v7jTcfTxJqIE=;
+ b=cby2mh5qEEwe2KqTBzHFmaeGsBMzWcMk0eWsLSPsU5U89WzCqnkf5sQ4b/CsreT+fo1m44Se53QE3SPyOioSKb3kuZ5QgiHqFWRjwdqyoXw2BwVd6S3u/cCQUGmUu86K62lqEkFT8zU0F7UAy/zRaUNeh5besQztficB6IE1RkMrO3iMsz3Uapkq9NSrF9imqmO7N8rcZIFSJMvmqBXxdW2XX+Vxvapwh2a7W4TP2+xCGj8pS/b9SoBwm052tJ9MYCbdh/AxqHj21n94feDgQNjeoOm+Dc7i5b6o6MlncfyB2dhEMeMW8pWwSUZFXUpSrle2cCPEYx6sxHygixNC3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nz+oJ5JJlbqlvuFTsLu8o5+6v+wBaDCkQsY753b5fJM=;
- b=ZAlGI8DhVkyrLwlmUu2dPOhsrCyX5LzznDpYfOlxZ8InJJxpQkANV3a7ARGoW2oO3txi5iEan2EBBVeJ1QeOjzH7L3B/4iCq2DrxVa6cInAwQchhijUAX+0BHsiOcZobruae9UfpOAMbxpoHW7z5DJFyrQ4cbYDDHhlHrFzjttg=
-Authentication-Results: kaiser.cx; dkim=none (message not signed)
- header.d=none;kaiser.cx; dmarc=none action=none header.from=oracle.com;
+ bh=t6mK7CdNAWeS1TrGnruXIBBD3cRcGk4v7jTcfTxJqIE=;
+ b=yDYdUurCuoJYGJlVg6xqfUDSzcLMGRCWldNAwdwGkIIFZuXfAdpU9/XrkZFwqujBiQpGXyXBMX8rZgf/RI4UpGTjyv2aw6lJ2e13PvbfiDCviPoS7m2JSq6KsHinvFtC2Vz2kq41CJ6Fcb8zcicMf3OLepSP3YbO9iTeDMTXMGM=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1997.namprd10.prod.outlook.com
- (2603:10b6:300:110::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.18; Tue, 2 Nov
- 2021 13:31:43 +0000
+ (2603:10b6:301:2d::28) by MWHPR10MB1951.namprd10.prod.outlook.com
+ (2603:10b6:300:10a::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.15; Tue, 2 Nov
+ 2021 13:48:59 +0000
 Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
  ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4649.020; Tue, 2 Nov 2021
- 13:31:43 +0000
-Date: Tue, 2 Nov 2021 16:31:22 +0300
+ 13:48:59 +0000
+Date: Tue, 2 Nov 2021 16:48:37 +0300
 From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Michael Straube <straube.linux@gmail.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: fix memleak in rtw_wx_set_enc_ext
-Message-ID: <20211102133122.GH2794@kadam>
-References: <20211019202356.12572-1-martin@kaiser.cx>
+To: Kushal Kothari <kushalkothari285@gmail.com>
+Cc: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com, marcocesati@gmail.com,
+        ross.schm.dev@gmail.com, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, outreachy-kernel@googlegroups.com,
+        mike.rapoport@gmail.com, staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: core: Remove true and false
+ comparison and unnecessary parentheses
+Message-ID: <20211102134837.GI2794@kadam>
+References: <20211020093458.129672-1-kushalkothari285@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211019202356.12572-1-martin@kaiser.cx>
+In-Reply-To: <20211020093458.129672-1-kushalkothari285@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::23)
+X-ClientProxiedBy: JNXP275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::31)
  To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,96 +75,200 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (62.8.83.22) by JNAP275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.18 via Frontend Transport; Tue, 2 Nov 2021 13:31:37 +0000
+Received: from kadam (62.8.83.22) by JNXP275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.17 via Frontend Transport; Tue, 2 Nov 2021 13:48:50 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: acff7c93-79f3-49d4-acb1-08d99e051bc0
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1997:
+X-MS-Office365-Filtering-Correlation-Id: 5e678998-76b8-403a-b33b-08d99e078525
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1951:
 X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB199702DB51E4013C982EE3D98E8B9@MWHPR10MB1997.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+	<MWHPR10MB19514ABF60B0FEC76AE34ED68E8B9@MWHPR10MB1951.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:660;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	uG5bjqfVFKbw2WXFv5kwD327WyD3TRoFM9Pzp5cYk4H3vz9Vc3BTnkg9ahYu6tMD7AMEE3FSGX0T/jNsScY6UQuV1O/8a5ylSFcHnXfHT/1qfmusLN3s2P9h8E/p6NUAHgLREA1WSKUUVDH0esWgZuzbXso9TlJ7p+8xvvvpiSvL0K25kaL5WjUy+FXrUZdh4bUsC9vAS6hfUAoJwxp7Hxm5T8rGF+Gk+ZpPPaYAd+1B0/Dgl4tK12EZ6HsLwCuW4WLBxmS3aEoNayDffHDcZrvGsMw8ZxC5F3q6jKku0fV3/BEp/D6IpNDVTYIBq7an/vrw/rzOY9GheZSZI/kAWU7NQMH6pN/CwZCHqZeFwB55GaVMO83yLaesY5lsd9iV7ywIuBkub8pLg9VcvRPRPcHQQXIcn9Ccx0k5E/JM+40mO3gYfpg2tCHzFUyizgS1b4Yppr8E6Fqpavs+XrgnFgrRxlOmv1I2/Q7detaI6Bhnjm3sILIAzkrHGKkv+d5TwdfZYDfI28G/nzUXtUA9102p/v/tcoRgUS9QxalAutejgqKXL706OJRKgNf8AYISlrAaT7eq2eGIxJs5zQyth38eZxRGmtZapJ7mWgOCgbsrg8dzedBVRJlHRJ7Mbe5MMHinKOe0hRUExvZn7fIBgMYiAOFFb3/3ASG1P9+h57KdRJvCHaqbOyo2YehGKP2+0anXo2Z8P6dtZnrKrD+T7Q==
+	YJkVXYNxEcFmNW1G57wBUCDTk7XmRtremdlh0BSfmZE/GsjRVzHABnck0FN7Wg8Bql4ewePOhG4td9VGJv55YG5msb8JB7a6RHMxU/6GCEMJZF6Jwyuv/LomdwbxSGrybAekGN26ip1LlO6FnqqP9w3jiwDMwjQy9r/mnqfFEw2IMa8Lsd8ytp6sQ6D74lB0MTNDeWnpdeZJpyvOVB9hz7vQVYxcjRt874eDkqU80TQkaglWkhwU9L/m1r3oyqJEvAkprMCwJUit48H2MR15DzBJZhFK4kySoB2VEVQLcM0Sk4PcHw7gtZROWI7E+hyEgpnkE720FxOHAWYpDlY1MkzCMaYHmZSwfNpKkZrj8Mlgfijupi19ATsKyMs6OS26GOuOFyqn9ooa04COeC93kyrfuRlykCpObjfV531BJxJZW07fxednJ0n4neTa7J+S64dNLqqpPEDi5vmzKXjYquH5fLMSkvdWrvX92U1UQ0iZY+xC3mxbvZ7YWbHt7iw52SNEhE2XgiZ++XXSOET+sc+e0fNN/2zn2/aM5SSRbLS/Nt+cpTa9W22nTxm4wHuoj4AuIekvZGPBx1js5bNquj+ddr8h4TSNy0SXNi56aoi+f8KPSyYy/b8rXR0pnILZBKX5if2/08GlAHS3w5LV4b2FHQOnFl2yTi0ScQAlUO578EDcGGjj3fcsVFOK4WZPLRjVek2nbwBY2pdOZ/Ft3w==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6666004)(4326008)(1076003)(2906002)(38100700002)(55016002)(316002)(54906003)(38350700002)(86362001)(52116002)(9576002)(6496006)(9686003)(5660300002)(33656002)(8936002)(508600001)(83380400001)(26005)(8676002)(33716001)(44832011)(6916009)(956004)(66946007)(66556008)(66476007)(186003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(316002)(186003)(66556008)(66476007)(66946007)(1076003)(8676002)(38350700002)(38100700002)(9576002)(956004)(6496006)(2906002)(6916009)(52116002)(4326008)(83380400001)(8936002)(7416002)(26005)(508600001)(55016002)(9686003)(33716001)(33656002)(6666004)(44832011)(5660300002)(86362001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?REyIi8fVq0DgT1yQwQCZO96Tk6NIO7xYboR8TXoCERNzd0waR9hf3dM5eLdP?=
- =?us-ascii?Q?5eilKlACVEGoWfHJlq7vlRb3iZl/FChtmn0JFtn3B7lGd0wcJyTNIxyYT/Jj?=
- =?us-ascii?Q?lEz8PzRncdRnb+ZSagncAUc5uZ5170MEF0WA2bRbAWFAfVDDq+XJSu0VaTlC?=
- =?us-ascii?Q?aLe1K5HFyAdtAoXlc0voNLGBujMjVgSuIWEq28bW/xJjHo3Yxb/K6+58AuQo?=
- =?us-ascii?Q?l4J09knqL0o500FwOV9cY/zPkd8TcrUKpdvb2rSX9XYGPur0r14dmZ+OVh/q?=
- =?us-ascii?Q?xeUYdjX+Qwqt2Yie7DWlWoJyRAo72vY1LCpay/hKd/HJTdrcx2tIKBjYz8A8?=
- =?us-ascii?Q?f8TelaO0M43ekRJfeMIG5bDGeY/qALLMYaEKieGl8O4luv/GDKDBXNICJZ/C?=
- =?us-ascii?Q?sDCx2R2WaRcVErQG0QUnd0VU14+XE6rt1AIrmutDCKAU77qCgVFtKzOsLpB2?=
- =?us-ascii?Q?nlwIe71/AO1toEXY1oCNBbXGRNluKvkpjICBNeYKauSDlAHLkDtofFC7y0uA?=
- =?us-ascii?Q?zH3QmizGyEhG8Vhx5dKA7m1VhE9/sDpOWnGa3UzupYbYT6J2UBWyo3x4dokf?=
- =?us-ascii?Q?b/AwSeGRhHiROi6mynjanzHEvKrx7yfZVwkD7AMyn5N61L/gjfbFW6KMod6j?=
- =?us-ascii?Q?jlxH0gKrCIFZbuRsEJER1IkV5NLc23FJTRKu/nU+wUNYbd4qZHgVDkFOsoe8?=
- =?us-ascii?Q?FxaZLIQdpwfEjdXTYYw8ev6HmDHIuzud0D/ep2rTfu4KrGrqRfFT9xC0GEAF?=
- =?us-ascii?Q?V3MA9DtGN92zvYtlumLQFK8mpT9crU0XdJJ+dsHWroTJmFNmomc1Cg1rZW3g?=
- =?us-ascii?Q?Sx6im9wJuJ6693tIJvha/HMYFVSGwXEvdN4Ge17VqZOMccY/4YV/2wrNQstf?=
- =?us-ascii?Q?lTLcduv3E/22gXOQd+oKErLv7pQurZX9i7ICSJqWh0upzgax2X6J9D7W/Mom?=
- =?us-ascii?Q?nKBS3G1lasvPt9vqoVlgmhRAm9On+DF4iRRBU/Vx3lACYdsEiuU1WhL1Yc6r?=
- =?us-ascii?Q?7wnVf1i04f1fiUvscdQbxT8yrFNNFI3TnLI+Ti7BIeMiUVghUEM1hY8CAYGB?=
- =?us-ascii?Q?gxOXFUpGd0eUllV5aYAQlr9g8FvyAjfSwOwyg3rsfSIysxyScl12swzt+RgK?=
- =?us-ascii?Q?KkrVVvZuBEYtGz3sUD833ChTMLzgCfYjU/v591k3YbNI9lXlK1KXta/Ve4/Z?=
- =?us-ascii?Q?O4CMn2iG06E32AB87pkGUzDzjiJn1y3qSdhlnLmVcEZNd6SqrlR6JetjQNtH?=
- =?us-ascii?Q?kiVc0EXOOvW3BXGOWmVFtSv1/D017Al/0uUZ3mkNdxlAICuTUQQ03+VW/En4?=
- =?us-ascii?Q?Eh6zGsrtvxK2l4Fynb/B6BMkvl7O+XgSETzRnp8jlzDWaXad5wRu5N0Z4iCs?=
- =?us-ascii?Q?ipweVB2KoSIPnl+r3gMGTpTGMaNmgfcAq66NrPSsCYMbgRSZKAeCaQ4IZQAE?=
- =?us-ascii?Q?ycXnFzGU0qdzZSQn7liPnewydwOvHyrEYNZj75TgvmejwubDZ8RIH8arv1fr?=
- =?us-ascii?Q?0LGQJmedGiBt5kvsqu83bAFVrW8Dt8Q1zz6mti0+ctKZvx2krSHEX+2jxoSv?=
- =?us-ascii?Q?GFfJhTD1Xeeu12yrBis0Kc/UpAeJmoy8NIQBUELV8vilTDvHj6kL8LyNTOoR?=
- =?us-ascii?Q?B5F+LIMHD3cOqRdwuGlCUYhDsIDG5Bc2YMi3XQpGw1Cpv7RJHAfLodm5wHt9?=
- =?us-ascii?Q?YyBgVA=3D=3D?=
+	=?us-ascii?Q?zUy2pT0QEddoC7cwi8FM0tL6mMjxzzScIsLHirqhxIom3jz6PsfzEic1MMgL?=
+ =?us-ascii?Q?HuR7D4oLP/xtw5XaznK/atLAiVy5Zd+z0JQU9rGEYqw4MJFFbIy4QoZw0iBR?=
+ =?us-ascii?Q?bXCo8uNnDvdUj2b0K/a3uyyb4YBQv2q1S1T9H7dUUMcdoq5OUcMTO5H4GSgJ?=
+ =?us-ascii?Q?CNgX8myKikSlmmyhG5libo1AHZbO6iUK+15G39iWmo6esvGF7/tdbuUP+Gsf?=
+ =?us-ascii?Q?YH/kFxgGSX35/OH5kDgH6PsxOLlnszSI2FBBRwnpDMPApDDJHTTXqxURGWKD?=
+ =?us-ascii?Q?3sME2GVStgN3dPSYLIxHgv+oSB0MbFpF8611lvgHsUBcNNXzY1fuVIKg23Tl?=
+ =?us-ascii?Q?VujckQS+Ta9URR3uurbjtNmMTyKH8Oy5Esaev1jIuD8Rm2BvYboW+A9sg+P3?=
+ =?us-ascii?Q?hWOYzfcjCjAddQMuJHkH8lYLlG5jBLfW98riwvHpgGX79koNNBfcbMryxCb1?=
+ =?us-ascii?Q?OpbUjjcRuoDj8p85P/R2iX3BvG9yAN5R3CZi8+opU1KWZy7hZNJbM38NilJI?=
+ =?us-ascii?Q?gzhL/44cMX6ZJ09JKA6ko0cfxES/fNury/aI48qwCfhK7FUXgGhJ4RWBO6ie?=
+ =?us-ascii?Q?SqakWpmPOFH/C/XWhg/Jc1UOhBgW5lsVD2ImVWyGR0SGzX+BXz0neEW4cFQ3?=
+ =?us-ascii?Q?FN4ExSJVnO3Eev9GpW3ASVRc0+kiV049cGGSl5BqaVjRmY82AMB1wOzm7F/p?=
+ =?us-ascii?Q?C/AdMujkJxO+XRto5I6FRDZit8tr0XqfGu72JylcNXcm2k2mJ7EPKgdE7edj?=
+ =?us-ascii?Q?RzNnstGqkq1B6cDsr85U01KD9BYozaIcVoqhmhw3bq1W/YctO/HQ8LgThQzn?=
+ =?us-ascii?Q?XtY2i7Yco068YLMA+Iwuucw2Z1qUJn1ySH6RZGSA0d6S+hR13nUoBnCcnduH?=
+ =?us-ascii?Q?JmN1wLDPbMDHWPkO4it1jv/vIKwJWotSkA7L7enNv1eHFm93+4IZxcir+n3o?=
+ =?us-ascii?Q?PrU0gAnjN2oAdKTnEVG6B7/C9qJ/MV2RsDsReOcBkcHBphDleB3PKP2CUeBg?=
+ =?us-ascii?Q?z33sh6BV8H40MdZ7oA3C1ZS+DM0cASK2ekfr7BqQTWJmwzpaT58UcAmy0ZT5?=
+ =?us-ascii?Q?8k68zwP5kb69leCxIav+fqazShxY1Np6/JImQK8JR6OfO+mvC8kI79YRT+tT?=
+ =?us-ascii?Q?I8Cg+Ni15A35FKeCgm+0V5sWgBhS4F6LhtDWRfuID69Uz7W0zx9tbzi+zn7L?=
+ =?us-ascii?Q?EY9RYQtEij8fSQWBZnonlLAUH5Xv5I3B88lMgrFDiBsx295EdiXN7mxrfi53?=
+ =?us-ascii?Q?K09zGCL/lWJqg6wBXC0h9UwaOzoASDKMLhzAH2ukKpkjrSMJuOVKJzRzt4AV?=
+ =?us-ascii?Q?OFI/2Cd6iTwKVD56cgJUDiD6Y/LAXAj80a8vVc+qUR80JahRYGywdUegAAxZ?=
+ =?us-ascii?Q?P8GGFRhoBf+p/aCXBJBN0w3Og4nR4xppbigwYE1G9eHeFyxxHEpxpWxOTY/W?=
+ =?us-ascii?Q?hELVVKg/m+4McI8piAg9cVVsxnVFo9vrO7frbmw0/Dl8H/fv0WwKF8EVYgRP?=
+ =?us-ascii?Q?jhlyyvb5HnH4yBIp8X3u/ALqhDa3Znkb6dtEq9157x1Bz5Ul82jXrjME4a8c?=
+ =?us-ascii?Q?DakfnT33q7Zjae/W3NLM/5Qsrh28/qBxVnp2VYmE6x2fV2uFoYwkppAyr7GU?=
+ =?us-ascii?Q?o8mtALQPnrkxKLKclpQpIxMWmjvIfjwaZyif0yg5XITaV33n7cbs4hByyKqB?=
+ =?us-ascii?Q?CMz6TQ=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: acff7c93-79f3-49d4-acb1-08d99e051bc0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e678998-76b8-403a-b33b-08d99e078525
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2021 13:31:43.3499
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2021 13:48:58.8923
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jCdhaRYYzuaK4VhjYSad9RF8mNrWlgewQwhZizyt679rSC4JeFMWrujjDRLba+OAsNVLe8fX5yDGOL+AzwMZLd/mxD5ipFp/URF5RgCW/Dk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1997
+X-MS-Exchange-CrossTenant-UserPrincipalName: IrktFTPP0vce6wsrbHDW/LEBhoCDocxdlscSzGt3X1vnugDhAhKZr9hIvqvJ6JZ82T23rX7DEC3XPJRiRP4HcXxprdwj/xhsaJpcRFvM7yM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1951
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10155 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 bulkscore=0
- spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0 adultscore=0
+ spamscore=0 bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111020079
-X-Proofpoint-GUID: um6SlWuNUoRk_bBceAuj7_mY3jYs6OQX
-X-Proofpoint-ORIG-GUID: um6SlWuNUoRk_bBceAuj7_mY3jYs6OQX
+ definitions=main-2111020081
+X-Proofpoint-ORIG-GUID: fsAocce2eMbfQSN5A00kWPbI6GK3EjOV
+X-Proofpoint-GUID: fsAocce2eMbfQSN5A00kWPbI6GK3EjOV
 
-On Tue, Oct 19, 2021 at 10:23:56PM +0200, Martin Kaiser wrote:
-> Free the param struct if the caller sets an unsupported algorithm
-> and we return an error.
+This should be a v2 patch.  There is a specific format for that.  The
+subject isn't really correct.  It should just be:
+
+Subject: [PATCH] staging: rtl8723bs: Remove true and false comparisons
+
+Removing the unnecessary parentheses is a necessary part of removing the
+comparisons but it's not its own thing.  You can mention it in the
+commit message if you want, but don't put it in the subject.  It's not
+even necessarily something I would mention because everyone understands
+why you're removing the parentheses...  But if you want you can add that
+to the commit message:  "After I removed the "== true" then I had to
+remove some extra parentheses to avoid introducing a new checkpatch
+warning".
+
+On Wed, Oct 20, 2021 at 03:04:58PM +0530, Kushal Kothari wrote:
+> Remove comparison to true and false in if statement.
+> Issue found with checkpatch.pl.
+> CHECK: Using comparison to true is error prone
+> CHECK: Using comparison to false is error prone
+> CHECK: Unnecessary parentheses
 > 
-> Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> Signed-off-by: Kushal Kothari <kushalkothari285@gmail.com>
 > ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 50 ++++++++++++------------
+>  1 file changed, 25 insertions(+), 25 deletions(-)
 > 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 4f0ae821d193..4e51d5a55985 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -1897,7 +1897,7 @@ static int rtw_wx_set_enc_ext(struct net_device *dev,
->  	struct ieee_param *param = NULL;
->  	struct iw_point *pencoding = &wrqu->encoding;
->  	struct iw_encode_ext *pext = (struct iw_encode_ext *)extra;
-> -	int ret = 0;
-> +	int ret = -1;
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index efc9b1974e38..3e0b910114da 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -309,8 +309,8 @@ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>  	if (cmd_obj->cmdcode == GEN_CMD_CODE(_SetChannelPlan))
+>  		bAllow = true;
 >  
+> -	if ((pcmdpriv->padapter->hw_init_completed == false && bAllow == false)
+> -		|| atomic_read(&(pcmdpriv->cmdthd_running)) == false	/* com_thread not running */
+> +	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
+> +		!atomic_read(&pcmdpriv->cmdthd_running) 	/* com_thread not running */
+>  	)
 
-This was in the original code, so it's fine to leave it as -1, but in
-future patches could you change it to -EINVAL instead.  (Or don't.  I'm
-not your boss.  I appretiate all the clean up you have done to this
-driver).
+In your v1 patch, you were more conservative and changed fewer things.
+Once you start moving the || to the previous line, then it opens up
+other questions like should you align the !atomic_read() correctly and
+move the ')' character?  And the answer is probably no.  Just do it like
+you did in v1.  No one had an issue with that.
+
+>  		return _FAIL;
+>  
+> @@ -372,7 +372,7 @@ void rtw_free_cmd_obj(struct cmd_obj *pcmd)
+>  void rtw_stop_cmd_thread(struct adapter *adapter)
+>  {
+>  	if (adapter->cmdThread &&
+> -		atomic_read(&(adapter->cmdpriv.cmdthd_running)) == true &&
+> +		atomic_read(&adapter->cmdpriv.cmdthd_running) &&
+
+This is not related to boolean comparisons so it belongs in another
+patch.
+
+>  		adapter->cmdpriv.stop_req == 0) {
+>  		adapter->cmdpriv.stop_req = 1;
+>  		complete(&adapter->cmdpriv.cmd_queue_comp);
+> @@ -388,7 +388,7 @@ int rtw_cmd_thread(void *context)
+>  	u8 (*cmd_hdl)(struct adapter *padapter, u8 *pbuf);
+>  	void (*pcmd_callback)(struct adapter *dev, struct cmd_obj *pcmd);
+>  	struct adapter *padapter = context;
+> -	struct cmd_priv *pcmdpriv = &(padapter->cmdpriv);
+> +	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+
+Separate patch.
+
+>  	struct drvextra_cmd_parm *extra_parm = NULL;
+>  
+>  	thread_enter("RTW_CMD_THREAD");
+> @@ -396,7 +396,7 @@ int rtw_cmd_thread(void *context)
+>  	pcmdbuf = pcmdpriv->cmd_buf;
+>  
+>  	pcmdpriv->stop_req = 0;
+> -	atomic_set(&(pcmdpriv->cmdthd_running), true);
+> +	atomic_set(&pcmdpriv->cmdthd_running, true);
+
+Separate.
+
+>  	complete(&pcmdpriv->terminate_cmdthread_comp);
+>  
+>  	while (1) {
+> @@ -407,7 +407,7 @@ int rtw_cmd_thread(void *context)
+>  			break;
+>  		}
+>  
+> -		if ((padapter->bDriverStopped == true) || (padapter->bSurpriseRemoved == true)) {
+> +		if (padapter->bDriverStopped || padapter->bSurpriseRemoved) {
+
+Good.
+
+>  			netdev_dbg(padapter->pnetdev,
+>  				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
+>  				   __func__, padapter->bDriverStopped,
+> @@ -430,7 +430,7 @@ int rtw_cmd_thread(void *context)
+>  			continue;
+>  
+>  _next:
+> -		if ((padapter->bDriverStopped == true) || (padapter->bSurpriseRemoved == true)) {
+> +		if (padapter->bDriverStopped || padapter->bSurpriseRemoved) {
+
+Good.
+
+>  			netdev_dbg(padapter->pnetdev,
+>  				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
+>  				   __func__, padapter->bDriverStopped,
+> @@ -472,7 +472,7 @@ int rtw_cmd_thread(void *context)
+>  
+>  post_process:
+>  
+> -		if (mutex_lock_interruptible(&(pcmd->padapter->cmdpriv.sctx_mutex)) == 0) {
+> +		if (mutex_lock_interruptible(&pcmd->padapter->cmdpriv.sctx_mutex) == 0) {
+
+Separate.
+
+>  			if (pcmd->sctx) {
+>  				netdev_dbg(padapter->pnetdev,
+>  					   FUNC_ADPT_FMT " pcmd->sctx\n",
+> @@ -483,7 +483,7 @@ int rtw_cmd_thread(void *context)
+>  				else
+>  					rtw_sctx_done_err(&pcmd->sctx, RTW_SCTX_DONE_CMD_ERROR);
+>  			}
+> -			mutex_unlock(&(pcmd->padapter->cmdpriv.sctx_mutex));
+> +			mutex_unlock(&pcmd->padapter->cmdpriv.sctx_mutex);
+
+Separate.  Etc, same thing everywhere.  Don't fix parentheses check
+patch warnings, but don't introduce new ones either.
 
 regards,
 dan carpenter
