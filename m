@@ -1,89 +1,123 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893A92C85
-	for <linux-staging@lists.linux.dev>; Tue,  2 Nov 2021 16:04:36 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10156"; a="212057341"
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; 
-   d="scan'208";a="212057341"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2021 08:49:40 -0700
-X-IronPort-AV: E=Sophos;i="5.87,203,1631602800"; 
-   d="scan'208";a="583627869"
-Received: from smile.fi.intel.com ([10.237.72.184])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2021 08:49:35 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1mhw2I-0033Ff-15;
-	Tue, 02 Nov 2021 17:49:18 +0200
-Date: Tue, 2 Nov 2021 17:49:17 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Tsuchiya Yuto <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
-	Patrik Gfeller <patrik.gfeller@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Kaixu Xia <kaixuxia@tencent.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Yang Li <abaci-bugfix@linux.alibaba.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alan <alan@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Linux Media Mailing List <linux-media@vger.kernel.org>,
-	linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [BUG/RFC PATCH 3/5] [BUG][RFC] media: atomisp: pci: add NULL
- check for asd obtained from atomisp_video_pipe
-Message-ID: <YYFd/Zb4aT3Qfjpi@smile.fi.intel.com>
-References: <20211017162337.44860-1-kitakar@gmail.com>
- <20211017162337.44860-4-kitakar@gmail.com>
- <20211102130245.GE2794@kadam>
- <CAHp75VeThcCywYZsrUNYSA3Yc3MjJwfiCBCGep1DpWFFUg71cw@mail.gmail.com>
- <CAHp75VdnvxCWYrdrBqtSDP0A2PCT6dYvHAhszY9iH9ooWKT49g@mail.gmail.com>
- <20211102150523.GJ2794@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452B068
+	for <linux-staging@lists.linux.dev>; Tue,  2 Nov 2021 16:30:25 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id 127so20067543pfu.1
+        for <linux-staging@lists.linux.dev>; Tue, 02 Nov 2021 09:30:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=pfwgbe2ksFAA3UJkUKv7Buq35y1OMHoVJCtwm+mmfws=;
+        b=DtmfFBw1GdShKLk7kJwiwEjT73512QMSF3A/yBK1FObyez5Kx59YSwT8B8T3reAsNp
+         EqSe5UmDrEFGmBbnY0Y/S0eb4/K1RGkyPvpEsTN/MaLEIwichvvw3fnGytsQFmAkPekH
+         G7KeUly6c1LoevgzNPdH1TgbxeDZfTG7yWRIjVRVRtx306vj/Gk1a9oA1KMqM2KkMWLD
+         mKLqGbfqd20v5NJLB1DHkWxIVCmRUKT+8f+nOUR13nqm5eQDJuszc7lHxW27iz3AIwaE
+         5z/bVzewT+CitSAZX4ArqNCWlI0xVhKfwdp83Ae94i8g54dtyQ7sMqMZ9fQeaqCn4G1v
+         lL/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=pfwgbe2ksFAA3UJkUKv7Buq35y1OMHoVJCtwm+mmfws=;
+        b=cQDd+eb5Sjjka1IuJyNUFpEpN/MZc6X/CYTJY5pPMIM2EsoXpUr/CeivhVXaR/atIt
+         S3wb00Kxl6rXFedotfhEbSTVT7yn/sQEA/4U4O2+dSBHy3okBPq1KtHI2iPzi6kY6602
+         1Yw/Upt1XDP08cUHWsIcjGvSzHWEBdrwECsknWH+9HPd6635gQRArgEaaREDp6MIC6It
+         2w+EwfmmTNe0eRn66Og0gwDPiNBRJlh0+aH4T2awH5yUX6tLx6MtIndo8fcdmOdwtHQW
+         gYr91RUaR9zLgkLsg1U+J+Umxn+s9E6bhZNm/T+QK7oPsoCZ9SMeMkh62BfzQalzTW6k
+         FB4Q==
+X-Gm-Message-State: AOAM531307eMvhvrpLL6cu1JbdSNV0ZCaewcoqBpDfpkQyov5fmgnVDg
+	UI/budIuSdkC3kejNwuPeOY=
+X-Google-Smtp-Source: ABdhPJwKUqqfB/vDdiLKQ/5v2QLyxMDw4R1pMy9hzE0DiaKGH4dEzcyqIbaUAEk3/BayGvKaSpZK6w==
+X-Received: by 2002:a05:6a00:1312:b0:44c:becf:b329 with SMTP id j18-20020a056a00131200b0044cbecfb329mr37976011pfu.5.1635870624634;
+        Tue, 02 Nov 2021 09:30:24 -0700 (PDT)
+Received: from [192.168.1.2] ([59.95.93.69])
+        by smtp.gmail.com with ESMTPSA id s22sm18820163pfe.76.2021.11.02.09.30.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Nov 2021 09:30:18 -0700 (PDT)
+Message-ID: <9bbc97e2-ab20-efb4-d055-ebce021b7c97@gmail.com>
+Date: Tue, 2 Nov 2021 22:00:06 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211102150523.GJ2794@kadam>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.1
+Subject: Re: [PATCH] staging: r8188eu: os_dep: remove the goto statement
+Content-Language: en-GB
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ straube.linux@gmail.com, martin@kaiser.cx, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+References: <YX7cCtVss2RWOJ/a@Sauravs-MacBook-Air.local>
+ <YX/lJMEfqXqlserL@kroah.com>
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+In-Reply-To: <YX/lJMEfqXqlserL@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 02, 2021 at 06:05:23PM +0300, Dan Carpenter wrote:
-> On Tue, Nov 02, 2021 at 04:45:20PM +0200, Andy Shevchenko wrote:
-> > On Tue, Nov 2, 2021 at 4:44 PM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > > On Tue, Nov 2, 2021 at 3:10 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> > > > On Mon, Oct 18, 2021 at 01:23:34AM +0900, Tsuchiya Yuto wrote:
 
-...
 
-> > > > Run your patches through scripts/checkpatch.pl.
-> > >
-> > > While it's good advice, we are dealing with quite a bad code under
-> > > staging, so the requirements may be relaxed.
-> > 
-> > To be more clear: the goal now is getting it _working_. That's why
-> > this kind of noise is not important _for now_.
+On 01/11/21 6:31 pm, Greg KH wrote:
+> On Sun, Oct 31, 2021 at 11:40:18PM +0530, Saurav Girepunje wrote:
+>> Remove the goto statement from rtw_init_drv_sw(). In this function goto
+>> can be replace by return statement. As on goto label exit, function
+>> only return it is not performing any cleanup. Avoiding goto will
+>> improve the function readability.
+>>
+>> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+>> ---
+>>  drivers/staging/r8188eu/os_dep/os_intfs.c | 39 +++++++----------------
+>>  1 file changed, 12 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+>> index 1418c9c4916c..4b409479108e 100644
+>> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+>> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+>> @@ -480,48 +480,34 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+>>  {
+>>  	u8	ret8 = _SUCCESS;
+>>
+>> -	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL) {
+>> -		ret8 = _FAIL;
+>> -		goto exit;
+>> -	}
+>> +	if (!rtw_init_cmd_priv(&padapter->cmdpriv))
+>> +		return _FAIL;
+>>
+>>  	padapter->cmdpriv.padapter = padapter;
+>>
+>> -	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL) {
+>> -		ret8 = _FAIL;
+>> -		goto exit;
+>> -	}
+>> -
+>> -	if (rtw_init_mlme_priv(padapter) == _FAIL) {
+>> -		ret8 = _FAIL;
+>> -		goto exit;
+>> -	}
+>> +	if (!rtw_init_evt_priv(&padapter->evtpriv) || !rtw_init_mlme_priv(padapter))
+>> +		return _FAIL;
 > 
-> If it's a new driver, then we accept all sorts of garbage, that's true.
+> These are functions that are being called so keeping them separate as
+> the code you removed did makes it "obvious" what is happening here.
+> 
+> So can you keep it that way please?
+> 
+I will make them separate as they were.
 
-It was in kernel for a while, but never worked (hence anyhow tested)
-up to the recent effort made by Tsuchiya.
-
-In any case, as I said, we shall run checkpatch in the future when
-we have something working.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> But my larger question is do these functions create state or allocate
+> memory that needs to be unwound properly if an error does happen?  Right
+> now the function seems to not be doing that at all, but that does not
+> mean it is correct as-is...
+> 
+> thanks,
+> 
+> greg k-h
+> Regards,
+Saurav
 
