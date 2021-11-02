@@ -1,96 +1,111 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72FD02C80
-	for <linux-staging@lists.linux.dev>; Tue,  2 Nov 2021 20:20:55 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id p16so938446lfa.2
-        for <linux-staging@lists.linux.dev>; Tue, 02 Nov 2021 13:20:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F78B2C99
+	for <linux-staging@lists.linux.dev>; Tue,  2 Nov 2021 21:29:25 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id d3so535133wrh.8
+        for <linux-staging@lists.linux.dev>; Tue, 02 Nov 2021 14:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=lpn3bDr+1bw+pbD1z3cuV2Y0NZoJOJSHErdT9t9Gido=;
-        b=m/1f00hb1939PnBF54d63gR3fqHqU0p54DudyQ0J7dhLC6A8WpOmRkB0ErXdhFiLta
-         9lIWwKgUk7TBl37hpenvwqkPCyWOblw3FmTn8iyGW2LwyW0tS1Nh+ScXRDU8ElrwTdzY
-         ORM4/iNGfSP2jl9MS9HUUJ6e/dclUQw+b/oGOCyoFMwhWyc8xkXU+pMCwzjEOTtMnr+J
-         lZWpQkxD7MfSm8UYYq4nHN59+k4A4/abqrcftUmeNruHg0G+F/L8b4fJYW92KzxvfK/8
-         E5rvzYZqxF+sFDjPugskxJ8WaH16qSfpK/QkyNqf9b66QbDE58f1rwO743VWzOU5VVXm
-         4gEQ==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=qML9KgHR0khgdZTW1uosHaPAKnNgvxttSEAuQMX0GEQ=;
+        b=vvVatfd1BQrLsFszhbRYkm03+gKZsCb+X9t5O7w8wkTWJ1SOloE5mONfoWyytrAADh
+         h87rtq2oiZ/ohJbtE+aH6wuAirzuHvaHxoriSWzcya5IUTGDGTXFRVb+N50PXr+GY1s3
+         K79dLJtqpgFab4kixIoAJydh7RTkL8Bv148RCchOYtM3EhicTwpRcguphSF+XmkH1mqY
+         xfZ+yrRJeeWWbuobbxvM6Hie9qDkbI7fL8zcocg7ZL1uJskWZHw6K6lWZvWrDsK0R6Ye
+         jhjk/FLqrNc/bvfQJ/+bGOYHBXothQDwfWt+GHaA/UL6OHMN8eqK/NwbJq5bYRfvINmP
+         Z1uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=lpn3bDr+1bw+pbD1z3cuV2Y0NZoJOJSHErdT9t9Gido=;
-        b=DiXuH8Jrp9RZj2Run1112vGKH3huDW0JEBL4R5nO7/j26Y0LlSfMeiVejtsTRjuFIm
-         A2kxL96jnsH/AoPHy1k0wgYJcxH2jc4E+OCjfZ0NYrIcM7pGfX6nUagYjXBEpZXH79do
-         7+IcPbSXE+GmXnIrpzWkkt3ufFTNWq3eCQchApSsMKQ95Nd1KuIp8AffNKN9R/+ZUyfX
-         JeblXMTeSjpukMBcPWvOqMrY9Aiw+RdRoAwhdnH6s5b4z5tF0YbizO0QU8MFjI77o+sy
-         QgGekMXZUkUO73xVu9ng2epCofMWP/O8upVbAqw17B5YFjTNHh0MXssVM3CRLm4hLrGt
-         Hmww==
-X-Gm-Message-State: AOAM533GC6Ln5kYp77kHaCmPm79LsRWCVX2NYMVfWOvAXcS5rKQavqz3
-	HUy88VgrVQyjAIK9F4AWwA8=
-X-Google-Smtp-Source: ABdhPJypK7rMxgdldHrwiZ00um/Y+CaFZRWh7yRDkoSi/cYQsCvuBcIIzMeri4SJH1FVXKeMsePjSQ==
-X-Received: by 2002:a05:6512:c14:: with SMTP id z20mr7370646lfu.56.1635884453494;
-        Tue, 02 Nov 2021 13:20:53 -0700 (PDT)
-Received: from [192.168.1.11] ([217.117.245.207])
-        by smtp.gmail.com with ESMTPSA id k37sm1767639lfv.304.2021.11.02.13.20.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Nov 2021 13:20:53 -0700 (PDT)
-Message-ID: <1f877ce2-e97b-7127-a212-e2f0ac774c0f@gmail.com>
-Date: Tue, 2 Nov 2021 23:20:52 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=qML9KgHR0khgdZTW1uosHaPAKnNgvxttSEAuQMX0GEQ=;
+        b=slupb+fWHC4fgL1Snc6pdukSlC5p1XkT2fPrh3HkmllnzJT85ZCl6i9ULKhMK0M86e
+         6qJ4m92lQWv1oCe2gdUSqYpebpCbcmRBjnpsg8Ej5OpXYj4VKkU02pwZ7U2TPOEFO7oB
+         L2awWbx2XgOaQpelXQ9LnjAObrFQ4l0affMKA0w57udPCdK8+MUK0hRlSPaor9KyG4uM
+         gE7yAqfV7NiFT5CSAy8ibkCXKDP7GIGvaQMbKIxB55lk6pet2ZOavn98V9nAZ7vGoA0T
+         FB9YTQ0ZNWKK2KWxSUpK5okxt9tstUxIBhKjfLloI2BziJgYfpp0ktMixoB53xDdMKZB
+         2I4g==
+X-Gm-Message-State: AOAM5315kFHEXKP9AAxDTtNlhUAJv4nRGWrXCU16P77sUtEEigko40/h
+	U+vq6mamM7CAFV+3oCMxbKQMFw==
+X-Google-Smtp-Source: ABdhPJx78m9gTB88Hr7ZpsykWna+1GSTTiWETWNwDFSIrgNVpYJJJATd62v8KH9zCjR2Me0qd2l8dw==
+X-Received: by 2002:adf:e810:: with SMTP id o16mr43165440wrm.359.1635888564154;
+        Tue, 02 Nov 2021 14:29:24 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id z1sm172984wre.21.2021.11.02.14.29.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Nov 2021 14:29:23 -0700 (PDT)
+Date: Tue, 2 Nov 2021 22:29:22 +0100
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH v2 04/10] staging: media: zoran: add debugfs
+Message-ID: <YYGtso8/Uym+9Jwb@Red>
+References: <20211013185812.590931-1-clabbe@baylibre.com>
+ <20211013185812.590931-5-clabbe@baylibre.com>
+ <20211014073752.GM8429@kadam>
+ <YWyB8kwsqAvHMuhb@Red>
+ <20211102174027.GK2794@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] staging: r8188eu: os_dep: remove the goto statement
-Content-Language: en-US
-To: Saurav Girepunje <saurav.girepunje@gmail.com>, Larry.Finger@lwfinger.net,
- phil@philpotter.co.uk, gregkh@linuxfoundation.org, straube.linux@gmail.com,
- martin@kaiser.cx, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YX7cCtVss2RWOJ/a@Sauravs-MacBook-Air.local>
- <f26b4aec-c0a1-8c93-b34e-8b1a36ac81b3@gmail.com>
- <a74bd1d9-746c-650f-74e7-4a4b597348b7@gmail.com>
- <4c566e71-2426-b776-17a2-38f5f0b6f2b6@gmail.com>
- <da61a07e-8ee8-8737-d110-c8b107cf7303@gmail.com>
- <534dab3c-72b1-047c-c188-6f86a57005e1@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <534dab3c-72b1-047c-c188-6f86a57005e1@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211102174027.GK2794@kadam>
 
-On 11/2/21 19:40, Saurav Girepunje wrote:
+Le Tue, Nov 02, 2021 at 08:40:28PM +0300, Dan Carpenter a �crit :
+> On Sun, Oct 17, 2021 at 10:05:06PM +0200, LABBE Corentin wrote:
+> > Le Thu, Oct 14, 2021 at 10:37:52AM +0300, Dan Carpenter a �crit :
+> > > On Wed, Oct 13, 2021 at 06:58:06PM +0000, Corentin Labbe wrote:
+> > > > +config VIDEO_ZORAN_DEBUG
+> > > > +	bool "Enable zoran debugfs"
+> > > > +	depends on VIDEO_ZORAN
+> > > > +	depends on DEBUG_FS
+> > > > +	help
+> > > > +	  Say y to enable zoran debug file.
+> > > > +	  This will create /sys/kernel/debug/CARD_NAME/debug for displaying
+> > > > +	  stats and debug information.
+> > > 
+> > > Why bother with a CONFIG?  Just make it always on?
+> > > 
+> > 
+> > Hello
+> > 
+> > I love to provides choice to user (and so avoid a dep on DEBUG_FS), even if I think I am the only one remaining user.
 > 
+> Sorry, for the delay, I was on vacation.
 > 
-> On 01/11/21 12:57 am, Pavel Skripkin wrote:
->> On 10/31/21 22:24, Pavel Skripkin wrote:
->>>> I think rtw_init_default_value should return void. It's return value is not useful.
->>>
->>>
->>> Sure, but you need to firstly remove
->>> `ret8 = rtw_init_default_value(padapter);` and then make it return bool
->>                                      ^^^^
->> 
->> I mean void, of course :)
->> 
->> 
->> With regards,
->> Pavel Skripkin
+> No, there is no depends on DEBUG_FS in the method that I am describing.
 > 
-> Intention for this patch to remove the goto statement. I think removing a local variable
-> for return value and changing the return type of function can be one separate patch.
+> How that works is when DEBUG_FS is turned on then it's on for everything,
+> but when it's disabled it's disabled for everything.  You do not need
+> the "depends on DEBUG_FS" and if you make this an option the it feels
+> like it should be a selects DEBUG_FS instead.
 > 
-> On this patch intent to remove the goto statement only.
+> How this normally works is that when you have debugfs disabled, there
+> are dummy files in the debugfs .h files.  I bet the compiler can tell
+> most of those are empty and removes them.  So if you have DEBUG_FS then
+> it doesn't use that much more memory than when VIDEO_ZORAN_DEBUG is
+> disabled.
+> 
+> I don't know if I'm being clear at all #jetlag.
+> 
+> It should be easy to check.  Just remove the "depends on DEBUG_FS" and
+> enable VIDEO_ZORAN_DEBUG.  Disable DEBUG_FS.  It should still build fine
+> because of the dummy functions.  That's build 1.  Then disable
+> VIDEO_ZORAN_DEBUG and that's build 2.  See how much memory difference
+> there is between 1 and 2.
 > 
 
-I agree, I've just pointed out to further possible code improvements :)
+No worry for the delay.
+Anyway, I have removed VIDEO_ZORAN_DEBUG in v3 since Hans Verkuil also asked for its removing.
 
-
-
-With regards,
-Pavel Skripkin
+Regards
