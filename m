@@ -1,125 +1,103 @@
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net [194.109.24.24])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC712C98
-	for <linux-staging@lists.linux.dev>; Wed,  3 Nov 2021 16:30:55 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id iJ90mznJMFZvciJ91maBfP; Wed, 03 Nov 2021 17:29:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1635956987; bh=q06/a6NhPPbSu2bM9BmCNRxXQvZOuI61JEGUeXJUBmk=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=j/kIIE5G6Foqc83nOSk9Sh0Lg1YlXEsAlPBK9A0zJ1ZADDVtyGLzOLvxnYOwZL7Ny
-	 zq4JC8OhYKbtfvfjSOfTN/jqD3QbAUQF57ueUlwGuCPMw3ZmdTA/1PhGBDNkyVEBNS
-	 OThhJVaPRbeL4Q2Sbvcxdw+V6i+t5iMF6J/qoJfL84WKC5ZyAysxcjWuIwn76+Efct
-	 zPpVf/+rBrsUQcKir0t7KVz2Q4Pt8q9NI40foLj0uOeVjCyStIQ5PgKX1jzUVuCRl9
-	 4615UuzmEnSPwYeHvMI8hszR+tqI29K6/EX7BhLgTKyhLpBfxdCQesPOk3bmSXz7IY
-	 AsrVrzgutv06Q==
-Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
-To: LABBE Corentin <clabbe@baylibre.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
- <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl> <YYKxTrWI299pvqo7@Red>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
-Date: Wed, 3 Nov 2021 17:29:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C302C98
+	for <linux-staging@lists.linux.dev>; Wed,  3 Nov 2021 16:54:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A00461053;
+	Wed,  3 Nov 2021 16:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1635958473;
+	bh=jO5V5YGkKZKCIIFUKlx4t5qdcFJRnyfTr9k5CI4kRxU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gzDGaCn5SjzHy/iIOG0t5Kv/B2qv58ao2WWhWgwwfP745Z8cGpV7C/HfIFrk726Bw
+	 reKMlOSZk9p2q7B3PLtiJvgYiU4sKpuZ367tW1irGeNazp8wc3UaWCnlWJxVpP2rpT
+	 hKGUSWjvtCSXae3Huw04rQ9G4x9a5Z4IvWKhJMsoUeVWqQVcPMp3ZqbbYOlimaRr9v
+	 R2Nt6p7DOZ1LwGvx8EHFjtvF7RUewJ0vMiLSW5QVoAvyGKUhf2YZbZyPRRfpd7ZirK
+	 c58+w7vqn7Iaj4gf/vxshko9SLO9aFZ2OAwhO7QZDfAeIIUt3LVtvZqdDxUyebjm5W
+	 +C40Va2QDafeA==
+Date: Wed, 3 Nov 2021 16:54:24 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Tsuchiya Yuto
+ <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Kaixu Xia <kaixuxia@tencent.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Yang Li
+ <abaci-bugfix@linux.alibaba.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Alex Dewar <alex.dewar90@gmail.com>,
+ Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alan <alan@linux.intel.com>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ linux-staging@lists.linux.dev, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: atomisp current issues
+Message-ID: <20211103165424.67296e13@sal.lan>
+In-Reply-To: <c39cac68-73ab-4ab0-a701-e92f01c92774@xs4all.nl>
+References: <20211103135418.496f75d5@sal.lan>
+	<c39cac68-73ab-4ab0-a701-e92f01c92774@xs4all.nl>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YYKxTrWI299pvqo7@Red>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKrptr7PwToxoeIwYq/ugkCAdgOjfHO4zoLTeUBEDSS/u2innE/hGUZ66Te3fyxbTkVjBMlRxerT3S8vy6mKT8e5hyfuOIm4ZhZb193v1+PhlqRDShU5
- 3Fcd+ERqqWANpALMP3bJvxke6askZfGEdVCJMJ3pD0WhsQmOv+8Q64aT5c9T0lEfqLMS7N1/CHKi4F4cZpDgkwUqss9R+h1x0Fs+NCj62m8+Dfhb5BJHRLP4
- Lc3MtciN5t3KEQtzwIyw88PWxgHhX40mT35qSDwx27L5WyH0khNv+cRr0eQgle18szH8IUKMhPfSPowK1oIQU/dS8okPCv1kKwgLl/b63zc5/TXicx3TUV5Z
- LTAUfEqIbmwQJItBhdL5029ynzl6tOQgtBctN/CqTyMYRRpABwMNxiBG5wHf7bmCIapWuWKmUWh7PRtToTcgR7RftBSPpV4MU5C1hhazh7zhHYKFV7HylSJ6
- GRGcRDChddSg4Wqs/llAZJr6dCbxmis9FmknTZSBI7wN1Xo0m8wQO+4QnAg=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 03/11/2021 16:57, LABBE Corentin wrote:
-> Le Wed, Nov 03, 2021 at 04:21:02PM +0100, Hans Verkuil a écrit :
->> Hi Corentin,
->>
->> On 26/10/2021 21:34, Corentin Labbe wrote:
->>> Hello
->>>
->>> The main change of this serie is to fusion all zoran related modules in
->>> one.
->>> This fixes the load order problem when everything is built-in.
->>
->> I've been testing this series, and while the module load/unload is now working,
->> I'm running into a lot of other v4l2 compliance issues.
->>
->> I've fixed various issues in some follow-up patches available in my tree:
->>
->> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
->>
->> At least some of the worst offenders are now resolved. Note that the patch
->> dropping read/write support relies on this patch:
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
-> 
-> Hello
-> 
-> My test branch already included your "zoran: fix various V4L2 compliance errors"
-> I have quickly checked other patch and I am ok with them.
-> I will add and test with them.
-> 
->>
->> But there is one really major bug that makes me hesitant to merge this:
->>
->> This works:
->>
->> v4l2-ctl -v pixelformat=MJPG,width=768,height=576
->> v4l2-ctl --stream-mmap
->>
->> This fails:
->>
->> v4l2-ctl -v pixelformat=MJPG,width=768,height=288
->> v4l2-ctl --stream-mmap
->>
->> It's an immediate lock up with nothing to indicate what is wrong.
->> As soon as the height is 288 or less, this happens.
->>
->> Both with my DC30 and DC30D.
-> 
-> Just for curiosity, what is the difference between thoses two ?
+Em Wed, 3 Nov 2021 15:41:05 +0100
+Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
 
-It's the DC30 variant without an adv7175.
-
+> On 03/11/2021 14:54, Mauro Carvalho Chehab wrote:
+> > Hi,
+> > 
+> > From what I've seen so far, those are the main issues with regards to V4L2 API,
+> > in order to allow a generic V4L2 application to work with it.
+> > 
+> > MMAP support
+> > ============
+> > 
+> > Despite having some MMAP code on it, the current implementation is broken. 
+> > Fixing it is not trivial, as it would require fixing the HMM support on it, 
+> > which does several tricks.
+> > 
+> > The best would be to replace it by something simpler. If this is similar
+> > enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
+> > videodev2 + IPU3 HMM code.
+> > 
+> > As this is not trivial, I'm postponing such task. If someone has enough
+> > time, it would be great to have this fixed.
+> > 
+> > From my side, I opted to add support for USERPTR on camorama:
+> > 
+> > 	https://github.com/alessio/camorama
+> > 
+> > As this is something I wanted to do anyway, and it allowed me to cleanup
+> > several things in camorama's code.
+> > 
+> > Support for USERPTR is not autodetected. So, this should be selected  
 > 
->>
->> Do you see the same? Any idea what is going on? I would feel much happier
->> if this is fixed.
->>
->> Note that the same problem is present without this patch series, so it's
->> been there for some time.
->>
+> You can autodetect this: the capabilities field returned by VIDIOC_REQBUFS
+> or VIDIOC_CREATE_BUFS will indicate support for this. This works with any
+> vb2-based driver.
 > 
-> I will start on digging this problem and add thoses commands to my CI.
-> And I know there are a huge quantity of problem since origins.
-> A simple example is that just setting MJPEG as default input format does not work.
-> 
-> But since it is not related to my serie, can you please merge it.
+> Just thought I should mention this...
 
-Before I do that, I would really like to know a bit more about this issue:
-can you reproduce it? Is it DC30 specific or a general problem with zoran?
+Yeah, surely the app could try it, but:
 
-The problem with this hard hang is that it is hard to do regression testing
-with v4l2-compliance, since it will hang as soon as MJPG pixelformat is
-tested.
+1. As libv4l doesn't support USERPTR, such detection should happen
+   early inside camorama code;
 
-I would feel much happier if the hang can be avoided, even if it is just
-with a temporary hack. It will make it much easier going forward.
+2. Atomisp does have support for MMAP, but it is broken.
+   (this is the most relevant reason)
+
+Ok, we could change it to return -ENOIOCTLCMD for mmap, and add
+a basic logic at camorama that would try to call REQBUFS in order
+to verify if -ENOIOCTLCMD is returned.
+
+Perhaps one more item to our todo list, if nobody fixes MMAP before
+that.
 
 Regards,
-
-	Hans
+Mauro
