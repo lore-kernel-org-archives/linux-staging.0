@@ -1,41 +1,42 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C302C98
-	for <linux-staging@lists.linux.dev>; Wed,  3 Nov 2021 16:54:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A00461053;
-	Wed,  3 Nov 2021 16:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DFC2C98
+	for <linux-staging@lists.linux.dev>; Wed,  3 Nov 2021 16:59:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 68633610EA;
+	Wed,  3 Nov 2021 16:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635958473;
-	bh=jO5V5YGkKZKCIIFUKlx4t5qdcFJRnyfTr9k5CI4kRxU=;
+	s=k20201202; t=1635958764;
+	bh=90JlYVHtaeteFCA57oFfHvFzcC8eXl6WiHp4EuNETT8=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gzDGaCn5SjzHy/iIOG0t5Kv/B2qv58ao2WWhWgwwfP745Z8cGpV7C/HfIFrk726Bw
-	 reKMlOSZk9p2q7B3PLtiJvgYiU4sKpuZ367tW1irGeNazp8wc3UaWCnlWJxVpP2rpT
-	 hKGUSWjvtCSXae3Huw04rQ9G4x9a5Z4IvWKhJMsoUeVWqQVcPMp3ZqbbYOlimaRr9v
-	 R2Nt6p7DOZ1LwGvx8EHFjtvF7RUewJ0vMiLSW5QVoAvyGKUhf2YZbZyPRRfpd7ZirK
-	 c58+w7vqn7Iaj4gf/vxshko9SLO9aFZ2OAwhO7QZDfAeIIUt3LVtvZqdDxUyebjm5W
-	 +C40Va2QDafeA==
-Date: Wed, 3 Nov 2021 16:54:24 +0000
+	b=eTeE3faqgg4tjW8h91iozQpJ6WKujl9BDIrpQQXmBvh1nU/8uLZmn0dh93W8kUbC1
+	 e/y7zC5iTRT7sQ9XKdYkh7bHeNIA6vReiyta027X3hn7pMrcYnp9gesMMbhfvX/A2a
+	 pIUI487BZJqzpY3CT4lsQtLt4f8aAh34PWzCHdBxZZMe6bDOkPloayjzyrbibxqjIl
+	 EPPZVo7Zo8Lzh4NuTToknttP8Mf7nkl6RLWhaGxCiNyJE5xtXHoqMgo7CBPEDtcFey
+	 0mGZ7CLeLmPIYB+17BEuEgoOahPwYRTa7QR7RKhqL3IUeXerQR4NbL8TepdMfJy4dU
+	 Ap+VOQV4jh6hA==
+Date: Wed, 3 Nov 2021 16:59:13 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Tsuchiya Yuto
  <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
  <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Kaixu Xia <kaixuxia@tencent.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Yang Li
+ <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Kaixu Xia <kaixuxia@tencent.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Yang Li
  <abaci-bugfix@linux.alibaba.com>, Tomi Valkeinen
  <tomi.valkeinen@ideasonboard.com>, Alex Dewar <alex.dewar90@gmail.com>,
  Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Arnd Bergmann
  <arnd@arndb.de>, Alan <alan@linux.intel.com>, Peter Zijlstra
  <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
  linux-staging@lists.linux.dev, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>
+ <linux-kernel@vger.kernel.org>
 Subject: Re: atomisp current issues
-Message-ID: <20211103165424.67296e13@sal.lan>
-In-Reply-To: <c39cac68-73ab-4ab0-a701-e92f01c92774@xs4all.nl>
+Message-ID: <20211103165913.221f1ef1@sal.lan>
+In-Reply-To: <CAHp75VehnnD7VPYCH0YaB43_UvWL=FzfgDkYJ3PhgrK8PhQKtQ@mail.gmail.com>
 References: <20211103135418.496f75d5@sal.lan>
-	<c39cac68-73ab-4ab0-a701-e92f01c92774@xs4all.nl>
+	<CAHp75VehnnD7VPYCH0YaB43_UvWL=FzfgDkYJ3PhgrK8PhQKtQ@mail.gmail.com>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -46,58 +47,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Wed, 3 Nov 2021 15:41:05 +0100
-Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+Em Wed, 3 Nov 2021 16:34:39 +0200
+Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
 
-> On 03/11/2021 14:54, Mauro Carvalho Chehab wrote:
-> > Hi,
-> > 
-> > From what I've seen so far, those are the main issues with regards to V4L2 API,
-> > in order to allow a generic V4L2 application to work with it.
-> > 
-> > MMAP support
-> > ============
-> > 
-> > Despite having some MMAP code on it, the current implementation is broken. 
-> > Fixing it is not trivial, as it would require fixing the HMM support on it, 
-> > which does several tricks.
-> > 
-> > The best would be to replace it by something simpler. If this is similar
-> > enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
-> > videodev2 + IPU3 HMM code.
-> > 
-> > As this is not trivial, I'm postponing such task. If someone has enough
-> > time, it would be great to have this fixed.
-> > 
-> > From my side, I opted to add support for USERPTR on camorama:
-> > 
-> > 	https://github.com/alessio/camorama
-> > 
-> > As this is something I wanted to do anyway, and it allowed me to cleanup
-> > several things in camorama's code.
-> > 
-> > Support for USERPTR is not autodetected. So, this should be selected  
+> On Wed, Nov 3, 2021 at 3:54 PM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
 > 
-> You can autodetect this: the capabilities field returned by VIDIOC_REQBUFS
-> or VIDIOC_CREATE_BUFS will indicate support for this. This works with any
-> vb2-based driver.
+> ...
 > 
-> Just thought I should mention this...
+> > Currently, 10 video? devices are created:
+> >
+> >         $ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
+> >         /dev/video0:    Name             : ATOMISP ISP CAPTURE output
+> >         /dev/video1:    Name             : ATOMISP ISP VIEWFINDER output
+> >         /dev/video2:    Name             : ATOMISP ISP PREVIEW output
+> >         /dev/video3:    Name             : ATOMISP ISP VIDEO output
+> >         /dev/video4:    Name             : ATOMISP ISP ACC
+> >         /dev/video5:    Name             : ATOMISP ISP MEMORY input
+> >         /dev/video6:    Name             : ATOMISP ISP CAPTURE output
+> >         /dev/video7:    Name             : ATOMISP ISP VIEWFINDER output
+> >         /dev/video8:    Name             : ATOMISP ISP PREVIEW output
+> >         /dev/video9:    Name             : ATOMISP ISP VIDEO output
+> >         /dev/video10:   Name             : ATOMISP ISP ACC
+> >
+> > That seems to be written to satisfy some Android-based app, but we don't
+> > really need all of those.
+> >
+> > I'm thinking to comment out the part of the code which creates all of those,
+> > keeping just "ATOMISP ISP PREVIEW output", as I don't think we need all
+> > of those.  
+> 
+> Are they using the same microprograms (named routines) in the firmware?
 
-Yeah, surely the app could try it, but:
+More or less. There's a "run_mode" parameter that actually controls it.
 
-1. As libv4l doesn't support USERPTR, such detection should happen
-   early inside camorama code;
+Right now, one of the patches fixed it to work only in preview mode.
 
-2. Atomisp does have support for MMAP, but it is broken.
-   (this is the most relevant reason)
-
-Ok, we could change it to return -ENOIOCTLCMD for mmap, and add
-a basic logic at camorama that would try to call REQBUFS in order
-to verify if -ENOIOCTLCMD is returned.
-
-Perhaps one more item to our todo list, if nobody fixes MMAP before
-that.
+So, we're testing only the microprograms that are associated to it.
 
 Regards,
 Mauro
