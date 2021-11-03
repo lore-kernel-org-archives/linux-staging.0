@@ -1,141 +1,157 @@
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [194.109.24.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C882C85
-	for <linux-staging@lists.linux.dev>; Wed,  3 Nov 2021 15:22:12 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id iI4UmXUEB030KiI4VmUuQk; Wed, 03 Nov 2021 16:21:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1635952863; bh=lnc+Z3B1xwnHwfUVEktMwFnDu5c5iQo3KkPktwgGScw=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=SQuJGTxJtv0/TrVwsQntTQZ6GzEoz6Tz/b2NngM+HJMNL/YyVdie7oyFoiAzy94BR
-	 MZeT4/hahnGK1OQQpbes6FMTaMWoofLgf4OwJMktQjtTkMScaIBwyfCYNgteG8rR1P
-	 UKB9ziYRh1MEGRxZkaGHsZUxTA33vE0FR8UPs0qLo/1awwIeHYHxPq6W636yBnbyC4
-	 D42fse1RzGxOy3n4lIMBoKjhJUeW23uMEeks6j6Y0dLX/c5a9bhVPYMZbEQtboUic7
-	 9BKBt7bg9S6q6e/5HPbpeYEXccQIwfsJUywhXmYmdLAjbRKDetwd9rrVEwdBqzZseC
-	 WAYMSOVJVS6Gw==
-Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
-To: Corentin Labbe <clabbe@baylibre.com>, mchehab@kernel.org,
- gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl>
-Date: Wed, 3 Nov 2021 16:21:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D83E2C85
+	for <linux-staging@lists.linux.dev>; Wed,  3 Nov 2021 15:48:49 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id v20so2747250plo.7
+        for <linux-staging@lists.linux.dev>; Wed, 03 Nov 2021 08:48:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=ead3RuHhckCl8EBMptNp8b8Ud4MyZajfflH02ACD9D4=;
+        b=ROQd/5bUfimi8Aot2GdoDUDuuj/mtOzydB6RRRK1IkpZEu9AOK1A9yeex5CAMRlZ/A
+         8ciq+FbzsGu7m2iPs/qy29rf+PvFXmRRzly4yXbVcp4RnXioCQ2zvwMLF7yJzSxdbVBb
+         yUfhuZQmnhoa1meeQrpIK+MsuAILefO7Xjy0dkKeS79pMM2rSyEp/lmkmr90DIVyCvLS
+         QzHdlt6UVhgAslH4g5Z2yal4sFi4gpS17x/zjzoLJsrv2uRjpEAqimNmBAJL4sRDZTsU
+         cYPltAd6rETtJ4CJveVyiUd175v/QbtSgdkFX1yvoxzYfSG8LRj3hGMj7Ntx0cpVcZB2
+         OeRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=ead3RuHhckCl8EBMptNp8b8Ud4MyZajfflH02ACD9D4=;
+        b=i/rJ/M2H0ejnnHQBMl46aRB8ahhizUn8WwWkvWxak1INj4HR8cgcMoc/QUfC/EFkzJ
+         ZmCc8GcJKSUJ7a7All7V4M1hKwTQMkLtUoJhUK+Gb86rnZT4zcuOMikY9S2ZHBkhwcfe
+         Kt4RFo7SxJo2fK4PDQMjhQmAGK0ExDkuayjvY/U8wEQ9GoGdoKcMLOAAru4oNBt8bPxt
+         m/sqQSg9+3SiuKUV9NselzPmCMMZL0q1LNkTy9uGRlZcabJxFN8VqbX7bL/O1VJHvKhG
+         f4rQlZobZ7ag0t5Y5MWOT72woBp+9O8cdo6Ej6VVfxjj7Z/bm6oYz4/GAA9IPZNR5hDH
+         mGag==
+X-Gm-Message-State: AOAM530oH+muRFRobDeASgO/3dE3veNay+t+q5tPmiz8MePpqUDiHGHz
+	GLTQuu4BbHrnxkyO5HMtmpc=
+X-Google-Smtp-Source: ABdhPJzQ5LnjtrL2CxxPTBAjDQznKcuPjQPjHfMRkxbqEOaZ/hm+Co2UT8alMF5lXcmWyPkkfKJiAw==
+X-Received: by 2002:a17:903:2348:b0:141:d60b:ee90 with SMTP id c8-20020a170903234800b00141d60bee90mr23950290plh.15.1635954529339;
+        Wed, 03 Nov 2021 08:48:49 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.85.116])
+        by smtp.gmail.com with ESMTPSA id d19sm2220235pgk.81.2021.11.03.08.48.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Nov 2021 08:48:48 -0700 (PDT)
+Date: Wed, 3 Nov 2021 21:18:41 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	martin@kaiser.cx, saurav.girepunje@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH v2] staging: r8188eu: os_dep: remove the goto statement
+Message-ID: <YYKvWeyqd71pYSqM@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211026193416.1176797-1-clabbe@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAYBF5iuKYzq6bTEbQifCIMKSGYUbDDi6NeAPNI8NyUqweNskuDPISythn3jsDYOgKG7A7WinzwchzWV8fLmS7rNM5Kgdi0xgCpiHpV1nkZCJ/eFGNnQ
- s4VS0gW7AU4CQ1F3KWRT9G5MPyYgoOtC/NF/u4n5p3LZyWUNKXjLwQnKb6Fjx60uT6bPeRSzKxMcNtdIbNQApfU67ve8yw/p0KzSs3kS2C26ighy2GhJ7ZQZ
- z5mUrQR65YTtmzaNeHlmAqmRJrKfXA9wrH1rYsILIzTe0OzCDXdfTFv3tcdBIiGS3Eq0WI1mJWBBbfMr8086TaWfqqqIwKfjOsYW8IK7+1KcdMOCqv1/zLKm
- UeIbZSaaIxLy0QZHnkuMb+4XQeX6lNA8X3zZqcEDY/0FyUzQK/ZcaPldrsxDCV47zT/+SJtKEaGaz6Gli/MV13ZC3rHQKK7aCRqpmr6zzvAgJUokREykgBte
- YCYDTRz9chnPWKOUUwWtfc8ZfiFnlTvKR5HxKOUBrzXEkKuqwSAeROmsEnw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Corentin,
+Remove the goto statement from rtw_init_drv_sw(). In this function goto
+can be replace by return statement. As on goto label exit, function
+only return it is not performing any cleanup. Avoiding goto will
+improve the function readability.
 
-On 26/10/2021 21:34, Corentin Labbe wrote:
-> Hello
-> 
-> The main change of this serie is to fusion all zoran related modules in
-> one.
-> This fixes the load order problem when everything is built-in.
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
 
-I've been testing this series, and while the module load/unload is now working,
-I'm running into a lot of other v4l2 compliance issues.
+ChangelogV2:
 
-I've fixed various issues in some follow-up patches available in my tree:
+	-On V1 combined the if condition check for functions as below
 
-https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
+	 if (!rtw_init_evt_priv(&padapter->evtpriv) || !rtw_init_mlme_priv(padapter))
+		return _FAIL;
+	reverting these changes and keeping them as-is. It will make more clear on
+	individual function call if something need to handle for error case.
 
-At least some of the worst offenders are now resolved. Note that the patch
-dropping read/write support relies on this patch:
+ChangelogV1:
 
-https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
+	-Remove the goto statement from rtw_init_drv_sw(). In this function goto
+	 can be replace by return statement. As on goto label exit, function
+	 only return it is not performing any cleanup. Avoiding goto will
+	 improve the function readability.
 
-But there is one really major bug that makes me hesitant to merge this:
+ drivers/staging/r8188eu/os_dep/os_intfs.c | 34 ++++++++---------------
+ 1 file changed, 11 insertions(+), 23 deletions(-)
 
-This works:
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 1418c9c4916c..ec96e837ab88 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -480,48 +480,37 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ {
+ 	u8	ret8 = _SUCCESS;
 
-v4l2-ctl -v pixelformat=MJPG,width=768,height=576
-v4l2-ctl --stream-mmap
+-	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL)
++		return _FAIL;
 
-This fails:
+ 	padapter->cmdpriv.padapter = padapter;
 
-v4l2-ctl -v pixelformat=MJPG,width=768,height=288
-v4l2-ctl --stream-mmap
+-	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL)
++		return _FAIL;
 
-It's an immediate lock up with nothing to indicate what is wrong.
-As soon as the height is 288 or less, this happens.
+-	if (rtw_init_mlme_priv(padapter) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (rtw_init_mlme_priv(padapter) == _FAIL)
++		return _FAIL;
 
-Both with my DC30 and DC30D.
+ 	rtw_init_wifidirect_timers(padapter);
+ 	init_wifidirect_info(padapter, P2P_ROLE_DISABLE);
+ 	reset_global_wifidirect_info(padapter);
 
-Do you see the same? Any idea what is going on? I would feel much happier
-if this is fixed.
+-	if (init_mlme_ext_priv(padapter) == _FAIL) {
+-		ret8 = _FAIL;
+-		goto exit;
+-	}
++	if (init_mlme_ext_priv(padapter) == _FAIL)
++		return _FAIL;
 
-Note that the same problem is present without this patch series, so it's
-been there for some time.
+ 	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
+ 		DBG_88E("Can't _rtw_init_xmit_priv\n");
+-		ret8 = _FAIL;
+-		goto exit;
++		return _FAIL;
+ 	}
 
-Regards,
+ 	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
+ 		DBG_88E("Can't _rtw_init_recv_priv\n");
+-		ret8 = _FAIL;
+-		goto exit;
++		return _FAIL;
+ 	}
 
-	Hans
+ 	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
+ 		DBG_88E("Can't _rtw_init_sta_priv\n");
+-		ret8 = _FAIL;
+-		goto exit;
++		return _FAIL;
+ 	}
 
-> 
-> Regards
-> 
-> Changes since v2:
-> - added the 4 latest patchs
-> - removed DEBUGFS kconfig option
-> - fixed Dan Carpenter's reported codec issues
-> - fixed kernel test robot's reported issues on vb2_dma_contig_set_max_seg_size()
-> 
-> Changes since v1:
-> - add missing debugfs cleaning
-> - clean some remaining module_get/put functions which made impossible to
->   remove the zoran module
-> - added the two latest patchs
-> 
-> Corentin Labbe (14):
->   staging: media: zoran: move module parameter checks to zoran_probe
->   staging: media: zoran: use module_pci_driver
->   staging: media: zoran: rename debug module parameter
->   staging: media: zoran: add debugfs
->   staging: media: zoran: videocode: remove procfs
->   staging: media: zoran: fusion all modules
->   staging: media: zoran: remove vidmem
->   staging: media: zoran: move videodev alloc
->   staging: media: zoran: move config select on primary kconfig
->   staging: media: zoran: introduce zoran_i2c_init
->   staging: media: zoran: fix usage of vb2_dma_contig_set_max_seg_size
->   staging: media: zoran: clean unused code
->   staging: media: zoran: fix counting buffer in reserve
->   staging: media: zoran: DC30 encoder is not adv7175
-> 
->  drivers/staging/media/zoran/Kconfig        |  38 +-
->  drivers/staging/media/zoran/Makefile       |   8 +-
->  drivers/staging/media/zoran/videocodec.c   |  68 +---
->  drivers/staging/media/zoran/videocodec.h   |   4 +-
->  drivers/staging/media/zoran/zoran.h        |  18 +-
->  drivers/staging/media/zoran/zoran_card.c   | 400 +++++++++++++--------
->  drivers/staging/media/zoran/zoran_device.h |   2 -
->  drivers/staging/media/zoran/zoran_driver.c |   8 +-
->  drivers/staging/media/zoran/zr36016.c      |  25 +-
->  drivers/staging/media/zoran/zr36016.h      |   2 +
->  drivers/staging/media/zoran/zr36050.c      |  24 +-
->  drivers/staging/media/zoran/zr36050.h      |   2 +
->  drivers/staging/media/zoran/zr36060.c      |  23 +-
->  drivers/staging/media/zoran/zr36060.h      |   2 +
->  14 files changed, 317 insertions(+), 307 deletions(-)
-> 
+ 	padapter->stapriv.padapter = padapter;
+@@ -539,7 +528,6 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+
+ 	spin_lock_init(&padapter->br_ext_lock);
+
+-exit:
+ 	return ret8;
+ }
+
+--
+2.33.0
 
