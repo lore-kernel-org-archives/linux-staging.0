@@ -1,153 +1,90 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF18768
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 11:52:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id AE546DFE2F;
-	Thu,  4 Nov 2021 04:43:11 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mES61NqjuTj8; Thu,  4 Nov 2021 04:43:11 -0700 (PDT)
-Date: Thu, 4 Nov 2021 12:41:53 +0100
-From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-To: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel    
- <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
-     Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo    
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix 
-    Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, kernel@puri.sm, phone-devel@vger.kernel.org
-Subject: [PATCH v4 1/5] media: imx: Remove unused functions
-Message-ID: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
-Organization: Purism
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C4068
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 12:06:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9546061213;
+	Thu,  4 Nov 2021 12:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636027560;
+	bh=SnYYpxSRUg67hd+Xit15R1TqiZu+34ZFEvrRwplYLzo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=o3GORacJsT9uLQpEl5H7J02DV7zs2O5f3Gq0Wfc8n3hSuXy+b+lGaWwj6tm0S0GHn
+	 eX1NgSOjkHOB1U/Hl12sAeXkVVoq3nBqpHwRNb8LLUvRmblbv2sY81Rv3szoOzKO/B
+	 +5qeVq5kRPcYyBLJ7N9oZPnahJq+gfLep4pRu7E0d8SbwXZ2Da7+0vGWyzDH0KBFdI
+	 Yjepfp3EVHet33eUWMKQ2Swi+NQdwTH4/waYOmZjPxrGcMjupg6Oni2WzROXPu/z/d
+	 ITQkALbn/Ff1fkqcMsiRfVS8xu12k9LyHch7/YNE/p2X4hD5biS82kG+KrkyJzraHF
+	 fFa/p8mdtVL+Q==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mibVG-005nHb-47; Thu, 04 Nov 2021 12:05:58 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/7] Address issues preventing camorama to work with atomisp
+Date: Thu,  4 Nov 2021 12:05:49 +0000
+Message-Id: <cover.1636026959.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/FosWe/py5YeTF16MIhH8wU1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
---Sig_/FosWe/py5YeTF16MIhH8wU1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This patch series address some issues at atomisp that are preventing camorama
+to work with atomisp driver.
 
-Neither imx_media_mbus_fmt_to_ipu_image nor imx_media_ipu_image_to_mbus_fmt
-were used anywhere.
+After this series, I can use camorama just like on any other device. The frame
+rate is slow (~7fps), though. Not sure if this is due to some sensor limitation or
+because of some other issue.
 
-Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
----
+Anyway this is a start :-)
 
-Hi,
+Some notes:
 
-Compared to v3, this patch series introduces the checks of imx_media_find_m=
-bus_format return values in patch 4 and 5.
+1. Patch 1 fixes an issue at ov2680 logic. It probably needs to be reflected at the
+   other supported sensors;
 
-Cheers,
-Dorota
+2. MMAP is not working. So, it requires a newer version of camorama that has
+   support for USERPTR.
 
- drivers/staging/media/imx/imx-media-utils.c | 42 ---------------------
- drivers/staging/media/imx/imx-media.h       |  4 --
- 2 files changed, 46 deletions(-)
+3. There's nothing special on Camorama for atomisp, except that it has support
+   for USERPTR.
 
-diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
-media/imx/imx-media-utils.c
-index 5128915a5d6f..afa96e05ea7f 100644
---- a/drivers/staging/media/imx/imx-media-utils.c
-+++ b/drivers/staging/media/imx/imx-media-utils.c
-@@ -569,48 +569,6 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_form=
-at *pix,
- }
- EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
-=20
--int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
--				    const struct v4l2_mbus_framefmt *mbus)
--{
--	int ret;
--
--	memset(image, 0, sizeof(*image));
--
--	ret =3D imx_media_mbus_fmt_to_pix_fmt(&image->pix, mbus, NULL);
--	if (ret)
--		return ret;
--
--	image->rect.width =3D mbus->width;
--	image->rect.height =3D mbus->height;
--
--	return 0;
--}
--EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_ipu_image);
--
--int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
--				    const struct ipu_image *image)
--{
--	const struct imx_media_pixfmt *fmt;
--
--	fmt =3D imx_media_find_pixel_format(image->pix.pixelformat,
--					  PIXFMT_SEL_ANY);
--	if (!fmt || !fmt->codes || !fmt->codes[0])
--		return -EINVAL;
--
--	memset(mbus, 0, sizeof(*mbus));
--	mbus->width =3D image->pix.width;
--	mbus->height =3D image->pix.height;
--	mbus->code =3D fmt->codes[0];
--	mbus->field =3D image->pix.field;
--	mbus->colorspace =3D image->pix.colorspace;
--	mbus->xfer_func =3D image->pix.xfer_func;
--	mbus->ycbcr_enc =3D image->pix.ycbcr_enc;
--	mbus->quantization =3D image->pix.quantization;
--
--	return 0;
--}
--EXPORT_SYMBOL_GPL(imx_media_ipu_image_to_mbus_fmt);
--
- void imx_media_free_dma_buf(struct device *dev,
- 			    struct imx_media_dma_buf *buf)
- {
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/=
-imx/imx-media.h
-index 492d9a64e704..d2a150aac6cd 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -199,10 +199,6 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framef=
-mt *tryfmt,
- int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
- 				  const struct v4l2_mbus_framefmt *mbus,
- 				  const struct imx_media_pixfmt *cc);
--int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
--				    const struct v4l2_mbus_framefmt *mbus);
--int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
--				    const struct ipu_image *image);
- void imx_media_grp_id_to_sd_name(char *sd_name, int sz,
- 				 u32 grp_id, int ipu_id);
- struct v4l2_subdev *
---=20
+4. Camorama currently doesn't allow changing the resolution of the camera.
+   That's because of several things:
+
+   a. The driver has a scaler, supporting resolutions from 32x16 to 1600x1200
+      on Asus T101HA.
+   b. The atomisp driver doesn't implement ENUM_FRAMEINTERVALS;
+   c. camorama is not prepared for cameras with scalers on it. It just lets one to
+      select the resolutions enumerated by  ENUM_FRAMEINTERVALS.
+
+Mauro Carvalho Chehab (7):
+  media: atomisp-ov2680: use v4l2_find_nearest_size()
+  media: atomisp: move a debug printf to a better place
+  media: atomisp: fix VIDIOC_S_FMT logic
+  media: atomisp: fix enum_fmt logic
+  media: atomisp: move atomisp_g_fmt_cap()
+  media: atomisp: fix try_fmt logic
+  media: atomisp: fix g_fmt logic
+
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 127 +++-----------
+ drivers/staging/media/atomisp/i2c/ov2680.h    |   3 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  59 +++++--
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 157 ++++++++++--------
+ 4 files changed, 162 insertions(+), 184 deletions(-)
+
+-- 
 2.31.1
 
 
---Sig_/FosWe/py5YeTF16MIhH8wU1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGDxwEACgkQADBpX4S8
-Znd5oQ/9HejktqulgSMWb/IIotetpDnUoWOCt8OLHAjOg9Cqtuf1rXtrezAATMNR
-2MBpQSax2ajkQtl18pbpfWZvxpSVyU6o9Ntr/AZKUGzSH3spZTkivKn0P04+3lNN
-GUoKVJa4bCmZCrQsBcQs88aibLV3L15ZrAuQw2qfe8geMQbwkQPMrRaKzxXeTU2s
-igOmaxhEabV/iZJgTuDQHj5HSdjNEPzd46alpbB7DQxp+aU4fWPzpObV5YNuQgqC
-Bh3ErPyKNn2tmspuZ56CnyZqYXqm/fTrwY4bQZ5EQ7aVuYzU88rf7FhE+uO+iIA0
-2FNWSYqpCHCeUQLw5fsERGE/ukqnCmsSnDHsfnEKKqcQOabjDmwibs6GK904dshO
-HTH8FZO5m7gkHFbwjuxNEbUuQ7NynhWXaU7r0RSHZHP6Angegf3UlBwHww2EHQ56
-E49CqKJ1RhI0IE3rheLAJb/6SX1DhKIXUGwmHebP7W3LZyRtJ3LrHy0RCG1aV2oF
-tNre+TbvwxZfwgo62cK2JtMIYZSn8ZkiiHX7tf5W4HxlXRvO1TvcaS64jjOtp4ts
-V1AzHf2CRkug2Ip7boxZUbF+0kSms+UlmfuRHz9Xi3cMDdxe7VrDiC5FIHUK9tbt
-UR8v8yQzmiFO6ghedJ+ARRwd8ZD1dDCmhGPpz4tyhoBYKjxDnGI=
-=T6CZ
------END PGP SIGNATURE-----
-
---Sig_/FosWe/py5YeTF16MIhH8wU1--
