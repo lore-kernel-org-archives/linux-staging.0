@@ -1,91 +1,91 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F212C80
-	for <linux-staging@lists.linux.dev>; Wed,  3 Nov 2021 20:55:24 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id o12so2251167qtv.4
-        for <linux-staging@lists.linux.dev>; Wed, 03 Nov 2021 13:55:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34162C85
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 02:46:42 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id k2so4382863pff.11
+        for <linux-staging@lists.linux.dev>; Wed, 03 Nov 2021 19:46:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+PnC8Q/2hoId1m9hye9rp84tP4YYq89c/x16u1wHuFM=;
-        b=coZ8JfwSG3GzHVU4ftmoZzUwikxLz7kRRIsY/NSkxWpBDwf9umPhlzj9jeGnC5Fxjf
-         VbuiHUs7rf9/17kIDW3Xlk2D39CMuY3pQrBA+JEB7XjHQv+lVtvvCzDQipUL6pjVPy0y
-         u8hLyeJWjpp7SGf3GYvrt3UzWyLi4b+45lnVOOVEGpIGr9TR9lUE6tFDTN3+Mz9Niw8j
-         MgQfXM2Psik2BBQfi8yfJbLEDgYFljZIocTVNmN40dI03VKnocDl0f8zI4rTPiYUjKXt
-         MSt/3Bt9FSo74YZ10HhVCIiTJCj+jiU8f2WGHfkHEAVXRfTUTv3znhT0XxoIGzgfsUJG
-         uoow==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=s8xVEJHnK8mxFBkRIjbEvPg/yF4uFDtZoStxlT1zOic=;
+        b=Lgs6paIzU01mGAH7RPWiMaEk8o0nn/ApZouOO4ovvj6fEove/OM4Yn8ns5Pf+tFcIH
+         MR58i2GiLwVrmUcfPFvUgnmasMkdWP673eswFO2OLesDVc+7Utu5SU7YoZNl0n9k1zvU
+         o9jk8n4aIYm8AzP1FJxzIb3nZ10v6eKGtta+eKtwj1TwkhavgRYy93wG4xzXPjrNCqP8
+         MNvFmEHTCtJJGGimFxJJH/O0XSXFbSIJ2E3wnSXrpm1D3QCMvYCo1T/W1ndaI35AjGrX
+         LUV9kqj3wC68ep+rAjUwiZ2NRkbrYMCs1/89jHbiEpNUERDfcWbbSHvFzidvTQzR6ZBL
+         imaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+PnC8Q/2hoId1m9hye9rp84tP4YYq89c/x16u1wHuFM=;
-        b=Qfmn0+dCLqfbqL0FvDXpVT+ZNkTgE+3mtwqhuEfXkqC0kwnOXYMybHfwjs/X9vVDej
-         S9DUC35kY/XZMdiOkUHE7VlLyMUcfBRDAyIVmxxfMyRpVvILHVUl/3By7mk1nzm+bOQE
-         Y6QSRsiyPBn4ylnyd9Dm80GQU1fTkWVQ4UvaQLInAnE09iIkIDu3ppbRiTUsjaC0ELhU
-         /as6ETOU127TY3KWI8Yh6L9gI39D7vJENbPOXK7GCH/H/eZPmqgB0472M6sKfnmO1ezK
-         LN2av5GWzdJ4CqbZCr3i5YuXjdyCwZcQiw+N7fH155mCZ72vdX07fm5/+PbJjvzJo4UJ
-         xo2Q==
-X-Gm-Message-State: AOAM530WYWRl+Qqn0kPpHKteP00elbRh0HqKnEj7OO9Mj+DNUfKrBwQE
-	6hSQubXr6uDBb0yQPRYW/lOxipKAYDU=
-X-Google-Smtp-Source: ABdhPJzmGY76D2AYuzQyRhmhDk6RJ559tQNn2R+hS02sjgGYrKeO87zmYNMaOdpAUlqxul+Bol9VSg==
-X-Received: by 2002:a05:622a:40f:: with SMTP id n15mr8184521qtx.159.1635972923124;
-        Wed, 03 Nov 2021 13:55:23 -0700 (PDT)
-Received: from localhost.localdomain ([181.23.84.1])
-        by smtp.gmail.com with ESMTPSA id s7sm2423588qta.3.2021.11.03.13.55.19
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=s8xVEJHnK8mxFBkRIjbEvPg/yF4uFDtZoStxlT1zOic=;
+        b=PiXAfA/ge1ttj4OK3MhgoFnA6nanNwgfxYZ/vMmDjtXQLSFZcvCs4PEcvjgq2fDjm6
+         1WEdmH2sO1bMbBLE1ipZkdhVsxbMJQ1Q2t7E1midXPGHVFbqqAmKa6PeOUUr4KKFFmMy
+         8N6MKjDFqU5EU/pTvO/82xJYwma7Rs0KNLhl7ePm6KuFyCRTvbUB44x9r+Cx0FCCMJkl
+         zi7AfE16IxCVeMacCnQ9gCQ4JDRMRKrMwbkbgS73hMFU809wMRvE/S2RFm/IVjx9Ik57
+         p+Fml/S9hN4tCrMv/FKQ19QYhE/fgL8EoIb6+Y8Y5B8AlREKjNOqGsAsDG5K0cyQTXlB
+         QpXA==
+X-Gm-Message-State: AOAM533ajGOwL5HOaARmBgdK6LTxYEv1JMEsqL5PObqXftNXAUglllw+
+	CH5nmmcZ4uOEUp+yWlCcZw8=
+X-Google-Smtp-Source: ABdhPJyafy5NH56iOO7yoAI0vwhQrlL9iKtGWTPBBoNlVkrQWjWh1aycOnBLuNGt3QkzgBnKspDLSg==
+X-Received: by 2002:a65:684c:: with SMTP id q12mr2299545pgt.125.1635994002350;
+        Wed, 03 Nov 2021 19:46:42 -0700 (PDT)
+Received: from Sauravs-MacBook-Air.local ([59.95.84.218])
+        by smtp.gmail.com with ESMTPSA id w13sm2888687pgm.3.2021.11.03.19.46.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 13:55:22 -0700 (PDT)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	nsaenz@kernel.org,
-	stefan.wahren@i2se.com,
-	arnd@arndb.de,
-	dan.carpenter@oracle.com,
-	ojaswin98@gmail.com,
-	amarjargal16@gmail.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: [PATCH] staging: vchiq_core: remove superfluous static_assert statement
-Date: Wed,  3 Nov 2021 17:51:34 -0300
-Message-Id: <20211103205132.33178-1-gascoar@gmail.com>
-X-Mailer: git-send-email 2.34.0.rc0
+        Wed, 03 Nov 2021 19:46:42 -0700 (PDT)
+Date: Thu, 4 Nov 2021 08:16:35 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, fmdefrancesco@gmail.com,
+	saurav.girepunje@gmail.com, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: core: remove the function __nat25_timeout
+Message-ID: <YYNJPCQ5hX8BTzwy@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-After removing the BITSET_T typedef in commit d8a364820e01 ("staging:
-vchiq_core: get rid of typedef") the static_assert statement becomes superfluous
-as now we are checking if the size of the u32 type is 4 bytes. Hence, just
-remove the static_assert statement.
+Remove the function __nat25_timeout from rtw_br_ext.c file. This function
+can be replace by single statement jiffies - NAT25_AGEING_TIME*HZ.
 
-Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 ---
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/r8188eu/core/rtw_br_ext.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index 53a98949b294..55abaf02a196 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -74,8 +74,6 @@
- 	((fourcc) >>  8) & 0xff, \
- 	(fourcc) & 0xff
- 
--static_assert((sizeof(u32) * 8) == 32);
+diff --git a/drivers/staging/r8188eu/core/rtw_br_ext.c b/drivers/staging/r8188eu/core/rtw_br_ext.c
+index bcd0f9dd64b1..4951f835feaf 100644
+--- a/drivers/staging/r8188eu/core/rtw_br_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_br_ext.c
+@@ -105,19 +105,10 @@ static int skb_pull_and_merge(struct sk_buff *skb, unsigned char *src, int len)
+ 	return 0;
+ }
+
+-static unsigned long __nat25_timeout(struct adapter *priv)
+-{
+-	unsigned long timeout;
 -
- #define BITSET_SIZE(b)        ((b + 31) >> 5)
- #define BITSET_WORD(b)        (b >> 5)
- #define BITSET_BIT(b)         (1 << (b & 31))
--- 
-2.34.0.rc0
+-	timeout = jiffies - NAT25_AGEING_TIME*HZ;
+-
+-	return timeout;
+-}
+-
+ static int  __nat25_has_expired(struct adapter *priv,
+ 				struct nat25_network_db_entry *fdb)
+ {
+-	if (time_before_eq(fdb->ageing_timer, __nat25_timeout(priv)))
++	if (time_before_eq(fdb->ageing_timer, jiffies - NAT25_AGEING_TIME * HZ))
+ 		return 1;
+
+ 	return 0;
+--
+2.33.0
 
