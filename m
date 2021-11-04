@@ -1,32 +1,26 @@
 Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818F668
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 11:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF18768
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 11:52:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 2715CDFE2A;
-	Thu,  4 Nov 2021 04:45:13 -0700 (PDT)
+	by comms.puri.sm (Postfix) with ESMTP id AE546DFE2F;
+	Thu,  4 Nov 2021 04:43:11 -0700 (PDT)
 Received: from comms.puri.sm ([127.0.0.1])
 	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HJPM6ySCSBuD; Thu,  4 Nov 2021 04:45:12 -0700 (PDT)
-Date: Thu, 4 Nov 2021 12:45:05 +0100
+	with ESMTP id mES61NqjuTj8; Thu,  4 Nov 2021 04:43:11 -0700 (PDT)
+Date: Thu, 4 Nov 2021 12:41:53 +0100
 From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel
+To: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel    
  <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+     Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo    
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix 
+    Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
  NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, kernel@puri.sm, phone-devel@vger.kernel.org
-Subject: Re: [PATCHv2 4/4] media: imx: Use dedicated format handler for
- i.MX7/8
-Message-ID: <20211104124505.2e0f655d.dorota.czaplejewicz@puri.sm>
-In-Reply-To: <20211103104100.GM2794@kadam>
-References: <20211017102904.756408-1-dorota.czaplejewicz@puri.sm>
-	<20211017102904.756408-4-dorota.czaplejewicz@puri.sm>
-	<20211103104100.GM2794@kadam>
+Subject: [PATCH v4 1/5] media: imx: Remove unused functions
+Message-ID: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
 Organization: Purism
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -34,115 +28,126 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/N4/v8hcjiT.3zfcCOpzn9O8";
+Content-Type: multipart/signed; boundary="Sig_/FosWe/py5YeTF16MIhH8wU1";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/N4/v8hcjiT.3zfcCOpzn9O8
+--Sig_/FosWe/py5YeTF16MIhH8wU1
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
+Neither imx_media_mbus_fmt_to_ipu_image nor imx_media_ipu_image_to_mbus_fmt
+were used anywhere.
+
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
+
 Hi,
 
-On Wed, 3 Nov 2021 13:41:00 +0300
-Dan Carpenter <dan.carpenter@oracle.com> wrote:
-
-> On Sun, Oct 17, 2021 at 01:08:37PM +0200, Dorota Czaplejewicz wrote:
-> > +static int imx78_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
-> > +					   const struct v4l2_mbus_framefmt *mbus,
-> > +					   const struct imx_media_pixfmt *cc)
-> > +{
-> > +	u32 width;
-> > +	u32 stride;
-> > +	u8 divisor;
-> > +
-> > +	if (!cc) {
-> > +		cc =3D imx_media_find_ipu_format(mbus->code,
-> > +					       PIXFMT_SEL_YUV_RGB);
-> > +		if (!cc)
-> > +			cc =3D imx_media_find_mbus_format(mbus->code,
-> > +							PIXFMT_SEL_ANY);
-> > +		if (!cc)
-> > +			return -EINVAL;
-> > +	}
-> > +
-> > +	/*
-> > +	 * TODO: the IPU currently does not support the AYUV32 format,
-> > +	 * so until it does convert to a supported YUV format.
-> > +	 */
-> > +	if (cc->ipufmt && cc->cs =3D=3D IPUV3_COLORSPACE_YUV) {
-> > +		u32 code;
-> > +
-> > +		imx_media_enum_mbus_formats(&code, 0, PIXFMT_SEL_YUV);
-> > +		cc =3D imx_media_find_mbus_format(code, PIXFMT_SEL_YUV); =20
->=20
-> Do we need a if (!cc) NULL check after this assignment?
-
-In v3 of this series, this statement is only present in the IMX56 code path=
-, which is unmodified compared to the original.
-
-However, there's a missing check in the IMX78. I'm not sure if those can fa=
-il in practice, but for the sake of correctness, I rolled out an updated v4=
- series, where both checks are present. Message-id: 20211104113631.206899-1=
--dorota.czaplejewicz@puri.sm
+Compared to v3, this patch series introduces the checks of imx_media_find_m=
+bus_format return values in patch 4 and 5.
 
 Cheers,
 Dorota
->=20
-> > +	}
-> > +
-> > +	/*
-> > +	 * The hardware can handle line lengths divisible by 4 bytes,
-> > +	 * as long as the number of lines is even.
-> > +	 * Otherwise, use the value of 8 bytes recommended in the datasheet.
-> > +	 */
-> > +	divisor =3D 4 << (mbus->height % 2);
-> > +
-> > +	width =3D round_up(mbus->width, divisor);
-> > +
-> > +	if (cc->planar)
-> > +		stride =3D round_up(width, 16);
-> > +	else
-> > +		stride =3D round_up((width * cc->bpp) >> 3, divisor);
-> > +
-> > +	pix->width =3D width;
-> > +	pix->height =3D mbus->height;
-> > +	pix->pixelformat =3D cc->fourcc;
-> > +	pix->colorspace =3D mbus->colorspace;
-> > +	pix->xfer_func =3D mbus->xfer_func;
-> > +	pix->ycbcr_enc =3D mbus->ycbcr_enc;
-> > +	pix->quantization =3D mbus->quantization;
-> > +	pix->field =3D mbus->field;
-> > +	pix->bytesperline =3D stride;
-> > +	pix->sizeimage =3D cc->planar ? ((stride * pix->height * cc->bpp) >> =
-3) :
-> > +			 stride * pix->height;
-> > +
-> > +	return 0;
-> > +} =20
->=20
-> regards,
-> dan carpenter
+
+ drivers/staging/media/imx/imx-media-utils.c | 42 ---------------------
+ drivers/staging/media/imx/imx-media.h       |  4 --
+ 2 files changed, 46 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/=
+media/imx/imx-media-utils.c
+index 5128915a5d6f..afa96e05ea7f 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -569,48 +569,6 @@ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_form=
+at *pix,
+ }
+ EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_pix_fmt);
+=20
+-int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+-				    const struct v4l2_mbus_framefmt *mbus)
+-{
+-	int ret;
+-
+-	memset(image, 0, sizeof(*image));
+-
+-	ret =3D imx_media_mbus_fmt_to_pix_fmt(&image->pix, mbus, NULL);
+-	if (ret)
+-		return ret;
+-
+-	image->rect.width =3D mbus->width;
+-	image->rect.height =3D mbus->height;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(imx_media_mbus_fmt_to_ipu_image);
+-
+-int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+-				    const struct ipu_image *image)
+-{
+-	const struct imx_media_pixfmt *fmt;
+-
+-	fmt =3D imx_media_find_pixel_format(image->pix.pixelformat,
+-					  PIXFMT_SEL_ANY);
+-	if (!fmt || !fmt->codes || !fmt->codes[0])
+-		return -EINVAL;
+-
+-	memset(mbus, 0, sizeof(*mbus));
+-	mbus->width =3D image->pix.width;
+-	mbus->height =3D image->pix.height;
+-	mbus->code =3D fmt->codes[0];
+-	mbus->field =3D image->pix.field;
+-	mbus->colorspace =3D image->pix.colorspace;
+-	mbus->xfer_func =3D image->pix.xfer_func;
+-	mbus->ycbcr_enc =3D image->pix.ycbcr_enc;
+-	mbus->quantization =3D image->pix.quantization;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL_GPL(imx_media_ipu_image_to_mbus_fmt);
+-
+ void imx_media_free_dma_buf(struct device *dev,
+ 			    struct imx_media_dma_buf *buf)
+ {
+diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/=
+imx/imx-media.h
+index 492d9a64e704..d2a150aac6cd 100644
+--- a/drivers/staging/media/imx/imx-media.h
++++ b/drivers/staging/media/imx/imx-media.h
+@@ -199,10 +199,6 @@ void imx_media_try_colorimetry(struct v4l2_mbus_framef=
+mt *tryfmt,
+ int imx_media_mbus_fmt_to_pix_fmt(struct v4l2_pix_format *pix,
+ 				  const struct v4l2_mbus_framefmt *mbus,
+ 				  const struct imx_media_pixfmt *cc);
+-int imx_media_mbus_fmt_to_ipu_image(struct ipu_image *image,
+-				    const struct v4l2_mbus_framefmt *mbus);
+-int imx_media_ipu_image_to_mbus_fmt(struct v4l2_mbus_framefmt *mbus,
+-				    const struct ipu_image *image);
+ void imx_media_grp_id_to_sd_name(char *sd_name, int sz,
+ 				 u32 grp_id, int ipu_id);
+ struct v4l2_subdev *
+--=20
+2.31.1
 
 
---Sig_/N4/v8hcjiT.3zfcCOpzn9O8
+--Sig_/FosWe/py5YeTF16MIhH8wU1
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGDx8EACgkQADBpX4S8
-ZndvfA/8CulOyvDt2hPzMe9ypnW5EvQv062bYWIlWV01qaneQE6DLHwaSB6qJa67
-rOscFWIHb7TLog5W3Gii10zpWRNBU4CPJETqbdaKiM8WsXh7iiIF7pyzyfhJQCXu
-tGg0bWq+IVyOQfO84dlT+JvVDM0X+vWrqUmv7YerRvnJsMOXX9zL2cK4x4cMPsSl
-I7zXzC79aNzJHI/oAgSSNmM7Leuyw2VuXSrEUR4aInELa/GUdjNajd55em3BBf6F
-0ZCGaYw4hRq50JbJ5jqz63kVe7BI4+Uo7Y/qtW7DJ5hoc36DV4m7rKrFpCUSbKUW
-HdIRWQCynux2UCtN11/ayc9z6w9mSL2Tee6zZSCiURyWYxQldoHDkqI540QF/kkE
-wh8Y1MC+Ymi/e8SoMLegms/fdo0LTLcYPLbkX0qeWZuXX/7VxDY8Tk5y+NB3tLcI
-jT/WQulBu0AlZNhjaGw/ZCYkvhgkPHJUf5+3Uf5oQlcAP/S+dVtTWeMJHWwH9z7E
-Wm0347mj1LXxq9EG8Sux9HAbSE7ehgbV7VH1TvKzB1I+JF1CdEYnZbEPXYbv6G3G
-W2hGL2s+IMDYjkz7ASbRky1bCmJeHPvu2gI8qxRaqZNtRRa/7CQWmNV32iki2Qzm
-cwB/lXW9QCklagjT7NCjY73DIKuOMLACUAVBS4+W3H7fSp/BW0E=
-=m0hN
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGDxwEACgkQADBpX4S8
+Znd5oQ/9HejktqulgSMWb/IIotetpDnUoWOCt8OLHAjOg9Cqtuf1rXtrezAATMNR
+2MBpQSax2ajkQtl18pbpfWZvxpSVyU6o9Ntr/AZKUGzSH3spZTkivKn0P04+3lNN
+GUoKVJa4bCmZCrQsBcQs88aibLV3L15ZrAuQw2qfe8geMQbwkQPMrRaKzxXeTU2s
+igOmaxhEabV/iZJgTuDQHj5HSdjNEPzd46alpbB7DQxp+aU4fWPzpObV5YNuQgqC
+Bh3ErPyKNn2tmspuZ56CnyZqYXqm/fTrwY4bQZ5EQ7aVuYzU88rf7FhE+uO+iIA0
+2FNWSYqpCHCeUQLw5fsERGE/ukqnCmsSnDHsfnEKKqcQOabjDmwibs6GK904dshO
+HTH8FZO5m7gkHFbwjuxNEbUuQ7NynhWXaU7r0RSHZHP6Angegf3UlBwHww2EHQ56
+E49CqKJ1RhI0IE3rheLAJb/6SX1DhKIXUGwmHebP7W3LZyRtJ3LrHy0RCG1aV2oF
+tNre+TbvwxZfwgo62cK2JtMIYZSn8ZkiiHX7tf5W4HxlXRvO1TvcaS64jjOtp4ts
+V1AzHf2CRkug2Ip7boxZUbF+0kSms+UlmfuRHz9Xi3cMDdxe7VrDiC5FIHUK9tbt
+UR8v8yQzmiFO6ghedJ+ARRwd8ZD1dDCmhGPpz4tyhoBYKjxDnGI=
+=T6CZ
 -----END PGP SIGNATURE-----
 
---Sig_/N4/v8hcjiT.3zfcCOpzn9O8--
+--Sig_/FosWe/py5YeTF16MIhH8wU1--
