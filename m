@@ -1,188 +1,287 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9B72C8B
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 17:40:51 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A4HGNH5027061;
-	Thu, 4 Nov 2021 17:40:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=rS60vCD2G9BE/DL1JdcLsWhYZqfoMCX7HYjb/Yj4RoE=;
- b=uYEaSopYhE0g9KTW9M5AYabaCbPEJuclDrWCP02Grzr2+voJKHBfa51Vupy9uJVwpFle
- rxB0zCpGEWnPi84D5s8cEnMFlfOvYCs10KrN6MFPv6kI6VmsEVE7a4/tvlBNXjoJfuos
- twJKZlbgN5As6Yfl64yR3ZBOCk2okShMwxmHHsymRIZIH/mHBpnvb5PMSFDBjydtXRnX
- ygCQlU6Kc5w3i+KCvRE3+NKVTDvngTTb78at5q3Q2YI1uGfXQmmBLo8txURII9OCmCxl
- swyVAvLRX9hIUPMuapsLa3ZIdmYcNT/jEx0boBGL3UaTfpYKkMT+Vg61uaz5uifb0eFJ rg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3c3mxh9ytg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Nov 2021 17:40:43 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A4HaOKc108428;
-	Thu, 4 Nov 2021 17:40:42 GMT
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam08lp2042.outbound.protection.outlook.com [104.47.73.42])
-	by userp3020.oracle.com with ESMTP id 3c1khxj4ys-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 04 Nov 2021 17:40:41 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=np6cb5J4wXWx23EqMbZk31K+hpSHVJUAml+ZPcqlM4geQsIw5RddJAhhJVl3COJ8gbFJOxviufE0fuSr6q6n5YZ/Kb1HY1nsun/r8grw1ffWsaSu/ctsBaghHpG2t9kv99qr17/bDnLrTZZriMT73n6UmIZfUCIiftvqY0Ta3yFcgbCfszNXP6jvkWG073Yz4MxLa9frmVMScpbKuprqej6nQX3ary2SpYg/G/HHyTdz28XREs1aKpLt/h5G4jMEPc4+gF8gc6ODwJ2w3Qqj6QhUxioM8iK/iLVpngOF4mKq2NGBJlj2715FYezPb1jdoxY8Eut7s3zWUlcLqLGhnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rS60vCD2G9BE/DL1JdcLsWhYZqfoMCX7HYjb/Yj4RoE=;
- b=EMjnEBCzkdOJ2FpCqI/Rh21Rf8EkuNfS89Ry5XuWnzOZPwkoTiL6sWRuAbd8ZSY7aAr22lykQHndE4Fye0gxwNU2QXdc1GqCe+4y6Aei09vpujLVStS76Hl9hi3vCmN3uu42AUsH8DWe1a70cJJVrDARTijGSx0sAz9qQ9CtAeyoOfOfhRQiT18jV+7h3HgUcseGANCmXNRftIF/8gM8PcN87Sc16sOtXdl9C1AZbxEqKTCeTONt3NtkGkArSBs/NWUNKeKGok6AJcGimWrgVZqd7iY46enqS4y8l0I208FTgfcpQ/MuopLdXRvUA9WF/QvoTpdg7BbfK/VFSRxSRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rS60vCD2G9BE/DL1JdcLsWhYZqfoMCX7HYjb/Yj4RoE=;
- b=d12iYiD5FvVBJbAkTZEyQqtAXNABX8h29a4veJ3skIFqhEXs3UNbD51slyGK0HhuGSm7eWxLd+fUl0LGoA0XeSo30Kgpr+wrVSicUOZXmYtupIxEfjbnFdmYlKJV/n0bo96vw137e8fVGQt281rEPrsme298JbIwbk1tN84COgg=
-Authentication-Results: perches.com; dkim=none (message not signed)
- header.d=none;perches.com; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1375.namprd10.prod.outlook.com
- (2603:10b6:300:22::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10; Thu, 4 Nov
- 2021 17:40:39 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4669.011; Thu, 4 Nov 2021
- 17:40:39 +0000
-Date: Thu, 4 Nov 2021 20:40:18 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Joe Perches <joe@perches.com>
-Cc: Karolina Drobnik <karolinadrobnik@gmail.com>,
-        outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org,
-        forest@alittletooquiet.net, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/8] staging: vt6655: Use incrementation in `idx`
-Message-ID: <20211104174018.GD2794@kadam>
-References: <cover.1635773679.git.karolinadrobnik@gmail.com>
- <c569952d92ba51f32679c2fd87fd48ad8e49e3fc.1635773680.git.karolinadrobnik@gmail.com>
- <20211104130002.GB2794@kadam>
- <2fd61a94d8cacd2626364bd25eace6b141ad1766.camel@perches.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2fd61a94d8cacd2626364bd25eace6b141ad1766.camel@perches.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0042.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::30)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906522C99
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 19:02:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 350DC61051;
+	Thu,  4 Nov 2021 19:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636052529;
+	bh=4j4HtgJYLeoXx4wc8k7GJKoZhBpleOSnZLSVCMvidWA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tTXg713n7Hw0GbrT3W/w3wdutWSxOHc3rjpr6R2zhBSAaEqVboD3Yvd0VJuZCO4qx
+	 bHkIiUowdwym1MF2kHYz6KktV9sQQR1/o1trWe+BEh1bVjW0AvhfOvZrYQJJetACXD
+	 VdcQ4gNW6L1DXTjCx92rO+X8asRoMPks9LEHm61tSy32dCqtgIkFhdOiX4dmVrWAgx
+	 BgeIimJGuK+ApImyGMh2hVVqBm2rvt2NxschvHSJOVC6nyJtiD7Ev+6W64h8lWjV3K
+	 C5scDrHxMO0uwz8dRn2OShOx+ZEYagSicLIBzE0ay22m3kHdIKp6NVWEpEW75y3boU
+	 nImFXrqbvMnzA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mihzw-006bKH-Dq; Thu, 04 Nov 2021 19:02:04 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Deepak R Varma <drv@mailo.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Leonid Kushnir <leonf008@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 2/4] media: atomisp-gc0310: use v4l2_find_nearest_size()
+Date: Thu,  4 Nov 2021 19:02:01 +0000
+Message-Id: <96baf0373e727971cf25e922c122384b3acd4ef6.1636052511.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
+References: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (102.222.70.114) by JN2P275CA0042.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.10 via Frontend Transport; Thu, 4 Nov 2021 17:40:34 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 224fb287-e629-41fa-16ac-08d99fba3797
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1375:
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR10MB1375868406775EB5F08CB55C8E8D9@MWHPR10MB1375.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	AaPOu/46I+DIwE8dvupYG2LQRwOfC/wwvCtp+NssBN3PKD5c9J4OmKecXzKLCSX9Yee+n41ZTabHxBsN9ICpnicGqTuIbiUeu4V1mOZ8eeSH6jeltoim+lOcpsls7s3Ed2d/KmOlyDh7Bgz+XtQxGNnoGvePRhMDbRUUr19hOoKpJa44pI5Ok7V8o39+EeAbjw1kxQktS90BiCjXeHuj70QfEj1lEcpeD18PqJftG/HslMMBuy1ahIR8+fzTn+9advwJvqa5g/SS434aOdE/2Ym7dRcSQnsGmiZrQx50iN5ohKyIxQcHO/R0IN8rZgsU3QgXvujV0trkqPZlr+nbIqWBknFiZAWWqT0QidifyMF9Li+POZpJAOJiVSIOS/OaejnepvucQMxJOIoVs1RJAwSqW2w4XO+3FSAZIl4on9TVCnq+K9ceTY/rLEzthoeSwkQwFqu4fTqfZVuVXqLAauS2xI8ptIwLAjN8+Ffl9Hrq+qI9n1EQFdobsNTGeIUc9hrMjR0GVGQvX2cOOlzfk3sr7zgwPsAocFU32DAhMdmjPgvsbOPmU4K1oqfwHqMg6JyTwQ7C7Z1gvpbk+WT9b9a1yg9eNjHM2tzSw8jzrQZAehWrWK/DbsVdqMAJhVkEfR3N2AF8V7w60DDw4ul1+XhKiOtjqFIg+DtJ5IHeGRxyP0yNyDFBOtK3qgqYZKE73TaR5bwY/4QUTws17gy+OTMJBGyzQDgiV3MgjZwegDg=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(4326008)(6916009)(66556008)(83380400001)(66946007)(33716001)(33656002)(9576002)(2906002)(44832011)(66476007)(8936002)(6496006)(38100700002)(1076003)(55016002)(5660300002)(8676002)(38350700002)(86362001)(508600001)(26005)(6666004)(956004)(52116002)(186003)(316002)(9686003)(81973001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Aor/5/j37JK8NTqs7iwlFYvdWGRK3aSEcc9Hn7nc89pkQvJYRvj4zkVzDRCH?=
- =?us-ascii?Q?Q0iTzoGmvDJArevTY5VkCPE/cNvnQlpdF33a13GM2Q6k9iwsJcD0tHr70mSN?=
- =?us-ascii?Q?Qlmp3BG4qDe1ya8V1UtGKqCb8lly4CnIjQ1WIDItPlg+uihW5YFmjoxnH/fo?=
- =?us-ascii?Q?kfsEPCY6uN6OsIeBfCHblem7sOUs7Pg4N/6sRDjuD2ASeIVSHctlposXw4ny?=
- =?us-ascii?Q?XGn1tSQDFnoLWVFu238N+860eptqSIb0r26bhe/UiImqtZh9t1djvFUk/mYP?=
- =?us-ascii?Q?Q6HnR+frS5sDNzbnkgjlYp7SxreOYoq7toUJB1m33OWA0+ONn7/QhpVYHLFc?=
- =?us-ascii?Q?EF9x+ggsJcYyIq5deceeEPf1MWtDdV168DrUtiGf+89G3HwR5y3NUCADiHal?=
- =?us-ascii?Q?+pIgluvm4NqWhE5G7SqszeVIE0eYPTkNifCNGNYK7wRxSUZp18T7dQe5dNDE?=
- =?us-ascii?Q?dgFHH5EtpxFh/a2LRFi5O6f3jSpDJBCfmTZynHi/nuxdXCKRacAlHmI40060?=
- =?us-ascii?Q?enf6s+tttINNGiBtqy1SPSRsh5y6qgt5fpKTZq+Sy1RiSNxeKjNrDYYMp2Ju?=
- =?us-ascii?Q?4ulEiRMlWnQ3uIITf27zIRUATOpdB28SNwl9lQMMedPlrRXE2Tf0TF7Lz2eX?=
- =?us-ascii?Q?nHP+WARdpPOF5k73kxTcVtQ1OcV+KdHSbdd/mpIyDCS+WH/NhB3tJatYNw8E?=
- =?us-ascii?Q?UJH6Sjne9cCvHGu5fFtRUPBqhzZNyxF7QvXEKcoyPQiNcSlqYOAu9uvOa3fS?=
- =?us-ascii?Q?SMXrS2PYNPx7ML52Qgu+r5vGI0DCvjY883rgE0UZNEoxA2sfEk5bxunwSsqf?=
- =?us-ascii?Q?fFQLuN+haY4+lXP2TxNgNU1s6Gg6dDtB/aQRad1CDyVHYSd9skueZWtIaDg4?=
- =?us-ascii?Q?ScSuIME/aWE4kmXIvyHBmVFjyDPv27z2bbtvaJTALnvEWy3cfociwO5QAaCC?=
- =?us-ascii?Q?NUdfsC2D9f+y6hkI4yo68s7QaC28VNgx+mASf9HsZMXEKgSilC8mHLSYztqf?=
- =?us-ascii?Q?yi3dUq/NTt3/Tu0/zv7wsMK1SYP3rr7ZXRMWIXs0SXEA1FuAF/qoFehue4vS?=
- =?us-ascii?Q?JB9pgOMtYnJ7fX1NA0P3VkOyzgA+62xM4NXgFSnYuuGqIH+AiWgJgggJr80U?=
- =?us-ascii?Q?aeugTwq2CNito8sIg7ONZAYSc7y+65WA4QETrpEpXlVGfirrt9cZ3338+hw/?=
- =?us-ascii?Q?tqnlLVUnB2D7LmKa5Jim/GrxNSVG29gwd11C/bs4gAAgSCD1KrBVB2EEak6T?=
- =?us-ascii?Q?CGniXSx28/5cGuQzp0UZb5+NdMn+gAwsxRXuN6dzvPFx3PHX85s9I4LhclGb?=
- =?us-ascii?Q?5jXrs6vR3fBt6rB5bg4Zr5p9TK6W+rF/wkLBo5lVkUMFGKpBOe+RZGX/Tks4?=
- =?us-ascii?Q?VOkIKpAM9sjhwWHjPHrUPjP3KNmrdJSK4P+okh5ZpYmITnOEmowstLxiDu8N?=
- =?us-ascii?Q?zN9CwMgrzYuZJRLEOyn+9USCbGH2oRj5tKA0vXhLxioNfeoCVzoerFkm6fuK?=
- =?us-ascii?Q?h4mhCTjn4hQSNf3CZWbw6qo91AJYTxrgkYXUSdMMtszViqwk7LC43+YBbBNn?=
- =?us-ascii?Q?3dPPXJ3kNjNxdZjWhp1v3D95q36XNYMznMxKf2dGlQwZgHyWLUsjqXnLQb8X?=
- =?us-ascii?Q?J4RiGhVgU4s8BhMN3WUYnWKT2fpxX4PSGQ0IuIuXnQLoaKXvoAonykp0vbct?=
- =?us-ascii?Q?WivM9pYqgFjVw8jwGLkQcIf6zQs=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 224fb287-e629-41fa-16ac-08d99fba3797
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2021 17:40:39.6739
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KdM9k8qjR509CkN5iI0801Rvebr/5182DlyHLgq0fequRsOfM1ZSSydUww7m4ULFjl/No2NFliSF9PO4w4POHfSoGdkqG8gzk7HEsqllRDA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1375
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10158 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 phishscore=0 bulkscore=0
- spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111040067
-X-Proofpoint-ORIG-GUID: GW49e5N6bCSBBIFD1nVi2sJ0a_GSbCM1
-X-Proofpoint-GUID: GW49e5N6bCSBBIFD1nVi2sJ0a_GSbCM1
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Thu, Nov 04, 2021 at 07:44:22AM -0700, Joe Perches wrote:
-> On Thu, 2021-11-04 at 16:00 +0300, Dan Carpenter wrote:
-> > On Mon, Nov 01, 2021 at 02:32:00PM +0000, Karolina Drobnik wrote:
-> > > Increment `idx` in a loop instead of adding the loop counter
-> > > `i` to do so. Thanks to this change, the cast to unsigned short
-> > > can be removed.
-> > > 
-> > > Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
-> > > ---
-> > >  drivers/staging/vt6655/rf.c | 16 ++++++++--------
-> > >  1 file changed, 8 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
-> []
-> > > @@ -700,11 +700,11 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
-> > >  			return false;
-> > >  
-> > >  		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
-> > > -			MACvSetMISCFifo(priv, (unsigned short)(idx + i), al2230_init_table[i]);
-> > > +			MACvSetMISCFifo(priv, idx++, al2230_init_table[i]);
-> > 
-> > Of course, idx is no longer a constant so declaring it as a variable
-> > makes sense here.  But maybe just do it in the same patch because the
-> > patch 1/1 doesn't make sense as a stand alone patch.
-> > 
-> > Also don't declare idx as an unsigned short.  It's better to declare it
-> > as a int so it just works like a normal number and you don't have to
-> > think about signedness bugs and wrapping and edge cases.
-> 
-> No, IMO it really should be a u16.
-> Look at the iowrite16() within the call to MACvSetMISCFifo.
+Instead of reinventing the wheel, use v4l2_find_nearest_size()
+in order to get the closest resolution.
 
-Obviously we all agree it has no effect on runtime at all.
+This should address a bug where the wrong resolution was
+selected.
 
-I just think that people get into trouble getting too creative with
-their types.  There was some discussion earlier about where the casting
-was required (it's not required at all).  It seems like there was some
-confusion about how types work.  Declaring it as "unsigned short" has
-some documentation value, I guess, but you avoid signedness bugs when
-you declare things as int.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../media/atomisp/i2c/atomisp-gc0310.c        | 119 ++++--------------
+ drivers/staging/media/atomisp/i2c/gc0310.h    |   3 +-
+ 2 files changed, 22 insertions(+), 100 deletions(-)
 
-I don't care too much, but I also try to tell people not to be fancy.
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+index 687888d643df..cbc8b1d91995 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
+@@ -266,7 +266,7 @@ static int gc0310_g_bin_factor_x(struct v4l2_subdev *sd, s32 *val)
+ {
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 
+-	*val = gc0310_res[dev->fmt_idx].bin_factor_x;
++	*val = dev->res->bin_factor_x;
+ 
+ 	return 0;
+ }
+@@ -275,7 +275,7 @@ static int gc0310_g_bin_factor_y(struct v4l2_subdev *sd, s32 *val)
+ {
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 
+-	*val = gc0310_res[dev->fmt_idx].bin_factor_y;
++	*val = dev->res->bin_factor_y;
+ 
+ 	return 0;
+ }
+@@ -878,76 +878,6 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
+ 	return gc0310_init(sd);
+ }
+ 
+-/*
+- * distance - calculate the distance
+- * @res: resolution
+- * @w: width
+- * @h: height
+- *
+- * Get the gap between resolution and w/h.
+- * res->width/height smaller than w/h wouldn't be considered.
+- * Returns the value of gap or -1 if fail.
+- */
+-#define LARGEST_ALLOWED_RATIO_MISMATCH 800
+-static int distance(struct gc0310_resolution *res, u32 w, u32 h)
+-{
+-	unsigned int w_ratio = (res->width << 13) / w;
+-	unsigned int h_ratio;
+-	int match;
+-
+-	if (h == 0)
+-		return -1;
+-	h_ratio = (res->height << 13) / h;
+-	if (h_ratio == 0)
+-		return -1;
+-	match   = abs(((w_ratio << 13) / h_ratio) - 8192);
+-
+-	if ((w_ratio < 8192) || (h_ratio < 8192)  ||
+-	    (match > LARGEST_ALLOWED_RATIO_MISMATCH))
+-		return -1;
+-
+-	return w_ratio + h_ratio;
+-}
+-
+-/* Return the nearest higher resolution index */
+-static int nearest_resolution_index(int w, int h)
+-{
+-	int i;
+-	int idx = -1;
+-	int dist;
+-	int min_dist = INT_MAX;
+-	struct gc0310_resolution *tmp_res = NULL;
+-
+-	for (i = 0; i < N_RES; i++) {
+-		tmp_res = &gc0310_res[i];
+-		dist = distance(tmp_res, w, h);
+-		if (dist == -1)
+-			continue;
+-		if (dist < min_dist) {
+-			min_dist = dist;
+-			idx = i;
+-		}
+-	}
+-
+-	return idx;
+-}
+-
+-static int get_resolution_index(int w, int h)
+-{
+-	int i;
+-
+-	for (i = 0; i < N_RES; i++) {
+-		if (w != gc0310_res[i].width)
+-			continue;
+-		if (h != gc0310_res[i].height)
+-			continue;
+-
+-		return i;
+-	}
+-
+-	return -1;
+-}
+-
+ /* TODO: remove it. */
+ static int startup(struct v4l2_subdev *sd)
+ {
+@@ -955,7 +885,7 @@ static int startup(struct v4l2_subdev *sd)
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	int ret = 0;
+ 
+-	ret = gc0310_write_reg_array(client, gc0310_res[dev->fmt_idx].regs);
++	ret = gc0310_write_reg_array(client, dev->res->regs);
+ 	if (ret) {
+ 		dev_err(&client->dev, "gc0310 write register err.\n");
+ 		return ret;
+@@ -972,8 +902,8 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+ 	struct camera_mipi_info *gc0310_info = NULL;
++	struct gc0310_resolution *res;
+ 	int ret = 0;
+-	int idx = 0;
+ 
+ 	if (format->pad)
+ 		return -EINVAL;
+@@ -987,15 +917,16 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	mutex_lock(&dev->input_lock);
+ 
+-	idx = nearest_resolution_index(fmt->width, fmt->height);
+-	if (idx == -1) {
+-		/* return the largest resolution */
+-		fmt->width = gc0310_res[N_RES - 1].width;
+-		fmt->height = gc0310_res[N_RES - 1].height;
+-	} else {
+-		fmt->width = gc0310_res[idx].width;
+-		fmt->height = gc0310_res[idx].height;
+-	}
++	res = v4l2_find_nearest_size(gc0310_res_preview,
++				     ARRAY_SIZE(gc0310_res_preview), width,
++				     height, fmt->width, fmt->height);
++	if (!res)
++		res = &gc0310_res_preview[N_RES - 1];
++
++	fmt->width = res->width;
++	fmt->height = res->height;
++	dev->res = res;
++
+ 	fmt->code = MEDIA_BUS_FMT_SGRBG8_1X8;
+ 
+ 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+@@ -1004,23 +935,15 @@ static int gc0310_set_fmt(struct v4l2_subdev *sd,
+ 		return 0;
+ 	}
+ 
+-	dev->fmt_idx = get_resolution_index(fmt->width, fmt->height);
+-	if (dev->fmt_idx == -1) {
+-		dev_err(&client->dev, "get resolution fail\n");
+-		mutex_unlock(&dev->input_lock);
+-		return -EINVAL;
+-	}
+-
+ 	dev_dbg(&client->dev, "%s: before gc0310_write_reg_array %s\n",
+-		__func__, gc0310_res[dev->fmt_idx].desc);
++		__func__, dev->res->desc);
+ 	ret = startup(sd);
+ 	if (ret) {
+ 		dev_err(&client->dev, "gc0310 startup err\n");
+ 		goto err;
+ 	}
+ 
+-	ret = gc0310_get_intg_factor(client, gc0310_info,
+-				     &gc0310_res[dev->fmt_idx]);
++	ret = gc0310_get_intg_factor(client, gc0310_info, dev->res);
+ 	if (ret) {
+ 		dev_err(&client->dev, "failed to get integration_factor\n");
+ 		goto err;
+@@ -1044,8 +967,8 @@ static int gc0310_get_fmt(struct v4l2_subdev *sd,
+ 	if (!fmt)
+ 		return -EINVAL;
+ 
+-	fmt->width = gc0310_res[dev->fmt_idx].width;
+-	fmt->height = gc0310_res[dev->fmt_idx].height;
++	fmt->width = dev->res->width;
++	fmt->height = dev->res->height;
+ 	fmt->code = MEDIA_BUS_FMT_SGRBG8_1X8;
+ 
+ 	return 0;
+@@ -1199,7 +1122,7 @@ static int gc0310_g_frame_interval(struct v4l2_subdev *sd,
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 
+ 	interval->interval.numerator = 1;
+-	interval->interval.denominator = gc0310_res[dev->fmt_idx].fps;
++	interval->interval.denominator = dev->res->fps;
+ 
+ 	return 0;
+ }
+@@ -1237,7 +1160,7 @@ static int gc0310_g_skip_frames(struct v4l2_subdev *sd, u32 *frames)
+ 	struct gc0310_device *dev = to_gc0310_sensor(sd);
+ 
+ 	mutex_lock(&dev->input_lock);
+-	*frames = gc0310_res[dev->fmt_idx].skip_frames;
++	*frames = dev->res->skip_frames;
+ 	mutex_unlock(&dev->input_lock);
+ 
+ 	return 0;
+@@ -1301,7 +1224,7 @@ static int gc0310_probe(struct i2c_client *client)
+ 
+ 	mutex_init(&dev->input_lock);
+ 
+-	dev->fmt_idx = 0;
++	dev->res = &gc0310_res_preview[0];
+ 	v4l2_i2c_subdev_init(&dev->sd, client, &gc0310_ops);
+ 
+ 	pdata = gmin_camera_platform_data(&dev->sd,
+diff --git a/drivers/staging/media/atomisp/i2c/gc0310.h b/drivers/staging/media/atomisp/i2c/gc0310.h
+index 2fe3de115083..db643ebc3909 100644
+--- a/drivers/staging/media/atomisp/i2c/gc0310.h
++++ b/drivers/staging/media/atomisp/i2c/gc0310.h
+@@ -150,8 +150,7 @@ struct gc0310_device {
+ 
+ 	struct camera_sensor_platform_data *platform_data;
+ 	int vt_pix_clk_freq_mhz;
+-	int fmt_idx;
+-	u8 res;
++	struct gc0310_resolution *res;
+ 	u8 type;
+ };
+ 
+-- 
+2.31.1
 
-regards,
-dan carpenter
