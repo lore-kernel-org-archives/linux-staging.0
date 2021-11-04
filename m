@@ -1,53 +1,75 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtprelay.hostedemail.com (smtprelay0233.hostedemail.com [216.40.44.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA602C8B
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 17:09:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id DEFDD61186;
-	Thu,  4 Nov 2021 17:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636045790;
-	bh=OayHXHRKJghWJMs2vm1+vHXo+agWa0gtrv8JzE7QO3Q=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Cb4Z2ipr23rV/A24kr5EIP+dYrkpWOdxoU0/MgtsGk+lhGxewSJv9/Jlozg2mI3zX
-	 shQllsf0jIY4IV06jVwV/aeWQo82rsf0bdHfyRao4SrwAKEkcdlHdIQKiOJHNmoKVZ
-	 SWze283JKNivkYvk2BbhKwLgvPa1DaJgcX558qdPr9nHj1UzH8H5I9h1QZh8otWBEe
-	 UGzeUlsAUPhNHTSrWC7qEbiWZ9KwPefW+aY1KhlzVvrJlWifXaeClZXfphrCmEIxgS
-	 vG7A/H9YhPPaPWlj/AX/Tst2dumV6Lm4uiW1pnLfZl/wKkx5Xvgiq5Z17E4NLzlu7I
-	 NFVWaHd7lrW4g==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id D8111609B8;
-	Thu,  4 Nov 2021 17:09:50 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver changes for 5.16-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YYPauAJfmnePbPF5@kroah.com>
-References: <YYPauAJfmnePbPF5@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <YYPauAJfmnePbPF5@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.16-rc1
-X-PR-Tracked-Commit-Id: 10508ae08ed8ce8794785194ad7309f1437d43fd
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 5cd4dc44b8a0f656100e3b6916cf73b1623299eb
-Message-Id: <163604579087.24234.18256208119761136389.pr-tracker-bot@kernel.org>
-Date: Thu, 04 Nov 2021 17:09:50 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A262C8B
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 17:11:14 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 4705E1819329F
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 14:44:32 +0000 (UTC)
+Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay01.hostedemail.com (Postfix) with ESMTP id B0279100E39D7;
+	Thu,  4 Nov 2021 14:44:24 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 7FB8E27DD2E;
+	Thu,  4 Nov 2021 14:44:23 +0000 (UTC)
+Message-ID: <2fd61a94d8cacd2626364bd25eace6b141ad1766.camel@perches.com>
+Subject: Re: [PATCH v2 2/8] staging: vt6655: Use incrementation in `idx`
+From: Joe Perches <joe@perches.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Karolina Drobnik
+	 <karolinadrobnik@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
+	forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Thu, 04 Nov 2021 07:44:22 -0700
+In-Reply-To: <20211104130002.GB2794@kadam>
+References: <cover.1635773679.git.karolinadrobnik@gmail.com>
+	 <c569952d92ba51f32679c2fd87fd48ad8e49e3fc.1635773680.git.karolinadrobnik@gmail.com>
+	 <20211104130002.GB2794@kadam>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 7FB8E27DD2E
+X-Spam-Status: No, score=-4.83
+X-Stat-Signature: ep881gbq347uy7ahrk6xgk3dhyd6tu9d
+X-Rspamd-Server: rspamout04
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19ixAMsINbAfb1jxWtTpSMffg2+Q5qb+rg=
+X-HE-Tag: 1636037063-692601
 
-The pull request you sent on Thu, 4 Nov 2021 14:06:00 +0100:
+On Thu, 2021-11-04 at 16:00 +0300, Dan Carpenter wrote:
+> On Mon, Nov 01, 2021 at 02:32:00PM +0000, Karolina Drobnik wrote:
+> > Increment `idx` in a loop instead of adding the loop counter
+> > `i` to do so. Thanks to this change, the cast to unsigned short
+> > can be removed.
+> > 
+> > Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+> > ---
+> >  drivers/staging/vt6655/rf.c | 16 ++++++++--------
+> >  1 file changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+[]
+> > @@ -700,11 +700,11 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
+> >  			return false;
+> >  
+> >  		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
+> > -			MACvSetMISCFifo(priv, (unsigned short)(idx + i), al2230_init_table[i]);
+> > +			MACvSetMISCFifo(priv, idx++, al2230_init_table[i]);
+> 
+> Of course, idx is no longer a constant so declaring it as a variable
+> makes sense here.  But maybe just do it in the same patch because the
+> patch 1/1 doesn't make sense as a stand alone patch.
+> 
+> Also don't declare idx as an unsigned short.  It's better to declare it
+> as a int so it just works like a normal number and you don't have to
+> think about signedness bugs and wrapping and edge cases.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.16-rc1
+No, IMO it really should be a u16.
+Look at the iowrite16() within the call to MACvSetMISCFifo.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/5cd4dc44b8a0f656100e3b6916cf73b1623299eb
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
