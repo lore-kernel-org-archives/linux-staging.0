@@ -1,143 +1,187 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6285868
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 10:51:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1523F61108;
-	Thu,  4 Nov 2021 10:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636023060;
-	bh=qjQ0ddQkxndA+aapAprmzKfzleHUEyxYbCE4SjmdBPw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=T11yYq5LylUhk07FMRyPTH/4B/cokH2cq3JnmmaxIeLQV4vKu1iplf4lhK9hMB7BQ
-	 n99U3raqYtxeqs94B+kh+O7P4wD7KPUj735yp+Gn5q9pDHFewnHwIezJtgGvmSnvtW
-	 oyuWcc2zhqrJfNgjX35uzTPCPEfjWAXkRh6enp++PBUL7Zz/hyT6J3w/u2INNk79UH
-	 FtCII8n9a7sI+jrCXwHSnnGIAwYz68wIX0FJ4qhyw3dKLnoNUOkb7T86bCedhIw06Q
-	 STm9mW5mbvTSHmOgZxo+HYPlriQ1HQzQY0EjZu7Awdu3sRoLsu8dJlT/srBCG/Yk0C
-	 XemZocGpJvZlg==
-Date: Thu, 4 Nov 2021 10:50:51 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Tsuchiya Yuto
- <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Kaixu Xia <kaixuxia@tencent.com>, Yang Li <abaci-bugfix@linux.alibaba.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alex Dewar
- <alex.dewar90@gmail.com>, Aline Santana Cordeiro
- <alinesantanacordeiro@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Alan
- <alan@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
- <mingo@kernel.org>, linux-staging@lists.linux.dev, Linux Kernel Mailing
- List <linux-kernel@vger.kernel.org>, Andy Shevchenko
- <andy.shevchenko@gmail.com>
-Subject: Re: atomisp current issues
-Message-ID: <20211104105051.4836fafb@sal.lan>
-In-Reply-To: <YYOts0aoD/Quo5r6@pendragon.ideasonboard.com>
-References: <20211103135418.496f75d5@sal.lan>
-	<YYOts0aoD/Quo5r6@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF1E68
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 11:43:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 6B78EDFE2A;
+	Thu,  4 Nov 2021 04:43:41 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2_cJRpYJgNx6; Thu,  4 Nov 2021 04:43:40 -0700 (PDT)
+Date: Thu, 4 Nov 2021 12:43:33 +0100
+From: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+To: Steve Longerbeam <slongerbeam@gmail.com>, Philipp Zabel     
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+      Kroah-Hartman <gregkh@linuxfoundation.org>, Shawn Guo     
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix 
+     Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel@puri.sm, phone-devel@vger.kernel.org
+Subject: [PATCH v4 2/5] media: imx: Store the type of hardware
+ implementation
+Message-ID: <20211104113631.206899-2-dorota.czaplejewicz@puri.sm>
+In-Reply-To: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
+References: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
+Organization: Purism
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/6WYj67gDDBSSCZ5H4Ks0m=K";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/6WYj67gDDBSSCZ5H4Ks0m=K
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-Em Thu, 4 Nov 2021 11:53:55 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+The driver covers i.MX5/6, as well as i.MX7/8 hardware.
+Those implementations differ, e.g. in the sizes of buffers they accept.
 
-> Hi Mauro,
-> 
-> On Wed, Nov 03, 2021 at 01:54:18PM +0000, Mauro Carvalho Chehab wrote:
-> > Hi,
-> > 
-> > From what I've seen so far, those are the main issues with regards to V4L2 API,
-> > in order to allow a generic V4L2 application to work with it.
-> > 
-> > MMAP support
-> > ============
-> > 
-> > Despite having some MMAP code on it, the current implementation is broken. 
-> > Fixing it is not trivial, as it would require fixing the HMM support on it, 
-> > which does several tricks.
-> > 
-> > The best would be to replace it by something simpler. If this is similar
-> > enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
-> > videodev2 + IPU3 HMM code.
-> > 
-> > As this is not trivial, I'm postponing such task. If someone has enough
-> > time, it would be great to have this fixed.
-> > 
-> > From my side, I opted to add support for USERPTR on camorama:
-> > 
-> > 	https://github.com/alessio/camorama  
-> 
-> We should *really* phase out USERPTR support. 
+Some functionality should be abstracted, and storing type achieves that.
 
-I'm not a big fan of userptr, buy why do we phase it out?
+Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+---
+ drivers/staging/media/imx/imx-ic-prpencvf.c   | 3 ++-
+ drivers/staging/media/imx/imx-media-capture.c | 5 ++++-
+ drivers/staging/media/imx/imx-media-csi.c     | 3 ++-
+ drivers/staging/media/imx/imx-media.h         | 8 +++++++-
+ drivers/staging/media/imx/imx7-media-csi.c    | 3 ++-
+ 5 files changed, 17 insertions(+), 5 deletions(-)
 
-> Worst case you may support
-> DMABUF only if MMAP is problematic, but I don't really see why it could
-> be easy to map an imported buffer and difficult to map a buffer
-> allocated by the driver. videobuf2 should be used.
+diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/=
+media/imx/imx-ic-prpencvf.c
+index d990553de87b..e06f5fbe5174 100644
+--- a/drivers/staging/media/imx/imx-ic-prpencvf.c
++++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+@@ -1265,7 +1265,8 @@ static int prp_registered(struct v4l2_subdev *sd)
+=20
+ 	priv->vdev =3D imx_media_capture_device_init(ic_priv->ipu_dev,
+ 						   &ic_priv->sd,
+-						   PRPENCVF_SRC_PAD, true);
++						   PRPENCVF_SRC_PAD, true,
++						   DEVICE_TYPE_IMX56);
+ 	if (IS_ERR(priv->vdev))
+ 		return PTR_ERR(priv->vdev);
+=20
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/stagin=
+g/media/imx/imx-media-capture.c
+index 93ba09236010..65dc95a48ecc 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -34,6 +34,7 @@ struct capture_priv {
+=20
+ 	struct imx_media_video_dev vdev;	/* Video device */
+ 	struct media_pad vdev_pad;		/* Video device pad */
++	enum imx_media_device_type type;	/* Type of hardware implementation */
+=20
+ 	struct v4l2_subdev *src_sd;		/* Source subdev */
+ 	int src_sd_pad;				/* Source subdev pad */
+@@ -957,7 +958,8 @@ EXPORT_SYMBOL_GPL(imx_media_capture_device_unregister);
+=20
+ struct imx_media_video_dev *
+ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_=
+sd,
+-			      int pad, bool legacy_api)
++			      int pad, bool legacy_api,
++			      enum imx_media_device_type type)
+ {
+ 	struct capture_priv *priv;
+ 	struct video_device *vfd;
+@@ -972,6 +974,7 @@ imx_media_capture_device_init(struct device *dev, struc=
+t v4l2_subdev *src_sd,
+ 	priv->src_sd_pad =3D pad;
+ 	priv->dev =3D dev;
+ 	priv->legacy_api =3D legacy_api;
++	priv->type =3D type;
+=20
+ 	mutex_init(&priv->mutex);
+ 	INIT_LIST_HEAD(&priv->ready_q);
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/me=
+dia/imx/imx-media-csi.c
+index 6a94fff49bf6..b6758c3787c7 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -1794,7 +1794,8 @@ static int csi_registered(struct v4l2_subdev *sd)
+ 	}
+=20
+ 	priv->vdev =3D imx_media_capture_device_init(priv->sd.dev, &priv->sd,
+-						   CSI_SRC_PAD_IDMAC, true);
++						   CSI_SRC_PAD_IDMAC, true,
++						   DEVICE_TYPE_IMX56);
+ 	if (IS_ERR(priv->vdev)) {
+ 		ret =3D PTR_ERR(priv->vdev);
+ 		goto free_fim;
+diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/=
+imx/imx-media.h
+index d2a150aac6cd..08e0c94e2de1 100644
+--- a/drivers/staging/media/imx/imx-media.h
++++ b/drivers/staging/media/imx/imx-media.h
+@@ -96,6 +96,11 @@ enum imx_pixfmt_sel {
+ 	PIXFMT_SEL_ANY =3D PIXFMT_SEL_YUV | PIXFMT_SEL_RGB | PIXFMT_SEL_BAYER,
+ };
+=20
++enum imx_media_device_type {
++	DEVICE_TYPE_IMX56,
++	DEVICE_TYPE_IMX78,
++};
++
+ struct imx_media_buffer {
+ 	struct vb2_v4l2_buffer vbuf; /* v4l buffer must be first */
+ 	struct list_head  list;
+@@ -282,7 +287,8 @@ int imx_media_ic_unregister(struct v4l2_subdev *sd);
+ /* imx-media-capture.c */
+ struct imx_media_video_dev *
+ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_=
+sd,
+-			      int pad, bool legacy_api);
++			      int pad, bool legacy_api,
++			      enum imx_media_device_type type);
+ void imx_media_capture_device_remove(struct imx_media_video_dev *vdev);
+ int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
+ 				      u32 link_flags);
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/m=
+edia/imx/imx7-media-csi.c
+index d7dc0d8edf50..1a11f07620e9 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -1012,7 +1012,8 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
+ 	}
+=20
+ 	csi->vdev =3D imx_media_capture_device_init(csi->sd.dev, &csi->sd,
+-						  IMX7_CSI_PAD_SRC, false);
++						  IMX7_CSI_PAD_SRC, false,
++						  DEVICE_TYPE_IMX78);
+ 	if (IS_ERR(csi->vdev))
+ 		return PTR_ERR(csi->vdev);
+=20
+--=20
+2.31.1
 
-Yeah, atomisp should be migrated to VB2, and such migration is listed at
-its TODO file. However, this is a complex task, as its memory management
-code is very complex. Maybe we could try to use the ISP3 code on it,
-replacing the current HMM logic, but not sure if the implementation there 
-would be compatible.
 
-In any case, the current priority is to make the driver to work, fixing 
-the V4L2 API implementation, which has several issues.
+--Sig_/6WYj67gDDBSSCZ5H4Ks0m=K
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-...
+-----BEGIN PGP SIGNATURE-----
 
-> > Video devices
-> > =============
-> > 
-> > Currently, 10 video? devices are created:
-> > 
-> > 	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
-> > 	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
-> > 	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
-> > 	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
-> > 	/dev/video3:	Name             : ATOMISP ISP VIDEO output
-> > 	/dev/video4:	Name             : ATOMISP ISP ACC
-> > 	/dev/video5:	Name             : ATOMISP ISP MEMORY input
-> > 	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
-> > 	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
-> > 	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
-> > 	/dev/video9:	Name             : ATOMISP ISP VIDEO output
-> > 	/dev/video10:	Name             : ATOMISP ISP ACC
-> > 
-> > That seems to be written to satisfy some Android-based app, but we don't
-> > really need all of those.
-> > 
-> > I'm thinking to comment out the part of the code which creates all of those,
-> > keeping just "ATOMISP ISP PREVIEW output", as I don't think we need all
-> > of those.  
-> 
-> Why is that ? Being able to capture multiple streams in different
-> resolutions is important for lots of applications, the viewfinder
-> resolution is often different than the video streaming and/or still
-> capture resolution. Scaling after capture is often expensive (and there
-> are memory bandwidth and power constraints to take into account too). A
-> single-stream device may be better than nothing, but it's time to move
-> to the 21st century.
+iQIzBAEBCAAdFiEExKRqtqfFqmh+lu1oADBpX4S8ZncFAmGDx2UACgkQADBpX4S8
+ZnfKhQ//dKCl27wxQWclaUp8Z1iV9e+MQXYuJ8ORM8CUd3CxfVBEYgzqvaObfHZf
+w27gIvmJJ9zvE8q7dlL4atqgpR/0hHcdIvNk4LyEZtGcFRHIP9SB1E4Z0HzeDk2O
+nNF9orZ5ZMe3ncrE+RdDexl7fiDMFNGBnn0jU+LwOoqHtDioDbFfAmA+rak0m0o/
+OAshPNwR1lvN/ZFDSAXL+noHgHZSgGDHHVpoliSbXx1hxTKYWgDL2X2BPdwomXc1
+yfaC2UUHH0QaVeTAABF1FK2c0MiI6pCjIZX5iKPxKpd5eqRG8xM+Hk/2Q/d9zUw0
+luUKhVwsSKsz80V3+H0VXT8VzVe5pVkRbAubbNX6k7d6Uc2orpLVLuZ6ODoPElwK
+yKiur3su37fseBN31oncdmOvCZZ0Hh+c4kJ5PiBo2W3HW0Qggu5p3wtfP2SncXGM
+8RXZBlA0Oksx4skHLpzIP3O2c5/pFYEHnqwYTl9fL2vZqCHitAjmyTV5cOvCOpVU
+ZNzw2XR1lT/icOhSTQRhXGueeVhNHWJNtVTnXajGcln8qqp3NyoP6DgNK1c4OD1e
+u601nvGCpr2QNJbYBTfWsgcOF/RkfM9EY3d8do9jhrTxGQfszyVuZfhMGnd4icSU
+JbkRKja3s2STljuGbgAM/H9rBi4nw0fY0lfuuhbQCMxjoWCKTZc=
+=UM74
+-----END PGP SIGNATURE-----
 
-True, but having multiple videonodes at this moment is not helping,
-specially since only one of such modes (PREVIEW) is actually working at
-the moment.
-
-So, this is more a strategy to help focusing on making this work
-properly, and not a statement that those modules would be dropped.
-
-I'd say that the "final" version of atomisp - once it gets 
-fixed, cleaned up and started being MC-controlled - should support
-all such features, and have the pipelines setup via libcamera.
-
-Regards,
-Mauro
+--Sig_/6WYj67gDDBSSCZ5H4Ks0m=K--
