@@ -1,111 +1,107 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761882C80
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 08:37:48 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F40096112D;
-	Thu,  4 Nov 2021 08:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636015068;
-	bh=E+go/jlwcXH60auQtP/uEyLMcbdgde64C/RHs6+jrR0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Mni8B+Er6MbxMus1Wobyx1zTlOT9FFbfE6ehLHBeU7OdCb4//ZFIeMTfDDTqjTWeg
-	 qDcM8wpgXvHUoGCeyPjicomCK3S8n9M6H6uPIhVtOnkgnI6i7AMTp0cR9EcEB2guAA
-	 7PofpQ36+NPMEoJM+vnfk+9o5ZK1KDbte47nrQCLYLh9c4PGEbnC0fVh6QglB08SJ8
-	 LqmhXkogRC8WLsEeWT52R9FJw+bnB+jg56+FnJs/m+KbelH7vUrcL3OyntxIxbu89Y
-	 KMU+h+BX9V7A7e7Rp5uHzuFKynzGLjq/NC2tb0XtTlXha5b41oze5+ioveRBlvhnK0
-	 2z5P4baPHdxKQ==
-Date: Thu, 4 Nov 2021 08:37:37 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Tsuchiya Yuto
- <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Kaixu Xia <kaixuxia@tencent.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Yang Li
- <abaci-bugfix@linux.alibaba.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Alex Dewar <alex.dewar90@gmail.com>,
- Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, Alan <alan@linux.intel.com>, Peter Zijlstra
- <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- linux-staging@lists.linux.dev, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: atomisp current issues
-Message-ID: <20211104083737.55b88011@sal.lan>
-In-Reply-To: <20211103165424.67296e13@sal.lan>
-References: <20211103135418.496f75d5@sal.lan>
-	<c39cac68-73ab-4ab0-a701-e92f01c92774@xs4all.nl>
-	<20211103165424.67296e13@sal.lan>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C1D2C80
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 09:54:31 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id y196so4057201wmc.3
+        for <linux-staging@lists.linux.dev>; Thu, 04 Nov 2021 02:54:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:content-transfer-encoding:date:message-id:cc:subject
+         :from:to:references:in-reply-to;
+        bh=oHTAWE9lVMoAwQtLaYvjTaMeXqlGucHo27+Q2DYGkxw=;
+        b=GkYHenrovoXmhVkDLCc3udGY5FhdJkmTUR8Oxr0T2AF2HiyIXaxvK8X42C8CzdsLwu
+         4YvNiPk0k2yYYYz5mfdAsC/rvYRE0RgdiOnjS40RFtgJ4pZnSl77sTsOGmAZtvv6dbG7
+         nB9i6w3OLQ/ZiX91IBAQLwDnCQHUhIXpdj5hAXKWFhgMbtEgLVq2Dv4Q6/uxLVGQEUF+
+         VZPGCJyFUujJYifjT3hfKYXQX6DlFQ/V7aQahBcbERUP63vU8h+jexp8rOY+uCOjbM3N
+         OEVgj2qA1CUjrFqdnqE6uE6OPtpJJgLzTCYGh/C+hMNiL+yigHCpGjC2FdmjhRx7/eYf
+         rM+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:content-transfer-encoding:date
+         :message-id:cc:subject:from:to:references:in-reply-to;
+        bh=oHTAWE9lVMoAwQtLaYvjTaMeXqlGucHo27+Q2DYGkxw=;
+        b=PF5X30TMe+ZwhvpEOKsIdY5kFgqFnyR8y00hlObPnunHxtMgyB2b2wjE6HCBc1vBVo
+         4WnEiAQk3K0A7/ewwXiGYPtvlOomEHow/yyN9oHyfc/+kOIRIUrpvG6PHCtYyUZqumBk
+         8+tBKPyhXqNri7svX2z3p79amJNV1OjWwKtI9YnTsCrEl4TsL1+kljzTRKoGKuYZd+/M
+         RxJNL1tR8bCD5oXq4oMASIQKl2/5ljSYc66BhLyz/fmssV/mpI7WfxdjMgt6ZQtWwRRJ
+         TPatHfGeRu6df5eXUaO2cvAWnqCsF2Da+vbi9V9aBQK80GTqpkNrpV7abij3dLS+5PTn
+         cWLQ==
+X-Gm-Message-State: AOAM530n52rBjNP00TToPOYieFvNZfuXo4r9UVEt4/noS+FyV7qOjbvx
+	pqksdjLER+pECgWwRoziFUA=
+X-Google-Smtp-Source: ABdhPJy6G3ehTG5PdAZw4gu4lWgg9vt5MXxC4ljW6GnU/qrDV3NST2Shl01Z6NGTgsDwvs0sNq9p8w==
+X-Received: by 2002:a05:600c:3b8f:: with SMTP id n15mr22638942wms.180.1636019669975;
+        Thu, 04 Nov 2021 02:54:29 -0700 (PDT)
+Received: from localhost (a109-49-33-111.cpe.netcabo.pt. [109.49.33.111])
+        by smtp.gmail.com with ESMTPSA id p13sm8891761wmi.0.2021.11.04.02.54.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Nov 2021 02:54:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 04 Nov 2021 09:54:28 +0000
+Message-Id: <CFGWKJVG6WGV.3HK06KA8BFY11@arch-thunder>
+Cc: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCHv3 4/4] media: imx: Use dedicated format handler for
+ i.MX7/8
+From: "Rui Miguel Silva" <rmfrfs@gmail.com>
+To: "Philipp Zabel" <p.zabel@pengutronix.de>, "Dorota Czaplejewicz"
+ <dorota.czaplejewicz@puri.sm>, "Steve Longerbeam" <slongerbeam@gmail.com>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha
+ Hauer" <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "NXP Linux
+ Team" <linux-imx@nxp.com>, <linux-media@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <kernel@puri.sm>,
+ <phone-devel@vger.kernel.org>
+References: <20211019120047.827915-1-dorota.czaplejewicz@puri.sm>
+ <20211019120047.827915-4-dorota.czaplejewicz@puri.sm>
+ <092d8c2ba808a25efab579a6d7cc32846c482206.camel@pengutronix.de>
+In-Reply-To: <092d8c2ba808a25efab579a6d7cc32846c482206.camel@pengutronix.de>
 
-Em Wed, 3 Nov 2021 16:54:24 +0000
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hi Philipp,
+On Wed Nov 3, 2021 at 12:32 PM WET, Philipp Zabel wrote:
 
-> Em Wed, 3 Nov 2021 15:41:05 +0100
-> Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
-> 
-> > On 03/11/2021 14:54, Mauro Carvalho Chehab wrote:  
-> > > Hi,
-> > > 
-> > > From what I've seen so far, those are the main issues with regards to V4L2 API,
-> > > in order to allow a generic V4L2 application to work with it.
-> > > 
-> > > MMAP support
-> > > ============
-> > > 
-> > > Despite having some MMAP code on it, the current implementation is broken. 
-> > > Fixing it is not trivial, as it would require fixing the HMM support on it, 
-> > > which does several tricks.
-> > > 
-> > > The best would be to replace it by something simpler. If this is similar
-> > > enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
-> > > videodev2 + IPU3 HMM code.
-> > > 
-> > > As this is not trivial, I'm postponing such task. If someone has enough
-> > > time, it would be great to have this fixed.
-> > > 
-> > > From my side, I opted to add support for USERPTR on camorama:
-> > > 
-> > > 	https://github.com/alessio/camorama
-> > > 
-> > > As this is something I wanted to do anyway, and it allowed me to cleanup
-> > > several things in camorama's code.
-> > > 
-> > > Support for USERPTR is not autodetected. So, this should be selected    
-> > 
-> > You can autodetect this: the capabilities field returned by VIDIOC_REQBUFS
-> > or VIDIOC_CREATE_BUFS will indicate support for this. This works with any
-> > vb2-based driver.
-> > 
-> > Just thought I should mention this...  
-> 
-> Yeah, surely the app could try it, but:
-> 
-> 1. As libv4l doesn't support USERPTR, such detection should happen
->    early inside camorama code;
+> On Tue, 2021-10-19 at 14:14 +0200, Dorota Czaplejewicz wrote:
+> > This splits out a format handler which takes into account
+> > the capabilities of the i.MX7/8 video device,
+> > as opposed to the default handler compatible with both i.MX5/6 and i.MX=
+7/8.
+> >=20
+> > Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+>
+> Cc: Rui & Laurent
+>
+> Looks sane to me, but I'd like someone with i.MX7/8 media experience to
+> have a look at this.
 
-I ended adding auto-detection support for USERPTR inside camorama,
-for completeness.
+Thanks for the CC, this really went off of my radar. I will try to
+take a look at it, but one of the comments on the first patch:
 
-The "-U" command line option remains, so one could use it to force USERPTR
-mode.
+"The use of `v4l2_fill_pixfmt` comes with the downside of breaking
+10-bit Bayer formats, or at least until my other series gets accepted
+(Subject: "media: Add 16-bit Bayer formats". Sorry, I don't have the
+message id.)."
 
-As the way I implemented it is that camorama checks if REQBUFS doesn't
-return any error, it means that it will automatically fallback to USERPTR
-with atomisp driver (while MMAP support is not fixed there).
+made me wonder if that series was already accepted? without it this
+will break the warp7 setup.
 
-So, once I fix the issues with S_FMT/G_FMT, camorama will likely work
-out of the box with it.
+------
+Cheers,
+     Rui
+>
+> Thread at
+> https://lore.kernel.org/linux-media/20211019120047.827915-1-dorota.czaple=
+jewicz@puri.sm/
+>
+> regards
+> Philipp
 
-Regards,
-Mauro
+
 
