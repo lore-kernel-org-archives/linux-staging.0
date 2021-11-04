@@ -1,91 +1,111 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB832C85
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 03:22:52 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id b13so5018016plg.2
-        for <linux-staging@lists.linux.dev>; Wed, 03 Nov 2021 20:22:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=v7JV6sBSjHncLlA/Je17qJW+JL2/u9zGNWzcM/tGeGQ=;
-        b=iowS55dMHmgYSfkBWWCQtgegTudprjt8wmXVxeOwd6dvZWjcrLB08Sz1ygrnJkPZwW
-         agjvCWv+w80j/VhP34Rauc+Bdibfzs82V6xboxx0Y259KePWFMUpfksnnjzGmY5Lx5uW
-         gZiFP67XV2Xnfu+KT3CG/6A0Xu8oJ8/N0NnphbXJQ9YGFwwm3PU3T8d1jWFRNs6VvmAO
-         +v+6bkMrtQ4kZqwGn7gaN5EDKrCrSM8ovFkwn7ATfxzHYfapPSg6Fd8Z9PdAnf+T/LD8
-         meKMVRsDO5pbeu+bpnRXwhwKcBZNLQiX8X7OwqpPdJSN1AB9XV3fm4iDTav2ZZPeaNI1
-         fcuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=v7JV6sBSjHncLlA/Je17qJW+JL2/u9zGNWzcM/tGeGQ=;
-        b=PvcrqazVXn2T5wNnfIhiF9Dq/SRktBPR6WIv2HtXX5obA/Qxj3J2Ia86ekZ6nuFXfd
-         N3PorU4d2/7M/UBrHg4eQCfxtQGYedm3+nm3F5hu/8pZEfhot9HG89hS4gnuYH1hg8M/
-         1X6qCm0YWg+eq7rF/gtBCPSx4aVsO94pXwK5R7ecjm6G6jwzUwWsVJaTXKaEc6469Bco
-         p/QtfUv2buoTj9xZEeoqqgMTazDaisfIoWqqY+1uYgS4oiFieuSJ3jS16gRLSud1JxL1
-         lC2p+4zfGdGv5Gkz6lNF2Yc3BoXpob9tKKJftCeD7X0dUW7jH1O3e8gmBwA4vv3kQXhq
-         P/CQ==
-X-Gm-Message-State: AOAM530ZVIp+LqdzbgXFtJ8z2jSRxbE/Y1BR72Tgf+jDBxJY1OPiUXt4
-	4Vwojrw98cSwF1LRccO09xw=
-X-Google-Smtp-Source: ABdhPJwOBXGeQSZgvDoMBXxO7KZwleKLJHiTvoteHDDwCxHDV5j1CPOewAnolh6Fqmj9QbQ7faCwZw==
-X-Received: by 2002:a17:90a:9418:: with SMTP id r24mr18953177pjo.238.1635996171894;
-        Wed, 03 Nov 2021 20:22:51 -0700 (PDT)
-Received: from Sauravs-MacBook-Air.local ([59.95.84.218])
-        by smtp.gmail.com with ESMTPSA id z3sm3789967pfh.79.2021.11.03.20.22.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Nov 2021 20:22:51 -0700 (PDT)
-Date: Thu, 4 Nov 2021 08:52:42 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org, straube.linux@gmail.com,
-	saurav.girepunje@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: r8188eu: core: remove the unused variable pAdapter
-Message-ID: <YYNSAqGgDPhV1IE1@Sauravs-MacBook-Air.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761882C80
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 08:37:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F40096112D;
+	Thu,  4 Nov 2021 08:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636015068;
+	bh=E+go/jlwcXH60auQtP/uEyLMcbdgde64C/RHs6+jrR0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Mni8B+Er6MbxMus1Wobyx1zTlOT9FFbfE6ehLHBeU7OdCb4//ZFIeMTfDDTqjTWeg
+	 qDcM8wpgXvHUoGCeyPjicomCK3S8n9M6H6uPIhVtOnkgnI6i7AMTp0cR9EcEB2guAA
+	 7PofpQ36+NPMEoJM+vnfk+9o5ZK1KDbte47nrQCLYLh9c4PGEbnC0fVh6QglB08SJ8
+	 LqmhXkogRC8WLsEeWT52R9FJw+bnB+jg56+FnJs/m+KbelH7vUrcL3OyntxIxbu89Y
+	 KMU+h+BX9V7A7e7Rp5uHzuFKynzGLjq/NC2tb0XtTlXha5b41oze5+ioveRBlvhnK0
+	 2z5P4baPHdxKQ==
+Date: Thu, 4 Nov 2021 08:37:37 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Tsuchiya Yuto
+ <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Kaixu Xia <kaixuxia@tencent.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Yang Li
+ <abaci-bugfix@linux.alibaba.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Alex Dewar <alex.dewar90@gmail.com>,
+ Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, Alan <alan@linux.intel.com>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ linux-staging@lists.linux.dev, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: atomisp current issues
+Message-ID: <20211104083737.55b88011@sal.lan>
+In-Reply-To: <20211103165424.67296e13@sal.lan>
+References: <20211103135418.496f75d5@sal.lan>
+	<c39cac68-73ab-4ab0-a701-e92f01c92774@xs4all.nl>
+	<20211103165424.67296e13@sal.lan>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Remove the unused variable pAdapter from Efuse_Write1ByteToFakeContent
-This variable is not used in the function.
+Em Wed, 3 Nov 2021 16:54:24 +0000
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_efuse.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+> Em Wed, 3 Nov 2021 15:41:05 +0100
+> Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+> 
+> > On 03/11/2021 14:54, Mauro Carvalho Chehab wrote:  
+> > > Hi,
+> > > 
+> > > From what I've seen so far, those are the main issues with regards to V4L2 API,
+> > > in order to allow a generic V4L2 application to work with it.
+> > > 
+> > > MMAP support
+> > > ============
+> > > 
+> > > Despite having some MMAP code on it, the current implementation is broken. 
+> > > Fixing it is not trivial, as it would require fixing the HMM support on it, 
+> > > which does several tricks.
+> > > 
+> > > The best would be to replace it by something simpler. If this is similar
+> > > enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
+> > > videodev2 + IPU3 HMM code.
+> > > 
+> > > As this is not trivial, I'm postponing such task. If someone has enough
+> > > time, it would be great to have this fixed.
+> > > 
+> > > From my side, I opted to add support for USERPTR on camorama:
+> > > 
+> > > 	https://github.com/alessio/camorama
+> > > 
+> > > As this is something I wanted to do anyway, and it allowed me to cleanup
+> > > several things in camorama's code.
+> > > 
+> > > Support for USERPTR is not autodetected. So, this should be selected    
+> > 
+> > You can autodetect this: the capabilities field returned by VIDIOC_REQBUFS
+> > or VIDIOC_CREATE_BUFS will indicate support for this. This works with any
+> > vb2-based driver.
+> > 
+> > Just thought I should mention this...  
+> 
+> Yeah, surely the app could try it, but:
+> 
+> 1. As libv4l doesn't support USERPTR, such detection should happen
+>    early inside camorama code;
 
-diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index 03c8431b2ed3..39c77f6b06ef 100644
---- a/drivers/staging/r8188eu/core/rtw_efuse.c
-+++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -40,10 +40,7 @@ static bool Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
- }
+I ended adding auto-detection support for USERPTR inside camorama,
+for completeness.
 
- static bool
--Efuse_Write1ByteToFakeContent(
--			struct adapter *pAdapter,
--			u16 Offset,
--			u8 Value)
-+Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
- {
- 	if (Offset >= EFUSE_MAX_HW_SIZE)
- 		return false;
-@@ -162,7 +159,7 @@ u8 efuse_OneByteWrite(struct adapter *pAdapter, u16 addr, u8 data, bool pseudo)
- 	u8 result;
+The "-U" command line option remains, so one could use it to force USERPTR
+mode.
 
- 	if (pseudo) {
--		result = Efuse_Write1ByteToFakeContent(pAdapter, addr, data);
-+		result = Efuse_Write1ByteToFakeContent(addr, data);
- 		return result;
- 	}
+As the way I implemented it is that camorama checks if REQBUFS doesn't
+return any error, it means that it will automatically fallback to USERPTR
+with atomisp driver (while MMAP support is not fixed there).
 
---
-2.33.0
+So, once I fix the issues with S_FMT/G_FMT, camorama will likely work
+out of the box with it.
+
+Regards,
+Mauro
 
