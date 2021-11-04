@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2DF2CA1
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 12:06:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B371861246;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06B42C9D
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 12:06:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C6EDA6124B;
 	Thu,  4 Nov 2021 12:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1636027560;
-	bh=2T0ZwNsJcy30Fl7Ibrebx0nzNGLAhY58MGxL/A03P6c=;
+	bh=IThQxwfyehbyQQVThBSABMWOyISpIRIGY2xGviVkzn0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N3yNWtDZFdq0nWqZA6s/lgz4Rw4jC6r1hRfe1qcRFKFqgaz+FehNRNvfxrMmB3rQx
-	 KJWNtLLO03ojZk5XJBjBAxIcGruw9OUL31oAWpLxukRsYJx/Fa7xyLiPB1yYcfjM+f
-	 ibBSIWd/r8mAXExyni7mSmmQiehHCdN6x5bOWH6QAAgnRPAkdtVVexLbfz+Ll/WecJ
-	 g/wteL9UyYBE6MXBfqLkxjk9FWDNZjfiJyN1QyvQQuFZTMv0zDlti8NJdhRABGJPpo
-	 UWk5IouZFr9oRuLl2JsLHIf9R8Y0sxMIZvFjzZwzeo95IpBZ/1nhD09uPpyNpZ9GZi
-	 oUgEFC9hUpvzQ==
+	b=pC/fzFjRU/qvzCBiIwT8mhaWIDEANwwYHo6yvHS3/LccCdMGHKTV1Oq6K0pXjcpix
+	 EZiKSRNNXrHTnsYiynYYeDaPkxNAPZe2yzNsMEivbvcjZxrs2+Se1noK3cg6UGsEQn
+	 Cw6tBEPbZ31LMcSWekob9X1Z9ZjLC92TuNFuUQd2o1qpDX2gKyoDXOiiokAdr0zHMi
+	 9UUjU43y28R/dHUTLhBl9j0zrOVCYleRGUC0rK5jKaHvBFdPcSktAOD7UJSjIcxNBx
+	 ZmIyZf8TUoHaS5RaLQJEX58Vo3xpQSJxL0UfuDPXb09g/El0B/n7GiqdczEyie8Nne
+	 zRoGemWqxysHg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mibVG-005nHh-5q; Thu, 04 Nov 2021 12:05:58 +0000
+	id 1mibVG-005nHt-7j; Thu, 04 Nov 2021 12:05:58 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
@@ -28,18 +28,19 @@ Cc: linuxarm@huawei.com,
 	Arnd Bergmann <arnd@arndb.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kaixu Xia <kaixuxia@tencent.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yang Li <abaci-bugfix@linux.alibaba.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 2/7] media: atomisp: move a debug printf to a better place
-Date: Thu,  4 Nov 2021 12:05:51 +0000
-Message-Id: <b068833be0d0ff71f63ab55f5c90d04ed514c90e.1636026959.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 6/7] media: atomisp: fix try_fmt logic
+Date: Thu,  4 Nov 2021 12:05:55 +0000
+Message-Id: <44f582252dd16b512075167530b3d592689c7376.1636026959.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1636026959.git.mchehab+huawei@kernel.org>
 References: <cover.1636026959.git.mchehab+huawei@kernel.org>
@@ -52,10 +53,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The sensor width/height report is alread being printed after
-its calculus. The only reason for an extra debug printk is
-when dis is used. So, change its message to reflect and move
-it to be inside the if checks.
+The internal try_fmt logic is not meant to provide everything
+that the V4L2 API should provide. Also, it doesn't decrement
+the pads that are used only internally by the driver, but aren't
+part of the device's output.
+
+Fix it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -63,33 +66,118 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 0/7] at: https://lore.kernel.org/all/cover.1636026959.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  7 --
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 72 ++++++++++++++++++-
+ 2 files changed, 71 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index feb75491a273..76c9e89afb48 100644
+index 851046ecbdbf..0ddee36cdcd7 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -5583,6 +5583,10 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev,
- 				       pad, set_fmt, &pad_state, &vformat);
- 		if (ret)
- 			return ret;
-+
-+		dev_dbg(isp->dev, "video dis: sensor width: %d, height: %d\n",
-+			ffmt->width, ffmt->height);
-+
- 		if (ffmt->width < req_ffmt->width ||
- 		    ffmt->height < req_ffmt->height) {
- 			req_ffmt->height -= dvs_env_h;
-@@ -5593,8 +5597,6 @@ static int atomisp_set_fmt_to_snr(struct video_device *vdev,
- 			asd->params.video_dis_en = false;
- 		}
+@@ -4918,13 +4918,6 @@ int atomisp_try_fmt(struct video_device *vdev, struct v4l2_pix_format *f,
  	}
--	dev_dbg(isp->dev, "sensor width: %d, height: %d\n",
--		ffmt->width, ffmt->height);
- 	vformat.which = V4L2_SUBDEV_FORMAT_ACTIVE;
- 	ret = v4l2_subdev_call(isp->inputs[asd->input_curr].camera, pad,
- 			       set_fmt, NULL, &vformat);
+ 
+ 	f->pixelformat = fmt->pixelformat;
+-	/*
+-	 * FIXME: do we need to setup this differently, depending on the
+-	 * sensor or the pipeline?
+-	 */
+-	f->colorspace = V4L2_COLORSPACE_REC709;
+-	f->ycbcr_enc = V4L2_YCBCR_ENC_709;
+-	f->xfer_func = V4L2_XFER_FUNC_709;
+ 
+ 	/*
+ 	 * If the format is jpeg or custom RAW, then the width and height will
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 84ff97dabbed..1e6da6116a06 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -847,6 +847,72 @@ static int atomisp_g_fmt_file(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
++static int atomisp_adjust_fmt(struct v4l2_format *f)
++{
++	const struct atomisp_format_bridge *format_bridge;
++	u32 padded_width;
++
++	format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
++
++	padded_width = f->fmt.pix.width + pad_w;
++
++	if (format_bridge->planar) {
++		f->fmt.pix.bytesperline = padded_width;
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height *
++						  DIV_ROUND_UP(format_bridge->depth *
++						  padded_width, 8));
++	} else {
++		f->fmt.pix.bytesperline = DIV_ROUND_UP(format_bridge->depth *
++						      padded_width, 8);
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height * f->fmt.pix.bytesperline);
++	}
++
++	if (f->fmt.pix.field == V4L2_FIELD_ANY)
++		f->fmt.pix.field = V4L2_FIELD_NONE;
++
++	format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
++	if (!format_bridge)
++		return -EINVAL;
++
++	/* Currently, raw formats are broken!!! */
++	if (format_bridge->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
++		f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;
++
++		format_bridge = atomisp_get_format_bridge(f->fmt.pix.pixelformat);
++		if (!format_bridge)
++			return -EINVAL;
++	}
++
++	padded_width = f->fmt.pix.width + pad_w;
++
++	if (format_bridge->planar) {
++		f->fmt.pix.bytesperline = padded_width;
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height *
++						  DIV_ROUND_UP(format_bridge->depth *
++						  padded_width, 8));
++	} else {
++		f->fmt.pix.bytesperline = DIV_ROUND_UP(format_bridge->depth *
++						      padded_width, 8);
++		f->fmt.pix.sizeimage = PAGE_ALIGN(f->fmt.pix.height * f->fmt.pix.bytesperline);
++	}
++
++	if (f->fmt.pix.field == V4L2_FIELD_ANY)
++		f->fmt.pix.field = V4L2_FIELD_NONE;
++
++	/*
++	 * FIXME: do we need to setup this differently, depending on the
++	 * sensor or the pipeline?
++	 */
++	f->fmt.pix.colorspace = V4L2_COLORSPACE_REC709;
++	f->fmt.pix.ycbcr_enc = V4L2_YCBCR_ENC_709;
++	f->fmt.pix.xfer_func = V4L2_XFER_FUNC_709;
++
++	f->fmt.pix.width -= pad_w;
++	f->fmt.pix.height -= pad_h;
++
++	return 0;
++}
++
+ /* This function looks up the closest available resolution. */
+ static int atomisp_try_fmt_cap(struct file *file, void *fh,
+ 			       struct v4l2_format *f)
+@@ -858,7 +924,11 @@ static int atomisp_try_fmt_cap(struct file *file, void *fh,
+ 	rt_mutex_lock(&isp->mutex);
+ 	ret = atomisp_try_fmt(vdev, &f->fmt.pix, NULL);
+ 	rt_mutex_unlock(&isp->mutex);
+-	return ret;
++
++	if (ret)
++		return ret;
++
++	return atomisp_adjust_fmt(f);
+ }
+ 
+ static int atomisp_g_fmt_cap(struct file *file, void *fh,
 -- 
 2.31.1
 
