@@ -1,174 +1,172 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7D42C85
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 12:47:40 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-10-233-nat.elisa-mobile.fi [85.76.10.233])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FAB1E52;
-	Thu,  4 Nov 2021 13:47:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1636030058;
-	bh=jqK037rTkFhq0dshtnlxaTIDkJboBkHRFVMrkuRsH8M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RE/iEdVOO1SRvcGHkoa5cnmgcfJaBDrGDXAWt4OMAbMPmLFJb9rDpm9DfXYoRBX0a
-	 Sjpma+jy/aMHVCXlwab01131bNbLDYqX8LI3KnIdNwyWr051uXfCo4OxUM9MzbnUCG
-	 eCnSSPA+Rsegee53v+TsNIQ8DWKQlKkb58YIMuRA=
-Date: Thu, 4 Nov 2021 14:47:14 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Patrik Gfeller <patrik.gfeller@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Kaixu Xia <kaixuxia@tencent.com>,
-	Yang Li <abaci-bugfix@linux.alibaba.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alan <alan@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>, linux-staging@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: atomisp current issues
-Message-ID: <YYPWUiPT80zQ7sKo@pendragon.ideasonboard.com>
-References: <20211103135418.496f75d5@sal.lan>
- <YYOts0aoD/Quo5r6@pendragon.ideasonboard.com>
- <20211104105051.4836fafb@sal.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9B62C85
+	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 13:00:36 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1A4C3HUT008370;
+	Thu, 4 Nov 2021 13:00:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=Z77u1v6R9oaxGjJlZRNLwy8ANNhtKmh93Z4DYc68CaE=;
+ b=wV2nbbuBn83r+st+OOMzMmAMAHuSpdU0IWbaX2UiiMFes6QIK8VPll3POjzgiA6xFfEu
+ 45J9xoDEkxqVzJRDX3QZaAz28b8dddxtEP0eYEOFZCo+KY3LYFRGvps4QUVLvYzwdgE/
+ L+AUoGYGgYZeNAPvQdNl1K2JRPz+U4uypWdqkkPDcV71Fn4aCQ+K5MC+JeYm1onsGrI6
+ 11ecLR/uTv5i1n5nQlF149O+WkzM9u9KggnP/E6ZeVOuf+jSmJbn2llAwWi41cTWiKIo
+ RyH/KNcPBXu+yVcywxMOFCl0unCYQaFcDcSd2DsvR91dTmgrBH883BeyE+5OZFVuKQZp LQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3c3n9xr6b6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 Nov 2021 13:00:25 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1A4Cj5Vo001452;
+	Thu, 4 Nov 2021 13:00:24 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam07lp2042.outbound.protection.outlook.com [104.47.56.42])
+	by userp3030.oracle.com with ESMTP id 3c27k8mt24-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 04 Nov 2021 13:00:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CMxWosjX7OWsLPa14eWjhyl5RMPIhmQkWVNgsmEu6qCzmJa6a0bIFYCF1X0eIOG8e0nKN9gaEZ4bQAlIjVxJqcPODS2yfNb3wRNMTFRQe+UoeYdvO8oqBiKufkIMQ5rHHsrOLTr9HXWnl3k7mgGWwfdfn43l2dqHChLa3/AWCODNRWrxh3VUTZR0aKeB89yxeGY2BiSjRuczbvBWdImNTHHYskW1kd0lHsWrM8aUjembPqKaAyCBp/tVCQYt8maPQ1uzSsAsjsyJZiPXTkQ9QKyxgZMFu1k7Yl4nJIEhG48hY5u5kaC7s6odx1JKjlYEnKIrVON1QGYWVumgpCOtrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z77u1v6R9oaxGjJlZRNLwy8ANNhtKmh93Z4DYc68CaE=;
+ b=j+CRNw8DoSuhyPFmvnyJZGpd4OEWFsDllGmldk8Shp3ZuLl0FgkDWrZkfKnlc0hCmQLl2vm0w9EJjo9lrUdGmOK4zqMzsIHKiRdiWwA7ULe58D2aeUyj5Xf1fL7rngauyCf37LXU1RzPjxacunDbF9sOeQQdtbD59HYu/4CLm86R6Z8xHkEgSEHtojuZK+98NRWiaaqi0enfxlKDVOw9YsF1j6S13J1VPuNYmxGmRj9yV4Y9Yz40O7GGLyjy2hz8fKhsEtrBBemZ/r5MnfCg882yIWNcnQsujIgsnLVENHPhl4j52JzxTZHo7pW+dEfLFwzicbHbJWMx5Ho4YLWdhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z77u1v6R9oaxGjJlZRNLwy8ANNhtKmh93Z4DYc68CaE=;
+ b=CSItWMGlMRElbAchKe/qrT+wmcN2HQQG1ngpezW4PYXMksStYPjcaYt2v78JA45ZEhVOv0Vso1RugTBF1+A/6mahxnkRgC90Uq7K9Uh9rVrMFAxo1fJKD6w+lsHVTryYYaeW3727Ay9X8n4U+PwsutQwoF3FNVmrrTa3NBBRMyw=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO1PR10MB4692.namprd10.prod.outlook.com
+ (2603:10b6:303:99::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4669.13; Thu, 4 Nov
+ 2021 13:00:22 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4669.011; Thu, 4 Nov 2021
+ 13:00:22 +0000
+Date: Thu, 4 Nov 2021 16:00:02 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Karolina Drobnik <karolinadrobnik@gmail.com>
+Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org,
+        forest@alittletooquiet.net, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/8] staging: vt6655: Use incrementation in `idx`
+Message-ID: <20211104130002.GB2794@kadam>
+References: <cover.1635773679.git.karolinadrobnik@gmail.com>
+ <c569952d92ba51f32679c2fd87fd48ad8e49e3fc.1635773680.git.karolinadrobnik@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c569952d92ba51f32679c2fd87fd48ad8e49e3fc.1635773680.git.karolinadrobnik@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0045.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::22)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211104105051.4836fafb@sal.lan>
+Received: from kadam (102.222.70.114) by JNAP275CA0045.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23 via Frontend Transport; Thu, 4 Nov 2021 13:00:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 91105953-7c39-4bfd-16bc-08d99f930f7d
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4692:
+X-Microsoft-Antispam-PRVS: 
+	<CO1PR10MB4692F2E38A5A61F4207CA1C38E8D9@CO1PR10MB4692.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	+L0etTHrSrvmf89G+9g89UXjFS6c2UL9QzF3mMY2oK3nHW+j6+FTV1Xmd74dHejAfsL3cRgm5p5aygmJqhKX8fSpq8OasdRDPAOhMxZY1yw+EnG/hazEHPvNErU0mLX6S6b2IOLvmPFCf9K09C4Kd3xWN9wwklU4MNUid3KzxigfyGlcX3iy7BlrBryEXHlz3mjBvk2QsW8x4f3FhY7Lg+wx/rm0v319JKidHx4tFq6MZ0KgAdY4ljjYXa2H1nxAlp0xc2WJbwKOctL6/ePcbNqBBhAChubmfZnjJlYim9PtbTsCJKKPsHgnrlskZOvXh0JIPhF3GZicrv67Qyv+KghXCANl4eJAzLuAxtNGMi0PVJj0PhWR/O/fiGFWzQJyX8epZaYXS6UAvQcwhQJAqUM1XDaDqcBpe9Ur24u5h6IgL3IuLROdN/h606Xo/ael1Bm4xHP5BVKdS3LBuKQU6aqmkjL7+4j7gcGjqAwNbaNDDLvf3hD0J/cbPaLg+A/JqV6XgdLsRdMzjSqVl095ZUfKL99OinUW2jcIhuBsOKEslA834h1IkD6NzDbMCT02gH6W9xY0O097QvzHcDWBCdQn0O4xA2xbjCL6F0w/Q5+Sx1Gsj0aXwPDip8g0bv1mxSZICmxiliiqOrLd5HJOx+Fi/jVwIqmAGSXvA1eTmwElfqhCnqUTu2IcFLtlse4rkvipcpBYjhXNx8CtHUJ6fBU+ConhqwQl4+4LYEOt+gU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(44832011)(9576002)(8676002)(8936002)(4326008)(956004)(508600001)(2906002)(316002)(33716001)(26005)(6916009)(186003)(1076003)(38100700002)(38350700002)(33656002)(66946007)(66476007)(66556008)(9686003)(5660300002)(55016002)(86362001)(6666004)(52116002)(6496006)(83380400001)(81973001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?f8Q07JEUcgXNlYPXk3gfmlvGgwshMucL8BdDiEmIVCgDa10sRdu2sqEjIQO7?=
+ =?us-ascii?Q?x4m7eJVIeZEjGdCNPbhDtE9Gg6OQT/MUooYE9mSygw6jjxiFVyqyBoFp5xM2?=
+ =?us-ascii?Q?KHrpyq8DwpfLyANm/pcErPIIdOI5CYBYQ0g0HBYOFUdjAn5tXSbmxRk6LwOu?=
+ =?us-ascii?Q?9P1CyQhMeXfZqEu99u9Vhy1VMiXrDIO44crhzSIMIp0cJQ5djAo1IHhP2Ry4?=
+ =?us-ascii?Q?EJRDyz5OSo159es4N08eJuVH7tV189sBkwpjxIi+uZD30xWWMJcgJlUEZXmr?=
+ =?us-ascii?Q?Pp4YmPOtBlrtgXTTlzZTwM2EqBqt5yI49gNR8JE+IQgu0zeAkCu0v8NKmJE5?=
+ =?us-ascii?Q?KtM0w/tOydeC9Z9oOaCR35Q1sip7SEA/hOltQVYt1wCFbDo+7s/sKhwbHcTj?=
+ =?us-ascii?Q?feVjTceIahN/8VwnpEZQZ5Ex+0lVwpjTVC+2ZtmHWThKR7Hhu/l3Xg9JVSbB?=
+ =?us-ascii?Q?39UzToXE1bpvRW+mqXffV+0K+NdrTXtP9FvqH8d5O1J+dT5HKKlAmEy4wOCa?=
+ =?us-ascii?Q?VmAfFf4TDesOJqVml2lr0LnbF8BHqM49cKmtRJ2IkR90aawyiISc5NpvfhQT?=
+ =?us-ascii?Q?051igqA5sO087PLZBPi+OqMTBWS+bdvaKEJ80IlrDR0Nmxid6pIXbIbSeHxg?=
+ =?us-ascii?Q?8leA42CiGcuooVM4iT2WAJ9HMuFRNiPDQCh5wf6pDBktDOQ7yVWy0egJoPWz?=
+ =?us-ascii?Q?hVzsKhSRzJB1edUcYq6cfSXwGTX0FRGg8VVA7ZQKWz8gt3uBvjDQs6nPlArP?=
+ =?us-ascii?Q?dbNZUU1uKxpHOGxJItQcKoscHzzExgWzG/okHQ10C4RrJX3rWXo1hWSLyQMb?=
+ =?us-ascii?Q?IQ1UYGbY/H1CKW9GfkM0md+lAiZUdy0OkjSOpGgC7E54ADEwwrl5eky4y7vc?=
+ =?us-ascii?Q?bG6x6in7zMyg0Nth/9fiFx0GgUJ/pZWHU0Vq7Q0t/mclzUseUyk8ZBv5Mmvd?=
+ =?us-ascii?Q?pK45RyIl3FahwMvNaidwlcYFMNKVxdG0ICjTqe/9J4C9niM4rFVosq7O7pu7?=
+ =?us-ascii?Q?h6kl/5ZCeV724C8CHu9vNYdxIAK37i4XKM4tIeaWHPaik7qUx/BD1DJtFHO/?=
+ =?us-ascii?Q?pKiDMK72zszzs2a7lA7T+M0/OVcCv0GSRhf5kcupbRsNSBxqWgxUWEP7Ii6T?=
+ =?us-ascii?Q?YxKBPJ15ficfmMELt9t1kwGoRiF7v81cPDaUb8RiVb6/WkiyVItX/hUC0sVT?=
+ =?us-ascii?Q?Q5wZIgbTjUuCfBmVFfGxVUIpZZSwwwQcq1aQuGKMrIzza+waz13jGRWp1kUk?=
+ =?us-ascii?Q?1LUmHOLa6f6LFMhqWQBiLw2Er7Q+hstpltyhVq+5p27vwHN9rm607kuGVE1O?=
+ =?us-ascii?Q?HzvFB324B0xf7gfXy6jFdeV66Na4XkxIfw2d2xn1aE3GS2K60g5PvVWoJWnZ?=
+ =?us-ascii?Q?j2NgvKoFQXuRcTxPDcfTGeU7sNPuS0IDD5iquT3oFbB9KtzUu64wRx3EQJ4F?=
+ =?us-ascii?Q?KCyXNL7zBu4w+YOkuS+s57DB94+X7Dx0aZBAIshAwFyL0Knbz01yWgbqpk/k?=
+ =?us-ascii?Q?iAcC0j+aFfRws+Fr2f/T+Ljf615jOGwXKJpbl14xXP1RR505j63y6IC6KX0K?=
+ =?us-ascii?Q?VDgi4DYoxqFaI/T90lLFz8Ev6ZZoOjV1JvCfb5MHMu6pjUma7Lxc+Q0E4yys?=
+ =?us-ascii?Q?HmHcCG2IkxD9gXx5k8J7TPpn1F2QN9+HKndptQ5SNPUQ1EN1sennhK0cyIUA?=
+ =?us-ascii?Q?9XzP8hnfqyG3Ow1C116JPpgMaeU=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91105953-7c39-4bfd-16bc-08d99f930f7d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2021 13:00:22.3556
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mV05gL5j+/0lsNhmwVI/YxCx0picP8Z+o1rwssp4VmKeG+LOYHoApmkEJ/JmK2hiQ1EhfFpvvHgBiIosxMJjTfQ1AhGC9LkadP++UZ9L7k8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4692
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10157 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
+ malwarescore=0 mlxlogscore=999 adultscore=0 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111040055
+X-Proofpoint-ORIG-GUID: us9C-p3iZibCjdpf4GanbU8if0UMrQzI
+X-Proofpoint-GUID: us9C-p3iZibCjdpf4GanbU8if0UMrQzI
 
-Hi Mauro,
-
-On Thu, Nov 04, 2021 at 10:50:51AM +0000, Mauro Carvalho Chehab wrote:
-> Em Thu, 4 Nov 2021 11:53:55 +0200 Laurent Pinchart escreveu:
-> > On Wed, Nov 03, 2021 at 01:54:18PM +0000, Mauro Carvalho Chehab wrote:
-> > > Hi,
-> > > 
-> > > From what I've seen so far, those are the main issues with regards to V4L2 API,
-> > > in order to allow a generic V4L2 application to work with it.
-> > > 
-> > > MMAP support
-> > > ============
-> > > 
-> > > Despite having some MMAP code on it, the current implementation is broken. 
-> > > Fixing it is not trivial, as it would require fixing the HMM support on it, 
-> > > which does several tricks.
-> > > 
-> > > The best would be to replace it by something simpler. If this is similar
-> > > enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
-> > > videodev2 + IPU3 HMM code.
-> > > 
-> > > As this is not trivial, I'm postponing such task. If someone has enough
-> > > time, it would be great to have this fixed.
-> > > 
-> > > From my side, I opted to add support for USERPTR on camorama:
-> > > 
-> > > 	https://github.com/alessio/camorama  
-> > 
-> > We should *really* phase out USERPTR support. 
+On Mon, Nov 01, 2021 at 02:32:00PM +0000, Karolina Drobnik wrote:
+> Increment `idx` in a loop instead of adding the loop counter
+> `i` to do so. Thanks to this change, the cast to unsigned short
+> can be removed.
 > 
-> I'm not a big fan of userptr, buy why do we phase it out?
-
-Because USERPTR is broken by design. It gives a false promise to
-userspace that a user pointer can be DMA'ed to, and this isn't generally
-true. Even if buffer are carefully allocated to be compatible with the
-device requirements, there are corner cases that prevent making a
-mechanism based on get_user_pages() a first class citizen. In any case,
-USERPTR makes life more difficult for the kernel.
-
-There may be some use cases for which USERPTR could be an appropriate
-solution, but now that we have DMABUF (and of course MMAP), I see no
-reason to continue supporting USERPTR forever, and certainly not adding
-new users.
-
-> > Worst case you may support
-> > DMABUF only if MMAP is problematic, but I don't really see why it could
-> > be easy to map an imported buffer and difficult to map a buffer
-> > allocated by the driver. videobuf2 should be used.
+> Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+> ---
+>  drivers/staging/vt6655/rf.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> Yeah, atomisp should be migrated to VB2, and such migration is listed at
-> its TODO file. However, this is a complex task, as its memory management
-> code is very complex.
+> diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+> index f195dafb6e63..c07653566d17 100644
+> --- a/drivers/staging/vt6655/rf.c
+> +++ b/drivers/staging/vt6655/rf.c
+> @@ -700,11 +700,11 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
+>  			return false;
+>  
+>  		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
+> -			MACvSetMISCFifo(priv, (unsigned short)(idx + i), al2230_init_table[i]);
+> +			MACvSetMISCFifo(priv, idx++, al2230_init_table[i]);
 
-Have a look at GPU memory management, and you'll find the atomisp driver
-very simple in comparison :-)
+Of course, idx is no longer a constant so declaring it as a variable
+makes sense here.  But maybe just do it in the same patch because the
+patch 1/1 doesn't make sense as a stand alone patch.
 
-I'm also pretty sure that drivers/staging/media/atomisp/pci/hmm/ could
-be rewritten to use more of the existing kernel frameworks.
+Also don't declare idx as an unsigned short.  It's better to declare it
+as a int so it just works like a normal number and you don't have to
+think about signedness bugs and wrapping and edge cases.
 
-> Maybe we could try to use the ISP3 code on it,
-> replacing the current HMM logic, but not sure if the implementation there 
-> would be compatible.
+regards,
+dan carpenter
 
-I'd be surprised if the IPU3 was compatible.
-
-> In any case, the current priority is to make the driver to work, fixing 
-> the V4L2 API implementation, which has several issues.
-> 
-> ...
-> 
-> > > Video devices
-> > > =============
-> > > 
-> > > Currently, 10 video? devices are created:
-> > > 
-> > > 	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
-> > > 	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
-> > > 	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
-> > > 	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
-> > > 	/dev/video3:	Name             : ATOMISP ISP VIDEO output
-> > > 	/dev/video4:	Name             : ATOMISP ISP ACC
-> > > 	/dev/video5:	Name             : ATOMISP ISP MEMORY input
-> > > 	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
-> > > 	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
-> > > 	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
-> > > 	/dev/video9:	Name             : ATOMISP ISP VIDEO output
-> > > 	/dev/video10:	Name             : ATOMISP ISP ACC
-> > > 
-> > > That seems to be written to satisfy some Android-based app, but we don't
-> > > really need all of those.
-> > > 
-> > > I'm thinking to comment out the part of the code which creates all of those,
-> > > keeping just "ATOMISP ISP PREVIEW output", as I don't think we need all
-> > > of those.  
-> > 
-> > Why is that ? Being able to capture multiple streams in different
-> > resolutions is important for lots of applications, the viewfinder
-> > resolution is often different than the video streaming and/or still
-> > capture resolution. Scaling after capture is often expensive (and there
-> > are memory bandwidth and power constraints to take into account too). A
-> > single-stream device may be better than nothing, but it's time to move
-> > to the 21st century.
-> 
-> True, but having multiple videonodes at this moment is not helping,
-> specially since only one of such modes (PREVIEW) is actually working at
-> the moment.
-> 
-> So, this is more a strategy to help focusing on making this work
-> properly, and not a statement that those modules would be dropped.
-> 
-> I'd say that the "final" version of atomisp - once it gets 
-> fixed, cleaned up and started being MC-controlled - should support
-> all such features, and have the pipelines setup via libcamera.
-
-I have no issue with phasing development (I have few issues with the
-atomisp driver in general actually, as it's in staging), but the goal
-should be kept in mind to make sure development goes in the right
-direction.
-
--- 
-Regards,
-
-Laurent Pinchart
