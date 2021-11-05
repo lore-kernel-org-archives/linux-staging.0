@@ -1,184 +1,117 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5EA2C96
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:50:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E87FE61053;
-	Fri,  5 Nov 2021 09:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1636105802;
-	bh=E2drk16sAHpzTFaRkEobTH6+mH6PVvN0aJ5cqnwak34=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tVolZjlXlIB+mmbCVn2G0w4ygFhc1j4w9zM5cd/xqkmpam825+uxqIx3qybXKIzFj
-	 vEMDYF5E3M7DThFR+vNl557KqIpnn5lvag85B4iB8wusolrtPgBDADaKujrzywazkQ
-	 lnOCwNtjncSuTp2UiN4V3blHSPIM5pP5jxJ5lLbM=
-Date: Fri, 5 Nov 2021 10:49:59 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: hoshinomorimorimo@gmail.com
-Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Fix the style problem
-Message-ID: <YYT+R5QpaNc3gJIm@kroah.com>
-References: <618175c4.1c69fb81.bff5d.9cb8@mx.google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211992C96
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:51:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B68F061186;
+	Fri,  5 Nov 2021 09:51:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636105902;
+	bh=Ml1rfA4759bCJ5hExUvKB1NFiv0eVVSsg8nOvtDZBbI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mIB09qWmFGjke32DY9JU0Z3Kx9NJLP67npOZ9e/UNJPxyYaOzctnYqMJHndrXUZYO
+	 VYb1rYQ6CgfiCKn7L08lM2fW4obNi7uQ628Ph+GMsrKjBf5HAtgG5RV6e6BU5velQZ
+	 P3JggRcQ8VP3xYu6PJn4eryRpiO2hZp+pzWgG7AiFuITFqdM97GOJLmKUA+g1MDw+S
+	 x0SlAsc0QwTig06RkbDI9UCaAMReBB/gJxZ/eteh2dLtGuWqSdt86VLsxH3tNIxgJa
+	 H6Hy9g9XymrUxrCcZapjLa/8lo9R0tuDA+YIpSMTRNg95Wz4tvnXi8EOZuYlFnwiKQ
+	 ETZDOtjAl4o2Q==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mivsp-006s87-CB; Fri, 05 Nov 2021 09:51:39 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Alan <alan@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: allocate a v4l2_fh at open time
+Date: Fri,  5 Nov 2021 09:51:38 +0000
+Message-Id: <7a59d8613331d242624e887d9089ded399015a97.1636105894.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <618175c4.1c69fb81.bff5d.9cb8@mx.google.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Wed, Nov 03, 2021 at 01:30:17AM +0800, hoshinomorimorimo@gmail.com wrote:
-> From: Hoshinomori-Owari <hoshinomorimorimo@gmail.com>
-> 
-> Fix block comment at
-> rtw_io.c:8:
-> rtw_io.c:139:
-> rtw_io.c:154:
-> 
-> Remove not useful filename at
-> rtw_io.c:9:
-> 
-> Add a blank line after declarations
-> rtw_io.c:147:
-> 
-> Issue found by checkpatch.pl
-> 
-> Signed-off-by: Hoshinomori-Owari <hoshinomorimorimo@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_io.c | 56 +++++++++++++------------
->  1 file changed, 29 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-> index 4d3c30ec93b5..6c46c6e295d5 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_io.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-> @@ -4,26 +4,27 @@
->   * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
->   *
->   ******************************************************************************/
-> -/*
-> -
-> -The purpose of rtw_io.c
-> -
-> -a. provides the API
-> -
-> -b. provides the protocol engine
-> -
-> -c. provides the software interface between caller and the hardware interface
-> -
->  
-> -Compiler Flag Option:
-> -
-> -1. CONFIG_SDIO_HCI:
-> -    a. USE_SYNC_IRP:  Only sync operations are provided.
-> -    b. USE_ASYNC_IRP:Both sync/async operations are provided.
-> -
-> -jackson@realtek.com.tw
-> -
-> -*/
-> +/*
-> + *
-> + *Purpose:
-> + *
-> + *	a. provides the API
-> + *
-> + *	b. provides the protocol engine
-> + *
-> + *	c. provides the software interface between caller and the hardware interface
-> + *
-> + *
-> + *Compiler Flag Option:
-> + *
-> + *1. CONFIG_SDIO_HCI:
-> + *	a. USE_SYNC_IRP:  Only sync operations are provided.
-> + *	b. USE_ASYNC_IRP:Both sync/async operations are provided.
-> + *
-> + *jackson@realtek.com.tw
-> + *
-> + */
->  
->  #include <drv_types.h>
->  #include <rtw_debug.h>
-> @@ -135,24 +136,25 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
->  	return _SUCCESS;
->  }
->  
-> -/*
-> -* Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
-> -* @return true:
-> -* @return false:
-> -*/
-> +/**
-> + * Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
-> + * @return true:
-> + * @return false:
-> + */
->  int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
->  {
->  	int ret = false;
->  	int value = atomic_inc_return(&dvobj->continual_io_error);
-> +
->  	if (value > MAX_CONTINUAL_IO_ERR)
->  		ret = true;
->  
->  	return ret;
->  }
->  
-> -/*
-> -* Set the continual_io_error of this @param dvobjprive to 0
-> -*/
-> +/**
-> + * Set the continual_io_error of this @param dvobjprive to 0
-> + */
->  void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
->  {
->  	atomic_set(&dvobj->continual_io_error, 0);
-> -- 
-> 2.31.1
-> 
-> 
+This avoids an OOPS when VIDIOC_*_PRIORITY calls are used.
 
-Hi,
+[   90.820011] BUG: kernel NULL pointer dereference, address: 0000000000000020
+[   90.820021] #PF: supervisor read access in kernel mode
+[   90.820026] #PF: error_code(0x0000) - not-present page
+[   90.820030] PGD 1221bc067 P4D 1221bc067 PUD 1221bd067 PMD 0
+[   90.820042] Oops: 0000 [#1] SMP
+[   90.820048] CPU: 0 PID: 2007 Comm: qv4l2 Tainted: G         C        5.15.0-rc4+ #77
+[   90.820055] Hardware name: ASUSTeK COMPUTER INC. T101HA/T101HA, BIOS T101HA.306 04/23/2019
+[   90.820059] RIP: 0010:v4l2_prio_change+0xf/0x40 [videodev]
+[   90.820096] Code: 48 8b 47 20 8b 40 44 25 ff ff 0f 00 48 8b 04 c5 20 58 44 c0 c3 66 0f 1f 44 00 00 0f 1f 44 00 00 8d 42 ff 83 f8 02 77 21 31 c0 <39> 16 74 20 8d 02 f0 ff 04 87 8b 06 89 c1 83 e9 01 83 f9 02 77 04
+[   90.820103] RSP: 0018:ffffb348c142fd70 EFLAGS: 00010246
+[   90.820109] RAX: 0000000000000000 RBX: ffff95575fbe2760 RCX: ffffb348c142fe48
+[   90.820114] RDX: 0000000000000002 RSI: 0000000000000020 RDI: ffff955740996088
+[   90.820118] RBP: 0000000040045644 R08: ffffffffc070da80 R09: 0000000000004000
+[   90.820122] R10: 0000000000000000 R11: 0000000000000000 R12: ffff955766725300
+[   90.820126] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000044
+[   90.820131] FS:  00007f848526b900(0000) GS:ffff9557bbe00000(0000) knlGS:0000000000000000
+[   90.820137] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   90.820141] CR2: 0000000000000020 CR3: 00000001221bf000 CR4: 00000000001006f0
+[   90.820146] Call Trace:
+[   90.820155]  __video_do_ioctl+0x37d/0x3b0 [videodev]
+[   90.820189]  video_usercopy+0x188/0x7a0 [videodev]
+[   90.820218]  ? v4l_print_control+0x20/0x20 [videodev]
+[   90.820247]  ? swake_up_one+0x39/0x70
+[   90.820258]  ? rcu_core+0xff/0x2e0
+[   90.820267]  ? sched_clock_cpu+0x9/0xa0
+[   90.820275]  ? irqtime_account_irq+0x38/0xb0
+[   90.820282]  v4l2_ioctl+0x46/0x50 [videodev]
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/pci/atomisp_fops.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index 7df982c80b1a..41fa0ca2d8d4 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -782,6 +782,15 @@ static int atomisp_open(struct file *file)
+ 	 * FIXME: revisit this with a better check once the code structure
+ 	 * is cleaned up a bit more
+ 	 */
++dev_info(isp->dev, "opening v4l2 fh\n");
++	ret = v4l2_fh_open(file);
++	if (ret) {
++		dev_err(isp->dev,
++			"%s: v4l2_fh_open() returned error %d\n",
++		       __func__, ret);
++		rt_mutex_unlock(&isp->loading);
++		return ret;
++	}
+ 	if (!isp->ready) {
+ 		rt_mutex_unlock(&isp->loading);
+ 		return -ENXIO;
+@@ -1046,7 +1055,7 @@ static int atomisp_release(struct file *file)
+ 	rt_mutex_unlock(&isp->mutex);
+ 	mutex_unlock(&isp->streamoff_mutex);
+ 
+-	return 0;
++	return v4l2_fh_release(file);
+ }
+ 
+ /*
+-- 
+2.31.1
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what is needed in order to
-  properly describe the change.
-
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
