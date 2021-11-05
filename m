@@ -1,212 +1,128 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69B52C9D
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 14:53:27 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id n29so2435541wra.11
-        for <linux-staging@lists.linux.dev>; Fri, 05 Nov 2021 07:53:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15382C9D
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 15:18:43 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id b15so14931765edd.7
+        for <linux-staging@lists.linux.dev>; Fri, 05 Nov 2021 08:18:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=iXLTZXL1GQP1HI9r/QvQqQsWuhIIrqOsmFlp8xIa9EA=;
-        b=s378FoYPpbOvJEqqeuzFQJJ/PPT9UGPGFyvQK0kJrjUMl2vqYFjnIhRzfAnD+Yxz1c
-         wIWQgEUjUATKcu7zviAitnD/Kie0GKxCSKrdD0wQCE2YJGSwszme8HZ9ZSBGebjlDBo5
-         dqXiiaekTEhL9vCP4akjSRj1o/YDfHW5Y9Sj5csljI8CRXuFq9nlAqszS+LCN7geWUGh
-         XDzAn/HLJlqqMF8gy9fr/hHew3Q+BSekoWPpu/AadusPqwVYsu/sW4chCOa4Wdb35QdV
-         EgD0LU1GwIeQ0qqC06iAe3H13Apk5m19FItjl+O4uT1WjFfdy15xIumAswsGjEZT4qjv
-         9xBw==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=i9xZtOveuu4jbIdOFsc814Y2qvvKfwig9WrRvuHTEOg=;
+        b=SCeySTUWTEPQV2arwdlJG6fjA0DTyzalIjPTFdI5rwovEvbB3SYHKjYjhVON5o+CmM
+         WZptJEKjVuH41de6B4gyZJfNRT5WiRWsRH5/Klx9KihJEiavwd4m5Le155FY3J9dbB9C
+         Cj1aVTfbG0x/4Q2ZuQYb6v18Ljg1afv/LCr6WAy4CZN/0s2lR0r1G1q+zjk0vwymJBET
+         GTzmSYKPPaKloWlktF+JrOiyRarsJEEUkeGVuLXUL2RUhyMzlAbW+9qHFFCMCXfGG79O
+         45Gr1hJyzTDM3uhf66YLPShhcTAsAZMnYIb48V/DOiYt/Td8LhzADGvWPv1pj7P1m0+n
+         7sxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=iXLTZXL1GQP1HI9r/QvQqQsWuhIIrqOsmFlp8xIa9EA=;
-        b=SxJsNVVb/X2vElnUqzxkjTx3bXjREmNIyym2Q1jnRtbuJjyrNzP+1kH5NRB1BEHsR0
-         KeXuRJV0oRSXWbBir4qexqGRH7qNoXOPhbcTdnCOATnBf6WSpEBKdTE4akIV5aa+XXO1
-         LoBe1EiL1eRDIeW9p1+jGPCZ9bHziEis0A0yquLO3X8XHN8tUqwD6AHMzv8uE1RRY3dY
-         nq53qWDJp0P/LqoL+6tm/XRNmHaqX40qv/n9lOn0ijx98ZXFVCf266lsiedBA/Q1qBs0
-         8zenzAcTkm9Q4ANv2hMWy7o0/FTvtSbiuaDc3v+cZ7BfAjktlHU66xQgPVmUYMiwJ/Tn
-         3JUg==
-X-Gm-Message-State: AOAM5306J/+i83GMD4MMdw39dznWA+G/bwW+SYgPbA4ZVqxQEG1CV4Re
-	afZIlV63wEQsHIFrG+5qutBFSA==
-X-Google-Smtp-Source: ABdhPJz1uQp/2OsYlQ22lcK92G8Yg5XjL99UT2p/Zrqni2zAlPmMdHMthVbcYCmG7zZys8uRoXs7hg==
-X-Received: by 2002:adf:e306:: with SMTP id b6mr73651599wrj.244.1636124005867;
-        Fri, 05 Nov 2021 07:53:25 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id q84sm14380782wme.3.2021.11.05.07.53.24
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=i9xZtOveuu4jbIdOFsc814Y2qvvKfwig9WrRvuHTEOg=;
+        b=1q7y3J+HpyBgdgy94m5o7TR8++vZElHHGbwRdsUVuqXu7Qx0L6AHihRn/jahER+Ruq
+         RW+qohIhypDO4p3BuXFBlma1a1xdEeAEkkNIRgkfgSDOEG1zPUzb3xJcdktdoI9MapGy
+         eE6D8wjaEe1AENq4uQWE5ryViQJboT9gki/1Twsh1sS3RWCI3OqqKKXAO25kRh7E9T3/
+         F8GGyjc2y0lux8pkFDmQyQrUx0y387u5Boiv7z3UtOCmQ/XhhkEJQvA1xDpmEy6I6Qix
+         4J6tKqJelkSFcUWXrOgyDZeLnUq0xG/TeF+huJ3eUqrMCdH33q+BEkH0UROcGDcjdHYF
+         XK5g==
+X-Gm-Message-State: AOAM532GyWqlcK3jvHDG/X/be5cV+6odIZ9+RBYPQs8HEEcG7FaRoomH
+	1nk9HeKmh+ccxMegaVJsSz0=
+X-Google-Smtp-Source: ABdhPJwAQgvJbA2xcqECODxSkWfim6E2m5qDTQG583ZUpRmlufSeQZraovhAJhNdunWKA7OBC9L9zw==
+X-Received: by 2002:a17:906:7044:: with SMTP id r4mr41149163ejj.256.1636125522075;
+        Fri, 05 Nov 2021 08:18:42 -0700 (PDT)
+Received: from localhost.localdomain (host-79-56-54-101.retail.telecomitalia.it. [79.56.54.101])
+        by smtp.gmail.com with ESMTPSA id hd15sm4473126ejc.69.2021.11.05.08.18.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 07:53:25 -0700 (PDT)
-Date: Fri, 5 Nov 2021 15:53:23 +0100
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
-Message-ID: <YYVFY6NSdlKiIKK3@Red>
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
- <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl>
- <YYKxTrWI299pvqo7@Red>
- <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
+        Fri, 05 Nov 2021 08:18:41 -0700 (PDT)
+From: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>, Phillip Potter <phil@philpotter.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: r8188eu: Use kzalloc() with GFP_ATOMIC in atomic context
+Date: Fri, 05 Nov 2021 16:18:39 +0100
+Message-ID: <3198013.HnMX8GfXRX@localhost.localdomain>
+In-Reply-To: <20211105132551.GB2001@kadam>
+References: <20211101191847.6749-1-fmdefrancesco@gmail.com> <20211105132551.GB2001@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Le Wed, Nov 03, 2021 at 05:29:46PM +0100, Hans Verkuil a écrit :
-> On 03/11/2021 16:57, LABBE Corentin wrote:
-> > Le Wed, Nov 03, 2021 at 04:21:02PM +0100, Hans Verkuil a écrit :
-> >> Hi Corentin,
-> >>
-> >> On 26/10/2021 21:34, Corentin Labbe wrote:
-> >>> Hello
-> >>>
-> >>> The main change of this serie is to fusion all zoran related modules in
-> >>> one.
-> >>> This fixes the load order problem when everything is built-in.
-> >>
-> >> I've been testing this series, and while the module load/unload is now working,
-> >> I'm running into a lot of other v4l2 compliance issues.
-> >>
-> >> I've fixed various issues in some follow-up patches available in my tree:
-> >>
-> >> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
-> >>
-> >> At least some of the worst offenders are now resolved. Note that the patch
-> >> dropping read/write support relies on this patch:
-> >>
-> >> https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
+On Friday, November 5, 2021 2:25:52 PM CET Dan Carpenter wrote:
+> On Mon, Nov 01, 2021 at 08:18:47PM +0100, Fabio M. De Francesco wrote:
+> > Use the GFP_ATOMIC flag of kzalloc() with two memory allocation in
+> > report_del_sta_event(). This function is called while holding spinlocks,
+> > therefore it is not allowed to sleep. With the GFP_ATOMIC type flag, the
+> > allocation is high priority and must not sleep.
 > > 
-> > Hello
+> > This issue is detected by Smatch which emits the following warning:
+> > "drivers/staging/r8188eu/core/rtw_mlme_ext.c:6848 report_del_sta_event()
+> > warn: sleeping in atomic context".
 > > 
-> > My test branch already included your "zoran: fix various V4L2 compliance errors"
-> > I have quickly checked other patch and I am ok with them.
-> > I will add and test with them.
+> > After the change, the post-commit hook output the following message:
+> > "CHECK: Prefer kzalloc(sizeof(*pcmd_obj)...) over
+> > kzalloc(sizeof(struct cmd_obj)...)".
 > > 
-> >>
-> >> But there is one really major bug that makes me hesitant to merge this:
-> >>
-> >> This works:
-> >>
-> >> v4l2-ctl -v pixelformat=MJPG,width=768,height=576
-> >> v4l2-ctl --stream-mmap
-> >>
-> >> This fails:
-> >>
-> >> v4l2-ctl -v pixelformat=MJPG,width=768,height=288
-> >> v4l2-ctl --stream-mmap
-> >>
-> >> It's an immediate lock up with nothing to indicate what is wrong.
-> >> As soon as the height is 288 or less, this happens.
-> >>
-> >> Both with my DC30 and DC30D.
+> > According to the above "CHECK", use the preferred style in the first
+> > kzalloc().
 > > 
-> > Just for curiosity, what is the difference between thoses two ?
+> > Fixes: 79f712ea994d ("staging: r8188eu: Remove wrappers for kalloc() and 
+kzalloc()")
 > 
-> It's the DC30 variant without an adv7175.
+> This is not the correct Fixes tag.  The original allocation wrappers
+> checked in_interrupt() they did not check in_atomic() so they had same
+> bug.  The correct tag is:
+> 
+> Fixes: 15865124feed ("staging: r8188eu: introduce new core dir for 
+RTL8188eu driver")
+> 
+> regards,
+> dan carpenter
 
-So my patch removing adv7175 from DC30 is wrong.
-I need to add a new DC30D.
+Hello Dan,
 
-> 
-> > 
-> >>
-> >> Do you see the same? Any idea what is going on? I would feel much happier
-> >> if this is fixed.
-> >>
-> >> Note that the same problem is present without this patch series, so it's
-> >> been there for some time.
-> >>
-> > 
-> > I will start on digging this problem and add thoses commands to my CI.
-> > And I know there are a huge quantity of problem since origins.
-> > A simple example is that just setting MJPEG as default input format does not work.
-> > 
-> > But since it is not related to my serie, can you please merge it.
-> 
-> Before I do that, I would really like to know a bit more about this issue:
-> can you reproduce it? Is it DC30 specific or a general problem with zoran?
-> 
-> The problem with this hard hang is that it is hard to do regression testing
-> with v4l2-compliance, since it will hang as soon as MJPG pixelformat is
-> tested.
-> 
-> I would feel much happier if the hang can be avoided, even if it is just
-> with a temporary hack. It will make it much easier going forward.
-> 
+I'm sorry but I surely missing something, therefore, before making changes I 
+need to understand this subject a little better. Let me explain what I am 
+missing...
 
-I hit the same problem with my DC10+.
-I got the following trace:
-[   97.022391] BUG: kernel NULL pointer dereference, address: 0000000000000018
-[   97.029357] #PF: supervisor write access in kernel mode
-[   97.034579] #PF: error_code(0x0002) - not-present page
-[   97.039712] PGD 100e30067 P4D 100e30067 PUD 11c958067 PMD 0 
-[   97.045370] Oops: 0002 [#1] PREEMPT SMP NOPTI
-[   97.049723] CPU: 0 PID: 0 Comm: swapper/0 Tainted: G         C        5.15.0-next-20211105+ #126
-[   97.058500] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./K10N78, BIOS P2.00 07/01/2010
-[   97.067791] RIP: 0010:zoran_irq+0x178/0x2e0 [zr36067]
-[   97.072845] Code: 01 8d 5c 00 01 48 8b 85 90 0c 00 00 48 63 db 44 8b 2c 98 41 f6 c5 01 0f 84 64 01 00 00 4c 8b bc dd 38 0d 00 00 e8 98 72 a1 fa <49> 89 47 18 83 bd 90 0b 00 00 01 0f 84 da 00 00 00 48 8b 85 68 0c
-[   97.091590] RSP: 0018:ffffa57040003f00 EFLAGS: 00010016
-[   97.096807] RAX: 000000169273a7d2 RBX: 0000000000000001 RCX: 0000000000000018
-[   97.103932] RDX: 000000830c927d90 RSI: 000000000000d33a RDI: 00041965ba87a734
-[   97.111063] RBP: ffff9d845cce1028 R08: 00000000005b6db7 R09: 0000000000000000
-[   97.118188] R10: 0000000000000000 R11: ffffa57040003ff8 R12: 0000000000000065
-[   97.125312] R13: 0000000004027541 R14: ffff9d845cce1d58 R15: 0000000000000000
-[   97.132434] FS:  0000000000000000(0000) GS:ffff9d845fc00000(0000) knlGS:0000000000000000
-[   97.140513] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   97.146249] CR2: 0000000000000018 CR3: 000000011c956000 CR4: 00000000000006f0
-[   97.153374] Call Trace:
-[   97.155822]  <IRQ>
-[   97.157840]  __handle_irq_event_percpu+0x35/0x180
-[   97.162546]  handle_irq_event+0x50/0xb0
-[   97.166384]  handle_fasteoi_irq+0x8b/0x1e0
-[   97.170483]  __common_interrupt+0x64/0x100
-[   97.174581]  common_interrupt+0x9f/0xc0
-[   97.178414]  </IRQ>
-[   97.180510]  <TASK>
-[   97.182609]  asm_common_interrupt+0x1e/0x40
-[   97.186793] RIP: 0010:acpi_idle_do_entry+0x47/0x50
-[   97.191585] Code: 08 48 8b 15 1f db 5d 01 ed c3 e9 64 fd ff ff 65 48 8b 04 25 00 ad 01 00 48 8b 00 a8 08 75 ea eb 07 0f 00 2d 0b 80 5b 00 fb f4 <fa> c3 cc cc cc cc cc cc cc 41 56 49 89 f6 41 55 41 89 d5 41 54 55
-[   97.210323] RSP: 0018:ffffffffbc603e30 EFLAGS: 00000246
-[   97.215539] RAX: 0000000000004000 RBX: ffff9d84413f1c00 RCX: 000000000000001f
-[   97.222666] RDX: ffff9d845fc00000 RSI: ffff9d8440165000 RDI: ffff9d8440165064
-[   97.229798] RBP: ffff9d8440165064 R08: 000000000001184d R09: 0000000000000018
-[   97.236921] R10: 00000000000029cc R11: 000000000000318c R12: 0000000000000001
-[   97.244046] R13: ffffffffbc7c3e20 R14: 0000000000000001 R15: 0000000000000000
-[   97.251178]  acpi_idle_enter+0x99/0xe0
-[   97.254931]  cpuidle_enter_state+0x84/0x360
-[   97.259118]  cpuidle_enter+0x24/0x40
-[   97.262698]  do_idle+0x1d0/0x250
-[   97.265928]  cpu_startup_entry+0x14/0x20
-[   97.269846]  start_kernel+0x63a/0x65f
-[   97.273514]  secondary_startup_64_no_verify+0xc2/0xcb
-[   97.278565]  </TASK>
-[   97.280748] Modules linked in: adv7175 saa7110 zr36067(C) videobuf2_dma_contig
-[   97.287970] CR2: 0000000000000018
-[   97.291279] ---[ end trace 0ee22c5269015e89 ]---
-[   97.295888] RIP: 0010:zoran_irq+0x178/0x2e0 [zr36067]
-[   97.300941] Code: 01 8d 5c 00 01 48 8b 85 90 0c 00 00 48 63 db 44 8b 2c 98 41 f6 c5 01 0f 84 64 01 00 00 4c 8b bc dd 38 0d 00 00 e8 98 72 a1 fa <49> 89 47 18 83 bd 90 0b 00 00 01 0f 84 da 00 00 00 48 8b 85 68 0c
-[   97.319679] RSP: 0018:ffffa57040003f00 EFLAGS: 00010016
-[   97.324896] RAX: 000000169273a7d2 RBX: 0000000000000001 RCX: 0000000000000018
-[   97.332019] RDX: 000000830c927d90 RSI: 000000000000d33a RDI: 00041965ba87a734
-[   97.339144] RBP: ffff9d845cce1028 R08: 00000000005b6db7 R09: 0000000000000000
-[   97.346276] R10: 0000000000000000 R11: ffffa57040003ff8 R12: 0000000000000065
-[   97.353401] R13: 0000000004027541 R14: ffff9d845cce1d58 R15: 0000000000000000
-[   97.360525] FS:  0000000000000000(0000) GS:ffff9d845fc00000(0000) knlGS:0000000000000000
-[   97.368603] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   97.374340] CR2: 0000000000000018 CR3: 000000011c956000 CR4: 00000000000006f0
-[   97.381464] Kernel panic - not syncing: Fatal exception in interrupt
-[   97.387810] Kernel Offset: 0x39c00000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
-[   97.398580] ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
+The two kzalloc() in report_del_sta_event() are called while spinlocks are 
+held and bottom halves are disabled by spin_lock_bh(). If I remember it 
+correctly spin_lock_bh() finally calls __local_bh_disable_ip() to disable 
+bottom halves on local CPU before actually acquiring the lock.
 
-x86_64-pc-linux-gnu-addr2line -e vmlinux zoran_irq+0x16f/0x2e0
-/usr/src/linux-next/arch/x86/include/asm/processor.h:443
+This is the code and inline documentation of in_interrupt():
 
-I have no more clue for the moment.
+/* in_interrupt() - We're in NMI,IRQ,SoftIRQ context or have BH disabled" */
+#define irq_count()	(nmi_count() | hardirq_count() | softirq_count())
+#define in_interrupt()		(irq_count())
+
+And this is the code and inline documentation of in_atomic():
+
+"/*
+ * Are we running in atomic context?  WARNING: this macro cannot
+ * always detect atomic context; in particular, it cannot know about
+ * held spinlocks in non-preemptible kernels.  Thus it should not be
+ * used in the general case to determine whether sleeping is possible.
+ * Do not use in_atomic() in driver code.
+ */
+#define in_atomic()	(preempt_count() != 0)
+
+To summarize, I think that using in_interrupt() in the old wrappers was the 
+wiser choice. Therefore this patch fixes 79f712ea994d ("staging: r8188eu: 
+Remove wrappers for kalloc() and kzalloc()").
+
+I know that I have so little experience that I shouldn't even discuss this 
+topics. However, I would appreciate if you may explain with some more details 
+why in_atomic() should have been preferred over in_interrupt() in the old 
+wrappers that were removed with commit 79f712ea994d.
+
+Thank you very much in advance,
+
+Fabio M. De Francesco
+
+
