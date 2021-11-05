@@ -1,177 +1,97 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7222C80
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 04:35:15 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id l19so8446315ilk.0
-        for <linux-staging@lists.linux.dev>; Thu, 04 Nov 2021 21:35:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=MDBbmi2eY2q0ZXWE+Ya451qYAOeNmxVtbLMAzBWO2Do=;
-        b=YhEAaKXC5wK4Qg4ZfNr34PGjgASNGlyzmNs7DSqbC27uWN/eH5jXEisZMJMn/SCSMG
-         pOQY3BFqsXIeLwNnFye57U+kZXTcBpZu88dPwu7LpKgQGFTW/0aTLSYGdH1sOMDNDE26
-         mSpM5VNeQ9CoVwonBee1ArsuZWS5o5lqsgl1mRa1LUm+5qeRNr+Gt8tt9P/zzQpm0cwK
-         3sqI8ujuH7dGhr3cwvkuyu+kldG8kRxEr4ztbfgSn+KnO9qaYenEQ8ccHlXKkaftYFQi
-         m30C4sS8Ttcett+s8mPlFRhg6A/oogJXGffOWW2vtAzao7K23YDS4anjHWfS2YiLinSV
-         tmgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=MDBbmi2eY2q0ZXWE+Ya451qYAOeNmxVtbLMAzBWO2Do=;
-        b=A4eJ1PMby7t7KPkdpzZ66H2wMpiAe2vKqJRVpjSTJ1yrTkN5pAWyePZlpFbEA3FJ2j
-         NJXqUMdiC7gC10Iz+95Njy7HqkHsChajQIb4pXWbS34niMKWf12YJ2Ge8mnZfpLS8KWf
-         6Bec01zsAUDzu1wTJOh7xfq5ZH7BmiiHb6QVKPVwmkzatAw4PnDBdQWJ5FtZWhfs6YKC
-         WfExobYv+zT7BmpuE52e5KTef51uSz6RlqVsrNsLtnOwAtf9ITEnYfXzUjl18tap0HmJ
-         uf0XZZmXn03YNA2iz/uwgsFZnDpJ+GVe79NwsiBk3cA2kmpfT2KluFTUg4Xrh5wPqu5W
-         EszA==
-X-Gm-Message-State: AOAM532i5QE/PmLOxOcFOVQsZElKKzwdLbwcQRqRON7oMobtF0ksYI+V
-	V3KRk6gFfVrvGyFJKdI8tsLg+jBL7IuVbW+XhjUgGyB8rvA=
-X-Google-Smtp-Source: ABdhPJyRb5S0VdqNPJC4jAMOUdF4SphKF2bJgT8udKKOvigSmskJdCAjoM0IlZEqk7anv/WNFMGHQKpDckDtOE+2A5o=
-X-Received: by 2002:a05:6e02:12e6:: with SMTP id l6mr10792571iln.231.1636086914861;
- Thu, 04 Nov 2021 21:35:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225BC68
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 08:28:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A1EC161212;
+	Fri,  5 Nov 2021 08:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1636100936;
+	bh=d8ClCd+ktXC6e1v43RbHJZ+dioNorMIQdJIcBGJ/ADg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XeP9OBW0SDcsGQZfQT5VVghu9XkoT796Z6Wro/WYvAHmHZiFWJ4FNHbL738VQKGfg
+	 Fv3fAMd4G1dnxHturxWvfrtrBCDY4UlmvkASl6e/FhExwvcoeGnnjgl0r9Lv1agPh5
+	 Pf1Xno98bqAFd6Vz2InD/qvkOPQvuhRcFgge5U1A=
+Date: Fri, 5 Nov 2021 09:28:53 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Saurav Girepunje <saurav.girepunje@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] staging: r8188eu: hal: else is not useful after a return
+Message-ID: <YYTrRfHRaZCJtYsg@kroah.com>
+References: <YX7iBmKKNZfj8Gca@Sauravs-MacBook-Air.local>
+ <YX/lRMNGsCZMKAV3@kroah.com>
+ <5013033b-b1f1-aef7-9fb8-a8431e83960b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Zameer Manji <zmanji@gmail.com>
-Date: Fri, 5 Nov 2021 00:34:49 -0400
-Message-ID: <CABtXzjTvsN8sCQq0tMG+VZ8Vu04a1zR20P-hbQf-Mnpmu2gTNg@mail.gmail.com>
-Subject: r8188eu driver in 5.15 only shows wifi networks on channel 11
-To: linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5013033b-b1f1-aef7-9fb8-a8431e83960b@gmail.com>
 
-Hello,
+On Tue, Nov 02, 2021 at 12:53:33AM +0530, Saurav Girepunje wrote:
+> 
+> 
+> On 01/11/21 6:31 pm, Greg KH wrote:
+> > On Mon, Nov 01, 2021 at 12:05:50AM +0530, Saurav Girepunje wrote:
+> >> In the function rtl8188eu_hal_init() else after the return statement
+> >> of the if section is not useful. As if condition is true function will
+> >> return from if section, On the other case if condition is false
+> >> function will not return and statement after the if section will
+> >> execute, So there is no need to have else in this case. Remove the
+> >> else after a return statement of the if section.
+> >>
+> >> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> >> ---
+> >>  drivers/staging/r8188eu/hal/usb_halinit.c | 7 ++++---
+> >>  1 file changed, 4 insertions(+), 3 deletions(-)
+> > 
+> > 
+> > Hi,
+> > 
+> > This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+> > a patch that has triggered this response.  He used to manually respond
+> > to these common problems, but in order to save his sanity (he kept
+> > writing the same thing over and over, yet to different people), I was
+> > created.  Hopefully you will not take offence and will fix the problem
+> > in your patch and resubmit it so that it can be accepted into the Linux
+> > kernel tree.
+> > 
+> > You are receiving this message because of the following common error(s)
+> > as indicated below:
+> > 
+> > - You sent multiple patches, yet no indication of which ones should be
+> >   applied in which order.  Greg could just guess, but if you are
+> >   receiving this email, he guessed wrong and the patches didn't apply.
+> >   Please read the section entitled "The canonical patch format" in the
+> >   kernel file, Documentation/SubmittingPatches for a description of how
+> >   to do this so that Greg has a chance to apply these correctly.
+> > 
+> > If you wish to discuss this problem further, or you have questions about
+> > how to resolve this issue, please feel free to respond to this email and
+> > Greg will reply once he has dug out from the pending patches received
+> > from other developers.
+> > 
+> > thanks,
+> > 
+> > greg k-h's patch email bot>
+> 
+> Hi Greg,
+> 
+> I have send only one patch for usb_halinit.c.
+> However I have send another patch staging: r8188eu: hal: break after the return not useful
+> for another file HalPwrSeqCmd.c both are on same path drivers/staging/r8188eu/hal/ 
 
-I am reporting a regression in 5.15 in the r8188eu driver. Apologies
-if this is not the right mailing list to report the issue, I am not
-sure if reporting issues in staging drivers is appropriate for
-linux-wireless list.
+That's great, but when you send multiple patches at once, you need to
+send them as a patch series so they are applied in the correct order.
 
-I have a TP Link TL-WN725N device [0]. With 5.14 it is able to connect
-to my wifi network and operate as expected. With 5.15 it is not able
-to, the root cause appears that the wifi network no longer shows up in
-`iwlist wlan0 scanning`. Here is the entry that shows up in 5.14 but
-not in 5.15:
-```
-          Cell 01 - Address: A0:40:A0:85:B9:FA
-                    ESSID:"WIFI.-SLOW"
-                    Protocol:IEEE 802.11bgn
-                    Mode:Master
-                    Frequency:2.447 GHz (Channel 8)
-                    Encryption key:on
-                    Bit Rates:144 Mb/s
-                    Extra:rsn_ie=30140100000fac040100000fac040100000fac020c00
-                    IE: IEEE 802.11i/WPA2 Version 1
-                        Group Cipher : CCMP
-                        Pairwise Ciphers (1) : CCMP
-                        Authentication Suites (1) : PSK
-                    IE: Unknown:
-DD7D0050F204104A0001101044000102103B000103104700105AAA8B8AF2347DC2798F056F8BC933551021000D4E4554474541522C20496E632E10230006523730303050102400065237303030501042000233321054000800060050F204000110110006523730303050100800022008103C0001031049000600372A000120
-                    Quality=100/100  Signal level=100/100
-```
+Please fix that up here and do so.
 
-The only networks that show up in `iwlist wlan0 scanning` in 5.15 have
-`Frequency:2.462 GHz (Channel 11)` networks on other channels do not
-show up.
+thanks,
 
-I don't have any kernel parameters set, and I am using the same
-firmware for both kernels. If it matters, the kernels were taken from
-Ubuntu's Mainline PPA [1].
-
-Full output from lsusb for this device.
-
-```
-Bus 003 Device 002: ID 0bda:8179 Realtek Semiconductor Corp.
-RTL8188EUS 802.11n Wireless Network Adapter
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass            0
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0        64
-  idVendor           0x0bda Realtek Semiconductor Corp.
-  idProduct          0x8179 RTL8188EUS 802.11n Wireless Network Adapter
-  bcdDevice            0.00
-  iManufacturer           1 Realtek
-  iProduct                2 802.11n NIC
-  iSerial                 3 00E04C0001
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x0027
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0xa0
-      (Bus Powered)
-      Remote Wakeup
-    MaxPower              500mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           3
-      bInterfaceClass       255 Vendor Specific Class
-      bInterfaceSubClass    255 Vendor Specific Subclass
-      bInterfaceProtocol    255 Vendor Specific Protocol
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x03  EP 3 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0200  1x 512 bytes
-        bInterval               0
-```
-
-Related dmesg output in 5.15
-```
-[   13.542110] r8188eu: module is from the staging directory, the
-quality is unknown, you have been warned.
-[   13.570753] Chip Version Info:
-CHIP_8188E_Normal_Chip_TSMC_D_CUT_1T1R_RomVer(0)
-[   13.623399] EEPROM ID = 0x8129
-[   13.646796] usbcore: registered new interface driver r8188eu
-[   14.416673] R8188EU: Firmware Version 11, SubVersion 1, Signature 0x88e1
-[   15.484020] R8188EU: INFO indicate disassoc
-```
-
-Please let me know if any other information is needed in root causing
-this bug, or if this bug should
-be directed elsewhere.
-
-[0] Available here
-https://www.amazon.com/TP-Link-wireless-network-Adapter-SoftAP/dp/B008IFXQFU/
-[1] https://kernel.ubuntu.com/~kernel-ppa/mainline/
--- 
-Zameer Manji
+greg k-h
