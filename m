@@ -1,238 +1,184 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B633E2C96
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:20:32 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id bi35so17397002lfb.9
-        for <linux-staging@lists.linux.dev>; Fri, 05 Nov 2021 02:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:cc:from:in-reply-to:content-transfer-encoding;
-        bh=FeZmmcd4rwspIO+mtLRKz54Py4NbbNEstTuM41+Lv1U=;
-        b=kfsPm/1i7B9yi+RrqNNgD7PqiSFwaDRgEQFSWRuD/S0VrvtNyJtQhVAPInQu0boDdL
-         xAGepa5PVfjxqO1idMBP8J61DUF76YUi3vsbL1iM8bqE4OwRCUssPKWTpqD7fkfEJDes
-         Tsdq9k5Tu5G2LHa3IJZD7Vls41KG7yBXRhtlGrgWTGta72weJlDbDJU5GsM6jcrPA1oK
-         qja97sndcI1l0Y3jWpcgXKxeyxS2rW9Ku6VQvSoDQRVAHjLD1olDx7JW6QNA93ODhWhn
-         sk5UK0bW4WfRIpOAhTfsp2qRWL3iebIPszXyzrtW/5lekGS9UWffLzPQNPqTXR2QR/Hk
-         0WtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:cc:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FeZmmcd4rwspIO+mtLRKz54Py4NbbNEstTuM41+Lv1U=;
-        b=S8RKxsdGpFxozhUb4+8edkfWyqcdwPlWycnYtranooaL71xtCh6Ypes6BHnDnIjIQG
-         1rbFDxryKp8bvP856/FO2Z5RC5hYyzkafF7QmDqnADDzSkBq6ZpY3SZA7F1qw3OXKW6L
-         JlDTxD7bMB4kaESNsGCHazfs1sukUFk5oONP0Y+VlIbgRBM8HtJVxDGs5v6Q4mQ+cqbs
-         NWnJ4QVQiziTh37kxB5nWvdwiMwgnpwYQyLFOnskOaSd2vKiYd4tBWm00jz9KUdx+p6D
-         MOGIclOwnmaCZPVLnUJQdQ86Dd1wFy/+XmQJywGS4RIgBYDqZaiFa3C5NU3eM8WP4YhH
-         btOg==
-X-Gm-Message-State: AOAM531GbLSAcySSfc20vC19EG4bmevwwTbDPnuZlZqif7Fj050VLNy/
-	MdGy2O9524TuTFVx4oPt0yNpECH+TSc=
-X-Google-Smtp-Source: ABdhPJzUg7SbL6xN++stG1xq6Snk5GQs1ROj4zUQTq3MiPKYHdJPQ6Qk3LMGXVkzkoEVKFXWMNBxww==
-X-Received: by 2002:a05:6512:4024:: with SMTP id br36mr6100655lfb.137.1636104030607;
-        Fri, 05 Nov 2021 02:20:30 -0700 (PDT)
-Received: from [192.168.1.11] ([217.117.245.207])
-        by smtp.gmail.com with ESMTPSA id 68sm642394ljf.80.2021.11.05.02.20.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Nov 2021 02:20:29 -0700 (PDT)
-Message-ID: <2d7b9450-159b-f244-f4c3-e9db753f83eb@gmail.com>
-Date: Fri, 5 Nov 2021 12:20:28 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5EA2C96
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:50:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E87FE61053;
+	Fri,  5 Nov 2021 09:50:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1636105802;
+	bh=E2drk16sAHpzTFaRkEobTH6+mH6PVvN0aJ5cqnwak34=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tVolZjlXlIB+mmbCVn2G0w4ygFhc1j4w9zM5cd/xqkmpam825+uxqIx3qybXKIzFj
+	 vEMDYF5E3M7DThFR+vNl557KqIpnn5lvag85B4iB8wusolrtPgBDADaKujrzywazkQ
+	 lnOCwNtjncSuTp2UiN4V3blHSPIM5pP5jxJ5lLbM=
+Date: Fri, 5 Nov 2021 10:49:59 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: hoshinomorimorimo@gmail.com
+Cc: fabioaiuto83@gmail.com, ross.schm.dev@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Fix the style problem
+Message-ID: <YYT+R5QpaNc3gJIm@kroah.com>
+References: <618175c4.1c69fb81.bff5d.9cb8@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: r8188eu driver in 5.15 only shows wifi networks on channel 11
-Content-Language: en-US
-To: Zameer Manji <zmanji@gmail.com>, linux-staging@lists.linux.dev
-References: <CABtXzjTvsN8sCQq0tMG+VZ8Vu04a1zR20P-hbQf-Mnpmu2gTNg@mail.gmail.com>
-Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Phillip Potter <phil@philpotter.co.uk>,
- Larry Finger <Larry.Finger@lwfinger.net>, Martin Kaiser <martin@kaiser.cx>,
- Michael Straube <straube.linux@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <CABtXzjTvsN8sCQq0tMG+VZ8Vu04a1zR20P-hbQf-Mnpmu2gTNg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <618175c4.1c69fb81.bff5d.9cb8@mx.google.com>
 
-On 11/5/21 07:34, Zameer Manji wrote:
-
-[ +CC other guys related to r8188eu ]
-
-> Hello,
+On Wed, Nov 03, 2021 at 01:30:17AM +0800, hoshinomorimorimo@gmail.com wrote:
+> From: Hoshinomori-Owari <hoshinomorimorimo@gmail.com>
 > 
-> I am reporting a regression in 5.15 in the r8188eu driver. Apologies
-> if this is not the right mailing list to report the issue, I am not
-> sure if reporting issues in staging drivers is appropriate for
-> linux-wireless list.
+> Fix block comment at
+> rtw_io.c:8:
+> rtw_io.c:139:
+> rtw_io.c:154:
 > 
-> I have a TP Link TL-WN725N device [0]. With 5.14 it is able to connect
-> to my wifi network and operate as expected. With 5.15 it is not able
-> to, the root cause appears that the wifi network no longer shows up in
-> `iwlist wlan0 scanning`. Here is the entry that shows up in 5.14 but
-> not in 5.15:
-> ```
->            Cell 01 - Address: A0:40:A0:85:B9:FA
->                      ESSID:"WIFI.-SLOW"
->                      Protocol:IEEE 802.11bgn
->                      Mode:Master
->                      Frequency:2.447 GHz (Channel 8)
->                      Encryption key:on
->                      Bit Rates:144 Mb/s
->                      Extra:rsn_ie=30140100000fac040100000fac040100000fac020c00
->                      IE: IEEE 802.11i/WPA2 Version 1
->                          Group Cipher : CCMP
->                          Pairwise Ciphers (1) : CCMP
->                          Authentication Suites (1) : PSK
->                      IE: Unknown:
-> DD7D0050F204104A0001101044000102103B000103104700105AAA8B8AF2347DC2798F056F8BC933551021000D4E4554474541522C20496E632E10230006523730303050102400065237303030501042000233321054000800060050F204000110110006523730303050100800022008103C0001031049000600372A000120
->                      Quality=100/100  Signal level=100/100
-> ```
+> Remove not useful filename at
+> rtw_io.c:9:
 > 
-> The only networks that show up in `iwlist wlan0 scanning` in 5.15 have
-> `Frequency:2.462 GHz (Channel 11)` networks on other channels do not
-> show up.
+> Add a blank line after declarations
+> rtw_io.c:147:
 > 
-
-Can you try to bisect to offending commit? I've just tested v5.15 kernel 
-on my test vm and I see following output:
-
-```
-
-root@syzkaller:~# iwlist wlx28ee5214eeb6 scanning | grep "Channel"
-                     Frequency:2.412 GHz (Channel 1)
-                     Frequency:2.412 GHz (Channel 1)
-                     Frequency:2.417 GHz (Channel 2)
-                     Frequency:2.417 GHz (Channel 2)
-                     Frequency:2.427 GHz (Channel 4)
-                     Frequency:2.422 GHz (Channel 3)
-                     Frequency:2.417 GHz (Channel 2)
-                     Frequency:2.437 GHz (Channel 6)
-                     Frequency:2.427 GHz (Channel 4)
-                     Frequency:2.442 GHz (Channel 7)
-                     Frequency:2.462 GHz (Channel 11)
-                     Frequency:2.462 GHz (Channel 11)
-                     Frequency:2.457 GHz (Channel 10)
-                     Frequency:2.467 GHz (Channel 12)
-                     Frequency:2.472 GHz (Channel 13)
-                     Frequency:2.412 GHz (Channel 1)
-                     Frequency:2.412 GHz (Channel 1)
-                     Frequency:2.442 GHz (Channel 7)
-                     Frequency:2.472 GHz (Channel 13)
-root@syzkaller:~# uname -r
-5.15.0
-root@syzkaller:~#
-
-```
-
-And I am able to connect to my Wi-Fi.
-
-I see only weird slab-out-of-bounce bug with debug=9, but, I think, it's 
-unrelated to your problem. Bisection would be really great :)
-
-
-
-
-With regards,
-Pavel Skripkin
-
-
-> I don't have any kernel parameters set, and I am using the same
-> firmware for both kernels. If it matters, the kernels were taken from
-> Ubuntu's Mainline PPA [1].
+> Issue found by checkpatch.pl
 > 
-> Full output from lsusb for this device.
+> Signed-off-by: Hoshinomori-Owari <hoshinomorimorimo@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_io.c | 56 +++++++++++++------------
+>  1 file changed, 29 insertions(+), 27 deletions(-)
 > 
-> ```
-> Bus 003 Device 002: ID 0bda:8179 Realtek Semiconductor Corp.
-> RTL8188EUS 802.11n Wireless Network Adapter
-> Device Descriptor:
->    bLength                18
->    bDescriptorType         1
->    bcdUSB               2.00
->    bDeviceClass            0
->    bDeviceSubClass         0
->    bDeviceProtocol         0
->    bMaxPacketSize0        64
->    idVendor           0x0bda Realtek Semiconductor Corp.
->    idProduct          0x8179 RTL8188EUS 802.11n Wireless Network Adapter
->    bcdDevice            0.00
->    iManufacturer           1 Realtek
->    iProduct                2 802.11n NIC
->    iSerial                 3 00E04C0001
->    bNumConfigurations      1
->    Configuration Descriptor:
->      bLength                 9
->      bDescriptorType         2
->      wTotalLength       0x0027
->      bNumInterfaces          1
->      bConfigurationValue     1
->      iConfiguration          0
->      bmAttributes         0xa0
->        (Bus Powered)
->        Remote Wakeup
->      MaxPower              500mA
->      Interface Descriptor:
->        bLength                 9
->        bDescriptorType         4
->        bInterfaceNumber        0
->        bAlternateSetting       0
->        bNumEndpoints           3
->        bInterfaceClass       255 Vendor Specific Class
->        bInterfaceSubClass    255 Vendor Specific Subclass
->        bInterfaceProtocol    255 Vendor Specific Protocol
->        iInterface              0
->        Endpoint Descriptor:
->          bLength                 7
->          bDescriptorType         5
->          bEndpointAddress     0x81  EP 1 IN
->          bmAttributes            2
->            Transfer Type            Bulk
->            Synch Type               None
->            Usage Type               Data
->          wMaxPacketSize     0x0200  1x 512 bytes
->          bInterval               0
->        Endpoint Descriptor:
->          bLength                 7
->          bDescriptorType         5
->          bEndpointAddress     0x02  EP 2 OUT
->          bmAttributes            2
->            Transfer Type            Bulk
->            Synch Type               None
->            Usage Type               Data
->          wMaxPacketSize     0x0200  1x 512 bytes
->          bInterval               0
->        Endpoint Descriptor:
->          bLength                 7
->          bDescriptorType         5
->          bEndpointAddress     0x03  EP 3 OUT
->          bmAttributes            2
->            Transfer Type            Bulk
->            Synch Type               None
->            Usage Type               Data
->          wMaxPacketSize     0x0200  1x 512 bytes
->          bInterval               0
-> ```
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+> index 4d3c30ec93b5..6c46c6e295d5 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_io.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+> @@ -4,26 +4,27 @@
+>   * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+>   *
+>   ******************************************************************************/
+> -/*
+> -
+> -The purpose of rtw_io.c
+> -
+> -a. provides the API
+> -
+> -b. provides the protocol engine
+> -
+> -c. provides the software interface between caller and the hardware interface
+> -
+>  
+> -Compiler Flag Option:
+> -
+> -1. CONFIG_SDIO_HCI:
+> -    a. USE_SYNC_IRP:  Only sync operations are provided.
+> -    b. USE_ASYNC_IRP:Both sync/async operations are provided.
+> -
+> -jackson@realtek.com.tw
+> -
+> -*/
+> +/*
+> + *
+> + *Purpose:
+> + *
+> + *	a. provides the API
+> + *
+> + *	b. provides the protocol engine
+> + *
+> + *	c. provides the software interface between caller and the hardware interface
+> + *
+> + *
+> + *Compiler Flag Option:
+> + *
+> + *1. CONFIG_SDIO_HCI:
+> + *	a. USE_SYNC_IRP:  Only sync operations are provided.
+> + *	b. USE_ASYNC_IRP:Both sync/async operations are provided.
+> + *
+> + *jackson@realtek.com.tw
+> + *
+> + */
+>  
+>  #include <drv_types.h>
+>  #include <rtw_debug.h>
+> @@ -135,24 +136,25 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
+>  	return _SUCCESS;
+>  }
+>  
+> -/*
+> -* Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
+> -* @return true:
+> -* @return false:
+> -*/
+> +/**
+> + * Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
+> + * @return true:
+> + * @return false:
+> + */
+>  int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+>  {
+>  	int ret = false;
+>  	int value = atomic_inc_return(&dvobj->continual_io_error);
+> +
+>  	if (value > MAX_CONTINUAL_IO_ERR)
+>  		ret = true;
+>  
+>  	return ret;
+>  }
+>  
+> -/*
+> -* Set the continual_io_error of this @param dvobjprive to 0
+> -*/
+> +/**
+> + * Set the continual_io_error of this @param dvobjprive to 0
+> + */
+>  void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
+>  {
+>  	atomic_set(&dvobj->continual_io_error, 0);
+> -- 
+> 2.31.1
 > 
-> Related dmesg output in 5.15
-> ```
-> [   13.542110] r8188eu: module is from the staging directory, the
-> quality is unknown, you have been warned.
-> [   13.570753] Chip Version Info:
-> CHIP_8188E_Normal_Chip_TSMC_D_CUT_1T1R_RomVer(0)
-> [   13.623399] EEPROM ID = 0x8129
-> [   13.646796] usbcore: registered new interface driver r8188eu
-> [   14.416673] R8188EU: Firmware Version 11, SubVersion 1, Signature 0x88e1
-> [   15.484020] R8188EU: INFO indicate disassoc
-> ```
-> 
-> Please let me know if any other information is needed in root causing
-> this bug, or if this bug should
-> be directed elsewhere.
 > 
 
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
