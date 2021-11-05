@@ -1,91 +1,325 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53332C80
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 17:18:43 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id gt5so3496101pjb.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Nov 2021 10:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=wzufjbDqGxDa2/k86ie4tw8Pdx0MnDOAPtjEE+yOjpY=;
-        b=dQ9hk9G7njRsxD1PZLshA+qzst9HtFIjOrwfqVOpZkhjgpbH3ZJ15Wa2K3G+FvZceL
-         hf9sPs/iug5gJ3B9H67sqfOaURp09a7LS2rrhl4ggSk+Br7zwF/uGsygQNe1d8ZVeTif
-         H6iSveVskAIqdwAyK/IZZXBAqjTxcutW6bTlXsqQXBYOWEw8r/SX/f84SW9LiXyKEJRj
-         0jTKQFwP0OqkOUvWJbtwbG4fNqX+gXZBd2s3f7E5c0a3OTPRe/8Gg5gjWwdZoighFEc0
-         pRfCo9ZaDYlIGw26xPbQ0Lq8+xl58P9AyLd2TgQwNYDaZ5wdrn3MsFPMLE9EY6n4ZmUY
-         pBRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=wzufjbDqGxDa2/k86ie4tw8Pdx0MnDOAPtjEE+yOjpY=;
-        b=l9BoGfqDvK1OubMGGu/YKgdSTOMRTVulNMo5jglat9J18CPKA2lQYX14Ar2SOW0y+h
-         ub2kM6oOk/L/KFzjPL4IEkthCF9bUbXhDANs4SnSKfDPonjHDbCNU0cTI8ZeBdhoh2nC
-         DYZ5OtcL/RsNpnxH9gJY2OcBmhCHL8/oRylQN8P3mBFs6xWNX4PziOsc0bqPoh43J2Wz
-         3c9O79DY/N8elYSbhDhYwAuTyBiLpQx2YIi9WYtypLuAFTATn+kBUiHz/Uk7i7K5RDw+
-         8O37nWeymKYkpGtU+c984cHXzoRaJc50gJukV79YKjD9GG5W57Hh1iYyivSR+DFEVBzK
-         /XDA==
-X-Gm-Message-State: AOAM530cU1qWIgV9OgpD8HhoF2HrQh1QO5zuiwcff2SUggiISrcY02S2
-	Rozb/zHmItMH5kWdUd0u8xw=
-X-Google-Smtp-Source: ABdhPJytey5AouVICCVDk82iHij/AVBq1i2JZ5+cq79HqLAUse2Ke4aYg8gr5O0k/fTERlBtekAIKw==
-X-Received: by 2002:a17:90a:be10:: with SMTP id a16mr30954933pjs.133.1636132723242;
-        Fri, 05 Nov 2021 10:18:43 -0700 (PDT)
-Received: from [192.168.1.2] ([59.95.82.141])
-        by smtp.gmail.com with ESMTPSA id l1sm7758035pff.125.2021.11.05.10.18.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Nov 2021 10:18:42 -0700 (PDT)
-Message-ID: <9bc5a088-2cdc-1bbd-6459-d1b95e25aa9c@gmail.com>
-Date: Fri, 5 Nov 2021 22:48:34 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1312C80
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 17:48:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3332E61220;
+	Fri,  5 Nov 2021 17:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636134499;
+	bh=VyExh6XGAMs3UkHWRtUsvJttPtGuk6USieO7ScrITAQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kybLd/pgL1PnQ0zgFbiT6w01eU3ylydzYyVcd1Cid1s8yN8zr7uwRkrB06UDK6eFw
+	 B3ghjsS8CAg7RYtkop8K9qJBDrGkteCpLqyAuevua/ny61IVNMoySgI1UIzDYZdaik
+	 Fpy+uAmd+ZkzhM49XstL3FdzUBpSTwv2eqwnUO5ziME1SY/+oXWMuHsjb68VsKF0Y+
+	 vs3sgN4uornmA2j0GYHwIq+Ev/DAFyS2MTjPHNi6Pq+9DfxiO1NqZXY1O11Ka7PVww
+	 i3nOvOiKtbktU3oMpONASEar75rtD+Dxq57LoVYSIRdER3DxV7bjub5xxmxcVmUSxg
+	 UOnBnx4/HnMhg==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mj3K4-007eNc-A1; Fri, 05 Nov 2021 17:48:16 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 2/8] media: atomisp: drop duplicated ia_css_isp_states.c
+Date: Fri,  5 Nov 2021 17:48:09 +0000
+Message-Id: <ab83b5d83839adcf89ff60e8431fd216170b2af1.1636134411.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
+References: <286ba3e4f25e9ba2ab78de4cbf010f18167b2604.1636134411.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH v2] staging: r8188eu: os_dep: remove the goto statement
-Content-Language: en-GB
-To: Pavel Skripkin <paskripkin@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- straube.linux@gmail.com, martin@kaiser.cx, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
-References: <YYKvWeyqd71pYSqM@Sauravs-MacBook-Air.local>
- <YYT/LibxFzssNUJN@kroah.com> <ecf6ba8e-8273-0d77-5ceb-3ad44179d3a3@gmail.com>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <ecf6ba8e-8273-0d77-5ceb-3ad44179d3a3@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+Both 2400 and 2401 have this file, but they're identical.
+So, drop one of them.
 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/Makefile        |   5 +-
+ .../css_2401_system/hive/ia_css_isp_states.c  | 224 ------------------
+ .../hive => }/ia_css_isp_states.c             |   0
+ 3 files changed, 2 insertions(+), 227 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_states.c
+ rename drivers/staging/media/atomisp/pci/{css_2400_system/hive => }/ia_css_isp_states.c (100%)
 
-On 05/11/21 4:06 pm, Pavel Skripkin wrote:
-> On 11/5/21 12:53, Greg KH wrote:
->> Right after this, ret8 is set, but never checked, which looks like a bug
->> to me.  Can you work on fixing that after I take this patch?
-Yes, I will send a patch removing a local variable for return value and changing 
-the return type of function rtw_init_default_value . As rtw_init_default_value always return 
-success and the return value of this function is not checked.
->>
->> thanks,
->>
->> greg k-h
->>
-> 
-> ret8 is returned from this function, but as I said [1] it can be just removed. It will be always set to _SUCCESS.
-> 
-> 
-> 
-> [1] https://lore.kernel.org/linux-staging/f26b4aec-c0a1-8c93-b34e-8b1a36ac81b3@gmail.com/
-> 
-> 
-Pavel also mentioned to remove the local variable ret8.
-> With regards,
-> Pavel Skripkin
+diff --git a/drivers/staging/media/atomisp/Makefile b/drivers/staging/media/atomisp/Makefile
+index 320c14f4afa6..f7f670a70d3f 100644
+--- a/drivers/staging/media/atomisp/Makefile
++++ b/drivers/staging/media/atomisp/Makefile
+@@ -54,6 +54,7 @@ atomisp-objs += \
+ 	pci/hmm/hmm_reserved_pool.o \
+ 	pci/ia_css_device_access.o \
+ 	pci/ia_css_isp_configs.o \
++	pci/ia_css_isp_states.o \
+ 	pci/isp/kernels/aa/aa_2/ia_css_aa2.host.o \
+ 	pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.o \
+ 	pci/isp/kernels/anr/anr_2/ia_css_anr2.host.o \
+@@ -158,8 +159,7 @@ atomisp-objs += \
+ 	pci/system_local.o \
+ 
+ obj-byt = \
+-	pci/css_2400_system/hive/ia_css_isp_params.o \
+-	pci/css_2400_system/hive/ia_css_isp_states.o \
++	pci/css_2400_system/hive/ia_css_isp_params.o
+ 
+ # These will be needed when clean merge CHT support nicely into the driver
+ # Keep them here handy for when we get to that point
+@@ -167,7 +167,6 @@ obj-byt = \
+ 
+ obj-cht = \
+ 	pci/css_2401_system/hive/ia_css_isp_params.o \
+-	pci/css_2401_system/hive/ia_css_isp_states.o \
+ 	pci/css_2401_system/host/csi_rx.o \
+ 	pci/css_2401_system/host/ibuf_ctrl.o \
+ 	pci/css_2401_system/host/isys_dma.o \
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_states.c b/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_states.c
+deleted file mode 100644
+index 514ffe0303cb..000000000000
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/hive/ia_css_isp_states.c
++++ /dev/null
+@@ -1,224 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Support for Intel Camera Imaging ISP subsystem.
+- * Copyright (c) 2015, Intel Corporation.
+- *
+- * This program is free software; you can redistribute it and/or modify it
+- * under the terms and conditions of the GNU General Public License,
+- * version 2, as published by the Free Software Foundation.
+- *
+- * This program is distributed in the hope it will be useful, but WITHOUT
+- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+- * more details.
+- */
+-
+-/* Generated code: do not edit or commmit. */
+-
+-#include "ia_css_pipeline.h"
+-#include "ia_css_isp_states.h"
+-#include "ia_css_debug.h"
+-#include "assert_support.h"
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_aa_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_aa_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->vmem.aa.size;
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->vmem.aa.offset;
+-
+-		if (size)
+-			memset(&binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_VMEM].address[offset],
+-			       0, size);
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_aa_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_cnr_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_cnr_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->vmem.cnr.size;
+-
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->vmem.cnr.offset;
+-
+-		if (size) {
+-			ia_css_init_cnr_state(
+-			    &binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_VMEM].address[offset],
+-			    size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_cnr_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_cnr2_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_cnr2_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->vmem.cnr2.size;
+-
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->vmem.cnr2.offset;
+-
+-		if (size) {
+-			ia_css_init_cnr2_state(
+-			    &binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_VMEM].address[offset],
+-			    size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_cnr2_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_dp_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_dp_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->vmem.dp.size;
+-
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->vmem.dp.offset;
+-
+-		if (size) {
+-			ia_css_init_dp_state(
+-			    &binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_VMEM].address[offset],
+-			    size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_dp_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_de_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_de_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->vmem.de.size;
+-
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->vmem.de.offset;
+-
+-		if (size) {
+-			ia_css_init_de_state(
+-			    &binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_VMEM].address[offset],
+-			    size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_de_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_tnr_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_tnr_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->dmem.tnr.size;
+-
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->dmem.tnr.offset;
+-
+-		if (size) {
+-			ia_css_init_tnr_state((struct sh_css_isp_tnr_dmem_state *)
+-					      &binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_DMEM].address[offset],
+-					      size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_tnr_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_ref_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_ref_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->dmem.ref.size;
+-
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->dmem.ref.offset;
+-
+-		if (size) {
+-			ia_css_init_ref_state((struct sh_css_isp_ref_dmem_state *)
+-					      &binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_DMEM].address[offset],
+-					      size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_ref_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_init_function() */
+-
+-static void
+-ia_css_initialize_ynr_state(
+-    const struct ia_css_binary *binary)
+-{
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_ynr_state() enter:\n");
+-
+-	{
+-		unsigned int size   = binary->info->mem_offsets.offsets.state->vmem.ynr.size;
+-
+-		unsigned int offset = binary->info->mem_offsets.offsets.state->vmem.ynr.offset;
+-
+-		if (size) {
+-			ia_css_init_ynr_state(
+-			    &binary->mem_params.params[IA_CSS_PARAM_CLASS_STATE][IA_CSS_ISP_VMEM].address[offset],
+-			    size);
+-		}
+-	}
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+-			    "ia_css_initialize_ynr_state() leave:\n");
+-}
+-
+-/* Code generated by genparam/genstate.c:gen_state_init_table() */
+-
+-void (*ia_css_kernel_init_state[IA_CSS_NUM_STATE_IDS])(
+-    const struct ia_css_binary *binary) = {
+-	ia_css_initialize_aa_state,
+-	ia_css_initialize_cnr_state,
+-	ia_css_initialize_cnr2_state,
+-	ia_css_initialize_dp_state,
+-	ia_css_initialize_de_state,
+-	ia_css_initialize_tnr_state,
+-	ia_css_initialize_ref_state,
+-	ia_css_initialize_ynr_state,
+-};
+diff --git a/drivers/staging/media/atomisp/pci/css_2400_system/hive/ia_css_isp_states.c b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+similarity index 100%
+rename from drivers/staging/media/atomisp/pci/css_2400_system/hive/ia_css_isp_states.c
+rename to drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+-- 
+2.31.1
 
-Thanks,
-Saurav
