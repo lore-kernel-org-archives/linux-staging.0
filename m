@@ -1,41 +1,51 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210FF2C9D
-	for <linux-staging@lists.linux.dev>; Thu,  4 Nov 2021 19:02:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E074161241;
-	Thu,  4 Nov 2021 19:02:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636052531;
-	bh=1EZx2skIv3gidB+okmu2aSt5UCRLWsBkMqEWZ/9Pu8Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cpArnTU3+eEIP9kQwQgEmnLBzcLgOcL4NrFIQvI9itG9DZT9st/yQzaEFSS+aDusn
-	 VMqI2MI1bB15r9d1UntF2Q8KwElLNa3I+LmjuMWXCe14w9+Vna1MQ6m06joLk21ehB
-	 NwTyskkU7273ZbxxpuMcNSsVVrfqDrsYpvy6ozme9xLKsVBZbrhruWbEh0/yoRlJHR
-	 +B+rHp1xeeE+EfjquQy82xtlSZPc/FvRKogLk1t/4kIG3siqGTysAXoDDJ6uTrtmSe
-	 Z82Mzwu86meYjKwo0i6xZHpUOM+ZT4NUJenJ8SdNH4hMZaxNPR5YNdKw6p/xofHts6
-	 xOO/+5Fu+RguA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mihzw-006bKE-DH; Thu, 04 Nov 2021 19:02:04 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Filip Kolev <fil.kolev@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Martiros Shakhzadyan <vrzh@vrzh.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 1/4] media: atomisp-ov2722: use v4l2_find_nearest_size()
-Date: Thu,  4 Nov 2021 19:02:00 +0000
-Message-Id: <e7aebe347f3878d54bceeb48d8d0574e944c5608.1636052511.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A9F2C99
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 00:28:11 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id y196so5802402wmc.3
+        for <linux-staging@lists.linux.dev>; Thu, 04 Nov 2021 17:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O4YUDgdo255VAYFqIsJJWpu2PRm/0Or1BTzsdPRBrWk=;
+        b=cHCo4gmABWuKJiSybcT/mk1Y2DZ4oBzkPmeJL3FPTwxhr9SRrlxubLRg/LuBrnlKH1
+         vIVEDT0pjtWkI03yyGUc+x0Lj0ZbTx8SAqWrHYm2W3DzvtPjjhu1koNSdbO+c01X07jx
+         kyqXT0Pms9lIMaYkU4WR+YGq3Pl0/Ru23wvnWBM5T0H/Ztf10wK2bgj6cG9aWPXHywog
+         Pv7JLyKW7n5YjzlFGBfYStcYbCAOVFMC9weiDsQwYoJdcN87sMKPyDKnster9bVKXzaX
+         zkgl4+vJaCP+pWWlpecd00tj/s2J6l05HFCSqsFW3eijEYl22ZzOm+C56zQNlep/lFDD
+         eZPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O4YUDgdo255VAYFqIsJJWpu2PRm/0Or1BTzsdPRBrWk=;
+        b=k16jSf3PfU4ytWbHxFwh0R+qHBOo3kpF4nuNHEDcESQ+XRBe3Lx5K1srE8c7eMkO1t
+         2dFQZgzu0xrPkk4zB3XtLhVvHMJ/3sEJ6OI75aCvlcSIntU/cLREQU7mz7tNMYyaNIsD
+         i4Oo1UGz7OLKFg9/TJepbh6uRkVlYygvwwmi0zXgX7jzhWPi2zd7jADUyTL/FSOYCdPV
+         FlEjRALtdDvpM5CKHzRvXPTx1JSIGAoxu1BTcfxPQaTs3TaytYncrT+uuiSvQUbGNmVS
+         sFjzsTvUJ6QROXYZr1EpoVLNGevvSmrCqizP17f/dFdC2s59aPfSvlP2loOCXd/q/wmi
+         IRQg==
+X-Gm-Message-State: AOAM5334pOmUgEG+BBTyck8KtLKJYvD4z8LyjOAp3Km/wyVRIvqTXuNC
+	6KZ4o9VP4SXvkagpyCt1mdhEow==
+X-Google-Smtp-Source: ABdhPJx4p9NftzFucX4ulXLAkGfTpfrMSXcolRKkskOwXdMsmHLlKAcnfTmWTrFXg53nadktouJ/Ew==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr28288141wmc.99.1636072090171;
+        Thu, 04 Nov 2021 17:28:10 -0700 (PDT)
+Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
+        by smtp.gmail.com with ESMTPSA id g18sm6924566wmq.4.2021.11.04.17.28.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Nov 2021 17:28:09 -0700 (PDT)
+From: Phillip Potter <phil@philpotter.co.uk>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	martin@kaiser.cx,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: remove MSG_88E call from odm_TXPowerTrackingThermalMeterInit
+Date: Fri,  5 Nov 2021 00:28:07 +0000
+Message-Id: <20211105002807.6628-1-phil@philpotter.co.uk>
 X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -44,242 +54,30 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Instead of reinventing the wheel, use v4l2_find_nearest_size()
-in order to get the closest resolution.
+Remove unnecessary MSG_88E macro call from hal/odm.c, within the
+function odm_TXPowerTrackingThermalMeterInit. All it does is print a
+struct member, during initialization, that is then immediately set on
+the following line. It is therefore surplus to requirements.
 
-This should address a bug where the wrong resolution was
-selected.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
 ---
- .../media/atomisp/i2c/atomisp-ov2722.c        | 118 ++++--------------
- drivers/staging/media/atomisp/i2c/ov2722.h    |   3 +-
- 2 files changed, 22 insertions(+), 99 deletions(-)
+ drivers/staging/r8188eu/hal/odm.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index 90d0871a78a3..da98094d7094 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -557,7 +557,7 @@ static int ov2722_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = ov2722_g_fnumber_range(&dev->sd, &ctrl->val);
- 		break;
- 	case V4L2_CID_LINK_FREQ:
--		val = ov2722_res[dev->fmt_idx].mipi_freq;
-+		val = dev->res->mipi_freq;
- 		if (val == 0)
- 			return -EINVAL;
- 
-@@ -782,76 +782,6 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
- 	return ret;
+diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
+index 21f115194df8..bca625a46263 100644
+--- a/drivers/staging/r8188eu/hal/odm.c
++++ b/drivers/staging/r8188eu/hal/odm.c
+@@ -891,8 +891,6 @@ void odm_TXPowerTrackingThermalMeterInit(struct odm_dm_struct *pDM_Odm)
+ 	pDM_Odm->RFCalibrateInfo.bTXPowerTracking = true;
+ 	pDM_Odm->RFCalibrateInfo.TXPowercount = 0;
+ 	pDM_Odm->RFCalibrateInfo.bTXPowerTrackingInit = false;
+-	MSG_88E("pDM_Odm TxPowerTrackControl = %d\n", pDM_Odm->RFCalibrateInfo.TxPowerTrackControl);
+-
+ 	pDM_Odm->RFCalibrateInfo.TxPowerTrackControl = true;
  }
  
--/*
-- * distance - calculate the distance
-- * @res: resolution
-- * @w: width
-- * @h: height
-- *
-- * Get the gap between resolution and w/h.
-- * res->width/height smaller than w/h wouldn't be considered.
-- * Returns the value of gap or -1 if fail.
-- */
--#define LARGEST_ALLOWED_RATIO_MISMATCH 800
--static int distance(struct ov2722_resolution *res, u32 w, u32 h)
--{
--	unsigned int w_ratio = (res->width << 13) / w;
--	unsigned int h_ratio;
--	int match;
--
--	if (h == 0)
--		return -1;
--	h_ratio = (res->height << 13) / h;
--	if (h_ratio == 0)
--		return -1;
--	match   = abs(((w_ratio << 13) / h_ratio) - 8192);
--
--	if ((w_ratio < 8192) || (h_ratio < 8192) ||
--	    (match > LARGEST_ALLOWED_RATIO_MISMATCH))
--		return -1;
--
--	return w_ratio + h_ratio;
--}
--
--/* Return the nearest higher resolution index */
--static int nearest_resolution_index(int w, int h)
--{
--	int i;
--	int idx = -1;
--	int dist;
--	int min_dist = INT_MAX;
--	struct ov2722_resolution *tmp_res = NULL;
--
--	for (i = 0; i < N_RES; i++) {
--		tmp_res = &ov2722_res[i];
--		dist = distance(tmp_res, w, h);
--		if (dist == -1)
--			continue;
--		if (dist < min_dist) {
--			min_dist = dist;
--			idx = i;
--		}
--	}
--
--	return idx;
--}
--
--static int get_resolution_index(int w, int h)
--{
--	int i;
--
--	for (i = 0; i < N_RES; i++) {
--		if (w != ov2722_res[i].width)
--			continue;
--		if (h != ov2722_res[i].height)
--			continue;
--
--		return i;
--	}
--
--	return -1;
--}
--
- /* TODO: remove it. */
- static int startup(struct v4l2_subdev *sd)
- {
-@@ -866,7 +796,7 @@ static int startup(struct v4l2_subdev *sd)
- 		return ret;
- 	}
- 
--	ret = ov2722_write_reg_array(client, ov2722_res[dev->fmt_idx].regs);
-+	ret = ov2722_write_reg_array(client, dev->res->regs);
- 	if (ret) {
- 		dev_err(&client->dev, "ov2722 write register err.\n");
- 		return ret;
-@@ -882,9 +812,9 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 	struct v4l2_mbus_framefmt *fmt = &format->format;
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	struct ov2722_resolution *res;
- 	struct camera_mipi_info *ov2722_info = NULL;
- 	int ret = 0;
--	int idx;
- 
- 	if (format->pad)
- 		return -EINVAL;
-@@ -895,15 +825,16 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 		return -EINVAL;
- 
- 	mutex_lock(&dev->input_lock);
--	idx = nearest_resolution_index(fmt->width, fmt->height);
--	if (idx == -1) {
--		/* return the largest resolution */
--		fmt->width = ov2722_res[N_RES - 1].width;
--		fmt->height = ov2722_res[N_RES - 1].height;
--	} else {
--		fmt->width = ov2722_res[idx].width;
--		fmt->height = ov2722_res[idx].height;
--	}
-+	res = v4l2_find_nearest_size(ov2722_res_preview,
-+				     ARRAY_SIZE(ov2722_res_preview), width,
-+				     height, fmt->width, fmt->height);
-+	if (!res)
-+		res = &ov2722_res_preview[N_RES - 1];
-+
-+	fmt->width = res->width;
-+	fmt->height = res->height;
-+	dev->res = res;
-+
- 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		sd_state->pads->try_fmt = *fmt;
-@@ -911,15 +842,9 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 		return 0;
- 	}
- 
--	dev->fmt_idx = get_resolution_index(fmt->width, fmt->height);
--	if (dev->fmt_idx == -1) {
--		dev_err(&client->dev, "get resolution fail\n");
--		mutex_unlock(&dev->input_lock);
--		return -EINVAL;
--	}
- 
--	dev->pixels_per_line = ov2722_res[dev->fmt_idx].pixels_per_line;
--	dev->lines_per_frame = ov2722_res[dev->fmt_idx].lines_per_frame;
-+	dev->pixels_per_line = dev->res->pixels_per_line;
-+	dev->lines_per_frame = dev->res->lines_per_frame;
- 
- 	ret = startup(sd);
- 	if (ret) {
-@@ -950,8 +875,7 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 		}
- 	}
- 
--	ret = ov2722_get_intg_factor(client, ov2722_info,
--				     &ov2722_res[dev->fmt_idx]);
-+	ret = ov2722_get_intg_factor(client, ov2722_info, dev->res);
- 	if (ret)
- 		dev_err(&client->dev, "failed to get integration_factor\n");
- 
-@@ -972,8 +896,8 @@ static int ov2722_get_fmt(struct v4l2_subdev *sd,
- 	if (!fmt)
- 		return -EINVAL;
- 
--	fmt->width = ov2722_res[dev->fmt_idx].width;
--	fmt->height = ov2722_res[dev->fmt_idx].height;
-+	fmt->width = dev->res->width;
-+	fmt->height = dev->res->height;
- 	fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
- 
- 	return 0;
-@@ -1098,7 +1022,7 @@ static int ov2722_g_frame_interval(struct v4l2_subdev *sd,
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
- 
- 	interval->interval.numerator = 1;
--	interval->interval.denominator = ov2722_res[dev->fmt_idx].fps;
-+	interval->interval.denominator = dev->res->fps;
- 
- 	return 0;
- }
-@@ -1136,7 +1060,7 @@ static int ov2722_g_skip_frames(struct v4l2_subdev *sd, u32 *frames)
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
- 
- 	mutex_lock(&dev->input_lock);
--	*frames = ov2722_res[dev->fmt_idx].skip_frames;
-+	*frames = dev->res->skip_frames;
- 	mutex_unlock(&dev->input_lock);
- 
- 	return 0;
-@@ -1220,7 +1144,7 @@ static int ov2722_probe(struct i2c_client *client)
- 
- 	mutex_init(&dev->input_lock);
- 
--	dev->fmt_idx = 0;
-+	dev->res = &ov2722_res_preview[0];
- 	v4l2_i2c_subdev_init(&dev->sd, client, &ov2722_ops);
- 
- 	ovpdev = gmin_camera_platform_data(&dev->sd,
-diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/media/atomisp/i2c/ov2722.h
-index 7b0debb6c53d..d6e2510bc01c 100644
---- a/drivers/staging/media/atomisp/i2c/ov2722.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2722.h
-@@ -201,14 +201,13 @@ struct ov2722_device {
- 	struct media_pad pad;
- 	struct v4l2_mbus_framefmt format;
- 	struct mutex input_lock;
-+	struct ov2722_resolution *res;
- 
- 	struct camera_sensor_platform_data *platform_data;
- 	int vt_pix_clk_freq_mhz;
--	int fmt_idx;
- 	int run_mode;
- 	u16 pixels_per_line;
- 	u16 lines_per_frame;
--	u8 res;
- 	u8 type;
- 
- 	struct v4l2_ctrl_handler ctrl_handler;
 -- 
 2.31.1
 
