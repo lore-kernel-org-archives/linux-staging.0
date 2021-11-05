@@ -1,98 +1,102 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11DA2C80
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 16:54:01 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id m14so9383135pfc.9
-        for <linux-staging@lists.linux.dev>; Fri, 05 Nov 2021 09:54:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E9A2C80
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 17:01:09 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id k2so9383404pff.11
+        for <linux-staging@lists.linux.dev>; Fri, 05 Nov 2021 10:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=ALMmQlZo8+KWhNKSuIRIbhgj4mQ52Qs0A0EZkuhtla0=;
-        b=L7NRUL9Wt8voFjQzLH9tlmbo7jzZgl82GnKlPgD/C8uP543v8mkPcLXjhtld2jKNAs
-         8e1KUVs+SDRixGZoPV+S1Bx8FK06oBBviOAv/JlmMiVcG2uzScAXtGBHpBonj+HzZ9CY
-         kstdKd3QyG6HzZ5R4PzWJwTrDLciM4PvHKeoI6xXesomwE4dthZ63sIQFYFRy3ErvDaK
-         l9sk6Vr4XM7mJrssO9Ip0rInOqDNKhgw/cE1WHHDWW9dG/LC7KK9i+gtvDuU+rwxE9lJ
-         64YYXrD7SqXCi1vjrkWfvpkakYYsnWCy2YM7XLbwQruMEO7AfvQl3392xjRrnpnyppMl
-         mMZQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=xsURJGLRNnzE+/ZVeB1/VoPg+vRN7TokqtjtTXhqXZ4=;
+        b=K712YducHOeeG3nknJVfrZT1NcHoTLxMIV6GBxLnqtsxr8aV4Jhtxipo53pTp6jcOo
+         6cpiAa+C3zRjwY11S6MZvCsIib8UlNJ2slfv3rofjM0I2aQ4x1bUdTGrbH7sUSKiXGyd
+         z29h6HX8/ObTEY+7m/RsVy2TboMs9RIlBCjor3+wMXLqbzPvHX9gO/M7hoQDXCnmtrA6
+         haBkJiHyzseb4VjZYcZ6M2OiUuaur9fPAUF9xEoVm15NyhaWuXmKx9VlaKxvO+TwSG7q
+         Y3RKqrTx/Mu39mTHa03IB0Br5hnszo42LmDJDRiEwE3XIzFFyeTViHdbYD8m8rN0pw4C
+         P7XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ALMmQlZo8+KWhNKSuIRIbhgj4mQ52Qs0A0EZkuhtla0=;
-        b=qFNYRuWwkwH8BR0Kxyf8II56UBXTm/U9arQGaJbV/FJyFuNOE38HewyS3OxNo+T4xR
-         8qP3+hBEaXzdICOHHoT6ou7UxftW2eRRsX6gdJD0tiB/Wpr942ie56Stzegua/o2qrFC
-         rRP5r7NHNtmXdLL9+Umtm2lNP73K90P26+yKRo7yGkHqCQVBAVtlyapwmebfw24pU8Wt
-         V4X/3GcBwRS6unj7aNoSoOwKLtYqulcpLU7a/brCNXM2lthRe445H2cmRxLVMtsuCG9D
-         xgTfIl/rS4JKz1YxBNKSIVH7PtBAtnzFnEQTFVl5ea5uz9dNOq5Mhnjz+PeyBMV65Mjp
-         ce2g==
-X-Gm-Message-State: AOAM532R5lvYP3rAgcyrDmFp1R++M6DNM9XKe3Bq0iowfZu6qFrWmdzS
-	pXBjNMfc2xjWiL/7fL+A41A=
-X-Google-Smtp-Source: ABdhPJx3xbEG22VrZb+VCW2Mu+XGX6Iwdvy7Ak+su3+8QezkaV/1tT1ZT609I4QTO6lvbOPkEj7V4w==
-X-Received: by 2002:a63:3d4c:: with SMTP id k73mr45028603pga.44.1636131241496;
-        Fri, 05 Nov 2021 09:54:01 -0700 (PDT)
-Received: from localhost.localdomain ([2001:4490:4409:3406:a18f:7c45:2f81:cea2])
-        by smtp.gmail.com with ESMTPSA id s30sm8524425pfg.17.2021.11.05.09.53.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Nov 2021 09:54:01 -0700 (PDT)
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org,
-	fabioaiuto83@gmail.com,
-	saurav.girepunje@gmail.com,
-	dan.carpenter@oracle.com,
-	shreyaskumar1035@gmail.com,
-	ross.schm.dev@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8723bs: core: remove unused local variable padapter
-Date: Fri,  5 Nov 2021 22:23:30 +0530
-Message-Id: <20211105165330.78524-3-saurav.girepunje@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211105165330.78524-1-saurav.girepunje@gmail.com>
-References: <saurav.girepunje@gmail.com>
- <20211105165330.78524-1-saurav.girepunje@gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=xsURJGLRNnzE+/ZVeB1/VoPg+vRN7TokqtjtTXhqXZ4=;
+        b=rHhIottq43pZLGjd5b4pkk4GYF221b6TBsTf3PzM++Sg58CjpAstDAOGzxeEB2yb7t
+         dcffXsNDs/LPnh3sc1B08/p0/wZIzEkfhpA038jPfEr/FxNPvYO+yxNwDQ4QauXRcRBC
+         R0pvkjIkscmVsVRC+TdOO5MobTdgCnWPdTwDIsZ5aVQeWez+Iaoe4dKrz/vM8BGqTUV4
+         SEUPuhZ7lPnmmQw5EWo/VDUsc8kOgONGgcXOQbabgv54s5wS3V3pzP4N0qbXQsptu94p
+         O3i9KrQrRsEXwY0qwcg7okI+eTcaPblCEcesSJtfEhnBR4bTkqlZJrjAm4tAvH3KiOqd
+         aNIw==
+X-Gm-Message-State: AOAM532jtzP7NKdLOBYAV7TPQDBrmHLHY6+wQuywVHuG28vU8i4O85eq
+	T97SkBoMBc1rXizqOMUw6x0=
+X-Google-Smtp-Source: ABdhPJwrqnExkc17IhVVzj+2IbPPqG4ikL4QKYY7ynYNOGMYtY5ANpSxHSnuJ2MJ4SIZvnYkBmOCXg==
+X-Received: by 2002:a63:f70a:: with SMTP id x10mr2372284pgh.12.1636131669430;
+        Fri, 05 Nov 2021 10:01:09 -0700 (PDT)
+Received: from [192.168.1.2] ([59.95.82.141])
+        by smtp.gmail.com with ESMTPSA id q18sm8152946pfj.46.2021.11.05.10.01.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Nov 2021 10:01:08 -0700 (PDT)
+Message-ID: <2bd55f74-be52-f182-b210-1d2d88fd8fdf@gmail.com>
+Date: Fri, 5 Nov 2021 22:31:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.1
+Subject: Re: [PATCH] staging: r8188eu: core: remove the unused variable
+ pAdapter
+Content-Language: en-GB
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+ straube.linux@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+References: <YYNSAqGgDPhV1IE1@Sauravs-MacBook-Air.local>
+ <YYT/s7TABtElQTnC@kroah.com>
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+In-Reply-To: <YYT/s7TABtElQTnC@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Remove the unused variable padapter from Efuse_Write1ByteToFakeContent
-This variable is not used in the function.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_efuse.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index bd057e041a08..3d3c77273026 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -43,10 +43,7 @@ Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
- }
- 
- static bool
--Efuse_Write1ByteToFakeContent(
--	struct adapter *padapter,
--	u16 	Offset,
--	u8 Value)
-+Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
- {
- 	if (Offset >= EFUSE_MAX_HW_SIZE)
- 		return false;
-@@ -288,7 +285,7 @@ u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool bPseudoT
- 	u32 efuseValue = 0;
- 
- 	if (bPseudoTest)
--		return Efuse_Write1ByteToFakeContent(padapter, addr, data);
-+		return Efuse_Write1ByteToFakeContent(addr, data);
- 
- 
- 	/*  -----------------e-fuse reg ctrl --------------------------------- */
--- 
-2.33.0
+On 05/11/21 3:26 pm, Greg KH wrote:
+> On Thu, Nov 04, 2021 at 08:52:42AM +0530, Saurav Girepunje wrote:
+>> Remove the unused variable pAdapter from Efuse_Write1ByteToFakeContent
+>> This variable is not used in the function.
+>>
+>> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+>> ---
+>>  drivers/staging/r8188eu/core/rtw_efuse.c | 7 ++-----
+>>  1 file changed, 2 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+>> index 03c8431b2ed3..39c77f6b06ef 100644
+>> --- a/drivers/staging/r8188eu/core/rtw_efuse.c
+>> +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+>> @@ -40,10 +40,7 @@ static bool Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
+>>  }
+>>
+>>  static bool
+>> -Efuse_Write1ByteToFakeContent(
+>> -			struct adapter *pAdapter,
+>> -			u16 Offset,
+>> -			u8 Value)
+>> +Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)s
+> 
+> You can do this same thing in drivers/staging/rtl8723bs/core/rtw_efuse.c
+> if you want to.
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
+Yes, Now I have sent patch for drivers/staging/rtl8723bs/core/rtw_efuse.c also.
+Thanks for pointing this.
+
+Regards,
+Saurav
