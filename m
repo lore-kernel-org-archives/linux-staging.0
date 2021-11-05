@@ -1,223 +1,59 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD7B2C9D
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 18:55:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 17DA66120D;
-	Fri,  5 Nov 2021 18:55:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636138533;
-	bh=3qx/OsMBOfLKMVE67cIPP+56zsEesvy1E4J/OSBexWc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lleeFoWFWQWdGWFpPS6kpx1bcWZV5rF69LjeahPn7uX4k53718bCxh4KE7iDbjDPf
-	 4pPh5FPX6RZN/GILjFmKXSL8urcYPv3fbs18PUerkV+vpe8oAa6ZsOWBZ4PVm0AbPM
-	 F3mTMlw0IMuhNUpthtv0xyyuAlso1hH7Jvp3cp+V7yNUns4LihglZgeYRYxqDCWipJ
-	 gRLpMJI1hQNMA6caDhSGFcDyTod2/0l8h9dOwmAWxINqXUw+5NdxwTWvhUWzEzJtKU
-	 0lkI/u0g8BKsUYEGJg2X0DUCit4ZQXWQsDcu43zObVGLwqu4eYodTrxLp5l/2EPb7R
-	 3KpcvT6Yt4vXw==
-Date: Fri, 5 Nov 2021 18:55:26 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Tsuchiya Yuto
- <kitakar@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Kaixu Xia <kaixuxia@tencent.com>, Yang Li <abaci-bugfix@linux.alibaba.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alex Dewar
- <alex.dewar90@gmail.com>, Aline Santana Cordeiro
- <alinesantanacordeiro@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Alan
- <alan@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar
- <mingo@kernel.org>, linux-staging@lists.linux.dev, Linux Kernel Mailing
- List <linux-kernel@vger.kernel.org>, Andy Shevchenko
- <andy.shevchenko@gmail.com>
-Subject: Re: atomisp current issues
-Message-ID: <20211105185526.1b91d679@sal.lan>
-In-Reply-To: <YYPWUiPT80zQ7sKo@pendragon.ideasonboard.com>
-References: <20211103135418.496f75d5@sal.lan>
-	<YYOts0aoD/Quo5r6@pendragon.ideasonboard.com>
-	<20211104105051.4836fafb@sal.lan>
-	<YYPWUiPT80zQ7sKo@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A522C9D
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 20:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202012; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=c7xL3ULUvDEQY8y11JsWZ8qJvPv11YqU/ku2rqgY1ww=; b=iqUPoKkx2ggx9bqJoDGzYLoSFv
+	ZTj25RKGAhdI0A7DLOIF2+4TH8ZVLKHUquDkvkhOx1W3Yg58DkzzhhNLeBFhfh4olfJMcU07scxQ6
+	Yn2h7O+JoHEuxj+QUrQHL8mmD0RuqPpwPVfCvBHQ4LuIeqV3qafidcGwiSFUH3gby+FKwZEHvCxAA
+	RcrRlxazQfnlaKoT0EULpKhBHlJCmu/MiQ84j0VB0fwk+7mH5kbL30e8B4S4ouDpkn8isCKpCh2WF
+	m5lPL0D7s3v7KJtn2XRWABiG6h92aPjFc8Zgm2PM1EuFNBAMXPoYp77quZt3jhJaGupwbz++38H5c
+	YUTNZofA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51024 helo=[192.168.10.61])
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1mj5ne-0006rL-Lg; Fri, 05 Nov 2021 21:26:58 +0100
+Subject: Re: [PATCH] staging/fbtft: Fix backlight
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, stable@vger.kernel.org
+References: <20211030162901.17918-1-noralf@tronnes.org>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <9915936e-8a02-2e7a-5c47-f048c1f0319b@tronnes.org>
+Date: Fri, 5 Nov 2021 21:26:56 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20211030162901.17918-1-noralf@tronnes.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Em Thu, 4 Nov 2021 14:47:14 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-> Hi Mauro,
+
+Den 30.10.2021 18.29, skrev Noralf Trønnes:
+> Commit b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate") forgot to
+> update fbtft breaking its backlight support when FB_BACKLIGHT is a module.
 > 
-> On Thu, Nov 04, 2021 at 10:50:51AM +0000, Mauro Carvalho Chehab wrote:
-> > Em Thu, 4 Nov 2021 11:53:55 +0200 Laurent Pinchart escreveu:  
-> > > On Wed, Nov 03, 2021 at 01:54:18PM +0000, Mauro Carvalho Chehab wrote:  
-> > > > Hi,
-> > > > 
-> > > > From what I've seen so far, those are the main issues with regards to V4L2 API,
-> > > > in order to allow a generic V4L2 application to work with it.
-> > > > 
-> > > > MMAP support
-> > > > ============
-> > > > 
-> > > > Despite having some MMAP code on it, the current implementation is broken. 
-> > > > Fixing it is not trivial, as it would require fixing the HMM support on it, 
-> > > > which does several tricks.
-> > > > 
-> > > > The best would be to replace it by something simpler. If this is similar
-> > > > enough to IPU3, perhaps one idea would be to replace the HMM code on it by 
-> > > > videodev2 + IPU3 HMM code.
-> > > > 
-> > > > As this is not trivial, I'm postponing such task. If someone has enough
-> > > > time, it would be great to have this fixed.
-> > > > 
-> > > > From my side, I opted to add support for USERPTR on camorama:
-> > > > 
-> > > > 	https://github.com/alessio/camorama    
-> > > 
-> > > We should *really* phase out USERPTR support.   
-> > 
-> > I'm not a big fan of userptr, buy why do we phase it out?  
+> Fix this by using IS_ENABLED().
 > 
-> Because USERPTR is broken by design. It gives a false promise to
-> userspace that a user pointer can be DMA'ed to, and this isn't generally
-> true. 
+> Fixes: b4a1ed0cd18b ("fbdev: make FB_BACKLIGHT a tristate")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+> ---
 
-Actually, the only promise USERPTR gives is that the driver should
-be able to store streaming data on it (usually done via DMA from
-the V4L2 card to the memory).
+I discovered that fb_ssd1351 also has this #ifdef, so need to fix that
+as well. Will send a new version.
 
-It never promised - or was designed - to be used on embedded
-devices and allow DMA transfers to GPU. See, the original design
-is from 1999 and it was focused only on x86 archs ;-)
-
-The thing is that it was an alternative to FBUF before DMABUF
-was added.
-
-But yeah, newer embedded device drivers should not enable it,
-using instead VB2 and DMABUF.
-
-Perhaps we should document it better at:
-	https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/userp.html#userp
-
-warning developers to use DMABUF when the goal is to share DMA buffers
-with other drivers.
-
-> Even if buffer are carefully allocated to be compatible with the
-> device requirements, there are corner cases that prevent making a
-> mechanism based on get_user_pages() a first class citizen.
-
-Drivers that can't warrant that should disable support for it ;-)
-
-> In any case,
-> USERPTR makes life more difficult for the kernel.
-> 
-> There may be some use cases for which USERPTR could be an appropriate
-> solution, but now that we have DMABUF (and of course MMAP), I see no
-> reason to continue supporting USERPTR forever, and certainly not adding
-> new users.
-
-As we need to support this forever, IMO, it doesn't make sense to deny
-patches adding new users for it - yet it makes sense to recommend not to,
-specially on drivers whose usage would be on embedded systems.
-
-> > > Worst case you may support
-> > > DMABUF only if MMAP is problematic, but I don't really see why it could
-> > > be easy to map an imported buffer and difficult to map a buffer
-> > > allocated by the driver. videobuf2 should be used.  
-> > 
-> > Yeah, atomisp should be migrated to VB2, and such migration is listed at
-> > its TODO file. However, this is a complex task, as its memory management
-> > code is very complex.  
-> 
-> Have a look at GPU memory management, and you'll find the atomisp driver
-> very simple in comparison :-)
-
-Yeah, there are lots of complex thing at GPU mm. Yet, I don't see too much 
-levels of abstraction there... the biggest issue on atomisp is that there
-are usually two or three levels of abstraction between the actual 
-implementation and the callers. It also has some hacks in the middle of code
-that seems to be due to some special devices for Android.
-
-> I'm also pretty sure that drivers/staging/media/atomisp/pci/hmm/ could
-> be rewritten to use more of the existing kernel frameworks.
-
-Yes, I guess so. Again, the problem is that the glue also require
-changes and cleanups. It also requires migration from VB1 to VB2.
-
-> > Maybe we could try to use the ISP3 code on it,
-> > replacing the current HMM logic, but not sure if the implementation there 
-> > would be compatible.  
-> 
-> I'd be surprised if the IPU3 was compatible.
-
-If IPU3 started as an upgrade from ISP2, then maybe it is partially
-compatible.
-
-Anyway, further studies and tests are required.
-
-> > In any case, the current priority is to make the driver to work, fixing 
-> > the V4L2 API implementation, which has several issues.
-> > 
-> > ...
-> >   
-> > > > Video devices
-> > > > =============
-> > > > 
-> > > > Currently, 10 video? devices are created:
-> > > > 
-> > > > 	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
-> > > > 	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
-> > > > 	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
-> > > > 	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
-> > > > 	/dev/video3:	Name             : ATOMISP ISP VIDEO output
-> > > > 	/dev/video4:	Name             : ATOMISP ISP ACC
-> > > > 	/dev/video5:	Name             : ATOMISP ISP MEMORY input
-> > > > 	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
-> > > > 	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
-> > > > 	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
-> > > > 	/dev/video9:	Name             : ATOMISP ISP VIDEO output
-> > > > 	/dev/video10:	Name             : ATOMISP ISP ACC
-> > > > 
-> > > > That seems to be written to satisfy some Android-based app, but we don't
-> > > > really need all of those.
-> > > > 
-> > > > I'm thinking to comment out the part of the code which creates all of those,
-> > > > keeping just "ATOMISP ISP PREVIEW output", as I don't think we need all
-> > > > of those.    
-> > > 
-> > > Why is that ? Being able to capture multiple streams in different
-> > > resolutions is important for lots of applications, the viewfinder
-> > > resolution is often different than the video streaming and/or still
-> > > capture resolution. Scaling after capture is often expensive (and there
-> > > are memory bandwidth and power constraints to take into account too). A
-> > > single-stream device may be better than nothing, but it's time to move
-> > > to the 21st century.  
-> > 
-> > True, but having multiple videonodes at this moment is not helping,
-> > specially since only one of such modes (PREVIEW) is actually working at
-> > the moment.
-> > 
-> > So, this is more a strategy to help focusing on making this work
-> > properly, and not a statement that those modules would be dropped.
-> > 
-> > I'd say that the "final" version of atomisp - once it gets 
-> > fixed, cleaned up and started being MC-controlled - should support
-> > all such features, and have the pipelines setup via libcamera.  
-> 
-> I have no issue with phasing development (I have few issues with the
-> atomisp driver in general actually, as it's in staging), but the goal
-> should be kept in mind to make sure development goes in the right
-> direction.
-
-Yeah, surely it needs to progress at the right direction. We're
-just too far of having it ready to be ported to MC and libcamera...
-there are too many issues to be solved.
-
-Regards,
-Mauro
-
+Noralf.
