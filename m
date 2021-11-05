@@ -1,117 +1,133 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211992C96
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:51:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B68F061186;
-	Fri,  5 Nov 2021 09:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636105902;
-	bh=Ml1rfA4759bCJ5hExUvKB1NFiv0eVVSsg8nOvtDZBbI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mIB09qWmFGjke32DY9JU0Z3Kx9NJLP67npOZ9e/UNJPxyYaOzctnYqMJHndrXUZYO
-	 VYb1rYQ6CgfiCKn7L08lM2fW4obNi7uQ628Ph+GMsrKjBf5HAtgG5RV6e6BU5velQZ
-	 P3JggRcQ8VP3xYu6PJn4eryRpiO2hZp+pzWgG7AiFuITFqdM97GOJLmKUA+g1MDw+S
-	 x0SlAsc0QwTig06RkbDI9UCaAMReBB/gJxZ/eteh2dLtGuWqSdt86VLsxH3tNIxgJa
-	 H6Hy9g9XymrUxrCcZapjLa/8lo9R0tuDA+YIpSMTRNg95Wz4tvnXi8EOZuYlFnwiKQ
-	 ETZDOtjAl4o2Q==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mivsp-006s87-CB; Fri, 05 Nov 2021 09:51:39 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alan <alan@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: allocate a v4l2_fh at open time
-Date: Fri,  5 Nov 2021 09:51:38 +0000
-Message-Id: <7a59d8613331d242624e887d9089ded399015a97.1636105894.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9937D2C96
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:53:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B1DD461244;
+	Fri,  5 Nov 2021 09:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1636106033;
+	bh=5RdPzmhEi9UGFy1N1lSJbvOafX7Kib58Ryh0KfB7qpE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=w9q6h+8gYltRRJehXaFdCAyfAPgUErn2mYR6GISPhWWjqRSmAeuT0Oy1YB0aZV5zp
+	 e8EENDyGeNAihk3iPS0N5eMwLx/5oBSATnN3JmVAUz9IaRjqzUnIB/KMkcq7cRcGDJ
+	 L6Bi1SYF2T3QAgYg/Dm5A2uL9kW4sC++O6fmb3kw=
+Date: Fri, 5 Nov 2021 10:53:50 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Saurav Girepunje <saurav.girepunje@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, martin@kaiser.cx,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	saurav.girepunje@hotmail.com
+Subject: Re: [PATCH v2] staging: r8188eu: os_dep: remove the goto statement
+Message-ID: <YYT/LibxFzssNUJN@kroah.com>
+References: <YYKvWeyqd71pYSqM@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YYKvWeyqd71pYSqM@Sauravs-MacBook-Air.local>
 
-This avoids an OOPS when VIDIOC_*_PRIORITY calls are used.
+On Wed, Nov 03, 2021 at 09:18:41PM +0530, Saurav Girepunje wrote:
+> Remove the goto statement from rtw_init_drv_sw(). In this function goto
+> can be replace by return statement. As on goto label exit, function
+> only return it is not performing any cleanup. Avoiding goto will
+> improve the function readability.
+> 
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+> 
+> ChangelogV2:
+> 
+> 	-On V1 combined the if condition check for functions as below
+> 
+> 	 if (!rtw_init_evt_priv(&padapter->evtpriv) || !rtw_init_mlme_priv(padapter))
+> 		return _FAIL;
+> 	reverting these changes and keeping them as-is. It will make more clear on
+> 	individual function call if something need to handle for error case.
+> 
+> ChangelogV1:
+> 
+> 	-Remove the goto statement from rtw_init_drv_sw(). In this function goto
+> 	 can be replace by return statement. As on goto label exit, function
+> 	 only return it is not performing any cleanup. Avoiding goto will
+> 	 improve the function readability.
+> 
+>  drivers/staging/r8188eu/os_dep/os_intfs.c | 34 ++++++++---------------
+>  1 file changed, 11 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> index 1418c9c4916c..ec96e837ab88 100644
+> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> @@ -480,48 +480,37 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+>  {
+>  	u8	ret8 = _SUCCESS;
+> 
+> -	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL) {
+> -		ret8 = _FAIL;
+> -		goto exit;
+> -	}
+> +	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL)
+> +		return _FAIL;
+> 
+>  	padapter->cmdpriv.padapter = padapter;
+> 
+> -	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL) {
+> -		ret8 = _FAIL;
+> -		goto exit;
+> -	}
+> +	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL)
+> +		return _FAIL;
+> 
+> -	if (rtw_init_mlme_priv(padapter) == _FAIL) {
+> -		ret8 = _FAIL;
+> -		goto exit;
+> -	}
+> +	if (rtw_init_mlme_priv(padapter) == _FAIL)
+> +		return _FAIL;
+> 
+>  	rtw_init_wifidirect_timers(padapter);
+>  	init_wifidirect_info(padapter, P2P_ROLE_DISABLE);
+>  	reset_global_wifidirect_info(padapter);
+> 
+> -	if (init_mlme_ext_priv(padapter) == _FAIL) {
+> -		ret8 = _FAIL;
+> -		goto exit;
+> -	}
+> +	if (init_mlme_ext_priv(padapter) == _FAIL)
+> +		return _FAIL;
+> 
+>  	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
+>  		DBG_88E("Can't _rtw_init_xmit_priv\n");
+> -		ret8 = _FAIL;
+> -		goto exit;
+> +		return _FAIL;
+>  	}
+> 
+>  	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
+>  		DBG_88E("Can't _rtw_init_recv_priv\n");
+> -		ret8 = _FAIL;
+> -		goto exit;
+> +		return _FAIL;
+>  	}
+> 
+>  	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
+>  		DBG_88E("Can't _rtw_init_sta_priv\n");
+> -		ret8 = _FAIL;
+> -		goto exit;
+> +		return _FAIL;
+>  	}
+> 
+>  	padapter->stapriv.padapter = padapter;
 
-[   90.820011] BUG: kernel NULL pointer dereference, address: 0000000000000020
-[   90.820021] #PF: supervisor read access in kernel mode
-[   90.820026] #PF: error_code(0x0000) - not-present page
-[   90.820030] PGD 1221bc067 P4D 1221bc067 PUD 1221bd067 PMD 0
-[   90.820042] Oops: 0000 [#1] SMP
-[   90.820048] CPU: 0 PID: 2007 Comm: qv4l2 Tainted: G         C        5.15.0-rc4+ #77
-[   90.820055] Hardware name: ASUSTeK COMPUTER INC. T101HA/T101HA, BIOS T101HA.306 04/23/2019
-[   90.820059] RIP: 0010:v4l2_prio_change+0xf/0x40 [videodev]
-[   90.820096] Code: 48 8b 47 20 8b 40 44 25 ff ff 0f 00 48 8b 04 c5 20 58 44 c0 c3 66 0f 1f 44 00 00 0f 1f 44 00 00 8d 42 ff 83 f8 02 77 21 31 c0 <39> 16 74 20 8d 02 f0 ff 04 87 8b 06 89 c1 83 e9 01 83 f9 02 77 04
-[   90.820103] RSP: 0018:ffffb348c142fd70 EFLAGS: 00010246
-[   90.820109] RAX: 0000000000000000 RBX: ffff95575fbe2760 RCX: ffffb348c142fe48
-[   90.820114] RDX: 0000000000000002 RSI: 0000000000000020 RDI: ffff955740996088
-[   90.820118] RBP: 0000000040045644 R08: ffffffffc070da80 R09: 0000000000004000
-[   90.820122] R10: 0000000000000000 R11: 0000000000000000 R12: ffff955766725300
-[   90.820126] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000044
-[   90.820131] FS:  00007f848526b900(0000) GS:ffff9557bbe00000(0000) knlGS:0000000000000000
-[   90.820137] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   90.820141] CR2: 0000000000000020 CR3: 00000001221bf000 CR4: 00000000001006f0
-[   90.820146] Call Trace:
-[   90.820155]  __video_do_ioctl+0x37d/0x3b0 [videodev]
-[   90.820189]  video_usercopy+0x188/0x7a0 [videodev]
-[   90.820218]  ? v4l_print_control+0x20/0x20 [videodev]
-[   90.820247]  ? swake_up_one+0x39/0x70
-[   90.820258]  ? rcu_core+0xff/0x2e0
-[   90.820267]  ? sched_clock_cpu+0x9/0xa0
-[   90.820275]  ? irqtime_account_irq+0x38/0xb0
-[   90.820282]  v4l2_ioctl+0x46/0x50 [videodev]
+Right after this, ret8 is set, but never checked, which looks like a bug
+to me.  Can you work on fixing that after I take this patch?
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index 7df982c80b1a..41fa0ca2d8d4 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -782,6 +782,15 @@ static int atomisp_open(struct file *file)
- 	 * FIXME: revisit this with a better check once the code structure
- 	 * is cleaned up a bit more
- 	 */
-+dev_info(isp->dev, "opening v4l2 fh\n");
-+	ret = v4l2_fh_open(file);
-+	if (ret) {
-+		dev_err(isp->dev,
-+			"%s: v4l2_fh_open() returned error %d\n",
-+		       __func__, ret);
-+		rt_mutex_unlock(&isp->loading);
-+		return ret;
-+	}
- 	if (!isp->ready) {
- 		rt_mutex_unlock(&isp->loading);
- 		return -ENXIO;
-@@ -1046,7 +1055,7 @@ static int atomisp_release(struct file *file)
- 	rt_mutex_unlock(&isp->mutex);
- 	mutex_unlock(&isp->streamoff_mutex);
- 
--	return 0;
-+	return v4l2_fh_release(file);
- }
- 
- /*
--- 
-2.31.1
-
+greg k-h
