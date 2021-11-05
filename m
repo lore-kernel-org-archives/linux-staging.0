@@ -1,27 +1,27 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9937D2C96
-	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:53:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B1DD461244;
-	Fri,  5 Nov 2021 09:53:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373552C96
+	for <linux-staging@lists.linux.dev>; Fri,  5 Nov 2021 09:56:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7416461244;
+	Fri,  5 Nov 2021 09:56:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1636106033;
-	bh=5RdPzmhEi9UGFy1N1lSJbvOafX7Kib58Ryh0KfB7qpE=;
+	s=korg; t=1636106165;
+	bh=vYVIFCjyGM1T92odk6fVMveGQPoVPPHO2UMvis+BhqQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=w9q6h+8gYltRRJehXaFdCAyfAPgUErn2mYR6GISPhWWjqRSmAeuT0Oy1YB0aZV5zp
-	 e8EENDyGeNAihk3iPS0N5eMwLx/5oBSATnN3JmVAUz9IaRjqzUnIB/KMkcq7cRcGDJ
-	 L6Bi1SYF2T3QAgYg/Dm5A2uL9kW4sC++O6fmb3kw=
-Date: Fri, 5 Nov 2021 10:53:50 +0100
+	b=WnKU4zDjOY9eHuBn1uGEe4YbxX3ttSQuYhs29hf+JkwuYQ0bDJ2D+L3KhMY5l0jAv
+	 2kK6i+Qgv+K0UgedKUiF8iK3lr00k+H50vM8c9ScMvMUnCBfJ1R1YeICmz32qA/3n0
+	 lc158M0WZwopXu3Xv8qPBewvbkl/nvZZQ7qvKTTI=
+Date: Fri, 5 Nov 2021 10:56:03 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Saurav Girepunje <saurav.girepunje@gmail.com>
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	saurav.girepunje@hotmail.com
-Subject: Re: [PATCH v2] staging: r8188eu: os_dep: remove the goto statement
-Message-ID: <YYT/LibxFzssNUJN@kroah.com>
-References: <YYKvWeyqd71pYSqM@Sauravs-MacBook-Air.local>
+	straube.linux@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] staging: r8188eu: core: remove the unused variable
+ pAdapter
+Message-ID: <YYT/s7TABtElQTnC@kroah.com>
+References: <YYNSAqGgDPhV1IE1@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,103 +30,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YYKvWeyqd71pYSqM@Sauravs-MacBook-Air.local>
+In-Reply-To: <YYNSAqGgDPhV1IE1@Sauravs-MacBook-Air.local>
 
-On Wed, Nov 03, 2021 at 09:18:41PM +0530, Saurav Girepunje wrote:
-> Remove the goto statement from rtw_init_drv_sw(). In this function goto
-> can be replace by return statement. As on goto label exit, function
-> only return it is not performing any cleanup. Avoiding goto will
-> improve the function readability.
+On Thu, Nov 04, 2021 at 08:52:42AM +0530, Saurav Girepunje wrote:
+> Remove the unused variable pAdapter from Efuse_Write1ByteToFakeContent
+> This variable is not used in the function.
 > 
 > Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
 > ---
+>  drivers/staging/r8188eu/core/rtw_efuse.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
 > 
-> ChangelogV2:
+> diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+> index 03c8431b2ed3..39c77f6b06ef 100644
+> --- a/drivers/staging/r8188eu/core/rtw_efuse.c
+> +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+> @@ -40,10 +40,7 @@ static bool Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
+>  }
 > 
-> 	-On V1 combined the if condition check for functions as below
-> 
-> 	 if (!rtw_init_evt_priv(&padapter->evtpriv) || !rtw_init_mlme_priv(padapter))
-> 		return _FAIL;
-> 	reverting these changes and keeping them as-is. It will make more clear on
-> 	individual function call if something need to handle for error case.
-> 
-> ChangelogV1:
-> 
-> 	-Remove the goto statement from rtw_init_drv_sw(). In this function goto
-> 	 can be replace by return statement. As on goto label exit, function
-> 	 only return it is not performing any cleanup. Avoiding goto will
-> 	 improve the function readability.
-> 
->  drivers/staging/r8188eu/os_dep/os_intfs.c | 34 ++++++++---------------
->  1 file changed, 11 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 1418c9c4916c..ec96e837ab88 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -480,48 +480,37 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
->  {
->  	u8	ret8 = _SUCCESS;
-> 
-> -	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL) {
-> -		ret8 = _FAIL;
-> -		goto exit;
-> -	}
-> +	if ((rtw_init_cmd_priv(&padapter->cmdpriv)) == _FAIL)
-> +		return _FAIL;
-> 
->  	padapter->cmdpriv.padapter = padapter;
-> 
-> -	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL) {
-> -		ret8 = _FAIL;
-> -		goto exit;
-> -	}
-> +	if ((rtw_init_evt_priv(&padapter->evtpriv)) == _FAIL)
-> +		return _FAIL;
-> 
-> -	if (rtw_init_mlme_priv(padapter) == _FAIL) {
-> -		ret8 = _FAIL;
-> -		goto exit;
-> -	}
-> +	if (rtw_init_mlme_priv(padapter) == _FAIL)
-> +		return _FAIL;
-> 
->  	rtw_init_wifidirect_timers(padapter);
->  	init_wifidirect_info(padapter, P2P_ROLE_DISABLE);
->  	reset_global_wifidirect_info(padapter);
-> 
-> -	if (init_mlme_ext_priv(padapter) == _FAIL) {
-> -		ret8 = _FAIL;
-> -		goto exit;
-> -	}
-> +	if (init_mlme_ext_priv(padapter) == _FAIL)
-> +		return _FAIL;
-> 
->  	if (_rtw_init_xmit_priv(&padapter->xmitpriv, padapter) == _FAIL) {
->  		DBG_88E("Can't _rtw_init_xmit_priv\n");
-> -		ret8 = _FAIL;
-> -		goto exit;
-> +		return _FAIL;
->  	}
-> 
->  	if (_rtw_init_recv_priv(&padapter->recvpriv, padapter) == _FAIL) {
->  		DBG_88E("Can't _rtw_init_recv_priv\n");
-> -		ret8 = _FAIL;
-> -		goto exit;
-> +		return _FAIL;
->  	}
-> 
->  	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL) {
->  		DBG_88E("Can't _rtw_init_sta_priv\n");
-> -		ret8 = _FAIL;
-> -		goto exit;
-> +		return _FAIL;
->  	}
-> 
->  	padapter->stapriv.padapter = padapter;
+>  static bool
+> -Efuse_Write1ByteToFakeContent(
+> -			struct adapter *pAdapter,
+> -			u16 Offset,
+> -			u8 Value)
+> +Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)s
 
-Right after this, ret8 is set, but never checked, which looks like a bug
-to me.  Can you work on fixing that after I take this patch?
+You can do this same thing in drivers/staging/rtl8723bs/core/rtw_efuse.c
+if you want to.
 
 thanks,
 
