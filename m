@@ -1,64 +1,99 @@
-Received: from smtprelay.hostedemail.com (smtprelay0109.hostedemail.com [216.40.44.109])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F65B2C80
-	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 19:06:45 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-	by smtpgrave05.hostedemail.com (Postfix) with ESMTP id F05A718253E1A
-	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 19:06:38 +0000 (UTC)
-Received: from omf17.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-	by smtprelay03.hostedemail.com (Postfix) with ESMTP id 83741837F24F;
-	Sat,  6 Nov 2021 19:06:32 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id 588A727DD11;
-	Sat,  6 Nov 2021 19:06:31 +0000 (UTC)
-Message-ID: <dfa9d7734dfc64263b30f29b4d23aab7d0683089.camel@perches.com>
-Subject: Re: [PATCH v3] staging: vt6655: fix camelcase byData in card.c
-From: Joe Perches <joe@perches.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@oracle.com>, 
- Lucas Henneman <lucas.henneman@linaro.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Sat, 06 Nov 2021 12:06:30 -0700
-In-Reply-To: <20211106184822.24242-1-tomm.merciai@gmail.com>
-References: <20211106184822.24242-1-tomm.merciai@gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572632C80
+	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 19:26:41 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id u11so26111921lfs.1
+        for <linux-staging@lists.linux.dev>; Sat, 06 Nov 2021 12:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=hDKuMfuKHvXYCTyzBwpWdg5jQKTZxGpBuUokF1nO3Q4=;
+        b=nj9HWKNpIZleFk1RQQmlsEbl8qp/bXe6In22jB+l0Y32548ymztNaDBz5yoOQJKna+
+         LDRn8cb7Lw0lJbLZKoFmQx/1QVErKcuz2DjaQGlQP6VpwaIe5PSOuYUKPITjJzDlIk47
+         M2GHqJ3AtMyfa4/2VS1Wc2rpmFhDu7uGq7mA/fqLNJ2MprkwFpDzhVGQLSAKfsv635og
+         AV8VYKzxW/2D2m5C0YNYy6AoVKJq0bcTBRzbrHyk6nuLsDM8S7XR9LL6VgjSi5N2o75q
+         6+oU94WtpianAaTkaTMPU8NiSHv4fIm9TVomyNMfX9LgRcf6iMSL4ZAmqLhK4asVH97B
+         fDqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=hDKuMfuKHvXYCTyzBwpWdg5jQKTZxGpBuUokF1nO3Q4=;
+        b=ThzsAp5p/180VjV5gdM04kEGsPD/yIbmCMHbaZtxQ6PzMNRKzFBYgUTMvNUXcMlAsX
+         KvEtX+OKUmcHY+aJB7O5rcBFkygMTbiAbXJOiwkE1LLDTJU4eWErBtVjOwiDcA+xJvSH
+         sJMN8vEBV0opj7zJU2/3cGxV/dIcbUHATW9RBcg6l31nToc2PK+OUIWDkyY2TqBGYHSG
+         gt88xjNRmk8/dtARpDe85DaztM2SMu1YTITUL2MpMkX2T3Z3S14TVh/qeffLqztRMalc
+         D+OtFoXmuQlBHUHYA2Z4fS5+K134IcbFgnlnYc6Vtn9l0Pmzskz+t5mN7EjYUIOmA/Nm
+         FG0Q==
+X-Gm-Message-State: AOAM532hhWEeyf7G1Bw6eBKIuH+7WIaZ1wyDoJCiAv/LVGaO2PfRb88L
+	n45eQHQkSreOKMt9lZNZ1vY=
+X-Google-Smtp-Source: ABdhPJzFljNEZFYH+bYFXMHEjeLy4vH0h+0lzfcX5JY20/pySDIgyYybdPDQjI5fL/fl1uAy6ShBBA==
+X-Received: by 2002:ac2:5fee:: with SMTP id s14mr60852218lfg.537.1636226799276;
+        Sat, 06 Nov 2021 12:26:39 -0700 (PDT)
+Received: from [192.168.1.11] ([217.117.245.207])
+        by smtp.gmail.com with ESMTPSA id q10sm1236140lfu.68.2021.11.06.12.26.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Nov 2021 12:26:38 -0700 (PDT)
+Message-ID: <4f40be0c-1989-fd36-2d40-2e896d8d944f@gmail.com>
+Date: Sat, 6 Nov 2021 22:26:35 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: r8188eu driver in 5.15 only shows wifi networks on channel 11
+Content-Language: en-US
+To: Zameer Manji <zmanji@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Larry Finger <Larry.Finger@lwfinger.net>, Martin Kaiser <martin@kaiser.cx>,
+ Michael Straube <straube.linux@gmail.com>
+References: <CABtXzjTvsN8sCQq0tMG+VZ8Vu04a1zR20P-hbQf-Mnpmu2gTNg@mail.gmail.com>
+ <2d7b9450-159b-f244-f4c3-e9db753f83eb@gmail.com>
+ <CABtXzjSjkQTMmrA_PmbLaMUFR9X7xUMx+VG=v1jsdLQAdg+rJg@mail.gmail.com>
+ <510e2388-41ea-bf66-16ee-eb282cc41405@gmail.com>
+ <5ed4c9f0-111a-7a13-1426-2f9f26b9937a@gmail.com>
+ <CABtXzjSOXiZW5J3-k-jkFS3N9p9k_X=F2JrvJc9_T+By8FJc8A@mail.gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <CABtXzjSOXiZW5J3-k-jkFS3N9p9k_X=F2JrvJc9_T+By8FJc8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=1.54
-X-Stat-Signature: ofjfs3x471n54wadq1j5wjebzjk5zntk
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 588A727DD11
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19wa3WnbWtclsmB1B3+H0/jXjdUlQ7T7zg=
-X-HE-Tag: 1636225591-979161
 
-On Sat, 2021-11-06 at 19:48 +0100, Tommaso Merciai wrote:
-> Replace camelcase variable "byData" into linux kernel coding style
-> equivalent variable "data" in card.c.
-> "by" prefix in hungarian notation stands for byte or unsigned char
-[]
-> diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-[]
-> @@ -194,15 +194,15 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
->  			priv->abyBBVGA[0] = 0x20;
->  			priv->abyBBVGA[2] = 0x10;
->  			priv->abyBBVGA[3] = 0x10;
-> -			bb_read_embedded(priv, 0xE7, &byData);
-> -			if (byData == 0x1C)
-> +			bb_read_embedded(priv, 0xE7, &data);
+On 11/6/21 16:21, Zameer Manji wrote:
+> Hello All,
+> 
+> Pavel, I believe we have different hardware since my lsusb
+> output shows
+> 
+> ```
+> Bus 003 Device 002: ID 0bda:8179 Realtek Semiconductor Corp.
+> RTL8188EUS 802.11n Wireless Network Adapter
+> ```
+> 
+> Where your device has a different id/name. Maybe that's the root
+> cause?
+> 
+> Phillip, the last release that worked for me was the 5.14 release.
+> 
+> Setting debug=9 set produces the following extra output. I am
+> not sure how to interpret it.
+> 
 
-It might be nice to figure out what these register values are
-and use #defines instead of hard coded values like 0xE7
+My device is TP-Link TL-WN722N v2/v3 RTL8188EUS. I see, that Larry has 
+cooked a patch, so I hope it will work for you :)
 
-> +			if (data == 0x1C)
->  				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
+We need to review code better to prevent accidentally regressions
 
-etc...
+Thanks for bisection and your report
 
+
+
+With regards,
+Pavel Skripkin
