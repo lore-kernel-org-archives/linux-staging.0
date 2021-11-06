@@ -1,95 +1,216 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E68C2C80
-	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 18:30:32 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id s13so19112885wrb.3
-        for <linux-staging@lists.linux.dev>; Sat, 06 Nov 2021 11:30:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702F82C80
+	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 18:38:24 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id y73so14521683iof.4
+        for <linux-staging@lists.linux.dev>; Sat, 06 Nov 2021 11:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BIIyAtDCkj56X6tydET6i22fhxrgxmbq38aVGTO18UE=;
-        b=RHTrxs2xtgzdzoHvqDOlqsIaBJa458htUIvwEz51mV8Jwh9fcqScF7jSr9NmA7VI37
-         kqv8IoeNj1FMIKnltHmO4t0jnTtU1MoFa9Vl47LOj4K2C7IiuswHKJ0fbIloTWmzndaJ
-         5EcZzfSox+YC3Lx7sN31NGy19SQHeP1wS/8hOLVNFSvylQC/0fYFE2Yra/WJEuJXjd/G
-         9X4kJ15jT+wHapovxolyEGxKeF8dr6CdRVo4plF6GGnO8FHKWqQUWHm6Jl+F1SpHnu1Y
-         NZVjOosEUWR/YXBrpMa6U83Ch8Nn8nL9CqEwesqUJq1NiOcAH0ipO7sZ4HTuZaIu3g8R
-         RxIQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9S5oHAmnScjjJzJoMnQXat0UgrVfZXu2Ev8iwM+SUpE=;
+        b=BNk6tEQayGxI9Bqdhs64NR/wTUlQovH1v52TNPLLpN4Fwb8M3S4KemGdRL5aTovrav
+         2jmC2c24aWAcGb5ujGZNnXVnWET6hRwbtfoW87PqeQlfAeUiqPHno/wKHQ3Lg+VAvtFt
+         wS0E510s+LBSse/ND5hh26SGO2yeBWv5eFIWTw7y2CLPe9v2x61ZnQc3jMwas88e4d16
+         eyZj0lC9jwb5IU2AoOCljKgcHnDW8xi4y94/dHfxCoG96MTXF2/oJ2ACQYPGtbgTMvJh
+         0oPpNh+hQmB7ddFCWiazix2//34C0qQdYN+1otszNpKAR3oWyP+WNUKcoG1sj1KLlqPG
+         o9Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BIIyAtDCkj56X6tydET6i22fhxrgxmbq38aVGTO18UE=;
-        b=poNz0W9WX7MHfAJ96qxpVKGj4B8Op/ngPUqObxsGscbDoLXuTomvH2JXu3g9pu1QvL
-         CYBhGfLbvQwDegAV5ssQpldLUyRJvq/YxPWI5py8p794eaXGK5cJKnw+GbgGo/NX8q62
-         KHzepSZOGb3Iw+bTDkMaj1Wr4xe/Oub8PxFpN/oB9IiK7dw59A2fohGyMnrCFvC+CYSu
-         rg22qcWR2oNQa0GFoGlVgejcuCzFM42xCWsJrBlY2hS/qpfMcMlJftcJGAQ0dWxoj1v7
-         Mx0AQr+IEue6tHRNwZoVfi58toN1H2joa2crsqSvGm4oCEP75uyoaHLbObX1eHMUOjF9
-         74NA==
-X-Gm-Message-State: AOAM532XRUc+vU3diL1Xbo9d0PxR5A8vUcPqxt3GOvqm9KxVJTS8cwtO
-	Sbq+5StZehzn8offa++ie/pwLQ==
-X-Google-Smtp-Source: ABdhPJxmpn3IFfzKVKolTk7M12/q4+AQGi3aQnXB0cMKBWZH/++NIeDhYihpAUyjQ7rPyaWBhQMkGQ==
-X-Received: by 2002:a05:6000:1688:: with SMTP id y8mr14962747wrd.420.1636223430971;
-        Sat, 06 Nov 2021 11:30:30 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id c15sm11019116wrs.19.2021.11.06.11.30.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9S5oHAmnScjjJzJoMnQXat0UgrVfZXu2Ev8iwM+SUpE=;
+        b=WVBMYHHykhdT/nlghXbn6aAe0NEwQb9Orw1co2OQq22PH7xx3GwkqPz7E5GzS5aDrr
+         u8mLJRWX9WYwY+l0ADiplYbKD1Zmzo2yob5QrJf6jsujXPGdF+uaNiTbNr122gTGtukY
+         cCGJadcbeZXhnhD+Nq/MWha/0PQTEx9QhVsRztTWqK66mvREuiwC0/1VaxCD+zR+F3/m
+         0uLlc+MyABxrxdJYky5CN2tmpeYzUmWmlNuEjofoCVmoI1jLtIAaMNHK15R3x7zbcwOx
+         zdU8PAD17soBBVFZrtIclczzpveQnIgBx66A09JB9WQyfjF3iHb0rhoLuvKnHiAEUKPc
+         w6Nw==
+X-Gm-Message-State: AOAM5328iDPBA1eWbYmfdItcemXu+4vDEjcEMFleeBUgeN74Z/g+Dc5B
+	YTdLcnQNhOFhIZ5UCaxH0Gw=
+X-Google-Smtp-Source: ABdhPJx1eRslfc8lgovdJvKBdwnm0TwhpaEMzSronnvFUCLxb1Is+3dHZy24nDADw9qOgud4gfv7Jw==
+X-Received: by 2002:a02:cb8f:: with SMTP id u15mr12236972jap.131.1636223903395;
+        Sat, 06 Nov 2021 11:38:23 -0700 (PDT)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:64ba:1c0f:6d36:c11d])
+        by smtp.gmail.com with ESMTPSA id o10sm7174077ilu.49.2021.11.06.11.38.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Nov 2021 11:30:30 -0700 (PDT)
-Date: Sat, 6 Nov 2021 18:30:28 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Zameer Manji <zmanji@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Martin Kaiser <martin@kaiser.cx>,
-	Michael Straube <straube.linux@gmail.com>
-Subject: Re: r8188eu driver in 5.15 only shows wifi networks on channel 11
-Message-ID: <YYbJxFAAFuIA8t6W@equinox>
-References: <CABtXzjTvsN8sCQq0tMG+VZ8Vu04a1zR20P-hbQf-Mnpmu2gTNg@mail.gmail.com>
- <2d7b9450-159b-f244-f4c3-e9db753f83eb@gmail.com>
- <CABtXzjSjkQTMmrA_PmbLaMUFR9X7xUMx+VG=v1jsdLQAdg+rJg@mail.gmail.com>
- <510e2388-41ea-bf66-16ee-eb282cc41405@gmail.com>
- <5ed4c9f0-111a-7a13-1426-2f9f26b9937a@gmail.com>
- <CABtXzjSOXiZW5J3-k-jkFS3N9p9k_X=F2JrvJc9_T+By8FJc8A@mail.gmail.com>
- <CABtXzjQk87ZhYcc2h5mU0mR+6zC7rKrpP-g6uE=DxE56NXQXpA@mail.gmail.com>
- <YYa0e98JTsE0PPDL@equinox>
- <CABtXzjTkER+2KzsfhcYVN+gDGWUTmpX=2smdfine_fa-b+nsRA@mail.gmail.com>
- <21b97629-00b1-0fed-a4f3-fc318372aea2@lwfinger.net>
+        Sat, 06 Nov 2021 11:38:22 -0700 (PDT)
+From: Adam Ford <aford173@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: tharvey@gateworks.com,
+	frieder.schrempf@kontron.de,
+	marek.vasut@gmail.com,
+	jagan@amarulasolutions.com,
+	aford@beaconembedded.com,
+	cstevens@beaconembedded.com,
+	Adam Ford <aford173@gmail.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Joakim Zhang <qiangqing.zhang@nxp.com>,
+	Alice Guo <alice.guo@nxp.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	linux-rockchip@lists.infradead.org (open list:HANTRO VPU CODEC DRIVER),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
+	linux-kernel@vger.kernel.org (open list),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM)
+Subject: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+Date: Sat,  6 Nov 2021 13:37:56 -0500
+Message-Id: <20211106183802.893285-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <21b97629-00b1-0fed-a4f3-fc318372aea2@lwfinger.net>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 06, 2021 at 01:09:23PM -0500, Larry Finger wrote:
-> On 11/6/21 12:16, Zameer Manji wrote:
-> > Hello,
-> > 
-> > I would be happy to test the patch. I am not an experienced git user
-> > when it comes to
-> > taking patches from mailing lists so I would appreciate it if a commit
-> > was pushed to a
-> > git repository that I could pull down.
-> 
-> Sorry for assuming your level of familiarity with Linux. I find that anyone
-> that can do a successful bisection is pretty adept. Unfortunately, I do not
-> control the repository, thus I cannot push patches.
-> 
-> Please tell me how you read E-mail. Do you use a local mail client such as
-> Thunderbird? If so, I will send a special patch form that can be installed
-> with git.
-> 
-> Larry
+The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+to be related to the video decoders used on the i.MX8MQ, but because of
+how the Mini handles the power domains, the VPU driver does not need to
+handle all the functions, so a new compatible flag is required.
 
-Hi Zameer,
+The i.MX8MM also has a Hantro video encoder which appears to be similar
+to what's already supported in some Rockchip devices.  As part of the
+series, some of the video format names are re-named to be more generic.
 
-Just setting up a temporary repo now with Larry's v2 patch applied. I will
-share the URL shortly so you can just clone/pull from it.
+The VPUs appear as media devices:
 
-Regards,
-Phil
+Media device information
+------------------------
+driver          hantro-vpu
+model           hantro-vpu
+serial          
+bus info        platform: hantro-vpu
+hw revision     0x0
+driver version  5.15.0
+
+Device topology
+- entity 1: nxp,imx8mm-vpu-dec-source (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+	pad0: Source
+		-> "nxp,imx8mm-vpu-dec-proc":0 [ENABLED,IMMUTABLE]
+
+- entity 3: nxp,imx8mm-vpu-dec-proc (2 pads, 2 links)
+            type Node subtype Unknown flags 0
+	pad0: Sink
+		<- "nxp,imx8mm-vpu-dec-source":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		-> "nxp,imx8mm-vpu-dec-sink":0 [ENABLED,IMMUTABLE]
+
+- entity 6: nxp,imx8mm-vpu-dec-sink (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+	pad0: Sink
+		<- "nxp,imx8mm-vpu-dec-proc":1 [ENABLED,IMMUTABLE]
+
+
+
+Media device information
+------------------------
+driver          hantro-vpu
+model           hantro-vpu
+serial          
+bus info        platform: hantro-vpu
+hw revision     0x0
+driver version  5.15.0
+
+Device topology
+- entity 1: nxp,imx8mm-vpu-g2-dec-source (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video2
+	pad0: Source
+		-> "nxp,imx8mm-vpu-g2-dec-proc":0 [ENABLED,IMMUTABLE]
+
+- entity 3: nxp,imx8mm-vpu-g2-dec-proc (2 pads, 2 links)
+            type Node subtype Unknown flags 0
+	pad0: Sink
+		<- "nxp,imx8mm-vpu-g2-dec-source":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		-> "nxp,imx8mm-vpu-g2-dec-sink":0 [ENABLED,IMMUTABLE]
+
+- entity 6: nxp,imx8mm-vpu-g2-dec-sink (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video2
+	pad0: Sink
+		<- "nxp,imx8mm-vpu-g2-dec-proc":1 [ENABLED,IMMUTABLE]
+
+
+
+Media device information
+------------------------
+driver          hantro-vpu
+model           hantro-vpu
+serial          
+bus info        platform: hantro-vpu
+hw revision     0x0
+driver version  5.15.0
+
+Device topology
+- entity 1: nxp,imx8mm-vpu-h1-enc-source (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video3
+	pad0: Source
+		-> "nxp,imx8mm-vpu-h1-enc-proc":0 [ENABLED,IMMUTABLE]
+
+- entity 3: nxp,imx8mm-vpu-h1-enc-proc (2 pads, 2 links)
+            type Node subtype Unknown flags 0
+	pad0: Sink
+		<- "nxp,imx8mm-vpu-h1-enc-source":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		-> "nxp,imx8mm-vpu-h1-enc-sink":0 [ENABLED,IMMUTABLE]
+
+- entity 6: nxp,imx8mm-vpu-h1-enc-sink (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video3
+	pad0: Sink
+		<- "nxp,imx8mm-vpu-h1-enc-proc":1 [ENABLED,IMMUTABLE]
+
+This is an RFC because I don't have functional video on my system yet,
+and I'm hoping there might be people who do and can help test this.
+I have only tested this far enough to see they enumerate and appear
+as /dev/videoX and /dev/mediaX devices.
+
+I am also curious to know if/what gstreamer plugins are necessary.  In
+NXP's custom kernel, there are IMX-specific plugins, and I was hoping there
+would be more generic plugins that I can use to test.  I am hoping some
+of the linux-media experts might chime in on how to best test.
+
+Lastly, I didn't update any device tree binding YAML files, because
+I know there have been some discussions about the power domains on the
+imx8mq, and I wasn't sure if the imx8mm should get a separate YAML file
+or if the existing one for te imx8mq should just be modified.
+
+This will likely require the following series in order to apply correctly:
+https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=576407
+
+Adam Ford (5):
+  media: hantro: Add support for i.MX8M Mini
+  arm64: dts: imx8mm:  Enable VPU-G1 and VPU-G2
+  media: hantro: Rename ROCKCHIP_VPU_ENC_FMT to HANTRO_VPU_ENC_FMT
+  media: hantro: Add H1 encoder support on i.MX8M Mini
+  arm64: dts: imx8mm:  Enable Hantro H1 Encoder
+
+ arch/arm64/boot/dts/freescale/imx8mm.dtsi     |  61 ++++++++
+ drivers/staging/media/hantro/hantro_drv.c     |   3 +
+ drivers/staging/media/hantro/hantro_hw.h      |  19 ++-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 143 ++++++++++++++++++
+ .../staging/media/hantro/rockchip_vpu_hw.c    |  26 ++--
+ 5 files changed, 231 insertions(+), 21 deletions(-)
+
+-- 
+2.32.0
+
