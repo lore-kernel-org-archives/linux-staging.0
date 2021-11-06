@@ -1,76 +1,54 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0492C2C80
-	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 18:38:38 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id r8so71572iog.7
-        for <linux-staging@lists.linux.dev>; Sat, 06 Nov 2021 11:38:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42EF32C80
+	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 18:48:27 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id j128-20020a1c2386000000b003301a98dd62so11976026wmj.5
+        for <linux-staging@lists.linux.dev>; Sat, 06 Nov 2021 11:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=udKl62y2x/Oh2cW97C2eKZ5L1gu+lpGXEnEESf3ayO4=;
-        b=fF8BuidW/FPcrJ2yf9wm3QJp4AL8b8rBt6CifE+v2//RxyWSJ0hVD/OyKAhAsI5g/z
-         hNJAwWjZen9DblNTkvtAI4ExLnad4GRPXUULPZzZHurrnwyg+MPopwjt0IhcnDhrLcYh
-         +Nr14SsC38b+nmVhUfrkeJi5pCMxSJhnhSXgOTYBaCGJ/hWFuVdcmKFApFelUfu7fhbS
-         osvVDZ2rbFtFgQUcnuso2Ba/OcqSDAw3vt5ahC66vP5km3HC0vuMbSaC9M6oRB5M6qMe
-         Q6ZvkqvIVDBS69JJIxBC54fXdis+xwlSM5FzxFZ/Rn+dptLc3ax9jjvGgliZ3tSN1Ytv
-         BZCQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I1aSLk3W8G9yuphhnCgQYAWu3kk6gw0wJUjcpepyNuI=;
+        b=EblOfLQhB3inCnviNIteijFBd0HGCk9g2K81U4oNrFFfMyZ/XeCkQLYy1D5jqxwE3r
+         xgYrG2AZ89IRMEnr0HIz/T5EhjVAUQGCGM9LM+p974QmJeud5n6oOfdzjq0KwI1NfRo/
+         ZTYbUc0ZGufZd/C4EXmMhnXZku1JgYJd91zbyXF13LgnTrgi2T3gkMIql7fyJ5pWVxXu
+         wL+R3TRlA/ANZ68JF6toANvWssLBF4kiBOkM+42LmGofuPdmx/CF4yTon9WzRs94wsOm
+         x4LlAYidSeJjmO0gpm0y7FAGC4IOweu8WqXJ3sqyiygfOU4kjXJB+5Tkcf31lJZP1QR4
+         cbtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=udKl62y2x/Oh2cW97C2eKZ5L1gu+lpGXEnEESf3ayO4=;
-        b=sACY6dlDnqKQNoQFFj5U7DYeH+j+NHt0MQoCkC2b5ljHdNFTJPVuo0o6twGWelNHcR
-         afbjy+FYjopGhfXXU+B7nicpvRBOv3GgMWAQytCW4vVeRwvgSYPtclKpd3C+LTDdRM1K
-         26SOpn2PdGGIEB+WVHbBYToY/xpb7qCCfD+TYJBokrVwbbi4jeB3IKAtB3qsOwBynRRH
-         4We6bC4PoeYXy9hT5Ur99Cj/OnFyxDRWlmdoaUpDNvngMSUh+h/1Rvhpvqx2xiM8ZCKY
-         eO/148qJA1X4CkhwMuxm1WqhoBhfHaWqCP7L1q9Isj4Fk/nFKuWhkSGHKy5DcpSC2/a+
-         dAWQ==
-X-Gm-Message-State: AOAM5324/1p72rn/RDxNBzGx8ftBHG4uot9WF3ttCJ5GCHhUMHwQuBdC
-	VlkQSUJ2o45J2do+InWT7tY=
-X-Google-Smtp-Source: ABdhPJzi/tEgr5ILGu/G4uh+io+CaFv2TdlL4qlt4DJ0TsFdO3pDfvEw1qfgLCdAoScQ2u7hufdjBA==
-X-Received: by 2002:a05:6602:2cce:: with SMTP id j14mr5024039iow.23.1636223918087;
-        Sat, 06 Nov 2021 11:38:38 -0700 (PDT)
-Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:64ba:1c0f:6d36:c11d])
-        by smtp.gmail.com with ESMTPSA id o10sm7174077ilu.49.2021.11.06.11.38.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=I1aSLk3W8G9yuphhnCgQYAWu3kk6gw0wJUjcpepyNuI=;
+        b=cgLX/cSXJlD6B1aBNhDZzi33VuQQZo1pqIstZk45/zKT5CLq9jepUt+0wmr5NE7SO6
+         8pfmgc/FQVuyo+cmRcBLC2VlKX09zFlyDI0zfyb75b4wVpbz0byQjIsVHzetV2dRy12T
+         /FntXjMmw1vBH6nsq2kxhDWpCV+4YsfJoPQSKf5pSWaRvJEY0aVyBC09wEuqFDil3WJ0
+         f2GUnFdBncQXC0j6aAOg0d40vjsiQGEIFJbDZ0j17m2HnepHWSkaVpueyMLc8CUgb+HB
+         SKowibTtChD3qSeLqZ0SVsRh+YOuLqbYqJYaXxcWUHndmfxuMWRsgytcveNZjpBwU4av
+         rprg==
+X-Gm-Message-State: AOAM53388VNGG8dUCbHn4BriBakdpein/ynEJJ/0cRKT1509p+VmM8LF
+	2ODSPWUdfU51AeHN26vSdZ8=
+X-Google-Smtp-Source: ABdhPJzRy52uSalUV5xegNUwXlv65ztTorvrZwkUar/gB2ye/P8jGkmovlOArnY5vHo4UEtav+c3lg==
+X-Received: by 2002:a05:600c:1:: with SMTP id g1mr40281990wmc.19.1636224505574;
+        Sat, 06 Nov 2021 11:48:25 -0700 (PDT)
+Received: from tom-ThinkPad-T470p.station (net-188-153-110-208.cust.vodafonedsl.it. [188.153.110.208])
+        by smtp.gmail.com with ESMTPSA id l16sm11373206wmq.46.2021.11.06.11.48.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Nov 2021 11:38:36 -0700 (PDT)
-From: Adam Ford <aford173@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: tharvey@gateworks.com,
-	frieder.schrempf@kontron.de,
-	marek.vasut@gmail.com,
-	jagan@amarulasolutions.com,
-	aford@beaconembedded.com,
-	cstevens@beaconembedded.com,
-	Adam Ford <aford173@gmail.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
+        Sat, 06 Nov 2021 11:48:24 -0700 (PDT)
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: 
+Cc: tomm.merciai@gmail.com,
+	Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Joakim Zhang <qiangqing.zhang@nxp.com>,
-	Alice Guo <alice.guo@nxp.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	linux-rockchip@lists.infradead.org (open list:HANTRO VPU CODEC DRIVER),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
-	linux-kernel@vger.kernel.org (open list),
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM)
-Subject: [RFC 5/5] arm64: dts: imx8mm:  Enable Hantro H1 Encoder
-Date: Sat,  6 Nov 2021 13:38:01 -0500
-Message-Id: <20211106183802.893285-6-aford173@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211106183802.893285-1-aford173@gmail.com>
-References: <20211106183802.893285-1-aford173@gmail.com>
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] staging: vt6655: fix camelcase byData in card.c
+Date: Sat,  6 Nov 2021 19:48:19 +0100
+Message-Id: <20211106184822.24242-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,74 +57,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The i.MX8M Mini has a Hantro H1 video encoder which appears
-as a media device.
+Replace camelcase variable "byData" into linux kernel coding style
+equivalent variable "data" in card.c.
+"by" prefix in hungarian notation stands for byte or unsigned char
 
-Media device information
-------------------------
-driver          hantro-vpu
-model           hantro-vpu
-serial
-bus info        platform: hantro-vpu
-hw revision     0x0
-driver version  5.15.0
+References:
+https://www.kernel.org/doc/html/latest/process/coding-style.html
+https://www.cse.iitk.ac.in/users/dsrkg/cs245/html/Guide.htm
 
-Device topology
-- entity 1: nxp,imx8mm-vpu-h1-enc-source (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video3
-	pad0: Source
-		-> "nxp,imx8mm-vpu-h1-enc-proc":0 [ENABLED,IMMUTABLE]
-
-- entity 3: nxp,imx8mm-vpu-h1-enc-proc (2 pads, 2 links)
-            type Node subtype Unknown flags 0
-	pad0: Sink
-		<- "nxp,imx8mm-vpu-h1-enc-source":0 [ENABLED,IMMUTABLE]
-	pad1: Source
-		-> "nxp,imx8mm-vpu-h1-enc-sink":0 [ENABLED,IMMUTABLE]
-
-- entity 6: nxp,imx8mm-vpu-h1-enc-sink (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video3
-	pad0: Sink
-		<- "nxp,imx8mm-vpu-h1-enc-proc":1 [ENABLED,IMMUTABLE]
-
-Signed-off-by: Adam Ford <aford173@gmail.com>
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
 ---
- arch/arm64/boot/dts/freescale/imx8mm.dtsi | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Changes since v1:
+ - Make the commit body message more clearer
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index 725c3113831e..b4c204cbced8 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -1289,6 +1289,26 @@ vpu_g2: video-codec@38310000 {
- 			power-domains = <&vpu_blk_ctrl IMX8MM_VPUBLK_PD_G2>;
- 		};
+Changes since v2:
+ - Update linux coding style link as suggested by gregkh
+
+ drivers/staging/vt6655/card.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 26e08fec6e6a..fac2d0566d2e 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -183,7 +183,7 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
+ 	unsigned char bySlot = 0;
+ 	unsigned char bySIFS = 0;
+ 	unsigned char byDIFS = 0;
+-	unsigned char byData;
++	unsigned char data;
+ 	int i;
  
-+		vpu_h1: video-codec@38320000 {
-+			compatible = "nxp,imx8mm-vpu-h1";
-+			reg = <0x38320000 0x10000>;
-+			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "h1";
-+			clocks = <&clk IMX8MM_CLK_VPU_H1_ROOT>,
-+				 <&clk IMX8MM_CLK_VPU_DEC_ROOT>;
-+			clock-names = "h1",  "bus";
-+			assigned-clocks = <&clk IMX8MM_CLK_VPU_H1>,
-+					 <&clk IMX8MM_CLK_VPU_BUS>,
-+					 <&clk IMX8MM_VPU_PLL_BYPASS>;
-+			assigned-clock-parents = <&clk IMX8MM_VPU_PLL_OUT>,
-+						<&clk IMX8MM_SYS_PLL1_800M>,
-+						<&clk IMX8MM_VPU_PLL>;
-+			assigned-clock-rates = <600000000>,
-+					       <800000000>,
-+					       <0>;
-+			power-domains = <&vpu_blk_ctrl IMX8MM_VPUBLK_PD_H1>;
-+		};
-+
- 		vpu_blk_ctrl: blk-ctrl@38330000 {
- 			compatible = "fsl,imx8mm-vpu-blk-ctrl", "syscon";
- 			reg = <0x38330000 0x100>;
+ 	/* Set SIFS, DIFS, EIFS, SlotTime, CwMin */
+@@ -194,15 +194,15 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
+ 			priv->abyBBVGA[0] = 0x20;
+ 			priv->abyBBVGA[2] = 0x10;
+ 			priv->abyBBVGA[3] = 0x10;
+-			bb_read_embedded(priv, 0xE7, &byData);
+-			if (byData == 0x1C)
++			bb_read_embedded(priv, 0xE7, &data);
++			if (data == 0x1C)
+ 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
+ 
+ 		} else if (priv->byRFType == RF_UW2452) {
+ 			MACvSetBBType(priv->port_offset, BB_TYPE_11A);
+ 			priv->abyBBVGA[0] = 0x18;
+-			bb_read_embedded(priv, 0xE7, &byData);
+-			if (byData == 0x14) {
++			bb_read_embedded(priv, 0xE7, &data);
++			if (data == 0x14) {
+ 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
+ 				bb_write_embedded(priv, 0xE1, 0x57);
+ 			}
+@@ -220,14 +220,14 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
+ 			priv->abyBBVGA[0] = 0x1C;
+ 			priv->abyBBVGA[2] = 0x00;
+ 			priv->abyBBVGA[3] = 0x00;
+-			bb_read_embedded(priv, 0xE7, &byData);
+-			if (byData == 0x20)
++			bb_read_embedded(priv, 0xE7, &data);
++			if (data == 0x20)
+ 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
+ 
+ 		} else if (priv->byRFType == RF_UW2452) {
+ 			priv->abyBBVGA[0] = 0x14;
+-			bb_read_embedded(priv, 0xE7, &byData);
+-			if (byData == 0x18) {
++			bb_read_embedded(priv, 0xE7, &data);
++			if (data == 0x18) {
+ 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
+ 				bb_write_embedded(priv, 0xE1, 0xD3);
+ 			}
+@@ -243,14 +243,14 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
+ 			priv->abyBBVGA[0] = 0x1C;
+ 			priv->abyBBVGA[2] = 0x00;
+ 			priv->abyBBVGA[3] = 0x00;
+-			bb_read_embedded(priv, 0xE7, &byData);
+-			if (byData == 0x20)
++			bb_read_embedded(priv, 0xE7, &data);
++			if (data == 0x20)
+ 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
+ 
+ 		} else if (priv->byRFType == RF_UW2452) {
+ 			priv->abyBBVGA[0] = 0x14;
+-			bb_read_embedded(priv, 0xE7, &byData);
+-			if (byData == 0x18) {
++			bb_read_embedded(priv, 0xE7, &data);
++			if (data == 0x18) {
+ 				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
+ 				bb_write_embedded(priv, 0xE1, 0xD3);
+ 			}
+@@ -798,12 +798,12 @@ bool CARDbGetCurrentTSF(struct vnt_private *priv, u64 *pqwCurrTSF)
+ {
+ 	void __iomem *iobase = priv->port_offset;
+ 	unsigned short ww;
+-	unsigned char byData;
++	unsigned char data;
+ 
+ 	MACvRegBitsOn(iobase, MAC_REG_TFTCTL, TFTCTL_TSFCNTRRD);
+ 	for (ww = 0; ww < W_MAX_TIMEOUT; ww++) {
+-		VNSvInPortB(iobase + MAC_REG_TFTCTL, &byData);
+-		if (!(byData & TFTCTL_TSFCNTRRD))
++		VNSvInPortB(iobase + MAC_REG_TFTCTL, &data);
++		if (!(data & TFTCTL_TSFCNTRRD))
+ 			break;
+ 	}
+ 	if (ww == W_MAX_TIMEOUT)
 -- 
-2.32.0
+2.25.1
 
