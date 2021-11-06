@@ -1,65 +1,69 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD36F68
-	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 00:29:41 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id o4-20020a1c7504000000b0032cab7473caso7571608wmc.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Nov 2021 17:29:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0587A68
+	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 08:32:37 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id bi35so23590824lfb.9
+        for <linux-staging@lists.linux.dev>; Sat, 06 Nov 2021 01:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uN3WMQFe0hvRsy6yv6SJmASXyPGscCDvF5bb2Y8pt3E=;
-        b=uGVFcNxdDeR7JCuTx003ZrOnle8glpoKwnYasry8OyAScw9jebQq+qEkdS04/xQtTH
-         CCkPbCqs93u8YL5qn6Aykb9tyOlNps6qS5n5Q7GmHj9zSh5k6syrzAlRF2ktgZ8LFQJr
-         IpwM2du+gmNdUSnHjP6GDIhI0RoxlTo1r6aqO5qrGMGGzaD5tTrhg9y/cGBP54EvMkna
-         QscN77hNS2v2U0BiUM0GvS3KVp7JSgMrzqbsnR8dKClFwkRvhuNpdT9jb76lDpFl1Mpw
-         nbb7flFZMxo/07V9oI6faFZ2QdqQ9noOZUuyznMsjIkA8KxQ9Da5KBCAP1fqzq+fnxHG
-         3qXg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=rGY2yPBp3UpUadgFTJnj4puwjca9nGK47hNRROMLfcc=;
+        b=gO/XloTWnto4jLfyE0oGRm5MWdJmUI/41z8GqunygHjlR+8r1nTrLftJkYX2s9E1V1
+         DWnXZ4xvqVlokECfzEWu4GrNS3trjE1yPlZCLbfRl4xjVcas7UY0tGp7cxKbUmt5dJLb
+         eqYNRR5F4pSjeCMQxk/y0uxceZFBZzsUz8umPsICl/N4ZXzcQ6VuUi6GRgW923eihduw
+         fQOvoDozSlL+qK+6b4T28kLq1bhwGtZZY7Qnbsj/wPDNNZWAMFT9zzkXe0pxajAEeUOT
+         lO8ZG/1/XJwizcz7HPgUDvoEZpB29rZc/KjOhZRRQ4VAqqGBMbe+QANeXnaIQM4PESqV
+         6log==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uN3WMQFe0hvRsy6yv6SJmASXyPGscCDvF5bb2Y8pt3E=;
-        b=HcBmbLLKbRKu7VgmJZY8cJNtkv1ZCIxjhZqkpvgC1K5SlksFcgVy1d9LfSZsZc5E6q
-         B/DeddEFQm54q8HaxHTU3W8V5IB74BeOLn97AgcbDKX6rqImTc+QDKBE53VwapXU5Z7K
-         ghkuavTCZLNSNUdzVbOSjZjhSMQ0unuoq0KqwgF0xPPM5GzacdGkWBUpnphL+Y9fwITy
-         yYN8myTRGN5IyjO4mJVxrQuHIGrvWDTVwLrQZEltAzmtXBrRuGtqpbdDPPcJf451fAmU
-         TXFUvbSAoOnwqGhsvlKsOBiPT1YiLlKbr9JHncQZhCeZajHIM54Psk6EEMZd1Mdhk2mU
-         H0gg==
-X-Gm-Message-State: AOAM530vn2OTgzlOLgVOsTlnSMcIXRY3CF4CKXTJECbPe5viaTJRCXtY
-	UCHEvrCafUyBwge8T9KIf9MZpg==
-X-Google-Smtp-Source: ABdhPJyZA5BVagbiLk0+JSsbwY9TfrIqA9Ff4s+vAfWLrwCD6eulQePHo25cSjJg8zWvPbSKTelENg==
-X-Received: by 2002:a1c:1fcf:: with SMTP id f198mr34495133wmf.66.1636158580171;
-        Fri, 05 Nov 2021 17:29:40 -0700 (PDT)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id t8sm9013022wrv.30.2021.11.05.17.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Nov 2021 17:29:39 -0700 (PDT)
-Date: Sat, 6 Nov 2021 00:29:37 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Zameer Manji <zmanji@gmail.com>
-Cc: Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Martin Kaiser <martin@kaiser.cx>,
-	Michael Straube <straube.linux@gmail.com>
-Subject: Re: r8188eu driver in 5.15 only shows wifi networks on channel 11
-Message-ID: <YYXMcaXl3TB2yu7g@equinox>
-References: <CABtXzjTvsN8sCQq0tMG+VZ8Vu04a1zR20P-hbQf-Mnpmu2gTNg@mail.gmail.com>
- <2d7b9450-159b-f244-f4c3-e9db753f83eb@gmail.com>
- <CABtXzjSjkQTMmrA_PmbLaMUFR9X7xUMx+VG=v1jsdLQAdg+rJg@mail.gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=rGY2yPBp3UpUadgFTJnj4puwjca9nGK47hNRROMLfcc=;
+        b=zZmHBjDF5tG3GUaXLKTCkByK5d+hYBOhvXFfkhGY5cMvbEBr3ve7y1cPJSf+L7w+u9
+         dfru7oL4leO5W46VALP79ZPqhTl655Lzw7UpZ2oVn42U552aqaGiOYabLHBBCXqb/g//
+         xBxVm8qfUtDeGef60xv1P450udq/Eqxa/cMBu+HYPi7TEa858KGdyWLNygiZD0cHScVk
+         rzreJAuAEpI3RMAcjN0rv/r22LHOm1fiXd1sfsOQP1zMrZCBAT+Bcz5Rhgv4+9g44wgV
+         ZGSIBOLs/XRH7dV87sl67hTCKVKZ6J2SMW/7ZwDDhlVmFKuzHCCA/bybYdcpuuX2e5h9
+         EpoQ==
+X-Gm-Message-State: AOAM531HxGzRNdqX6ku6l4TQJZAnbm8Inzw30VGuQlR9s01/bIzPVT5R
+	tRpYuL5KRD+Mt5xWKVB80Ms=
+X-Google-Smtp-Source: ABdhPJz31je593yVV2BkwmPqBUzdNykLGMLxeysKCK2Ef2DigJW55Ijds5gzgsGhWhRz9XMil08hQw==
+X-Received: by 2002:a05:6512:21c7:: with SMTP id d7mr4019735lft.434.1636187556055;
+        Sat, 06 Nov 2021 01:32:36 -0700 (PDT)
+Received: from [192.168.1.11] ([217.117.245.207])
+        by smtp.gmail.com with ESMTPSA id t20sm980779lji.44.2021.11.06.01.32.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Nov 2021 01:32:35 -0700 (PDT)
+Message-ID: <510e2388-41ea-bf66-16ee-eb282cc41405@gmail.com>
+Date: Sat, 6 Nov 2021 11:32:34 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: r8188eu driver in 5.15 only shows wifi networks on channel 11
+Content-Language: en-US
+To: Zameer Manji <zmanji@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Phillip Potter <phil@philpotter.co.uk>,
+ Larry Finger <Larry.Finger@lwfinger.net>, Martin Kaiser <martin@kaiser.cx>,
+ Michael Straube <straube.linux@gmail.com>
+References: <CABtXzjTvsN8sCQq0tMG+VZ8Vu04a1zR20P-hbQf-Mnpmu2gTNg@mail.gmail.com>
+ <2d7b9450-159b-f244-f4c3-e9db753f83eb@gmail.com>
+ <CABtXzjSjkQTMmrA_PmbLaMUFR9X7xUMx+VG=v1jsdLQAdg+rJg@mail.gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
 In-Reply-To: <CABtXzjSjkQTMmrA_PmbLaMUFR9X7xUMx+VG=v1jsdLQAdg+rJg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 05, 2021 at 05:03:46PM -0400, Zameer Manji wrote:
+On 11/6/21 00:03, Zameer Manji wrote:
 > Hello Pavel,
 > 
 > I will attempt to bisect the issue.
@@ -72,16 +76,15 @@ On Fri, Nov 05, 2021 at 05:03:46PM -0400, Zameer Manji wrote:
 > 
 > 
 
-Hi Zameer,
+Hi, Zameer!
 
-Like Pavel, I was unable to replicate this issue, and I'm on x86-64
-which may explain why I couldn't, if the bug is arm64 specific as you
-suspect. I don't currently have access to ARM64 hardware, but if it
-helps I can try and run a fully emulated ARM64 board in QEMU with USB
-passthrough as some point over the weekend?
+I think, I can build aarch64 kernel and test it in vm.
 
-What was the last commit/release that definitely worked for you prior
-to 5.15-rc1?
+Btw, did you try to enable debug logs? debug=9 module argument will turn 
+on all debug logs and maybe there will be some additional information 
+about what actually happened
 
-Regards,
-Phil
+
+
+With regards,
+Pavel Skripkin
