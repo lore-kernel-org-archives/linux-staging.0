@@ -1,30 +1,30 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB1568
-	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F78D2C96
+	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1636305368;
+	s=mimecast20190719; t=1636305369;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dGSvvr9ix576I1a7Ujvg1bDF0KcvkvIRz076If3X540=;
-	b=cNrfPKBPXOunSlzPrV4JlWggrJjt6Y4tJTNlrWkhyOc4vWxc+T12v54GQ6v6B8tyqZcxd1
-	6Q6dQSZBHAHl7EwtxkX/ThB1lIEK/OEXTbyX9Jy+EKXVnXbpH4r3eEbT7IflQx5jowgKrU
-	zoE2KVmEH5lNwE7+II6gDYS0MZ4O29o=
+	bh=TN3M1d5XJcSeQr02Uxkvd7ceeDIpLiFFnrD5J9Lli10=;
+	b=FK6CHOFTjcO8yc3PDlnFJnWfF/pGjfMe3o011xrhBaI3aUnvIolpKW8Vu+t0/62UZ+nyUQ
+	uS8zU0ERIkBeBBNWkiBp2n0rFM9/9XaRYdjvWVUYz5XJY/lZYi1+C3tMMnD8CQRFAIFQM3
+	JC05SpccjC9JUop+Ybma4yuwBtkY4Fo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-xGyWAghSPTSYEcq3uNQ9cw-1; Sun, 07 Nov 2021 12:15:56 -0500
-X-MC-Unique: xGyWAghSPTSYEcq3uNQ9cw-1
+ us-mta-380-0XbMcXJAPYqkjy0SMzLjRw-1; Sun, 07 Nov 2021 12:16:05 -0500
+X-MC-Unique: 0XbMcXJAPYqkjy0SMzLjRw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE3AF802C8F;
-	Sun,  7 Nov 2021 17:15:54 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B32115720;
+	Sun,  7 Nov 2021 17:16:04 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A38A457CD3;
-	Sun,  7 Nov 2021 17:15:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0CE3B57CD3;
+	Sun,  7 Nov 2021 17:16:01 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -37,9 +37,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 01/11] media: atomisp-ov2680: Remove a bunch of unused vars from ov2680_device
-Date: Sun,  7 Nov 2021 18:15:39 +0100
-Message-Id: <20211107171549.267583-2-hdegoede@redhat.com>
+Subject: [PATCH 05/11] media: atomisp-ov2680: Move ov2680_init_registers() call to power_up()
+Date: Sun,  7 Nov 2021 18:15:43 +0100
+Message-Id: <20211107171549.267583-6-hdegoede@redhat.com>
 In-Reply-To: <20211107171549.267583-1-hdegoede@redhat.com>
 References: <20211107171549.267583-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -51,113 +51,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 
-Remove a couple of variables which where either completely unused,
-or only ever got a value assigned to them but were never read.
+Move ov2680_init_registers() call to power_up(), so that we also
+init the registers on code-paths which do not call ov2680_s_power()
+like running camorama.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/i2c/atomisp-ov2680.c        | 25 -------------------
- drivers/staging/media/atomisp/i2c/ov2680.h    |  4 ---
- 2 files changed, 29 deletions(-)
+Note we should really look into makeing sure that s_power() is always
+called when it should and remove the power_up() call from
+ov2680_set_fmt() when that is done.
+
+Even then we still need the power_on bool though since power_down()
+gets called on every runtime-suspend, even if power_up() was never
+called.
+---
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index ef439937717b..56f95e44316d 100644
+index b6927f9be022..83608ba4e70a 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -166,8 +166,6 @@ static int ov2680_get_intg_factor(struct i2c_client *client,
- 				  struct camera_mipi_info *info,
- 				  const struct ov2680_resolution *res)
- {
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct ov2680_device *dev = to_ov2680_sensor(sd);
- 	struct atomisp_sensor_mode_data *buf = &info->data;
- 	unsigned int pix_clk_freq_hz;
- 	u16 reg_val;
-@@ -180,7 +178,6 @@ static int ov2680_get_intg_factor(struct i2c_client *client,
- 	/* pixel clock */
- 	pix_clk_freq_hz = res->pix_clk_freq * 1000000;
+@@ -744,9 +744,15 @@ static int power_up(struct v4l2_subdev *sd)
+ 	/* according to DS, 20ms is needed between PWDN and i2c access */
+ 	msleep(20);
  
--	dev->vt_pix_clk_freq_mhz = pix_clk_freq_hz;
- 	buf->vt_pix_clk_freq_mhz = pix_clk_freq_hz;
++	ret = ov2680_init_registers(sd);
++	if (ret)
++		goto fail_init_registers;
++
+ 	dev->power_on = true;
+ 	return 0;
  
- 	/* get integration time */
-@@ -434,24 +431,8 @@ static int ov2680_q_exposure(struct v4l2_subdev *sd, s32 *value)
- 	return ret;
- }
- 
--static u32 ov2680_translate_bayer_order(enum atomisp_bayer_order code)
--{
--	switch (code) {
--	case atomisp_bayer_order_rggb:
--		return MEDIA_BUS_FMT_SRGGB10_1X10;
--	case atomisp_bayer_order_grbg:
--		return MEDIA_BUS_FMT_SGRBG10_1X10;
--	case atomisp_bayer_order_bggr:
--		return MEDIA_BUS_FMT_SBGGR10_1X10;
--	case atomisp_bayer_order_gbrg:
--		return MEDIA_BUS_FMT_SGBRG10_1X10;
--	}
--	return 0;
--}
--
- static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
- {
--	struct ov2680_device *dev = to_ov2680_sensor(sd);
- 	struct camera_mipi_info *ov2680_info = NULL;
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret;
-@@ -476,15 +457,12 @@ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
- 	ov2680_info = v4l2_get_subdev_hostdata(sd);
- 	if (ov2680_info) {
- 		ov2680_info->raw_bayer_order = ov2680_bayer_order_mapping[index];
--		dev->format.code = ov2680_translate_bayer_order(
--				       ov2680_info->raw_bayer_order);
++fail_init_registers:
++	dev->platform_data->flisclk_ctrl(sd, 0);
+ fail_clk:
+ 	gpio_ctrl(sd, 0);
+ fail_power:
+@@ -807,8 +813,6 @@ static int ov2680_s_power(struct v4l2_subdev *sd, int on)
+ 		ret = power_down(sd);
+ 	} else {
+ 		ret = power_up(sd);
+-		if (!ret)
+-			ret = ov2680_init_registers(sd);
  	}
- 	return ret;
- }
  
- static int ov2680_h_flip(struct v4l2_subdev *sd, s32 value)
- {
--	struct ov2680_device *dev = to_ov2680_sensor(sd);
- 	struct camera_mipi_info *ov2680_info = NULL;
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	int ret;
-@@ -510,8 +488,6 @@ static int ov2680_h_flip(struct v4l2_subdev *sd, s32 value)
- 	ov2680_info = v4l2_get_subdev_hostdata(sd);
- 	if (ov2680_info) {
- 		ov2680_info->raw_bayer_order = ov2680_bayer_order_mapping[index];
--		dev->format.code = ov2680_translate_bayer_order(
--				       ov2680_info->raw_bayer_order);
- 	}
- 	return ret;
- }
-@@ -1199,7 +1175,6 @@ static int ov2680_probe(struct i2c_client *client)
- 
- 	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
--	dev->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
- 	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret =
- 	    v4l2_ctrl_handler_init(&dev->ctrl_handler,
-diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-index 535440ed14d7..9f9f6695eed9 100644
---- a/drivers/staging/media/atomisp/i2c/ov2680.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-@@ -169,14 +169,10 @@ struct ov2680_format {
- struct ov2680_device {
- 	struct v4l2_subdev sd;
- 	struct media_pad pad;
--	struct v4l2_mbus_framefmt format;
- 	struct mutex input_lock;
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct ov2680_resolution *res;
- 	struct camera_sensor_platform_data *platform_data;
--	int vt_pix_clk_freq_mhz;
--	int run_mode;
--	u8 type;
- };
- 
- /**
+ 	mutex_unlock(&dev->input_lock);
 -- 
 2.31.1
 
