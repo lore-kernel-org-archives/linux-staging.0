@@ -1,30 +1,30 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A92C2C99
-	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF30368
+	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:16:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1636305369;
+	s=mimecast20190719; t=1636305373;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YqyauolxCwJzENXehwNcrAs/KmXm1xUKj3TqZRG8H1M=;
-	b=GC2GDEwueghdKthD5OuBb8e4OT6fytuZ0h/SwKuw5S3NxckJotI2BogRn4w5DXXBGkYe+a
-	sHExMXMGK14cRM55RkmZYj5Yp+lMlzqR3oy2LH1K/MapZlds4+ZcoMKRZhosHYUw5gukhQ
-	uExBDm2JhDG7OuFqJMMYUP2rpGkOG/U=
+	bh=kFRnRVo7m67vnXPldImfmaggNaRRIwxaAtsgE2VRJtU=;
+	b=Ocnb+DB+0sxHXLL9NPZrQvEmPKtp49OUIhYqvqjElythZCP/UG8a4P4owWIbW6iCsi6OqX
+	55weF0KRYkCztdU0XYf7UYWOfmlfZxFL5t2eT8TaF8Nq4KnNBMTaX96ZMvG4S7CUTyOxs3
+	Q/vFB7IV4kR3tfS4My/9yRcLFymWnLo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-pG036CGqOruzRHVuqAfdVw-1; Sun, 07 Nov 2021 12:16:08 -0500
-X-MC-Unique: pG036CGqOruzRHVuqAfdVw-1
+ us-mta-310-_-ssiAWgOJ2ZSXzrhCChPQ-1; Sun, 07 Nov 2021 12:16:12 -0500
+X-MC-Unique: _-ssiAWgOJ2ZSXzrhCChPQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6742D104ED1A;
-	Sun,  7 Nov 2021 17:16:06 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F8AB8042DB;
+	Sun,  7 Nov 2021 17:16:11 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6288E57CD3;
-	Sun,  7 Nov 2021 17:16:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0BFD267843;
+	Sun,  7 Nov 2021 17:16:08 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -37,9 +37,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 06/11] media: atomisp-ov2680: Save/restore exposure and gain over sensor power-down
-Date: Sun,  7 Nov 2021 18:15:44 +0100
-Message-Id: <20211107171549.267583-7-hdegoede@redhat.com>
+Subject: [PATCH 08/11] media: atomisp-ov2680: Fix and simplify ov2680_q_exposure()
+Date: Sun,  7 Nov 2021 18:15:46 +0100
+Message-Id: <20211107171549.267583-9-hdegoede@redhat.com>
 In-Reply-To: <20211107171549.267583-1-hdegoede@redhat.com>
 References: <20211107171549.267583-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -51,69 +51,59 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 
-Save/restore exposure and gain over sensor power-down and don't write them
-to the sensor when ov2680_set_exposure() is called while the sensor is off.
+Switch to ov2680_read_reg() to read all 24 bits in one go;
+and the exposure value sits in bits 4-19 of the 24 bit exposure
+register, so we need to shift the read value by 4 to report the
+correct value.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../staging/media/atomisp/i2c/atomisp-ov2680.c    | 15 ++++++++++++++-
- drivers/staging/media/atomisp/i2c/ov2680.h        |  3 +++
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 27 +++++--------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 83608ba4e70a..5b192218ba91 100644
+index 7e49f4eb0410..d6a5f75fdd66 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -359,7 +359,14 @@ static int ov2680_set_exposure(struct v4l2_subdev *sd, int exposure,
+@@ -410,32 +410,17 @@ static long ov2680_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
+ static int ov2680_q_exposure(struct v4l2_subdev *sd, s32 *value)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	u32 reg_v, reg_v2;
++	u32 reg_val;
  	int ret;
  
- 	mutex_lock(&dev->input_lock);
--	ret = __ov2680_set_exposure(sd, exposure, gain, digitgain);
-+
-+	dev->exposure = exposure;
-+	dev->gain = gain;
-+	dev->digitgain = digitgain;
-+
-+	if (dev->power_on)
-+		ret = __ov2680_set_exposure(sd, exposure, gain, digitgain);
-+
- 	mutex_unlock(&dev->input_lock);
- 
- 	return ret;
-@@ -748,6 +755,10 @@ static int power_up(struct v4l2_subdev *sd)
+ 	/* get exposure */
+-	ret = ov2680_read_reg(client, 1,
+-			      OV2680_EXPOSURE_L,
+-			      &reg_v);
+-	if (ret)
+-		goto err;
+-
+-	ret = ov2680_read_reg(client, 1,
+-			      OV2680_EXPOSURE_M,
+-			      &reg_v2);
++	ret = ov2680_read_reg(client, 3, OV2680_EXPOSURE_H, &reg_val);
  	if (ret)
- 		goto fail_init_registers;
+-		goto err;
+-
+-	reg_v += reg_v2 << 8;
+-	ret = ov2680_read_reg(client, 1,
+-			      OV2680_EXPOSURE_H,
+-			      &reg_v2);
+-	if (ret)
+-		goto err;
++		return ret;
  
-+	ret = __ov2680_set_exposure(sd, dev->exposure, dev->gain, dev->digitgain);
-+	if (ret)
-+		goto fail_init_registers;
-+
- 	dev->power_on = true;
- 	return 0;
+-	*value = reg_v + (reg_v2 << 16);
+-err:
+-	return ret;
++	/* Lower four bits are not part of the exposure val (always 0) */
++	*value = reg_val >> 4;
++	return 0;
+ }
  
-@@ -1140,6 +1151,8 @@ static int ov2680_probe(struct i2c_client *client)
- 	mutex_init(&dev->input_lock);
- 
- 	dev->res = &ov2680_res_preview[0];
-+	dev->exposure = dev->res->lines_per_frame - OV2680_INTEGRATION_TIME_MARGIN;
-+	dev->gain = 250; /* 0-2047 */
- 	v4l2_i2c_subdev_init(&dev->sd, client, &ov2680_ops);
- 
- 	pdata = gmin_camera_platform_data(&dev->sd,
-diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-index c1998c9132a2..ca20ce5aa285 100644
---- a/drivers/staging/media/atomisp/i2c/ov2680.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-@@ -174,6 +174,9 @@ struct ov2680_device {
- 	struct ov2680_resolution *res;
- 	struct camera_sensor_platform_data *platform_data;
- 	bool power_on;
-+	u16 exposure;
-+	u16 gain;
-+	u16 digitgain;
- };
- 
- /**
+ static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
 -- 
 2.31.1
 
