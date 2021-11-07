@@ -1,30 +1,30 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF30368
-	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:16:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F18968
+	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:16:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1636305373;
+	s=mimecast20190719; t=1636305375;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kFRnRVo7m67vnXPldImfmaggNaRRIwxaAtsgE2VRJtU=;
-	b=Ocnb+DB+0sxHXLL9NPZrQvEmPKtp49OUIhYqvqjElythZCP/UG8a4P4owWIbW6iCsi6OqX
-	55weF0KRYkCztdU0XYf7UYWOfmlfZxFL5t2eT8TaF8Nq4KnNBMTaX96ZMvG4S7CUTyOxs3
-	Q/vFB7IV4kR3tfS4My/9yRcLFymWnLo=
+	bh=WiPLWJPgTA6gAhs9VVSBRkfSI3oaxNGGr5gWgMBCnms=;
+	b=DxyIprcPd6UVkQLTXzS9smVrby4gykTD5nRshU1cGL5WsGL0dRD0EpYJW43mMK8URcIoGc
+	8TtZpN6ZIQtd+LkIRmuqXisn10gzJ5meGqC/iK7/m3BwLmG8gspHA3BZADtn+Zrd1kxVOt
+	X138KGdqiy0fpvKJKO5lWoOFzIHpwNo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-_-ssiAWgOJ2ZSXzrhCChPQ-1; Sun, 07 Nov 2021 12:16:12 -0500
-X-MC-Unique: _-ssiAWgOJ2ZSXzrhCChPQ-1
+ us-mta-455-9C25friiPU-VnG2Q_i6LMQ-1; Sun, 07 Nov 2021 12:16:01 -0500
+X-MC-Unique: 9C25friiPU-VnG2Q_i6LMQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F8AB8042DB;
-	Sun,  7 Nov 2021 17:16:11 +0000 (UTC)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 743A28042CF;
+	Sun,  7 Nov 2021 17:15:59 +0000 (UTC)
 Received: from x1.localdomain (unknown [10.39.192.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0BFD267843;
-	Sun,  7 Nov 2021 17:16:08 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 50F2057CD3;
+	Sun,  7 Nov 2021 17:15:57 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -37,9 +37,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Fabio Aiuto <fabioaiuto83@gmail.com>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 08/11] media: atomisp-ov2680: Fix and simplify ov2680_q_exposure()
-Date: Sun,  7 Nov 2021 18:15:46 +0100
-Message-Id: <20211107171549.267583-9-hdegoede@redhat.com>
+Subject: [PATCH 03/11] media: atomisp-ov2680: Push the input_lock taking up into ov2680_s_power()
+Date: Sun,  7 Nov 2021 18:15:41 +0100
+Message-Id: <20211107171549.267583-4-hdegoede@redhat.com>
 In-Reply-To: <20211107171549.267583-1-hdegoede@redhat.com>
 References: <20211107171549.267583-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -51,59 +51,65 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 
-Switch to ov2680_read_reg() to read all 24 bits in one go;
-and the exposure value sits in bits 4-19 of the 24 bit exposure
-register, so we need to shift the read value by 4 to report the
-correct value.
+ov2680_s_power() is the only caller of ov2680_init(), push the input_lock
+taking from ov2680_init() up into ov2680_s_power(), this way the new
+power_on bool is also protected by it.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- .../media/atomisp/i2c/atomisp-ov2680.c        | 27 +++++--------------
- 1 file changed, 6 insertions(+), 21 deletions(-)
+ .../media/atomisp/i2c/atomisp-ov2680.c        | 20 ++++++++-----------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 7e49f4eb0410..d6a5f75fdd66 100644
+index 7b7cf7a68823..2721223ebcde 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -410,32 +410,17 @@ static long ov2680_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
- static int ov2680_q_exposure(struct v4l2_subdev *sd, s32 *value)
+@@ -655,21 +655,11 @@ static int ov2680_init_registers(struct v4l2_subdev *sd)
+ 
+ static int ov2680_init(struct v4l2_subdev *sd)
  {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u32 reg_v, reg_v2;
-+	u32 reg_val;
- 	int ret;
- 
- 	/* get exposure */
--	ret = ov2680_read_reg(client, 1,
--			      OV2680_EXPOSURE_L,
--			      &reg_v);
--	if (ret)
--		goto err;
+-	struct ov2680_device *dev = to_ov2680_sensor(sd);
 -
--	ret = ov2680_read_reg(client, 1,
--			      OV2680_EXPOSURE_M,
--			      &reg_v2);
-+	ret = ov2680_read_reg(client, 3, OV2680_EXPOSURE_H, &reg_val);
- 	if (ret)
--		goto err;
+-	int ret;
 -
--	reg_v += reg_v2 << 8;
--	ret = ov2680_read_reg(client, 1,
--			      OV2680_EXPOSURE_H,
--			      &reg_v2);
--	if (ret)
--		goto err;
-+		return ret;
+-	mutex_lock(&dev->input_lock);
+-
+ 	/* restore settings */
+ 	ov2680_res = ov2680_res_preview;
+ 	N_RES = N_RES_PREVIEW;
  
--	*value = reg_v + (reg_v2 << 16);
--err:
+-	ret = ov2680_init_registers(sd);
+-
+-	mutex_unlock(&dev->input_lock);
+-
 -	return ret;
-+	/* Lower four bits are not part of the exposure val (always 0) */
-+	*value = reg_val >> 4;
-+	return 0;
++	return ov2680_init_registers(sd);
  }
  
- static int ov2680_v_flip(struct v4l2_subdev *sd, s32 value)
+ static int power_ctrl(struct v4l2_subdev *sd, bool flag)
+@@ -817,15 +807,21 @@ static int power_down(struct v4l2_subdev *sd)
+ 
+ static int ov2680_s_power(struct v4l2_subdev *sd, int on)
+ {
++	struct ov2680_device *dev = to_ov2680_sensor(sd);
+ 	int ret;
+ 
++	mutex_lock(&dev->input_lock);
++
+ 	if (on == 0) {
+ 		ret = power_down(sd);
+ 	} else {
+ 		ret = power_up(sd);
+ 		if (!ret)
+-			return ov2680_init(sd);
++			ret = ov2680_init(sd);
+ 	}
++
++	mutex_unlock(&dev->input_lock);
++
+ 	return ret;
+ }
+ 
 -- 
 2.31.1
 
