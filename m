@@ -1,104 +1,123 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2961B68
-	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:44:09 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id s24so14369426plp.0
-        for <linux-staging@lists.linux.dev>; Sun, 07 Nov 2021 09:44:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xjl9+CEP43AsYHfS7KL6O6N3m1KhqAGplZ+XQFg3jQo=;
-        b=YWgefyqzxxBD3rlgz3CG3XU0eq36CTeZVt//aHpCohfr2fHrU6xTlvDRaBnWh0bbPT
-         PxrI7M/8IWvYBznnoAIo8IKWUMVES0sQDjR5772kxkrTs03I+VEcttQh5UGSJKibWImf
-         /Ezx8ZN/hI72TV1W3NVEZfyc2bKX8wF1AJ8mPdtFXlgiSSzkfEdeQNjq7bQLYnTqz5km
-         wIqrKtgFVk0s5BwVw5K99KC8e0oag8BDBUfFq7n7ymT7UkPuOiD1xkfCM10F+DN4ILFY
-         pLBoVne4VcRixznWYrhdy+4zRDOTbkfVR647aWPF4dVzPIvN/cRTN2Ko/2XPNpr/i36K
-         US5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xjl9+CEP43AsYHfS7KL6O6N3m1KhqAGplZ+XQFg3jQo=;
-        b=sIgaI6/gPB2FPoV30RLwZOEf8u3y/jYgiymzszBQnTbfyUJtZ0R6g6lWnQCNbzoJV4
-         9Z0X5wS6IRMxSeyvbp0f5XH4RJm0s5Jx9WfLbXxSQNJVyB23FF0wvUzrq6Thl99yA2MC
-         eeKTUH33dpPN6BnyQV3AlUXFDc5Rtneqi9gyJ7V0FT8fvtGZWy8f47F0PVERNnWCmMen
-         S9HYjyOY4OTOxiShQV46Kh8nbeqi0K2dSTAKKy4ED2dhrTxV81kX+oaUf6ieZbYuR+/N
-         Vrw2hX47edFguEXt8Za4Zg56ZcPG7sBnEln6MPtMjXI80I4dXFbp6HRN+SPJkSHmGr4J
-         AwkQ==
-X-Gm-Message-State: AOAM533nxdM8VqH+n8txCT+AT6eQqafoX+SoyFg0yJ/lMEkbOnXvqN0G
-	J5j2td1umT86hprb4Y/jLo41R7ffBGYF2odLyOotcQ==
-X-Google-Smtp-Source: ABdhPJxINONf55fxJqdllPtpzr8XTcFEY4Av/x9s8kcehhAWTNeEb7kHflA42J/sEDupZtwyCOKhgDCJakICmgVRxMo=
-X-Received: by 2002:a17:902:934c:b0:13d:c685:229b with SMTP id
- g12-20020a170902934c00b0013dc685229bmr64444159plp.25.1636307048598; Sun, 07
- Nov 2021 09:44:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD6168
+	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1636307424;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=VI9/oTkMv73lXfxkfvV9yRrXnTPAd4jUWgjMM+1DFzc=;
+	b=iQCzE5lx3FRgSo9dRKc5dJ4+ki1/CJftaDiXIY8qEXVP1oapdoP5RHc0M/12AxgdFMyKyC
+	yMdHvlpb3xU4qGP2bxSI8QOmYUsNvJy+43CooPASmCViICC5ze+aq53FPctLYatXXMZV/Q
+	0g3SFI0jL8wDqeT7n3ytXW0+axrhoNA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-iyjgleweNyaCyb-fmeh8gQ-1; Sun, 07 Nov 2021 12:50:21 -0500
+X-MC-Unique: iyjgleweNyaCyb-fmeh8gQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6C6F100C662;
+	Sun,  7 Nov 2021 17:50:18 +0000 (UTC)
+Received: from x1.localdomain (unknown [10.39.192.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 65EB619730;
+	Sun,  7 Nov 2021 17:50:14 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Andy Shevchenko <andy@infradead.org>,
+	Yury Luneff <yury.lunev@gmail.com>,
+	Nable <nable.maininbox@googlemail.com>,
+	andrey.i.trufanov@gmail.com,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	libcamera-devel@lists.libcamera.org
+Subject: [RFC] media: Auto exposure/gain support for atomisp / libcamera integration ?
+Date: Sun,  7 Nov 2021 18:50:13 +0100
+Message-Id: <20211107175013.355188-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211107173543.7486-1-Larry.Finger@lwfinger.net>
-In-Reply-To: <20211107173543.7486-1-Larry.Finger@lwfinger.net>
-From: Phillip Potter <phil@philpotter.co.uk>
-Date: Sun, 7 Nov 2021 17:43:57 +0000
-Message-ID: <CAA=Fs0mCkY4_5PJg++EWDcJaaTPjN6q3d6o2ZU_ZW4HBDPU4XA@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: r8188eu: Fix breakage introduced when 5G code
- was removed
-To: Larry Finger <Larry.Finger@lwfinger.net>
-Cc: Greg KH <gregkh@linuxfoundation.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Zameer Manji <zmanji@gmail.com>, 
-	kernel test robot <lkp@intel.com>, Stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 
-On Sun, 7 Nov 2021 at 17:35, Larry Finger <Larry.Finger@lwfinger.net> wrote:
->
-> In commit 221abd4d478a ("staging: r8188eu: Remove no more necessary definitions
-> and code"), two entries were removed from RTW_ChannelPlanMap[], but not replaced
-> with zeros. The position within this table is important, thus the patch broke
-> systems operating in regulatory domains osted later than entry 0x13 in the table.
-> Unfortunately, the FCC entry comes before that point and most testers did not see
-> this problem.
->
-> Reported-and-tested-by: Zameer Manji <zmanji@gmail.com>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Fixes: 221abd4d478a ("staging: r8188eu: Remove no more necessary definitions and code")
-> Cc: Stable <stable@vger.kernel.org> # v5.5+
-> Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
-> ---
->
-> v2 - fixed use of () rsther than {} - found by kernel test robot
-> ---
->  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> index 55c3d4a6faeb..5b60e6df5f87 100644
-> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-> @@ -107,6 +107,7 @@ static struct rt_channel_plan_map   RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
->         {0x01}, /* 0x10, RT_CHANNEL_DOMAIN_JAPAN */
->         {0x02}, /* 0x11, RT_CHANNEL_DOMAIN_FCC_NO_DFS */
->         {0x01}, /* 0x12, RT_CHANNEL_DOMAIN_JAPAN_NO_DFS */
-> +       {0x00}, /* 0x13 */
->         {0x02}, /* 0x14, RT_CHANNEL_DOMAIN_TAIWAN_NO_DFS */
->         {0x00}, /* 0x15, RT_CHANNEL_DOMAIN_ETSI_NO_DFS */
->         {0x00}, /* 0x16, RT_CHANNEL_DOMAIN_KOREA_NO_DFS */
-> @@ -118,6 +119,7 @@ static struct rt_channel_plan_map   RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
->         {0x00}, /* 0x1C, */
->         {0x00}, /* 0x1D, */
->         {0x00}, /* 0x1E, */
-> +       {0x00}, /* 0x1F, */
->         /*  0x20 ~ 0x7F , New Define ===== */
->         {0x00}, /* 0x20, RT_CHANNEL_DOMAIN_WORLD_NULL */
->         {0x01}, /* 0x21, RT_CHANNEL_DOMAIN_ETSI1_NULL */
-> --
-> 2.33.1
->
+Hi All,
 
-Reviewed-by: Phillip Potter <phil@philpotter.co.uk>
+Now that we have the atomisp2 driver running on some devices like
+the Asus T101HA; and with the exposure + gain controls for the ov2680
+sensor found on that laptop fixed:
+
+https://lore.kernel.org/linux-media/20211107171549.267583-1-hdegoede@redhat.com/
+
+I believe we need to start thinking about various userspace API
+concerns. Thanks to Mauro's great work on various V4L2 API things
+are starting to work (somewhat) with regular V4L2 apps, but we really
+also need some processing / 3A stuff to make the cameras really
+usable.
+
+The most important thing needed is automatic exposure + gain control,
+ATM this relies on a custom ATOMISP ioctl, but I believe that we can
+just export the controls as regular v4l2 controls on the sensor subdev,
+at least for the ov2680 the exposure is already exported this way
+but it is read-only. Does anyone see any problems with just making
+these normal v4l2 controls on the sensor subdev ?
+
+We can then simulate the custom ATOMISP ioctl through the subdevs,
+or we can just remove it alltogether.
+
+Once we have the controls available this way I think we should write
+a libcamera plugin, which like the older versions of the Rasberry Pi
+plugin (if I've understood things correctly) won't use the MC framework
+for now. I believe we first need to understand the atomisp code better
+before we add MC support (*). But I still believe that an (experimental)
+plugin would be good, both to get something usable so that we can get
+more testers / more people interested in contributing.
+Another reason is to have another use-case where apps need to support
+libcamera to work properly (like on IPU3 devices) which will hopefully
+motivate people working on apps to put more effort in supporting libcamera
+(preferably through the new pipewire libcamera plugin so that things
+will also work in a flatpack sandbox).
+
+###
+
+On other thing which I'm wondering about is the need to call S_INPUT to
+select front / back in this list from Mauro:
+
+	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
+	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
+	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
+	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
+	/dev/video3:	Name             : ATOMISP ISP VIDEO output
+	/dev/video4:	Name             : ATOMISP ISP ACC
+	/dev/video5:	Name             : ATOMISP ISP MEMORY input
+	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
+	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
+	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
+	/dev/video9:	Name             : ATOMISP ISP VIDEO output
+	/dev/video10:	Name             : ATOMISP ISP ACC
+
+I notice that everything is listed twice, I wonder if we can use /dev/video2
+with input 0 together with /dev/video8 for input 1, if that is possible then
+we might set a different default input on each.
+
+And maybe also make them /dev/video0 (already done I see) and /dev/video1,
+possibly combined with a module-option to hide the others for now. This
+should make things better for regular apps. OTOH if we go the libcamera
+route then this is not really necessary I guess?
 
 Regards,
-Phil
+
+Hans
+
+*) I do believe that in the end MC support makes sense at least
+to tie together the 
+
