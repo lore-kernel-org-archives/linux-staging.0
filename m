@@ -1,56 +1,27 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from p-impout009.msg.pkvw.co.charter.net (p-impout009aa.msg.pkvw.co.charter.net [47.43.26.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4202568
-	for <linux-staging@lists.linux.dev>; Sat,  6 Nov 2021 23:16:41 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id d24so19860038wra.0
-        for <linux-staging@lists.linux.dev>; Sat, 06 Nov 2021 16:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IZ/mVLnVEjcxSgetrmyGMYqsYZyZaCCXV6KwPJ0Xu2s=;
-        b=RkqL8VMOgBhResrdZPpHrKB3aNjdst8n+rhc7Dv6QdsNNiwglICXJzRqfuxY0yp9EN
-         duORt1qV5ebIpDxwS9gpdlaI7YG2RMXX8o+BKKXJu4hfc+rZoOc3GBvX64LNTHRyWC67
-         Iym1sqE/95FRJGbmkknoqTCh9Qv4E9bmfOUCP/9GpkVaFDTWeDnlOadd3g1+Fyq2KNJa
-         PC9TCpfrZ5pgPSIgW0gACFvrYhbC6ZLd8F5fcpNKaGmAsy5h5NflnhovcxSbLW65qSNA
-         RPWAXbCDupTRix68ASj+7LI5RDe317s/kvjN5Ef5RKP1J0xJYZ/fC5v46IJJOpy6XA/w
-         LlOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IZ/mVLnVEjcxSgetrmyGMYqsYZyZaCCXV6KwPJ0Xu2s=;
-        b=p4NA2surIg4TKuFkhp/PXqDdBHkYqfkC4B5T/KRwb5jqxwLuK7tt21KLBBKavcTQdd
-         ufyGu4PNkGzxyQPbNJeDaKGNziOYxKwvAWTQxyyH++d9F1LIwfzvcySS2oxZVkhVF2NB
-         Y8YF9LOhC23c1yxM//Is0dEUmw5qDg0zEA4qbVmaHcmClTp9H1E6hlXaRf30TN5LOw/T
-         iTFOjVR8DDyhrDgUxJEV8nNOMJ8xA19G/vHF/68qEn0nX3YSvCvnKC8uQwjnbh41/VjS
-         NZAchbmqoAvQnlSHnnFR+XGIprSeKigHvS0p9L2+Y1cQJZAi7ViX4/ActbHO/Q7jM915
-         M7Cw==
-X-Gm-Message-State: AOAM5321VUVRp6OblSsp0fN0oWxBiqBIQPx5jtC2AODZQd8/X4hoDZQL
-	3po7ORdzdhHThw6u489F6jmGQw==
-X-Google-Smtp-Source: ABdhPJzzTMAz+XqQ3CuJCZFA0d5RS+rno4KgaxH2kXOJ+4jFW3qdhJjNFP+Sj/m7CQk+yBWtI97heQ==
-X-Received: by 2002:a5d:61ca:: with SMTP id q10mr69651962wrv.102.1636240599736;
-        Sat, 06 Nov 2021 16:16:39 -0700 (PDT)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id 4sm16320389wrz.90.2021.11.06.16.16.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Nov 2021 16:16:39 -0700 (PDT)
-From: Phillip Potter <phil@philpotter.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2B62C96
+	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 01:33:04 +0000 (UTC)
+Received: from 2603-8090-2005-39b3-0000-0000-0000-1025.res6.spectrum.com.com ([24.31.246.181])
+	by cmsmtp with ESMTP
+	id jX1qm3piEE1BbjX1rmQA09; Sun, 07 Nov 2021 01:31:27 +0000
+X-Authority-Analysis: v=2.4 cv=X+2XlEfe c=1 sm=1 tr=0 ts=61872c6f
+ a=cAe/7qmlxnd6JlJqP68I9A==:117 a=cAe/7qmlxnd6JlJqP68I9A==:17 a=pGLkceISAAAA:8
+ a=VwQbUJbxAAAA:8 a=yQdBAQUQAAAA:8 a=0x8QZmvYvHxge1C1EjMA:9
+ a=AjGcO6oz07-iQ99wixmX:22 a=SzazLyfi1tnkUD6oumHU:22
+From: Larry Finger <Larry.Finger@lwfinger.net>
 To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com,
-	martin@kaiser.cx,
-	fmdefrancesco@gmail.com,
+Cc: phil@philpotter.co.uk,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	dan.carpenter@oracle.com
-Subject: [PATCH 2/2] staging: r8188eu: remove MSG_88E macro
-Date: Sat,  6 Nov 2021 23:16:36 +0000
-Message-Id: <20211106231636.894-3-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211106231636.894-1-phil@philpotter.co.uk>
-References: <20211106231636.894-1-phil@philpotter.co.uk>
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Zameer Manji <zmanji@gmail.com>,
+	Stable <stable@vger.kernel.org>
+Subject: [PATCH] staging: r8188eu: Fix breakage introduced when 5G code was removed
+Date: Sat,  6 Nov 2021 20:31:23 -0500
+Message-Id: <20211107013123.14624-1-Larry.Finger@lwfinger.net>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,30 +29,47 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfAcj5TPV50mOcoyuoqfs9znVi4v7h8Z/+IznGBCGZrTJb9YE/8fu0sDuaDtxGXhCfWs6BRwET1Je+fB/K/dr2z0CKCz1aoNC9ynjBFejO979hGAQ3lX3
+ O3ei6eAWrJhuUeRLrMVe+KY+QwDGjcHm4ejAXt5DD+qg46mRiGxwZRH5ZNL8togiIf0eFPvSljSkccqLSsOXsdtXsv4zXSsX6sCG/Ne5XxZs/sUk/ww25yb1
+ 6IYDOk7yO2KIuMQbNWwEsaYEeU4qaBYfblkfg2NM3Vik6xQv9TPcDyreZHvX11sapKE+RgMGbnzAjx+Us8gbF+NCv7xf2LFNNBQl2KTdTMKI+3tzLMZAG8sG
+ 3UG6mvlL+PJdGsxG1cHI+p27p7muq0VAx1YWGbHDcLiX87G1VPMLZPBroarZ/k+fm8W1txAfCTUCVqiGDMlRtxs7VBJ79FUtJ6rkKV3gaQGrkQpcScLfZPkV
+ r8gwV0osyCfElLu1
 
-Remove MSG_88E macro from include/rtw_debug.h, as it no longer has any
-callers within the driver.
+In commit 221abd4d478a ("staging: r8188eu: Remove no more necessary definitions
+and code"), two entries were removed from RTW_ChannelPlanMap[], but not replaced
+with zeros. The position within this table is important, thus the patch broke
+systems operating in regulatory domains listed later than entry 0x13 in the table.
+Unfortunately, the FCC entry comes before that point and most testers did not see
+this problem.
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
+Reported-and-tested-by: Zameer Manji <zmanji@gmail.com>
+Fixes: 221abd4d478a ("staging: r8188eu: Remove no more necessary definitions and code")
+Cc: Stable <stable@vger.kernel.org> # v5.5+
+Signed-off-by: Larry Finger <Larry.Finger@lwfinger.net>
 ---
- drivers/staging/r8188eu/include/rtw_debug.h | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/r8188eu/include/rtw_debug.h b/drivers/staging/r8188eu/include/rtw_debug.h
-index 0a77e3e73a45..39b69b9ad0a3 100644
---- a/drivers/staging/r8188eu/include/rtw_debug.h
-+++ b/drivers/staging/r8188eu/include/rtw_debug.h
-@@ -66,10 +66,4 @@ extern u32 GlobalDebugLevel;
- 			pr_info(DRIVER_PREFIX __VA_ARGS__);		\
- 	} while (0)
- 
--#define MSG_88E(...)							\
--	do {								\
--		if (_drv_err_ <= GlobalDebugLevel)			\
--			pr_info(DRIVER_PREFIX __VA_ARGS__);			\
--	} while (0)
--
- #endif	/* __RTW_DEBUG_H__ */
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 55c3d4a6faeb..d3814174e08f 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -107,6 +107,7 @@ static struct rt_channel_plan_map	RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
+ 	{0x01},	/* 0x10, RT_CHANNEL_DOMAIN_JAPAN */
+ 	{0x02},	/* 0x11, RT_CHANNEL_DOMAIN_FCC_NO_DFS */
+ 	{0x01},	/* 0x12, RT_CHANNEL_DOMAIN_JAPAN_NO_DFS */
++	(0x00), /* 0x13 */
+ 	{0x02},	/* 0x14, RT_CHANNEL_DOMAIN_TAIWAN_NO_DFS */
+ 	{0x00},	/* 0x15, RT_CHANNEL_DOMAIN_ETSI_NO_DFS */
+ 	{0x00},	/* 0x16, RT_CHANNEL_DOMAIN_KOREA_NO_DFS */
+@@ -118,6 +119,7 @@ static struct rt_channel_plan_map	RTW_ChannelPlanMap[RT_CHANNEL_DOMAIN_MAX] = {
+ 	{0x00},	/* 0x1C, */
+ 	{0x00},	/* 0x1D, */
+ 	{0x00},	/* 0x1E, */
++	{0x00},	/* 0x1F, */
+ 	/*  0x20 ~ 0x7F , New Define ===== */
+ 	{0x00},	/* 0x20, RT_CHANNEL_DOMAIN_WORLD_NULL */
+ 	{0x01},	/* 0x21, RT_CHANNEL_DOMAIN_ETSI1_NULL */
 -- 
-2.31.1
+2.33.1
 
