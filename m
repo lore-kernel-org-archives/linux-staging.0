@@ -1,123 +1,84 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD6168
-	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 17:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1636307424;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=VI9/oTkMv73lXfxkfvV9yRrXnTPAd4jUWgjMM+1DFzc=;
-	b=iQCzE5lx3FRgSo9dRKc5dJ4+ki1/CJftaDiXIY8qEXVP1oapdoP5RHc0M/12AxgdFMyKyC
-	yMdHvlpb3xU4qGP2bxSI8QOmYUsNvJy+43CooPASmCViICC5ze+aq53FPctLYatXXMZV/Q
-	0g3SFI0jL8wDqeT7n3ytXW0+axrhoNA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-iyjgleweNyaCyb-fmeh8gQ-1; Sun, 07 Nov 2021 12:50:21 -0500
-X-MC-Unique: iyjgleweNyaCyb-fmeh8gQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6C6F100C662;
-	Sun,  7 Nov 2021 17:50:18 +0000 (UTC)
-Received: from x1.localdomain (unknown [10.39.192.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 65EB619730;
-	Sun,  7 Nov 2021 17:50:14 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Andy Shevchenko <andy@infradead.org>,
-	Yury Luneff <yury.lunev@gmail.com>,
-	Nable <nable.maininbox@googlemail.com>,
-	andrey.i.trufanov@gmail.com,
-	Fabio Aiuto <fabioaiuto83@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	libcamera-devel@lists.libcamera.org
-Subject: [RFC] media: Auto exposure/gain support for atomisp / libcamera integration ?
-Date: Sun,  7 Nov 2021 18:50:13 +0100
-Message-Id: <20211107175013.355188-1-hdegoede@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206E868
+	for <linux-staging@lists.linux.dev>; Sun,  7 Nov 2021 18:08:39 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id n36-20020a17090a5aa700b0019fa884ab85so7016522pji.5
+        for <linux-staging@lists.linux.dev>; Sun, 07 Nov 2021 10:08:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=tRTkUL4b/IclFaICDSMtWkDgnrkgp3k8b9yxWekP0Y8=;
+        b=fDq4DmzKqveY95pRinYiSMpm27KJdKM9s4iv2PCjY3mJA+1A2ZkXSjKXzJbfGfwn6J
+         ejm88XAmveBmsfy/lXwdjUOvTbEKZOkm1H2gjYzKDr7SA+zNfVmukO4/3Md/7laK95z2
+         JNhHJMhHPT6GtkFKiUCL2oqDVT1iR9TRibcEznkEMZwMLEhcoLCQwQaPJR3+4bKKR5ec
+         5qPJHJ3oz2bNMpVA9DZ0hd/eibnZZegXEBhePhC4n5OdsZ51mJ31f58K3B7PA5Zf2s8+
+         CrpXrYGhnFGHx25VtRiBgbI5rIGIs+6HYtj9dYY2ioVzcY35UZQGmxp7tNWiTOVQVjT9
+         g/Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=tRTkUL4b/IclFaICDSMtWkDgnrkgp3k8b9yxWekP0Y8=;
+        b=CsM1YL/yv1uxc1BsU7zd8VUzsYG/xaHgQ/CTXzicXWlw5hMgOpYImXrafgG2IV+5wB
+         UffxajgX7TWgz+luJO1IQon1uHww8pozfbugnyCeJg2yrDGzyNYCVToLBx6f43Px7pyX
+         jP4TNRxfSXdvA6Dm+1RHpYo+2HHw2hhcSOpKyMjuCjsBSAszmS+/jtRL/+kMCmMqum/w
+         w4kj4tCa9mpzn4C8LcDRs1lfOd452vEeT/Abk/XruwMgcvSHJGlLoNcPnCZ3jTDL+yuT
+         298fv8/8R/T9flE/3lcVyHzWztgo8rz+JeD4YW8o45+G1kHvqX53VSf6vC+Q9v7Cba2n
+         +bRA==
+X-Gm-Message-State: AOAM533K+jA4d4ZY1GKeM2oMRsh6N/KixosLnIDknYGz2oOmDdenrJ9+
+	N3mtUgZ43VGxG++LuirikFGmbyMfgAAAig==
+X-Google-Smtp-Source: ABdhPJxR+zGhqbQeQM11xV9Or4sbOYBA3ysWv3GKcQtsi25ffpfgvDv83PAlD6TD4v9YckaCVJX61w==
+X-Received: by 2002:a17:902:7107:b0:142:7a83:6dfe with SMTP id a7-20020a170902710700b001427a836dfemr2938682pll.0.1636308518407;
+        Sun, 07 Nov 2021 10:08:38 -0800 (PST)
+Received: from Sauravs-MacBook-Air.local ([59.88.109.27])
+        by smtp.gmail.com with ESMTPSA id r1sm8450445pjm.23.2021.11.07.10.08.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Nov 2021 10:08:37 -0800 (PST)
+Date: Sun, 7 Nov 2021 23:38:30 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: gregkh@linuxfoundation.org, fabioaiuto83@gmail.com,
+	kushalkothari285@gmail.com, fmdefrancesco@gmail.com,
+	ross.schm.dev@gmail.com, marcocesati@gmail.com,
+	straube.linux@gmail.com, philippesdixon@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: rtl8723bs: core: avoid unnecessary if condition
+Message-ID: <YYgWHt+PpyqOv40R@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi All,
+In function rtw_lps_change_dtim_hdl remove the if condition check
+to compare the pwrpriv->dtim to dtim . If both are not equal dtim
+is getting assign to pwrpriv->dtim. But if both are equal assigning
+dtim to pwrpriv->dtim will not make any difference on value. So remove
+the unnecessary if condition check.
 
-Now that we have the atomisp2 driver running on some devices like
-the Asus T101HA; and with the exposure + gain controls for the ov2680
-sensor found on that laptop fixed:
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-https://lore.kernel.org/linux-media/20211107171549.267583-1-hdegoede@redhat.com/
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 639459d52261..bddfc02fb73e 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1498,8 +1498,7 @@ static void rtw_lps_change_dtim_hdl(struct adapter *padapter, u8 dtim)
 
-I believe we need to start thinking about various userspace API
-concerns. Thanks to Mauro's great work on various V4L2 API things
-are starting to work (somewhat) with regular V4L2 apps, but we really
-also need some processing / 3A stuff to make the cameras really
-usable.
+ 	mutex_lock(&pwrpriv->lock);
 
-The most important thing needed is automatic exposure + gain control,
-ATM this relies on a custom ATOMISP ioctl, but I believe that we can
-just export the controls as regular v4l2 controls on the sensor subdev,
-at least for the ov2680 the exposure is already exported this way
-but it is read-only. Does anyone see any problems with just making
-these normal v4l2 controls on the sensor subdev ?
+-	if (pwrpriv->dtim != dtim)
+-		pwrpriv->dtim = dtim;
++	pwrpriv->dtim = dtim;
 
-We can then simulate the custom ATOMISP ioctl through the subdevs,
-or we can just remove it alltogether.
-
-Once we have the controls available this way I think we should write
-a libcamera plugin, which like the older versions of the Rasberry Pi
-plugin (if I've understood things correctly) won't use the MC framework
-for now. I believe we first need to understand the atomisp code better
-before we add MC support (*). But I still believe that an (experimental)
-plugin would be good, both to get something usable so that we can get
-more testers / more people interested in contributing.
-Another reason is to have another use-case where apps need to support
-libcamera to work properly (like on IPU3 devices) which will hopefully
-motivate people working on apps to put more effort in supporting libcamera
-(preferably through the new pipewire libcamera plugin so that things
-will also work in a flatpack sandbox).
-
-###
-
-On other thing which I'm wondering about is the need to call S_INPUT to
-select front / back in this list from Mauro:
-
-	$ for i in $(ls /dev/video*|sort -k2 -to -n); do echo -n $i:; v4l2-ctl -D -d $i|grep Name; done
-	/dev/video0:	Name             : ATOMISP ISP CAPTURE output
-	/dev/video1:	Name             : ATOMISP ISP VIEWFINDER output
-	/dev/video2:	Name             : ATOMISP ISP PREVIEW output
-	/dev/video3:	Name             : ATOMISP ISP VIDEO output
-	/dev/video4:	Name             : ATOMISP ISP ACC
-	/dev/video5:	Name             : ATOMISP ISP MEMORY input
-	/dev/video6:	Name             : ATOMISP ISP CAPTURE output
-	/dev/video7:	Name             : ATOMISP ISP VIEWFINDER output
-	/dev/video8:	Name             : ATOMISP ISP PREVIEW output
-	/dev/video9:	Name             : ATOMISP ISP VIDEO output
-	/dev/video10:	Name             : ATOMISP ISP ACC
-
-I notice that everything is listed twice, I wonder if we can use /dev/video2
-with input 0 together with /dev/video8 for input 1, if that is possible then
-we might set a different default input on each.
-
-And maybe also make them /dev/video0 (already done I see) and /dev/video1,
-possibly combined with a module-option to hide the others for now. This
-should make things better for regular apps. OTOH if we go the libcamera
-route then this is not really necessary I guess?
-
-Regards,
-
-Hans
-
-*) I do believe that in the end MC support makes sense at least
-to tie together the 
+ 	if (pwrpriv->fw_current_in_ps_mode && (pwrpriv->pwr_mode > PS_MODE_ACTIVE)) {
+ 		u8 ps_mode = pwrpriv->pwr_mode;
+--
+2.33.0
 
