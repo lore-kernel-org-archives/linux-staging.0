@@ -1,145 +1,77 @@
-Received: from lb2-smtp-cloud7.xs4all.net (lb2-smtp-cloud7.xs4all.net [194.109.24.28])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAA32C80
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 08:22:34 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud7.xs4all.net with ESMTPA
-	id jzu6meHPuFZvcjzuAmu9fn; Mon, 08 Nov 2021 09:21:26 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1636359686; bh=RFoi1u36o6iwyIcIT7Vfr6GvFlphxvGIuYKIC0G16z8=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=FmWXh+KlD4fw8k9Mlz5sCVoP0jXPQBTB8oCx95xYkaJvXSO5FmPjGFtJbHclZ8PD4
-	 WUYd9L/ElX/yy2gVTTosgeZ2WkLIoFWacijEcjqs0KOlwTdEM/HNrD/lOEQtgZWX4x
-	 vLXT5e4Fl7GwR2Qa1uaYcoAhSY0eugicZj0mFaaC0bl0NMmXx6pbiQRfy5rELTxWM5
-	 OZEs5I+GOYYxAwO8xLwgnTDg9qj40dtDhkuj1HNiFV8WGGceb1fHKa4BwCpMqDeWvb
-	 mQNJXxr2lF5PEbBZgFbUfX7x5z3cE/jQHZyIX6tnVG2QNqjvQkCbbHxtYq/FysBsyr
-	 XWGXfWR5cbImQ==
-Subject: Re: [PATCH v3 00/14] staging: media: zoran: fusion in one module
-To: LABBE Corentin <clabbe@baylibre.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, mjpeg-users@lists.sourceforge.net
-References: <20211026193416.1176797-1-clabbe@baylibre.com>
- <a85c93db-e118-274f-d86a-d127c7399926@xs4all.nl> <YYKxTrWI299pvqo7@Red>
- <2bbce7ef-acf8-3c0f-2705-09d34b2d92be@xs4all.nl> <YYgAb76mrMb1ERMW@Red>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <87357802-1723-0471-d963-252ec54ececd@xs4all.nl>
-Date: Mon, 8 Nov 2021 09:21:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA052C83
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 09:40:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 05DEF61242;
+	Mon,  8 Nov 2021 09:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636364430;
+	bh=3kdsbDiloldfUsyYCakxpoQVBFAHbfEI/J3qiZ1fOrg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=o8BTlm/F88B66GDeVFjWEcYDaB3Y7up4uV396tzow/YxPVLZLmQXMT0Vyrwo20qJn
+	 YjDf/7Zs38d99UpOdZ4Ga2I0Mlz+p8nqi1wW9/Sz8SBqr1pNp3XbjjBBKpf0fwNRj4
+	 1EbG3vqcIJoAuBu1zBVR1bMJXCWSF0KRwebOsbs5dOQGIMm6olykmD/qMQA7KwjlHC
+	 jlHzmYKQXwxfc91F7Uvk2U39RPXAo9addLB+7fD+W5/l0kBd1xq2R6jLPJ/eqTNOqh
+	 k9FxnCFXYjmbw6rQSPwxj78IWCpdV1M6bFinXUyKzXqIIgL3sQ+vlE1UjWyiDOC1/R
+	 oCdNJyj20IyfA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mk18c-00118a-Jw; Mon, 08 Nov 2021 09:40:26 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Alan <alan@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: only initialize mode if pipe is not null
+Date: Mon,  8 Nov 2021 09:40:25 +0000
+Message-Id: <6406265f2d5f3791d5c7cbd1364186217f19524c.1636364423.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YYgAb76mrMb1ERMW@Red>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfP5ngz4eur2Syuo88BiDaT7tMabv/5gsQciFAKhEtNKRlsnKewfCSyIo2j0Hy2m4b3rLR1r+pHYti5VaKPUjrSJyajsNGIID2kaCprZ+6u6X/XKB0wrP
- y8l/xqa0S5O7vH2VUYXdgqaqxJgXaecwh6FydjolW02dGuztf8tN6ycHeH7APdnipuj11+qrGH6M4k4CCTt6XqPaSYW93bRnmoCOggcbNjyVwKNih0eGI3Yj
- yy86dTtudyxW8yNp0SuIkD10RFBzIg/7/4Jhim/VUSDm/TsaQL4uYUSdam6RAJRRr8W7JN1Y4NU8Nffj+6FabtaIS9NhYJu+dPN9aLslU7cJpiithmwKXdt3
- P1g4yWaiXsORa2l6mrGDsL3bGry4dzISfsXlUk3GJnbJgxoVUgqao9Xw363uI/HZ+hpwKB018xAnnlZbrTDNI8StNs711Q==
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On 07/11/2021 17:35, LABBE Corentin wrote:
-> Le Wed, Nov 03, 2021 at 05:29:46PM +0100, Hans Verkuil a écrit :
->> On 03/11/2021 16:57, LABBE Corentin wrote:
->>> Le Wed, Nov 03, 2021 at 04:21:02PM +0100, Hans Verkuil a écrit :
->>>> Hi Corentin,
->>>>
->>>> On 26/10/2021 21:34, Corentin Labbe wrote:
->>>>> Hello
->>>>>
->>>>> The main change of this serie is to fusion all zoran related modules in
->>>>> one.
->>>>> This fixes the load order problem when everything is built-in.
->>>>
->>>> I've been testing this series, and while the module load/unload is now working,
->>>> I'm running into a lot of other v4l2 compliance issues.
->>>>
->>>> I've fixed various issues in some follow-up patches available in my tree:
->>>>
->>>> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran
->>>>
->>>> At least some of the worst offenders are now resolved. Note that the patch
->>>> dropping read/write support relies on this patch:
->>>>
->>>> https://patchwork.linuxtv.org/project/linux-media/patch/4f89b139-13b7-eee6-9662-996626b778b0@xs4all.nl/
->>>
->>> Hello
->>>
->>> My test branch already included your "zoran: fix various V4L2 compliance errors"
->>> I have quickly checked other patch and I am ok with them.
->>> I will add and test with them.
->>>
->>>>
->>>> But there is one really major bug that makes me hesitant to merge this:
->>>>
->>>> This works:
->>>>
->>>> v4l2-ctl -v pixelformat=MJPG,width=768,height=576
->>>> v4l2-ctl --stream-mmap
->>>>
->>>> This fails:
->>>>
->>>> v4l2-ctl -v pixelformat=MJPG,width=768,height=288
->>>> v4l2-ctl --stream-mmap
->>>>
->>>> It's an immediate lock up with nothing to indicate what is wrong.
->>>> As soon as the height is 288 or less, this happens.
->>>>
->>>> Both with my DC30 and DC30D.
->>>
->>> Just for curiosity, what is the difference between thoses two ?
->>
->> It's the DC30 variant without an adv7175.
->>
->>>
->>>>
->>>> Do you see the same? Any idea what is going on? I would feel much happier
->>>> if this is fixed.
->>>>
->>>> Note that the same problem is present without this patch series, so it's
->>>> been there for some time.
->>>>
->>>
->>> I will start on digging this problem and add thoses commands to my CI.
->>> And I know there are a huge quantity of problem since origins.
->>> A simple example is that just setting MJPEG as default input format does not work.
->>>
->>> But since it is not related to my serie, can you please merge it.
->>
->> Before I do that, I would really like to know a bit more about this issue:
->> can you reproduce it? Is it DC30 specific or a general problem with zoran?
->>
->> The problem with this hard hang is that it is hard to do regression testing
->> with v4l2-compliance, since it will hang as soon as MJPG pixelformat is
->> tested.
->>
->> I would feel much happier if the hang can be avoided, even if it is just
->> with a temporary hack. It will make it much easier going forward.
->>
-> 
-> I found the bug
-> 
-> The null pointer deref was in zoran_reap_stat_com() due to 
-> buf = zr->inuse[i];
-> ...
-> buf->vbuf.vb2_buf.timestamp = ktime_get_ns();
-> with buf = NULL;
-> 
-> It is due to miscalculation of "i".
-> 
-> I will resend my serie with the fix for that.
+During atomisp register, udev tries to open all devices. For
+some, pipe is NULL, at least during register time, causing the
+driver to try to access a NULL pointer.
 
-Excellent news! Thank you for tracking this one down.
+So, add an extra check to avoid such condition.
 
-When you post your series, can you include my patches from
-https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=zoran as well?
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/pci/atomisp_fops.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+index a57d480820bd..c7ac313a2edf 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+@@ -901,7 +901,7 @@ static int atomisp_open(struct file *file)
+ 	rt_mutex_unlock(&isp->mutex);
+ 
+ 	/* Ensure that a mode is set */
+-	if (asd)
++	if (asd && pipe)
+ 		v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
+ 
+ 	return 0;
+-- 
+2.33.1
 
-	Hans
