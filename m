@@ -1,106 +1,101 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3B168
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 04:15:11 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id e65so14014715pgc.5
-        for <linux-staging@lists.linux.dev>; Sun, 07 Nov 2021 20:15:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=0vTb2Eh26EDQpQcNXEmLn0oGcTGvpNGAV1iupzbirMM=;
-        b=b7D2TToafJTPLm0i63Nn6QpKsrHmIbUzDnzU1fD92pSo3LOwtwXKUwZSrjsBqBCv/O
-         TPaxhtp/XBjQpIl+0xzjzvDM9dZLu0MTUUk3sqMdpH+Y3CtLKjSRhHPPZdAd13RMvD4b
-         d7azvHwMg7DLMzI6nBC2uQO0dIRezB+FODr+Umc+reQPp+L9iaC/njLKB/NiraDcWOOe
-         eTTlEx8kG8SFY1U2BQ9wOH3Zksc+ud9gLSLum/uyQ4SW6xEGzGwT1ltqexc2WjvkdlDP
-         BjYyOZ3oHv42EzQTdHeO128VA48Yo1XSsjbnTmQj+UehqsBODpSKSH0oCPjlaKkA56Cf
-         k35w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=0vTb2Eh26EDQpQcNXEmLn0oGcTGvpNGAV1iupzbirMM=;
-        b=oD0PowDUmjs6a4qBbDp6YTb8odYdhEZXBQAsmSzupYqudfWIm8oU3LQR37E4n+tHk1
-         fjZNb/hdtV4mJBmXANzTaQs7ziXygoIGoAoDJJQmtvEk7P7fVkdjaAvR1Cs3bvhimayW
-         JRsw0i8Rn6YvY/kqW8DRNswvw7d0TiUyfMUfFd6z3Nss1jqaBRBQyk9aRJyEhpaXP8Xf
-         8gK5dZiWq9DWrdpt6CThU6PKTZV+yXOtibGKZYee1rIU0tguLDO0a49PcxUz0ZMul53+
-         L3Sav0jIeiA1YEeXwpTzZ+YPIbV4VA4kWzE2T5Lk8kqc9Nj/08IWT+g8gDecUh/D6UOC
-         GQtQ==
-X-Gm-Message-State: AOAM530VPSMPv8yLWhtHdSaNVAoyMwze6oc4C7J85M+4o5b36bYwB5/T
-	UX2hzKfwiGULBEbTfEz5SvA=
-X-Google-Smtp-Source: ABdhPJyPWcaTTgqdCleaOpm+cehsHuGg/TzMXEj+bFjeOv2cr0G86yWMVT6bGW4mYgN1FAC9oXbYlA==
-X-Received: by 2002:a63:8742:: with SMTP id i63mr43016950pge.282.1636344910874;
-        Sun, 07 Nov 2021 20:15:10 -0800 (PST)
-Received: from [192.168.1.2] ([59.88.109.27])
-        by smtp.gmail.com with ESMTPSA id y32sm14997687pfa.145.2021.11.07.20.15.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Nov 2021 20:15:10 -0800 (PST)
-Message-ID: <24befb64-0fdc-03ab-5a9a-c7be443be1a1@gmail.com>
-Date: Mon, 8 Nov 2021 09:45:05 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0849F2C80
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 07:41:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B096761075;
+	Mon,  8 Nov 2021 07:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636357267;
+	bh=RVK8iyvJlzFHPZCKRlsINEQUkjxXHKinu7hv/cU6no0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bM8tPKMTXtOzLT0n0JcaF3/bbzalw0dSy3V/uc5oZokrGrRNrrnGhV7RdDP/yckuR
+	 /mOMdXhPbvwRV39Ha+TLmMZr5y4s5HMBGMxL6utF7UckT/SUoRoZaMCxCaqHuGq5DM
+	 1Qjvu+VAA/z8RGhDFGetpnOTbiph1AsYJ5lOAw9/hazTiOLmYN/FCRyrQBYJhKXkZs
+	 jcOWUi8v7OOHobJYEj6fSlnRVlkqbP5deoOVHsUwdm3KFD4EYGSkIH1mm+gghpkpYI
+	 t+jzr2ik91r/jMqNSCBp/is61wzQKLZ9v+vzY3FnpjUVmudPSn5+HwbTfQzaMg9HAM
+	 iHu1v9eWS8G+A==
+Date: Mon, 8 Nov 2021 07:41:01 +0000
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Tsuchiya Yuto <kitakar@gmail.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra
+ <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Kaixu Xia
+ <kaixuxia@tencent.com>, Dan Carpenter <dan.carpenter@oracle.com>, Arnd
+ Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [BUG 5/5] [BUG] media: atomisp: atomisp causes touchscreen to
+ stop working on Microsoft Surface 3
+Message-ID: <20211108074101.033af4c5@sal.lan>
+In-Reply-To: <310ace44-93d5-99a3-bb4c-371b0a13462d@redhat.com>
+References: <20211017162337.44860-1-kitakar@gmail.com>
+	<20211017162337.44860-6-kitakar@gmail.com>
+	<103b5438-9f7c-7e89-28b9-29fe11eb818c@redhat.com>
+	<cfad27a4bfdd94417305e1519e2f450a4422844d.camel@gmail.com>
+	<310ace44-93d5-99a3-bb4c-371b0a13462d@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.2.1
-Subject: Re: [PATCH] staging: rtl8192u: remove the if condition without effect
-Content-Language: en-GB
-To: gregkh@linuxfoundation.org, kuba@kernel.org, lee.jones@linaro.org,
- nathan@kernel.org, clrrm@isep.ipp.pt, johan@kernel.org,
- dinghao.liu@zju.edu.cn, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-References: <YYijapuGOmObwM3S@Sauravs-MacBook-Air.local>
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-In-Reply-To: <YYijapuGOmObwM3S@Sauravs-MacBook-Air.local>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+
+Em Mon, 8 Nov 2021 00:39:38 +0100
+Hans de Goede <hdegoede@redhat.com> escreveu:
+
+> Hi,
+>=20
+> On 10/21/21 11:52, Tsuchiya Yuto wrote:
+> > Thank you for your comment :-)
+> >=20
+> > First, I need to correct what I said in the previous mail. I later found
+> > that loading only "atomisp" (as well as its dependency,
+> > atomisp_gmin_platform) does not cause this issue.
+> >=20
+> > What causes this issue is rather, loading sensor drivers (as well as its
+> > dependency, atomisp_gmin_platform).
+> >=20
+> > These sensor drivers for surface3 are both not upstream, but I made them
+> > as similar as possible to the upstreamed ones. So, I guess this issue
+> > can still be reproducible on some other devices. =20
+>=20
+> I've run some test on my own surface3 and the problem is the writing
+> of 0x62 (which becomes just 0x02) to the 0x57 register of the PMIC,
+> writing 0x00 to that after loading the sensor driver makes things work
+> again.
+>=20
+> I have not had time to investigate this further.
+>=20
+> I used media-staging + your sensor drivers from:
+> https://github.com/kitakar5525/surface3-atomisp-cameras.git
+>=20
+> Which was enough to figure this out, but I've not actually gotten
+> either of the cameras working :|  I get:
+>=20
+> [user@fedora nvt]$ ./atomisp-test.sh=20
+> p0: OPEN video device `/dev/video2'
+
+After the patch that moved the output preview to be the first one,
+you should probably use /dev/video0 here:
 
 
+$ v4l2-ctl -D -d /dev/video0|grep Name
+	Name             : ATOMISP ISP PREVIEW output
 
-On 08/11/21 9:41 am, Saurav Girepunje wrote:
-> In function rtl8192_adapter_start priv->pFirmware->firmware_status
-> is assign to FW_STATUS_0_INIT just after assignment variable is
-> again get check for same value. Therefore if condition will be
-> always be true. So remove the if condition ,else if section and
-> else section which will never get execute.
-> 
-> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-> ---
->  drivers/staging/rtl8192u/r8192U_core.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-> index 726d7ad9408b..f5d9e81f4ac7 100644
-> --- a/drivers/staging/rtl8192u/r8192U_core.c
-> +++ b/drivers/staging/rtl8192u/r8192U_core.c
-> @@ -2666,14 +2666,7 @@ static bool rtl8192_adapter_start(struct net_device *dev)
->  	/* config CPUReset Register */
->  	/* Firmware Reset or not? */
->  	read_nic_dword(dev, CPU_GEN, &dwRegRead);
-> -	if (priv->pFirmware->firmware_status == FW_STATUS_0_INIT)
-> -		dwRegRead |= CPU_GEN_SYSTEM_RESET; /* do nothing here? */
-> -	else if (priv->pFirmware->firmware_status == FW_STATUS_5_READY)
-> -		dwRegRead |= CPU_GEN_FIRMWARE_RESET;
-> -	else
-> -		RT_TRACE(COMP_ERR,
-> -			 "ERROR in %s(): undefined firmware state(%d)\n",
-> -			 __func__,   priv->pFirmware->firmware_status);
-> +	dwRegRead |= CPU_GEN_SYSTEM_RESET; /* do nothing here? */
-> 
->  	write_nic_dword(dev, CPU_GEN, dwRegRead);
->  	/* config BB. */
-> --
-> 2.33.0
-> 
+$ v4l2-ctl -D -d /dev/video2|grep Name
+	Name             : ATOMISP ISP VIEWFINDER output
 
-read_nic_dword function call also does not update value of priv->pFirmware->firmware_status.
-read_nic_dword return a value that never check by any caller function.
-That can cover on another patch.
+
+On Asus T101HA, I'm also getting this if I use /dev/video2 with nvt:
+
+	ioctl(3, _IOC(_IOC_WRITE, 0x76, 0xe0, 0x1f0), 0x7ffcf08fe030) =3D -1 EINVA=
+L (Argumento inv=C3=A1lido)
+	p0: ./v4l2n: ATOMISP_IOC_S_PARAMETERS failed on fd 3: Invalid argument (22)
+	p0: CLOSED video device
 
 Regards,
-Saurav
+Mauro
