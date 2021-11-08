@@ -1,85 +1,89 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F5D2C85
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 10:41:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 92BD161360;
-	Mon,  8 Nov 2021 10:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636368105;
-	bh=HmX7Iu230vaqFLoWNOfpIDZEQ/e7d6sGmYSkqSPi38A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ta8iXpjgABI78bfr7rCNWvbrUeM8XvPZ3VtSlngMXNlLva6sZAgSHODXcDtuoCWTg
-	 F37RrZ42cpAJWSJPR9OIFuwugHDWdFDy5MUgDXpRsiaX/7al2tgJlO+Zr+du2u4tV3
-	 42T9a4g+S69bvsWaUh8kDOMkF3tb5/2nS1pBCBxJLg7IEkvnvPc5/i9SyNwlRPKyPx
-	 uBOEKZKNzFv8RYd5FYSyzvyY+86luQJBJ6cDPndtFdj14b79TrTYNRvliI4lqczUYW
-	 RblkNki2L53Q1WOj09QXJ7+NkPu0ExCDMDThvs/wbGnBX8h1Ajl4QEeNemBHudfqqL
-	 eMbCHp5ZRj9qw==
-Date: Mon, 8 Nov 2021 10:41:39 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Alan
- <alan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tomi
- Valkeinen <tomi.valkeinen@ideasonboard.com>, Tsuchiya Yuto
- <kitakar@gmail.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] media: atomisp: allocate a v4l2_fh at open time
-Message-ID: <20211108104139.18ee4023@sal.lan>
-In-Reply-To: <20211108100902.GE2001@kadam>
-References: <7a59d8613331d242624e887d9089ded399015a97.1636105894.git.mchehab+huawei@kernel.org>
-	<20211108100902.GE2001@kadam>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A729E29CA
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 10:55:49 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id z21so15257960edb.5
+        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 02:55:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KNfZ6uMilvryu7GOeBols/pZXZY1MA2eNPOG6Jq/4aE=;
+        b=U6/HA5p3cWuErRNeCPFky87n13xC42GPv4nrDR0gbY2gmrn+ebDtFFI2KFSqRVA8w9
+         sOvpJUlzvyFaqyAHLWTG0d1jO1ESIuUOsmI7Yr0xTa/igyFZyMRi9xzpp6tKBaln5hr1
+         +ieS+RiQVx5e4zERv7D2tkbG3bW16i7yinhi/tTZMJmgRNfQmLB4grolMp3/mpgOP59e
+         +RL9WS/kJcBUrdGGeN2Fglgh26MUnGI2D56JPKdsxflxQRLjV1Nkcm2QTAUgEXoy4JiT
+         T/LLw+EX2OxCQ7jWfmz6P1Itg4cI+DvI5KmtJiWYcxncPb0bAI6aLGma18pyYJ6Kg3Wi
+         5omA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KNfZ6uMilvryu7GOeBols/pZXZY1MA2eNPOG6Jq/4aE=;
+        b=LrLuPE9ZFztoseekgBi7qBbPpzUUQGQKwev0S17GkOd2ha39ioFbaexpZdgOdvvJnE
+         FMrAzaXqW8SJ7/R0Uz9BGGQBqa+MRuJaUdKWWISn3RZAWRyyyaOX7jI+D1r428Z5q6qH
+         Pdh1PrWRqLvogFU1ACIy9jc6CnSZPU2l4cUD2FSGm2O39ZW8gMKpTjx1qZtS29V6NiTu
+         IRH0VLkD29HZpG7ZCemE35SdTb6k9D2j65ys4HhieIbPKlRdZsUitzTk/FylNM0cCHpL
+         bJtfkFffROGFAPZtq6S6MdCuPF6RQ3tS5OTD17TISsrQHmVh9JCJcwsCX1XYIuuJcQEv
+         L3Cw==
+X-Gm-Message-State: AOAM5337oaNjcgpw7KOPV/purhZ70kpZaB77vSQliYDjIQWG0BNeNnrT
+	u9QqIOu+tRjynCU5OyrzoFQ=
+X-Google-Smtp-Source: ABdhPJw45JqAdv9ir6/uvLoZyLi0420BmFuUQmuzlpYjj5tfePpXzhhGGK88crc5ORPybLmIPd0E1Q==
+X-Received: by 2002:a05:6402:10cd:: with SMTP id p13mr106801534edu.111.1636368948149;
+        Mon, 08 Nov 2021 02:55:48 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::38bf])
+        by smtp.gmail.com with ESMTPSA id b19sm7747051ejc.107.2021.11.08.02.55.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Nov 2021 02:55:47 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: r8188eu: use GFP_ATOMIC under spinlock
+Date: Mon,  8 Nov 2021 11:55:37 +0100
+Message-Id: <20211108105537.31655-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Em Mon, 8 Nov 2021 13:09:02 +0300
-Dan Carpenter <dan.carpenter@oracle.com> escreveu:
+In function rtw_report_sec_ie() kzalloc() is called under a spinlock,
+so the allocation have to be atomic.
 
-> On Fri, Nov 05, 2021 at 09:51:38AM +0000, Mauro Carvalho Chehab wrote:
-> > ---
-> >  drivers/staging/media/atomisp/pci/atomisp_fops.c | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > index 7df982c80b1a..41fa0ca2d8d4 100644
-> > --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-> > @@ -782,6 +782,15 @@ static int atomisp_open(struct file *file)
-> >  	 * FIXME: revisit this with a better check once the code structure
-> >  	 * is cleaned up a bit more
-> >  	 */
-> > +dev_info(isp->dev, "opening v4l2 fh\n");  
-> 
-> This line looks like debugging code that was committed accidentally?
-> Not indented.
+Call tree:
 
-Yep.
+-> rtw_select_and_join_from_scanned_queue() <- takes a spinlock
+   -> rtw_joinbss_cmd()
+      -> rtw_restruct_sec_ie()
+         -> rtw_report_sec_ie()
 
-> Doesn't apply for on latest linux-next.  Not sure why.
+Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/mlme_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yeah, I dropped it when I applied the patch on media_stage.
+diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+index a9b6ffdbf31a..f7ce724ebf87 100644
+--- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
++++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
+@@ -112,7 +112,7 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
+ 
+ 	buff = NULL;
+ 	if (authmode == _WPA_IE_ID_) {
+-		buff = kzalloc(IW_CUSTOM_MAX, GFP_KERNEL);
++		buff = kzalloc(IW_CUSTOM_MAX, GFP_ATOMIC);
+ 		if (!buff)
+ 			return;
+ 		p = buff;
+-- 
+2.33.1
 
-I should have sent v2 without that line.
-
-> 
-> regards,
-> dan carpenter
-> 
-> > +	ret = v4l2_fh_open(file);
-> > +	if (ret) {
-> > +		dev_err(isp->dev,
-> > +			"%s: v4l2_fh_open() returned error %d\n",
-> > +		       __func__, ret);
-> > +		rt_mutex_unlock(&isp->loading);
-> > +		return ret;
-> > +	}  
-> 
