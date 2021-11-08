@@ -1,95 +1,91 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8D72C96
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 16:39:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9167961054;
-	Mon,  8 Nov 2021 16:39:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636389549;
-	bh=a6NTFs2KSKUTtge7RtoR+4/5YHytkD4pKor5SU+QaZ8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=b9f28QHm13W2ui+DJ8Nkic0yst26y3MyI7Pzg/n7nIRUcowjjAJi0CQKekeCT2pFj
-	 0Cp4WTK8PjDbIo+QSE3yvQrLl+aNdF78zZjBLE8dUHuiGs1MNA2oy/UYRu2boEBAkF
-	 4pgLf/LY9jQaOrbRM7xKuOl4FBik963q+DWdxGLk5ouAkrJJRQ4oinP840ehWBdb60
-	 DqrEgfB14zp/d55Ji+aUntKaNy/ltYhHdWCw/2JA5vY87CcONwWpao9UA2VweuQUIx
-	 8OyNLiYAgMsAg6eG4hSIu06Md/MEKANEV39W6TGHIi1WfUemFdaEnP2xP6Ums9ajTF
-	 lwBgfNLNSBn8w==
-Date: Mon, 8 Nov 2021 16:39:02 +0000
-From: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Tsuchiya Yuto <kitakar@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, Hans de Goede
- <hdegoede@redhat.com>, Patrik Gfeller <patrik.gfeller@gmail.com>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Yang Yingliang <yangyingliang@huawei.com>,
- Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, Dinghao Liu <dinghao.liu@zju.edu.cn>, Deepak R
- Varma <drv@mailo.com>, Alex Dewar <alex.dewar90@gmail.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/17] media: atomisp: pci: use IA_CSS_ERROR() for error
- messages in sh_css_mipi.c
-Message-ID: <20211108163902.58e12e76@sal.lan>
-In-Reply-To: <ff2ac6cb74e98a5e9b0f537ea468322e6379620e.camel@gmail.com>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	<20211017161958.44351-7-kitakar@gmail.com>
-	<20211102113540.GD2794@kadam>
-	<ff2ac6cb74e98a5e9b0f537ea468322e6379620e.camel@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 53C552C83
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 20:59:30 +0000 (UTC)
+Received: (qmail 1679175 invoked by uid 1000); 8 Nov 2021 15:59:26 -0500
+Date: Mon, 8 Nov 2021 15:59:26 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+  LKML <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+  Arnd Bergmann <arnd@arndb.de>, Ayush Sawal <ayush.sawal@chelsio.com>,
+  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+  Rohit Maheshwari <rohitm@chelsio.com>, Steven Rostedt <rostedt@goodmis.org>,
+  Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
+  ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+  bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+  intel-gvt-dev@lists.freedesktop.org, alpha <linux-alpha@vger.kernel.org>,
+  Linux ARM <linux-arm-kernel@lists.infradead.org>,
+  linux-clk <linux-clk@vger.kernel.org>,
+  Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+  linux-edac@vger.kernel.org,
+  Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+  linux-hyperv@vger.kernel.org, linux-iio@vger.kernel.org,
+  linux-leds <linux-leds@vger.kernel.org>,
+  "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+  Parisc List <linux-parisc@vger.kernel.org>,
+  Linux PM list <linux-pm@vger.kernel.org>,
+  linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+  "open list:REMOTE PROCESSOR \(REMOTEPROC\) SUBSYSTEM" <linux-remoteproc@vger.kernel.org>,
+  Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+  linux-s390 <linux-s390@vger.kernel.org>, scsi <linux-scsi@vger.kernel.org>,
+  Linux-sh list <linux-sh@vger.kernel.org>, linux-staging@lists.linux.dev,
+  linux-tegra <linux-tegra@vger.kernel.org>,
+  linux-um <linux-um@lists.infradead.org>,
+  USB list <linux-usb@vger.kernel.org>,
+  "open list:TENSILICA XTENSA PORT \(xtensa\)" <linux-xtensa@linux-xtensa.org>,
+  netdev <netdev@vger.kernel.org>, openipmi-developer@lists.sourceforge.net,
+  rcu@vger.kernel.org, sparclinux <sparclinux@vger.kernel.org>,
+  the arch/x86 maintainers <x86@kernel.org>, xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
+ already registered
+Message-ID: <20211108205926.GA1678880@rowland.harvard.edu>
+References: <20211108101157.15189-1-bp@alien8.de>
+ <20211108101157.15189-43-bp@alien8.de>
+ <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
+ <YYkyUEqcsOwQMb1S@zn.tnic>
+ <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
+ <YYlJQYLiIrhjwOmT@zn.tnic>
+ <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
+ <YYlOmd0AeA8DSluD@zn.tnic>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YYlOmd0AeA8DSluD@zn.tnic>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Em Tue, 09 Nov 2021 00:39:16 +0900
-Tsuchiya Yuto <kitakar@gmail.com> escreveu:
-
-> <removed Alan from Cc as the mail address not reachable>
-> 
-> On Tue, 2021-11-02 at 14:35 +0300, Dan Carpenter wrote:
-> > On Mon, Oct 18, 2021 at 01:19:46AM +0900, Tsuchiya Yuto wrote:  
-> > >  .../staging/media/atomisp/pci/sh_css_mipi.c   | 32 ++++++++-----------
-> > >  1 file changed, 13 insertions(+), 19 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > index c1f2f6151c5f..de56a1da754d 100644
-> > > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > @@ -434,9 +434,8 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
-> > >  
-> > >  	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
-> > >  	    (IS_ISP2401 && err)) {
-> > > -		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-> > > -				    "allocate_mipi_frames(%p) exit: error: port is not correct (port=%d).\n",
-> > > -				    pipe, port);
-> > > +		IA_CSS_ERROR("allocate_mipi_frames(%p) exit: port is not correct (port=%d).",
-> > > +			     pipe, port);  
+On Mon, Nov 08, 2021 at 05:21:45PM +0100, Borislav Petkov wrote:
+> On Mon, Nov 08, 2021 at 05:12:16PM +0100, Geert Uytterhoeven wrote:
+> > Returning void is the other extreme ;-)
 > > 
-> > Not related to this patch but these printks should be using __func__
-> > instead of hard coding it.  
+> > There are 3 levels (ignoring BUG_ON()/panic () inside the callee):
+> >   1. Return void: no one can check success or failure,
+> >   2. Return an error code: up to the caller to decide,
+> >   3. Return a __must_check error code: every caller must check.
+> > 
+> > I'm in favor of 2, as there are several places where it cannot fail.
 > 
-> OK, considering that I'll add a separate space issue fix patch in v2 as
-> discussed in another mail, I'll also add the separate fix for minor
-> issue fixes here, including the usage of `__func__` and dropping
-> the unneeded newline `\n` I'm currently doing while here.
+> Makes sense to me. I'll do that in the next iteration.
 
-Better to keep the \n. The right fix - not only here but everywhere - would
-be to convert all those into dev_info/dev_dbg/..., but this is a huge
-change.
+Is there really any reason for returning an error code?  For example, is 
+it anticipated that at some point in the future these registration calls 
+might fail?
 
-I would prefer to do such changes on a separate patch series that
-will do only this kind of changes. After the conversion, the string
-should finish with a \n. So, dropping it will just make the conversion
-more error-prone.
+Currently, the only reason for failing to register a notifier callback 
+is because the callback is already registered.  In a sense this isn't 
+even an actual failure -- after the registration returns the callback 
+_will_ still be registered.
 
-Regards,
-Mauro
+So if the call can never really fail, why bother with a return code?  
+Especially since the caller can't do anything with such a code value.
 
-> 
-> Regards,
-> Tsuchiya Yuto
-> 
+Given the current state of affairs, I vote in favor of 1 (plus a WARN or 
+something similar to generate a stack dump in the callee, since double 
+registration really is a bug).
+
+Alan Stern
