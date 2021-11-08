@@ -1,112 +1,165 @@
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85B22C83
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 21:18:54 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f3311007827e440708b1099.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:7827:e440:708b:1099])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E3BE71EC051F;
-	Mon,  8 Nov 2021 22:18:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-	t=1636406333;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-	bh=AU7V4fSHGUK4yNvIX3QFWGgL2mpvsQwlJrzk1EYTZE4=;
-	b=HI4wHVqdPFUaTmLfTawRP0YuILjCSvy0XvR7UY6GhjpkLZ7Jcpensq3GPz/wKuSVQPh/ah
-	JjfisFcmsOLL77YybjTfUcF4SOtfsMptjoCY2iNpL/QAVX8IlmhT4tll2zqUciAF4fFC2q
-	GhOxoJIWWV9UKbtfg9ziQ2wDV7UERPU=
-Date: Mon, 8 Nov 2021 22:18:47 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Arnd Bergmann <arnd@arndb.de>,
-	Ayush Sawal <ayush.sawal@chelsio.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rohit Maheshwari <rohitm@chelsio.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
-	ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	intel-gvt-dev@lists.freedesktop.org,
-	alpha <linux-alpha@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-clk <linux-clk@vger.kernel.org>,
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-	linux-edac@vger.kernel.org,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	linux-hyperv@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-leds <linux-leds@vger.kernel.org>,
-	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-	Parisc List <linux-parisc@vger.kernel.org>,
-	Linux PM list <linux-pm@vger.kernel.org>,
-	linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-	"open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" <linux-remoteproc@vger.kernel.org>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	linux-s390 <linux-s390@vger.kernel.org>,
-	scsi <linux-scsi@vger.kernel.org>,
-	Linux-sh list <linux-sh@vger.kernel.org>,
-	linux-staging@lists.linux.dev,
-	linux-tegra <linux-tegra@vger.kernel.org>,
-	linux-um <linux-um@lists.infradead.org>,
-	USB list <linux-usb@vger.kernel.org>,
-	"open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>,
-	netdev <netdev@vger.kernel.org>,
-	openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org,
-	sparclinux <sparclinux@vger.kernel.org>,
-	the arch/x86 maintainers <x86@kernel.org>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
- already registered
-Message-ID: <YYmUN69Y7z9xITas@zn.tnic>
-References: <20211108101157.15189-1-bp@alien8.de>
- <20211108101157.15189-43-bp@alien8.de>
- <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
- <YYkyUEqcsOwQMb1S@zn.tnic>
- <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
- <YYlJQYLiIrhjwOmT@zn.tnic>
- <CAMuHMdXHikGrmUzuq0WG5JRHUUE=5zsaVCTF+e4TiHpM5tc5kA@mail.gmail.com>
- <YYlOmd0AeA8DSluD@zn.tnic>
- <20211108205926.GA1678880@rowland.harvard.edu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0CA2C96
+	for <linux-staging@lists.linux.dev>; Tue,  9 Nov 2021 01:01:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F2B2061215;
+	Tue,  9 Nov 2021 01:01:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636419670;
+	bh=a1EA5gTGciR1EIXkrUGu4uto/FG7wMENA7BFoVxUw3A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mazy7RMwQ2RJ9nBQemh4GRotST0Qsx/SWZ+GjtgFOde9Otqt5em5rGwYAhqawStvf
+	 rVeKVUZjg91uG7qm9TgHM5XQomTakDwSZvao9+x+dQjdgSmepPl/x2gAKVUWZBpkWY
+	 FCGwOr9WHVRzAV6tn4np2niuw8iFh/GeDf0MbjIySBSCW5wSJQs9KFBLFpQzxcCXlw
+	 StY5Sm3+X/yode9PdnNMvn96SXlpNxi4Z7XLPAqpKgOwKdr9K6ELLUQLjPPKOehjrr
+	 aoYcgIjm6/0owobFgP2kPBcv78vo6Lkg2r5mYBqYOZ3ZfB4g1KmaTDAnIY53sNieCT
+	 FaZY4ePdJaq6Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Evgeny Novikov <novikov@ispras.ru>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	alex.dewar90@gmail.com,
+	colin.king@canonical.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.15 040/146] media: atomisp: Fix error handling in probe
+Date: Mon,  8 Nov 2021 12:43:07 -0500
+Message-Id: <20211108174453.1187052-40-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211108174453.1187052-1-sashal@kernel.org>
+References: <20211108174453.1187052-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20211108205926.GA1678880@rowland.harvard.edu>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 08, 2021 at 03:59:26PM -0500, Alan Stern wrote:
-> Is there really any reason for returning an error code?  For example, is 
-> it anticipated that at some point in the future these registration calls 
-> might fail?
-> 
-> Currently, the only reason for failing...
+From: Evgeny Novikov <novikov@ispras.ru>
 
-Right, I believe with not making it return void we're leaving the door
-open for some, *hypothetical* future return values if we decide we need
-to return them too, at some point.
+[ Upstream commit e16f5e39acd6d10cc63ae39bc0a77188ed828f22 ]
 
-Yes, I can't think of another fact to state besides that the callback
-was already registered or return success but who knows what we wanna do
-in the future...
+There were several issues with handling errors in lm3554_probe():
+- Probe did not set the error code when v4l2_ctrl_handler_init() failed.
+- It intermixed gotos for handling errors of v4l2_ctrl_handler_init()
+  and media_entity_pads_init().
+- It did not set the error code for failures of v4l2_ctrl_new_custom().
+- Probe did not free resources in case of failures of
+  atomisp_register_i2c_module().
 
-And so if we change them all to void now, I think it'll be a lot more
-churn to switch back to returning a non-void value and having the
-callers who choose to handle that value, do so again.
+The patch fixes all these issues.
 
-So, long story short, keeping the retval - albeit not very useful right
-now - is probably easier.
+Found by Linux Driver Verification project (linuxtesting.org).
 
-I hope I'm making some sense here.
+Link: https://lore.kernel.org/linux-media/20210810162943.19852-1-novikov@ispras.ru
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../media/atomisp/i2c/atomisp-lm3554.c        | 37 ++++++++++++-------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+index 362ed44b4effa..e046489cd253b 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
+@@ -835,7 +835,6 @@ static int lm3554_probe(struct i2c_client *client)
+ 	int err = 0;
+ 	struct lm3554 *flash;
+ 	unsigned int i;
+-	int ret;
+ 
+ 	flash = kzalloc(sizeof(*flash), GFP_KERNEL);
+ 	if (!flash)
+@@ -844,7 +843,7 @@ static int lm3554_probe(struct i2c_client *client)
+ 	flash->pdata = lm3554_platform_data_func(client);
+ 	if (IS_ERR(flash->pdata)) {
+ 		err = PTR_ERR(flash->pdata);
+-		goto fail1;
++		goto free_flash;
+ 	}
+ 
+ 	v4l2_i2c_subdev_init(&flash->sd, client, &lm3554_ops);
+@@ -852,12 +851,12 @@ static int lm3554_probe(struct i2c_client *client)
+ 	flash->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+ 	flash->mode = ATOMISP_FLASH_MODE_OFF;
+ 	flash->timeout = LM3554_MAX_TIMEOUT / LM3554_TIMEOUT_STEPSIZE - 1;
+-	ret =
++	err =
+ 	    v4l2_ctrl_handler_init(&flash->ctrl_handler,
+ 				   ARRAY_SIZE(lm3554_controls));
+-	if (ret) {
++	if (err) {
+ 		dev_err(&client->dev, "error initialize a ctrl_handler.\n");
+-		goto fail3;
++		goto unregister_subdev;
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
+@@ -866,14 +865,15 @@ static int lm3554_probe(struct i2c_client *client)
+ 
+ 	if (flash->ctrl_handler.error) {
+ 		dev_err(&client->dev, "ctrl_handler error.\n");
+-		goto fail3;
++		err = flash->ctrl_handler.error;
++		goto free_handler;
+ 	}
+ 
+ 	flash->sd.ctrl_handler = &flash->ctrl_handler;
+ 	err = media_entity_pads_init(&flash->sd.entity, 0, NULL);
+ 	if (err) {
+ 		dev_err(&client->dev, "error initialize a media entity.\n");
+-		goto fail2;
++		goto free_handler;
+ 	}
+ 
+ 	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
+@@ -884,16 +884,27 @@ static int lm3554_probe(struct i2c_client *client)
+ 
+ 	err = lm3554_gpio_init(client);
+ 	if (err) {
+-		dev_err(&client->dev, "gpio request/direction_output fail");
+-		goto fail3;
++		dev_err(&client->dev, "gpio request/direction_output fail.\n");
++		goto cleanup_media;
++	}
++
++	err = atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
++	if (err) {
++		dev_err(&client->dev, "fail to register atomisp i2c module.\n");
++		goto uninit_gpio;
+ 	}
+-	return atomisp_register_i2c_module(&flash->sd, NULL, LED_FLASH);
+-fail3:
++
++	return 0;
++
++uninit_gpio:
++	lm3554_gpio_uninit(client);
++cleanup_media:
+ 	media_entity_cleanup(&flash->sd.entity);
++free_handler:
+ 	v4l2_ctrl_handler_free(&flash->ctrl_handler);
+-fail2:
++unregister_subdev:
+ 	v4l2_device_unregister_subdev(&flash->sd);
+-fail1:
++free_flash:
+ 	kfree(flash);
+ 
+ 	return err;
 -- 
-Regards/Gruss,
-    Boris.
+2.33.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
