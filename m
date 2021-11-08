@@ -1,89 +1,106 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26D268
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 04:11:33 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id o14so14936216plg.5
-        for <linux-staging@lists.linux.dev>; Sun, 07 Nov 2021 20:11:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3B168
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 04:15:11 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id e65so14014715pgc.5
+        for <linux-staging@lists.linux.dev>; Sun, 07 Nov 2021 20:15:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=+r5v0Qkb9CskeIUp24NWApH4et+2cF4LENwGR9mkgPI=;
-        b=ksG9H0mH9ezpfVFJemUARGntpLmJtB5sxcqfrOAB/mZdHKhslGOm+2IuFcHiDsOECb
-         EYJ+OKS+sZX/WgZpFpz25MEQ/2OIZJw7yeFTy+cDwhN7o3Tq/iEx0QYIeAtQH1D8IIOB
-         IbbIsDVMOANo9VjiHIxLJe9XsstPt1CeZrirXXbygFhIEva4C+JNDVwfh0N6WlwnO4Pw
-         pgsxH0RNYxGDn2mCwKAzBi6IZJAOl7fiAbN8vDxi9zuLe8ZhKPmVrnsrh1bmu+WP0lYc
-         7VnB+IThKaCJJ/Goz4R0rlPd70PAF3UXzaxD/NsMFSJWLb28zPv6I/tNaLE1dz8KKpUP
-         8YlA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=0vTb2Eh26EDQpQcNXEmLn0oGcTGvpNGAV1iupzbirMM=;
+        b=b7D2TToafJTPLm0i63Nn6QpKsrHmIbUzDnzU1fD92pSo3LOwtwXKUwZSrjsBqBCv/O
+         TPaxhtp/XBjQpIl+0xzjzvDM9dZLu0MTUUk3sqMdpH+Y3CtLKjSRhHPPZdAd13RMvD4b
+         d7azvHwMg7DLMzI6nBC2uQO0dIRezB+FODr+Umc+reQPp+L9iaC/njLKB/NiraDcWOOe
+         eTTlEx8kG8SFY1U2BQ9wOH3Zksc+ud9gLSLum/uyQ4SW6xEGzGwT1ltqexc2WjvkdlDP
+         BjYyOZ3oHv42EzQTdHeO128VA48Yo1XSsjbnTmQj+UehqsBODpSKSH0oCPjlaKkA56Cf
+         k35w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=+r5v0Qkb9CskeIUp24NWApH4et+2cF4LENwGR9mkgPI=;
-        b=MOXwk1LvgirQVonaCzc85E0zVmSxc+CrW7DyqBxTbUgbjd3RYCiSm9cPt5+VWV+7gs
-         BpUe9jqVl3cqf4lAsdnOH1NPdC3GAj1vPPncvqLLnR9bpzfijidi1VEj5ydw8ZAcNTt9
-         J6UZU/KABN4yFh7LI5GNfBTyu47cvKp5DfjMlWQo9SBVODmYYKxJ2118xww6436QJPH1
-         2xt1wItgywP4DOXksnrTB3ujx/WSwaq6YBamqs8AazdM6bIbAwKX4YRZFDgZO/k69bdU
-         Bdb1iRn6muUnoqmc6JixrXHWjgz8oHEoe7CgKLKrwpyNcYN+LmrqXN44QeRH8VjJ9AMA
-         knOA==
-X-Gm-Message-State: AOAM530LylHKxG6Wz8435BrLjcY08Dh9ngPg/8VpTsgb8nWXZhm62TQo
-	NVEyZ9gICP+yD7tKXv2Gyik=
-X-Google-Smtp-Source: ABdhPJz53C1GxcDNgZIQ7AHrcxpnC9yV4l2D8vHmUQak4AX6drOI3HDoe3B/rpg3QyRbNSkIcxCXlA==
-X-Received: by 2002:a17:90a:eb03:: with SMTP id j3mr48831736pjz.149.1636344693335;
-        Sun, 07 Nov 2021 20:11:33 -0800 (PST)
-Received: from Sauravs-MacBook-Air.local ([59.88.109.27])
-        by smtp.gmail.com with ESMTPSA id k1sm5684400pfu.31.2021.11.07.20.11.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Nov 2021 20:11:32 -0800 (PST)
-Date: Mon, 8 Nov 2021 09:41:22 +0530
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
-To: gregkh@linuxfoundation.org, kuba@kernel.org, lee.jones@linaro.org,
-	saurav.girepunje@gmail.com, nathan@kernel.org, clrrm@isep.ipp.pt,
-	johan@kernel.org, dinghao.liu@zju.edu.cn,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: saurav.girepunje@hotmail.com
-Subject: [PATCH] staging: rtl8192u: remove the if condition without effect
-Message-ID: <YYijapuGOmObwM3S@Sauravs-MacBook-Air.local>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=0vTb2Eh26EDQpQcNXEmLn0oGcTGvpNGAV1iupzbirMM=;
+        b=oD0PowDUmjs6a4qBbDp6YTb8odYdhEZXBQAsmSzupYqudfWIm8oU3LQR37E4n+tHk1
+         fjZNb/hdtV4mJBmXANzTaQs7ziXygoIGoAoDJJQmtvEk7P7fVkdjaAvR1Cs3bvhimayW
+         JRsw0i8Rn6YvY/kqW8DRNswvw7d0TiUyfMUfFd6z3Nss1jqaBRBQyk9aRJyEhpaXP8Xf
+         8gK5dZiWq9DWrdpt6CThU6PKTZV+yXOtibGKZYee1rIU0tguLDO0a49PcxUz0ZMul53+
+         L3Sav0jIeiA1YEeXwpTzZ+YPIbV4VA4kWzE2T5Lk8kqc9Nj/08IWT+g8gDecUh/D6UOC
+         GQtQ==
+X-Gm-Message-State: AOAM530VPSMPv8yLWhtHdSaNVAoyMwze6oc4C7J85M+4o5b36bYwB5/T
+	UX2hzKfwiGULBEbTfEz5SvA=
+X-Google-Smtp-Source: ABdhPJyPWcaTTgqdCleaOpm+cehsHuGg/TzMXEj+bFjeOv2cr0G86yWMVT6bGW4mYgN1FAC9oXbYlA==
+X-Received: by 2002:a63:8742:: with SMTP id i63mr43016950pge.282.1636344910874;
+        Sun, 07 Nov 2021 20:15:10 -0800 (PST)
+Received: from [192.168.1.2] ([59.88.109.27])
+        by smtp.gmail.com with ESMTPSA id y32sm14997687pfa.145.2021.11.07.20.15.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Nov 2021 20:15:10 -0800 (PST)
+Message-ID: <24befb64-0fdc-03ab-5a9a-c7be443be1a1@gmail.com>
+Date: Mon, 8 Nov 2021 09:45:05 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.2.1
+Subject: Re: [PATCH] staging: rtl8192u: remove the if condition without effect
+Content-Language: en-GB
+To: gregkh@linuxfoundation.org, kuba@kernel.org, lee.jones@linaro.org,
+ nathan@kernel.org, clrrm@isep.ipp.pt, johan@kernel.org,
+ dinghao.liu@zju.edu.cn, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+References: <YYijapuGOmObwM3S@Sauravs-MacBook-Air.local>
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+In-Reply-To: <YYijapuGOmObwM3S@Sauravs-MacBook-Air.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-In function rtl8192_adapter_start priv->pFirmware->firmware_status
-is assign to FW_STATUS_0_INIT just after assignment variable is
-again get check for same value. Therefore if condition will be
-always be true. So remove the if condition ,else if section and
-else section which will never get execute.
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
----
- drivers/staging/rtl8192u/r8192U_core.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index 726d7ad9408b..f5d9e81f4ac7 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -2666,14 +2666,7 @@ static bool rtl8192_adapter_start(struct net_device *dev)
- 	/* config CPUReset Register */
- 	/* Firmware Reset or not? */
- 	read_nic_dword(dev, CPU_GEN, &dwRegRead);
--	if (priv->pFirmware->firmware_status == FW_STATUS_0_INIT)
--		dwRegRead |= CPU_GEN_SYSTEM_RESET; /* do nothing here? */
--	else if (priv->pFirmware->firmware_status == FW_STATUS_5_READY)
--		dwRegRead |= CPU_GEN_FIRMWARE_RESET;
--	else
--		RT_TRACE(COMP_ERR,
--			 "ERROR in %s(): undefined firmware state(%d)\n",
--			 __func__,   priv->pFirmware->firmware_status);
-+	dwRegRead |= CPU_GEN_SYSTEM_RESET; /* do nothing here? */
+On 08/11/21 9:41 am, Saurav Girepunje wrote:
+> In function rtl8192_adapter_start priv->pFirmware->firmware_status
+> is assign to FW_STATUS_0_INIT just after assignment variable is
+> again get check for same value. Therefore if condition will be
+> always be true. So remove the if condition ,else if section and
+> else section which will never get execute.
+> 
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>  drivers/staging/rtl8192u/r8192U_core.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
+> index 726d7ad9408b..f5d9e81f4ac7 100644
+> --- a/drivers/staging/rtl8192u/r8192U_core.c
+> +++ b/drivers/staging/rtl8192u/r8192U_core.c
+> @@ -2666,14 +2666,7 @@ static bool rtl8192_adapter_start(struct net_device *dev)
+>  	/* config CPUReset Register */
+>  	/* Firmware Reset or not? */
+>  	read_nic_dword(dev, CPU_GEN, &dwRegRead);
+> -	if (priv->pFirmware->firmware_status == FW_STATUS_0_INIT)
+> -		dwRegRead |= CPU_GEN_SYSTEM_RESET; /* do nothing here? */
+> -	else if (priv->pFirmware->firmware_status == FW_STATUS_5_READY)
+> -		dwRegRead |= CPU_GEN_FIRMWARE_RESET;
+> -	else
+> -		RT_TRACE(COMP_ERR,
+> -			 "ERROR in %s(): undefined firmware state(%d)\n",
+> -			 __func__,   priv->pFirmware->firmware_status);
+> +	dwRegRead |= CPU_GEN_SYSTEM_RESET; /* do nothing here? */
+> 
+>  	write_nic_dword(dev, CPU_GEN, dwRegRead);
+>  	/* config BB. */
+> --
+> 2.33.0
+> 
 
- 	write_nic_dword(dev, CPU_GEN, dwRegRead);
- 	/* config BB. */
---
-2.33.0
+read_nic_dword function call also does not update value of priv->pFirmware->firmware_status.
+read_nic_dword return a value that never check by any caller function.
+That can cover on another patch.
 
+Regards,
+Saurav
