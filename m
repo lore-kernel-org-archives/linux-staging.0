@@ -1,263 +1,85 @@
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899322C83
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 10:19:30 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f33110088892b77bd117736.dip0.t-ipconnect.de [IPv6:2003:ec:2f33:1100:8889:2b77:bd11:7736])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 295D81EC04E0;
-	Mon,  8 Nov 2021 11:19:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-	t=1636366768;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CDGB0dpLCqhyN2VLkOyFdq64uDUd6G/RUsDL3dC+Ipo=;
-	b=OmXDZQiNXAykW6msgQxQV2D3jyNeh8L8Ur0LKSqcBbS8Z5Dq+lMoh+uc1KE9lZoNFhTNi5
-	HSfl5kEDRsOkXKmO9qqEW67WUQUsv5GaQK9Erwx9IjY3o31Y8ehQnIfkizrSs0P3bzV/5j
-	Fq9nLmulJEIgHjmCW/c8QaecUsrUi0U=
-From: Borislav Petkov <bp@alien8.de>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Ayush Sawal <ayush.sawal@chelsio.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rohit Maheshwari <rohitm@chelsio.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Vinay Kumar Yadav <vinay.yadav@chelsio.com>,
-	alsa-devel@alsa-project.org,
-	bcm-kernel-feedback-list@broadcom.com,
-	intel-gfx@lists.freedesktop.org,
-	intel-gvt-dev@lists.freedesktop.org,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	linux-xtensa@linux-xtensa.org,
-	netdev@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	rcu@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org,
-	xen-devel@lists.xenproject.org
-Subject: [PATCH v0 00/42] notifiers: Return an error when callback is already registered
-Date: Mon,  8 Nov 2021 11:19:24 +0100
-Message-Id: <20211108101924.15759-1-bp@alien8.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20211108101157.15189-1-bp@alien8.de>
-References: <20211108101157.15189-1-bp@alien8.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F5D2C85
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 10:41:46 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 92BD161360;
+	Mon,  8 Nov 2021 10:41:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636368105;
+	bh=HmX7Iu230vaqFLoWNOfpIDZEQ/e7d6sGmYSkqSPi38A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ta8iXpjgABI78bfr7rCNWvbrUeM8XvPZ3VtSlngMXNlLva6sZAgSHODXcDtuoCWTg
+	 F37RrZ42cpAJWSJPR9OIFuwugHDWdFDy5MUgDXpRsiaX/7al2tgJlO+Zr+du2u4tV3
+	 42T9a4g+S69bvsWaUh8kDOMkF3tb5/2nS1pBCBxJLg7IEkvnvPc5/i9SyNwlRPKyPx
+	 uBOEKZKNzFv8RYd5FYSyzvyY+86luQJBJ6cDPndtFdj14b79TrTYNRvliI4lqczUYW
+	 RblkNki2L53Q1WOj09QXJ7+NkPu0ExCDMDThvs/wbGnBX8h1Ajl4QEeNemBHudfqqL
+	 eMbCHp5ZRj9qw==
+Date: Mon, 8 Nov 2021 10:41:39 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Alan
+ <alan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>, Tsuchiya Yuto
+ <kitakar@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] media: atomisp: allocate a v4l2_fh at open time
+Message-ID: <20211108104139.18ee4023@sal.lan>
+In-Reply-To: <20211108100902.GE2001@kadam>
+References: <7a59d8613331d242624e887d9089ded399015a97.1636105894.git.mchehab+huawei@kernel.org>
+	<20211108100902.GE2001@kadam>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Borislav Petkov <bp@suse.de>
+Em Mon, 8 Nov 2021 13:09:02 +0300
+Dan Carpenter <dan.carpenter@oracle.com> escreveu:
 
-Hi all,
+> On Fri, Nov 05, 2021 at 09:51:38AM +0000, Mauro Carvalho Chehab wrote:
+> > ---
+> >  drivers/staging/media/atomisp/pci/atomisp_fops.c | 11 ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > index 7df982c80b1a..41fa0ca2d8d4 100644
+> > --- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > +++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
+> > @@ -782,6 +782,15 @@ static int atomisp_open(struct file *file)
+> >  	 * FIXME: revisit this with a better check once the code structure
+> >  	 * is cleaned up a bit more
+> >  	 */
+> > +dev_info(isp->dev, "opening v4l2 fh\n");  
+> 
+> This line looks like debugging code that was committed accidentally?
+> Not indented.
 
-this is a huge patchset for something which is really trivial - it
-changes the notifier registration routines to return an error value
-if a notifier callback is already present on the respective list of
-callbacks. For more details scroll to the last patch.
+Yep.
 
-Everything before it is converting the callers to check the return value
-of the registration routines and issue a warning, instead of the WARN()
-notifier_chain_register() does now.
+> Doesn't apply for on latest linux-next.  Not sure why.
 
-Before the last patch has been applied, though, that checking is a
-NOP which would make the application of those patches trivial - every
-maintainer can pick a patch at her/his discretion - only the last one
-enables the build warnings and that one will be queued only after the
-preceding patches have all been merged so that there are no build
-warnings.
+Yeah, I dropped it when I applied the patch on media_stage.
 
-Due to the sheer volume of the patches, I have addressed the respective
-patch and the last one, which enables the warning, with addressees for
-each maintained area so as not to spam people unnecessarily.
+I should have sent v2 without that line.
 
-If people prefer I carry some through tip, instead, I'll gladly do so -
-your call.
-
-And, if you think the warning messages need to be more precise, feel
-free to adjust them before committing.
-
-Thanks!
-
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Ayush Sawal <ayush.sawal@chelsio.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rohit Maheshwari <rohitm@chelsio.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Vinay Kumar Yadav <vinay.yadav@chelsio.com> 
-Cc: alsa-devel@alsa-project.org
-Cc: bcm-kernel-feedback-list@broadcom.com
-Cc: intel-gfx@lists.freedesktop.org
-Cc: intel-gvt-dev@lists.freedesktop.org
-Cc: linux-alpha@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-edac@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: linux-hyperv@vger.kernel.org
-Cc: linux-iio@vger.kernel.org
-Cc: linux-leds@vger.kernel.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-remoteproc@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: linux-sh@vger.kernel.org
-Cc: linux-staging@lists.linux.dev
-Cc: linux-tegra@vger.kernel.org
-Cc: linux-um@lists.infradead.org
-Cc: linux-usb@vger.kernel.org
-Cc: linux-xtensa@linux-xtensa.org
-Cc: netdev@vger.kernel.org
-Cc: openipmi-developer@lists.sourceforge.net
-Cc: rcu@vger.kernel.org
-Cc: sparclinux@vger.kernel.org
-Cc: x86@kernel.org
-Cc: xen-devel@lists.xenproject.org
-
-Borislav Petkov (42):
-  x86: Check notifier registration return value
-  xen/x86: Check notifier registration return value
-  impi: Check notifier registration return value
-  clk: renesas: Check notifier registration return value
-  dca: Check notifier registration return value
-  firmware: Check notifier registration return value
-  drm/i915: Check notifier registration return value
-  Drivers: hv: vmbus: Check notifier registration return value
-  iio: proximity: cros_ec: Check notifier registration return value
-  leds: trigger: Check notifier registration return value
-  misc: Check notifier registration return value
-  ethernet: chelsio: Check notifier registration return value
-  power: reset: Check notifier registration return value
-  remoteproc: Check notifier registration return value
-  scsi: target: Check notifier registration return value
-  USB: Check notifier registration return value
-  drivers: video: Check notifier registration return value
-  drivers/xen: Check notifier registration return value
-  kernel/hung_task: Check notifier registration return value
-  rcu: Check notifier registration return value
-  tracing: Check notifier registration return value
-  net: fib_notifier: Check notifier registration return value
-  ASoC: soc-jack: Check notifier registration return value
-  staging: olpc_dcon: Check notifier registration return value
-  arch/um: Check notifier registration return value
-  alpha: Check notifier registration return value
-  bus: brcmstb_gisb: Check notifier registration return value
-  soc: bcm: brcmstb: pm: pm-arm: Check notifier registration return
-    value
-  arm64: Check notifier registration return value
-  soc/tegra: Check notifier registration return value
-  parisc: Check notifier registration return value
-  macintosh/adb: Check notifier registration return value
-  mips: Check notifier registration return value
-  powerpc: Check notifier registration return value
-  sh: Check notifier registration return value
-  s390: Check notifier registration return value
-  sparc: Check notifier registration return value
-  xtensa: Check notifier registration return value
-  crypto: ccree - check notifier registration return value
-  EDAC/altera: Check notifier registration return value
-  power: supply: ab8500: Check notifier registration return value
-  notifier: Return an error when callback is already registered
-
- arch/alpha/kernel/setup.c                     |  5 +--
- arch/arm64/kernel/setup.c                     |  6 ++--
- arch/mips/kernel/relocate.c                   |  6 ++--
- arch/mips/sgi-ip22/ip22-reset.c               |  4 ++-
- arch/mips/sgi-ip32/ip32-reset.c               |  4 ++-
- arch/parisc/kernel/pdc_chassis.c              |  5 +--
- arch/powerpc/kernel/setup-common.c            | 12 ++++---
- arch/s390/kernel/ipl.c                        |  4 ++-
- arch/s390/kvm/kvm-s390.c                      |  7 ++--
- arch/sh/kernel/cpu/sh4a/setup-sh7724.c        | 11 +++---
- arch/sparc/kernel/sstate.c                    |  6 ++--
- arch/um/drivers/mconsole_kern.c               |  6 ++--
- arch/um/kernel/um_arch.c                      |  5 +--
- arch/x86/kernel/cpu/mce/core.c                |  3 +-
- arch/x86/kernel/cpu/mce/dev-mcelog.c          |  3 +-
- arch/x86/kernel/setup.c                       |  7 ++--
- arch/x86/xen/enlighten.c                      |  4 ++-
- arch/xtensa/platforms/iss/setup.c             |  3 +-
- drivers/bus/brcmstb_gisb.c                    |  6 ++--
- drivers/char/ipmi/ipmi_msghandler.c           |  3 +-
- drivers/clk/renesas/clk-div6.c                |  4 ++-
- drivers/clk/renesas/rcar-cpg-lib.c            |  4 ++-
- drivers/crypto/ccree/cc_fips.c                |  4 ++-
- drivers/dca/dca-core.c                        |  3 +-
- drivers/edac/altera_edac.c                    |  6 ++--
- drivers/firmware/arm_scmi/notify.c            |  3 +-
- drivers/firmware/google/gsmi.c                |  6 ++--
- drivers/gpu/drm/i915/gvt/scheduler.c          |  6 ++--
- drivers/hv/vmbus_drv.c                        |  4 +--
- .../iio/proximity/cros_ec_mkbp_proximity.c    |  3 +-
- drivers/leds/trigger/ledtrig-activity.c       |  6 ++--
- drivers/leds/trigger/ledtrig-heartbeat.c      |  6 ++--
- drivers/leds/trigger/ledtrig-panic.c          |  4 +--
- drivers/macintosh/adbhid.c                    |  4 +--
- drivers/misc/ibmasm/heartbeat.c               |  3 +-
- drivers/misc/pvpanic/pvpanic.c                |  3 +-
- .../chelsio/inline_crypto/chtls/chtls_main.c  |  5 ++-
- drivers/parisc/power.c                        |  5 +--
- drivers/power/reset/ltc2952-poweroff.c        |  6 ++--
- drivers/power/supply/ab8500_charger.c         |  8 ++---
- drivers/remoteproc/qcom_common.c              |  3 +-
- drivers/remoteproc/qcom_sysmon.c              |  4 ++-
- drivers/remoteproc/remoteproc_core.c          |  4 ++-
- drivers/s390/char/con3215.c                   |  5 ++-
- drivers/s390/char/con3270.c                   |  5 ++-
- drivers/s390/char/sclp_con.c                  |  4 ++-
- drivers/s390/char/sclp_vt220.c                |  4 ++-
- drivers/s390/char/zcore.c                     |  4 ++-
- drivers/soc/bcm/brcmstb/pm/pm-arm.c           |  5 +--
- drivers/soc/tegra/ari-tegra186.c              |  7 ++--
- drivers/staging/olpc_dcon/olpc_dcon.c         |  4 ++-
- drivers/target/tcm_fc/tfc_conf.c              |  4 ++-
- drivers/usb/core/notify.c                     |  3 +-
- drivers/video/console/dummycon.c              |  3 +-
- drivers/video/fbdev/hyperv_fb.c               |  5 +--
- drivers/xen/manage.c                          |  3 +-
- drivers/xen/xenbus/xenbus_probe.c             |  8 +++--
- include/linux/notifier.h                      |  8 ++---
- kernel/hung_task.c                            |  3 +-
- kernel/notifier.c                             | 36 ++++++++++---------
- kernel/rcu/tree_stall.h                       |  4 ++-
- kernel/trace/trace.c                          |  4 +--
- net/core/fib_notifier.c                       |  4 ++-
- sound/soc/soc-jack.c                          |  3 +-
- 64 files changed, 222 insertions(+), 118 deletions(-)
-
--- 
-2.29.2
-
+> 
+> regards,
+> dan carpenter
+> 
+> > +	ret = v4l2_fh_open(file);
+> > +	if (ret) {
+> > +		dev_err(isp->dev,
+> > +			"%s: v4l2_fh_open() returned error %d\n",
+> > +		       __func__, ret);
+> > +		rt_mutex_unlock(&isp->loading);
+> > +		return ret;
+> > +	}  
+> 
