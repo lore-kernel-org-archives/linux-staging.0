@@ -1,133 +1,151 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620E668
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 13:59:12 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id de30so1419217qkb.0
-        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 05:59:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=JirAXSflDjIcMAeazdVpY/4xA41IlCAY04BXmE2ZYQM=;
-        b=HLXr25pRJ7+E8lT4ABwhuNFkxRYpRCgr7hswcSp5Lz4N+xi7/whjxmtqYGZ7KbEIEw
-         Fcup+X6OvBpYzpNUAh6zyT5/m3AeG+K+iHjJJKNEWzKsYf8PqPGhUHfyUuESlLkiSda6
-         rMA9QOjK3uybOhJ3DKPAODHNWZQv0Y4hHdUTqW3DB7U7vLEYxfmp1SYgVU0MraHxjcFz
-         46eeeNtdwLRH2bFiCb2W/gNK7T99wdZm8vPf/VunOX7XX9iHY9N5ju5ZC+DVLn0Ps7nO
-         jH1fVjmkejbUkdA4z95OSyqwjq127ae5Jja/zWqxhVrkP0wZUUrUATNA+nEQ352/GE/l
-         Ud3g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD02A68
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 14:07:17 +0000 (UTC)
+Received: by mail-vk1-f179.google.com with SMTP id f78so6147851vka.5
+        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 06:07:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JirAXSflDjIcMAeazdVpY/4xA41IlCAY04BXmE2ZYQM=;
-        b=aIpHzhoRI9XGBIw9qVjTs3Chdpu/jzFdOIpjLbYVOdiugfNZgbMFT4ULzNTkSdwaJc
-         A3y3Uj9ZU8D07HYEOT6qsIxkNt2Y5M5VAKlZjfDH+7a2lxhFDeyMRSCAHqLH7R1VBgei
-         a6cQc/7GkwxYGsPSVu7Azqsa31fFytbbFZ9Lcp8PkASKHrskswkb9cKGC11OzdHRT8KA
-         Fw6puOZ/yMLVABnYjAn4YkkWiFG+x23Chk0YRRszEQoVsYiDb4jfAbk265wXP01JY/hJ
-         l7okzdLKBs0CLNpyfheH3/0hpqWQU691uAyGcgCbYjrDLfUhERF+EpamxpNsv26diyBY
-         Z8hA==
-X-Gm-Message-State: AOAM533npNuomxRt5jgUmdwk6z7AC16ARvNIWDqYCo7kAwRPZu0TSnPG
-	9XNOaimNd+3o96OYeHeq1mNsSA==
-X-Google-Smtp-Source: ABdhPJwnQhLeO0Oq5jMtAfmA/8j65tIDSBH7CNZ4oKjXKDgjfz7o42nBFlklWsUQVUkMrnayVPVZCg==
-X-Received: by 2002:a05:620a:448b:: with SMTP id x11mr39558492qkp.286.1636379951308;
-        Mon, 08 Nov 2021 05:59:11 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id f7sm10082091qkp.107.2021.11.08.05.59.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 05:59:10 -0800 (PST)
-Message-ID: <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
-Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc: tharvey@gateworks.com, frieder.schrempf@kontron.de,
- marek.vasut@gmail.com,  jagan@amarulasolutions.com,
- aford@beaconembedded.com,  cstevens@beaconembedded.com, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>,  Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner
- <heiko@sntech.de>, Lucas Stach <l.stach@pengutronix.de>, Joakim Zhang
- <qiangqing.zhang@nxp.com>, Alice Guo <alice.guo@nxp.com>, Peng Fan
- <peng.fan@nxp.com>, "open list:HANTRO VPU CODEC DRIVER"
- <linux-rockchip@lists.infradead.org>, "open list:OPEN FIRMWARE AND
- FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
- list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>,  "open list:STAGING SUBSYSTEM"
- <linux-staging@lists.linux.dev>
-Date: Mon, 08 Nov 2021 08:59:09 -0500
-In-Reply-To: <20211106183802.893285-1-aford173@gmail.com>
-References: <20211106183802.893285-1-aford173@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.0 (3.42.0-1.fc35) 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=srssYsTsVb5ivMDmTAt6Y7lXgP/lHHGiJX97jzZpFII=;
+        b=sshDTqFTVRAvqPjd/Ch+/q2P2XbIyDw8uvtR4RmD9f4JkwWy5ndwXBn2XfH6YeKRTq
+         xKtwXbhanjkqsLy/hZgyQMyvdeWdl/MPKH97S7SPfyMHTaIJevDkL3FO0PI4hXhIQ+kP
+         TfjB40BOGdrkAsWJpJE7p3E8nm+DyJAFLJsz7OMHW9ZGYMIesIvIXtNkWd4A29251SZg
+         Gw0ifpXTWplFRagnRqcxb4ITyvBP16fDzx97bzpnBctMA4CgKGnv9jeGwis0b4PkpIaw
+         bjzxWq1sTKLEE45glkDMr6E+RNlnWSNPruJOSXj5ScHKCBFx5oDXW130jejL3iWkQGFe
+         acLQ==
+X-Gm-Message-State: AOAM530Qr6ZWXgPtC9E4355O50BBGKWx+L6AfhDvbhHJ2n2SJdOTWrKc
+	qnng3pn+T9gDqENKsVx4x3ChpW3p9dnvCFzz
+X-Google-Smtp-Source: ABdhPJyeM1cgosmLLuRhtf5I93IczDyef+GtJlpPuekr6ItTzaS6VDp1lLmy2rvpPIjWfU00kDwtAg==
+X-Received: by 2002:a05:6122:20a7:: with SMTP id i39mr32701016vkd.15.1636380436368;
+        Mon, 08 Nov 2021 06:07:16 -0800 (PST)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
+        by smtp.gmail.com with ESMTPSA id m4sm2711387vkk.18.2021.11.08.06.07.15
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Nov 2021 06:07:16 -0800 (PST)
+Received: by mail-vk1-f177.google.com with SMTP id h133so8252920vke.10
+        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 06:07:15 -0800 (PST)
+X-Received: by 2002:a05:6122:1350:: with SMTP id f16mr21288847vkp.26.1636380434409;
+ Mon, 08 Nov 2021 06:07:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211108101157.15189-1-bp@alien8.de> <20211108101157.15189-43-bp@alien8.de>
+In-Reply-To: <20211108101157.15189-43-bp@alien8.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 8 Nov 2021 15:07:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
+Message-ID: <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com>
+Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
+ already registered
+To: Borislav Petkov <bp@alien8.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Ayush Sawal <ayush.sawal@chelsio.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rohit Maheshwari <rohitm@chelsio.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Vinay Kumar Yadav <vinay.yadav@chelsio.com>, 
+	ALSA Development Mailing List <alsa-devel@alsa-project.org>, 
+	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, intel-gvt-dev@lists.freedesktop.org, 
+	alpha <linux-alpha@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	linux-clk <linux-clk@vger.kernel.org>, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, linux-edac@vger.kernel.org, 
+	Linux Fbdev development list <linux-fbdev@vger.kernel.org>, linux-hyperv@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-leds <linux-leds@vger.kernel.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, Parisc List <linux-parisc@vger.kernel.org>, 
+	Linux PM list <linux-pm@vger.kernel.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	"open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" <linux-remoteproc@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>, 
+	scsi <linux-scsi@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, linux-tegra <linux-tegra@vger.kernel.org>, 
+	linux-um <linux-um@lists.infradead.org>, USB list <linux-usb@vger.kernel.org>, 
+	"open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>, netdev <netdev@vger.kernel.org>, 
+	openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org, 
+	sparclinux <sparclinux@vger.kernel.org>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	xen-devel@lists.xenproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Adam,
+Hi Borislav,
 
-thanks for you work, I'll try and reply  about the GStreamer questions below, if
-you have further question feel free to ask.
+On Mon, Nov 8, 2021 at 11:13 AM Borislav Petkov <bp@alien8.de> wrote:
+> From: Borislav Petkov <bp@suse.de>
+>
+> The notifier registration routine doesn't return a proper error value
+> when a callback has already been registered, leading people to track
+> whether that registration has happened at the call site:
+>
+>   https://lore.kernel.org/amd-gfx/20210512013058.6827-1-mukul.joshi@amd.c=
+om/
+>
+> Which is unnecessary.
+>
+> Return -EEXIST to signal that case so that callers can act accordingly.
+> Enforce callers to check the return value, leading to loud screaming
+> during build:
+>
+>   arch/x86/kernel/cpu/mce/core.c: In function =E2=80=98mce_register_decod=
+e_chain=E2=80=99:
+>   arch/x86/kernel/cpu/mce/core.c:167:2: error: ignoring return value of \
+>    =E2=80=98blocking_notifier_chain_register=E2=80=99, declared with attr=
+ibute warn_unused_result [-Werror=3Dunused-result]
+>     blocking_notifier_chain_register(&x86_mce_decoder_chain, nb);
+>   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Drop the WARN too, while at it.
+>
+> Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Borislav Petkov <bp@suse.de>
 
-Le samedi 06 novembre 2021 à 13:37 -0500, Adam Ford a écrit :
-> The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
-> to be related to the video decoders used on the i.MX8MQ, but because of
-> how the Mini handles the power domains, the VPU driver does not need to
-> handle all the functions, so a new compatible flag is required.
-> 
-> This is an RFC because I don't have functional video on my system yet,
-> and I'm hoping there might be people who do and can help test this.
-> I have only tested this far enough to see they enumerate and appear
-> as /dev/videoX and /dev/mediaX devices.
+Thanks for your patch!
 
-I will check the patchset, but you need in the mini-variant to disable the G1
-post processor, because this block was fused out. We didn't make it optional
-from the start as according to the V1 of the TRM it was there, but that error
-was corrected in V3.
+> --- a/include/linux/notifier.h
+> +++ b/include/linux/notifier.h
+> @@ -141,13 +141,13 @@ extern void srcu_init_notifier_head(struct srcu_not=
+ifier_head *nh);
+>
+>  #ifdef __KERNEL__
+>
+> -extern int atomic_notifier_chain_register(struct atomic_notifier_head *n=
+h,
+> +extern int __must_check atomic_notifier_chain_register(struct atomic_not=
+ifier_head *nh,
+>                 struct notifier_block *nb);
+> -extern int blocking_notifier_chain_register(struct blocking_notifier_hea=
+d *nh,
+> +extern int __must_check blocking_notifier_chain_register(struct blocking=
+_notifier_head *nh,
+>                 struct notifier_block *nb);
+> -extern int raw_notifier_chain_register(struct raw_notifier_head *nh,
+> +extern int __must_check raw_notifier_chain_register(struct raw_notifier_=
+head *nh,
+>                 struct notifier_block *nb);
+> -extern int srcu_notifier_chain_register(struct srcu_notifier_head *nh,
+> +extern int __must_check srcu_notifier_chain_register(struct srcu_notifie=
+r_head *nh,
+>                 struct notifier_block *nb);
 
-> 
-> I am also curious to know if/what gstreamer plugins are necessary.  In
-> NXP's custom kernel, there are IMX-specific plugins, and I was hoping there
-> would be more generic plugins that I can use to test.  I am hoping some
-> of the linux-media experts might chime in on how to best test.
+I think the addition of __must_check is overkill, leading to the
+addition of useless error checks and message printing.  Many callers
+call this where it cannot fail, and where nothing can be done in the
+very unlikely event that the call would ever start to fail.
 
-I will recommend using GStreamer 1.19.3 or main branch (GStreamer is now a
-single git repo). You will then be able to test Hantro G1 decoding of MPEG2,
-H264 and VP8. Remember that the related plugin depends on libgudev (a glib
-binding of udev).
+Gr{oetje,eeting}s,
 
-For the encoder, I believe only JPEG maybe supported, since this is all there is
-mainline for RK3288 (and perhaps other RK). But this will need testing and
-debugging as the G1 version is slightly newer on NXP SoC.
+                        Geert
 
-> 
-> Lastly, I didn't update any device tree binding YAML files, because
-> I know there have been some discussions about the power domains on the
-> imx8mq, and I wasn't sure if the imx8mm should get a separate YAML file
-> or if the existing one for te imx8mq should just be modified.
-> 
-> This will likely require the following series in order to apply correctly:
-> https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=576407
-> 
-> Adam Ford (5):
->   media: hantro: Add support for i.MX8M Mini
->   arm64: dts: imx8mm:  Enable VPU-G1 and VPU-G2
->   media: hantro: Rename ROCKCHIP_VPU_ENC_FMT to HANTRO_VPU_ENC_FMT
->   media: hantro: Add H1 encoder support on i.MX8M Mini
->   arm64: dts: imx8mm:  Enable Hantro H1 Encoder
-> 
->  arch/arm64/boot/dts/freescale/imx8mm.dtsi     |  61 ++++++++
->  drivers/staging/media/hantro/hantro_drv.c     |   3 +
->  drivers/staging/media/hantro/hantro_hw.h      |  19 ++-
->  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 143 ++++++++++++++++++
->  .../staging/media/hantro/rockchip_vpu_hw.c    |  26 ++--
->  5 files changed, 231 insertions(+), 21 deletions(-)
-> 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
