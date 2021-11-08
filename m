@@ -1,44 +1,55 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA052C83
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 09:40:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 05DEF61242;
-	Mon,  8 Nov 2021 09:40:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636364430;
-	bh=3kdsbDiloldfUsyYCakxpoQVBFAHbfEI/J3qiZ1fOrg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=o8BTlm/F88B66GDeVFjWEcYDaB3Y7up4uV396tzow/YxPVLZLmQXMT0Vyrwo20qJn
-	 YjDf/7Zs38d99UpOdZ4Ga2I0Mlz+p8nqi1wW9/Sz8SBqr1pNp3XbjjBBKpf0fwNRj4
-	 1EbG3vqcIJoAuBu1zBVR1bMJXCWSF0KRwebOsbs5dOQGIMm6olykmD/qMQA7KwjlHC
-	 jlHzmYKQXwxfc91F7Uvk2U39RPXAo9addLB+7fD+W5/l0kBd1xq2R6jLPJ/eqTNOqh
-	 k9FxnCFXYjmbw6rQSPwxj78IWCpdV1M6bFinXUyKzXqIIgL3sQ+vlE1UjWyiDOC1/R
-	 oCdNJyj20IyfA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mk18c-00118a-Jw; Mon, 08 Nov 2021 09:40:26 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alan <alan@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] media: atomisp: only initialize mode if pipe is not null
-Date: Mon,  8 Nov 2021 09:40:25 +0000
-Message-Id: <6406265f2d5f3791d5c7cbd1364186217f19524c.1636364423.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E78E2C83
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 09:57:34 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id i5so25844285wrb.2
+        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 01:57:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=kOUbhllrGgmpU45GMJothVqWnhtxz4cIj2zv5C1qMWk=;
+        b=oQBdMvS4KhzP9XZLtihtlQjZay5WL9YgNRwpEZsNQ8c5RhtCKzDNkrNUpBHVgJMA8Z
+         hdR9qkW/20y/bhNkqFX9pFUpJuVjeicAqADHFJE/cVFJ6CsI2UsRB7+R7qguW9/QerXr
+         TEwz24q0kXdt6phkXxkzdS7WBlcG5BkzwUN7hGxzUBSAFneS9A06eQee+Hu+RL1NWB3N
+         DE5N/9TEWC2DxsxcBb2HNgdg0ZiO5H+l0YVmryVK/JZVDFjDd8poG3hDeQ4Rqr7G7MAL
+         w6JGJuSbaQXdfs0PS1OL7+MWJqE7CJwZeK4b0zCmTOQWqbLofenvbujzq3sGG7ub0T/U
+         RTxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=kOUbhllrGgmpU45GMJothVqWnhtxz4cIj2zv5C1qMWk=;
+        b=p3bhzNA/UfCtxK5qkiIi8nPe5gza17Cy6i7ANHWfFx2k6zj7twUAS9CS79z72dOont
+         KDi1pPpPRfjxyKlbfH6FiXFAZBjfXg2SpYb8oXFhZePs9x6UtfPLJIRcL8C9mnpLwsVJ
+         WAk5moe7ATusgoXO50dEQXw6TBEjFJEBubXjFrFNzR+Ple/p+IWGXAFdF+e3hT1ske+p
+         QgZK9CdXZwa8d2Q1CQEe+c7ZYTZE0FnxtRWBbIXmw4g9EZBLOg4F4+iJQSkzm9hDtm1Y
+         wVvvl2kCDs7f2667TnmPdnjjKcRTMPEUwaTCltLUKtB4NtaIIJWhCrETuwlAfKGhx4Df
+         LE5A==
+X-Gm-Message-State: AOAM532GYpVxSrACbpOjhNMbOjBEaeKPqCYsPf0aXvHqSip+B8tNjh5n
+	aiUx5wCHk1rUEepQBryFqlk=
+X-Google-Smtp-Source: ABdhPJxDtSXVBMSAmrvWAmYcT5hvBCAgpVKjqIr6ghNej8nNREokF7CmLVosjHMM7wTvvT8bhUVFMg==
+X-Received: by 2002:adf:f787:: with SMTP id q7mr78460918wrp.1.1636365452804;
+        Mon, 08 Nov 2021 01:57:32 -0800 (PST)
+Received: from ?IPv6:2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62? ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id f6sm15600793wmj.40.2021.11.08.01.57.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Nov 2021 01:57:32 -0800 (PST)
+Message-ID: <0a4c26bdabadd666ddf124bbb767e5cc802af937.camel@gmail.com>
+Subject: Re: [PATCH v2 3/8] staging: vt6655: Remove unused `i` increments
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: outreachy-kernel@googlegroups.com, gregkh@linuxfoundation.org, 
+	forest@alittletooquiet.net, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 08 Nov 2021 09:57:25 +0000
+In-Reply-To: <20211104133803.GC2794@kadam>
+References: <cover.1635773679.git.karolinadrobnik@gmail.com>
+	 <79a4f03c8f2bfa555ea149ddd1c0f938dd431a0b.1635773680.git.karolinadrobnik@gmail.com>
+	 <20211104133803.GC2794@kadam>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,32 +57,46 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-During atomisp register, udev tries to open all devices. For
-some, pipe is NULL, at least during register time, causing the
-driver to try to access a NULL pointer.
+Hi Dan,
 
-So, add an extra check to avoid such condition.
+Thanks for taking a look at my patches.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/pci/atomisp_fops.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 2021-11-04 at 16:38 +0300, Dan Carpenter wrote:
+> On Mon, Nov 01, 2021 at 02:32:01PM +0000, Karolina Drobnik wrote:
+> > Commit c569952d92ba ("staging: vt6655: Use incrementation in
+> > `idx`")
+> > rendered the incrementation of `i` outside of the loop unnecessary
+> > so it can be deleted.
+> > 
+> 
+> That commit hash is something that only exists on your system. 
+> Commit hashes are stable once they hit Greg's tree (he only rebases 
+> in extremely rarely cases).
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_fops.c b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-index a57d480820bd..c7ac313a2edf 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_fops.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_fops.c
-@@ -901,7 +901,7 @@ static int atomisp_open(struct file *file)
- 	rt_mutex_unlock(&isp->mutex);
- 
- 	/* Ensure that a mode is set */
--	if (asd)
-+	if (asd && pipe)
- 		v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
- 
- 	return 0;
--- 
-2.33.1
+Ok, I can rewrite the message but I'm not sure how should I refer to
+another patch from my patch set. I followed these guidelines[1] but if
+there's a different way of describing it then please let me know.
+
+> This commit is cleaning something that was left in a different patch
+> in the same patch set.  Just merge it into the original patch.  Don't
+> make a mess and then fix it.
+
+I tried adding more than one logical change per patch some time ago and
+Greg asked me to stop doing this.
+
+> It's tricky to know how to break up patches.  My suggestion is:
+> patch 1: remove all the unnecesary (unsigned short) casts
+> patch 2: merge the rest of patches 1-3 together and send it at once
+
+Sounds good. If Greg is happy with your approach, I can merge these
+patches, no problem. 
+
+
+Thanks,
+Karolina
+
+---------------------------------------------------------------
+[1] -
+https://elixir.bootlin.com/linux/latest/source/Documentation/process/submitting-patches.rst#L106
 
