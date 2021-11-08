@@ -1,89 +1,106 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A729E29CA
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 10:55:49 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id z21so15257960edb.5
-        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 02:55:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KNfZ6uMilvryu7GOeBols/pZXZY1MA2eNPOG6Jq/4aE=;
-        b=U6/HA5p3cWuErRNeCPFky87n13xC42GPv4nrDR0gbY2gmrn+ebDtFFI2KFSqRVA8w9
-         sOvpJUlzvyFaqyAHLWTG0d1jO1ESIuUOsmI7Yr0xTa/igyFZyMRi9xzpp6tKBaln5hr1
-         +ieS+RiQVx5e4zERv7D2tkbG3bW16i7yinhi/tTZMJmgRNfQmLB4grolMp3/mpgOP59e
-         +RL9WS/kJcBUrdGGeN2Fglgh26MUnGI2D56JPKdsxflxQRLjV1Nkcm2QTAUgEXoy4JiT
-         T/LLw+EX2OxCQ7jWfmz6P1Itg4cI+DvI5KmtJiWYcxncPb0bAI6aLGma18pyYJ6Kg3Wi
-         5omA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KNfZ6uMilvryu7GOeBols/pZXZY1MA2eNPOG6Jq/4aE=;
-        b=LrLuPE9ZFztoseekgBi7qBbPpzUUQGQKwev0S17GkOd2ha39ioFbaexpZdgOdvvJnE
-         FMrAzaXqW8SJ7/R0Uz9BGGQBqa+MRuJaUdKWWISn3RZAWRyyyaOX7jI+D1r428Z5q6qH
-         Pdh1PrWRqLvogFU1ACIy9jc6CnSZPU2l4cUD2FSGm2O39ZW8gMKpTjx1qZtS29V6NiTu
-         IRH0VLkD29HZpG7ZCemE35SdTb6k9D2j65ys4HhieIbPKlRdZsUitzTk/FylNM0cCHpL
-         bJtfkFffROGFAPZtq6S6MdCuPF6RQ3tS5OTD17TISsrQHmVh9JCJcwsCX1XYIuuJcQEv
-         L3Cw==
-X-Gm-Message-State: AOAM5337oaNjcgpw7KOPV/purhZ70kpZaB77vSQliYDjIQWG0BNeNnrT
-	u9QqIOu+tRjynCU5OyrzoFQ=
-X-Google-Smtp-Source: ABdhPJw45JqAdv9ir6/uvLoZyLi0420BmFuUQmuzlpYjj5tfePpXzhhGGK88crc5ORPybLmIPd0E1Q==
-X-Received: by 2002:a05:6402:10cd:: with SMTP id p13mr106801534edu.111.1636368948149;
-        Mon, 08 Nov 2021 02:55:48 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::38bf])
-        by smtp.gmail.com with ESMTPSA id b19sm7747051ejc.107.2021.11.08.02.55.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 02:55:47 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: r8188eu: use GFP_ATOMIC under spinlock
-Date: Mon,  8 Nov 2021 11:55:37 +0100
-Message-Id: <20211108105537.31655-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81D42C85
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 10:55:54 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-187-MTx5LVPGM4S4GiBqox-4vw-1; Mon, 08 Nov 2021 10:55:52 +0000
+X-MC-Unique: MTx5LVPGM4S4GiBqox-4vw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.24; Mon, 8 Nov 2021 10:55:48 +0000
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.024; Mon, 8 Nov 2021 10:55:48 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Larry Finger' <Larry.Finger@lwfinger.net>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>
+CC: "phil@philpotter.co.uk" <phil@philpotter.co.uk>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Zameer Manji
+	<zmanji@gmail.com>, kernel test robot <lkp@intel.com>, Stable
+	<stable@vger.kernel.org>
+Subject: RE: [PATCH v2] staging: r8188eu: Fix breakage introduced when 5G code
+ was removed
+Thread-Topic: [PATCH v2] staging: r8188eu: Fix breakage introduced when 5G
+ code was removed
+Thread-Index: AQHX0/3oe+k3iU2vCUKwt3hlkWjVnqv5dSlg
+Date: Mon, 8 Nov 2021 10:55:48 +0000
+Message-ID: <8e4dd863ae894c8488a3d3d0f6a11f66@AcuMS.aculab.com>
+References: <20211107173543.7486-1-Larry.Finger@lwfinger.net>
+In-Reply-To: <20211107173543.7486-1-Larry.Finger@lwfinger.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In function rtw_report_sec_ie() kzalloc() is called under a spinlock,
-so the allocation have to be atomic.
+From: Larry Finger
+> Sent: 07 November 2021 17:36
+>=20
+> In commit 221abd4d478a ("staging: r8188eu: Remove no more necessary defin=
+itions
+> and code"), two entries were removed from RTW_ChannelPlanMap[], but not r=
+eplaced
+> with zeros. The position within this table is important, thus the patch b=
+roke
+> systems operating in regulatory domains osted later than entry 0x13 in th=
+e table.
+> Unfortunately, the FCC entry comes before that point and most testers did=
+ not see
+> this problem.
+...
+>  drivers/staging/r8188eu/core/rtw_mlme_ext.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/stagin=
+g/r8188eu/core/rtw_mlme_ext.c
+> index 55c3d4a6faeb..5b60e6df5f87 100644
+> --- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+> @@ -107,6 +107,7 @@ static struct rt_channel_plan_map=09RTW_ChannelPlanMa=
+p[RT_CHANNEL_DOMAIN_MAX] =3D {
+>  =09{0x01},=09/* 0x10, RT_CHANNEL_DOMAIN_JAPAN */
+>  =09{0x02},=09/* 0x11, RT_CHANNEL_DOMAIN_FCC_NO_DFS */
+>  =09{0x01},=09/* 0x12, RT_CHANNEL_DOMAIN_JAPAN_NO_DFS */
+> +=09{0x00}, /* 0x13 */
+>  =09{0x02},=09/* 0x14, RT_CHANNEL_DOMAIN_TAIWAN_NO_DFS */
+>  =09{0x00},=09/* 0x15, RT_CHANNEL_DOMAIN_ETSI_NO_DFS */
+>  =09{0x00},=09/* 0x16, RT_CHANNEL_DOMAIN_KOREA_NO_DFS */
+> @@ -118,6 +119,7 @@ static struct rt_channel_plan_map=09RTW_ChannelPlanMa=
+p[RT_CHANNEL_DOMAIN_MAX] =3D {
+>  =09{0x00},=09/* 0x1C, */
+>  =09{0x00},=09/* 0x1D, */
+>  =09{0x00},=09/* 0x1E, */
+> +=09{0x00},=09/* 0x1F, */
+>  =09/*  0x20 ~ 0x7F , New Define =3D=3D=3D=3D=3D */
+>  =09{0x00},=09/* 0x20, RT_CHANNEL_DOMAIN_WORLD_NULL */
+>  =09{0x01},=09/* 0x21, RT_CHANNEL_DOMAIN_ETSI1_NULL */
 
-Call tree:
+Is it worth changing that to use designated array initialisers?
+so:
+=09[0x21] =3D {0x01} /* RT_CHANNEL_DOMAIN_ETS11_NULL */
 
--> rtw_select_and_join_from_scanned_queue() <- takes a spinlock
-   -> rtw_joinbss_cmd()
-      -> rtw_restruct_sec_ie()
-         -> rtw_report_sec_ie()
+Then the {0x00} entries can be missed out (or just commented as not used).
 
-Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/os_dep/mlme_linux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+=09David
 
-diff --git a/drivers/staging/r8188eu/os_dep/mlme_linux.c b/drivers/staging/r8188eu/os_dep/mlme_linux.c
-index a9b6ffdbf31a..f7ce724ebf87 100644
---- a/drivers/staging/r8188eu/os_dep/mlme_linux.c
-+++ b/drivers/staging/r8188eu/os_dep/mlme_linux.c
-@@ -112,7 +112,7 @@ void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
- 
- 	buff = NULL;
- 	if (authmode == _WPA_IE_ID_) {
--		buff = kzalloc(IW_CUSTOM_MAX, GFP_KERNEL);
-+		buff = kzalloc(IW_CUSTOM_MAX, GFP_ATOMIC);
- 		if (!buff)
- 			return;
- 		p = buff;
--- 
-2.33.1
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
 
