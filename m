@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BFC2C96
-	for <linux-staging@lists.linux.dev>; Tue,  9 Nov 2021 01:02:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 55418614C8;
-	Tue,  9 Nov 2021 01:02:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F122C96
+	for <linux-staging@lists.linux.dev>; Tue,  9 Nov 2021 01:04:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C11C61A50;
+	Tue,  9 Nov 2021 01:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636419778;
-	bh=a1EA5gTGciR1EIXkrUGu4uto/FG7wMENA7BFoVxUw3A=;
+	s=k20201202; t=1636419853;
+	bh=4twShmX2km5jVfrR0tkvD+SSSd5U1TDA0VfepQG0d+A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bwvcH5WJojOB86aKZjvsGPLL6iuYZeA5vtdy6kZPJaQJEa0M2MAabMrt1WnjmWJBx
-	 HSksHXOQ+HUM9s++bg0SokA/SOqY14xe1KgsMm9i3HynAKiNYwXLvKuH1s3G7Hbv/z
-	 AbsMKT12weRT+k+gv2BjLguf7a1gL390zRVzCiZ028OUC1wDjvByrp1Egm0w9o53B/
-	 8nYN9QqgQ2OxasrXOqEddBadJnlBWHNK/y9zZIqPAJTKmu7jq74/IorivCikinxl4e
-	 xTtkPIqGa6iIJhXBbDs1BoiCyo08usGlFIMB0+S2x5LfkM4fGQnGsSLA3B1GhsuPHq
-	 ZieZOSeXL8IUg==
+	b=oFSF8Dmxttnh2fbdO3nQKif3fsReMW2y05FYJiXUNf3QAJtckb1y7S1usagnY8q0z
+	 CTAfRjkJoCOJtU7fBT+cwFJO+uD7Ifbs1OVNlXgIJcyiF4K1fC6JB4zPUzr54SfoTv
+	 M1MeAmwpdXkVIq+Qt8mllsy3/8xX3aiiWl8WP1CpPt5XoKe9+eETvHJuBnHF6qg6oa
+	 TmcDnrALu6W1sJA8LWti8k7pLPJ1H71P9CtIBiV7vC/0xtLJDVZ5ZzZFEG6Rj6FUc3
+	 CC40eyvKnpGxxkYuZ3uCCnNbMrNWy+PczNW0qlLSkfkatidUWZmBaSGwBV+poO+t5g
+	 Ht0lS9BYx8PXg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -29,12 +29,12 @@ Cc: Evgeny Novikov <novikov@ispras.ru>,
 	colin.king@canonical.com,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.14 037/138] media: atomisp: Fix error handling in probe
-Date: Mon,  8 Nov 2021 12:45:03 -0500
-Message-Id: <20211108174644.1187889-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 029/101] media: atomisp: Fix error handling in probe
+Date: Mon,  8 Nov 2021 12:47:19 -0500
+Message-Id: <20211108174832.1189312-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211108174644.1187889-1-sashal@kernel.org>
-References: <20211108174644.1187889-1-sashal@kernel.org>
+In-Reply-To: <20211108174832.1189312-1-sashal@kernel.org>
+References: <20211108174832.1189312-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 24 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-index 362ed44b4effa..e046489cd253b 100644
+index 0ab67b2aec671..8739f0874103e 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-lm3554.c
-@@ -835,7 +835,6 @@ static int lm3554_probe(struct i2c_client *client)
+@@ -836,7 +836,6 @@ static int lm3554_probe(struct i2c_client *client)
  	int err = 0;
  	struct lm3554 *flash;
  	unsigned int i;
@@ -83,7 +83,7 @@ index 362ed44b4effa..e046489cd253b 100644
  
  	flash = kzalloc(sizeof(*flash), GFP_KERNEL);
  	if (!flash)
-@@ -844,7 +843,7 @@ static int lm3554_probe(struct i2c_client *client)
+@@ -845,7 +844,7 @@ static int lm3554_probe(struct i2c_client *client)
  	flash->pdata = lm3554_platform_data_func(client);
  	if (IS_ERR(flash->pdata)) {
  		err = PTR_ERR(flash->pdata);
@@ -92,7 +92,7 @@ index 362ed44b4effa..e046489cd253b 100644
  	}
  
  	v4l2_i2c_subdev_init(&flash->sd, client, &lm3554_ops);
-@@ -852,12 +851,12 @@ static int lm3554_probe(struct i2c_client *client)
+@@ -853,12 +852,12 @@ static int lm3554_probe(struct i2c_client *client)
  	flash->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
  	flash->mode = ATOMISP_FLASH_MODE_OFF;
  	flash->timeout = LM3554_MAX_TIMEOUT / LM3554_TIMEOUT_STEPSIZE - 1;
@@ -108,7 +108,7 @@ index 362ed44b4effa..e046489cd253b 100644
  	}
  
  	for (i = 0; i < ARRAY_SIZE(lm3554_controls); i++)
-@@ -866,14 +865,15 @@ static int lm3554_probe(struct i2c_client *client)
+@@ -867,14 +866,15 @@ static int lm3554_probe(struct i2c_client *client)
  
  	if (flash->ctrl_handler.error) {
  		dev_err(&client->dev, "ctrl_handler error.\n");
@@ -126,7 +126,7 @@ index 362ed44b4effa..e046489cd253b 100644
  	}
  
  	flash->sd.entity.function = MEDIA_ENT_F_FLASH;
-@@ -884,16 +884,27 @@ static int lm3554_probe(struct i2c_client *client)
+@@ -885,16 +885,27 @@ static int lm3554_probe(struct i2c_client *client)
  
  	err = lm3554_gpio_init(client);
  	if (err) {
