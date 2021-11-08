@@ -1,124 +1,134 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5AF2C99
-	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 15:25:57 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id j9so15467187pgh.1
-        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 07:25:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=vPyJr+4qmWXSKsoVulut/GUWobZxrCQk03WwnLZG85Q=;
-        b=TCem6/Qje9Aic+a5CzQoHwLA5+wgX8Yl6Rv8spN0zZXx6nxquLe8/6JlghITAaUV85
-         lULdtQhrq/9PGxZm8Mn+ocVv6PWConrf+Tsrr6NmKX+G715Ak1/ElkaAyNYgRs8/g61m
-         2VbOnFjydzm8AqngcKjWCsEc4zipRNoQ9rNzlckVnabZXmFe8aQWJOxs9bqkacNft/cb
-         Js4JEIpejkxXUfCiQsHpa2AXFrv4ek1e1vLhfMW2H6INrURc+g2+W6xW7e30YgXg7gzy
-         4nkXNyWWmXOoubygMz5/8XkqklSkK5W1sEauiGiE6QzcSwz/Z4LP44PD1oH6zSp1ets0
-         lPVA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B4C29CA
+	for <linux-staging@lists.linux.dev>; Mon,  8 Nov 2021 15:26:00 +0000 (UTC)
+Received: by mail-ua1-f47.google.com with SMTP id p37so31077960uae.8
+        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 07:26:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=vPyJr+4qmWXSKsoVulut/GUWobZxrCQk03WwnLZG85Q=;
-        b=W0zNeWLSD8JZ+6wok9qyAlBNsIHqozGzwAf3O3prQWrRTx++3by0m+KEk22lh2emtF
-         +ABQmz9n4vJ+tUZxHp9LcMsclhCkHbDlC8OLEbi+P8ndecKwMwxAkwX3Jd9fh2k+qAgH
-         o/+nc8HlVtQV9O1PKOkwHeqtbXEJq5arlSIQo5IAEVWyv9IcWmV5Ir83qy0+rrz3hXHz
-         /ord2BppQWO1HnGGgRbxb9GlMDBVysJgw4ixfBz2TtHEBI0egyRltMtbkcohtUFbrUdI
-         eLW4Qj2KaSjk4AGNdGOSjLlLFHxkI5i6RV/i6/n1nuzw85OGUqzv2LW1aNVPwEml/PH1
-         D17w==
-X-Gm-Message-State: AOAM530dyeDDREgYPajsAVZUSEvjWt35h44CBe6xqq33j8G92F1UdmQn
-	tzNDaQ1MbFd5b2j3Q7y7PSI=
-X-Google-Smtp-Source: ABdhPJzWSFewdvnFvrYlEolrd4fh2DtHFo6fRGA+sJCKTWOJ51qsmIfpwb5heta9Xboq/m704F/euA==
-X-Received: by 2002:aa7:9e9c:0:b0:49f:c7cf:ff5 with SMTP id p28-20020aa79e9c000000b0049fc7cf0ff5mr277917pfq.62.1636385157071;
-        Mon, 08 Nov 2021 07:25:57 -0800 (PST)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id j6sm12763106pgq.0.2021.11.08.07.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 07:25:56 -0800 (PST)
-Message-ID: <efaf74b587e5e31403895cd5af88852402fe92ec.camel@gmail.com>
-Subject: Re: [PATCH 05/17] media: atomisp: pci: fix inverted error check for
- ia_css_mipi_is_source_port_valid()
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Yang Yingliang
- <yangyingliang@huawei.com>,  Dinghao Liu <dinghao.liu@zju.edu.cn>, Deepak R
- Varma <drv@mailo.com>, Alex Dewar <alex.dewar90@gmail.com>, 
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Date: Tue, 09 Nov 2021 00:25:52 +0900
-In-Reply-To: <20211108151455.GI2001@kadam>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	 <20211017161958.44351-6-kitakar@gmail.com> <20211102113332.GC2794@kadam>
-	 <ed17420d96bd302479b528f7ae8694ff9cd2e72a.camel@gmail.com>
-	 <20211108151455.GI2001@kadam>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=x4ykPITI22sSh/L6reU4seHVLFfVjdO/v+W3/SN8DUg=;
+        b=fnI7mNZshd0l14NFJ51o/g4OoJTFVdSVUBd01oybLwvrbZrMwXdxRmSDK+D6oO3MhS
+         UdFuYvYZzanIDtO5oYJc6qSeITsyU7ox7d1ifsCRc8NM+2Zg/7tsygr4xVJpoSqLjbz4
+         avqfcC2pvLPkgna7bJ06HSVvLWol4C18FLGEFcAY0EEfsbKblH9o98BNnvfrFeizLgMw
+         Eeo0nbVKatgMGW0WFlhgg+8qolFa0+uydYYs20R4yi39vhN2ix/GFPdKfEMcHloW/M2q
+         QLzOjqiEtXHZ6iDe41vIEpOPMW8ufl5b+1jr3hPj/nvgKKA63gn2ZlqOrvEyhhq2oH5B
+         PP1A==
+X-Gm-Message-State: AOAM531EZE4Iqxb/VNRo+L3Srl9s0dCjC9xY2sSi0WllUONcZ1oIwnLQ
+	4jOkIB1FtKTomM+OtfmPKlFyTMvcR/K3N/YH
+X-Google-Smtp-Source: ABdhPJypvHoojSa909gktklF8UFa0VbDQ76vON/7kNjcKTIjkvfSoRwSbPvwT3llZ8Fvo/X15SAitg==
+X-Received: by 2002:a05:6102:cd1:: with SMTP id g17mr902344vst.5.1636385159488;
+        Mon, 08 Nov 2021 07:25:59 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id t193sm1467596vst.9.2021.11.08.07.25.58
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Nov 2021 07:25:58 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id l43so32203265uad.4
+        for <linux-staging@lists.linux.dev>; Mon, 08 Nov 2021 07:25:58 -0800 (PST)
+X-Received: by 2002:a9f:2c98:: with SMTP id w24mr725068uaj.89.1636385158322;
+ Mon, 08 Nov 2021 07:25:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211108101157.15189-1-bp@alien8.de> <20211108101157.15189-43-bp@alien8.de>
+ <CAMuHMdWH+txiSP_d7Jc4f_bU8Lf9iWpT4E3o5o7BJr-YdA6-VA@mail.gmail.com> <YYkyUEqcsOwQMb1S@zn.tnic>
+In-Reply-To: <YYkyUEqcsOwQMb1S@zn.tnic>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 8 Nov 2021 16:25:47 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
+Message-ID: <CAMuHMdXiBEQyEXJagSfpH44hxVA2t0sDH7B7YubLGHrb2MJLLA@mail.gmail.com>
+Subject: Re: [PATCH v0 42/42] notifier: Return an error when callback is
+ already registered
+To: Borislav Petkov <bp@alien8.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Ayush Sawal <ayush.sawal@chelsio.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rohit Maheshwari <rohitm@chelsio.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Vinay Kumar Yadav <vinay.yadav@chelsio.com>, 
+	ALSA Development Mailing List <alsa-devel@alsa-project.org>, 
+	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, intel-gvt-dev@lists.freedesktop.org, 
+	alpha <linux-alpha@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	linux-clk <linux-clk@vger.kernel.org>, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, linux-edac@vger.kernel.org, 
+	Linux Fbdev development list <linux-fbdev@vger.kernel.org>, linux-hyperv@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-leds <linux-leds@vger.kernel.org>, 
+	"open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>, Parisc List <linux-parisc@vger.kernel.org>, 
+	Linux PM list <linux-pm@vger.kernel.org>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	"open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" <linux-remoteproc@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, linux-s390 <linux-s390@vger.kernel.org>, 
+	scsi <linux-scsi@vger.kernel.org>, Linux-sh list <linux-sh@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, linux-tegra <linux-tegra@vger.kernel.org>, 
+	linux-um <linux-um@lists.infradead.org>, USB list <linux-usb@vger.kernel.org>, 
+	"open list:TENSILICA XTENSA PORT (xtensa)" <linux-xtensa@linux-xtensa.org>, netdev <netdev@vger.kernel.org>, 
+	openipmi-developer@lists.sourceforge.net, rcu@vger.kernel.org, 
+	sparclinux <sparclinux@vger.kernel.org>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	xen-devel@lists.xenproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-<removed Alan from Cc as the mail address not reachable>
+Hi Borislav,
 
-On Mon, 2021-11-08 at 18:14 +0300, Dan Carpenter wrote:
-> On Tue, Nov 09, 2021 at 12:00:29AM +0900, Tsuchiya Yuto wrote:
-> > On Tue, 2021-11-02 at 14:33 +0300, Dan Carpenter wrote:
-> > > On Mon, Oct 18, 2021 at 01:19:45AM +0900, Tsuchiya Yuto wrote:
-> > > > The function ia_css_mipi_is_source_port_valid() returns true if the port
-> > > > is valid. So, we can't use the existing err variable as is.
-> > > > 
-> > > > To fix this issue while reusing that variable, invert the return value
-> > > > when assigning it to the variable.
-> > > > 
-> > > > Fixes: 3c0538fbad9f ("media: atomisp: get rid of most checks for ISP2401 version")
-> > > > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
-> > > > ---
-> > > >  .../staging/media/atomisp/pci/sh_css_mipi.c   | 24 ++++++++++++-------
-> > > >  1 file changed, 15 insertions(+), 9 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > > index 65fc93c5d56b..c1f2f6151c5f 100644
-> > > > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > > @@ -423,10 +423,12 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
-> > > >  		return 0; /* AM TODO: Check  */
-> > > >  	}
-> > > >  
-> > > > -	if (!IS_ISP2401)
-> > > > +	if (!IS_ISP2401) {
-> > > >  		port = (unsigned int)pipe->stream->config.source.port.port;
-> > > > -	else
-> > > > -		err = ia_css_mipi_is_source_port_valid(pipe, &port);
-> > > > +	} else {
-> > > > +		/* Returns true if port is valid. So, invert it */
-> > > > +		err = !ia_css_mipi_is_source_port_valid(pipe, &port);
-> > > 
-> > > Don't invert it...  This isn't supposed to return 1 on failure it's
-> > > supposed to return negative error codes.
-> > 
-> > You mean I should instead modify the return value of
-> > ia_css_mipi_is_source_port_valid() ?
-> > 
-> 
-> No.  ia_css_mipi_is_source_port_valid() is fine.  It has a boolean name
-> so returning bool is fine.  What I'm saying is that allocate_mipi_frames()
-> should do:
-> 
-> 	if (!ia_css_mipi_is_source_port_valid(pipe, &port))
-> 		err = -EINVAL;
-> 
-> Otherwise it returns negative error codes and 1 on failure.
+On Mon, Nov 8, 2021 at 3:21 PM Borislav Petkov <bp@alien8.de> wrote:
+> On Mon, Nov 08, 2021 at 03:07:03PM +0100, Geert Uytterhoeven wrote:
+> > I think the addition of __must_check is overkill, leading to the
+> > addition of useless error checks and message printing.
+>
+> See the WARN in notifier_chain_register() - it will already do "message
+> printing".
 
-Ah, I see! Thank you. I feel I'm a stupid... I'll do so in v2.
+I mean the addition of useless error checks and message printing _to
+the callers_.
 
-Regards,
-Tsuchiya Yuto
+> > Many callers call this where it cannot fail, and where nothing can
+> > be done in the very unlikely event that the call would ever start to
+> > fail.
+>
+> This is an attempt to remove this WARN() hack in
+> notifier_chain_register() and have the function return a proper error
+> value instead of this "Currently always returns zero." which is bad
+> design.
+>
+> Some of the registration functions around the tree check that retval and
+> some don't. So if "it cannot fail" those registration either should not
+> return a value or callers should check that return value - what we have
+> now doesn't make a whole lot of sense.
 
+With __must_check callers are required to check, even if they know
+it cannot fail.
+
+> Oh, and then fixing this should avoid stuff like:
+>
+> +       if (notifier_registered == false) {
+> +               mce_register_decode_chain(&amdgpu_bad_page_nb);
+> +               notifier_registered = true;
+> +       }
+>
+> from propagating in the code.
+
+That's unrelated to the addition of __must_check.
+
+I'm not against returning proper errors codes.  I'm against forcing
+callers to check things that cannot fail and to add individual error
+printing to each and every caller.
+
+Note that in other areas, we are moving in the other
+direction, to a centralized printing of error messages,
+cfr. e.g. commit 7723f4c5ecdb8d83 ("driver core: platform: Add an
+error message to platform_get_irq*()").
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
