@@ -1,97 +1,97 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2862C83;
+	Tue,  9 Nov 2021 14:45:05 +0000 (UTC)
+Received: from [IPv6:2a01:e0a:120:3210:5cd8:9f51:76ae:8ed8] (unknown [IPv6:2a01:e0a:120:3210:5cd8:9f51:76ae:8ed8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C582C8B
-	for <linux-staging@lists.linux.dev>; Tue,  9 Nov 2021 12:24:00 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id z34so820822lfu.8
-        for <linux-staging@lists.linux.dev>; Tue, 09 Nov 2021 04:24:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=vXpk74Kb+HqypbiuoeMbcColw+iui5mY4cGX3uLvtyg=;
-        b=pM9y+EnA6dFxkjBjibDgNq7RwHqcSlaIBmb42SOQkkEcourIUU95lpej9G5N7Vi+v9
-         vtFLAh/zDIlLHAIEpoWJF8xZ3+RePKK15zBtavQeOhXNFF57bsWu6TQz3fUa1JfeaLIj
-         S1HHNpF2dbu6BZP3e17564YpZ8/YFZ+DCbNc/1kJH53g4wpY/wqJyQK8X/HRVUvkCJBT
-         2O6NXCNVnpw7vh7JifGDjcKlzOcnt4Ii7ob0CKa+ixS5piMZ1P4LF1arR7CoY2WPGZAG
-         44IsVfjwIPbQXMZhziFkPGUGSH/eDyLxH/auAxDfBaJ10BhvKSc+nVPbgUjIPe87VjAB
-         pKgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vXpk74Kb+HqypbiuoeMbcColw+iui5mY4cGX3uLvtyg=;
-        b=KOMHfaYc2i9O2x9uYQQ+HFIl0xoZsR98GWC66SmorqoU89TC54478nuyB9s4UCNS/W
-         f1el3smECKSla9aaTMJ95qDydt4Wu0K5Ykh9rGjxx/CHK6aSraHi8XVhs+zr4wOfzjbl
-         1cjDVyo6HaSxYp57zrdzZTwUIYMY8dLN+Pms8tHJ4tNHBq9+jGz/1MPL+kFyEfOVP6Xq
-         EucYvynO6z09BNOEfT9Zq9XbmryoNRh9H+IrzTvQ1HypmyXUPGOLKQCmByl0o3sGNWza
-         kxR8TbEnpCqffvzeZPggnG99DfFCje3UF1x5/nR7DqTFJqwoZfrk+6Y7glQMe0aQToQN
-         kpgg==
-X-Gm-Message-State: AOAM532HQyQZvfpbSseiAIqsX+8UeSg2NLVhDk0IWy1QpCnhvjZ0u2j2
-	pihS03w+XWYUij0VE22QCm8=
-X-Google-Smtp-Source: ABdhPJxo78lvPjm+MZllqIslZuX5QE92EtaeTkPAIME1Qa4zuCS7c3Nz6MK+d8qQD1WH532C10R9Zw==
-X-Received: by 2002:ac2:5a46:: with SMTP id r6mr6890498lfn.358.1636460638567;
-        Tue, 09 Nov 2021 04:23:58 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.224.112])
-        by smtp.gmail.com with ESMTPSA id g11sm2119563lfu.282.2021.11.09.04.23.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Nov 2021 04:23:58 -0800 (PST)
-Message-ID: <b790e108-fa37-28bf-15c2-885ddb05572e@gmail.com>
-Date: Tue, 9 Nov 2021 15:23:57 +0300
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 101901F4465D;
+	Tue,  9 Nov 2021 14:35:08 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1636468508; bh=BrTB4hM7VfksIFjI74aYf8PVE6yEqs2GneUpf/pr2cM=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=y7DTvCV8PHyoqWkUXpkmGvqdr5Gi1Dp5auF4QWib1j2XSplCTEiXtlMZl63EYSvyA
+	 MJJeoP6cCNKOc1ZC31KvOdEV08rQNdRndGUEyoxtoOFjXbjw8mHK0/woPMtZtWq9oU
+	 Z4nuXpJojaHbIs95c+vHH9kOAtczz4V23iR5v7/6y6KVZUhHO7/x1XjOfXW7ZE19wK
+	 kW4x6ec5hivMi0xRsw+SCBRDsrAO0a7ZJKFjPQMhhuEMzDINqInms2NYyXIPRSe3Fe
+	 qUGKxhUewJgAV1Uw4poa/86eU1Y8KiddqqHLnE1tB1II+vgBXgT5mur6LiDS/NONcT
+	 9B5uDGPiLXzyg==
+Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
+To: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+ jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk,
+ ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <b0a0c2be-c4e1-a7fa-23a4-034e181ebf1b@collabora.com>
+Date: Tue, 9 Nov 2021 15:35:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.1
-Subject: Re: [PATCH] staging: r8188eu: remove unneeded variable
+In-Reply-To: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: cgel.zte@gmail.com, Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- gregkh@linuxfoundation.org, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Changcheng Deng <deng.changcheng@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-References: <20211109115307.133100-1-deng.changcheng@zte.com.cn>
- <c2c36a95-be34-bcaf-0224-a513e33a902e@gmail.com>
- <20211109121823.GJ2001@kadam>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211109121823.GJ2001@kadam>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 11/9/21 15:18, Dan Carpenter wrote:
->> >   static int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
->> >   {
->> > -	int res = _SUCCESS;
->> > -
->> >   	/* allocate DMA-able/Non-Page memory for cmd_buf and rsp_buf */
->> >   	atomic_set(&pevtpriv->event_seq, 0);
->> >   	pevtpriv->evt_done_cnt = 0;
->> > @@ -72,7 +70,7 @@ static int _rtw_init_evt_priv(struct evt_priv *pevtpriv)
->> >   	pevtpriv->c2h_wk_alive = false;
->> >   	pevtpriv->c2h_queue = rtw_cbuf_alloc(C2H_QUEUE_MAX_LEN + 1);
->> > -	return res;
->> > +	return _SUCCESS;
->> >   }
->> 
->> Shouldn't it return just void then?
->> 
-> 
-> There is only one caller.  It should be folded into the caller and
-> deleted.  Then the caller could be made void.
-> 
-
-Ah, I see. I've overlooked, that this function name starts with _ and 
-the wrapper just does `return _rtw_init_evt_priv();`. Interesting 
-approach...
-
-I agree, that _rtw_init_evt_priv should be just renamed to 
-rtw_init_evt_priv() and the old wrapper should be just removed
 
 
+Le 12/10/2021 à 16:35, Benjamin Gaignard a écrit :
+> This series aims to clean up Reference Picture Set usage and flags.
+>
+> Long term flag was named with RPS prefix while it is not used for RPS
+> but for mark long term references in DBP. Remane it and remove the two
+> other useless RPS flags.
+>
+> Clarify documentation about RPS lists content and make sure that Hantro
+> driver use them correctly (i.e without look up in DBP).
 
-With regards,
-Pavel Skripkin
+This series generates feedback about what is missing to move HEVC uAPI
+out of staging but lack of remarks about the proposed changes themselves.
+Does someone has an opinion about this RPS flag clean up ?
+
+Regards,
+Benjamin
+
+>
+> These patches are the last in my backlog impacting HEVC uAPI.
+>  From my point of view, once they get merged, you could start talking
+> about how move HEVC uAPI to stable.
+>
+> version 2:
+> - change DPB field name from rps to flags
+>
+> Please note that the only purpose of commits 3 and 4 is to allow to test
+> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+> can be found. Do not merge them.
+>
+> GStreamer HEVC plugin merge request can be found here:
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>
+> With those piece of code fluster score is 77/147.
+>
+> Benjamin
+>
+> Benjamin Gaignard (4):
+>    media: hevc: Remove RPS named flags
+>    media: hevc: Embedded indexes in RPS
+>    media: hantro: Use syscon instead of 'ctrl' register
+>    arm64: dts: imx8mq: Add node to G2 hardware
+>
+>   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>   drivers/staging/media/hantro/hantro.h         |  5 +-
+>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>   include/media/hevc-ctrls.h                    |  6 +--
+>   7 files changed, 84 insertions(+), 61 deletions(-)
+>
