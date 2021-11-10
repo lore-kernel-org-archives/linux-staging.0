@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F842C81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C008A2C80
 	for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 10:59:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 55276611BF;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 59A4061205;
 	Wed, 10 Nov 2021 10:59:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1636541952;
-	bh=5TIG1BRWAdpzcni9lSwygVrJFoLLUWjoMyvM0Rtg+Ro=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WsAyqdyKsc1yI/6YFYo2V/W7+NfjKeqsU3tQudqBOKv4ExGPL1Riz57Xee5R+g/lB
-	 vu/D3/3884Wsr/KY0m2o2/kTmHFZS2TIcEzeot0R+LW4aqjAay5I5j5rnleALgouCS
-	 6w+2fxyFx8Dsu/nk0kvdBHXoLhkKIve/n1cgPJErRwO3yrchQg6eTiaxMIPbJT/MoH
-	 e+tQ32PxVScuB7rdsTi0a/jJED5LgLVjoWfUkLYV1vERNwrHrgrVCpgoY6QKhrk5jV
-	 Gsvpt1XIz44LQ+5P1PUN/CfyO00N6LzqA+6rQyV3S90PUQ5m7HtPCsUpCd2lJbPccv
-	 OBM7rznI6CNaw==
+	bh=lrO+JY2QDNzmXXL3NwoO4JWc7UMB3ftP9XCOGAxG6Qo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ggSMzIbB/yz1AWLoILW3lJ7p+JCvoN2xJmnfaX7rvGHp43H0DszcoOr0lIb6EZTtx
+	 ndi/nHK25x5lyoBwCEjd2DgdRKYSme3901q3CYujZcq9K/E0byynw8iFiA0DnI7wHD
+	 5xzOLKGDy5ClimLt8ivFanE0mOuGOk/HzyzFvxuNVC96o0UIuvdC4X/5xll0gbLe65
+	 IDrSb3JVhhxltMlcibNkgQ7sOgpCEpY3X3UQ8PA8vlcv0s8z2ELAFy3jK68whppOJ5
+	 KUqTvUYsTgb/WAGGIQofK826pe2nSQaZbIpGUy03suxFbQQUj2Q4nxvZkxuJi2FKZj
+	 qvYMAyqND0zFw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mklJt-002rxD-8E; Wed, 10 Nov 2021 10:59:09 +0000
+	id 1mklJt-002rxG-8u; Wed, 10 Nov 2021 10:59:09 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
@@ -34,10 +34,12 @@ Cc: linuxarm@huawei.com,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 1/2] media: atomisp-ov2680: initialize return var
-Date: Wed, 10 Nov 2021 10:59:07 +0000
-Message-Id: <46ec939d911fc94b8a5e217874655e60512ad773.1636541941.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 2/2] media: atomisp-ov2680: properly set the vts value
+Date: Wed, 10 Nov 2021 10:59:08 +0000
+Message-Id: <4bada6cb5cb0d70d736ecb93f9c6dc2719d4241c.1636541941.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <46ec939d911fc94b8a5e217874655e60512ad773.1636541941.git.mchehab+huawei@kernel.org>
+References: <46ec939d911fc94b8a5e217874655e60512ad773.1636541941.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,41 +49,40 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-As the settings are only applied when the device is powered on,
-it should return 0 when the device is not powered.
+The vts value should be set before being checked, as otherwise a
+warning will arise:
 
-Not doing that causes a warning:
-
-	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: In function 'ov2680_ioctl':
-	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:390:16: warning: 'ret' may be used uninitialized in this
-	function [-Wmaybe-uninitialized]
-	  390 |         return ov2680_set_exposure(sd, coarse_itg, analog_gain, digital_gain);
-	      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:359:13: note: 'ret' was declared here
-	  359 |         int ret;
-	      |             ^~~
+	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: In function 'ov2680_set_fmt':
+	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:873:33: warning: 'vts' may be used uninitialized
+	[-Wmaybe-uninitialized]
+	  873 |         if (dev->exposure > vts - OV2680_INTEGRATION_TIME_MARGIN)
 
 Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
 Cc: Hans de Goede <hdegoede@redhat.com>
-Fixes: 6b5b60687ada ("media: atomisp-ov2680: Save/restore exposure and gain over sensor power-down")
+Fixes: 62b984359b6f ("media: atomisp-ov2680: Fix ov2680_set_fmt() messing up high exposure settings")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 34d008236bd9..497884d332e1 100644
+index 497884d332e1..d24f8830fd94 100644
 --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
 +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -356,7 +356,7 @@ static int ov2680_set_exposure(struct v4l2_subdev *sd, int exposure,
- 			       int gain, int digitgain)
- {
- 	struct ov2680_device *dev = to_ov2680_sensor(sd);
--	int ret;
-+	int ret = 0;
+@@ -869,11 +869,11 @@ static int ov2680_set_fmt(struct v4l2_subdev *sd,
+ 		dev_err(&client->dev,
+ 			"ov2680 write resolution register err: %d\n", ret);
  
- 	mutex_lock(&dev->input_lock);
++	vts = dev->res->lines_per_frame;
++
+ 	/* If necessary increase the VTS to match exposure + MARGIN */
+ 	if (dev->exposure > vts - OV2680_INTEGRATION_TIME_MARGIN)
+ 		vts = dev->exposure + OV2680_INTEGRATION_TIME_MARGIN;
+-	else
+-		vts = dev->res->lines_per_frame;
  
+ 	ret = ov2680_write_reg(client, 2, OV2680_TIMING_VTS_H, vts);
+ 	if (ret)
 -- 
 2.33.1
 
