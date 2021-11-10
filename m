@@ -1,28 +1,29 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA3F2C81
-	for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 08:12:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 37ACC61057;
-	Wed, 10 Nov 2021 08:12:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F56A2C81
+	for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 08:15:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C57D61076;
+	Wed, 10 Nov 2021 08:15:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1636531959;
-	bh=hOElsn9o0XHWX7llXiy9jQT7NSmeSlmSgpbdWccwyac=;
+	s=korg; t=1636532120;
+	bh=qI7P6LTFX/PIzJyqkpmIJDTbDtNLNqaURf0IuYYimj8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XAVOdcMtoGgoVD6OdatAhX/b33DPVo8aDz+DlDTxkyceQH5V+I6VQ6Wqh8Z2d9sIC
-	 ucg36FIFR70uVzkOMOU1RWf6JiZzxksUteoqaPcekKKxCdjYrJPevQsWOrpcRd28Qr
-	 pPyyfLfb7J67VIpsnAFnTqmthrkJsiFWuTZa/72g=
-Date: Wed, 10 Nov 2021 09:12:37 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: cgel.zte@gmail.com
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Changcheng Deng <deng.changcheng@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] staging: r8188eu: remove unneeded variable
-Message-ID: <YYt+9d9Jn0SBocVC@kroah.com>
-References: <20211109115307.133100-1-deng.changcheng@zte.com.cn>
+	b=RBsQsjcljl/2u7hM1qx752Y1bN8cpRLugElYh5vBZEkTrFv0ALKmswT1bTPUitkTw
+	 0hpDPVLRxi8b6FVoXGycYNDVfEha99T/vCJGF12G4IYPD4dk1CukeeToLI6Kf1+6rV
+	 wsrGUncwDpm1IGkUsY1Lw9vMHfQET0Dz00TqgyyI=
+Date: Wed, 10 Nov 2021 09:15:18 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin.kaiser@paytec.ch>
+Subject: Re: [PATCH 0/4] staging: r8188eu: clean up the calibration code
+Message-ID: <YYt/lkcYBN80g4tU@kroah.com>
+References: <20211107143100.9047-1-martin@kaiser.cx>
+ <20211107144324.xqoab3imqxawymfz@viti.kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,22 +32,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211109115307.133100-1-deng.changcheng@zte.com.cn>
+In-Reply-To: <20211107144324.xqoab3imqxawymfz@viti.kaiser.cx>
 
-On Tue, Nov 09, 2021 at 11:53:07AM +0000, cgel.zte@gmail.com wrote:
-> From: Changcheng Deng <deng.changcheng@zte.com.cn>
+On Sun, Nov 07, 2021 at 03:43:24PM +0100, Martin Kaiser wrote:
+> Hello Greg,
 > 
-> Fix the following coccicheck review:
-> ./drivers/staging/r8188eu/core/rtw_cmd.c: 66: 5-8: Unneeded variable
+> Thus wrote Martin Kaiser (martin@kaiser.cx):
 > 
-> Remove unneeded variable used to store return value.
+> > From: Martin Kaiser <martin.kaiser@paytec.ch>
 > 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Sorry, the cover letter uses the wrong address.
+> The actual patches are ok.
+> 
+> Could you take the patches anyway or should I resend the series?
 
-But this is coccicheck finding the issue, not the "Zeal Robot", right?
-A script that just runs scripts already in the kernel tree does not mean
-that an entity is deserving of an email address and reported-by tag,
-right?
+No worries, I took these as-is.
 
 thanks,
 
