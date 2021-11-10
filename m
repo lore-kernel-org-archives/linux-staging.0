@@ -1,129 +1,93 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2EB2C87
-	for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 13:13:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1636549998;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=visrAIrttqVR0Qhg0wAKCuRIxyMBo+QeZK/AFJCCiKY=;
-	b=N8rgPy5EJQIYyF1diSyvFEdhvb9aOBnTOcG5CKOO4gqwcUP2C3Zm0FsI6czai8mdOcht8M
-	vOd7yjLdcY8frVEZFx2HAoIeKjELjUstMuqU0Q6c402Qegm+JvKbZ7I9z2vBwMxXNgBxwW
-	WKDjtg3SfxxvTBYePg9kMcWaSZLJM3M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-dLUoXUM8OHCoyJ4bRadTgQ-1; Wed, 10 Nov 2021 08:13:15 -0500
-X-MC-Unique: dLUoXUM8OHCoyJ4bRadTgQ-1
-Received: by mail-ed1-f69.google.com with SMTP id x13-20020a05640226cd00b003e2bf805a02so2233568edd.23
-        for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 05:13:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBFB2C82
+	for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 18:17:27 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id c126so3456244pfb.0
+        for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 10:17:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=wst9WkhAE8w1i/iSuQ87C93Angtcy1Vxyzjf0uVZUto=;
+        b=asUSG0RWhW2jWvbq6j4Ej9ikPSJaUQSEOYrJMLM0+6I1GuHPOGWkSiwni4tKNBOQvx
+         JWYtr0LqOfW0kNrFuGCK015moQRZtxfPsCtcP2P9kQNQEE43W+NNxIC50h7SpIkAxknW
+         6CJ6oTFwQIgvJKWuG0WaoxSKqPBxa5cMhYAQFY7nG5UsEveLi9kHC/n7izVoWK9UMWmG
+         L+kCo5S4vf7v7Ih9TASliMzze94ck6dpK+NKzxJjW+WgUMyCvLgRKSkiCn2yrTliAXQE
+         T3j1PcCZ+Co0b5QE8mEh4fHL0sf2btHtjb01yDHrr+aQ+cBI1eanf56NrPeHLsiblh94
+         jJAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=visrAIrttqVR0Qhg0wAKCuRIxyMBo+QeZK/AFJCCiKY=;
-        b=WIdEFnFSMnTAzvYFRTaiMD51KNBU7Wea0H3EnSlfxzbB29sk2dAuPIwJ35Vf1Mfuty
-         HRM2Zesm0mEwCguwrum3YZt7nNn6nDRxFbiQaOlU9hbU+ysHU3znP1KTE6KZ4z+zjmYS
-         nLDG+hspEm4wyyvSdfnOCFkY+TvqJGLJE4yfk4E93AOEQeP/FBqKaFFQoJE4zoV9R+o0
-         xl9UswlPDYhM5jcwUCTvBaBIORaHY/nLndLV+POpRoD+UE8spLtdoN7SAsVSjaZH3P82
-         i1q1h+aeMRKMrA+8lbV8vvNctjH3bbygYfwrb1DrbHuC6zfKDijh4A80qNWeA8Bf2qu2
-         RWzw==
-X-Gm-Message-State: AOAM533/SJXkf0IVmow9IA95iuu5p8QEC3XhHXO/pj/joQ60FLlFaexh
-	pNtbLFvjdhyxMzO4GY4PAM5nu5msCKl4hAqvtJTSZ7xQsTMOsWw3wyVGl0NnecStLYBgSRBEL7Q
-	JH+yn+RiInynTt86H9i35UlXK1w==
-X-Received: by 2002:a17:907:1c9c:: with SMTP id nb28mr19528809ejc.184.1636549994176;
-        Wed, 10 Nov 2021 05:13:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzsZeVMKhyqzXRMT2Tt5mW+GV9dQ5b7pgNmjMkK2crXtbT9GQ+RVUtrD/M7/ZdJTobu8NVQVg==
-X-Received: by 2002:a17:907:1c9c:: with SMTP id nb28mr19528766ejc.184.1636549993863;
-        Wed, 10 Nov 2021 05:13:13 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id e1sm7529747ejy.82.2021.11.10.05.13.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Nov 2021 05:13:13 -0800 (PST)
-Message-ID: <2cff5849-3f59-2bde-b9ff-02b2a423cbb6@redhat.com>
-Date: Wed, 10 Nov 2021 14:13:12 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=wst9WkhAE8w1i/iSuQ87C93Angtcy1Vxyzjf0uVZUto=;
+        b=AKGBY6Vq+Xf2W1tKOaWd/UaLB+WBRksiCFlPvsM2jT2fK2IHpoia6Zht9Ltyg+lu+R
+         bAXqK+dgIKUj12vVSrkx5k0zRF8KFYCLrT2EiwG6l8D0dCxyrLVot/yg1RgcUuJvjIZT
+         FUUe7DjQKN4VxImyQ8MiO09GttqgihPsKZM1itMefT7oS2KJWFJeAziV/BC7rXGERnPw
+         VQ4Z+B7CTJ0GiNReAA8GzH+1BAgUr5DtoIwPRGcdo3OG6NfMg6udoyyjok+szT/4Sj4n
+         GIwzxq+jfnTrg6Tfk0Croo2xr9daN5+NnouEzPdA8pT7wMaIsMaWXD7Ki2CzEJowIygb
+         fdgw==
+X-Gm-Message-State: AOAM530RgXtL0vNtFWF8yYf30BU8eYMnkhe0qF1ElJrTkTIukvpocFjZ
+	DvkF3pN63xluqNrNSDYLdXnEd8QrHkc=
+X-Google-Smtp-Source: ABdhPJwrYIjMbU4ewGuA3wIyTKMdc7otU+FFoJxpWYkloMx8VIiOCMTVADOkxI1xhRdMOJbIgCIang==
+X-Received: by 2002:a63:7e42:: with SMTP id o2mr549436pgn.296.1636568246842;
+        Wed, 10 Nov 2021 10:17:26 -0800 (PST)
+Received: from Sauravs-MacBook-Air.local ([59.95.84.75])
+        by smtp.gmail.com with ESMTPSA id nn4sm298205pjb.38.2021.11.10.10.17.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Nov 2021 10:17:25 -0800 (PST)
+Date: Wed, 10 Nov 2021 23:47:15 +0530
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org, straube.linux@gmail.com,
+	martin@kaiser.cx, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: saurav.girepunje@hotmail.com
+Subject: [PATCH] staging: r8188eu: core: remove goto statement
+Message-ID: <YYwMq15pQYf7nvt9@Sauravs-MacBook-Air.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/2] media: atomisp-ov2680: initialize return var
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com,
- Deepak R Varma <drv@mailo.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>
-References: <46ec939d911fc94b8a5e217874655e60512ad773.1636541941.git.mchehab+huawei@kernel.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <46ec939d911fc94b8a5e217874655e60512ad773.1636541941.git.mchehab+huawei@kernel.org>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Remove the goto statement from _rtw_init_recv_priv(). In this function goto
+can be replace by return statement. As on goto label exit, function
+only return it is not performing any cleanup. Avoiding goto will
+improve the function readability.
 
-On 11/10/21 11:59, Mauro Carvalho Chehab wrote:
-> As the settings are only applied when the device is powered on,
-> it should return 0 when the device is not powered.
-> 
-> Not doing that causes a warning:
-> 
-> 	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c: In function 'ov2680_ioctl':
-> 	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:390:16: warning: 'ret' may be used uninitialized in this
-> 	function [-Wmaybe-uninitialized]
-> 	  390 |         return ov2680_set_exposure(sd, coarse_itg, analog_gain, digital_gain);
-> 	      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 	drivers/staging/media/atomisp/i2c/atomisp-ov2680.c:359:13: note: 'ret' was declared here
-> 	  359 |         int ret;
-> 	      |             ^~~
-> 
-> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Fixes: 6b5b60687ada ("media: atomisp-ov2680: Save/restore exposure and gain over sensor power-down")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_recv.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Thanks, the series looks good to me (weird that my compiler version
-did not complain):
+diff --git a/drivers/staging/r8188eu/core/rtw_recv.c b/drivers/staging/r8188eu/core/rtw_recv.c
+index 51a13262a226..b38af76f3a67 100644
+--- a/drivers/staging/r8188eu/core/rtw_recv.c
++++ b/drivers/staging/r8188eu/core/rtw_recv.c
+@@ -58,10 +58,8 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+ 	precvpriv->pallocated_frame_buf = vzalloc(NR_RECVFRAME * sizeof(struct recv_frame) + RXFRAME_ALIGN_SZ);
 
-For the series.
+-	if (!precvpriv->pallocated_frame_buf) {
+-		res = _FAIL;
+-		goto exit;
+-	}
++	if (!precvpriv->pallocated_frame_buf)
++		return _FAIL;
 
-Regards,
+ 	precvpriv->precv_frame_buf = (u8 *)N_BYTE_ALIGMENT((size_t)(precvpriv->pallocated_frame_buf), RXFRAME_ALIGN_SZ);
 
-Hans
+@@ -89,7 +87,6 @@ int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter)
+ 	precvpriv->signal_stat_sampling_interval = 1000; /* ms */
 
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index 34d008236bd9..497884d332e1 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -356,7 +356,7 @@ static int ov2680_set_exposure(struct v4l2_subdev *sd, int exposure,
->  			       int gain, int digitgain)
->  {
->  	struct ov2680_device *dev = to_ov2680_sensor(sd);
-> -	int ret;
-> +	int ret = 0;
->  
->  	mutex_lock(&dev->input_lock);
->  
-> 
+ 	rtw_set_signal_stat_timer(precvpriv);
+-exit:
+
+ 	return res;
+ }
+--
+2.33.0
 
