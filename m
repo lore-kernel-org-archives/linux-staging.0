@@ -1,53 +1,98 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F56A2C81
-	for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 08:15:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4C57D61076;
-	Wed, 10 Nov 2021 08:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1636532120;
-	bh=qI7P6LTFX/PIzJyqkpmIJDTbDtNLNqaURf0IuYYimj8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RBsQsjcljl/2u7hM1qx752Y1bN8cpRLugElYh5vBZEkTrFv0ALKmswT1bTPUitkTw
-	 0hpDPVLRxi8b6FVoXGycYNDVfEha99T/vCJGF12G4IYPD4dk1CukeeToLI6Kf1+6rV
-	 wsrGUncwDpm1IGkUsY1Lw9vMHfQET0Dz00TqgyyI=
-Date: Wed, 10 Nov 2021 09:15:18 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Martin Kaiser <martin@kaiser.cx>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin.kaiser@paytec.ch>
-Subject: Re: [PATCH 0/4] staging: r8188eu: clean up the calibration code
-Message-ID: <YYt/lkcYBN80g4tU@kroah.com>
-References: <20211107143100.9047-1-martin@kaiser.cx>
- <20211107144324.xqoab3imqxawymfz@viti.kaiser.cx>
+Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1504C72
+	for <linux-staging@lists.linux.dev>; Wed, 10 Nov 2021 09:56:23 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.141.244])
+	by APP-03 (Coremail) with SMTP id rQCowACnr6uplYth71WhBg--.484S2;
+	Wed, 10 Nov 2021 17:49:30 +0800 (CST)
+From: Xu Wang <vulab@iscas.ac.cn>
+To: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: atomisp: Remove unneeded null check
+Date: Wed, 10 Nov 2021 09:49:10 +0000
+Message-Id: <20211110094910.67951-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211107144324.xqoab3imqxawymfz@viti.kaiser.cx>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowACnr6uplYth71WhBg--.484S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WF1xtr45Cr1xKr4rGr48JFb_yoW8Aw48pF
+	18XFnxArWkXr1xWasxAF1xXas8Zws3tF1UKrWfJa4Iyr1ay3s2vF4fKa48tF1j9395Aw1U
+	CFn8Ar9rur4DuF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkab7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
+	C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8uwCF04k2
+	0xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
+	8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
+	IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIx
+	AIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+	x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jr189UUUUU=
+X-Originating-IP: [124.16.141.244]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCgkBA1z4kHl9UAAAsh
 
-On Sun, Nov 07, 2021 at 03:43:24PM +0100, Martin Kaiser wrote:
-> Hello Greg,
-> 
-> Thus wrote Martin Kaiser (martin@kaiser.cx):
-> 
-> > From: Martin Kaiser <martin.kaiser@paytec.ch>
-> 
-> Sorry, the cover letter uses the wrong address.
-> The actual patches are ok.
-> 
-> Could you take the patches anyway or should I resend the series?
+In ia_css_frame_map, the check of 'err' is unneeded to be done twice.
 
-No worries, I took these as-is.
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ .../atomisp/pci/runtime/frame/src/frame.c     | 32 +++++++++----------
+ 1 file changed, 15 insertions(+), 17 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+index 10c4907187d9..529decf3f57f 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
++++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+@@ -168,25 +168,23 @@ int ia_css_frame_map(struct ia_css_frame **frame,
+ 	if (err)
+ 		return err;
+ 
+-	if (!err) {
+-		if (pgnr < ((PAGE_ALIGN(me->data_bytes)) >> PAGE_SHIFT)) {
+-			dev_err(atomisp_dev,
+-				"user space memory size is less than the expected size..\n");
+-			err = -ENOMEM;
+-			goto error;
+-		} else if (pgnr > ((PAGE_ALIGN(me->data_bytes)) >> PAGE_SHIFT)) {
+-			dev_err(atomisp_dev,
+-				"user space memory size is large than the expected size..\n");
+-			err = -ENOMEM;
+-			goto error;
+-		}
++	if (pgnr < ((PAGE_ALIGN(me->data_bytes)) >> PAGE_SHIFT)) {
++		dev_err(atomisp_dev,
++			"user space memory size is less than the expected size..\n");
++		err = -ENOMEM;
++		goto error;
++	} else if (pgnr > ((PAGE_ALIGN(me->data_bytes)) >> PAGE_SHIFT)) {
++		dev_err(atomisp_dev,
++			"user space memory size is large than the expected size..\n");
++		err = -ENOMEM;
++		goto error;
++	}
+ 
+-		me->data = hmm_alloc(me->data_bytes, HMM_BO_USER, 0, data,
+-				     attribute & ATOMISP_MAP_FLAG_CACHED);
++	me->data = hmm_alloc(me->data_bytes, HMM_BO_USER, 0, data,
++			     attribute & ATOMISP_MAP_FLAG_CACHED);
+ 
+-		if (me->data == mmgr_NULL)
+-			err = -EINVAL;
+-	}
++	if (me->data == mmgr_NULL)
++		err = -EINVAL;
+ 
+ error:
+ 	if (err) {
+-- 
+2.25.1
 
-greg k-h
