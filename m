@@ -1,240 +1,302 @@
-Received: from bizcloud-send.greenmatch.co.uk (unknown [159.223.62.209])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1366472
-	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 12:40:55 +0000 (UTC)
-Received: by bizcloud-send.greenmatch.co.uk (Postfix)
-	id 7CAF683DDE; Thu, 11 Nov 2021 12:18:52 +0000 (UTC)
-Date: Thu, 11 Nov 2021 12:18:52 +0000 (UTC)
-From: MAILER-DAEMON@bizcloud-send.greenmatch.co.uk (Mail Delivery System)
-Subject: Undelivered Mail Returned to Sender
-To: linux-staging@lists.linux.dev
-Auto-Submitted: auto-replied
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545852C81
+	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 14:34:28 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id k4so5874832plx.8
+        for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 06:34:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Q300qEsM5f6zDoM0ltlDUPdgW2hRYOC3hLnRdyiz/1w=;
+        b=BoHodSnY86Id7/OU+FVCjMxq4bsog41V/uPbfejW1AMD2VZltSZAtNnsf2M9VyVSS0
+         HV3/VYxxtKN1hQqjApJfoAKOmoGEu+nESP4S5A5nnTLcPcGh7e29LCT7VeZThD6peJ6W
+         GRT/8k5Wwh+d2aVpsZJxtXEtDtuckUZ6xiOuIJiKm21jS+Fs2xmwZxJVq3+KeHkVENMr
+         vW8YS0o0kNb9nIH4uY2oMNiOfJl2zbdz/eGNaUIFIoywsbtLRR2o/rCK28uIhbZn8kVZ
+         UnVH6bvVa9Do9NN6h/NXKn8v7IHreG0fMkFLu/dKOc4+tI9Y3izCEL1ybx8y+X3KuFk4
+         YXbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Q300qEsM5f6zDoM0ltlDUPdgW2hRYOC3hLnRdyiz/1w=;
+        b=I3zqd8OcKulXXtesLvAjNpDlJALPVbSg2zx1wO6rs/GfHOGsdC0YR+5utqZ7/Nb6kW
+         DLFRgbPBCBp6eYtJY6I8xyg546GQWQ8eDlXeXRJcGJU3gjUgZL9fDyVuMZvYs2cIAiWR
+         QbvEK1cZ4Wo3eoo63+ZYiDBzmnv0iSE6xO7RiLutI2MKTYQa88NCk3gAp4L7cUYPWfoj
+         RWiuo0uJ15vs9OSOapvK5QeA00OowpUOkAfbLk5GIu2xeHWP2KVhbTPjeOd0O85Gi/Lu
+         Ix20vbTam3KbaOc5VMohrSjfybkRAHzw2KizSu+ncorui3uLvUdbDRBdlnoc915ioWvD
+         Uenw==
+X-Gm-Message-State: AOAM53098r+nT5ARDwPx0qtaOWJsTgxXsfT6WZHRIKVw5qy4SFylUxDM
+	hOhKBo/IWvvQEFNbmsc8cdA=
+X-Google-Smtp-Source: ABdhPJwA9h3WIRCExL9j78sVfgeUoqYEO0W11Qx367uTg90zrWjClULtFZ7uJYNEZuNdB2uUIBfsQg==
+X-Received: by 2002:a17:90a:bb14:: with SMTP id u20mr8825452pjr.139.1636641267463;
+        Thu, 11 Nov 2021 06:34:27 -0800 (PST)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id k3sm3470094pff.211.2021.11.11.06.34.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Nov 2021 06:34:26 -0800 (PST)
+Message-ID: <ab48bd8c69273e8b18ff652f3615b2698a777092.camel@gmail.com>
+Subject: Re: [PATCH 04/17] media: atomisp: pci: do not use err var when
+ checking port validity for ISP2400
+From: Tsuchiya Yuto <kitakar@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
+ <nable.maininbox@googlemail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+ "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>, Hans de Goede <hdegoede@redhat.com>
+Date: Thu, 11 Nov 2021 23:34:23 +0900
+In-Reply-To: <20211101141058.36ea2c8e@sal.lan>
+References: <20211017161958.44351-1-kitakar@gmail.com>
+	 <20211017161958.44351-5-kitakar@gmail.com>
+	 <20211026092637.196447aa@sal.lan>
+	 <1a295721fd1f1e512cd54a659a250aef162bfb6f.camel@gmail.com>
+	 <20211028123944.66c212c1@sal.lan>
+	 <af7cdf9de020171567c2e75b713deb2ed073e4e3.camel@gmail.com>
+	 <20211101141058.36ea2c8e@sal.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/report; report-type=delivery-status;
-	boundary="840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk"
-Message-Id: <20211111121852.7CAF683DDE@bizcloud-send.greenmatch.co.uk>
+Content-Transfer-Encoding: 8bit
 
-This is a MIME-encapsulated message.
+Sorry for a little late reply. This is hard to explain...
 
---840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk
-Content-Description: Notification
-Content-Type: text/plain; charset=us-ascii
+On Mon, 2021-11-01 at 14:10 +0000, Mauro Carvalho Chehab wrote:
+> Em Mon, 01 Nov 2021 22:38:55 +0900
+> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 
-This is the mail system at host bizcloud-send.greenmatch.co.uk.
+[...]
+> 
 
-I'm sorry to have to inform you that your message could not
-be delivered to one or more recipients. It's attached below.
+> > This is not directly related to this series, but how we should reduce
+> > the ifdef usage in the future? Here are my two ideas:
+> > 
+> >   1. (my initial idea) remove `#ifdef ISP2401` part and make ISP2401
+> >      part completely irci_stable_candrpv_0415_20150521_0458
+> > 
+> > this way does not require (relatively) much human work I think.
+> > 
+> > But as Mauro says, the `#ifdef ISP2401` part (irci_ecr-master_20150911_0724)
+> > is basically an improved version.
+> 
+> No. What I said is that the if (ISP2401) and the remaining ifdefs are because
+> of BYT x CHT.
 
-For further assistance, please send mail to postmaster.
+I need to elaborate on this. Indeed some of them are really because of
+BYT x CHT, but others are stuff from irci_ecr-master_20150911_0724.
 
-If you do so, please include this problem report. You can
-delete your own text from the attached returned message.
+What I meant when I mentioned "remove `#ifdef ISP2401` part" is that,
+removing things which was _initially_ inside the `#ifdef ISP2401` on the
+initial commit of atomisp.
 
-                   The mail system
+Also I believe we can remove more `if (IS_ISP2401)` and `/* ISP2401 */`
+things as well as the some remaining `#ifdef ISP2401` things.
 
-<linux-staging@lists.linux.dev>: host smtp.subspace.kernel.org[44.238.234.78]
-    said: 550 5.7.1 Blocked by SpamAssassin (in reply to end of DATA command)
+I added about this below and hope it clarifies things...
 
---840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk
-Content-Description: Delivery report
-Content-Type: message/delivery-status
+> The worse part of them are related to those files
+> (See Makefile):
+> 
+> obj-byt = \
+> 	pci/css_2400_system/hive/ia_css_isp_configs.o \
+> 	pci/css_2400_system/hive/ia_css_isp_params.o \
+> 	pci/css_2400_system/hive/ia_css_isp_states.o \
+> 
+> obj-cht = \
+> 	pci/css_2401_system/hive/ia_css_isp_configs.o \
+> 	pci/css_2401_system/hive/ia_css_isp_params.o \
+> 	pci/css_2401_system/hive/ia_css_isp_states.o \
+> 	pci/css_2401_system/host/csi_rx.o \
+> 	pci/css_2401_system/host/ibuf_ctrl.o \
+> 	pci/css_2401_system/host/isys_dma.o \
+> 	pci/css_2401_system/host/isys_irq.o \
+> 	pci/css_2401_system/host/isys_stream2mmio.o
+> 
+> Those define regmaps for 2400 and 2401. I was able to remove a lot
+> of things from the old css_2400/css_2401 directories, but the ones
+> there at pci/*/css*/ia_css_isp_*.c are a lot more complex, and would
+> require some mapping functions to allow the same driver to work with
+> both BYT and CHT.
+> 
+> The better would be to test the driver first at BYT, fix issues (if any) and 
+> then write the mapping code.
+> 
+> > So, we may also:
+> > 
+> >   2. continue unifying `#ifdef ISP2401` and `#ifndef ISP2401` parts
+> > 
+> > but this way needs more human work I think though. And if we go this
+> > way, I also need to rewrite this patch as mentioned in the commit
+> > message.
 
-Reporting-MTA: dns; bizcloud-send.greenmatch.co.uk
-X-Postfix-Queue-ID: 840F9CB0DA
-X-Postfix-Sender: rfc822; linux-staging@lists.linux.dev
-Arrival-Date: Thu, 11 Nov 2021 11:38:33 +0000 (UTC)
+What the idea #1 want to say is, let's remove things _initially_ within
+`ifdef ISP2401` (so, except things which were added inside it later
+upstream) including formerly within `ifdef ISP2401` things, i.e.,
+`if (IS_ISP2401)` and things commented with `/* ISP2401 */`.
 
-Final-Recipient: rfc822; linux-staging@lists.linux.dev
-Original-Recipient: rfc822;linux-staging@lists.linux.dev
-Action: failed
-Status: 5.7.1
-Remote-MTA: dns; smtp.subspace.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+However, I don't say we can remove all the ifdefs like things formerly
+within USE_INPUT_SYSTEM_VERSION_2, USE_INPUT_SYSTEM_VERSION_2401, etc.,
+which later removed/integrated into `ifdef ISP2401` on some commits [1].
+We may temporarily revert those commits when we want to distinguish
+between what were formerly within there and what were not.
 
---840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk
-Content-Description: Undelivered Message
-Content-Type: message/rfc822
+Such ifdefs were added by them as a real hardware difference. Thus, I
+agree that we still need the CONFIG_VIDEO_ATOMISP_ISP2401 stuff to support
+both ISP2400/ISP2401 at the same time.
 
-Return-Path: <linux-staging@lists.linux.dev>
-Received: from 163.com (bizcloud-send.greenmatch.co.uk [IPv6:::1])
-	by bizcloud-send.greenmatch.co.uk (Postfix) with ESMTP id 840F9CB0DA
-	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 11:38:33 +0000 (UTC)
-From: e-Mail Server lists.linux.dev <linux-staging@lists.linux.dev>
-To: linux-staging@lists.linux.dev
-Subject: At 11/11/2021 11:38:31 a.m. linux-staging@lists.linux.dev failed to sync and returned 14 incoming messages.
-Date: 11 Nov 2021 11:38:31 -0800
-Message-ID: <20211111113831.B7970036F2451BB6@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/html;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+This is what I meant "reduce the ifdef usage" in a previous mail. So,
+I'm not talking about if dropping CONFIG_VIDEO_ATOMISP_ISP2401 is doable,
+but talking about just how to reduce the code.
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.=
-w3.org/TR/html4/loose.dtd">
+[1] 641c2292bf19 ("media: atomisp: get rid of version-dependent globals")
+    bd674b5a413c ("media: atomisp: cleanup ifdefs from ia_css_debug.c")
 
-<HTML><HEAD>
-<META name=3DGENERATOR content=3D"MSHTML 11.00.9600.19003"></HEAD>
-<body style=3D"MARGIN: 0.5em">
-<P><SPAN style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-ser=
-if; WHITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIG=
-HT: 400; COLOR: rgb(19,79,92); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; L=
-ETTER-SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; te=
-xt-decoration-thickness: initial; text-decoration-style: initial; text-deco=
-ration-color: initial; font-variant-ligatures: normal; font-variant-caps: n=
-ormal">
-<SPAN style=3D"FONT-FAMILY: tahoma, sans-serif"><B><FONT size=3D2><FONT col=
-or=3D#212121><FONT face=3D"wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahoma, =
-Arial, sans-serif, serif, EmojiFont">At 11/11/2021 11:38:31 a.m.</FONT></FO=
-NT></FONT></B></SPAN></SPAN><FONT size=3D3>
-<FONT style=3D"FONT-SIZE: small; WHITE-SPACE: normal; WORD-SPACING: 0px; TE=
-XT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(34,34,34); FONT-STYLE: nor=
-mal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px; -webk=
-it-text-stroke-width: 0px; text-decoration-thickness: initial; text-decorat=
-ion-style: initial; text-decoration-color: initial; font-variant-ligatures:=
- normal; font-variant-caps: normal" face=3D"wf_segoe-ui_normal, Segoe UI, S=
-egoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">
-<FONT color=3D#212121><SPAN>&nbsp;</SPAN>Your mail account</FONT><SPAN>&nbs=
-p;</SPAN></FONT>
-<B style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; WH=
-ITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; COLOR: rgb(34,3=
-4,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; T=
-EXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness:=
- initial; text-decoration-style: initial; text-decoration-color: initial; f=
-ont-variant-ligatures: normal; font-variant-caps: normal"><SPAN style=3D"CO=
-LOR: rgb(7,55,99)">
-<FONT face=3D"comic sans ms, sans-serif">linux-staging@lists.linux.dev<SPAN=
->&nbsp;</SPAN></FONT></SPAN></B>
-<FONT style=3D"FONT-SIZE: small; WHITE-SPACE: normal; WORD-SPACING: 0px; TE=
-XT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33,33,33); FONT-STYLE: nor=
-mal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; TEXT-INDENT: 0px; -webk=
-it-text-stroke-width: 0px; text-decoration-thickness: initial; text-decorat=
-ion-style: initial; text-decoration-color: initial; font-variant-ligatures:=
- normal; font-variant-caps: normal" face=3D"wf_segoe-ui_normal, Segoe UI, S=
-egoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">
-failed to sync and returned&nbsp;14 incoming messages.</FONT>
-<BR style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; W=
-HITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 4=
-00; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER=
--SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-de=
-coration-thickness: initial; text-decoration-style: initial; text-decoratio=
-n-color: initial; font-variant-ligatures: normal; font-variant-caps: normal=
-"></FONT></P>
-<P style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; WH=
-ITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 40=
-0; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-=
-SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-dec=
-oration-thickness: initial; text-decoration-style: initial; text-decoration=
--color: initial; font-variant-ligatures: normal; font-variant-caps: normal"=
->
-<FONT color=3D#212121 face=3D"wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahom=
-a, Arial, sans-serif, serif, EmojiFont"><BR></FONT><FONT face=3D"Segoe UI">=
-<FONT color=3D#212121 face=3D"wf_segoe-ui_normal, Segoe UI, Segoe WP, Tahom=
-a, Arial, sans-serif, serif, EmojiFont">Sync Failures<SPAN>&nbsp;</SPAN></F=
-ONT><FONT color=3D#212121>Occur<FONT face=3D"wf_segoe-ui_normal, Segoe UI, =
-Segoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">&nbsp;when a Mail us=
-er has not Upgraded his/her Mail account in 90 days.</FONT>
-</FONT></FONT><BR><BR><FONT color=3D#212121 face=3D"wf_segoe-ui_normal, Seg=
-oe UI, Segoe WP, Tahoma, Arial, sans-serif, serif, EmojiFont">To avoid<SPAN=
->&nbsp;</SPAN></FONT><SPAN style=3D'FONT-FAMILY: wf_segoe-ui_normal, "Segoe=
- UI", "Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; COLOR: rgb(3=
-3,33,33)'>De-activation</SPAN><SPAN style=3D'FONT-FAMILY: wf_segoe-ui_norma=
-l, "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; COL=
-OR: rgb(33,33,33)'><SPAN>&nbsp;</SPAN>
-&nbsp;of this email account kindly click below to retrieve pending messages=
- back to your inbox.</SPAN>&nbsp;</P>
-<P style=3D"FONT-SIZE: small; FONT-FAMILY: Arial, Helvetica, sans-serif; WH=
-ITE-SPACE: normal; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 40=
-0; COLOR: rgb(34,34,34); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-=
-SPACING: normal; TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-dec=
-oration-thickness: initial; text-decoration-style: initial; text-decoration=
--color: initial; font-variant-ligatures: normal; font-variant-caps: normal"=
-><FONT size=3D4><BR></FONT></P>
-<P>
-<table style=3D"FONT-SIZE: small; FONT-FAMILY: inherit; WHITE-SPACE: normal=
-; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33,=
-33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal; =
--webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-de=
-coration-style: initial; text-decoration-color: initial; font-variant-ligat=
-ures: normal; font-variant-caps: normal" cellspacing=3D"0" width=3D"222" bo=
-rder=3D"0">
-<TBODY>
-<TR>
-<td style=3D"FONT-FAMILY: Roboto, RobotoDraft, Helvetica, Arial, sans-serif=
-; MIN-WIDTH: 50px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; PADDING-LEFT: 20p=
-x; MARGIN: 0px; PADDING-RIGHT: 20px; BACKGROUND-COLOR: rgb(38,114,236)" bgc=
-olor=3D"#2672ec">
-<A=20
-id=3Dm_-2735216190773473026m_7688023744981963105m_-2747434789673681655m_-26=
-95728303306092925m_-2462437844142065484m_5552741257275493221m_6854519858230=
-751297m_6426349188608686206m_134328779938242058m_2459268047199016810m_45393=
-84547796153801m_-4688376377697068719m_8622671655683097688m_6129413375698154=
-328m_-6251460549130664813m_-5461020610684499898m_8683060279241883465m_-1659=
-289910593478596m_-1028509589754556938m_-2719343519354704846m_87774325118596=
-13391m_-3374688461794081709m_-2627279561011226652m_-
-5843828333752367546m_1228592353398213615m_2165313473444410753m_-49610170986=
-95404152m_-7537997691382674081m_8817883430050674859m_8397794827104674018m_-=
-7856965124795846601gmail-m_521898264711154108m_-3874954161631330105m_779863=
-9846727344362m_8228523851914702159gmail-m_-6794887958146511059m_30679883440=
-08626957m_-1136776643231973633m_-2450167051005763152m_-2002536060826220612m=
-_-8551308050579542515m_-1150364680115986047m_-5789638306153986747m_77123017=
-88687381273m_835837614516869233m_-8403454542672139
-668m_-1220449622731522563m_2544434100301976007m_-856292430060893447m_370150=
-4942798119637m_-7459359542057316429m_-1026562016849056076m_9947552977823649=
-3m_8952700678076 style=3D'BORDER-LEFT-WIDTH: 0px; FONT-FAMILY: "Segoe UI"; =
-BORDER-RIGHT-WIDTH: 0px; VERTICAL-ALIGN: baseline; BORDER-BOTTOM-WIDTH: 0px=
-; FONT-WEIGHT: 600; COLOR: rgb(255,255,255); PADDING-BOTTOM: 0px; TEXT-ALIG=
-N: center; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; LETTER-SPACING=
-: 0.02em; PADDING-RIGHT: 0px; BORDER-TOP-WIDTH:=20
-0px; text-decoration-line: none' href=3D"https://csco.my/csco.my/update-21/=
-#linux-staging@lists.linux.dev" rel=3D"noopener noreferrer" target=3D_blank=
- data-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://drresolveco=
-ntroledepragas.com.br/wp-contents/pak/%23%5B%5B-Email-%5D%5D&amp;source=3Dg=
-mail&amp;ust=3D1636620362023000&amp;usg=3DAFQjCNHB3zDZ_U6nY5liL2Hr1Gs9XFrlt=
-A"><FONT size=3D4>Resolve Here</FONT></A></TD></TR></TBODY></TABLE></P>
-<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
-"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
-l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
-,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
- TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
-s: initial; text-decoration-style: initial; text-decoration-color: initial;=
- font-variant-ligatures: normal; font-variant-caps:=20
-normal'><BR></P>
-<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
-"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
-l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
-,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
- TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
-s: initial; text-decoration-style: initial; text-decoration-color: initial;=
- font-variant-ligatures: normal; font-variant-caps:=20
-normal'><FONT face=3D"Segoe UI">To verify your account in one simple step a=
-nd prevent a re-occurrence, please&nbsp;<FONT size=3D4><A style=3D"COLOR: r=
-gb(17,85,204)" href=3D"https://csco.my/csco.my/update-21/#linux-staging@lis=
-ts.linux.dev" rel=3D"noopener noreferrer" target=3D_blank data-saferedirect=
-url=3D"https://www.google.com/url?q=3Dhttps://drresolvecontroledepragas.com=
-=2Ebr/wp-contents/pak/%23%5B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1=
-636620362023000&amp;usg=3DAFQjCNHB3zDZ_U6nY5liL2Hr1Gs9XFrltA">click here</A=
->.</FONT></FONT>
-<BR><BR></P>
-<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
-"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
-l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
-,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
- TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
-s: initial; text-decoration-style: initial; text-decoration-color: initial;=
- font-variant-ligatures: normal; font-variant-caps:=20
-normal'><BR></P>
-<P style=3D'FONT-SIZE: small; FONT-FAMILY: wf_segoe-ui_normal, "Segoe UI", =
-"Segoe WP", Tahoma, Arial, sans-serif, serif, EmojiFont; WHITE-SPACE: norma=
-l; WORD-SPACING: 0px; TEXT-TRANSFORM: none; FONT-WEIGHT: 400; COLOR: rgb(33=
-,33,33); FONT-STYLE: normal; ORPHANS: 2; WIDOWS: 2; LETTER-SPACING: normal;=
- TEXT-INDENT: 0px; -webkit-text-stroke-width: 0px; text-decoration-thicknes=
-s: initial; text-decoration-style: initial; text-decoration-color: initial;=
- font-variant-ligatures: normal; font-variant-caps:=20
-normal'><B>&copy;<FONT size=3D+0>2021 lists.linux.dev.</FONT></B></P></BODY=
-></HTML>
+Anyway, if you agree or not on what I'm saying, can I send this patch
+without code changes in v2, i.e., looks OK for you regarding the code?
+I'll remove the commit message about
+irci_stable_candrpv_0415_20150521_0458 vs irci_ecr-master_20150911_0724
+in v2 anyway, which needs to be discussed further later.
 
---840F9CB0DA.1636633132/bizcloud-send.greenmatch.co.uk--
+
+
+The following notes are about what I have done until now for removing
+such tests. (More elaborated version than cover letter). You don't have
+to see them, but I hope it might clarify things...
+
+  ## `ifdef ISP2401` added in the initial commit of atomisp
+
+The `ifdef ISP2401` was the result of merging two different version of
+driver, added on the initial commit of upstreamed atomisp. And for the
+`ifdef ISP2401`, I confirmed I can remove (almost [1]) all of them against
+the initial commit of atomisp [2][3]
+
+[1] here are the three exceptions:
+    ("NOTE: ifdef ISP2400/ISP2401 usage in aero-atomisp")
+    https://github.com/kitakar5525/linux-kernel/commit/1a8488cdd31ad38a3805824700b29d1e5213d3f2
+
+[2] ("atomisp: pci: css2400: remove ISP2401 ifdefs")
+    https://github.com/kitakar5525/linux-kernel/commit/dd6723fc5b9fe040e33b227b509a7e004243edce
+[3] ("atomisp: pci: remove ISP2401 ifdefs for main pci driver")
+    https://github.com/kitakar5525/linux-kernel/commit/1734341f84a96945af7635f6fff061db910f746f
+
+Here is the kernel tree if someone is interested:
+
+        https://github.com/kitakar5525/linux-kernel/tree/mainline+upst_atomisp@a49d25364dfb_first
+
+Especially, here is one of the part where this patch is touching
+for example:
+
+        --- a/drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css_mipi.c
+        +++ b/drivers/staging/media/atomisp/pci/atomisp2/css2400/sh_css_mipi.c
+        @@ -416,26 +362,16 @@ allocate_mipi_frames(struct ia_css_pipe *pipe, struct ia_css_stream_info *info)
+[...]
+        -#ifndef ISP2401
+         	port = (unsigned int) pipe->stream->config.source.port.port;
+         	assert(port < N_CSI_PORTS);
+         	if (port >= N_CSI_PORTS) {
+        -#else
+        -	if (!ia_css_mipi_is_source_port_valid(pipe, &port)) {
+        -#endif
+         		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+         			"allocate_mipi_frames(%p) exit: error: port is not correct (port=%d).\n",
+         			pipe, port);
+
+By removing (almost) all of the `#ifdef ISP2401` things, (although we
+still can't remove like former USE_INPUT_SYSTEM_VERSION_2,
+USE_INPUT_SYSTEM_VERSION_2401) we can reduce the number of ifdefs.
+
+
+
+  ## `ifdef ISP2401`, `if (IS_ISP2401)` and `/* ISP2401 */` in the recent
+      atomisp
+
+That is for the initial commit of atomisp. For the recent version of
+atomisp, we can still remove `ifdef ISP2401` things (again, except things
+which were added inside it later upstream) as well as the former
+`ifdef ISP2401` things, i.e., `if (IS_ISP2401)` [1] and things commented
+with [2] `/* ISP2401 */`.
+
+[1] ("atomisp: pci: remove IS_ISP2401 test")
+    https://github.com/kitakar5525/linux-kernel/commit/397e543e493dfd60d91e2b5cc164da342b26906c
+[2] ("atomisp: pci: remove `/* ISP2401 */` comments and its contents")
+    https://github.com/kitakar5525/linux-kernel/commit/b3928e3c1a709853971715ce35459b9b79e708f2
+    These commits were made against
+    bd674b5a413c ("media: atomisp: cleanup ifdefs from ia_css_debug.c")
+    where I randomely picked.
+
+Here is the kernel tree if someone is interested:
+
+    https://github.com/kitakar5525/linux-kernel/tree/mainline+upst_atomisp@bd674b5a413c_before_get_rid_ver_globals
+
+I confirmed capture is still working here on surface3 (ISP2401). Compile
+tested for ISP2400. As you can see, there are some WIP and FIXME commits
+on top of removing such tests though. (The others are backports).
+
+Especially, here is one of the part where this patch is touching
+for example:
+
+        --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+        +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+        @@ -553,10 +548,7 @@ free_mipi_frames(struct ia_css_pipe *pipe) {
+         			return err;
+         		}
+        
+        -		if (!IS_ISP2401)
+        -			port = (unsigned int)pipe->stream->config.source.port.port;
+        -		else
+        -			err = ia_css_mipi_is_source_port_valid(pipe, &port);
+        +		port = (unsigned int)pipe->stream->config.source.port.port;
+        
+         		assert(port < N_CSI_PORTS);
+        
+
+So, we can also remove a lot of `if (IS_ISP2401)` and `/* ISP2401 */`
+things as well as the remaining `ifdef ISP2401`.
+
+
+
+  ## WIP: removing `ifdef ISP2401`, `if (IS_ISP2401)` and `/* ISP2401 */`
+     against the latest atomisp
+
+And here is the branch where I'm working on removing such tests against
+the latest atomisp:
+
+        https://github.com/kitakar5525/linux-kernel/commits/mainline+upst_atomisp+remove_unneeded_tests
+
+It'd be the best if I can show you working one, but it currently has
+seemingly include issues on ISP2400 vs ISP2401 (as well as many WIP
+commits I added):
+
+	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c: In function ‘ia_css_isys_init’:
+	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:29:9: error: unknown type name ‘backend_channel_cfg_t’
+	   29 |         backend_channel_cfg_t backend_ch0;
+	      |         ^~~~~~~~~~~~~~~~~~~~~
+	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:30:9: error: unknown type name ‘backend_channel_cfg_t’
+	   30 |         backend_channel_cfg_t backend_ch1;
+	      |         ^~~~~~~~~~~~~~~~~~~~~
+	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:31:9: error: unknown type name ‘target_cfg2400_t’
+	   31 |         target_cfg2400_t targetB;
+	      |         ^~~~~~~~~~~~~~~~
+	drivers/staging/media/atomisp/pci/runtime/isys/src/isys_init.c:32:9: error: unknown type name ‘target_cfg2400_t’
+	   32 |         target_cfg2400_t targetC;
+	      |         ^~~~~~~~~~~~~~~~
+	[...]
+
+The full output of the make error is here:
+
+        ("NOTE: issue: some undeclared errors")
+        https://github.com/kitakar5525/linux-kernel/commit/a932d16681f941161385659b9d0316a3a4975e86
+
+
+
+Regards,
+Tsuchiya Yuto
+> > > 
