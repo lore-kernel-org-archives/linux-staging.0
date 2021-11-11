@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE322C81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9162C83
 	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 21:27:12 +0000 (UTC)
 Received: from ipservice-092-217-091-158.092.217.pools.vodafone-ip.de ([92.217.91.158] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mlHb2-0006fH-OO; Thu, 11 Nov 2021 22:27:00 +0100
+	id 1mlHb5-0006fH-Tt; Thu, 11 Nov 2021 22:27:04 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,10 +16,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 1/7] staging: r8188eu: remove haldata's EEPROMVID / PID
-Date: Thu, 11 Nov 2021 22:26:38 +0100
-Message-Id: <20211111212644.9011-1-martin@kaiser.cx>
+Subject: [PATCH 3/7] staging: r8188eu: remove haldata's EEPROMSubCustomerID
+Date: Thu, 11 Nov 2021 22:26:40 +0100
+Message-Id: <20211111212644.9011-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211111212644.9011-1-martin@kaiser.cx>
+References: <20211111212644.9011-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,71 +30,113 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-They are used only in a (disabled) debug print.
+It is used only in a (disabled) debug print.
 
-In practice, lsusb can be used to read the actual vid and pid.
+We can now remove two functions that parsed eeprom info and populated
+haldata components.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/usb_halinit.c       | 8 --------
- drivers/staging/r8188eu/include/rtl8188e_hal.h  | 2 --
- drivers/staging/r8188eu/include/rtl8188e_spec.h | 2 --
- 3 files changed, 12 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c |  8 --------
+ drivers/staging/r8188eu/hal/usb_halinit.c       | 17 -----------------
+ drivers/staging/r8188eu/include/rtl8188e_hal.h  |  3 ---
+ drivers/staging/r8188eu/include/rtl8188e_spec.h |  1 -
+ 4 files changed, 29 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index ef1ae95d7db0..563b7c0a2c90 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -985,23 +985,15 @@ static void Hal_EfuseParsePIDVID_8188EU(struct adapter *adapt, u8 *hwinfo, bool
- 	struct hal_data_8188e	*haldata = GET_HAL_DATA(adapt);
- 
- 	if (!AutoLoadFail) {
--		/*  VID, PID */
--		haldata->EEPROMVID = EF2BYTE(*(__le16 *)&hwinfo[EEPROM_VID_88EU]);
--		haldata->EEPROMPID = EF2BYTE(*(__le16 *)&hwinfo[EEPROM_PID_88EU]);
--
- 		/*  Customer ID, 0x00 and 0xff are reserved for Realtek. */
- 		haldata->EEPROMCustomerID = *(u8 *)&hwinfo[EEPROM_CUSTOMERID_88E];
- 		haldata->EEPROMSubCustomerID = EEPROM_Default_SubCustomerID;
- 	} else {
--		haldata->EEPROMVID			= EEPROM_Default_VID;
--		haldata->EEPROMPID			= EEPROM_Default_PID;
--
- 		/*  Customer ID, 0x00 and 0xff are reserved for Realtek. */
- 		haldata->EEPROMCustomerID		= EEPROM_Default_CustomerID;
- 		haldata->EEPROMSubCustomerID	= EEPROM_Default_SubCustomerID;
- 	}
- 
--	DBG_88E("VID = 0x%04X, PID = 0x%04X\n", haldata->EEPROMVID, haldata->EEPROMPID);
- 	DBG_88E("Customer ID: 0x%02X, SubCustomer ID: 0x%02X\n", haldata->EEPROMCustomerID, haldata->EEPROMSubCustomerID);
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+index 9efdc846ba33..566b49fd7478 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
+@@ -1584,14 +1584,6 @@ void rtl8188e_EfuseParseChnlPlan(struct adapter *padapter, u8 *hwinfo, bool Auto
+ 	DBG_88E("mlmepriv.ChannelPlan = 0x%02x\n", padapter->mlmepriv.ChannelPlan);
  }
  
+-void Hal_EfuseParseCustomerID88E(struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail)
+-{
+-	struct hal_data_8188e	*pHalData = GET_HAL_DATA(padapter);
+-
+-	if (AutoLoadFail)
+-		pHalData->EEPROMSubCustomerID = 0;
+-}
+-
+ void Hal_ReadAntennaDiversity88E(struct adapter *pAdapter, u8 *PROMContent, bool AutoLoadFail)
+ {
+ 	struct hal_data_8188e	*pHalData = GET_HAL_DATA(pAdapter);
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index caef99d0926f..1625873aa742 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -980,21 +980,6 @@ static void _ReadLEDSetting(struct adapter *Adapter, u8 *PROMContent, bool Autol
+ 	haldata->bLedOpenDrain = true;/*  Support Open-drain arrangement for controlling the LED. */
+ }
+ 
+-static void Hal_EfuseParsePIDVID_8188EU(struct adapter *adapt, u8 *hwinfo, bool AutoLoadFail)
+-{
+-	struct hal_data_8188e	*haldata = GET_HAL_DATA(adapt);
+-
+-	if (!AutoLoadFail) {
+-		/*  Customer ID, 0x00 and 0xff are reserved for Realtek. */
+-		haldata->EEPROMSubCustomerID = EEPROM_Default_SubCustomerID;
+-	} else {
+-		/*  Customer ID, 0x00 and 0xff are reserved for Realtek. */
+-		haldata->EEPROMSubCustomerID	= EEPROM_Default_SubCustomerID;
+-	}
+-
+-	DBG_88E("SubCustomer ID: 0x%02X\n", haldata->EEPROMSubCustomerID);
+-}
+-
+ static void Hal_EfuseParseMACAddr_8188EU(struct adapter *adapt, u8 *hwinfo, bool AutoLoadFail)
+ {
+ 	u16 i;
+@@ -1019,7 +1004,6 @@ readAdapterInfo_8188EU(
+ 
+ 	/* parse the eeprom/efuse content */
+ 	Hal_EfuseParseIDCode88E(adapt, eeprom->efuse_eeprom_data);
+-	Hal_EfuseParsePIDVID_8188EU(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 	Hal_EfuseParseMACAddr_8188EU(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 
+ 	Hal_ReadPowerSavingMode88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+@@ -1027,7 +1011,6 @@ readAdapterInfo_8188EU(
+ 	Hal_EfuseParseEEPROMVer88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 	rtl8188e_EfuseParseChnlPlan(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 	Hal_EfuseParseXtal_8188E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+-	Hal_EfuseParseCustomerID88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 	Hal_ReadAntennaDiversity88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 	Hal_EfuseParseBoardType88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ 	Hal_ReadThermalMeter_88E(adapt, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index d7db1dfc39d0..84fa65972039 100644
+index 19aac5c7cffb..3593334e24b6 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -175,8 +175,6 @@ struct hal_data_8188e {
- 	u8	BoardType;
- 
+@@ -177,7 +177,6 @@ struct hal_data_8188e {
  	/*  EEPROM setting. */
--	u16	EEPROMVID;
--	u16	EEPROMPID;
  	u16	EEPROMSVID;
  	u16	EEPROMSDID;
- 	u8	EEPROMCustomerID;
+-	u8	EEPROMSubCustomerID;
+ 	u8	EEPROMVersion;
+ 	u8	EEPROMRegulatory;
+ 
+@@ -327,8 +326,6 @@ void Hal_EfuseParseEEPROMVer88E(struct adapter *padapter, u8 *hwinfo,
+ 				bool AutoLoadFail);
+ void rtl8188e_EfuseParseChnlPlan(struct adapter *padapter, u8 *hwinfo,
+ 				 bool AutoLoadFail);
+-void Hal_EfuseParseCustomerID88E(struct adapter *padapter, u8 *hwinfo,
+-				 bool AutoLoadFail);
+ void Hal_ReadAntennaDiversity88E(struct adapter *pAdapter,u8 *PROMContent,
+ 				 bool AutoLoadFail);
+ void Hal_ReadThermalMeter_88E(struct adapter *	dapter, u8 *PROMContent,
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_spec.h b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-index 01aeaa4ac605..cfab7ad08947 100644
+index 8c62e8a2ca40..7dd55212e1be 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_spec.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_spec.h
-@@ -1345,8 +1345,6 @@ Current IOREG MAP
+@@ -1345,7 +1345,6 @@ Current IOREG MAP
  #define	EEPROM_DEFAULT_BT_OPTION		0x10
  
  /*  For debug */
--#define EEPROM_Default_PID			0x1234
--#define EEPROM_Default_VID			0x5678
- #define EEPROM_Default_CustomerID		0xAB
- #define	EEPROM_Default_CustomerID_8188E		0x00
- #define EEPROM_Default_SubCustomerID		0xCD
+-#define EEPROM_Default_SubCustomerID		0xCD
+ #define EEPROM_Default_Version			0
+ 
+ #define EEPROM_CHANNEL_PLAN_FCC			0x0
 -- 
 2.20.1
 
