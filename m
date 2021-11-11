@@ -1,165 +1,237 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A359D168
-	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 08:00:16 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id y7so5271340plp.0
-        for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 00:00:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=anYKlz5/FkjskAO9CiyYEeUC3/1zMqtLheya2AtuYUw=;
-        b=KEms7mXNCicZVOwKHLraJZSFGzperAB5QLDWRrMHx5JzNOQ85d5aNwFJTAORp3uwgl
-         wK7WPRB0mgTmitjdics5sqDmfdgzYg4towhuBrEoGxS0usGr3xcnhGyJz/mgAAIAcGsc
-         VrCKItYkbDnaPz3Hn/cffDVM1BYOm7IhPhWiWTyNQCvo9M6JZ+tOWOj9oWalaz5Gwxvd
-         YeYWWKhZiEfVfTK0RXyjDcM87PGl3b5sf98xpi88VDNR2E2nUmY190ZfVtqzd9Fi8+Ef
-         29yDXofB1wuPSg7YAJC3mOOShcMj83mELtoHD2rxUZLaaj2Io+23SF5jq9M5QOUuMYUO
-         tmCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=anYKlz5/FkjskAO9CiyYEeUC3/1zMqtLheya2AtuYUw=;
-        b=V+aLCIwapEuFvYZ+lndr6va1o/g9GMd8k08ufjelYjyyrIFucr2REwbwAP5WTEe/aI
-         Zc9x7kLjBcCpFdvMd97D5GIJqHRA1aDd9zZsBv8swMcdhdSSEaRBQa9pKemITAtXmB9f
-         JKNN0Q51nwergnCXALkQG5jAeOULfEJl4Yqt7Yyo6E3x0mZywK7DW5yx0kbzRTYLsG4D
-         1r4YCQ89l2ZI9bmgZlGE+sbtScxsHNyKnDCTCkxFgbibSousfDSs01sYRmZ1h0YmrX3U
-         EhUnBdWpx0RdyRmv8PYRfcJius1Hiz7Ni7vRevwwAIg2Zl+tfiFWZ0NciqXDH+6HjaK+
-         BWkQ==
-X-Gm-Message-State: AOAM533PUQzsTuyZO/ZMsdxmWReZao7pj8kTospAScFaSMVcRgUmShUS
-	8a1HXauFTxi1IgtahYorQd0=
-X-Google-Smtp-Source: ABdhPJxwrqngvkvCkTAilFFpWP99r6p1tACNt3bQhwB2rv2pwMITSsDfoQvak5B4GhQQ0CwnvgHlWw==
-X-Received: by 2002:a17:90b:3a85:: with SMTP id om5mr6342382pjb.108.1636617615911;
-        Thu, 11 Nov 2021 00:00:15 -0800 (PST)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id z23sm1558285pgn.14.2021.11.11.00.00.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 00:00:15 -0800 (PST)
-Message-ID: <d02d6194a8e81d0056da6f6b996954000e30c68f.camel@gmail.com>
-Subject: Re: [BUG/RFC PATCH 1/5] [BUG][RFC] media: atomisp: pci: assume
- run_mode is PREVIEW
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
- <nable.maininbox@googlemail.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
- "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>
-Date: Thu, 11 Nov 2021 17:00:11 +0900
-In-Reply-To: <20211029100259.2cdfdfce@sal.lan>
-References: <20211017162337.44860-1-kitakar@gmail.com>
-	 <20211017162337.44860-2-kitakar@gmail.com>
-	 <20211029100259.2cdfdfce@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A0229CA
+	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 09:57:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D478D61107;
+	Thu, 11 Nov 2021 09:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636624643;
+	bh=Dbmpxl/hgypg3IsYM0mzq4CDNW9iJBlNW8cqKaLE/c0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RqmijOfJWPpud5dSkj/9SaCUNudP5cy6KRBMKL+jyGCWZssTN7KcakE5UoGngXirh
+	 9c1DEHOmFz8fWI6ZQQJfZ08odnXGZtD+xh2tJnrQK8IwhB94PswiEiQYSA2AluhUIA
+	 IzD/LHQU/Fq5PiPdBc2CAUTPiseVCQOGEpqWpgshLe0/LxpUTTLH7po9825ohWyxsy
+	 tm2vJHQgoC9Q5Ae4AzOmcvD45aPsv9WMAVhoMuAzOaKQrTL5/932u7PuiZ/Y8ML9ue
+	 yirltBnn5m81TNRYZGstGk3F+LDBd/UlaQIF+CRTydOMvNtYsaDCys2ROFkPkcQfUI
+	 8m/O6OjYU44DA==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1ml6pc-004vRb-Qj; Thu, 11 Nov 2021 09:57:20 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+	Deepak R Varma <drv@mailo.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 2/2] media: atomisp-ov2680: remove some unused fields
+Date: Thu, 11 Nov 2021 09:57:19 +0000
+Message-Id: <832599e3d2c0d6d0683ccfcc728d68e5513c6210.1636624633.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <440a1ecd3e1ef3a58bff40cde2ae57a32e5b0f60.1636624633.git.mchehab+huawei@kernel.org>
+References: <440a1ecd3e1ef3a58bff40cde2ae57a32e5b0f60.1636624633.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-<Adding back people/list to Cc>
+The sensor resolution arrays have two unused fields. Drop them.
 
-On Fri, 2021-10-29 at 10:02 +0100, Mauro Carvalho Chehab wrote:
-> Em Mon, 18 Oct 2021 01:23:32 +0900
-> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
-> 
-> > This is almost a BUG report with a patch to just make atomisp work
-> > again with the current mainline kernel. Thus, prefixed with [BUG][RFC].
-> > 
-> > RFC:
-> >   1. When looking at the `case CI_MODE_NONE:`, it tries to do something.
-> >      So, it should rather work with CI_MODE_NONE, too? Just I don't know
-> >      how to configure userspace apps to use CI_MODE_NONE ?
-> >   2. How can we re-add the run mode support again without relying on
-> >      the s_parm ?
-> > 
-> > > 8-----------------------------------------------------------------8<  
-> > 
-> > After the commit 8a7c5594c020 ("media: v4l2-ioctl: clear fields in s_parm")
-> > added on v4.18 (backported to v4.9.182 and v4.14.127), the capture mode
-> > flag is cleared (except for V4L2_MODE_HIGHQUALITY).
-> > 
-> > Due to this, it seems that now we can't use this flag to set atomisp
-> > run_mode. This results in capture not working with the following message
-> > (loaded atomisp driver with dbg_level=1):
-> > 
-> > 	kern  :warn  : [ 3658.776616] ia_css_pipe_get_info: ia_css_stream_create needs to be called before ia_css_[stream/pipe]_get_info
-> > 	kern  :err   : [ 3658.776641] atomisp-isp2 0000:00:03.0: get_frame_info 1920x1080 (padded to 0)
-> > 	kern  :warn  : [ 3658.776666] atomisp-isp2 0000:00:03.0: Can't set format on ISP. Error -22
-> > 
-> > So, when we can't detect run mode from the s_parm capturemode
-> > (CI_MODE_NONE), let's assume the run mode is PREVIEW.
-> 
-> The run_mode on this driver is related to how camera works on Android.
-> On such systems, camera have a preview mode, which is what the user
-> views at the camera display. This is usually set to the display
-> resolution (or to some other resolution that would allow a high
-> fps rate). When the photo button is clicked, it sets the camera to
-> the highest resolution mode (by default), which usually means a low
-> fps rate.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/staging/media/atomisp/i2c/ov2680.h | 26 ----------------------
+ 1 file changed, 26 deletions(-)
 
-Thank you for the description. I always wondered why they needed to
-introduce run mode stuff.
-
-> This doesn't make much sense on desktops, nor standard Linux apps
-> support that.
-> 
-> Anyway, after looking on this patch, I guess the best is to apply
-> this patch instead:
-> 
-> 	https://lore.kernel.org/linux-media/543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org/T/#u
-> 
-> As a plus side, it is also one step further to allow generic apps to
-> use the atomisp driver.
-> 
-> Applying it allowed me to do:
-> 
-> 	$ v4l2grab -D -f 'NV12' -x 1600 -y 1200 -d /dev/video2 -u
-> 	$ nvt/raw2pnm -x1600 -y1200 -f NV12 out017.raw out017.pnm
-> 	$ feh out017.pnm
-> 
-> So, I'm dropping patch 1/5 from media_stage, replacing it by the one which
-> sets the mode after open().
-
-Sorry for a bit late reply, I checked the capture functionality with the
-latest media_stage patches and can confirm capture is still working
-regarding this run_mode issue.
-
-So, I agree to replace this my patch with yours. Thanks!
-
-Regards,
-Tsuchiya Yuto
-
-> Regards,
-> Mauro
-> 
-> > 
-> > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
-> > ---
-> >  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> > index c8a625667e81..6fc64f0ccc31 100644
-> > --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> > +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> > @@ -2638,7 +2638,11 @@ static int atomisp_s_parm(struct file *file, void *fh,
-> >  				asd->high_speed_mode = true;
-> >  		}
-> >  
-> > -		goto out;
-> > +		dev_warn(isp->dev,
-> > +			 "setting run_mode using s_parm capturemode is not supported anymore\n");
-> > +		dev_warn(isp->dev, "assuming run_mode is PREVIEW\n");
-> > +		mode = ATOMISP_RUN_MODE_PREVIEW;
-> > +		break;
-> >  	}
-> >  	case CI_MODE_VIDEO:
-> >  		mode = ATOMISP_RUN_MODE_VIDEO;
+diff --git a/drivers/staging/media/atomisp/i2c/ov2680.h b/drivers/staging/media/atomisp/i2c/ov2680.h
+index ed68510bb0b9..cb3c37d1c38e 100644
+--- a/drivers/staging/media/atomisp/i2c/ov2680.h
++++ b/drivers/staging/media/atomisp/i2c/ov2680.h
+@@ -141,7 +141,6 @@ struct regval_list {
+ };
+ 
+ struct ov2680_resolution {
+-	u8 *desc;
+ 	const struct ov2680_reg *regs;
+ 	int res;
+ 	int width;
+@@ -154,7 +153,6 @@ struct ov2680_resolution {
+ 	u8 bin_factor_x;
+ 	u8 bin_factor_y;
+ 	u8 bin_mode;
+-	bool used;
+ };
+ 
+ struct ov2680_format {
+@@ -757,12 +755,10 @@ static struct ov2680_reg const ov2680_1616x1216_30fps[] = {
+ 
+ static struct ov2680_resolution ov2680_res_preview[] = {
+ 	{
+-		.desc = "ov2680_1616x1216_30fps",
+ 		.width = 1616,
+ 		.height = 1216,
+ 		.pix_clk_freq = 66,
+ 		.fps = 30,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -772,12 +768,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_1616x1216_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_1616x1082_30fps",
+ 		.width = 1616,
+ 		.height = 1082,
+ 		.pix_clk_freq = 66,
+ 		.fps = 30,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -787,12 +781,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_1616x1082_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_1616x916_30fps",
+ 		.width = 1616,
+ 		.height = 916,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -802,12 +794,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_1616x916_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_1456x1096_30fps",
+ 		.width = 1456,
+ 		.height = 1096,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -817,12 +807,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_1456x1096_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_1296x976_30fps",
+ 		.width = 1296,
+ 		.height = 976,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -832,12 +820,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_1296x976_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_720p_30fps",
+ 		.width = 1280,
+ 		.height = 720,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -847,12 +833,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_720p_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_800x600_30fps",
+ 		.width = 800,
+ 		.height = 600,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -862,12 +846,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_800x600_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_720x592_30fps",
+ 		.width = 720,
+ 		.height = 592,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -877,12 +859,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_720x592_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_656x496_30fps",
+ 		.width = 656,
+ 		.height = 496,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -892,12 +872,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_656x496_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_QVGA_30fps",
+ 		.width = 336,
+ 		.height = 256,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -907,12 +885,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_QVGA_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_CIF_30fps",
+ 		.width = 352,
+ 		.height = 288,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+@@ -922,12 +898,10 @@ static struct ov2680_resolution ov2680_res_preview[] = {
+ 		.regs = ov2680_CIF_30fps,
+ 	},
+ 	{
+-		.desc = "ov2680_QCIF_30fps",
+ 		.width = 176,
+ 		.height = 144,
+ 		.fps = 30,
+ 		.pix_clk_freq = 66,
+-		.used = 0,
+ 		.pixels_per_line = 1698,//1704,
+ 		.lines_per_frame = 1294,
+ 		.bin_factor_x = 0,
+-- 
+2.33.1
 
