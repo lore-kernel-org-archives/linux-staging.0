@@ -1,167 +1,165 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E7372;
-	Wed, 10 Nov 2021 19:26:07 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id r8so5809798wra.7;
-        Wed, 10 Nov 2021 11:26:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A359D168
+	for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 08:00:16 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id y7so5271340plp.0
+        for <linux-staging@lists.linux.dev>; Thu, 11 Nov 2021 00:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=stxfGq5TzEk/m+h1V0oWIaH2yEXT1vhy8334vKhpSbk=;
-        b=HSbkCB5tuRc+2W2n8fgn9E3Tq0iwlPq1i+mBl1CVpMIVh0k5ZYJaWbZ5Hb146uIwb7
-         1m/7OWgXQ6CvJCRl1QHVqTV1f5a/bHcJhkEHoxF8CDvtwhBBc+rOYnUfwkIbMRF8oGxa
-         /0cUt5yNj3ON6xQ+cqwzUZw59rA2Cs0kG8GZBrBdIOI9Cj0nN5iJWMz9e+hD4yGqOImh
-         +g+ElXEzWESJZTGgaRBPCmMiKqGCvjhKUCrDGfCd2WLzYaa10S8wsSJ1USQulhDKhXQW
-         KRHmCIQwul/QBl2TzNKh8MakjGfZZyMLMqvVeZ2FvQn+EhVbW9RKQdgpwWFOCoVbwHGN
-         O8nQ==
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=anYKlz5/FkjskAO9CiyYEeUC3/1zMqtLheya2AtuYUw=;
+        b=KEms7mXNCicZVOwKHLraJZSFGzperAB5QLDWRrMHx5JzNOQ85d5aNwFJTAORp3uwgl
+         wK7WPRB0mgTmitjdics5sqDmfdgzYg4towhuBrEoGxS0usGr3xcnhGyJz/mgAAIAcGsc
+         VrCKItYkbDnaPz3Hn/cffDVM1BYOm7IhPhWiWTyNQCvo9M6JZ+tOWOj9oWalaz5Gwxvd
+         YeYWWKhZiEfVfTK0RXyjDcM87PGl3b5sf98xpi88VDNR2E2nUmY190ZfVtqzd9Fi8+Ef
+         29yDXofB1wuPSg7YAJC3mOOShcMj83mELtoHD2rxUZLaaj2Io+23SF5jq9M5QOUuMYUO
+         tmCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=stxfGq5TzEk/m+h1V0oWIaH2yEXT1vhy8334vKhpSbk=;
-        b=5pR5Az/FtRXI3uapOyD5ZccFxD3ZWgAXuxPXh/a9Ge1d3sdAS1/CltUg/RubDrWY8u
-         ZRN640PwqJf7NOVS1bxzpNwZiRVEqaEE+YoNdSfDrn6TbCXDgFJDibS1OoBFt3QEDcLx
-         a22VRUpQxPDP3Ge0sLVZrzXhffmVHYZ1ejRB8/H0wgAuqjTPCWg/4H5fZPwTlsEMoux9
-         iDfz+Nq43KgtdLjYTIrMrjAP6p1HDtpao6UDAzNOMZZD1UCaYKJkK6cEAI7rpty/sRl1
-         j8HRJ8bKAn6D1qSGddIYw8LvSQxAaJd3y0XTv04TutRd6vvA03PctfNE1ZHtH6LPQwAQ
-         CPtA==
-X-Gm-Message-State: AOAM531s4+7kjM9RSZife87DGyLfiZi5H1Ek4pcjF1bKa0WEqy4yT2hR
-	foDa/jgtThTfaPB7da5BkaQ=
-X-Google-Smtp-Source: ABdhPJxTG94yTUSY/Xh7rvmJIuspjf0raoj13K6wYdvH8/nsbTpXXHcT2atafOeteM53GX0FbKj6Ow==
-X-Received: by 2002:a05:6000:1688:: with SMTP id y8mr1773432wrd.420.1636572366357;
-        Wed, 10 Nov 2021 11:26:06 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id b197sm610739wmb.24.2021.11.10.11.26.05
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=anYKlz5/FkjskAO9CiyYEeUC3/1zMqtLheya2AtuYUw=;
+        b=V+aLCIwapEuFvYZ+lndr6va1o/g9GMd8k08ufjelYjyyrIFucr2REwbwAP5WTEe/aI
+         Zc9x7kLjBcCpFdvMd97D5GIJqHRA1aDd9zZsBv8swMcdhdSSEaRBQa9pKemITAtXmB9f
+         JKNN0Q51nwergnCXALkQG5jAeOULfEJl4Yqt7Yyo6E3x0mZywK7DW5yx0kbzRTYLsG4D
+         1r4YCQ89l2ZI9bmgZlGE+sbtScxsHNyKnDCTCkxFgbibSousfDSs01sYRmZ1h0YmrX3U
+         EhUnBdWpx0RdyRmv8PYRfcJius1Hiz7Ni7vRevwwAIg2Zl+tfiFWZ0NciqXDH+6HjaK+
+         BWkQ==
+X-Gm-Message-State: AOAM533PUQzsTuyZO/ZMsdxmWReZao7pj8kTospAScFaSMVcRgUmShUS
+	8a1HXauFTxi1IgtahYorQd0=
+X-Google-Smtp-Source: ABdhPJxwrqngvkvCkTAilFFpWP99r6p1tACNt3bQhwB2rv2pwMITSsDfoQvak5B4GhQQ0CwnvgHlWw==
+X-Received: by 2002:a17:90b:3a85:: with SMTP id om5mr6342382pjb.108.1636617615911;
+        Thu, 11 Nov 2021 00:00:15 -0800 (PST)
+Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
+        by smtp.gmail.com with ESMTPSA id z23sm1558285pgn.14.2021.11.11.00.00.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 11:26:05 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v2 1/4] media: hevc: Remove RPS named flags
-Date: Wed, 10 Nov 2021 20:26:04 +0100
-Message-ID: <2215692.ElGaqSPkdT@kista>
-In-Reply-To: <20211012143552.661751-2-benjamin.gaignard@collabora.com>
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com> <20211012143552.661751-2-benjamin.gaignard@collabora.com>
+        Thu, 11 Nov 2021 00:00:15 -0800 (PST)
+Message-ID: <d02d6194a8e81d0056da6f6b996954000e30c68f.camel@gmail.com>
+Subject: Re: [BUG/RFC PATCH 1/5] [BUG][RFC] media: atomisp: pci: assume
+ run_mode is PREVIEW
+From: Tsuchiya Yuto <kitakar@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nable
+ <nable.maininbox@googlemail.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Fabio Aiuto <fabioaiuto83@gmail.com>, 
+ "andrey.i.trufanov" <andrey.i.trufanov@gmail.com>, Patrik Gfeller
+ <patrik.gfeller@gmail.com>
+Date: Thu, 11 Nov 2021 17:00:11 +0900
+In-Reply-To: <20211029100259.2cdfdfce@sal.lan>
+References: <20211017162337.44860-1-kitakar@gmail.com>
+	 <20211017162337.44860-2-kitakar@gmail.com>
+	 <20211029100259.2cdfdfce@sal.lan>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Hi Benjamin,
+<Adding back people/list to Cc>
 
-Dne torek, 12. oktober 2021 ob 16:35:49 CET je Benjamin Gaignard napisal(a):
-> Marking a picture as long-term reference is valid for DPB but not for RPS.
-> Change flag name to match with it description in HEVC spec chapiter
-
-chapiter -> chapter
-
-> "8.3.2 Decoding process for reference picture set".
-> Remove the other unused RPS flags.
+On Fri, 2021-10-29 at 10:02 +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 18 Oct 2021 01:23:32 +0900
+> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
-> version 2:
-> - change DPB field name from rps to flags
+> > This is almost a BUG report with a patch to just make atomisp work
+> > again with the current mainline kernel. Thus, prefixed with [BUG][RFC].
+> > 
+> > RFC:
+> >   1. When looking at the `case CI_MODE_NONE:`, it tries to do something.
+> >      So, it should rather work with CI_MODE_NONE, too? Just I don't know
+> >      how to configure userspace apps to use CI_MODE_NONE ?
+> >   2. How can we re-add the run mode support again without relying on
+> >      the s_parm ?
+> > 
+> > > 8-----------------------------------------------------------------8<  
+> > 
+> > After the commit 8a7c5594c020 ("media: v4l2-ioctl: clear fields in s_parm")
+> > added on v4.18 (backported to v4.9.182 and v4.14.127), the capture mode
+> > flag is cleared (except for V4L2_MODE_HIGHQUALITY).
+> > 
+> > Due to this, it seems that now we can't use this flag to set atomisp
+> > run_mode. This results in capture not working with the following message
+> > (loaded atomisp driver with dbg_level=1):
+> > 
+> > 	kern  :warn  : [ 3658.776616] ia_css_pipe_get_info: ia_css_stream_create needs to be called before ia_css_[stream/pipe]_get_info
+> > 	kern  :err   : [ 3658.776641] atomisp-isp2 0000:00:03.0: get_frame_info 1920x1080 (padded to 0)
+> > 	kern  :warn  : [ 3658.776666] atomisp-isp2 0000:00:03.0: Can't set format on ISP. Error -22
+> > 
+> > So, when we can't detect run mode from the s_parm capturemode
+> > (CI_MODE_NONE), let's assume the run mode is PREVIEW.
 > 
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 8 +++-----
->  drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
->  include/media/hevc-ctrls.h                                | 6 ++----
->  4 files changed, 7 insertions(+), 11 deletions(-)
+> The run_mode on this driver is related to how camera works on Android.
+> On such systems, camera have a preview mode, which is what the user
+> views at the camera display. This is usually set to the display
+> resolution (or to some other resolution that would allow a high
+> fps rate). When the photo button is clicked, it sets the camera to
+> the highest resolution mode (by default), which usually means a low
+> fps rate.
+
+Thank you for the description. I always wondered why they needed to
+introduce run mode stuff.
+
+> This doesn't make much sense on desktops, nor standard Linux apps
+> support that.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index e141f0e4eec9..38da33e61c3d 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3166,11 +3166,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->  	:c:func:`v4l2_timeval_to_ns()` function to convert the struct
->  	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
->      * - __u8
-> -      - ``rps``
-> -      - The reference set for the reference frame
-> -        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
-> -        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
-> -        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
-> +      - ``flags``
-> +      - Long term flag for the reference frame
-> +        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->      * - __u8
->        - ``field_pic``
->        - Whether the reference is a field picture or a frame.
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/
-staging/media/hantro/hantro_g2_hevc_dec.c
-> index 76a921163b9a..bbf71dcea099 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -445,7 +445,7 @@ static int set_ref(struct hantro_ctx *ctx)
->  		chroma_addr = luma_addr + cr_offset;
->  		mv_addr = luma_addr + mv_offset;
->  
-> -		if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
-> +		if (dpb[i].flags == 
-V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->  			dpb_longterm_e |= 
-BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
->  
->  		hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/
-staging/media/sunxi/cedrus/cedrus_h265.c
-> index 3d9561d4aadb..1edfc3823a57 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -169,7 +169,7 @@ static void cedrus_h265_ref_pic_list_write(struct 
-cedrus_dev *dev,
->  		unsigned int index = list[i];
->  		u8 value = list[i];
->  
-> -		if (dpb[index].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
-> +		if (dpb[index].flags == 
-V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
-
-Flags are usually checked with "&", same goes in Hantro case.
-
-Once all fixed, this patch is:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
->  			value |= 
-VE_DEC_H265_SRAM_REF_PIC_LIST_LT_REF;
->  
->  		/* Each SRAM word gathers up to 4 references. */
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index ef63bc205756..01ccda48d8c5 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -127,15 +127,13 @@ struct v4l2_ctrl_hevc_pps {
->  	__u64	flags;
->  };
->  
-> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE	0x01
-> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER	0x02
-> -#define V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR		0x03
-> +#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
->  
->  #define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
->  
->  struct v4l2_hevc_dpb_entry {
->  	__u64	timestamp;
-> -	__u8	rps;
-> +	__u8	flags;
->  	__u8	field_pic;
->  	__u16	pic_order_cnt[2];
->  	__u8	padding[2];
-> -- 
-> 2.30.2
+> Anyway, after looking on this patch, I guess the best is to apply
+> this patch instead:
 > 
+> 	https://lore.kernel.org/linux-media/543e61dd07c90a7d8577b3a94696edc77953b9d8.1635497370.git.mchehab+huawei@kernel.org/T/#u
 > 
+> As a plus side, it is also one step further to allow generic apps to
+> use the atomisp driver.
+> 
+> Applying it allowed me to do:
+> 
+> 	$ v4l2grab -D -f 'NV12' -x 1600 -y 1200 -d /dev/video2 -u
+> 	$ nvt/raw2pnm -x1600 -y1200 -f NV12 out017.raw out017.pnm
+> 	$ feh out017.pnm
+> 
+> So, I'm dropping patch 1/5 from media_stage, replacing it by the one which
+> sets the mode after open().
 
+Sorry for a bit late reply, I checked the capture functionality with the
+latest media_stage patches and can confirm capture is still working
+regarding this run_mode issue.
+
+So, I agree to replace this my patch with yours. Thanks!
+
+Regards,
+Tsuchiya Yuto
+
+> Regards,
+> Mauro
+> 
+> > 
+> > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
+> > ---
+> >  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> > index c8a625667e81..6fc64f0ccc31 100644
+> > --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> > +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+> > @@ -2638,7 +2638,11 @@ static int atomisp_s_parm(struct file *file, void *fh,
+> >  				asd->high_speed_mode = true;
+> >  		}
+> >  
+> > -		goto out;
+> > +		dev_warn(isp->dev,
+> > +			 "setting run_mode using s_parm capturemode is not supported anymore\n");
+> > +		dev_warn(isp->dev, "assuming run_mode is PREVIEW\n");
+> > +		mode = ATOMISP_RUN_MODE_PREVIEW;
+> > +		break;
+> >  	}
+> >  	case CI_MODE_VIDEO:
+> >  		mode = ATOMISP_RUN_MODE_VIDEO;
 
