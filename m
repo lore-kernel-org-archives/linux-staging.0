@@ -1,103 +1,108 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CA52C81
-	for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 12:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145FF2C81
+	for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 13:18:38 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id p17so8005886pgj.2
+        for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 05:18:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1636720919; x=1668256919;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6b3Ahxznat5ujnRBMDh/a85SJI/8DYg1lG8FShPSmHM=;
-  b=mgG1wC8yva8P+5bok6q28bVRAc9tIRGh2ZQ75Zu4xmSTWaZ4u7c6pPfu
-   IpqlG6DDWsfK/3zc1OKQRAksZW1PGlvJDo6I3+UgarA2xC5OuXYQf1qT0
-   90Ip/gYuUCTNxVVZkpQwkuebsP9R0tmB/QxUcCYIHTxXBzLW/Ysp6hLpD
-   iTrAAsmX/VBYgoIRl3KA8jGjleixmjEUP7Ca5mH+0MXeiFZiO9ZBG8+kS
-   2DoBQBPLOTUvBBD1RkEf58+ALYnmMlbXjM/WbveDthWOeZU4UlpmBY2z1
-   5eQbnZyV4ifXtPg+YvmnvEas3feB3fSpbxyONfa5yAQC2U/TBK24bhCv9
-   w==;
-X-IronPort-AV: E=Sophos;i="5.87,229,1631570400"; 
-   d="scan'208";a="20444716"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 12 Nov 2021 13:40:46 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Fri, 12 Nov 2021 13:40:46 +0100
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Fri, 12 Nov 2021 13:40:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1636720846; x=1668256846;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6b3Ahxznat5ujnRBMDh/a85SJI/8DYg1lG8FShPSmHM=;
-  b=XRV05SVfOykSncq34ympLg86+qas7D1Gm93f8t4Lpgs1WNL2VrBtWpj6
-   6gFyRrgQWuxWjKevXlYO/u+QCiuhGrs4jq5P2Vw2K0p/rNhfFErCIttru
-   b8zxNEKVRioMRtoxJZsduQFhtWtEgwHTPKRwkuSkyNfMclcU2zsT1qpsK
-   P6HzLU26Sk88P9pImSfnjJJHPqxrxFjTZS3AufcuIrfYGZl1LrBo8SGp9
-   Egz+bXcbC/4APeQn03SfdpWsheqPBhsDyM1PJZuRYQYq1vDCgjszJFJZP
-   2XfHDalkiXTRqRfzHYsHJ2ED3HY8i9r2JRK2Ui0KJytxvHrm4IZEM3N1K
-   A==;
-X-IronPort-AV: E=Sophos;i="5.87,229,1631570400"; 
-   d="scan'208";a="20444714"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 12 Nov 2021 13:40:46 +0100
-Received: from steina-w (unknown [10.123.49.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2327D280065;
-	Fri, 12 Nov 2021 13:40:46 +0100 (CET)
-Message-ID: <44e674de003a8b8ebce908cebf5ea35f32ddd6ab.camel@ew.tq-group.com>
-Subject: Re: (EXT) [BUG] media: imx: imx7-media-csi issue with vb2 is
- hanging / freezing the system
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>, 
- laurent.pinchart@ideasonboard.com, rmfrfs@gmail.com, slongerbeam@gmail.com,
-  p.zabel@pengutronix.de, mchehab@kernel.org
-Cc: linux-imx@nxp.com, kernel@puri.sm, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Date: Fri, 12 Nov 2021 13:40:43 +0100
-In-Reply-To: <ab8929d22461300f0f167ab44e1b5c902dde5fcd.camel@puri.sm>
-References: <ab8929d22461300f0f167ab44e1b5c902dde5fcd.camel@puri.sm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AJJvgLkaj1ldPKqgEqYsJV1bKUGA/M9apuGLSVBki7o=;
+        b=nThlzJQiU2cDw+giTSlT/gHFuBTPFIBTNttRtPpKK+ymN6AbOn8NfOcsQKpVaAwv4r
+         RCMoTrVlDXVHSHEgW4xHXLJssjj0o5cswunHtVrDlk/PWSQvY79fYnYlkqhYQOFDX6g8
+         wjpl1eBVwUpjZJXn36ueF9xt7aVBfKuNhwy19d+HpRlWAck9Abp2J6WuJ+qdQbnVGgq7
+         i4JuuPxa5vbNVgZsod0gxUuxpa+BBaJN1cGUVkibC1eeMb08Hm/21LK1eA9NJZIFu5cJ
+         dgMFbcv/fUYZ1xI3LpLGp7CChxy4pt+fE15wSqiQJfM3Mr+P3UIO4yUZg4mtxjmyVEql
+         Xt5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AJJvgLkaj1ldPKqgEqYsJV1bKUGA/M9apuGLSVBki7o=;
+        b=nAJFj3kaJGZncZUEgnzWH+bXpwYLiPQtX/1uP16rWR3Kja42X+zy9JKzw7ZGtwEunp
+         k5O8GKGDdU0XDnMbkPKdN27XMIzVz6EuFpzs42M1l/N4j9XvCu26oaClNmRgDf/b+Tzt
+         zW75wqCqZsyBF/4MQ+tykn4Rfg0rb6VYo9bqxNRX2bPKy9tfqWvSnh7N8r5nTOXLsMOi
+         FMVvZQrxNS4rA0Z1mhFZrBi6Q91cni7u1tlWhtaD6l5VVIipcrzIOM1PrBDkEQw9gtmQ
+         NA2ZKXCJ24q6zWAOS502BUj4v6lpg7ct2CznzNujECcQuUzF6FOVfO1oIP2zEhcx+8Dm
+         3JjA==
+X-Gm-Message-State: AOAM5306aY7nvkpEsq2Xb7n+a//XEMRPF6MzprredEYFR7BZKwCHowDV
+	chwHF5BF5znf331VJVUzka0=
+X-Google-Smtp-Source: ABdhPJzjHBEzYfDkyhbnLuvks7Kb1S7Cqymv/Ya//rLQbl6y5ZfIne/bW6SHIhFuCrR6wzqO+3cv+w==
+X-Received: by 2002:a05:6a00:a10:b0:412:448c:89c7 with SMTP id p16-20020a056a000a1000b00412448c89c7mr13568800pfh.83.1636723117570;
+        Fri, 12 Nov 2021 05:18:37 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id a13sm6983537pfv.99.2021.11.12.05.18.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Nov 2021 05:18:37 -0800 (PST)
+From: cgel.zte@gmail.com
+X-Google-Original-From: deng.changcheng@zte.com.cn
+To: phil@philpotter.co.uk
+Cc: Larry.Finger@lwfinger.net,
+	straube.linux@gmail.com,
+	linux@roeck-us.net,
+	martin@kaiser.cx,
+	dan.carpenter@oracle.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Changcheng Deng <deng.changcheng@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] staging: r8188eu: remove unneeded variable
+Date: Fri, 12 Nov 2021 13:18:30 +0000
+Message-Id: <20211112131830.11418-1-deng.changcheng@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello Martin,
+From: Changcheng Deng <deng.changcheng@zte.com.cn>
 
-Am Freitag, dem 12.11.2021 um 12:23 +0100 schrieb Martin Kepplinger:
-> hi Laurent and all who it may concern,
-> 
-> Ever since I switches to using imx7-media-csi on imx8mq I have seen a
-> bug that hangs /freezes the system so that I can't really save a trace
-> or get logs for it. It happens not every time when starting streaming,
-> but sometimes - when starting to stream frames.
-> 
-> It kind of looks like a lock not released or something similar, but
-> some race condition might happen since it's happening every 2 to 10
-> times.
-> 
-> For me, when it fails, it fails the first time when starting to stream
-> after rebooting. If it succeeds that first time, it continues to
-> succeed, until I reboot.
+Fix the following coccicheck review:
+./drivers/staging/r8188eu/core/rtw_ap.c: 1094: 5-8: Unneeded variable
 
-When I read your description I was immediately reminded to this post on
-NXP forums [1].
-I do not know if this is what is happening to you, but it sounds
-somewhat similar. There is also an errata in post [2] describing some
-backgrounds. Later posts also describe that apparently only CSI port 1
-is affected, but CSI port 2 is not.
-Do you have the possibility to test CSI port 2?
+Remove unneeded variable used to store return value.
 
-Best regards,
-Alexander
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+---
+ drivers/staging/r8188eu/core/rtw_ap.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-[1] https://community.nxp.com/t5/i-MX-Processors/IMX8MQ-MIPI-CSI2-Base-address-switching-change-error/m-p/1218063
-[2] https://community.nxp.com/t5/i-MX-Processors/IMX8MQ-MIPI-CSI2-Base-address-switching-change-error/m-p/1216509/highlight/true#M167970
+diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+index c78feeb9c862..d103a92ee2f1 100644
+--- a/drivers/staging/r8188eu/core/rtw_ap.c
++++ b/drivers/staging/r8188eu/core/rtw_ap.c
+@@ -1091,7 +1091,6 @@ u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
+ int rtw_sta_flush(struct adapter *padapter)
+ {
+ 	struct list_head *phead, *plist;
+-	int ret = 0;
+ 	struct sta_info *psta = NULL;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+@@ -1101,7 +1100,7 @@ int rtw_sta_flush(struct adapter *padapter)
+ 	DBG_88E(FUNC_NDEV_FMT"\n", FUNC_NDEV_ARG(padapter->pnetdev));
+ 
+ 	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
+-		return ret;
++		return 0;
+ 
+ 	spin_lock_bh(&pstapriv->asoc_list_lock);
+ 	phead = &pstapriv->asoc_list;
+@@ -1124,7 +1123,7 @@ int rtw_sta_flush(struct adapter *padapter)
+ 
+ 	associated_clients_update(padapter, true);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ /* called > TSR LEVEL for USB or SDIO Interface*/
+-- 
+2.25.1
 
