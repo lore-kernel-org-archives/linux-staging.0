@@ -1,134 +1,87 @@
-Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89332C82
-	for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 11:32:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by comms.puri.sm (Postfix) with ESMTP id 8A8FBDFA6F;
-	Fri, 12 Nov 2021 03:23:35 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id F1GOtOt6xPQQ; Fri, 12 Nov 2021 03:23:34 -0800 (PST)
-Message-ID: <ab8929d22461300f0f167ab44e1b5c902dde5fcd.camel@puri.sm>
-Subject: [BUG] media: imx: imx7-media-csi issue with vb2 is hanging /
- freezing the system
-From: Martin Kepplinger <martin.kepplinger@puri.sm>
-To: laurent.pinchart@ideasonboard.com, rmfrfs@gmail.com,
- slongerbeam@gmail.com,  p.zabel@pengutronix.de, mchehab@kernel.org
-Cc: linux-imx@nxp.com, kernel@puri.sm, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Date: Fri, 12 Nov 2021 12:23:29 +0100
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186612C82
+	for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 12:03:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB4E460F5B;
+	Fri, 12 Nov 2021 12:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636718622;
+	bh=ffeYzujj/IeBGfwFbKhdA6/Hu6ySBnlErnYWQnW5ztg=;
+	h=Date:From:Cc:Subject:In-Reply-To:References:From;
+	b=Pa/P6Mjt6y0jGRIeUabLvDYYvZmYYeesUzo/AKHgFTDLjZTNuyr2obUPEhqzx1dku
+	 HfYlYiq8eXB92REdHRNGxEaDRPhrai69Yx3BUrzfAJskyU/kdCq8/Qan4CSCIzgs4h
+	 csHzZQnHIRUiaXH6afxAMDKnorG/KghISaar+4X3b/nVPAjjdI5Ya8ptalZTS4z4B1
+	 ea0r2bzvIRY+6LTjxFX4c2v9gVl6Bx5CDl8B4Vr8vk3H+mBLFchOvwpuMWFqiJfrdd
+	 YYyzT5YQdn0J6S3H2W6P3sKc6Cdeb7m8SWpaaNTSo4iWU3kl2oLuW+J5QjnnGXWRCV
+	 lI3P09jhsOOjg==
+Date: Fri, 12 Nov 2021 12:03:35 +0000
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Bhaskar Chowdhury
+ <unixbhaskar@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>, Deepak R
+ Varma <drv@mailo.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Hans de Goede
+ <hdegoede@redhat.com>, Ingo Molnar <mingo@kernel.org>, Kaixu Xia
+ <kaixuxia@tencent.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Peter
+ Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Tsuchiya Yuto <kitakar@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/3] atomisp: add support for enum frame rate and sizes
+Message-ID: <20211112120335.74e437db@sal.lan>
+In-Reply-To: <cover.1636651027.git.mchehab+huawei@kernel.org>
+References: <cover.1636651027.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-hi Laurent and all who it may concern,
+Em Thu, 11 Nov 2021 17:27:55 +0000
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Ever since I switches to using imx7-media-csi on imx8mq I have seen a
-bug that hangs /freezes the system so that I can't really save a trace
-or get logs for it. It happens not every time when starting streaming,
-but sometimes - when starting to stream frames.
+> Adding support for those two ioctls are trivial, and allow testing
+> different resolutions with the driver.
+> 
+> Together with some improvements I made at camorama, it is now
+> possible to change the atomisp sensor's resolution at the GUI.
+> 
+> Talking about camorama, I also added there an option to disable
+> the Gtk cairo_scale() calls. On my tests here, placing ov2680 on
+> its maximum resolution, I'm getting a framerate of 26 fps, which
+> sounds reasonable, as the maximum would be 30fps, and I'm not
+> using daylight.
+> 
+> When letting cairo_scale() to run, the rate reduces to 8 fps, meaning 
+> that Gtk is not using GPU acceleration.
+> 
+> Funny enough, when resolution is lower, atomisp is giving a very
+> bad framerate (around 3fps, even with the scaler disabled).
+> 
+> This is a very weird result, probably indicating some problems inside
+> the driver. That requires further investigation.
 
-It kind of looks like a lock not released or something similar, but
-some race condition might happen since it's happening every 2 to 10
-times.
+Ok, when the sensor's resolution is not the highest one, what happens is
+that  the frame is retrieved via some timeout logic:
 
-For me, when it fails, it fails the first time when starting to stream
-after rebooting. If it succeeds that first time, it continues to
-succeed, until I reboot.
+[10447.865064] ov2680 i2c-OVTI2680:00: ov2680_s_stream one
+[10447.865491] atomisp-isp2 0000:00:03.0: timeout recovery handling done
+[10450.029956] atomisp-isp2 0000:00:03.0: [WARNING]asd 0 pipe ATOMISP ISP PREVIEW output ISP timeout 1!
+[10450.030099] atomisp-isp2 0000:00:03.0: pipe on asd0 timeout cnt: (0, 0, 1, 0) of 2, recover = 1
+[10450.030137] atomisp-isp2 0000:00:03.0: pipe on asd1 timeout cnt: (0, 0, 0, 0) of 2, recover = 1
 
-The last logs I can see currently in the failing case are
+It sounds that it can't properly detect the end of frame when the
+sensor is not on its highest resolution.
 
-[   37.811693] videobuf2_common: [cap-00000000e2303470]
-__setup_offsets: buffer 0, plane 0 offset 0x00000000
-[   37.824161] videobuf2_common: [cap-00000000e2303470]
-__setup_offsets: buffer 1, plane 0 offset 0x003d0000
-[   37.836844] videobuf2_common: [cap-00000000e2303470]
-__setup_offsets: buffer 2, plane 0 offset 0x007a0000
-[   37.849406] videobuf2_common: [cap-00000000e2303470]
-__setup_offsets: buffer 3, plane 0 offset 0x00b70000
-[   37.860091] videobuf2_common: [cap-00000000e2303470]
-__vb2_queue_alloc: allocated 4 buffers, 1 plane(s) each
-[   37.870770] videobuf2_common: [cap-00000000e2303470] vb2_mmap:
-buffer 0, plane 0 successfully mapped
-[   37.880155] videobuf2_common: [cap-00000000e2303470] vb2_mmap:
-buffer 1, plane 0 successfully mapped
-[   37.889532] videobuf2_common: [cap-00000000e2303470] vb2_mmap:
-buffer 2, plane 0 successfully mapped
-[   37.898880] videobuf2_common: [cap-00000000e2303470] vb2_mmap:
-buffer 3, plane 0 successfully mapped
-[   37.908127] videobuf2_common: [cap-00000000e2303470] vb2_core_qbuf:
-qbuf of buffer 0 succeeded
-[   37.916949] videobuf2_common: [cap-00000000e2303470] vb2_core_qbuf:
-qbuf of buffer 1 succeeded
-[   37.925659] videobuf2_common: [cap-00000000e2303470] vb2_core_qbuf:
-qbuf of buffer 2 succeeded
-[   37.934395] videobuf2_common: [cap-00000000e2303470] vb2_core_qbuf:
-qbuf of buffer 3 succeeded
-[   38.077613] videobuf2_common: [cap-00000000e2303470]
-vb2_core_streamon: successful
-[   38.085523] videobuf2_common: [cap-00000000e2303470]
-__vb2_wait_for_done_vb: will sleep waiting for buffers
+Basically atomisp_wdt_work() is triggered by a 
+IA_CSS_EVENT_TYPE_FW_ASSERT event. Identifying why this is happening 
+is not trivial, though.
 
-
-but sometimes I see it hang a few lines later:
-
-[   60.996573] videobuf2_common: [cap-00000000eb3bac3a]
-__vb2_wait_for_done_vb: will sleep waiting for b
-uffers
-[   61.048564] imx7_csi_vb2_buf_done: start
-[   61.052514] videobuf2_common: vb2_buffer_done: start
-[   61.057478] videobuf2_common: [cap-00000000eb3bac3a]
-vb2_buffer_done: done processing on buffer 0, st
-ate: done
-[   61.067479] videobuf2_common: [cap-00000000eb3bac3a]
-__vb2_buf_mem_finish: call_memop(0, finish)
-[   61.076268] videobuf2_common: vb2_buffer_done: waking up done_wq
-
-
-the vb2 logs with advanced debugging preceding these, are identical in
-the success and failing case.
-
-With the exact same sensor driver but the nxp CSI driver
-https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er
-is never happened (and the mipi driver is most likely not the issue
-since it's controller config that should be exactly the same as well).
-
-In the success case then imx7_csi_vb2_buf_done() gets called then.
-
-I'm quite confident now that it's a bug in imx7-media-csi since it uses
-the buffers.
-
-So what's happening? I really don't yet know. Any idea?
-
-thank you,
-
-                                 martin
-
-
-
-and the success case continues like so (with some more debug prints
-that in mainline):
-
-[   26.493415] videobuf2_common: [cap-00000000500f079b]
-__vb2_wait_for_done_vb: will sleep waiting for b
-uffers
-[   26.531273] imx7_csi_vb2_buf_done: start
-[   26.535238] videobuf2_common: [cap-00000000500f079b]
-vb2_buffer_done: done processing on buffer 0, st
-ate: done
-[   26.545261] videobuf2_common: vb2_buffer_done: waking up done_wq
-[   26.551284] imx_media_capture_device_next_buf: start
-[   26.551294] videobuf2_common: [cap-00000000500f079b]
-__vb2_wait_for_done_vb: loop done
-[   26.556259] imx_media_capture_device_next_buf: ok
-[   26.563269] imx7_csi_vb2_buf_done: start
-
-and so on
+Regards,
+Mauro
 
