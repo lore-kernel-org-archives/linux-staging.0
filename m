@@ -1,224 +1,94 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9559968
-	for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 15:27:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id 792291F468FA
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1636730837; bh=UXwhMqo4N1Gr7wTS4OacurKlvf/9JDhk5sRSjPG6EFg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=G8EDI1w6VKBVFq54/QJoLhkIjiSLsi2wLlqHBPm/5dC+j/7eg+JdX0qmNqqoI0flB
-	 B+PpH6ixZIN6NmZAvNjC4hvcvKZLMzMqbJx4WlqAA9V8xb+2QQJjq0n2F/i7Rbc5u2
-	 yo/Wn6JiUJcLsirjtabfZ4MjctSSU1p2JljV0Op8L8pd6i9fnlf88Z1MvcErpiv2a0
-	 LVvOK3MhYBtGisqGSRm7agXJofNS/Iayu3mAUp9H9RBGQvYp2Z7A5MShjA5a9/gfkV
-	 GNy6v1PlYuocQstkJvM1ShHlPB9/Gj+sWRlV+lz5FazWA0DBTXoZkZTWMog6v20B7d
-	 v9wBlBlX4YaLA==
-Message-ID: <2e57a3ae9d76ae4484b84ba358cd3bae0931c875.camel@collabora.com>
-Subject: Re: [PATCH v7 00/11] VP9 codec V4L2 control interface
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Andrzej Pietrasiewicz
-	 <andrzej.p@collabora.com>, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>,  Fabio Estevam <festevam@gmail.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner
- <heiko@sntech.de>, Jernej Skrabec <jernej.skrabec@gmail.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Philipp Zabel
- <p.zabel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
- <shawnguo@kernel.org>, kernel@collabora.com
-Date: Fri, 12 Nov 2021 10:27:02 -0500
-In-Reply-To: <b86785db-4f93-5804-d848-125d9077a8c7@xs4all.nl>
-References: <20210929160439.6601-1-andrzej.p@collabora.com>
-	 <b86785db-4f93-5804-d848-125d9077a8c7@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53FF72
+	for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 16:31:07 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id d11so19600341ljg.8
+        for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 08:31:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=10KMDDU+DaSIDbG4KLnwkKUabZtwZOoBI/YHPLaepm8=;
+        b=lYNoIGAzCqLDgiOPcZXWaYhuk/NMieSo8L8NBUujzpvCzpizz14ynUgsIxWJcABFNm
+         Cq0aN7F7xjXniy9tNJkGxfAqeNdm0h95Gcs227oq6Voho3VXszHNiDQQnMxEFIymhbs9
+         zAChlzCteZjM3TczYklsTCBRn+3oS0q+HCHSpN5DttFGk88SLrxEmH9ZGmOYEQ5QzBs0
+         r6SWULmqSbHlM02KHy2gVbLsVL7Bzegy9tkGPnX0RTjbPNelawMPoNOygkXtfEK1qWAa
+         gRMSx7cZe70hHKC1TLbq7ivHgpWakRWBp/AdYGxFhptGD17yl+gMNQOgbA5Y8pZegw8Z
+         Jt9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=10KMDDU+DaSIDbG4KLnwkKUabZtwZOoBI/YHPLaepm8=;
+        b=XSpBNT1F6bYkrkHlovcLw+8FmQiUBJUmBoFNxCxJ1K9ROG6DLuKmDeZY+91QyWGyku
+         Jz4ycT1vzVJdEpKgyWmtEEx8mCFKA6VRJQ0Nic0fdoCKdSZnIFsckn4XZ/VCDBTCOyTV
+         SPfqMTsz5yNYs03JCJoDyvgnoWlMcPStR51T2AIMe2GX+s/rl4yiAIzrwkUGUK4y1ILW
+         Zf1gfn/A3frlsTsnf77IqUTEibBAJI6UKGvG5Nau1K0GfhfkgI7lol0Gto4DGiu1x+Aj
+         mlqI0yilgZMpB/kuDjr58V2KoHjnNp9wgMPAOb1E1O5+hNDDCF/QAgGkcQ8QkUIIdtK+
+         ST/w==
+X-Gm-Message-State: AOAM533AHiL4obbmpqj22Ah5jNduGucI+Naje5jcjv+LVNn2GZbWCWB3
+	kc4sWw5mcbQfrYx44AcvCGU=
+X-Google-Smtp-Source: ABdhPJwvss7U2lYl+ogC+1ZI1w3j7qlIWufbl8KUwKR9aUXGd9w3OK2jiJR1ZGGt8o4ZhFSXp2nmAQ==
+X-Received: by 2002:a05:651c:891:: with SMTP id d17mr16605087ljq.199.1636734665752;
+        Fri, 12 Nov 2021 08:31:05 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.224.112])
+        by smtp.gmail.com with ESMTPSA id n3sm600479ljc.92.2021.11.12.08.31.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Nov 2021 08:31:05 -0800 (PST)
+Message-ID: <afe0a4bb-c6fe-8eeb-6077-dde7839537e9@gmail.com>
+Date: Fri, 12 Nov 2021 19:31:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH] staging: r8188eu: remove unneeded variable
+Content-Language: en-US
+To: cgel.zte@gmail.com, phil@philpotter.co.uk
+Cc: Larry.Finger@lwfinger.net, straube.linux@gmail.com, linux@roeck-us.net,
+ martin@kaiser.cx, dan.carpenter@oracle.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Changcheng Deng <deng.changcheng@zte.com.cn>,
+ Zeal Robot <zealci@zte.com.cn>
+References: <20211112131830.11418-1-deng.changcheng@zte.com.cn>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20211112131830.11418-1-deng.changcheng@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
-
-Le jeudi 11 novembre 2021 à 15:44 +0100, Hans Verkuil a écrit :
-> Hi all,
+On 11/12/21 16:18, cgel.zte@gmail.com wrote:
+> From: Changcheng Deng <deng.changcheng@zte.com.cn>
 > 
-> Andrzej, Jernej, Nicolas, if none of you (or anyone else for that matter)
-> objects, then I'll make a PR for this early next week.
-
-I have no objection. I've myself delayed replying as we have been digging a lot
-into our compliance failures, but I believe we have explained most of them by
-now and nothing seems to be related to the API.
-
-regards,
-Nicolas
-
+> Fix the following coccicheck review:
+> ./drivers/staging/r8188eu/core/rtw_ap.c: 1094: 5-8: Unneeded variable
 > 
-> Regards,
+> Remove unneeded variable used to store return value.
 > 
-> 	Hans
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+> ---
+>   drivers/staging/r8188eu/core/rtw_ap.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> On 29/09/2021 18:04, Andrzej Pietrasiewicz wrote:
-> > Dear all,
-> > 
-> > This patch series adds VP9 codec V4L2 control interface and two drivers
-> > using the new controls. It is a follow-up of previous v6 series [1].
-> > 
-> > In this iteration, we've implemented VP9 hardware decoding on two devices:
-> > Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
-> > The i.MX8M driver needs proper power domains support, though, which is a
-> > subject of a different effort, but in all 3 cases we were able to run the
-> > drivers.
-> > 
-> > GStreamer support is also available, the needed changes have been submitted
-> > by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
-> > VP9 V4L2 controls to be merged and released.
-> > 
-> > Both rkvdec and hantro drivers are passing a significant number of VP9 tests
-> > using Fluster[3]. There are still a few tests that are not passing, due to
-> > dynamic frame resize (not yet supported by V4L2) and small size videos
-> > (due to IP block limitations).
-> > 
-> > The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
-> > merged without passing through staging, as agreed[4]. The ABI has been checked
-> > for padding and verified to contain no holes.
-> > 
-> > [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=6377
-> > [2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
-> > [3] https://github.com/fluendo/fluster
-> > [4] https://lore.kernel.org/linux-media/b8f83c93-67fd-09f5-9314-15746cbfdc61@xs4all.nl/
-> > 
-> > The series depends on the YUV tiled format support prepared by Ezequiel:
-> > https://www.spinics.net/lists/linux-media/msg197047.html
-> > 
-> > Rebased onto latest media_tree.
-> > 
-> > Changes related to v6:
-> > - moved setting tile filter and tile bsd auxiliary buffer addresses so
-> > that they are always set, even if no tiles are used (thanks, Jernej)
-> > - added a comment near the place where the 32-bit DMA mask is applied
-> >   (thanks, Nicolas)
-> > - improved consistency in register names (thanks, Nicolas)
-> > 
-> > Changes related to v5:
-> > - improved the doc comments as per Ezequiel's review (thanks, Ezequiel)
-> > - improved pdf output of documentation
-> > - added Benjamin's Reviewed-by (thanks, Benjamin)
-> > 
-> > Changes related to v4:
-> > - removed unused enum v4l2_vp9_intra_prediction_mode
-> > - converted remaining enums to defines to follow the convention
-> > - improved the documentation, in particular better documented how to use segmentation 
-> > features
-> > 
-> > Changes related to v3:
-> > 
-> > Apply suggestions from Jernej's review (thanks, Jernej):
-> > - renamed a control and two structs:
-> > 	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR_PROBS =>
-> > 		V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR
-> > 	v4l2_ctrl_vp9_compressed_hdr_probs =>
-> > 		v4l2_ctrl_vp9_compressed_hdr
-> > 	v4l2_vp9_mv_compressed_hdr_probs => v4l2_vp9_mv_probs
-> > - moved tx_mode to v4l2_ctrl_vp9_compressed_hdr
-> > - fixed enum v4l2_vp9_ref_frame_sign_bias values (which are used to test a bitfield)
-> > - explicitly assigned values to all other vp9 enums
-> > 
-> > Apply suggestion from Nicolas's review (thanks, Nicolas):
-> > - explicitly stated that the v4l2_ctrl_vp9_compressed_hdr control is optional
-> > and implemented only by drivers which need it
-> > 
-> > Changes related to the RFC v2:
-> > 
-> > - added another driver including a postprocessor to de-tile
-> >         codec-specific tiling
-> > - reworked uAPI structs layout to follow VP8 style
-> > - changed validation of loop filter params
-> > - changed validation of segmentation params
-> > - changed validation of VP9 frame params
-> > - removed level lookup array from loop filter struct
-> >         (can be computed by drivers)
-> > - renamed some enum values to match the spec more closely
-> > - V4L2 VP9 library changed the 'eob' member of
-> >         'struct v4l2_vp9_frame_symbol_counts' so that it is an array
-> >         of pointers instead of an array of pointers to arrays
-> >         (IPs such as g2 creatively pass parts of the 'eob' counts in
-> >         the 'coeff' counts)
-> > - factored out several repeated portions of code
-> > - minor nitpicks and cleanups
-> > 
-> > Andrzej Pietrasiewicz (6):
-> >   media: uapi: Add VP9 stateless decoder controls
-> >   media: Add VP9 v4l2 library
-> >   media: hantro: Rename registers
-> >   media: hantro: Prepare for other G2 codecs
-> >   media: hantro: Support VP9 on the G2 core
-> >   media: hantro: Support NV12 on the G2 core
-> > 
-> > Boris Brezillon (1):
-> >   media: rkvdec: Add the VP9 backend
-> > 
-> > Ezequiel Garcia (4):
-> >   hantro: postproc: Fix motion vector space size
-> >   hantro: postproc: Introduce struct hantro_postproc_ops
-> >   hantro: Simplify postprocessor
-> >   hantro: Add quirk for NV12/NV12_4L4 capture format
-> > 
-> >  .../userspace-api/media/v4l/biblio.rst        |   10 +
-> >  .../media/v4l/ext-ctrls-codec-stateless.rst   |  573 +++++
-> >  .../media/v4l/pixfmt-compressed.rst           |   15 +
-> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
-> >  .../media/v4l/vidioc-queryctrl.rst            |   12 +
-> >  .../media/videodev2.h.rst.exceptions          |    2 +
-> >  drivers/media/v4l2-core/Kconfig               |    4 +
-> >  drivers/media/v4l2-core/Makefile              |    1 +
-> >  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  180 ++
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    8 +
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
-> >  drivers/media/v4l2-core/v4l2-vp9.c            | 1850 +++++++++++++++++
-> >  drivers/staging/media/hantro/Kconfig          |    1 +
-> >  drivers/staging/media/hantro/Makefile         |    7 +-
-> >  drivers/staging/media/hantro/hantro.h         |   40 +-
-> >  drivers/staging/media/hantro/hantro_drv.c     |   23 +-
-> >  drivers/staging/media/hantro/hantro_g2.c      |   27 +
-> >  .../staging/media/hantro/hantro_g2_hevc_dec.c |   69 +-
-> >  drivers/staging/media/hantro/hantro_g2_regs.h |  132 +-
-> >  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  980 +++++++++
-> >  drivers/staging/media/hantro/hantro_hw.h      |   83 +-
-> >  .../staging/media/hantro/hantro_postproc.c    |   79 +-
-> >  drivers/staging/media/hantro/hantro_v4l2.c    |   20 +
-> >  drivers/staging/media/hantro/hantro_vp9.c     |  240 +++
-> >  drivers/staging/media/hantro/hantro_vp9.h     |  103 +
-> >  drivers/staging/media/hantro/imx8m_vpu_hw.c   |   38 +-
-> >  .../staging/media/hantro/rockchip_vpu_hw.c    |    7 +-
-> >  .../staging/media/hantro/sama5d4_vdec_hw.c    |    3 +-
-> >  drivers/staging/media/rkvdec/Kconfig          |    1 +
-> >  drivers/staging/media/rkvdec/Makefile         |    2 +-
-> >  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1078 ++++++++++
-> >  drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
-> >  drivers/staging/media/rkvdec/rkvdec.h         |   12 +-
-> >  include/media/v4l2-ctrls.h                    |    4 +
-> >  include/media/v4l2-vp9.h                      |  182 ++
-> >  include/uapi/linux/v4l2-controls.h            |  284 +++
-> >  include/uapi/linux/videodev2.h                |    6 +
-> >  37 files changed, 6033 insertions(+), 104 deletions(-)
-> >  create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_g2.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_vp9.c
-> >  create mode 100644 drivers/staging/media/hantro/hantro_vp9.h
-> >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
-> >  create mode 100644 include/media/v4l2-vp9.h
-> > 
-> > 
-> > base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
-> > 
-> 
+> diff --git a/drivers/staging/r8188eu/core/rtw_ap.c b/drivers/staging/r8188eu/core/rtw_ap.c
+> index c78feeb9c862..d103a92ee2f1 100644
+> --- a/drivers/staging/r8188eu/core/rtw_ap.c
+> +++ b/drivers/staging/r8188eu/core/rtw_ap.c
+> @@ -1091,7 +1091,6 @@ u8 ap_free_sta(struct adapter *padapter, struct sta_info *psta,
+>   int rtw_sta_flush(struct adapter *padapter)
+>   {
+>   	struct list_head *phead, *plist;
+> -	int ret = 0;
 
+
+None of the existing callers check the return value of this function. 
+Make it void, please.
+
+
+
+With regards,
+Pavel Skripkin
