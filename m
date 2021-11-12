@@ -1,46 +1,36 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2165268
-	for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 20:35:56 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id d3so17597202wrh.8
-        for <linux-staging@lists.linux.dev>; Fri, 12 Nov 2021 12:35:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=AqcWsB4FWsDe7NHoJQPl1nKY3ysaIWoyuuUKqbGAI8g=;
-        b=KD3fbgaV7gB2zXLga6vyVGVVkU7K1ukFi8NQonPQGzMU7UPcam3Lfs8Kyp2DmMCvIi
-         lqETXH4W6lXnQt+erNZlTrO74J2ZeYDutpUTETrr0GD0GAWXZOtfGU5hBwm8ogeiTEho
-         eF1RhpANij+aPBoh9u/c9jGwOZofXzhk/O+SVIdroqtbZW8/U1vo4/2dQoNOZDq7/5oY
-         LbMXH2FIXk9646FcqlDrUXKzlUJ9Z/6N2ok5h2ZYZJ4Vr6nfce6cJ95uuHmnquZFEC3M
-         bDmk2HrrtvQOr0Asi5kaDx7R8Msrd/UHjNhzlcRhqhJNjY+Qdai5Ccgq/laVbQoOI2d8
-         glOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=AqcWsB4FWsDe7NHoJQPl1nKY3ysaIWoyuuUKqbGAI8g=;
-        b=0R2nBJfM7Q4Ias73btYBOeSMoAafzHaCOvk+sIbuREjOTnsWyKSA7PBKik2Sow0LIM
-         BN8arR3/epEVgwEvjKNS03GUUqbB4y6gGXXNeViHea97P7z+KuU2k1fKk+F/9++vrnO1
-         w8NJbRV4SrZkb/u6ahKVY/+KKadndU/ffPZZO9hK2zsXB0XN6mmzk7ZsVMi+RNbkOLsy
-         RKa5EnvP3p+AfBuUrEp46TVJGS78P2xq653jyPmFlvtuW3Cz1Kgg9Iv8dX9KtvaQIEQr
-         /I4QQPVjuadRxNt1IMZ7DOQEE7kaRudXfqIJEtsdDudDxThh06smR9q5/QHWCjhTCCa3
-         Ac3w==
-X-Gm-Message-State: AOAM5319B3UH1TDpps3klPSbypaQoIaFeCy5Y3dvXvkAEH4NssKGaOop
-	3XvlHy6F8WaMO78NexS8aD9OaPGy9SRR+ygwVx4=
-X-Google-Smtp-Source: ABdhPJziy67H9U4oVkLu5CNIyS2L77x2s3BhfkCVR7qKMk9U93dlvycZuPjh1aENvWpu+GnWTqtqJA==
-X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr22449256wrq.94.1636749354227;
-        Fri, 12 Nov 2021 12:35:54 -0800 (PST)
-Received: from desktop (mob-5-90-199-106.net.vodafone.it. [5.90.199.106])
-        by smtp.gmail.com with ESMTPSA id t1sm7791363wre.32.2021.11.12.12.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Nov 2021 12:35:53 -0800 (PST)
-Date: Fri, 12 Nov 2021 21:35:52 +0100
-From: Gabriel Goller <gabrielgoller123@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev
-Subject: [PATCH] staging: wlan-ng: Removed unused comments
-Message-ID: <YY7QKNB7egKuTC36@desktop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD4C68;
+	Fri, 12 Nov 2021 20:43:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D7F960E98;
+	Fri, 12 Nov 2021 20:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636749838;
+	bh=44Grebjtn08PPJK53+7UCVpYeLQZNqJn0FxDmRp79Uw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=P0anhKlJK4yFjNGc3nDLR600JzbqH3mRSg/M7qQspD4r1KQQpQ8/0VI6fnk4CZ0xA
+	 G7Ap62puS0BBr5VE2xqL5wZPWYBxiXTuWhT2rNjDF0s3kab8wWngTw1k8jTn4cFB6O
+	 GrCUc6CuisQO0JHvn/79ujd72TCavoJEY6ald8UEjkLXuuLqA91BAFiFZyCDjODezv
+	 3i/58hp/WVdH1qNqJ0GILJ62GzCHLOfZEWct4DB9GB30xEI8cDPmC/a8clHM08XZHn
+	 k8F1Yi7sqc2um3rm4gFeTJ0p7KLycIVNciZHrmooeWjcZSVv/j0b+TI9+MVUihSA/x
+	 NXlS0pUFPCkAg==
+Date: Fri, 12 Nov 2021 13:43:53 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linuxarm@huawei.com, mauro.chehab@huawei.com,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH 1/3] media: ipu3: drop an unused variable
+Message-ID: <YY7SCZ7jAu2RVYvN@archlinux-ax161>
+References: <cover.1636672052.git.mchehab+huawei@kernel.org>
+ <990224a5610af19f790d0ec2ebe0610e3b38cf00.1636672052.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,35 +39,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <990224a5610af19f790d0ec2ebe0610e3b38cf00.1636672052.git.mchehab+huawei@kernel.org>
 
-Removed commented-out code pieces that are unnecessary.
+On Thu, Nov 11, 2021 at 11:08:51PM +0000, Mauro Carvalho Chehab wrote:
+> Fix this clang Werror with W=1:
+> 
+> 	drivers/staging/media/ipu3/ipu3-css-params.c:774:8: error: variable 'pin_scale' set but not used [-Werror,-Wunused-but-set-variable]
+> 	                        int pin_scale = 0;
+> 	                            ^
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Signed-off-by: Gabriel Goller <gabrielgoller123@gmail.com>
----
- drivers/staging/wlan-ng/prism2mib.c | 8 --------
- 1 file changed, 8 deletions(-)
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-diff --git a/drivers/staging/wlan-ng/prism2mib.c b/drivers/staging/wlan-ng/prism2mib.c
-index 24ba10d6bd0b..fcf8313870af 100644
---- a/drivers/staging/wlan-ng/prism2mib.c
-+++ b/drivers/staging/wlan-ng/prism2mib.c
-@@ -679,16 +679,8 @@ static int prism2mib_priv(struct mibrec *mib,
- 					       HFA384x_RID_CNFWPADATA,
- 					       (u8 *)&wpa,
- 					       sizeof(wpa));
--			/*
--			pstr->len = le16_to_cpu(wpa.datalen);
--			memcpy(pstr->data, wpa.data, pstr->len);
--			*/
- 			pstr->len = 0;
- 		} else {
--			/*
--			wpa.datalen = cpu_to_le16(pstr->len);
--			memcpy(wpa.data, pstr->data, pstr->len);
--			*/
- 			wpa.datalen = 0;
- 
- 			hfa384x_drvr_setconfig(hw,
--- 
-2.30.2
-
+> ---
+> 
+> To mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 0/3] at: https://lore.kernel.org/all/cover.1636672052.git.mchehab+huawei@kernel.org/
+> 
+>  drivers/staging/media/ipu3/ipu3-css-params.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
+> index e9d6bd9e9332..d9e3c3785075 100644
+> --- a/drivers/staging/media/ipu3/ipu3-css-params.c
+> +++ b/drivers/staging/media/ipu3/ipu3-css-params.c
+> @@ -771,7 +771,6 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
+>  		 */
+>  		{
+>  			unsigned int i;
+> -			int pin_scale = 0;
+>  			/*Input resolution */
+>  
+>  			stripe_params[s].input_width = stripe_input_width_y;
+> @@ -791,8 +790,6 @@ static int imgu_css_osys_calc_frame_and_stripe_params(
+>  						reso.pin_height[i];
+>  					stripe_params[s].output_offset[i] =
+>  						stripe_offset_out_y;
+> -
+> -					pin_scale += frame_params[i].scaled;
+>  				} else {
+>  					/* Unscaled pin */
+>  					stripe_params[s].output_width[i] =
+> -- 
+> 2.33.1
+> 
+> 
