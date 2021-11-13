@@ -1,89 +1,125 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C251D2C83
-	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 09:16:37 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id g14so47668667edz.2
-        for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 01:16:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F272C83
+	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 10:21:32 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id r4so420835edy.12
+        for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 02:21:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VfAYhPiwiwiyvWNQSEKAcTZOlquJvGTWd5nN82HonzY=;
-        b=OVYHPNyZQS4RAhJEu5In/BmBPAq2bL60W3U0uzA9hwqeKqzykSGLHOVPGJrWwcFxWM
-         Z4kyIsqfW48FsgvE9bc2vQWAncYeaDjiwM9C9eioXkCJcaNH6Sudf57eRUWPBr4oyfMV
-         0q1EazDu3swCwOhOmoozGcokrawI/agIvjPGi2gkqanFT6Bs08oi29xGMJdHojXfIh5R
-         9IZDbsux96ItRjB2ZbyV0NfYDB6dCknBqipHhubOQrIVLA1yiB0jDWTIRpE47DB8OlUs
-         AEH3QK8rpPXChun5pOZWqfDMd5G1uSnLCKxLvE533za4hXmpNaSJHLWwuavpTrTXa2HL
-         jLNw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ecovIr3cgAtR+3fYnJ5+gVzcYeZtoVQWk0eRWV5BA60=;
+        b=dF9S9AHlGYB4O2sQGUKorbkrzvOWrHQ864io9IZdPvNyyFCmx0ngbxjFMrChpU2nQF
+         Euh+Q9zczwVLex0vzFLldVyQkfF/IQvXtqUN8nJSxD7TZ0zp+/lQJeh62jRwHED/M9Bz
+         hwnMMdGEjbGcMYwPPn7lgu4r7hqlDWXPK92i8FIXYnjBebeu1w388o7Pvi+RWgdZ/SZS
+         6Ntc/vKkhTII0SEulIIIbPhehb1bCtdeiWnCBc73uHYfjMBdsFG6wgV7yXNr8VfOnldf
+         iAwCcDDrG0b3SQul1PxebtwDWdO4PXW55BK4jmVuZeE7wRKEmBcjKMhT8RyYuY+MRL6/
+         R9Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VfAYhPiwiwiyvWNQSEKAcTZOlquJvGTWd5nN82HonzY=;
-        b=QCZct86un6ExiHqQAXReDSXmAw+W6lskNx7GYAek8eZlZ/woYH6yO6Df+j/HdnlkHJ
-         bAnn9DDFXhS/gnc9zKAKRNyk37TYvCxhyFqNueDQi+XpqvClW24m+kM3QcNJo2ZOhDe2
-         hsKZfom7P4JSvVglmTIdiF923TzbN7yljTq/l9RKqBbomiKzFcJZqNpuOd0eyuOlvsgF
-         ovH1vu3Zlrjr78mgXd6zVKF8YsyJPoEUzC5yo4pgY9s5FKrGZhCzTL0/Vq797JHwfYY3
-         B+lztKMNi0l/iDt2AAG/1Ow5UusFx5HmrQvAVXbxIsLPSXlHn4xwgr9nx59elfJF29y+
-         bvbw==
-X-Gm-Message-State: AOAM530/LmKaONol9WeKNuNyc9qd1vjbIa1RKM6KgNBFJAZiyFlORewn
-	0rheU4+UDgmkh+GBMOqM57A=
-X-Google-Smtp-Source: ABdhPJycnBdI30jFWyXBWYhK2yOWovViuMMV3gucOqpnXhqXIKcibg3kN66CzbX1mmxbxRmMetfP8w==
-X-Received: by 2002:a17:906:4fc8:: with SMTP id i8mr27483703ejw.342.1636794996097;
-        Sat, 13 Nov 2021 01:16:36 -0800 (PST)
-Received: from tom-desktop (net-93-150-197-192.cust.vodafonedsl.it. [93.150.197.192])
-        by smtp.gmail.com with ESMTPSA id cw20sm3443714ejc.32.2021.11.13.01.16.34
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ecovIr3cgAtR+3fYnJ5+gVzcYeZtoVQWk0eRWV5BA60=;
+        b=4RpM2mPi01tnknQF54fu+W/hlccgHuCb1rDUz4dmKbGNpfEsj4Pa9bDPrvsUvJNmIx
+         58njj0fneZ30nPWom3L2lSSFmGjWEp80PMXSKGfgjgqZ8MLW57x1Xvo3Aqr4/sHYWOsi
+         x4x8/ywWilplilr4IEvhTxELZswdG7OjrqQC0Om/QdD2GITh/Wfq65LJFa40VFKNX/YP
+         Lf/1TcQcQkcLPaZ9N9Clmc7wYmI2T0Mu7w5lQF/H1E2Vu0UI7z4j1arrOKwUTVQHzs/M
+         k5x3vw0MbjZYtSAhfmtvGsYzdjXFemnSVQpgPsoqHtflQncuMiSoBG6EFDhiELbtydZS
+         F7QA==
+X-Gm-Message-State: AOAM530qH4Quelf9seghKDuZSgavN+f9/xTA8uzlXjdecCcKQCgjetqn
+	KlpD0NksAfTrCJ9gQb4h0Io=
+X-Google-Smtp-Source: ABdhPJxdk/MUFzyatk1yugomiILDuKYPh2gffhsNDkiSVq+0zSdCeo00SkxCGyahxRx2o9siG2mrqg==
+X-Received: by 2002:a17:907:72c7:: with SMTP id du7mr28654805ejc.424.1636798891363;
+        Sat, 13 Nov 2021 02:21:31 -0800 (PST)
+Received: from tom-desktop.station (net-93-150-197-192.cust.dsl.teletu.it. [93.150.197.192])
+        by smtp.gmail.com with ESMTPSA id e19sm4212840edu.47.2021.11.13.02.21.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Nov 2021 01:16:35 -0800 (PST)
-Date: Sat, 13 Nov 2021 10:16:33 +0100
+        Sat, 13 Nov 2021 02:21:30 -0800 (PST)
 From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
+To: 
+Cc: tomm.merciai@gmail.com,
+	Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
 	Lucas Henneman <lucas.henneman@linaro.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: vt6655: fix camelcase byData in card.c
-Message-ID: <20211113091633.GA16307@tom-desktop>
-References: <20211106184822.24242-1-tomm.merciai@gmail.com>
- <dfa9d7734dfc64263b30f29b4d23aab7d0683089.camel@perches.com>
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Karolina Drobnik <karolinadrobnik@gmail.com>,
+	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vt6655: fix camelcase in bRadioOff
+Date: Sat, 13 Nov 2021 11:21:20 +0100
+Message-Id: <20211113102126.82904-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dfa9d7734dfc64263b30f29b4d23aab7d0683089.camel@perches.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 06, 2021 at 12:06:30PM -0700, Joe Perches wrote:
-> On Sat, 2021-11-06 at 19:48 +0100, Tommaso Merciai wrote:
-> > Replace camelcase variable "byData" into linux kernel coding style
-> > equivalent variable "data" in card.c.
-> > "by" prefix in hungarian notation stands for byte or unsigned char
-> []
-> > diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
-> []
-> > @@ -194,15 +194,15 @@ bool CARDbSetPhyParameter(struct vnt_private *priv, u8 bb_type)
-> >  			priv->abyBBVGA[0] = 0x20;
-> >  			priv->abyBBVGA[2] = 0x10;
-> >  			priv->abyBBVGA[3] = 0x10;
-> > -			bb_read_embedded(priv, 0xE7, &byData);
-> > -			if (byData == 0x1C)
-> > +			bb_read_embedded(priv, 0xE7, &data);
-> 
-> It might be nice to figure out what these register values are
-> and use #defines instead of hard coded values like 0xE7
-  
-  Hi Joe,
-  Thanks, I'm going to investigate these numbers.
+Replace camel case variable bRadioOff with snake case
+variable radio_off.
+Drop Hungarian notation prefix in `bRadioOff` variable.
+Change it to use snake case.
 
-  tommaso
-> 
-> > +			if (data == 0x1C)
-> >  				bb_write_embedded(priv, 0xE7, priv->abyBBVGA[0]);
-> 
-> etc...
-> 
+Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+---
+ drivers/staging/vt6655/card.c        | 4 ++--
+ drivers/staging/vt6655/device.h      | 2 +-
+ drivers/staging/vt6655/device_main.c | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/vt6655/card.c b/drivers/staging/vt6655/card.c
+index 26e08fec6e6a..eac7c234f9db 100644
+--- a/drivers/staging/vt6655/card.c
++++ b/drivers/staging/vt6655/card.c
+@@ -404,7 +404,7 @@ bool CARDbSetBeaconPeriod(struct vnt_private *priv,
+  */
+ void CARDbRadioPowerOff(struct vnt_private *priv)
+ {
+-	if (priv->bRadioOff)
++	if (priv->radio_off)
+ 		return;
+ 
+ 	switch (priv->byRFType) {
+@@ -429,7 +429,7 @@ void CARDbRadioPowerOff(struct vnt_private *priv)
+ 
+ 	bb_set_deep_sleep(priv, priv->local_id);
+ 
+-	priv->bRadioOff = true;
++	priv->radio_off = true;
+ 	pr_debug("chester power off\n");
+ 	MACvRegBitsOn(priv->port_offset, MAC_REG_GPIOCTL0,
+ 		      LED_ACTSET);  /* LED issue */
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 4706bde1ec1d..3768791d9744 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -221,7 +221,7 @@ struct vnt_private {
+ 	bool bBarkerPreambleMd;
+ 
+ 	bool bRadioControlOff;
+-	bool bRadioOff;
++	bool radio_off;
+ 	bool bEnablePSMode;
+ 	unsigned short wListenInterval;
+ 	bool bPWBitOn;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 212d2a287b2c..e74caf22d75a 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -369,7 +369,7 @@ static void device_init_registers(struct vnt_private *priv)
+ 	/* Set Short Slot Time, xIFS, and RSPINF. */
+ 	priv->wCurrentRate = RATE_54M;
+ 
+-	priv->bRadioOff = false;
++	priv->radio_off = false;
+ 
+ 	priv->byRadioCtl = SROMbyReadEmbedded(priv->port_offset,
+ 					      EEP_OFS_RADIOCTL);
+-- 
+2.25.1
+
