@@ -1,48 +1,48 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695132C83
-	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 19:20:50 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id r9-20020a7bc089000000b00332f4abf43fso9071687wmh.0
-        for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 11:20:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFCC2C82
+	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 19:20:51 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id f7-20020a1c1f07000000b0032ee11917ceso9277555wmf.0
+        for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 11:20:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qjO9N2q9ff6f4F5Pyq9e/3teYLDvLSYv0TvUuQBHOHs=;
-        b=NodCEScbr25fCiIjjfo/8MoF0alftpy+v9IJR3fD/JujYtxLDOcdbq1AuuaHiXb8Wr
-         a7yask7BnnZcuFVYqCzzQsVEF3D3OjHvPjToYKXRVFwindA09Q/oxI/OcWNS0uIQ647J
-         LqkIzCzugUE1Aj2r1TsZ2mTLuPdhoiYaDXd84unQ1Mw+yeA4ZwENk7rP2ryJCpIYj9sC
-         GJ9Wns2h6sbb7V3UYwa4qet0/j6OZcj5I8eK4aVpjYfelvwSKQw4f9iR1kqUCSAQVuCF
-         IKs7jl60EXlYWQMU6LrlNRsnGkvdSyJuXQW9gl3L7OiaOr+QQf3Os44taBEqdyEVyZLa
-         RAEA==
+        bh=KZH5dV/Dy1jC1w/KsjqpifyOI9are8/M2m16RShO7T8=;
+        b=JVMkVeag1VEuPmB+qZHd3j7ySZ4VfVfiUfeC+eldBVX40F82B6QnRKpMpR7Vd0KPhN
+         bWJW7WINbrCij6CS6hT66ex1mk7TJX3sfJVNhC//qvoqgdYpirpxr3DowZX0ULx9nJjA
+         zo6rRcqpSBB+uRaTqU9l3IGw3KcbxjE2rVjObHGFMqWj/IGivpNM0kPl2Hw3RaSq7XJj
+         bPEw9ASl8zHj1taJAsUImCnhWO1dpMFKxP5KcA1ILausDEHZSoeU7lMWcRwVeAH8cIMV
+         aK1Jc7Fj51+B6NRjTyGLJUUTfIwUo2KcMYha4vmmKz75eIFf0OMB8L0KZY+WoJywnPTk
+         Rl2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qjO9N2q9ff6f4F5Pyq9e/3teYLDvLSYv0TvUuQBHOHs=;
-        b=diD+cn8nanYDvVuwAcWQoNk7y9MnOCiPUGXJX+yq3oBO6JvnZn72Ps5UZPjd1eZo3k
-         MlSmZJ+7EBX709mdbWj3be32yL1R9Kyw8VvheTm19dknuw9oLBLXfheUWlT6aaR07APu
-         e3uRUA6CoSTD4hb+eaheQU4rSr+DH9+fOtusaHADjRz2oc4dOvZVvT+kTXB0vNicxPrf
-         w4PvUmui5Ldjd1yHTH1U4iq8LFxM1gTmg21eFaDFnJYnx8ygwy9wyah9xxUsyfanXprP
-         GnyDjqPk30HPsJfRQP8nNjp6exhx89RR/AQi4f8wzwqCzzwodsqAK1fSlMH/ngYDmO5E
-         xx7Q==
-X-Gm-Message-State: AOAM5307mztP53mUWJVSUs8Co18e6VHk6nUN7uBZAon8KWfpiFqCAfK8
-	OM//gYm4AnIGQYdGUNMR/a2EVd3Yjpw=
-X-Google-Smtp-Source: ABdhPJx1o4LLRljzyXY/7vyEpzzMUewCEYX/IsvFvYsER9dgSUvAIEH1InRQjS3NsZNbFVWMFkR4Yw==
-X-Received: by 2002:a7b:ce0f:: with SMTP id m15mr27439968wmc.149.1636831248194;
-        Sat, 13 Nov 2021 11:20:48 -0800 (PST)
+        bh=KZH5dV/Dy1jC1w/KsjqpifyOI9are8/M2m16RShO7T8=;
+        b=MMYKdLZAdD35uz4vEo9SMN1hiwkumJYxqVkM+5QwEHFF1mhN5//CheQ+imW6vLj7tc
+         aAIk9FjJR9xB9gITDd13nSj1nNQMOP8Ko0C89xu7/nx1jZI9VbN/dqBXekbA9J3cRhuz
+         /VuMAEw+dYH3ZrdG3J7dv3sIfcmDIp4Wmx3jq7JPS7ITxkJ6xfA2NmhUDnkoBMgGpp/i
+         WvnMe8L/aUrcvW4CTHAF3NRbALgsPG/3SAubdOjHqcWsM4WSjtcUp+Ak2WnLWhqurO0u
+         Y/nZO/ru9DwShyBSVcPzNn7icQPBuYl8KSkU7rfd9R6PR4ZN4AeWPghRYdVQyxLS8euf
+         Z85A==
+X-Gm-Message-State: AOAM532ZiJ95KpFmo4HBlXMtJYrWzngg6C3Yu3G6vV9+9OHdwF4Ghxds
+	3wLmw53JkVn52nqWyo+1kQQPiAZtXXE=
+X-Google-Smtp-Source: ABdhPJyyQ+B7amLcMhpALYIKkTr2Nc+wz2Rs+lDG1peutd7mJlqSbpp2DUpTGyVpcxrzr9T1K9bW2Q==
+X-Received: by 2002:a05:600c:511c:: with SMTP id o28mr29207000wms.96.1636831249261;
+        Sat, 13 Nov 2021 11:20:49 -0800 (PST)
 Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id g18sm18530442wmq.4.2021.11.13.11.20.47
+        by smtp.gmail.com with ESMTPSA id g18sm18530442wmq.4.2021.11.13.11.20.48
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 13 Nov 2021 11:20:47 -0800 (PST)
+        Sat, 13 Nov 2021 11:20:48 -0800 (PST)
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	neil@brown.name
-Subject: [PATCH 1/3] staging: ralink-gdma: remove driver from tree
-Date: Sat, 13 Nov 2021 20:20:43 +0100
-Message-Id: <20211113192045.32153-2-sergio.paracuellos@gmail.com>
+Subject: [PATCH 2/3] staging: mt7621-dma: remove driver from tree
+Date: Sat, 13 Nov 2021 20:20:44 +0100
+Message-Id: <20211113192045.32153-3-sergio.paracuellos@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211113192045.32153-1-sergio.paracuellos@gmail.com>
 References: <20211113192045.32153-1-sergio.paracuellos@gmail.com>
@@ -55,82 +55,94 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 This driver was a added a time ago and there is no special effort or work
-to clean it and any progress at all to mainline it. Also, the main user of
-this dma controller seems to be 'i2s' in mt7621 SoCs. There is no in-tree
-driver at all for the 'i2s' and its related device tree node has also been
-deleted from main device tree file. Hence, remove this driver also for
-completeness.
+to clean it and any progress at all to mainline it. Also, there is already
+a driver from Mediatek in 'drivers/dma/mediatek/mtk-hsdma.c' which looks
+pretty similar to this. So the way of supporting HSDMA for mt7621 would be
+to modify that driver instead.
 
 Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 ---
  drivers/staging/Kconfig                   |   2 -
  drivers/staging/Makefile                  |   1 -
- drivers/staging/ralink-gdma/Kconfig       |   8 -
- drivers/staging/ralink-gdma/Makefile      |   4 -
- drivers/staging/ralink-gdma/ralink-gdma.c | 917 ----------------------
- 5 files changed, 932 deletions(-)
- delete mode 100644 drivers/staging/ralink-gdma/Kconfig
- delete mode 100644 drivers/staging/ralink-gdma/Makefile
- delete mode 100644 drivers/staging/ralink-gdma/ralink-gdma.c
+ drivers/staging/mt7621-dma/Kconfig        |   7 -
+ drivers/staging/mt7621-dma/Makefile       |   4 -
+ drivers/staging/mt7621-dma/TODO           |   5 -
+ drivers/staging/mt7621-dma/hsdma-mt7621.c | 758 ----------------------
+ 6 files changed, 777 deletions(-)
+ delete mode 100644 drivers/staging/mt7621-dma/Kconfig
+ delete mode 100644 drivers/staging/mt7621-dma/Makefile
+ delete mode 100644 drivers/staging/mt7621-dma/TODO
+ delete mode 100644 drivers/staging/mt7621-dma/hsdma-mt7621.c
 
 diff --git a/drivers/staging/Kconfig b/drivers/staging/Kconfig
-index 59af251e7576..c7ab0210dc4b 100644
+index c7ab0210dc4b..893af6f05e06 100644
 --- a/drivers/staging/Kconfig
 +++ b/drivers/staging/Kconfig
-@@ -88,8 +88,6 @@ source "drivers/staging/pi433/Kconfig"
+@@ -86,8 +86,6 @@ source "drivers/staging/vc04_services/Kconfig"
  
- source "drivers/staging/mt7621-dma/Kconfig"
+ source "drivers/staging/pi433/Kconfig"
  
--source "drivers/staging/ralink-gdma/Kconfig"
+-source "drivers/staging/mt7621-dma/Kconfig"
 -
  source "drivers/staging/mt7621-dts/Kconfig"
  
  source "drivers/staging/axis-fifo/Kconfig"
 diff --git a/drivers/staging/Makefile b/drivers/staging/Makefile
-index 76f413470bc8..f1bee2a864ff 100644
+index f1bee2a864ff..62a86fa2ab2e 100644
 --- a/drivers/staging/Makefile
 +++ b/drivers/staging/Makefile
-@@ -34,7 +34,6 @@ obj-$(CONFIG_GREYBUS)		+= greybus/
+@@ -33,7 +33,6 @@ obj-$(CONFIG_KS7010)		+= ks7010/
+ obj-$(CONFIG_GREYBUS)		+= greybus/
  obj-$(CONFIG_BCM2835_VCHIQ)	+= vc04_services/
  obj-$(CONFIG_PI433)		+= pi433/
- obj-$(CONFIG_SOC_MT7621)	+= mt7621-dma/
--obj-$(CONFIG_DMA_RALINK)	+= ralink-gdma/
+-obj-$(CONFIG_SOC_MT7621)	+= mt7621-dma/
  obj-$(CONFIG_SOC_MT7621)	+= mt7621-dts/
  obj-$(CONFIG_XIL_AXIS_FIFO)	+= axis-fifo/
  obj-$(CONFIG_FIELDBUS_DEV)     += fieldbus/
-diff --git a/drivers/staging/ralink-gdma/Kconfig b/drivers/staging/ralink-gdma/Kconfig
+diff --git a/drivers/staging/mt7621-dma/Kconfig b/drivers/staging/mt7621-dma/Kconfig
 deleted file mode 100644
-index 0017376234e2..000000000000
---- a/drivers/staging/ralink-gdma/Kconfig
+index 54a110288f92..000000000000
+--- a/drivers/staging/mt7621-dma/Kconfig
 +++ /dev/null
-@@ -1,8 +0,0 @@
+@@ -1,7 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0
--config DMA_RALINK
--	tristate "RALINK DMA support"
--	depends on RALINK && !SOC_RT288X
--	depends on DMADEVICES
+-config MTK_HSDMA
+-	tristate "MTK HSDMA support"
+-	depends on RALINK && SOC_MT7621
 -	select DMA_ENGINE
 -	select DMA_VIRTUAL_CHANNELS
 -
-diff --git a/drivers/staging/ralink-gdma/Makefile b/drivers/staging/ralink-gdma/Makefile
+diff --git a/drivers/staging/mt7621-dma/Makefile b/drivers/staging/mt7621-dma/Makefile
 deleted file mode 100644
-index 5c4566b2e405..000000000000
---- a/drivers/staging/ralink-gdma/Makefile
+index 23256d1286f3..000000000000
+--- a/drivers/staging/mt7621-dma/Makefile
 +++ /dev/null
 @@ -1,4 +0,0 @@
 -# SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_DMA_RALINK) += ralink-gdma.o
+-obj-$(CONFIG_MTK_HSDMA) += hsdma-mt7621.o
 -
 -ccflags-y += -I$(srctree)/drivers/dma
-diff --git a/drivers/staging/ralink-gdma/ralink-gdma.c b/drivers/staging/ralink-gdma/ralink-gdma.c
+diff --git a/drivers/staging/mt7621-dma/TODO b/drivers/staging/mt7621-dma/TODO
 deleted file mode 100644
-index b5229bc6eae5..000000000000
---- a/drivers/staging/ralink-gdma/ralink-gdma.c
+index fdbc5002c32a..000000000000
+--- a/drivers/staging/mt7621-dma/TODO
 +++ /dev/null
-@@ -1,917 +0,0 @@
+@@ -1,5 +0,0 @@
+-
+-- general code review and clean up
+-- ensure device-tree requirements are documented
+-
+-Cc: NeilBrown <neil@brown.name>
+diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+deleted file mode 100644
+index 1424d01d434b..000000000000
+--- a/drivers/staging/mt7621-dma/hsdma-mt7621.c
++++ /dev/null
+@@ -1,758 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0+
 -/*
-- *  GDMA4740 DMAC support
+- *  Copyright (C) 2015, Michael Lee <igvtee@gmail.com>
+- *  MTK HSDMA support
 - */
 -
 -#include <linux/dmaengine.h>
@@ -149,397 +161,367 @@ index b5229bc6eae5..000000000000
 -
 -#include "virt-dma.h"
 -
--#define GDMA_REG_SRC_ADDR(x)		(0x00 + (x) * 0x10)
--#define GDMA_REG_DST_ADDR(x)		(0x04 + (x) * 0x10)
+-#define HSDMA_BASE_OFFSET		0x800
 -
--#define GDMA_REG_CTRL0(x)		(0x08 + (x) * 0x10)
--#define GDMA_REG_CTRL0_TX_MASK		0xffff
--#define GDMA_REG_CTRL0_TX_SHIFT		16
--#define GDMA_REG_CTRL0_CURR_MASK	0xff
--#define GDMA_REG_CTRL0_CURR_SHIFT	8
--#define	GDMA_REG_CTRL0_SRC_ADDR_FIXED	BIT(7)
--#define GDMA_REG_CTRL0_DST_ADDR_FIXED	BIT(6)
--#define GDMA_REG_CTRL0_BURST_MASK	0x7
--#define GDMA_REG_CTRL0_BURST_SHIFT	3
--#define	GDMA_REG_CTRL0_DONE_INT		BIT(2)
--#define	GDMA_REG_CTRL0_ENABLE		BIT(1)
--#define GDMA_REG_CTRL0_SW_MODE          BIT(0)
+-#define HSDMA_REG_TX_BASE		0x00
+-#define HSDMA_REG_TX_CNT		0x04
+-#define HSDMA_REG_TX_CTX		0x08
+-#define HSDMA_REG_TX_DTX		0x0c
+-#define HSDMA_REG_RX_BASE		0x100
+-#define HSDMA_REG_RX_CNT		0x104
+-#define HSDMA_REG_RX_CRX		0x108
+-#define HSDMA_REG_RX_DRX		0x10c
+-#define HSDMA_REG_INFO			0x200
+-#define HSDMA_REG_GLO_CFG		0x204
+-#define HSDMA_REG_RST_CFG		0x208
+-#define HSDMA_REG_DELAY_INT		0x20c
+-#define HSDMA_REG_FREEQ_THRES		0x210
+-#define HSDMA_REG_INT_STATUS		0x220
+-#define HSDMA_REG_INT_MASK		0x228
+-#define HSDMA_REG_SCH_Q01		0x280
+-#define HSDMA_REG_SCH_Q23		0x284
 -
--#define GDMA_REG_CTRL1(x)		(0x0c + (x) * 0x10)
--#define GDMA_REG_CTRL1_SEG_MASK		0xf
--#define GDMA_REG_CTRL1_SEG_SHIFT	22
--#define GDMA_REG_CTRL1_REQ_MASK		0x3f
--#define GDMA_REG_CTRL1_SRC_REQ_SHIFT	16
--#define GDMA_REG_CTRL1_DST_REQ_SHIFT	8
--#define GDMA_REG_CTRL1_NEXT_MASK	0x1f
--#define GDMA_REG_CTRL1_NEXT_SHIFT	3
--#define GDMA_REG_CTRL1_COHERENT		BIT(2)
--#define GDMA_REG_CTRL1_FAIL		BIT(1)
--#define GDMA_REG_CTRL1_MASK		BIT(0)
+-#define HSDMA_DESCS_MAX			0xfff
+-#define HSDMA_DESCS_NUM			8
+-#define HSDMA_DESCS_MASK		(HSDMA_DESCS_NUM - 1)
+-#define HSDMA_NEXT_DESC(x)		(((x) + 1) & HSDMA_DESCS_MASK)
 -
--#define GDMA_REG_UNMASK_INT		0x200
--#define GDMA_REG_DONE_INT		0x204
+-/* HSDMA_REG_INFO */
+-#define HSDMA_INFO_INDEX_MASK		0xf
+-#define HSDMA_INFO_INDEX_SHIFT		24
+-#define HSDMA_INFO_BASE_MASK		0xff
+-#define HSDMA_INFO_BASE_SHIFT		16
+-#define HSDMA_INFO_RX_MASK		0xff
+-#define HSDMA_INFO_RX_SHIFT		8
+-#define HSDMA_INFO_TX_MASK		0xff
+-#define HSDMA_INFO_TX_SHIFT		0
 -
--#define GDMA_REG_GCT			0x220
--#define GDMA_REG_GCT_CHAN_MASK		0x3
--#define GDMA_REG_GCT_CHAN_SHIFT		3
--#define GDMA_REG_GCT_VER_MASK		0x3
--#define GDMA_REG_GCT_VER_SHIFT		1
--#define GDMA_REG_GCT_ARBIT_RR		BIT(0)
+-/* HSDMA_REG_GLO_CFG */
+-#define HSDMA_GLO_TX_2B_OFFSET		BIT(31)
+-#define HSDMA_GLO_CLK_GATE		BIT(30)
+-#define HSDMA_GLO_BYTE_SWAP		BIT(29)
+-#define HSDMA_GLO_MULTI_DMA		BIT(10)
+-#define HSDMA_GLO_TWO_BUF		BIT(9)
+-#define HSDMA_GLO_32B_DESC		BIT(8)
+-#define HSDMA_GLO_BIG_ENDIAN		BIT(7)
+-#define HSDMA_GLO_TX_DONE		BIT(6)
+-#define HSDMA_GLO_BT_MASK		0x3
+-#define HSDMA_GLO_BT_SHIFT		4
+-#define HSDMA_GLO_RX_BUSY		BIT(3)
+-#define HSDMA_GLO_RX_DMA		BIT(2)
+-#define HSDMA_GLO_TX_BUSY		BIT(1)
+-#define HSDMA_GLO_TX_DMA		BIT(0)
 -
--#define GDMA_REG_REQSTS			0x2a0
--#define GDMA_REG_ACKSTS			0x2a4
--#define GDMA_REG_FINSTS			0x2a8
+-#define HSDMA_BT_SIZE_16BYTES		(0 << HSDMA_GLO_BT_SHIFT)
+-#define HSDMA_BT_SIZE_32BYTES		(1 << HSDMA_GLO_BT_SHIFT)
+-#define HSDMA_BT_SIZE_64BYTES		(2 << HSDMA_GLO_BT_SHIFT)
+-#define HSDMA_BT_SIZE_128BYTES		(3 << HSDMA_GLO_BT_SHIFT)
 -
--/* for RT305X gdma registers */
--#define GDMA_RT305X_CTRL0_REQ_MASK	0xf
--#define GDMA_RT305X_CTRL0_SRC_REQ_SHIFT	12
--#define GDMA_RT305X_CTRL0_DST_REQ_SHIFT	8
+-#define HSDMA_GLO_DEFAULT		(HSDMA_GLO_MULTI_DMA | \
+-		HSDMA_GLO_RX_DMA | HSDMA_GLO_TX_DMA | HSDMA_BT_SIZE_32BYTES)
 -
--#define GDMA_RT305X_CTRL1_FAIL		BIT(4)
--#define GDMA_RT305X_CTRL1_NEXT_MASK	0x7
--#define GDMA_RT305X_CTRL1_NEXT_SHIFT	1
+-/* HSDMA_REG_RST_CFG */
+-#define HSDMA_RST_RX_SHIFT		16
+-#define HSDMA_RST_TX_SHIFT		0
 -
--#define GDMA_RT305X_STATUS_INT		0x80
--#define GDMA_RT305X_STATUS_SIGNAL	0x84
--#define GDMA_RT305X_GCT			0x88
+-/* HSDMA_REG_DELAY_INT */
+-#define HSDMA_DELAY_INT_EN		BIT(15)
+-#define HSDMA_DELAY_PEND_OFFSET		8
+-#define HSDMA_DELAY_TIME_OFFSET		0
+-#define HSDMA_DELAY_TX_OFFSET		16
+-#define HSDMA_DELAY_RX_OFFSET		0
 -
--/* for MT7621 gdma registers */
--#define GDMA_REG_PERF_START(x)		(0x230 + (x) * 0x8)
--#define GDMA_REG_PERF_END(x)		(0x234 + (x) * 0x8)
+-#define HSDMA_DELAY_INIT(x)		(HSDMA_DELAY_INT_EN | \
+-		((x) << HSDMA_DELAY_PEND_OFFSET))
+-#define HSDMA_DELAY(x)			((HSDMA_DELAY_INIT(x) << \
+-		HSDMA_DELAY_TX_OFFSET) | HSDMA_DELAY_INIT(x))
 -
--enum gdma_dma_transfer_size {
--	GDMA_TRANSFER_SIZE_4BYTE	= 0,
--	GDMA_TRANSFER_SIZE_8BYTE	= 1,
--	GDMA_TRANSFER_SIZE_16BYTE	= 2,
--	GDMA_TRANSFER_SIZE_32BYTE	= 3,
--	GDMA_TRANSFER_SIZE_64BYTE	= 4,
+-/* HSDMA_REG_INT_STATUS */
+-#define HSDMA_INT_DELAY_RX_COH		BIT(31)
+-#define HSDMA_INT_DELAY_RX_INT		BIT(30)
+-#define HSDMA_INT_DELAY_TX_COH		BIT(29)
+-#define HSDMA_INT_DELAY_TX_INT		BIT(28)
+-#define HSDMA_INT_RX_MASK		0x3
+-#define HSDMA_INT_RX_SHIFT		16
+-#define HSDMA_INT_RX_Q0			BIT(16)
+-#define HSDMA_INT_TX_MASK		0xf
+-#define HSDMA_INT_TX_SHIFT		0
+-#define HSDMA_INT_TX_Q0			BIT(0)
+-
+-/* tx/rx dma desc flags */
+-#define HSDMA_PLEN_MASK			0x3fff
+-#define HSDMA_DESC_DONE			BIT(31)
+-#define HSDMA_DESC_LS0			BIT(30)
+-#define HSDMA_DESC_PLEN0(_x)		(((_x) & HSDMA_PLEN_MASK) << 16)
+-#define HSDMA_DESC_TAG			BIT(15)
+-#define HSDMA_DESC_LS1			BIT(14)
+-#define HSDMA_DESC_PLEN1(_x)		((_x) & HSDMA_PLEN_MASK)
+-
+-/* align 4 bytes */
+-#define HSDMA_ALIGN_SIZE		3
+-/* align size 128bytes */
+-#define HSDMA_MAX_PLEN			0x3f80
+-
+-struct hsdma_desc {
+-	u32 addr0;
+-	u32 flags;
+-	u32 addr1;
+-	u32 unused;
 -};
 -
--struct gdma_dma_sg {
+-struct mtk_hsdma_sg {
 -	dma_addr_t src_addr;
 -	dma_addr_t dst_addr;
 -	u32 len;
 -};
 -
--struct gdma_dma_desc {
+-struct mtk_hsdma_desc {
 -	struct virt_dma_desc vdesc;
--
--	enum dma_transfer_direction direction;
--	bool cyclic;
--
--	u32 residue;
 -	unsigned int num_sgs;
--	struct gdma_dma_sg sg[];
+-	struct mtk_hsdma_sg sg[1];
 -};
 -
--struct gdma_dmaengine_chan {
+-struct mtk_hsdma_chan {
 -	struct virt_dma_chan vchan;
 -	unsigned int id;
--	unsigned int slave_id;
--
--	dma_addr_t fifo_addr;
--	enum gdma_dma_transfer_size burst_size;
--
--	struct gdma_dma_desc *desc;
+-	dma_addr_t desc_addr;
+-	int tx_idx;
+-	int rx_idx;
+-	struct hsdma_desc *tx_ring;
+-	struct hsdma_desc *rx_ring;
+-	struct mtk_hsdma_desc *desc;
 -	unsigned int next_sg;
 -};
 -
--struct gdma_dma_dev {
+-struct mtk_hsdam_engine {
 -	struct dma_device ddev;
 -	struct device_dma_parameters dma_parms;
--	struct gdma_data *data;
 -	void __iomem *base;
 -	struct tasklet_struct task;
 -	volatile unsigned long chan_issued;
--	atomic_t cnt;
 -
--	struct gdma_dmaengine_chan chan[];
+-	struct mtk_hsdma_chan chan[1];
 -};
 -
--struct gdma_data {
--	int chancnt;
--	u32 done_int_reg;
--	void (*init)(struct gdma_dma_dev *dma_dev);
--	int (*start_transfer)(struct gdma_dmaengine_chan *chan);
--};
--
--static struct gdma_dma_dev *gdma_dma_chan_get_dev(
--	struct gdma_dmaengine_chan *chan)
+-static inline struct mtk_hsdam_engine *mtk_hsdma_chan_get_dev(struct mtk_hsdma_chan *chan)
 -{
--	return container_of(chan->vchan.chan.device, struct gdma_dma_dev,
--		ddev);
+-	return container_of(chan->vchan.chan.device, struct mtk_hsdam_engine,
+-			ddev);
 -}
 -
--static struct gdma_dmaengine_chan *to_gdma_dma_chan(struct dma_chan *c)
+-static inline struct mtk_hsdma_chan *to_mtk_hsdma_chan(struct dma_chan *c)
 -{
--	return container_of(c, struct gdma_dmaengine_chan, vchan.chan);
+-	return container_of(c, struct mtk_hsdma_chan, vchan.chan);
 -}
 -
--static struct gdma_dma_desc *to_gdma_dma_desc(struct virt_dma_desc *vdesc)
+-static inline struct mtk_hsdma_desc *to_mtk_hsdma_desc(struct virt_dma_desc *vdesc)
 -{
--	return container_of(vdesc, struct gdma_dma_desc, vdesc);
+-	return container_of(vdesc, struct mtk_hsdma_desc, vdesc);
 -}
 -
--static inline uint32_t gdma_dma_read(struct gdma_dma_dev *dma_dev,
--				     unsigned int reg)
+-static inline u32 mtk_hsdma_read(struct mtk_hsdam_engine *hsdma, u32 reg)
 -{
--	return readl(dma_dev->base + reg);
+-	return readl(hsdma->base + reg);
 -}
 -
--static inline void gdma_dma_write(struct gdma_dma_dev *dma_dev,
--				  unsigned int reg, uint32_t val)
+-static inline void mtk_hsdma_write(struct mtk_hsdam_engine *hsdma,
+-				   unsigned int reg, u32 val)
 -{
--	writel(val, dma_dev->base + reg);
+-	writel(val, hsdma->base + reg);
 -}
 -
--static enum gdma_dma_transfer_size gdma_dma_maxburst(u32 maxburst)
+-static void mtk_hsdma_reset_chan(struct mtk_hsdam_engine *hsdma,
+-				 struct mtk_hsdma_chan *chan)
 -{
--	if (maxburst < 2)
--		return GDMA_TRANSFER_SIZE_4BYTE;
--	else if (maxburst < 4)
--		return GDMA_TRANSFER_SIZE_8BYTE;
--	else if (maxburst < 8)
--		return GDMA_TRANSFER_SIZE_16BYTE;
--	else if (maxburst < 16)
--		return GDMA_TRANSFER_SIZE_32BYTE;
--	else
--		return GDMA_TRANSFER_SIZE_64BYTE;
+-	chan->tx_idx = 0;
+-	chan->rx_idx = HSDMA_DESCS_NUM - 1;
+-
+-	mtk_hsdma_write(hsdma, HSDMA_REG_TX_CTX, chan->tx_idx);
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RX_CRX, chan->rx_idx);
+-
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RST_CFG,
+-			0x1 << (chan->id + HSDMA_RST_TX_SHIFT));
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RST_CFG,
+-			0x1 << (chan->id + HSDMA_RST_RX_SHIFT));
 -}
 -
--static int gdma_dma_config(struct dma_chan *c,
--			   struct dma_slave_config *config)
+-static void hsdma_dump_reg(struct mtk_hsdam_engine *hsdma)
 -{
--	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
--	struct gdma_dma_dev *dma_dev = gdma_dma_chan_get_dev(chan);
+-	dev_dbg(hsdma->ddev.dev,
+-		"tbase %08x, tcnt %08x, tctx %08x, tdtx: %08x, rbase %08x, rcnt %08x, rctx %08x, rdtx %08x\n",
+-		mtk_hsdma_read(hsdma, HSDMA_REG_TX_BASE),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_TX_CNT),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_TX_CTX),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_TX_DTX),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_RX_BASE),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_RX_CNT),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_RX_CRX),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_RX_DRX));
 -
--	if (config->device_fc) {
--		dev_err(dma_dev->ddev.dev, "not support flow controller\n");
--		return -EINVAL;
+-	dev_dbg(hsdma->ddev.dev,
+-		"info %08x, glo %08x, delay %08x, intr_stat %08x, intr_mask %08x\n",
+-		mtk_hsdma_read(hsdma, HSDMA_REG_INFO),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_GLO_CFG),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_DELAY_INT),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_INT_STATUS),
+-		mtk_hsdma_read(hsdma, HSDMA_REG_INT_MASK));
+-}
+-
+-static void hsdma_dump_desc(struct mtk_hsdam_engine *hsdma,
+-			    struct mtk_hsdma_chan *chan)
+-{
+-	struct hsdma_desc *tx_desc;
+-	struct hsdma_desc *rx_desc;
+-	int i;
+-
+-	dev_dbg(hsdma->ddev.dev, "tx idx: %d, rx idx: %d\n",
+-		chan->tx_idx, chan->rx_idx);
+-
+-	for (i = 0; i < HSDMA_DESCS_NUM; i++) {
+-		tx_desc = &chan->tx_ring[i];
+-		rx_desc = &chan->rx_ring[i];
+-
+-		dev_dbg(hsdma->ddev.dev,
+-			"%d tx addr0: %08x, flags %08x, tx addr1: %08x, rx addr0 %08x, flags %08x\n",
+-			i, tx_desc->addr0, tx_desc->flags,
+-			tx_desc->addr1, rx_desc->addr0, rx_desc->flags);
+-	}
+-}
+-
+-static void mtk_hsdma_reset(struct mtk_hsdam_engine *hsdma,
+-			    struct mtk_hsdma_chan *chan)
+-{
+-	int i;
+-
+-	/* disable dma */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_GLO_CFG, 0);
+-
+-	/* disable intr */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_INT_MASK, 0);
+-
+-	/* init desc value */
+-	for (i = 0; i < HSDMA_DESCS_NUM; i++) {
+-		chan->tx_ring[i].addr0 = 0;
+-		chan->tx_ring[i].flags = HSDMA_DESC_LS0 | HSDMA_DESC_DONE;
+-	}
+-	for (i = 0; i < HSDMA_DESCS_NUM; i++) {
+-		chan->rx_ring[i].addr0 = 0;
+-		chan->rx_ring[i].flags = 0;
 -	}
 -
--	switch (config->direction) {
--	case DMA_MEM_TO_DEV:
--		if (config->dst_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES) {
--			dev_err(dma_dev->ddev.dev, "only support 4 byte buswidth\n");
--			return -EINVAL;
--		}
--		chan->slave_id = config->slave_id;
--		chan->fifo_addr = config->dst_addr;
--		chan->burst_size = gdma_dma_maxburst(config->dst_maxburst);
--		break;
--	case DMA_DEV_TO_MEM:
--		if (config->src_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES) {
--			dev_err(dma_dev->ddev.dev, "only support 4 byte buswidth\n");
--			return -EINVAL;
--		}
--		chan->slave_id = config->slave_id;
--		chan->fifo_addr = config->src_addr;
--		chan->burst_size = gdma_dma_maxburst(config->src_maxburst);
--		break;
--	default:
--		dev_err(dma_dev->ddev.dev, "direction type %d error\n",
--			config->direction);
--		return -EINVAL;
--	}
+-	/* reset */
+-	mtk_hsdma_reset_chan(hsdma, chan);
 -
--	return 0;
+-	/* enable intr */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_INT_MASK, HSDMA_INT_RX_Q0);
+-
+-	/* enable dma */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_GLO_CFG, HSDMA_GLO_DEFAULT);
 -}
 -
--static int gdma_dma_terminate_all(struct dma_chan *c)
+-static int mtk_hsdma_terminate_all(struct dma_chan *c)
 -{
--	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
--	struct gdma_dma_dev *dma_dev = gdma_dma_chan_get_dev(chan);
--	unsigned long flags, timeout;
+-	struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
+-	struct mtk_hsdam_engine *hsdma = mtk_hsdma_chan_get_dev(chan);
+-	unsigned long timeout;
 -	LIST_HEAD(head);
--	int i = 0;
 -
--	spin_lock_irqsave(&chan->vchan.lock, flags);
+-	spin_lock_bh(&chan->vchan.lock);
 -	chan->desc = NULL;
--	clear_bit(chan->id, &dma_dev->chan_issued);
+-	clear_bit(chan->id, &hsdma->chan_issued);
 -	vchan_get_all_descriptors(&chan->vchan, &head);
--	spin_unlock_irqrestore(&chan->vchan.lock, flags);
+-	spin_unlock_bh(&chan->vchan.lock);
 -
 -	vchan_dma_desc_free_list(&chan->vchan, &head);
 -
 -	/* wait dma transfer complete */
--	timeout = jiffies + msecs_to_jiffies(5000);
--	while (gdma_dma_read(dma_dev, GDMA_REG_CTRL0(chan->id)) &
--			GDMA_REG_CTRL0_ENABLE) {
+-	timeout = jiffies + msecs_to_jiffies(2000);
+-	while (mtk_hsdma_read(hsdma, HSDMA_REG_GLO_CFG) &
+-			(HSDMA_GLO_RX_BUSY | HSDMA_GLO_TX_BUSY)) {
 -		if (time_after_eq(jiffies, timeout)) {
--			dev_err(dma_dev->ddev.dev, "chan %d wait timeout\n",
--				chan->id);
--			/* restore to init value */
--			gdma_dma_write(dma_dev, GDMA_REG_CTRL0(chan->id), 0);
+-			hsdma_dump_desc(hsdma, chan);
+-			mtk_hsdma_reset(hsdma, chan);
+-			dev_err(hsdma->ddev.dev, "timeout, reset it\n");
 -			break;
 -		}
 -		cpu_relax();
--		i++;
 -	}
--
--	if (i)
--		dev_dbg(dma_dev->ddev.dev, "terminate chan %d loops %d\n",
--			chan->id, i);
 -
 -	return 0;
 -}
 -
--static void rt305x_dump_reg(struct gdma_dma_dev *dma_dev, int id)
+-static int mtk_hsdma_start_transfer(struct mtk_hsdam_engine *hsdma,
+-				    struct mtk_hsdma_chan *chan)
 -{
--	dev_dbg(dma_dev->ddev.dev, "chan %d, src %08x, dst %08x, ctr0 %08x, ctr1 %08x, intr %08x, signal %08x\n",
--		id,
--		gdma_dma_read(dma_dev, GDMA_REG_SRC_ADDR(id)),
--		gdma_dma_read(dma_dev, GDMA_REG_DST_ADDR(id)),
--		gdma_dma_read(dma_dev, GDMA_REG_CTRL0(id)),
--		gdma_dma_read(dma_dev, GDMA_REG_CTRL1(id)),
--		gdma_dma_read(dma_dev, GDMA_RT305X_STATUS_INT),
--		gdma_dma_read(dma_dev, GDMA_RT305X_STATUS_SIGNAL));
--}
+-	dma_addr_t src, dst;
+-	size_t len, tlen;
+-	struct hsdma_desc *tx_desc, *rx_desc;
+-	struct mtk_hsdma_sg *sg;
+-	unsigned int i;
+-	int rx_idx;
 -
--static int rt305x_gdma_start_transfer(struct gdma_dmaengine_chan *chan)
--{
--	struct gdma_dma_dev *dma_dev = gdma_dma_chan_get_dev(chan);
--	dma_addr_t src_addr, dst_addr;
--	struct gdma_dma_sg *sg;
--	u32 ctrl0, ctrl1;
+-	sg = &chan->desc->sg[0];
+-	len = sg->len;
+-	chan->desc->num_sgs = DIV_ROUND_UP(len, HSDMA_MAX_PLEN);
 -
--	/* verify chan is already stopped */
--	ctrl0 = gdma_dma_read(dma_dev, GDMA_REG_CTRL0(chan->id));
--	if (unlikely(ctrl0 & GDMA_REG_CTRL0_ENABLE)) {
--		dev_err(dma_dev->ddev.dev, "chan %d is start(%08x).\n",
--			chan->id, ctrl0);
--		rt305x_dump_reg(dma_dev, chan->id);
--		return -EINVAL;
+-	/* tx desc */
+-	src = sg->src_addr;
+-	for (i = 0; i < chan->desc->num_sgs; i++) {
+-		tx_desc = &chan->tx_ring[chan->tx_idx];
+-
+-		if (len > HSDMA_MAX_PLEN)
+-			tlen = HSDMA_MAX_PLEN;
+-		else
+-			tlen = len;
+-
+-		if (i & 0x1) {
+-			tx_desc->addr1 = src;
+-			tx_desc->flags |= HSDMA_DESC_PLEN1(tlen);
+-		} else {
+-			tx_desc->addr0 = src;
+-			tx_desc->flags = HSDMA_DESC_PLEN0(tlen);
+-
+-			/* update index */
+-			chan->tx_idx = HSDMA_NEXT_DESC(chan->tx_idx);
+-		}
+-
+-		src += tlen;
+-		len -= tlen;
+-	}
+-	if (i & 0x1)
+-		tx_desc->flags |= HSDMA_DESC_LS0;
+-	else
+-		tx_desc->flags |= HSDMA_DESC_LS1;
+-
+-	/* rx desc */
+-	rx_idx = HSDMA_NEXT_DESC(chan->rx_idx);
+-	len = sg->len;
+-	dst = sg->dst_addr;
+-	for (i = 0; i < chan->desc->num_sgs; i++) {
+-		rx_desc = &chan->rx_ring[rx_idx];
+-		if (len > HSDMA_MAX_PLEN)
+-			tlen = HSDMA_MAX_PLEN;
+-		else
+-			tlen = len;
+-
+-		rx_desc->addr0 = dst;
+-		rx_desc->flags = HSDMA_DESC_PLEN0(tlen);
+-
+-		dst += tlen;
+-		len -= tlen;
+-
+-		/* update index */
+-		rx_idx = HSDMA_NEXT_DESC(rx_idx);
 -	}
 -
--	sg = &chan->desc->sg[chan->next_sg];
--	if (chan->desc->direction == DMA_MEM_TO_DEV) {
--		src_addr = sg->src_addr;
--		dst_addr = chan->fifo_addr;
--		ctrl0 = GDMA_REG_CTRL0_DST_ADDR_FIXED |
--			(8 << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
--			(chan->slave_id << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
--	} else if (chan->desc->direction == DMA_DEV_TO_MEM) {
--		src_addr = chan->fifo_addr;
--		dst_addr = sg->dst_addr;
--		ctrl0 = GDMA_REG_CTRL0_SRC_ADDR_FIXED |
--			(chan->slave_id << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
--			(8 << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
--	} else if (chan->desc->direction == DMA_MEM_TO_MEM) {
--		/*
--		 * TODO: memcpy function have bugs. sometime it will copy
--		 * more 8 bytes data when using dmatest verify.
--		 */
--		src_addr = sg->src_addr;
--		dst_addr = sg->dst_addr;
--		ctrl0 = GDMA_REG_CTRL0_SW_MODE |
--			(8 << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
--			(8 << GDMA_REG_CTRL1_DST_REQ_SHIFT);
--	} else {
--		dev_err(dma_dev->ddev.dev, "direction type %d error\n",
--			chan->desc->direction);
--		return -EINVAL;
--	}
--
--	ctrl0 |= (sg->len << GDMA_REG_CTRL0_TX_SHIFT) |
--		 (chan->burst_size << GDMA_REG_CTRL0_BURST_SHIFT) |
--		 GDMA_REG_CTRL0_DONE_INT | GDMA_REG_CTRL0_ENABLE;
--	ctrl1 = chan->id << GDMA_REG_CTRL1_NEXT_SHIFT;
--
--	chan->next_sg++;
--	gdma_dma_write(dma_dev, GDMA_REG_SRC_ADDR(chan->id), src_addr);
--	gdma_dma_write(dma_dev, GDMA_REG_DST_ADDR(chan->id), dst_addr);
--	gdma_dma_write(dma_dev, GDMA_REG_CTRL1(chan->id), ctrl1);
--
--	/* make sure next_sg is update */
+-	/* make sure desc and index all up to date */
 -	wmb();
--	gdma_dma_write(dma_dev, GDMA_REG_CTRL0(chan->id), ctrl0);
+-	mtk_hsdma_write(hsdma, HSDMA_REG_TX_CTX, chan->tx_idx);
 -
 -	return 0;
 -}
 -
--static void rt3883_dump_reg(struct gdma_dma_dev *dma_dev, int id)
--{
--	dev_dbg(dma_dev->ddev.dev, "chan %d, src %08x, dst %08x, ctr0 %08x, ctr1 %08x, unmask %08x, done %08x, req %08x, ack %08x, fin %08x\n",
--		id,
--		gdma_dma_read(dma_dev, GDMA_REG_SRC_ADDR(id)),
--		gdma_dma_read(dma_dev, GDMA_REG_DST_ADDR(id)),
--		gdma_dma_read(dma_dev, GDMA_REG_CTRL0(id)),
--		gdma_dma_read(dma_dev, GDMA_REG_CTRL1(id)),
--		gdma_dma_read(dma_dev, GDMA_REG_UNMASK_INT),
--		gdma_dma_read(dma_dev, GDMA_REG_DONE_INT),
--		gdma_dma_read(dma_dev, GDMA_REG_REQSTS),
--		gdma_dma_read(dma_dev, GDMA_REG_ACKSTS),
--		gdma_dma_read(dma_dev, GDMA_REG_FINSTS));
--}
--
--static int rt3883_gdma_start_transfer(struct gdma_dmaengine_chan *chan)
--{
--	struct gdma_dma_dev *dma_dev = gdma_dma_chan_get_dev(chan);
--	dma_addr_t src_addr, dst_addr;
--	struct gdma_dma_sg *sg;
--	u32 ctrl0, ctrl1;
--
--	/* verify chan is already stopped */
--	ctrl0 = gdma_dma_read(dma_dev, GDMA_REG_CTRL0(chan->id));
--	if (unlikely(ctrl0 & GDMA_REG_CTRL0_ENABLE)) {
--		dev_err(dma_dev->ddev.dev, "chan %d is start(%08x).\n",
--			chan->id, ctrl0);
--		rt3883_dump_reg(dma_dev, chan->id);
--		return -EINVAL;
--	}
--
--	sg = &chan->desc->sg[chan->next_sg];
--	if (chan->desc->direction == DMA_MEM_TO_DEV) {
--		src_addr = sg->src_addr;
--		dst_addr = chan->fifo_addr;
--		ctrl0 = GDMA_REG_CTRL0_DST_ADDR_FIXED;
--		ctrl1 = (32 << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
--			(chan->slave_id << GDMA_REG_CTRL1_DST_REQ_SHIFT);
--	} else if (chan->desc->direction == DMA_DEV_TO_MEM) {
--		src_addr = chan->fifo_addr;
--		dst_addr = sg->dst_addr;
--		ctrl0 = GDMA_REG_CTRL0_SRC_ADDR_FIXED;
--		ctrl1 = (chan->slave_id << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
--			(32 << GDMA_REG_CTRL1_DST_REQ_SHIFT) |
--			GDMA_REG_CTRL1_COHERENT;
--	} else if (chan->desc->direction == DMA_MEM_TO_MEM) {
--		src_addr = sg->src_addr;
--		dst_addr = sg->dst_addr;
--		ctrl0 = GDMA_REG_CTRL0_SW_MODE;
--		ctrl1 = (32 << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
--			(32 << GDMA_REG_CTRL1_DST_REQ_SHIFT) |
--			GDMA_REG_CTRL1_COHERENT;
--	} else {
--		dev_err(dma_dev->ddev.dev, "direction type %d error\n",
--			chan->desc->direction);
--		return -EINVAL;
--	}
--
--	ctrl0 |= (sg->len << GDMA_REG_CTRL0_TX_SHIFT) |
--		 (chan->burst_size << GDMA_REG_CTRL0_BURST_SHIFT) |
--		 GDMA_REG_CTRL0_DONE_INT | GDMA_REG_CTRL0_ENABLE;
--	ctrl1 |= chan->id << GDMA_REG_CTRL1_NEXT_SHIFT;
--
--	chan->next_sg++;
--	gdma_dma_write(dma_dev, GDMA_REG_SRC_ADDR(chan->id), src_addr);
--	gdma_dma_write(dma_dev, GDMA_REG_DST_ADDR(chan->id), dst_addr);
--	gdma_dma_write(dma_dev, GDMA_REG_CTRL1(chan->id), ctrl1);
--
--	/* make sure next_sg is update */
--	wmb();
--	gdma_dma_write(dma_dev, GDMA_REG_CTRL0(chan->id), ctrl0);
--
--	return 0;
--}
--
--static inline int gdma_start_transfer(struct gdma_dma_dev *dma_dev,
--				      struct gdma_dmaengine_chan *chan)
--{
--	return dma_dev->data->start_transfer(chan);
--}
--
--static int gdma_next_desc(struct gdma_dmaengine_chan *chan)
+-static int gdma_next_desc(struct mtk_hsdma_chan *chan)
 -{
 -	struct virt_dma_desc *vdesc;
 -
@@ -548,502 +530,372 @@ index b5229bc6eae5..000000000000
 -		chan->desc = NULL;
 -		return 0;
 -	}
--	chan->desc = to_gdma_dma_desc(vdesc);
+-	chan->desc = to_mtk_hsdma_desc(vdesc);
 -	chan->next_sg = 0;
 -
 -	return 1;
 -}
 -
--static void gdma_dma_chan_irq(struct gdma_dma_dev *dma_dev,
--			      struct gdma_dmaengine_chan *chan)
+-static void mtk_hsdma_chan_done(struct mtk_hsdam_engine *hsdma,
+-				struct mtk_hsdma_chan *chan)
 -{
--	struct gdma_dma_desc *desc;
--	unsigned long flags;
+-	struct mtk_hsdma_desc *desc;
 -	int chan_issued;
 -
 -	chan_issued = 0;
--	spin_lock_irqsave(&chan->vchan.lock, flags);
+-	spin_lock_bh(&chan->vchan.lock);
 -	desc = chan->desc;
--	if (desc) {
--		if (desc->cyclic) {
--			vchan_cyclic_callback(&desc->vdesc);
--			if (chan->next_sg == desc->num_sgs)
--				chan->next_sg = 0;
--			chan_issued = 1;
--		} else {
--			desc->residue -= desc->sg[chan->next_sg - 1].len;
--			if (chan->next_sg == desc->num_sgs) {
--				list_del(&desc->vdesc.node);
--				vchan_cookie_complete(&desc->vdesc);
--				chan_issued = gdma_next_desc(chan);
--			} else {
--				chan_issued = 1;
--			}
+-	if (likely(desc)) {
+-		if (chan->next_sg == desc->num_sgs) {
+-			list_del(&desc->vdesc.node);
+-			vchan_cookie_complete(&desc->vdesc);
+-			chan_issued = gdma_next_desc(chan);
 -		}
 -	} else {
--		dev_dbg(dma_dev->ddev.dev, "chan %d no desc to complete\n",
--			chan->id);
+-		dev_dbg(hsdma->ddev.dev, "no desc to complete\n");
 -	}
+-
 -	if (chan_issued)
--		set_bit(chan->id, &dma_dev->chan_issued);
--	spin_unlock_irqrestore(&chan->vchan.lock, flags);
+-		set_bit(chan->id, &hsdma->chan_issued);
+-	spin_unlock_bh(&chan->vchan.lock);
 -}
 -
--static irqreturn_t gdma_dma_irq(int irq, void *devid)
+-static irqreturn_t mtk_hsdma_irq(int irq, void *devid)
 -{
--	struct gdma_dma_dev *dma_dev = devid;
--	u32 done, done_reg;
--	unsigned int i;
+-	struct mtk_hsdam_engine *hsdma = devid;
+-	u32 status;
 -
--	done_reg = dma_dev->data->done_int_reg;
--	done = gdma_dma_read(dma_dev, done_reg);
--	if (unlikely(!done))
+-	status = mtk_hsdma_read(hsdma, HSDMA_REG_INT_STATUS);
+-	if (unlikely(!status))
 -		return IRQ_NONE;
 -
--	/* clean done bits */
--	gdma_dma_write(dma_dev, done_reg, done);
--
--	i = 0;
--	while (done) {
--		if (done & 0x1) {
--			gdma_dma_chan_irq(dma_dev, &dma_dev->chan[i]);
--			atomic_dec(&dma_dev->cnt);
--		}
--		done >>= 1;
--		i++;
--	}
--
--	/* start only have work to do */
--	if (dma_dev->chan_issued)
--		tasklet_schedule(&dma_dev->task);
+-	if (likely(status & HSDMA_INT_RX_Q0))
+-		tasklet_schedule(&hsdma->task);
+-	else
+-		dev_dbg(hsdma->ddev.dev, "unhandle irq status %08x\n", status);
+-	/* clean intr bits */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_INT_STATUS, status);
 -
 -	return IRQ_HANDLED;
 -}
 -
--static void gdma_dma_issue_pending(struct dma_chan *c)
+-static void mtk_hsdma_issue_pending(struct dma_chan *c)
 -{
--	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
--	struct gdma_dma_dev *dma_dev = gdma_dma_chan_get_dev(chan);
--	unsigned long flags;
+-	struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
+-	struct mtk_hsdam_engine *hsdma = mtk_hsdma_chan_get_dev(chan);
 -
--	spin_lock_irqsave(&chan->vchan.lock, flags);
+-	spin_lock_bh(&chan->vchan.lock);
 -	if (vchan_issue_pending(&chan->vchan) && !chan->desc) {
 -		if (gdma_next_desc(chan)) {
--			set_bit(chan->id, &dma_dev->chan_issued);
--			tasklet_schedule(&dma_dev->task);
+-			set_bit(chan->id, &hsdma->chan_issued);
+-			tasklet_schedule(&hsdma->task);
 -		} else {
--			dev_dbg(dma_dev->ddev.dev, "chan %d no desc to issue\n",
--				chan->id);
+-			dev_dbg(hsdma->ddev.dev, "no desc to issue\n");
 -		}
 -	}
--	spin_unlock_irqrestore(&chan->vchan.lock, flags);
+-	spin_unlock_bh(&chan->vchan.lock);
 -}
 -
--static struct dma_async_tx_descriptor *gdma_dma_prep_slave_sg(
--		struct dma_chan *c, struct scatterlist *sgl,
--		unsigned int sg_len, enum dma_transfer_direction direction,
--		unsigned long flags, void *context)
--{
--	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
--	struct gdma_dma_desc *desc;
--	struct scatterlist *sg;
--	unsigned int i;
--
--	desc = kzalloc(struct_size(desc, sg, sg_len), GFP_ATOMIC);
--	if (!desc) {
--		dev_err(c->device->dev, "alloc sg decs error\n");
--		return NULL;
--	}
--	desc->residue = 0;
--
--	for_each_sg(sgl, sg, sg_len, i) {
--		if (direction == DMA_MEM_TO_DEV) {
--			desc->sg[i].src_addr = sg_dma_address(sg);
--		} else if (direction == DMA_DEV_TO_MEM) {
--			desc->sg[i].dst_addr = sg_dma_address(sg);
--		} else {
--			dev_err(c->device->dev, "direction type %d error\n",
--				direction);
--			goto free_desc;
--		}
--
--		if (unlikely(sg_dma_len(sg) > GDMA_REG_CTRL0_TX_MASK)) {
--			dev_err(c->device->dev, "sg len too large %d\n",
--				sg_dma_len(sg));
--			goto free_desc;
--		}
--		desc->sg[i].len = sg_dma_len(sg);
--		desc->residue += sg_dma_len(sg);
--	}
--
--	desc->num_sgs = sg_len;
--	desc->direction = direction;
--	desc->cyclic = false;
--
--	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
--
--free_desc:
--	kfree(desc);
--	return NULL;
--}
--
--static struct dma_async_tx_descriptor *gdma_dma_prep_dma_memcpy(
+-static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
 -		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
 -		size_t len, unsigned long flags)
 -{
--	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
--	struct gdma_dma_desc *desc;
--	unsigned int num_periods, i;
--	size_t xfer_count;
+-	struct mtk_hsdma_chan *chan = to_mtk_hsdma_chan(c);
+-	struct mtk_hsdma_desc *desc;
 -
 -	if (len <= 0)
 -		return NULL;
 -
--	chan->burst_size = gdma_dma_maxburst(len >> 2);
--
--	xfer_count = GDMA_REG_CTRL0_TX_MASK;
--	num_periods = DIV_ROUND_UP(len, xfer_count);
--
--	desc = kzalloc(struct_size(desc, sg, num_periods), GFP_ATOMIC);
+-	desc = kzalloc(sizeof(*desc), GFP_ATOMIC);
 -	if (!desc) {
 -		dev_err(c->device->dev, "alloc memcpy decs error\n");
 -		return NULL;
 -	}
--	desc->residue = len;
 -
--	for (i = 0; i < num_periods; i++) {
--		desc->sg[i].src_addr = src;
--		desc->sg[i].dst_addr = dest;
--		if (len > xfer_count)
--			desc->sg[i].len = xfer_count;
--		else
--			desc->sg[i].len = len;
--		src += desc->sg[i].len;
--		dest += desc->sg[i].len;
--		len -= desc->sg[i].len;
--	}
--
--	desc->num_sgs = num_periods;
--	desc->direction = DMA_MEM_TO_MEM;
--	desc->cyclic = false;
+-	desc->sg[0].src_addr = src;
+-	desc->sg[0].dst_addr = dest;
+-	desc->sg[0].len = len;
 -
 -	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
 -}
 -
--static struct dma_async_tx_descriptor *gdma_dma_prep_dma_cyclic(
--	struct dma_chan *c, dma_addr_t buf_addr, size_t buf_len,
--	size_t period_len, enum dma_transfer_direction direction,
--	unsigned long flags)
+-static enum dma_status mtk_hsdma_tx_status(struct dma_chan *c,
+-					   dma_cookie_t cookie,
+-					   struct dma_tx_state *state)
 -{
--	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
--	struct gdma_dma_desc *desc;
--	unsigned int num_periods, i;
--
--	if (buf_len % period_len)
--		return NULL;
--
--	if (period_len > GDMA_REG_CTRL0_TX_MASK) {
--		dev_err(c->device->dev, "cyclic len too large %d\n",
--			period_len);
--		return NULL;
--	}
--
--	num_periods = buf_len / period_len;
--	desc = kzalloc(struct_size(desc, sg, num_periods), GFP_ATOMIC);
--	if (!desc) {
--		dev_err(c->device->dev, "alloc cyclic decs error\n");
--		return NULL;
--	}
--	desc->residue = buf_len;
--
--	for (i = 0; i < num_periods; i++) {
--		if (direction == DMA_MEM_TO_DEV) {
--			desc->sg[i].src_addr = buf_addr;
--		} else if (direction == DMA_DEV_TO_MEM) {
--			desc->sg[i].dst_addr = buf_addr;
--		} else {
--			dev_err(c->device->dev, "direction type %d error\n",
--				direction);
--			goto free_desc;
--		}
--		desc->sg[i].len = period_len;
--		buf_addr += period_len;
--	}
--
--	desc->num_sgs = num_periods;
--	desc->direction = direction;
--	desc->cyclic = true;
--
--	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
--
--free_desc:
--	kfree(desc);
--	return NULL;
+-	return dma_cookie_status(c, cookie, state);
 -}
 -
--static enum dma_status gdma_dma_tx_status(struct dma_chan *c,
--					  dma_cookie_t cookie,
--					  struct dma_tx_state *state)
--{
--	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
--	struct virt_dma_desc *vdesc;
--	enum dma_status status;
--	unsigned long flags;
--	struct gdma_dma_desc *desc;
--
--	status = dma_cookie_status(c, cookie, state);
--	if (status == DMA_COMPLETE || !state)
--		return status;
--
--	spin_lock_irqsave(&chan->vchan.lock, flags);
--	desc = chan->desc;
--	if (desc && (cookie == desc->vdesc.tx.cookie)) {
--		/*
--		 * We never update edesc->residue in the cyclic case, so we
--		 * can tell the remaining room to the end of the circular
--		 * buffer.
--		 */
--		if (desc->cyclic)
--			state->residue = desc->residue -
--				((chan->next_sg - 1) * desc->sg[0].len);
--		else
--			state->residue = desc->residue;
--	} else {
--		vdesc = vchan_find_desc(&chan->vchan, cookie);
--		if (vdesc)
--			state->residue = to_gdma_dma_desc(vdesc)->residue;
--	}
--	spin_unlock_irqrestore(&chan->vchan.lock, flags);
--
--	dev_dbg(c->device->dev, "tx residue %d bytes\n", state->residue);
--
--	return status;
--}
--
--static void gdma_dma_free_chan_resources(struct dma_chan *c)
+-static void mtk_hsdma_free_chan_resources(struct dma_chan *c)
 -{
 -	vchan_free_chan_resources(to_virt_chan(c));
 -}
 -
--static void gdma_dma_desc_free(struct virt_dma_desc *vdesc)
+-static void mtk_hsdma_desc_free(struct virt_dma_desc *vdesc)
 -{
--	kfree(container_of(vdesc, struct gdma_dma_desc, vdesc));
+-	kfree(container_of(vdesc, struct mtk_hsdma_desc, vdesc));
 -}
 -
--static void gdma_dma_tasklet(struct tasklet_struct *t)
+-static void mtk_hsdma_tx(struct mtk_hsdam_engine *hsdma)
 -{
--	struct gdma_dma_dev *dma_dev = from_tasklet(dma_dev, t, task);
--	struct gdma_dmaengine_chan *chan;
--	static unsigned int last_chan;
--	unsigned int i, chan_mask;
+-	struct mtk_hsdma_chan *chan;
 -
--	/* record last chan to round robin all chans */
--	i = last_chan;
--	chan_mask = dma_dev->data->chancnt - 1;
--	do {
--		/*
--		 * on mt7621. when verify with dmatest with all
--		 * channel is enable. we need to limit only two
--		 * channel is working at the same time. otherwise the
--		 * data will have problem.
--		 */
--		if (atomic_read(&dma_dev->cnt) >= 2) {
--			last_chan = i;
--			break;
--		}
--
--		if (test_and_clear_bit(i, &dma_dev->chan_issued)) {
--			chan = &dma_dev->chan[i];
--			if (chan->desc) {
--				atomic_inc(&dma_dev->cnt);
--				gdma_start_transfer(dma_dev, chan);
--			} else {
--				dev_dbg(dma_dev->ddev.dev,
--					"chan %d no desc to issue\n",
--					chan->id);
--			}
--			if (!dma_dev->chan_issued)
--				break;
--		}
--
--		i = (i + 1) & chan_mask;
--	} while (i != last_chan);
+-	if (test_and_clear_bit(0, &hsdma->chan_issued)) {
+-		chan = &hsdma->chan[0];
+-		if (chan->desc)
+-			mtk_hsdma_start_transfer(hsdma, chan);
+-		else
+-			dev_dbg(hsdma->ddev.dev, "chan 0 no desc to issue\n");
+-	}
 -}
 -
--static void rt305x_gdma_init(struct gdma_dma_dev *dma_dev)
+-static void mtk_hsdma_rx(struct mtk_hsdam_engine *hsdma)
 -{
--	u32 gct;
+-	struct mtk_hsdma_chan *chan;
+-	int next_idx, drx_idx, cnt;
 -
--	/* all chans round robin */
--	gdma_dma_write(dma_dev, GDMA_RT305X_GCT, GDMA_REG_GCT_ARBIT_RR);
+-	chan = &hsdma->chan[0];
+-	next_idx = HSDMA_NEXT_DESC(chan->rx_idx);
+-	drx_idx = mtk_hsdma_read(hsdma, HSDMA_REG_RX_DRX);
 -
--	gct = gdma_dma_read(dma_dev, GDMA_RT305X_GCT);
--	dev_info(dma_dev->ddev.dev, "revision: %d, channels: %d\n",
--		 (gct >> GDMA_REG_GCT_VER_SHIFT) & GDMA_REG_GCT_VER_MASK,
--		 8 << ((gct >> GDMA_REG_GCT_CHAN_SHIFT) &
--			GDMA_REG_GCT_CHAN_MASK));
+-	cnt = (drx_idx - next_idx) & HSDMA_DESCS_MASK;
+-	if (!cnt)
+-		return;
+-
+-	chan->next_sg += cnt;
+-	chan->rx_idx = (chan->rx_idx + cnt) & HSDMA_DESCS_MASK;
+-
+-	/* update rx crx */
+-	wmb();
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RX_CRX, chan->rx_idx);
+-
+-	mtk_hsdma_chan_done(hsdma, chan);
 -}
 -
--static void rt3883_gdma_init(struct gdma_dma_dev *dma_dev)
+-static void mtk_hsdma_tasklet(struct tasklet_struct *t)
 -{
--	u32 gct;
+-	struct mtk_hsdam_engine *hsdma = from_tasklet(hsdma, t, task);
 -
--	/* all chans round robin */
--	gdma_dma_write(dma_dev, GDMA_REG_GCT, GDMA_REG_GCT_ARBIT_RR);
--
--	gct = gdma_dma_read(dma_dev, GDMA_REG_GCT);
--	dev_info(dma_dev->ddev.dev, "revision: %d, channels: %d\n",
--		 (gct >> GDMA_REG_GCT_VER_SHIFT) & GDMA_REG_GCT_VER_MASK,
--		 8 << ((gct >> GDMA_REG_GCT_CHAN_SHIFT) &
--			GDMA_REG_GCT_CHAN_MASK));
+-	mtk_hsdma_rx(hsdma);
+-	mtk_hsdma_tx(hsdma);
 -}
 -
--static struct gdma_data rt305x_gdma_data = {
--	.chancnt = 8,
--	.done_int_reg = GDMA_RT305X_STATUS_INT,
--	.init = rt305x_gdma_init,
--	.start_transfer = rt305x_gdma_start_transfer,
--};
+-static int mtk_hsdam_alloc_desc(struct mtk_hsdam_engine *hsdma,
+-				struct mtk_hsdma_chan *chan)
+-{
+-	int i;
 -
--static struct gdma_data rt3883_gdma_data = {
--	.chancnt = 16,
--	.done_int_reg = GDMA_REG_DONE_INT,
--	.init = rt3883_gdma_init,
--	.start_transfer = rt3883_gdma_start_transfer,
--};
+-	chan->tx_ring = dma_alloc_coherent(hsdma->ddev.dev,
+-					   2 * HSDMA_DESCS_NUM *
+-					   sizeof(*chan->tx_ring),
+-			&chan->desc_addr, GFP_ATOMIC | __GFP_ZERO);
+-	if (!chan->tx_ring)
+-		goto no_mem;
 -
--static const struct of_device_id gdma_of_match_table[] = {
--	{ .compatible = "ralink,rt305x-gdma", .data = &rt305x_gdma_data },
--	{ .compatible = "ralink,rt3883-gdma", .data = &rt3883_gdma_data },
+-	chan->rx_ring = &chan->tx_ring[HSDMA_DESCS_NUM];
+-
+-	/* init tx ring value */
+-	for (i = 0; i < HSDMA_DESCS_NUM; i++)
+-		chan->tx_ring[i].flags = HSDMA_DESC_LS0 | HSDMA_DESC_DONE;
+-
+-	return 0;
+-no_mem:
+-	return -ENOMEM;
+-}
+-
+-static void mtk_hsdam_free_desc(struct mtk_hsdam_engine *hsdma,
+-				struct mtk_hsdma_chan *chan)
+-{
+-	if (chan->tx_ring) {
+-		dma_free_coherent(hsdma->ddev.dev,
+-				  2 * HSDMA_DESCS_NUM * sizeof(*chan->tx_ring),
+-				  chan->tx_ring, chan->desc_addr);
+-		chan->tx_ring = NULL;
+-		chan->rx_ring = NULL;
+-	}
+-}
+-
+-static int mtk_hsdma_init(struct mtk_hsdam_engine *hsdma)
+-{
+-	struct mtk_hsdma_chan *chan;
+-	int ret;
+-	u32 reg;
+-
+-	/* init desc */
+-	chan = &hsdma->chan[0];
+-	ret = mtk_hsdam_alloc_desc(hsdma, chan);
+-	if (ret)
+-		return ret;
+-
+-	/* tx */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_TX_BASE, chan->desc_addr);
+-	mtk_hsdma_write(hsdma, HSDMA_REG_TX_CNT, HSDMA_DESCS_NUM);
+-	/* rx */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RX_BASE, chan->desc_addr +
+-			(sizeof(struct hsdma_desc) * HSDMA_DESCS_NUM));
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RX_CNT, HSDMA_DESCS_NUM);
+-	/* reset */
+-	mtk_hsdma_reset_chan(hsdma, chan);
+-
+-	/* enable rx intr */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_INT_MASK, HSDMA_INT_RX_Q0);
+-
+-	/* enable dma */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_GLO_CFG, HSDMA_GLO_DEFAULT);
+-
+-	/* hardware info */
+-	reg = mtk_hsdma_read(hsdma, HSDMA_REG_INFO);
+-	dev_info(hsdma->ddev.dev, "rx: %d, tx: %d\n",
+-		 (reg >> HSDMA_INFO_RX_SHIFT) & HSDMA_INFO_RX_MASK,
+-		 (reg >> HSDMA_INFO_TX_SHIFT) & HSDMA_INFO_TX_MASK);
+-
+-	hsdma_dump_reg(hsdma);
+-
+-	return ret;
+-}
+-
+-static void mtk_hsdma_uninit(struct mtk_hsdam_engine *hsdma)
+-{
+-	struct mtk_hsdma_chan *chan;
+-
+-	/* disable dma */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_GLO_CFG, 0);
+-
+-	/* disable intr */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_INT_MASK, 0);
+-
+-	/* free desc */
+-	chan = &hsdma->chan[0];
+-	mtk_hsdam_free_desc(hsdma, chan);
+-
+-	/* tx */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_TX_BASE, 0);
+-	mtk_hsdma_write(hsdma, HSDMA_REG_TX_CNT, 0);
+-	/* rx */
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RX_BASE, 0);
+-	mtk_hsdma_write(hsdma, HSDMA_REG_RX_CNT, 0);
+-	/* reset */
+-	mtk_hsdma_reset_chan(hsdma, chan);
+-}
+-
+-static const struct of_device_id mtk_hsdma_of_match[] = {
+-	{ .compatible = "mediatek,mt7621-hsdma" },
 -	{ },
 -};
--MODULE_DEVICE_TABLE(of, gdma_of_match_table);
 -
--static int gdma_dma_probe(struct platform_device *pdev)
+-static int mtk_hsdma_probe(struct platform_device *pdev)
 -{
 -	const struct of_device_id *match;
--	struct gdma_dmaengine_chan *chan;
--	struct gdma_dma_dev *dma_dev;
+-	struct mtk_hsdma_chan *chan;
+-	struct mtk_hsdam_engine *hsdma;
 -	struct dma_device *dd;
--	unsigned int i;
 -	int ret;
 -	int irq;
 -	void __iomem *base;
--	struct gdma_data *data;
 -
 -	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
 -	if (ret)
 -		return ret;
 -
--	match = of_match_device(gdma_of_match_table, &pdev->dev);
+-	match = of_match_device(mtk_hsdma_of_match, &pdev->dev);
 -	if (!match)
 -		return -EINVAL;
--	data = (struct gdma_data *)match->data;
 -
--	dma_dev = devm_kzalloc(&pdev->dev,
--			       struct_size(dma_dev, chan, data->chancnt),
--			       GFP_KERNEL);
--	if (!dma_dev)
+-	hsdma = devm_kzalloc(&pdev->dev, sizeof(*hsdma), GFP_KERNEL);
+-	if (!hsdma)
 -		return -EINVAL;
--	dma_dev->data = data;
 -
 -	base = devm_platform_ioremap_resource(pdev, 0);
 -	if (IS_ERR(base))
 -		return PTR_ERR(base);
--	dma_dev->base = base;
--	tasklet_setup(&dma_dev->task, gdma_dma_tasklet);
+-	hsdma->base = base + HSDMA_BASE_OFFSET;
+-	tasklet_setup(&hsdma->task, mtk_hsdma_tasklet);
 -
 -	irq = platform_get_irq(pdev, 0);
 -	if (irq < 0)
 -		return -EINVAL;
--	ret = devm_request_irq(&pdev->dev, irq, gdma_dma_irq,
--			       0, dev_name(&pdev->dev), dma_dev);
+-	ret = devm_request_irq(&pdev->dev, irq, mtk_hsdma_irq,
+-			       0, dev_name(&pdev->dev), hsdma);
 -	if (ret) {
 -		dev_err(&pdev->dev, "failed to request irq\n");
 -		return ret;
 -	}
 -
--	ret = device_reset(&pdev->dev);
--	if (ret)
--		dev_err(&pdev->dev, "failed to reset: %d\n", ret);
+-	device_reset(&pdev->dev);
 -
--	dd = &dma_dev->ddev;
+-	dd = &hsdma->ddev;
 -	dma_cap_set(DMA_MEMCPY, dd->cap_mask);
--	dma_cap_set(DMA_SLAVE, dd->cap_mask);
--	dma_cap_set(DMA_CYCLIC, dd->cap_mask);
--	dd->device_free_chan_resources = gdma_dma_free_chan_resources;
--	dd->device_prep_dma_memcpy = gdma_dma_prep_dma_memcpy;
--	dd->device_prep_slave_sg = gdma_dma_prep_slave_sg;
--	dd->device_prep_dma_cyclic = gdma_dma_prep_dma_cyclic;
--	dd->device_config = gdma_dma_config;
--	dd->device_terminate_all = gdma_dma_terminate_all;
--	dd->device_tx_status = gdma_dma_tx_status;
--	dd->device_issue_pending = gdma_dma_issue_pending;
--
--	dd->src_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_4_BYTES);
--	dd->dst_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_4_BYTES);
--	dd->directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV);
--	dd->residue_granularity = DMA_RESIDUE_GRANULARITY_SEGMENT;
--
+-	dd->copy_align = HSDMA_ALIGN_SIZE;
+-	dd->device_free_chan_resources = mtk_hsdma_free_chan_resources;
+-	dd->device_prep_dma_memcpy = mtk_hsdma_prep_dma_memcpy;
+-	dd->device_terminate_all = mtk_hsdma_terminate_all;
+-	dd->device_tx_status = mtk_hsdma_tx_status;
+-	dd->device_issue_pending = mtk_hsdma_issue_pending;
 -	dd->dev = &pdev->dev;
--	dd->dev->dma_parms = &dma_dev->dma_parms;
--	dma_set_max_seg_size(dd->dev, GDMA_REG_CTRL0_TX_MASK);
+-	dd->dev->dma_parms = &hsdma->dma_parms;
+-	dma_set_max_seg_size(dd->dev, HSDMA_MAX_PLEN);
 -	INIT_LIST_HEAD(&dd->channels);
 -
--	for (i = 0; i < data->chancnt; i++) {
--		chan = &dma_dev->chan[i];
--		chan->id = i;
--		chan->vchan.desc_free = gdma_dma_desc_free;
--		vchan_init(&chan->vchan, dd);
--	}
+-	chan = &hsdma->chan[0];
+-	chan->id = 0;
+-	chan->vchan.desc_free = mtk_hsdma_desc_free;
+-	vchan_init(&chan->vchan, dd);
 -
 -	/* init hardware */
--	data->init(dma_dev);
+-	ret = mtk_hsdma_init(hsdma);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to alloc ring descs\n");
+-		return ret;
+-	}
 -
 -	ret = dma_async_device_register(dd);
 -	if (ret) {
 -		dev_err(&pdev->dev, "failed to register dma device\n");
--		return ret;
+-		goto err_uninit_hsdma;
 -	}
 -
 -	ret = of_dma_controller_register(pdev->dev.of_node,
--					 of_dma_xlate_by_chan_id, dma_dev);
+-					 of_dma_xlate_by_chan_id, hsdma);
 -	if (ret) {
 -		dev_err(&pdev->dev, "failed to register of dma controller\n");
 -		goto err_unregister;
 -	}
 -
--	platform_set_drvdata(pdev, dma_dev);
+-	platform_set_drvdata(pdev, hsdma);
 -
 -	return 0;
 -
 -err_unregister:
 -	dma_async_device_unregister(dd);
+-err_uninit_hsdma:
+-	mtk_hsdma_uninit(hsdma);
 -	return ret;
 -}
 -
--static int gdma_dma_remove(struct platform_device *pdev)
+-static int mtk_hsdma_remove(struct platform_device *pdev)
 -{
--	struct gdma_dma_dev *dma_dev = platform_get_drvdata(pdev);
+-	struct mtk_hsdam_engine *hsdma = platform_get_drvdata(pdev);
 -
--	tasklet_kill(&dma_dev->task);
+-	mtk_hsdma_uninit(hsdma);
+-
 -	of_dma_controller_free(pdev->dev.of_node);
--	dma_async_device_unregister(&dma_dev->ddev);
+-	dma_async_device_unregister(&hsdma->ddev);
 -
 -	return 0;
 -}
 -
--static struct platform_driver gdma_dma_driver = {
--	.probe = gdma_dma_probe,
--	.remove = gdma_dma_remove,
+-static struct platform_driver mtk_hsdma_driver = {
+-	.probe = mtk_hsdma_probe,
+-	.remove = mtk_hsdma_remove,
 -	.driver = {
--		.name = "gdma-rt2880",
--		.of_match_table = gdma_of_match_table,
+-		.name = KBUILD_MODNAME,
+-		.of_match_table = mtk_hsdma_of_match,
 -	},
 -};
--module_platform_driver(gdma_dma_driver);
+-module_platform_driver(mtk_hsdma_driver);
 -
--MODULE_DESCRIPTION("Ralink/MTK DMA driver");
+-MODULE_AUTHOR("Michael Lee <igvtee@gmail.com>");
+-MODULE_DESCRIPTION("MTK HSDMA driver");
 -MODULE_LICENSE("GPL v2");
 -- 
 2.33.0
