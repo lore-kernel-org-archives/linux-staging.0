@@ -1,75 +1,73 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from smtprelay.hostedemail.com (smtprelay0008.hostedemail.com [216.40.44.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9161F2C82
-	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 18:56:03 +0000 (UTC)
-Received: from dslb-188-096-147-224.188.096.pools.vodafone-ip.de ([188.96.147.224] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mlyC0-0002H8-IJ; Sat, 13 Nov 2021 19:56:00 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 15/15] staging: r8188eu: remove the efuse_hal structure
-Date: Sat, 13 Nov 2021 19:55:18 +0100
-Message-Id: <20211113185518.23941-16-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211113185518.23941-1-martin@kaiser.cx>
-References: <20211113185518.23941-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBC62C82
+	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 18:56:15 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+	by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 92E471809CC38
+	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 08:19:38 +0000 (UTC)
+Received: from omf20.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+	by smtprelay03.hostedemail.com (Postfix) with ESMTP id 8A8DA837F24D;
+	Sat, 13 Nov 2021 08:19:31 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf20.hostedemail.com (Postfix) with ESMTPA id 7C4B780193D0;
+	Sat, 13 Nov 2021 08:19:30 +0000 (UTC)
+Message-ID: <f4ac00433f64d0637f5bbcf19b631072bddad097.camel@perches.com>
+Subject: Re: [PATCH] Staging: mt7621-dma: reindent to avoid '(' at the end
+ of line
+From: Joe Perches <joe@perches.com>
+To: Greg KH <gregkh@linuxfoundation.org>, Liu Junqi <liujunqi@pku.edu.cn>
+Cc: linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Sat, 13 Nov 2021 00:19:29 -0800
+In-Reply-To: <YY9xD1K0cUpc5iCW@kroah.com>
+References: <20211113052815.358793-1-liujunqi@pku.edu.cn>
+	 <YY9xD1K0cUpc5iCW@kroah.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.4-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: k4wax484oj33isr6s7ng4qkrgrpfxddc
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: 7C4B780193D0
+X-Spam-Status: No, score=-4.78
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/bjIbunX20jf5R9k4knLoAmPpVgNYPdLo=
+X-HE-Tag: 1636791570-751348
 
-struct efuse_hal is not used and can be removed.
+On Sat, 2021-11-13 at 09:02 +0100, Greg KH wrote:
+> On Sat, Nov 13, 2021 at 01:28:15PM +0800, Liu Junqi wrote:
+> > Fixed a coding style issue.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/include/rtl8188e_hal.h | 1 -
- drivers/staging/r8188eu/include/rtw_efuse.h    | 9 ---------
- 2 files changed, 10 deletions(-)
+This isn't really a fix, but instead is a change to make
+the code more like typical coding style.
 
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 4bf1f5d0815a..31a46f204954 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -184,7 +184,6 @@ struct hal_data_8188e {
- 	u8	bAPKThermalMeterIgnore;
- 
- 	bool	EepromOrEfuse;
--	struct efuse_hal	EfuseHal;
- 
- 	u8	Index24G_CCK_Base[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
- 	u8	Index24G_BW40_Base[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
-diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
-index 9174f3d635e4..4d8eff8e860e 100644
---- a/drivers/staging/r8188eu/include/rtw_efuse.h
-+++ b/drivers/staging/r8188eu/include/rtw_efuse.h
-@@ -26,15 +26,6 @@
- /*--------------------------Define Parameters-------------------------------*/
- #define		EFUSE_MAX_WORD_UNIT			4
- 
--/*------------------------------Define structure----------------------------*/
--struct efuse_hal {
--	u8 fakeEfuseBank;
--	u32	fakeEfuseUsedBytes;
--	u8 fakeEfuseContent[EFUSE_MAX_HW_SIZE];
--	u8 fakeEfuseInitMap[EFUSE_MAX_MAP_LEN];
--	u8 fakeEfuseModifiedMap[EFUSE_MAX_MAP_LEN];
--};
--
- /*------------------------Export global variable----------------------------*/
- 
- u8 Efuse_CalculateWordCnts(u8 word_en);
--- 
-2.20.1
+> > diff --git a/drivers/staging/mt7621-dma/hsdma-mt7621.c b/drivers/staging/mt7621-dma/hsdma-mt7621.c
+[]
+> > @@ -455,9 +455,9 @@ static void mtk_hsdma_issue_pending(struct dma_chan *c)
+> >  	spin_unlock_bh(&chan->vchan.lock);
+> >  }
+> >  
+> > -static struct dma_async_tx_descriptor *mtk_hsdma_prep_dma_memcpy(
+> > -		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
+> > -		size_t len, unsigned long flags)
+> > +static struct dma_async_tx_descriptor
+> > +*mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
+> 
+> No, this is now worse looking.  The original was not pretty, but better
+> than this.
+
+More typical would be to have the return value on a separate line
+as using * on the start of a line is poor form in the kernel.
+
+static struct dma_async_tx_descriptor *
+mtk_hsdma_prep_dma_memcpy(struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
+			  size_t len, unsigned long flags)
+{
+	...
+}
 
