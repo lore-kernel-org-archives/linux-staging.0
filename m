@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C082C82
-	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 18:55:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF05F2C83
+	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 18:56:00 +0000 (UTC)
 Received: from dslb-188-096-147-224.188.096.pools.vodafone-ip.de ([188.96.147.224] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mlyBw-0002H8-Tp; Sat, 13 Nov 2021 19:55:56 +0100
+	id 1mlyBx-0002H8-Sc; Sat, 13 Nov 2021 19:55:57 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 12/15] staging: r8188eu: efuse_OneByteWrite is unused
-Date: Sat, 13 Nov 2021 19:55:15 +0100
-Message-Id: <20211113185518.23941-13-martin@kaiser.cx>
+Subject: [PATCH 13/15] staging: r8188eu: remove bt efuse definitions
+Date: Sat, 13 Nov 2021 19:55:16 +0100
+Message-Id: <20211113185518.23941-14-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211113185518.23941-1-martin@kaiser.cx>
 References: <20211113185518.23941-1-martin@kaiser.cx>
@@ -30,90 +30,84 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the efuse_OneByteWrite function, which is no longer used.
-Remove resulting dead code as well.
+This driver does not use bt efuses. Remove global variables and
+definitions related to bt efuses.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_efuse.c    | 45 ---------------------
- drivers/staging/r8188eu/include/rtw_efuse.h |  1 -
- 2 files changed, 46 deletions(-)
+ drivers/staging/r8188eu/core/rtw_efuse.c    |  9 --------
+ drivers/staging/r8188eu/include/rtw_efuse.h | 24 ---------------------
+ 2 files changed, 33 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index 7829a422d225..d226aee68085 100644
+index d226aee68085..b7f2274c62ac 100644
 --- a/drivers/staging/r8188eu/core/rtw_efuse.c
 +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -29,19 +29,6 @@ u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+@@ -15,15 +15,6 @@ u8 fakeEfuseContent[EFUSE_MAX_HW_SIZE] = {0};
+ u8 fakeEfuseInitMap[EFUSE_MAX_MAP_LEN] = {0};
+ u8 fakeEfuseModifiedMap[EFUSE_MAX_MAP_LEN] = {0};
+ 
+-u32 BTEfuseUsedBytes;
+-u8 BTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-u8 BTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+-u8 BTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+-
+-u32 fakeBTEfuseUsedBytes;
+-u8 fakeBTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-u8 fakeBTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+-u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+ /*------------------------Define local variable------------------------------*/
+ 
  #define REG_EFUSE_CTRL		0x0030
- #define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
- 
--static bool
--Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
--{
--	if (Offset >= EFUSE_MAX_HW_SIZE)
--		return false;
--	if (fakeEfuseBank == 0) {
--		fakeEfuseContent[Offset] = Value;
--	} else {
--		fakeBTEfuseContent[fakeEfuseBank - 1][Offset] = Value;
--	}
--	return true;
--}
--
- /*  11/16/2008 MH Add description. Get current efuse area enabled word!!. */
- u8
- Efuse_CalculateWordCnts(u8 word_en)
-@@ -106,38 +93,6 @@ ReadEFuseByte(
- 	*pbuf = (u8)(value32 & 0xff);
- }
- 
--/*  11/16/2008 MH Write one byte to reald Efuse. */
--u8 efuse_OneByteWrite(struct adapter *pAdapter, u16 addr, u8 data, bool pseudo)
--{
--	u8 tmpidx = 0;
--	u8 result;
--
--	if (pseudo) {
--		result = Efuse_Write1ByteToFakeContent(addr, data);
--		return result;
--	}
--
--	/*  -----------------e-fuse reg ctrl --------------------------------- */
--	/* address */
--	rtw_write8(pAdapter, EFUSE_CTRL + 1, (u8)(addr & 0xff));
--	rtw_write8(pAdapter, EFUSE_CTRL + 2,
--		   (rtw_read8(pAdapter, EFUSE_CTRL + 2) & 0xFC) |
--		   (u8)((addr >> 8) & 0x03));
--	rtw_write8(pAdapter, EFUSE_CTRL, data);/* data */
--
--	rtw_write8(pAdapter, EFUSE_CTRL + 3, 0xF2);/* write cmd */
--
--	while ((0x80 &  rtw_read8(pAdapter, EFUSE_CTRL + 3)) && (tmpidx < 100))
--		tmpidx++;
--
--	if (tmpidx < 100)
--		result = true;
--	else
--		result = false;
--
--	return result;
--}
--
- /*-----------------------------------------------------------------------------
-  * Function:	efuse_WordEnableDataRead
-  *
 diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
-index f21d08d1be90..0696d850d2d3 100644
+index 0696d850d2d3..b402531e639a 100644
 --- a/drivers/staging/r8188eu/include/rtw_efuse.h
 +++ b/drivers/staging/r8188eu/include/rtw_efuse.h
-@@ -70,7 +70,6 @@ extern u8 fakeBTEfuseModifiedMap[];
+@@ -23,10 +23,6 @@
+ 
+ #define		EFUSE_REPEAT_THRESHOLD_			3
+ 
+-/*	The following is for BT Efuse definition */
+-#define		EFUSE_BT_MAX_MAP_LEN		1024
+-#define		EFUSE_MAX_BANK			4
+-#define		EFUSE_MAX_BT_BANK		(EFUSE_MAX_BANK-1)
+ /*--------------------------Define Parameters-------------------------------*/
+ #define		EFUSE_MAX_WORD_UNIT			4
+ 
+@@ -37,17 +33,6 @@ struct efuse_hal {
+ 	u8 fakeEfuseContent[EFUSE_MAX_HW_SIZE];
+ 	u8 fakeEfuseInitMap[EFUSE_MAX_MAP_LEN];
+ 	u8 fakeEfuseModifiedMap[EFUSE_MAX_MAP_LEN];
+-
+-	u16 BTEfuseUsedBytes;
+-	u8 BTEfuseUsedPercentage;
+-	u8 BTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-	u8 BTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN];
+-	u8 BTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN];
+-
+-	u16 fakeBTEfuseUsedBytes;
+-	u8 fakeBTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-	u8 fakeBTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN];
+-	u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN];
+ };
+ 
+ /*------------------------Export global variable----------------------------*/
+@@ -57,15 +42,6 @@ extern u8 fakeEfuseContent[];
+ extern u8 fakeEfuseInitMap[];
+ extern u8 fakeEfuseModifiedMap[];
+ 
+-extern u32 BTEfuseUsedBytes;
+-extern u8 BTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-extern u8 BTEfuseInitMap[];
+-extern u8 BTEfuseModifiedMap[];
+-
+-extern u32 fakeBTEfuseUsedBytes;
+-extern u8 fakeBTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+-extern u8 fakeBTEfuseInitMap[];
+-extern u8 fakeBTEfuseModifiedMap[];
+ /*------------------------Export global variable----------------------------*/
  
  u8 Efuse_CalculateWordCnts(u8 word_en);
- void ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf);
--u8 efuse_OneByteWrite(struct adapter *adapter, u16 addr, u8 data, bool	test);
- 
- void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
- 
 -- 
 2.20.1
 
