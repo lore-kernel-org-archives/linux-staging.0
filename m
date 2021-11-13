@@ -1,65 +1,60 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF152C80
-	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 16:21:52 +0000 (UTC)
-Received: from martin by viti.kaiser.cx with local (Exim 4.89)
-	(envelope-from <martin@viti.kaiser.cx>)
-	id 1mlvmf-0001LT-Ji; Sat, 13 Nov 2021 17:21:41 +0100
-Date: Sat, 13 Nov 2021 17:21:41 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82A42C82
+	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 18:55:42 +0000 (UTC)
+Received: from dslb-188-096-147-224.188.096.pools.vodafone-ip.de ([188.96.147.224] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mlyBd-0002H8-7X; Sat, 13 Nov 2021 19:55:37 +0100
 From: Martin Kaiser <martin@kaiser.cx>
-To: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	Phillip Potter <phil@philpotter.co.uk>,
 	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/7] staging: r8188eu: remove haldata's EEPROMVID / PID
-Message-ID: <20211113162141.dpqbmkiqb3qxgjo7@viti.kaiser.cx>
-References: <20211111212644.9011-1-martin@kaiser.cx>
- <6997531.xZuqOj027S@localhost.localdomain>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 00/15] staging: r8188eu: more efuse cleanup
+Date: Sat, 13 Nov 2021 19:55:03 +0100
+Message-Id: <20211113185518.23941-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6997531.xZuqOj027S@localhost.localdomain>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Sender: Martin Kaiser <martin@viti.kaiser.cx>
+Content-Transfer-Encoding: 8bit
 
-Thus wrote Fabio M. De Francesco (fmdefrancesco@gmail.com):
+This series removes some more unused parts of the efuse code.
 
-> On Thursday, November 11, 2021 10:26:38 PM CET Martin Kaiser wrote:
+Martin Kaiser (15):
+  staging: r8188eu: remove efuse type from definition functions
+  staging: r8188eu: remove efuse type from read functions
+  staging: r8188eu: remove test code for efuse shadow map
+  staging: r8188eu: merge small adapter info helpers
+  staging: r8188eu: rtl8188e_EfuseGetCurrentSize is now unused
+  staging: r8188eu: rtl8188e_Efuse_PgPacketRead is now unused
+  staging: r8188eu: merge Efuse_ReadAllMap into EFUSE_ShadowMapUpdate
+  staging: r8188eu: use efuse map length define directly
+  staging: r8188eu: rtl8188e_EFUSE_GetEfuseDefinition is unused
+  staging: r8188eu: remove defines for efuse type
+  staging: r8188eu: efuse_OneByteRead is unused
+  staging: r8188eu: efuse_OneByteWrite is unused
+  staging: r8188eu: remove bt efuse definitions
+  staging: r8188eu: remove fake efuse variables
+  staging: r8188eu: remove the efuse_hal structure
 
-> > They are used only in a (disabled) debug print.
+ drivers/staging/r8188eu/core/rtw_efuse.c      | 162 +-------
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 370 +-----------------
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  42 +-
+ drivers/staging/r8188eu/include/hal_intf.h    |   8 +-
+ .../staging/r8188eu/include/rtl8188e_hal.h    |   2 -
+ drivers/staging/r8188eu/include/rtw_efuse.h   |  79 +---
+ 6 files changed, 50 insertions(+), 613 deletions(-)
 
-> > In practice, lsusb can be used to read the actual vid and pid.
+-- 
+2.20.1
 
-> Hi Martin,
-
-> You seem to have overlooked the usual rules for writing conformant commit 
-> messages :)
-
-> Please say "what" you did along with "why" you made the changes.
-
-> Here, and in two or three other patches of your series, you forgot to 
-> describe "what" you did. You actually wrote it in the "Subject" lines but, as 
-> you know for sure, commit messages must be self-contained entities.
-
-Hi Fabio,
-
-thanks for the reminder. The commit message should indeed make sense
-without the title.
-
-> Also, it would be nice to have a cover letter and have all seven patches in 
-> one thread in response to the above, even if it (AFAIK) is not strictly 
-> required.
-
-There wasn't a common topic in this series so I decided to add no cover
-letter.
-
-Best regards,
-Martin
