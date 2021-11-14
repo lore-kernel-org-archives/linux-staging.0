@@ -1,41 +1,41 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE5372
-	for <linux-staging@lists.linux.dev>; Sun, 14 Nov 2021 22:48:29 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id f18so38395291lfv.6
-        for <linux-staging@lists.linux.dev>; Sun, 14 Nov 2021 14:48:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699C52C86
+	for <linux-staging@lists.linux.dev>; Sun, 14 Nov 2021 22:48:30 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id y26so38325139lfa.11
+        for <linux-staging@lists.linux.dev>; Sun, 14 Nov 2021 14:48:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ukIDuU6IlT+86rCbL8zG0hZeRU+DOUqbYsBqeamrzG4=;
-        b=gc7lEoxEblf+lqkcWvb1ovyp45r96q6ZXcGWz8TUEKk1dl3sAJ0cYQgCNnrv7Xfmfz
-         F3dmQdq0XABP0kx07QUaVgdC152tDCGgVhxLfaDmKmDpr5EPafLtH14RyW0cc4QhVT+I
-         kuf6UzBFkfcQ9GtLEBjEh4iKHwhI+e9qsFl3U1eQUgN8+DQSjbwMR7wWhz9aoIuBMFIO
-         P489YXVM96jGobvUkB250f/4QF7T4xYEjdsX8uV+0s3vje7NV0XywfJsLEmBHRBiGJkX
-         R/ytKrqTFhPbVHKS9URThGzwBbcsXyzsapK3uJxbzOnubcWPT0JcX9JrOMOG5QVdCRK8
-         6SYw==
+        bh=ImcZoW2Pqa7ZRY/8PEMeXuQQ0A4lrgRe4vr/rypxpxM=;
+        b=hDm+hWyRQI66NSlBlRF3pXrbBPomci2YplEsAU3wgIVCOYTv2uClgrNw+wbic17+kj
+         5xo5effVDq+wZ6ZhysDJ4vNNsPnpA/s//WRVrlMWai9sVeub2ulsYWS0r+82mR/wf388
+         KvbOJ9ONvzJ4n6YB0ceRQPaV3jvfUD3Ocw4qJRPwkP1acynqV+5+Wv7E3NnmLmsLCevC
+         TPZQYwPA9HbP+cQ7zCt/iYC3GCKMhkPKYPVVIKJKjyuyegSbTnLYvneEB9cRh2L9M/eH
+         3uYkjZg9zKxRGabyFrFpfPd8TuH0B/usMxmweDYKvWy1I1a7Jx/US9KqH2uzGfLRSsdz
+         a7JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ukIDuU6IlT+86rCbL8zG0hZeRU+DOUqbYsBqeamrzG4=;
-        b=rhZsOcKcn9Od6dEuR/HI+ynlYIiXYowtiUFIfTy7mWh0Vgvlo/+9KJv8ByBryvEtme
-         erkJWf1Fwn8/Sh23jnFSwbLYutLVuH5xvoa052wDXCXW9y++c6A2X5fGzN8AmYB6UaWM
-         Ro8Tj6FyG7WTiHnHZ8epH3AFa7dw/CsdjTzl5bjzx6dbDwMjDdvpcp81O4AyWRCIZFH3
-         M9N4Axzy4P1o6rSEXxdTLIgRdsaZF+mh726GhDU71YUFphoAlIcHPe2tfePxnn4vu8cr
-         0ukHLvhx2i0ZPsvRkglpk9D8I+JFfCy5EKgy0fhlTJ54I39Q/jt7jZIDvAtNVCGt/nBo
-         zj7A==
-X-Gm-Message-State: AOAM533BFMZWL6+2yqkms/d4Xay6E8gncoHOPOaMyfE0FlXonhA1eer1
-	m78OT0PgdBSRe3kh6BHEvzw=
-X-Google-Smtp-Source: ABdhPJx1HJ/U08X2T1uvRiZzPj/CNGmMlyAz/lzuqpzE2X9ZsB8VQxSKym1zKmQPOuj4OWRC2/Cr3g==
-X-Received: by 2002:a05:6512:1093:: with SMTP id j19mr31596154lfg.340.1636930107901;
-        Sun, 14 Nov 2021 14:48:27 -0800 (PST)
+        bh=ImcZoW2Pqa7ZRY/8PEMeXuQQ0A4lrgRe4vr/rypxpxM=;
+        b=4Gg8kDfq2OgSLVvHaKcWqE9dQfXiJSxuNlyJ79vuJerydsS7BqYIGJledJZ92MW3Eu
+         biN18iFEJ8snXo+28OTw2OAQtz5QvwnZlp7/rNVP1oO1kqK/lvgpcLQoBPoMvXrmsUdH
+         IaXD+kM6PqAr340QNuXWuyk19LgzQN+MNCaYRVvOiBAiXPLYdgssi+LbJqIbXSZ2ZJHR
+         21u7VQsEwJUcCJVgLn8ax/b2Z0q5E09teTu9CI35cSK1XEW9d5Vf/CYPjYhXdyZN51NJ
+         /6mH8TGrLAG0MpROPmOxnRvs9qBewohqjx3oOm0Dm1bGFdbe/KKL2Vi9DgGSnhnwUOFx
+         o0FA==
+X-Gm-Message-State: AOAM532yRyWpl1obGoWUKMRIuaw0258WXc1LQyJrDw8m9gE/IUf4/n2D
+	Y4IRkm9ZK/lPvr2DEc5tLAQ=
+X-Google-Smtp-Source: ABdhPJza0kexM3zW71JVQc6l5KmuNpf+eeMnHcB7U4RkNa3k2wzk30jArYTMgkgYnWxAnz+gAuXQ2w==
+X-Received: by 2002:ac2:4907:: with SMTP id n7mr13887808lfi.86.1636930108582;
+        Sun, 14 Nov 2021 14:48:28 -0800 (PST)
 Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
         by smtp.gmail.com with ESMTPSA id h1sm1228591lfu.277.2021.11.14.14.48.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Nov 2021 14:48:27 -0800 (PST)
+        Sun, 14 Nov 2021 14:48:28 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -47,9 +47,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/3] media: staging: tegra-vde: Properly mark invalid entries
-Date: Mon, 15 Nov 2021 01:47:31 +0300
-Message-Id: <20211114224732.11550-3-digetx@gmail.com>
+Subject: [PATCH v2 3/3] media: staging: tegra-vde: Reorder misc device registration
+Date: Mon, 15 Nov 2021 01:47:32 +0300
+Message-Id: <20211114224732.11550-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211114224732.11550-1-digetx@gmail.com>
 References: <20211114224732.11550-1-digetx@gmail.com>
@@ -61,30 +61,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Thierry Reding <treding@nvidia.com>
+Register misc device in the end of driver's probing since device should
+become visible to userspace once driver is fully prepared. Do the opposite
+in case of driver removal. This is a minor improvement that doesn't solve
+any problem, but makes code more consistent.
 
-Entries in the reference picture list are marked as invalid by setting
-the frame ID to 0x3f.
-
-Signed-off-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/staging/media/tegra-vde/vde.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/tegra-vde/vde.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-index 81f3e9e7e4d6..f4f65eb78d44 100644
+index f4f65eb78d44..a8f1a024c343 100644
 --- a/drivers/staging/media/tegra-vde/vde.c
 +++ b/drivers/staging/media/tegra-vde/vde.c
-@@ -340,7 +340,7 @@ static void tegra_vde_setup_iram_tables(struct tegra_vde *vde,
- 			value |= frame->frame_num;
- 		} else {
- 			aux_addr = 0x6ADEAD00;
--			value = 0;
-+			value = 0x3f;
- 		}
+@@ -1193,12 +1193,6 @@ static int tegra_vde_probe(struct platform_device *pdev)
+ 		goto err_gen_free;
+ 	}
  
- 		tegra_vde_setup_iram_entry(vde, 0, i, value, aux_addr);
+-	err = misc_register(&vde->miscdev);
+-	if (err) {
+-		dev_err(dev, "Failed to register misc device: %d\n", err);
+-		goto err_deinit_iommu;
+-	}
+-
+ 	pm_runtime_enable(dev);
+ 	pm_runtime_use_autosuspend(dev);
+ 	pm_runtime_set_autosuspend_delay(dev, 300);
+@@ -1220,15 +1214,20 @@ static int tegra_vde_probe(struct platform_device *pdev)
+ 		goto err_pm_runtime;
+ 	}
+ 
++	err = misc_register(&vde->miscdev);
++	if (err) {
++		dev_err(dev, "Failed to register misc device: %d\n", err);
++		goto err_free_secure_bo;
++	}
++
+ 	return 0;
+ 
++err_free_secure_bo:
++	tegra_vde_free_bo(vde->secure_bo);
+ err_pm_runtime:
+-	misc_deregister(&vde->miscdev);
+-
+ 	pm_runtime_dont_use_autosuspend(dev);
+ 	pm_runtime_disable(dev);
+ 
+-err_deinit_iommu:
+ 	tegra_vde_iommu_deinit(vde);
+ 
+ err_gen_free:
+@@ -1243,6 +1242,8 @@ static int tegra_vde_remove(struct platform_device *pdev)
+ 	struct tegra_vde *vde = platform_get_drvdata(pdev);
+ 	struct device *dev = &pdev->dev;
+ 
++	misc_deregister(&vde->miscdev);
++
+ 	tegra_vde_free_bo(vde->secure_bo);
+ 
+ 	/*
+@@ -1261,8 +1262,6 @@ static int tegra_vde_remove(struct platform_device *pdev)
+ 	pm_runtime_put_noidle(dev);
+ 	clk_disable_unprepare(vde->clk);
+ 
+-	misc_deregister(&vde->miscdev);
+-
+ 	tegra_vde_dmabuf_cache_unmap_all(vde);
+ 	tegra_vde_iommu_deinit(vde);
+ 
 -- 
 2.33.1
 
