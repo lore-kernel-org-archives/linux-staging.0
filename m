@@ -1,51 +1,56 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CBD2C85
-	for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 19:20:52 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id w29so21755822wra.12
-        for <linux-staging@lists.linux.dev>; Sat, 13 Nov 2021 11:20:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3AF2C81
+	for <linux-staging@lists.linux.dev>; Sun, 14 Nov 2021 22:24:18 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id l22so38235560lfg.7
+        for <linux-staging@lists.linux.dev>; Sun, 14 Nov 2021 14:24:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8emgIDtuoDb/KTGuXsO2IrxOnRema2kfwxIq3fB8B60=;
-        b=JWAJWIiWE6GODDWWpWSYO3qpXTP6AcsP52EWAv/BksjWUxutRXe8h0lmWamlivPSyV
-         L3OBRS9Aexm5cBZjjpxqsx2pMYTWxwC72siNBdDC/15bAJK6h32b/LOxd0m4TluSKENs
-         rkDNfX+AHWZVniCHAQzfLoUm3+Z3b5W7hTmf0v2a+2lUONCDm0g4QVVBfTuGyz6D/HB0
-         GD2iBc+SqYVWBoOsEsemorNgbvS4WZPhkPA/nUICJbkp28wDUCCDWuQkf5umCf6GbUX3
-         6ClihPeZtiCxYh0aZxzeWGX9ikOuR+5IHJ5anzqHjXBbaPZ+II1veuFtzIJjiz1bb8sH
-         fApQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=48XZovVNV/PbOzkLzCtoiEWbflOcMGPbMrTaZE0X8FE=;
+        b=UgVvGAMFXb9vtVkKql7iJujsrJJqhAwxQCwiHDvRzTQUi+Fb6GwlYbhcFSPnNajD05
+         afV/+a/LFb5zr1xGqCW+HdhvA1sWz5ABHcKVXLVkQY6Wgyg+vX7jH/eUZSb33nE+zgFu
+         l4ilY16549yC28TBbZ8kCsB0o+qfcgaPCggv2GOH1CiJemJ/tv83Xc89wyUn6cd9k8IR
+         GiLXCRs2deXQDGs7nmlf01X4Fx4fMqu8qgBMqSzbtLwzntDHT+/6jwf0onpM24cQWPN7
+         eHaqitDTh7ETVe7o/oJnqg9Hfq64ld/xGddxuYCSbyjoqWDnS/v2A6jMfQlYio7DEftP
+         zjnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8emgIDtuoDb/KTGuXsO2IrxOnRema2kfwxIq3fB8B60=;
-        b=n0tJo4dgi7qq8cIMmVMlQgE4CPAFbEalNM/fCMJxqtC50a6e8UNssWYeBasl8bKAO/
-         WQftlveCH4B6lUBhdud34Ul8/wFFaXsYUsovt7NHHTtw8iO/rUbSJwj5n2hiW5Uo7iGb
-         oZwsTnfngMrBL+NaL5QRWTGCKib+ZIG1ER3Nxqg26cBaXrgcqA4r61o7grCn8XX4YM5F
-         JnIebUhJE+cO1ONRbbFzWnidiZR0PWklkLqdWPHlxHIR4qEBqnLqfz52z/Oiq13PvGha
-         kwiX3GBy3uCZrDr1G59UaPqelr57mPHHIQtFLh7QY7tgFKpeLD1P5fmXQTvLueOGykJl
-         29bw==
-X-Gm-Message-State: AOAM533L1p3TOJHw29vpRt5joeNAuqUtFasFYCxh9y3pw2+9GzPc8hbb
-	pT2V1n5jSg3TmGoPpTdR+qEGcjffOCQ=
-X-Google-Smtp-Source: ABdhPJwHaKbtsunnXcaf0w+tj8mTpOpVk4EDgnKPJ1kRc4SR029JSxUCdA0gQgwP+7nK3ifkANpzLQ==
-X-Received: by 2002:adf:f0c8:: with SMTP id x8mr29435221wro.290.1636831250396;
-        Sat, 13 Nov 2021 11:20:50 -0800 (PST)
-Received: from localhost.localdomain (252.red-83-54-181.dynamicip.rima-tde.net. [83.54.181.252])
-        by smtp.gmail.com with ESMTPSA id g18sm18530442wmq.4.2021.11.13.11.20.49
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 13 Nov 2021 11:20:49 -0800 (PST)
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	neil@brown.name
-Subject: [PATCH 3/3] staging: mt7621-dts: remove 'gdma' and 'hsdma' nodes
-Date: Sat, 13 Nov 2021 20:20:45 +0100
-Message-Id: <20211113192045.32153-4-sergio.paracuellos@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211113192045.32153-1-sergio.paracuellos@gmail.com>
-References: <20211113192045.32153-1-sergio.paracuellos@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=48XZovVNV/PbOzkLzCtoiEWbflOcMGPbMrTaZE0X8FE=;
+        b=t8RzRuDH46Sgrdkvw6Hu012F3mdLkWTSHZaH+Tbpff1y5nfWahSWL0V3Pf24vl3zYG
+         bm313H3gvxS6mccDrkl+Is2BwUsE3TdIcOeWnSWH08FGNyzTaCFc/XV4xhzev7je4qX2
+         TjkESSUPVlo1BZYJ9oJfieoGtKLkjAKiYHBmXwHui1yZFSfO99VDKWr/x0wYiMbVRPtp
+         LElDzRl7ZOVOAMueNMGmuw48CZJ1i4jyjq+oZ43F7YTx1EO/Y4FyTT4K2Ya6/Qg9IniQ
+         5RsMZvV2+mLiCeJnpmUSnDQat1zHD/TN+dj8QX8a1C77syz3ePrD9tJAKI+Lw2P387Q6
+         jI1A==
+X-Gm-Message-State: AOAM533kdh5rGsjp4eQJBo7Q4Uj9H0sqOLw2L9C+XGgKgRkPsYsRKyA9
+	geUd4OsaOJ2lKDDigqsQ7/Q=
+X-Google-Smtp-Source: ABdhPJx7CA5hvSVinPXfamTs948Bg57tl1gmgxN88USRgOgCCEs84DwQyamqOWvJJDHXts2zZMMzTA==
+X-Received: by 2002:a05:6512:c28:: with SMTP id z40mr29762557lfu.457.1636928656490;
+        Sun, 14 Nov 2021 14:24:16 -0800 (PST)
+Received: from localhost.localdomain (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
+        by smtp.gmail.com with ESMTPSA id d6sm1223339lfi.52.2021.11.14.14.24.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Nov 2021 14:24:16 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Anton Bambura <jenneron@protonmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/3] Add NVIDIA Tegra114 support to video decoder driver
+Date: Mon, 15 Nov 2021 01:23:50 +0300
+Message-Id: <20211114222353.22435-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,63 +59,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drivers related with 'gdma' and 'hsdma' nodes are not in-tree. Remove them
-from the device tree file.
+Video decoder of Tegra114/124 SoCs uses additional memory buffer required
+for decoding of protected content. We won't support that content, but it
+is impossible to disable access to the buffer, hence a stub buffer needs
+to be provided. This series enables decoder driver only for Tegra114
+because Tegra124 support requires more non-trivial changes on both kernel
+and userspace sides.
 
-Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
----
- drivers/staging/mt7621-dts/mt7621.dtsi | 38 --------------------------
- 1 file changed, 38 deletions(-)
+Dmitry Osipenko (1):
+  media: staging: tegra-vde: Reorder misc device registration
 
-diff --git a/drivers/staging/mt7621-dts/mt7621.dtsi b/drivers/staging/mt7621-dts/mt7621.dtsi
-index 6d158e4f4b8c..644a65d1a6a1 100644
---- a/drivers/staging/mt7621-dts/mt7621.dtsi
-+++ b/drivers/staging/mt7621-dts/mt7621.dtsi
-@@ -146,44 +146,6 @@ spi0: spi@b00 {
- 			pinctrl-names = "default";
- 			pinctrl-0 = <&spi_pins>;
- 		};
--
--		gdma: gdma@2800 {
--			compatible = "ralink,rt3883-gdma";
--			reg = <0x2800 0x800>;
--
--			clocks = <&sysc MT7621_CLK_GDMA>;
--			clock-names = "gdma";
--			resets = <&rstctrl 14>;
--			reset-names = "dma";
--
--			interrupt-parent = <&gic>;
--			interrupts = <0 13 IRQ_TYPE_LEVEL_HIGH>;
--
--			#dma-cells = <1>;
--			#dma-channels = <16>;
--			#dma-requests = <16>;
--
--			status = "disabled";
--		};
--
--		hsdma: hsdma@7000 {
--			compatible = "mediatek,mt7621-hsdma";
--			reg = <0x7000 0x1000>;
--
--			clocks = <&sysc MT7621_CLK_HSDMA>;
--			clock-names = "hsdma";
--			resets = <&rstctrl 5>;
--			reset-names = "hsdma";
--
--			interrupt-parent = <&gic>;
--			interrupts = <0 11 IRQ_TYPE_LEVEL_HIGH>;
--
--			#dma-cells = <1>;
--			#dma-channels = <1>;
--			#dma-requests = <1>;
--
--			status = "disabled";
--		};
- 	};
- 
- 	pinctrl: pinctrl {
+Thierry Reding (2):
+  media: staging: tegra-vde: Support reference picture marking
+  media: staging: tegra-vde: Properly mark invalid entries
+
+ drivers/staging/media/tegra-vde/vde.c | 143 +++++++++++++++++++++++---
+ drivers/staging/media/tegra-vde/vde.h |  18 ++++
+ 2 files changed, 148 insertions(+), 13 deletions(-)
+
 -- 
-2.33.0
+2.33.1
 
