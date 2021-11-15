@@ -1,100 +1,105 @@
-Received: from www381.your-server.de (www381.your-server.de [78.46.137.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BCB68
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 10:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de;
-	 s=default2002; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=zKle5O4Hm0rsP20JwKxCewz8QF7Q9nSdwfLsov0N4vA=; b=hwsQlcKAS/JXya4kJAPUiPtqXb
-	9UMOU27cfaU5N7Tp8fyitDY1674HxtfXStnOTcAeHYihKpPwkh4BzHNyU3L8ni0MlEqLJvF3Tru5q
-	B2eTXmMb/S3sAqTnVmA3k/cGfwJUJMXtyrqmrWCjYFQvJczCRjGLBk4fscjkPc04xA/T/XuzDoZfc
-	XILRH6/Bd05bjkDrhLZT2E2VeKzK0ieAQRQtDzTV4WK2WZN7kHtarwsy+N/oRQtAZ3G4YUkB/BJh8
-	efgVXyOr3W5pPKLt/HNdG7cIpevglHN4SkSIlzyhRsuDMLifVtTNbhdmELMY5HB4kAhXJnGP0TpjZ
-	VMZfg1mg==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-	by www381.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3)
-	(envelope-from <lars@metafoo.de>)
-	id 1mmZ0A-000A8L-4d; Mon, 15 Nov 2021 11:14:14 +0100
-Received: from [82.135.83.112] (helo=[192.168.178.20])
-	by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <lars@metafoo.de>)
-	id 1mmZ09-0008BB-1V; Mon, 15 Nov 2021 11:14:13 +0100
-Subject: Re: [PATCH 01/11] ASoC: dai_dma: remove slave_id field
-To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Baolin Wang <baolin.wang7@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav Kysela <perex@perex.cz>,
- Jon Hunter <jonathanh@nvidia.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Orson Zhai
- <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>,
- Thierry Reding <thierry.reding@gmail.com>, alsa-devel@alsa-project.org,
- bcm-kernel-feedback-list@broadcom.com, dmaengine@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-serial@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org
-References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-2-arnd@kernel.org>
-From: Lars-Peter Clausen <lars@metafoo.de>
-Message-ID: <647b842d-76a1-7a96-3ea7-8a37b62bc18e@metafoo.de>
-Date: Mon, 15 Nov 2021 11:14:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFC868
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 10:56:20 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id n33-20020a05600c502100b0032fb900951eso10147367wmr.4
+        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 02:56:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZnKAulS/vIGrw+3FjdDPJBScIMVfc4pnUettjnr0PVs=;
+        b=ggSYQtrTCDS/DratDv0dlBLFwAj9deVBsJWmMVZx6J92cEBlai4w4a/zYhbFWA2mV7
+         uki7MxwwBNgiaZPFSnfikq5WhBk+c2PKjirTU2uHLU/zCBm+ZQVB+kauVivYQHIUBEDL
+         PTYvpQlN7CBNt5/eJUX9auOTh45dlvEmdMzZ1nt2Mw37zVbv0N/UjrxY3ELQgLgNUYyb
+         N5QMBT7cjmJq3QhJkZ1cgo7m2IqW6ByUVIx0gLa6AZ9cORiCqguX4cOYsYN68VuiYXXB
+         65AriatapML1EuSHgsQoa4D0jLEai2o4Ue+vYibUy+GsC8tbRInfbjP7yMk3yMXT1Iac
+         lx4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZnKAulS/vIGrw+3FjdDPJBScIMVfc4pnUettjnr0PVs=;
+        b=5aqIwbRnAT2DEzpJmK5TNNy2UYtmBQObbceZ/Rnq4x88tZVlzY5pEg3q1vZ0GCYmkl
+         lzTBafkBoC+sEb95j1SMuAuGOZXasRLkihdwJTfug63Mh65SH01ePgKPVBajACuwPKF3
+         zxFAsUPD/939bfJp+4Cubz7+fBGHjZJFKnN+x5qeB6BYSSlg/0CcWTgis6eZys0MEOiK
+         7ojpVaZxkleiK/XM1sM25AfgI6i9YD4qdvrheA9JrjTQzqyAwSPQZtCYjeFt7KG8SEqx
+         Nd/WRNsfcHc6sdgLoaQzFqyWDKM3iutSUHXJOl6JDVNwA0bDIguwSo3fv9eiEy3HqG4v
+         2O1A==
+X-Gm-Message-State: AOAM530LQ4+Ar1C66kcyAl/y4H60WyrApSEMD7pwQfmuzRHivi2Nw688
+	3xAd9JHC88Q0/5N3gGotGf0=
+X-Google-Smtp-Source: ABdhPJw1JuoENwuS1D5LEAiKPlSODt9xNMfu0jvXwp4q101mH6KBfQIHJsfpjCOa9V0dQI1yjhuAzA==
+X-Received: by 2002:a05:600c:22cb:: with SMTP id 11mr41309165wmg.181.1636973778280;
+        Mon, 15 Nov 2021 02:56:18 -0800 (PST)
+Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
+        by smtp.gmail.com with ESMTPSA id d1sm13516532wrz.92.2021.11.15.02.56.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 02:56:17 -0800 (PST)
+From: Karolina Drobnik <karolinadrobnik@gmail.com>
+To: outreachy-kernel@googlegroups.com
+Cc: gregkh@linuxfoundation.org,
+	forest@alittletooquiet.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Karolina Drobnik <karolinadrobnik@gmail.com>
+Subject: [PATCH v3 0/8] staging: vt6655: Fix line wrapping in `RFvWriteWakeProgSyn`
+Date: Mon, 15 Nov 2021 10:55:41 +0000
+Message-Id: <cover.1636729147.git.karolinadrobnik@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211115085403.360194-2-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Authenticated-Sender: lars@metafoo.de
-X-Virus-Scanned: Clear (ClamAV 0.103.3/26354/Mon Nov 15 10:21:07 2021)
+Content-Transfer-Encoding: 8bit
 
-On 11/15/21 9:53 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> This field is never set, and serves no purpose, so remove it.
+This patch set is a series of small refactorings of the function
+`RFvWriteWakeProgSyn`, now renamed to `rf_write_wake_prog_syn`.
+The work here allowed to shorten lines marked by checkpatch.pl as
+being too long by:
+  * introducing two new temporary variables (`idx` and `init_table`)
+  * rewriting a conditional to switch between two modes of
+    AL7320 initialization.
 
-I agree that we should remove it. Its been legacy support code for a 
-while, but the description that there is no user is not right.
+In addition to this, the patch set renames the function to align it with
+the kernel coding style, updates the function description and removes two
+unnecessary conditionals checking if the value of `init_count` is lower than
+a predefined value.
 
-The tegra20_spdif driver obviously uses it and that user is removed in 
-this patch. I think it makes sense to split that out into a separate 
-patch with a description why the driver will still work even with 
-slave_id removed. Maybe the best is to remove the whole tegra20_spdif 
-driver.
 
-> diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
-> index 9fdc82d58db3..1c3385da6f82 100644
-> --- a/sound/soc/tegra/tegra20_spdif.c
-> +++ b/sound/soc/tegra/tegra20_spdif.c
-> @@ -284,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
->   	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
->   	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->   	spdif->playback_dma_data.maxburst = 4;
-> -	spdif->playback_dma_data.slave_id = dmareq->start;
->   
-dmareq is now unused and should be removed as well.
->   	pm_runtime_enable(&pdev->dev);
->   
+Changes in v3:
+  * add a patch for removing the type cast as a first change, suggested by
+    Dan Carpenter <dan.carpenter@oracle.com> 
+  * merge two patches (using incrementation in `idx` and cleanup) into one,
+    partially implementing Dan's suggestion
 
+Changes in v2:
+  * drop "staging: vt6655: Introduce `data` temporary variable" patch, suggested
+    by Julia Lawall <julia.lawall@inria.fr> 
+  * amend "staging: vt6655: Rewrite conditional in AL7320 initialization" patch
+    to use indexing and `init_table` temporary variable
+  * add two new patches to remove unnecessary checks for init count, suggested
+    by Mike Rapoport <mike.rapoport@gmail.com>:
+      - "staging: vt6655: Delete bogus check for `init_count` in AL2230"
+      - "staging: vt6655: Delete bogus check for `init_count` in AL7230"
+
+Karolina Drobnik (8):
+  staging: vt6655: Remove unnecessary type casts
+  staging: vt6655: Introduce `idx` variable
+  staging: vt6655: Use incrementation in `idx`
+  staging: vt6655: Rewrite conditional in AL7320 initialization
+  staging: vt6655: Rename `RFvWriteWakeProgSyn` function
+  staging: vt6655: Update comment for `rf_write_wake_prog_syn`
+  staging: vt6655: Delete bogus check for `init_count` in AL2230
+  staging: vt6655: Delete bogus check for `init_count` in AL7230
+
+ drivers/staging/vt6655/channel.c |  2 +-
+ drivers/staging/vt6655/rf.c      | 44 +++++++++++++-------------------
+ drivers/staging/vt6655/rf.h      |  2 +-
+ 3 files changed, 20 insertions(+), 28 deletions(-)
+
+-- 
+2.30.2
 
