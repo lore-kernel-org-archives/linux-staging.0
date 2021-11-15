@@ -1,41 +1,41 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFC868
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 10:56:20 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id n33-20020a05600c502100b0032fb900951eso10147367wmr.4
-        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 02:56:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5752C81
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 10:56:21 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id r8so29706808wra.7
+        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 02:56:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZnKAulS/vIGrw+3FjdDPJBScIMVfc4pnUettjnr0PVs=;
-        b=ggSYQtrTCDS/DratDv0dlBLFwAj9deVBsJWmMVZx6J92cEBlai4w4a/zYhbFWA2mV7
-         uki7MxwwBNgiaZPFSnfikq5WhBk+c2PKjirTU2uHLU/zCBm+ZQVB+kauVivYQHIUBEDL
-         PTYvpQlN7CBNt5/eJUX9auOTh45dlvEmdMzZ1nt2Mw37zVbv0N/UjrxY3ELQgLgNUYyb
-         N5QMBT7cjmJq3QhJkZ1cgo7m2IqW6ByUVIx0gLa6AZ9cORiCqguX4cOYsYN68VuiYXXB
-         65AriatapML1EuSHgsQoa4D0jLEai2o4Ue+vYibUy+GsC8tbRInfbjP7yMk3yMXT1Iac
-         lx4Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pfoIbbQyeoaiMVTbbswbVOIqx8arnjzrsrDHWc/2QRA=;
+        b=fICl6o6qvgnNDUrRxFFC9A7JfHMK5wooQfuCLafAMEgZz7pzOnKPBk0Iaj1KTmZZ5h
+         1pM+6bl8YW4SQrRBzPRVlONWXQc4biLjsT0zbeoZSqNxFZTStOO/BoAXIUPUzSnV7L1p
+         gxPagntPe0GpltGbtwJZkV4c7d3kZli7tpB+X6Kiq0rJ0491cKidV4B+ajSDH+uKNkiU
+         8CC7SLwsupagjstanh5jQlx4Lfp0lssQI4J57Q8GFSBB27smKbbLHS+68ZWk1Tm7aR/l
+         8/6e9Pcyax1I0LuogQuPfRkZDjTHjt8S0wFjuElJioJD1Cac0JYf9ppzEO6ulvNOuMGx
+         ipXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZnKAulS/vIGrw+3FjdDPJBScIMVfc4pnUettjnr0PVs=;
-        b=5aqIwbRnAT2DEzpJmK5TNNy2UYtmBQObbceZ/Rnq4x88tZVlzY5pEg3q1vZ0GCYmkl
-         lzTBafkBoC+sEb95j1SMuAuGOZXasRLkihdwJTfug63Mh65SH01ePgKPVBajACuwPKF3
-         zxFAsUPD/939bfJp+4Cubz7+fBGHjZJFKnN+x5qeB6BYSSlg/0CcWTgis6eZys0MEOiK
-         7ojpVaZxkleiK/XM1sM25AfgI6i9YD4qdvrheA9JrjTQzqyAwSPQZtCYjeFt7KG8SEqx
-         Nd/WRNsfcHc6sdgLoaQzFqyWDKM3iutSUHXJOl6JDVNwA0bDIguwSo3fv9eiEy3HqG4v
-         2O1A==
-X-Gm-Message-State: AOAM530LQ4+Ar1C66kcyAl/y4H60WyrApSEMD7pwQfmuzRHivi2Nw688
-	3xAd9JHC88Q0/5N3gGotGf0=
-X-Google-Smtp-Source: ABdhPJw1JuoENwuS1D5LEAiKPlSODt9xNMfu0jvXwp4q101mH6KBfQIHJsfpjCOa9V0dQI1yjhuAzA==
-X-Received: by 2002:a05:600c:22cb:: with SMTP id 11mr41309165wmg.181.1636973778280;
-        Mon, 15 Nov 2021 02:56:18 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pfoIbbQyeoaiMVTbbswbVOIqx8arnjzrsrDHWc/2QRA=;
+        b=eNtIKUOBRSi60ryK7WIZR9fDEEN0W3EaENvqZGnEtB/yQ6UQZRbcVvnKmBLIqheh7O
+         fesbIcLjbyzYjzHw8H+MZrhV6zDsfvrayHi9kly+T4aioPDKuvpQI9xcatIutotmLtVO
+         BbDYG9nv0vYC3u53YEX8MiLTYF0iqsTgD/xom73B5uuc2pg6hQ0NNyxgX1cAfJfywICN
+         AfyE03EgLPYTn4+XU61vAPkKtWfDyx7kH7JoZMsape0jrBHDuk9qlIhmTCa1jz5MeDXk
+         gtIOWyLCmJ4KcNOWrZkf70qaxHmZsp4mBJP+3ej1ejFmzTRy1bYRaaKnJUnaJPFZ+l5L
+         4FOA==
+X-Gm-Message-State: AOAM532qawhLU+9Mv9Uta6XNyepmIAKstyD+Og85S/uPMNoYJIFpsXlV
+	EvuRPETtMcJst9BKOh4RQAE=
+X-Google-Smtp-Source: ABdhPJxhMlkdpUZZ0QEODXx8CLC3/MXNHzt2/8DVaZ+wgH7FYZuLT+Nqib9MBZpofR9ZuTUMffD7iw==
+X-Received: by 2002:adf:cd8c:: with SMTP id q12mr45812392wrj.144.1636973779927;
+        Mon, 15 Nov 2021 02:56:19 -0800 (PST)
 Received: from localhost.localdomain ([2a01:4b00:f411:e700:e085:8cb7:7bf6:5d62])
-        by smtp.gmail.com with ESMTPSA id d1sm13516532wrz.92.2021.11.15.02.56.17
+        by smtp.gmail.com with ESMTPSA id d1sm13516532wrz.92.2021.11.15.02.56.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 02:56:17 -0800 (PST)
+        Mon, 15 Nov 2021 02:56:19 -0800 (PST)
 From: Karolina Drobnik <karolinadrobnik@gmail.com>
 To: outreachy-kernel@googlegroups.com
 Cc: gregkh@linuxfoundation.org,
@@ -43,10 +43,12 @@ Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Karolina Drobnik <karolinadrobnik@gmail.com>
-Subject: [PATCH v3 0/8] staging: vt6655: Fix line wrapping in `RFvWriteWakeProgSyn`
-Date: Mon, 15 Nov 2021 10:55:41 +0000
-Message-Id: <cover.1636729147.git.karolinadrobnik@gmail.com>
+Subject: [PATCH v3 1/8] staging: vt6655: Remove unnecessary type casts
+Date: Mon, 15 Nov 2021 10:55:42 +0000
+Message-Id: <c9a5718479deda078b582cbc42a4e7b2f3a6cb39.1636729147.git.karolinadrobnik@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1636729147.git.karolinadrobnik@gmail.com>
+References: <cover.1636729147.git.karolinadrobnik@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,51 +57,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch set is a series of small refactorings of the function
-`RFvWriteWakeProgSyn`, now renamed to `rf_write_wake_prog_syn`.
-The work here allowed to shorten lines marked by checkpatch.pl as
-being too long by:
-  * introducing two new temporary variables (`idx` and `init_table`)
-  * rewriting a conditional to switch between two modes of
-    AL7320 initialization.
+Remove casts to unsigned short in `RFvWriteWakeProgSyn` function as they are
+not needed.
 
-In addition to this, the patch set renames the function to align it with
-the kernel coding style, updates the function description and removes two
-unnecessary conditionals checking if the value of `init_count` is lower than
-a predefined value.
+Signed-off-by: Karolina Drobnik <karolinadrobnik@gmail.com>
+---
+ drivers/staging/vt6655/rf.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-
-Changes in v3:
-  * add a patch for removing the type cast as a first change, suggested by
-    Dan Carpenter <dan.carpenter@oracle.com> 
-  * merge two patches (using incrementation in `idx` and cleanup) into one,
-    partially implementing Dan's suggestion
-
-Changes in v2:
-  * drop "staging: vt6655: Introduce `data` temporary variable" patch, suggested
-    by Julia Lawall <julia.lawall@inria.fr> 
-  * amend "staging: vt6655: Rewrite conditional in AL7320 initialization" patch
-    to use indexing and `init_table` temporary variable
-  * add two new patches to remove unnecessary checks for init count, suggested
-    by Mike Rapoport <mike.rapoport@gmail.com>:
-      - "staging: vt6655: Delete bogus check for `init_count` in AL2230"
-      - "staging: vt6655: Delete bogus check for `init_count` in AL7230"
-
-Karolina Drobnik (8):
-  staging: vt6655: Remove unnecessary type casts
-  staging: vt6655: Introduce `idx` variable
-  staging: vt6655: Use incrementation in `idx`
-  staging: vt6655: Rewrite conditional in AL7320 initialization
-  staging: vt6655: Rename `RFvWriteWakeProgSyn` function
-  staging: vt6655: Update comment for `rf_write_wake_prog_syn`
-  staging: vt6655: Delete bogus check for `init_count` in AL2230
-  staging: vt6655: Delete bogus check for `init_count` in AL7230
-
- drivers/staging/vt6655/channel.c |  2 +-
- drivers/staging/vt6655/rf.c      | 44 +++++++++++++-------------------
- drivers/staging/vt6655/rf.h      |  2 +-
- 3 files changed, 20 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/staging/vt6655/rf.c b/drivers/staging/vt6655/rf.c
+index bc4abe77db7b..aa90890c5c7a 100644
+--- a/drivers/staging/vt6655/rf.c
++++ b/drivers/staging/vt6655/rf.c
+@@ -699,11 +699,11 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
+ 			return false;
+ 
+ 		for (i = 0; i < CB_AL2230_INIT_SEQ; i++)
+-			MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al2230_init_table[i]);
++			MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al2230_init_table[i]);
+ 
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al2230_channel_table0[channel - 1]);
++		MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al2230_channel_table0[channel - 1]);
+ 		i++;
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al2230_channel_table1[channel - 1]);
++		MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al2230_channel_table1[channel - 1]);
+ 		break;
+ 
+ 		/* Need to check, PLLON need to be low for channel setting */
+@@ -716,17 +716,17 @@ bool RFvWriteWakeProgSyn(struct vnt_private *priv, unsigned char rf_type,
+ 
+ 		if (channel <= CB_MAX_CHANNEL_24G) {
+ 			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
+-				MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al7230_init_table[i]);
++				MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al7230_init_table[i]);
+ 		} else {
+ 			for (i = 0; i < CB_AL7230_INIT_SEQ; i++)
+-				MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al7230_init_table_a_mode[i]);
++				MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al7230_init_table_a_mode[i]);
+ 		}
+ 
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al7230_channel_table0[channel - 1]);
++		MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al7230_channel_table0[channel - 1]);
+ 		i++;
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al7230_channel_table1[channel - 1]);
++		MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al7230_channel_table1[channel - 1]);
+ 		i++;
+-		MACvSetMISCFifo(priv, (unsigned short)(MISCFIFO_SYNDATA_IDX + i), al7230_channel_table2[channel - 1]);
++		MACvSetMISCFifo(priv, MISCFIFO_SYNDATA_IDX + i, al7230_channel_table2[channel - 1]);
+ 		break;
+ 
+ 	case RF_NOTHING:
 -- 
 2.30.2
 
