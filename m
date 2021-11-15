@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9F272
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 09:15:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D108C72
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 09:19:11 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2837F9CA;
-	Mon, 15 Nov 2021 10:10:17 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9F1E9CA;
+	Mon, 15 Nov 2021 10:19:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1636967417;
-	bh=bs5FwrGJKmZiUyJUhZtsFFkCbThCR2+MNX7sYGLdInI=;
+	s=mail; t=1636967950;
+	bh=DyMiGF8dYpIO7sFrfkTrEHyV1KL7y6BUoG/PpdzWVzI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dnjNnE+BxQubVBzyvt35tp9eSPunAc+NOuowzVjMVfnO6jqLw3nMEngEl53CjbMh0
-	 UYxBQSy9hDC4AXM+j7bivGr1bDYL75caLR3Kpvgip4jQNeMxX1tvkF1//Xh3honHLn
-	 XZyCAuT51XsudJZ+zXrp60OeLJ0gprUub8NgbGw0=
-Date: Mon, 15 Nov 2021 11:09:54 +0200
+	b=IazgGZ0N2QKgbD2xiliOgSKM/Wh6Ku2e/ttwUbC+gF1dv3N9Q27dBA+K+YHkhhn3f
+	 128fjkKnCXSOo6RM9eqPTMGb4Rdwc+4oI3NFochnUeHBJsqlLB6JXS7U5djKpnhGrr
+	 6nHRXJmkdxcDwrNkgsOFzaGTd+Zdnc73MAIEaL64=
+Date: Mon, 15 Nov 2021 11:18:47 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
@@ -43,10 +43,10 @@ Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
 	linux-mtd@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
 	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
 	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 04/11] dmaengine: shdma: remove legacy slave_id parsing
-Message-ID: <YZIj4iKUsj/QQ+BH@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 11/11] dmaengine: remove slave_id config field
+Message-ID: <YZIl92Akt2QEqad9@pendragon.ideasonboard.com>
 References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-5-arnd@kernel.org>
+ <20211115085403.360194-12-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,49 +55,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211115085403.360194-5-arnd@kernel.org>
+In-Reply-To: <20211115085403.360194-12-arnd@kernel.org>
 
 Hi Arnd,
 
 Thank you for the patch.
 
-On Mon, Nov 15, 2021 at 09:53:56AM +0100, Arnd Bergmann wrote:
+On Mon, Nov 15, 2021 at 09:54:03AM +0100, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> The slave device is picked through either devicetree or a filter
-> function, and any remaining out-of-tree drivers would have warned
-> about this usage since 2015.
-> 
-> Stop interpreting the field finally so it can be removed from
-> the interface.
-> 
+> All references to the slave_id field have been removed, so
+> remove the field as well to prevent new references from
+> creeping in again.
+
+A rationale to explain why the slave_id field shouldn't be used would be
+nice.
+
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/dma/sh/shdma-base.c | 8 --------
->  1 file changed, 8 deletions(-)
+>  include/linux/dmaengine.h | 4 ----
+>  1 file changed, 4 deletions(-)
 > 
-> diff --git a/drivers/dma/sh/shdma-base.c b/drivers/dma/sh/shdma-base.c
-> index 7f72b3f4cd1a..41c6bc650fa3 100644
-> --- a/drivers/dma/sh/shdma-base.c
-> +++ b/drivers/dma/sh/shdma-base.c
-> @@ -786,14 +786,6 @@ static int shdma_config(struct dma_chan *chan,
->  	if (!config)
->  		return -EINVAL;
->  
-> -	/*
-> -	 * overriding the slave_id through dma_slave_config is deprecated,
-> -	 * but possibly some out-of-tree drivers still do it.
-> -	 */
-> -	if (WARN_ON_ONCE(config->slave_id &&
-> -			 config->slave_id != schan->real_slave_id))
-> -		schan->real_slave_id = config->slave_id;
-> -
->  	/*
->  	 * We could lock this, but you shouldn't be configuring the
->  	 * channel, while using it...
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index 9000f3ffce8b..0349b35235e6 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -418,9 +418,6 @@ enum dma_slave_buswidth {
+>   * @device_fc: Flow Controller Settings. Only valid for slave channels. Fill
+>   * with 'true' if peripheral should be flow controller. Direction will be
+>   * selected at Runtime.
+> - * @slave_id: Slave requester id. Only valid for slave channels. The dma
+> - * slave peripheral will have unique id as dma requester which need to be
+> - * pass as slave config.
+>   * @peripheral_config: peripheral configuration for programming peripheral
+>   * for dmaengine transfer
+>   * @peripheral_size: peripheral configuration buffer size
+> @@ -448,7 +445,6 @@ struct dma_slave_config {
+>  	u32 src_port_window_size;
+>  	u32 dst_port_window_size;
+>  	bool device_fc;
+> -	unsigned int slave_id;
+>  	void *peripheral_config;
+>  	size_t peripheral_size;
+>  };
 
 -- 
 Regards,
