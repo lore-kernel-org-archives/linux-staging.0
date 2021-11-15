@@ -1,70 +1,162 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E8A72
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 09:55:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 30E7861BF8;
-	Mon, 15 Nov 2021 09:55:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636970151;
-	bh=zO8rrj1Vi14Uipx7unEIoASJvIGIajWvOMxp9QEDdrg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=pS0ejTv+o5S0A78mbmJ7yuvuLRvB9d4xUmNuDZkoNE6OFFDakUf4rUvAzBprhdror
-	 c/bShp5CLYeQozZylztfdFxkqVWVq+5ygYNbn+4A0s2ze6/IhIUKtVg/V7FX57xSK9
-	 o+TBkdXts4C2lwVOyzZSJbu6XtvG/R75Me0SQNeR4Q87t1+Qhokvme1DEyAn+zBc7+
-	 nJMjetgrrqNxHehwqI7KLrMF3IzGgf4PNgOkpTsytZe7548iWlWgbHxmlfyaqoC8CS
-	 sUf/B2fdljsPIZbKzs7tinYeZ8/8ttY26uNUOwdT55UgKOo0wK/ocgfuCEg3N311BC
-	 phUkTUj1HGMig==
-Message-ID: <b04bb9803d59d26e4f32adc9518d0ec1a9456273.camel@kernel.org>
-Subject: Re: [PATCH 03/11] mmc: bcm2835: stop setting chan_config->slave_id
-From: nicolas saenz julienne <nsaenz@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Baolin Wang
- <baolin.wang7@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav
- Kysela <perex@perex.cz>,  Jon Hunter <jonathanh@nvidia.com>, Lars-Peter
- Clausen <lars@metafoo.de>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Laxman Dewangan
- <ldewangan@nvidia.com>,  Manivannan Sadhasivam <mani@kernel.org>, Mark
- Brown <broonie@kernel.org>, Michal Simek <michal.simek@xilinx.com>, Orson
- Zhai <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, Scott
- Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>, Thierry
- Reding <thierry.reding@gmail.com>,  alsa-devel@alsa-project.org,
- bcm-kernel-feedback-list@broadcom.com,  dmaengine@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org,  linux-mtd@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org,  linux-serial@vger.kernel.org,
- linux-spi@vger.kernel.org,  linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org
-Date: Mon, 15 Nov 2021 10:55:42 +0100
-In-Reply-To: <20211115085403.360194-4-arnd@kernel.org>
-References: <20211115085403.360194-1-arnd@kernel.org>
-	 <20211115085403.360194-4-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B46172
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 09:56:09 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id p37so31908988uae.8
+        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 01:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gsBk71NedBBsVpsWIk4ACHvjoj+bC3+VIVEUbcpO8IA=;
+        b=ehc21nRzLc8i1U+EqW4HnjY+RWjGWh14ZBLj7yNPUxl816A1Dbell6St7S/yW4X/vv
+         tt7qOOmMMY85WSc7GghoYpJGJ9xgEBBUokeqlapvAJX5EFUnaN1rvUlEUeE8epbheu5B
+         bWVKVRopMxxBfMWO9giRCidfYfZ56vuyGO7o4CSsyVdRcdOlFmosB/G0CBJUF76Dwi9T
+         Bi5dKD3S2Ixk/FkU0QqBfwiiGLH1DDHTmYGg0Ci2mql4cvEo0wmrzkz2B7tgBgY5liPS
+         E361qlo75lRj9Ddb/VA9aIMjLtX6LX3ck8/h22UNs9feaHP2NMM+vvRDoJtlPCwrDlmi
+         9GJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gsBk71NedBBsVpsWIk4ACHvjoj+bC3+VIVEUbcpO8IA=;
+        b=op4RG909Rz1e27tnxhlppaIW4StorCdJrEj+yJnPUtvVvTuxOWJMCeSz9SELz3gqXy
+         QxLO00xuipy/EiKrqxXgAIdNGbu1Jkzy/oKOSemQ9V/r4w/ofBOrPAjGe2rHVlt1Eixh
+         5mAwC3KQxo5vbD3gFnDx+mCiaekfiDH8FZV8DdTjHjbB6XvcZ62JGpjzQP2BDcaIGpqL
+         0QSPHngVKsNQ7nH7Fw8GUY28tzNCpV54yU9NMAnWEMDYOPx6SON5N5cOpqhQPM1TgEip
+         kgaZRSXxvdGjE+AhSKg1RtxMwEKMSlrCFmJLtHUDoMTqU/IU/Dt+oIuZ8K8RA0TrZyj4
+         OdMQ==
+X-Gm-Message-State: AOAM533u55T46Mxb5Vu1StiGZGRah5dKfdT4rgY4o0CdCJvA5cSd8bIX
+	9QXBE+91B9zReqZ01Jxmr5U2EvSo6Zg0rQ8H0Ig=
+X-Google-Smtp-Source: ABdhPJz6ESqhwfmkhVT1QvVuW/9wYB2eiEui3t3htInxrDx0SkRrPjrQEm+aetErjkG15iM6y1caYpqVdHJBHexZMiA=
+X-Received: by 2002:ab0:6883:: with SMTP id t3mr56751869uar.66.1636970168537;
+ Mon, 15 Nov 2021 01:56:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211115085403.360194-1-arnd@kernel.org> <20211115085403.360194-11-arnd@kernel.org>
+In-Reply-To: <20211115085403.360194-11-arnd@kernel.org>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Mon, 15 Nov 2021 10:55:56 +0100
+Message-ID: <CAMhs-H98kPNqH491+X0Mp81Ng++v1aQ=97XSHEhs+vx3g8W_4A@mail.gmail.com>
+Subject: Re: [PATCH 10/11] staging: ralink-gdma: stop using slave_id config
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Baolin Wang <baolin.wang7@gmail.com>, 
+	Bjorn Andersson <bjorn.andersson@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hyun Kwon <hyun.kwon@xilinx.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Jon Hunter <jonathanh@nvidia.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Michal Simek <michal.simek@xilinx.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
+	Orson Zhai <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, alsa-devel@alsa-project.org, 
+	bcm-kernel-feedback-list@broadcom.com, dmaengine@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-serial@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2021-11-15 at 09:53 +0100, Arnd Bergmann wrote:
+Hi Arnd,
+
+On Mon, Nov 15, 2021 at 9:55 AM Arnd Bergmann <arnd@kernel.org> wrote:
+>
 > From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The field is not interpreted by the DMA engine driver, as all the data
-> is passed from devicetree instead. Remove the assignment so the field
-> can eventually be deleted.
-> 
+>
+> Picking the connection between a DMA controller and its attached device
+> is done through devicetree using the "dmas" property, which is implemented
+> by the gdma driver, but it also allows overriding the "req" configuration
+> with the slave_id field, as it was done in some linux-2.6 era drivers.
+>
+> There is no driver in the tree that sets these values, so stop
+> interpreting them before anything accidentally starts relying on it.
+> Rename the field in the channel from "slave_id" to "req" to better match
+> the purpose and the naming in the hardware.
+>
+> If any driver actually starts using this DMA engine, it may be necessary
+> to implement a .xlate callback that sets this field at probe time.
+>
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
+>  drivers/staging/ralink-gdma/ralink-gdma.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 
-Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+This driver has been already deleted from the staging tree. See [0].
 
-Regards,
-Nicolas
+Best regards,
+    Sergio Paracuellos
 
+[0]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=5bfc10690c6c590a972be014ed8595e77e1e2dea
+
+>
+> diff --git a/drivers/staging/ralink-gdma/ralink-gdma.c b/drivers/staging/ralink-gdma/ralink-gdma.c
+> index b5229bc6eae5..f00240e62e1b 100644
+> --- a/drivers/staging/ralink-gdma/ralink-gdma.c
+> +++ b/drivers/staging/ralink-gdma/ralink-gdma.c
+> @@ -106,7 +106,7 @@ struct gdma_dma_desc {
+>  struct gdma_dmaengine_chan {
+>         struct virt_dma_chan vchan;
+>         unsigned int id;
+> -       unsigned int slave_id;
+> +       unsigned int req;
+>
+>         dma_addr_t fifo_addr;
+>         enum gdma_dma_transfer_size burst_size;
+> @@ -194,7 +194,6 @@ static int gdma_dma_config(struct dma_chan *c,
+>                         dev_err(dma_dev->ddev.dev, "only support 4 byte buswidth\n");
+>                         return -EINVAL;
+>                 }
+> -               chan->slave_id = config->slave_id;
+>                 chan->fifo_addr = config->dst_addr;
+>                 chan->burst_size = gdma_dma_maxburst(config->dst_maxburst);
+>                 break;
+> @@ -203,7 +202,6 @@ static int gdma_dma_config(struct dma_chan *c,
+>                         dev_err(dma_dev->ddev.dev, "only support 4 byte buswidth\n");
+>                         return -EINVAL;
+>                 }
+> -               chan->slave_id = config->slave_id;
+>                 chan->fifo_addr = config->src_addr;
+>                 chan->burst_size = gdma_dma_maxburst(config->src_maxburst);
+>                 break;
+> @@ -288,12 +286,12 @@ static int rt305x_gdma_start_transfer(struct gdma_dmaengine_chan *chan)
+>                 dst_addr = chan->fifo_addr;
+>                 ctrl0 = GDMA_REG_CTRL0_DST_ADDR_FIXED |
+>                         (8 << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
+> -                       (chan->slave_id << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
+> +                       (chan->req << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
+>         } else if (chan->desc->direction == DMA_DEV_TO_MEM) {
+>                 src_addr = chan->fifo_addr;
+>                 dst_addr = sg->dst_addr;
+>                 ctrl0 = GDMA_REG_CTRL0_SRC_ADDR_FIXED |
+> -                       (chan->slave_id << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
+> +                       (chan->req << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
+>                         (8 << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
+>         } else if (chan->desc->direction == DMA_MEM_TO_MEM) {
+>                 /*
+> @@ -365,12 +363,12 @@ static int rt3883_gdma_start_transfer(struct gdma_dmaengine_chan *chan)
+>                 dst_addr = chan->fifo_addr;
+>                 ctrl0 = GDMA_REG_CTRL0_DST_ADDR_FIXED;
+>                 ctrl1 = (32 << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
+> -                       (chan->slave_id << GDMA_REG_CTRL1_DST_REQ_SHIFT);
+> +                       (chan->req << GDMA_REG_CTRL1_DST_REQ_SHIFT);
+>         } else if (chan->desc->direction == DMA_DEV_TO_MEM) {
+>                 src_addr = chan->fifo_addr;
+>                 dst_addr = sg->dst_addr;
+>                 ctrl0 = GDMA_REG_CTRL0_SRC_ADDR_FIXED;
+> -               ctrl1 = (chan->slave_id << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
+> +               ctrl1 = (chan->req << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
+>                         (32 << GDMA_REG_CTRL1_DST_REQ_SHIFT) |
+>                         GDMA_REG_CTRL1_COHERENT;
+>         } else if (chan->desc->direction == DMA_MEM_TO_MEM) {
+> --
+> 2.30.2
+>
+>
