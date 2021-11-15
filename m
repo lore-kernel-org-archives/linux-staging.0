@@ -1,130 +1,107 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [194.109.24.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2462C83
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 14:46:26 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id t11so36076233ljh.6
-        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 06:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=f9990VLRY1mM2sii4oucAgZqtJr4f6UTn2nlUsBeiyA=;
-        b=MKv4lJzovSleVVtb8Uez4QS8nWVoyslVc4dAhZ3Ja9hcfOWhdQeyMWw6FHhrLjYpMe
-         nYJhoHPJHieO78N1tejBSn1JjrO7HehrBzOD6p80ebHQ/GkZbHzj+oDCc5U4EAGGyBKV
-         xbJLawSqjqY4fBNx9jKlTQhw4P401MYqth7VhZkzSxvdhwOw2g0BxwUpHsNeyVoCEXwg
-         AneGSb38fLLRS0lfd/WXUhHjDQTfopD289+UYtNAyG6eoU7lhx2ZHI9h8rOgSDINeyOy
-         BSHVlS4ECWcjRF5ej1E2mdUBpiNe11q16/40ayNE4SINNFWYIMy3ZhzwXNTN4fPHDK38
-         wMxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=f9990VLRY1mM2sii4oucAgZqtJr4f6UTn2nlUsBeiyA=;
-        b=cjOukstuxWqz5wyumeWIgqcdDAuGdPV7YxJ88x++oaoRS0jgII4tRHoQN6GocO4KsW
-         K0JWhk+cXqQeCtywMQkj/fimZUInO5NYmPekTySc11R7+hFuizhzYP6maGExr8hrrEgt
-         wYC4DQnsetXt3R3q5/4FNySMSF2/xHg79c+Kv8Ks+FKznDnA9Zen2gyXqUBr8xuhdBut
-         Wa8cMhyWTxRLsWOxkR+pYrpFWYETh0T0eW6kdQZ+3uH/Aw0DrucJhPkbfbQ2HGG2FInS
-         NLezasDGcGkWZzjRuJVGJlihFWv4b/WvRDs51TMmWNIhWsgucV9EMf0UU3qfkXTRwLAf
-         egxQ==
-X-Gm-Message-State: AOAM530821LTQh6TNSTPCsPofXnEImHrT1foigSkcQa7mjB/5uYMC8GF
-	v3/rTCHYjXkjBYXSXOXeY88=
-X-Google-Smtp-Source: ABdhPJyGzX+uJoClUoX59O9YRdwTgWzR3XA1e/9PtaHs0iyNVaYjGst0rpo/clkWJ4amyTD6J2hiFA==
-X-Received: by 2002:a2e:b711:: with SMTP id j17mr29887114ljo.39.1636987584324;
-        Mon, 15 Nov 2021 06:46:24 -0800 (PST)
-Received: from [192.168.2.145] (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
-        by smtp.googlemail.com with ESMTPSA id j2sm1445777lfr.109.2021.11.15.06.46.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 06:46:24 -0800 (PST)
-Subject: Re: [PATCH 01/11] ASoC: dai_dma: remove slave_id field
-To: Lars-Peter Clausen <lars@metafoo.de>, Arnd Bergmann <arnd@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Andy Gross <agross@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Baolin Wang <baolin.wang7@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D7F2C83
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 14:49:11 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+	by smtp-cloud9.xs4all.net with ESMTPA
+	id mdIAmFgeCfwDFmdIDmOpbl; Mon, 15 Nov 2021 15:49:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+	t=1636987750; bh=qBF5gvocBu52H3ffjtTIchTajfvHLJyvUqLFSj2dXhs=;
+	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+	 Subject;
+	b=f3XzGkYUa1glkcPIKiyx7TVGQlMrrPu9kn5LPPWOB74rP5SUu1f8i1RUt9p8OSmFf
+	 W1kD9ZnJhf/FRnVoGEELGNJbLDNACFmU+CxtXhCiJ+tEFm8a/fRyxD3orhAL+4POKw
+	 uNbaZ7xEzB4bGxE/LLJ3KLgA0+UxbNWvDdZFSBbaA6is2nx0Ti3tMTtBAPfNkcQHi6
+	 gfWGnWfuyXd+3+TInC0I7XEhwINeC/2NYyXB3j/G/RM/Cp7W4m5R4wVYCOjBhf9SGV
+	 fv1Od6dA7OXrFkApueipBAHnCcjlFGwSu01p0NiQycJNfiQJHScOQVC3RV2XKi/XZV
+	 oWUHwlJ7aKTsA==
+Subject: Re: [PATCH v2 0/3] Add NVIDIA Tegra114 support to video decoder
+ driver
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav Kysela <perex@perex.cz>,
- Jon Hunter <jonathanh@nvidia.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Orson Zhai
- <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
- dmaengine@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- linux-mtd <linux-mtd@lists.infradead.org>,
- "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- linux-spi <linux-spi@vger.kernel.org>, linux-staging@lists.linux.dev,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-References: <20211115085403.360194-1-arnd@kernel.org>
- <20211115085403.360194-2-arnd@kernel.org>
- <647b842d-76a1-7a96-3ea7-8a37b62bc18e@metafoo.de>
- <CAK8P3a2EVseM4t=e982fFhzBGSZxZ2_V-FHwr-fQPd-bkAKaJg@mail.gmail.com>
- <d2dd42fc-e58a-0c06-7f7e-a6a2161c368d@metafoo.de>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <5737810c-420a-2f8d-99bf-24a2558d5855@gmail.com>
-Date: Mon, 15 Nov 2021 17:46:22 +0300
+ Anton Bambura <jenneron@protonmail.com>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211114224732.11550-1-digetx@gmail.com>
+ <1411d7a3913677fee58e103f7610e122686e87bf.camel@ndufresne.ca>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <55f445d8-8207-35a3-6c6f-dcb9ea70a90f@xs4all.nl>
+Date: Mon, 15 Nov 2021 15:49:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Firefox/78.0 Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <d2dd42fc-e58a-0c06-7f7e-a6a2161c368d@metafoo.de>
+In-Reply-To: <1411d7a3913677fee58e103f7610e122686e87bf.camel@ndufresne.ca>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfMLDAGeBvTAWdd2xE0ooGtnAHZ4VFlE+FhevaxS+GpR56u9YwV4SxwyEFYocI9Bc322FaBG05O3L21bn3fQc+MXOjd8CcXX/s5f2QgW3KWl90QJL5aUf
+ qNulR0gP2dyyAGhzUSglp6I6SBKxgtXoL6QcufE0oc1OqmxbICaPu4fNo9q9VFtgnV0OYrchg7w4iO0ERNMMuqiSDrBs0locCvdGERR8w/I3tyyU3pJKC/jq
+ 3pX3iifuuw9jvXAVKAvswR24oJDsEnv82UJ9+u4jkbXsJAHYAgqBEdKx7ovY6zb0E9KJp4VApZ6zf3fGynJezL5tbF0UHXLlUULE+cdeD+DbhBRsLl2nOr45
+ 8FKtQrTD6SWQDgmUvfgtYJZfg0neCRTYAoOTqNzge3zqg2RwLTMbtErfwP0Qhys/X6cnK/c8h4gWPNvyFwTkbaVZNzKyagHT6+SdcwJEaQh5CqnSjr30F/AL
+ lnBRpXDEo5/I52TODbhjVB3qetLJmrg0oJAkWtdM6T5ipjh/sEAge3HyrlCIcSaWXpgICEO/zaoF+rFLbckWstTJHEpiTWrFglyi/Q==
 
-15.11.2021 14:53, Lars-Peter Clausen пишет:
-> On 11/15/21 11:42 AM, Arnd Bergmann wrote:
->> On Mon, Nov 15, 2021 at 11:14 AM Lars-Peter Clausen <lars@metafoo.de>
->> wrote:
->>> On 11/15/21 9:53 AM, Arnd Bergmann wrote:
->>>> From: Arnd Bergmann <arnd@arndb.de>
->>>>
->>>> This field is never set, and serves no purpose, so remove it.
->>> I agree that we should remove it. Its been legacy support code for a
->>> while, but the description that there is no user is not right.
->>>
->>> The tegra20_spdif driver obviously uses it and that user is removed in
->>> this patch. I think it makes sense to split that out into a separate
->>> patch with a description why the driver will still work even with
->>> slave_id removed. Maybe the best is to remove the whole tegra20_spdif
->>> driver.
->> Ok, I'll split out the tegra patch and try to come up with a better
->> description for it. What I saw in that driver is it just passes down the
->> slave_id number from a 'struct resource', but there is nothing in
->> the kernel that sets up this resource.
->>
->> Do you or someone else have more information on the state of this
->> driver? I can see that it does not contain any of_device_id based
->> probing, so it seems that this is either dead code, the platform_device
->> gets created by some other code that is no longer compatible with
->> this driver.
+On 15/11/2021 15:43, Nicolas Dufresne wrote:
+> Hi Dmitry,
 > 
-> I've looked into this a while back, when I tried to remove slave_id. And
-> as far as I can tell there were never any in-tree users of this driver,
-> even back when we used platform board files. Maybe somebody from Nvidia
-> knows if there are out-of-tree users.
+> Le lundi 15 novembre 2021 à 01:47 +0300, Dmitry Osipenko a écrit :
+>> Video decoder of Tegra114/124 SoCs uses additional memory buffer required
+>> for decoding of protected content. We won't support that content, but it
+>> is impossible to disable access to the buffer, hence a stub buffer needs
+>> to be provided. This series enables decoder driver only for Tegra114
+>> because Tegra124 support requires more non-trivial changes on both kernel
+>> and userspace sides.
+> 
+> I believe the stateless API is quite in place now, but I only see maintenance on
+> this staging driver. I don't believe it really make sense to keep maintaining a
+> staging driver without any step forward de-staging it. I believe it gives the
+> wrong message on the Kernel staging purpose.
+> 
+> I'm not criticizing your effort, I believe you are doing nice work for you
+> community, but would prefer to see this driver be ported to the official kernel
+> APIs rather then being maintain as staging till the end of time.
 
-That Tegra SPDIF driver was never used. Still there is a growing
-interest nowadays in making it alive by implementing HDMI audio support
-for Tegra20 SoC. It was on my todo list for a long time, I'll try to
-prioritize that work 5.17, it shouldn't take much effort.
+I agree with Nicolas here. This driver only support H264 and the stateless API
+for that is now in mainline. So there is no reason not to convert to the
+stateless codec API and move this driver to mainline.
 
-The slave_id should be removed anyways, it won't be needed.
+It would be really nice to see that happen.
+
+Without any progress on that I am inclined to remove this driver some time
+next year.
+
+Regards,
+
+	Hans
+
+> 
+> regards,
+> Nicolas
+> 
+>>
+>> Changelog:
+>>
+>> v2: - Changed tegra_vde_alloc_bo() to return errno and fix unassigned
+>>       error code in tegra_vde_probe().
+>>
+>> Dmitry Osipenko (1):
+>>   media: staging: tegra-vde: Reorder misc device registration
+>>
+>> Thierry Reding (2):
+>>   media: staging: tegra-vde: Support reference picture marking
+>>   media: staging: tegra-vde: Properly mark invalid entries
+>>
+>>  drivers/staging/media/tegra-vde/vde.c | 147 +++++++++++++++++++++++---
+>>  drivers/staging/media/tegra-vde/vde.h |  18 ++++
+>>  2 files changed, 152 insertions(+), 13 deletions(-)
+>>
+> 
+
