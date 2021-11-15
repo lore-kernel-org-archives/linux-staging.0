@@ -1,36 +1,43 @@
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [194.109.24.26])
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [194.109.24.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D7F2C83
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 14:49:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140CE2C83
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 15:08:38 +0000 (UTC)
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
 	by smtp-cloud9.xs4all.net with ESMTPA
-	id mdIAmFgeCfwDFmdIDmOpbl; Mon, 15 Nov 2021 15:49:10 +0100
+	id mdZumFmK7fwDFmdZxmOrzl; Mon, 15 Nov 2021 16:07:30 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1636987750; bh=qBF5gvocBu52H3ffjtTIchTajfvHLJyvUqLFSj2dXhs=;
+	t=1636988850; bh=sthIg1+/a+1Vw8t243zAiH4D6+V0/ZH0e/mjzRimmBo=;
 	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
 	 Subject;
-	b=f3XzGkYUa1glkcPIKiyx7TVGQlMrrPu9kn5LPPWOB74rP5SUu1f8i1RUt9p8OSmFf
-	 W1kD9ZnJhf/FRnVoGEELGNJbLDNACFmU+CxtXhCiJ+tEFm8a/fRyxD3orhAL+4POKw
-	 uNbaZ7xEzB4bGxE/LLJ3KLgA0+UxbNWvDdZFSBbaA6is2nx0Ti3tMTtBAPfNkcQHi6
-	 gfWGnWfuyXd+3+TInC0I7XEhwINeC/2NYyXB3j/G/RM/Cp7W4m5R4wVYCOjBhf9SGV
-	 fv1Od6dA7OXrFkApueipBAHnCcjlFGwSu01p0NiQycJNfiQJHScOQVC3RV2XKi/XZV
-	 oWUHwlJ7aKTsA==
-Subject: Re: [PATCH v2 0/3] Add NVIDIA Tegra114 support to video decoder
- driver
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
- Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
+	b=rX+ndb9UZ/vakCOot0O0HH76IKJRO7QhU2SFj0wZ4Lg6KkF1xjq6Nr7Rgu3dnETrw
+	 /daHkioLLYNJyf2NRxTAGJGyS3mCTlOAF6hB+Mq5ZftaAbAySzQ2iRYDzRn5kZswfE
+	 NoMzMDD4XxGzRaP6bc+GpXAu5tTimZTW0d1LOR4d6zH+gROzib/yDbK1JQZdfSg0fD
+	 Zgb+zSpA3C5UCU+/GWaFmvV2Hs5Iypnep73ArpJ1j9Q0d1RiCo3sr1pYsXz4z4J/6j
+	 ye4jDJMDM5lOJ4r73cWLUfyExcOweDjaM6NCjpVRKc7NlxIyO5BwIIsUgTjUORCSfz
+	 YL+CzlJ0OvoeA==
+Subject: Re: [PATCH v7 00/11] VP9 codec V4L2 control interface
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Fabio Estevam <festevam@gmail.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anton Bambura <jenneron@protonmail.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20211114224732.11550-1-digetx@gmail.com>
- <1411d7a3913677fee58e103f7610e122686e87bf.camel@ndufresne.ca>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <55f445d8-8207-35a3-6c6f-dcb9ea70a90f@xs4all.nl>
-Date: Mon, 15 Nov 2021 15:49:05 +0100
+ Heiko Stuebner <heiko@sntech.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ kernel@collabora.com
+References: <20210929160439.6601-1-andrzej.p@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <9db47ebc-cb95-872d-feb4-d6432a74f2cb@xs4all.nl>
+Date: Mon, 15 Nov 2021 16:07:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.14.0
 Precedence: bulk
@@ -39,69 +46,184 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1411d7a3913677fee58e103f7610e122686e87bf.camel@ndufresne.ca>
+In-Reply-To: <20210929160439.6601-1-andrzej.p@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfMLDAGeBvTAWdd2xE0ooGtnAHZ4VFlE+FhevaxS+GpR56u9YwV4SxwyEFYocI9Bc322FaBG05O3L21bn3fQc+MXOjd8CcXX/s5f2QgW3KWl90QJL5aUf
- qNulR0gP2dyyAGhzUSglp6I6SBKxgtXoL6QcufE0oc1OqmxbICaPu4fNo9q9VFtgnV0OYrchg7w4iO0ERNMMuqiSDrBs0locCvdGERR8w/I3tyyU3pJKC/jq
- 3pX3iifuuw9jvXAVKAvswR24oJDsEnv82UJ9+u4jkbXsJAHYAgqBEdKx7ovY6zb0E9KJp4VApZ6zf3fGynJezL5tbF0UHXLlUULE+cdeD+DbhBRsLl2nOr45
- 8FKtQrTD6SWQDgmUvfgtYJZfg0neCRTYAoOTqNzge3zqg2RwLTMbtErfwP0Qhys/X6cnK/c8h4gWPNvyFwTkbaVZNzKyagHT6+SdcwJEaQh5CqnSjr30F/AL
- lnBRpXDEo5/I52TODbhjVB3qetLJmrg0oJAkWtdM6T5ipjh/sEAge3HyrlCIcSaWXpgICEO/zaoF+rFLbckWstTJHEpiTWrFglyi/Q==
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfK51L1WmSNzo5DkW1tzQGMj4V/59OVUJ+nhNMV0rx/lAqDwC1TeJJj2kgyjuukQUvfuqb+/KEbqHrOBOwEja3XTs21AK7vp/prtnyXro5/H89gnjoDQE
+ I2rlMsQ6TOHEsoiNQE6uHaG+j5DfXTUIEZEDBnylPIZyl8ySXhq5KgoesqBncPooga9Y4wvL7HFblmEDM8hn1u8AL+KLdvpHJg745OOg7YOt8dvK92o/l8Nf
+ s1S97QGM1vMZpvy9+qpwwqAKeU7bPtZ8VCyhJmtCPRt20IMLz2q+7GD42vPogxxAhW26RdeU30D0IRZ8E5+R0mQfPNANK0a90Q+SNqeb9AMGyucZ7yYcxpc1
+ eprs7W0SmbNAxSzYavLCclSJp5kDym6KU4VP3B/QrArMWuefkpjLlT4SdvLBqvvHCLeCpDpTI7JuMFkVIwNVPfXtIh7KjQrOfF4GgaIcIZmkp4JjgjEG7ZZu
+ um3u05fyvmj1+WdPneNLdBR6DwOKLozeB13Q1ORRgEXWD0CcY3RRsNVJ8q0hz5T/VjzwP9zPVhCw+yEWI5sXJ8GK4+lIdxNwAArvHBl1SSKIrPjUS0niK/XC
+ f9LsR/bImvSmu7FWOJEJhMymwJFejWZfDiRD4PBjLU3dBM13EG+0x2NKBDL2A2jFKgFsdXflakW2FaruEe3GEOueocIM1bL/4lXQyvgdeAfAQUBPF6/TJgCZ
+ tdb3KcCZe7BJ6eOyGhJXQeNrbDqPliWu1X9+eLVBY4OajVdjM+LeQu/oCaAP4rOZ/YJDSdH6kR+GHgfYs/Jyt0cjBCjjReeoJXY3P9DnN8uhYMmQHt6Oo3uV
+ Ikijy8ubbDT67MyfV9TScJ11FrwV4/v6SIYu3+gjHAT+TBJVqwRfSbZLD3wzYEE42baotM+OouORkjYGd5kcpdTHUxpGd34g+QhASRl3T91vMzSui32oO39c
+ Y+y8IX9xryTTf/+PiwhqgEgTD9g=
 
-On 15/11/2021 15:43, Nicolas Dufresne wrote:
-> Hi Dmitry,
-> 
-> Le lundi 15 novembre 2021 à 01:47 +0300, Dmitry Osipenko a écrit :
->> Video decoder of Tegra114/124 SoCs uses additional memory buffer required
->> for decoding of protected content. We won't support that content, but it
->> is impossible to disable access to the buffer, hence a stub buffer needs
->> to be provided. This series enables decoder driver only for Tegra114
->> because Tegra124 support requires more non-trivial changes on both kernel
->> and userspace sides.
-> 
-> I believe the stateless API is quite in place now, but I only see maintenance on
-> this staging driver. I don't believe it really make sense to keep maintaining a
-> staging driver without any step forward de-staging it. I believe it gives the
-> wrong message on the Kernel staging purpose.
-> 
-> I'm not criticizing your effort, I believe you are doing nice work for you
-> community, but would prefer to see this driver be ported to the official kernel
-> APIs rather then being maintain as staging till the end of time.
+Andrzej,
 
-I agree with Nicolas here. This driver only support H264 and the stateless API
-for that is now in mainline. So there is no reason not to convert to the
-stateless codec API and move this driver to mainline.
-
-It would be really nice to see that happen.
-
-Without any progress on that I am inclined to remove this driver some time
-next year.
+Can you rebase this series on top of the master branch of
+https://git.linuxtv.org/media_stage.git/ ? Unfortunately this v7 no longer
+applies. Specifically "rkvdec: Add the VP9 backend" failed in a non-trivial
+manner.
 
 Regards,
 
 	Hans
 
+On 29/09/2021 18:04, Andrzej Pietrasiewicz wrote:
+> Dear all,
 > 
-> regards,
-> Nicolas
+> This patch series adds VP9 codec V4L2 control interface and two drivers
+> using the new controls. It is a follow-up of previous v6 series [1].
 > 
->>
->> Changelog:
->>
->> v2: - Changed tegra_vde_alloc_bo() to return errno and fix unassigned
->>       error code in tegra_vde_probe().
->>
->> Dmitry Osipenko (1):
->>   media: staging: tegra-vde: Reorder misc device registration
->>
->> Thierry Reding (2):
->>   media: staging: tegra-vde: Support reference picture marking
->>   media: staging: tegra-vde: Properly mark invalid entries
->>
->>  drivers/staging/media/tegra-vde/vde.c | 147 +++++++++++++++++++++++---
->>  drivers/staging/media/tegra-vde/vde.h |  18 ++++
->>  2 files changed, 152 insertions(+), 13 deletions(-)
->>
+> In this iteration, we've implemented VP9 hardware decoding on two devices:
+> Rockchip VDEC and Hantro G2, and tested on RK3399, i.MX8MQ and i.MX8MP.
+> The i.MX8M driver needs proper power domains support, though, which is a
+> subject of a different effort, but in all 3 cases we were able to run the
+> drivers.
+> 
+> GStreamer support is also available, the needed changes have been submitted
+> by Daniel Almeida [2]. This MR is ready to be merged, and just needs the
+> VP9 V4L2 controls to be merged and released.
+> 
+> Both rkvdec and hantro drivers are passing a significant number of VP9 tests
+> using Fluster[3]. There are still a few tests that are not passing, due to
+> dynamic frame resize (not yet supported by V4L2) and small size videos
+> (due to IP block limitations).
+> 
+> The series adds the VP9 codec V4L2 control API as uAPI, so it aims at being
+> merged without passing through staging, as agreed[4]. The ABI has been checked
+> for padding and verified to contain no holes.
+> 
+> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=6377
+> [2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/2144
+> [3] https://github.com/fluendo/fluster
+> [4] https://lore.kernel.org/linux-media/b8f83c93-67fd-09f5-9314-15746cbfdc61@xs4all.nl/
+> 
+> The series depends on the YUV tiled format support prepared by Ezequiel:
+> https://www.spinics.net/lists/linux-media/msg197047.html
+> 
+> Rebased onto latest media_tree.
+> 
+> Changes related to v6:
+> - moved setting tile filter and tile bsd auxiliary buffer addresses so
+> that they are always set, even if no tiles are used (thanks, Jernej)
+> - added a comment near the place where the 32-bit DMA mask is applied
+>   (thanks, Nicolas)
+> - improved consistency in register names (thanks, Nicolas)
+> 
+> Changes related to v5:
+> - improved the doc comments as per Ezequiel's review (thanks, Ezequiel)
+> - improved pdf output of documentation
+> - added Benjamin's Reviewed-by (thanks, Benjamin)
+> 
+> Changes related to v4:
+> - removed unused enum v4l2_vp9_intra_prediction_mode
+> - converted remaining enums to defines to follow the convention
+> - improved the documentation, in particular better documented how to use segmentation 
+> features
+> 
+> Changes related to v3:
+> 
+> Apply suggestions from Jernej's review (thanks, Jernej):
+> - renamed a control and two structs:
+> 	V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR_PROBS =>
+> 		V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR
+> 	v4l2_ctrl_vp9_compressed_hdr_probs =>
+> 		v4l2_ctrl_vp9_compressed_hdr
+> 	v4l2_vp9_mv_compressed_hdr_probs => v4l2_vp9_mv_probs
+> - moved tx_mode to v4l2_ctrl_vp9_compressed_hdr
+> - fixed enum v4l2_vp9_ref_frame_sign_bias values (which are used to test a bitfield)
+> - explicitly assigned values to all other vp9 enums
+> 
+> Apply suggestion from Nicolas's review (thanks, Nicolas):
+> - explicitly stated that the v4l2_ctrl_vp9_compressed_hdr control is optional
+> and implemented only by drivers which need it
+> 
+> Changes related to the RFC v2:
+> 
+> - added another driver including a postprocessor to de-tile
+>         codec-specific tiling
+> - reworked uAPI structs layout to follow VP8 style
+> - changed validation of loop filter params
+> - changed validation of segmentation params
+> - changed validation of VP9 frame params
+> - removed level lookup array from loop filter struct
+>         (can be computed by drivers)
+> - renamed some enum values to match the spec more closely
+> - V4L2 VP9 library changed the 'eob' member of
+>         'struct v4l2_vp9_frame_symbol_counts' so that it is an array
+>         of pointers instead of an array of pointers to arrays
+>         (IPs such as g2 creatively pass parts of the 'eob' counts in
+>         the 'coeff' counts)
+> - factored out several repeated portions of code
+> - minor nitpicks and cleanups
+> 
+> Andrzej Pietrasiewicz (6):
+>   media: uapi: Add VP9 stateless decoder controls
+>   media: Add VP9 v4l2 library
+>   media: hantro: Rename registers
+>   media: hantro: Prepare for other G2 codecs
+>   media: hantro: Support VP9 on the G2 core
+>   media: hantro: Support NV12 on the G2 core
+> 
+> Boris Brezillon (1):
+>   media: rkvdec: Add the VP9 backend
+> 
+> Ezequiel Garcia (4):
+>   hantro: postproc: Fix motion vector space size
+>   hantro: postproc: Introduce struct hantro_postproc_ops
+>   hantro: Simplify postprocessor
+>   hantro: Add quirk for NV12/NV12_4L4 capture format
+> 
+>  .../userspace-api/media/v4l/biblio.rst        |   10 +
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   |  573 +++++
+>  .../media/v4l/pixfmt-compressed.rst           |   15 +
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |    8 +
+>  .../media/v4l/vidioc-queryctrl.rst            |   12 +
+>  .../media/videodev2.h.rst.exceptions          |    2 +
+>  drivers/media/v4l2-core/Kconfig               |    4 +
+>  drivers/media/v4l2-core/Makefile              |    1 +
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  180 ++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    8 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>  drivers/media/v4l2-core/v4l2-vp9.c            | 1850 +++++++++++++++++
+>  drivers/staging/media/hantro/Kconfig          |    1 +
+>  drivers/staging/media/hantro/Makefile         |    7 +-
+>  drivers/staging/media/hantro/hantro.h         |   40 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |   23 +-
+>  drivers/staging/media/hantro/hantro_g2.c      |   27 +
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c |   69 +-
+>  drivers/staging/media/hantro/hantro_g2_regs.h |  132 +-
+>  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  980 +++++++++
+>  drivers/staging/media/hantro/hantro_hw.h      |   83 +-
+>  .../staging/media/hantro/hantro_postproc.c    |   79 +-
+>  drivers/staging/media/hantro/hantro_v4l2.c    |   20 +
+>  drivers/staging/media/hantro/hantro_vp9.c     |  240 +++
+>  drivers/staging/media/hantro/hantro_vp9.h     |  103 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   |   38 +-
+>  .../staging/media/hantro/rockchip_vpu_hw.c    |    7 +-
+>  .../staging/media/hantro/sama5d4_vdec_hw.c    |    3 +-
+>  drivers/staging/media/rkvdec/Kconfig          |    1 +
+>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1078 ++++++++++
+>  drivers/staging/media/rkvdec/rkvdec.c         |   52 +-
+>  drivers/staging/media/rkvdec/rkvdec.h         |   12 +-
+>  include/media/v4l2-ctrls.h                    |    4 +
+>  include/media/v4l2-vp9.h                      |  182 ++
+>  include/uapi/linux/v4l2-controls.h            |  284 +++
+>  include/uapi/linux/videodev2.h                |    6 +
+>  37 files changed, 6033 insertions(+), 104 deletions(-)
+>  create mode 100644 drivers/media/v4l2-core/v4l2-vp9.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_g2.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_vp9.c
+>  create mode 100644 drivers/staging/media/hantro/hantro_vp9.h
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+>  create mode 100644 include/media/v4l2-vp9.h
+> 
+> 
+> base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
 > 
 
