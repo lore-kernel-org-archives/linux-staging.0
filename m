@@ -1,162 +1,134 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B46172
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 09:56:09 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id p37so31908988uae.8
-        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 01:56:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gsBk71NedBBsVpsWIk4ACHvjoj+bC3+VIVEUbcpO8IA=;
-        b=ehc21nRzLc8i1U+EqW4HnjY+RWjGWh14ZBLj7yNPUxl816A1Dbell6St7S/yW4X/vv
-         tt7qOOmMMY85WSc7GghoYpJGJ9xgEBBUokeqlapvAJX5EFUnaN1rvUlEUeE8epbheu5B
-         bWVKVRopMxxBfMWO9giRCidfYfZ56vuyGO7o4CSsyVdRcdOlFmosB/G0CBJUF76Dwi9T
-         Bi5dKD3S2Ixk/FkU0QqBfwiiGLH1DDHTmYGg0Ci2mql4cvEo0wmrzkz2B7tgBgY5liPS
-         E361qlo75lRj9Ddb/VA9aIMjLtX6LX3ck8/h22UNs9feaHP2NMM+vvRDoJtlPCwrDlmi
-         9GJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gsBk71NedBBsVpsWIk4ACHvjoj+bC3+VIVEUbcpO8IA=;
-        b=op4RG909Rz1e27tnxhlppaIW4StorCdJrEj+yJnPUtvVvTuxOWJMCeSz9SELz3gqXy
-         QxLO00xuipy/EiKrqxXgAIdNGbu1Jkzy/oKOSemQ9V/r4w/ofBOrPAjGe2rHVlt1Eixh
-         5mAwC3KQxo5vbD3gFnDx+mCiaekfiDH8FZV8DdTjHjbB6XvcZ62JGpjzQP2BDcaIGpqL
-         0QSPHngVKsNQ7nH7Fw8GUY28tzNCpV54yU9NMAnWEMDYOPx6SON5N5cOpqhQPM1TgEip
-         kgaZRSXxvdGjE+AhSKg1RtxMwEKMSlrCFmJLtHUDoMTqU/IU/Dt+oIuZ8K8RA0TrZyj4
-         OdMQ==
-X-Gm-Message-State: AOAM533u55T46Mxb5Vu1StiGZGRah5dKfdT4rgY4o0CdCJvA5cSd8bIX
-	9QXBE+91B9zReqZ01Jxmr5U2EvSo6Zg0rQ8H0Ig=
-X-Google-Smtp-Source: ABdhPJz6ESqhwfmkhVT1QvVuW/9wYB2eiEui3t3htInxrDx0SkRrPjrQEm+aetErjkG15iM6y1caYpqVdHJBHexZMiA=
-X-Received: by 2002:ab0:6883:: with SMTP id t3mr56751869uar.66.1636970168537;
- Mon, 15 Nov 2021 01:56:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6CF72
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 10:21:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AAA8363214
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 10:21:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1636971708;
+	bh=ngAS50rMmpV59azjOqW2oXCBrEGHx6Ekm0yN36KEY7k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oHFZaspA4e0JT2Bappei5MG7xUfxAKnXH43mnsdk+R7rbsdvrD3kUDLGpF994Lv8o
+	 iEcy1Ug+arpeVBA1gxKJr+XFzRMEEncjc2K9qzGu6o1iL3o1bXVBgArPKaXh3sM1KT
+	 pqByKGVIvlUsnVpeQARzzgb4qc9a17HQolmIyWVeIgrGPfLon8Wq7NbhnRmyj2zeoK
+	 0Pg+gQgghuvRxMHQ7IajfS53HSxlou+O9e931O/rQqPebWyZ0jpnTj4gKlP7r3MKfQ
+	 +aPZLeOvA+8d8JqKBiRKzMCqrAk2Zb1jIIa11uVmY4fIYw/I+SHpBH5/oWpHirfE6z
+	 g6me8ygTpOC9g==
+Received: by mail-wr1-f52.google.com with SMTP id d5so29613747wrc.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 02:21:48 -0800 (PST)
+X-Gm-Message-State: AOAM533yyh/eyOAxjUB2UTEoIZI0MlNirJLssYPxPVujhJcCN9+V4JkJ
+	eV72N2416i6vIxURHA+9bE/aQ6R0byDOYoeziEo=
+X-Google-Smtp-Source: ABdhPJyrUjRCeMXfDabLLUXG4+a6meFiuvFYQKG804WvMbrQRiaBMGWgH0F0OdgqzdIGH+oZqJIqfFrTkkuSnIDyxB0=
+X-Received: by 2002:adf:df89:: with SMTP id z9mr45196660wrl.336.1636971706955;
+ Mon, 15 Nov 2021 02:21:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211115085403.360194-1-arnd@kernel.org> <20211115085403.360194-11-arnd@kernel.org>
-In-Reply-To: <20211115085403.360194-11-arnd@kernel.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 15 Nov 2021 10:55:56 +0100
-Message-ID: <CAMhs-H98kPNqH491+X0Mp81Ng++v1aQ=97XSHEhs+vx3g8W_4A@mail.gmail.com>
-Subject: Re: [PATCH 10/11] staging: ralink-gdma: stop using slave_id config
-To: Arnd Bergmann <arnd@kernel.org>
+References: <20211115085403.360194-1-arnd@kernel.org> <20211115085403.360194-9-arnd@kernel.org>
+ <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com>
+In-Reply-To: <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Mon, 15 Nov 2021 11:21:30 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
+Message-ID: <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
+Subject: Re: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>, 
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Baolin Wang <baolin.wang7@gmail.com>, 
 	Bjorn Andersson <bjorn.andersson@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hyun Kwon <hyun.kwon@xilinx.com>, 
 	Jaroslav Kysela <perex@perex.cz>, Jon Hunter <jonathanh@nvidia.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Laxman Dewangan <ldewangan@nvidia.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>, 
 	Michal Simek <michal.simek@xilinx.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
 	Orson Zhai <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
 	Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, alsa-devel@alsa-project.org, 
-	bcm-kernel-feedback-list@broadcom.com, dmaengine@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-serial@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-tegra@vger.kernel.org
+	Thierry Reding <thierry.reding@gmail.com>, 
+	ALSA Development Mailing List <alsa-devel@alsa-project.org>, 
+	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, dmaengine@vger.kernel.org, 
+	dri-devel <dri-devel@lists.freedesktop.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>, 
+	linux-mtd <linux-mtd@lists.infradead.org>, 
+	"moderated list:BROADCOM BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
+	"open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>, linux-spi <linux-spi@vger.kernel.org>, 
+	linux-staging@lists.linux.dev, 
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Arnd,
+On Mon, Nov 15, 2021 at 10:14 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Nov 15, 2021 at 09:54:00AM +0100, Arnd Bergmann wrote:
+> > @@ -1285,11 +1287,13 @@ static int xilinx_dpdma_config(struct dma_chan *dchan,
+> >       spin_lock_irqsave(&chan->lock, flags);
+> >
+> >       /*
+> > -      * Abuse the slave_id to indicate that the channel is part of a video
+> > -      * group.
+> > +      * Abuse the peripheral_config to indicate that the channel is part
+>
+> Is it still an abuse, or is this now the right way to pass custom data
+> to the DMA engine driver ?
 
-On Mon, Nov 15, 2021 at 9:55 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Picking the connection between a DMA controller and its attached device
-> is done through devicetree using the "dmas" property, which is implemented
-> by the gdma driver, but it also allows overriding the "req" configuration
-> with the slave_id field, as it was done in some linux-2.6 era drivers.
->
-> There is no driver in the tree that sets these values, so stop
-> interpreting them before anything accidentally starts relying on it.
-> Rename the field in the channel from "slave_id" to "req" to better match
-> the purpose and the naming in the hardware.
->
-> If any driver actually starts using this DMA engine, it may be necessary
-> to implement a .xlate callback that sets this field at probe time.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/staging/ralink-gdma/ralink-gdma.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
+It doesn't make the driver any more portable, but it's now being
+more explicit about it. As far as I can tell, this is the best way
+to pass data that cannot be expressed through the regular interfaces
+in DT and the dmaengine API.
 
-This driver has been already deleted from the staging tree. See [0].
+Ideally there would be a generic way to pass this flag, but I couldn't
+figure out what this is actually doing, or whether there is a better
+way. Maybe Vinod has an idea.
 
-Best regards,
-    Sergio Paracuellos
+I'll change s/Abuse/Use/ for the moment until I get a definite answer.
 
-[0]: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit/?h=staging-testing&id=5bfc10690c6c590a972be014ed8595e77e1e2dea
+> > +      * of a video group.
+> >        */
+> > -     if (chan->id <= ZYNQMP_DPDMA_VIDEO2)
+> > -             chan->video_group = config->slave_id != 0;
+> > +     pconfig = config->peripheral_config;
+>
+> This could be moved to the variable declaration above, up to you.
 
+I considered that but since it doesn't fit in a normal 80-column
+line, it seemed best to do it here.
+
+> > +     if (chan->id <= ZYNQMP_DPDMA_VIDEO2 &&
+> > +         config->peripheral_size == sizeof(*pconfig))
 >
-> diff --git a/drivers/staging/ralink-gdma/ralink-gdma.c b/drivers/staging/ralink-gdma/ralink-gdma.c
-> index b5229bc6eae5..f00240e62e1b 100644
-> --- a/drivers/staging/ralink-gdma/ralink-gdma.c
-> +++ b/drivers/staging/ralink-gdma/ralink-gdma.c
-> @@ -106,7 +106,7 @@ struct gdma_dma_desc {
->  struct gdma_dmaengine_chan {
->         struct virt_dma_chan vchan;
->         unsigned int id;
-> -       unsigned int slave_id;
-> +       unsigned int req;
+> Silently ignoring a size mismatch isn't nice. Could we validate the size
+> at the beginning of the function and return an error ?
+
+Yes, good idea. Since this would mean a bug in another driver,
+I'll add a WARN_ON() as well to make it clear which driver caused it.
+This is what I have now, let me know if you have any further suggestions:
+
+        /*
+         * Use the peripheral_config to indicate that the channel is part
+         * of a video group. This requires matching use of the custom
+         * structure in each driver.
+         */
+        pconfig = config->peripheral_config;
+        if (WARN_ON(config->peripheral_size != 0 &&
+                    config->peripheral_size != sizeof(*pconfig)))
+                return -EINVAL;
+
+        spin_lock_irqsave(&chan->lock, flags);
+        if (chan->id <= ZYNQMP_DPDMA_VIDEO2 &&
+            config->peripheral_size == sizeof(*pconfig))
+                chan->video_group = pconfig->video_group;
+        spin_unlock_irqrestore(&chan->lock, flags);
+
+        return 0;
+
+> With these issues addressed,
 >
->         dma_addr_t fifo_addr;
->         enum gdma_dma_transfer_size burst_size;
-> @@ -194,7 +194,6 @@ static int gdma_dma_config(struct dma_chan *c,
->                         dev_err(dma_dev->ddev.dev, "only support 4 byte buswidth\n");
->                         return -EINVAL;
->                 }
-> -               chan->slave_id = config->slave_id;
->                 chan->fifo_addr = config->dst_addr;
->                 chan->burst_size = gdma_dma_maxburst(config->dst_maxburst);
->                 break;
-> @@ -203,7 +202,6 @@ static int gdma_dma_config(struct dma_chan *c,
->                         dev_err(dma_dev->ddev.dev, "only support 4 byte buswidth\n");
->                         return -EINVAL;
->                 }
-> -               chan->slave_id = config->slave_id;
->                 chan->fifo_addr = config->src_addr;
->                 chan->burst_size = gdma_dma_maxburst(config->src_maxburst);
->                 break;
-> @@ -288,12 +286,12 @@ static int rt305x_gdma_start_transfer(struct gdma_dmaengine_chan *chan)
->                 dst_addr = chan->fifo_addr;
->                 ctrl0 = GDMA_REG_CTRL0_DST_ADDR_FIXED |
->                         (8 << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
-> -                       (chan->slave_id << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
-> +                       (chan->req << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
->         } else if (chan->desc->direction == DMA_DEV_TO_MEM) {
->                 src_addr = chan->fifo_addr;
->                 dst_addr = sg->dst_addr;
->                 ctrl0 = GDMA_REG_CTRL0_SRC_ADDR_FIXED |
-> -                       (chan->slave_id << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
-> +                       (chan->req << GDMA_RT305X_CTRL0_SRC_REQ_SHIFT) |
->                         (8 << GDMA_RT305X_CTRL0_DST_REQ_SHIFT);
->         } else if (chan->desc->direction == DMA_MEM_TO_MEM) {
->                 /*
-> @@ -365,12 +363,12 @@ static int rt3883_gdma_start_transfer(struct gdma_dmaengine_chan *chan)
->                 dst_addr = chan->fifo_addr;
->                 ctrl0 = GDMA_REG_CTRL0_DST_ADDR_FIXED;
->                 ctrl1 = (32 << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
-> -                       (chan->slave_id << GDMA_REG_CTRL1_DST_REQ_SHIFT);
-> +                       (chan->req << GDMA_REG_CTRL1_DST_REQ_SHIFT);
->         } else if (chan->desc->direction == DMA_DEV_TO_MEM) {
->                 src_addr = chan->fifo_addr;
->                 dst_addr = sg->dst_addr;
->                 ctrl0 = GDMA_REG_CTRL0_SRC_ADDR_FIXED;
-> -               ctrl1 = (chan->slave_id << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
-> +               ctrl1 = (chan->req << GDMA_REG_CTRL1_SRC_REQ_SHIFT) |
->                         (32 << GDMA_REG_CTRL1_DST_REQ_SHIFT) |
->                         GDMA_REG_CTRL1_COHERENT;
->         } else if (chan->desc->direction == DMA_MEM_TO_MEM) {
-> --
-> 2.30.2
->
->
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks,
+
+       Arnd
