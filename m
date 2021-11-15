@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB38972
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 08:55:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A02B96322E;
-	Mon, 15 Nov 2021 08:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A1672
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 08:55:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 22ED66322D;
+	Mon, 15 Nov 2021 08:55:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636966512;
-	bh=0aNffjFyOwM4u0Oo7aAQAYOuioDBDQQgvS3dt9nDAoY=;
+	s=k20201202; t=1636966519;
+	bh=dVdHkl1ZmLXmEp0TH/FEFVdiPBDZ+d25p7vGAAo1Op0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lAj0mIyHUENlkP6yrlZxkqYSD5hocgglcT83E2dvJW5vsfypS+bCmhcsFYUNOkxLb
-	 VGm36iEtIrx5MsVBXb22F/vG+l2XPNfSwWhLmNnpXY2YEg1WtV9h7uDQ4GwxtuNv9L
-	 drDvkpdeYSJiDY3sEkXjDYk0eXhjJUhkOOej7yEfUcc6kxARiOwLRZ91ApCbkZq51a
-	 1DlM4aygC8K+7tMPsuyHuPXgtlhUMsrKFmzWe5QnTopYr5GRXxpXJp9kRg4sUJG2px
-	 7btIXMzPZaupxro9KeNOsc8eN7Q4CrodjLRdG9uMjUnyKFs+UCAV79ctDov27Vvgoc
-	 1WIStRJ1SW5ww==
+	b=mRK/MrLIW0u6LLOVooQ0gN1KOgXTYhYKylaX2S32I4HonnlCFZurjXmSS8SVAK8uT
+	 oms9xEfRjWR6ZFbM4n5WvC4swJa/tAasyMhklsk5Ir56gwJUPrslsn7ElKpFldUp/E
+	 NlCAON7rV+dPkbJZagetmzGzxn9jWITAvoJTC1bh7hJM72/9cXRXvCjnZS1ul8EL2p
+	 VBOA3hBnrk0Eb28v5ySeU5CAXlmyQ/9KxPR888YYSAX5yJSbDRY/Q7gBtrNNVxZYXZ
+	 1ZwPE4au/UVHJxcKYNQikMHfKZ7UNLmAPuOP8AEjGq++T8L8DQUNKbV7hN6zPua+j8
+	 yXgozqEEWHHIg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Arnd Bergmann <arnd@arndb.de>,
@@ -53,9 +53,9 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	linux-spi@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-tegra@vger.kernel.org
-Subject: [PATCH 04/11] dmaengine: shdma: remove legacy slave_id parsing
-Date: Mon, 15 Nov 2021 09:53:56 +0100
-Message-Id: <20211115085403.360194-5-arnd@kernel.org>
+Subject: [PATCH 05/11] dmaengine: pxa/mmp: stop referencing config->slave_id
+Date: Mon, 15 Nov 2021 09:53:57 +0100
+Message-Id: <20211115085403.360194-6-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20211115085403.360194-1-arnd@kernel.org>
 References: <20211115085403.360194-1-arnd@kernel.org>
@@ -69,37 +69,53 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The slave device is picked through either devicetree or a filter
-function, and any remaining out-of-tree drivers would have warned
-about this usage since 2015.
+The last driver referencing the slave_id on Marvell PXA and MMP platforms
+was the SPI driver, but this stopped doing so a long time ago, so the
+TODO from the earlier patch can no be removed.
 
-Stop interpreting the field finally so it can be removed from
-the interface.
-
+Fixes: b729bf34535e ("spi/pxa2xx: Don't use slave_id of dma_slave_config")
+Fixes: 13b3006b8ebd ("dma: mmp_pdma: add filter function")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/dma/sh/shdma-base.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/dma/mmp_pdma.c | 6 ------
+ drivers/dma/pxa_dma.c  | 7 -------
+ 2 files changed, 13 deletions(-)
 
-diff --git a/drivers/dma/sh/shdma-base.c b/drivers/dma/sh/shdma-base.c
-index 7f72b3f4cd1a..41c6bc650fa3 100644
---- a/drivers/dma/sh/shdma-base.c
-+++ b/drivers/dma/sh/shdma-base.c
-@@ -786,14 +786,6 @@ static int shdma_config(struct dma_chan *chan,
- 	if (!config)
- 		return -EINVAL;
+diff --git a/drivers/dma/mmp_pdma.c b/drivers/dma/mmp_pdma.c
+index a23563cd118b..5a53d7fcef01 100644
+--- a/drivers/dma/mmp_pdma.c
++++ b/drivers/dma/mmp_pdma.c
+@@ -727,12 +727,6 @@ static int mmp_pdma_config_write(struct dma_chan *dchan,
  
--	/*
--	 * overriding the slave_id through dma_slave_config is deprecated,
--	 * but possibly some out-of-tree drivers still do it.
+ 	chan->dir = direction;
+ 	chan->dev_addr = addr;
+-	/* FIXME: drivers should be ported over to use the filter
+-	 * function. Once that's done, the following two lines can
+-	 * be removed.
 -	 */
--	if (WARN_ON_ONCE(config->slave_id &&
--			 config->slave_id != schan->real_slave_id))
--		schan->real_slave_id = config->slave_id;
+-	if (cfg->slave_id)
+-		chan->drcmr = cfg->slave_id;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/dma/pxa_dma.c b/drivers/dma/pxa_dma.c
+index 52d04641e361..6078cc81892e 100644
+--- a/drivers/dma/pxa_dma.c
++++ b/drivers/dma/pxa_dma.c
+@@ -909,13 +909,6 @@ static void pxad_get_config(struct pxad_chan *chan,
+ 		*dcmd |= PXA_DCMD_BURST16;
+ 	else if (maxburst == 32)
+ 		*dcmd |= PXA_DCMD_BURST32;
 -
- 	/*
- 	 * We could lock this, but you shouldn't be configuring the
- 	 * channel, while using it...
+-	/* FIXME: drivers should be ported over to use the filter
+-	 * function. Once that's done, the following two lines can
+-	 * be removed.
+-	 */
+-	if (chan->cfg.slave_id)
+-		chan->drcmr = chan->cfg.slave_id;
+ }
+ 
+ static struct dma_async_tx_descriptor *
 -- 
 2.30.2
 
