@@ -1,187 +1,87 @@
-Received: from lb2-smtp-cloud9.xs4all.net (lb2-smtp-cloud9.xs4all.net [194.109.24.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA382C80
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 14:15:57 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id mckumFW7VfwDFmckxmOkbQ; Mon, 15 Nov 2021 15:14:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1636985688; bh=Y/R0UaCXRwHqfEMjBdd443GDO63lacWgX88qBmX9uwY=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=IOju47qyqAVLPDtFCk7aN8IV3auRnWVYpe9y87m5Po2/0LlTv3g2MCvhmgcz9IcD7
-	 nJa2g9cc47bKqy9CUkHzH9m2IpZO22JOwbF/6C3w2oJFDC9dIHOwl3yU1o0jASKfGM
-	 /+99GDt9/arsruQDZ7inbecnRwa4u376aeKQRq5HJnQOi9EHA2hRy4QcfkNyVHwaOy
-	 v5kqVqnbWL1mrldrMh/Vz7QpJHgP6r53S7aGW0aOdIaN1/ifSYMjPwrbXldznGMyxU
-	 I5fOJo1oMUmtUhEs172Z2vf/44H3uHVfEME3rz6ZT1UUPCShgBSkUem7DPqzwr0hNE
-	 0wxFLGktfcWFw==
-Subject: Re: [PATCH v4 2/5] media: imx: Store the type of hardware
- implementation
-To: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466872C83
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 14:34:50 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id 1so36025016ljv.2
+        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 06:34:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZpPEZqJd2To6lUjg28UQdB87eU7/8VpSq5XWX7MIjkY=;
+        b=BD3EH+/6iAoMU0as28T1uFfMyoto9HdkPjPVtXTSSOCtUL+d4iY+gPJsCICkkkMJZ3
+         Fj6nU18j0yMLl2YB25uSEETy5BxlRZfRyQ6eV7+hNQOp/c4bgrPQzoIPzrN8OYywH76N
+         o+Ai8larHnuIv1b9VPGnTqfBa/ODrJmdaxv3pXrRf6t8mqCS12sAQQiI04KYT00fTAqX
+         EHWGksaiLDzQsPf6brKsQj8w08sh3fSUflP33LTYPvx8hvGb5lFaSokQP39cnQdbQY6x
+         0zyL0yWt0ZpR6XQwGhcoCxfACD9Vj0Y93oOlf8JU7GtBFzvgDWQjsmvOpbAXnfE2jbTa
+         wxKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZpPEZqJd2To6lUjg28UQdB87eU7/8VpSq5XWX7MIjkY=;
+        b=IDJu4HCi93NksYV/NkIajZ7RbTJw9+bx9haehv2Kt351LiabFMV71Ci84ugWXeeadr
+         odXWhZF5KegjpB0sQ8YhklzrYsIVPfvY3ptREuS2iQvGUirPQV1cYCXRo5oNDlhilrh8
+         IabkYoUGBh2v3vJZFz7cFbm79tY/Y0sYYT2JmuaAhQutPdavugr+54zfNa+ePL8/70tc
+         Sg8oQ3hPZW5W9lumqJ7UZsF5QQaf9qFwOBIKkvn3ZSVQ5XNjOz1Be1X/fk5FAQHmHINo
+         7qsD2xbvWuxe+GxzpLt6Wh7PMrsIAgal1EqrCvqXmmirxi22e1H1mFjleEIZrGw5q/ru
+         xf/Q==
+X-Gm-Message-State: AOAM533wswWxqE5GrvuZissaDPxXBp8qSyANY4T12lqUXLP0LFRQIxM6
+	+5CuFmS/k3HE1R9gapfnc6g=
+X-Google-Smtp-Source: ABdhPJwEKuBXdYXq5DhlVGPueFviqpJQ5pSvxJjMJzOh/ZO6vd5sjZJeTbmqyxx5SlyE0ArDXI+1ew==
+X-Received: by 2002:a05:651c:98e:: with SMTP id b14mr10702207ljq.180.1636986888356;
+        Mon, 15 Nov 2021 06:34:48 -0800 (PST)
+Received: from [192.168.2.145] (46-138-46-211.dynamic.spd-mgts.ru. [46.138.46.211])
+        by smtp.googlemail.com with ESMTPSA id r13sm453347ljn.99.2021.11.15.06.34.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Nov 2021 06:34:47 -0800 (PST)
+Subject: Re: [PATCH v1 1/3] media: staging: tegra-vde: Support reference
+ picture marking
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Anton Bambura <jenneron@protonmail.com>, Hans Verkuil <hverkuil@xs4all.nl>,
  linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel@puri.sm, phone-devel@vger.kernel.org
-References: <20211104113631.206899-1-dorota.czaplejewicz@puri.sm>
- <20211104113631.206899-2-dorota.czaplejewicz@puri.sm>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5a09a8d7-ada6-ce4f-9eb1-97ad0c4200af@xs4all.nl>
-Date: Mon, 15 Nov 2021 15:14:44 +0100
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211114222353.22435-1-digetx@gmail.com>
+ <20211114222353.22435-2-digetx@gmail.com>
+ <42b24cd0-ac37-3cfe-1fb2-d6292015318a@gmail.com>
+ <20211115124402.GE26989@kadam>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <e4b9d596-d206-71d1-6ec5-1a41af579836@gmail.com>
+Date: Mon, 15 Nov 2021 17:34:47 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211104113631.206899-2-dorota.czaplejewicz@puri.sm>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20211115124402.GE26989@kadam>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfCoW3I4ZtMOk9I7PiMwSJDmwh6JFa9AB0tItn1RJRMelbV0motsStfMMarKEjZtXEfsoUbHRHJC4e5w0XZhVPxfVEffNjxXnWgOxnfENzm4VJ1PTeFe3
- rcLAXUzLNrFus2KpUpQRM98kQQVRVdRxTHI0d1PMMlyq/88Zq0HhsgiabJ7vLmulmz8iGiogee/VVB1VgFE4JW1g8aGWWAXAqeR7H5hjcsOJaQ1sEocgrmS7
- 4JXPEye4cTNZOJOaQVJWxnZgqCln4dpXr1j8Vpe1yvDWO1pQCj7KvDSSyYLeV/Qeqit1fOvKuECD19adfODJHHkRANj0dzVbsFp6qZqFqstLo0OpJUUa5Ard
- 57N+EE+TfJpMiSkwfZVjqJwhi9SaB+z9tjztHH6j+IMBf/ScvTdr6lvI0zMOKRH8iDvfnG9eXA/g6tE98rs91HHCcCqYUWRHwDDQ0D/HfgtIpZ+KZfR0o9FH
- TohemdUaWNh3PCFLZO2bY6t5+zMQvhfJXm1irjmebJR+Ns7BqdO7x/ipqO2MMnhZoWp4JhKyHoFScNwvliWROJJk0FFKWpDq5r74jpFBIwmKRGa27zBrobaf
- Yziv6/wWzI0j4EhHvuAWk6x83Lehw8kImDYXiWF5N/hfySd1C7vQukl+3ZG08r7Inc+onp4Zzre86v4j4ViGpQNdnQXr74z3DDIjibsF0G3nzBMzQxG/p/yh
- l71RSnb2dig6E5p2PDHlqVHtF9l8DhQe
+Content-Transfer-Encoding: 8bit
 
-Hi Dorota,
-
-On 04/11/2021 12:43, Dorota Czaplejewicz wrote:
-> The driver covers i.MX5/6, as well as i.MX7/8 hardware.
-> Those implementations differ, e.g. in the sizes of buffers they accept.
+15.11.2021 15:44, Dan Carpenter пишет:
+> On Mon, Nov 15, 2021 at 01:34:18AM +0300, Dmitry Osipenko wrote:
+>> 15.11.2021 01:23, Dmitry Osipenko пишет:
+>>> +	vde->secure_bo = tegra_vde_alloc_bo(vde, DMA_FROM_DEVICE, 4096);
+>>> +	if (!vde->secure_bo) {
+>>> +		dev_err(dev, "Failed to allocate secure BO\n");
+>>> +		goto err_pm_runtime;
+>>> +	}
+>>
+>> My eye just caught that by accident err variable isn't assigned to
+>> -ENOMEM here. I'll make v2 shortly.
 > 
-> Some functionality should be abstracted, and storing type achieves that.
-> 
-> Signed-off-by: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
-> ---
->  drivers/staging/media/imx/imx-ic-prpencvf.c   | 3 ++-
->  drivers/staging/media/imx/imx-media-capture.c | 5 ++++-
->  drivers/staging/media/imx/imx-media-csi.c     | 3 ++-
->  drivers/staging/media/imx/imx-media.h         | 8 +++++++-
->  drivers/staging/media/imx/imx7-media-csi.c    | 3 ++-
->  5 files changed, 17 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> index d990553de87b..e06f5fbe5174 100644
-> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
-> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> @@ -1265,7 +1265,8 @@ static int prp_registered(struct v4l2_subdev *sd)
->  
->  	priv->vdev = imx_media_capture_device_init(ic_priv->ipu_dev,
->  						   &ic_priv->sd,
-> -						   PRPENCVF_SRC_PAD, true);
-> +						   PRPENCVF_SRC_PAD, true,
-> +						   DEVICE_TYPE_IMX56);
->  	if (IS_ERR(priv->vdev))
->  		return PTR_ERR(priv->vdev);
->  
-> diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-> index 93ba09236010..65dc95a48ecc 100644
-> --- a/drivers/staging/media/imx/imx-media-capture.c
-> +++ b/drivers/staging/media/imx/imx-media-capture.c
-> @@ -34,6 +34,7 @@ struct capture_priv {
->  
->  	struct imx_media_video_dev vdev;	/* Video device */
->  	struct media_pad vdev_pad;		/* Video device pad */
-> +	enum imx_media_device_type type;	/* Type of hardware implementation */
->  
->  	struct v4l2_subdev *src_sd;		/* Source subdev */
->  	int src_sd_pad;				/* Source subdev pad */
-> @@ -957,7 +958,8 @@ EXPORT_SYMBOL_GPL(imx_media_capture_device_unregister);
->  
->  struct imx_media_video_dev *
->  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
-> -			      int pad, bool legacy_api)
-> +			      int pad, bool legacy_api,
-> +			      enum imx_media_device_type type)
->  {
->  	struct capture_priv *priv;
->  	struct video_device *vfd;
-> @@ -972,6 +974,7 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
->  	priv->src_sd_pad = pad;
->  	priv->dev = dev;
->  	priv->legacy_api = legacy_api;
-> +	priv->type = type;
->  
->  	mutex_init(&priv->mutex);
->  	INIT_LIST_HEAD(&priv->ready_q);
-> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> index 6a94fff49bf6..b6758c3787c7 100644
-> --- a/drivers/staging/media/imx/imx-media-csi.c
-> +++ b/drivers/staging/media/imx/imx-media-csi.c
-> @@ -1794,7 +1794,8 @@ static int csi_registered(struct v4l2_subdev *sd)
->  	}
->  
->  	priv->vdev = imx_media_capture_device_init(priv->sd.dev, &priv->sd,
-> -						   CSI_SRC_PAD_IDMAC, true);
-> +						   CSI_SRC_PAD_IDMAC, true,
-> +						   DEVICE_TYPE_IMX56);
->  	if (IS_ERR(priv->vdev)) {
->  		ret = PTR_ERR(priv->vdev);
->  		goto free_fim;
-> diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-> index d2a150aac6cd..08e0c94e2de1 100644
-> --- a/drivers/staging/media/imx/imx-media.h
-> +++ b/drivers/staging/media/imx/imx-media.h
-> @@ -96,6 +96,11 @@ enum imx_pixfmt_sel {
->  	PIXFMT_SEL_ANY = PIXFMT_SEL_YUV | PIXFMT_SEL_RGB | PIXFMT_SEL_BAYER,
->  };
->  
-> +enum imx_media_device_type {
-> +	DEVICE_TYPE_IMX56,
-> +	DEVICE_TYPE_IMX78,
-> +};
-> +
->  struct imx_media_buffer {
->  	struct vb2_v4l2_buffer vbuf; /* v4l buffer must be first */
->  	struct list_head  list;
-> @@ -282,7 +287,8 @@ int imx_media_ic_unregister(struct v4l2_subdev *sd);
->  /* imx-media-capture.c */
->  struct imx_media_video_dev *
->  imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
-> -			      int pad, bool legacy_api);
-> +			      int pad, bool legacy_api,
-> +			      enum imx_media_device_type type);
+> Smatch has a check for this so we would have caught it.  :)
 
-I'm not so sure about creating an enum for this. Perhaps just a 'bool is_imx56'
-would be sufficient. The argument name is also more understandable. And you also
-don't have the issue of having to check for out-of-range type values.
-
-Also, where is the device type set for imx8mq? I'm not all that familiar with
-the imx code, but I don't see where imx8mq-mipi-csi2.c fills that in.
-
-I will merge patch 1/5, that one makes sense, but I'll skip the others.
-
-Regards,
-
-	Hans
-
->  void imx_media_capture_device_remove(struct imx_media_video_dev *vdev);
->  int imx_media_capture_device_register(struct imx_media_video_dev *vdev,
->  				      u32 link_flags);
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index d7dc0d8edf50..1a11f07620e9 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -1012,7 +1012,8 @@ static int imx7_csi_registered(struct v4l2_subdev *sd)
->  	}
->  
->  	csi->vdev = imx_media_capture_device_init(csi->sd.dev, &csi->sd,
-> -						  IMX7_CSI_PAD_SRC, false);
-> +						  IMX7_CSI_PAD_SRC, false,
-> +						  DEVICE_TYPE_IMX78);
->  	if (IS_ERR(csi->vdev))
->  		return PTR_ERR(csi->vdev);
->  
-> 
-
+Whish smatch was built-in into kernel and I could simply run "make
+smatch". On the other hand, I know that you're periodically checking
+upstream with smatch and patching the found bugs, so maybe it's fine
+as-is. Thank you for yours work on smatch, it's a very valuable tool.
