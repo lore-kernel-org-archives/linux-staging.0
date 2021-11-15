@@ -1,86 +1,72 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55A62C80
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 13:40:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4DB4B6322C
-	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 13:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1636983617;
-	bh=wWcBwOu3cL9+U+zjsSAWtUQyMjCz3CDgA4mV4eUmQEI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Q4vpjH0uJaOnwWSUMmOGk4RBT6eS8WH2rt9ntVsxRfGOv9U1AcRtQ11fRaF90BIV8
-	 sqeJ0HBpuF+KPmzxxWjlJGgSJ1OjqCnX5IF3kDB9UyaLteVQzEs63BelRJSGp/MN27
-	 rl3mqKgow43UyjRBZHGLKQ4QfjwptO5RKrADCb33Z2mbHzpBKSuGr6uGe5kRDEdiBG
-	 HHrLzrj7SUybGgQXnJJsO7yrqVHV48pmOVUw23xSRWxB7Me79U0ZJtPK4hVpkgoTGX
-	 utmi82G0Uxv9J6Q2ftbl+jiVLtnlcx62LHYmA20iHfeUpWAVrLzRRvgSwCTpk4pzn6
-	 ofL6tkRYcgMKA==
-Received: by mail-wr1-f45.google.com with SMTP id u18so30792074wrg.5
-        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 05:40:17 -0800 (PST)
-X-Gm-Message-State: AOAM5310uSYaSdyZbVEmfAk3BaeWcHHNLiDOb/Vu4b+P1+UY09ngx+ki
-	tIu3DXmOv45h+6FBJK6X9MWnXAbKjoSj6PXxFwo=
-X-Google-Smtp-Source: ABdhPJydx+lGNyCCL10Ss+u6AlrY7F7Dh3irA5L/rafXQwz2EG7YLwST7GsA7bIvQOTqpVGT64n5uQbouKk1WaS2cho=
-X-Received: by 2002:adf:f088:: with SMTP id n8mr7443019wro.411.1636983615679;
- Mon, 15 Nov 2021 05:40:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11F72C80
+	for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 13:50:57 +0000 (UTC)
+Received: from martin by viti.kaiser.cx with local (Exim 4.89)
+	(envelope-from <martin@viti.kaiser.cx>)
+	id 1mmcNg-0008Ej-DM; Mon, 15 Nov 2021 14:50:44 +0100
+Date: Mon, 15 Nov 2021 14:50:44 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 03/15] staging: r8188eu: remove test code for efuse
+ shadow map
+Message-ID: <20211115135044.zzudkdypmgivfnko@viti.kaiser.cx>
+References: <20211113185518.23941-1-martin@kaiser.cx>
+ <20211113185518.23941-4-martin@kaiser.cx>
+ <20211115112748.GC26989@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211115085403.360194-1-arnd@kernel.org> <20211115085403.360194-9-arnd@kernel.org>
- <YZIk6cVb7XibrMjf@pendragon.ideasonboard.com> <CAK8P3a1Fu11-e0CK2of8u3ebdjom84UKuXhBKi5FUs5ZPPdOVA@mail.gmail.com>
- <YZJJVA/92KYH8hQL@pendragon.ideasonboard.com> <CAK8P3a27rPBVbU-PrYR0BE4KV2DyJk7FoXaeDS=FU1=_RSwoQQ@mail.gmail.com>
- <YZJbLol1llm+puDT@pendragon.ideasonboard.com>
-In-Reply-To: <YZJbLol1llm+puDT@pendragon.ideasonboard.com>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 15 Nov 2021 14:39:59 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a16s6dwvb-7REjF-pmnKod2qQRq+mta-g8pDXbQpGQvHA@mail.gmail.com>
-Message-ID: <CAK8P3a16s6dwvb-7REjF-pmnKod2qQRq+mta-g8pDXbQpGQvHA@mail.gmail.com>
-Subject: Re: [PATCH 08/11] dmaengine: xilinx_dpdma: stop using slave_id field
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Baolin Wang <baolin.wang7@gmail.com>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hyun Kwon <hyun.kwon@xilinx.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Jon Hunter <jonathanh@nvidia.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Laxman Dewangan <ldewangan@nvidia.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Michal Simek <michal.simek@xilinx.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
-	Orson Zhai <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, 
-	ALSA Development Mailing List <alsa-devel@alsa-project.org>, 
-	bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>, dmaengine@vger.kernel.org, 
-	dri-devel <dri-devel@lists.freedesktop.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	"moderated list:BROADCOM BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, 
-	"open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>, linux-spi <linux-spi@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, 
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211115112748.GC26989@kadam>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Sender: Martin Kaiser <martin@viti.kaiser.cx>
 
-On Mon, Nov 15, 2021 at 2:05 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Mon, Nov 15, 2021 at 01:38:07PM +0100, Arnd Bergmann wrote:
-> > On Mon, Nov 15, 2021 at 12:49 PM Laurent Pinchart wrote:
-> >
-> > Right. I wonder if there is even a point in using the dmaengine API
-> > in that case, I think for other single-purpose drivers we tend to just
-> > integrate the functionality in the client driver. No point changing this
-> > now of course, but it does feel odd.
->
-> I agree, and that's what I would have done as well, if it wasn't for the
-> fact that the DMA engine also supports a second client for audio. This
-> isn't supported in upstream yet. We could still have created an ad-hoc
-> solution, possibly based on the components framework, but the DMA engine
-> subsystem wasn't a bad fit.
+Hi Dan,
 
-Ah, makes sense. In this case, I guess the data could have been
-part of the DMA specifier after all, in a second cell after the
-channel number.
+Thus wrote Dan Carpenter (dan.carpenter@oracle.com):
 
-        Arnd
+> On Sat, Nov 13, 2021 at 07:55:06PM +0100, Martin Kaiser wrote:
+
+> > -			if (_SUCCESS == ret)
+> > -				goto exit;
+> > -		}
+> > +		if (_SUCCESS == ret)
+> > +			return;
+> >  	}
+> > -	Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
+
+> It looks like this changes how the code works here.  Originally we
+> called Hal_EfuseReadEFuse88E() fir rtw_IOL_applied() was false or if
+> iol_read_efuse() failed.
+
+the call to Hal_EfuseReadEFuse88E is still there, it's below the part
+that you quoted:
+
+-       Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
+-
+-exit:
+-       return;
+-}
+ 
+-static void ReadEFuse_Pseudo(struct adapter *Adapter, u16 _offset, u16 _size_byte, u8 *pbuf, bool bPseudoTest)
+-{
+-       Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf, bPseudoTest);
++       Hal_EfuseReadEFuse88E(Adapter, _offset, _size_byte, pbuf);
+ }
+
+The removal of ReadEFuse_Pseudo makes the diff a bit confusing. When I
+checked the patches before posting, I stumbled across this part as well.
+
+Best regards,
+Martin
