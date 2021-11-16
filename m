@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9402CAA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36EA2CAB
 	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AA42C63220;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B9D6363238;
 	Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1637062148;
-	bh=NPm8N4ShvwZEb63+8x3Mv3yvsEQXpPLe5iTnhSZmgA4=;
+	bh=sbkcS2Nj5P00ypwpQDsboabWRRg1AHwqlkNzWNXAcig=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SAZUpXgWzraGgfICJE+EUV4QP4Y6+xxNyzjrlJYxz7TQ+iZXygp3VOody0y/ROylY
-	 ClX8u3tOCSBDEqzQztLS6aqmlILni2bBn7I4oJ5s/+So9hpZ+O88NSazYU6ovKuk2V
-	 XKGZNVc+oGYo9cgN+4Z+28DFkSYw9aJHsxSVtgpj0sOiyOi8CmgvjEe5RhEeo7W2YV
-	 BYuiQkc8UlEphLEIUdO1AeqN6tACNbMX9csuWq80r4NWXt5ZLyFDSAw0uuHWKxMwxi
-	 R1wyIS4C1NAKzoFAGcaaWJ9ASkEykYg0eG6Crc7NWZEcd+Kyj0JpNLFGxvfV72TvjL
-	 TLGQFU7mux5gA==
+	b=qHWZZLuJ2DbW//sutFv601ZIqI7Aj68AIn24L6s8AFfOneecsGOz6g0PQbgCeKFyZ
+	 pMHEx21I2CZHk7r6nc0K4871qyKmzxMaCy6qxBoxWNu3MeyMhh9gSx4GuPLA9nAKnX
+	 zhRVmcMmBF1EVBiJR0dkjmDHoqhy/Jvi/shuSSJar1/SC8z4CdY+JYS5YKvRcv3l6V
+	 OTXQ0a+zgl4P3ZdOAw5FoahGVRTUTCguf2bKKlVi63O0vJ2M5Iea5gX1CX/FdxMAgE
+	 Ar0XDpPsryxj0pSNKbpyitQ/cnGSCsB1aoskWb/KsgnQWXNNLTJ5HWrpEYRNixkoD4
+	 EHPodt7DEy0ZQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mmwe9-008Qg7-N8; Tue, 16 Nov 2021 11:29:05 +0000
+	id 1mmwe9-008Qfj-Ij; Tue, 16 Nov 2021 11:29:05 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
@@ -34,9 +34,9 @@ Cc: linuxarm@huawei.com,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 21/23] media: atomisp: warn if mipi de-allocation failed
-Date: Tue, 16 Nov 2021 11:29:02 +0000
-Message-Id: <ed5523284722c3d8a3b8fe5913ff51ee21d52af8.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 13/23] media: atomisp: solve #ifdef HAS_NO_PACKED_RAW_PIXELS
+Date: Tue, 16 Nov 2021 11:28:54 +0000
+Message-Id: <f9a81da55d6086627a6b5db01e8eab4857eb42bd.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -49,9 +49,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-There's a note at the uninit function that warns about issues
-with mipi frames de-allocation. print a warning if the problem
-ever happens.
+This was never defined, so remove the #ifdefs, keeping the
+code.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -59,70 +58,65 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/sh_css.c      |  6 +++++-
- drivers/staging/media/atomisp/pci/sh_css_mipi.c | 11 +++++++++++
- drivers/staging/media/atomisp/pci/sh_css_mipi.h |  2 ++
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ .../media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c       | 2 --
+ drivers/staging/media/atomisp/pci/sh_css.c                    | 2 --
+ drivers/staging/media/atomisp/pci/sh_css_mipi.c               | 4 ----
+ 3 files changed, 8 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
+index 3e3e5a4f8117..d09cc486e33e 100644
+--- a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
++++ b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
+@@ -571,11 +571,9 @@ void ia_css_pipe_get_primary_binarydesc(
+ 	in_info->res = pipe->config.input_effective_res;
+ 	in_info->padded_width = in_info->res.width;
+ 
+-#if !defined(HAS_NO_PACKED_RAW_PIXELS)
+ 	if (pipe->stream->config.pack_raw_pixels)
+ 		in_info->format = IA_CSS_FRAME_FORMAT_RAW_PACKED;
+ 	else
+-#endif
+ 		in_info->format = IA_CSS_FRAME_FORMAT_RAW;
+ 
+ 	in_info->raw_bit_depth = ia_css_pipe_util_pipe_input_format_bpp(pipe);
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 12dfecbb6145..8bcf610ccae3 100644
+index 1f0b941de71f..d1074c3d56c6 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -20,6 +20,8 @@
+@@ -2570,13 +2570,11 @@ alloc_continuous_frames(struct ia_css_pipe *pipe, bool init_time)
+ 	ref_info.padded_width = CEIL_MUL(ref_info.res.width, 2 * ISP_VEC_NELEMS);
+ #endif
  
- #include "hmm.h"
- 
-+#include "atomisp_internal.h"
-+
- #include "ia_css.h"
- #include "sh_css_hrt.h"		/* only for file 2 MIPI */
- #include "ia_css_buffer.h"
-@@ -2286,7 +2288,9 @@ ia_css_uninit(void)
- 	sh_css_params_free_default_gdc_lut();
- 
- 	/* TODO: JB: implement decent check and handling of freeing mipi frames */
--	//assert(ref_count_mipi_allocation == 0); //mipi frames are not freed
-+	if (!mipi_is_free())
-+		dev_warn(atomisp_dev, "mipi frames are not freed.\n");
-+
- 	/* cleanup generic data */
- 	sh_css_params_uninit();
- 	ia_css_refcount_uninit();
+-#if !defined(HAS_NO_PACKED_RAW_PIXELS)
+ 	if (pipe->stream->config.pack_raw_pixels) {
+ 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+ 				    "alloc_continuous_frames() IA_CSS_FRAME_FORMAT_RAW_PACKED\n");
+ 		ref_info.format = IA_CSS_FRAME_FORMAT_RAW_PACKED;
+ 	} else
+-#endif
+ 	{
+ 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+ 				    "alloc_continuous_frames() IA_CSS_FRAME_FORMAT_RAW\n");
 diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index 87f1df575d9f..cfaa4719177c 100644
+index de56a1da754d..87f1df575d9f 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -261,6 +261,17 @@ mipi_init(void)
- 		ref_count_mipi_allocation[i] = 0;
- }
- 
-+bool mipi_is_free(void)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < N_CSI_PORTS; i++)
-+		if (ref_count_mipi_allocation[i])
-+			return false;
-+
-+	return true;
-+}
-+
- int
- calculate_mipi_buff_size(
-     struct ia_css_stream_config *stream_cfg,
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.h b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-index 52f08a103883..dffec2205620 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-@@ -23,6 +23,8 @@
- void
- mipi_init(void);
- 
-+bool mipi_is_free(void);
-+
- int
- allocate_mipi_frames(struct ia_css_pipe *pipe, struct ia_css_stream_info *info);
- 
+@@ -133,15 +133,11 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
+ 		break;
+ 	case ATOMISP_INPUT_FORMAT_YUV420_10:		/* odd 4p, 5B, 40bits, even 4p, 10B, 80bits */
+ 	case ATOMISP_INPUT_FORMAT_RAW_10:		/* 4p, 5B, 40bits */
+-#if !defined(HAS_NO_PACKED_RAW_PIXELS)
+ 		/* The changes will be reverted as soon as RAW
+ 		 * Buffers are deployed by the 2401 Input System
+ 		 * in the non-continuous use scenario.
+ 		 */
+ 		bits_per_pixel = 10;
+-#else
+-		bits_per_pixel = 16;
+-#endif
+ 		break;
+ 	case ATOMISP_INPUT_FORMAT_YUV420_8_LEGACY:	/* 2p, 3B, 24bits */
+ 	case ATOMISP_INPUT_FORMAT_RAW_12:		/* 2p, 3B, 24bits */
 -- 
 2.33.1
 
