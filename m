@@ -1,41 +1,49 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D42C2C88
-	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C6D761B30;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3B968
+	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D5B9363248;
 	Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1637062148;
-	bh=wcPVqyqBHfYOV96dEkNXvZZye3BXJsLhbBktqxNEuMU=;
+	bh=vC+9N73bdu15KCUOSIhytPGGzFvQfFN+qjq3sSHnCvs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sHm2lYnQXfWuA4KaK0iZzQh5+/nC40ViX9IUUwgsR0vNYVjar4QwndIXc5/KfozPm
-	 6JsodujS9uv/pkkKsVKL+aE4vIlW+25LcTDDrIPWdFA1NC2YFZW0a2ZzSR8qIxY5yP
-	 SPZ0FZqnnccUfFxkwHN/o95hOLNVYLejVkCIVg/v/HPQGXEkv491buRgJ65LmEujQD
-	 6F220Eb+PiTcqBJ2DAd65OXfNGCfx+j81HF6uYX4aG5/hPBJA0fVioM7a3Dx4ioCFh
-	 TLXc5IZljp8jUiigT0cF+dIM/rSqBqUHnZFfoV7V+a1sKmqKxddUCZmdbCVWL3x7n1
-	 ZvZib4XiM1QUw==
+	b=VKy5LR+VJNrgIeUjI93YMdDE37RtDuH7zKItqNc6TroucgJmLmfdyk4UEmaQACecu
+	 nINhIfZw/hayXjMMPHwGuxcZpXQa1WOCbSFfxrpxWzAa8UCvEcwb35e7ZY33Pq73FP
+	 b36gE+7KWK2a7C2T1hKRZ1efc5zqYyk1IIRdPACKeSqMt1Z5n8t3sDxqLzbSE9iIKV
+	 Sgrj3z/gpV1p+at+8aCGwvcpZCVsm9jV+YCmtiJoWbG4kjkj9vZPgvFnVcAmMRGdxn
+	 59Trlre6TEFcHgawDXrHSELpYR9IxOVae9XMjNz4YGMoN6jn+zf1WYgIa4dMrf9yaB
+	 6DLh+ohh0oAYg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mmwe9-008QfR-F6; Tue, 16 Nov 2021 11:29:05 +0000
+	id 1mmwe9-008Qf9-Ar; Tue, 16 Nov 2021 11:29:05 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Deepak R Varma <drv@mailo.com>,
+	Aditya Srivastava <yashsri421@gmail.com>,
+	Alex Dewar <alex.dewar90@gmail.com>,
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baokun Li <libaokun1@huawei.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Kaixu Xia <kaixuxia@tencent.com>,
 	Martiros Shakhzadyan <vrzh@vrzh.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Shaokun Zhang <zhangshaokun@hisilicon.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Tsuchiya Yuto <kitakar@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 07/23] media: atomisp: drop two vars that are currently ignored
-Date: Tue, 16 Nov 2021 11:28:48 +0000
-Message-Id: <a2f938e506ff86d724d40520267da0ffaf00bce3.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 01/23] media: atomisp: get rid of phys event abstractions
+Date: Tue, 16 Nov 2021 11:28:42 +0000
+Message-Id: <377414f7f63dd4f5f247da9cf1f20c729b026159.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -48,9 +56,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Those two vars are meaningful only with some ISP2401 firmwares.
-The one we chose to support doesn't use, so simply drop the
-extra code.
+ia_css_dequeue_event() is just an alias to ia_css_dequeue_psys_event(),
+and atomisp_css_dequeue_event() do nothing but calling the event
+dequeue logic.
+
+Get rid of both abstractions, calling the function directly.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -58,200 +68,119 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- .../pci/runtime/pipeline/src/pipeline.c       |  3 +-
- drivers/staging/media/atomisp/pci/sh_css.c    | 49 +++----------------
- drivers/staging/media/atomisp/pci/sh_css_sp.c |  7 +--
- drivers/staging/media/atomisp/pci/sh_css_sp.h |  7 +--
- 4 files changed, 10 insertions(+), 56 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c |  2 +-
+ .../staging/media/atomisp/pci/atomisp_compat.h  |  2 --
+ .../media/atomisp/pci/atomisp_compat_css20.c    | 10 +---------
+ .../media/atomisp/pci/ia_css_event_public.h     | 17 +----------------
+ drivers/staging/media/atomisp/pci/sh_css.c      |  6 ------
+ 5 files changed, 3 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-index d03957d1ecf4..dfc50247ea8e 100644
---- a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-@@ -140,8 +140,7 @@ void ia_css_pipeline_start(enum ia_css_pipe_id pipe_id,
- 				false, false, false, true, SH_CSS_BDS_FACTOR_1_00,
- 				SH_CSS_PIPE_CONFIG_OVRD_NO_OVRD,
- 				IA_CSS_INPUT_MODE_MEMORY, NULL, NULL,
--				(enum mipi_port_id)0,
--				NULL, NULL);
-+				(enum mipi_port_id)0);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 72c61c732d53..4783590969b6 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1881,7 +1881,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
+ 	/*
+ 	 * The standard CSS2.0 API tells the following calling sequence of
+ 	 * dequeue ready buffers:
+-	 * while (ia_css_dequeue_event(...)) {
++	 * while (ia_css_dequeue_psys_event(...)) {
+ 	 *	switch (event.type) {
+ 	 *	...
+ 	 *	ia_css_pipe_dequeue_buffer()
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+index c16eaf3d126f..64c1bf0943e6 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+@@ -133,8 +133,6 @@ void atomisp_css_get_dis_statistics(struct atomisp_sub_device *asd,
+ 				    struct atomisp_css_buffer *isp_css_buffer,
+ 				    struct ia_css_isp_dvs_statistics_map *dvs_map);
  
- 	ia_css_pipeline_get_sp_thread_id(pipe_num, &thread_id);
- 	if (!sh_css_sp_is_running()) {
+-int atomisp_css_dequeue_event(struct atomisp_css_event *current_event);
+-
+ void atomisp_css_temp_pipe_to_pipe_id(struct atomisp_sub_device *asd,
+ 				      struct atomisp_css_event *current_event);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index da177a8e78e3..7edee293b132 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -1633,14 +1633,6 @@ void atomisp_css_get_dis_statistics(struct atomisp_sub_device *asd,
+ 	}
+ }
+ 
+-int atomisp_css_dequeue_event(struct atomisp_css_event *current_event)
+-{
+-	if (ia_css_dequeue_event(&current_event->event))
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+ void atomisp_css_temp_pipe_to_pipe_id(struct atomisp_sub_device *asd,
+ 				      struct atomisp_css_event *current_event)
+ {
+@@ -4120,7 +4112,7 @@ int atomisp_css_isr_thread(struct atomisp_device *isp,
+ 	bool reset_wdt_timer[MAX_STREAM_NUM] = {false};
+ 	int i;
+ 
+-	while (!atomisp_css_dequeue_event(&current_event)) {
++	while (!ia_css_dequeue_psys_event(&current_event.event)) {
+ 		if (current_event.event.type ==
+ 		    IA_CSS_EVENT_TYPE_FW_ASSERT) {
+ 			/*
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_event_public.h b/drivers/staging/media/atomisp/pci/ia_css_event_public.h
+index 08ea801dd5ac..76219d741d2e 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_event_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_event_public.h
+@@ -157,21 +157,6 @@ struct ia_css_event {
+ int
+ ia_css_dequeue_psys_event(struct ia_css_event *event);
+ 
+-/* @brief Dequeue an event from the CSS system.
+- *
+- * @param[out]	event   Pointer to the event struct which will be filled by
+- *                      this function if an event is available.
+- * @return		-ENODATA if no events are
+- *			available or
+- *			0 otherwise.
+- *
+- * deprecated{Use ia_css_dequeue_psys_event instead}.
+- * Unless the isys event queue is explicitly enabled, this function will
+- * dequeue both isys (EOF) and psys events (all others).
+- */
+-int
+-ia_css_dequeue_event(struct ia_css_event *event);
+-
+ /* @brief Dequeue an ISYS event from the CSS system.
+  *
+  * @param[out]	event   Pointer to the event struct which will be filled by
+@@ -182,7 +167,7 @@ ia_css_dequeue_event(struct ia_css_event *event);
+  *
+  * This function dequeues an event from the ISYS event queue. The queue is
+  * between host and the CSS system.
+- * Unlike the ia_css_dequeue_event() function, this function can be called
++ * Unlike the ia_css_dequeue_psys_event() function, this function can be called
+  * directly from an interrupt service routine (ISR) and it is safe to call
+  * this function in parallel with other CSS API functions (but only one
+  * call to this function should be in flight at any point in time).
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index ac3519d08971..3aa4f8bc39c4 100644
+index 79003077f390..c714c15c49d2 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -1426,20 +1426,11 @@ static void start_pipe(
-     enum sh_css_pipe_config_override copy_ovrd,
-     enum ia_css_input_mode input_mode)
+@@ -4423,12 +4423,6 @@ static enum ia_css_event_type convert_event_sp_to_host_domain[] = {
+ 	0,					/* error if sp passes  SH_CSS_SP_EVENT_NR_OF_TYPES as a valid event. */
+ };
+ 
+-int
+-ia_css_dequeue_event(struct ia_css_event *event)
+-{
+-	return ia_css_dequeue_psys_event(event);
+-}
+-
+ int
+ ia_css_dequeue_psys_event(struct ia_css_event *event)
  {
--	const struct ia_css_coordinate *coord = NULL;
--	const struct ia_css_isp_parameters *params = NULL;
--
--
- 	IA_CSS_ENTER_PRIVATE("me = %p, copy_ovrd = %d, input_mode = %d",
- 			     me, copy_ovrd, input_mode);
- 
- 	assert(me); /* all callers are in this file and call with non null argument */
- 
--	if (IS_ISP2401) {
--		coord = &me->config.internal_frame_origin_bqs_on_sctbl;
--		params = me->stream->isp_params_configs;
--	}
--
- 	sh_css_sp_init_pipeline(&me->pipeline,
- 				me->mode,
- 				(uint8_t)ia_css_pipe_get_pipe_num(me),
-@@ -1454,9 +1445,7 @@ static void start_pipe(
- 				&me->stream->info.metadata_info
- 				, (input_mode == IA_CSS_INPUT_MODE_MEMORY) ?
- 				(enum mipi_port_id)0 :
--				me->stream->config.source.port.port,
--				coord,
--				params);
-+				me->stream->config.source.port.port);
- 
- 	if (me->config.mode != IA_CSS_PIPE_MODE_COPY) {
- 		struct ia_css_pipeline_stage *stage;
-@@ -3882,8 +3871,6 @@ preview_start(struct ia_css_pipe *pipe)
- 	struct ia_css_pipe *acc_pipe;
- 	enum sh_css_pipe_config_override copy_ovrd;
- 	enum ia_css_input_mode preview_pipe_input_mode;
--	const struct ia_css_coordinate *coord = NULL;
--	const struct ia_css_isp_parameters *params = NULL;
- 	unsigned int thread_id;
- 
- 	IA_CSS_ENTER_PRIVATE("pipe = %p", pipe);
-@@ -3913,15 +3900,10 @@ preview_start(struct ia_css_pipe *pipe)
- 
- 	if (pipe->stream->cont_capt) {
- 		ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(capture_pipe),
--						    &thread_id);
-+						 &thread_id);
- 		copy_ovrd |= 1 << thread_id;
- 	}
- 
--	if (IS_ISP2401) {
--		coord = &pipe->config.internal_frame_origin_bqs_on_sctbl;
--		params = pipe->stream->isp_params_configs;
--	}
--
- 	/* Construct and load the copy pipe */
- 	if (pipe->stream->config.continuous) {
- 		sh_css_sp_init_pipeline(&copy_pipe->pipeline,
-@@ -3934,9 +3916,7 @@ preview_start(struct ia_css_pipe *pipe)
- 					pipe->stream->config.mode,
- 					&pipe->stream->config.metadata_config,
- 					&pipe->stream->info.metadata_info,
--					pipe->stream->config.source.port.port,
--					coord,
--					params);
-+					pipe->stream->config.source.port.port);
- 
- 		/*
- 		 * make the preview pipe start with mem mode input, copy handles
-@@ -3959,9 +3939,7 @@ preview_start(struct ia_css_pipe *pipe)
- 					IA_CSS_INPUT_MODE_MEMORY,
- 					&pipe->stream->config.metadata_config,
- 					&pipe->stream->info.metadata_info,
--					(enum mipi_port_id)0,
--					coord,
--					params);
-+					(enum mipi_port_id)0);
- 	}
- 
- 	if (acc_pipe) {
-@@ -3977,9 +3955,7 @@ preview_start(struct ia_css_pipe *pipe)
- 					IA_CSS_INPUT_MODE_MEMORY,
- 					NULL,
- 					NULL,
--					(enum mipi_port_id)0,
--					coord,
--					params);
-+					(enum mipi_port_id)0);
- 	}
- 
- 	start_pipe(pipe, copy_ovrd, preview_pipe_input_mode);
-@@ -5650,8 +5626,6 @@ static int video_start(struct ia_css_pipe *pipe)
- 	struct ia_css_pipe *copy_pipe, *capture_pipe;
- 	enum sh_css_pipe_config_override copy_ovrd;
- 	enum ia_css_input_mode video_pipe_input_mode;
--	const struct ia_css_coordinate *coord = NULL;
--	const struct ia_css_isp_parameters *params = NULL;
- 	unsigned int thread_id;
- 
- 	IA_CSS_ENTER_PRIVATE("pipe = %p", pipe);
-@@ -5684,11 +5658,6 @@ static int video_start(struct ia_css_pipe *pipe)
- 		copy_ovrd |= 1 << thread_id;
- 	}
- 
--	if (IS_ISP2401) {
--		coord = &pipe->config.internal_frame_origin_bqs_on_sctbl;
--		params = pipe->stream->isp_params_configs;
--	}
--
- 	/* Construct and load the copy pipe */
- 	if (pipe->stream->config.continuous) {
- 		sh_css_sp_init_pipeline(&copy_pipe->pipeline,
-@@ -5701,9 +5670,7 @@ static int video_start(struct ia_css_pipe *pipe)
- 					pipe->stream->config.mode,
- 					&pipe->stream->config.metadata_config,
- 					&pipe->stream->info.metadata_info,
--					pipe->stream->config.source.port.port,
--					coord,
--					params);
-+					pipe->stream->config.source.port.port);
- 
- 		/*
- 		 * make the video pipe start with mem mode input, copy handles
-@@ -5726,9 +5693,7 @@ static int video_start(struct ia_css_pipe *pipe)
- 					IA_CSS_INPUT_MODE_MEMORY,
- 					&pipe->stream->config.metadata_config,
- 					&pipe->stream->info.metadata_info,
--					(enum mipi_port_id)0,
--					coord,
--					params);
-+					(enum mipi_port_id)0);
- 	}
- 
- 	start_pipe(pipe, copy_ovrd, video_pipe_input_mode);
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 77ac720017a2..ff7c2c5fd94d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1217,12 +1217,7 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 			enum ia_css_input_mode input_mode,
- 			const struct ia_css_metadata_config *md_config,
- 			const struct ia_css_metadata_info *md_info,
--			const enum mipi_port_id port_id,
--			const struct ia_css_coordinate
--			*internal_frame_origin_bqs_on_sctbl, /* Origin of internal frame
--							positioned on shading table at shading correction in ISP. */
--			const struct ia_css_isp_parameters *params
--		       )
-+			const enum mipi_port_id port_id)
- {
- 	/* Get first stage */
- 	struct ia_css_pipeline_stage *stage        = NULL;
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.h b/drivers/staging/media/atomisp/pci/sh_css_sp.h
-index 832eed711525..f69a79b0b0da 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.h
-@@ -66,12 +66,7 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 			enum ia_css_input_mode input_mode,
- 			const struct ia_css_metadata_config *md_config,
- 			const struct ia_css_metadata_info *md_info,
--			const enum mipi_port_id port_id,
--			const struct ia_css_coordinate
--			*internal_frame_origin_bqs_on_sctbl, /* Origin of internal frame
--							positioned on shading table at shading correction in ISP. */
--			const struct ia_css_isp_parameters *params
--		       );
-+			const enum mipi_port_id port_id);
- 
- void
- sh_css_sp_uninit_pipeline(unsigned int pipe_num);
 -- 
 2.33.1
 
