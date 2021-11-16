@@ -1,42 +1,39 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36EA2CAB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EBA2C87
 	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B9D6363238;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A267A63212;
 	Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1637062148;
-	bh=sbkcS2Nj5P00ypwpQDsboabWRRg1AHwqlkNzWNXAcig=;
+	bh=MxBPtoihvouLfYG8cgHz2T5rgMZ+ePtfb1HqpAzcbiU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qHWZZLuJ2DbW//sutFv601ZIqI7Aj68AIn24L6s8AFfOneecsGOz6g0PQbgCeKFyZ
-	 pMHEx21I2CZHk7r6nc0K4871qyKmzxMaCy6qxBoxWNu3MeyMhh9gSx4GuPLA9nAKnX
-	 zhRVmcMmBF1EVBiJR0dkjmDHoqhy/Jvi/shuSSJar1/SC8z4CdY+JYS5YKvRcv3l6V
-	 OTXQ0a+zgl4P3ZdOAw5FoahGVRTUTCguf2bKKlVi63O0vJ2M5Iea5gX1CX/FdxMAgE
-	 Ar0XDpPsryxj0pSNKbpyitQ/cnGSCsB1aoskWb/KsgnQWXNNLTJ5HWrpEYRNixkoD4
-	 EHPodt7DEy0ZQ==
+	b=YK8d8QkAVCq2YbW/1buxYjOZ0HqbyXWBhfodZXle8Cqht/6WYRrtApFVGC11TYLWc
+	 0Gtgd0gr/k3kVj7doWnHJo7XkGsSCv9KzhH0gorbwAv/npt9yG6pX3NGU7Ay3mU+64
+	 lAjQ3FYI0GyGK9iZFDqBRgTvH6eQWh3R02dFc66zjBxBVlCanYvt2oTMvIvJV4G5g4
+	 nTQN+5rWgSyqdPLUOxBBQL6+47Ei+FUUQeFv0QdRrYV+DAaakfNO/iyw9kfRvtxY8q
+	 D9G/6fMr5nmsU3AkJIUv9ff7x1vZqMj4lyzCbLPtEBeUGwrYlWtpduUaDNYN4WcwQF
+	 LXzd2YvBNrYxg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mmwe9-008Qfj-Ij; Tue, 16 Nov 2021 11:29:05 +0000
+	id 1mmwe9-008Qg1-M9; Tue, 16 Nov 2021 11:29:05 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Deepak R Varma <drv@mailo.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Martiros Shakhzadyan <vrzh@vrzh.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 13/23] media: atomisp: solve #ifdef HAS_NO_PACKED_RAW_PIXELS
-Date: Tue, 16 Nov 2021 11:28:54 +0000
-Message-Id: <f9a81da55d6086627a6b5db01e8eab4857eb42bd.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 19/23] media: atomisp: get rid of some weird warn-suppress logic
+Date: Tue, 16 Nov 2021 11:29:00 +0000
+Message-Id: <581e26c2d24c180f6d619797781f1809c9ce6c4e.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -49,8 +46,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-This was never defined, so remove the #ifdefs, keeping the
-code.
+There are some dead code meant to suppress "CRUN" warnings.
+
+Drop it from sh_css.c, as it doesn't make much sense.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -58,65 +56,29 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- .../media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c       | 2 --
- drivers/staging/media/atomisp/pci/sh_css.c                    | 2 --
- drivers/staging/media/atomisp/pci/sh_css_mipi.c               | 4 ----
- 3 files changed, 8 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-index 3e3e5a4f8117..d09cc486e33e 100644
---- a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-+++ b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_binarydesc.c
-@@ -571,11 +571,9 @@ void ia_css_pipe_get_primary_binarydesc(
- 	in_info->res = pipe->config.input_effective_res;
- 	in_info->padded_width = in_info->res.width;
- 
--#if !defined(HAS_NO_PACKED_RAW_PIXELS)
- 	if (pipe->stream->config.pack_raw_pixels)
- 		in_info->format = IA_CSS_FRAME_FORMAT_RAW_PACKED;
- 	else
--#endif
- 		in_info->format = IA_CSS_FRAME_FORMAT_RAW;
- 
- 	in_info->raw_bit_depth = ia_css_pipe_util_pipe_input_format_bpp(pipe);
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 1f0b941de71f..d1074c3d56c6 100644
+index 5d022bb373a6..6970cf8a5dfe 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -2570,13 +2570,11 @@ alloc_continuous_frames(struct ia_css_pipe *pipe, bool init_time)
- 	ref_info.padded_width = CEIL_MUL(ref_info.res.width, 2 * ISP_VEC_NELEMS);
+@@ -8198,15 +8198,6 @@ sh_css_init_host_sp_control_vars(void)
  #endif
+ 	HIVE_ADDR_host_sp_com = fw->info.sp.host_sp_com;
  
--#if !defined(HAS_NO_PACKED_RAW_PIXELS)
- 	if (pipe->stream->config.pack_raw_pixels) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "alloc_continuous_frames() IA_CSS_FRAME_FORMAT_RAW_PACKED\n");
- 		ref_info.format = IA_CSS_FRAME_FORMAT_RAW_PACKED;
- 	} else
+-	(void)HIVE_ADDR_ia_css_ispctrl_sp_isp_started; /* Suppres warnings in CRUN */
+-
+-	(void)HIVE_ADDR_sp_sleep_mode;
+-	(void)HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb;
+-#ifndef ISP2401
+-	(void)HIVE_ADDR_sp_stop_copy_preview;
 -#endif
- 	{
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "alloc_continuous_frames() IA_CSS_FRAME_FORMAT_RAW\n");
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index de56a1da754d..87f1df575d9f 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -133,15 +133,11 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
- 		break;
- 	case ATOMISP_INPUT_FORMAT_YUV420_10:		/* odd 4p, 5B, 40bits, even 4p, 10B, 80bits */
- 	case ATOMISP_INPUT_FORMAT_RAW_10:		/* 4p, 5B, 40bits */
--#if !defined(HAS_NO_PACKED_RAW_PIXELS)
- 		/* The changes will be reverted as soon as RAW
- 		 * Buffers are deployed by the 2401 Input System
- 		 * in the non-continuous use scenario.
- 		 */
- 		bits_per_pixel = 10;
--#else
--		bits_per_pixel = 16;
--#endif
- 		break;
- 	case ATOMISP_INPUT_FORMAT_YUV420_8_LEGACY:	/* 2p, 3B, 24bits */
- 	case ATOMISP_INPUT_FORMAT_RAW_12:		/* 2p, 3B, 24bits */
+-	(void)HIVE_ADDR_host_sp_com;
+-
+ 	sp_dmem_store_uint32(SP0_ID,
+ 			     (unsigned int)sp_address_of(ia_css_ispctrl_sp_isp_started),
+ 			     (uint32_t)(0));
 -- 
 2.33.1
 
