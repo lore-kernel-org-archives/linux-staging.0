@@ -1,39 +1,45 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393402CAC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFCB2CAD
 	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B922B6322D;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CD18363245;
 	Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637062148;
-	bh=U3MxoBvsoXIfguUXs6arCKLGL8bv2YFAy4MwNhpa9R4=;
+	s=k20201202; t=1637062149;
+	bh=9dZMW3J9NI4LAzKLdcY4OH98nWaufQoIxA6ewECyw5M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cf9gbY739oVGoT+0h7MmItQMeiy0mnEztOoCQV7iXAac8j2JWkrnw/9Erjq15ublV
-	 3Eaa6Dyp2PaNEF7PtmIKWxbcdd+Al8WPgdIr/nzbS3dDWK1jAPzp9QqXA4MUGhS5U1
-	 dIXfACfdVi1zuxmZerrYdwyhn8mgaAUZKCWXzZCIKjziw5BwPeE9HnCltSY9+Ir+P3
-	 Dq/DJa7uH2V1GQZeVMdl96YOqvWGdQHmJazhZQCUw1BiTbqDcmn2gOEG3KQ7yFoqP9
-	 PQ0oWOs9TOc4zAVsjAtc16cxZScobGPYCs88jm86JH10Hc1+ZlynTFnUPJOemcqsJm
-	 jKcNjWkvJP6hA==
+	b=ef8E2b7Fzqw6FAto7cr2Ifmgg2An0hm/fRqUU7apU3lcNdQKn8s6uPWfN1HKIbhD6
+	 rC4p1Ak60fw6I8A+GrwuAlsFj8k1R0XhMz2ZpRIgAnYRcECXOR+RvVnYrb/ObI5pD4
+	 4UXb6WoBBxAd85Uz9z1GEdLR9JhmA6E6jWT7fU7AGhuMuJGP89lApCysyE7DctGtgM
+	 9HMM6XncOzhL6RTjbDRaLQ0boKjN4iHTbv173Tk2lZw8cIr4tPBbQwqRSBLnWl0kgJ
+	 2LvBb+ChNc5MR6XCyXKfMYDylElMja8q1aEpBwzMjLGTX2uvGkwKRwLj+aD3TiBG9V
+	 oqrA+cSXOj10Q==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mmwe9-008Qfs-KZ; Tue, 16 Nov 2021 11:29:05 +0000
+	id 1mmwe9-008Qfg-I8; Tue, 16 Nov 2021 11:29:05 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Deepak R Varma <drv@mailo.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Martiros Shakhzadyan <vrzh@vrzh.net>,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 16/23] media: atomisp: unify ia_css_stream stop logic
-Date: Tue, 16 Nov 2021 11:28:57 +0000
-Message-Id: <9927884a147027f6103805db5e1a63244f2f2dbe.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 12/23] media: atomisp: remove #ifdef SH_CSS_ENABLE_METADATA
+Date: Tue, 16 Nov 2021 11:28:53 +0000
+Message-Id: <e712f9af1aa7cebfc4154c1676b5fc4cdc69a460.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -46,9 +52,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-There are two versions of those functions. It turns that the
-choosen firmware use the old version. So, drop the unused
-ones and ensure that all devices will use the right functions.
+The chosen firmware has it enabled, so, drop this symbol.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -56,262 +60,196 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/sh_css.c | 214 +--------------------
- 1 file changed, 2 insertions(+), 212 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c          | 12 ------------
+ drivers/staging/media/atomisp/pci/sh_css_internal.h | 12 +-----------
+ drivers/staging/media/atomisp/pci/sh_css_sp.c       | 13 -------------
+ 3 files changed, 1 insertion(+), 36 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index c73ef67959c9..adec184c8536 100644
+index c3f08c69f36d..1f0b941de71f 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -189,27 +189,6 @@ allocate_delay_frames(struct ia_css_pipe *pipe);
- static int
- sh_css_pipe_start(struct ia_css_stream *stream);
+@@ -10195,9 +10195,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
+-#if defined SH_CSS_ENABLE_METADATA
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
+-#endif
+ 		if (pipe->pipe_settings.preview.preview_binary.info &&
+ 		    pipe->pipe_settings.preview.preview_binary.info->sp.enable.s3a)
+ 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_3A_STATISTICS, map);
+@@ -10210,9 +10208,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
+-#if defined SH_CSS_ENABLE_METADATA
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
+-#endif
+ 		if (pipe->config.default_capture_config.mode == IA_CSS_CAPTURE_MODE_PRIMARY) {
+ 			for (i = 0; i < pipe->pipe_settings.capture.num_primary_stage; i++) {
+ 				if (pipe->pipe_settings.capture.primary_binary[i].info &&
+@@ -10237,9 +10233,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
+ 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
+-#if defined SH_CSS_ENABLE_METADATA
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
+-#endif
+ 		if (pipe->pipe_settings.video.video_binary.info &&
+ 		    pipe->pipe_settings.video.video_binary.info->sp.enable.s3a)
+ 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_3A_STATISTICS, map);
+@@ -10252,18 +10246,14 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
+ 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+ 		if (!pipe->stream->config.continuous)
+ 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
+-#if defined SH_CSS_ENABLE_METADATA
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
+-#endif
+ 	} else if (pipe->mode == IA_CSS_PIPE_ID_ACC) {
+ 		if (need_input_queue)
+ 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
+-#if defined SH_CSS_ENABLE_METADATA
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
+-#endif
+ 	} else if (pipe->mode == IA_CSS_PIPE_ID_YUVPP) {
+ 		unsigned int idx;
  
--/* ISP 2401 */
--/*
-- * @brief Stop all "ia_css_pipe" instances in the target
-- * "ia_css_stream" instance.
-- *
-- * @param[in] stream	Point to the target "ia_css_stream" instance.
-- *
-- * @return
-- * - 0, if the "stop" requests have been successfully sent out.
-- * - CSS error code, otherwise.
-- *
-- *
-- * NOTE
-- * This API sends the "stop" requests to the "ia_css_pipe"
-- * instances in the same "ia_css_stream" instance. It will
-- * return without waiting for all "ia_css_pipe" instatnces
-- * being stopped.
-- */
--static int
--sh_css_pipes_stop(struct ia_css_stream *stream);
+@@ -10275,9 +10265,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
+ 		if (need_input_queue)
+ 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
+-#if defined SH_CSS_ENABLE_METADATA
+ 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
+-#endif
+ 	}
+ 	IA_CSS_LEAVE("");
+ }
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+index 87ac3ea15dfc..735540eceb37 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
+@@ -86,12 +86,6 @@
+ #define SH_CSS_MAX_IF_CONFIGS	3 /* Must match with IA_CSS_NR_OF_CONFIGS (not defined yet).*/
+ #define SH_CSS_IF_CONFIG_NOT_NEEDED	0xFF
+ 
+-#define SH_CSS_ENABLE_METADATA
+-
+-#if defined(SH_CSS_ENABLE_METADATA) && !defined(ISP2401)
+-#define SH_CSS_ENABLE_METADATA_THREAD
+-#endif
 -
  /*
-  * @brief Check if all "ia_css_pipe" instances in the target
-  * "ia_css_stream" instance have stopped.
-@@ -221,9 +200,6 @@ sh_css_pipes_stop(struct ia_css_stream *stream);
-  *   instance have ben stopped.
-  * - false, otherwise.
+  * SH_CSS_MAX_SP_THREADS:
+  *	 sp threads visible to host with connected communication queues
+@@ -101,7 +95,7 @@
+  *	 these threads can't be used as image pipe
   */
--/* ISP 2401 */
--static bool
--sh_css_pipes_have_stopped(struct ia_css_stream *stream);
  
- /* ISP 2401 */
- static int
-@@ -4786,185 +4762,6 @@ ia_css_stream_get_buffer_depth(struct ia_css_stream *stream,
- 	return 0;
+-#if defined(SH_CSS_ENABLE_METADATA_THREAD)
++#if !defined(ISP2401)
+ #define SH_CSS_SP_INTERNAL_METADATA_THREAD	1
+ #else
+ #define SH_CSS_SP_INTERNAL_METADATA_THREAD	0
+@@ -526,7 +520,6 @@ struct sh_css_sp_pipeline {
+ 				  this struct; needs cleanup */
+ 	s32 num_execs; /* number of times to run if this is
+ 			      an acceleration pipe. */
+-#if defined(SH_CSS_ENABLE_METADATA)
+ 	struct {
+ 		u32        format;   /* Metadata format in hrt format */
+ 		u32        width;    /* Width of a line */
+@@ -535,7 +528,6 @@ struct sh_css_sp_pipeline {
+ 		u32        size;     /* Total size (in bytes) */
+ 		ia_css_ptr    cont_buf; /* Address of continuous buffer */
+ 	} metadata;
+-#endif
+ 	u32	output_frame_queue_id;
+ 	union {
+ 		struct {
+@@ -570,9 +562,7 @@ struct ia_css_frames_sp {
+ 	struct ia_css_frame_sp_info internal_frame_info;
+ 	struct ia_css_buffer_sp s3a_buf;
+ 	struct ia_css_buffer_sp dvs_buf;
+-#if defined SH_CSS_ENABLE_METADATA
+ 	struct ia_css_buffer_sp metadata_buf;
+-#endif
+ };
+ 
+ /* Information for a single pipeline stage for an ISP */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+index 4a0206f564c9..778639f391cb 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+@@ -330,9 +330,7 @@ sh_css_sp_start_isys_copy(struct ia_css_frame *out_frame,
+ 	unsigned int thread_id;
+ 	u8 stage_num = 0;
+ 	struct sh_css_sp_pipeline *pipe;
+-#if defined SH_CSS_ENABLE_METADATA
+ 	enum sh_css_queue_id queue_id;
+-#endif
+ 
+ 	assert(out_frame);
+ 
+@@ -372,7 +370,6 @@ sh_css_sp_start_isys_copy(struct ia_css_frame *out_frame,
+ 
+ 	set_output_frame_buffer(out_frame, 0);
+ 
+-#if defined SH_CSS_ENABLE_METADATA
+ 	if (pipe->metadata.height > 0) {
+ 		ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_METADATA, thread_id,
+ 					       &queue_id);
+@@ -380,7 +377,6 @@ sh_css_sp_start_isys_copy(struct ia_css_frame *out_frame,
+ 						    queue_id, mmgr_EXCEPTION,
+ 						    IA_CSS_BUFFER_TYPE_METADATA);
+ 	}
+-#endif
+ 
+ 	ia_css_debug_pipe_graph_dump_sp_raw_copy(out_frame);
+ }
+@@ -904,9 +900,7 @@ initialize_stage_frames(struct ia_css_frames_sp *frames)
+ 	initialize_frame_buffer_attribute(&frames->out_vf.buf_attr);
+ 	initialize_frame_buffer_attribute(&frames->s3a_buf);
+ 	initialize_frame_buffer_attribute(&frames->dvs_buf);
+-#if defined SH_CSS_ENABLE_METADATA
+ 	initialize_frame_buffer_attribute(&frames->metadata_buf);
+-#endif
  }
  
--/*
-- * @brief Stop all "ia_css_pipe" instances in the target
-- * "ia_css_stream" instance.
-- *
-- * Refer to "Local prototypes" for more info.
-- */
--/* ISP2401 */
--static int
--sh_css_pipes_stop(struct ia_css_stream *stream)
--{
--	int err = 0;
--	struct ia_css_pipe *main_pipe;
--	enum ia_css_pipe_id main_pipe_id;
--	int i;
--
--	if (!stream) {
--		IA_CSS_LOG("stream does NOT exist!");
--		err = -EINVAL;
--		goto ERR;
--	}
--
--	main_pipe = stream->last_pipe;
--	if (!main_pipe) {
--		IA_CSS_LOG("main_pipe does NOT exist!");
--		err = -EINVAL;
--		goto ERR;
--	}
--
--	main_pipe_id = main_pipe->mode;
--	IA_CSS_ENTER_PRIVATE("main_pipe_id=%d", main_pipe_id);
--
--	/*
--	 * Stop all "ia_css_pipe" instances in this target
--	 * "ia_css_stream" instance.
--	 */
--	for (i = 0; i < stream->num_pipes; i++) {
--		/* send the "stop" request to the "ia_css_pipe" instance */
--		IA_CSS_LOG("Send the stop-request to the pipe: pipe_id=%d",
--			   stream->pipes[i]->pipeline.pipe_id);
--		err = ia_css_pipeline_request_stop(&stream->pipes[i]->pipeline);
--
--		/*
--		* Exit this loop if "ia_css_pipeline_request_stop()"
--		* returns the error code.
--		*
--		* The error code would be generated in the following
--		* two cases:
--		* (1) The Scalar Processor has already been stopped.
--		* (2) The "Host->SP" event queue is full.
--		*
--		* As the convention of using CSS API 2.0/2.1, such CSS
--		* error code would be propogated from the CSS-internal
--		* API returned value to the CSS API returned value. Then
--		* the CSS driver should capture these error code and
--		* handle it in the driver exception handling mechanism.
--		*/
--		if (err)
--			goto ERR;
--	}
--
--	/*
--	 * In the CSS firmware use scenario "Continuous Preview"
--	 * as well as "Continuous Video", the "ia_css_pipe" instance
--	 * "Copy Pipe" is activated. This "Copy Pipe" is private to
--	 * the CSS firmware so that it is not listed in the target
--	 * "ia_css_stream" instance.
--	 *
--	 * We need to stop this "Copy Pipe", as well.
--	 */
--	if (main_pipe->stream->config.continuous) {
--		struct ia_css_pipe *copy_pipe = NULL;
--
--		/* get the reference to "Copy Pipe" */
--		if (main_pipe_id == IA_CSS_PIPE_ID_PREVIEW)
--			copy_pipe = main_pipe->pipe_settings.preview.copy_pipe;
--		else if (main_pipe_id == IA_CSS_PIPE_ID_VIDEO)
--			copy_pipe = main_pipe->pipe_settings.video.copy_pipe;
--
--		/* return the error code if "Copy Pipe" does NOT exist */
--		if (!copy_pipe) {
--			IA_CSS_LOG("Copy Pipe does NOT exist!");
--			err = -EINVAL;
--			goto ERR;
--		}
--
--		/* send the "stop" request to "Copy Pipe" */
--		IA_CSS_LOG("Send the stop-request to the pipe: pipe_id=%d",
--			   copy_pipe->pipeline.pipe_id);
--		err = ia_css_pipeline_request_stop(&copy_pipe->pipeline);
--	}
--
--ERR:
--	IA_CSS_LEAVE_ERR_PRIVATE(err);
--	return err;
--}
--
--/*
-- * @brief Check if all "ia_css_pipe" instances in the target
-- * "ia_css_stream" instance have stopped.
-- *
-- * Refer to "Local prototypes" for more info.
-- */
--/* ISP2401 */
--static bool
--sh_css_pipes_have_stopped(struct ia_css_stream *stream)
--{
--	bool rval = true;
--
--	struct ia_css_pipe *main_pipe;
--	enum ia_css_pipe_id main_pipe_id;
--
--	int i;
--
--	if (!stream) {
--		IA_CSS_LOG("stream does NOT exist!");
--		rval = false;
--		goto RET;
--	}
--
--	main_pipe = stream->last_pipe;
--
--	if (!main_pipe) {
--		IA_CSS_LOG("main_pipe does NOT exist!");
--		rval = false;
--		goto RET;
--	}
--
--	main_pipe_id = main_pipe->mode;
--	IA_CSS_ENTER_PRIVATE("main_pipe_id=%d", main_pipe_id);
--
--	/*
--	 * Check if every "ia_css_pipe" instance in this target
--	 * "ia_css_stream" instance has stopped.
--	 */
--	for (i = 0; i < stream->num_pipes; i++) {
--		rval = rval && ia_css_pipeline_has_stopped(&stream->pipes[i]->pipeline);
--		IA_CSS_LOG("Pipe has stopped: pipe_id=%d, stopped=%d",
--			   stream->pipes[i]->pipeline.pipe_id,
--			   rval);
--	}
--
--	/*
--	 * In the CSS firmware use scenario "Continuous Preview"
--	 * as well as "Continuous Video", the "ia_css_pipe" instance
--	 * "Copy Pipe" is activated. This "Copy Pipe" is private to
--	 * the CSS firmware so that it is not listed in the target
--	 * "ia_css_stream" instance.
--	 *
--	 * We need to check if this "Copy Pipe" has stopped, as well.
--	 */
--	if (main_pipe->stream->config.continuous) {
--		struct ia_css_pipe *copy_pipe = NULL;
--
--		/* get the reference to "Copy Pipe" */
--		if (main_pipe_id == IA_CSS_PIPE_ID_PREVIEW)
--			copy_pipe = main_pipe->pipe_settings.preview.copy_pipe;
--		else if (main_pipe_id == IA_CSS_PIPE_ID_VIDEO)
--			copy_pipe = main_pipe->pipe_settings.video.copy_pipe;
--
--		/* return if "Copy Pipe" does NOT exist */
--		if (!copy_pipe) {
--			IA_CSS_LOG("Copy Pipe does NOT exist!");
--
--			rval = false;
--			goto RET;
--		}
--
--		/* check if "Copy Pipe" has stopped or not */
--		rval = rval && ia_css_pipeline_has_stopped(&copy_pipe->pipeline);
--		IA_CSS_LOG("Pipe has stopped: pipe_id=%d, stopped=%d",
--			   copy_pipe->pipeline.pipe_id,
--			   rval);
--	}
--
--RET:
--	IA_CSS_LEAVE_PRIVATE("rval=%d", rval);
--	return rval;
--}
--
- #if !defined(ISP2401)
- unsigned int
- sh_css_get_mipi_sizes_for_check(const unsigned int port, const unsigned int idx)
-@@ -9619,11 +9416,7 @@ ia_css_stream_stop(struct ia_css_stream *stream)
+ static int
+@@ -1032,10 +1026,8 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
+ 						    mmgr_EXCEPTION,
+ 						    IA_CSS_BUFFER_TYPE_DIS_STATISTICS);
  	}
- #endif
- 
--	if (!IS_ISP2401)
--		err = ia_css_pipeline_request_stop(&stream->last_pipe->pipeline);
--	else
--		err = sh_css_pipes_stop(stream);
--
-+	err = ia_css_pipeline_request_stop(&stream->last_pipe->pipeline);
+-#if defined SH_CSS_ENABLE_METADATA
+ 	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_METADATA, thread_id, &queue_id);
+ 	sh_css_copy_buffer_attr_to_spbuffer(&sh_css_sp_stage.frames.metadata_buf, queue_id, mmgr_EXCEPTION, IA_CSS_BUFFER_TYPE_METADATA);
+-#endif
  	if (err)
  		return err;
  
-@@ -9643,10 +9436,7 @@ ia_css_stream_has_stopped(struct ia_css_stream *stream)
+@@ -1304,7 +1296,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
+ 	}
+ 	sh_css_sp_group.pipe[thread_id].scaler_pp_lut = sh_css_pipe_get_pp_gdc_lut(pipe);
  
- 	assert(stream);
+-#if defined(SH_CSS_ENABLE_METADATA)
+ 	if (md_info && md_info->size > 0) {
+ 		sh_css_sp_group.pipe[thread_id].metadata.width  = md_info->resolution.width;
+ 		sh_css_sp_group.pipe[thread_id].metadata.height = md_info->resolution.height;
+@@ -1314,10 +1305,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
+ 		    md_config->data_type, MIPI_PREDICTOR_NONE,
+ 		    &sh_css_sp_group.pipe[thread_id].metadata.format);
+ 	}
+-#else
+-	(void)md_config;
+-	(void)md_info;
+-#endif
  
--	if (!IS_ISP2401)
--		stopped = ia_css_pipeline_has_stopped(&stream->last_pipe->pipeline);
--	else
--		stopped = sh_css_pipes_have_stopped(stream);
-+	stopped = ia_css_pipeline_has_stopped(&stream->last_pipe->pipeline);
- 
- 	return stopped;
- }
+ 	sh_css_sp_group.pipe[thread_id].output_frame_queue_id = (uint32_t)SH_CSS_INVALID_QUEUE_ID;
+ 	if (pipe_id != IA_CSS_PIPE_ID_COPY) {
 -- 
 2.33.1
 
