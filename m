@@ -1,162 +1,84 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507FA72
-	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 01:15:40 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id q14so17434540qtx.10
-        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 17:15:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F1D2C81
+	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 02:34:04 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id o17so17634542qtk.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 18:34:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nTmVpcqEuNMF9B6vHrRyqFuTKE2hk54YsDuclLPVpbY=;
-        b=PDmzrL+XWLfAsLwwkwQSUW4yVuUce0rRD2qTUpkaZBZuc7GWpmP+PW1WJgUDaXJn4J
-         h1n52CwV5OnJCCyZX/gp+j3FjXLC0Vty1fDLdrONijqSg/Gg/gLKj8rDxTZ7VNPgUz41
-         ExlDrWfd9mdlLGf1bqqDzZ+i4IOQkMql9HhkpWI2d+gZPrW2qEslA6Fh3no6KqBGLfuA
-         sLqr0e9laHkJNbOR8v7t+Lo6aKUl4mXTYnR1rc0QWTr2KFsU7SHtt6+aZ869awMykNHK
-         9Gd8o7JHJPUCIQ16l7k4r+ols0+8NUAAFzn/HvqHsKzt99YUCrj6lm7H03eQAK48aDlV
-         4kOg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H7zphfLIx/KIgfDYl4IOIHLAMRHep0aAJWdFC+/UaNA=;
+        b=Rv9D8UmXSnZm8Bh1GoID8bVVWxDSBCNC4THC6v2fMK/Xjd292jrTfr7HPA60SNEtwN
+         ZgsT0rxJwlV6MOX9Mg6pvUENSnqSy2PQ2g8jSGe+VqlgUmaWXSUfhPUZeSN4Fjajej12
+         5XGHxJR8dHzi+y/D5OyS1PY3DAsZpFVkKp3/v6f/uQCqYI1Qr3yD9AkpuaeXc9VqfW+V
+         M1x6wN6oOWmV11GcQr/YkSBk23I2+wU1hI/jCjuvcU38zE/cs/R7fEQsdfdOc5KnoW9r
+         Rm7LflRIaRzZ6opJytsFOdWfMdhhaI2YGLSFevIBziJS5jOjAAh8T2jiE5v+PuwtXZTT
+         AZxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nTmVpcqEuNMF9B6vHrRyqFuTKE2hk54YsDuclLPVpbY=;
-        b=6cacBqJ4h6++yAbL3g/w6GFavMd4ue3mwxSVyKGWOd56seoQ85GBieRj+e3FuqYGAn
-         R+S5Nfj/SZpho5HMUDYtVWiSboswFZADtNG7o28aUjE7K7K3AaYkWi+8zW3xi3Ygl7ps
-         u/pfxzU0+FqskG69op9e1EDiqzrgM7cJG9FRgvmqs7jsKLyJkxdRFiBFUvdtaD3O/B2U
-         tF9KC2swRr7JdJjNrrww2RIH8LEa+LkGWxGnQk/7HnLjjPdbnD78FKuyj9r/wqNH+PPG
-         qfJBQ/MxqwnYLY5nckk5TsngOSDvMk2eHPHrxrRok5bCmpPTFiC0WMLT2Uxbs4fRS5Hd
-         EkVw==
-X-Gm-Message-State: AOAM530q0ehBV6mWpdVajAA9Fg0pm0YyuNO0k2peB6i/7m7U1xyFgSc+
-	UpsyhR45D+lqxR7sNOAA0Uc=
-X-Google-Smtp-Source: ABdhPJwUR8gPRHS+I+YnegLkVJD3iVLubw7CsFtS/vmJ3/Pd2BRRnmFO7rKWizwo57d5LwgzFN29NQ==
-X-Received: by 2002:ac8:3d49:: with SMTP id u9mr3648750qtf.264.1637025339162;
-        Mon, 15 Nov 2021 17:15:39 -0800 (PST)
-Received: from localhost.localdomain (pool-98-113-42-30.nycmny.fios.verizon.net. [98.113.42.30])
-        by smtp.googlemail.com with ESMTPSA id j20sm3472493qtj.43.2021.11.15.17.15.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Nov 2021 17:15:38 -0800 (PST)
-From: Zameer Manji <zmanji@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Zameer Manji <zmanji@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove unused defines in wifi.h
-Date: Tue, 16 Nov 2021 01:14:33 +0000
-Message-Id: <20211116011451.896714-1-zmanji@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=H7zphfLIx/KIgfDYl4IOIHLAMRHep0aAJWdFC+/UaNA=;
+        b=InppDcRmDhbiX9r+rCcMGKogfmHLvZ+4taN/7GyQ2nFtfYnOzvgKSjs7fV4tRxV2LV
+         z80dRSxfr7zND9tp8Um3el2kzfkga+hUUlbtf1if5GQRr0yAHrd92YhY984SELVKi4Rg
+         7fLFR0Eo+ImV47+mGUKrIihqGhjphgEL6xe3OA73HaSWddV9MuxJs+3gsR3GaJRPZGDh
+         uTNJ00s55Egbf/P/YWh29rsKASG92Gazi+GYQvSOaWY8v7qt+StNMCdBSo/CtJ6oeRy1
+         eAjLZSMVI3cxBhtT9Ts4+Xego4iOt2uvaEjcsP+4tTDMjH4waSrpiZ0x9AS9pfAa9dNf
+         9Oig==
+X-Gm-Message-State: AOAM532TDZVgTWnxbNoyR2VcwxgNwphcA6qw33XwxOFRzespxjLLi591
+	+yIIUD0/GRaRA2lbHyAeREUmj/FhfOeqUlZPAwQ=
+X-Google-Smtp-Source: ABdhPJxy3/yvIoE1Sby1RB+LrFWAG186ca20J3KfKBtNLU6iYwGxwglI0cKh7RVW16SHtAlV0ZDpZK2743We/bDxwtI=
+X-Received: by 2002:ac8:5991:: with SMTP id e17mr3975451qte.344.1637030043682;
+ Mon, 15 Nov 2021 18:34:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211115085403.360194-1-arnd@kernel.org> <20211115085403.360194-7-arnd@kernel.org>
+In-Reply-To: <20211115085403.360194-7-arnd@kernel.org>
+From: Baolin Wang <baolin.wang7@gmail.com>
+Date: Tue, 16 Nov 2021 10:34:39 +0800
+Message-ID: <CADBw62oYab_d+uS_8kfC9JqhUxVhK79G4wbWyZy7+RL6P9tVvA@mail.gmail.com>
+Subject: Re: [PATCH 06/11] dmaengine: sprd: stop referencing config->slave_id
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Bjorn Andersson <bjorn.andersson@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hyun Kwon <hyun.kwon@xilinx.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Jon Hunter <jonathanh@nvidia.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Michal Simek <michal.simek@xilinx.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
+	Orson Zhai <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, alsa-devel@alsa-project.org, 
+	bcm-kernel-feedback-list@broadcom.com, dmaengine@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	linux-mmc <linux-mmc@vger.kernel.org>, linux-mtd@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, 
+	"open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>, linux-spi@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-None of these defines in wifi.h are used so they
-can be safely removed.
+Hi Arnd,
 
-Signed-off-by: Zameer Manji <zmanji@gmail.com>
----
- drivers/staging/r8188eu/include/wifi.h | 57 --------------------------
- 1 file changed, 57 deletions(-)
+On Mon, Nov 15, 2021 at 4:55 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> It appears that the code that reads the slave_id from the channel config
+> was copied incorrectly from other drivers. Nothing ever sets this field
+> on platforms that use this driver, so remove the reference.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-index 193a557f0f47..7cbc7015e90f 100644
---- a/drivers/staging/r8188eu/include/wifi.h
-+++ b/drivers/staging/r8188eu/include/wifi.h
-@@ -13,32 +13,9 @@
- #define BIT(x)	(1 << (x))
- 
- #define WLAN_ETHHDR_LEN		14
--#define WLAN_ETHADDR_LEN	6
--#define WLAN_IEEE_OUI_LEN	3
--#define WLAN_ADDR_LEN		6
--#define WLAN_CRC_LEN		4
--#define WLAN_BSSID_LEN		6
--#define WLAN_BSS_TS_LEN		8
- #define WLAN_HDR_A3_LEN		24
--#define WLAN_HDR_A4_LEN		30
- #define WLAN_HDR_A3_QOS_LEN	26
--#define WLAN_HDR_A4_QOS_LEN	32
- #define WLAN_SSID_MAXLEN	32
--#define WLAN_DATA_MAXLEN	2312
--
--#define WLAN_A3_PN_OFFSET	24
--#define WLAN_A4_PN_OFFSET	30
--
--#define WLAN_MIN_ETHFRM_LEN	60
--#define WLAN_MAX_ETHFRM_LEN	1514
--#define WLAN_ETHHDR_LEN		14
--
--#define P80211CAPTURE_VERSION	0x80211001
--
--/*  This value is tested by WiFi 11n Test Plan 5.2.3. */
--/*  This test verifies the WLAN NIC can update the NAV through sending
-- *  the CTS with large duration. */
--#define	WiFiNavUpperUs				30000	/*  30 ms */
- 
- enum WIFI_FRAME_TYPE {
- 	WIFI_MGT_TYPE  =	(0),
-@@ -487,13 +464,6 @@ static inline int IsFrameTypeCtrl(unsigned char *pframe)
- #define _STATUS_CODE_		2
- #define _TIMESTAMP_		8
- 
--#define AUTH_ODD_TO		0
--#define AUTH_EVEN_TO		1
--
--#define WLAN_ETHCONV_ENCAP	1
--#define WLAN_ETHCONV_RFC1042	2
--#define WLAN_ETHCONV_8021h	3
--
- #define cap_ESS		BIT(0)
- #define cap_IBSS	BIT(1)
- #define cap_CFPollable	BIT(2)
-@@ -632,13 +602,6 @@ enum ht_cap_ampdu_factor {
- #define HT_INFO_OPERATION_MODE_TRANSMIT_BURST_LIMIT	((u8) BIT(3))
- #define HT_INFO_OPERATION_MODE_NON_HT_STA_PRESENT	((u8) BIT(4))
- 
--#define HT_INFO_STBC_PARAM_DUAL_BEACON		((u16) BIT(6))
--#define HT_INFO_STBC_PARAM_DUAL_STBC_PROTECT	((u16) BIT(7))
--#define HT_INFO_STBC_PARAM_SECONDARY_BC		((u16) BIT(8))
--#define HT_INFO_STBC_PARAM_LSIG_TXOP_PROTECT_ALLOWED	((u16) BIT(9))
--#define HT_INFO_STBC_PARAM_PCO_ACTIVE		((u16) BIT(10))
--#define HT_INFO_STBC_PARAM_PCO_PHASE		((u16) BIT(11))
--
- /*	===============WPS Section=============== */
- /*	For WPSv1.0 */
- #define WPSOUI					0x0050f204
-@@ -949,26 +912,6 @@ enum P2P_PS_MODE {
- 	P2P_PS_MIX = 3, /*  CTWindow and NoA */
- };
- 
--/*	=====================WFD Section===================== */
--/*	For Wi-Fi Display */
--#define	WFD_ATTR_DEVICE_INFO		0x00
--#define	WFD_ATTR_ASSOC_BSSID		0x01
--#define	WFD_ATTR_COUPLED_SINK_INFO	0x06
--#define	WFD_ATTR_LOCAL_IP_ADDR		0x08
--#define	WFD_ATTR_SESSION_INFO		0x09
--#define	WFD_ATTR_ALTER_MAC		0x0a
--
--/*	For WFD Device Information Attribute */
--#define	WFD_DEVINFO_SOURCE			0x0000
--#define	WFD_DEVINFO_PSINK			0x0001
--#define	WFD_DEVINFO_SSINK			0x0002
--#define	WFD_DEVINFO_DUAL			0x0003
--
--#define	WFD_DEVINFO_SESSION_AVAIL		0x0010
--#define	WFD_DEVINFO_WSD				0x0040
--#define	WFD_DEVINFO_PC_TDLS			0x0080
--#define	WFD_DEVINFO_HDCP_SUPPORT		0x0100
--
- #define IP_MCAST_MAC(mac)				\
- 	((mac[0] == 0x01) && (mac[1] == 0x00) && (mac[2] == 0x5e))
- #define ICMPV6_MCAST_MAC(mac)				\
--- 
-2.25.1
+Thanks. LGTM.
+Reviewed-by: Baolin Wang <baolin.wang7@gmail.com>
 
+--
+Baolin Wang
