@@ -1,170 +1,345 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A6D2C82
-	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 15:12:11 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AGEG80L013942;
-	Tue, 16 Nov 2021 15:12:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=epUb2VhTnej1alZUn7+1mPcostWw2FEQ4ptnOAQWVrg=;
- b=V4YgEkLnSWlJFohdtWI2dD+HsmV2ad9pPSaSR4B/VzcN6HkSpi7ioRvcVq5zPU+DSIwK
- I0fZJF2eBhJJQoPDO9Yv26FBJ531GpWnHfTpJSX7pxF5My+iwckFUzK/W9wHmIb1unvX
- EFqEumCsQNpQophuhoX6OkNGusx3oxsXr9M0F2FdfNUaFcn0sxrPNi/IUjgj/ElPKDKL
- l29Es1WMNVQ+6GQL9WCyw0jNhYG0poIVfH/RSivCROEV9SOgfhBqYZCH2BSLySf0L+8o
- INx4mkKcpal3ui7m39o9vjRPalpTWOQJ6eaF7WlCdmeI7r6D+dg8ZaeYA5NRrd1UJ8yR WQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3cbhv5a3gx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Nov 2021 15:12:08 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AGFAd9I161538;
-	Tue, 16 Nov 2021 15:12:07 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
-	by aserp3020.oracle.com with ESMTP id 3ca565jrwq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Nov 2021 15:12:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EHFN9azs3WgRuHEJfkMLKGHYcg40gUtBasjd16XUHrGjSrhEs8BU73i1EMzROTMCi+f96qY5cuHre+GU/0xAEhdTbxKffA/ZkezygMRZG07mPtLQ9fSv3u/DkIYufVVern5eZM628Kqi47XDm4c8BuPXtArd316+Pp/oAHwxQJPS9pcWHsauHdLBuA8nDmQCimEuS5fidf7bKfftXrhvYnmagksGpbd/2rlpw4WBEmPOtvjcNQdTJpvUtkXgoNZiS3Nw8SoAbj6ni/PlLkihcMWO+dCgyPk8jtbH/jUoQisYbKKGPR5+iKrZu1URVob4I/XRxYt4RUVdhfQq+QU+ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=epUb2VhTnej1alZUn7+1mPcostWw2FEQ4ptnOAQWVrg=;
- b=JPJTiznXtglRws/ALXTBbIpek7XFDs8wT9IsBxcxdob4okIHuuRm/mZIybQCPYVdk6GhqPv4uUuUAyIu6Nw8HSB+KbSVkwyM8bTnEJCsn2qFfdZGWHwLyIaNLS7dkycuV6Gc9s4Dsi8FAA6Hzjb27qUOhEUInQkaow+k8W7aS5abfJW/STFveSl02tNsekZB5p9LspeJ2vSqQNNknr7Ge+c97dDINWl/EDzOImDyfjze47PtWIV4cLbG0eRsGb0jR0FPzaLqr+oS7NAxdTQBsAD/GBqvelHaVuFeFfveakwDqWvKNUUD/dhxfnqWca6JDChPfxHB0Q4GrXbQkkxhHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A4272
+	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 19:36:04 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id gu12so296132qvb.6
+        for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:36:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=epUb2VhTnej1alZUn7+1mPcostWw2FEQ4ptnOAQWVrg=;
- b=JGQjQ1wYp7kMDyql7OxByQCU/t+A3qUFsnyRfvYmJR43AyFFn3qCr0O8UAwOU6E2PfK2wIu3rRHLvDVu7vTCgcOAL0CdjVxMmTBv1Ifq38dtjUydHx81ltR2ZTVA89zX0tNbkyQGr8DjHrkKoqV3TkwdW0yLf7zmZG+P40JnZ6w=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO1PR10MB4721.namprd10.prod.outlook.com
- (2603:10b6:303:9b::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.26; Tue, 16 Nov
- 2021 15:12:05 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4690.016; Tue, 16 Nov 2021
- 15:12:05 +0000
-Date: Tue, 16 Nov 2021 18:11:39 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Zameer Manji <zmanji@gmail.com>, gregkh@linuxfoundation.org,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Michael Straube <straube.linux@gmail.com>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: remove unused defines in wifi.h
-Message-ID: <20211116151139.GJ26989@kadam>
-References: <20211116011451.896714-1-zmanji@gmail.com>
- <6d2d9c4a-3f05-1d51-42dc-b1ebbb4aefe1@gmail.com>
- <CABtXzjSPNxe-n9QTujMB7=CmhqPFp8V2e86BXmoErWm+6c5coA@mail.gmail.com>
- <22a48290-814e-bcae-81e5-c23e6310f8f6@gmail.com>
- <20211116141838.GI26989@kadam>
- <a072c468-f9dd-25f4-70fa-535cb7196b13@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a072c468-f9dd-25f4-70fa-535cb7196b13@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0033.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::21)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CRD03vZUiO35SuJxmo9HD1JF0YRDKsYmubD6ARoYY1c=;
+        b=luBEGe0fGnlw2XoXo/H2cEPwzPs1EEf7ApqlHxrjOHMdsI8FW0DdCO0UrnhkW36IFb
+         pM1yehDPfD20AhJsUeWsjNZ0xVG7DAsTY3n+feEtwu53U0ozbPiajSw6x90IQAI8RGy+
+         J7hI43w+vc1BERVpBAv+bHzxB5nwB/eWNwY4Ft/bhVaAPAH0PlCvbnxaybymcK+8jNtg
+         P8bDos2uMk7g0YkRBr9QpGYKAdOFShyCbO9sXYmYdUj9ZcOgJgtKV5KYaF2udFZYQC0o
+         m04nzIuS3a8ZTEWXadm2x0b20kgrqfbzAusDblAUUsEGzQ13ru0uVVkssi//lyteJw56
+         J78A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CRD03vZUiO35SuJxmo9HD1JF0YRDKsYmubD6ARoYY1c=;
+        b=IrTvpsR2rJ8VcTrVF8wc8DLaoCvpU0DcuTa0N6zGedT3Mp3e/l51cM+UyaVeVobOfT
+         +/SR/8aD5Vqv69up2SHUFeyewA9tfo9XPKxy5zFgUHFb4z7ZisHsnBGsAnhFQdvxQoQp
+         mCubQRsbf5zJl2vfRr9LDV0CMCMOZVtLcA9AUio5DcAj1+83W3oGNmA3CtKdQGU1i8e6
+         L9Tmxlhz6VLyID3l+iYcoOZxqf3VuO97tZM/SNSqiO5QrLOtkUtilRF9U5KAm+ROirmQ
+         Pks2g+O2V6cYkc5jbHnll58T6shpxs/owQllr203eD0QJbXKTk1xYnJkfkUMFwGqI3Zx
+         nuPQ==
+X-Gm-Message-State: AOAM531YYNdDKUwHsBV93RCMGO/jYa/+5Q+7DyD/ex86cmG0VtZDC6JN
+	g19SSi/KE67TvbHwLtkcE3Q=
+X-Google-Smtp-Source: ABdhPJyeqxRTsXC9iGmy5DlVeQca/vNindMaHl3sAy/USsIeY8huFO4/w6MujJLaBRcCGQ8tpkJqOQ==
+X-Received: by 2002:ad4:5ce8:: with SMTP id iv8mr48456598qvb.21.1637091363413;
+        Tue, 16 Nov 2021 11:36:03 -0800 (PST)
+Received: from localhost.localdomain (pool-98-113-42-30.nycmny.fios.verizon.net. [98.113.42.30])
+        by smtp.googlemail.com with ESMTPSA id l2sm9724484qtk.41.2021.11.16.11.36.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Nov 2021 11:36:02 -0800 (PST)
+From: Zameer Manji <zmanji@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Zameer Manji <zmanji@gmail.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: r8188eu: delete unused header
+Date: Tue, 16 Nov 2021 19:35:41 +0000
+Message-Id: <20211116193557.1188939-1-zmanji@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (102.222.70.114) by JN2P275CA0033.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.25 via Frontend Transport; Tue, 16 Nov 2021 15:11:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb1ee596-55fd-4406-7d48-08d9a9137316
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4721:
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR10MB4721B1A7688C261363C69A248E999@CO1PR10MB4721.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	uOIPoi+SpnCUgw2MtE0e+RRu05QmpIjClmHXMzaq0vZuavv1pxOO809Ydnus3UmiB6UCwzf/RiXrrtr93rk5G44ny5Rp5HcHwgSWUhrgFmY5nAMAQUJbamYXMfr8TN+0IlH7gzhY4D4fsWpTtpG+41oTx+ECGHxIJbZLTxm4cVSh/AKTtTOneAi2Rbvc+HF59g+ajlOnn63D5vLJgVj46+eljiz6USXnGpjHi5LyhlndGR8/QU1id244EQQW+8c+nRKkFbLCBJ8PgMPDcYet/OmlbVEWU5NxB9ivkotRO/B+5cU0ZLER0QTOLGcg4+ngYVTYQ304EHz9ZRYVbLrdOcTX5+HnB5YZ4yoNVE4OBD5Jen6M7iGqGSGFO6lHt2tcw6gHI6RBcgMnwIiCzCu66vUL57SZQcKnFYYoJE01XLfeJVqY8Kj1XdllsBtdt4HAXOPL5hkZpIOP4U84cgqcrXUTnqbo2MoVEEbbnL+BKLdBxgnrrZwDfe8SyzK/PQxKVRwoidu4oLrB6C+znYQQF79k1edQWKO5FQDNSGg08Q5RAIPE2KNFqJz9LugWI1TQ8vBtz/6PTWHYLIql+aroirklobGd4Ip1gysY/yIHXblQEu/+xxN6qEpfLMLhWcZhQlo/yAeFQIT4sXAgtmX52yHHIJWWNZ3GTcIFzoOa02elcqkQ4pY/TCYYWkNgq+UVghGT7CRNpVRAURQlcFY44A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(1076003)(53546011)(54906003)(66556008)(66946007)(186003)(6666004)(55016002)(86362001)(956004)(2906002)(9686003)(8676002)(66476007)(44832011)(508600001)(4326008)(33716001)(26005)(33656002)(5660300002)(316002)(38100700002)(38350700002)(9576002)(52116002)(8936002)(6496006)(6916009);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?cVk4uG7KQFD8nZda2uC5PpEQ2EDFlIOJbDD09NVGrWFXlEp4ei3+A8e5RLWX?=
- =?us-ascii?Q?KV8G1VqSea4a7zIK/gGQQkw504KDYYnSsSGWOhV/k3aPnblgRwOGuE0CjJWh?=
- =?us-ascii?Q?llg+8m2YzcLgCCV/pWRyvDgsm3MTpPBmSUdL1Ygc5Z/S1FVfpm1vI7B29o1k?=
- =?us-ascii?Q?HAlVxs/2m0QOrpzzwpeRbQaaXOIqb71HyA8eYv610KT1ODCYNmHKlTJ3sIaV?=
- =?us-ascii?Q?gcRIZAf1XznDSjfkChhEIoHaIW506FMD0rcDPbIACOaqzAMX7kkHorE/J+mU?=
- =?us-ascii?Q?koBNQFzLnrJJCAizssWPrmfj5k3QQcgubHYTAQ8b2wod4cRAmv8K17KjbGSN?=
- =?us-ascii?Q?TwEhAKj7hLaC3S8n6+Elt1Pehl+NFJV2tHgQZiEjP5qKh5wu2Qyc5CEHAXGo?=
- =?us-ascii?Q?rWfjnn6xwJgnbFfj5j9Kp7nryg6YHFDbEQDuAidQT+M6IRV1Eq+MCwntPuTJ?=
- =?us-ascii?Q?iqj/EEVnmgGuJiKAGngIkk8H5y3PHxwz9Ucebu7cuae7c6PThs/8TKx/2r2a?=
- =?us-ascii?Q?scZdai4lDg21IYQkeLqEjI99AcDpJpHWKncoQ3ErjRAYAKP0fdZh8L6C5YZF?=
- =?us-ascii?Q?jDOZqHNTkM12SyWWGGooaXvno0mjIUj26yByMmeYxxtqYiVqaF4nJ4cDEG00?=
- =?us-ascii?Q?dFwCXaUyfaK1HolAvhUlHwM5AV8ef6mXvTHCa+pxH1QHIMoCHtX1R4/jlkXH?=
- =?us-ascii?Q?RtcyuKp7rsvkgpS4CJRmjLGj13twg62tXW8KojnzyrUpxqiK/TdCNz+BfkaU?=
- =?us-ascii?Q?mEex7ka5enLydleqLcApdpXIQlMjJLPbiespw3k4Jqe/uqd9eOJrN6P5a93a?=
- =?us-ascii?Q?EAJ03TFR8loI8y5UjyJ4YHfbCM/v7KTdLdiK7I3oMEnW4D+GfgJfKI4xxwTA?=
- =?us-ascii?Q?+wkaEwU5Vjd6OOCmea7slphQSRF48SaOhpsJ5E7kzRhTmNgfFylC7TmtzzW/?=
- =?us-ascii?Q?yKhvslIVVZbGXNFKH6/c9MBFGDNWbtnrDetmfrt+ZNcr+9F/pyYO/mJ37OsP?=
- =?us-ascii?Q?9yUjlnQ8Aja+rERR1/q8j2b2dqF+hQBaQjSpHOGpb+GN1c6dvoWS+9ZcXPRz?=
- =?us-ascii?Q?WLbkKHF/b7+tnKXq+Ceg3VfAANcPXUgvpDOo5IGeU2gkR1CleNIlHuPwR/uR?=
- =?us-ascii?Q?kSMFCUdDatcov2LueqvrUzEhFPXvWOOr1LaRnQgF/PRGJQlVCSpIRCu3jKBr?=
- =?us-ascii?Q?kNXMWlsOK6kuVPSTe/IdWsl/9HLpjMvpCbNbLz4bZmxf2QGqrXARxvmLWUba?=
- =?us-ascii?Q?XxhtvX7tfCVLBgL5kEmYRIAjN1HXkxqjVjdon3antUS3cziYaw6k+eYQlhZU?=
- =?us-ascii?Q?tB94yOXyvCBxo68Akzma5HhHDTCw3fU8zpTwQ4u882YTv8lkWBrtqaQ9xbCL?=
- =?us-ascii?Q?Q5gZ+qInrAjvF/e0OYv+Yo8+c36YbJL1gxE0AzFacXO18vEROb1+Tih8o7Nh?=
- =?us-ascii?Q?uNfw15OA/efzY5tTJmIXy/0bm3vmHl2VBZg7530nbHMHpfMABQwpwCS2+7pO?=
- =?us-ascii?Q?MUn5CixDhd+mF40hH6Gi+mjFbug0eeRo6B12A4/QB1eLJob/eHrtj9+D3RTX?=
- =?us-ascii?Q?KH4gTZO/FbnIqTdAI8yFPL8r9YrUYZYHldIZjaEi8ooCdkBUaXjPJbEpp0x9?=
- =?us-ascii?Q?2cWrX3l+oKcq3ZcyFYlH2KzM59a3SCN6CefksRHJTi+l6xZ5dJo2YoSLJ4Vj?=
- =?us-ascii?Q?WxG32MxlMWHS3dYrSQ844cV5oJg=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb1ee596-55fd-4406-7d48-08d9a9137316
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 15:12:05.1791
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0OS3vz9jF9z5qmrmUk7uWIXWhcn8jFKHdLNMF1Yi6aJqRnzUtPejxKY7NC4oWE/3tm9eGoEmnhrKf0lYSkUrJ6ZGfM01/yilOaPTfW5XJoU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4721
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10169 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0 mlxscore=0
- spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111160075
-X-Proofpoint-ORIG-GUID: sY4JLlB3Sb8VS201SAeRWHBt9GEOwHXp
-X-Proofpoint-GUID: sY4JLlB3Sb8VS201SAeRWHBt9GEOwHXp
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 16, 2021 at 06:01:42PM +0300, Pavel Skripkin wrote:
-> On 11/16/21 17:18, Dan Carpenter wrote:
-> > > I cannot ack, since I am not the maintainer (or even reviewer) of this
-> > > driver :) I just saw this BIT() definition and decided to say, that it can
-> > > be also removed
-> > 
-> > Just give a Reviewed-by tag...  No one is appointed as a maintainer, you
-> > just have to start handing our reviewed-by tags until people start to
-> > respect your judgement and then you're a maintainer.
-> > 
-> 
-> Ok, I will send the R-b tag, since patch looks correct to me as is :)
-> 
-> I think, I misunderstood what "ack" means. I thought Zameer means Acked-by
-> tag, which can sent only by maintainers (Larry and Phillip in case of
-> r8188eu), but I was wrong, I guess...
+The iee80211_ext.h header is unused and can be removed.
 
-To me Acked by means you approve the patch so it's like, yeah, normally
-maintainers use it.  But sometimes like people ask for your opinion and
-then you can Ack it.  Or maybe you just want to express joy about a
-feature.  (Please feel joy very sparingly. :P).
+Signed-off-by: Zameer Manji <zmanji@gmail.com>
+---
+ .../staging/r8188eu/include/ieee80211_ext.h   | 271 ------------------
+ 1 file changed, 271 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/include/ieee80211_ext.h
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/r8188eu/include/ieee80211_ext.h b/drivers/staging/r8188eu/include/ieee80211_ext.h
+deleted file mode 100644
+index e7ade835d478..000000000000
+--- a/drivers/staging/r8188eu/include/ieee80211_ext.h
++++ /dev/null
+@@ -1,271 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+-/* Copyright(c) 2007 - 2011 Realtek Corporation. */
+-
+-#ifndef __IEEE80211_EXT_H
+-#define __IEEE80211_EXT_H
+-
+-#include "osdep_service.h"
+-#include "drv_types.h"
+-
+-#define WMM_OUI_TYPE 2
+-#define WMM_OUI_SUBTYPE_INFORMATION_ELEMENT 0
+-#define WMM_OUI_SUBTYPE_PARAMETER_ELEMENT 1
+-#define WMM_OUI_SUBTYPE_TSPEC_ELEMENT 2
+-#define WMM_VERSION 1
+-
+-#define WPA_PROTO_WPA BIT(0)
+-#define WPA_PROTO_RSN BIT(1)
+-
+-#define WPA_KEY_MGMT_IEEE8021X BIT(0)
+-#define WPA_KEY_MGMT_PSK BIT(1)
+-#define WPA_KEY_MGMT_NONE BIT(2)
+-#define WPA_KEY_MGMT_IEEE8021X_NO_WPA BIT(3)
+-#define WPA_KEY_MGMT_WPA_NONE BIT(4)
+-
+-#define WPA_CAPABILITY_PREAUTH BIT(0)
+-#define WPA_CAPABILITY_MGMT_FRAME_PROTECTION BIT(6)
+-#define WPA_CAPABILITY_PEERKEY_ENABLED BIT(9)
+-
+-#define PMKID_LEN 16
+-
+-struct wpa_ie_hdr {
+-	u8 elem_id;
+-	u8 len;
+-	u8 oui[4]; /* 24-bit OUI followed by 8-bit OUI type */
+-	u8 version[2]; /* little endian */
+-} __packed;
+-
+-struct rsn_ie_hdr {
+-	u8 elem_id; /* WLAN_EID_RSN */
+-	u8 len;
+-	u8 version[2]; /* little endian */
+-} __packed;
+-
+-struct wme_ac_parameter {
+-#if defined(__LITTLE_ENDIAN)
+-	/* byte 1 */
+-	u8	aifsn:4,
+-		acm:1,
+-		aci:2,
+-		reserved:1;
+-
+-	/* byte 2 */
+-	u8	eCWmin:4,
+-		eCWmax:4;
+-#elif defined(__BIG_ENDIAN)
+-	/* byte 1 */
+-	u8	reserved:1,
+-		aci:2,
+-		acm:1,
+-		aifsn:4;
+-
+-	/* byte 2 */
+-	u8	eCWmax:4,
+-		eCWmin:4;
+-#else
+-#error	"Please fix <endian.h>"
+-#endif
+-
+-	/* bytes 3 & 4 */
+-	u16 txopLimit;
+-} __packed;
+-
+-struct wme_parameter_element {
+-	/* required fields for WME version 1 */
+-	u8 oui[3];
+-	u8 oui_type;
+-	u8 oui_subtype;
+-	u8 version;
+-	u8 acInfo;
+-	u8 reserved;
+-	struct wme_ac_parameter ac[4];
+-
+-} __packed;
+-
+-#define WPA_PUT_LE16(a, val)			\
+-	do {					\
+-		(a)[1] = ((u16) (val)) >> 8;	\
+-		(a)[0] = ((u16) (val)) & 0xff;	\
+-	} while (0)
+-
+-#define WPA_PUT_BE32(a, val)					\
+-	do {							\
+-		(a)[0] = (u8) ((((u32) (val)) >> 24) & 0xff);	\
+-		(a)[1] = (u8) ((((u32) (val)) >> 16) & 0xff);	\
+-		(a)[2] = (u8) ((((u32) (val)) >> 8) & 0xff);	\
+-		(a)[3] = (u8) (((u32) (val)) & 0xff);		\
+-	} while (0)
+-
+-#define WPA_PUT_LE32(a, val)					\
+-	do {							\
+-		(a)[3] = (u8) ((((u32) (val)) >> 24) & 0xff);	\
+-		(a)[2] = (u8) ((((u32) (val)) >> 16) & 0xff);	\
+-		(a)[1] = (u8) ((((u32) (val)) >> 8) & 0xff);	\
+-		(a)[0] = (u8) (((u32) (val)) & 0xff);		\
+-	} while (0)
+-
+-#define RSN_SELECTOR_PUT(a, val) WPA_PUT_BE32((u8 *)(a), (val))
+-
+-/* Action category code */
+-enum ieee80211_category {
+-	WLAN_CATEGORY_SPECTRUM_MGMT = 0,
+-	WLAN_CATEGORY_QOS = 1,
+-	WLAN_CATEGORY_DLS = 2,
+-	WLAN_CATEGORY_BACK = 3,
+-	WLAN_CATEGORY_HT = 7,
+-	WLAN_CATEGORY_WMM = 17,
+-};
+-
+-/* SPECTRUM_MGMT action code */
+-enum ieee80211_spectrum_mgmt_actioncode {
+-	WLAN_ACTION_SPCT_MSR_REQ = 0,
+-	WLAN_ACTION_SPCT_MSR_RPRT = 1,
+-	WLAN_ACTION_SPCT_TPC_REQ = 2,
+-	WLAN_ACTION_SPCT_TPC_RPRT = 3,
+-	WLAN_ACTION_SPCT_CHL_SWITCH = 4,
+-	WLAN_ACTION_SPCT_EXT_CHL_SWITCH = 5,
+-};
+-
+-/* BACK action code */
+-enum ieee80211_back_actioncode {
+-	WLAN_ACTION_ADDBA_REQ = 0,
+-	WLAN_ACTION_ADDBA_RESP = 1,
+-	WLAN_ACTION_DELBA = 2,
+-};
+-
+-/* HT features action code */
+-enum ieee80211_ht_actioncode {
+-	WLAN_ACTION_NOTIFY_CH_WIDTH = 0,
+-	WLAN_ACTION_SM_PS = 1,
+-	WLAN_ACTION_PSPM = 2,
+-	WLAN_ACTION_PCO_PHASE = 3,
+-	WLAN_ACTION_MIMO_CSI_MX = 4,
+-	WLAN_ACTION_MIMO_NONCP_BF = 5,
+-	WLAN_ACTION_MIMP_CP_BF = 6,
+-	WLAN_ACTION_ASEL_INDICATES_FB = 7,
+-	WLAN_ACTION_HI_INFO_EXCHG = 8,
+-};
+-
+-/* BACK (block-ack) parties */
+-enum ieee80211_back_parties {
+-	WLAN_BACK_RECIPIENT = 0,
+-	WLAN_BACK_INITIATOR = 1,
+-	WLAN_BACK_TIMER = 2,
+-};
+-
+-struct ieee80211_mgmt {
+-	u16 frame_control;
+-	u16 duration;
+-	u8 da[6];
+-	u8 sa[6];
+-	u8 bssid[6];
+-	u16 seq_ctrl;
+-	union {
+-		struct {
+-			u16 auth_alg;
+-			u16 auth_transaction;
+-			u16 status_code;
+-			/* possibly followed by Challenge text */
+-			u8 variable[0];
+-		}  __packed auth;
+-		struct {
+-			u16 reason_code;
+-		}  __packed deauth;
+-		struct {
+-			u16 capab_info;
+-			u16 listen_interval;
+-			/* followed by SSID and Supported rates */
+-			u8 variable[0];
+-		}  __packed assoc_req;
+-		struct {
+-			u16 capab_info;
+-			u16 status_code;
+-			u16 aid;
+-			/* followed by Supported rates */
+-			u8 variable[0];
+-		}  __packed assoc_resp, reassoc_resp;
+-		struct {
+-			u16 capab_info;
+-			u16 listen_interval;
+-			u8 current_ap[6];
+-			/* followed by SSID and Supported rates */
+-			u8 variable[0];
+-		}  __packed reassoc_req;
+-		struct {
+-			u16 reason_code;
+-		}  __packed disassoc;
+-		struct {
+-			__le64 timestamp;
+-			u16 beacon_int;
+-			u16 capab_info;
+-			/* followed by some of SSID, Supported rates,
+-			 * FH Params, DS Params, CF Params, IBSS Params, TIM */
+-			u8 variable[0];
+-		}  __packed beacon;
+-		struct {
+-			/* only variable items: SSID, Supported rates */
+-			u8 variable[0];
+-		}  __packed probe_req;
+-		struct {
+-			__le64 timestamp;
+-			u16 beacon_int;
+-			u16 capab_info;
+-			/* followed by some of SSID, Supported rates,
+-			 * FH Params, DS Params, CF Params, IBSS Params */
+-			u8 variable[0];
+-		}  __packed probe_resp;
+-		struct {
+-			u8 category;
+-			union {
+-				struct {
+-					u8 action_code;
+-					u8 dialog_token;
+-					u8 status_code;
+-					u8 variable[0];
+-				}  __packed wme_action;
+-				struct {
+-					u8 action_code;
+-					u8 dialog_token;
+-					u16 capab;
+-					u16 timeout;
+-					u16 start_seq_num;
+-				}  __packed addba_req;
+-				struct {
+-					u8 action_code;
+-					u8 dialog_token;
+-					u16 status;
+-					u16 capab;
+-					u16 timeout;
+-				}  __packed addba_resp;
+-				struct {
+-					u8 action_code;
+-					u16 params;
+-					u16 reason_code;
+-				}  __packed delba;
+-				structi {
+-					u8 action_code;
+-					/* capab_info for open and confirm,
+-					 * reason for close
+-					 */
+-					u16 aux;
+-					/* Followed in plink_confirm by status
+-					 * code, AID and supported rates,
+-					 * and directly by supported rates in
+-					 * plink_open and plink_close
+-					 */
+-					u8 variable[0];
+-				}  __packed plink_action;
+-				struct{
+-					u8 action_code;
+-					u8 variable[0];
+-				}  __packed mesh_action;
+-			} __packed u;
+-		}  __packed action;
+-	} __packed u;
+-} __packed;
+-
+-/* mgmt header + 1 byte category code */
+-#define IEEE80211_MIN_ACTION_SIZE				\
+-	 FIELD_OFFSET(struct ieee80211_mgmt, u.action.u)
+-
+-#endif
+-- 
+2.25.1
 
