@@ -1,38 +1,39 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAAF2C96
-	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 33B7C6141B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3E868
+	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 905D061B64;
 	Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1637062148;
-	bh=4fK/0PlcIbl1Vh9sz7BLJ9GVmi1hHhKo+WyFTtXBSyw=;
+	bh=3ihkMj4VM+MYVYnPn/P4IMFMw1DhL0cYHWdvWlG+yDQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e2EEe46jJCMA9lz24GOOllZZH5qHZ7zh7A84U3jJruGgt2vwiiqKcYrI34amZEqRr
-	 brjdF9yqFGlKsxOvcsfkmXGdz7hmd15HCBtWnxODa0Jq512PCIBcFKoJ2gL26cA6Ig
-	 vtatzx71LMyDVeHlhWhwJPRQh3XhbXi4S7wreoiptRbDs21XMoXMNp7jYUZNE28HAj
-	 N0T+5bvLtoimmwT5CFi1xCOodGLbgOxbF8fB5WuT8t4APmKn5e/J9TeDd16bb12Xu4
-	 AflueNLjIOZguxx9Fkg774yvl0tZMHthG1+TCSmrUnZy6PE6/7VfUcksys3LA/XoUz
-	 OqECOxZNQ1ODQ==
+	b=scqufeID1VDjXIpeQ0fhTPVHIK2lfzevjWNigySf/q4nBoL9RZUIEC5KNv3R67PLL
+	 06YgzJkvyxpdZwqh9SE9TjBnZwLh/yyROHpPOPL8EJoGSfCxzfslsP1KAZ91W6tL7W
+	 gugE/Q3WudgZbMDUklGN+WFZMxLdSzblFP8nZzxqqMSspEOeIWMx95u8X1w4xHmVnH
+	 7jF4aBA9Wm0UjLBtiEg26Mz57W/xYiN0CNWcPZCKYush/bUIIJWPhJiaDsJOT8nAC9
+	 nvkgP1DwiEeY+f2QR1Tv7ghG2WUMf1FfGfGsu7khTTTT7lXN90HHJdfz9yah1OvUfB
+	 6YyPie+p45g7A==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mmwe9-008QfF-By; Tue, 16 Nov 2021 11:29:05 +0000
+	id 1mmwe9-008Qfp-Jx; Tue, 16 Nov 2021 11:29:05 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Martiros Shakhzadyan <vrzh@vrzh.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 03/23] media: atomisp: shift some structs from input_system_local
-Date: Tue, 16 Nov 2021 11:28:44 +0000
-Message-Id: <7b895ec99ad983d407db12303db4bf90732c3db2.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 15/23] media: atomisp: get rid of ia_css_stream_load()
+Date: Tue, 16 Nov 2021 11:28:56 +0000
+Message-Id: <795397c297d392dc54b8ef9e1a7d2c4eaf145d02.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -45,11 +46,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-There are several stucts under ISP2400 that could be moved
-to the global file without causing any build issues.
-
-Move those to the common header, in order to reduce the number
-of things that are #ifdef dependent.
+This function is marked as obsolete and nobody calls it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -57,366 +54,93 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- .../media/atomisp/pci/input_system_local.h    | 134 ++++++++++++++++++
- .../atomisp/pci/isp2400_input_system_local.h  | 126 ----------------
- .../atomisp/pci/isp2401_input_system_local.h  |  26 ----
- 3 files changed, 134 insertions(+), 152 deletions(-)
+ .../media/atomisp/pci/ia_css_stream_public.h  |  9 ----
+ drivers/staging/media/atomisp/pci/sh_css.c    | 52 -------------------
+ 2 files changed, 61 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/input_system_local.h b/drivers/staging/media/atomisp/pci/input_system_local.h
-index b33aa2838290..357987d629cd 100644
---- a/drivers/staging/media/atomisp/pci/input_system_local.h
-+++ b/drivers/staging/media/atomisp/pci/input_system_local.h
-@@ -4,6 +4,140 @@
-  *    (c) 2020 Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-  */
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+index 83846e417ae5..649f22b03de8 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_stream_public.h
+@@ -202,15 +202,6 @@ int
+ ia_css_stream_get_info(const struct ia_css_stream *stream,
+ 		       struct ia_css_stream_info *stream_info);
  
-+#include "type_support.h"
-+#include "input_system_global.h"
-+
-+typedef enum {
-+	INPUT_SYSTEM_PORT_A = 0,
-+	INPUT_SYSTEM_PORT_B,
-+	INPUT_SYSTEM_PORT_C,
-+	N_INPUT_SYSTEM_PORTS
-+} input_system_csi_port_t;
-+
-+typedef struct ctrl_unit_cfg_s			ctrl_unit_cfg_t;
-+typedef struct input_system_network_cfg_s	input_system_network_cfg_t;
-+typedef struct target_cfg2400_s		target_cfg2400_t;
-+typedef struct channel_cfg_s			channel_cfg_t;
-+typedef struct backend_channel_cfg_s		backend_channel_cfg_t;
-+typedef struct input_system_cfg2400_s		input_system_cfg2400_t;
-+typedef struct mipi_port_state_s		mipi_port_state_t;
-+typedef struct rx_channel_state_s		rx_channel_state_t;
-+typedef struct input_switch_cfg_channel_s	input_switch_cfg_channel_t;
-+typedef struct input_switch_cfg_s		input_switch_cfg_t;
-+
-+struct ctrl_unit_cfg_s {
-+	isp2400_ib_buffer_t		buffer_mipi[N_CAPTURE_UNIT_ID];
-+	isp2400_ib_buffer_t		buffer_acquire[N_ACQUISITION_UNIT_ID];
-+};
-+
-+struct input_system_network_cfg_s {
-+	input_system_connection_t	multicast_cfg[N_CAPTURE_UNIT_ID];
-+	input_system_multiplex_t	mux_cfg;
-+	ctrl_unit_cfg_t				ctrl_unit_cfg[N_CTRL_UNIT_ID];
-+};
-+
-+typedef struct {
-+// TBD.
-+	u32	dummy_parameter;
-+} target_isp_cfg_t;
-+
-+typedef struct {
-+// TBD.
-+	u32	dummy_parameter;
-+} target_sp_cfg_t;
-+
-+typedef struct {
-+// TBD.
-+	u32	dummy_parameter;
-+} target_strm2mem_cfg_t;
-+
-+struct input_switch_cfg_channel_s {
-+	u32 hsync_data_reg[2];
-+	u32 vsync_data_reg;
-+};
-+
-+struct backend_channel_cfg_s {
-+	u32	fmt_control_word_1; // Format config.
-+	u32	fmt_control_word_2;
-+	u32	no_side_band;
-+};
-+
-+typedef union  {
-+	csi_cfg_t	csi_cfg;
-+	tpg_cfg_t	tpg_cfg;
-+	prbs_cfg_t	prbs_cfg;
-+	gpfifo_cfg_t	gpfifo_cfg;
-+} source_cfg_t;
-+
-+struct input_switch_cfg_s {
-+	u32 hsync_data_reg[N_RX_CHANNEL_ID * 2];
-+	u32 vsync_data_reg;
-+};
-+
-+/*
-+ * In 2300 ports can be configured independently and stream
-+ * formats need to be specified. In 2400, there are only 8
-+ * supported configurations but the HW is fused to support
-+ * only a single one.
-+ *
-+ * In 2300 the compressed format types are programmed by the
-+ * user. In 2400 all stream formats are encoded on the stream.
-+ *
-+ * Use the enum to check validity of a user configuration
-+ */
-+typedef enum {
-+	MONO_4L_1L_0L = 0,
-+	MONO_3L_1L_0L,
-+	MONO_2L_1L_0L,
-+	MONO_1L_1L_0L,
-+	STEREO_2L_1L_2L,
-+	STEREO_3L_1L_1L,
-+	STEREO_2L_1L_1L,
-+	STEREO_1L_1L_1L,
-+	N_RX_MODE
-+} rx_mode_t;
-+
-+#define UNCOMPRESSED_BITS_PER_PIXEL_10	10
-+#define UNCOMPRESSED_BITS_PER_PIXEL_12	12
-+#define COMPRESSED_BITS_PER_PIXEL_6	6
-+#define COMPRESSED_BITS_PER_PIXEL_7	7
-+#define COMPRESSED_BITS_PER_PIXEL_8	8
-+enum mipi_compressor {
-+	MIPI_COMPRESSOR_NONE = 0,
-+	MIPI_COMPRESSOR_10_6_10,
-+	MIPI_COMPRESSOR_10_7_10,
-+	MIPI_COMPRESSOR_10_8_10,
-+	MIPI_COMPRESSOR_12_6_12,
-+	MIPI_COMPRESSOR_12_7_12,
-+	MIPI_COMPRESSOR_12_8_12,
-+	N_MIPI_COMPRESSOR_METHODS
-+};
-+
-+typedef enum mipi_compressor mipi_compressor_t;
-+
-+typedef enum {
-+	MIPI_PREDICTOR_NONE = 0,
-+	MIPI_PREDICTOR_TYPE1,
-+	MIPI_PREDICTOR_TYPE2,
-+	N_MIPI_PREDICTOR_TYPES
-+} mipi_predictor_t;
-+
-+typedef struct rx_cfg_s		rx_cfg_t;
-+
-+/*
-+ * Applied per port
-+ */
-+struct rx_cfg_s {
-+	rx_mode_t			mode;	/* The HW config */
-+	enum mipi_port_id		port;	/* The port ID to apply the control on */
-+	unsigned int		timeout;
-+	unsigned int		initcount;
-+	unsigned int		synccount;
-+	unsigned int		rxcount;
-+	mipi_predictor_t	comp;	/* Just for backward compatibility */
-+	bool                is_two_ppc;
-+};
-+
- #ifdef ISP2401
- #  include "isp2401_input_system_local.h"
- #else
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
-index 2614b89b8e34..6880c9b6aa65 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_local.h
-@@ -16,10 +16,6 @@
- #ifndef __INPUT_SYSTEM_LOCAL_H_INCLUDED__
- #define __INPUT_SYSTEM_LOCAL_H_INCLUDED__
+-/* @brief load (rebuild) a stream that was unloaded.
+- * @param[in]	stream The stream
+- * @return		0 or the error code
+- *
+- * Rebuild a stream, including allocating structs, setting configuration and
+- * building the required pipes.
+- */
+-int
+-ia_css_stream_load(struct ia_css_stream *stream);
  
--#include <type_support.h>
--
--#include "input_system_global.h"
--
- #include "input_system_defs.h"		/* HIVE_ISYS_GPREG_MULTICAST_A_IDX,... */
- 
- /*
-@@ -33,54 +29,7 @@
- #include "isp_acquisition_defs.h"
- #include "input_system_ctrl_defs.h"
- 
--typedef enum {
--	INPUT_SYSTEM_PORT_A = 0,
--	INPUT_SYSTEM_PORT_B,
--	INPUT_SYSTEM_PORT_C,
--	N_INPUT_SYSTEM_PORTS
--} input_system_csi_port_t;
--
--typedef struct ctrl_unit_cfg_s			ctrl_unit_cfg_t;
--typedef struct input_system_network_cfg_s	input_system_network_cfg_t;
--typedef struct target_cfg2400_s		target_cfg2400_t;
--typedef struct channel_cfg_s			channel_cfg_t;
--typedef struct backend_channel_cfg_s		backend_channel_cfg_t;
- typedef struct input_system_cfg2400_s		input_system_cfg2400_t;
--typedef struct mipi_port_state_s		mipi_port_state_t;
--typedef struct rx_channel_state_s		rx_channel_state_t;
--typedef struct input_switch_cfg_channel_s	input_switch_cfg_channel_t;
--typedef struct input_switch_cfg_s		input_switch_cfg_t;
--
--struct ctrl_unit_cfg_s {
--	isp2400_ib_buffer_t		buffer_mipi[N_CAPTURE_UNIT_ID];
--	isp2400_ib_buffer_t		buffer_acquire[N_ACQUISITION_UNIT_ID];
--};
--
--struct input_system_network_cfg_s {
--	input_system_connection_t	multicast_cfg[N_CAPTURE_UNIT_ID];
--	input_system_multiplex_t	mux_cfg;
--	ctrl_unit_cfg_t				ctrl_unit_cfg[N_CTRL_UNIT_ID];
--};
--
--typedef struct {
--// TBD.
--	u32	dummy_parameter;
--} target_isp_cfg_t;
--
--typedef struct {
--// TBD.
--	u32	dummy_parameter;
--} target_sp_cfg_t;
--
--typedef struct {
--// TBD.
--	u32	dummy_parameter;
--} target_strm2mem_cfg_t;
--
--struct input_switch_cfg_channel_s {
--	u32 hsync_data_reg[2];
--	u32 vsync_data_reg;
--};
- 
- struct target_cfg2400_s {
- 	input_switch_cfg_channel_t		input_switch_channel_cfg;
-@@ -89,24 +38,6 @@ struct target_cfg2400_s {
- 	target_strm2mem_cfg_t	target_strm2mem_cfg;
- };
- 
--struct backend_channel_cfg_s {
--	u32	fmt_control_word_1; // Format config.
--	u32	fmt_control_word_2;
--	u32	no_side_band;
--};
--
--typedef union  {
--	csi_cfg_t	csi_cfg;
--	tpg_cfg_t	tpg_cfg;
--	prbs_cfg_t	prbs_cfg;
--	gpfifo_cfg_t	gpfifo_cfg;
--} source_cfg_t;
--
--struct input_switch_cfg_s {
--	u32 hsync_data_reg[N_RX_CHANNEL_ID * 2];
--	u32 vsync_data_reg;
--};
--
- // Configuration of a channel.
- struct channel_cfg_s {
- 	u32		ch_id;
-@@ -238,47 +169,6 @@ typedef struct capture_unit_state_s	capture_unit_state_t;
- typedef struct acquisition_unit_state_s	acquisition_unit_state_t;
- typedef struct ctrl_unit_state_s	ctrl_unit_state_t;
+ /* @brief Starts the stream.
+  * @param[in]	stream The stream.
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6f1dca0788b4..c73ef67959c9 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -9546,58 +9546,6 @@ ia_css_stream_get_info(const struct ia_css_stream *stream,
+ 	return 0;
+ }
  
 -/*
-- * In 2300 ports can be configured independently and stream
-- * formats need to be specified. In 2400, there are only 8
-- * supported configurations but the HW is fused to support
-- * only a single one.
-- *
-- * In 2300 the compressed format types are programmed by the
-- * user. In 2400 all stream formats are encoded on the stream.
-- *
-- * Use the enum to check validity of a user configuration
+- * Rebuild a stream, including allocating structs, setting configuration and
+- * building the required pipes.
+- * The data is taken from the css_save struct updated upon stream creation.
+- * The stream handle is used to identify the correct entry in the css_save struct
 - */
--typedef enum {
--	MONO_4L_1L_0L = 0,
--	MONO_3L_1L_0L,
--	MONO_2L_1L_0L,
--	MONO_1L_1L_0L,
--	STEREO_2L_1L_2L,
--	STEREO_3L_1L_1L,
--	STEREO_2L_1L_1L,
--	STEREO_1L_1L_1L,
--	N_RX_MODE
--} rx_mode_t;
+-int
+-ia_css_stream_load(struct ia_css_stream *stream)
+-{
+-	int i, j, err;
 -
--typedef enum {
--	MIPI_PREDICTOR_NONE = 0,
--	MIPI_PREDICTOR_TYPE1,
--	MIPI_PREDICTOR_TYPE2,
--	N_MIPI_PREDICTOR_TYPES
--} mipi_predictor_t;
+-	if (IS_ISP2401) {
+-		/* TODO remove function - DEPRECATED */
+-		(void)stream;
+-		return -ENOTSUPP;
+-	}
 -
--typedef enum {
--	MIPI_COMPRESSOR_NONE = 0,
--	MIPI_COMPRESSOR_10_6_10,
--	MIPI_COMPRESSOR_10_7_10,
--	MIPI_COMPRESSOR_10_8_10,
--	MIPI_COMPRESSOR_12_6_12,
--	MIPI_COMPRESSOR_12_7_12,
--	MIPI_COMPRESSOR_12_8_12,
--	N_MIPI_COMPRESSOR_METHODS
--} mipi_compressor_t;
+-	assert(stream);
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() enter,\n");
+-	for (i = 0; i < MAX_ACTIVE_STREAMS; i++) {
+-		if (my_css_save.stream_seeds[i].stream != stream)
+-			continue;
 -
- typedef enum {
- 	MIPI_FORMAT_RGB888 = 0,
- 	MIPI_FORMAT_RGB555,
-@@ -339,22 +229,6 @@ typedef enum {
- 	RX_IRQ_INFO_ERR_LINE_SYNC    = 1UL << _HRT_CSS_RECEIVER_IRQ_ERR_LINE_SYNC_BIT,
- }  rx_irq_info_t;
- 
--typedef struct rx_cfg_s		rx_cfg_t;
+-		for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++) {
+-			int k;
 -
--/*
-- * Applied per port
-- */
--struct rx_cfg_s {
--	rx_mode_t			mode;	/* The HW config */
--	enum mipi_port_id		port;	/* The port ID to apply the control on */
--	unsigned int		timeout;
--	unsigned int		initcount;
--	unsigned int		synccount;
--	unsigned int		rxcount;
--	mipi_predictor_t	comp;	/* Just for backward compatibility */
--	bool                is_two_ppc;
--};
+-			err = ia_css_pipe_create(&my_css_save.stream_seeds[i].pipe_config[j],
+-						 &my_css_save.stream_seeds[i].pipes[j]);
+-			if (!err)
+-				continue;
 -
- /* NOTE: The base has already an offset of 0x0100 */
- static const hrt_address __maybe_unused MIPI_PORT_OFFSET[N_MIPI_PORT_ID] = {
- 	0x00000000UL,
-diff --git a/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h b/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h
-index 24026090cd35..74bfa10e670e 100644
---- a/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h
-+++ b/drivers/staging/media/atomisp/pci/isp2401_input_system_local.h
-@@ -16,9 +16,6 @@
- #ifndef __INPUT_SYSTEM_LOCAL_H_INCLUDED__
- #define __INPUT_SYSTEM_LOCAL_H_INCLUDED__
- 
--#include "type_support.h"
--#include "input_system_global.h"
+-			for (k = 0; k < j; k++)
+-				ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[k]);
+-			return err;
+-		}
+-		err = ia_css_stream_create(&my_css_save.stream_seeds[i].stream_config,
+-					   my_css_save.stream_seeds[i].num_pipes,
+-					   my_css_save.stream_seeds[i].pipes,
+-					   &my_css_save.stream_seeds[i].stream);
+-		if (!err)
+-			break;
 -
- #include "csi_rx.h"
- #include "pixelgen.h"
- #include "isys_stream2mmio.h"
-@@ -69,29 +66,6 @@ typedef enum {
- 
- /* The number of stores for compressed format types */
- #define	N_MIPI_COMPRESSOR_CONTEXT	(N_RX_CHANNEL_ID * N_MIPI_FORMAT_CUSTOM)
--#define UNCOMPRESSED_BITS_PER_PIXEL_10	10
--#define UNCOMPRESSED_BITS_PER_PIXEL_12	12
--#define COMPRESSED_BITS_PER_PIXEL_6	6
--#define COMPRESSED_BITS_PER_PIXEL_7	7
--#define COMPRESSED_BITS_PER_PIXEL_8	8
--enum mipi_compressor {
--	MIPI_COMPRESSOR_NONE = 0,
--	MIPI_COMPRESSOR_10_6_10,
--	MIPI_COMPRESSOR_10_7_10,
--	MIPI_COMPRESSOR_10_8_10,
--	MIPI_COMPRESSOR_12_6_12,
--	MIPI_COMPRESSOR_12_7_12,
--	MIPI_COMPRESSOR_12_8_12,
--	N_MIPI_COMPRESSOR_METHODS
--};
+-		ia_css_stream_destroy(stream);
+-		for (j = 0; j < my_css_save.stream_seeds[i].num_pipes; j++)
+-			ia_css_pipe_destroy(my_css_save.stream_seeds[i].pipes[j]);
+-		return err;
+-	}
 -
--typedef enum {
--	MIPI_PREDICTOR_NONE = 0,
--	MIPI_PREDICTOR_TYPE1,
--	MIPI_PREDICTOR_TYPE2,
--	N_MIPI_PREDICTOR_TYPES
--} mipi_predictor_t;
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"ia_css_stream_load() exit,\n");
+-	return 0;
+-}
 -
- typedef struct input_system_state_s	input_system_state_t;
- struct input_system_state_s {
- 	ibuf_ctrl_state_t	ibuf_ctrl_state[N_IBUF_CTRL_ID];
+ int
+ ia_css_stream_start(struct ia_css_stream *stream)
+ {
 -- 
 2.33.1
 
