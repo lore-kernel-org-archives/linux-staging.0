@@ -1,48 +1,39 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FE12CA5
-	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B962863236;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3442C96
+	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:12 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A213261BF6;
 	Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637062149;
-	bh=+eQUm8YlELY5QQ8VHElpip3gm5F0shsJO9PkjxNiU08=;
+	s=k20201202; t=1637062148;
+	bh=pLvEitHi25Sj0Gs1Tw+e+91BublgvdDb7EyvZ6K2fS4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=awTY3xFaTehKYBeVdMT4/GAk05+j5HqrxRM9tU5ovD6Uztfozc7HLJbMKVS4+KMFc
-	 DM4nP53BZUm4JifHPeJGa24HtGMxRq1wpOJyCwIlELn2bnhU6j8zX/SfWU/TVz/TbO
-	 8vfAdbNU/1fGlK6GZ27cj7UJVgY10HmmrkQr4J8AdFr5iuR820tqOIlniMmvtxpM29
-	 utzpQVe/4O12ORyMjq6vmbbTcYG578GsLuh/m/gaNesMvsc5QpfD6Vjv7WambRjl3A
-	 /QgwR9ivxlhyrzYLumVFvcYYKUZfmBckVut6tY0phnZJeO58ZY53tT9Ai7gkJGCjPr
-	 t2PqY31FKR38A==
+	b=gFYaD7kyGDOi7qKzBvRQbMIyVIhUjM93lpCM27NKlarfQJL3799coXafLhzZdqyYb
+	 RGuerRjykx10fYh+R+3hCiIXXwJZuKiWIj8fm+gxsIqjvhb5RDm13LzNg5jPNWL5FB
+	 oLxi15g5Ra5yTOkhOoLaWV8Bfh0Lh9qg0/sKc9W9pOwrVwVtzqmTYP6Egi8Cj2iQKb
+	 JJU4f2r+3I6fHkHlHIY7Iu6YFXlmgWdFdkRa/7zmPU8KwYPF2xYfLLuhzd45ogSuap
+	 qeMucDTAMJv1g/eaHco+Z4TCLlTDUuw4GkV5beaV0x5bTify/ikEvT++Q2106rYmkg
+	 fGg7d2TzkqFBQ==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mmwe9-008Qfa-Gx; Tue, 16 Nov 2021 11:29:05 +0000
+	id 1mmwe9-008QgA-Ne; Tue, 16 Nov 2021 11:29:05 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Deepak R Varma <drv@mailo.com>,
-	Ding Xiang <dingxiang@cmss.chinamobile.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Martiros Shakhzadyan <vrzh@vrzh.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Yang Li <abaci-bugfix@linux.alibaba.com>,
-	Zheng Yongjun <zhengyongjun3@huawei.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 10/23] media: atomisp: drop #ifdef SH_CSS_ENABLE_PER_FRAME_PARAMS
-Date: Tue, 16 Nov 2021 11:28:51 +0000
-Message-Id: <cf9d37dbae4b3673ce0e6573fb2cab5e1ec00cfe.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 22/23] media: atomisp: make sh_css similar to Intel Aero driver
+Date: Tue, 16 Nov 2021 11:29:03 +0000
+Message-Id: <3ce81621f5fe97c490745185260f70ddb401b0ec.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -55,8 +46,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-This is enabled for the firmware we're using. So, just drop
-the if's.
+As we're using the firmware from Intel Aero, ensure that the
+logic inside sh_css as similar as possible to such driver.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -64,192 +55,318 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/sh_css.c      |  4 ----
- .../staging/media/atomisp/pci/sh_css_internal.h |  2 --
- .../staging/media/atomisp/pci/sh_css_params.c   | 17 -----------------
- drivers/staging/media/atomisp/pci/sh_css_sp.c   |  2 --
- .../staging/media/atomisp/pci/system_global.h   |  3 ---
- 5 files changed, 28 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 150 +++------------------
+ 1 file changed, 19 insertions(+), 131 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 3a347b72e4bd..6d3c4a0558e1 100644
+index 8bcf610ccae3..e5e22f966286 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -4154,14 +4154,12 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
- 		return_err = ia_css_bufq_enqueue_buffer(thread_id,
- 							queue_id,
- 							(uint32_t)h_vbuf->vptr);
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 		if (!return_err &&
- 		    buf_type == IA_CSS_BUFFER_TYPE_OUTPUT_FRAME) {
- 			IA_CSS_LOG("pfp: enqueued OF %d to q %d thread %d",
- 				   ddr_buffer.payload.frame.frame_data,
- 				   queue_id, thread_id);
- 		}
--#endif
+@@ -210,7 +210,6 @@ ia_css_pipe_check_format(struct ia_css_pipe *pipe,
+ 
+ /* ISP 2401 */
+ static int
+-static int
+ ia_css_pipe_load_extension(struct ia_css_pipe *pipe,
+ 			   struct ia_css_fw_info *firmware);
+ 
+@@ -1023,17 +1022,6 @@ sh_css_config_input_network(struct ia_css_stream *stream)
+ 			pipe = stream->last_pipe->pipe_settings.video.copy_pipe;
+ 	} else {
+ 		pipe = stream->last_pipe;
+-		if (stream->last_pipe->config.mode == IA_CSS_PIPE_MODE_CAPTURE) {
+-			/*
+-			 * We need to poll the ISYS HW in capture_indication itself
+-			 * for "non-continuous" capture usecase for getting accurate
+-			 * isys frame capture timestamps.
+-			 * This is because the capturepipe propcessing takes longer
+-			 * to execute than the input system frame capture.
+-			 * 2401 specific
+-			 */
+-			early_polling = true;
+-		}
  	}
  
- 	if (!return_err) {
-@@ -4364,12 +4362,10 @@ ia_css_pipe_dequeue_buffer(struct ia_css_pipe *pipe,
- 					    sh_css_sp_get_binary_copy_size();
- #endif
- 				}
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 				if (buf_type == IA_CSS_BUFFER_TYPE_OUTPUT_FRAME) {
- 					IA_CSS_LOG("pfp: dequeued OF %d with config id %d thread %d",
- 						   frame->data, frame->isp_config_id, thread_id);
- 				}
--#endif
+ 	if (!pipe)
+@@ -2695,17 +2683,6 @@ load_preview_binaries(struct ia_css_pipe *pipe)
+ 	if (err)
+ 		return err;
  
- 				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
- 						    "ia_css_pipe_dequeue_buffer() buf_type=%d, data(DDR address)=0x%x\n",
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-index f26df3f44a7a..87ac3ea15dfc 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-@@ -536,9 +536,7 @@ struct sh_css_sp_pipeline {
- 		ia_css_ptr    cont_buf; /* Address of continuous buffer */
- 	} metadata;
- #endif
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 	u32	output_frame_queue_id;
--#endif
- 	union {
- 		struct {
- 			u32	bytes_available;
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index b3ef6b4c3225..448b07162382 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -731,13 +731,11 @@ sh_css_set_global_isp_config_on_pipe(
-     const struct ia_css_isp_config *config,
-     struct ia_css_pipe *pipe);
- 
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- static int
- sh_css_set_per_frame_isp_config_on_pipe(
-     struct ia_css_stream *stream,
-     const struct ia_css_isp_config *config,
-     struct ia_css_pipe *pipe);
--#endif
- 
- static int
- sh_css_update_uds_and_crop_info_based_on_zoom_region(
-@@ -1905,11 +1903,9 @@ ia_css_stream_set_isp_config_on_pipe(
- 
- 	IA_CSS_ENTER("stream=%p, config=%p, pipe=%p", stream, config, pipe);
- 
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 	if (config->output_frame)
- 		err = sh_css_set_per_frame_isp_config_on_pipe(stream, config, pipe);
- 	else
--#endif
- 		err = sh_css_set_global_isp_config_on_pipe(stream->pipes[0], config, pipe);
- 
- 	IA_CSS_LEAVE_ERR(err);
-@@ -1930,11 +1926,9 @@ ia_css_pipe_set_isp_config(struct ia_css_pipe *pipe,
- 
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "config=%p\n", config);
- 
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 	if (config->output_frame)
- 		err = sh_css_set_per_frame_isp_config_on_pipe(pipe->stream, config, pipe);
- 	else
--#endif
- 		err = sh_css_set_global_isp_config_on_pipe(pipe, config, pipe_in);
- 	IA_CSS_LEAVE_ERR(err);
- 	return err;
-@@ -1969,7 +1963,6 @@ sh_css_set_global_isp_config_on_pipe(
- 	return err;
- }
- 
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- static int
- sh_css_set_per_frame_isp_config_on_pipe(
-     struct ia_css_stream *stream,
-@@ -2039,7 +2032,6 @@ sh_css_set_per_frame_isp_config_on_pipe(
- 	IA_CSS_LEAVE_ERR_PRIVATE(err);
- 	return err;
- }
--#endif
- 
- static int
- sh_css_init_isp_params_from_config(struct ia_css_pipe *pipe,
-@@ -3253,15 +3245,10 @@ sh_css_param_update_isp_params(struct ia_css_pipe *curr_pipe,
- 		isp_pipe_version = ia_css_pipe_get_isp_pipe_version(pipe);
- 		ia_css_pipeline_get_sp_thread_id(pipe_num, &thread_id);
- 
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 		ia_css_query_internal_queue_id(params->output_frame
- 					       ? IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET
- 					       : IA_CSS_BUFFER_TYPE_PARAMETER_SET,
- 					       thread_id, &queue_id);
--#else
--		ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_PARAMETER_SET, thread_id,
--					       &queue_id);
--#endif
- 		if (!sh_css_sp_is_running()) {
- 			/* SP is not running. The queues are not valid */
- 			err = -EBUSY;
-@@ -3357,12 +3344,10 @@ sh_css_param_update_isp_params(struct ia_css_pipe *curr_pipe,
- 		err = ia_css_bufq_enqueue_buffer(thread_id, queue_id, (uint32_t)cpy);
- 		if (err) {
- 			free_ia_css_isp_parameter_set_info(cpy);
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 			IA_CSS_LOG("pfp: FAILED to add config id %d for OF %d to q %d on thread %d",
- 				   isp_params_info.isp_parameters_id,
- 				   isp_params_info.output_frame_ptr,
- 				   queue_id, thread_id);
--#endif
- 			break;
- 		} else {
- 			/* TMP: check discrepancy between nr of enqueued
-@@ -3384,12 +3369,10 @@ sh_css_param_update_isp_params(struct ia_css_pipe *curr_pipe,
- 			    (uint8_t)thread_id,
- 			    (uint8_t)queue_id,
- 			    0);
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 			IA_CSS_LOG("pfp: added config id %d for OF %d to q %d on thread %d",
- 				   isp_params_info.isp_parameters_id,
- 				   isp_params_info.output_frame_ptr,
- 				   queue_id, thread_id);
--#endif
- 		}
- 		/* clean-up old copy */
- 		ia_css_dequeue_param_buffers(/*pipe_num*/);
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index ff7c2c5fd94d..4a0206f564c9 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1319,14 +1319,12 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 	(void)md_info;
- #endif
- 
--#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
- 	sh_css_sp_group.pipe[thread_id].output_frame_queue_id = (uint32_t)SH_CSS_INVALID_QUEUE_ID;
- 	if (pipe_id != IA_CSS_PIPE_ID_COPY) {
- 		ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, thread_id,
- 					       (enum sh_css_queue_id *)(
- 						   &sh_css_sp_group.pipe[thread_id].output_frame_queue_id));
- 	}
--#endif
- 
- 	IA_CSS_LOG("pipe_id %d port_config %08x",
- 		   pipe_id, sh_css_sp_group.pipe[thread_id].inout_port_config);
-diff --git a/drivers/staging/media/atomisp/pci/system_global.h b/drivers/staging/media/atomisp/pci/system_global.h
-index 9b22b8c168be..060b924023ec 100644
---- a/drivers/staging/media/atomisp/pci/system_global.h
-+++ b/drivers/staging/media/atomisp/pci/system_global.h
-@@ -25,9 +25,6 @@
-  * N.B. the 3 input formatters are of 2 different classess
-  */
- 
--/* per-frame parameter handling support */
--#define SH_CSS_ENABLE_PER_FRAME_PARAMS
+-	if (IS_ISP2401) {
+-		/* The delay latency determines the number of invalid frames after
+-		* a stream is started. */
+-		pipe->num_invalid_frames = pipe->dvs_frame_delay;
+-		pipe->info.num_invalid_frames = pipe->num_invalid_frames;
 -
- #define DMA_DDR_TO_VAMEM_WORKAROUND
- #define DMA_DDR_TO_HMEM_WORKAROUND
+-		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
+-				    "load_preview_binaries() num_invalid_frames=%d dvs_frame_delay=%d\n",
+-				    pipe->num_invalid_frames, pipe->dvs_frame_delay);
+-	}
+-
+ 	/* The vf_pp binary is needed when (further) YUV downscaling is required */
+ 	need_vf_pp |= mycs->preview_binary.out_frame_info[0].res.width != pipe_out_info->res.width;
+ 	need_vf_pp |= mycs->preview_binary.out_frame_info[0].res.height != pipe_out_info->res.height;
+@@ -4847,6 +4824,8 @@ sh_css_pipe_get_grid_info(struct ia_css_pipe *pipe,
+ 		ia_css_binary_dvs_stat_grid_info(binary, info, pipe);
+ 	} else {
+ 		memset(&info->dvs_grid, 0, sizeof(info->dvs_grid));
++		memset(&info->dvs_grid.dvs_stat_grid_info, 0,
++			   sizeof(info->dvs_grid.dvs_stat_grid_info));
+ 	}
  
+ 	if (binary) {
+@@ -5173,35 +5152,10 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 		return err;
+ 
+ 	if (mycs->video_binary.info->sp.enable.block_output) {
+-		unsigned int tnr_width;
+-		unsigned int tnr_height;
+-
+ 		tnr_info = mycs->video_binary.out_frame_info[0];
+ 
+-		if (IS_ISP2401) {
+-			/* Select resolution for TNR. If
+-			* output_system_in_resolution(GDC_out_resolution) is
+-			* being used, then select that as it will also be in resolution for
+-			* TNR. At present, it only make sense for Skycam */
+-			if (pipe->config.output_system_in_res.width &&
+-			    pipe->config.output_system_in_res.height) {
+-				tnr_width = pipe->config.output_system_in_res.width;
+-				tnr_height = pipe->config.output_system_in_res.height;
+-			} else {
+-				tnr_width = tnr_info.res.width;
+-				tnr_height = tnr_info.res.height;
+-			}
+-
+-			/* Make tnr reference buffers output block width(in pix) align */
+-			tnr_info.res.width  = CEIL_MUL(tnr_width,
+-						       (mycs->video_binary.info->sp.block.block_width * ISP_NWAY));
+-			tnr_info.padded_width = tnr_info.res.width;
+-		} else {
+-			tnr_height = tnr_info.res.height;
+-		}
+-
+ 		/* Make tnr reference buffers output block height align */
+-		tnr_info.res.height = CEIL_MUL(tnr_height,
++		tnr_info.res.height = CEIL_MUL(tnr_info.res.height,
+ 					       mycs->video_binary.info->sp.block.output_block_height);
+ 	} else {
+ 		tnr_info = mycs->video_binary.internal_frame_info;
+@@ -5434,12 +5388,6 @@ static bool need_capture_pp(
+ 	assert(pipe);
+ 	assert(pipe->mode == IA_CSS_PIPE_ID_CAPTURE);
+ 
+-	if (IS_ISP2401) {
+-		/* ldc and capture_pp are not supported in the same pipeline */
+-		if (need_capt_ldc(pipe))
+-			return false;
+-	}
+-
+ 	/* determine whether we need to use the capture_pp binary.
+ 	 * This is needed for:
+ 	 *   1. XNR or
+@@ -5648,33 +5596,13 @@ static int load_primary_binaries(
+ 
+ 	/* TODO Do we disable ldc for skycam */
+ 	need_ldc = need_capt_ldc(pipe);
+-	if (IS_ISP2401 && need_ldc) {
+-		/* ldc and capt_pp are not supported in the same pipeline */
+-		struct ia_css_binary_descr capt_ldc_descr;
+-
+-		ia_css_pipe_get_ldc_binarydesc(pipe,
+-					       &capt_ldc_descr, &prim_out_info,
+-					       &capt_pp_out_info);
+-
+-		err = ia_css_binary_find(&capt_ldc_descr,
+-					 &mycs->capture_ldc_binary);
+-		if (err) {
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
+-		}
+-		need_pp = false;
+-		need_ldc = false;
+-	}
+ 
+ 	/* we build up the pipeline starting at the end */
+ 	/* Capture post-processing */
+ 	if (need_pp) {
+ 		struct ia_css_binary_descr capture_pp_descr;
+ 
+-		if (!IS_ISP2401)
+-			capt_pp_in_info = need_ldc ? &capt_ldc_out_info : &prim_out_info;
+-		else
+-			capt_pp_in_info = &prim_out_info;
++		capt_pp_in_info = need_ldc ? &capt_ldc_out_info : &prim_out_info;
+ 
+ 		ia_css_pipe_get_capturepp_binarydesc(pipe,
+ 						     &capture_pp_descr,
+@@ -7575,7 +7503,6 @@ create_host_regular_capture_pipeline(struct ia_css_pipe *pipe)
+ 		}
+ 	}
+ 
+-#ifndef ISP2401
+ 	if (need_pp && current_stage) {
+ 		struct ia_css_frame *local_in_frame = NULL;
+ 
+@@ -7595,20 +7522,6 @@ create_host_regular_capture_pipeline(struct ia_css_pipe *pipe)
+ 		}
+ 		err = add_capture_pp_stage(pipe, me, local_in_frame,
+ 					   need_yuv_pp ? NULL : out_frame,
+-#else
+-	/* ldc and capture_pp not supported in same pipeline */
+-	if (need_ldc && current_stage) {
+-		in_frame = current_stage->args.out_frame[0];
+-		ia_css_pipe_util_set_output_frames(out_frames, 0, out_frame);
+-		ia_css_pipe_get_generic_stage_desc(&stage_desc, capture_ldc_binary,
+-						   out_frames, in_frame, NULL);
+-		err = ia_css_pipeline_create_and_add_stage(me, &stage_desc,
+-							   NULL);
+-	} else if (need_pp && current_stage) {
+-		in_frame = current_stage->args.out_frame[0];
+-		err = add_capture_pp_stage(pipe, me, in_frame,
+-					   need_yuv_pp ? NULL : out_frame,
+-#endif
+ 					   capture_pp_binary,
+ 					   &current_stage);
+ 		if (err) {
+@@ -7722,7 +7635,7 @@ static int capture_start(struct ia_css_pipe *pipe)
+ 		IA_CSS_LEAVE_ERR_PRIVATE(err);
+ 		return err;
+ 	}
+-#elif defined(ISP2401)
++#else
+ 	if (pipe->config.mode != IA_CSS_PIPE_MODE_COPY) {
+ 		err = send_mipi_frames(pipe);
+ 		if (err) {
+@@ -7730,7 +7643,6 @@ static int capture_start(struct ia_css_pipe *pipe)
+ 			return err;
+ 		}
+ 	}
+-
+ #endif
+ 
+ 	ia_css_pipeline_get_sp_thread_id(ia_css_pipe_get_pipe_num(pipe), &thread_id);
+@@ -8176,9 +8088,7 @@ sh_css_init_host_sp_control_vars(void)
+ 	unsigned int HIVE_ADDR_host_sp_queues_initialized;
+ 	unsigned int HIVE_ADDR_sp_sleep_mode;
+ 	unsigned int HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb;
+-#ifndef ISP2401
+ 	unsigned int HIVE_ADDR_sp_stop_copy_preview;
+-#endif
+ 	unsigned int HIVE_ADDR_host_sp_com;
+ 	unsigned int o = offsetof(struct host_sp_communication, host2sp_command)
+ 			    / sizeof(int);
+@@ -8195,9 +8105,7 @@ sh_css_init_host_sp_control_vars(void)
+ 	    fw->info.sp.host_sp_queues_initialized;
+ 	HIVE_ADDR_sp_sleep_mode = fw->info.sp.sleep_mode;
+ 	HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb = fw->info.sp.invalidate_tlb;
+-#ifndef ISP2401
+ 	HIVE_ADDR_sp_stop_copy_preview = fw->info.sp.stop_copy_preview;
+-#endif
+ 	HIVE_ADDR_host_sp_com = fw->info.sp.host_sp_com;
+ 
+ 	sp_dmem_store_uint32(SP0_ID,
+@@ -8213,11 +8121,9 @@ sh_css_init_host_sp_control_vars(void)
+ 	sp_dmem_store_uint32(SP0_ID,
+ 			     (unsigned int)sp_address_of(ia_css_dmaproxy_sp_invalidate_tlb),
+ 			     (uint32_t)(false));
+-#ifndef ISP2401
+ 	sp_dmem_store_uint32(SP0_ID,
+ 			     (unsigned int)sp_address_of(sp_stop_copy_preview),
+ 			     my_css.stop_copy_preview ? (uint32_t)(1) : (uint32_t)(0));
+-#endif
+ 	store_sp_array_uint(host_sp_com, o, host2sp_cmd_ready);
+ 
+ 	for (i = 0; i < N_CSI_PORTS; i++) {
+@@ -8937,9 +8843,7 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 		if (num_pipes >= 2) {
+ 			curr_stream->cont_capt = true;
+ 			curr_stream->disable_cont_vf = curr_stream->config.disable_cont_viewfinder;
+-
+-			if (!IS_ISP2401)
+-				curr_stream->stop_copy_preview = my_css.stop_copy_preview;
++			curr_stream->stop_copy_preview = my_css.stop_copy_preview;
+ 		}
+ 
+ 		/* Create copy pipe here, since it may not be exposed to the driver */
+@@ -8997,16 +8901,15 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 		/* set current stream */
+ 		curr_pipe->stream = curr_stream;
+ 
+-		if (!IS_ISP2401) {
+-			/* take over effective info */
++		/* take over effective info */
++
++		effective_res = curr_pipe->config.input_effective_res;
++		err = ia_css_util_check_res(
++			effective_res.width,
++			effective_res.height);
++		if (err)
++			goto ERR;
+ 
+-			effective_res = curr_pipe->config.input_effective_res;
+-			err = ia_css_util_check_res(
+-				effective_res.width,
+-				effective_res.height);
+-			if (err)
+-				goto ERR;
+-		}
+ 		/* sensor binning per pipe */
+ 		if (sensor_binning_changed)
+ 			sh_css_pipe_free_shading_table(curr_pipe);
+@@ -9031,9 +8934,6 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 				goto ERR;
+ 		}
+ 
+-		if (IS_ISP2401)
+-			pipe_info->output_system_in_res_info = curr_pipe->config.output_system_in_res;
+-
+ 		if (!spcopyonly) {
+ 			if (!IS_ISP2401)
+ 				err = sh_css_pipe_get_shading_info(curr_pipe,
+@@ -9133,8 +9033,6 @@ ia_css_stream_destroy(struct ia_css_stream *stream)
+ 	if ((stream->last_pipe) &&
+ 	    ia_css_pipeline_is_mapped(stream->last_pipe->pipe_num)) {
+ #if defined(ISP2401)
+-		bool free_mpi;
+-
+ 		for (i = 0; i < stream->num_pipes; i++) {
+ 			struct ia_css_pipe *entry = stream->pipes[i];
+ 			unsigned int sp_thread_id;
+@@ -9158,13 +9056,7 @@ ia_css_stream_destroy(struct ia_css_stream *stream)
+ 				}
+ 			}
+ 		}
+-		free_mpi = stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR;
+-		if (IS_ISP2401) {
+-			free_mpi |= stream->config.mode == IA_CSS_INPUT_MODE_TPG;
+-			free_mpi |= stream->config.mode == IA_CSS_INPUT_MODE_PRBS;
+-		}
+-
+-		if (free_mpi) {
++		if (stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
+ 			for (i = 0; i < stream->num_pipes; i++) {
+ 				struct ia_css_pipe *entry = stream->pipes[i];
+ 				/*
+@@ -9699,14 +9591,10 @@ ia_css_stop_sp(void)
+ 	}
+ 
+ 	/* For now, stop whole SP */
+-	if (!IS_ISP2401) {
+-		sh_css_write_host2sp_command(host2sp_cmd_terminate);
+-	} else {
+-		if (!sh_css_write_host2sp_command(host2sp_cmd_terminate)) {
+-			IA_CSS_ERROR("Call to 'sh-css_write_host2sp_command()' failed");
+-			ia_css_debug_dump_sp_sw_debug_info();
+-			ia_css_debug_dump_debug_info(NULL);
+-		}
++	if (!sh_css_write_host2sp_command(host2sp_cmd_terminate)) {
++		IA_CSS_ERROR("Call to 'sh-css_write_host2sp_command()' failed");
++		ia_css_debug_dump_sp_sw_debug_info();
++		ia_css_debug_dump_debug_info(NULL);
+ 	}
+ 
+ 	sh_css_sp_set_sp_running(false);
 -- 
 2.33.1
 
