@@ -1,90 +1,138 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2107.outbound.protection.outlook.com [40.107.255.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1DC68
-	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 04:56:12 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id t26so8749340lfk.9
-        for <linux-staging@lists.linux.dev>; Mon, 15 Nov 2021 20:56:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=P95ELlRgMRZkG9bYMP1tznGDyj5awpaPH3jueNkr9vs=;
-        b=fc60BO/LhMAvTzt1F7fb84/UivvOkjq1d3XJQoYvajCOGz8LFjBXGN/8tdKJKhpOSD
-         tJclVXPw0M22drkWldIvCeGHEG5TjGuyi9JyjFSTjZT/qNs7k+Mgln4iLRaRr+/4w/4p
-         IcwPKeH9Zwq3WUROVHUv5AZHOQ7bggOI8Pi6dZ4JG5ns2FPuByqKahev4NLghX9/+VmR
-         D46+QjhiJ9Y709O4KaRL/V+16BBqJFOAguORbSvY0lB40CKdldHxBfPZSDIcho3Vw/Rz
-         4W1A6r5g14KYf2dFJU5jh6pENFoW8ebek2rOMbWMvKZaPPSycRSbxVzB3NNya65zkUdq
-         oM2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=P95ELlRgMRZkG9bYMP1tznGDyj5awpaPH3jueNkr9vs=;
-        b=qfIJgoxx8E/SttjyMWJxDwW8yKWEF0y947PZiDmV7HI7D0u390lhvyokJy9CMuS4UA
-         Kl1XT00YSmpMqYYx2WBItpcim09RFz57AKTXamtPFJz3kCiq+oT2dnvIncEHiQOXp6U9
-         66hqGyqMTXtRy2s+t9j80qw5+YC4oFjG5/YQDGLR7rpJGyrrSRCk3jF0bd3awsCfyxop
-         CmPY1Z1WyAIW9dJDaYM3tWK5ET1NobSVT+iiEkFqcARWIJeiNeRNSQX2McEaPgD0gpVO
-         DUEpQx4HBeVda4txwyXi0E/pXDa3BMaB37R6kwvXidT5T7ouD/MnGoaEBWK8Ey9QPiU1
-         /deA==
-X-Gm-Message-State: AOAM533HuBUnZcrYCql3S88nA++mOADt/9BqwYfGPLTpHirfz8esqR6/
-	W+7kgC/Gu3+xVLFP/m813es=
-X-Google-Smtp-Source: ABdhPJzH+TYpnt3oy1FqocZ1A8ZSjdLchUbbv88G/CLiD/w1q4sft1RfgxacRYroytzVicTDMyRR1Q==
-X-Received: by 2002:a05:6512:21c8:: with SMTP id d8mr4188821lft.7.1637038570719;
-        Mon, 15 Nov 2021 20:56:10 -0800 (PST)
-Received: from [172.28.2.233] ([46.61.204.60])
-        by smtp.gmail.com with ESMTPSA id k15sm1646322ljh.102.2021.11.15.20.56.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Nov 2021 20:56:10 -0800 (PST)
-Message-ID: <6d2d9c4a-3f05-1d51-42dc-b1ebbb4aefe1@gmail.com>
-Date: Tue, 16 Nov 2021 07:56:09 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3690B2C80
+	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 06:41:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a9v7hcqdIKN9ZvUysK4ISnez62ksVmYntePrdU7DvlSY3DFPxERBxQvB7SjEt8+5J8bYN7zKtHEjjkH6mmSaQ0LbCerI6Q27OQ6g7AHySLZtrl460m8zK+a1X1MhU6DTPGMxCr/AdMEIqFz+K2K31+J8naP0hTNhmlxE4+Ghj9etoz6jaVxH4AQZ9WcFWG0befTPaH9TldZHsEmIxasP7AMLFbq6XZH3CXZJzpsAP9L2kt4isjyeK2q/iQFQXQlSysaIorr5q+tibsuG6IR+Yi+lGmDnCik5VqV1tNhNoWSvV9M2p9eS+2NU8usNFfbBUYamJQGOTD2QXikEMt3V3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j4rex29SYtDNyhH08CwsoaIQgoQIHUNk3dHEnGMpwoc=;
+ b=CP588UBfGcveY2mJ4KaQdGcrxRmKeEBh2HINJNuQS9mC4mj6jCV9rMKEAVHB92mFrR/xjeiZb2ynzKhIsVtLHkR3DevfJn4k7U8Ah5su/dAV9pRshYkrYSICKUwZ5byfn0zmHZvp20uJ9N1jHRShD4m25vR+5mEjj+hPaITLWkIG7q2gJjmffh1lEPgDTDudaMca+4bngXEGNbVROCntktySAGzW0Poqf6F6W5duqJlxHScKR6F/5M96lxOmrdgS4hus2usDxcl6COhlKQQFL4IrJyD1bM34Pm0yKd+3LfPWdvWzyapeBtUSWZOaMbptLlS8Tu+l0tjkfnt34TgWEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j4rex29SYtDNyhH08CwsoaIQgoQIHUNk3dHEnGMpwoc=;
+ b=d97PuUgtSaDXxIPP7t+mMrUZrUOugoo6pBoqmTkmKxG3QzuvUOBB2esaE8/HF9BF5T4nOQvGf7AIxsb0h0gGD7k396wkEN6XIWzxGQnfgtq3znbwGqmYuzeL9euVnGompbxQV9JCdcMuerKMKLqXUiiPxFrEaLnY66jhHhLNAMI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com (2603:1096:202:2f::10)
+ by HK0PR06MB2100.apcprd06.prod.outlook.com (2603:1096:203:49::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.15; Tue, 16 Nov
+ 2021 06:41:39 +0000
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::814a:4668:a3bd:768]) by HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::814a:4668:a3bd:768%7]) with mapi id 15.20.4690.027; Tue, 16 Nov 2021
+ 06:41:39 +0000
+From: Guo Zhengkui <guozhengkui@vivo.com>
+To: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Guo Zhengkui <guozhengkui@vivo.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: kernel@vivo.com
+Subject: [PATCH] staging: r8188eu: fix array_size.cocci warning
+Date: Tue, 16 Nov 2021 14:41:06 +0800
+Message-Id: <20211116064124.8833-1-guozhengkui@vivo.com>
+X-Mailer: git-send-email 2.20.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR0302CA0014.apcprd03.prod.outlook.com
+ (2603:1096:202::24) To HK2PR06MB3492.apcprd06.prod.outlook.com
+ (2603:1096:202:2f::10)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] staging: r8188eu: remove unused defines in wifi.h
-Content-Language: en-US
-To: Zameer Manji <zmanji@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>,
- Michael Straube <straube.linux@gmail.com>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211116011451.896714-1-zmanji@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211116011451.896714-1-zmanji@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from localhost.localdomain (203.90.234.87) by HK2PR0302CA0014.apcprd03.prod.outlook.com (2603:1096:202::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.16 via Frontend Transport; Tue, 16 Nov 2021 06:41:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: aafc597d-baea-4a77-9a91-08d9a8cc247d
+X-MS-TrafficTypeDiagnostic: HK0PR06MB2100:
+X-Microsoft-Antispam-PRVS:
+	<HK0PR06MB210088A088EF4CF73A6562D6C7999@HK0PR06MB2100.apcprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	g/U6gSPzgVw+4sfbKWebz3LNM8EyCQkj250XIGsXhjejjqdXDhlBHoQWXb7X2tQeyY6nZl/S8uwYDSGukvlDDO2mg2uZlj4tM2oWYfcRCPCFHx37yqxoLxJWRj01L0A2ycKMhqGKuA9ASFnZIRvwVyhnYcKnSy9LsHGUNqVfjGf4DvhvOwxfltQTa++XbqylhlMZ+ZKGdHQWQUdeXN+IQ7wvPJ84n8hsxJiNLsmFEcJkfZe5PCpTAWZTKbPdkfkht4JIlElYFYpNHQpv2xOQtPIF/Wj9hD08dPsm60kyJ+jPLltwTcZkS4yMA8v3TwC3K7b9Ylt5B/jF+yCIp86gv99ZJIvQKfYCMJnkkdXvb5gvcaGDyQt3+jn5e7xYKAqI8fCvSacCkVu146fPcyfWtUQt3KYBVbu2yl6pK/TeIcrIjlHKx+SpjOh/S70Kud9GmLkal3AtldNW4Cy8UMyMOO7hNB6bSV+AyqyQ6OVkcpv8yQT/Xyj3eL4kJEFxJjhe64ZuaczFGcNTlEqUDcTkj8vaDJyNQP1MRymemjIV+QQpSNPtAavQJ6rQ8e8Cm9AZNyH0BDUIoi826OE+M+aFedYu7/FJHk5uUyMZ+opkwEeW3Rv83+b3Ix+ZPhc83n52RuAtkE93UjC05Sf68YzZ+YVCvuQR62M8TO0FiX1TSq6fIKOiWux6SH71qjLoy9ujYFp+dZCjm9vKXxqOv0L5Dg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK2PR06MB3492.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(8936002)(83380400001)(66476007)(26005)(186003)(66946007)(38100700002)(508600001)(316002)(66556008)(38350700002)(8676002)(6486002)(5660300002)(1076003)(4326008)(6666004)(110136005)(86362001)(6506007)(52116002)(107886003)(36756003)(4744005)(2616005)(2906002)(6512007)(956004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0SjT4vZrVDluX6zlSIIvjkpbTIPcQexsPJsKq8i+U0l32M3JCpLneBtfkWXc?=
+ =?us-ascii?Q?rI0mZw1ohj2elK84d9yO0PJfrw5jGOXNdiuAMDbnkFTUi2IcEhD9Z8PbWi+i?=
+ =?us-ascii?Q?yW39Zs4IAWGNeLBZPZaWQz3nrJ2v9g/PMLffc+OXFYfr3pcuZUF8iVlSYyJj?=
+ =?us-ascii?Q?2+ebL0liXnxhp0KJGqN9JvHOU8OukHjDrRiZE2jdESaCIYVzZhAKwyKoaVpc?=
+ =?us-ascii?Q?81AOqBiO5Yc8BgJUgOY2qDFjAT15/v02sjTtrfnN/R4FmljCU3PI0t/yUU+a?=
+ =?us-ascii?Q?F0zc/xsUMW9SxeC8jQXjNqWmTtCkEPwf4Pr3iYgHiJZL+IfB1YAmfM0SuqBh?=
+ =?us-ascii?Q?asHWQwgclHqFWkggD35w7uu0q4+q7jZw/dgFF7P8RrhcfX2P1p93WHZss9RO?=
+ =?us-ascii?Q?MpqzPFIZdADUdXJCeMjqPWGkec1x6YCVaoIpJxT8jEvKgBgwN41suM9VnB9j?=
+ =?us-ascii?Q?IkBgLleOdkI8LOobiKuu+yARS/PpYo2Q0/IGiNRAe4YKgHblwdDkJ4Rlh20A?=
+ =?us-ascii?Q?sK06OjG9r/v/7P0dXbkGYxXU05czxj07XMWTFoqd0+8QMm7uqfliwoaHlXCe?=
+ =?us-ascii?Q?BK6umM9FPcR6RJX+ZqMzedIiWt9vYpIH+kJsrON+qJItoP6Re65xrV/7ybj1?=
+ =?us-ascii?Q?iVS5pT4nHY/byGV718Mx8qXa9wSL8buhXMcEp1GhqD7JOY7kg1/79/EqBU9J?=
+ =?us-ascii?Q?9i6080IVmBopCyywLByldVts+7Z0Uv/NYuwF7hETcb4bYzZGNHd8amikCyV5?=
+ =?us-ascii?Q?6C1mLuHiJNoHj0tiLyFu3taksNTeaWKEuFS+1MaevZuLMTA+J5r8QrhwuE/g?=
+ =?us-ascii?Q?44qxoRoG2YpjsDb4mJ3yNgDBi7TMZjrhBVkLNG0ujO3E7dxuI1jbWtUU0/jc?=
+ =?us-ascii?Q?PVAg6kuuaLFRx7jjI6as2ShjXJXVg/8+5qw/Rva6Q+bg5KnMOVbQRiuyEvax?=
+ =?us-ascii?Q?yuCpcCw2EUzipQ3ID4/sRvldKi6unXz9tQQY7p2LPNuVG3iZCgVMNi5kRHkh?=
+ =?us-ascii?Q?cxvCqrmcXOKnAdRSMu3NJ5082O0vOu4BDiFzV80iX863CIM4ddd7PTuWpAf2?=
+ =?us-ascii?Q?ENY0tEHAxZsy2F57+j4k+q0+MEIbp4t2BSoXC94XEhM1yZsY84zwioska/7R?=
+ =?us-ascii?Q?1hMWddwAy+doMuRQLpO0TY4NS5o/Iyhktn/Mpl9NE4tpkNEW7CyXNHtM/XvX?=
+ =?us-ascii?Q?Uebcuq6fL1jX5mPAbD3cSOMqSIpkNcN5BDDksBUSRa/lVHzsrtn1yOi+DSwv?=
+ =?us-ascii?Q?TzfM6lAVxjfYqFfkLS62qKpazpUzrb+hobkPjX9lZpMX6+VjjIg6dkQJxzUq?=
+ =?us-ascii?Q?+g4D4pT7cUUczpkCHlLHzP4cJHlz4tBNBqMw07gFGLE3RfWl4H9Sv2k/ZS0T?=
+ =?us-ascii?Q?xQ2No83pHlz9zE4hl0WQfgtYT80r89IQMNu1x7GHAXKGczEA4DJN+P4ipwhK?=
+ =?us-ascii?Q?o394F2KJTVdLZiDyfc6PWITMTfYsrAzA2BxLl6NKdYewW+vMDwAZZjqnX6TV?=
+ =?us-ascii?Q?XReecvFJf/gT6WZyiCejtuGtkwtZ4t4BpNYv0KcvDraQbsm4j6En0HkzJTdh?=
+ =?us-ascii?Q?3EGGHj7W1bBve4rODbLRVGFlpThhoCXrcELmfbnj4SDJhsZ596V1cG2THHMo?=
+ =?us-ascii?Q?IODcL9IMLTxxpSO6kSkGh2k=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aafc597d-baea-4a77-9a91-08d9a8cc247d
+X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3492.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 06:41:39.0201
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +JA4jSWyCXv5Jx3mMkA2Av/6nFKwLYvPi5UZEnkO9n9SCTLyW2XaF7RARVVu+qubyTUGD7lVg6sT6oQebdhS6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2100
 
-On 11/16/21 04:14, Zameer Manji wrote:
-> None of these defines in wifi.h are used so they
-> can be safely removed.
-> 
-> Signed-off-by: Zameer Manji <zmanji@gmail.com>
-> ---
->   drivers/staging/r8188eu/include/wifi.h | 57 --------------------------
->   1 file changed, 57 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/include/wifi.h b/drivers/staging/r8188eu/include/wifi.h
-> index 193a557f0f47..7cbc7015e90f 100644
-> --- a/drivers/staging/r8188eu/include/wifi.h
-> +++ b/drivers/staging/r8188eu/include/wifi.h
-> @@ -13,32 +13,9 @@
->   #define BIT(x)	(1 << (x))
+Fix following array_size.cocci warning:
+./drivers/staging/r8188eu/core/rtw_rf.c:38:48-49: WARNING: Use ARRAY_SIZE.
 
-What about BIT() macro? It's already defined in include/vdso/bits.h and 
-can be included via include/bits.h.
+ARRAY_SIZE() defined in <linux/kernel.h> is safer because it uses
+__must_be_array().
 
-Most likely linux/ieee80211.h contains bits.h. Haven't checked yet, but 
-anyway redefining kernel macros is not good approach and BIT() can be 
-also removed.
+Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
+---
+ drivers/staging/r8188eu/core/rtw_rf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/r8188eu/core/rtw_rf.c b/drivers/staging/r8188eu/core/rtw_rf.c
+index 2ec56012516e..e704092d31d0 100644
+--- a/drivers/staging/r8188eu/core/rtw_rf.c
++++ b/drivers/staging/r8188eu/core/rtw_rf.c
+@@ -35,7 +35,7 @@ static struct ch_freq ch_freq_map[] = {
+ 	{216, 5080},/* Japan, means J16 */
+ };
+ 
+-static int ch_freq_map_num = (sizeof(ch_freq_map) / sizeof(struct ch_freq));
++static int ch_freq_map_num = ARRAY_SIZE(ch_freq_map);
+ 
+ u32 rtw_ch2freq(u32 channel)
+ {
+-- 
+2.20.1
 
-
-With regards,
-Pavel Skripkin
