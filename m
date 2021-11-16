@@ -1,23 +1,23 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFCB2CAD
-	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CD18363245;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FE12CA5
+	for <linux-staging@lists.linux.dev>; Tue, 16 Nov 2021 11:29:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B962863236;
 	Tue, 16 Nov 2021 11:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1637062149;
-	bh=9dZMW3J9NI4LAzKLdcY4OH98nWaufQoIxA6ewECyw5M=;
+	bh=+eQUm8YlELY5QQ8VHElpip3gm5F0shsJO9PkjxNiU08=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ef8E2b7Fzqw6FAto7cr2Ifmgg2An0hm/fRqUU7apU3lcNdQKn8s6uPWfN1HKIbhD6
-	 rC4p1Ak60fw6I8A+GrwuAlsFj8k1R0XhMz2ZpRIgAnYRcECXOR+RvVnYrb/ObI5pD4
-	 4UXb6WoBBxAd85Uz9z1GEdLR9JhmA6E6jWT7fU7AGhuMuJGP89lApCysyE7DctGtgM
-	 9HMM6XncOzhL6RTjbDRaLQ0boKjN4iHTbv173Tk2lZw8cIr4tPBbQwqRSBLnWl0kgJ
-	 2LvBb+ChNc5MR6XCyXKfMYDylElMja8q1aEpBwzMjLGTX2uvGkwKRwLj+aD3TiBG9V
-	 oqrA+cSXOj10Q==
+	b=awTY3xFaTehKYBeVdMT4/GAk05+j5HqrxRM9tU5ovD6Uztfozc7HLJbMKVS4+KMFc
+	 DM4nP53BZUm4JifHPeJGa24HtGMxRq1wpOJyCwIlELn2bnhU6j8zX/SfWU/TVz/TbO
+	 8vfAdbNU/1fGlK6GZ27cj7UJVgY10HmmrkQr4J8AdFr5iuR820tqOIlniMmvtxpM29
+	 utzpQVe/4O12ORyMjq6vmbbTcYG578GsLuh/m/gaNesMvsc5QpfD6Vjv7WambRjl3A
+	 /QgwR9ivxlhyrzYLumVFvcYYKUZfmBckVut6tY0phnZJeO58ZY53tT9Ai7gkJGCjPr
+	 t2PqY31FKR38A==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mmwe9-008Qfg-I8; Tue, 16 Nov 2021 11:29:05 +0000
+	id 1mmwe9-008Qfa-Gx; Tue, 16 Nov 2021 11:29:05 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
@@ -25,21 +25,24 @@ Cc: linuxarm@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
 	Alexey Dobriyan <adobriyan@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
 	Deepak R Varma <drv@mailo.com>,
+	Ding Xiang <dingxiang@cmss.chinamobile.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Martiros Shakhzadyan <vrzh@vrzh.net>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yang Li <abaci-bugfix@linux.alibaba.com>,
+	Zheng Yongjun <zhengyongjun3@huawei.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 12/23] media: atomisp: remove #ifdef SH_CSS_ENABLE_METADATA
-Date: Tue, 16 Nov 2021 11:28:53 +0000
-Message-Id: <e712f9af1aa7cebfc4154c1676b5fc4cdc69a460.1637061474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 10/23] media: atomisp: drop #ifdef SH_CSS_ENABLE_PER_FRAME_PARAMS
+Date: Tue, 16 Nov 2021 11:28:51 +0000
+Message-Id: <cf9d37dbae4b3673ce0e6573fb2cab5e1ec00cfe.1637061474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637061474.git.mchehab+huawei@kernel.org>
 References: <cover.1637061474.git.mchehab+huawei@kernel.org>
@@ -52,7 +55,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-The chosen firmware has it enabled, so, drop this symbol.
+This is enabled for the firmware we're using. So, just drop
+the if's.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -60,196 +64,192 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/23] at: https://lore.kernel.org/all/cover.1637061474.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/sh_css.c          | 12 ------------
- drivers/staging/media/atomisp/pci/sh_css_internal.h | 12 +-----------
- drivers/staging/media/atomisp/pci/sh_css_sp.c       | 13 -------------
- 3 files changed, 1 insertion(+), 36 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c      |  4 ----
+ .../staging/media/atomisp/pci/sh_css_internal.h |  2 --
+ .../staging/media/atomisp/pci/sh_css_params.c   | 17 -----------------
+ drivers/staging/media/atomisp/pci/sh_css_sp.c   |  2 --
+ .../staging/media/atomisp/pci/system_global.h   |  3 ---
+ 5 files changed, 28 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index c3f08c69f36d..1f0b941de71f 100644
+index 3a347b72e4bd..6d3c4a0558e1 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css.c
 +++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -10195,9 +10195,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
--#if defined SH_CSS_ENABLE_METADATA
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
--#endif
- 		if (pipe->pipe_settings.preview.preview_binary.info &&
- 		    pipe->pipe_settings.preview.preview_binary.info->sp.enable.s3a)
- 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_3A_STATISTICS, map);
-@@ -10210,9 +10208,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
--#if defined SH_CSS_ENABLE_METADATA
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
--#endif
- 		if (pipe->config.default_capture_config.mode == IA_CSS_CAPTURE_MODE_PRIMARY) {
- 			for (i = 0; i < pipe->pipe_settings.capture.num_primary_stage; i++) {
- 				if (pipe->pipe_settings.capture.primary_binary[i].info &&
-@@ -10237,9 +10233,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
- 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_VF_OUTPUT_FRAME, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
--#if defined SH_CSS_ENABLE_METADATA
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
--#endif
- 		if (pipe->pipe_settings.video.video_binary.info &&
- 		    pipe->pipe_settings.video.video_binary.info->sp.enable.s3a)
- 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_3A_STATISTICS, map);
-@@ -10252,18 +10246,14 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
- 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
- 		if (!pipe->stream->config.continuous)
- 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
--#if defined SH_CSS_ENABLE_METADATA
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
--#endif
- 	} else if (pipe->mode == IA_CSS_PIPE_ID_ACC) {
- 		if (need_input_queue)
- 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET, map);
--#if defined SH_CSS_ENABLE_METADATA
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
--#endif
- 	} else if (pipe->mode == IA_CSS_PIPE_ID_YUVPP) {
- 		unsigned int idx;
- 
-@@ -10275,9 +10265,7 @@ void ia_css_pipe_map_queue(struct ia_css_pipe *pipe, bool map)
- 		if (need_input_queue)
- 			ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_INPUT_FRAME, map);
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_PARAMETER_SET, map);
--#if defined SH_CSS_ENABLE_METADATA
- 		ia_css_queue_map(thread_id, IA_CSS_BUFFER_TYPE_METADATA, map);
+@@ -4154,14 +4154,12 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
+ 		return_err = ia_css_bufq_enqueue_buffer(thread_id,
+ 							queue_id,
+ 							(uint32_t)h_vbuf->vptr);
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ 		if (!return_err &&
+ 		    buf_type == IA_CSS_BUFFER_TYPE_OUTPUT_FRAME) {
+ 			IA_CSS_LOG("pfp: enqueued OF %d to q %d thread %d",
+ 				   ddr_buffer.payload.frame.frame_data,
+ 				   queue_id, thread_id);
+ 		}
 -#endif
  	}
- 	IA_CSS_LEAVE("");
- }
+ 
+ 	if (!return_err) {
+@@ -4364,12 +4362,10 @@ ia_css_pipe_dequeue_buffer(struct ia_css_pipe *pipe,
+ 					    sh_css_sp_get_binary_copy_size();
+ #endif
+ 				}
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ 				if (buf_type == IA_CSS_BUFFER_TYPE_OUTPUT_FRAME) {
+ 					IA_CSS_LOG("pfp: dequeued OF %d with config id %d thread %d",
+ 						   frame->data, frame->isp_config_id, thread_id);
+ 				}
+-#endif
+ 
+ 				ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
+ 						    "ia_css_pipe_dequeue_buffer() buf_type=%d, data(DDR address)=0x%x\n",
 diff --git a/drivers/staging/media/atomisp/pci/sh_css_internal.h b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-index 87ac3ea15dfc..735540eceb37 100644
+index f26df3f44a7a..87ac3ea15dfc 100644
 --- a/drivers/staging/media/atomisp/pci/sh_css_internal.h
 +++ b/drivers/staging/media/atomisp/pci/sh_css_internal.h
-@@ -86,12 +86,6 @@
- #define SH_CSS_MAX_IF_CONFIGS	3 /* Must match with IA_CSS_NR_OF_CONFIGS (not defined yet).*/
- #define SH_CSS_IF_CONFIG_NOT_NEEDED	0xFF
- 
--#define SH_CSS_ENABLE_METADATA
--
--#if defined(SH_CSS_ENABLE_METADATA) && !defined(ISP2401)
--#define SH_CSS_ENABLE_METADATA_THREAD
--#endif
--
- /*
-  * SH_CSS_MAX_SP_THREADS:
-  *	 sp threads visible to host with connected communication queues
-@@ -101,7 +95,7 @@
-  *	 these threads can't be used as image pipe
-  */
- 
--#if defined(SH_CSS_ENABLE_METADATA_THREAD)
-+#if !defined(ISP2401)
- #define SH_CSS_SP_INTERNAL_METADATA_THREAD	1
- #else
- #define SH_CSS_SP_INTERNAL_METADATA_THREAD	0
-@@ -526,7 +520,6 @@ struct sh_css_sp_pipeline {
- 				  this struct; needs cleanup */
- 	s32 num_execs; /* number of times to run if this is
- 			      an acceleration pipe. */
--#if defined(SH_CSS_ENABLE_METADATA)
- 	struct {
- 		u32        format;   /* Metadata format in hrt format */
- 		u32        width;    /* Width of a line */
-@@ -535,7 +528,6 @@ struct sh_css_sp_pipeline {
- 		u32        size;     /* Total size (in bytes) */
+@@ -536,9 +536,7 @@ struct sh_css_sp_pipeline {
  		ia_css_ptr    cont_buf; /* Address of continuous buffer */
  	} metadata;
--#endif
+ #endif
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
  	u32	output_frame_queue_id;
+-#endif
  	union {
  		struct {
-@@ -570,9 +562,7 @@ struct ia_css_frames_sp {
- 	struct ia_css_frame_sp_info internal_frame_info;
- 	struct ia_css_buffer_sp s3a_buf;
- 	struct ia_css_buffer_sp dvs_buf;
--#if defined SH_CSS_ENABLE_METADATA
- 	struct ia_css_buffer_sp metadata_buf;
+ 			u32	bytes_available;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index b3ef6b4c3225..448b07162382 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -731,13 +731,11 @@ sh_css_set_global_isp_config_on_pipe(
+     const struct ia_css_isp_config *config,
+     struct ia_css_pipe *pipe);
+ 
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ static int
+ sh_css_set_per_frame_isp_config_on_pipe(
+     struct ia_css_stream *stream,
+     const struct ia_css_isp_config *config,
+     struct ia_css_pipe *pipe);
 -#endif
- };
- 
- /* Information for a single pipeline stage for an ISP */
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 4a0206f564c9..778639f391cb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -330,9 +330,7 @@ sh_css_sp_start_isys_copy(struct ia_css_frame *out_frame,
- 	unsigned int thread_id;
- 	u8 stage_num = 0;
- 	struct sh_css_sp_pipeline *pipe;
--#if defined SH_CSS_ENABLE_METADATA
- 	enum sh_css_queue_id queue_id;
--#endif
- 
- 	assert(out_frame);
- 
-@@ -372,7 +370,6 @@ sh_css_sp_start_isys_copy(struct ia_css_frame *out_frame,
- 
- 	set_output_frame_buffer(out_frame, 0);
- 
--#if defined SH_CSS_ENABLE_METADATA
- 	if (pipe->metadata.height > 0) {
- 		ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_METADATA, thread_id,
- 					       &queue_id);
-@@ -380,7 +377,6 @@ sh_css_sp_start_isys_copy(struct ia_css_frame *out_frame,
- 						    queue_id, mmgr_EXCEPTION,
- 						    IA_CSS_BUFFER_TYPE_METADATA);
- 	}
--#endif
- 
- 	ia_css_debug_pipe_graph_dump_sp_raw_copy(out_frame);
- }
-@@ -904,9 +900,7 @@ initialize_stage_frames(struct ia_css_frames_sp *frames)
- 	initialize_frame_buffer_attribute(&frames->out_vf.buf_attr);
- 	initialize_frame_buffer_attribute(&frames->s3a_buf);
- 	initialize_frame_buffer_attribute(&frames->dvs_buf);
--#if defined SH_CSS_ENABLE_METADATA
- 	initialize_frame_buffer_attribute(&frames->metadata_buf);
--#endif
- }
  
  static int
-@@ -1032,10 +1026,8 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 						    mmgr_EXCEPTION,
- 						    IA_CSS_BUFFER_TYPE_DIS_STATISTICS);
- 	}
--#if defined SH_CSS_ENABLE_METADATA
- 	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_METADATA, thread_id, &queue_id);
- 	sh_css_copy_buffer_attr_to_spbuffer(&sh_css_sp_stage.frames.metadata_buf, queue_id, mmgr_EXCEPTION, IA_CSS_BUFFER_TYPE_METADATA);
+ sh_css_update_uds_and_crop_info_based_on_zoom_region(
+@@ -1905,11 +1903,9 @@ ia_css_stream_set_isp_config_on_pipe(
+ 
+ 	IA_CSS_ENTER("stream=%p, config=%p, pipe=%p", stream, config, pipe);
+ 
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ 	if (config->output_frame)
+ 		err = sh_css_set_per_frame_isp_config_on_pipe(stream, config, pipe);
+ 	else
 -#endif
- 	if (err)
- 		return err;
+ 		err = sh_css_set_global_isp_config_on_pipe(stream->pipes[0], config, pipe);
  
-@@ -1304,7 +1296,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 	}
- 	sh_css_sp_group.pipe[thread_id].scaler_pp_lut = sh_css_pipe_get_pp_gdc_lut(pipe);
+ 	IA_CSS_LEAVE_ERR(err);
+@@ -1930,11 +1926,9 @@ ia_css_pipe_set_isp_config(struct ia_css_pipe *pipe,
  
--#if defined(SH_CSS_ENABLE_METADATA)
- 	if (md_info && md_info->size > 0) {
- 		sh_css_sp_group.pipe[thread_id].metadata.width  = md_info->resolution.width;
- 		sh_css_sp_group.pipe[thread_id].metadata.height = md_info->resolution.height;
-@@ -1314,10 +1305,6 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
- 		    md_config->data_type, MIPI_PREDICTOR_NONE,
- 		    &sh_css_sp_group.pipe[thread_id].metadata.format);
- 	}
+ 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE, "config=%p\n", config);
+ 
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ 	if (config->output_frame)
+ 		err = sh_css_set_per_frame_isp_config_on_pipe(pipe->stream, config, pipe);
+ 	else
+-#endif
+ 		err = sh_css_set_global_isp_config_on_pipe(pipe, config, pipe_in);
+ 	IA_CSS_LEAVE_ERR(err);
+ 	return err;
+@@ -1969,7 +1963,6 @@ sh_css_set_global_isp_config_on_pipe(
+ 	return err;
+ }
+ 
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ static int
+ sh_css_set_per_frame_isp_config_on_pipe(
+     struct ia_css_stream *stream,
+@@ -2039,7 +2032,6 @@ sh_css_set_per_frame_isp_config_on_pipe(
+ 	IA_CSS_LEAVE_ERR_PRIVATE(err);
+ 	return err;
+ }
+-#endif
+ 
+ static int
+ sh_css_init_isp_params_from_config(struct ia_css_pipe *pipe,
+@@ -3253,15 +3245,10 @@ sh_css_param_update_isp_params(struct ia_css_pipe *curr_pipe,
+ 		isp_pipe_version = ia_css_pipe_get_isp_pipe_version(pipe);
+ 		ia_css_pipeline_get_sp_thread_id(pipe_num, &thread_id);
+ 
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ 		ia_css_query_internal_queue_id(params->output_frame
+ 					       ? IA_CSS_BUFFER_TYPE_PER_FRAME_PARAMETER_SET
+ 					       : IA_CSS_BUFFER_TYPE_PARAMETER_SET,
+ 					       thread_id, &queue_id);
 -#else
--	(void)md_config;
--	(void)md_info;
+-		ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_PARAMETER_SET, thread_id,
+-					       &queue_id);
 -#endif
+ 		if (!sh_css_sp_is_running()) {
+ 			/* SP is not running. The queues are not valid */
+ 			err = -EBUSY;
+@@ -3357,12 +3344,10 @@ sh_css_param_update_isp_params(struct ia_css_pipe *curr_pipe,
+ 		err = ia_css_bufq_enqueue_buffer(thread_id, queue_id, (uint32_t)cpy);
+ 		if (err) {
+ 			free_ia_css_isp_parameter_set_info(cpy);
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ 			IA_CSS_LOG("pfp: FAILED to add config id %d for OF %d to q %d on thread %d",
+ 				   isp_params_info.isp_parameters_id,
+ 				   isp_params_info.output_frame_ptr,
+ 				   queue_id, thread_id);
+-#endif
+ 			break;
+ 		} else {
+ 			/* TMP: check discrepancy between nr of enqueued
+@@ -3384,12 +3369,10 @@ sh_css_param_update_isp_params(struct ia_css_pipe *curr_pipe,
+ 			    (uint8_t)thread_id,
+ 			    (uint8_t)queue_id,
+ 			    0);
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
+ 			IA_CSS_LOG("pfp: added config id %d for OF %d to q %d on thread %d",
+ 				   isp_params_info.isp_parameters_id,
+ 				   isp_params_info.output_frame_ptr,
+ 				   queue_id, thread_id);
+-#endif
+ 		}
+ 		/* clean-up old copy */
+ 		ia_css_dequeue_param_buffers(/*pipe_num*/);
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+index ff7c2c5fd94d..4a0206f564c9 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+@@ -1319,14 +1319,12 @@ sh_css_sp_init_pipeline(struct ia_css_pipeline *me,
+ 	(void)md_info;
+ #endif
  
+-#if defined(SH_CSS_ENABLE_PER_FRAME_PARAMS)
  	sh_css_sp_group.pipe[thread_id].output_frame_queue_id = (uint32_t)SH_CSS_INVALID_QUEUE_ID;
  	if (pipe_id != IA_CSS_PIPE_ID_COPY) {
+ 		ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_OUTPUT_FRAME, thread_id,
+ 					       (enum sh_css_queue_id *)(
+ 						   &sh_css_sp_group.pipe[thread_id].output_frame_queue_id));
+ 	}
+-#endif
+ 
+ 	IA_CSS_LOG("pipe_id %d port_config %08x",
+ 		   pipe_id, sh_css_sp_group.pipe[thread_id].inout_port_config);
+diff --git a/drivers/staging/media/atomisp/pci/system_global.h b/drivers/staging/media/atomisp/pci/system_global.h
+index 9b22b8c168be..060b924023ec 100644
+--- a/drivers/staging/media/atomisp/pci/system_global.h
++++ b/drivers/staging/media/atomisp/pci/system_global.h
+@@ -25,9 +25,6 @@
+  * N.B. the 3 input formatters are of 2 different classess
+  */
+ 
+-/* per-frame parameter handling support */
+-#define SH_CSS_ENABLE_PER_FRAME_PARAMS
+-
+ #define DMA_DDR_TO_VAMEM_WORKAROUND
+ #define DMA_DDR_TO_HMEM_WORKAROUND
+ 
 -- 
 2.33.1
 
