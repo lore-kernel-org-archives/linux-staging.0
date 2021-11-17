@@ -1,93 +1,74 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B982C82
-	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 09:54:07 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4514661504;
-	Wed, 17 Nov 2021 09:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67092C89
+	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 09:56:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45D4261BF9;
+	Wed, 17 Nov 2021 09:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637142847;
-	bh=+zxN20/5znRjh88KZaCtOQPVCBZVkwSroT6dfnYe1i0=;
-	h=Date:From:Cc:Subject:In-Reply-To:References:From;
-	b=WJmvs5m3diIYeiS80EbsAN/hYPtl79aihs2COBEUw2F1RnDerxz2i/FPdayv3SMNL
-	 Sr5OZ1Dff5CUk110BjWreZdI2v94K7Tg5D4GdTmrZWWb2d8Y5nL/e71fCDphYMKuVp
-	 wYtTy3xvQAJQqlr8B9Q2eyQf96d1kl5274pKJBiOcrFCP9P5DBhDeOWxtrWJWFWmyH
-	 sB55A/odaIUTfYpA/4kCwJtG/niIBm60JPfEZnXR9/itlZqu20pNHxnaQs5xiBNYDH
-	 57/xG9oASpEcEWKDjMpUFYFZ7woIAyF7oAUFCBEKvH68atkRYYuyGF+1J9H0tLyIov
-	 Omx31+yG257pA==
-Date: Wed, 17 Nov 2021 09:54:02 +0000
+	s=k20201202; t=1637143017;
+	bh=06QSVAS4ibv7oCGfjDhYM0EJbP+vMzdqoJg2ejHQ3o0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KCrtkT4ogqKJwl4JcnVBztXdCVBjiWxC+98DAQR/UckW+Srja55aJn8JJ7hsgVyCk
+	 ki/TVVGshfHQKooUs46QcCoPyNmM9urCf+Ze+Cs4Rp9RUhPaUJWrikvTWm66YsO35K
+	 MoKYXdMQdwclzUEubDnOmEdjRElEB9mhDA5qO75OKbrg4gzzPlJZ8hwerpLvj5XIKg
+	 ODON2UZh3vZDEUVHUHyoRNty9+LEudD9Vx18sX/zBtuv39EFgbT+E3j7gxJujjviMi
+	 PH8M/5UWSwKPPSBz9g67dt3GoZwecBNdAAmFl3z8fFMJUZck+mfWE18rzzsRFWFuba
+	 CpmBSHOvFu+7w==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1mnHgV-00DIUq-8e; Wed, 17 Nov 2021 09:56:55 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 12/13] media: atomisp: fix a bug when applying the
- binning factor
-Message-ID: <20211117095402.2b6cd0df@sal.lan>
-In-Reply-To: <8d41e31e14941b8a0352bd1e2a8c6c5e11c273ca.1637140900.git.mchehab+huawei@kernel.org>
-References: <cover.1637140900.git.mchehab+huawei@kernel.org>
-	<8d41e31e14941b8a0352bd1e2a8c6c5e11c273ca.1637140900.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 09/12] media: atomisp: get rid of #ifdef HAS_BL
+Date: Wed, 17 Nov 2021 09:56:51 +0000
+Message-Id: <c0a7df148e9d641c622c5ef807da449c99b7fabf.1637142905.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <cover.1637142905.git.mchehab+huawei@kernel.org>
+References: <cover.1637142905.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Em Wed, 17 Nov 2021 09:25:37 +0000
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+This does nothing but declare extern to a non-existing var.
 
-> The binning factor is actually a shift value, where 0 means
-> to not touch the value. This is propagated from the sensors'
-> properties:
-> 
-> 	.bin_factor_x
-> 	.bin_factor_y
-> 
-> At their resolution setting tables.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
 
-It turns that this actually not a bug. It is just that I reverted
-the logic on patch 08/13.
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH v2 00/12] at: https://lore.kernel.org/all/cover.1637142905.git.mchehab+huawei@kernel.org/
 
-So, I'll merge this one there and re-send this series.
+ drivers/staging/media/atomisp/pci/sh_css_firmware.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.h b/drivers/staging/media/atomisp/pci/sh_css_firmware.h
+index 66cd38f08f71..a73ce703adfb 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_firmware.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.h
+@@ -29,9 +29,6 @@ struct  sh_css_fw_bi_file_h {
+ };
+ 
+ extern struct ia_css_fw_info     sh_css_sp_fw;
+-#if defined(HAS_BL)
+-extern struct ia_css_fw_info     sh_css_bl_fw;
+-#endif /* HAS_BL */
+ extern struct ia_css_blob_descr *sh_css_blob_info;
+ extern unsigned int sh_css_num_binaries;
+ 
+-- 
+2.33.1
 
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1637140900.git.mchehab+huawei@kernel.org/
-> 
->  .../staging/media/atomisp/pci/sh_css_param_shading.c   | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-> index 90b5f9014c5e..005b0ab41588 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-> @@ -283,16 +283,16 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
->  	 * by cropping the non-binned part of the shading table and then
->  	 * increasing the size of a grid cell with this same binning factor.
->  	 */
-> -	input_width   *= sensor_binning;
-> -	input_height  *= sensor_binning;
-> +	input_width   <<= sensor_binning;
-> +	input_height  <<= sensor_binning;
->  	/*
->  	 * We also scale the padding by the same binning factor. This will
->  	 * make it much easier later on to calculate the padding of the
->  	 * shading table.
->  	 */
-> -	left_padding  *= sensor_binning;
-> -	right_padding *= sensor_binning;
-> -	top_padding   *= sensor_binning;
-> +	left_padding  <<= sensor_binning;
-> +	right_padding <<= sensor_binning;
-> +	top_padding   <<= sensor_binning;
->  
->  	/*
->  	 * during simulation, the used resolution can exceed the sensor
