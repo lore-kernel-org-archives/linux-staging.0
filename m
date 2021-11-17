@@ -1,276 +1,107 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB3E2C9E
-	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 09:25:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CFC1063214;
-	Wed, 17 Nov 2021 09:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637141142;
-	bh=V73MI/BChgm8hYCvohrJL80G5P1g7QeONIsqxwwzSQ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uOVxiymnjnaBM+sBbkSqR0qjMO+X7ak0/6hQIcLcBup5YngLQ5ogRzXfFJIqQkUgZ
-	 MMqXTyIfKslvWyADOY4cxDHO0fKWagWtoJ1tas0TvHGFD/ItTu2ETJPKPrXOGrV0m7
-	 fGtxfHstqQ573oO+LMzzSCvDahsFcFd35U+4MMV+vCVylv8DPIyndny3iCtQUeQpaX
-	 ori7c7svplY+4n1T2zuUzQ/qaEZANPqDYvuv642uSkJf5Tj+SDDqsiHIE2gLoDCmsP
-	 7Jat5BbGVo5/oo4qd6nPaee7rFyaWbdfgLnGlEtZmBKFKf/yCDPmhhjC9JjWjX8XxY
-	 ZvqMmdEYdxJTQ==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mnHCF-00Cb5p-8Q; Wed, 17 Nov 2021 09:25:39 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Deepak R Varma <drv@mailo.com>,
-	Ding Xiang <dingxiang@cmss.chinamobile.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Yang Li <abaci-bugfix@linux.alibaba.com>,
-	Zheng Yongjun <zhengyongjun3@huawei.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 05/13] media: atomisp: sh_css_params: remove tests for ISP2401
-Date: Wed, 17 Nov 2021 09:25:30 +0000
-Message-Id: <ca86b465c7230ce6e476840818ecb2be189faf02.1637140900.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <cover.1637140900.git.mchehab+huawei@kernel.org>
-References: <cover.1637140900.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4258A2C82
+	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 09:30:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by comms.puri.sm (Postfix) with ESMTP id 497BDE01BB;
+	Wed, 17 Nov 2021 01:29:56 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+	by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ig7WsEC-_5mb; Wed, 17 Nov 2021 01:29:55 -0800 (PST)
+Message-ID: <9be2623ed7d31b15e67932133d10312453423610.camel@puri.sm>
+Subject: Re: (EXT) [BUG] media: imx: imx7-media-csi issue with vb2 is
+ hanging / freezing the system
+From: Martin Kepplinger <martin.kepplinger@puri.sm>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ laurent.pinchart@ideasonboard.com, rmfrfs@gmail.com, slongerbeam@gmail.com,
+  p.zabel@pengutronix.de, mchehab@kernel.org
+Cc: linux-imx@nxp.com, kernel@puri.sm, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Date: Wed, 17 Nov 2021 10:29:48 +0100
+In-Reply-To: <BB893496-0F12-4A5D-AD1D-AB095D837709@puri.sm>
+References: <ab8929d22461300f0f167ab44e1b5c902dde5fcd.camel@puri.sm>
+	 <44e674de003a8b8ebce908cebf5ea35f32ddd6ab.camel@ew.tq-group.com>
+	 <BB893496-0F12-4A5D-AD1D-AB095D837709@puri.sm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Transfer-Encoding: 7bit
 
-Those tests are related to the input system, which is the same
-for the chosen firmware, so both ISP2400 and ISP2401 will be
-identical with that regards.
+Am Freitag, dem 12.11.2021 um 15:49 +0100 schrieb Martin Kepplinger:
+> 
+> 
+> Am 12. November 2021 13:40:43 MEZ schrieb Alexander Stein
+> <alexander.stein@ew.tq-group.com>:
+> > Hello Martin,
+> > 
+> > Am Freitag, dem 12.11.2021 um 12:23 +0100 schrieb Martin
+> > Kepplinger:
+> > > hi Laurent and all who it may concern,
+> > > 
+> > > Ever since I switches to using imx7-media-csi on imx8mq I have
+> > > seen a
+> > > bug that hangs /freezes the system so that I can't really save a
+> > > trace
+> > > or get logs for it. It happens not every time when starting
+> > > streaming,
+> > > but sometimes - when starting to stream frames.
+> > > 
+> > > It kind of looks like a lock not released or something similar,
+> > > but
+> > > some race condition might happen since it's happening every 2 to
+> > > 10
+> > > times.
+> > > 
+> > > For me, when it fails, it fails the first time when starting to
+> > > stream
+> > > after rebooting. If it succeeds that first time, it continues to
+> > > succeed, until I reboot.
+> > 
+> > When I read your description I was immediately reminded to this
+> > post on
+> > NXP forums [1].
+> > I do not know if this is what is happening to you, but it sounds
+> > somewhat similar. There is also an errata in post [2] describing
+> > some
+> > backgrounds. Later posts also describe that apparently only CSI
+> > port 1
+> > is affected, but CSI port 2 is not.
+> > Do you have the possibility to test CSI port 2?
+> 
+> yes but I can only say that csi port 2 behaves better while I have
+> seen a lockup there too. That too matches your links' issue
+> description. I dont have logs from port 2 yet.
+> 
+> Thanks a lot, there's at least something new to test I think. Let's
+> see whether a kernel thread would work instead of an m4 program.
+> 
+> But why haven't I ever seen the problem on the mx6s_capture nxp
+> driver? That doesn't fit the picture yet for me.
+> 
+> > 
+> > Best regards,
+> > Alexander
+> > 
+> > [1]
+> > https://community.nxp.com/t5/i-MX-Processors/IMX8MQ-MIPI-CSI2-Base-address-switching-change-error/m-p/1218063
+> > [2]
+> > https://community.nxp.com/t5/i-MX-Processors/IMX8MQ-MIPI-CSI2-Base-address-switching-change-error/m-p/1216509/highlight/true#M167970
+> > 
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+this seems to be fixed by
+https://lore.kernel.org/linux-media/20211117092710.3084034-1-martin.kepplinger@puri.sm/T/#t
 
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1637140900.git.mchehab+huawei@kernel.org/
+the issue described in the nxp forums should be taken care of by the
+underrun (or called "discard" in the nxp driver) buffer in the driver.
 
- .../staging/media/atomisp/pci/sh_css_params.c | 117 ++----------------
- 1 file changed, 8 insertions(+), 109 deletions(-)
+thank you!
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index 448b07162382..68d8f54473ea 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -104,15 +104,10 @@
- 	(sizeof(char) * (binary)->in_frame_info.res.height * \
- 	 (binary)->in_frame_info.padded_width)
- 
--#define ISP2400_SCTBL_BYTES(binary) \
-+#define SCTBL_BYTES(binary) \
- 	(sizeof(unsigned short) * (binary)->sctbl_height * \
- 	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
- 
--#define ISP2401_SCTBL_BYTES(binary) \
--	(sizeof(unsigned short) * max((binary)->sctbl_height, (binary)->sctbl_legacy_height) * \
--			/* height should be the larger height between new api and legacy api */ \
--	 (binary)->sctbl_aligned_width_per_color * IA_CSS_SC_NUM_COLORS)
--
- #define MORPH_PLANE_BYTES(binary) \
- 	(SH_CSS_MORPH_TABLE_ELEM_BYTES * (binary)->morph_tbl_aligned_width * \
- 	 (binary)->morph_tbl_height)
-@@ -1611,18 +1606,6 @@ ia_css_set_param_exceptions(const struct ia_css_pipe *pipe,
- 	params->dp_config.r  = params->wb_config.r;
- 	params->dp_config.b  = params->wb_config.b;
- 	params->dp_config.gb = params->wb_config.gb;
--
--	if (IS_ISP2401) {
--		assert(pipe);
--		assert(pipe->mode < IA_CSS_PIPE_ID_NUM);
--
--		if (pipe->mode < IA_CSS_PIPE_ID_NUM) {
--			params->pipe_dp_config[pipe->mode].gr = params->wb_config.gr;
--			params->pipe_dp_config[pipe->mode].r  = params->wb_config.r;
--			params->pipe_dp_config[pipe->mode].b  = params->wb_config.b;
--			params->pipe_dp_config[pipe->mode].gb = params->wb_config.gb;
--		}
--	}
- }
- 
- /* ISP2401 */
-@@ -2072,16 +2055,6 @@ sh_css_init_isp_params_from_config(struct ia_css_pipe *pipe,
- 	params->output_frame = config->output_frame;
- 	params->isp_parameters_id = config->isp_config_id;
- 
--	/* Currently we do not offer CSS interface to set different
--	 * configurations for DPC, i.e. depending on DPC being enabled
--	 * before (NORM+OBC) or after. The folllowing code to set the
--	 * DPC configuration should be updated when this interface is made
--	 * available */
--	if (IS_ISP2401) {
--		sh_css_set_dp_config(pipe, params, config->dp_config);
--		ia_css_set_param_exceptions(pipe, params);
--	}
--
- 	if (0 ==
- 	    sh_css_select_dp_10bpp_config(pipe, &is_dp_10bpp)) {
- 		/* return an error when both DPC and BDS is enabled by the
-@@ -2096,8 +2069,7 @@ sh_css_init_isp_params_from_config(struct ia_css_pipe *pipe,
- 		goto exit;
- 	}
- 
--	if (!IS_ISP2401)
--		ia_css_set_param_exceptions(pipe, params);
-+	ia_css_set_param_exceptions(pipe, params);
- 
- exit:
- 	IA_CSS_LEAVE_ERR_PRIVATE(err);
-@@ -2514,29 +2486,7 @@ sh_css_init_isp_params_from_global(struct ia_css_stream *stream,
- 		ia_css_set_ob_config(params, &default_ob_config);
- 		ia_css_set_dp_config(params, &default_dp_config);
- 
--		if (!IS_ISP2401) {
--			ia_css_set_param_exceptions(pipe_in, params);
--		} else {
--			for (i = 0; i < stream->num_pipes; i++) {
--				if (sh_css_select_dp_10bpp_config(stream->pipes[i],
--								&is_dp_10bpp) == 0) {
--					/* set the return value as false if both DPC and
--					* BDS is enabled by the user. But we do not return
--					* the value immediately to enable internal firmware
--					* feature testing. */
--					if (is_dp_10bpp) {
--						sh_css_set_dp_config(stream->pipes[i], params, &default_dp_10bpp_config);
--					} else {
--						sh_css_set_dp_config(stream->pipes[i], params, &default_dp_config);
--					}
--				} else {
--					retval = false;
--					goto exit;
--				}
--
--				ia_css_set_param_exceptions(stream->pipes[i], params);
--			}
--		}
-+		ia_css_set_param_exceptions(pipe_in, params);
- 
- 		ia_css_set_de_config(params, &default_de_config);
- 		ia_css_set_gc_config(params, &default_gc_config);
-@@ -2641,20 +2591,9 @@ sh_css_init_isp_params_from_global(struct ia_css_stream *stream,
- 				retval = false;
- 				goto exit;
- 			}
--			if (IS_ISP2401) {
--				if (stream->pipes[i]->mode < IA_CSS_PIPE_ID_NUM) {
--					sh_css_set_dp_config(stream->pipes[i], params,
--							    &stream_params->pipe_dp_config[stream->pipes[i]->mode]);
--					ia_css_set_param_exceptions(stream->pipes[i], params);
--				} else {
--					retval = false;
--					goto exit;
--				}
--			}
- 		}
- 
--		if (!IS_ISP2401)
--			ia_css_set_param_exceptions(pipe_in, params);
-+		ia_css_set_param_exceptions(pipe_in, params);
- 
- 		params->fpn_config.data = stream_params->fpn_config.data;
- 		params->config_changed[IA_CSS_FPN_ID] =
-@@ -2806,10 +2745,7 @@ int ia_css_pipe_set_bci_scaler_lut(struct ia_css_pipe *pipe,
- 	pipe->scaler_pp_lut = mmgr_NULL;
- 
- 	if (!stream_started) {
--		if (!IS_ISP2401)
--			pipe->scaler_pp_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
--		else
--			pipe->scaler_pp_lut = sh_css_params_alloc_gdc_lut();
-+		pipe->scaler_pp_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
- 
- 		if (pipe->scaler_pp_lut == mmgr_NULL) {
- 			ia_css_debug_dtrace(IA_CSS_DEBUG_ERROR,
-@@ -2851,10 +2787,7 @@ int sh_css_params_map_and_store_default_gdc_lut(void)
- 
- 	host_lut_store((void *)zoom_table);
- 
--	if (!IS_ISP2401)
--		default_gdc_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
--	else
--		default_gdc_lut = sh_css_params_alloc_gdc_lut();
-+	default_gdc_lut = hmm_alloc(sizeof(zoom_table), HMM_BO_PRIVATE, 0, NULL, 0);
- 
- 	if (default_gdc_lut == mmgr_NULL)
- 		return -ENOMEM;
-@@ -3450,18 +3383,12 @@ sh_css_params_write_to_ddr_internal(
- 
- 	if (binary->info->sp.enable.sc) {
- 		u32 enable_conv;
--		size_t bytes;
--
--		if (!IS_ISP2401)
--			bytes = ISP2400_SCTBL_BYTES(binary);
--		else
--			bytes = ISP2401_SCTBL_BYTES(binary);
- 
- 		enable_conv = params->shading_settings.enable_shading_table_conversion;
- 
- 		buff_realloced = reallocate_buffer(&ddr_map->sc_tbl,
- 						   &ddr_map_size->sc_tbl,
--						   bytes,
-+						   SCTBL_BYTES(binary),
- 						   params->sc_table_changed,
- 						   &err);
- 		if (err) {
-@@ -3546,28 +3473,6 @@ sh_css_params_write_to_ddr_internal(
- 		}
- 	}
- 
--	/* DPC configuration is made pipe specific to allow flexibility in positioning of the
--	 * DPC kernel. The code below sets the pipe specific configuration to
--	 * individual binaries. */
--	if (IS_ISP2401 &&
--	    params->pipe_dpc_config_changed[pipe_id] && binary->info->sp.enable.dpc) {
--		unsigned int size   =
--		    stage->binary->info->mem_offsets.offsets.param->dmem.dp.size;
--
--		unsigned int offset =
--		    stage->binary->info->mem_offsets.offsets.param->dmem.dp.offset;
--
--		if (size) {
--			ia_css_dp_encode((struct sh_css_isp_dp_params *)
--					 &binary->mem_params.params[IA_CSS_PARAM_CLASS_PARAM][IA_CSS_ISP_DMEM].address[offset],
--					 &params->pipe_dp_config[pipe_id], size);
--
--			params->isp_params_changed = true;
--			params->isp_mem_params_changed[pipe_id][stage->stage_num][IA_CSS_ISP_DMEM] =
--			    true;
--		}
--	}
--
- 	if (params->config_changed[IA_CSS_MACC_ID] && binary->info->sp.enable.macc) {
- 		unsigned int i, j, idx;
- 		unsigned int idx_map[] = {
-@@ -3649,13 +3554,7 @@ sh_css_params_write_to_ddr_internal(
- 			if (!params->pipe_dvs_6axis_config[pipe_id]) {
- 				struct ia_css_resolution dvs_offset = {0};
- 
--				if (!IS_ISP2401) {
--					dvs_offset.width = (PIX_SHIFT_FILTER_RUN_IN_X + binary->dvs_envelope.width) / 2;
--				} else {
--					if (binary->dvs_envelope.width || binary->dvs_envelope.height) {
--						dvs_offset.width  = (PIX_SHIFT_FILTER_RUN_IN_X + binary->dvs_envelope.width) / 2;
--					}
--				}
-+				dvs_offset.width = (PIX_SHIFT_FILTER_RUN_IN_X + binary->dvs_envelope.width) / 2;
- 				dvs_offset.height = (PIX_SHIFT_FILTER_RUN_IN_Y + binary->dvs_envelope.height) / 2;
- 
- 				params->pipe_dvs_6axis_config[pipe_id] =
--- 
-2.33.1
+                                 martin
+
 
