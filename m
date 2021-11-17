@@ -1,293 +1,98 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADE32C81
-	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 14:39:57 +0000 (UTC)
-Received: by mail-qt1-f174.google.com with SMTP id n15so2859159qta.0
-        for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 06:39:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD2C2C81
+	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 16:19:56 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id b40so11125067lfv.10
+        for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 08:19:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7h7Lt/b8pjCkn+yNnqb7aBRnrGz1ydzrcNdi9m9JZ9M=;
-        b=EUfs91+TNjJC5+7SR897mnLqjCs6X82LRkBRwPdjJHUY03ab8zGgpqAdHRDn+YIYBl
-         nhqfuuKSj1qoa+iy1Caio/1CQJO1TtqeBtmfkEMigPR5QDm0UYw+lVzFX8EaRfBREqqM
-         f67fW4tZ+ePmH/vevcpuGU1p94287ZT1RzjCmj+1K4+s1IiChEEwJaRLV8tZcFFJitEr
-         2FbjEYfEKwy8N3Lw9fzWNaF4ka+4U3rZjrgsoNY4s8utdWkAWCDsNb9O1nBa3SdYFCfP
-         Hf4BTNjgrT/kUZqX2QmqFkT3fwcgHVyc5o4RkMCEWXi3Y4+Ri9zxeMewgZPNPyZcpNcS
-         9ICA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=slbKKxQ/rurVnSEI57eisp+SX8JJlPjNvxx5V40UNkE=;
+        b=LPsSelLRXOQ7hXG/tGo1OT5PsrkKtigvlerFF01UNiGw0JbdtWtE7K/cRew90F6eIX
+         6dgo8N8lCplnzkxHPN8XOh3nzbfLlAlsucENgGpvIu4f5tOCEZ2CwdJj91kOTRiYFmT+
+         4hkT/UqDSayWKkllMAjcfAhQqCdMdVQItwOdIXOSZcrUYAFIQ4NYJyDr2Mw8dQamhJVJ
+         51S3H5wZT7aAP2mpukvg2mtyHnSc+cPvVZzdFYXzRwpXeDxGOvB0xGVWlRCHls1e6FgT
+         CIiLVIkBvpw4Nvvjfqa1IexQaqXU3RChbVEV+Z3nGjCm+u3nlYHqo3Rl+pNkoKzS8BWB
+         22tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=7h7Lt/b8pjCkn+yNnqb7aBRnrGz1ydzrcNdi9m9JZ9M=;
-        b=dh081zABRdvWYDjNsSoVvf58nNf36CFIrb1R7O0GEIDfTs6DxgqW37uQZtejKMipPA
-         aquHmtrQR04zzLv5enE4s2Pny6r2ZADADoIQUYKU8Tx/iDWvHje99mFGmb5d8MFmEj1V
-         SXaMzMWeS121AAEQ2BIV1dRA+CFNRK3fJbqWju7art4sPwBa1hdo87THxGJH6y9n+XG/
-         FxmLYvXkiONZ2DsLF6fD6on7N/fp20xJrpKhY9EPAkyQSx7jvmcnoxRI8XSCoC2woHsV
-         NwRySUifd+otQVVsZIXjmtZLMqe8ObDq5Emh6sxmTnu9IzIOtGJgwotZAO7u7YcuXptj
-         6L5A==
-X-Gm-Message-State: AOAM532mXQNkoL+4ih7mpUTyjTZGd2CnLABDM6wOhVx3dpKeXYVLYQ5j
-	dAPXJpBwmqSidQsJiw7DOc8=
-X-Google-Smtp-Source: ABdhPJyilmlMEPQ5hm2huOVKkoFwy4VZwD1b3VckdepObuDsNgY57prcjlveDpQzdcdS3Lk/IJETrQ==
-X-Received: by 2002:ac8:5a0b:: with SMTP id n11mr17649089qta.372.1637159996913;
-        Wed, 17 Nov 2021 06:39:56 -0800 (PST)
-Received: from localhost.localdomain (pool-98-113-42-30.nycmny.fios.verizon.net. [98.113.42.30])
-        by smtp.googlemail.com with ESMTPSA id c3sm10788698qkp.47.2021.11.17.06.39.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 06:39:56 -0800 (PST)
-From: Zameer Manji <zmanji@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Zameer Manji <zmanji@gmail.com>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: r8188eu: remove unused code in rtw_cmd.h
-Date: Wed, 17 Nov 2021 14:38:14 +0000
-Message-Id: <20211117143831.1511437-1-zmanji@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=slbKKxQ/rurVnSEI57eisp+SX8JJlPjNvxx5V40UNkE=;
+        b=7yP7TGcMJtUfLyl0wRSkU4fyWvZbrCym2H66nHbGvG9Cbnkkbyz3290S+WRpqGu+ar
+         +gu1FPTEdLg+Tev8XJtcwIjcreJCtuhyOHL57bmKvflTNqNdYmMU83fpD3bAcl38m6pT
+         1a4Vm1W1+8TG2gbA9Tc+N/V4KsOFNMw7V8PdjELEQt0RB5PmqJOYXX67YaqVdzEF4B5/
+         NDZ3GdF+RiwE5u/cDyAB0BAd4Vbd1GBxNsKYdEvlweceNkBjQv0185Vl3Q6R66OYSa5E
+         UwsWu8RdBrJplaFIHHoXk7jRHAyRc6pFixALR+ASRK2PU9yLd3a5Q8woD82Dond8e9Po
+         Npxg==
+X-Gm-Message-State: AOAM533cCm7SxdvJ0vRSZ8BKjwX+S3aN+N96RtZIiYDLhRRVq+f8Sd0N
+	dG5uceGB8qsZUidlao/gTEg=
+X-Google-Smtp-Source: ABdhPJyfq1oyCehVK/MehD7wcDla30T+6xOUXDqwqeTSENy6xeLdvMcR4ZoYf1tizTWRd8K1lJ7mmw==
+X-Received: by 2002:a2e:7216:: with SMTP id n22mr8926810ljc.44.1637165994488;
+        Wed, 17 Nov 2021 08:19:54 -0800 (PST)
+Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
+        by smtp.googlemail.com with ESMTPSA id m11sm32535ljc.108.2021.11.17.08.19.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Nov 2021 08:19:54 -0800 (PST)
+Subject: Re: [PATCH v1 1/3] media: staging: tegra-vde: Support reference
+ picture marking
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Anton Bambura <jenneron@protonmail.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20211114222353.22435-1-digetx@gmail.com>
+ <20211114222353.22435-2-digetx@gmail.com>
+ <42b24cd0-ac37-3cfe-1fb2-d6292015318a@gmail.com>
+ <20211115124402.GE26989@kadam>
+ <e4b9d596-d206-71d1-6ec5-1a41af579836@gmail.com>
+ <20211115154858.GG27562@kadam>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <89166c20-6b05-ed4b-ed45-451f4f1e10bc@gmail.com>
+Date: Wed, 17 Nov 2021 19:19:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20211115154858.GG27562@kadam>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-This patch removes unused code in rtw_cmd.h.
+15.11.2021 18:48, Dan Carpenter пишет:
+> On Mon, Nov 15, 2021 at 05:34:47PM +0300, Dmitry Osipenko wrote:
+>> 15.11.2021 15:44, Dan Carpenter пишет:
+>>> On Mon, Nov 15, 2021 at 01:34:18AM +0300, Dmitry Osipenko wrote:
+>>>> 15.11.2021 01:23, Dmitry Osipenko пишет:
+>>>>> +	vde->secure_bo = tegra_vde_alloc_bo(vde, DMA_FROM_DEVICE, 4096);
+>>>>> +	if (!vde->secure_bo) {
+>>>>> +		dev_err(dev, "Failed to allocate secure BO\n");
+>>>>> +		goto err_pm_runtime;
+>>>>> +	}
+>>>>
+>>>> My eye just caught that by accident err variable isn't assigned to
+>>>> -ENOMEM here. I'll make v2 shortly.
+>>>
+>>> Smatch has a check for this so we would have caught it.  :)
+>>
+>> Whish smatch was built-in into kernel and I could simply run "make
+>> smatch". On the other hand, I know that you're periodically checking
+>> upstream with smatch and patching the found bugs, so maybe it's fine
+>> as-is.
+> 
+> I run it every day, and it's integrated into the zero day bot and Mauro
+> runs it.  So someone would have caught it.
 
-Signed-off-by: Zameer Manji <zmanji@gmail.com>
----
- drivers/staging/r8188eu/include/rtw_cmd.h | 196 ----------------------
- 1 file changed, 196 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/include/rtw_cmd.h b/drivers/staging/r8188eu/include/rtw_cmd.h
-index 47c3c80cc24a..14e8a4c03449 100644
---- a/drivers/staging/r8188eu/include/rtw_cmd.h
-+++ b/drivers/staging/r8188eu/include/rtw_cmd.h
-@@ -8,13 +8,9 @@
- #include "rtw_rf.h"
- #include "rtw_led.h"
- 
--#define C2H_MEM_SZ (16*1024)
--
- #include "osdep_service.h"
- #include "ieee80211.h" /*  <ieee80211/ieee80211.h> */
- 
--#define FREE_CMDOBJ_SZ	128
--
- #define MAX_CMDSZ	1024
- #define MAX_RSPSZ	512
- #define MAX_EVTSZ	1024
-@@ -425,37 +421,6 @@ struct	getphy_rsp {
- 	u8	modem;
- };
- 
--struct readBB_parm {
--	u8	offset;
--};
--struct readBB_rsp {
--	u8	value;
--};
--
--struct readTSSI_parm {
--	u8	offset;
--};
--struct readTSSI_rsp {
--	u8	value;
--};
--
--struct writeBB_parm {
--	u8	offset;
--	u8	value;
--};
--
--struct readRF_parm {
--	u8	offset;
--};
--struct readRF_rsp {
--	u32	value;
--};
--
--struct writeRF_parm {
--	u32	offset;
--	u32	value;
--};
--
- struct getrfintfs_parm {
- 	u8	rfintfs;
- };
-@@ -523,167 +488,6 @@ struct drvextra_cmd_parm {
- 	unsigned char *pbuf;
- };
- 
--/*------------------- Below are used for RF/BB tunning ---------------------*/
--
--struct	setantenna_parm {
--	u8	tx_antset;
--	u8	rx_antset;
--	u8	tx_antenna;
--	u8	rx_antenna;
--};
--
--struct	enrateadaptive_parm {
--	u32	en;
--};
--
--struct settxagctbl_parm {
--	u32	txagc[MAX_RATES_LENGTH];
--};
--
--struct gettxagctbl_parm {
--	u32 rsvd;
--};
--struct gettxagctbl_rsp {
--	u32	txagc[MAX_RATES_LENGTH];
--};
--
--struct setagcctrl_parm {
--	u32	agcctrl;		/*  0: pure hw, 1: fw */
--};
--
--struct setssup_parm	{
--	u32	ss_ForceUp[MAX_RATES_LENGTH];
--};
--
--struct getssup_parm	{
--	u32 rsvd;
--};
--
--struct getssup_rsp	{
--	u8	ss_ForceUp[MAX_RATES_LENGTH];
--};
--
--struct setssdlevel_parm	{
--	u8	ss_DLevel[MAX_RATES_LENGTH];
--};
--
--struct getssdlevel_parm	{
--	u32 rsvd;
--};
--
--struct getssdlevel_rsp	{
--	u8	ss_DLevel[MAX_RATES_LENGTH];
--};
--
--struct setssulevel_parm	{
--	u8	ss_ULevel[MAX_RATES_LENGTH];
--};
--
--struct getssulevel_parm	{
--	u32 rsvd;
--};
--
--struct getssulevel_rsp	{
--	u8	ss_ULevel[MAX_RATES_LENGTH];
--};
--
--struct	setcountjudge_parm {
--	u8	count_judge[MAX_RATES_LENGTH];
--};
--
--struct	getcountjudge_parm {
--	u32 rsvd;
--};
--
--struct	getcountjudge_rsp {
--	u8	count_judge[MAX_RATES_LENGTH];
--};
--
--struct setratable_parm {
--	u8 ss_ForceUp[NumRates];
--	u8 ss_ULevel[NumRates];
--	u8 ss_DLevel[NumRates];
--	u8 count_judge[NumRates];
--};
--
--struct getratable_parm {
--                uint rsvd;
--};
--
--struct getratable_rsp {
--        u8 ss_ForceUp[NumRates];
--        u8 ss_ULevel[NumRates];
--        u8 ss_DLevel[NumRates];
--        u8 count_judge[NumRates];
--};
--
--/* to get TX,RX retry count */
--
--struct gettxretrycnt_parm {
--	unsigned int rsvd;
--};
--
--struct gettxretrycnt_rsp {
--	unsigned long tx_retrycnt;
--};
--
--struct getrxretrycnt_parm {
--	unsigned int rsvd;
--};
--
--struct getrxretrycnt_rsp {
--	unsigned long rx_retrycnt;
--};
--
--/* to get BCNOK,BCNERR count */
--struct getbcnokcnt_parm {
--	unsigned int rsvd;
--};
--
--struct getbcnokcnt_rsp {
--	unsigned long  bcnokcnt;
--};
--
--struct getbcnerrcnt_parm {
--	unsigned int rsvd;
--};
--
--struct getbcnerrcnt_rsp {
--	unsigned long bcnerrcnt;
--};
--
--/*  to get current TX power level */
--struct getcurtxpwrlevel_parm {
--	unsigned int rsvd;
--};
--struct getcurtxpwrlevel_rspi {
--	unsigned short tx_power;
--};
--
--struct setprobereqextraie_parm {
--	unsigned char e_id;
--	unsigned char ie_len;
--	unsigned char ie[0];
--};
--
--struct setassocreqextraie_parm {
--	unsigned char e_id;
--	unsigned char ie_len;
--	unsigned char ie[0];
--};
--
--struct setproberspextraie_parm {
--	unsigned char e_id;
--	unsigned char ie_len;
--	unsigned char ie[0];
--};
--
--struct setassocrspextraie_parm {
--	unsigned char e_id;
--	unsigned char ie_len;
--	unsigned char ie[0];
--};
--
- struct addBaReq_parm {
- 	unsigned int tid;
- 	u8	addr[ETH_ALEN];
--- 
-2.25.1
-
+Very nice, I haven't noticed that 0-day runs smatch. I assume the smatch
+reports from the bots are private to you and Mauro since I never saw
+them in my inbox and on LKML, correct?
