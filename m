@@ -1,37 +1,43 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67092C89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66D92C82
 	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 09:56:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 45D4261BF9;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FEA661B42;
 	Wed, 17 Nov 2021 09:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1637143017;
-	bh=06QSVAS4ibv7oCGfjDhYM0EJbP+vMzdqoJg2ejHQ3o0=;
+	bh=NBQtSlDWfs2XCTUyNsNfvSddkY1koyz3bFeL6w3SY8Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KCrtkT4ogqKJwl4JcnVBztXdCVBjiWxC+98DAQR/UckW+Srja55aJn8JJ7hsgVyCk
-	 ki/TVVGshfHQKooUs46QcCoPyNmM9urCf+Ze+Cs4Rp9RUhPaUJWrikvTWm66YsO35K
-	 MoKYXdMQdwclzUEubDnOmEdjRElEB9mhDA5qO75OKbrg4gzzPlJZ8hwerpLvj5XIKg
-	 ODON2UZh3vZDEUVHUHyoRNty9+LEudD9Vx18sX/zBtuv39EFgbT+E3j7gxJujjviMi
-	 PH8M/5UWSwKPPSBz9g67dt3GoZwecBNdAAmFl3z8fFMJUZck+mfWE18rzzsRFWFuba
-	 CpmBSHOvFu+7w==
+	b=okqXZtYx8UUpJFxYjiOZyNuSVynJl/EB3nu1/lwsZ/Tebl5AdLWlh2jI5VrsQGsaW
+	 7yR1kpozBSQXPHOek7YvqLLqxqCW2X/YqPk7AQRUdLBwMbTQwVheIH2cuVNiXlS2iZ
+	 xg2x9c4BDh8PibiGIoC4iZqy0oqqRjsz+Py2TDTwnvXchuCnn0rFXQ3DMWhWpGLZnq
+	 I5qqQxFX+BFbhy/fPh2Mn3Mku/km265IhtzczIcCHlV5NnQZWn25Jw4m2XvjPZGf46
+	 qRUpgk/1FYevuMHfpqhDb8nougEsYr/fFo83vvCPKQc+xR/8iw1CT/b5am+9wjxqa5
+	 q8Jq8+mm7498g==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mnHgV-00DIUq-8e; Wed, 17 Nov 2021 09:56:55 +0000
+	id 1mnHgV-00DIUj-7h; Wed, 17 Nov 2021 09:56:55 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Deepak R Varma <drv@mailo.com>,
+	Ding Xiang <dingxiang@cmss.chinamobile.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Robert Foss <robert.foss@linaro.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tsuchiya Yuto <kitakar@gmail.com>,
+	Yang Li <abaci-bugfix@linux.alibaba.com>,
+	Zheng Yongjun <zhengyongjun3@huawei.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v2 09/12] media: atomisp: get rid of #ifdef HAS_BL
-Date: Wed, 17 Nov 2021 09:56:51 +0000
-Message-Id: <c0a7df148e9d641c622c5ef807da449c99b7fabf.1637142905.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 07/12] media: atomisp: remove #ifdef HAS_NO_HMEM
+Date: Wed, 17 Nov 2021 09:56:49 +0000
+Message-Id: <63705da3dfc8922a2dbfc3c805a5faadb4416954.1637142905.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637142905.git.mchehab+huawei@kernel.org>
 References: <cover.1637142905.git.mchehab+huawei@kernel.org>
@@ -44,7 +50,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-This does nothing but declare extern to a non-existing var.
+This is not defined anywhere, so, solve the ifdefs, getting
+rid of them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -52,23 +59,137 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 00/12] at: https://lore.kernel.org/all/cover.1637142905.git.mchehab+huawei@kernel.org/
 
- drivers/staging/media/atomisp/pci/sh_css_firmware.h | 3 ---
- 1 file changed, 3 deletions(-)
+ .../atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c   |  2 --
+ .../raw_aa_binning_1.0/ia_css_raa.host.c               |  2 --
+ .../pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c      |  5 -----
+ .../media/atomisp/pci/runtime/binary/src/binary.c      |  4 ----
+ drivers/staging/media/atomisp/pci/sh_css_params.c      | 10 ----------
+ 5 files changed, 23 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_firmware.h b/drivers/staging/media/atomisp/pci/sh_css_firmware.h
-index 66cd38f08f71..a73ce703adfb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_firmware.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_firmware.h
-@@ -29,9 +29,6 @@ struct  sh_css_fw_bi_file_h {
- };
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
+index 82aa69b74677..2091f001502d 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/bh/bh_2/ia_css_bh.host.c
+@@ -13,7 +13,6 @@
+  * more details.
+  */
  
- extern struct ia_css_fw_info     sh_css_sp_fw;
--#if defined(HAS_BL)
--extern struct ia_css_fw_info     sh_css_bl_fw;
--#endif /* HAS_BL */
- extern struct ia_css_blob_descr *sh_css_blob_info;
- extern unsigned int sh_css_num_binaries;
+-#if !defined(HAS_NO_HMEM)
  
+ #include "ia_css_types.h"
+ #include "sh_css_internal.h"
+@@ -63,4 +62,3 @@ ia_css_bh_encode(
+ 	    uDIGIT_FITTING(from->ae_y_coef_b, 16, SH_CSS_AE_YCOEF_SHIFT);
+ }
+ 
+-#endif
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw_aa_binning/raw_aa_binning_1.0/ia_css_raa.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/raw_aa_binning/raw_aa_binning_1.0/ia_css_raa.host.c
+index 29c707ecf9f3..9b756daddee0 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/raw_aa_binning/raw_aa_binning_1.0/ia_css_raa.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw_aa_binning/raw_aa_binning_1.0/ia_css_raa.host.c
+@@ -13,7 +13,6 @@
+  * more details.
+  */
+ 
+-#if !defined(HAS_NO_HMEM)
+ 
+ #include "ia_css_types.h"
+ #include "sh_css_internal.h"
+@@ -32,4 +31,3 @@ ia_css_raa_encode(
+ 	(void)from;
+ }
+ 
+-#endif
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c
+index ba52c80df4a5..bd7b89d9475b 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c
+@@ -227,10 +227,6 @@ ia_css_s3a_hmem_decode(
+     struct ia_css_3a_statistics *host_stats,
+     const struct ia_css_bh_table *hmem_buf)
+ {
+-#if defined(HAS_NO_HMEM)
+-	(void)host_stats;
+-	(void)hmem_buf;
+-#else
+ 	struct ia_css_3a_rgby_output	*out_ptr;
+ 	int			i;
+ 
+@@ -291,7 +287,6 @@ ia_css_s3a_hmem_decode(
+ 	out_ptr[0].g -= diff;
+ 	out_ptr[0].b -= diff;
+ 	out_ptr[0].y -= diff;
+-#endif
+ }
+ 
+ void
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index 851e1d34a521..bbb93cb8c070 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -805,11 +805,7 @@ ia_css_binary_3a_grid_info(const struct ia_css_binary *binary,
+ 	s3a_info->deci_factor_log2  = binary->deci_factor_log2;
+ 	s3a_info->elem_bit_depth    = SH_CSS_BAYER_BITS;
+ 	s3a_info->use_dmem          = binary->info->sp.s3a.s3atbl_use_dmem;
+-#if defined(HAS_NO_HMEM)
+-	s3a_info->has_histogram     = 1;
+-#else
+ 	s3a_info->has_histogram     = 0;
+-#endif
+ 	IA_CSS_LEAVE_ERR_PRIVATE(err);
+ 	return err;
+ }
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index f3f8d99c84a4..41ed8e4600ff 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -16,12 +16,10 @@
+ #include "gdc_device.h"		/* gdc_lut_store(), ... */
+ #include "isp.h"			/* ISP_VEC_ELEMBITS */
+ #include "vamem.h"
+-#if !defined(HAS_NO_HMEM)
+ #ifndef __INLINE_HMEM__
+ #define __INLINE_HMEM__
+ #endif
+ #include "hmem.h"
+-#endif /* !defined(HAS_NO_HMEM) */
+ #define IA_CSS_INCLUDE_PARAMETERS
+ #define IA_CSS_INCLUDE_ACC_PARAMETERS
+ 
+@@ -1489,10 +1487,8 @@ ia_css_translate_3a_statistics(
+ 		ia_css_s3a_vmem_decode(host_stats, isp_stats->vmem_stats_hi,
+ 				       isp_stats->vmem_stats_lo);
+ 	}
+-#if !defined(HAS_NO_HMEM)
+ 	IA_CSS_LOG("3A: HMEM");
+ 	ia_css_s3a_hmem_decode(host_stats, isp_stats->hmem_stats);
+-#endif
+ 
+ 	IA_CSS_LEAVE("void");
+ }
+@@ -2157,9 +2153,7 @@ ia_css_isp_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+ 		me->vmem_size = ISP_S3ATBL_HI_LO_STRIDE_BYTES *
+ 				grid->aligned_height;
+ 	}
+-#if !defined(HAS_NO_HMEM)
+ 	me->hmem_size = sizeof_hmem(HMEM0_ID);
+-#endif
+ 
+ 	/* All subsections need to be aligned to the system bus width */
+ 	me->dmem_size = CEIL_MUL(me->dmem_size, HIVE_ISP_DDR_WORD_BYTES);
+@@ -4148,12 +4142,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+ 	me->data = kvmalloc(grid_size * sizeof(*me->data), GFP_KERNEL);
+ 	if (!me->data)
+ 		goto err;
+-#if !defined(HAS_NO_HMEM)
+ 	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
+ 	me->rgby_data = kvmalloc(sizeof_hmem(HMEM0_ID), GFP_KERNEL);
+-#else
+-	me->rgby_data = NULL;
+-#endif
+ 
+ 	IA_CSS_LEAVE("return=%p", me);
+ 	return me;
 -- 
 2.33.1
 
