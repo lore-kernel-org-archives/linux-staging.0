@@ -1,41 +1,55 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4250472
-	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 13:53:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ACD2A61B64;
-	Wed, 17 Nov 2021 13:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637157208;
-	bh=/WHQ1Ps5XYsLA7IaGT1brD7EntvRlSrCZToN1LoCfUE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FiOoYQfUgWcmql6ljTYeQBKfiwuBOX1VY+l7c8M3N1NwSLqdHATKY6oe5hRD+2qX3
-	 n62N8kJSSXapbJ7MbUBijPkMn5q/3JHuY7LGrQgbutAeHg+vb9Zn5pfZ33Tqfz45KG
-	 aNmnDqBRoZiyDAl8rk1WugNRRotQ7bSh67KJYirYG+bFmYt271qoaZFS7UTNUUYrts
-	 UHh/Hvlo3nmooadoml03szgTKKaYKoM49oHuWObVoZH90JHeZZFrEngsnwbuzOUtAj
-	 Ta3SfLwKERa5VImvA0gsJebc1xyQyxc5wd2sT0hYnA4nALQyTBsTDEkVXJPFt/4FM3
-	 +2AOBfwU7lI1g==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1mnLNN-00DLYp-P6; Wed, 17 Nov 2021 13:53:25 +0000
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Dan Carpenter" <dan.carpenter@oracle.com>,
-	Deepak R Varma <drv@mailo.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2] media: atomisp: sh_css_sp: better support the current firmware
-Date: Wed, 17 Nov 2021 13:53:24 +0000
-Message-Id: <072927d1cebf47eb3020c26d2d2db3f51936c928.1637157198.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAEF72
+	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 14:21:39 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id v22so2716981qtx.8
+        for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 06:21:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yu4+ZUt+SSXzjXZ9GWO7X8e2jtwCTt/9QsuwZG7Z8NM=;
+        b=B9Nos4m+YaDWPPbbJTlm0dDckLBlXl0HBOnExFfgTposZjnIFkONZDvUqAcDxsMiKx
+         UzCvv48KP+KbzD08FGEVstYo0vVOU6/XzBbv6D6n/vLF/NzaVXDFeT/tMo12jahcvtzS
+         98C7eywDCKLn4IRitictS6gkdtnfQ2zdX0HioKYMiCG1grt0BG+jZtVn7JSDglJvSX0U
+         4d7+9jq0TmGiXp2N3YxOcp1EugiTCG0cLyckzcdyYHkj52U6dE4ofMfJV5YHrKyf9bfv
+         caSS3zhsqvyQmaXtmeU3yVwbha8+sEi9JmUibfLHv2/+hoKKPkvZzIkYIA4/BC9EWYO1
+         b3qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Yu4+ZUt+SSXzjXZ9GWO7X8e2jtwCTt/9QsuwZG7Z8NM=;
+        b=xMv+gkfWM9RebFTm+RHhUIsZTGzxsRzQJQUbm9JgcsZmEFY8IBWgnMF7xtAYYY9MsP
+         ysb3U1XohJuU39hXYa1YFbqpLu+0Iacy9JkAog0f7EREiM1l+JhnBPV1AksM8Y44aNFU
+         jgyv6LCUSqmWQQwYbIG/JmMhNKk7nx1TObk1DD25YCqYoHK7+xryC7jTYHYB3t1+nQo/
+         6ydGfqecgLPFm0f2k79k/AEiCg+wQvr5B7sfXLvIaKRmj7kxXISHsp17td+kRTRVeFB0
+         FlvqyVUwp3joOMu78/+EjRywfiR6KVR1udNAmFen0tnmXvx8JEh0wAHcLVzIGkfwaFFQ
+         ijIg==
+X-Gm-Message-State: AOAM53380oW0jSrm9XcaxFS+ZqkUG952FaMFPb63cTrBvFo7YrC1jo6c
+	YbycCHe2z1VgcxZVuEQ9Hl4=
+X-Google-Smtp-Source: ABdhPJw1q0SPuFvNNWRYgLk5hrkm6iOjNTSmrtlWLKSao0ARKAwmU75hH7HF83ulZ7e78yLDGIWsng==
+X-Received: by 2002:a05:622a:4c:: with SMTP id y12mr16947897qtw.21.1637158898412;
+        Wed, 17 Nov 2021 06:21:38 -0800 (PST)
+Received: from localhost.localdomain (pool-98-113-42-30.nycmny.fios.verizon.net. [98.113.42.30])
+        by smtp.googlemail.com with ESMTPSA id r16sm10613644qkp.42.2021.11.17.06.21.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Nov 2021 06:21:38 -0800 (PST)
+From: Zameer Manji <zmanji@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Zameer Manji <zmanji@gmail.com>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Martin Kaiser <martin@kaiser.cx>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: remove unused hal fields
+Date: Wed, 17 Nov 2021 14:20:20 +0000
+Message-Id: <20211117142108.1505715-1-zmanji@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,44 +57,173 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-As we're using Intel Aero firmware, make the code closer to the
-driver for such device.
+Several HAL related fields are never used or are useless. This removes
+those fields and any code that is now safe to remove from the field
+deletion.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+The fields that are referenced but are useless are:
+* interfaceIndex: only written to, never read.
+* CurrentCckTxPwrIdx: only written to, never read.
+* CurrentOfdm24GTxPwrIdx: only written to, never read.
+* CurrentBW2024GTxPwrIdx: only written to, never read.
+* CurrentBW4024GTxPwrIdx: only written to, never read.
+* bRDGEnable: never initialized, always false.
+
+Signed-off-by: Zameer Manji <zmanji@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css_sp.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 13 ------
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 12 ------
+ .../staging/r8188eu/include/rtl8188e_hal.h    | 40 -------------------
+ 3 files changed, 65 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 778639f391cb..615500a7d3c4 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1032,16 +1032,14 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
- 		return err;
+diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+index 47402851700b..6e2de43b5903 100644
+--- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
++++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
+@@ -685,17 +685,6 @@ static void getTxPowerIndex88E(struct adapter *Adapter, u8 channel, u8 *cckPower
+ 	}
+ }
  
- #ifdef ISP2401
--	if (stage == 0) {
--		pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
--		if (!pipe)
--			return -EINVAL;
-+	pipe = find_pipe_by_num(sh_css_sp_group.pipe[thread_id].pipe_num);
-+	if (!pipe)
-+		return -EINVAL;
+-static void phy_PowerIndexCheck88E(struct adapter *Adapter, u8 channel, u8 *cckPowerLevel,
+-				   u8 *ofdmPowerLevel, u8 *BW20PowerLevel, u8 *BW40PowerLevel)
+-{
+-	struct hal_data_8188e		*pHalData = GET_HAL_DATA(Adapter);
+-
+-	pHalData->CurrentCckTxPwrIdx = cckPowerLevel[0];
+-	pHalData->CurrentOfdm24GTxPwrIdx = ofdmPowerLevel[0];
+-	pHalData->CurrentBW2024GTxPwrIdx = BW20PowerLevel[0];
+-	pHalData->CurrentBW4024GTxPwrIdx = BW40PowerLevel[0];
+-}
+-
+ /*-----------------------------------------------------------------------------
+  * Function:    SetTxPowerLevel8190()
+  *
+@@ -726,8 +715,6 @@ PHY_SetTxPowerLevel8188E(
  
--		if (args->in_frame)
--			ia_css_get_crop_offsets(pipe, &args->in_frame->info);
--		else
--			ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
--	}
-+	if (args->in_frame)
-+		ia_css_get_crop_offsets(pipe, &args->in_frame->info);
-+	else
-+		ia_css_get_crop_offsets(pipe, &binary->in_frame_info);
- #else
- 	(void)pipe; /*avoid build warning*/
- #endif
+ 	getTxPowerIndex88E(Adapter, channel, &cckPowerLevel[0], &ofdmPowerLevel[0], &BW20PowerLevel[0], &BW40PowerLevel[0]);
+ 
+-	phy_PowerIndexCheck88E(Adapter, channel, &cckPowerLevel[0], &ofdmPowerLevel[0], &BW20PowerLevel[0], &BW40PowerLevel[0]);
+-
+ 	rtl8188e_PHY_RF6052SetCckTxPower(Adapter, &cckPowerLevel[0]);
+ 	rtl8188e_PHY_RF6052SetOFDMTxPower(Adapter, &ofdmPowerLevel[0], &BW20PowerLevel[0], &BW40PowerLevel[0], channel);
+ }
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 902afbb4aeb8..bea4420da8c2 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -70,8 +70,6 @@ void rtl8188eu_interface_configure(struct adapter *adapt)
+ 	else
+ 		haldata->UsbBulkOutSize = USB_FULL_SPEED_BULK_SIZE;/* 64 bytes */
+ 
+-	haldata->interfaceIndex = pdvobjpriv->InterfaceNumber;
+-
+ 	haldata->UsbTxAggMode		= 1;
+ 	haldata->UsbTxAggDescNum	= 0x6;	/*  only 4 bits */
+ 
+@@ -400,13 +398,6 @@ static void _InitEDCA(struct adapter *Adapter)
+ 	rtw_write32(Adapter, REG_EDCA_VO_PARAM, 0x002FA226);
+ }
+ 
+-static void _InitRDGSetting(struct adapter *Adapter)
+-{
+-	rtw_write8(Adapter, REG_RD_CTRL, 0xFF);
+-	rtw_write16(Adapter, REG_RD_NAV_NXT, 0x200);
+-	rtw_write8(Adapter, REG_RD_RESP_PKT_TH, 0x05);
+-}
+-
+ static void _InitRetryFunction(struct adapter *Adapter)
+ {
+ 	u8 value8;
+@@ -743,9 +734,6 @@ u32 rtl8188eu_hal_init(struct adapter *Adapter)
+ 	value16 |= (MACTXEN | MACRXEN);
+ 	rtw_write8(Adapter, REG_CR, value16);
+ 
+-	if (haldata->bRDGEnable)
+-		_InitRDGSetting(Adapter);
+-
+ 	/* Enable TX Report */
+ 	/* Enable Tx Report Timer */
+ 	value8 = rtw_read8(Adapter, REG_TX_RPT_CTRL);
+diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+index 31a46f204954..a75929c6bc05 100644
+--- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
++++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
+@@ -112,21 +112,6 @@ enum usb_rx_agg_mode {
+ #include "HalVerDef.h"
+ #include "hal_com.h"
+ 
+-/* 	Channel Plan */
+-enum ChannelPlan {
+-	CHPL_FCC	= 0,
+-	CHPL_IC		= 1,
+-	CHPL_ETSI	= 2,
+-	CHPL_SPA	= 3,
+-	CHPL_FRANCE	= 4,
+-	CHPL_MKK	= 5,
+-	CHPL_MKK1	= 6,
+-	CHPL_ISRAEL	= 7,
+-	CHPL_TELEC	= 8,
+-	CHPL_GLOBAL	= 9,
+-	CHPL_WORLD	= 10,
+-};
+-
+ struct txpowerinfo24g {
+ 	u8 IndexCCK_Base[RF_PATH_MAX][MAX_CHNL_GROUP_24G];
+ 	u8 IndexBW40_Base[RF_PATH_MAX][MAX_CHNL_GROUP_24G];
+@@ -206,18 +191,7 @@ struct hal_data_8188e {
+ 	u8	PwrGroupHT20[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
+ 	u8	PwrGroupHT40[RF_PATH_MAX][CHANNEL_MAX_NUMBER];
+ 
+-	u8	LegacyHTTxPowerDiff;/*  Legacy to HT rate power diff */
+-	/*  The current Tx Power Level */
+-	u8	CurrentCckTxPwrIdx;
+-	u8	CurrentOfdm24GTxPwrIdx;
+-	u8	CurrentBW2024GTxPwrIdx;
+-	u8	CurrentBW4024GTxPwrIdx;
+-
+ 	/*  Read/write are allow for following hardware information variables */
+-	u8	framesync;
+-	u32	framesyncC34;
+-	u8	framesyncMonitor;
+-	u8	DefaultInitialGain[4];
+ 	u8	pwrGroupCnt;
+ 	u32	MCSTxPowerLevelOriginalOffset[MAX_PG_GROUP][16];
+ 	u32	CCKTxPowerLevelOriginalOffset;
+@@ -237,9 +211,6 @@ struct hal_data_8188e {
+ 
+ 	u32	RfRegChnlVal[2];
+ 
+-	/* RDG enable */
+-	bool	 bRDGEnable;
+-
+ 	/* for host message to fw */
+ 	u8	LastHMEBoxNum;
+ 
+@@ -260,23 +231,12 @@ struct hal_data_8188e {
+ 	u8	FwRsvdPageStartOffset; /* Reserve page start offset except
+ 					*  beacon in TxQ. */
+ 
+-	/*  2010/08/09 MH Add CU power down mode. */
+-	bool		pwrdown;
+-
+-	/*  Add for dual MAC  0--Mac0 1--Mac1 */
+-	u32	interfaceIndex;
+-
+ 	u8	OutEpQueueSel;
+ 	u8	OutEpNumber;
+ 
+ 	/*  Add for USB aggreation mode dynamic shceme. */
+ 	bool		UsbRxHighSpeedMode;
+ 
+-	/*  2010/11/22 MH Add for slim combo debug mode selective. */
+-	/*  This is used for fix the drawback of CU TSMC-A/UMC-A cut.
+-	 * HW auto suspend ability. Close BT clock. */
+-	bool		SlimComboDbg;
+-
+ 	u16	EfuseUsedBytes;
+ 
+ 	struct P2P_PS_Offload_t	p2p_ps_offload;
 -- 
-2.33.1
+2.25.1
 
