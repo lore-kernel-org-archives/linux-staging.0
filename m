@@ -1,38 +1,46 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6298768
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EE42C80
 	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 19:34:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A0D4861A3D;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C2E4E61BFB;
 	Wed, 17 Nov 2021 19:34:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637177651;
-	bh=gwVltAv0RDUi+65Bog+2WjWOfbT++yFD5KHj+aIDl70=;
+	s=k20201202; t=1637177650;
+	bh=bNH4TlgQ+lg/SdNYNZKDeseEUp9in8zyWU06Z5yoQ0I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zs8dnqoOfF6dRXIPaL69nhQkCAjgcC4l/F87K3CJ8UliHzxMX3m4O4Y2b303gvKej
-	 3yd6nL9YgKPU8T7XEfzY6DwlFFo6sFb4EwHALpIlGuxVHbTWw3+YVToBC+ZVNLmWCm
-	 GegeV6W7L7YXj5nQjDp0sloZlm4O3KYqnPUM3A++7znQV+bLtTUerYuFgL1/ZfKdsC
-	 mBFPD/yYXg1hwjCJwt6/Ht1VyKlw3thE4CsXrTqmQIoNMt5+SFabvxJ8zcK4VhBAhr
-	 +Y1ks6rkaAQ7IFq5XBqVtjtE5oz76ShJJR7HZ0LgCMlIFAgN8nJAfiEz7bKpdhLKOo
-	 h6ds8NIAGL2dA==
+	b=MFD9dGMkyLmxotmkTd/vqTbPf2deg8WOvypcyaSV1D2picBq1vzP/xFwYFUy9xPnB
+	 HSWGQHuH8hZ2dzvUYuQeSQJHoOqk5tEX16uTlJL32WkZc9IyaROW/Sp6iXi5lt0M/b
+	 bEgx37oQD3n3jXI9JhQGYtDS29FO8YKEQvk8u6HiQCMMzemHGkVvwH9pNuCi5MfOT4
+	 vcZIbVwm7AWJX+TCQdzn/49YAE8cpwAdVaYsVHfiayLkssZT+3gIIh7OdpJ/Wi6ifZ
+	 9WH/l6sjfQv/dwq5aQHx7Na+t2VF/1JlrlyAePrdNot+wpc7zc/IsBhmwtUNT2QKDh
+	 N/jNp8NO7EbCw==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mnQh6-00DXHl-3B; Wed, 17 Nov 2021 19:34:08 +0000
+	id 1mnQh6-00DXHf-1m; Wed, 17 Nov 2021 19:34:08 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Aditya Srivastava <yashsri421@gmail.com>,
+	Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>,
+	Baokun Li <libaokun1@huawei.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Kaixu Xia <kaixuxia@tencent.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Matthias Maennich <maennich@google.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 4/8] media: atomisp: binary.c: drop logic incompatible with firmware
-Date: Wed, 17 Nov 2021 19:34:02 +0000
-Message-Id: <93a6f1bfa6c25dda838dba1c3d505285ea930750.1637177402.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 2/8] media: atomisp: get rid of set pipe version custom ctrl
+Date: Wed, 17 Nov 2021 19:34:00 +0000
+Message-Id: <3d93044724f204f3a61af6b71e77b5f310018eea.1637177402.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637177402.git.mchehab+huawei@kernel.org>
 References: <cover.1637177402.git.mchehab+huawei@kernel.org>
@@ -45,12 +53,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-As we're using this firmware for ISP2401:
-	https://github.com/intel-aero/meta-intel-aero-base/blob/master/recipes-kernel/linux/linux-yocto/shisp_2401a0_v21.bin
+It doesn't make sense to have a control for that. Besides that,
+the Intel Aero implementation doesn't have, which means that
+even the custom control is not used in practice, at least
+outside Android.
 
-It makes no sense to try to select a non-existing binary
-inside the firmware. So, revert it to reflect the Intel Aero
-device driver.
+So, get rid of it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -58,176 +66,84 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 0/8] at: https://lore.kernel.org/all/cover.1637177402.git.mchehab+huawei@kernel.org/
 
- .../atomisp/pci/runtime/binary/src/binary.c   | 76 +++----------------
- 1 file changed, 9 insertions(+), 67 deletions(-)
+ .../media/atomisp/pci/atomisp_compat_css20.c  |  9 --------
+ .../media/atomisp/pci/atomisp_subdev.c        | 23 -------------------
+ .../media/atomisp/pci/atomisp_subdev.h        |  1 -
+ 3 files changed, 33 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index 5e435bec942b..406ed5fb4c6a 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -108,7 +108,6 @@ ia_css_binary_internal_res(const struct ia_css_frame_info *in_info,
- 			       binary_dvs_env.height);
- }
- 
--/* ISP2400 */
- /* Computation results of the origin coordinate of bayer on the shading table. */
- struct sh_css_shading_table_bayer_origin_compute_results {
- 	u32 bayer_scale_hor_ratio_in;	/* Horizontal ratio (in) of bayer scaling. */
-@@ -119,23 +118,7 @@ struct sh_css_shading_table_bayer_origin_compute_results {
- 	u32 sc_bayer_origin_y_bqs_on_shading_table; /* Y coordinate (in bqs) of bayer origin on shading table. */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index 7edee293b132..1173be0e72b0 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -611,15 +611,6 @@ static void __apply_additional_pipe_config(
+ 		if (stream_env->pipe_configs[pipe_id].
+ 		    default_capture_config.mode == IA_CSS_CAPTURE_MODE_RAW)
+ 			stream_env->pipe_configs[pipe_id].enable_dz = false;
+-
+-		if (IS_ISP2401) {
+-			/* the isp default to use ISP2.2 and the camera hal will
+-			* control whether use isp2.7 */
+-			if (asd->select_isp_version->val == ATOMISP_CSS_ISP_PIPE_VERSION_2_7)
+-				stream_env->pipe_configs[pipe_id].isp_pipe_version =  SH_CSS_ISP_PIPE_VERSION_2_7;
+-			else
+-				stream_env->pipe_configs[pipe_id].isp_pipe_version = SH_CSS_ISP_PIPE_VERSION_2_2;
+-		}
+ 		break;
+ 	case IA_CSS_PIPE_ID_VIDEO:
+ 		/* enable reduced pipe to have binary
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index a3f3c42f9db7..1807cfa786a7 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -1058,24 +1058,6 @@ static const struct v4l2_ctrl_config ctrl_depth_mode = {
+ 	.def = 0,
  };
  
--/* ISP2401 */
--/* Requirements for the shading correction. */
--struct sh_css_binary_sc_requirements {
--	/* Bayer scaling factor, for the scaling which is applied before shading correction. */
--	u32 bayer_scale_hor_ratio_in;  /* Horizontal ratio (in) of scaling applied BEFORE shading correction. */
--	u32 bayer_scale_hor_ratio_out; /* Horizontal ratio (out) of scaling applied BEFORE shading correction. */
--	u32 bayer_scale_ver_ratio_in;  /* Vertical ratio (in) of scaling applied BEFORE shading correction. */
--	u32 bayer_scale_ver_ratio_out; /* Vertical ratio (out) of scaling applied BEFORE shading correction. */
--
--	/* ISP internal frame is composed of the real sensor data and the padding data. */
--	u32 sensor_data_origin_x_bqs_on_internal; /* X origin (in bqs) of sensor data on internal frame
--								at shading correction. */
--	u32 sensor_data_origin_y_bqs_on_internal; /* Y origin (in bqs) of sensor data on internal frame
--								at shading correction. */
+-/*
+- * Control for selectting ISP version
+- *
+- * When enabled, that means ISP version will be used ISP2.7. when disable, the
+- * isp will default to use ISP2.2.
+- * Note: Make sure set this configuration before creating stream.
+- */
+-static const struct v4l2_ctrl_config ctrl_select_isp_version = {
+-	.ops = &ctrl_ops,
+-	.id = V4L2_CID_ATOMISP_SELECT_ISP_VERSION,
+-	.type = V4L2_CTRL_TYPE_BOOLEAN,
+-	.name = "Select Isp version",
+-	.min = 0,
+-	.max = 1,
+-	.step = 1,
+-	.def = 0,
 -};
 -
--/* ISP2400: Get the requirements for the shading correction. */
-+/* Get the requirements for the shading correction. */
- static int
- ia_css_binary_compute_shading_table_bayer_origin(
-     const struct ia_css_binary *binary,				/* [in] */
-@@ -568,15 +551,9 @@ binary_grid_deci_factor_log2(int width, int height)
- 	/* 3A/Shading decimation factor spcification (at August 2008)
- 	 * ------------------------------------------------------------------
- 	 * [Image Width (BQ)] [Decimation Factor (BQ)] [Resulting grid cells]
--	#ifndef ISP2401
- 	 * 1280 ?c             32                       40 ?c
- 	 *  640 ?c 1279        16                       40 ?c 80
- 	 *      ?c  639         8                          ?c 80
--	#else
--	 * from 1280                   32                 from 40
--	 * from  640 to 1279           16                 from 40 to 80
--	 *           to  639            8                         to 80
--	#endif
- 	 * ------------------------------------------------------------------
- 	 */
- 	/* Maximum and minimum decimation factor by the specification */
-@@ -938,15 +915,9 @@ ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ static void atomisp_init_subdev_pipe(struct atomisp_sub_device *asd,
+ 				     struct atomisp_video_pipe *pipe, enum v4l2_buf_type buf_type)
+ {
+@@ -1223,11 +1205,6 @@ static int isp_subdev_init_entities(struct atomisp_sub_device *asd)
+ 	    v4l2_ctrl_new_custom(&asd->ctrl_handler,
+ 				 &ctrl_disable_dz,
+ 				 NULL);
+-	if (IS_ISP2401) {
+-		asd->select_isp_version = v4l2_ctrl_new_custom(&asd->ctrl_handler,
+-							       &ctrl_select_isp_version,
+-							       NULL);
+-	}
  
- 	if (info->enable.sc)
- 	{
--		if (!IS_ISP2401) {
--			binary->sctbl_width_per_color = _ISP_SCTBL_WIDTH_PER_COLOR(sc_3a_dis_padded_width, s3a_log_deci);
--			binary->sctbl_aligned_width_per_color = SH_CSS_MAX_SCTBL_ALIGNED_WIDTH_PER_COLOR;
--			binary->sctbl_height = _ISP_SCTBL_HEIGHT(sc_3a_dis_height, s3a_log_deci);
--		} else {
--			binary->sctbl_width_per_color = _ISP2401_SCTBL_WIDTH_PER_COLOR(isp_internal_width, s3a_log_deci);
--			binary->sctbl_aligned_width_per_color = SH_CSS_MAX_SCTBL_ALIGNED_WIDTH_PER_COLOR;
--			binary->sctbl_height = _ISP2401_SCTBL_HEIGHT(isp_internal_height, s3a_log_deci);
--		}
-+		binary->sctbl_width_per_color = _ISP_SCTBL_WIDTH_PER_COLOR(sc_3a_dis_padded_width, s3a_log_deci);
-+		binary->sctbl_aligned_width_per_color = SH_CSS_MAX_SCTBL_ALIGNED_WIDTH_PER_COLOR;
-+		binary->sctbl_height = _ISP_SCTBL_HEIGHT(sc_3a_dis_height, s3a_log_deci);
- 	} else
- 	{
- 		binary->sctbl_width_per_color         = 0;
-@@ -980,11 +951,7 @@ static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
- 		*req_vf_info;
+ 	/* Make controls visible on subdev as well. */
+ 	asd->subdev.ctrl_handler = &asd->ctrl_handler;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.h b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+index a8d210ea5f8b..7d731f1fee72 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.h
+@@ -319,7 +319,6 @@ struct atomisp_sub_device {
  
- 	struct ia_css_binary_xinfo *xcandidate;
--#ifndef ISP2401
- 	bool need_ds, need_dz, need_dvs, need_xnr, need_dpc;
--#else
--	bool need_ds, need_dz, need_dvs, need_xnr, need_dpc, need_tnr;
--#endif
- 	bool striped;
- 	bool enable_yuv_ds;
- 	bool enable_high_speed;
-@@ -1012,33 +979,21 @@ static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
- 	stream_format = descr->stream_format;
- 	req_in_info = descr->in_info;
- 	req_bds_out_info = descr->bds_out_info;
--	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
--	{
-+	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
- 		req_out_info[i] = descr->out_info[i];
- 		if (req_out_info[i] && (req_out_info[i]->res.width != 0))
- 			req_bin_out_info = req_out_info[i];
- 	}
- 	if (!req_bin_out_info)
- 		return -EINVAL;
--#ifndef ISP2401
- 	req_vf_info = descr->vf_info;
--#else
--
--	if ((descr->vf_info) && (descr->vf_info->res.width == 0))
--		/* width==0 means that there is no vf pin (e.g. in SkyCam preview case) */
--		req_vf_info = NULL;
--	else
--		req_vf_info = descr->vf_info;
--#endif
+ 	/* ISP2401 */
+ 	struct v4l2_ctrl *ion_dev_fd;
+-	struct v4l2_ctrl *select_isp_version;
  
- 	need_xnr = descr->enable_xnr;
- 	need_ds = descr->enable_fractional_ds;
- 	need_dz = false;
- 	need_dvs = false;
- 	need_dpc = descr->enable_dpc;
--#ifdef ISP2401
--	need_tnr = descr->enable_tnr;
--#endif
-+
- 	enable_yuv_ds = descr->enable_yuv_ds;
- 	enable_high_speed = descr->enable_high_speed;
- 	enable_dvs_6axis  = descr->enable_dvs_6axis;
-@@ -1053,8 +1008,7 @@ static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
- 	internal_res.width = 0;
- 	internal_res.height = 0;
+ 	struct v4l2_ctrl *disable_dz;
  
--	if (mode == IA_CSS_BINARY_MODE_VIDEO)
--	{
-+	if (mode == IA_CSS_BINARY_MODE_VIDEO) {
- 		dvs_env = descr->dvs_env;
- 		need_dz = descr->enable_dz;
- 		/* Video is the only mode that has a nodz variant. */
-@@ -1063,8 +1017,7 @@ static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
- 
- 	/* print a map of the binary file */
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"BINARY INFO:\n");
--	for (i = 0; i < IA_CSS_BINARY_NUM_MODES; i++)
--	{
-+	for (i = 0; i < IA_CSS_BINARY_NUM_MODES; i++) {
- 		xcandidate = binary_infos[i];
- 		if (xcandidate) {
- 			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,	"%d:\n", i);
-@@ -1079,8 +1032,7 @@ static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
- 
- 	/* printf("sh_css_binary_find: pipe version %d\n", isp_pipe_version); */
- 	for (xcandidate = binary_infos[mode]; xcandidate;
--	     xcandidate = xcandidate->next)
--	{
-+	     xcandidate = xcandidate->next) {
- 		struct ia_css_binary_info *candidate = &xcandidate->sp;
- 		/* printf("sh_css_binary_find: evaluating candidate:
- 		 * %d\n",candidate->id); */
-@@ -1338,16 +1290,6 @@ static int __ia_css_binary_find(struct ia_css_binary_descr *descr,
- 			continue;
- 		}
- 
--#ifdef ISP2401
--		if (!candidate->enable.tnr && need_tnr) {
--			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
--					    "ia_css_binary_find() [%d] continue: !%d && %d\n",
--					    __LINE__, candidate->enable.tnr,
--					    descr->enable_tnr);
--			continue;
--		}
--
--#endif
- 		/* reconfigure any variable properties of the binary */
- 		err = ia_css_binary_fill_info(xcandidate, online, two_ppc,
- 					      stream_format, req_in_info,
 -- 
 2.33.1
 
