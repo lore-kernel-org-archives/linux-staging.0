@@ -1,30 +1,28 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938232C89
-	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 09:25:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D288A613A2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACC12C8E
+	for <linux-staging@lists.linux.dev>; Wed, 17 Nov 2021 09:25:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E692A6323A;
 	Wed, 17 Nov 2021 09:25:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637141142;
-	bh=TmI5smJW7BBcnDb91N1SI3C/Ux8ypdlebUo9S3DBjfw=;
+	s=k20201202; t=1637141141;
+	bh=URoE0WugT5RM2/xxGxPWDy0twS6w8beAyGIvIdBpXTk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OoNK5lVgIUR97g1mHnmGzwYZGMcg6Eh7Ct/hJd7bkvgv0MuPAZbKX9NbVAe19dgWW
-	 CA9uqSXsYZ45C/aTYr3vOaStT6sTkRQ/KjQFchWSB9dFA8AQwmpoYzqr+9/uG8c/lS
-	 8hbQFYK8P+ugAAMPOGzS+Qrjo5/1N7yD1IQ+kWJLrhxklSIRa/eEekkcjMPOS7czM7
-	 SE+B2azWP9vhEw4OrUCshiUHZnJUAIAf5zMtvXiXgVUIXIHUp4aXPPQOK2LHenmKWV
-	 FgMIIsQfCb+tum/LMClxu61tVupw1DXsDbWyPnhD4xeN9XfyMv8A/YfdMteD20HhGs
-	 WuB9I0gUtL9vQ==
+	b=Oyzy877d3q4eGZBjFaYTUZnKTE07OCSopH0nXPN2foArl8wSTuWrRSGNq523NkvrI
+	 aU4OIhzFHsmCsLm7AVcLR4AotIalTLsXleom89wshu0vb7cNhfk9b5uY379WXE66+K
+	 B1sfty0wNGCD3K/plXzZ0LqZXKmJJzQ3Cn3/e63XfSLFFLD41dHQvRBSC9QT+FXfXW
+	 wsSe7yesUL5x3ptImSJtMwWD5rIrPW8UGlHuN8QSAjh3sk2KNEL0rg5nz3lMaQXssa
+	 8X32kZKXKLr+n51Gbp7N0OAVzZpAMb+qHWICehhR7qgDsDbCcSBVhwC3OOaO2jl7Hs
+	 Mla67TsxLJ7Yg==
 Received: by mail.kernel.org with local (Exim 4.94.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1mnHCF-00Cb5m-7p; Wed, 17 Nov 2021 09:25:39 +0000
+	id 1mnHCF-00Cb64-B3; Wed, 17 Nov 2021 09:25:39 +0000
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: 
 Cc: linuxarm@huawei.com,
 	mauro.chehab@huawei.com,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Alex Dewar <alex.dewar90@gmail.com>,
-	Deepak R Varma <drv@mailo.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -32,9 +30,9 @@ Cc: linuxarm@huawei.com,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 04/13] media: atomisp: sh_css_mipi: cleanup the code
-Date: Wed, 17 Nov 2021 09:25:29 +0000
-Message-Id: <a152c9fdfa9362068fee1e2c70c7087fd30d6c53.1637140900.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 10/13] media: atomisp: get rid of sctbl_legacy_*
+Date: Wed, 17 Nov 2021 09:25:35 +0000
+Message-Id: <57e84df252e6f462e5bf91d2dbd42249aec42aad.1637140900.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <cover.1637140900.git.mchehab+huawei@kernel.org>
 References: <cover.1637140900.git.mchehab+huawei@kernel.org>
@@ -47,9 +45,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-With the ISP2401 firmware we're using, the code differences
-are not that much from ISP2400. Cleanup the code in order
-to make it closer to Intel Aero driver.
+Those seem to be used only on certain ISP2401 firmwares that
+aren't supported by the driver. So, get rid of them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
@@ -57,288 +54,73 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1637140900.git.mchehab+huawei@kernel.org/
 
- .../staging/media/atomisp/pci/sh_css_mipi.c   | 159 +++++-------------
- .../staging/media/atomisp/pci/sh_css_mipi.h   |  15 --
- 2 files changed, 38 insertions(+), 136 deletions(-)
+ .../atomisp/pci/runtime/binary/interface/ia_css_binary.h  | 2 --
+ .../staging/media/atomisp/pci/runtime/binary/src/binary.c | 6 ------
+ drivers/staging/media/atomisp/pci/sh_css_param_shading.c  | 8 ++++----
+ 3 files changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-index cfaa4719177c..0acf75497ae7 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-@@ -33,47 +33,6 @@
- static u32
- ref_count_mipi_allocation[N_CSI_PORTS]; /* Initialized in mipi_init */
- 
--/*
-- * Check if a source port or TPG/PRBS ID is valid
-- */
--static bool ia_css_mipi_is_source_port_valid(struct ia_css_pipe *pipe,
--	unsigned int *pport)
--{
--	bool ret = true;
--	unsigned int port = 0;
--	unsigned int max_ports = 0;
--
--	switch (pipe->stream->config.mode) {
--	case IA_CSS_INPUT_MODE_BUFFERED_SENSOR:
--		port = (unsigned int)pipe->stream->config.source.port.port;
--		max_ports = N_CSI_PORTS;
--		break;
--	case IA_CSS_INPUT_MODE_TPG:
--		port = (unsigned int)pipe->stream->config.source.tpg.id;
--		max_ports = N_CSS_TPG_IDS;
--		break;
--	case IA_CSS_INPUT_MODE_PRBS:
--		port = (unsigned int)pipe->stream->config.source.prbs.id;
--		max_ports = N_CSS_PRBS_IDS;
--		break;
--	default:
--		assert(false);
--		ret = false;
--		break;
--	}
--
--	if (ret) {
--		assert(port < max_ports);
--
--		if (port >= max_ports)
--			ret = false;
--	}
--
--	*pport = port;
--
--	return ret;
--}
--
- /* Assumptions:
-  *	- A line is multiple of 4 bytes = 1 word.
-  *	- Each frame has SOF and EOF (each 1 word).
-@@ -227,6 +186,10 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
- 	return err;
- }
- 
-+/*
-+ * Check if a source port or TPG/PRBS ID is valid
-+ */
-+
- #if !defined(ISP2401)
- int
- ia_css_mipi_frame_enable_check_on_size(const enum mipi_port_id port,
-@@ -272,16 +235,20 @@ bool mipi_is_free(void)
- 	return true;
- }
- 
--int
--calculate_mipi_buff_size(
--    struct ia_css_stream_config *stream_cfg,
--    unsigned int *size_mem_words)
-+#if defined(ISP2401)
-+/*
-+ * @brief Calculate the required MIPI buffer sizes.
-+ * Based on the stream configuration, calculate the
-+ * required MIPI buffer sizes (in DDR words).
-+ *
-+ * @param[in]   stream_cfg              Point to the target stream configuration
-+ * @param[out]  size_mem_words  MIPI buffer size in DDR words.
-+ *
-+ * @return
-+ */
-+static int calculate_mipi_buff_size(struct ia_css_stream_config *stream_cfg,
-+				    unsigned int *size_mem_words)
- {
--#if !defined(ISP2401)
--	int err = -EINVAL;
--	(void)stream_cfg;
--	(void)size_mem_words;
--#else
- 	unsigned int width;
- 	unsigned int height;
- 	enum atomisp_input_format format;
-@@ -373,26 +340,9 @@ calculate_mipi_buff_size(
- 	*size_mem_words = mem_words_per_buff;
- 
- 	IA_CSS_LEAVE_ERR(err);
--#endif
- 	return err;
- }
--
--static bool buffers_needed(struct ia_css_pipe *pipe)
--{
--	if (!IS_ISP2401) {
--		if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
--			return true;
--		else
--			return false;
--	}
--
--	if (pipe->stream->config.mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR ||
--	    pipe->stream->config.mode == IA_CSS_INPUT_MODE_TPG ||
--	    pipe->stream->config.mode == IA_CSS_INPUT_MODE_PRBS)
--		return true;
--
--	return false;
--}
-+#endif
- 
- int
- allocate_mipi_frames(struct ia_css_pipe *pipe,
-@@ -422,45 +372,25 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 	}
- 
- #endif
--
--	if (!buffers_needed(pipe)) {
-+	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 				    "allocate_mipi_frames(%p) exit: no buffers needed for pipe mode.\n",
- 				    pipe);
- 		return 0; /* AM TODO: Check  */
- 	}
- 
--	if (!IS_ISP2401) {
--		port = (unsigned int)pipe->stream->config.source.port.port;
--	} else {
--		/* Returns true if port is valid. So, invert it */
--		err = !ia_css_mipi_is_source_port_valid(pipe, &port);
--	}
--
--	assert(port < N_CSI_PORTS);
--
--	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
--	    (IS_ISP2401 && err)) {
-+	port = (unsigned int)pipe->stream->config.source.port.port;
-+	if (port >= N_CSI_PORTS) {
- 		IA_CSS_ERROR("allocate_mipi_frames(%p) exit: port is not correct (port=%d).",
- 			     pipe, port);
- 		return -EINVAL;
- 	}
- 
- #ifdef ISP2401
--	err = calculate_mipi_buff_size(
--	    &pipe->stream->config,
--	    &my_css.mipi_frame_size[port]);
--#endif
--
--#if !defined(ISP2401)
--	if (ref_count_mipi_allocation[port] != 0) {
--		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
--				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
--				    pipe, port);
--		return 0;
--	}
--#else
--	/* 2401 system allows multiple streams to use same physical port. This is not
-+	err = calculate_mipi_buff_size(&pipe->stream->config,
-+				       &my_css.mipi_frame_size[port]);
-+	/*
-+	 * 2401 system allows multiple streams to use same physical port. This is not
- 	 * true for 2400 system. Currently 2401 uses MIPI buffers as a temporary solution.
- 	 * TODO AM: Once that is changed (removed) this code should be removed as well.
- 	 * In that case only 2400 related code should remain.
-@@ -472,6 +402,13 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
- 				    pipe, port);
- 		return 0;
- 	}
-+#else
-+	if (ref_count_mipi_allocation[port] != 0) {
-+		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
-+				    "allocate_mipi_frames(%p) exit: already allocated for this port (port=%d).\n",
-+				    pipe, port);
-+		return 0;
-+	}
- #endif
- 
- 	ref_count_mipi_allocation[port]++;
-@@ -552,23 +489,15 @@ free_mipi_frames(struct ia_css_pipe *pipe)
- 			return -EINVAL;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/interface/ia_css_binary.h b/drivers/staging/media/atomisp/pci/runtime/binary/interface/ia_css_binary.h
+index 6f110d241836..9935ac860bc2 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/interface/ia_css_binary.h
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/interface/ia_css_binary.h
+@@ -130,8 +130,6 @@ struct ia_css_binary {
+ 	int                      sctbl_width_per_color;
+ 	int                      sctbl_aligned_width_per_color;
+ 	int                      sctbl_height;
+-	int                      sctbl_legacy_width_per_color;
+-	int                      sctbl_legacy_height;
+ 	struct ia_css_sdis_info	 dis;
+ 	struct ia_css_resolution dvs_envelope;
+ 	bool                     online;
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index bbb93cb8c070..9af23fdb127b 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -1339,18 +1339,12 @@ ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 			binary->sctbl_width_per_color = _ISP2401_SCTBL_WIDTH_PER_COLOR(isp_internal_width, s3a_log_deci);
+ 			binary->sctbl_aligned_width_per_color = SH_CSS_MAX_SCTBL_ALIGNED_WIDTH_PER_COLOR;
+ 			binary->sctbl_height = _ISP2401_SCTBL_HEIGHT(isp_internal_height, s3a_log_deci);
+-			binary->sctbl_legacy_width_per_color  = _ISP_SCTBL_LEGACY_WIDTH_PER_COLOR(sc_3a_dis_padded_width, s3a_log_deci);
+-			binary->sctbl_legacy_height = _ISP_SCTBL_LEGACY_HEIGHT(sc_3a_dis_height, s3a_log_deci);
  		}
- 
--		if (!buffers_needed(pipe)) {
-+		if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 			IA_CSS_ERROR("free_mipi_frames(%p) exit: wrong mode.",
- 				     pipe);
- 			return err;
- 		}
- 
--		if (!IS_ISP2401) {
--			port = (unsigned int)pipe->stream->config.source.port.port;
--		} else {
--			/* Returns true if port is valid. So, invert it */
--			err = !ia_css_mipi_is_source_port_valid(pipe, &port);
+ 	} else
+ 	{
+ 		binary->sctbl_width_per_color         = 0;
+ 		binary->sctbl_aligned_width_per_color = 0;
+ 		binary->sctbl_height                  = 0;
+-		if (IS_ISP2401) {
+-			binary->sctbl_legacy_width_per_color  = 0;
+-			binary->sctbl_legacy_height	      = 0;
 -		}
-+		port = (unsigned int)pipe->stream->config.source.port.port;
+ 	}
+ 	ia_css_sdis_init_info(&binary->dis,
+ 			      sc_3a_dis_width,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+index 51d83ce0d9cb..02faf5069bb8 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+@@ -242,8 +242,8 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
  
--		assert(port < N_CSI_PORTS);
--
--		if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
--		    (IS_ISP2401 && err)) {
-+		if (port >= N_CSI_PORTS) {
- 			IA_CSS_ERROR("free_mipi_frames(%p, %d) exit: pipe port is not correct.",
- 				     pipe, port);
- 			return err;
-@@ -647,11 +576,7 @@ send_mipi_frames(struct ia_css_pipe *pipe)
- {
- 	int err = -EINVAL;
- 	unsigned int i;
--#ifndef ISP2401
- 	unsigned int port;
--#else
--	unsigned int port = 0;
--#endif
- 
- 	IA_CSS_ENTER_PRIVATE("pipe=%p", pipe);
- 
-@@ -664,23 +589,15 @@ send_mipi_frames(struct ia_css_pipe *pipe)
- 
- 	/* multi stream video needs mipi buffers */
- 	/* nothing to be done in other cases. */
--	if (!buffers_needed(pipe)) {
-+	if (pipe->stream->config.mode != IA_CSS_INPUT_MODE_BUFFERED_SENSOR) {
- 		IA_CSS_LOG("nothing to be done for this mode");
- 		return 0;
- 		/* TODO: AM: maybe this should be returning an error. */
+ 	if (!in_table) {
+ 		sh_css_params_shading_id_table_generate(target_table,
+-							binary->sctbl_legacy_width_per_color,
+-							binary->sctbl_legacy_height);
++							binary->sctbl_width_per_color,
++							binary->sctbl_height);
+ 		return;
  	}
  
--	if (!IS_ISP2401) {
--		port = (unsigned int)pipe->stream->config.source.port.port;
--	} else {
--		/* Returns true if port is valid. So, invert it */
--		err = !ia_css_mipi_is_source_port_valid(pipe, &port);
--	}
-+	port = (unsigned int)pipe->stream->config.source.port.port;
+@@ -284,8 +284,8 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
  
--	assert(port < N_CSI_PORTS);
--
--	if ((!IS_ISP2401 && port >= N_CSI_PORTS) ||
--	    (IS_ISP2401 && err)) {
-+	if (port >= N_CSI_PORTS) {
- 		IA_CSS_ERROR("send_mipi_frames(%p) exit: invalid port specified (port=%d).",
- 			     pipe, port);
- 		return err;
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.h b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-index dffec2205620..e6c86d0ac483 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.h
-@@ -34,19 +34,4 @@ free_mipi_frames(struct ia_css_pipe *pipe);
- int
- send_mipi_frames(struct ia_css_pipe *pipe);
+ 	/* This prepare_shading_table() function is called only in legacy API (not in new API).
+ 	   Then, the legacy shading table width and height should be used. */
+-	table_width  = binary->sctbl_legacy_width_per_color;
+-	table_height = binary->sctbl_legacy_height;
++	table_width  = binary->sctbl_width_per_color;
++	table_height = binary->sctbl_height;
  
--/**
-- * @brief Calculate the required MIPI buffer sizes.
-- * Based on the stream configuration, calculate the
-- * required MIPI buffer sizes (in DDR words).
-- *
-- * @param[in]	stream_cfg		Point to the target stream configuration
-- * @param[out]	size_mem_words	MIPI buffer size in DDR words.
-- *
-- * @return
-- */
--int
--calculate_mipi_buff_size(
--    struct ia_css_stream_config *stream_cfg,
--    unsigned int *size_mem_words);
--
- #endif /* __SH_CSS_MIPI_H */
+ 	result = ia_css_shading_table_alloc(table_width, table_height);
+ 	if (!result) {
 -- 
 2.33.1
 
