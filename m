@@ -1,129 +1,124 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8060D2C81
-	for <linux-staging@lists.linux.dev>; Thu, 18 Nov 2021 18:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1637260816;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vru2W1BeVpnwxOEZvAFt7zBwoQOzWpReS0Uqf8DJZdg=;
-	b=SoV05SnhFpTHjrQ7NWLAlfVk85sEoOTbJew/5jO4VsMYipir5A6GHFh0VnGF52qo2xAh3L
-	jAtRXXzlLO1qKhOb5GrhMvQzROA1ZQ8i8G2QGx/fHkchQPFzeaEg9nlgsJWjr42wjj6f5S
-	CzwL9zYi6bjvNQE8wyUsKUcJA4nZz4Q=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-257-ZteigUzwN4qX5VCeJA7NgQ-1; Thu, 18 Nov 2021 13:40:15 -0500
-X-MC-Unique: ZteigUzwN4qX5VCeJA7NgQ-1
-Received: by mail-ed1-f69.google.com with SMTP id c1-20020aa7c741000000b003e7bf1da4bcso6071505eds.21
-        for <linux-staging@lists.linux.dev>; Thu, 18 Nov 2021 10:40:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D062B72
+	for <linux-staging@lists.linux.dev>; Thu, 18 Nov 2021 21:17:03 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id x6so21340818edr.5
+        for <linux-staging@lists.linux.dev>; Thu, 18 Nov 2021 13:17:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=wyMx3V2KnsMHshkcvzDbgkTPDUvp34qBaCbDKr739rc=;
+        b=cxQEFKruVtlqpRlV0d+YkU6bgLhjpN74tGql0DTY5mQOMBGKhTuD4oH00R2uVqITYt
+         htSg8Ve6eCk0LD+8GL04PdeYemcgja576q2+LHvlRtX7mt0ms2Xx+lPwkXOuRoj4L9KW
+         +67eg7rUMv+XxaTK9Z+QkfNgVCwkzl5enWkqBWwLLvJLJenHY9UgOeeNsaSccCkuOc6P
+         VKkXEwwf1SZFOxxS0isGgHHGWT/gTfOodGco6yPKCIZz5kPCWaUwADBKNVbs9St8Vhq4
+         qEoVxzzV2w1yAYyS+Jqs0/rXiPjUdeUl9wdw0Dg5ERcCB5qi7Ae4a1gCCFBuJsWsQbz8
+         Q3JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=vru2W1BeVpnwxOEZvAFt7zBwoQOzWpReS0Uqf8DJZdg=;
-        b=mTNV+1z/nM5bHVuhlehHjBxQ8mLp4FF+1fk6g5e0v+fxremzzUj/tIqC3TxJD6REEm
-         qOAmwHe1tobW2pN6lMF7pWBGbahg0jG6faVnjGW+UbxO2On7O+9V9g+nxgfkpDdoixdu
-         v15qRpVTARULD55Y3tDLqwdwf97RVuDdmmgpwmKg5ZxavDU5RPHzdZYppNphKota7EOR
-         zbDfKkUvZ3T3Lia2CeqKKcF2saN3dSaCDW6Sic5vXnqZTsMnuJ0rlv/s0vMNgL5GHNxS
-         Lz4guBKeFdJKY8jDwPKlGEwvRXO93DoCT0KUJcEafKr1y72Bf+hG87X1Tlh4lTRshiqu
-         KtyA==
-X-Gm-Message-State: AOAM533f8K9aK5K+0CLv+slLBnfqMUl9GG5QtTVjiyMEOZf49KCDGhVE
-	5VLHUO+qjaA9lImRxxS/jHqVcErODtlJeOwDq6pWQuiVG25ssWJfzkH0L1r58tF3Zbw1QzkbqsC
-	Wk3sdFtntGGRg9Jrqdna20zMakw==
-X-Received: by 2002:a05:6402:354e:: with SMTP id f14mr14101483edd.245.1637260813943;
-        Thu, 18 Nov 2021 10:40:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxSVDlRWa6fp3A4EfHiAXVYnY82/YpRv+CLMpIQWhz2fRWiIjbGbuaFa0BBwfvzv4UUj7EfLg==
-X-Received: by 2002:a05:6402:354e:: with SMTP id f14mr14101446edd.245.1637260813743;
-        Thu, 18 Nov 2021 10:40:13 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id b11sm385014edz.50.2021.11.18.10.40.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Nov 2021 10:40:13 -0800 (PST)
-Message-ID: <976c645e-42ec-d29c-5a50-446d4be908a4@redhat.com>
-Date: Thu, 18 Nov 2021 19:40:12 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=wyMx3V2KnsMHshkcvzDbgkTPDUvp34qBaCbDKr739rc=;
+        b=y/H14dc1wqchc+RV8FKuuapNv+wOms0anb0xTX1amZysFRKpvjJS3tEao7hQ3F1dwA
+         Ws+J/pPnj4RhGLzWd0nNdEUOwpCq3nydGNfFLaS5ITl1GakwG2FSoaYzbqcijpOxIOxu
+         MJoksN6MfDXLmbbjuzyGHkKNgm5Yn7rdAdB/yy8t48qWQSgWN+qtsok1lO94N4GtXf7Y
+         uA0D/rUlmvvG8ODN0hjAcISnqVfsqV9E5cKAZwQ4DUbXl5na3jIJ2p0cpQJQ9HEV1cRj
+         l9NN2Tm4RyhBwg/CGk3CmEAztUkk5LPQa4pypHEmCslXVv3kTB4WaVrrBuLWsl1dJfnh
+         lheA==
+X-Gm-Message-State: AOAM530vTjGlLiQz0v+C2eRdycHTNW/fm1kiPAM2qm+MIG+3U4v59RDP
+	LPgcaqLm8c2GxmK4l5lFEwk=
+X-Google-Smtp-Source: ABdhPJwKB7pAj5je6zrKVeO7m3nryuwYQkOBvPUGF77xmE9uJNA+keTuLqzdj20Kz3Yejj5fajjZfg==
+X-Received: by 2002:a05:6402:34cd:: with SMTP id w13mr16060244edc.112.1637270222214;
+        Thu, 18 Nov 2021 13:17:02 -0800 (PST)
+Received: from t470p (host-95-252-102-163.retail.telecomitalia.it. [95.252.102.163])
+        by smtp.gmail.com with ESMTPSA id l16sm582731edb.59.2021.11.18.13.17.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Nov 2021 13:17:01 -0800 (PST)
+Date: Thu, 18 Nov 2021 22:16:59 +0100
+From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+To: alb3rt0.m3rciai@gmail.com
+Cc: joe@perches.com, forest@alittletooquiet.net, gregkh@linuxfoundation.org,
+	karolinadrobnik@gmail.com, lucas.henneman@linaro.org,
+	dan.carpenter@oracle.com, tomm.merciai@gmail.com,
+	eantoranz@gmail.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v5] staging: vt6655: refactor camelcase uCurrRSSI to
+ current_rssi
+Message-ID: <20211118211128.GA156436@t470p>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [libcamera-devel] [RFC] media: Auto exposure/gain support for
- atomisp / libcamera integration ?
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, andrey.i.trufanov@gmail.com,
- linux-staging@lists.linux.dev, Fabio Aiuto <fabioaiuto83@gmail.com>,
- libcamera-devel@lists.libcamera.org, Nable <nable.maininbox@googlemail.com>,
- Yury Luneff <yury.lunev@gmail.com>, Andy Shevchenko <andy@infradead.org>,
- linux-media@vger.kernel.org
-References: <20211107175013.355188-1-hdegoede@redhat.com>
- <a13e1ed6-3050-3adf-fa6d-8506da66d9fa@ideasonboard.com>
- <YZYv+owv3agp/lOD@pendragon.ideasonboard.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <YZYv+owv3agp/lOD@pendragon.ideasonboard.com>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Replace camelcase variable "uCurrRSSI" (current Received Signal Strength
+Indicator) into linux kernel coding style equivalent
+variable "current_rssi".
 
-On 11/18/21 11:50, Laurent Pinchart wrote:
-> Hi Umang,
-> 
-> On Thu, Nov 18, 2021 at 03:43:53PM +0530, Umang Jain wrote:
->> On 11/7/21 11:20 PM, Hans de Goede wrote:
->>> Hi All,
->>>
->>> Now that we have the atomisp2 driver running on some devices like
->>> the Asus T101HA; and with the exposure + gain controls for the ov2680
->>> sensor found on that laptop fixed:
->>>
->>> https://lore.kernel.org/linux-media/20211107171549.267583-1-hdegoede@redhat.com/
->>>
->>> I believe we need to start thinking about various userspace API
->>> concerns. Thanks to Mauro's great work on various V4L2 API things
->>> are starting to work (somewhat) with regular V4L2 apps, but we really
->>> also need some processing / 3A stuff to make the cameras really
->>> usable.
->>>
->>> The most important thing needed is automatic exposure + gain control,
->>> ATM this relies on a custom ATOMISP ioctl, but I believe that we can
->>> just export the controls as regular v4l2 controls on the sensor subdev,
->>> at least for the ov2680 the exposure is already exported this way
->>> but it is read-only. Does anyone see any problems with just making
->>> these normal v4l2 controls on the sensor subdev ?
->>>
->>> We can then simulate the custom ATOMISP ioctl through the subdevs,
->>> or we can just remove it alltogether.
->>>
->>> Once we have the controls available this way I think we should write
->>> a libcamera plugin, which like the older versions of the Rasberry Pi
->>> plugin (if I've understood things correctly) won't use the MC framework
->>> for now. I believe we first need to understand the atomisp code better
->>> before we add MC support (*). But I still believe that an (experimental)
->>> plugin would be good, both to get something usable so that we can get
->>> more testers / more people interested in contributing.
->>
->> I am trying to understand what 'plugin' here means? Is it a wrapper 
->> pertaining to use libcamera (fined tuned for atomisp) that apps can use?
-> 
-> I think it means pipeline handler (and IPA module).
+Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+---
 
-Right, I'm still getting used to the libcamera naming of things :)
+v4
+- rebase against the staging-next
+v3
+- change tab with whitespace next to current_rssi
+v2
+- correct mailing list
+v1
+- remove whitespaces
 
-Regards,
+ drivers/staging/vt6655/device.h      | 2 +-
+ drivers/staging/vt6655/device_main.c | 4 ++--
+ drivers/staging/vt6655/dpc.c         | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-Hans
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 3768791d9744..ff171acc11f4 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -165,7 +165,7 @@ struct vnt_private {
+ 	unsigned char abyCurrentNetAddr[ETH_ALEN]; __aligned(2)
+ 	bool bLinkPass;          /* link status: OK or fail */
+ 
+-	unsigned int	uCurrRSSI;
++	unsigned int current_rssi;
+ 	unsigned char byCurrSQ;
+ 
+ 	unsigned long dwTxAntennaSel;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index e74caf22d75a..1f98f2b069c4 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -980,10 +980,10 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 	if (priv->hw->conf.flags & IEEE80211_CONF_OFFCHANNEL)
+ 		return;
+ 
+-	if (!(priv->vif->bss_conf.assoc && priv->uCurrRSSI))
++	if (!(priv->vif->bss_conf.assoc && priv->current_rssi))
+ 		return;
+ 
+-	RFvRSSITodBm(priv, (u8)priv->uCurrRSSI, &dbm);
++	RFvRSSITodBm(priv, (u8)priv->current_rssi, &dbm);
+ 
+ 	for (i = 0; i < BB_VGA_LEVEL; i++) {
+ 		if (dbm < priv->dbm_threshold[i]) {
+diff --git a/drivers/staging/vt6655/dpc.c b/drivers/staging/vt6655/dpc.c
+index a7d1d35de5d4..c6ed3537f439 100644
+--- a/drivers/staging/vt6655/dpc.c
++++ b/drivers/staging/vt6655/dpc.c
+@@ -80,7 +80,7 @@ static bool vnt_rx_data(struct vnt_private *priv, struct sk_buff *skb,
+ 	RFvRSSITodBm(priv, *rssi, &rx_dbm);
+ 
+ 	priv->byBBPreEDRSSI = (u8)rx_dbm + 1;
+-	priv->uCurrRSSI = *rssi;
++	priv->current_rssi = *rssi;
+ 
+ 	skb_pull(skb, 4);
+ 	skb_trim(skb, frame_size);
+-- 
+2.25.1
 
