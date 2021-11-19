@@ -1,136 +1,162 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682EF68
-	for <linux-staging@lists.linux.dev>; Fri, 19 Nov 2021 16:14:38 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id u3so45545402lfl.2
-        for <linux-staging@lists.linux.dev>; Fri, 19 Nov 2021 08:14:38 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B4D68
+	for <linux-staging@lists.linux.dev>; Fri, 19 Nov 2021 16:29:52 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id w15so10780579ill.2
+        for <linux-staging@lists.linux.dev>; Fri, 19 Nov 2021 08:29:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=CVt00Cx1G7U8YuaydLPRKeb99+KAqAPpcKxsRo0Aya0=;
-        b=RafOqQK7mPPCgY98rBc+Sd0SB6lWfmDwHiTOEX4DVMci2mmIseoG0o1AyUaEWOqZaN
-         qxalOyWR8C5wSq+bqZx/cBK8t/FQ1AT4rcQUC1qLFfGEmYKrttH3Tjj58aJbGkzr+Z8N
-         c5s3GCrvJX9xXFhjMGaEYVgij2KMSwmZ6ns1WGW0HKTKWhidmGXkpBcvfht8CdvB7niV
-         xHJIoynaVpNdTweIo35hQzaWZO4YLei390F6v1YowvaZGCTWXWuL1wCH9OF9H1GtM3vc
-         ikSwW02TInMoK7wXODQzUnOV4rkcd11E0YgDd+FTRd6YKFGLv0XWfTia4+m7dtcA4Y4F
-         AZCQ==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=NA+2l6X3VrlJxsJamfaAblN1iQr9G5GeyeDjrzqWldE=;
+        b=pWYGr8brYDg2I9xcuGuhurThossAPr1q87fBQPqCiM2BAja4C7uFnX65Fix38gLbMR
+         at4/FYFXGd1o9zn1i0YRa4Hl3P62bx1s2GsXPKOGSzrVsAT1Xw8HlYNWbORdzoDIOeqe
+         0qslCNUJ66VzbM5OECQeydfyhNNqUWwGP6afEEwmpoOMoNIZnNaZfchouPoszwNYzV1v
+         y1bimltU6qqxfdJSKgW6NjHgo6foggqrexAHaTR5BhNExaTs0kreVzSvKeiuvCJBGMM5
+         4hhlHH8MqKp2ss3LA9dpdsxQOKHOGkUr880PDTOgcILg0r5nps7M4Bb//54zUt1tJBXH
+         UXjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=CVt00Cx1G7U8YuaydLPRKeb99+KAqAPpcKxsRo0Aya0=;
-        b=ayT6UUkPjIhFTWRIP1/t08DRFBYzx2fCjyosPXO0Tl/WU7vCiMpKW54295kW0Ehh1c
-         oZTJ1zHUUqTP5S9NzzO3nAl+tyLScFWABn+O1V8zza1LEVNapnsvIZTO6PfwJlkgKbfI
-         pDr/EF3tLbDbLEth+aZls9bzBsKdWpGrD0+5NpXEsGME+02eldIB5yG0knfUnDdajQld
-         5gLgwfYFTyGOTqzVCNCbB9iXAKze363fjx6aYfTaVSM2RmkY+XcXQOaT7cI21D9Lb1tm
-         85iDau2v1wKmxT5di1T26z8bBrupPTkC0W4qcki6muFnnKk5mCPjMGAraKrM9RzGCirK
-         k3+w==
-X-Gm-Message-State: AOAM5310rT/RLxc1gxnlgI3RDHNC/aNL2YE6o0JsLBwTtoKF6AJN4ajj
-	qv9MPcdx0ZDYQzBUK3Xu4L8=
-X-Google-Smtp-Source: ABdhPJw1wjBYBR1zg/q9N01rP3fcpd1YoL3lTmx4i87xCIdjzz3P3x6SQy6gVCrAKkSEGDTvgZzhLA==
-X-Received: by 2002:a05:6512:15a7:: with SMTP id bp39mr34306157lfb.145.1637338476327;
-        Fri, 19 Nov 2021 08:14:36 -0800 (PST)
-Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
-        by smtp.googlemail.com with ESMTPSA id a28sm15456ljd.65.2021.11.19.08.14.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Nov 2021 08:14:35 -0800 (PST)
-Subject: Re: [PATCH v1 1/3] media: staging: tegra-vde: Support reference
- picture marking
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anton Bambura <jenneron@protonmail.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- smatch@vger.kernel.org
-References: <20211114222353.22435-1-digetx@gmail.com>
- <20211114222353.22435-2-digetx@gmail.com>
- <42b24cd0-ac37-3cfe-1fb2-d6292015318a@gmail.com>
- <20211115124402.GE26989@kadam>
- <e4b9d596-d206-71d1-6ec5-1a41af579836@gmail.com>
- <20211115154858.GG27562@kadam>
- <89166c20-6b05-ed4b-ed45-451f4f1e10bc@gmail.com>
- <20211118061418.GO26989@kadam>
- <a7238d27-6f9a-58ac-1acd-44fa6ea0727d@gmail.com>
- <20211119123001.GR27562@kadam>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4bddc31f-de23-8c50-bad2-e23c2729e119@gmail.com>
-Date: Fri, 19 Nov 2021 19:14:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=NA+2l6X3VrlJxsJamfaAblN1iQr9G5GeyeDjrzqWldE=;
+        b=7As5YMpkTV8va2H9rpHBy8b9HSBrxYMwmH3a5RZ4SgVRf2fAmyF3vdegbHl7Crc7TV
+         9eeIBKJmBw4yns98+V8p86yInPpTsguc0mb3uq2NyjQZdaNfG1p35EeedbzK2ttkIPSn
+         Sp+6E1oAe5tTMrumcQ4l/H05sOPSeQNl1TXDSdzQ2oK+kLl8vwZC5GERFUGT6SZMzbW/
+         Y8i62slY/i+v+OvKrYxWG2zr77rwLWx3uh0Mdmf82FNhhknzMRN9BvHAeao4ADkP+9nV
+         mX7+IP67q6W0apD3PQbOLHpHNR9PPcpTgWC6zBbqoLHkwhg5//TgctpvoeDpHyKtHhjU
+         BSCQ==
+X-Gm-Message-State: AOAM532Ut4aMTVlGcDX2Iue4yJNrTiF2deQu/iswSgf44vwOjWVKR3lD
+	/zmisca7ngAd1CnSkq1Agi7Neg==
+X-Google-Smtp-Source: ABdhPJy9+PK69iHyuVZcAK9TkCljtUM0G3YiAMHQdYjwnsW/n1HgnSVsWmM0mEP/36cqcfaj9/5ecQ==
+X-Received: by 2002:a92:d343:: with SMTP id a3mr5688828ilh.136.1637339392190;
+        Fri, 19 Nov 2021 08:29:52 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id c7sm108143iob.28.2021.11.19.08.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Nov 2021 08:29:51 -0800 (PST)
+Message-ID: <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
+Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Adam Ford <aford173@gmail.com>, Tim Harvey <tharvey@gateworks.com>
+Cc: linux-media <linux-media@vger.kernel.org>, Schrempf Frieder
+ <frieder.schrempf@kontron.de>, Marek Vasut <marek.vasut@gmail.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Adam Ford-BE <aford@beaconembedded.com>,
+  cstevens@beaconembedded.com, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>,  Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner
+ <heiko@sntech.de>, Lucas Stach <l.stach@pengutronix.de>, Joakim Zhang
+ <qiangqing.zhang@nxp.com>, Alice Guo <alice.guo@nxp.com>, Peng Fan
+ <peng.fan@nxp.com>, "open list:HANTRO VPU CODEC DRIVER"
+ <linux-rockchip@lists.infradead.org>, "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated
+ list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>, open list
+ <linux-kernel@vger.kernel.org>,  "open list:STAGING SUBSYSTEM"
+ <linux-staging@lists.linux.dev>
+Date: Fri, 19 Nov 2021 11:29:48 -0500
+In-Reply-To: <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+References: <20211106183802.893285-1-aford173@gmail.com>
+	 <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+	 <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+	 <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+	 <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+	 <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
+	 <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+	 <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211119123001.GR27562@kadam>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-19.11.2021 15:30, Dan Carpenter пишет:
-> On Thu, Nov 18, 2021 at 04:56:38PM +0300, Dmitry Osipenko wrote:
->> 18.11.2021 09:14, Dan Carpenter пишет:
->>> It's not hard to run Smatch yourself...
->>>
->>> Depending on if you're on a apt distro or yum distro then fetch the
->>> dependencies with one of the follow commands:
->>> apt-get install gcc make sqlite3 libsqlite3-dev libdbd-sqlite3-perl libssl-dev libtry-tiny-perl
->>> yum install gcc make sqlite3 sqlite-devel sqlite perl-DBD-SQLite openssl-devel perl-Try-Tiny
->>>
->>> git clone https://github.com/error27/smatch 
->>> cd smatch
->>> make
->>> cd ~/kernel_source/
->>> ~/smatch/smatch_scripts/kchecker drivers/subsystem/
->>
->> Thanks, I was running Smatch couple times in the past. Finding how to
->> run Smatch isn't the problem, the thing is that Smatch either isn't
->> packaged by distros or packaged version is outdated, hence there is a
->> need to maintain it by yourself.
->>
->> Also, is it guaranteed that Smatch will always work properly with
->> linux-next?
-> 
-> I work against linux-next every day so generally, yes.  But that reminds
-> me that linux-next broke while I was on vacation and I haven't yet
-> pushed the fixes.
-> 
->>
->> I imagine more developers could start to engage in using Smatch if
->> kernel supported 'make smatch' command which would automate the process
->> of fetching, building and running Smatch.
->>
->> Couldn't the "kernel" version of Smatch reside in the kernel's tools/?
->> Or maybe just the parts of Smatch that are necessary for kernel
->> checking, like kernel's DB/scripts and etc. Doesn't it make sense?
-> 
-> I'm not sure that makes sense really...  I'll expand on that in a bit
-> but the shorter answer is also that I don't have the bandwidth to make
-> it work.  I just suck at releases and testing.  So this would bitrot and
-> be horrible.
-> 
-> Smatch does need a better way to manage data for other projects.  Right
-> now linux-next is the first class citizen.  It's the only thing where
-> I'm positive that it gets tested regularly.  All the data in
-> smatch_data/ is from linux-next.
-> 
-> And also there should be a better way to check specific version of the
-> kernel because people quite often use the same directory and just check
-> out v4.12 to test that and switch back.  I do that and I've got scripts
-> on my system ./switch_to_tree4v1.sh which set up the symlinks for me.
-> 
-> But for linux-next it's fine.  Also by the time kernels have been
-> released the remaining Smatch warnings are almost all false positives.
-> 
-> To me the data in smatch_data/ is not so important as the cross function
-> database.  And the cross function database can't be distributed.  It's
-> too huge and it's specific to a given .config.
+Hi Adam, Tim,
 
-Thank you for the clarification.
+[...]
+> > > > Nicolas and Adam,
+> > > > 
+> > > > For the H1 patches in this series: I've been able to test the IMX8MM
+> > > > H1 JPEG encode using GStreamer 1.18.5:
+> > > > $ gst-inspect-1.0 | grep -e "v4l2.*enc"
+> > > > video4linux2:  v4l2jpegenc: V4L2 JPEG Encoder
+> > > > $ gst-launch-1.0 videotestsrc ! jpegenc ! rtpjpegpay ! udpsink
+> > >                                   ^ v4l2jpegenc
+> > > 
+> > > This is just a transcript error ?
+> > 
+> > Nicolas,
+> > 
+> > No! Thanks for catching my mistake. I was testing with software encode... ooops!
+> > 
+> > 'gst-launch-1.0 videotestsrc ! v4l2jpegenc ! fakesink' actually hangs
+> > the board so likely a power-domain issue there?
+> 
+> The v4l2-compliance tests fail on the h1 decoder with a hang, but I
+> think we're writing to registers which are not documented in the Mini
+> TRM.  The Mini TRM doesn't explicitly show the JPEG encoding as a
+> feature, but some of the registers state JPEG, but because some of the
+> registers written for the H1 are not documented in the TRM.  If those
+> registers are restricted or not in this SoC, I am concerned that it
+> might be related.  I'll try to run some more tests this weekend to
+> check on the status of the power-domain stuff.
+
+To verify if the HW support JPEG encoding you can read SWREG63 bit 25. This is
+in the TRM, just not labelled properly. To mimic the decoding side, would be "HW
+synthesis config register X" with the bit labelled SW_ENC_JPEG_PROF (but
+PROF/profile is on or off). If your board hang while reading this, you likely
+didn't get the power bit right.
+
+IMX8 has an undocumented control block thing that we have been fighting with in
+imx8q,  perhaps that's your issue. Few driver was proposed, we are still pending
+on NXP solution to be submitted (they asked us to wait, still waiting =)).
+
+> > 
+> > > 
+> > > > host=192.168.1.146 port=5000
+> > > > viewed on client@192.168.1.146 via:
+> > > > $ gst-launch-1.0 udpsrc port=5000 ! application/x-rtp,payload=96 !
+> > > > rtpjpegdepay ! jpegdec ! autovideosink
+> > > > 
+> > > > For the G1/G2 patches in the series I don't see any Gstreamer
+> > > > 'v4l2.*dec' elements. Perhaps I need a newer version of Gstreamer.
+> > > 
+> > > Most likely yes, I suggest building gstreamer/ branch "main", GStreamer has now
+> > > a single repository. We are very close to 1.20, which will include stable API
+> > > support of H264, MPEG2 and VP8 decoding.
+> > > 
+> > 
+> > Ok, let me see if I can navigate through the build process and I'll
+> > get back to you.
+> > 
+> > Thanks,
+> > 
+> > Tim
+> > 
+> > > > 
+> > > > I have CSI capture and DSI display currently working on
+> > > > imx8mm-venice-gw73xx-0x that I can play with. The CSI sensor only
+> > > > supports RAW8/RAW10 (and gstreamer currently only supports RAW8) and I
+> > > > can't efficiently convert to something the JPEG encoder likes without
+> > > > bayer2rgbneon (a libneon version).
+> > > > 
+> > > > I see from the IMX8MMRM that the 2D GPU supports scaling etc with a
+> > > > wide range of data formats but I'm not sure how to tap into this as
+> > > > that hardware is managed by the vivante driver. On the IMX6QDL there
+> > > > is a separate IPU block that Philipp Zabel wrote a nice mem2mem
+> > > > csc/scaler driver for but I don't see any equivalent currently for
+> > > > IMX8MM.
+> > > > 
+> > > > Best regards,
+> > > > 
+> > > > Tim
+> > > 
+
