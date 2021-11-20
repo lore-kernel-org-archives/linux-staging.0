@@ -1,60 +1,51 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A6D2C88
-	for <linux-staging@lists.linux.dev>; Sat, 20 Nov 2021 08:26:40 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9D1DA5C0174;
-	Sat, 20 Nov 2021 03:26:39 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Sat, 20 Nov 2021 03:26:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=yhQdDz8IvFGR0FMCBQ/mJ32u+45
-	GUwHq+HUJDX5bVnU=; b=RAejQMGbFod6CKCV/y39nS5BlSwaNtIRXCY5pNzpCH0
-	RvqYeDs36w38X3kRuJ33yaP0jbxV9TqlbfYckXORwBmucKv7JWzFJgofkgrI3WrH
-	cb15RrISwXPSXlUC+tXh1nFeM3W/TClJEIvXIymZRkbknmEqWCjRR2hxjvVj4JxJ
-	dK+/NYNiS+nH8N11LkZ5x9OSNlvM/ggTRfsRWogqpOJJtGHLOG4ESfPg+p0omEiX
-	n09SPUTXZ8/3kigii8isRkzvySrtvC1hpgKbvfSC8q8xp1Wuflxc4rulIgiUtUbz
-	+wdH6+QYfv8c+VpJ0ivmMH3ku/rdozkf1rgm24GkNcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yhQdDz
-	8IvFGR0FMCBQ/mJ32u+45GUwHq+HUJDX5bVnU=; b=m2gAF99pQ+/QSWitX2TuLH
-	2ACLzIRHngGyNS4LL6z2HEu13uTZt36NwdBHs2XRyBX8kP8HGqKKynsMv250E6Mm
-	4nzN8+isuTsZF9p2m3nvmZvEbQO2JVS1cKnyjkHh8ipxDnkDyEqKMWqPFNUTeZX5
-	T4QdRfJf0DsIT9wwyGfSxCHc6dYFpxckzC4J1JVTU8ycPGN2UoA3ICtELXZRApQR
-	GHxD/oq4Y2tMFrTLG3dXA4sy///Rp1H7RjZwcQvFPWzUZzxd5ywHRTUQTM3breQ0
-	SfU9XBvGMfuiFl96ZZa+hpfIX1ZStKO+FdxfzDep63NbW2Lxa7WhhgtxlqA8P/nA
-	==
-X-ME-Sender: <xms:P7GYYbNveEAEf0MTqh-FzHmWx3Qvhmuty24o3a5aGfKvjK9xGNRpQA>
-    <xme:P7GYYV99nCLS4jKCdePumrGcjNv4BMcSuAnzxA1vTNs5Wb9E0f-y8kE7wi5U9FjLj
-    svvWu-NYpW2Ag>
-X-ME-Received: <xmr:P7GYYaQTOUISbBUjRxWlbkp1HYFCOxHUFm16YpE2fw-5U_AYS4LObAR15althW6_En3Ejmm2qLfJwXBzVoGD-3a6FIBXe2TH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeelgdduudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
-    drtghomh
-X-ME-Proxy: <xmx:P7GYYfsgBhIcDQt5mKpI4tHMXqj-RY12xQYRmGUkN0GrhcKbkzcdhw>
-    <xmx:P7GYYTdR5Xun9LM8wViekVEwh_r2Vs7j_WQAeoDgN1MhPxE-E01wtw>
-    <xmx:P7GYYb2aNdmBqgwmCbhBskX7Wgf9XNd4uyGd1Tbn1jMeAhjNHK9OqA>
-    <xmx:P7GYYbQn_bfy1B4Jry9btfMzvYgdiC9GoNOpiHuEhCoeb2VfetaTGA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 20 Nov 2021 03:26:38 -0500 (EST)
-Date: Sat, 20 Nov 2021 09:26:36 +0100
-From: Greg KH <greg@kroah.com>
-To: Zoeb Mithaiwala <zoebm@google.com>
-Cc: trivial@kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] Staging: rtl8712: rtl871x_security: fixed a camel case
- variable name coding style issue
-Message-ID: <YZixPDg8kKHZrGJB@kroah.com>
-References: <20211120080658.1070907-1-zoebm@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D6072
+	for <linux-staging@lists.linux.dev>; Sat, 20 Nov 2021 10:22:47 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id z5so53611947edd.3
+        for <linux-staging@lists.linux.dev>; Sat, 20 Nov 2021 02:22:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=BeEy6vcRhKds2a9r3PHLPnOSTPWjtYqMbWVGsXuciho=;
+        b=nJ3XAwQD+ApXFBqYl4+P7FiNKmurZPaXvd5HRPAAVFsOVUwbpxWDjgEvMN7qdt7nEA
+         fZzqxpfWPb7wWtolicpXilhlRmgUbRSu7dUgRh4yTR0aFdsPyqxi8w3U+PvEaNztvfYa
+         2PLY+wrRzihe14vf/N/lTcMc+qrrouMQRLWxl66kM3FixGKc7m+WoEZkU1CfuvDoG1Qu
+         hci65pI4IbRJN0wjYt9LZt1TfrfoKMuVJf4hS7PUTysnw/YyKBqA6ZLBeE14guVxuVDi
+         VKuvoGp1ks0kFsjYjI9mel6w1rwXRR3A5tWutIketAckvnDBjB+cuCtx6YI64xSDg4vz
+         AAlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=BeEy6vcRhKds2a9r3PHLPnOSTPWjtYqMbWVGsXuciho=;
+        b=PcQYbuA+TdK5BdaftFs3Yy4C0Qmc09GWtm02R1DG4aNuiOWtsBmch42yjJWPjzy9uP
+         xfK/Sy0E03u8q/mP3Vuq/5nF5OYTmvdKWvSws3MBw1/5oSLI5FLyoQHd7diQtXYOZmSj
+         3/NVTks16aDsYT2vmCHzV4lHTvUcOu5HbPXy7fGorL9ftVa4rcM5zvcCWAc24gTi579o
+         ODszBJNcBtdYjprPJlDvQ64tqZApdwnUpXWaB+OEEwIK5bc/XKL1Jz7wVFUqXRbx2RJw
+         naJu9aXQRxUmP21c519upf3qqjhTb7EV7VzdMRGaKoBfCvz0H9gT9j0D1db3MhhoK/6X
+         AfCQ==
+X-Gm-Message-State: AOAM530qRbJwDDEvo+lwa8axRc7tNDV0dO3Bbm9MnNNd4+RbE2mRORoH
+	45ROBWGUFIK78yRguqsZfYg=
+X-Google-Smtp-Source: ABdhPJxCnvxOIegDz2yVsmrg//p0BNrhE5Le+7R7IlFZmhHfD+Zy+a+H2d0+WpBK2J9qtCEyvhAPHA==
+X-Received: by 2002:a17:906:2f97:: with SMTP id w23mr18047060eji.31.1637403766422;
+        Sat, 20 Nov 2021 02:22:46 -0800 (PST)
+Received: from bulldog (host-95-252-102-163.retail.telecomitalia.it. [95.252.102.163])
+        by smtp.gmail.com with ESMTPSA id r13sm1050433edo.71.2021.11.20.02.22.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Nov 2021 02:22:46 -0800 (PST)
+Date: Sat, 20 Nov 2021 11:22:43 +0100
+From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+To: alb3rt0.m3rciai@gmail.com
+Cc: forest@alittletooquiet.net, gregkh@linuxfoundation.org,
+	tomm.merciai@gmail.com, dan.carpenter@oracle.com,
+	karolinadrobnik@gmail.com, alb3rt0.m3rciai@gmail.com,
+	aldas60@gmail.com, gustavoars@kernel.org, lucas.henneman@linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] staging: vt6655: refactor camelcase uCurrRSSI to
+ current_rssi
+Message-ID: <20211120102243.GA529659@bulldog>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,88 +54,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211120080658.1070907-1-zoebm@google.com>
 
-On Sat, Nov 20, 2021 at 08:06:58AM +0000, Zoeb Mithaiwala wrote:
-> Fixed a coding style issue.
-> 
-> Signed-off-by: Zoeb Mithaiwala <zoebm@google.com>
-> ---
->  drivers/staging/rtl8712/rtl871x_security.c | 12 ++++++------
->  drivers/staging/rtl8712/rtl871x_security.h |  6 +++---
->  2 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8712/rtl871x_security.c b/drivers/staging/rtl8712/rtl871x_security.c
-> index e0a1c30a8fe6..4b341074b1b2 100644
-> --- a/drivers/staging/rtl8712/rtl871x_security.c
-> +++ b/drivers/staging/rtl8712/rtl871x_security.c
-> @@ -269,7 +269,7 @@ static void secmicclear(struct mic_data *pmicdata)
->  /* Reset the state to the empty message. */
->  	pmicdata->L = pmicdata->K0;
->  	pmicdata->R = pmicdata->K1;
-> -	pmicdata->nBytesInM = 0;
-> +	pmicdata->nbytes_in_m = 0;
->  	pmicdata->M = 0;
->  }
->  
-> @@ -285,10 +285,10 @@ void r8712_secmicsetkey(struct mic_data *pmicdata, u8 *key)
->  static void secmicappendbyte(struct mic_data *pmicdata, u8 b)
->  {
->  	/* Append the byte to our word-sized buffer */
-> -	pmicdata->M |= ((u32)b) << (8 * pmicdata->nBytesInM);
-> -	pmicdata->nBytesInM++;
-> +	pmicdata->M |= ((u32)b) << (8 * pmicdata->n_bytes_in_m);
-> +	pmicdata->nbytes_in_m++;
->  	/* Process the word if it is full. */
-> -	if (pmicdata->nBytesInM >= 4) {
-> +	if (pmicdata->nbytes_in_m >= 4) {
->  		pmicdata->L ^= pmicdata->M;
->  		pmicdata->R ^= ROL32(pmicdata->L, 17);
->  		pmicdata->L += pmicdata->R;
-> @@ -301,7 +301,7 @@ static void secmicappendbyte(struct mic_data *pmicdata, u8 b)
->  		pmicdata->L += pmicdata->R;
->  		/* Clear the buffer */
->  		pmicdata->M = 0;
-> -		pmicdata->nBytesInM = 0;
-> +		pmicdata->nbytes_in_m = 0;
->  	}
->  }
->  
-> @@ -323,7 +323,7 @@ void r8712_secgetmic(struct mic_data *pmicdata, u8 *dst)
->  	secmicappendbyte(pmicdata, 0);
->  	secmicappendbyte(pmicdata, 0);
->  	/* and then zeroes until the length is a multiple of 4 */
-> -	while (pmicdata->nBytesInM != 0)
-> +	while (pmicdata->nbytes_in_m != 0)
->  		secmicappendbyte(pmicdata, 0);
->  	/* The appendByte function has already computed the result. */
->  	secmicputuint32(dst, pmicdata->L);
-> diff --git a/drivers/staging/rtl8712/rtl871x_security.h b/drivers/staging/rtl8712/rtl871x_security.h
-> index 8461b7f05359..006ce05c798f 100644
-> --- a/drivers/staging/rtl8712/rtl871x_security.h
-> +++ b/drivers/staging/rtl8712/rtl871x_security.h
-> @@ -192,7 +192,7 @@ struct mic_data {
->  	u32  K0, K1;         /* Key */
->  	u32  L, R;           /* Current state */
->  	u32  M;              /* Message accumulator (single word) */
-> -	u32  nBytesInM;      /* # bytes in M */
-> +	u32  nbytes_in_m;      /* # bytes in M */
+Replace camelcase variable "uCurrRSSI" (current Received Signal Strength
+Indicator) into linux kernel coding style equivalent
+variable "current_rssi".
 
-The comments are not alined anymore?
+Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+---
 
-And why "n"?
+Changelog v4:
+- Rebase to "staging-next" 
 
+Changelog v3:
+- Correct mailing list
 
->  };
->  
->  void seccalctkipmic(
-> @@ -200,11 +200,11 @@ void seccalctkipmic(
->  	u8  *header,
->  	u8  *data,
->  	u32  data_len,
-> -	u8  *Miccode,
-> +	u8  *miccode,
+Changelog v2:
+- Remove whitespaces 
 
-This is a different change :(
+ drivers/staging/vt6655/device.h      | 2 +-
+ drivers/staging/vt6655/device_main.c | 4 ++--
+ drivers/staging/vt6655/dpc.c         | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-greg k-h
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 3768791d9744..ff171acc11f4 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -165,7 +165,7 @@ struct vnt_private {
+ 	unsigned char abyCurrentNetAddr[ETH_ALEN]; __aligned(2)
+ 	bool bLinkPass;          /* link status: OK or fail */
+ 
+-	unsigned int	uCurrRSSI;
++	unsigned int current_rssi;
+ 	unsigned char byCurrSQ;
+ 
+ 	unsigned long dwTxAntennaSel;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index e74caf22d75a..1f98f2b069c4 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -980,10 +980,10 @@ static void vnt_check_bb_vga(struct vnt_private *priv)
+ 	if (priv->hw->conf.flags & IEEE80211_CONF_OFFCHANNEL)
+ 		return;
+ 
+-	if (!(priv->vif->bss_conf.assoc && priv->uCurrRSSI))
++	if (!(priv->vif->bss_conf.assoc && priv->current_rssi))
+ 		return;
+ 
+-	RFvRSSITodBm(priv, (u8)priv->uCurrRSSI, &dbm);
++	RFvRSSITodBm(priv, (u8)priv->current_rssi, &dbm);
+ 
+ 	for (i = 0; i < BB_VGA_LEVEL; i++) {
+ 		if (dbm < priv->dbm_threshold[i]) {
+diff --git a/drivers/staging/vt6655/dpc.c b/drivers/staging/vt6655/dpc.c
+index a7d1d35de5d4..c6ed3537f439 100644
+--- a/drivers/staging/vt6655/dpc.c
++++ b/drivers/staging/vt6655/dpc.c
+@@ -80,7 +80,7 @@ static bool vnt_rx_data(struct vnt_private *priv, struct sk_buff *skb,
+ 	RFvRSSITodBm(priv, *rssi, &rx_dbm);
+ 
+ 	priv->byBBPreEDRSSI = (u8)rx_dbm + 1;
+-	priv->uCurrRSSI = *rssi;
++	priv->current_rssi = *rssi;
+ 
+ 	skb_pull(skb, 4);
+ 	skb_trim(skb, frame_size);
+-- 
+2.25.1
+
