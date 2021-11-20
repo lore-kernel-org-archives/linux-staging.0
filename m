@@ -1,133 +1,150 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C1D2C88
-	for <linux-staging@lists.linux.dev>; Sat, 20 Nov 2021 08:07:49 +0000 (UTC)
-Received: by mail-yb1-f201.google.com with SMTP id d9-20020a251d09000000b005c208092922so19576139ybd.20
-        for <linux-staging@lists.linux.dev>; Sat, 20 Nov 2021 00:07:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=/4ZPEXu2kzgGrJkyRdh3gbJQzf2GsdF8NSkpgZarmAU=;
-        b=Vns1AMoxQDcl/v0vKfYOnR3Ij3FngKclLCaY1OJhF3z7RzqrXXW2nzHsjP336/7Ljv
-         k4tUNDLXA9UKHZv8hK1/co9Gmefb+dOPuPlpfEOZSQO8Qtr7n0oJJIPNXkhTBMtp6DOp
-         8x22QzSB3Y+gWwoFAisaAgDB0f8am4Vkl7Fs0wb4kIzXiTW+roNRMtwfsosyiAhNqtlt
-         1BV15w7OICG/px/TryfUm6FVFHpJlTKcCIJF7L6uJkdKqC7K0K/emoCf+xoGkETgrme4
-         nS3hAMz6HoVPYQAyMuhRs1H2F9UfyIhjq2vW564sAnxJCU9qQXR4946thboieBm2spUV
-         N5+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=/4ZPEXu2kzgGrJkyRdh3gbJQzf2GsdF8NSkpgZarmAU=;
-        b=QYY5Aarm9KP9nN+oi674/96BmE11kPlHQe4venptZDKxjXV58KIAqzh4L/z8aW5y1n
-         XGlUfj+HqWEYFaLE+K+SEV1fJhoAcO2741WaJSBR529/ArT9Je4arYcbXycAPJgl0Tst
-         7r7dXBm+Hm9I7cl1vjZUQCpX1J+DdXszBH/X+OLVyLARQF82SIK3r5z81mHBCTJX/vrz
-         sLL4dZDFOcuMe1fXKfMacrOOWa+lHmdAYG24sTHwQKhR1u6D8laqQeuosgMHhBKhidaM
-         fqvl4A9rapDcyrf6Xqt76E0CBlz/Yxr4dXIJCEaJdkTAtAWqN0fdcC+kpCrlxdl4ZUB9
-         QLkg==
-X-Gm-Message-State: AOAM532DqWEXz7tItiEJAKSeoKQ0SryICyNdVc0GTIP+I7Z+7t9eelap
-	+2w/5Ww1r1EfoX2aE8/1jkwt2zducA==
-X-Google-Smtp-Source: ABdhPJxdIe3JxD6oKvkN+tcIWlloWXn0gMYNo1fumy0kGm5KuUWT5kTwGoGYFFltLMOzQ1BBK7M+MLCCig==
-X-Received: from zoebm1.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:e29])
- (user=zoebm job=sendgmr) by 2002:a25:8607:: with SMTP id y7mr1008912ybk.283.1637395668647;
- Sat, 20 Nov 2021 00:07:48 -0800 (PST)
-Date: Sat, 20 Nov 2021 08:06:58 +0000
-Message-Id: <20211120080658.1070907-1-zoebm@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A6D2C88
+	for <linux-staging@lists.linux.dev>; Sat, 20 Nov 2021 08:26:40 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 9D1DA5C0174;
+	Sat, 20 Nov 2021 03:26:39 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Sat, 20 Nov 2021 03:26:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=yhQdDz8IvFGR0FMCBQ/mJ32u+45
+	GUwHq+HUJDX5bVnU=; b=RAejQMGbFod6CKCV/y39nS5BlSwaNtIRXCY5pNzpCH0
+	RvqYeDs36w38X3kRuJ33yaP0jbxV9TqlbfYckXORwBmucKv7JWzFJgofkgrI3WrH
+	cb15RrISwXPSXlUC+tXh1nFeM3W/TClJEIvXIymZRkbknmEqWCjRR2hxjvVj4JxJ
+	dK+/NYNiS+nH8N11LkZ5x9OSNlvM/ggTRfsRWogqpOJJtGHLOG4ESfPg+p0omEiX
+	n09SPUTXZ8/3kigii8isRkzvySrtvC1hpgKbvfSC8q8xp1Wuflxc4rulIgiUtUbz
+	+wdH6+QYfv8c+VpJ0ivmMH3ku/rdozkf1rgm24GkNcA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yhQdDz
+	8IvFGR0FMCBQ/mJ32u+45GUwHq+HUJDX5bVnU=; b=m2gAF99pQ+/QSWitX2TuLH
+	2ACLzIRHngGyNS4LL6z2HEu13uTZt36NwdBHs2XRyBX8kP8HGqKKynsMv250E6Mm
+	4nzN8+isuTsZF9p2m3nvmZvEbQO2JVS1cKnyjkHh8ipxDnkDyEqKMWqPFNUTeZX5
+	T4QdRfJf0DsIT9wwyGfSxCHc6dYFpxckzC4J1JVTU8ycPGN2UoA3ICtELXZRApQR
+	GHxD/oq4Y2tMFrTLG3dXA4sy///Rp1H7RjZwcQvFPWzUZzxd5ywHRTUQTM3breQ0
+	SfU9XBvGMfuiFl96ZZa+hpfIX1ZStKO+FdxfzDep63NbW2Lxa7WhhgtxlqA8P/nA
+	==
+X-ME-Sender: <xms:P7GYYbNveEAEf0MTqh-FzHmWx3Qvhmuty24o3a5aGfKvjK9xGNRpQA>
+    <xme:P7GYYV99nCLS4jKCdePumrGcjNv4BMcSuAnzxA1vTNs5Wb9E0f-y8kE7wi5U9FjLj
+    svvWu-NYpW2Ag>
+X-ME-Received: <xmr:P7GYYaQTOUISbBUjRxWlbkp1HYFCOxHUFm16YpE2fw-5U_AYS4LObAR15althW6_En3Ejmm2qLfJwXBzVoGD-3a6FIBXe2TH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeelgdduudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+    drtghomh
+X-ME-Proxy: <xmx:P7GYYfsgBhIcDQt5mKpI4tHMXqj-RY12xQYRmGUkN0GrhcKbkzcdhw>
+    <xmx:P7GYYTdR5Xun9LM8wViekVEwh_r2Vs7j_WQAeoDgN1MhPxE-E01wtw>
+    <xmx:P7GYYb2aNdmBqgwmCbhBskX7Wgf9XNd4uyGd1Tbn1jMeAhjNHK9OqA>
+    <xmx:P7GYYbQn_bfy1B4Jry9btfMzvYgdiC9GoNOpiHuEhCoeb2VfetaTGA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 20 Nov 2021 03:26:38 -0500 (EST)
+Date: Sat, 20 Nov 2021 09:26:36 +0100
+From: Greg KH <greg@kroah.com>
+To: Zoeb Mithaiwala <zoebm@google.com>
+Cc: trivial@kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] Staging: rtl8712: rtl871x_security: fixed a camel case
+ variable name coding style issue
+Message-ID: <YZixPDg8kKHZrGJB@kroah.com>
+References: <20211120080658.1070907-1-zoebm@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.0.rc2.393.gf8c9666880-goog
-Subject: [PATCH] Staging: rtl8712: rtl871x_security: fixed a camel case
- variable name coding style issue
-From: Zoeb Mithaiwala <zoebm@google.com>
-To: trivial@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	Zoeb Mithaiwala <zoebm@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211120080658.1070907-1-zoebm@google.com>
 
-Fixed a coding style issue.
+On Sat, Nov 20, 2021 at 08:06:58AM +0000, Zoeb Mithaiwala wrote:
+> Fixed a coding style issue.
+> 
+> Signed-off-by: Zoeb Mithaiwala <zoebm@google.com>
+> ---
+>  drivers/staging/rtl8712/rtl871x_security.c | 12 ++++++------
+>  drivers/staging/rtl8712/rtl871x_security.h |  6 +++---
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8712/rtl871x_security.c b/drivers/staging/rtl8712/rtl871x_security.c
+> index e0a1c30a8fe6..4b341074b1b2 100644
+> --- a/drivers/staging/rtl8712/rtl871x_security.c
+> +++ b/drivers/staging/rtl8712/rtl871x_security.c
+> @@ -269,7 +269,7 @@ static void secmicclear(struct mic_data *pmicdata)
+>  /* Reset the state to the empty message. */
+>  	pmicdata->L = pmicdata->K0;
+>  	pmicdata->R = pmicdata->K1;
+> -	pmicdata->nBytesInM = 0;
+> +	pmicdata->nbytes_in_m = 0;
+>  	pmicdata->M = 0;
+>  }
+>  
+> @@ -285,10 +285,10 @@ void r8712_secmicsetkey(struct mic_data *pmicdata, u8 *key)
+>  static void secmicappendbyte(struct mic_data *pmicdata, u8 b)
+>  {
+>  	/* Append the byte to our word-sized buffer */
+> -	pmicdata->M |= ((u32)b) << (8 * pmicdata->nBytesInM);
+> -	pmicdata->nBytesInM++;
+> +	pmicdata->M |= ((u32)b) << (8 * pmicdata->n_bytes_in_m);
+> +	pmicdata->nbytes_in_m++;
+>  	/* Process the word if it is full. */
+> -	if (pmicdata->nBytesInM >= 4) {
+> +	if (pmicdata->nbytes_in_m >= 4) {
+>  		pmicdata->L ^= pmicdata->M;
+>  		pmicdata->R ^= ROL32(pmicdata->L, 17);
+>  		pmicdata->L += pmicdata->R;
+> @@ -301,7 +301,7 @@ static void secmicappendbyte(struct mic_data *pmicdata, u8 b)
+>  		pmicdata->L += pmicdata->R;
+>  		/* Clear the buffer */
+>  		pmicdata->M = 0;
+> -		pmicdata->nBytesInM = 0;
+> +		pmicdata->nbytes_in_m = 0;
+>  	}
+>  }
+>  
+> @@ -323,7 +323,7 @@ void r8712_secgetmic(struct mic_data *pmicdata, u8 *dst)
+>  	secmicappendbyte(pmicdata, 0);
+>  	secmicappendbyte(pmicdata, 0);
+>  	/* and then zeroes until the length is a multiple of 4 */
+> -	while (pmicdata->nBytesInM != 0)
+> +	while (pmicdata->nbytes_in_m != 0)
+>  		secmicappendbyte(pmicdata, 0);
+>  	/* The appendByte function has already computed the result. */
+>  	secmicputuint32(dst, pmicdata->L);
+> diff --git a/drivers/staging/rtl8712/rtl871x_security.h b/drivers/staging/rtl8712/rtl871x_security.h
+> index 8461b7f05359..006ce05c798f 100644
+> --- a/drivers/staging/rtl8712/rtl871x_security.h
+> +++ b/drivers/staging/rtl8712/rtl871x_security.h
+> @@ -192,7 +192,7 @@ struct mic_data {
+>  	u32  K0, K1;         /* Key */
+>  	u32  L, R;           /* Current state */
+>  	u32  M;              /* Message accumulator (single word) */
+> -	u32  nBytesInM;      /* # bytes in M */
+> +	u32  nbytes_in_m;      /* # bytes in M */
 
-Signed-off-by: Zoeb Mithaiwala <zoebm@google.com>
----
- drivers/staging/rtl8712/rtl871x_security.c | 12 ++++++------
- drivers/staging/rtl8712/rtl871x_security.h |  6 +++---
- 2 files changed, 9 insertions(+), 9 deletions(-)
+The comments are not alined anymore?
 
-diff --git a/drivers/staging/rtl8712/rtl871x_security.c b/drivers/staging/rtl8712/rtl871x_security.c
-index e0a1c30a8fe6..4b341074b1b2 100644
---- a/drivers/staging/rtl8712/rtl871x_security.c
-+++ b/drivers/staging/rtl8712/rtl871x_security.c
-@@ -269,7 +269,7 @@ static void secmicclear(struct mic_data *pmicdata)
- /* Reset the state to the empty message. */
- 	pmicdata->L = pmicdata->K0;
- 	pmicdata->R = pmicdata->K1;
--	pmicdata->nBytesInM = 0;
-+	pmicdata->nbytes_in_m = 0;
- 	pmicdata->M = 0;
- }
- 
-@@ -285,10 +285,10 @@ void r8712_secmicsetkey(struct mic_data *pmicdata, u8 *key)
- static void secmicappendbyte(struct mic_data *pmicdata, u8 b)
- {
- 	/* Append the byte to our word-sized buffer */
--	pmicdata->M |= ((u32)b) << (8 * pmicdata->nBytesInM);
--	pmicdata->nBytesInM++;
-+	pmicdata->M |= ((u32)b) << (8 * pmicdata->n_bytes_in_m);
-+	pmicdata->nbytes_in_m++;
- 	/* Process the word if it is full. */
--	if (pmicdata->nBytesInM >= 4) {
-+	if (pmicdata->nbytes_in_m >= 4) {
- 		pmicdata->L ^= pmicdata->M;
- 		pmicdata->R ^= ROL32(pmicdata->L, 17);
- 		pmicdata->L += pmicdata->R;
-@@ -301,7 +301,7 @@ static void secmicappendbyte(struct mic_data *pmicdata, u8 b)
- 		pmicdata->L += pmicdata->R;
- 		/* Clear the buffer */
- 		pmicdata->M = 0;
--		pmicdata->nBytesInM = 0;
-+		pmicdata->nbytes_in_m = 0;
- 	}
- }
- 
-@@ -323,7 +323,7 @@ void r8712_secgetmic(struct mic_data *pmicdata, u8 *dst)
- 	secmicappendbyte(pmicdata, 0);
- 	secmicappendbyte(pmicdata, 0);
- 	/* and then zeroes until the length is a multiple of 4 */
--	while (pmicdata->nBytesInM != 0)
-+	while (pmicdata->nbytes_in_m != 0)
- 		secmicappendbyte(pmicdata, 0);
- 	/* The appendByte function has already computed the result. */
- 	secmicputuint32(dst, pmicdata->L);
-diff --git a/drivers/staging/rtl8712/rtl871x_security.h b/drivers/staging/rtl8712/rtl871x_security.h
-index 8461b7f05359..006ce05c798f 100644
---- a/drivers/staging/rtl8712/rtl871x_security.h
-+++ b/drivers/staging/rtl8712/rtl871x_security.h
-@@ -192,7 +192,7 @@ struct mic_data {
- 	u32  K0, K1;         /* Key */
- 	u32  L, R;           /* Current state */
- 	u32  M;              /* Message accumulator (single word) */
--	u32  nBytesInM;      /* # bytes in M */
-+	u32  nbytes_in_m;      /* # bytes in M */
- };
- 
- void seccalctkipmic(
-@@ -200,11 +200,11 @@ void seccalctkipmic(
- 	u8  *header,
- 	u8  *data,
- 	u32  data_len,
--	u8  *Miccode,
-+	u8  *miccode,
- 	u8   priority);
- 
- void r8712_secmicsetkey(struct mic_data *pmicdata, u8 *key);
--void r8712_secmicappend(struct mic_data *pmicdata, u8 *src, u32 nBytes);
-+void r8712_secmicappend(struct mic_data *pmicdata, u8 *src, u32 nbytes);
- void r8712_secgetmic(struct mic_data *pmicdata, u8 *dst);
- u32 r8712_aes_encrypt(struct _adapter *padapter, u8 *pxmitframe);
- u32 r8712_tkip_encrypt(struct _adapter *padapter, u8 *pxmitframe);
--- 
-2.20.1
+And why "n"?
 
+
+>  };
+>  
+>  void seccalctkipmic(
+> @@ -200,11 +200,11 @@ void seccalctkipmic(
+>  	u8  *header,
+>  	u8  *data,
+>  	u32  data_len,
+> -	u8  *Miccode,
+> +	u8  *miccode,
+
+This is a different change :(
+
+greg k-h
