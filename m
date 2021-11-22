@@ -1,161 +1,91 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C692C81
-	for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 10:40:06 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AM9aTZm019952;
-	Mon, 22 Nov 2021 10:39:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=mlRFY8PDWuMMKPc3nvG7Zeucx/PeK7ETjG6xXeNyQ+M=;
- b=0joAJzl70+AoGRZ1yUuMRT8uA/rU0jAFd0Kd2kPZ6cXuPtETz2IkV0B1Nl0DiFBHtin0
- SF2oo0ojPozoS7iGKbJogyZIWIVdfgeU5y0tRRkrSR6XMW5rlPVvIB63Md+z7+iPRr0q
- aRi0pLyp2WgbX9NDIfvloiFmPfEbH93/UuAXu9tQlrXCpEl+9IBZsjrH3cuKqvstBo7h
- GkmEQrocCRIGAjASf66a254HA5SswWMRo2/XSCnxBxFnh+sxs4WwF4r9o8FBc3ChRDtq
- dX1o+TofBZKc5TTR1uory4b1KRO8llbDnQa0Xtwmoe7t51iYFlBBIv2U6GS6meKDQQoy Xg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3cg55fs86f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 Nov 2021 10:39:55 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-	by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AMAUxhc096500;
-	Mon, 22 Nov 2021 10:39:53 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
-	by aserp3030.oracle.com with ESMTP id 3ceq2cd57c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 Nov 2021 10:39:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F8uz1xcuT6bEk/cDsBmyhTKAvHhNDZNi/mKOdE3tuaNwo3f7LtUyDA/eSR26C/73DSHbI8+bvwlJgpvhMEoDoVrnYHDjeRFa+CrcvYC1nFY6lLGPxYnFPaJhqbkoYhE0mRQ8AL5j28oTPkdZZ1xzwxZ+IO1n4vDvAwN4JoNUg3uP8EKUnjAwak3hW034esiBQ7vCFQXC5xzv1PJIgcOkTaK+AySRuATnU8rI7vzXKiFgF4sD1MOP8BV8/qzArXGnI7oQm/i7MSOBuRtsKSftdmOADecY9MnYjRIPXfpoD6RntPCs3wtmjba3fbRC7pWDHHo412ei8/7pwT60mmZOHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mlRFY8PDWuMMKPc3nvG7Zeucx/PeK7ETjG6xXeNyQ+M=;
- b=F2lwU704Boy3hwh3K6bH76B6v7nTH+Fv2X1ExhP4zz+l4B7w5ZXtshU+7UOnnpiAzAewxeP4EojE7doJh1v4q5LlDR5vY5pgnQ//MQ1qAJdLFP1J/VdqZVfeudLx06VdLPoqgzr7Vk4F4SHyLaHGyJTwWBVmX6OifRj4F9bPzTTSy8erAR94MzEChU/6KtFmyEun2JalXZI9pnN128DI3rXH94p4qqTgawhEmlO/bzgxhY0JUGU4CXu2cp3VEheGSb5wZEYh+G2z+AV8QaJoSRB1JzYQJSt4x3m4qnf9PVv/kD5+ZqaFQ3cWapxyxN9Z3eSi8RDzYPWsa5MpFSYpIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7436F72
+	for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 13:10:37 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id m186so3352187qkb.4
+        for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 05:10:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mlRFY8PDWuMMKPc3nvG7Zeucx/PeK7ETjG6xXeNyQ+M=;
- b=lFLhCgLUYj2QJuikdGPIx7F2n+agzvT+vpxMgZeyV4W6pGcEtfr4SQoHGdzFiMZOtlMxYexaGIWQzWQ9OCZcz7n/3zSPxRmQ6aV7bGuwZmQ5MWwcaLJICwnxe7kIQLyFdKjFxO5MJzWlPp+G2twz2/+pD7DWEsr5h5pV34E3TEk=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO6PR10MB5792.namprd10.prod.outlook.com
- (2603:10b6:303:14d::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Mon, 22 Nov
- 2021 10:39:51 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::495f:a05d:ba7a:682]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::495f:a05d:ba7a:682%6]) with mapi id 15.20.4713.024; Mon, 22 Nov 2021
- 10:39:51 +0000
-Date: Mon, 22 Nov 2021 13:39:31 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Zoeb Mithaiwala <zoebm@google.com>
-Cc: greg@kroah.com, trivial@kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] Staging: rtl8712: rtl871x_security: fixed a camel
- case variable name coding style issue
-Message-ID: <20211122103931.GA6514@kadam>
-References: <YZixPDg8kKHZrGJB@kroah.com>
- <20211120111151.1086970-1-zoebm@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211120111151.1086970-1-zoebm@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JNAP275CA0067.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::13)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+PnC8Q/2hoId1m9hye9rp84tP4YYq89c/x16u1wHuFM=;
+        b=PPMyp7kYd+NLYf06P+27pAK8/eb/WAO4+jZmPPIWlkits3mBuFI3cfiyFeymoThetT
+         y27pqncW/0GFX1FFrUUPrb7MGpp/JnOBuZVpk45v/v3yOziPbRBNHLjWalRH0BUdH7Go
+         +J3gA8072dVZMJcZchDrbSBvJ9NjYNe5LpiiLo8YhiA990wenMYsg9+9V+mjcXhiDeXQ
+         hsZt7NFxFcNfFUPbU/sTSXFOf+Ymrc4rBDbl5gXMRHTHtyhVFzkRAO/5/5pFfo/scYDR
+         Jx3XmAGSShPJy6HTbtPfaV68TEtHlm7C11MHEykPAh0XNrifhMYZZ1GKpvWNXMTLN1cF
+         wXeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+PnC8Q/2hoId1m9hye9rp84tP4YYq89c/x16u1wHuFM=;
+        b=rOeIXlfIIDc5VQZYbUeEKyBC0xyyiWjDUCi164Je4qs+HedffsYUYcnKgJJrIOPMEI
+         6hZGn9vFKLmyWWiF7dfOjM9tKuv0k4lK1CSx24lF8Dl+C3C2BbDovp6AbDB3ptZx4slm
+         Xt84UU+8ZNtjkFCl8XdUnPrlAUin+Qbkc8/PToJwSupXp/c3CPa29IBwNp8KaTNB/oJj
+         RH3OTEEETIAUsx24YgCpHUjks/pAwcxgvKs4U64wdwmJZFexUd6z6zDK700KwXvNLf+f
+         Pf9De/lUOQAhlSu9OWugcSO1spmNp3XeL5edcy6nh+pLra8aJdnAIgxXUpZd4GP5LrrL
+         FgmA==
+X-Gm-Message-State: AOAM530qnaGivndQGK3TxTPqMZO9l/g2eK/lSW18XXlJifXQOG2y4VoU
+	ACnzbclGofUD2Y6V/s+/spiYov2xQGEpjg==
+X-Google-Smtp-Source: ABdhPJxMuj8b4MzbGxSOjAIa521bjob2/X1Tz9+Eowpwui4EVFC9GGJFxoZb3DaeGvko5806WGrJ1A==
+X-Received: by 2002:a37:a956:: with SMTP id s83mr48738890qke.422.1637586636295;
+        Mon, 22 Nov 2021 05:10:36 -0800 (PST)
+Received: from localhost.localdomain ([181.23.85.46])
+        by smtp.gmail.com with ESMTPSA id s13sm4651343qki.23.2021.11.22.05.10.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Nov 2021 05:10:35 -0800 (PST)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	nsaenz@kernel.org,
+	stefan.wahren@i2se.com,
+	arnd@arndb.de,
+	dan.carpenter@oracle.com,
+	ojaswin98@gmail.com,
+	amarjargal16@gmail.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH RESEND] staging: vchiq_core: remove superfluous static_assert statement
+Date: Mon, 22 Nov 2021 10:09:26 -0300
+Message-Id: <20211122130926.342128-1-gascoar@gmail.com>
+X-Mailer: git-send-email 2.34.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (102.222.70.114) by JNAP275CA0067.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend Transport; Mon, 22 Nov 2021 10:39:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d12d3f14-bfc6-45e3-9c34-08d9ada469a1
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5792:
-X-Microsoft-Antispam-PRVS: 
-	<CO6PR10MB579271CB8C150775F4610A8B8E9F9@CO6PR10MB5792.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	TzYsR1Lue3I4/lERQOUru5frozv5adgt0KvY1KjG3zAz43IisJN2KMShc2O0wjhssEOkEKqm/qnpUH+i6qzt4G8D3gwEZMtDFBA8hpufLK22A/Os5G1sY/6L+ACxDkFdvE1rKdbaRb+fXnot6YirfbKwJ8MdZ5NYMU99y98rNAoeup68sU4rzH+C3Ier7LfLgrGWtCDSN/37lH+5Cd8u1EtuSusrYQl59ZHqCRUiBn5QpSFmUUyXf9A3SgLE33+/QnvOvQrKNZ/C7hkeYxJXg1/bSdbWGOfz4aOtjOLCTrb+9G/kKe0A9cx1iiSzARYLg1gbey58AjGpGIAjrQW3m0Z2eit9y8U4gpcnFrJ8qCAtMG19RB9olmIgKQwqM50fo6McWXd4J/pGQjIFNY4pPAbLje3rtchiyqOqIY3vQZ7aCIQZZV5jPqetWXKfV0X2GWzJXtx4kYg2s51hNmgCU2bsBAJR+/oNKV4WW3pntLqdo74zoi3QW70+2mbqHJs3h9zri6Zil8RNnhY0onmI5PODRI7B2ZPaFChSXJLC7byLsCXwY98X2qgIAUGa95AIy4bCW32dy3DE45tAHFg20AIMrqTEzYtBtGYXCtTuhzf/LMank6HmXSxZ5CoOuBxpWa38tyJnAQWTOQO7JM9eYWmis/nEJdktrElh8/wBjqbijP9qQO8h4bOysSpzPBtcUaYVLkjZ1rp0M0EF8Hd4UpkKgL7rHgOWfyoxsQ5iyj/+dZn4Z7cDjBZ6lFGUvhhnVncXB2BOdefIxrcJzBU35hHic0UIHkCkimQSDedrm/M=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2906002)(8936002)(1076003)(9686003)(4744005)(33716001)(33656002)(6916009)(9576002)(5660300002)(44832011)(316002)(956004)(26005)(52116002)(4326008)(55016002)(6496006)(86362001)(6666004)(508600001)(966005)(186003)(66556008)(66476007)(38100700002)(38350700002)(8676002)(66946007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?eybRQh3HHm20H02gTEvzjCaNlUzL1Psbepj4cnUDQynV2mEIc+v2LSCydyEF?=
- =?us-ascii?Q?P8Xzer1LtdiP8jZMiwFhcuWOLITbCJ5qbcRYJKiSmldAzjubHDjWZ20EK5eC?=
- =?us-ascii?Q?WV9btoqqEKE4159m+4jTPWVOZ/FZCJxx4KzAKhwGzbTYkUI/h2K2MZdshFVJ?=
- =?us-ascii?Q?oguaPBS+xc29vTbhEIpN5GakPifAJoJ/OIAc+TbL7nHNK/YavCBG9/c2cN6h?=
- =?us-ascii?Q?Jj74olJGss7G1sfqb0B3JLy3fewHZw8/WpY0T254iAiH47pRlpNAb7qq/L+w?=
- =?us-ascii?Q?09IhCAtu6hR0ir5wS+E3ry/iBYJBaWBUgxOILjWCaEGUFVYFdatcu9MVZUa8?=
- =?us-ascii?Q?8DM/R3QWZCr6c1X2mABHwg5WCFv9l1nrwP5ElzFyQzJ4qYts+jj/Gg+1UVvx?=
- =?us-ascii?Q?pUdqz9lKKPZZDxHVZZ/IZlzrEoD4ySY098nka8hF/0r0jx3CNjGwHo1ZmHwZ?=
- =?us-ascii?Q?2/m93pSQziVTjFa6V2J+1TT5+NO8P5b4Y64sTFwvOw9RqKF0AtvgZO8Ohc9y?=
- =?us-ascii?Q?NTVwmMw3Lbh8yVz3wWAjnsQYQWO8kyDNr/sWFh/ckVNimC5ovmthFE68uM2o?=
- =?us-ascii?Q?0noiGFKxzr6MgnrcZ+gEjc4H0s1GP3HWzaPO3yyezWoqiEu7k2p6SXIc3AZ0?=
- =?us-ascii?Q?7I4ytaISZYGA70Zf9n/PuHaCbJjck/Jxs8flBHCASmZaqPB4JmGf75WmkGGQ?=
- =?us-ascii?Q?QULVFpBJk+piVfjM5hc4E85Dk/bsaX2TxmFFNocAGYy7e2RBiDF+4ZYRrhFa?=
- =?us-ascii?Q?wSErrUT+2cehe5BrSPBB9aHAYrA+mrd5gSej704VEDD/vwOgTj1nc/xyN11u?=
- =?us-ascii?Q?P2R0DscBuJexnv3knCQla9liyseNManBbGkFDFk8WemzJsInjmzH7XeJFf0A?=
- =?us-ascii?Q?bxXilZbxjo888ylE1XTDUv33EtWG/RPgtRAZHRqbxIG/D7S0oCTMC1/ffSc8?=
- =?us-ascii?Q?HtPgUB0Q2TSAyk7GUNMLEDGa7zpU4/UwYbXXKvepDLg8wnUJdBgbtKQD81Pb?=
- =?us-ascii?Q?+l9iLTi5dElgc4kBuhsKEaXnrjeyngH9nccUFnqZIAbLXlGPtp6wLr8kQWWt?=
- =?us-ascii?Q?rONoA92CZgBWVMq35BqjeyJPfDSda1eb9LisUA2se2i7pZlerkoZ53VESi+u?=
- =?us-ascii?Q?eNoFceQitNqaUVudvgzPUz1imitwumlu95GlgVoYJHYl2KsvLKgHKhljMi1E?=
- =?us-ascii?Q?d/gTT36NbPhlNl2lKTdA9vuQ+hE79aUFNfffgICSxM7MZPQLzh1AwAGODA43?=
- =?us-ascii?Q?dNRuZzc/8AhbjM1P+KAEfkTS2OEHIVKhcu56QieQq6egzIUE6KOpLvOAXbSy?=
- =?us-ascii?Q?2BV/mxXkARRs+NBlA2kgSu8Qz+FvV4fgLXSTj4vzdMF/0z6VcSy+CvhusbTM?=
- =?us-ascii?Q?IYNZJWnM+/oId5cak/zIFNJJ1PWIHiKP5pU5yhezwemXB/p5veFGZkhKqYKm?=
- =?us-ascii?Q?yYm9fvLy92rC318lc4RpM72tA0spLik5V+KBtPAvRMfA8dlTf9Ufoy5uLeq7?=
- =?us-ascii?Q?M93chTOYVF33gx+XqGlnHZxY5XVGAK2j7v8J94lHRuCrIB2R8/ya/vV86RM2?=
- =?us-ascii?Q?msSoX8+62QKJDM7NxbLULTX9an62smJkMN49hRqVkK9ZBY1BMViPLtnJfUtd?=
- =?us-ascii?Q?rkHZL3aXtVv+GIcUYig9xe4T7VuOdQIm3HBt9DEuWHXaSg2pEXa+FvEyoMlo?=
- =?us-ascii?Q?tdSSPQByMabtjfXWnB2HUdVI11M=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d12d3f14-bfc6-45e3-9c34-08d9ada469a1
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2021 10:39:51.0155
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: onhSggmwNlJq7het2QXDn7t1Hiee1wpRLGeBKnTEd7dKhXqTLNiAjNyarA7Mgoarv8Z1XjZAslDEpC7J1EgEIxvTCa2yQcJVpzW5zqU4JGQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5792
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10175 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0 spamscore=0
- bulkscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111220055
-X-Proofpoint-ORIG-GUID: CZZOoH18rTXHmjc_10Ztd64DtshUDJO2
-X-Proofpoint-GUID: CZZOoH18rTXHmjc_10Ztd64DtshUDJO2
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 20, 2021 at 11:11:51AM +0000, Zoeb Mithaiwala wrote:
-> Changed additional 'n' from variable name. Corrected comment indentation.
-> 
+After removing the BITSET_T typedef in commit d8a364820e01 ("staging:
+vchiq_core: get rid of typedef") the static_assert statement becomes superfluous
+as now we are checking if the size of the u32 type is 4 bytes. Hence, just
+remove the static_assert statement.
 
-This is not how you're supposed to send a v2 patch.
-https://kernelnewbies.org/FirstKernelPatch  See the section on "Revising
-your patches".
+Suggested-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+---
+ drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-> @@ -200,11 +200,11 @@ void seccalctkipmic(
->  	u8  *header,
->  	u8  *data,
->  	u32  data_len,
-> -	u8  *miccode,
-> +	u8  *Miccode,
->  	u8   priority);
->  
-
-Take a look at the naming in the .c file where the function is
-implemented and use the same name in the .h file where it's declared.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 53a98949b294..55abaf02a196 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -74,8 +74,6 @@
+ 	((fourcc) >>  8) & 0xff, \
+ 	(fourcc) & 0xff
+ 
+-static_assert((sizeof(u32) * 8) == 32);
+-
+ #define BITSET_SIZE(b)        ((b + 31) >> 5)
+ #define BITSET_WORD(b)        (b >> 5)
+ #define BITSET_BIT(b)         (1 << (b & 31))
+-- 
+2.34.0.rc0
 
