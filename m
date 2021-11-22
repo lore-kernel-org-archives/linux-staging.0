@@ -1,62 +1,47 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF422C81;
-	Mon, 22 Nov 2021 18:47:22 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id t5so81599270edd.0;
-        Mon, 22 Nov 2021 10:47:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988E32C81;
+	Mon, 22 Nov 2021 18:51:22 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id o20so36801278eds.10;
+        Mon, 22 Nov 2021 10:51:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OrAz2qSS0v6VrYhP03ydDVHSa28f05qdX2rEWeofBjI=;
-        b=aBwbTm8os5gysOh9BjYaJ/KuTUKCj4tXn/KHFS6T5lt1KoTatn8M9t0R2mpFXh+Qzl
-         AvxgkKXym1AXPSo+sKCLQ3UsO2JpJM41A8QwTZ5/EyTSXp3Y4jYQ5x05xaJZvqTO+gcM
-         ifWoqay6i2F4ozO7jdpQoPMP41qsfmFfIGvmL52JNhlJLQKMejXeAM1o3C0KFxpByBgQ
-         M4Mt+Fq4OhK6GkQ+TaJkGO54CRtZ9zo+Pq71HtYX/8paiwt+MogdOkxQ7o9P/c+cGvO0
-         V6V3/HSuVa7Yw8+xjpHCwKbk6gwffex9wM8peWGyzt4ycSCxuanD2j68W65bFzNgNd7v
-         GzYw==
+        bh=z5nvE8R1g68uXQp/4of3MVll2I+d9ZYBd8YnGL7MI3U=;
+        b=GSQXkLBsft7BbxrZYlMDTsQXwRtu0mUeXiIJH1gJwa37yE6G+2ZnDNCAgWIFq18ZUX
+         3BXKK5ISO0bRnGzB3nr9RFFyL36W3+a3KI31gam99ITnSYhcXMrOkXoRiT98Yohu5REM
+         Q7q2O1nqAsXNF+j9K+LC2ZejnyiBaEBhdPjN1MR+ffY8KfiAn4hWRspSyhGmh/SwwbJy
+         Vo+v27GSFtQeRTvwOvpsn4SSXypW7OUVbabDeHTuE9Rxsr6d6sNdpwlO8RNy06nwBk2n
+         PIWMRp/DvS1bPwqlUrN81/0cOoufKy6BpGLqyMrbADgrwvf+zNONgu8HELE+2Ge7baWI
+         M/hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OrAz2qSS0v6VrYhP03ydDVHSa28f05qdX2rEWeofBjI=;
-        b=uReEvqUdXTegzskkxiaUVxDM0IMj+Awv+aUMUVipCGR0tOv/XLVKzsJK/8OFBpsjvf
-         dk3fgITTlZrgXKQ7L6cKpD5ikGI/Xfug3RMr++1lTWXPOe0HnrLseMOGuVLQiz8zO9P3
-         GhjqglMmpSXZOCTkL2NeTJjvxbZMkD5kj5uOPhLN7Oq3Ha1p4uaRNxcAkKpfgTYzmlcb
-         zxzATu5JqNRJ2UwcqtKlL84ytFQ/inD9Ed9UvuFmODc2JDuvfQhp1oVQD34J5HZlK4jx
-         HdWtWxWYUHWQ6y8y6EIKU6BJxnycGyy+Q33Cj+dwxpmw922npbCMAMiPRy0m/OZt+4hH
-         8klA==
-X-Gm-Message-State: AOAM532WP6SncHPdQQF1y6sqSYHIRhiJjufTm369oWoDEcjrS1EKh//K
-	kg9LdZZb2UDEHTZaJn+Fb0o=
-X-Google-Smtp-Source: ABdhPJzTkCP49CfK8OCN7Yj69H529JSNBRlwwEGGRuoxwaPQq1w+6+n7Bo+zSmFqF8zimlUpwdtfmg==
-X-Received: by 2002:a05:6402:5194:: with SMTP id q20mr58077323edd.250.1637606840774;
-        Mon, 22 Nov 2021 10:47:20 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id h10sm4512312edr.95.2021.11.22.10.47.19
+        bh=z5nvE8R1g68uXQp/4of3MVll2I+d9ZYBd8YnGL7MI3U=;
+        b=8M9HMKWlXk/A2gFmgEUJ+wTr/3PO5dnjczVAukZDnhaXipE7KK5zbks3KslEbQgllk
+         NY5stINqnV91+A01w5IdvWFno0KUMWcWbs/X3XzON2wWOW+oNrYHFAqJvyt14MVc1gys
+         upVwNfj7A6vO47J+pXbk6xHq7IejR6doOR93bhmD6NnOEj2NkF/K4am+N0ha/3Yg/EUU
+         3gKJGWzsISvkd3xaXJcZjfaM1jf2HafrU7OwlyUP/C4CG4obKsvCvSqyaTG23Dqg7C35
+         xqIHi4eFiTsEDKZrt2R7GsCaVBWfdQKpcAUL034PE5Tu/MUHOWgopoMnca+PUWNlQw4R
+         gakg==
+X-Gm-Message-State: AOAM530rN/njxK7UWKISQ3clM2S4H9SMOTjor22FdpFrQj+tJBIRZtcR
+	aD9/PpebB7Vm25g4PLvpNY0=
+X-Google-Smtp-Source: ABdhPJwN2wUfOIKWPGzvBUR0COCWmhOXb7IycOilOrZEpvYk/vGy3mmFuOXrmZMq99QEnjwKdoo0qg==
+X-Received: by 2002:a17:906:9f20:: with SMTP id fy32mr45026224ejc.459.1637607081010;
+        Mon, 22 Nov 2021 10:51:21 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id hc10sm4241706ejc.99.2021.11.22.10.51.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 10:47:20 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+        Mon, 22 Nov 2021 10:51:20 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-media@vger.kernel.org
-Cc: ezequiel@vanguardiasur.com.ar,
-	nicolas.dufresne@collabora.com,
-	mchehab@kernel.org,
-	robh+dt@kernel.org,
-	mripard@kernel.org,
-	wens@csie.org,
-	p.zabel@pengutronix.de,
-	andrzej.p@collabora.com,
-	gregkh@linuxfoundation.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 7/7] arm64: dts: allwinner: h6: Add Hantro G2 node
-Date: Mon, 22 Nov 2021 19:47:02 +0100
-Message-Id: <20211122184702.768341-8-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.34.0
+Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/7] media: hantro: add Allwinner H6 support
+Date: Mon, 22 Nov 2021 19:51:19 +0100
+Message-ID: <4666655.GXAFRqVoOG@kista>
 In-Reply-To: <20211122184702.768341-1-jernej.skrabec@gmail.com>
 References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
 Precedence: bulk
@@ -65,36 +50,73 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-H6 SoC has a second VPU, dedicated to VP9 decoding. It's a slightly
-older design, though.
+Dne ponedeljek, 22. november 2021 ob 19:46:55 CET je Jernej Skrabec 
+napisal(a):
+> Hi everyone!
+> 
+> Here is patchset which adds support for Hantro G2 core found in Allwinner
+> H6 SoC. It is slightly older core, so it needs few quirks to be
+> implemented:
+> 1. It uses slightly different register layout in some cases. However, those
+>    differences are small, so it makes sense only to add quirks.
+> 2. It doesn't use ring buffer for bitstream as newer variants.
+> 3. It needs double buffering to be enabled in order to work correctly.
+> 4. postproc must be enabled at the end of the job. It seems that core has
+>    some issues with latching register values if postproc registers are set
+>    at the beginning of the job
+> 
+> legacy_regs quirk could be split into 3, like legacy_regs, ring_buffer and
+> late_postproc, but I didn't see the need for that. I examined vendor
+> sources at [1] and it suggests that legacy_regs implies no ring buffer.
+> 
+> It's also unclear if core supports HEVC decoding or not. This can be
+> implemented later. VP9 10-bit decoding support is mentioned in manual, but
+> it doesn't work at the moment. This will be addressed later.
+> 
+> Please take a look.
+> 
+> Best regards,
+> Jernej
+> 
+> [1] https://github.com/CliveLau1990/imx-vpu-hantro
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Forgot to add, this series is based on top of:
+https://www.spinics.net/lists/linux-media/msg202448.html
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index 4c4547f7d0c7..878061e75098 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -153,6 +153,15 @@ mixer0_out_tcon_top_mixer0: endpoint {
- 			};
- 		};
- 
-+		video-codec-g2@1c00000 {
-+			compatible = "allwinner,sun50i-h6-vpu-g2";
-+			reg = <0x01c00000 0x1000>;
-+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_VP9>, <&ccu CLK_VP9>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_VP9>;
-+		};
-+
- 		video-codec@1c0e000 {
- 			compatible = "allwinner,sun50i-h6-video-engine";
- 			reg = <0x01c0e000 0x2000>;
--- 
-2.34.0
+Regards,
+Jernej
+
+> 
+> Jernej Skrabec (7):
+>   media: hantro: add support for reset lines
+>   media: hantro: vp9: use double buffering if needed
+>   media: hantro: vp9: add support for legacy register set
+>   media: hantro: move postproc enablement for old cores
+>   media: dt-bindings: allwinner: document H6 Hantro G2 binding
+>   media: hantro: Add support for Allwinner H6
+>   arm64: dts: allwinner: h6: Add Hantro G2 node
+> 
+>  .../media/allwinner,sun50i-h6-vpu-g2.yaml     |  64 +++++++++++
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   9 ++
+>  drivers/staging/media/hantro/Kconfig          |  10 +-
+>  drivers/staging/media/hantro/Makefile         |   3 +
+>  drivers/staging/media/hantro/hantro.h         |   7 ++
+>  drivers/staging/media/hantro/hantro_drv.c     |  27 ++++-
+>  drivers/staging/media/hantro/hantro_g2_regs.h |  20 ++++
+>  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  76 ++++++++++---
+>  drivers/staging/media/hantro/hantro_hw.h      |   1 +
+>  drivers/staging/media/hantro/sunxi_vpu_hw.c   | 104 ++++++++++++++++++
+>  10 files changed, 301 insertions(+), 20 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/
+allwinner,sun50i-h6-vpu-g2.yaml
+>  create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
+> 
+> -- 
+> 2.34.0
+> 
+> 
+
 
