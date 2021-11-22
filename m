@@ -1,113 +1,110 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6B668
-	for <linux-staging@lists.linux.dev>; Sun, 21 Nov 2021 11:27:16 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id y12so63636840eda.12
-        for <linux-staging@lists.linux.dev>; Sun, 21 Nov 2021 03:27:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C4272
+	for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 03:57:16 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id k37so74556927lfv.3
+        for <linux-staging@lists.linux.dev>; Sun, 21 Nov 2021 19:57:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t8qwozoI4ZgvY8N3QOUrFpTNybxtK5/UyM93WgmSUcs=;
-        b=FYbFHF2QM+ZPPXDFsPv/so2dy8U9Ff855nzNxC/vY6iUEN0Ys1bjUUs9G29y0uHjF8
-         aVw1jQMB/0c5Pw7Pzle31twT8hQy7X8ONbqK47uU3Sp3JvXO2fqsHn3v1y6bT4e6xWuj
-         0hemHxZU466JbWRht3jNPlJIhwNXScho6CsrhfeVhnkdbrAINqpmvV380Xl6IpmmzL9A
-         ZIrHlaZ1CIi3q5t6V8DBN/96VbzCaqo8x9lkeXviCwuAKyA9MWW0cmjDXyja4U3f9s8i
-         rQgh1RidJeIHztdKFo5lKtk1ypXUGEeCVFkbuVmESasOFykXQPShzoV+tRoZUH3V3zhV
-         oznw==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=YPH+0EiaxzoumZ5BogpFk3ypvqyIvp8gCd3yQ5SMSQs=;
+        b=je7U59HM902HnyDDvdrsniCHFenLkHrcZN6VCMpNpziBhBG/b8cf/91XvGLb4dL/Cy
+         OjsK4ODk9USfQZBOTBtFBB0qWELL7iRtFYk33udnOjVSx/v9y6hLu6hGL4T2XwF+NOYz
+         zA6wqKts1sYYjrtrmTruWJFcxKMtZJWGZW0Hs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t8qwozoI4ZgvY8N3QOUrFpTNybxtK5/UyM93WgmSUcs=;
-        b=Xd0Q4/PyOGwPWTHOqI588le7383TB32s4myFApfyF4DVZdRKe12aEy9Gk2BDHXNQ1B
-         BqUI5cJQr26oDMixDF5MKoZXioePEpCsY5TZjier0l1P68EEzn2HGzBbxkTQQg3JYvl6
-         aa31F3+v6lE6rKms+MizLqFPPLykGNR5kKcaSlR2RLx66SBlbg0P3hIkWhmDtzpItisU
-         KFLdxZTzaT/uzWx0LO87QWJa62G1QeIqQXREfgWjwLPvo8m5P8QPFWzL/VJftHOYZb6t
-         dSUa3R4Odh2BNOefS3+eSYzA1845cSlBUBzIcuRxnqucZQN7MYlJSCEu+d4RKGuc355C
-         VIAA==
-X-Gm-Message-State: AOAM532hXQUsxy57vbbgMo/qXueMOGY3oZF0Gc1/soq/D64Gh7bcbsqb
-	KrngVU/TUwUWDb20C53rfdA=
-X-Google-Smtp-Source: ABdhPJyaVEhpifhFF0K+5F/45yMmT3PeLDFfsQeShkF7DuGSZYcOfrnfOWustG0rVCYxJuvAtQ/vrQ==
-X-Received: by 2002:a17:907:7f1a:: with SMTP id qf26mr28790469ejc.543.1637494034513;
-        Sun, 21 Nov 2021 03:27:14 -0800 (PST)
-Received: from bulldog.fritz.box (host-95-252-102-163.retail.telecomitalia.it. [95.252.102.163])
-        by smtp.gmail.com with ESMTPSA id nb4sm2309065ejc.21.2021.11.21.03.27.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Nov 2021 03:27:14 -0800 (PST)
-From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-To: alb3rt0.m3rciai@gmail.com
-Cc: Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
-	Karolina Drobnik <karolinadrobnik@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Lucas Henneman <lucas.henneman@linaro.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: vt6655: rename variable bHWRadioOff
-Date: Sun, 21 Nov 2021 12:19:59 +0100
-Message-Id: <20211121112000.632456-1-alb3rt0.m3rciai@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YPH+0EiaxzoumZ5BogpFk3ypvqyIvp8gCd3yQ5SMSQs=;
+        b=eJ8g+dHF+3AQBHkUiUcLIMG4xsnyQtBcvMMevfGIedH2CjVju9buq3MswjWPYP76vw
+         +pxi0PaQsyIzsbVuIOcYcPOAbCoJpun3AuPChvU8vW/zwWmzzpbWNMhrCKctzQcrBMar
+         +Jpam9/j/LkGmhQPJaqmzlasfXPSLmz/ShfSwijW6QU2RMpE0ZIwEnozVqh+8oHc81NO
+         7fdFTjaRc7gtgpiCjHmzsN6D76wXFHOTBOeUT7h+lYCniwsHABesmqDZpq55QxswZWb9
+         pMTQqz72rATJs+S1ui0dWM9hooQIs1TXZrsWZXMRmiszTVexJZA6H7doHz2NhdLjDFqy
+         I/ow==
+X-Gm-Message-State: AOAM530yPaVQrurgoaXqjPPPBQErxBSlGFkb96tmSKYh3ccU/oAJLvcH
+	VkmHSfnMC1jx6/MOAr4yG3MhACmu98TsFX/XVtThZw==
+X-Google-Smtp-Source: ABdhPJzjZY+DcDHCyM4+GAs+uYCYy7Sv0RCNUU5ODlpGRz9jfKtWgMv8J2hf23GvVJ7rYzAPGd6ocKQULp3zp0K7pHk=
+X-Received: by 2002:a05:6512:32c9:: with SMTP id f9mr51649260lfg.308.1637553434248;
+ Sun, 21 Nov 2021 19:57:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211119074654.470729-1-wenst@chromium.org> <5d23258a954eb0076cacf89d6c88b5e6ef13695f.camel@ndufresne.ca>
+In-Reply-To: <5d23258a954eb0076cacf89d6c88b5e6ef13695f.camel@ndufresne.ca>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 22 Nov 2021 11:57:03 +0800
+Message-ID: <CAGXv+5Gf-gsB7JXnLiZF_R=0RdxXS7CDZaFftyZ+aESXLXy1Ew@mail.gmail.com>
+Subject: Re: [PATCH] media: hantro: Hook up RK3399 JPEG encoder output
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace camelcase hungarian notated variable "bHWRadioOff"
-into linux kernel coding style equivalent variable "hw_radio_off".
+On Sat, Nov 20, 2021 at 12:00 AM Nicolas Dufresne <nicolas@ndufresne.ca> wr=
+ote:
+>
+> Le vendredi 19 novembre 2021 =C3=A0 15:46 +0800, Chen-Yu Tsai a =C3=A9cri=
+t :
+> > The JPEG encoder found in the Hantro H1 encoder block only produces a
+> > raw entropy-encoded scan. The driver is responsible for building a JPEG
+> > compliant bitstream and placing the entropy-encoded scan in it. Right
+> > now the driver uses a bounce buffer for the hardware to output the raw
+> > scan to.
+> >
+> > In commit e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG
+> > codec_ops.done"), the code that copies the raw scan from the bounce
+> > buffer to the capture buffer was moved, but was only hooked up for the
+> > Hantro H1 (then RK3288) variant. The RK3399 variant was broken,
+> > producing a JPEG bitstream without the scan, and the capture buffer's
+> > .bytesused field unset.
+> >
+> > Fix this by duplicating the code that is executed when the JPEG encoder
+> > finishes encoding a frame. As the encoded length is read back from
+> > hardware, and the variants having different register layouts, the
+> > code is duplicated rather than shared.
+> >
+> > Fixes: e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG codec_=
+ops.done")
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> > This was developed on the downstream ChromeOS 5.10 kernel (with a hack
+> > for .data_offset) and tested with ChromeOS's jpeg_encode_accelerator_un=
+ittest
+> > patched to accept non-JFIF JPEG streams (https://crrev.com/c/3291480).
+> >
+> > This was then forward-ported to mainline (name and filename changes) an=
+d
+> > compile tested only.
+>
+> Tested with GStreamer on top of 5.16-rc1 from media_stage.git. Not perfec=
+t but
+> at least the the output it valid. Test command was:
+>
+>   gst-launch-1.0 videotestsrc num-buffers=3D2 ! v4l2jpegenc ! filesink
+> location=3Dtest.jpg
+>
+> Notice that I encode two frames, it seems like the draining flow is broke=
+n in
+> this driver. GStreamer will queue the frame and issue CMD_START immediate=
+ly, the
+> driver will skip the encode, leaving me with an empty file.
 
-Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
----
- drivers/staging/vt6655/device.h      | 2 +-
- drivers/staging/vt6655/device_main.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+The hantro driver doesn't implement ENC_CMD, which IIRC is used for the
+draining flow. I guess that's something to fix, since the mem2mem stateful
+encoder spec seems to require it. Or does that spec not apply to the JPEG
+encoders?
 
-diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index ff171acc11f4..e9d1b56d8809 100644
---- a/drivers/staging/vt6655/device.h
-+++ b/drivers/staging/vt6655/device.h
-@@ -229,7 +229,7 @@ struct vnt_private {
- 	/* GPIO Radio Control */
- 	unsigned char byRadioCtl;
- 	unsigned char byGPIO;
--	bool bHWRadioOff;
-+	bool hw_radio_off;
- 	bool bPrvActive4RadioOFF;
- 	bool bGPIOBlockRead;
- 
-diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
-index 1f98f2b069c4..897d70cf32b8 100644
---- a/drivers/staging/vt6655/device_main.c
-+++ b/drivers/staging/vt6655/device_main.c
-@@ -373,7 +373,7 @@ static void device_init_registers(struct vnt_private *priv)
- 
- 	priv->byRadioCtl = SROMbyReadEmbedded(priv->port_offset,
- 					      EEP_OFS_RADIOCTL);
--	priv->bHWRadioOff = false;
-+	priv->hw_radio_off = false;
- 
- 	if (priv->byRadioCtl & EEP_RADIOCTL_ENABLE) {
- 		/* Get GPIO */
-@@ -383,10 +383,10 @@ static void device_init_registers(struct vnt_private *priv)
- 		     !(priv->byRadioCtl & EEP_RADIOCTL_INV)) ||
- 		     (!(priv->byGPIO & GPIO0_DATA) &&
- 		     (priv->byRadioCtl & EEP_RADIOCTL_INV)))
--			priv->bHWRadioOff = true;
-+			priv->hw_radio_off = true;
- 	}
- 
--	if (priv->bHWRadioOff || priv->bRadioControlOff)
-+	if (priv->hw_radio_off || priv->bRadioControlOff)
- 		CARDbRadioPowerOff(priv);
- 
- 	/* get Permanent network address */
--- 
-2.25.1
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
+Thanks!
+
+ChenYu
