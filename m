@@ -1,274 +1,121 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9872C80
-	for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 17:25:59 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id j6-20020a17090a588600b001a78a5ce46aso17462587pji.0
-        for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 09:25:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1222C81;
+	Mon, 22 Nov 2021 18:47:13 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id x15so80816545edv.1;
+        Mon, 22 Nov 2021 10:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kXsfyBDFONl51YXv5b23OS62EMb824elrLR+gYrriWQ=;
-        b=LsxC5mVgF4xkotHzuYe9UmuivOZdHcj58lBuP3OviPk1Cf+N7QdCUozqvxDu//guoR
-         ek3HGzpahJ3hU6wNX2x8S7UgFJzKA38YrYtMvwz+hquLSh3SfS37yPE+xZdSOfXfBxS4
-         M7dbyrhehSzCmtqG7tQtfSoIGRfulq0EGhzU8eOro/j5lQ1/KOYgaJO9rCG0sEcoyAC6
-         bgBOJNSYQpx7+ObaJlff3mEDjzmpch/7mhWQNUAf4PYgbqWkCWoEHc6oLeRov7NkaCT4
-         lp2YLrKzRCwp6w7wdQ5VPolwd6ahVugOPQhs0FrKIrn4t+VCG2wDVaYZR1BfT7q9406F
-         gAFQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Dss9UiKF+k7Po25DwSiusMM9IdCzuECfyUd1tTdrRbg=;
+        b=Bhz5XvT0o10O8LdIN/VUhQiHJnLca2FPbI8x7F6PqhoK3FZcFJPU/UYdTpzylMMRg+
+         6z0CYvdyYJZlEuRD5SbYMZ9PnFBhr9dY35NCq1Kle7ytd23z+8cMqeCungXc3aWTpMz0
+         tb/czpATqWjnJdXSqa3lC4acLd1TwR8YAE9NFCSJwVh6IamtDXMmdvRaLe46ALA2iPte
+         hh5UB0gbkaQW2zds/Y7XTpR7YGJe687hrvfuLO1dbcALrHS3HAwf0r7phkTVz0Nbdnbh
+         Px1PyTlCdNoFDo0FZH6V0UU9F2llZKSKuBSBkF4HYP2Lk5fjiETmJ3KibLlgEawJZdLA
+         Uv9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kXsfyBDFONl51YXv5b23OS62EMb824elrLR+gYrriWQ=;
-        b=e8LyAbtjQrxXyEIfYXTH37KUgArNXQwEQuvapFxuxWDhdh3MV4puYvPYh1eaGG25Im
-         NwfjQ/Ho8dnAov2CjLC5/6PZ+bz6daF/FUG1Sm+qhVsPFYXf27Pn7bADEa7FsGT5q3+H
-         Ksees4gLSXKJ2Jkor+JNLHIi6FYfqD6TZfVw4dlICQFCHj5Q/J2UYAwxYJRFZwZYiIvy
-         l+scxklDqQeb1I+usa68vB8RgQn693q/bgVlYYbRn5RVYNp9grXQuUAIfhSgPzVXZfk3
-         +YC9QCe8w4D9moFOnoMgHlXNJTZJMnS6UUB8oWRcfTa10UJagRtn2mRpx+SIWViELaHW
-         syKA==
-X-Gm-Message-State: AOAM530hzUIbpeKRyKACQlpoazzhJYoEApzWfXXkWW3yArjvd/HLFOXw
-	PCQt9jBvOsCdw+cQZy8v52t7wojH/UpEhMSkgiepzA==
-X-Google-Smtp-Source: ABdhPJyksJ+8pVa85XyniCpcWpEwEAD4ziXSyCuQwba0HIwX3os9uqj6tS6LtRztbmF2+AF+ODy/QMVYD+dB8l5dleg=
-X-Received: by 2002:a17:90b:33d0:: with SMTP id lk16mr32569330pjb.66.1637601958586;
- Mon, 22 Nov 2021 09:25:58 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Dss9UiKF+k7Po25DwSiusMM9IdCzuECfyUd1tTdrRbg=;
+        b=neT3eo54d2ljJaRI4q8uT9a/WWw1OtvLjzaqpfPkljfoRK2KI8lf9J44k6Mk123JbK
+         +oe8wRpVxwe58QJfeeu+IimpECum5N/q4yuUtLhJs2tEXrH1vV8OeAi/u2TU922kkicS
+         5IWxU711W56c1/dFEQ6lpKKkGUNb0WUwLpz6aXV06bDqo0nIQe2duIxlu2uQK4mxcpJv
+         e0UFeZet6pnj84xNnair4pu72ntQgGFrAJwDLZXzwiQpa1ENEsNm9pednF05idSGC+hd
+         zhbjzGqHp7ZwIyCSnH1O22YPbNyIw6QtFon8H1nHyin1jv77XODiSb7Z4ABvavlDX/Q0
+         ltEA==
+X-Gm-Message-State: AOAM533Qqy5EJGC/jVrpehNOFAZwRdazW8HBZURygRIhnHXgDzO/26K+
+	1FZwxZnYQaU6AmR18XyyZdg=
+X-Google-Smtp-Source: ABdhPJzgdosbksPZCqL8fKg3cjtQpo/DXX2+PosZpuL8FSxSDz2AVuG1NfXCsxT1xLP2AzUNixo0fA==
+X-Received: by 2002:a17:906:a215:: with SMTP id r21mr27612192ejy.21.1637606831875;
+        Mon, 22 Nov 2021 10:47:11 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id h10sm4512312edr.95.2021.11.22.10.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Nov 2021 10:47:11 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: ezequiel@vanguardiasur.com.ar,
+	nicolas.dufresne@collabora.com,
+	mchehab@kernel.org,
+	robh+dt@kernel.org,
+	mripard@kernel.org,
+	wens@csie.org,
+	p.zabel@pengutronix.de,
+	andrzej.p@collabora.com,
+	gregkh@linuxfoundation.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/7] media: hantro: add Allwinner H6 support
+Date: Mon, 22 Nov 2021 19:46:55 +0100
+Message-Id: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.34.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
- <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
- <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
- <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
- <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
- <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
- <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
- <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
- <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com> <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
-In-Reply-To: <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Mon, 22 Nov 2021 09:25:47 -0800
-Message-ID: <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
-Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-To: Adam Ford <aford173@gmail.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media <linux-media@vger.kernel.org>, 
-	Schrempf Frieder <frieder.schrempf@kontron.de>, Marek Vasut <marek.vasut@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Adam Ford-BE <aford@beaconembedded.com>, 
-	cstevens@beaconembedded.com, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Lucas Stach <l.stach@pengutronix.de>, Joakim Zhang <qiangqing.zhang@nxp.com>, 
-	Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
-	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 20, 2021 at 7:36 AM Adam Ford <aford173@gmail.com> wrote:
->
-> On Fri, Nov 19, 2021 at 5:37 PM Adam Ford <aford173@gmail.com> wrote:
-> >
-> > On Fri, Nov 19, 2021 at 10:29 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> > >
-> > > Hi Adam, Tim,
-> > >
-> > > [...]
-> > > > > > > Nicolas and Adam,
-> > > > > > >
-> > > > > > > For the H1 patches in this series: I've been able to test the IMX8MM
-> > > > > > > H1 JPEG encode using GStreamer 1.18.5:
-> > > > > > > $ gst-inspect-1.0 | grep -e "v4l2.*enc"
-> > > > > > > video4linux2:  v4l2jpegenc: V4L2 JPEG Encoder
-> > > > > > > $ gst-launch-1.0 videotestsrc ! jpegenc ! rtpjpegpay ! udpsink
-> > > > > >                                   ^ v4l2jpegenc
-> > > > > >
-> > > > > > This is just a transcript error ?
-> > > > >
-> > > > > Nicolas,
-> > > > >
-> > > > > No! Thanks for catching my mistake. I was testing with software encode... ooops!
-> > > > >
-> > > > > 'gst-launch-1.0 videotestsrc ! v4l2jpegenc ! fakesink' actually hangs
-> > > > > the board so likely a power-domain issue there?
-> > > >
-> > > > The v4l2-compliance tests fail on the h1 decoder with a hang, but I
-> > > > think we're writing to registers which are not documented in the Mini
-> > > > TRM.  The Mini TRM doesn't explicitly show the JPEG encoding as a
-> > > > feature, but some of the registers state JPEG, but because some of the
-> > > > registers written for the H1 are not documented in the TRM.  If those
-> > > > registers are restricted or not in this SoC, I am concerned that it
-> > > > might be related.  I'll try to run some more tests this weekend to
-> > > > check on the status of the power-domain stuff.
-> > >
-> > > To verify if the HW support JPEG encoding you can read SWREG63 bit 25. This is
-> > > in the TRM, just not labelled properly. To mimic the decoding side, would be "HW
-> > > synthesis config register X" with the bit labelled SW_ENC_JPEG_PROF (but
-> > > PROF/profile is on or off). If your board hang while reading this, you likely
-> > > didn't get the power bit right.
-> > >
-> > > IMX8 has an undocumented control block thing that we have been fighting with in
-> > > imx8q,  perhaps that's your issue. Few driver was proposed, we are still pending
-> > > on NXP solution to be submitted (they asked us to wait, still waiting =)).
-> >
-> > Nicolas,
-> >
-> > Thanks for the suggestion to read offset FC.  There was an attempt
-> > made by Lucas Stach to develop a VPU blk-ctrl driver to coordinate the
-> > power-domains with the GPC driver. Unfortunately, it does appear to
-> > hang, so it might not be operating correctly.
-> >
-> > Lucas,
-> >
-> > Do you have any idea of stuff I can try to see if the power domain is
-> > coming online correctly?
-> >
-> > [   10.434727] imx-pgc imx-pgc-domain.6: request the vpumix domain to power up
-> > [   10.463647] imx-pgc imx-pgc-domain.6: request the vpumix ADB400 to power up
-> > [   10.517155] imx-pgc imx-pgc-domain.6: genpd vpumix success
-> > [   10.728927] vpu: set fuse bits to enable
-> > [   10.825500] imx8m-blk-ctrl 38330000.blk-ctrl: power vpublk-g1 GPC domain
-> > [   10.878986] imx-pgc imx-pgc-domain.7: request the vpu-g1 domain to power up
-> > [   10.932429] imx-pgc imx-pgc-domain.7: genpd vpu-g1 success
-> > [   10.971988] imx8m-blk-ctrl 38330000.blk-ctrl: genpd vpublk-g1 success
-> > [   11.004726] hantro-vpu 38300000.video-codec: registered
-> > nxp,imx8mm-vpu-dec as /dev/video0
-> > [   11.040760] imx8m-blk-ctrl 38330000.blk-ctrl: power vpublk-g2 GPC domain
-> > [   11.066181] imx-pgc imx-pgc-domain.8: request the vpu-g2 domain to power up
-> > [   11.087887] imx-pgc imx-pgc-domain.8: genpd vpu-g2 success
-> > [   11.113808] imx8m-blk-ctrl 38330000.blk-ctrl: genpd vpublk-g2 success
-> > [   11.139634] hantro-vpu 38310000.video-codec: registered
-> > nxp,imx8mm-vpu-g2-dec as /dev/video1
-> > [   11.156463] imx8m-blk-ctrl 38330000.blk-ctrl: power vpublk-h1 GPC domain
-> > [   11.170817] imx-pgc imx-pgc-domain.9: request the vpu-h1 domain to power up
-> > [   11.232990] imx-pgc imx-pgc-domain.9: genpd vpu-h1 success
-> > [   11.252546] imx8m-blk-ctrl 38330000.blk-ctrl: genpd vpublk-h1 success
-> > [   11.266152] hantro-vpu 38320000.video-codec: Checking vpu->enc_base + 0xfc
-> >
-> > <hang>
-> >
-> > adam
-> >
->
-> Nicolas, Tim, and Lucas,
->
-> I think I have the hanging resolved in the power domains, and I'll be
-> pushing the fix to the GPCv2.
->
-> For the H1 Encoder, I added some debugging code to read the offset
-> 0xfc and print some data based on the findings of that VPU-h1 offset.
-> I basically check the various bits per the TRM to see if they are set
-> and print some splat to indicate whether or not the function is
-> supported.
->
-> [    8.861865] hantro-vpu 38320000.video-codec: Checking vpu->enc_base + 0xfc
-> [    8.870594] hantro-vpu 38320000.video-codec: Stabilization supported by HW
-> [    8.889341] hantro-vpu 38320000.video-codec: VP8 encoding supported by HW
-> [    8.899386] hantro-vpu 38320000.video-codec: H.264 encoding supported by HW
-> [    8.918171] hantro-vpu 38320000.video-codec: RGB to YUV conversion
-> supported by HW
-> [    8.934067] hantro-vpu 38320000.video-codec: registered
-> nxp,imx8mm-vpu-h1-enc as /dev/video2
->
-> Unfortunately, JPEG is not listed as supported.  :-(
+Hi everyone!
 
-Adam,
+Here is patchset which adds support for Hantro G2 core found in Allwinner
+H6 SoC. It is slightly older core, so it needs few quirks to be
+implemented:
+1. It uses slightly different register layout in some cases. However, those
+   differences are small, so it makes sense only to add quirks.
+2. It doesn't use ring buffer for bitstream as newer variants.
+3. It needs double buffering to be enabled in order to work correctly.
+4. postproc must be enabled at the end of the job. It seems that core has
+   some issues with latching register values if postproc registers are set
+   at the beginning of the job
 
-Well not having JPEG encode support is unfortunate, and unexpected. Do
-we not have hantro support yet for VP8/H264 encode?
+legacy_regs quirk could be split into 3, like legacy_regs, ring_buffer and
+late_postproc, but I didn't see the need for that. I examined vendor
+sources at [1] and it suggests that legacy_regs implies no ring buffer.
 
-I haven't quite figured out how to build a modern mono-repo gstreamer
-on the ubuntu 20.04 rootfs I'm using so I haven't been able to test
-VPU encode/decode properly. I'll keep working on it when I'm back in
-the office the following week.
+It's also unclear if core supports HEVC decoding or not. This can be
+implemented later. VP9 10-bit decoding support is mentioned in manual, but
+it doesn't work at the moment. This will be addressed later.
+
+Please take a look.
 
 Best regards,
+Jernej
 
-Tim
+[1] https://github.com/CliveLau1990/imx-vpu-hantro
 
->
-> However, the hanging stops occurring, so I'll be posting a patch to
-> update the GPCv2 code.  I can reduce sone device tree duplication, and
-> the G2 throws some splat, but that will be a separate discussion.
->
-> I can also run v4l2-compliance on the H1 node, and it responds without hanging.
->
-> root@beacon-imx8mm-kit:~# v4l2-compliance -d2
-> v4l2-compliance SHA: not available
-> , 64 bits, 64-bit time_t
->
-> Compliance test for hantro-vpu device /dev/video2:
->
-> Driver Info:
-> Driver name      : hantro-vpu
-> Card type        : nxp,imx8mm-vpu-h1-enc
-> Bus info         : platform: hantro-vpu
-> Driver version   : 5.16.0
-> Capabilities     : 0x84204000
-> Video Memory-to-Memory Multiplanar
-> Streaming
-> Extended Pix Format
-> Device Capabilities
-> Device Caps      : 0x04204000
-> Video Memory-to-Memory Multiplanar
->
-> < snip>
->
-> Total for hantro-vpu device /dev/video2: 46, Succeeded: 46, Failed: 0,
-> Warnings: 0
->
-> I'll do an RFCv2 on the Hantro G1 and G2 with the H1 removed based on
-> the updated GPCv2 code I'll be pushing shortly, but at least the
-> system doesn't hang, so I'm fairly confident the power domains are
-> working better now even if we cannot support the JPEG.
->
-> adam
->
-> > >
-> > > > >
-> > > > > >
-> > > > > > > host=192.168.1.146 port=5000
-> > > > > > > viewed on client@192.168.1.146 via:
-> > > > > > > $ gst-launch-1.0 udpsrc port=5000 ! application/x-rtp,payload=96 !
-> > > > > > > rtpjpegdepay ! jpegdec ! autovideosink
-> > > > > > >
-> > > > > > > For the G1/G2 patches in the series I don't see any Gstreamer
-> > > > > > > 'v4l2.*dec' elements. Perhaps I need a newer version of Gstreamer.
-> > > > > >
-> > > > > > Most likely yes, I suggest building gstreamer/ branch "main", GStreamer has now
-> > > > > > a single repository. We are very close to 1.20, which will include stable API
-> > > > > > support of H264, MPEG2 and VP8 decoding.
-> > > > > >
-> > > > >
-> > > > > Ok, let me see if I can navigate through the build process and I'll
-> > > > > get back to you.
-> > > > >
-> > > > > Thanks,
-> > > > >
-> > > > > Tim
-> > > > >
-> > > > > > >
-> > > > > > > I have CSI capture and DSI display currently working on
-> > > > > > > imx8mm-venice-gw73xx-0x that I can play with. The CSI sensor only
-> > > > > > > supports RAW8/RAW10 (and gstreamer currently only supports RAW8) and I
-> > > > > > > can't efficiently convert to something the JPEG encoder likes without
-> > > > > > > bayer2rgbneon (a libneon version).
-> > > > > > >
-> > > > > > > I see from the IMX8MMRM that the 2D GPU supports scaling etc with a
-> > > > > > > wide range of data formats but I'm not sure how to tap into this as
-> > > > > > > that hardware is managed by the vivante driver. On the IMX6QDL there
-> > > > > > > is a separate IPU block that Philipp Zabel wrote a nice mem2mem
-> > > > > > > csc/scaler driver for but I don't see any equivalent currently for
-> > > > > > > IMX8MM.
-> > > > > > >
-> > > > > > > Best regards,
-> > > > > > >
-> > > > > > > Tim
-> > > > > >
-> > >
+Jernej Skrabec (7):
+  media: hantro: add support for reset lines
+  media: hantro: vp9: use double buffering if needed
+  media: hantro: vp9: add support for legacy register set
+  media: hantro: move postproc enablement for old cores
+  media: dt-bindings: allwinner: document H6 Hantro G2 binding
+  media: hantro: Add support for Allwinner H6
+  arm64: dts: allwinner: h6: Add Hantro G2 node
+
+ .../media/allwinner,sun50i-h6-vpu-g2.yaml     |  64 +++++++++++
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   9 ++
+ drivers/staging/media/hantro/Kconfig          |  10 +-
+ drivers/staging/media/hantro/Makefile         |   3 +
+ drivers/staging/media/hantro/hantro.h         |   7 ++
+ drivers/staging/media/hantro/hantro_drv.c     |  27 ++++-
+ drivers/staging/media/hantro/hantro_g2_regs.h |  20 ++++
+ .../staging/media/hantro/hantro_g2_vp9_dec.c  |  76 ++++++++++---
+ drivers/staging/media/hantro/hantro_hw.h      |   1 +
+ drivers/staging/media/hantro/sunxi_vpu_hw.c   | 104 ++++++++++++++++++
+ 10 files changed, 301 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+ create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
+
+-- 
+2.34.0
+
