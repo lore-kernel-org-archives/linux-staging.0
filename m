@@ -1,122 +1,80 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988E32C81;
-	Mon, 22 Nov 2021 18:51:22 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id o20so36801278eds.10;
-        Mon, 22 Nov 2021 10:51:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4457A2C81
+	for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 19:53:55 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id q17so15014432plr.11
+        for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 11:53:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=z5nvE8R1g68uXQp/4of3MVll2I+d9ZYBd8YnGL7MI3U=;
-        b=GSQXkLBsft7BbxrZYlMDTsQXwRtu0mUeXiIJH1gJwa37yE6G+2ZnDNCAgWIFq18ZUX
-         3BXKK5ISO0bRnGzB3nr9RFFyL36W3+a3KI31gam99ITnSYhcXMrOkXoRiT98Yohu5REM
-         Q7q2O1nqAsXNF+j9K+LC2ZejnyiBaEBhdPjN1MR+ffY8KfiAn4hWRspSyhGmh/SwwbJy
-         Vo+v27GSFtQeRTvwOvpsn4SSXypW7OUVbabDeHTuE9Rxsr6d6sNdpwlO8RNy06nwBk2n
-         PIWMRp/DvS1bPwqlUrN81/0cOoufKy6BpGLqyMrbADgrwvf+zNONgu8HELE+2Ge7baWI
-         M/hQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=AMkuTcoJTkYSjfeIFypgDSDy28ltI3FST8ly2AlCH+k=;
+        b=fUgUK1UtUnhY2xM13JM5thRmVs8VPz82G/yccZNMuKOYiJRMP4SNjGMHXaA06rySdQ
+         1XE5W55+qoFXLPQv8MCyyx/CV/G0fkezN+k8QphQDwYSQLXRjoLuYtwcZxENdCKw+KKb
+         lngRxJBTZ4ZSye0oek5DWObaYQCvqmWwqDEQel+PnKQVciZ1By15Tshry791B3+1tVVx
+         Uy6Wdz1wD+wlG1HLQ1bbdV+XTXRPtf+PV8Sdu8vpQVhQDt0UNWTsZtLZ/WSyasetyQWb
+         XXGfqRmY0aEiRUw0coFJHhJlKkf8JNlnMmKOwO3eCE5mZyY/kDoaFoTJh5k6dyhEYwTR
+         10bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=z5nvE8R1g68uXQp/4of3MVll2I+d9ZYBd8YnGL7MI3U=;
-        b=8M9HMKWlXk/A2gFmgEUJ+wTr/3PO5dnjczVAukZDnhaXipE7KK5zbks3KslEbQgllk
-         NY5stINqnV91+A01w5IdvWFno0KUMWcWbs/X3XzON2wWOW+oNrYHFAqJvyt14MVc1gys
-         upVwNfj7A6vO47J+pXbk6xHq7IejR6doOR93bhmD6NnOEj2NkF/K4am+N0ha/3Yg/EUU
-         3gKJGWzsISvkd3xaXJcZjfaM1jf2HafrU7OwlyUP/C4CG4obKsvCvSqyaTG23Dqg7C35
-         xqIHi4eFiTsEDKZrt2R7GsCaVBWfdQKpcAUL034PE5Tu/MUHOWgopoMnca+PUWNlQw4R
-         gakg==
-X-Gm-Message-State: AOAM530rN/njxK7UWKISQ3clM2S4H9SMOTjor22FdpFrQj+tJBIRZtcR
-	aD9/PpebB7Vm25g4PLvpNY0=
-X-Google-Smtp-Source: ABdhPJwN2wUfOIKWPGzvBUR0COCWmhOXb7IycOilOrZEpvYk/vGy3mmFuOXrmZMq99QEnjwKdoo0qg==
-X-Received: by 2002:a17:906:9f20:: with SMTP id fy32mr45026224ejc.459.1637607081010;
-        Mon, 22 Nov 2021 10:51:21 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id hc10sm4241706ejc.99.2021.11.22.10.51.19
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=AMkuTcoJTkYSjfeIFypgDSDy28ltI3FST8ly2AlCH+k=;
+        b=d6poZW1JLAEP0DFGS9ecXhXwjddZlgL7dwQRLfL8X9aac/7oD7wZRjfq3YuBJB5GE8
+         XQGuVq6aAceDDolSmvgmQ2xKZm+qyUqcNF9wRC2/O9FGNB8Jm8FctoxWFunFqp5L71Q+
+         qEnwasxn6yluvKGLvP8yim84IAXIdg6oe7a4KLR20v38GbZOZx3mAUkMmZw60UwSy0Ou
+         AoTc2crlMxiOhkkHJYYIg6cbi1k2ecjFCZWunmYFeGdL5WgKkqfPFC0ZGOUbTFtZkt/7
+         AvcvUrZU71S6xAeUNCJksKvIfw01/W/xL9T5GyJKlhkH9K1ljVwSK8Wt0ohA6PMNEWyv
+         Xlxw==
+X-Gm-Message-State: AOAM530epVTGzG3zNISnBz1UfWnBsx5smUIup5k2ocSRNXJfxNQw1uGe
+	ywjhWG4umNhtGNhmbptVWqM=
+X-Google-Smtp-Source: ABdhPJwM+lCFwmfFMiO8v1VS33gT8JDPpKnUGfSaEXnhaPSeFMpbxHLkG1vZKsQbuPwYXsOsGpkSxA==
+X-Received: by 2002:a17:903:22c4:b0:141:deda:a744 with SMTP id y4-20020a17090322c400b00141dedaa744mr112777598plg.25.1637610834850;
+        Mon, 22 Nov 2021 11:53:54 -0800 (PST)
+Received: from makvihas ([103.238.104.128])
+        by smtp.gmail.com with ESMTPSA id t4sm10322369pfq.163.2021.11.22.11.53.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 10:51:20 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 0/7] media: hantro: add Allwinner H6 support
-Date: Mon, 22 Nov 2021 19:51:19 +0100
-Message-ID: <4666655.GXAFRqVoOG@kista>
-In-Reply-To: <20211122184702.768341-1-jernej.skrabec@gmail.com>
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+        Mon, 22 Nov 2021 11:53:54 -0800 (PST)
+Date: Tue, 23 Nov 2021 01:23:50 +0530
+From: Vihas Mak <makvihas@gmail.com>
+To: Larry.Finger@lwfinger.net, phil@philpotter.co.uk
+Cc: gregkh@linuxfoundation.org, straube.linux@gmail.com, martin@kaiser.cx,
+	paskripkin@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: r8188eu: remove unnecessary NULL check
+Message-ID: <20211122195350.GA166134@makvihas>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dne ponedeljek, 22. november 2021 ob 19:46:55 CET je Jernej Skrabec 
-napisal(a):
-> Hi everyone!
-> 
-> Here is patchset which adds support for Hantro G2 core found in Allwinner
-> H6 SoC. It is slightly older core, so it needs few quirks to be
-> implemented:
-> 1. It uses slightly different register layout in some cases. However, those
->    differences are small, so it makes sense only to add quirks.
-> 2. It doesn't use ring buffer for bitstream as newer variants.
-> 3. It needs double buffering to be enabled in order to work correctly.
-> 4. postproc must be enabled at the end of the job. It seems that core has
->    some issues with latching register values if postproc registers are set
->    at the beginning of the job
-> 
-> legacy_regs quirk could be split into 3, like legacy_regs, ring_buffer and
-> late_postproc, but I didn't see the need for that. I examined vendor
-> sources at [1] and it suggests that legacy_regs implies no ring buffer.
-> 
-> It's also unclear if core supports HEVC decoding or not. This can be
-> implemented later. VP9 10-bit decoding support is mentioned in manual, but
-> it doesn't work at the moment. This will be addressed later.
-> 
-> Please take a look.
-> 
-> Best regards,
-> Jernej
-> 
-> [1] https://github.com/CliveLau1990/imx-vpu-hantro
+remove unnecessary NULL check surrounding rtw_free_netdev(), as the check
+is already performed inside rtw_free_netdev() in
+drivers/staging/r8188eu/os_dep/osdep_service.c.
 
-Forgot to add, this series is based on top of:
-https://www.spinics.net/lists/linux-media/msg202448.html
+Signed-off-by: Vihas Mak <makvihas@gmail.com>
+---
+ drivers/staging/r8188eu/os_dep/usb_intf.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Regards,
-Jernej
-
-> 
-> Jernej Skrabec (7):
->   media: hantro: add support for reset lines
->   media: hantro: vp9: use double buffering if needed
->   media: hantro: vp9: add support for legacy register set
->   media: hantro: move postproc enablement for old cores
->   media: dt-bindings: allwinner: document H6 Hantro G2 binding
->   media: hantro: Add support for Allwinner H6
->   arm64: dts: allwinner: h6: Add Hantro G2 node
-> 
->  .../media/allwinner,sun50i-h6-vpu-g2.yaml     |  64 +++++++++++
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |   9 ++
->  drivers/staging/media/hantro/Kconfig          |  10 +-
->  drivers/staging/media/hantro/Makefile         |   3 +
->  drivers/staging/media/hantro/hantro.h         |   7 ++
->  drivers/staging/media/hantro/hantro_drv.c     |  27 ++++-
->  drivers/staging/media/hantro/hantro_g2_regs.h |  20 ++++
->  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  76 ++++++++++---
->  drivers/staging/media/hantro/hantro_hw.h      |   1 +
->  drivers/staging/media/hantro/sunxi_vpu_hw.c   | 104 ++++++++++++++++++
->  10 files changed, 301 insertions(+), 20 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/
-allwinner,sun50i-h6-vpu-g2.yaml
->  create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
-> 
-> -- 
-> 2.34.0
-> 
-> 
-
+diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+index 5a35d9fe3fc9..392bd7868519 100644
+--- a/drivers/staging/r8188eu/os_dep/usb_intf.c
++++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+@@ -466,8 +466,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
+ 		if1->hw_init_completed);
+ 	rtw_handle_dualmac(if1, 0);
+ 	rtw_free_drv_sw(if1);
+-	if (pnetdev)
+-		rtw_free_netdev(pnetdev);
++	rtw_free_netdev(pnetdev);
+ }
+ 
+ static int rtw_drv_init(struct usb_interface *pusb_intf, const struct usb_device_id *pdid)
+-- 
+2.25.1
 
