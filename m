@@ -1,41 +1,41 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7984C2C81;
-	Mon, 22 Nov 2021 18:47:18 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id x15so80817377edv.1;
-        Mon, 22 Nov 2021 10:47:18 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71882C81;
+	Mon, 22 Nov 2021 18:47:19 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id e3so81198078edu.4;
+        Mon, 22 Nov 2021 10:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MWqT8jgM+LxizZRnwNQ4lYoOgf1SpCYqwsAExcOLMVI=;
-        b=Hes/v+KIictHB9Qldriu0R0Qd+74EZhSW4B024o73zgqni34zeC7mkXgTMJkLtMm+i
-         vcnS6Qc6Z37MOOBzqOxcV+rv/TvxLDJimsZjN2X5WwfiN3/96AUjETN5yaT/AvgKrx3b
-         YwJ+0rSmwFY6kcTfK3LOrLxg9eCpGBITD1cm5ie7/l5oMSItGmq8ilvTzXcVXZbetgTX
-         Dew+15IJM20AAfD5Ek7ISIXz/FjD9smpJ8pdQe8hMLhhPDmU7atznfWgVFNrtyPNpQOZ
-         k2gRpRSmBY0A5knsMdYsxAju+8nT67k8oX7H2sA88WS5jBiIhqw5OY3jNjdmZF37PgvK
-         VZqw==
+        bh=A4ae5Bs5ryByKDn+40799WBBmSQ5YSDOpHEJ7DwRPhk=;
+        b=aQKe1zew8KzTyZPDYHDfRldGju4RXm6N/NULLgQUkFXJmsrVQcqZvRgy/13a3L9JIV
+         +7Q7KC3Wa8f3eXxuQrDQUNPOQtNvQjxp9QKilSv/J1dM0yAIsN4gT3ZTAsu2bxTTdi5m
+         psPbelagUacq1NI/ChW2igDsMQuEk3iteOO7wIkiFodt3Yi6pO1IOMCG9KpnkCg89PpE
+         KPqvtXM0Ub6Kkd94Z3TenRNYGALPQXl3o36mHSCl3s7L2w0CySaePfM1Ut4f0oaIqZbV
+         /8D1j/4jsU3CU8YyXvM3p8zrHK8veTHYEfx4AX22xhL+Baf4ZA0DihRiIK7TvInBUUAD
+         KoVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MWqT8jgM+LxizZRnwNQ4lYoOgf1SpCYqwsAExcOLMVI=;
-        b=deVNA3o4kM5kTp6XTgeoCEwe9eXeoiN3Fi7hSiL6Y96hU7nw+rJfceeWCmkpXMRxQV
-         ETElNycqzHnXm1SVOIJGsvw/si/uI8cSQ+gTfWU5W+j84jucEG3vhWGNexSY5xeqUcez
-         SknwZPYY8s8jAuj04pAawWU5Bjh4Z5nQJptX8ipdrsSCALELiw3OH7/C4DkSPWIpobpY
-         6rFItqnjPxDezZ4QSMyeUW0EJogcBVHsk0X7VkFM36NAoPg9LfxNM6vEKqUKawfvz7OU
-         f7G9wtnBz6jGvQqg3kjC1I4REPhRb4Ypj/GNALgxzVm2rewItGdxa5GqIiPX19v9wpPf
-         ZhmA==
-X-Gm-Message-State: AOAM5326e1cQa1eR9vNOEH46iYUGik/zS4vkNixcwDg2RT7JO6jrngve
-	xwbhCM/nEl5amPUWklfPLeY=
-X-Google-Smtp-Source: ABdhPJz35lPCNuyABipllxBzdcJzYzKIiQZ5XLS+pqrXIVlp7yUVBLtqgqtbilp4nqQsAW5aIh3sKQ==
-X-Received: by 2002:a17:906:2b16:: with SMTP id a22mr42530944ejg.447.1637606836941;
-        Mon, 22 Nov 2021 10:47:16 -0800 (PST)
+        bh=A4ae5Bs5ryByKDn+40799WBBmSQ5YSDOpHEJ7DwRPhk=;
+        b=n/IzXCuqBT5J68EEAtEg+HJBpM8E1SEsFrZNsmZ0ooF6hfdywu6iv+GNJv//weocAf
+         Ywtp7onMtt6Qncp13LxOyAZMUVYfaPkvkLMJ4XPeUFwV07rTp6xhiKZAg3rbOodI2PVz
+         9yE6IUBkt2oZEF/6W5m5SXc1Xb9KNh/CQsDU5md0k2n71e1DIrN1Ye8RVstc1ahucuZa
+         n9V0E6cTrC+esBPvO7ag9cbMQFU7om/xmEtFQAqPrH1jhwazGaCoen0g8sADzF3ZKJQK
+         4Hz50KmMInFj1lp6hnQWWPHbQiHk4AxZ/f0lvxYf+TOJ6TIUyIQTwO3LDGYa+RoszLNd
+         2BKQ==
+X-Gm-Message-State: AOAM532ynOpOhqBgZCFzaQkEZ3kRvWT5VNes84M9kW1ZO2KA7R5VC3Fy
+	m8+dwJOa/rLf2PWZ6Irp/OA=
+X-Google-Smtp-Source: ABdhPJw234qk+H8u1V4KKQN7BY00PJiFvcfrfhoLFVaBXHGpDNuMEOKtFIDgZuJomIdStFViYyWcuQ==
+X-Received: by 2002:a05:6402:169a:: with SMTP id a26mr69251064edv.292.1637606838118;
+        Mon, 22 Nov 2021 10:47:18 -0800 (PST)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id h10sm4512312edr.95.2021.11.22.10.47.15
+        by smtp.gmail.com with ESMTPSA id h10sm4512312edr.95.2021.11.22.10.47.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 10:47:16 -0800 (PST)
+        Mon, 22 Nov 2021 10:47:17 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: ezequiel@vanguardiasur.com.ar,
@@ -53,9 +53,9 @@ Cc: ezequiel@vanguardiasur.com.ar,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 4/7] media: hantro: move postproc enablement for old cores
-Date: Mon, 22 Nov 2021 19:46:59 +0100
-Message-Id: <20211122184702.768341-5-jernej.skrabec@gmail.com>
+Subject: [PATCH 5/7] media: dt-bindings: allwinner: document H6 Hantro G2 binding
+Date: Mon, 22 Nov 2021 19:47:00 +0100
+Message-Id: <20211122184702.768341-6-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211122184702.768341-1-jernej.skrabec@gmail.com>
 References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
@@ -67,42 +67,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Older G2 cores, like that in Allwinner H6, seem to have issue with
-latching postproc register values if this is first thing done in job.
-Moving that to the end solves the issue.
+Allwinner H6 contains older Hantro G2 core, primarly used for VP9 video
+decoding. It's unclear for now if HEVC is also supported.
+
+Describe it's binding.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ .../media/allwinner,sun50i-h6-vpu-g2.yaml     | 64 +++++++++++++++++++
+ 1 file changed, 64 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 8c3de31f51b3..530994ab3024 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ctx)
- 	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
- 				&ctx->ctrl_handler);
- 
--	if (!ctx->is_encoder) {
-+	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
- 		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
- 			hantro_postproc_enable(ctx);
- 		else
-@@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
- {
- 	struct vb2_v4l2_buffer *src_buf;
- 
-+	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
-+		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
-+			hantro_postproc_enable(ctx);
-+		else
-+			hantro_postproc_disable(ctx);
-+	}
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+new file mode 100644
+index 000000000000..24d7bf21499e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/allwinner,sun50i-h6-vpu-g2.yaml
+@@ -0,0 +1,64 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +
- 	src_buf = hantro_get_src_buf(ctx);
- 	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
- 				   &ctx->ctrl_handler);
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/media/allwinner,sun50i-h6-vpu-g2.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Hantro G2 VPU codec implemented on Allwinner H6 SoC
++
++maintainers:
++  - Jernej Skrabec <jernej.skrabec@gmail.com>
++
++description:
++  Hantro G2 video decode accelerator present on Allwinner H6 SoC.
++
++properties:
++  compatible:
++    const: allwinner,sun50i-h6-vpu-g2
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Bus Clock
++      - description: Module Clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun50i-h6-ccu.h>
++    #include <dt-bindings/reset/sun50i-h6-ccu.h>
++
++    video-codec-g2@1c00000 {
++        compatible = "allwinner,sun50i-h6-vpu-g2";
++        reg = <0x01c00000 0x1000>;
++        interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu CLK_BUS_VP9>, <&ccu CLK_VP9>;
++        clock-names = "bus", "mod";
++        resets = <&ccu RST_BUS_VP9>;
++    };
++
++...
 -- 
 2.34.0
 
