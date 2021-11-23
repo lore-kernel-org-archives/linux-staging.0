@@ -1,156 +1,118 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6AF2C82;
-	Tue, 23 Nov 2021 16:46:33 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id r11so94779998edd.9;
-        Tue, 23 Nov 2021 08:46:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5637372
+	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 19:39:09 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id q64so289568qkd.5
+        for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 11:39:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
-        b=Zj+3CJZE0XsYGYGYbsDr0DYBjiqHXd2f5fMTK9cVdyGyjRri79BNak1r1pO4TvaLRq
-         mXZmqKqev8CBnsCUgrxk9ldLOGcCt+98Zl8LEoBmAjcyYtC5zMdWRyXrPTsAw/f0O8L2
-         LWM44mrZbsV3vwrGKU4wEZUHwpi+wFVuJuUGSsweQYx2oosoEKyQM08lqHYnmtGiQJ4f
-         Ui31KKYZUDpQFsWrFqHw4mOlEefSQotTLs8oQmJbfMgife4lHzVd3PTnekWATc6MxcfB
-         w0IgRVV9uqOZaKtwJKRnQVP22fX1wu90+z9sL3FPB0ApnrmY5t8hhg5+Q/33ZuSMjJgZ
-         4P3Q==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Om+g4Uz2JjyBuvHdfGl4XTjXS4Di5g1zmNyuqruDMDc=;
+        b=fpKETfU+H9nCsr/emEcye4fztYexowbT6ApwFyHjIBI50Q6+FuVwVrL4XuF1PhJGwE
+         Xrln16g6s63oPEXKPak7a9q6zbN4t80xBz/oOn6Yl9FmsZUjsHkzILhvp1g+KBfm65q4
+         nJLz2KOy1DpQARp+xz/D1/NxOm/XtDqKpqukSSbtwgT/QNMw7pf6tqCT2Yeo/HTVr3u8
+         5gwGkC4iNnGqU9qw3Jz9NDq+OSKwYXJQr8EvJ7sggfUF+83LK/gG57hQMKG3pkOZT9qv
+         +FRlPt7Q4CSIsQOALUvDH2ZQYsSE6Er3V7swlS2mqYBXGWliur5j07f0w9PpPQtcPPyV
+         ZIfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
-        b=6AJk66vfp6zKSYmq5WqHdR6LISbhsr2I9L1snEKFw9EzG6pnePBqNRc0s832e04oI/
-         7pw6k9CYN9tpVieMirwzly/5JAr8VyYR9KTgSBnzLNodnlQQmUbficzzdQFcUl7QtvWl
-         5FFs4SqSRZiL43j7FsHdrDQsMNctwpBnNWAYqXqOgcj6TFAkDJg97ofexR3YpMfjWx68
-         ebMVBbQXJALP/JoXpygaBtO8PrEE7Q72DwSLXiDt70NFls/PNg+RQfCQP7ShguB6TbE8
-         y2xq4TXv82DRmUovoN7W58D+p8waAnKsLoC9FeH/kt3Qq3v5dTcl4uaFX5g8ehSwNmDH
-         H7Jw==
-X-Gm-Message-State: AOAM5322eLD+crF3htLK4z3UO20hI0VGAlRS8Wi9OPDhifRzTAU7hG5P
-	O1ev4FBgvVO65bUKVKlg+hylKUYgsj+hEQ==
-X-Google-Smtp-Source: ABdhPJyLUBFkleYwLguLP2uuKkGq/+WQboEpjtMa960SFj6OrZVxonrXlQIEc9ZoEK9pemmQ0f6bkQ==
-X-Received: by 2002:a17:906:eb8a:: with SMTP id mh10mr9243839ejb.198.1637685991743;
-        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id w23sm6127157edr.19.2021.11.23.08.46.30
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Om+g4Uz2JjyBuvHdfGl4XTjXS4Di5g1zmNyuqruDMDc=;
+        b=QKo05QwZQbKpfiACtLQw0sfGKUxbcKcaQU3ZNxblNUGizHpViNpkztCKMqzYMAq2CM
+         xvgbHfMgwhWI2QPsOTx4AnNF9nu41eifQOGPX3UzrfKmKpbkk0FhcMRvWNsnnxpSK24K
+         hmcyamX7XYdTLv1V9ZIgm9r2cHi8QRCGWE2slc+iBMg9xLw4uKH5HsxBzZZiTF9qQ8LR
+         VppLnsG6Ih1lyZ1xmutr2HAfZ6gGb0yMO8kQcwp8ph8lk8FFoApV/u+kY/hZP4hGAyeY
+         PkPubdzQjMyj6YTRkxW3o9hFQaZtayl8aXQnSV4025c7Qa19q8qCCUxGyYLyM9FRzD7x
+         jlTQ==
+X-Gm-Message-State: AOAM532TfR5P/qs43RiZbkXmR2dxjAiqZ1GcGDMaMxKnLd3FyhIBpkrr
+	t9Y819YwKv74jq9Smv7nl2GTyg==
+X-Google-Smtp-Source: ABdhPJx1LXmah08Wco9CfLO9RABE+JD1pVOug1JHcDqvoXVWgrZxQ1pJzQ9DMaQNTN5GEAZhiIiitw==
+X-Received: by 2002:a37:a081:: with SMTP id j123mr7167214qke.503.1637696348305;
+        Tue, 23 Nov 2021 11:39:08 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id y20sm6772061qkj.24.2021.11.23.11.39.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: Re: [PATCH 1/7] media: hantro: add support for reset lines
-Date: Tue, 23 Nov 2021 17:46:30 +0100
-Message-ID: <9986998.nUPlyArG6x@kista>
-In-Reply-To: <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211123145933.GD6514@kadam> <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
+        Tue, 23 Nov 2021 11:39:07 -0800 (PST)
+Message-ID: <85e9830ff0c2ed5eb77ce52ec7fde82a08368a2a.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: hantro: Hook up RK3399 JPEG encoder output
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Tue, 23 Nov 2021 14:39:06 -0500
+In-Reply-To: <CAGXv+5Gf-gsB7JXnLiZF_R=0RdxXS7CDZaFftyZ+aESXLXy1Ew@mail.gmail.com>
+References: <20211119074654.470729-1-wenst@chromium.org>
+	 <5d23258a954eb0076cacf89d6c88b5e6ef13695f.camel@ndufresne.ca>
+	 <CAGXv+5Gf-gsB7JXnLiZF_R=0RdxXS7CDZaFftyZ+aESXLXy1Ew@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.1 (3.42.1-1.fc35) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Hi all,
-
-Dne torek, 23. november 2021 ob 17:36:57 CET je Andrzej Pietrasiewicz 
-napisal(a):
-> Hi Dan, hi Jernej,
+Le lundi 22 novembre 2021 à 11:57 +0800, Chen-Yu Tsai a écrit :
+> On Sat, Nov 20, 2021 at 12:00 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+> > 
+> > Le vendredi 19 novembre 2021 à 15:46 +0800, Chen-Yu Tsai a écrit :
+> > > The JPEG encoder found in the Hantro H1 encoder block only produces a
+> > > raw entropy-encoded scan. The driver is responsible for building a JPEG
+> > > compliant bitstream and placing the entropy-encoded scan in it. Right
+> > > now the driver uses a bounce buffer for the hardware to output the raw
+> > > scan to.
+> > > 
+> > > In commit e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG
+> > > codec_ops.done"), the code that copies the raw scan from the bounce
+> > > buffer to the capture buffer was moved, but was only hooked up for the
+> > > Hantro H1 (then RK3288) variant. The RK3399 variant was broken,
+> > > producing a JPEG bitstream without the scan, and the capture buffer's
+> > > .bytesused field unset.
+> > > 
+> > > Fix this by duplicating the code that is executed when the JPEG encoder
+> > > finishes encoding a frame. As the encoded length is read back from
+> > > hardware, and the variants having different register layouts, the
+> > > code is duplicated rather than shared.
+> > > 
+> > > Fixes: e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG codec_ops.done")
+> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > ---
+> > > This was developed on the downstream ChromeOS 5.10 kernel (with a hack
+> > > for .data_offset) and tested with ChromeOS's jpeg_encode_accelerator_unittest
+> > > patched to accept non-JFIF JPEG streams (https://crrev.com/c/3291480).
+> > > 
+> > > This was then forward-ported to mainline (name and filename changes) and
+> > > compile tested only.
+> > 
+> > Tested with GStreamer on top of 5.16-rc1 from media_stage.git. Not perfect but
+> > at least the the output it valid. Test command was:
+> > 
+> >   gst-launch-1.0 videotestsrc num-buffers=2 ! v4l2jpegenc ! filesink
+> > location=test.jpg
+> > 
+> > Notice that I encode two frames, it seems like the draining flow is broken in
+> > this driver. GStreamer will queue the frame and issue CMD_START immediately, the
+> > driver will skip the encode, leaving me with an empty file.
 > 
-> W dniu 23.11.2021 o 15:59, Dan Carpenter pisze:
-> > On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
-> >>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/
-media/hantro/hantro_drv.c
-> >>> index ab2467998d29..8c3de31f51b3 100644
-> >>> --- a/drivers/staging/media/hantro/hantro_drv.c
-> >>> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> >>> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device 
-*pdev)
-> >>>    			return PTR_ERR(vpu->clocks[0].clk);
-> >>>    	}
-> >>> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, 
-true);
-> >>> +	if (IS_ERR(vpu->resets))
-> >>> +		return PTR_ERR(vpu->resets);
-> >>> +
-> >>>    	num_bases = vpu->variant->num_regs ?: 1;
-> >>>    	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
-> >>>    				      sizeof(*vpu->reg_bases), 
-GFP_KERNEL);
-> >>> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device 
-*pdev)
-> >>>    	pm_runtime_use_autosuspend(vpu->dev);
-> >>>    	pm_runtime_enable(vpu->dev);
-> >          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > It looks like this is the pm stuff that we have to unwind on error
-> > 
-> >>> +	ret = reset_control_deassert(vpu->resets);
-> >>> +	if (ret) {
-> >>> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
-> >>> +		return ret;
-> >                  ^^^^^^^^^^
-> > So this return should be a goto undo_pm_stuff
-> > 
-> > 
-> >>> +	}
-> >>> +
-> >>>    	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
-> >>>    	if (ret) {
-> >>>    		dev_err(&pdev->dev, "Failed to prepare clocks\n");
-> >>> -		return ret;
-> > 
-> > And this return should also have been a goto so it's a bug in the
-> > original code.
-> 
-> So we probably want a separate patch addressing that first, and then
-> the series proper on top of that.
+> The hantro driver doesn't implement ENC_CMD, which IIRC is used for the
+> draining flow. I guess that's something to fix, since the mem2mem stateful
+> encoder spec seems to require it. Or does that spec not apply to the JPEG
+> encoders?
 
-I was just about to suggest that.
-
-Other drivers usually enable PM last, so they don't have PM calls in unwind 
-code. However, I think current approach is just as valid (with a fix).
-
-Best regards,
-Jernej
+I'm pretty sure its required. But this isn't a regression from this patch.
 
 > 
-> Regards,
+> > Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > 
-> Andrzej
+> Thanks!
 > 
-> > 
-> >>> +		goto err_rst_assert;
-> >>
-> >> Before your patch is applied if clk_bulk_prepare() fails, we
-> >> simply return on the spot. After the patch is applied not only
-> >> do you...
-> >>
-> >>>    	}
-> >>>    	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
-> >>> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device 
-*pdev)
-> >>>    	v4l2_device_unregister(&vpu->v4l2_dev);
-> >>>    err_clk_unprepare:
-> >>>    	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> >>> +err_rst_assert:
-> >>> +	reset_control_assert(vpu->resets);
-> >>
-> >> ...revert the effect of reset_control_deassert(), you also...
-> >>
-> >>>    	pm_runtime_dont_use_autosuspend(vpu->dev);
-> >>>    	pm_runtime_disable(vpu->dev);
-> >>
-> >> ... do pm_*() stuff. Is there any reason why this is needed?
-> > 
-> > So, yes, it's needed, but you're correct to spot that it's not
-> > consistent.
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> 
-> 
-
+> ChenYu
 
