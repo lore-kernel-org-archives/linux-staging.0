@@ -1,95 +1,417 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A7772
-	for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 23:01:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5DBA960FED;
-	Mon, 22 Nov 2021 23:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637622097;
-	bh=5HPGeejKcq0/skHJyiqCEkuW5nT9h90VXdWH7CYPbFE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nEdiJ23lulIvuZIRcBfsS+qhZQdy45DABTeQ/9eMEUl1h55xvksxls/uuZO4VBeI8
-	 VaCo7TKNLJwRLa3QYvdv6RNwEp2FVuh3jDzzlTQaQEP63m8H/MG3PA9JAEloDYolQp
-	 c9/rmjY39HvZyawWUPIV3NjC+iYFEvh7eF6njpejVduCoCGuYmDwm0WoROg8MZpuON
-	 SIl6D9XkBqQ40owCHtFzbFPFXQsgb6+Hp4V/BoNJJJnMHVdW/zgOyJBpirCAwPOfIz
-	 HcfB+kkGUqemGZoka/SinHrWStHXFAUQPzrIQFgTm1oadehKRNNCm1qA6BWKPpcaq0
-	 1TgibwoU5fvdw==
-Date: Mon, 22 Nov 2021 23:01:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Andy Gross <agross@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Baolin Wang <baolin.wang7@gmail.com>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav Kysela <perex@perex.cz>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Scott Branden <sbranden@broadcom.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
-	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
-	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] dmaengine: kill off dma_slave_config->slave_id
-Message-ID: <YZwhSPkhAqZy3bqY@sirena.org.uk>
-References: <20211122222203.4103644-1-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEA472
+	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 00:06:59 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id y8so15532349plg.1
+        for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 16:06:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=s0oVuqT3s4VawtVAHycVSHri8epzVydfMxQmwKD9HIo=;
+        b=p+s5ZB/SMmPel1LAU3Xc+xQy+c+KUhWXgxHGJyhBUPAUI17C9PZnGHvucE3grOnLue
+         XwpBZz5rd6R/aR3bmcaBnWwnBdenAurxU6sVXO8dW1UOAW4UuGja8K6XDIyt+gqswl8A
+         2QzHuJMoyctkM0gpUA6gMoxS0hJXsPqt6H43bS4pbSPg18w9jBBjXxXRgHd4qWqt0gDB
+         LBKtT/yKnZ7lU5XJrX4sP3FVffx/BAqI0IP0VYid8Bl5boPSjl5sgXhCRzNLVSO+VvR1
+         dNTWN3Vw8o/Xdyy4ABi65sCrvDkqnPAE/xxDmylTbhv7QggLDhMYEnWQ3SSLGauFVK70
+         mlBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=s0oVuqT3s4VawtVAHycVSHri8epzVydfMxQmwKD9HIo=;
+        b=TYTdiXfsIdcdMwWgCIhUd3o7pcVLNpNNry/SK8i6eB413XvK1sUJDwRwmrTfMI1Guh
+         WoofVkZipYSRe/UKSAX0K5qPgxfCXJh5PtNArBivgMyyI5yN3nrMTbVZsif+EeGaCWUA
+         TC+YfaE7J4t3IlEtVF1whRNvrKw9uY1SBQnZSL2cJT2KmTK1UaZxeEEK96G4sG9Q7rn1
+         u6IvWz05FpBjhPsQTZpk5DdIhjPPJj4sRblzgwFpA7NCX1zJ76S9vSBWm/ZbHymaHQMu
+         xJy9YtDWFFN0oWYP3c6wtuRROTY5bVmDzhn/JJBu42llVx6xkdFDiV7aMcsxrd8zw9bb
+         m2Pg==
+X-Gm-Message-State: AOAM533gxep9lF5vlKDtUBZQbug8rDd2FM1ikpOwLi6/tETZi+MNjsXR
+	Efpv9bkgtnsVbDaceAmH0pP4eRGbBzV7j7FqvbRHRQ==
+X-Google-Smtp-Source: ABdhPJzZ9OQvBWbOJZkTqKu+nfLhBcCCMU7xmUK2qBP+DcS5SxHuZG9twtFuQRWtGN9ikHTyEFB7Cym4Xg1G/lrkN1o=
+X-Received: by 2002:a17:90b:17cc:: with SMTP id me12mr1056455pjb.179.1637626018640;
+ Mon, 22 Nov 2021 16:06:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="71Si6a9AhnlReqww"
-Content-Disposition: inline
-In-Reply-To: <20211122222203.4103644-1-arnd@kernel.org>
-X-Cookie: Lake Erie died for your sins.
-
-
---71Si6a9AhnlReqww
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
+ <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
+ <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
+ <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
+ <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca> <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+In-Reply-To: <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Mon, 22 Nov 2021 16:06:47 -0800
+Message-ID: <CAJ+vNU2=o=xmFpcFVKd+=2eOYcgm1dDVDTD8vZvw0NKAyxvN2A@mail.gmail.com>
+Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Adam Ford <aford173@gmail.com>, linux-media <linux-media@vger.kernel.org>, 
+	Schrempf Frieder <frieder.schrempf@kontron.de>, Marek Vasut <marek.vasut@gmail.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Adam Ford-BE <aford@beaconembedded.com>, 
+	cstevens@beaconembedded.com, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Lucas Stach <l.stach@pengutronix.de>, Joakim Zhang <qiangqing.zhang@nxp.com>, 
+	Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
+	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
+	open list <linux-kernel@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 22, 2021 at 11:21:52PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> I recently came across some new uses of the 'slave_id' field that
-> I had (almost) removed a few years ago. There are no legitimate
-> uses of this field in the kernel, only a few stale references and
-> two drivers that abuse the field as a side-channel between the
-> dmaengine driver and its client.
+On Thu, Nov 18, 2021 at 8:20 AM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> On Thu, Nov 18, 2021 at 6:30 AM Nicolas Dufresne <nicolas@ndufresne.ca> w=
+rote:
+> >
+> > Le mardi 16 novembre 2021 =C3=A0 15:23 -0800, Tim Harvey a =C3=A9crit :
+> > > On Tue, Nov 9, 2021 at 7:57 AM Nicolas Dufresne <nicolas@ndufresne.ca=
+> wrote:
+> > > >
+> > > > Le lundi 08 novembre 2021 =C3=A0 10:33 -0600, Adam Ford a =C3=A9cri=
+t :
+> > > > > On Mon, Nov 8, 2021 at 7:59 AM Nicolas Dufresne <nicolas@ndufresn=
+e.ca> wrote:
+> > > > > >
+> > > > > > Hi Adam,
+> > > > > >
+> > > > > > thanks for you work, I'll try and reply  about the GStreamer qu=
+estions below, if
+> > > > > > you have further question feel free to ask.
+> > > > > >
+> > > > > > Le samedi 06 novembre 2021 =C3=A0 13:37 -0500, Adam Ford a =C3=
+=A9crit :
+> > > > > > > The i.MX8M has two Hantro video decoders, called G1 and G2 wh=
+ich appear
+> > > > > > > to be related to the video decoders used on the i.MX8MQ, but =
+because of
+> > > > > > > how the Mini handles the power domains, the VPU driver does n=
+ot need to
+> > > > > > > handle all the functions, so a new compatible flag is require=
+d.
+> > > > > > >
+> > > > > > > This is an RFC because I don't have functional video on my sy=
+stem yet,
+> > > > > > > and I'm hoping there might be people who do and can help test=
+ this.
+> > > > > > > I have only tested this far enough to see they enumerate and =
+appear
+> > > > > > > as /dev/videoX and /dev/mediaX devices.
+> > > > > >
+> > > > > > I will check the patchset, but you need in the mini-variant to =
+disable the G1
+> > > > > > post processor, because this block was fused out. We didn't mak=
+e it optional
+> > > > >
+> > > > > Thanks for being willing to review this.
+> > > > >
+> > > > > > from the start as according to the V1 of the TRM it was there, =
+but that error
+> > > > > > was corrected in V3.
+> > > > >
+> > > > > Thanks for the clarification.  It wasn't obvious to me, because i=
+n
+> > > > > some instances the PP looked like it was there and sometimes not
+> > > > > there.  I'll remove the postproc stuff.
+> > > > >
+> > > > > >
+> > > > > > >
+> > > > > > > I am also curious to know if/what gstreamer plugins are neces=
+sary.  In
+> > > > > > > NXP's custom kernel, there are IMX-specific plugins, and I wa=
+s hoping there
+> > > > > > > would be more generic plugins that I can use to test.  I am h=
+oping some
+> > > > > > > of the linux-media experts might chime in on how to best test=
+.
+> > > > > >
+> > > > > > I will recommend using GStreamer 1.19.3 or main branch (GStream=
+er is now a
+> > > > > > single git repo). You will then be able to test Hantro G1 decod=
+ing of MPEG2,
+> > > > > > H264 and VP8. Remember that the related plugin depends on libgu=
+dev (a glib
+> > > > > > binding of udev).
+> > > > >
+> > > > > Thanks for the tip.
+> > > > >
+> > > > > >
+> > > > > > For the encoder, I believe only JPEG maybe supported, since thi=
+s is all there is
+> > > > > > mainline for RK3288 (and perhaps other RK). But this will need =
+testing and
+> > > > > > debugging as the G1 version is slightly newer on NXP SoC.
+> > > > >
+> > > > > For what it's worth the G1 seems to repond cleanly to the inquiri=
+es
+> > > > > from v42-compliance.
+> > > > > The G2 throws some splat when I run v4l2-compliance, but I am sti=
+ll
+> > > > > investigating that.
+> > > > >
+> > > > > [  405.456979] ------------[ cut here ]------------
+> > > > > [  405.464173] WARNING: CPU: 0 PID: 563 at mm/page_alloc.c:5344
+> > > > > __alloc_pages+0x5a4/0xbe0
+> > > > > [  405.472104] Modules linked in: 8021q garp mrp stp llc caam_jr
+> > > > > caamhash_desc caamalg_desc crypto_engine rng_core authenc libdes
+> > > > > imx7_media_csi(C) crct10dif_ce imx_media_common(C)
+> > > > > snd_soc_fsl_asoc_card imx7_mipi_csis(C) snd_soc_imx_audmux
+> > > > > snd_soc_simple_card_utils fsl_imx8_ddr_perf imx8m_ddrc brcmfmac
+> > > > > brcmutil hantro_vpu(C) v4l2_h264 v4l2_mem2mem videobuf2_vmalloc
+> > > > > videobuf2_dma_contig videobuf2_memops cfg80211 ov5640 videobuf2_v=
+4l2
+> > > > > v4l2_fwnode v4l2_async videobuf2_common videodev etnaviv gpu_sche=
+d
+> > > > > hci_uart mc btqca btbcm snd_soc_wm8962 at24 spi_imx rtc_pcf85363
+> > > > > rtc_snvs clk_bd718x7 spi_bitbang snvs_pwrkey snd_soc_fsl_sai
+> > > > > imx_pcm_dma caam error bluetooth imx8mm_thermal ecdh_generic
+> > > > > imx_cpufreq_dt ecc rfkill fuse drm ipv6
+> > > > > [  405.535835] CPU: 0 PID: 563 Comm: v4l2-compliance Tainted: G  =
+    D
+> > > > >  C        5.15.0-next-20211105-00010-g4bb8e8a25d3c-dirty #28
+> > > > > [  405.547401] Hardware name: Beacon EmbeddedWorks i.MX8M Mini
+> > > > > Development Kit (DT)
+> > > > > [  405.554797] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -S=
+SBS BTYPE=3D--)
+> > > > > [  405.561762] pc : __alloc_pages+0x5a4/0xbe0
+> > > > > [  405.565861] lr : __dma_direct_alloc_pages+0x17c/0x1e0
+> > > > > [  405.570917] sp : ffff800012443810
+> > > > > [  405.574232] x29: ffff800012443810 x28: 0000000000000000 x27: f=
+fff000005288220
+> > > > > [  405.581375] x26: 0000000000000034 x25: 0000000000000000 x24: f=
+fff000000259010
+> > > > > [  405.588517] x23: ffff80001011ab7c x22: ffff000000259010 x21: 0=
+0000000ffffffff
+> > > > > [  405.595659] x20: 0000000000000cc1 x19: 0000000000000000 x18: 0=
+000000000000000
+> > > > > [  405.602803] x17: 0000000000000000 x16: 0000000000000000 x15: 0=
+000000000000000
+> > > > > [  405.609947] x14: 0000000000000001 x13: 0000000000000000 x12: 0=
+000000000000000
+> > > > > [  405.617090] x11: ffff80001241d000 x10: ffff00000528833a x9 : f=
+fff00000528832a
+> > > > > [  405.624232] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0=
+000000000000cc0
+> > > > > [  405.631378] x5 : 00000000bfffffff x4 : ffff000009e30dc0 x3 : 0=
+000000000000000
+> > > > > [  405.638520] x2 : 0000000000000000 x1 : 0000000000000001 x0 : 0=
+000000000000cc1
+> > > > > [  405.645666] Call trace:
+> > > > > [  405.648113]  __alloc_pages+0x5a4/0xbe0
+> > > > > [  405.651862]  __dma_direct_alloc_pages+0x17c/0x1e0
+> > > > > [  405.656569]  dma_direct_alloc+0x70/0x310
+> > > > > [  405.660494]  dma_alloc_attrs+0x7c/0xe4
+> > > > > [  405.664246]  hantro_hevc_get_ref_buf+0x15c/0x184 [hantro_vpu]
+> > > > > [  405.670021]  hantro_g2_hevc_dec_run+0x3b8/0x1910 [hantro_vpu]
+> > > > > [  405.675791]  device_run+0xac/0x110 [hantro_vpu]
+> > > > > [  405.680345]  v4l2_m2m_try_run+0xac/0x1b0 [v4l2_mem2mem]
+> > > > > [  405.685598]  v4l2_m2m_ioctl_streamon+0x84/0xa0 [v4l2_mem2mem]
+> > > > > [  405.691366]  v4l_streamon+0x28/0x34 [videodev]
+> > > > > [  405.695877]  __video_do_ioctl+0x178/0x3dc [videodev]
+> > > > > [  405.700897]  video_usercopy+0x368/0x6dc [videodev]
+> > > > > [  405.705745]  video_ioctl2+0x1c/0x30 [videodev]
+> > > > > [  405.710246]  v4l2_ioctl+0x44/0x64 [videodev]
+> > > > > [  405.714574]  __arm64_sys_ioctl+0xac/0xf0
+> > > > > [  405.718502]  invoke_syscall+0x48/0x114
+> > > > > [  405.722258]  el0_svc_common.constprop.0+0xd4/0xfc
+> > > > > [  405.726969]  do_el0_svc+0x2c/0x94
+> > > > > [  405.730286]  el0_svc+0x28/0x80
+> > > > > [  405.733348]  el0t_64_sync_handler+0xa8/0x130
+> > > > > [  405.737619]  el0t_64_sync+0x1a0/0x1a4
+> > > > > [  405.741287] ---[ end trace 270ed4a899803006 ]---
+> > > > >
+> > > > > The H1 encoder seems to hang the system when I run v4l2-complianc=
+e on
+> > > > > it when H1 is set up as I submitted the patch.  I tried dropping =
+all
+> > > > > the encoder formats except the JPEG format, and it doesn't hang a=
+ny
+> > > > > more, but it also doesn't really do anything.
+> > > > > The datasheet only references VPU_H1 as supporting VP8 and H.264,=
+ so I
+> > > > > am not sure JPEG is even supported.
+> > > >
+> > > > If JPEG is not supported, then there is nothing left for mainline i=
+n this
+> > > > regard. The kernel control interface and encoding flow needs to be =
+designed and
+> > > > specified for encoders like VP8 and H264. Some prototypes and prior=
+-art exist
+> > > > though, but nothing ever got formalized in the form of a specificat=
+ion.
+> > > >
+> > > > >
+> > > > > The log from v4l2-compliance on the H1 with everything except the=
+ JPEG
+> > > > > removed looks like:
+> > > > >
+> > > > > root@beacon-imx8mm-kit:~# v4l2-compliance -d2
+> > > > > v4l2-compliance SHA: not available
+> > > > > , 64 bits, 64-bit time_t
+> > > > >
+> > > > > Segmentation fault
+> > > > > root@beacon-imx8mm-kit:~#
+> > > > > Message from syslogd@  at Thu Jan  1 00:05:07 1970 ...
+> > > > > : Internal error: Oops: 96000004 [#2] SMP
+> > > > >
+> > > > > Message from syslogd@  at Thu Jan  1 00:05:07 1970 ...
+> > > > > : Code: 52800001 aa1403e0 d2801802 95c31ab9 (b9400aa1)
+> > > > >
+> > > > > I want to install Gstreamer, but I don't have functioning DSI vid=
+eo,
+> > > > > so I am not entirely sure how I will go about testing the decoder=
+s
+> > > > > except by using fakesink
+> > > >
+> > > > We too don't have an mainline DSI to test the CODECs on recent NXP =
+SoC. For
+> > > > decoders we use fluster, a tool that runs publicly available confor=
+mance test.
+> > > > It will simply decode to disk and compare a checksum of the decoded=
+ image
+> > > > against the compliant checksum (produced by the reference decoders)=
+. For you
+> > > > interested, it uses the new videocodectestsink, which is specialize=
+d for
+> > > > producing or calculating conformance image/checksum.
+> > > >
+> > > > https://github.com/fluendo/fluster
+> > > >
+> > > > We have added support for GStreamer stateless decoders already.
+> > > >
+> > > > >
+> > > > > If the G1 ends up working with some of the newer Gstreamer stuff,=
+ I
+> > > > > might just submit a formal patch to just enable the G1 for now.
+> > > >
+> > > > This looks like a good idea indeed.
+> > > >
+> > > > >
+> > > > > adam
+> > > > > >
+> > > > > > >
+> > > > > > > Lastly, I didn't update any device tree binding YAML files, b=
+ecause
+> > > > > > > I know there have been some discussions about the power domai=
+ns on the
+> > > > > > > imx8mq, and I wasn't sure if the imx8mm should get a separate=
+ YAML file
+> > > > > > > or if the existing one for te imx8mq should just be modified.
+> > > > > > >
+> > > > > > > This will likely require the following series in order to app=
+ly correctly:
+> > > > > > > https://patchwork.kernel.org/project/linux-arm-kernel/list/?s=
+eries=3D576407
+> > > > > > >
+> > > > > > > Adam Ford (5):
+> > > > > > >   media: hantro: Add support for i.MX8M Mini
+> > > > > > >   arm64: dts: imx8mm:  Enable VPU-G1 and VPU-G2
+> > > > > > >   media: hantro: Rename ROCKCHIP_VPU_ENC_FMT to HANTRO_VPU_EN=
+C_FMT
+> > > > > > >   media: hantro: Add H1 encoder support on i.MX8M Mini
+> > > > > > >   arm64: dts: imx8mm:  Enable Hantro H1 Encoder
+> > > > > > >
+> > > > > > >  arch/arm64/boot/dts/freescale/imx8mm.dtsi     |  61 ++++++++
+> > > > > > >  drivers/staging/media/hantro/hantro_drv.c     |   3 +
+> > > > > > >  drivers/staging/media/hantro/hantro_hw.h      |  19 ++-
+> > > > > > >  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 143 ++++++++=
+++++++++++
+> > > > > > >  .../staging/media/hantro/rockchip_vpu_hw.c    |  26 ++--
+> > > > > > >  5 files changed, 231 insertions(+), 21 deletions(-)
+> > > > > > >
+> > > > > >
+> > > >
+> > >
+> > > Nicolas and Adam,
+> > >
+> > > For the H1 patches in this series: I've been able to test the IMX8MM
+> > > H1 JPEG encode using GStreamer 1.18.5:
+> > > $ gst-inspect-1.0 | grep -e "v4l2.*enc"
+> > > video4linux2:  v4l2jpegenc: V4L2 JPEG Encoder
+> > > $ gst-launch-1.0 videotestsrc ! jpegenc ! rtpjpegpay ! udpsink
+> >                                   ^ v4l2jpegenc
+> >
+> > This is just a transcript error ?
+>
+> Nicolas,
+>
+> No! Thanks for catching my mistake. I was testing with software encode...=
+ ooops!
+>
+> 'gst-launch-1.0 videotestsrc ! v4l2jpegenc ! fakesink' actually hangs
+> the board so likely a power-domain issue there?
+>
+> >
+> > > host=3D192.168.1.146 port=3D5000
+> > > viewed on client@192.168.1.146 via:
+> > > $ gst-launch-1.0 udpsrc port=3D5000 ! application/x-rtp,payload=3D96 =
+!
+> > > rtpjpegdepay ! jpegdec ! autovideosink
+> > >
+> > > For the G1/G2 patches in the series I don't see any Gstreamer
+> > > 'v4l2.*dec' elements. Perhaps I need a newer version of Gstreamer.
+> >
+> > Most likely yes, I suggest building gstreamer/ branch "main", GStreamer=
+ has now
+> > a single repository. We are very close to 1.20, which will include stab=
+le API
+> > support of H264, MPEG2 and VP8 decoding.
+> >
+>
+> Ok, let me see if I can navigate through the build process and I'll
+> get back to you.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Nicolas,
 
---71Si6a9AhnlReqww
-Content-Type: application/pgp-signature; name="signature.asc"
+I've built gstreamer 1.19.3 from git and still don't see any decoder elemen=
+ts:
 
------BEGIN PGP SIGNATURE-----
+[gst-main] root@focal-venice:~# dmesg | grep -i hantro
+[    8.048311] hantro_vpu: module is from the staging directory, the
+quality is unknown, you have been warned.
+[    8.069029] hantro-vpu 38300000.video-codec: registered
+nxp,imx8mm-vpu-dec as /dev/video0
+[    8.070164] hantro-vpu 38310000.video-codec: registered
+nxp,imx8mm-vpu-g2-dec as /dev/video1
+[    8.072553] hantro_vpu: module is from the staging directory, the
+quality is unknown, you have been warned.
+[    8.074205] hantro-vpu 38320000.video-codec: registered
+nxp,imx8mm-vpu-h1-enc as /dev/video2
+[    8.088548] hantro_vpu: module is from the staging directory, the
+quality is unknown, you have been warned.
+[gst-main] root@focal-venice:~# ls -l /lib/firmware/vpu
+total 604
+-rwxr-xr-x 1 root root 522024 Nov 23 00:02 vpu_fw_imx8_dec.bin
+-rwxr-xr-x 1 root root  91920 Nov 23 00:02 vpu_fw_imx8_enc.bin
+[gst-main] root@focal-venice:~# cat /sys/class/video4linux/video*/name
+nxp,imx8mm-vpu-dec
+nxp,imx8mm-vpu-g2-dec
+nxp,imx8mm-vpu-h1-enc
+[gst-main] root@focal-venice:~# gst-inspect-1.0 --version
+gst-inspect-1.0 version 1.19.3
+GStreamer 1.19.3 (GIT)
+Unknown package origin
+[gst-main] root@focal-venice:~# gst-inspect-1.0 | grep v4l2
+video4linux2:  v4l2deviceprovider (GstDeviceProviderFactory)
+video4linux2:  v4l2jpegenc: V4L2 JPEG Encoder
+video4linux2:  v4l2radio: Radio (video4linux2) Tuner
+video4linux2:  v4l2sink: Video (video4linux2) Sink
+video4linux2:  v4l2src: Video (video4linux2) Source
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmGcIUcACgkQJNaLcl1U
-h9B/hgf6AiPwJAMMKcdb/6uCfAJACPZtqMFn2hE6HQgrw8mlTsR3sGqhQj3c3NWF
-vkLYtSZ20L2tPvS1uyAxjIRzIm91rqriu6pNurmupB6D+347UfSMpYhtbEKXvbBw
-1UF5ftPw1t5IGduAX6HKBfaN1Iab53577DJb/uJwR3Mb/WBh9aFpuyRwuZgjBOwE
-MvpTaAK2GHY4loDjJChSAK+zlCQMFbc4I2mZuahtf4wvBts/eZn7bAqAruzPMnTL
-e3crlktLeH7C0DMKJpmrxvTvS0CDsEUUOJ+tM7aNmtsdyYTAZEG35vzJgVly61jc
-7e5I5GHB1Jxsid3oM7WeznOhbimQEw==
-=AKUT
------END PGP SIGNATURE-----
+The v4l2jpegenc encoder element is there because I haven't disabled it
+from Adam's patch yet.
 
---71Si6a9AhnlReqww--
+Is there some debugging you want me to add to gstreamer?
+
+Thanks,
+
+Tim
