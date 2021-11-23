@@ -1,417 +1,181 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEA472
-	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 00:06:59 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id y8so15532349plg.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Nov 2021 16:06:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC002C81
+	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 08:06:51 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AN6Z4XS031836;
+	Tue, 23 Nov 2021 08:06:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=b3cwEePmPAptyyiFR2PyspCI/+7WkzSxiB1LJszw/XY=;
+ b=fltPXathy2R92uPFtlUkRaMagvbZGAZtw2nM6IhTRV5PvB2PpSht1iteFCpoXz1oCD/I
+ c+RXMkkF+gcKecoisd8XR9ZePQvbc61Wn4PZmA681zRAE2kTLxwOkgMMhAhJMPXvpLDD
+ FGCtkshzhnVhN9gyrYDUhQlC9rTtIEcSsi2BHeULK8i+biUwSIi9wqkVNr319JOyoUNC
+ 6ufAQwHKIyu6g0mfePNIK0ukSXlxNQ+scFY9AbsHkxVH3cH/uZ1TO7TxUlZg4p7ADEMT
+ hxHGdrwOvbjfa7Elo4jY0hmXjnPnNE+IXWdenPh2Ow2j8PS0IPdZxjEbSHVlP6OxTLs3 tg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3cg461fg7x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Nov 2021 08:06:46 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AN80aWU134840;
+	Tue, 23 Nov 2021 08:06:45 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+	by userp3030.oracle.com with ESMTP id 3cep4y0mqa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Nov 2021 08:06:45 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QjbLO9lo94UKko/QFrxEkJiIfGrN7WAfgYzNadgAiHuknkXJvmwpgXn3YD1Jal6TKiswlQYpdMu+lt8i+yEZimZm94LyFqjUHD9FLmlMqgtIdkvsyZ3DwZor/zNqLKLstxq0RPzfc+EvGPBi917o5F1trscL+t0xuyZfuZ2/TWAYePAQlhw78wQ+KzQXVLPvKLRfLiZMtJ0mG+afsiZeK56nb6/+wBNzzndeR55gm4CCN/rl0hZfJ4ddchGIGmvfkSNZryIT2GxYn6ZRkRZs0j22s/0A9QFc32bOuMScqDgNqdWyKRhyyi47GbxlOMeQWsO9SUk4iDAQbggEo0zzqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b3cwEePmPAptyyiFR2PyspCI/+7WkzSxiB1LJszw/XY=;
+ b=BpvjcpY3bxnRBFWIFi8J3YutHoXUfpYcoCFC9JvT0y/ppb7YqAdN0r3/UMl21DuXxAnPGgo7Zm9EzG6YPGHLWgJ1c+CAHdNwyNBTa0rHgcJyPZcQuepkmE8M5jgiS6RJ88ym3duAKEByBOUyYtF5xETMr4LmICzB/XD6uyTK0KbAKaI1I010MAWt7RUZEJ1hgYrCDgVYNjKitIrDDv40bWUbzilof1dqiyaRMiuMi/nbfTvxavoz4OPCca5qp2HqgiIDBvidGYE5jGRTzLH5kn92L4jKxLeVaP7iTEnKfjG0+yVF435M3nImiWV3nt65qCvyGipVUGRyWkoCVCFDJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=s0oVuqT3s4VawtVAHycVSHri8epzVydfMxQmwKD9HIo=;
-        b=p+s5ZB/SMmPel1LAU3Xc+xQy+c+KUhWXgxHGJyhBUPAUI17C9PZnGHvucE3grOnLue
-         XwpBZz5rd6R/aR3bmcaBnWwnBdenAurxU6sVXO8dW1UOAW4UuGja8K6XDIyt+gqswl8A
-         2QzHuJMoyctkM0gpUA6gMoxS0hJXsPqt6H43bS4pbSPg18w9jBBjXxXRgHd4qWqt0gDB
-         LBKtT/yKnZ7lU5XJrX4sP3FVffx/BAqI0IP0VYid8Bl5boPSjl5sgXhCRzNLVSO+VvR1
-         dNTWN3Vw8o/Xdyy4ABi65sCrvDkqnPAE/xxDmylTbhv7QggLDhMYEnWQ3SSLGauFVK70
-         mlBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=s0oVuqT3s4VawtVAHycVSHri8epzVydfMxQmwKD9HIo=;
-        b=TYTdiXfsIdcdMwWgCIhUd3o7pcVLNpNNry/SK8i6eB413XvK1sUJDwRwmrTfMI1Guh
-         WoofVkZipYSRe/UKSAX0K5qPgxfCXJh5PtNArBivgMyyI5yN3nrMTbVZsif+EeGaCWUA
-         TC+YfaE7J4t3IlEtVF1whRNvrKw9uY1SBQnZSL2cJT2KmTK1UaZxeEEK96G4sG9Q7rn1
-         u6IvWz05FpBjhPsQTZpk5DdIhjPPJj4sRblzgwFpA7NCX1zJ76S9vSBWm/ZbHymaHQMu
-         xJy9YtDWFFN0oWYP3c6wtuRROTY5bVmDzhn/JJBu42llVx6xkdFDiV7aMcsxrd8zw9bb
-         m2Pg==
-X-Gm-Message-State: AOAM533gxep9lF5vlKDtUBZQbug8rDd2FM1ikpOwLi6/tETZi+MNjsXR
-	Efpv9bkgtnsVbDaceAmH0pP4eRGbBzV7j7FqvbRHRQ==
-X-Google-Smtp-Source: ABdhPJzZ9OQvBWbOJZkTqKu+nfLhBcCCMU7xmUK2qBP+DcS5SxHuZG9twtFuQRWtGN9ikHTyEFB7Cym4Xg1G/lrkN1o=
-X-Received: by 2002:a17:90b:17cc:: with SMTP id me12mr1056455pjb.179.1637626018640;
- Mon, 22 Nov 2021 16:06:58 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b3cwEePmPAptyyiFR2PyspCI/+7WkzSxiB1LJszw/XY=;
+ b=vX6Br9ETwDS6ZrbRrZKnfc7LBRul6WK7MfOpkfMlqL330fpLpbFlLQ3oCfuwiA/LXkLZ+duX5OAIvRB1vPUYBG+2I3hJhHfayPb+NRIBtdWEdtGWCrZKV+idf5ew5hOEy/BRnkw7Zb5Jgs9Sl4IinE0ehNryvc7HM3S2/ygpHAE=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO6PR10MB5553.namprd10.prod.outlook.com
+ (2603:10b6:303:140::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21; Tue, 23 Nov
+ 2021 08:06:43 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::495f:a05d:ba7a:682]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::495f:a05d:ba7a:682%6]) with mapi id 15.20.4713.026; Tue, 23 Nov 2021
+ 08:06:43 +0000
+Date: Tue, 23 Nov 2021 11:06:21 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Vihas Mak <makvihas@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+        gregkh@linuxfoundation.org, straube.linux@gmail.com, martin@kaiser.cx,
+        paskripkin@gmail.com, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: remove unnecessary NULL check
+Message-ID: <20211123080621.GC6514@kadam>
+References: <20211122195350.GA166134@makvihas>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211122195350.GA166134@makvihas>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
- <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
- <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
- <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
- <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca> <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
-In-Reply-To: <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Mon, 22 Nov 2021 16:06:47 -0800
-Message-ID: <CAJ+vNU2=o=xmFpcFVKd+=2eOYcgm1dDVDTD8vZvw0NKAyxvN2A@mail.gmail.com>
-Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Adam Ford <aford173@gmail.com>, linux-media <linux-media@vger.kernel.org>, 
-	Schrempf Frieder <frieder.schrempf@kontron.de>, Marek Vasut <marek.vasut@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Adam Ford-BE <aford@beaconembedded.com>, 
-	cstevens@beaconembedded.com, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Lucas Stach <l.stach@pengutronix.de>, Joakim Zhang <qiangqing.zhang@nxp.com>, 
-	Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
-	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from kadam (102.222.70.114) by JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend Transport; Tue, 23 Nov 2021 08:06:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3bfb3ad7-0dae-43d5-24ca-08d9ae582f6d
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5553:
+X-Microsoft-Antispam-PRVS: 
+	<CO6PR10MB5553579346164D811D542A958E609@CO6PR10MB5553.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	fil94GZjvh5zqFHaToqsFJNkKOBAT9uozhX/divu7qQrh1FPfC/Xoh09SGQn8cHYdzOt5PlyyDjrhLM1cwYzuNeG5HRc/tcMAJW0+P6uZt4nhnIIlyfszsQgEN/59nxtkr456/KBQPoujnc2W7buZk1SaTXb0qw4iPpTXfXNcwylegPCxlrglUjnUZIKuETV7PyvSk/lyirMAxB1oZBuf+NBktPOS0RhMh9TmPsEa6MGC74wHy5+XDX6kfNSLC/grvxbo4GyKSWhve6kfgfvI4UmsiBlVTo97WAUvunN/vnn57eEk60J1H7sWAa/RRyGebb2+lU71RFuZeA+R2s56O5B7Qgz6x0t/MP4NIxqYRhc/mJaDPsmzEikV6+eS7k++nZTwNB7rFwte1ZT46Ar6RSDL7BgLEW/xue/9D1EMzLGvneJghV0iDGwDYaZK8Wcwhigk78fksC+lamwzoeKZALp2WiM2rNMGFhpaQrozqZJ2OyjNzD805ABatEftAdUE8CFBz8WWbYLayC+Fc7OhrnBW0hGg3H46JCC7IEUtikeE3scADWm4keevgqm94WDj+bZ6PdxJPh15uRgisphteNWIefIr8LJORSnN9KpK2t6EJMVK15HSwHuT38PPSGBYdgYGwvi6vXhXxWsproCGc8xChjgrKfkd/IMLhVoU79ltDO4caeuA2oYSFnoYcO8ePOkh0shG7nTRMl29KdJUQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(26005)(508600001)(33656002)(86362001)(38350700002)(38100700002)(1076003)(5660300002)(9576002)(83380400001)(66946007)(956004)(52116002)(4326008)(6666004)(316002)(6496006)(6916009)(66556008)(186003)(44832011)(8676002)(9686003)(33716001)(2906002)(66476007)(55016003)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Pbk17Qmwg+XOuY7zCZKXuzE9t7GSlZm5PPrSps4wdIBu33fh+g5V98KXPL5h?=
+ =?us-ascii?Q?fYovxo2ZuUv9kS6a93+C/LPG9I9ifJizhuYDGPnHMQkdL2RdcawYdm5AbWAE?=
+ =?us-ascii?Q?GvLKb4V2sw8CWHjLLqNA12UU8aV9WzlMNrKHYVfBRYR3CYYxbMJYqX4Y0TbB?=
+ =?us-ascii?Q?ejBic3kMi81WlQmjGr9twKr9KXN+MOkjATFiBoLP38SzWfWAZe4GYPQI/p2Y?=
+ =?us-ascii?Q?iHEUBxzJGUTnIuhZpvp7Xl6PF7hPGWhsJzrckZ+VJkS27ETQgUhcXGdsTBz+?=
+ =?us-ascii?Q?dMlNetl02xq1ys246OcjkKHfHYWnUE/tVBtcQEPA9sto191P06isUCQTsOgn?=
+ =?us-ascii?Q?8sk3dxyl6uNo3AALzf7V9VPI23yPSnd3+/XgnXvuKWYVuMx5cLpw7gAyCkag?=
+ =?us-ascii?Q?7Q4uSh1L/IsbNmy5IzP4GcnIfWR38EifHnuzYVAaFElAyoBuZwZsnMVMJAUs?=
+ =?us-ascii?Q?IE4iVOyYNsu3xh6lPpe1yXMo4omVm9cAlgSSakuPamybfaQJZWSMI4jBGsua?=
+ =?us-ascii?Q?2kWVX0G22T1mOXIfxjJ2jC8g0LXNU6QHc7I4QLfX3lAFW5c6v4Y7/jbTSpzH?=
+ =?us-ascii?Q?lXXsK5bYNwyWVSDjZmy9pOV9Fv/4OgcgV3VqtAFij8rpelPlFT5RkB1bf0dZ?=
+ =?us-ascii?Q?fFHh8SeaUSXBgXbjW5kkShqWOzS/q9lx9kwnp21mbQXvJeU1mUl5f8FA5Vt/?=
+ =?us-ascii?Q?Th7SrVyRLb5C5NujIp3Dy1tb1CZ287s4xdle06Bhk3XCB2fnZrpEF8eMd6j7?=
+ =?us-ascii?Q?WbSYCfv9BcmuZh7rkr67nZSAD0iC4ONxMA9E2yrtjyyTLyOKU8oOR77udsGr?=
+ =?us-ascii?Q?HfvxKoLtdSb4NpUC1YNWEciz/ItI+TrS5UOfgt7HkD0x9idtAEAH/RMQLKkv?=
+ =?us-ascii?Q?DAZAHgP8xk0loQrC9SIljyX1Pnqdk6hhvRJWOfMEnMinFEwDWrWx4FpALRKQ?=
+ =?us-ascii?Q?kk+xDy4YdNx2z1Wh4L1jX7EFeiO3SzhwIVY/kCYWI+FI7HIKZ3315wFhnW8K?=
+ =?us-ascii?Q?vT0oQMNxa6qGB2y+S/zJTnTIdwnQ4YDLbK/Lfu6wOxy92ZI9PvSsJvfrKDby?=
+ =?us-ascii?Q?6f3K3lTyOXxt4H5VeAkEcwUMUi/Do1OFn3vwtL8jDc5hZCynwP+zL/0pCChN?=
+ =?us-ascii?Q?GXzHYes/MbvEJaBvhfaxilugU//xDi6roY3tPMF1oMKW6FPaxue7rlo4VFXN?=
+ =?us-ascii?Q?t/U6kbv5n1Rg7lx1PtV+2oTC1tLtGf0LHFuDK8uc0UZ3t+LYPc4hQaRdH4Dv?=
+ =?us-ascii?Q?adsni9gooYWe622UTks5yO8Jox6x2iZXNFG0YyovM8zUeOfhtzprFghQTABW?=
+ =?us-ascii?Q?pnO4otb2Yh7Kx6w7nWehYXkjAg2orQthgaElOoaxHJp35kKpdGsuppB/2daK?=
+ =?us-ascii?Q?t3J3Yi/x+Zf/7eojBTYUxtXNwCHDBDSNLY3YCRxsyfaZZVhK2qzYUxh33nDE?=
+ =?us-ascii?Q?Tje6QXorFFnqofvxcRMzMizqS1rlJLN/mcW4wbPLqR5/QGjIRwVEWVaR1ecw?=
+ =?us-ascii?Q?n5VauAaEWJgLyKTc4ZLDhR2QMagEOvKz+8qRoDqBYIMAwy4o0m+CrEfvoIEm?=
+ =?us-ascii?Q?6tcJhbIBLP0gGgW/57cADPkpEGv8x8Ha0i/rEANqzkc+R1JdoMPdffHt/V36?=
+ =?us-ascii?Q?tYpnagcjbZw14ac4NKYXM7kEB8stXplK+UDj8McTlBPTOH6JklmC5x6PNAXp?=
+ =?us-ascii?Q?1HIGYGXNy7ShCWfHfP8oK2oy9Ms=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bfb3ad7-0dae-43d5-24ca-08d9ae582f6d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 08:06:43.1219
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GMoHl4RNgr80F3XVuBqiCh7A+/A7mi9T34a3MDsCoKrX4HssIqQnml02CxVfCUiP5dWGql22PwlyStu3cB3OwhHKwAmwCZI1w5UjLtp8ENc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5553
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10176 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111230042
+X-Proofpoint-GUID: AgK8zNLX9DVWJ9kaGrofdeFWHmd2qk46
+X-Proofpoint-ORIG-GUID: AgK8zNLX9DVWJ9kaGrofdeFWHmd2qk46
 
-On Thu, Nov 18, 2021 at 8:20 AM Tim Harvey <tharvey@gateworks.com> wrote:
->
-> On Thu, Nov 18, 2021 at 6:30 AM Nicolas Dufresne <nicolas@ndufresne.ca> w=
-rote:
-> >
-> > Le mardi 16 novembre 2021 =C3=A0 15:23 -0800, Tim Harvey a =C3=A9crit :
-> > > On Tue, Nov 9, 2021 at 7:57 AM Nicolas Dufresne <nicolas@ndufresne.ca=
-> wrote:
-> > > >
-> > > > Le lundi 08 novembre 2021 =C3=A0 10:33 -0600, Adam Ford a =C3=A9cri=
-t :
-> > > > > On Mon, Nov 8, 2021 at 7:59 AM Nicolas Dufresne <nicolas@ndufresn=
-e.ca> wrote:
-> > > > > >
-> > > > > > Hi Adam,
-> > > > > >
-> > > > > > thanks for you work, I'll try and reply  about the GStreamer qu=
-estions below, if
-> > > > > > you have further question feel free to ask.
-> > > > > >
-> > > > > > Le samedi 06 novembre 2021 =C3=A0 13:37 -0500, Adam Ford a =C3=
-=A9crit :
-> > > > > > > The i.MX8M has two Hantro video decoders, called G1 and G2 wh=
-ich appear
-> > > > > > > to be related to the video decoders used on the i.MX8MQ, but =
-because of
-> > > > > > > how the Mini handles the power domains, the VPU driver does n=
-ot need to
-> > > > > > > handle all the functions, so a new compatible flag is require=
-d.
-> > > > > > >
-> > > > > > > This is an RFC because I don't have functional video on my sy=
-stem yet,
-> > > > > > > and I'm hoping there might be people who do and can help test=
- this.
-> > > > > > > I have only tested this far enough to see they enumerate and =
-appear
-> > > > > > > as /dev/videoX and /dev/mediaX devices.
-> > > > > >
-> > > > > > I will check the patchset, but you need in the mini-variant to =
-disable the G1
-> > > > > > post processor, because this block was fused out. We didn't mak=
-e it optional
-> > > > >
-> > > > > Thanks for being willing to review this.
-> > > > >
-> > > > > > from the start as according to the V1 of the TRM it was there, =
-but that error
-> > > > > > was corrected in V3.
-> > > > >
-> > > > > Thanks for the clarification.  It wasn't obvious to me, because i=
-n
-> > > > > some instances the PP looked like it was there and sometimes not
-> > > > > there.  I'll remove the postproc stuff.
-> > > > >
-> > > > > >
-> > > > > > >
-> > > > > > > I am also curious to know if/what gstreamer plugins are neces=
-sary.  In
-> > > > > > > NXP's custom kernel, there are IMX-specific plugins, and I wa=
-s hoping there
-> > > > > > > would be more generic plugins that I can use to test.  I am h=
-oping some
-> > > > > > > of the linux-media experts might chime in on how to best test=
-.
-> > > > > >
-> > > > > > I will recommend using GStreamer 1.19.3 or main branch (GStream=
-er is now a
-> > > > > > single git repo). You will then be able to test Hantro G1 decod=
-ing of MPEG2,
-> > > > > > H264 and VP8. Remember that the related plugin depends on libgu=
-dev (a glib
-> > > > > > binding of udev).
-> > > > >
-> > > > > Thanks for the tip.
-> > > > >
-> > > > > >
-> > > > > > For the encoder, I believe only JPEG maybe supported, since thi=
-s is all there is
-> > > > > > mainline for RK3288 (and perhaps other RK). But this will need =
-testing and
-> > > > > > debugging as the G1 version is slightly newer on NXP SoC.
-> > > > >
-> > > > > For what it's worth the G1 seems to repond cleanly to the inquiri=
-es
-> > > > > from v42-compliance.
-> > > > > The G2 throws some splat when I run v4l2-compliance, but I am sti=
-ll
-> > > > > investigating that.
-> > > > >
-> > > > > [  405.456979] ------------[ cut here ]------------
-> > > > > [  405.464173] WARNING: CPU: 0 PID: 563 at mm/page_alloc.c:5344
-> > > > > __alloc_pages+0x5a4/0xbe0
-> > > > > [  405.472104] Modules linked in: 8021q garp mrp stp llc caam_jr
-> > > > > caamhash_desc caamalg_desc crypto_engine rng_core authenc libdes
-> > > > > imx7_media_csi(C) crct10dif_ce imx_media_common(C)
-> > > > > snd_soc_fsl_asoc_card imx7_mipi_csis(C) snd_soc_imx_audmux
-> > > > > snd_soc_simple_card_utils fsl_imx8_ddr_perf imx8m_ddrc brcmfmac
-> > > > > brcmutil hantro_vpu(C) v4l2_h264 v4l2_mem2mem videobuf2_vmalloc
-> > > > > videobuf2_dma_contig videobuf2_memops cfg80211 ov5640 videobuf2_v=
-4l2
-> > > > > v4l2_fwnode v4l2_async videobuf2_common videodev etnaviv gpu_sche=
-d
-> > > > > hci_uart mc btqca btbcm snd_soc_wm8962 at24 spi_imx rtc_pcf85363
-> > > > > rtc_snvs clk_bd718x7 spi_bitbang snvs_pwrkey snd_soc_fsl_sai
-> > > > > imx_pcm_dma caam error bluetooth imx8mm_thermal ecdh_generic
-> > > > > imx_cpufreq_dt ecc rfkill fuse drm ipv6
-> > > > > [  405.535835] CPU: 0 PID: 563 Comm: v4l2-compliance Tainted: G  =
-    D
-> > > > >  C        5.15.0-next-20211105-00010-g4bb8e8a25d3c-dirty #28
-> > > > > [  405.547401] Hardware name: Beacon EmbeddedWorks i.MX8M Mini
-> > > > > Development Kit (DT)
-> > > > > [  405.554797] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -S=
-SBS BTYPE=3D--)
-> > > > > [  405.561762] pc : __alloc_pages+0x5a4/0xbe0
-> > > > > [  405.565861] lr : __dma_direct_alloc_pages+0x17c/0x1e0
-> > > > > [  405.570917] sp : ffff800012443810
-> > > > > [  405.574232] x29: ffff800012443810 x28: 0000000000000000 x27: f=
-fff000005288220
-> > > > > [  405.581375] x26: 0000000000000034 x25: 0000000000000000 x24: f=
-fff000000259010
-> > > > > [  405.588517] x23: ffff80001011ab7c x22: ffff000000259010 x21: 0=
-0000000ffffffff
-> > > > > [  405.595659] x20: 0000000000000cc1 x19: 0000000000000000 x18: 0=
-000000000000000
-> > > > > [  405.602803] x17: 0000000000000000 x16: 0000000000000000 x15: 0=
-000000000000000
-> > > > > [  405.609947] x14: 0000000000000001 x13: 0000000000000000 x12: 0=
-000000000000000
-> > > > > [  405.617090] x11: ffff80001241d000 x10: ffff00000528833a x9 : f=
-fff00000528832a
-> > > > > [  405.624232] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0=
-000000000000cc0
-> > > > > [  405.631378] x5 : 00000000bfffffff x4 : ffff000009e30dc0 x3 : 0=
-000000000000000
-> > > > > [  405.638520] x2 : 0000000000000000 x1 : 0000000000000001 x0 : 0=
-000000000000cc1
-> > > > > [  405.645666] Call trace:
-> > > > > [  405.648113]  __alloc_pages+0x5a4/0xbe0
-> > > > > [  405.651862]  __dma_direct_alloc_pages+0x17c/0x1e0
-> > > > > [  405.656569]  dma_direct_alloc+0x70/0x310
-> > > > > [  405.660494]  dma_alloc_attrs+0x7c/0xe4
-> > > > > [  405.664246]  hantro_hevc_get_ref_buf+0x15c/0x184 [hantro_vpu]
-> > > > > [  405.670021]  hantro_g2_hevc_dec_run+0x3b8/0x1910 [hantro_vpu]
-> > > > > [  405.675791]  device_run+0xac/0x110 [hantro_vpu]
-> > > > > [  405.680345]  v4l2_m2m_try_run+0xac/0x1b0 [v4l2_mem2mem]
-> > > > > [  405.685598]  v4l2_m2m_ioctl_streamon+0x84/0xa0 [v4l2_mem2mem]
-> > > > > [  405.691366]  v4l_streamon+0x28/0x34 [videodev]
-> > > > > [  405.695877]  __video_do_ioctl+0x178/0x3dc [videodev]
-> > > > > [  405.700897]  video_usercopy+0x368/0x6dc [videodev]
-> > > > > [  405.705745]  video_ioctl2+0x1c/0x30 [videodev]
-> > > > > [  405.710246]  v4l2_ioctl+0x44/0x64 [videodev]
-> > > > > [  405.714574]  __arm64_sys_ioctl+0xac/0xf0
-> > > > > [  405.718502]  invoke_syscall+0x48/0x114
-> > > > > [  405.722258]  el0_svc_common.constprop.0+0xd4/0xfc
-> > > > > [  405.726969]  do_el0_svc+0x2c/0x94
-> > > > > [  405.730286]  el0_svc+0x28/0x80
-> > > > > [  405.733348]  el0t_64_sync_handler+0xa8/0x130
-> > > > > [  405.737619]  el0t_64_sync+0x1a0/0x1a4
-> > > > > [  405.741287] ---[ end trace 270ed4a899803006 ]---
-> > > > >
-> > > > > The H1 encoder seems to hang the system when I run v4l2-complianc=
-e on
-> > > > > it when H1 is set up as I submitted the patch.  I tried dropping =
-all
-> > > > > the encoder formats except the JPEG format, and it doesn't hang a=
-ny
-> > > > > more, but it also doesn't really do anything.
-> > > > > The datasheet only references VPU_H1 as supporting VP8 and H.264,=
- so I
-> > > > > am not sure JPEG is even supported.
-> > > >
-> > > > If JPEG is not supported, then there is nothing left for mainline i=
-n this
-> > > > regard. The kernel control interface and encoding flow needs to be =
-designed and
-> > > > specified for encoders like VP8 and H264. Some prototypes and prior=
--art exist
-> > > > though, but nothing ever got formalized in the form of a specificat=
-ion.
-> > > >
-> > > > >
-> > > > > The log from v4l2-compliance on the H1 with everything except the=
- JPEG
-> > > > > removed looks like:
-> > > > >
-> > > > > root@beacon-imx8mm-kit:~# v4l2-compliance -d2
-> > > > > v4l2-compliance SHA: not available
-> > > > > , 64 bits, 64-bit time_t
-> > > > >
-> > > > > Segmentation fault
-> > > > > root@beacon-imx8mm-kit:~#
-> > > > > Message from syslogd@  at Thu Jan  1 00:05:07 1970 ...
-> > > > > : Internal error: Oops: 96000004 [#2] SMP
-> > > > >
-> > > > > Message from syslogd@  at Thu Jan  1 00:05:07 1970 ...
-> > > > > : Code: 52800001 aa1403e0 d2801802 95c31ab9 (b9400aa1)
-> > > > >
-> > > > > I want to install Gstreamer, but I don't have functioning DSI vid=
-eo,
-> > > > > so I am not entirely sure how I will go about testing the decoder=
-s
-> > > > > except by using fakesink
-> > > >
-> > > > We too don't have an mainline DSI to test the CODECs on recent NXP =
-SoC. For
-> > > > decoders we use fluster, a tool that runs publicly available confor=
-mance test.
-> > > > It will simply decode to disk and compare a checksum of the decoded=
- image
-> > > > against the compliant checksum (produced by the reference decoders)=
-. For you
-> > > > interested, it uses the new videocodectestsink, which is specialize=
-d for
-> > > > producing or calculating conformance image/checksum.
-> > > >
-> > > > https://github.com/fluendo/fluster
-> > > >
-> > > > We have added support for GStreamer stateless decoders already.
-> > > >
-> > > > >
-> > > > > If the G1 ends up working with some of the newer Gstreamer stuff,=
- I
-> > > > > might just submit a formal patch to just enable the G1 for now.
-> > > >
-> > > > This looks like a good idea indeed.
-> > > >
-> > > > >
-> > > > > adam
-> > > > > >
-> > > > > > >
-> > > > > > > Lastly, I didn't update any device tree binding YAML files, b=
-ecause
-> > > > > > > I know there have been some discussions about the power domai=
-ns on the
-> > > > > > > imx8mq, and I wasn't sure if the imx8mm should get a separate=
- YAML file
-> > > > > > > or if the existing one for te imx8mq should just be modified.
-> > > > > > >
-> > > > > > > This will likely require the following series in order to app=
-ly correctly:
-> > > > > > > https://patchwork.kernel.org/project/linux-arm-kernel/list/?s=
-eries=3D576407
-> > > > > > >
-> > > > > > > Adam Ford (5):
-> > > > > > >   media: hantro: Add support for i.MX8M Mini
-> > > > > > >   arm64: dts: imx8mm:  Enable VPU-G1 and VPU-G2
-> > > > > > >   media: hantro: Rename ROCKCHIP_VPU_ENC_FMT to HANTRO_VPU_EN=
-C_FMT
-> > > > > > >   media: hantro: Add H1 encoder support on i.MX8M Mini
-> > > > > > >   arm64: dts: imx8mm:  Enable Hantro H1 Encoder
-> > > > > > >
-> > > > > > >  arch/arm64/boot/dts/freescale/imx8mm.dtsi     |  61 ++++++++
-> > > > > > >  drivers/staging/media/hantro/hantro_drv.c     |   3 +
-> > > > > > >  drivers/staging/media/hantro/hantro_hw.h      |  19 ++-
-> > > > > > >  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 143 ++++++++=
-++++++++++
-> > > > > > >  .../staging/media/hantro/rockchip_vpu_hw.c    |  26 ++--
-> > > > > > >  5 files changed, 231 insertions(+), 21 deletions(-)
-> > > > > > >
-> > > > > >
-> > > >
-> > >
-> > > Nicolas and Adam,
-> > >
-> > > For the H1 patches in this series: I've been able to test the IMX8MM
-> > > H1 JPEG encode using GStreamer 1.18.5:
-> > > $ gst-inspect-1.0 | grep -e "v4l2.*enc"
-> > > video4linux2:  v4l2jpegenc: V4L2 JPEG Encoder
-> > > $ gst-launch-1.0 videotestsrc ! jpegenc ! rtpjpegpay ! udpsink
-> >                                   ^ v4l2jpegenc
-> >
-> > This is just a transcript error ?
->
-> Nicolas,
->
-> No! Thanks for catching my mistake. I was testing with software encode...=
- ooops!
->
-> 'gst-launch-1.0 videotestsrc ! v4l2jpegenc ! fakesink' actually hangs
-> the board so likely a power-domain issue there?
->
-> >
-> > > host=3D192.168.1.146 port=3D5000
-> > > viewed on client@192.168.1.146 via:
-> > > $ gst-launch-1.0 udpsrc port=3D5000 ! application/x-rtp,payload=3D96 =
-!
-> > > rtpjpegdepay ! jpegdec ! autovideosink
-> > >
-> > > For the G1/G2 patches in the series I don't see any Gstreamer
-> > > 'v4l2.*dec' elements. Perhaps I need a newer version of Gstreamer.
-> >
-> > Most likely yes, I suggest building gstreamer/ branch "main", GStreamer=
- has now
-> > a single repository. We are very close to 1.20, which will include stab=
-le API
-> > support of H264, MPEG2 and VP8 decoding.
-> >
->
-> Ok, let me see if I can navigate through the build process and I'll
-> get back to you.
+On Tue, Nov 23, 2021 at 01:23:50AM +0530, Vihas Mak wrote:
+> remove unnecessary NULL check surrounding rtw_free_netdev(), as the check
+> is already performed inside rtw_free_netdev() in
+> drivers/staging/r8188eu/os_dep/osdep_service.c.
+> 
+> Signed-off-by: Vihas Mak <makvihas@gmail.com>
+> ---
+>  drivers/staging/r8188eu/os_dep/usb_intf.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index 5a35d9fe3fc9..392bd7868519 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -466,8 +466,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
+>  		if1->hw_init_completed);
+>  	rtw_handle_dualmac(if1, 0);
+>  	rtw_free_drv_sw(if1);
+> -	if (pnetdev)
+> -		rtw_free_netdev(pnetdev);
+> +	rtw_free_netdev(pnetdev);
+>  }
 
-Nicolas,
+I'm not a huge fan of these sorts of patches.  They don't make the code
+more readable because they hide the complexity.
 
-I've built gstreamer 1.19.3 from git and still don't see any decoder elemen=
-ts:
+Occasionally we will get a forest cobra in our yard and everyone is
+screaming and panicking.  I'm like, "Calm down.  Once you've spotted the
+snake, even a deadly snake, then the danger has passed."  You can just
+stay two or three meters away and you're fine.  Call a snake catcher.
 
-[gst-main] root@focal-venice:~# dmesg | grep -i hantro
-[    8.048311] hantro_vpu: module is from the staging directory, the
-quality is unknown, you have been warned.
-[    8.069029] hantro-vpu 38300000.video-codec: registered
-nxp,imx8mm-vpu-dec as /dev/video0
-[    8.070164] hantro-vpu 38310000.video-codec: registered
-nxp,imx8mm-vpu-g2-dec as /dev/video1
-[    8.072553] hantro_vpu: module is from the staging directory, the
-quality is unknown, you have been warned.
-[    8.074205] hantro-vpu 38320000.video-codec: registered
-nxp,imx8mm-vpu-h1-enc as /dev/video2
-[    8.088548] hantro_vpu: module is from the staging directory, the
-quality is unknown, you have been warned.
-[gst-main] root@focal-venice:~# ls -l /lib/firmware/vpu
-total 604
--rwxr-xr-x 1 root root 522024 Nov 23 00:02 vpu_fw_imx8_dec.bin
--rwxr-xr-x 1 root root  91920 Nov 23 00:02 vpu_fw_imx8_enc.bin
-[gst-main] root@focal-venice:~# cat /sys/class/video4linux/video*/name
-nxp,imx8mm-vpu-dec
-nxp,imx8mm-vpu-g2-dec
-nxp,imx8mm-vpu-h1-enc
-[gst-main] root@focal-venice:~# gst-inspect-1.0 --version
-gst-inspect-1.0 version 1.19.3
-GStreamer 1.19.3 (GIT)
-Unknown package origin
-[gst-main] root@focal-venice:~# gst-inspect-1.0 | grep v4l2
-video4linux2:  v4l2deviceprovider (GstDeviceProviderFactory)
-video4linux2:  v4l2jpegenc: V4L2 JPEG Encoder
-video4linux2:  v4l2radio: Radio (video4linux2) Tuner
-video4linux2:  v4l2sink: Video (video4linux2) Sink
-video4linux2:  v4l2src: Video (video4linux2) Source
+What you're doing here is you've got a potential NULL dereference which
+is the snake.  And this patch is saying, "Snakes are so messy!  Let's
+hide it in the bushes next to the sidewalk where no one can see it."
 
-The v4l2jpegenc encoder element is there because I haven't disabled it
-from Adam's patch yet.
+Hash tag, folksy wisdom.  #snakes
 
-Is there some debugging you want me to add to gstreamer?
+On the other hand, it might be worth checking if "pnetdev" can even be
+NULL at this point, and then deleting both of the NULL checks.  That
+would be a very good clean up.
 
-Thanks,
-
-Tim
+regards,
+dan carpenter
