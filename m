@@ -1,239 +1,162 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83EDB2C94;
-	Tue, 23 Nov 2021 12:23:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: andrzej.p)
-	with ESMTPSA id 604EC1F45524
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1637670205; bh=VXXg9hSnVCTDu09V/ZpYJBiCqEVhftQwizC3zrMKUvI=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=IxiKKmAVoJr3srtLubBW6pnM0Ufp6BHPEeVQ6xdT4jmQ1sI6CuFfShLRAatQn90Fp
-	 PCcFEa1fPLtNxCXUGZUs1s+WiSgzMFt2twoolto4wV1Q5gvmdsiNau0heg03FhHCIR
-	 6PDxmqKAojOL5jF1tfzB0UHlE+gl1aKAw2W0cjwSo8LLhCSScRooSxaaq04VtQl925
-	 7GsdeIUKaYVxJCwwAH9Tc8aJGpz46wsIyY29Wu56O+ahV10xM5L7GqMDTYqDHbTbj7
-	 Di2LaPqRCfuryWlHEpAvmAd+D/B4xmpjZelF1gj87pfp8hKRDt4GZWItmhbL1ob/Hr
-	 DcAUmoiVyIyiw==
-Subject: Re: [PATCH 6/7] media: hantro: Add support for Allwinner H6
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org
-Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
- mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
- <20211122184702.768341-7-jernej.skrabec@gmail.com>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <5c181bfb-e45b-68bb-bc59-d182c443b99a@collabora.com>
-Date: Tue, 23 Nov 2021 13:23:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942192C81
+	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 13:19:44 +0000 (UTC)
+Received: by mail-oo1-f53.google.com with SMTP id t9-20020a4a8589000000b002c5c4d19723so7464366ooh.11
+        for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 05:19:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sxbm5nZuxDktECFOUcgXGTkmQEJlkXm+UQAvKfd0Kcw=;
+        b=c5e/+hLD3Pe944EDn1RynLZPfSMn+mZU1xnm+gzzSTFIBrpuybiIax/ansqPLmt/+W
+         HJxNoDOGobI2T4CVbK750CkoeAGMw5YyFY9u+DGA13eWofErjCAn2UDUh1VIUyVra9BM
+         jfnT08l0LThYJl01EPI2BNmL8TYZ4npnQuswQ4qojbbXXx0Jozf/dk1/Yh3YNzTpjsx2
+         VmmPIHZL2NSFb34Hcyo+t1jRjSP4TjIHltcIQJtsm4XeY3P3vikfUaxG4iw02gQD/qc2
+         LLZO9aHXR3pp3aiyRmaoTKk4MEzg7ooHtwIjGgP/NZmk+M398xBjzh0Vfnmgz/YLH6AT
+         LahQ==
+X-Gm-Message-State: AOAM533t+EYEoXWR3gQX6PXiht9aet4pfaXUaJObmYyae1nGZfZyLsZA
+	xnCSHee11pX7LkqoKJYlzZpNt7yv+4A2+ZsRXJ4=
+X-Google-Smtp-Source: ABdhPJx4LJPjPNqz/sXcVDWL5tamzih4SOz6Sq7UGTbN97hIVt3zgoG90+osvpCrjRpDoZ3z/WaeE3Jdprr6Jm1J/tY=
+X-Received: by 2002:a4a:1d82:: with SMTP id 124mr2868847oog.91.1637673583839;
+ Tue, 23 Nov 2021 05:19:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211122184702.768341-7-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-13-keescook@chromium.org>
+In-Reply-To: <20210818060533.3569517-13-keescook@chromium.org>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 23 Nov 2021 14:19:25 +0100
+Message-ID: <CAJZ5v0iS3qMgdab1S-NzGfeLLXV=S6p5Qx8AaqJ50rsUngS=LA@mail.gmail.com>
+Subject: Re: [PATCH v2 12/63] thermal: intel: int340x_thermal: Use
+ struct_group() for memcpy() region
+To: Kees Cook <keescook@chromium.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	"open list:NETWORKING DRIVERS (WIRELESS)" <linux-wireless@vger.kernel.org>, netdev <netdev@vger.kernel.org>, 
+	dri-devel <dri-devel@lists.freedesktop.org>, linux-staging@lists.linux.dev, 
+	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	clang-built-linux@googlegroups.com, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Jernej,
+On Wed, Aug 18, 2021 at 8:08 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> In preparation for FORTIFY_SOURCE performing compile-time and run-time
+> field bounds checking for memcpy(), avoid intentionally writing across
+> neighboring fields.
+>
+> Use struct_group() in struct art around members weight, and ac[0-9]_max,
+> so they can be referenced together. This will allow memcpy() and sizeof()
+> to more easily reason about sizes, improve readability, and avoid future
+> warnings about writing beyond the end of weight.
+>
+> "pahole" shows no size nor member offset changes to struct art.
+> "objdump -d" shows no meaningful object code changes (i.e. only source
+> line number induced differences).
+>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Amit Kucheria <amitk@kernel.org>
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-W dniu 22.11.2021 o 19:47, Jernej Skrabec pisze:
-> Allwinner H6 has a Hantro G2 core used for VP9 decoding. It's not clear
-> at this time if HEVC is also supported or not.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Rui, Srinivas, any comments here?
+
 > ---
->   drivers/staging/media/hantro/Kconfig        |  10 +-
->   drivers/staging/media/hantro/Makefile       |   3 +
->   drivers/staging/media/hantro/hantro_drv.c   |   3 +
->   drivers/staging/media/hantro/hantro_hw.h    |   1 +
->   drivers/staging/media/hantro/sunxi_vpu_hw.c | 104 ++++++++++++++++++++
->   5 files changed, 120 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
-> 
-> diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
-> index 00a57d88c92e..3c5d833322c8 100644
-> --- a/drivers/staging/media/hantro/Kconfig
-> +++ b/drivers/staging/media/hantro/Kconfig
-> @@ -1,7 +1,7 @@
->   # SPDX-License-Identifier: GPL-2.0
->   config VIDEO_HANTRO
->   	tristate "Hantro VPU driver"
-> -	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || COMPILE_TEST
-> +	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || ARCH_SUNXI || COMPILE_TEST
->   	depends on VIDEO_DEV && VIDEO_V4L2
->   	select MEDIA_CONTROLLER
->   	select MEDIA_CONTROLLER_REQUEST_API
-> @@ -40,3 +40,11 @@ config VIDEO_HANTRO_ROCKCHIP
->   	default y
->   	help
->   	  Enable support for RK3288, RK3328, and RK3399 SoCs.
-> +
-> +config VIDEO_HANTRO_SUNXI
-> +	bool "Hantro VPU Allwinner support"
-> +	depends on VIDEO_HANTRO
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	default y
-> +	help
-> +	  Enable support for H6 SoC.
-> diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
-> index 28af0a1ee4bf..ebd5ede7bef7 100644
-> --- a/drivers/staging/media/hantro/Makefile
-> +++ b/drivers/staging/media/hantro/Makefile
-> @@ -33,3 +33,6 @@ hantro-vpu-$(CONFIG_VIDEO_HANTRO_SAMA5D4) += \
->   
->   hantro-vpu-$(CONFIG_VIDEO_HANTRO_ROCKCHIP) += \
->   		rockchip_vpu_hw.o
-> +
-> +hantro-vpu-$(CONFIG_VIDEO_HANTRO_SUNXI) += \
-> +		sunxi_vpu_hw.o
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 530994ab3024..54f34644ecdf 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -620,6 +620,9 @@ static const struct of_device_id of_hantro_match[] = {
->   #endif
->   #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
->   	{ .compatible = "microchip,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
-> +#endif
-> +#ifdef CONFIG_VIDEO_HANTRO_SUNXI
-> +	{ .compatible = "allwinner,sun50i-h6-vpu-g2", .data = &sunxi_vpu_variant, },
->   #endif
->   	{ /* sentinel */ }
->   };
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index dbe51303724b..0676989b986b 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -308,6 +308,7 @@ extern const struct hantro_variant rk3288_vpu_variant;
->   extern const struct hantro_variant rk3328_vpu_variant;
->   extern const struct hantro_variant rk3399_vpu_variant;
->   extern const struct hantro_variant sama5d4_vdec_variant;
-> +extern const struct hantro_variant sunxi_vpu_variant;
->   
->   extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
->   extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
-> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> new file mode 100644
-> index 000000000000..05e964dc0499
-> --- /dev/null
-> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> @@ -0,0 +1,104 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Allwinner Hantro G2 VPU codec driver
-> + *
-> + * Copyright (C) 2021 Jernej Skrabec <jernej.skrabec@gmail.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +
-> +#include "hantro.h"
-> +#include "hantro_g2_regs.h"
-> +
-> +static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.postprocessed = true,
-> +	},
-> +};
-> +
-> +static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12_4L4,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
-> +		.codec_mode = HANTRO_MODE_VP9_DEC,
-> +		.max_depth = 2,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +};
-> +
-> +static irqreturn_t sunxi_vpu_irq(int irq, void *dev_id)
-> +{
-> +	struct hantro_dev *vpu = dev_id;
-> +	enum vb2_buffer_state state;
-> +	u32 status;
-> +
-> +	status = vdpu_read(vpu, G2_REG_INTERRUPT);
-> +	state = (status & G2_REG_INTERRUPT_DEC_RDY_INT) ?
-> +		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-> +
-> +	vdpu_write(vpu, 0, G2_REG_INTERRUPT);
-> +	vdpu_write(vpu, G2_REG_CONFIG_DEC_CLK_GATE_E, G2_REG_CONFIG);
-> +
-> +	hantro_irq_done(vpu, state);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-
-This function is a verbatim copy of imx8m_vpu_g2_irq(), modulo
-the function name. Perhaps the two can be factored out into hantro_g2.c?
-
-Andrzej
-
-> +static int sunxi_vpu_hw_init(struct hantro_dev *vpu)
-> +{
-> +	clk_set_rate(vpu->clocks[0].clk, 300000000);
-> +
-> +	return 0;
-> +}
-> +
-> +static void sunxi_vpu_reset(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +
-> +	reset_control_reset(vpu->resets);
-> +}
-> +
-> +static const struct hantro_codec_ops sunxi_vpu_codec_ops[] = {
-> +	[HANTRO_MODE_VP9_DEC] = {
-> +		.run = hantro_g2_vp9_dec_run,
-> +		.done = hantro_g2_vp9_dec_done,
-> +		.reset = sunxi_vpu_reset,
-> +		.init = hantro_vp9_dec_init,
-> +		.exit = hantro_vp9_dec_exit,
-> +	},
-> +};
-> +
-> +static const struct hantro_irq sunxi_irqs[] = {
-> +	{ NULL, sunxi_vpu_irq },
-> +};
-> +
-> +static const char * const sunxi_clk_names[] = { "mod", "bus" };
-> +
-> +const struct hantro_variant sunxi_vpu_variant = {
-> +	.dec_fmts = sunxi_vpu_dec_fmts,
-> +	.num_dec_fmts = ARRAY_SIZE(sunxi_vpu_dec_fmts),
-> +	.postproc_fmts = sunxi_vpu_postproc_fmts,
-> +	.num_postproc_fmts = ARRAY_SIZE(sunxi_vpu_postproc_fmts),
-> +	.postproc_ops = &hantro_g2_postproc_ops,
-> +	.codec = HANTRO_VP9_DECODER,
-> +	.codec_ops = sunxi_vpu_codec_ops,
-> +	.init = sunxi_vpu_hw_init,
-> +	.irqs = sunxi_irqs,
-> +	.num_irqs = ARRAY_SIZE(sunxi_irqs),
-> +	.clk_names = sunxi_clk_names,
-> +	.num_clocks = ARRAY_SIZE(sunxi_clk_names),
-> +	.double_buffer = 1,
-> +	.legacy_regs = 1,
-> +};
-> 
-
+>  .../intel/int340x_thermal/acpi_thermal_rel.c  |  5 +-
+>  .../intel/int340x_thermal/acpi_thermal_rel.h  | 48 ++++++++++---------
+>  2 files changed, 29 insertions(+), 24 deletions(-)
+>
+> diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+> index a478cff8162a..e90690a234c4 100644
+> --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+> +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
+> @@ -250,8 +250,9 @@ static int fill_art(char __user *ubuf)
+>                 get_single_name(arts[i].source, art_user[i].source_device);
+>                 get_single_name(arts[i].target, art_user[i].target_device);
+>                 /* copy the rest int data in addition to source and target */
+> -               memcpy(&art_user[i].weight, &arts[i].weight,
+> -                       sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
+> +               BUILD_BUG_ON(sizeof(art_user[i].data) !=
+> +                            sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
+> +               memcpy(&art_user[i].data, &arts[i].data, sizeof(art_user[i].data));
+>         }
+>
+>         if (copy_to_user(ubuf, art_user, art_len))
+> diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+> index 58822575fd54..78d942477035 100644
+> --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+> +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
+> @@ -17,17 +17,19 @@
+>  struct art {
+>         acpi_handle source;
+>         acpi_handle target;
+> -       u64 weight;
+> -       u64 ac0_max;
+> -       u64 ac1_max;
+> -       u64 ac2_max;
+> -       u64 ac3_max;
+> -       u64 ac4_max;
+> -       u64 ac5_max;
+> -       u64 ac6_max;
+> -       u64 ac7_max;
+> -       u64 ac8_max;
+> -       u64 ac9_max;
+> +       struct_group(data,
+> +               u64 weight;
+> +               u64 ac0_max;
+> +               u64 ac1_max;
+> +               u64 ac2_max;
+> +               u64 ac3_max;
+> +               u64 ac4_max;
+> +               u64 ac5_max;
+> +               u64 ac6_max;
+> +               u64 ac7_max;
+> +               u64 ac8_max;
+> +               u64 ac9_max;
+> +       );
+>  } __packed;
+>
+>  struct trt {
+> @@ -47,17 +49,19 @@ union art_object {
+>         struct {
+>                 char source_device[8]; /* ACPI single name */
+>                 char target_device[8]; /* ACPI single name */
+> -               u64 weight;
+> -               u64 ac0_max_level;
+> -               u64 ac1_max_level;
+> -               u64 ac2_max_level;
+> -               u64 ac3_max_level;
+> -               u64 ac4_max_level;
+> -               u64 ac5_max_level;
+> -               u64 ac6_max_level;
+> -               u64 ac7_max_level;
+> -               u64 ac8_max_level;
+> -               u64 ac9_max_level;
+> +               struct_group(data,
+> +                       u64 weight;
+> +                       u64 ac0_max_level;
+> +                       u64 ac1_max_level;
+> +                       u64 ac2_max_level;
+> +                       u64 ac3_max_level;
+> +                       u64 ac4_max_level;
+> +                       u64 ac5_max_level;
+> +                       u64 ac6_max_level;
+> +                       u64 ac7_max_level;
+> +                       u64 ac8_max_level;
+> +                       u64 ac9_max_level;
+> +               );
+>         };
+>         u64 __data[ACPI_NR_ART_ELEMENTS];
+>  };
+> --
+> 2.30.2
+>
