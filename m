@@ -1,97 +1,77 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501542C81
-	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 23:26:29 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id x5so844479pfr.0
-        for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 15:26:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B760A2C81
+	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 23:49:27 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id r10-20020a056830080a00b0055c8fd2cebdso1350651ots.6
+        for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 15:49:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mlAFOYJJELBcb2TVaSzn/i78GajJV1vHST7kCQwulgU=;
-        b=DieFE11Nad3azkwEymKNvMKGZ3b+ZHRUWsngy8vvj2ED0Yk4A2eJDOHTFlFrshjVs0
-         NIGQzlpCfARFgpgIuuOZKGg5O741HN8Qzf217JFFVN+sti4KniZpHNTtFnZ2xkLp5sAb
-         mNFCj1xHOrvJ3UsLbnu8PjWLz/rQ0ix1TfmL26zGgcA+s3C6sxDjvDLY6PWmq+iuTBog
-         vE6nQBBxZydWlTgny1MEb35wDMQlGqNajdMe/nQTngKqk/1bviayapOD6bVBJkOVqk8g
-         Enmf4X7wIe/DfzLB6iCpeiWxF3gDwlJvtahMh98MuYqbqeox7ufvhGxVy4tE6gsgcQ0T
-         5pBg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vZ6pBwF1NuzbVzImJ7QGAdV4gsNd/T58S8MXtt6omVM=;
+        b=fTZoFX+cx6Va5ji4D3zVGwUKeZ7E43iQgDaAthrMbfJ/BnhQgQQezOW/3JzdS706xs
+         yJ4BS2xbfbXrjhLLyoLJ+e3HjWQDuAo3imKP7N/kJlY9nj3S3hVulW5NKlHgLK1pL3AW
+         Qi73arkCJGSEl3iaVZfWIYmFFKFu7tamViUAsQqZxGgsr+6fb5wzhgajXs/+Vw0V0Zvk
+         UT+MTYotGQtc/DMu4pTvkqLZjDvlak+qtBpNBY8Ly8W61azJ4n/+uDoBagGKTnZWgJP7
+         R07ebBr2j2XDbk7X7EGja1KiQqj2vHwOKNOsqTiALniuaTup2mxiXsigfxWo/K1IFXT/
+         Ps3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mlAFOYJJELBcb2TVaSzn/i78GajJV1vHST7kCQwulgU=;
-        b=jv5YFKWBpKkXGfaO09iwa3sG3rtFO33cRzAEz4NCcNKkW2aHeD2JukPPyTwwulnUE9
-         Y3PqJDCT6Q5K8uc1Xev0xXpu6RqFVZT+knBxu4mN2xozpWMF23FRNNn3wsHmLDeWF6c7
-         HKqo1fXMNY5/+f7+6iWHIMfOPVzSH87xNGJPQEgkHbNopwlNfVHgeqjQHM63bzn4ZfR1
-         y8WlJy8l8omkse+KnxETmEDzWFKThzjgooVqBmTeXZ1VWf8GZRHkJn4xDs60DCJ/IyBy
-         t6Vqq2c1F2n4EbQfQAGrLqHwvfCWbOQFBC+6Yns18PeyP8bDk3HCtKI0C+PuAXX4wpLy
-         Qm7Q==
-X-Gm-Message-State: AOAM530rFKo7Tthsa8BJ2Ho7dWHbxJgY3I6fk6kDi78ZzsKG9ZJHkmED
-	QrBuAkhcMFZgL8Uqa4IuK0w=
-X-Google-Smtp-Source: ABdhPJz6TO98H/bXryOdnUQ39IAWQaxdaWdZ3g3ByBdhJl8GGkGbluL6kuPwxpTXutnC4hKSMvlE1g==
-X-Received: by 2002:a63:914a:: with SMTP id l71mr6407376pge.224.1637709988846;
-        Tue, 23 Nov 2021 15:26:28 -0800 (PST)
-Received: from localhost.localdomain ([103.85.8.147])
-        by smtp.gmail.com with ESMTPSA id r16sm2632037pgk.45.2021.11.23.15.26.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 15:26:28 -0800 (PST)
-From: Vihas Mak <makvihas@gmail.com>
-To: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk
-Cc: gregkh@linuxfoundation.org,
-	straube.linux@gmail.com,
-	nathan@kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vihas Mak <makvihas@gmail.com>
-Subject: [PATCH] staging: r8188eu: use max() and min() macros
-Date: Wed, 24 Nov 2021 04:55:51 +0530
-Message-Id: <20211123232551.210016-1-makvihas@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vZ6pBwF1NuzbVzImJ7QGAdV4gsNd/T58S8MXtt6omVM=;
+        b=QFvH8lbrMCh1Hv96gXjjMX1ccc026YdQf0f8dYUn5W0opwCAmfbaMe7JFdQciELu2P
+         aNfPUFVeYztVVorBDifL4P0V8moF47nghgWem7oJiNwlm3ts8anVPNkoeIY3BX11bfZV
+         i0ys4dzjkA+9pwZikVJbHcfJTvo/wQhKpSwlgCXV059/T86ZOz8IBsphOBhIqDUxaieX
+         wRCsr/plI5Mqib3ULaGdP9zfyb8c9lYdgUScEboW6Ve99/iv4M/PVTls90yAQncp/F9H
+         CmYRMsDR6BLxqsHtrZg+05sq2YsO7AToTqvsfcp4omYCfC/uVkRiYsvdlrLdFdqnYsJ8
+         HYdg==
+X-Gm-Message-State: AOAM532VqdCvKkTwnWgt3TRTMmanGEnRx9WdcNOtSnokZId/llNxH4lc
+	hsvLQ+Gxtu/OwPQ2v1mXBid88uHS3e/KWEfHWeI=
+X-Google-Smtp-Source: ABdhPJzxS4DBIwjcle3VRvJgjdsTQlL8lgfqIB5O/DV/uuvWrOs3nV3ub0rGc64u01tfzkD5jS0UyX8oBFWgH69kgjU=
+X-Received: by 2002:a05:6830:2646:: with SMTP id f6mr8631680otu.182.1637711366923;
+ Tue, 23 Nov 2021 15:49:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211122195350.GA166134@makvihas> <52ad7e4f-7164-e868-ca49-2f0fecda3395@gmail.com>
+In-Reply-To: <52ad7e4f-7164-e868-ca49-2f0fecda3395@gmail.com>
+From: Vihas Mak <makvihas@gmail.com>
+Date: Wed, 24 Nov 2021 05:19:15 +0530
+Message-ID: <CAH1kMwQz3=1uf5cR2sgNrWq6f+6x9icCYXXZLO4V41kS_mTr+w@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: remove unnecessary NULL check
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>, 
+	Greg KH <gregkh@linuxfoundation.org>, straube.linux@gmail.com, martin@kaiser.cx, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-use max() and min() macros to fix following cocci warnings:
+>> BTW, same can be done in rtw_usb_if1_init().
 
-	drivers/staging/r8188eu/core/rtw_wlan_util.c:719: WARNING opportunity for min()
-	drivers/staging/r8188eu/core/rtw_wlan_util.c:724: WARNING opportunity for max()
+Yea, I noticed that too. But the NULL check  in rtw_usb_if1_init() has
+a follow up "else if", so I didn't change it.
 
-Signed-off-by: Vihas Mak <makvihas@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_wlan_util.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+Thanks,
+Vihas
 
-diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-index 6d4e21a16783..d8fc54cc2389 100644
---- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
-+++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
-@@ -716,15 +716,11 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
- 			pmlmeinfo->HT_caps.u.HT_cap[i] &= (pIE->data[i]);
- 		} else {
- 			/* modify from  fw by Thomas 2010/11/17 */
--			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3) > (pIE->data[i] & 0x3))
--				max_AMPDU_len = (pIE->data[i] & 0x3);
--			else
--				max_AMPDU_len = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3);
--
--			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c) > (pIE->data[i] & 0x1c))
--				min_MPDU_spacing = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c);
--			else
--				min_MPDU_spacing = (pIE->data[i] & 0x1c);
-+			max_AMPDU_len = min(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3,
-+						pIE->data[i] & 0x3);
-+
-+			min_MPDU_spacing = max(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c,
-+							pIE->data[i] & 0x1c);
- 
- 			pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para = max_AMPDU_len | min_MPDU_spacing;
- 		}
--- 
-2.25.1
-
+On Tue, Nov 23, 2021 at 2:52 AM Pavel Skripkin <paskripkin@gmail.com> wrote:
+>
+> On 11/22/21 22:53, Vihas Mak wrote:
+> > remove unnecessary NULL check surrounding rtw_free_netdev(), as the check
+> > is already performed inside rtw_free_netdev() in
+> > drivers/staging/r8188eu/os_dep/osdep_service.c.
+> >
+> > Signed-off-by: Vihas Mak <makvihas@gmail.com>
+>
+> Reviewed-by: Pavel Skripkin <paskripkin@gmail.com>
+>
+> BTW, same can be done in rtw_usb_if1_init().
+>
+>
+>
+> With regards,
+> Pavel Skripkin
