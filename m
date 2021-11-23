@@ -1,181 +1,150 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC002C81
-	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 08:06:51 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AN6Z4XS031836;
-	Tue, 23 Nov 2021 08:06:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=b3cwEePmPAptyyiFR2PyspCI/+7WkzSxiB1LJszw/XY=;
- b=fltPXathy2R92uPFtlUkRaMagvbZGAZtw2nM6IhTRV5PvB2PpSht1iteFCpoXz1oCD/I
- c+RXMkkF+gcKecoisd8XR9ZePQvbc61Wn4PZmA681zRAE2kTLxwOkgMMhAhJMPXvpLDD
- FGCtkshzhnVhN9gyrYDUhQlC9rTtIEcSsi2BHeULK8i+biUwSIi9wqkVNr319JOyoUNC
- 6ufAQwHKIyu6g0mfePNIK0ukSXlxNQ+scFY9AbsHkxVH3cH/uZ1TO7TxUlZg4p7ADEMT
- hxHGdrwOvbjfa7Elo4jY0hmXjnPnNE+IXWdenPh2Ow2j8PS0IPdZxjEbSHVlP6OxTLs3 tg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3cg461fg7x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Nov 2021 08:06:46 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AN80aWU134840;
-	Tue, 23 Nov 2021 08:06:45 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
-	by userp3030.oracle.com with ESMTP id 3cep4y0mqa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Nov 2021 08:06:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QjbLO9lo94UKko/QFrxEkJiIfGrN7WAfgYzNadgAiHuknkXJvmwpgXn3YD1Jal6TKiswlQYpdMu+lt8i+yEZimZm94LyFqjUHD9FLmlMqgtIdkvsyZ3DwZor/zNqLKLstxq0RPzfc+EvGPBi917o5F1trscL+t0xuyZfuZ2/TWAYePAQlhw78wQ+KzQXVLPvKLRfLiZMtJ0mG+afsiZeK56nb6/+wBNzzndeR55gm4CCN/rl0hZfJ4ddchGIGmvfkSNZryIT2GxYn6ZRkRZs0j22s/0A9QFc32bOuMScqDgNqdWyKRhyyi47GbxlOMeQWsO9SUk4iDAQbggEo0zzqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b3cwEePmPAptyyiFR2PyspCI/+7WkzSxiB1LJszw/XY=;
- b=BpvjcpY3bxnRBFWIFi8J3YutHoXUfpYcoCFC9JvT0y/ppb7YqAdN0r3/UMl21DuXxAnPGgo7Zm9EzG6YPGHLWgJ1c+CAHdNwyNBTa0rHgcJyPZcQuepkmE8M5jgiS6RJ88ym3duAKEByBOUyYtF5xETMr4LmICzB/XD6uyTK0KbAKaI1I010MAWt7RUZEJ1hgYrCDgVYNjKitIrDDv40bWUbzilof1dqiyaRMiuMi/nbfTvxavoz4OPCca5qp2HqgiIDBvidGYE5jGRTzLH5kn92L4jKxLeVaP7iTEnKfjG0+yVF435M3nImiWV3nt65qCvyGipVUGRyWkoCVCFDJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b3cwEePmPAptyyiFR2PyspCI/+7WkzSxiB1LJszw/XY=;
- b=vX6Br9ETwDS6ZrbRrZKnfc7LBRul6WK7MfOpkfMlqL330fpLpbFlLQ3oCfuwiA/LXkLZ+duX5OAIvRB1vPUYBG+2I3hJhHfayPb+NRIBtdWEdtGWCrZKV+idf5ew5hOEy/BRnkw7Zb5Jgs9Sl4IinE0ehNryvc7HM3S2/ygpHAE=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by CO6PR10MB5553.namprd10.prod.outlook.com
- (2603:10b6:303:140::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.21; Tue, 23 Nov
- 2021 08:06:43 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::495f:a05d:ba7a:682]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::495f:a05d:ba7a:682%6]) with mapi id 15.20.4713.026; Tue, 23 Nov 2021
- 08:06:43 +0000
-Date: Tue, 23 Nov 2021 11:06:21 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Vihas Mak <makvihas@gmail.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-        gregkh@linuxfoundation.org, straube.linux@gmail.com, martin@kaiser.cx,
-        paskripkin@gmail.com, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: remove unnecessary NULL check
-Message-ID: <20211123080621.GC6514@kadam>
-References: <20211122195350.GA166134@makvihas>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211122195350.GA166134@makvihas>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22)
- To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968312C94;
+	Tue, 23 Nov 2021 11:09:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrzej.p)
+	with ESMTPSA id 289601F454F9
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1637665746; bh=NuYVgYcm/5QmTwPPl+jnnTdg3Amocx5TpmqHRzUvEcg=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=LSqSWvdz2ir1uJRRRP+MYhzzqSCvQZXUIBGUzi1rgAsuwV6O1MxSQ8YhOI51oH/dp
+	 H6HzqaI4iRClnWmQhWz6yBILvWHnjD1XuG0EKeHg1L/go7KulSSW9x82lw6wv0PR5S
+	 eDjKRYx8ohBfs2Q55Mr18weoiX70ePI50Ll/OGLSWQlV7LMzcwCsBEFiHpHDv4n8dr
+	 gvfHlQ8ysV5xX0Nnxf7fp4FdFkmA3ftpCeqf2f+xhJGxdyGdDacAsL65jeVuuSqbE5
+	 T2CzggMgSeNlZh9480EWQJbSyKQutbEpimE2LUk+2F0bnWe4bU7aldi3NXvPjDQ96D
+	 pLUQPB/xWapxg==
+Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org
+Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
+ mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+ <20211122184702.768341-2-jernej.skrabec@gmail.com>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
+Date: Tue, 23 Nov 2021 12:09:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from kadam (102.222.70.114) by JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend Transport; Tue, 23 Nov 2021 08:06:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3bfb3ad7-0dae-43d5-24ca-08d9ae582f6d
-X-MS-TrafficTypeDiagnostic: CO6PR10MB5553:
-X-Microsoft-Antispam-PRVS: 
-	<CO6PR10MB5553579346164D811D542A958E609@CO6PR10MB5553.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	fil94GZjvh5zqFHaToqsFJNkKOBAT9uozhX/divu7qQrh1FPfC/Xoh09SGQn8cHYdzOt5PlyyDjrhLM1cwYzuNeG5HRc/tcMAJW0+P6uZt4nhnIIlyfszsQgEN/59nxtkr456/KBQPoujnc2W7buZk1SaTXb0qw4iPpTXfXNcwylegPCxlrglUjnUZIKuETV7PyvSk/lyirMAxB1oZBuf+NBktPOS0RhMh9TmPsEa6MGC74wHy5+XDX6kfNSLC/grvxbo4GyKSWhve6kfgfvI4UmsiBlVTo97WAUvunN/vnn57eEk60J1H7sWAa/RRyGebb2+lU71RFuZeA+R2s56O5B7Qgz6x0t/MP4NIxqYRhc/mJaDPsmzEikV6+eS7k++nZTwNB7rFwte1ZT46Ar6RSDL7BgLEW/xue/9D1EMzLGvneJghV0iDGwDYaZK8Wcwhigk78fksC+lamwzoeKZALp2WiM2rNMGFhpaQrozqZJ2OyjNzD805ABatEftAdUE8CFBz8WWbYLayC+Fc7OhrnBW0hGg3H46JCC7IEUtikeE3scADWm4keevgqm94WDj+bZ6PdxJPh15uRgisphteNWIefIr8LJORSnN9KpK2t6EJMVK15HSwHuT38PPSGBYdgYGwvi6vXhXxWsproCGc8xChjgrKfkd/IMLhVoU79ltDO4caeuA2oYSFnoYcO8ePOkh0shG7nTRMl29KdJUQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(26005)(508600001)(33656002)(86362001)(38350700002)(38100700002)(1076003)(5660300002)(9576002)(83380400001)(66946007)(956004)(52116002)(4326008)(6666004)(316002)(6496006)(6916009)(66556008)(186003)(44832011)(8676002)(9686003)(33716001)(2906002)(66476007)(55016003)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Pbk17Qmwg+XOuY7zCZKXuzE9t7GSlZm5PPrSps4wdIBu33fh+g5V98KXPL5h?=
- =?us-ascii?Q?fYovxo2ZuUv9kS6a93+C/LPG9I9ifJizhuYDGPnHMQkdL2RdcawYdm5AbWAE?=
- =?us-ascii?Q?GvLKb4V2sw8CWHjLLqNA12UU8aV9WzlMNrKHYVfBRYR3CYYxbMJYqX4Y0TbB?=
- =?us-ascii?Q?ejBic3kMi81WlQmjGr9twKr9KXN+MOkjATFiBoLP38SzWfWAZe4GYPQI/p2Y?=
- =?us-ascii?Q?iHEUBxzJGUTnIuhZpvp7Xl6PF7hPGWhsJzrckZ+VJkS27ETQgUhcXGdsTBz+?=
- =?us-ascii?Q?dMlNetl02xq1ys246OcjkKHfHYWnUE/tVBtcQEPA9sto191P06isUCQTsOgn?=
- =?us-ascii?Q?8sk3dxyl6uNo3AALzf7V9VPI23yPSnd3+/XgnXvuKWYVuMx5cLpw7gAyCkag?=
- =?us-ascii?Q?7Q4uSh1L/IsbNmy5IzP4GcnIfWR38EifHnuzYVAaFElAyoBuZwZsnMVMJAUs?=
- =?us-ascii?Q?IE4iVOyYNsu3xh6lPpe1yXMo4omVm9cAlgSSakuPamybfaQJZWSMI4jBGsua?=
- =?us-ascii?Q?2kWVX0G22T1mOXIfxjJ2jC8g0LXNU6QHc7I4QLfX3lAFW5c6v4Y7/jbTSpzH?=
- =?us-ascii?Q?lXXsK5bYNwyWVSDjZmy9pOV9Fv/4OgcgV3VqtAFij8rpelPlFT5RkB1bf0dZ?=
- =?us-ascii?Q?fFHh8SeaUSXBgXbjW5kkShqWOzS/q9lx9kwnp21mbQXvJeU1mUl5f8FA5Vt/?=
- =?us-ascii?Q?Th7SrVyRLb5C5NujIp3Dy1tb1CZ287s4xdle06Bhk3XCB2fnZrpEF8eMd6j7?=
- =?us-ascii?Q?WbSYCfv9BcmuZh7rkr67nZSAD0iC4ONxMA9E2yrtjyyTLyOKU8oOR77udsGr?=
- =?us-ascii?Q?HfvxKoLtdSb4NpUC1YNWEciz/ItI+TrS5UOfgt7HkD0x9idtAEAH/RMQLKkv?=
- =?us-ascii?Q?DAZAHgP8xk0loQrC9SIljyX1Pnqdk6hhvRJWOfMEnMinFEwDWrWx4FpALRKQ?=
- =?us-ascii?Q?kk+xDy4YdNx2z1Wh4L1jX7EFeiO3SzhwIVY/kCYWI+FI7HIKZ3315wFhnW8K?=
- =?us-ascii?Q?vT0oQMNxa6qGB2y+S/zJTnTIdwnQ4YDLbK/Lfu6wOxy92ZI9PvSsJvfrKDby?=
- =?us-ascii?Q?6f3K3lTyOXxt4H5VeAkEcwUMUi/Do1OFn3vwtL8jDc5hZCynwP+zL/0pCChN?=
- =?us-ascii?Q?GXzHYes/MbvEJaBvhfaxilugU//xDi6roY3tPMF1oMKW6FPaxue7rlo4VFXN?=
- =?us-ascii?Q?t/U6kbv5n1Rg7lx1PtV+2oTC1tLtGf0LHFuDK8uc0UZ3t+LYPc4hQaRdH4Dv?=
- =?us-ascii?Q?adsni9gooYWe622UTks5yO8Jox6x2iZXNFG0YyovM8zUeOfhtzprFghQTABW?=
- =?us-ascii?Q?pnO4otb2Yh7Kx6w7nWehYXkjAg2orQthgaElOoaxHJp35kKpdGsuppB/2daK?=
- =?us-ascii?Q?t3J3Yi/x+Zf/7eojBTYUxtXNwCHDBDSNLY3YCRxsyfaZZVhK2qzYUxh33nDE?=
- =?us-ascii?Q?Tje6QXorFFnqofvxcRMzMizqS1rlJLN/mcW4wbPLqR5/QGjIRwVEWVaR1ecw?=
- =?us-ascii?Q?n5VauAaEWJgLyKTc4ZLDhR2QMagEOvKz+8qRoDqBYIMAwy4o0m+CrEfvoIEm?=
- =?us-ascii?Q?6tcJhbIBLP0gGgW/57cADPkpEGv8x8Ha0i/rEANqzkc+R1JdoMPdffHt/V36?=
- =?us-ascii?Q?tYpnagcjbZw14ac4NKYXM7kEB8stXplK+UDj8McTlBPTOH6JklmC5x6PNAXp?=
- =?us-ascii?Q?1HIGYGXNy7ShCWfHfP8oK2oy9Ms=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bfb3ad7-0dae-43d5-24ca-08d9ae582f6d
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 08:06:43.1219
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GMoHl4RNgr80F3XVuBqiCh7A+/A7mi9T34a3MDsCoKrX4HssIqQnml02CxVfCUiP5dWGql22PwlyStu3cB3OwhHKwAmwCZI1w5UjLtp8ENc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5553
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10176 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2111230042
-X-Proofpoint-GUID: AgK8zNLX9DVWJ9kaGrofdeFWHmd2qk46
-X-Proofpoint-ORIG-GUID: AgK8zNLX9DVWJ9kaGrofdeFWHmd2qk46
+In-Reply-To: <20211122184702.768341-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 23, 2021 at 01:23:50AM +0530, Vihas Mak wrote:
-> remove unnecessary NULL check surrounding rtw_free_netdev(), as the check
-> is already performed inside rtw_free_netdev() in
-> drivers/staging/r8188eu/os_dep/osdep_service.c.
+Hi Jernej,
+
+Thanks for the patch.
+
+W dniu 22.11.2021 o 19:46, Jernej Skrabec pisze:
+> Some SoCs like Allwinner H6 use reset lines for resetting Hantro G2. Add
+> support for them.
 > 
-> Signed-off-by: Vihas Mak <makvihas@gmail.com>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > ---
->  drivers/staging/r8188eu/os_dep/usb_intf.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>   drivers/staging/media/hantro/hantro.h     |  3 +++
+>   drivers/staging/media/hantro/hantro_drv.c | 15 ++++++++++++++-
+>   2 files changed, 17 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> index 5a35d9fe3fc9..392bd7868519 100644
-> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> @@ -466,8 +466,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
->  		if1->hw_init_completed);
->  	rtw_handle_dualmac(if1, 0);
->  	rtw_free_drv_sw(if1);
-> -	if (pnetdev)
-> -		rtw_free_netdev(pnetdev);
-> +	rtw_free_netdev(pnetdev);
->  }
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 7da23f7f207a..33eb3e092cc1 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -16,6 +16,7 @@
+>   #include <linux/videodev2.h>
+>   #include <linux/wait.h>
+>   #include <linux/clk.h>
+> +#include <linux/reset.h>
+>   
+>   #include <media/v4l2-ctrls.h>
+>   #include <media/v4l2-device.h>
+> @@ -171,6 +172,7 @@ hantro_vdev_to_func(struct video_device *vdev)
+>    * @dev:		Pointer to device for convenient logging using
+>    *			dev_ macros.
+>    * @clocks:		Array of clock handles.
+> + * @resets:		Array of reset handles.
+>    * @reg_bases:		Mapped addresses of VPU registers.
+>    * @enc_base:		Mapped address of VPU encoder register for convenience.
+>    * @dec_base:		Mapped address of VPU decoder register for convenience.
+> @@ -190,6 +192,7 @@ struct hantro_dev {
+>   	struct platform_device *pdev;
+>   	struct device *dev;
+>   	struct clk_bulk_data *clocks;
+> +	struct reset_control *resets;
+>   	void __iomem **reg_bases;
+>   	void __iomem *enc_base;
+>   	void __iomem *dec_base;
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index ab2467998d29..8c3de31f51b3 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
+>   			return PTR_ERR(vpu->clocks[0].clk);
+>   	}
+>   
+> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
+> +	if (IS_ERR(vpu->resets))
+> +		return PTR_ERR(vpu->resets);
+> +
+>   	num_bases = vpu->variant->num_regs ?: 1;
+>   	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
+>   				      sizeof(*vpu->reg_bases), GFP_KERNEL);
+> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
+>   	pm_runtime_use_autosuspend(vpu->dev);
+>   	pm_runtime_enable(vpu->dev);
+>   
+> +	ret = reset_control_deassert(vpu->resets);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
+> +		return ret;
+> +	}
+> +
+>   	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+>   	if (ret) {
+>   		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+> -		return ret;
+> +		goto err_rst_assert;
 
-I'm not a huge fan of these sorts of patches.  They don't make the code
-more readable because they hide the complexity.
+Before your patch is applied if clk_bulk_prepare() fails, we
+simply return on the spot. After the patch is applied not only
+do you...
 
-Occasionally we will get a forest cobra in our yard and everyone is
-screaming and panicking.  I'm like, "Calm down.  Once you've spotted the
-snake, even a deadly snake, then the danger has passed."  You can just
-stay two or three meters away and you're fine.  Call a snake catcher.
+>   	}
+>   
+>   	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
+>   	v4l2_device_unregister(&vpu->v4l2_dev);
+>   err_clk_unprepare:
+>   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> +err_rst_assert:
+> +	reset_control_assert(vpu->resets);
 
-What you're doing here is you've got a potential NULL dereference which
-is the snake.  And this patch is saying, "Snakes are so messy!  Let's
-hide it in the bushes next to the sidewalk where no one can see it."
+...revert the effect of reset_control_deassert(), you also...
 
-Hash tag, folksy wisdom.  #snakes
+>   	pm_runtime_dont_use_autosuspend(vpu->dev);
+>   	pm_runtime_disable(vpu->dev);
 
-On the other hand, it might be worth checking if "pnetdev" can even be
-NULL at this point, and then deleting both of the NULL checks.  That
-would be a very good clean up.
+... do pm_*() stuff. Is there any reason why this is needed?
 
-regards,
-dan carpenter
+Andrzej
+
+>   	return ret;
+> @@ -1055,6 +1067,7 @@ static int hantro_remove(struct platform_device *pdev)
+>   	v4l2_m2m_release(vpu->m2m_dev);
+>   	v4l2_device_unregister(&vpu->v4l2_dev);
+>   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> +	reset_control_assert(vpu->resets);
+>   	pm_runtime_dont_use_autosuspend(vpu->dev);
+>   	pm_runtime_disable(vpu->dev);
+>   	return 0;
+> 
+
