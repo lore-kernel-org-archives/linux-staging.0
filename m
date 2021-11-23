@@ -1,162 +1,210 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942192C81
-	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 13:19:44 +0000 (UTC)
-Received: by mail-oo1-f53.google.com with SMTP id t9-20020a4a8589000000b002c5c4d19723so7464366ooh.11
-        for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 05:19:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sxbm5nZuxDktECFOUcgXGTkmQEJlkXm+UQAvKfd0Kcw=;
-        b=c5e/+hLD3Pe944EDn1RynLZPfSMn+mZU1xnm+gzzSTFIBrpuybiIax/ansqPLmt/+W
-         HJxNoDOGobI2T4CVbK750CkoeAGMw5YyFY9u+DGA13eWofErjCAn2UDUh1VIUyVra9BM
-         jfnT08l0LThYJl01EPI2BNmL8TYZ4npnQuswQ4qojbbXXx0Jozf/dk1/Yh3YNzTpjsx2
-         VmmPIHZL2NSFb34Hcyo+t1jRjSP4TjIHltcIQJtsm4XeY3P3vikfUaxG4iw02gQD/qc2
-         LLZO9aHXR3pp3aiyRmaoTKk4MEzg7ooHtwIjGgP/NZmk+M398xBjzh0Vfnmgz/YLH6AT
-         LahQ==
-X-Gm-Message-State: AOAM533t+EYEoXWR3gQX6PXiht9aet4pfaXUaJObmYyae1nGZfZyLsZA
-	xnCSHee11pX7LkqoKJYlzZpNt7yv+4A2+ZsRXJ4=
-X-Google-Smtp-Source: ABdhPJx4LJPjPNqz/sXcVDWL5tamzih4SOz6Sq7UGTbN97hIVt3zgoG90+osvpCrjRpDoZ3z/WaeE3Jdprr6Jm1J/tY=
-X-Received: by 2002:a4a:1d82:: with SMTP id 124mr2868847oog.91.1637673583839;
- Tue, 23 Nov 2021 05:19:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5E668;
+	Tue, 23 Nov 2021 15:00:36 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ANE6q0p004389;
+	Tue, 23 Nov 2021 15:00:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=nhSS+jVlwCZmEMKccZ8mcBguODz1M1XaZ/AnA3E9MmA=;
+ b=cFr/zBD7bv/vEsWeJoJKsngA7dn8F8MzuT42QFzLSLivqyP6zESNh8Pl9TJ7dcl7CwJt
+ QVc1YlP/WxCH1qDrTkMRNWipEfOXJC2KGPC/Q5Mqgi0QU62wdxeTJn9R3xVGc0meaysl
+ XfMOdJAUebhdGFa8Pn84OMKeQAHYJ2bAWppnSFrKWhUwDZqSPz3lzcznIEuEcI5CkBuC
+ AuLKMg3kMJDEbMp236lHbMoyo+k/WKo/9IPbMMyCAlCqygCPuaqCN9JskP5Ztm4Go4zo
+ JwEE54NeLSqVgM5xHu4bOBgPxoGRXkossk+gkrCR/yjcC7psAiYB8Df10HHGArq5t2Fy 7Q== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3cg3059m8j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Nov 2021 15:00:18 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+	by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1ANEKcKF084734;
+	Tue, 23 Nov 2021 15:00:04 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2109.outbound.protection.outlook.com [104.47.55.109])
+	by userp3030.oracle.com with ESMTP id 3cep4yhyum-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Nov 2021 15:00:04 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OtpTwjDWDeOxBywr4p/M/tpTdASoA0tDhT6PZUh0c+qJxwQf6P0dWwatwBBFgLM/oKB9okWapE/LQmnyizp7iY4U+xSLOf2ZUzZOR9UabFyOUnsd0Ia7vpNW4hg5g+XrhfJ1Vw6lr0KGHa4eSdDLNomkDMU3EqhA1HbcmEqQ2pagqiCRRMCl7n+OqOBWGYn3o0tHD4byNSAhUqQULLWbOgQ+7jqPMwYAFl4Vvi54XKPSM23IGvEmNJMzGjDPUl62GqcTrJ7fzkoJXOR5XWgtzMDnkaZNzJlz3m/3O/v4ozCAcpmHQW6tUBowP2j8A3Tl6ldXKzOtP8TA8nJhdW6n2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nhSS+jVlwCZmEMKccZ8mcBguODz1M1XaZ/AnA3E9MmA=;
+ b=jQljF2bsBmdAjX+uMjjSwIyxM+df7IAuFKF5NT09sToUDjbRK6dQOu/QJXIH4bgMqUJcOc8f1eFQjjVDuljMHdFXrw6YLOQ5MVS6A9bRF2HM0hqsFmaXLgux2UsHmNOlckwW9x+JSleRJ/CYb+WrLNA55R2pEEBFeYPNI/9T9JV2kSWXep7ieu8DVa7FSzjXBkEIcBrss+NMUHHm/rKtRk/snui61P6UG5resc0HYB1Phs3HUzE/yVu9yjxkIdCsRPqyrkemwGZXBib91eKM/xt5sC1sgH/2sa6FPf1tf9RkHnF4Q5Vegb24+g3bPPjgW9NvH088eQHO1kogq3dLbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nhSS+jVlwCZmEMKccZ8mcBguODz1M1XaZ/AnA3E9MmA=;
+ b=HlpbJUrtOKgn0A0GuGipiro6rPGWkm6XI9kuzRsr7+UFJEZeSUmRBl6sJLXvZOQJuhU3mFY/XIEXpGOvz66QKnuT85THSfOf0sXYwI5EbiusSqsM7E8URcqBl4J+HUObDTGl1CRWEDPDIEICOW4/d/xEQEdBe7isNx9o0R9GSXY=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2397.namprd10.prod.outlook.com
+ (2603:10b6:301:32::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.22; Tue, 23 Nov
+ 2021 15:00:01 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::495f:a05d:ba7a:682]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::495f:a05d:ba7a:682%6]) with mapi id 15.20.4713.026; Tue, 23 Nov 2021
+ 15:00:01 +0000
+Date: Tue, 23 Nov 2021 17:59:33 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org,
+        ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
+        mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
+        wens@csie.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
+Message-ID: <20211123145933.GD6514@kadam>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+ <20211122184702.768341-2-jernej.skrabec@gmail.com>
+ <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0012.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::24)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210818060533.3569517-1-keescook@chromium.org> <20210818060533.3569517-13-keescook@chromium.org>
-In-Reply-To: <20210818060533.3569517-13-keescook@chromium.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 23 Nov 2021 14:19:25 +0100
-Message-ID: <CAJZ5v0iS3qMgdab1S-NzGfeLLXV=S6p5Qx8AaqJ50rsUngS=LA@mail.gmail.com>
-Subject: Re: [PATCH v2 12/63] thermal: intel: int340x_thermal: Use
- struct_group() for memcpy() region
-To: Kees Cook <keescook@chromium.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
-	Linux PM <linux-pm@vger.kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"open list:NETWORKING DRIVERS (WIRELESS)" <linux-wireless@vger.kernel.org>, netdev <netdev@vger.kernel.org>, 
-	dri-devel <dri-devel@lists.freedesktop.org>, linux-staging@lists.linux.dev, 
-	linux-block@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	clang-built-linux@googlegroups.com, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from kadam (102.222.70.114) by JNXP275CA0012.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:19::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4713.19 via Frontend Transport; Tue, 23 Nov 2021 14:59:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 85dcb8f1-377c-412d-c40d-08d9ae91ec42
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2397:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR1001MB23974396A25E614430C7177A8E609@MWHPR1001MB2397.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	qpvQkQEwDa0gmId37SOE8Kl303sE9hE5ebfzrfSdZvl0tLi5UJCfwRdLgM4B4vHaZ2rvC7bDZGh8X9LUVuyVXKpAaUb5BIVuw5uvscxCSXbumMN1VvoOtjmevl+7JWVcPAYWxZcLPo+2RgANS1I9bh2dviW/x+JMhQXT5ib1HtbG2/w8CT+ay8DJcPxBcRUjYW47eZq4xSH68BRcgrYYWmKzFfKi0csgCP7Hv6tgodwcrVbs8UK+hc6jUUFkE0X8z0q9zbOHrFSAVyYZCkauPERsC27fUDIhSLCwGvy7mqfK5x+0rdzf7MgBj/PldiYYi0OXQPxT+Ub8+kxUcxwN0+iANNOQ1bGr+svHMFjWB0z1wL5dpUMUfI3THc+pxJi5myT2b1/Lq7vNXLUamHuTsiM8Uto17GqyhuJAP/QtJvy+anV2u5/8boY8RKccbBCCKINEtSEMzs4UUUN5/BwRS/J91vuZNBenDnG4oDrhvyyuGrjCb/AWOw35b91ptND0cYwohOJQHppwAEb9iTLBqby5PG5m/z8HreHtPFoDLv+jGyU+qZ30EYW4732UBzHIZ9DU/x5kQkOfZHFAMSt0qY/ESOi/e3kyGLfbj81L9aBdvjGE5815GpuMGimC6oyiB79MMkpSMSuLlp2SduqcoSb+tzWj2Dzq+2UFP0bcHzZha8PKeiLqKoTYKhvG4CgmCT89R4nwDV9jP0pHLFdQtQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(6916009)(4326008)(956004)(33716001)(83380400001)(86362001)(186003)(1076003)(8676002)(2906002)(38100700002)(38350700002)(9576002)(8936002)(316002)(9686003)(5660300002)(33656002)(508600001)(26005)(52116002)(66476007)(66556008)(66946007)(55016003)(44832011)(6666004)(6496006)(7416002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?mZh9udMV8Me03n7nWB5Hcj5AhGMALehe5RojLZot34qQsueZyknnNo30vEMr?=
+ =?us-ascii?Q?qV6tyW+HfMgWi4NlyS5076WgTGvKUclAQovqwSCGLPuo/XuBehRN+exD5H8I?=
+ =?us-ascii?Q?ybDkheiw4wmaILASDrqyx+wrH8uMDZ/70jrVeoSoIG9a8ypEcuQlg9MIcWSv?=
+ =?us-ascii?Q?T5ELWLB2kt1/pYSFTURBV2M4ijrmwnUSi8NGPbbYRd40t7yfFjPvo91uI2ZK?=
+ =?us-ascii?Q?x6qalq4vH5zFUv1z82pjmL8djUxvSg0O3elOvcgxxJHZuMKR1PAMJMT45XnE?=
+ =?us-ascii?Q?eeta47a82dNMwxUfsGG74IMHLZ2Ukwbn3kDilTI044giV+558F3XJIRSIFYg?=
+ =?us-ascii?Q?76XHU5lIpBYWueSIOBIVYfydsFh23dslnn9F0EILqiUOfoP3xPBL4gwzlNn4?=
+ =?us-ascii?Q?Re6WmbwgEErT3LrT1jrDFklq3iNilXMIMULkOvLOwpa3K1/dsQGCAFJzuA4/?=
+ =?us-ascii?Q?EXBzzEKdbhmFTcvlLRnXQBD2OTksgcVm+tU9eNfiPbh68IK8F8niEbw9Kpul?=
+ =?us-ascii?Q?pd78KkkZbDmfWxbmU58fe5tnDGzPoCBKMzNDnyOwhgRHj2J1WNnrOEwZpKTd?=
+ =?us-ascii?Q?nXQQvioE6yo3a19a31q7TXp1b6wM8lzU9Sbvz/DvnaDlG7OqLQz2K8oicaYV?=
+ =?us-ascii?Q?S9xFMfdndQDZo26A7MHcADBOpGdqr9vn42FkYeoaopvFoKrNC8+vpJ2dXw4S?=
+ =?us-ascii?Q?P46RzNP9G6JUSYGrd5jhbwshr7keg0ZJaKzjmpAhdf4IVYGVazOn4D7kcA9B?=
+ =?us-ascii?Q?L/jpD38HvnAihuNm0etk+N3lAlJcEX0JxTj/Aibqqm8Oq01ncttDOFRGRa/c?=
+ =?us-ascii?Q?qJW0WF8sPllBPv1H+AeCXpfhc5JNqcgz4B/7luQEoMOBGot+wNamWm+yWAyA?=
+ =?us-ascii?Q?hLLdOwDeubpOBmK4pPNkdRH+rU0czndXuxhttAcjq+byZtpeW+hSFI0+xDJ8?=
+ =?us-ascii?Q?7Qi7aCNHrmaZvdSB2nyvOK4CgbqfYjIWCWkgbGLdjIN6lnj/r7uS2HyTIWn8?=
+ =?us-ascii?Q?IWjrwT3GbybyEotF48HGtrVPrByl70axNP+pIk6xHOCSqSq6jka9hkUoCUJ6?=
+ =?us-ascii?Q?mFM1/2jvFN6BWPFTq7EFDBVkUSF/80LvMC/3T0i8OIExUTRH7dwGjQgGI1lu?=
+ =?us-ascii?Q?0I6WXBKlI3mEL0BtkewFMz4X7RnW/ROwOnz8DIixgmzrRczbADBPzoV7oV83?=
+ =?us-ascii?Q?zMKfJJvB+Oba1Nyjw42lWLgK8OhelTq+dzsJOABRMqD6vZNX7iEBTKv+rxlz?=
+ =?us-ascii?Q?+PYDeFCGoj+Bx0lyU4ZNj348x226P8koizJ1DkU3bJc1eN6lt5WVbs/rpL4e?=
+ =?us-ascii?Q?kydONluUQxf8A+IVa5Dx3zmFvFI/lYzI2gLhl6Jn2FxLXe4y9gftKxeq0wxv?=
+ =?us-ascii?Q?SK/ObX+eQpHZlSnmOH9+kiiVzVPckQee3cEA7Keonm4jk18xTl+8egeYk91z?=
+ =?us-ascii?Q?vSl1bXO+MUdRf0gaDwAcUywSnnzDgNfHAxR0Yh4OoPS/ZGA9M0TT97R0LLXf?=
+ =?us-ascii?Q?23+fFm3QELQ1UN4lGI+Mu8VtLLGigxWgox2tzjwp+Lklzej9SwgybsvrlPLC?=
+ =?us-ascii?Q?KZYBXuWzjYicSN+42Oi9DUPaYTtq6UOmHTBw32Gg/M/7Nl3gnWtU7YiLnZ4T?=
+ =?us-ascii?Q?BH9I0tUYtu7nuNeDjo3nfWTjTwQsrOhPVZlMHbxPAniiuODWIZzSEXfV2/Dl?=
+ =?us-ascii?Q?SeRQjL43ZLy0PrbtlgYYxksamrc=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85dcb8f1-377c-412d-c40d-08d9ae91ec42
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2021 15:00:01.4640
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +cuwNouXJ49TQX7Anq/gO5ZCR/u848IvoyJsBU8SX7sbTiDZznQIz5VDS0rKBIybWwHz7BZoC5qBHlHOgGQeiMNLcAijKA5pnbzQd8dBVRk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2397
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10176 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111230078
+X-Proofpoint-GUID: 9bPVSsYJkYhwnaDOnHqJcxZIRzIPqd7C
+X-Proofpoint-ORIG-GUID: 9bPVSsYJkYhwnaDOnHqJcxZIRzIPqd7C
 
-On Wed, Aug 18, 2021 at 8:08 AM Kees Cook <keescook@chromium.org> wrote:
->
-> In preparation for FORTIFY_SOURCE performing compile-time and run-time
-> field bounds checking for memcpy(), avoid intentionally writing across
-> neighboring fields.
->
-> Use struct_group() in struct art around members weight, and ac[0-9]_max,
-> so they can be referenced together. This will allow memcpy() and sizeof()
-> to more easily reason about sizes, improve readability, and avoid future
-> warnings about writing beyond the end of weight.
->
-> "pahole" shows no size nor member offset changes to struct art.
-> "objdump -d" shows no meaningful object code changes (i.e. only source
-> line number induced differences).
->
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Amit Kucheria <amitk@kernel.org>
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
+> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> > index ab2467998d29..8c3de31f51b3 100644
+> > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
+> >   			return PTR_ERR(vpu->clocks[0].clk);
+> >   	}
+> > +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
+> > +	if (IS_ERR(vpu->resets))
+> > +		return PTR_ERR(vpu->resets);
+> > +
+> >   	num_bases = vpu->variant->num_regs ?: 1;
+> >   	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
+> >   				      sizeof(*vpu->reg_bases), GFP_KERNEL);
+> > @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
+> >   	pm_runtime_use_autosuspend(vpu->dev);
+> >   	pm_runtime_enable(vpu->dev);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+It looks like this is the pm stuff that we have to unwind on error
 
-Rui, Srinivas, any comments here?
+> > +	ret = reset_control_deassert(vpu->resets);
+> > +	if (ret) {
+> > +		dev_err(&pdev->dev, "Failed to deassert resets\n");
+> > +		return ret;
+                ^^^^^^^^^^
+So this return should be a goto undo_pm_stuff
 
-> ---
->  .../intel/int340x_thermal/acpi_thermal_rel.c  |  5 +-
->  .../intel/int340x_thermal/acpi_thermal_rel.h  | 48 ++++++++++---------
->  2 files changed, 29 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-> index a478cff8162a..e90690a234c4 100644
-> --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-> +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.c
-> @@ -250,8 +250,9 @@ static int fill_art(char __user *ubuf)
->                 get_single_name(arts[i].source, art_user[i].source_device);
->                 get_single_name(arts[i].target, art_user[i].target_device);
->                 /* copy the rest int data in addition to source and target */
-> -               memcpy(&art_user[i].weight, &arts[i].weight,
-> -                       sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
-> +               BUILD_BUG_ON(sizeof(art_user[i].data) !=
-> +                            sizeof(u64) * (ACPI_NR_ART_ELEMENTS - 2));
-> +               memcpy(&art_user[i].data, &arts[i].data, sizeof(art_user[i].data));
->         }
->
->         if (copy_to_user(ubuf, art_user, art_len))
-> diff --git a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-> index 58822575fd54..78d942477035 100644
-> --- a/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-> +++ b/drivers/thermal/intel/int340x_thermal/acpi_thermal_rel.h
-> @@ -17,17 +17,19 @@
->  struct art {
->         acpi_handle source;
->         acpi_handle target;
-> -       u64 weight;
-> -       u64 ac0_max;
-> -       u64 ac1_max;
-> -       u64 ac2_max;
-> -       u64 ac3_max;
-> -       u64 ac4_max;
-> -       u64 ac5_max;
-> -       u64 ac6_max;
-> -       u64 ac7_max;
-> -       u64 ac8_max;
-> -       u64 ac9_max;
-> +       struct_group(data,
-> +               u64 weight;
-> +               u64 ac0_max;
-> +               u64 ac1_max;
-> +               u64 ac2_max;
-> +               u64 ac3_max;
-> +               u64 ac4_max;
-> +               u64 ac5_max;
-> +               u64 ac6_max;
-> +               u64 ac7_max;
-> +               u64 ac8_max;
-> +               u64 ac9_max;
-> +       );
->  } __packed;
->
->  struct trt {
-> @@ -47,17 +49,19 @@ union art_object {
->         struct {
->                 char source_device[8]; /* ACPI single name */
->                 char target_device[8]; /* ACPI single name */
-> -               u64 weight;
-> -               u64 ac0_max_level;
-> -               u64 ac1_max_level;
-> -               u64 ac2_max_level;
-> -               u64 ac3_max_level;
-> -               u64 ac4_max_level;
-> -               u64 ac5_max_level;
-> -               u64 ac6_max_level;
-> -               u64 ac7_max_level;
-> -               u64 ac8_max_level;
-> -               u64 ac9_max_level;
-> +               struct_group(data,
-> +                       u64 weight;
-> +                       u64 ac0_max_level;
-> +                       u64 ac1_max_level;
-> +                       u64 ac2_max_level;
-> +                       u64 ac3_max_level;
-> +                       u64 ac4_max_level;
-> +                       u64 ac5_max_level;
-> +                       u64 ac6_max_level;
-> +                       u64 ac7_max_level;
-> +                       u64 ac8_max_level;
-> +                       u64 ac9_max_level;
-> +               );
->         };
->         u64 __data[ACPI_NR_ART_ELEMENTS];
->  };
-> --
-> 2.30.2
->
+
+> > +	}
+> > +
+> >   	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+> >   	if (ret) {
+> >   		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+> > -		return ret;
+
+And this return should also have been a goto so it's a bug in the
+original code.
+
+> > +		goto err_rst_assert;
+> 
+> Before your patch is applied if clk_bulk_prepare() fails, we
+> simply return on the spot. After the patch is applied not only
+> do you...
+> 
+> >   	}
+> >   	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+> > @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
+> >   	v4l2_device_unregister(&vpu->v4l2_dev);
+> >   err_clk_unprepare:
+> >   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> > +err_rst_assert:
+> > +	reset_control_assert(vpu->resets);
+> 
+> ...revert the effect of reset_control_deassert(), you also...
+> 
+> >   	pm_runtime_dont_use_autosuspend(vpu->dev);
+> >   	pm_runtime_disable(vpu->dev);
+> 
+> ... do pm_*() stuff. Is there any reason why this is needed?
+
+So, yes, it's needed, but you're correct to spot that it's not
+consistent.
+
+regards,
+dan carpenter
+
