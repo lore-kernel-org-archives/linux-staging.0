@@ -1,111 +1,106 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B24E2C94
-	for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 11:19:18 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id 207so10374675ljf.10
-        for <linux-staging@lists.linux.dev>; Tue, 23 Nov 2021 03:19:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w+ogjWxG1DbsOOSKAdBRBvdcSf1vlOMjAXY68aT/3+U=;
-        b=g2Y3CYQC1NcCLavzUvr4ErWMQvZ4fzsgBv6CCbmTOoZcOun8WjSds54sZrtzeYEA0U
-         N5KF7mJ3kl8nFIULnhlxeAUeFZAuCfq+uX5Urd7Y31Xp8cHxNzCxkkp6HS46EZb3D6jZ
-         c7TwybE0YdC9woGghm+c/KCOlK35CIfDZrYTO7zFljpZaTHjklc27An1TOol1n/1idvS
-         kCKfDejnDdUw+aN2JJNNmUQf32+SP4pOXJVkzxhNH+rbEkLFMLkjE8yfz5ElxThNneaF
-         SJXtBIs1DuxaYn0676eJKdryXGQlku5s0UQEwOdM0oGilYhXoK+2140z6YDVV15iHy6a
-         9PQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w+ogjWxG1DbsOOSKAdBRBvdcSf1vlOMjAXY68aT/3+U=;
-        b=cYgnwWx4LY+dnSNMpEugzlQklMDrjgwl4rnPhW8R424to4H+ajor/BkPLIp64ZAHNX
-         JM8pTWcVhoRx9LrMZKJ4mXLxYzu8sTIn71Do8a9lHcq3ZU4OLHGyjgWJy/CTvwsjpmsP
-         aOdNzydt/wzLGOJnohWskYZQVpqAjVhy57qRDDJ/vk8/WTt9AShII2SBSBR9reXIWwHV
-         WzpYh/efTOT3BeFKh9Cp1+D90oirRM4fQi8mEi5h77US3K1+vUI5mvZ3DJ+2O5wQ97Fs
-         nrfckwE2Jhraf1cjwTA8RvSqfyMTx656UZmdclHeuy0MSvH8ymT3tzvEDmz57NtzYbwC
-         5k7A==
-X-Gm-Message-State: AOAM532Hx03K6zkotKztIFRDM0bdep4V0vc9QdwRL6QLvd1VfVdmYK7s
-	waaTUKJGGGFlZENc1mUImmgK4kVHUOysci1Fnwavmw==
-X-Google-Smtp-Source: ABdhPJxH+dIDF8nBsp8fxznpkoFe9y9Zmc/xUzjvp4Mfv2L5TNuCMH6djlHGcQ7ManpwMDd1PzQBcWJG8pF2EVa/HSY=
-X-Received: by 2002:a05:651c:1507:: with SMTP id e7mr4381662ljf.300.1637666356182;
- Tue, 23 Nov 2021 03:19:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3FA2C94;
+	Tue, 23 Nov 2021 11:22:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrzej.p)
+	with ESMTPSA id 6067A1F4197A
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1637666539; bh=PBtrVueCq3tmvWtlDU2yVa4NxTm9tEbs7ezcIMVF6mU=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=ant/0iSEfOetB3rzdly/nH/Bl9Qamh7a33r5df/m71IQS825rZ+bGTsuaGPgBuSdt
+	 b6nOBza61O2QqJSuhXL2hLlKMPfkXB9jNBAt0CDZKBcLKrVPWRbVS5ENPI9JOlB/ZL
+	 j7VYxNJ1OoVSEm+S072GDpINrEVMCaLaoQ/TdKUA/lrQEEQu9XawdIe1dZi46bNRYK
+	 0AwFMKvb3tAAW32AOveePty95p8xrSh+9VPktX20R+lKCo6/1MV9odRUPBrQkjrfgR
+	 qisGchn8vytOlbsuymVe6SeJK4IReC1lZvsBqeWY+vgIC/Akx7UB0F2iOjLOCPc1JJ
+	 hJUYGCQE3MHRw==
+Subject: Re: [PATCH 2/7] media: hantro: vp9: use double buffering if needed
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org
+Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
+ mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+ <20211122184702.768341-3-jernej.skrabec@gmail.com>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <55bb35b0-b98b-9961-aa95-554f8af141f5@collabora.com>
+Date: Tue, 23 Nov 2021 12:22:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211122222203.4103644-1-arnd@kernel.org> <20211122222203.4103644-5-arnd@kernel.org>
-In-Reply-To: <20211122222203.4103644-5-arnd@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 23 Nov 2021 12:18:40 +0100
-Message-ID: <CAPDyKFrCOoFWuM_6Renu+M5SHotyuzXeyH99WZb69G1PFQ1z5A@mail.gmail.com>
-Subject: Re: [PATCH v2 04/11] mmc: bcm2835: stop setting chan_config->slave_id
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Baolin Wang <baolin.wang7@gmail.com>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hyun Kwon <hyun.kwon@xilinx.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Jon Hunter <jonathanh@nvidia.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>, 
-	Michal Simek <michal.simek@xilinx.com>, Nicolas Saenz Julienne <nsaenz@kernel.org>, 
-	Orson Zhai <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
-	Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, alsa-devel@alsa-project.org, 
-	bcm-kernel-feedback-list@broadcom.com, dmaengine@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-serial@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-tegra@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211122184702.768341-3-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Mon, 22 Nov 2021 at 23:23, Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The field is not interpreted by the DMA engine driver, as all the data
-> is passed from devicetree instead. Remove the assignment so the field
-> can eventually be deleted.
->
-> Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+W dniu 22.11.2021 o 19:46, Jernej Skrabec pisze:
+> Some G2 variants need double buffering to be enabled in order to work
+> correctly, like that found in Allwinner H6 SoC.
+> 
+> Add platform quirk for that.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-I think I acked the previous version, but nevermind:
-
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
-
-Kind regards
-Uffe
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
 > ---
->  drivers/mmc/host/bcm2835.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/mmc/host/bcm2835.c b/drivers/mmc/host/bcm2835.c
-> index 8c2361e66277..463b707d9e99 100644
-> --- a/drivers/mmc/host/bcm2835.c
-> +++ b/drivers/mmc/host/bcm2835.c
-> @@ -1293,14 +1293,12 @@ static int bcm2835_add_host(struct bcm2835_host *host)
->
->                 host->dma_cfg_tx.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->                 host->dma_cfg_tx.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-> -               host->dma_cfg_tx.slave_id = 13;         /* DREQ channel */
->                 host->dma_cfg_tx.direction = DMA_MEM_TO_DEV;
->                 host->dma_cfg_tx.src_addr = 0;
->                 host->dma_cfg_tx.dst_addr = host->phys_addr + SDDATA;
->
->                 host->dma_cfg_rx.src_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->                 host->dma_cfg_rx.dst_addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
-> -               host->dma_cfg_rx.slave_id = 13;         /* DREQ channel */
->                 host->dma_cfg_rx.direction = DMA_DEV_TO_MEM;
->                 host->dma_cfg_rx.src_addr = host->phys_addr + SDDATA;
->                 host->dma_cfg_rx.dst_addr = 0;
-> --
-> 2.29.2
->
+>   drivers/staging/media/hantro/hantro.h            | 2 ++
+>   drivers/staging/media/hantro/hantro_g2_regs.h    | 1 +
+>   drivers/staging/media/hantro/hantro_g2_vp9_dec.c | 2 ++
+>   3 files changed, 5 insertions(+)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 33eb3e092cc1..d03824fa3222 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -73,6 +73,7 @@ struct hantro_irq {
+>    * @num_clocks:			number of clocks in the array
+>    * @reg_names:			array of register range names
+>    * @num_regs:			number of register range names in the array
+> + * @double_buffer:		core needs double buffering
+>    */
+>   struct hantro_variant {
+>   	unsigned int enc_offset;
+> @@ -94,6 +95,7 @@ struct hantro_variant {
+>   	int num_clocks;
+>   	const char * const *reg_names;
+>   	int num_regs;
+> +	unsigned int double_buffer : 1;
+>   };
+>   
+>   /**
+> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+> index 9c857dd1ad9b..15a391a4650e 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
+> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+> @@ -270,6 +270,7 @@
+>   #define g2_apf_threshold	G2_DEC_REG(55, 0, 0xffff)
+>   
+>   #define g2_clk_gate_e		G2_DEC_REG(58, 16, 0x1)
+> +#define g2_double_buffer_e	G2_DEC_REG(58, 15, 0x1)
+>   #define g2_buswidth		G2_DEC_REG(58, 8,  0x7)
+>   #define g2_max_burst		G2_DEC_REG(58, 0,  0xff)
+>   
+> diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> index e04242d10fa2..d4fc649a4da1 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> @@ -847,6 +847,8 @@ config_registers(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_p
+>   	hantro_reg_write(ctx->dev, &g2_clk_gate_e, 1);
+>   	hantro_reg_write(ctx->dev, &g2_max_cb_size, 6);
+>   	hantro_reg_write(ctx->dev, &g2_min_cb_size, 3);
+> +	if (ctx->dev->variant->double_buffer)
+> +		hantro_reg_write(ctx->dev, &g2_double_buffer_e, 1);
+>   
+>   	config_output(ctx, dst, dec_params);
+>   
+> 
+
