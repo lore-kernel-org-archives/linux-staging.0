@@ -1,125 +1,156 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DEA2C82;
-	Tue, 23 Nov 2021 16:37:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: andrzej.p)
-	with ESMTPSA id 5E5ED1F42E68
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1637685421; bh=daLlUwwNiWxjyGD9q5YosR2QXIU4H+EhNkLeXPcw3AE=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=G4Z1I8lixs87F0ianK1zbYPYVeiBnYksWWed/JJdLhzfz9Cd8k4R7g600a4jgqT6e
-	 CEJQNsDcOsTXbCNiW2JoBfjJGggrDNF7rnf0+QzIsHUypEAERKqCf6Z53jkzRO+9FE
-	 JM2P6zCOUxqL4wlqrOj2CZdpKdm4KZgyOwfAt0RVJ65pN016UYDqXMW/8CtrjbUw9f
-	 VFm53j2Tz51kP+1zCh6QM+dGE541/YFf7aTkx2eG69oREeEwP765jox5HopYmz9n+x
-	 NIF5qlSs7WZKB3E4alMSpNAvZk0E7VCq1iTq9e3FVB5PsDtDh1yXiahcY9O907fa5R
-	 KT9ke1sko2Fmw==
-Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org,
- ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
- mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
- <20211122184702.768341-2-jernej.skrabec@gmail.com>
- <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
- <20211123145933.GD6514@kadam>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
-Date: Tue, 23 Nov 2021 17:36:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6AF2C82;
+	Tue, 23 Nov 2021 16:46:33 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id r11so94779998edd.9;
+        Tue, 23 Nov 2021 08:46:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
+        b=Zj+3CJZE0XsYGYGYbsDr0DYBjiqHXd2f5fMTK9cVdyGyjRri79BNak1r1pO4TvaLRq
+         mXZmqKqev8CBnsCUgrxk9ldLOGcCt+98Zl8LEoBmAjcyYtC5zMdWRyXrPTsAw/f0O8L2
+         LWM44mrZbsV3vwrGKU4wEZUHwpi+wFVuJuUGSsweQYx2oosoEKyQM08lqHYnmtGiQJ4f
+         Ui31KKYZUDpQFsWrFqHw4mOlEefSQotTLs8oQmJbfMgife4lHzVd3PTnekWATc6MxcfB
+         w0IgRVV9uqOZaKtwJKRnQVP22fX1wu90+z9sL3FPB0ApnrmY5t8hhg5+Q/33ZuSMjJgZ
+         4P3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
+        b=6AJk66vfp6zKSYmq5WqHdR6LISbhsr2I9L1snEKFw9EzG6pnePBqNRc0s832e04oI/
+         7pw6k9CYN9tpVieMirwzly/5JAr8VyYR9KTgSBnzLNodnlQQmUbficzzdQFcUl7QtvWl
+         5FFs4SqSRZiL43j7FsHdrDQsMNctwpBnNWAYqXqOgcj6TFAkDJg97ofexR3YpMfjWx68
+         ebMVBbQXJALP/JoXpygaBtO8PrEE7Q72DwSLXiDt70NFls/PNg+RQfCQP7ShguB6TbE8
+         y2xq4TXv82DRmUovoN7W58D+p8waAnKsLoC9FeH/kt3Qq3v5dTcl4uaFX5g8ehSwNmDH
+         H7Jw==
+X-Gm-Message-State: AOAM5322eLD+crF3htLK4z3UO20hI0VGAlRS8Wi9OPDhifRzTAU7hG5P
+	O1ev4FBgvVO65bUKVKlg+hylKUYgsj+hEQ==
+X-Google-Smtp-Source: ABdhPJyLUBFkleYwLguLP2uuKkGq/+WQboEpjtMa960SFj6OrZVxonrXlQIEc9ZoEK9pemmQ0f6bkQ==
+X-Received: by 2002:a17:906:eb8a:: with SMTP id mh10mr9243839ejb.198.1637685991743;
+        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id w23sm6127157edr.19.2021.11.23.08.46.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: Re: [PATCH 1/7] media: hantro: add support for reset lines
+Date: Tue, 23 Nov 2021 17:46:30 +0100
+Message-ID: <9986998.nUPlyArG6x@kista>
+In-Reply-To: <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211123145933.GD6514@kadam> <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211123145933.GD6514@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Dan, hi Jernej,
+Hi all,
 
-W dniu 23.11.2021 o 15:59, Dan Carpenter pisze:
-> On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
->>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->>> index ab2467998d29..8c3de31f51b3 100644
->>> --- a/drivers/staging/media/hantro/hantro_drv.c
->>> +++ b/drivers/staging/media/hantro/hantro_drv.c
->>> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
->>>    			return PTR_ERR(vpu->clocks[0].clk);
->>>    	}
->>> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
->>> +	if (IS_ERR(vpu->resets))
->>> +		return PTR_ERR(vpu->resets);
->>> +
->>>    	num_bases = vpu->variant->num_regs ?: 1;
->>>    	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
->>>    				      sizeof(*vpu->reg_bases), GFP_KERNEL);
->>> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
->>>    	pm_runtime_use_autosuspend(vpu->dev);
->>>    	pm_runtime_enable(vpu->dev);
->          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> It looks like this is the pm stuff that we have to unwind on error
+Dne torek, 23. november 2021 ob 17:36:57 CET je Andrzej Pietrasiewicz 
+napisal(a):
+> Hi Dan, hi Jernej,
 > 
->>> +	ret = reset_control_deassert(vpu->resets);
->>> +	if (ret) {
->>> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
->>> +		return ret;
->                  ^^^^^^^^^^
-> So this return should be a goto undo_pm_stuff
+> W dniu 23.11.2021 o 15:59, Dan Carpenter pisze:
+> > On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
+> >>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/
+media/hantro/hantro_drv.c
+> >>> index ab2467998d29..8c3de31f51b3 100644
+> >>> --- a/drivers/staging/media/hantro/hantro_drv.c
+> >>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> >>> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device 
+*pdev)
+> >>>    			return PTR_ERR(vpu->clocks[0].clk);
+> >>>    	}
+> >>> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, 
+true);
+> >>> +	if (IS_ERR(vpu->resets))
+> >>> +		return PTR_ERR(vpu->resets);
+> >>> +
+> >>>    	num_bases = vpu->variant->num_regs ?: 1;
+> >>>    	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
+> >>>    				      sizeof(*vpu->reg_bases), 
+GFP_KERNEL);
+> >>> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device 
+*pdev)
+> >>>    	pm_runtime_use_autosuspend(vpu->dev);
+> >>>    	pm_runtime_enable(vpu->dev);
+> >          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > It looks like this is the pm stuff that we have to unwind on error
+> > 
+> >>> +	ret = reset_control_deassert(vpu->resets);
+> >>> +	if (ret) {
+> >>> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
+> >>> +		return ret;
+> >                  ^^^^^^^^^^
+> > So this return should be a goto undo_pm_stuff
+> > 
+> > 
+> >>> +	}
+> >>> +
+> >>>    	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+> >>>    	if (ret) {
+> >>>    		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+> >>> -		return ret;
+> > 
+> > And this return should also have been a goto so it's a bug in the
+> > original code.
 > 
-> 
->>> +	}
->>> +
->>>    	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
->>>    	if (ret) {
->>>    		dev_err(&pdev->dev, "Failed to prepare clocks\n");
->>> -		return ret;
-> 
-> And this return should also have been a goto so it's a bug in the
-> original code.
+> So we probably want a separate patch addressing that first, and then
+> the series proper on top of that.
 
-So we probably want a separate patch addressing that first, and then
-the series proper on top of that.
+I was just about to suggest that.
 
-Regards,
+Other drivers usually enable PM last, so they don't have PM calls in unwind 
+code. However, I think current approach is just as valid (with a fix).
 
-Andrzej
+Best regards,
+Jernej
 
 > 
->>> +		goto err_rst_assert;
->>
->> Before your patch is applied if clk_bulk_prepare() fails, we
->> simply return on the spot. After the patch is applied not only
->> do you...
->>
->>>    	}
->>>    	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
->>> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
->>>    	v4l2_device_unregister(&vpu->v4l2_dev);
->>>    err_clk_unprepare:
->>>    	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
->>> +err_rst_assert:
->>> +	reset_control_assert(vpu->resets);
->>
->> ...revert the effect of reset_control_deassert(), you also...
->>
->>>    	pm_runtime_dont_use_autosuspend(vpu->dev);
->>>    	pm_runtime_disable(vpu->dev);
->>
->> ... do pm_*() stuff. Is there any reason why this is needed?
+> Regards,
 > 
-> So, yes, it's needed, but you're correct to spot that it's not
-> consistent.
+> Andrzej
 > 
-> regards,
-> dan carpenter
+> > 
+> >>> +		goto err_rst_assert;
+> >>
+> >> Before your patch is applied if clk_bulk_prepare() fails, we
+> >> simply return on the spot. After the patch is applied not only
+> >> do you...
+> >>
+> >>>    	}
+> >>>    	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+> >>> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device 
+*pdev)
+> >>>    	v4l2_device_unregister(&vpu->v4l2_dev);
+> >>>    err_clk_unprepare:
+> >>>    	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> >>> +err_rst_assert:
+> >>> +	reset_control_assert(vpu->resets);
+> >>
+> >> ...revert the effect of reset_control_deassert(), you also...
+> >>
+> >>>    	pm_runtime_dont_use_autosuspend(vpu->dev);
+> >>>    	pm_runtime_disable(vpu->dev);
+> >>
+> >> ... do pm_*() stuff. Is there any reason why this is needed?
+> > 
+> > So, yes, it's needed, but you're correct to spot that it's not
+> > consistent.
+> > 
+> > regards,
+> > dan carpenter
+> > 
 > 
+> 
+
 
