@@ -1,82 +1,194 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821AC72
-	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 14:56:54 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id b5-20020a9d60c5000000b0055c6349ff22so4593692otk.13
-        for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 06:56:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LRNdgmKoGHd8G0IdZK2kJhuKe2APSp+LVa8VH3GbUIo=;
-        b=ROINuAUVxy/ZbYmgWfHqBUzAuDwOQ6cqNQOfBVhy96Gry9ayUW0v2eAWocnQnqzx3v
-         xgc65hVhfOFf2QyYOHtvwTkNw/gi7ENcARWpSUc8tTr1PgbR0vhK1mbBo7dmloWOedtW
-         UEV/xNy8uprFwFS6gA4oIwhtzB0uMlUnBPPMIpu/w6ORmy8QrYL/n7wt6j3A80GfGrOw
-         aGeIbUirqzK0slqUpZBhp9oUS8RL/fGa4ebYV8beZ3Si9FYiK4+2z4GZsVqQMSMw8AI2
-         BcRuVz9lYpndNk5s+3smn0XoM4+Txn+jtQiDusTUa3GVwiYUH1hPVXmtuXdlQ0MJQneg
-         SFBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LRNdgmKoGHd8G0IdZK2kJhuKe2APSp+LVa8VH3GbUIo=;
-        b=FiTMhvX7One0TWAPmuSXL96Px7jHazWQoHaQF+P891UZT/dNhZnhw8k2nevxI5gkjg
-         VwBhPKcCb30YWdtAczIpprZJww5QQk9RjbGFs8Wief4uyFD7czbqpJdCECVeXC3dLFxg
-         qY4dhNbNiYGbpcmq/BGZrzbx6PH03FknFpowEYmrKIT/DRLDsXxoZao8mgsUopsdpcvV
-         qifYKNXKO/zCZ+vB0p4ir8B12OkWmoRqQLwkc369FDniUUaHgrPUWwcI/g0bC0Ti15fk
-         Vw7/XVsJ17/5VyJJ1nlEIMh9/GKVNawUmF7luB4lJqnEexecKyinT2JwvFuY9jB11bNH
-         SiRw==
-X-Gm-Message-State: AOAM532u4VlBiTlrGItFQ8o/Mubyvm+Y5/R5WmmQpGqDyzsAa21Jm7Hm
-	n3EhB27BysTjiIL8BxRcbPta6tfBIcfNJPG0wO0=
-X-Google-Smtp-Source: ABdhPJyqccrZCGcFmld4szOfDhBK9/E4Pq6QPLBGa5/rNNSCpHY0z5698ckRmlDMZ9GPhwZ2MvYxx3uekzO2OiCtwvA=
-X-Received: by 2002:a9d:2486:: with SMTP id z6mr14024908ota.210.1637765813712;
- Wed, 24 Nov 2021 06:56:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B4629CA
+	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 15:08:31 +0000 (UTC)
+Received: from localhost.localdomain (211.81-166-168.customer.lyse.net [81.166.168.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: noralf.tronnes@ebnett.no)
+	by asav21.altibox.net (Postfix) with ESMTPSA id 729158016E;
+	Wed, 24 Nov 2021 16:08:22 +0100 (CET)
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To: robh+dt@kernel.org,
+	david@lechnology.com
+Cc: devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	dave.stevenson@raspberrypi.com,
+	maxime@cerno.tech,
+	=?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: [PATCH 6/6] drm: tiny: st7735r: Support DT initialization of controller
+Date: Wed, 24 Nov 2021 16:07:57 +0100
+Message-Id: <20211124150757.17929-7-noralf@tronnes.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211124150757.17929-1-noralf@tronnes.org>
+References: <20211124150757.17929-1-noralf@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211123232551.210016-1-makvihas@gmail.com> <20211124131414.GJ6514@kadam>
-In-Reply-To: <20211124131414.GJ6514@kadam>
-From: Vihas Mak <makvihas@gmail.com>
-Date: Wed, 24 Nov 2021 20:26:41 +0530
-Message-ID: <CAH1kMwRcEwc64XjPAXbJUPFsLTei2pmzP3r_6ZVWQ+NFkaa57g@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: use max() and min() macros
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>, 
-	Greg KH <gregkh@linuxfoundation.org>, straube.linux@gmail.com, nathan@kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ZLv5Z0zb c=1 sm=1 tr=0
+	a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+	a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
+	a=Rv4-UE-PrmLv3P_qtPAA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
 
->> Please run scripts/checkpatch.pl on your patches.
+Add support for initializing the controller from device properties when
+the compatible is "sitronix,st7735r".
 
->> CHECK: Alignment should match open parenthesis
->> #41: FILE: drivers/staging/r8188eu/core/rtw_wlan_util.c:723:
+The rotation property does not apply in this case since a matching
+ADDRESS_MODE/madctl value is necessary.
 
-Ahh sorry, my bad. Will resend v2 after fixing that.
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
+ drivers/gpu/drm/tiny/st7735r.c | 87 +++++++++++++++++++++++++++++-----
+ 1 file changed, 75 insertions(+), 12 deletions(-)
 
-On Wed, Nov 24, 2021 at 6:44 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Wed, Nov 24, 2021 at 04:55:51AM +0530, Vihas Mak wrote:
->
-> > +
-> > +                     min_MPDU_spacing = max(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c,
-> > +                                                     pIE->data[i] & 0x1c);
->
-> Please run scripts/checkpatch.pl on your patches.
->
-> CHECK: Alignment should match open parenthesis
-> #41: FILE: drivers/staging/r8188eu/core/rtw_wlan_util.c:723:
-> +                       min_MPDU_spacing = max(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c,
-> +                                                       pIE->data[i] & 0x1c);
->
-> regards,
-> dan carpenter
->
-
-
+diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
+index fc40dd10efa8..7f4d880b8702 100644
+--- a/drivers/gpu/drm/tiny/st7735r.c
++++ b/drivers/gpu/drm/tiny/st7735r.c
+@@ -58,6 +58,52 @@ struct st7735r_priv {
+ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 				struct drm_crtc_state *crtc_state,
+ 				struct drm_plane_state *plane_state)
++{
++	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
++	struct mipi_dbi *dbi = &dbidev->dbi;
++	int ret, idx;
++
++	if (!drm_dev_enter(pipe->crtc.dev, &idx))
++		return;
++
++	DRM_DEBUG_KMS("\n");
++
++	ret = mipi_dbi_poweron_conditional_reset(dbidev);
++	if (ret < 0)
++		goto out_exit;
++	if (ret == 1)
++		goto out_enable;
++
++	mipi_dbi_command(dbi, MIPI_DCS_EXIT_SLEEP_MODE);
++	msleep(120);
++
++	mipi_dbi_command_from_property(dbi, ST7735R_FRMCTR1, "frmctr1", 3);
++	mipi_dbi_command_from_property(dbi, ST7735R_INVCTR,  "invctr", 1);
++	mipi_dbi_command_from_property(dbi, ST7735R_PWCTR1,  "pwctr1", 3);
++	mipi_dbi_command_from_property(dbi, ST7735R_PWCTR2,  "pwctr2", 1);
++	mipi_dbi_command_from_property(dbi, ST7735R_PWCTR3,  "pwctr3", 2);
++	mipi_dbi_command_from_property(dbi, ST7735R_VMCTR1,  "vmctr1", 1);
++	mipi_dbi_command_from_property(dbi, MIPI_DCS_SET_ADDRESS_MODE, "madctl", 1);
++	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT, MIPI_DCS_PIXEL_FMT_16BIT);
++	mipi_dbi_command_from_property(dbi, ST7735R_GAMCTRP1, "gamctrp1", 16);
++	mipi_dbi_command_from_property(dbi, ST7735R_GAMCTRN1, "gamctrn1", 16);
++
++	mipi_dbi_command(dbi, MIPI_DCS_SET_DISPLAY_ON);
++out_enable:
++	mipi_dbi_enable_flush(dbidev, crtc_state, plane_state);
++out_exit:
++	drm_dev_exit(idx);
++}
++
++static const struct drm_simple_display_pipe_funcs st7735r_pipe_funcs = {
++	.enable		= st7735r_pipe_enable,
++	.disable	= mipi_dbi_pipe_disable,
++	.update		= mipi_dbi_pipe_update,
++};
++
++static void jd_t18003_t01_pipe_enable(struct drm_simple_display_pipe *pipe,
++				      struct drm_crtc_state *crtc_state,
++				      struct drm_plane_state *plane_state)
+ {
+ 	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
+ 	struct st7735r_priv *priv = container_of(dbidev, struct st7735r_priv,
+@@ -132,8 +178,8 @@ static void st7735r_pipe_enable(struct drm_simple_display_pipe *pipe,
+ 	drm_dev_exit(idx);
+ }
+ 
+-static const struct drm_simple_display_pipe_funcs st7735r_pipe_funcs = {
+-	.enable		= st7735r_pipe_enable,
++static const struct drm_simple_display_pipe_funcs jd_t18003_t01_pipe_funcs = {
++	.enable		= jd_t18003_t01_pipe_enable,
+ 	.disable	= mipi_dbi_pipe_disable,
+ 	.update		= mipi_dbi_pipe_update,
+ };
+@@ -168,6 +214,7 @@ static const struct drm_driver st7735r_driver = {
+ static const struct of_device_id st7735r_of_match[] = {
+ 	{ .compatible = "jianda,jd-t18003-t01", .data = &jd_t18003_t01_cfg },
+ 	{ .compatible = "okaya,rh128128t", .data = &rh128128t_cfg },
++	{ .compatible = "sitronix,st7735r" },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, st7735r_of_match);
+@@ -180,6 +227,9 @@ MODULE_DEVICE_TABLE(spi, st7735r_id);
+ 
+ static int st7735r_probe(struct spi_device *spi)
+ {
++	const struct drm_simple_display_pipe_funcs *funcs;
++	const struct drm_display_mode *mode;
++	struct drm_display_mode dt_mode;
+ 	struct device *dev = &spi->dev;
+ 	const struct st7735r_cfg *cfg;
+ 	struct mipi_dbi_dev *dbidev;
+@@ -191,8 +241,12 @@ static int st7735r_probe(struct spi_device *spi)
+ 	int ret;
+ 
+ 	cfg = device_get_match_data(&spi->dev);
+-	if (!cfg)
+-		cfg = (void *)spi_get_device_id(spi)->driver_data;
++	if (!cfg) {
++		const struct spi_device_id *spi_id = spi_get_device_id(spi);
++
++		if (spi_id)
++			cfg = (struct st7735r_cfg *)spi_id->driver_data;
++	}
+ 
+ 	priv = devm_drm_dev_alloc(dev, &st7735r_driver,
+ 				  struct st7735r_priv, dbidev.drm);
+@@ -217,20 +271,29 @@ static int st7735r_probe(struct spi_device *spi)
+ 	if (IS_ERR(dbidev->backlight))
+ 		return PTR_ERR(dbidev->backlight);
+ 
+-	device_property_read_u32(dev, "rotation", &rotation);
+-
+ 	ret = mipi_dbi_spi_init(spi, dbi, dc);
+ 	if (ret)
+ 		return ret;
+ 
+-	if (cfg->write_only)
+-		dbi->read_commands = NULL;
++	if (cfg) {
++		device_property_read_u32(dev, "rotation", &rotation);
+ 
+-	dbidev->left_offset = cfg->left_offset;
+-	dbidev->top_offset = cfg->top_offset;
++		mode = &cfg->mode;
++		funcs = &jd_t18003_t01_pipe_funcs;
++		dbidev->left_offset = cfg->left_offset;
++		dbidev->top_offset = cfg->top_offset;
++	} else {
++		ret = mipi_dbi_read_device_properties(dbidev, &dt_mode);
++		if (ret)
++			return ret;
+ 
+-	ret = mipi_dbi_dev_init(dbidev, &st7735r_pipe_funcs, &cfg->mode,
+-				rotation);
++		mode = &dt_mode;
++		funcs = &st7735r_pipe_funcs;
++	}
++
++	mipi_dbi_set_writeonly(dbi, cfg ? cfg->write_only : false);
++
++	ret = mipi_dbi_dev_init(dbidev, funcs, mode, rotation);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
-Thanks,
-Vihas
+2.33.0
+
