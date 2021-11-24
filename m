@@ -1,216 +1,162 @@
-Received: from asav21.altibox.net (asav21.altibox.net [109.247.116.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769432C86
-	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 15:17:22 +0000 (UTC)
-Received: from localhost.localdomain (211.81-166-168.customer.lyse.net [81.166.168.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: noralf.tronnes@ebnett.no)
-	by asav21.altibox.net (Postfix) with ESMTPSA id B788680180;
-	Wed, 24 Nov 2021 16:08:21 +0100 (CET)
-From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-To: robh+dt@kernel.org,
-	david@lechnology.com
-Cc: devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	dave.stevenson@raspberrypi.com,
-	maxime@cerno.tech,
-	=?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH 4/6] dt-bindings: display: sitronix,st7735r: Add initialization properties
-Date: Wed, 24 Nov 2021 16:07:55 +0100
-Message-Id: <20211124150757.17929-5-noralf@tronnes.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211124150757.17929-1-noralf@tronnes.org>
-References: <20211124150757.17929-1-noralf@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E392C82
+	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 16:32:52 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id b16so6622417ljf.12
+        for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 08:32:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hWdL3+sC7Y3WgMzxQgq49FXg8O3lrY2U4JGqRbZI6tg=;
+        b=gujWqpLYZ0ok4buE3cVMLWfC5uFpJyuXa42ARhUlnN4O23+qlO+EmYtRvyX/8c+8Cd
+         T5a1dyyYrYP3SiqkVxU+nFVwtXCc1qsYP3l3IZjhohQlobFIZT7KVzpd/uD0tmpe0CvO
+         aeCfiRXxliyhrHPinovV+UTXQVe/RaMFEMYjCu0hyn3k5BUgAGEZ29zDCOQVjlqJOFhL
+         TZBbWI9gTerbMrFWXfehbYHCPQb+K2zUVIW0lpbY8uZKY04odxTxEAVckbrorzsLNVGk
+         sCA4pYJSO2cZ60LDY064M6AwjoFewiMlf4tsmpailAug/kWALkfi3+l95LwEP1w10SMT
+         n/NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hWdL3+sC7Y3WgMzxQgq49FXg8O3lrY2U4JGqRbZI6tg=;
+        b=m2Es+Ax3vfPwJRmytOX99hQbAyrVXXHrL+AQi+WBWktINE3EMPkZ0jOMdU5CJ0n8mm
+         ArAtaX0zMFtiYYca8o7nC1in2O9ReAmXxzya9BXje/O9Da3DQRQfdxXKWSRXdD1BLdi9
+         X1r1wVqKhjrDbM1qC/B0+q5DsBrr2G2Iw41SJ5yye3TxfxJ624/gxZIuaK8j5q0JH26A
+         92dv+/9prBuJD7p0CNnQ/JrWm8x+jz1K36WN7bs6/Aty6Ol5qqTfassD1NIzvf/bjb31
+         KUEnS7zl3hc+0XJJGDlN2Iwv/QTipixA5zCvZNt8fyDDoPG9tG5PPAcUkNwi3nRG4rAg
+         J7Cg==
+X-Gm-Message-State: AOAM532jtWB6xQJHwLFu3I8mB2YIoKRil4jnOtAQhrfR+AUgfw/WQGFe
+	g3I27thSpDpVXoRktaJOcHw=
+X-Google-Smtp-Source: ABdhPJzQ2dc3wLXSWKQBFY+mHq5x3ddsPjsCSkkhRryLlNJ0eKxp2Ar8mZbKuizWCxiSq5j6WRb8tw==
+X-Received: by 2002:a2e:2a43:: with SMTP id q64mr17358890ljq.102.1637771570838;
+        Wed, 24 Nov 2021 08:32:50 -0800 (PST)
+Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
+        by smtp.googlemail.com with ESMTPSA id m14sm31645ljg.2.2021.11.24.08.32.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Nov 2021 08:32:50 -0800 (PST)
+Subject: Re: [PATCH v2 01/11] ASoC: tegra20-spdif: stop setting slave_id
+To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Baolin Wang <baolin.wang7@gmail.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jon Hunter <jonathanh@nvidia.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Laxman Dewangan <ldewangan@nvidia.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, Orson Zhai
+ <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>,
+ Thierry Reding <thierry.reding@gmail.com>, alsa-devel@alsa-project.org,
+ bcm-kernel-feedback-list@broadcom.com, dmaengine@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-serial@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+References: <20211122222203.4103644-1-arnd@kernel.org>
+ <20211122222203.4103644-2-arnd@kernel.org>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1dbe0c9f-e209-49e1-f05c-765d9f9b91eb@gmail.com>
+Date: Wed, 24 Nov 2021 19:32:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211122222203.4103644-2-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ZLv5Z0zb c=1 sm=1 tr=0
-	a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-	a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
-	a=qaASi1jwlc7jzXMbZoAA:9 a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19
-	a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
 
-Add initialization properties that are commonly used to initialize the
-controller for a specific display panel. It is common for displays to have
-a datasheet listing the necessary controller settings or some example code
-doing the same. These settings can be matched directly to the DT
-properties.
+23.11.2021 01:21, Arnd Bergmann пишет:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The DMA resource is never set up anywhere, and passing this as slave_id
+> has not been the proper procedure in a long time.
+> 
+> As a preparation for removing all slave_id references from the ALSA code,
+> remove this one.
+> 
+> According to Dmitry Osipenko, this driver has never been used and
+> the mechanism for configuring DMA would not work as it is implemented,
+> so this part will get rewritten when the driver gets put into use
+> again in the future.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  sound/soc/tegra/tegra20_spdif.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
+> index 9fdc82d58db3..1c3385da6f82 100644
+> --- a/sound/soc/tegra/tegra20_spdif.c
+> +++ b/sound/soc/tegra/tegra20_spdif.c
+> @@ -284,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
+>  	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
+>  	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+>  	spdif->playback_dma_data.maxburst = 4;
+> -	spdif->playback_dma_data.slave_id = dmareq->start;
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> 
 
-The commands FRMCTR2, FRMCTR3, PWCTR4 and PWCTR5 are usually part of the
-setup examples but they are skipped here since they deal with partial and
-idle mode which are powersaving modes for very special use cases.
+Thanks, Arnd!
 
-dc-gpios is made optional because its absence indicates 3-line mode.
+The commit message is correct, however you could remove even more code
+here. But there is no need to make a v3 just because this patch because
+I already prepared patchset that revives this S/PDIF driver and enables
+HDMI audio on Tegra20. I'll take care of cleaning up the whole code of
+this driver.
 
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- .../bindings/display/sitronix,st7735r.yaml    | 118 +++++++++++++++++-
- 1 file changed, 116 insertions(+), 2 deletions(-)
+diff --git a/sound/soc/tegra/tegra20_spdif.c
+b/sound/soc/tegra/tegra20_spdif.c
+index 7751575cd6d6..1c3385da6f82 100644
+--- a/sound/soc/tegra/tegra20_spdif.c
++++ b/sound/soc/tegra/tegra20_spdif.c
+@@ -251,7 +251,7 @@ static const struct regmap_config
+tegra20_spdif_regmap_config = {
+ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
+ {
+ 	struct tegra20_spdif *spdif;
+-	struct resource *mem, *dmareq;
++	struct resource *mem;
+ 	void __iomem *regs;
+ 	int ret;
 
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-index 157b1a7b18f9..2db1cfe6ae30 100644
---- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-+++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-@@ -19,6 +19,10 @@ allOf:
- properties:
-   compatible:
-     oneOf:
-+      - description:
-+          Sitronix ST7735R 262K Color Single-Chip TFT Controller/Driver
-+        items:
-+          - const: sitronix,st7735r
-       - description:
-           Adafruit 1.8" 160x128 Color TFT LCD (Product ID 358 or 618)
-         items:
-@@ -32,20 +36,99 @@ properties:
-               - okaya,rh128128t
-           - const: sitronix,st7715r
- 
-+  width:
-+    description:
-+      Width of display panel in pixels
-+
-+  height:
-+    description:
-+      Height of display panel in pixels
-+
-+  frmctr1:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Frame Rate Control (In normal mode/Full colors) (B1h)
-+    minItems: 3
-+    maxItems: 3
-+
-+  invctr:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Display Inversion Control (B4h)
-+    minItems: 1
-+    maxItems: 1
-+
-+  pwctr1:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Power Control 1 (C0h)
-+    minItems: 3
-+    maxItems: 3
-+
-+  pwctr2:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Power Control 2 (C1h)
-+    minItems: 1
-+    maxItems: 1
-+
-+  pwctr3:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Power Control 3 (in Normal mode/Full colors) (C2h)
-+    minItems: 2
-+    maxItems: 2
-+
-+  vmctr1:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      VCOM Control 1 (C5h)
-+    minItems: 1
-+    maxItems: 1
-+
-+  madctl:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Memory Data Access Control (36h)
-+    minItems: 1
-+    maxItems: 1
-+
-+  gamctrp1:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Gamma Positive Polarity Correction Characteristics Setting (E0h)
-+    minItems: 16
-+    maxItems: 16
-+
-+  gamctrn1:
-+    $ref: /schemas/types.yaml#definitions/uint8-array
-+    description:
-+      Gamma Negative Polarity Correction Characteristics Setting (E1h)
-+    minItems: 16
-+    maxItems: 16
-+
-+  write-only:
-+    type: boolean
-+    description:
-+      Controller is not readable (ie. MISO is not wired up).
-+
-   dc-gpios:
-     maxItems: 1
--    description: Display data/command selection (D/CX)
-+    description: |
-+      Controller data/command selection (D/CX) in 4-line SPI mode.
-+      If not set, the controller is in 3-line SPI mode.
- 
-   backlight: true
-   reg: true
-   spi-max-frequency: true
-   reset-gpios: true
-   rotation: true
-+  width-mm: true
-+  height-mm: true
- 
- required:
-   - compatible
-   - reg
--  - dc-gpios
- 
- additionalProperties: false
- 
-@@ -72,5 +155,36 @@ examples:
-                     backlight = <&backlight>;
-             };
-     };
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    spi {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            sainsmart18@0{
-+                    compatible = "sitronix,st7735r";
-+                    reg = <0>;
-+                    spi-max-frequency = <40000000>;
-+
-+                    width = <160>;
-+                    height = <128>;
-+
-+                    frmctr1 = [ 01 2C 2D ];
-+                    invctr = [ 07 ];
-+                    pwctr1 = [ A2 02 84 ];
-+                    pwctr2 = [ C5 ];
-+                    pwctr3 = [ 0A 00 ];
-+                    vmctr1 = [ 0E ];
-+                    madctl = [ 60 ];
-+                    gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
-+                    gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
-+
-+                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-+                    reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-+                    write-only;
-+            };
-+    };
-+
- 
- ...
--- 
-2.33.0
+@@ -273,12 +273,6 @@ static int tegra20_spdif_platform_probe(struct
+platform_device *pdev)
+ 	if (IS_ERR(regs))
+ 		return PTR_ERR(regs);
+
+-	dmareq = platform_get_resource(pdev, IORESOURCE_DMA, 0);
+-	if (!dmareq) {
+-		dev_err(&pdev->dev, "No DMA resource\n");
+-		return -ENODEV;
+-	}
+-
+ 	spdif->regmap = devm_regmap_init_mmio(&pdev->dev, regs,
+ 					    &tegra20_spdif_regmap_config);
+ 	if (IS_ERR(spdif->regmap)) {
+@@ -290,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct
+platform_device *pdev)
+ 	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
+ 	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
+ 	spdif->playback_dma_data.maxburst = 4;
+-	spdif->playback_dma_data.slave_id = dmareq->start;
+
+ 	pm_runtime_enable(&pdev->dev);
+
 
