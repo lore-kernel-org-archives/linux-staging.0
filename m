@@ -1,27 +1,61 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AD068
-	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 10:00:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CDC4D60FDA;
-	Wed, 24 Nov 2021 10:00:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1637748049;
-	bh=tyGWagdxSjAUpuZKgMwcoDlBrFsjxt1/LSWCau1pYkk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y2DyOvSMgLbXInhTzfa997izKe6tFXhBCFpgTAHlojISeHZNDva2zgoULjlcJtNmg
-	 ThcI65dj6+zrb9sJUtpry5pyRExUOrEoRi/X3+euhqnmhLrXgo0TN3U8L0IoVhnDET
-	 W/359WxRRP/PuraExZSUT98W8B+hGbroKU7M9RGk=
-Date: Wed, 24 Nov 2021 11:00:45 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DC668
+	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 10:01:33 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id E3C7B5C00BA;
+	Wed, 24 Nov 2021 05:01:32 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 24 Nov 2021 05:01:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=+fB4PZnEclA0QnnUSm3/Y6YAfLU
+	7TAJrvu5O+1mTK/k=; b=Vk07cVxx+2OfuQRAW6iBh+2cKYXmo3tY3CQ3imt5brl
+	l4Sl6RZ9i22IH7KU2Or056HLyz2OlskqGLAuhl9e2nuFSyzm0ceXM/ZGydC0fsh9
+	wCzJnislKrFClNGReJfliS5SZpu6r6iemNg66t1yrfgTtKmboq+zo9QgWW+Z695N
+	T37tQamIEosTK1ceJUTYJ1AXEv/ow2APRxSjZkj7gsZK8v1EXswHl6tlXTKSmVZc
+	xSKqEgRc3mqLqoOAc0LogqM3PemR+AFe3lnT1KGkxsvvlcUu3OHFj7BqENaFnnXa
+	W1FjZyJ0eRCusTITZuqCDLdZqneqD2IxSY5D5SQxHKQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+fB4PZ
+	nEclA0QnnUSm3/Y6YAfLU7TAJrvu5O+1mTK/k=; b=KJ6696EGge46pCqR+9Wze6
+	bC5bBM256w9fXogmCZj3BijOG40YrSCDW7pd9gVjz2hq4DG4mOjUAc3FbrEMVCUO
+	KEhjwyj8nIBepHE+I8w1L+uVBg/6xhp8TYvMbGtnVFzv8zcfrnvCL0Ati7b9XYcP
+	aaLA84t+NFtOy5WNKGRHd786fQ9yp0gINiePTSUBlD3A7PyO+KVBhRo9w3g+ahZR
+	RhIRIL0KZ4fQFahVMAoUPZ+E9Buob7YRl1LrzkHqjtbL3aD3CCn9BmoZNauGGdaT
+	kF5hkXE8PPUJ59o+W4sMcG11UQOC0TuKxsxoPlTPkG/GRRRMZIXWT9eV6w/d1Y6w
+	==
+X-ME-Sender: <xms:fA2eYcDEyF2k7hmwLy8G91NUXVozu3wHwaVLYEHQv33tXcIbH7vBwg>
+    <xme:fA2eYehhNngMyLFjRcJm7u2XW8emcZobKs12f2nVkZ1o8DrMAoN3QbRBN-d90kQkJ
+    qSHCwVC0UGwjg>
+X-ME-Received: <xmr:fA2eYfl3XnRj8clLLHIeFcSb0k4FPUgZJKIJdWrQcZB3CSYBdzPrgOQ3aGVw_gj8pHREElO7DdaR62i2URX8F9AFFlUrz09H>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeekgdduudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
+    gtohhm
+X-ME-Proxy: <xmx:fA2eYSw3cjgweKoIlkGV1ZjjUEIMNwN0DMPR8OkUUDlzRP1ipbDdSQ>
+    <xmx:fA2eYRTKBuceeRWdSMOSHv_yEHmMVSYA6-NXsFJhuXdipqIKL0Bahg>
+    <xmx:fA2eYdaeyJrKO-ji7tvshyxEHUmKQ0df5lMAOEg3ibmmYcHdOfkTcQ>
+    <xmx:fA2eYcFQbz07I348eWTA6fxKpajRrS6AAsWmoO9l2klkc7ytoBKRiQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Nov 2021 05:01:32 -0500 (EST)
+Date: Wed, 24 Nov 2021 11:01:30 +0100
+From: Greg KH <greg@kroah.com>
 To: Zoeb Mithaiwala <zoebm@google.com>
-Cc: trivial@kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] Staging: rtl8712: rtl871x_security: fixed a camel
- case variable name coding style issue
-Message-ID: <YZ4NTZBtLoizblt/@kroah.com>
-References: <YZixPDg8kKHZrGJB@kroah.com>
- <20211120111151.1086970-1-zoebm@google.com>
+Cc: dan.carpenter@oracle.com, trivial@kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 3/3] Staging: rtl8712: Fixes a camel case variable
+ name style issue
+Message-ID: <YZ4Nej0yftiWh5rc@kroah.com>
+References: <20211122103931.GA6514@kadam>
+ <20211122170335.1468730-1-zoebm@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,18 +64,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211120111151.1086970-1-zoebm@google.com>
+In-Reply-To: <20211122170335.1468730-1-zoebm@google.com>
 
-On Sat, Nov 20, 2021 at 11:11:51AM +0000, Zoeb Mithaiwala wrote:
-> Changed additional 'n' from variable name. Corrected comment indentation.
+On Mon, Nov 22, 2021 at 05:03:35PM +0000, Zoeb Mithaiwala wrote:
+> Changes the names of variables in rtl871x_security from camel case to
+> snake case to match coding style.
 > 
 > Signed-off-by: Zoeb Mithaiwala <zoebm@google.com>
 > ---
->  drivers/staging/rtl8712/rtl871x_security.c | 12 ++++++------
->  drivers/staging/rtl8712/rtl871x_security.h |  6 +++---
->  2 files changed, 9 insertions(+), 9 deletions(-)
+> Changes in v3:
+>   - Fixes commit messages for patch.
+>   - Uses the same variable names in header file as implementation files.
+> Changes in v2:
+>   - Changes the variable name from nBytesInM to bytes_in_m.
+>   - Removes changes to other variables in the file.
 
-Where is patch 1/2 of this series?  I only received patch 2/2
+Where are patches 1/3 and 2/3 of this series?
+
+And this looks like it does not apply to any tree at all, are you sure
+you made it against the correct kernel branch?  If so, what one?
 
 thanks,
 
