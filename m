@@ -1,116 +1,100 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF5F2C82
-	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 17:39:41 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id u3so9295016lfl.2
-        for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 09:39:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0A5A68
+	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 19:04:57 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id b11so2619689pld.12
+        for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 11:04:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=6KwYnqzzoTeuVNxhHsajzRe6liKfZ7vCZOdko2MKcYY=;
-        b=lvNbpNKcqOAj74UHrS6XpdHcUjOf2sCIzeJURasqmwDotEWhqg+OtI1hIqfxXw53rO
-         z4tIfWJ15SJPCQPQEYpaz/zmC2AtWtLFdcPfiSvbidZ8Exl9V8VhaqU9R2npHpy4tYc0
-         yoAFhsyR/tm1sxMO7gFsD63QuHkm+jfTl/BAb0mYaTiKTxDGqN4kFZjH9jZeyYnQTnDY
-         +iO2QczJQHUVcBKOsIBMpcFVHI8R1BvISIqundwfmbO8Omwr++T3KiO2VqAHQJyXOIWo
-         3aZgsvReXTiUAJF/ECnq/pwPQIvxcyAQtmtfpSjrZuVeY4POAqNgnpvX5T/RJZH9Gntm
-         5JVA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mg1AAfzE3TnVEZLKrk2eTyodphC+4RofwhV3Xd4iHcU=;
+        b=hwW3JqNmyuW8dQKixMsahppodxbVChpsvSeIBfAPV6+/7hFnhj9I0cazUXopKBwAwY
+         td551cpaV4VFz1it3KhMmmjA5kgs5D+XqDm+khWO6dX9owAZRubbvuQZr+bkcSSt3ONH
+         24SQaIiujHyPSibqIDJ1ZCdJE1STuHjDB3FzV6VXAiKui5CtZJd+DU1mHhjM2C6qx9TS
+         AN2vuSMZmFSUuhOf9b8Yc3k5HCOexjDmoPadaQTHmm2xPJGK7k3qu2oRS/MHCixdR+Co
+         KoPoGeQbwcmM6XtPuIRnN5PoZi8HJJLoITT8qCBU/8XxoSf6uoUx1sDUnpGjFzUsSV33
+         X59A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6KwYnqzzoTeuVNxhHsajzRe6liKfZ7vCZOdko2MKcYY=;
-        b=QRY3GlgSGCFY5+a5SWWmUZl6cXwR4aT/SFyH6K9iRYJfsnvvmn+dg0Ue1/qME8BuW3
-         YSdtKoDLOugXHT6BunRGZAPVQQ+IwTNWM0IxA+Y6HJEZblG0w2A6xb/hHNtWSC/YxkDE
-         q8M+guFiCuMRSbdJ30MfQoUy8X3h5LtZvVgeYCyQnCCu1lPOLDOd/PuIty6xzE7Zukvg
-         yFidMPd6hD1dvvCbleSfz8BxGosaJXdkMVXdGCXa4o+RZmAeMipgasz9Xxam36AXYvea
-         /Ej4HBOtPJ1fGodnbZTIgxRtoDqzu8K5HU8M62d0HusegpQLmHfZnVLDeUqgKtdykzxp
-         Olxw==
-X-Gm-Message-State: AOAM532HsBCyvBc/8+lvCdYb4Ma5TsSKJqr9CB5i0eyv/i1bpw9iofD7
-	1/lrVBCWlAItaxRwnGTPEaU=
-X-Google-Smtp-Source: ABdhPJzMAN6+EU9Pjecu2Hl3ZC50CFEhc3UzlNKlYPHJ5/rwKJi/3grC00PRL2kx8I9BrVZVbuLcvw==
-X-Received: by 2002:a19:c350:: with SMTP id t77mr16616753lff.152.1637775579976;
-        Wed, 24 Nov 2021 09:39:39 -0800 (PST)
-Received: from [192.168.2.145] (94-29-48-99.dynamic.spd-mgts.ru. [94.29.48.99])
-        by smtp.googlemail.com with ESMTPSA id q5sm44228lfu.18.2021.11.24.09.39.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Nov 2021 09:39:39 -0800 (PST)
-Subject: Re: [PATCH v2 01/11] ASoC: tegra20-spdif: stop setting slave_id
-To: Arnd Bergmann <arnd@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Baolin Wang <baolin.wang7@gmail.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav Kysela <perex@perex.cz>,
- Jon Hunter <jonathanh@nvidia.com>, Lars-Peter Clausen <lars@metafoo.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Manivannan Sadhasivam <mani@kernel.org>, Mark Brown <broonie@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Orson Zhai
- <orsonzhai@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- Scott Branden <sbranden@broadcom.com>, Takashi Iwai <tiwai@suse.com>,
- Thierry Reding <thierry.reding@gmail.com>, alsa-devel@alsa-project.org,
- bcm-kernel-feedback-list@broadcom.com, dmaengine@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-serial@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-tegra@vger.kernel.org
-References: <20211122222203.4103644-1-arnd@kernel.org>
- <20211122222203.4103644-2-arnd@kernel.org>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <b5c9ece3-c702-26b8-347a-f6d9bed2c5db@gmail.com>
-Date: Wed, 24 Nov 2021 20:39:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        bh=mg1AAfzE3TnVEZLKrk2eTyodphC+4RofwhV3Xd4iHcU=;
+        b=X6VBZ+K6EyG8zgBO0VaGPO+ny13hMasLzZj+XT5hT6KPrQFBatv71MzyhwZngYSRIE
+         HXCQTHOL8K/SZglDAD7NReeHHWC9sd4QLwYkKq0+44P+TVCMvYXcXBrMN8RnWDF+rwSE
+         M7mAecPQhhiI802Unxa+0y9tCT6zGPM3c7m2JDbewoU3B+i7L4fQhOitLfm/T83wCs2G
+         M1Jqir8mZo0j7wAo61UIvhQ5lu7LIAqwZrEjp3Q4C1yYXE1O6pxUzzCVjBwMfZ1ZQxod
+         i3lXcG0yA7juygL2yGg1EKt0V1nmh8hdgAJcixBQnSNIq83DGs2taNRP8BZhpngyfv38
+         BCQw==
+X-Gm-Message-State: AOAM530542UmeG77se/OXieCXb7VGPSbh+5ueYlIWeBxbcaFFbD/54NU
+	OSWORtALrpalyqGcnrxRNDA=
+X-Google-Smtp-Source: ABdhPJwJnBCPTGdFcb0VKvvPaagJ2J8GriQPgNiD/VTVIVDpRqjyEEq6C5ck1fbXN2+cax2am5Bvvw==
+X-Received: by 2002:a17:90b:4a0f:: with SMTP id kk15mr11708467pjb.223.1637780697539;
+        Wed, 24 Nov 2021 11:04:57 -0800 (PST)
+Received: from localhost.localdomain ([103.85.8.147])
+        by smtp.gmail.com with ESMTPSA id c18sm452624pfl.201.2021.11.24.11.04.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Nov 2021 11:04:57 -0800 (PST)
+From: Vihas Mak <makvihas@gmail.com>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk
+Cc: gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	nathan@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vihas Mak <makvihas@gmail.com>
+Subject: [PATCH v2] staging: r8188eu: use max() and min() macros
+Date: Thu, 25 Nov 2021 00:34:36 +0530
+Message-Id: <20211124190436.251312-1-makvihas@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211122222203.4103644-2-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-23.11.2021 01:21, Arnd Bergmann пишет:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The DMA resource is never set up anywhere, and passing this as slave_id
-> has not been the proper procedure in a long time.
-> 
-> As a preparation for removing all slave_id references from the ALSA code,
-> remove this one.
-> 
-> According to Dmitry Osipenko, this driver has never been used and
-> the mechanism for configuring DMA would not work as it is implemented,
-> so this part will get rewritten when the driver gets put into use
-> again in the future.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  sound/soc/tegra/tegra20_spdif.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/sound/soc/tegra/tegra20_spdif.c b/sound/soc/tegra/tegra20_spdif.c
-> index 9fdc82d58db3..1c3385da6f82 100644
-> --- a/sound/soc/tegra/tegra20_spdif.c
-> +++ b/sound/soc/tegra/tegra20_spdif.c
-> @@ -284,7 +284,6 @@ static int tegra20_spdif_platform_probe(struct platform_device *pdev)
->  	spdif->playback_dma_data.addr = mem->start + TEGRA20_SPDIF_DATA_OUT;
->  	spdif->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
->  	spdif->playback_dma_data.maxburst = 4;
-> -	spdif->playback_dma_data.slave_id = dmareq->start;
->  
->  	pm_runtime_enable(&pdev->dev);
->  
-> 
+use max() and min() macros to fix following cocci warnings:
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+	drivers/staging/r8188eu/core/rtw_wlan_util.c:719: WARNING opportunity for min()
+	drivers/staging/r8188eu/core/rtw_wlan_util.c:724: WARNING opportunity for max()
+
+Signed-off-by: Vihas Mak <makvihas@gmail.com>
+---
+v1 -> v2:
+- fixed checkpatch issues (parenthesis alignment).
+
+ drivers/staging/r8188eu/core/rtw_wlan_util.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_wlan_util.c b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+index 6d4e21a16783..524e8d22075c 100644
+--- a/drivers/staging/r8188eu/core/rtw_wlan_util.c
++++ b/drivers/staging/r8188eu/core/rtw_wlan_util.c
+@@ -716,15 +716,11 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_802_11_var_ie *pIE)
+ 			pmlmeinfo->HT_caps.u.HT_cap[i] &= (pIE->data[i]);
+ 		} else {
+ 			/* modify from  fw by Thomas 2010/11/17 */
+-			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3) > (pIE->data[i] & 0x3))
+-				max_AMPDU_len = (pIE->data[i] & 0x3);
+-			else
+-				max_AMPDU_len = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3);
+-
+-			if ((pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c) > (pIE->data[i] & 0x1c))
+-				min_MPDU_spacing = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c);
+-			else
+-				min_MPDU_spacing = (pIE->data[i] & 0x1c);
++			max_AMPDU_len = min(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x3,
++					    pIE->data[i] & 0x3);
++
++			min_MPDU_spacing = max(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c,
++					       pIE->data[i] & 0x1c);
+ 
+ 			pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para = max_AMPDU_len | min_MPDU_spacing;
+ 		}
+-- 
+2.25.1
+
