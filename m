@@ -1,74 +1,62 @@
-Received: from baidu.com (mx22.baidu.com [220.181.50.185])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38E8D68
-	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 09:10:00 +0000 (UTC)
-Received: from BC-Mail-Ex07.internal.baidu.com (unknown [172.31.51.47])
-	by Forcepoint Email with ESMTPS id C71E0B74B888DD54FDC0;
-	Wed, 24 Nov 2021 17:09:54 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-EX07.internal.baidu.com (172.31.51.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.20; Wed, 24 Nov 2021 17:09:54 +0800
-Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
- (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.20; Wed, 24
- Nov 2021 17:09:54 +0800
-Date: Wed, 24 Nov 2021 17:09:57 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v2 1/3] staging: zynpu: Add driver support for ARM(China)
- ZHOUYI AI accelerator
-Message-ID: <20211124090957.GA698@LAPTOP-UKSR4ENP.internal.baidu.com>
-References: <20211124084620.628-1-caihuoqing@baidu.com>
- <20211124084620.628-2-caihuoqing@baidu.com>
- <YZ39YqsNTSolEJZ2@kroah.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5318268
+	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 10:00:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3569E60FE7;
+	Wed, 24 Nov 2021 10:00:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1637748020;
+	bh=Y7OGHmzM/QRiOXEQt1GwzlAHT6uWnRqHgOUzWOS2iMw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jKq6Ay/c5woTlEQcoBB4DNSe7x/yuYbxxn9l4si8KBWSNXaznCi+qUOSbW/OIjp52
+	 8EIfEBD3jvqqUB1oGI3J2eKfjwCr2Z649lMszCqqUvJTy3kwwrgSzf4bXwGFv/3157
+	 LGRbrj7ggrodBQCr7U3mrj91ziuQueGxnnI0/TCg=
+Date: Wed, 24 Nov 2021 11:00:15 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Vihas Mak <makvihas@gmail.com>
+Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
+	straube.linux@gmail.com, martin@kaiser.cx, paskripkin@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: r8188eu: remove unnecessary NULL check
+Message-ID: <YZ4NL3TvLYMa/Tzu@kroah.com>
+References: <20211122195350.GA166134@makvihas>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YZ39YqsNTSolEJZ2@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex24.internal.baidu.com (172.31.51.18) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+In-Reply-To: <20211122195350.GA166134@makvihas>
 
-On 24 11月 21 09:52:50, Greg Kroah-Hartman wrote:
-> On Wed, Nov 24, 2021 at 04:46:15PM +0800, Cai Huoqing wrote:
-> > ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
-> > such as Allwinner R329 SOC.
-> > Add driver support for this AI accelerator here.
-> > 
-> > This driver is not tandard linux style, there are some clean up works,
+On Tue, Nov 23, 2021 at 01:23:50AM +0530, Vihas Mak wrote:
+> remove unnecessary NULL check surrounding rtw_free_netdev(), as the check
+> is already performed inside rtw_free_netdev() in
+> drivers/staging/r8188eu/os_dep/osdep_service.c.
 > 
-> "standard"?
-will fix it
+> Signed-off-by: Vihas Mak <makvihas@gmail.com>
+> ---
+>  drivers/staging/r8188eu/os_dep/usb_intf.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> > fixing code style, refactorring.
-> > And it only works with a closed source usermode driver, so need to
-> > reverse the libraries, and impelement it, then open source
-> > the usermode driver.
-> 
-> Who will be doing the "reversing" of the usermode driver?
-I will provide the library binary, also try to implement usermode code:)
-> 
-> We can't take this now if there's no actual users of this code that
-> anyone can test.  Why not just change the license of the usermode code
-> now to make this simpler?
-Allwinner R329 board includes this ip core, I have one to test this
-driver.
-The usermode code is close, I just got an library.
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index 5a35d9fe3fc9..392bd7868519 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -466,8 +466,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
+>  		if1->hw_init_completed);
+>  	rtw_handle_dualmac(if1, 0);
+>  	rtw_free_drv_sw(if1);
+> -	if (pnetdev)
+> -		rtw_free_netdev(pnetdev);
+> +	rtw_free_netdev(pnetdev);
 
-Thanks
+As Dan said, this isn't usually a good idea to hide this.
 
-Cai
+And are you sure this ever could be NULL?
 
-> 
-> thanks,
-> 
-> greg k-h
+thanks,
+
+greg k-h
