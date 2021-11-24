@@ -1,89 +1,78 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DC668
-	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 10:01:33 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id E3C7B5C00BA;
-	Wed, 24 Nov 2021 05:01:32 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 24 Nov 2021 05:01:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=+fB4PZnEclA0QnnUSm3/Y6YAfLU
-	7TAJrvu5O+1mTK/k=; b=Vk07cVxx+2OfuQRAW6iBh+2cKYXmo3tY3CQ3imt5brl
-	l4Sl6RZ9i22IH7KU2Or056HLyz2OlskqGLAuhl9e2nuFSyzm0ceXM/ZGydC0fsh9
-	wCzJnislKrFClNGReJfliS5SZpu6r6iemNg66t1yrfgTtKmboq+zo9QgWW+Z695N
-	T37tQamIEosTK1ceJUTYJ1AXEv/ow2APRxSjZkj7gsZK8v1EXswHl6tlXTKSmVZc
-	xSKqEgRc3mqLqoOAc0LogqM3PemR+AFe3lnT1KGkxsvvlcUu3OHFj7BqENaFnnXa
-	W1FjZyJ0eRCusTITZuqCDLdZqneqD2IxSY5D5SQxHKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+fB4PZ
-	nEclA0QnnUSm3/Y6YAfLU7TAJrvu5O+1mTK/k=; b=KJ6696EGge46pCqR+9Wze6
-	bC5bBM256w9fXogmCZj3BijOG40YrSCDW7pd9gVjz2hq4DG4mOjUAc3FbrEMVCUO
-	KEhjwyj8nIBepHE+I8w1L+uVBg/6xhp8TYvMbGtnVFzv8zcfrnvCL0Ati7b9XYcP
-	aaLA84t+NFtOy5WNKGRHd786fQ9yp0gINiePTSUBlD3A7PyO+KVBhRo9w3g+ahZR
-	RhIRIL0KZ4fQFahVMAoUPZ+E9Buob7YRl1LrzkHqjtbL3aD3CCn9BmoZNauGGdaT
-	kF5hkXE8PPUJ59o+W4sMcG11UQOC0TuKxsxoPlTPkG/GRRRMZIXWT9eV6w/d1Y6w
-	==
-X-ME-Sender: <xms:fA2eYcDEyF2k7hmwLy8G91NUXVozu3wHwaVLYEHQv33tXcIbH7vBwg>
-    <xme:fA2eYehhNngMyLFjRcJm7u2XW8emcZobKs12f2nVkZ1o8DrMAoN3QbRBN-d90kQkJ
-    qSHCwVC0UGwjg>
-X-ME-Received: <xmr:fA2eYfl3XnRj8clLLHIeFcSb0k4FPUgZJKIJdWrQcZB3CSYBdzPrgOQ3aGVw_gj8pHREElO7DdaR62i2URX8F9AFFlUrz09H>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeekgdduudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
-    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
-    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecuvehluhhsthgv
-    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrd
-    gtohhm
-X-ME-Proxy: <xmx:fA2eYSw3cjgweKoIlkGV1ZjjUEIMNwN0DMPR8OkUUDlzRP1ipbDdSQ>
-    <xmx:fA2eYRTKBuceeRWdSMOSHv_yEHmMVSYA6-NXsFJhuXdipqIKL0Bahg>
-    <xmx:fA2eYdaeyJrKO-ji7tvshyxEHUmKQ0df5lMAOEg3ibmmYcHdOfkTcQ>
-    <xmx:fA2eYcFQbz07I348eWTA6fxKpajRrS6AAsWmoO9l2klkc7ytoBKRiQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Nov 2021 05:01:32 -0500 (EST)
-Date: Wed, 24 Nov 2021 11:01:30 +0100
-From: Greg KH <greg@kroah.com>
-To: Zoeb Mithaiwala <zoebm@google.com>
-Cc: dan.carpenter@oracle.com, trivial@kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 3/3] Staging: rtl8712: Fixes a camel case variable
- name style issue
-Message-ID: <YZ4Nej0yftiWh5rc@kroah.com>
-References: <20211122103931.GA6514@kadam>
- <20211122170335.1468730-1-zoebm@google.com>
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2573029CA
+	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 12:25:43 +0000 (UTC)
+Received: from BC-Mail-Ex05.internal.baidu.com (unknown [172.31.51.45])
+	by Forcepoint Email with ESMTPS id 0944032C172558A683E1;
+	Wed, 24 Nov 2021 20:25:38 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex05.internal.baidu.com (172.31.51.45) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Wed, 24 Nov 2021 20:25:37 +0800
+Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
+ (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.20; Wed, 24
+ Nov 2021 20:25:37 +0800
+Date: Wed, 24 Nov 2021 20:25:40 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v2 1/3] staging: zynpu: Add driver support for ARM(China)
+ ZHOUYI AI accelerator
+Message-ID: <20211124122540.GA761@LAPTOP-UKSR4ENP.internal.baidu.com>
+References: <20211124084620.628-1-caihuoqing@baidu.com>
+ <20211124084620.628-2-caihuoqing@baidu.com>
+ <YZ39YqsNTSolEJZ2@kroah.com>
+ <20211124090957.GA698@LAPTOP-UKSR4ENP.internal.baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20211122170335.1468730-1-zoebm@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211124090957.GA698@LAPTOP-UKSR4ENP.internal.baidu.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex21.internal.baidu.com (172.31.51.15) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 
-On Mon, Nov 22, 2021 at 05:03:35PM +0000, Zoeb Mithaiwala wrote:
-> Changes the names of variables in rtl871x_security from camel case to
-> snake case to match coding style.
+On 24 11月 21 17:09:57, Cai Huoqing wrote:
+> On 24 11月 21 09:52:50, Greg Kroah-Hartman wrote:
+> > On Wed, Nov 24, 2021 at 04:46:15PM +0800, Cai Huoqing wrote:
+> > > ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
+> > > such as Allwinner R329 SOC.
+> > > Add driver support for this AI accelerator here.
+> > > 
+> > > This driver is not tandard linux style, there are some clean up works,
+> > 
+> > "standard"?
+> will fix it
+> > 
+> > > fixing code style, refactorring.
+> > > And it only works with a closed source usermode driver, so need to
+> > > reverse the libraries, and impelement it, then open source
+> > > the usermode driver.
+> > 
+> > Who will be doing the "reversing" of the usermode driver?
+> I will provide the library binary, also try to implement usermode code:)
+> > 
+> > We can't take this now if there's no actual users of this code that
+> > anyone can test.  Why not just change the license of the usermode code
+> > now to make this simpler?
+> Allwinner R329 board includes this ip core, I have one to test this
+> driver.
+Add the SOC introduce here, many users. this driver can works on it
+https://linux-sunxi.org/R329
+> The usermode code is close, I just got an library.
 > 
-> Signed-off-by: Zoeb Mithaiwala <zoebm@google.com>
-> ---
-> Changes in v3:
->   - Fixes commit messages for patch.
->   - Uses the same variable names in header file as implementation files.
-> Changes in v2:
->   - Changes the variable name from nBytesInM to bytes_in_m.
->   - Removes changes to other variables in the file.
-
-Where are patches 1/3 and 2/3 of this series?
-
-And this looks like it does not apply to any tree at all, are you sure
-you made it against the correct kernel branch?  If so, what one?
-
-thanks,
-
-greg k-h
+> Thanks
+> 
+> Cai
+> 
+> > 
+> > thanks,
+> > 
+> > greg k-h
