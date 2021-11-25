@@ -1,122 +1,118 @@
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net [194.109.24.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B6E2C83
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 08:45:58 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-	by smtp-cloud9.xs4all.net with ESMTPA
-	id qAN3m651R1HGJqAN7m2pWs; Thu, 25 Nov 2021 09:44:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-	t=1637829889; bh=lwsKr77FArwR6lJ1Nnqu0OKRhMTMQX8pT5I1Nx81v/s=;
-	h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-	 Subject;
-	b=F/0MRKaEesAd9gfaojnhRm3o9PuqQiF385eoewyExkM77AIQ0kJ1fxT1Sgp8r8sCC
-	 z2qrxOf1F9SSvJs6Nt2qvnPmEAEJJLpnm54JBGm1gwpQs4oloo+v+bby/Edw46Jo6c
-	 WiUTgErNDxWeYIa3OYFqXsIlzZWvgGUxygioayI+YfEcQK7mhhXeNCkBj9sF4PyKyq
-	 xDuEEO5OLMyLKG69FHiOvNty0h0jWMhYB9Tp9ia7eWJOOeBC6z9qccZFkCHA+NfkaP
-	 J+ZbXbHnfYm3JkqQiMKR1TwznO+2Za0TfI3Iuyr6jeOV2M+z0QtUmFcrQrT0j5Fg/m
-	 xv1Qux7+cIngA==
-Subject: Re: [PATCH] media: hantro: Hook up RK3399 JPEG encoder output
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Chen-Yu Tsai <wenst@chromium.org>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211119074654.470729-1-wenst@chromium.org>
- <5d23258a954eb0076cacf89d6c88b5e6ef13695f.camel@ndufresne.ca>
- <CAGXv+5Gf-gsB7JXnLiZF_R=0RdxXS7CDZaFftyZ+aESXLXy1Ew@mail.gmail.com>
- <85e9830ff0c2ed5eb77ce52ec7fde82a08368a2a.camel@ndufresne.ca>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <41d75ec1-b3b6-b991-33f0-7188869eb59c@xs4all.nl>
-Date: Thu, 25 Nov 2021 09:44:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3360A29CA
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 12:00:32 +0000 (UTC)
+Received: by mail-vk1-f180.google.com with SMTP id m19so3692127vko.12
+        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 04:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6Lylh8DR+450t+VKD+Wrn7i+Xuwy9BF3AUDecTVOK4g=;
+        b=erksV85QXm/bqtxQPmB7msXlbNBDCVOQLjiysuFCaDkVczzFvYyAl5dXhwb+8YbvxT
+         yYfptkjAO28P25RNMRp7yU2utcDxwTtprCmykjLrDjlwBXc+xEXFM03rSibA7KbedEpP
+         Z4tEpYadJa01M2Ewa2YfPP0S+CIEP7EDKn+vc1o3jAuGRqF6ucXS4hC9ZTURS8fm2GwZ
+         AMhr8TAKYcvFsrQUlRtTGtPVu/3nW1h5xGvbd79S22JduH8vIEZDlT0gKFOtiwU+JybA
+         JkVte1dr+fEhRJ19HCwBFy3luCv+Aa+nIQm8NWdS+NN/a1+vHezBFoJ1lkIVnEjat7Ka
+         o1RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6Lylh8DR+450t+VKD+Wrn7i+Xuwy9BF3AUDecTVOK4g=;
+        b=sCuK9oqkIG9ZgfII/0yYrmjXo0x0Ma9lTx4qD+VD+AvZqMqrqR9SwgIYPgcEC9hm+z
+         E2vLC6Pl/AukTKrzsDi+4anHcENgUcFldJbEWP5HegHdZmm6+vhZQknK9kSZbCfOALvk
+         /TbHI58H/QqxDcXxRahRzJC+3aWi7eqp1O91V73LHlikYZlGs3/ubK+FCAfDUxj6TA9n
+         Y8sgce8gMGqKzTgOO7YRyRPm8O+5VpNneIM5wLKUJfToVLi/Q4xm8+/txpyttbzb4w/O
+         2RlzNqt0p6uWIuq4LqHJV6r7/ZYvz9lS2+ADCWpycFrnA/HPxT7aqzFzhKj9Ec5jiJQl
+         URoQ==
+X-Gm-Message-State: AOAM531nXxdu3mqNfm/TvTdSAlAv0hI5M8LDwn+Qf8/zyV3ZxYc0qcpp
+	VTkonw6basnUkLUWARzz7LzPqg==
+X-Google-Smtp-Source: ABdhPJygr6uthtUgThXM0nJKXNt/5LsubRRa0ZItKbmNtKp+p8GFTBFPOJp05+fRHPe/w8EB24DpCg==
+X-Received: by 2002:a05:6122:d08:: with SMTP id az8mr9774743vkb.15.1637841631793;
+        Thu, 25 Nov 2021 04:00:31 -0800 (PST)
+Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
+        by smtp.gmail.com with ESMTPSA id c9sm1710140uaf.12.2021.11.25.04.00.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 04:00:30 -0800 (PST)
+Date: Thu, 25 Nov 2021 09:00:24 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+	mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
+	wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
+	gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 4/7] media: hantro: move postproc enablement for old cores
+Message-ID: <YZ962CvUbKoiIGyZ@eze-laptop>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+ <20211122184702.768341-5-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <85e9830ff0c2ed5eb77ce52ec7fde82a08368a2a.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfPq/gDjwsOnpUfhjx4+PkATU+2KVcCHyUa6STjsIrmw7KiLNj2dEomLAQHepTcySgRGrW2QQip808Mr1BCj42l/U1wt2H/qSUJ72BX2QU97vUbjMYZfJ
- xTBW+Cwz59QoWW+Ke0I94s56cuO1qcXD2z1LO0KJy4cinnN1pTb+0Zn8T9rwmWDc7A44IJhmnPRsIhBA/88fZhLHu2pX/5JoD2GFetvrZHL2fFBYyOikF3+f
- RAtNrcjNab/cdNiHaV4jAgQHYaLHEiHAaqWUqPjCbKfDkZsp5QTrms3I8MAqd4g6yyJYg9e5Kyb0XyIIJVJ0pi5LYlqnlcYl3HfYWqOMm0IgM/07INsysi5H
- HaGdxZryUPVdm2QaIbUjXtAZJHwB1c/IRoVGep1sQIt1DKze+MIfq35rMDY6AUTTsJFG8Rp0lKQhjdchDwyjHsdWCwaB5YLQgA0/e0mygZklIBacwDP43hSM
- IJzl8TtIgm8M8z3MvyTbhLb+nDxhSbfkYQlHn/PtxFLiMGhjFaekjUy2DL0UT6B63jWJ1f+8sdN8P4yp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211122184702.768341-5-jernej.skrabec@gmail.com>
 
-On 23/11/2021 20:39, Nicolas Dufresne wrote:
-> Le lundi 22 novembre 2021 à 11:57 +0800, Chen-Yu Tsai a écrit :
->> On Sat, Nov 20, 2021 at 12:00 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->>>
->>> Le vendredi 19 novembre 2021 à 15:46 +0800, Chen-Yu Tsai a écrit :
->>>> The JPEG encoder found in the Hantro H1 encoder block only produces a
->>>> raw entropy-encoded scan. The driver is responsible for building a JPEG
->>>> compliant bitstream and placing the entropy-encoded scan in it. Right
->>>> now the driver uses a bounce buffer for the hardware to output the raw
->>>> scan to.
->>>>
->>>> In commit e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG
->>>> codec_ops.done"), the code that copies the raw scan from the bounce
->>>> buffer to the capture buffer was moved, but was only hooked up for the
->>>> Hantro H1 (then RK3288) variant. The RK3399 variant was broken,
->>>> producing a JPEG bitstream without the scan, and the capture buffer's
->>>> .bytesused field unset.
->>>>
->>>> Fix this by duplicating the code that is executed when the JPEG encoder
->>>> finishes encoding a frame. As the encoded length is read back from
->>>> hardware, and the variants having different register layouts, the
->>>> code is duplicated rather than shared.
->>>>
->>>> Fixes: e765dba11ec2 ("hantro: Move hantro_enc_buf_finish to JPEG codec_ops.done")
->>>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
->>>> ---
->>>> This was developed on the downstream ChromeOS 5.10 kernel (with a hack
->>>> for .data_offset) and tested with ChromeOS's jpeg_encode_accelerator_unittest
->>>> patched to accept non-JFIF JPEG streams (https://crrev.com/c/3291480).
->>>>
->>>> This was then forward-ported to mainline (name and filename changes) and
->>>> compile tested only.
->>>
->>> Tested with GStreamer on top of 5.16-rc1 from media_stage.git. Not perfect but
->>> at least the the output it valid. Test command was:
->>>
->>>   gst-launch-1.0 videotestsrc num-buffers=2 ! v4l2jpegenc ! filesink
->>> location=test.jpg
->>>
->>> Notice that I encode two frames, it seems like the draining flow is broken in
->>> this driver. GStreamer will queue the frame and issue CMD_START immediately, the
->>> driver will skip the encode, leaving me with an empty file.
->>
->> The hantro driver doesn't implement ENC_CMD, which IIRC is used for the
->> draining flow. I guess that's something to fix, since the mem2mem stateful
->> encoder spec seems to require it. Or does that spec not apply to the JPEG
->> encoders?
-> 
-> I'm pretty sure its required. But this isn't a regression from this patch.
+Hi Jernej,
 
-I don't think it is required for JPEG encoders today. Each frame is independent of
-any other, so it behaves just like a m2m scaler for example.
-
-It doesn't hurt to support it, but it shouldn't be necessary for jpeg codecs.
-
-If there is a reason why this is needed, then it would likely also be needed for
-m2m devices like scalers.
-
-Regards,
-
-	Hans
-
-> 
->>
->>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>
->> Thanks!
->>
->> ChenYu
+On Mon, Nov 22, 2021 at 07:46:59PM +0100, Jernej Skrabec wrote:
+> Older G2 cores, like that in Allwinner H6, seem to have issue with
+> latching postproc register values if this is first thing done in job.
+> Moving that to the end solves the issue.
 > 
 
+Any idea what exact register should be written before the post-processor
+is enabled, for H6 to work? Also, which of the PP registers need
+to be written "at the end"?
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 8c3de31f51b3..530994ab3024 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ctx)
+>  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+>  				&ctx->ctrl_handler);
+>  
+> -	if (!ctx->is_encoder) {
+> +	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
+
+To make this less fragile, do you think it would make sense to
+have a dedicated quirk flag, something like "legacy_post_proc",
+instead of overloading the meaning of legacy_regs.
+
+What do you think?
+
+Thanks,
+Ezequiel
+
+>  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+>  			hantro_postproc_enable(ctx);
+>  		else
+> @@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+>  {
+>  	struct vb2_v4l2_buffer *src_buf;
+>  
+> +	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
+> +		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> +			hantro_postproc_enable(ctx);
+> +		else
+> +			hantro_postproc_disable(ctx);
+> +	}
+> +
+>  	src_buf = hantro_get_src_buf(ctx);
+>  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+>  				   &ctx->ctrl_handler);
+> -- 
+> 2.34.0
+> 
