@@ -1,99 +1,72 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188D972
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 01:32:32 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id w6-20020a9d77c6000000b0055e804fa524so7095615otl.3
-        for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 17:32:32 -0800 (PST)
+Received: from pku.edu.cn (mx19.pku.edu.cn [162.105.129.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5242D2C8B
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 04:08:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tcIV9fs5PyBSfa8FV0YzjooJWjW0D+74R3qAHQeRX8M=;
-        b=QUhGk3vk91ygQk18q/T2Obk2GdUO7o4voQUE+c550rL2W99ipNmHT/v6D+I5MNCNju
-         s78xKvZ4o3fNcLDsBIkwt3npsvk2nbziDgNlI2TT7BHn5QqvcwLBVlERPA9jPjaROtc7
-         /Ru3j06woPJtEhRt6j+8fVxNvSqVvBJsIyk3cgwqbmeY85/E3MU+e6ayx0mbVYtqlt6C
-         hU7hoDbOYxat10F4yktTnsiUOOMqWxvpGqNdNBav4McUizb94Hgl9Cl3tdKS+THTSTRq
-         YTiutGC6w/50nsgnwLCUmmSUgg0O1KpKYq5al+IeHKw1HFfmsuS7k8jNSVN+fCBfWk1s
-         4RsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tcIV9fs5PyBSfa8FV0YzjooJWjW0D+74R3qAHQeRX8M=;
-        b=QyMeyVdwCLzwbAJNWCCPar+GSwugcpmGI6KgVNINNfVBshWSNcmakOtQmfCMrLh+vw
-         vYcZK67QdD6I1E3QBHB+Dv6hX07DFkQe87X78IU3NcOptdPX03Qh+upo/x/RWbv6OVJR
-         TKDEMkb92SCVHBkS4lBs+BEjSTu4/1ADDBLvmlekSOz9eBgcA7XfdtGrW7Ty0W6EFbNB
-         oj06rW3iqYtYymZQqCqR6Y0OaolVc88euHJ+6MWM664Di+2TvWa0OK9zdDs54wNq7FNK
-         aQkMNQiHiPoitHvwJvjAvquhssQOmyFv0KvRPert9D+YODQvat7clH3//wjVROWv+2I4
-         LM2A==
-X-Gm-Message-State: AOAM532Zf0OqoFv4WsoTYYY69Y/83MiM9QuxEPXDyDQkuKqGGdRMQB/x
-	/Y7sEaEujNvdkt5hudUtkoQs9sYeufbr80smfR4=
-X-Google-Smtp-Source: ABdhPJxitMWPao0qjKr4Y4SZbF53M1MtR/rPyuY0L6znUn1P5gW/0cKis5BNE+ptHSw62jbZT2mp5fzErNiD6xYc9I8=
-X-Received: by 2002:a9d:326:: with SMTP id 35mr17920012otv.41.1637803951319;
- Wed, 24 Nov 2021 17:32:31 -0800 (PST)
+	d=pku.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=ZAl6ksmcPO
+	w5PM3ub/L5jS2jcAzxG4oQSEuNQrxQs+Q=; b=aE1+agDrHWu5KyyZuoePWR5NzW
+	d9AHU8PN1YYUvUo4YPYMGo28yl7yRe6FRGXAfj8c4p0+Jaxf+GhDNlCttA8a9BYT
+	hPWqc9gpqLScDFAHy02m9PK2muG5jXYxpkZCSJR/rbVobVOZ63evPt6OXwqCHarW
+	RlXFeSxmlTZjAzf+A=
+Received: from junqi-virtual-machine (unknown [10.0.164.11])
+	by front02 (Coremail) with SMTP id 54FpogBnbU09Cp9hcFykAw--.20730S2;
+	Thu, 25 Nov 2021 11:59:57 +0800 (CST)
+From: Liu Junqi <liujunqi@pku.edu.cn>
+To: gregkh@linuxfoundation.org
+Cc: david.kershner@unisys.com,
+	sparmaintainer@unisys.com,
+	linux-staging@lists.linux.dev,
+	Liu Junqi <liujunqi@pku.edu.cn>
+Subject: [PATCH V1 RESEND] staging: unisys: visorhba: use tab to indent instead of whitespace
+Date: Thu, 25 Nov 2021 11:58:44 +0800
+Message-Id: <20211125035843.589496-1-liujunqi@pku.edu.cn>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211122195350.GA166134@makvihas> <YZ4NL3TvLYMa/Tzu@kroah.com>
-In-Reply-To: <YZ4NL3TvLYMa/Tzu@kroah.com>
-From: Vihas Mak <makvihas@gmail.com>
-Date: Thu, 25 Nov 2021 07:02:20 +0530
-Message-ID: <CAH1kMwRPLP998GjKx7bkL_LQE8hVNdCThwBJ7W8iNo1mPUyEZQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: remove unnecessary NULL check
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>, 
-	straube.linux@gmail.com, martin@kaiser.cx, 
-	Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:54FpogBnbU09Cp9hcFykAw--.20730S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtF45Xw1rXrWkur1xuF1Utrb_yoWfGFX_Wr
+	y7W3WIqryvyrW5Jr1fGry8Z3s2gFWvgw1fua4SgryfWFWDZ39xJrn5Cw13Jry5JF42kFy7
+	ur1vvr18Kr13JjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb4xFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+	vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+	87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+	8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+	Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+	xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAI
+	w28IcVCjz48v1sIEY20_Kr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUU
+	UU=
+X-CM-SenderInfo: arzqiiirtqlmo6sn3hxhgxhubq/1tbiAwEPD1Py7tbyVAACs-
 
->> And are you sure this ever could be NULL?
-Yes.
+changed the whitespace to tab to comply with kernel coding style.
 
-The function rtw_free_netdev() performs a NULL check before actually
-freeing the structure, so the "if (pnetdev)" check isn't really
-necessary before calling rtw_free_netdev().
-That's the reason why I removed that check.
+Signed-off-by: Liu Junqi <liujunqi@pku.edu.cn>
+---
+ drivers/staging/unisys/visorhba/visorhba_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-On Wed, Nov 24, 2021 at 3:30 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Nov 23, 2021 at 01:23:50AM +0530, Vihas Mak wrote:
-> > remove unnecessary NULL check surrounding rtw_free_netdev(), as the check
-> > is already performed inside rtw_free_netdev() in
-> > drivers/staging/r8188eu/os_dep/osdep_service.c.
-> >
-> > Signed-off-by: Vihas Mak <makvihas@gmail.com>
-> > ---
-> >  drivers/staging/r8188eu/os_dep/usb_intf.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > index 5a35d9fe3fc9..392bd7868519 100644
-> > --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-> > @@ -466,8 +466,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
-> >               if1->hw_init_completed);
-> >       rtw_handle_dualmac(if1, 0);
-> >       rtw_free_drv_sw(if1);
-> > -     if (pnetdev)
-> > -             rtw_free_netdev(pnetdev);
-> > +     rtw_free_netdev(pnetdev);
->
-> As Dan said, this isn't usually a good idea to hide this.
->
-> And are you sure this ever could be NULL?
->
-> thanks,
->
-> greg k-h
-
-
-
+diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
+index 694644112447..8eee131e834d 100644
+--- a/drivers/staging/unisys/visorhba/visorhba_main.c
++++ b/drivers/staging/unisys/visorhba/visorhba_main.c
+@@ -266,7 +266,7 @@ static int forward_taskmgmt_command(enum task_mgmt_types tasktype,
+ 					 &notifyevent, &notifyresult);
+ 	if (ret) {
+ 		dev_dbg(&scsidev->sdev_gendev,
+-		        "visorhba: setup_scsitaskmgmt_handles returned %d\n", ret);
++			"visorhba: setup_scsitaskmgmt_handles returned %d\n", ret);
+ 		return FAILED;
+ 	}
+ 
 -- 
-Thanks,
-Vihas
+2.32.0
+
