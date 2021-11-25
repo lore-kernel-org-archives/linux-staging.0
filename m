@@ -1,39 +1,39 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019222C83
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 19:59:49 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id a9so13910431wrr.8
-        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 11:59:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC3029CA
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 19:59:50 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id o29so6442598wms.2
+        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 11:59:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KS6RiUdjt27X6hxnbtiq414OVvlBCUbwLO8x8hx0P1s=;
-        b=bukNTslaLbTyX8iFzV5F5TWJT02FEphXZWHpNBgZ/ZK1A1EY7pfCurB+mfmQDV4qSH
-         CLVFVTtr7/po8dxhK+z50u8gtDPOjD2Acngp51Cpxq8XJRQGbCj762dwqb1JaIPNxwiP
-         JispjwHWannm9eVfj2xdTaMcU9HpSin/9ykIsF1MbLbPEBK2n+3h2E7xrTsnjXhREnXj
-         0Ktl0gVUXPsEH4k8rMX9Tm0kxP3L5BSF3wZpR3TanzM8pTT5SCYV2Dk1fwpxVArZxNsx
-         tyZfdWRbYRNyZUBmIxKzCbTxwLbFBb6lPqKeSjU2O7r+MsxOlpfL1NTCQy2zdhJeUvp9
-         2/xg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=N5VMnQudqygsHa96G93xYFbkIJoqADuSCWc5dxeQhpA=;
+        b=JwD2L0dq8UUCbXoIt3GEmIFwD1zz1nMVDjDK/MXrBWQmauIZ+6ujvWYgxBWYqVMUEL
+         FZYN4kjeWfq6yLyfQ567/xbCn2JeCj1veVumhtI23xjTkyNbvHT11PrK+++ZSftm2Hhm
+         6EZeIujA0i57A/BIt/gUB9wZ6NlMDpLe3RsTAhRQIBWWZKXfvnatlePlp/syL/eQ8p6p
+         C/TbJKM6Q2EZaiGNY/lE397NGMMBpGkUALB9y9rBsgCf1KeH50hjRhgJSvSRxLVlOS9P
+         aRtUOT1sKbxiinUCXidIJOVfoqhYRezUf+Tqc/ansZW7MKy+oCiAQ/SAziQ9OXy0YaCR
+         wdFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KS6RiUdjt27X6hxnbtiq414OVvlBCUbwLO8x8hx0P1s=;
-        b=4DlevhXktU5a94dcpY9fO0fhxpm/D2YZ/20FtAAoXaMAMlhtu0Rkqf0q/YVYpoSFOd
-         CEhr/OVWqseqItTFpuhMyb5DCXPy10iAP9cHGyRyCknUfsSH78qnuVwc8P9h39hpqLi+
-         W7Hc9KlchYVd96dBwmuQlk8TfBDOeDJGwECf54N4hhjGgcHHOGsAjR6MVxKsXtOH1F8E
-         HfffHGZk4ToX4UgIhI5DRM5ZGpBgC3qgiJrlQMa3QY7lKS/eTnZQipJmrDFnpM7fABUQ
-         WEJ46IDsDotJG6K1hdlxAqTINihx3Bpp3k1DqMCI/G+tTLPLEeup+b31eQ7D8zU74O+R
-         o/sA==
-X-Gm-Message-State: AOAM530K8atHeA7W5FL4+tQIDqvHRCHDVHLS51GVmHV6r5Q4kJ/wvEZF
-	QknICstlkxG/AICHVHwySic=
-X-Google-Smtp-Source: ABdhPJzVWBsdz8kAeieJkGYlcWhGTG0jVZNpZm7BxBhMr2004UwIp8hPzHFE2SuHkGVjfrm3n/n1Eg==
-X-Received: by 2002:a05:6000:547:: with SMTP id b7mr9619488wrf.543.1637870388265;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=N5VMnQudqygsHa96G93xYFbkIJoqADuSCWc5dxeQhpA=;
+        b=Vc2o9ZwUQYTyUZE0JgN6G/fEaARAuEKc7pp8fVQIPFfZUHMP5k+9sL2HeVOOTKB+z+
+         WfJ3cHld0AP43+WF55aSAHG28yCDZA08Y15egPbwhed2pNRIXHEYG3v76fXMCqGCiO2I
+         Iueg0bDuUTz7yzEsbCexZsnyEoXm/2DA3VPqBTGK65VXL2Q5v2n3ntgCCAw4sabEx/H8
+         9zVfcrpfQ332ZtdbAI1VTG0fy60IUOquJmmcVxNGkbEGmfTyCEh91I2raWFKCu3WfVzH
+         LooujLH6Iodw5Fxgg/pyYAhJ/2ScdWGquhIW45WwxXrMAEDrtwfH4eHVZj3zQz+pRgGW
+         8wkQ==
+X-Gm-Message-State: AOAM533kSQTzgwBbzHbU76yKspip6BC7VdvQembGuV/NNfsPRE5Xzj6p
+	8qFbRMpqvnBLnB4nPvlg8tg=
+X-Google-Smtp-Source: ABdhPJzW0Wil5JAIpg/7HWMMHX+VRGXYKM1wUbLHd03c9QQB1VAjoWt0qJYUmfJpJNtliky8Hb5cdw==
+X-Received: by 2002:a1c:9851:: with SMTP id a78mr10445965wme.116.1637870388901;
         Thu, 25 Nov 2021 11:59:48 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ac86])
-        by smtp.gmail.com with ESMTPSA id h13sm3762721wrx.82.2021.11.25.11.59.47
+        by smtp.gmail.com with ESMTPSA id h13sm3762721wrx.82.2021.11.25.11.59.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 25 Nov 2021 11:59:48 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
@@ -43,10 +43,12 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 0/5] staging: r8188eu: remove more usages of rf_type
-Date: Thu, 25 Nov 2021 20:59:31 +0100
-Message-Id: <20211125195936.10060-1-straube.linux@gmail.com>
+Subject: [PATCH 1/5] staging: r8188eu: remove rf_type from rtw_update_ht_cap()
+Date: Thu, 25 Nov 2021 20:59:32 +0100
+Message-Id: <20211125195936.10060-2-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211125195936.10060-1-straube.linux@gmail.com>
+References: <20211125195936.10060-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,23 +57,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series removes some more usages of rf_type to get one step
-closer to remove rf_type from the hal_data_8188e structure.
+rf_type is always RF_1T1R. Remove it from rtw_update_ht_cap() and
+remove related dead code.
 
-Tested with InterTech DMG-02 on x86_64.
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/r8188eu/core/rtw_mlme.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-Michael Straube (5):
-  staging: r8188eu: remove rf_type from rtw_update_ht_cap()
-  staging: r8188eu: remove rf_type from issue_assocreq()
-  staging: r8188eu: remove rf_type from storePwrIndexDiffRateOffset()
-  staging: r8188eu: remove rf_type from getTxPowerIndex88E()
-  staging: r8188eu: remove TxCount from getTxPowerIndex88E()
-
- drivers/staging/r8188eu/core/rtw_mlme.c       | 12 +--
- drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 25 ++----
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 85 +++----------------
- 3 files changed, 20 insertions(+), 102 deletions(-)
-
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
+index 8d14aff32f61..a3996a7ee814 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme.c
+@@ -1999,17 +1999,11 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len)
+ 	    (le16_to_cpu(pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info) & BIT(1)) &&
+ 	    (pmlmeinfo->HT_info.infos[0] & BIT(2))) {
+ 		int i;
+-		u8	rf_type;
+-
+-		GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
+ 
+ 		/* update the MCS rates */
+-		for (i = 0; i < 16; i++) {
+-			if ((rf_type == RF_1T1R) || (rf_type == RF_1T2R))
+-				pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate[i] &= MCS_rate_1R[i];
+-			else
+-				pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate[i] &= MCS_rate_2R[i];
+-		}
++		for (i = 0; i < 16; i++)
++			pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate[i] &= MCS_rate_1R[i];
++
+ 		/* switch to the 40M Hz mode according to the AP */
+ 		pmlmeext->cur_bwmode = HT_CHANNEL_WIDTH_40;
+ 		switch ((pmlmeinfo->HT_info.infos[0] & 0x3)) {
 -- 
 2.33.1
 
