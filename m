@@ -1,27 +1,39 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1319868
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 15:56:10 +0000 (UTC)
-Received: from dslb-188-097-211-055.188.097.pools.vodafone-ip.de ([188.97.211.55] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mqGSZ-0005zf-2g; Thu, 25 Nov 2021 16:14:51 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6520F68
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 15:56:55 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2581:f820:804e:edb9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6C9131F464B1;
+	Thu, 25 Nov 2021 15:56:53 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1637855813; bh=gY+zp9vPvH8Yfyvu4eMVhjohWxix4aAoiT0fFLyuGyc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=d6EhfGJWltZKcP2P4XEpqUawVG3xWktoaszQ4AwlUA19QRsRO3BK/Yc+N6SJyrfWk
+	 UCUKbM5abqyzV3BUH1P6dMbc/Zy40Ja9iYInXHWUpO9HCs0+zkJ3Ca/ZSLmIMNLYbp
+	 Pnj+cKyhWTYffAyh9Da6vx6qcuMutMDgpjZ3WShYMpXCXG6h5x8YNlRbdXLo/PsOmJ
+	 pN5sN7XeJgSoqXfbZXOPD+5OJcCn+ED3fKcAPevtEJpfKwDuc0a7FA9vxEv+Lcurp+
+	 GEK9HAss9dbm9kDoK5EJ9qPsm2LeYtVVbkiHaugYEYrjuGZoYbCf4hx3m2/MUGYl8D
+	 XdhES0Jf0MEsA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl
+Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 2/6] staging: r8188eu: efuse_WordEnableDataRead is not used
-Date: Thu, 25 Nov 2021 16:14:32 +0100
-Message-Id: <20211125151436.5895-3-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211125151436.5895-1-martin@kaiser.cx>
-References: <20211125151436.5895-1-martin@kaiser.cx>
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v3 0/4] media: HEVC: RPS clean up
+Date: Thu, 25 Nov 2021 16:56:46 +0100
+Message-Id: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,75 +42,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The efuse_WordEnableDataRead function is not used and can be removed.
+This series aims to clean up Reference Picture Set usage and flags.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_efuse.c    | 37 ---------------------
- drivers/staging/r8188eu/include/rtw_efuse.h |  2 --
- 2 files changed, 39 deletions(-)
+Long term flag was named with RPS prefix while it is not used for RPS
+but for mark long term references in DBP. Remane it and remove the two
+other useless RPS flags.
 
-diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index 62d194587fb1..0cc3aa1b08b0 100644
---- a/drivers/staging/r8188eu/core/rtw_efuse.c
-+++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -59,43 +59,6 @@ ReadEFuseByte(
- 	*pbuf = (u8)(value32 & 0xff);
- }
- 
--/*-----------------------------------------------------------------------------
-- * Function:	efuse_WordEnableDataRead
-- *
-- * Overview:	Read allowed word in current efuse section data.
-- *
-- * Input:       NONE
-- *
-- * Output:      NONE
-- *
-- * Return:      NONE
-- *
-- * Revised History:
-- * When			Who		Remark
-- * 11/16/2008	MHC		Create Version 0.
-- * 11/21/2008	MHC		Fix Write bug when we only enable late word.
-- *
-- *---------------------------------------------------------------------------*/
--void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata)
--{
--	if (!(word_en & BIT(0))) {
--		targetdata[0] = sourdata[0];
--		targetdata[1] = sourdata[1];
--	}
--	if (!(word_en & BIT(1))) {
--		targetdata[2] = sourdata[2];
--		targetdata[3] = sourdata[3];
--	}
--	if (!(word_en & BIT(2))) {
--		targetdata[4] = sourdata[4];
--		targetdata[5] = sourdata[5];
--	}
--	if (!(word_en & BIT(3))) {
--		targetdata[6] = sourdata[6];
--		targetdata[7] = sourdata[7];
--	}
--}
--
- /*-----------------------------------------------------------------------------
-  * Function:	EFUSE_ShadowMapUpdate
-  *
-diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
-index 68394c6302a3..cff9e748544d 100644
---- a/drivers/staging/r8188eu/include/rtw_efuse.h
-+++ b/drivers/staging/r8188eu/include/rtw_efuse.h
-@@ -30,8 +30,6 @@
- 
- void ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf);
- 
--void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
--
- void EFUSE_ShadowMapUpdate(struct adapter *adapter);
- 
- #endif
+Clarify documentation about RPS lists content and make sure that Hantro
+driver use them correctly (i.e without look up in DBP).
+
+version 3:
+- rebased on top of v5.16-rc1
+
+version 2:
+- change DPB field name from rps to flags
+
+Please note that the only purpose of commits 3 and 4 is to allow to test
+G2 hardware block for IMX8MQ until a proper solution isuing power domain
+can be found. Do not merge them.
+
+GStreamer HEVC plugin merge request can be found here:
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+
+With those piece of code fluster score is 77/147.
+
+Benjamin Gaignard (4):
+  media: hevc: Remove RPS named flags
+  media: hevc: Embedded indexes in RPS
+  media: hantro: Use syscon instead of 'ctrl' register
+  arm64: dts: imx8mq: Add node to G2 hardware
+
+ .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+ arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+ drivers/staging/media/hantro/hantro.h         |  5 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+ include/media/hevc-ctrls.h                    |  6 +--
+ 7 files changed, 84 insertions(+), 61 deletions(-)
+
 -- 
-2.20.1
+2.30.2
 
