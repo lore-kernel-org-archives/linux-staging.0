@@ -1,200 +1,126 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86BD52C80
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 17:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202012; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=u8aXYOsL/gv9/ysyGSMs9eRZRUpowRI2RZmsAFCisIM=; b=VxxtE7uY/kk8ES7pmV5EynZ0OZ
-	ZncaP0rsa7gmcUNcSO/DSx707Bo1JOIJRPgpvxpoqR5cK8CtlLMxQE4ZQOUonA/WV/URGilwK7OM6
-	41bwu0AhkqkeLDfKIXDbH/AFSwJ2R8UuH1qEiWi1Ndc/QKHqc1aJq+Ja4NgecQSKKF5Z6NSmFN+4Q
-	ZeeKwuwFqf9cSw5i+9rWHXfY49I1QBeziE7fCSm6iuPXBgHFrcg1c6EuWKIewAASLVv+bbiHyJwUm
-	5zAl/e6JB3Iyx8B83fZ2WfZ6hC5i7hV1YIQd/XB90ijgur/Jw5Kt6a1OM47d0Q8Sqfvn3NOfijbEn
-	pT4uA5sA==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:49492 helo=[192.168.10.61])
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1mqIRb-00018B-7K; Thu, 25 Nov 2021 18:21:59 +0100
-Message-ID: <7fb7cb73-40b1-9408-5c19-fe420bd0ee5f@tronnes.org>
-Date: Thu, 25 Nov 2021 18:21:55 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A149C2C80
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 17:43:24 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id k37-20020a05600c1ca500b00330cb84834fso8931612wms.2
+        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 09:43:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=TN/QQkM1NntF1m6fJ6zPw0ksMJntIEEt1v1JsMs1Xxo=;
+        b=B1VT2bhTux1ksTjwklT4nU8DwdebnyeqDKHMURVCvjSfmdeO1f/8M2a9FWPxk5FCGS
+         OOkYiv9ftxyumKk2tbeuPy6mBkAQLiKPns7VlGlGV5ofSxb9gIkCdiAWMrseQwRsKDoh
+         gcPu/JksJjPXXfceYxQv/W7m7lJ2aCHKDBrqLOcm6EaUtzTKCnqVLZE6ATUAk1lmpziL
+         VhCTNvVp8Dn9DYXRMx6cY58qYUe0gKNWCQQ8vPT7zMRV+H3fbx5getsGTqV+gOwhoHSJ
+         eugfrVYM9RG3zwx5qSuP1fxUf4gjyQEyXAagV/O/6j+e5lPSeqEk8erqsqdKhnEVZ2DZ
+         WKnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=TN/QQkM1NntF1m6fJ6zPw0ksMJntIEEt1v1JsMs1Xxo=;
+        b=WHbkG7sdcSospuZRUCJK9/K2mwfWuQXfOs0SotN2zIM+RumwO5UV5aMjcFAnkFxleR
+         WQ0xwNDuRp8gZ3k8lr4TMXcAAbwQBLr6u+hTKMuTVWkBj0OWolJuLodwAOauktOq7Oh9
+         ELYrGpcRt2BA+PAbZTRkw5xUD/tAsF7OxkFQwu0D4pCoH/J2gBkq3+9metVcFwVKcoCI
+         CF/9ma2kN1po9tXxrNcDcqflujRUdaNybOMnEqfTuhdi1MI636DusPTQoLRiJmqGfkJy
+         zq4SQQ1eVs56Kd/nh1rNKo2Lz6CFwy8LUvO/+r0fgMuV+XPKfeXLthOuqvrRlK8dwn2R
+         kgGw==
+X-Gm-Message-State: AOAM533lRS4LN+2VwU+nIQXL6TCIO924fjLk2S0Pp/ePFByMDu2WBNh7
+	z9dBFmknSm3OZ9PPyne06EE=
+X-Google-Smtp-Source: ABdhPJxu1FQCs/jtd196x1cJ2eMVoJbQ2skwTguVLKbWh/iEbr/dKD9GzyfX56fGeuMtaP/s0Ai/oA==
+X-Received: by 2002:a05:600c:4e45:: with SMTP id e5mr9548080wmq.43.1637862202950;
+        Thu, 25 Nov 2021 09:43:22 -0800 (PST)
+Received: from ?IPV6:2a02:8108:96c0:3b88::7311? ([2a02:8108:96c0:3b88::7311])
+        by smtp.gmail.com with ESMTPSA id f7sm4168768wri.74.2021.11.25.09.43.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Nov 2021 09:43:22 -0800 (PST)
+Message-ID: <813f1715-181f-515b-46c9-fafa374453a2@gmail.com>
+Date: Thu, 25 Nov 2021 18:43:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
-To: David Lechner <david@lechnology.com>, robh+dt@kernel.org
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dave.stevenson@raspberrypi.com, maxime@cerno.tech
-References: <20211124150757.17929-1-noralf@tronnes.org>
- <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 1/4] staging: r8188eu: remove pm_netdev_open
+Content-Language: en-US
+To: Martin Kaiser <martin@kaiser.cx>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+ Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20211125164745.8188-1-martin@kaiser.cx>
+ <20211125164745.8188-2-martin@kaiser.cx>
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <20211125164745.8188-2-martin@kaiser.cx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-Den 24.11.2021 23.03, skrev David Lechner:
-> On 11/24/21 9:07 AM, Noralf Trønnes wrote:
->> Hi,
->>
->> This patchset adds a missing piece for decommissioning the
->> staging/fbtft/fb_st7735r.c driver namely a way to configure the
->> controller from Device Tree.
->>
->> All fbtft drivers have builtin support for one display panel and all
->> other panels using that controller are configured using the Device Tree
->> 'init' property. This property is supported by all fbtft drivers and
->> provides a generic way to set register values or issue commands
->> (depending on the type of controller).
->>
->> It is common for these types of displays to have a datasheet listing the
->> necessary controller settings/commands or some example code doing the
->> same.
->>
->> This is how the panel directly supported by the fb_st7735r staging
->> driver is described using Device Tree with that driver:
->>
->>      width = <160>;
->>      height = <128>;
->>
->>      init = <0x1000001
->>              0x2000096
->>              0x1000011
->>              0x20000ff
->>              0x10000B1 0x01 0x2C 0x2D
->>              0x10000B4 0x07
->>              0x10000C0 0xA2 0x02 0x84
->>              0x10000C1 0xC5
->>              0x10000C2 0x0A 0x00
->>              0x10000C5 0x0E
->>              0x100003a 0x55
->>              0x1000036 0x60
->>              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
->>                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
->>              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
->>                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
->>              0x1000029
->>              0x2000064>;
->>
->>
->> This is how the same panel is described using the st7735r drm driver and
->> this patchset:
->>
->>      width = <160>;
->>      height = <128>;
->>
->>      frmctr1 = [ 01 2C 2D ];
->>      invctr = [ 07 ];
->>      pwctr1 = [ A2 02 84 ];
->>      pwctr2 = [ C5 ];
->>      pwctr3 = [ 0A 00 ];
->>      vmctr1 = [ 0E ];
->>      madctl = [ 60 ];
->>      gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
->>      gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
+On 11/25/21 17:47, Martin Kaiser wrote:
+> The only caller of pm_netdev_open sets bnormal to true. In this case,
+> pm_netdev_open just calls netdev_open.
 > 
-> Do these setting correspond to actual physical properties of the display?
+> Remove pm_netdev_open and call netdev_open directly.
 > 
-
-Apart from width, height, porches, freq and gamma, no not directly, they
-configure voltage levels, op-amps (charge pumps?), dividers and such.
-
-> What is the advantage of this compared to just adding a new compatible
-> string if a new display requires different settings? (Other than being
-> able to use a new display without compiling a new kernel/module.)
+> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+> ---
+>   drivers/staging/r8188eu/include/usb_osintf.h |  1 -
+>   drivers/staging/r8188eu/os_dep/os_intfs.c    | 11 -----------
+>   drivers/staging/r8188eu/os_dep/usb_intf.c    |  2 +-
+>   3 files changed, 1 insertion(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/r8188eu/include/usb_osintf.h b/drivers/staging/r8188eu/include/usb_osintf.h
+> index 624298b4bd0b..3e777ca52745 100644
+> --- a/drivers/staging/r8188eu/include/usb_osintf.h
+> +++ b/drivers/staging/r8188eu/include/usb_osintf.h
+> @@ -16,7 +16,6 @@ extern int rtw_mc2u_disable;
+>   u8 usbvendorrequest(struct dvobj_priv *pdvobjpriv, enum bt_usb_request brequest,
+>   		    enum rt_usb_wvalue wvalue, u8 windex, void *data,
+>   		    u8 datalen, u8 isdirectionin);
+> -int pm_netdev_open(struct net_device *pnetdev, u8 bnormal);
+>   void netdev_br_init(struct net_device *netdev);
+>   void dhcp_flag_bcast(struct adapter *priv, struct sk_buff *skb);
+>   void *scdb_findEntry(struct adapter *priv, unsigned char *ipAddr);
+> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> index 5a5f182d30c9..397981bc9a62 100644
+> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
+> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+> @@ -760,17 +760,6 @@ void rtw_ips_dev_unload(struct adapter *padapter)
+>   		rtw_hal_deinit(padapter);
+>   }
+>   
+> -int pm_netdev_open(struct net_device *pnetdev, u8 bnormal)
+> -{
+> -	int status;
+> -
+> -	if (bnormal)
+> -		status = netdev_open(pnetdev);
+> -	else
+> -		status =  (_SUCCESS == ips_netdrv_open((struct adapter *)rtw_netdev_priv(pnetdev))) ? (0) : (-1);
+> -	return status;
+> -}
+> -
+>   int netdev_close(struct net_device *pnetdev)
+>   {
+>   	struct adapter *padapter = (struct adapter *)rtw_netdev_priv(pnetdev);
+> diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> index eca1036a721f..984e408f9366 100644
+> --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> @@ -298,7 +298,7 @@ static int rtw_resume(struct usb_interface *pusb_intf)
+>   		pwrpriv->bkeepfwalive = false;
+>   
+>   	DBG_88E("bkeepfwalive(%x)\n", pwrpriv->bkeepfwalive);
+> -	if (pm_netdev_open(pnetdev, true) != 0) {
+> +	if (netdev_open(pnetdev) != 0) {
+>   		mutex_unlock(&pwrpriv->lock);
+>   		goto exit;
+>   	}
 > 
 
-There is no other reason, the purpose is simplicity for the end user,
-which is one of the reasons for fbtft's success.
-
-> It is nice for the driver implementation to be able to use the byte
-> arrays from the binding directly, but it doesn't really make sense from
-> a "device tree describes the hardware" point of view.
-> 
-> For example, looking at the data sheet, frmctr1 looks like it is actually
-> multiple properties, the 1-line period, front porch and back porch.
-> 
-
-Yes, one command can have several 8-bit parameters and often configures
-multiple things even within one parameter.
-
->>
->>
->> Back when the fbtft drivers were added to staging I asked on the DT
->> mailinglist if it was OK to use the 'init' property but it was turned
->> down. In this patchset I'm trying the same approach used by the
->> solomon,ssd1307fb.yaml binding in describing the attached panel. That
->> binding prefixes the properties with the vendor name, not sure why that
->> is and I think it looks strange so I try without it.
-> 
-> Because [1] says so?
-> 
-> "DO use a vendor prefix on device-specific property names. Consider if
-> properties could be common among devices of the same class. Check other
-> existing bindings for similar devices."
-> 
-
-That's a good reason :)
-
-> Do all displays have "frmctr1" or only sitronix displays?
-> 
-
-ILI9341 also has that command but with only 2 parameters.
-ST7789V calls it FRCTRL2 but has only one parameter.
-The FPA and BPA fields from "frmctr1" looks like they're set using other
-commands on ILI9341 and ST7789v.
-
-I looked at several datasheets some years back to see if I could see
-some kind of pattern, but I couldn't back then at least. Someone with
-initimate hw knowledge of these controllers could probably describe a
-controller using more generic properties.
-This would defeat the purpose of this exercise which is to make it easy
-to use any panel. Generic properties would require a set of formulas in
-order to go from the init sequence provided by the display manufcaturer
-to the generic properties.
-
-The whole point of this patchset is to see if something like the ssd1307
-binding can still be done in mainline making it easy for users.
-
-If this doesn't work out, we can start removing drivers from
-staging/fbtft since some of them haven't been removed even if the native
-panel is supported in drm because they can support any panel through the
-init property.
-
-Noralf.
-
-> 
-> [1]:
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/writing-bindings.html
-> 
-> 
->>
->> Noralf.
->>
->>
->> Noralf Trønnes (6):
->>    dt-bindings: display: sitronix,st7735r: Fix backlight in example
->>    dt-bindings: display: sitronix,st7735r: Make reset-gpios optional
->>    dt-bindings: display: sitronix,st7735r: Remove spi-max-frequency limit
->>    dt-bindings: display: sitronix,st7735r: Add initialization properties
->>    drm/mipi-dbi: Add device property functions
->>    drm: tiny: st7735r: Support DT initialization of controller
->>
->>   .../bindings/display/sitronix,st7735r.yaml    | 122 ++++++++++++++-
->>   drivers/gpu/drm/drm_mipi_dbi.c                | 139 ++++++++++++++++++
->>   drivers/gpu/drm/tiny/st7735r.c                |  87 +++++++++--
->>   include/drm/drm_mipi_dbi.h                    |   3 +
->>   4 files changed, 334 insertions(+), 17 deletions(-)
->>
-> 
+Reviewed-by: Michael Straube <straube.linux@gmail.com>
