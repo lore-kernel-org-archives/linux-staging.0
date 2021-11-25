@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9862F68
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 15:56:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1319868
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 15:56:10 +0000 (UTC)
 Received: from dslb-188-097-211-055.188.097.pools.vodafone-ip.de ([188.97.211.55] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mqGSe-0005zf-2g; Thu, 25 Nov 2021 16:14:56 +0100
+	id 1mqGSZ-0005zf-2g; Thu, 25 Nov 2021 16:14:51 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 6/6] staging: r8188eu: hal data's board type is unused
-Date: Thu, 25 Nov 2021 16:14:36 +0100
-Message-Id: <20211125151436.5895-7-martin@kaiser.cx>
+Subject: [PATCH 2/6] staging: r8188eu: efuse_WordEnableDataRead is not used
+Date: Thu, 25 Nov 2021 16:14:32 +0100
+Message-Id: <20211125151436.5895-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211125151436.5895-1-martin@kaiser.cx>
 References: <20211125151436.5895-1-martin@kaiser.cx>
@@ -30,72 +30,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-BoardType in struct hal_data_8188e is not used. Remove the variable and the
-function to extract the board type from the efuses.
+The efuse_WordEnableDataRead function is not used and can be removed.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 11 -----------
- drivers/staging/r8188eu/hal/usb_halinit.c       |  1 -
- drivers/staging/r8188eu/include/rtl8188e_hal.h  |  4 ----
- 3 files changed, 16 deletions(-)
+ drivers/staging/r8188eu/core/rtw_efuse.c    | 37 ---------------------
+ drivers/staging/r8188eu/include/rtw_efuse.h |  2 --
+ 2 files changed, 39 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index d5aee084def9..001e4a198630 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -1207,17 +1207,6 @@ void Hal_EfuseParseXtal_8188E(struct adapter *pAdapter, u8 *hwinfo, bool AutoLoa
- 	DBG_88E("CrystalCap: 0x%2x\n", pHalData->CrystalCap);
+diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
+index 62d194587fb1..0cc3aa1b08b0 100644
+--- a/drivers/staging/r8188eu/core/rtw_efuse.c
++++ b/drivers/staging/r8188eu/core/rtw_efuse.c
+@@ -59,43 +59,6 @@ ReadEFuseByte(
+ 	*pbuf = (u8)(value32 & 0xff);
  }
  
--void Hal_EfuseParseBoardType88E(struct adapter *pAdapter, u8 *hwinfo, bool AutoLoadFail)
+-/*-----------------------------------------------------------------------------
+- * Function:	efuse_WordEnableDataRead
+- *
+- * Overview:	Read allowed word in current efuse section data.
+- *
+- * Input:       NONE
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 11/16/2008	MHC		Create Version 0.
+- * 11/21/2008	MHC		Fix Write bug when we only enable late word.
+- *
+- *---------------------------------------------------------------------------*/
+-void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata)
 -{
--	struct hal_data_8188e *pHalData = GET_HAL_DATA(pAdapter);
--
--	if (!AutoLoadFail)
--		pHalData->BoardType = ((hwinfo[EEPROM_RF_BOARD_OPTION_88E] & 0xE0) >> 5);
--	else
--		pHalData->BoardType = 0;
--	DBG_88E("Board Type: 0x%2x\n", pHalData->BoardType);
+-	if (!(word_en & BIT(0))) {
+-		targetdata[0] = sourdata[0];
+-		targetdata[1] = sourdata[1];
+-	}
+-	if (!(word_en & BIT(1))) {
+-		targetdata[2] = sourdata[2];
+-		targetdata[3] = sourdata[3];
+-	}
+-	if (!(word_en & BIT(2))) {
+-		targetdata[4] = sourdata[4];
+-		targetdata[5] = sourdata[5];
+-	}
+-	if (!(word_en & BIT(3))) {
+-		targetdata[6] = sourdata[6];
+-		targetdata[7] = sourdata[7];
+-	}
 -}
 -
- void rtl8188e_EfuseParseChnlPlan(struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail)
- {
- 	padapter->mlmepriv.ChannelPlan =
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index fdaaf6e5bdda..04518e9838ea 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -1023,7 +1023,6 @@ void ReadAdapterInfo8188EU(struct adapter *Adapter)
- 	rtl8188e_EfuseParseChnlPlan(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
- 	Hal_EfuseParseXtal_8188E(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
- 	Hal_ReadAntennaDiversity88E(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
--	Hal_EfuseParseBoardType88E(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
- 	Hal_ReadThermalMeter_88E(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
+ /*-----------------------------------------------------------------------------
+  * Function:	EFUSE_ShadowMapUpdate
+  *
+diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
+index 68394c6302a3..cff9e748544d 100644
+--- a/drivers/staging/r8188eu/include/rtw_efuse.h
++++ b/drivers/staging/r8188eu/include/rtw_efuse.h
+@@ -30,8 +30,6 @@
  
- 	_ReadLEDSetting(Adapter, eeprom->efuse_eeprom_data, eeprom->bautoload_fail_flag);
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index e4d6922bc703..5848f1d4191a 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -171,8 +171,6 @@ struct hal_data_8188e {
- 	/* rf_ctrl */
- 	u8	rf_type;
+ void ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf);
  
--	u8	BoardType;
+-void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
 -
- 	/*  EEPROM setting. */
- 	u16	EEPROMSVID;
- 	u16	EEPROMSDID;
-@@ -326,8 +324,6 @@ void Hal_ReadThermalMeter_88E(struct adapter *	dapter, u8 *PROMContent,
- 			      bool AutoloadFail);
- void Hal_EfuseParseXtal_8188E(struct adapter *pAdapter, u8 *hwinfo,
- 			      bool AutoLoadFail);
--void Hal_EfuseParseBoardType88E(struct adapter *pAdapter, u8 *hwinfo,
--				bool AutoLoadFail);
- void Hal_ReadPowerSavingMode88E(struct adapter *pAdapter, u8 *hwinfo,
- 				bool AutoLoadFail);
+ void EFUSE_ShadowMapUpdate(struct adapter *adapter);
  
+ #endif
 -- 
 2.20.1
 
