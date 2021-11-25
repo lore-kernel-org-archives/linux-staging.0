@@ -1,165 +1,99 @@
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197B02C81
-	for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 22:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=cPTkm5dKyGu8+kzGw6UdVofJoo3PgcRhgy9Z9JjJlyA=; b=PozlIypVuJfS0CUVCF/v5R3Z7t
-	c7/fquKX/OVyTv1Y5tbpZPUv8P3aZmhXg89nFDyM6VdqhxmOkt0qdCGylDm4IRmYwQn4xc9tx10tu
-	WdQklCM6BCQ3laysqHCC3f34MpujxhAk+4LVJaAQS8agB9ggw5VBWBit92qtw43tJDPUXb/2RjCiA
-	SQOk9YRPy0Ef9x8hoP9Ayym2RdwrYwgsSKxGb0we8b+C3vejlXn0iyt29K77gTaZwI+lqm8/wx+gD
-	kWyvdJWzFhmxxB5IebR3gIeGScYVbBEs450CCKc/2FTkxm0846RpxC6QsIh2GPO3zOuzlQ8Sn0LkP
-	0jRKM2yw==;
-Received: from [2600:1700:4830:1658::fb2] (port=55892)
-	by vern.gendns.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <david@lechnology.com>)
-	id 1mq0M0-00070D-6r; Wed, 24 Nov 2021 17:03:09 -0500
-Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, robh+dt@kernel.org
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- dave.stevenson@raspberrypi.com, maxime@cerno.tech
-References: <20211124150757.17929-1-noralf@tronnes.org>
-From: David Lechner <david@lechnology.com>
-Message-ID: <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
-Date: Wed, 24 Nov 2021 16:03:07 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188D972
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 01:32:32 +0000 (UTC)
+Received: by mail-ot1-f53.google.com with SMTP id w6-20020a9d77c6000000b0055e804fa524so7095615otl.3
+        for <linux-staging@lists.linux.dev>; Wed, 24 Nov 2021 17:32:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tcIV9fs5PyBSfa8FV0YzjooJWjW0D+74R3qAHQeRX8M=;
+        b=QUhGk3vk91ygQk18q/T2Obk2GdUO7o4voQUE+c550rL2W99ipNmHT/v6D+I5MNCNju
+         s78xKvZ4o3fNcLDsBIkwt3npsvk2nbziDgNlI2TT7BHn5QqvcwLBVlERPA9jPjaROtc7
+         /Ru3j06woPJtEhRt6j+8fVxNvSqVvBJsIyk3cgwqbmeY85/E3MU+e6ayx0mbVYtqlt6C
+         hU7hoDbOYxat10F4yktTnsiUOOMqWxvpGqNdNBav4McUizb94Hgl9Cl3tdKS+THTSTRq
+         YTiutGC6w/50nsgnwLCUmmSUgg0O1KpKYq5al+IeHKw1HFfmsuS7k8jNSVN+fCBfWk1s
+         4RsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tcIV9fs5PyBSfa8FV0YzjooJWjW0D+74R3qAHQeRX8M=;
+        b=QyMeyVdwCLzwbAJNWCCPar+GSwugcpmGI6KgVNINNfVBshWSNcmakOtQmfCMrLh+vw
+         vYcZK67QdD6I1E3QBHB+Dv6hX07DFkQe87X78IU3NcOptdPX03Qh+upo/x/RWbv6OVJR
+         TKDEMkb92SCVHBkS4lBs+BEjSTu4/1ADDBLvmlekSOz9eBgcA7XfdtGrW7Ty0W6EFbNB
+         oj06rW3iqYtYymZQqCqR6Y0OaolVc88euHJ+6MWM664Di+2TvWa0OK9zdDs54wNq7FNK
+         aQkMNQiHiPoitHvwJvjAvquhssQOmyFv0KvRPert9D+YODQvat7clH3//wjVROWv+2I4
+         LM2A==
+X-Gm-Message-State: AOAM532Zf0OqoFv4WsoTYYY69Y/83MiM9QuxEPXDyDQkuKqGGdRMQB/x
+	/Y7sEaEujNvdkt5hudUtkoQs9sYeufbr80smfR4=
+X-Google-Smtp-Source: ABdhPJxitMWPao0qjKr4Y4SZbF53M1MtR/rPyuY0L6znUn1P5gW/0cKis5BNE+ptHSw62jbZT2mp5fzErNiD6xYc9I8=
+X-Received: by 2002:a9d:326:: with SMTP id 35mr17920012otv.41.1637803951319;
+ Wed, 24 Nov 2021 17:32:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211124150757.17929-1-noralf@tronnes.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <20211122195350.GA166134@makvihas> <YZ4NL3TvLYMa/Tzu@kroah.com>
+In-Reply-To: <YZ4NL3TvLYMa/Tzu@kroah.com>
+From: Vihas Mak <makvihas@gmail.com>
+Date: Thu, 25 Nov 2021 07:02:20 +0530
+Message-ID: <CAH1kMwRPLP998GjKx7bkL_LQE8hVNdCThwBJ7W8iNo1mPUyEZQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: r8188eu: remove unnecessary NULL check
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>, 
+	straube.linux@gmail.com, martin@kaiser.cx, 
+	Pavel Skripkin <paskripkin@gmail.com>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/24/21 9:07 AM, Noralf Trønnes wrote:
-> Hi,
-> 
-> This patchset adds a missing piece for decommissioning the
-> staging/fbtft/fb_st7735r.c driver namely a way to configure the
-> controller from Device Tree.
-> 
-> All fbtft drivers have builtin support for one display panel and all
-> other panels using that controller are configured using the Device Tree
-> 'init' property. This property is supported by all fbtft drivers and
-> provides a generic way to set register values or issue commands
-> (depending on the type of controller).
-> 
-> It is common for these types of displays to have a datasheet listing the
-> necessary controller settings/commands or some example code doing the
-> same.
-> 
-> This is how the panel directly supported by the fb_st7735r staging
-> driver is described using Device Tree with that driver:
-> 
->      width = <160>;
->      height = <128>;
-> 
->      init = <0x1000001
->              0x2000096
->              0x1000011
->              0x20000ff
->              0x10000B1 0x01 0x2C 0x2D
->              0x10000B4 0x07
->              0x10000C0 0xA2 0x02 0x84
->              0x10000C1 0xC5
->              0x10000C2 0x0A 0x00
->              0x10000C5 0x0E
->              0x100003a 0x55
->              0x1000036 0x60
->              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
->                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
->              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
->                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
->              0x1000029
->              0x2000064>;
-> 
-> 
-> This is how the same panel is described using the st7735r drm driver and
-> this patchset:
-> 
->      width = <160>;
->      height = <128>;
-> 
->      frmctr1 = [ 01 2C 2D ];
->      invctr = [ 07 ];
->      pwctr1 = [ A2 02 84 ];
->      pwctr2 = [ C5 ];
->      pwctr3 = [ 0A 00 ];
->      vmctr1 = [ 0E ];
->      madctl = [ 60 ];
->      gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
->      gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
+>> And are you sure this ever could be NULL?
+Yes.
 
-Do these setting correspond to actual physical properties of the display?
-
-What is the advantage of this compared to just adding a new compatible
-string if a new display requires different settings? (Other than being
-able to use a new display without compiling a new kernel/module.)
-
-It is nice for the driver implementation to be able to use the byte
-arrays from the binding directly, but it doesn't really make sense from
-a "device tree describes the hardware" point of view.
-
-For example, looking at the data sheet, frmctr1 looks like it is actually
-multiple properties, the 1-line period, front porch and back porch.
-
-> 
-> 
-> Back when the fbtft drivers were added to staging I asked on the DT
-> mailinglist if it was OK to use the 'init' property but it was turned
-> down. In this patchset I'm trying the same approach used by the
-> solomon,ssd1307fb.yaml binding in describing the attached panel. That
-> binding prefixes the properties with the vendor name, not sure why that
-> is and I think it looks strange so I try without it.
-
-Because [1] says so?
-
-"DO use a vendor prefix on device-specific property names. Consider if
-properties could be common among devices of the same class. Check other
-existing bindings for similar devices."
-
-Do all displays have "frmctr1" or only sitronix displays?
+The function rtw_free_netdev() performs a NULL check before actually
+freeing the structure, so the "if (pnetdev)" check isn't really
+necessary before calling rtw_free_netdev().
+That's the reason why I removed that check.
 
 
-[1]: https://www.kernel.org/doc/html/latest/devicetree/bindings/writing-bindings.html
+On Wed, Nov 24, 2021 at 3:30 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Nov 23, 2021 at 01:23:50AM +0530, Vihas Mak wrote:
+> > remove unnecessary NULL check surrounding rtw_free_netdev(), as the check
+> > is already performed inside rtw_free_netdev() in
+> > drivers/staging/r8188eu/os_dep/osdep_service.c.
+> >
+> > Signed-off-by: Vihas Mak <makvihas@gmail.com>
+> > ---
+> >  drivers/staging/r8188eu/os_dep/usb_intf.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> > index 5a35d9fe3fc9..392bd7868519 100644
+> > --- a/drivers/staging/r8188eu/os_dep/usb_intf.c
+> > +++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
+> > @@ -466,8 +466,7 @@ static void rtw_usb_if1_deinit(struct adapter *if1)
+> >               if1->hw_init_completed);
+> >       rtw_handle_dualmac(if1, 0);
+> >       rtw_free_drv_sw(if1);
+> > -     if (pnetdev)
+> > -             rtw_free_netdev(pnetdev);
+> > +     rtw_free_netdev(pnetdev);
+>
+> As Dan said, this isn't usually a good idea to hide this.
+>
+> And are you sure this ever could be NULL?
+>
+> thanks,
+>
+> greg k-h
 
-> 
-> Noralf.
-> 
-> 
-> Noralf Trønnes (6):
->    dt-bindings: display: sitronix,st7735r: Fix backlight in example
->    dt-bindings: display: sitronix,st7735r: Make reset-gpios optional
->    dt-bindings: display: sitronix,st7735r: Remove spi-max-frequency limit
->    dt-bindings: display: sitronix,st7735r: Add initialization properties
->    drm/mipi-dbi: Add device property functions
->    drm: tiny: st7735r: Support DT initialization of controller
-> 
->   .../bindings/display/sitronix,st7735r.yaml    | 122 ++++++++++++++-
->   drivers/gpu/drm/drm_mipi_dbi.c                | 139 ++++++++++++++++++
->   drivers/gpu/drm/tiny/st7735r.c                |  87 +++++++++--
->   include/drm/drm_mipi_dbi.h                    |   3 +
->   4 files changed, 334 insertions(+), 17 deletions(-)
-> 
 
+
+-- 
+Thanks,
+Vihas
