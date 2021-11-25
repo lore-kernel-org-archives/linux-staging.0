@@ -1,41 +1,27 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B53768
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 15:56:57 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:2581:f820:804e:edb9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5E6B11F464B7;
-	Thu, 25 Nov 2021 15:56:55 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1637855815; bh=WqSalgiIBPgG1EC3Dnqh7PKghzbepDs0AA3GgIyxUxw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Hgc654dIc/doptW6M+E79rDcC86pEWBA/xIxWiu7YxW7ArqhMOm4+/LPL/qwNsSDs
-	 Mw+gCAf+vEU2bbEURbDqDeTyQl84GkuFuAWR5Vplfy7knkNo/ddlWX8QQEO2X3aSFI
-	 9MICWpketUq6LoM3HXmwKlY3pCQ8My5FMySjlOoSMTquQ4z7MwTUsjoZZ3JUUDOIJr
-	 jDtxVF6uK5CEl5JxEDm9jXfPtkDwzkBKV2ffd9HJKXrcxMtF2Ex1g5UYb+8oASiOkq
-	 oPfsqStQefGbZtpWD/MB1BOCJCBcmpmG+XSb69EFFMhOlSzQXlUpxlsQHzAPTnkHfO
-	 l4/dbGkVT1dhw==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835E02C82
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 16:25:31 +0000 (UTC)
+Received: from dslb-188-097-211-055.188.097.pools.vodafone-ip.de ([188.97.211.55] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mqHYu-0006jj-8L; Thu, 25 Nov 2021 17:25:28 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v3 4/4] arm64: dts: imx8mq: Add node to G2 hardware
-Date: Thu, 25 Nov 2021 16:56:50 +0100
-Message-Id: <20211125155650.630977-5-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
-References: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 1/4] staging: r8188eu: remove the _set_workitem wrapper
+Date: Thu, 25 Nov 2021 17:25:10 +0100
+Message-Id: <20211125162513.25039-2-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211125162513.25039-1-martin@kaiser.cx>
+References: <20211125162513.25039-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,89 +30,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Split the VPU node in two: one for G1 and one for G2 since they are
-different hardware blocks.
-Add syscon for the hardware control block.
-Remove the reg-names property that is useless.
-Each VPU node only needs one interrupt.
-Change G2 assigned clock to match the specification.
-In both nodes all the clocks need to be assigned to make
-sure that the control block will be correctly clocked even if
-only one device node is enabled.
+Remove the _set_workitem wrapper and call schedule_work directly.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Please note that the only purpose of this commit is to allow to test
-G2 hardware block for IMX8MQ until a proper solution isuing power domain
-can be found. Do not merge it.
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 43 ++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 9 deletions(-)
+ drivers/staging/r8188eu/core/rtw_led.c          | 2 +-
+ drivers/staging/r8188eu/include/osdep_service.h | 5 -----
+ 2 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 972766b67a15..89d46b1e6aae 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1432,15 +1432,16 @@ usb3_phy1: usb-phy@382f0040 {
- 			status = "disabled";
- 		};
+diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+index 0e3453639a8b..d48ed98453f5 100644
+--- a/drivers/staging/r8188eu/core/rtw_led.c
++++ b/drivers/staging/r8188eu/core/rtw_led.c
+@@ -12,7 +12,7 @@ void BlinkTimerCallback(struct timer_list *t)
+ 	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped))
+ 		return;
  
--		vpu: video-codec@38300000 {
-+		vpu_ctrl: syscon@38320000 {
-+			compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
-+			reg = <0x38320000 0x10000>;
-+		};
-+
-+		vpu_g1: video-codec@38300000 {
- 			compatible = "nxp,imx8mq-vpu";
--			reg = <0x38300000 0x10000>,
--			      <0x38310000 0x10000>,
--			      <0x38320000 0x10000>;
--			reg-names = "g1", "g2", "ctrl";
--			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "g1", "g2";
-+			reg = <0x38300000 0x10000>;
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g1";
- 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-@@ -1453,9 +1454,33 @@ vpu: video-codec@38300000 {
- 						 <&clk IMX8MQ_VPU_PLL_OUT>,
- 						 <&clk IMX8MQ_SYS1_PLL_800M>,
- 						 <&clk IMX8MQ_VPU_PLL>;
--			assigned-clock-rates = <600000000>, <600000000>,
-+			assigned-clock-rates = <600000000>, <300000000>,
-+					       <800000000>, <0>;
-+			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mq-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g2";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-+			clock-names = "g1", "g2",  "bus";
-+			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-+					  <&clk IMX8MQ_CLK_VPU_G2>,
-+					  <&clk IMX8MQ_CLK_VPU_BUS>,
-+					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-+			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_SYS1_PLL_800M>,
-+						 <&clk IMX8MQ_VPU_PLL>;
-+			assigned-clock-rates = <600000000>, <300000000>,
- 					       <800000000>, <0>;
- 			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
- 		};
+-	_set_workitem(&pLed->BlinkWorkItem);
++	schedule_work(&pLed->BlinkWorkItem);
+ }
  
- 		pcie0: pcie@33800000 {
+ void BlinkWorkItemCallback(struct work_struct *work)
+diff --git a/drivers/staging/r8188eu/include/osdep_service.h b/drivers/staging/r8188eu/include/osdep_service.h
+index f6f5e4581212..766440461a0c 100644
+--- a/drivers/staging/r8188eu/include/osdep_service.h
++++ b/drivers/staging/r8188eu/include/osdep_service.h
+@@ -79,11 +79,6 @@ static inline void _init_workitem(struct work_struct *pwork, void *pfunc, void *
+ 	INIT_WORK(pwork, pfunc);
+ }
+ 
+-static inline void _set_workitem(struct work_struct *pwork)
+-{
+-	schedule_work(pwork);
+-}
+-
+ static inline void _cancel_workitem_sync(struct work_struct *pwork)
+ {
+ 	cancel_work_sync(pwork);
 -- 
-2.30.2
+2.20.1
 
