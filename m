@@ -1,66 +1,88 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA662C80
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 17:08:16 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id d24so13133082wra.0
-        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 09:08:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MGh2DLNS/hhJyZQIObSk6tHMQ2KGLvBP7mcZX6l/Xpk=;
-        b=myjOAKYGovGV9PEdZhCETyYZtcDup2aU0YXJjix2Q9FHBkQyfdSRSGG2z6zTekd4Jr
-         iU+2l2IHWiauJIhrLcLXoYMDUMRF8t43QS/W1orCTr8N9R6V+h/FvecH3rBKiNpezDJX
-         msLq4WNisW/tTDGBl9h1XVbHZQar5llPEBH0MNfyldtEH5STyWkWJ4NVGB17+KF2iEor
-         rUuZtYjuCDVU21pL30qeg9jyDuSIW3N1vhQBkk2BIQnHp+zuPK8/dmayNmRTHnKFzPkQ
-         p+syaA/KywXeZDlRWgQD72sdU4Xtv2sG+we6m3b/dRZjBgpZ4cE+zlzZhKYxJkzdvktf
-         v7nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MGh2DLNS/hhJyZQIObSk6tHMQ2KGLvBP7mcZX6l/Xpk=;
-        b=ALFZafblF6sHb9ww6hdZZNpKHLUzNt/+xCuXzzp+ZZI0/rOgHquA92kTqPmI61pAL7
-         aFNIOGe8mhU0SAV5x6iUmL4MT2sbwEslNWAxetIf6s5MwYDKgmEK33/CHNfMPF2Zsv/2
-         4eztLhECnOaoRhj3wHjIGNUw6SCTD3Gv7uFUtp6f1m3WjWwTXttmRScoCeHTkxCr2KtU
-         5Fo+zzWT2Z/J5/0MYyHSZeYGM2ceqjAzwGoWt/MJGhU/vm4A/kbV53gBJFc//P2iZkeC
-         f4usbA1Aa0sGTO7jAL9WM76esvucOp+luj4BM/e/W2sHDYOfW1gT4EiKV+uYmUlkAwp/
-         cL/g==
-X-Gm-Message-State: AOAM532k3CHo6DFPQk61f+nRaxMqKWWLv3UxLWnylyLCHm7NZeU3COXV
-	mEqBhQyd/nRkWVtl4f4RCYZbXeOOzsPK6ZVgo2LpqA==
-X-Google-Smtp-Source: ABdhPJyh5mOfDI1hes5JAKVqu7jhhHV3VkGhFyzpVmc+T8IaEG4DsoNQqRZtyikjiDUmrLqJ4xqA1GoJHdi4OkTzPu0=
-X-Received: by 2002:adf:cd04:: with SMTP id w4mr8405735wrm.406.1637860094302;
- Thu, 25 Nov 2021 09:08:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3DC2C80
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 17:14:42 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 77B263200E82;
+	Thu, 25 Nov 2021 12:14:40 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 25 Nov 2021 12:14:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=MRbn5e6m1y/4TZefRh+adX8Q0JT
+	3M5qVzD7hR+Z5Adk=; b=R++7kqaStJ6ivChRZuiOEPgd4ArNeWCVpwbwNoOMedh
+	TEtZXZAtAOhsFxqEcbbpV9dSi1+ZoZsTY6ibdZMuiVF+UwwDWhpyl1AxdlXsSg+S
+	h50KCkOgGLCnTCQMbwh46/TAJRVOCYT0kX/SSAXePbwKF/qaHFmlfBmxcS7rRJgA
+	PGkMbbHg6S6ZaepDO+qEeo5a1jS04iLnsnVdhpdaPvWgsaypW3/ZpWpML8qZ8Pvc
+	Kbu2VmwWXOdzNVVP/jFDWZpcNkeYgLMpG2DO9ySmTxYtu9XeDSAf1JJ+vv6DH9wd
+	Jx+iIK20sDOikNURtAMpiT3GPi7k1w7dRvTk0giW/Dg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=MRbn5e
+	6m1y/4TZefRh+adX8Q0JT3M5qVzD7hR+Z5Adk=; b=bfzOPyZKDnIfO4jChZN+3x
+	Ejw0mc2lBfZm0bctEdr91lbwyUL3bI2FwY0pysWSTNkuMpqFabQ7AO+g9d1eA3F0
+	R1fd6fnqzYjQ9DdLWP+9kGDVFI1GzrHZGztxLjn4mBliu6u5IbGBOd0Q7bQ4wYpp
+	ndasYHBLTp2skHIpufi7i8uIGP18mlwwEj8tSkMa91kRBlVdgXq8P1vWIgEq0yRO
+	DU/yKIJGdW/oWVoLUx3yb2dgfbMD059pM2W4ZBsBU88+bocwBe+X56mWUeqUmKx7
+	TCgbDTD6uXn8yiuUnsAPlRI4br71RWhJmAS3/5zio8wALTvttXbELic3u/OBJg2Q
+	==
+X-ME-Sender: <xms:f8SfYS1fT2y5M3sCvkkO2AGkuR9BjuEtyecGgK0Gi2QkrP6vbqVDuQ>
+    <xme:f8SfYVEQwHiEECcjJwYgmnIQaKT6kDcNXwnWNZeX5LedbUSm15XGHG-I4s6S418wX
+    dfAUiD4KB1Hjg>
+X-ME-Received: <xmr:f8SfYa4QfDgEhLGkaNyRNNDgY0NC0oWHiEkXQaea4d9Y4_E1UYyQ6Oy--QjRhyLIalmCWZkxeEaxKRvVu-LUrvWGPBSC7DGl>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrhedtgdelkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepkeduhefhhe
+    fggfeggedtueeiffehfeejgfduiedtkeegieekfeegudfhgfejkefgnecuffhomhgrihhn
+    pehkvghrnhgvlhhnvgifsghivghsrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:f8SfYT3aGg0MFH_8RAsGYOb-4HCq1U8ccmM_6fx3WmZ6eBVNy0YXTA>
+    <xmx:f8SfYVF-AQcyVWWKfWBdseS2cIDN4Sg5KNGpaj0wR0MkOsp_1jgMsA>
+    <xmx:f8SfYc8qsoQvWPkxipvHfDa0vASNNG50PopSZNAmH7yr9Oh47lSGaA>
+    <xmx:f8SfYbaAKFaLIMioJ6pdgKsFfmMRQ3goJKjxJq9rb4Cq5MnB4jjRtA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 25 Nov 2021 12:14:38 -0500 (EST)
+Date: Thu, 25 Nov 2021 18:14:36 +0100
+From: Greg KH <greg@kroah.com>
+To: Zoeb Mithaiwala <zoebm@google.com>
+Cc: dan.carpenter@oracle.com, trivial@kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 3/3] Staging: rtl8712: Fixes a camel case variable
+ name style issue
+Message-ID: <YZ/EfPYxpsXg/gSm@kroah.com>
+References: <20211122103931.GA6514@kadam>
+ <20211122170335.1468730-1-zoebm@google.com>
+ <YZ4Nej0yftiWh5rc@kroah.com>
+ <CANMHzA4U-qc3mqz5XV4YOex-=CtsJ1UA2Xv4VaEQsf66Qfnh7g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211122103931.GA6514@kadam> <20211122170335.1468730-1-zoebm@google.com>
- <YZ4Nej0yftiWh5rc@kroah.com>
-In-Reply-To: <YZ4Nej0yftiWh5rc@kroah.com>
-From: Zoeb Mithaiwala <zoebm@google.com>
-Date: Thu, 25 Nov 2021 22:37:37 +0530
-Message-ID: <CANMHzA4U-qc3mqz5XV4YOex-=CtsJ1UA2Xv4VaEQsf66Qfnh7g@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] Staging: rtl8712: Fixes a camel case variable name
- style issue
-To: Greg KH <greg@kroah.com>
-Cc: dan.carpenter@oracle.com, trivial@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANMHzA4U-qc3mqz5XV4YOex-=CtsJ1UA2Xv4VaEQsf66Qfnh7g@mail.gmail.com>
 
-> Where are patches 1/3 and 2/3 of this series?
-Apologies, I was unaware that the preferred method is a single email containing
-all the patches instead of a reply on the thread with only a single
-latest patch.
+On Thu, Nov 25, 2021 at 10:37:37PM +0530, Zoeb Mithaiwala wrote:
+> > Where are patches 1/3 and 2/3 of this series?
+> Apologies, I was unaware that the preferred method is a single email containing
+> all the patches instead of a reply on the thread with only a single
+> latest patch.
 
-> And this looks like it does not apply to any tree at all, are you sure
-you made it against the correct kernel branch?  If so, what one?
-This was against torvalds/linux, but I just saw that
-https://kernelnewbies.org/FirstKernelPatch suggests using gregkh/staging,
-I will clone and make further changes on that.
+No one could work with a reply thread like that, right?  Would you want
+to review patches sent that way?  :)
 
-Thanks,
-Zoeb
+> > And this looks like it does not apply to any tree at all, are you sure
+> you made it against the correct kernel branch?  If so, what one?
+> This was against torvalds/linux, but I just saw that
+> https://kernelnewbies.org/FirstKernelPatch suggests using gregkh/staging,
+> I will clone and make further changes on that.
+
+Wonderful, good luck!
+
+greg k-h
