@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D40768
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 15:55:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A79C68
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 15:55:58 +0000 (UTC)
 Received: from dslb-188-097-211-055.188.097.pools.vodafone-ip.de ([188.97.211.55] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mqGSa-0005zf-8s; Thu, 25 Nov 2021 16:14:52 +0100
+	id 1mqGSX-0005zf-PQ; Thu, 25 Nov 2021 16:14:49 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/6] staging: r8188eu: remove unused efuse defines
-Date: Thu, 25 Nov 2021 16:14:33 +0100
-Message-Id: <20211125151436.5895-4-martin@kaiser.cx>
+Subject: [PATCH 1/6] staging: r8188eu: Efuse_CalculateWordCnts is not used
+Date: Thu, 25 Nov 2021 16:14:31 +0100
+Message-Id: <20211125151436.5895-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211125151436.5895-1-martin@kaiser.cx>
 References: <20211125151436.5895-1-martin@kaiser.cx>
@@ -30,64 +30,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch removes some unused defines, macros and include statements
-related to efuses.
+Remove the Efuse_CalculateWordCnts function, which is not used.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/core/rtw_efuse.c    |  3 ---
- drivers/staging/r8188eu/include/rtw_efuse.h | 22 ---------------------
- 2 files changed, 25 deletions(-)
+ drivers/staging/r8188eu/core/rtw_efuse.c    | 16 ----------------
+ drivers/staging/r8188eu/include/rtw_efuse.h |  1 -
+ 2 files changed, 17 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/core/rtw_efuse.c b/drivers/staging/r8188eu/core/rtw_efuse.c
-index 0cc3aa1b08b0..0e0e60638880 100644
+index f88d086329b1..62d194587fb1 100644
 --- a/drivers/staging/r8188eu/core/rtw_efuse.c
 +++ b/drivers/staging/r8188eu/core/rtw_efuse.c
-@@ -8,9 +8,6 @@
- #include "../include/rtw_efuse.h"
- #include "../include/rtl8188e_hal.h"
+@@ -11,22 +11,6 @@
+ #define REG_EFUSE_CTRL		0x0030
+ #define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
  
--#define REG_EFUSE_CTRL		0x0030
--#define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
+-/*  11/16/2008 MH Add description. Get current efuse area enabled word!!. */
+-u8
+-Efuse_CalculateWordCnts(u8 word_en)
+-{
+-	u8 word_cnts = 0;
+-	if (!(word_en & BIT(0)))
+-		word_cnts++; /*  0 : write enable */
+-	if (!(word_en & BIT(1)))
+-		word_cnts++;
+-	if (!(word_en & BIT(2)))
+-		word_cnts++;
+-	if (!(word_en & BIT(3)))
+-		word_cnts++;
+-	return word_cnts;
+-}
 -
  /*  */
  /* 	Description: */
  /* 		Execute E-Fuse read byte operation. */
 diff --git a/drivers/staging/r8188eu/include/rtw_efuse.h b/drivers/staging/r8188eu/include/rtw_efuse.h
-index cff9e748544d..2daf69f554d5 100644
+index 4d8eff8e860e..68394c6302a3 100644
 --- a/drivers/staging/r8188eu/include/rtw_efuse.h
 +++ b/drivers/staging/r8188eu/include/rtw_efuse.h
-@@ -4,30 +4,8 @@
- #ifndef __RTW_EFUSE_H__
- #define __RTW_EFUSE_H__
+@@ -28,7 +28,6 @@
  
--#include "osdep_service.h"
--
--#define	EFUSE_ERROE_HANDLE		1
--
--/* E-Fuse */
--#define EFUSE_MAP_SIZE      512
--#define EFUSE_MAX_SIZE      256
--/* end of E-Fuse */
--
--#define		EFUSE_MAX_MAP_LEN		512
--#define		EFUSE_MAX_HW_SIZE		512
--#define		EFUSE_MAX_SECTION_BASE	16
--
--#define EXT_HEADER(header) ((header & 0x1F) == 0x0F)
--#define ALL_WORDS_DISABLED(wde)	((wde & 0x0F) == 0x0F)
--#define GET_HDR_OFFSET_2_0(header) ((header & 0xE0) >> 5)
--
--#define		EFUSE_REPEAT_THRESHOLD_			3
--
--/*--------------------------Define Parameters-------------------------------*/
- #define		EFUSE_MAX_WORD_UNIT			4
+ /*------------------------Export global variable----------------------------*/
  
--/*------------------------Export global variable----------------------------*/
--
+-u8 Efuse_CalculateWordCnts(u8 word_en);
  void ReadEFuseByte(struct adapter *adapter, u16 _offset, u8 *pbuf);
  
- void EFUSE_ShadowMapUpdate(struct adapter *adapter);
+ void efuse_WordEnableDataRead(u8 word_en, u8 *sourdata, u8 *targetdata);
 -- 
 2.20.1
 
