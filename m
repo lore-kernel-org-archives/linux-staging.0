@@ -1,100 +1,78 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429852C86
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 19:59:55 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id i5so13947608wrb.2
-        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 11:59:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ODnVjpTLttRxb05aaD1tiJImMPR2M4ruN0kVPtiNAwg=;
-        b=oq44UYjhCUqKbjpyqQrmPBV473RckuYm4ABcyk2rmk5elUP4yJvPHTtbv4rrAqYMvt
-         XPA+VE/Gr9vsj6TgyCcQWMHdWmNdBIPttj6r1Ay8ioqpS8pJecACGhullNYES8UKqwBg
-         Mk47BN0liyiIdxDE7iP3s5dG4jG0J47p1Cr+k/moCOK/4B1D9sMDNPFvjreAx/SZn9Pa
-         k+hX5aUXA5ZwNOQNADTWa/vQ8iEMWeL+oxiyBCpJx1KLN1eznCQRqUTCgrfO4GGWjnns
-         KMWT6pCc2Huos/cw9tzmWxtnqa4Ir2nzKPwkI7sowjfPYJi8WgnafKUPY8TbrJh2eTAD
-         gegA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1334472
+	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 21:26:05 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id o4so14893884oia.10
+        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 13:26:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ODnVjpTLttRxb05aaD1tiJImMPR2M4ruN0kVPtiNAwg=;
-        b=RiQ33cCCKmb3hMAK3wYOkDQ55RFyCcdM5Elzj6ty515HMrXZVbp9Q0TZl1DS5fxqrw
-         OGFAZtPKJYGEIM0JIZ38fnVZrf29iPDejcYgJsmylOe7EcURCmKvSObYxoUeQA/HU5YG
-         6mfYmM71mmxUsMH2PfP1S2hnMU7yUYd/lHuRVLS/RVdg4FWhKotY5SvSHIX1K64o37zf
-         YYFrBYmt2WpP4dA6qsgLf9q4ZQby+dMBLeKYO1YpJasSkk0u5nMiNp7Xz8/pcZbu2vkB
-         KFVdg21huTujttuES3aF93CWG0aQpIl6ehO1oJpSFJ6mP2vbZUYuHWSvfE+OaOrSk6RF
-         OGqA==
-X-Gm-Message-State: AOAM532IuFB8eI0M8lilEFlqyJ546cGRUFRdEIhs7N8Ej2zWx1DTwqTr
-	I8Z9KpcGRd4TFxuIw8r9Pec=
-X-Google-Smtp-Source: ABdhPJz+8Cjzvt0+IZhAoMtYNDgYheZj7U5yyvVSr5tyTGmgnTexg4MUuz6OgmhK1rUOmY6McaM9mw==
-X-Received: by 2002:adf:aac5:: with SMTP id i5mr9886807wrc.67.1637870393725;
-        Thu, 25 Nov 2021 11:59:53 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ac86])
-        by smtp.gmail.com with ESMTPSA id h13sm3762721wrx.82.2021.11.25.11.59.50
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=4t8ocAbb9RSagDUoAU33jv1dklB0bRzIRuKEQG6jgJE=;
+        b=omtpW364IkUeHKQWLjE3K9ElxX7Y0hfAgQZFOc5I9pCpzE5wDzsjI1q/4hCCUUVGFe
+         Y2gzpcak6zJy7igUM+wdb+lNBnEfaXzEvJNcoOBJ9utAriickxHw3dg7ulqbYZej1cus
+         s5XjuOOY41GG0g5QeAiA3+lCE76ga7BvWjsb9FsmS6SeC1zfRbKOMErdnEkdaAq+d9Or
+         UDNp4su0fwty+fQu8+hpzFvDkIqzxGCsrOVYvpB/nj214/d598FUVCM62MjC0Bhl4RBt
+         XyNyfyngibx+RJAjGEOx05UiJJ1Dhl7dNYDpOGROyqnnf0Abf0quJOdwtXN5mD9rShum
+         w/ng==
+X-Gm-Message-State: AOAM533o92S1Wh1KROUGQKbaHGuZk+qOOKm5pQci7KxPrOgm4DZAC9tI
+	WJNYXUjUvyy5uX+ccAUeyw==
+X-Google-Smtp-Source: ABdhPJx4vDUvwnCthNffPUNKpAhfHsE4MMgasd0FAy5ggI+9jiyrNxdsNn69r11sgn5fQ53/Iy64ug==
+X-Received: by 2002:a05:6808:d1:: with SMTP id t17mr18565416oic.161.1637875565229;
+        Thu, 25 Nov 2021 13:26:05 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id bg38sm946554oib.40.2021.11.25.13.26.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 11:59:53 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: r8188eu: remove TxCount from getTxPowerIndex88E()
-Date: Thu, 25 Nov 2021 20:59:36 +0100
-Message-Id: <20211125195936.10060-6-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211125195936.10060-1-straube.linux@gmail.com>
-References: <20211125195936.10060-1-straube.linux@gmail.com>
+        Thu, 25 Nov 2021 13:26:04 -0800 (PST)
+Received: (nullmailer pid 2858304 invoked by uid 1000);
+	Thu, 25 Nov 2021 21:26:02 -0000
+From: Rob Herring <robh@kernel.org>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Rob Herring <robh+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+In-Reply-To: <20211124084620.628-3-caihuoqing@baidu.com>
+References: <20211124084620.628-1-caihuoqing@baidu.com> <20211124084620.628-3-caihuoqing@baidu.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: staging: Add the binding documentation for ZHOUYI AI accelerator
+Date: Thu, 25 Nov 2021 14:26:02 -0700
+Message-Id: <1637875562.214167.2858303.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-In getTxPowerIndex88E() the variable TxCount is set to RF_PATH_A and
-never changed. Remove the unnecessary extra variable and replace its
-usage with RF_PATH_A.
+On Wed, 24 Nov 2021 16:46:16 +0800, Cai Huoqing wrote:
+> ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
+> such as Allwinner R329 SOC.
+> Add the binding documentation for ZHOUYI AI accelerator.
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> ---
+>  .../bindings/staging/arm,zynpu.yaml           | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/staging/arm,zynpu.yaml
+> 
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 7124b9880efa..73d5eb53a927 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -611,18 +611,17 @@ static void getTxPowerIndex88E(struct adapter *Adapter, u8 channel, u8 *cckPower
- {
- 	struct hal_data_8188e *pHalData = GET_HAL_DATA(Adapter);
- 	u8 index = (channel - 1);
--	u8 TxCount = RF_PATH_A;
- 
- 	/*  1. CCK */
--	cckPowerLevel[TxCount] = pHalData->Index24G_CCK_Base[TxCount][index];
-+	cckPowerLevel[RF_PATH_A] = pHalData->Index24G_CCK_Base[RF_PATH_A][index];
- 	/* 2. OFDM */
--	ofdmPowerLevel[TxCount] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--		pHalData->OFDM_24G_Diff[TxCount][RF_PATH_A];
-+	ofdmPowerLevel[RF_PATH_A] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
-+		pHalData->OFDM_24G_Diff[RF_PATH_A][RF_PATH_A];
- 	/*  1. BW20 */
--	BW20PowerLevel[TxCount] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--		pHalData->BW20_24G_Diff[TxCount][RF_PATH_A];
-+	BW20PowerLevel[RF_PATH_A] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
-+		pHalData->BW20_24G_Diff[RF_PATH_A][RF_PATH_A];
- 	/* 2. BW40 */
--	BW40PowerLevel[TxCount] = pHalData->Index24G_BW40_Base[TxCount][index];
-+	BW40PowerLevel[RF_PATH_A] = pHalData->Index24G_BW40_Base[RF_PATH_A][index];
- }
- 
- static void phy_PowerIndexCheck88E(struct adapter *Adapter, u8 channel, u8 *cckPowerLevel,
--- 
-2.33.1
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/staging/arm,zynpu.example.dts:23.28-32.15: Warning (unit_address_format): /example-0/soc/zynpu@03050000: unit name should not have leading 0s
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1558953
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
