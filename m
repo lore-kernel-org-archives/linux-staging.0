@@ -1,98 +1,142 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2962C80
-	for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 17:49:01 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so8975149wme.0
-        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 09:49:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0542C83;
+	Thu, 25 Nov 2021 19:21:45 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id e3so29544845edu.4;
+        Thu, 25 Nov 2021 11:21:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=PJCc5QqWq8SIWCxJePls2Yfaz7hssfHLDOZdKfFnbN4=;
-        b=XLa2FScBuBkuGDeiRO0o6jOOfJ0o4Khat5HZHEoQqLFiyq8qxy+I5ddkfWMk4hupCS
-         PzRZX3eapZ7AOwPL0pymAmNFkbDnFUzHTr3lXLKffOfArI+tiUiG/05BVqJu3sU1KNP5
-         OyBCyjvVbf/G9+ncdorVz9A+I7/Tg4RUbVmaJff/ZwoEh8zOeWhUDop+qivkLcSaYsSo
-         cQdD7VyyonzN4im12JG0VYH8DoZZiElhN+rlzPSEtTg+bJTdwGn64X86vI6xmopSbBKC
-         ExSX40w1S3L2HpPb0nE6DmtZxJZJiiNOs84LEy7ANUSi42siTZ/y2iwMoDulBrAJ0tOZ
-         0ahw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
+        b=kSCD7fAFOjTdgiLnjLYynUIfaux94u8yqksuzZVUebj/D10Hp3wTDktIjqQV59Di+5
+         m7hmzvMRWj2bM7ffFwopd6cIf81D7oXFRj7Uhf1H6USYExNgAvQixhwCe2a2U5CfLl5Z
+         vNXswG2lgBlRCX6sBrDx0MbUPDf2+0LwcuuHpMPrES9MuqCL1yv/5OWDm1tUrJIeaa/T
+         GXijeTf3n119pGg45yxgz0nHDtZWaP7xvnBfeoeJ/Ul5edKBpIN+6CDc6K+66o87/2FO
+         xhi2xwo8qnDYWn4GCbTMujIrOumUOBcrSD6481anYBkTnyhzhZS17dymUiznzOTHGAeD
+         JtkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=PJCc5QqWq8SIWCxJePls2Yfaz7hssfHLDOZdKfFnbN4=;
-        b=AAq7KVXWjz3H47kN+k8/jhy6zKR4XtGtQ++OBYi2cff8vRM6kSIdKBEGIyVe0X1zAM
-         OsErYZNqJyuFNXI3eeplowaCDGAOa3F5ALwNgDRqKNT85FrYjV+3xc0tP7Us0yJn83S/
-         DLJv78nEb6PfCUbS17TL+PNmKr2j00PrTnEEG3vtd6KwvBXsGI8CU+vgXigE9gZ5MOVt
-         oM9d3i8f/aekWbjbw0w0KhfufPOJr3AjuVPoOLnrg+ODHDi3r0I2SC5CFExo/uhjcY9i
-         JKLdERh1SNwzsK22UHgQjPg0Wa0Gz/muyzA21jHvaC7pBez0uhPoen79Mx44LQrGUqwp
-         zLJQ==
-X-Gm-Message-State: AOAM532ljmp12a1+qKuHqS9LRjZEno/DOREW/W+0xmToD2BdAJMAjlZi
-	Syo6KAfno7WLygWkeBDY1DI=
-X-Google-Smtp-Source: ABdhPJw5l3IETGCDco+C3TLxjlDf81me85PbicBW+NT8hjSgTy5TeuNrABNe9kNrk8H9PSgQgHPsjg==
-X-Received: by 2002:a05:600c:b46:: with SMTP id k6mr9456701wmr.45.1637862540287;
-        Thu, 25 Nov 2021 09:49:00 -0800 (PST)
-Received: from ?IPV6:2a02:8108:96c0:3b88::7311? ([2a02:8108:96c0:3b88::7311])
-        by smtp.gmail.com with ESMTPSA id y7sm3326485wrw.55.2021.11.25.09.48.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Nov 2021 09:49:00 -0800 (PST)
-Message-ID: <8a74f32b-381d-919b-816c-4b93706e6da8@gmail.com>
-Date: Thu, 25 Nov 2021 18:48:59 +0100
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
+        b=yLDUl3ipkehtSu0gj+3geHcMPgUu0LXHk+nAo5kRv95Z52OQW8eeHZpMxkLafpYnNR
+         wlBA+qAdncbczfug95lr4qODbXMeNyHlwb07L+yebd/jWfeR09pkFIcncFY7ht8xXIZa
+         Fke4DKF/IKGx0/4/Fr1P2Qn2jCAGaznFMzWaXnENbn1Zcv9kEL71XZnbrma48vewq2B0
+         30t+wTU3ydaWDCz5rSMYqXDv4Qfoko+I7aA4LkPUld9VXfIpIzMT0szPiAjYSqaXFeUU
+         UQA2yUZK59uC4naAp1Z8EAKwpEgMh4NmpM3AavBJi7m6OIe0Jd5w4S+2/SgmxYQcukO6
+         EhqA==
+X-Gm-Message-State: AOAM5322a5IM5dWeNrXAmx3UQASaWydUYfQoIFqv3BBrwkuS8c/9GN1Y
+	97LL2QRR9HTrnLFi0UeHmO8=
+X-Google-Smtp-Source: ABdhPJxsCCabBHBJ2oAC81Nu1JW2uYRVapJ0pqZTRte9s2XejGZRR2ce+rzmuo3a2NTAx3XP5MAtdw==
+X-Received: by 2002:a17:907:7e8e:: with SMTP id qb14mr33225652ejc.562.1637868103865;
+        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
+Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
+        by smtp.gmail.com with ESMTPSA id i8sm2983304edc.12.2021.11.25.11.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-media@vger.kernel.org, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 4/7] media: hantro: move postproc enablement for old cores
+Date: Thu, 25 Nov 2021 20:21:41 +0100
+Message-ID: <4693726.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <YZ962CvUbKoiIGyZ@eze-laptop>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211122184702.768341-5-jernej.skrabec@gmail.com> <YZ962CvUbKoiIGyZ@eze-laptop>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 4/4] staging: r8188eu: loadparam needs no net_device
-Content-Language: en-US
-To: Martin Kaiser <martin@kaiser.cx>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
- Phillip Potter <phil@philpotter.co.uk>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20211125164745.8188-1-martin@kaiser.cx>
- <20211125164745.8188-5-martin@kaiser.cx>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <20211125164745.8188-5-martin@kaiser.cx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/25/21 17:47, Martin Kaiser wrote:
-> Remove the second parameter of the loadparam function. This parameter
-> is not used.
-> 
-> Signed-off-by: Martin Kaiser <martin@kaiser.cx>
-> ---
->   drivers/staging/r8188eu/os_dep/os_intfs.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> index 397981bc9a62..02700834c587 100644
-> --- a/drivers/staging/r8188eu/os_dep/os_intfs.c
-> +++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
-> @@ -153,7 +153,7 @@ MODULE_PARM_DESC(rtw_notch_filter, "0:Disable, 1:Enable, 2:Enable only for P2P")
->   module_param_named(debug, rtw_debug, int, 0444);
->   MODULE_PARM_DESC(debug, "Set debug level (1-9) (default 1)");
->   
-> -static uint loadparam(struct adapter *padapter,  struct  net_device *pnetdev)
-> +static uint loadparam(struct adapter *padapter)
->   {
->   	struct registry_priv  *registry_par = &padapter->registrypriv;
->   
-> @@ -371,7 +371,7 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
->   	pnetdev->wireless_handlers = (struct iw_handler_def *)&rtw_handlers_def;
->   
->   	/* step 2. */
-> -	loadparam(padapter, pnetdev);
-> +	loadparam(padapter);
->   
->   	return pnetdev;
->   }
-> 
+Hi Ezequiel,
 
-Reviewed-by: Michael Straube <straube.linux@gmail.com>
+Dne =C4=8Detrtek, 25. november 2021 ob 13:00:24 CET je Ezequiel Garcia napi=
+sal(a):
+> Hi Jernej,
+>=20
+> On Mon, Nov 22, 2021 at 07:46:59PM +0100, Jernej Skrabec wrote:
+> > Older G2 cores, like that in Allwinner H6, seem to have issue with
+> > latching postproc register values if this is first thing done in job.
+> > Moving that to the end solves the issue.
+>=20
+> Any idea what exact register should be written before the post-processor
+> is enabled, for H6 to work? Also, which of the PP registers need
+> to be written "at the end"?
+
+No, there is too much registers to determine this exactly. Vendor library=20
+actually stores register values in buffer and write them all at once in=20
+increasing order. This is probably the reason why HDL engineers missed this=
+=20
+issue...
+
+>=20
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >=20
+> >  drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/staging/media/hantro/hantro_drv.c
+> > b/drivers/staging/media/hantro/hantro_drv.c index
+> > 8c3de31f51b3..530994ab3024 100644
+> > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > @@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ct=
+x)
+> >=20
+> >  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+> >  =09
+> >  				&ctx->ctrl_handler);
+> >=20
+> > -	if (!ctx->is_encoder) {
+> > +	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
+>=20
+> To make this less fragile, do you think it would make sense to
+> have a dedicated quirk flag, something like "legacy_post_proc",
+> instead of overloading the meaning of legacy_regs.
+
+Sure, it can be done :) But then I suggest "late_post_proc" - it better=20
+describes what it does.
+
+Best regards,
+Jernej
+
+>=20
+> What do you think?
+>=20
+> Thanks,
+> Ezequiel
+>=20
+> >  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> >  	=09
+> >  			hantro_postproc_enable(ctx);
+> >  	=09
+> >  		else
+> >=20
+> > @@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+> >=20
+> >  {
+> > =20
+> >  	struct vb2_v4l2_buffer *src_buf;
+> >=20
+> > +	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
+> > +		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> > +			hantro_postproc_enable(ctx);
+> > +		else
+> > +			hantro_postproc_disable(ctx);
+> > +	}
+> > +
+> >=20
+> >  	src_buf =3D hantro_get_src_buf(ctx);
+> >  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+> >  =09
+> >  				   &ctx->ctrl_handler);
+
+
+
 
