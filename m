@@ -1,212 +1,457 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CB568
-	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 11:01:40 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id ay21so17747223uab.12
-        for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 03:01:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VfCtaX4nYDdpJw7ayQvcL4LVofxZOCQFKwISJsQg6bs=;
-        b=st1LsY3L1javWhtNrW1s+bzHDmqdKGtHJgpAXf7gEYNBtxodIgNXvEEuaQsJrUadVN
-         HqgSORuLHm4AHe+/7G5BZXMXl2FM8NemGXiav0qL799Ed0xbPcMYxLV/+dBkNEeKpbDp
-         z/Oy7DayhfYWWamCaAo3qM04ZByVPpEWPVGMnBHwkJmqoY2a+ajvqRiM8Wz6Mg2fgwmU
-         qiKvUrNXshZgrzzmDYApeotkdMdTF9NZCwMdrPjHbZ8UVY9jfbt9bIli51OrwfwMMx6G
-         1X/TnjXyRGnxRkknK2uS09DXjzugR01Y2DG/C68H5pkVIoZJjTGo9URxhiCuy9uSf0/4
-         sc/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VfCtaX4nYDdpJw7ayQvcL4LVofxZOCQFKwISJsQg6bs=;
-        b=KDOe0flVolzMANUgGlgMWgPhD/UW1Y0hTcAvJtmES4/KKu+xH4HbLOteru9PV0gJFE
-         2uzdM4Ib6P6DFa5i54lmT0XZ1IhMpL7urWVmNouhaMKilEgtSui5Q8YyagODlIGt3P7C
-         fe9t4eLWGD6u2e4Q7PHcxTmry4NlMyQ6pkIjOcyrBCjRVdvQW2kf0TfB9E7/1KmIiAG+
-         Q1KOtPKwGrUC5kgVsm+PCOv+MIKSkFRgVzoSku/Jmt6PS5G2IXyzY1SclrGnbiY2u1PB
-         Wdb8nzdh4sjkt1hVbnaFfdD15nwbvAiIps5gq2xdAg8snUpyZaHJ0pGE7z3HUD8zudXN
-         Y+uw==
-X-Gm-Message-State: AOAM530JiNcppXkor06kCBg5LerWGgz2snGnJCIaPHqP59D48Ebe/eBm
-	4bEU7FpiiZnIMDGx0VTFd/QJsg==
-X-Google-Smtp-Source: ABdhPJy4vNwDp7VWQDYoJrfz1AV/MW3mIe7R1va7IunkR7hg03NRJHn3eTZH3Ptcyx884GW2gGe5pQ==
-X-Received: by 2002:a67:f64c:: with SMTP id u12mr15740354vso.69.1637924499584;
-        Fri, 26 Nov 2021 03:01:39 -0800 (PST)
-Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id i1sm3093486vkn.55.2021.11.26.03.01.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Nov 2021 03:01:38 -0800 (PST)
-Date: Fri, 26 Nov 2021 08:01:34 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev, kernel@collabora.com
-Subject: Re: [PATCH v3 3/4] media: hantro: Use syscon instead of 'ctrl'
- register
-Message-ID: <YaC+jkYwouR9Aa0s@eze-laptop>
-References: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
- <20211125155650.630977-4-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E9E68
+	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 11:41:53 +0000 (UTC)
+Received: from dslb-178-004-171-146.178.004.pools.vodafone-ip.de ([178.4.171.146] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mqZbw-0005no-ET; Fri, 26 Nov 2021 12:41:48 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH v2] staging: r8188eu: use a delayed worker for led updates
+Date: Fri, 26 Nov 2021 12:41:35 +0100
+Message-Id: <20211126114135.18228-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211125162513.25039-1-martin@kaiser.cx>
+References: <20211125162513.25039-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211125155650.630977-4-benjamin.gaignard@collabora.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Benjamin,
+The led layer uses a combination of timer and worker for periodic led
+updates, e.g. for blinking. The reason seems to be that blocking
+operations like a usb read are not allowed in a timer handler.
 
-On Thu, Nov 25, 2021 at 04:56:49PM +0100, Benjamin Gaignard wrote:
-> In order to be able to share the control hardware block between
-> VPUs use a syscon instead a ioremap it in the driver.
-> To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
-> phandle is not found look at 'ctrl' reg-name.
-> With the method it becomes useless to provide a list of register
-> names so remove it.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> 
-> Please note that the only purpose of this commit is to allow to test
-> G2 hardware block for IMX8MQ until a proper solution isuing power domain
-> can be found. Do not merge it.
+Replace the combination of timer and worker with a delayed worker.
 
-It's been too many months waiting for the BLK-CTRL to be solved.
-Perhaps we can consider merging this approach instead.
+Convert the timeout defines from milliseconds to jiffies to make them
+usable as delays for the delayed worker. Shorten the names of the defines
+and rename the work item to make checkpatch happy.
 
-Thanks,
-Ezequiel
+Other layers may call SwLedControlMode1 to update the led state. Such
+an update may result in cancelling the delayed worker. SwLedControlMode1
+might be called in interrupt context, we must use cancel_delayed_work to
+cancel the worker. cancel_delayed_work_sync waits until the worker is
+finished, this is not allowed in interrupt context.
 
-> ---
->  drivers/staging/media/hantro/hantro.h       |  5 ++-
->  drivers/staging/media/hantro/imx8m_vpu_hw.c | 48 +++++++++++++--------
->  2 files changed, 34 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index 7da23f7f207a..616b5a6854cd 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -13,6 +13,7 @@
->  #define HANTRO_H_
->  
->  #include <linux/platform_device.h>
-> +#include <linux/regmap.h>
->  #include <linux/videodev2.h>
->  #include <linux/wait.h>
->  #include <linux/clk.h>
-> @@ -174,7 +175,7 @@ hantro_vdev_to_func(struct video_device *vdev)
->   * @reg_bases:		Mapped addresses of VPU registers.
->   * @enc_base:		Mapped address of VPU encoder register for convenience.
->   * @dec_base:		Mapped address of VPU decoder register for convenience.
-> - * @ctrl_base:		Mapped address of VPU control block.
-> + * @ctrl_base:		Regmap of VPU control block.
->   * @vpu_mutex:		Mutex to synchronize V4L2 calls.
->   * @irqlock:		Spinlock to synchronize access to data structures
->   *			shared with interrupt handlers.
-> @@ -193,7 +194,7 @@ struct hantro_dev {
->  	void __iomem **reg_bases;
->  	void __iomem *enc_base;
->  	void __iomem *dec_base;
-> -	void __iomem *ctrl_base;
-> +	struct regmap *ctrl_base;
->  
->  	struct mutex vpu_mutex;	/* video_device lock */
->  	spinlock_t irqlock;
-> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> index 1a43f6fceef9..d7a63b41eb0e 100644
-> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> @@ -7,6 +7,7 @@
->  
->  #include <linux/clk.h>
->  #include <linux/delay.h>
-> +#include <linux/mfd/syscon.h>
->  
->  #include "hantro.h"
->  #include "hantro_jpeg.h"
-> @@ -25,30 +26,28 @@
->  #define CTRL_G1_PP_FUSE		0x0c
->  #define CTRL_G2_DEC_FUSE	0x10
->  
-> +static const struct regmap_config ctrl_regmap_ctrl = {
-> +	.reg_bits = 32,
-> +	.val_bits = 32,
-> +	.reg_stride = 0x14,
-> +};
-> +
->  static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
->  {
-> -	u32 val;
-> -
->  	/* Assert */
-> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
-> -	val &= ~reset_bits;
-> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-> +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
->  
->  	udelay(2);
->  
->  	/* Release */
-> -	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
-> -	val |= reset_bits;
-> -	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-> +	regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
-> +			   reset_bits, reset_bits);
->  }
->  
->  static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
->  {
-> -	u32 val;
-> -
-> -	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
-> -	val |= clock_bits;
-> -	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
-> +	regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
-> +			   clock_bits, clock_bits);
->  }
->  
->  static int imx8mq_runtime_resume(struct hantro_dev *vpu)
-> @@ -65,9 +64,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
->  	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
->  
->  	/* Set values of the fuse registers */
-> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
-> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
-> -	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
-> +	regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
-> +	regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
-> +	regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
->  
->  	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
->  
-> @@ -211,7 +210,22 @@ static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
->  
->  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
->  {
-> -	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
-> +	struct device_node *np = vpu->dev->of_node;
-> +
-> +	vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
-> +	if (IS_ERR(vpu->ctrl_base)) {
-> +		struct resource *res;
-> +		void __iomem *ctrl;
-> +
-> +		res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
-> +		ctrl = devm_ioremap_resource(vpu->dev, res);
-> +		if (IS_ERR(ctrl))
-> +			return PTR_ERR(ctrl);
-> +
-> +		vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
-> +		if (IS_ERR(vpu->ctrl_base))
-> +			return PTR_ERR(vpu->ctrl_base);
-> +	}
->  
->  	return 0;
->  }
-> -- 
-> 2.30.2
-> 
+DeInitLed871x is called when the driver is removed or when the system
+goes into standby. We may use cancel_delayed_work_sync here to cancel
+the delayed worker.
+
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+v2:
+ - do not block if we cancel a delayed worker in interrupt context
+
+ drivers/staging/r8188eu/core/rtw_led.c    | 106 ++++++++++------------
+ drivers/staging/r8188eu/include/rtw_led.h |  16 ++--
+ 2 files changed, 53 insertions(+), 69 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
+index ae46fd48f940..1eda366c61aa 100644
+--- a/drivers/staging/r8188eu/core/rtw_led.c
++++ b/drivers/staging/r8188eu/core/rtw_led.c
+@@ -4,20 +4,10 @@
+ #include "../include/drv_types.h"
+ #include "../include/rtw_led.h"
+ 
+-void BlinkTimerCallback(struct timer_list *t)
+-{
+-	struct LED_871x *pLed = from_timer(pLed, t, BlinkTimer);
+-	struct adapter *padapter = pLed->padapter;
+-
+-	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped))
+-		return;
+-
+-	schedule_work(&pLed->BlinkWorkItem);
+-}
+-
+ void BlinkWorkItemCallback(struct work_struct *work)
+ {
+-	struct LED_871x *pLed = container_of(work, struct LED_871x, BlinkWorkItem);
++	struct delayed_work *dwork = to_delayed_work(work);
++	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
+ 	BlinkHandler(pLed);
+ }
+ 
+@@ -45,14 +35,12 @@ void InitLed871x(struct adapter *padapter, struct LED_871x *pLed, enum LED_PIN_8
+ 
+ 	ResetLedStatus(pLed);
+ 
+-	timer_setup(&pLed->BlinkTimer, BlinkTimerCallback, 0);
+-	INIT_WORK(&pLed->BlinkWorkItem, BlinkWorkItemCallback);
++	INIT_DELAYED_WORK(&pLed->blink_work, BlinkWorkItemCallback);
+ }
+ 
+ void DeInitLed871x(struct LED_871x *pLed)
+ {
+-	cancel_work_sync(&pLed->BlinkWorkItem);
+-	_cancel_timer_ex(&pLed->BlinkTimer);
++	cancel_delayed_work_sync(&pLed->blink_work);
+ 	ResetLedStatus(pLed);
+ }
+ 
+@@ -80,14 +68,14 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 			pLed->BlinkingLedState = RTW_LED_OFF;
+ 		else
+ 			pLed->BlinkingLedState = RTW_LED_ON;
+-		_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
++		schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
+ 		break;
+ 	case LED_BLINK_NORMAL:
+ 		if (pLed->bLedOn)
+ 			pLed->BlinkingLedState = RTW_LED_OFF;
+ 		else
+ 			pLed->BlinkingLedState = RTW_LED_ON;
+-		_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
++		schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+ 		break;
+ 	case LED_BLINK_SCAN:
+ 		pLed->BlinkTimes--;
+@@ -101,7 +89,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 					pLed->BlinkingLedState = RTW_LED_OFF;
+ 				else
+ 					pLed->BlinkingLedState = RTW_LED_ON;
+-				_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
++				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+ 			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
+ 				pLed->bLedNoLinkBlinkInProgress = true;
+ 				pLed->CurrLedState = LED_BLINK_SLOWLY;
+@@ -109,7 +97,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 					pLed->BlinkingLedState = RTW_LED_OFF;
+ 				else
+ 					pLed->BlinkingLedState = RTW_LED_ON;
+-				_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
++				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
+ 			}
+ 			pLed->bLedScanBlinkInProgress = false;
+ 		} else {
+@@ -117,7 +105,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
+ 		}
+ 		break;
+ 	case LED_BLINK_TXRX:
+@@ -132,7 +120,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 					pLed->BlinkingLedState = RTW_LED_OFF;
+ 				else
+ 					pLed->BlinkingLedState = RTW_LED_ON;
+-				_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
++				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+ 			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
+ 				pLed->bLedNoLinkBlinkInProgress = true;
+ 				pLed->CurrLedState = LED_BLINK_SLOWLY;
+@@ -140,7 +128,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 					pLed->BlinkingLedState = RTW_LED_OFF;
+ 				else
+ 					pLed->BlinkingLedState = RTW_LED_ON;
+-				_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
++				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
+ 			}
+ 			pLed->bLedBlinkInProgress = false;
+ 		} else {
+@@ -148,7 +136,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_FASTER_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
+ 		}
+ 		break;
+ 	case LED_BLINK_WPS:
+@@ -156,7 +144,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 			pLed->BlinkingLedState = RTW_LED_OFF;
+ 		else
+ 			pLed->BlinkingLedState = RTW_LED_ON;
+-		_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
++		schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
+ 		break;
+ 	case LED_BLINK_WPS_STOP:	/* WPS success */
+ 		if (pLed->BlinkingLedState == RTW_LED_ON)
+@@ -171,12 +159,12 @@ static void SwLedBlink1(struct LED_871x *pLed)
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+ 
+ 			pLed->bLedWPSBlinkInProgress = false;
+ 		} else {
+ 			pLed->BlinkingLedState = RTW_LED_OFF;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_WPS_SUCESS_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_WPS_SUCESS_INTVL);
+ 		}
+ 		break;
+ 	default:
+@@ -198,11 +186,11 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 			if (pLed->CurrLedState == LED_BLINK_SCAN || IS_LED_WPS_BLINKING(pLed))
+ 				return;
+ 			if (pLed->bLedLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedLinkBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedBlinkInProgress = false;
+ 			}
+ 
+@@ -212,7 +200,7 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
+ 		}
+ 		break;
+ 	case LED_CTL_LINK:
+@@ -220,11 +208,11 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 			if (pLed->CurrLedState == LED_BLINK_SCAN || IS_LED_WPS_BLINKING(pLed))
+ 				return;
+ 			if (pLed->bLedNoLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedNoLinkBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedBlinkInProgress = false;
+ 			}
+ 			pLed->bLedLinkBlinkInProgress = true;
+@@ -233,7 +221,7 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
+ 		}
+ 		break;
+ 	case LED_CTL_SITE_SURVEY:
+@@ -243,15 +231,15 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 			if (IS_LED_WPS_BLINKING(pLed))
+ 				return;
+ 			if (pLed->bLedNoLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedNoLinkBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedLinkBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedBlinkInProgress = false;
+ 			}
+ 			pLed->bLedScanBlinkInProgress = true;
+@@ -261,7 +249,7 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
+ 		 }
+ 		break;
+ 	case LED_CTL_TX:
+@@ -270,11 +258,11 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 			if (pLed->CurrLedState == LED_BLINK_SCAN || IS_LED_WPS_BLINKING(pLed))
+ 				return;
+ 			if (pLed->bLedNoLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedNoLinkBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedLinkBlinkInProgress = false;
+ 			}
+ 			pLed->bLedBlinkInProgress = true;
+@@ -284,26 +272,26 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_FASTER_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
+ 		}
+ 		break;
+ 	case LED_CTL_START_WPS: /* wait until xinpin finish */
+ 	case LED_CTL_START_WPS_BOTTON:
+ 		 if (!pLed->bLedWPSBlinkInProgress) {
+ 			if (pLed->bLedNoLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedNoLinkBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedLinkBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedLinkBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedBlinkInProgress = false;
+ 			}
+ 			if (pLed->bLedScanBlinkInProgress) {
+-				_cancel_timer_ex(&pLed->BlinkTimer);
++				cancel_delayed_work(&pLed->blink_work);
+ 				pLed->bLedScanBlinkInProgress = false;
+ 			}
+ 			pLed->bLedWPSBlinkInProgress = true;
+@@ -312,42 +300,42 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 				pLed->BlinkingLedState = RTW_LED_OFF;
+ 			else
+ 				pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
+ 		 }
+ 		break;
+ 	case LED_CTL_STOP_WPS:
+ 		if (pLed->bLedNoLinkBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedNoLinkBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedLinkBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedLinkBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedScanBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedScanBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedWPSBlinkInProgress)
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 		else
+ 			pLed->bLedWPSBlinkInProgress = true;
+ 		pLed->CurrLedState = LED_BLINK_WPS_STOP;
+ 		if (pLed->bLedOn) {
+ 			pLed->BlinkingLedState = RTW_LED_OFF;
+-			_set_timer(&pLed->BlinkTimer, LED_BLINK_WPS_SUCESS_INTERVAL_ALPHA);
++			schedule_delayed_work(&pLed->blink_work, LED_BLINK_WPS_SUCESS_INTVL);
+ 		} else {
+ 			pLed->BlinkingLedState = RTW_LED_ON;
+-			_set_timer(&pLed->BlinkTimer, 0);
++			schedule_delayed_work(&pLed->blink_work, 0);
+ 		}
+ 		break;
+ 	case LED_CTL_STOP_WPS_FAIL:
+ 		if (pLed->bLedWPSBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedWPSBlinkInProgress = false;
+ 		}
+ 		pLed->bLedNoLinkBlinkInProgress = true;
+@@ -356,29 +344,29 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
+ 			pLed->BlinkingLedState = RTW_LED_OFF;
+ 		else
+ 			pLed->BlinkingLedState = RTW_LED_ON;
+-		_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
++		schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
+ 		break;
+ 	case LED_CTL_POWER_OFF:
+ 		pLed->CurrLedState = RTW_LED_OFF;
+ 		pLed->BlinkingLedState = RTW_LED_OFF;
+ 		if (pLed->bLedNoLinkBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedNoLinkBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedLinkBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedLinkBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedWPSBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedWPSBlinkInProgress = false;
+ 		}
+ 		if (pLed->bLedScanBlinkInProgress) {
+-			_cancel_timer_ex(&pLed->BlinkTimer);
++			cancel_delayed_work(&pLed->blink_work);
+ 			pLed->bLedScanBlinkInProgress = false;
+ 		}
+ 		SwLedOff(padapter, pLed);
+diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
+index c035fe267635..7e901aae92fb 100644
+--- a/drivers/staging/r8188eu/include/rtw_led.h
++++ b/drivers/staging/r8188eu/include/rtw_led.h
+@@ -13,11 +13,11 @@
+ #define LED_BLINK_SLOWLY_INTERVAL		200
+ #define LED_BLINK_LONG_INTERVAL			400
+ 
+-#define LED_BLINK_NO_LINK_INTERVAL_ALPHA	1000
+-#define LED_BLINK_LINK_INTERVAL_ALPHA		500	/* 500 */
+-#define LED_BLINK_SCAN_INTERVAL_ALPHA		180	/* 150 */
+-#define LED_BLINK_FASTER_INTERVAL_ALPHA		50
+-#define LED_BLINK_WPS_SUCESS_INTERVAL_ALPHA	5000
++#define LED_BLINK_NO_LINK_INTVL			msecs_to_jiffies(1000)
++#define LED_BLINK_LINK_INTVL			msecs_to_jiffies(500)
++#define LED_BLINK_SCAN_INTVL			msecs_to_jiffies(180)
++#define LED_BLINK_FASTER_INTVL			msecs_to_jiffies(50)
++#define LED_BLINK_WPS_SUCESS_INTVL		msecs_to_jiffies(5000)
+ 
+ #define LED_BLINK_NORMAL_INTERVAL_NETTRONIX	100
+ #define LED_BLINK_SLOWLY_INTERVAL_NETTRONIX	2000
+@@ -105,15 +105,12 @@ struct LED_871x {
+ 
+ 	u32 BlinkTimes; /*  Number of times to toggle led state for blinking. */
+ 
+-	struct timer_list BlinkTimer; /*  Timer object for led blinking. */
+-
+ 	/*  ALPHA, added by chiyoko, 20090106 */
+ 	u8 bLedNoLinkBlinkInProgress;
+ 	u8 bLedLinkBlinkInProgress;
+ 	u8 bLedStartToLinkBlinkInProgress;
+ 	u8 bLedScanBlinkInProgress;
+-	struct work_struct BlinkWorkItem; /* Workitem used by BlinkTimer to
+-					   * manipulate H/W to blink LED. */
++	struct delayed_work blink_work;
+ };
+ 
+ #define IS_LED_WPS_BLINKING(_LED_871x)					\
+@@ -143,7 +140,6 @@ struct led_priv{
+ 			(adapt)->ledpriv.LedControlHandler((adapt), (action)); \
+ 	} while (0)
+ 
+-void BlinkTimerCallback(struct timer_list *t);
+ void BlinkWorkItemCallback(struct work_struct *work);
+ 
+ void ResetLedStatus(struct LED_871x * pLed);
+-- 
+2.20.1
+
