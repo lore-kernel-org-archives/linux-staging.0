@@ -1,74 +1,71 @@
-Received: from baidu.com (mx22.baidu.com [220.181.50.185])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBB0D72
-	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 07:14:48 +0000 (UTC)
-Received: from BC-Mail-Ex12.internal.baidu.com (unknown [172.31.51.52])
-	by Forcepoint Email with ESMTPS id DAB70995F93BBB3390A2;
-	Fri, 26 Nov 2021 15:14:41 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex12.internal.baidu.com (172.31.51.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.20; Fri, 26 Nov 2021 15:14:41 +0800
-Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
- (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.20; Fri, 26
- Nov 2021 15:14:41 +0800
-Date: Fri, 26 Nov 2021 15:14:44 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v3 1/3] staging: zynpu: Add driver support for ARM(China)
- ZHOUYI AI accelerator
-Message-ID: <20211126071444.GA32426@LAPTOP-UKSR4ENP.internal.baidu.com>
-References: <20211126021904.32325-1-caihuoqing@baidu.com>
- <20211126021904.32325-2-caihuoqing@baidu.com>
- <YaCCFv2DLzeng+UE@kroah.com>
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C3C72
+	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 07:36:09 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id y13so34948072edd.13
+        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 23:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=elJioYNUbOzp4AX6n16wfmeroXlPwEb1AcJcD/HfIlo=;
+        b=cuYI5lX/w13XGoVbijkOcO0Df4iXXCO1KO1DxzVauzOtOpZ0r0mFw6GSEMYZO/MhCk
+         C+fYevTdEUz6ikNlEUUntAM1UVhHtIRY7L9oQpVQd0vSsa1uVTnJTnoKX6zjd2q1Vjhb
+         6qQx+JTKIEl/UW7oDydJaJ+S2NWWVFnbuTVDyLaEZBH2YTP9P3SG6bFp1r2k0QsEQUl8
+         jgIRKNdHqIXML1bZP0VzKqxE9tUWPZcNyD1lv6LWBCjcAjUDloHEA86g5QrPKgtKrpLD
+         M8/G+zxvjWHcHUUQ30sg6gJdilMsshmSs/p6DCcKC+XBJB4s/OX+uZ/a0gjzJtyJ6Dz5
+         Yj2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=elJioYNUbOzp4AX6n16wfmeroXlPwEb1AcJcD/HfIlo=;
+        b=MS8FRlMpP+JQuFqG0gBM3GWBiH9o9xEzur6JcSoz2Sm6mf4Z7FfXEqWr7mQUjjq/Ql
+         ECAWmsMLVpeC27EhNCPdkZwOGXTDpZzCD7Dxe4BNJMuI5TbsfGeW4jKWR3+7DEG75rg1
+         MtaSm+ebzkuuGeimkjJ/FnXWEUckfNP7M44vAaQuaUTHBcI2fXuR0Vc9RWxFiuq+E0dH
+         +H3qKCcGzwzZpNTU6kGP8B8Qod4/hBl377SvPjlalCDXRTTXwWz56fRF7kEL7xE/AZlv
+         b2e9F9RuRi1O1VYEg2Zd8DKZDxsm2RWB8dBTHc1kKfm7aeDTkxZ2WzUV23L71TqfrENe
+         dTHw==
+X-Gm-Message-State: AOAM531CmLWAr/IJFmrrVKgSN2LK+OwAFWiSplFI6+DwV4xnL6uPJ+tQ
+	vHo+8g7aANbT0wL+UOpVAi0=
+X-Google-Smtp-Source: ABdhPJziieAYsblkX51ypxlNpIpLASnQWiqy4Ol2QSm24dq/SP/qvVTPJVxq7n6D39x3WcD7zizgOw==
+X-Received: by 2002:a17:907:608f:: with SMTP id ht15mr1635858ejc.300.1637912167916;
+        Thu, 25 Nov 2021 23:36:07 -0800 (PST)
+Received: from alb3rt0-VirtualBox ([151.22.100.250])
+        by smtp.gmail.com with ESMTPSA id k21sm3169110edo.87.2021.11.25.23.36.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 23:36:07 -0800 (PST)
+Date: Fri, 26 Nov 2021 08:36:05 +0100
+From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: joe@perches.com, forest@alittletooquiet.net, karolinadrobnik@gmail.com,
+	lucas.henneman@linaro.org, dan.carpenter@oracle.com,
+	tomm.merciai@gmail.com, eantoranz@gmail.com,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v5] staging: vt6655: refactor camelcase uCurrRSSI to
+ current_rssi
+Message-ID: <20211126073605.GA4537@alb3rt0-VirtualBox>
+References: <20211118211128.GA156436@t470p>
+ <YZ+9yDiG1SoWrWED@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YaCCFv2DLzeng+UE@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex11.internal.baidu.com (172.31.51.51) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+In-Reply-To: <YZ+9yDiG1SoWrWED@kroah.com>
 
-On 26 11月 21 07:43:34, Greg Kroah-Hartman wrote:
-> On Fri, Nov 26, 2021 at 10:18:59AM +0800, Cai Huoqing wrote:
-> > ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
-> > such as Allwinner R329 SOC.
-> > Add driver support for this AI accelerator here.
-> > 
-> > This driver is not standard linux style, there are some clean up works,
-> > fixing code style, refactorring.
-> > And it only works with a closed source usermode driver, so need to
-> > reverse the libraries, and impelement it, then open source
-> > the usermode driver.
-> > So add this driver to linux-staging
-> 
-> Sorry, but no, I can not take this driver into the kernel tree until
-> there is an open source user of the new api that you are creating with
-> this driver.  This was discussed many times on the linux-kernel mailing
-> list and at the Linux kernel summit a few months ago (see the summary at
-> lwn.net about it.)
-> 
-> So please work on that first, and then we will be glad to revisit taking
-> this kernel driver into the tree.
-OK, I will do that.
-And after doing some clean up, try to take this code to the "real" linux tree.
+
+> I'm totally lost, sorry.
+I did a bit confusion, I'm lost too... :P
+
+> Please resend this again and properly set the version number.
+Sure, I will.
 
 Thanks,
-Cai
-> 
-> Also, it is much simpler just to take a few hours and clean up the
-> coding style issues yourself rather than relying on the community to do
-> it for you over a few months.
-> 
-> thanks,
-> 
-> greg k-h
+Alberto
+
+
