@@ -1,119 +1,107 @@
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606062C82
-	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 02:19:31 +0000 (UTC)
-Received: from BC-Mail-EX04.internal.baidu.com (unknown [172.31.51.44])
-	by Forcepoint Email with ESMTPS id CD61090422A0F561742E;
-	Fri, 26 Nov 2021 10:19:18 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-EX04.internal.baidu.com (172.31.51.44) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.20; Fri, 26 Nov 2021 10:19:18 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.20; Fri, 26 Nov 2021 10:19:18 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: Rob Herring <robh+dt@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: [PATCH v3 2/3] dt-bindings: staging: Add the binding documentation for ZHOUYI AI accelerator
-Date: Fri, 26 Nov 2021 10:19:00 +0800
-Message-ID: <20211126021904.32325-3-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211126021904.32325-1-caihuoqing@baidu.com>
-References: <20211126021904.32325-1-caihuoqing@baidu.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D199C2C82
+	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 05:11:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="222834886"
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; 
+   d="scan'208";a="222834886"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 21:11:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; 
+   d="scan'208";a="675442484"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 25 Nov 2021 21:11:13 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1mqTVw-0007WF-D4; Fri, 26 Nov 2021 05:11:12 +0000
+Date: Fri, 26 Nov 2021 13:10:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+	linux-media@vger.kernel.org
+Cc: kbuild-all@lists.01.org,
+	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+	Robert Beckett <bob.beckett@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+	kernel@collabora.com
+Subject: Re: [PATCH v3 3/6] staging: media: wave5: Add the v4l2 layer
+Message-ID: <202111261354.DVf9NPz7-lkp@intel.com>
+References: <20211110120910.12411-4-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex10.internal.baidu.com (172.31.51.50) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211110120910.12411-4-dafna.hirschfeld@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
-such as Allwinner R329 SOC.
-Add the binding documentation for ZHOUYI AI accelerator.
+Hi Dafna,
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/0day-ci/linux/commits/Dafna-Hirschfeld/staging-media-wave5-add-wave5-codec-driver/20211110-201127
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 8a893759d0075ea9556abcf86a4826d9865ba4bf
+config: nios2-randconfig-s031-20211115 (https://download.01.org/0day-ci/archive/20211126/202111261354.DVf9NPz7-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/0day-ci/linux/commit/2fcd7c429c9a940f0e22894189556dfda264f127
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Dafna-Hirschfeld/staging-media-wave5-add-wave5-codec-driver/20211110-201127
+        git checkout 2fcd7c429c9a940f0e22894189556dfda264f127
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/nvme/target/ drivers/staging/media/wave5/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/media/wave5/wave5-hw.c: note: in included file (through drivers/staging/media/wave5/vpu.h):
+>> drivers/staging/media/wave5/vpuapi.h:842:29: sparse: sparse: dubious one-bit signed bitfield
+--
+   drivers/staging/media/wave5/vpu.c: note: in included file (through drivers/staging/media/wave5/vpu.h):
+>> drivers/staging/media/wave5/vpuapi.h:842:29: sparse: sparse: dubious one-bit signed bitfield
+--
+   drivers/staging/media/wave5/vpuapi.c: note: in included file:
+>> drivers/staging/media/wave5/vpuapi.h:842:29: sparse: sparse: dubious one-bit signed bitfield
+--
+   drivers/staging/media/wave5/vdi.c: note: in included file (through drivers/staging/media/wave5/vpu.h):
+>> drivers/staging/media/wave5/vpuapi.h:842:29: sparse: sparse: dubious one-bit signed bitfield
+--
+   drivers/staging/media/wave5/vpu_enc.c: note: in included file (through drivers/staging/media/wave5/vpu.h):
+>> drivers/staging/media/wave5/vpuapi.h:842:29: sparse: sparse: dubious one-bit signed bitfield
+   drivers/staging/media/wave5/vpu_enc.c: note: in included file:
+>> drivers/staging/media/wave5/vpu.h:62:48: sparse: sparse: marked inline, but without a definition
+>> drivers/staging/media/wave5/vpu.h:62:48: sparse: sparse: marked inline, but without a definition
+--
+   drivers/staging/media/wave5/vpu_dec.c: note: in included file (through drivers/staging/media/wave5/vpu.h):
+>> drivers/staging/media/wave5/vpuapi.h:842:29: sparse: sparse: dubious one-bit signed bitfield
+   drivers/staging/media/wave5/vpu_dec.c: note: in included file:
+>> drivers/staging/media/wave5/vpu.h:62:48: sparse: sparse: marked inline, but without a definition
+>> drivers/staging/media/wave5/vpu.h:62:48: sparse: sparse: marked inline, but without a definition
+
+vim +62 drivers/staging/media/wave5/vpu.h
+
+    57	
+    58	int  wave5_vpu_dec_register_device(struct vpu_device *dev);
+    59	void wave5_vpu_dec_unregister_device(struct vpu_device *dev);
+    60	int  wave5_vpu_enc_register_device(struct vpu_device *dev);
+    61	void wave5_vpu_enc_unregister_device(struct vpu_device *dev);
+  > 62	inline bool wave5_vpu_both_queues_are_streaming(struct vpu_instance *inst);
+
 ---
-v2->v3:
-        *Fix unit_address_format, avoid leading 0s.
-
- .../bindings/staging/arm,zynpu.yaml           | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-
-diff --git a/Documentation/devicetree/bindings/staging/arm,zynpu.yaml b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-new file mode 100644
-index 000000000000..d452c08ab4a3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/staging/arm,zynpu.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ARM ZHOUYI AI accelerator bindings
-+
-+maintainers:
-+  - Cai Huoqing <caihuoqing@baidu.com>
-+
-+description:
-+  Supports ZHOUYI AI accelerator in ARM SOC.
-+
-+properties:
-+  compatible:
-+    const: armchina,zhouyi-v1
-+
-+  reg:
-+    maxItems: 1
-+
-+  device_type:
-+    const: zynpu
-+
-+  cma-reserved-bytes:
-+    default: 0
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 3
-+
-+required:
-+  - compatible
-+  - reg
-+  - device_type
-+  - cma-reserved-bytes
-+  - interrupts
-+  - clocks
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+        zynpu@3050000 {
-+            compatible = "armchina,zhouyi-v1";
-+            reg = <0x0 0x3050000 0x0 0x1000>;
-+            device_type = "zynpu";
-+            cma-reserved-bytes = <0x2600000>;
-+            interrupts = <GIC_SPI 64 IRQ_TYPE_EDGE_RISING>;
-+            clocks = <&clk_zynpu>,
-+                     <&clk_pll_zynpu>,
-+                     <&clk_zynpu_slv>;
-+        };
-+    };
-+...
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
