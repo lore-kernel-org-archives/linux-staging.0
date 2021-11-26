@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E9E68
-	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 11:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B002C80
+	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 13:04:21 +0000 (UTC)
 Received: from dslb-178-004-171-146.178.004.pools.vodafone-ip.de ([178.4.171.146] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mqZbw-0005no-ET; Fri, 26 Nov 2021 12:41:48 +0100
+	id 1mqatk-0006Hl-Ee; Fri, 26 Nov 2021 14:04:16 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,12 +16,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH v2] staging: r8188eu: use a delayed worker for led updates
-Date: Fri, 26 Nov 2021 12:41:35 +0100
-Message-Id: <20211126114135.18228-1-martin@kaiser.cx>
+Subject: [PATCH v2 0/4] staging: r8188eu: some trivial removals
+Date: Fri, 26 Nov 2021 14:03:56 +0100
+Message-Id: <20211126130400.26151-1-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211125162513.25039-1-martin@kaiser.cx>
-References: <20211125162513.25039-1-martin@kaiser.cx>
+In-Reply-To: <20211125164745.8188-1-martin@kaiser.cx>
+References: <20211125164745.8188-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,428 +30,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The led layer uses a combination of timer and worker for periodic led
-updates, e.g. for blinking. The reason seems to be that blocking
-operations like a usb read are not allowed in a timer handler.
+Remove empty functions and unused function parameters.
 
-Replace the combination of timer and worker with a delayed worker.
+Tested on top of "clean up workers". Most likey, there's no conflicts
+with my previous patches.
 
-Convert the timeout defines from milliseconds to jiffies to make them
-usable as delays for the delayed worker. Shorten the names of the defines
-and rename the work item to make checkpatch happy.
-
-Other layers may call SwLedControlMode1 to update the led state. Such
-an update may result in cancelling the delayed worker. SwLedControlMode1
-might be called in interrupt context, we must use cancel_delayed_work to
-cancel the worker. cancel_delayed_work_sync waits until the worker is
-finished, this is not allowed in interrupt context.
-
-DeInitLed871x is called when the driver is removed or when the system
-goes into standby. We may use cancel_delayed_work_sync here to cancel
-the delayed worker.
-
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
 v2:
- - do not block if we cancel a delayed worker in interrupt context
+ - add Michael's Reviewed-by tags
+ - remove _ps_open_RF prototype
 
- drivers/staging/r8188eu/core/rtw_led.c    | 106 ++++++++++------------
- drivers/staging/r8188eu/include/rtw_led.h |  16 ++--
- 2 files changed, 53 insertions(+), 69 deletions(-)
+Martin Kaiser (4):
+  staging: r8188eu: remove pm_netdev_open
+  staging: r8188eu: remove _ps_open_RF
+  staging: r8188eu: remove _ps_close_RF
+  staging: r8188eu: loadparam needs no net_device
 
-diff --git a/drivers/staging/r8188eu/core/rtw_led.c b/drivers/staging/r8188eu/core/rtw_led.c
-index ae46fd48f940..1eda366c61aa 100644
---- a/drivers/staging/r8188eu/core/rtw_led.c
-+++ b/drivers/staging/r8188eu/core/rtw_led.c
-@@ -4,20 +4,10 @@
- #include "../include/drv_types.h"
- #include "../include/rtw_led.h"
- 
--void BlinkTimerCallback(struct timer_list *t)
--{
--	struct LED_871x *pLed = from_timer(pLed, t, BlinkTimer);
--	struct adapter *padapter = pLed->padapter;
--
--	if ((padapter->bSurpriseRemoved) || (padapter->bDriverStopped))
--		return;
--
--	schedule_work(&pLed->BlinkWorkItem);
--}
--
- void BlinkWorkItemCallback(struct work_struct *work)
- {
--	struct LED_871x *pLed = container_of(work, struct LED_871x, BlinkWorkItem);
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct LED_871x *pLed = container_of(dwork, struct LED_871x, blink_work);
- 	BlinkHandler(pLed);
- }
- 
-@@ -45,14 +35,12 @@ void InitLed871x(struct adapter *padapter, struct LED_871x *pLed, enum LED_PIN_8
- 
- 	ResetLedStatus(pLed);
- 
--	timer_setup(&pLed->BlinkTimer, BlinkTimerCallback, 0);
--	INIT_WORK(&pLed->BlinkWorkItem, BlinkWorkItemCallback);
-+	INIT_DELAYED_WORK(&pLed->blink_work, BlinkWorkItemCallback);
- }
- 
- void DeInitLed871x(struct LED_871x *pLed)
- {
--	cancel_work_sync(&pLed->BlinkWorkItem);
--	_cancel_timer_ex(&pLed->BlinkTimer);
-+	cancel_delayed_work_sync(&pLed->blink_work);
- 	ResetLedStatus(pLed);
- }
- 
-@@ -80,14 +68,14 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 			pLed->BlinkingLedState = RTW_LED_OFF;
- 		else
- 			pLed->BlinkingLedState = RTW_LED_ON;
--		_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
-+		schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
- 		break;
- 	case LED_BLINK_NORMAL:
- 		if (pLed->bLedOn)
- 			pLed->BlinkingLedState = RTW_LED_OFF;
- 		else
- 			pLed->BlinkingLedState = RTW_LED_ON;
--		_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
-+		schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
- 		break;
- 	case LED_BLINK_SCAN:
- 		pLed->BlinkTimes--;
-@@ -101,7 +89,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 					pLed->BlinkingLedState = RTW_LED_OFF;
- 				else
- 					pLed->BlinkingLedState = RTW_LED_ON;
--				_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
- 			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
- 				pLed->bLedNoLinkBlinkInProgress = true;
- 				pLed->CurrLedState = LED_BLINK_SLOWLY;
-@@ -109,7 +97,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 					pLed->BlinkingLedState = RTW_LED_OFF;
- 				else
- 					pLed->BlinkingLedState = RTW_LED_ON;
--				_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
- 			}
- 			pLed->bLedScanBlinkInProgress = false;
- 		} else {
-@@ -117,7 +105,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
- 		}
- 		break;
- 	case LED_BLINK_TXRX:
-@@ -132,7 +120,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 					pLed->BlinkingLedState = RTW_LED_OFF;
- 				else
- 					pLed->BlinkingLedState = RTW_LED_ON;
--				_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
- 			} else if (!check_fwstate(pmlmepriv, _FW_LINKED)) {
- 				pLed->bLedNoLinkBlinkInProgress = true;
- 				pLed->CurrLedState = LED_BLINK_SLOWLY;
-@@ -140,7 +128,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 					pLed->BlinkingLedState = RTW_LED_OFF;
- 				else
- 					pLed->BlinkingLedState = RTW_LED_ON;
--				_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
-+				schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
- 			}
- 			pLed->bLedBlinkInProgress = false;
- 		} else {
-@@ -148,7 +136,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_FASTER_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
- 		}
- 		break;
- 	case LED_BLINK_WPS:
-@@ -156,7 +144,7 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 			pLed->BlinkingLedState = RTW_LED_OFF;
- 		else
- 			pLed->BlinkingLedState = RTW_LED_ON;
--		_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
-+		schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
- 		break;
- 	case LED_BLINK_WPS_STOP:	/* WPS success */
- 		if (pLed->BlinkingLedState == RTW_LED_ON)
-@@ -171,12 +159,12 @@ static void SwLedBlink1(struct LED_871x *pLed)
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
- 
- 			pLed->bLedWPSBlinkInProgress = false;
- 		} else {
- 			pLed->BlinkingLedState = RTW_LED_OFF;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_WPS_SUCESS_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_WPS_SUCESS_INTVL);
- 		}
- 		break;
- 	default:
-@@ -198,11 +186,11 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 			if (pLed->CurrLedState == LED_BLINK_SCAN || IS_LED_WPS_BLINKING(pLed))
- 				return;
- 			if (pLed->bLedLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedLinkBlinkInProgress = false;
- 			}
- 			if (pLed->bLedBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedBlinkInProgress = false;
- 			}
- 
-@@ -212,7 +200,7 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
- 		}
- 		break;
- 	case LED_CTL_LINK:
-@@ -220,11 +208,11 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 			if (pLed->CurrLedState == LED_BLINK_SCAN || IS_LED_WPS_BLINKING(pLed))
- 				return;
- 			if (pLed->bLedNoLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedNoLinkBlinkInProgress = false;
- 			}
- 			if (pLed->bLedBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedBlinkInProgress = false;
- 			}
- 			pLed->bLedLinkBlinkInProgress = true;
-@@ -233,7 +221,7 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_LINK_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_LINK_INTVL);
- 		}
- 		break;
- 	case LED_CTL_SITE_SURVEY:
-@@ -243,15 +231,15 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 			if (IS_LED_WPS_BLINKING(pLed))
- 				return;
- 			if (pLed->bLedNoLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedNoLinkBlinkInProgress = false;
- 			}
- 			if (pLed->bLedLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedLinkBlinkInProgress = false;
- 			}
- 			if (pLed->bLedBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedBlinkInProgress = false;
- 			}
- 			pLed->bLedScanBlinkInProgress = true;
-@@ -261,7 +249,7 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
- 		 }
- 		break;
- 	case LED_CTL_TX:
-@@ -270,11 +258,11 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 			if (pLed->CurrLedState == LED_BLINK_SCAN || IS_LED_WPS_BLINKING(pLed))
- 				return;
- 			if (pLed->bLedNoLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedNoLinkBlinkInProgress = false;
- 			}
- 			if (pLed->bLedLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedLinkBlinkInProgress = false;
- 			}
- 			pLed->bLedBlinkInProgress = true;
-@@ -284,26 +272,26 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_FASTER_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_FASTER_INTVL);
- 		}
- 		break;
- 	case LED_CTL_START_WPS: /* wait until xinpin finish */
- 	case LED_CTL_START_WPS_BOTTON:
- 		 if (!pLed->bLedWPSBlinkInProgress) {
- 			if (pLed->bLedNoLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedNoLinkBlinkInProgress = false;
- 			}
- 			if (pLed->bLedLinkBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedLinkBlinkInProgress = false;
- 			}
- 			if (pLed->bLedBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedBlinkInProgress = false;
- 			}
- 			if (pLed->bLedScanBlinkInProgress) {
--				_cancel_timer_ex(&pLed->BlinkTimer);
-+				cancel_delayed_work(&pLed->blink_work);
- 				pLed->bLedScanBlinkInProgress = false;
- 			}
- 			pLed->bLedWPSBlinkInProgress = true;
-@@ -312,42 +300,42 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 				pLed->BlinkingLedState = RTW_LED_OFF;
- 			else
- 				pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_SCAN_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_SCAN_INTVL);
- 		 }
- 		break;
- 	case LED_CTL_STOP_WPS:
- 		if (pLed->bLedNoLinkBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedNoLinkBlinkInProgress = false;
- 		}
- 		if (pLed->bLedLinkBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedLinkBlinkInProgress = false;
- 		}
- 		if (pLed->bLedBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedBlinkInProgress = false;
- 		}
- 		if (pLed->bLedScanBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedScanBlinkInProgress = false;
- 		}
- 		if (pLed->bLedWPSBlinkInProgress)
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 		else
- 			pLed->bLedWPSBlinkInProgress = true;
- 		pLed->CurrLedState = LED_BLINK_WPS_STOP;
- 		if (pLed->bLedOn) {
- 			pLed->BlinkingLedState = RTW_LED_OFF;
--			_set_timer(&pLed->BlinkTimer, LED_BLINK_WPS_SUCESS_INTERVAL_ALPHA);
-+			schedule_delayed_work(&pLed->blink_work, LED_BLINK_WPS_SUCESS_INTVL);
- 		} else {
- 			pLed->BlinkingLedState = RTW_LED_ON;
--			_set_timer(&pLed->BlinkTimer, 0);
-+			schedule_delayed_work(&pLed->blink_work, 0);
- 		}
- 		break;
- 	case LED_CTL_STOP_WPS_FAIL:
- 		if (pLed->bLedWPSBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedWPSBlinkInProgress = false;
- 		}
- 		pLed->bLedNoLinkBlinkInProgress = true;
-@@ -356,29 +344,29 @@ static void SwLedControlMode1(struct adapter *padapter, enum LED_CTL_MODE LedAct
- 			pLed->BlinkingLedState = RTW_LED_OFF;
- 		else
- 			pLed->BlinkingLedState = RTW_LED_ON;
--		_set_timer(&pLed->BlinkTimer, LED_BLINK_NO_LINK_INTERVAL_ALPHA);
-+		schedule_delayed_work(&pLed->blink_work, LED_BLINK_NO_LINK_INTVL);
- 		break;
- 	case LED_CTL_POWER_OFF:
- 		pLed->CurrLedState = RTW_LED_OFF;
- 		pLed->BlinkingLedState = RTW_LED_OFF;
- 		if (pLed->bLedNoLinkBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedNoLinkBlinkInProgress = false;
- 		}
- 		if (pLed->bLedLinkBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedLinkBlinkInProgress = false;
- 		}
- 		if (pLed->bLedBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedBlinkInProgress = false;
- 		}
- 		if (pLed->bLedWPSBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedWPSBlinkInProgress = false;
- 		}
- 		if (pLed->bLedScanBlinkInProgress) {
--			_cancel_timer_ex(&pLed->BlinkTimer);
-+			cancel_delayed_work(&pLed->blink_work);
- 			pLed->bLedScanBlinkInProgress = false;
- 		}
- 		SwLedOff(padapter, pLed);
-diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
-index c035fe267635..7e901aae92fb 100644
---- a/drivers/staging/r8188eu/include/rtw_led.h
-+++ b/drivers/staging/r8188eu/include/rtw_led.h
-@@ -13,11 +13,11 @@
- #define LED_BLINK_SLOWLY_INTERVAL		200
- #define LED_BLINK_LONG_INTERVAL			400
- 
--#define LED_BLINK_NO_LINK_INTERVAL_ALPHA	1000
--#define LED_BLINK_LINK_INTERVAL_ALPHA		500	/* 500 */
--#define LED_BLINK_SCAN_INTERVAL_ALPHA		180	/* 150 */
--#define LED_BLINK_FASTER_INTERVAL_ALPHA		50
--#define LED_BLINK_WPS_SUCESS_INTERVAL_ALPHA	5000
-+#define LED_BLINK_NO_LINK_INTVL			msecs_to_jiffies(1000)
-+#define LED_BLINK_LINK_INTVL			msecs_to_jiffies(500)
-+#define LED_BLINK_SCAN_INTVL			msecs_to_jiffies(180)
-+#define LED_BLINK_FASTER_INTVL			msecs_to_jiffies(50)
-+#define LED_BLINK_WPS_SUCESS_INTVL		msecs_to_jiffies(5000)
- 
- #define LED_BLINK_NORMAL_INTERVAL_NETTRONIX	100
- #define LED_BLINK_SLOWLY_INTERVAL_NETTRONIX	2000
-@@ -105,15 +105,12 @@ struct LED_871x {
- 
- 	u32 BlinkTimes; /*  Number of times to toggle led state for blinking. */
- 
--	struct timer_list BlinkTimer; /*  Timer object for led blinking. */
--
- 	/*  ALPHA, added by chiyoko, 20090106 */
- 	u8 bLedNoLinkBlinkInProgress;
- 	u8 bLedLinkBlinkInProgress;
- 	u8 bLedStartToLinkBlinkInProgress;
- 	u8 bLedScanBlinkInProgress;
--	struct work_struct BlinkWorkItem; /* Workitem used by BlinkTimer to
--					   * manipulate H/W to blink LED. */
-+	struct delayed_work blink_work;
- };
- 
- #define IS_LED_WPS_BLINKING(_LED_871x)					\
-@@ -143,7 +140,6 @@ struct led_priv{
- 			(adapt)->ledpriv.LedControlHandler((adapt), (action)); \
- 	} while (0)
- 
--void BlinkTimerCallback(struct timer_list *t);
- void BlinkWorkItemCallback(struct work_struct *work);
- 
- void ResetLedStatus(struct LED_871x * pLed);
+ drivers/staging/r8188eu/hal/usb_halinit.c      | 18 +-----------------
+ drivers/staging/r8188eu/include/rtl8188e_hal.h |  1 -
+ drivers/staging/r8188eu/include/usb_osintf.h   |  1 -
+ drivers/staging/r8188eu/os_dep/os_intfs.c      | 15 ++-------------
+ drivers/staging/r8188eu/os_dep/usb_intf.c      |  2 +-
+ 5 files changed, 4 insertions(+), 33 deletions(-)
+
 -- 
 2.20.1
 
