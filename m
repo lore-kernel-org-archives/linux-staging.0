@@ -1,61 +1,74 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DFD72
-	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 06:44:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F0C8161107;
-	Fri, 26 Nov 2021 06:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1637909097;
-	bh=8bHYPzUATkfZh13noPGKgSogQzn8/Taz/tcz+JwjBlk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tCvlJscHSV9W9DpueHnLKTrrXUQYnx6VnqWnRfCkvIZUNG7FU40SFnmNuNzr6OFeM
-	 5LNriIe/7CPeLCw1JHIV8rBjgilE5MpK6u6WMuSGUK3mx/uFsivPh1oej4FqhCYjiv
-	 gvdfLuW56dqqMM90M8Mgb3rqRakMi1/arrsHV6Qo=
-Date: Fri, 26 Nov 2021 07:44:52 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 2/3] dt-bindings: staging: Add the binding
- documentation for ZHOUYI AI accelerator
-Message-ID: <YaCCZOGRxj7EtEou@kroah.com>
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBB0D72
+	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 07:14:48 +0000 (UTC)
+Received: from BC-Mail-Ex12.internal.baidu.com (unknown [172.31.51.52])
+	by Forcepoint Email with ESMTPS id DAB70995F93BBB3390A2;
+	Fri, 26 Nov 2021 15:14:41 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex12.internal.baidu.com (172.31.51.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Fri, 26 Nov 2021 15:14:41 +0800
+Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
+ (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.20; Fri, 26
+ Nov 2021 15:14:41 +0800
+Date: Fri, 26 Nov 2021 15:14:44 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v3 1/3] staging: zynpu: Add driver support for ARM(China)
+ ZHOUYI AI accelerator
+Message-ID: <20211126071444.GA32426@LAPTOP-UKSR4ENP.internal.baidu.com>
 References: <20211126021904.32325-1-caihuoqing@baidu.com>
- <20211126021904.32325-3-caihuoqing@baidu.com>
+ <20211126021904.32325-2-caihuoqing@baidu.com>
+ <YaCCFv2DLzeng+UE@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20211126021904.32325-3-caihuoqing@baidu.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YaCCFv2DLzeng+UE@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex11.internal.baidu.com (172.31.51.51) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 
-On Fri, Nov 26, 2021 at 10:19:00AM +0800, Cai Huoqing wrote:
-> ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
-> such as Allwinner R329 SOC.
-> Add the binding documentation for ZHOUYI AI accelerator.
+On 26 11月 21 07:43:34, Greg Kroah-Hartman wrote:
+> On Fri, Nov 26, 2021 at 10:18:59AM +0800, Cai Huoqing wrote:
+> > ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
+> > such as Allwinner R329 SOC.
+> > Add driver support for this AI accelerator here.
+> > 
+> > This driver is not standard linux style, there are some clean up works,
+> > fixing code style, refactorring.
+> > And it only works with a closed source usermode driver, so need to
+> > reverse the libraries, and impelement it, then open source
+> > the usermode driver.
+> > So add this driver to linux-staging
 > 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
-> v2->v3:
->         *Fix unit_address_format, avoid leading 0s.
+> Sorry, but no, I can not take this driver into the kernel tree until
+> there is an open source user of the new api that you are creating with
+> this driver.  This was discussed many times on the linux-kernel mailing
+> list and at the Linux kernel summit a few months ago (see the summary at
+> lwn.net about it.)
 > 
->  .../bindings/staging/arm,zynpu.yaml           | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/staging/arm,zynpu.yaml
+> So please work on that first, and then we will be glad to revisit taking
+> this kernel driver into the tree.
+OK, I will do that.
+And after doing some clean up, try to take this code to the "real" linux tree.
+
+Thanks,
+Cai
 > 
-> diff --git a/Documentation/devicetree/bindings/staging/arm,zynpu.yaml b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-> new file mode 100644
-> index 000000000000..d452c08ab4a3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-
-Staging drivers need to be self-contained, which makes it hard for DT
-files.  Please try to keep this next to the driver for now until it is
-ready to be moved out of the drivers/staging/ area.
-
-thanks,
-
-greg k-h
+> Also, it is much simpler just to take a few hours and clean up the
+> coding style issues yourself rather than relying on the community to do
+> it for you over a few months.
+> 
+> thanks,
+> 
+> greg k-h
