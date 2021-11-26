@@ -1,53 +1,30 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C3C72
-	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 07:36:09 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id y13so34948072edd.13
-        for <linux-staging@lists.linux.dev>; Thu, 25 Nov 2021 23:36:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=elJioYNUbOzp4AX6n16wfmeroXlPwEb1AcJcD/HfIlo=;
-        b=cuYI5lX/w13XGoVbijkOcO0Df4iXXCO1KO1DxzVauzOtOpZ0r0mFw6GSEMYZO/MhCk
-         C+fYevTdEUz6ikNlEUUntAM1UVhHtIRY7L9oQpVQd0vSsa1uVTnJTnoKX6zjd2q1Vjhb
-         6qQx+JTKIEl/UW7oDydJaJ+S2NWWVFnbuTVDyLaEZBH2YTP9P3SG6bFp1r2k0QsEQUl8
-         jgIRKNdHqIXML1bZP0VzKqxE9tUWPZcNyD1lv6LWBCjcAjUDloHEA86g5QrPKgtKrpLD
-         M8/G+zxvjWHcHUUQ30sg6gJdilMsshmSs/p6DCcKC+XBJB4s/OX+uZ/a0gjzJtyJ6Dz5
-         Yj2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=elJioYNUbOzp4AX6n16wfmeroXlPwEb1AcJcD/HfIlo=;
-        b=MS8FRlMpP+JQuFqG0gBM3GWBiH9o9xEzur6JcSoz2Sm6mf4Z7FfXEqWr7mQUjjq/Ql
-         ECAWmsMLVpeC27EhNCPdkZwOGXTDpZzCD7Dxe4BNJMuI5TbsfGeW4jKWR3+7DEG75rg1
-         MtaSm+ebzkuuGeimkjJ/FnXWEUckfNP7M44vAaQuaUTHBcI2fXuR0Vc9RWxFiuq+E0dH
-         +H3qKCcGzwzZpNTU6kGP8B8Qod4/hBl377SvPjlalCDXRTTXwWz56fRF7kEL7xE/AZlv
-         b2e9F9RuRi1O1VYEg2Zd8DKZDxsm2RWB8dBTHc1kKfm7aeDTkxZ2WzUV23L71TqfrENe
-         dTHw==
-X-Gm-Message-State: AOAM531CmLWAr/IJFmrrVKgSN2LK+OwAFWiSplFI6+DwV4xnL6uPJ+tQ
-	vHo+8g7aANbT0wL+UOpVAi0=
-X-Google-Smtp-Source: ABdhPJziieAYsblkX51ypxlNpIpLASnQWiqy4Ol2QSm24dq/SP/qvVTPJVxq7n6D39x3WcD7zizgOw==
-X-Received: by 2002:a17:907:608f:: with SMTP id ht15mr1635858ejc.300.1637912167916;
-        Thu, 25 Nov 2021 23:36:07 -0800 (PST)
-Received: from alb3rt0-VirtualBox ([151.22.100.250])
-        by smtp.gmail.com with ESMTPSA id k21sm3169110edo.87.2021.11.25.23.36.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Nov 2021 23:36:07 -0800 (PST)
-Date: Fri, 26 Nov 2021 08:36:05 +0100
-From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: joe@perches.com, forest@alittletooquiet.net, karolinadrobnik@gmail.com,
-	lucas.henneman@linaro.org, dan.carpenter@oracle.com,
-	tomm.merciai@gmail.com, eantoranz@gmail.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5] staging: vt6655: refactor camelcase uCurrRSSI to
- current_rssi
-Message-ID: <20211126073605.GA4537@alb3rt0-VirtualBox>
-References: <20211118211128.GA156436@t470p>
- <YZ+9yDiG1SoWrWED@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A03A2C81
+	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 08:54:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="222501685"
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="222501685"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 00:54:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="741486503"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 26 Nov 2021 00:54:21 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+	(envelope-from <lkp@intel.com>)
+	id 1mqWzt-0007rh-0M; Fri, 26 Nov 2021 08:54:21 +0000
+Date: Fri, 26 Nov 2021 16:54:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zoeb Mithaiwala <zoebm@google.com>, trivial@kernel.org
+Cc: kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, Zoeb Mithaiwala <zoebm@google.com>
+Subject: Re: [PATCH] Staging: rtl8712: rtl871x_security: fixed a camel case
+ variable name coding style issue
+Message-ID: <202111261635.wXZz1PMT-lkp@intel.com>
+References: <20211120080658.1070907-1-zoebm@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,16 +33,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YZ+9yDiG1SoWrWED@kroah.com>
+In-Reply-To: <20211120080658.1070907-1-zoebm@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+
+Hi Zoeb,
+
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/0day-ci/linux/commits/Zoeb-Mithaiwala/Staging-rtl8712-rtl871x_security-fixed-a-camel-case-variable-name-coding-style-issue/20211120-160918
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git 1189d2fb15a4b09b2e8dd01d60a0817d985d933d
+config: m68k-randconfig-r026-20211121 (https://download.01.org/0day-ci/archive/20211126/202111261635.wXZz1PMT-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/8c1ab61206da180488d1d32547a73288052736cd
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Zoeb-Mithaiwala/Staging-rtl8712-rtl871x_security-fixed-a-camel-case-variable-name-coding-style-issue/20211120-160918
+        git checkout 8c1ab61206da180488d1d32547a73288052736cd
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/rtl8712/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/rtl8712/rtl871x_security.c: In function 'secmicappendbyte':
+>> drivers/staging/rtl8712/rtl871x_security.c:288:51: error: 'struct mic_data' has no member named 'n_bytes_in_m'; did you mean 'nbytes_in_m'?
+     288 |         pmicdata->M |= ((u32)b) << (8 * pmicdata->n_bytes_in_m);
+         |                                                   ^~~~~~~~~~~~
+         |                                                   nbytes_in_m
 
 
-> I'm totally lost, sorry.
-I did a bit confusion, I'm lost too... :P
+vim +288 drivers/staging/rtl8712/rtl871x_security.c
 
-> Please resend this again and properly set the version number.
-Sure, I will.
+   284	
+   285	static void secmicappendbyte(struct mic_data *pmicdata, u8 b)
+   286	{
+   287		/* Append the byte to our word-sized buffer */
+ > 288		pmicdata->M |= ((u32)b) << (8 * pmicdata->n_bytes_in_m);
+   289		pmicdata->nbytes_in_m++;
+   290		/* Process the word if it is full. */
+   291		if (pmicdata->nbytes_in_m >= 4) {
+   292			pmicdata->L ^= pmicdata->M;
+   293			pmicdata->R ^= ROL32(pmicdata->L, 17);
+   294			pmicdata->L += pmicdata->R;
+   295			pmicdata->R ^= ((pmicdata->L & 0xff00ff00) >> 8) |
+   296				       ((pmicdata->L & 0x00ff00ff) << 8);
+   297			pmicdata->L += pmicdata->R;
+   298			pmicdata->R ^= ROL32(pmicdata->L, 3);
+   299			pmicdata->L += pmicdata->R;
+   300			pmicdata->R ^= ROR32(pmicdata->L, 2);
+   301			pmicdata->L += pmicdata->R;
+   302			/* Clear the buffer */
+   303			pmicdata->M = 0;
+   304			pmicdata->nbytes_in_m = 0;
+   305		}
+   306	}
+   307	
 
-Thanks,
-Alberto
-
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
