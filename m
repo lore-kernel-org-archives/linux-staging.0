@@ -1,195 +1,58 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from ams.source.kernel.org (pac-ams-korg-source-1.fe.codeaurora.org [145.40.68.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8204372
-	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 17:32:35 +0000 (UTC)
-Received: from dslb-084-059-234-221.084.059.pools.vodafone-ip.de ([84.59.234.221] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mqf5M-00083N-Bj; Fri, 26 Nov 2021 18:32:32 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 8/8] staging: r8188eu: require a single bulk in endpoint
-Date: Fri, 26 Nov 2021 18:32:05 +0100
-Message-Id: <20211126173205.21352-9-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211126173205.21352-1-martin@kaiser.cx>
-References: <20211126173205.21352-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A34072
+	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 18:35:12 +0000 (UTC)
+Received: from mail.kernel.org (unknown [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id C2BFAB8285D;
+	Fri, 26 Nov 2021 18:35:10 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 092EC60041;
+	Fri, 26 Nov 2021 18:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1637951709;
+	bh=7driNm2WVc92ubSabALVsvKyR0qbyWJzS4X9tddEVRI=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=Sd+Ud/y8XILA0q5BnaT1Oxz9J2AJaJpUyOtemJjO2toIr1rR4h6WsxU8i+vZw5h8y
+	 z97kOlzsTmGze4IN+FImoM24jJVtDcvPlEwRfAK+MrlLZLATABHI6OwFEJBoUUJ2pj
+	 ONLhgYwC+PfXXJEbeEOG/arwbk45xAoSUO9Et7h7+70vEJnV3rAJ3a1C1kEgD9N/7r
+	 2BoGaP8JbhVbBDHEb8pyK9fbiGokkFrt8Aez5RMHt7/G8B+vyT1Y/5Foz4CplwWh8c
+	 4inNlmaDy4jJoAPfIKnmEne6Ca6z8ERJmBwJNfsYsZ81MZUsGcipTDxn6x+QfJXMS+
+	 IKyFn8x/UWG2g==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id E779260A3E;
+	Fri, 26 Nov 2021 18:35:07 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fixes for 5.16-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YaD6DdgslN17VWV8@kroah.com>
+References: <YaD6DdgslN17VWV8@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <YaD6DdgslN17VWV8@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.16-rc3
+X-PR-Tracked-Commit-Id: b535917c51acc97fb0761b1edec85f1f3d02bda4
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 703374418e93006a4b42a9b607e8e438bdf6b087
+Message-Id: <163795170788.22939.11490049493260235702.pr-tracker-bot@kernel.org>
+Date: Fri, 26 Nov 2021 18:35:07 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The current r8188eu driver code has no support for interrupt in
-endpoints. Some parts of the code assume implicitly that we use
-one single bulk in endpoint for the incoming network data.
+The pull request you sent on Fri, 26 Nov 2021 16:15:25 +0100:
 
-Make this assumption clearer and reject devices that have more than
-one bulk in endpoint. Ignore any interrupt in endpoints.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-5.16-rc3
 
-We can then change RtInPipe into a single value instead of an array.
-There's no need any more to pass around the number of in endpoints.
-We know that it's one or the device would have been rejected.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/703374418e93006a4b42a9b607e8e438bdf6b087
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/hal/usb_halinit.c   | 20 +++-----------------
- drivers/staging/r8188eu/hal/usb_ops_linux.c |  2 +-
- drivers/staging/r8188eu/include/drv_types.h |  3 +--
- drivers/staging/r8188eu/os_dep/usb_intf.c   | 20 +++++++++++---------
- 4 files changed, 16 insertions(+), 29 deletions(-)
+Thank you!
 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index ad54d5fcf45e..ceaf5af8c465 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -40,24 +40,11 @@ static void _ConfigNormalChipOutEP_8188E(struct adapter *adapt, u8 NumOutPipe)
- 	DBG_88E("%s OutEpQueueSel(0x%02x), OutEpNumber(%d)\n", __func__, haldata->OutEpQueueSel, haldata->OutEpNumber);
- }
- 
--static bool HalUsbSetQueuePipeMapping8188EUsb(struct adapter *adapt, u8 NumInPipe, u8 NumOutPipe)
-+static bool HalUsbSetQueuePipeMapping8188EUsb(struct adapter *adapt, u8 NumOutPipe)
- {
--	struct hal_data_8188e	*haldata	= GET_HAL_DATA(adapt);
--	bool			result		= false;
- 
- 	_ConfigNormalChipOutEP_8188E(adapt, NumOutPipe);
--
--	/*  Normal chip with one IN and one OUT doesn't have interrupt IN EP. */
--	if (1 == haldata->OutEpNumber) {
--		if (1 != NumInPipe)
--			return result;
--	}
--
--	/*  All config other than above support one Bulk IN and one Interrupt IN. */
--
--	result = Hal_MappingOutPipe(adapt, NumOutPipe);
--
--	return result;
-+	return Hal_MappingOutPipe(adapt, NumOutPipe);
- }
- 
- void rtl8188eu_interface_configure(struct adapter *adapt)
-@@ -81,8 +68,7 @@ void rtl8188eu_interface_configure(struct adapter *adapt)
- 	haldata->UsbRxAggPageCount	= 48; /* uint :128 b 0x0A;	10 = MAX_RX_DMA_BUFFER_SIZE/2/haldata->UsbBulkOutSize */
- 	haldata->UsbRxAggPageTimeout	= 0x4; /* 6, absolute time = 34ms/(2^6) */
- 
--	HalUsbSetQueuePipeMapping8188EUsb(adapt,
--				pdvobjpriv->RtNumInPipes, pdvobjpriv->RtNumOutPipes);
-+	HalUsbSetQueuePipeMapping8188EUsb(adapt, pdvobjpriv->RtNumOutPipes);
- }
- 
- u32 rtl8188eu_InitPowerOn(struct adapter *adapt)
-diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-index d66a4b394610..6232e5c49e85 100644
---- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
-+++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
-@@ -507,7 +507,7 @@ u32 rtw_read_port(struct adapter *adapter, u8 *rmem)
- 	purb = precvbuf->purb;
- 
- 	/* translate DMA FIFO addr to pipehandle */
--	pipe = usb_rcvbulkpipe(pusbd, pdvobj->RtInPipe[0]);
-+	pipe = usb_rcvbulkpipe(pusbd, pdvobj->RtInPipe);
- 
- 	usb_fill_bulk_urb(purb, pusbd, pipe,
- 			  precvbuf->pbuf,
-diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
-index 1eb6b5f29425..700fc4d571d6 100644
---- a/drivers/staging/r8188eu/include/drv_types.h
-+++ b/drivers/staging/r8188eu/include/drv_types.h
-@@ -135,7 +135,7 @@ struct dvobj_priv {
- 	u8	NumInterfaces;
- 
- 	/* In /Out Pipe information */
--	int	RtInPipe[2];
-+	int	RtInPipe;
- 	int	RtOutPipe[3];
- 	u8	Queue2Pipe[HW_QUEUE_ENTRY];/* for out pipe mapping */
- 
-@@ -146,7 +146,6 @@ struct dvobj_priv {
- /*-------- below is for USB INTERFACE --------*/
- 
- 	u8	ishighspeed;
--	u8	RtNumInPipes;
- 	u8	RtNumOutPipes;
- 	int	RegUsbSS;
- 	struct semaphore usb_suspend_sema;
-diff --git a/drivers/staging/r8188eu/os_dep/usb_intf.c b/drivers/staging/r8188eu/os_dep/usb_intf.c
-index 04454237a477..6e08ccafe2b9 100644
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -69,6 +69,7 @@ static struct rtw_usb_drv *usb_drv = &rtl8188e_usb_drv;
- static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- {
- 	int	i;
-+	u8	rt_num_in_pipes = 0;
- 	struct dvobj_priv *pdvobjpriv;
- 	struct usb_host_config		*phost_conf;
- 	struct usb_config_descriptor	*pconf_desc;
-@@ -79,14 +80,13 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 
- 	pdvobjpriv = kzalloc(sizeof(*pdvobjpriv), GFP_KERNEL);
- 	if (!pdvobjpriv)
--		goto exit;
-+		goto err;
- 
- 	pdvobjpriv->pusbintf = usb_intf;
- 	pusbd = interface_to_usbdev(usb_intf);
- 	pdvobjpriv->pusbdev = pusbd;
- 	usb_set_intfdata(usb_intf, pdvobjpriv);
- 
--	pdvobjpriv->RtNumInPipes = 0;
- 	pdvobjpriv->RtNumOutPipes = 0;
- 
- 	phost_conf = pusbd->actconfig;
-@@ -105,11 +105,8 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 		ep_num = usb_endpoint_num(pendp_desc);
- 
- 		if (usb_endpoint_is_bulk_in(pendp_desc)) {
--			pdvobjpriv->RtInPipe[pdvobjpriv->RtNumInPipes] = ep_num;
--			pdvobjpriv->RtNumInPipes++;
--		} else if (usb_endpoint_is_int_in(pendp_desc)) {
--			pdvobjpriv->RtInPipe[pdvobjpriv->RtNumInPipes] = ep_num;
--			pdvobjpriv->RtNumInPipes++;
-+			pdvobjpriv->RtInPipe = ep_num;
-+			rt_num_in_pipes++;
- 		} else if (usb_endpoint_is_bulk_out(pendp_desc)) {
- 			pdvobjpriv->RtOutPipe[pdvobjpriv->RtNumOutPipes] =
- 				ep_num;
-@@ -117,6 +114,9 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 		}
- 	}
- 
-+	if (rt_num_in_pipes != 1)
-+		goto err;
-+
- 	if (pusbd->speed == USB_SPEED_HIGH) {
- 		pdvobjpriv->ishighspeed = true;
- 		DBG_88E("USB_SPEED_HIGH\n");
-@@ -130,9 +130,11 @@ static struct dvobj_priv *usb_dvobj_init(struct usb_interface *usb_intf)
- 	rtw_reset_continual_urb_error(pdvobjpriv);
- 
- 	usb_get_dev(pusbd);
--
--exit:
- 	return pdvobjpriv;
-+
-+err:
-+	kfree(pdvobjpriv);
-+	return NULL;
- }
- 
- static void usb_dvobj_deinit(struct usb_interface *usb_intf)
 -- 
-2.20.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
