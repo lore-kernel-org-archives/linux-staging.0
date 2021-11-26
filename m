@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCE22C83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A6672
 	for <linux-staging@lists.linux.dev>; Fri, 26 Nov 2021 17:32:26 +0000 (UTC)
 Received: from dslb-084-059-234-221.084.059.pools.vodafone-ip.de ([84.59.234.221] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mqf54-00083N-9v; Fri, 26 Nov 2021 18:32:14 +0100
+	id 1mqf57-00083N-6O; Fri, 26 Nov 2021 18:32:17 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,10 +16,12 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 0/8] staging: r8188eu: simplify usb in ep handling
-Date: Fri, 26 Nov 2021 18:31:57 +0100
-Message-Id: <20211126173205.21352-1-martin@kaiser.cx>
+Subject: [PATCH 2/8] staging: r8188eu: only the bulk in ep is used for network data
+Date: Fri, 26 Nov 2021 18:31:59 +0100
+Message-Id: <20211126173205.21352-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20211126173205.21352-1-martin@kaiser.cx>
+References: <20211126173205.21352-1-martin@kaiser.cx>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,28 +30,113 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Simplify the code to detect and use usb in endpoints.
+All supported devices use a single bulk in endpoint for receiving
+network data.
 
-Martin Kaiser (8):
-  staging: r8188eu: rtw_read_port needs no cnt parameter
-  staging: r8188eu: only the bulk in ep is used for network data
-  staging: r8188eu: get the rcv bulk pipe handle directly
-  staging: r8188eu: remove code to get int in pipe handle
-  staging: r8188eu: if2 is not used
-  staging: r8188eu: remove ep_num array
-  staging: r8188eu: don't store nr_endpoint in a global struct
-  staging: r8188eu: require a single bulk in endpoint
+The rtw_read_port function needs no addr parameter. The ff_hwaddr in
+struct recv_priv is also a constant value. We can use RECV_BULK_IN_ADDR
+directly.
 
- drivers/staging/r8188eu/hal/usb_halinit.c     | 24 ++++---------------
- drivers/staging/r8188eu/hal/usb_ops_linux.c   | 10 ++++----
- drivers/staging/r8188eu/include/drv_types.h   |  6 +----
- .../staging/r8188eu/include/rtl8188e_recv.h   |  2 --
- drivers/staging/r8188eu/include/rtw_io.h      |  2 +-
- drivers/staging/r8188eu/include/rtw_recv.h    |  1 -
- drivers/staging/r8188eu/os_dep/usb_intf.c     | 24 +++++++++----------
- .../staging/r8188eu/os_dep/usb_ops_linux.c    |  6 +----
- 8 files changed, 24 insertions(+), 51 deletions(-)
+Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+---
+ drivers/staging/r8188eu/hal/usb_halinit.c   |  4 +---
+ drivers/staging/r8188eu/hal/usb_ops_linux.c | 10 +++++-----
+ drivers/staging/r8188eu/include/rtw_io.h    |  2 +-
+ drivers/staging/r8188eu/include/rtw_recv.h  |  1 -
+ 4 files changed, 7 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
+index 030438073661..ad54d5fcf45e 100644
+--- a/drivers/staging/r8188eu/hal/usb_halinit.c
++++ b/drivers/staging/r8188eu/hal/usb_halinit.c
+@@ -932,12 +932,10 @@ unsigned int rtl8188eu_inirp_init(struct adapter *Adapter)
+ 
+ 	status = _SUCCESS;
+ 
+-	precvpriv->ff_hwaddr = RECV_BULK_IN_ADDR;
+-
+ 	/* issue Rx irp to receive data */
+ 	precvbuf = (struct recv_buf *)precvpriv->precv_buf;
+ 	for (i = 0; i < NR_RECVBUFF; i++) {
+-		if (!rtw_read_port(Adapter, precvpriv->ff_hwaddr, (unsigned char *)precvbuf)) {
++		if (!rtw_read_port(Adapter, (unsigned char *)precvbuf)) {
+ 			status = _FAIL;
+ 			goto exit;
+ 		}
+diff --git a/drivers/staging/r8188eu/hal/usb_ops_linux.c b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+index 92fcc4441ee9..6af55cd6c061 100644
+--- a/drivers/staging/r8188eu/hal/usb_ops_linux.c
++++ b/drivers/staging/r8188eu/hal/usb_ops_linux.c
+@@ -401,7 +401,7 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
+ 	if (purb->status == 0) { /* SUCCESS */
+ 		if ((purb->actual_length > MAX_RECVBUF_SZ) || (purb->actual_length < RXDESC_SIZE)) {
+ 			precvbuf->reuse = true;
+-			rtw_read_port(adapt, precvpriv->ff_hwaddr, (unsigned char *)precvbuf);
++			rtw_read_port(adapt, (unsigned char *)precvbuf);
+ 			DBG_88E("%s()-%d: RX Warning!\n", __func__, __LINE__);
+ 		} else {
+ 			rtw_reset_continual_urb_error(adapter_to_dvobj(adapt));
+@@ -415,7 +415,7 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
+ 
+ 			precvbuf->pskb = NULL;
+ 			precvbuf->reuse = false;
+-			rtw_read_port(adapt, precvpriv->ff_hwaddr, (unsigned char *)precvbuf);
++			rtw_read_port(adapt, (unsigned char *)precvbuf);
+ 		}
+ 	} else {
+ 		DBG_88E("###=> usb_read_port_complete => urb status(%d)\n", purb->status);
+@@ -436,7 +436,7 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
+ 		case -EPROTO:
+ 		case -EOVERFLOW:
+ 			precvbuf->reuse = true;
+-			rtw_read_port(adapt, precvpriv->ff_hwaddr, (unsigned char *)precvbuf);
++			rtw_read_port(adapt, (unsigned char *)precvbuf);
+ 			break;
+ 		case -EINPROGRESS:
+ 			DBG_88E("ERROR: URB IS IN PROGRESS!/n");
+@@ -447,7 +447,7 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
+ 	}
+ }
+ 
+-u32 rtw_read_port(struct adapter *adapter, u32 addr, u8 *rmem)
++u32 rtw_read_port(struct adapter *adapter, u8 *rmem)
+ {
+ 	struct urb *purb = NULL;
+ 	struct recv_buf	*precvbuf = (struct recv_buf *)rmem;
+@@ -507,7 +507,7 @@ u32 rtw_read_port(struct adapter *adapter, u32 addr, u8 *rmem)
+ 	purb = precvbuf->purb;
+ 
+ 	/* translate DMA FIFO addr to pipehandle */
+-	pipe = ffaddr2pipehdl(pdvobj, addr);
++	pipe = ffaddr2pipehdl(pdvobj, RECV_BULK_IN_ADDR);
+ 
+ 	usb_fill_bulk_urb(purb, pusbd, pipe,
+ 			  precvbuf->pbuf,
+diff --git a/drivers/staging/r8188eu/include/rtw_io.h b/drivers/staging/r8188eu/include/rtw_io.h
+index 0e896d0b56a7..6910e2b430e2 100644
+--- a/drivers/staging/r8188eu/include/rtw_io.h
++++ b/drivers/staging/r8188eu/include/rtw_io.h
+@@ -224,7 +224,7 @@ u8 rtw_read8(struct adapter *adapter, u32 addr);
+ u16 rtw_read16(struct adapter *adapter, u32 addr);
+ u32 rtw_read32(struct adapter *adapter, u32 addr);
+ void _rtw_read_mem(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem);
+-u32 rtw_read_port(struct adapter *adapter, u32 addr, u8 *pmem);
++u32 rtw_read_port(struct adapter *adapter, u8 *pmem);
+ void rtw_read_port_cancel(struct adapter *adapter);
+ 
+ int rtw_write8(struct adapter *adapter, u32 addr, u8 val);
+diff --git a/drivers/staging/r8188eu/include/rtw_recv.h b/drivers/staging/r8188eu/include/rtw_recv.h
+index 1e28ec731547..b43a46887343 100644
+--- a/drivers/staging/r8188eu/include/rtw_recv.h
++++ b/drivers/staging/r8188eu/include/rtw_recv.h
+@@ -177,7 +177,6 @@ struct recv_priv {
+ 	uint  rx_smallpacket_crcerr;
+ 	uint  rx_middlepacket_crcerr;
+ 	struct semaphore allrxreturnevt;
+-	uint	ff_hwaddr;
+ 	u8	rx_pending_cnt;
+ 
+ 	struct tasklet_struct irq_prepare_beacon_tasklet;
 -- 
 2.20.1
 
