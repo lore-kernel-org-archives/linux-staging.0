@@ -1,72 +1,84 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0034E2C81
-	for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 09:49:40 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id v1so48860394edx.2
-        for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 01:49:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB7D2C81
+	for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 09:49:51 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id r26so30238317lfn.8
+        for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 01:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ek72XmF5zebDTqplFEZ+Bj/2i72f7eNky/xq+3hGyBY=;
-        b=NM7HNP+xs1nv8rmUE/Fv5cTZajnku4ZGJ+GMn7pdHT5/rkYz2PDmDP+DXYTPX7svyM
-         2Gtbu7/DbENVtOXbXvvCMTM1G/tKZJnoKMtJylK/RPEEiYtNyMdAQiovUzsxBTIzY4DF
-         LZwheNIW4shf8VNI3ERO0ULrlh4ze+Dj161vkgE7h4hYs6a7LYERJ4dSh8YFoX/RcEwd
-         DTy/euZyEeZxAM+CAbJ5M1GfJ1xguI5fwsSw+Sek+yCrNO5pQI7Zp7AN+L8VHzbrEN3n
-         b/UiEEYs+a+lJ901+jD0V8iywA+qkI+6pdV1YzjkNrEOuhFzsDEZXh0iB6sd/XRmLzgt
-         Fhtg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4dvE+ch/nK/kBBnPMxA7WcMHh6CQ4+F3d1jcet3ts9E=;
+        b=ZXuIR2mSzWESYoGxApxyDpzUZ7G9DWJus7hcVkGx5nQJ4UeELMyJ/lQiabT9sZ5Wck
+         jRFwzfU41LyA7/qTY2jI+WV3tk5iYy1GSsawVGH7YUX5a+YNppPuQobRMKvbyroBDy3n
+         n8Z3PyyR7vm2NPYGJFkMC4yWu3xlkZBlrCZ+WM+vzokTmvNwzYWeu3XdwqCDLNMXjH7B
+         OpsS8el+slyxIa0w8Mt1Yv43KZvD3bnyEjc8OEHbOcH0LOTRGJwh45Kx0GOta+X8vFqb
+         85DUALpHlFBzem+7+TinTX/0+mw8ICYTBZTsCnqVjFoSuac4jxzimeIpmFFqS8RpjbL2
+         mrtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ek72XmF5zebDTqplFEZ+Bj/2i72f7eNky/xq+3hGyBY=;
-        b=Jak2GznV5qClaMqFksUCCtH4xSyxkEE//xkBc6UYrctFM5bEXgB6A8Px1QfSXev4+N
-         9WcttmmOTCfMDFPHaDeKK+EPNDhVkpa6ys1nYJAGFDsvTgiFkG+QBJcP3egEQktJ43EF
-         Gglu+g/CEzv73B5My9VUIBRsJArhFd5Fr3iL/kbvhNMqQomzxjdBD3gT/0gT7diX3l22
-         8hN+xlznJqJ0DMAO71tN7m0Jwhiqsi/VA0lIsGIZP4ms3CJ1zv/JlhIHdnTCV8nKNGcB
-         +N9yDcAHTYz3SfAiJh+lchAKIX7U5tBEcFQ5/TygcTSAftH/RH2Pa+JunY91opbRFwa6
-         BY+g==
-X-Gm-Message-State: AOAM533Wxm50aTC5XHnQyKZs9iP1I0AwPRVKpD5ZxGLuXytMen+XtOeR
-	VML5Pra8bWz6cDUq992XDKg=
-X-Google-Smtp-Source: ABdhPJwJ6eRiW1T2rUKkZGsdbAHv6Aai1hfw8Oiu1cV91/sTKHTGtrlrjsH8HEzTm+MKnxfsMFomFA==
-X-Received: by 2002:a17:907:7f0f:: with SMTP id qf15mr45839969ejc.560.1638006579397;
-        Sat, 27 Nov 2021 01:49:39 -0800 (PST)
-Received: from bulldog (host-79-17-112-183.retail.telecomitalia.it. [79.17.112.183])
-        by smtp.gmail.com with ESMTPSA id f7sm5296049edl.33.2021.11.27.01.49.38
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4dvE+ch/nK/kBBnPMxA7WcMHh6CQ4+F3d1jcet3ts9E=;
+        b=yV2Yv1zlm3+6AgE40tSrJC728437pimkLP3bzQ5QeOEZ0KFdO3OOshVf6gfgvJ81Qx
+         kZgZeIbYKTYJfXFAh0Ubuyu1+4sGEtUNROVmx4uIInKuT3yq8WbGtVEiWJh72SNmdLso
+         c8O5OTJ9XFwlw/uiTFg/jHnWlHAhd8PpR0cTZkJBlqB2pB+8nCGIeyACMBHHgO7H7kPk
+         c3wjTKb1OVmuYsBF6RLpobzvlkNg75Muvgxm2/zSxXrB2KnWVgpAC5wYWSHF98fquLk1
+         wgIBmtZ7jzJyDGSbkxBhnCO4/tFyJC78hziKRWrXLXYultG5qYC8NVfPRKjA/Esiz8Wr
+         XMPQ==
+X-Gm-Message-State: AOAM531POyqTOmnePpRhRJB6Dk1BcWYI3L8hZYfHpHSH1xvJ2RlSTzcG
+	ST20o2UMahF8EHGKvgaWkUc=
+X-Google-Smtp-Source: ABdhPJwfnbwzqV+ykIQ/LK2UA5l0Ll8vWjs+AQqxLyu+TGPMiTQkbN3nRbqiaeJnvRMk82/2oUYU3g==
+X-Received: by 2002:ac2:5499:: with SMTP id t25mr35000401lfk.674.1638006589932;
+        Sat, 27 Nov 2021 01:49:49 -0800 (PST)
+Received: from localhost.localdomain (h-155-4-221-129.NA.cust.bahnhof.se. [155.4.221.129])
+        by smtp.gmail.com with ESMTPSA id g10sm704582lfv.113.2021.11.27.01.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Nov 2021 01:49:39 -0800 (PST)
-Date: Sat, 27 Nov 2021 10:49:36 +0100
-From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: joe@perches.com, forest@alittletooquiet.net, karolinadrobnik@gmail.com,
-	lucas.henneman@linaro.org, dan.carpenter@oracle.com,
-	tomm.merciai@gmail.com, eantoranz@gmail.com,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5] staging: vt6655: refactor camelcase uCurrRSSI to
- current_rssi
-Message-ID: <20211127094936.GA3102482@bulldog>
-References: <20211118211128.GA156436@t470p>
- <YZ+9yDiG1SoWrWED@kroah.com>
+        Sat, 27 Nov 2021 01:49:49 -0800 (PST)
+From: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Subject: [PATCH] media: staging: max96712: Constify static v4l2_subdev_ops
+Date: Sat, 27 Nov 2021 10:49:44 +0100
+Message-Id: <20211127094945.27985-1-rikard.falkeborn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YZ+9yDiG1SoWrWED@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-> Is this v4 or v5?
-My fault is v6, sorry.
+The only usage of max96712_subdev_ops is to pass its address to
+v4l2_i2c_subdev_init() which takes a pointer to const struct
+v4l2_subdev_ops as argument. Make it const to allow the compiler to put
+it in read-only memory.
 
-> Subject says v5, but this says v4 and then you sent v4 two days later?
-> 
-> I'm totally lost, sorry.
-> Please resend this again and properly set the version number.
-To be honest I'm a bit lost too :P 
-I will resend the patch with the correct version.
+Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+---
+ drivers/staging/media/max96712/max96712.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Alberto
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+index 847e2ffd4f53..9bc72d9a858b 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -250,7 +250,7 @@ static const struct v4l2_subdev_pad_ops max96712_pad_ops = {
+ 	.set_fmt = max96712_get_pad_format,
+ };
+ 
+-static struct v4l2_subdev_ops max96712_subdev_ops = {
++static const struct v4l2_subdev_ops max96712_subdev_ops = {
+ 	.video = &max96712_video_ops,
+ 	.pad = &max96712_pad_ops,
+ };
+-- 
+2.34.1
+
