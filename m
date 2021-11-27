@@ -1,69 +1,94 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F34A2C82
-	for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 19:48:38 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DAD92C5;
-	Sat, 27 Nov 2021 20:48:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1638042509;
-	bh=5AarLF7XEC+A01zcRLBip6Qs9PHHphyON+OQB9reAlE=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=iDUzrX2Y4NsEzaMMGi7U7hFtYIckbMLbsWrQpQ4L/33erH/MbORbJyTIdGrvQ2aDW
-	 /6MFQHjt3XCi0jM1P1yqVs7ey1grkfFD1ivEpEcBnadHx35HkAhtsfdFZo3kdNLXnk
-	 jRU3ltbI79AtrOoXOn9LWGFsqWxgRB80107cfyG8=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753D12C80
+	for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 22:20:45 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id o13so27149685wrs.12
+        for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 14:20:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
+         :subject:content-transfer-encoding;
+        bh=RcsfDHfUB2SLfsSr4/knpCVaC32hbn+/iN/r6fAA2fE=;
+        b=XaaIJHUTp8IcdEbc9gXaVfZ8d4oIuWsy9YkEhyAz5uMyC3XsFiaO3Dw4iRV/5n7isC
+         PmJYwTxjKov29rlyfPuU9HpqLzWX71397ItbiMMGrd5limf0WTViW7s3P9cb1oxFvgoe
+         2Xarl3fIFYPaQpHxSUAoqAvmDGPYmqixRVE6quIjYoIZe0+6lhDWbGt+DH59OY9oEEPh
+         CU4i2KD4BRgNAIkXHfj4naS0W61/oKJ4jwgoQa+oCJaC1ESh/DxzCwa9ugR7s+jVcjn6
+         7yc3zgcxohc5D+aP8azN6c8vxSzz4l01zT8AsUosyc8g1ZkM27L/jagYJ0SS70o1/6Bm
+         Lkpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:to:cc:from:subject:content-transfer-encoding;
+        bh=RcsfDHfUB2SLfsSr4/knpCVaC32hbn+/iN/r6fAA2fE=;
+        b=wKMYz2kawFLOxFzGWnCi8C0bFcQNQaSrKniDdYFFdk2o8kMZRfDC8z5zoxdOnGnWPG
+         Ae5BOWYWKrS6hj74GA0NBT7H1fBntR4HBV4uJRARxglRxHv4zRTyvU8D5C3HXIBjM4qt
+         JqIixmln5Qq9r46BMhIxb4tkjQ9Jaflt5bv3nBqBjO5uawimnx3bF7JakucgsuOEzNDQ
+         8TPGTebG6YjuZr88Fxc0gRDDjQB5dzctzCaD6cCUFutXYnNEVtbq/BpgII7aenXlbnUt
+         gE5klR0jY6XzoWzxaDIA9/+OcJi6QNJYE9DEqy2H822xiS3rSmrnW9yFgpOppzb2oTPJ
+         B8MQ==
+X-Gm-Message-State: AOAM531J9hkJCvkq2CyxBx84fHlnYJYHhv6sIDzaYwlRHUxZ6c3b1hio
+	qOtT5sCXO7An1ORmKwpb3y4=
+X-Google-Smtp-Source: ABdhPJyzeYQxJmGJ6/F71LynLO6vX94qvYNgIhTiN54TFgxHjOfiyNupkQsfHM9v9A3xef20pEr5zA==
+X-Received: by 2002:a5d:5651:: with SMTP id j17mr23299333wrw.166.1638051643803;
+        Sat, 27 Nov 2021 14:20:43 -0800 (PST)
+Received: from ?IPV6:2003:ea:8f1a:f00:7df6:9d34:4832:e4f1? (p200300ea8f1a0f007df69d344832e4f1.dip0.t-ipconnect.de. [2003:ea:8f1a:f00:7df6:9d34:4832:e4f1])
+        by smtp.googlemail.com with ESMTPSA id e7sm12657588wrg.31.2021.11.27.14.20.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Nov 2021 14:20:43 -0800 (PST)
+Message-ID: <aadbd32c-c0ab-4c8a-c590-3334f736f224@gmail.com>
+Date: Sat, 27 Nov 2021 23:20:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211127094945.27985-1-rikard.falkeborn@gmail.com>
-References: <20211127094945.27985-1-rikard.falkeborn@gmail.com>
-Subject: Re: [PATCH] media: staging: max96712: Constify static v4l2_subdev_ops
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Rikard Falkeborn <rikard.falkeborn@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Date: Sat, 27 Nov 2021 19:48:27 +0000
-Message-ID: <163804250741.1395471.3992939322301351301@Monstersaurus>
-User-Agent: alot/0.10
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Content-Language: en-US
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] staging: fbtft: add spi_device_id table
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
+After 5fa6863ba692 ("spi: Check we have a spi_device_id for each DT
+compatible") we need the following to make the SPI core happy.
 
-Quoting Rikard Falkeborn (2021-11-27 09:49:44)
-> The only usage of max96712_subdev_ops is to pass its address to
-> v4l2_i2c_subdev_init() which takes a pointer to const struct
-> v4l2_subdev_ops as argument. Make it const to allow the compiler to put
-> it in read-only memory.
->=20
-> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
+Works for me with a SH1106-based OLED display.
 
-Yes, Good spot.
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/staging/fbtft/fbtft.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 6869f3603..3f1fbdd48 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -307,12 +307,19 @@ static const struct of_device_id dt_ids[] = {                              \
+ 									   \
+ MODULE_DEVICE_TABLE(of, dt_ids);                                           \
+ 									   \
++static const struct spi_device_id spi_ids[] = {                            \
++	{ .name = _compatible },					   \
++	{},                                                                \
++};                                                                         \
++									   \
++MODULE_DEVICE_TABLE(spi, spi_ids);					   \
+ 									   \
+ static struct spi_driver fbtft_driver_spi_driver = {                       \
+ 	.driver = {                                                        \
+ 		.name   = _name,                                           \
+ 		.of_match_table = dt_ids,                                  \
+ 	},                                                                 \
++	.id_table = spi_ids,						   \
+ 	.probe  = fbtft_driver_probe_spi,                                  \
+ 	.remove = fbtft_driver_remove_spi,                                 \
+ };                                                                         \
+-- 
+2.34.0
 
-> ---
->  drivers/staging/media/max96712/max96712.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/=
-media/max96712/max96712.c
-> index 847e2ffd4f53..9bc72d9a858b 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -250,7 +250,7 @@ static const struct v4l2_subdev_pad_ops max96712_pad_=
-ops =3D {
->         .set_fmt =3D max96712_get_pad_format,
->  };
-> =20
-> -static struct v4l2_subdev_ops max96712_subdev_ops =3D {
-> +static const struct v4l2_subdev_ops max96712_subdev_ops =3D {
->         .video =3D &max96712_video_ops,
->         .pad =3D &max96712_pad_ops,
->  };
-> --=20
-> 2.34.1
->
