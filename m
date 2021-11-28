@@ -1,41 +1,41 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66A02C81
-	for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:09:52 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id y196so12688765wmc.3
-        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 09:09:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E0A2C80
+	for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:09:53 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id d24so31446679wra.0
+        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 09:09:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EbQpxrlX3u2T8LjW6UHxKKJ6H/TsR/HXA2XP3vkB7hs=;
-        b=RY7sbza6RseE4sGzdBTZUx9XUJjXYWZfY6zUtbZevL77CO4mMrHyASbg3MzD8vkFxx
-         G6dpaxM3ddfy2j+NcJ18RECp/xX/MwMbPYe/+rgmX07NyPLM/75+twOEONcCR2EycGxj
-         5awuRLsK1JQh0b2/X7A1OtaGqcKpOSDt6XnGVlJLkRnlXTQC18CI0AOZv0cACLyrNWho
-         4Ejf0v2HGgIXHIThli52XZ423DSXqXI8PchuznrbGWfz4oKjLMx78K6iH5gIx2B1TZGh
-         ZDuXUV8rGxUWrnHHIgJrnYTmlgI3C0wKMA0Ri76FX2AGpZ2Dir5CC3IYwl33gOiiPZjV
-         VuDg==
+        bh=rxZ0KofGh2uxqP5kVqaEZl862FeeQxlLxUXNxJ6Ab/U=;
+        b=U35qfvEj6qT6CoP6mXzGTvFmNIacPLYWKF9TPZBEdClMYKgorjKAgKikODiXskmAWI
+         SRmqCRCWG4h95ccMe6hh0sHMjVx5JtQ4l+Cs+xaeFwSWwNaZBizFskuXAn46gWJQ4h99
+         Phz3By7hhDD02X2scCRrhb5KabScmlRbILmmFmn3wH88kEYQJo29VFFFtHuYqZjvBgrO
+         J7i2MsN/SsvtSk0XjCq/jD/k6SRyBMUNiOj3e8nncRZnw16sjNlqM1Xl5tOoUBrxzJIw
+         h5VhySlkkk8mFyJua+LH2jFCzeMcpE9pfGg5lfPyqQk3s8HLQewtdbexQ3mAfU2/i5d+
+         jtSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EbQpxrlX3u2T8LjW6UHxKKJ6H/TsR/HXA2XP3vkB7hs=;
-        b=jofB2Ws3L09ni5DujxS8dp9O5c/0Ax00Jmbt3oWwgL2wgK/+0kT+JFnQdNH+aSnM+Q
-         Ht4Z7cuvqqlCO+vZQ65hA2A47a3++71Gs/OS+XQxvQEsBJNMjCwr1J7gjOjWy0ASVF/N
-         RrEjU8cwnPOwMiip/G592gwW0Y5v1a7FC5f5HOk5vPY9TEvHAor9WR4aCrh+a2PcPyuO
-         CW+UpKMsAyG4FJ4dCEC+GsJyR6ejdJIit5L48ZPPF7CU0WeMVBP5hNagpJQj8QVP+QHT
-         Zb/g9Br0E5mY+JcK3wwY6Szk0EM5lf8/Q9uKzP1dFgVnhK9hPXY3af8eBiz2wSwEYgFv
-         xmTA==
-X-Gm-Message-State: AOAM530o2V/yfvsUZxeY8SKzs7660ZHrwLoCJ+n4EAxH8HdK1rY1m6KT
-	fIV2gUR4kVYTKHNHrkOHVpk=
-X-Google-Smtp-Source: ABdhPJw+MTEnJEEQlP6qzJxBHrGZ4WcbDldQ2CFfioNNUCBWXiUllj+gsWsw+ioF84r/Cxhhsgb6vA==
-X-Received: by 2002:a7b:c2f7:: with SMTP id e23mr30763305wmk.92.1638119391201;
+        bh=rxZ0KofGh2uxqP5kVqaEZl862FeeQxlLxUXNxJ6Ab/U=;
+        b=ejmhzt/cRnumeOxSl1mxukj2WFtTjMWBkUS0R3WX8HFdu3OKKm9cmFCMcRZWgggzCQ
+         bQQ3JNtTXzi0ELZWQTOvTQC0Py7nRJpkgz2RWtUfzDWnx7AqkJl7LEGyClvpVL0PxFbh
+         QVMGQbWLBOVp39gUlMgxtFsuZuRWDHl/tBP1mc+ao4HN0C9fm2pzjkKhhgfIP4eji0QP
+         YtQn8f8a1HV7jTnXptZt9nD5wnUykldxYH9pV5FXfFvHSHjPFZ8yFK09pNtCuSR0v/Ms
+         ofrgMG1vVveA0Oo9mCOifnS3OXMdwahDfDSCbSn4S1AjSm/KAh530EPD3HDyvUfrGugb
+         jt3A==
+X-Gm-Message-State: AOAM533ZpvmKjP1LJrvpt4ev3vUfb72jVpu9ouirNxFpW4yYZ2lr5qqO
+	JroSLad9G1oIjBiK/elfG8k=
+X-Google-Smtp-Source: ABdhPJxYSFQ+DX7oFcEKXp61g2qW0la3h7bEUCH2k7ekca+y9t9Tu2Ym4rtQOxxx0KM0n0pSQyS8sA==
+X-Received: by 2002:adf:d84c:: with SMTP id k12mr27945466wrl.24.1638119391842;
         Sun, 28 Nov 2021 09:09:51 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ac86])
-        by smtp.gmail.com with ESMTPSA id n15sm18243845wmq.38.2021.11.28.09.09.50
+        by smtp.gmail.com with ESMTPSA id n15sm18243845wmq.38.2021.11.28.09.09.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 09:09:50 -0800 (PST)
+        Sun, 28 Nov 2021 09:09:51 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 04/10] staging: r8188eu: remove rf_type from getTxPowerIndex88E()
-Date: Sun, 28 Nov 2021 18:09:18 +0100
-Message-Id: <20211128170924.5874-5-straube.linux@gmail.com>
+Subject: [PATCH v2 05/10] staging: r8188eu: remove TxCount from getTxPowerIndex88E()
+Date: Sun, 28 Nov 2021 18:09:19 +0100
+Message-Id: <20211128170924.5874-6-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211128170924.5874-1-straube.linux@gmail.com>
 References: <20211128170924.5874-1-straube.linux@gmail.com>
@@ -57,105 +57,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pHalData->rf_type is always RF_1T1R. As a result the variable
-path_nums is always set to 1 and the for loop is entered only
-once with TxCount = 0. Also RF_PATH_A = 0. Remove the unneeded
-check for pHalData->rf_type and resulting dead code from
-getTxPowerIndex88E().
+In getTxPowerIndex88E() the variable TxCount is set to RF_PATH_A and
+never changed. Remove the unnecessary extra variable and replace its
+usage with RF_PATH_A.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 80 +++----------------
- 1 file changed, 12 insertions(+), 68 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-index 258349e6104f..7124b9880efa 100644
+index 7124b9880efa..73d5eb53a927 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_phycfg.c
-@@ -611,74 +611,18 @@ static void getTxPowerIndex88E(struct adapter *Adapter, u8 channel, u8 *cckPower
+@@ -611,18 +611,17 @@ static void getTxPowerIndex88E(struct adapter *Adapter, u8 channel, u8 *cckPower
  {
  	struct hal_data_8188e *pHalData = GET_HAL_DATA(Adapter);
  	u8 index = (channel - 1);
--	u8 TxCount = 0, path_nums;
--
--	if ((RF_1T2R == pHalData->rf_type) || (RF_1T1R == pHalData->rf_type))
--		path_nums = 1;
--	else
--		path_nums = 2;
--
--	for (TxCount = 0; TxCount < path_nums; TxCount++) {
--		if (TxCount == RF_PATH_A) {
--			/*  1. CCK */
--			cckPowerLevel[TxCount]	= pHalData->Index24G_CCK_Base[TxCount][index];
--			/* 2. OFDM */
--			ofdmPowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--				pHalData->OFDM_24G_Diff[TxCount][RF_PATH_A];
--			/*  1. BW20 */
--			BW20PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--				pHalData->BW20_24G_Diff[TxCount][RF_PATH_A];
--			/* 2. BW40 */
--			BW40PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[TxCount][index];
--		} else if (TxCount == RF_PATH_B) {
--			/*  1. CCK */
--			cckPowerLevel[TxCount]	= pHalData->Index24G_CCK_Base[TxCount][index];
--			/* 2. OFDM */
--			ofdmPowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[TxCount][index];
--			/*  1. BW20 */
--			BW20PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[TxCount][RF_PATH_A] +
--			pHalData->BW20_24G_Diff[TxCount][index];
--			/* 2. BW40 */
--			BW40PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[TxCount][index];
--		} else if (TxCount == RF_PATH_C) {
--			/*  1. CCK */
--			cckPowerLevel[TxCount]	= pHalData->Index24G_CCK_Base[TxCount][index];
--			/* 2. OFDM */
--			ofdmPowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_B][index] +
--			pHalData->BW20_24G_Diff[TxCount][index];
--			/*  1. BW20 */
--			BW20PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_B][index] +
--			pHalData->BW20_24G_Diff[TxCount][index];
--			/* 2. BW40 */
--			BW40PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[TxCount][index];
--		} else if (TxCount == RF_PATH_D) {
--			/*  1. CCK */
--			cckPowerLevel[TxCount]	= pHalData->Index24G_CCK_Base[TxCount][index];
--			/* 2. OFDM */
--			ofdmPowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_B][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_C][index] +
--			pHalData->BW20_24G_Diff[TxCount][index];
--
--			/*  1. BW20 */
--			BW20PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_A][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_B][index] +
--			pHalData->BW20_24G_Diff[RF_PATH_C][index] +
--			pHalData->BW20_24G_Diff[TxCount][index];
--
--			/* 2. BW40 */
--			BW40PowerLevel[TxCount]	= pHalData->Index24G_BW40_Base[TxCount][index];
--		}
--	}
-+	u8 TxCount = RF_PATH_A;
-+
-+	/*  1. CCK */
-+	cckPowerLevel[TxCount] = pHalData->Index24G_CCK_Base[TxCount][index];
-+	/* 2. OFDM */
-+	ofdmPowerLevel[TxCount] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
-+		pHalData->OFDM_24G_Diff[TxCount][RF_PATH_A];
-+	/*  1. BW20 */
-+	BW20PowerLevel[TxCount] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
-+		pHalData->BW20_24G_Diff[TxCount][RF_PATH_A];
-+	/* 2. BW40 */
-+	BW40PowerLevel[TxCount] = pHalData->Index24G_BW40_Base[TxCount][index];
+-	u8 TxCount = RF_PATH_A;
+ 
+ 	/*  1. CCK */
+-	cckPowerLevel[TxCount] = pHalData->Index24G_CCK_Base[TxCount][index];
++	cckPowerLevel[RF_PATH_A] = pHalData->Index24G_CCK_Base[RF_PATH_A][index];
+ 	/* 2. OFDM */
+-	ofdmPowerLevel[TxCount] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
+-		pHalData->OFDM_24G_Diff[TxCount][RF_PATH_A];
++	ofdmPowerLevel[RF_PATH_A] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
++		pHalData->OFDM_24G_Diff[RF_PATH_A][RF_PATH_A];
+ 	/*  1. BW20 */
+-	BW20PowerLevel[TxCount] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
+-		pHalData->BW20_24G_Diff[TxCount][RF_PATH_A];
++	BW20PowerLevel[RF_PATH_A] = pHalData->Index24G_BW40_Base[RF_PATH_A][index] +
++		pHalData->BW20_24G_Diff[RF_PATH_A][RF_PATH_A];
+ 	/* 2. BW40 */
+-	BW40PowerLevel[TxCount] = pHalData->Index24G_BW40_Base[TxCount][index];
++	BW40PowerLevel[RF_PATH_A] = pHalData->Index24G_BW40_Base[RF_PATH_A][index];
  }
  
  static void phy_PowerIndexCheck88E(struct adapter *Adapter, u8 channel, u8 *cckPowerLevel,
