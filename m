@@ -1,94 +1,86 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753D12C80
-	for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 22:20:45 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id o13so27149685wrs.12
-        for <linux-staging@lists.linux.dev>; Sat, 27 Nov 2021 14:20:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5EB2C80
+	for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 13:53:38 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so14648467wmj.5
+        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 05:53:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=RcsfDHfUB2SLfsSr4/knpCVaC32hbn+/iN/r6fAA2fE=;
-        b=XaaIJHUTp8IcdEbc9gXaVfZ8d4oIuWsy9YkEhyAz5uMyC3XsFiaO3Dw4iRV/5n7isC
-         PmJYwTxjKov29rlyfPuU9HpqLzWX71397ItbiMMGrd5limf0WTViW7s3P9cb1oxFvgoe
-         2Xarl3fIFYPaQpHxSUAoqAvmDGPYmqixRVE6quIjYoIZe0+6lhDWbGt+DH59OY9oEEPh
-         CU4i2KD4BRgNAIkXHfj4naS0W61/oKJ4jwgoQa+oCJaC1ESh/DxzCwa9ugR7s+jVcjn6
-         7yc3zgcxohc5D+aP8azN6c8vxSzz4l01zT8AsUosyc8g1ZkM27L/jagYJ0SS70o1/6Bm
-         Lkpw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UrcIjjq19+8x+tKdvPz3//oFylEYXfeLOia6PAhgG84=;
+        b=Sy8+MnlQ+25SMuIu0N+NgpipUOZcsBukBwyRyI2MHCq8tz2rwvtZVRX+cOfEqUjWI7
+         Qm+OxXcwGlDyfAtT0JyB6twkw/WwCaX6rBTv0A/3OAe3KJuOyp0EzIIt16aa+6oW8Ghz
+         szOxu0X3NzadPS9NZ7OtqxZVjMxEEpZm3nbszaiBjyxwH6EtWUPNsD35ZhtEycCMfU4t
+         oGJimkqu9h7JCxIQcBgggKfwKS6YnyLDVSKldelN2EzeS1bChe6126ul013Tc7QlNmTI
+         U45gAEftWxiOyDz5Nz4dW8GGmjj0xhKd3e5TpgLI8JJGvcs55uMemJKKJro3R6zE0yT1
+         pUWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=RcsfDHfUB2SLfsSr4/knpCVaC32hbn+/iN/r6fAA2fE=;
-        b=wKMYz2kawFLOxFzGWnCi8C0bFcQNQaSrKniDdYFFdk2o8kMZRfDC8z5zoxdOnGnWPG
-         Ae5BOWYWKrS6hj74GA0NBT7H1fBntR4HBV4uJRARxglRxHv4zRTyvU8D5C3HXIBjM4qt
-         JqIixmln5Qq9r46BMhIxb4tkjQ9Jaflt5bv3nBqBjO5uawimnx3bF7JakucgsuOEzNDQ
-         8TPGTebG6YjuZr88Fxc0gRDDjQB5dzctzCaD6cCUFutXYnNEVtbq/BpgII7aenXlbnUt
-         gE5klR0jY6XzoWzxaDIA9/+OcJi6QNJYE9DEqy2H822xiS3rSmrnW9yFgpOppzb2oTPJ
-         B8MQ==
-X-Gm-Message-State: AOAM531J9hkJCvkq2CyxBx84fHlnYJYHhv6sIDzaYwlRHUxZ6c3b1hio
-	qOtT5sCXO7An1ORmKwpb3y4=
-X-Google-Smtp-Source: ABdhPJyzeYQxJmGJ6/F71LynLO6vX94qvYNgIhTiN54TFgxHjOfiyNupkQsfHM9v9A3xef20pEr5zA==
-X-Received: by 2002:a5d:5651:: with SMTP id j17mr23299333wrw.166.1638051643803;
-        Sat, 27 Nov 2021 14:20:43 -0800 (PST)
-Received: from ?IPV6:2003:ea:8f1a:f00:7df6:9d34:4832:e4f1? (p200300ea8f1a0f007df69d344832e4f1.dip0.t-ipconnect.de. [2003:ea:8f1a:f00:7df6:9d34:4832:e4f1])
-        by smtp.googlemail.com with ESMTPSA id e7sm12657588wrg.31.2021.11.27.14.20.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Nov 2021 14:20:43 -0800 (PST)
-Message-ID: <aadbd32c-c0ab-4c8a-c590-3334f736f224@gmail.com>
-Date: Sat, 27 Nov 2021 23:20:36 +0100
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UrcIjjq19+8x+tKdvPz3//oFylEYXfeLOia6PAhgG84=;
+        b=Sb41NStpoG1ctfF5ra7FSsoqzf22cKCsm6qdQ8Lx8wgklzTuEcS2S4oIB0cXVbMk0y
+         iIoj7djeajcKl9F4OR6K7zlciWtsdPyc4YxTAHjGE5cjiJY/vzKBs/3Xr/5S7DtiEKPm
+         TC10rrPtkSxSOQj7vcBqdThKkDz79YMp4U5FKshBXkRw68vLBTLQrwYogpypUwD+NVAz
+         B6NBCZTo4Zjdhj0Ht7ILP6XdYX/0tdbDj3XdG81k3/l0L81VxO9T22DDeK62kpjArTHA
+         nONstZA+0i2+71u6IznSQfqulF6Vvlr5mSsc542p13h2o/mqzkCI5R9zGs7CHs4DZWVa
+         kLTA==
+X-Gm-Message-State: AOAM533hkfkDXSzYget6E5J+rI+3eywC84atOCVdmbqPQrk19f/6oiFe
+	ZcuZEiXnN3C1KV8SXLsjcVM=
+X-Google-Smtp-Source: ABdhPJzmSE9FJESXNt5pVdJT4gR5HGp8c9JvwxnSAj0ZecIcZ9m5lJadTnpEwsn7rzTzs8Fw9j7zNw==
+X-Received: by 2002:a7b:c194:: with SMTP id y20mr29455080wmi.2.1638107616379;
+        Sun, 28 Nov 2021 05:53:36 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ac86])
+        by smtp.gmail.com with ESMTPSA id l26sm13598510wms.15.2021.11.28.05.53.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Nov 2021 05:53:36 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: remove rf_type and rtw_rf_config
+Date: Sun, 28 Nov 2021 14:53:21 +0100
+Message-Id: <20211128135326.9838-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] staging: fbtft: add spi_device_id table
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-After 5fa6863ba692 ("spi: Check we have a spi_device_id for each DT
-compatible") we need the following to make the SPI core happy.
+This series removes rf_type from struct hal_data_8188e and the
+module paramater rtw_rc_config.
 
-Works for me with a SH1106-based OLED display.
+Tested on x86_64 with InterTech DMG-02.
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/staging/fbtft/fbtft.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+Please apply this series on top of the series
+"staging: r8188eu: remove more usages of rf_type".
 
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 6869f3603..3f1fbdd48 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -307,12 +307,19 @@ static const struct of_device_id dt_ids[] = {                              \
- 									   \
- MODULE_DEVICE_TABLE(of, dt_ids);                                           \
- 									   \
-+static const struct spi_device_id spi_ids[] = {                            \
-+	{ .name = _compatible },					   \
-+	{},                                                                \
-+};                                                                         \
-+									   \
-+MODULE_DEVICE_TABLE(spi, spi_ids);					   \
- 									   \
- static struct spi_driver fbtft_driver_spi_driver = {                       \
- 	.driver = {                                                        \
- 		.name   = _name,                                           \
- 		.of_match_table = dt_ids,                                  \
- 	},                                                                 \
-+	.id_table = spi_ids,						   \
- 	.probe  = fbtft_driver_probe_spi,                                  \
- 	.remove = fbtft_driver_remove_spi,                                 \
- };                                                                         \
+Michael Straube (5):
+  staging: r8188eu: remove rf_type from writeOFDMPowerReg88E()
+  staging: r8188eu: remove rf_type from bb_reg_dump()
+  staging: r8188eu: remove unused HW_VAR_RF_TYPE
+  staging: r8188eu: remove rf_type from struct hal_data_8188e
+  staging: r8188eu: remove module parameter rtw_rf_config
+
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  4 ---
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c |  6 +----
+ drivers/staging/r8188eu/hal/usb_halinit.c     |  3 ---
+ drivers/staging/r8188eu/include/drv_types.h   |  1 -
+ drivers/staging/r8188eu/include/hal_intf.h    |  1 -
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  3 ---
+ drivers/staging/r8188eu/include/rtw_rf.h      | 10 -------
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  | 27 +++++++------------
+ drivers/staging/r8188eu/os_dep/os_intfs.c     |  3 ---
+ 9 files changed, 10 insertions(+), 48 deletions(-)
+
 -- 
 2.34.0
 
