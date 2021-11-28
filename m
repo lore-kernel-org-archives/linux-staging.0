@@ -1,41 +1,41 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B492C85
-	for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 13:53:40 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id p18so12395774wmq.5
-        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 05:53:40 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5298D2C83
+	for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 13:53:41 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id p3-20020a05600c1d8300b003334fab53afso14653001wms.3
+        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 05:53:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3Ytho17AJ4uMgaRdXauPbFbIjw+Tbhbf5MABHEUnEio=;
-        b=m5m6m9aTEF8hm1j3DjpZ2KSzdLxMn/99YWNmqeEWE5FzSa+IpKtuDscGkb+3X96mYp
-         CRGmiwUPzgVbL8PM+aG62bpzH4dUiND7NpDKh6uZsWum4m5CrH4MK8MEw+7dam5b9Flt
-         GETSRwnDyCOzv5Q7rkrTEspijeG2IjoiB32NHS+M5Ew1P2SAdCWfOPiXy0Bkr+imb3nO
-         xBXEyLnA+2ZXe8DfMbwTbwjl5kyeAiIop+7S0D3QocfTzEbiY4kQ17MhCA/0lmvYlA4J
-         z95BD9M+KJlNx0EdgGukV8y5BNJtmyCbnz0dsonDTV1fX+23WTlwB+Ks2H4dRWLdlzty
-         ZgUQ==
+        bh=VDR+IVxxeeTY3pueMAGZ7jxJmYafV0PT+lGE6gPzU/g=;
+        b=e0YUHokLR/ZLj7+ok8hihW2xB254hZu3XGxrOslzatqizRd1qpoZ4jagZMeAMiCTHV
+         3ffScUUm7oVHZ+1SdZ6WDAP1ZtSzYDlDNo1T4Wn9e9Ux6K+27Oz8MxSu2K6nRdn57qgb
+         v9r+B8Cm0aLUkJsOPAqDaXgp/3O5TZPz6qTRV7lEXtEUApt7R181fTkIW9flk2hB/T27
+         9xEYFjDvYXgOwAY8y3fhi8ScrUL5xSh55uIgExi/Jpzg0/eFBXggYxBzTDmHN5vtY4qb
+         2obzlcKmc98stA1MHfoYL9CkPmuSssrPD27jnHov3JqYTqlFAkFm0/VYeCzdaDEmXNJp
+         Yx8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3Ytho17AJ4uMgaRdXauPbFbIjw+Tbhbf5MABHEUnEio=;
-        b=BNGbSbcJvjSjJW0C7xOti1zbauR9fLiNLioZf1Nq6H71GOAnmbni2ejz7cxKTcGJfw
-         Rt4MjoHcusb2UyyKbTUmd0EHcNoFYsVbiNEsO033FEjgNhiKqRBtaa7PVvg2WNhzBIo6
-         ebCxrSTgSfaEu51uYxeU1u1/NAiBSq5jMd7iexjSmw5I8QR+6TGPhW4hbwFKDUO7d4EP
-         TtvSZX084Axe0BWGAscO2Q8dkaAtZqCScjuY9wnnW7T3Ma7C5uxqTlnREuDWICeKL/S7
-         rhd3NbEOwrrifWklpWY7mVbX722ntNQJog/diNV2+b//+bvzKCoY7ueVhXc3R6vHI84O
-         V0sA==
-X-Gm-Message-State: AOAM532srsCVMrBZs1kNnbWn+dQByDR4qH/nNaZEjGCKC1Z3loSaA4th
-	W4Fe/kH+w4Ry+xibDcb6TQ4=
-X-Google-Smtp-Source: ABdhPJy9nGdoa7qsmYmw0p8rzv2x8gPcPwN6QSCE0I29r4o5s2bmZ8bZOn7izhnXmgEJBZtqojShLw==
-X-Received: by 2002:a7b:c1c5:: with SMTP id a5mr29043128wmj.149.1638107619101;
+        bh=VDR+IVxxeeTY3pueMAGZ7jxJmYafV0PT+lGE6gPzU/g=;
+        b=U4GC5fNYkGqoeqo9bC75sDPqTwgb/hF6xzH6McpFZBgsS8mhGA4yw+weosjiQoxqVH
+         5OJsnF+BUYaoti9pgs/rl8YPLsRqiAk0HUjHYX7wTPno4eOfTVfMPf60mERoWAwnXC1H
+         Zjg/nxCaW0YztL+05fS0nZnaighHaEe2rDKOL+wdEX2Da4FXaCYQbHxyOrtmR/JKqsjR
+         0XbK/nV83IXx9r853Q1lei9/PY/9JasguFd38XoxbSFJBUCkiI46+LuIPcr341ZQccMN
+         U0oSZxuvqoK2dYJ8E1H4HtVdYvfcc3VunwCRPxS4RRSkDlhFy/6UlhO9uxqAnzejnhax
+         0a2Q==
+X-Gm-Message-State: AOAM533tav2XONhyPifMPuhNaplqbuRzDv5xNrNWBJ1rbtW5VF3vqwGm
+	++NhowMAQXwIAiWAKwronGJkXrfIYvw=
+X-Google-Smtp-Source: ABdhPJwJF17HSv10OSA4m6s/NbRd6+B4Z2lwkVoQs/7hXZWDcni1eA9wG0s1riIWXO1cePZAn32jmw==
+X-Received: by 2002:a1c:21d7:: with SMTP id h206mr28559309wmh.60.1638107619775;
         Sun, 28 Nov 2021 05:53:39 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ac86])
-        by smtp.gmail.com with ESMTPSA id l26sm13598510wms.15.2021.11.28.05.53.38
+        by smtp.gmail.com with ESMTPSA id l26sm13598510wms.15.2021.11.28.05.53.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 05:53:38 -0800 (PST)
+        Sun, 28 Nov 2021 05:53:39 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 4/5] staging: r8188eu: remove rf_type from struct hal_data_8188e
-Date: Sun, 28 Nov 2021 14:53:25 +0100
-Message-Id: <20211128135326.9838-5-straube.linux@gmail.com>
+Subject: [PATCH 5/5] staging: r8188eu: remove module parameter rtw_rf_config
+Date: Sun, 28 Nov 2021 14:53:26 +0100
+Message-Id: <20211128135326.9838-6-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211128135326.9838-1-straube.linux@gmail.com>
 References: <20211128135326.9838-1-straube.linux@gmail.com>
@@ -57,47 +57,77 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The field rf_type of struct hal_data_8188e is set to RF_1T1R and
-never changed. Also it is used only in a call to netdev_dbg() which
-is not very useful since RTL8188EU chips are always 1T1R. Remove
-the netdev_dbg() and remove rf_type from the hal_data_8188e
-structure.
+The module parameter rtw_rf_config is not used in the driver.
+Remove it and remove the now unused enum rt_rf_type_def.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 4 ----
- drivers/staging/r8188eu/include/rtl8188e_hal.h  | 3 ---
- 2 files changed, 7 deletions(-)
+ drivers/staging/r8188eu/include/drv_types.h |  1 -
+ drivers/staging/r8188eu/include/rtw_rf.h    | 10 ----------
+ drivers/staging/r8188eu/os_dep/os_intfs.c   |  3 ---
+ 3 files changed, 14 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index 001e4a198630..eeb5f46687e2 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -854,10 +854,6 @@ void rtl8188e_read_chip_version(struct adapter *padapter)
- 	dump_chip_info(ChipVersion);
+diff --git a/drivers/staging/r8188eu/include/drv_types.h b/drivers/staging/r8188eu/include/drv_types.h
+index 3e4928320f17..edcdbd646eaa 100644
+--- a/drivers/staging/r8188eu/include/drv_types.h
++++ b/drivers/staging/r8188eu/include/drv_types.h
+@@ -85,7 +85,6 @@ struct registry_priv {
+ 	u8	ampdu_amsdu;/* A-MPDU Supports A-MSDU is permitted */
+ 	u8	lowrate_two_xmit;
  
- 	pHalData->VersionID = ChipVersion;
+-	u8	rf_config;
+ 	u8	low_power;
+ 
+ 	u8	wifi_spec;/*  !turbo_mode */
+diff --git a/drivers/staging/r8188eu/include/rtw_rf.h b/drivers/staging/r8188eu/include/rtw_rf.h
+index 7ec252fec054..d0a408b903dc 100644
+--- a/drivers/staging/r8188eu/include/rtw_rf.h
++++ b/drivers/staging/r8188eu/include/rtw_rf.h
+@@ -99,16 +99,6 @@ enum ht_extchnl_offset {
+ 	HT_EXTCHNL_OFFSET_LOWER = 3,
+ };
+ 
+-/* 2007/11/15 MH Define different RF type. */
+-enum rt_rf_type_def {
+-	RF_1T2R = 0,
+-	RF_2T4R = 1,
+-	RF_2T2R = 2,
+-	RF_1T1R = 3,
+-	RF_2T2R_GREEN = 4,
+-	RF_819X_MAX_TYPE = 5,
+-};
 -
--	pHalData->rf_type = RF_1T1R;
--
--	netdev_dbg(padapter->pnetdev, "RF_Type is %x!!\n", pHalData->rf_type);
- }
+ u32 rtw_ch2freq(u32 ch);
  
- void rtl8188e_SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 5848f1d4191a..be8af7497f4b 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -168,9 +168,6 @@ struct hal_data_8188e {
+ #endif /* _RTL8711_RF_H_ */
+diff --git a/drivers/staging/r8188eu/os_dep/os_intfs.c b/drivers/staging/r8188eu/os_dep/os_intfs.c
+index 5a5f182d30c9..0021ca578949 100644
+--- a/drivers/staging/r8188eu/os_dep/os_intfs.c
++++ b/drivers/staging/r8188eu/os_dep/os_intfs.c
+@@ -75,7 +75,6 @@ static int rtw_ampdu_amsdu;/*  0: disabled, 1:enabled, 2:auto */
  
- 	u16	BasicRateSet;
+ static int rtw_lowrate_two_xmit = 1;/* Use 2 path Tx to transmit MCS0~7 and legacy mode */
  
--	/* rf_ctrl */
--	u8	rf_type;
--
- 	/*  EEPROM setting. */
- 	u16	EEPROMSVID;
- 	u16	EEPROMSDID;
+-static int rtw_rf_config = RF_819X_MAX_TYPE;  /* auto */
+ static int rtw_low_power;
+ static int rtw_wifi_spec;
+ static int rtw_channel_plan = RT_CHANNEL_DOMAIN_MAX;
+@@ -123,7 +122,6 @@ module_param(rtw_ampdu_enable, int, 0644);
+ module_param(rtw_rx_stbc, int, 0644);
+ module_param(rtw_ampdu_amsdu, int, 0644);
+ module_param(rtw_lowrate_two_xmit, int, 0644);
+-module_param(rtw_rf_config, int, 0644);
+ module_param(rtw_power_mgnt, int, 0644);
+ module_param(rtw_smart_ps, int, 0644);
+ module_param(rtw_low_power, int, 0644);
+@@ -205,7 +203,6 @@ static uint loadparam(struct adapter *padapter,  struct  net_device *pnetdev)
+ 	registry_par->rx_stbc = (u8)rtw_rx_stbc;
+ 	registry_par->ampdu_amsdu = (u8)rtw_ampdu_amsdu;
+ 	registry_par->lowrate_two_xmit = (u8)rtw_lowrate_two_xmit;
+-	registry_par->rf_config = (u8)rtw_rf_config;
+ 	registry_par->low_power = (u8)rtw_low_power;
+ 	registry_par->wifi_spec = (u8)rtw_wifi_spec;
+ 	registry_par->channel_plan = (u8)rtw_channel_plan;
 -- 
 2.34.0
 
