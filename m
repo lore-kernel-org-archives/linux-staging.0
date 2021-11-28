@@ -1,41 +1,41 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD5F2C81
-	for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:09:50 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id az34-20020a05600c602200b0033bf8662572so10700412wmb.0
-        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 09:09:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CE92C85
+	for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:09:51 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id j3so31418045wrp.1
+        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 09:09:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YLIQJab5wHT1hsE/76jhgQKsIzuBjk3iIIUzCckcPmw=;
-        b=d+2U/R8yBD05iqUXOtrn/Pz6/Mm5T8yM4kd/WyAktGZScRYskMLaUBd3Eo0qRqo8dH
-         l6JGm0eOD3iyXFJCl3rt9gBChXQYRKo9sh8YCG61wDiccBVfWZy/R9wOLbCnII36GPuw
-         8zYrEo5CJCOg+hiK0QpqWPkBzxJhlr9/THftWK7OD4aO4l3j/JsfqPUzzXMsXYO0bs/+
-         jNW5M4RKqqUal4p7l9HGEOLRdIGVlMOOWel/pvhVdM/dJ4coRHLuQUGVn+pIxyH0qxNQ
-         v3MCRXg3moFr6yXZ7gYL0LAXNVO9NrDSixhulH7dKPruktlq/BqrcoiBLksWgRChatp3
-         oaRg==
+        bh=DSyWvZx3eDkxPjxqzfYvtkxGCKAVHYBLh3L+7jrtBns=;
+        b=ZllLeEGCc7s7MINftbGJsXIYUsCNebAbcQ4hEcWT3Wwmqe6drlxQ6F+1UCbhP4bQZH
+         Dhfp3vUd4V2bgstg1pc6mbXjr4U4N/hvz9u7+nq0XbvIRxbNDsLH097qS58rbaXiy4WS
+         XqY3LhiAFqnIj2vDaRJNiofDeLSLu70wZsEfYAbyBPPS3nfc5QQ8btz7tAxfM+AC5NdD
+         t5GFokPf0BqzT2TrrG6CAkskk+MlP6ScbrInfTE1Q5J6dCZaqYJMp6FAtgQNUuXxGQWC
+         IvzyX5vJPBdBR5sck/ss1q/8ST3Kg101Mj8bp00Xz1TuhjtxdU4t5FlmapavoCP58+z3
+         Q5cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YLIQJab5wHT1hsE/76jhgQKsIzuBjk3iIIUzCckcPmw=;
-        b=4W/agS1HeMB7zY3xLlAwFbbmJNaf3/vqM6+jQdAfo2/UTns+0iN+aogq1DJiAqHJ5G
-         RCpPkfKBqeA3ASang6wWXC9mF8JypeGlzikOqGQ3kytdStuZpyF8ccxTFAPnS65tvHcT
-         ZjoX4ic26rStNS7A3ADT6dE/mpAHVRge0Pk1z21hpGtnadbBam00mR69qShU23TFbm1B
-         8jkbwt4O6zHVUThHFnQTcObqLPPJT1uGYpYY7Xg8YN6CQpAiF72csOmIrNMj8kc96Gk3
-         T+AZp1Re6R1gKJ3oQHqcLs7Z7jqqYs+AXVLioPrKaO8HkHJhlP0O5Fz+1fsjh6qvOuop
-         BcQA==
-X-Gm-Message-State: AOAM533NOmwqoQFibGXHM7Y8jtxUtwTKaZC37IEoZ+FmGGdkNQ3gfgdB
-	bYrU8Z5CWdUgk03bmNThdeI=
-X-Google-Smtp-Source: ABdhPJxzboVKvk6Arn9847UVlQuL94e3J/PAeFbnB4Debgjge/8xrI41HXvo1Rlt1MEUEgqqmZ53ew==
-X-Received: by 2002:a7b:ce83:: with SMTP id q3mr30549784wmj.37.1638119389228;
+        bh=DSyWvZx3eDkxPjxqzfYvtkxGCKAVHYBLh3L+7jrtBns=;
+        b=J/MuNDlESV5N7VGXGHifyLE9qqeDT1Zhtq37HMBG0oXR6rHumEyCyF7x8eZMZzTTKb
+         R+6rL4M8bFuY2x/8WNgegCsG1Iak4louC6ZhD7sRizkWJWzroLyTqAhl4Bz98DQzKD1Y
+         o9UShAm5xAsTrPfcZVzmktPr43hXzFxmzhkaq1+XHDBAgzfscmnqTGpDHjLIZ8Fg7P58
+         Hl9qfqw/jJ+eP2g//Z7Ac1OK/nrPCqusLnj500YrEBFF8o3aBGHTUpG6hLoUnCcKbwt+
+         bh13E5mann39Y6Sx/QIUniAEwQYFBw/x1jCvRI/P9VwqQzaPCLFBKOQBRSSB3Y35PSo5
+         C1XA==
+X-Gm-Message-State: AOAM533c58PR+lhW/Ysy1Cd9GXN7aJwuPzVLTYeuZ87R6XQC7T0CRwha
+	ziR9+3tVsW1kDx6RSZ3DXYfhSOL6h1g=
+X-Google-Smtp-Source: ABdhPJxiC8AKppWqDImCABdZlrCBa3uTf8rYJUtkiUvPBlTkSrxuFCJUG97zmN8TQTb9Ir7BkAX/0w==
+X-Received: by 2002:a5d:5988:: with SMTP id n8mr27400277wri.309.1638119389837;
         Sun, 28 Nov 2021 09:09:49 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::ac86])
-        by smtp.gmail.com with ESMTPSA id n15sm18243845wmq.38.2021.11.28.09.09.48
+        by smtp.gmail.com with ESMTPSA id n15sm18243845wmq.38.2021.11.28.09.09.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 09:09:48 -0800 (PST)
+        Sun, 28 Nov 2021 09:09:49 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 01/10] staging: r8188eu: remove rf_type from rtw_update_ht_cap()
-Date: Sun, 28 Nov 2021 18:09:15 +0100
-Message-Id: <20211128170924.5874-2-straube.linux@gmail.com>
+Subject: [PATCH v2 02/10] staging: r8188eu: remove rf_type from issue_assocreq()
+Date: Sun, 28 Nov 2021 18:09:16 +0100
+Message-Id: <20211128170924.5874-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211128170924.5874-1-straube.linux@gmail.com>
 References: <20211128170924.5874-1-straube.linux@gmail.com>
@@ -57,39 +57,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rf_type is always RF_1T1R. Remove it from rtw_update_ht_cap() and
-remove related dead code.
+rf_type is always RF_1T1R. Remove it from issue_assocreq() and remove
+related dead code.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/core/rtw_mlme.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c | 25 +++++----------------
+ 1 file changed, 5 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme.c b/drivers/staging/r8188eu/core/rtw_mlme.c
-index 8d14aff32f61..a3996a7ee814 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme.c
-@@ -1999,17 +1999,11 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len)
- 	    (le16_to_cpu(pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info) & BIT(1)) &&
- 	    (pmlmeinfo->HT_info.infos[0] & BIT(2))) {
- 		int i;
--		u8	rf_type;
--
--		GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
+diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+index 55c3d4a6faeb..bb0b565833cb 100644
+--- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
++++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
+@@ -5060,7 +5060,7 @@ void issue_assocreq(struct adapter *padapter)
+ 	__le16 *fctrl;
+ 	__le16		le_tmp;
+ 	unsigned int	i, j, ie_len, index = 0;
+-	unsigned char	rf_type, bssrate[NumRates], sta_bssrate[NumRates];
++	unsigned char bssrate[NumRates], sta_bssrate[NumRates];
+ 	struct ndis_802_11_var_ie *pIE;
+ 	struct registry_priv	*pregpriv = &padapter->registrypriv;
+ 	struct xmit_priv		*pxmitpriv = &padapter->xmitpriv;
+@@ -5185,25 +5185,10 @@ void issue_assocreq(struct adapter *padapter)
+ 			/* todo: disable SM power save mode */
+ 			pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info |= cpu_to_le16(0x000c);
  
- 		/* update the MCS rates */
--		for (i = 0; i < 16; i++) {
--			if ((rf_type == RF_1T1R) || (rf_type == RF_1T2R))
--				pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate[i] &= MCS_rate_1R[i];
--			else
--				pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate[i] &= MCS_rate_2R[i];
--		}
-+		for (i = 0; i < 16; i++)
-+			pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate[i] &= MCS_rate_1R[i];
+-			GetHwReg8188EU(padapter, HW_VAR_RF_TYPE, (u8 *)(&rf_type));
+-			switch (rf_type) {
+-			case RF_1T1R:
+-				if (pregpriv->rx_stbc)
+-					pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info |= cpu_to_le16(0x0100);/* RX STBC One spatial stream */
+-				memcpy(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_rate_1R, 16);
+-				break;
+-			case RF_2T2R:
+-			case RF_1T2R:
+-			default:
+-				if ((pregpriv->rx_stbc == 0x3) ||/* enable for 2.4/5 GHz */
+-				    ((pmlmeext->cur_wireless_mode & WIRELESS_11_24N) && (pregpriv->rx_stbc == 0x1)) || /* enable for 2.4GHz */
+-				    (pregpriv->wifi_spec == 1)) {
+-					DBG_88E("declare supporting RX STBC\n");
+-					pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info |= cpu_to_le16(0x0200);/* RX STBC two spatial stream */
+-				}
+-				memcpy(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_rate_2R, 16);
+-				break;
+-			}
++			if (pregpriv->rx_stbc)
++				pmlmeinfo->HT_caps.u.HT_cap_element.HT_caps_info |= cpu_to_le16(0x0100);/* RX STBC One spatial stream */
++			memcpy(pmlmeinfo->HT_caps.u.HT_cap_element.MCS_rate, MCS_rate_1R, 16);
 +
- 		/* switch to the 40M Hz mode according to the AP */
- 		pmlmeext->cur_bwmode = HT_CHANNEL_WIDTH_40;
- 		switch ((pmlmeinfo->HT_info.infos[0] & 0x3)) {
+ 			pframe = rtw_set_ie(pframe, _HT_CAPABILITY_IE_, ie_len, (u8 *)(&pmlmeinfo->HT_caps), &pattrib->pktlen);
+ 		}
+ 	}
 -- 
 2.34.0
 
