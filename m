@@ -1,89 +1,145 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED29268
-	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 00:20:56 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id t83so21009295qke.8
-        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 16:20:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BCgXLgppxFx/+yBAvu+NIds6u6sh50A8uraUotdl8hw=;
-        b=dm/PmPeohFP+EK9dFQ+1/yxwAuq8o/L5f+U/BrlHrevero4Zud15jVH/1GURrBPysW
-         y6bwnByusfQ9D6P3UqmSi2kzb87TiW8eUX+7qIEPL3uedzGl0C4dvD0G27BoIzODdS39
-         59Gkq7+VtHVpiR6YdV+Dsw4KHl9KUCin65MbpvkYIurgVY7rDEQDtgzOIGVVzzmUo810
-         EptBCqdiUgkkf5L0OmbzpcLxDSm7EeRxJIh80XXX1JtkKe1qudVu4LCuvWQyuOiIVeDo
-         Z67I/zRvBcqZ/MnzYxdOHtXpcsTKmzD/Dy/smddCIem6P6EQo5Ct5eA2/oelXrJw8Mr0
-         VWaw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB09B2C80
+	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 01:12:22 +0000 (UTC)
+Received: by mail-oo1-f52.google.com with SMTP id v19-20020a4a2453000000b002bb88bfb594so5208643oov.4
+        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:12:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BCgXLgppxFx/+yBAvu+NIds6u6sh50A8uraUotdl8hw=;
-        b=hQOmsPIQ63a1z3psZkRUqiKrvhNv+boy1s25AyT8xQ56w8kwqXoZfJiC9HEVsx5HDi
-         Gg0Y/vjM7VaOAdPbCklLOo3WM2+sm2aRPBtF7FF4QfxLVpDkld3G7SADKc/giPDux4Br
-         bQI7zOuX4SK2akMcfiuP+D/ODzYbbqhqlnz9HQLSMwgRJS1lQXq8GdYfxSQTMoFmbgc1
-         ht7YLDBnGx3U9nEZYc2LaB9bxx+++xcDjUj+SYcx19LwB/vusKmMGA/6VSSA57DOblqi
-         dm0sPQ6Yg+O7H40NDogkRUi8sA0V0XW9MS3I7bhRIPpfM5VzJH+EsFAx9oXMfctT+HEV
-         T1Rw==
-X-Gm-Message-State: AOAM530GSyZQNpf+l4O/UmmIC4XibFn4q4/jfUbQa+HVsmso8TVaZrpK
-	/vPTvuZH/DrQlRNn2W9IJ+IFpA==
-X-Google-Smtp-Source: ABdhPJzopBkJkxAnz5/2xSMBFyHFNb1CfIOvA81OkPa0b+x7z11KHtZH//Un1OnnFA4bF4Q/EEatkQ==
-X-Received: by 2002:a05:620a:ec2:: with SMTP id x2mr33234378qkm.400.1638145255992;
-        Sun, 28 Nov 2021 16:20:55 -0800 (PST)
-Received: from localhost.localdomain (3.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.6.1.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:df16::3])
-        by smtp.gmail.com with ESMTPSA id n74sm5681022qkn.83.2021.11.28.16.20.54
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=03605aa61GPqAkMuEDxiULscPlb4IrQgvCCxdTvrYo0=;
+        b=UfEfLl29Uds9ak7UIX3AlYqV+7rZ+ejmn3UwmGdo+HRfmXF8oPDNc/eCkrxMdC7P0d
+         hK2frqEf3CJI1xO1Ty0ZaiwK2lQQgLxfhHfgevw5QB+IRsbt66BwK7t4OHV2zizxrYhn
+         U7fohE3jmjA4nmrfHEnbimNIKQNMjn9vbp7vVHET7LU94AZ0Hx8vELJogXUnhmyM0n+G
+         rfyrzX73UijqNAQPHXbFpd/zIj1Eh/QEF6XvHhqlw2w/V4Hnzt2r2y/8GAsKoTTLlOJN
+         KkIgB8M2n+2KP8Tacr2b2Jf8NTeg1a1o3eEP/wxiGsAzJEuib/HEKpV3r5gbjjmFLUWF
+         zmBQ==
+X-Gm-Message-State: AOAM532htJh7J5CAwtIkgas3tZaeGsos+L2JvZ6UP6nKi3AH4A6p2TRf
+	CRqTb9pAuqHISzSNNO+Wuw==
+X-Google-Smtp-Source: ABdhPJxzhvSxTOGoyPf+w1ZfNACC6PBC3QI/jrnXNUoX8D33yr4OrKGRKxpW1BPnSOUOB2tdNfo6Ww==
+X-Received: by 2002:a4a:9406:: with SMTP id h6mr29823072ooi.80.1638148341725;
+        Sun, 28 Nov 2021 17:12:21 -0800 (PST)
+Received: from robh.at.kernel.org ([172.58.99.229])
+        by smtp.gmail.com with ESMTPSA id 111sm2390830otu.55.2021.11.28.17.12.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 16:20:55 -0800 (PST)
-From: Phillip Potter <phil@philpotter.co.uk>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	straube.linux@gmail.com,
-	martin@kaiser.cx,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] staging: r8188eu: remove DBG_88E_LEVEL macro from include/rtw_debug.h
-Date: Mon, 29 Nov 2021 00:20:41 +0000
-Message-Id: <20211129002041.865-8-phil@philpotter.co.uk>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211129002041.865-1-phil@philpotter.co.uk>
-References: <20211129002041.865-1-phil@philpotter.co.uk>
+        Sun, 28 Nov 2021 17:12:21 -0800 (PST)
+Received: (nullmailer pid 2952305 invoked by uid 1000);
+	Mon, 29 Nov 2021 01:12:19 -0000
+Date: Sun, 28 Nov 2021 19:12:19 -0600
+From: Rob Herring <robh@kernel.org>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 2/3] dt-bindings: staging: Add the binding
+ documentation for ZHOUYI AI accelerator
+Message-ID: <YaQo81xyEkZpqXnc@robh.at.kernel.org>
+References: <20211126021904.32325-1-caihuoqing@baidu.com>
+ <20211126021904.32325-3-caihuoqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211126021904.32325-3-caihuoqing@baidu.com>
 
-Remove the DBG_88E_LEVEL macro definition from include/rtw_debug.h, as
-it has no callers and is surplus to requirements. This is motivated by
-ongoing efforts to remove all non-standard debugging code from the
-driver.
+On Fri, Nov 26, 2021 at 10:19:00AM +0800, Cai Huoqing wrote:
+> ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
+> such as Allwinner R329 SOC.
+> Add the binding documentation for ZHOUYI AI accelerator.
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> ---
+> v2->v3:
+>         *Fix unit_address_format, avoid leading 0s.
+> 
+>  .../bindings/staging/arm,zynpu.yaml           | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/staging/arm,zynpu.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/staging/arm,zynpu.yaml b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
+> new file mode 100644
+> index 000000000000..d452c08ab4a3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/staging/arm,zynpu.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ARM ZHOUYI AI accelerator bindings
+> +
+> +maintainers:
+> +  - Cai Huoqing <caihuoqing@baidu.com>
+> +
+> +description:
+> +  Supports ZHOUYI AI accelerator in ARM SOC.
+> +
+> +properties:
+> +  compatible:
+> +    const: armchina,zhouyi-v1
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  device_type:
 
-Signed-off-by: Phillip Potter <phil@philpotter.co.uk>
----
- drivers/staging/r8188eu/include/rtw_debug.h | 6 ------
- 1 file changed, 6 deletions(-)
+device_type is deprecated except for a couple of uses.
 
-diff --git a/drivers/staging/r8188eu/include/rtw_debug.h b/drivers/staging/r8188eu/include/rtw_debug.h
-index 39b69b9ad0a3..311051757715 100644
---- a/drivers/staging/r8188eu/include/rtw_debug.h
-+++ b/drivers/staging/r8188eu/include/rtw_debug.h
-@@ -54,12 +54,6 @@
- 
- extern u32 GlobalDebugLevel;
- 
--#define DBG_88E_LEVEL(_level, fmt, arg...)				\
--	do {								\
--		if (_level <= GlobalDebugLevel)				\
--			pr_info(DRIVER_PREFIX"INFO " fmt, ##arg);	\
--	} while (0)
--
- #define DBG_88E(...)							\
- 	do {								\
- 		if (_drv_err_ <= GlobalDebugLevel)			\
--- 
-2.33.1
+> +    const: zynpu
+> +
+> +  cma-reserved-bytes:
+> +    default: 0
 
+Use 'memory-region' and your own carve out if you need this, but do you 
+really need this in DT? Is this fixed for a given board/platform rather 
+than something a user would want to tune?
+
+
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 3
+
+You must define what each clock is and the order.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - device_type
+> +  - cma-reserved-bytes
+> +  - interrupts
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +        zynpu@3050000 {
+> +            compatible = "armchina,zhouyi-v1";
+> +            reg = <0x0 0x3050000 0x0 0x1000>;
+> +            device_type = "zynpu";
+> +            cma-reserved-bytes = <0x2600000>;
+> +            interrupts = <GIC_SPI 64 IRQ_TYPE_EDGE_RISING>;
+> +            clocks = <&clk_zynpu>,
+> +                     <&clk_pll_zynpu>,
+> +                     <&clk_zynpu_slv>;
+> +        };
+> +    };
+> +...
+> -- 
+> 2.25.1
+> 
+> 
