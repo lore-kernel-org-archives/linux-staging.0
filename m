@@ -1,218 +1,241 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5AD2C80
-	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 01:22:51 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id x15so64789465edv.1
-        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:22:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2WugqzB+J5SM2Rtu1AZbJ8JL6dAU1EZDnr7Z+hI1Bpg=;
-        b=nVbPxULOFKfXYh+G7WbcBs5A6p/AxFpIj43fXP7exgEeqsDR/H3qMn5zEV2f6rn96e
-         CYCrV0Ng4jTDcsLRvmAoSBGv8xG8F6EV9y6y7YL7mL+flHWeuNJ9f6f9AJumdg25PU2v
-         9KLxVKS9KDmOqvXWJ0adTkHx83HPnPE7BZF1mT3L/MvHtnBLHoKXQBBDDT4nYf5LOERk
-         Q300dySX48E0d0/gmA4PSbnA8APCiJy7Epnf5g7kDYifp0lSM2lBiZL0XhSLhm9JgNCZ
-         g1UqWRxfGzmfKBiU2FhBG8aIPS2R7vwE8jV9m2BtZNF4d1w+TsSH0eBs4n7DZO4ADR3P
-         it4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2WugqzB+J5SM2Rtu1AZbJ8JL6dAU1EZDnr7Z+hI1Bpg=;
-        b=sEl9hIR5IGfkxt2F8tr24D3mcga4T97MkV0N6qzOjetfmWfLXzDtUqPzDz/oplmvhJ
-         hQwI8zpTxAZqU7kxq15Auq4e8JoNBg1hpRmU2OIARbBUpmnX3hhhI7Q6uAbWeJEeCjXv
-         vbBlxl3uVv95ywGreXowkUxsTHTJ6dlkwIWH/cguhSg9Q+AEaDYzGNQFdmkO4PukoZ7x
-         G+GDMWUpsSprvr3vRLSxzro2LXJrOIDRHHRyLeitjLdJhtS6f7LyEKj7qbLVp6maJrjA
-         yzYm6j0lUaDLmQwsDI4sgDjZR2YIwb0uGALzwCMv4zz6ylT86vUk+SwMgXJ3F47P8XHH
-         3KMw==
-X-Gm-Message-State: AOAM532npAIlB5shvp/iEnJho6r7DAt6MW2FyyXgIna4Y7ZnXXLhaI/v
-	8x8YKwps9iceEKtDukaGtadxup9JuK+vc3rg1yvdw/T9
-X-Google-Smtp-Source: ABdhPJwnrfHgQd/tfeBEWdEPtQrPXMjh1vw1CRpwTWw3YbXmoC7e5wjs368se5IEgH9mVDvsz1hEtOuYN15u0i/ehGs=
-X-Received: by 2002:aa7:d288:: with SMTP id w8mr30316877edq.404.1638148969734;
- Sun, 28 Nov 2021 17:22:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B37B72
+	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 09:39:50 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 4425B320090C;
+	Mon, 29 Nov 2021 04:39:49 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 29 Nov 2021 04:39:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=ZVe3zv6UjeXTO4kI5ekvbwjSUuS
+	cZzV/LGwknVJuSo0=; b=Pds3adz1oVXE53sq4XjyUyu6lzUi/f448XazotAUmYh
+	K869KeuEaVKUO0zOzIQOZcOw9dJfTp0zbwSA7G1hfToUjgRnMPqQsoMZJqJcQCd1
+	0pNQYbr0us4vS472e6+Z3vvpZ4txGq2ojRkchd7UQpJkiz4pVXMsZSOGK+KAL+px
+	QSbQJIPtANuxrMrneXU4FxU2qRodnCemRz7VYK5TYDN0vVUoGGHtMDGPIVS6dWuy
+	XIfZVAjg0P84FEkTgisaWRrAGRrLeRlWgmVuseG4PjUht9jBSF585Bc7kO9ImrU0
+	GVDraCWPjky2v/kJZknLPgXMeH2idYxvjfxJO0gKS4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ZVe3zv
+	6UjeXTO4kI5ekvbwjSUuScZzV/LGwknVJuSo0=; b=SLWdi2ti1LrHE2t5yr0zRe
+	WItwLzeLlNSX+XTdwonPISbPF9AsTSExUglBdqZJNgfc5z1OB8ATCL84ww33sW2i
+	OK0q9Zwd71Vrgg9JCVTchkmBNycHjFqJEgTH0kI5ST4Di0LzHuekXZuRFdkzFtNX
+	ZjLRd8EijmrRqYEv12DBAneinA6PyqzEVk/kzKVT9pbVwyxxU5A5XxD5Sjx5yhG/
+	a0IQp6HSrYkNjFuBnRohs1tRG+LgW0wZS5bUOEfPRhzNBD3FtrbDqIGumxoepfkg
+	EbgLCPYLunhy37qeMb9IKF/BGmCw+g7+fVzHRK/KQsWQHD0iCVI0YVMsVtoeyyfA
+	==
+X-ME-Sender: <xms:5J-kYQaBfiks2cDlnqHQPbXtJq3SVe3FTW1VG4b1fNEGO775D4XOEw>
+    <xme:5J-kYbZvRsDveG49_f6_a1r0U-ll4xo90G07pnXiJjKfwjO2jSeap3uM_snhiie3E
+    rXuuSfD3CWtApqbaGM>
+X-ME-Received: <xmr:5J-kYa9sg-1WizFIA16Mk-063FH0jWBivL72hcQ9ZB3s5i-3CtNG40tTZGJE1-TZ7ORiq8EIhB2hbK1saz4-_OXRjxjYYHjE2ws>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrheelgddtjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
+    veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:5J-kYars0WzYhb4-Mjh8N5ACricvFItBk9lW76BxjhDWJuuZCjq-SQ>
+    <xmx:5J-kYbpE_sTihnUl_gislrCh-z3Eo2CMw_ELmnzZnUYEvOtVlkMd2w>
+    <xmx:5J-kYYT7YHqLNMCorD1JlG7XEjrtZa8vhuOMaxKkgrmjZQc1UodnBw>
+    <xmx:5J-kYcczRujADtS_XtCzOKmQ8qZXHshagl_QuHlHk1__SAbpQUdzgQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Nov 2021 04:39:47 -0500 (EST)
+Date: Mon, 29 Nov 2021 10:39:46 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: David Lechner <david@lechnology.com>
+Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	robh+dt@kernel.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, dave.stevenson@raspberrypi.com
+Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
+Message-ID: <20211129093946.xhp22mvdut3m67sc@houat>
+References: <20211124150757.17929-1-noralf@tronnes.org>
+ <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
- <20211125155650.630977-4-benjamin.gaignard@collabora.com> <YaC+jkYwouR9Aa0s@eze-laptop>
-In-Reply-To: <YaC+jkYwouR9Aa0s@eze-laptop>
-From: Adam Ford <aford173@gmail.com>
-Date: Sun, 28 Nov 2021 19:22:38 -0600
-Message-ID: <CAHCN7xLprYQ7tbbdrg6Foenx8tAVfMopmc2b=c=FYrLgH2d8pg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] media: hantro: Use syscon instead of 'ctrl' register
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, hverkuil-cisco@xs4all.nl, 
-	linux-media <linux-media@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mmhz6zluj3pfxhwm"
+Content-Disposition: inline
+In-Reply-To: <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
 
-On Sun, Nov 28, 2021 at 6:47 PM Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
->
-> Hi Benjamin,
->
-> On Thu, Nov 25, 2021 at 04:56:49PM +0100, Benjamin Gaignard wrote:
-> > In order to be able to share the control hardware block between
-> > VPUs use a syscon instead a ioremap it in the driver.
-> > To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
-> > phandle is not found look at 'ctrl' reg-name.
-> > With the method it becomes useless to provide a list of register
-> > names so remove it.
-> >
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> >
-> > Please note that the only purpose of this commit is to allow to test
-> > G2 hardware block for IMX8MQ until a proper solution isuing power domain
-> > can be found. Do not merge it.
->
-> It's been too many months waiting for the BLK-CTRL to be solved.
-> Perhaps we can consider merging this approach instead.
 
-If someone wants to send me an imx8mq board, I can attempt to work on
-the blk-ctrl.  I ported it to imx8mn, and I have sent an update for
-imx8mm.  I just don't have any imx8mq hardware.
+--mmhz6zluj3pfxhwm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-adam
+Hi,
+
+On Wed, Nov 24, 2021 at 04:03:07PM -0600, David Lechner wrote:
+> On 11/24/21 9:07 AM, Noralf Tr=F8nnes wrote:
+> > This patchset adds a missing piece for decommissioning the
+> > staging/fbtft/fb_st7735r.c driver namely a way to configure the
+> > controller from Device Tree.
+> >=20
+> > All fbtft drivers have builtin support for one display panel and all
+> > other panels using that controller are configured using the Device Tree
+> > 'init' property. This property is supported by all fbtft drivers and
+> > provides a generic way to set register values or issue commands
+> > (depending on the type of controller).
+> >=20
+> > It is common for these types of displays to have a datasheet listing the
+> > necessary controller settings/commands or some example code doing the
+> > same.
+> >=20
+> > This is how the panel directly supported by the fb_st7735r staging
+> > driver is described using Device Tree with that driver:
+> >=20
+> >      width =3D <160>;
+> >      height =3D <128>;
+> >=20
+> >      init =3D <0x1000001
+> >              0x2000096
+> >              0x1000011
+> >              0x20000ff
+> >              0x10000B1 0x01 0x2C 0x2D
+> >              0x10000B4 0x07
+> >              0x10000C0 0xA2 0x02 0x84
+> >              0x10000C1 0xC5
+> >              0x10000C2 0x0A 0x00
+> >              0x10000C5 0x0E
+> >              0x100003a 0x55
+> >              0x1000036 0x60
+> >              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
+> >                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
+> >              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
+> >                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
+> >              0x1000029
+> >              0x2000064>;
+> >=20
+> >=20
+> > This is how the same panel is described using the st7735r drm driver and
+> > this patchset:
+> >=20
+> >      width =3D <160>;
+> >      height =3D <128>;
+> >=20
+> >      frmctr1 =3D [ 01 2C 2D ];
+> >      invctr =3D [ 07 ];
+> >      pwctr1 =3D [ A2 02 84 ];
+> >      pwctr2 =3D [ C5 ];
+> >      pwctr3 =3D [ 0A 00 ];
+> >      vmctr1 =3D [ 0E ];
+> >      madctl =3D [ 60 ];
+> >      gamctrp1 =3D [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
+> >      gamctrn1 =3D [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
+>=20
+> Do these setting correspond to actual physical properties of the display?
+>=20
+> What is the advantage of this compared to just adding a new compatible
+> string if a new display requires different settings? (Other than being
+> able to use a new display without compiling a new kernel/module.)
 >
-> Thanks,
-> Ezequiel
->
-> > ---
-> >  drivers/staging/media/hantro/hantro.h       |  5 ++-
-> >  drivers/staging/media/hantro/imx8m_vpu_hw.c | 48 +++++++++++++--------
-> >  2 files changed, 34 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> > index 7da23f7f207a..616b5a6854cd 100644
-> > --- a/drivers/staging/media/hantro/hantro.h
-> > +++ b/drivers/staging/media/hantro/hantro.h
-> > @@ -13,6 +13,7 @@
-> >  #define HANTRO_H_
-> >
-> >  #include <linux/platform_device.h>
-> > +#include <linux/regmap.h>
-> >  #include <linux/videodev2.h>
-> >  #include <linux/wait.h>
-> >  #include <linux/clk.h>
-> > @@ -174,7 +175,7 @@ hantro_vdev_to_func(struct video_device *vdev)
-> >   * @reg_bases:               Mapped addresses of VPU registers.
-> >   * @enc_base:                Mapped address of VPU encoder register for convenience.
-> >   * @dec_base:                Mapped address of VPU decoder register for convenience.
-> > - * @ctrl_base:               Mapped address of VPU control block.
-> > + * @ctrl_base:               Regmap of VPU control block.
-> >   * @vpu_mutex:               Mutex to synchronize V4L2 calls.
-> >   * @irqlock:         Spinlock to synchronize access to data structures
-> >   *                   shared with interrupt handlers.
-> > @@ -193,7 +194,7 @@ struct hantro_dev {
-> >       void __iomem **reg_bases;
-> >       void __iomem *enc_base;
-> >       void __iomem *dec_base;
-> > -     void __iomem *ctrl_base;
-> > +     struct regmap *ctrl_base;
-> >
-> >       struct mutex vpu_mutex; /* video_device lock */
-> >       spinlock_t irqlock;
-> > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > index 1a43f6fceef9..d7a63b41eb0e 100644
-> > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> > @@ -7,6 +7,7 @@
-> >
-> >  #include <linux/clk.h>
-> >  #include <linux/delay.h>
-> > +#include <linux/mfd/syscon.h>
-> >
-> >  #include "hantro.h"
-> >  #include "hantro_jpeg.h"
-> > @@ -25,30 +26,28 @@
-> >  #define CTRL_G1_PP_FUSE              0x0c
-> >  #define CTRL_G2_DEC_FUSE     0x10
-> >
-> > +static const struct regmap_config ctrl_regmap_ctrl = {
-> > +     .reg_bits = 32,
-> > +     .val_bits = 32,
-> > +     .reg_stride = 0x14,
-> > +};
-> > +
-> >  static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
-> >  {
-> > -     u32 val;
-> > -
-> >       /* Assert */
-> > -     val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
-> > -     val &= ~reset_bits;
-> > -     writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-> > +     regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
-> >
-> >       udelay(2);
-> >
-> >       /* Release */
-> > -     val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
-> > -     val |= reset_bits;
-> > -     writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
-> > +     regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
-> > +                        reset_bits, reset_bits);
-> >  }
-> >
-> >  static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
-> >  {
-> > -     u32 val;
-> > -
-> > -     val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
-> > -     val |= clock_bits;
-> > -     writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
-> > +     regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
-> > +                        clock_bits, clock_bits);
-> >  }
-> >
-> >  static int imx8mq_runtime_resume(struct hantro_dev *vpu)
-> > @@ -65,9 +64,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
-> >       imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
-> >
-> >       /* Set values of the fuse registers */
-> > -     writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
-> > -     writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
-> > -     writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
-> > +     regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
-> > +     regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
-> > +     regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
-> >
-> >       clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> >
-> > @@ -211,7 +210,22 @@ static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
-> >
-> >  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
-> >  {
-> > -     vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
-> > +     struct device_node *np = vpu->dev->of_node;
-> > +
-> > +     vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
-> > +     if (IS_ERR(vpu->ctrl_base)) {
-> > +             struct resource *res;
-> > +             void __iomem *ctrl;
-> > +
-> > +             res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
-> > +             ctrl = devm_ioremap_resource(vpu->dev, res);
-> > +             if (IS_ERR(ctrl))
-> > +                     return PTR_ERR(ctrl);
-> > +
-> > +             vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
-> > +             if (IS_ERR(vpu->ctrl_base))
-> > +                     return PTR_ERR(vpu->ctrl_base);
-> > +     }
-> >
-> >       return 0;
-> >  }
-> > --
-> > 2.30.2
-> >
+> It is nice for the driver implementation to be able to use the byte
+> arrays from the binding directly, but it doesn't really make sense from
+> a "device tree describes the hardware" point of view.
+>=20
+> For example, looking at the data sheet, frmctr1 looks like it is actually
+> multiple properties, the 1-line period, front porch and back porch.
+
+You're right, but we have two sets of problems that we want to solve,
+and so far the discussion has only been to address one while ignoring
+the other.
+
+The solution you suggested works great for the problem the kernel is
+facing: we want a solution that is easy to maintain over the long run,
+while being reliable. Thus, we want to introduce a compatible for each
+panel, that will allow us to describe the panel in the DT without
+exposing too much data, the data being in the kernel.
+
+This works great over the long run because we can update and fix any
+problem we might have had, send them to stable, etc. It's awesome, but
+it's mostly centered on us, the developers and maintainers.
+
+
+The problem that fbtft (and this series) wants to fix is completely
+different though: it wants to address the issue the users are facing.
+Namely, you get a cheap display from wherever, connect it to your shiny
+new SBC and wants to get something on the display.
+
+In this situation, the user probably doesn't have the knowledge to
+introduce the compatible in the kernel in the first place. But there's
+also some technical barriers there: if they use secure boot, they can't
+change the kernel (well, at least the knowledge required is far above
+what we can expect from the average user). If the platform doesn't allow
+access to the DT, you can't change the DT either.
+
+Let's set aside those constraints for a moment though. For most of these
+devices, you wouldn't even be able to come up with a proper compatible.
+All of those displays are typically a panel and a controller glued
+together, and the exact initialization sequence depends on both. The
+panel is never really mentioned, neither is its manufacturer, or its
+exact product id. In other words, we wouldn't be able to come up with a
+good compatible for them.
+
+Let's now assume we do have access to all those info and can come up
+with a good, upstreamable, compatible. We now require the user to
+contribute it upstream, and then expect them to wait for 1-2 years for
+that patch to show up in their distribution of choice.
+
+And then, if we were to get those patches, chances are we don't really
+want them anyway since we would be drowning in those small patches
+no-one really wants to review.
+
+
+So yeah, the solution we have is probably a good solution for "real"
+panels, glued to a device (and even then, the recent discussion around
+panel-edp shows that it has a few shortcomings). But it's a *terrible*
+solution for all parties involved when it comes to those kind of
+displays.
+
+
+I agree that it doesn't really fit in the DT either though. Noralf, what
+kind of data do we need to setup a display in fbtft? The init sequence,
+and maybe some enable/reset GPIO, plus some timing duration maybe?
+
+There's one similar situation I can think of: wifi chips. Those also
+need a few infos from the DT (like what bus it's connected to, enable
+GPIO, etc) and a different sequence (firmware), sometimes different from
+one board to the other.
+
+Could we have a binding that would be something like:
+
+panel@42 {
+	 compatible =3D "panel-spi";
+	 model =3D "panel-from-random-place-42";
+	 enable-gpios =3D <&...>;
+}
+
+And then, the driver would request the init sequence through the
+firmware mechanism using a name generated from the model property.
+
+It allows to support multiple devices in a given system, since the
+firmware name wouldn't conflict, it makes a decent binding, and users
+can adjust the init sequence easily (maybe with a bit of tooling)
+
+Would that work?
+
+Maxime
+
+--mmhz6zluj3pfxhwm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaSf4gAKCRDj7w1vZxhR
+xUDzAP9EGlPTaekn1uaS4vTMRgFJN8qnFDuwOynuzJzTH7awcgD+MSy/uhv9ZeLI
+wz31+R3wJaJVlZw1OT2crqqOE3VKEQU=
+=/HKs
+-----END PGP SIGNATURE-----
+
+--mmhz6zluj3pfxhwm--
