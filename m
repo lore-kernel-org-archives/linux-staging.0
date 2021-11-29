@@ -1,41 +1,41 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BF52C9C;
-	Mon, 29 Nov 2021 18:26:42 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id g191-20020a1c9dc8000000b0032fbf912885so13047471wme.4;
-        Mon, 29 Nov 2021 10:26:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5250D2C9C;
+	Mon, 29 Nov 2021 18:26:44 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id d9so17953980wrw.4;
+        Mon, 29 Nov 2021 10:26:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uWzzP3/wZqXojr9D0rKdXZ64ct8p427xpqtRAcNwtec=;
-        b=eaOuG6M65E3Pd/n9mztbM6SnzysPCh7Dy35mWAIAsXL5YLwSnFqRBEOe+Dh0AsFYd0
-         q5rNjWz7/trGczgMTJWnmHDBWXoVch4YG/9KXarUPhtYDNRHIPnemyU3cvLWPg0f3brj
-         fX/txBUlt4dHCPEq31Ex4efQ81mFS+pPn+L3puV+ZtrpzjAQnQZdQ8bPUbP2mfXotvSi
-         BOKvhJEtzBtvIjKzSXrXFFLQ9Zj6zZDT3ILE9gBzTpHGVyi9eYziWc028far+RMThiRv
-         9XOY84Fa0cdZdxDHZOGFbh/4xEVV8qoGVcFI4rRo/j9FCNFb0dhqvU1lkbJ7l5dH83oT
-         3giA==
+        bh=rykXE60I0Y7JiVT/uJO8EW7eAhlfSUfHDqLyJscSYmA=;
+        b=dRPLlC4HinvWIj2a5lnl5bEXhWSCXUyRk7gjn6BqyaXCyjdpJV0oWNVJPQXEjexDd+
+         cn01j7Md/5mN3TIVlb56jirBgE1knom84xmY3TWJ/rBV0+8slu+g3CKiz5R3C2QeBJbU
+         beFPhhjIuqWewPaU2IcLwGv1+0ahuQXoJeXXhGeu1BIS0dUKhGBxmad/QVY+6PtaX/g1
+         diOwC0pbo3hEuvIGKvWPtcoF9nVrPmQQEoonlaipTE/cLwx0jxayhjIR+OTb719WkkzW
+         5tZ6SFZiFMd3w9bBvkpg1Wtp3lgsjSWORUysIle7H7LBuggNq+dk4APD2LkZW9hgRI8k
+         E1jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uWzzP3/wZqXojr9D0rKdXZ64ct8p427xpqtRAcNwtec=;
-        b=tiwisSqkfbSoW6SetnGoeu08FWm3ucS5sPx+7GvCXYYtjwP3eJ3x7OrvqhcF3kBHls
-         k0uavQLpo5dfvBuv0oOcKfbmTXz6HizyUREcgP/IC7lmZEJ2kQ1YmDJ6VW1VaeiTiUxh
-         HGwYnUP4AkJutek/DivbFRxdkoaaO/rfqu1B/zi7xQfKsaQI7nCk7akh0HVggi+lcdND
-         ea/65S4j/fvDN/72Y1BsNYzxGEimzzBGT2eabc+JIgDO9iJljxn/eVE4TtntZKLHwSaE
-         e+6wnvSL0ZgVodKeCk5mZSYYzNw+D65fQtUfaqUMb0fnb0eeb43wTeiU9QTVvQ0AaibE
-         b/1Q==
-X-Gm-Message-State: AOAM530Kirg5pLeyHwQyksoR3hP2MjNKNaVkpuFOWd1UWaLhVr2awmmJ
-	l4//EIWJHWicIY2z4fog33k=
-X-Google-Smtp-Source: ABdhPJzfV4IJ4BrEen7JVh4JyVgHc1mWqatybftwWR01jvpOhIrMxHGiruFZnig1i2JYb7qBJf7IhQ==
-X-Received: by 2002:a05:600c:221a:: with SMTP id z26mr13626wml.20.1638210401154;
-        Mon, 29 Nov 2021 10:26:41 -0800 (PST)
+        bh=rykXE60I0Y7JiVT/uJO8EW7eAhlfSUfHDqLyJscSYmA=;
+        b=R3vbOLBvh3xgmULWlUtfntm3hCnCJ7gwFqnEOmJB9ckjyd8wAJ8ps8K49ylCCUvMl0
+         8RpBUPKsfko9KMpPg+k3UqIgQhUzjPdNwEbpyhXK8qXGe6dKUGKutB9MSjadIsbcLhc5
+         QG6CvOmuOhds+UU0EpDPXu9jiaLv+neWVGB7DkYcg9VM5/mVYzguAlnnoFw9rsAj48Xi
+         p6g09wcQLKnQVveuqZ0EatxcJzmwMezJw5zU16CiGPXLzEXHpYltw7zXEEPWpRL72r+x
+         4ia/+57eQUn5wKvft5xu6bi1P3A+b2KXOAIRwnnxL3jDTPQEDrW5LzyvXHzHz8rc7NFS
+         pNIw==
+X-Gm-Message-State: AOAM530tYck2nDY2Cvk56uk55fk90w4jC7Kampq4SBTdK8X9hYUHmsZK
+	LVDOFb0BsAJGZwdcU9ggepA=
+X-Google-Smtp-Source: ABdhPJz+0uIzSf32zqrfRT9HSUCgW367WqwSMk1yvA9xtCOVp1HgF06PUSo0bYW3cexLEeVJOI2kxg==
+X-Received: by 2002:a5d:65c7:: with SMTP id e7mr35193975wrw.319.1638210402751;
+        Mon, 29 Nov 2021 10:26:42 -0800 (PST)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id o12sm85907wmq.12.2021.11.29.10.26.39
+        by smtp.gmail.com with ESMTPSA id o12sm85907wmq.12.2021.11.29.10.26.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 10:26:40 -0800 (PST)
+        Mon, 29 Nov 2021 10:26:42 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: ezequiel@vanguardiasur.com.ar,
@@ -53,9 +53,9 @@ Cc: ezequiel@vanguardiasur.com.ar,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 2/9] media: hantro: add support for reset lines
-Date: Mon, 29 Nov 2021 19:26:26 +0100
-Message-Id: <20211129182633.480021-3-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 3/9] media: hantro: vp9: use double buffering if needed
+Date: Mon, 29 Nov 2021 19:26:27 +0100
+Message-Id: <20211129182633.480021-4-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211129182633.480021-1-jernej.skrabec@gmail.com>
 References: <20211129182633.480021-1-jernej.skrabec@gmail.com>
@@ -67,93 +67,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some SoCs like Allwinner H6 use reset lines for resetting Hantro G2. Add
-support for them.
+Some G2 variants need double buffering to be enabled in order to work
+correctly, like that found in Allwinner H6 SoC.
 
+Add platform quirk for that.
+
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/hantro/hantro.h     |  3 +++
- drivers/staging/media/hantro/hantro_drv.c | 15 ++++++++++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ drivers/staging/media/hantro/hantro.h            | 2 ++
+ drivers/staging/media/hantro/hantro_g2_regs.h    | 1 +
+ drivers/staging/media/hantro/hantro_g2_vp9_dec.c | 2 ++
+ 3 files changed, 5 insertions(+)
 
 diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-index 7da23f7f207a..33eb3e092cc1 100644
+index 33eb3e092cc1..d03824fa3222 100644
 --- a/drivers/staging/media/hantro/hantro.h
 +++ b/drivers/staging/media/hantro/hantro.h
-@@ -16,6 +16,7 @@
- #include <linux/videodev2.h>
- #include <linux/wait.h>
- #include <linux/clk.h>
-+#include <linux/reset.h>
+@@ -73,6 +73,7 @@ struct hantro_irq {
+  * @num_clocks:			number of clocks in the array
+  * @reg_names:			array of register range names
+  * @num_regs:			number of register range names in the array
++ * @double_buffer:		core needs double buffering
+  */
+ struct hantro_variant {
+ 	unsigned int enc_offset;
+@@ -94,6 +95,7 @@ struct hantro_variant {
+ 	int num_clocks;
+ 	const char * const *reg_names;
+ 	int num_regs;
++	unsigned int double_buffer : 1;
+ };
  
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-@@ -171,6 +172,7 @@ hantro_vdev_to_func(struct video_device *vdev)
-  * @dev:		Pointer to device for convenient logging using
-  *			dev_ macros.
-  * @clocks:		Array of clock handles.
-+ * @resets:		Array of reset handles.
-  * @reg_bases:		Mapped addresses of VPU registers.
-  * @enc_base:		Mapped address of VPU encoder register for convenience.
-  * @dec_base:		Mapped address of VPU decoder register for convenience.
-@@ -190,6 +192,7 @@ struct hantro_dev {
- 	struct platform_device *pdev;
- 	struct device *dev;
- 	struct clk_bulk_data *clocks;
-+	struct reset_control *resets;
- 	void __iomem **reg_bases;
- 	void __iomem *enc_base;
- 	void __iomem *dec_base;
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 3d3107a39dae..770f4ce71d29 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
- 			return PTR_ERR(vpu->clocks[0].clk);
- 	}
+ /**
+diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+index 9c857dd1ad9b..15a391a4650e 100644
+--- a/drivers/staging/media/hantro/hantro_g2_regs.h
++++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+@@ -270,6 +270,7 @@
+ #define g2_apf_threshold	G2_DEC_REG(55, 0, 0xffff)
  
-+	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
-+	if (IS_ERR(vpu->resets))
-+		return PTR_ERR(vpu->resets);
-+
- 	num_bases = vpu->variant->num_regs ?: 1;
- 	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
- 				      sizeof(*vpu->reg_bases), GFP_KERNEL);
-@@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
- 	pm_runtime_use_autosuspend(vpu->dev);
- 	pm_runtime_enable(vpu->dev);
+ #define g2_clk_gate_e		G2_DEC_REG(58, 16, 0x1)
++#define g2_double_buffer_e	G2_DEC_REG(58, 15, 0x1)
+ #define g2_buswidth		G2_DEC_REG(58, 8,  0x7)
+ #define g2_max_burst		G2_DEC_REG(58, 0,  0xff)
  
-+	ret = reset_control_deassert(vpu->resets);
-+	if (ret) {
-+		dev_err(&pdev->dev, "Failed to deassert resets\n");
-+		goto err_pm_disable;
-+	}
-+
- 	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to prepare clocks\n");
--		goto err_pm_disable;
-+		goto err_rst_assert;
- 	}
+diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+index e04242d10fa2..d4fc649a4da1 100644
+--- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
++++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+@@ -847,6 +847,8 @@ config_registers(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_p
+ 	hantro_reg_write(ctx->dev, &g2_clk_gate_e, 1);
+ 	hantro_reg_write(ctx->dev, &g2_max_cb_size, 6);
+ 	hantro_reg_write(ctx->dev, &g2_min_cb_size, 3);
++	if (ctx->dev->variant->double_buffer)
++		hantro_reg_write(ctx->dev, &g2_double_buffer_e, 1);
  
- 	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
-@@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
- 	v4l2_device_unregister(&vpu->v4l2_dev);
- err_clk_unprepare:
- 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-+err_rst_assert:
-+	reset_control_assert(vpu->resets);
- err_pm_disable:
- 	pm_runtime_dont_use_autosuspend(vpu->dev);
- 	pm_runtime_disable(vpu->dev);
-@@ -1056,6 +1068,7 @@ static int hantro_remove(struct platform_device *pdev)
- 	v4l2_m2m_release(vpu->m2m_dev);
- 	v4l2_device_unregister(&vpu->v4l2_dev);
- 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-+	reset_control_assert(vpu->resets);
- 	pm_runtime_dont_use_autosuspend(vpu->dev);
- 	pm_runtime_disable(vpu->dev);
- 	return 0;
+ 	config_output(ctx, dst, dec_params);
+ 
 -- 
 2.34.1
 
