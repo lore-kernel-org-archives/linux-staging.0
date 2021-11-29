@@ -1,241 +1,156 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B37B72
-	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 09:39:50 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 4425B320090C;
-	Mon, 29 Nov 2021 04:39:49 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 29 Nov 2021 04:39:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=ZVe3zv6UjeXTO4kI5ekvbwjSUuS
-	cZzV/LGwknVJuSo0=; b=Pds3adz1oVXE53sq4XjyUyu6lzUi/f448XazotAUmYh
-	K869KeuEaVKUO0zOzIQOZcOw9dJfTp0zbwSA7G1hfToUjgRnMPqQsoMZJqJcQCd1
-	0pNQYbr0us4vS472e6+Z3vvpZ4txGq2ojRkchd7UQpJkiz4pVXMsZSOGK+KAL+px
-	QSbQJIPtANuxrMrneXU4FxU2qRodnCemRz7VYK5TYDN0vVUoGGHtMDGPIVS6dWuy
-	XIfZVAjg0P84FEkTgisaWRrAGRrLeRlWgmVuseG4PjUht9jBSF585Bc7kO9ImrU0
-	GVDraCWPjky2v/kJZknLPgXMeH2idYxvjfxJO0gKS4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ZVe3zv
-	6UjeXTO4kI5ekvbwjSUuScZzV/LGwknVJuSo0=; b=SLWdi2ti1LrHE2t5yr0zRe
-	WItwLzeLlNSX+XTdwonPISbPF9AsTSExUglBdqZJNgfc5z1OB8ATCL84ww33sW2i
-	OK0q9Zwd71Vrgg9JCVTchkmBNycHjFqJEgTH0kI5ST4Di0LzHuekXZuRFdkzFtNX
-	ZjLRd8EijmrRqYEv12DBAneinA6PyqzEVk/kzKVT9pbVwyxxU5A5XxD5Sjx5yhG/
-	a0IQp6HSrYkNjFuBnRohs1tRG+LgW0wZS5bUOEfPRhzNBD3FtrbDqIGumxoepfkg
-	EbgLCPYLunhy37qeMb9IKF/BGmCw+g7+fVzHRK/KQsWQHD0iCVI0YVMsVtoeyyfA
-	==
-X-ME-Sender: <xms:5J-kYQaBfiks2cDlnqHQPbXtJq3SVe3FTW1VG4b1fNEGO775D4XOEw>
-    <xme:5J-kYbZvRsDveG49_f6_a1r0U-ll4xo90G07pnXiJjKfwjO2jSeap3uM_snhiie3E
-    rXuuSfD3CWtApqbaGM>
-X-ME-Received: <xmr:5J-kYa9sg-1WizFIA16Mk-063FH0jWBivL72hcQ9ZB3s5i-3CtNG40tTZGJE1-TZ7ORiq8EIhB2hbK1saz4-_OXRjxjYYHjE2ws>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrheelgddtjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
-    veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:5J-kYars0WzYhb4-Mjh8N5ACricvFItBk9lW76BxjhDWJuuZCjq-SQ>
-    <xmx:5J-kYbpE_sTihnUl_gislrCh-z3Eo2CMw_ELmnzZnUYEvOtVlkMd2w>
-    <xmx:5J-kYYT7YHqLNMCorD1JlG7XEjrtZa8vhuOMaxKkgrmjZQc1UodnBw>
-    <xmx:5J-kYcczRujADtS_XtCzOKmQ8qZXHshagl_QuHlHk1__SAbpQUdzgQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Nov 2021 04:39:47 -0500 (EST)
-Date: Mon, 29 Nov 2021 10:39:46 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: David Lechner <david@lechnology.com>
-Cc: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	robh+dt@kernel.org, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, dave.stevenson@raspberrypi.com
-Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
-Message-ID: <20211129093946.xhp22mvdut3m67sc@houat>
-References: <20211124150757.17929-1-noralf@tronnes.org>
- <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4242C80
+	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 11:34:32 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1ATA5BTQ009517;
+	Mon, 29 Nov 2021 11:04:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=lJ7hSii6KHM+cNcdpk6qNWbjYcchkBnvSFmrnnyiIQY=;
+ b=p2vNBI1kbOwHqGAogP20AfNCofP+rKzrmkihfL89EJNYtoyXg2rOrx1x2GIscAIyd8dD
+ 8U7lugMFCpQDUDnIiQ8Y63STTqG2FZJyDFUEl5n9V6LBML4Tcq9tKy8I4GNBCKh/emfb
+ LeB2a62JCTrlJl20pC3YNPKcnO0zkTz9FBsn0NB4+IdB81POE6jjZCJy6mndk+u0Hf89
+ Nmy6NPEbU3HXD1tlN4VNFabYHb2IhSpjw266cYrcduJUrLtwZMT3XOF4RReePcYBBAeN
+ I7by8xS1AZVoSOwFy2Q3Iw77OGEOteZtKIRpjvXEdGtSeBDUMpQbB5diNEObqiS8o5uy 8A== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3cmuc9gpgs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 29 Nov 2021 11:04:53 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+	by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1ATB20hc069661;
+	Mon, 29 Nov 2021 11:04:52 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
+	by userp3020.oracle.com with ESMTP id 3cke4m3eb4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 29 Nov 2021 11:04:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nZQgFdYGXuk5RTed3p30TIB/V0sSevavztjILHFym3Pv/0FF+rHhzw42MCWQLHgeSEjikRAcKCW0IxOLPpnSqkFQAnlGb8HAiYBk2ToYxuieX63ibbBU54/NE5N4ySWMzhmO1oo6jJevuS4OJzovpObFqKKPUi/nIz1xCWujLLIvhVFn9FzllFth4seEDgawhuI4nzo1m2Mwt6Z2oDfJokW9no/u9C7lPdEu4KXozsQWirkWDWcd/gCeKTOOLbDluOu1Aqe3smNIQLxkkf3BR78VaoASssC/2q5Ps62ydQYP7S397hIdsz/06GR88HRgRXuPB7nvYLOnu6/g32UHgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lJ7hSii6KHM+cNcdpk6qNWbjYcchkBnvSFmrnnyiIQY=;
+ b=XTgKAYFqxiFw9yruPU31EF0Sn/xCLtxXw0Ijky77eRn22vqoJYhFQowzhB8uwqcoT8gse4sDV+DplVA28boRtpLnL4oTe4lyk6n6X26G/+B37Ze1VpHWwiqdgzrY7RPXffFXpnabW27AI9pqll0SZWTLCmgGgy34Kl2z0GX8cfrqk/wae7o+60BrDvFkWfkLL6BWQihvRBAR6UCfQXrHNbT9EXHW8cgj2cJronVIiUHakSQuKdG18F6qUzG3EbNKVG9dFVQ+yLEovNnJkpnjVkofVydXsvy+lXlZxzpvP7AceicmYz08eYXj+31d2V/1HEihMI00n6XP7qWDMv5mng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lJ7hSii6KHM+cNcdpk6qNWbjYcchkBnvSFmrnnyiIQY=;
+ b=Lau4zqmB0/63qVyEn2VrV8WIEGsRT6K1J5lPrHH4EB8hWANIeyLgoWrKd8l5qP6uVE87wKmcv5IjnsZTmAHOT7k/jyvEi+Bp45TsFBXbLdrvF1HNyarU73/2CVmOttsDdnkcI3HdPeT5E0iA2fqe42JjEeNCcgJT9wqyCsEm7S0=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1661.namprd10.prod.outlook.com
+ (2603:10b6:301:8::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.20; Mon, 29 Nov
+ 2021 11:04:48 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4734.024; Mon, 29 Nov 2021
+ 11:04:48 +0000
+Date: Mon, 29 Nov 2021 14:04:27 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Martin Kaiser <martin@kaiser.cx>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Larry Finger <Larry.Finger@lwfinger.net>,
+        Phillip Potter <phil@philpotter.co.uk>,
+        Michael Straube <straube.linux@gmail.com>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: use a delayed worker for led updates
+Message-ID: <20211129110427.GQ6514@kadam>
+References: <20211125162513.25039-1-martin@kaiser.cx>
+ <20211126114135.18228-1-martin@kaiser.cx>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211126114135.18228-1-martin@kaiser.cx>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::23)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mmhz6zluj3pfxhwm"
-Content-Disposition: inline
-In-Reply-To: <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+Received: from kadam (102.222.70.114) by JNAP275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend Transport; Mon, 29 Nov 2021 11:04:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d53aeb47-c08e-4048-d1ec-08d9b3280f2d
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1661:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR10MB16613B528701D410A21CBA548E669@MWHPR10MB1661.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	WlcxZTmpGYreA7reeD3XCTcgNypr8Jp5wCx1LGq2dkdXbeqGP9RsTYsfeMuyZzodEJqgmvTjuGnrgOSuLzY8ye4WIe4+hJLf9NVgbvwArcvwinXwOx/oDWwdnFZyQ2NAS12B9Cmw/lQDFlJQlinAVXiyYf9+JGwVjtd+pTWsb/Hi/6U1ozvaiq4vEVNLggRxdNVbYOIv5+tmvY8JeJrIk7sYlrC1WhIMLrA+aF6CYtFLo9TCAyWa7VvhO8/+/t/4RHAszTmDF8ThNE44kUi+5PD6rkhQypXsBT/nh+EIP08RnOSRWaj2PaH3CmbVjWGtZSY2MrtfBguYZxCGxzGd9pjBVFK/KMY/+mdIUY+F9srhQWvsJuG8+eAxJamf7+3vsATJj4cUyX39hMa80/qevtlKb+Hj7aE+RKBdXm94ZL3q9arWTG+/LL0sUKAGvbTTh95+R8D3/ndmz6kyfDWAKzFydbjxofLEd6CHarFyPYu3ffheVLDWFI/hKaLbFooXNYGmCpUav+XUdSbdOFjS8lEmtR6WBFx3ndDX5ro3WXFGZyjzKD5If4m/l1fAjQzcNkp+1KWGlcW9kid79XCYJgf961EI3dZ1ka9nbiAhmT9tyfkIRVBg4uGxoc6uwF/JCvqdRgyBPl80yv5Hh/70DpRQn8bRpHjF4DVL8jgS9L0q3P9uwtSZqcIT9vQd4EXGLHvh586dPP7j42UWI4m3Fg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(33716001)(956004)(8936002)(4744005)(6496006)(44832011)(26005)(86362001)(6666004)(316002)(54906003)(9686003)(55016003)(52116002)(66556008)(2906002)(8676002)(186003)(4326008)(5660300002)(6916009)(38100700002)(66946007)(508600001)(66476007)(38350700002)(33656002)(9576002)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?jFWORPFXkZ2JV/b+V2AkdiJ7CzHfYPV6NSqyuDM9Ryl0W0aq7B45U2ZRXxXv?=
+ =?us-ascii?Q?1OCBKmG231ZG4kCQrD6f0OtZ4EVcU0Pj1//qtlEyj6GLYdIZKbcp7elfVNHP?=
+ =?us-ascii?Q?GU5V471t7bawbGLS/xXr7LJdlYwz7WpOSoqxrSIPgZOofRVY+MpbHj5K59RU?=
+ =?us-ascii?Q?b74YZU2aWwkII5d3PR6UPubSdIAr0DQIc1SiPles4XlTUtPyqKVTJet+Ukpz?=
+ =?us-ascii?Q?JxiCoSGq0TuzymhkoKO9o0ySI+va/H9XTSLIyzPAmXvy0ouiqke3j/umlIqG?=
+ =?us-ascii?Q?X5jxs+5nwifWyJz1sLgRoQd+Br1YZednBHotaGRuvTxeczcBVEeXBJ/eKUBV?=
+ =?us-ascii?Q?YcByNcFj7wORMLLi93E/lTiPHx8Tn2nZipcTBSuAGl8MlqUBmhV0X+nD7rhn?=
+ =?us-ascii?Q?EmZj8NEmGWJtpCQSmRE25rnqPpEVm4lpIuwkBzIIgVZfJH8QCzZrYFg2Rls9?=
+ =?us-ascii?Q?x5EOmo0npycw0tlrftEySqJ5wBexvFHr0cMLAo2TrzD/nBobjHMs2ma1Ew+J?=
+ =?us-ascii?Q?2FaPpCkUK0HppR6BCZL1crPBHJC5SeVli1T1XZ1GcDqeFHpH2/B7V9KhQedP?=
+ =?us-ascii?Q?lLCqpVy0UOHeASE0Y9MzvFYKrzAUKOC3o/k2OTmGKHOhb9F0IYLtInmnei6o?=
+ =?us-ascii?Q?TVICbbXUg1kQalCG5OfjN7XegOdVWRi2E0kyQzuavsOqnnu3khztK/YcAx3H?=
+ =?us-ascii?Q?oQeHJgVJS8cDRciW58EmUuSwbC8W1Qg5v4EGyaodY3NQIoWpfkGZ0jNx+Iuf?=
+ =?us-ascii?Q?qh/WxCA4UpcjvBN634lpylfd6mdwgdA7IDcIjMDRDcqFvKqE1+afCxAilbSq?=
+ =?us-ascii?Q?8ZjLh5JAgY+QX+gy3Np4I/3Bhd8XR74Jb3hWjmAbq3zRbDppv+lAVre+peTY?=
+ =?us-ascii?Q?QuQx9kXa4dc6haJ7WPn/nPZyJmZUmlhNCqgYWNNFykp6/gqj+G2iBHvxvqB5?=
+ =?us-ascii?Q?4UcCJ6splj0cS1A1v9gEwcrqP+5r291xLT4xcJz+dc12NwsqkRXq1Fi+KrvT?=
+ =?us-ascii?Q?p0o31L6lNaOA/ZcFmL5zol1rqFbAO/B5DTG/orItYx6IploW/653+62qNw4T?=
+ =?us-ascii?Q?A+p2pMKFasWdbeffP5wYw7nJdFhtl42OrbJkk6tvWlcvhCkyApHioPDYMFt0?=
+ =?us-ascii?Q?opVLPHWPxZSGhfJd4WoAC0DCaQD2hnGj5MhU8KYiPuPZh9G50WsEqtPw+2SN?=
+ =?us-ascii?Q?n5jeS+z724qK1KGAP5WG60p3DZvoP1a5716VCAC+MWrksBUVSsp0IUdfllYL?=
+ =?us-ascii?Q?pvxRebrbzmyBemyb0BNSap5gdI68DMycbRVvYLNcuXxHMNmkPiTSggY+6Ama?=
+ =?us-ascii?Q?vzMnkjUWyDjcg/4kBe0kiDTs/wJAUxSrblSJb0Kw/qny6myeGrxpVf0FmTwR?=
+ =?us-ascii?Q?kWiyLSnPvz11Jm/Lxx1SX0ezo147vwaLxiIzd4DLETaBH1fc4Mo2Bml/E3Et?=
+ =?us-ascii?Q?Z7hX1TfLD9OrrljMtIArTJ+JgSJXJfKOFq4EpSUfC/IY6loYQdEEu3xi+t7B?=
+ =?us-ascii?Q?AXchcgWpjKM4pKolSUhOn1qUq/Mj9yNehe+Ow6LHYnr1plOkhl1Al16/t7Yv?=
+ =?us-ascii?Q?EFvZ+sWEJrOzUyFdz5REkfqAUrRqJ7XQFLZEkhP061eDeIPPvZql+lSNFv5p?=
+ =?us-ascii?Q?TdPG343Yn+P2wnXErrHwA99W1kVL2nmnJ3KNoGHamHoH55CEDHLRK8JkoCq1?=
+ =?us-ascii?Q?CcNZdg=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d53aeb47-c08e-4048-d1ec-08d9b3280f2d
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2021 11:04:48.7448
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JXXwxe5lGuprQwPW14NRIeqZvLNsfGlOwsuwvUj4OV5iTUX7l2/cg/7W8DMpMyvti8FDVvw2vEGCEDk8HY2CxU1+S2q9jzJO2nknH0sscUs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1661
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10182 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=853
+ phishscore=0 suspectscore=0 spamscore=0 adultscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2111290055
+X-Proofpoint-GUID: r0-398Czq6aoZO0tDB48mDbrmbiBSG-t
+X-Proofpoint-ORIG-GUID: r0-398Czq6aoZO0tDB48mDbrmbiBSG-t
 
+This was confusing becuase it should have been [PATCH 4/4 v2].  These
+days I think the prefered way is to just resend the whole series as a
+new thread.
 
---mmhz6zluj3pfxhwm
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Greg doesn't use patchwork, but these rules especially apply for
+subsystems which use patchwork.  People say that patchwork gets confused
+when people use the --in-reply-to option and I guess it's hard to
+apply individual patches in patchwork?  Anyway, just always start a new
+thread and resend everything.
 
-Hi,
+Send a reply to the original thread to say "Don't apply this one, it has
+sleeping in atomic bugs", otherwise it might get applied by mistake.
 
-On Wed, Nov 24, 2021 at 04:03:07PM -0600, David Lechner wrote:
-> On 11/24/21 9:07 AM, Noralf Tr=F8nnes wrote:
-> > This patchset adds a missing piece for decommissioning the
-> > staging/fbtft/fb_st7735r.c driver namely a way to configure the
-> > controller from Device Tree.
-> >=20
-> > All fbtft drivers have builtin support for one display panel and all
-> > other panels using that controller are configured using the Device Tree
-> > 'init' property. This property is supported by all fbtft drivers and
-> > provides a generic way to set register values or issue commands
-> > (depending on the type of controller).
-> >=20
-> > It is common for these types of displays to have a datasheet listing the
-> > necessary controller settings/commands or some example code doing the
-> > same.
-> >=20
-> > This is how the panel directly supported by the fb_st7735r staging
-> > driver is described using Device Tree with that driver:
-> >=20
-> >      width =3D <160>;
-> >      height =3D <128>;
-> >=20
-> >      init =3D <0x1000001
-> >              0x2000096
-> >              0x1000011
-> >              0x20000ff
-> >              0x10000B1 0x01 0x2C 0x2D
-> >              0x10000B4 0x07
-> >              0x10000C0 0xA2 0x02 0x84
-> >              0x10000C1 0xC5
-> >              0x10000C2 0x0A 0x00
-> >              0x10000C5 0x0E
-> >              0x100003a 0x55
-> >              0x1000036 0x60
-> >              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
-> >                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
-> >              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
-> >                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
-> >              0x1000029
-> >              0x2000064>;
-> >=20
-> >=20
-> > This is how the same panel is described using the st7735r drm driver and
-> > this patchset:
-> >=20
-> >      width =3D <160>;
-> >      height =3D <128>;
-> >=20
-> >      frmctr1 =3D [ 01 2C 2D ];
-> >      invctr =3D [ 07 ];
-> >      pwctr1 =3D [ A2 02 84 ];
-> >      pwctr2 =3D [ C5 ];
-> >      pwctr3 =3D [ 0A 00 ];
-> >      vmctr1 =3D [ 0E ];
-> >      madctl =3D [ 60 ];
-> >      gamctrp1 =3D [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
-> >      gamctrn1 =3D [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
->=20
-> Do these setting correspond to actual physical properties of the display?
->=20
-> What is the advantage of this compared to just adding a new compatible
-> string if a new display requires different settings? (Other than being
-> able to use a new display without compiling a new kernel/module.)
->
-> It is nice for the driver implementation to be able to use the byte
-> arrays from the binding directly, but it doesn't really make sense from
-> a "device tree describes the hardware" point of view.
->=20
-> For example, looking at the data sheet, frmctr1 looks like it is actually
-> multiple properties, the 1-line period, front porch and back porch.
+regards,
+dan carpenter
 
-You're right, but we have two sets of problems that we want to solve,
-and so far the discussion has only been to address one while ignoring
-the other.
-
-The solution you suggested works great for the problem the kernel is
-facing: we want a solution that is easy to maintain over the long run,
-while being reliable. Thus, we want to introduce a compatible for each
-panel, that will allow us to describe the panel in the DT without
-exposing too much data, the data being in the kernel.
-
-This works great over the long run because we can update and fix any
-problem we might have had, send them to stable, etc. It's awesome, but
-it's mostly centered on us, the developers and maintainers.
-
-
-The problem that fbtft (and this series) wants to fix is completely
-different though: it wants to address the issue the users are facing.
-Namely, you get a cheap display from wherever, connect it to your shiny
-new SBC and wants to get something on the display.
-
-In this situation, the user probably doesn't have the knowledge to
-introduce the compatible in the kernel in the first place. But there's
-also some technical barriers there: if they use secure boot, they can't
-change the kernel (well, at least the knowledge required is far above
-what we can expect from the average user). If the platform doesn't allow
-access to the DT, you can't change the DT either.
-
-Let's set aside those constraints for a moment though. For most of these
-devices, you wouldn't even be able to come up with a proper compatible.
-All of those displays are typically a panel and a controller glued
-together, and the exact initialization sequence depends on both. The
-panel is never really mentioned, neither is its manufacturer, or its
-exact product id. In other words, we wouldn't be able to come up with a
-good compatible for them.
-
-Let's now assume we do have access to all those info and can come up
-with a good, upstreamable, compatible. We now require the user to
-contribute it upstream, and then expect them to wait for 1-2 years for
-that patch to show up in their distribution of choice.
-
-And then, if we were to get those patches, chances are we don't really
-want them anyway since we would be drowning in those small patches
-no-one really wants to review.
-
-
-So yeah, the solution we have is probably a good solution for "real"
-panels, glued to a device (and even then, the recent discussion around
-panel-edp shows that it has a few shortcomings). But it's a *terrible*
-solution for all parties involved when it comes to those kind of
-displays.
-
-
-I agree that it doesn't really fit in the DT either though. Noralf, what
-kind of data do we need to setup a display in fbtft? The init sequence,
-and maybe some enable/reset GPIO, plus some timing duration maybe?
-
-There's one similar situation I can think of: wifi chips. Those also
-need a few infos from the DT (like what bus it's connected to, enable
-GPIO, etc) and a different sequence (firmware), sometimes different from
-one board to the other.
-
-Could we have a binding that would be something like:
-
-panel@42 {
-	 compatible =3D "panel-spi";
-	 model =3D "panel-from-random-place-42";
-	 enable-gpios =3D <&...>;
-}
-
-And then, the driver would request the init sequence through the
-firmware mechanism using a name generated from the model property.
-
-It allows to support multiple devices in a given system, since the
-firmware name wouldn't conflict, it makes a decent binding, and users
-can adjust the init sequence easily (maybe with a bit of tooling)
-
-Would that work?
-
-Maxime
-
---mmhz6zluj3pfxhwm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaSf4gAKCRDj7w1vZxhR
-xUDzAP9EGlPTaekn1uaS4vTMRgFJN8qnFDuwOynuzJzTH7awcgD+MSy/uhv9ZeLI
-wz31+R3wJaJVlZw1OT2crqqOE3VKEQU=
-=/HKs
------END PGP SIGNATURE-----
-
---mmhz6zluj3pfxhwm--
