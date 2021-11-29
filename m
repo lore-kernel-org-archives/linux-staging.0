@@ -1,145 +1,218 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB09B2C80
-	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 01:12:22 +0000 (UTC)
-Received: by mail-oo1-f52.google.com with SMTP id v19-20020a4a2453000000b002bb88bfb594so5208643oov.4
-        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:12:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5AD2C80
+	for <linux-staging@lists.linux.dev>; Mon, 29 Nov 2021 01:22:51 +0000 (UTC)
+Received: by mail-ed1-f47.google.com with SMTP id x15so64789465edv.1
+        for <linux-staging@lists.linux.dev>; Sun, 28 Nov 2021 17:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2WugqzB+J5SM2Rtu1AZbJ8JL6dAU1EZDnr7Z+hI1Bpg=;
+        b=nVbPxULOFKfXYh+G7WbcBs5A6p/AxFpIj43fXP7exgEeqsDR/H3qMn5zEV2f6rn96e
+         CYCrV0Ng4jTDcsLRvmAoSBGv8xG8F6EV9y6y7YL7mL+flHWeuNJ9f6f9AJumdg25PU2v
+         9KLxVKS9KDmOqvXWJ0adTkHx83HPnPE7BZF1mT3L/MvHtnBLHoKXQBBDDT4nYf5LOERk
+         Q300dySX48E0d0/gmA4PSbnA8APCiJy7Epnf5g7kDYifp0lSM2lBiZL0XhSLhm9JgNCZ
+         g1UqWRxfGzmfKBiU2FhBG8aIPS2R7vwE8jV9m2BtZNF4d1w+TsSH0eBs4n7DZO4ADR3P
+         it4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=03605aa61GPqAkMuEDxiULscPlb4IrQgvCCxdTvrYo0=;
-        b=UfEfLl29Uds9ak7UIX3AlYqV+7rZ+ejmn3UwmGdo+HRfmXF8oPDNc/eCkrxMdC7P0d
-         hK2frqEf3CJI1xO1Ty0ZaiwK2lQQgLxfhHfgevw5QB+IRsbt66BwK7t4OHV2zizxrYhn
-         U7fohE3jmjA4nmrfHEnbimNIKQNMjn9vbp7vVHET7LU94AZ0Hx8vELJogXUnhmyM0n+G
-         rfyrzX73UijqNAQPHXbFpd/zIj1Eh/QEF6XvHhqlw2w/V4Hnzt2r2y/8GAsKoTTLlOJN
-         KkIgB8M2n+2KP8Tacr2b2Jf8NTeg1a1o3eEP/wxiGsAzJEuib/HEKpV3r5gbjjmFLUWF
-         zmBQ==
-X-Gm-Message-State: AOAM532htJh7J5CAwtIkgas3tZaeGsos+L2JvZ6UP6nKi3AH4A6p2TRf
-	CRqTb9pAuqHISzSNNO+Wuw==
-X-Google-Smtp-Source: ABdhPJxzhvSxTOGoyPf+w1ZfNACC6PBC3QI/jrnXNUoX8D33yr4OrKGRKxpW1BPnSOUOB2tdNfo6Ww==
-X-Received: by 2002:a4a:9406:: with SMTP id h6mr29823072ooi.80.1638148341725;
-        Sun, 28 Nov 2021 17:12:21 -0800 (PST)
-Received: from robh.at.kernel.org ([172.58.99.229])
-        by smtp.gmail.com with ESMTPSA id 111sm2390830otu.55.2021.11.28.17.12.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Nov 2021 17:12:21 -0800 (PST)
-Received: (nullmailer pid 2952305 invoked by uid 1000);
-	Mon, 29 Nov 2021 01:12:19 -0000
-Date: Sun, 28 Nov 2021 19:12:19 -0600
-From: Rob Herring <robh@kernel.org>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 2/3] dt-bindings: staging: Add the binding
- documentation for ZHOUYI AI accelerator
-Message-ID: <YaQo81xyEkZpqXnc@robh.at.kernel.org>
-References: <20211126021904.32325-1-caihuoqing@baidu.com>
- <20211126021904.32325-3-caihuoqing@baidu.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2WugqzB+J5SM2Rtu1AZbJ8JL6dAU1EZDnr7Z+hI1Bpg=;
+        b=sEl9hIR5IGfkxt2F8tr24D3mcga4T97MkV0N6qzOjetfmWfLXzDtUqPzDz/oplmvhJ
+         hQwI8zpTxAZqU7kxq15Auq4e8JoNBg1hpRmU2OIARbBUpmnX3hhhI7Q6uAbWeJEeCjXv
+         vbBlxl3uVv95ywGreXowkUxsTHTJ6dlkwIWH/cguhSg9Q+AEaDYzGNQFdmkO4PukoZ7x
+         G+GDMWUpsSprvr3vRLSxzro2LXJrOIDRHHRyLeitjLdJhtS6f7LyEKj7qbLVp6maJrjA
+         yzYm6j0lUaDLmQwsDI4sgDjZR2YIwb0uGALzwCMv4zz6ylT86vUk+SwMgXJ3F47P8XHH
+         3KMw==
+X-Gm-Message-State: AOAM532npAIlB5shvp/iEnJho6r7DAt6MW2FyyXgIna4Y7ZnXXLhaI/v
+	8x8YKwps9iceEKtDukaGtadxup9JuK+vc3rg1yvdw/T9
+X-Google-Smtp-Source: ABdhPJwnrfHgQd/tfeBEWdEPtQrPXMjh1vw1CRpwTWw3YbXmoC7e5wjs368se5IEgH9mVDvsz1hEtOuYN15u0i/ehGs=
+X-Received: by 2002:aa7:d288:: with SMTP id w8mr30316877edq.404.1638148969734;
+ Sun, 28 Nov 2021 17:22:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211126021904.32325-3-caihuoqing@baidu.com>
+References: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
+ <20211125155650.630977-4-benjamin.gaignard@collabora.com> <YaC+jkYwouR9Aa0s@eze-laptop>
+In-Reply-To: <YaC+jkYwouR9Aa0s@eze-laptop>
+From: Adam Ford <aford173@gmail.com>
+Date: Sun, 28 Nov 2021 19:22:38 -0600
+Message-ID: <CAHCN7xLprYQ7tbbdrg6Foenx8tAVfMopmc2b=c=FYrLgH2d8pg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] media: hantro: Use syscon instead of 'ctrl' register
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, hverkuil-cisco@xs4all.nl, 
+	linux-media <linux-media@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 26, 2021 at 10:19:00AM +0800, Cai Huoqing wrote:
-> ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
-> such as Allwinner R329 SOC.
-> Add the binding documentation for ZHOUYI AI accelerator.
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
-> v2->v3:
->         *Fix unit_address_format, avoid leading 0s.
-> 
->  .../bindings/staging/arm,zynpu.yaml           | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/staging/arm,zynpu.yaml b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-> new file mode 100644
-> index 000000000000..d452c08ab4a3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/staging/arm,zynpu.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/staging/arm,zynpu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ARM ZHOUYI AI accelerator bindings
-> +
-> +maintainers:
-> +  - Cai Huoqing <caihuoqing@baidu.com>
-> +
-> +description:
-> +  Supports ZHOUYI AI accelerator in ARM SOC.
-> +
-> +properties:
-> +  compatible:
-> +    const: armchina,zhouyi-v1
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  device_type:
+On Sun, Nov 28, 2021 at 6:47 PM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
+>
+> Hi Benjamin,
+>
+> On Thu, Nov 25, 2021 at 04:56:49PM +0100, Benjamin Gaignard wrote:
+> > In order to be able to share the control hardware block between
+> > VPUs use a syscon instead a ioremap it in the driver.
+> > To keep the compatibility with older DT if 'nxp,imx8mq-vpu-ctrl'
+> > phandle is not found look at 'ctrl' reg-name.
+> > With the method it becomes useless to provide a list of register
+> > names so remove it.
+> >
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> >
+> > Please note that the only purpose of this commit is to allow to test
+> > G2 hardware block for IMX8MQ until a proper solution isuing power domain
+> > can be found. Do not merge it.
+>
+> It's been too many months waiting for the BLK-CTRL to be solved.
+> Perhaps we can consider merging this approach instead.
 
-device_type is deprecated except for a couple of uses.
+If someone wants to send me an imx8mq board, I can attempt to work on
+the blk-ctrl.  I ported it to imx8mn, and I have sent an update for
+imx8mm.  I just don't have any imx8mq hardware.
 
-> +    const: zynpu
-> +
-> +  cma-reserved-bytes:
-> +    default: 0
-
-Use 'memory-region' and your own carve out if you need this, but do you 
-really need this in DT? Is this fixed for a given board/platform rather 
-than something a user would want to tune?
-
-
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 3
-
-You must define what each clock is and the order.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - device_type
-> +  - cma-reserved-bytes
-> +  - interrupts
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +        zynpu@3050000 {
-> +            compatible = "armchina,zhouyi-v1";
-> +            reg = <0x0 0x3050000 0x0 0x1000>;
-> +            device_type = "zynpu";
-> +            cma-reserved-bytes = <0x2600000>;
-> +            interrupts = <GIC_SPI 64 IRQ_TYPE_EDGE_RISING>;
-> +            clocks = <&clk_zynpu>,
-> +                     <&clk_pll_zynpu>,
-> +                     <&clk_zynpu_slv>;
-> +        };
-> +    };
-> +...
-> -- 
-> 2.25.1
-> 
-> 
+adam
+>
+> Thanks,
+> Ezequiel
+>
+> > ---
+> >  drivers/staging/media/hantro/hantro.h       |  5 ++-
+> >  drivers/staging/media/hantro/imx8m_vpu_hw.c | 48 +++++++++++++--------
+> >  2 files changed, 34 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> > index 7da23f7f207a..616b5a6854cd 100644
+> > --- a/drivers/staging/media/hantro/hantro.h
+> > +++ b/drivers/staging/media/hantro/hantro.h
+> > @@ -13,6 +13,7 @@
+> >  #define HANTRO_H_
+> >
+> >  #include <linux/platform_device.h>
+> > +#include <linux/regmap.h>
+> >  #include <linux/videodev2.h>
+> >  #include <linux/wait.h>
+> >  #include <linux/clk.h>
+> > @@ -174,7 +175,7 @@ hantro_vdev_to_func(struct video_device *vdev)
+> >   * @reg_bases:               Mapped addresses of VPU registers.
+> >   * @enc_base:                Mapped address of VPU encoder register for convenience.
+> >   * @dec_base:                Mapped address of VPU decoder register for convenience.
+> > - * @ctrl_base:               Mapped address of VPU control block.
+> > + * @ctrl_base:               Regmap of VPU control block.
+> >   * @vpu_mutex:               Mutex to synchronize V4L2 calls.
+> >   * @irqlock:         Spinlock to synchronize access to data structures
+> >   *                   shared with interrupt handlers.
+> > @@ -193,7 +194,7 @@ struct hantro_dev {
+> >       void __iomem **reg_bases;
+> >       void __iomem *enc_base;
+> >       void __iomem *dec_base;
+> > -     void __iomem *ctrl_base;
+> > +     struct regmap *ctrl_base;
+> >
+> >       struct mutex vpu_mutex; /* video_device lock */
+> >       spinlock_t irqlock;
+> > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > index 1a43f6fceef9..d7a63b41eb0e 100644
+> > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > @@ -7,6 +7,7 @@
+> >
+> >  #include <linux/clk.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/mfd/syscon.h>
+> >
+> >  #include "hantro.h"
+> >  #include "hantro_jpeg.h"
+> > @@ -25,30 +26,28 @@
+> >  #define CTRL_G1_PP_FUSE              0x0c
+> >  #define CTRL_G2_DEC_FUSE     0x10
+> >
+> > +static const struct regmap_config ctrl_regmap_ctrl = {
+> > +     .reg_bits = 32,
+> > +     .val_bits = 32,
+> > +     .reg_stride = 0x14,
+> > +};
+> > +
+> >  static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
+> >  {
+> > -     u32 val;
+> > -
+> >       /* Assert */
+> > -     val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+> > -     val &= ~reset_bits;
+> > -     writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+> > +     regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET, reset_bits, 0);
+> >
+> >       udelay(2);
+> >
+> >       /* Release */
+> > -     val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+> > -     val |= reset_bits;
+> > -     writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+> > +     regmap_update_bits(vpu->ctrl_base, CTRL_SOFT_RESET,
+> > +                        reset_bits, reset_bits);
+> >  }
+> >
+> >  static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
+> >  {
+> > -     u32 val;
+> > -
+> > -     val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+> > -     val |= clock_bits;
+> > -     writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+> > +     regmap_update_bits(vpu->ctrl_base, CTRL_CLOCK_ENABLE,
+> > +                        clock_bits, clock_bits);
+> >  }
+> >
+> >  static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+> > @@ -65,9 +64,9 @@ static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+> >       imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
+> >
+> >       /* Set values of the fuse registers */
+> > -     writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
+> > -     writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
+> > -     writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
+> > +     regmap_write(vpu->ctrl_base, CTRL_G1_DEC_FUSE, 0xffffffff);
+> > +     regmap_write(vpu->ctrl_base, CTRL_G1_PP_FUSE, 0xffffffff);
+> > +     regmap_write(vpu->ctrl_base, CTRL_G2_DEC_FUSE, 0xffffffff);
+> >
+> >       clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> >
+> > @@ -211,7 +210,22 @@ static irqreturn_t imx8m_vpu_g2_irq(int irq, void *dev_id)
+> >
+> >  static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+> >  {
+> > -     vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
+> > +     struct device_node *np = vpu->dev->of_node;
+> > +
+> > +     vpu->ctrl_base = syscon_regmap_lookup_by_phandle(np, "nxp,imx8m-vpu-ctrl");
+> > +     if (IS_ERR(vpu->ctrl_base)) {
+> > +             struct resource *res;
+> > +             void __iomem *ctrl;
+> > +
+> > +             res = platform_get_resource_byname(vpu->pdev, IORESOURCE_MEM, "ctrl");
+> > +             ctrl = devm_ioremap_resource(vpu->dev, res);
+> > +             if (IS_ERR(ctrl))
+> > +                     return PTR_ERR(ctrl);
+> > +
+> > +             vpu->ctrl_base = devm_regmap_init_mmio(vpu->dev, ctrl, &ctrl_regmap_ctrl);
+> > +             if (IS_ERR(vpu->ctrl_base))
+> > +                     return PTR_ERR(vpu->ctrl_base);
+> > +     }
+> >
+> >       return 0;
+> >  }
+> > --
+> > 2.30.2
+> >
