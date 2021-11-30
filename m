@@ -1,109 +1,104 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007832C9D
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 11:17:42 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id n104-20020a9d2071000000b005799790cf0bso29761408ota.5
-        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 03:17:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6E129CA
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 12:11:55 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id w23so40853924uao.5
+        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 04:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vi8MbxG85CYq9CNpZ44LAbBeodXmRyoupGjEHyG65DY=;
-        b=iXezmFuJH1+Hgbo84C2QcMaXq6A4xQh3hOkRD9HWk7yHCPke2h6HeTl5PIURVm4tMU
-         z9cH+9PY0fZy04TPo5fq33vjbfBhBHtwkn3HckuoJ9dulZNoeg9D4uG45Shx6WVqaeRh
-         tbi98kBIcEmV93EKb49a2PP5+bgTw3o5Ni2CI5sNR92YWsIXIrpBWkpCLbcYhvbaAzK7
-         aCZxW9hrP+Aij4zvRy4VwVybWiI6G/Hs6Q34Zog+2O6kS7iJZaUZzB9cjd+Vw0dOp8l1
-         U5NNQndYtFX4Ei+IHUWknENj+emjKSvchbGOYwcydulPKJAmaBw0gNuzLJglsA3J1hU6
-         GqFw==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ezWEJY1UxPw2PKLFovyt/KEg8Ohs2gMv1LSWNGSFZEM=;
+        b=O4wjtzO3oSmjpegvP0d5IYeBeM4kG4ToTjzD/3PruseWwAGb5cdISnLLUb5hEAIVNY
+         wmeJA0GLnfKGt09V6oEsF8HesJaRWNZnMFH7h947bSxxBmb+ilkkhMHbie2QMXyUMebg
+         JU8XJOwSGKCkwWhv3hLlPJIBciMmE+wTYcpjuJ9IGNpcMseH0FiyPqqWyPRiExfBc8mQ
+         vzc2AYzIwVZ68BzIbhw3j1NpG5Jf6V8NE5y7wdqkjmGtDKdqvB3geomqlex8POnJ7FOQ
+         vurW53g2dzU7MrJNgQLMQG1S7wHlLRpVhYjriz1narmIPOH+4qRRuzjSmOaz9Yq22170
+         zIlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vi8MbxG85CYq9CNpZ44LAbBeodXmRyoupGjEHyG65DY=;
-        b=Cz70wAY4ujrrKuadVC6CIje6WM8H0CIk2OdXW3uSlRXdp4Ru+g6ut/oSTKuPhIAC5V
-         c31i/D41aBEVRg2Hv6CvMZZwB9zq4KR8CMwZ2Cyi5p60zIr1fwJC+ueutlavQf+NNf/w
-         gAZCqVqbSPrwwyYcllMDDZsx6rZibGqiu8SbW4igM6pGvTWIM9f3vJv2O/KbFCwmr8U2
-         ahaEWAYvVuDRkouZuh10NZC6jPbJHl+Xr2Am/HzNSCEgX6yREAjfbQzL/QCrWqOvtfgK
-         7jH3l0qmMCovQVxDUcvjFQ10berkG0IhlEvUQ2gi7NEvLvjFQBLu5mTGiGO7mii6Nyxk
-         o8ig==
-X-Gm-Message-State: AOAM530lzorQwkiYBKiAGHKChYWM17nwRT81UWRSJerdK4p9El9KT5Kv
-	eZNs1On58Dg+0i0334oz8yoZhR8AphsrYvE5BoY=
-X-Google-Smtp-Source: ABdhPJzFuM1afuBfC8qppB4kUGyroaS87FAAfDg3iDhWzguxH+Ey/QnltKVZi8ZXLaP1OaZfp0JpspEBQSMDCMbLq5E=
-X-Received: by 2002:a9d:326:: with SMTP id 35mr49780081otv.41.1638271062090;
- Tue, 30 Nov 2021 03:17:42 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ezWEJY1UxPw2PKLFovyt/KEg8Ohs2gMv1LSWNGSFZEM=;
+        b=A+OpJBDzozH7kdIU+Vk3ihwkBg0Zb+wqMczjR/iLGb0XbspVlE1Kr/OQMb5v6r2Pml
+         Uu6FcRBc2VMGQ0pygxwO0pBn14rQvwkUbqX3Jbbx02ZMkLsN4dz4tG8SjqMNvTG7T4jl
+         u84MI2/MlTwuYdLNwTkyLyBgjcrB70XMzuB/cAw3hCwqqmuSQRpEXLomHnyugx1iAYTb
+         5j+x9wn9e3pnh9h70gTctR2NMhrJ9odISJjCY0yQv6+WgXjAFHOk/uuIAm0dJ/nh6PyF
+         OJBnA9vrLPtMqgkts19zekti7zM34+7WcUTFMwutTgoa0tj7193XeENjtjkaK7rdvArY
+         q3mQ==
+X-Gm-Message-State: AOAM532C0XdgjgBhxUTw1EG6HKHhAQSix+d0dd38Ax7JNbPA8jUVHNCI
+	FLDX75f5vh6n/3WSyy3Cy0MR+Q==
+X-Google-Smtp-Source: ABdhPJxLXNhuLHrxh6uP38+mjJjJNBxkZpXCbKo3QO6/zmhliW+JnAqbYneMwOFJzA7HoYYmlfSDzg==
+X-Received: by 2002:ab0:22c6:: with SMTP id z6mr57430523uam.80.1638274314802;
+        Tue, 30 Nov 2021 04:11:54 -0800 (PST)
+Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
+        by smtp.gmail.com with ESMTPSA id s13sm9960047vkh.32.2021.11.30.04.11.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 04:11:53 -0800 (PST)
+Date: Tue, 30 Nov 2021 09:11:48 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+	mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
+	wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
+	gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/9] media: hantro: Fix probe func error path
+Message-ID: <YaYVBDdhhG2c7enw@eze-laptop>
+References: <20211129182633.480021-1-jernej.skrabec@gmail.com>
+ <20211129182633.480021-2-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211129221346.365883-1-makvihas@gmail.com> <20211130094727.GT6514@kadam>
-In-Reply-To: <20211130094727.GT6514@kadam>
-From: Vihas Mak <makvihas@gmail.com>
-Date: Tue, 30 Nov 2021 16:47:31 +0530
-Message-ID: <CAH1kMwTbjN4_fqG94j4Ei2SWmjSsjanwMaSJrk4M6kGOzfB9fw@mail.gmail.com>
-Subject: Re: [PATCH] staging: r8188eu: use ARRAY_SIZE() macro and fix
- camelcase issues
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Larry.Finger@lwfinger.net, Phillip Potter <phil@philpotter.co.uk>, 
-	Greg KH <gregkh@linuxfoundation.org>, martin@kaiser.cx, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211129182633.480021-2-jernej.skrabec@gmail.com>
 
->> Get rid of both the "arraylen" and "array" variables.  They only obscure
->> what the code is doing.  You may need to do additional clean up to make
->> it work without making the lines too long...
-Alright.
+On Mon, Nov 29, 2021 at 07:26:25PM +0100, Jernej Skrabec wrote:
+> If clocks for some reason couldn't be enabled, probe function returns
+> immediately, without disabling PM. This obviously leaves PM ref counters
+> unbalanced.
+> 
+> Fix that by jumping to appropriate error path, so effects of PM functions
+> are reversed.
+> 
+> Fixes: 775fec69008d ("media: add Rockchip VPU JPEG encoder driver")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-On Tue, Nov 30, 2021 at 3:18 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Tue, Nov 30, 2021 at 03:43:47AM +0530, Vihas Mak wrote:
-> > Fix camelcase warnings from checkpatch.pl and use ARRAY_SIZE()
-> > to make the code cleaner and avoid following cocci warnings:
-> >
-> >       drivers/staging/r8188eu/hal/HalHWImg8188E_RF.c:142:51-52: WARNING: Use ARRAY_SIZE
-> >       drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c:174:52-53: WARNING: Use ARRAY_SIZE
-> >       drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c:450:52-53: WARNING: Use ARRAY_SIZE
-> >       drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c:655:49-50: WARNING: Use ARRAY_SIZE
-> >       drivers/staging/r8188eu/hal/HalHWImg8188E_MAC.c:136:50-51: WARNING: Use ARRAY_SIZE
-> >
-> > Signed-off-by: Vihas Mak <makvihas@gmail.com>
-> > ---
-> >  .../staging/r8188eu/hal/HalHWImg8188E_BB.c    |  6 ++---
-> >  .../staging/r8188eu/hal/HalHWImg8188E_MAC.c   |  2 +-
-> >  .../staging/r8188eu/hal/HalHWImg8188E_RF.c    | 24 +++++++++----------
-> >  3 files changed, 16 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-> > index f6e4243e0..ce46b3651 100644
-> > --- a/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-> > +++ b/drivers/staging/r8188eu/hal/HalHWImg8188E_BB.c
-> > @@ -171,7 +171,7 @@ enum HAL_STATUS ODM_ReadAndConfig_AGC_TAB_1T_8188E(struct odm_dm_struct *dm_odm)
-> >  {
-> >       u32     hex         = 0;
-> >       u32     i           = 0;
-> > -     u32     arraylen    = sizeof(array_agc_tab_1t_8188e) / sizeof(u32);
-> > +     u32     arraylen    = ARRAY_SIZE(array_agc_tab_1t_8188e);
-> >       u32    *array       = array_agc_tab_1t_8188e;
->
-> Get rid of both the "arraylen" and "array" variables.  They only obscure
-> what the code is doing.  You may need to do additional clean up to make
-> it work without making the lines too long...
->
-> Same for the rest.
->
-> If that is too complicated then it's fine too, just leave it as-is for
-> now.  I know that sometimes people just want to silence the checkpatch
-> warnings but I prefer to keep the warning as a marker for bad code so
-> let's leave it until someone can fix this in the correct way.
->
-> regards,
-> dan carpenter
->
+Thanks!
 
-
---
-Thanks,
-Vihas
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index ab2467998d29..3d3107a39dae 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -981,7 +981,7 @@ static int hantro_probe(struct platform_device *pdev)
+>  	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+> -		return ret;
+> +		goto err_pm_disable;
+>  	}
+>  
+>  	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+> @@ -1037,6 +1037,7 @@ static int hantro_probe(struct platform_device *pdev)
+>  	v4l2_device_unregister(&vpu->v4l2_dev);
+>  err_clk_unprepare:
+>  	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> +err_pm_disable:
+>  	pm_runtime_dont_use_autosuspend(vpu->dev);
+>  	pm_runtime_disable(vpu->dev);
+>  	return ret;
+> -- 
+> 2.34.1
+> 
