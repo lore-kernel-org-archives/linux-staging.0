@@ -1,201 +1,263 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDC42C82
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 14:00:38 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id g14so87170101edb.8
-        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 06:00:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=QaxZlmGeTiNSpZpCZqH57v2oCRS32AJdCJEiZtFl+fo=;
-        b=UAL3sYoqWMmwujNOP724FqBzW5uObd++LAtVKS3v5u5Uf2OdsqcJyTAd46VvaTh5Bd
-         CI7BPxy7k5sgJDqLq1RcsS3wNsihI78jdpDJIITTaw/+RdV8uJbwUA5jL3bVoiO2CnZz
-         ECP+wZYQCeXwsVT03Cwq3TmyYVTdLKIqSaQxxB77ysN7pTZ6rhWOALXsXCermCrGDEm9
-         xTqkC17qeHkGGjhP+HwJkZNAmoWQo1WEBi97ntM6TwL06wMqG3TUZavTpeNmgqXB4xXm
-         gxbfUwfLqghdmcJf/K4rHwrkHT+sXq/VtbjNBGcKK6hDHJkwFOSBqyz3GYb+FTIsRGl6
-         hXsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QaxZlmGeTiNSpZpCZqH57v2oCRS32AJdCJEiZtFl+fo=;
-        b=REgxMeg0+DjGI9/jTkrTcmJtTNQzK2Wfid+6nkLEec4Hdth2gwm9PBgFlmZa0tpIfQ
-         lBXrX6Og+iZHNrKk6AHw36ce1wOnxBr+yxN/zI+hh+QKSw4TtkoekBhIbWaKJq1gi/zh
-         WutgZA7/zwbaK2f0cLvF2nGXS3dTD90TUMq9bzRg7+mL2LfQa6GgLWUDm6qlviY2JTZI
-         VL0kPmM2mY0wGAa4x6d8sOwpw9VTvfxwhVTmmYD29TNctvRxza8Nvwkdm1AophvdQWHn
-         hpONuI/bNrs/Woju5C3NLlu9G5WfWJM4jT5hEnuTqIUfVheOQbcX2O9ge8CVH/oqIWp2
-         S6DA==
-X-Gm-Message-State: AOAM530Vj3F7wLfHXoRI+45haOlFe5kUF3g79+3/yJ1+w+kumg0l73d1
-	0h7E1OhkSlF2HfqUaNbggepm5udtBbngLL/g4Dxh/w==
-X-Google-Smtp-Source: ABdhPJwnUIPwozxEvD8GWiVDDYw5ZDqSXm6R85I9zeuQ3bp/QzgWXBdhWWpkvOKxcxv7W9iIJOUZHicmrUxw7zSXQ5g=
-X-Received: by 2002:a05:6402:34c1:: with SMTP id w1mr83741602edc.179.1638280836615;
- Tue, 30 Nov 2021 06:00:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDD568
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 14:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202012; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=6NOP2+DTQqJWzYfZgacKEgawyS+7L+fJvsJ6rTKXdLA=; b=j7pBp3prUgC8J+CyT27U6yBxWL
+	f9l91X9YIQR564dtipwHIhD73fYvzpJ2JDdhfdmq1rX62pRinDd+BIhZuofrvpzlk9DjdI6uZ7WsD
+	PXbdZw7MILI7XEcN7+yYfy4deReYWUGwgwNQV9mJLRrvUms4B1IFDfdnkfGf+c1AlIlW441rici04
+	y2ZtxvAEGLO3vw32r4WjLN7tpA1Om6YcWtO1YjCjm5jCLIyu8JlQHqxJGzCEaJrAG+5uj65KDqheg
+	kYFbEQpzl8t5adFU31Ua3brPbjOeoCpcZJaMdxoA39iqIiPTIu2Th6BJAJGD07rghO9tFTynJ7/TB
+	MnusnHQQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52436 helo=[192.168.10.61])
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1ms498-0000G2-JT; Tue, 30 Nov 2021 15:30:14 +0100
+Message-ID: <ca9e432a-6b04-9935-2469-135a9b47514e@tronnes.org>
+Date: Tue, 30 Nov 2021 15:30:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c1963f1590c62d549ae725.camel@ndufresne.ca>
- <CAHCN7xKM9RUE7z-+ug1on+D=nDoEm589R4m03ofys92Aq75ZVQ@mail.gmail.com>
- <8db00a4b6faa99c940d9bc86e17161eb0db5efe3.camel@ndufresne.ca>
- <CAJ+vNU28UJffFv9jQ2KryJMudqYxvCaoVOVcU5dPqRA209iN6A@mail.gmail.com>
- <d91532c2c0772f9aa708ead36b2a97203727a7ea.camel@ndufresne.ca>
- <CAJ+vNU3H-V+bPoZ3qKead45h=W7AhQK6Lhjrx5ssdF4c_qfe=A@mail.gmail.com>
- <CAHCN7x+0LwwU_rEST+TZxGquswGKL19gnTy9WLofsXtGAtWqdw@mail.gmail.com>
- <7f94eaacfddb8c5434c17f1e069ea87a17657ce9.camel@ndufresne.ca>
- <CAHCN7xKRzxMBmPbDobWTuvNNSpTXk5XENvfBnfkhRY3eZKhn6w@mail.gmail.com>
- <CAHCN7xJFLNi_g+HX8PCy1Rkgf0jnWpO5QGYVz8nH19xrJkwHrA@mail.gmail.com>
- <CAJ+vNU3zFd=6k_Emc5aafxKkGwCPp4crgOFezQ-E_MbWsn1_EA@mail.gmail.com>
- <fed6c2fd7cf4971062c417ce41ed1e3812b900e0.camel@ndufresne.ca>
- <CAHCN7xK+wROHaqDcsY-3WYFQ82qX17L-LHNL3siSWnWvwFShzQ@mail.gmail.com>
- <CAAEAJfC1xXvemaFP+vTFVJ3S-SpYtrxyZgDamSOgLC1F3ua5xw@mail.gmail.com>
- <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com> <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
-In-Reply-To: <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Tue, 30 Nov 2021 11:00:24 -0300
-Message-ID: <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
-Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-To: Tim Harvey <tharvey@gateworks.com>
-Cc: Adam Ford <aford173@gmail.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	Schrempf Frieder <frieder.schrempf@kontron.de>, Marek Vasut <marek.vasut@gmail.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Adam Ford-BE <aford@beaconembedded.com>, 
-	cstevens@beaconembedded.com, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Lucas Stach <l.stach@pengutronix.de>, Joakim Zhang <qiangqing.zhang@nxp.com>, 
-	Alice Guo <alice.guo@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
-	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
-	"moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
+To: Maxime Ripard <maxime@cerno.tech>, David Lechner <david@lechnology.com>
+Cc: robh+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dave.stevenson@raspberrypi.com
+References: <20211124150757.17929-1-noralf@tronnes.org>
+ <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+ <20211129093946.xhp22mvdut3m67sc@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20211129093946.xhp22mvdut3m67sc@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Tim,
 
-On Mon, 29 Nov 2021 at 16:36, Tim Harvey <tharvey@gateworks.com> wrote:
->
-> On Mon, Nov 29, 2021 at 10:59 AM Adam Ford <aford173@gmail.com> wrote:
-..
-> >
->
-> Adam,
->
-> What deps did you install in order to get v4l2codecs building? I
-> installed libgudev-1.0-dev based on Nicolas' suggestion and rebuilt
-> (not sure if I needed to re-configure somehow) but there is still
-> nothing in build/subprojects/gst-plugins-bad/sys/v4l2codecs/. A 'meson
-> configure' tells me that v4l2codecs is set to 'auto' but I'm not sure
-> how to find out what dependencies are needed or what may be missing.
->
 
-At least in my case (Centps-derivative), this is what I've done:
+Den 29.11.2021 10.39, skrev Maxime Ripard:
+> Hi,
+> 
+> On Wed, Nov 24, 2021 at 04:03:07PM -0600, David Lechner wrote:
+>> On 11/24/21 9:07 AM, Noralf Trønnes wrote:
+>>> This patchset adds a missing piece for decommissioning the
+>>> staging/fbtft/fb_st7735r.c driver namely a way to configure the
+>>> controller from Device Tree.
+>>>
+>>> All fbtft drivers have builtin support for one display panel and all
+>>> other panels using that controller are configured using the Device Tree
+>>> 'init' property. This property is supported by all fbtft drivers and
+>>> provides a generic way to set register values or issue commands
+>>> (depending on the type of controller).
+>>>
+>>> It is common for these types of displays to have a datasheet listing the
+>>> necessary controller settings/commands or some example code doing the
+>>> same.
+>>>
+>>> This is how the panel directly supported by the fb_st7735r staging
+>>> driver is described using Device Tree with that driver:
+>>>
+>>>      width = <160>;
+>>>      height = <128>;
+>>>
+>>>      init = <0x1000001
+>>>              0x2000096
+>>>              0x1000011
+>>>              0x20000ff
+>>>              0x10000B1 0x01 0x2C 0x2D
+>>>              0x10000B4 0x07
+>>>              0x10000C0 0xA2 0x02 0x84
+>>>              0x10000C1 0xC5
+>>>              0x10000C2 0x0A 0x00
+>>>              0x10000C5 0x0E
+>>>              0x100003a 0x55
+>>>              0x1000036 0x60
+>>>              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
+>>>                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
+>>>              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
+>>>                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
+>>>              0x1000029
+>>>              0x2000064>;
+>>>
+>>>
+>>> This is how the same panel is described using the st7735r drm driver and
+>>> this patchset:
+>>>
+>>>      width = <160>;
+>>>      height = <128>;
+>>>
+>>>      frmctr1 = [ 01 2C 2D ];
+>>>      invctr = [ 07 ];
+>>>      pwctr1 = [ A2 02 84 ];
+>>>      pwctr2 = [ C5 ];
+>>>      pwctr3 = [ 0A 00 ];
+>>>      vmctr1 = [ 0E ];
+>>>      madctl = [ 60 ];
+>>>      gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
+>>>      gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
+>>
+>> Do these setting correspond to actual physical properties of the display?
+>>
+>> What is the advantage of this compared to just adding a new compatible
+>> string if a new display requires different settings? (Other than being
+>> able to use a new display without compiling a new kernel/module.)
+>>
+>> It is nice for the driver implementation to be able to use the byte
+>> arrays from the binding directly, but it doesn't really make sense from
+>> a "device tree describes the hardware" point of view.
+>>
+>> For example, looking at the data sheet, frmctr1 looks like it is actually
+>> multiple properties, the 1-line period, front porch and back porch.
+> 
+> You're right, but we have two sets of problems that we want to solve,
+> and so far the discussion has only been to address one while ignoring
+> the other.
+> 
+> The solution you suggested works great for the problem the kernel is
+> facing: we want a solution that is easy to maintain over the long run,
+> while being reliable. Thus, we want to introduce a compatible for each
+> panel, that will allow us to describe the panel in the DT without
+> exposing too much data, the data being in the kernel.
+> 
+> This works great over the long run because we can update and fix any
+> problem we might have had, send them to stable, etc. It's awesome, but
+> it's mostly centered on us, the developers and maintainers.
+> 
+> 
+> The problem that fbtft (and this series) wants to fix is completely
+> different though: it wants to address the issue the users are facing.
+> Namely, you get a cheap display from wherever, connect it to your shiny
+> new SBC and wants to get something on the display.
+> 
+> In this situation, the user probably doesn't have the knowledge to
+> introduce the compatible in the kernel in the first place. But there's
+> also some technical barriers there: if they use secure boot, they can't
+> change the kernel (well, at least the knowledge required is far above
+> what we can expect from the average user). If the platform doesn't allow
+> access to the DT, you can't change the DT either.
+> 
 
-...
-gst-plugins-bad| Run-time dependency gudev-1.0 found: NO (tried
-pkgconfig and cmake)
+Like Geert I wondered about this statement, since you need to change the
+DT to use such a display. But if you count overlays as not changing the
+DT, ok.
 
-Installed gudev ... and then:
+> Let's set aside those constraints for a moment though. For most of these
+> devices, you wouldn't even be able to come up with a proper compatible.
+> All of those displays are typically a panel and a controller glued
+> together, and the exact initialization sequence depends on both. The
+> panel is never really mentioned, neither is its manufacturer, or its
+> exact product id. In other words, we wouldn't be able to come up with a
+> good compatible for them.
+> 
+> Let's now assume we do have access to all those info and can come up
+> with a good, upstreamable, compatible. We now require the user to
+> contribute it upstream, and then expect them to wait for 1-2 years for
+> that patch to show up in their distribution of choice.
+> 
+> And then, if we were to get those patches, chances are we don't really
+> want them anyway since we would be drowning in those small patches
+> no-one really wants to review.
+> 
+> 
+> So yeah, the solution we have is probably a good solution for "real"
+> panels, glued to a device (and even then, the recent discussion around
+> panel-edp shows that it has a few shortcomings). But it's a *terrible*
+> solution for all parties involved when it comes to those kind of
+> displays.
+> 
 
-...
-gst-plugins-bad| Dependency gudev-1.0 found: YES 232 (cached)
-...
-gst-plugins-bad 1.19.3.1
+Really good writeup of the situation Maxime!
 
-    Plugins               : accurip, adpcmdec, adpcmenc, aiff, asfmux,
-audiobuffersplit, audiofxbad, audiomixmatrix, audiolatency,
-audiovisualizers, autoconvert, bayer,
-                            camerabin, codecalpha, coloreffects,
-debugutilsbad, dvbsubenc, dvbsuboverlay, dvdspu, faceoverlay,
-festival, fieldanalysis, freeverb, frei0r,
-                            gaudieffects, gdp, geometrictransform,
-id3tag, inter, interlace, ivfparse, ivtc, jp2kdecimator, jpegformat,
-rfbsrc, midi, mpegpsdemux,
-                            mpegpsmux, mpegtsdemux, mpegtsmux, mxf,
-netsim, rtponvif, pcapparse, pnm, proxy, legacyrawparse,
-removesilence, rist, rtmp2, rtpmanagerbad,
-                            sdpelem, segmentclip, siren, smooth,
-speed, subenc, switchbin, timecode, transcode, videofiltersbad,
-videoframe_audiolevel, videoparsersbad,
-                            videosignal, vmnc, y4mdec, decklink, dvb,
-fbdevsink, ipcpipeline, nvcodec, shm, v4l2codecs, hls, sctp
+> 
+> I agree that it doesn't really fit in the DT either though. Noralf, what
+> kind of data do we need to setup a display in fbtft? The init sequence,
+> and maybe some enable/reset GPIO, plus some timing duration maybe?
+> 
+> There's one similar situation I can think of: wifi chips. Those also
+> need a few infos from the DT (like what bus it's connected to, enable
+> GPIO, etc) and a different sequence (firmware), sometimes different from
+> one board to the other.
+> 
+> Could we have a binding that would be something like:
+> 
+> panel@42 {
+> 	 compatible = "panel-spi";
+> 	 model = "panel-from-random-place-42";
+> 	 enable-gpios = <&...>;
+> }
+> 
+> And then, the driver would request the init sequence through the
+> firmware mechanism using a name generated from the model property.
+> 
+> It allows to support multiple devices in a given system, since the
+> firmware name wouldn't conflict, it makes a decent binding, and users
+> can adjust the init sequence easily (maybe with a bit of tooling)
+> 
+> Would that work?
+> 
 
-GStreamer current master build fails. It's a known issue which will be
-fixed today:
+I really like this idea. An added benefit is that one driver can handle
+all MIPI DBI compatible controllers avoiding the need to do a patchset
+like this for all the various MIPI DBI controllers. The firmware will
+just contain numeric commands with parameters, so no need for different
+controller drivers to handle the controller specific command names.
 
-[...]
-[8/9] Compiling C object
-subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2cod=
-ecvp9dec.c.o
-FAILED: subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gs=
-tv4l2codecvp9dec.c.o
-cc -Isubprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p
--Isubprojects/gst-plugins-bad/sys/v4l2codecs
--I../subprojects/gst-plugins-bad/sys/v4l2codecs
--Isubprojects/gst-plugins-bad -I../subprojects/gst-plugins-bad
--Isubprojects/gstreamer/libs -I../subprojects/gstreamer/libs
--Isubprojects/gstreamer -I../subprojects/gstreamer
--Isubprojects/gst-plugins-bad/gst-libs
--I../subprojects/gst-plugins-bad/gst-libs
--Isubprojects/gst-plugins-base/gst-libs
--I../subprojects/gst-plugins-base/gst-libs -Isubprojects/orc
--I../subprojects/orc -Isubprojects/gstreamer/gst
--Isubprojects/gst-plugins-base/gst-libs/gst/video
--Isubprojects/gst-plugins-base/gst-libs/gst/pbutils
--Isubprojects/gst-plugins-base/gst-libs/gst/audio
--Isubprojects/gst-plugins-base/gst-libs/gst/tag
--I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include
--I/usr/include/gudev-1.0 -fdiagnostics-color=3Dalways
--D_FILE_OFFSET_BITS=3D64 -Wall -Winvalid-pch -O2 -g -fvisibility=3Dhidden
--fno-strict-aliasing -DG_DISABLE_DEPRECATED -Wmissing-prototypes
--Wdeclaration-after-statement -Wold-style-definition
--Wmissing-declarations -Wredundant-decls -Wwrite-strings -Wformat
--Wformat-security -Winit-self -Wmissing-include-dirs -Waddress
--Wno-multichar -Wvla -Wpointer-arith -fPIC -pthread -DHAVE_CONFIG_H
--MD -MQ subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gs=
-tv4l2codecvp9dec.c.o
--MF subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l=
-2codecvp9dec.c.o.d
--o subprojects/gst-plugins-bad/sys/v4l2codecs/libgstv4l2codecs.so.p/gstv4l2=
-codecvp9dec.c.o
--c ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:92:3:
-error: unknown type name =E2=80=98grefcount=E2=80=99
-   grefcount ref_count;
-   ^~~~~~~~~
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
-function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_new=E2=80=99:
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:106:3:
-warning: implicit declaration of function =E2=80=98g_ref_count_init=E2=80=
-=99; did you
-mean =E2=80=98g_cond_init=E2=80=99? [-Wimplicit-function-declaration]
-   g_ref_count_init (&pic_data->ref_count);
-   ^~~~~~~~~~~~~~~~
-   g_cond_init
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
-function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_ref=E2=80=99:
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:118:3:
-warning: implicit declaration of function =E2=80=98g_ref_count_inc=E2=80=99=
-; did you
-mean =E2=80=98g_strv_contains=E2=80=99? [-Wimplicit-function-declaration]
-   g_ref_count_inc (&data->ref_count);
-   ^~~~~~~~~~~~~~~
-   g_strv_contains
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c: In
-function =E2=80=98gst_v4l2_codec_vp9_dec_picture_data_unref=E2=80=99:
-../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codecvp9dec.c:125:7:
-warning: implicit declaration of function =E2=80=98g_ref_count_dec=E2=80=99
-[-Wimplicit-function-declaration]
-   if (g_ref_count_dec (&data->ref_count)) {
-       ^~~~~~~~~~~~~~~
-ninja: build stopped: subcommand failed.
+The following is a list of the MIPI DBI compatible controllers currently
+in staging/fbtft: ili9341, hx8357d, st7735r, ili9163, ili9163, ili9163,
+ili9163, ili9486, ili9481, tinylcd, s6d02a1, s6d02a1, hx8340bn, ili9340.
 
-Hope this helps get you started!
-Ezequiel
+The compatible needs to be a bit more specific though since there are 2
+major SPI protocols for these display: MIPI DBI and the one used by
+ILI9325 and others.
+
+The full binding would be something like this:
+
+panel@42 {
+	compatible = "panel-mipi-dbi-spi";
+	model = "panel-from-random-place-42";
+
+	/* The MIPI DBI spec lists these powers supply pins */
+	vdd-supply = <&...>;
+	vddi-supply = <&...>;
+
+	/* Optional gpio to drive the RESX line */
+	reset-gpios = <&...>;
+
+	/*
+	 * D/CX: Data/Command, Command is active low
+	 * Abcense: Interface option 1 (D/C embedded in 9-bit word)
+	 * Precense: Interface option 3
+	 */
+	dc-gpios = <&...>;
+
+	/*
+	 * If set the driver won't try to read from the controller to see
+	 * if it's already configured by the bootloader or previously by
+	 * the driver. A readable controller avoids flicker and/or delay
+	 * enabling the pipeline.
+	 *
+	 * This property might not be necessary if we are guaranteed to
+	 * always read back all 1's or 0's when MISO is not connected.
+	 * I don't know if all setups can guarantee that.
+	 */
+	write-only;
+
+	/* Optional ref to backlight node */
+	backlight = <&...>;
+}
+
+Many of these controllers also have a RGB interface option for the
+pixels and only do configuration over SPI.
+Maybe the compatible should reflect these 2 options somehow?
+
+Noralf.
