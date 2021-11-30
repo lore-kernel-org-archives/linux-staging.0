@@ -1,54 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651412C99
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 06:42:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B8FEC53FC1;
-	Tue, 30 Nov 2021 06:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1638254562;
-	bh=XS24QSgj3S1yKkpuEAeM1BU2EG8scdAhuyihTBR3Cqc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f9o5sIRNQlWv2rjjrrSPuSPh5CrjLruyhkPBnbaPYNnjt5w0a8M1zJtNypl+5ADu6
-	 FYq6ytV0jH3Xg38wadRqdB1d3BNrTVMMMwb1PJ/6wB6OxmgUJx+93GlNtqAv/WbIHc
-	 yS3WT0y+kvc0l8O0IgQ3vbAaLjij4EUWRN8Go9WY=
-Date: Tue, 30 Nov 2021 07:42:38 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: davidcomponentone@gmail.com
-Cc: TheSven73@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Yang Guang <yang.guang5@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] staging: replace snprintf with sysfs_emit
-Message-ID: <YaXH3oUxMsoJLD65@kroah.com>
-References: <21e2111f6c2590ac24ad15d39e87160f9425045b.1638186054.git.yang.guang5@zte.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400972C99
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 08:13:59 +0000 (UTC)
+Received: by mail-ua1-f52.google.com with SMTP id l24so39755471uak.2
+        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 00:13:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M9TvqAb2dbPQyUlV58mO9YTh/iv9wO/YMHLV7b29cnQ=;
+        b=0EbXCDWxCrOKIJonPnhDF+i+qBGwawvrhYCE7Oi9JUK65NHqFWu0yqu7D9iYVnx+Ai
+         aeAHyVQjVWOQsx2BzOl8E5DIFlv/BTWadbJ/KfTY9BBEaeeclUbnGQNe7RO+8BxbCltp
+         pwJIUsCOtsT6yh1ySe5OZr8XS8GS5DnUYWEvyOZTS6kpAciHwC8pFPbPX3GPJSZ6xjJG
+         P09tDCq8MQJJ72t9ziXoBeMg6JczqXnpoy+g9DZ98OmLOoT3UFMllhoEzKpxfpCvb9ZR
+         p1t2ZJ9096VxumjMi1oICh2OD3R9hrmClpIl6cET4t98yvYdzGF/ui/4Zgkl8GAcdyN2
+         GL4g==
+X-Gm-Message-State: AOAM530ceif/Npss9WLHJzXDYmzVH0QqOtVu9Em5MZTz8cTk+RDDlSBS
+	WYpdH9Fd6rWwSwJPjrEA+koOSXosDHq+Qw==
+X-Google-Smtp-Source: ABdhPJyE2tFHmP4SlNvSe0DuthKDbQZS72j+2GIuoCSZsspUrxPtkUEno79GMaHaEgrzZuFtnYOk8Q==
+X-Received: by 2002:a05:6102:3709:: with SMTP id s9mr37648287vst.10.1638260037849;
+        Tue, 30 Nov 2021 00:13:57 -0800 (PST)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id g187sm10218585vsc.10.2021.11.30.00.13.56
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Nov 2021 00:13:57 -0800 (PST)
+Received: by mail-vk1-f170.google.com with SMTP id b192so13022175vkf.3
+        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 00:13:56 -0800 (PST)
+X-Received: by 2002:a1f:4641:: with SMTP id t62mr25229885vka.0.1638260036796;
+ Tue, 30 Nov 2021 00:13:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <21e2111f6c2590ac24ad15d39e87160f9425045b.1638186054.git.yang.guang5@zte.com.cn>
+References: <20211124150757.17929-1-noralf@tronnes.org> <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
+ <20211129093946.xhp22mvdut3m67sc@houat>
+In-Reply-To: <20211129093946.xhp22mvdut3m67sc@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Nov 2021 09:13:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUKcOuTjSOQmEywXWJtK+15jPD5jfxXx06JJG1f1U+fog@mail.gmail.com>
+Message-ID: <CAMuHMdUKcOuTjSOQmEywXWJtK+15jPD5jfxXx06JJG1f1U+fog@mail.gmail.com>
+Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: David Lechner <david@lechnology.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux Fbdev development list <linux-fbdev@vger.kernel.org>, linux-staging@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 30, 2021 at 08:07:21AM +0800, davidcomponentone@gmail.com wrote:
-> From: Yang Guang <yang.guang5@zte.com.cn>
-> 
-> coccinelle report:
-> ./drivers/staging/fieldbus/dev_core.c:73:8-16:
-> WARNING: use scnprintf or sprintf
-> 
-> Use sysfs_emit instead of scnprintf or sprintf makes more sense.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
+Hi Maxime,
 
-No, the coccinelle scripts reported this.
+On Mon, Nov 29, 2021 at 11:17 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> The problem that fbtft (and this series) wants to fix is completely
+> different though: it wants to address the issue the users are facing.
+> Namely, you get a cheap display from wherever, connect it to your shiny
+> new SBC and wants to get something on the display.
+>
+> In this situation, the user probably doesn't have the knowledge to
+> introduce the compatible in the kernel in the first place. But there's
+> also some technical barriers there: if they use secure boot, they can't
+> change the kernel (well, at least the knowledge required is far above
+> what we can expect from the average user). If the platform doesn't allow
 
-> Signed-off-by: Yang Guang <yang.guang5@zte.com.cn>
+If you can change the DT, you can introduce a vulnerability to change
+the kernel ;-)
 
-None of these email addresses match up with the address you sent this
-patch from, please fix.
+> access to the DT, you can't change the DT either.
 
-thanks,
+How do people connect a cheap display from wherever to their shiny
+new SBC and make it work, without modifying DT?
 
-greg k-h
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
