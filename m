@@ -1,127 +1,99 @@
-Received: from mta-p7.oit.umn.edu (mta-p7.oit.umn.edu [134.84.196.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF5768
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 16:18:41 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
-	by mta-p7.oit.umn.edu (Postfix) with ESMTP id 4J3S0v5wqbz9vJrh
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 16:12:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
-	by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u-CGy5kO58Zk for <linux-staging@lists.linux.dev>;
-	Tue, 30 Nov 2021 10:12:31 -0600 (CST)
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 4J3S0v3yjRz9vJrx
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 10:12:31 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 4J3S0v3yjRz9vJrx
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 4J3S0v3yjRz9vJrx
-Received: by mail-pg1-f199.google.com with SMTP id s2-20020a632142000000b0032173c0daf1so10497727pgm.16
-        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 08:12:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB0D2CA1
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 18:57:26 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id i63so43029774lji.3
+        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 10:57:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+InRof0/uIdyh184kbNfYTG/vjRoi2ITuATxWqrIaCg=;
-        b=QQFpZIXv7DEivrF4SMIk84Xm86N1CjjIpvc3cSlX1cmd9Sy8GbGFq63zL0k5PKJa7i
-         bIy7HFYuOq4jGsE4d4RTL4AxAt94zHyzsAjCw35b/P0HQ3vEJmrPcyPSxJRpH7d86KRS
-         cu71acBcYj4CJebZkc2z1XlMBRaARx9RlgIlaA14r23AloLlHYesN/0Hdr7EAaieLnBr
-         6GfBi4W0uurDwOAhtRKeMvYzmsyocF5Nn923hEE5t5ldSiT38+pR0WEDDTBdDUSSAs43
-         s4J9TuzlbvUd7iuwKIOVUeuLVEdepQQyQJKJjvUjghseEyj0mXcL9z6BaHLeGZS3MIf6
-         31OA==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=nwpZgGmQ5ALmjpN1leDuBf91wJZekYXv4KJ/1++WwDE=;
+        b=bpu7XPqKR/UBhAjgQL433xaTphjoT/opwc4z628rx5k0ELVKKhL4MLNCI0RR4MbxB9
+         sw13AMmRau2Qp1zmzzBphSMADZKsJQCyNmPT0vFwi9aJKoSNdAXobDbqbGszyTtmz7Kr
+         d+HuWINElx9UroI5i/v1msLxJ5pIGb5+SClvmYPhtX/Rj4jh9QVkI1MhY1zOg0IAzk6O
+         s+dAG0oOt6fpVMpPEEHBxgIoEkAJUkim+yzV/4dwTfGmtXLt+q8m/KgfvOsaaRJCTxMd
+         0TUcx2lXqKjNTgXA+g7lQei9JFQId+vIpCZ0MIfT4/mYyFm4wlXocMRGAruza2UQu5T7
+         fwhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=+InRof0/uIdyh184kbNfYTG/vjRoi2ITuATxWqrIaCg=;
-        b=nphpTUDQ/CFwHq9kgH/ne3i6wi806No3+YH6NFb+LkQ+UZRcMKB0z57uwI6OCLGpNY
-         M/yOPfb8zM3wHsKW152bkl7+6eVFLTBmUxlD5tkSq7iWnlKtHbQ4LbwwcBiHng0CgZY6
-         yILzgaq44XkJIvkb8FzTCbTUFaiH1CWmG5rJ6RcaMvuJU7OW9QcSiBjqfgvhylATNQHX
-         vxZzZHTQSd+jVLCVlOqXqKQn1mpgUBORkWD311dfJ954j1nK5r2gGWC6LNWGWCp/Edt1
-         gib/iI0wLK+Jk7FLvbNxHmZ/l6qrYWLGM//j4cm0i4SLDDGIBmYVkt0JirnWVbrDMWq7
-         M90Q==
-X-Gm-Message-State: AOAM532ZhqzRqYZKhzJRSNo/HHQg5D5gU/kQy723wNGuf4w0VEidusWm
-	RK1z3T0WTZ5hSBZQIbUW7tDFAOlTlO4OCFKeIRcxfkDy7mxoXo/KmDl1pfTiZgyE2ERQR+iutjj
-	dXVJyhTWu5N75rtdx8tPKuEg8XUgaHQ==
-X-Received: by 2002:a05:6a00:24d2:b0:49f:bbce:7bc1 with SMTP id d18-20020a056a0024d200b0049fbbce7bc1mr155716pfv.37.1638288750664;
-        Tue, 30 Nov 2021 08:12:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+GKwKQHK7uXFjfxjVBqjeb+jOkdeK3mPEahrfjDgFy1kG8HcnLoSHVfN3RaX0GqrIAbyeRQ==
-X-Received: by 2002:a05:6a00:24d2:b0:49f:bbce:7bc1 with SMTP id d18-20020a056a0024d200b0049fbbce7bc1mr155680pfv.37.1638288750395;
-        Tue, 30 Nov 2021 08:12:30 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.7.42.137])
-        by smtp.gmail.com with ESMTPSA id lx15sm3380968pjb.44.2021.11.30.08.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 08:12:30 -0800 (PST)
-From: Zhou Qingyang <zhou1615@umn.edu>
-To: zhou1615@umn.edu
-Cc: kjlu@umn.edu,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Maxime Jourdan <mjourdan@baylibre.com>,
-	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: meson: vdec: Fix a NULL pointer dereference in amvdec_add_ts()
-Date: Wed,  1 Dec 2021 00:12:23 +0800
-Message-Id: <20211130161224.181519-1-zhou1615@umn.edu>
-X-Mailer: git-send-email 2.25.1
+        bh=nwpZgGmQ5ALmjpN1leDuBf91wJZekYXv4KJ/1++WwDE=;
+        b=V4ZP2kwH2qcRiP557ut53j4MybBgr0NTNyQsqRHyiAtImfWlo/p9ko1h+UXv3nSNjz
+         AzwIPBakYfvRWQKrh7UK6V75Pf0PlQ5CvTKfsfZWTFQI+/m9VZ3UKBMWPrYGkLIhby5w
+         OY/y5bC+cx/EVlIZthSDU2Cs8piwFPBQWTkYLeQLeulz/ymHUlEY+z0VZEmsZUUXWUzF
+         PThZzFzOY4Tnbt+J/l2eK4ze+c2sqsGsRvVhN0hc1IiLA9YPbCCWHZnBF/Uyg1E+gBUu
+         jwPT9WSW2vMuqabDGuv71Cnn2PQqyqHt08i6J/GkYbRgGXRSbX2ErvUDSOM54tr07BFR
+         8UbQ==
+X-Gm-Message-State: AOAM531YvLXG81TC7yYrlJ+RPOfFkx+qx3jbvDrxct/mkm/gQJaGiZTh
+	/NsYzdT3bqkG8LGMOGmfhfY=
+X-Google-Smtp-Source: ABdhPJwRRD9/dfXd34F05JxqeKjDTQ8jAApBvYS2CDM7kLtu9nSiYZivr1DmFNmYpCIdBJCbL/LpAA==
+X-Received: by 2002:a05:651c:1a4:: with SMTP id c4mr748038ljn.3.1638298644549;
+        Tue, 30 Nov 2021 10:57:24 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.236])
+        by smtp.gmail.com with ESMTPSA id h17sm2032330lfj.160.2021.11.30.10.57.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Nov 2021 10:57:24 -0800 (PST)
+Message-ID: <851b57b9-79ac-e7a1-a61a-6f36a5d9d77a@gmail.com>
+Date: Tue, 30 Nov 2021 21:57:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH -next] staging: rtl8192e: rtllib_module: fix missing
+ free_netdev() on error in alloc_rtllib()
+Content-Language: en-US
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org
+References: <20211130034007.779351-1-yangyingliang@huawei.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20211130034007.779351-1-yangyingliang@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
-to a NULL pointer dereference on failure of kzalloc().
+On 11/30/21 06:40, Yang Yingliang wrote:
+> Add the missing free_netdev() before return from alloc_rtllib()
+> in the error handling case.
+> 
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+> ---
+>   drivers/staging/rtl8192e/rtllib_module.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
+> index 64d9feee1f39..18d898714c5c 100644
+> --- a/drivers/staging/rtl8192e/rtllib_module.c
+> +++ b/drivers/staging/rtl8192e/rtllib_module.c
+> @@ -125,7 +125,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
+>   
+>   	ieee->pHTInfo = kzalloc(sizeof(struct rt_hi_throughput), GFP_KERNEL);
+>   	if (!ieee->pHTInfo)
+> -		return NULL;
+> +		goto failed;
+>   
+>   	HTUpdateDefaultSetting(ieee);
+>   	HTInitializeHTInfo(ieee);
+> 
 
-I fix this bug by adding a NULL check of new_ts.
+Good catch!
 
-This bug was found by a static analyzer. The analysis employs
-differential checking to identify inconsistent security operations
-(e.g., checks or kfrees) between two code paths and confirms that the
-inconsistent operations are not recovered in the current function or
-the callers, so they constitute bugs.
+There are 2 more possible leaks, tho. rtllib_networks_allocate() and 
+rtllib_softmac_init() should be unwinded too.
 
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
+For some odd reason rtllib_softmac_init() does not return an error in 
+case of allocation failure, but it should be fixed. I think, it worth to 
+fix whole error handling in one patch
 
-Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
-and our static analyzer no longer warns about this code.
 
-Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
----
- drivers/staging/media/meson/vdec/vdec_helpers.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index b9125c295d1d..41297c2f8f9a 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -234,6 +234,11 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
- 	unsigned long flags;
- 
- 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-+	if (!new_ts) {
-+		dev_err(sess->core->dev_dec,
-+			"No enough memory in %s\n", __func__);
-+		return;
-+	}
- 	new_ts->ts = ts;
- 	new_ts->tc = tc;
- 	new_ts->offset = offset;
--- 
-2.25.1
 
+With regards,
+Pavel Skripkin
