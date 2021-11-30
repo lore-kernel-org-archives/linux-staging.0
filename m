@@ -1,263 +1,127 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from mta-p7.oit.umn.edu (mta-p7.oit.umn.edu [134.84.196.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDD568
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 14:30:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202012; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6NOP2+DTQqJWzYfZgacKEgawyS+7L+fJvsJ6rTKXdLA=; b=j7pBp3prUgC8J+CyT27U6yBxWL
-	f9l91X9YIQR564dtipwHIhD73fYvzpJ2JDdhfdmq1rX62pRinDd+BIhZuofrvpzlk9DjdI6uZ7WsD
-	PXbdZw7MILI7XEcN7+yYfy4deReYWUGwgwNQV9mJLRrvUms4B1IFDfdnkfGf+c1AlIlW441rici04
-	y2ZtxvAEGLO3vw32r4WjLN7tpA1Om6YcWtO1YjCjm5jCLIyu8JlQHqxJGzCEaJrAG+5uj65KDqheg
-	kYFbEQpzl8t5adFU31Ua3brPbjOeoCpcZJaMdxoA39iqIiPTIu2Th6BJAJGD07rghO9tFTynJ7/TB
-	MnusnHQQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52436 helo=[192.168.10.61])
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1ms498-0000G2-JT; Tue, 30 Nov 2021 15:30:14 +0100
-Message-ID: <ca9e432a-6b04-9935-2469-135a9b47514e@tronnes.org>
-Date: Tue, 30 Nov 2021 15:30:11 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF5768
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 16:18:41 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+	by mta-p7.oit.umn.edu (Postfix) with ESMTP id 4J3S0v5wqbz9vJrh
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 16:12:31 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p7.oit.umn.edu ([127.0.0.1])
+	by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id u-CGy5kO58Zk for <linux-staging@lists.linux.dev>;
+	Tue, 30 Nov 2021 10:12:31 -0600 (CST)
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 4J3S0v3yjRz9vJrx
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 10:12:31 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 4J3S0v3yjRz9vJrx
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 4J3S0v3yjRz9vJrx
+Received: by mail-pg1-f199.google.com with SMTP id s2-20020a632142000000b0032173c0daf1so10497727pgm.16
+        for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 08:12:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+InRof0/uIdyh184kbNfYTG/vjRoi2ITuATxWqrIaCg=;
+        b=QQFpZIXv7DEivrF4SMIk84Xm86N1CjjIpvc3cSlX1cmd9Sy8GbGFq63zL0k5PKJa7i
+         bIy7HFYuOq4jGsE4d4RTL4AxAt94zHyzsAjCw35b/P0HQ3vEJmrPcyPSxJRpH7d86KRS
+         cu71acBcYj4CJebZkc2z1XlMBRaARx9RlgIlaA14r23AloLlHYesN/0Hdr7EAaieLnBr
+         6GfBi4W0uurDwOAhtRKeMvYzmsyocF5Nn923hEE5t5ldSiT38+pR0WEDDTBdDUSSAs43
+         s4J9TuzlbvUd7iuwKIOVUeuLVEdepQQyQJKJjvUjghseEyj0mXcL9z6BaHLeGZS3MIf6
+         31OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+InRof0/uIdyh184kbNfYTG/vjRoi2ITuATxWqrIaCg=;
+        b=nphpTUDQ/CFwHq9kgH/ne3i6wi806No3+YH6NFb+LkQ+UZRcMKB0z57uwI6OCLGpNY
+         M/yOPfb8zM3wHsKW152bkl7+6eVFLTBmUxlD5tkSq7iWnlKtHbQ4LbwwcBiHng0CgZY6
+         yILzgaq44XkJIvkb8FzTCbTUFaiH1CWmG5rJ6RcaMvuJU7OW9QcSiBjqfgvhylATNQHX
+         vxZzZHTQSd+jVLCVlOqXqKQn1mpgUBORkWD311dfJ954j1nK5r2gGWC6LNWGWCp/Edt1
+         gib/iI0wLK+Jk7FLvbNxHmZ/l6qrYWLGM//j4cm0i4SLDDGIBmYVkt0JirnWVbrDMWq7
+         M90Q==
+X-Gm-Message-State: AOAM532ZhqzRqYZKhzJRSNo/HHQg5D5gU/kQy723wNGuf4w0VEidusWm
+	RK1z3T0WTZ5hSBZQIbUW7tDFAOlTlO4OCFKeIRcxfkDy7mxoXo/KmDl1pfTiZgyE2ERQR+iutjj
+	dXVJyhTWu5N75rtdx8tPKuEg8XUgaHQ==
+X-Received: by 2002:a05:6a00:24d2:b0:49f:bbce:7bc1 with SMTP id d18-20020a056a0024d200b0049fbbce7bc1mr155716pfv.37.1638288750664;
+        Tue, 30 Nov 2021 08:12:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz+GKwKQHK7uXFjfxjVBqjeb+jOkdeK3mPEahrfjDgFy1kG8HcnLoSHVfN3RaX0GqrIAbyeRQ==
+X-Received: by 2002:a05:6a00:24d2:b0:49f:bbce:7bc1 with SMTP id d18-20020a056a0024d200b0049fbbce7bc1mr155680pfv.37.1638288750395;
+        Tue, 30 Nov 2021 08:12:30 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.7.42.137])
+        by smtp.gmail.com with ESMTPSA id lx15sm3380968pjb.44.2021.11.30.08.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Nov 2021 08:12:30 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Cc: kjlu@umn.edu,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: meson: vdec: Fix a NULL pointer dereference in amvdec_add_ts()
+Date: Wed,  1 Dec 2021 00:12:23 +0800
+Message-Id: <20211130161224.181519-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.1
-Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
-To: Maxime Ripard <maxime@cerno.tech>, David Lechner <david@lechnology.com>
-Cc: robh+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, dave.stevenson@raspberrypi.com
-References: <20211124150757.17929-1-noralf@tronnes.org>
- <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
- <20211129093946.xhp22mvdut3m67sc@houat>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20211129093946.xhp22mvdut3m67sc@houat>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
+to a NULL pointer dereference on failure of kzalloc().
 
+I fix this bug by adding a NULL check of new_ts.
 
-Den 29.11.2021 10.39, skrev Maxime Ripard:
-> Hi,
-> 
-> On Wed, Nov 24, 2021 at 04:03:07PM -0600, David Lechner wrote:
->> On 11/24/21 9:07 AM, Noralf Trønnes wrote:
->>> This patchset adds a missing piece for decommissioning the
->>> staging/fbtft/fb_st7735r.c driver namely a way to configure the
->>> controller from Device Tree.
->>>
->>> All fbtft drivers have builtin support for one display panel and all
->>> other panels using that controller are configured using the Device Tree
->>> 'init' property. This property is supported by all fbtft drivers and
->>> provides a generic way to set register values or issue commands
->>> (depending on the type of controller).
->>>
->>> It is common for these types of displays to have a datasheet listing the
->>> necessary controller settings/commands or some example code doing the
->>> same.
->>>
->>> This is how the panel directly supported by the fb_st7735r staging
->>> driver is described using Device Tree with that driver:
->>>
->>>      width = <160>;
->>>      height = <128>;
->>>
->>>      init = <0x1000001
->>>              0x2000096
->>>              0x1000011
->>>              0x20000ff
->>>              0x10000B1 0x01 0x2C 0x2D
->>>              0x10000B4 0x07
->>>              0x10000C0 0xA2 0x02 0x84
->>>              0x10000C1 0xC5
->>>              0x10000C2 0x0A 0x00
->>>              0x10000C5 0x0E
->>>              0x100003a 0x55
->>>              0x1000036 0x60
->>>              0x10000E0 0x0F 0x1A 0x0F 0x18 0x2F 0x28 0x20 0x22
->>>                        0x1F 0x1B 0x23 0x37 0x00 0x07 0x02 0x10
->>>              0x10000E1 0x0F 0x1B 0x0F 0x17 0x33 0x2C 0x29 0x2E
->>>                        0x30 0x30 0x39 0x3F 0x00 0x07 0x03 0x10
->>>              0x1000029
->>>              0x2000064>;
->>>
->>>
->>> This is how the same panel is described using the st7735r drm driver and
->>> this patchset:
->>>
->>>      width = <160>;
->>>      height = <128>;
->>>
->>>      frmctr1 = [ 01 2C 2D ];
->>>      invctr = [ 07 ];
->>>      pwctr1 = [ A2 02 84 ];
->>>      pwctr2 = [ C5 ];
->>>      pwctr3 = [ 0A 00 ];
->>>      vmctr1 = [ 0E ];
->>>      madctl = [ 60 ];
->>>      gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
->>>      gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
->>
->> Do these setting correspond to actual physical properties of the display?
->>
->> What is the advantage of this compared to just adding a new compatible
->> string if a new display requires different settings? (Other than being
->> able to use a new display without compiling a new kernel/module.)
->>
->> It is nice for the driver implementation to be able to use the byte
->> arrays from the binding directly, but it doesn't really make sense from
->> a "device tree describes the hardware" point of view.
->>
->> For example, looking at the data sheet, frmctr1 looks like it is actually
->> multiple properties, the 1-line period, front porch and back porch.
-> 
-> You're right, but we have two sets of problems that we want to solve,
-> and so far the discussion has only been to address one while ignoring
-> the other.
-> 
-> The solution you suggested works great for the problem the kernel is
-> facing: we want a solution that is easy to maintain over the long run,
-> while being reliable. Thus, we want to introduce a compatible for each
-> panel, that will allow us to describe the panel in the DT without
-> exposing too much data, the data being in the kernel.
-> 
-> This works great over the long run because we can update and fix any
-> problem we might have had, send them to stable, etc. It's awesome, but
-> it's mostly centered on us, the developers and maintainers.
-> 
-> 
-> The problem that fbtft (and this series) wants to fix is completely
-> different though: it wants to address the issue the users are facing.
-> Namely, you get a cheap display from wherever, connect it to your shiny
-> new SBC and wants to get something on the display.
-> 
-> In this situation, the user probably doesn't have the knowledge to
-> introduce the compatible in the kernel in the first place. But there's
-> also some technical barriers there: if they use secure boot, they can't
-> change the kernel (well, at least the knowledge required is far above
-> what we can expect from the average user). If the platform doesn't allow
-> access to the DT, you can't change the DT either.
-> 
+This bug was found by a static analyzer. The analysis employs
+differential checking to identify inconsistent security operations
+(e.g., checks or kfrees) between two code paths and confirms that the
+inconsistent operations are not recovered in the current function or
+the callers, so they constitute bugs.
 
-Like Geert I wondered about this statement, since you need to change the
-DT to use such a display. But if you count overlays as not changing the
-DT, ok.
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
 
-> Let's set aside those constraints for a moment though. For most of these
-> devices, you wouldn't even be able to come up with a proper compatible.
-> All of those displays are typically a panel and a controller glued
-> together, and the exact initialization sequence depends on both. The
-> panel is never really mentioned, neither is its manufacturer, or its
-> exact product id. In other words, we wouldn't be able to come up with a
-> good compatible for them.
-> 
-> Let's now assume we do have access to all those info and can come up
-> with a good, upstreamable, compatible. We now require the user to
-> contribute it upstream, and then expect them to wait for 1-2 years for
-> that patch to show up in their distribution of choice.
-> 
-> And then, if we were to get those patches, chances are we don't really
-> want them anyway since we would be drowning in those small patches
-> no-one really wants to review.
-> 
-> 
-> So yeah, the solution we have is probably a good solution for "real"
-> panels, glued to a device (and even then, the recent discussion around
-> panel-edp shows that it has a few shortcomings). But it's a *terrible*
-> solution for all parties involved when it comes to those kind of
-> displays.
-> 
+Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
+and our static analyzer no longer warns about this code.
 
-Really good writeup of the situation Maxime!
+Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+---
+ drivers/staging/media/meson/vdec/vdec_helpers.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> 
-> I agree that it doesn't really fit in the DT either though. Noralf, what
-> kind of data do we need to setup a display in fbtft? The init sequence,
-> and maybe some enable/reset GPIO, plus some timing duration maybe?
-> 
-> There's one similar situation I can think of: wifi chips. Those also
-> need a few infos from the DT (like what bus it's connected to, enable
-> GPIO, etc) and a different sequence (firmware), sometimes different from
-> one board to the other.
-> 
-> Could we have a binding that would be something like:
-> 
-> panel@42 {
-> 	 compatible = "panel-spi";
-> 	 model = "panel-from-random-place-42";
-> 	 enable-gpios = <&...>;
-> }
-> 
-> And then, the driver would request the init sequence through the
-> firmware mechanism using a name generated from the model property.
-> 
-> It allows to support multiple devices in a given system, since the
-> firmware name wouldn't conflict, it makes a decent binding, and users
-> can adjust the init sequence easily (maybe with a bit of tooling)
-> 
-> Would that work?
-> 
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index b9125c295d1d..41297c2f8f9a 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -234,6 +234,11 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+ 	unsigned long flags;
+ 
+ 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
++	if (!new_ts) {
++		dev_err(sess->core->dev_dec,
++			"No enough memory in %s\n", __func__);
++		return;
++	}
+ 	new_ts->ts = ts;
+ 	new_ts->tc = tc;
+ 	new_ts->offset = offset;
+-- 
+2.25.1
 
-I really like this idea. An added benefit is that one driver can handle
-all MIPI DBI compatible controllers avoiding the need to do a patchset
-like this for all the various MIPI DBI controllers. The firmware will
-just contain numeric commands with parameters, so no need for different
-controller drivers to handle the controller specific command names.
-
-The following is a list of the MIPI DBI compatible controllers currently
-in staging/fbtft: ili9341, hx8357d, st7735r, ili9163, ili9163, ili9163,
-ili9163, ili9486, ili9481, tinylcd, s6d02a1, s6d02a1, hx8340bn, ili9340.
-
-The compatible needs to be a bit more specific though since there are 2
-major SPI protocols for these display: MIPI DBI and the one used by
-ILI9325 and others.
-
-The full binding would be something like this:
-
-panel@42 {
-	compatible = "panel-mipi-dbi-spi";
-	model = "panel-from-random-place-42";
-
-	/* The MIPI DBI spec lists these powers supply pins */
-	vdd-supply = <&...>;
-	vddi-supply = <&...>;
-
-	/* Optional gpio to drive the RESX line */
-	reset-gpios = <&...>;
-
-	/*
-	 * D/CX: Data/Command, Command is active low
-	 * Abcense: Interface option 1 (D/C embedded in 9-bit word)
-	 * Precense: Interface option 3
-	 */
-	dc-gpios = <&...>;
-
-	/*
-	 * If set the driver won't try to read from the controller to see
-	 * if it's already configured by the bootloader or previously by
-	 * the driver. A readable controller avoids flicker and/or delay
-	 * enabling the pipeline.
-	 *
-	 * This property might not be necessary if we are guaranteed to
-	 * always read back all 1's or 0's when MISO is not connected.
-	 * I don't know if all setups can guarantee that.
-	 */
-	write-only;
-
-	/* Optional ref to backlight node */
-	backlight = <&...>;
-}
-
-Many of these controllers also have a RGB interface option for the
-pixels and only do configuration over SPI.
-Maybe the compatible should reflect these 2 options somehow?
-
-Noralf.
