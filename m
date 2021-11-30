@@ -1,128 +1,147 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EB12C80
-	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 09:03:59 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4F4805C019E;
-	Tue, 30 Nov 2021 04:03:58 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 30 Nov 2021 04:03:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=cIzPzDIMNvXI+7c5/F0qLyKpS+g
-	RyMx/VWujNf7m6rI=; b=TP+hM5/Jqy+yttAB+5jFxgnNDQdl8BXiMSVkWYj/krO
-	2DxkvWWkeAB+4dDvWRx1bHSTTGTsi28dqz0fhxI45UVzOsBxAmeyw0d0uG+74vXz
-	ShXmHs0p3GTtAfI9VD1g9YCRta5lcuRhhrgKWfyvskG5lKV9d+uuKNmhUDGdQK6C
-	5+gfMydCh0pyxwI3NyXyfydpj+j1fP7e0kVHKK/zXXQIsZug8h1N0y+DwY2YaksE
-	El7poTMWI5CWVi8/cJs7pUhCT6k58Xf+NPP79acSyxVfGO3ElFyEyduRd1BAMJO2
-	gDVFXN3uQv8OJ3p4xZQWE/FcRX/aMONDh2Y5CJxabXw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=cIzPzD
-	IMNvXI+7c5/F0qLyKpS+gRyMx/VWujNf7m6rI=; b=Ah1ZdrSLFy/WRXjwqNsSTa
-	yMu/rC+Fwtub7VtUx+/9k6qPiawVxXNdQ179FUk7J9ExonbAVSXgN2Z3MVndw301
-	VBMH9qhd3xjMoWA9YKPLuBS4L/Prv6khNNOp6drEY+Dv5fLkLH+OBToDjY8YXI2G
-	Dj8wIug8kFAKcCNX20xmYeMigd4W9XUYr0RQ9mdcMWrUtRMMMK0CkIQAHbqq+CMA
-	7xJJk6yWN6q2j1EQL4kvi3TwnLoK7rahp3I2fCQZTO29jVOTxMWId5yLfnudkd5j
-	ayDIvjHrR1d7+byrvxWWb3IqvMFcqBZQroG+fmglKZ694Jok9gba2J8bW9iNNJbQ
-	==
-X-ME-Sender: <xms:_eilYdowOwhkH3hdFUk4EX0A2t6axI6-_ftbrrKf6ddcMAEzAKW2BQ>
-    <xme:_eilYfrEBQyrazRxRkq1rcEnMfv3thk5Cf-gTVyTYPi6q_V4tkaY4zklbKR7p90KL
-    aDSRgENN98ee46h4pI>
-X-ME-Received: <xmr:_eilYaPSRaf7VLATHV3qpkzOjpTY4Q2lbAUeyGE585xMd-XPmIKu27fTM9COOF_G2a77v2dFfZknABI2_f8nMWxhz8hA5DUApIA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieduucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhmvgcutfhi
-    phgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnh
-    epleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieehgedunecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimh
-    gvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:_eilYY6NIME2jiFXqw3q7kjkqGNwXPePzMFw1OMz8PEmdyg-1PdzaA>
-    <xmx:_eilYc6dNVnbAIkrvy9jcFq3EsiQRFr6Jtz4QZJgeMDCJX8aS90zcg>
-    <xmx:_eilYQjhacbFEMubLiiB1E_gJvWkH70Y6rJw_iuOFreWYYoX_Xph2A>
-    <xmx:_uilYbaBsgx006dUvOGfFeTthDGqByO0o06E4aWKr1-ITu9SgJ1HgA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 30 Nov 2021 04:03:56 -0500 (EST)
-Date: Tue, 30 Nov 2021 10:03:55 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: David Lechner <david@lechnology.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	linux-staging@lists.linux.dev,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 0/6] drm/tiny/st7735r: Match up with staging/fbtft driver
-Message-ID: <20211130090355.2mqe3lixbn6j53sq@houat>
-References: <20211124150757.17929-1-noralf@tronnes.org>
- <eba23198-5c52-6520-079b-d2d41f71dc25@lechnology.com>
- <20211129093946.xhp22mvdut3m67sc@houat>
- <CAMuHMdUKcOuTjSOQmEywXWJtK+15jPD5jfxXx06JJG1f1U+fog@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5BF2C80
+	for <linux-staging@lists.linux.dev>; Tue, 30 Nov 2021 09:36:44 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1AU9Xa8T028197;
+	Tue, 30 Nov 2021 09:36:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=4n5b2gOTI6z3NO8Y5BaXe5mlXzA4jwzbzYv7fj9kPoo=;
+ b=BRhvBUcSgKEiSTZbR91C8EOPj4Fuv43KTS3dqRiXyieB7TgBi2vci/JUG7mduyKrPZkm
+ VaTk0e6swYY1NJaXj+/145daHmviagBtI/jwIjqpMIxuKZC95Uo94Q/QSNwBEQ/qp3u5
+ vGnQia5lrA31wnP9h2lih11dq3a+m0brS0yWtqNEdfqbbTSdvlJxKyTl9tKLLWr+tapW
+ JAwBSUisyz+x07PKysnl0cHfgxrsBpE4x4JN5fCA/eYHYu/+289mw5z/dcXmi0t0PBiX
+ gNRhr8P6mw9VUga485aI1YOiexEXy4mMZciB9voFpOCI9TiO/HagIn46ZNici+xXjQGX bQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by mx0b-00069f02.pphosted.com with ESMTP id 3cmu1wffxw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Nov 2021 09:36:34 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1AU9Vg3W157099;
+	Tue, 30 Nov 2021 09:36:06 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2101.outbound.protection.outlook.com [104.47.70.101])
+	by aserp3020.oracle.com with ESMTP id 3cmmupndvc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 30 Nov 2021 09:36:05 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WR4JQ7LWhxXSoh50mOen5KVNpYmPYlAaFPQi4mAcV/6JYL5NFRd7yAUEGDXCiJd+8XbYuQv2Ujth/bfYRQ0dmaJaWpvCciAf4YlPUMLLJE0zsBTSYa5hzrRFBQdIVr7/xP8ERewS2GbmvNe5NdVEm5xPIz8V3XvBah9Im7FjUUDqBQGfQ5MM0ijGZlwtZOxdIrDSyu/Xppm2D+Y2StjXyfcnQLwvldlXVdsijy4YuKfQkxJEDNC8EXt1FVUm1HUQCnS4d/5m6jlujhCqKCk1WU9byfCaRmvKXtG1kuQNhChVvDhrCz01tQdFVpZs7xKYClqt0z3ylRLC42umlJX5og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4n5b2gOTI6z3NO8Y5BaXe5mlXzA4jwzbzYv7fj9kPoo=;
+ b=N88BsUdSYufBOgJVeDAnBlgfEPaLINpQ3YULdD57KV64ZI7RQh6nVCR3zJfnjqGAyGTFU8sPh+xwbwNdFRV7LL5WykX00Udek6t+AdnhwxKCdBf9pLrTGeTdlRKHgY1iQCjpz2aJ+onIbqdfnFA3jGs0oiYnYiJF2Dck8nAg0cl8c/2utTctwf1Qo4eZcObdMjiqnABhk4gMgu9wpv5xHvzAa5hBvo8TlsTf4ZyFMRpMuwhpE5Aju4Ddw+BbHAg7Zdg+UqpnhTJeLBUzkNQVaCUTMc5TioL5+v6x7trWEz8ivM2IxC4VtouccSTXh3DPYCeW4vUR558Lv8bRvKHpqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4n5b2gOTI6z3NO8Y5BaXe5mlXzA4jwzbzYv7fj9kPoo=;
+ b=yLq5uLrVYe84Dxw/0lv4+52wvxtJatPogKdkA2GLjxSO+TWPsrb5Ai2lQ/PCnYmv0aZN/pba1nfQj3FbwC3sTZhkTtZeLIwhsXaWmSI9od2GdfUHNH2RmUyKkrZIU2hhqHesljvF3o43QGlTGIggY9Nsk5v5guq/HNrKEM5AvPM=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CO6PR10MB5555.namprd10.prod.outlook.com
+ (2603:10b6:303:142::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.22; Tue, 30 Nov
+ 2021 09:36:04 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::7194:c377:36cc:d9f0%6]) with mapi id 15.20.4734.024; Tue, 30 Nov 2021
+ 09:36:04 +0000
+Date: Tue, 30 Nov 2021 12:35:44 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: davidcomponentone@gmail.com
+Cc: TheSven73@gmail.com, gregkh@linuxfoundation.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Yang Guang <yang.guang5@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
+Subject: Re: [PATCH] staging: replace snprintf with sysfs_emit
+Message-ID: <20211130093544.GS6514@kadam>
+References: <21e2111f6c2590ac24ad15d39e87160f9425045b.1638186054.git.yang.guang5@zte.com.cn>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <21e2111f6c2590ac24ad15d39e87160f9425045b.1638186054.git.yang.guang5@zte.com.cn>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0072.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::23)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tszzmrkvbr2nm6rh"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUKcOuTjSOQmEywXWJtK+15jPD5jfxXx06JJG1f1U+fog@mail.gmail.com>
+Received: from kadam (102.222.70.114) by JNAP275CA0072.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4734.23 via Frontend Transport; Tue, 30 Nov 2021 09:35:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3e7a8df7-0fe9-4be1-4e9e-08d9b3e4d3cb
+X-MS-TrafficTypeDiagnostic: CO6PR10MB5555:
+X-Microsoft-Antispam-PRVS: 
+	<CO6PR10MB555512F13F64E4EBBAF299048E679@CO6PR10MB5555.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	83O1UVEhaJoeILSgx2AgI/V93mPvGmxRHNZP5UhuY2HjGyF7wIcZayxFaXVrNim3rIfaFF/4AOm5foGnbFUpL2dQyu2w+ydAuHvS9vJwIOtqYtyukTuNSx5m5AjYTCkLzxtdhvNwKwWF/1mrx5B+3ScvTxcD1uZp0GdAxG59/1HgCshu0mQvRZiQBC+nm0ADvgRikdGj87wWfFuThb9Zve9yj6zUEvPUWl8U2fD3LdenI/t4ayz9JD758vN2xxZ/qWnA73FpfhLnf8ocdyQCwmfY/L9owop15gu5TEuJkIG9JD9QlwXyF8Zh+fFAJfDv+67Ohzz53vzNxlA3VLatrcQ0dmyFNyTlSH8SJv0wGCHZvh3cR0m+cvZNindD+/RC1pfKOVXDl6h2gCu22Uy/WcuKErUtcLn6F2orwtIkjItwh7OQ/vhdkFzGNwkIJnDK/Mck71ualrpRMstvrJ8mPXDLcj1C5dDD1WoQrsLlG+3MZykDqtQOyru7bUOUzeS8pKCbDJfvpcZkVAGbsDGahwpgeM0gXR9Jqut+iLQH/MFrFf6C7496EBKzethUTomTvWx3XwpLS3clkFAPEAJakwErSy3eZJXC8qOzstkR/PHBRbbHtY6+7kfdCgzPnLryHq+Lm7Uno51F70CyB5F7ketKLuwPb8twfhbPTZEVqSNkQLkBQ/471RyWsuREKSPDX1AoSeJLEeW9XHFhYOi8Mw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(52116002)(55016003)(44832011)(1076003)(5660300002)(956004)(9686003)(6916009)(66556008)(26005)(86362001)(6496006)(33656002)(54906003)(316002)(558084003)(8936002)(508600001)(8676002)(38100700002)(38350700002)(2906002)(9576002)(6666004)(186003)(4326008)(66946007)(66476007)(33716001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ZAIm22tQDMREvorMmAyQNaAfA6ap/Gj/wLdUXfYxe2hQUrUFjTGNPyv+XGYf?=
+ =?us-ascii?Q?GbZGkNVBRxX/+LKPcfdB2oVrp8zn0n5PSVH3DIjUA6+RZ8fkO1LwKEhRv8Qg?=
+ =?us-ascii?Q?jy/PeUWLivxKlZPzFvHQIWv9WvrvPtlESEX0qf3vHMS1Ls1w6mNQari2gv2/?=
+ =?us-ascii?Q?O6tfHupW2ke0Znrrj/yS4Pfc/nq6GTJL4XTPtbUET3BgO7bJId4Z962TV7Zx?=
+ =?us-ascii?Q?yGTgp9YuVBEzUM8AtQtVs5JQFZVMw+uL55DIgWjH/KBbXlpQKyYQGUUpVRcu?=
+ =?us-ascii?Q?v5BH4qIYRV0INhkDSO7NIKkA0MxfrAwIAU2HOXJZJpsIWtxUnbFdJTZz2q/h?=
+ =?us-ascii?Q?IdpNJiwEwQ+RMHHGKX48wMxXsMXfCpU1wdRqpc+gzkQBek857lMVrBEIdMfa?=
+ =?us-ascii?Q?f5fUWBJWlKWKfBJFLHE+L92vffw7YTzwLEKd0is6mYMFtuaBeZg5sNpbM9HX?=
+ =?us-ascii?Q?9xfbXnLorTqAybXNtxwqlHJEt6dZ/c4gwdFcp/kfWTw68xGpPpT3aagI/TLa?=
+ =?us-ascii?Q?YYx+baXF80dLxc2uzTiT29sx5S3NwyKxyZ9lT7MkK3+0LVsj3sddqUJ6QzqR?=
+ =?us-ascii?Q?D7RogH8sp3cDSQCSnvYjGWXigAhA/bIOwUU9Nxl6IP/7GelSUya46M+sFYyO?=
+ =?us-ascii?Q?0e5LkiSVGjsBimVDDZqqJklgu09FtbbjPNAQfUCTfKgfBuj6nsuWgKAtp4fa?=
+ =?us-ascii?Q?GHXziHpgFISFtDgCrfMcbd6Gc6SpH3tcgTN25tw7o3v5uXqQyG8IHzxvyxZ3?=
+ =?us-ascii?Q?sHLDiU1WeNuv28c9Th3Fakb9kcgouIMp30cARpZ266JaqQBxjCuQLbMTKO2e?=
+ =?us-ascii?Q?lewDZC//bus0eGLxO1mJuNe14jWHsfUHnFLvSI6MxQoJw9SuPkgJZsWi+wK1?=
+ =?us-ascii?Q?2dPbRhxjZPSaWvc4a49hvtHpvkcExUizMt3xEOvggiC+HCDpV92iE5Q89WSD?=
+ =?us-ascii?Q?+Zg6MbtJbDt9QrxFg5ivYLhCIECGc4+h4xIehxbUee13/CJhZxxS74+CxqKZ?=
+ =?us-ascii?Q?CRRlYS16Y2m/GUDfjOiZ1967DQxzAUvCgzUmw91b2xvsIDtrWofTpCHiQv+W?=
+ =?us-ascii?Q?7zzBc26kUud8NvEIQvytR/4FTt9mDkJyhVlhiNazxvYFMUX+IygBrgDVBqke?=
+ =?us-ascii?Q?E2IBZPLCFOt9o9XpoZgXn3jgtYuh2+rsA6gMSwI/zr+6ebQjMYoqmWrU9cqZ?=
+ =?us-ascii?Q?7cqdI1cMiFaqo8qJenZgCXm+TxcMBfiXoA4NHufnU1pl0sw+tRcKzEDYydxl?=
+ =?us-ascii?Q?57Oy4ybc0V/vf8+sUlOe/hRhoznI12cj1274IsubVlXRLhUIM5dxfugW318g?=
+ =?us-ascii?Q?v/O8g5LzCEP/rh/09IOi05WzDUyXXP8iwPNHzY1VtLaIGYn2nrGro2tEf1av?=
+ =?us-ascii?Q?Ob1pCeZmgrDKlpwcl0kCKuJbQdspJryWmVXRZJJbNHg5vXDIV29Ra84Fn2mq?=
+ =?us-ascii?Q?zxR2prHWYGqjZGzN0GX36uUBCc+SiW94jTAjPtknpBx83WXlTbt7AB0hAgUn?=
+ =?us-ascii?Q?b/Lb9mWeOMRthZJof6G9zP/PKvwVNT8gRDw/S1r6vx36ml/iPjYjQFd9kwDy?=
+ =?us-ascii?Q?CrQGrrriWJtkrrFITGnmHyAMl/A38V6/fdIe4geXFJO0lWNF/kkZfWidzk+B?=
+ =?us-ascii?Q?UMEau+liETjDXuyTpcbjWAL0O42YqycUM6Asnbe5YbAeFMUr0l+Iu3OzmJv3?=
+ =?us-ascii?Q?iF7j0y3RgnJjmiliB2olNKrjw3I=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e7a8df7-0fe9-4be1-4e9e-08d9b3e4d3cb
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2021 09:36:03.8826
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bka3grmKWEF+60AePtoVUAb0AVEr7ije1c1L7+p7Z9DYQuDaqc8H3Gz21W10UJ9/vUhDeZCJFQaDCh8D5rIiJ+PTg1mAf3XMvsvihArz0T0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5555
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10183 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 adultscore=0
+ suspectscore=0 mlxlogscore=634 malwarescore=0 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2111300054
+X-Proofpoint-GUID: pysHi4YRtPHpCudcfjeyup9X-oHfBFxo
+X-Proofpoint-ORIG-GUID: pysHi4YRtPHpCudcfjeyup9X-oHfBFxo
 
+The Subject needs to have the driver name.  Do a `git log --oneline
+drivers/staging/fieldbus/dev_core.c` to see how the driver authors are
+naming their patches.
 
---tszzmrkvbr2nm6rh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[PATCH] staging: fieldbus: replace snprintf with sysfs_emit
+                 ^^^^^^^^^
 
-Hi Geert,
+regards,
+dan carpenter
 
-On Tue, Nov 30, 2021 at 09:13:45AM +0100, Geert Uytterhoeven wrote:
-> On Mon, Nov 29, 2021 at 11:17 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > The problem that fbtft (and this series) wants to fix is completely
-> > different though: it wants to address the issue the users are facing.
-> > Namely, you get a cheap display from wherever, connect it to your shiny
-> > new SBC and wants to get something on the display.
-> >
-> > In this situation, the user probably doesn't have the knowledge to
-> > introduce the compatible in the kernel in the first place. But there's
-> > also some technical barriers there: if they use secure boot, they can't
-> > change the kernel (well, at least the knowledge required is far above
-> > what we can expect from the average user). If the platform doesn't allow
->=20
-> If you can change the DT, you can introduce a vulnerability to change
-> the kernel ;-)
-
-Indeed
-
-> > access to the DT, you can't change the DT either.
->=20
-> How do people connect a cheap display from wherever to their shiny
-> new SBC and make it work, without modifying DT?
-
-Through overlays, usually. I guess it would still qualify as "DT", but
-it's not the main DT
-
-And the other issues remain the same: while the DT could be "easily"
-patched, the kernel certainly isn't and we need both with the current
-expectations.
-
-Maxime
-
---tszzmrkvbr2nm6rh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYaXo+wAKCRDj7w1vZxhR
-xQNnAP4lb/slXlYnbnN/0BM8RqZs3CnVmes7f36wIK3jZH3bOwD9E5JJUnb7qGRN
-g03xo7yQIoO4napOWZViabsJErR65gk=
-=nhFG
------END PGP SIGNATURE-----
-
---tszzmrkvbr2nm6rh--
