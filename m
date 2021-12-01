@@ -1,26 +1,27 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5442C9D
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 17:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1742CA8
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 17:56:34 +0000 (UTC)
 Received: from localhost.localdomain (unknown [IPv6:2a00:c281:1409:4a00:c103:6980:2c3:d021])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: dafna)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CB9B01F45E44;
-	Wed,  1 Dec 2021 17:56:22 +0000 (GMT)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 713D81F45E4E;
+	Wed,  1 Dec 2021 17:56:31 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1638381384; bh=YB/dkTw6Iqu9Epzyil50afSSsa6amqoAjQgDTdtEwKs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Ag5TOKLmYiOBVN4ihegT05Rii7WcVCm3ReLG5QwXRxJAiTnAJKdXooJ7U1vjmnvo3
-	 wW0UAIHHUUSIl8f+mNAkfIskYqV3NNu9rqBwTcFbJc3xAV1M1nqESnfGFkFS3GSEml
-	 mlRn89Q57g6mUA8EO8QLps+pBOUoCoox6Rwl0w5gVl5o9LMsUnesXwzRnAHpjE8Dls
-	 foomNOe9PRU9LdKJfhcMIVWY9j3yeGxWcbdqMH7E6DY5Jd/psMsZvJ8hhx0U2KQs91
-	 2f+hiCaAbW45NHedCLE0K0Bs6ZR5Q+TLuKWYqisZeZTrcxdQ1p3lSMx06DXRsmNXi8
-	 ZjZ897MNu5XXg==
+	t=1638381393; bh=z4yjDZMHbL7khpV9qKXUGvaNdJTMLt5a7ZsWb+Iwb9w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mX44Zp3gbHwdPDogj4MOskryMw/Jw6qYdHY0uG8mT15uLKRbGEH6khdSO10qkyLsW
+	 Y5Nm2zNgaykxl8SnJAf4kt1xkQSWtFCQJ8KDZdxQTEoy+A05jeInqYeukNqMeaeQ1a
+	 O/UcrOLaeYNw3Tts8fMZ/UIA9eb0Ddm8aKyggggOXCLr9jHT//TZu3qNUlE9YGgMmc
+	 p4r8zeJRc4x07VrkM0BxrHO+7chfnfw5bE7058eWlu5/No8MJpz6hQpAHicio0xFzp
+	 Jd9b7H6q+ohQjJisy/HFWLLzxn8zimsfCwrJ+qywXyTTt4iczrAXzzLIsPIEDuNtQY
+	 Jzc7queYiYqhA==
 From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To: linux-media@vger.kernel.org
 Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+	Robert Beckett <bob.beckett@collabora.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
@@ -29,7 +30,6 @@ Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
 	hverkuil@xs4all.nl,
 	kernel@collabora.com,
 	dafna3@gmail.com,
-	bob.beckett@collabora.com,
 	kiril.bicevski@collabora.com,
 	Nas Chung <nas.chung@chipsnmedia.com>,
 	lafley.kim@chipsnmedia.com,
@@ -38,213 +38,97 @@ Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
 	dan.carpenter@oracle.com,
 	rdunlap@infradead.org,
 	daniel@0x0f.com
-Subject: [PATCH v4 0/6] staging: media: wave5: add wave5 codec driver
-Date: Wed,  1 Dec 2021 19:56:07 +0200
-Message-Id: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v4 4/6] staging: media: wave5: Add TODO file
+Date: Wed,  1 Dec 2021 19:56:11 +0200
+Message-Id: <20211201175613.13710-5-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
+References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-The wave5 codec is a stateful encoder/decoder.
-It is found on the JH7100 SoC.
+Add a TODO file listing all that is need for destaging.
 
-The driver currently supports V4L2_PIX_FMT_HEVC, V4L2_PIX_FMT_H264.
-
-This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
-board which uses the StarFive JH7100 beta SoC.
-
-Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
-and copied buffers between the host and it's on board RAM.
-
-Testing on BeagleV shows buffer corruption that is currently attributed to a
-known silicon issue in the SoC that makes the cache coherent interconnect not
-so coherent.
-This can likely be solved when the riscv non-coherent dma support lands and
-provide optional v4l2 non-contiguous allocator, though it remains to be seen
-whether support non-coherent use cases will be useful in real world hw.
-
-Until we can test and resolve any issues on final silicon (due 2H 2021)
-this driver should remain in staging.
-
-We currently tested only the decoder.
-Testing the encoder is currently impossible because of the BeagleV buffer problems,
-That will need to be tested once we have fixed beaglev buffer problems.
-
-v4l2-compliance tests:
-
-# v4l2-compliance -d0
-v4l2-compliance SHA: not available
-, 64 bits, 64-bit time_t
-
-Compliance test for vpu-dec device /dev/video0:
-
-Driver Info:
-	Driver name      : vpu-dec
-	Card type        : vpu-dec
-	Bus info         : platform:vpu-dec
-	Driver version   : 5.14.0
-	Capabilities     : 0x84204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-	Detected Stateful Decoder
-
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video0 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 2 Private Controls: 1
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK
-	test Scaling: OK (Not Supported)
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Total for vpu-dec device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 0
-
-changes since v3:
-
-* Fixing all issues commented by Dan Carpenter
-* Change file names to have wave5- prefix
-* In wave5_vpu_probe, enable the clocks before reading registers, as commented from Daniel Palmer
-* Add more to the TODO list,
-
-changes since v2:
-
-Main fixes includes:
-* change the yaml and dirver code to support up to 4 clks (instead of one)
-* fix Kconfig format
-* remove unneeded cast,
-* change var types
-* change var names, func names
-* checkpatch fixes
-
-changes since v1:
-
-Fix chanes due to comments from Ezequiel and Dan Carpenter. Main fixes inclueds:
-* move all files to one dir 'wave5'
-* replace private error codes with standart error codes
-* fix extra spaces
-* various checkpatch fixes
-* replace private 'DPRINTK' macro with standart 'dev_err/dbg ..'
-* fix error handling
-* add more possible fixes to the TODO file
-
-
-Dafna Hirschfeld (4):
-  staging: media: wave5: Add vpuapi layer
-  staging: media: wave5: Add the vdi layer
-  staging: media: wave5: Add the v4l2 layer
-  staging: media: wave5: Add TODO file
-
-Robert Beckett (2):
-  dt-bindings: media: staging: wave5: add yaml devicetree bindings
-  media: wave5: Add wave5 driver to maintainers file
-
- .../bindings/staging/media/cnm,wave.yaml      |   73 +
- MAINTAINERS                                   |    9 +
- drivers/staging/media/Kconfig                 |    2 +
- drivers/staging/media/Makefile                |    1 +
- drivers/staging/media/wave5/Kconfig           |   12 +
- drivers/staging/media/wave5/Makefile          |   10 +
- drivers/staging/media/wave5/TODO              |   64 +
- drivers/staging/media/wave5/wave5-hw.c        | 3452 +++++++++++++++++
- drivers/staging/media/wave5/wave5-regdefine.h |  650 ++++
- drivers/staging/media/wave5/wave5-vdi.c       |  260 ++
- drivers/staging/media/wave5/wave5-vdi.h       |   81 +
- drivers/staging/media/wave5/wave5-vpu-dec.c   | 1343 +++++++
- drivers/staging/media/wave5/wave5-vpu-enc.c   | 1499 +++++++
- drivers/staging/media/wave5/wave5-vpu.c       |  354 ++
- drivers/staging/media/wave5/wave5-vpu.h       |   73 +
- drivers/staging/media/wave5/wave5-vpuapi.c    | 1053 +++++
- drivers/staging/media/wave5/wave5-vpuapi.h    | 1142 ++++++
- drivers/staging/media/wave5/wave5-vpuconfig.h |   85 +
- drivers/staging/media/wave5/wave5-vpuerror.h  |  455 +++
- drivers/staging/media/wave5/wave5.h           |   82 +
- 20 files changed, 10700 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
- create mode 100644 drivers/staging/media/wave5/Kconfig
- create mode 100644 drivers/staging/media/wave5/Makefile
+Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/staging/media/wave5/TODO | 64 ++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
  create mode 100644 drivers/staging/media/wave5/TODO
- create mode 100644 drivers/staging/media/wave5/wave5-hw.c
- create mode 100644 drivers/staging/media/wave5/wave5-regdefine.h
- create mode 100644 drivers/staging/media/wave5/wave5-vdi.c
- create mode 100644 drivers/staging/media/wave5/wave5-vdi.h
- create mode 100644 drivers/staging/media/wave5/wave5-vpu-dec.c
- create mode 100644 drivers/staging/media/wave5/wave5-vpu-enc.c
- create mode 100644 drivers/staging/media/wave5/wave5-vpu.c
- create mode 100644 drivers/staging/media/wave5/wave5-vpu.h
- create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.c
- create mode 100644 drivers/staging/media/wave5/wave5-vpuapi.h
- create mode 100644 drivers/staging/media/wave5/wave5-vpuconfig.h
- create mode 100644 drivers/staging/media/wave5/wave5-vpuerror.h
- create mode 100644 drivers/staging/media/wave5/wave5.h
 
+diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
+new file mode 100644
+index 000000000000..425ed42a234c
+--- /dev/null
++++ b/drivers/staging/media/wave5/TODO
+@@ -0,0 +1,64 @@
++* Test on real silicon once available
++
++  This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
++  board which uses the StarFive JH7100 beta SoC.
++
++  Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
++  and copied buffers between the host and it's on board RAM.
++
++  Testing on BeagleV shows buffer corruption that is currently attributed to a
++  known silicon issue in the SoC that makes the cache coherent interconnect not
++  so coherent.
++  This can likely be solved when the riscv non-coherent dma support lands and
++  provide optional v4l2 non-contiguous allocator, though it remains to be seen
++  whether support non-coherent use cases will be useful in real world hw.
++
++  Until we can test and resolve any issues on final silicon (due 2H 2021)
++  this driver should remain in staging.
++
++* Handle interrupts better
++
++  Currently the interrupt handling uses an unusual design employing a kfifo to
++  transfer irq status to irq thread. This was done as a work around for dropped
++  interrupts seen with IRQF_ONESHOT based handling.
++
++  This needs further investigation and fixing properly, with the aid of
++  C&M and StarFive engineers.
++
++* Fix early end of stream handling
++
++  When using a gstreamer pipeline like this:
++  gst-launch-1.0 filesrc location=<file> ! parsebin ! h264parse ! v4l2h264dec ! jpegenc ! identity eos-after=3 !  multifilesink location=%05d.jpeg
++  i.e. forced eos after 3 buffers
++  the pipeline stalls on exit waiting for end of job.
++  We need to add some form of early exit detection, instead of the current
++  behaviour of only considering a job finish on PIC_END.
++
++* Support more formats
++
++  The current frontend v4l2 layer only supports V4L2_PIX_FMT_HEVC and
++  V4L2_PIX_FMT_H264.
++  The backend logic supports other formats, so we should wire up the support
++  for further bitsream formats.
++
++* appropreate error handling:
++allocation failure, mutex acquire failure etc.
++
++* remove all unused struct fields
++
++* change struct fields to 'bool' type or bitfield when appropreate
++Likely good candidates are fields named '*_enable' , '*_on'
++
++* handle vdi_allocate_dma_memory failure , each function has to clean after itself
++
++* make sure that 'u32', 's32' etc. are only used when reading/writing hw
++and change s32 to u32 when s32 is not required
++
++* power management handling - add (runtime_)suspen/resume cb where the clock is enabled
++
++* fix checkpatch issues (mostly fixes , only left to fix MACRO_ARG_REUSE, LONG_LINE)
++
++* revise logic of wave5_vpu_(dec/enc)_register_framebuffer
++
++* check if the  normal kernel endianness/__swab32 routines are sufficient. (instead of the ones
++  implemented in the driver
 -- 
 2.17.1
 
