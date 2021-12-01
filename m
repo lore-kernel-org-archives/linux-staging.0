@@ -1,44 +1,44 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381122C80
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 21:04:21 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id o13so54980700wrs.12
-        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 13:04:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7A02C80
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 21:04:24 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id o13so54980891wrs.12
+        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 13:04:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language
          :from:to:cc:references:in-reply-to:content-transfer-encoding;
-        bh=TIBFAICE4UfUtEBGXAUUrWDafroFnZVjro2iD/Ylyrk=;
-        b=pfXq84vmvuUN4iyDdXGP9PHhZi8ucmNsWsx8XpD/OIMg+epA+IkU1+S5Be6J8GOi1T
-         YC+mzbm9Ck324QnyMOq8CGPdvxPoNI0THwQmzhyB5m4oql8wxrN+e+7aoASLGjVpBSiy
-         UoiVDJRGCuUzYoxkwSGZnJkFqDZCecsvIMvTC6v1ADiqmignNXa/KfbMmxoU2TorHoEW
-         XjJJJWd4CUhcFWqNmvmghSCxnDnNDj1O8h0CKS5PYaCb59SlmsXgvUhJrli89X3fSfKZ
-         MKqCaKjiVKAIOe7N2l1uYJbkjcB/Khhz29mRh9oxmNepflAb1JygLt745utBhgmwc3t1
-         jq2g==
+        bh=dXdZwfGWDav+4+EuXXt9amZDrLIfxTbg+r3dcr+ghrc=;
+        b=bRjBq1q/t59/oprvbtWyo+sLjo83k6AHf2tN9l+TrGv6plUjnh8vWlKcIxGgGzdcRf
+         QD9T2Q5PCQgaUzRX0ukZcUhKlKfm0rvUy/1VfieI2pEP1Pu3rnns+sG/rzjHT64EONSO
+         Nm0ESG+jjt1fUMcAjazUdlzfjlUFy9+ZWtwrhmO35Ere/MXLZKvMtqzwSelx42QxfPho
+         njClcM7khrQ1IPnQqOzigf0SU41SrxYOsvUbUQRHkWur1CPWxQwvHT3DT4P1d0PsIYTS
+         rRKoRoIasLF6mBxzZ8AQ0sTiVZlt5GPz93hII22xuQSXlCuBjXa1d1++r9K1EGS3FWpB
+         yfaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:from:to:cc:references:in-reply-to
          :content-transfer-encoding;
-        bh=TIBFAICE4UfUtEBGXAUUrWDafroFnZVjro2iD/Ylyrk=;
-        b=ce7jTUgLAREeigBNGGPxrWu6gPCOGg6lkJMvx/IZFH/FMlb9K5EQnHiMOnYG4SdiFB
-         oynJfSo2pD6um2RCHFliS6gypSEm0C5bkjA0628dCUyqv6qL/tocO9HnvR4V4HXvbkNh
-         NbF/wONX1pUCCA17eisAjvrg2kUnrVHIPRxu18jBylvVDsRvXlF8DB9f+xdYltI2chv2
-         T1c4VeF4sRW1ji8VzlJDj6kHSOCT41MPdDFxICPzUHq1gdK+6jEJtAX/xZFxI4J09pWa
-         VXLO631W8w+K3IZ7xldhcDtT6UUi8daj8TPRim7nDblhQ7pJDRLmNxgxZRz1N3PsWQZ6
-         MfKA==
-X-Gm-Message-State: AOAM532MKIKUI8hPG0bsO/psX8iU8Atn99Or3HY/sf/z7mv8XUax1eSH
-	dgE8lhRaFQcrwcJqiDzMIVo=
-X-Google-Smtp-Source: ABdhPJxJuMYD65IqHCgJCdTPI/iBdlCx3ZAkmwvFy37VRIRmEcozw3wkfi8OhjF0doJZMkdvmd7/yQ==
-X-Received: by 2002:adf:e484:: with SMTP id i4mr9765193wrm.49.1638392659610;
-        Wed, 01 Dec 2021 13:04:19 -0800 (PST)
+        bh=dXdZwfGWDav+4+EuXXt9amZDrLIfxTbg+r3dcr+ghrc=;
+        b=Z3eNPirLotUUuZrg5W9IuaoGodGWIuVwc9n0ULv6FWrKKLPgdwTdxoLvJNlvl7rKS4
+         z2BHVOD9htg3AMmRRROAAKbpcdT/v/FjMRA71qCEITvSOb8HO8SQ4Gd7b/+7SCIGohcc
+         1cKjo1+MREQEPyT/fXko4h1Aol/wrkk0cbnvKs6jKzdgyngFa0md7GqqKay2u/IGXhwc
+         8eW1M5kNWFdUyCul7weU+zU9zaO0e0V2PDtzmttB5ksA8uGBMgy9SBtYmarwOcRblmPO
+         neY0gzf1nVTdwvWFT4VcxRXoF/IRbwLba3faD+2odzCNtrJbUDbiyeVESx88V+UORTRp
+         DqTg==
+X-Gm-Message-State: AOAM533l0J3S53WR/+B6tFFJI5QdybEvB6Gmd+MBpm/fABT3yMtGZigu
+	sDh09YXifqsFD0kyd17zN0+gVV1gdDw=
+X-Google-Smtp-Source: ABdhPJwtOQTmBKrSdV6HNqHEji/a4WAwj68V5PxjVwp3jDel7K0LwJlUzxHoMJ7/EjNxxLeRI3aL3g==
+X-Received: by 2002:a5d:6d86:: with SMTP id l6mr9385949wrs.304.1638392663156;
+        Wed, 01 Dec 2021 13:04:23 -0800 (PST)
 Received: from ?IPV6:2003:ea:8f1a:f00:4055:a69:db9e:1280? (p200300ea8f1a0f0040550a69db9e1280.dip0.t-ipconnect.de. [2003:ea:8f1a:f00:4055:a69:db9e:1280])
-        by smtp.googlemail.com with ESMTPSA id r8sm857062wrz.43.2021.12.01.13.04.16
+        by smtp.googlemail.com with ESMTPSA id g16sm465221wmq.20.2021.12.01.13.04.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Dec 2021 13:04:19 -0800 (PST)
-Message-ID: <a58b3bc9-27a2-3f16-dd92-e597666a0263@gmail.com>
-Date: Wed, 1 Dec 2021 22:02:47 +0100
+        Wed, 01 Dec 2021 13:04:22 -0800 (PST)
+Message-ID: <65516be1-9588-af00-cf4f-053e20af9b45@gmail.com>
+Date: Wed, 1 Dec 2021 22:04:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,7 +47,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.2
-Subject: [PATCH v2 1/2] staging: fbtft: add macro FBTFT_REGISTER_SPI_DRIVER
+Subject: [PATCH v2 2/2] staging: fbtft: sh1106: use new macro
+ FBTFT_REGISTER_SPI_DRIVER
 Content-Language: en-US
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,73 +60,34 @@ In-Reply-To: <773dc6ff-f2b4-4192-a128-c34bd3f5be01@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-After 5fa6863ba692 ("spi: Check we have a spi_device_id for each DT
-compatible") we need to add spi id_tables. Changing existing macro
-FBTFT_REGISTER_DRIVER would have meant to change arguments and
-therefore adjust all fbtft drivers.
-
-This patch adds a new and simplified macro FBTFT_REGISTER_SPI_DRIVER
-that includes a spi id_table, and in addition to that:
-- does not define a platform driver
-- uses macro module_spi_driver()
+Make fb_sh1106 the first user of new macro FBTFT_REGISTER_SPI_DRIVER.
+In addition the MODULE_ALIASes can be removed. Module auto-loading
+was successfully tested with a SH1106-based OLED module connected
+to an Odroid C2.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- drivers/staging/fbtft/fbtft.h | 41 +++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ drivers/staging/fbtft/fb_sh1106.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 6869f3603..4cdec34e2 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -346,6 +346,47 @@ static void __exit fbtft_driver_module_exit(void)                          \
- module_init(fbtft_driver_module_init);                                     \
- module_exit(fbtft_driver_module_exit);
+diff --git a/drivers/staging/fbtft/fb_sh1106.c b/drivers/staging/fbtft/fb_sh1106.c
+index 7b9ab39e1..9685ca516 100644
+--- a/drivers/staging/fbtft/fb_sh1106.c
++++ b/drivers/staging/fbtft/fb_sh1106.c
+@@ -173,12 +173,7 @@ static struct fbtft_display display = {
+ 	},
+ };
  
-+#define FBTFT_REGISTER_SPI_DRIVER(_name, _comp_vend, _comp_dev, _display)	\
-+										\
-+static int fbtft_driver_probe_spi(struct spi_device *spi)			\
-+{										\
-+	return fbtft_probe_common(_display, spi, NULL);				\
-+}										\
-+										\
-+static int fbtft_driver_remove_spi(struct spi_device *spi)			\
-+{										\
-+	struct fb_info *info = spi_get_drvdata(spi);				\
-+										\
-+	fbtft_remove_common(&spi->dev, info);					\
-+	return 0;								\
-+}										\
-+										\
-+static const struct of_device_id dt_ids[] = {					\
-+	{ .compatible = _comp_vend "," _comp_dev },				\
-+	{},									\
-+};										\
-+										\
-+MODULE_DEVICE_TABLE(of, dt_ids);						\
-+										\
-+static const struct spi_device_id spi_ids[] = {					\
-+	{ .name = _comp_dev },							\
-+	{},									\
-+};										\
-+										\
-+MODULE_DEVICE_TABLE(spi, spi_ids);						\
-+										\
-+static struct spi_driver fbtft_driver_spi_driver = {				\
-+	.driver = {								\
-+		.name  = _name,							\
-+		.of_match_table = dt_ids,					\
-+	},									\
-+	.id_table = spi_ids,							\
-+	.probe  = fbtft_driver_probe_spi,					\
-+	.remove = fbtft_driver_remove_spi,					\
-+};										\
-+										\
-+module_spi_driver(fbtft_driver_spi_driver);
-+
- /* Debug macros */
+-FBTFT_REGISTER_DRIVER(DRVNAME, "sinowealth,sh1106", &display);
+-
+-MODULE_ALIAS("spi:" DRVNAME);
+-MODULE_ALIAS("platform:" DRVNAME);
+-MODULE_ALIAS("spi:sh1106");
+-MODULE_ALIAS("platform:sh1106");
++FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "sinowealth", "sh1106", &display);
  
- /* shorthand debug levels */
+ MODULE_DESCRIPTION("SH1106 OLED Driver");
+ MODULE_AUTHOR("Heiner Kallweit");
 -- 
 2.34.1
 
