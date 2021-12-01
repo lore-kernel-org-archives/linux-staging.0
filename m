@@ -1,97 +1,138 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D1A2C82
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 15:32:24 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id m15so23999202pgu.11
-        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 07:32:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A222E2C9D
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 17:23:43 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id y14-20020a17090a2b4e00b001a5824f4918so265637pjc.4
+        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 09:23:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KrT+feO4jnWB4qX0RGpa/8Soov2WZ3IzNfAVkfbdgTI=;
-        b=ma7EZbMwQXE247j/JhwHgzIWPyKJ5oPomd1r/MLnckKAUijBHl1U47v3UuecutrHMt
-         W0nwyvF/bJ6a4EFgA5UPV46nwRCdpjGp9tGL6AxZ7ZkxyqRzu57/Aye0GpbR1LfzUr1S
-         HHQr8ztVmTDrmA1fzNl//7Wc0YUDgKYU8kwKqN3H2Aj7DqqupLcUXCAH2ijFQ8FzRsmE
-         ERSy7WA43Y+FjEVWvA7IuuWtY+mSE7MoXmZnPB9SL4+dYvvli0WWzBkwUWLNfmoVyKiR
-         nyHuae0zz+fEGjvM7pqdM3zHSMSfltjq9i42beCRbfP+BFaPM+OZEd5J1kCgutpy0LS/
-         znSA==
+        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ykCOSl1DR1nooY0Igc75aTkUdtgWWtVr7m16LxU2Evo=;
+        b=QY/uWasz8CDavm3HQOwoN783a1XibY4AIEjRICoXuDJ3rcT6sX940BzyeEElAZSMKH
+         aVzwrCRWWk6s6yElOL/+zaTSWXLJLcOSpriN40a8Ecms3EoHKBrvt44FeFNk8LOPA07R
+         xHNMD8O+Dsus7qnBJjp8Gh1M7O9DvFqhQjPvBdsMtygny3z23nTbPWu0DC+BXrZ+t02u
+         dEKbme+x2iCOn14x51iomJkKVqdVzww7pF2v7VH4zCGt7XfwvdfWVfBlsyyqFq/i4iA3
+         ZFqrU7YrdyN4B6olG90FeZJsR7zVsyHy+mntkq8IGddNBIC83VYeQQK/vsKgXX1ydpUD
+         m2vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KrT+feO4jnWB4qX0RGpa/8Soov2WZ3IzNfAVkfbdgTI=;
-        b=E865lPoSryjnGMl0anmupOMKVg/Y8KBp9Q9fHI370Q1oL3oeCMqKTWYs7uAzlGTp7W
-         qYVGJu3m+m7chlCKNbN3RONUoD4WSsbrrPZmS+glGZf3QGp7B4oJaQh7xnx84gE2Fl3I
-         WTVugMRMbk38ieUb0OC8MT+vKjmC1MMcR4H2eZqg5GafcItwAoL0j2Nw4gwLY2+7eaEd
-         THOmXwTozAdWZaeRSXtzOYwanJoKQeFyW47albqidY69hSYlzcH/xLkbOw8jw2qjj7O4
-         oXpeJt3aE2Kjja0uvRLA9rJW85RZ4vR5KBsQIM/CefeBGkRxtvPGlAau8hX8eFkXZM7a
-         h64Q==
-X-Gm-Message-State: AOAM530uduBbMjlbptDlPvQSTZmHOz+NbKrXNpWr0E2ppPLCw9erDJ23
-	8+ptYNfBynVBSkvuH4HIk/s=
-X-Google-Smtp-Source: ABdhPJw8c9dtJdcGzrZVMkPW265/TG0sEQX8PPXRYeFZXXK7s3uwXJjnPIV+4kEqAzn6KFTBpRQnUA==
-X-Received: by 2002:a62:7a54:0:b0:494:6e78:994b with SMTP id v81-20020a627a54000000b004946e78994bmr6745750pfc.5.1638372744031;
-        Wed, 01 Dec 2021 07:32:24 -0800 (PST)
-Received: from nlap2.localdomain ([106.198.84.234])
-        by smtp.googlemail.com with ESMTPSA id 7sm91772pgk.55.2021.12.01.07.32.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 07:32:23 -0800 (PST)
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: Larry.Finger@lwfinger.net
-Cc: phil@philpotter.co.uk,
-	gregkh@linuxfoundation.org,
-	straube.linux@gmail.com,
-	fmdefrancesco@gmail.com,
-	martin@kaiser.cx,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Abdun Nihaal <abdun.nihaal@gmail.com>
-Subject: [PATCH] staging: r8188eu: Fix coding style error
-Date: Wed,  1 Dec 2021 21:00:39 +0530
-Message-Id: <20211201153039.305245-1-abdun.nihaal@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ykCOSl1DR1nooY0Igc75aTkUdtgWWtVr7m16LxU2Evo=;
+        b=ZPzDw9FIGucgETQ9FOYibeds6Az6UKzfcGFBocHAJEjPGtrfwwyIW0Fr2ADpg8nbxM
+         1wKyKAQwpeNeWtzcJr/Z2NGGbEoEdRmEQIyXLbusLHLX5kt10HNVC8F+gupblV6tgRWl
+         +IlxZLR9twjSK6PcWWYpQq4cq8oDc6QPMCZXW1J+5c390tIYOtXHSSEU4eJ3SE+wbz6t
+         DnIhK71Eeh5MA8Wz/REYUxDAgb5LOtNK0gN/4FJAOHDYPMMrURpr6GkWDWijRyhXpvXe
+         hshrfPTcDMOcHKe552dkr0UdpNA0A2RsRdE5P2PA8n1nrl3v/12tz+4HfmpWMe914B+9
+         vsig==
+X-Gm-Message-State: AOAM532wKLTrICZw0+nRrEAilbf4JICOmv9ygr/XysEgbEp+1c1egevQ
+	pchWKfRa2ExAaYlezSxuhznzpIRxwY6mw4IDFZH63Q==
+X-Google-Smtp-Source: ABdhPJyzb1DYRJAzXFYCNHh3xxtvOFlxqgyxfdSYfvQhBWij59zsgTe/H6UhPJaD87eZQQzGMhfXZONUPEbRm8yF9Go=
+X-Received: by 2002:a17:90b:33d0:: with SMTP id lk16mr9151438pjb.66.1638379422917;
+ Wed, 01 Dec 2021 09:23:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211201013329.15875-1-aford173@gmail.com>
+In-Reply-To: <20211201013329.15875-1-aford173@gmail.com>
+From: Tim Harvey <tharvey@gateworks.com>
+Date: Wed, 1 Dec 2021 09:23:31 -0800
+Message-ID: <CAJ+vNU1jENmWAR_5E98Vgb53ctxjxSWJewPW0YC4Yp4DuYTn3g@mail.gmail.com>
+Subject: Re: [RFC V2 0/2] arm64: imx8mm: Enable Hantro VPUs
+To: Adam Ford <aford173@gmail.com>, l.stach@pengutronix.de
+Cc: linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar, 
+	hverkuil@xs4all.nl, nicolas@ndufresne.ca, aford@beaconembedded.com, 
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Move opening brace to next line to conform to kernel coding style.
+On Tue, Nov 30, 2021 at 5:33 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> to be related to the video decoders used on the i.MX8MQ, but because of
+> how the Mini handles the power domains, the VPU driver does not need to
+> handle all the functions, nor does it support the post-processor,
+> so a new compatible flag is required.
+>
+> With the suggestion from Hans Verkuil, I was able to get the G2 splat to go away
+> with changes to FORCE_MAX_ZONEORDER, but I found I could also set cma=512M, however
+> it's unclear to me if that's an acceptable alternative.
+>
+> At the suggestion of Ezequiel Garcia and Nicolas Dufresne I have some
+> results from Fluster. However, the G2 VPU appears to fail most tests.
+>
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 90/135 tests successfully               in 76.431 secs
+>
+>  ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 55/61 tests successfully               in 21.454 secs
+>
+> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> Ran 0/303 tests successfully               in 20.016 secs
+>
+> Each day seems to show more and more G2 submissions, and gstreamer seems to be
+> still working on the VP9, so I am not sure if I should drop G2 as well.
+>
+>
+> Adam Ford (2):
+>   media: hantro: Add support for i.MX8M Mini
+>   arm64: dts: imx8mm: Enable VPU-G1 and VPU-G2
+>
+>  arch/arm64/boot/dts/freescale/imx8mm.dtsi   | 41 +++++++++++++++
+>  drivers/staging/media/hantro/hantro_drv.c   |  2 +
+>  drivers/staging/media/hantro/hantro_hw.h    |  2 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 57 +++++++++++++++++++++
+>  4 files changed, 102 insertions(+)
+>
 
-Fixes the following checkpatch error:
-ERROR: open brace '{' following function definitions go on the next line
+Adam,
 
-Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+That's for the patches!
 
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index b4820ad2cee7..627ecd45beca 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -252,7 +252,8 @@ static void init_mlme_ext_priv_value(struct adapter *padapter)
- 
- static int has_channel(struct rt_channel_info *channel_set,
- 					   u8 chanset_size,
--					   u8 chan) {
-+					   u8 chan)
-+{
- 	int i;
- 
- 	for (i = 0; i < chanset_size; i++) {
-@@ -264,7 +265,8 @@ static int has_channel(struct rt_channel_info *channel_set,
- 
- static void init_channel_list(struct adapter *padapter, struct rt_channel_info *channel_set,
- 							  u8 chanset_size,
--							  struct p2p_channels *channel_list) {
-+							  struct p2p_channels *channel_list)
-+{
- 	struct p2p_oper_class_map op_class[] = {
- 		{ IEEE80211G,  81,   1,  13,  1, BW20 },
- 		{ IEEE80211G,  82,  14,  14,  1, BW20 },
--- 
-2.33.1
+I tested just this series on top of v5.16-rc3 on an
+imx8mm-venice-gw73xx-0x and found that if I loop fluster I can end up
+getting a hang within 10 to 15 mins or so when imx8m_blk_ctrl_power_on
+is called for VPUMIX pd :
+while [ 1 ]; do uptime; ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0; done
+...
+[  618.838436] imx-pgc imx-pgc-domain.6: failed to command PGC
+[  618.844407] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
 
+I added prints in imx_pgc_power_{up,down} and
+imx8m_blk_ctrl_power_{on,off} to get some more context
+...
+Ran 55/61 tests successfully               in 8.685 secs
+ 17:16:34 up 17 min,  0 users,  load average: 3.97, 2.11, 0.93
+********************************************************************************
+********************
+Running test suite VP8-TEST-VECTORS with decoder GStreamer-VP8-V4L2SL-Gst1.0
+Using 4 parallel job(s)
+********************************************************************************
+********************
+
+[TEST SUITE      ] (DECODER                    ) TEST VECTOR               ... R
+ESULT
+----------------------------------------------------------------------
+[ 1023.114806] imx8m_blk_ctrl_power_on vpublk-g1
+[ 1023.119669] imx_pgc_power_up vpumix
+[ 1023.124307] imx-pgc imx-pgc-domain.6: failed to command PGC
+[ 1023.130006] imx8m-blk-ctrl 38330000.blk-ctrl: failed to power up bus domain
+
+While this wouldn't be an issue with this series it does indicate we
+still have something racy in blk-ctrl. Can you reproduce this (and if
+not what kernel are you based on)? Perhaps you or Lucas have some
+ideas?
+
+Best regards,
+
+Tim
