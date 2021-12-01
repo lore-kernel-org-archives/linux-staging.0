@@ -1,27 +1,27 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E1742CA8
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 17:56:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8903D2CAA
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 17:56:36 +0000 (UTC)
 Received: from localhost.localdomain (unknown [IPv6:2a00:c281:1409:4a00:c103:6980:2c3:d021])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: dafna)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 713D81F45E4E;
-	Wed,  1 Dec 2021 17:56:31 +0000 (GMT)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 58B021F45E52;
+	Wed,  1 Dec 2021 17:56:33 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1638381393; bh=z4yjDZMHbL7khpV9qKXUGvaNdJTMLt5a7ZsWb+Iwb9w=;
+	t=1638381395; bh=ow44BvauWgN6xeT1ROfRm872Tq++DA6pO8UtnuloLWg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mX44Zp3gbHwdPDogj4MOskryMw/Jw6qYdHY0uG8mT15uLKRbGEH6khdSO10qkyLsW
-	 Y5Nm2zNgaykxl8SnJAf4kt1xkQSWtFCQJ8KDZdxQTEoy+A05jeInqYeukNqMeaeQ1a
-	 O/UcrOLaeYNw3Tts8fMZ/UIA9eb0Ddm8aKyggggOXCLr9jHT//TZu3qNUlE9YGgMmc
-	 p4r8zeJRc4x07VrkM0BxrHO+7chfnfw5bE7058eWlu5/No8MJpz6hQpAHicio0xFzp
-	 Jd9b7H6q+ohQjJisy/HFWLLzxn8zimsfCwrJ+qywXyTTt4iczrAXzzLIsPIEDuNtQY
-	 Jzc7queYiYqhA==
+	b=VV91yZYCM+MDhLTArM3PW79WuNNST1jlggwIcmRXhJ204k81QqsahWoF6b072abZ5
+	 0LYW3MkN0hcFRAsDhqjnJvO+L9YOQfxrBqPrv3FRXUvjpKEY/hcMQs2h5fM6XhQ7AT
+	 /vDQX3Y46sig2EILJiffN9qCSZ/eCB2ThkJ6GcNESbylgRv0Y5VwnmftBGK5qSiv0m
+	 mitP7QhSgneVkLWtPJBAIp4O7aoef0rx1ahm4GV2Lfl+4zRyQkr4E0WLHNjQTl8lwz
+	 ruIMQDKlYJzC+7qcqaH4F2iuUdX/sGUbKxQNw6Nrs4PoO8BzV6sB2zyffFC3rg/9hU
+	 2Dgq/2wBOoNiQ==
 From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To: linux-media@vger.kernel.org
-Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-	Robert Beckett <bob.beckett@collabora.com>,
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+	Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
@@ -38,9 +38,9 @@ Cc: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
 	dan.carpenter@oracle.com,
 	rdunlap@infradead.org,
 	daniel@0x0f.com
-Subject: [PATCH v4 4/6] staging: media: wave5: Add TODO file
-Date: Wed,  1 Dec 2021 19:56:11 +0200
-Message-Id: <20211201175613.13710-5-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v4 5/6] dt-bindings: media: staging: wave5: add yaml devicetree bindings
+Date: Wed,  1 Dec 2021 19:56:12 +0200
+Message-Id: <20211201175613.13710-6-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
 References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
@@ -50,85 +50,96 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 
-Add a TODO file listing all that is need for destaging.
+From: Robert Beckett <bob.beckett@collabora.com>
+
+Add bindings for the wave5 chips&media codec driver
 
 Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
- drivers/staging/media/wave5/TODO | 64 ++++++++++++++++++++++++++++++++
- 1 file changed, 64 insertions(+)
- create mode 100644 drivers/staging/media/wave5/TODO
+ .../bindings/staging/media/cnm,wave.yaml      | 73 +++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
 
-diff --git a/drivers/staging/media/wave5/TODO b/drivers/staging/media/wave5/TODO
+diff --git a/Documentation/devicetree/bindings/staging/media/cnm,wave.yaml b/Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
 new file mode 100644
-index 000000000000..425ed42a234c
+index 000000000000..e18978cbba16
 --- /dev/null
-+++ b/drivers/staging/media/wave5/TODO
-@@ -0,0 +1,64 @@
-+* Test on real silicon once available
++++ b/Documentation/devicetree/bindings/staging/media/cnm,wave.yaml
+@@ -0,0 +1,73 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/staging/media/cnm,wave.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+  This driver has so far been tested on pre-silicon FPGA and on the beta BeagleV
-+  board which uses the StarFive JH7100 beta SoC.
++title: Chips&Media Wave 5 Series multi-standard codec IP
 +
-+  Testing on FPGA shows it working fine, though the FPGA uses polled interrupts
-+  and copied buffers between the host and it's on board RAM.
++maintainers:
++  - Nas Chung <nas.chung@chipsnmedia.com>
++  - Robert Beckett <bob.beckett@collabora.com>
++  - Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 +
-+  Testing on BeagleV shows buffer corruption that is currently attributed to a
-+  known silicon issue in the SoC that makes the cache coherent interconnect not
-+  so coherent.
-+  This can likely be solved when the riscv non-coherent dma support lands and
-+  provide optional v4l2 non-contiguous allocator, though it remains to be seen
-+  whether support non-coherent use cases will be useful in real world hw.
++description: |-
++  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
 +
-+  Until we can test and resolve any issues on final silicon (due 2H 2021)
-+  this driver should remain in staging.
++properties:
++  compatible:
++    anyOf:
++      - items:
++        - enum:
++            - cnm,cm511-vpu
++            - cnm,cm517-vpu
++            - cnm,cm521-vpu
++            - cnm,cm521c-vpu
++            - cnm,cm521c-dual-vpu
++            - cnm,cm521e1-vpu
++            - cnm,cm537-vpu
++  reg:
++    maxItems: 1
 +
-+* Handle interrupts better
++  clocks:
++    minItems: 1
++    maxItems: 4
 +
-+  Currently the interrupt handling uses an unusual design employing a kfifo to
-+  transfer irq status to irq thread. This was done as a work around for dropped
-+  interrupts seen with IRQF_ONESHOT based handling.
++  clock-names:
++    minItems: 1
++    maxItems: 4
 +
-+  This needs further investigation and fixing properly, with the aid of
-+  C&M and StarFive engineers.
++  interrupts:
++    maxItems: 1
 +
-+* Fix early end of stream handling
++  power-domains:
++    maxItems: 1
 +
-+  When using a gstreamer pipeline like this:
-+  gst-launch-1.0 filesrc location=<file> ! parsebin ! h264parse ! v4l2h264dec ! jpegenc ! identity eos-after=3 !  multifilesink location=%05d.jpeg
-+  i.e. forced eos after 3 buffers
-+  the pipeline stalls on exit waiting for end of job.
-+  We need to add some form of early exit detection, instead of the current
-+  behaviour of only considering a job finish on PIC_END.
++  resets:
++    maxItems: 1
 +
-+* Support more formats
++  sram:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: phandle pointing to the SRAM device node
++    maxItems: 1
 +
-+  The current frontend v4l2 layer only supports V4L2_PIX_FMT_HEVC and
-+  V4L2_PIX_FMT_H264.
-+  The backend logic supports other formats, so we should wire up the support
-+  for further bitsream formats.
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
 +
-+* appropreate error handling:
-+allocation failure, mutex acquire failure etc.
++additionalProperties: false
 +
-+* remove all unused struct fields
++examples:
++  - |
++    vpu: video-codec@12345678 {
++        compatible = "cnm,cm521-vpu";
++        reg = <0x12345678 0x1000>;
++        interrupts = <42>;
++        clocks = <&clks 42>;
++        clock-names = "vcodec";
++        sram = <&sram>;
++    };
 +
-+* change struct fields to 'bool' type or bitfield when appropreate
-+Likely good candidates are fields named '*_enable' , '*_on'
-+
-+* handle vdi_allocate_dma_memory failure , each function has to clean after itself
-+
-+* make sure that 'u32', 's32' etc. are only used when reading/writing hw
-+and change s32 to u32 when s32 is not required
-+
-+* power management handling - add (runtime_)suspen/resume cb where the clock is enabled
-+
-+* fix checkpatch issues (mostly fixes , only left to fix MACRO_ARG_REUSE, LONG_LINE)
-+
-+* revise logic of wave5_vpu_(dec/enc)_register_framebuffer
-+
-+* check if the  normal kernel endianness/__swab32 routines are sufficient. (instead of the ones
-+  implemented in the driver
 -- 
 2.17.1
 
