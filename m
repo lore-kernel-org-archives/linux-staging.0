@@ -1,126 +1,95 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from w4.tutanota.de (w4.tutanota.de [81.3.6.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E561768
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 14:24:44 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id u80so24610412pfc.9
-        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 06:24:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+nqjIwk41+U9tH9eGUNa4mmueteq5RxG7HgTGB7HKEw=;
-        b=HRVy0Wi/A0TE+Qh4oMjxWCoWKpQGZrhJrwtLf3lCRLWtxw7zazcBWCI06PUQER51u8
-         B1sBrqfdc6icul15x5SAyP3YZ3ci45+7BJ4D3+pT+VKrnOXRYq/yzz+lU5DT6I7rVY4y
-         Jzcei8vdj34llKWyPIlfvLeFqyIdau178sqjCjd/dg+BwGENCATh4sBo7UtjIgAePt1i
-         flha/MzqVGioxlvGRQbBVnZiLtpkT9rdbqP1b4twmtYtJfFkh+ZQXBRt3rrWQDf6LiRv
-         sX5w02bqE2WAjHcFGu9eFo6IBV9LKkeB/nIKxJ6w8r5fovjohhQ+jN1esM0qRKoVJLzD
-         7kqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+nqjIwk41+U9tH9eGUNa4mmueteq5RxG7HgTGB7HKEw=;
-        b=k4fnyAO2RCo3Vg8gsx0kn3OxtV9hh/SQ5lfjvfUkWiypioViGcJNY6hwwAeqGr5yhg
-         mmRLRG88d33n+KvwBGBkoLTG5eOJ3zOsY94mWu8OHx69uuM6WbQf2rJE9z6bA+H5Sv6e
-         hxNMdlHCsgHEB3x9MkNIP2ZfgcWR6hCen9cuudAhXAI9++VfKGpZDOu85Zex7IMqqJsT
-         aw88PnZhkg5Yq8Ln/jnY3Uiqz1uoMxuXX3Q+v00YZ1IRSEq2S7HmojdBaBpT6MRp/BwM
-         9mB6LEYuQmeAhpHq2CI+XB3z3k6m8LdDczA23ayCZlA103S0+YlCnRN0iyUjO6cRNxH3
-         eR9w==
-X-Gm-Message-State: AOAM532kSeLlUQ5Jh7Bzy0anj4omlSjKEGOv4DfMd9OGnbHBE0YBFjEu
-	iDlZ7UBto+3j+Dg5xoO9AY0=
-X-Google-Smtp-Source: ABdhPJyhWQxVQrsZzaIFTMTAEpHxBdK84+D+Vb58aq+d8wtkU/Slp1916zxM0upFzx4h23XtLNMLzQ==
-X-Received: by 2002:a05:6a00:888:b0:4a8:56c:d2c with SMTP id q8-20020a056a00088800b004a8056c0d2cmr6578052pfj.40.1638368684323;
-        Wed, 01 Dec 2021 06:24:44 -0800 (PST)
-Received: from sbwpb-arch.flets-east.jp ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id o7sm18293825pgq.59.2021.12.01.06.24.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 06:24:43 -0800 (PST)
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tsuchiya Yuto <kitakar@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH v1 1/1] media: atomisp: fix "variable dereferenced before check 'asd'"
-Date: Wed,  1 Dec 2021 23:19:04 +0900
-Message-Id: <20211201141904.47231-1-kitakar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D6D2C82
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 14:48:35 +0000 (UTC)
+Received: from w3.tutanota.de (unknown [192.168.1.164])
+	by w4.tutanota.de (Postfix) with ESMTP id 0D0881060391;
+	Wed,  1 Dec 2021 14:39:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1638369548;
+	s=s1; d=tuta.io;
+	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
+	bh=saLGlVSL4WbeU5QgS57F+QIGU1jTliY0Iykn4jzGXTQ=;
+	b=J92rg+uQpiL9UpbVsGK8qAO8TxtkSPRcZ87A5MuCTnncOIGbySGVgSQsV85CBptB
+	uCqS43FRehGluROI1iWBJP7gxn9WFu+t4UdMy7ED2R2c8w6mwrY2M8fMoL2dckPhZwQ
+	4HGKF6XkxAUAPVu0xLSRvf+pPtYCzFtmWllPtevwMwSYZupIo3sOZ816KxVJsthL1c/
+	rTImwtJwbXT3+9Wvxbv10jiqOtOHhFMiOfRUXF1Akpy189rofxZKFpa7eAFLO8S8XZP
+	Ey5BSMZL3roHaxh73LzGK823J6+M/3GWWmxEIjoFHyqBZa3BEf9usGF2wX6yuh8QVsI
+	KaltbEouww==
+Date: Wed, 1 Dec 2021 15:39:08 +0100 (CET)
+From: Adam Kandur <rndd@tuta.io>
+To: netdev@vger.kernel.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Message-ID: <MpqQpIa--F-2@tuta.io>
+Subject: [PATCH] QLGE: qlge_main: Fix style
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_341183_1571019938.1638369549034"
 
-There are two occurrences where the variable 'asd' is dereferenced
-before check. Fix this issue by using the variable after the check.
+------=_Part_341183_1571019938.1638369549034
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Link: https://lore.kernel.org/linux-media/20211122074122.GA6581@kili/
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
 
----
 
-I didn't add the Fixes tag considering that the media_stage tree can
-be rebased. Here is the commit of the media_stage tree pointed out in
-the Link,
 
-	c10bcb13462e ("media: atomisp: add NULL check for asd obtained from atomisp_video_pipe")
+------=_Part_341183_1571019938.1638369549034
+Content-Type: application/octet-stream; 
+	name=0001-QLGE-qlge_main-Fix-style.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; 
+	filename=0001-QLGE-qlge_main-Fix-style.patch
 
-Can be applied on the top of media_stage tree.
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c   | 3 ++-
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 5a90cc31cd1a..97d5a528969b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -5185,7 +5185,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 	int (*configure_pp_input)(struct atomisp_sub_device *asd,
- 				  unsigned int width, unsigned int height) =
- 				      configure_pp_input_nop;
--	u16 stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
-+	u16 stream_index;
- 	const struct atomisp_in_fmt_conv *fc;
- 	int ret, i;
- 
-@@ -5194,6 +5194,7 @@ static int atomisp_set_fmt_to_isp(struct video_device *vdev,
- 			__func__, vdev->name);
- 		return -EINVAL;
- 	}
-+	stream_index = atomisp_source_pad_to_stream_id(asd, source_pad);
- 
- 	v4l2_fh_init(&fh.vfh, vdev);
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index 562789c75299..8fd470efd658 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1182,7 +1182,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 	struct ia_css_frame *frame;
- 	struct videobuf_vmalloc_memory *vm_mem;
- 	u16 source_pad = atomisp_subdev_source_pad(vdev);
--	u16 stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
-+	u16 stream_id;
- 	int ret = 0, i = 0;
- 
- 	if (!asd) {
-@@ -1190,6 +1190,7 @@ int __atomisp_reqbufs(struct file *file, void *fh,
- 			__func__, vdev->name);
- 		return -EINVAL;
- 	}
-+	stream_id = atomisp_source_pad_to_stream_id(asd, source_pad);
- 
- 	if (req->count == 0) {
- 		mutex_lock(&pipe->capq.vb_lock);
--- 
-2.34.1
-
+RnJvbSA0MTI2NmE3MmFlMmFkOGZiNDVlOTZlNDU1YzUxOTE3N2JmZDIzYmMwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBZGFtIEthbmR1ciA8cm5kZEB0dXRhLmlvPgpEYXRlOiBXZWQs
+IDEgRGVjIDIwMjEgMTc6MzI6MTEgKzAzMDAKU3ViamVjdDogW1BBVENIXSBRTEdFOiBxbGdlX21h
+aW46IEZpeCBzdHlsZQoKLS0tCiBkcml2ZXJzL3N0YWdpbmcvcWxnZS9xbGdlX21haW4uYyB8IDI4
+ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRp
+b25zKCspLCAxNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvcWxn
+ZS9xbGdlX21haW4uYyBiL2RyaXZlcnMvc3RhZ2luZy9xbGdlL3FsZ2VfbWFpbi5jCmluZGV4IDk4
+NzNiYjJhOS4uYzg2ZTJhOTM2IDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvcWxnZS9xbGdl
+X21haW4uYworKysgYi9kcml2ZXJzL3N0YWdpbmcvcWxnZS9xbGdlX21haW4uYwpAQCAtMTIwMCwx
+MSArMTIwMCwxMSBAQCBzdGF0aWMgdm9pZCBxbGdlX3VubWFwX3NlbmQoc3RydWN0IHFsZ2VfYWRh
+cHRlciAqcWRldiwKIAkJCSAqIGVsZW1lbnQgYW5kIHRoZXJlIGlzIG1vcmUgdGhhbiA2IGZyYWdz
+LAogCQkJICogdGhlbiBpdHMgYW4gT0FMLgogCQkJICovCi0JCQlpZiAoaSA9PSA3KSB7CisJCQlp
+ZiAoaSA9PSA3KQogCQkJCW5ldGlmX3ByaW50ayhxZGV2LCB0eF9kb25lLCBLRVJOX0RFQlVHLAog
+CQkJCQkgICAgIHFkZXYtPm5kZXYsCiAJCQkJCSAgICAgInVubWFwcGluZyBPQUwgYXJlYS5cbiIp
+OwotCQkJfQorCiAJCQlkbWFfdW5tYXBfc2luZ2xlKCZxZGV2LT5wZGV2LT5kZXYsCiAJCQkJCSBk
+bWFfdW5tYXBfYWRkcigmdHhfcmluZ19kZXNjLT5tYXBbaV0sCiAJCQkJCQkJbWFwYWRkciksCkBA
+IC0xMjM2LDEwICsxMjM2LDEwIEBAIHN0YXRpYyBpbnQgcWxnZV9tYXBfc2VuZChzdHJ1Y3QgcWxn
+ZV9hZGFwdGVyICpxZGV2LAogCXN0cnVjdCB0eF9idWZfZGVzYyAqdGJkID0gbWFjX2lvY2JfcHRy
+LT50YmQ7CiAJaW50IGZyYWdfY250ID0gc2tiX3NoaW5mbyhza2IpLT5ucl9mcmFnczsKIAotCWlm
+IChmcmFnX2NudCkgeworCWlmIChmcmFnX2NudCkKIAkJbmV0aWZfcHJpbnRrKHFkZXYsIHR4X3F1
+ZXVlZCwgS0VSTl9ERUJVRywgcWRldi0+bmRldiwKIAkJCSAgICAgImZyYWdfY250ID0gJWQuXG4i
+LCBmcmFnX2NudCk7Ci0JfQorCiAJLyoKIAkgKiBNYXAgdGhlIHNrYiBidWZmZXIgZmlyc3QuCiAJ
+ICovCkBAIC0zMzUxLDEyICszMzUxLDExIEBAIHN0YXRpYyB2b2lkIHFsZ2VfZnJlZV9pcnEoc3Ry
+dWN0IHFsZ2VfYWRhcHRlciAqcWRldikKIAogCWZvciAoaSA9IDA7IGkgPCBxZGV2LT5pbnRyX2Nv
+dW50OyBpKyssIGludHJfY29udGV4dCsrKSB7CiAJCWlmIChpbnRyX2NvbnRleHQtPmhvb2tlZCkg
+ewotCQkJaWYgKHRlc3RfYml0KFFMX01TSVhfRU5BQkxFRCwgJnFkZXYtPmZsYWdzKSkgeworCQkJ
+aWYgKHRlc3RfYml0KFFMX01TSVhfRU5BQkxFRCwgJnFkZXYtPmZsYWdzKSkKIAkJCQlmcmVlX2ly
+cShxZGV2LT5tc2lfeF9lbnRyeVtpXS52ZWN0b3IsCiAJCQkJCSAmcWRldi0+cnhfcmluZ1tpXSk7
+Ci0JCQl9IGVsc2UgeworCQkJZWxzZQogCQkJCWZyZWVfaXJxKHFkZXYtPnBkZXYtPmlycSwgJnFk
+ZXYtPnJ4X3JpbmdbMF0pOwotCQkJfQogCQl9CiAJfQogCXFsZ2VfZGlzYWJsZV9tc2l4KHFkZXYp
+OwpAQCAtNDEyOCwyMiArNDEyNywyMSBAQCBzdGF0aWMgdm9pZCBxbGdlX3NldF9tdWx0aWNhc3Rf
+bGlzdChzdHJ1Y3QgbmV0X2RldmljZSAqbmRldikKIAlpZiAobmRldi0+ZmxhZ3MgJiBJRkZfUFJP
+TUlTQykgewogCQlpZiAoIXRlc3RfYml0KFFMX1BST01JU0NVT1VTLCAmcWRldi0+ZmxhZ3MpKSB7
+CiAJCQlpZiAocWxnZV9zZXRfcm91dGluZ19yZWcKLQkJCSAgICAocWRldiwgUlRfSURYX1BST01J
+U0NVT1VTX1NMT1QsIFJUX0lEWF9WQUxJRCwgMSkpIHsKKwkJCSAgICAocWRldiwgUlRfSURYX1BS
+T01JU0NVT1VTX1NMT1QsIFJUX0lEWF9WQUxJRCwgMSkpCiAJCQkJbmV0aWZfZXJyKHFkZXYsIGh3
+LCBxZGV2LT5uZGV2LAogCQkJCQkgICJGYWlsZWQgdG8gc2V0IHByb21pc2N1b3VzIG1vZGUuXG4i
+KTsKLQkJCX0gZWxzZSB7CisJCQllbHNlCiAJCQkJc2V0X2JpdChRTF9QUk9NSVNDVU9VUywgJnFk
+ZXYtPmZsYWdzKTsKLQkJCX0KLQkJfQogCX0gZWxzZSB7CiAJCWlmICh0ZXN0X2JpdChRTF9QUk9N
+SVNDVU9VUywgJnFkZXYtPmZsYWdzKSkgewotCQkJaWYgKHFsZ2Vfc2V0X3JvdXRpbmdfcmVnCi0J
+CQkgICAgKHFkZXYsIFJUX0lEWF9QUk9NSVNDVU9VU19TTE9ULCBSVF9JRFhfVkFMSUQsIDApKSB7
+CisJCQlpZiAocWxnZV9zZXRfcm91dGluZ19yZWcgKHFkZXYsCisJCQkJCQkgIFJUX0lEWF9QUk9N
+SVNDVU9VU19TTE9ULAorCQkJCQkJICBSVF9JRFhfVkFMSUQsCisJCQkJCQkgIDApKQogCQkJCW5l
+dGlmX2VycihxZGV2LCBodywgcWRldi0+bmRldiwKIAkJCQkJICAiRmFpbGVkIHRvIGNsZWFyIHBy
+b21pc2N1b3VzIG1vZGUuXG4iKTsKLQkJCX0gZWxzZSB7CisJCQllbHNlCiAJCQkJY2xlYXJfYml0
+KFFMX1BST01JU0NVT1VTLCAmcWRldi0+ZmxhZ3MpOwotCQkJfQogCQl9CiAJfQogCi0tIAoyLjM0
+LjAKCg==
+------=_Part_341183_1571019938.1638369549034--
