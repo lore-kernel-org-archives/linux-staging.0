@@ -1,90 +1,89 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0771C2C80
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 03:00:13 +0000 (UTC)
-Received: from dggpeml500024.china.huawei.com (unknown [172.30.72.57])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4J3jyl1mkNzcbf0;
-	Wed,  1 Dec 2021 10:41:35 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggpeml500024.china.huawei.com (7.185.36.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 1 Dec 2021 10:41:41 +0800
-Received: from [10.174.178.174] (10.174.178.174) by
- dggpeml500017.china.huawei.com (7.185.36.243) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 1 Dec 2021 10:41:41 +0800
-Subject: Re: [PATCH -next] staging: rtl8192e: rtllib_module: fix missing
- free_netdev() on error in alloc_rtllib()
-To: Pavel Skripkin <paskripkin@gmail.com>, <linux-kernel@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>
-CC: <gregkh@linuxfoundation.org>
-References: <20211130034007.779351-1-yangyingliang@huawei.com>
- <851b57b9-79ac-e7a1-a61a-6f36a5d9d77a@gmail.com>
-From: Yang Yingliang <yangyingliang@huawei.com>
-Message-ID: <8f1c4e5a-663f-e5f4-a98e-b72ee3a4f365@huawei.com>
-Date: Wed, 1 Dec 2021 10:41:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 119A52C80
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 03:15:58 +0000 (UTC)
+Received: from BJHW-Mail-Ex11.internal.baidu.com (unknown [10.127.64.34])
+	by Forcepoint Email with ESMTPS id E60C8E10313B84848A20;
+	Wed,  1 Dec 2021 11:15:46 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Wed, 1 Dec 2021 11:15:46 +0800
+Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
+ (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.20; Wed, 1
+ Dec 2021 11:15:46 +0800
+Date: Wed, 1 Dec 2021 11:15:54 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v3 1/3] staging: zynpu: Add driver support for ARM(China)
+ ZHOUYI AI accelerator
+Message-ID: <20211201031554.GA865@LAPTOP-UKSR4ENP.internal.baidu.com>
+References: <20211126021904.32325-1-caihuoqing@baidu.com>
+ <20211126021904.32325-2-caihuoqing@baidu.com>
+ <YaCCFv2DLzeng+UE@kroah.com>
+ <20211126071444.GA32426@LAPTOP-UKSR4ENP.internal.baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <851b57b9-79ac-e7a1-a61a-6f36a5d9d77a@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.178.174]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20211126071444.GA32426@LAPTOP-UKSR4ENP.internal.baidu.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BC-Mail-Ex09.internal.baidu.com (172.31.51.49) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 
-Hi,
+On 26 11月 21 15:14:44, Cai Huoqing wrote:
+> On 26 11月 21 07:43:34, Greg Kroah-Hartman wrote:
+> > On Fri, Nov 26, 2021 at 10:18:59AM +0800, Cai Huoqing wrote:
+> > > ZHOUYI NPU is an AI accelerator chip which is integrated into ARM SOC,
+> > > such as Allwinner R329 SOC.
+> > > Add driver support for this AI accelerator here.
+> > > 
+> > > This driver is not standard linux style, there are some clean up works,
+> > > fixing code style, refactorring.
+> > > And it only works with a closed source usermode driver, so need to
+> > > reverse the libraries, and impelement it, then open source
+> > > the usermode driver.
+> > > So add this driver to linux-staging
+> > 
+> > Sorry, but no, I can not take this driver into the kernel tree until
+> > there is an open source user of the new api that you are creating with
+> > this driver.  This was discussed many times on the linux-kernel mailing
+> > list and at the Linux kernel summit a few months ago (see the summary at
+> > lwn.net about it.)
+> > 
+> > So please work on that first, and then we will be glad to revisit taking
+> > this kernel driver into the tree.
+> OK, I will do that.
+> And after doing some clean up, try to take this code to the "real" linux tree.
+> 
+> Thanks,
+> Cai
+Recently arm china contact me for some opensource issue. 
 
-On 2021/12/1 2:57, Pavel Skripkin wrote:
-> On 11/30/21 06:40, Yang Yingliang wrote:
->> Add the missing free_netdev() before return from alloc_rtllib()
->> in the error handling case.
->>
->> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
->> ---
->>   drivers/staging/rtl8192e/rtllib_module.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/rtl8192e/rtllib_module.c 
->> b/drivers/staging/rtl8192e/rtllib_module.c
->> index 64d9feee1f39..18d898714c5c 100644
->> --- a/drivers/staging/rtl8192e/rtllib_module.c
->> +++ b/drivers/staging/rtl8192e/rtllib_module.c
->> @@ -125,7 +125,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
->>         ieee->pHTInfo = kzalloc(sizeof(struct rt_hi_throughput), 
->> GFP_KERNEL);
->>       if (!ieee->pHTInfo)
->> -        return NULL;
->> +        goto failed;
->>         HTUpdateDefaultSetting(ieee);
->>       HTInitializeHTInfo(ieee);
->>
->
-> Good catch!
->
-> There are 2 more possible leaks, tho. rtllib_networks_allocate() and 
-> rtllib_softmac_init() should be unwinded too.
-The error path of rtllib_networks_allocate()  won't leak the dev.
->
-> For some odd reason rtllib_softmac_init() does not return an error in 
-> case of allocation failure, but it should be fixed. I think, it worth 
-> to fix whole error handling in one patch
-I will send a v2 to fix this.
+Reply here -
 
-Thanks,
-Yang
->
->
->
->
-> With regards,
-> Pavel Skripkin
-> .
+Hi arm-china folks, it's appropriate for you to submit this driver
+for GPL,
+be glad to revisit the opensource kernel mode and userspace driver:).
+
+If you have any questions, reply here directly.
+
+Thanks
+Cai
+
+> > 
+> > Also, it is much simpler just to take a few hours and clean up the
+> > coding style issues yourself rather than relying on the community to do
+> > it for you over a few months.
+> > 
+> > thanks,
+> > 
+> > greg k-h
