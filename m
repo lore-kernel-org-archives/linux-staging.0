@@ -1,60 +1,63 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112702C82
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 12:07:27 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id 137so16298095pgg.3
-        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 04:07:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89082C82
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 12:15:15 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id 71so23387802pgb.4
+        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 04:15:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=P7xA6Q5sc8/na1l8eu8LhLUapeP2XtOXuq1ysdswzxI=;
-        b=hoJfIjkbzMgn4KWhcQ1vdBQ/nOezb/jvdp/9Hd0E1WURD0yGKgcR8DXXWZCvPwoCQY
-         EPxQurfo7b7SAet4E7KfpMwgu/yIkFB9nYSkzabRcirugsR4dCwfiOOfdOF+barZeofD
-         5c3Bs1HROvW9tNZ7VHHtWpd0DKBSRlHH2Bb2kpBeyp3vFbAxPkZRYnDww/76XmsVKDdO
-         RSjMVsPfULK5oHSjVQ/bRWM0Wx+cxLZfUAlLgZYM4kajI5KaqH4sHIyyFk55hOuOfOzj
-         sYzU6ClEIhFDX0rva4AGasc/+V0CWI4v/HJx1jxXJVIaJpoEdvSCDWf9cYxhyi4N/anN
-         drmA==
+        bh=BWoLD73QX7+FTV8wI4C4spMqnEhiSiDSCX55FCfSJCY=;
+        b=kQqXd4xSOM95bxGvC6GxBhxVGdA9YzvNYCOYV/Atd/5DdJj9JoXege7BjluyfAuB/m
+         75bnJwrpfwrMx93jOy6SNvGSjnpsbKQTYPKk0PhHfZteDHktLfZrIroHHuaDw7jYlTu9
+         q/uaE7HZ+uVz9PNryie5aYSDrV/aPZN6rDH1kHj4Y8Nw3mD0g45xedzXwfTS4zvdLqWx
+         fYNdE9nA4UpUaUrhW1kG0KnlIbZXt7fazt8Pe3NqlCYFPYYjARZMdezbGFh6UCkFULK5
+         1buNzS8EDwHvZi+w5hh0ixT/bh9sG7oTfW9beWjdxcf8OFKlTfsv6Cmr+6t4G2ySR/oT
+         MEig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=P7xA6Q5sc8/na1l8eu8LhLUapeP2XtOXuq1ysdswzxI=;
-        b=En+sWDLWHdZCMF9c9mDbyVFYfWBIg2YDPPyGLeG4XrhacRHEjXLGDMFNLO+7wsEuMI
-         EB8O0zJujTw3n4HTWBQNCnJxV+2h/BTbcMLo0/6Fwvj7y4SgfDStACPocn9wWjuYjqN2
-         usqP56i7CbYtfs336iWS9cArIPXletCwacHuJIh7QncDDtmIVP1GLyKU42GUlub2pxnZ
-         wvQ59GJDUcmWIHxQyNUBWyO8MAe+3eZt6kzzzWR6xDqn4l4Xl+NnYlTj1m5sHQ3Oopa8
-         APJ8E1HQ/UdE9BetGAYICWvjO07MQIwTEZxnxiJl15JN1/ucNEutDqWUu27C1Voq4Fg6
-         1noA==
-X-Gm-Message-State: AOAM531kQ0urqe8ocqLs9HNjFJP9jsJQKI3GH8xY/C+TpmnrTpuzO+OK
-	CoseTPOSMLihGEphiaXqa2I=
-X-Google-Smtp-Source: ABdhPJxMhJge5UWfvARKrvZ9kCV10VrKtBLJu8NlUF0Jexmrqz38TQzii0tNPBMn2rlt36CFqKIyLg==
-X-Received: by 2002:a05:6a00:1946:b0:44d:8136:a4a4 with SMTP id s6-20020a056a00194600b0044d8136a4a4mr5590547pfk.46.1638360446471;
-        Wed, 01 Dec 2021 04:07:26 -0800 (PST)
+        bh=BWoLD73QX7+FTV8wI4C4spMqnEhiSiDSCX55FCfSJCY=;
+        b=CkSlI2ALf1kmdK//Mh9ZpmnMXiCYy+5BFCJ1qjQbundV0XzebU0ryKm7pT1S067aEu
+         ko3ovUPqXqjTB/7SJbzhSvfT+nOHp01MPkK8Pdg3DY3HVGf3rmuustocDeuDAP9qJhNU
+         inlVpOyN1FmEiVVHHVqyFl1Veqoeiflne68wuZ8EAq0QBfXv+v8Y7QL+wYGlXn2Jatfs
+         ZPU1/MMS+Hv/jIRK6KiSuFxDF/HEq4CpJHwaw42er9r98eylMTqgjtH39zfD3tNgVjux
+         xVrmBhoySU/q+L9QniKJi2oPFVHDhzmJgbC2aLFaia1fPzejADI6S0ijngAeO5uFZqcX
+         GWkQ==
+X-Gm-Message-State: AOAM5306o1x9bupTMHgxHlPd+hhdsrSIrMcyAko/eI4KL2n21RhRDWxG
+	8SplXjJ/YSKsjgpRPH2ghrgJga9VnuVpYQ==
+X-Google-Smtp-Source: ABdhPJxMgXPlCDOFu23je2GMfoYQd20LckC3gvpVejUhzQq4Q6FGmpk7+yyeE7OvXMindEJXjgQWDA==
+X-Received: by 2002:a63:e648:: with SMTP id p8mr4362617pgj.620.1638360915420;
+        Wed, 01 Dec 2021 04:15:15 -0800 (PST)
 Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id k14sm25224102pff.6.2021.12.01.04.07.23
+        by smtp.gmail.com with ESMTPSA id x33sm24790606pfh.133.2021.12.01.04.15.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 04:07:26 -0800 (PST)
-Message-ID: <27572974b2d665e97d8ede5ce8328b7733dca36d.camel@gmail.com>
-Subject: Re: [PATCH 02/17] media: atomisp: pci: fix punit_ddr_dvfs_enable()
- argument for mrfld_power up case
+        Wed, 01 Dec 2021 04:15:15 -0800 (PST)
+Message-ID: <0d5acf26f560b82da9d77a2c9d46042d8c4cd5d1.camel@gmail.com>
+Subject: Re: [PATCH 05/17] media: atomisp: pci: fix inverted error check for
+ ia_css_mipi_is_source_port_valid()
 From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Patrik Gfeller
- <patrik.gfeller@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, Hans de Goede
+ <hdegoede@redhat.com>, Patrik Gfeller <patrik.gfeller@gmail.com>, Sakari
+ Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
  Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Yang Yingliang
- <yangyingliang@huawei.com>,  Dinghao Liu <dinghao.liu@zju.edu.cn>, Alan
- <alan@linux.intel.com>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Wed, 01 Dec 2021 21:07:22 +0900
-In-Reply-To: <721eda4c6b65a0c0da4b85e1b24bada769890816.camel@gmail.com>
+ <yangyingliang@huawei.com>, Dinghao Liu <dinghao.liu@zju.edu.cn>, Deepak R
+ Varma <drv@mailo.com>, Alex Dewar <alex.dewar90@gmail.com>, 
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 01 Dec 2021 21:15:10 +0900
+In-Reply-To: <20211108163536.07bd2282@sal.lan>
 References: <20211017161958.44351-1-kitakar@gmail.com>
-	 <20211017161958.44351-3-kitakar@gmail.com>
-	 <YW1Vj5jGybs8gXWr@smile.fi.intel.com>
-	 <721eda4c6b65a0c0da4b85e1b24bada769890816.camel@gmail.com>
+	 <20211017161958.44351-6-kitakar@gmail.com> <20211102113332.GC2794@kadam>
+	 <ed17420d96bd302479b528f7ae8694ff9cd2e72a.camel@gmail.com>
+	 <20211108151455.GI2001@kadam>
+	 <efaf74b587e5e31403895cd5af88852402fe92ec.camel@gmail.com>
+	 <20211108163536.07bd2282@sal.lan>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.42.1 
 Precedence: bulk
@@ -65,94 +68,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2021-10-20 at 22:25 +0900, Tsuchiya Yuto wrote:
-> On Mon, 2021-10-18 at 14:07 +0300, Andy Shevchenko wrote:
-> > On Mon, Oct 18, 2021 at 01:19:42AM +0900, Tsuchiya Yuto wrote:
-> > > When comparing with intel-aero atomisp [1], it looks like
-> > > punit_ddr_dvfs_enable() should take `false` as an argument on mrfld_power
-> > > up case.
-> > > 
-> > > Code from the intel-aero kernel [1]:
-> > > 
-> > >         int atomisp_mrfld_power_down(struct atomisp_device *isp)
-> > >         {
-> > >         [...]
-> > >         	/*WA:Enable DVFS*/
-> > >         	if (IS_CHT)
-> > >         		punit_ddr_dvfs_enable(true);
-> > > 
-> > >         int atomisp_mrfld_power_up(struct atomisp_device *isp)
-> > >         {
-> > >         [...]
-> > >         	/*WA for PUNIT, if DVFS enabled, ISP timeout observed*/
-> > >         	if (IS_CHT)
-> > >         		punit_ddr_dvfs_enable(false);
-> > > 
-> > > This patch fixes the inverted argument as per the intel-aero code, as
-> > > well as its comment. While here, fix space issues for comments in
-> > > atomisp_mrfld_power().
-> > > 
-> > > Note that it does not seem to be possible to unify the up/down cases for
-> > > punit_ddr_dvfs_enable(), i.e., we can't do something like the following:
-> > > 
-> > >         if (IS_CHT)
-> > >         	punit_ddr_dvfs_enable(!enable);
-> > > 
-> > > because according to the intel-aero code [1], the DVFS is disabled
-> > > before "writing 0x0 to ISPSSPM0 bit[1:0]" and the DVFS is enabled after
-> > > "writing 0x3 to ISPSSPM0 bit[1:0]".
-> > > 
-> > > [1] https://github.com/intel-aero/linux-kernel/blob/a1b673258feb915268377275130c5c5df0eafc82/drivers/media/pci/atomisp/atomisp_driver/atomisp_v4l2.c#L431-L514
-> > > 
-> > > Fixes: 0f441fd70b1e ("media: atomisp: simplify the power down/up code")
-> > > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
-> > > ---
-> > >  drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 8 ++++----
-> > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> > > index 0511c454e769..f5362554638e 100644
-> > > --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> > > +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> > > @@ -711,15 +711,15 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
-> > >  
-> > >  	dev_dbg(isp->dev, "IUNIT power-%s.\n", enable ? "on" : "off");
-> > >  
-> > > -	/*WA:Enable DVFS*/
-> > > +	/* WA for PUNIT, if DVFS enabled, ISP timeout observed */
-> > 
-> > P-Unit
+On Mon, 2021-11-08 at 16:35 +0000, Mauro Carvalho Chehab wrote:
+> Em Tue, 09 Nov 2021 00:25:52 +0900
+> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
 > 
-> Thanks, I'll fix this next time I send.
-
-For the record, this is already fixed in the latest media_stage tree.
-
-> > >  	if (IS_CHT && enable)
-> > > -		punit_ddr_dvfs_enable(true);
-> > > +		punit_ddr_dvfs_enable(false);
-> > >  
-> > >  	/*
-> > >  	 * FIXME:WA for ECS28A, with this sleep, CTS
-> > >  	 * android.hardware.camera2.cts.CameraDeviceTest#testCameraDeviceAbort
-> > >  	 * PASS, no impact on other platforms
-> > > -	*/
-> > > +	 */
-> > >  	if (IS_BYT && enable)
-> > >  		msleep(10);
-> > >  
-> > > @@ -727,7 +727,7 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
-> > >  	iosf_mbi_modify(BT_MBI_UNIT_PMC, MBI_REG_READ, MRFLD_ISPSSPM0,
-> > >  			val, MRFLD_ISPSSPM0_ISPSSC_MASK);
-> > >  
-> > > -	/*WA:Enable DVFS*/
-> > > +	/* WA:Enable DVFS */
-> > >  	if (IS_CHT && !enable)
-> > >  		punit_ddr_dvfs_enable(true);
-> > >  
-> > > -- 
-> > > 2.33.1
-> > > 
-> > > 
+> > <removed Alan from Cc as the mail address not reachable>
 > > 
+> > On Mon, 2021-11-08 at 18:14 +0300, Dan Carpenter wrote:
+> > > On Tue, Nov 09, 2021 at 12:00:29AM +0900, Tsuchiya Yuto wrote:  
+> > > > On Tue, 2021-11-02 at 14:33 +0300, Dan Carpenter wrote:  
+> > > > > On Mon, Oct 18, 2021 at 01:19:45AM +0900, Tsuchiya Yuto wrote:  
+> > > > > > The function ia_css_mipi_is_source_port_valid() returns true if the port
+> > > > > > is valid. So, we can't use the existing err variable as is.
+> > > > > > 
+> > > > > > To fix this issue while reusing that variable, invert the return value
+> > > > > > when assigning it to the variable.
+> > > > > > 
+> > > > > > Fixes: 3c0538fbad9f ("media: atomisp: get rid of most checks for ISP2401 version")
+> > > > > > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
+> > > > > > ---
+> > > > > >  .../staging/media/atomisp/pci/sh_css_mipi.c   | 24 ++++++++++++-------
+> > > > > >  1 file changed, 15 insertions(+), 9 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > > > > > index 65fc93c5d56b..c1f2f6151c5f 100644
+> > > > > > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > > > > > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> > > > > > @@ -423,10 +423,12 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
+> > > > > >  		return 0; /* AM TODO: Check  */
+> > > > > >  	}
+> > > > > >  
+> > > > > > -	if (!IS_ISP2401)
+> > > > > > +	if (!IS_ISP2401) {
+> > > > > >  		port = (unsigned int)pipe->stream->config.source.port.port;
+> > > > > > -	else
+> > > > > > -		err = ia_css_mipi_is_source_port_valid(pipe, &port);
+> > > > > > +	} else {
+> > > > > > +		/* Returns true if port is valid. So, invert it */
+> > > > > > +		err = !ia_css_mipi_is_source_port_valid(pipe, &port);  
+> > > > > 
+> > > > > Don't invert it...  This isn't supposed to return 1 on failure it's
+> > > > > supposed to return negative error codes.  
+> > > > 
+> > > > You mean I should instead modify the return value of
+> > > > ia_css_mipi_is_source_port_valid() ?
+> > > >   
+> > > 
+> > > No.  ia_css_mipi_is_source_port_valid() is fine.  It has a boolean name
+> > > so returning bool is fine.  What I'm saying is that allocate_mipi_frames()
+> > > should do:
+> > > 
+> > > 	if (!ia_css_mipi_is_source_port_valid(pipe, &port))
+> > > 		err = -EINVAL;
+> > > 
+> > > Otherwise it returns negative error codes and 1 on failure.  
+> > 
+> > Ah, I see! Thank you. I feel I'm a stupid... I'll do so in v2.
 > 
+> I would prefer if you could send such changes on new patches.
+
+I'm a little bit too late, sorry. For the record, the return value issue
+pointed out here is already gone with patch ("media: atomisp: sh_css_mipi:
+cleanup the code") [1]. Thanks!
+
+[1] https://lore.kernel.org/linux-media/b541d4c9923154be7ae0518d01ce994acbef3f9b.1637142905.git.mchehab+huawei@kernel.org/
 
