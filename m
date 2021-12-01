@@ -1,135 +1,139 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89082C82
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 12:15:15 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id 71so23387802pgb.4
-        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 04:15:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B3E2C82
+	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 12:25:36 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id o20so100301180eds.10
+        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 04:25:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=BWoLD73QX7+FTV8wI4C4spMqnEhiSiDSCX55FCfSJCY=;
-        b=kQqXd4xSOM95bxGvC6GxBhxVGdA9YzvNYCOYV/Atd/5DdJj9JoXege7BjluyfAuB/m
-         75bnJwrpfwrMx93jOy6SNvGSjnpsbKQTYPKk0PhHfZteDHktLfZrIroHHuaDw7jYlTu9
-         q/uaE7HZ+uVz9PNryie5aYSDrV/aPZN6rDH1kHj4Y8Nw3mD0g45xedzXwfTS4zvdLqWx
-         fYNdE9nA4UpUaUrhW1kG0KnlIbZXt7fazt8Pe3NqlCYFPYYjARZMdezbGFh6UCkFULK5
-         1buNzS8EDwHvZi+w5hh0ixT/bh9sG7oTfW9beWjdxcf8OFKlTfsv6Cmr+6t4G2ySR/oT
-         MEig==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Q1bXomoZK1uliSFuVlRwGoqDfgeoL9wTIcaSZKyOo3w=;
+        b=P68R8RdCgIl0gxA1N+wy5SkHXfbt/D1cXaJOKR2qqp34uB1KncofMP4RRJxIUk/ZVb
+         krfz5geTxre4LhueKkboAFLvUcWFVxLip4vKY2Y2qSdMTays/sl+wvdYTAdUtWKmCio4
+         N578egHQt6+i3BPnPwX43gmTBDIhIbawT22MR4Hh0CSNmTBXKebsTbHn1a1+P+/fgP5Z
+         v6RWw586cv9ZxWD7OThwBC2cy9WLFeOIn1MrmcG6GuVFoNFcf3yTnGXu+UTRgtgTLv53
+         0OT1NTkAUEfedg8MuZWxFxuSvLCsjGaz7thiJ3Byqi/gKV/kEwf+GuiUk6ReXsyHRMCK
+         w+Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BWoLD73QX7+FTV8wI4C4spMqnEhiSiDSCX55FCfSJCY=;
-        b=CkSlI2ALf1kmdK//Mh9ZpmnMXiCYy+5BFCJ1qjQbundV0XzebU0ryKm7pT1S067aEu
-         ko3ovUPqXqjTB/7SJbzhSvfT+nOHp01MPkK8Pdg3DY3HVGf3rmuustocDeuDAP9qJhNU
-         inlVpOyN1FmEiVVHHVqyFl1Veqoeiflne68wuZ8EAq0QBfXv+v8Y7QL+wYGlXn2Jatfs
-         ZPU1/MMS+Hv/jIRK6KiSuFxDF/HEq4CpJHwaw42er9r98eylMTqgjtH39zfD3tNgVjux
-         xVrmBhoySU/q+L9QniKJi2oPFVHDhzmJgbC2aLFaia1fPzejADI6S0ijngAeO5uFZqcX
-         GWkQ==
-X-Gm-Message-State: AOAM5306o1x9bupTMHgxHlPd+hhdsrSIrMcyAko/eI4KL2n21RhRDWxG
-	8SplXjJ/YSKsjgpRPH2ghrgJga9VnuVpYQ==
-X-Google-Smtp-Source: ABdhPJxMgXPlCDOFu23je2GMfoYQd20LckC3gvpVejUhzQq4Q6FGmpk7+yyeE7OvXMindEJXjgQWDA==
-X-Received: by 2002:a63:e648:: with SMTP id p8mr4362617pgj.620.1638360915420;
-        Wed, 01 Dec 2021 04:15:15 -0800 (PST)
-Received: from ?IPv6:2400:4052:6980:3800:dba7:2b1f:3f26:a5ec? ([2400:4052:6980:3800:dba7:2b1f:3f26:a5ec])
-        by smtp.gmail.com with ESMTPSA id x33sm24790606pfh.133.2021.12.01.04.15.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 04:15:15 -0800 (PST)
-Message-ID: <0d5acf26f560b82da9d77a2c9d46042d8c4cd5d1.camel@gmail.com>
-Subject: Re: [PATCH 05/17] media: atomisp: pci: fix inverted error check for
- ia_css_mipi_is_source_port_valid()
-From: Tsuchiya Yuto <kitakar@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, Hans de Goede
- <hdegoede@redhat.com>, Patrik Gfeller <patrik.gfeller@gmail.com>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Aline Santana Cordeiro <alinesantanacordeiro@gmail.com>, Yang Yingliang
- <yangyingliang@huawei.com>, Dinghao Liu <dinghao.liu@zju.edu.cn>, Deepak R
- Varma <drv@mailo.com>, Alex Dewar <alex.dewar90@gmail.com>, 
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-Date: Wed, 01 Dec 2021 21:15:10 +0900
-In-Reply-To: <20211108163536.07bd2282@sal.lan>
-References: <20211017161958.44351-1-kitakar@gmail.com>
-	 <20211017161958.44351-6-kitakar@gmail.com> <20211102113332.GC2794@kadam>
-	 <ed17420d96bd302479b528f7ae8694ff9cd2e72a.camel@gmail.com>
-	 <20211108151455.GI2001@kadam>
-	 <efaf74b587e5e31403895cd5af88852402fe92ec.camel@gmail.com>
-	 <20211108163536.07bd2282@sal.lan>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q1bXomoZK1uliSFuVlRwGoqDfgeoL9wTIcaSZKyOo3w=;
+        b=y3JXpfkharQ/PFl6qO3rtE3LJ8k2ZEGfHzUzau7cenzOCHtHC0BkjzAxSTs54sxD3N
+         4uUSbazbagqa/Y6PnPpG2W1jDAMWPIqrWwRYHB/JWiZhGyVML/DVAYEL9oxQOxr/RVcg
+         YUilpKeACZF7NcwegHV7wFkDyr9ps/Tj8YJEJSYvVJBf4Or6R3lcTy3gRgGPyQMFUUuQ
+         yT/Z+3XtU55tAB/LvSyE86nXQEY5ZWU93PpLtGzOghhWCHOSY989NTJMFRQAc/eQmK/x
+         UQU4PwL8HPyOVPlsp6AMFgK9WUNFaMv4s0RXAslDSArjQqwnz2UVL1u0LUuv8KlgF3hi
+         ArrA==
+X-Gm-Message-State: AOAM531MVVFpUZ9JHsvpe9b1cQm38kV9BfCS2JxZSKQAXqKLCoAUE8GD
+	+HELd3DfFBw4OO+HCyL1wITr9QfnCTshUdXK73aX/w==
+X-Google-Smtp-Source: ABdhPJxqcgQiEY76Rd0OlztgVDvAKC2e3Q50wIGfgfNHSONNNfT26V+DNnPfuftHX99L+Bf304WeNkdbMAk6WBC5gew=
+X-Received: by 2002:a17:906:ece9:: with SMTP id qt9mr6601577ejb.362.1638361535048;
+ Wed, 01 Dec 2021 04:25:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20211201013329.15875-1-aford173@gmail.com> <20211201013329.15875-2-aford173@gmail.com>
+In-Reply-To: <20211201013329.15875-2-aford173@gmail.com>
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date: Wed, 1 Dec 2021 09:25:22 -0300
+Message-ID: <CAAEAJfBBFhRtW2wmoA6T+yyM-nurUbtPqYHKPHjeRdKzA34PcQ@mail.gmail.com>
+Subject: Re: [RFC V2 1/2] media: hantro: Add support for i.MX8M Mini
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-media <linux-media@vger.kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Tim Harvey <tharvey@gateworks.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	Adam Ford-BE <aford@beaconembedded.com>, Rob Herring <robh+dt@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2021-11-08 at 16:35 +0000, Mauro Carvalho Chehab wrote:
-> Em Tue, 09 Nov 2021 00:25:52 +0900
-> Tsuchiya Yuto <kitakar@gmail.com> escreveu:
-> 
-> > <removed Alan from Cc as the mail address not reachable>
-> > 
-> > On Mon, 2021-11-08 at 18:14 +0300, Dan Carpenter wrote:
-> > > On Tue, Nov 09, 2021 at 12:00:29AM +0900, Tsuchiya Yuto wrote:  
-> > > > On Tue, 2021-11-02 at 14:33 +0300, Dan Carpenter wrote:  
-> > > > > On Mon, Oct 18, 2021 at 01:19:45AM +0900, Tsuchiya Yuto wrote:  
-> > > > > > The function ia_css_mipi_is_source_port_valid() returns true if the port
-> > > > > > is valid. So, we can't use the existing err variable as is.
-> > > > > > 
-> > > > > > To fix this issue while reusing that variable, invert the return value
-> > > > > > when assigning it to the variable.
-> > > > > > 
-> > > > > > Fixes: 3c0538fbad9f ("media: atomisp: get rid of most checks for ISP2401 version")
-> > > > > > Signed-off-by: Tsuchiya Yuto <kitakar@gmail.com>
-> > > > > > ---
-> > > > > >  .../staging/media/atomisp/pci/sh_css_mipi.c   | 24 ++++++++++++-------
-> > > > > >  1 file changed, 15 insertions(+), 9 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > > > > index 65fc93c5d56b..c1f2f6151c5f 100644
-> > > > > > --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > > > > +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
-> > > > > > @@ -423,10 +423,12 @@ allocate_mipi_frames(struct ia_css_pipe *pipe,
-> > > > > >  		return 0; /* AM TODO: Check  */
-> > > > > >  	}
-> > > > > >  
-> > > > > > -	if (!IS_ISP2401)
-> > > > > > +	if (!IS_ISP2401) {
-> > > > > >  		port = (unsigned int)pipe->stream->config.source.port.port;
-> > > > > > -	else
-> > > > > > -		err = ia_css_mipi_is_source_port_valid(pipe, &port);
-> > > > > > +	} else {
-> > > > > > +		/* Returns true if port is valid. So, invert it */
-> > > > > > +		err = !ia_css_mipi_is_source_port_valid(pipe, &port);  
-> > > > > 
-> > > > > Don't invert it...  This isn't supposed to return 1 on failure it's
-> > > > > supposed to return negative error codes.  
-> > > > 
-> > > > You mean I should instead modify the return value of
-> > > > ia_css_mipi_is_source_port_valid() ?
-> > > >   
-> > > 
-> > > No.  ia_css_mipi_is_source_port_valid() is fine.  It has a boolean name
-> > > so returning bool is fine.  What I'm saying is that allocate_mipi_frames()
-> > > should do:
-> > > 
-> > > 	if (!ia_css_mipi_is_source_port_valid(pipe, &port))
-> > > 		err = -EINVAL;
-> > > 
-> > > Otherwise it returns negative error codes and 1 on failure.  
-> > 
-> > Ah, I see! Thank you. I feel I'm a stupid... I'll do so in v2.
-> 
-> I would prefer if you could send such changes on new patches.
+Hi Adam,
 
-I'm a little bit too late, sorry. For the record, the return value issue
-pointed out here is already gone with patch ("media: atomisp: sh_css_mipi:
-cleanup the code") [1]. Thanks!
+On Tue, 30 Nov 2021 at 22:33, Adam Ford <aford173@gmail.com> wrote:
+>
+> The i.MX8M Mini has a similar implementation of the Hantro G1 and
+> h decoders, but the Mini uses the vpu-blk-ctrl for handling the
+> VPU resets through the power domain system.  As such, there are
+> functions present in the 8MQ that are not applicable to the Mini
+> which requires the driver to have a different compatible flags.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+>
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index fb82b9297a2b..2aa1c520be50 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -592,6 +592,8 @@ static const struct of_device_id of_hantro_match[] = {
+>         { .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+>  #endif
+>  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+> +       { .compatible = "nxp,imx8mm-vpu", .data = &imx8mm_vpu_variant, },
+> +       { .compatible = "nxp,imx8mm-vpu-g2", .data = &imx8mm_vpu_g2_variant },
+>         { .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+>         { .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
+>  #endif
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 267a6d33a47b..ae7c3fff760c 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -211,6 +211,8 @@ enum hantro_enc_fmt {
+>         ROCKCHIP_VPU_ENC_FMT_UYVY422 = 3,
+>  };
+>
+> +extern const struct hantro_variant imx8mm_vpu_g2_variant;
+> +extern const struct hantro_variant imx8mm_vpu_variant;
+>  extern const struct hantro_variant imx8mq_vpu_g2_variant;
+>  extern const struct hantro_variant imx8mq_vpu_variant;
+>  extern const struct hantro_variant px30_vpu_variant;
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index ea919bfb9891..c68516c00c6d 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -242,6 +242,32 @@ static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+>         },
+>  };
+>
+> +static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] = {
+> +       [HANTRO_MODE_MPEG2_DEC] = {
+> +               .run = hantro_g1_mpeg2_dec_run,
+> +               .init = hantro_mpeg2_dec_init,
+> +               .exit = hantro_mpeg2_dec_exit,
+> +       },
+> +       [HANTRO_MODE_VP8_DEC] = {
+> +               .run = hantro_g1_vp8_dec_run,
+> +               .init = hantro_vp8_dec_init,
+> +               .exit = hantro_vp8_dec_exit,
+> +       },
+> +       [HANTRO_MODE_H264_DEC] = {
+> +               .run = hantro_g1_h264_dec_run,
+> +               .init = hantro_h264_dec_init,
+> +               .exit = hantro_h264_dec_exit,
+> +       },
+> +};
+> +
+> +static const struct hantro_codec_ops imx8mm_vpu_g2_codec_ops[] = {
+> +       [HANTRO_MODE_HEVC_DEC] = {
+> +               .run = hantro_g2_hevc_dec_run,
+> +               .init = hantro_hevc_dec_init,
+> +               .exit = hantro_hevc_dec_exit,
+> +       },
+> +};
+> +
 
-[1] https://lore.kernel.org/linux-media/b541d4c9923154be7ae0518d01ce994acbef3f9b.1637142905.git.mchehab+huawei@kernel.org/
+I believe you are missing VP9, which explains why you get
+a zero fluster score.
 
+Thanks,
+Ezequiel
