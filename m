@@ -1,41 +1,41 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF8668
-	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 19:23:19 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id v1so2276810edx.2
-        for <linux-staging@lists.linux.dev>; Thu, 02 Dec 2021 11:23:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725D92CA2
+	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 19:23:20 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id o20so2068901eds.10
+        for <linux-staging@lists.linux.dev>; Thu, 02 Dec 2021 11:23:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8hucBawdxhi54mMwdEP0JYBCWSxKtvfTJGsGhMSfgi0=;
-        b=ImcIA2TmYkc4DExBQ1ghrTuHlJbRsEYe5RkSoTxxraD9L2WmPVNCw6WQ9Icj0k7cuj
-         oAw+yCljcD1RbzslNG1iouCHQ3k9OhzpYJoARjorir8XC77Wrkh3aH1PF70Hy4c+58Fe
-         M4UhRuXQrklMSm9nZO2uV/byOFYe2T8o6jU+d8rbJQxDL3Gk5NqRsso3AHGKnJ6EWVah
-         aueWPLI4hXdWj8CyQwNMFN4/nt2jfV/SD9DA6fog66HJU6LbtqbPtkcSt10N3lixGe8Y
-         MlNUPFtGu+pxLh/QXRMSuaqxmu+wJP6aBcyXtst7l+8waiwCeaTB3Im1Qe+N8j0FC8Cp
-         aC0A==
+        bh=Qss9WczWsHf6m6xg+GfxowVSEYP0p3JBA2lkpNMO7B0=;
+        b=p/1LhlExRHF+B41phebtCxcYDklvUrFLTGbMotAKBZgWPcqU0fDVLSDpXP6iaR/Aw+
+         5l8y0fYrLz29kUDPNiay7L4dGND3qiSiQY39aBtBv5zwbf0ShWbhwRMWtAjSvGyiIGBt
+         UA8qAYyj0xasFdE63mYqElToRl10RFaDasP7Pa5Uu7tw699/zMvc+Q8XnTpy2lASm9OI
+         Q6lXDqG2Oa6frI6Q0S3AF1mvn5Z0voQSRteInHqZUQzKFh/h2D533kfx6V9dtqIyShkP
+         IC6YEIFwDzKzjVi1BsnmuSEYgn6t0Oi9pBFwA2IQOo3PeEDbFiPapPPyJPI40Be+hk3O
+         hmCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8hucBawdxhi54mMwdEP0JYBCWSxKtvfTJGsGhMSfgi0=;
-        b=W/6fJh7nIVSC4tbvbgYz66ja2YNCJk5Iq9Xc+qagbn2N35KCpgRh47eTLg1pGqix+6
-         ExoQYj7ll83LI0QcFAbREsImRUrFDlqVlJq/VNgASMeklHa0qWhjewBlyww3zh0zw25l
-         pV0cRjJF8XDBYxHriAsPo/a83rQdHQrh0wcwCk3mY+9LlwBiJKtvDFJRhT6fK9DEkiwU
-         RjSrMFKJLgUGPm/S+5Qiq187eLrEridBRXRlXcaRfcaA+Gt6u9pd3HAK4YjaYbigybli
-         gRLmGO2qBhTvOW/vGEaQF41IcuthWghjXnjvQ06esVdYLyEYXfd7QHVqYHEY4eh++z/h
-         60cg==
-X-Gm-Message-State: AOAM531jfAUMhCNH6y30uI+cjRcm2dTppCNeyHL8l++3ikM83BPNnKfW
-	W/eF+W0O4EC/MDNCAXlm65Y=
-X-Google-Smtp-Source: ABdhPJydvong/74MxBo+3spVnP42b2MXyvxp0KiaCdtDSt5VrV3bOm8HINfP5p1Fy2pkr9M3rws/Fg==
-X-Received: by 2002:a17:906:c109:: with SMTP id do9mr17414361ejc.48.1638472998132;
+        bh=Qss9WczWsHf6m6xg+GfxowVSEYP0p3JBA2lkpNMO7B0=;
+        b=oFOWXg8Bpfh6lw6bZRU+U6Rrq1w9Oee/R1pQVFazHHe/wBA1A4AydvLa6fXCThgtXm
+         EC8bIwV1U/ILeLA92MzgfHocyi/RwxMS08tLo37kJcEk9mML9kgiP+xeGslC3zHeArhk
+         LaKk2e46/sWiJVQSL6dFw+R0ahV/B/VxWfUfHDCiaxrVSss9MNhm83/eTALEPtIbKgnT
+         XzW97w+lFmGESl9AHrRh54RwufzLPf1QVwFN0Gpjv03g92c7SfvIf60lyJjnUqinhdl6
+         qTLSlwAw46Gce718nSqVRWldgFnHrPNLqYhIO2xT+rumEinH8fsst0yvanWqzcricMIy
+         4EhQ==
+X-Gm-Message-State: AOAM533BJUczrOS7Wybg550p2wHDy3qFzDK0pPV16+brrCCTshHyCbkF
+	yxjHtmc1RXLuIWbErXtnHWM=
+X-Google-Smtp-Source: ABdhPJyXC8e7WpOCL7CeylQ6+9Al/mjZ3YhX+Sf3enLHkJLl9cOsRSnI8DOZcNvFboNgNxAPd+OJzw==
+X-Received: by 2002:a50:9ec9:: with SMTP id a67mr19994458edf.238.1638472998831;
         Thu, 02 Dec 2021 11:23:18 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5a05])
-        by smtp.gmail.com with ESMTPSA id jg36sm432530ejc.44.2021.12.02.11.23.17
+        by smtp.gmail.com with ESMTPSA id jg36sm432530ejc.44.2021.12.02.11.23.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 11:23:17 -0800 (PST)
+        Thu, 02 Dec 2021 11:23:18 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 2/5] staging: r8188eu: pbNet_closed is set but never used
-Date: Thu,  2 Dec 2021 20:23:06 +0100
-Message-Id: <20211202192309.9362-3-straube.linux@gmail.com>
+Subject: [PATCH 3/5] staging: r8188eu: pSecurity is set but never used
+Date: Thu,  2 Dec 2021 20:23:07 +0100
+Message-Id: <20211202192309.9362-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211202192309.9362-1-straube.linux@gmail.com>
 References: <20211202192309.9362-1-straube.linux@gmail.com>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pbNet_closed in odm_dm_struct is set but never used. Remove it.
+pSecurity in odm_dm_struct is set but never used. Remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
@@ -67,52 +67,52 @@ Signed-off-by: Michael Straube <straube.linux@gmail.com>
  3 files changed, 7 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 182ec5dc2773..aa5249505fde 100644
+index aa5249505fde..f3498454ee1a 100644
 --- a/drivers/staging/r8188eu/hal/odm.c
 +++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -252,9 +252,6 @@ void ODM_CmnInfoHook(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
- 	case	ODM_CMNINFO_POWER_SAVING:
- 		pDM_Odm->pbPowerSaving = (bool *)pValue;
+@@ -237,9 +237,6 @@ void ODM_CmnInfoHook(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
+ 	case	ODM_CMNINFO_SEC_CHNL_OFFSET:
+ 		pDM_Odm->pSecChOffset = (u8 *)pValue;
  		break;
--	case	ODM_CMNINFO_NET_CLOSED:
--		pDM_Odm->pbNet_closed = (bool *)pValue;
+-	case	ODM_CMNINFO_SEC_MODE:
+-		pDM_Odm->pSecurity = (u8 *)pValue;
 -		break;
- 	/* To remove the compiler warning, must add an empty default statement to handle the other values. */
- 	default:
- 		/* do nothing */
+ 	case	ODM_CMNINFO_BW:
+ 		pDM_Odm->pBandWidth = (u8 *)pValue;
+ 		break;
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index 5d76f6ea91c4..5725774cd89b 100644
+index 5725774cd89b..389a0c650388 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -75,7 +75,6 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
- 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_SEC_MODE, &Adapter->securitypriv.dot11PrivacyAlgrthm);
+@@ -72,7 +72,6 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
+ 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_RX_UNI, &Adapter->recvpriv.rx_bytes);
+ 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_WM_MODE, &pmlmeext->cur_wireless_mode);
+ 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_SEC_CHNL_OFFSET, &hal_data->nCur40MhzPrimeSC);
+-	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_SEC_MODE, &Adapter->securitypriv.dot11PrivacyAlgrthm);
  	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_BW, &hal_data->CurrentChannelBW);
  	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_CHNL, &hal_data->CurrentChannel);
--	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_NET_CLOSED, &Adapter->net_closed);
  	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_SCAN, &pmlmepriv->bScanInProcess);
- 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_POWER_SAVING, &pwrctrlpriv->bpower_saving);
- 	ODM_CmnInfoInit(dm_odm, ODM_CMNINFO_RF_ANTENNA_TYPE, hal_data->TRxAntDivType);
 diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 2f99d267d25c..f3f17ad2c1c6 100644
+index f3f17ad2c1c6..bb1df9d2d652 100644
 --- a/drivers/staging/r8188eu/include/odm.h
 +++ b/drivers/staging/r8188eu/include/odm.h
-@@ -234,7 +234,6 @@ enum odm_common_info_def {
+@@ -228,7 +228,6 @@ enum odm_common_info_def {
+ 	ODM_CMNINFO_RX_UNI,
+ 	ODM_CMNINFO_WM_MODE,		/*  ODM_WIRELESS_MODE_E */
+ 	ODM_CMNINFO_SEC_CHNL_OFFSET,	/*  ODM_SEC_CHNL_OFFSET_E */
+-	ODM_CMNINFO_SEC_MODE,		/*  ODM_SECURITY_E */
+ 	ODM_CMNINFO_BW,			/*  ODM_BW_E */
+ 	ODM_CMNINFO_CHNL,
  
- 	ODM_CMNINFO_SCAN,
- 	ODM_CMNINFO_POWER_SAVING,
--	ODM_CMNINFO_NET_CLOSED,
- /*  POINTER REFERENCE----------- */
- 
- /* CALL BY VALUE------------- */
-@@ -491,8 +490,6 @@ struct odm_dm_struct {
- 	/*  Common info for Status */
- 	bool	*pbScanInProcess;
- 	bool	*pbPowerSaving;
--
--	bool	*pbNet_closed;
- /*  POINTER REFERENCE----------- */
- 	/*  */
- /* CALL BY VALUE------------- */
+@@ -480,8 +479,6 @@ struct odm_dm_struct {
+ 	u8	*pWirelessMode; /* ODM_WIRELESS_MODE_E */
+ 	/*  Secondary channel offset don't_care/below/above = 0/1/2 */
+ 	u8	*pSecChOffset;
+-	/*  Security mode Open/WEP/AES/TKIP = 0/1/2/3 */
+-	u8	*pSecurity;
+ 	/*  BW info 20M/40M/80M = 0/1/2 */
+ 	u8	*pBandWidth;
+ 	/*  Central channel location Ch1/Ch2/.... */
 -- 
 2.34.0
 
