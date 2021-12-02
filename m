@@ -1,119 +1,152 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58102CA2
-	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 19:23:21 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id v1so2277279edx.2
-        for <linux-staging@lists.linux.dev>; Thu, 02 Dec 2021 11:23:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358512C80
+	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 21:00:23 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id r11so2987436edd.9
+        for <linux-staging@lists.linux.dev>; Thu, 02 Dec 2021 13:00:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xhwx8vXXP2jRVaNAJdp6LaE6WxYb3sqcTElXoFdU/KU=;
-        b=W72FhnXL/K/lcD8yW7MmEjlg62DzZBFo5seTaTceNzrR1E2XFqDb0tWDLx+9nBBxLH
-         JlZU9nEbrKKJjtNyv3EmIiugEFm4DovJqCI+1ypdSTS1aERuJ/f+dtudR4iQAXckQOCy
-         NefTYz7bx3LXqT0r+NISkemVgp8TRuuxXAbym/bWbF3xWG4TTQw6bVACt6pwU463hkNe
-         d+8T7qFgkG48Kq6IOCsmUMvGfDjauMbKY1SaSwbd4SIwKQzQjotBcE0dS/ebCwmp0fhW
-         rpBu2YYnMwOXnNP6yjK1nAMe1oTRtXILIi+VE2cudY64Jj4fg74kujQ4Vff4XWBelpFj
-         R1Ug==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bh3FkLB+q+IhBnShvoY1GO0GV+nrEdn+PjaCXWUUYOc=;
+        b=VJQf+7H+nZE/4Atz54WLI2qgPxceJ4EAgS2M5r3wJnoaUAaq7dBzEl1CDSCJHhvbPG
+         Yjcpl+DI5cm+PlzbPSzZ8fwQnjnf9n5h+3yPt0aTT0M0w0G2du+p8G5KPk2Bk7Lpl5ai
+         h2ytk6TGndnsA8YXNRN6HicdaaPxWJBD3IrRU2Y20UyZN/kWqVokNzH5AjMZ5KfkPFRS
+         r5OYZky0NEGw7CB5hkvPfhdje1cU6cm491NtXzlvgaVuGEvilzwIGg2QyjFdRck6gYvL
+         rU8b6l/f3dqbKHTwNy9fT0NyFnZM2++21paFakjDcNSWk8oip8CREB1Jrs32C49e5jTL
+         7SIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xhwx8vXXP2jRVaNAJdp6LaE6WxYb3sqcTElXoFdU/KU=;
-        b=UmPN6EANp7x0qs03kMrS+PBNUvPwEDKIqtkywUzSDcxwytgUVyht7Gw3pxIlpF1x5X
-         bXDhTxSMK0oJrcv/UUWXDykDkxn4AtJKIDm+sorCXvKqGEcCzWoN6gJS0Q/8Vqtnf4eQ
-         kqpYXn2cMoXnVT0kdhTvhdUX3ArfbtpHYz/3sFCl7X2lU26DdkkjHi81HjP7ArOF7o+6
-         Dpil2fj2jhku09Y3QYHarBzSuETa3PudUdSvbkgeBvTijTVUYsEIY2ot/rp/tHrk2qeB
-         zRap2D9Mz9NhRJ+K3GihZzrMuSj8R/aJE5UcSlKNn54r933qDckcEGvezafmVC6VqT+i
-         6u8Q==
-X-Gm-Message-State: AOAM531K11cE1LXQXA+8/MbQ8242WIhMDRkgTyh/G2rPD5rqjL2P63Jj
-	/dfLkpJIn3faf/e5JDL/ZvE=
-X-Google-Smtp-Source: ABdhPJy3ZOjuR0typ10dceRtwpXPgpFsG9u7qHYjl4uR2hOlzBvNwgE0jI6Eyri9nP6CMV+gRRvQqA==
-X-Received: by 2002:a05:6402:5246:: with SMTP id t6mr19653641edd.18.1638473000392;
-        Thu, 02 Dec 2021 11:23:20 -0800 (PST)
-Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5a05])
-        by smtp.gmail.com with ESMTPSA id jg36sm432530ejc.44.2021.12.02.11.23.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Dec 2021 11:23:20 -0800 (PST)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	phil@philpotter.co.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 5/5] staging: r8188eu: pNumRxBytesUnicast is set but never used
-Date: Thu,  2 Dec 2021 20:23:09 +0100
-Message-Id: <20211202192309.9362-6-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.34.0
-In-Reply-To: <20211202192309.9362-1-straube.linux@gmail.com>
-References: <20211202192309.9362-1-straube.linux@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bh3FkLB+q+IhBnShvoY1GO0GV+nrEdn+PjaCXWUUYOc=;
+        b=G3WOMQsuh/WmRwKkPqVjtn0cH78Mx19cCQmzErtgJBkXiDPtwjq5/0hxbA5OOBxGOh
+         czlwDhYkdX2SrhBRtt5wTe3Qlp7d3ZQ7Byo/UcFXHOaljHkX1U8iPs9CYnFsEXNhLIwC
+         u/H/hHrZrd8PwjYm/7V1BqjZM6uRmH4tTL8ks5XS8EsrMr7LkNwk95icAbbK6Fewx7Op
+         5dy1Q9tFV3XqPfroKX+RQWfbHfNJQ11Vlg6jDg+GIV6ikE2jIUaF4o7Fpjv4Bb6lwNFQ
+         Ir7RyBkSqQqnxrpb8cp3qYPLOZVnn5wXogTXn4CIOKZPdh3rpnqpLs8Tjbxb6ovLMjTW
+         KvSw==
+X-Gm-Message-State: AOAM533Spsxh2bfmYATYWDO3UofNK+xdB7x/MG6+z43X35vTW/XAismQ
+	15biHfFcPNMPdpaS8DfV4rVTVFUfYoHtCIyro0zXuk7O
+X-Google-Smtp-Source: ABdhPJyMPW1OcigW7e9CCbjgXJ/K6L2Wg+y5swFfQKOCkjrdriWNyhtUcXxkvAzdQwnh3K47pPVeqGNW0tUxlyIRmok=
+X-Received: by 2002:a05:6402:3488:: with SMTP id v8mr21163665edc.398.1638478821295;
+ Thu, 02 Dec 2021 13:00:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211202041627.291625-1-aford173@gmail.com> <CAHCN7xJHuOFTQBQWk1yKsk3M0iDB7aKc0=L2DisUoSXVeO3xXQ@mail.gmail.com>
+ <CAJ+vNU2t7Yp5OGtWj432Y-8hL62nQBbG58zM-gAj5YfuCO__sA@mail.gmail.com>
+In-Reply-To: <CAJ+vNU2t7Yp5OGtWj432Y-8hL62nQBbG58zM-gAj5YfuCO__sA@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Thu, 2 Dec 2021 15:00:10 -0600
+Message-ID: <CAHCN7xJXMUHHBACuozY3nUdZ0QqHFLrmwrXnArtCKBG7+P4UZQ@mail.gmail.com>
+Subject: Re: [RFC V3 0/2] arm64: imx8mm: Enable Hantro VPUs
+To: Tim Harvey <tharvey@gateworks.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>, linux-media <linux-media@vger.kernel.org>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
+	Adam Ford-BE <aford@beaconembedded.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree <devicetree@vger.kernel.org>, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-pNumRxBytesUnicast in odm_dm_struct is set but never used.
-Remove it.
+On Thu, Dec 2, 2021 at 12:54 PM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> On Thu, Dec 2, 2021 at 4:29 AM Adam Ford <aford173@gmail.com> wrote:
+> >
+> > On Wed, Dec 1, 2021 at 10:17 PM Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
+> > > to be related to the video decoders used on the i.MX8MQ, but because of
+> > > how the Mini handles the power domains, the VPU driver does not need to
+> > > handle all the functions, so a new compatible flag is required.
+> > >
+> > > V3 is rebased from git://linuxtv.org/hverkuil/media_tree.git for-v5.17c
+> > > This branch has support for VP9.
+> > >
+> > > I set cma=512M, but this may not be enough memory as some tests appeard to run out of memory
+> > >
+> > > V3 of this series has several changes:
+> > >
+> > > Update imx8m_vpu_hw to add missing 'reg' reference names for G2 and include references to VP9
+> > > Update device tree to remove IMX8MQ_VPU_RESET, remove some duplicate vpu clock parenting
+> > > Fix missing reg-names from vpu_g2 node.
+> > > Apply patch [1] to manage the power domains powering down.
+> > > [1] - https://lore.kernel.org/linux-arm-kernel/20211016210547.171717-1-marex@denx.de/t/
+> > >
+> > > With the above, the following Fluster scores are produced:
+> > >
+> > > G1:
+> > > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> > > Ran 90/135 tests successfully               in 74.406 secs
+> > >
+> > > ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> > > Ran 55/61 tests successfully               in 8.080 secs
+> > >
+> > > G2:
+> > > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> > > Ran 127/303 tests successfully               in 203.873 secs
+> > >
+> > > Fluster and G-Streamer were both built from their respective git repos using their respective master/main branches.
+> > >
+> >
+> > I should note, that both interrupts appear to be triggering.
+> >
+> > # cat /proc/interrupts |grep codec
+> >  57:      13442          0          0          0     GICv3  39 Level
+> >   38300000.video-codec
+> >  58:       7815          0          0          0     GICv3  40 Level
+> >   38310000.video-codec
+> >
+>
+> Adam,
+>
+> On another thread you had let me know that you also removed the reset
+> from the pgc_vpumix power domain which does appear to resolve the
+> hang:
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> index eb9dcd9d1a31..31710af544dc 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+> @@ -681,7 +681,6 @@
+>                                                 clocks = <&clk
+> IMX8MM_CLK_VPU_DEC_ROOT>;
+>                                                 assigned-clocks =
+> <&clk IMX8MM_CLK_VPU_BUS>;
+>                                                 assigned-clock-parents
+> = <&clk IMX8MM_SYS_PLL1_800M>;
+> -                                               resets = <&src
+> IMX8MQ_RESET_VPU_RESET>;
+>                                         };
+>
+>                                         pgc_vpu_g1: power-domain@7 {
+>
+> That would make such a patch have a 'Fixes commit d39d4bb15310
+> ("arm64: dts: imx8mm: add GPC node")' but of course that vpu domain
+> isn't active until your series so I'm not sure if we should send this
+> separate or squash it with "arm64: dts: imx8mm: Enable VPU-G1 and
+> VPU-G2". I'm also not clear if removing the reset requires some
+> further discussion with Lucas.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/r8188eu/hal/odm.c         | 3 ---
- drivers/staging/r8188eu/hal/rtl8188e_dm.c | 1 -
- drivers/staging/r8188eu/include/odm.h     | 3 ---
- 3 files changed, 7 deletions(-)
+Unless there is objection from Lucas, I'll likely make it the first
+patch in the series marking it with a fixes tag so it gets backported,
+then the rest of the series would be adding the bindings, update the
+driver and adding the G1 and G2 nodes.
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 86758a603cfc..4cce9bf215f4 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -225,9 +225,6 @@ void ODM_CmnInfoHook(struct odm_dm_struct *pDM_Odm, enum odm_common_info_def Cmn
- 	/*  */
- 	switch	(CmnInfo) {
- 	/*  Dynamic call by reference pointer. */
--	case	ODM_CMNINFO_RX_UNI:
--		pDM_Odm->pNumRxBytesUnicast = (u64 *)pValue;
--		break;
- 	case	ODM_CMNINFO_WM_MODE:
- 		pDM_Odm->pWirelessMode = (u8 *)pValue;
- 		break;
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index 494175bb2739..75b438e1ce78 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -68,7 +68,6 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
- 
- 	ODM_CmnInfoUpdate(dm_odm, ODM_CMNINFO_ABILITY, pdmpriv->InitODMFlag);
- 
--	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_RX_UNI, &Adapter->recvpriv.rx_bytes);
- 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_WM_MODE, &pmlmeext->cur_wireless_mode);
- 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_SEC_CHNL_OFFSET, &hal_data->nCur40MhzPrimeSC);
- 	ODM_CmnInfoHook(dm_odm, ODM_CMNINFO_BW, &hal_data->CurrentChannelBW);
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index ca8d60b515f4..df232867eac8 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -224,7 +224,6 @@ enum odm_common_info_def {
- 
- 	/*  Dynamic value: */
- /*  POINTER REFERENCE-----------  */
--	ODM_CMNINFO_RX_UNI,
- 	ODM_CMNINFO_WM_MODE,		/*  ODM_WIRELESS_MODE_E */
- 	ODM_CMNINFO_SEC_CHNL_OFFSET,	/*  ODM_SEC_CHNL_OFFSET_E */
- 	ODM_CMNINFO_BW,			/*  ODM_BW_E */
-@@ -470,8 +469,6 @@ struct odm_dm_struct {
- 
- 	/*  Dynamic Value */
- /*  POINTER REFERENCE----------- */
--	/* RX Unicast byte count */
--	u64	*pNumRxBytesUnicast;
- 	/*  Wireless mode B/G/A/N = BIT(0)/BIT(1)/BIT(2)/BIT(3) */
- 	u8	*pWirelessMode; /* ODM_WIRELESS_MODE_E */
- 	/*  Secondary channel offset don't_care/below/above = 0/1/2 */
--- 
-2.34.0
-
+adam
+>
+> Best regards,
+>
+> Tim
