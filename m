@@ -1,236 +1,220 @@
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0792C80
-	for <linux-staging@lists.linux.dev>; Wed,  1 Dec 2021 22:08:36 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id s139so51493423oie.13
-        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 14:08:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8685768
+	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 00:58:14 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id x15so109027719edv.1
+        for <linux-staging@lists.linux.dev>; Wed, 01 Dec 2021 16:58:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=MDs/Jyg2/Fm6/tmFp/cfCeZAs/P9gxctfJQzTv1D9I4=;
+        b=Z0aZppabcMHqAqe/IELdlodhbZPrnBrurEFt6x9k9ONn7v28tmLWjtowBVrAZQTdAl
+         rf5KbRRrj9IO49s54jiz4FYwK6WEfY3t3Qx2mnLRyvHHCNss50wHQRlZwDLzVErq55tO
+         Dh+fF8MmtzESvuOsxiVaeZgPtG8398wykTWGr5nc0T2IdUrQ/pc3WIPRStGQzpuDVnqo
+         RmG5y6SR7H0ACd8nWSltrrtRO+yJAlvlqjkcwGNGY+d9zZwfZOb7wsltc9DeyfVmxfnN
+         43L3ntatwysSiiO1l1Wu28qtZVLfKG/eh2OhdPRU8SwTDNtpoqHfWoH7C55cshUt0qDX
+         fMOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=61rAikMT2xFefgUe5g0NFULS9kpnMPEF5LrvcuuTYAU=;
-        b=46nYs/vwLn8Q4vZVJlEYzj+H/JAPMb9ND/HUY4yZaAF2kxO0TI9zoLpc5U7Qy0U0at
-         hFBVudxJ5Zwmji9BQQLoRFAVK9dqHSexsN//owaYXiMi9K/xDv8ekPDpAOy3KmnbQpt/
-         /pfGjTyJosqISEGwzI1q43ujaYMA0mXk8QdQ+XVxRNG7Kb1TX9vtzDYbzG8woxSxgK3h
-         HwGHJhr1xtO1dIJu5IIX3+tFNy40GAC1AB5VNfhQ99w0J5IriAv1sKE9ZoVh1n1ajRBw
-         KssguDh8LgbCQQHveIuweJiaFhtyZ0kUpHosIqt28XtMYLqkWwTaeOkPSvjWQOX82BZh
-         qpaA==
-X-Gm-Message-State: AOAM530Y7PPj4rpccpLHsjUko5kon4nXVQhJA5M5c2k6E5ld4DtQY5ab
-	VZ7Ewu5NozGDEPHecqNKGw==
-X-Google-Smtp-Source: ABdhPJxtSafNCNJSoXOFWLNnynN6wCIJQOugyj5c5EA3SsbJixIS28ajEXBr/1ehe/2yFDSR2rhwDg==
-X-Received: by 2002:a05:6808:14e:: with SMTP id h14mr1048175oie.28.1638396516123;
-        Wed, 01 Dec 2021 14:08:36 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id a3sm632937oil.32.2021.12.01.14.08.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 14:08:35 -0800 (PST)
-Received: (nullmailer pid 2780052 invoked by uid 1000);
-	Wed, 01 Dec 2021 22:08:34 -0000
-Date: Wed, 1 Dec 2021 16:08:34 -0600
-From: Rob Herring <robh@kernel.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Cc: david@lechnology.com, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, dave.stevenson@raspberrypi.com, maxime@cerno.tech
-Subject: Re: [PATCH 4/6] dt-bindings: display: sitronix,st7735r: Add
- initialization properties
-Message-ID: <YafyYgrwga0Tf/EB@robh.at.kernel.org>
-References: <20211124150757.17929-1-noralf@tronnes.org>
- <20211124150757.17929-5-noralf@tronnes.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=MDs/Jyg2/Fm6/tmFp/cfCeZAs/P9gxctfJQzTv1D9I4=;
+        b=4BdsGc3K2hrq4qf8ZyLfI6p+14q1J3xp2u25b7PUtUp7ZdcBoVTgmDIT/X5/g/Aeul
+         KB/VUOnW7+De+PXNMSDn8UGzMI1jnE9MIpvj2bsvD7ICqLNziznrbU9anXoX3SIE91HH
+         nvnAk9FoE9sRtjYH2kyFBwkx553j7tGdfCczUMH1cxUftv0hWHC8VixdAlsB9mQzJN4+
+         YadZQFLqBMZkKpYec0u+nJvghEnrEf+Spo0f7kgaZF/RDGYNpMJUMv6CnkAIwM915q9J
+         wgiYlw5QJ3kOvodRk/0Tq7Er9OKB/XcUoICMxlBZvsMT9To8NmBarUPvMnI86d0Kl5R5
+         El6A==
+X-Gm-Message-State: AOAM531m0e6LV9XFa5LCUFDu+hBkfuyHYgqeQCd+pMMlD7MjkMMdurl3
+	nSsiZWp6o+RTVSKXizJ4NFOvTgfoDKoOOe0Ss3g=
+X-Google-Smtp-Source: ABdhPJy2AeC+wjbxokHKkX1QJDz4q03oGJTAKXg4f61iAPBx4Kwt2Z2Gsb5gMxoLVsTajmPMfJR8Ls7h2+OxRikmXPo=
+X-Received: by 2002:a17:907:1b17:: with SMTP id mp23mr10807590ejc.521.1638406692655;
+ Wed, 01 Dec 2021 16:58:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211124150757.17929-5-noralf@tronnes.org>
+References: <20211201013329.15875-1-aford173@gmail.com> <20211201013329.15875-2-aford173@gmail.com>
+ <CAAEAJfBBFhRtW2wmoA6T+yyM-nurUbtPqYHKPHjeRdKzA34PcQ@mail.gmail.com>
+ <CAHCN7xLGTadbr+=-j2yJHFn233dgHic28njej8LHS2M0WwtqYQ@mail.gmail.com>
+ <CAAEAJfDqBezv1_ZsF3vjAFprZYuaE7krkSXa4vzAfMZp5_z+sA@mail.gmail.com> <d8335964ece000814c8ec2ea0274498b3280812c.camel@ndufresne.ca>
+In-Reply-To: <d8335964ece000814c8ec2ea0274498b3280812c.camel@ndufresne.ca>
+From: Adam Ford <aford173@gmail.com>
+Date: Wed, 1 Dec 2021 18:58:01 -0600
+Message-ID: <CAHCN7xK7L2iJvHa8j+W0n2ufOUeLTdF06r=Fa4wjXj5UE9mM-Q@mail.gmail.com>
+Subject: Re: [RFC V2 1/2] media: hantro: Add support for i.MX8M Mini
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	linux-media <linux-media@vger.kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Tim Harvey <tharvey@gateworks.com>, Adam Ford-BE <aford@beaconembedded.com>, 
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree <devicetree@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 24, 2021 at 04:07:55PM +0100, Noralf Trønnes wrote:
-> Add initialization properties that are commonly used to initialize the
-> controller for a specific display panel. It is common for displays to have
-> a datasheet listing the necessary controller settings or some example code
-> doing the same. These settings can be matched directly to the DT
-> properties.
-> 
-> The commands FRMCTR2, FRMCTR3, PWCTR4 and PWCTR5 are usually part of the
-> setup examples but they are skipped here since they deal with partial and
-> idle mode which are powersaving modes for very special use cases.
-> 
-> dc-gpios is made optional because its absence indicates 3-line mode.
-> 
-> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
-> ---
->  .../bindings/display/sitronix,st7735r.yaml    | 118 +++++++++++++++++-
->  1 file changed, 116 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> index 157b1a7b18f9..2db1cfe6ae30 100644
-> --- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> @@ -19,6 +19,10 @@ allOf:
->  properties:
->    compatible:
->      oneOf:
-> +      - description:
-> +          Sitronix ST7735R 262K Color Single-Chip TFT Controller/Driver
-> +        items:
-> +          - const: sitronix,st7735r
->        - description:
->            Adafruit 1.8" 160x128 Color TFT LCD (Product ID 358 or 618)
->          items:
-> @@ -32,20 +36,99 @@ properties:
->                - okaya,rh128128t
->            - const: sitronix,st7715r
->  
-> +  width:
-> +    description:
-> +      Width of display panel in pixels
-> +
-> +  height:
-> +    description:
-> +      Height of display panel in pixels
+On Wed, Dec 1, 2021 at 3:03 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
+e:
+>
+> Le mercredi 01 d=C3=A9cembre 2021 =C3=A0 09:58 -0300, Ezequiel Garcia a =
+=C3=A9crit :
+> > On Wed, 1 Dec 2021 at 09:36, Adam Ford <aford173@gmail.com> wrote:
+> > >
+> > > On Wed, Dec 1, 2021 at 6:25 AM Ezequiel Garcia
+> > > <ezequiel@vanguardiasur.com.ar> wrote:
+> > > >
+> > > > Hi Adam,
+> > > >
+> > > > On Tue, 30 Nov 2021 at 22:33, Adam Ford <aford173@gmail.com> wrote:
+> > > > >
+> > > > > The i.MX8M Mini has a similar implementation of the Hantro G1 and
+> > > > > h decoders, but the Mini uses the vpu-blk-ctrl for handling the
+> > > > > VPU resets through the power domain system.  As such, there are
+> > > > > functions present in the 8MQ that are not applicable to the Mini
+> > > > > which requires the driver to have a different compatible flags.
+> > > > >
+> > > > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > > >
+> > > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/=
+staging/media/hantro/hantro_drv.c
+> > > > > index fb82b9297a2b..2aa1c520be50 100644
+> > > > > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > > > > @@ -592,6 +592,8 @@ static const struct of_device_id of_hantro_ma=
+tch[] =3D {
+> > > > >         { .compatible =3D "rockchip,rk3399-vpu", .data =3D &rk339=
+9_vpu_variant, },
+> > > > >  #endif
+> > > > >  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+> > > > > +       { .compatible =3D "nxp,imx8mm-vpu", .data =3D &imx8mm_vpu=
+_variant, },
+> > > > > +       { .compatible =3D "nxp,imx8mm-vpu-g2", .data =3D &imx8mm_=
+vpu_g2_variant },
+> > > > >         { .compatible =3D "nxp,imx8mq-vpu", .data =3D &imx8mq_vpu=
+_variant, },
+> > > > >         { .compatible =3D "nxp,imx8mq-vpu-g2", .data =3D &imx8mq_=
+vpu_g2_variant },
+> > > > >  #endif
+> > > > > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/s=
+taging/media/hantro/hantro_hw.h
+> > > > > index 267a6d33a47b..ae7c3fff760c 100644
+> > > > > --- a/drivers/staging/media/hantro/hantro_hw.h
+> > > > > +++ b/drivers/staging/media/hantro/hantro_hw.h
+> > > > > @@ -211,6 +211,8 @@ enum hantro_enc_fmt {
+> > > > >         ROCKCHIP_VPU_ENC_FMT_UYVY422 =3D 3,
+> > > > >  };
+> > > > >
+> > > > > +extern const struct hantro_variant imx8mm_vpu_g2_variant;
+> > > > > +extern const struct hantro_variant imx8mm_vpu_variant;
+> > > > >  extern const struct hantro_variant imx8mq_vpu_g2_variant;
+> > > > >  extern const struct hantro_variant imx8mq_vpu_variant;
+> > > > >  extern const struct hantro_variant px30_vpu_variant;
+> > > > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/driver=
+s/staging/media/hantro/imx8m_vpu_hw.c
+> > > > > index ea919bfb9891..c68516c00c6d 100644
+> > > > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > > > @@ -242,6 +242,32 @@ static const struct hantro_codec_ops imx8mq_=
+vpu_g2_codec_ops[] =3D {
+> > > > >         },
+> > > > >  };
+> > > > >
+> > > > > +static const struct hantro_codec_ops imx8mm_vpu_codec_ops[] =3D =
+{
+> > > > > +       [HANTRO_MODE_MPEG2_DEC] =3D {
+> > > > > +               .run =3D hantro_g1_mpeg2_dec_run,
+> > > > > +               .init =3D hantro_mpeg2_dec_init,
+> > > > > +               .exit =3D hantro_mpeg2_dec_exit,
+> > > > > +       },
+> > > > > +       [HANTRO_MODE_VP8_DEC] =3D {
+> > > > > +               .run =3D hantro_g1_vp8_dec_run,
+> > > > > +               .init =3D hantro_vp8_dec_init,
+> > > > > +               .exit =3D hantro_vp8_dec_exit,
+> > > > > +       },
+> > > > > +       [HANTRO_MODE_H264_DEC] =3D {
+> > > > > +               .run =3D hantro_g1_h264_dec_run,
+> > > > > +               .init =3D hantro_h264_dec_init,
+> > > > > +               .exit =3D hantro_h264_dec_exit,
+> > > > > +       },
+> > > > > +};
+> > > > > +
+> > > > > +static const struct hantro_codec_ops imx8mm_vpu_g2_codec_ops[] =
+=3D {
+> > > > > +       [HANTRO_MODE_HEVC_DEC] =3D {
+> > > > > +               .run =3D hantro_g2_hevc_dec_run,
+> > > > > +               .init =3D hantro_hevc_dec_init,
+> > > > > +               .exit =3D hantro_hevc_dec_exit,
+> > > > > +       },
+> > > > > +};
+> > > > > +
+> > > >
+> > > > I believe you are missing VP9, which explains why you get
+> > > > a zero fluster score.
+> > >
+> > > That's what I was thinking too and that's why I was wondering if I
+> > > should wait on G2 until more of those G2 patches have been finalized
+> > > and accepted.  Is there a way to test the HEVC?  I didn't see one in
+> > > the fluster list.
+> > >
+> >
+> > VP9 is on its way to be merged. There is a pull request from Hans
+> > already: see https://www.spinics.net/lists/linux-media/msg202448.html
+> > which includes the git repository and tag you can merge/rebase to test
+> > it.
+> >
 
+Thanks for that.  I rebased my work and found some bugs, so I'll be
+posting an RFC V3 later tonight.
 
-We already have width-mm and height-mm for physical size so this might 
-be a bit confusing. There's also panel-timing 'vactive' and 'hactive' 
-which is effectively the same thing you are defining.
+> > It would be great if you can test G2 on top of that, but it's also fine
+> > if you want to just submit G1 for now. Up to you.
+> >
+> > Regarding HEVC, currently Benjamin is who knows best how to test it.
+> > Thinking about it, perhaps we should document this somewhere?
+>
+> There is GStreamer-H.265-V4L2SL-Gst1.0 decoder already in fluster. And GS=
+treamer
+> support is still WIP.
+>
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>
+> We had put on hold the HEVC work in order to focus on VP9. Now that VP9 i=
+s on
+> its way (I've sent another MR today to GStreamer to fix some more tests).=
+ I
+> haven't tested myself imx8mq recently, will likely do soon, so I can give=
+ you
+> the expected score. Your VP8 and H264 score matches the result I got. Not=
+e that
+> H264 driver is missing interlace support, which is half the tests.
+>
+> We will can resume this work. Help is welcome of course. The HEVC staging=
+ API is
+> by was the worst, so there is quite some work to move this API to stable =
+and
+> then port all the drivers to the require changes that will be needed.
 
-> +
-> +  frmctr1:
+With the latest gstreamer and the rebase off Hans' work along with
+some improvements to my code, fluster now runs the VP9...at least for
+a while.  It doesn't technically finish because the power domain
+appears to choke which causes a hang.  This was reported by Tim
+Harvey, and with some of my updates, I can reproduce it now too.  :-(
 
-Are all these standardized by MIPI or otherwise common? If not, they 
-need vendor prefixes.
+At least I know I'm off to the right start on the VP9.
 
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Frame Rate Control (In normal mode/Full colors) (B1h)
-> +    minItems: 3
-> +    maxItems: 3
-> +
-> +  invctr:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Display Inversion Control (B4h)
-> +    minItems: 1
-> +    maxItems: 1
-> +
-> +  pwctr1:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Power Control 1 (C0h)
-> +    minItems: 3
-> +    maxItems: 3
-> +
-> +  pwctr2:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Power Control 2 (C1h)
-> +    minItems: 1
-> +    maxItems: 1
-> +
-> +  pwctr3:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Power Control 3 (in Normal mode/Full colors) (C2h)
-> +    minItems: 2
-> +    maxItems: 2
-> +
-> +  vmctr1:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      VCOM Control 1 (C5h)
-> +    minItems: 1
-> +    maxItems: 1
-> +
-> +  madctl:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Memory Data Access Control (36h)
-> +    minItems: 1
-> +    maxItems: 1
-> +
-> +  gamctrp1:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Gamma Positive Polarity Correction Characteristics Setting (E0h)
-> +    minItems: 16
-> +    maxItems: 16
-> +
-> +  gamctrn1:
-> +    $ref: /schemas/types.yaml#definitions/uint8-array
-> +    description:
-> +      Gamma Negative Polarity Correction Characteristics Setting (E1h)
-> +    minItems: 16
-> +    maxItems: 16
-> +
-> +  write-only:
-> +    type: boolean
-> +    description:
-> +      Controller is not readable (ie. MISO is not wired up).
-> +
->    dc-gpios:
->      maxItems: 1
-> -    description: Display data/command selection (D/CX)
-> +    description: |
-> +      Controller data/command selection (D/CX) in 4-line SPI mode.
-> +      If not set, the controller is in 3-line SPI mode.
->  
->    backlight: true
->    reg: true
->    spi-max-frequency: true
->    reset-gpios: true
->    rotation: true
-> +  width-mm: true
-> +  height-mm: true
->  
->  required:
->    - compatible
->    - reg
-> -  - dc-gpios
->  
->  additionalProperties: false
->  
-> @@ -72,5 +155,36 @@ examples:
->                      backlight = <&backlight>;
->              };
->      };
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            sainsmart18@0{
-> +                    compatible = "sitronix,st7735r";
-> +                    reg = <0>;
-> +                    spi-max-frequency = <40000000>;
-> +
-> +                    width = <160>;
-> +                    height = <128>;
-> +
-> +                    frmctr1 = [ 01 2C 2D ];
-> +                    invctr = [ 07 ];
-> +                    pwctr1 = [ A2 02 84 ];
-> +                    pwctr2 = [ C5 ];
-> +                    pwctr3 = [ 0A 00 ];
-> +                    vmctr1 = [ 0E ];
-> +                    madctl = [ 60 ];
-> +                    gamctrp1 = [ 0F 1A 0F 18 2F 28 20 22 1F 1B 23 37 00 07 02 10 ];
-> +                    gamctrn1 = [ 0F 1B 0F 17 33 2C 29 2E 30 30 39 3F 00 07 03 10 ];
-> +
-> +                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-> +                    reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-> +                    write-only;
-> +            };
-> +    };
-> +
->  
->  ...
-> -- 
-> 2.33.0
-> 
-> 
+adam
+>
+> >
+> > Regards,
+> > Ezequiel
+>
