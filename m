@@ -1,142 +1,77 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81D668
-	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 18:54:12 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id r138so612342pgr.13
-        for <linux-staging@lists.linux.dev>; Thu, 02 Dec 2021 10:54:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4B268
+	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 19:23:17 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id x15so2307522edv.1
+        for <linux-staging@lists.linux.dev>; Thu, 02 Dec 2021 11:23:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6IwGVqZy1REKUxcBFcG80oGR30x3aLwEIoJpVG9B4BI=;
-        b=l5FrpB2is2mD+Yvpy6mRKdZR+EZBJcnDMdo9rskXBUM4JYrQxzVeRqom4ewzKqsbGg
-         90ceyu/O/mYE43MHrI169uqejlosdAmjyTj6W6/LG1l1dnkhvZHwazoKxjqQ5GMW6o/p
-         0TXnqq8jC2ZGItrdbBaAbJJepgwrILvssTDFXBp/XwjZjn0Fof/CARZ5WQr03RIyTHdG
-         ZeXxwd0Kys1/cFYMjKFueXMc4pUJGwrkIdPfEXVIvOfPGjGAzlOIxPAqVpq5AqKgpJdd
-         0eExkIWZ3TnP6VHWsScno8keVx2PSYdxXIVtCXfakPaRMVPLYQhYc88yf1L+N+LEGbQF
-         grdg==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mfKnny9KVQR03wUe/TjPaew5YqnQrIYv/BbMYPEX/1U=;
+        b=CoxXgjtTG7vUL/q8+NRIbn0VGZmAxln8NpMPooVqx6dUxTtA5LNnvJ6CvQEEfU/XgN
+         T/Es89MqUKNbDKa6Qa41lXciCGiD9q5UTPU5eqrlIt4zj6xG+aWcuqFFhS1rxR8aJ4dG
+         evnrYLdB8yzNvFBeab4A/sRU42EYUMu0+lPa3sVJohAP/neuSooib08JY8151BMTytx2
+         5hYgEf7vlxvabIbKN7ZaT8IfX296tGIi0nwSjx6kzKUwRLWHlr5OdG9QF5AnorC0DdL/
+         L4m+BSerUCFMXjLVcYRDmOZJCBgSbRQe18C3HgXBeoJ2S+BCfxohG7ZC+LZ09y0WS4pb
+         TOLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6IwGVqZy1REKUxcBFcG80oGR30x3aLwEIoJpVG9B4BI=;
-        b=0u6jRPNMbC2Kq+5UdrJAJE3MLkEFt6NH4h6nfVKru8TgZ+hJjGQq52W5NqGqX+/ubL
-         tO23oY9qODM/CCCADno6Sp0NCVMr53BOSmVlWQDqkdEIz0JleBqsxgWeFROuAMy5RbCU
-         bXTktl7KaCyGB2xHrm0gTRM51hZBu48KSDRGVcsuiYdlSgrl42clGJD1shn3TMj4QjEg
-         W1S9m/DwbjuucmoNMHDGuKmHb5OCRzadEKfthVncbqz7DegqdiHxLborPDabH2uCMHjE
-         uliACuAP/FpVjg5fFEapBlZX+nYSiFSQ+9cp2N2Z5pacXFdvHqqyTlH3bv28nDe5WI5K
-         8XMA==
-X-Gm-Message-State: AOAM532VlKhEaeYyOS8ZwCe7K810LeEZWEZdtWSpQPx86sFR2DqwxkCW
-	qxTzBFnSpkOO+YdyMtCkH953dGUj9SMRrcl5rlH74A==
-X-Google-Smtp-Source: ABdhPJwi22wC79DYnZtEO7vqtswfj3tLd4A6lZf/1ejSzPSSrMf4Izl5TW3rYfgwzjchMlFnu8shi0/bOCSwySauJC4=
-X-Received: by 2002:a63:d257:: with SMTP id t23mr729148pgi.533.1638471252152;
- Thu, 02 Dec 2021 10:54:12 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mfKnny9KVQR03wUe/TjPaew5YqnQrIYv/BbMYPEX/1U=;
+        b=3XNAsheJ3P5HcPwEqlKNrNUsZg3mmS/3aeXxgRacS/cGeobwfcF84kGKChJiKg1ZtW
+         4B1MaLRwFa2Zy/MtF7GnaVI+X6RtJvbitfAijYBqcZTCqkLVue/UoYsbCiclJeb0W+id
+         KGJegzkdQDBdT8t4zayzVDkeAJ6axUbQxSRw6Yas0nqRROCfKrfAYOBO83sWmecoukIf
+         VacW98E0TQ7n+xr6QExPEPgebwBKdh1PIprFBOV19W9rQf3wd92qiWTqZSgFa4qITmBm
+         t9o1fgiigSewJj4UVn6QuwvbOBlhP0B7ovqsrg+NotWmJTXfpyFIEFM4rsKZ95N+9WZZ
+         CbiA==
+X-Gm-Message-State: AOAM531aKEz1/4joVNqT+rH/FuW/8VCQlZ1bQWoqGkxSIBo4HTPDX5+Y
+	V/wQ61c6w5uaIUSqQvpbe7E=
+X-Google-Smtp-Source: ABdhPJx0GBFZgjEPftkpPHJx/kv1itUDZURNwpTtuuFx3Tv5mGeTKaS8rqdGaoe6xQbbZUieIOjgHA==
+X-Received: by 2002:a05:6402:134a:: with SMTP id y10mr20120777edw.241.1638472996301;
+        Thu, 02 Dec 2021 11:23:16 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5a05])
+        by smtp.gmail.com with ESMTPSA id jg36sm432530ejc.44.2021.12.02.11.23.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 11:23:16 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH 0/5] staging: r8188eu: odm cleanups
+Date: Thu,  2 Dec 2021 20:23:04 +0100
+Message-Id: <20211202192309.9362-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211202041627.291625-1-aford173@gmail.com> <CAHCN7xJHuOFTQBQWk1yKsk3M0iDB7aKc0=L2DisUoSXVeO3xXQ@mail.gmail.com>
-In-Reply-To: <CAHCN7xJHuOFTQBQWk1yKsk3M0iDB7aKc0=L2DisUoSXVeO3xXQ@mail.gmail.com>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Thu, 2 Dec 2021 10:54:00 -0800
-Message-ID: <CAJ+vNU2t7Yp5OGtWj432Y-8hL62nQBbG58zM-gAj5YfuCO__sA@mail.gmail.com>
-Subject: Re: [RFC V3 0/2] arm64: imx8mm: Enable Hantro VPUs
-To: Adam Ford <aford173@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
-Cc: linux-media <linux-media@vger.kernel.org>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Adam Ford-BE <aford@beaconembedded.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree <devicetree@vger.kernel.org>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 2, 2021 at 4:29 AM Adam Ford <aford173@gmail.com> wrote:
->
-> On Wed, Dec 1, 2021 at 10:17 PM Adam Ford <aford173@gmail.com> wrote:
-> >
-> > The i.MX8M has two Hantro video decoders, called G1 and G2 which appear
-> > to be related to the video decoders used on the i.MX8MQ, but because of
-> > how the Mini handles the power domains, the VPU driver does not need to
-> > handle all the functions, so a new compatible flag is required.
-> >
-> > V3 is rebased from git://linuxtv.org/hverkuil/media_tree.git for-v5.17c
-> > This branch has support for VP9.
-> >
-> > I set cma=512M, but this may not be enough memory as some tests appeard to run out of memory
-> >
-> > V3 of this series has several changes:
-> >
-> > Update imx8m_vpu_hw to add missing 'reg' reference names for G2 and include references to VP9
-> > Update device tree to remove IMX8MQ_VPU_RESET, remove some duplicate vpu clock parenting
-> > Fix missing reg-names from vpu_g2 node.
-> > Apply patch [1] to manage the power domains powering down.
-> > [1] - https://lore.kernel.org/linux-arm-kernel/20211016210547.171717-1-marex@denx.de/t/
-> >
-> > With the above, the following Fluster scores are produced:
-> >
-> > G1:
-> > ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> > Ran 90/135 tests successfully               in 74.406 secs
-> >
-> > ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> > Ran 55/61 tests successfully               in 8.080 secs
-> >
-> > G2:
-> > ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> > Ran 127/303 tests successfully               in 203.873 secs
-> >
-> > Fluster and G-Streamer were both built from their respective git repos using their respective master/main branches.
-> >
->
-> I should note, that both interrupts appear to be triggering.
->
-> # cat /proc/interrupts |grep codec
->  57:      13442          0          0          0     GICv3  39 Level
->   38300000.video-codec
->  58:       7815          0          0          0     GICv3  40 Level
->   38310000.video-codec
->
+This series removes unused and some set but never used variables
+from the odm_dm_struct structure.
 
-Adam,
+Tested on x86_64 with InterTech DMG-02.
 
-On another thread you had let me know that you also removed the reset
-from the pgc_vpumix power domain which does appear to resolve the
-hang:
+Michael Straube (5):
+  staging: r8188eu: remove unused variables from odm_dm_struct
+  staging: r8188eu: pbNet_closed is set but never used
+  staging: r8188eu: pSecurity is set but never used
+  staging: r8188eu: pNumTxBytesUnicast is set but never used
+  staging: r8188eu: pNumRxBytesUnicast is set but never used
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index eb9dcd9d1a31..31710af544dc 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -681,7 +681,6 @@
-                                                clocks = <&clk
-IMX8MM_CLK_VPU_DEC_ROOT>;
-                                                assigned-clocks =
-<&clk IMX8MM_CLK_VPU_BUS>;
-                                                assigned-clock-parents
-= <&clk IMX8MM_SYS_PLL1_800M>;
--                                               resets = <&src
-IMX8MQ_RESET_VPU_RESET>;
-                                        };
+ drivers/staging/r8188eu/hal/odm.c         | 12 ----
+ drivers/staging/r8188eu/hal/rtl8188e_dm.c |  4 --
+ drivers/staging/r8188eu/include/odm.h     | 73 +----------------------
+ 3 files changed, 1 insertion(+), 88 deletions(-)
 
-                                        pgc_vpu_g1: power-domain@7 {
+-- 
+2.34.0
 
-That would make such a patch have a 'Fixes commit d39d4bb15310
-("arm64: dts: imx8mm: add GPC node")' but of course that vpu domain
-isn't active until your series so I'm not sure if we should send this
-separate or squash it with "arm64: dts: imx8mm: Enable VPU-G1 and
-VPU-G2". I'm also not clear if removing the reset requires some
-further discussion with Lucas.
-
-Best regards,
-
-Tim
