@@ -1,27 +1,29 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0224D2C82
-	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 03:00:33 +0000 (UTC)
-Received: from dggpeml500020.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4J4LKz6QVzzbgf0;
-	Thu,  2 Dec 2021 11:00:23 +0800 (CST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B5329CA
+	for <linux-staging@lists.linux.dev>; Thu,  2 Dec 2021 03:00:35 +0000 (UTC)
+Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.54])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4J4LHs37KvzQjJ2;
+	Thu,  2 Dec 2021 10:58:33 +0800 (CST)
 Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggpeml500020.china.huawei.com (7.185.36.88) with Microsoft SMTP Server
+ dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 2 Dec 2021 11:00:31 +0800
+ 15.1.2308.20; Thu, 2 Dec 2021 11:00:32 +0800
 Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
  (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Thu, 2 Dec
- 2021 11:00:31 +0800
+ 2021 11:00:32 +0800
 From: Yang Yingliang <yangyingliang@huawei.com>
 To: <linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
 CC: <gregkh@linuxfoundation.org>, <paskripkin@gmail.com>,
 	<dan.carpenter@oracle.com>
-Subject: [PATCH -next v4 0/3] some fix and cleanup for rtl8192e
-Date: Thu, 2 Dec 2021 11:07:01 +0800
-Message-ID: <20211202030704.2425621-1-yangyingliang@huawei.com>
+Subject: [PATCH -next v4 2/3] staging: rtl8192e: rtllib_module: fix error handle case in alloc_rtllib()
+Date: Thu, 2 Dec 2021 11:07:03 +0800
+Message-ID: <20211202030704.2425621-3-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211202030704.2425621-1-yangyingliang@huawei.com>
+References: <20211202030704.2425621-1-yangyingliang@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,27 +37,60 @@ X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpeml500017.china.huawei.com (7.185.36.243)
 X-CFilter-Loop: Reflected
 
-v4: Fix crypt_info leak. Add fix tags for patch #1 and #2.
-v3: Fix more leaks.  Break it up into multple patches.
-v2: Make rtllib_softmac_init() return error codes.
+Some variables are leaked in the error handling in alloc_rtllib(), free
+the variables in the error path.
 
-patch #1, #2:
-  fix error handle case in alloc_rtllib()
+Fixes: 94a799425eee ("From: wlanfae <wlanfae@realtek.com>")
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/staging/rtl8192e/rtllib_module.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-patch #3:
-  remove unnecessary assignment
-
-Yang Yingliang (3):
-  staging: rtl8192e: return error code from rtllib_softmac_init()
-  staging: rtl8192e: rtllib_module: fix error handle case in
-    alloc_rtllib()
-  staging: rtl8192e: rtllib_module: remove unnecessary assignment
-
- drivers/staging/rtl8192e/rtllib.h         |  2 +-
- drivers/staging/rtl8192e/rtllib_module.c  | 17 ++++++++++++-----
- drivers/staging/rtl8192e/rtllib_softmac.c |  6 ++++--
- 3 files changed, 17 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/staging/rtl8192e/rtllib_module.c b/drivers/staging/rtl8192e/rtllib_module.c
+index 64d9feee1f39..f00ac94b2639 100644
+--- a/drivers/staging/rtl8192e/rtllib_module.c
++++ b/drivers/staging/rtl8192e/rtllib_module.c
+@@ -88,7 +88,7 @@ struct net_device *alloc_rtllib(int sizeof_priv)
+ 	err = rtllib_networks_allocate(ieee);
+ 	if (err) {
+ 		pr_err("Unable to allocate beacon storage: %d\n", err);
+-		goto failed;
++		goto free_netdev;
+ 	}
+ 	rtllib_networks_initialize(ieee);
+ 
+@@ -121,11 +121,13 @@ struct net_device *alloc_rtllib(int sizeof_priv)
+ 	ieee->hwsec_active = 0;
+ 
+ 	memset(ieee->swcamtable, 0, sizeof(struct sw_cam_table) * 32);
+-	rtllib_softmac_init(ieee);
++	err = rtllib_softmac_init(ieee);
++	if (err)
++		goto free_crypt_info;
+ 
+ 	ieee->pHTInfo = kzalloc(sizeof(struct rt_hi_throughput), GFP_KERNEL);
+ 	if (!ieee->pHTInfo)
+-		return NULL;
++		goto free_softmac;
+ 
+ 	HTUpdateDefaultSetting(ieee);
+ 	HTInitializeHTInfo(ieee);
+@@ -141,8 +143,14 @@ struct net_device *alloc_rtllib(int sizeof_priv)
+ 
+ 	return dev;
+ 
+- failed:
++free_softmac:
++	rtllib_softmac_free(ieee);
++free_crypt_info:
++	lib80211_crypt_info_free(&ieee->crypt_info);
++	rtllib_networks_free(ieee);
++free_netdev:
+ 	free_netdev(dev);
++
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(alloc_rtllib);
 -- 
 2.25.1
 
