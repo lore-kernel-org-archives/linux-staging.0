@@ -1,55 +1,54 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36642CA2
-	for <linux-staging@lists.linux.dev>; Fri,  3 Dec 2021 20:15:35 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id o20so16096526eds.10
-        for <linux-staging@lists.linux.dev>; Fri, 03 Dec 2021 12:15:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE632CA2
+	for <linux-staging@lists.linux.dev>; Fri,  3 Dec 2021 20:20:42 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id y13so15976302edd.13
+        for <linux-staging@lists.linux.dev>; Fri, 03 Dec 2021 12:20:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VQxJrVTwbMTGbpX2IL1FtoxqI0v6WcmxBcnCNhy3JLg=;
-        b=O6d5Nr2jRIyqNqykxET77UEBjoNyYpFtwDUhP2OruMwVVe+i+xW53aPAmq203c5K9F
-         nZzb+CjQECUqeFbxwDa9ZI9ovnczmvkZElrYTLGUbXskqkwqhjjMW2sNuB0ztHLLDYrF
-         YSAsWjV0wOuz4tZuHssk/2ELuKmvQAzaPsLgQdLtKSkm0YZeP22HHcw0WXU7kH4jN4S/
-         1EDIl5qJTHM1vfnKWBmmD5YCs1w5/NkngNgeZPWv0rjUtXPamRdViTRR5FfzHN15qKGi
-         DQNjZU+V1O68N0N+JYkRHeTkqWAMcbFglol4sx06w9NNA6AOm4yAVVbX7Q/rc2c8fmf5
-         uTCw==
+        bh=vYlniXxTR7J7OWes9rdka6OdCg5A0vL9FQbn1HK7hEc=;
+        b=RpRzLpUaSCf7o5/0Telq5zdr1BeQOMXy6zIgusGRAYPIGUiz+3a0LhIaH6BQOyOEqF
+         MpKXbWKWhFmZ9XPM2z+27fAjtVLgChwxh6Q9ez+vzLNXTW/f2H8PO+/HM8sn6fzeK7OJ
+         F4OpBF8Voxv6Aph3bmu852GVmE+mEIPCptkRs1OeSxHBqN7rWyYwxCeCQJ4SKWeBvfvE
+         J988HG6afKhWhKbQnLiY2KB9rX8YvHAj1L3nraFmygPWX/ZBV+iNaOieKjaLzPkWnHR8
+         EUQ0aTM6jUEEhdLlMq6CKmOxBxow4XTK+33T4mlkau0nOEAEuVrBc/nfDnukZxLYyr6D
+         cWsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=VQxJrVTwbMTGbpX2IL1FtoxqI0v6WcmxBcnCNhy3JLg=;
-        b=5jnYOEpjDlqvu1G2PuGQirFYXOdg4UcctWdw7vHxW/oG2KRP6pC8FqVTD9QgPNVx4u
-         R6aX/lPvduZMx+6zpuqzDagOTRHOZxWrinbDxH/QJ4ZOuPfkYEutWNj7zKJmPiqbtjuP
-         Ev4L7Rgi7mpRo2uOn+FxwkwBB98pPzAnT073LgXLZo/qH5kTu1q1//P66Ex5DRUh9Z2s
-         P/J/lQstQ6FvfTkYCFkEyuFARiriYgfiMXWfYRUuSjEKb0RVYR5bbwd36YfWQCJ7UoBU
-         VHtOLDMkkzitnA48WmxrNFDC//NPn/jPlWOAYlyFO2NCl+AFWQd/jQIXyskWsnJXLCGi
-         x79w==
-X-Gm-Message-State: AOAM5325gEncBTtMwXlHobiKTvfiTv8EHD2wehG+blIGB/43EjZg9aC2
-	p4Ei3YNME+KzgVYDTNMg6VU=
-X-Google-Smtp-Source: ABdhPJxg/LxdAuOc59AIBf3PuXEtoIypdxhEGZK8tOMoI36L9KU5dWC1O//4bdcItkDzsthtuFq2WA==
-X-Received: by 2002:a17:906:d54d:: with SMTP id cr13mr25768242ejc.72.1638562534177;
-        Fri, 03 Dec 2021 12:15:34 -0800 (PST)
+        bh=vYlniXxTR7J7OWes9rdka6OdCg5A0vL9FQbn1HK7hEc=;
+        b=Fc4ylj8q+s/oUDWKL/2noCcyJbI8FJnSE93kut3akIUcErZlCX+7f+k5nxH87e38dn
+         FjsNpEj4cn/pw0eY+dyBQjl32+iBiGvBkoC5P1YdVcPtabUQsy0ZWy62vyQDDP84AwTL
+         GouxDdkZnuEjCfMYLGOPzq06rldegqMDdLSh7O4xoBfgHle23u437VU0BIAraXX3ajNG
+         5sGHKD1dsMxZABnbKToOnIqP4kalDNNKCaGRKZnMJjCt8mOgAPYVwOHbcvEE0XJ3Pwcn
+         Fi/bh0rKrkjTAuKrgQ/pMWw+c3DxJwURPe4ClWaf8BRAwLMitY5rUDxeyCbawsVI7pyG
+         iuXw==
+X-Gm-Message-State: AOAM5325oRTfH33W6sL2yZUMI3WgnyTuZ3iSXD138mRVwjdKHWNhB6K7
+	Z75rwg44O1gd7rHWHUAeKIU=
+X-Google-Smtp-Source: ABdhPJyk/q71i8JmucdKj3hZLHe1pDU+GubdZr8P39xQUV3QL4rdKEKm+MoUYfF3WleOaZsG90nhqg==
+X-Received: by 2002:a17:906:eb8a:: with SMTP id mh10mr25171779ejb.198.1638562841273;
+        Fri, 03 Dec 2021 12:20:41 -0800 (PST)
 Received: from bulldog.fritz.box (host-79-17-112-183.retail.telecomitalia.it. [79.17.112.183])
-        by smtp.gmail.com with ESMTPSA id j4sm2495133edk.64.2021.12.03.12.15.33
+        by smtp.gmail.com with ESMTPSA id sh33sm2654655ejc.56.2021.12.03.12.20.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Dec 2021 12:15:33 -0800 (PST)
+        Fri, 03 Dec 2021 12:20:40 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 To: alb3rt0.m3rciai@gmail.com
 Cc: Forest Bond <forest@alittletooquiet.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
 	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
 	Karolina Drobnik <karolinadrobnik@gmail.com>,
 	Lucas Henneman <lucas.henneman@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] [PATCH] staging: vt6655: refactor byRadioCtl to radio_ctl
-Date: Fri,  3 Dec 2021 21:14:50 +0100
-Message-Id: <20211203201452.3806090-1-alb3rt0.m3rciai@gmail.com>
+Subject: [PATCH v2] staging: vt6655: refactor byRadioCtl to radio_ctl
+Date: Fri,  3 Dec 2021 21:18:37 +0100
+Message-Id: <20211203201839.3806539-1-alb3rt0.m3rciai@gmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -64,6 +63,10 @@ into linux kernel coding style equivalent variable "hw_radio_off".
 
 Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 ---
+
+v1 -> v2
+- Correct mail subject
+
  drivers/staging/vt6655/device.h      | 2 +-
  drivers/staging/vt6655/device_main.c | 8 ++++----
  2 files changed, 5 insertions(+), 5 deletions(-)
