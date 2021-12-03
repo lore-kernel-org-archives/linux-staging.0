@@ -1,57 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4EF2C9E
-	for <linux-staging@lists.linux.dev>; Fri,  3 Dec 2021 14:14:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394A6C53FC7;
-	Fri,  3 Dec 2021 14:14:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1638540873;
-	bh=v59ThzrQR/E+1jWqDwNoI8yFOz1/2zQOK8rBUFsUf78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EXwfjp8IaVILiahinc6Cg76eh0RncqnxmNtFczEj858OKdZBfHHdDuIa3hkwxf9j+
-	 RedHdhVJyAj01SjTWy0ldmNPjz+5X7Wpq5/fNxF9uKEVyP0gqFO6Qvq8ChQMc+7quU
-	 NxP6cvPflcs4B9HhQMTnli8Qd1SAEOlZnXe+EFFg=
-Date: Fri, 3 Dec 2021 15:14:31 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Martin Kaiser <martin@kaiser.cx>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: r8188eu: use a delayed worker for led updates
-Message-ID: <YaomR72ytUd9jmAt@kroah.com>
-References: <20211125162513.25039-1-martin@kaiser.cx>
- <20211126114135.18228-1-martin@kaiser.cx>
- <20211129110427.GQ6514@kadam>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCC868
+	for <linux-staging@lists.linux.dev>; Fri,  3 Dec 2021 15:37:53 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id p2so6159099uad.11
+        for <linux-staging@lists.linux.dev>; Fri, 03 Dec 2021 07:37:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+HrQ3J/HeO/GYMnMzsFEsM1o2YndrW9CPhQv68AS01E=;
+        b=qAsjyc6ITBdQPfIq07bY2cHfZBHlABg0T9Oy5G6Hmgw4mQ7mMnmnHpKUQ73hjAjTiW
+         W4ymDk7FJU2c31gTdxEAnlj2HVNHyTOo69S0k0CrV5Mg15UbW7lSyrpKkBcj3AYYLOiD
+         X6Xi+kD3WgK7l4snPMkiGWu1/FHtllcd8ITjTdBw/VhYPjg85JN/2RnsBf40eVr457CG
+         4NOv3fS9w98Gq6y0pxtfco5d3VL9fLRkMQL386dl2kX3CSPXDOVAjFWnM4z8c6UEPj5G
+         AIN4b8k+aUZMRHcVr5KzvJA3DXwBsH37hjlhBVVwoTldNNhd/ktgMTqnh12FoL9qEF+e
+         8m2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+HrQ3J/HeO/GYMnMzsFEsM1o2YndrW9CPhQv68AS01E=;
+        b=R6meUMKpvBXT/slQ7eO8nu8C2KYBrXswhrUd24rI+wpfSkX6e2cujUO4+b02aRfZTZ
+         bi3ONIldmq1Apq/hgjQzrS1vPiDwpNMWHu1A2NNS4Q3HlyDnTWEib/nHw1XGO4UeYql6
+         8LWX2QNmU6eYiCQuhMuVYHwRt+pQqq0tM43BeFVAs0FtyuFogVuXSTbJTBzaFwtVy7ko
+         hdbCyaOQjt+fTV7fEsxY7bWgN3WDD2Roz0BtQN0ChZF0HzkEACtC7z2b2nj/IbD+0KXp
+         7YTzuCtCBleg5Epm7SC8PRsnjHm2HoFzWY/CZS9FGnMAihalfiFqixPlVbwxCCohSv5r
+         YFzQ==
+X-Gm-Message-State: AOAM532W0w7EeXx+In5yPgHByVuM+poKPedrU7uaWh8y3nGFwLYyS9/G
+	nMSJyRo6EuXq9yvQLmlEwXI9lhqxkx7hF1p8SqM=
+X-Google-Smtp-Source: ABdhPJySDfWB5ZvpJndLFL0F219WJXO9O/8gTVzkZsiqUOsl9LpvktP7BU7fXuzHctYTF/4gCGoGdAo+70uHuCwcACw=
+X-Received: by 2002:a05:6102:2835:: with SMTP id ba21mr21178749vsb.76.1638545872863;
+ Fri, 03 Dec 2021 07:37:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211129110427.GQ6514@kadam>
+References: <20211107074200.18911-1-sergio.paracuellos@gmail.com>
+ <20211107074200.18911-5-sergio.paracuellos@gmail.com> <YaokmRHYsazdMByi@kroah.com>
+In-Reply-To: <YaokmRHYsazdMByi@kroah.com>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Fri, 3 Dec 2021 16:37:41 +0100
+Message-ID: <CAMhs-H81bbmncXcV2-HMLh-gLBCUshO18y6E=XsyVgST9Hj5xg@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] staging: mt7621-dts: align resets with binding documentation
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, John Crispin <john@phrozen.org>, linux-staging@lists.linux.dev, 
+	NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 29, 2021 at 02:04:27PM +0300, Dan Carpenter wrote:
-> This was confusing becuase it should have been [PATCH 4/4 v2].  These
-> days I think the prefered way is to just resend the whole series as a
-> new thread.
-> 
-> Greg doesn't use patchwork, but these rules especially apply for
-> subsystems which use patchwork.  People say that patchwork gets confused
-> when people use the --in-reply-to option and I guess it's hard to
-> apply individual patches in patchwork?  Anyway, just always start a new
-> thread and resend everything.
-> 
-> Send a reply to the original thread to say "Don't apply this one, it has
-> sleeping in atomic bugs", otherwise it might get applied by mistake.
+On Fri, Dec 3, 2021 at 3:07 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Nov 07, 2021 at 08:42:00AM +0100, Sergio Paracuellos wrote:
+> > Binding documentation for compatible 'mediatek,mt7621-sysc' has been updated
+> > to be used as a reset provider. Align reset related bits and system controller
+> > node with binding documentation along the dtsi file.
+> >
+> > Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> > ---
+> >  drivers/staging/mt7621-dts/mt7621.dtsi | 25 +++++++++++--------------
+> >  1 file changed, 11 insertions(+), 14 deletions(-)
+>
+> This patch does not apply to my tree :(
 
-I had already reverted that patch from my tree, so I would not have
-applied it again :)
+This needs to be added when the changes in mt7621-clk driver (the
+other patches in the series) are applied. Let me resend this properly
+rebased to get a clean apply in your tree when Stephen applies the
+others in the clk tree.
 
-thanks,
-
-greg k-h
+Thanks,
+    Sergio Paracuellos
+>
+> thanks,
+>
+> greg k-h
