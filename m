@@ -1,28 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86F72C9E
-	for <linux-staging@lists.linux.dev>; Fri,  3 Dec 2021 14:07:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED970C53FAD;
-	Fri,  3 Dec 2021 14:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4EF2C9E
+	for <linux-staging@lists.linux.dev>; Fri,  3 Dec 2021 14:14:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394A6C53FC7;
+	Fri,  3 Dec 2021 14:14:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1638540444;
-	bh=WEsQ0YJT+JFvn7QDLZTVVdMDj0ZbFJUPEDcXxcmqgb4=;
+	s=korg; t=1638540873;
+	bh=v59ThzrQR/E+1jWqDwNoI8yFOz1/2zQOK8rBUFsUf78=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2DWYXrjYmNzSNDnhxE/MEx/GMkOnZw+kLuV0oub7rrSZ52F9c4mFo6+SauUHZh1PU
-	 eVkBF3maLXvofb0p27PsEYxte9z0hKrmX5aF9kbQvWv4DRJEklH9CZks4mgJ2q5bKN
-	 L1t9R9baN2GsSTsj/dZHNBg/ap/ej/hFH0HcHE0M=
-Date: Fri, 3 Dec 2021 15:07:21 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sboyd@kernel.org, john@phrozen.org, linux-staging@lists.linux.dev,
-	neil@brown.name
-Subject: Re: [PATCH v5 4/4] staging: mt7621-dts: align resets with binding
- documentation
-Message-ID: <YaokmRHYsazdMByi@kroah.com>
-References: <20211107074200.18911-1-sergio.paracuellos@gmail.com>
- <20211107074200.18911-5-sergio.paracuellos@gmail.com>
+	b=EXwfjp8IaVILiahinc6Cg76eh0RncqnxmNtFczEj858OKdZBfHHdDuIa3hkwxf9j+
+	 RedHdhVJyAj01SjTWy0ldmNPjz+5X7Wpq5/fNxF9uKEVyP0gqFO6Qvq8ChQMc+7quU
+	 NxP6cvPflcs4B9HhQMTnli8Qd1SAEOlZnXe+EFFg=
+Date: Fri, 3 Dec 2021 15:14:31 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Martin Kaiser <martin@kaiser.cx>,
+	Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: r8188eu: use a delayed worker for led updates
+Message-ID: <YaomR72ytUd9jmAt@kroah.com>
+References: <20211125162513.25039-1-martin@kaiser.cx>
+ <20211126114135.18228-1-martin@kaiser.cx>
+ <20211129110427.GQ6514@kadam>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -31,19 +33,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211107074200.18911-5-sergio.paracuellos@gmail.com>
+In-Reply-To: <20211129110427.GQ6514@kadam>
 
-On Sun, Nov 07, 2021 at 08:42:00AM +0100, Sergio Paracuellos wrote:
-> Binding documentation for compatible 'mediatek,mt7621-sysc' has been updated
-> to be used as a reset provider. Align reset related bits and system controller
-> node with binding documentation along the dtsi file.
+On Mon, Nov 29, 2021 at 02:04:27PM +0300, Dan Carpenter wrote:
+> This was confusing becuase it should have been [PATCH 4/4 v2].  These
+> days I think the prefered way is to just resend the whole series as a
+> new thread.
 > 
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> ---
->  drivers/staging/mt7621-dts/mt7621.dtsi | 25 +++++++++++--------------
->  1 file changed, 11 insertions(+), 14 deletions(-)
+> Greg doesn't use patchwork, but these rules especially apply for
+> subsystems which use patchwork.  People say that patchwork gets confused
+> when people use the --in-reply-to option and I guess it's hard to
+> apply individual patches in patchwork?  Anyway, just always start a new
+> thread and resend everything.
+> 
+> Send a reply to the original thread to say "Don't apply this one, it has
+> sleeping in atomic bugs", otherwise it might get applied by mistake.
 
-This patch does not apply to my tree :(
+I had already reverted that patch from my tree, so I would not have
+applied it again :)
 
 thanks,
 
