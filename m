@@ -1,90 +1,96 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1FB68
-	for <linux-staging@lists.linux.dev>; Sat,  4 Dec 2021 10:14:55 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id y12so21448213eda.12
-        for <linux-staging@lists.linux.dev>; Sat, 04 Dec 2021 02:14:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E229B68
+	for <linux-staging@lists.linux.dev>; Sat,  4 Dec 2021 10:16:08 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id e3so21846801edu.4
+        for <linux-staging@lists.linux.dev>; Sat, 04 Dec 2021 02:16:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=y+u6DzOaodOVmRU21cq3ttbjYk+i0/oaFcwFczRIG8k=;
-        b=iZUQkmkoEJyMM4HkG+yoB/3LW3KIbaKrxuZgseDRzNQQNTRbNTC9H0TS+uc4lmLAE3
-         Zg6t7zbbeuLhFGBEk/4exzyWCjLFLs29S4T+HIAdNgF2V1Mslf2KydrOdQHlJpMRwQsd
-         CXEt2qua2OfEEztNA0PvVdJsosXNsXMXnkRdnUGQFyQcfSKguKPBxPSkqwgozOLITaHG
-         mdqbYq5hsHP4Icm+452OlnKkHIEysm+KEN9UmdZWmBCCgyo3cwp0+ckaAQl9gLquEUU3
-         5zOyzNO1SPDWPmr9n7Dvq4OGw5jjqjEhr2xMPOyweH2DDPFQX0u85ywa5nBNp5sRoLS1
-         lvew==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dN/oUTilGDj3oSXc/q4PkakZnOiuYdXeFtx+QhztwZA=;
+        b=QZkgxOOa/GICNARrrQMFysa/639SFGfT5VLuY3Sr7X59mjlh7Zw79O+BHJAlPn73R0
+         bT9wfgAYoCw+sqnqY+aZQTLXNbJwumTP9utTA0Az6kKhvEcWWLXcTFHtNxkmK7lgw9sN
+         FXSVGX+DFAbS2ATE09pjoyTFuabtpkgNDclcqdDzWaKOkBvPKTUqNpXLtFOzXNRIJl3b
+         r4jQNjjyMBIg5XrpE9+SwqQa06x2JcHURzndIvKT5cn43zWk/9mJT7QmOUvgSTVUovan
+         mQ/9vx0NxzSTGUkR5xHNH/q0Tdk9Nmb0spYfustwtfTDRsPnyuRWvUL5dHEFtxvSZ7QL
+         M0Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=y+u6DzOaodOVmRU21cq3ttbjYk+i0/oaFcwFczRIG8k=;
-        b=PqW2ZSOJXV4zx1k1gnPQxvsfo7rBbjPOxWO0+3wV6+z8sEVt/47RMiYM8TugI71NJh
-         vY31Qke4b4LWYTCMsXZi0XZs2xVjBCFoVQA8OMyBxUOmj88KP9LQPXWPN47hR9uWLS0G
-         GlRJYit2HaSWARR+PXEoPXkhIjiwknVSYfo02qPcTMptJlXxeH2Ld2UWUzjMvnG7my6b
-         TP5qTs8JXsJKlSxKulXah3X7U96Om3VY2MTSdDjPXSeDvM+S6IUmCknTlP72+YJdtGj+
-         MV9j2MBECV62SnZXUI7ktWLpdCcq4qYwyCZIGemXUUOjIQxVvamVdU4DEShwG02HNKJT
-         NfiQ==
-X-Gm-Message-State: AOAM532sKug+unf7TNR4bH9tJnrqNKJxt4LxOlzGcjYtu3AynpgW4/lh
-	wkvkYQWKT31hgV/c8DXkMsA=
-X-Google-Smtp-Source: ABdhPJwa1KxAHMBGFVs5f0OLFd1aIKz7UV84/zFkKdftE0623y/O91vqGlakiTXBTfWqlFsm8GgXzg==
-X-Received: by 2002:a17:906:35d7:: with SMTP id p23mr30315982ejb.32.1638612894361;
-        Sat, 04 Dec 2021 02:14:54 -0800 (PST)
-Received: from bulldog (host-79-17-112-183.retail.telecomitalia.it. [79.17.112.183])
-        by smtp.gmail.com with ESMTPSA id i8sm3946502edc.12.2021.12.04.02.14.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dN/oUTilGDj3oSXc/q4PkakZnOiuYdXeFtx+QhztwZA=;
+        b=sHtnWINwLDDYHQ7Xj/7cqKnK7668ExUDYETkXHJhu2v4ZuGkWdgofkYf+CBWp/GL4/
+         4P6QNCrOwyJro6q7p71jubvkY4eZHwfhQPEi8gR6z1XB4cZhCv6l8pRIIsPR1yNv+kqm
+         lIAAzPIOVMhf3tkrhLPeJB9exT0TwDu6Um3utUneXOzeYc4QE6WMZOQkG0Yvhssq9QpW
+         2/c7tt8U5RtFU7CfoLXOnew1ZLD78DSLcQH3ktCnB5LVALLIIm+eOb25uiLF3r3GVeTk
+         /aGUC4XJwtj35fkQ9xfQdBVp62kaF1VtKNRJwUaC+dqVTSJeLJYZ/nQadyaR07xRBdfe
+         TbGA==
+X-Gm-Message-State: AOAM5335i+cc6XMSaZBIgy8+DvgGjW2qmXV3KJIzV+6yjA4WUAgNVPjq
+	PSxqi7EaopjEupI6dUhgUO8=
+X-Google-Smtp-Source: ABdhPJwVLDiOANQkH4Ll5oiEzFwfCG34wXuP1nXwD1GDPPlHp5IGj+n4Tq50NJRFRjph8q1z78iINQ==
+X-Received: by 2002:a17:906:d550:: with SMTP id cr16mr30655646ejc.544.1638612967289;
+        Sat, 04 Dec 2021 02:16:07 -0800 (PST)
+Received: from bulldog.fritz.box (host-79-17-112-183.retail.telecomitalia.it. [79.17.112.183])
+        by smtp.gmail.com with ESMTPSA id d18sm3534450edj.23.2021.12.04.02.16.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 02:14:54 -0800 (PST)
-Date: Sat, 4 Dec 2021 11:14:52 +0100
+        Sat, 04 Dec 2021 02:16:06 -0800 (PST)
 From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Pavel Skripkin <paskripkin@gmail.com>,
-	Forest Bond <forest@alittletooquiet.net>,
+To: alb3rt0.m3rciai@gmail.com
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
 	Karolina Drobnik <karolinadrobnik@gmail.com>,
+	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
 	Lucas Henneman <lucas.henneman@linaro.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vt6655: refactor byMinChannel to min_channel
-Message-ID: <20211204101452.GB3887246@bulldog>
-References: <20211204004041.3825744-1-alb3rt0.m3rciai@gmail.com>
- <e0fea904-1861-0003-1b04-6d2e966657da@gmail.com>
- <20211204090941.GA3805206@bulldog>
- <Yas05neinXtoEC+6@kroah.com>
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: vt6655: remove unused variable byMaxChannel
+Date: Sat,  4 Dec 2021 11:15:28 +0100
+Message-Id: <20211204101531.3924430-1-alb3rt0.m3rciai@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yas05neinXtoEC+6@kroah.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 04, 2021 at 10:29:10AM +0100, Greg Kroah-Hartman wrote:
-> On Sat, Dec 04, 2021 at 10:09:41AM +0100, Alberto Merciai wrote:
-> > On Sat, Dec 04, 2021 at 11:27:43AM +0300, Pavel Skripkin wrote:
-> > > Looks like this variable is set, but never used. Shouldn't it be just
-> > > removed?
-> > > 
-> > > Same for max_channel (or byMaxChannel).
-> > 
-> > To be honest, I would prefer leave them where they are. I'm only
-> > refactoring the code considering less the logic aspect.
-> > 
-> > I don't know if these variables will become usefull in a second
-> > moment.
-> 
-> Fix the code for today, do not worry about tomorrow for stuff like this.
-Wise word... :)
+Remove set but not used variable byMaxChannel.
 
-> > Anyway, If you consider that this could be a good moment to remove
-> > them we can proceed.
-> 
-> Please remove things like this that are not needed.
-I will proceed.
+Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+---
+ drivers/staging/vt6655/device.h      | 1 -
+ drivers/staging/vt6655/device_main.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-Thanks,
+diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+index 245f992e5a23..bf2698056c55 100644
+--- a/drivers/staging/vt6655/device.h
++++ b/drivers/staging/vt6655/device.h
+@@ -201,7 +201,6 @@ struct vnt_private {
+ 	unsigned char byTopCCKBasicRate;
+ 
+ 	unsigned char byMinChannel;
+-	unsigned char byMaxChannel;
+ 
+ 	unsigned char preamble_type;
+ 	unsigned char byShortPreamble;
+diff --git a/drivers/staging/vt6655/device_main.c b/drivers/staging/vt6655/device_main.c
+index 37a82550ca82..cf8d9a05734d 100644
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -229,7 +229,6 @@ static void device_init_registers(struct vnt_private *priv)
+ 
+ 	/* Get Channel range */
+ 	priv->byMinChannel = 1;
+-	priv->byMaxChannel = CB_MAX_CHANNEL;
+ 
+ 	/* Get Antena */
+ 	byValue = SROMbyReadEmbedded(priv->port_offset, EEP_OFS_ANTENNA);
+-- 
+2.25.1
 
-Alberto
