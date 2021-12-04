@@ -1,77 +1,75 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03B32C9D
-	for <linux-staging@lists.linux.dev>; Sat,  4 Dec 2021 11:29:39 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id k2so11311510lji.4
-        for <linux-staging@lists.linux.dev>; Sat, 04 Dec 2021 03:29:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A522C9D
+	for <linux-staging@lists.linux.dev>; Sat,  4 Dec 2021 11:31:59 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id w1so22220269edc.6
+        for <linux-staging@lists.linux.dev>; Sat, 04 Dec 2021 03:31:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=lXCjgDqxO2g5OSHyeldrqqbpR4oerLqwrkcB+ct4YlI=;
-        b=aDslnebTX9uAhOxIQg1fT+KgOaPiyH9l62P5GNXf3JNN+QI0/pjDsMD19gZ7ymbdLw
-         CwF3HnGAOxcBfg/7KWoc3Rs/9Wwrk7fqDAHSCDlgO/ci3oC79mJA2j54f04K/jZgnN1y
-         xEARMQCbHDeq6GTCLaJ12brHf/Cm8Iw7SeOa+nk/IV34OltrRzu7wrirLh/4Y7szu3H6
-         V5I96yjn8+RKIeZTx3Yk+ZJtWOmevgehSYc8ibXOeB9OqUAhGrfV5Q/XposwpTZDd0qv
-         TAHwuSNGDo1BHz7ZzB63UcK/G5nIkNb1TEc1OsbGx0ZGY07E/XWzhIYkLMffcRoDNGyv
-         1V+w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GooOIiXrE5oPnohZHDuYVBOk/AGEAvYFkup6wdSNpaE=;
+        b=mKYPmc9bfweBc+WtTm39SF93PRyLkvKL3pUPHaRE4idLbKQ9thO8M/1Ylftp07WRKa
+         6nQIqtPGPNQvmo9L4PdtfRNS64+MFFdHRKoHDJxSIS4kf2u3L1rfbWVqWaBqgzqv3BVo
+         o8Lc1AfkgMRwnBhI24NtBQCu2sS01HpW3z1LTvrTsywrrQ1OCw36yynwFTe4kho6BoI6
+         Eud1K7NkYKUtQKrMTNsUOXXpDVJ/pYpWLAa2cLD7xGMqA7A+Msuk3b5eJsx7Vp9IcVip
+         zxrpzmLjHMQi4Jvrwku/cKm2DZVPSTaZxxcFDfrVpNQPK3KtV6LzVgtBV1k37G/y+wqP
+         cciQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=lXCjgDqxO2g5OSHyeldrqqbpR4oerLqwrkcB+ct4YlI=;
-        b=xLlzK27dC7Nl2aw6O1DInQ4sg90PCNIkHcCAd4LB/ADXV6cpe0sh1LV+BAJlhfbIkC
-         hEVHnXZvtpq7gevjtln/S9g7qTn33R59c6P68Zr30HsiK/lLHkmvxEOALmqsTJR/my0H
-         D0MEAms7MAQTw3uRp1ibIjTJnrNYmRZ4TDNAWj5/59OiRoDrVhk1rRVKCWvyh2MWQGTD
-         H8fuv6gV6eSe4ba6xYVej/CyZrymRtKwHDpddcccuaUzJID7H3gyI1H4B5D0RN+lpWtx
-         4gyU1vnvQnsYJtgqOoF72Y1pz1UfJsIkAYQar68gl6zXW51NLLpB7nJI+fhLLoz+JZAV
-         /gWw==
-X-Gm-Message-State: AOAM532Ig38JDFxXBmrU7Nefi0E5LB8Pxez+GTzw/UbrsClpkrEerv/G
-	bSwkF+THyFxVQAH3aft8u3I=
-X-Google-Smtp-Source: ABdhPJyuJP+Olz1wrmPJMDGdDS3oe4Shxt5hPDFK9dKRl612inDiorE9nTFYUneeEDb/u0brjxzNkA==
-X-Received: by 2002:a2e:700d:: with SMTP id l13mr24198891ljc.219.1638617377723;
-        Sat, 04 Dec 2021 03:29:37 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.229.236])
-        by smtp.gmail.com with ESMTPSA id b6sm762407ljr.103.2021.12.04.03.29.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Dec 2021 03:29:37 -0800 (PST)
-Message-ID: <e64fe951-8e57-4c28-5451-71872247c57a@gmail.com>
-Date: Sat, 4 Dec 2021 14:29:32 +0300
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GooOIiXrE5oPnohZHDuYVBOk/AGEAvYFkup6wdSNpaE=;
+        b=MwBfA5cTt2wt7KED5H/8WbRmycVL8EhAQlmSnltKtnpDaw+ct/zK26l9vvaDGEmkna
+         pScGajTMXpD8jJ3gOLL03LECJVIrywgbAOXzgrrNCpOP0EdAVLW6to7lOu0siSeKLcVY
+         4q/8dOW2LUjYNGYn56PxOlZAQcGkjs8b24+wOOIhKZv0mCbHMXrLP/BliW+L8QVKkUWY
+         MNQpeANzknIQwiNWq/oPQz9OnZ87wWm3hz2B+COg3AcyrA195/KnYojowekkDTuXFkfi
+         nz00r5o2kwTYj2FMjbBu1x4pR7mvu85z1/aMfSgqt/+LqZyKNBL9pgWF+jLqY/H5gm9y
+         ohsw==
+X-Gm-Message-State: AOAM531kuC318sNlD4qyS0D82+uz0wk8QtvvX5XSwiKKfSw1OTTgYDOl
+	qLcsnmMuk+yhxjpfKfCpX5M=
+X-Google-Smtp-Source: ABdhPJx/XvGaGSZUvaRJUTw9fPP7CEUuiTWfVuZq60Q7q2Iep+jestcIngt/+75NCtwAzV3VhQoRwg==
+X-Received: by 2002:a05:6402:2744:: with SMTP id z4mr35133046edd.310.1638617518251;
+        Sat, 04 Dec 2021 03:31:58 -0800 (PST)
+Received: from bulldog (host-79-17-112-183.retail.telecomitalia.it. [79.17.112.183])
+        by smtp.gmail.com with ESMTPSA id r24sm3655144edv.18.2021.12.04.03.31.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Dec 2021 03:31:57 -0800 (PST)
+Date: Sat, 4 Dec 2021 12:31:56 +0100
+From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Karolina Drobnik <karolinadrobnik@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vt6655: remove unused variable byMinChannel
+Message-ID: <20211204113156.GA3940683@bulldog>
+References: <20211204103053.3934783-1-alb3rt0.m3rciai@gmail.com>
+ <e64fe951-8e57-4c28-5451-71872247c57a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] staging: vt6655: remove unused variable byMinChannel
-Content-Language: en-US
-To: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-Cc: Forest Bond <forest@alittletooquiet.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Karolina Drobnik <karolinadrobnik@gmail.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- =?UTF-8?B?QWxkYXMgVGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
- Lucas Henneman <lucas.henneman@linaro.org>, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20211204103053.3934783-1-alb3rt0.m3rciai@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211204103053.3934783-1-alb3rt0.m3rciai@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e64fe951-8e57-4c28-5451-71872247c57a@gmail.com>
 
-On 12/4/21 13:30, Alberto Merciai wrote:
-> Remove set but not used variable byMinChannel.
+On Sat, Dec 04, 2021 at 02:29:32PM +0300, Pavel Skripkin wrote:
+> On 12/4/21 13:30, Alberto Merciai wrote:
+> > Remove set but not used variable byMinChannel.
+> > 
+> > ---
 > 
-> ---
+> Signed-off-by: is missing :)
+ouch, forgot it.. :P
 
-Signed-off-by: is missing :)
+Thanks,
 
-
-
-With regards,
-Pavel Skripkin
+Alberto
