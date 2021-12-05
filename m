@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A722CAC
-	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FFD2CA6
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:13:14 +0000 (UTC)
 Received: from dslb-188-097-212-203.188.097.pools.vodafone-ip.de ([188.97.212.203] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mttCM-0007gF-Vs; Sun, 05 Dec 2021 16:13:07 +0100
+	id 1mttCR-0007gF-Nn; Sun, 05 Dec 2021 16:13:11 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 01/10] staging: r8188eu: bLedOpenDrain is always true for r8188eu
-Date: Sun,  5 Dec 2021 16:12:42 +0100
-Message-Id: <20211205151251.6861-2-martin@kaiser.cx>
+Subject: [PATCH 06/10] staging: r8188eu: hal data's interfaceIndex is never read
+Date: Sun,  5 Dec 2021 16:12:47 +0100
+Message-Id: <20211205151251.6861-7-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211205151251.6861-1-martin@kaiser.cx>
 References: <20211205151251.6861-1-martin@kaiser.cx>
@@ -30,78 +30,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the bLedOpenDrain variable and code that would be executed only
-if bLedOpenDrain was false.
+interfaceIndex in struct hal_data_8188e is set but not used.
+It can be removed.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/rtl8188eu_led.c    | 16 +++++-----------
- drivers/staging/r8188eu/hal/usb_halinit.c      |  2 --
- drivers/staging/r8188eu/include/rtl8188e_hal.h |  2 --
- 3 files changed, 5 insertions(+), 15 deletions(-)
+ drivers/staging/r8188eu/hal/usb_halinit.c      | 2 --
+ drivers/staging/r8188eu/include/rtl8188e_hal.h | 3 ---
+ 2 files changed, 5 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188eu_led.c b/drivers/staging/r8188eu/hal/rtl8188eu_led.c
-index 452d4bb87aba..2dd9b4518f13 100644
---- a/drivers/staging/r8188eu/hal/rtl8188eu_led.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188eu_led.c
-@@ -36,7 +36,6 @@ void SwLedOn(struct adapter *padapter, struct LED_871x *pLed)
- void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
- {
- 	u8	LedCfg;
--	struct hal_data_8188e	*pHalData = GET_HAL_DATA(padapter);
- 
- 	if (padapter->bSurpriseRemoved || padapter->bDriverStopped)
- 		goto exit;
-@@ -45,16 +44,11 @@ void SwLedOff(struct adapter *padapter, struct LED_871x *pLed)
- 
- 	switch (pLed->LedPin) {
- 	case LED_PIN_LED0:
--		if (pHalData->bLedOpenDrain) {
--			/*  Open-drain arrangement for controlling the LED) */
--			LedCfg &= 0x90; /*  Set to software control. */
--			rtw_write8(padapter, REG_LEDCFG2, (LedCfg | BIT(3)));
--			LedCfg = rtw_read8(padapter, REG_MAC_PINMUX_CFG);
--			LedCfg &= 0xFE;
--			rtw_write8(padapter, REG_MAC_PINMUX_CFG, LedCfg);
--		} else {
--			rtw_write8(padapter, REG_LEDCFG2, (LedCfg | BIT(3) | BIT(5) | BIT(6)));
--		}
-+		LedCfg &= 0x90; /*  Set to software control. */
-+		rtw_write8(padapter, REG_LEDCFG2, (LedCfg | BIT(3)));
-+		LedCfg = rtw_read8(padapter, REG_MAC_PINMUX_CFG);
-+		LedCfg &= 0xFE;
-+		rtw_write8(padapter, REG_MAC_PINMUX_CFG, LedCfg);
- 		break;
- 	case LED_PIN_LED1:
- 		LedCfg &= 0x0f; /*  Set to software control. */
 diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index e995904cf85c..b1372a349e47 100644
+index b1372a349e47..17d898707f62 100644
 --- a/drivers/staging/r8188eu/hal/usb_halinit.c
 +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -942,10 +942,8 @@ unsigned int rtl8188eu_inirp_init(struct adapter *Adapter)
- static void _ReadLEDSetting(struct adapter *Adapter, u8 *PROMContent, bool AutoloadFail)
- {
- 	struct led_priv *pledpriv = &Adapter->ledpriv;
--	struct hal_data_8188e	*haldata = GET_HAL_DATA(Adapter);
+@@ -57,8 +57,6 @@ void rtl8188eu_interface_configure(struct adapter *adapt)
+ 	else
+ 		haldata->UsbBulkOutSize = USB_FULL_SPEED_BULK_SIZE;/* 64 bytes */
  
- 	pledpriv->bRegUseLed = true;
--	haldata->bLedOpenDrain = true;/*  Support Open-drain arrangement for controlling the LED. */
- }
+-	haldata->interfaceIndex = pdvobjpriv->InterfaceNumber;
+-
+ 	haldata->UsbTxAggMode		= 1;
+ 	haldata->UsbTxAggDescNum	= 0x6;	/*  only 4 bits */
  
- static void Hal_EfuseParseMACAddr_8188EU(struct adapter *adapt, u8 *hwinfo, bool AutoLoadFail)
 diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 0ebfcb732032..39dd547a033b 100644
+index 39dd547a033b..883544b96e59 100644
 --- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
 +++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -221,8 +221,6 @@ struct hal_data_8188e {
- 	u32	AntennaRxPath;			/*  Antenna path Rx */
- 	u8	ExternalPA;
+@@ -255,9 +255,6 @@ struct hal_data_8188e {
+ 	/*  2010/08/09 MH Add CU power down mode. */
+ 	bool		pwrdown;
  
--	u8	bLedOpenDrain; /* Open-drain support for controlling the LED.*/
+-	/*  Add for dual MAC  0--Mac0 1--Mac1 */
+-	u32	interfaceIndex;
 -
- 	u8	b1x1RecvCombine;	/*  for 1T1R receive combining */
+ 	u8	OutEpQueueSel;
+ 	u8	OutEpNumber;
  
- 	u32	AcParam_BE; /* Original parameter for BE, use for EDCA turbo. */
 -- 
 2.20.1
 
