@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FFD2CA6
-	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B07168
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:13:16 +0000 (UTC)
 Received: from dslb-188-097-212-203.188.097.pools.vodafone-ip.de ([188.97.212.203] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mttCR-0007gF-Nn; Sun, 05 Dec 2021 16:13:11 +0100
+	id 1mttCO-0007gF-0O; Sun, 05 Dec 2021 16:13:08 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 06/10] staging: r8188eu: hal data's interfaceIndex is never read
-Date: Sun,  5 Dec 2021 16:12:47 +0100
-Message-Id: <20211205151251.6861-7-martin@kaiser.cx>
+Subject: [PATCH 02/10] staging: r8188eu: remove a bunch of unused led defines
+Date: Sun,  5 Dec 2021 16:12:43 +0100
+Message-Id: <20211205151251.6861-3-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211205151251.6861-1-martin@kaiser.cx>
 References: <20211205151251.6861-1-martin@kaiser.cx>
@@ -30,42 +30,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-interfaceIndex in struct hal_data_8188e is set but not used.
-It can be removed.
+Remove a couple of unused defines from rtw_led.h.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/usb_halinit.c      | 2 --
- drivers/staging/r8188eu/include/rtl8188e_hal.h | 3 ---
- 2 files changed, 5 deletions(-)
+ drivers/staging/r8188eu/include/rtw_led.h | 32 -----------------------
+ 1 file changed, 32 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index b1372a349e47..17d898707f62 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -57,8 +57,6 @@ void rtl8188eu_interface_configure(struct adapter *adapt)
- 	else
- 		haldata->UsbBulkOutSize = USB_FULL_SPEED_BULK_SIZE;/* 64 bytes */
+diff --git a/drivers/staging/r8188eu/include/rtw_led.h b/drivers/staging/r8188eu/include/rtw_led.h
+index 7e901aae92fb..f0272a7e8aa7 100644
+--- a/drivers/staging/r8188eu/include/rtw_led.h
++++ b/drivers/staging/r8188eu/include/rtw_led.h
+@@ -7,39 +7,12 @@
+ #include "osdep_service.h"
+ #include "drv_types.h"
  
--	haldata->interfaceIndex = pdvobjpriv->InterfaceNumber;
+-#define MSECS(t)        (HZ * ((t) / 1000) + (HZ * ((t) % 1000)) / 1000)
 -
- 	haldata->UsbTxAggMode		= 1;
- 	haldata->UsbTxAggDescNum	= 0x6;	/*  only 4 bits */
- 
-diff --git a/drivers/staging/r8188eu/include/rtl8188e_hal.h b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-index 39dd547a033b..883544b96e59 100644
---- a/drivers/staging/r8188eu/include/rtl8188e_hal.h
-+++ b/drivers/staging/r8188eu/include/rtl8188e_hal.h
-@@ -255,9 +255,6 @@ struct hal_data_8188e {
- 	/*  2010/08/09 MH Add CU power down mode. */
- 	bool		pwrdown;
- 
--	/*  Add for dual MAC  0--Mac0 1--Mac1 */
--	u32	interfaceIndex;
+-#define LED_BLINK_NORMAL_INTERVAL		100
+-#define LED_BLINK_SLOWLY_INTERVAL		200
+-#define LED_BLINK_LONG_INTERVAL			400
 -
- 	u8	OutEpQueueSel;
- 	u8	OutEpNumber;
+ #define LED_BLINK_NO_LINK_INTVL			msecs_to_jiffies(1000)
+ #define LED_BLINK_LINK_INTVL			msecs_to_jiffies(500)
+ #define LED_BLINK_SCAN_INTVL			msecs_to_jiffies(180)
+ #define LED_BLINK_FASTER_INTVL			msecs_to_jiffies(50)
+ #define LED_BLINK_WPS_SUCESS_INTVL		msecs_to_jiffies(5000)
  
+-#define LED_BLINK_NORMAL_INTERVAL_NETTRONIX	100
+-#define LED_BLINK_SLOWLY_INTERVAL_NETTRONIX	2000
+-
+-#define LED_BLINK_SLOWLY_INTERVAL_PORNET	1000
+-#define LED_BLINK_NORMAL_INTERVAL_PORNET	100
+-
+-#define LED_BLINK_FAST_INTERVAL_BITLAND		30
+-
+-/*  060403, rcnjko: Customized for AzWave. */
+-#define LED_CM2_BLINK_ON_INTERVAL		250
+-#define LED_CM2_BLINK_OFF_INTERVAL		4750
+-
+-#define LED_CM8_BLINK_INTERVAL			500	/* for QMI */
+-#define LED_CM8_BLINK_OFF_INTERVAL		3750	/* for QMI */
+-
+-/*  080124, lanhsin: Customized for RunTop */
+-#define LED_RunTop_BLINK_INTERVAL		300
+-
+-/*  060421, rcnjko: Customized for Sercomm Printer Server case. */
+-#define LED_CM3_BLINK_INTERVAL			1500
+-
+ enum LED_CTL_MODE {
+ 	LED_CTL_POWER_ON = 1,
+ 	LED_CTL_LINK = 2,
+@@ -53,8 +26,6 @@ enum LED_CTL_MODE {
+ 	LED_CTL_STOP_WPS = 10,
+ 	LED_CTL_START_WPS_BOTTON = 11, /* added for runtop */
+ 	LED_CTL_STOP_WPS_FAIL = 12, /* added for ALPHA */
+-	LED_CTL_STOP_WPS_FAIL_OVERLAP = 13, /* added for BELKIN */
+-	LED_CTL_CONNECTION_NO_TRANSFER = 14,
+ };
+ 
+ enum LED_STATE_871x {
+@@ -81,11 +52,8 @@ enum LED_STATE_871x {
+ };
+ 
+ enum LED_PIN_871x {
+-	LED_PIN_NULL = 0,
+ 	LED_PIN_LED0 = 1,
+ 	LED_PIN_LED1 = 2,
+-	LED_PIN_LED2 = 3,
+-	LED_PIN_GPIO0 = 4,
+ };
+ 
+ struct LED_871x {
 -- 
 2.20.1
 
