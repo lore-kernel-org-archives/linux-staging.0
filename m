@@ -1,110 +1,59 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C1868
-	for <linux-staging@lists.linux.dev>; Sat,  4 Dec 2021 20:56:23 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id u3so15304352lfl.2
-        for <linux-staging@lists.linux.dev>; Sat, 04 Dec 2021 12:56:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=OPvjDBqjKrEr3rCU6Ypf1Nh6PeMaDSW0GSJx+jjs91E=;
-        b=WN5Df8voZmPhnJyeK9VVbRxtRFeqrC9aRt0puxIPsiByy8EMh2f3kSeuhOBVeyrk8F
-         Y43UgQdzOKtl0cjeyp6OYNdgLOR85GhKqcPEBZ8BgGttzRxM6dDjtQ5VLjujqcZERMSu
-         Y7+QTQ+GuldBr9PwgG9gN+74TX3RLuF0kiOiaiKIjEqqoRTKrG3QPDBOEBEsA4d+C7zK
-         PuXhuuEMGZNS/y/7IsF2j4Ba8xY/bC/63BjekMo0L4XnIMkB9Inq8JlSimxOxndnWj2E
-         pkbb+INiKfi/z+qCdpBuIyW07NrhTZ/3MccMnYEDQL+OCFikAuAN/H8xinzTBHTcI492
-         ZquQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=OPvjDBqjKrEr3rCU6Ypf1Nh6PeMaDSW0GSJx+jjs91E=;
-        b=xvcHyv4rKBCS5DnhUk8lzvUtJl33X54dj5H/e/uIzXnkG9d6bFr1zpQfe8gcx0C6Fi
-         XEfIiV1eZSqcF0nJ+IeLYR99OrQD8uX7ei3OEA5o39Fu/SyJyyY3psrTcgzR0JUuiZIy
-         yLbQvFsDdUm+NVJzc4Vqoc58BgRj3p6IqbwAdsZW6W+fFrrka0z8SY3UJFqO3r7rCvia
-         7igINqim2pBGkE17MkvuF0PcNX+7LFkJHzSRsLzVIDFbt2Ph6h5Ut2zNCK9DuPl5DNIe
-         lqMVoT3DclMbwKdaN1kpJGg11rp//OMEuWpZFIePZ+9BbvnQ/0BHhjbbwiyZPVKi/27n
-         PnTw==
-X-Gm-Message-State: AOAM5326ABWIkTSqWebO74seMdrqhAEuAthm1O7M59o9Jz8bbqEzAj2m
-	pxSp5mamDCCe05ym08sjIDfBhw==
-X-Google-Smtp-Source: ABdhPJylUmg0TqiyMASBi1dvn+e6etre5OB39NT/92hJJcQMpFMxUcZv2KoIWwS/j07aDs6muTugQg==
-X-Received: by 2002:a05:6512:3ca1:: with SMTP id h33mr25609312lfv.640.1638651381507;
-        Sat, 04 Dec 2021 12:56:21 -0800 (PST)
-Received: from localhost (h-46-59-88-219.A463.priv.bahnhof.se. [46.59.88.219])
-        by smtp.gmail.com with ESMTPSA id 190sm939797ljf.4.2021.12.04.12.56.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 12:56:20 -0800 (PST)
-Date: Sat, 4 Dec 2021 21:56:19 +0100
-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1469C2C9E
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 11:03:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA03C341C9;
+	Sun,  5 Dec 2021 11:03:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1638702222;
+	bh=oRGP/ta5t+1nOoDu2mLF02x3hunvstyw3cZxRZv2vyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=1HwuYftcHlP4kqPb0LJmRDiKhWSoKfLS3/k5k5JszqoTXKN5gcNY+mnb4YeOqZAze
+	 zOd6PThpULSXGDgMGqXLIWVurJHDwQFN2lPYzGn6JOKD3xWgvUI1NpvAARxg3CQJoC
+	 MGSjB8kEZdFKBUc/sm20vZkk1KK8yxcI+t0bPn2Q=
+Date: Sun, 5 Dec 2021 12:03:40 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+Cc: Forest Bond <forest@alittletooquiet.net>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Karolina Drobnik <karolinadrobnik@gmail.com>,
+	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+	Lucas Henneman <lucas.henneman@linaro.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: max96712: add V4L2 dependencies
-Message-ID: <YavV85Xj0589TQwe@oden.dyn.berto.se>
-References: <20211204174559.1146671-1-arnd@kernel.org>
+Subject: Re: [PATCH v2] staging: vt6655: remove unused variable byMinChannel
+Message-ID: <YaycjDWo2QJBTz1t@kroah.com>
+References: <20211204113407.3941035-1-alb3rt0.m3rciai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211204174559.1146671-1-arnd@kernel.org>
+In-Reply-To: <20211204113407.3941035-1-alb3rt0.m3rciai@gmail.com>
 
-Hi Arnd,
-
-Thanks for your patch.
-
-I'm sorry for introducing the fault in the first place, Sakari already 
-sent a fix for my mistake [1]. Just waiting for Mauro to pick it up.
-
-1. https://patchwork.linuxtv.org/project/linux-media/patch/20211126080623.1587610-1-sakari.ailus@linux.intel.com/
-
-On 2021-12-04 18:45:48 +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Sat, Dec 04, 2021 at 12:34:04PM +0100, Alberto Merciai wrote:
+> Remove set but not used variable byMinChannel.
 > 
-> Without the extra dependencies, I run into randconfig build failures:
-> 
-> WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
->   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
->   Selected by [y]:
->   - VIDEO_MAX96712 [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && I2C [=y] && OF_GPIO [=y]
-> 
-> aarch64-linux-ld: drivers/staging/media/max96712/max96712.o: in function `max96712_probe':
-> max96712.c:(.text+0x1b8): undefined reference to `v4l2_fwnode_endpoint_parse'
-> aarch64-linux-ld: max96712.c:(.text+0x374): undefined reference to `v4l2_ctrl_handler_init_class'
-> aarch64-linux-ld: max96712.c:(.text+0x3b0): undefined reference to `v4l2_ctrl_new_std'
-> 
-> Fixes: 5814f32fef13 ("media: staging: max96712: Add basic support for MAX96712 GMSL2 deserializer")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
 > ---
->  drivers/staging/media/max96712/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/staging/media/max96712/Kconfig b/drivers/staging/media/max96712/Kconfig
-> index 258d47644cbd..62534110ca3b 100644
-> --- a/drivers/staging/media/max96712/Kconfig
-> +++ b/drivers/staging/media/max96712/Kconfig
-> @@ -3,6 +3,7 @@ config VIDEO_MAX96712
->  	tristate "Maxim MAX96712 Quad GMSL2 Deserializer support"
->  	depends on I2C
->  	depends on OF_GPIO
-> +	depends on VIDEO_DEV && VIDEO_V4L2
->  	select V4L2_FWNODE
->  	select VIDEO_V4L2_SUBDEV_API
->  	select MEDIA_CONTROLLER
-> -- 
-> 2.29.2
-> 
+> v1 -> v2
+> - Add Signed-off-by
 
--- 
-Kind Regards,
-Niklas Söderlund
+I have a number of patches from you for this driver, all in different
+orders and some being obsoleted by others, making this impossible for me
+to easily determine what is, and what is not, viable for applying and in
+what order.
+
+Can you please resend all of your pending patches, in a patch series,
+properly numbered, so that I have a chance of understanding this?
+
+I have now dropped all of your pending patches from my review queue.
+
+thanks,
+
+greg k-h
