@@ -1,95 +1,62 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AF568
-	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 14:42:08 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id n12so19044866lfe.1
-        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 06:42:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9hzEaIVqq335e23MvDqReSgGMhOzvqBQz76Z7rLY3NY=;
-        b=hb9FuqdiY8JicBpnKpYQZbcVSgqrOvzetp/GSJMG3rMJzM6YPXshJ/f2Uha8s+ogT4
-         FwKDdNJYXndaf5dTFigg3bMpAPyLvFIJE2wQIqpMNlU3tiu3a34KE1x3AMv12xrT65Iv
-         aXLdGhbLUezuhdUgksWgbEIB2ASfo277iE920mmGGSOnQQXhF6SdFcZZX8iHKfncGYfD
-         u+HSwWq8tz4RleuqtZkVolYppjUfnrqpB/Yl20qhbi1OVeIHvW+j4QB2o/h+4tJYlOx5
-         SO6J1Nz2dRLXI4Ktxj3A7IxAn7ElXkTFvsuvsjcwdcPQR3BKlTL3rU10UbFco75jkyYc
-         +rjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9hzEaIVqq335e23MvDqReSgGMhOzvqBQz76Z7rLY3NY=;
-        b=myWZuZdLylBVhNz5MxNWCU6GxaPS34uXT8pZg6mJApj8DRzWNcIsPKZzWTQ6Uyer+Q
-         ZcaWoz+wdBcS8A+YKzKe5HYelP7Ryg3MxfKyX3VZXlr8tTpFB2yaQsxKgXK8MWkmqZHE
-         tDDLmJ4z/bd96265plCh9f2DrkCbyUYnbr3I6EbBMW/Tj37VuLEETRaUmDmzIDrb2xyQ
-         yFN9OsULdyEUHkDq0gK4MZ4OmUxkoD7JMDuGYWdtIxrEeFMSKyaaRIV5y6ywqTwXDOip
-         uQHNOPUlrRvCD4DvE/71TvDHvOVNEap5chPOBNc3JZ7HNpDXlFqvrEimGJnUX7GsHyHe
-         tDUw==
-X-Gm-Message-State: AOAM5310qc7RQlbAbQ3QQW0M5ewcXZG+ijCJbm4Fpel51L8H6bk7EFs8
-	gbO/QsKJxmtbNKdS8Dn3AQ4=
-X-Google-Smtp-Source: ABdhPJwI1vdWuzkkgMdTgoRkjG5Ou53mIQQKRujK2BpPjjotBFqOfe4bjTcmWNOVCYbam2sevedUBg==
-X-Received: by 2002:ac2:5b92:: with SMTP id o18mr2091481lfn.473.1638715326652;
-        Sun, 05 Dec 2021 06:42:06 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.229.236])
-        by smtp.gmail.com with ESMTPSA id j15sm1094919lfe.157.2021.12.05.06.42.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Dec 2021 06:42:06 -0800 (PST)
-Message-ID: <197e167b-2225-3593-dab3-4f1f61331de9@gmail.com>
-Date: Sun, 5 Dec 2021 17:42:05 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D2068
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:13:14 +0000 (UTC)
+Received: from dslb-188-097-212-203.188.097.pools.vodafone-ip.de ([188.97.212.203] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mttCL-0007gF-4U; Sun, 05 Dec 2021 16:13:05 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 00/10] staging: r8188eu: some more cleanups
+Date: Sun,  5 Dec 2021 16:12:41 +0100
+Message-Id: <20211205151251.6861-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 12/12] staging: r8188eu: hal_data_sz is set but never used
-Content-Language: en-US
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211205135919.30460-1-straube.linux@gmail.com>
- <20211205135919.30460-13-straube.linux@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211205135919.30460-13-straube.linux@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/5/21 16:59, Michael Straube wrote:
-> hal_data_sz in struct adapter is set but never used. Remove it.
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
-> ---
->   drivers/staging/r8188eu/hal/usb_halinit.c   | 1 -
->   drivers/staging/r8188eu/include/drv_types.h | 1 -
->   2 files changed, 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-> index 641aaf299109..da966538596f 100644
-> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
-> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-> @@ -1969,5 +1969,4 @@ void rtl8188eu_alloc_haldata(struct adapter *adapt)
->   	adapt->HalData = kzalloc(sizeof(struct hal_data_8188e), GFP_KERNEL);
->   	if (!adapt->HalData)
->   		DBG_88E("cant not alloc memory for HAL DATA\n");
-> -	adapt->hal_data_sz = sizeof(struct hal_data_8188e);
->   }
+Here's another patch set with simple cleanups in different parts
+of the driver.
 
-Not related to your patch, but not returning an error from this function 
-  looks very dangerous to me.
+Martin Kaiser (10):
+  staging: r8188eu: bLedOpenDrain is always true for r8188eu
+  staging: r8188eu: remove a bunch of unused led defines
+  staging: r8188eu: remove two unused macros
+  staging: r8188eu: bHWPowerdown is set but not used
+  staging: r8188eu: remove unused macros from drv_types.h
+  staging: r8188eu: hal data's interfaceIndex is never read
+  staging: r8188eu: remove empty HAL_INIT_PROFILE_TAG macro
+  staging: r8188eu: remove two write-only wifi direct variables
+  staging: r8188eu: remove unused define
+  staging: r8188eu: AntCombination is always 2
 
-adapt->HalData is used in GET_HAL_DATA() macro all across the driver 
-code and nobody checks if it valid or not. If allocation fails here, 
-than we will likely hit GPF while accessing hal_data fields.
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  3 --
+ drivers/staging/r8188eu/hal/odm_RTL8188E.c    | 41 ++++---------------
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   | 10 +----
+ drivers/staging/r8188eu/hal/rtl8188eu_led.c   | 16 +++-----
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 28 -------------
+ drivers/staging/r8188eu/include/drv_types.h   |  6 ---
+ .../staging/r8188eu/include/osdep_service.h   | 18 --------
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  5 ---
+ drivers/staging/r8188eu/include/rtw_led.h     | 32 ---------------
+ drivers/staging/r8188eu/include/rtw_mlme.h    | 12 ------
+ drivers/staging/r8188eu/include/rtw_pwrctrl.h |  1 -
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c  |  2 -
+ 12 files changed, 15 insertions(+), 159 deletions(-)
 
-Maybe we can embed struct hal_data_8188e instead of storing a pointer to 
-it?
+-- 
+2.20.1
 
-
-
-With regards,
-Pavel Skripkin
