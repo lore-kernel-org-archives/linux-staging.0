@@ -1,41 +1,41 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0ED2CA8
-	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 13:59:35 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id x15so32286169edv.1
-        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 05:59:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE112CAB
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 13:59:36 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id x15so32286216edv.1
+        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 05:59:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gAS0cKvETcknOrMPrbKidw5V5Godx+Ja70TOG5Jm99M=;
-        b=IOU2GQxttc8BZEb2fFAMSpC0UfeXbd3yLehHOu2YAeF3tZOWnJWZeD2GAS6K/Bg+u0
-         zkjjGBaVy4xcQwG5kvxjAmbd2AVNSMTtIVQqH1afT+rF11bveOTe04MNAoFZLdcIxsW0
-         5qGemqMFK2pLjjlO7vSgBxdQXjpnWxHS1K5yBYfdfDW1cH0PjbrYj22M9BAfHRAKl+Nt
-         Ti5Mf0tQPDiY8qwmsTcbcKHZqIrQHhlGGTqydnz6ETJmooRcTvFChFww1RlKJP+WdTZq
-         deOko0Mzb6+N6ioQljtvcs20msCitBNjWZ+SjImwJxqZypbWltW+mYFivJVaQKtnFNzB
-         bGPA==
+        bh=2glchpcv+1d/9FAJVmf1wbGz2GHlcABraoRmMcJeBDE=;
+        b=b+40/mFgq7OEUK+kMv5lhAte63pNSTfefUkkc9omG6HGP6e9Hy5AvZgtXeGNkwOjl+
+         ES1L7rpUNd92URj9vl42wetXf1itxhVSFYYOWyAuL6PJL6dHa4fnhcVukh56EqYa4d0+
+         4tejmyixlIB6qLEpy3Txloe/gn14r0IWQr6JKAF2oiSBLq1H8S2289osefBcYDQxbSZU
+         NqygO4kc37zF/V0Ay1PGSP6e2aeyhiAfkp0faB1zf/mRxyiP3y1Oqp9EbTEgRudPiGtD
+         8tRt4ZA9A2AwEi7WQ805T73JdKVjD6RIH273hdlLxNK/4n/ln9eObYOuBEdPXI7Xa1nq
+         ZyLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gAS0cKvETcknOrMPrbKidw5V5Godx+Ja70TOG5Jm99M=;
-        b=XIoeKbyAAXYGd2vVE1IbIALdtYoIwMOfSxFAwWHXLCwWDbHqMY0fkwmN6upXdOPQr6
-         2wcmQ3/fpGr73qGKJPPyrEHlmLa/u6BzMM+b0m2h3F1CCjBOeiOfRCehRK6j/Ipl2jC7
-         TPq62Fqji4Rhbuy0BymjNJLuicK4s5ELFiqbbIZF64pQZgw0t7AbInyVPn3NVP6DbfzS
-         kuX019pWA7nQEG68MgOzTwekpwsXOKOpaU7fJjdTFAmKW/FjZSaoBnZ72x4q5zB2ZEQR
-         lYeJshr4VQU60qK8Y5RhC41c4yE6/VkTdaDzADhsfx9nq234d4MYflE84Dv0VHAWrhvZ
-         9ARQ==
-X-Gm-Message-State: AOAM530mvKI5t/R5akHcFC1b/Udd88CVAxTBRFpyjfbE/RpLpT9Bsq/g
-	mBHokVzUcdReu7+ujFKc9vg=
-X-Google-Smtp-Source: ABdhPJxXWZADQzMH825f7+NuESbynuVU6C435b/5sjX+Qs/IKDK92PoxeRMNs1xsGuMl9b7DNtSaTw==
-X-Received: by 2002:a17:906:3647:: with SMTP id r7mr39098147ejb.124.1638712773959;
-        Sun, 05 Dec 2021 05:59:33 -0800 (PST)
+        bh=2glchpcv+1d/9FAJVmf1wbGz2GHlcABraoRmMcJeBDE=;
+        b=OVZazAIJpikmGQ6j6DzjgCiZzmKZpbn47x12R8C+qTEXHRoOXDh5y0K1KDRyVMTbih
+         IB2u+F6DtOnroN0waPGnnD7NU+TQLV0eCtjkUUKGqMHVI8uAj2XjaP7fMXaMHjQJBvsT
+         dibUOE3HfmmyZiaYj+8kIyEG1gHDkRESbzgkESvjAaSuSP1T8G8Z3fEIJap1EehwFaSf
+         lRIU3pXeMChuw2OWkoMdheN1VAn5Rpy1N2Mc/gkqqd2OCfw9Zp55UpqSeS2dxYgZgkIu
+         A3sA+Mvj5FfLNUeqTwgBONKD5KFXIia+ch1sKu5bsZdBztcoS5euZzbYdNCUjozjFPVu
+         4UDA==
+X-Gm-Message-State: AOAM533VI+ifAgWgWsacbeBxk2Knz9XCBtbNUcH8X4VQjFRkFSC74mB3
+	G58hqjZrJDT70lf4WpMegbA=
+X-Google-Smtp-Source: ABdhPJwQ6TYXOaa+6LJAwH2wJNpTaY4dqRIQNjXZbpviol3mKr9pNZDtjHg5aEjzoEHtAIZM3FAISw==
+X-Received: by 2002:a17:907:e8a:: with SMTP id ho10mr37955459ejc.191.1638712774609;
+        Sun, 05 Dec 2021 05:59:34 -0800 (PST)
 Received: from localhost.localdomain ([2a02:8108:96c0:3b88::5a05])
-        by smtp.gmail.com with ESMTPSA id yd20sm5146451ejb.47.2021.12.05.05.59.33
+        by smtp.gmail.com with ESMTPSA id yd20sm5146451ejb.47.2021.12.05.05.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 05:59:33 -0800 (PST)
+        Sun, 05 Dec 2021 05:59:34 -0800 (PST)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net,
@@ -43,9 +43,9 @@ Cc: Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 09/12] staging: r8188eu: bWIFI_Display is set but never used
-Date: Sun,  5 Dec 2021 14:59:16 +0100
-Message-Id: <20211205135919.30460-10-straube.linux@gmail.com>
+Subject: [PATCH 10/12] staging: r8188eu: remove unused macro IS_FW_81xxC
+Date: Sun,  5 Dec 2021 14:59:17 +0100
+Message-Id: <20211205135919.30460-11-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211205135919.30460-1-straube.linux@gmail.com>
 References: <20211205135919.30460-1-straube.linux@gmail.com>
@@ -57,76 +57,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-bWIFI_Display in odm_dm_struct is set but never used. Remove it.
+The macro IS_FW_81xxC is not used. Remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/r8188eu/hal/odm.c               | 3 ---
- drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 3 ---
- drivers/staging/r8188eu/include/hal_intf.h      | 1 -
- drivers/staging/r8188eu/include/odm.h           | 2 --
- 4 files changed, 9 deletions(-)
+ drivers/staging/r8188eu/hal/rtl8188e_hal_init.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index b1cebdfb7d88..5629556cca8a 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -260,9 +260,6 @@ void ODM_CmnInfoUpdate(struct odm_dm_struct *pDM_Odm, u32 CmnInfo, u64 Value)
- 	case	ODM_CMNINFO_ABILITY:
- 		pDM_Odm->SupportAbility = (u32)Value;
- 		break;
--	case	ODM_CMNINFO_WIFI_DISPLAY:
--		pDM_Odm->bWIFI_Display = (bool)Value;
--		break;
- 	case	ODM_CMNINFO_LINK:
- 		pDM_Odm->bLinked = (bool)Value;
- 		break;
 diff --git a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-index ed54da84e40b..5791172fa5c4 100644
+index 5791172fa5c4..3fbaccbbe775 100644
 --- a/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
 +++ b/drivers/staging/r8188eu/hal/rtl8188e_hal_init.c
-@@ -874,9 +874,6 @@ void rtl8188e_SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVaria
- 		       }
- 		}
- 		break;
--	case HAL_ODM_WIFI_DISPLAY_STATE:
--			ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DISPLAY, bSet);
--		break;
- 	default:
- 		break;
- 	}
-diff --git a/drivers/staging/r8188eu/include/hal_intf.h b/drivers/staging/r8188eu/include/hal_intf.h
-index 3383570c2bf3..7de35fde15a9 100644
---- a/drivers/staging/r8188eu/include/hal_intf.h
-+++ b/drivers/staging/r8188eu/include/hal_intf.h
-@@ -96,7 +96,6 @@ enum hal_def_variable {
+@@ -508,8 +508,6 @@ static s32 _FWFreeToGo(struct adapter *padapter)
+ 	return _FAIL;
+ }
  
- enum hal_odm_variable {
- 	HAL_ODM_STA_INFO,
--	HAL_ODM_WIFI_DISPLAY_STATE,
- };
- 
- typedef s32 (*c2h_id_filter)(u8 id);
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index d6c10ac2b8a8..69faf8b50996 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -230,7 +230,6 @@ enum odm_common_info_def {
- /*  POINTER REFERENCE----------- */
- 
- /* CALL BY VALUE------------- */
--	ODM_CMNINFO_WIFI_DISPLAY,
- 	ODM_CMNINFO_LINK,
- 	ODM_CMNINFO_RSSI_MIN,
- 	ODM_CMNINFO_RF_ANTENNA_TYPE,		/*  u8 */
-@@ -479,7 +478,6 @@ struct odm_dm_struct {
- /*  POINTER REFERENCE----------- */
- 	/*  */
- /* CALL BY VALUE------------- */
--	bool	bWIFI_Display;
- 	bool	bLinked;
- 	u8	RSSI_Min;
- 	bool	bIsMPChip;
+-#define IS_FW_81xxC(padapter)	(((GET_HAL_DATA(padapter))->FirmwareSignature & 0xFFF0) == 0x88C0)
+-
+ static int load_firmware(struct rt_firmware *pFirmware, struct device *device)
+ {
+ 	s32	rtStatus = _SUCCESS;
 -- 
 2.34.1
 
