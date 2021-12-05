@@ -1,102 +1,98 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B96868
-	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:22:51 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so8619095wme.0
-        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 07:22:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0543A2C9E
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 17:14:34 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id w1so33387658edc.6
+        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 09:14:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9rEahx2eGYTHy18kCwRl+ypwISPthXIudXILPZK+gmk=;
-        b=XJo+1n6Y5eyLhaiDowlIN6GpjUZ4ep9GPiFvVkxauguigOzsSZW/eNxLzhMwKzmHCO
-         BjxKBU8d6efJ2wGgpfELa/tEq80ZmOtLEb+dxoqOgxx30Et7PsQTSYm8x4OCOuI8QQtK
-         3biPGl5mBx5WJkho6DUc1XUtUZAiGUN4JaEMOeOH+nOQJLCUb3Dqnrm5Vh5BD31aprj1
-         0b1bITU+l9tJ3/iCwEgds5DchcP8DwBf69fXLjkt3QoQiqPtfFCZTFbU6b6TlOvCHrQD
-         k3E22A4O+Lwrk9sliD27UFxq9BuqyDoUcgonWuqFvCl/E9qMbTeZMb5DRNYLmJejxwYJ
-         UF/g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H93GgQCSgG0O/jTR8LDdgSffd2wakqUespS2pln07lo=;
+        b=PO0fEiBiu/+InhmXUrzzB6P7kc3Vloy/04TzC+F+dEqz/um0F+HCIawLUGxbgJwg3J
+         RWFIhpLjIrxxTNjtFkAezixe/cYfAoUn2k+MnZz6WsPw/QPa2CvcLTW8AMp1Lzaon2/l
+         zXehGYjlTqwcbUcMGGrx0HFHOe01jofjT1EB4wvvl336JyyYi/MGqrqrp12NkLMUuvx4
+         CzW6hIIxRkoOggnbrcbVWtTbS0T0D4ZoEXl1syWnmfvg9e1WoPGuXnA4sDxl9/creISU
+         SekRC4tVXuR8kx49skuG6lsqZqp6k0JUPXFUJMkO8sJUeT9zcJ4IuzvOSm/5BYEeLZG5
+         60aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9rEahx2eGYTHy18kCwRl+ypwISPthXIudXILPZK+gmk=;
-        b=4DZxJI/YVPSTdL3Cx+kZcRKxTo3uprDVu4cUJQ5BA7pAWhfdzARrM+z1YsFiDgkLej
-         63+DVEKGQeN8C3+if+ysM0x/oN68alHOMx7OwXO8xmHUan2UWOY2xLvMX0FYovd4G9ej
-         fOMu5sLcK80VvkXue1RTLR2bm7BlodWeIyYTevLWmpp0xmoq58eVQbYlSp2kOpvayjKY
-         2C8mOfukWar+sIMc6EQYqd+AT2tdf8aKZw/6dpJOVYXTa8lmVBo4yky3fa+gEINCdYad
-         cf3kfyQfMGYGruIui9mz7v5CLCOt7j7LsCh+1iROpxWuqDoSHPUWwqUqd2Pn/iOVpNhI
-         rW3w==
-X-Gm-Message-State: AOAM5327JnWms4LbNz+XqVrrbQ7T2K4GAbf8qWynOJOJMqaf+D5HaRSj
-	WdFIEv0GvxP7YR5fckiXyLo=
-X-Google-Smtp-Source: ABdhPJwjOMhpYjmJk8Dv4UtZ//nhj/kZ6EGmnIErXNUIEnYo1CTtI2GNTbX1qlWD3BBz+tTzL7BbYg==
-X-Received: by 2002:a05:600c:4e07:: with SMTP id b7mr30729607wmq.16.1638717769991;
-        Sun, 05 Dec 2021 07:22:49 -0800 (PST)
-Received: from ?IPV6:2a02:8108:96c0:3b88::b792? ([2a02:8108:96c0:3b88::b792])
-        by smtp.gmail.com with ESMTPSA id g13sm8136450wmk.37.2021.12.05.07.22.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Dec 2021 07:22:49 -0800 (PST)
-Message-ID: <b3886219-9a24-c119-fe10-12e5e7c6b139@gmail.com>
-Date: Sun, 5 Dec 2021 16:22:48 +0100
+        bh=H93GgQCSgG0O/jTR8LDdgSffd2wakqUespS2pln07lo=;
+        b=T6hHrDVBR8ViTqth6Tzt1PaRaUlUf0iy0U+TIgOTol+8pz+OV9glnBQ6g+DbTSzK0E
+         wl47l5pBdbsNiouMFtlELYmPMqcryfBR+F0bRM4dKbnAUBtBzQRmlkOMKbQA760U5QWw
+         68rSoGsiSeqKPqUSOH++eMI3fq8DpZCA2LTE+JvHkw8zwZDihKbkIT6AJaiOy8NKx0kv
+         Rd5i5ixNLz4o0ImCjyCGNeOTXsvzCpA6K4Prk067t4/oYpg5ArN01NTeXGAgrxE4UqYD
+         +jcluRcEmPwLpw3rev59m3eO32kmrN1/rNoW/mvcfTTV/NEw4JXcAvGE6LyP4L2hOFiH
+         YC9w==
+X-Gm-Message-State: AOAM532WEQtQJHcsdKru0SzVRyvBkTzoQafIppaVV+PkNoM0zdCgVhKq
+	IPe27JPkwIw8/8/swKbSGXs=
+X-Google-Smtp-Source: ABdhPJxnhCh7P5U+N28zF8E0CWbKe/NHE06FuYLFrTgVbLVXcg6EJlGf1fehK6RD/TKfzJpwp4MPVQ==
+X-Received: by 2002:a05:6402:2210:: with SMTP id cq16mr46819762edb.32.1638724473283;
+        Sun, 05 Dec 2021 09:14:33 -0800 (PST)
+Received: from localhost.localdomain ([2a02:8108:96c0:3b88::b792])
+        by smtp.gmail.com with ESMTPSA id ch28sm6071773edb.72.2021.12.05.09.14.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Dec 2021 09:14:32 -0800 (PST)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v2 00/10] staging: r8188eu: misc cleanups
+Date: Sun,  5 Dec 2021 18:13:32 +0100
+Message-Id: <20211205171342.20551-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH 12/12] staging: r8188eu: hal_data_sz is set but never used
-Content-Language: en-US
-To: Pavel Skripkin <paskripkin@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20211205135919.30460-1-straube.linux@gmail.com>
- <20211205135919.30460-13-straube.linux@gmail.com>
- <197e167b-2225-3593-dab3-4f1f61331de9@gmail.com>
-From: Michael Straube <straube.linux@gmail.com>
-In-Reply-To: <197e167b-2225-3593-dab3-4f1f61331de9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+This series consists of various cleanups.
 
+Tested on x86_64 with InterTech DMG-02.
 
-On 12/5/21 15:42, Pavel Skripkin wrote:
-> On 12/5/21 16:59, Michael Straube wrote:
->> hal_data_sz in struct adapter is set but never used. Remove it.
->>
->> Signed-off-by: Michael Straube <straube.linux@gmail.com>
->> ---
->>   drivers/staging/r8188eu/hal/usb_halinit.c   | 1 -
->>   drivers/staging/r8188eu/include/drv_types.h | 1 -
->>   2 files changed, 2 deletions(-)
->>
->> diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c 
->> b/drivers/staging/r8188eu/hal/usb_halinit.c
->> index 641aaf299109..da966538596f 100644
->> --- a/drivers/staging/r8188eu/hal/usb_halinit.c
->> +++ b/drivers/staging/r8188eu/hal/usb_halinit.c
->> @@ -1969,5 +1969,4 @@ void rtl8188eu_alloc_haldata(struct adapter *adapt)
->>       adapt->HalData = kzalloc(sizeof(struct hal_data_8188e), 
->> GFP_KERNEL);
->>       if (!adapt->HalData)
->>           DBG_88E("cant not alloc memory for HAL DATA\n");
->> -    adapt->hal_data_sz = sizeof(struct hal_data_8188e);
->>   }
-> 
-> Not related to your patch, but not returning an error from this function 
->   looks very dangerous to me.
-> 
-> adapt->HalData is used in GET_HAL_DATA() macro all across the driver 
-> code and nobody checks if it valid or not. If allocation fails here, 
-> than we will likely hit GPF while accessing hal_data fields.
-> 
-> Maybe we can embed struct hal_data_8188e instead of storing a pointer to 
-> it?
+v2:
+Removed patch 11 and 12.
 
-Rethinking my prevoius answer, embedding struct hal_data_8188e is the
-better solution I think.
+As mentionied by Pavel the hal data allocation is never checked
+for success. I'll work on that and send a separate series that
+also removes the GET_HAL_DATA macro.
 
-Regards,
-Michael
+Michael Straube (10):
+  staging: r8188eu: remove RF_PATH_{C,D}
+  staging: r8188eu: struct odm_mac_status_info is not used
+  staging: r8188eu: remove macro PHY_SetRFReg
+  staging: r8188eu: remove macro PHY_QueryRFReg
+  staging: r8188eu: remove macro PHY_SetBBReg
+  staging: r8188eu: remove macro PHY_QueryBBReg
+  staging: r8188eu: remove duplicate defines
+  staging: r8188eu: bWIFI_Direct is set but never used
+  staging: r8188eu: bWIFI_Display is set but never used
+  staging: r8188eu: remove unused macro IS_FW_81xxC
+
+ drivers/staging/r8188eu/core/rtw_p2p.c        |  3 -
+ drivers/staging/r8188eu/hal/HalPhyRf_8188e.c  |  6 +-
+ drivers/staging/r8188eu/hal/odm.c             |  8 +--
+ drivers/staging/r8188eu/hal/odm_interface.c   | 12 ++--
+ .../staging/r8188eu/hal/rtl8188e_hal_init.c   |  8 ---
+ drivers/staging/r8188eu/hal/rtl8188e_phycfg.c | 60 ++++++-------------
+ drivers/staging/r8188eu/hal/rtl8188e_rf6052.c | 26 ++++----
+ drivers/staging/r8188eu/hal/usb_halinit.c     | 12 ++--
+ .../staging/r8188eu/include/Hal8188EPhyCfg.h  | 16 -----
+ drivers/staging/r8188eu/include/hal_intf.h    |  2 -
+ drivers/staging/r8188eu/include/odm.h         |  8 ---
+ drivers/staging/r8188eu/include/rtl8188e_dm.h |  7 +--
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  2 +-
+ 13 files changed, 49 insertions(+), 121 deletions(-)
+
+-- 
+2.34.1
+
