@@ -1,44 +1,44 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80BC68
-	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:14:41 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id o13so16877509wrs.12
-        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 07:14:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B96868
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 15:22:51 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so8619095wme.0
+        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 07:22:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=2/0APoaO2+RxAk+XbsfV9HVu43G2c1MKgB8KCbqjUUw=;
-        b=Z0xbodD7b6pytjY+yYuxl4raiGU18/rJdLc5zdNGz4OqRK/KFjxgn3CFdTqpUFYu2i
-         yO5/zpUd8AyGLtzGaxqiTlJopcu0HiURCef9ri4y5UjSUe2XpHbfvSvn0oN9qgqMi5K3
-         EpFYE+LqGemf4Lmmga6sXqRNownqyegUEaiZ4WKHGIMG+wzI6chFV6kwuQ3a+G3ZSfNR
-         jnKvwMXo3m54CXhjNCGrf2/3wtZaTvF0ELgJhu/HK5dIP2iXeFnxlggf5uYxvA6bWo5A
-         k1gShPojNPMwoVTROZD2QNtH5+x5qgUJXr9SaDdgvTr8sOCGD/AD/H7PrHouW5suTmct
-         +fmg==
+        bh=9rEahx2eGYTHy18kCwRl+ypwISPthXIudXILPZK+gmk=;
+        b=XJo+1n6Y5eyLhaiDowlIN6GpjUZ4ep9GPiFvVkxauguigOzsSZW/eNxLzhMwKzmHCO
+         BjxKBU8d6efJ2wGgpfELa/tEq80ZmOtLEb+dxoqOgxx30Et7PsQTSYm8x4OCOuI8QQtK
+         3biPGl5mBx5WJkho6DUc1XUtUZAiGUN4JaEMOeOH+nOQJLCUb3Dqnrm5Vh5BD31aprj1
+         0b1bITU+l9tJ3/iCwEgds5DchcP8DwBf69fXLjkt3QoQiqPtfFCZTFbU6b6TlOvCHrQD
+         k3E22A4O+Lwrk9sliD27UFxq9BuqyDoUcgonWuqFvCl/E9qMbTeZMb5DRNYLmJejxwYJ
+         UF/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=2/0APoaO2+RxAk+XbsfV9HVu43G2c1MKgB8KCbqjUUw=;
-        b=zypo6fNqFHnV302R+BZZklW6nqUifjgVPMnEYGa77Z8LlrbKVRNyFkxHqDrg8P6RSB
-         HRajzArIxIE9oAgZ0XcS2oc4Mkh04jARIludRZca66eG3TRqgxozJc0kN+jBkdTHxU2L
-         BDOVVXvspJVjnpA6wvCXqIpfvPJ8630JKHwfNoQ7HVjbDmN3qVDLTHZtLqPP0Nj5SQsY
-         yMcSAMIrhVMRWVU9/rPtpvBmyqkn6baYpiNxwsllRApSaCu/N37vJXgtlVhR5mNdZyVO
-         wnRovXh8EHErZLjkR4koBz7maw+9A0iHHQLmgZD+vFGrEjV9KmXHgNmGIAGaKlAjBIiJ
-         NDPA==
-X-Gm-Message-State: AOAM533ZU7h6glfdwHjVE0INIISa2dkkoB1Uh5bt4LSB+jnFfxAZiTyT
-	OABkjZeiabDO5qEBCplv2K4=
-X-Google-Smtp-Source: ABdhPJw4y4Yj3l5J6oeNCBkQ5NolC2g/qkyvZGUvgQTKsQszDjGCLzy66Yo0KBNHrRoKp8BKhLAD8Q==
-X-Received: by 2002:a5d:59af:: with SMTP id p15mr5508754wrr.561.1638717280178;
-        Sun, 05 Dec 2021 07:14:40 -0800 (PST)
+        bh=9rEahx2eGYTHy18kCwRl+ypwISPthXIudXILPZK+gmk=;
+        b=4DZxJI/YVPSTdL3Cx+kZcRKxTo3uprDVu4cUJQ5BA7pAWhfdzARrM+z1YsFiDgkLej
+         63+DVEKGQeN8C3+if+ysM0x/oN68alHOMx7OwXO8xmHUan2UWOY2xLvMX0FYovd4G9ej
+         fOMu5sLcK80VvkXue1RTLR2bm7BlodWeIyYTevLWmpp0xmoq58eVQbYlSp2kOpvayjKY
+         2C8mOfukWar+sIMc6EQYqd+AT2tdf8aKZw/6dpJOVYXTa8lmVBo4yky3fa+gEINCdYad
+         cf3kfyQfMGYGruIui9mz7v5CLCOt7j7LsCh+1iROpxWuqDoSHPUWwqUqd2Pn/iOVpNhI
+         rW3w==
+X-Gm-Message-State: AOAM5327JnWms4LbNz+XqVrrbQ7T2K4GAbf8qWynOJOJMqaf+D5HaRSj
+	WdFIEv0GvxP7YR5fckiXyLo=
+X-Google-Smtp-Source: ABdhPJwjOMhpYjmJk8Dv4UtZ//nhj/kZ6EGmnIErXNUIEnYo1CTtI2GNTbX1qlWD3BBz+tTzL7BbYg==
+X-Received: by 2002:a05:600c:4e07:: with SMTP id b7mr30729607wmq.16.1638717769991;
+        Sun, 05 Dec 2021 07:22:49 -0800 (PST)
 Received: from ?IPV6:2a02:8108:96c0:3b88::b792? ([2a02:8108:96c0:3b88::b792])
-        by smtp.gmail.com with ESMTPSA id d15sm11551294wri.50.2021.12.05.07.14.39
+        by smtp.gmail.com with ESMTPSA id g13sm8136450wmk.37.2021.12.05.07.22.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Dec 2021 07:14:39 -0800 (PST)
-Message-ID: <663b392b-67a0-9ce1-6f32-158a72f3262a@gmail.com>
-Date: Sun, 5 Dec 2021 16:14:38 +0100
+        Sun, 05 Dec 2021 07:22:49 -0800 (PST)
+Message-ID: <b3886219-9a24-c119-fe10-12e5e7c6b139@gmail.com>
+Date: Sun, 5 Dec 2021 16:22:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,6 +59,8 @@ From: Michael Straube <straube.linux@gmail.com>
 In-Reply-To: <197e167b-2225-3593-dab3-4f1f61331de9@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+
+
 
 On 12/5/21 15:42, Pavel Skripkin wrote:
 > On 12/5/21 16:59, Michael Straube wrote:
@@ -85,9 +87,6 @@ On 12/5/21 15:42, Pavel Skripkin wrote:
 > 
 > Not related to your patch, but not returning an error from this function 
 >   looks very dangerous to me.
-
-I agree.
-
 > 
 > adapt->HalData is used in GET_HAL_DATA() macro all across the driver 
 > code and nobody checks if it valid or not. If allocation fails here, 
@@ -95,27 +94,9 @@ I agree.
 > 
 > Maybe we can embed struct hal_data_8188e instead of storing a pointer to 
 > it?
-> 
-> 
-> 
 
-We could remove rtl8188eu_alloc_haldata() completely and replace its
-usage in the function rtw_usb_if1_init().
-
---- a/drivers/staging/r8188eu/os_dep/usb_intf.c
-+++ b/drivers/staging/r8188eu/os_dep/usb_intf.c
-@@ -362,7 +362,9 @@ static struct adapter *rtw_usb_if1_init(struct 
-dvobj_priv *dvobj,
-         padapter = rtw_netdev_priv(pnetdev);
-
-         /* step 2. allocate HalData */
--       rtl8188eu_alloc_haldata(padapter);
-+       padapter->HalData = kzalloc(sizeof(*padapter->HalData), GFP_KERNEL);
-+       if (!padapter->HalData)
-+               goto handle_dualmac;
-
-This way rtw_drv_init() would return -ENODEV if the allocation fails.
-What do you think?
+Rethinking my prevoius answer, embedding struct hal_data_8188e is the
+better solution I think.
 
 Regards,
 Michael
