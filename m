@@ -1,189 +1,202 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA602C9E
-	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 18:16:46 +0000 (UTC)
-Received: by mail-io1-f51.google.com with SMTP id 14so10363516ioe.2
-        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 10:16:46 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEB32C9D
+	for <linux-staging@lists.linux.dev>; Sun,  5 Dec 2021 19:51:16 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id z5so34742784edd.3
+        for <linux-staging@lists.linux.dev>; Sun, 05 Dec 2021 11:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+A19AMS3FcCbKFMkiqJgqoCgdphaPyPa3g/qmWJ+CgE=;
-        b=mbtmONrktIpHdPAXu8gK/tZkvc6AKDTYPWMcriMiUe50ViMZlFAdlGnR3U4xDVj483
-         J6EhF6nBLEtFvNL7YyErIUJ9sgSyiwlcGS0K7YJnkf0SgzlfYrMnB17TjVf5rp5tvz3D
-         7vYVvLCpIbwZTD91iMcutiD2PF4dDGEGv/XxzZoxP0UNVNqEmOrA0cLubwdmNYMbpxGK
-         N9poifoxBwf298Wen2wLEf+PyDCja2CTiO8douJkX8Uf7gNFPM/FxWNtr2AdAGVzg2Gj
-         Bfy884Sc1HBRWjkhD4+AJan8/Ogs1E+LhWiIYo5KxzpZ0i5FNxDGzMC2g7gFPHEq8XEt
-         ndHw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=aYk6tlltAWxz+Lc9ZOG1gq6DUYS4v1JgEkLR93QjrjA=;
+        b=PqmsZO7Oa5OdJ5RdHyIN/q2FCcc53sI5u2qfvkDWMqXurPU3LNwhVQN4G6xy83UnqB
+         JaUfqIkPDW/nW+Go0fZylKEnnxsnDgLlkVg9Z9avDDvYU0rwHSy0EGhgguW0eevFK7lh
+         2nKN5LZ14iiMhAneUPO9hEz5vbJsy24x8yV2IC0sn5bmBWkCb/AS/rv5o1Nu4DYZIavv
+         zYL40hCA5e3XujdHXuTIP0C0IxrUpOnOSlAWjicHrFC2cdz33zl//LF3eDVRlAhvqrxV
+         066KjqjrGsxe/4sze3saD72bxIZ3RfcqchiHUgV5i7BbLqnpXQ5uJtSwZu7lseL+P1Ql
+         SC1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+A19AMS3FcCbKFMkiqJgqoCgdphaPyPa3g/qmWJ+CgE=;
-        b=bsU3IcbrlNJRxLoPz4xeU92aJJXUYAeXxfk5DR4HoyWmKSwlZZViDKnRYXM0GcWti6
-         1gH1iVOuo69FSITizogQebVSLTxU3ZuDWSQhmPQPNErP1MUd3vl84DLdlx+j+Kw/pkb1
-         4zxEmS0qPI3QdND8Mw9N6ytUiZoaSf0lvQUfLJJiZPMZ1gTGQ5ac/t+q3DEmqWKKC+/R
-         XOusYmjSfT+3u8aP9mCEeE14K7H6N5+HnM0o+A1Mrhy0nxtm2vWpf1FAvqbRSWnR0ONu
-         LJVOCEmOIBOtCBoiue7xdbieQdp7EJnfVcWgwiR/9DGg63rMJHy+C/bS4qRJ4X3k7UB9
-         g9nw==
-X-Gm-Message-State: AOAM532ujniMTgXR7s6/j+17+3e3FYw/dun88Z5AMNXug37h1c3Foft8
-	AT5186cj0Lue/HJ5YAw+BcnwdppqXuDDOg==
-X-Google-Smtp-Source: ABdhPJxUD4PGhm5f8vPBx+gx5+Nr0RDU/Xdp53jkJBIAmnEDfXpwWuC7JCIkZ2ynBhvgDKgg9bSbGg==
-X-Received: by 2002:a05:6638:4091:: with SMTP id m17mr36529663jam.41.1638728205925;
-        Sun, 05 Dec 2021 10:16:45 -0800 (PST)
-Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:9ea0:bb99:b16a:6159])
-        by smtp.gmail.com with ESMTPSA id z12sm5808164ilu.27.2021.12.05.10.16.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 10:16:45 -0800 (PST)
-From: Adam Ford <aford173@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: benjamin.gaignard@collabora.com,
-	cphealy@gmail.com,
-	nicolas@ndufresne.ca,
-	Adam Ford <aford173@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: [RFC 5/5] arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
-Date: Sun,  5 Dec 2021 12:16:18 -0600
-Message-Id: <20211205181618.1041699-6-aford173@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211205181618.1041699-1-aford173@gmail.com>
-References: <20211205181618.1041699-1-aford173@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=aYk6tlltAWxz+Lc9ZOG1gq6DUYS4v1JgEkLR93QjrjA=;
+        b=Uiu15yGDkArICh9QQgjG5sWN/vLXbvm4Ub59Rz2nDF0Xxc2EzCwd8ICUADjxwUWONq
+         DsWQpN/TkQaiH9oxj8rphczUBB7ZMTRYT5uxu9Uo+P9gSAZwby1ctTjnpVjZSyZdRTie
+         qUvVz01m7Qn0HKDjVYmmo+ThORjel3kdsCvf3HQ7qMcWyYeOZ2oCWjSfV1HdBq/SkDkq
+         APxNSUUksP/ntUM8XQtN7Z6c36WL6R1uLWaSnBzMllcCqUg7c0n709OQwhZeq7whSA1v
+         D8VZ1Sked8pacdYMD6B1CivG9bx8ZZS2O3CiXK3KYVo9X0jzK0eoOJ9+fJn0b2Cs0Rfd
+         vnDw==
+X-Gm-Message-State: AOAM531KaasrSvax6uQ6cKp25KY7IExpp8Ib5Nhp8lsdUI/UTjdmCJ4a
+	lPsuHlA+IejDfKb2DFO2ZkgBgqzk9grE77Yf7LQ=
+X-Google-Smtp-Source: ABdhPJxEEYXAtlNDIHxi+vMyv1lC0gCFxrGSQ2h/mDcSyIsJ/yDhiCAw5OsZ2QHMzxz0RC6SAm2D12hmp3o0fp/mzn0=
+X-Received: by 2002:aa7:d288:: with SMTP id w8mr49063653edq.404.1638733874161;
+ Sun, 05 Dec 2021 11:51:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211205181618.1041699-1-aford173@gmail.com>
+In-Reply-To: <20211205181618.1041699-1-aford173@gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Sun, 5 Dec 2021 13:51:02 -0600
+Message-ID: <CAHCN7xL3PSbHKZK_4NKRwhNGOZYM+i54CoKCq01a6kdbCLc2KA@mail.gmail.com>
+Subject: Re: [RFC 0/5] Split iMX8MQ Hantro VPU into G1 and G2 with blk-ctrl support
+To: linux-media@vger.kernel.org
+Cc: benjamin.gaignard@collabora.com, cphealy@gmail.com, nicolas@ndufresne.ca, 
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With the Hantro G1 and G2 now setup to run independently, update
-the device tree to enable it again.  This requires the vpu-blk-ctrl
-node to be configured, and the clock-parents and clock-rates for
-the various VPU's to be moved into the pgc_vpu because they cannot
-get re-parented once enabled, and the pgc_vpu is the highest
-in the chain.
+On Sun, Dec 5, 2021 at 12:16 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> Currently, the VPU in the i.MQ8MQ is appearing as one codec, but in reali=
+ty, it's
+> two IP blocks called G1 and G2.  There is initialization code in VPU code=
+ to
+> pull some clocks, resets and other features which has been integrated int=
+o
+> the vpu-blk-ctrl for the i.MX8M Mini and a similar method can be used to =
+make
+> the VPU codec's operate as stand-alone cores without having to know the d=
+etails
+> of each other or the quirks unique to the i.MX8MQ, so the remaining code =
+can be
+> left more generic.
+>
+> This series was started by Lucas Stach, and picked up by me so some patch=
+es have
+> his s-o-b and mine where I might have changed a few minor items.  It's in=
+ an RFC state
+> because the G2 VP9 operations appear to hang, but the parent code from wh=
+ich I started doesn't
+> appear to show VP9 support, and it looks like it should.
+>
+> since the g-streamer and media trees are in a constant state of change, t=
+his series is based on
+> git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
+>
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
----
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 69 +++++++++++++++--------
- 1 file changed, 45 insertions(+), 24 deletions(-)
+I forgot to post Fluster results.
 
-This clock rates and parents were moved to the pgc_vpu node because the vpu-blk-ctrl is 
-expecting certain clocks to be operational, and they cannot be re-parented once they are
-runing.
+Before the patches to this branch:
 
-The datasheet and the TRM both show different potential clock rates for the G2 CODEC.
-It could be as low as 300MHZ or as high as 650 depending on what document is read, and
-the operating voltage of the hardware.  Because of the uncertainty, the clock rates 
-proposed here match those in NXP's 5.10 Release.
+2gst-main] root@localhost:~/gstreamer/fluster# ./fluster.py list -c |grep -=
+i v4l
 
-https://source.codeaurora.org/external/imx/linux-imx/tree/arch/arm64/boot/dts/freescale/imx8mq.dtsi?h=lf-5.10.y
+    GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0=
+... =E2=9D=8C
+    GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+[gst-main] root@localhost:~/gstreamer/fluster#
+
+There was no VP9 support.
+
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+GStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 58.787 secs
+
+AFTER this series, two decoders appear:
+
+[   15.919137] hantro-vpu 38300000.video-codec: registered
+nxp,imx8mq-vpu-g1-dec as /dev/video0
+[   15.983579] hantro-vpu 38310000.video-codec: registered
+nxp,imx8mq-vpu-g2-dec as /dev/video1
+
+VP9 was listed:
+
+    GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+    GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0=
+... =E2=9D=8C
+    GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+GStreamer 1.0... =E2=9C=94=EF=B8=8F
+    GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+
+./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+Ran 55/61 tests successfully               in 8.565 secs
 
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 972766b67a15..0d3053bbfb2c 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -711,7 +711,21 @@ pgc_gpu: power-domain@5 {
- 					pgc_vpu: power-domain@6 {
- 						#power-domain-cells = <0>;
- 						reg = <IMX8M_POWER_DOMAIN_VPU>;
--						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-+						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>,
-+							 <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-+							 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+						assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-+								  <&clk IMX8MQ_CLK_VPU_G2>,
-+								  <&clk IMX8MQ_CLK_VPU_BUS>,
-+								  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-+						assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-+									 <&clk IMX8MQ_VPU_PLL_OUT>,
-+									 <&clk IMX8MQ_SYS1_PLL_800M>,
-+									 <&clk IMX8MQ_VPU_PLL>;
-+						assigned-clock-rates = <600000000>,
-+								       <600000000>,
-+								       <800000000>,
-+								       <0>;
- 					};
- 
- 					pgc_disp: power-domain@7 {
-@@ -1432,30 +1446,37 @@ usb3_phy1: usb-phy@382f0040 {
- 			status = "disabled";
- 		};
- 
--		vpu: video-codec@38300000 {
--			compatible = "nxp,imx8mq-vpu";
--			reg = <0x38300000 0x10000>,
--			      <0x38310000 0x10000>,
--			      <0x38320000 0x10000>;
--			reg-names = "g1", "g2", "ctrl";
--			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "g1", "g2";
-+		vpu_g1: video-codec@38300000 {
-+			compatible = "nxp,imx8mq-vpu-g1";
-+			reg = <0x38300000 0x10000>;
-+			reg-names = "g1";
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g1";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
-+			clock-names = "g1";
-+			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mq-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			reg-names = "g2";
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g2";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+			clock-names = "g2";
-+			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
-+		};
-+
-+		vpu_blk_ctrl: blk-ctrl@38320000 {
-+			compatible = "fsl,imx8mq-vpu-blk-ctrl", "syscon";
-+			reg = <0x38320000 0x100>;
-+			power-domains = <&pgc_vpu>, <&pgc_vpu>, <&pgc_vpu>;
-+			power-domain-names = "bus", "g1", "g2";
- 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
--				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
--				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
--			clock-names = "g1", "g2", "bus";
--			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
--					  <&clk IMX8MQ_CLK_VPU_G2>,
--					  <&clk IMX8MQ_CLK_VPU_BUS>,
--					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
--			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
--						 <&clk IMX8MQ_VPU_PLL_OUT>,
--						 <&clk IMX8MQ_SYS1_PLL_800M>,
--						 <&clk IMX8MQ_VPU_PLL>;
--			assigned-clock-rates = <600000000>, <600000000>,
--					       <800000000>, <0>;
--			power-domains = <&pgc_vpu>;
-+				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+			clock-names = "g1", "g2";
-+			#power-domain-cells = <1>;
- 		};
- 
- 		pcie0: pcie@33800000 {
--- 
-2.32.0
+./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+Ran 90/135 tests successfully               in 60.269 secs
 
+Same results for H.264
+
+VP9 Hangs, where it didn't even appear as available before:
+
+./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+***************************************************************************=
+*************************
+Running test suite VP9-TEST-VECTORS with decoder GStreamer-VP9-V4L2SL-Gst1.=
+0
+Using 4 parallel job(s)
+***************************************************************************=
+*************************
+
+[TEST SUITE      ] (DECODER                    ) TEST VECTOR
+                          ... RESULT
+----------------------------------------------------------------------
+[VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+vp90-2-00-quantizer-00.webm                     ... Success
+[VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+vp90-2-00-quantizer-01.webm                     ... Success
+[VP9-TEST-VECTORS] (GStreamer-VP9-V4L2SL-Gst1.0)
+vp90-2-00-quantizer-02.webm                     ... Succes
+
+<hang > - and yes, 'Success' didnt' finish writing to the serial port.
+
+
+
+> Adam Ford (2):
+>   media: hantro: split i.MX8MQ G1 and G2 code
+>   arm64: dts: imx8mq: Split i.MX8MQ G1 and G2 with vpu-blk-ctrl
+>
+> Lucas Stach (3):
+>   dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+>   dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+>   soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
+>
+>  .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      |  71 +++++++++++
+>  arch/arm64/boot/dts/freescale/imx8mq.dtsi     |  69 ++++++----
+>  drivers/soc/imx/imx8m-blk-ctrl.c              |  67 ++++++++++
+>  drivers/staging/media/hantro/hantro_drv.c     |   4 +-
+>  drivers/staging/media/hantro/hantro_hw.h      |   2 +-
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 119 +++---------------
+>  include/dt-bindings/power/imx8mq-power.h      |   3 +
+>  7 files changed, 205 insertions(+), 130 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-=
+vpu-blk-ctrl.yaml
+>
+> --
+> 2.32.0
+>
