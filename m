@@ -1,136 +1,99 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BCB2CA6
-	for <linux-staging@lists.linux.dev>; Tue,  7 Dec 2021 14:16:54 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1mubGp-0001MK-F4; Tue, 07 Dec 2021 15:16:39 +0100
-Message-ID: <3723dba86bc8c4ac4147d766787c926af486103f.camel@pengutronix.de>
-Subject: Re: [RFC V2 5/6] media: hantro: split i.MX8MQ G1 and G2 code
-From: Lucas Stach <l.stach@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945142CA0
+	for <linux-staging@lists.linux.dev>; Tue,  7 Dec 2021 14:58:13 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id i5-20020a05683033e500b0057a369ac614so18358523otu.10
+        for <linux-staging@lists.linux.dev>; Tue, 07 Dec 2021 06:58:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=VgYpRv7FKDRFJkyswgOt8jfkEjY4KcUU5jFAaY5SUrw=;
+        b=Gcb9A29kI/wqIdCAS+qFAxyKQDNfo3hjafVfLrxiiSqZ4lWQgGlcFp1/kWO83GBljK
+         I6udXxhMZW3SsgHe2M3jFtITDrzICKNB7ir0ouFDNEHQIHg9Sdrsu3joskZrxQL557Ox
+         ye+PWJeHMgYH1WX8dQEuaySus0JFDd0CP62SyO+GJGcrH+avTGL+H21Et6WU5TX+UQ2p
+         +SNx3z5gA5SRTf0otuv8XFh6s/H9KlPY2+UzmiGOP8GqbZiaQuAlmffwEoBW9OHJCwRs
+         y0KxiyvJqYmhI7YpLm4aa42fOH26NtZuN8EXVcGO3VargHUeyq4chUqr+S480nd4Ctzx
+         9ijA==
+X-Gm-Message-State: AOAM530KQPGTOgcLL7yvl27FcUrxy97yy51DrHvjtyLnLCp90OYwkF3W
+	ckBhd6jFtadfpvQsB5lq0g==
+X-Google-Smtp-Source: ABdhPJxI+GdBHmtxK/QcTh3tcIy1ZwNfkubLUnPPWtqNhLRymXjSM4MMyk6de2SMgFGNU+/WHw79vA==
+X-Received: by 2002:a9d:4f0b:: with SMTP id d11mr35759185otl.227.1638889092708;
+        Tue, 07 Dec 2021 06:58:12 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id m2sm2815394oop.12.2021.12.07.06.58.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Dec 2021 06:58:11 -0800 (PST)
+Received: (nullmailer pid 5797 invoked by uid 1000);
+	Tue, 07 Dec 2021 14:58:10 -0000
+From: Rob Herring <robh@kernel.org>
 To: Adam Ford <aford173@gmail.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, linux-media
- <linux-media@vger.kernel.org>, Chris Healy <cphealy@gmail.com>, Benjamin
- Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil
- <hverkuil@xs4all.nl>, Philipp Zabel <p.zabel@pengutronix.de>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "open list:HANTRO VPU CODEC
- DRIVER" <linux-rockchip@lists.infradead.org>, devicetree
- <devicetree@vger.kernel.org>, arm-soc
- <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, "open list:STAGING SUBSYSTEM"
- <linux-staging@lists.linux.dev>
-Date: Tue, 07 Dec 2021 15:16:37 +0100
-In-Reply-To: <CAHCN7xKtD+ROTM5_bCr0EgC+vyoAAgEW11SkCvpPQ5wHO3bWBA@mail.gmail.com>
-References: <20211207015446.1250854-1-aford173@gmail.com>
-	 <20211207015446.1250854-6-aford173@gmail.com> <Ya9V7Kwa8MICeS34@eze-laptop>
-	 <CAHCN7xJ9kTdTmhbSwwNCCivRdTULO494CEj0eVkfPfqbPqNPvA@mail.gmail.com>
-	 <d82868b7dbc2953c6022165488e822699f7240c5.camel@pengutronix.de>
-	 <CAHCN7xL3JgmEf=H9UueFLYpnGqraRYUu3yYSTqn_JNi8tPnOfQ@mail.gmail.com>
-	 <6e41beec102951ea057ba1af02ef4aaad40bd0dc.camel@pengutronix.de>
-	 <CAHCN7xKtD+ROTM5_bCr0EgC+vyoAAgEW11SkCvpPQ5wHO3bWBA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Cc: linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-media@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com, Rob Herring <robh+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, hverkuil@xs4all.nl, Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-kernel@lists.infradead.org, cphealy@gmail.com
+In-Reply-To: <20211207015446.1250854-4-aford173@gmail.com>
+References: <20211207015446.1250854-1-aford173@gmail.com> <20211207015446.1250854-4-aford173@gmail.com>
+Subject: Re: [RFC V2 3/6] dt-bindings: media: nxp,imx8mq-vpu: Update the bindings for G2 support
+Date: Tue, 07 Dec 2021 08:58:10 -0600
+Message-Id: <1638889090.684232.5796.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-Am Dienstag, dem 07.12.2021 um 08:07 -0600 schrieb Adam Ford:
-> > > > > > 
-[...]
-> > > > > > I think it's important to clarify that you are breaking support
-> > > > > > for the previous device-tree binding. Not only because of the compatible
-> > > > > > string change, but because the binding is now quite different.
-> > > > > > 
-> > > > > > Note that in the past Benjamin tried to avoid this.
-> > > > > > IIRC, his proposal was backwards compatible.
-> > > > > 
-> > > > > I was looking at how to do this, but the stand-alone vpu bindings did
-> > > > > the reset and the fuses manually, it causes issues.  When the block
-> > > > > control is enabled those memory locations for the resets and fuses are
-> > > > > assigned to the blk-ctrl driver, so attempting to access them from a
-> > > > > different driver was a violation.
-> > > > > 
-> > > > > When I started looking at this, the stand-alone VPU was trying to be
-> > > > > both G1 and G2, but when I was testing it before I made changes, I
-> > > > > didn't see the G2 function at all. When I was done the G2 seemed to
-> > > > > work, so it seems like this is an improvement.  If you want me to keep
-> > > > > the previous compatible flag, I could rename the nxp,imx8mq-vpu-g1
-> > > > > back to nxp,imx8mq-vpu and remove the reset/fuse controls, but I'd
-> > > > > have to add the blk-ctrl reference, so it seemed to me like a better
-> > > > > alternative to deprecate the old binding/driver and replace it with
-> > > > > the new one because of the significant changes.  Since I'd like to
-> > > > > rebase the i.MX8M Mini I did on this work, it seemed weird to have
-> > > > > nxp,imx8mq-vpu, nxp,imx8mq-vpu-g2, nxp,imx8mm-vpu-g1, and
-> > > > > nxp,imx8mm-vpu-g2 where the only one without a Gx name was the
-> > > > > original 8MQ binding but limited to G1 functionality and the G2
-> > > > > stripped out.
-> > > > 
-> > > > I would very much appreciate if we could keep the driver code for the
-> > > > old binding. It does not need to have any new additional functionality,
-> > > > but just keep the existing G1 h.264 decode when booted on a old DT with
-> > > > the old VPU description and no blk-ctrl, so we don't regress
-> > > > functionality when a new kernel is booted with a old DT.
-> > > > 
-> > > > New functionality with the G2 can depend on the new VPU binding and the
-> > > > blk-ctrl driver.
-> > > 
-> > > How does that work when both the original VPU and the blk-ctrl attempt
-> > > to manipulate the reset and clock lines?  The original binding for the
-> > > vpu was assigned:
-> > > 
-> > > reg = <0x38300000 0x10000>,
-> > >           <0x38310000 0x10000>,
-> > >           <0x38320000 0x10000>;
-> > > reg-names = "g1", "g2", "ctrl";
-> > > 
-> > > If G2 is going to run from 38310000 and vpu-blk-ctrl run from
-> > > 38320000, they'll collide.
-> > > 
-> > It's not going to work, but it also doesn't have to. Either you have a
-> > old DT where the VPU driver will poke the blk-ctrl registers, but no
-> > blk-ctrl driver, or you have a new DT where the VPU driver leaves the
-> > blk-ctrl region alone and the blk-ctrl driver needs to handle it.
-> > 
-> > Just don't support mixing the old VPU DT binding with the new blk-ctrl
-> > way of doing things. The only thing that needs to keep working is a
-> > unchannged old DT, where the VPU uses the old binding, but no blk-ctrl
-> > is present as a separate node.
+On Mon, 06 Dec 2021 19:54:42 -0600, Adam Ford wrote:
+> From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > 
-> I think I understand.  I'll leave the old code for the old binding in
-> the driver and add the new code for the new bindings with blk-ctrl.
-> Once the device tree is migrated to the new bindings, the old one
-> becomes harmless, but still works with old device trees lacking the
-> blk-ctrl.  That makes sense.  In my head, I wasn't thinking about
-> mixing older device trees.
+> Introducing the G2 hevc video decoder requires modifications of the bindings to allow
+> one node per VPU.
+> 
+> VPUs share one hardware control block which is provided as a phandle on
+> a syscon.
+> Each node has now one reg and one interrupt.
+> Add a compatible for G2 hardware block: nxp,imx8mq-vpu-g2.
+> 
+> To be compatible with older DT the driver is still capable to use the 'ctrl'
+> reg-name even if it is deprecated now.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> 
 
-Exactly. While most people don't use it this way, the kernel and DT are
-supposed to be independent, e.g. the DTB could be included in the
-device firmware, while the kernel could be updated via a distro.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-To not break this use-case without a good reason, new kernels should
-try to not regress functionality with a existing binary DT. We can
-mandate DT updates for new functionality (like being able to use the G2
-core only with the new blk-ctrl + split VPU binding), but we shouldn't
-break existing features if there isn't a very good reason to do so.
-Keeping the bit of code in the VPU driver to keep the old G1 only
-decoding working with a new kernel isn't much of a burden IMHO, so we
-should try to keep it alive.
+yamllint warnings/errors:
 
-Regards,
-Lucas
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml: properties:clock-names:oneOf: [{'const': 'g1'}, {'const': 'g2'}] should not be valid under {'items': {'propertyNames': {'const': 'const'}, 'required': ['const']}}
+	hint: Use 'enum' rather than 'oneOf' + 'const' entries
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml: properties:interrupt-names:oneOf: [{'const': 'g1'}, {'const': 'g2'}] should not be valid under {'items': {'propertyNames': {'const': 'const'}, 'required': ['const']}}
+	hint: Use 'enum' rather than 'oneOf' + 'const' entries
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml: properties:compatible:oneOf: [{'const': 'nxp,imx8mq-vpu-g1'}, {'const': 'nxp,imx8mq-vpu-g2'}] should not be valid under {'items': {'propertyNames': {'const': 'const'}, 'required': ['const']}}
+	hint: Use 'enum' rather than 'oneOf' + 'const' entries
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml: ignoring, error in schema: properties: interrupt-names: oneOf
+warning: no schema found in file: ./Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+Error: Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.example.dts:26.27-31 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:373: Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1413: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1564457
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
