@@ -1,41 +1,41 @@
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E81E2CB3
-	for <linux-staging@lists.linux.dev>; Wed,  8 Dec 2021 22:50:55 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id p65so4610173iof.3
-        for <linux-staging@lists.linux.dev>; Wed, 08 Dec 2021 14:50:55 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155702CB3
+	for <linux-staging@lists.linux.dev>; Wed,  8 Dec 2021 22:50:58 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id z18so4604190iof.5
+        for <linux-staging@lists.linux.dev>; Wed, 08 Dec 2021 14:50:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CrNumwISLUpkzDEc0TVgaptJcWoPniM3pmiYzi2RbfE=;
-        b=Fj6VpvXikYeBpUY3sac3yJ39RVxk5IUonJwvZgE62hZzJh1g8rF1GAOIhXAWaSkfiE
-         XmJlE0U6MQJ1fG17Nfa8iqI+RmfFhq7IzckfnyQJJVvGJRhFtobH7ZnL9N8cN5/51k1g
-         Xt4QA95/53ihaR8NBmcrYngNnoKhVZsxJJHCO6uFsCr+5WkxjgHDOQxW56G9K0FRn5Xx
-         8UH/gsESc/zJi+ObAZ1Bd9ujFD0uTC4gyI7jw72C/b47isugWCc3OsWbK+PAUqD6DZiI
-         ZvXHF+1hkgxNORUBJTNz1eb4Nma4dfz6C8dS5yssc0IQco2UE+8dyUUGlEj92s+hmD5h
-         4BEg==
+        bh=5uDGT+bQdOGd9jInpMhbePhooiUuliLL4k3ARcsSlNE=;
+        b=SMrAIUyTmmwqq2KE5GitKXfURAPHk0xEp2DVv8M6//mv/uHw1hSIFsZ95PEHPiUUFr
+         KpIizsH+p/xMLD8jfZiYd9/1Kqc0Glt26WUGdmpb1qnAB+gAjxwklaY4KS1yKOhY/7Tt
+         9/b2Ctl7g9uhk6aCy2qxaH1JX1xbvvy7b/gXAF3SjLJqmuruA14QH/zL25f/rL9dbdPB
+         gAB94PIy3CnlEB9M4HXQt/BiSyBfOQt3ssknZkE/fhXXfB6jt4TVgd2R/XppIocMvUWT
+         tnIJ1BM6sybxx2Go9kNp7yu8VmuTlh19RBGTTLNAvz8GhZCYwd/AF6cDn0WIadvqji9O
+         581g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CrNumwISLUpkzDEc0TVgaptJcWoPniM3pmiYzi2RbfE=;
-        b=eXDCtuP1wQvJu7sqQNB5iExrorPSTlEUSpJ//ZAvk3H0I8MG62TmYoqv19XNRl1+Rw
-         A7d14T602zSrxRrDziSWJYJwPg3dDwCptiocImH3LvqJA/1I7OlNMPzvOavCBeaBfm6B
-         ass3ToBIjwQqiuzCVm8kxMqG0sOrScGy1K8+71/ZQhk0uTUxGg+BWt0VNFsBA54yEWzR
-         CDHNHqGAVTbxrXouLr6meHWNl3xyb38WxTYZvZqRfkHeEtgoj0baTbK8/XbiT4u7YxIZ
-         wUFKoi5WW4XYbP+QCFENi4dBURVoo4Sj11AjQHtABlZCxnETAZ0CpT+wEKH3DEDAkDOp
-         i0rA==
-X-Gm-Message-State: AOAM531B9/Ok7t6SokABBD6byU+/6igW/4800HXJd/tJVSgGauIJUFmZ
-	FZ/LbqtKia2ole3DLcOwe9o=
-X-Google-Smtp-Source: ABdhPJy3Fw9s3P+tqSX21rd0Q8PHUJ8JDm/ujxjgd6QaaXBU9HU3PzKf3iIs1q8oTPSXKUJpcKLmdQ==
-X-Received: by 2002:a05:6638:d46:: with SMTP id d6mr3444633jak.129.1639003854249;
-        Wed, 08 Dec 2021 14:50:54 -0800 (PST)
+        bh=5uDGT+bQdOGd9jInpMhbePhooiUuliLL4k3ARcsSlNE=;
+        b=TOo83x0kCBTOyQZHpj1GmeIstvjGfw6dVw+knSxlBV46BTBeV1b0VFoZgKa6/pAy05
+         j/XNtYbaarSTFUlj0+lumCcQyTS5MKd/0SYCSBfE8emOcG0EaB/mpY0mzc6P/v1jCsiT
+         4FAzCOODwRw8EdkALddb7BLiwDkIQbkIIvx61dFiirVf1nKBpgmtq1iBF8h+dABMIzBP
+         xxyhgrvsGaX63pjHjs0mWsAI5iJOFLzITr8tslktTU75r9Ojeixd/PnNNrnfEJsOCP27
+         HNa2NZLRbpK/lNgT7OvHqV+K20T0o9hXoocH3QuWN/a5OLhO5vxm9d788fAuINE3fZml
+         /35Q==
+X-Gm-Message-State: AOAM531JN3sFtvzo4S51omScVq5C18v2rOGotONp4CWdd+JExKS9HMhl
+	t9fm3JrE+4VhKSpkGWi94bQ=
+X-Google-Smtp-Source: ABdhPJzyhQ8e0ZLCj/Du9L9st0l3VnW5IAfRW7Fn4vUJ5oaWO5af3oiXkAFyrdj38nTMLmZxbd0vtA==
+X-Received: by 2002:a6b:8ed4:: with SMTP id q203mr9777949iod.200.1639003857077;
+        Wed, 08 Dec 2021 14:50:57 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:269a:1aa2:f1d9:8dbb])
-        by smtp.gmail.com with ESMTPSA id t6sm2378751ioi.51.2021.12.08.14.50.52
+        by smtp.gmail.com with ESMTPSA id t6sm2378751ioi.51.2021.12.08.14.50.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Dec 2021 14:50:53 -0800 (PST)
+        Wed, 08 Dec 2021 14:50:56 -0800 (PST)
 From: Adam Ford <aford173@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: benjamin.gaignard@collabora.com,
@@ -59,9 +59,9 @@ Cc: benjamin.gaignard@collabora.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 07/10] arm64: dts: imx8mm: Fix VPU Hanging
-Date: Wed,  8 Dec 2021 16:50:26 -0600
-Message-Id: <20211208225030.2018923-8-aford173@gmail.com>
+Subject: [PATCH 08/10] dt-bindings: media: nxp,imx8mq-vpu: Enable support for i.MX8M Mini
+Date: Wed,  8 Dec 2021 16:50:27 -0600
+Message-Id: <20211208225030.2018923-9-aford173@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211208225030.2018923-1-aford173@gmail.com>
 References: <20211208225030.2018923-1-aford173@gmail.com>
@@ -73,28 +73,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vpumix power domain has a reset assigned to it, however
-when used, it causes a system hang.  Testing has shown that
-it does not appear to be needed anywhere.
+The i.MX8M mini appears to have a similar G1 and G2 decoder but the
+post-procesing isn't present.  Add compatible flags to support
+G1 and G2 without post-processing.
 
-Fixes: d39d4bb15310 ("arm64: dts: imx8mm: add GPC node")
 Signed-off-by: Adam Ford <aford173@gmail.com>
 ---
- arch/arm64/boot/dts/freescale/imx8mm.dtsi | 1 -
- 1 file changed, 1 deletion(-)
+ Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index c2f3f118f82e..f13d31ebfcbd 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -681,7 +681,6 @@ pgc_vpumix: power-domain@6 {
- 						clocks = <&clk IMX8MM_CLK_VPU_DEC_ROOT>;
- 						assigned-clocks = <&clk IMX8MM_CLK_VPU_BUS>;
- 						assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_800M>;
--						resets = <&src IMX8MQ_RESET_VPU_RESET>;
- 					};
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+index eeb7bd6281f9..fb6c2ab1b2dc 100644
+--- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
++++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+@@ -20,6 +20,8 @@ properties:
+         deprecated: true
+       - const: nxp,imx8mq-vpu-g1
+       - const: nxp,imx8mq-vpu-g2
++      - const: nxp, imx8mm-vpu-g1
++      - const: nxp, imx8mm-vpu-g2
  
- 					pgc_vpu_g1: power-domain@7 {
+   reg:
+     minItems: 1
 -- 
 2.32.0
 
