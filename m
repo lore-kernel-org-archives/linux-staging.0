@@ -1,75 +1,163 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7259D2C9C
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 09:05:09 +0000 (UTC)
-Received: from localhost.localdomain (unknown [124.16.138.128])
-	by APP-01 (Coremail) with SMTP id qwCowAD3_p5ExbFhvtbuAQ--.47934S2;
-	Thu, 09 Dec 2021 16:58:48 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: narmstrong@baylibre.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com
-Cc: linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH] media: meson: vdec: potential dereference of null pointer
-Date: Thu,  9 Dec 2021 16:58:40 +0800
-Message-Id: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6056A2C9C
+	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 10:26:20 +0000 (UTC)
+Received: by mail-ua1-f43.google.com with SMTP id p2so9768309uad.11
+        for <linux-staging@lists.linux.dev>; Thu, 09 Dec 2021 02:26:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=n1e+HtRg9maQtc2GLxQiCgRrqKPDjfCHzrqnIVz2IyI=;
+        b=hIhiw8NfbkDX84PoIgWiuo2LnvGpIzgmT1aR76Z0WPIXHtxQWDaNb1/Q6SbUwXUs77
+         7vTvAtsrCiOx5Gb7h8GSvNCGPmca7yXkUZti+RAdqWIWgoC3aHNvoa68hCL5akLSsO6c
+         4rIZbaD0hBixRCLygqOA9+BJTGhi1j4IIL1v6uUS1G9sizof0JNtncXfUMjF0d07e8CW
+         HCy4BPujk8eQSwQcQbYcU6+aF44t02BlfWGeQfbD9Wl4ywSvDBq7krGRdsHr4KTiJt0L
+         rbiEWP6AUbf5kZJwC9/ROPA0gNp22ydzbxkN/l+tMej6/31N9D0rHhgKk5PGfhYfbZx9
+         jS0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=n1e+HtRg9maQtc2GLxQiCgRrqKPDjfCHzrqnIVz2IyI=;
+        b=tgREfn6zmQtjpCmy1I1tvRzbVGcrDF8KKMGT3/S4NKieYkJnUhvtDGCBJgZRjDOxcx
+         OihLJ/Gy8H/uZD/GOYeLvL6Oxv07SBhqEbAVvUnOP4H4e+uWu5TJjDU3CJaLzeBwhNc9
+         T9HbgT9CurWyVS2JJJz9LWVRV9FFRrorZh97Y7MLPLFz8kvZvZmWYYXM0mSb0aKU2gI0
+         sJyd+s+AFmykKd0rjDC76S/20fla4Slwws1rMvuci7TnIv+eFbIV+/l88y82Zla8CUcS
+         I6PMtwJ0sa9NsM3Da3IGo0RbhHhIu7COAgduM35FT1ReY7ezM7cglKRmF5gco2XjnBwf
+         ZZVQ==
+X-Gm-Message-State: AOAM5330gYUXQbeTS9PNW5jUdU7FWgDmdGQ1cwLNPuczNgnweT6eMZrA
+	2KqkafF2sfMiSgokXG0qAHLitw==
+X-Google-Smtp-Source: ABdhPJwJv3mXRM/g6+dEqNxe+KKZgULXoBaIC5TH7Y0NcdNLGdr+N3FNJpkSYLsYjEsMxvQvMtvoVQ==
+X-Received: by 2002:a67:d78c:: with SMTP id q12mr6398800vsj.35.1639045578937;
+        Thu, 09 Dec 2021 02:26:18 -0800 (PST)
+Received: from eze-laptop ([186.122.18.54])
+        by smtp.gmail.com with ESMTPSA id t132sm3543495vkb.19.2021.12.09.02.26.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Dec 2021 02:26:17 -0800 (PST)
+Date: Thu, 9 Dec 2021 07:26:07 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-media@vger.kernel.org, benjamin.gaignard@collabora.com,
+	cphealy@gmail.com, aford@beaconembedded.com, nicolas@ndufresne.ca,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 04/10] dt-bindings: media: nxp,imx8mq-vpu: Support split
+ G1 and G2 nodes with vpu-blk-ctrl
+Message-ID: <YbHZvysazqYeZ8h3@eze-laptop>
+References: <20211208225030.2018923-1-aford173@gmail.com>
+ <20211208225030.2018923-5-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAD3_p5ExbFhvtbuAQ--.47934S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xtrW8Cw4xAF4fGr1DAwb_yoWfWrc_Gr
-	ZFqrnxZryDZa1Skr15tw4F9FWFqr4IvFsYvanxtFW3uFyDA3W5Z39F9rn5Jr1UJFWSkrZr
-	A393tr13Kr1UGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbVkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
-	n2IY04v7MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
-	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
-	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAI
-	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUjNJ55UUUUU==
-X-Originating-IP: [124.16.138.128]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211208225030.2018923-5-aford173@gmail.com>
 
-he return value of kzalloc() needs to be checked.
-To avoid use of null pointer in case of the failure of alloc.
+Hi,
 
-Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
- drivers/staging/media/meson/vdec/vdec_helpers.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks for the patch.
 
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index 7f07a9175815..025885fcfec6 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -234,6 +234,8 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
- 	unsigned long flags;
- 
- 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-+	if (!new_ts)
-+		return;
- 	new_ts->ts = ts;
- 	new_ts->tc = tc;
- 	new_ts->offset = offset;
--- 
-2.25.1
+On Wed, Dec 08, 2021 at 04:50:23PM -0600, Adam Ford wrote:
+> The G1 and G2 are separate decoder blocks that are enabled by the
+> vpu-blk-ctrl power-domain controller, which now has a proper driver.
+> Update the bindings to support separate nodes for the G1 and G2
+> decoders using the proper driver or the older unified node with
+> the legacy controls.
+> 
+> To be compatible with older DT the driver, mark certain items as
+> deprecated and retain the backwards compatible example.
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> ---
+>  .../bindings/media/nxp,imx8mq-vpu.yaml        | 83 ++++++++++++++-----
+>  1 file changed, 64 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> index 762be3f96ce9..eeb7bd6281f9 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> @@ -15,29 +15,39 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    const: nxp,imx8mq-vpu
+> +    oneOf:
+> +      - const: nxp,imx8mq-vpu
+> +        deprecated: true
+> +      - const: nxp,imx8mq-vpu-g1
+> +      - const: nxp,imx8mq-vpu-g2
+>  
+>    reg:
+> +    minItems: 1
+>      maxItems: 3
 
+Is it really useful to keep the deprecated binding nxp,imx8mq-vpu
+as something supported by the binding file?
+
+In other words, can we drop the deprecated binding from this file,
+while keeping the support in the driver for legacy device-trees?
+
+[..]
+> +
+> +  # VPU G1 with vpu-blk-ctrl
+> +  - |
+> +    #include <dt-bindings/clock/imx8mq-clock.h>
+> +    #include <dt-bindings/power/imx8mq-power.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    vpu_g1: video-codec@38300000 {
+> +        compatible = "nxp,imx8mq-vpu-g1";
+> +        reg = <0x38300000 0x10000>;
+> +        reg-names "g1";
+> +        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-names = "g1";
+> +        clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> +        clock-names = "g1";
+
+reg-names, interrupt-names and clock-names should be removed
+given for this device there's only one of each.
+
+This will make the binding actually quite easier, but it also
+means you need to make some changes to struct hantro_variant imx8mq_vpu_g1_variant
+to make it work properly.
+
+See Rob's feedback on the SAMA5 VPU binding:
+
+https://yhbt.net/lore/all/20210324151715.GA3070006@robh.at.kernel.org/
+
+Also, take a look at drivers/staging/media/hantro/sama5d4_vdec_hw.c
+for reference.
+
+> +        power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
+> +    };
+> +
+> +  # VPU G2 with vpu-blk-ctrl
+> +  - |
+> +    #include <dt-bindings/clock/imx8mq-clock.h>
+> +    #include <dt-bindings/power/imx8mq-power.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    vpu_g2: video-codec@38310000 {
+> +        compatible = "nxp,imx8mq-vpu-g2";
+> +        reg = <0x38310000 0x10000>;
+> +        reg-names "g2";
+
+And same here.
+
+Thanks!
+Ezequiel
