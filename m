@@ -1,26 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4534173
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 07:56:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7A77C004DD;
-	Thu,  9 Dec 2021 07:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8F5173
+	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 08:00:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 739E5C004DD;
+	Thu,  9 Dec 2021 07:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1639036571;
-	bh=aIzYtbig5MH7sfOsB9APmmHfEK+RIkIFW4Q7dyAbeoc=;
+	s=korg; t=1639036800;
+	bh=6si4EnigSjUiEWLkIW5cwTlJeEt38NNMe4X31kf7bk4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=caChZhhr6IrwFcGT968xcIicf9Jvjc/wCV2eamjM3+eadeQ2+ergc4SEdgTIpu78X
-	 yPQJlPXk4vf951ycKJ1doDd8juve0H7u+YAe/xTvaHQCnhz3d2PGhdzXvqyFznsxMx
-	 rBW39obBHTV14NSx2bU076U7eUOaBN3KkstxDa4I=
-Date: Thu, 9 Dec 2021 08:56:08 +0100
+	b=JRyK3oRx2hgMK4sU4zNzpiQu/vBQno7yDEc2Ww2W6Z7MnJ3zkqEtV1lYYio0j4Jeq
+	 nCvNJRyzTJ+CsExT3SdGXzb2M+1ebgGJfVYzHuwZifOV9gBPmjA/t/LuhXnUdTmmUJ
+	 CBoyzSHM1I3PY9D9k42ZotA8BBDEkt5ICp+T/5Vw=
+Date: Thu, 9 Dec 2021 08:59:57 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Jianglei Nie <niejianglei2021@163.com>
 Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
 	straube.linux@gmail.com, martin@kaiser.cx,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: fix a memory leak in rtw_mp_pwrtrk()
-Message-ID: <YbG2mDYHqjb5AYGG@kroah.com>
-References: <20211209071905.125440-1-niejianglei2021@163.com>
+Subject: Re: [PATCH] staging: r8188eu: fix a memory leak in rtw_mp_QueryDrv()
+Message-ID: <YbG3fUhdDp7cezk8@kroah.com>
+References: <20211209073421.126251-1-niejianglei2021@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,74 +29,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211209071905.125440-1-niejianglei2021@163.com>
+In-Reply-To: <20211209073421.126251-1-niejianglei2021@163.com>
 
-On Thu, Dec 09, 2021 at 03:19:05PM +0800, Jianglei Nie wrote:
-> Line 5961 (#1) allocates a memory chunk for input by kmalloc().
-> Line 5966 (#2), line 5982 (#4) and line 5987 (#5) free the input
-> before the function returns while line 5979 (#3) forget to free it,
-> which will lead to a memory leak.
+On Thu, Dec 09, 2021 at 03:34:21PM +0800, Jianglei Nie wrote:
+> Line 6183 (#1) allocates a memory chunk for input by kmalloc().
+> Line 6204 (#3) frees the input before the function returns while
+> line 6190 (#2) forget to free it, which will lead to a memory leak.
 > 
-> We should kfree() input in line 5979 (#3).
+> We should kfree() input in line 6190 (#2).
 > 
-> 5953 static int rtw_mp_pwrtrk(struct net_device *dev,
-> 5954 			struct iw_request_info *info,
-> 5955 			struct iw_point *wrqu, char *extra)
-> 5956 {
-> 5961 	char	*input = kmalloc(wrqu->length, GFP_KERNEL);
+> 6177 static int rtw_mp_QueryDrv(struct net_device *dev,
+> 6178 			struct iw_request_info *info,
+> 6179 			union iwreq_data *wrqu, char *extra)
+> 6180 {
+> 6182	char	*input = kmalloc(wrqu->data.length, GFP_KERNEL);
 > 	// #1: kmalloc space
-> 5963 	if (!input)
-> 5964 		return -ENOMEM;
-> 5965 	if (copy_from_user(input, wrqu->pointer, wrqu->length)) {
-> 5966 		kfree(input); // #2: kfree space
-> 5967 		return -EFAULT;
-> 5968	}
 > 
-> 5973	if (strncmp(input, "stop", 4) == 0) {
-> 5974		enable = 0;
-> 5975		sprintf(extra, "mp tx power tracking stop");
-> 5976	} else if (sscanf(input, "ther =%d", &thermal)) {
-> 5977		ret = Hal_SetThermalMeter(padapter, (u8)thermal);
-> 5978		if (ret == _FAIL)
-> 5979			return -EPERM; // #3: missing kfree
-> 5980		sprintf(extra, "mp tx power tracking start,
-> 			target value =%d ok ", thermal);
-> 5981	} else {
-> 5982		kfree(input); // #4: kfree space
-> 5983		return -EINVAL;
-> 5984	}
+> 6186	if (!input)
+> 6187		return -ENOMEM;
 > 
-> 5987	kfree(input); // #5: kfree space
+> 6189 	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
+> 6190 			return -EFAULT; // #2: missing kfree
 > 
-> 5993	return 0;
-> 5994 }
+> 6204 	kfree(input); // #3: kfree space
+> 6205 	return 0;
+> 6206 }
 > 
 > Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
 > ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 1fd375076001..8f9e0f12c51f 100644
+> index 1fd375076001..0524523910f0 100644
 > --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 > +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -5975,8 +5975,10 @@ static int rtw_mp_pwrtrk(struct net_device *dev,
->  			sprintf(extra, "mp tx power tracking stop");
->  		} else if (sscanf(input, "ther =%d", &thermal)) {
->  				ret = Hal_SetThermalMeter(padapter, (u8)thermal);
-> -				if (ret == _FAIL)
-> +				if (ret == _FAIL) {
-> +					kfree(input);
->  					return -EPERM;
-> +				}
->  				sprintf(extra, "mp tx power tracking start, target value =%d ok ", thermal);
->  		} else {
->  			kfree(input);
+> @@ -6186,8 +6186,11 @@ static int rtw_mp_QueryDrv(struct net_device *dev,
+>  	if (!input)
+>  		return -ENOMEM;
+>  
+> -	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
+> -			return -EFAULT;
+> +	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length)) {
+> +		kfree(input);
+> +		return -EFAULT;
+> +	}
+> +
+>  	DBG_88E("%s:iwpriv in =%s\n", __func__, input);
+>  
+>  	qAutoLoad = strncmp(input, "autoload", 8); /*  strncmp true is 0 */
+> -- 
+> 2.25.1
+> 
+> 
 
-What kernel tree and version did you make this patch against?  I do not
-even see this function in Linus's tree, nor in my staging-next
-development branch.
+Again, what tree are you making this patch against?  This function is no
+longer present.
 
-confused,
+Also, when sending more than one patch for the same driver, always make
+a patch series so we know what order they should be applied in.
+
+thanks,
 
 greg k-h
