@@ -1,114 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4FE2CB2
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 15:08:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF44C004DD;
-	Thu,  9 Dec 2021 15:08:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1639062525;
-	bh=+DZzUPb0MXEP6/SL2iCITxve4BK9yABbHTlC4f2A+B0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PsjywAGu6jkA3Vlhq9H7wLcR5prEbnCEL8gAjBorFhqHIy913sb3yY12DSKxM+oTn
-	 l8kdpO83Lu1zFKwTBhmepsakWYwAxJ9iE2iC8VmumadOV8tEwFdscEOutneHtrcn+I
-	 yDaekilxYR1dwrGvtt6Eq/rV5zNSPuwyj7DIdLh4=
-Date: Thu, 9 Dec 2021 16:08:42 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jianglei Nie <niejianglei2021@163.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: fix a memory leak in rtw_mp_QueryDrv()
-Message-ID: <YbIb+jbuU9OSvjyN@kroah.com>
-References: <20211209132516.8387-1-niejianglei2021@163.com>
- <20211209132516.8387-2-niejianglei2021@163.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8FF2C80
+	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 17:52:16 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id n33-20020a05600c502100b0032fb900951eso7166729wmr.4
+        for <linux-staging@lists.linux.dev>; Thu, 09 Dec 2021 09:52:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Bd8+kTrTfhFU5QWPnGzZKoBEXJcLIGbK/BR+H+0gbYw=;
+        b=XbFa42nnAwDGxO66/HbO3nB2gPzLqX2MOc+1zouWEXl3y62x+JQixZnni2tTWFd1CI
+         mFZs+VL2zwSM+nOzrmeBxhvLkGHZZUO24TnH0JAKdpbly1p+jK6L5LOjAaTq7kqR70/q
+         dH/ZA0AQho791bypxmO/O605uUfAUi5Mam0+utMXeo2MO9Zr3FJNU8Mb3QX+q7RFD06O
+         DfNKHxZ4UU4Cor8daNfV2JclnpukSCkUS0TXtEkM+6bjsBMz8CJpl5Q9x2jJe4KLtejM
+         ggJMrX5P1niJ6l+JHs2F/aRrfM8IxpyGzvibQ/im15eeGdFDrxxN8oLO5Odg1QHUWYb2
+         YngA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Bd8+kTrTfhFU5QWPnGzZKoBEXJcLIGbK/BR+H+0gbYw=;
+        b=s0YGE+YKA6R03DneYAoXVzzvhrJmMgmIXePsXwY9kza2DUDfBFGXYic0SqnXwiVy7S
+         cv/B1xkmzk3AjWEAtUzXjwzHAOVkh3jaXv40NxWYtLdhxf5IVcvs/gHTdbU2dOSE2v4y
+         ns6Dzac++l/4mnH8bkUbN5Opy9qM0QR82pO1C31n75YmpQLiqhE/raMYuHEKB9mHyeGi
+         Mm3WEvEhaLOUVJ3tkiPJtkfWZK61mH9xjJ7Ye96j79LFO6jBPAuGB8PWo8/FU0kPJk2l
+         03j0cncBS0S3NHRXi3CqF29MPw3uIwS9sn0KePjafl2m0X7/jdDgZacF9eW07V+f/LNL
+         J3Bw==
+X-Gm-Message-State: AOAM532e2PqJ69ZvazwBX7b6chYSIZjQkPPWyEruUYk7h8MZ55Y/M3QH
+	v12/2NSqKuUFgfNWBoyxYP80/w==
+X-Google-Smtp-Source: ABdhPJyMie+a/YOeewKo1Obvu7zuEr3tSxdpZfoN/rSq9A/nErVJDjjw8oiP8Y9G/3nEDK98Fbtfqg==
+X-Received: by 2002:a05:600c:3b27:: with SMTP id m39mr9397831wms.132.1639072334313;
+        Thu, 09 Dec 2021 09:52:14 -0800 (PST)
+Received: from ?IPv6:2001:861:44c0:66c0:ee1f:92e9:bcbf:be87? ([2001:861:44c0:66c0:ee1f:92e9:bcbf:be87])
+        by smtp.gmail.com with ESMTPSA id b197sm449999wmb.24.2021.12.09.09.52.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Dec 2021 09:52:13 -0800 (PST)
+Subject: Re: [PATCH] media: meson: vdec: potential dereference of null pointer
+To: Hans Verkuil <hverkuil@xs4all.nl>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+ mchehab@kernel.org, gregkh@linuxfoundation.org, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
+Cc: linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
+ <bfd1801c-9d1e-0574-a237-711d3d5ae755@xs4all.nl>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <0c1fadf0-e7ba-fb7a-822d-6787f78faaad@baylibre.com>
+Date: Thu, 9 Dec 2021 18:52:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211209132516.8387-2-niejianglei2021@163.com>
-
-On Thu, Dec 09, 2021 at 09:25:16PM +0800, Jianglei Nie wrote:
-> Line 6191 (#1) allocates a memory chunk for input by kmalloc().
-> Line 6213 (#3) frees the input before the function returns while
-> line 6199 (#2) forget to free it, which will lead to a memory leak.
-> This bug influences all stable versions from 5.15.1 to 5.15.7.
-> 
-> We should kfree() input in line 6199 (#2).
-> 
-> 6186 static int rtw_mp_QueryDrv(struct net_device *dev,
-> 6187 			struct iw_request_info *info,
-> 6188 			union iwreq_data *wrqu, char *extra)
-> 6189 {
-> 6191	char	*input = kmalloc(wrqu->data.length, GFP_KERNEL);
-> 	// #1: kmalloc space
-> 
-> 6195	if (!input)
-> 6196		return -ENOMEM;
-> 
-> 6198 	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
-> 6199 			return -EFAULT; // #2: missing kfree
-> 
-> 6213 	kfree(input); // #3: kfree space
-> 6214 	return 0;
-> 6215 }
-> 
-> Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
-> ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 906a57eae1af..edc660f15436 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -6195,8 +6195,11 @@ static int rtw_mp_QueryDrv(struct net_device *dev,
->  	if (!input)
->  		return -ENOMEM;
->  
-> -	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
-> -			return -EFAULT;
-> +	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length)) {
-> +		kfree(input);
-> +		return -EFAULT;
-> +	}
-> +
->  	DBG_88E("%s:iwpriv in =%s\n", __func__, input);
->  
->  	qAutoLoad = strncmp(input, "autoload", 8); /*  strncmp true is 0 */
-> -- 
-> 2.25.1
-> 
-> 
+In-Reply-To: <bfd1801c-9d1e-0574-a237-711d3d5ae755@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+On 09/12/2021 12:58, Hans Verkuil wrote:
+> On 09/12/2021 09:58, Jiasheng Jiang wrote:
+>> he return value of kzalloc() needs to be checked.
+>> To avoid use of null pointer in case of the failure of alloc.
+>>
+>> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+>> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+>> ---
+>>  drivers/staging/media/meson/vdec/vdec_helpers.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+>> index 7f07a9175815..025885fcfec6 100644
+>> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
+>> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+>> @@ -234,6 +234,8 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+>>  	unsigned long flags;
+>>  
+>>  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
+>> +	if (!new_ts)
+>> +		return;
+> 
+> While this avoids dereferencing a NULL pointer, this error isn't propagated to the
+> caller. And I'm not sure if that's right.
+> 
+> Neil, what should be done in this case?
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>  	new_ts->ts = ts;
+>>  	new_ts->tc = tc;
+>>  	new_ts->offset = offset;
+>>
+> 
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Probably something like this:
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
+===================><=============================
+diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+index db7022707ff8..df733eff9ac7 100644
+--- a/drivers/staging/media/meson/vdec/esparser.c
++++ b/drivers/staging/media/meson/vdec/esparser.c
+@@ -328,7 +328,11 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+        offset = esparser_get_offset(sess);
 
-thanks,
+-       amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++       ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++       if (ret) {
++               v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
++               return ret;
++       }
+        dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
+                vb->timestamp, payload_size, offset, vbuf->flags);
 
-greg k-h's patch email bot
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index b9125c295d1d..593b2ccbece2 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -227,13 +227,15 @@ int amvdec_set_canvases(struct amvdec_session *sess,
+ }
+ EXPORT_SYMBOL_GPL(amvdec_set_canvases);
+
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+-                  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++                 struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
+ {
+        struct amvdec_timestamp *new_ts;
+        unsigned long flags;
+
+        new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
++       if (!new_ts)
++               return -ENOMEM;
+        new_ts->ts = ts;
+        new_ts->tc = tc;
+        new_ts->offset = offset;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index 88137d15aa3a..4bf3e61d081b 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+  * @offset: offset in the VIFIFO where the associated packet was written
+  * @flags: the vb2_v4l2_buffer flags
+  */
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+-                  struct v4l2_timecode tc, u32 offset, u32 flags);
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++                 struct v4l2_timecode tc, u32 offset, u32 flags);
+ void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
+
+ /**
