@@ -1,106 +1,216 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EB92C80
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 18:22:33 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id b1so13556097lfs.13
-        for <linux-staging@lists.linux.dev>; Thu, 09 Dec 2021 10:22:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :references:from:in-reply-to:content-transfer-encoding;
-        bh=QxWGzwiQK1H9THXhhSK1MS0BSvGH8EGX6peXdw0hns0=;
-        b=O4VpfJBV9bqM4uCF3IFZ9LswiKvtA6fnK9DxckWyYKxCNIrMSW8y8rbDnYNrHlxAOK
-         Mhq8P2Xb8G4zTnv5dn1HrTkdla0a6xhg+iZePUVCKUM8QNBY/gNzJJfUbsYBa/DDaCOj
-         sjSuzKc9JStNjjN3nz8MOwjTt68i3YPRQZJJRcxtB/aQijcI6QInAE8kVvOOdgQgrDa3
-         nnUGFST9r7CrW32JHiMNxpuMnBqeEU/a1xdep1bOBuGRAzQSUDSvbcDcCrkMTz0b1iGo
-         bgoopPQ+V1L0hW/2ETX4hjay8g+fVhvKZQlnugDZfEWwYTDRMTNwik7cNu5k5OtEnsNn
-         /IxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=QxWGzwiQK1H9THXhhSK1MS0BSvGH8EGX6peXdw0hns0=;
-        b=gpH6cV3No68xhkbfGcq7z68C8RnDpty6s677tEOY7nwwIC5VwXGn5fTEymrvBO1pBD
-         r1S84LW5Kk45iTeshrhFg8HWFF7eX08J1vqag4LPYl9gbR9HCWPa4CmJebuK/tDZXapO
-         qLFKI/Apq53CETVzbwBmCo7/8YM7Hw82uZs3te9zYwGqAKvoiroxsP1jGi87q6XjI4TU
-         NTVNoqKjhD4HTZL8sbyYQ7un11bvPq3r6pXusVDoa54ITnsS/ulxY5s3N/pjBPxHsQQy
-         PEo+Jlr6JXF37osDs8PkplfdeH9x1cK8s1k2hVZY9/6KaarQjOYx5y7QB5R/+qP82IFe
-         7qeQ==
-X-Gm-Message-State: AOAM5309VzF95rVBkG4PJ4PO8FDAUjdVSaz5Gs5s9z7hXPhRMLIhtUX4
-	CVYRYEULEvM5s+26gnS7Xh4=
-X-Google-Smtp-Source: ABdhPJxdnwXbD+UJp67OF+eJClo0r5F/dqDG4cmKZ1p7TKeK+wLIx2/o6A+8ucS2M3od9a+BtNKtLQ==
-X-Received: by 2002:a05:6512:3f27:: with SMTP id y39mr7531588lfa.675.1639074152039;
-        Thu, 09 Dec 2021 10:22:32 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.229.236])
-        by smtp.gmail.com with ESMTPSA id n12sm58025lfq.3.2021.12.09.10.22.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 10:22:31 -0800 (PST)
-Message-ID: <0c116de3-1e55-f888-2b4f-285484082085@gmail.com>
-Date: Thu, 9 Dec 2021 21:22:29 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F24329CA;
+	Thu,  9 Dec 2021 19:52:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65511C004DD;
+	Thu,  9 Dec 2021 19:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1639079566;
+	bh=teoF46qjaD0R6MVCCZefMM9Xa6ea84rcddEa/DwjD/8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=O0vCRKfsaeWmxvf5sG/KzPYTqr7p45gvaWWDqh5a+2N1ifo9ns+iel4UBDdqjRLBP
+	 AaSW2hVLPnV97KTxj39jmA6JmC3McQDdGwQc5Kdpy1+zKSdukBdaAvbfvalRAPxp11
+	 HVfYcRHTXOvO1yCzldSbCZ9CWrGj4cQaue3XftV16AQHmea3IzzyacxeHj+aN/2NGC
+	 4sThzBPH/OepjyMHm+CRrT7HrHgO/2ah9OJen5Fn2to3NkC9n5/ogaKho9h9U6HSYh
+	 DNDX2jlLfhq8bRcyPRPVstGtHhVejXv8khXfWgZvmnFEcoZ4GPUqU99YsptsMNPvOX
+	 u2mKzNEWPcGHw==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: Nick Desaulniers <ndesaulniers@google.com>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH v2] staging: greybus: fix stack size warning with UBSAN
+Date: Thu,  9 Dec 2021 12:51:42 -0700
+Message-Id: <20211209195141.1165233-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [syzbot] INFO: task hung in r871xu_dev_remove
-Content-Language: en-US
-To: syzbot <syzbot+f39c1dad0b7db49ca4a8@syzkaller.appspotmail.com>,
- Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
- syzkaller-bugs@googlegroups.com
-References: <00000000000042e11e05d2b0b39b@google.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <00000000000042e11e05d2b0b39b@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/9/21 09:27, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    d598c3c46ea6 Merge 5.16-rc4 into usb-next
-> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> console output: https://syzkaller.appspot.com/x/log.txt?x=14cf0e55b00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=c6df5f09a0b9c823
-> dashboard link: https://syzkaller.appspot.com/bug?extid=f39c1dad0b7db49ca4a8
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+f39c1dad0b7db49ca4a8@syzkaller.appspotmail.com
-> 
-> INFO: task kworker/0:6:4133 blocked for more than 143 seconds.
->        Not tainted 5.16.0-rc4-syzkaller #0
-> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> task:kworker/0:6     state:D stack:21848 pid: 4133 ppid:     2 flags:0x00004000
-> Workqueue: usb_hub_wq hub_event
-> Call Trace:
->   <TASK>
->   context_switch kernel/sched/core.c:4972 [inline]
->   __schedule+0x931/0x2320 kernel/sched/core.c:6253
->   schedule+0xd2/0x260 kernel/sched/core.c:6326
->   schedule_preempt_disabled+0xf/0x20 kernel/sched/core.c:6385
->   __mutex_lock_common kernel/locking/mutex.c:680 [inline]
->   __mutex_lock+0xa32/0x12f0 kernel/locking/mutex.c:740
->   unregister_netdev+0xe/0x20 net/core/dev.c:11138
->   r871xu_dev_remove+0x24f/0x2c0 drivers/staging/rtl8712/usb_intf.c:599
+From: Arnd Bergmann <arnd@arndb.de>
 
-Seems like syz-executor ddosed the kernel. unregister_netdev() tries to 
-lock rtnl and there are 8 mentions of rtnl_mutex in "Showing all locks 
-held in the system" section.
+clang warns about excessive stack usage in this driver when
+UBSAN is enabled:
 
-Looks false-positive to me
+drivers/staging/greybus/audio_topology.c:977:12: error: stack frame size of 1836 bytes in function 'gbaudio_tplg_create_widget' [-Werror,-Wframe-larger-than=]
 
+Rework this code to no longer use compound literals for
+initializing the structure in each case, but instead keep
+the common bits in a preallocated constant array and copy
+them as needed.
 
+Link: https://github.com/ClangBuiltLinux/linux/issues/1535
+Link: https://lore.kernel.org/r/20210103223541.2790855-1-arnd@kernel.org/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+[nathan: Address review comments from v1]
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
 
+v1 -> v2: https://lore.kernel.org/r/20210103223541.2790855-1-arnd@kernel.org/
 
-With regards,
-Pavel Skripkin
+* Use NULL for name field in SND_DOC_DAPM_* in gbaudio_widgets (Alex).
+
+* Do not eliminate *dw assignment within the switch cases, as invalid
+  enum values in-between valid enum values (such as snd_soc_dapm_demux)
+  would not be handled properly by the "if value is greater than the
+  array size" check (Alex). This addresses a few other comments by Alex
+  and Dan because w->type is not checked against the array's size.
+
+Arnd, if you disagree with this approach, please let me know so that we
+can get this fixed in a way that everyone is happy with.
+
+ drivers/staging/greybus/audio_topology.c | 92 ++++++++++++------------
+ 1 file changed, 45 insertions(+), 47 deletions(-)
+
+diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+index 1e613d42d823..7f7d558b76d0 100644
+--- a/drivers/staging/greybus/audio_topology.c
++++ b/drivers/staging/greybus/audio_topology.c
+@@ -974,6 +974,44 @@ static int gbaudio_widget_event(struct snd_soc_dapm_widget *w,
+ 	return ret;
+ }
+ 
++static const struct snd_soc_dapm_widget gbaudio_widgets[] = {
++	[snd_soc_dapm_spk]	= SND_SOC_DAPM_SPK(NULL, gbcodec_event_spk),
++	[snd_soc_dapm_hp]	= SND_SOC_DAPM_HP(NULL, gbcodec_event_hp),
++	[snd_soc_dapm_mic]	= SND_SOC_DAPM_MIC(NULL, gbcodec_event_int_mic),
++	[snd_soc_dapm_output]	= SND_SOC_DAPM_OUTPUT(NULL),
++	[snd_soc_dapm_input]	= SND_SOC_DAPM_INPUT(NULL),
++	[snd_soc_dapm_switch]	= SND_SOC_DAPM_SWITCH_E(NULL, SND_SOC_NOPM,
++					0, 0, NULL,
++					gbaudio_widget_event,
++					SND_SOC_DAPM_PRE_PMU |
++					SND_SOC_DAPM_POST_PMD),
++	[snd_soc_dapm_pga]	= SND_SOC_DAPM_PGA_E(NULL, SND_SOC_NOPM,
++					0, 0, NULL, 0,
++					gbaudio_widget_event,
++					SND_SOC_DAPM_PRE_PMU |
++					SND_SOC_DAPM_POST_PMD),
++	[snd_soc_dapm_mixer]	= SND_SOC_DAPM_MIXER_E(NULL, SND_SOC_NOPM,
++					0, 0, NULL, 0,
++					gbaudio_widget_event,
++					SND_SOC_DAPM_PRE_PMU |
++					SND_SOC_DAPM_POST_PMD),
++	[snd_soc_dapm_mux]	= SND_SOC_DAPM_MUX_E(NULL, SND_SOC_NOPM,
++					0, 0, NULL,
++					gbaudio_widget_event,
++					SND_SOC_DAPM_PRE_PMU |
++					SND_SOC_DAPM_POST_PMD),
++	[snd_soc_dapm_aif_in]	= SND_SOC_DAPM_AIF_IN_E(NULL, NULL, 0,
++					SND_SOC_NOPM, 0, 0,
++					gbaudio_widget_event,
++					SND_SOC_DAPM_PRE_PMU |
++					SND_SOC_DAPM_POST_PMD),
++	[snd_soc_dapm_aif_out]	= SND_SOC_DAPM_AIF_OUT_E(NULL, NULL, 0,
++					SND_SOC_NOPM, 0, 0,
++					gbaudio_widget_event,
++					SND_SOC_DAPM_PRE_PMU |
++					SND_SOC_DAPM_POST_PMD),
++};
++
+ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ 				      struct snd_soc_dapm_widget *dw,
+ 				      struct gb_audio_widget *w, int *w_size)
+@@ -1052,77 +1090,37 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ 
+ 	switch (w->type) {
+ 	case snd_soc_dapm_spk:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_SPK(w->name, gbcodec_event_spk);
++		*dw = gbaudio_widgets[w->type];
+ 		module->op_devices |= GBAUDIO_DEVICE_OUT_SPEAKER;
+ 		break;
+ 	case snd_soc_dapm_hp:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_HP(w->name, gbcodec_event_hp);
++		*dw = gbaudio_widgets[w->type];
+ 		module->op_devices |= (GBAUDIO_DEVICE_OUT_WIRED_HEADSET
+ 					| GBAUDIO_DEVICE_OUT_WIRED_HEADPHONE);
+ 		module->ip_devices |= GBAUDIO_DEVICE_IN_WIRED_HEADSET;
+ 		break;
+ 	case snd_soc_dapm_mic:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_MIC(w->name, gbcodec_event_int_mic);
++		*dw = gbaudio_widgets[w->type];
+ 		module->ip_devices |= GBAUDIO_DEVICE_IN_BUILTIN_MIC;
+ 		break;
+ 	case snd_soc_dapm_output:
+-		*dw = (struct snd_soc_dapm_widget)SND_SOC_DAPM_OUTPUT(w->name);
+-		break;
+ 	case snd_soc_dapm_input:
+-		*dw = (struct snd_soc_dapm_widget)SND_SOC_DAPM_INPUT(w->name);
+-		break;
+ 	case snd_soc_dapm_switch:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_SWITCH_E(w->name, SND_SOC_NOPM, 0, 0,
+-					      widget_kctls,
+-					      gbaudio_widget_event,
+-					      SND_SOC_DAPM_PRE_PMU |
+-					      SND_SOC_DAPM_POST_PMD);
+-		break;
+ 	case snd_soc_dapm_pga:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_PGA_E(w->name, SND_SOC_NOPM, 0, 0, NULL, 0,
+-					   gbaudio_widget_event,
+-					   SND_SOC_DAPM_PRE_PMU |
+-					   SND_SOC_DAPM_POST_PMD);
+-		break;
+ 	case snd_soc_dapm_mixer:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_MIXER_E(w->name, SND_SOC_NOPM, 0, 0, NULL,
+-					     0, gbaudio_widget_event,
+-					     SND_SOC_DAPM_PRE_PMU |
+-					     SND_SOC_DAPM_POST_PMD);
+-		break;
+ 	case snd_soc_dapm_mux:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_MUX_E(w->name, SND_SOC_NOPM, 0, 0,
+-					   widget_kctls, gbaudio_widget_event,
+-					   SND_SOC_DAPM_PRE_PMU |
+-					   SND_SOC_DAPM_POST_PMD);
++		*dw = gbaudio_widgets[w->type];
+ 		break;
+ 	case snd_soc_dapm_aif_in:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_AIF_IN_E(w->name, w->sname, 0,
+-					      SND_SOC_NOPM,
+-					      0, 0, gbaudio_widget_event,
+-					      SND_SOC_DAPM_PRE_PMU |
+-					      SND_SOC_DAPM_POST_PMD);
+-		break;
+ 	case snd_soc_dapm_aif_out:
+-		*dw = (struct snd_soc_dapm_widget)
+-			SND_SOC_DAPM_AIF_OUT_E(w->name, w->sname, 0,
+-					       SND_SOC_NOPM,
+-					       0, 0, gbaudio_widget_event,
+-					       SND_SOC_DAPM_PRE_PMU |
+-					       SND_SOC_DAPM_POST_PMD);
++		*dw = gbaudio_widgets[w->type];
++		dw->sname = w->sname;
+ 		break;
+ 	default:
+ 		ret = -EINVAL;
+ 		goto error;
+ 	}
++	dw->name = w->name;
+ 
+ 	dev_dbg(module->dev, "%s: widget of type %d created\n", dw->name,
+ 		dw->id);
+
+base-commit: 42eb8fdac2fc5d62392dcfcf0253753e821a97b0
+-- 
+2.34.1
+
