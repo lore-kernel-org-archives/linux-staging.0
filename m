@@ -1,162 +1,106 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8FF2C80
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 17:52:16 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id n33-20020a05600c502100b0032fb900951eso7166729wmr.4
-        for <linux-staging@lists.linux.dev>; Thu, 09 Dec 2021 09:52:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EB92C80
+	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 18:22:33 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id b1so13556097lfs.13
+        for <linux-staging@lists.linux.dev>; Thu, 09 Dec 2021 10:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Bd8+kTrTfhFU5QWPnGzZKoBEXJcLIGbK/BR+H+0gbYw=;
-        b=XbFa42nnAwDGxO66/HbO3nB2gPzLqX2MOc+1zouWEXl3y62x+JQixZnni2tTWFd1CI
-         mFZs+VL2zwSM+nOzrmeBxhvLkGHZZUO24TnH0JAKdpbly1p+jK6L5LOjAaTq7kqR70/q
-         dH/ZA0AQho791bypxmO/O605uUfAUi5Mam0+utMXeo2MO9Zr3FJNU8Mb3QX+q7RFD06O
-         DfNKHxZ4UU4Cor8daNfV2JclnpukSCkUS0TXtEkM+6bjsBMz8CJpl5Q9x2jJe4KLtejM
-         ggJMrX5P1niJ6l+JHs2F/aRrfM8IxpyGzvibQ/im15eeGdFDrxxN8oLO5Odg1QHUWYb2
-         YngA==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=QxWGzwiQK1H9THXhhSK1MS0BSvGH8EGX6peXdw0hns0=;
+        b=O4VpfJBV9bqM4uCF3IFZ9LswiKvtA6fnK9DxckWyYKxCNIrMSW8y8rbDnYNrHlxAOK
+         Mhq8P2Xb8G4zTnv5dn1HrTkdla0a6xhg+iZePUVCKUM8QNBY/gNzJJfUbsYBa/DDaCOj
+         sjSuzKc9JStNjjN3nz8MOwjTt68i3YPRQZJJRcxtB/aQijcI6QInAE8kVvOOdgQgrDa3
+         nnUGFST9r7CrW32JHiMNxpuMnBqeEU/a1xdep1bOBuGRAzQSUDSvbcDcCrkMTz0b1iGo
+         bgoopPQ+V1L0hW/2ETX4hjay8g+fVhvKZQlnugDZfEWwYTDRMTNwik7cNu5k5OtEnsNn
+         /IxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Bd8+kTrTfhFU5QWPnGzZKoBEXJcLIGbK/BR+H+0gbYw=;
-        b=s0YGE+YKA6R03DneYAoXVzzvhrJmMgmIXePsXwY9kza2DUDfBFGXYic0SqnXwiVy7S
-         cv/B1xkmzk3AjWEAtUzXjwzHAOVkh3jaXv40NxWYtLdhxf5IVcvs/gHTdbU2dOSE2v4y
-         ns6Dzac++l/4mnH8bkUbN5Opy9qM0QR82pO1C31n75YmpQLiqhE/raMYuHEKB9mHyeGi
-         Mm3WEvEhaLOUVJ3tkiPJtkfWZK61mH9xjJ7Ye96j79LFO6jBPAuGB8PWo8/FU0kPJk2l
-         03j0cncBS0S3NHRXi3CqF29MPw3uIwS9sn0KePjafl2m0X7/jdDgZacF9eW07V+f/LNL
-         J3Bw==
-X-Gm-Message-State: AOAM532e2PqJ69ZvazwBX7b6chYSIZjQkPPWyEruUYk7h8MZ55Y/M3QH
-	v12/2NSqKuUFgfNWBoyxYP80/w==
-X-Google-Smtp-Source: ABdhPJyMie+a/YOeewKo1Obvu7zuEr3tSxdpZfoN/rSq9A/nErVJDjjw8oiP8Y9G/3nEDK98Fbtfqg==
-X-Received: by 2002:a05:600c:3b27:: with SMTP id m39mr9397831wms.132.1639072334313;
-        Thu, 09 Dec 2021 09:52:14 -0800 (PST)
-Received: from ?IPv6:2001:861:44c0:66c0:ee1f:92e9:bcbf:be87? ([2001:861:44c0:66c0:ee1f:92e9:bcbf:be87])
-        by smtp.gmail.com with ESMTPSA id b197sm449999wmb.24.2021.12.09.09.52.13
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=QxWGzwiQK1H9THXhhSK1MS0BSvGH8EGX6peXdw0hns0=;
+        b=gpH6cV3No68xhkbfGcq7z68C8RnDpty6s677tEOY7nwwIC5VwXGn5fTEymrvBO1pBD
+         r1S84LW5Kk45iTeshrhFg8HWFF7eX08J1vqag4LPYl9gbR9HCWPa4CmJebuK/tDZXapO
+         qLFKI/Apq53CETVzbwBmCo7/8YM7Hw82uZs3te9zYwGqAKvoiroxsP1jGi87q6XjI4TU
+         NTVNoqKjhD4HTZL8sbyYQ7un11bvPq3r6pXusVDoa54ITnsS/ulxY5s3N/pjBPxHsQQy
+         PEo+Jlr6JXF37osDs8PkplfdeH9x1cK8s1k2hVZY9/6KaarQjOYx5y7QB5R/+qP82IFe
+         7qeQ==
+X-Gm-Message-State: AOAM5309VzF95rVBkG4PJ4PO8FDAUjdVSaz5Gs5s9z7hXPhRMLIhtUX4
+	CVYRYEULEvM5s+26gnS7Xh4=
+X-Google-Smtp-Source: ABdhPJxdnwXbD+UJp67OF+eJClo0r5F/dqDG4cmKZ1p7TKeK+wLIx2/o6A+8ucS2M3od9a+BtNKtLQ==
+X-Received: by 2002:a05:6512:3f27:: with SMTP id y39mr7531588lfa.675.1639074152039;
+        Thu, 09 Dec 2021 10:22:32 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.236])
+        by smtp.gmail.com with ESMTPSA id n12sm58025lfq.3.2021.12.09.10.22.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 09:52:13 -0800 (PST)
-Subject: Re: [PATCH] media: meson: vdec: potential dereference of null pointer
-To: Hans Verkuil <hverkuil@xs4all.nl>, Jiasheng Jiang <jiasheng@iscas.ac.cn>,
- mchehab@kernel.org, gregkh@linuxfoundation.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
-Cc: linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
- <bfd1801c-9d1e-0574-a237-711d3d5ae755@xs4all.nl>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <0c1fadf0-e7ba-fb7a-822d-6787f78faaad@baylibre.com>
-Date: Thu, 9 Dec 2021 18:52:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Thu, 09 Dec 2021 10:22:31 -0800 (PST)
+Message-ID: <0c116de3-1e55-f888-2b4f-285484082085@gmail.com>
+Date: Thu, 9 Dec 2021 21:22:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <bfd1801c-9d1e-0574-a237-711d3d5ae755@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [syzbot] INFO: task hung in r871xu_dev_remove
 Content-Language: en-US
+To: syzbot <syzbot+f39c1dad0b7db49ca4a8@syzkaller.appspotmail.com>,
+ Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com
+References: <00000000000042e11e05d2b0b39b@google.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <00000000000042e11e05d2b0b39b@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On 09/12/2021 12:58, Hans Verkuil wrote:
-> On 09/12/2021 09:58, Jiasheng Jiang wrote:
->> he return value of kzalloc() needs to be checked.
->> To avoid use of null pointer in case of the failure of alloc.
->>
->> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
->> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
->> ---
->>  drivers/staging/media/meson/vdec/vdec_helpers.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
->> index 7f07a9175815..025885fcfec6 100644
->> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
->> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
->> @@ -234,6 +234,8 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->>  	unsigned long flags;
->>  
->>  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
->> +	if (!new_ts)
->> +		return;
+On 12/9/21 09:27, syzbot wrote:
+> Hello,
 > 
-> While this avoids dereferencing a NULL pointer, this error isn't propagated to the
-> caller. And I'm not sure if that's right.
+> syzbot found the following issue on:
 > 
-> Neil, what should be done in this case?
+> HEAD commit:    d598c3c46ea6 Merge 5.16-rc4 into usb-next
+> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14cf0e55b00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=c6df5f09a0b9c823
+> dashboard link: https://syzkaller.appspot.com/bug?extid=f39c1dad0b7db49ca4a8
+> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
 > 
-> Regards,
+> Unfortunately, I don't have any reproducer for this issue yet.
 > 
-> 	Hans
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+f39c1dad0b7db49ca4a8@syzkaller.appspotmail.com
 > 
->>  	new_ts->ts = ts;
->>  	new_ts->tc = tc;
->>  	new_ts->offset = offset;
->>
-> 
+> INFO: task kworker/0:6:4133 blocked for more than 143 seconds.
+>        Not tainted 5.16.0-rc4-syzkaller #0
+> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> task:kworker/0:6     state:D stack:21848 pid: 4133 ppid:     2 flags:0x00004000
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>   <TASK>
+>   context_switch kernel/sched/core.c:4972 [inline]
+>   __schedule+0x931/0x2320 kernel/sched/core.c:6253
+>   schedule+0xd2/0x260 kernel/sched/core.c:6326
+>   schedule_preempt_disabled+0xf/0x20 kernel/sched/core.c:6385
+>   __mutex_lock_common kernel/locking/mutex.c:680 [inline]
+>   __mutex_lock+0xa32/0x12f0 kernel/locking/mutex.c:740
+>   unregister_netdev+0xe/0x20 net/core/dev.c:11138
+>   r871xu_dev_remove+0x24f/0x2c0 drivers/staging/rtl8712/usb_intf.c:599
 
-Probably something like this:
+Seems like syz-executor ddosed the kernel. unregister_netdev() tries to 
+lock rtnl and there are 8 mentions of rtnl_mutex in "Showing all locks 
+held in the system" section.
 
-===================><=============================
-diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-index db7022707ff8..df733eff9ac7 100644
---- a/drivers/staging/media/meson/vdec/esparser.c
-+++ b/drivers/staging/media/meson/vdec/esparser.c
-@@ -328,7 +328,11 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+Looks false-positive to me
 
-        offset = esparser_get_offset(sess);
 
--       amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+       ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+       if (ret) {
-+               v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-+               return ret;
-+       }
-        dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
-                vb->timestamp, payload_size, offset, vbuf->flags);
 
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index b9125c295d1d..593b2ccbece2 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -227,13 +227,15 @@ int amvdec_set_canvases(struct amvdec_session *sess,
- }
- EXPORT_SYMBOL_GPL(amvdec_set_canvases);
 
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--                  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+                 struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
- {
-        struct amvdec_timestamp *new_ts;
-        unsigned long flags;
-
-        new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-+       if (!new_ts)
-+               return -ENOMEM;
-        new_ts->ts = ts;
-        new_ts->tc = tc;
-        new_ts->offset = offset;
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-index 88137d15aa3a..4bf3e61d081b 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-@@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
-  * @offset: offset in the VIFIFO where the associated packet was written
-  * @flags: the vb2_v4l2_buffer flags
-  */
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--                  struct v4l2_timecode tc, u32 offset, u32 flags);
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+                 struct v4l2_timecode tc, u32 offset, u32 flags);
- void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
-
- /**
+With regards,
+Pavel Skripkin
