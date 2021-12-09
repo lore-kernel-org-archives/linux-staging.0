@@ -1,15 +1,15 @@
-Received: from mail-m971.mail.163.com (mail-m971.mail.163.com [123.126.97.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C214F173
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 07:35:11 +0000 (UTC)
+Received: from mail-m975.mail.163.com (mail-m975.mail.163.com [123.126.97.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B9EE173
+	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 07:51:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hQ/Nc
-	Yr17qXJigIFKgNCs1BuxabXUu1zysX1Fq6jODY=; b=EORs5XONsBY2E6eGikMf6
-	Q6CPXowSsLFRwHXXt/dh5ZOpcvwzBTn0O6Od1aQUlp+poQ9mE0BUC8ww+VItgL+G
-	4r7hfjFF0BcLmtTtSzyiyzxMe15tNZwWI/lI8rXne9fGDqbCytbcURR6EMdcfgxI
-	Nw8KidOHcFG+W5c0CiyW5s=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=DO6HU
+	4EncOkezaglXGqkLLhu6c1P4IlS7DTPCfCsDuc=; b=GSa4+r+7zUSLR1dkLr9kz
+	yC2TuYP++HudQDvv6dK5ZxTb0lcSWWn9h2GDonHmgjalJ2JtJTW7xMjhtmx1gYeb
+	YiKL5LWDFEA9zvt1yyPqKA2Ud5l8VbAJEro3cuNGrB/T/tNfa+absBw3w3xyhk3h
+	5JV1IgHG4zzKh/dXE1KhAM=
 Received: from localhost.localdomain (unknown [218.106.182.227])
-	by smtp1 (Coremail) with SMTP id GdxpCgC3CgTqrbFhcjxsAw--.9156S4;
-	Thu, 09 Dec 2021 15:19:27 +0800 (CST)
+	by smtp5 (Coremail) with SMTP id HdxpCgBnp+t+sbFhxrJBAw--.16111S4;
+	Thu, 09 Dec 2021 15:34:52 +0800 (CST)
 From: Jianglei Nie <niejianglei2021@163.com>
 To: Larry.Finger@lwfinger.net,
 	phil@philpotter.co.uk,
@@ -19,9 +19,9 @@ To: Larry.Finger@lwfinger.net,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jianglei Nie <niejianglei2021@163.com>
-Subject: [PATCH] staging: r8188eu: fix a memory leak in rtw_mp_pwrtrk()
-Date: Thu,  9 Dec 2021 15:19:05 +0800
-Message-Id: <20211209071905.125440-1-niejianglei2021@163.com>
+Subject: [PATCH] staging: r8188eu: fix a memory leak in rtw_mp_QueryDrv()
+Date: Thu,  9 Dec 2021 15:34:21 +0800
+Message-Id: <20211209073421.126251-1-niejianglei2021@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -30,74 +30,60 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GdxpCgC3CgTqrbFhcjxsAw--.9156S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Cr4rAw4DCr17KrW7XF1DKFg_yoW8Zw47pa
-	yfAryUCrWvqw1rKas0kw17WrWF9w40vFWFga4Fkw43uryrurWrZa4UCryjkrs8AryxJF4Y
-	kF45AFWUuw1qkrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jq89tUUUUU=
+X-CM-TRANSID:HdxpCgBnp+t+sbFhxrJBAw--.16111S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ur4kZw1Utw4DZF13KrWfZrb_yoW8WryrpF
+	WfK342kFW5tw17XryDtwnxZryYy3WIkFyF9rW5C39xur95ZrnYvFykCrWj9rsrC34UJF4I
+	yFW8try5Xa1DtF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jqwZ7UUUUU=
 X-Originating-IP: [218.106.182.227]
-X-CM-SenderInfo: xqlhyxxdqjzvrlsqjii6rwjhhfrp/1tbi6x9kjFXlyeZFbQAAsr
+X-CM-SenderInfo: xqlhyxxdqjzvrlsqjii6rwjhhfrp/1tbi6xxkjFXlyeZvSQAAsm
 
-Line 5961 (#1) allocates a memory chunk for input by kmalloc().
-Line 5966 (#2), line 5982 (#4) and line 5987 (#5) free the input
-before the function returns while line 5979 (#3) forget to free it,
-which will lead to a memory leak.
+Line 6183 (#1) allocates a memory chunk for input by kmalloc().
+Line 6204 (#3) frees the input before the function returns while
+line 6190 (#2) forget to free it, which will lead to a memory leak.
 
-We should kfree() input in line 5979 (#3).
+We should kfree() input in line 6190 (#2).
 
-5953 static int rtw_mp_pwrtrk(struct net_device *dev,
-5954 			struct iw_request_info *info,
-5955 			struct iw_point *wrqu, char *extra)
-5956 {
-5961 	char	*input = kmalloc(wrqu->length, GFP_KERNEL);
+6177 static int rtw_mp_QueryDrv(struct net_device *dev,
+6178 			struct iw_request_info *info,
+6179 			union iwreq_data *wrqu, char *extra)
+6180 {
+6182	char	*input = kmalloc(wrqu->data.length, GFP_KERNEL);
 	// #1: kmalloc space
-5963 	if (!input)
-5964 		return -ENOMEM;
-5965 	if (copy_from_user(input, wrqu->pointer, wrqu->length)) {
-5966 		kfree(input); // #2: kfree space
-5967 		return -EFAULT;
-5968	}
 
-5973	if (strncmp(input, "stop", 4) == 0) {
-5974		enable = 0;
-5975		sprintf(extra, "mp tx power tracking stop");
-5976	} else if (sscanf(input, "ther =%d", &thermal)) {
-5977		ret = Hal_SetThermalMeter(padapter, (u8)thermal);
-5978		if (ret == _FAIL)
-5979			return -EPERM; // #3: missing kfree
-5980		sprintf(extra, "mp tx power tracking start,
-			target value =%d ok ", thermal);
-5981	} else {
-5982		kfree(input); // #4: kfree space
-5983		return -EINVAL;
-5984	}
+6186	if (!input)
+6187		return -ENOMEM;
 
-5987	kfree(input); // #5: kfree space
+6189 	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
+6190 			return -EFAULT; // #2: missing kfree
 
-5993	return 0;
-5994 }
+6204 	kfree(input); // #3: kfree space
+6205 	return 0;
+6206 }
 
 Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
 ---
- drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-index 1fd375076001..8f9e0f12c51f 100644
+index 1fd375076001..0524523910f0 100644
 --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
 +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-@@ -5975,8 +5975,10 @@ static int rtw_mp_pwrtrk(struct net_device *dev,
- 			sprintf(extra, "mp tx power tracking stop");
- 		} else if (sscanf(input, "ther =%d", &thermal)) {
- 				ret = Hal_SetThermalMeter(padapter, (u8)thermal);
--				if (ret == _FAIL)
-+				if (ret == _FAIL) {
-+					kfree(input);
- 					return -EPERM;
-+				}
- 				sprintf(extra, "mp tx power tracking start, target value =%d ok ", thermal);
- 		} else {
- 			kfree(input);
+@@ -6186,8 +6186,11 @@ static int rtw_mp_QueryDrv(struct net_device *dev,
+ 	if (!input)
+ 		return -ENOMEM;
+ 
+-	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
+-			return -EFAULT;
++	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length)) {
++		kfree(input);
++		return -EFAULT;
++	}
++
+ 	DBG_88E("%s:iwpriv in =%s\n", __func__, input);
+ 
+ 	qAutoLoad = strncmp(input, "autoload", 8); /*  strncmp true is 0 */
 -- 
 2.25.1
 
