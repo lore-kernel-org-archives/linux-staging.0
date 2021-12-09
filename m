@@ -1,94 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8F5173
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 08:00:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 739E5C004DD;
-	Thu,  9 Dec 2021 07:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1639036800;
-	bh=6si4EnigSjUiEWLkIW5cwTlJeEt38NNMe4X31kf7bk4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JRyK3oRx2hgMK4sU4zNzpiQu/vBQno7yDEc2Ww2W6Z7MnJ3zkqEtV1lYYio0j4Jeq
-	 nCvNJRyzTJ+CsExT3SdGXzb2M+1ebgGJfVYzHuwZifOV9gBPmjA/t/LuhXnUdTmmUJ
-	 CBoyzSHM1I3PY9D9k42ZotA8BBDEkt5ICp+T/5Vw=
-Date: Thu, 9 Dec 2021 08:59:57 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jianglei Nie <niejianglei2021@163.com>
-Cc: Larry.Finger@lwfinger.net, phil@philpotter.co.uk,
-	straube.linux@gmail.com, martin@kaiser.cx,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: r8188eu: fix a memory leak in rtw_mp_QueryDrv()
-Message-ID: <YbG3fUhdDp7cezk8@kroah.com>
-References: <20211209073421.126251-1-niejianglei2021@163.com>
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7259D2C9C
+	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 09:05:09 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.128])
+	by APP-01 (Coremail) with SMTP id qwCowAD3_p5ExbFhvtbuAQ--.47934S2;
+	Thu, 09 Dec 2021 16:58:48 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: narmstrong@baylibre.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	khilman@baylibre.com,
+	jbrunet@baylibre.com,
+	martin.blumenstingl@googlemail.com
+Cc: linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] media: meson: vdec: potential dereference of null pointer
+Date: Thu,  9 Dec 2021 16:58:40 +0800
+Message-Id: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211209073421.126251-1-niejianglei2021@163.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAD3_p5ExbFhvtbuAQ--.47934S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw4xtrW8Cw4xAF4fGr1DAwb_yoWfWrc_Gr
+	ZFqrnxZryDZa1Skr15tw4F9FWFqr4IvFsYvanxtFW3uFyDA3W5Z39F9rn5Jr1UJFWSkrZr
+	A393tr13Kr1UGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbVkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAI
+	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+	nxnUUI43ZEXa7VUjNJ55UUUUU==
+X-Originating-IP: [124.16.138.128]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-On Thu, Dec 09, 2021 at 03:34:21PM +0800, Jianglei Nie wrote:
-> Line 6183 (#1) allocates a memory chunk for input by kmalloc().
-> Line 6204 (#3) frees the input before the function returns while
-> line 6190 (#2) forget to free it, which will lead to a memory leak.
-> 
-> We should kfree() input in line 6190 (#2).
-> 
-> 6177 static int rtw_mp_QueryDrv(struct net_device *dev,
-> 6178 			struct iw_request_info *info,
-> 6179 			union iwreq_data *wrqu, char *extra)
-> 6180 {
-> 6182	char	*input = kmalloc(wrqu->data.length, GFP_KERNEL);
-> 	// #1: kmalloc space
-> 
-> 6186	if (!input)
-> 6187		return -ENOMEM;
-> 
-> 6189 	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
-> 6190 			return -EFAULT; // #2: missing kfree
-> 
-> 6204 	kfree(input); // #3: kfree space
-> 6205 	return 0;
-> 6206 }
-> 
-> Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
-> ---
->  drivers/staging/r8188eu/os_dep/ioctl_linux.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> index 1fd375076001..0524523910f0 100644
-> --- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> +++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
-> @@ -6186,8 +6186,11 @@ static int rtw_mp_QueryDrv(struct net_device *dev,
->  	if (!input)
->  		return -ENOMEM;
->  
-> -	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length))
-> -			return -EFAULT;
-> +	if (copy_from_user(input, wrqu->data.pointer, wrqu->data.length)) {
-> +		kfree(input);
-> +		return -EFAULT;
-> +	}
-> +
->  	DBG_88E("%s:iwpriv in =%s\n", __func__, input);
->  
->  	qAutoLoad = strncmp(input, "autoload", 8); /*  strncmp true is 0 */
-> -- 
-> 2.25.1
-> 
-> 
+he return value of kzalloc() needs to be checked.
+To avoid use of null pointer in case of the failure of alloc.
 
-Again, what tree are you making this patch against?  This function is no
-longer present.
+Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/staging/media/meson/vdec/vdec_helpers.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Also, when sending more than one patch for the same driver, always make
-a patch series so we know what order they should be applied in.
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index 7f07a9175815..025885fcfec6 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -234,6 +234,8 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+ 	unsigned long flags;
+ 
+ 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
++	if (!new_ts)
++		return;
+ 	new_ts->ts = ts;
+ 	new_ts->tc = tc;
+ 	new_ts->offset = offset;
+-- 
+2.25.1
 
-thanks,
-
-greg k-h
