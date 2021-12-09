@@ -1,86 +1,104 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834712C9E
-	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 11:59:56 +0000 (UTC)
-X-KPN-MessageId: 3e3a5016-58e7-11ec-8a6e-005056ab378f
-Received: from smtp.kpnmail.nl (unknown [10.31.155.37])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 3e3a5016-58e7-11ec-8a6e-005056ab378f;
-	Thu, 09 Dec 2021 12:57:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:from:to:subject:mime-version:date:message-id;
-	bh=9Aq23Wv7tHnCYMpmE5PBJb/8V6Y6YS0/22bQYvWZfms=;
-	b=h6WH+9bq26ytYVkLgO+BBRA9djM7TpYc/rglyUJnk7c9magrntvpC9H2y74mkOpN5KvEeVBoTkN+U
-	 KXLTJ/wW66zpcBt0uaGD2QBZfzeiFS2HBZiy+wQhayLPkx/6OBxrBoaw1yE+tNn1eqoSBYFGpmZjgs
-	 2bXz04YcB+tV+V9ISpUlymC4Da7OKpIH5BkXw2uFKRUSdPLo8l+D2jp2YNTTjFrjDoj04XIN8qx/Cr
-	 croH5uYLmc+v1KIk0yTkiGoWWliYK+pdfIW+jC2RFVB4dRaOR59m0eBGr9yfJ2YlHFKOtorRzRu6A3
-	 ap8U0SM0g8LomM6O4B3VwETxZ1xjNKQ==
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|DDmaztRJmOtayoxqgJybbogxaHcYGuAH/2JQ1k//iXKfxwhLEuAMhU/xDzQBJLy
- fS7hu1KsqPsf0t5psDYTCSA==
-X-Originating-IP: 193.91.129.219
-Received: from [192.168.2.10] (cdb815bc1.dhcp.as2116.net [193.91.129.219])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 5ce29b6c-58e7-11ec-83ab-005056ab1411;
-	Thu, 09 Dec 2021 12:58:46 +0100 (CET)
-Message-ID: <bfd1801c-9d1e-0574-a237-711d3d5ae755@xs4all.nl>
-Date: Thu, 9 Dec 2021 12:58:45 +0100
+Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7248429CA
+	for <linux-staging@lists.linux.dev>; Thu,  9 Dec 2021 13:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=kqZSk
+	lQA1YQdgIqtyvEUJWbCO731cy5VG7rlJsg//qk=; b=CFPve/AzKi4tA87NIa9+d
+	QN41jum2+A+a5FO+mmXRYcmm1fGUVr5bIUjWEmHdP7t2osOiaVF7JmC36QZs07VK
+	REbt3UPjTgkbLwGEJaLhmGLJi50ULTLBhEhshAiS6+t7RgD6LYthVHy4KJLq8y1E
+	bVy3WNKFHsmxDzVfhD7Pc0=
+Received: from localhost.localdomain (unknown [218.106.182.227])
+	by smtp2 (Coremail) with SMTP id GtxpCgBHYT2_A7JhoRISMQ--.43569S4;
+	Thu, 09 Dec 2021 21:25:31 +0800 (CST)
+From: Jianglei Nie <niejianglei2021@163.com>
+To: Larry.Finger@lwfinger.net,
+	phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	martin@kaiser.cx
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jianglei Nie <niejianglei2021@163.com>
+Subject: [PATCH] staging: r8188eu: fix a memory leak in rtw_mp_pwrtrk()
+Date: Thu,  9 Dec 2021 21:25:15 +0800
+Message-Id: <20211209132516.8387-1-niejianglei2021@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.3.2
-Subject: Re: [PATCH] media: meson: vdec: potential dereference of null pointer
-Content-Language: en-US
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>, narmstrong@baylibre.com,
- mchehab@kernel.org, gregkh@linuxfoundation.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com
-Cc: linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <20211209085840.2081024-1-jiasheng@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:GtxpCgBHYT2_A7JhoRISMQ--.43569S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ArW3tw48Cw4fJFyUGry3urg_yoW8uF1fpa
+	yfAry8CrW0qw18GFWv9w1UWrWY9w40vFWFgas5CayfuryrurWSvFykCryjkryDAryxJF45
+	CF4UtFWUZw1qkrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jDo7tUUUUU=
+X-Originating-IP: [218.106.182.227]
+X-CM-SenderInfo: xqlhyxxdqjzvrlsqjii6rwjhhfrp/xtbB3RBkjGBHLV9xAwAAsC
 
-On 09/12/2021 09:58, Jiasheng Jiang wrote:
-> he return value of kzalloc() needs to be checked.
-> To avoid use of null pointer in case of the failure of alloc.
-> 
-> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
->  drivers/staging/media/meson/vdec/vdec_helpers.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> index 7f07a9175815..025885fcfec6 100644
-> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> @@ -234,6 +234,8 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
->  	unsigned long flags;
->  
->  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-> +	if (!new_ts)
-> +		return;
+Line 5968 (#1) allocates a memory chunk for input by kmalloc().
+Line 5973 (#2), line 5989 (#4) and line 5994 (#5) free the input
+before the function returns while line 5986 (#3) forget to free it,
+which will lead to a memory leak. This bug influences all stable
+versions from 5.15.1 to 5.15.7.
 
-While this avoids dereferencing a NULL pointer, this error isn't propagated to the
-caller. And I'm not sure if that's right.
+We should kfree() input in line 5986 (#3).
 
-Neil, what should be done in this case?
+5960 static int rtw_mp_pwrtrk(struct net_device *dev,
+5961 			struct iw_request_info *info,
+5962 			struct iw_point *wrqu, char *extra)
+5963 {
+5968 	char	*input = kmalloc(wrqu->length, GFP_KERNEL);
+	// #1: kmalloc space
+5970 	if (!input)
+5971 		return -ENOMEM;
+5972 	if (copy_from_user(input, wrqu->pointer, wrqu->length)) {
+5973 		kfree(input); // #2: kfree space
+5974 		return -EFAULT;
+5975	}
 
-Regards,
+5980	if (strncmp(input, "stop", 4) == 0) {
+5981		enable = 0;
+5982		sprintf(extra, "mp tx power tracking stop");
+5983	} else if (sscanf(input, "ther =%d", &thermal)) {
+5984		ret = Hal_SetThermalMeter(padapter, (u8)thermal);
+5985		if (ret == _FAIL)
+5986			return -EPERM; // #3: missing kfree
+5987		sprintf(extra, "mp tx power tracking start,
+			target value =%d ok ", thermal);
+5988	} else {
+5989		kfree(input); // #4: kfree space
+5990		return -EINVAL;
+5991	}
 
-	Hans
+5994	kfree(input); // #5: kfree space
 
->  	new_ts->ts = ts;
->  	new_ts->tc = tc;
->  	new_ts->offset = offset;
-> 
+6000	return 0;
+6001 }
+
+Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
+---
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 0eccce57c63a..906a57eae1af 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -5982,8 +5982,10 @@ static int rtw_mp_pwrtrk(struct net_device *dev,
+ 			sprintf(extra, "mp tx power tracking stop");
+ 		} else if (sscanf(input, "ther =%d", &thermal)) {
+ 				ret = Hal_SetThermalMeter(padapter, (u8)thermal);
+-				if (ret == _FAIL)
++				if (ret == _FAIL) {
++					kfree(input);
+ 					return -EPERM;
++				}
+ 				sprintf(extra, "mp tx power tracking start, target value =%d ok ", thermal);
+ 		} else {
+ 			kfree(input);
+-- 
+2.25.1
 
