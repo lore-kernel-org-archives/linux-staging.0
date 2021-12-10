@@ -1,110 +1,122 @@
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADAF68
-	for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 12:59:26 +0000 (UTC)
-Received: by mail-il1-f200.google.com with SMTP id f5-20020a056e02168500b002a169f37fbcso10343085ila.21
-        for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 04:59:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EB62C99
+	for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 15:36:26 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id bf8so13721535oib.6
+        for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 07:36:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=AeyBw/8ZTXFPGML0AlgWPXixvlMPmLkpLOPCsARNEJM=;
-        b=hHMNxYqw08KEUMQp5bNWfVP4661dZu+xiG2Jfy767qKGJOobq6GnYXoK8TzLcHPFA3
-         1hXlbLXdIGv59/37eAdYSbEOw5S2lR3iehcnPJ9xz+KRdTnqtZU7ddWakKO3lN9dO2LP
-         QtifPc9MhWp16ZUOULRZ69C7jQPxpGZ/kAb1FhFGNRkGiBkO7pBvKCTEGS6sY8xQFB5E
-         gqAO9T/BGTCyDCzut6XhKfDZlRhqVm2mj0zX52lfZrWyOUrEK4kF3oYNfFrBDhqAIRDQ
-         /5q7CFqoVbpq6UpLPSYm/HmM5DmWrarOeQLJ3BCRuUU4ZTSkv58NTLOQmHmn/GqQ9FXz
-         kkMQ==
-X-Gm-Message-State: AOAM5302SueO3It4GSJ0yyKsRh4ItMFjDvo8jbYo+o3E6fSru4noZW08
-	EdtOh2jKYsNfBHMGQYagwPbKymBSXCZ4j68yrsmliHwCEDUA
-X-Google-Smtp-Source: ABdhPJzjwM9fNw7ikMR8I4vjI6FzQ24wGliwodR5iNgJiRzSF+9d2bqSqlqmowRQTP6dNw0z7p5zuQmk5BLgKHr+p8Ey8NSURJNu
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kCCPtwBcvbN1Xz9t9SiQk1iylp71eIv8+Pkz9dWfX/o=;
+        b=cY7LKG0eOxSU+EiCJ0bhPzA8pv7Ppfqk0SmlUSLrdjScmMy1AfFqYWxzb+E5HvxDl8
+         7W/XpBpewgcsXa1tujfDiK53IjphjrvsBP14SLnL/DL7hPgzVMEI3RD7dGVPpbt66coQ
+         NaiId9Z2Rgp5GFcVngtkhzn2b4uFMOvLC3Ju7SjXb4IsWxfOBCjbAOTD05EG8JtnP90I
+         q9oyB7RPz2W83knynSssZL5Vj9zfv75Od2SMI93QqzpjPM9H+B3zQiTzuayDXunz7Vu4
+         vAl6w77gqTg8D4uEOtjkR8dq30coAa4CjexIetVSuWMk8raRiJIYp7kVuf5x1vLiTh7t
+         qNzg==
+X-Gm-Message-State: AOAM531ninQ9syxjrYhyFIeUbLAzaTrJCgZIO2bsd6S0XP3xdSLHEkhl
+	1H4g84Tw9iFOh66SlB1m+w==
+X-Google-Smtp-Source: ABdhPJy6coMM+bLPVOCY2Fuho8xxQorQekIDB7d7Gxhw3bYyY/I6wGSBwaXEbWSrUY0EBeP0ei+R3w==
+X-Received: by 2002:a05:6808:10ce:: with SMTP id s14mr12444004ois.137.1639150585255;
+        Fri, 10 Dec 2021 07:36:25 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id r23sm588332ooj.37.2021.12.10.07.36.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Dec 2021 07:36:24 -0800 (PST)
+Received: (nullmailer pid 1396912 invoked by uid 1000);
+	Fri, 10 Dec 2021 15:36:23 -0000
+Date: Fri, 10 Dec 2021 09:36:23 -0600
+From: Rob Herring <robh@kernel.org>
+To: Adam Ford <aford173@gmail.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, linux-media <linux-media@vger.kernel.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Chris Healy <cphealy@gmail.com>, Adam Ford-BE <aford@beaconembedded.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lucas Stach <l.stach@pengutronix.de>, "open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, devicetree <devicetree@vger.kernel.org>, arm-soc <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH 04/10] dt-bindings: media: nxp,imx8mq-vpu: Support split
+ G1 and G2 nodes with vpu-blk-ctrl
+Message-ID: <YbNz94G3vwbHCMdB@robh.at.kernel.org>
+References: <20211208225030.2018923-1-aford173@gmail.com>
+ <20211208225030.2018923-5-aford173@gmail.com>
+ <YbHZvysazqYeZ8h3@eze-laptop>
+ <CAHCN7xKrHSSsqS9DNL1tMH1Ctpz16FsSgcVbSHXzUWF98v738Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a02:6064:: with SMTP id d36mr17106205jaf.80.1639141165903;
- Fri, 10 Dec 2021 04:59:25 -0800 (PST)
-Date: Fri, 10 Dec 2021 04:59:25 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ee344d05d2ca4a4b@google.com>
-Subject: [syzbot] KMSAN: uninit-value in efuse_one_byte_read (2)
-From: syzbot <syzbot+1b535a057d0360bbcc56@syzkaller.appspotmail.com>
-To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
-	glider@google.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHCN7xKrHSSsqS9DNL1tMH1Ctpz16FsSgcVbSHXzUWF98v738Q@mail.gmail.com>
 
-Hello,
+On Thu, Dec 09, 2021 at 05:36:04AM -0600, Adam Ford wrote:
+> On Thu, Dec 9, 2021 at 4:26 AM Ezequiel Garcia
+> <ezequiel@vanguardiasur.com.ar> wrote:
+> >
+> > Hi,
+> >
+> > Thanks for the patch.
+> >
+> > On Wed, Dec 08, 2021 at 04:50:23PM -0600, Adam Ford wrote:
+> > > The G1 and G2 are separate decoder blocks that are enabled by the
+> > > vpu-blk-ctrl power-domain controller, which now has a proper driver.
+> > > Update the bindings to support separate nodes for the G1 and G2
+> > > decoders using the proper driver or the older unified node with
+> > > the legacy controls.
+> > >
+> > > To be compatible with older DT the driver, mark certain items as
+> > > deprecated and retain the backwards compatible example.
+> > >
+> > > Signed-off-by: Adam Ford <aford173@gmail.com>
+> > > ---
+> > >  .../bindings/media/nxp,imx8mq-vpu.yaml        | 83 ++++++++++++++-----
+> > >  1 file changed, 64 insertions(+), 19 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> > > index 762be3f96ce9..eeb7bd6281f9 100644
+> > > --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> > > @@ -15,29 +15,39 @@ description:
+> > >
+> > >  properties:
+> > >    compatible:
+> > > -    const: nxp,imx8mq-vpu
+> > > +    oneOf:
+> > > +      - const: nxp,imx8mq-vpu
+> > > +        deprecated: true
+> > > +      - const: nxp,imx8mq-vpu-g1
+> > > +      - const: nxp,imx8mq-vpu-g2
+> > >
+> > >    reg:
+> > > +    minItems: 1
+> > >      maxItems: 3
+> >
+> > Is it really useful to keep the deprecated binding nxp,imx8mq-vpu
+> > as something supported by the binding file?
+> 
+> Since I was told that the driver needed to be backwards compatible, i
+> wanted to make sure that any attempts to build the old device tree
+> would not fail
 
-syzbot found the following issue on:
+I'm not convinced changing the binding at all is correct. 'The driver 
+structure is changing and I want the binding to align with it' is not a 
+reason. Are G1 and G2 actually separate, independent blocks where we 
+could have 1 or both of them? And what about other platforms using this 
+block?
 
-HEAD commit:    cdfb223e7e63 kmsan: core: define KMSAN_BUG_ON
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=11ade575b00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e00a8959fdd3f3e8
-dashboard link: https://syzkaller.appspot.com/bug?extid=1b535a057d0360bbcc56
-compiler:       clang version 14.0.0 (git@github.com:llvm/llvm-project.git 0996585c8e3b3d409494eb5f1cad714b9e1f7fb5), GNU ld (GNU Binutils for Debian) 2.35.2
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+1b535a057d0360bbcc56@syzkaller.appspotmail.com
-
-usb 2-1: r8712u: Boot from EFUSE: Autoload OK
-=====================================================
-BUG: KMSAN: uninit-value in efuse_one_byte_read+0x20f/0x2e0 drivers/staging/rtl8712/rtl8712_efuse.c:76
- efuse_one_byte_read+0x20f/0x2e0 drivers/staging/rtl8712/rtl8712_efuse.c:76
- r8712_efuse_pg_packet_read+0x2bb/0xd80 drivers/staging/rtl8712/rtl8712_efuse.c:245
- r871xu_drv_init+0x1b90/0x2e90 drivers/staging/rtl8712/usb_intf.c:440
- usb_probe_interface+0xed9/0x14f0 drivers/usb/core/driver.c:396
- really_probe+0x66e/0x1510 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:751
- driver_probe_device drivers/base/dd.c:781 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:898
- bus_for_each_drv+0x2f0/0x410 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:969
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1016
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1d46/0x2400 drivers/base/core.c:3394
- usb_set_configuration+0x389f/0x3ee0 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0x13c/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x309/0x570 drivers/usb/core/driver.c:293
- really_probe+0x66e/0x1510 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:751
- driver_probe_device drivers/base/dd.c:781 [inline]
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:898
- bus_for_each_drv+0x2f0/0x410 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:969
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1016
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487
- device_add+0x1d46/0x2400 drivers/base/core.c:3394
- usb_new_device+0x1b9a/0x2960 drivers/usb/core/hub.c:2563
- hub_port_connect drivers/usb/core/hub.c:5353 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
- port_event drivers/usb/core/hub.c:5643 [inline]
- hub_event+0x595e/0x8910 drivers/usb/core/hub.c:5725
- process_one_work+0xdc2/0x1820 kernel/workqueue.c:2298
- worker_thread+0x10f1/0x2290 kernel/workqueue.c:2445
- kthread+0x721/0x850 kernel/kthread.c:327
- ret_from_fork+0x1f/0x30
-
-Local variable data created at:
- usb_read8+0x5d/0x130 drivers/staging/rtl8712/usb_ops.c:33
- r8712_read8+0xa5/0xd0 drivers/staging/rtl8712/rtl8712_io.c:29
-
-CPU: 1 PID: 20362 Comm: kworker/1:1 Not tainted 5.16.0-rc3-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-=====================================================
+Even if the driver handles the old binding, a new dtb with an old kernel 
+is broken. It's up to the platform to care or not, but you have to 
+highlight that.
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> > In other words, can we drop the deprecated binding from this file,
+> > while keeping the support in the driver for legacy device-trees?
+> 
+> I was trying to represent both the old driver binding and the new one
+> at the same time.  I thought that's what I was told to do.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+I don't care so much if we have a schema for old binding. I'd rather 
+have warnings if the binding has not been updated. Eventually I want to 
+be able to test for compatibility by testing DTs with different schema 
+versions. We've got to get to 0 warnings first though...
+
+Rob
