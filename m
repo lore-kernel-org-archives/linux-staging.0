@@ -1,99 +1,240 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA362CA1
-	for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 18:33:08 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id o20so33083499eds.10
-        for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 10:33:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FB729CA
+	for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 19:32:56 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id b40so19830322lfv.10
+        for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 11:32:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=R+5wfzvY98r911pdlNHS5MRZhjqkHPF9SqDy5RQ+nGs=;
-        b=0FrAeyHRpiQDLNRCH38LGYEW5OlercFk3DROOyI+5MF4Aiw8BvLF+GCTJpv3NKxJy8
-         w6XzrFa0A4VvMMlEU5z/Z298tMnaEJKBq6VeGIjX+thf/iO5KbDMg1BG2s0ux0pQV0XL
-         L0w0pukiLEDpC5eKc8vPyhFf4+3+6sceGamqAVhs5Kn+fhrwpRXew7EnfGZfjV1KOpOo
-         GsbDXtupxwNXVLa7onRj0aOr7ByIMeeLVr8b9i5Ih2ez3BMkuu+Noz8qQcPqLFM956T3
-         mU1cLd9j/5Aeb5XROTdKgsLG6YeZUnyInnb8MjJCX3TEKg+E78spgZbNmQA8jGbD++MV
-         Xm+g==
+        bh=16vBrnrnLm/KrdSkDqkkNxS0xymKNayV9NN0QHH9Fsc=;
+        b=Fc16dXw7QrcrWym6s0uO3FUlkAd4uNZUZrWupNfe7G2/CR/8Yl570W2sz91fC34oEo
+         A7iSCYIityuJlPftUpYO1kCLgwJpyP8uR0AoZdJxVM1AUwsAuQB2fZii12OInz4H5e+X
+         soS/WQ6Pfl6KwacAVi9hiM9vJsOBiheOBKkNBFz3hpIQSpYRqz7a2Kt65q6oxfcFFmFo
+         dIitB01qrAc1hS4i5DJuLYgrRIBlNg7c6POSBsYCTGByiarvRQEEJccD3c901j+vS4wA
+         ffF/lNG9tDuAPV9taCSFHXSUnkuRHSNpDotI+gbNd2ruK02Vax+OLd6B7mzg22FyN1hD
+         StAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=R+5wfzvY98r911pdlNHS5MRZhjqkHPF9SqDy5RQ+nGs=;
-        b=x6x2rHOeuAi+iH14qEUKkEvd/lcgQutlB18lpumOdORcL3mg236Tet3oDxdrA18tSP
-         v3G2K4XfPFaau8i5rf2QUzZG+bgdv+uBWoovasMNnbtdRCZqKr5mIWXkdfy96EougkHn
-         qh9tBJn9LdI59/+pgWazzEMFL9+8Ze27rQwAsI64LxMsb6Yva1UqYAnloV/0NhV/LWV4
-         Ylq3aTnp0ahFg0kks+BUxTAOx8ypccVE1Ziv8lr18X+dXkVQjcqpkKrhrK0Eh3t2CyG0
-         sL5nfIG82GfV944AazjgwI3R4w2BWNdxjvIISy+mksrBy3CPG615T8ccjpPKh2xvczCG
-         hf7Q==
-X-Gm-Message-State: AOAM5305kYkJivx2gywewC0lMQ/7/+d+vXx5K/WKp/ZTcowU+0m8IFq5
-	aKHozwjw3+twVfahe/snkJNtP2mWzygTnSXhoUopWg==
-X-Google-Smtp-Source: ABdhPJw2lS/O2yAfLVTw6WVq78ELyMdt5/AEs5anuvPRPowAgkoa3NmZtsHE2c0DEj0r6fuPtxiB7KX0gypvQotrn6Q=
-X-Received: by 2002:aa7:c30e:: with SMTP id l14mr40506518edq.370.1639161186439;
- Fri, 10 Dec 2021 10:33:06 -0800 (PST)
+        bh=16vBrnrnLm/KrdSkDqkkNxS0xymKNayV9NN0QHH9Fsc=;
+        b=ceNnYtAv3fPyjEk1/HtdXxVIF56swsuoQxDcBJT830qgr9nyAXdNMhRccEaac6fDtT
+         Qsb2mTeE+gtv+FnEEFkpvO8tsxcr5r976akvUVpDfCYjugUSX9DO+SOUGxNKdzQN+IqT
+         iU8w+Wj8LDhQlldYLIrVXXCsX66FHgasPhOjTNumFfDLKemkJHUIOqyShCZkIszZAg/Z
+         oJ9zx/Ny9gak1M0C90cYrzFG3Q1v6nn8kinM/3DY9Q6frihj2TQb10LefRvIHWeOuk7g
+         YpMUPocwABR5kFU8okGSP25hPZQlqwrgyAe2lIL4KNe6jWflxa2XR1Y6+9eqe/YSAC5Z
+         RNKg==
+X-Gm-Message-State: AOAM532CX+rkMj+zebKdPTWj0ONDT0ZxsTPjNV+gRzN14+l87XH0JU2h
+	gWQCDXfiaPUILZKubSj/MfudTqoR8MY9+vL6igYp/A==
+X-Google-Smtp-Source: ABdhPJxF3+fnmbuK2XdBNyM0bI0+qKHJ0qxHxOEv72SG10GFXigVk57qhPNNilvsV+RXMaejOkWh09XKp2X17SEkv20=
+X-Received: by 2002:ac2:4d19:: with SMTP id r25mr13865559lfi.82.1639164774486;
+ Fri, 10 Dec 2021 11:32:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211208225030.2018923-1-aford173@gmail.com> <20211208225030.2018923-5-aford173@gmail.com>
- <YbHZvysazqYeZ8h3@eze-laptop> <CAHCN7xKrHSSsqS9DNL1tMH1Ctpz16FsSgcVbSHXzUWF98v738Q@mail.gmail.com>
- <YbNz94G3vwbHCMdB@robh.at.kernel.org> <c88b7a90f7a3bf94fc0cbb9a6f967ce769d5c03b.camel@pengutronix.de>
- <CAHCN7xLQrYy6H3U_yjCevu7F3AtEJJNbA7gdig=dn08hQfXCUA@mail.gmail.com>
-In-Reply-To: <CAHCN7xLQrYy6H3U_yjCevu7F3AtEJJNbA7gdig=dn08hQfXCUA@mail.gmail.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Fri, 10 Dec 2021 15:32:54 -0300
-Message-ID: <CAAEAJfAuH_cupFkEN=5M3fy-JJ401EB3f2-6yvXFt9zJ4rYW4A@mail.gmail.com>
-Subject: Re: [PATCH 04/10] dt-bindings: media: nxp,imx8mq-vpu: Support split
- G1 and G2 nodes with vpu-blk-ctrl
-To: Adam Ford <aford173@gmail.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>, Rob Herring <robh@kernel.org>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Chris Healy <cphealy@gmail.com>, 
-	Adam Ford-BE <aford@beaconembedded.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:HANTRO VPU CODEC DRIVER" <linux-rockchip@lists.infradead.org>, 
-	devicetree <devicetree@vger.kernel.org>, arm-soc <linux-arm-kernel@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+References: <20211209195141.1165233-1-nathan@kernel.org>
+In-Reply-To: <20211209195141.1165233-1-nathan@kernel.org>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Fri, 10 Dec 2021 11:32:42 -0800
+Message-ID: <CAKwvOdmKUsQc7UoxzqPvsH+FqxvxHGd43N9dDiYn1T31gZ94Sg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: greybus: fix stack size warning with UBSAN
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>, 
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-> >
-> > I'm in favor of dropping the old binding from the schema. New DTs
-> > should clearly use the new binding and old DTs shouldn't change
-> > anymore, so validation is less useful there.
+On Thu, Dec 9, 2021 at 11:52 AM Nathan Chancellor <nathan@kernel.org> wrote:
 >
-> I wonder if it makes sense to have a more standardized hantro schema
-> for all the users instead of one dedicated to each platform using a
-> hantro driver.  The unified schema could have all the various
-> compatible flags so the driver still knows which features are
-> enabled/disabled and it's very clear who all the users are for it. I
-> would think it could cover both the encoder and decoder variants as
-> well.  We do something similar for 8250 serial ports.
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> If so, can someone from the media group suggest the best one to
-> follow?  Ezequiel suggested I look at the sama5d4-vdec to help reduce
-> some clutter in the driver.  If that binding is good enough, should I
-> just add the compatible flags to that and potentially rename it.
+> clang warns about excessive stack usage in this driver when
+> UBSAN is enabled:
+>
+> drivers/staging/greybus/audio_topology.c:977:12: error: stack frame size of 1836 bytes in function 'gbaudio_tplg_create_widget' [-Werror,-Wframe-larger-than=]
+>
+> Rework this code to no longer use compound literals for
+> initializing the structure in each case, but instead keep
+> the common bits in a preallocated constant array and copy
+> them as needed.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1535
+> Link: https://lore.kernel.org/r/20210103223541.2790855-1-arnd@kernel.org/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> [nathan: Address review comments from v1]
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+
+Thanks for helping to get this across the finish line.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
+>
+> v1 -> v2: https://lore.kernel.org/r/20210103223541.2790855-1-arnd@kernel.org/
+>
+> * Use NULL for name field in SND_DOC_DAPM_* in gbaudio_widgets (Alex).
+>
+> * Do not eliminate *dw assignment within the switch cases, as invalid
+>   enum values in-between valid enum values (such as snd_soc_dapm_demux)
+>   would not be handled properly by the "if value is greater than the
+>   array size" check (Alex). This addresses a few other comments by Alex
+>   and Dan because w->type is not checked against the array's size.
+>
+> Arnd, if you disagree with this approach, please let me know so that we
+> can get this fixed in a way that everyone is happy with.
+>
+>  drivers/staging/greybus/audio_topology.c | 92 ++++++++++++------------
+>  1 file changed, 45 insertions(+), 47 deletions(-)
+>
+> diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+> index 1e613d42d823..7f7d558b76d0 100644
+> --- a/drivers/staging/greybus/audio_topology.c
+> +++ b/drivers/staging/greybus/audio_topology.c
+> @@ -974,6 +974,44 @@ static int gbaudio_widget_event(struct snd_soc_dapm_widget *w,
+>         return ret;
+>  }
+>
+> +static const struct snd_soc_dapm_widget gbaudio_widgets[] = {
+> +       [snd_soc_dapm_spk]      = SND_SOC_DAPM_SPK(NULL, gbcodec_event_spk),
+> +       [snd_soc_dapm_hp]       = SND_SOC_DAPM_HP(NULL, gbcodec_event_hp),
+> +       [snd_soc_dapm_mic]      = SND_SOC_DAPM_MIC(NULL, gbcodec_event_int_mic),
+> +       [snd_soc_dapm_output]   = SND_SOC_DAPM_OUTPUT(NULL),
+> +       [snd_soc_dapm_input]    = SND_SOC_DAPM_INPUT(NULL),
+> +       [snd_soc_dapm_switch]   = SND_SOC_DAPM_SWITCH_E(NULL, SND_SOC_NOPM,
+> +                                       0, 0, NULL,
+> +                                       gbaudio_widget_event,
+> +                                       SND_SOC_DAPM_PRE_PMU |
+> +                                       SND_SOC_DAPM_POST_PMD),
+> +       [snd_soc_dapm_pga]      = SND_SOC_DAPM_PGA_E(NULL, SND_SOC_NOPM,
+> +                                       0, 0, NULL, 0,
+> +                                       gbaudio_widget_event,
+> +                                       SND_SOC_DAPM_PRE_PMU |
+> +                                       SND_SOC_DAPM_POST_PMD),
+> +       [snd_soc_dapm_mixer]    = SND_SOC_DAPM_MIXER_E(NULL, SND_SOC_NOPM,
+> +                                       0, 0, NULL, 0,
+> +                                       gbaudio_widget_event,
+> +                                       SND_SOC_DAPM_PRE_PMU |
+> +                                       SND_SOC_DAPM_POST_PMD),
+> +       [snd_soc_dapm_mux]      = SND_SOC_DAPM_MUX_E(NULL, SND_SOC_NOPM,
+> +                                       0, 0, NULL,
+> +                                       gbaudio_widget_event,
+> +                                       SND_SOC_DAPM_PRE_PMU |
+> +                                       SND_SOC_DAPM_POST_PMD),
+> +       [snd_soc_dapm_aif_in]   = SND_SOC_DAPM_AIF_IN_E(NULL, NULL, 0,
+> +                                       SND_SOC_NOPM, 0, 0,
+> +                                       gbaudio_widget_event,
+> +                                       SND_SOC_DAPM_PRE_PMU |
+> +                                       SND_SOC_DAPM_POST_PMD),
+> +       [snd_soc_dapm_aif_out]  = SND_SOC_DAPM_AIF_OUT_E(NULL, NULL, 0,
+> +                                       SND_SOC_NOPM, 0, 0,
+> +                                       gbaudio_widget_event,
+> +                                       SND_SOC_DAPM_PRE_PMU |
+> +                                       SND_SOC_DAPM_POST_PMD),
+> +};
+> +
+>  static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+>                                       struct snd_soc_dapm_widget *dw,
+>                                       struct gb_audio_widget *w, int *w_size)
+> @@ -1052,77 +1090,37 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+>
+>         switch (w->type) {
+>         case snd_soc_dapm_spk:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_SPK(w->name, gbcodec_event_spk);
+> +               *dw = gbaudio_widgets[w->type];
+>                 module->op_devices |= GBAUDIO_DEVICE_OUT_SPEAKER;
+>                 break;
+>         case snd_soc_dapm_hp:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_HP(w->name, gbcodec_event_hp);
+> +               *dw = gbaudio_widgets[w->type];
+>                 module->op_devices |= (GBAUDIO_DEVICE_OUT_WIRED_HEADSET
+>                                         | GBAUDIO_DEVICE_OUT_WIRED_HEADPHONE);
+>                 module->ip_devices |= GBAUDIO_DEVICE_IN_WIRED_HEADSET;
+>                 break;
+>         case snd_soc_dapm_mic:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_MIC(w->name, gbcodec_event_int_mic);
+> +               *dw = gbaudio_widgets[w->type];
+>                 module->ip_devices |= GBAUDIO_DEVICE_IN_BUILTIN_MIC;
+>                 break;
+>         case snd_soc_dapm_output:
+> -               *dw = (struct snd_soc_dapm_widget)SND_SOC_DAPM_OUTPUT(w->name);
+> -               break;
+>         case snd_soc_dapm_input:
+> -               *dw = (struct snd_soc_dapm_widget)SND_SOC_DAPM_INPUT(w->name);
+> -               break;
+>         case snd_soc_dapm_switch:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_SWITCH_E(w->name, SND_SOC_NOPM, 0, 0,
+> -                                             widget_kctls,
+> -                                             gbaudio_widget_event,
+> -                                             SND_SOC_DAPM_PRE_PMU |
+> -                                             SND_SOC_DAPM_POST_PMD);
+> -               break;
+>         case snd_soc_dapm_pga:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_PGA_E(w->name, SND_SOC_NOPM, 0, 0, NULL, 0,
+> -                                          gbaudio_widget_event,
+> -                                          SND_SOC_DAPM_PRE_PMU |
+> -                                          SND_SOC_DAPM_POST_PMD);
+> -               break;
+>         case snd_soc_dapm_mixer:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_MIXER_E(w->name, SND_SOC_NOPM, 0, 0, NULL,
+> -                                            0, gbaudio_widget_event,
+> -                                            SND_SOC_DAPM_PRE_PMU |
+> -                                            SND_SOC_DAPM_POST_PMD);
+> -               break;
+>         case snd_soc_dapm_mux:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_MUX_E(w->name, SND_SOC_NOPM, 0, 0,
+> -                                          widget_kctls, gbaudio_widget_event,
+> -                                          SND_SOC_DAPM_PRE_PMU |
+> -                                          SND_SOC_DAPM_POST_PMD);
+> +               *dw = gbaudio_widgets[w->type];
+>                 break;
+>         case snd_soc_dapm_aif_in:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_AIF_IN_E(w->name, w->sname, 0,
+> -                                             SND_SOC_NOPM,
+> -                                             0, 0, gbaudio_widget_event,
+> -                                             SND_SOC_DAPM_PRE_PMU |
+> -                                             SND_SOC_DAPM_POST_PMD);
+> -               break;
+>         case snd_soc_dapm_aif_out:
+> -               *dw = (struct snd_soc_dapm_widget)
+> -                       SND_SOC_DAPM_AIF_OUT_E(w->name, w->sname, 0,
+> -                                              SND_SOC_NOPM,
+> -                                              0, 0, gbaudio_widget_event,
+> -                                              SND_SOC_DAPM_PRE_PMU |
+> -                                              SND_SOC_DAPM_POST_PMD);
+> +               *dw = gbaudio_widgets[w->type];
+> +               dw->sname = w->sname;
+>                 break;
+>         default:
+>                 ret = -EINVAL;
+>                 goto error;
+>         }
+> +       dw->name = w->name;
+>
+>         dev_dbg(module->dev, "%s: widget of type %d created\n", dw->name,
+>                 dw->id);
+>
+> base-commit: 42eb8fdac2fc5d62392dcfcf0253753e821a97b0
+> --
+> 2.34.1
+>
 >
 
-A unified schema might sound elegant and compelling, but I suspect
-it can bite us down the road, due to differences in the platform integration.
 
-Seems we are all on-board going forward with a patch similar to this one,
-but also dropping the deprecated binding from the schema (while of course
-still supporting old DTBs on new kernels).
-
-Rob's suggestion about having a warning in the platform if the binding has
-not been updated, sounds like very useful too.
-
-Keep in mind v5.16-rc5 is near, which means we still have a few weeks to
-discuss this patch, until the next linux-media merge season.
-
+-- 
 Thanks,
-Ezequiel
+~Nick Desaulniers
