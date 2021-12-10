@@ -1,37 +1,27 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F24329CA;
-	Thu,  9 Dec 2021 19:52:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65511C004DD;
-	Thu,  9 Dec 2021 19:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1639079566;
-	bh=teoF46qjaD0R6MVCCZefMM9Xa6ea84rcddEa/DwjD/8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=O0vCRKfsaeWmxvf5sG/KzPYTqr7p45gvaWWDqh5a+2N1ifo9ns+iel4UBDdqjRLBP
-	 AaSW2hVLPnV97KTxj39jmA6JmC3McQDdGwQc5Kdpy1+zKSdukBdaAvbfvalRAPxp11
-	 HVfYcRHTXOvO1yCzldSbCZ9CWrGj4cQaue3XftV16AQHmea3IzzyacxeHj+aN/2NGC
-	 4sThzBPH/OepjyMHm+CRrT7HrHgO/2ah9OJen5Fn2to3NkC9n5/ogaKho9h9U6HSYh
-	 DNDX2jlLfhq8bRcyPRPVstGtHhVejXv8khXfWgZvmnFEcoZ4GPUqU99YsptsMNPvOX
-	 u2mKzNEWPcGHw==
-From: Nathan Chancellor <nathan@kernel.org>
-To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
-	greybus-dev@lists.linaro.org,
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 620812C99
+	for <linux-staging@lists.linux.dev>; Fri, 10 Dec 2021 01:56:31 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.128])
+	by APP-01 (Coremail) with SMTP id qwCowACHj1fFs7JhU_EOAg--.23696S2;
+	Fri, 10 Dec 2021 09:56:21 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: narmstrong@baylibre.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	khilman@baylibre.com,
+	jbrunet@baylibre.com,
+	martin.blumenstingl@googlemail.com,
+	p.zabel@pengutronix.de
+Cc: linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v2] staging: greybus: fix stack size warning with UBSAN
-Date: Thu,  9 Dec 2021 12:51:42 -0700
-Message-Id: <20211209195141.1165233-1-nathan@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH v2] media: meson: vdec: potential dereference of null pointer
+Date: Fri, 10 Dec 2021 09:56:20 +0800
+Message-Id: <20211210015620.2143555-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,178 +29,106 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowACHj1fFs7JhU_EOAg--.23696S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAFWkWF1fZF1rZr4rKr43GFg_yoW5tryxpF
+	10v342gFyUtFyUAr4UJr1kWFWSq348GFyI9a97Xw1fZry7tF17XFnayFWjgr98Jr1S9a18
+	CFyrWw1Uuw4jqrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+	628vn2kIc2xKxwCY02Avz4vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+	WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+	67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+	IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
+	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+	C2KfnxnUUI43ZEXa7VUbLiSPUUUUU==
+X-Originating-IP: [124.16.138.128]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-From: Arnd Bergmann <arnd@arndb.de>
+The return value of kzalloc() needs to be checked.
+To avoid use of null pointer in case of the failure of alloc.
 
-clang warns about excessive stack usage in this driver when
-UBSAN is enabled:
-
-drivers/staging/greybus/audio_topology.c:977:12: error: stack frame size of 1836 bytes in function 'gbaudio_tplg_create_widget' [-Werror,-Wframe-larger-than=]
-
-Rework this code to no longer use compound literals for
-initializing the structure in each case, but instead keep
-the common bits in a preallocated constant array and copy
-them as needed.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1535
-Link: https://lore.kernel.org/r/20210103223541.2790855-1-arnd@kernel.org/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-[nathan: Address review comments from v1]
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
+Changelog:
 
-v1 -> v2: https://lore.kernel.org/r/20210103223541.2790855-1-arnd@kernel.org/
+v1 -> v2
 
-* Use NULL for name field in SND_DOC_DAPM_* in gbaudio_widgets (Alex).
+*Change 1. Change the return type of amvdec_add_ts from void to int.
+*Change 2. Return -ENOMEN if alloc fail and return 0 if not.
+*Change 3. Modify the caller to deal with the error.
+---
+ drivers/staging/media/meson/vdec/esparser.c     | 6 +++++-
+ drivers/staging/media/meson/vdec/vdec_helpers.c | 5 ++++-
+ drivers/staging/media/meson/vdec/vdec_helpers.h | 2 +-
+ 3 files changed, 10 insertions(+), 3 deletions(-)
 
-* Do not eliminate *dw assignment within the switch cases, as invalid
-  enum values in-between valid enum values (such as snd_soc_dapm_demux)
-  would not be handled properly by the "if value is greater than the
-  array size" check (Alex). This addresses a few other comments by Alex
-  and Dan because w->type is not checked against the array's size.
-
-Arnd, if you disagree with this approach, please let me know so that we
-can get this fixed in a way that everyone is happy with.
-
- drivers/staging/greybus/audio_topology.c | 92 ++++++++++++------------
- 1 file changed, 45 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
-index 1e613d42d823..7f7d558b76d0 100644
---- a/drivers/staging/greybus/audio_topology.c
-+++ b/drivers/staging/greybus/audio_topology.c
-@@ -974,6 +974,44 @@ static int gbaudio_widget_event(struct snd_soc_dapm_widget *w,
- 	return ret;
+diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+index db7022707ff8..7e78288cc551 100644
+--- a/drivers/staging/media/meson/vdec/esparser.c
++++ b/drivers/staging/media/meson/vdec/esparser.c
+@@ -328,9 +328,13 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+ 
+ 	offset = esparser_get_offset(sess);
+ 
+-	amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++	ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
+ 	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
+ 		vb->timestamp, payload_size, offset, vbuf->flags);
++	if (ret) {
++		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
++		return ret;
++	}
+ 
+ 	vbuf->flags = 0;
+ 	vbuf->field = V4L2_FIELD_NONE;
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index 7f07a9175815..972a1d1a12a5 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -227,13 +227,15 @@ int amvdec_set_canvases(struct amvdec_session *sess,
  }
+ EXPORT_SYMBOL_GPL(amvdec_set_canvases);
  
-+static const struct snd_soc_dapm_widget gbaudio_widgets[] = {
-+	[snd_soc_dapm_spk]	= SND_SOC_DAPM_SPK(NULL, gbcodec_event_spk),
-+	[snd_soc_dapm_hp]	= SND_SOC_DAPM_HP(NULL, gbcodec_event_hp),
-+	[snd_soc_dapm_mic]	= SND_SOC_DAPM_MIC(NULL, gbcodec_event_int_mic),
-+	[snd_soc_dapm_output]	= SND_SOC_DAPM_OUTPUT(NULL),
-+	[snd_soc_dapm_input]	= SND_SOC_DAPM_INPUT(NULL),
-+	[snd_soc_dapm_switch]	= SND_SOC_DAPM_SWITCH_E(NULL, SND_SOC_NOPM,
-+					0, 0, NULL,
-+					gbaudio_widget_event,
-+					SND_SOC_DAPM_PRE_PMU |
-+					SND_SOC_DAPM_POST_PMD),
-+	[snd_soc_dapm_pga]	= SND_SOC_DAPM_PGA_E(NULL, SND_SOC_NOPM,
-+					0, 0, NULL, 0,
-+					gbaudio_widget_event,
-+					SND_SOC_DAPM_PRE_PMU |
-+					SND_SOC_DAPM_POST_PMD),
-+	[snd_soc_dapm_mixer]	= SND_SOC_DAPM_MIXER_E(NULL, SND_SOC_NOPM,
-+					0, 0, NULL, 0,
-+					gbaudio_widget_event,
-+					SND_SOC_DAPM_PRE_PMU |
-+					SND_SOC_DAPM_POST_PMD),
-+	[snd_soc_dapm_mux]	= SND_SOC_DAPM_MUX_E(NULL, SND_SOC_NOPM,
-+					0, 0, NULL,
-+					gbaudio_widget_event,
-+					SND_SOC_DAPM_PRE_PMU |
-+					SND_SOC_DAPM_POST_PMD),
-+	[snd_soc_dapm_aif_in]	= SND_SOC_DAPM_AIF_IN_E(NULL, NULL, 0,
-+					SND_SOC_NOPM, 0, 0,
-+					gbaudio_widget_event,
-+					SND_SOC_DAPM_PRE_PMU |
-+					SND_SOC_DAPM_POST_PMD),
-+	[snd_soc_dapm_aif_out]	= SND_SOC_DAPM_AIF_OUT_E(NULL, NULL, 0,
-+					SND_SOC_NOPM, 0, 0,
-+					gbaudio_widget_event,
-+					SND_SOC_DAPM_PRE_PMU |
-+					SND_SOC_DAPM_POST_PMD),
-+};
-+
- static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 				      struct snd_soc_dapm_widget *dw,
- 				      struct gb_audio_widget *w, int *w_size)
-@@ -1052,77 +1090,37 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++		  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
+ {
+ 	struct amvdec_timestamp *new_ts;
+ 	unsigned long flags;
  
- 	switch (w->type) {
- 	case snd_soc_dapm_spk:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_SPK(w->name, gbcodec_event_spk);
-+		*dw = gbaudio_widgets[w->type];
- 		module->op_devices |= GBAUDIO_DEVICE_OUT_SPEAKER;
- 		break;
- 	case snd_soc_dapm_hp:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_HP(w->name, gbcodec_event_hp);
-+		*dw = gbaudio_widgets[w->type];
- 		module->op_devices |= (GBAUDIO_DEVICE_OUT_WIRED_HEADSET
- 					| GBAUDIO_DEVICE_OUT_WIRED_HEADPHONE);
- 		module->ip_devices |= GBAUDIO_DEVICE_IN_WIRED_HEADSET;
- 		break;
- 	case snd_soc_dapm_mic:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_MIC(w->name, gbcodec_event_int_mic);
-+		*dw = gbaudio_widgets[w->type];
- 		module->ip_devices |= GBAUDIO_DEVICE_IN_BUILTIN_MIC;
- 		break;
- 	case snd_soc_dapm_output:
--		*dw = (struct snd_soc_dapm_widget)SND_SOC_DAPM_OUTPUT(w->name);
--		break;
- 	case snd_soc_dapm_input:
--		*dw = (struct snd_soc_dapm_widget)SND_SOC_DAPM_INPUT(w->name);
--		break;
- 	case snd_soc_dapm_switch:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_SWITCH_E(w->name, SND_SOC_NOPM, 0, 0,
--					      widget_kctls,
--					      gbaudio_widget_event,
--					      SND_SOC_DAPM_PRE_PMU |
--					      SND_SOC_DAPM_POST_PMD);
--		break;
- 	case snd_soc_dapm_pga:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_PGA_E(w->name, SND_SOC_NOPM, 0, 0, NULL, 0,
--					   gbaudio_widget_event,
--					   SND_SOC_DAPM_PRE_PMU |
--					   SND_SOC_DAPM_POST_PMD);
--		break;
- 	case snd_soc_dapm_mixer:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_MIXER_E(w->name, SND_SOC_NOPM, 0, 0, NULL,
--					     0, gbaudio_widget_event,
--					     SND_SOC_DAPM_PRE_PMU |
--					     SND_SOC_DAPM_POST_PMD);
--		break;
- 	case snd_soc_dapm_mux:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_MUX_E(w->name, SND_SOC_NOPM, 0, 0,
--					   widget_kctls, gbaudio_widget_event,
--					   SND_SOC_DAPM_PRE_PMU |
--					   SND_SOC_DAPM_POST_PMD);
-+		*dw = gbaudio_widgets[w->type];
- 		break;
- 	case snd_soc_dapm_aif_in:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_AIF_IN_E(w->name, w->sname, 0,
--					      SND_SOC_NOPM,
--					      0, 0, gbaudio_widget_event,
--					      SND_SOC_DAPM_PRE_PMU |
--					      SND_SOC_DAPM_POST_PMD);
--		break;
- 	case snd_soc_dapm_aif_out:
--		*dw = (struct snd_soc_dapm_widget)
--			SND_SOC_DAPM_AIF_OUT_E(w->name, w->sname, 0,
--					       SND_SOC_NOPM,
--					       0, 0, gbaudio_widget_event,
--					       SND_SOC_DAPM_PRE_PMU |
--					       SND_SOC_DAPM_POST_PMD);
-+		*dw = gbaudio_widgets[w->type];
-+		dw->sname = w->sname;
- 		break;
- 	default:
- 		ret = -EINVAL;
- 		goto error;
- 	}
-+	dw->name = w->name;
+ 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
++	if (!new_ts)
++		return -ENOMEM;
+ 	new_ts->ts = ts;
+ 	new_ts->tc = tc;
+ 	new_ts->offset = offset;
+@@ -242,6 +244,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+ 	spin_lock_irqsave(&sess->ts_spinlock, flags);
+ 	list_add_tail(&new_ts->list, &sess->timestamps);
+ 	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(amvdec_add_ts);
  
- 	dev_dbg(module->dev, "%s: widget of type %d created\n", dw->name,
- 		dw->id);
-
-base-commit: 42eb8fdac2fc5d62392dcfcf0253753e821a97b0
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index cfaed52ab526..1bcb697290de 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -55,7 +55,7 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+  * @offset: offset in the VIFIFO where the associated packet was written
+  * @flags the vb2_v4l2_buffer flags
+  */
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++		  struct v4l2_timecode tc, u32 offset, u32 flags);
+ void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
+ 
 -- 
-2.34.1
+2.25.1
 
