@@ -1,33 +1,25 @@
-Received: from smtpbg587.qq.com (smtpbg128.qq.com [106.55.201.39])
+Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E102C82
-	for <linux-staging@lists.linux.dev>; Sat, 11 Dec 2021 09:18:04 +0000 (UTC)
-X-QQ-mid: bizesmtp34t1639214194t6xo5mdq
-Received: from localhost.localdomain (unknown [182.132.179.213])
-	by esmtp6.qq.com (ESMTP) with 
-	id ; Sat, 11 Dec 2021 17:16:33 +0800 (CST)
-X-QQ-SSF: 01000000008000D0H000B00A0000000
-X-QQ-FEAT: qwt6al2KEqgevBLvWz99rmooOb53MQZxBbMK7rtCrMtOnVMfa7T+nQ3TMI0cd
-	+bUYd3eJzCbTVQtOouTdfOJI05DC9zRgvXUwebrbtmjRqJZR5kK+IkGMjQPkhgPDK7FFE7c
-	OEXtIvyF/XL8osLqWzgBo4Guy7pCUVGw7U4RkbiWQP6C6hd6mE3kSJ8ewTZI73BPHxgJ+8q
-	i41sDiL1Uc7TNj1w6PzM+12fgJs5wuFyihX4Q4SNQJ7qc/EwwB9MJCyhUHUAjQdg9/3HX2Q
-	g/RwQSI3HHD9VRhHY0S+PZ7YSIc/bHshE8Y6NTXglcT/zJIbgxDznbR+QPfKcb7gSiVsENi
-	8E5vOC1b4c1NQ6l04+HFKia9yF1PcV/iBW92Km4SsXg6n1/QFw=
-X-QQ-GoodBg: 0
-From: Jason Wang <wangborong@cdjrlc.com>
-To: gregkh@linuxfoundation.org
-Cc: fabioaiuto83@gmail.com,
-	marcocesati@gmail.com,
-	arnd@arndb.de,
-	straube.linux@gmail.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C24368
+	for <linux-staging@lists.linux.dev>; Sun, 12 Dec 2021 18:58:52 +0000 (UTC)
+Received: from dslb-188-104-058-180.188.104.pools.vodafone-ip.de ([188.104.58.180] helo=martin-debian-2.paytec.ch)
+	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89)
+	(envelope-from <martin@kaiser.cx>)
+	id 1mwU3W-0001zY-KP; Sun, 12 Dec 2021 19:58:42 +0100
+From: Martin Kaiser <martin@kaiser.cx>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Larry Finger <Larry.Finger@lwfinger.net>,
+	Phillip Potter <phil@philpotter.co.uk>,
+	Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Jason Wang <wangborong@cdjrlc.com>
-Subject: [PATCH] staging: rtl8723bs: fix typo in a comment
-Date: Sat, 11 Dec 2021 17:16:32 +0800
-Message-Id: <20211211091632.264035-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.34.1
+	Martin Kaiser <martin@kaiser.cx>
+Subject: [PATCH 0/3] staging: r8188eu: remove hal sreset
+Date: Sun, 12 Dec 2021 19:58:30 +0100
+Message-Id: <20211212185833.22000-1-martin@kaiser.cx>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,30 +27,27 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam5
 
-The double `for' in the comment in line 2203 is repeated. Remove one
-of them from the comment.
+This patch set moves two simple functions out of the hal layer into
+the place where they are used. Since we support only a single chipset
+in this driver, there's no need to go through the hal layer for such
+simple functions.
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Martin Kaiser (3):
+  staging: r8188eu: move xmit status check from hal to rtw_cmd
+  staging: r8188eu: move linked status check from hal to rtw_mlme_ext
+  staging: r8188eu: clean up rtl8188e_sreset_linked_status_check
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 0868f56e2979..5157b5b12597 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2200,7 +2200,7 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 		memcpy(src_mac_addr, dot11_hdr->addr2, sizeof(src_mac_addr));
- 
- 		/* Skip the 802.11 header, QoS (if any) and SNAP, but leave spaces for
--		 * for two MAC addresses
-+		 * two MAC addresses
- 		 */
- 		skb_pull(skb, dot11_hdr_len + qos_len + snap_len - sizeof(src_mac_addr) * 2);
- 		pdata = (unsigned char *)skb->data;
+ drivers/staging/r8188eu/Makefile              |  1 -
+ drivers/staging/r8188eu/core/rtw_cmd.c        | 13 ++++++-
+ drivers/staging/r8188eu/core/rtw_mlme_ext.c   | 18 ++++++++-
+ drivers/staging/r8188eu/hal/rtl8188e_sreset.c | 37 -------------------
+ .../staging/r8188eu/include/rtl8188e_hal.h    |  1 -
+ .../staging/r8188eu/include/rtl8188e_sreset.h | 13 -------
+ 6 files changed, 29 insertions(+), 54 deletions(-)
+ delete mode 100644 drivers/staging/r8188eu/hal/rtl8188e_sreset.c
+ delete mode 100644 drivers/staging/r8188eu/include/rtl8188e_sreset.h
+
 -- 
-2.34.1
+2.20.1
 
