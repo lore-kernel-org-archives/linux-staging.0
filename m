@@ -1,133 +1,89 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947F7173
+	for <linux-staging@lists.linux.dev>; Mon, 13 Dec 2021 20:34:52 +0000 (UTC)
+Received: from [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917] (unknown [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB529CA
-	for <linux-staging@lists.linux.dev>; Mon, 13 Dec 2021 12:00:29 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id t13so28675196uad.9
-        for <linux-staging@lists.linux.dev>; Mon, 13 Dec 2021 04:00:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/o19ia8lQkLfbNTP4cmgHrP0h6uYgT0nkLc/whxa57g=;
-        b=daC1FU3GPJN6PmMvBZVmw3eSIQXxSXNscAPNLtxi140HGXvjDb8frf+b0mDquadfY6
-         FPqkloF+W/CEn/aw/6FVRIuPp7DiZIqtG4Q00halWkTGEy7kfSJZ6rFyPrdA5OJCey0M
-         FQ1t/+QRmvNgJ2Z4A0idNerYRJCiSjpLZGEpJ6Tu6HUaJz2kXbZ1b3erneof9oaA6l8g
-         AzHIAZ7ziC/4eQiiY5lEjQgICgTJKPcOdiiTGYupbDcx2lf2qpggEOyPHV0mB2ONBIGV
-         KZED7O4akOJUJOMiw5gkvF0uhmhVLmWfHfQ5XkUsHu+e0WBoBMZq18OW7a/ITHolPUGf
-         M4BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/o19ia8lQkLfbNTP4cmgHrP0h6uYgT0nkLc/whxa57g=;
-        b=dElw73Lkd2TuQYTuwZWpBZWrixt3rfP0aJ3uftXYXRPPr+bdteEaA2IsdHwJ84ELjk
-         s1/lb7r2gFEW/RTzKf7+1h9un8pwTcpzuGmEJRmOs7l0Fr2ZnOwoaNm7692Daq8P1bsE
-         htI6Ft+0aNTT9VW4o5382LT3dliO11cv2z/Yi3b5eAkOfKZgiskOYKryFggxqbj6zIg5
-         258N4/y8BrYP/bBgASKgpXvheo48lEypXPqhUTK2L2AR9aXmBjGv+Rnrmmv3LhXx3KRk
-         HWGz2QxKvrE7YnnwbHfyzd/tS6kSeWWwfYZ6XirbE9bWHs2YaSG8cCeZEcBuzSdrgOaE
-         1wsQ==
-X-Gm-Message-State: AOAM5313oiwXM0kWy+5J3hzCBiLMBP2FscBPq1lmzZo5//BwTi90eWxS
-	bv8d8SNMORch+i2qlx/+zVmSRXzvtMYtsmfR4sM=
-X-Google-Smtp-Source: ABdhPJwXMcAbl88mhQp96FiN5dEzB++peSYemp0N3olGZJb6/cmV5LsL1jViPW27DhvszAzHdtRW7rt7qI+Pcum28Dk=
-X-Received: by 2002:a05:6102:38ce:: with SMTP id k14mr26291964vst.70.1639396828635;
- Mon, 13 Dec 2021 04:00:28 -0800 (PST)
+	(Authenticated sender: dafna)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 125EA1F4441D;
+	Mon, 13 Dec 2021 20:27:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1639427225; bh=wB80XAQrujm7o6G/mYQfgxxJ4rJXLU1g58F+Re9c0m0=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=WJ45my+s63TDKntL2k8ejSBu7AHluUCLHoOYsDdYYZkLUtsEnQuUHndPjMYO+AUcJ
+	 G0RGZ+VNJ6IuqRC1mLohcviWtpec9jbWHk5kxbJamw6fyA9mmld8XPrrc9HtXpG9HT
+	 lWBjueaggTvF05nbLUes68mKtkbFuSclLApD8R7MSh6d+nY16HBStFI2bMJZ7XkAs1
+	 trIlnjni+intxxLNArC6oPXuwON7t/fKF9ei0DG1KMlGHCITU1MZ1JPaIQnTuvobsZ
+	 YzVJOi1RW7TAeHPi2sZ+9TZ7pHiWobRRvh2v+xKh2twEhTW0KQ/N55k+2FeisWNbn9
+	 HU+1rbYXDHAWw==
+Subject: Re: [PATCH v4 0/6] staging: media: wave5: add wave5 codec driver
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)"
+ <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open list <linux-kernel@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl,
+ kernel@collabora.com, dafna3@gmail.com,
+ Robert Beckett <bob.beckett@collabora.com>, kiril.bicevski@collabora.com,
+ Nas Chung <nas.chung@chipsnmedia.com>, lafley.kim@chipsnmedia.com,
+ scott.woo@chipsnmedia.com, olivier.crete@collabora.com,
+ dan.carpenter@oracle.com, Randy Dunlap <rdunlap@infradead.org>
+References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
+ <CAFr9PXnvbqtx-SpxjyO2uvoBR3ueNBD9vSFnbqjbAHz_7Lh8VA@mail.gmail.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <02a9c780-49e0-7a61-4443-7825d6a1271e@collabora.com>
+Date: Mon, 13 Dec 2021 22:27:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211107074200.18911-1-sergio.paracuellos@gmail.com>
-In-Reply-To: <20211107074200.18911-1-sergio.paracuellos@gmail.com>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 13 Dec 2021 13:00:17 +0100
-Message-ID: <CAMhs-H81xnaFqgTJT3jiNy_BBCuHhrA-t0A+0wMnp5Y0kFjGUQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] clk: ralink: make system controller a reset provider
-To: "open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
-	John Crispin <john@phrozen.org>, linux-staging@lists.linux.dev, 
-	Greg KH <gregkh@linuxfoundation.org>, NeilBrown <neil@brown.name>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAFr9PXnvbqtx-SpxjyO2uvoBR3ueNBD9vSFnbqjbAHz_7Lh8VA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Stephen,
 
-On Sun, Nov 7, 2021 at 8:42 AM Sergio Paracuellos
-<sergio.paracuellos@gmail.com> wrote:
->
-> Hi all,
->
-> This patch series add minimal change to provide mt7621 resets properly
-> defining them in the 'mediatek,mt7621-sysc' node which is the system
-> controller of the SoC and is already providing clocks to the rest of
-> the world.
->
-> There is shared architecture code for all ralink platforms in 'reset.c'
-> file located in 'arch/mips/ralink' but the correct thing to do to align
-> hardware with software seems to define and add related reset code to the
-> already mainlined clock driver.
->
-> After this changes, we can get rid of the useless reset controller node
-> in the device tree and use system controller node instead where the property
-> '#reset-cells' has been added. Binding documentation for this nodeq has
-> been updated with the new property accordly.
->
-> This series also provide a bindings include header where all related
-> reset bits for the MT7621 SoC are defined.
->
-> Also, please take a look to this review [0] to understand better motivation
-> for this series.
->
-> Regarding the way of merging this:
->  - I'd like patches 1 and 4 which are related going through staging tree.
->  - The other two (patches 2 and 3) can perfectly go through the clock tree.
->
-> Thanks in advance for your feedback.
->
-> Changes in v5:
->  - Move platform driver init process into 'arch_initcall' to be sure the
->    rest of the world can get the resets available when needed (since PCIe
->    controller driver has been moved from staging into 'drivers/pci/controller'
->    is probed earlier and reset was not available so it was returning
->    -EPROBE_DEFER on firt try. Moving into 'arch_initcall' avoids the 'a bit
->    anoying' PCI first failed log trace.
 
-Gentle ping on this series.
+On 02.12.21 12:11, Daniel Palmer wrote:
+> Hi Dafna,
+> 
+> On Thu, 2 Dec 2021 at 02:56, Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+>> Testing on BeagleV shows buffer corruption that is currently attributed to a
+>> known silicon issue in the SoC that makes the cache coherent interconnect not
+>> so coherent.
+> 
+> Maybe it's mentioned somewhere else and I missed it but would it be
+> possible to tell me which version of the IP is in the BeagleV chip?
+> The reason I ask is I'm trying to get this going on the SigmaStar
+> SSD202D which seems to have the "Wave 511".
+> I can see the firmware binary get uploaded and it seems to do
+> something as the register that exposes the vcpu program counter is
+> doing something (and the addresses look the same as the addresses seem
+> when the working vendor kernel + binary .ko are running so I think
+> it's not just running garbage).
+> 
+> I'm wondering if the BeagleV is a different version and the driver
+> just won't work as is on mine or maybe the firmware I have has hacks
+> for the vendors version of the driver which I don't have source for.
+
+Hi, thank you for trying this out. The versions I see on the Beaglv are 511 for the
+decoder and 521c for the encoder.
+This driver is also based on a vendor driver from cnm: https://gitlab.collabora.com/chipsnmedia/wave5-driver
+Also, a patch to add the firmware was also sent to linux-firmware ml https://lore.kernel.org/linux-firmware/20211126093014.1385752-1-nas.chung@chipsnmedia.com/T/
 
 Thanks,
-     Sergio Paracuellos
+Dafna
 
->
-> Changes in v4:
->  - I sent wrong patch 3 accidentaly so now include the good version, sorry.
->
-> Changes in v3:
->  - Collect Rob's Acked-by for patches 1 and 2.
->  - Rebase on the top of staging-next since there were already many
->    changes there and PATCH 4 of the series didn't apply cleanly.
->
-> Changes in v2:
->  - Address review comments of Dan Carpenter [1]:
->  + Avoid 'inline' in function definition.
->  + Return proper error codes (-EINVAL) instead of '-1'.
->  + Make use of 'devm_kzalloc' instead of 'kzalloc'.
->
-> Best regards,
->    Sergio Paracuellos
->
-> Sergio Paracuellos (4):
->   dt-bindings: reset: add dt binding header for Mediatek MT7621 resets
->   dt-bindings: clock: mediatek,mt7621-sysc: add '#reset-cells' property
->   clk: ralink: make system controller node a reset provider
->   staging: mt7621-dts: align resets with binding documentation
->
->  .../bindings/clock/mediatek,mt7621-sysc.yaml  | 12 +++
->  drivers/clk/ralink/clk-mt7621.c               | 86 ++++++++++++++++++-
->  drivers/staging/mt7621-dts/mt7621.dtsi        | 25 +++---
->  include/dt-bindings/reset/mt7621-reset.h      | 37 ++++++++
->  4 files changed, 145 insertions(+), 15 deletions(-)
->  create mode 100644 include/dt-bindings/reset/mt7621-reset.h
->
-> --
-> 2.33.0
->
+> 
+> Thanks,
+> 
+> Daniel
+> 
