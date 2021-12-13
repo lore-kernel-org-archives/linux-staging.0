@@ -1,82 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out4436.biz.mail.alibaba.com (out4436.biz.mail.alibaba.com [47.88.44.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D68173
-	for <linux-staging@lists.linux.dev>; Mon, 13 Dec 2021 04:59:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7897CC00446;
-	Mon, 13 Dec 2021 04:59:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1639371554;
-	bh=uqDkjyi1DAG2WVFI7Iu0TC2w+GaDC3EmWkInyLpcGtE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mVDRCny15VHJlA+o7pFyvRO+fGTVY2J3x91BIqcOwy4cryBFjZQyaHtyPhgW6KO28
-	 HCKopx8WXOVlRdPjhEOrjN2VBJ1zFB8NRnGb5EUdfofWdRrki7ZlorlrhKm0n81/la
-	 3mN9IpyIgfzc1/r0ZuBokeJT/zwaGH17foE/YzWMrXovh2MCpsiNQwWNaKLY5YRyFy
-	 blW8ncTTX15Q1zUIMmgSzOFg2mWmU6KWhkXrs65ZUlMvc/lyG3K8k5h5nInsBLDfjW
-	 SlpMqgTcrrDN8iKQSo2q7ad2+NbXTwlELLLoqff2K0DHg43fpfYsWOz0ibzpD4QupX
-	 V/h6/iJ4bdVAQ==
-Date: Mon, 13 Dec 2021 10:29:10 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Baolin Wang <baolin.wang7@gmail.com>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav Kysela <perex@perex.cz>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Scott Branden <sbranden@broadcom.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
-	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
-	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] dmaengine: kill off dma_slave_config->slave_id
-Message-ID: <YbbTHo+Wfpl30ZUH@matsya>
-References: <20211122222203.4103644-1-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C6568
+	for <linux-staging@lists.linux.dev>; Mon, 13 Dec 2021 09:26:24 +0000 (UTC)
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0V-UrgcD_1639387564;
+Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0V-UrgcD_1639387564)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 13 Dec 2021 17:26:12 +0800
+From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To: Larry.Finger@lwfinger.net
+Cc: phil@philpotter.co.uk,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH v3] staging: r8188eu: Use strndup_user instead of kmalloc/copy_from_user
+Date: Mon, 13 Dec 2021 17:25:58 +0800
+Message-Id: <20211213092558.77624-1-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211122222203.4103644-1-arnd@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On 22-11-21, 23:21, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> I recently came across some new uses of the 'slave_id' field that
-> I had (almost) removed a few years ago. There are no legitimate
-> uses of this field in the kernel, only a few stale references and
-> two drivers that abuse the field as a side-channel between the
-> dmaengine driver and its client.
-> 
-> Let's change the xilinx and qualcomm drivers to use the documented
-> side-channel (peripheral_data) instead, and remove the remnants of
-> it to prevent new users from coming in.
-> 
-> I think I got all the necessary Acks on v1 already, so if there are
-> no further concerns, please merge this through the dmaengine tree
-> for v5.17, or pull from
+This code assumes that the user is going to give us a NUL terminated
+string which is not necessarily true.
 
-Arnd, Thanks for the cleanup. I have applied and folder the fix you sent
-in this
+Fix following coccicheck warning:
 
+./drivers/staging/r8188eu/os_dep/ioctl_linux.c:4253:8-15: WARNING
+opportunity for memdup_user.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Fixes: 2b42bd58b321 ("staging: r8188eu: introduce new os_dep dir for RTL8188eu driver")
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+Changes in v3:
+  -Delete useless printk, modified the commit message and fixes tag.
+
+ drivers/staging/r8188eu/os_dep/ioctl_linux.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/staging/r8188eu/os_dep/ioctl_linux.c b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+index 77728ba78d76..d8c28f279aa0 100644
+--- a/drivers/staging/r8188eu/os_dep/ioctl_linux.c
++++ b/drivers/staging/r8188eu/os_dep/ioctl_linux.c
+@@ -4247,18 +4247,10 @@ static int rtw_test(
+ 
+ 	DBG_88E("+%s\n", __func__);
+ 	len = wrqu->data.length;
++	pbuf = strndup_user(wrqu->data.pointer, len);
++	if (IS_ERR(pbuf))
++		return PTR_ERR(pbuf);
+ 
+-	pbuf = kzalloc(len, GFP_KERNEL);
+-	if (!pbuf) {
+-		DBG_88E("%s: no memory!\n", __func__);
+-		return -ENOMEM;
+-	}
+-
+-	if (copy_from_user(pbuf, wrqu->data.pointer, len)) {
+-		kfree(pbuf);
+-		DBG_88E("%s: copy from user fail!\n", __func__);
+-		return -EFAULT;
+-	}
+ 	DBG_88E("%s: string =\"%s\"\n", __func__, pbuf);
+ 
+ 	ptmp = (char *)pbuf;
 -- 
-~Vinod
+2.20.1.7.g153144c
+
