@@ -1,80 +1,82 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E73068
-	for <linux-staging@lists.linux.dev>; Sun, 12 Dec 2021 18:58:55 +0000 (UTC)
-Received: from dslb-188-104-058-180.188.104.pools.vodafone-ip.de ([188.104.58.180] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1mwU3a-0001zY-T0; Sun, 12 Dec 2021 19:58:46 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/3] staging: r8188eu: clean up rtl8188e_sreset_linked_status_check
-Date: Sun, 12 Dec 2021 19:58:33 +0100
-Message-Id: <20211212185833.22000-4-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211212185833.22000-1-martin@kaiser.cx>
-References: <20211212185833.22000-1-martin@kaiser.cx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D68173
+	for <linux-staging@lists.linux.dev>; Mon, 13 Dec 2021 04:59:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7897CC00446;
+	Mon, 13 Dec 2021 04:59:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1639371554;
+	bh=uqDkjyi1DAG2WVFI7Iu0TC2w+GaDC3EmWkInyLpcGtE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mVDRCny15VHJlA+o7pFyvRO+fGTVY2J3x91BIqcOwy4cryBFjZQyaHtyPhgW6KO28
+	 HCKopx8WXOVlRdPjhEOrjN2VBJ1zFB8NRnGb5EUdfofWdRrki7ZlorlrhKm0n81/la
+	 3mN9IpyIgfzc1/r0ZuBokeJT/zwaGH17foE/YzWMrXovh2MCpsiNQwWNaKLY5YRyFy
+	 blW8ncTTX15Q1zUIMmgSzOFg2mWmU6KWhkXrs65ZUlMvc/lyG3K8k5h5nInsBLDfjW
+	 SlpMqgTcrrDN8iKQSo2q7ad2+NbXTwlELLLoqff2K0DHg43fpfYsWOz0ibzpD4QupX
+	 V/h6/iJ4bdVAQ==
+Date: Mon, 13 Dec 2021 10:29:10 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andy Gross <agross@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Baolin Wang <baolin.wang7@gmail.com>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hyun Kwon <hyun.kwon@xilinx.com>, Jaroslav Kysela <perex@perex.cz>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Scott Branden <sbranden@broadcom.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
+	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 00/11] dmaengine: kill off dma_slave_config->slave_id
+Message-ID: <YbbTHo+Wfpl30ZUH@matsya>
+References: <20211122222203.4103644-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211122222203.4103644-1-arnd@kernel.org>
 
-Clean up the rtl8188e_sreset_linked_status_check, which has just
-been moved to rtw_mlme_ext.
+On 22-11-21, 23:21, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> I recently came across some new uses of the 'slave_id' field that
+> I had (almost) removed a few years ago. There are no legitimate
+> uses of this field in the kernel, only a few stale references and
+> two drivers that abuse the field as a side-channel between the
+> dmaengine driver and its client.
+> 
+> Let's change the xilinx and qualcomm drivers to use the documented
+> side-channel (peripheral_data) instead, and remove the remnants of
+> it to prevent new users from coming in.
+> 
+> I think I got all the necessary Acks on v1 already, so if there are
+> no further concerns, please merge this through the dmaengine tree
+> for v5.17, or pull from
 
-Don't initialise variables to 0 if the first access sets a new value.
+Arnd, Thanks for the cleanup. I have applied and folder the fix you sent
+in this
 
-Check the value of fw_status only once.
-
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
----
- drivers/staging/r8188eu/core/rtw_mlme_ext.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/r8188eu/core/rtw_mlme_ext.c b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-index 15a443b9bc6d..8e04238fb5fc 100644
---- a/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-+++ b/drivers/staging/r8188eu/core/rtw_mlme_ext.c
-@@ -7161,20 +7161,19 @@ static u8 chk_ap_is_alive(struct adapter *padapter, struct sta_info *psta)
- 
- static void rtl8188e_sreset_linked_status_check(struct adapter *padapter)
- {
--	u32 rx_dma_status = 0;
--	u8 fw_status = 0;
--	rx_dma_status = rtw_read32(padapter, REG_RXDMA_STATUS);
-+	u32 rx_dma_status =  rtw_read32(padapter, REG_RXDMA_STATUS);
-+	u8 fw_status;
-+
- 	if (rx_dma_status != 0x00) {
- 		DBG_88E("%s REG_RXDMA_STATUS:0x%08x\n", __func__, rx_dma_status);
- 		rtw_write32(padapter, REG_RXDMA_STATUS, rx_dma_status);
- 	}
-+
- 	fw_status = rtw_read8(padapter, REG_FMETHR);
--	if (fw_status != 0x00) {
--		if (fw_status == 1)
--			DBG_88E("%s REG_FW_STATUS (0x%02x), Read_Efuse_Fail !!\n", __func__, fw_status);
--		else if (fw_status == 2)
--			DBG_88E("%s REG_FW_STATUS (0x%02x), Condition_No_Match !!\n", __func__, fw_status);
--	}
-+	if (fw_status == 1)
-+		DBG_88E("%s REG_FW_STATUS (0x%02x), Read_Efuse_Fail !!\n", __func__, fw_status);
-+	else if (fw_status == 2)
-+		DBG_88E("%s REG_FW_STATUS (0x%02x), Condition_No_Match !!\n", __func__, fw_status);
- }
- 
- void linked_status_chk(struct adapter *padapter)
 -- 
-2.20.1
-
+~Vinod
