@@ -1,97 +1,102 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC74B68
-	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 10:21:07 +0000 (UTC)
-Received: by mail-vk1-f172.google.com with SMTP id 188so12146449vku.8
-        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 02:21:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0x0f.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Y8Fa8Kszo3XIjbu8l4Yejv1uFgZJe7E3nSQeyvq6bbo=;
-        b=py1sUqVwM/zL1uOqW3ziX5MlFaF3wX/LlJtZAsVED87EbZZyaR64ZcwuZYOtL9AtFl
-         FD4BwC5lejvgg1ipZnhfWvxVDudxpjvVo8DrUoWoRAC0hXMbnHW64awwlGact2kBJsaQ
-         Ox8c3ZjNnXRiFEJiTaywNqyUo1i76zEcIRn+g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y8Fa8Kszo3XIjbu8l4Yejv1uFgZJe7E3nSQeyvq6bbo=;
-        b=I5ADIhdjB7JHJWqRYH5GdasCTLXIfNuXfpsqPaWrx17Jf10nygXk+3nKocd/MirgBj
-         267ErKOvSXDDibe9sw9NToqO77OBddt4S/CBuHDj0qYHjwkv7qYbQhfcTJklHKTmA9O6
-         m57l6xaQMZtw6lJkHUeyxD1MogSwaSTf9kHQ5oag5jW/iCy0vwuCtyHk4TQKNZhQEmnD
-         rnnJCgZfVxYdO9VHlK+tifslY/BNBuqmZz4e3i4qeUs87f8lvy/c0yaiTmq5OpKW3eR5
-         pATQa32bq0eqXKjT4L3BgcF5yayE9q1i7dPOuuYajSgvJOVlgcWk/nRx3LMvVYGBvVR/
-         o8pw==
-X-Gm-Message-State: AOAM5317Zk3o7fHqYs2ve4BtQSlDFP8HNFd4DJ1vxKF0V1MZ1HBQ7VfT
-	ixK0MeYNHAEMCgbMSfMO/oWQTAxjcygnj31TtefpyA==
-X-Google-Smtp-Source: ABdhPJztx268YvgATu/AlJUf2NurU4d2rYV2fPqGq1H/pVe9eAFZMQbAxLg7sQXz7OUEhJJKrHMM/DGcQx5SZvP0444=
-X-Received: by 2002:a1f:5f94:: with SMTP id t142mr4620765vkb.34.1639477266564;
- Tue, 14 Dec 2021 02:21:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5A729CA
+	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 13:46:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93E0EC34601;
+	Tue, 14 Dec 2021 13:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1639489579;
+	bh=IPUyK9+cTg9d2YEDhc90Ub9/uzFy2tW8VkPRCEUQ3Dw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=urnGSGDpfLi3eHC8Ge0YggS1h4NDPuPnmRzrsrjOnq2Oc8POGut1BzG2LQHGVJbWN
+	 rI1uGalDQm4LOTdO8K4KowL00SF16QpUBr0syqGHY9Aoz5jOrRS3BkeskcKEW7Psbs
+	 YxvB5CCBhjmHCHuxRlY6J0tXphweVu1XMfBnqe1pEiZ4CNYn8ZRYZxegPsfowK5ZOo
+	 c1B+Mo8fBBwVVVj8jzU5/N3NEx2uulrUXO+7umSx10/KuNYm1GT6OvWd3GpppcTv/x
+	 BSs5yaydxuJjsxhzH6KFbneQoCBtm+WBS/GJVF1Vqn40gKp31s8741qw6q/ZHYH4zS
+	 OUHZsfGAkvvmw==
+Date: Tue, 14 Dec 2021 14:46:13 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Zhou Qingyang <zhou1615@umn.edu>
+Cc: kjlu@umn.edu, Neil Armstrong <narmstrong@baylibre.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Maxime Jourdan <mjourdan@baylibre.com>,
+ linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: meson: vdec: Fix a NULL pointer dereference
+ in amvdec_add_ts()
+Message-ID: <20211214144613.35fec82a@coco.lan>
+In-Reply-To: <20211202160357.75173-1-zhou1615@umn.edu>
+References: <20211201084108.GE9522@kadam>
+	<20211202160357.75173-1-zhou1615@umn.edu>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
- <20211201175613.13710-2-dafna.hirschfeld@collabora.com> <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
- <cdd9b485-364f-c6bd-776f-a0ca2d260762@collabora.com> <e9905774-a994-6311-7b53-b40588d4f6ec@collabora.com>
-In-Reply-To: <e9905774-a994-6311-7b53-b40588d4f6ec@collabora.com>
-From: Daniel Palmer <daniel@0x0f.com>
-Date: Tue, 14 Dec 2021 19:20:55 +0900
-Message-ID: <CAFr9PXnnGc1TUQBeW8JW9qGewhU99gmRbvzZEsZaDmr12jMg0A@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] staging: media: wave5: Add vpuapi layer
-To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc: "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>, Robert Beckett <bob.beckett@collabora.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl, 
-	kernel@collabora.com, dafna3@gmail.com, kiril.bicevski@collabora.com, 
-	Nas Chung <nas.chung@chipsnmedia.com>, lafley.kim@chipsnmedia.com, 
-	scott.woo@chipsnmedia.com, olivier.crete@collabora.com, 
-	dan.carpenter@oracle.com, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Dafna,
+Em Fri,  3 Dec 2021 00:03:57 +0800
+Zhou Qingyang <zhou1615@umn.edu> escreveu:
 
-On Tue, 14 Dec 2021 at 16:48, Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
-> >>> +static int wave5_wait_bus_busy(struct vpu_device *vpu_dev, int timeout, unsigned int addr)
-> >>> +{
-> >>> +       u32 gdi_status_check_value = 0x3f;
-> >>> +       u32 data;
-> >>> +
-> >>> +       if (vpu_dev->product_code == WAVE521C_CODE ||
-> >>> +           vpu_dev->product_code == WAVE521_CODE ||
-> >>> +        vpu_dev->product_code == WAVE521E1_CODE)
-> >>> +               gdi_status_check_value = 0x00ff1f3f;
-> >>> +
-> >>> +       return read_poll_timeout(wave5_vdi_read_register, data, data == gdi_status_check_value,
-> >>> +                                0, timeout * 1000, false, vpu_dev, addr);
-> >>> +}
-> >>> +
-> >>
-> >> This looks like it should be s/wave5_vdi_read_register/wave5_read_register/.
-> >> For wave511 addr passed in here is 0x8e14 so well outside of what is
-> >> directly accessible.
-> >
-> > Hi, I didn't understand this explanation. I see that
-> > wave5_read_register eventually calls 'wave5_vdi_read_register'.
-> > Could you please explain in more detail why you think
-> > calling wave5_vdi_read_register is wrong?
+> In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
+> to a NULL pointer dereference on failure of kzalloc().
+> 
+> I fix this bug by adding a NULL check of new_ts.
+> 
+> This bug was found by a static analyzer. The analysis employs
+> differential checking to identify inconsistent security operations
+> (e.g., checks or kfrees) between two code paths and confirms that the
+> inconsistent operations are not recovered in the current function or
+> the callers, so they constitute bugs.
+> 
+> Note that, as a bug found by static analysis, it can be a false
+> positive or hard to trigger. Multiple researchers have cross-reviewed
+> the bug.
+> 
+> Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
+> and our static analyzer no longer warns about this code.
+> 
+> Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+> ---
+> Changes in v2:
+>   -  Delete dev_err() message
+> 
+>  drivers/staging/media/meson/vdec/vdec_helpers.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+> index b9125c295d1d..ac60514c475b 100644
+> --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
+> +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+> @@ -234,6 +234,9 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+>  	unsigned long flags;
+>  
+>  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
+> +	if (!new_ts)
+> +		return;
+> +
+>  	new_ts->ts = ts;
+>  	new_ts->tc = tc;
+>  	new_ts->offset = offset;
 
-Mainly because the address accessed 0x8e14 but on my machine the
-directly accessible registers end at 0x800.
+I don't think this change is ok. Sure, it needs to check if
+kzalloc() fails, but it should return -ENOMEM and the caller
+should check if it returns an error. So, I would expect
+that this patch would also touch the caller function at
+drivers/staging/media/meson/vdec/esparser.c.
 
-> hi, I see know that those backbone address are indeed not read and written directly but
-> the address should be first written to a regsiter W5_VPU_FIO_CTRL_ADDR,
-> and then the content is returned from W5_VPU_FIO_DATA.
+Regards,
+Mauro
 
-I think so. But as I can't get this driver to fully work yet I can
-only say I think so.
 
-Cheers,
 
-Daniel
+Thanks,
+Mauro
