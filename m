@@ -1,41 +1,41 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723BB168
-	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 16:16:47 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id a83-20020a1c9856000000b00344731e044bso1194950wme.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 08:16:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD312CAA
+	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 16:16:48 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id a83-20020a1c9856000000b00344731e044bso1195006wme.1
+        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 08:16:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9d00CQxtuLbmKfZQEqLshscWS8poY4p1Q3lozDp6W9U=;
-        b=SbE3bx+f/5vebISeux3XOeD2/aNUqaQrcGjt3G0WBt07k4+KjXOXMkOj2WEuEH+E3M
-         I5IKN+AWdv18rkV7KuY46s0BFTo3fL6X/+pFlAxpWAN0peeUcujLQm7JX9fflkV92lZE
-         kQXHf6kIL3cIqybWH0JG7yJZ+6UCSUm/aTgP5xxizgpx04PhaXggF1yukYCBLH/jnbbp
-         8i/cW9pTBL59dp3zusGeCLQQpMCABRwJ75FHqp+tg5so3vDe4QPPyIrM3kMqsNBAe1Fq
-         ng9a5vfhSgSB4oJF3KbJQeCjRQwxD4nSDi/69hoPIKYynBsekIzz9+kLEd9TiMS3c9lj
-         2XjQ==
+        bh=nB4e6hJ4iiTdgUlpoHX4JiHqvuWD9iBvhiQUSGuoJO4=;
+        b=59L0AuG56Iu6wwan57pufjqXT1E/Ejz7PsGUmlgkWNgVwSn99f/tO3kplfpUM5b/3X
+         Y11pSsiW5S2/GPySPaDzI7Y9AJi9WUmq1kzr7gJL9i5zTlHA7oW7FJ97MOTiCNayOKvT
+         aoF96qlX3EBEU1FtkSxP2uOlO0g6WqXI/ErLkTiBfWSHLsIc3E4bQAQ6gNF2AAo9fb8X
+         iN8ys2RvdQr8bCwEsN2i+dwvZkoO7rGymUsul20Pnh9RDGZUmGhbZZ7mumBPXOAkSjwj
+         4ZcvvTsVit8Rn2CRd+l7wrLmP7BruIB1588cwg5NXZ2X9lcraRf0j+k3fk17GjMQXNZV
+         OrxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9d00CQxtuLbmKfZQEqLshscWS8poY4p1Q3lozDp6W9U=;
-        b=6NqLAb6LvIB3M6ob9Pwl1taPxCWMk3bBGogoBl9bBtid/uSJ06YybGqL2xTizymND/
-         qQlBG7xwqalBjFD3oFP4v/FyqdrVtiBTazK/aX4v5tTDXx0X7Y5Gnmtrcsg7dYamwi+i
-         NR/c8GFgPIESAkPBkn0wXocime4hhgJSaPvMhrS5Imib3xygv89uo4hNd9w9eTOB1+96
-         kzOCBma8kK4HpKZPl0E/lT4CPzbm26IUQAuIjQxqxFR43g4G8oJzLU/78w4pqUTAfVAl
-         0KjeAtOkfI3vRtSne0I+bs2hi/sOVetP5CA2XCurYzzyRUHM7MwMRWTekTQfRK3xDAQt
-         h5cg==
-X-Gm-Message-State: AOAM532ME178uOPR8U4d1cGOaySyD8EpE1rWlfPvYVAxINWUxYHj7Mr9
-	36aZtmNqLtxUz4OTkxmxSbq/GQ==
-X-Google-Smtp-Source: ABdhPJxT+E9CvwN1wHLmBTZX39LG4/yvi+mSQhr8wnCEGOY+hEFTHWQf2InARJC78rU3psWOJsVn1g==
-X-Received: by 2002:a05:600c:1914:: with SMTP id j20mr47607517wmq.26.1639498605740;
-        Tue, 14 Dec 2021 08:16:45 -0800 (PST)
+        bh=nB4e6hJ4iiTdgUlpoHX4JiHqvuWD9iBvhiQUSGuoJO4=;
+        b=UYMF3k918/lIkR0EfgcqmUEaXKTc3jS/JBlRyLpfDn/hzUuuOXhpii9flS7MxNQIuY
+         blS92BW/bTzQIsw7XGf/R7uCEYWuUpL2jAwoInN1bOrNBvTae21mKtChdZ0BMfUwBvo5
+         s0BoylHUyD+jxayEMRHSWRz/lW6MK1y9lWKT9K9UNB/95T5w7M3k7c2UyqJnZf+SYjlx
+         zrKSeuwDUXjHzEvLpvbm+m1P8Kg4OzSXVtduNcJbxXUf64EDg3nbGv9PGOqJEiCUJLRa
+         5i8Q+tvTA0rN93As7zuki4Ay63nCzDRmXTsfIXA6KlNByDbIFObWpvABHnQqi33LkF9m
+         5tig==
+X-Gm-Message-State: AOAM530XHZaC4fQp8+lt7ctS/AYqLh6LlmMihT2ZbI/JKRb+BazFL2YL
+	kffcRiA4zhOIZlgz2aZqErQ7Rw==
+X-Google-Smtp-Source: ABdhPJyNUjeIiGBnw2kscF6JUnOWj7m4wL9wSYkMZkYG1aCLf2zXnYTHDMKbZQk0kFLEsXPlzGVx8w==
+X-Received: by 2002:a7b:cc96:: with SMTP id p22mr7978156wma.69.1639498607266;
+        Tue, 14 Dec 2021 08:16:47 -0800 (PST)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id a9sm295116wrt.66.2021.12.14.08.16.45
+        by smtp.googlemail.com with ESMTPSA id a9sm295116wrt.66.2021.12.14.08.16.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Dec 2021 08:16:45 -0800 (PST)
+        Tue, 14 Dec 2021 08:16:46 -0800 (PST)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -45,9 +45,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	mjpeg-users@lists.sourceforge.net,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v4 05/18] staging: media: zoran: videocode: remove procfs
-Date: Tue, 14 Dec 2021 16:16:23 +0000
-Message-Id: <20211214161636.1886900-6-clabbe@baylibre.com>
+Subject: [PATCH v4 07/18] staging: media: zoran: remove vidmem
+Date: Tue, 14 Dec 2021 16:16:25 +0000
+Message-Id: <20211214161636.1886900-8-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211214161636.1886900-1-clabbe@baylibre.com>
 References: <20211214161636.1886900-1-clabbe@baylibre.com>
@@ -59,96 +59,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now we have a debugfs, we can remove all PROCFS stuff.
-We keep videocodec_debugfs_show(), it will be used later
+The vidmem parameter is no longer necessary since we removed framebuffer
+support.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/videocodec.c | 24 +-----------------------
- drivers/staging/media/zoran/videocodec.h |  3 +++
- 2 files changed, 4 insertions(+), 23 deletions(-)
+ drivers/staging/media/zoran/zoran_card.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/videocodec.c b/drivers/staging/media/zoran/videocodec.c
-index 31019b5f377e..5bab7ba56257 100644
---- a/drivers/staging/media/zoran/videocodec.c
-+++ b/drivers/staging/media/zoran/videocodec.c
-@@ -16,14 +16,6 @@
- #include <linux/types.h>
- #include <linux/slab.h>
+diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
+index a7750442ef9e..9cd49f85a56e 100644
+--- a/drivers/staging/media/zoran/zoran_card.c
++++ b/drivers/staging/media/zoran/zoran_card.c
+@@ -39,17 +39,6 @@ static int card[BUZ_MAX] = { [0 ... (BUZ_MAX - 1)] = -1 };
+ module_param_array(card, int, NULL, 0444);
+ MODULE_PARM_DESC(card, "Card type");
  
--// kernel config is here (procfs flag)
+-/*
+- * The video mem address of the video card. The driver has a little database
+- * for some videocards to determine it from there. If your video card is not
+- * in there you have either to give it to the driver as a parameter or set
+- * in a VIDIOCSFBUF ioctl
+- */
 -
--#ifdef CONFIG_PROC_FS
--#include <linux/proc_fs.h>
--#include <linux/seq_file.h>
--#include <linux/uaccess.h>
--#endif
+-static unsigned long vidmem;	/* default = 0 - Video memory base address */
+-module_param_hw(vidmem, ulong, iomem, 0444);
+-MODULE_PARM_DESC(vidmem, "Default video memory base address");
 -
- #include "videocodec.h"
+ /* Default input and video norm at startup of the driver. */
  
- static int videocodec_debug;
-@@ -265,8 +257,7 @@ int videocodec_unregister(const struct videocodec *codec)
- }
- EXPORT_SYMBOL(videocodec_unregister);
+ static unsigned int default_input;	/* default 0 = Composite, 1 = S-Video */
+@@ -1218,10 +1207,6 @@ static int zoran_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		jpg_bufsize = 8192;
+ 	if (jpg_bufsize > (512 * 1024))
+ 		jpg_bufsize = 512 * 1024;
+-	/* Use parameter for vidmem or try to find a video card */
+-	if (vidmem)
+-		pci_info(pdev, "%s: Using supplied video memory base address @ 0x%lx\n",
+-			 ZORAN_NAME, vidmem);
  
--#ifdef CONFIG_PROC_FS
--static int proc_videocodecs_show(struct seq_file *m, void *v)
-+int videocodec_debugfs_show(struct seq_file *m)
- {
- 	struct codec_list *h = codeclist_top;
- 	struct attached_list *a;
-@@ -293,32 +284,19 @@ static int proc_videocodecs_show(struct seq_file *m, void *v)
- 
- 	return 0;
- }
--#endif
- 
- /* ===================== */
- /* hook in driver module */
- /* ===================== */
- static int __init videocodec_init(void)
- {
--#ifdef CONFIG_PROC_FS
--	static struct proc_dir_entry *videocodec_proc_entry;
--#endif
--
- 	pr_info("Linux video codec intermediate layer: %s\n", VIDEOCODEC_VERSION);
- 
--#ifdef CONFIG_PROC_FS
--	videocodec_proc_entry = proc_create_single("videocodecs", 0, NULL, proc_videocodecs_show);
--	if (!videocodec_proc_entry)
--		pr_err("videocodec: can't init procfs.\n");
--#endif
- 	return 0;
- }
- 
- static void __exit videocodec_exit(void)
- {
--#ifdef CONFIG_PROC_FS
--	remove_proc_entry("videocodecs", NULL);
--#endif
- }
- 
- module_init(videocodec_init);
-diff --git a/drivers/staging/media/zoran/videocodec.h b/drivers/staging/media/zoran/videocodec.h
-index 8a5003dda9f4..3a508d326049 100644
---- a/drivers/staging/media/zoran/videocodec.h
-+++ b/drivers/staging/media/zoran/videocodec.h
-@@ -123,6 +123,7 @@ M                       zr36055[1] 0001 0000c001 00000000 (zr36050[1])
- #ifndef __LINUX_VIDEOCODEC_H
- #define __LINUX_VIDEOCODEC_H
- 
-+#include <linux/debugfs.h>
- #include <linux/videodev2.h>
- 
- #define CODEC_DO_COMPRESSION 0
-@@ -305,4 +306,6 @@ extern int videocodec_unregister(const struct videocodec *);
- 
- /* the other calls are directly done via the videocodec structure! */
- 
-+int videocodec_debugfs_show(struct seq_file *m);
-+
- #endif				/*ifndef __LINUX_VIDEOCODEC_H */
+ 	/* some mainboards might not do PCI-PCI data transfer well */
+ 	if (pci_pci_problems & (PCIPCI_FAIL | PCIAGP_FAIL | PCIPCI_ALIMAGIK))
 -- 
 2.32.0
 
