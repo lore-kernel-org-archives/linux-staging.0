@@ -1,95 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760AF29CA
-	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 14:16:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67C28C34601;
-	Tue, 14 Dec 2021 14:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1639491401;
-	bh=eG4XEiffsdd9Bx5G2ry7thk1JeTMHFrMPaP5u8+EqRA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fQTCcOgPw6gH/kBZwktjgf09OpSiut+qSjaBqz2WUMy2okynRswPgHAKGjbKvF+iI
-	 FtX82dnym5G3ql/JfVKm6uL7qWTRR5vSxFbFEjKsFBjvhIRfDGGnZINeW/FlRpqSUf
-	 vlBx7ymrw6Ezr0L344OT1ggmBFPtihLJpYNj+X8U=
-Date: Tue, 14 Dec 2021 15:16:38 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Zhou Qingyang <zhou1615@umn.edu>, kjlu@umn.edu,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Maxime Jourdan <mjourdan@baylibre.com>, linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: meson: vdec: Fix a NULL pointer dereference in
- amvdec_add_ts()
-Message-ID: <YbinRhwVVPWlwjnq@kroah.com>
-References: <20211201084108.GE9522@kadam>
- <20211202160357.75173-1-zhou1615@umn.edu>
- <20211214144613.35fec82a@coco.lan>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCE7168
+	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 16:10:02 +0000 (UTC)
+Received: from [IPv6:2a01:e0a:120:3210:f73a:96cd:3d21:2902] (unknown [IPv6:2a01:e0a:120:3210:f73a:96cd:3d21:2902])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 27C701F44EA6;
+	Tue, 14 Dec 2021 16:10:00 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1639498200; bh=0na2KJPuzWMG6eYK4qSPTD/w3/gdNZ7kdgsr3GSXzdU=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=ohYUrkaSZv9wDQny19TkMRXpVyVGolydugIR7zU1CZDeAdnuDRVgL6DhlWA1gBW4p
+	 FxBPSLi+dad6DSNgRC+QoLlLMgIizXYfr/PQTd2DSGED6b3nFjGTdfZEs/1JB+6msD
+	 NXGimpMuA9mWUE7B5JD1rolG4Va3I5gmrhnPB2FKCmvWPs5uy7bTg5sHY+GQMiyG8m
+	 iMW0DVDSv1xZ55gtH6icBjgRDO2XnT7zlxZW4zW7ku+8LEg2fbuKoVMmT1luwjW1tT
+	 oqrxXYtFi6Xksx7Rah662pKB5ArKUp/6NqSaqy6m3r2k95BG8nmP1NScfJAPd6etMl
+	 b5KEgVkComhag==
+Subject: Re: [PATCH v3 0/4] media: HEVC: RPS clean up
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ kernel@collabora.com
+References: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <3887bbab-b9e6-6147-5147-bad507065484@collabora.com>
+Date: Tue, 14 Dec 2021 17:09:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211214144613.35fec82a@coco.lan>
+In-Reply-To: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Tue, Dec 14, 2021 at 02:46:13PM +0100, Mauro Carvalho Chehab wrote:
-> Em Fri,  3 Dec 2021 00:03:57 +0800
-> Zhou Qingyang <zhou1615@umn.edu> escreveu:
-> 
-> > In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
-> > to a NULL pointer dereference on failure of kzalloc().
-> > 
-> > I fix this bug by adding a NULL check of new_ts.
-> > 
-> > This bug was found by a static analyzer. The analysis employs
-> > differential checking to identify inconsistent security operations
-> > (e.g., checks or kfrees) between two code paths and confirms that the
-> > inconsistent operations are not recovered in the current function or
-> > the callers, so they constitute bugs.
-> > 
-> > Note that, as a bug found by static analysis, it can be a false
-> > positive or hard to trigger. Multiple researchers have cross-reviewed
-> > the bug.
-> > 
-> > Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
-> > and our static analyzer no longer warns about this code.
-> > 
-> > Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-> > Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> > ---
-> > Changes in v2:
-> >   -  Delete dev_err() message
-> > 
-> >  drivers/staging/media/meson/vdec/vdec_helpers.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> > index b9125c295d1d..ac60514c475b 100644
-> > --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> > @@ -234,6 +234,9 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-> >  	unsigned long flags;
-> >  
-> >  	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-> > +	if (!new_ts)
-> > +		return;
-> > +
-> >  	new_ts->ts = ts;
-> >  	new_ts->tc = tc;
-> >  	new_ts->offset = offset;
-> 
-> I don't think this change is ok. Sure, it needs to check if
-> kzalloc() fails, but it should return -ENOMEM and the caller
-> should check if it returns an error. So, I would expect
-> that this patch would also touch the caller function at
-> drivers/staging/media/meson/vdec/esparser.c.
 
-This is why umn.edu emails still are in my black-hole :(
+Le 25/11/2021 à 16:56, Benjamin Gaignard a écrit :
+> This series aims to clean up Reference Picture Set usage and flags.
+>
+> Long term flag was named with RPS prefix while it is not used for RPS
+> but for mark long term references in DBP. Remane it and remove the two
+> other useless RPS flags.
+>
+> Clarify documentation about RPS lists content and make sure that Hantro
+> driver use them correctly (i.e without look up in DBP).
+
+Dear reviewers,
+this series is waiting for feedback ;-)
+
+Thanks lot for your time.
+Benjamin
+
+>
+> version 3:
+> - rebased on top of v5.16-rc1
+>
+> version 2:
+> - change DPB field name from rps to flags
+>
+> Please note that the only purpose of commits 3 and 4 is to allow to test
+> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+> can be found. Do not merge them.
+>
+> GStreamer HEVC plugin merge request can be found here:
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>
+> With those piece of code fluster score is 77/147.
+>
+> Benjamin Gaignard (4):
+>    media: hevc: Remove RPS named flags
+>    media: hevc: Embedded indexes in RPS
+>    media: hantro: Use syscon instead of 'ctrl' register
+>    arm64: dts: imx8mq: Add node to G2 hardware
+>
+>   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>   drivers/staging/media/hantro/hantro.h         |  5 +-
+>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>   include/media/hevc-ctrls.h                    |  6 +--
+>   7 files changed, 84 insertions(+), 61 deletions(-)
+>
