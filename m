@@ -1,39 +1,39 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9892CA4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E6F2CA2
 	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 16:16:59 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id o13so33203272wrs.12
-        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 08:16:58 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id d9so33302271wrw.4
+        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 08:16:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jsAZmzA84HYr0fSj6Nj30TuRXcwtejrxLGTaWhzAlMQ=;
-        b=Jkgd5bP2htU6ML5q7CKo+fwr8qGgeOdl7vKmxlxevccWOC5a+p7ykDSeeS2ziPy/s+
-         GEwgjtqrspok2T/pINKHxN1vu+b8eIloHYQjoLvRfacYMNDLKmmlRfanyR19mttzDchO
-         P6CspvtzORLWonE9y0FaoQLjH7lRsOt8yWqhoFGe/nZDwfF2+QmoL4nk6uEF/Hk2fhcE
-         PDRcBz9jK9PlalTp6Cfzuz+56i+EcgKCKeXQ6SuLUkJlBA0VMCNg6xytq12dUfzI2x1G
-         DGGO7aB1qSddlKfLoF9drhc1ekejuFpy4g9vlr/CgjnmWA0Uu7a1BsSR7AIpSsxtwU9M
-         B/jA==
+        bh=ICPd1tzuZ7vBRZTDItUFPBijrAJP5npUCpdRZVWQpyc=;
+        b=thEVmTMs5DTlfoOpHzrZBD3PjLUeTbdsz83ia8HE/GBuuJb3YB2bU7kE5zgt1NmQHY
+         8Lx4HBTEa1gHjH3mflr8GhyyRiHwpj09aDDkafUV/EeooIDzhpzo/sQ59Fcf9FNFRdXz
+         YumV6DQC/UR3QF7g44Q8oOV9XhfDLBdTsPSBZpfxrG4CtlTGe57S86sj8PdB4Hcd49mK
+         E9TYa5zVccNh6uUrlrpiJui5qBWp4yqpJTcb5xwtzAm/XL1St/KHMpXcc1YKxoG5+a64
+         lnk9glkaPAVVTLs7FD+J4ENPZ7UCo/WF+mjRd5b3Nvc41SGEit1Lz887JtjZoOOvMhmC
+         6rng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jsAZmzA84HYr0fSj6Nj30TuRXcwtejrxLGTaWhzAlMQ=;
-        b=EI7YL8rDGGslAvBIW8hM6gMvvEBjO9T15dfzcTGK9VCk4kiwbnswA+NSQPnWUj6jyF
-         Qx11ZPM+UT2ezVVONuWgJ83rjPwFfPy0JvzNv3ahB/0IMu4pLUZTjEf5CegxxgLR7KPa
-         sIs3Fu5kIEvhRADFY2EA6j7zWREt758OrFsm4UoJfDuIlF4U7NCCZ3Fg14z52hxJ0Yd1
-         8BlmaunaPNNK7QqrDzJnAv895EhYUK+LlMILYZZT9WtzoKfoMAZWEcrlUAXLqeJExA9F
-         6vcfyfh9iHgq7b73n3cSdW2YeeRxgeti7BlwoRz567l0bxmGNWIORwQB9onmDfupQHgo
-         Ri4A==
-X-Gm-Message-State: AOAM5333KYy5+Cv0i96a25ggblgmGj2HJq5Bo8o6zOafvgNXDeHxcsFv
-	ZWbIiniFoM1Kw+4A5sjcvFj2MA==
-X-Google-Smtp-Source: ABdhPJxnf2p7/7jIa5LrKasySq737CXPpzkhbrROQqeWGNd+jJArY7j2Vhv5EdFT0fhauh2j0pcoHg==
-X-Received: by 2002:adf:fa0b:: with SMTP id m11mr6781251wrr.152.1639498617427;
-        Tue, 14 Dec 2021 08:16:57 -0800 (PST)
+        bh=ICPd1tzuZ7vBRZTDItUFPBijrAJP5npUCpdRZVWQpyc=;
+        b=ZCXvU5bQ7Qsf69W04a2DY7UdkM8qGm10TfF5FvscuvM9QOppm2euICI7YwFiGUTRuI
+         vdeMgIPWjrDvGn7bQpl9IUVhWRswhiwrPeAvjIq0AjPNg+nM1/iylZhXv8Sy3tL1dBfE
+         ykOUa5nVFGZP4EZifHRy5NjuzPOCw/tAXC6/jpFrG7B759JFt4NPwZYyP1GFxLqHmIaA
+         wdq/O84iudJj5YzWtG9uDlFXUmpa0WjY1dQCgwAa3VWibguvAFipSuDTHxipKuiC/FIq
+         BVhrAGcGbvlEF8rzsGetnT7SK0RFS5c3ARA444VEooBuRW2qQe2nn2yZQoOl1ichRUfY
+         VOJw==
+X-Gm-Message-State: AOAM530Hgl+GvCfvVj7JqqZ6OQY6ZN8mwD+t4SIrNQRNilzEilTrgABF
+	L+3PRdfzLaHXHljg6v7zXKie/Q==
+X-Google-Smtp-Source: ABdhPJwH7Eq9WQ+rKmlD9G25wOEd94cIlE4mLnuQP9/3kScvz7wHibZZ0qa118cUbUU6v0O5fG5mDA==
+X-Received: by 2002:a05:6000:1048:: with SMTP id c8mr6488849wrx.352.1639498618220;
+        Tue, 14 Dec 2021 08:16:58 -0800 (PST)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id a9sm295116wrt.66.2021.12.14.08.16.56
+        by smtp.googlemail.com with ESMTPSA id a9sm295116wrt.66.2021.12.14.08.16.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 14 Dec 2021 08:16:57 -0800 (PST)
 From: Corentin Labbe <clabbe@baylibre.com>
@@ -44,10 +44,11 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	mjpeg-users@lists.sourceforge.net,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v4 14/18] staging: media: zoran: calculate the right buffer number for zoran_reap_stat_com
-Date: Tue, 14 Dec 2021 16:16:32 +0000
-Message-Id: <20211214161636.1886900-15-clabbe@baylibre.com>
+Subject: [PATCH v4 15/18] staging: media: zoran: fix various V4L2 compliance errors
+Date: Tue, 14 Dec 2021 16:16:33 +0000
+Message-Id: <20211214161636.1886900-16-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211214161636.1886900-1-clabbe@baylibre.com>
 References: <20211214161636.1886900-1-clabbe@baylibre.com>
@@ -59,41 +60,96 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On the case tmp_dcim=1, the index of buffer is miscalculated.
-This generate a NULL pointer dereference later.
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-So let's fix the calcul and add a check to prevent this to reappear.
+This fixes several issues found with 'v4l2-compliance -s':
 
+1) read()/write() is supported, but not reported in the capabilities
+2) S_STD(G_STD()) failed: setting the same standard should just return 0.
+3) G_PARM failed to set readbuffers.
+4) different field values in the format vs. what v4l2_buffer reported.
+5) zero the sequence number when starting streaming.
+6) drop VB_USERPTR: makes no sense with dma_contig streaming.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/staging/media/zoran/zoran_device.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/staging/media/zoran/zoran_card.c   |  2 +-
+ drivers/staging/media/zoran/zoran_driver.c | 13 ++++++++++---
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-index 5b12a730a229..294e459307c3 100644
---- a/drivers/staging/media/zoran/zoran_device.c
-+++ b/drivers/staging/media/zoran/zoran_device.c
-@@ -814,7 +814,7 @@ static void zoran_reap_stat_com(struct zoran *zr)
- 		if (zr->jpg_settings.tmp_dcm == 1)
- 			i = (zr->jpg_dma_tail - zr->jpg_err_shift) & BUZ_MASK_STAT_COM;
- 		else
--			i = ((zr->jpg_dma_tail - zr->jpg_err_shift) & 1) * 2 + 1;
-+			i = ((zr->jpg_dma_tail - zr->jpg_err_shift) & 1) * 2;
+diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
+index 59df1e7691f9..e6d3558323a9 100644
+--- a/drivers/staging/media/zoran/zoran_card.c
++++ b/drivers/staging/media/zoran/zoran_card.c
+@@ -879,7 +879,7 @@ static int zoran_init_video_device(struct zoran *zr, struct video_device *video_
+ 	*video_dev = zoran_template;
+ 	video_dev->v4l2_dev = &zr->v4l2_dev;
+ 	video_dev->lock = &zr->lock;
+-	video_dev->device_caps = V4L2_CAP_STREAMING | dir;
++	video_dev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_READWRITE | dir;
  
- 		stat_com = le32_to_cpu(zr->stat_com[i]);
- 		if ((stat_com & 1) == 0) {
-@@ -826,6 +826,11 @@ static void zoran_reap_stat_com(struct zoran *zr)
- 		size = (stat_com & GENMASK(22, 1)) >> 1;
+ 	strscpy(video_dev->name, ZR_DEVNAME(zr), sizeof(video_dev->name));
+ 	/*
+diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
+index 32d76876c683..dd19ee023d91 100644
+--- a/drivers/staging/media/zoran/zoran_driver.c
++++ b/drivers/staging/media/zoran/zoran_driver.c
+@@ -253,8 +253,6 @@ static int zoran_querycap(struct file *file, void *__fh, struct v4l2_capability
+ 	strscpy(cap->card, ZR_DEVNAME(zr), sizeof(cap->card));
+ 	strscpy(cap->driver, "zoran", sizeof(cap->driver));
+ 	snprintf(cap->bus_info, sizeof(cap->bus_info), "PCI:%s", pci_name(zr->pci_dev));
+-	cap->device_caps = zr->video_dev->device_caps;
+-	cap->capabilities = cap->device_caps | V4L2_CAP_DEVICE_CAPS;
+ 	return 0;
+ }
  
- 		buf = zr->inuse[i];
-+		if (!buf) {
-+			spin_unlock_irqrestore(&zr->queued_bufs_lock, flags);
-+			pci_err(zr->pci_dev, "No buffer at slot %d\n", i);
-+			return;
-+		}
- 		buf->vbuf.vb2_buf.timestamp = ktime_get_ns();
+@@ -580,6 +578,9 @@ static int zoran_s_std(struct file *file, void *__fh, v4l2_std_id std)
+ 	struct zoran *zr = video_drvdata(file);
+ 	int res = 0;
  
- 		if (zr->codec_mode == BUZ_MODE_MOTION_COMPRESS) {
++	if (zr->norm == std)
++		return 0;
++
+ 	if (zr->running != ZORAN_MAP_MODE_NONE)
+ 		return -EBUSY;
+ 
+@@ -737,6 +738,7 @@ static int zoran_g_parm(struct file *file, void *priv, struct v4l2_streamparm *p
+ 	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+ 		return -EINVAL;
+ 
++	parm->parm.capture.readbuffers = 9;
+ 	return 0;
+ }
+ 
+@@ -867,6 +869,10 @@ int zr_set_buf(struct zoran *zr)
+ 		vbuf = &buf->vbuf;
+ 
+ 		buf->vbuf.field = V4L2_FIELD_INTERLACED;
++		if (BUZ_MAX_HEIGHT < (zr->v4l_settings.height * 2))
++			buf->vbuf.field = V4L2_FIELD_INTERLACED;
++		else
++			buf->vbuf.field = V4L2_FIELD_TOP;
+ 		vb2_set_plane_payload(&buf->vbuf.vb2_buf, 0, zr->buffer_size);
+ 		vb2_buffer_done(&buf->vbuf.vb2_buf, VB2_BUF_STATE_DONE);
+ 		zr->inuse[0] = NULL;
+@@ -927,6 +933,7 @@ static int zr_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		zr->stat_com[j] = cpu_to_le32(1);
+ 		zr->inuse[j] = NULL;
+ 	}
++	zr->vbseq = 0;
+ 
+ 	if (zr->map_mode != ZORAN_MAP_MODE_RAW) {
+ 		pci_info(zr->pci_dev, "START JPG\n");
+@@ -1017,7 +1024,7 @@ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir)
+ 	vq->dev = &zr->pci_dev->dev;
+ 	vq->type = dir;
+ 
+-	vq->io_modes = VB2_USERPTR | VB2_DMABUF | VB2_MMAP | VB2_READ | VB2_WRITE;
++	vq->io_modes = VB2_DMABUF | VB2_MMAP | VB2_READ | VB2_WRITE;
+ 	vq->drv_priv = zr;
+ 	vq->buf_struct_size = sizeof(struct zr_buffer);
+ 	vq->ops = &zr_video_qops;
 -- 
 2.32.0
 
