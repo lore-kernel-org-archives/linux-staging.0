@@ -1,41 +1,42 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947F7173
-	for <linux-staging@lists.linux.dev>; Mon, 13 Dec 2021 20:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F63D173
+	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 05:33:12 +0000 (UTC)
 Received: from [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917] (unknown [IPv6:2a00:c281:1276:dc00:2d23:3482:5e76:1917])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
 	(Authenticated sender: dafna)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 125EA1F4441D;
-	Mon, 13 Dec 2021 20:27:03 +0000 (GMT)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E04171F44CCD;
+	Tue, 14 Dec 2021 05:33:08 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1639427225; bh=wB80XAQrujm7o6G/mYQfgxxJ4rJXLU1g58F+Re9c0m0=;
+	t=1639459990; bh=3KC1bWQ3pxWCoc0QxfJhUxC4q9jGPU7p1u6MAjMchuw=;
 	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=WJ45my+s63TDKntL2k8ejSBu7AHluUCLHoOYsDdYYZkLUtsEnQuUHndPjMYO+AUcJ
-	 G0RGZ+VNJ6IuqRC1mLohcviWtpec9jbWHk5kxbJamw6fyA9mmld8XPrrc9HtXpG9HT
-	 lWBjueaggTvF05nbLUes68mKtkbFuSclLApD8R7MSh6d+nY16HBStFI2bMJZ7XkAs1
-	 trIlnjni+intxxLNArC6oPXuwON7t/fKF9ei0DG1KMlGHCITU1MZ1JPaIQnTuvobsZ
-	 YzVJOi1RW7TAeHPi2sZ+9TZ7pHiWobRRvh2v+xKh2twEhTW0KQ/N55k+2FeisWNbn9
-	 HU+1rbYXDHAWw==
-Subject: Re: [PATCH v4 0/6] staging: media: wave5: add wave5 codec driver
+	b=f306EXdVEAQOzaQTpEzw+imyfcguIQfjb+MdqQ/Iq4Pj3FRp0VNK0/FfFqMTV6Ckm
+	 JGl18pW5tXB3wSjk7ksdtUJNCs46sC58R5n7XyWDYaaqbvC2cm9s23XJrcT8kIFljZ
+	 smHk+svywJYUisVfkafuAjDP085X2AxGcs0axIqlZLL8z3fBYRPnoAp7ryzBsMl+sJ
+	 scpM7EfZEAfYeK/rpHSpxH0M0ZSsd9xZYalaOF3pi5/htvPhIvLzkVWIYiKn3Nhwys
+	 erNnKLjf7rYO5ZYeYjnlvPcXMefc7F1L+X4SALNuk59CAQ4Dfuq76TxcE+gK3Z56uv
+	 di9Kdak8YLvUQ==
+Subject: Re: [PATCH v4 1/6] staging: media: wave5: Add vpuapi layer
 To: Daniel Palmer <daniel@0x0f.com>
 Cc: "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)"
- <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ <linux-media@vger.kernel.org>, Robert Beckett <bob.beckett@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
  open list <linux-kernel@vger.kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl,
- kernel@collabora.com, dafna3@gmail.com,
- Robert Beckett <bob.beckett@collabora.com>, kiril.bicevski@collabora.com,
+ kernel@collabora.com, dafna3@gmail.com, kiril.bicevski@collabora.com,
  Nas Chung <nas.chung@chipsnmedia.com>, lafley.kim@chipsnmedia.com,
  scott.woo@chipsnmedia.com, olivier.crete@collabora.com,
  dan.carpenter@oracle.com, Randy Dunlap <rdunlap@infradead.org>
 References: <20211201175613.13710-1-dafna.hirschfeld@collabora.com>
- <CAFr9PXnvbqtx-SpxjyO2uvoBR3ueNBD9vSFnbqjbAHz_7Lh8VA@mail.gmail.com>
+ <20211201175613.13710-2-dafna.hirschfeld@collabora.com>
+ <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
 From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <02a9c780-49e0-7a61-4443-7825d6a1271e@collabora.com>
-Date: Mon, 13 Dec 2021 22:27:00 +0200
+Message-ID: <cdd9b485-364f-c6bd-776f-a0ca2d260762@collabora.com>
+Date: Tue, 14 Dec 2021 07:33:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 Precedence: bulk
@@ -44,46 +45,157 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAFr9PXnvbqtx-SpxjyO2uvoBR3ueNBD9vSFnbqjbAHz_7Lh8VA@mail.gmail.com>
+In-Reply-To: <CAFr9PX=6Pd1Rg=wJvpuX6WX63L=iAnwPA24e59An3Kac5f_vzA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 
 
-On 02.12.21 12:11, Daniel Palmer wrote:
+On 04.12.21 15:43, Daniel Palmer wrote:
 > Hi Dafna,
+> 
+> Sorry for the piecemeal emails..
 > 
 > On Thu, 2 Dec 2021 at 02:56, Dafna Hirschfeld
 > <dafna.hirschfeld@collabora.com> wrote:
->> Testing on BeagleV shows buffer corruption that is currently attributed to a
->> known silicon issue in the SoC that makes the cache coherent interconnect not
->> so coherent.
+>> diff --git a/drivers/staging/media/wave5/wave5-hw.c b/drivers/staging/media/wave5/wave5-hw.c
 > 
-> Maybe it's mentioned somewhere else and I missed it but would it be
-> possible to tell me which version of the IP is in the BeagleV chip?
-> The reason I ask is I'm trying to get this going on the SigmaStar
-> SSD202D which seems to have the "Wave 511".
-> I can see the firmware binary get uploaded and it seems to do
-> something as the register that exposes the vcpu program counter is
-> doing something (and the addresses look the same as the addresses seem
-> when the working vendor kernel + binary .ko are running so I think
-> it's not just running garbage).
+> ... snip ...
 > 
-> I'm wondering if the BeagleV is a different version and the driver
-> just won't work as is on mine or maybe the firmware I have has hacks
-> for the vendors version of the driver which I don't have source for.
+>> +static int wave5_wait_bus_busy(struct vpu_device *vpu_dev, int timeout, unsigned int addr)
+>> +{
+>> +       u32 gdi_status_check_value = 0x3f;
+>> +       u32 data;
+>> +
+>> +       if (vpu_dev->product_code == WAVE521C_CODE ||
+>> +           vpu_dev->product_code == WAVE521_CODE ||
+>> +        vpu_dev->product_code == WAVE521E1_CODE)
+>> +               gdi_status_check_value = 0x00ff1f3f;
+>> +
+>> +       return read_poll_timeout(wave5_vdi_read_register, data, data == gdi_status_check_value,
+>> +                                0, timeout * 1000, false, vpu_dev, addr);
+>> +}
+>> +
+> 
+> This looks like it should be s/wave5_vdi_read_register/wave5_read_register/.
+> For wave511 addr passed in here is 0x8e14 so well outside of what is
+> directly accessible.
 
-Hi, thank you for trying this out. The versions I see on the Beaglv are 511 for the
-decoder and 521c for the encoder.
-This driver is also based on a vendor driver from cnm: https://gitlab.collabora.com/chipsnmedia/wave5-driver
-Also, a patch to add the firmware was also sent to linux-firmware ml https://lore.kernel.org/linux-firmware/20211126093014.1385752-1-nas.chung@chipsnmedia.com/T/
+Hi, I didn't understand this explanation. I see that
+wave5_read_register eventually calls 'wave5_vdi_read_register'.
+Could you please explain in more detail why you think
+calling wave5_vdi_read_register is wrong?
+
+Actually the name 'wave5_read_register' is a bad name for that
+func since it eventually return the value of the W5_VPU_FIO_DATA
+register upon success and not the address sent to it.
+
+
+> 
+> Also it seems that this can either return 0 or -ETIMEDOUT...
+> 
+> ... snip ...
+> 
+>> +int wave5_vpu_reset(struct device *dev, enum sw_reset_mode reset_mode)
+>> +{
+>> +       u32 val = 0;
+>> +       int ret = 0;
+>> +       struct vpu_device *vpu_dev = dev_get_drvdata(dev);
+>> +       struct vpu_attr *p_attr = &vpu_dev->attr;
+>> +       // VPU doesn't send response. force to set BUSY flag to 0.
+>> +       vpu_write_reg(vpu_dev, W5_VPU_BUSY_STATUS, 0);
+>> +
+>> +       if (reset_mode == SW_RESET_SAFETY) {
+>> +               ret = wave5_vpu_sleep_wake(dev, true, NULL, 0);
+>> +               if (ret)
+>> +                       return ret;
+>> +       }
+>> +
+>> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG0);
+>> +       if ((val >> 16) & 0x1)
+>> +               p_attr->support_backbone = true;
+>> +       if ((val >> 22) & 0x1)
+>> +               p_attr->support_vcore_backbone = true;
+>> +       if ((val >> 28) & 0x1)
+>> +               p_attr->support_vcpu_backbone = true;
+>> +
+>> +       val = vpu_read_reg(vpu_dev, W5_VPU_RET_VPU_CONFIG1);
+>> +       if ((val >> 26) & 0x1)
+>> +               p_attr->support_dual_core = true;
+>> +
+>> +       // waiting for completion of bus transaction
+>> +       if (p_attr->support_backbone) {
+>> +               if (p_attr->support_dual_core) {
+>> +                       // check CORE0
+>> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
+>> +
+>> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>> +                                                 W5_BACKBONE_BUS_STATUS_VCORE0);
+>> +                       if (ret) {
+>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
+>> +                               return ret;
+>> +                       }
+>> +
+>> +                       // check CORE1
+>> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x7);
+>> +
+>> +                       ret = wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>> +                                                 W5_BACKBONE_BUS_STATUS_VCORE1);
+>> +                       if (ret) {
+>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE1, 0x00);
+>> +                               return ret;
+>> +                       }
+>> +
+>> +               } else if (p_attr->support_vcore_backbone) {
+>> +                       if (p_attr->support_vcpu_backbone) {
+>> +                               // step1 : disable request
+>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCPU,
+>> +                                                    0xFF);
+>> +
+>> +                               // step2 : waiting for completion of bus transaction
+>> +                               ret = wave5_wait_vcpu_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>> +                                                              W5_BACKBONE_BUS_STATUS_VCPU);
+>> +                               if (ret) {
+>> +                                       wave5_write_register(vpu_dev,
+>> +                                                            W5_BACKBONE_BUS_CTRL_VCPU, 0x00);
+>> +                                       return ret;
+>> +                               }
+>> +                       }
+>> +                       // step1 : disable request
+>> +                       wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x7);
+>> +
+>> +                       // step2 : waiting for completion of bus transaction
+>> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>> +                                               W5_BACKBONE_BUS_STATUS_VCORE0) == -1) {
+>> +                               wave5_write_register(vpu_dev, W5_BACKBONE_BUS_CTRL_VCORE0, 0x00);
+>> +                               return -EBUSY;
+>> +                       }
+> 
+> but this is looking for -1 on failure.
+
+right, thanks for finding this, I see that wave5_read_register return -1 on failure so maybe
+this is the source of the confusion.
 
 Thanks,
 Dafna
 
 > 
-> Thanks,
+>> +               } else {
+>> +                       // step1 : disable request
+>> +                       wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x7);
+>> +
+>> +                       // step2 : waiting for completion of bus transaction
+>> +                       if (wave5_wait_bus_busy(vpu_dev, VPU_BUSY_CHECK_TIMEOUT,
+>> +                                               W5_COMBINED_BACKBONE_BUS_STATUS) == -1) {
+>> +                               wave5_write_register(vpu_dev, W5_COMBINED_BACKBONE_BUS_CTRL, 0x00);
+>> +                               return -EBUSY;
+>> +                       }
+>> +               }
+> 
+> Here too.
+> 
+> Cheers,
 > 
 > Daniel
 > 
