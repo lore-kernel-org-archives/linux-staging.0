@@ -1,91 +1,128 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CCE7168
-	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 16:10:02 +0000 (UTC)
-Received: from [IPv6:2a01:e0a:120:3210:f73a:96cd:3d21:2902] (unknown [IPv6:2a01:e0a:120:3210:f73a:96cd:3d21:2902])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 27C701F44EA6;
-	Tue, 14 Dec 2021 16:10:00 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1639498200; bh=0na2KJPuzWMG6eYK4qSPTD/w3/gdNZ7kdgsr3GSXzdU=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=ohYUrkaSZv9wDQny19TkMRXpVyVGolydugIR7zU1CZDeAdnuDRVgL6DhlWA1gBW4p
-	 FxBPSLi+dad6DSNgRC+QoLlLMgIizXYfr/PQTd2DSGED6b3nFjGTdfZEs/1JB+6msD
-	 NXGimpMuA9mWUE7B5JD1rolG4Va3I5gmrhnPB2FKCmvWPs5uy7bTg5sHY+GQMiyG8m
-	 iMW0DVDSv1xZ55gtH6icBjgRDO2XnT7zlxZW4zW7ku+8LEg2fbuKoVMmT1luwjW1tT
-	 oqrxXYtFi6Xksx7Rah662pKB5ArKUp/6NqSaqy6m3r2k95BG8nmP1NScfJAPd6etMl
-	 b5KEgVkComhag==
-Subject: Re: [PATCH v3 0/4] media: HEVC: RPS clean up
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- kernel@collabora.com
-References: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <3887bbab-b9e6-6147-5147-bad507065484@collabora.com>
-Date: Tue, 14 Dec 2021 17:09:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B76F168
+	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 16:16:43 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id k37-20020a05600c1ca500b00330cb84834fso16628956wms.2
+        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 08:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AmgkymR9haOFT9fuurSvbtWN6rxOeKgu2ZPiSoag26Q=;
+        b=S0HCKpPdv0aGzhdeTCgzdLPyaPU2SxHZ+GU/joalX0OuobxFQydPcVzfEZ/u733I2d
+         fJ7Ekot9HvPUl49H3Kl78ZBnT6M/oTHEyGKWtITtldzhNj546EnytZXvH0YDcupLmXuL
+         9YD+HKPr6hhpg+6mqgX7GtuZ0zzrSomeq4j0rUsiX21XKqaNOCdupYV/zDMd3E0OpCvt
+         2B4gS9dVvhiBCM+PLUR8+pM2DU7W5QI6p/XHWOLNR1EzRCeqbXg8+alvgNu090ikStzQ
+         dqAne2B2Tj0rC4TmQCEL8wYpO6vN3SeflCfICY0hmKZJbrk4cHvJivT1M6cH2W5/pg2p
+         Vb8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AmgkymR9haOFT9fuurSvbtWN6rxOeKgu2ZPiSoag26Q=;
+        b=b5ZVWFD0ckgxU3UBtAWkMkydAuYQjhPReVHvlwXJvUVSnssuTtacD06vgxTBtZ0k5p
+         b3B8//rzpZ/eKhZxwSsOOxQZEFuuO+nvpvUyLI1c3SfUTvuZgyJmuRz2hK5rEjtNXpT9
+         U+KDNOPtWfxU+5hUMnGPbQYe4W0/dUENiCjZDtpHnxCOZG7hIcluWFuO3ciRmBTeiFqo
+         dRVTKrqjYyVbJW8hslDaXcevK0srPldfAV+iNPwgAIMEsOe+c1F7Ip40KXnnFqiA6aTf
+         GNxoc/oWLy8p5lk79EqBpG3heL0IUDCO9xdxHhNzjQVH+gOJExv8lphxUORGTRhG4X7N
+         Tp3w==
+X-Gm-Message-State: AOAM533PEJnTsJXnp7dmzpw0TuRDDNbStB3cZ4PVwP4zQfBxDyLsscSE
+	0BiFCkDgpB3vznsZY8m9sYLsDQ==
+X-Google-Smtp-Source: ABdhPJwD77E4ftv7qBq+s4ZQFO8uD366PZA247DTyhNmc1Ml7+ImDjC8MxX0aXZvGuA1xzNDWwLRXQ==
+X-Received: by 2002:a7b:c257:: with SMTP id b23mr8285418wmj.67.1639498602119;
+        Tue, 14 Dec 2021 08:16:42 -0800 (PST)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id a9sm295116wrt.66.2021.12.14.08.16.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Dec 2021 08:16:41 -0800 (PST)
+From: Corentin Labbe <clabbe@baylibre.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mjpeg-users@lists.sourceforge.net,
+	Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH v4 00/18] staging: media: zoran: merge in one module
+Date: Tue, 14 Dec 2021 16:16:18 +0000
+Message-Id: <20211214161636.1886900-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211125155650.630977-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
+Hello
 
-Le 25/11/2021 à 16:56, Benjamin Gaignard a écrit :
-> This series aims to clean up Reference Picture Set usage and flags.
->
-> Long term flag was named with RPS prefix while it is not used for RPS
-> but for mark long term references in DBP. Remane it and remove the two
-> other useless RPS flags.
->
-> Clarify documentation about RPS lists content and make sure that Hantro
-> driver use them correctly (i.e without look up in DBP).
+The main change of this serie is to merge all zoran related modules in
+one.
+This fixes the load order problem when everything is built-in.
+But this serie include several more fixes found while working on this.
 
-Dear reviewers,
-this series is waiting for feedback ;-)
+Regards
 
-Thanks lot for your time.
-Benjamin
+Changes since v3:
+- Fixed a lock up when doing a capture
+- added fixes patchs from Hans Verkuil
+- dropped DC30 patch, I will send a new patch later for adding DC30D
 
->
-> version 3:
-> - rebased on top of v5.16-rc1
->
-> version 2:
-> - change DPB field name from rps to flags
->
-> Please note that the only purpose of commits 3 and 4 is to allow to test
-> G2 hardware block for IMX8MQ until a proper solution isuing power domain
-> can be found. Do not merge them.
->
-> GStreamer HEVC plugin merge request can be found here:
-> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
->
-> With those piece of code fluster score is 77/147.
->
-> Benjamin Gaignard (4):
->    media: hevc: Remove RPS named flags
->    media: hevc: Embedded indexes in RPS
->    media: hantro: Use syscon instead of 'ctrl' register
->    arm64: dts: imx8mq: Add node to G2 hardware
->
->   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
->   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
->   drivers/staging/media/hantro/hantro.h         |  5 +-
->   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
->   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
->   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
->   include/media/hevc-ctrls.h                    |  6 +--
->   7 files changed, 84 insertions(+), 61 deletions(-)
->
+Changes since v2:
+- added the 4 latest patchs
+- removed DEBUGFS kconfig option
+- fixed Dan Carpenter's reported codec issues
+- fixed kernel test robot's reported issues on vb2_dma_contig_set_max_seg_size()
+
+Changes since v1:
+- add missing debugfs cleaning
+- clean some remaining module_get/put functions which made impossible to
+  remove the zoran module
+- added the two latest patchs
+
+Corentin Labbe (14):
+  staging: media: zoran: move module parameter checks to zoran_probe
+  staging: media: zoran: use module_pci_driver
+  staging: media: zoran: rename debug module parameter
+  staging: media: zoran: add debugfs
+  staging: media: zoran: videocode: remove procfs
+  staging: media: zoran: merge all modules
+  staging: media: zoran: remove vidmem
+  staging: media: zoran: move videodev alloc
+  staging: media: zoran: move config select on primary kconfig
+  staging: media: zoran: introduce zoran_i2c_init
+  staging: media: zoran: fix usage of vb2_dma_contig_set_max_seg_size
+  staging: media: zoran: clean unused code
+  staging: media: zoran: fix counting buffer in reserve
+  staging: media: zoran: calculate the right buffer number for
+    zoran_reap_stat_com
+
+Hans Verkuil (4):
+  staging: media: zoran: fix various V4L2 compliance errors
+  staging: media: zoran: fix TRY_FMT handling
+  staging: media: zoran: drop kernel log spam
+  staging: media: zoran: drop read/write support
+
+ drivers/staging/media/zoran/Kconfig        |  38 +-
+ drivers/staging/media/zoran/Makefile       |   8 +-
+ drivers/staging/media/zoran/videocodec.c   |  68 +---
+ drivers/staging/media/zoran/videocodec.h   |   4 +-
+ drivers/staging/media/zoran/zoran.h        |  18 +-
+ drivers/staging/media/zoran/zoran_card.c   | 398 +++++++++++++--------
+ drivers/staging/media/zoran/zoran_device.c |  15 +-
+ drivers/staging/media/zoran/zoran_device.h |   2 -
+ drivers/staging/media/zoran/zoran_driver.c |  56 ++-
+ drivers/staging/media/zoran/zr36016.c      |  25 +-
+ drivers/staging/media/zoran/zr36016.h      |   2 +
+ drivers/staging/media/zoran/zr36050.c      |  24 +-
+ drivers/staging/media/zoran/zr36050.h      |   2 +
+ drivers/staging/media/zoran/zr36060.c      |  23 +-
+ drivers/staging/media/zoran/zr36060.h      |   2 +
+ 15 files changed, 349 insertions(+), 336 deletions(-)
+
+-- 
+2.32.0
+
