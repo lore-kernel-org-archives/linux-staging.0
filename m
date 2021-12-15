@@ -1,57 +1,81 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mta-p6.oit.umn.edu (mta-p6.oit.umn.edu [134.84.196.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921F12CB2
+	for <linux-staging@lists.linux.dev>; Wed, 15 Dec 2021 03:45:43 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+	by mta-p6.oit.umn.edu (Postfix) with ESMTP id 4JDLVn6Grzz9w0ZC
+	for <linux-staging@lists.linux.dev>; Wed, 15 Dec 2021 03:35:45 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+	by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bfMW65uGiEk0 for <linux-staging@lists.linux.dev>;
+	Tue, 14 Dec 2021 21:35:45 -0600 (CST)
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660622CA4
-	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 16:17:02 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id y196so14630020wmc.3
-        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 08:17:02 -0800 (PST)
+	by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 4JDLVn453zz9w0ZF
+	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 21:35:45 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 4JDLVn453zz9w0ZF
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 4JDLVn453zz9w0ZF
+Received: by mail-pl1-f200.google.com with SMTP id v18-20020a170902e8d200b00141df2da949so6003386plg.10
+        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 19:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        d=umn.edu; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wrJsFtsuhtmLSJTTjlYvfNHYFw/pI3X8Oa33ZAzpSDM=;
-        b=kZHKqp9yyvcmhytOSIWGLFtmRf0wd7t8lKKCUbHH3jmUD/6CKDF+dOuwhpDIADAIOC
-         VDF+rlH1t0LjkIfDF4qq0jwzZypNZP9Ak7gH1NKrRItJJ7ufpH6Qf7uFxK6Kqh/b+oAc
-         XTWW0bizCMjbpGVCtiBrMWt6/nB/rJ68ZWc3+UFdgpoGBX6qQRXKMxtV644Z6lobHftx
-         EwYewMz06AGiI97RTHU3CaafXEgJMvCF7hR/Y4iXEYVdgqGs6g0QgP5KCojKvTiYMStd
-         guxnjgC+I0eGxpg1849YD0B96QyWj6tewmZHiX0L4s+RDfZRK83mO7zuIuDH1dhfLOYE
-         2bXw==
+        bh=vDyUbaxuYkfxzYa4iPnu8TJLkb4HX292tDIieRYCOfk=;
+        b=XewPLirKRxPHk4whWqb+HaKFC82BJREBaskmOgZBTb+tnQoMqBDKzfavA7pfQfHSW9
+         Cnopnm012L9hKposuoqf/ziC+2XnlQCgrO01qkbKmL0nu4bbzhH5FHwL8j3xNM6k0Y4L
+         9PSEI6MwZtZ8L55WEx4Abr7aUuGW/ySIP+Ixs9sLmTB0Uf5TxJRN6+OxmPNOf5ijlvlq
+         ElXJ0hBrenb8eKWnRZ7AOaGnvMaCSUM6MJ2zZ2T+cCWT6H/XaH0dep5WYt6RnwA6rCN7
+         iFC2Zof6uKf0EAYYCKsRx6tTYQFBzBgVT7xMvao6iu3JXYHshyJHCH+WE8mIUBH8qJIB
+         q/Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wrJsFtsuhtmLSJTTjlYvfNHYFw/pI3X8Oa33ZAzpSDM=;
-        b=dvAh7TtlegOl7M0aedoIkr89i+exJg62RjcZ/OYkgpanbqt79s1dlJOg5w1/Edgde3
-         6yQgXuD37uUAZ/sntKR5VTDbOwbNgi4MTodVq6SvczCkBjIQcJCvXyzdmsGKOVWY7nbE
-         TWrPBMxYThyzibaBi1WMrm7RsdwIAnNmSrcdAGcxQ0sjra0luiIRm5Wrai9/HF23YasB
-         G0hONtbOeG42zYVMdwXmJOcrZWTQkjxgTCpXTcbpjg5uvPQu6GwWS0Ly5LhwRjOUK3yJ
-         aRtXmTWFtipBsNTs0eLrTQx0vq1cw9dK7ukwSbhr13fun3nINYwylD5Oo2fVM/NE9Gwa
-         ZNTw==
-X-Gm-Message-State: AOAM531fNDKwPvqH8DtZ0INsyK0OQ/an3F3dY6FRHLBzZFQ1+bUIkzgJ
-	kGvkA8oEUUGUZzvfPNo83em7+w==
-X-Google-Smtp-Source: ABdhPJyD/VPTazW+yxv00pyfOaW0IYRXn/a0BIPW8dVg9XI/oBl+yweYxgfPwERXa22rX7ifKTGPQw==
-X-Received: by 2002:a1c:6a13:: with SMTP id f19mr8237955wmc.89.1639498620640;
-        Tue, 14 Dec 2021 08:17:00 -0800 (PST)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id a9sm295116wrt.66.2021.12.14.08.16.59
+        bh=vDyUbaxuYkfxzYa4iPnu8TJLkb4HX292tDIieRYCOfk=;
+        b=L6O7eOwl2YGl3xzad+sVbvj13hjd9fMmQczOvz3iiXkOwT0WfCUSmBy5bhCDY0Dlmn
+         GVpPLdiI7MNZQqwY4KHZI0vD5jguQfEPDVKhmR6aq6CFS+ojBt2owOKst5avXDVsDJZS
+         +4w87c04EVNB9z4DOkxlGOfq9ml0ppQblrJ2v4gCpbnMpvOcuLlkKSDLZYvnvPSrY7H+
+         OEuOeqlXcok5AFrOkqqr9l0MSOIEl2QaMdrAe1Fr+aFUZHyaF+PmboF8YwOFRlRztLxo
+         lfnd2hMUIFZMAj7gfv4mZ6xCkReF5sL46kSdja6046QFbfYa3HuSLwtFKy7oFslRq58z
+         Qocg==
+X-Gm-Message-State: AOAM532MXBTsn9HKbfICwlAZY6Aupq9btYeAaOSyNA+BOZ4oT0XORsyR
+	sNzuKF0jhsmRsD31mPgurJpD98cZZedc8rccc9GJAyEk5pPsIYsUbtMpG5AKKeElUE3ObJxXz9s
+	1uU6aCunc16uTEg8ByO1YR03pBsOT3Q==
+X-Received: by 2002:a65:4889:: with SMTP id n9mr6300361pgs.303.1639539343353;
+        Tue, 14 Dec 2021 19:35:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwuxQHgEkh5S9opzXkPm/4oyyaBbohUhOVVfMAyOnb213uAvq9wDfP7swp8VGy9xCEw1vo0oQ==
+X-Received: by 2002:a65:4889:: with SMTP id n9mr6300335pgs.303.1639539343129;
+        Tue, 14 Dec 2021 19:35:43 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.4.93.244])
+        by smtp.gmail.com with ESMTPSA id p12sm532401pfo.125.2021.12.14.19.35.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Dec 2021 08:17:00 -0800 (PST)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+        Tue, 14 Dec 2021 19:35:42 -0800 (PST)
+From: Zhou Qingyang <zhou1615@umn.edu>
+To: zhou1615@umn.edu
+Cc: kjlu@umn.edu,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	mjpeg-users@lists.sourceforge.net,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v4 18/18] staging: media: zoran: drop read/write support
-Date: Tue, 14 Dec 2021 16:16:36 +0000
-Message-Id: <20211214161636.1886900-19-clabbe@baylibre.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] media: meson: vdec: Fix a NULL pointer dereference in amvdec_add_ts()
+Date: Wed, 15 Dec 2021 11:35:35 +0800
+Message-Id: <20211215033535.40422-1-zhou1615@umn.edu>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211214161636.1886900-1-clabbe@baylibre.com>
-References: <20211214161636.1886900-1-clabbe@baylibre.com>
+In-Reply-To: <20211214144613.35fec82a@coco.lan>
+References: <20211214144613.35fec82a@coco.lan>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,68 +84,106 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Hans Verkuil <hans.verkuil@cisco.com>
+In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
+to a NULL pointer dereference on failure of kzalloc().
 
-This makes no sense for MJPEG formats and it is just easier to
-drop support for this altogether.
+Fix this bug by adding a NULL check of new_ts.
 
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+This bug was found by a static analyzer[1].
+
+Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
+and our static analyzer no longer warns about this code.
+
+Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
 ---
- drivers/staging/media/zoran/zoran_card.c   |  2 +-
- drivers/staging/media/zoran/zoran_driver.c | 12 ------------
- 2 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/drivers/staging/media/zoran/zoran_card.c b/drivers/staging/media/zoran/zoran_card.c
-index e6d3558323a9..59df1e7691f9 100644
---- a/drivers/staging/media/zoran/zoran_card.c
-+++ b/drivers/staging/media/zoran/zoran_card.c
-@@ -879,7 +879,7 @@ static int zoran_init_video_device(struct zoran *zr, struct video_device *video_
- 	*video_dev = zoran_template;
- 	video_dev->v4l2_dev = &zr->v4l2_dev;
- 	video_dev->lock = &zr->lock;
--	video_dev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_READWRITE | dir;
-+	video_dev->device_caps = V4L2_CAP_STREAMING | dir;
+[1] The analysis employs differential checking to identify inconsistent
+security operations (e.g., checks or kfrees) between two code paths and
+confirms that the inconsistent operations are not recovered in the 
+current function or the callers, so they constitute bugs.
+
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
+
+Changes in v3:
+  -  Change the description of patch
+  -  Turn the return type from 'void' to 'int'
+  -  Check the return value in the caller 'esparser_queue()'
+
+Changes in v2:
+  -  Delete dev_err() message
+
+ drivers/staging/media/meson/vdec/esparser.c     | 7 ++++++-
+ drivers/staging/media/meson/vdec/vdec_helpers.c | 8 ++++++--
+ drivers/staging/media/meson/vdec/vdec_helpers.h | 4 ++--
+ 3 files changed, 14 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
+index db7022707ff8..095100a50da8 100644
+--- a/drivers/staging/media/meson/vdec/esparser.c
++++ b/drivers/staging/media/meson/vdec/esparser.c
+@@ -328,7 +328,12 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
  
- 	strscpy(video_dev->name, ZR_DEVNAME(zr), sizeof(video_dev->name));
- 	/*
-diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-index 013efdecd582..4304b7e21709 100644
---- a/drivers/staging/media/zoran/zoran_driver.c
-+++ b/drivers/staging/media/zoran/zoran_driver.c
-@@ -734,15 +734,6 @@ static int zoran_s_selection(struct file *file, void *__fh, struct v4l2_selectio
- 	return res;
+ 	offset = esparser_get_offset(sess);
+ 
+-	amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++	ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
++	if (!ret) {
++		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
++		return ret;
++	}
++
+ 	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
+ 		vb->timestamp, payload_size, offset, vbuf->flags);
+ 
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
+index b9125c295d1d..06fd66539797 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.c
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+@@ -227,13 +227,16 @@ int amvdec_set_canvases(struct amvdec_session *sess,
  }
+ EXPORT_SYMBOL_GPL(amvdec_set_canvases);
  
--static int zoran_g_parm(struct file *file, void *priv, struct v4l2_streamparm *parm)
--{
--	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
--		return -EINVAL;
--
--	parm->parm.capture.readbuffers = 9;
--	return 0;
--}
--
- /*
-  * Output is disabled temporarily
-  * Zoran is picky about jpeg data it accepts. At least it seems to unsupport COM and APPn.
-@@ -750,7 +741,6 @@ static int zoran_g_parm(struct file *file, void *priv, struct v4l2_streamparm *p
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+-		   struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++		  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
+ {
+ 	struct amvdec_timestamp *new_ts;
+ 	unsigned long flags;
+ 
+ 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
++	if (!new_ts)
++		return -ENOMEM;
++
+ 	new_ts->ts = ts;
+ 	new_ts->tc = tc;
+ 	new_ts->offset = offset;
+@@ -242,6 +245,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+ 	spin_lock_irqsave(&sess->ts_spinlock, flags);
+ 	list_add_tail(&new_ts->list, &sess->timestamps);
+ 	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(amvdec_add_ts);
+ 
+diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
+index 88137d15aa3a..4bf3e61d081b 100644
+--- a/drivers/staging/media/meson/vdec/vdec_helpers.h
++++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
+@@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
+  * @offset: offset in the VIFIFO where the associated packet was written
+  * @flags: the vb2_v4l2_buffer flags
   */
- static const struct v4l2_ioctl_ops zoran_ioctl_ops = {
- 	.vidioc_querycap		    = zoran_querycap,
--	.vidioc_g_parm			    = zoran_g_parm,
- 	.vidioc_s_selection		    = zoran_s_selection,
- 	.vidioc_g_selection		    = zoran_g_selection,
- 	.vidioc_enum_input		    = zoran_enum_input,
-@@ -786,8 +776,6 @@ static const struct v4l2_file_operations zoran_fops = {
- 	.unlocked_ioctl = video_ioctl2,
- 	.open		= v4l2_fh_open,
- 	.release	= vb2_fop_release,
--	.read		= vb2_fop_read,
--	.write		= vb2_fop_write,
- 	.mmap		= vb2_fop_mmap,
- 	.poll		= vb2_fop_poll,
- };
+-void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
+-		   struct v4l2_timecode tc, u32 offset, u32 flags);
++int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
++		  struct v4l2_timecode tc, u32 offset, u32 flags);
+ void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
+ 
+ /**
 -- 
-2.32.0
+2.25.1
 
