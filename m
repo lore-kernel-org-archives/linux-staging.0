@@ -1,81 +1,21 @@
-Received: from mta-p6.oit.umn.edu (mta-p6.oit.umn.edu [134.84.196.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921F12CB2
-	for <linux-staging@lists.linux.dev>; Wed, 15 Dec 2021 03:45:43 +0000 (UTC)
-Received: from localhost (unknown [127.0.0.1])
-	by mta-p6.oit.umn.edu (Postfix) with ESMTP id 4JDLVn6Grzz9w0ZC
-	for <linux-staging@lists.linux.dev>; Wed, 15 Dec 2021 03:35:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p6.oit.umn.edu ([127.0.0.1])
-	by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bfMW65uGiEk0 for <linux-staging@lists.linux.dev>;
-	Tue, 14 Dec 2021 21:35:45 -0600 (CST)
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 4JDLVn453zz9w0ZF
-	for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 21:35:45 -0600 (CST)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 4JDLVn453zz9w0ZF
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 4JDLVn453zz9w0ZF
-Received: by mail-pl1-f200.google.com with SMTP id v18-20020a170902e8d200b00141df2da949so6003386plg.10
-        for <linux-staging@lists.linux.dev>; Tue, 14 Dec 2021 19:35:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vDyUbaxuYkfxzYa4iPnu8TJLkb4HX292tDIieRYCOfk=;
-        b=XewPLirKRxPHk4whWqb+HaKFC82BJREBaskmOgZBTb+tnQoMqBDKzfavA7pfQfHSW9
-         Cnopnm012L9hKposuoqf/ziC+2XnlQCgrO01qkbKmL0nu4bbzhH5FHwL8j3xNM6k0Y4L
-         9PSEI6MwZtZ8L55WEx4Abr7aUuGW/ySIP+Ixs9sLmTB0Uf5TxJRN6+OxmPNOf5ijlvlq
-         ElXJ0hBrenb8eKWnRZ7AOaGnvMaCSUM6MJ2zZ2T+cCWT6H/XaH0dep5WYt6RnwA6rCN7
-         iFC2Zof6uKf0EAYYCKsRx6tTYQFBzBgVT7xMvao6iu3JXYHshyJHCH+WE8mIUBH8qJIB
-         q/Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vDyUbaxuYkfxzYa4iPnu8TJLkb4HX292tDIieRYCOfk=;
-        b=L6O7eOwl2YGl3xzad+sVbvj13hjd9fMmQczOvz3iiXkOwT0WfCUSmBy5bhCDY0Dlmn
-         GVpPLdiI7MNZQqwY4KHZI0vD5jguQfEPDVKhmR6aq6CFS+ojBt2owOKst5avXDVsDJZS
-         +4w87c04EVNB9z4DOkxlGOfq9ml0ppQblrJ2v4gCpbnMpvOcuLlkKSDLZYvnvPSrY7H+
-         OEuOeqlXcok5AFrOkqqr9l0MSOIEl2QaMdrAe1Fr+aFUZHyaF+PmboF8YwOFRlRztLxo
-         lfnd2hMUIFZMAj7gfv4mZ6xCkReF5sL46kSdja6046QFbfYa3HuSLwtFKy7oFslRq58z
-         Qocg==
-X-Gm-Message-State: AOAM532MXBTsn9HKbfICwlAZY6Aupq9btYeAaOSyNA+BOZ4oT0XORsyR
-	sNzuKF0jhsmRsD31mPgurJpD98cZZedc8rccc9GJAyEk5pPsIYsUbtMpG5AKKeElUE3ObJxXz9s
-	1uU6aCunc16uTEg8ByO1YR03pBsOT3Q==
-X-Received: by 2002:a65:4889:: with SMTP id n9mr6300361pgs.303.1639539343353;
-        Tue, 14 Dec 2021 19:35:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwuxQHgEkh5S9opzXkPm/4oyyaBbohUhOVVfMAyOnb213uAvq9wDfP7swp8VGy9xCEw1vo0oQ==
-X-Received: by 2002:a65:4889:: with SMTP id n9mr6300335pgs.303.1639539343129;
-        Tue, 14 Dec 2021 19:35:43 -0800 (PST)
-Received: from zqy787-GE5S.lan ([36.4.93.244])
-        by smtp.gmail.com with ESMTPSA id p12sm532401pfo.125.2021.12.14.19.35.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Dec 2021 19:35:42 -0800 (PST)
-From: Zhou Qingyang <zhou1615@umn.edu>
-To: zhou1615@umn.edu
-Cc: kjlu@umn.edu,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Maxime Jourdan <mjourdan@baylibre.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
+Received: from cstnet.cn (smtp23.cstnet.cn [159.226.251.23])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88F17173
+	for <linux-staging@lists.linux.dev>; Wed, 15 Dec 2021 09:30:33 +0000 (UTC)
+Received: from localhost.localdomain (unknown [124.16.138.126])
+	by APP-03 (Coremail) with SMTP id rQCowABHTFi1s7lhhdkLAw--.32516S2;
+	Wed, 15 Dec 2021 17:21:58 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: david.kershner@unisys.com,
+	gregkh@linuxfoundation.org,
+	chensong_2000@189.cn
+Cc: sparmaintainer@unisys.com,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] media: meson: vdec: Fix a NULL pointer dereference in amvdec_add_ts()
-Date: Wed, 15 Dec 2021 11:35:35 +0800
-Message-Id: <20211215033535.40422-1-zhou1615@umn.edu>
+	linux-kernel@vger.kernel.org,
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] staging: unisys: potential dereference of null pointer
+Date: Wed, 15 Dec 2021 17:21:55 +0800
+Message-Id: <20211215092155.141029-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211214144613.35fec82a@coco.lan>
-References: <20211214144613.35fec82a@coco.lan>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,107 +23,48 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowABHTFi1s7lhhdkLAw--.32516S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtw4ftrW5KFW5JFykKr4Durg_yoWfKFX_Cr
+	Z29w4fJry0y34fu3WUGry7Zr92kFZFqw4F93WfK3y3KFWDX3ZxArW8ur1Yqry3JF17tryU
+	CFWqvryrtr17AjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbcAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GFWl
+	42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUeLvtDUUUU
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-In amvdec_add_ts(), there is a dereference of kzalloc(), which could lead
-to a NULL pointer dereference on failure of kzalloc().
+The return value of kmalloc() needs to be checked.
+To avoid devdata->cmdrsp to be null in case of the failure of alloc.
 
-Fix this bug by adding a NULL check of new_ts.
-
-This bug was found by a static analyzer[1].
-
-Builds with CONFIG_VIDEO_MESON_VDEC=m show no new warnings,
-and our static analyzer no longer warns about this code.
-
-Fixes: 876f123b8956 ("media: meson: vdec: bring up to compliance")
-Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
+Fixes: d2c3506be646 ("staging: unisys: Add s-Par visorhba")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
+ drivers/staging/unisys/visorhba/visorhba_main.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-[1] The analysis employs differential checking to identify inconsistent
-security operations (e.g., checks or kfrees) between two code paths and
-confirms that the inconsistent operations are not recovered in the 
-current function or the callers, so they constitute bugs.
-
-Note that, as a bug found by static analysis, it can be a false
-positive or hard to trigger. Multiple researchers have cross-reviewed
-the bug.
-
-Changes in v3:
-  -  Change the description of patch
-  -  Turn the return type from 'void' to 'int'
-  -  Check the return value in the caller 'esparser_queue()'
-
-Changes in v2:
-  -  Delete dev_err() message
-
- drivers/staging/media/meson/vdec/esparser.c     | 7 ++++++-
- drivers/staging/media/meson/vdec/vdec_helpers.c | 8 ++++++--
- drivers/staging/media/meson/vdec/vdec_helpers.h | 4 ++--
- 3 files changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/staging/media/meson/vdec/esparser.c
-index db7022707ff8..095100a50da8 100644
---- a/drivers/staging/media/meson/vdec/esparser.c
-+++ b/drivers/staging/media/meson/vdec/esparser.c
-@@ -328,7 +328,12 @@ esparser_queue(struct amvdec_session *sess, struct vb2_v4l2_buffer *vbuf)
+diff --git a/drivers/staging/unisys/visorhba/visorhba_main.c b/drivers/staging/unisys/visorhba/visorhba_main.c
+index 4455d26f7c96..a23c300447e9 100644
+--- a/drivers/staging/unisys/visorhba/visorhba_main.c
++++ b/drivers/staging/unisys/visorhba/visorhba_main.c
+@@ -1056,6 +1056,9 @@ static int visorhba_probe(struct visor_device *dev)
+ 	idr_init(&devdata->idr);
  
- 	offset = esparser_get_offset(sess);
- 
--	amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+	ret = amvdec_add_ts(sess, vb->timestamp, vbuf->timecode, offset, vbuf->flags);
-+	if (!ret) {
-+		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
-+		return ret;
-+	}
+ 	devdata->cmdrsp = kmalloc(sizeof(*devdata->cmdrsp), GFP_ATOMIC);
++	if (!devdata->cmdrsp)
++		goto err_debugfs_info;
 +
- 	dev_dbg(core->dev, "esparser: ts = %llu pld_size = %u offset = %08X flags = %08X\n",
- 		vb->timestamp, payload_size, offset, vbuf->flags);
+ 	visorbus_enable_channel_interrupts(dev);
  
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/staging/media/meson/vdec/vdec_helpers.c
-index b9125c295d1d..06fd66539797 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-@@ -227,13 +227,16 @@ int amvdec_set_canvases(struct amvdec_session *sess,
- }
- EXPORT_SYMBOL_GPL(amvdec_set_canvases);
- 
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--		   struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+		  struct v4l2_timecode tc, u32 offset, u32 vbuf_flags)
- {
- 	struct amvdec_timestamp *new_ts;
- 	unsigned long flags;
- 
- 	new_ts = kzalloc(sizeof(*new_ts), GFP_KERNEL);
-+	if (!new_ts)
-+		return -ENOMEM;
-+
- 	new_ts->ts = ts;
- 	new_ts->tc = tc;
- 	new_ts->offset = offset;
-@@ -242,6 +245,7 @@ void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
- 	spin_lock_irqsave(&sess->ts_spinlock, flags);
- 	list_add_tail(&new_ts->list, &sess->timestamps);
- 	spin_unlock_irqrestore(&sess->ts_spinlock, flags);
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(amvdec_add_ts);
- 
-diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.h b/drivers/staging/media/meson/vdec/vdec_helpers.h
-index 88137d15aa3a..4bf3e61d081b 100644
---- a/drivers/staging/media/meson/vdec/vdec_helpers.h
-+++ b/drivers/staging/media/meson/vdec/vdec_helpers.h
-@@ -56,8 +56,8 @@ void amvdec_dst_buf_done_offset(struct amvdec_session *sess,
-  * @offset: offset in the VIFIFO where the associated packet was written
-  * @flags: the vb2_v4l2_buffer flags
-  */
--void amvdec_add_ts(struct amvdec_session *sess, u64 ts,
--		   struct v4l2_timecode tc, u32 offset, u32 flags);
-+int amvdec_add_ts(struct amvdec_session *sess, u64 ts,
-+		  struct v4l2_timecode tc, u32 offset, u32 flags);
- void amvdec_remove_ts(struct amvdec_session *sess, u64 ts);
- 
- /**
+ 	scsi_scan_host(scsihost);
 -- 
 2.25.1
 
