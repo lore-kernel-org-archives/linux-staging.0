@@ -1,70 +1,42 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mengyan1223.wang (mengyan1223.wang [89.208.246.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9952CA2
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 11:13:40 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id q72so34616358iod.12
-        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 03:13:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=nvUUVsWm6ekCm3nrMfYw89v5CU88r8fv3TmpzrnxrvY=;
-        b=kCpOLytv/ruCDnA220I3k1vMj6ogzYRZtglgZuiIWDB5Y1pUMBUpGPdjbX6Fb8xVOs
-         XRYTnzTGM8SrtmcbIsLUjvrFhQj2j1lKEhaofIqIurUyPhARGPd4B7XufeEJZ7M4GGEa
-         t7A2IReTRBnkFRP+974Am7tKsn8oaHfHIw2wc9qztD8CdhhHHQu8PX6qLROE2HIIZF1/
-         A6O4vcZLIAGnJF+Th3wTJ+a/7grUQzgJTFjefmM811hoVjpfwCexPiSAG+t/sXZ30MKF
-         iS2D/Eru9mXwc3/bOUYH5UrNzDVdgV/+OpfpKtF3TL7Y6mKAitHUo+eK6MXML2WwEJd5
-         3llg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nvUUVsWm6ekCm3nrMfYw89v5CU88r8fv3TmpzrnxrvY=;
-        b=Sacdcbcx+jS2pRiSJauXHyd2GOENAybomztvHYFwA4dOzrZUZEB+xFdcbB32W0rxsf
-         gQJE3aT4GtL3/0G48VW5l2SMGm6LKLK/bnm+eeDn3bbWj0BN28Z3AlmLqu8X7PTuG5Ja
-         C+YT8jz2sbd2x3gPrb5Wium5nf3P4nLdVjW7gnp/pVeu9wbbDJUxWpALVno4ImVYfZUQ
-         +4XgQJbjNNnC3lgN/R+Ymi2/t2R42tp5HU0q0ZKRTYz5h/PDqo5u3ECcfAvU0FPHjwoz
-         179w+KrrE58rzkmeP5ce9oHheanU51PPDh7rbbpYEWDu680+UdrIotVNjonFmfki02je
-         FUcA==
-X-Gm-Message-State: AOAM530VjXdr+3QITrSxiP6lDP5gb8AVO0ZO/vIRpXHjUVlhIo8hwh8G
-	rn0e0TOq3Xbo7pJPA+3PHSk=
-X-Google-Smtp-Source: ABdhPJyx3mLKcBbz7ovBGCuPU0wGKDL8WPY37sLIEEOjToMRjDITKfCeOiqI8/qHqykcbSqBVSkGJQ==
-X-Received: by 2002:a05:6638:3891:: with SMTP id b17mr9451849jav.100.1639653219909;
-        Thu, 16 Dec 2021 03:13:39 -0800 (PST)
-Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:fe22:1652:55f7:5197])
-        by smtp.gmail.com with ESMTPSA id h1sm3090946iow.31.2021.12.16.03.13.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 03:13:39 -0800 (PST)
-From: Adam Ford <aford173@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: abel.vesa@nxp.com,
-	aford@beaconembedded.com,
-	benjamin.gaignard@collabora.com,
-	hverkuil-cisco@xs4all.nl,
-	Adam Ford <aford173@gmail.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH V2 10/10] arm64: dts: imx8mm: Enable Hantro G1 and G2 video decoders
-Date: Thu, 16 Dec 2021 05:12:55 -0600
-Message-Id: <20211216111256.2362683-11-aford173@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211216111256.2362683-1-aford173@gmail.com>
-References: <20211216111256.2362683-1-aford173@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071F22CA2
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 11:52:55 +0000 (UTC)
+Received: from localhost.localdomain (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@mengyan1223.wang)
+	by mengyan1223.wang (Postfix) with ESMTPSA id C8EF966017;
+	Thu, 16 Dec 2021 06:44:10 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
+	s=mail; t=1639655054;
+	bh=e2cVfczo/NWYtUht5KxKMRgux99OifWmOFSqZcDHraQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=h8j4HiuSPpak/mb7Eyxq49DwQVKHPjpPl5bicGMbqeiH4Q3NSN5G9c/NnjsrEBbLD
+	 2L8layQi7skSL6jlyGNr9dhtvtYkjAckfpdDOhjGefRZW20gTtYgR0Z+gJMsqLzSBJ
+	 moZzY3B5Dx7aXb8vT315/co9e3/3F+6vx4I79SSfuchW15GG81K6RwnCNNU4jP5kDT
+	 /eIrgx+JO6wAChK4KZemxGIqp86fyPcdt4FwSWi2ZleCpZlXe2uid3V6VJryDEgXoe
+	 tg8qT8J8uxNRI8o3x1NefSweHW2IX5lX/VSrS6myWH4Xy1i4byJth278OO+/s5d6o2
+	 o8zxrErGXUaqA==
+Message-ID: <67687e579e633d42dc501cfb6746c1cb9f600112.camel@mengyan1223.wang>
+Subject: Re: [PATCH v3 5/6] MIPS: implement architecture-specific
+ 'pci_remap_iospace()'
+From: Xi Ruoyao <xry111@mengyan1223.wang>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
+	tsbogend@alpha.franken.de
+Cc: robh@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
+ Liviu.Dudau@arm.com,  bhelgaas@google.com, matthias.bgg@gmail.com,
+ gregkh@linuxfoundation.org,  linux-mips@vger.kernel.org,
+ linux-pci@vger.kernel.org,  linux-staging@lists.linux.dev, neil@brown.name,
+ linux-kernel@vger.kernel.org,  Jiaxun Yang <jiaxun.yang@flygoat.com>
+Date: Thu, 16 Dec 2021 19:44:06 +0800
+In-Reply-To: <20210925203224.10419-6-sergio.paracuellos@gmail.com>
+References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
+	 <20210925203224.10419-6-sergio.paracuellos@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,52 +45,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are two decoders on the i.MX8M Mini controlled by the
-vpu-blk-ctrl.  The G1 supports H264 and VP8 while the
-G2 support HEVC and VP9.
+On Sat, 2021-09-25 at 22:32 +0200, Sergio Paracuellos wrote:
+> To make PCI IO work we need to properly virtually map IO cpu physical address
+> and set this virtual address as the address of the first PCI IO port which
+> is set using function 'set_io_port_base()'.
+> 
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
+Hi,
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-index f13d31ebfcbd..ad1a83c25cc9 100644
---- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
-@@ -1196,6 +1196,22 @@ gpu_2d: gpu@38008000 {
- 			power-domains = <&pgc_gpu>;
- 		};
- 
-+		vpu_g1: video-codec@38300000 {
-+			compatible = "nxp,imx8mm-vpu-g1";
-+			reg = <0x38300000 0x10000>;
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX8MM_CLK_VPU_G1_ROOT>;
-+			power-domains = <&vpu_blk_ctrl IMX8MM_VPUBLK_PD_G1>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mm-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX8MM_CLK_VPU_G2_ROOT>;
-+			power-domains = <&vpu_blk_ctrl IMX8MM_VPUBLK_PD_G2>;
-+		};
-+
- 		vpu_blk_ctrl: blk-ctrl@38330000 {
- 			compatible = "fsl,imx8mm-vpu-blk-ctrl", "syscon";
- 			reg = <0x38330000 0x100>;
-@@ -1206,6 +1222,12 @@ vpu_blk_ctrl: blk-ctrl@38330000 {
- 				 <&clk IMX8MM_CLK_VPU_G2_ROOT>,
- 				 <&clk IMX8MM_CLK_VPU_H1_ROOT>;
- 			clock-names = "g1", "g2", "h1";
-+			assigned-clocks = <&clk IMX8MM_CLK_VPU_G1>,
-+					  <&clk IMX8MM_CLK_VPU_G2>;
-+			assigned-clock-parents = <&clk IMX8MM_VPU_PLL_OUT>,
-+						 <&clk IMX8MM_VPU_PLL_OUT>;
-+			assigned-clock-rates = <600000000>,
-+					       <600000000>;
- 			#power-domain-cells = <1>;
- 		};
- 
+the change is causing a WARNING on loongson64g-4core-ls7a:
+
+[    0.105781] loongson-pci 1a000000.pci:       IO 0x0018020000..0x001803ffff ->
+ 0x0000020000
+[    0.105792] loongson-pci 1a000000.pci:      MEM 0x0040000000..0x007fffffff ->
+ 0x0040000000
+[    0.105801] ------------[ cut here ]------------
+[    0.105804] WARNING: CPU: 0 PID: 1 at arch/mips/pci/pci-generic.c:55 pci_remap_iospace+0x80/0x88
+[    0.105815] resource start address is not zero
+
+I'm not sure how to fix this one.
+
+> ---
+>  arch/mips/include/asm/pci.h |  2 ++
+>  arch/mips/pci/pci-generic.c | 14 ++++++++++++++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/arch/mips/include/asm/pci.h b/arch/mips/include/asm/pci.h
+> index 9ffc8192adae..35270984a5f0 100644
+> --- a/arch/mips/include/asm/pci.h
+> +++ b/arch/mips/include/asm/pci.h
+> @@ -20,6 +20,8 @@
+>  #include <linux/list.h>
+>  #include <linux/of.h>
+>  
+> +#define pci_remap_iospace pci_remap_iospace
+> +
+>  #ifdef CONFIG_PCI_DRIVERS_LEGACY
+>  
+>  /*
+> diff --git a/arch/mips/pci/pci-generic.c b/arch/mips/pci/pci-generic.c
+> index 95b00017886c..18eb8a453a86 100644
+> --- a/arch/mips/pci/pci-generic.c
+> +++ b/arch/mips/pci/pci-generic.c
+> @@ -46,3 +46,17 @@ void pcibios_fixup_bus(struct pci_bus *bus)
+>  {
+>         pci_read_bridge_bases(bus);
+>  }
+> +
+> +int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
+> +{
+> +       unsigned long vaddr;
+> +
+> +       if (res->start != 0) {
+> +               WARN_ONCE(1, "resource start address is not zero\n");
+> +               return -ENODEV;
+> +       }
+> +
+> +       vaddr = (unsigned long)ioremap(phys_addr, resource_size(res));
+> +       set_io_port_base(vaddr);
+> +       return 0;
+> +}
+
 -- 
-2.32.0
-
+Xi Ruoyao <xry111@mengyan1223.wang>
+School of Aerospace Science and Technology, Xidian University
