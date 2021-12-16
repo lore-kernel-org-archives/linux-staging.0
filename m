@@ -1,85 +1,76 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE3B2C9C
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 13:50:45 +0000 (UTC)
-Received: from mail-wm1-f54.google.com ([209.85.128.54]) by
- mrelayeu.kundenserver.de (mreue109 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1McY0J-1mNQXm3Xjx-00cx2T for <linux-staging@lists.linux.dev>; Thu, 16 Dec
- 2021 14:50:43 +0100
-Received: by mail-wm1-f54.google.com with SMTP id z206so4734160wmc.1
-        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 05:50:43 -0800 (PST)
-X-Gm-Message-State: AOAM531Z0tMz5XP8A8CufJ5oO0e54QHXNfxJkkMekPqbW9nf3IECzdRv
-	A4Saqes0Nk0LGQ+SHg0dtjsWwlNsiuIT6xOHZew=
-X-Google-Smtp-Source: ABdhPJxCd/5MpFbOtsFJckUJOZrM9UCRFM6hiyz1bgYXaPUV/X3iHVLNzmr2Do1QRYr3DDtCk0coUfAVZdKdklRM2bE=
-X-Received: by 2002:a7b:c448:: with SMTP id l8mr5023776wmi.173.1639662643472;
- Thu, 16 Dec 2021 05:50:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089732C9C
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 13:53:09 +0000 (UTC)
+Received: by mail-oo1-f50.google.com with SMTP id w15-20020a4a9d0f000000b002c5cfa80e84so6934208ooj.5
+        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 05:53:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=B88CYCFjwbaWOV3vKfQzOmcTf0Xm8Ner9hfCDTZa+HE=;
+        b=yMsX4O2V53tbU2tuhPFv8/8BWZXwexs+hJG1SXbLfWz0E9e54tpVzIfnZoSQn+pvgk
+         L7sJPwJweqPlnyqFx58Ew6+t1OfQM1GlkuugIaFO5MEp39atUp+ASVfheRjHliBhaK36
+         24YJ4UShhO6UdvPCqWy7LFfOG8dbwSOwM8phFq3JNCewlqzSv2KrOJqHvCFpqAHUzXom
+         uRzb23MVTa6phCmNfpLhYqnb/fVJ9KHDChjKVBue55NolQ0BzSwnsfoiWsKXuXZ50FsH
+         oBd3XBob6DXgZcWxrfsXz+gvoiDVFF7dWtBYXk1hbi63A6tbO2HU9AJoqvMB4DvSDb/N
+         I/Gw==
+X-Gm-Message-State: AOAM5323wR0VxobPgXH9oHPZDEsn4bd/pOKCH4k68/8X8TIixqOvJ+m5
+	qk/iXeJH6BJxBKlaYd/zqA==
+X-Google-Smtp-Source: ABdhPJwrH3DI4/PnTg5MUfd+8UPsCHqVPUfNp95zLksVPxxuQvXT1eDHD1ytbHjBZzQhv38LlZDOiQ==
+X-Received: by 2002:a4a:5a43:: with SMTP id v64mr11106831ooa.26.1639662789088;
+        Thu, 16 Dec 2021 05:53:09 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id p10sm1034054otp.53.2021.12.16.05.53.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 05:53:08 -0800 (PST)
+Received: (nullmailer pid 4004887 invoked by uid 1000);
+	Thu, 16 Dec 2021 13:53:03 -0000
+From: Rob Herring <robh@kernel.org>
+To: Adam Ford <aford173@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-rockchip@lists.infradead.org, Shawn Guo <shawnguo@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, benjamin.gaignard@collabora.com, Pengutronix Kernel Team <kernel@pengutronix.de>, aford@beaconembedded.com, Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, abel.vesa@nxp.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, hverkuil-cisco@xs4all.nl
+In-Reply-To: <20211216111256.2362683-5-aford173@gmail.com>
+References: <20211216111256.2362683-1-aford173@gmail.com> <20211216111256.2362683-5-aford173@gmail.com>
+Subject: Re: [PATCH V2 04/10] dt-bindings: media: nxp,imx8mq-vpu: Split G1 and G2 nodes
+Date: Thu, 16 Dec 2021 07:53:03 -0600
+Message-Id: <1639662783.022719.4004886.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
- <20210925203224.10419-6-sergio.paracuellos@gmail.com> <67687e579e633d42dc501cfb6746c1cb9f600112.camel@mengyan1223.wang>
- <6ee31420-ef67-471e-a924-a0158b4a9428@www.fastmail.com>
-In-Reply-To: <6ee31420-ef67-471e-a924-a0158b4a9428@www.fastmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Thu, 16 Dec 2021 14:50:27 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2i6eW8JunE_6h6OTCa51eHfPahQQhaGHGWePX+r4ybww@mail.gmail.com>
-Message-ID: <CAK8P3a2i6eW8JunE_6h6OTCa51eHfPahQQhaGHGWePX+r4ybww@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] MIPS: implement architecture-specific 'pci_remap_iospace()'
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: Xi Ruoyao <xry111@mengyan1223.wang>, 
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Rob Herring <robh@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Liviu Dudau <Liviu.Dudau@arm.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>, linux-pci <linux-pci@vger.kernel.org>, 
-	linux-staging@lists.linux.dev, NeilBrown <neil@brown.name>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FMpKHPPrBHBnd6XN04mB+QDPKEb8dOw5usJhYNPKx8hguL8gGdw
- xDPN6ZaVnXW0dxlU2AZYrbervVw4n1mm5PT6F7ArdFvbiLfHjobt1tWCvPe2Aj/DhJp+q1s
- U82R3eQngXf/NwlGOdeH+/wNTh5b1lctaO2Ci0uYj6LYBF9AtBcnmLkyleb7WirtAPNtJNG
- 7hqAons+hz2wytcIT2IHw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kqlrEpG9dFc=:Vk23M9xCcyTH+mSHuZUQxl
- zgzBzFsivK47UW+H4jOdUrT8+jfzl/OmKAlRSbWy1mCCTo1x33221c6OgRp/mmo2BE1LTDIS2
- iuL9RJ9n9QwwgL5oxePl4IE3IMW1JXla6okG7s7WmHsso9S1UuBiwTt0RcZyApHZ6yzdZTRRn
- sn9wTvLDyv74rus0KSYMPaCguBzs4Yp9esUTgcFDz7YyXQO0tFgJQk8EV8Qa3STQts8S96r5L
- iNycZ/dsju72FsdhH8zlN7jIcpdR1H2byMw/m/T9JEFgpUKzJfDpBbbbT/hWhvAeszACqvDdt
- jrLI7InQpTGnN2pvHXLnZqwQe5nKDkypAXHxw3sXMA/C9hs7ccJk79TMlZuz0IJGTSevwBhoy
- 9qg6dmigkVTPisKXpmZ1K9UUpdlyYJ2aobiD5x3RCK6ectvdYnorVs2vwaM10in/CzN2LcLB9
- t5xZGqY+++uGxBWlz1hZTc+s/FX23XAmb+EcZ6a7IQ9bgPkPsoMWCnAOFhidageURqrYZMcET
- BPydb+2ItlxP6AuRoQ5YkMOeHtNaGbLULMtuR4byathMPX1unFp2wQiha7a7OEqktnlSacjfi
- KHX7WQYFTx7lI1zg4mahmSTiuRn0T5laas3TTNTGMya3Rfl9u7bfp2pvwzDFQUbiiI5YrW1MW
- qTE1h6nt6dbNVD2lNju/0f2x8qm/j6aHzGyC6ODDW6Eq2wOHy/tQT28BeVHUL4/DK9SWCL2HF
- bQWTjg5xhQIAtnzygYMlwPcTn/LczbZQaTkgeCXCOglkSHenci+lUwoNawEmJDmEHJVqS7eO3
- cRQ6DdoaQC6OmNn6Q6/xjemyFh1W8Hm0F6/nO87UfUu8ODSsEg=
 
-On Thu, Dec 16, 2021 at 2:07 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote=
-:
-> =E5=9C=A82021=E5=B9=B412=E6=9C=8816=E6=97=A5=E5=8D=81=E4=BA=8C=E6=9C=88 =
-=E4=B8=8A=E5=8D=8811:44=EF=BC=8CXi Ruoyao=E5=86=99=E9=81=93=EF=BC=9A
+On Thu, 16 Dec 2021 05:12:49 -0600, Adam Ford wrote:
+> The G1 and G2 are separate decoder blocks that are enabled by the
+> vpu-blk-ctrl power-domain controller, which now has a proper driver.
+> Update the bindings to support separate nodes for the G1 and G2
+> decoders with vpu-blk-ctrl power-domain support.
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> 
 
-> Another way could be keeping a linked list about PIO->PHYS mapping instea=
-d of using the single io_port_base variable.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-I think that would add a lot of complexity that isn't needed here. Not
-sure if all MIPS CPUs
-can do it, but the approach used on Arm is what fits in best with the
-PCI drivers, these
-reserve a virtual address range for the ports, and ioremap the
-physical addresses into
-the PIO range according to the mapping.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml:18:6: [warning] wrong indentation: expected 4 but found 5 (indentation)
+./Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml:19:7: [warning] wrong indentation: expected 7 but found 6 (indentation)
 
-For the loongson case specifically, that's not even needed though, as
-the two buses
-have physically contiguous I/O port ranges, the code just needs to
-detect this special
-case.
+dtschema/dtc warnings/errors:
 
-        Arnd
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1569050
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
