@@ -1,42 +1,42 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0182CA2
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 12:09:36 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id l8so25170341qtk.6
-        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 04:09:36 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC6C2C9C
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 12:35:12 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id m25so25198187qtq.13
+        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 04:35:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=27iVM0aKdAv+JiQsBY26McdFr1qGDMbXj62yl//SmdI=;
-        b=EjgfyGJxxUe0zKPwlPZuWE1t0SOucWDWFeCaHtd9CtTjvYD8KEvoSGADHu9gyNPb0w
-         JWQPYcVpFoMLCKxKe917EAK3rQhm9rqbvanX8/9tJipQjxDtiQrgd9Cyi+m8psvEwL07
-         PriJRFI5nVCSe2OHRbYWLOhhpLhYbXN1zyMtuHe9ubzsaCm6FuB5gxGs1deiCaaqsuIS
-         7SNZge5tLLcsnLVmrsCRRGJLbd0V8yjk0WMx3srgHenZpyaQN39xjSVUVhEL9GRNyEiG
-         C/FPjhJYYMzHEq3sI8Gnz+D8pqXEECyYqYbePLztZIJ0168ItbNPW6z/qUz4JZ9EcVMP
-         xe9A==
+        bh=vMJB1aoNNzykfp3G/uhAU//Zm4FJ8pgEumwJR4eZPQE=;
+        b=uVZapaBZWViN/Kq9YIuwvz4r3LUokp9yMQsFGhGsCNTzIPUjuXRDCB8GbPjN4KT+oF
+         ljnZRQDH6Fco83Pgrz9A1enMk+PecgORM0/KTg6HVPb41+ziDA48Ak517+iIemcqL7fQ
+         5kwBxWPTgIWQysVWugryjk+EsSDhyWFygimVbeTIw2ptHyw0C7FUhLGQDCaIkjij6TUx
+         IttwSYAGslyVxKxaFe7pO827gPeIO8Z2Hf5pNo0a6LdDzMl4muVwaJ7KxjSQUt54ivq/
+         9EY3NqEQmsxuuplFvO0ASJ51/OqpOvzDOdJB/1th7P0InWmo2m+Hfr0Bwzj7Ug3RYqbM
+         ffvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=27iVM0aKdAv+JiQsBY26McdFr1qGDMbXj62yl//SmdI=;
-        b=ESiCsSO5obqAh40Wj1nbvqK60IgbomJzPkUh9S1a2luKjhJC4ttMFAr/qu3RKVYJq+
-         D6v2LGBqulOb86xE8ks/sIkBuiakVtkFmBoNM+uJlh3FDfjPZbDS0n+5ASUH4qqQXZoC
-         lAE/N32Irs0aPsOvLh7T3ja8absVkWCfOw1EpwtzMtrtqAXU/C2nvJZq7C43GAO2x8i+
-         fbj90WWWQriR0iIei5RU9+8EXb8Yf0hpONhexzZvyJ0Vk48FoQ6CXuHE14GaVOSIrsM7
-         ePqjqJj+NH4epYOK5a9A7qsaGfLhjqDY6Q+N2hAaTpw7hHG0EfLU9PPKctfTu5ITlR6a
-         x+Jg==
-X-Gm-Message-State: AOAM530eAjzlgG5UkgA6lsiMaaV9i0BUyD84oX0zpRIQHYcl3kVR0use
-	PP95YPzzmOQ4munxbGdKaDPjtA==
-X-Google-Smtp-Source: ABdhPJzK5axWJi3teF0QGvKpI/4LKnG7d8mowHvrhT9SMBZNmCvwXv/NOOVc4korY3W6ostQo3hcsw==
-X-Received: by 2002:a05:622a:1902:: with SMTP id w2mr16510679qtc.93.1639656575105;
-        Thu, 16 Dec 2021 04:09:35 -0800 (PST)
+        bh=vMJB1aoNNzykfp3G/uhAU//Zm4FJ8pgEumwJR4eZPQE=;
+        b=5RAyQwVrMOHU+Azfq8x6ZGYi8QhQP/7ybp6LLzKgM8cerxplWuEDcAjIAlN23wO3wB
+         2Dda8hzJbNw3zJA3e9btZxWgCjK19Edc/BqELqHu9Ko/72O6jvmJnhHZCJztAveAiRsr
+         JUTT/Bq/kTHjBylaiu/AqspJsjtc7gikNlbUOBLI73jJQLHWkEyiABK/f7x4rS8iC97x
+         I2JXQwtPcAnbB7lfmZ870FOxTgs6hFlYFtUAvzeHfT/pCQ7h2BEEdehEvAExJTdB8LvH
+         b0TRtz0s1vk3pvc8r1Yeokiu7t7eLu9Nyiqnz05cV/cNASf2S8BgjucdPo6pcZzYneOq
+         //6w==
+X-Gm-Message-State: AOAM533rqAV71Rs7ED8v17C9kxIgZ/gg6aqNRyYRo51AXQYZqQYgCGst
+	kqlb3aOwFy1joLYqd1V7+6mzrg==
+X-Google-Smtp-Source: ABdhPJy4bAMnS+nFRBZhZYQzCHH5qKj4kY5qQvkyBlSRLoNZkRNUHanlsVWvoWi61fG01C3OtEh79w==
+X-Received: by 2002:ac8:5745:: with SMTP id 5mr16364192qtx.85.1639658111425;
+        Thu, 16 Dec 2021 04:35:11 -0800 (PST)
 Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id k9sm4220397qta.48.2021.12.16.04.09.29
+        by smtp.gmail.com with ESMTPSA id o9sm3936751qtk.81.2021.12.16.04.35.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 04:09:33 -0800 (PST)
-Date: Thu, 16 Dec 2021 09:09:26 -0300
+        Thu, 16 Dec 2021 04:35:10 -0800 (PST)
+Date: Thu, 16 Dec 2021 09:35:03 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Adam Ford <aford173@gmail.com>
 Cc: linux-media@vger.kernel.org, abel.vesa@nxp.com,
@@ -53,11 +53,10 @@ Cc: linux-media@vger.kernel.org, abel.vesa@nxp.com,
 	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH V2 05/10] media: hantro: Allow i.MX8MQ G1 and G2 to run
- independently
-Message-ID: <YbssdkOvCR3UMtKQ@eze-laptop>
+Subject: Re: [PATCH V2 00/10] media: hantro: imx8mq/imx8mm: Let VPU decoders
+ get controlled by vpu-blk-ctrl
+Message-ID: <Ybsyd9/nRrszJ5f8@eze-laptop>
 References: <20211216111256.2362683-1-aford173@gmail.com>
- <20211216111256.2362683-6-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,150 +65,142 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211216111256.2362683-6-aford173@gmail.com>
+In-Reply-To: <20211216111256.2362683-1-aford173@gmail.com>
 
 Hi Adam,
 
-On Thu, Dec 16, 2021 at 05:12:50AM -0600, Adam Ford wrote:
-> The VPU in the i.MX8MQ is really the combination of Hantro G1 and
-> Hantro G2. With the updated vpu-blk-ctrl, the power domains system
-> can enable and disable them separately as well as pull them out of
-> reset. This simplifies the code and lets them run independently
-> while still retaining backwards compatibility with older device
-> trees for those using G1.
-> 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index ab2467998d29..e7afda388ee5 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -609,6 +609,7 @@ static const struct of_device_id of_hantro_match[] = {
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
->  	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-> +	{ .compatible = "nxp,imx8mq-vpu-g1", .data = &imx8mq_vpu_g1_variant },
->  	{ .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index cff817ca8d22..96b14b43a4af 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -299,6 +299,7 @@ enum hantro_enc_fmt {
->  	ROCKCHIP_VPU_ENC_FMT_UYVY422 = 3,
->  };
->  
-> +extern const struct hantro_variant imx8mq_vpu_g1_variant;
->  extern const struct hantro_variant imx8mq_vpu_g2_variant;
->  extern const struct hantro_variant imx8mq_vpu_variant;
->  extern const struct hantro_variant px30_vpu_variant;
-> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> index 1a43f6fceef9..4925f2a07d4c 100644
-> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
-> @@ -223,13 +223,6 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
->  	imx8m_soft_reset(vpu, RESET_G1);
->  }
->  
-> -static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
-> -{
-> -	struct hantro_dev *vpu = ctx->dev;
-> -
-> -	imx8m_soft_reset(vpu, RESET_G2);
-> -}
-> -
->  /*
->   * Supported codec ops.
->   */
-> @@ -255,17 +248,33 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
->  	},
->  };
->  
-> +static const struct hantro_codec_ops imx8mq_vpu_g1_codec_ops[] = {
-> +	[HANTRO_MODE_MPEG2_DEC] = {
-> +		.run = hantro_g1_mpeg2_dec_run,
-> +		.init = hantro_mpeg2_dec_init,
-> +		.exit = hantro_mpeg2_dec_exit,
-> +	},
-> +	[HANTRO_MODE_VP8_DEC] = {
-> +		.run = hantro_g1_vp8_dec_run,
-> +		.init = hantro_vp8_dec_init,
-> +		.exit = hantro_vp8_dec_exit,
-> +	},
-> +	[HANTRO_MODE_H264_DEC] = {
-> +		.run = hantro_g1_h264_dec_run,
-> +		.init = hantro_h264_dec_init,
-> +		.exit = hantro_h264_dec_exit,
-> +	},
-> +};
-> +
->  static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
->  	[HANTRO_MODE_HEVC_DEC] = {
->  		.run = hantro_g2_hevc_dec_run,
-> -		.reset = imx8m_vpu_g2_reset,
->  		.init = hantro_hevc_dec_init,
->  		.exit = hantro_hevc_dec_exit,
->  	},
->  	[HANTRO_MODE_VP9_DEC] = {
->  		.run = hantro_g2_vp9_dec_run,
->  		.done = hantro_g2_vp9_dec_done,
-> -		.reset = imx8m_vpu_g2_reset,
->  		.init = hantro_vp9_dec_init,
->  		.exit = hantro_vp9_dec_exit,
->  	},
-> @@ -285,6 +294,10 @@ static const struct hantro_irq imx8mq_g2_irqs[] = {
->  
->  static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
->  static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
-> +static const char * const imx8mq_g1_clk_names[] = { "g1" };
-> +static const char * const imx8mq_g1_reg_names[] = { "g1" };
-> +static const char * const imx8mq_g2_clk_names[] = { "g2" };
-> +static const char * const imx8mq_g2_reg_names[] = { "g2" };
->  
+The series looks really great.
 
-I believe the g1 and g2 _reg_names are now unused?
+On Thu, Dec 16, 2021 at 05:12:45AM -0600, Adam Ford wrote:
+> Both the i.MX8MQ and i.MX8MM have G1 and G2 decoders.
+> The two decoders are similar, but the imx8mm lacks the
+> post-processor, so they will have distinct compatible flags.
+> 
+> From what I can tell, the G2 decoder wasn't working, so splitting
+> the i.MX8MQ VPU into G1 and G2 makes it easier to control them 
+> independently since the TRM of both the i.MX8MQ and
+> i.MX8MM list them as distinct IP blocks. This also allowed G2 to
+> become available.
+> 
+> With them being split, the power-domain can shift to the
+> vpu-blk-ctrl which is available on both i.MX8MQ and i.MX8MM,
+> but some of bits are different, so they'll have separate bindings.
+> 
+> Lastly, with the G1 and G2 operational, enable the i.MX8MM.
+> On the i.MX8MM, the clock speed of 600MHz was chosen to match
+> the default of the kernel repo from NXP and can be overwritten
+> by board files for anyone who under/over volts the power rail.
+> 
+> There seems to be some disagreement between the TRM and the Datasheet
+> for the imx8mq as to whether the speed should be 300MHz (TRM) or
+> 600MHz (datasheet), so feedback from NXP would be very much
+> appreciated.
+> 
+> The repo used as the starting point was:
+> git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
+> 
+
+I believe you should be able to rebase on top of
+media_tree master. As far as I can see, it contains the VP9
+support you need.
+
+Also, please cherry-pick the following fix from Benjamin
+
+https://patchwork.linuxtv.org/project/linux-media/patch/20211208164418.848790-1-benjamin.gaignard@collabora.com/
+
+This is queued and should land on the master branch very soon.
+
+> Fluster was run on both i.MX8MM and i.MX8MQ
+> 
+> At 600 MHz, the i.MX8MM had the following:
+> 
+> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 55/61 tests successfully               in 8.299 secs
+> 
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 90/135 tests successfully               in 71.200 secs
+> 
+> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> Ran 139/303 tests successfully               in 218.079 secs
+
+I imagine the reason H264 and VP9 tests take so long
+is some pixelformat conversion somewhere. It would be great
+if Fluster could have test vectors ready in the pixelformat
+the hardware produces :-)
+
+> 
+> The i.MX8MQ had the following:
+> 
+> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
+> Ran 55/61 tests successfully               in 7.732 secs
+> 
+> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
+> Ran 90/135 tests successfully               in 58.558 secs
+> 
+> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
+> Ran 144/303 tests successfully               in 271.373 secs
+> 
+
+... in any case, the fact that fluster is passing is already
+telling us the driver is in good shape. How many jobs is the above
+running in parallel?
+
+If you want to do some other tests, you can build a gstreamer
+pipeline, with sync=false, and decode a few 1080p video, e.g.
+https://jell.yfish.us/.
+
+Something like gst-launch-1.0 filesrc ! decodebin ! fakevideosink, or
+so.
+
+Then, you can run the pipeline in parallel as many times as you want:
+
+gst-launch-1.0 filesrc ! decodebin ! fakevideosink filesrc ! decodebin ! fakevideosink filesrc ! decodebin ! fakevideosink ...
+
+(GStreamer lets you concatenate src ! sink src ! sink, in the same
+gst-launch-1.0 invocation).
+
+> V2:  Remove references to legacy dt-binding from YAML, but keep
+>      it in the driver so older device trees can still be used.
+>      Fix typos in YAML
+>      Remove reg-names, interrupt-names, and clock-names from YAML,
+>      since each node will only have one of each, they're not necessary
+>      Add Fluster scores to cover letter for i.MX8MQ
+> 
+
+Looks great.
 
 Thanks,
 Ezequiel
 
->  const struct hantro_variant imx8mq_vpu_variant = {
->  	.dec_fmts = imx8m_vpu_dec_fmts,
-> @@ -305,6 +318,21 @@ const struct hantro_variant imx8mq_vpu_variant = {
->  	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
->  };
->  
-> +const struct hantro_variant imx8mq_vpu_g1_variant = {
-> +	.dec_fmts = imx8m_vpu_dec_fmts,
-> +	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
-> +	.postproc_fmts = imx8m_vpu_postproc_fmts,
-> +	.num_postproc_fmts = ARRAY_SIZE(imx8m_vpu_postproc_fmts),
-> +	.postproc_ops = &hantro_g1_postproc_ops,
-> +	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
-> +		 HANTRO_H264_DECODER,
-> +	.codec_ops = imx8mq_vpu_g1_codec_ops,
-> +	.irqs = imx8mq_irqs,
-> +	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
-> +	.clk_names = imx8mq_g1_clk_names,
-> +	.num_clocks = ARRAY_SIZE(imx8mq_g1_clk_names),
-> +};
-> +
->  const struct hantro_variant imx8mq_vpu_g2_variant = {
->  	.dec_offset = 0x0,
->  	.dec_fmts = imx8m_vpu_g2_dec_fmts,
-> @@ -314,10 +342,8 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
->  	.postproc_ops = &hantro_g2_postproc_ops,
->  	.codec = HANTRO_HEVC_DECODER | HANTRO_VP9_DECODER,
->  	.codec_ops = imx8mq_vpu_g2_codec_ops,
-> -	.init = imx8mq_vpu_hw_init,
-> -	.runtime_resume = imx8mq_runtime_resume,
->  	.irqs = imx8mq_g2_irqs,
->  	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
-> -	.clk_names = imx8mq_clk_names,
-> -	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
-> +	.clk_names = imx8mq_g2_clk_names,
-> +	.num_clocks = ARRAY_SIZE(imx8mq_g2_clk_names),
->  };
+> Adam Ford (7):
+>   dt-bindings: media: nxp,imx8mq-vpu: Split G1 and G2 nodes
+>   media: hantro: Allow i.MX8MQ G1 and G2 to run independently
+>   arm64: dts: imx8mq: Enable both G1 and G2 VPU's with vpu-blk-ctrl
+>   arm64: dts: imx8mm: Fix VPU Hanging
+>   dt-bindings: media: nxp,imx8mq-vpu: Add support for G1 and G2 on
+>     imx8mm
+>   media: hantro: Add support for i.MX8MM
+>   arm64: dts: imx8mm: Enable Hantro G1 and G2 video decoders
+> 
+> Lucas Stach (3):
+>   dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
+>   dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
+>   soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
+> 
+>  .../bindings/media/nxp,imx8mq-vpu.yaml        | 93 +++++++++++--------
+>  .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      | 71 ++++++++++++++
+>  arch/arm64/boot/dts/freescale/imx8mm.dtsi     | 23 ++++-
+>  arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 63 ++++++++-----
+>  drivers/soc/imx/imx8m-blk-ctrl.c              | 68 +++++++++++++-
+>  drivers/staging/media/hantro/hantro_drv.c     |  3 +
+>  drivers/staging/media/hantro/hantro_hw.h      |  3 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 75 ++++++++++++---
+>  include/dt-bindings/power/imx8mq-power.h      |  3 +
+>  9 files changed, 324 insertions(+), 78 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
+> 
+> 
+> base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
 > -- 
 > 2.32.0
 > 
