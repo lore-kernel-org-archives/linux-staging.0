@@ -1,41 +1,41 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CACC2CA6
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 21:04:44 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id x19-20020a9d7053000000b0055c8b39420bso448239otj.1
-        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 13:04:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309AF2CA6
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 21:05:21 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id u74so678699oie.8
+        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 13:05:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=8/HB4TUr3nuRo2TCTqrXve1tRaQ/uHPqILDzAsNvksk=;
-        b=er1IzpCST8i94K3KVs7DQMTYcWNeg5F/jCW6lDhrmhRYOaKucKWv2bXPHXvmHjyUqx
-         zovMffjAbpGMmP+UjDzRAx8U/nkNeH0lqkPEoBvEay07n6k1MSChhQ0EtbnZ037/8PZS
-         El2XRQSlXSgXVGnB7hwAjl44R9erItNrh+wmVhK7CzlrqbVcR8R0ID5UDf7XVJEOORpe
-         e0qbbOedLjkXOn83B8pwxqO25W9/UDnzfmCA0dEf+Jta4fyWe60tRyl55pOx3wOm0yXr
-         C8NhaOcG7FlXTkCsvqQWJv0KNnqgzyuce+ckubtfTOjuRNl44o03KeMGsP3vhmRnb2LR
-         3+kg==
-X-Gm-Message-State: AOAM530+NQz+nGQTMnSwTZ5aHTLwTPxpxHBvJIUxObWc13LGV7ABAEDy
-	wJuwWIRQsAA8Ka2k5wkH+Q==
-X-Google-Smtp-Source: ABdhPJwaw+XBfHtnkt8e4rQRnSXbJ/pQ1FTRtrA5QLx0viKeJhfPqUxOb6a1KcwopQu6edmYrwZCMw==
-X-Received: by 2002:a05:6830:25d4:: with SMTP id d20mr14093835otu.143.1639688684195;
-        Thu, 16 Dec 2021 13:04:44 -0800 (PST)
+        bh=wBWBDIKDtMNMEZft+TTE9DeJ68Ulb1CH0US1EWQAqhM=;
+        b=EC1BrXVeDsPKSCnIYqDzeUP5HjDhWgIILak4sPJlA+BkGm3GJC7OPG3cxP5e2xophW
+         4Q4lMQ+x9vVCxan871sVwYbq1uO8QaThIiLCXyGbUnohmirzGwiO3XHxOnrUu905n7gM
+         zfvDx+MGSbySXKL0CwrO6LNJCZ/dokCIxvevMT3qxv9KEMnGAaTUG+95yVdnutYtfLUU
+         J/ur690CM3eU1GeXz82llp5n3JdKf6WVMoZuDWuAvWmN5lsguS+bnAo6mC1zvQm3yTZJ
+         CFIRtHeHnJgL7tswQG/xXLpExylO+1etME6qnr1xC19ehXLgIKtPCFhH5KoJE1y6By1f
+         w8lg==
+X-Gm-Message-State: AOAM531UIxegSeWX3KLr0GwaLgKaNEIT5rmCcQrmIJGyuhzaTwWsXivP
+	cAAgYwGAk9jdma0YOwLDSg==
+X-Google-Smtp-Source: ABdhPJzigkqlrgFC4xd4dqm3MxexTeJm4Cz8GKPJf8U5cXT5Ywt3kr4LVr/xc4M6lxP9YQ3P/LxMjg==
+X-Received: by 2002:a54:480a:: with SMTP id j10mr5605512oij.34.1639688720371;
+        Thu, 16 Dec 2021 13:05:20 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id l39sm1312887otv.63.2021.12.16.13.04.43
+        by smtp.gmail.com with ESMTPSA id o10sm1220978oom.32.2021.12.16.13.05.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 13:04:43 -0800 (PST)
-Received: (nullmailer pid 753209 invoked by uid 1000);
-	Thu, 16 Dec 2021 21:04:42 -0000
-Date: Thu, 16 Dec 2021 15:04:42 -0600
+        Thu, 16 Dec 2021 13:05:19 -0800 (PST)
+Received: (nullmailer pid 754215 invoked by uid 1000);
+	Thu, 16 Dec 2021 21:05:18 -0000
+Date: Thu, 16 Dec 2021 15:05:18 -0600
 From: Rob Herring <robh@kernel.org>
 To: Adam Ford <aford173@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, abel.vesa@nxp.com, linux-media@vger.kernel.org, Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, benjamin.gaignard@collabora.com, linux-kernel@vger.kernel.org, aford@beaconembedded.com, Philipp Zabel <p.zabel@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, hverkuil-cisco@xs4all.nl, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH V2 01/10] dt-bindings: power: imx8mq: add defines for VPU
- blk-ctrl domains
-Message-ID: <Ybup6sUyFCCNH9hp@robh.at.kernel.org>
+Cc: benjamin.gaignard@collabora.com, Fabio Estevam <festevam@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, abel.vesa@nxp.com, linux-media@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, aford@beaconembedded.com, Shawn Guo <shawnguo@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lucas Stach <l.stach@pengutronix.de>, hverkuil-cisco@xs4all.nl, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH V2 02/10] dt-bindings: soc: add binding for i.MX8MQ VPU
+ blk-ctrl
+Message-ID: <YbuqDr0dRNsfMglV@robh.at.kernel.org>
 References: <20211216111256.2362683-1-aford173@gmail.com>
- <20211216111256.2362683-2-aford173@gmail.com>
+ <20211216111256.2362683-3-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,15 +44,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211216111256.2362683-2-aford173@gmail.com>
+In-Reply-To: <20211216111256.2362683-3-aford173@gmail.com>
 
-On Thu, 16 Dec 2021 05:12:46 -0600, Adam Ford wrote:
+On Thu, 16 Dec 2021 05:12:47 -0600, Adam Ford wrote:
 > From: Lucas Stach <l.stach@pengutronix.de>
 > 
-> This adds the defines for the power domains provided by the VPU
-> blk-ctrl on the i.MX8MQ.
+> This adds the DT binding for the i.MX8MQ VPU blk-ctrl.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
