@@ -1,76 +1,118 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089732C9C
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 13:53:09 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id w15-20020a4a9d0f000000b002c5cfa80e84so6934208ooj.5
-        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 05:53:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=B88CYCFjwbaWOV3vKfQzOmcTf0Xm8Ner9hfCDTZa+HE=;
-        b=yMsX4O2V53tbU2tuhPFv8/8BWZXwexs+hJG1SXbLfWz0E9e54tpVzIfnZoSQn+pvgk
-         L7sJPwJweqPlnyqFx58Ew6+t1OfQM1GlkuugIaFO5MEp39atUp+ASVfheRjHliBhaK36
-         24YJ4UShhO6UdvPCqWy7LFfOG8dbwSOwM8phFq3JNCewlqzSv2KrOJqHvCFpqAHUzXom
-         uRzb23MVTa6phCmNfpLhYqnb/fVJ9KHDChjKVBue55NolQ0BzSwnsfoiWsKXuXZ50FsH
-         oBd3XBob6DXgZcWxrfsXz+gvoiDVFF7dWtBYXk1hbi63A6tbO2HU9AJoqvMB4DvSDb/N
-         I/Gw==
-X-Gm-Message-State: AOAM5323wR0VxobPgXH9oHPZDEsn4bd/pOKCH4k68/8X8TIixqOvJ+m5
-	qk/iXeJH6BJxBKlaYd/zqA==
-X-Google-Smtp-Source: ABdhPJwrH3DI4/PnTg5MUfd+8UPsCHqVPUfNp95zLksVPxxuQvXT1eDHD1ytbHjBZzQhv38LlZDOiQ==
-X-Received: by 2002:a4a:5a43:: with SMTP id v64mr11106831ooa.26.1639662789088;
-        Thu, 16 Dec 2021 05:53:09 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id p10sm1034054otp.53.2021.12.16.05.53.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 05:53:08 -0800 (PST)
-Received: (nullmailer pid 4004887 invoked by uid 1000);
-	Thu, 16 Dec 2021 13:53:03 -0000
-From: Rob Herring <robh@kernel.org>
-To: Adam Ford <aford173@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-rockchip@lists.infradead.org, Shawn Guo <shawnguo@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, benjamin.gaignard@collabora.com, Pengutronix Kernel Team <kernel@pengutronix.de>, aford@beaconembedded.com, Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, abel.vesa@nxp.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, hverkuil-cisco@xs4all.nl
-In-Reply-To: <20211216111256.2362683-5-aford173@gmail.com>
-References: <20211216111256.2362683-1-aford173@gmail.com> <20211216111256.2362683-5-aford173@gmail.com>
-Subject: Re: [PATCH V2 04/10] dt-bindings: media: nxp,imx8mq-vpu: Split G1 and G2 nodes
-Date: Thu, 16 Dec 2021 07:53:03 -0600
-Message-Id: <1639662783.022719.4004886.nullmailer@robh.at.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467A32C9C
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 14:14:46 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 279435803CE;
+	Thu, 16 Dec 2021 09:14:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 16 Dec 2021 09:14:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=g
+	ed4FFFcjgkDifJUOgGUJxm7AfG60QGrUaKolzmkI0U=; b=j/csWXJ1a0PG4YIjQ
+	7Fo5/UCcZ+Jn28Bw+X92ieVCWMB7AO/74KBDJX6/E8Q+gZk7JnqGGzqWGnF85NNj
+	4+UpajIu4IH5ofLVISUQhUpQXESwa9gnONzFXdLASk3chybsCju3ncvMgps3aQf8
+	TOUFgXQcmnOAm/822cZsJ3xSItevLe0SyW1uA4r7AQxVNDf2FO7zmhIKKIMcTcFD
+	3jH8ELCBW0/YeeTy9mqcb3Belo3+pfgzQZ+vVbtxe9stYB+jhNEHUf3WW1Resbfs
+	FTDFQYtBxna7nfrvyrQJYBAekOybN2XrBTU2nc93I0nVx+cryeOjkAEMvzhWtjcC
+	BfFrQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=ged4FFFcjgkDifJUOgGUJxm7AfG60QGrUaKolzmkI
+	0U=; b=oMjhjF/h1ANMDRtirtEtzDg196wI9FCctYYydOCn6virKHb3kTnFMVmoN
+	9t3UoEgtSNexmL+lvYvQXh5ZePU4dwVokGIxmZrtliLzhxGxr/+F2DA1GZA3E5E5
+	waWUmXTRD6AvmoxE7+yktY+EIqpIil0gO4pbjZG9d3hxmIgg+7DwdA16K5DJ+agq
+	Hi/jhuTVkoY8hGCIeNMmM8vyKy7x7DMg4sEnZtG5wpchF3upPJrJUf+3WDh61Q7Z
+	wH5diJEwadwufMwvof/bqk8FqX9Y/cNRpD35JE+XURfnAP6TVhrBXyJQwpZj2jGR
+	+i6dp85kU8Q0+7+4vFCmCLvh6EjeA==
+X-ME-Sender: <xms:1Em7YSfmDVhcckYI-Nehx2HLmo2IQpKLwJJY5SvmFqtH3PrkN2IZ6g>
+    <xme:1Em7YcMknEAhMYP-iSSrP48EH7uVeQrc1cmBiCqElx1q6Ere9O4gMIcaFjAlNQD5w
+    dO4cqZvDZPTGGe7ve4>
+X-ME-Received: <xmr:1Em7YTgxp8AkcNdCSNtJoiW-BwYwtHLNp6A2FpiItIGC_4DCHsUOQAfThoJKRU4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleeggdeifecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefkffggfgfuvfhfhfgjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
+    nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+    ftrfgrthhtvghrnhepheeiuddvvefhkeejfedttdekieethfdukedvieeuueelgfelieej
+    geehvdekudelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:1Em7Yf-w63GwbcnFA0WMRF65ZgFNE24NH9iUZMIl7cnJUwwOyRW6JQ>
+    <xmx:1Em7Yes6t8uRE7dH6irMC_jDDF8yOVjQoiJXHeTz8s6E8sCaWAgTqA>
+    <xmx:1Em7YWHUffelw9yQ3Q6d510NVrZtcMXYzNsdNx9WNp-VNlUTSdBvpQ>
+    <xmx:1Um7YTP7ekTUDANke-bm6pE4fI5FbfusEHm7TSNvrIsrmSGfJdxTdg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Dec 2021 09:14:42 -0500 (EST)
+Message-ID: <bfdfb7b3-1322-573d-eddc-1d337c4616e6@flygoat.com>
+Date: Thu, 16 Dec 2021 14:14:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH v3 5/6] MIPS: implement architecture-specific
+ 'pci_remap_iospace()'
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Xi Ruoyao <xry111@mengyan1223.wang>,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Rob Herring <robh@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ Liviu Dudau <Liviu.Dudau@arm.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ linux-pci <linux-pci@vger.kernel.org>, linux-staging@lists.linux.dev,
+ NeilBrown <neil@brown.name>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
+ <20210925203224.10419-6-sergio.paracuellos@gmail.com>
+ <67687e579e633d42dc501cfb6746c1cb9f600112.camel@mengyan1223.wang>
+ <6ee31420-ef67-471e-a924-a0158b4a9428@www.fastmail.com>
+ <CAK8P3a2i6eW8JunE_6h6OTCa51eHfPahQQhaGHGWePX+r4ybww@mail.gmail.com>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <CAK8P3a2i6eW8JunE_6h6OTCa51eHfPahQQhaGHGWePX+r4ybww@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 16 Dec 2021 05:12:49 -0600, Adam Ford wrote:
-> The G1 and G2 are separate decoder blocks that are enabled by the
-> vpu-blk-ctrl power-domain controller, which now has a proper driver.
-> Update the bindings to support separate nodes for the G1 and G2
-> decoders with vpu-blk-ctrl power-domain support.
-> 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml:18:6: [warning] wrong indentation: expected 4 but found 5 (indentation)
-./Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml:19:7: [warning] wrong indentation: expected 7 but found 6 (indentation)
+在 2021/12/16 13:50, Arnd Bergmann 写道:
+> On Thu, Dec 16, 2021 at 2:07 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+>> 在2021年12月16日十二月 上午11:44，Xi Ruoyao写道：
+>> Another way could be keeping a linked list about PIO->PHYS mapping instead of using the single io_port_base variable.
+> I think that would add a lot of complexity that isn't needed here. Not
+> sure if all MIPS CPUs
+> can do it, but the approach used on Arm is what fits in best with the
+> PCI drivers, these
+> reserve a virtual address range for the ports, and ioremap the
+> physical addresses into
+> the PIO range according to the mapping.
 
-dtschema/dtc warnings/errors:
+Yes, the Arm way was my previous approach when introducing PCI IO map
+for Loongson.
 
-doc reference errors (make refcheckdocs):
+It got refactored by this patch as TLB entries are expensive on MIPS,
+also the size of IO range doesn't always fits a page.
 
-See https://patchwork.ozlabs.org/patch/1569050
+>
+> For the loongson case specifically, that's not even needed though, as
+> the two buses
+> have physically contiguous I/O port ranges, the code just needs to
+> detect this special
+> case.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+We have MIPS Boston board (from imgtec) which has discontinuous IO
+range.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Thanks.
 
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+>
+>          Arnd
+- Jiaxun
