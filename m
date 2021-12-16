@@ -1,113 +1,215 @@
-Received: from mengyan1223.wang (mengyan1223.wang [89.208.246.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 071F22CA2
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 11:52:55 +0000 (UTC)
-Received: from localhost.localdomain (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-	(Client did not present a certificate)
-	(Authenticated sender: xry111@mengyan1223.wang)
-	by mengyan1223.wang (Postfix) with ESMTPSA id C8EF966017;
-	Thu, 16 Dec 2021 06:44:10 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mengyan1223.wang;
-	s=mail; t=1639655054;
-	bh=e2cVfczo/NWYtUht5KxKMRgux99OifWmOFSqZcDHraQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=h8j4HiuSPpak/mb7Eyxq49DwQVKHPjpPl5bicGMbqeiH4Q3NSN5G9c/NnjsrEBbLD
-	 2L8layQi7skSL6jlyGNr9dhtvtYkjAckfpdDOhjGefRZW20gTtYgR0Z+gJMsqLzSBJ
-	 moZzY3B5Dx7aXb8vT315/co9e3/3F+6vx4I79SSfuchW15GG81K6RwnCNNU4jP5kDT
-	 /eIrgx+JO6wAChK4KZemxGIqp86fyPcdt4FwSWi2ZleCpZlXe2uid3V6VJryDEgXoe
-	 tg8qT8J8uxNRI8o3x1NefSweHW2IX5lX/VSrS6myWH4Xy1i4byJth278OO+/s5d6o2
-	 o8zxrErGXUaqA==
-Message-ID: <67687e579e633d42dc501cfb6746c1cb9f600112.camel@mengyan1223.wang>
-Subject: Re: [PATCH v3 5/6] MIPS: implement architecture-specific
- 'pci_remap_iospace()'
-From: Xi Ruoyao <xry111@mengyan1223.wang>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
-	tsbogend@alpha.franken.de
-Cc: robh@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
- Liviu.Dudau@arm.com,  bhelgaas@google.com, matthias.bgg@gmail.com,
- gregkh@linuxfoundation.org,  linux-mips@vger.kernel.org,
- linux-pci@vger.kernel.org,  linux-staging@lists.linux.dev, neil@brown.name,
- linux-kernel@vger.kernel.org,  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Date: Thu, 16 Dec 2021 19:44:06 +0800
-In-Reply-To: <20210925203224.10419-6-sergio.paracuellos@gmail.com>
-References: <20210925203224.10419-1-sergio.paracuellos@gmail.com>
-	 <20210925203224.10419-6-sergio.paracuellos@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.2 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0182CA2
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 12:09:36 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id l8so25170341qtk.6
+        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 04:09:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=27iVM0aKdAv+JiQsBY26McdFr1qGDMbXj62yl//SmdI=;
+        b=EjgfyGJxxUe0zKPwlPZuWE1t0SOucWDWFeCaHtd9CtTjvYD8KEvoSGADHu9gyNPb0w
+         JWQPYcVpFoMLCKxKe917EAK3rQhm9rqbvanX8/9tJipQjxDtiQrgd9Cyi+m8psvEwL07
+         PriJRFI5nVCSe2OHRbYWLOhhpLhYbXN1zyMtuHe9ubzsaCm6FuB5gxGs1deiCaaqsuIS
+         7SNZge5tLLcsnLVmrsCRRGJLbd0V8yjk0WMx3srgHenZpyaQN39xjSVUVhEL9GRNyEiG
+         C/FPjhJYYMzHEq3sI8Gnz+D8pqXEECyYqYbePLztZIJ0168ItbNPW6z/qUz4JZ9EcVMP
+         xe9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=27iVM0aKdAv+JiQsBY26McdFr1qGDMbXj62yl//SmdI=;
+        b=ESiCsSO5obqAh40Wj1nbvqK60IgbomJzPkUh9S1a2luKjhJC4ttMFAr/qu3RKVYJq+
+         D6v2LGBqulOb86xE8ks/sIkBuiakVtkFmBoNM+uJlh3FDfjPZbDS0n+5ASUH4qqQXZoC
+         lAE/N32Irs0aPsOvLh7T3ja8absVkWCfOw1EpwtzMtrtqAXU/C2nvJZq7C43GAO2x8i+
+         fbj90WWWQriR0iIei5RU9+8EXb8Yf0hpONhexzZvyJ0Vk48FoQ6CXuHE14GaVOSIrsM7
+         ePqjqJj+NH4epYOK5a9A7qsaGfLhjqDY6Q+N2hAaTpw7hHG0EfLU9PPKctfTu5ITlR6a
+         x+Jg==
+X-Gm-Message-State: AOAM530eAjzlgG5UkgA6lsiMaaV9i0BUyD84oX0zpRIQHYcl3kVR0use
+	PP95YPzzmOQ4munxbGdKaDPjtA==
+X-Google-Smtp-Source: ABdhPJzK5axWJi3teF0QGvKpI/4LKnG7d8mowHvrhT9SMBZNmCvwXv/NOOVc4korY3W6ostQo3hcsw==
+X-Received: by 2002:a05:622a:1902:: with SMTP id w2mr16510679qtc.93.1639656575105;
+        Thu, 16 Dec 2021 04:09:35 -0800 (PST)
+Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
+        by smtp.gmail.com with ESMTPSA id k9sm4220397qta.48.2021.12.16.04.09.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 04:09:33 -0800 (PST)
+Date: Thu, 16 Dec 2021 09:09:26 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-media@vger.kernel.org, abel.vesa@nxp.com,
+	aford@beaconembedded.com, benjamin.gaignard@collabora.com,
+	hverkuil-cisco@xs4all.nl, Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH V2 05/10] media: hantro: Allow i.MX8MQ G1 and G2 to run
+ independently
+Message-ID: <YbssdkOvCR3UMtKQ@eze-laptop>
+References: <20211216111256.2362683-1-aford173@gmail.com>
+ <20211216111256.2362683-6-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211216111256.2362683-6-aford173@gmail.com>
 
-On Sat, 2021-09-25 at 22:32 +0200, Sergio Paracuellos wrote:
-> To make PCI IO work we need to properly virtually map IO cpu physical address
-> and set this virtual address as the address of the first PCI IO port which
-> is set using function 'set_io_port_base()'.
+Hi Adam,
+
+On Thu, Dec 16, 2021 at 05:12:50AM -0600, Adam Ford wrote:
+> The VPU in the i.MX8MQ is really the combination of Hantro G1 and
+> Hantro G2. With the updated vpu-blk-ctrl, the power domains system
+> can enable and disable them separately as well as pull them out of
+> reset. This simplifies the code and lets them run independently
+> while still retaining backwards compatibility with older device
+> trees for those using G1.
 > 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-
-Hi,
-
-the change is causing a WARNING on loongson64g-4core-ls7a:
-
-[    0.105781] loongson-pci 1a000000.pci:       IO 0x0018020000..0x001803ffff ->
- 0x0000020000
-[    0.105792] loongson-pci 1a000000.pci:      MEM 0x0040000000..0x007fffffff ->
- 0x0040000000
-[    0.105801] ------------[ cut here ]------------
-[    0.105804] WARNING: CPU: 0 PID: 1 at arch/mips/pci/pci-generic.c:55 pci_remap_iospace+0x80/0x88
-[    0.105815] resource start address is not zero
-
-I'm not sure how to fix this one.
-
-> ---
->  arch/mips/include/asm/pci.h |  2 ++
->  arch/mips/pci/pci-generic.c | 14 ++++++++++++++
->  2 files changed, 16 insertions(+)
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 > 
-> diff --git a/arch/mips/include/asm/pci.h b/arch/mips/include/asm/pci.h
-> index 9ffc8192adae..35270984a5f0 100644
-> --- a/arch/mips/include/asm/pci.h
-> +++ b/arch/mips/include/asm/pci.h
-> @@ -20,6 +20,8 @@
->  #include <linux/list.h>
->  #include <linux/of.h>
->  
-> +#define pci_remap_iospace pci_remap_iospace
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index ab2467998d29..e7afda388ee5 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -609,6 +609,7 @@ static const struct of_device_id of_hantro_match[] = {
+>  #endif
+>  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
+>  	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+> +	{ .compatible = "nxp,imx8mq-vpu-g1", .data = &imx8mq_vpu_g1_variant },
+>  	{ .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
+>  #endif
+>  #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index cff817ca8d22..96b14b43a4af 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -299,6 +299,7 @@ enum hantro_enc_fmt {
+>  	ROCKCHIP_VPU_ENC_FMT_UYVY422 = 3,
+>  };
+>  
+> +extern const struct hantro_variant imx8mq_vpu_g1_variant;
+>  extern const struct hantro_variant imx8mq_vpu_g2_variant;
+>  extern const struct hantro_variant imx8mq_vpu_variant;
+>  extern const struct hantro_variant px30_vpu_variant;
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> index 1a43f6fceef9..4925f2a07d4c 100644
+> --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -223,13 +223,6 @@ static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
+>  	imx8m_soft_reset(vpu, RESET_G1);
+>  }
+>  
+> -static void imx8m_vpu_g2_reset(struct hantro_ctx *ctx)
+> -{
+> -	struct hantro_dev *vpu = ctx->dev;
+> -
+> -	imx8m_soft_reset(vpu, RESET_G2);
+> -}
+> -
+>  /*
+>   * Supported codec ops.
+>   */
+> @@ -255,17 +248,33 @@ static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
+>  	},
+>  };
+>  
+> +static const struct hantro_codec_ops imx8mq_vpu_g1_codec_ops[] = {
+> +	[HANTRO_MODE_MPEG2_DEC] = {
+> +		.run = hantro_g1_mpeg2_dec_run,
+> +		.init = hantro_mpeg2_dec_init,
+> +		.exit = hantro_mpeg2_dec_exit,
+> +	},
+> +	[HANTRO_MODE_VP8_DEC] = {
+> +		.run = hantro_g1_vp8_dec_run,
+> +		.init = hantro_vp8_dec_init,
+> +		.exit = hantro_vp8_dec_exit,
+> +	},
+> +	[HANTRO_MODE_H264_DEC] = {
+> +		.run = hantro_g1_h264_dec_run,
+> +		.init = hantro_h264_dec_init,
+> +		.exit = hantro_h264_dec_exit,
+> +	},
+> +};
 > +
->  #ifdef CONFIG_PCI_DRIVERS_LEGACY
->  
->  /*
-> diff --git a/arch/mips/pci/pci-generic.c b/arch/mips/pci/pci-generic.c
-> index 95b00017886c..18eb8a453a86 100644
-> --- a/arch/mips/pci/pci-generic.c
-> +++ b/arch/mips/pci/pci-generic.c
-> @@ -46,3 +46,17 @@ void pcibios_fixup_bus(struct pci_bus *bus)
->  {
->         pci_read_bridge_bases(bus);
->  }
-> +
-> +int pci_remap_iospace(const struct resource *res, phys_addr_t phys_addr)
-> +{
-> +       unsigned long vaddr;
-> +
-> +       if (res->start != 0) {
-> +               WARN_ONCE(1, "resource start address is not zero\n");
-> +               return -ENODEV;
-> +       }
-> +
-> +       vaddr = (unsigned long)ioremap(phys_addr, resource_size(res));
-> +       set_io_port_base(vaddr);
-> +       return 0;
-> +}
+>  static const struct hantro_codec_ops imx8mq_vpu_g2_codec_ops[] = {
+>  	[HANTRO_MODE_HEVC_DEC] = {
+>  		.run = hantro_g2_hevc_dec_run,
+> -		.reset = imx8m_vpu_g2_reset,
+>  		.init = hantro_hevc_dec_init,
+>  		.exit = hantro_hevc_dec_exit,
+>  	},
+>  	[HANTRO_MODE_VP9_DEC] = {
+>  		.run = hantro_g2_vp9_dec_run,
+>  		.done = hantro_g2_vp9_dec_done,
+> -		.reset = imx8m_vpu_g2_reset,
+>  		.init = hantro_vp9_dec_init,
+>  		.exit = hantro_vp9_dec_exit,
+>  	},
+> @@ -285,6 +294,10 @@ static const struct hantro_irq imx8mq_g2_irqs[] = {
+>  
+>  static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+>  static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
+> +static const char * const imx8mq_g1_clk_names[] = { "g1" };
+> +static const char * const imx8mq_g1_reg_names[] = { "g1" };
+> +static const char * const imx8mq_g2_clk_names[] = { "g2" };
+> +static const char * const imx8mq_g2_reg_names[] = { "g2" };
+>  
 
--- 
-Xi Ruoyao <xry111@mengyan1223.wang>
-School of Aerospace Science and Technology, Xidian University
+I believe the g1 and g2 _reg_names are now unused?
+
+Thanks,
+Ezequiel
+
+>  const struct hantro_variant imx8mq_vpu_variant = {
+>  	.dec_fmts = imx8m_vpu_dec_fmts,
+> @@ -305,6 +318,21 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>  	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
+>  };
+>  
+> +const struct hantro_variant imx8mq_vpu_g1_variant = {
+> +	.dec_fmts = imx8m_vpu_dec_fmts,
+> +	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
+> +	.postproc_fmts = imx8m_vpu_postproc_fmts,
+> +	.num_postproc_fmts = ARRAY_SIZE(imx8m_vpu_postproc_fmts),
+> +	.postproc_ops = &hantro_g1_postproc_ops,
+> +	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
+> +		 HANTRO_H264_DECODER,
+> +	.codec_ops = imx8mq_vpu_g1_codec_ops,
+> +	.irqs = imx8mq_irqs,
+> +	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
+> +	.clk_names = imx8mq_g1_clk_names,
+> +	.num_clocks = ARRAY_SIZE(imx8mq_g1_clk_names),
+> +};
+> +
+>  const struct hantro_variant imx8mq_vpu_g2_variant = {
+>  	.dec_offset = 0x0,
+>  	.dec_fmts = imx8m_vpu_g2_dec_fmts,
+> @@ -314,10 +342,8 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
+>  	.postproc_ops = &hantro_g2_postproc_ops,
+>  	.codec = HANTRO_HEVC_DECODER | HANTRO_VP9_DECODER,
+>  	.codec_ops = imx8mq_vpu_g2_codec_ops,
+> -	.init = imx8mq_vpu_hw_init,
+> -	.runtime_resume = imx8mq_runtime_resume,
+>  	.irqs = imx8mq_g2_irqs,
+>  	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
+> -	.clk_names = imx8mq_clk_names,
+> -	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+> +	.clk_names = imx8mq_g2_clk_names,
+> +	.num_clocks = ARRAY_SIZE(imx8mq_g2_clk_names),
+>  };
+> -- 
+> 2.32.0
+> 
