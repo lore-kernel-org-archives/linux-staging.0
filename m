@@ -1,41 +1,41 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCACA2CA2
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 11:13:29 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id z26so34578739iod.10
-        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 03:13:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40B62CA2
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 11:13:32 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id b187so34623598iof.11
+        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 03:13:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Rzx5jUD4NI/pFUe7ZWnx346ZCIBslKEARnIfPCiUHoo=;
-        b=DnuiV6eiFqI00zTgvM7m1LhO6d/zeQM2+V2LNGcA9GATvj1AYF3A5x/zl1yzezm57t
-         ZCkYJ03zDGLelHhDZNzVAnhZvyRb9Lyf4AmMDp8CmNmNXCHN4il2WDj7QV5J+IOrL1Lq
-         hFaM2u0dym9Up7+3KFflN/a2sb+fy05GcAQGfnLTOvHnNN5iK1uOR9TWG39ajuFNoaIc
-         q4qx1WEKm1FQcNk0VtgPNnQNGge8oUZ5rhNRVE3dUl2tGQc0VLLTTLlF3r4SOlbkFWl6
-         XjszjdQjWmefW5I7CR3yblxZYNDznHgJYBvU7C1/TVq0PP875zRp6AszUcgWcVdc5lPV
-         AvIw==
+        bh=3TbuArxHhnw2NqzqpC678dLXDest9qrzIVawU/F9j8Q=;
+        b=c7c5AUqscKuwonxjAAu6GNkrIrX/IF7LrlWWVMPz5UemowmrXucK7FkuhZIGIRGzt1
+         GQJPYBo5Qt6nhgS6gT6fBSiQtets2bXuqlFAnLAFN70TZNC+gG+EAHejVr5ce+i8ovXG
+         Os6j1vre3Rl+jpAFdoVx3iUab3zIjVJtqnvU1iZ//JYFc3AMDyS+pfXirWE1ZY2SlUa6
+         8x0Ba2EUvmM0M8ErtWryT8gSJYvP1Jk//AxnTONrq5haRQXGXy67tGDP2VWNfd1G3j7Y
+         fp09JwuwLqYZ70VePxar96Mw6w66JsT6MdUkerjlUtdwfaxuWlR/qip4LRzHcjOpd7uK
+         NwqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Rzx5jUD4NI/pFUe7ZWnx346ZCIBslKEARnIfPCiUHoo=;
-        b=PdM8SyVlrcgUaNvxEwzQ/lMjPKhODkHC5Qcy2R7UAPtOOCe4VQQ0MQcud7SM1ULFqW
-         2y9NOIGgITq1jF40G75sqPL0bKT7D+3zyESBaGLNYh9fKT5/rvWnnIsLmfprkDpQ4ryi
-         I0q/7aQFnZsi9f49wOKOnBSmf+Mdwz4sU7RiVt7F+86ap5T0EKBblVy+yr33HKhMqMrh
-         AUUo9Znsuig/45UmdPuE+MtJ36mehHcWOzF18pIbtY6RVKRJegqCGUEBUcRgbZm+gLfA
-         eCLb3cpeg5CpGSRp10cSSnliro9kKTODHSCdLcVptnxhaESHIp6SqpuN6JQmFnXrRuRP
-         JYvA==
-X-Gm-Message-State: AOAM530XB7Aw2ou8szLXYVQa/1RibtXnUlfppnps/1G6zd7XnenpJLwJ
-	dPW0SlxSK6ijYkNMGuZKU1o=
-X-Google-Smtp-Source: ABdhPJxnTsd/C+zIC5V2sOoMCQpF5gaWY0Z8fXHYbMfArLEgXOTaqamjaTuo5pq7NJtHFdhYgHqAjA==
-X-Received: by 2002:a02:c6c5:: with SMTP id r5mr9114049jan.110.1639653208910;
-        Thu, 16 Dec 2021 03:13:28 -0800 (PST)
+        bh=3TbuArxHhnw2NqzqpC678dLXDest9qrzIVawU/F9j8Q=;
+        b=q1HIbxG8h/Vrm1aeJ6c0tYmAyI4NkMqMV97MyKYpg9P394RrzOgTy/Vls6Jz24DLB1
+         X4a+wGciYzMuIIoeDfQ62fQOv4UQkw6oqYQ6OrRrrOLr8UkoD3rUB3YkLfy2EbBfAQxW
+         pSpkpfGhh5LLmwma8EBlxTnqZHkjx361eZS4z5zih2TNnrhqZ2lJvdbS1Pg86stow2WA
+         K7qwQl8sdPkMbyibmoE2R00EB3gIwH4kgukbbd5LYh9ocez+2l9CwwM/s/VyOPrJTDEO
+         No4gwqg6oaFpjRP24xkLcot8OjdSNyB7o5tuTv4UnaVkB1rLMdezRcYzUafRmr6yNntq
+         irXw==
+X-Gm-Message-State: AOAM5328ZOaN3sY5khTsSZxIoP+131FEiYeV0K80p7krmfsxEnpzrR5b
+	d2KM24t1FA2JNm3JTiIxBkw=
+X-Google-Smtp-Source: ABdhPJxedNBamHheqxed8H6owY3Y6xwLktxG1rqCkzncbtyaENC9+7PwVJWipBKw16ZRt4uLl+pOZA==
+X-Received: by 2002:a6b:740b:: with SMTP id s11mr9121160iog.120.1639653211807;
+        Thu, 16 Dec 2021 03:13:31 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:fe22:1652:55f7:5197])
-        by smtp.gmail.com with ESMTPSA id h1sm3090946iow.31.2021.12.16.03.13.27
+        by smtp.gmail.com with ESMTPSA id h1sm3090946iow.31.2021.12.16.03.13.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Dec 2021 03:13:28 -0800 (PST)
+        Thu, 16 Dec 2021 03:13:31 -0800 (PST)
 From: Adam Ford <aford173@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: abel.vesa@nxp.com,
@@ -59,9 +59,9 @@ Cc: abel.vesa@nxp.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH V2 06/10] arm64: dts: imx8mq: Enable both G1 and G2 VPU's with vpu-blk-ctrl
-Date: Thu, 16 Dec 2021 05:12:51 -0600
-Message-Id: <20211216111256.2362683-7-aford173@gmail.com>
+Subject: [PATCH V2 07/10] arm64: dts: imx8mm: Fix VPU Hanging
+Date: Thu, 16 Dec 2021 05:12:52 -0600
+Message-Id: <20211216111256.2362683-8-aford173@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211216111256.2362683-1-aford173@gmail.com>
 References: <20211216111256.2362683-1-aford173@gmail.com>
@@ -73,98 +73,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-With the Hantro G1 and G2 now setup to run independently, update
-the device tree to allow both to operate.  This requires the
-vpu-blk-ctrl node to be configured.  Since vpu-blk-ctrl needs
-certain clock enabled to handle the gating of the G1 and G2
-fuses, the clock-parents and clock-rates for the various VPU's
-to be moved into the pgc_vpu because they cannot get re-parented
-once enabled, and the pgc_vpu is the highest in the chain.
+The vpumix power domain has a reset assigned to it, however
+when used, it causes a system hang.  Testing has shown that
+it does not appear to be needed anywhere.
 
+Fixes: d39d4bb15310 ("arm64: dts: imx8mm: add GPC node")
 Signed-off-by: Adam Ford <aford173@gmail.com>
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 972766b67a15..5029c121d48b 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -711,7 +711,21 @@ pgc_gpu: power-domain@5 {
- 					pgc_vpu: power-domain@6 {
- 						#power-domain-cells = <0>;
- 						reg = <IMX8M_POWER_DOMAIN_VPU>;
--						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-+						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>,
-+							 <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-+							 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+						assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-+								  <&clk IMX8MQ_CLK_VPU_G2>,
-+								  <&clk IMX8MQ_CLK_VPU_BUS>,
-+								  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-+						assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-+									 <&clk IMX8MQ_VPU_PLL_OUT>,
-+									 <&clk IMX8MQ_SYS1_PLL_800M>,
-+									 <&clk IMX8MQ_VPU_PLL>;
-+						assigned-clock-rates = <600000000>,
-+								       <600000000>,
-+								       <800000000>,
-+								       <0>;
+diff --git a/arch/arm64/boot/dts/freescale/imx8mm.dtsi b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+index c2f3f118f82e..f13d31ebfcbd 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mm.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mm.dtsi
+@@ -681,7 +681,6 @@ pgc_vpumix: power-domain@6 {
+ 						clocks = <&clk IMX8MM_CLK_VPU_DEC_ROOT>;
+ 						assigned-clocks = <&clk IMX8MM_CLK_VPU_BUS>;
+ 						assigned-clock-parents = <&clk IMX8MM_SYS_PLL1_800M>;
+-						resets = <&src IMX8MQ_RESET_VPU_RESET>;
  					};
  
- 					pgc_disp: power-domain@7 {
-@@ -1432,30 +1446,31 @@ usb3_phy1: usb-phy@382f0040 {
- 			status = "disabled";
- 		};
- 
--		vpu: video-codec@38300000 {
--			compatible = "nxp,imx8mq-vpu";
--			reg = <0x38300000 0x10000>,
--			      <0x38310000 0x10000>,
--			      <0x38320000 0x10000>;
--			reg-names = "g1", "g2", "ctrl";
--			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "g1", "g2";
-+		vpu_g1: video-codec@38300000 {
-+			compatible = "nxp,imx8mq-vpu-g1";
-+			reg = <0x38300000 0x10000>;
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
-+			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mq-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+			power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
-+		};
-+
-+		vpu_blk_ctrl: blk-ctrl@38320000 {
-+			compatible = "fsl,imx8mq-vpu-blk-ctrl";
-+			reg = <0x38320000 0x100>;
-+			power-domains = <&pgc_vpu>, <&pgc_vpu>, <&pgc_vpu>;
-+			power-domain-names = "bus", "g1", "g2";
- 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
--				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
--				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
--			clock-names = "g1", "g2", "bus";
--			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
--					  <&clk IMX8MQ_CLK_VPU_G2>,
--					  <&clk IMX8MQ_CLK_VPU_BUS>,
--					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
--			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
--						 <&clk IMX8MQ_VPU_PLL_OUT>,
--						 <&clk IMX8MQ_SYS1_PLL_800M>,
--						 <&clk IMX8MQ_VPU_PLL>;
--			assigned-clock-rates = <600000000>, <600000000>,
--					       <800000000>, <0>;
--			power-domains = <&pgc_vpu>;
-+				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
-+			clock-names = "g1", "g2";
-+			#power-domain-cells = <1>;
- 		};
- 
- 		pcie0: pcie@33800000 {
+ 					pgc_vpu_g1: power-domain@7 {
 -- 
 2.32.0
 
