@@ -1,164 +1,165 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA692C82
-	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 14:58:50 +0000 (UTC)
-Received: from [IPv6:2a01:e0a:120:3210:647b:8ae3:3908:58d6] (unknown [IPv6:2a01:e0a:120:3210:647b:8ae3:3908:58d6])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DD3061F463F9;
-	Thu, 16 Dec 2021 14:58:42 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1639666723; bh=BTdDikXpF4XSx021w9PRTEKVLDa7Vof8nDF6T89RUCg=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=PbS5VrVK3UMCLMI7wxt0g+wotYuMxgcYrjS7sJj2+Y6QdsAoGvx9o383Sz85bwlQA
-	 x5vLKVKL3t3bBPOgBztuJnop3EWS6MgZ4E0tBMDD2gwDRTy8ktMOQlf2EXnroX83dY
-	 rATCENy9mcDZTSuI1DmqRjCIKwHRiOvD4MYoP2kKl+W7f7r61S1JY5mM5tVC59FpTD
-	 7ePBuhvMzOsDopFmYhdcQXdFyJohMPBjtyuu/pFHpP3KA5LUBALqftc7zJhIRm5ZlK
-	 9bWyz/4Ncmx35NqEtMjkuLz81NP05g25WtdsL+CMsBnyX90iTP2T6jymNMV8W/T/M3
-	 i3k3OJ6nAqGjw==
-Subject: Re: [PATCH V2 00/10] media: hantro: imx8mq/imx8mm: Let VPU decoders
- get controlled by vpu-blk-ctrl
-To: Adam Ford <aford173@gmail.com>, linux-media@vger.kernel.org
-Cc: abel.vesa@nxp.com, aford@beaconembedded.com, hverkuil-cisco@xs4all.nl,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lucas Stach <l.stach@pengutronix.de>, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DF1173
+	for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 17:29:15 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id s139so37348952oie.13
+        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 09:29:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BGDKRwosuspfYWxZApqXKSNZ+F/8DLGm7NO/ffPXmr0=;
+        b=5ReYsoISfZR02vWIn7OOQS5S6LI5crdiETKsrB28MYCOIZsd5oouQ+m7FgBxQP3Ddu
+         sMRivyq1c4kHtdfRA7w6OdTnV5FeGh3bhdHvfE1yUX6L+7h3XQ1aJin/DFSOZbYPzFUc
+         4yJxfXm1xGTunOubL1AW97ZW+YmtRnn4g+gkn9lTfAFDU+7CyTjuzZUERJLu9oIoKNYz
+         KGGtH9XiakfTUnnsgVU6P764r70rxQnC7IHVAAlC0xBZVBZ6/E2FLsNFlZGuwNlMp6FM
+         oYlCqv/AAdoqzxA6CYxuypsWuWvo+d6/TU+vpadF1OhzuP8pQinRLdsNSfAZ0aDDmkKi
+         GIIw==
+X-Gm-Message-State: AOAM533hzOetYDdhfkz8nva3vVqYLRKa/zmNSt7b0jKSfoBRfxq9tdXl
+	CPPWwZR+ytGwGXma3DXriw==
+X-Google-Smtp-Source: ABdhPJzpIdbfDFxlf+VQ8oNO/3zvGLjwEQsh7u9aVYPQ0hfaH6c6G98GZZ3yZtc9iElIOJF/los3iw==
+X-Received: by 2002:a05:6808:1a02:: with SMTP id bk2mr4936718oib.52.1639675754325;
+        Thu, 16 Dec 2021 09:29:14 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id e26sm1102831oog.46.2021.12.16.09.29.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Dec 2021 09:29:13 -0800 (PST)
+Received: (nullmailer pid 430626 invoked by uid 1000);
+	Thu, 16 Dec 2021 17:29:12 -0000
+Date: Thu, 16 Dec 2021 11:29:12 -0600
+From: Rob Herring <robh@kernel.org>
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-media@vger.kernel.org, abel.vesa@nxp.com, aford@beaconembedded.com, benjamin.gaignard@collabora.com, hverkuil-cisco@xs4all.nl, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lucas Stach <l.stach@pengutronix.de>, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH V2 04/10] dt-bindings: media: nxp,imx8mq-vpu: Split G1
+ and G2 nodes
+Message-ID: <Ybt3aHfscuKMM0ie@robh.at.kernel.org>
 References: <20211216111256.2362683-1-aford173@gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <32791d1e-c81e-ea11-c7a6-e8cbebe49a5e@collabora.com>
-Date: Thu, 16 Dec 2021 15:58:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ <20211216111256.2362683-5-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211216111256.2362683-1-aford173@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211216111256.2362683-5-aford173@gmail.com>
 
+On Thu, Dec 16, 2021 at 05:12:49AM -0600, Adam Ford wrote:
+> The G1 and G2 are separate decoder blocks that are enabled by the
+> vpu-blk-ctrl power-domain controller, which now has a proper driver.
+> Update the bindings to support separate nodes for the G1 and G2
+> decoders with vpu-blk-ctrl power-domain support.
 
-Le 16/12/2021 à 12:12, Adam Ford a écrit :
-> Both the i.MX8MQ and i.MX8MM have G1 and G2 decoders.
-> The two decoders are similar, but the imx8mm lacks the
-> post-processor, so they will have distinct compatible flags.
->
->  From what I can tell, the G2 decoder wasn't working, so splitting
-> the i.MX8MQ VPU into G1 and G2 makes it easier to control them
-> independently since the TRM of both the i.MX8MQ and
-> i.MX8MM list them as distinct IP blocks. This also allowed G2 to
-> become available.
->
-> With them being split, the power-domain can shift to the
-> vpu-blk-ctrl which is available on both i.MX8MQ and i.MX8MM,
-> but some of bits are different, so they'll have separate bindings.
->
-> Lastly, with the G1 and G2 operational, enable the i.MX8MM.
-> On the i.MX8MM, the clock speed of 600MHz was chosen to match
-> the default of the kernel repo from NXP and can be overwritten
-> by board files for anyone who under/over volts the power rail.
->
-> There seems to be some disagreement between the TRM and the Datasheet
-> for the imx8mq as to whether the speed should be 300MHz (TRM) or
-> 600MHz (datasheet), so feedback from NXP would be very much
-> appreciated.
->
-> The repo used as the starting point was:
-> git://linuxtv.org/hverkuil/media_tree.git for-v5.17e
->
-> Fluster was run on both i.MX8MM and i.MX8MQ
->
-> At 600 MHz, the i.MX8MM had the following:
->
-> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> Ran 55/61 tests successfully               in 8.299 secs
->
-> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> Ran 90/135 tests successfully               in 71.200 secs
->
-> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> Ran 139/303 tests successfully               in 218.079 secs
->
-> The i.MX8MQ had the following:
->
-> ./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-> Ran 55/61 tests successfully               in 7.732 secs
->
-> ./fluster.py run -dGStreamer-H.264-V4L2SL-Gst1.0
-> Ran 90/135 tests successfully               in 58.558 secs
->
-> ./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-> Ran 144/303 tests successfully               in 271.373 secs
+You could expand this a bit more with Lucas' explanation and being 
+explicit on the compatibility implications.
 
-I have tested this series on top of media_stage/master branch
-with IMX6MQ:
+Otherwise, with that and indentation fixed:
 
-./fluster.py run -d GStreamer-VP8-V4L2SL-Gst1.0
-Ran 57/61 tests successfully               in 32.725 secs
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-./fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0
-Ran 89/135 tests successfully               in 131.632 secs
-
-./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0
-Ran 146/303 tests successfully               in 304.345 secs
-
-./fluster.py run -d GStreamer-H.265-V4L2SL-Gst1.0 -j 1
-Ran 77/147 tests successfully               in 1047.211 secs
-
-For this series:
-
-Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Thanks to fix this problem.
-Benjamin
-
->
-> V2:  Remove references to legacy dt-binding from YAML, but keep
->       it in the driver so older device trees can still be used.
->       Fix typos in YAML
->       Remove reg-names, interrupt-names, and clock-names from YAML,
->       since each node will only have one of each, they're not necessary
->       Add Fluster scores to cover letter for i.MX8MQ
->
-> Adam Ford (7):
->    dt-bindings: media: nxp,imx8mq-vpu: Split G1 and G2 nodes
->    media: hantro: Allow i.MX8MQ G1 and G2 to run independently
->    arm64: dts: imx8mq: Enable both G1 and G2 VPU's with vpu-blk-ctrl
->    arm64: dts: imx8mm: Fix VPU Hanging
->    dt-bindings: media: nxp,imx8mq-vpu: Add support for G1 and G2 on
->      imx8mm
->    media: hantro: Add support for i.MX8MM
->    arm64: dts: imx8mm: Enable Hantro G1 and G2 video decoders
->
-> Lucas Stach (3):
->    dt-bindings: power: imx8mq: add defines for VPU blk-ctrl domains
->    dt-bindings: soc: add binding for i.MX8MQ VPU blk-ctrl
->    soc: imx: imx8m-blk-ctrl: add i.MX8MQ VPU blk-ctrl
->
->   .../bindings/media/nxp,imx8mq-vpu.yaml        | 93 +++++++++++--------
->   .../soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml      | 71 ++++++++++++++
->   arch/arm64/boot/dts/freescale/imx8mm.dtsi     | 23 ++++-
->   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 63 ++++++++-----
->   drivers/soc/imx/imx8m-blk-ctrl.c              | 68 +++++++++++++-
->   drivers/staging/media/hantro/hantro_drv.c     |  3 +
->   drivers/staging/media/hantro/hantro_hw.h      |  3 +
->   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 75 ++++++++++++---
->   include/dt-bindings/power/imx8mq-power.h      |  3 +
->   9 files changed, 324 insertions(+), 78 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/soc/imx/fsl,imx8mq-vpu-blk-ctrl.yaml
->
->
-> base-commit: d1888b0bfd2ddef2e8a81505ffa200b92cc32e0c
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> 
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> index 762be3f96ce9..c1e157251de7 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> @@ -15,33 +15,20 @@ description:
+>  
+>  properties:
+>    compatible:
+> -    const: nxp,imx8mq-vpu
+> +     oneOf:
+> +      - const: nxp,imx8mq-vpu
+> +        deprecated: true
+> +      - const: nxp,imx8mq-vpu-g1
+> +      - const: nxp,imx8mq-vpu-g2
+>  
+>    reg:
+> -    maxItems: 3
+> -
+> -  reg-names:
+> -    items:
+> -      - const: g1
+> -      - const: g2
+> -      - const: ctrl
+> +    maxItems: 1
+>  
+>    interrupts:
+> -    maxItems: 2
+> -
+> -  interrupt-names:
+> -    items:
+> -      - const: g1
+> -      - const: g2
+> +    maxItems: 1
+>  
+>    clocks:
+> -    maxItems: 3
+> -
+> -  clock-names:
+> -    items:
+> -      - const: g1
+> -      - const: g2
+> -      - const: bus
+> +    maxItems: 1
+>  
+>    power-domains:
+>      maxItems: 1
+> @@ -49,31 +36,33 @@ properties:
+>  required:
+>    - compatible
+>    - reg
+> -  - reg-names
+>    - interrupts
+> -  - interrupt-names
+>    - clocks
+> -  - clock-names
+>  
+>  additionalProperties: false
+>  
+>  examples:
+>    - |
+>          #include <dt-bindings/clock/imx8mq-clock.h>
+> +        #include <dt-bindings/power/imx8mq-power.h>
+> +        #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +        vpu_g1: video-codec@38300000 {
+> +                compatible = "nxp,imx8mq-vpu-g1";
+> +                reg = <0x38300000 0x10000>;
+> +                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>;
+> +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G1>;
+> +        };
+> +  - |
+> +        #include <dt-bindings/clock/imx8mq-clock.h>
+> +        #include <dt-bindings/power/imx8mq-power.h>
+>          #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  
+> -        vpu: video-codec@38300000 {
+> -                compatible = "nxp,imx8mq-vpu";
+> -                reg = <0x38300000 0x10000>,
+> -                      <0x38310000 0x10000>,
+> -                      <0x38320000 0x10000>;
+> -                reg-names = "g1", "g2", "ctrl";
+> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
+> -                             <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> -                interrupt-names = "g1", "g2";
+> -                clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
+> -                         <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
+> -                         <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
+> -                clock-names = "g1", "g2", "bus";
+> -                power-domains = <&pgc_vpu>;
+> +        vpu_g2: video-codec@38300000 {
+> +                compatible = "nxp,imx8mq-vpu-g2";
+> +                reg = <0x38310000 0x10000>;
+> +                interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+> +                clocks = <&clk IMX8MQ_CLK_VPU_G2_ROOT>;
+> +                power-domains = <&vpu_blk_ctrl IMX8MQ_VPUBLK_PD_G2>;
+>          };
+> -- 
+> 2.32.0
+> 
+> 
