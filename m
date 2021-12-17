@@ -1,37 +1,37 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00743173
-	for <linux-staging@lists.linux.dev>; Fri, 17 Dec 2021 04:49:05 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id z5so3270972edd.3
-        for <linux-staging@lists.linux.dev>; Thu, 16 Dec 2021 20:49:05 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B145729CA
+	for <linux-staging@lists.linux.dev>; Fri, 17 Dec 2021 13:15:13 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id b7so7692317edd.6
+        for <linux-staging@lists.linux.dev>; Fri, 17 Dec 2021 05:15:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6GJxpDiLpbpPINaOcBipsmIBKGtNQ+pTxcsj8dWvqKk=;
-        b=XYX28P5JN9Qi9AqY6RdU8NHuKgyb2ni3yWGjFXejI92Mjdz2ktEGfEELSSPmDUvvYi
-         VwQtocGg4rHGd9xMk3Bi7dczQ0gTHV5gGIrlx7knTiCdNgY+HQZBz3LLpZ4Hmn7qVHes
-         b6+7t6q1ga50czfzqpOCqajlT9bPCwJePv67e86JcPtB3x8/o2wmaOaJh+aSsocy2jIW
-         uiJmVzeCGY4indD/+XgNQjohvs6YD7OA6wjDxp4Lislknx/3m2e9qrNEXEnMidcoVu6P
-         3mA3ziprDkCer2OKiwRwYJdJ6zmntOfz6XUSs3BPscVTzwRuSZ3YtGD/NsqR1YnuqO3r
-         v4bw==
+        bh=Na3iE0j4HNoWRi+U++Qkwp+ou8+ZuFrwaRIy0WfQ2hA=;
+        b=N1jr9myxISWFLN1mOI/vHIm7ZWB08fTKGVaFpYwQ27LZJHOjLxTnHX+mLbvy56Ha3e
+         +BVHSX0+Yx6xtn1m2T1ICDsnOmPq3bbHQOdrd/l/fQ9ymJcU9DHC1Q3Wd4eQwRs1irAb
+         w4QUWGBiNrBEq0UHs2n+58YHaxjSOU9CzA8xUunvBR7P+eMZVAiLVlhDonXwWiiSkod9
+         FWKCaEFXjoQPgOD4IowjyWGxZ90LuM17iceNFjjXlBPjORhF7Q4doIEUi66Yz/QyKxeW
+         R1Bl5iIjHMIx/qhhCLl9eowquoy8Mfj5HAakVqzMNmKZnjwr5ws+V7SWS0vIvxV6jZKb
+         YiRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6GJxpDiLpbpPINaOcBipsmIBKGtNQ+pTxcsj8dWvqKk=;
-        b=GYpKe6M3kIsFLCd1xoCm2JQuP2M2LC3DOni8ldH9czOL1jgEq+C5AlD0gZ/Rggtmab
-         ZvORSkAXAhv6ZZBteyH8ZyLipegtdVdaYceVjA67R4/Dd+nYoPiPdLP7hO047RgSRecA
-         OTPRym3cJkJ+D6cG1azp0Tdi5LnEiuXEPk44SBkCYkT8llJXPx6IQQQjo9/Yosd8aDMf
-         8ETZiugMVYQx+0kONpBx6+f9FMITNjSt96HZfVOYzaTddRJIl5G+5Yz/APaIevhPq+95
-         8FlH4s4K9sS2znNY4b2buVimAZ2GDwcy2maKam4EABfEnwbJb3YX7nGH1TBM3VaaiYhg
-         sQkw==
-X-Gm-Message-State: AOAM531xkj/b293eEsgSFHCHGDG7wa+Kbqh8IdADVoLD34TyoRcsVCzz
-	1bSQOuZC/Me2hc8pEVUZxPFX8Rfk8TViVVIlM7c/kQ==
-X-Google-Smtp-Source: ABdhPJzaIuToc0djVyjp+VsjCbme0PeMuRClgq6NqRenM+df1YY9uQXZCbxUdpPkTSZu7ypDqPFBB+GLvvmn9r8MBmg=
-X-Received: by 2002:a17:907:16ac:: with SMTP id hc44mr1138627ejc.363.1639716544065;
- Thu, 16 Dec 2021 20:49:04 -0800 (PST)
+        bh=Na3iE0j4HNoWRi+U++Qkwp+ou8+ZuFrwaRIy0WfQ2hA=;
+        b=mkNmx3Hk8Mkq1apj9eZcoLu91YVDpoLYto9PiYX6p0JAeFjWGsYFvhqpBNvRF7sK7+
+         SRsKwaJaeuMmdhne7F2fSDhYv1CgHu86bW+Lx277KgHvwSmbgIHLpjryTx7oo4crQOX6
+         EnayOn+xw5DTb+49xW7IAp/DPKlKEsb5eFEZXtYl3cXpb5CRo1MLUXB5wDDAvHSRIUe1
+         s8F5eUcc4SdtbIU/UPi/CxTW4FgMu3c38Z6UnuHYtAyHm2E9U2yEKR3bS1EnPl1X3Ovh
+         3na9Pz/1aTG2unzjbpKaMXN4QdmYdvXD8Jyz/FMCbVSrHsKxQEGhH4soiotuQkUBaLsg
+         8xsw==
+X-Gm-Message-State: AOAM533vsfPDgeSDUhQf1398gf+rXCL4RRPwQtn3M47//d2Su1FK+8Ix
+	TG2fKOZtlTgk0tM2Ct22egQLrkLdHY4Wcpc9nX0=
+X-Google-Smtp-Source: ABdhPJx2oXs11DBrV0D1boS6MZsPcSRGc/jvpGyJdpjBOAPI0LrBX/9/U5OOGPw9HCXw3XqnpD70MU3f84YkxWLJuzg=
+X-Received: by 2002:a17:907:2d12:: with SMTP id gs18mr2529014ejc.198.1639746911717;
+ Fri, 17 Dec 2021 05:15:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,13 +55,14 @@ References: <20211106183802.893285-1-aford173@gmail.com> <718f7f6d6cd564d031c196
  <CAHCN7x+UMMP6RXsNm0=OC=UTQzh=RKqQo6B7FD5e4eoJAEfmpg@mail.gmail.com>
  <CAJ+vNU1epi9SwPMHkuDmKcb68RLemYF=bsp7AVnzz06zKc2efw@mail.gmail.com>
  <CAAEAJfCpjk5nWWkJYjjDT-YEpJi4pTZqZbzp_if9OGC0HKspzw@mail.gmail.com>
- <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com> <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com>
-In-Reply-To: <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com>
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date: Fri, 17 Dec 2021 01:48:52 -0300
-Message-ID: <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
+ <CAJ+vNU2we5mGXgYsR6CfimvFXZsc0zktR3fDa-h6RRa02jTT0g@mail.gmail.com>
+ <CAHCN7xJrM9uZUnmx65uTxWEo6HAkjozd3kD3UoEv-pYd5DV4QA@mail.gmail.com> <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
+In-Reply-To: <CAAEAJfBXU-AiKKhkhXzgUSR4p1yefysNuHFycBz3F-GzNewS6w@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Fri, 17 Dec 2021 07:15:00 -0600
+Message-ID: <CAHCN7xL4y67V6AW5MV=8iudvvGVBWs2LoUhu_2CUJf6bSycgFA@mail.gmail.com>
 Subject: Re: [RFC 0/5] arm64: imx8mm: Enable Hantro VPUs
-To: Adam Ford <aford173@gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 Cc: Tim Harvey <tharvey@gateworks.com>, Nicolas Dufresne <nicolas@ndufresne.ca>, 
 	linux-media <linux-media@vger.kernel.org>, 
 	Schrempf Frieder <frieder.schrempf@kontron.de>, Marek Vasut <marek.vasut@gmail.com>, 
@@ -80,28 +81,49 @@ Cc: Tim Harvey <tharvey@gateworks.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
 	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Adam,
-
+On Thu, Dec 16, 2021 at 10:49 PM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
 >
-> I will post a V2 last today with the Mini's post-processing removed.
-> Someone, I apologize that I forget who, mentioned it was fused out of
-> the Mini, so the testing I've been doing was with that removed and I
-> removed the H1 encoder since the Mini doesn't support JPEG encoding.
+> Hi Adam,
 >
-[...]
+> >
+> > I will post a V2 last today with the Mini's post-processing removed.
+> > Someone, I apologize that I forget who, mentioned it was fused out of
+> > the Mini, so the testing I've been doing was with that removed and I
+> > removed the H1 encoder since the Mini doesn't support JPEG encoding.
+> >
+> [...]
+>
+> Resurrecting this thread here. IMX8MMRM Rev. 0, 02/2019 mentions
+> post-processor features for G1 and G2.
+>
+> Have you checked the fuse and synth registers to see if they throw
+> any useful information about the hardware? For instance,
+> comparing PP fuse register (SWREG99) and
+> Synthesis configuration register post-processor (SWREG100)
+> in both 8MQ and 8MM could be useful.
+>
+> As I mentioned on my previous mail, even if G1 PP is disabled
+> on the Mini, I would imagine the G2 can do linear NV12 (aka raster-scan)
+> which in our hantro driver jargon is a  "post-processed" format :-)
 
-Resurrecting this thread here. IMX8MMRM Rev. 0, 02/2019 mentions
-post-processor features for G1 and G2.
+You're likely right.  I was going on memory from an e-mail from
+Nicloas Defresne who wrote:
 
-Have you checked the fuse and synth registers to see if they throw
-any useful information about the hardware? For instance,
-comparing PP fuse register (SWREG99) and
-Synthesis configuration register post-processor (SWREG100)
-in both 8MQ and 8MM could be useful.
+"I will check the patchset, but you need in the mini-variant to disable the G1
+post processor, because this block was fused out. We didn't make it optional
+from the start as according to the V1 of the TRM it was there, but that error
+was corrected in V3."
 
-As I mentioned on my previous mail, even if G1 PP is disabled
-on the Mini, I would imagine the G2 can do linear NV12 (aka raster-scan)
-which in our hantro driver jargon is a  "post-processed" format :-)
+In my head I assumed the G2 was affected as well, but when I double
+checked his email, and based on the above statement, the G2
+post-processing is probably there, so I'll run some tests with the G2
+post-processing enabled.  I'll also double check those registers on
+both to confirm what they read. I am not sure when I'll have time
+because I leave for London next week, and I won't return until early
+January, but I'll do what I can.
 
-Thanks,
-Ezequiel
+adam
+>
+> Thanks,
+> Ezequiel
