@@ -1,139 +1,101 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0832C9C
-	for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 20:37:00 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id j6so1081341edw.12
-        for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 12:37:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE142C9C
+	for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 20:55:14 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id g11so12390710lfu.2
+        for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 12:55:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FIGfA4bMGtcua1tFMikw37GaJE3EJCxq+zCMzmtv8Jw=;
-        b=M77VY0VCOYGoEytWte1MieOssO+vx6gAEsAB1X01/rlM6uuxPCZVfO80fSatOSrJps
-         NUpsXxBiePUzTwlb0lieVDy7B37N88P3YOi6p7aC+w34O7sGlUxHZrmgd/buCHiwtEMz
-         D5XZSRQjwkBmbTcm6DE4OmDgJRT62F6kfWWJSxdkA8xwDb83au9JjcPmKFKqVRg8pbVZ
-         lm/9XhWFhnF6ljgYAaTdSKMpXuR38xeMQ+BaFdfj/Dv1KEOunTOT0ygUJW0qm4Zo0l4b
-         xV5GGg6zsTM9Svl1wGnF81U6cQXf5LQqht+Crs9xSZG3oXJ+EYNNJ/+juCma6xQCsfAY
-         mrTw==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=auxuvnZ7svhFSb9Rzfvb/JIfRxgci9V2UAifzlMOcTM=;
+        b=ECYyBf96vaAHbThdqPJPqvy55VCW5ptYXqjca/Iny5gNxCMMRjjalHGlc/ey3bsDhw
+         XNgYbcMmGR1jI+/nSaKJv+7FhD1ysd2X025a/k57GFrdC5g3o7fgjMY4SU/Ev/CBK8ub
+         NOIkSiTXNtW93m6zN3RSeUk+cnW9XaRKkvFBwFAKyU0ShourbZ/vzvq14hQ8XngAh0uN
+         zLZpyT7L1gL8gRe7SuhBvHllWUQFQeTt3SWXBB9wJHuwxsDDPAXhD0nyZpscrWy3OimC
+         xWY6DuMw8w7w7BJmS+yXBBHCFfYtIw3grPCveJYkTOfiwqOPXch7GcK1MpwQ9q49B2z6
+         pArw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=FIGfA4bMGtcua1tFMikw37GaJE3EJCxq+zCMzmtv8Jw=;
-        b=AJ6BYKSCTGL0KF9I3kfcJrnw19xdxomYNl0LgLxOpJLNRc/p/5H3YCGhmeABZbylj6
-         cN2u9UnR1UOw8U9afQUUBUXU3Z7myVjeUp/AA5ztpk1PcwMZIixiYSAnDgCbngUbRiP8
-         qlcl3WXzpOXhDHxhxuUv1ert3w26oGd6BnqCYJPjvn0Sem3cc2mI20fNWQ/6accP1fOQ
-         o1iFD7K0zbGvG1OfUB1f2aHegB7UVOEtmtMGRSUD17EesSb5xfZUiZVZQWN3YvIMiG95
-         WgDa3PxCJOTZ2N8OBhkpyW6f3MHvY/e+ERsoO1H06Uqf06N28ajp4iEfm1l2MVDjUeOD
-         s1Xw==
-X-Gm-Message-State: AOAM532b0dXxrC6dypGsqYBTKNbGotchnz99U2/OL4wqGzU5g32TBnXm
-	h09sVCYqe6geYeguHGEaEKKY++agwQNPqd2IsWA=
-X-Google-Smtp-Source: ABdhPJylDNwPSl4PheFqzZA8fPd1BzoLs1/XEtVU10hmAURbttvSsxDceTh9aYU4FTfcUvf9zdKiIQ==
-X-Received: by 2002:a17:906:b24a:: with SMTP id ce10mr7155180ejb.20.1639859819095;
-        Sat, 18 Dec 2021 12:36:59 -0800 (PST)
-Received: from Snowflake.localdomain ([83.143.250.232])
-        by smtp.gmail.com with ESMTPSA id 12sm4054616ejh.173.2021.12.18.12.36.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Dec 2021 12:36:58 -0800 (PST)
-From: Ismayil Mirzali <ismayilmirzeli@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	simon.fodin@gmail.com
-Subject: [PATCH] staging: rtl8723bs: Fix styling issues
-Date: Sat, 18 Dec 2021 22:36:47 +0200
-Message-Id: <20211218203647.24486-1-ismayilmirzeli@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        bh=auxuvnZ7svhFSb9Rzfvb/JIfRxgci9V2UAifzlMOcTM=;
+        b=bwRV0hwHV4mT+QJu+u2tu/vAdPWQSmK4WmALXpOMepVSXaJQ/XYVgkMMRMI+YgmXeT
+         9UniyqCZpLv14R0vqFONoIyOoJIWf2qLc+gCZ2YUT2wOTFdZufVPNFk10BSmRphFj7vK
+         4W9FK4a7Fo5QP++m1ErqaZ7ytfwsnzjYJCd3CDwUQeJcwAhQm4Zw5ReQyBUhHxijXHVg
+         qOoNMUFfb4CIb9OkK/3IKdi2QtdDNwv6TvRdB8uSf9jW1uWbBKyB99uyUfRqW9aEba7U
+         aGjkkgSvEqaQTgYluoQfpoDl/fhIbh7DE/VyTrFqqTwGTH0FBrcBFZ87sBUHs36uVdiD
+         nm1A==
+X-Gm-Message-State: AOAM530Qo7WRmQpdYEt2S6PpEzfvd9pHIKGfuJH6dX2Ndk8QbfN3hZbe
+	KlkC6DdAfJCyzeKVVeIEvGo=
+X-Google-Smtp-Source: ABdhPJwf5tLCYkS2sGY7VDb8SZxpGfIppK2DwajY7sfHp3THVu5O4SLuPJGD0ZAEshdlNhzdr5Ft7w==
+X-Received: by 2002:ac2:4113:: with SMTP id b19mr8853709lfi.449.1639860912390;
+        Sat, 18 Dec 2021 12:55:12 -0800 (PST)
+Received: from [192.168.1.11] ([94.103.229.239])
+        by smtp.gmail.com with ESMTPSA id j15sm1816002lfe.157.2021.12.18.12.55.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Dec 2021 12:55:12 -0800 (PST)
+Message-ID: <63ff3ff8-e428-f0f6-eafc-3c517f34cb6c@gmail.com>
+Date: Sat, 18 Dec 2021 23:55:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH] staging: rtl8723bs: Fix styling issues
+Content-Language: en-US
+To: Ismayil Mirzali <ismayilmirzeli@gmail.com>, gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, simon.fodin@gmail.com
+References: <20211218203647.24486-1-ismayilmirzeli@gmail.com>
+From: Pavel Skripkin <paskripkin@gmail.com>
+In-Reply-To: <20211218203647.24486-1-ismayilmirzeli@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Removed extra whitespaces and brackets for oneline if statements
+On 12/18/21 23:36, Ismayil Mirzali wrote:
+> Removed extra whitespaces and brackets for oneline if statements
+> 
+> Signed-off-by: Ismayil Mirzali <ismayilmirzeli@gmail.com>
+> ---
+>   .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 20 ++++++++-----------
+>   1 file changed, 8 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> index 7fe3df863fe1..7807b2a6cdc5 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> @@ -32,7 +32,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
+>   	pHalData->SdioTxOQTFreeSpace -= agg_num;
+>   
+>   	/* if (n > 1) */
+> -	/* 	++priv->pshare->nr_out_of_txoqt_space; */
+> +	/*	++priv->pshare->nr_out_of_txoqt_space; */
+>   
 
-Signed-off-by: Ismayil Mirzali <ismayilmirzeli@gmail.com>
----
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 20 ++++++++-----------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+I believe, commented code should be just removed
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index 7fe3df863fe1..7807b2a6cdc5 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -32,7 +32,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
- 	pHalData->SdioTxOQTFreeSpace -= agg_num;
- 
- 	/* if (n > 1) */
--	/* 	++priv->pshare->nr_out_of_txoqt_space; */
-+	/*	++priv->pshare->nr_out_of_txoqt_space; */
- 
- 	return true;
- }
-@@ -147,13 +147,12 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
- 		return _SUCCESS;
- 
- 	ret = rtw_register_tx_alive(padapter);
--	if (ret != _SUCCESS) {
-+	if (ret != _SUCCESS)
- 		return _SUCCESS;
--	}
- 
- 	do {
- 		queue_empty = rtl8723_dequeue_writeport(padapter);
--/* 	dump secondary adapter xmitbuf */
-+		/*	dump secondary adapter xmitbuf */
- 	} while (!queue_empty);
- 
- 	rtw_unregister_tx_alive(padapter);
-@@ -311,7 +310,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
- 					pxmitframe->pg_num = (txlen + 127) / 128;
- 					pxmitbuf->pg_num += (txlen + 127) / 128;
- 				    /* if (k != 1) */
--					/* 	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
-+					/*	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
- 					pxmitbuf->ptail += _RND(txlen, 8); /*  round to 8 bytes alignment */
- 					pxmitbuf->len = _RND(pxmitbuf->len, 8) + txlen;
- 				}
-@@ -385,9 +384,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
- 	spin_lock_bh(&pxmitpriv->lock);
- 	ret = rtw_txframes_pending(padapter);
- 	spin_unlock_bh(&pxmitpriv->lock);
--	if (ret == 0) {
-+	if (ret == 0)
- 		return _SUCCESS;
--	}
- 
- 	/*  dequeue frame and write to hardware */
- 
-@@ -405,9 +403,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
- 	spin_lock_bh(&pxmitpriv->lock);
- 	ret = rtw_txframes_pending(padapter);
- 	spin_unlock_bh(&pxmitpriv->lock);
--	if (ret == 1) {
-+	if (ret == 1)
- 		goto next;
--	}
- 
- 	return _SUCCESS;
- }
-@@ -428,10 +425,9 @@ int rtl8723bs_xmit_thread(void *context)
- 
- 	do {
- 		ret = rtl8723bs_xmit_handler(padapter);
--		if (signal_pending(current)) {
-+		if (signal_pending(current))
- 			flush_signals(current);
--		}
--	} while (_SUCCESS == ret);
-+	} while (ret == _SUCCESS);
- 
- 	complete(&pxmitpriv->SdioXmitTerminate);
- 
--- 
-2.25.1
+>   	return true;
+>   }
 
+[...]
+
+>   	rtw_unregister_tx_alive(padapter);
+> @@ -311,7 +310,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+>   					pxmitframe->pg_num = (txlen + 127) / 128;
+>   					pxmitbuf->pg_num += (txlen + 127) / 128;
+>   				    /* if (k != 1) */
+> -					/* 	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
+> +					/*	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
+> 
+
+Same here
+
+
+With regards,
+Pavel Skripkin
