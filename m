@@ -1,27 +1,52 @@
-Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9792C9D
-	for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 12:04:53 +0000 (UTC)
-Received: from dslb-178-004-169-039.178.004.pools.vodafone-ip.de ([178.4.169.39] helo=martin-debian-2.paytec.ch)
-	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <martin@kaiser.cx>)
-	id 1myYSI-0008I6-6T; Sat, 18 Dec 2021 13:04:50 +0100
-From: Martin Kaiser <martin@kaiser.cx>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Larry Finger <Larry.Finger@lwfinger.net>,
-	Phillip Potter <phil@philpotter.co.uk>,
-	Michael Straube <straube.linux@gmail.com>,
-	linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531932C9C
+	for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 20:30:21 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id z29so21530243edl.7
+        for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 12:30:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZUNrx9kbSPTQRQvxe26IZvVu40WIMjlDMxWcOQUeOik=;
+        b=qSru67JuO9ntAk2o23RoIzyKPCjffhWevDxX9+aI6nwR6ByItmf8GLwydlOeHbxOva
+         mKD1JqMG+dDnDAfNfBRQblmgf3Uabz0T78GCnUj3x/AqezfiyYNQrUhSIRH2ffxvj7uP
+         boq73TPkHMK+QZClBJn6hj8D2xjaE0B3eztRADzGjKv1cKFIr5fR38z6nWMmMCU57Bie
+         uABpSNFD1ATTGAYr3IGtN7d2WakNQj0fGTbrt7tIcPay3JWQ9HCYX5N/6tfr5SI75LQA
+         hfbXadF4m0fjaewOi9PzqonTzPY76it0vQRP8ococIDqMzPcr3BFyEXRnGJmX6pIhTYH
+         26Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZUNrx9kbSPTQRQvxe26IZvVu40WIMjlDMxWcOQUeOik=;
+        b=iM0eDKoKGpoeRR8ev78+TsD8ntb16rvUvwWjgJukijsuSpeKpZLt3N1vnwdP+X3oQi
+         FC6mc/QbliLkcRd24piJi7s6JNBYMReXoY64PqxnQHo/WFVkb3SM+9/Qh7Cpk2cYJa1M
+         nbTvLNYXRektC8S0kM2RQCwenA7CSBtq2wtIDCJWKndwjfb711p9T7sYIIs3814onb5p
+         6P/Q2vPYXzTrlWFalNDyZCaRx8XnWXsccvli0rowW/1zKp7aFNxr1R/er6kA+G7xJfAL
+         LvMXyzPdaRmI7oA/hww6gUgtZApqKqtihH2V3qtaZIWY3Bx8jAasLBcXblN0giDF12Y+
+         JITw==
+X-Gm-Message-State: AOAM531Mqg3+13qICSXi3oafHjipWR61Di9sKrLuizFRwQdKiT2uDsSy
+	mpnY7uaiuM9aOfgGg+kaLUg=
+X-Google-Smtp-Source: ABdhPJxYODaISvA06/Ql9Wg54CI5/nOsy1sLBpyfQFlTelajEOeo33tx9RdLLks0QjOKVO2Nse2INQ==
+X-Received: by 2002:a17:906:5501:: with SMTP id r1mr7246723ejp.212.1639859419617;
+        Sat, 18 Dec 2021 12:30:19 -0800 (PST)
+Received: from Snowflake.localdomain ([83.143.250.232])
+        by smtp.gmail.com with ESMTPSA id i6sm1976582edx.46.2021.12.18.12.30.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Dec 2021 12:30:19 -0800 (PST)
+From: Ismayil Mirzali <ismayilmirzeli@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Larry.Finger@lwfinger.net,
 	linux-kernel@vger.kernel.org,
-	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 9/9] staging: r8188: ODM_BB_RA_MASK is always set
-Date: Sat, 18 Dec 2021 13:04:23 +0100
-Message-Id: <20211218120423.29906-10-martin@kaiser.cx>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211218120423.29906-1-martin@kaiser.cx>
-References: <20211218120423.29906-1-martin@kaiser.cx>
+	linux-staging@lists.linux.dev,
+	simon.fodin@gmail.com,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH] staging: rtl8712: Fix alignment checks with flipped condition
+Date: Sat, 18 Dec 2021 22:28:47 +0200
+Message-Id: <20211218202847.23086-1-ismayilmirzeli@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -30,58 +55,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the ODM_BB_RA_MASK capability. It is always set for this driver.
+From: Ngo Tak Fong <simon.fodin@gmail.com>
 
-Like for ODM_BB_DIG before, we can be sure that ODM_BB_RA_MASK was never
-checked before it was set.
+Fixed two CHECKs of Alignment should match open parenthesis and flipped
+a condition to pull the code in one tab.
 
-Signed-off-by: Martin Kaiser <martin@kaiser.cx>
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Ngo Tak Fong <simon.fodin@gmail.com>
+Link: https://lore.kernel.org/r/20211207212223.GA70594@simon-desktop
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/r8188eu/hal/odm.c         | 3 ---
- drivers/staging/r8188eu/hal/rtl8188e_dm.c | 3 +--
- drivers/staging/r8188eu/include/odm.h     | 1 -
- 3 files changed, 1 insertion(+), 6 deletions(-)
+ drivers/staging/rtl8712/rtl8712_efuse.c | 28 ++++++++++++-------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/odm.c b/drivers/staging/r8188eu/hal/odm.c
-index 70c83465a0a6..7a42687b3128 100644
---- a/drivers/staging/r8188eu/hal/odm.c
-+++ b/drivers/staging/r8188eu/hal/odm.c
-@@ -725,9 +725,6 @@ void odm_RefreshRateAdaptiveMask(struct odm_dm_struct *pDM_Odm)
- 	u8 i;
- 	struct adapter *pAdapter = pDM_Odm->Adapter;
- 
--	if (!(pDM_Odm->SupportAbility & ODM_BB_RA_MASK))
--		return;
--
- 	if (pAdapter->bDriverStopped)
- 		return;
- 
-diff --git a/drivers/staging/r8188eu/hal/rtl8188e_dm.c b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-index 865e520a246d..685431034495 100644
---- a/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-+++ b/drivers/staging/r8188eu/hal/rtl8188e_dm.c
-@@ -53,8 +53,7 @@ static void Update_ODM_ComInfo_88E(struct adapter *Adapter)
- 	struct dm_priv	*pdmpriv = &hal_data->dmpriv;
- 	int i;
- 
--	pdmpriv->InitODMFlag = ODM_BB_RA_MASK |
--				ODM_BB_FA_CNT |
-+	pdmpriv->InitODMFlag = ODM_BB_FA_CNT |
- 				ODM_BB_RSSI_MONITOR |
- 				ODM_BB_CCK_PD |
- 				ODM_MAC_EDCA_TURBO |
-diff --git a/drivers/staging/r8188eu/include/odm.h b/drivers/staging/r8188eu/include/odm.h
-index 6199190e5426..19e859b989ad 100644
---- a/drivers/staging/r8188eu/include/odm.h
-+++ b/drivers/staging/r8188eu/include/odm.h
-@@ -240,7 +240,6 @@ enum odm_common_info_def {
- 
- enum odm_ability_def {
- 	/*  BB ODM section BIT 0-15 */
--	ODM_BB_RA_MASK			= BIT(1),
- 	ODM_BB_FA_CNT			= BIT(3),
- 	ODM_BB_RSSI_MONITOR		= BIT(4),
- 	ODM_BB_CCK_PD			= BIT(5),
+diff --git a/drivers/staging/rtl8712/rtl8712_efuse.c b/drivers/staging/rtl8712/rtl8712_efuse.c
+index 4f3b54a7c3be..c9400e40a1d6 100644
+--- a/drivers/staging/rtl8712/rtl8712_efuse.c
++++ b/drivers/staging/rtl8712/rtl8712_efuse.c
+@@ -298,25 +298,23 @@ static u8 fix_header(struct _adapter *adapter, u8 header, u16 header_addr)
+ 			continue;
+ 		}
+ 		for (i = 0; i < PGPKG_MAX_WORDS; i++) {
+-			if (BIT(i) & word_en) {
+-				if (BIT(i) & pkt.word_en) {
+-					if (efuse_one_byte_read(
+-							adapter, addr,
++			if (!(BIT(i) & word_en))
++				continue;
++			if (BIT(i) & pkt.word_en) {
++				if (efuse_one_byte_read(adapter,
++							addr,
+ 							&value))
+-						pkt.data[i * 2] = value;
+-					else
+-						return false;
+-					if (efuse_one_byte_read(
+-							adapter,
++					pkt.data[i * 2] = value;
++				else
++					return false;
++				if (efuse_one_byte_read(adapter,
+ 							addr + 1,
+ 							&value))
+-						pkt.data[i * 2 + 1] =
+-							value;
+-					else
+-						return false;
+-				}
+-				addr += 2;
++					pkt.data[i * 2 + 1] = value;
++				else
++					return false;
+ 			}
++			addr += 2;
+ 		}
+ 	}
+ 	if (addr != header_addr)
 -- 
-2.20.1
+2.25.1
 
