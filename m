@@ -1,44 +1,44 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE142C9C
-	for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 20:55:14 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id g11so12390710lfu.2
-        for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 12:55:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075FF2C9C
+	for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 20:58:52 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id p8so9081953ljo.5
+        for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 12:58:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=auxuvnZ7svhFSb9Rzfvb/JIfRxgci9V2UAifzlMOcTM=;
-        b=ECYyBf96vaAHbThdqPJPqvy55VCW5ptYXqjca/Iny5gNxCMMRjjalHGlc/ey3bsDhw
-         XNgYbcMmGR1jI+/nSaKJv+7FhD1ysd2X025a/k57GFrdC5g3o7fgjMY4SU/Ev/CBK8ub
-         NOIkSiTXNtW93m6zN3RSeUk+cnW9XaRKkvFBwFAKyU0ShourbZ/vzvq14hQ8XngAh0uN
-         zLZpyT7L1gL8gRe7SuhBvHllWUQFQeTt3SWXBB9wJHuwxsDDPAXhD0nyZpscrWy3OimC
-         xWY6DuMw8w7w7BJmS+yXBBHCFfYtIw3grPCveJYkTOfiwqOPXch7GcK1MpwQ9q49B2z6
-         pArw==
+        bh=Gn8LJv7JTpUL1v6yuZFpAmH+5yz/07bstJ00rIQdQV0=;
+        b=AIynQEuZX6hK4iCa+QOvii2tCyfq3a+MdGHfY3np4HyjvAZkeNCGwocKB6A6HFp0rr
+         0hECi8fT11+me1vtchODQNYlJjcJBPM+Cv6QysfCLFDXW+Sf7eoCIy34MDR61vhk2nXN
+         VOCM4sqq0SO5sKzeA8RPeFK3NTNIy4O4GycuBxloKy4Wj7KBCxsOiZNjhW9RTKFhvD8G
+         +UVYAHwJJ5XfQBYG2c0JLZlrsBhnmzx9yYTK7/9FBrmsNR3UCHKpZTKcvtB2M36DpxIa
+         Pym3AxELoVwxcOySUezCUVv3/4sJmfjH8/v2zuB6MviVed+sjsHc9+96jdi+kKfDWmKx
+         o23g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=auxuvnZ7svhFSb9Rzfvb/JIfRxgci9V2UAifzlMOcTM=;
-        b=bwRV0hwHV4mT+QJu+u2tu/vAdPWQSmK4WmALXpOMepVSXaJQ/XYVgkMMRMI+YgmXeT
-         9UniyqCZpLv14R0vqFONoIyOoJIWf2qLc+gCZ2YUT2wOTFdZufVPNFk10BSmRphFj7vK
-         4W9FK4a7Fo5QP++m1ErqaZ7ytfwsnzjYJCd3CDwUQeJcwAhQm4Zw5ReQyBUhHxijXHVg
-         qOoNMUFfb4CIb9OkK/3IKdi2QtdDNwv6TvRdB8uSf9jW1uWbBKyB99uyUfRqW9aEba7U
-         aGjkkgSvEqaQTgYluoQfpoDl/fhIbh7DE/VyTrFqqTwGTH0FBrcBFZ87sBUHs36uVdiD
-         nm1A==
-X-Gm-Message-State: AOAM530Qo7WRmQpdYEt2S6PpEzfvd9pHIKGfuJH6dX2Ndk8QbfN3hZbe
-	KlkC6DdAfJCyzeKVVeIEvGo=
-X-Google-Smtp-Source: ABdhPJwf5tLCYkS2sGY7VDb8SZxpGfIppK2DwajY7sfHp3THVu5O4SLuPJGD0ZAEshdlNhzdr5Ft7w==
-X-Received: by 2002:ac2:4113:: with SMTP id b19mr8853709lfi.449.1639860912390;
-        Sat, 18 Dec 2021 12:55:12 -0800 (PST)
+        bh=Gn8LJv7JTpUL1v6yuZFpAmH+5yz/07bstJ00rIQdQV0=;
+        b=AGz+H7RnRdVyEm9GVnv/HDdTK7mx40D17/nW6TKxZGSzNPxoJI+GddHtvCYjD5yEPR
+         dR1eoBMVwIr1Bkdl12FxiMqDM0iq6ZhfON0iV9BDJEf42lxfqaDamxtBVrZ1gHIWQhA0
+         87rkMOhGwdlYi3z8jFOYJyM5Htw2ORGSNZzefwFOsbN++S74PzVAIpmDXpTWSya/D0x6
+         Apc7cd84ZkCQ2XAASCGnX/ANrAqRAKZVNeAf/VaevtO387sKWcIlJtS3gYtu12rcNLkJ
+         1sDD4NAj2p1Ql/vMHclbQoT+1KwBtSQn0GvXM80Uxee1k9qM2cRqVITPT2pcHyzyrkaQ
+         dMyg==
+X-Gm-Message-State: AOAM532LvoMPErVh0ysfXoUC/JeXlR8t4Jil39Dd+jBlCE3bpfsxRaoD
+	KyjmKEAy9lzW88m+bAmqd6A=
+X-Google-Smtp-Source: ABdhPJz35ebU5vl/+epVPzIj4/sQdll1xVOINZIHBMz07xkug1F8dOcgVZ8yUVfOMhpKFwdubTW7bw==
+X-Received: by 2002:a05:651c:54d:: with SMTP id q13mr8245383ljp.498.1639861131085;
+        Sat, 18 Dec 2021 12:58:51 -0800 (PST)
 Received: from [192.168.1.11] ([94.103.229.239])
-        by smtp.gmail.com with ESMTPSA id j15sm1816002lfe.157.2021.12.18.12.55.11
+        by smtp.gmail.com with ESMTPSA id m9sm2113358ljg.80.2021.12.18.12.58.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Dec 2021 12:55:12 -0800 (PST)
-Message-ID: <63ff3ff8-e428-f0f6-eafc-3c517f34cb6c@gmail.com>
-Date: Sat, 18 Dec 2021 23:55:11 +0300
+        Sat, 18 Dec 2021 12:58:50 -0800 (PST)
+Message-ID: <f4c7b099-2b9b-46d3-112b-c7c2ffd3ef80@gmail.com>
+Date: Sat, 18 Dec 2021 23:58:49 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,54 +47,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.2
-Subject: Re: [PATCH] staging: rtl8723bs: Fix styling issues
+Subject: Re: [PATCH] staging: rtl8712: Fix alignment checks with flipped
+ condition
 Content-Language: en-US
 To: Ismayil Mirzali <ismayilmirzeli@gmail.com>, gregkh@linuxfoundation.org
 Cc: Larry.Finger@lwfinger.net, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, simon.fodin@gmail.com
-References: <20211218203647.24486-1-ismayilmirzeli@gmail.com>
+ linux-staging@lists.linux.dev, simon.fodin@gmail.com,
+ Dan Carpenter <dan.carpenter@oracle.com>
+References: <20211218202847.23086-1-ismayilmirzeli@gmail.com>
 From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211218203647.24486-1-ismayilmirzeli@gmail.com>
+In-Reply-To: <20211218202847.23086-1-ismayilmirzeli@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/18/21 23:36, Ismayil Mirzali wrote:
-> Removed extra whitespaces and brackets for oneline if statements
+On 12/18/21 23:28, Ismayil Mirzali wrote:
+> From: Ngo Tak Fong <simon.fodin@gmail.com>
 > 
-> Signed-off-by: Ismayil Mirzali <ismayilmirzeli@gmail.com>
+> Fixed two CHECKs of Alignment should match open parenthesis and flipped
+> a condition to pull the code in one tab.
+> 
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Ngo Tak Fong <simon.fodin@gmail.com>
+> Link: https://lore.kernel.org/r/20211207212223.GA70594@simon-desktop
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
->   .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 20 ++++++++-----------
->   1 file changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 7fe3df863fe1..7807b2a6cdc5 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -32,7 +32,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
->   	pHalData->SdioTxOQTFreeSpace -= agg_num;
->   
->   	/* if (n > 1) */
-> -	/* 	++priv->pshare->nr_out_of_txoqt_space; */
-> +	/*	++priv->pshare->nr_out_of_txoqt_space; */
->   
 
-I believe, commented code should be just removed
+This one is already applied to staging-testing.
+See commit d0df53d36cd51154463796bc6abdd11abdbc67c1
 
->   	return true;
->   }
+Looks like you have sent it by accident
 
-[...]
-
->   	rtw_unregister_tx_alive(padapter);
-> @@ -311,7 +310,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->   					pxmitframe->pg_num = (txlen + 127) / 128;
->   					pxmitbuf->pg_num += (txlen + 127) / 128;
->   				    /* if (k != 1) */
-> -					/* 	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
-> +					/*	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
-> 
-
-Same here
 
 
 With regards,
