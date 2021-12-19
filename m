@@ -1,13 +1,13 @@
 Received: from viti.kaiser.cx (viti.kaiser.cx [85.214.81.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F812CAA
-	for <linux-staging@lists.linux.dev>; Sun, 19 Dec 2021 18:39:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6B92CA9
+	for <linux-staging@lists.linux.dev>; Sun, 19 Dec 2021 18:39:48 +0000 (UTC)
 Received: from dslb-188-097-041-189.188.097.pools.vodafone-ip.de ([188.97.41.189] helo=martin-debian-2.paytec.ch)
 	by viti.kaiser.cx with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89)
 	(envelope-from <martin@kaiser.cx>)
-	id 1mz15z-0000Iw-F2; Sun, 19 Dec 2021 19:39:43 +0100
+	id 1mz15w-0000Iw-5a; Sun, 19 Dec 2021 19:39:40 +0100
 From: Martin Kaiser <martin@kaiser.cx>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Larry Finger <Larry.Finger@lwfinger.net>,
@@ -16,9 +16,9 @@ Cc: Larry Finger <Larry.Finger@lwfinger.net>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Martin Kaiser <martin@kaiser.cx>
-Subject: [PATCH 3/9] staging: r8188: remove cut mask from power transitions
-Date: Sun, 19 Dec 2021 19:39:20 +0100
-Message-Id: <20211219183926.4746-4-martin@kaiser.cx>
+Subject: [PATCH 1/9] staging: r8188: remove unused power transitions
+Date: Sun, 19 Dec 2021 19:39:18 +0100
+Message-Id: <20211219183926.4746-2-martin@kaiser.cx>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20211219183926.4746-1-martin@kaiser.cx>
 References: <20211219183926.4746-1-martin@kaiser.cx>
@@ -30,217 +30,209 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the power cut mask from the steps of the power transitions.
-The power cut mask is not used, all values are allowed for all steps.
+The r8188 driver defines a number of transitions between different
+power states. Remove the transitions which are not used by the rest
+of the code.
 
 Signed-off-by: Martin Kaiser <martin@kaiser.cx>
 ---
- drivers/staging/r8188eu/hal/HalPwrSeqCmd.c    |  5 +-
- drivers/staging/r8188eu/hal/usb_halinit.c     |  6 +-
- .../staging/r8188eu/include/Hal8188EPwrSeq.h  | 72 +++++++++----------
- .../staging/r8188eu/include/HalPwrSeqCmd.h    | 17 +----
- 4 files changed, 42 insertions(+), 58 deletions(-)
+ drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c  | 44 +---------
+ .../staging/r8188eu/include/Hal8188EPwrSeq.h  | 88 +------------------
+ 2 files changed, 4 insertions(+), 128 deletions(-)
 
-diff --git a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-index 0fd11aca7ac7..f64b5352f043 100644
---- a/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-+++ b/drivers/staging/r8188eu/hal/HalPwrSeqCmd.c
-@@ -25,7 +25,7 @@ Major Change History:
-  *	Assumption:
-  *		We should follow specific format which was released from HW SD.
-  */
--u8 HalPwrSeqCmdParsing(struct adapter *padapter, u8 cut_vers, u8 fab_vers,
-+u8 HalPwrSeqCmdParsing(struct adapter *padapter, u8 fab_vers,
- 		       u8 ifacetype, struct wl_pwr_cfg pwrseqcmd[])
- {
- 	struct wl_pwr_cfg pwrcfgcmd = {0};
-@@ -39,9 +39,8 @@ u8 HalPwrSeqCmdParsing(struct adapter *padapter, u8 cut_vers, u8 fab_vers,
- 	do {
- 		pwrcfgcmd = pwrseqcmd[aryidx];
+diff --git a/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c b/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
+index 48ede610cd28..a1b6f551f3e0 100644
+--- a/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
++++ b/drivers/staging/r8188eu/hal/Hal8188EPwrSeq.c
+@@ -13,57 +13,17 @@ struct wl_pwr_cfg rtl8188E_power_on_flow[RTL8188E_TRANS_CARDEMU_TO_ACT_STEPS + R
+ 	RTL8188E_TRANS_END
+ };
  
--		/* 2 Only Handle the command whose FAB, CUT, and Interface are matched */
-+		/* 2 Only Handle the command whose FAB and Interface are matched */
- 		if ((GET_PWR_CFG_FAB_MASK(pwrcfgcmd) & fab_vers) &&
--		    (GET_PWR_CFG_CUT_MASK(pwrcfgcmd) & cut_vers) &&
- 		    (GET_PWR_CFG_INTF_MASK(pwrcfgcmd) & ifacetype)) {
- 			switch (GET_PWR_CFG_CMD(pwrcfgcmd)) {
- 			case PWR_CMD_WRITE:
-diff --git a/drivers/staging/r8188eu/hal/usb_halinit.c b/drivers/staging/r8188eu/hal/usb_halinit.c
-index 40227078c4b6..528a53d3e61e 100644
---- a/drivers/staging/r8188eu/hal/usb_halinit.c
-+++ b/drivers/staging/r8188eu/hal/usb_halinit.c
-@@ -78,7 +78,7 @@ u32 rtl8188eu_InitPowerOn(struct adapter *adapt)
- 	if (haldata->bMacPwrCtrlOn)
- 		return _SUCCESS;
+-/* 3Radio off Array */
+-struct wl_pwr_cfg rtl8188E_radio_off_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS + RTL8188E_TRANS_END_STEPS] = {
+-	RTL8188E_TRANS_ACT_TO_CARDEMU
+-	RTL8188E_TRANS_END
+-};
+-
+ /* 3Card Disable Array */
+-struct wl_pwr_cfg rtl8188E_card_disable_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS + RTL8188E_TRANS_CARDEMU_TO_PDN_STEPS + RTL8188E_TRANS_END_STEPS] = {
++struct wl_pwr_cfg
++rtl8188E_card_disable_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS + RTL8188E_TRANS_CARDEMU_TO_CARDDIS_STEPS + RTL8188E_TRANS_END_STEPS] = {
+ 	RTL8188E_TRANS_ACT_TO_CARDEMU
+ 	RTL8188E_TRANS_CARDEMU_TO_CARDDIS
+ 	RTL8188E_TRANS_END
+ };
  
--	if (!HalPwrSeqCmdParsing(adapt, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8188E_NIC_PWR_ON_FLOW)) {
-+	if (!HalPwrSeqCmdParsing(adapt, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8188E_NIC_PWR_ON_FLOW)) {
- 		DBG_88E(KERN_ERR "%s: run power on flow fail\n", __func__);
- 		return _FAIL;
- 	}
-@@ -824,7 +824,7 @@ static void CardDisableRTL8188EU(struct adapter *Adapter)
- 	rtw_write8(Adapter, REG_CR, 0x0);
- 
- 	/*  Run LPS WL RFOFF flow */
--	HalPwrSeqCmdParsing(Adapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8188E_NIC_LPS_ENTER_FLOW);
-+	HalPwrSeqCmdParsing(Adapter, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8188E_NIC_LPS_ENTER_FLOW);
- 
- 	/*  2. 0x1F[7:0] = 0		turn off RF */
- 
-@@ -845,7 +845,7 @@ static void CardDisableRTL8188EU(struct adapter *Adapter)
- 	rtw_write8(Adapter, REG_32K_CTRL, val8 & (~BIT(0)));
- 
- 	/*  Card disable power action flow */
--	HalPwrSeqCmdParsing(Adapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8188E_NIC_DISABLE_FLOW);
-+	HalPwrSeqCmdParsing(Adapter, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, Rtl8188E_NIC_DISABLE_FLOW);
- 
- 	/*  Reset MCU IO Wrapper */
- 	val8 = rtw_read8(Adapter, REG_RSV_CTRL + 1);
+-/* 3 Card Enable Array */
+-struct wl_pwr_cfg rtl8188E_card_enable_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS + RTL8188E_TRANS_CARDEMU_TO_PDN_STEPS + RTL8188E_TRANS_END_STEPS] = {
+-	RTL8188E_TRANS_CARDDIS_TO_CARDEMU
+-	RTL8188E_TRANS_CARDEMU_TO_ACT
+-	RTL8188E_TRANS_END
+-};
+-
+-/* 3Suspend Array */
+-struct wl_pwr_cfg rtl8188E_suspend_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS + RTL8188E_TRANS_CARDEMU_TO_SUS_STEPS + RTL8188E_TRANS_END_STEPS] = {
+-	RTL8188E_TRANS_ACT_TO_CARDEMU
+-	RTL8188E_TRANS_CARDEMU_TO_SUS
+-	RTL8188E_TRANS_END
+-};
+-
+-/* 3 Resume Array */
+-struct wl_pwr_cfg rtl8188E_resume_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS + RTL8188E_TRANS_CARDEMU_TO_SUS_STEPS + RTL8188E_TRANS_END_STEPS] = {
+-	RTL8188E_TRANS_SUS_TO_CARDEMU
+-	RTL8188E_TRANS_CARDEMU_TO_ACT
+-	RTL8188E_TRANS_END
+-};
+-
+-/* 3HWPDN Array */
+-struct wl_pwr_cfg rtl8188E_hwpdn_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS + RTL8188E_TRANS_CARDEMU_TO_PDN_STEPS + RTL8188E_TRANS_END_STEPS] = {
+-	RTL8188E_TRANS_ACT_TO_CARDEMU
+-	RTL8188E_TRANS_CARDEMU_TO_PDN
+-	RTL8188E_TRANS_END
+-};
+-
+ /* 3 Enter LPS */
+ struct wl_pwr_cfg rtl8188E_enter_lps_flow[RTL8188E_TRANS_ACT_TO_LPS_STEPS + RTL8188E_TRANS_END_STEPS] = {
+ 	/* FW behavior */
+ 	RTL8188E_TRANS_ACT_TO_LPS
+ 	RTL8188E_TRANS_END
+ };
+-
+-/* 3 Leave LPS */
+-struct wl_pwr_cfg rtl8188E_leave_lps_flow[RTL8188E_TRANS_LPS_TO_ACT_STEPS + RTL8188E_TRANS_END_STEPS] = {
+-	/* FW behavior */
+-	RTL8188E_TRANS_LPS_TO_ACT
+-	RTL8188E_TRANS_END
+-};
 diff --git a/drivers/staging/r8188eu/include/Hal8188EPwrSeq.h b/drivers/staging/r8188eu/include/Hal8188EPwrSeq.h
-index d36a2ab2ec7b..c1da4a4bf9c9 100644
+index a73bd1a5d57b..adfba36d4f52 100644
 --- a/drivers/staging/r8188eu/include/Hal8188EPwrSeq.h
 +++ b/drivers/staging/r8188eu/include/Hal8188EPwrSeq.h
-@@ -8,55 +8,55 @@
+@@ -6,37 +6,10 @@
+ 
+ #include "HalPwrSeqCmd.h"
+ 
+-/*
+-	Check document WM-20110607-Paul-RTL8188E_Power_Architecture-R02.vsd
+-	There are 6 HW Power States:
+-	0: POFF--Power Off
+-	1: PDN--Power Down
+-	2: CARDEMU--Card Emulation
+-	3: ACT--Active Mode
+-	4: LPS--Low Power State
+-	5: SUS--Suspend
+-
+-	The transision from different states are defined below
+-	TRANS_CARDEMU_TO_ACT
+-	TRANS_ACT_TO_CARDEMU
+-	TRANS_CARDEMU_TO_SUS
+-	TRANS_SUS_TO_CARDEMU
+-	TRANS_CARDEMU_TO_PDN
+-	TRANS_ACT_TO_LPS
+-	TRANS_LPS_TO_ACT
+-
+-	TRANS_END
+-
+-    PWR SEQ Version: rtl8188E_PwrSeq_V09.h
+-*/
+ #define	RTL8188E_TRANS_CARDEMU_TO_ACT_STEPS	10
+ #define	RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS	10
+-#define	RTL8188E_TRANS_CARDEMU_TO_SUS_STEPS	10
+-#define	RTL8188E_TRANS_SUS_TO_CARDEMU_STEPS	10
+-#define	RTL8188E_TRANS_CARDEMU_TO_PDN_STEPS	10
+-#define	RTL8188E_TRANS_PDN_TO_CARDEMU_STEPS	10
++#define	RTL8188E_TRANS_CARDEMU_TO_CARDDIS_STEPS	10
+ #define	RTL8188E_TRANS_ACT_TO_LPS_STEPS		15
+-#define	RTL8188E_TRANS_LPS_TO_ACT_STEPS		15
+ #define	RTL8188E_TRANS_END_STEPS		1
  
  #define RTL8188E_TRANS_CARDEMU_TO_ACT														\
- 	/* format */																\
--	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
--	{0x0006, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(1), BIT(1)},/* wait till 0x04[17] = 1    power ready*/	\
--	{0x0002, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(0)|BIT(1), 0}, /* 0x02[1:0] = 0	reset BB*/			\
--	{0x0026, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), BIT(7)}, /*0x24[23] = 2b'01 schmit trigger */	\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), 0}, /* 0x04[15] = 0 disable HWPDN (control by DRV)*/\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4)|BIT(3), 0}, /*0x04[12:11] = 2b'00 disable WL suspend*/	\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(0), BIT(0)}, /*0x04[8] = 1 polling until return 0*/	\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(0), 0}, /*wait till 0x04[8] = 0*/	\
--	{0x0023, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), 0}, /*LDO normal mode*/	\
--	{0x0074, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), BIT(4)}, /*SDIO Driving*/	\
-+	/* { offset, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
-+	{0x0006, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(1), BIT(1)},/* wait till 0x04[17] = 1    power ready*/	\
-+	{0x0002, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(0)|BIT(1), 0}, /* 0x02[1:0] = 0	reset BB*/			\
-+	{0x0026, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), BIT(7)}, /*0x24[23] = 2b'01 schmit trigger */	\
-+	{0x0005, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), 0}, /* 0x04[15] = 0 disable HWPDN (control by DRV)*/\
-+	{0x0005, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4)|BIT(3), 0}, /*0x04[12:11] = 2b'00 disable WL suspend*/	\
-+	{0x0005, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(0), BIT(0)}, /*0x04[8] = 1 polling until return 0*/	\
-+	{0x0005, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(0), 0}, /*wait till 0x04[8] = 0*/	\
-+	{0x0023, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), 0}, /*LDO normal mode*/	\
-+	{0x0074, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), BIT(4)}, /*SDIO Driving*/	\
+@@ -60,24 +33,6 @@
+ 	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1), BIT(1)}, /*0x04[9] = 1 turn off MAC by HW state machine*/	\
+ 	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(1), 0}, /*wait till 0x04[9] = 0 polling until return 0 to disable*/	\
  
- #define RTL8188E_TRANS_ACT_TO_CARDEMU													\
- 	/* format */																\
--	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
--	{0x001F, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0},/*0x1F[7:0] = 0 turn off RF*/	\
--	{0x0023, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), BIT(4)}, /*LDO Sleep mode*/	\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1), BIT(1)}, /*0x04[9] = 1 turn off MAC by HW state machine*/	\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(1), 0}, /*wait till 0x04[9] = 0 polling until return 0 to disable*/	\
-+	/* { offset, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
-+	{0x001F, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0},/*0x1F[7:0] = 0 turn off RF*/	\
-+	{0x0023, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), BIT(4)}, /*LDO Sleep mode*/	\
-+	{0x0005, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1), BIT(1)}, /*0x04[9] = 1 turn off MAC by HW state machine*/	\
-+	{0x0005, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(1), 0}, /*wait till 0x04[9] = 0 polling until return 0 to disable*/	\
- 
- #define RTL8188E_TRANS_CARDEMU_TO_CARDDIS													\
- 	/* format */																\
--	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value },  comments here*/							\
--	{0x0026, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), BIT(7)}, /*0x24[23] = 2b'01 schmit trigger */	\
--	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(3)|BIT(4), BIT(3)}, /*0x04[12:11] = 2b'01 enable WL suspend*/	\
--	{0x0007, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0}, /*  0x04[31:30] = 2b'10 enable enable bandgap mbias in suspend */	\
+-#define RTL8188E_TRANS_CARDEMU_TO_SUS													\
+-	/* format */																\
+-	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/				\
+-	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(3)|BIT(4), BIT(3)}, /*0x04[12:11] = 2b'01enable WL suspend*/	\
+-	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_PCI_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(3)|BIT(4), BIT(3)|BIT(4)}, /*0x04[12:11] = 2b'11enable WL suspend for PCIe*/	\
+-	{0x0007, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, BIT(7)}, /*  0x04[31:30] = 2b'10 enable enable bandgap mbias in suspend */	\
 -	{0x0041, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), 0}, /*Clear SIC_EN register 0x40[12] = 1'b0 */	\
--	{0xfe10, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), BIT(4)}, /*Set USB suspend enable local register  0xfe10[4]=1 */	\
+-	{0xfe10, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), BIT(4)}, /*Set USB suspend enable local register  0xfe10[4]=1 */	\
 -	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT(0), BIT(0)}, /*Set SDIO suspend local register*/	\
 -	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT(1), 0}, /*wait power state to suspend*/
-+	/* { offset, fab_msk|interface_msk, base|cmd, msk, value },  comments here*/							\
-+	{0x0026, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), BIT(7)}, /*0x24[23] = 2b'01 schmit trigger */	\
-+	{0x0005, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(3)|BIT(4), BIT(3)}, /*0x04[12:11] = 2b'01 enable WL suspend*/	\
-+	{0x0007, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0}, /*  0x04[31:30] = 2b'10 enable enable bandgap mbias in suspend */	\
-+	{0x0041, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK|PWR_INTF_SDIO_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), 0}, /*Clear SIC_EN register 0x40[12] = 1'b0 */	\
-+	{0xfe10, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), BIT(4)}, /*Set USB suspend enable local register  0xfe10[4]=1 */	\
-+	{0x0086, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT(0), BIT(0)}, /*Set SDIO suspend local register*/	\
-+	{0x0086, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT(1), 0}, /*wait power state to suspend*/
+-
+-#define RTL8188E_TRANS_SUS_TO_CARDEMU													\
+-	/* format */																\
+-	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/							\
+-	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT(0), 0}, /*Set SDIO suspend local register*/	\
+-	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT(1), BIT(1)}, /*wait power state to suspend*/\
+-	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(3)|BIT(4), 0}, /*0x04[12:11] = 2b'01enable WL suspend*/
+-
+ #define RTL8188E_TRANS_CARDEMU_TO_CARDDIS													\
+ 	/* format */																\
+ 	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value },  comments here*/							\
+@@ -89,24 +44,6 @@
+ 	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT(0), BIT(0)}, /*Set SDIO suspend local register*/	\
+ 	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT(1), 0}, /*wait power state to suspend*/
  
+-#define RTL8188E_TRANS_CARDDIS_TO_CARDEMU													\
+-	/* format */																\
+-	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
+-	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, BIT(0), 0}, /*Set SDIO suspend local register*/	\
+-	{0x0086, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_POLLING, BIT(1), BIT(1)}, /*wait power state to suspend*/\
+-	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(3)|BIT(4), 0}, /*0x04[12:11] = 2b'01enable WL suspend*/
+-
+-#define RTL8188E_TRANS_CARDEMU_TO_PDN												\
+-	/* format */																\
+-	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/							\
+-	{0x0006, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(0), 0},/* 0x04[16] = 0*/\
+-	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), BIT(7)},/* 0x04[15] = 1*/
+-
+-#define RTL8188E_TRANS_PDN_TO_CARDEMU												\
+-	/* format */																\
+-	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value },  comments here					 */ \
+-	{0x0005, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(7), 0},/* 0x04[15] = 0*/
+-
  /* This is used by driver for LPSRadioOff Procedure, not for FW LPS Step */
  #define RTL8188E_TRANS_ACT_TO_LPS														\
  	/* format */																\
--	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here				*/   \
--	{0x0522, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x7F},/*Tx Pause*/	\
--	{0x05F8, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
--	{0x05F9, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
--	{0x05FA, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
--	{0x05FB, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
--	{0x0002, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(0), 0},/*CCK and OFDM are disabled,and clock are gated*/	\
--	{0x0002, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_DELAY, 0, PWRSEQ_DELAY_US},/*Delay 1us*/	\
--	{0x0100, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x3F},/*Reset MAC TRX*/	\
--	{0x0101, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1), 0},/*check if removed later*/	\
--	{0x0553, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(5), BIT(5)},/*Respond TxOK to scheduler*/	\
-+	/* { offset, fab_msk|interface_msk, base|cmd, msk, value }, comments here				*/   \
-+	{0x0522, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x7F},/*Tx Pause*/	\
-+	{0x05F8, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
-+	{0x05F9, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
-+	{0x05FA, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
-+	{0x05FB, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, 0xFF, 0},/*Should be zero if no packet is transmitting*/	\
-+	{0x0002, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(0), 0},/*CCK and OFDM are disabled,and clock are gated*/	\
-+	{0x0002, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_DELAY, 0, PWRSEQ_DELAY_US},/*Delay 1us*/	\
-+	{0x0100, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x3F},/*Reset MAC TRX*/	\
-+	{0x0101, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1), 0},/*check if removed later*/	\
-+	{0x0553, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(5), BIT(5)},/*Respond TxOK to scheduler*/	\
+@@ -122,34 +59,13 @@
+ 	{0x0101, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1), 0},/*check if removed later*/	\
+ 	{0x0553, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(5), BIT(5)},/*Respond TxOK to scheduler*/	\
  
+-#define RTL8188E_TRANS_LPS_TO_ACT															\
+-	/* format */																\
+-	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here				 */ \
+-	{0x0080, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_SDIO_MSK, PWR_BASEADDR_SDIO, PWR_CMD_WRITE, 0xFF, 0x84}, /*SDIO RPWM*/\
+-	{0xFE58, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_USB_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x84}, /*USB RPWM*/\
+-	{0x0361, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_PCI_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0x84}, /*PCIe RPWM*/\
+-	{0x0002, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_DELAY, 0, PWRSEQ_DELAY_MS}, /*Delay*/\
+-	{0x0008, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(4), 0}, /*.	0x08[4] = 0		 switch TSF to 40M*/\
+-	{0x0109, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_POLLING, BIT(7), 0}, /*Polling 0x109[7]=0  TSF in 40M*/\
+-	{0x0029, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(6)|BIT(7), 0}, /*.	0x29[7:6] = 2b'00	 enable BB clock*/\
+-	{0x0101, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1), BIT(1)}, /*.	0x101[1] = 1*/\
+-	{0x0100, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0xFF}, /*.	0x100[7:0] = 0xFF	 enable WMAC TRX*/\
+-	{0x0002, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, BIT(1)|BIT(0), BIT(1)|BIT(0)}, /*.	0x02[1:0] = 2b'11	 enable BB macro*/\
+-	{0x0522, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, PWR_BASEADDR_MAC, PWR_CMD_WRITE, 0xFF, 0}, /*.	0x522 = 0*/
+-
  #define RTL8188E_TRANS_END															\
  	/* format */																\
--	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value },  comments here*/					\
--	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK,0, PWR_CMD_END, 0, 0}, /*  */
-+	/* { offset, fab_msk|interface_msk, base|cmd, msk, value },  comments here*/					\
-+	{0xFFFF, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK,0, PWR_CMD_END, 0, 0}, /*  */
+ 	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value },  comments here*/					\
+ 	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK,0, PWR_CMD_END, 0, 0}, /*  */
  
- extern struct wl_pwr_cfg rtl8188E_power_on_flow[];
- extern struct wl_pwr_cfg rtl8188E_card_disable_flow[];
-diff --git a/drivers/staging/r8188eu/include/HalPwrSeqCmd.h b/drivers/staging/r8188eu/include/HalPwrSeqCmd.h
-index fe7ac910beb8..f82860bd0e83 100644
---- a/drivers/staging/r8188eu/include/HalPwrSeqCmd.h
-+++ b/drivers/staging/r8188eu/include/HalPwrSeqCmd.h
-@@ -65,19 +65,6 @@
- #define	PWR_FAB_UMC_MSK			BIT(1)
- #define	PWR_FAB_ALL_MSK			(BIT(0)|BIT(1)|BIT(2)|BIT(3))
+ extern struct wl_pwr_cfg rtl8188E_power_on_flow[RTL8188E_TRANS_CARDEMU_TO_ACT_STEPS+RTL8188E_TRANS_END_STEPS];
+-extern struct wl_pwr_cfg rtl8188E_radio_off_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS+RTL8188E_TRANS_END_STEPS];
+-extern struct wl_pwr_cfg rtl8188E_card_disable_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS+RTL8188E_TRANS_CARDEMU_TO_PDN_STEPS+RTL8188E_TRANS_END_STEPS];
+-extern struct wl_pwr_cfg rtl8188E_card_enable_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS+RTL8188E_TRANS_CARDEMU_TO_PDN_STEPS+RTL8188E_TRANS_END_STEPS];
+-extern struct wl_pwr_cfg rtl8188E_suspend_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS+RTL8188E_TRANS_CARDEMU_TO_SUS_STEPS+RTL8188E_TRANS_END_STEPS];
+-extern struct wl_pwr_cfg rtl8188E_resume_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS+RTL8188E_TRANS_CARDEMU_TO_SUS_STEPS+RTL8188E_TRANS_END_STEPS];
+-extern struct wl_pwr_cfg rtl8188E_hwpdn_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS+RTL8188E_TRANS_CARDEMU_TO_PDN_STEPS+RTL8188E_TRANS_END_STEPS];
++extern struct wl_pwr_cfg rtl8188E_card_disable_flow[RTL8188E_TRANS_ACT_TO_CARDEMU_STEPS+RTL8188E_TRANS_CARDEMU_TO_CARDDIS_STEPS+RTL8188E_TRANS_END_STEPS];
+ extern struct wl_pwr_cfg rtl8188E_enter_lps_flow[RTL8188E_TRANS_ACT_TO_LPS_STEPS+RTL8188E_TRANS_END_STEPS];
+-extern struct wl_pwr_cfg rtl8188E_leave_lps_flow[RTL8188E_TRANS_LPS_TO_ACT_STEPS+RTL8188E_TRANS_END_STEPS];
  
--/*---------------------------------------------*/
--/* 3 The value of cut_msk: 8 bits */
--/*---------------------------------------------*/
--#define	PWR_CUT_TESTCHIP_MSK		BIT(0)
--#define	PWR_CUT_A_MSK			BIT(1)
--#define	PWR_CUT_B_MSK			BIT(2)
--#define	PWR_CUT_C_MSK			BIT(3)
--#define	PWR_CUT_D_MSK			BIT(4)
--#define	PWR_CUT_E_MSK			BIT(5)
--#define	PWR_CUT_F_MSK			BIT(6)
--#define	PWR_CUT_G_MSK			BIT(7)
--#define	PWR_CUT_ALL_MSK			0xFF
--
- enum pwrseq_cmd_delat_unit {
- 	PWRSEQ_DELAY_US,
- 	PWRSEQ_DELAY_MS,
-@@ -85,7 +72,6 @@ enum pwrseq_cmd_delat_unit {
- 
- struct wl_pwr_cfg {
- 	u16 offset;
--	u8 cut_msk;
- 	u8 fab_msk:4;
- 	u8 interface_msk:4;
- 	u8 base:4;
-@@ -95,7 +81,6 @@ struct wl_pwr_cfg {
- };
- 
- #define GET_PWR_CFG_OFFSET(__PWR_CMD)		__PWR_CMD.offset
--#define GET_PWR_CFG_CUT_MASK(__PWR_CMD)		__PWR_CMD.cut_msk
- #define GET_PWR_CFG_FAB_MASK(__PWR_CMD)		__PWR_CMD.fab_msk
- #define GET_PWR_CFG_INTF_MASK(__PWR_CMD)	__PWR_CMD.interface_msk
- #define GET_PWR_CFG_BASE(__PWR_CMD)		__PWR_CMD.base
-@@ -104,7 +89,7 @@ struct wl_pwr_cfg {
- #define GET_PWR_CFG_VALUE(__PWR_CMD)		__PWR_CMD.value
- 
- /*	Prototype of protected function. */
--u8 HalPwrSeqCmdParsing(struct adapter *padapter, u8 CutVersion, u8 FabVersion,
-+u8 HalPwrSeqCmdParsing(struct adapter *padapter, u8 FabVersion,
- 		       u8 InterfaceType, struct wl_pwr_cfg PwrCfgCmd[]);
- 
- #endif
+ #endif /* __HAL8188EPWRSEQ_H__ */
 -- 
 2.20.1
 
