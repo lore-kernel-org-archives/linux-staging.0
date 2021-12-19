@@ -1,83 +1,160 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075FF2C9C
-	for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 20:58:52 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id p8so9081953ljo.5
-        for <linux-staging@lists.linux.dev>; Sat, 18 Dec 2021 12:58:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B580B2CA0
+	for <linux-staging@lists.linux.dev>; Sun, 19 Dec 2021 16:33:32 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id z5so28805159edd.3
+        for <linux-staging@lists.linux.dev>; Sun, 19 Dec 2021 08:33:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Gn8LJv7JTpUL1v6yuZFpAmH+5yz/07bstJ00rIQdQV0=;
-        b=AIynQEuZX6hK4iCa+QOvii2tCyfq3a+MdGHfY3np4HyjvAZkeNCGwocKB6A6HFp0rr
-         0hECi8fT11+me1vtchODQNYlJjcJBPM+Cv6QysfCLFDXW+Sf7eoCIy34MDR61vhk2nXN
-         VOCM4sqq0SO5sKzeA8RPeFK3NTNIy4O4GycuBxloKy4Wj7KBCxsOiZNjhW9RTKFhvD8G
-         +UVYAHwJJ5XfQBYG2c0JLZlrsBhnmzx9yYTK7/9FBrmsNR3UCHKpZTKcvtB2M36DpxIa
-         Pym3AxELoVwxcOySUezCUVv3/4sJmfjH8/v2zuB6MviVed+sjsHc9+96jdi+kKfDWmKx
-         o23g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KS9Gjd8Tu5fx7nRz0KTvLEQ46TtRhkZSv2L1vjuz2w4=;
+        b=FbnewEpGikucovyolpVKuGyC1GLL5WvgWftcd1Hr4zCtk0ZPp/n/wSygXiGNLc45s0
+         xGqDTM37WSCRZrv+VthqlUhRizJuDg2yuOXNXEBBoGNuoHXBU6950iiFhgS0F8Z6Rn1S
+         xNZG7H0C6DOMw8dbPkK3TGDa5xAZCONWimwActK2WNOFv5vtjByQuHDL3Msl+h39mfsK
+         5P1yY1Ue46/LndSFGJUUOKPTesSHBj4bn+WjFKrrHiGU4g/jhTyYeL+ydYj6XwUBoek6
+         HmKZ5wn4pd/ACGIGRBwUTS9gocbk6gv8/VKhXJ+KuDMnqdOl7N+BhtkEiniMmDSvC/eF
+         STEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Gn8LJv7JTpUL1v6yuZFpAmH+5yz/07bstJ00rIQdQV0=;
-        b=AGz+H7RnRdVyEm9GVnv/HDdTK7mx40D17/nW6TKxZGSzNPxoJI+GddHtvCYjD5yEPR
-         dR1eoBMVwIr1Bkdl12FxiMqDM0iq6ZhfON0iV9BDJEf42lxfqaDamxtBVrZ1gHIWQhA0
-         87rkMOhGwdlYi3z8jFOYJyM5Htw2ORGSNZzefwFOsbN++S74PzVAIpmDXpTWSya/D0x6
-         Apc7cd84ZkCQ2XAASCGnX/ANrAqRAKZVNeAf/VaevtO387sKWcIlJtS3gYtu12rcNLkJ
-         1sDD4NAj2p1Ql/vMHclbQoT+1KwBtSQn0GvXM80Uxee1k9qM2cRqVITPT2pcHyzyrkaQ
-         dMyg==
-X-Gm-Message-State: AOAM532LvoMPErVh0ysfXoUC/JeXlR8t4Jil39Dd+jBlCE3bpfsxRaoD
-	KyjmKEAy9lzW88m+bAmqd6A=
-X-Google-Smtp-Source: ABdhPJz35ebU5vl/+epVPzIj4/sQdll1xVOINZIHBMz07xkug1F8dOcgVZ8yUVfOMhpKFwdubTW7bw==
-X-Received: by 2002:a05:651c:54d:: with SMTP id q13mr8245383ljp.498.1639861131085;
-        Sat, 18 Dec 2021 12:58:51 -0800 (PST)
-Received: from [192.168.1.11] ([94.103.229.239])
-        by smtp.gmail.com with ESMTPSA id m9sm2113358ljg.80.2021.12.18.12.58.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Dec 2021 12:58:50 -0800 (PST)
-Message-ID: <f4c7b099-2b9b-46d3-112b-c7c2ffd3ef80@gmail.com>
-Date: Sat, 18 Dec 2021 23:58:49 +0300
+        bh=KS9Gjd8Tu5fx7nRz0KTvLEQ46TtRhkZSv2L1vjuz2w4=;
+        b=Iguq1SWRCTdDowu6QD5MYStgnmPmJe6fG+QkPBNP8lyGR/PkkQ39Npb8neMy2+Qfjv
+         m994hYQxVu+CJ48T8VcSUEKj0H0GTUxF4CPBcKPwjqvpC7Xml7sZhjkePSSNcdX9Ykis
+         i1AmbzMgPexUJbsYrEPk7D5Ez5K944zfsSXKOmo5Q/43c5bJa+zVvYVD1PfuFp1Ea3PS
+         lCmPcM8EToXpD53kKBEPO/9rPYvqGi+heOifHsTHmIKvNF72fFkkHnvp+d8CH1Cpd3k2
+         piEguQV47+MQ+57HbaRr/BGnb3kvByXi1ZeovIeVmsJVg9Ygewj016AjLZ7BjmgbQEnm
+         XXiQ==
+X-Gm-Message-State: AOAM530F1v57ebhlzBdxGgoSAinRAJTj1xWWz234ps+mgYrpGCpoi2jU
+	zCWFNREdUz9M3/rgHHRyPws=
+X-Google-Smtp-Source: ABdhPJxNM8jq0/Xk0YssSIMtzCBrWtiDU+f542N0mZaQ9CQ05MKtfUzudM5oWAf9va+MXitJnOIVlw==
+X-Received: by 2002:a05:6402:27cd:: with SMTP id c13mr12073433ede.57.1639931611088;
+        Sun, 19 Dec 2021 08:33:31 -0800 (PST)
+Received: from localhost.localdomain ([83.143.250.232])
+        by smtp.gmail.com with ESMTPSA id cq19sm1069714edb.27.2021.12.19.08.33.30
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 19 Dec 2021 08:33:30 -0800 (PST)
+From: Ismayil Mirzali <ismayilmirzeli@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-staging@lists.linux.dev,
+	fabioaiuto83@gmail.com,
+	gregkh@linuxfoundation.org,
+	paskripkin@gmail.com,
+	linux@roeck-us.net
+Subject: [PATCH v2] staging: rtl8723bs: Fix styling issues
+Date: Sun, 19 Dec 2021 18:33:18 +0200
+Message-Id: <20211219163318.84300-1-ismayilmirzeli@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] staging: rtl8712: Fix alignment checks with flipped
- condition
-Content-Language: en-US
-To: Ismayil Mirzali <ismayilmirzeli@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, simon.fodin@gmail.com,
- Dan Carpenter <dan.carpenter@oracle.com>
-References: <20211218202847.23086-1-ismayilmirzeli@gmail.com>
-From: Pavel Skripkin <paskripkin@gmail.com>
-In-Reply-To: <20211218202847.23086-1-ismayilmirzeli@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/18/21 23:28, Ismayil Mirzali wrote:
-> From: Ngo Tak Fong <simon.fodin@gmail.com>
-> 
-> Fixed two CHECKs of Alignment should match open parenthesis and flipped
-> a condition to pull the code in one tab.
-> 
-> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Ngo Tak Fong <simon.fodin@gmail.com>
-> Link: https://lore.kernel.org/r/20211207212223.GA70594@simon-desktop
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
+Removed extra whitespaces and brackets for oneline if statements
 
-This one is already applied to staging-testing.
-See commit d0df53d36cd51154463796bc6abdd11abdbc67c1
+Removed commented code as suggested per reviewer.
+Added blank line after declarations according to styling guide.
 
-Looks like you have sent it by accident
+Signed-off-by: Ismayil Mirzali <ismayilmirzeli@gmail.com>
+---
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 23 +++++++------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index 7fe3df863fe1..fdefb72047f0 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -31,9 +31,6 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
+ 
+ 	pHalData->SdioTxOQTFreeSpace -= agg_num;
+ 
+-	/* if (n > 1) */
+-	/* 	++priv->pshare->nr_out_of_txoqt_space; */
+-
+ 	return true;
+ }
+ 
+@@ -147,13 +144,12 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
+ 		return _SUCCESS;
+ 
+ 	ret = rtw_register_tx_alive(padapter);
+-	if (ret != _SUCCESS) {
++	if (ret != _SUCCESS)
+ 		return _SUCCESS;
+-	}
+ 
+ 	do {
+ 		queue_empty = rtl8723_dequeue_writeport(padapter);
+-/* 	dump secondary adapter xmitbuf */
++		/*	dump secondary adapter xmitbuf */
+ 	} while (!queue_empty);
+ 
+ 	rtw_unregister_tx_alive(padapter);
+@@ -247,6 +243,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 						if (pxmitbuf->len > 0 &&
+ 						    pxmitbuf->priv_data) {
+ 							struct xmit_frame *pframe;
++
+ 							pframe = (struct xmit_frame *)pxmitbuf->priv_data;
+ 							pframe->agg_num = k;
+ 							pxmitbuf->agg_num = k;
+@@ -310,8 +307,6 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 					txlen = txdesc_size + pxmitframe->attrib.last_txcmdsz;
+ 					pxmitframe->pg_num = (txlen + 127) / 128;
+ 					pxmitbuf->pg_num += (txlen + 127) / 128;
+-				    /* if (k != 1) */
+-					/* 	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
+ 					pxmitbuf->ptail += _RND(txlen, 8); /*  round to 8 bytes alignment */
+ 					pxmitbuf->len = _RND(pxmitbuf->len, 8) + txlen;
+ 				}
+@@ -333,6 +328,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 		if (pxmitbuf) {
+ 			if (pxmitbuf->len > 0) {
+ 				struct xmit_frame *pframe;
++
+ 				pframe = (struct xmit_frame *)pxmitbuf->priv_data;
+ 				pframe->agg_num = k;
+ 				pxmitbuf->agg_num = k;
+@@ -385,9 +381,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
+ 	spin_lock_bh(&pxmitpriv->lock);
+ 	ret = rtw_txframes_pending(padapter);
+ 	spin_unlock_bh(&pxmitpriv->lock);
+-	if (ret == 0) {
++	if (ret == 0)
+ 		return _SUCCESS;
+-	}
+ 
+ 	/*  dequeue frame and write to hardware */
+ 
+@@ -405,9 +400,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
+ 	spin_lock_bh(&pxmitpriv->lock);
+ 	ret = rtw_txframes_pending(padapter);
+ 	spin_unlock_bh(&pxmitpriv->lock);
+-	if (ret == 1) {
++	if (ret == 1)
+ 		goto next;
+-	}
+ 
+ 	return _SUCCESS;
+ }
+@@ -428,10 +422,9 @@ int rtl8723bs_xmit_thread(void *context)
+ 
+ 	do {
+ 		ret = rtl8723bs_xmit_handler(padapter);
+-		if (signal_pending(current)) {
++		if (signal_pending(current))
+ 			flush_signals(current);
+-		}
+-	} while (_SUCCESS == ret);
++	} while (ret == _SUCCESS);
+ 
+ 	complete(&pxmitpriv->SdioXmitTerminate);
+ 
+-- 
+2.25.1
 
-
-With regards,
-Pavel Skripkin
