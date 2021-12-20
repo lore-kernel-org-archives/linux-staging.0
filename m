@@ -1,25 +1,53 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04C32C9C
-	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 16:40:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06651C36AE2;
-	Mon, 20 Dec 2021 16:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1640018401;
-	bh=i9FEoFyw4FOzJj5FUbVCZL9hvTq00AQkmMJ9j89AFA0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GJBjzJ3wi6so7WnEhI+oZulxWBNpWpXfZE8Ix12168TQWW5Q5LARYr6855FjYCuq3
-	 U9bTy8jFyKSxqW+P5c+lXSRibZIi0u3zqgtw/rLKhupa4YEE/eeWu2OSua4Uufuxyw
-	 hfMXIBEHMvN3NOI+a9/vJ1BhjyzzTY4PZZNT4qXw=
-Date: Mon, 20 Dec 2021 17:39:59 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ismayil Mirzali <ismayilmirzeli@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	fabioaiuto83@gmail.com, paskripkin@gmail.com, linux@roeck-us.net
-Subject: Re: [PATCH v2] staging: rtl8723bs: Fix styling issues
-Message-ID: <YcCx3/bQBY6vKQmf@kroah.com>
-References: <20211219163318.84300-1-ismayilmirzeli@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F8B29CA
+	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 19:32:02 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id f5so19572730edq.6
+        for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 11:32:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MpsgppUSFoPZhIJl2SnW8my3RwTRZUO3jm3yedovwCw=;
+        b=jZf7RwAhl4FsNV0mmR8HFQVjMO8+XasHmk4N1spDsroEawvLukKGM6KxVD/5giCHu7
+         KxaRhqYnAxibnQqtezfdGqTQTAra1tgQIx+P38IPYJhkkwCRwHC0Av7N38A5vmNZlJtB
+         hw+GoeicQTN/lfbqrBjZLI6jezyIc3XqWfcS9MXZ7Ai82cvbfxr1jCzRj+ysfYKeEQTk
+         dIsWd6RBG9O5nWof8UVKydkW4GM8WmJ8vthorciwF5e63WqqDh4D3EHo2KyYlYaYVYUR
+         16evFhOW8B+25pgIH4S6BM79fAmzQjVMxI3EMQfUW6Y0DEGoAEeA19Z3qQJszKUNmyEv
+         u0pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MpsgppUSFoPZhIJl2SnW8my3RwTRZUO3jm3yedovwCw=;
+        b=qlPQIJBuvI+qEwXkCOle9bW/JKPGTevO3FHHda7Udf32oB/XRHWdiaAWZiyhLbgQKC
+         Vd/cZ1J9UUjI0BpMX5OvOneApn2YeM1AeG4OA17W3Q56DLGYmzRj1PD/chKEyAgzFWGy
+         THSbPCCFK4qYdCbG/m1DSW12qPWV6QsYaoE8HFhVJHOeNcBDglph022J3+/47VBNx9oN
+         kEn34ZM81U0aLEw4eUe4dIS1EUfANR6P3nbsEDOR55CH4e8a875gfldXzTv1V6yKxBB+
+         /D2YxZz3ULli1S9+NI4p1O0DEICaJwr+ecect1UDujARcfH3ZAeJiPYm4BKlVgFlo5O5
+         J6sA==
+X-Gm-Message-State: AOAM531T/RJ082pm2YCoG2BmT02gPHJUOJfpy/BaonGQo/uRtrub5why
+	WOKEF2F2qmCRvTjz/+iEpoU=
+X-Google-Smtp-Source: ABdhPJzKvc/MSW6zd1ePYHAHL3icUqe+cW0CX27OrFKvjJ+GHGloAITAHbQAswBU4g+37Wr3qMS6oQ==
+X-Received: by 2002:a17:906:a20e:: with SMTP id r14mr14164190ejy.376.1640028720615;
+        Mon, 20 Dec 2021 11:32:00 -0800 (PST)
+Received: from tom-desktop (net-93-151-129-173.cust.dsl.teletu.it. [93.151.129.173])
+        by smtp.gmail.com with ESMTPSA id 4sm5596273ejc.160.2021.12.20.11.31.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Dec 2021 11:32:00 -0800 (PST)
+Date: Mon, 20 Dec 2021 20:31:57 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linuxfancy@googlegroups.com, Forest Bond <forest@alittletooquiet.net>,
+	Alberto Merciai <alb3rt0.m3rciai@gmail.com>,
+	Karolina Drobnik <karolinadrobnik@gmail.com>,
+	Aldas =?utf-8?B?VGFyYcWha2V2acSNaXVz?= <aldas60@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vt6655: drop off byRxMode var in device.h
+Message-ID: <20211220193157.GA4401@tom-desktop>
+References: <20211219182004.25656-1-tomm.merciai@gmail.com>
+ <YcCxtkNJKhFWONv7@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -28,145 +56,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211219163318.84300-1-ismayilmirzeli@gmail.com>
+In-Reply-To: <YcCxtkNJKhFWONv7@kroah.com>
 
-On Sun, Dec 19, 2021 at 06:33:18PM +0200, Ismayil Mirzali wrote:
-> Removed extra whitespaces and brackets for oneline if statements
+On Mon, Dec 20, 2021 at 05:39:18PM +0100, Greg Kroah-Hartman wrote:
+> On Sun, Dec 19, 2021 at 07:20:03PM +0100, Tommaso Merciai wrote:
+> > Drop off unused variable byRxMode in device.h, this fix following 
+> > checkpatch.pl check:
+> > 
+> > CHECK: Avoid CamelCase: <byRxMode>
+> > 131: FILE: drivers/staging/vt6655/device.h:131:
+> > 	unsigned char byRxMode
+> > 
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > ---
+> >  drivers/staging/vt6655/device.h | 2 --
+> >  1 file changed, 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
+> > index 4706bde1ec1d..84b1dcf80e47 100644
+> > --- a/drivers/staging/vt6655/device.h
+> > +++ b/drivers/staging/vt6655/device.h
+> > @@ -128,8 +128,6 @@ struct vnt_private {
+> >  	u32                         memaddr;
+> >  	u32                         ioaddr;
+> >  
+> > -	unsigned char byRxMode;
+> > -
+> >  	spinlock_t                  lock;
+> >  
+> >  	volatile int                iTDUsed[TYPE_MAXTD];
+> > -- 
+> > 2.25.1
+> > 
+> > 
 > 
-> Removed commented code as suggested per reviewer.
-> Added blank line after declarations according to styling guide.
+> Did you send this twice?  What is the difference between the two
+> versions?
+
+Hi Gregh,
+I send twice for error, sorry.
 > 
-> Signed-off-by: Ismayil Mirzali <ismayilmirzeli@gmail.com>
-> ---
->  .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 23 +++++++------------
->  1 file changed, 8 insertions(+), 15 deletions(-)
+> And you have trailing whitespace in the changelog for this message,
+> please fix.
+I'll fix and send v2.
+
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 7fe3df863fe1..fdefb72047f0 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -31,9 +31,6 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
->  
->  	pHalData->SdioTxOQTFreeSpace -= agg_num;
->  
-> -	/* if (n > 1) */
-> -	/* 	++priv->pshare->nr_out_of_txoqt_space; */
-> -
->  	return true;
->  }
->  
-> @@ -147,13 +144,12 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
->  		return _SUCCESS;
->  
->  	ret = rtw_register_tx_alive(padapter);
-> -	if (ret != _SUCCESS) {
-> +	if (ret != _SUCCESS)
->  		return _SUCCESS;
-> -	}
->  
->  	do {
->  		queue_empty = rtl8723_dequeue_writeport(padapter);
-> -/* 	dump secondary adapter xmitbuf */
-> +		/*	dump secondary adapter xmitbuf */
->  	} while (!queue_empty);
->  
->  	rtw_unregister_tx_alive(padapter);
-> @@ -247,6 +243,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->  						if (pxmitbuf->len > 0 &&
->  						    pxmitbuf->priv_data) {
->  							struct xmit_frame *pframe;
-> +
->  							pframe = (struct xmit_frame *)pxmitbuf->priv_data;
->  							pframe->agg_num = k;
->  							pxmitbuf->agg_num = k;
-> @@ -310,8 +307,6 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->  					txlen = txdesc_size + pxmitframe->attrib.last_txcmdsz;
->  					pxmitframe->pg_num = (txlen + 127) / 128;
->  					pxmitbuf->pg_num += (txlen + 127) / 128;
-> -				    /* if (k != 1) */
-> -					/* 	((struct xmit_frame*)pxmitbuf->priv_data)->pg_num += pxmitframe->pg_num; */
->  					pxmitbuf->ptail += _RND(txlen, 8); /*  round to 8 bytes alignment */
->  					pxmitbuf->len = _RND(pxmitbuf->len, 8) + txlen;
->  				}
-> @@ -333,6 +328,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->  		if (pxmitbuf) {
->  			if (pxmitbuf->len > 0) {
->  				struct xmit_frame *pframe;
-> +
->  				pframe = (struct xmit_frame *)pxmitbuf->priv_data;
->  				pframe->agg_num = k;
->  				pxmitbuf->agg_num = k;
-> @@ -385,9 +381,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
->  	spin_lock_bh(&pxmitpriv->lock);
->  	ret = rtw_txframes_pending(padapter);
->  	spin_unlock_bh(&pxmitpriv->lock);
-> -	if (ret == 0) {
-> +	if (ret == 0)
->  		return _SUCCESS;
-> -	}
->  
->  	/*  dequeue frame and write to hardware */
->  
-> @@ -405,9 +400,8 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
->  	spin_lock_bh(&pxmitpriv->lock);
->  	ret = rtw_txframes_pending(padapter);
->  	spin_unlock_bh(&pxmitpriv->lock);
-> -	if (ret == 1) {
-> +	if (ret == 1)
->  		goto next;
-> -	}
->  
->  	return _SUCCESS;
->  }
-> @@ -428,10 +422,9 @@ int rtl8723bs_xmit_thread(void *context)
->  
->  	do {
->  		ret = rtl8723bs_xmit_handler(padapter);
-> -		if (signal_pending(current)) {
-> +		if (signal_pending(current))
->  			flush_signals(current);
-> -		}
-> -	} while (_SUCCESS == ret);
-> +	} while (ret == _SUCCESS);
->  
->  	complete(&pxmitpriv->SdioXmitTerminate);
->  
-> -- 
-> 2.25.1
+> thanks,
 > 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/SubmittingPatches for what needs to be done
-  here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+> greg k-h
 
 thanks,
+tommaso
 
-greg k-h's patch email bot
