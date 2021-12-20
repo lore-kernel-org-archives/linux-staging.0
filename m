@@ -1,41 +1,41 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEF52C9D
-	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 21:30:30 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id g28so10679809qkk.9
-        for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 13:30:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679182C9D
+	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 21:31:09 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id q4so3981913qvh.9
+        for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 13:31:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CjOpGoTB+RgFzED/Z5AJZmeEWUvnehVde5GsP9KVlrg=;
-        b=iPwn9myv9DhSISQF4gJy7e3ExgU3CZV85sDsiLBSKar85A7qLsigdOqYYxRYht2dzG
-         K0pxeA4bfxppWl1XmCx4YwCS+CEFByUmFJ1IviO9vNfG2mlLMaXFRMsahgdiha4rudKu
-         6VwLnLMWggIpnv7UXmFvmnrhEBqDeiIz3Iiutd7CyzGN1bEe4NYeDXyznYYDwKv+G23L
-         pvg4vyr9qf6RAaas6Ggdp+qjupqXTDGTOnATs7ccwnLGomdAXynhTxDplLl6cH0hiYAv
-         rKsO0Kjam7ytgrOFMBhoeG6YiuCqsSDkUQ3ydkvecc+klDoUiDuL+iLm1PvEq+KJRTot
-         bk3w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=XbS9uErZ5c4CCSbiHzp6Nqw9oW8CSOfv3JYeCjB7h/s=;
+        b=ZV2zXZFTlYuITazlNNWKKFxASGrjAHJze0zJTlYdiCD8QL/zjDYWvNbY89WdPJUoIA
+         3xQzH1UtKZ/YIx6tIJu0P1FrudhMy2ldKE/xmX+EyXAmTBKmTxpwDwYlR22hue7Z2Mww
+         48be5SJ4bIqXnix7MHQcP7SJ/2Ief5l6Jzlai0SakgOPciszJfpca8I+76Wa8u+rsroT
+         1CMUKoIen4vDITSx6ohEk37N2tEbM+CA+GPvSpnOs3TN4JLirGOrDJ/DdEecSoN2KuIK
+         TNYK4/xW++y9I5wgSK8tmgpfu8igpAJA2Vrhu6a4KtysUxkGT9g8rCrQ32teNyXw+GrX
+         skwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CjOpGoTB+RgFzED/Z5AJZmeEWUvnehVde5GsP9KVlrg=;
-        b=WpjLm2B8ZdMlfdyC6TgUhQ9ORR7/Al5wDG/3fG/CjH1F7eP747TUrbpEhiOT5unjMg
-         4uV+kHocFHhyP5uZJoHpMHznimjxnsCU+ot4k9R6WVOM/oUQtJ3J0bNLukdEWs5kCtpj
-         dLPDTY/ZR9er6bjt4OSFv1obcFkjnckFw9Nr4ItLjrPERfen+0YgRdyr1NpbzMgb/YQm
-         OiIhfOuXHImp8YqirwAKP7LPBh6wb6xnv2HDlv/N8YNzt/c8yIA7SHEBP+BPbpT+mYYg
-         WukqYPlwOTaQmsokOE1IMkLb+JrmP/GEsW2fF4Ho6AX0FJ0dSy1uZxyWBUoNeSWbKo7Z
-         g0rA==
-X-Gm-Message-State: AOAM5328rk0+YevalfFS3FWateuQk6Je48WxDYW07k6EQfvpVnnkVSWv
-	+zaE8Jh8e+MUOSFtO7p2U2wyxniIC7A=
-X-Google-Smtp-Source: ABdhPJwsW3YzqTrxOFRap0vjfSnMSaYXOxThDtZXdIBLAgmpQiM0u9ULfOv8wwdtazDAaYNCF/qYwA==
-X-Received: by 2002:a05:620a:bc7:: with SMTP id s7mr101221qki.20.1640035829392;
-        Mon, 20 Dec 2021 13:30:29 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XbS9uErZ5c4CCSbiHzp6Nqw9oW8CSOfv3JYeCjB7h/s=;
+        b=SVpXX2oFBhdBMPfpvIwCopvoLIkUJBgNsLVL1zeey1iGdB3CISY6bsjE0UOBX7HBf7
+         Zn9BCCLuvtwchQ84g6QRqEuQIAYnW/UtJe/ADI9GFQYChzBgs8tRMdleXj+74rQ/spDW
+         5Fa1lUCFcINZJIOX/gREy5IxBbl5QBObVzFuUeN41G9YFw09JhCJTE4jzrhwP59lvH0w
+         7s294hn3pbp9PfZBzB32WItXH26dXCxN2Wc6FS/JujVAM+Tocst6EET8Jj6JL/bADNE9
+         axMiCLBNjp5FfgJRpkKYUMqp3ImDuLrtYu5Otq0EG18D9MZpkyhpPv1jVxb0PFw+OecL
+         AVNw==
+X-Gm-Message-State: AOAM532eXeUkxSFWv9XpsHk9Df9S5+moMBZloPTrnwIBy/Ed5pFID+QU
+	aF+lWFPMFszyr2mhAlMt9tKq6ORe4rc=
+X-Google-Smtp-Source: ABdhPJxKZCXLVtjy5SJQkGzGpUEqkJD9cq5OV6++SDXZLl1EbbJvmvvBInFUzc53pV55WkgBljI9Rg==
+X-Received: by 2002:a05:6214:20e9:: with SMTP id 9mr14767113qvk.28.1640035868201;
+        Mon, 20 Dec 2021 13:31:08 -0800 (PST)
 Received: from localhost.localdomain ([181.23.83.92])
-        by smtp.gmail.com with ESMTPSA id s20sm16132210qtc.75.2021.12.20.13.30.25
+        by smtp.gmail.com with ESMTPSA id s20sm16132210qtc.75.2021.12.20.13.31.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 13:30:28 -0800 (PST)
+        Mon, 20 Dec 2021 13:31:07 -0800 (PST)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
@@ -55,10 +55,12 @@ Cc: gregkh@linuxfoundation.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH 0/4] staging: vc04_services: avoid the use of typedef for function pointers
-Date: Mon, 20 Dec 2021 18:29:10 -0300
-Message-Id: <cover.1639858361.git.gascoar@gmail.com>
+Subject: [PATCH 1/4] staging: vc04_services: avoid the use of typedef for function pointers
+Date: Mon, 20 Dec 2021 18:29:11 -0300
+Message-Id: <ae3e8feaf7aa72a85f2e901a31bb382acf8a1ed3.1639858361.git.gascoar@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1639858361.git.gascoar@gmail.com>
+References: <cover.1639858361.git.gascoar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,27 +69,98 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch set removes some typedefs for function pointers in vc04_services.
+Replace typedefs bcm2835_audio_newpcm_func and bcm2835_audio_newctl_func
+with equivalent declarations to better align with the linux kernel
+coding style.
 
-After patches 01 to 03, there are no remaining typedef under vc04_services.
-Hence, the patch 04/04 updates the TODO file removing the 'remove typedefs'
-task.
+As the '_func' in the function names is somehow reduntant, it was
+dropped in favour of the shorter names: 'bcm2835_audio_newpcm' and
+'bcm2835_audio_newctl'
 
-Gaston Gonzalez (4):
-  staging: bcm2835-audio: replace function typedefs with equivalent
-    declaration
-  staging: vc04_services: replace function typedef with equivalent
-    declaration
-  staging: vc04_services: avoid the use of typedef for function pointers
-  staging: vc04_services: update TODO file
+Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+---
+ .../vc04_services/bcm2835-audio/bcm2835.c     | 28 ++++++++-----------
+ 1 file changed, 11 insertions(+), 17 deletions(-)
 
- .../vc04_services/bcm2835-audio/bcm2835.c     | 28 +++----
- .../vc04_services/bcm2835-camera/controls.c   | 76 +++++++++----------
- drivers/staging/vc04_services/interface/TODO  |  8 +-
- .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 24 +++---
- .../vc04_services/vchiq-mmal/mmal-vchiq.h     | 13 ++--
- 5 files changed, 66 insertions(+), 83 deletions(-)
-
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+index c250fbef2fa3..412342d5b6c9 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835.c
+@@ -52,20 +52,14 @@ static int bcm2835_devm_add_vchi_ctx(struct device *dev)
+ 	return 0;
+ }
+ 
+-typedef int (*bcm2835_audio_newpcm_func)(struct bcm2835_chip *chip,
+-					 const char *name,
+-					 enum snd_bcm2835_route route,
+-					 u32 numchannels);
+-
+-typedef int (*bcm2835_audio_newctl_func)(struct bcm2835_chip *chip);
+-
+ struct bcm2835_audio_driver {
+ 	struct device_driver driver;
+ 	const char *shortname;
+ 	const char *longname;
+ 	int minchannels;
+-	bcm2835_audio_newpcm_func newpcm;
+-	bcm2835_audio_newctl_func newctl;
++	int (*bcm2835_audio_newpcm)(struct bcm2835_chip *chip, const char *name,
++				    enum snd_bcm2835_route route, u32 numchannels);
++	int (*bcm2835_audio_newctl)(struct bcm2835_chip *chip);
+ 	enum snd_bcm2835_route route;
+ };
+ 
+@@ -104,8 +98,8 @@ static struct bcm2835_audio_driver bcm2835_audio_alsa = {
+ 	.shortname = "bcm2835 ALSA",
+ 	.longname  = "bcm2835 ALSA",
+ 	.minchannels = 2,
+-	.newpcm = bcm2835_audio_alsa_newpcm,
+-	.newctl = snd_bcm2835_new_ctl,
++	.bcm2835_audio_newpcm = bcm2835_audio_alsa_newpcm,
++	.bcm2835_audio_newctl = snd_bcm2835_new_ctl,
+ };
+ 
+ static struct bcm2835_audio_driver bcm2835_audio_hdmi = {
+@@ -116,8 +110,8 @@ static struct bcm2835_audio_driver bcm2835_audio_hdmi = {
+ 	.shortname = "bcm2835 HDMI",
+ 	.longname  = "bcm2835 HDMI",
+ 	.minchannels = 1,
+-	.newpcm = bcm2835_audio_simple_newpcm,
+-	.newctl = snd_bcm2835_new_hdmi_ctl,
++	.bcm2835_audio_newpcm = bcm2835_audio_simple_newpcm,
++	.bcm2835_audio_newctl = snd_bcm2835_new_hdmi_ctl,
+ 	.route = AUDIO_DEST_HDMI
+ };
+ 
+@@ -129,8 +123,8 @@ static struct bcm2835_audio_driver bcm2835_audio_headphones = {
+ 	.shortname = "bcm2835 Headphones",
+ 	.longname  = "bcm2835 Headphones",
+ 	.minchannels = 1,
+-	.newpcm = bcm2835_audio_simple_newpcm,
+-	.newctl = snd_bcm2835_new_headphones_ctl,
++	.bcm2835_audio_newpcm = bcm2835_audio_simple_newpcm,
++	.bcm2835_audio_newctl = snd_bcm2835_new_headphones_ctl,
+ 	.route = AUDIO_DEST_HEADPHONES
+ };
+ 
+@@ -189,7 +183,7 @@ static int snd_add_child_device(struct device *dev,
+ 	strscpy(card->shortname, audio_driver->shortname, sizeof(card->shortname));
+ 	strscpy(card->longname, audio_driver->longname, sizeof(card->longname));
+ 
+-	err = audio_driver->newpcm(chip, audio_driver->shortname,
++	err = audio_driver->bcm2835_audio_newpcm(chip, audio_driver->shortname,
+ 		audio_driver->route,
+ 		numchans);
+ 	if (err) {
+@@ -197,7 +191,7 @@ static int snd_add_child_device(struct device *dev,
+ 		goto error;
+ 	}
+ 
+-	err = audio_driver->newctl(chip);
++	err = audio_driver->bcm2835_audio_newctl(chip);
+ 	if (err) {
+ 		dev_err(dev, "Failed to create controls, error %d\n", err);
+ 		goto error;
 -- 
 2.34.1
 
