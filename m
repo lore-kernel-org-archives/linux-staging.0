@@ -1,56 +1,64 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC1129CA
-	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 20:25:29 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id x15so43289428edv.1
-        for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 12:25:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEF52C9D
+	for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 21:30:30 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id g28so10679809qkk.9
+        for <linux-staging@lists.linux.dev>; Mon, 20 Dec 2021 13:30:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2AYLI7JdI7TbMwlaYryTUxSOZm+WGuEnbMb6+8ROGO4=;
-        b=Fnvq83+DsdfkVRSWhjEyhen1P7OhEyRFkwlKmJG3NrTis1dNBb6to4Sfn8+1TUPXzU
-         Dz6FGj43pmiLx3wO9RgIijSOto5BUFBq6W5Te9HIBgQIsdd1A495IAeC57RayheM65y4
-         cBzGxP1tEJxXhpKzFmlr6dcr6ErN5qkEaFhIUOXAyRDXFTN3yyuTh2gBJ5+JghBJO/6U
-         mxF0HF6MIF5QB/TOYJtRdD4Imdmwhh/XqenKfTejRLMQpM3H7TqQQ16KMKNoTQlE+2pz
-         14fcbQGRf6lY7ZeVUmippQ5kjB4eGH1d8Utt528KmWqLKH9XUYJTslI+DNvHxCdP/yCm
-         Hhig==
+        bh=CjOpGoTB+RgFzED/Z5AJZmeEWUvnehVde5GsP9KVlrg=;
+        b=iPwn9myv9DhSISQF4gJy7e3ExgU3CZV85sDsiLBSKar85A7qLsigdOqYYxRYht2dzG
+         K0pxeA4bfxppWl1XmCx4YwCS+CEFByUmFJ1IviO9vNfG2mlLMaXFRMsahgdiha4rudKu
+         6VwLnLMWggIpnv7UXmFvmnrhEBqDeiIz3Iiutd7CyzGN1bEe4NYeDXyznYYDwKv+G23L
+         pvg4vyr9qf6RAaas6Ggdp+qjupqXTDGTOnATs7ccwnLGomdAXynhTxDplLl6cH0hiYAv
+         rKsO0Kjam7ytgrOFMBhoeG6YiuCqsSDkUQ3ydkvecc+klDoUiDuL+iLm1PvEq+KJRTot
+         bk3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2AYLI7JdI7TbMwlaYryTUxSOZm+WGuEnbMb6+8ROGO4=;
-        b=gB1G0q6BZpqs2EbnMLLvuW3dgSDzyM4IXoRKWn4yFm3bYNMnczWwXsDJUcA55vo+uk
-         Gfbln/sxjYWJ29XsG+dH8vYbyUYkrjf4i4ELXCu3zNC5rmG/M/rViXaltJK+9F8rXpRW
-         hwAtwg1sy5X+FxXXlW0Vyld2eb3OjNhaqKAK7kcFwoMK5OXJx59VCxp1Gxy+3P58nBJn
-         Dq6w7pvsMberdjd7H6I1Pl6TzV+Z0NTxDfLxkZ4/m68DEMA4pwX8iHkGw4ZRSYJBP1b3
-         PSw2TKv3EeKIv8HNHar2PGlL6NqRtf5M9LRXoiS2ldjhuogw2W3xuiyqEauh7AxSuhay
-         vGDA==
-X-Gm-Message-State: AOAM531wK9upeCmIECie8sVCw1rmLlF49jv+gJlJv+mv1rjC2bCGQuq6
-	z8K4I0B1F3dwkOtsIJQQ+kA=
-X-Google-Smtp-Source: ABdhPJzDmYaOTUfFDV/rudT38TnvrnSN7mvowKXpxM4hKADww7K7BbIp+GIEo/E7ZI9cn0hSlEgGDA==
-X-Received: by 2002:a17:907:60c9:: with SMTP id hv9mr5154325ejc.681.1640031928052;
-        Mon, 20 Dec 2021 12:25:28 -0800 (PST)
-Received: from tom-desktop.station (net-93-151-129-173.cust.dsl.teletu.it. [93.151.129.173])
-        by smtp.gmail.com with ESMTPSA id ji16sm135681ejc.114.2021.12.20.12.25.27
+        bh=CjOpGoTB+RgFzED/Z5AJZmeEWUvnehVde5GsP9KVlrg=;
+        b=WpjLm2B8ZdMlfdyC6TgUhQ9ORR7/Al5wDG/3fG/CjH1F7eP747TUrbpEhiOT5unjMg
+         4uV+kHocFHhyP5uZJoHpMHznimjxnsCU+ot4k9R6WVOM/oUQtJ3J0bNLukdEWs5kCtpj
+         dLPDTY/ZR9er6bjt4OSFv1obcFkjnckFw9Nr4ItLjrPERfen+0YgRdyr1NpbzMgb/YQm
+         OiIhfOuXHImp8YqirwAKP7LPBh6wb6xnv2HDlv/N8YNzt/c8yIA7SHEBP+BPbpT+mYYg
+         WukqYPlwOTaQmsokOE1IMkLb+JrmP/GEsW2fF4Ho6AX0FJ0dSy1uZxyWBUoNeSWbKo7Z
+         g0rA==
+X-Gm-Message-State: AOAM5328rk0+YevalfFS3FWateuQk6Je48WxDYW07k6EQfvpVnnkVSWv
+	+zaE8Jh8e+MUOSFtO7p2U2wyxniIC7A=
+X-Google-Smtp-Source: ABdhPJwsW3YzqTrxOFRap0vjfSnMSaYXOxThDtZXdIBLAgmpQiM0u9ULfOv8wwdtazDAaYNCF/qYwA==
+X-Received: by 2002:a05:620a:bc7:: with SMTP id s7mr101221qki.20.1640035829392;
+        Mon, 20 Dec 2021 13:30:29 -0800 (PST)
+Received: from localhost.localdomain ([181.23.83.92])
+        by smtp.gmail.com with ESMTPSA id s20sm16132210qtc.75.2021.12.20.13.30.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 12:25:27 -0800 (PST)
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: tomm.merciai@gmail.com,
-	linuxfancy@googlegroups.com,
-	Forest Bond <forest@alittletooquiet.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Karolina Drobnik <karolinadrobnik@gmail.com>,
-	=?UTF-8?q?Aldas=20Tara=C5=A1kevi=C4=8Dius?= <aldas60@gmail.com>,
-	Dan Carpenter <dan.carpenter@oracle.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: vt6655: drop off byRxMode var in device.h
-Date: Mon, 20 Dec 2021 21:25:20 +0100
-Message-Id: <20211220202523.21805-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 20 Dec 2021 13:30:28 -0800 (PST)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	nsaenz@kernel.org,
+	f.fainelli@gmail.com,
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	juerg.haefliger@canonical.com,
+	rdunlap@infradead.org,
+	dave.stevenson@raspberrypi.com,
+	stefan.wahren@i2se.com,
+	unixbhaskar@gmail.com,
+	mitaliborkar810@gmail.com,
+	phil@raspberrypi.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH 0/4] staging: vc04_services: avoid the use of typedef for function pointers
+Date: Mon, 20 Dec 2021 18:29:10 -0300
+Message-Id: <cover.1639858361.git.gascoar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,33 +67,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop off unused variable byRxMode in device.h, this fix following
-checkpatch.pl check:
-CHECK: Avoid CamelCase: <byRxMode>
-131: FILE: drivers/staging/vt6655/device.h:131:
-unsigned char byRxMode
+This patch set removes some typedefs for function pointers in vc04_services.
 
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
----
-Changes since v1:
- - Remove trailing whitespace in changelog as suggested by gregkh
+After patches 01 to 03, there are no remaining typedef under vc04_services.
+Hence, the patch 04/04 updates the TODO file removing the 'remove typedefs'
+task.
 
- drivers/staging/vt6655/device.h | 2 --
- 1 file changed, 2 deletions(-)
+Gaston Gonzalez (4):
+  staging: bcm2835-audio: replace function typedefs with equivalent
+    declaration
+  staging: vc04_services: replace function typedef with equivalent
+    declaration
+  staging: vc04_services: avoid the use of typedef for function pointers
+  staging: vc04_services: update TODO file
 
-diff --git a/drivers/staging/vt6655/device.h b/drivers/staging/vt6655/device.h
-index 4706bde1ec1d..84b1dcf80e47 100644
---- a/drivers/staging/vt6655/device.h
-+++ b/drivers/staging/vt6655/device.h
-@@ -128,8 +128,6 @@ struct vnt_private {
- 	u32                         memaddr;
- 	u32                         ioaddr;
- 
--	unsigned char byRxMode;
--
- 	spinlock_t                  lock;
- 
- 	volatile int                iTDUsed[TYPE_MAXTD];
+ .../vc04_services/bcm2835-audio/bcm2835.c     | 28 +++----
+ .../vc04_services/bcm2835-camera/controls.c   | 76 +++++++++----------
+ drivers/staging/vc04_services/interface/TODO  |  8 +-
+ .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 24 +++---
+ .../vc04_services/vchiq-mmal/mmal-vchiq.h     | 13 ++--
+ 5 files changed, 66 insertions(+), 83 deletions(-)
+
 -- 
-2.25.1
+2.34.1
 
